@@ -71,14 +71,13 @@
 # skulle have været sammensat til et ord.
 #
 # Unmatched directory -> Der er tale om en særlig virtuel søgemappe, hvor der henvises til de breve, som ikke rummes i de søgemapper, som brugeren definerer. Her og i evolution-data-server oversat med "Mappen umatchede" (flemming)
-#: ../src/shell/main.c:519
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
-"Report-Msgid-Bugs-To: "
-"https://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-11 18:09+0000\n"
-"PO-Revision-Date: 2017-03-25 18:07+0100\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-08-28 02:40+0000\n"
+"PO-Revision-Date: 2017-09-02 20:57+0200\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -117,8 +116,8 @@ msgstr ""
 "Evolution understøtter en bred vifte af industristandardiserede dataformater "
 "og netværksprotokoller til informationsudveksling, med fokus på "
 "overensstemmelse med standarderne og sikkerhed. Evolution kan også på nem "
-"vis integreres med Microsoft Exchange ved hjælp at “Exchange Web "
-"Services”-udvidelsen (EWS)."
+"vis integreres med Microsoft Exchange ved hjælp at “Exchange Web Services”-"
+"udvidelsen (EWS)."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -184,7 +183,7 @@ msgid "Memos"
 msgstr "Memoer"
 
 #: ../data/evolution.desktop.in.in.h:12 ../src/calendar/gui/e-task-table.c:696
-#: ../src/calendar/gui/print.c:2408
+#: ../src/calendar/gui/print.c:2418
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1114
 #: ../src/e-util/e-webdav-browser.c:460
@@ -204,8 +203,7 @@ msgstr "Aktivér adresseformatering"
 msgid ""
 "Whether addresses should be formatted according to standard in their "
 "destination country"
-msgstr ""
-"Hvorvidt adresser skal formateres efter destinationslandets standarder"
+msgstr "Hvorvidt adresser skal formateres efter destinationslandets standarder"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:3
 msgid "Autocomplete length"
@@ -351,16 +349,16 @@ msgid "Whether to show Certificates tab in the editor"
 msgstr "Om certifikatfanen skal vises i redigeringsvinduet"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:33
-#, fuzzy
-#| msgid "Create a new contact list"
 msgid "Where to open contact locations"
-msgstr "Opret en ny kontaktliste"
+msgstr "Hvor kontaktpersonplaceringer skal åbnes"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:34
 msgid ""
 "Currently supported values are “openstreetmap” and “google”; if unknown set, "
 "uses “openstreetmap”"
 msgstr ""
+"Aktuelt understøttede værdier er “openstreetmap” og “google”; hvis ukendt er "
+"angivet, bruges “openstreetmap”"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:1
 msgid "Convert mail messages to Unicode"
@@ -595,11 +593,11 @@ msgstr "Maksimalt antal af nyligt brugte tidszoner, der skal huskes"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid ""
-"Maximum number of recently used timezones to remember in a "
-"“day-second-zones” list"
+"Maximum number of recently used timezones to remember in a “day-second-"
+"zones” list"
 msgstr ""
-"Maksimalt antal af nyligt brugte tidszoner, der skal huskes i en "
-"“dags-sekundære-zoner”-liste"
+"Maksimalt antal af nyligt brugte tidszoner, der skal huskes i en “dags-"
+"sekundære-zoner”-liste"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Default reminder value"
@@ -751,8 +749,7 @@ msgid "Marcus Bains Line Color — Time bar"
 msgstr "Farve for Marcus Bains-linje — tidslinje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)"
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Farven der bruges til at tegne Marcus Bains-linjen i tidslinjen (tom for "
 "standard)"
@@ -764,8 +761,7 @@ msgstr "Marcus Bains-linje"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
-msgstr ""
-"Om Marcus Bains-linjen (linje ved aktuel tid) skal tegnes i kalenderen"
+msgstr "Om Marcus Bains-linjen (linje ved aktuel tid) skal tegnes i kalenderen"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid "Memo preview pane position (horizontal)"
@@ -868,8 +864,8 @@ msgid ""
 "The UID of the selected (or “primary”) calendar in the sidebar of the "
 "“Calendar” view"
 msgstr ""
-"UID'en for den valgte (eller “primære”) kalender i sidepanelet i "
-"“Kalender”-visningen"
+"UID'en for den valgte (eller “primære”) kalender i sidepanelet i “Kalender”-"
+"visningen"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid "Primary memo list"
@@ -880,8 +876,8 @@ msgid ""
 "The UID of the selected (or “primary”) memo list in the sidebar of the "
 "“Memos” view"
 msgstr ""
-"UID'en for den valgte (eller “primære”) memoliste i sidepanelet i "
-"“Memo”-visningen"
+"UID'en for den valgte (eller “primære”) memoliste i sidepanelet i “Memo”-"
+"visningen"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Primary task list"
@@ -892,8 +888,8 @@ msgid ""
 "The UID of the selected (or “primary”) task list in the sidebar of the "
 "“Tasks” view"
 msgstr ""
-"UID'en for den valgte (eller “primære”) opgaveliste i sidepanelet i "
-"“Opgave”-visningen"
+"UID'en for den valgte (eller “primære”) opgaveliste i sidepanelet i “Opgave”-"
+"visningen"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Free/busy template URL"
@@ -1091,8 +1087,7 @@ msgid "Twenty four hour time format"
 msgstr "24-timers-format"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm"
+msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Om tider skal vises i 24-timers-format i stedet for am/pm"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
@@ -1174,8 +1169,8 @@ msgstr "(Forældet) Hverdage"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
-"was deprecated in version 3.10 and should no longer be used. Use the "
-"“work-day-monday”, “work-day-tuesday”, etc. keys instead.)"
+"was deprecated in version 3.10 and should no longer be used. Use the “work-"
+"day-monday”, “work-day-tuesday”, etc. keys instead.)"
 msgstr ""
 "Dage hvor der skal angives start- og sluttidspunkt for arbejdsskema. (Denne "
 "nøgle er forældet siden version 3.10 og bør ikke længere bruges. Brug "
@@ -1187,9 +1182,9 @@ msgstr "Foregående version af Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
 msgid ""
-"The most recently used version of Evolution, expressed as "
-"“major.minor.micro”. This is used for data and settings migration from older "
-"to newer versions."
+"The most recently used version of Evolution, expressed as “major.minor."
+"micro”. This is used for data and settings migration from older to newer "
+"versions."
 msgstr ""
 "Den senest anvendte version af Evolution, udtrykt som “major.minor.micro”. "
 "Dette bruges ved overflytning af data og indstillinger fra ældre til nyere "
@@ -1280,9 +1275,9 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder"
 msgstr ""
-"Denne værdi kan være en tom streng, hvilket betyder at den vil bruge "
-"system-Billedmappen, som regel indstillet til ~/Billeder. Denne mappe vil "
-"også blive brugt hvis den angivne sti peger på en ikke-eksisterende mappe"
+"Denne værdi kan være en tom streng, hvilket betyder at den vil bruge system-"
+"Billedmappen, som regel indstillet til ~/Billeder. Denne mappe vil også "
+"blive brugt hvis den angivne sti peger på en ikke-eksisterende mappe"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:9
 msgid "Spell check inline"
@@ -1420,8 +1415,8 @@ msgid ""
 "Show the “Bcc” field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Vis “Bcc”-feltet ved afsendelse af en e-mail. Dette indstilles i "
-"“Vis”-menuen når en e-mailkonto er valgt."
+"Vis “Bcc”-feltet ved afsendelse af en e-mail. Dette indstilles i “Vis”-"
+"menuen når en e-mailkonto er valgt."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "Show “Cc” field when sending a mail message"
@@ -1444,8 +1439,8 @@ msgid ""
 "Show the “From” override field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
 msgstr ""
-"Vis “Fra”-ændringsfeltet ved afsendelse af et brev. Dette indstilles i "
-"“Vis”-menuen, når der er valgt en e-mailkonto."
+"Vis “Fra”-ændringsfeltet ved afsendelse af et brev. Dette indstilles i “Vis”-"
+"menuen, når der er valgt en e-mailkonto."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
 msgid "Show “Reply To” field when sending a mail message"
@@ -1468,8 +1463,8 @@ msgid ""
 "Show the “From” field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
 msgstr ""
-"Vis “Fra”-feltet ved postering til en nyhedsgruppe. Dette indstilles i "
-"“Vis”-menuen, når der er valgt en nyhedsgruppekonto."
+"Vis “Fra”-feltet ved postering til en nyhedsgruppe. Dette indstilles i “Vis”-"
+"menuen, når der er valgt en nyhedsgruppekonto."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
 msgid "Show “Reply To” field when posting to a newsgroup"
@@ -1526,13 +1521,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "Include signature in new messages only"
-msgstr ""
+msgstr "Inkludér kun signatur i nye breve"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid ""
 "Include selected signature only for new messages, but have no signature "
 "added for Replies or Forwards."
 msgstr ""
+"Inkludér kun den valgte signatur i nye breve, men tilføj ingen signatur ved "
+"svar eller videresend."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Put personalized signatures at the top of replies"
@@ -1571,8 +1568,8 @@ msgid ""
 "Setting this option to TRUE will attempt to ignore such Reply-To: headers, "
 "so that Evolution will do as you ask it. If you use the private reply "
 "action, it will reply privately, while if you use the “Reply to List” action "
-"it will do that. It works by comparing the Reply-To: header with a "
-"List-Post: header, if there is one."
+"it will do that. It works by comparing the Reply-To: header with a List-"
+"Post: header, if there is one."
 msgstr ""
 "Visse e-maillister angiver en Reply-To:-linje (svar til) i brevhovedet, for "
 "at få brugere til at sende svar til listen, selv når de beder Evolution om "
@@ -1606,9 +1603,9 @@ msgid ""
 "replying to a message, as an addition to the standard “:” and the Unicode "
 "“︰” separators."
 msgstr ""
-"En liste over lokaliserede “Re”-adskillere, der skal springes over i en "
-"emne-tekst ved besvarelse af et brev, som tilføjelse til den forvalgte "
-"adskiller “:” og unicode-adskilleren “︰”."
+"En liste over lokaliserede “Re”-adskillere, der skal springes over i en emne-"
+"tekst ved besvarelse af et brev, som tilføjelse til den forvalgte adskiller "
+"“:” og unicode-adskilleren “︰”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "Number of characters for wrapping"
@@ -1622,8 +1619,8 @@ msgstr "Vil autoombryde linjer efter et givet antal tegn."
 msgid ""
 "Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
 msgstr ""
-"Antal af Til- eller CC-modtagere hvorfra der skal spørges om "
-"'prompt-on-many-to-cc-recips'"
+"Antal af Til- eller CC-modtagere hvorfra der skal spørges om 'prompt-on-many-"
+"to-cc-recips'"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid ""
@@ -1642,8 +1639,8 @@ msgid ""
 "always shown in the composer’s toolbar. Otherwise they are shown only when "
 "being used."
 msgstr ""
-"Hvis sat til 'true' vil Signer- og Kryptér-knapperne for enten PGP eller "
-"S/MIME altid blive vist i skrivevinduets værktøjslinje. Ellers vil de kun "
+"Hvis sat til 'true' vil Signer- og Kryptér-knapperne for enten PGP eller S/"
+"MIME altid blive vist i skrivevinduets værktøjslinje. Ellers vil de kun "
 "blive vist når de bliver brugt."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
@@ -1660,8 +1657,8 @@ msgstr "Om fiffet Content-Disposition:inline i brevhovedet skal adlydes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid ""
-"Set to “false” to block automatic display of attachments with "
-"Content-Disposition: inline."
+"Set to “false” to block automatic display of attachments with Content-"
+"Disposition: inline."
 msgstr ""
 "Slå fra for at blokere automatisk visning af bilag med Content-Disposition: "
 "inline."
@@ -1707,8 +1704,8 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
-"Slå denne til for at bruge mellemrumstasten til at rulle ned gennem "
-"brev-forhåndsvisning, brevindeks og mapper."
+"Slå denne til for at bruge mellemrumstasten til at rulle ned gennem brev-"
+"forhåndsvisning, brevindeks og mapper."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Enable to use a similar message list view settings for all folders"
@@ -2027,8 +2024,8 @@ msgid ""
 "message in each thread, rather than by message’s date. Evolution requires a "
 "restart."
 msgstr ""
-"Denne valgmulighed specificerer hvorvidt tråde skal sorteres efter sidste "
-"e-brev i tråden i stedet for brevets dato. Dette kræver en genstart af "
+"Denne valgmulighed specificerer hvorvidt tråde skal sorteres efter sidste e-"
+"brev i tråden i stedet for brevets dato. Dette kræver en genstart af "
 "Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
@@ -2076,6 +2073,8 @@ msgid ""
 "If not set, or being “stdout”, then the logging is done to stdout, instead "
 "to a file."
 msgstr ""
+"Hvis ikke angivet eller sat til “stdout” sker logning til stdout i stedet "
+"for til en fil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Flush Outbox after filtering"
@@ -2133,19 +2132,15 @@ msgstr "Spørg når brugeren tømmer"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Spørg brugeren når han eller hun prøver at tømme en folder."
+msgstr "Spørg brugeren når han eller hun prøver at tømme en mappe."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
-#, fuzzy
-#| msgid "Prompt when user expunges"
 msgid "Prompt when user calls Empty Junk"
-msgstr "Spørg når brugeren tømmer"
+msgstr "Spørg når brugeren kalder tøm spam"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
-#, fuzzy
-#| msgid "Prompt the user when he or she tries to expunge a folder."
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
-msgstr "Spørg brugeren når han eller hun prøver at tømme en folder."
+msgstr "Spørg brugeren når han eller hun prøver at tømme en spammappe."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -2211,7 +2206,7 @@ msgid ""
 "the search results."
 msgstr ""
 "Deaktiverer/aktiverer de gentagne advarsler om at hvis et brev slettes i en "
-"søgefolder, slettes brevet rigtig og ikke kun i søgeresultatet."
+"søgemappe, slettes brevet rigtig og ikke kun i søgeresultatet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
@@ -2268,8 +2263,8 @@ msgid ""
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
 "Den aktiverer/deaktiverer de gentagne forespørgsler med advarsler om at du\n"
-"forsøger at sende et privat svar på et brev, der blev leveret via en "
-"e-mailliste, men hvor listen angiver en Reply-To:-linje (svar til) i "
+"forsøger at sende et privat svar på et brev, der blev leveret via en e-"
+"mailliste, men hvor listen angiver en Reply-To:-linje (svar til) i "
 "posthovedet, som sender dit svar tilbage til listen"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
@@ -2450,8 +2445,8 @@ msgid ""
 msgstr ""
 "Afgør hvorvidt der skal søges efter afsenderadresse i adressebogen. Hvis den "
 "bliver fundet skulle det ikke være spam. Der søges i bøger markeret til "
-"autofuldførelse. Dette kan være langsomt, hvis fjerne adressebøger (som "
-"f.eks. ldap) er markeret til autofuldførelse."
+"autofuldførelse. Dette kan være langsomt, hvis fjerne adressebøger (som f."
+"eks. ldap) er markeret til autofuldførelse."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid ""
@@ -2490,8 +2485,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid "Custom headers to use while checking for junk."
-msgstr ""
-"Tilpassede brevhoveder der skal bruges mens der kontrolleres for spam."
+msgstr "Tilpassede brevhoveder der skal bruges mens der kontrolleres for spam."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid ""
@@ -2602,72 +2596,53 @@ msgstr ""
 "denne computer."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
-#, fuzzy
-#| msgid "Whether to show icons of events in the month view"
 msgid "Whether the To Do bar is visible in the main window"
-msgstr "Om der skal vises ikoner for begivenheder i månedsoversigten"
+msgstr "Om gøremålsbjælken er synlig i hovedvinduet"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
-#, fuzzy
-#| msgid "If \"true\", show the memo preview pane in the main window."
 msgid "Stores whether the To Do bar is visible in the main window."
-msgstr ""
-"Hvis sat til “true” vil ruden til forhåndsvisning af memoer bliver vist i "
-"hovedvinduet."
+msgstr "Gemmer om gøremålsbjælken er synlig i hovedvinduet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
-#, fuzzy
-#| msgid "If \"true\", show the memo preview pane in the main window."
 msgid "Width of the To Do bar in the main window"
-msgstr ""
-"Hvis sat til “true” vil ruden til forhåndsvisning af memoer bliver vist i "
-"hovedvinduet."
+msgstr "Gøremålsbjælkens bredde i hovedvinduet"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
-#, fuzzy
-#| msgid "The default Y coordinate for the main window."
 msgid "Holds the width of the To Do bar for the main window."
-msgstr "Standard-Y-koordinaten for hovedvinduet."
+msgstr "Indeholder gøremålsbjælkens bredde i hovedvinduet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
-#, fuzzy
-#| msgid "Whether the shell window's tool bar is visible"
 msgid "Whether the To Do bar is visible in a sub-window"
-msgstr "Hvorvidt statuslinjen for skalvinduet er synlig"
+msgstr "Om gøremålsbjælken er synlig i et undervindue"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid "Stores whether the To Do bar is visible in a sub-window."
-msgstr ""
+msgstr "Gemmer om gøremålsbjælken er synlig i et undervindue."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Width of the To Do bar in a sub-window"
-msgstr ""
+msgstr "Gøremålsbjælkens bredde i et undervindue"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
-#, fuzzy
-#| msgid "Default width of the mail browser window."
 msgid "Holds the width of the To Do bar for a sub-window."
-msgstr "Standardbredde af brevbrowservinduet."
+msgstr "Indeholder gøremålsbjælkens bredde i et undervindue."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the To Do bar should show also completed tasks"
-msgstr "Vælg om værktøjslinjen skal være synlig."
+msgstr "Om gøremålsbjælken også skal vise fuldførte opgaver"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid "Stores whether the To Do bar should show also completed tasks."
-msgstr ""
+msgstr "Gemmer om gøremålsbjælken også skal vise fuldførte opgaver."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
-#, fuzzy
-#| msgid "Startup wizard"
 msgid "Show start up wizard"
-msgstr "Opstarts-guide"
+msgstr "Vis opstartsguiden"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid "Whether show start up wizard when there is no mail account configured."
 msgstr ""
+"Om opstartsguiden skal vises, når der ikke er konfigureret en e-mailkonto."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "(Deprecated) Default forward style"
@@ -2932,11 +2907,11 @@ msgstr "Navn på lydfil som skal spilles."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:14
 msgid ""
-"Sound file to be played when new messages arrive, if "
-"“notify-sound-play-file” is “true”."
+"Sound file to be played when new messages arrive, if “notify-sound-play-"
+"file” is “true”."
 msgstr ""
-"Lydfilen der skal afspilles når nye breve ankommer, hvis "
-"“notify-sound-play-file” er “true”."
+"Lydfilen der skal afspilles når nye breve ankommer, hvis “notify-sound-play-"
+"file” er “true”."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "Whether to play a sound file."
@@ -3054,8 +3029,7 @@ msgid "Start in offline mode"
 msgstr "Start i offlinetilstand"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
-msgid ""
-"Whether Evolution will start up in offline mode instead of online mode."
+msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr "Om Evolution starter i offlinetilstand i stedet for onlinetilstand."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:13
@@ -3145,8 +3119,7 @@ msgstr "Vælg om statuslinjen skal være synlig."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:31
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr ""
-"Identifikation eller alias for komponenten der skal vises ved opstart."
+msgstr "Identifikation eller alias for komponenten der skal vises ved opstart."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:32
 msgid "Default sidebar width"
@@ -3202,7 +3175,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
 msgid "Theme name to use, defaults to “bclear”"
-msgstr ""
+msgstr "Det anvendte temas navn; som standard “bclear”"
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
 msgid ""
@@ -3210,6 +3183,9 @@ msgid ""
 "and then the value to one of them. The change requires only re-format of the "
 "message part to take into effect, like using right-click→Format As→...."
 msgstr ""
+"Brug “highlight --list-scripts=themes” for at få en liste over installerede "
+"temaer og værdien på en af dem. Ændringen kræver kun reformating af "
+"beskeddelen for at træde i kraft, som f.eks. højreklik→Formatér som→...."
 
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
@@ -3346,10 +3322,8 @@ msgid "Could not remove address book."
 msgstr "Kunne ikke fjerne adressebogen."
 
 #: ../src/addressbook/addressbook.error.xml.h:11
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete address book “{0}”?"
-msgstr "Er du sikker på, at du vil slette memoet “{0}”?"
+msgstr "Er du sikker på, at du vil slette adressebogen “{0}”?"
 
 #: ../src/addressbook/addressbook.error.xml.h:12
 msgid "This address book will be removed permanently."
@@ -3921,7 +3895,7 @@ msgstr "Arbejde"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:525
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
-#: ../src/calendar/gui/e-cal-model.c:3825
+#: ../src/calendar/gui/e-cal-model.c:3798
 msgid "Other"
 msgstr "Anden"
 
@@ -4375,10 +4349,9 @@ msgid "Click to mail %s"
 msgstr "Klik for at skrive til %s"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:335
-#, c-format, fuzzy
-#| msgid "Click to open %s"
+#, c-format
 msgid "Click to open map for %s"
-msgstr "Klik for at åbne %s"
+msgstr "Klik for at åbne kortet til %s"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:154
 msgid "Open map"
@@ -4538,7 +4511,7 @@ msgstr "Blog"
 #: ../src/calendar/gui/e-cal-model-tasks.c:556
 #: ../src/calendar/gui/e-task-table.c:209
 #: ../src/calendar/gui/e-task-table.c:224
-#: ../src/calendar/gui/e-task-table.c:634 ../src/calendar/gui/print.c:3586
+#: ../src/calendar/gui/e-task-table.c:634 ../src/calendar/gui/print.c:3596
 #: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:966
 msgid "Cancelled"
 msgstr "Afbrudt"
@@ -4995,8 +4968,14 @@ msgid "_Find"
 msgstr "_Søg"
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:186
-msgid "\n\nSearching for the Contacts..."
-msgstr "\n\nSøger efter kontaktpersonerne …"
+msgid ""
+"\n"
+"\n"
+"Searching for the Contacts..."
+msgstr ""
+"\n"
+"\n"
+"Søger efter kontaktpersonerne …"
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:189
 msgid ""
@@ -5027,12 +5006,24 @@ msgstr ""
 "Dobbeltklik her for at oprette en ny kontaktperson."
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:196
-msgid "\n\nSearch for the Contact."
-msgstr "\n\nSøg efter kontaktpersonen."
+msgid ""
+"\n"
+"\n"
+"Search for the Contact."
+msgstr ""
+"\n"
+"\n"
+"Søg efter kontaktpersonen."
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:198
-msgid "\n\nThere are no items to show in this view."
-msgstr "\n\nDer findes ingen objekter at vise i denne oversigt."
+msgid ""
+"\n"
+"\n"
+"There are no items to show in this view."
+msgstr ""
+"\n"
+"\n"
+"Der findes ingen objekter at vise i denne oversigt."
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:745
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
@@ -5544,8 +5535,7 @@ msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Er du sikker på, at du vil slette disse {0} opgaver?"
 
 #: ../src/calendar/calendar.error.xml.h:25
-msgid ""
-"All information on these tasks will be deleted and can not be restored."
+msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
 "Al information om disse opgaver vil blive slettet og vil ikke kunne "
 "genoprettes."
@@ -5555,8 +5545,7 @@ msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Er du sikker på, at du vil slette disse {0} memoer?"
 
 #: ../src/calendar/calendar.error.xml.h:27
-msgid ""
-"All information in these memos will be deleted and can not be restored."
+msgid "All information in these memos will be deleted and can not be restored."
 msgstr ""
 "Al information i disse memoer vil blive slettet og vil ikke kunne "
 "genoprettes."
@@ -5707,40 +5696,32 @@ msgid "Editor could not be loaded."
 msgstr "Redigeringsprogram kunne ikke indlæses."
 
 #: ../src/calendar/calendar.error.xml.h:57
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete calendar “{0}”?"
-msgstr "Er du sikker på, at du vil slette memoet “{0}”?"
+msgstr "Er du sikker på, at du vil slette kalenderen “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:58
 msgid "This calendar will be removed permanently."
 msgstr "Denne kalender vil blive fjernet permanent."
 
 #: ../src/calendar/calendar.error.xml.h:59
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete task list “{0}”?"
-msgstr "Er du sikker på, at du vil slette memoet “{0}”?"
+msgstr "Er du sikker på, at du vil slette opgavelisten “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:60
 msgid "This task list will be removed permanently."
 msgstr "Denne opgaveliste vil blive fjernet permanent."
 
 #: ../src/calendar/calendar.error.xml.h:61
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete memo list “{0}”?"
-msgstr "Er du sikker på, at du vil slette memoet “{0}”?"
+msgstr "Er du sikker på, at du vil slette memolisten “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:62
 msgid "This memo list will be removed permanently."
 msgstr "Denne memoliste vil blive fjernet permanent."
 
 #: ../src/calendar/calendar.error.xml.h:63
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete remote calendar “{0}”?"
-msgstr "Er du sikker på, at du vil slette memoet “{0}”?"
+msgstr "Er du sikker på, at du vil slette den eksterne kalender “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:64
 msgid ""
@@ -5751,10 +5732,8 @@ msgstr ""
 "på at du vil fortsætte?"
 
 #: ../src/calendar/calendar.error.xml.h:66
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete remote task list “{0}”?"
-msgstr "Er du sikker på, at du vil slette memoet “{0}”?"
+msgstr "Er du sikker på, at du vil slette den eksterne opgaveliste “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:67
 msgid ""
@@ -5765,10 +5744,8 @@ msgstr ""
 "sikker på at du vil fortsætte?"
 
 #: ../src/calendar/calendar.error.xml.h:68
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete remote memo list “{0}”?"
-msgstr "Er du sikker på, at du vil slette memoet “{0}”?"
+msgstr "Er du sikker på, at du vil slette den eksterne memoliste “{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:69
 msgid ""
@@ -6538,7 +6515,7 @@ msgstr "Status:"
 #: ../src/calendar/gui/e-cal-model-tasks.c:633
 #: ../src/calendar/gui/e-task-table.c:205
 #: ../src/calendar/gui/e-task-table.c:220
-#: ../src/calendar/gui/e-task-table.c:632 ../src/calendar/gui/print.c:3580
+#: ../src/calendar/gui/e-task-table.c:632 ../src/calendar/gui/print.c:3590
 msgid "In Progress"
 msgstr "I gang"
 
@@ -6549,7 +6526,7 @@ msgstr "I gang"
 #: ../src/calendar/gui/e-meeting-store.c:225
 #: ../src/calendar/gui/e-task-table.c:207
 #: ../src/calendar/gui/e-task-table.c:222
-#: ../src/calendar/gui/e-task-table.c:633 ../src/calendar/gui/print.c:3583
+#: ../src/calendar/gui/e-task-table.c:633 ../src/calendar/gui/print.c:3593
 #: ../src/calendar/gui/tasktypes.xml.in.h:13
 #: ../src/plugins/save-calendar/csv-format.c:377
 msgid "Completed"
@@ -6560,7 +6537,7 @@ msgstr "Fuldført"
 #: ../src/calendar/gui/e-cal-model-tasks.c:550
 #: ../src/calendar/gui/e-task-table.c:203
 #: ../src/calendar/gui/e-task-table.c:218
-#: ../src/calendar/gui/e-task-table.c:631 ../src/calendar/gui/print.c:3577
+#: ../src/calendar/gui/e-task-table.c:631 ../src/calendar/gui/print.c:3587
 #: ../src/calendar/gui/tasktypes.xml.in.h:11
 msgid "Not Started"
 msgstr "Ikke startet"
@@ -6815,7 +6792,7 @@ msgstr "Organisator: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:1851
 #: ../src/calendar/gui/e-meeting-time-sel.c:2731
-#: ../src/calendar/gui/e-to-do-pane.c:343 ../src/calendar/gui/print.c:3531
+#: ../src/calendar/gui/e-to-do-pane.c:343 ../src/calendar/gui/print.c:3541
 #, c-format
 msgid "Location: %s"
 msgstr "Sted: %s"
@@ -6904,8 +6881,8 @@ msgstr "Kilde"
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:132
 #: ../src/calendar/gui/e-meeting-store.c:167
-#: ../src/calendar/gui/e-meeting-store.c:230 ../src/calendar/gui/print.c:1247
-#: ../src/calendar/gui/print.c:1264 ../src/e-util/e-charset.c:49
+#: ../src/calendar/gui/e-meeting-store.c:230 ../src/calendar/gui/print.c:1257
+#: ../src/calendar/gui/print.c:1274 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3412
 #: ../src/modules/itip-formatter/itip-view.c:6082
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -6958,7 +6935,7 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nej"
 
-#: ../src/calendar/gui/e-cal-model.c:3820
+#: ../src/calendar/gui/e-cal-model.c:3793
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
@@ -6966,7 +6943,7 @@ msgstr "Nej"
 msgid "Accepted"
 msgstr "Accepteret"
 
-#: ../src/calendar/gui/e-cal-model.c:3821
+#: ../src/calendar/gui/e-cal-model.c:3794
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
@@ -6974,7 +6951,7 @@ msgstr "Accepteret"
 msgid "Declined"
 msgstr "Afslået"
 
-#: ../src/calendar/gui/e-cal-model.c:3822
+#: ../src/calendar/gui/e-cal-model.c:3795
 #: ../src/calendar/gui/e-meeting-list-view.c:221
 #: ../src/calendar/gui/e-meeting-store.c:198
 #: ../src/calendar/gui/e-meeting-store.c:221
@@ -6982,7 +6959,7 @@ msgstr "Afslået"
 msgid "Tentative"
 msgstr "Forsøgsvis"
 
-#: ../src/calendar/gui/e-cal-model.c:3823
+#: ../src/calendar/gui/e-cal-model.c:3796
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
@@ -6990,13 +6967,13 @@ msgstr "Forsøgsvis"
 msgid "Delegated"
 msgstr "Uddelegeret"
 
-#: ../src/calendar/gui/e-cal-model.c:3824
+#: ../src/calendar/gui/e-cal-model.c:3797
 msgid "Needs action"
 msgstr "Kræver handling"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/e-cal-model.c:3879
+#: ../src/calendar/gui/e-cal-model.c:3852
 #: ../src/calendar/gui/e-meeting-list-view.c:687
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-task-table.etspec.h:11
@@ -7393,8 +7370,7 @@ msgstr "Memo kan ikke redigeres, fordi den valgte memoliste ikke kunne åbnes"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:90
 msgid "Memo cannot be edited, because the selected memo list is read only"
-msgstr ""
-"Memo kan ikke redigeres, fordi den valgte memoliste er skrivebeskyttet"
+msgstr "Memo kan ikke redigeres, fordi den valgte memoliste er skrivebeskyttet"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:92
 msgid "Memo cannot be fully edited, because you are not the organizer"
@@ -7458,8 +7434,7 @@ msgstr "Bilaget “%s” kan ikke findes. Fjern det venligst fra listen"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:469
 #, c-format
-msgid ""
-"Attachment “%s” doesn’t have valid URI, remove it from the list, please"
+msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Bilaget “%s” har ikke en gyldig URI. Fjern det venligst fra listen"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:647
@@ -8357,17 +8332,17 @@ msgstr "Gem de aktuelle ændringer og luk redigeringsprogrammet"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/e-day-view.c:2130 ../src/calendar/gui/e-to-do-pane.c:239
-#: ../src/calendar/gui/e-week-view.c:1726 ../src/calendar/gui/print.c:1070
-#: ../src/calendar/gui/print.c:1089 ../src/calendar/gui/print.c:2626
-#: ../src/calendar/gui/print.c:2646
+#: ../src/calendar/gui/e-week-view.c:1726 ../src/calendar/gui/print.c:1080
+#: ../src/calendar/gui/print.c:1099 ../src/calendar/gui/print.c:2636
+#: ../src/calendar/gui/print.c:2656
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/e-day-view.c:2133 ../src/calendar/gui/e-to-do-pane.c:243
-#: ../src/calendar/gui/e-week-view.c:1729 ../src/calendar/gui/print.c:1075
-#: ../src/calendar/gui/print.c:1091 ../src/calendar/gui/print.c:2631
-#: ../src/calendar/gui/print.c:2648
+#: ../src/calendar/gui/e-week-view.c:1729 ../src/calendar/gui/print.c:1085
+#: ../src/calendar/gui/print.c:1101 ../src/calendar/gui/print.c:2641
+#: ../src/calendar/gui/print.c:2658
 msgid "pm"
 msgstr "pm"
 
@@ -8380,7 +8355,7 @@ msgstr "pm"
 #: ../src/calendar/gui/e-day-view.c:3045
 #: ../src/calendar/gui/e-day-view-top-item.c:841
 #: ../src/calendar/gui/e-week-view-main-item.c:205
-#: ../src/calendar/gui/print.c:2093
+#: ../src/calendar/gui/print.c:2103
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -8443,51 +8418,51 @@ msgstr "Deltagere"
 #: ../src/calendar/gui/e-meeting-list-view.c:179
 #: ../src/calendar/gui/e-meeting-store.c:107
 #: ../src/calendar/gui/e-meeting-store.c:124
-#: ../src/calendar/gui/e-meeting-store.c:1015 ../src/calendar/gui/print.c:1243
+#: ../src/calendar/gui/e-meeting-store.c:1015 ../src/calendar/gui/print.c:1253
 msgid "Individual"
 msgstr "Individuel"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:180
 #: ../src/calendar/gui/e-meeting-store.c:109
-#: ../src/calendar/gui/e-meeting-store.c:126 ../src/calendar/gui/print.c:1244
+#: ../src/calendar/gui/e-meeting-store.c:126 ../src/calendar/gui/print.c:1254
 #: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Gruppe"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:181
 #: ../src/calendar/gui/e-meeting-store.c:111
-#: ../src/calendar/gui/e-meeting-store.c:128 ../src/calendar/gui/print.c:1245
+#: ../src/calendar/gui/e-meeting-store.c:128 ../src/calendar/gui/print.c:1255
 msgid "Resource"
 msgstr "Ressource"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:182
 #: ../src/calendar/gui/e-meeting-store.c:113
-#: ../src/calendar/gui/e-meeting-store.c:130 ../src/calendar/gui/print.c:1246
+#: ../src/calendar/gui/e-meeting-store.c:130 ../src/calendar/gui/print.c:1256
 msgid "Room"
 msgstr "Rum"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:193
 #: ../src/calendar/gui/e-meeting-store.c:142
-#: ../src/calendar/gui/e-meeting-store.c:159 ../src/calendar/gui/print.c:1260
+#: ../src/calendar/gui/e-meeting-store.c:159 ../src/calendar/gui/print.c:1270
 msgid "Chair"
 msgstr "Formand"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:194
 #: ../src/calendar/gui/e-meeting-store.c:144
 #: ../src/calendar/gui/e-meeting-store.c:161
-#: ../src/calendar/gui/e-meeting-store.c:1018 ../src/calendar/gui/print.c:1261
+#: ../src/calendar/gui/e-meeting-store.c:1018 ../src/calendar/gui/print.c:1271
 msgid "Required Participant"
 msgstr "Obligatorisk deltager"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:195
 #: ../src/calendar/gui/e-meeting-store.c:146
-#: ../src/calendar/gui/e-meeting-store.c:163 ../src/calendar/gui/print.c:1262
+#: ../src/calendar/gui/e-meeting-store.c:163 ../src/calendar/gui/print.c:1272
 msgid "Optional Participant"
 msgstr "Valgfri deltager"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:148
-#: ../src/calendar/gui/e-meeting-store.c:165 ../src/calendar/gui/print.c:1263
+#: ../src/calendar/gui/e-meeting-store.c:165 ../src/calendar/gui/print.c:1273
 msgid "Non-Participant"
 msgstr "Ikke-deltager"
 
@@ -8616,7 +8591,7 @@ msgstr ""
 "Sted: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2729
-#: ../src/calendar/gui/print.c:3520
+#: ../src/calendar/gui/print.c:3530
 #, c-format
 msgid "Summary: %s"
 msgstr "Sammendrag: %s"
@@ -8760,17 +8735,15 @@ msgstr "Vælg en tidszone"
 
 #. Translators: It will display "Due: DueDateAndTime"
 #: ../src/calendar/gui/e-to-do-pane.c:365
-#, c-format, fuzzy
-#| msgid "Due: "
+#, c-format
 msgid "Due: %s"
-msgstr "Forfalder: "
+msgstr "Forfalder: %s"
 
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
 #: ../src/calendar/gui/e-to-do-pane.c:377
-#, c-format, fuzzy
-#| msgid "Completed: "
+#, c-format
 msgid "Completed: %s"
-msgstr "Fuldført: "
+msgstr "Fuldført: %s"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1328 ../src/e-util/e-cell-date-edit.c:328
@@ -8798,38 +8771,28 @@ msgid "New _Meeting..."
 msgstr "Nyt _møde …"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1908
-#, fuzzy
-#| msgid "New _Task"
 msgid "New _Task..."
-msgstr "_Ny opgave"
+msgstr "_Ny opgave …"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1916
-#, fuzzy
-#| msgid "New assigned task"
 msgid "_New Assigned Task..."
-msgstr "Ny tildelt opgave"
+msgstr "_Ny tildelt opgave …"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1929
 msgid "_Open..."
 msgstr "Å_bn …"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1943
-#, fuzzy
-#| msgid "Delete This _Occurrence"
 msgid "_Delete This Instance..."
-msgstr "Slet denne _forekomst"
+msgstr "Slet denne _forekomst …"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1951
-#, fuzzy
-#| msgid "All Instances"
 msgid "D_elete All Instances..."
-msgstr "Alle tilfælde"
+msgstr "S_let alle forekomster …"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1959
-#, fuzzy
-#| msgid "_Delete"
 msgid "_Delete..."
-msgstr "_Slet"
+msgstr "_Slet …"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2249
 msgid "To Do"
@@ -8839,7 +8802,7 @@ msgstr "Gøremål"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:222
-#: ../src/calendar/gui/print.c:2072
+#: ../src/calendar/gui/print.c:2082
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -8979,127 +8942,127 @@ msgstr "Sender et memo"
 msgid "Sending a task"
 msgstr "Sender en opgave"
 
-#: ../src/calendar/gui/print.c:661
+#: ../src/calendar/gui/print.c:665
 msgid "1st"
 msgstr "1."
 
-#: ../src/calendar/gui/print.c:661
+#: ../src/calendar/gui/print.c:665
 msgid "2nd"
 msgstr "2."
 
-#: ../src/calendar/gui/print.c:661
+#: ../src/calendar/gui/print.c:665
 msgid "3rd"
 msgstr "3."
 
-#: ../src/calendar/gui/print.c:661
+#: ../src/calendar/gui/print.c:665
 msgid "4th"
 msgstr "4."
 
-#: ../src/calendar/gui/print.c:661
+#: ../src/calendar/gui/print.c:665
 msgid "5th"
 msgstr "5."
 
-#: ../src/calendar/gui/print.c:662
+#: ../src/calendar/gui/print.c:666
 msgid "6th"
 msgstr "6."
 
-#: ../src/calendar/gui/print.c:662
+#: ../src/calendar/gui/print.c:666
 msgid "7th"
 msgstr "7."
 
-#: ../src/calendar/gui/print.c:662
+#: ../src/calendar/gui/print.c:666
 msgid "8th"
 msgstr "8."
 
-#: ../src/calendar/gui/print.c:662
+#: ../src/calendar/gui/print.c:666
 msgid "9th"
 msgstr "9."
 
-#: ../src/calendar/gui/print.c:662
+#: ../src/calendar/gui/print.c:666
 msgid "10th"
 msgstr "10."
 
-#: ../src/calendar/gui/print.c:663
+#: ../src/calendar/gui/print.c:667
 msgid "11th"
 msgstr "11."
 
-#: ../src/calendar/gui/print.c:663
+#: ../src/calendar/gui/print.c:667
 msgid "12th"
 msgstr "12."
 
-#: ../src/calendar/gui/print.c:663
+#: ../src/calendar/gui/print.c:667
 msgid "13th"
 msgstr "13."
 
-#: ../src/calendar/gui/print.c:663
+#: ../src/calendar/gui/print.c:667
 msgid "14th"
 msgstr "14."
 
-#: ../src/calendar/gui/print.c:663
+#: ../src/calendar/gui/print.c:667
 msgid "15th"
 msgstr "15."
 
-#: ../src/calendar/gui/print.c:664
+#: ../src/calendar/gui/print.c:668
 msgid "16th"
 msgstr "16."
 
-#: ../src/calendar/gui/print.c:664
+#: ../src/calendar/gui/print.c:668
 msgid "17th"
 msgstr "17."
 
-#: ../src/calendar/gui/print.c:664
+#: ../src/calendar/gui/print.c:668
 msgid "18th"
 msgstr "18."
 
-#: ../src/calendar/gui/print.c:664
+#: ../src/calendar/gui/print.c:668
 msgid "19th"
 msgstr "19."
 
-#: ../src/calendar/gui/print.c:664
+#: ../src/calendar/gui/print.c:668
 msgid "20th"
 msgstr "20."
 
-#: ../src/calendar/gui/print.c:665
+#: ../src/calendar/gui/print.c:669
 msgid "21st"
 msgstr "21."
 
-#: ../src/calendar/gui/print.c:665
+#: ../src/calendar/gui/print.c:669
 msgid "22nd"
 msgstr "22."
 
-#: ../src/calendar/gui/print.c:665
+#: ../src/calendar/gui/print.c:669
 msgid "23rd"
 msgstr "23."
 
-#: ../src/calendar/gui/print.c:665
+#: ../src/calendar/gui/print.c:669
 msgid "24th"
 msgstr "24."
 
-#: ../src/calendar/gui/print.c:665
+#: ../src/calendar/gui/print.c:669
 msgid "25th"
 msgstr "25."
 
-#: ../src/calendar/gui/print.c:666
+#: ../src/calendar/gui/print.c:670
 msgid "26th"
 msgstr "26."
 
-#: ../src/calendar/gui/print.c:666
+#: ../src/calendar/gui/print.c:670
 msgid "27th"
 msgstr "27."
 
-#: ../src/calendar/gui/print.c:666
+#: ../src/calendar/gui/print.c:670
 msgid "28th"
 msgstr "28."
 
-#: ../src/calendar/gui/print.c:666
+#: ../src/calendar/gui/print.c:670
 msgid "29th"
 msgstr "29."
 
-#: ../src/calendar/gui/print.c:666
+#: ../src/calendar/gui/print.c:670
 msgid "30th"
 msgstr "30."
 
-#: ../src/calendar/gui/print.c:667
+#: ../src/calendar/gui/print.c:671
 msgid "31st"
 msgstr "31."
 
@@ -9107,114 +9070,114 @@ msgstr "31."
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
 #. G_DATE_MONDAY
-#: ../src/calendar/gui/print.c:727
+#: ../src/calendar/gui/print.c:731
 msgid "Mo"
 msgstr "Man"
 
 #. G_DATE_TUESDAY
-#: ../src/calendar/gui/print.c:728
+#: ../src/calendar/gui/print.c:732
 msgid "Tu"
 msgstr "Tir"
 
 #. G_DATE_WEDNESDAY
-#: ../src/calendar/gui/print.c:729
+#: ../src/calendar/gui/print.c:733
 msgid "We"
 msgstr "Ons"
 
 #. G_DATE_THURSDAY
-#: ../src/calendar/gui/print.c:730
+#: ../src/calendar/gui/print.c:734
 msgid "Th"
 msgstr "Tor"
 
 #. G_DATE_FRIDAY
-#: ../src/calendar/gui/print.c:731
+#: ../src/calendar/gui/print.c:735
 msgid "Fr"
 msgstr "Fre"
 
 #. G_DATE_SATURDAY
-#: ../src/calendar/gui/print.c:732
+#: ../src/calendar/gui/print.c:736
 msgid "Sa"
 msgstr "Lør"
 
 #. G_DATE_SUNDAY
-#: ../src/calendar/gui/print.c:733
+#: ../src/calendar/gui/print.c:737
 msgid "Su"
 msgstr "Søn"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../src/calendar/gui/print.c:3313
+#: ../src/calendar/gui/print.c:3323
 msgid " to "
 msgstr " til "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../src/calendar/gui/print.c:3323
+#: ../src/calendar/gui/print.c:3333
 msgid " (Completed "
 msgstr " (Fuldført "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../src/calendar/gui/print.c:3329
+#: ../src/calendar/gui/print.c:3339
 msgid "Completed "
 msgstr "Fuldført "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../src/calendar/gui/print.c:3339
+#: ../src/calendar/gui/print.c:3349
 msgid " (Due "
 msgstr " (Forfalder "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../src/calendar/gui/print.c:3346
+#: ../src/calendar/gui/print.c:3356
 msgid "Due "
 msgstr "Forfalder "
 
-#: ../src/calendar/gui/print.c:3490
+#: ../src/calendar/gui/print.c:3500
 msgid "Appointment"
 msgstr "Aftale"
 
-#: ../src/calendar/gui/print.c:3492 ../src/e-util/e-send-options.c:551
+#: ../src/calendar/gui/print.c:3502 ../src/e-util/e-send-options.c:551
 msgid "Task"
 msgstr "Opgave"
 
-#: ../src/calendar/gui/print.c:3494
+#: ../src/calendar/gui/print.c:3504
 msgid "Memo"
 msgstr "Memo"
 
-#: ../src/calendar/gui/print.c:3550
+#: ../src/calendar/gui/print.c:3560
 msgid "Attendees: "
 msgstr "Deltagere: "
 
-#: ../src/calendar/gui/print.c:3594
+#: ../src/calendar/gui/print.c:3604
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: ../src/calendar/gui/print.c:3610
+#: ../src/calendar/gui/print.c:3620
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritet: %s"
 
-#: ../src/calendar/gui/print.c:3628
+#: ../src/calendar/gui/print.c:3638
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Fuldført i procent: %i"
 
-#: ../src/calendar/gui/print.c:3642
+#: ../src/calendar/gui/print.c:3652
 #, c-format
 msgid "URL: %s"
 msgstr "Adresse: %s"
 
-#: ../src/calendar/gui/print.c:3656
+#: ../src/calendar/gui/print.c:3666
 #, c-format
 msgid "Categories: %s"
 msgstr "Kategorier: %s"
 
-#: ../src/calendar/gui/print.c:3667
+#: ../src/calendar/gui/print.c:3677
 msgid "Contacts: "
 msgstr "Kontaktpersoner: "
 
@@ -11638,6 +11601,7 @@ msgstr "Gyldig signatur"
 #: ../src/em-format/e-mail-formatter-secure-button.c:50
 msgid "Valid signature, but sender address and signer address do not match"
 msgstr ""
+"Gyldig signatur, men afsenderadressen og underskriverens adresse er ikke ens"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:51
 msgid ""
@@ -11884,10 +11848,9 @@ msgid "Face"
 msgstr "Ansigt"
 
 #: ../src/em-format/e-mail-part-secure-button.c:92
-#, c-format, fuzzy
-#| msgid "Failed to import certificate"
+#, c-format
 msgid "Failed to import certificate: %s"
-msgstr "Kunne ikke importere certifikat"
+msgstr "Kunne ikke importere certifikatet: %s"
 
 #: ../src/em-format/e-mail-part-secure-button.c:185
 #: ../src/shell/shell.error.xml.h:28 ../src/smime/gui/smime-ui.ui.h:16
@@ -11895,10 +11858,8 @@ msgid "_View Certificate"
 msgstr "_Vis certifikat"
 
 #: ../src/em-format/e-mail-part-secure-button.c:198
-#, fuzzy
-#| msgid "Imported Certificate"
 msgid "_Import Certificate"
-msgstr "Importeret certifikat"
+msgstr "_Importér certifikat"
 
 #: ../src/em-format/e-mail-part-secure-button.c:207
 msgid "This certificate is not viewable"
@@ -11930,10 +11891,8 @@ msgstr "E-mailkonti"
 
 #: ../src/e-util/e-accounts-window.c:516 ../src/e-util/e-accounts-window.c:653
 #: ../src/e-util/e-accounts-window.c:841
-#, fuzzy
-#| msgid "Address Book"
 msgid "Address Books"
-msgstr "Adressebog"
+msgstr "Adressebøger"
 
 #: ../src/e-util/e-accounts-window.c:522 ../src/e-util/e-accounts-window.c:654
 #: ../src/e-util/e-accounts-window.c:842
@@ -11968,41 +11927,28 @@ msgstr "Kontonavn"
 
 #. { "collection",	N_("Collection _Account"),	"evolution" },
 #: ../src/e-util/e-accounts-window.c:1463
-#, fuzzy
-#| msgid "Mail Accounts"
 msgid "_Mail Account"
-msgstr "E-mailkonti"
+msgstr "E-_mailkonto"
 
 #: ../src/e-util/e-accounts-window.c:1464
-#, fuzzy
-#| msgctxt "New"
-#| msgid "Address _Book"
 msgid "Address _Book"
 msgstr "Adresse_bog"
 
 #: ../src/e-util/e-accounts-window.c:1465
-#, fuzzy
-#| msgid "_Calendar:"
 msgid "_Calendar"
-msgstr "_Kalender:"
+msgstr "_Kalender"
 
 #: ../src/e-util/e-accounts-window.c:1466
-#, fuzzy
-#| msgid "Memo Lists"
 msgid "M_emo List"
-msgstr "Memolister"
+msgstr "M_emoliste"
 
 #: ../src/e-util/e-accounts-window.c:1467
-#, fuzzy
-#| msgid "Task List"
 msgid "_Task List"
-msgstr "Opgaveliste"
+msgstr "_Opgaveliste"
 
 #: ../src/e-util/e-accounts-window.c:1659
-#, fuzzy
-#| msgid "Evolution Account Assistant"
 msgid "Evolution Accounts"
-msgstr "Evolutions konto-vejleder"
+msgstr "Evolution-konti"
 
 #. Translators: This is a cancelled activity.
 #: ../src/e-util/e-activity.c:256
@@ -12691,41 +12637,41 @@ msgstr "Tekstindtastningsfelt til indtastning af dato"
 msgid "Click this button to show a calendar"
 msgstr "Klík på denne knap for at vise en kalender"
 
-#: ../src/e-util/e-dateedit.c:626
+#: ../src/e-util/e-dateedit.c:627
 msgid "Drop-down combination box to select time"
 msgstr "Rullegardin-kombinationsfelt for valg af tid"
 
-#: ../src/e-util/e-dateedit.c:627
+#: ../src/e-util/e-dateedit.c:628
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "Tid"
 
-#: ../src/e-util/e-dateedit.c:701
+#: ../src/e-util/e-dateedit.c:702
 msgid "No_w"
 msgstr "N_u"
 
-#: ../src/e-util/e-dateedit.c:708
+#: ../src/e-util/e-dateedit.c:709
 msgid "_Today"
 msgstr "I _dag"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
-#: ../src/e-util/e-dateedit.c:717
+#: ../src/e-util/e-dateedit.c:718
 msgid "_None"
 msgstr "_Ingen"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../src/e-util/e-dateedit.c:1846 ../src/e-util/e-dateedit.c:2094
+#: ../src/e-util/e-dateedit.c:1877 ../src/e-util/e-dateedit.c:2125
 msgctxt "date"
 msgid "None"
 msgstr "Ingen"
 
-#: ../src/e-util/e-dateedit.c:1986
+#: ../src/e-util/e-dateedit.c:2017
 msgid "Invalid Date Value"
 msgstr "Ugyldig datoværdi"
 
-#: ../src/e-util/e-dateedit.c:2031
+#: ../src/e-util/e-dateedit.c:2062
 msgid "Invalid Time Value"
 msgstr "Ugyldig tidsværdi"
 
@@ -12794,7 +12740,7 @@ msgstr "Næste Søn"
 msgid "Use locale default"
 msgstr "Benyt lokaliseringsforvalg"
 
-#: ../src/e-util/e-datetime-format.c:573
+#: ../src/e-util/e-datetime-format.c:592
 msgid "Format:"
 msgstr "Format:"
 
@@ -14486,8 +14432,7 @@ msgstr "Ingen proxy"
 
 #: ../src/e-util/e-proxy-editor.c:564
 msgid "Use a direct connection, no proxying required."
-msgstr ""
-"Brug en direkte forbindelse, ingen videresendelse vha. proxy påkrævet."
+msgstr "Brug en direkte forbindelse, ingen videresendelse vha. proxy påkrævet."
 
 #: ../src/e-util/e-proxy-preferences.c:214
 msgid "Switch to Basic Proxy Preferences"
@@ -14932,22 +14877,16 @@ msgstr ""
 "hvis problemet varer ved."
 
 #: ../src/e-util/e-system.error.xml.h:25
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete remote collection “{0}”?"
-msgstr "Er du sikker på, at du vil slette memoet “{0}”?"
+msgstr "Er du sikker på, at du vil slette den eksterne samling “{0}”?"
 
 #: ../src/e-util/e-system.error.xml.h:26
-#, fuzzy
-#| msgid ""
-#| "This will permanently remove the calendar “{0}” from the server. Are you "
-#| "sure you want to proceed?"
 msgid ""
 "This will permanently remove the collection “{0}” from the server. Are you "
 "sure you want to proceed?"
 msgstr ""
-"Dette vil fjerne kalenderen “{0}” fra serveren for bestandigt. Er du sikker "
-"på at du vil fortsætte?"
+"Dette vil fjerne samlingen “{0}” fra serveren for bestandigt. Er du sikker "
+"på, at du vil fortsætte?"
 
 #: ../src/e-util/e-table-click-to-add.c:687
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
@@ -15227,8 +15166,6 @@ msgid "Identity"
 msgstr "Identitet"
 
 #: ../src/e-util/e-webdav-browser.c:447
-#, fuzzy
-#| msgid "Address Book"
 msgid "Address book"
 msgstr "Adressebog"
 
@@ -15241,173 +15178,122 @@ msgid "Collection"
 msgstr "Samling"
 
 #: ../src/e-util/e-webdav-browser.c:514
-#, fuzzy
-#| msgid "Loading"
 msgid "Loading…"
-msgstr "Indlæser"
+msgstr "Indlæser …"
 
 #: ../src/e-util/e-webdav-browser.c:1383
-#, fuzzy
-#| msgid "Searching folder content..."
 msgid "Searching collection children…"
-msgstr "Søger efter mappeindhold …"
+msgstr "Søger i samlingens underelementer …"
 
 #: ../src/e-util/e-webdav-browser.c:1385
 msgid "Failed to search for collection children"
-msgstr ""
+msgstr "Kunne ikke søge efter samlingens underelementer"
 
 #: ../src/e-util/e-webdav-browser.c:1419
-#, fuzzy
-#| msgid "Searching for user's calendars..."
 msgid "Searching for user home, please wait…"
-msgstr "Søger efter brugerens kalendere …"
+msgstr "Søger efter brugerens hjem. Vent venligst …"
 
 #: ../src/e-util/e-webdav-browser.c:1421
-#, fuzzy
-#| msgid "Unable to perform search."
 msgid "Failed to search for user home"
-msgstr "Kan ikke udføre søgningen."
+msgstr "Kunne ikke søge efter brugerens hjem"
 
 #: ../src/e-util/e-webdav-browser.c:1763
 msgid "At least one component type should be set"
-msgstr ""
+msgstr "Mindst en komponenttype skal angives"
 
 #: ../src/e-util/e-webdav-browser.c:1781
-#, fuzzy
-#| msgid "Failed to delete selected attendee"
-#| msgid_plural "Failed to delete selected attendees"
 msgid "Failed to get selected collection HREF"
-msgstr "Kunne ikke slette den valgte deltager"
+msgstr "Kunne ikke hente den valgte samling HREF"
 
 #: ../src/e-util/e-webdav-browser.c:1812
-#, fuzzy
-#| msgid "Saving changes..."
 msgid "Saving changes…"
 msgstr "Gemmer ændringer …"
 
 #: ../src/e-util/e-webdav-browser.c:1813
-#, fuzzy
-#| msgid "Failed to save attachments"
 msgid "Failed to save changes"
-msgstr "Kunne ikke gemme bilag"
+msgstr "Kunne ikke gemme ændringer"
 
 #: ../src/e-util/e-webdav-browser.c:1815
-#, fuzzy
-#| msgid "Creating a memo"
 msgid "Creating new book…"
-msgstr "Opretter et memo"
+msgstr "Opretter ny bog …"
 
 #: ../src/e-util/e-webdav-browser.c:1816
-#, fuzzy
-#| msgid "Failed to create pipe: %s"
 msgid "Failed to create new book"
-msgstr "Kunne ikke danne rør: %s"
+msgstr "Kunne ikke oprette en ny bog"
 
 #: ../src/e-util/e-webdav-browser.c:1818
-#, fuzzy
-#| msgid "Cre_ate new calendar"
 msgid "Creating new calendar…"
-msgstr "_Opret en ny kalender"
+msgstr "Opretter en ny kalender …"
 
 #: ../src/e-util/e-webdav-browser.c:1819
-#, fuzzy
-#| msgid "Cre_ate new calendar"
 msgid "Failed to create new calendar"
-msgstr "_Opret en ny kalender"
+msgstr "Kunne ikke oprette en ny kalender"
 
 #: ../src/e-util/e-webdav-browser.c:1821
-#, fuzzy
-#| msgid "Create a new contact"
 msgid "Creating new collection…"
-msgstr "Opret en ny kontaktperson"
+msgstr "Opretter en ny samling …"
 
 #: ../src/e-util/e-webdav-browser.c:1822
-#, fuzzy
-#| msgid "Failed to create pipe: %s"
 msgid "Failed to create new collection"
-msgstr "Kunne ikke danne rør: %s"
+msgstr "Kunne ikke oprette en ny samling"
 
 #: ../src/e-util/e-webdav-browser.c:1961
 msgid "It is not allowed to create book under another book or calendar"
-msgstr ""
+msgstr "Det er ikke tilladt at oprette bøger under en anden bog eller kalender"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
 #: ../src/e-util/e-webdav-browser.c:1963
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr ""
+"Det er ikke tilladt at oprette kalendere under en anden bog eller kalender"
 
 #: ../src/e-util/e-webdav-browser.c:2189
-#, fuzzy
-#| msgid "Deleting a memo"
-#| msgid_plural "Deleting %d memos"
 msgid "Deleting book…"
-msgstr "Sletter et memo"
+msgstr "Sletter bog …"
 
 #: ../src/e-util/e-webdav-browser.c:2190
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to delete book"
-msgstr "Kunne ikke slette kontaktperson"
+msgstr "Kunne ikke slette bogen"
 
 #: ../src/e-util/e-webdav-browser.c:2193
-#, fuzzy
-#| msgid "Opening calendar"
 msgid "Deleting calendar…"
-msgstr "Åbner kalender"
+msgstr "Sletter kalender …"
 
 #: ../src/e-util/e-webdav-browser.c:2194
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to delete calendar"
-msgstr "Kunne ikke slette kontaktperson"
+msgstr "Kunne ikke slette kalenderen"
 
 #: ../src/e-util/e-webdav-browser.c:2197
-#, fuzzy
-#| msgid "Meeting Cancelation"
 msgid "Deleting collection…"
-msgstr "Mødeaflysing"
+msgstr "Sletter samling …"
 
 #: ../src/e-util/e-webdav-browser.c:2198
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to delete collection"
-msgstr "Kunne ikke slette kontaktperson"
+msgstr "Kunne ikke slette samlingen"
 
 #: ../src/e-util/e-webdav-browser.c:2429
-#, fuzzy
-#| msgid "Component"
 msgid "For Components:"
-msgstr "Komponent"
+msgstr "For komponenter:"
 
 #: ../src/e-util/e-webdav-browser.c:2435
-#, fuzzy
-#| msgid "Events"
 msgid "_Events"
-msgstr "Begivenheder"
+msgstr "_Begivenheder"
 
 #: ../src/e-util/e-webdav-browser.c:2625
-#, fuzzy
-#| msgid "LDAP Servers"
 msgid "WebDAV server:"
-msgstr "LDAP-Servere"
+msgstr "WebDAV-server:"
 
 #: ../src/e-util/e-webdav-browser.c:2660
-#, fuzzy
-#| msgid "Target Book"
 msgid "Create _Book"
-msgstr "Målbog"
+msgstr "Opret _bog"
 
 #: ../src/e-util/e-webdav-browser.c:2667
-#, fuzzy
-#| msgid "Weather Calendars"
 msgid "Create _Calendar"
-msgstr "Vejrkalendere"
+msgstr "Opret _kalender"
 
 #: ../src/e-util/e-webdav-browser.c:2674
-#, fuzzy
-#| msgid "Collection"
 msgid "Create Collectio_n"
-msgstr "Samling"
+msgstr "Opret _samling"
 
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -15770,8 +15656,7 @@ msgid "OAuth2"
 msgstr "OAuth2"
 
 #: ../src/libemail-engine/camel-sasl-xoauth2.c:28
-msgid ""
-"This option will use an OAuth 2.0 access token to connect to the server"
+msgid "This option will use an OAuth 2.0 access token to connect to the server"
 msgstr "Evolution vil bruge et OAuth 2.0-adgangstegn til serverforbindelsen"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:106
@@ -15885,8 +15770,7 @@ msgstr ""
 
 #: ../src/libemail-engine/e-mail-session.c:1402
 #, c-format
-msgid ""
-"No identity found to use, forwarding of the message has been cancelled."
+msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Der blev ikke fundet en brugbar identitet. Videresendelse af brevet er "
 "blevet annulleret."
@@ -15960,21 +15844,16 @@ msgid "Filtering Selected Messages"
 msgstr "Filtrerer valgte breve"
 
 #: ../src/libemail-engine/mail-ops.c:146
-#, c-format, fuzzy
-#| msgid ""
-#| "Failed to filter selected messages. One reason can be that folder location "
-#| "set in one or more filters is invalid. Please check your filters in "
-#| "Edit->Message Filters.\n"
-#| "Original error was: %s"
+#, c-format
 msgid ""
 "Failed to filter selected messages. One reason can be that folder location "
 "set in one or more filters is invalid. Please check your filters in "
 "Edit→Message Filters.\n"
 "Original error was: %s"
 msgstr ""
-"Kunne ikke filtrere de valgte breve. Årsagen kan være at mappeplaceringen i "
+"Kunne ikke filtrere de valgte breve. Årsagen kan være, at mappeplaceringen i "
 "et eller flere filtre er ugyldig. Kontrollér venligst dine filtre i "
-"Redigér->Brevfiltre.\n"
+"Redigér→Brevfiltre.\n"
 "Den oprindelige fejl var: %s"
 
 #: ../src/libemail-engine/mail-ops.c:226
@@ -15983,21 +15862,16 @@ msgid "Fetching mail from “%s”"
 msgstr "Henter e-mails fra “%s”"
 
 #: ../src/libemail-engine/mail-ops.c:736
-#, c-format, fuzzy
-#| msgid ""
-#| "Failed to apply outgoing filters. One reason can be that folder location set "
-#| "in one or more filters is invalid. Please check your filters in "
-#| "Edit->Message Filters.\n"
-#| "Original error was: %s"
+#, c-format
 msgid ""
 "Failed to apply outgoing filters. One reason can be that folder location set "
 "in one or more filters is invalid. Please check your filters in Edit→Message "
 "Filters.\n"
 "Original error was: %s"
 msgstr ""
-"Kunne ikke anvende de udgående filtre. Årsagen kan være at mappeplaceringen "
+"Kunne ikke anvende de udgående filtre. Årsagen kan være, at mappeplaceringen "
 "i et eller flere filtre er ugyldig. Kontrollér venligst dine filtre i "
-"Redigér->Brevfiltre.\n"
+"Redigér→Brevfiltre.\n"
 "Den oprindelige fejl var: %s"
 
 #: ../src/libemail-engine/mail-ops.c:994
@@ -16072,15 +15946,13 @@ msgstr "Prøver at bruge movemail på en kilde som ikke er i mbox-format “%s�
 #: ../src/libemail-engine/mail-tools.c:193
 #, c-format
 msgid "[Fwd: %s]"
-msgstr ""
+msgstr "[Vs: %s]"
 
 #. Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
 #. It results in "[Fwd: No Subject]" being used as a subject of the forwarded message.
 #: ../src/libemail-engine/mail-tools.c:196
-#, fuzzy
-#| msgid "(No Subject)"
 msgid "No Subject"
-msgstr "(Intet emne)"
+msgstr "Intet emne"
 
 #: ../src/libemail-engine/mail-tools.c:271
 #, c-format
@@ -16150,19 +16022,17 @@ msgstr "_Forvalg"
 #: ../src/mail/e-mail-autoconfig.c:634
 #, c-format
 msgid "Host: %s:%d"
-msgstr ""
+msgstr "Vært: %s:%d"
 
 #: ../src/mail/e-mail-autoconfig.c:638
-#, c-format, fuzzy
-#| msgid "Users"
+#, c-format
 msgid "User: %s"
-msgstr "Brugere"
+msgstr "Bruger: %s"
 
 #: ../src/mail/e-mail-autoconfig.c:642
-#, c-format, fuzzy
-#| msgid "Security:"
+#, c-format
 msgid "Security method: %s"
-msgstr "Sikkerhed:"
+msgstr "Sikkerhedsmetode: %s"
 
 #: ../src/mail/e-mail-autoconfig.c:643
 #: ../src/mail/e-mail-config-summary-page.c:144
@@ -16175,10 +16045,9 @@ msgid "STARTTLS"
 msgstr "STARTTLS"
 
 #: ../src/mail/e-mail-autoconfig.c:648
-#, c-format, fuzzy
-#| msgid "Authentication Required"
+#, c-format
 msgid "Authentication mechanism: %s"
-msgstr "Godkendelse kræves"
+msgstr "Godkendelsesmekanisme: %s"
 
 #: ../src/mail/e-mail-autoconfig.c:783
 msgid "No email address provided"
@@ -16191,25 +16060,19 @@ msgstr "Mangler domæne i e-mailadressen"
 #: ../src/mail/e-mail-autoconfig.c:1097
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:78
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:79
-#, fuzzy
-#| msgid "LDAP Servers"
 msgid "IMAP server"
-msgstr "LDAP-Servere"
+msgstr "IMAP-server"
 
 #: ../src/mail/e-mail-autoconfig.c:1104
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:80
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:81
-#, fuzzy
-#| msgid "On LDAP Servers"
 msgid "POP3 server"
-msgstr "På LDAP-servere"
+msgstr "POP3-server"
 
 #: ../src/mail/e-mail-autoconfig.c:1111
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
-#, fuzzy
-#| msgid "Server:"
 msgid "SMTP server"
-msgstr "Server:"
+msgstr "SMTP-server"
 
 #: ../src/mail/e-mail-browser.c:129 ../src/shell/e-shell-window-actions.c:812
 #: ../src/shell/e-shell-window-actions.c:819
@@ -16295,17 +16158,13 @@ msgstr "_Svarstil:"
 
 #: ../src/mail/e-mail-config-composing-page.c:488
 #: ../src/mail/mail-config.ui.h:20
-#, fuzzy
-#| msgid "Start _typing at the bottom on replying"
 msgid "Start _typing at the bottom"
-msgstr "Påbegynd _skrivning i bunden når der svares"
+msgstr "Påbegynd _skrivning i bunden"
 
 #: ../src/mail/e-mail-config-composing-page.c:495
 #: ../src/mail/mail-config.ui.h:21
-#, fuzzy
-#| msgid "_Keep signature above the original message on replying"
 msgid "_Keep signature above the original message"
-msgstr "_Hold signaturen over det oprindelige brev ved svar"
+msgstr "_Hold signaturen over det oprindelige brev"
 
 #: ../src/mail/e-mail-config-composing-page.c:512
 msgid "Message Receipts"
@@ -16493,7 +16352,7 @@ msgstr "A_liasser:"
 
 #: ../src/mail/e-mail-config-identity-page.c:862
 msgid "Edi_t"
-msgstr ""
+msgstr "Redi_gér"
 
 #: ../src/mail/e-mail-config-identity-page.c:885
 msgid "_Look up mail server details based on the entered e-mail address"
@@ -16714,7 +16573,7 @@ msgstr "Sikkerhed:"
 
 #: ../src/mail/e-mail-config-summary-page.c:651
 msgid "Cannot have both receiving and sending parts set to None"
-msgstr ""
+msgstr "Modtager- og afsenderdelen kan ikke begge være angivet til Ingen"
 
 #: ../src/mail/e-mail-config-summary-page.c:807
 msgid "Account Summary"
@@ -17656,10 +17515,9 @@ msgid "Do not warn me again"
 msgstr "Advar mig ikke igen"
 
 #: ../src/mail/e-mail-reader-utils.c:633
-#, c-format, fuzzy
-#| msgid "Saving message to folder “%s”"
+#, c-format
 msgid "Deleting messages in Junk folder “%s”…"
-msgstr "Gemmer brev i mappen “%s”"
+msgstr "Sletter breve i spammappen “%s” …"
 
 #: ../src/mail/e-mail-reader-utils.c:728
 #, c-format
@@ -17809,10 +17667,9 @@ msgstr "-----Oprindeligt brev-----"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message.
 #: ../src/mail/em-composer-utils.c:2562
-#, c-format, fuzzy
-#| msgid "URL: %s"
+#, c-format
 msgid "Re: %s"
-msgstr "Adresse: %s"
+msgstr "Vedr.: %s"
 
 #: ../src/mail/em-composer-utils.c:3103
 msgid "an unknown sender"
@@ -18710,7 +18567,7 @@ msgstr "_Videresendelsesformat:"
 
 #: ../src/mail/mail-config.ui.h:22
 msgid "Include si_gnature in new messages only"
-msgstr ""
+msgstr "Inkludér kun si_gnatur i nye breve"
 
 #: ../src/mail/mail-config.ui.h:23
 msgid "Ig_nore Reply-To: for mailing lists"
@@ -18723,8 +18580,8 @@ msgstr "Gr_uppesvar går kun til e-mailliste, hvis muligt"
 #: ../src/mail/mail-config.ui.h:25
 msgid "Digitally _sign messages when original message signed (PGP or S/MIME)"
 msgstr ""
-"_Signer breve digitalt, når det oprindelige brev er signeret (PGP eller "
-"S/MIME)"
+"_Signer breve digitalt, når det oprindelige brev er signeret (PGP eller S/"
+"MIME)"
 
 #: ../src/mail/mail-config.ui.h:26
 msgid "_Wrap quoted text in replies"
@@ -18945,10 +18802,8 @@ msgid "Confirm _when expunging a folder"
 msgstr "Bekræft _når en mappe tømmes"
 
 #: ../src/mail/mail-config.ui.h:103
-#, fuzzy
-#| msgid "Confirm _when expunging a folder"
 msgid "Confirm when emptying a _Junk folder"
-msgstr "Bekræft _når en mappe tømmes"
+msgstr "Bekræft _når en spammappe tømmes"
 
 #: ../src/mail/mail-config.ui.h:104
 msgid "Archive Mail"
@@ -18969,8 +18824,7 @@ msgstr "_Vis animerede billeder"
 
 #: ../src/mail/mail-config.ui.h:109
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
-msgstr ""
-"_Spørg når HTML-breve sendes til kontaktpersoner som ikke vil have dem"
+msgstr "_Spørg når HTML-breve sendes til kontaktpersoner som ikke vil have dem"
 
 #: ../src/mail/mail-config.ui.h:110
 msgid "Loading Remote Content"
@@ -19228,10 +19082,10 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"Mange e-mailsystemer føjer et Apparently-To-hoved til breve der kun har "
-"Bcc-modtagere. Dette hoved, hvis tilføjet, vil liste alle dine modtagere i "
-"dit brev alligevel For at undgå dette bør du tilføje mindst en Til:- eller "
-"Cc:-modtager."
+"Mange e-mailsystemer føjer et Apparently-To-hoved til breve der kun har Bcc-"
+"modtagere. Dette hoved, hvis tilføjet, vil liste alle dine modtagere i dit "
+"brev alligevel For at undgå dette bør du tilføje mindst en Til:- eller Cc:-"
+"modtager."
 
 #: ../src/mail/mail.error.xml.h:17
 msgid "Are you sure you want to send a message with invalid address?"
@@ -19547,10 +19401,8 @@ msgid "You may not create two accounts with the same name."
 msgstr "Du kan ikke oprette to konti med samme navn."
 
 #: ../src/mail/mail.error.xml.h:89
-#, fuzzy
-#| msgid "Are you sure you want to delete the memo “{0}”?"
 msgid "Are you sure you want to delete account “{0}”?"
-msgstr "Er du sikker på, at du vil slette memoet “{0}”?"
+msgstr "Er du sikker på, at du vil slette kontoen “{0}”?"
 
 #: ../src/mail/mail.error.xml.h:90
 msgid "If you proceed, the account information will be deleted permanently."
@@ -19597,8 +19449,8 @@ msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
-"Denne mappe er muligvis blevet tilføjet implicit, brug "
-"søgemappe-redigeringen for at tilføje den eksplicit, om nødvendigt."
+"Denne mappe er muligvis blevet tilføjet implicit, brug søgemappe-"
+"redigeringen for at tilføje den eksplicit, om nødvendigt."
 
 #: ../src/mail/mail.error.xml.h:101
 msgid "Cannot add Search Folder “{0}”."
@@ -19843,18 +19695,17 @@ msgid "Please enable the account or send using another account."
 msgstr "Aktivér venligst kontoen, eller send via en anden konto."
 
 #: ../src/mail/mail.error.xml.h:158
-#, fuzzy
-#| msgid ""
-#| "This message cannot be sent because you have not specified any recipients"
-msgid ""
-"This message cannot be sent because there is no mail account configured"
-msgstr "Dette brev kan ikke sendes fordi du ikke har angivet nogen modtagere"
+msgid "This message cannot be sent because there is no mail account configured"
+msgstr ""
+"Dette brev kan ikke sendes, fordi der ikke er konfigureret en e-mailkonto"
 
 #: ../src/mail/mail.error.xml.h:159
 msgid ""
 "There had not been found any active mail account to send the message. Create "
 "or enable one first, please."
 msgstr ""
+"Der kunne ikke findes nogen aktiv e-mailkonto at sende brevet fra. Opret "
+"eller aktivér en først."
 
 #: ../src/mail/mail.error.xml.h:160
 msgid "Mail Deletion Failed"
@@ -20074,32 +19925,24 @@ msgstr ""
 "fejlrapport i GNOMEs bugzilla, hvis problemet varer ved."
 
 #: ../src/mail/mail.error.xml.h:214
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to permanently remove all the deleted messages in all "
-#| "folders?"
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
-msgstr ""
-"Er du sikker på, at du vil fjerne alle de slettede breve i alle mapperne, "
-"permanent?"
+msgstr "Er du sikker på, at du vil slette alle brevene i spammappen?"
 
 #: ../src/mail/mail.error.xml.h:215
 msgid ""
 "These messages will be shown in the Trash folder, where they can be "
 "permanently deleted later."
 msgstr ""
+"Disse breve vil blive vist i papirkurvsmappen, hvorfra de kan slettes "
+"permanent senere."
 
 #: ../src/mail/mail.error.xml.h:216
-#, fuzzy
-#| msgid "_Not Junk"
 msgid "_Empty Junk"
-msgstr "_Ikke spam"
+msgstr "_Tøm spam"
 
 #: ../src/mail/mail.error.xml.h:217
-#, fuzzy
-#| msgid "Failed to expunge folder “{0}”."
 msgid "Failed to empty Junk folder “{0}”"
-msgstr "Kunne ikke tømme mappen “{0}”."
+msgstr "Kunne ikke tømme spammappen “{0}”"
 
 #: ../src/mail/mail-send-recv.c:192
 msgid "Canceling..."
@@ -20322,16 +20165,12 @@ msgid "Free form expression"
 msgstr "Frit udtryk"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:275
-#, fuzzy
-#| msgid "Collection"
 msgid "Edit Collection"
-msgstr "Samling"
+msgstr "Redigér samling"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:312
-#, fuzzy
-#| msgid "Use for Folders"
 msgid "Use for"
-msgstr "Anvend på mapper"
+msgstr "Anvend på"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:316
 #: ../src/plugins/pst-import/pst-importer.c:522
@@ -20339,10 +20178,8 @@ msgid "_Mail"
 msgstr "E-_mail"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:327
-#, fuzzy
-#| msgid "C_alendar:"
 msgid "C_alendar"
-msgstr "K_alender:"
+msgstr "K_alender"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:428
 #: ../src/modules/addressbook/e-book-shell-backend.c:262
@@ -20377,20 +20214,20 @@ msgid "Task List Properties"
 msgstr "Opgavelisteegenskaber"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:174
-#, fuzzy
-#| msgid "Back"
 msgid "_Back"
-msgstr "Tilbage"
+msgstr "Til_bage"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:195
 msgid "_Browse"
-msgstr ""
+msgstr "_Gennemse"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:197
 msgid ""
 "Browse a WebDAV (CalDAV or CardDAV) server and create, edit or delete "
 "address books, calendars, memo lists or task lists there"
 msgstr ""
+"Gennemse en WebDAV-server (CalDAV or CardDAV) og opret, redigér eller slet "
+"adressebøger, kalendere, memo- eller opgavelister der"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
@@ -20404,26 +20241,21 @@ msgstr "_Formatér adresse ifølge standard i modtagelseslandet"
 
 #. Translators: This is part of a sentence "Open maps with OpenStreetMap" and "Open maps with Google"
 #: ../src/modules/addressbook/autocompletion-config.c:143
-#, fuzzy
-#| msgid "Open map"
 msgctxt "OpenMap"
 msgid "Open _maps with"
-msgstr "Åbn kort"
+msgstr "Åbn _kort med"
 
 #. Translators: This is part of "Open maps with OpenStreetMap"
 #: ../src/modules/addressbook/autocompletion-config.c:150
 msgctxt "OpenMap"
 msgid "OpenStreetMap"
-msgstr ""
+msgstr "OpenStreetMap"
 
 #. Translators: This is part of "Open maps with Google"
 #: ../src/modules/addressbook/autocompletion-config.c:153
-#, fuzzy
-#| msgctxt "addressbook-label"
-#| msgid "Google Talk"
 msgctxt "OpenMap"
 msgid "Google"
-msgstr "Google Talk"
+msgstr "Google"
 
 #: ../src/modules/addressbook/autocompletion-config.c:169
 msgid "Autocompletion"
@@ -20521,8 +20353,7 @@ msgstr "Fl_yt alle kontaktpersoner til …"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:965
 msgid "Move the contacts of the selected address book to another"
-msgstr ""
-"Flyt kontaktpersonerne i den valgte adressebog til en anden adressebog"
+msgstr "Flyt kontaktpersonerne i den valgte adressebog til en anden adressebog"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:970
 msgid "_New Address Book"
@@ -21096,8 +20927,8 @@ msgid ""
 "server."
 msgstr ""
 "Dette er metoden som Evolution vil anvende til at godkende dig.  Bemærk at "
-"der kræves anonym adgang til din LDAP-server, hvis den sættes til “brug "
-"e-mailadresse”."
+"der kræves anonym adgang til din LDAP-server, hvis den sættes til “brug e-"
+"mailadresse”."
 
 #. Page 2
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:712
@@ -21895,16 +21726,12 @@ msgid "Delete all occurrences"
 msgstr "Slet alle forekomster"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1414
-#, fuzzy
-#| msgid "_Edit as New Message..."
 msgid "Edit as Ne_w..."
-msgstr "R_edigér som nyt brev …"
+msgstr "Redigér som n_yt …"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1416
-#, fuzzy
-#| msgid "View the current appointment"
 msgid "Edit the current appointment as new"
-msgstr "Vis den aktuelle aftale"
+msgstr "Redigér den aktuelle aftale som ny"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1421
 msgid "New All Day _Event..."
@@ -22479,24 +22306,18 @@ msgstr "Konvertér til brevet"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
-#, fuzzy
-#| msgid "LDAP Servers"
 msgid "CalDAV server"
-msgstr "LDAP-Servere"
+msgstr "CalDAV-server"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
-#, fuzzy
-#| msgid "LDAP Servers"
 msgid "CardDAV server"
-msgstr "LDAP-Servere"
+msgstr "CardDAV-server"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
-#, fuzzy
-#| msgid "LDAP Servers"
 msgid "LDAP server"
-msgstr "LDAP-Servere"
+msgstr "LDAP-server"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:162
 msgid "ITIP"
@@ -23210,8 +23031,7 @@ msgid "This meeting has been delegated"
 msgstr "Dette møde er blevet uddelegeret"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-msgid ""
-"“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
+msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
 msgstr "“{0}” har uddelegeret mødet. Vil du tilføje delegaten “{1}”?"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:283
@@ -23521,16 +23341,12 @@ msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Fjern alle slettede breve permanent fra alle mapper"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1638
-#, fuzzy
-#| msgid "Not Junk"
 msgid "Empty _Junk"
-msgstr "Ikke spam"
+msgstr "T_øm spam"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1640
-#, fuzzy
-#| msgid "Permanently remove all the deleted messages from all folders"
 msgid "Delete all Junk messages from all folders"
-msgstr "Fjern alle slettede breve permanent fra alle mapper"
+msgstr "Slet alle spambreve i alle mapper"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1647
 msgid "Edit properties of this account"
@@ -23788,14 +23604,12 @@ msgid "Threaded message list"
 msgstr "Trådet brevliste"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2032
-#, fuzzy
-#| msgid "Show _Tool Bar"
 msgid "Show To _Do Bar"
-msgstr "Vis _værktøjslinje"
+msgstr "Vis _gøremålsbjælken"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2034
 msgid "Show To Do bar with appointments and tasks"
-msgstr ""
+msgstr "Vis gøremålsbjælken med aftaler og opgaver"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2040
 msgid "_Unmatched Folder Enabled"
@@ -23999,16 +23813,12 @@ msgid "Show _original header value"
 msgstr "Vis _oprindelig brevhovedværdi"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:112
-#, fuzzy
-#| msgid "Exchange Settings"
 msgid "Do _not change settings"
-msgstr "Exchange-indstillinger"
+msgstr "S_kift ikke indstillinger"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
-#, fuzzy
-#| msgid "Make Anjal the default email client"
 msgid "_Set as default email client"
-msgstr "Gør Anjal til _forvalgt e-mail-klient"
+msgstr "A_ngiv som standard-e-mailklient"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:138
 msgid "Do you want to make Evolution your default email client?"
@@ -24144,8 +23954,8 @@ msgstr "Vis almindelig tekst hvis den findes, ellers HTML-kilde"
 #: ../src/modules/prefer-plain/plugin/config-ui.c:45
 msgid "Show plain text part, if present, otherwise the HTML part source."
 msgstr ""
-"Vis den almindelige tekstdel, hvis den findes, og ellers "
-"HTML-dels-kildekoden."
+"Vis den almindelige tekstdel, hvis den findes, og ellers HTML-dels-"
+"kildekoden."
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:91
 #: ../src/modules/prefer-plain/plugin/config-ui.c:49
@@ -24255,10 +24065,8 @@ msgstr ""
 "dine e-mailkonti og importerer filer fra andre programmer."
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:165
-#, fuzzy
-#| msgid "Do not show this message again"
 msgid "Do not _show this wizard again"
-msgstr "Vis ikke denne meddelelse igen"
+msgstr "Vis ikke denne _guide igen"
 
 #: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
 msgid "Loading accounts..."
@@ -24581,8 +24389,8 @@ msgstr "Kontaktpersoner for lynbeskeder"
 #: ../src/plugins/bbdb/bbdb.c:795
 msgid "_Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
-"_Synkronisér information om kontaktpersoner og billeder fra en "
-"Pidgin-venneliste"
+"_Synkronisér information om kontaktpersoner og billeder fra en Pidgin-"
+"venneliste"
 
 #: ../src/plugins/bbdb/bbdb.c:805
 msgid "Select Address book for Pidgin buddy list"
@@ -25709,16 +25517,12 @@ msgid "Show information about Evolution"
 msgstr "Vis information om Evolution"
 
 #: ../src/shell/e-shell-window-actions.c:803
-#, fuzzy
-#| msgid "_Account:"
 msgid "_Accounts"
-msgstr "_Konto:"
+msgstr "_Konti"
 
 #: ../src/shell/e-shell-window-actions.c:805
-#, fuzzy
-#| msgid "Configure Evolution"
 msgid "Configure Evolution Accounts"
-msgstr "Konfigurer Evolution"
+msgstr "Konfigurér Evolution-konti"
 
 #: ../src/shell/e-shell-window-actions.c:810
 #: ../src/shell/e-shell-window-actions.c:824
@@ -25970,7 +25774,7 @@ msgstr "Vælg oversigt: %s"
 msgid "Delete view: %s"
 msgstr "Slet oversigt: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1801
+#: ../src/shell/e-shell-window-actions.c:1804
 msgid "Execute these search parameters"
 msgstr "Udfør disse søgeparametre"
 
@@ -26076,8 +25880,7 @@ msgstr ""
 
 #: ../src/shell/main.c:336
 msgid "Import URIs or filenames given as rest of arguments."
-msgstr ""
-"Importer URI'er eller filnavne som angivet med resten af argumenterne."
+msgstr "Importer URI'er eller filnavne som angivet med resten af argumenterne."
 
 #: ../src/shell/main.c:338
 msgid "Request a running Evolution process to quit"
@@ -26747,11 +26550,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "Fordi &quot;{1}&quot;."
 
 #~ msgid ""
-#~ "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
-#~ "\"2\" for debug messages."
+#~ "This can have three possible values. \"0\" for errors. \"1\" for "
+#~ "warnings. \"2\" for debug messages."
 #~ msgstr ""
-#~ "Kan have tre forskellige værdier. “0” for fejl. “1” for advarsler. “2” for "
-#~ "fejlsøgningsbeskeder."
+#~ "Kan have tre forskellige værdier. “0” for fejl. “1” for advarsler. “2” "
+#~ "for fejlsøgningsbeskeder."
 
 #~ msgid "Could not open '%s'"
 #~ msgstr "Kunne ikke åbne “%s”"
@@ -26845,11 +26648,11 @@ msgstr "Importeret certifikat"
 #~ msgid "_Blockquote"
 #~ msgstr "_Blokcitat"
 
-#~ # ??
+# ??
 #~ msgid "Changed property"
 #~ msgstr "Ændret egenskab"
 
-#~ # ???? ???
+# ???? ???
 #~ msgid "Whether editor changed"
 #~ msgstr "Om ændret i redigering"
 
@@ -26907,10 +26710,11 @@ msgstr "Importeret certifikat"
 #~ msgid "This memo has been deleted."
 #~ msgstr "Dette memo er blevet slettet."
 
-#~ msgid "%s  You have made changes. Forget those changes and close the editor?"
+#~ msgid ""
+#~ "%s  You have made changes. Forget those changes and close the editor?"
 #~ msgstr ""
-#~ "%s  Du har lavet ændringer. Skal disse ændringer forkastes og redigeringen "
-#~ "lukkes?"
+#~ "%s  Du har lavet ændringer. Skal disse ændringer forkastes og "
+#~ "redigeringen lukkes?"
 
 #~ msgid "%s  You have made no changes, close the editor?"
 #~ msgstr "%s  Du har ikke lavet nogen ændringer. Afslut redigering?"
@@ -26924,10 +26728,11 @@ msgstr "Importeret certifikat"
 #~ msgid "This memo has been changed."
 #~ msgstr "Dette memo er blevet ændret."
 
-#~ msgid "%s  You have made changes. Forget those changes and update the editor?"
+#~ msgid ""
+#~ "%s  You have made changes. Forget those changes and update the editor?"
 #~ msgstr ""
-#~ "%s  Du har lavet ændringer. Skal disse ændringer forkastes og redigeringen "
-#~ "opdateres?"
+#~ "%s  Du har lavet ændringer. Skal disse ændringer forkastes og "
+#~ "redigeringen opdateres?"
 
 #~ msgid "%s  You have made no changes, update the editor?"
 #~ msgstr "%s  Du har ikke gjort ændringer. Opdater redigering?"
@@ -27094,25 +26899,25 @@ msgstr "Importeret certifikat"
 #~ msgstr "Overførsel i gang. Vil du sende brevet?"
 
 #~ msgid ""
-#~ " There are few attachments getting downloaded. Sending the mail will cause "
-#~ "the mail to be sent without those pending attachments "
+#~ " There are few attachments getting downloaded. Sending the mail will "
+#~ "cause the mail to be sent without those pending attachments "
 #~ msgstr ""
-#~ " Der er et par bilag der er ved at blive overført. Ved at sende brevet nu, "
-#~ "vil disse bilag ikke blive medsendt "
+#~ " Der er et par bilag der er ved at blive overført. Ved at sende brevet "
+#~ "nu, vil disse bilag ikke blive medsendt "
 
 #~ msgid "Gnome Calendar"
 #~ msgstr "Gnome-kalenderen"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
-#~ "lines in the \"Messages\" column in vertical view"
+#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
+#~ "\" lines in the \"Messages\" column in vertical view"
 #~ msgstr ""
 #~ "Afgør hvorvidt der skal bruges den samme skrifttype til både “Fra” og "
 #~ "“Emne”-linjerne i “Brev”-kolonnen i lodret visning"
 
 #~ msgid ""
-#~ "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
-#~ "lines in the \"Messages\" column in vertical view."
+#~ "Determines whether to use the same fonts for both \"From\" and \"Subject"
+#~ "\" lines in the \"Messages\" column in vertical view."
 #~ msgstr ""
 #~ "Afgør hvorvidt der skal bruges den samme skrifttype til både “Fra” og "
 #~ "“Emne”-linjerne i “Brev”-kolonnen i lodret visning."
@@ -27245,8 +27050,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "Option is ignored if a match for custom junk headers is found."
 #~ msgstr ""
-#~ "Denne valgmulighed vil blive ignoreret, hvis der er et træf med tilpassede "
-#~ "spam-brevhoveder."
+#~ "Denne valgmulighed vil blive ignoreret, hvis der er et træf med "
+#~ "tilpassede spam-brevhoveder."
 
 #~ msgid "Enter Google password for user '%s'."
 #~ msgstr "Indtast Google-adgangskoden for brugeren “%s”."
@@ -27544,11 +27349,12 @@ msgstr "Importeret certifikat"
 
 #~ msgid ""
 #~ "Can be either 2 to use current date and time or any other value for sent "
-#~ "date of the message. This has a meaning only when dropping just one message."
+#~ "date of the message. This has a meaning only when dropping just one "
+#~ "message."
 #~ msgstr ""
-#~ "Kan være enten 2 for at bruge den aktuelle dato og tid, eller en hvilken som "
-#~ "helst anden værdi for brevets afsendelsesdato. Dette har kun betydning, hvis "
-#~ "man kun slipper et enkelt brev."
+#~ "Kan være enten 2 for at bruge den aktuelle dato og tid, eller en hvilken "
+#~ "som helst anden værdi for brevets afsendelsesdato. Dette har kun "
+#~ "betydning, hvis man kun slipper et enkelt brev."
 
 #~ msgid "Search for the sender photo in local address books"
 #~ msgstr "Søg efter afsenderfotoet i den lokale adressebog"
@@ -27558,8 +27364,9 @@ msgstr "Importeret certifikat"
 #~ "Denne valgmulighed vil hjælpe med at øge farten hvormed der overføres."
 
 #~ msgid ""
-#~ "Possible values are: 'never' - to never close browser window, 'always' - to "
-#~ "always close browser window or 'ask' - (or any other value) will ask user."
+#~ "Possible values are: 'never' - to never close browser window, 'always' - "
+#~ "to always close browser window or 'ask' - (or any other value) will ask "
+#~ "user."
 #~ msgstr ""
 #~ "Mulige værdier er: aldrig (never) - for aldrig at lukke browservinduet, "
 #~ "altid (always) - for altid at lukke browservinduet eller  spørg (ask) - "
@@ -27668,8 +27475,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Ønsker du at lukke brevvinduet?"
 
 #~ msgid ""
-#~ "Cannot find a corresponding account in the org.gnome.OnlineAccounts service "
-#~ "from which to obtain an authentication token."
+#~ "Cannot find a corresponding account in the org.gnome.OnlineAccounts "
+#~ "service from which to obtain an authentication token."
 #~ msgstr ""
 #~ "Kan ikke finde tilsvarende konto i org.gnome.OnlineAccounts-tjenesten, "
 #~ "hvorfra godkendelsesudtryk skulle hentes."
@@ -27717,8 +27524,8 @@ msgstr "Importeret certifikat"
 #~ "contacts. \"2\" - Always load images off the net."
 #~ msgstr ""
 #~ "Indlæs billeder i HTML-breve via HTTP(S). Mulige værdier er: “0” - Indlæs "
-#~ "aldrig billeder fra nettet. “1” - Indlæs billeder hvis afsenderen findes i "
-#~ "adressebogen. “2” - Indlæs altid billeder fra nettet."
+#~ "aldrig billeder fra nettet. “1” - Indlæs billeder hvis afsenderen findes "
+#~ "i adressebogen. “2” - Indlæs altid billeder fra nettet."
 
 #~ msgid "State of message headers in paned view"
 #~ msgstr "Status for beskedhoveder i panelvisning"
@@ -27733,14 +27540,14 @@ msgstr "Importeret certifikat"
 #~ msgid "Export in asynchronous mode"
 #~ msgstr "Eksportér i asynkron tilstand"
 
-#~ # Lack of space after the comma
-#~ # http://bugzilla.ximian.com/show_bug.cgi?id=61069
+# Lack of space after the comma
+# http://bugzilla.ximian.com/show_bug.cgi?id=61069
 #~ msgid ""
 #~ "The number of cards in one output file in asynchronous mode, default size "
 #~ "100."
 #~ msgstr ""
-#~ "Antallet af visitkort i én outputfil i asynkron tilstand, standardstørrelsen "
-#~ "100."
+#~ "Antallet af visitkort i én outputfil i asynkron tilstand, "
+#~ "standardstørrelsen 100."
 
 #~ msgid "NUMBER"
 #~ msgstr "ANTAL"
@@ -27748,8 +27555,8 @@ msgstr "Importeret certifikat"
 #~ msgid "In async mode, output must be file."
 #~ msgstr "I asynkron tilstand skal output være en fil."
 
-#~ # Strange use of English
-#~ # http://bugzilla.ximian.com/show_bug.cgi?id=61070
+# Strange use of English
+# http://bugzilla.ximian.com/show_bug.cgi?id=61070
 #~ msgid "In normal mode, there is no need for the size option."
 #~ msgstr "I normal-tilstand behøves intet tilvalg af størrelse."
 
@@ -27804,7 +27611,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "List of MIME types to check for Bonobo component viewers"
 #~ msgstr ""
-#~ "Liste over MIME-typer, som skal kontrolleres for bonobo komponentfremvisere"
+#~ "Liste over MIME-typer, som skal kontrolleres for bonobo "
+#~ "komponentfremvisere"
 
 #~ msgid "Use SpamAssassin daemon and client (spamc/spamd)."
 #~ msgstr "Benyt Spamassassin-dæmon og klient (spamc/spamd)."
@@ -27888,7 +27696,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "Could not publish calendar: Calendar backend no longer exists"
 #~ msgstr ""
-#~ "Kunne ikke offentliggøre kalender: Kalender-backend eksisterer ikke længere"
+#~ "Kunne ikke offentliggøre kalender: Kalender-backend eksisterer ikke "
+#~ "længere"
 
 #~ msgid "Unrecognized desktop file Version '%s'"
 #~ msgstr "Ukendt version for skrivebordsfil “%s”"
@@ -27936,9 +27745,9 @@ msgstr "Importeret certifikat"
 #~ msgid "Anonymously"
 #~ msgstr "Anonymt"
 
-#~ # The search scope defines how deep you would like the search to extend down the directory tree. A search scope of \"sub\" will include all entries below your search base. A search scope of \"one\" will only include the entries one level beneath your base.
-#~ #
-#~ # Derfor One -> Et, det der er tale om et niveau
+# The search scope defines how deep you would like the search to extend down the directory tree. A search scope of \"sub\" will include all entries below your search base. A search scope of \"one\" will only include the entries one level beneath your base.
+#
+# Derfor One -> Et, det der er tale om et niveau
 #~ msgid "One"
 #~ msgstr "Et"
 
@@ -27976,8 +27785,8 @@ msgstr "Importeret certifikat"
 #~ "Search filter is the type of object to be searched for. If this is not "
 #~ "modified, the default search will be performed on the type \"person\"."
 #~ msgstr ""
-#~ "Søgefilter er typen af objekt der søges efter. Hvis dette ikke ændres, vil "
-#~ "søgningen som standard udføres på typen “person”."
+#~ "Søgefilter er typen af objekt der søges efter. Hvis dette ikke ændres, "
+#~ "vil søgningen som standard udføres på typen “person”."
 
 #~ msgid "5"
 #~ msgstr "5"
@@ -27998,12 +27807,12 @@ msgstr "Importeret certifikat"
 
 #~ msgid ""
 #~ "You are connecting to an unsupported GroupWise server and may encounter "
-#~ "problems using Evolution. For best results the server should be upgraded to "
-#~ "a supported version"
+#~ "problems using Evolution. For best results the server should be upgraded "
+#~ "to a supported version"
 #~ msgstr ""
 #~ "Du tilslutter dig en GroupWise-server der ikke er understøttet, du vil "
-#~ "muligvis opleve problemer med Evolution. For at få det bedste resultat skal "
-#~ "serveren opgraderes til en understøttet version"
+#~ "muligvis opleve problemer med Evolution. For at få det bedste resultat "
+#~ "skal serveren opgraderes til en understøttet version"
 
 #~ msgid "GroupWise Address book creation:"
 #~ msgstr "Opret GroupWise-adressebog:"
@@ -28023,16 +27832,17 @@ msgstr "Importeret certifikat"
 
 #~ msgid "Some features may not work properly with your current server."
 #~ msgstr ""
-#~ "Visse faciliteter vil måske ikke virke ordentligt med din nuværende server."
+#~ "Visse faciliteter vil måske ikke virke ordentligt med din nuværende "
+#~ "server."
 
 #~ msgid ""
 #~ "You are connecting to an unsupported GroupWise server and may encounter "
-#~ "problems using Evolution. For best results, the server should be upgraded to "
-#~ "a supported version."
+#~ "problems using Evolution. For best results, the server should be upgraded "
+#~ "to a supported version."
 #~ msgstr ""
 #~ "Du tilslutter dig en GroupWise-server der ikke er understøttet, du vil "
-#~ "muligvis opleve problemer med Evolution. For at få det bedste resultat skal "
-#~ "serveren opgraderes til en understøttet version."
+#~ "muligvis opleve problemer med Evolution. For at få det bedste resultat "
+#~ "skal serveren opgraderes til en understøttet version."
 
 #~ msgid "_Type:"
 #~ msgstr "T_ype:"
@@ -28040,7 +27850,7 @@ msgstr "Importeret certifikat"
 #~ msgid "You are acting on behalf of %s"
 #~ msgstr "Du udfører en handlig på vegne af %s"
 
-#~ # Hmm, dejligt med nyttige kommentarer
+# Hmm, dejligt med nyttige kommentarer
 #~ msgid "ID of the socket to embed in"
 #~ msgstr "ID for soklen, der skal indlejres i"
 
@@ -28087,40 +27897,42 @@ msgstr "Importeret certifikat"
 #~ msgstr "Brug kryptering:"
 
 #~ msgid ""
-#~ "To use the email application you'll need to setup an account. Put your email "
-#~ "address and password in below and we'll try and work out all the settings. "
-#~ "If we can't do it automatically you'll need your server details as well."
+#~ "To use the email application you'll need to setup an account. Put your "
+#~ "email address and password in below and we'll try and work out all the "
+#~ "settings. If we can't do it automatically you'll need your server details "
+#~ "as well."
 #~ msgstr ""
-#~ "For at bruge dette e-mail-program, skal du sætte en konto op. Tast din "
-#~ "e-post-adresse og adgangskode ind nedenfor og vi vil da forsøge at regne "
-#~ "alle indstillingerne ud automatisk. Hvis det ikke lykkes, vil vi få brug for "
-#~ "dine servedetaljer også."
+#~ "For at bruge dette e-mail-program, skal du sætte en konto op. Tast din e-"
+#~ "post-adresse og adgangskode ind nedenfor og vi vil da forsøge at regne "
+#~ "alle indstillingerne ud automatisk. Hvis det ikke lykkes, vil vi få brug "
+#~ "for dine servedetaljer også."
 
 #~ msgid ""
-#~ "Sorry, we can't work out the settings to get your mail automatically. Please "
-#~ "enter them below. We've tried to make a start with the details you just "
-#~ "entered but you may need to change them."
+#~ "Sorry, we can't work out the settings to get your mail automatically. "
+#~ "Please enter them below. We've tried to make a start with the details you "
+#~ "just entered but you may need to change them."
 #~ msgstr ""
 #~ "Beklager, vi kan ikke regne indstillingerne for din e-mail ud automatisk. "
-#~ "Indtast dem venligst nedenfor. Vi har prøvet at påbegynde udfyldelsen ud fra "
-#~ "de detaljer du lige har indtastet, men du er måske nødt til at ændre dem."
+#~ "Indtast dem venligst nedenfor. Vi har prøvet at påbegynde udfyldelsen ud "
+#~ "fra de detaljer du lige har indtastet, men du er måske nødt til at ændre "
+#~ "dem."
 
 #~ msgid "You can specify more options to configure the account."
 #~ msgstr "Du kan angive flere indstillinger for at konfigurere kontoen."
 
 #~ msgid ""
-#~ "Now we need your settings for sending mail. We've tried to make some guesses "
-#~ "but you should check them over to make sure."
+#~ "Now we need your settings for sending mail. We've tried to make some "
+#~ "guesses but you should check them over to make sure."
 #~ msgstr ""
-#~ "Nu skal vi bruge dine indstillinger for afsendelse af e-mail. Vi har prøvet "
-#~ "at gætte, men du bør tjekke disse for at være på den sikre side."
+#~ "Nu skal vi bruge dine indstillinger for afsendelse af e-mail. Vi har "
+#~ "prøvet at gætte, men du bør tjekke disse for at være på den sikre side."
 
 #~ msgid "You can specify your default settings for your account."
 #~ msgstr "Du kan angive din kontos forvalgte indstillinger."
 
 #~ msgid ""
-#~ "Time to check things over before we try and connect to the server and fetch "
-#~ "your mail."
+#~ "Time to check things over before we try and connect to the server and "
+#~ "fetch your mail."
 #~ msgstr ""
 #~ "Nu er det tid til at tjekke om det hele virker, før vi forbinder til "
 #~ "serveren og henter din e-mail."
@@ -28180,13 +27992,13 @@ msgstr "Importeret certifikat"
 #~ msgstr "Opsæt Yahoo-kalender med Evolution"
 
 #~ msgid ""
-#~ "Yahoo calendars are named as firstname_lastname. We have tried to form the "
-#~ "calendar name. So please confirm and re-enter the calendar name if it is not "
-#~ "correct."
+#~ "Yahoo calendars are named as firstname_lastname. We have tried to form "
+#~ "the calendar name. So please confirm and re-enter the calendar name if it "
+#~ "is not correct."
 #~ msgstr ""
 #~ "Yahoo-kalendere navngives fornavn_efternavn. Vi har forsøgt at danne "
-#~ "kalendernavnet. Bekræft venligst og genindtast kalendernavnet, hvis det ikke "
-#~ "er korrekt."
+#~ "kalendernavnet. Bekræft venligst og genindtast kalendernavnet, hvis det "
+#~ "ikke er korrekt."
 
 #~ msgid "Yahoo account settings:"
 #~ msgstr "Indstillinger for Yahoo-konto:"
@@ -28237,18 +28049,18 @@ msgstr "Importeret certifikat"
 #~ msgstr "Konfigurationsversion"
 
 #~ msgid ""
-#~ "The configuration version of Evolution, with major/minor/configuration level "
-#~ "(for example \"2.6.0\")."
+#~ "The configuration version of Evolution, with major/minor/configuration "
+#~ "level (for example \"2.6.0\")."
 #~ msgstr ""
-#~ "Konfigurationsversionen for Evolution, med "
-#~ "hovednummer/undernummer/konfigurationsniveau (f.eks. “2.6.0”)."
+#~ "Konfigurationsversionen for Evolution, med hovednummer/undernummer/"
+#~ "konfigurationsniveau (f.eks. “2.6.0”)."
 
 #~ msgid "Last upgraded configuration version"
 #~ msgstr "Sidste opgraderet konfigurationsversion"
 
 #~ msgid ""
-#~ "The last upgraded configuration version of Evolution, with "
-#~ "major/minor/configuration level (for example \"2.6.0\")."
+#~ "The last upgraded configuration version of Evolution, with major/minor/"
+#~ "configuration level (for example \"2.6.0\")."
 #~ msgstr ""
 #~ "Den sidst opgraderede konfigurationsversion for Evolution, med "
 #~ "hovednummer/undernummer/konfigurationsniveau (f.eks. “2.6.0”)."
@@ -28270,9 +28082,9 @@ msgstr "Importeret certifikat"
 #~ "defineret af nøglen “message_text_part_limit”."
 
 #~ msgid ""
-#~ "This decides the max size of the message text that will be displayed under "
-#~ "Evolution, specified in terms of KB. The default is 4096 (4MB). This value "
-#~ "is used only when 'force_message_limit' key is activated."
+#~ "This decides the max size of the message text that will be displayed "
+#~ "under Evolution, specified in terms of KB. The default is 4096 (4MB). "
+#~ "This value is used only when 'force_message_limit' key is activated."
 #~ msgstr ""
 #~ "Dette bestemmer den maksimale mængde af beskedtekst, der vil blive vist "
 #~ "under Evolution, angivet i KB. Standardværdien er 4096 (4MB). Denne værdi "
@@ -28344,8 +28156,8 @@ msgstr "Importeret certifikat"
 #~ "Please enter information about the way you will send mail. If you are not "
 #~ "sure, ask your system administrator or Internet Service Provider."
 #~ msgstr ""
-#~ "Angiv information om hvordan du vil sende e-mail. Hvis du ikke er sikker bør "
-#~ "du spørge din systemadministrator eller Internetleverandør."
+#~ "Angiv information om hvordan du vil sende e-mail. Hvis du ikke er sikker "
+#~ "bør du spørge din systemadministrator eller Internetleverandør."
 
 #~ msgid "minu_tes"
 #~ msgstr "minut_ter"
@@ -28378,8 +28190,8 @@ msgstr "Importeret certifikat"
 #~ "Evolution cannot render this email as it is too large to process. You can "
 #~ "view it unformatted or with an external text editor."
 #~ msgstr ""
-#~ "Evolution kan ikke vise dette e-brev da det er for stort til at håndtere. Du "
-#~ "kan se den uformateret eller med et eksternt tekstredigeringsprogram."
+#~ "Evolution kan ikke vise dette e-brev da det er for stort til at håndtere. "
+#~ "Du kan se den uformateret eller med et eksternt tekstredigeringsprogram."
 
 #~ msgid "Overdue:"
 #~ msgstr "Overskredet:"
@@ -28396,8 +28208,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "Digitally sign messages when original message signed (PGP or S/MIME)"
 #~ msgstr ""
-#~ "Signér breve digitalt, når det oprindelige brev er signeret (PGP eller "
-#~ "S/MIME)"
+#~ "Signér breve digitalt, når det oprindelige brev er signeret (PGP eller S/"
+#~ "MIME)"
 
 #~ msgid "Composer Window default width"
 #~ msgstr "Standardbredde for skrivevindue"
@@ -28411,7 +28223,7 @@ msgstr "Importeret certifikat"
 #~ msgid "Default height of the Composer Window."
 #~ msgstr "Standardhøjde af skrivevinduet."
 
-#~ # Der tales tidligere om en attribut for at brev i forbindelse med den linje som sættes ind lige før en citeret del af et brev i et andet brev. Jeg gætter indtil videre på at det er det er er tilfældet her og fejlmelder ved siden af.
+# Der tales tidligere om en attribut for at brev i forbindelse med den linje som sættes ind lige før en citeret del af et brev i et andet brev. Jeg gætter indtil videre på at det er det er er tilfældet her og fejlmelder ved siden af.
 #~ msgid "Attribute message."
 #~ msgstr "Brevattribut."
 
@@ -28419,8 +28231,8 @@ msgstr "Importeret certifikat"
 #~ "The text that is inserted when replying to a message, attributing the "
 #~ "message to the original author."
 #~ msgstr ""
-#~ "Teksten der indsættes når der svares på et brev, som tilskriver brevet den "
-#~ "oprindelige forfatter."
+#~ "Teksten der indsættes når der svares på et brev, som tilskriver brevet "
+#~ "den oprindelige forfatter."
 
 #~ msgid "Forward message."
 #~ msgstr "Videresend brev."
@@ -28436,16 +28248,16 @@ msgstr "Importeret certifikat"
 #~ msgstr "Oprindeligt brev."
 
 #~ msgid ""
-#~ "The text that is inserted when replying to a message (top posting), saying "
-#~ "that the original message follows."
+#~ "The text that is inserted when replying to a message (top posting), "
+#~ "saying that the original message follows."
 #~ msgstr ""
-#~ "Teksten der indsættes når der svares på brev (toppostering), som forklarer "
-#~ "at det videresendte brev følger."
+#~ "Teksten der indsættes når der svares på brev (toppostering), som "
+#~ "forklarer at det videresendte brev følger."
 
 #~ msgid ""
-#~ "This value can be an empty string, which means it'll use the system Picture "
-#~ "folder, usually set to ~/Pictures. This folder will be also used when the "
-#~ "set path is not pointing to the existent folder."
+#~ "This value can be an empty string, which means it'll use the system "
+#~ "Picture folder, usually set to ~/Pictures. This folder will be also used "
+#~ "when the set path is not pointing to the existent folder."
 #~ msgstr ""
 #~ "Denne værdi kan være den tomme streng, hvilket betyder at den vil bruge "
 #~ "system-Billedmappen, som regel indstillet til ~/Billeder. Denne mappe vil "
@@ -28456,9 +28268,9 @@ msgstr "Importeret certifikat"
 #~ "This setting specifies whether the threads should be in expanded or "
 #~ "collapsed state by default. Requires a restart to apply."
 #~ msgstr ""
-#~ "Denne valgmulighed angiver hvorvidt tråde skal være foldet ud eller klappet "
-#~ "sammen til at starte med. Der kræves en genstart før ændringen træder i "
-#~ "kraft."
+#~ "Denne valgmulighed angiver hvorvidt tråde skal være foldet ud eller "
+#~ "klappet sammen til at starte med. Der kræves en genstart før ændringen "
+#~ "træder i kraft."
 
 #~ msgid ""
 #~ "Describes whether message headers in paned view should be collapsed or "
@@ -28486,8 +28298,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Højde af vinduet “Mappeabonnementer”"
 
 #~ msgid ""
-#~ "Initial height of the \"Folder Subscriptions\" window. The value updates as "
-#~ "the user resizes the window vertically."
+#~ "Initial height of the \"Folder Subscriptions\" window. The value updates "
+#~ "as the user resizes the window vertically."
 #~ msgstr ""
 #~ "Højden af vinduet “Mappeabonnementer” ved start. Værdien opdateres når "
 #~ "brugeren ændrer vinduet lodret."
@@ -28498,21 +28310,22 @@ msgstr "Importeret certifikat"
 #~ msgid ""
 #~ "Initial maximize state of the \"Folder Subscriptions\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Folder Subscriptions\" "
-#~ "window cannot be maximized. This key exists only as an implementation detail."
+#~ "particular value is not used by Evolution since the \"Folder Subscriptions"
+#~ "\" window cannot be maximized. This key exists only as an implementation "
+#~ "detail."
 #~ msgstr ""
 #~ "Maksimeringstilstanden af vinduet “Mappeabonnementer” ved start. Værdien "
 #~ "opdateres når brugeren maksimerer eller af-maksimerer vinduet. Bemærk at "
-#~ "denne værdi ikke bruges af Evolution, eftersom vinduet “Mappeabonnementer” "
-#~ "ikke kan maksimeres. Nøglen eksisterer udelukkende som en "
-#~ "implementeringsdetalje."
+#~ "denne værdi ikke bruges af Evolution, eftersom vinduet "
+#~ "“Mappeabonnementer” ikke kan maksimeres. Nøglen eksisterer udelukkende "
+#~ "som en implementeringsdetalje."
 
 #~ msgid "\"Folder Subscriptions\" window width"
 #~ msgstr "Bredde af vinduet “Mappeabonnementer”"
 
 #~ msgid ""
-#~ "Initial width of the \"Folder Subscriptions\" window. The value updates as "
-#~ "the user resizes the window horizontally."
+#~ "Initial width of the \"Folder Subscriptions\" window. The value updates "
+#~ "as the user resizes the window horizontally."
 #~ msgstr ""
 #~ "Bredde af vinduet “Mappeabonnementer” ved start. Værdien opdateres når "
 #~ "brugeren ændrer vinduet vandret."
@@ -28529,11 +28342,12 @@ msgstr "Importeret certifikat"
 #~ msgstr "Liste over konti"
 
 #~ msgid ""
-#~ "List of accounts known to the mail component of Evolution. The list contains "
-#~ "strings naming subdirectories relative to /apps/evolution/mail/accounts."
+#~ "List of accounts known to the mail component of Evolution. The list "
+#~ "contains strings naming subdirectories relative to /apps/evolution/mail/"
+#~ "accounts."
 #~ msgstr ""
-#~ "Liste over konti som Evolutions e-mail-komponent kender. Listen indeholder "
-#~ "navnene på undermapperne i /apps/evolution/mail/accounts."
+#~ "Liste over konti som Evolutions e-mail-komponent kender. Listen "
+#~ "indeholder navnene på undermapperne i /apps/evolution/mail/accounts."
 
 #~ msgid "List of accepted licenses"
 #~ msgstr "Liste over accepterede licenser"
@@ -28557,8 +28371,8 @@ msgstr "Importeret certifikat"
 #~ msgid ""
 #~ "Initial maximize state of the \"Filter Editor\" window. The value updates "
 #~ "when the user maximizes or unmaximizes the window. Note, this particular "
-#~ "value is not used by Evolution since the \"Filter Editor\" window cannot be "
-#~ "maximized. This key exists only as an implementation detail."
+#~ "value is not used by Evolution since the \"Filter Editor\" window cannot "
+#~ "be maximized. This key exists only as an implementation detail."
 #~ msgstr ""
 #~ "Maksimeringstilstanden af vinduet “Filterredigering” ved start. Værdien "
 #~ "opdateres når brugeren maksimerer eller af-maksimerer vinduet. Bemærk at "
@@ -28570,38 +28384,39 @@ msgstr "Importeret certifikat"
 #~ msgstr "Bredde af vinduet “Filterredigering”"
 
 #~ msgid ""
-#~ "Initial width of the \"Filter Editor\" window. The value updates as the user "
-#~ "resizes the window horizontally."
+#~ "Initial width of the \"Filter Editor\" window. The value updates as the "
+#~ "user resizes the window horizontally."
 #~ msgstr ""
 #~ "Bredde af vinduet “Filterredigering” ved start. Værdien opdateres når "
 #~ "brugeren ændrer vinduet vandret."
 
 #~ msgid ""
-#~ "Whether check for new messages when Evolution is started. This includes also "
-#~ "sending messages from Outbox."
+#~ "Whether check for new messages when Evolution is started. This includes "
+#~ "also sending messages from Outbox."
 #~ msgstr ""
-#~ "Hvorvidt Evolution skal kontrollere om der er nye breve ved opstart. Dette "
-#~ "inkluderer at sende breve fra udbakken."
+#~ "Hvorvidt Evolution skal kontrollere om der er nye breve ved opstart. "
+#~ "Dette inkluderer at sende breve fra udbakken."
 
 #~ msgid ""
 #~ "Whether check for new messages in all active accounts regardless of the "
-#~ "account \"Check for new messages every X minutes\" option when Evolution is "
-#~ "started. This option is used only together with 'send_recv_on_start' option."
+#~ "account \"Check for new messages every X minutes\" option when Evolution "
+#~ "is started. This option is used only together with 'send_recv_on_start' "
+#~ "option."
 #~ msgstr ""
-#~ "Hvorvidt der skal kontrolleres om der er nye breve i alle aktive konti når "
-#~ "Evolution startes, uafhængigt af disse kontis “Kontrollér om der er nye "
-#~ "breve hver X minutter”-indstilling. Denne indstilling bruges kun sammen med "
-#~ "indstillingen “send_recv_on_start”."
+#~ "Hvorvidt der skal kontrolleres om der er nye breve i alle aktive konti "
+#~ "når Evolution startes, uafhængigt af disse kontis “Kontrollér om der er "
+#~ "nye breve hver X minutter”-indstilling. Denne indstilling bruges kun "
+#~ "sammen med indstillingen “send_recv_on_start”."
 
 #~ msgid "\"Send and Receive Mail\" window height"
 #~ msgstr "Højde af “Send og modtag e-mail”-vindue"
 
 #~ msgid ""
-#~ "Initial height of the \"Send and Receive Mail\" window. The value updates as "
-#~ "the user resizes the window vertically."
+#~ "Initial height of the \"Send and Receive Mail\" window. The value updates "
+#~ "as the user resizes the window vertically."
 #~ msgstr ""
-#~ "Højden af “Send og modtag e-mail”-vinduet ved start. Værdien opdateres når "
-#~ "brugeren ændrer vinduet lodret."
+#~ "Højden af “Send og modtag e-mail”-vinduet ved start. Værdien opdateres "
+#~ "når brugeren ændrer vinduet lodret."
 
 #~ msgid "\"Send and Receive Mail\" window maximize state"
 #~ msgstr "Maksimeringstilstand for “Send og modtag e-mail”-vindue"
@@ -28610,12 +28425,12 @@ msgstr "Importeret certifikat"
 #~ "Initial maximize state of the \"Send and Receive Mail\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
 #~ "particular value is not used by Evolution since the \"Send and Receive "
-#~ "Mail\" window cannot be maximized. This key exists only as an implementation "
-#~ "detail."
+#~ "Mail\" window cannot be maximized. This key exists only as an "
+#~ "implementation detail."
 #~ msgstr ""
-#~ "Maksimeringstilstanden af “Send og modtag e-mail”-vinduet ved start. Værdien "
-#~ "opdateres når brugeren maksimerer eller af-maksimerer vinduet. Bemærk at "
-#~ "denne værdi ikke bruges af Evolution, eftersom “Send og modtag "
+#~ "Maksimeringstilstanden af “Send og modtag e-mail”-vinduet ved start. "
+#~ "Værdien opdateres når brugeren maksimerer eller af-maksimerer vinduet. "
+#~ "Bemærk at denne værdi ikke bruges af Evolution, eftersom “Send og modtag "
 #~ "e-mail”-vinduet ikke kan maksimeres. Nøglen eksisterer udelukkende som en "
 #~ "implementeringsdetalje."
 
@@ -28623,18 +28438,18 @@ msgstr "Importeret certifikat"
 #~ msgstr "Bredde af “Send og modtag e-mail”-vindue"
 
 #~ msgid ""
-#~ "Initial width of the \"Send and Receive Mail\" window. The value updates as "
-#~ "the user resizes the window horizontally."
+#~ "Initial width of the \"Send and Receive Mail\" window. The value updates "
+#~ "as the user resizes the window horizontally."
 #~ msgstr ""
-#~ "Bredde af “Send og modtag e-mail”-vinduet ved start. Værdien opdateres når "
-#~ "brugeren ændrer vinduet vandret."
+#~ "Bredde af “Send og modtag e-mail”-vinduet ved start. Værdien opdateres "
+#~ "når brugeren ændrer vinduet vandret."
 
 #~ msgid "\"Search Folder Editor\" window height"
 #~ msgstr "Højde af vinduet “Søgemapperedigering”"
 
 #~ msgid ""
-#~ "Initial height of the \"Search Folder Editor\" window. The value updates as "
-#~ "the user resizes the window vertically."
+#~ "Initial height of the \"Search Folder Editor\" window. The value updates "
+#~ "as the user resizes the window vertically."
 #~ msgstr ""
 #~ "Højden af vinduet “Søgemapperedigering” ved start. Værdien opdateres når "
 #~ "brugeren ændrer vinduet lodret."
@@ -28645,21 +28460,22 @@ msgstr "Importeret certifikat"
 #~ msgid ""
 #~ "Initial maximize state of the \"Search Folder Editor\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
-#~ "particular value is not used by Evolution since the \"Search Folder Editor\" "
-#~ "window cannot be maximized. This key exists only as an implementation detail."
+#~ "particular value is not used by Evolution since the \"Search Folder Editor"
+#~ "\" window cannot be maximized. This key exists only as an implementation "
+#~ "detail."
 #~ msgstr ""
-#~ "Maksimeringstilstanden af vinduet “Søgemapperedigering” ved start. Værdien "
-#~ "opdateres når brugeren maksimerer eller af-maksimerer vinduet. Bemærk at "
-#~ "denne værdi ikke bruges af Evolution, eftersom vinduet “Søgemapperedigering” "
-#~ "ikke kan maksimeres. Nøglen eksisterer udelukkende som en "
-#~ "implementeringsdetalje."
+#~ "Maksimeringstilstanden af vinduet “Søgemapperedigering” ved start. "
+#~ "Værdien opdateres når brugeren maksimerer eller af-maksimerer vinduet. "
+#~ "Bemærk at denne værdi ikke bruges af Evolution, eftersom vinduet "
+#~ "“Søgemapperedigering” ikke kan maksimeres. Nøglen eksisterer udelukkende "
+#~ "som en implementeringsdetalje."
 
 #~ msgid "\"Search Folder Editor\" window width"
 #~ msgstr "Bredde af vinduet “Søgemapperedigering”"
 
 #~ msgid ""
-#~ "Initial width of the \"Search Folder Editor\" window. The value updates as "
-#~ "the user resizes the window horizontally."
+#~ "Initial width of the \"Search Folder Editor\" window. The value updates "
+#~ "as the user resizes the window horizontally."
 #~ msgstr ""
 #~ "Bredde af vinduet “Søgemapperedigering” ved start. Værdien opdateres når "
 #~ "brugeren ændrer vinduet vandret."
@@ -28668,8 +28484,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Træk-og-slip eksport-formatttttt"
 
 #~ msgid ""
-#~ "Define the email export format when doing drag'n'drop. Possible values are "
-#~ "mbox or pdf"
+#~ "Define the email export format when doing drag'n'drop. Possible values "
+#~ "are mbox or pdf"
 #~ msgstr ""
 #~ "Indstil eksport-formatet for breve, når de trækkes og slippes. Mulige "
 #~ "værdier er mbox eller pdf"
@@ -28678,11 +28494,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "Format for træk-og-slip-eksporteret filnavn"
 
 #~ msgid ""
-#~ "Exported filename will be YYYYmmDDHHMMSS_email_title Possible values: 1 (: "
-#~ "email sent date), 2 (: drag'n'drop date)"
+#~ "Exported filename will be YYYYmmDDHHMMSS_email_title Possible values: 1 "
+#~ "(: email sent date), 2 (: drag'n'drop date)"
 #~ msgstr ""
-#~ "Eksporteret filnavn vil være ÅÅÅÅmmDDTTMMSS_brev_titel Mulige værdier: 1 (: "
-#~ "brev sendt dato), 2 (: træk-og-slip dato)"
+#~ "Eksporteret filnavn vil være ÅÅÅÅmmDDTTMMSS_brev_titel Mulige værdier: 1 "
+#~ "(: brev sendt dato), 2 (: træk-og-slip dato)"
 
 #~ msgid "_Add Signature"
 #~ msgstr "_Tilføj signatur"
@@ -28769,10 +28585,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "Signaturen findes allerede"
 
 #~ msgid ""
-#~ "A signature already exists with the name \"{0}\". Please specify a different "
-#~ "name."
+#~ "A signature already exists with the name \"{0}\". Please specify a "
+#~ "different name."
 #~ msgstr ""
-#~ "En signatur med navnet “{0}” findes allerede. Angiv venligst et andet navn."
+#~ "En signatur med navnet “{0}” findes allerede. Angiv venligst et andet "
+#~ "navn."
 
 #~ msgid ""
 #~ "No message satisfies your search criteria. Either clear search with "
@@ -28796,22 +28613,22 @@ msgstr "Importeret certifikat"
 #~ "din LDAP-server hvis den understøtter TLS."
 
 #~ msgid ""
-#~ "Selecting this option means that your server does not support either SSL or "
-#~ "TLS. This means that your connection will be insecure, and that you will be "
-#~ "vulnerable to security exploits."
+#~ "Selecting this option means that your server does not support either SSL "
+#~ "or TLS. This means that your connection will be insecure, and that you "
+#~ "will be vulnerable to security exploits."
 #~ msgstr ""
 #~ "At vælge dette indstilling betyder at din server hverken understøtter SSL "
 #~ "eller TLS. Dette betyder at din forbindelse vil være usikker, og at du "
 #~ "bliver sårbar overfor angreb."
 
 #~ msgid ""
-#~ "This is the port on the LDAP server that Evolution will try to connect to. A "
-#~ "list of standard ports has been provided. Ask your system administrator what "
-#~ "port you should specify."
+#~ "This is the port on the LDAP server that Evolution will try to connect "
+#~ "to. A list of standard ports has been provided. Ask your system "
+#~ "administrator what port you should specify."
 #~ msgstr ""
-#~ "Dette er den port på LDAP-serveren som Evolution vil forsøge at tilslutte. "
-#~ "En liste over standardporte er givet. Spørg din systemadministrator hvilken "
-#~ "port du skal bruge."
+#~ "Dette er den port på LDAP-serveren som Evolution vil forsøge at "
+#~ "tilslutte. En liste over standardporte er givet. Spørg din "
+#~ "systemadministrator hvilken port du skal bruge."
 
 #~ msgid "EFolderList XML for the list of completion URIs"
 #~ msgstr "EFolderList-xml for listen med adresser der kan fuldføres"
@@ -28820,8 +28637,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "EFolderList-xml for listen med adresser der kan fuldføres."
 
 #~ msgid ""
-#~ "The UID of the selected (or \"primary\") address book in the sidebar of the "
-#~ "\"Contacts\" view."
+#~ "The UID of the selected (or \"primary\") address book in the sidebar of "
+#~ "the \"Contacts\" view."
 #~ msgstr ""
 #~ "UID'en for den valgte (eller “primære”) adressebog i sidepanelet for "
 #~ "visningen af “Kontaktperson”."
@@ -28842,15 +28659,16 @@ msgstr "Importeret certifikat"
 #~ "Den forvalgte tidszone til brug for datoer og tid i kalenderen, som et "
 #~ "uoversat Olsen-tidszone-database-sted ligesom “America/New York”."
 
-#~ msgid "Use the system timezone instead of the timezone selected in Evolution."
+#~ msgid ""
+#~ "Use the system timezone instead of the timezone selected in Evolution."
 #~ msgstr "Brug systemets tidszone i stedet for den som er valgt i Evolution."
 
 #~ msgid ""
 #~ "Shows the second time zone in a Day View, if set. Value is similar to one "
 #~ "used in a 'timezone' key."
 #~ msgstr ""
-#~ "Vis den sekundære tidszone i dagsvisningen, hvis angivet. Værdier er ligesom "
-#~ "de, der bliver brugt i “timezone”-nøglen."
+#~ "Vis den sekundære tidszone i dagsvisningen, hvis angivet. Værdier er "
+#~ "ligesom de, der bliver brugt i “timezone”-nøglen."
 
 #~ msgid "List of recently used second time zones in a Day View."
 #~ msgstr "Liste af nyligt brugte sekundære tidszoner i dagsvisning."
@@ -28876,14 +28694,16 @@ msgstr "Importeret certifikat"
 #~ msgstr "Timen hvorpå arbejdsdagen slutter, i 24-timers-format, 0 - 23."
 
 #~ msgid "Intervals shown in Day and Work Week views, in minutes."
-#~ msgstr "Tidsintervaller der vises i dag- og arbejdsugeoversigter, i minutter."
+#~ msgstr ""
+#~ "Tidsintervaller der vises i dag- og arbejdsugeoversigter, i minutter."
 
 #~ msgid ""
-#~ "Position of the horizontal pane, between the date navigator calendar and the "
-#~ "task list when not in the month view, in pixels."
+#~ "Position of the horizontal pane, between the date navigator calendar and "
+#~ "the task list when not in the month view, in pixels."
 #~ msgstr ""
 #~ "Placering i billedpunkter af den vandrette rude mellem kalenderen til "
-#~ "dato-navigering og opgavelisten når man ikke befinder sig i månedsoversigten."
+#~ "dato-navigering og opgavelisten når man ikke befinder sig i "
+#~ "månedsoversigten."
 
 #~ msgid "Vertical pane position"
 #~ msgstr "Rudens lodrette placering"
@@ -28892,11 +28712,11 @@ msgstr "Importeret certifikat"
 #~ "Position of the vertical pane, between the view and the date navigator "
 #~ "calendar and task list when not in the month view, in pixels."
 #~ msgstr ""
-#~ "Placeringen i billedpunkter af den lodrette rude, mellem "
-#~ "oversigten,kalenderen til datonavigering og opgavelisten når denne ikke er i "
+#~ "Placeringen i billedpunkter af den lodrette rude, mellem oversigten,"
+#~ "kalenderen til datonavigering og opgavelisten når denne ikke er i "
 #~ "månedsoversigten."
 
-#~ # "between the view and .." Hvilket "view" er der tale om? -MBJ
+# "between the view and .." Hvilket "view" er der tale om? -MBJ
 #~ msgid ""
 #~ "Position of the horizontal pane, between the view and the date navigator "
 #~ "calendar and task list in the month view, in pixels."
@@ -28908,8 +28728,8 @@ msgstr "Importeret certifikat"
 #~ "Position of the vertical pane, between the view and the date navigator "
 #~ "calendar and task list in the month view, in pixels."
 #~ msgstr ""
-#~ "Placeringen i billedpunkter i månedsoversigten af den lodrette rude, mellem "
-#~ "oversigten, kalenderen til datonavigering og opgavelisten."
+#~ "Placeringen i billedpunkter i månedsoversigten af den lodrette rude, "
+#~ "mellem oversigten, kalenderen til datonavigering og opgavelisten."
 
 #~ msgid ""
 #~ "Position of the vertical pane, between the calendar lists and the date "
@@ -28928,8 +28748,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "If \"true\", show the task preview pane in the main window."
 #~ msgstr ""
-#~ "Hvis sat til “true” vil ruden til forhåndsvisning af opgaver bliver vist i "
-#~ "hovedvinduet."
+#~ "Hvis sat til “true” vil ruden til forhåndsvisning af opgaver bliver vist "
+#~ "i hovedvinduet."
 
 #~ msgid "Position of the task preview pane when oriented vertically."
 #~ msgstr ""
@@ -28939,19 +28759,21 @@ msgstr "Importeret certifikat"
 #~ "Whether to compress weekends in the month view, which puts Saturday and "
 #~ "Sunday in the space of one weekday."
 #~ msgstr ""
-#~ "Om weekender skal komprimeres i månedsoversigten, hvilket vil give lørdag og "
-#~ "søndag samme plads som en enkelt ugedag."
+#~ "Om weekender skal komprimeres i månedsoversigten, hvilket vil give lørdag "
+#~ "og søndag samme plads som en enkelt ugedag."
 
 #~ msgid "Days on which the start and end of work hours should be indicated."
 #~ msgstr "Dage hvor start og slut på arbejdstimerne skal indikeres."
 
 #~ msgid ""
-#~ "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+#~ "Whether to draw the Marcus Bains Line (line at current time) in the "
+#~ "calendar."
 #~ msgstr ""
 #~ "Om Marcus Bains-linjen (linje ved aktuel tid) skal tegnes i kalenderen."
 
 #~ msgid "Color to draw the Marcus Bains line in the Day View."
-#~ msgstr "Farven der bruges til at tegne Marcus Bains-linjen i dagsoversigten."
+#~ msgstr ""
+#~ "Farven der bruges til at tegne Marcus Bains-linjen i dagsoversigten."
 
 #~ msgid ""
 #~ "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
@@ -28962,14 +28784,15 @@ msgstr "Importeret certifikat"
 #~ msgid ""
 #~ "Show days with recurrent events in italic font in bottom left calendar."
 #~ msgstr ""
-#~ "Vis dage med tilbagevendende begivenheder med kursiv skrifttype i kalenderen "
-#~ "nederst til venstre."
+#~ "Vis dage med tilbagevendende begivenheder med kursiv skrifttype i "
+#~ "kalenderen nederst til venstre."
 
 #~ msgid ""
-#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+#~ "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
+#~ "\"."
 #~ msgstr ""
-#~ "Enheder for at bestemme når opgaver skal skjules, “minutes”, “hours” eller "
-#~ "“days”."
+#~ "Enheder for at bestemme når opgaver skal skjules, “minutes”, “hours” "
+#~ "eller “days”."
 
 #~ msgid "Number of units for determining when to hide tasks."
 #~ msgstr "Antal enheder for at bestemme hvornår opgaver skal skjules."
@@ -28979,14 +28802,16 @@ msgstr "Importeret certifikat"
 
 #~ msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 #~ msgstr ""
-#~ "Baggrundsfarve for opgaver der tidsmæssigt er overskredet, i "
-#~ "“#rrggbb”-format."
+#~ "Baggrundsfarve for opgaver der tidsmæssigt er overskredet, i “#rrggbb”-"
+#~ "format."
 
-#~ msgid "Whether to ask for confirmation when deleting an appointment or task."
+#~ msgid ""
+#~ "Whether to ask for confirmation when deleting an appointment or task."
 #~ msgstr ""
 #~ "Om der spørges efter bekræftelse ved sletning af aftaler eller opgaver."
 
-#~ msgid "Whether to ask for confirmation when expunging appointments and tasks."
+#~ msgid ""
+#~ "Whether to ask for confirmation when expunging appointments and tasks."
 #~ msgstr ""
 #~ "Om der spørges efter bekræftelse ved sletning af aftaler eller opgaver."
 
@@ -28997,21 +28822,23 @@ msgstr "Importeret certifikat"
 #~ msgstr "Antal enheder til bestemmelse for en standardpåmindelse."
 
 #~ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-#~ msgstr "Enheder for en forvalgt påmindelse, “minutes”, “hours” eller “days”."
+#~ msgstr ""
+#~ "Enheder for en forvalgt påmindelse, “minutes”, “hours” eller “days”."
 
 #~ msgid "Whether to set a reminder for birthdays and anniversaries."
 #~ msgstr "Om fødseldag og jubilæer skal have en påmindelse."
 
 #~ msgid "Number of units for determining a birthday or anniversary reminder."
 #~ msgstr ""
-#~ "Antal enheder til bestemmelse af en påmindelse om fødselsdag eller jubilæum."
+#~ "Antal enheder til bestemmelse af en påmindelse om fødselsdag eller "
+#~ "jubilæum."
 
 #~ msgid ""
 #~ "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 #~ "\"days\"."
 #~ msgstr ""
-#~ "Enheder for en påmindelse om fødselsdag eller jubilæum, “minutes”, “hours” "
-#~ "eller “days”."
+#~ "Enheder for en påmindelse om fødselsdag eller jubilæum, “minutes”, "
+#~ "“hours” eller “days”."
 
 #~ msgid "Whether to show week numbers in various places in the Calendar."
 #~ msgstr "Om ugenumre skal vises forskellige steder i kalenderen."
@@ -29029,12 +28856,12 @@ msgstr "Importeret certifikat"
 #~ msgstr "Server-adresser ved ledig/optaget"
 
 #~ msgid ""
-#~ "The URL template to use as a free/busy data fallback, %u is replaced by the "
-#~ "user part of the mail address and %d is replaced by the domain."
+#~ "The URL template to use as a free/busy data fallback, %u is replaced by "
+#~ "the user part of the mail address and %d is replaced by the domain."
 #~ msgstr ""
-#~ "Adresseskabelonen der skal bruges som ledig/optaget-data, ved tilbagefald, "
-#~ "%u udskiftes med brugerdelen af e-mailadressen, mens %d udskiftes med "
-#~ "domænet."
+#~ "Adresseskabelonen der skal bruges som ledig/optaget-data, ved "
+#~ "tilbagefald, %u udskiftes med brugerdelen af e-mailadressen, mens %d "
+#~ "udskiftes med domænet."
 
 #~ msgid "On The Web"
 #~ msgstr "På webbet"
@@ -29225,8 +29052,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "Enter password for user %s to access list of subscribed calendars."
 #~ msgstr ""
-#~ "Indtast kodeordet for brugeren %s for at få adgang til listen af kalendere "
-#~ "som der abonneres på."
+#~ "Indtast kodeordet for brugeren %s for at få adgang til listen af "
+#~ "kalendere som der abonneres på."
 
 #~ msgid ""
 #~ "Cannot read data from Google server.\n"
@@ -29303,8 +29130,8 @@ msgstr "Importeret certifikat"
 #~ msgid ""
 #~ "List of paths for the folders to be synchronized to disk for offline usage"
 #~ msgstr ""
-#~ "Liste over stier til mapper, der skal synkroniseres til disken til offline "
-#~ "brug"
+#~ "Liste over stier til mapper, der skal synkroniseres til disken til "
+#~ "offline brug"
 
 #~ msgid "Default window Y coordinate"
 #~ msgstr "Normalvindue Y-koordinat"
@@ -29344,18 +29171,18 @@ msgstr "Importeret certifikat"
 #~ msgstr ""
 #~ "Vælg proxykonfigurationstilstanden. Understøttede værdier er 0, 1, 2 og 3 "
 #~ "som respektivt repræsenterer “brug systemindstillinger”, “ingen proxy”, "
-#~ "“brug manuel proxykonfiguration” og “brug proxykonfiguration som er givet i "
-#~ "autoconfig-URL'en”."
+#~ "“brug manuel proxykonfiguration” og “brug proxykonfiguration som er givet "
+#~ "i autoconfig-URL'en”."
 
 #~ msgid "HTTP proxy port"
 #~ msgstr "HTTP-proxyport"
 
 #~ msgid ""
-#~ "The port on the machine defined by "
-#~ "\"/apps/evolution/shell/network_config/http_host\" that you proxy through."
+#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
+#~ "http_host\" that you proxy through."
 #~ msgstr ""
-#~ "Porten på maskinen, defineret ved "
-#~ "“/apps/evolution/shell/network_config/http_host”, der fungerer som proxy."
+#~ "Porten på maskinen, defineret ved “/apps/evolution/shell/network_config/"
+#~ "http_host”, der fungerer som proxy."
 
 #~ msgid "HTTP proxy host name"
 #~ msgstr "HTTP-proxyværtsnavn"
@@ -29367,11 +29194,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "Sikker HTTP-proxyport"
 
 #~ msgid ""
-#~ "The port on the machine defined by "
-#~ "\"/apps/evolution/shell/network_config/secure_host\" that you proxy through."
+#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
+#~ "secure_host\" that you proxy through."
 #~ msgstr ""
-#~ "Porten på maskinen, defineret ved "
-#~ "“/apps/evolution/shell/network_config/secure_host”, der fungerer som proxy."
+#~ "Porten på maskinen, defineret ved “/apps/evolution/shell/network_config/"
+#~ "secure_host”, der fungerer som proxy."
 
 #~ msgid "Secure HTTP proxy host name"
 #~ msgstr "Sikker HTTP-proxyværtnavn"
@@ -29383,11 +29210,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "SOCKS-proxyværtport"
 
 #~ msgid ""
-#~ "The port on the machine defined by "
-#~ "\"/apps/evolution/shell/network_config/socks_host\" that you proxy through."
+#~ "The port on the machine defined by \"/apps/evolution/shell/network_config/"
+#~ "socks_host\" that you proxy through."
 #~ msgstr ""
-#~ "Porten på maskinen, defineret ved "
-#~ "“/apps/evolution/shell/network_config/socks_host”, der fungerer som proxy."
+#~ "Porten på maskinen, defineret ved “/apps/evolution/shell/network_config/"
+#~ "socks_host”, der fungerer som proxy."
 
 #~ msgid "SOCKS proxy host name"
 #~ msgstr "SOCKS-proxyværtsnavn"
@@ -29399,7 +29226,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Brug HTTP-proxy"
 
 #~ msgid ""
-#~ "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
+#~ "Enables the proxy settings when accessing HTTP/Secure HTTP over the "
+#~ "Internet."
 #~ msgstr ""
 #~ "Slår proxyindstillingerne til ved tilgang til HTTP/sikker HTTP over "
 #~ "internettet."
@@ -29409,16 +29237,14 @@ msgstr "Importeret certifikat"
 
 #~ msgid ""
 #~ "If true, then connections to the proxy server require authentication. The "
-#~ "username is retrieved from the "
-#~ "\"/apps/evolution/shell/network_config/authentication_user\" GConf key, and "
-#~ "the password is retrieved from either gnome-keyring or the "
-#~ "~/.gnome2_private/Evolution password file."
+#~ "username is retrieved from the \"/apps/evolution/shell/network_config/"
+#~ "authentication_user\" GConf key, and the password is retrieved from "
+#~ "either gnome-keyring or the ~/.gnome2_private/Evolution password file."
 #~ msgstr ""
-#~ "Hvis sand så vil der kræves godkendelse for forbindelsen til proxyserveren. "
-#~ "Brugernavnet hentes fra "
-#~ "“/apps/evolution/shell/network_config/authentication_user”-GConfnøglen og "
-#~ "kodeordet hentes enten fra gnome-keyring eller "
-#~ "“~/.gnome2_private/Evolution”-kodeordsfilen."
+#~ "Hvis sand så vil der kræves godkendelse for forbindelsen til "
+#~ "proxyserveren. Brugernavnet hentes fra “/apps/evolution/shell/"
+#~ "network_config/authentication_user”-GConfnøglen og kodeordet hentes enten "
+#~ "fra gnome-keyring eller “~/.gnome2_private/Evolution”-kodeordsfilen."
 
 #~ msgid "HTTP proxy username"
 #~ msgstr "HTTP-proxybrugernavn"
@@ -29437,15 +29263,16 @@ msgstr "Importeret certifikat"
 
 #~ msgid ""
 #~ "This key contains a list of hosts which are connected to directly, rather "
-#~ "than via the proxy (if it is active). The values can be hostnames, domains "
-#~ "(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
-#~ "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
-#~ msgstr ""
-#~ "Denne nøgle indeholder en liste af værter som der forbindes til direkte, i "
-#~ "stedet for via proxy (hvis den er aktiv). Værdierne kan være værtsnavne, "
-#~ "domæner (ved brug af en asterisk som i *.foo.com), IP-værtsadresser (både "
-#~ "IPv4 og IPv6) og netværksadresser med en netmaske (sådan noget som "
+#~ "than via the proxy (if it is active). The values can be hostnames, "
+#~ "domains (using an initial wildcard like *.foo.com), IP host addresses "
+#~ "(both IPv4 and IPv6) and network addresses with a netmask (something like "
 #~ "192.168.0.0/24)."
+#~ msgstr ""
+#~ "Denne nøgle indeholder en liste af værter som der forbindes til direkte, "
+#~ "i stedet for via proxy (hvis den er aktiv). Værdierne kan være "
+#~ "værtsnavne, domæner (ved brug af en asterisk som i *.foo.com), IP-"
+#~ "værtsadresser (både IPv4 og IPv6) og netværksadresser med en netmaske "
+#~ "(sådan noget som 192.168.0.0/24)."
 
 #~ msgid "Automatic proxy configuration URL"
 #~ msgstr "URL til automatisk proxykonfiguration"
@@ -29460,8 +29287,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Er du sikker på, at du vil glemme alle huskede adgangskoder?"
 
 #~ msgid ""
-#~ "Forgetting your passwords will clear all remembered passwords. You will be "
-#~ "reprompted next time they are needed."
+#~ "Forgetting your passwords will clear all remembered passwords. You will "
+#~ "be reprompted next time they are needed."
 #~ msgstr ""
 #~ "Hvis du “glemmer” dine adgangskoder, vil alle huskede adgangskoder blive "
 #~ "fjernet.  Du vil blive spurgt igen, næste gang der er brug for dem."
@@ -29534,13 +29361,13 @@ msgstr "Importeret certifikat"
 #~ msgstr "Overflytter mapper"
 
 #~ msgid ""
-#~ "The summary format of the Evolution mailbox folders has been moved to SQLite "
-#~ "since Evolution 2.24.\n"
+#~ "The summary format of the Evolution mailbox folders has been moved to "
+#~ "SQLite since Evolution 2.24.\n"
 #~ "\n"
 #~ "Please be patient while Evolution migrates your folders..."
 #~ msgstr ""
-#~ "Sammendragsformatet for Evolution e-mail-brevbakkerne er blevet flyttet til "
-#~ "SQLite siden Evolution 2.24.\n"
+#~ "Sammendragsformatet for Evolution e-mail-brevbakkerne er blevet flyttet "
+#~ "til SQLite siden Evolution 2.24.\n"
 #~ "\n"
 #~ "Vent venligst mens Evolution flytter dine mapper …"
 
@@ -29548,11 +29375,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "Te_gnkodning:"
 
 #~ msgid ""
-#~ "A read receipt notification has been requested for \"{1}\". Send the receipt "
-#~ "notification to {0}?"
+#~ "A read receipt notification has been requested for \"{1}\". Send the "
+#~ "receipt notification to {0}?"
 #~ msgstr ""
-#~ "En kvittering for at brevet er blevet åbnet, er blevet forespurgt for “{1}”. "
-#~ "Send kvitteringen til {0}?"
+#~ "En kvittering for at brevet er blevet åbnet, er blevet forespurgt for "
+#~ "“{1}”. Send kvitteringen til {0}?"
 
 #~ msgid "Read receipt requested."
 #~ msgstr "Der anmodes om kvittering for at brevet er blevet åbnet."
@@ -29707,7 +29534,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "Add a map showing the location of contacts when possible."
 #~ msgstr ""
-#~ "Tilføjer et kort som viser placeringen af kontaktpersoner, når det er muligt."
+#~ "Tilføjer et kort som viser placeringen af kontaktpersoner, når det er "
+#~ "muligt."
 
 #~ msgid "Map for contacts"
 #~ msgstr "Kort over kontaktpersoner"
@@ -29790,8 +29618,8 @@ msgstr "Importeret certifikat"
 #~ "Retracting a message may remove it from the recipient's mailbox. Are you "
 #~ "sure you want to do this?"
 #~ msgstr ""
-#~ "At tilbagetrække en besked kan fjerne den fra modtagerens brevbakke. Er du "
-#~ "sikker på, at du ønsker at gøre dette?"
+#~ "At tilbagetrække en besked kan fjerne den fra modtagerens brevbakke. Er "
+#~ "du sikker på, at du ønsker at gøre dette?"
 
 #~ msgid "Message retracted successfully"
 #~ msgstr "Brevet blev tilbagetrukket"
@@ -29814,7 +29642,8 @@ msgstr "Importeret certifikat"
 #~ msgid "The server did not allow the selected message to be retracted."
 #~ msgstr "Serveren tillod ikke at det valgte brev kunne tilbagetrækkes."
 
-#~ msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
+#~ msgid ""
+#~ "Account &quot;{0}&quot; already exists. Please check your folder tree."
 #~ msgstr ""
 #~ "Kontoen &quot;{0}&quot; findes allerede. Kontrollér venligst dit mappetræ."
 
@@ -29828,8 +29657,8 @@ msgstr "Importeret certifikat"
 #~ "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 #~ "address and try again."
 #~ msgstr ""
-#~ "Proxylogind som &quot;{0}&quot lykkedes ikke. Kontrollér venligst din "
-#~ "e-post-adresse og prøv igen."
+#~ "Proxylogind som &quot;{0}&quot lykkedes ikke. Kontrollér venligst din e-"
+#~ "post-adresse og prøv igen."
 
 #~ msgid "Proxy access cannot be given to user &quot;{0}&quot;"
 #~ msgstr "Proxyadgang kan ikke gives til bruger &quot;{0}&quot;"
@@ -29841,7 +29670,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Du har allerede tildelt denne bruger proxytilladelser."
 
 #~ msgid "You have to specify a valid user name to give proxy rights."
-#~ msgstr "Du skal angive et gyldigt brugernavn for at tildele proxyrettigheder."
+#~ msgstr ""
+#~ "Du skal angive et gyldigt brugernavn for at tildele proxyrettigheder."
 
 #~ msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
 #~ msgstr "Du kan ikke dele denne mappe med den anførte bruger &quot;{0}&quot;"
@@ -29872,8 +29702,8 @@ msgstr "Importeret certifikat"
 #~ "This will create a new meeting with the existing meeting details. The "
 #~ "recurrence rule needs to be re-entered."
 #~ msgstr ""
-#~ "Dette vil danne et nye møde, som vil have det eksisterende mødes detaljer. "
-#~ "Reglen for gentagelse af mødet skal tastes ind igen."
+#~ "Dette vil danne et nye møde, som vil have det eksisterende mødes "
+#~ "detaljer. Reglen for gentagelse af mødet skal tastes ind igen."
 
 #~ msgid "Would you like to accept it?"
 #~ msgstr "Accepterer du?"
@@ -29936,7 +29766,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Proxy-fanebladet vil kun være tilgængeligt når kontoen er online."
 
 #~ msgid "The Proxy tab will be available only when the account is enabled."
-#~ msgstr "Proxy-fanebladet vil kun være tilgængeligt når kontoen er aktiveret."
+#~ msgstr ""
+#~ "Proxy-fanebladet vil kun være tilgængeligt når kontoen er aktiveret."
 
 #~ msgctxt "GW"
 #~ msgid "Proxy"
@@ -30023,8 +29854,8 @@ msgstr "Importeret certifikat"
 #~ "Selected memo list contains some memos for the given mails already. Would "
 #~ "you like to create new memos anyway?"
 #~ msgstr ""
-#~ "Den valgte memoliste indeholder allerede nogle memoer for de angivne breve. "
-#~ "Vil du oprette nye memoer alligevel?"
+#~ "Den valgte memoliste indeholder allerede nogle memoer for de angivne "
+#~ "breve. Vil du oprette nye memoer alligevel?"
 
 #~ msgid ""
 #~ "Selected calendar contains an event for the given mail already. Would you "
@@ -30033,8 +29864,8 @@ msgstr "Importeret certifikat"
 #~ "Selected calendar contains events for the given mails already. Would you "
 #~ "like to create new events anyway?"
 #~ msgstr[0] ""
-#~ "Den valgte kalender indeholder allerede en begivenhed for det angivne brev. "
-#~ "Vil du oprette de nye begivenheder alligevel?"
+#~ "Den valgte kalender indeholder allerede en begivenhed for det angivne "
+#~ "brev. Vil du oprette de nye begivenheder alligevel?"
 #~ msgstr[1] ""
 #~ "Den valgte kalender indeholder allerede nogle begivenheder for de angivne "
 #~ "breve. Vil du oprette en nye begivenheder alligevel?"
@@ -30046,8 +29877,8 @@ msgstr "Importeret certifikat"
 #~ "Selected task list contains tasks for the given mails already. Would you "
 #~ "like to create new tasks anyway?"
 #~ msgstr[0] ""
-#~ "Den valgte opgaveliste indeholder allerede en opgave for det angivne brev. "
-#~ "Vil du oprette en ny opgave alligevel?"
+#~ "Den valgte opgaveliste indeholder allerede en opgave for det angivne "
+#~ "brev. Vil du oprette en ny opgave alligevel?"
 #~ msgstr[1] ""
 #~ "Den valgte opgaveliste indeholder allerede nogle opgaver for de angivne "
 #~ "breve. Vil du oprette de nye opgaver alligevel?"
@@ -30059,11 +29890,11 @@ msgstr "Importeret certifikat"
 #~ "Selected memo list contains memos for the given mails already. Would you "
 #~ "like to create new memos anyway?"
 #~ msgstr[0] ""
-#~ "Den valgte memoliste indeholder allerede et memo for det angivne brev. Vil "
-#~ "du oprette de nye memoer alligevel?"
+#~ "Den valgte memoliste indeholder allerede et memo for det angivne brev. "
+#~ "Vil du oprette de nye memoer alligevel?"
 #~ msgstr[1] ""
-#~ "Den valgte memoliste indeholder allerede nogle memoer for de angivne breve. "
-#~ "Vil du oprette en nyt memo alligevel?"
+#~ "Den valgte memoliste indeholder allerede nogle memoer for de angivne "
+#~ "breve. Vil du oprette en nyt memo alligevel?"
 
 #~ msgid "SpamAssassin not found, code: %d"
 #~ msgstr "SpamAssassin ikke fundet, kode: %d"
@@ -30145,7 +29976,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "Count of default recurrence for a new event. -1 means forever."
 #~ msgstr ""
-#~ "Det forvalgte antal gentagelser af en ny begivenhed. -1 betyder ubegrænset."
+#~ "Det forvalgte antal gentagelser af en ny begivenhed. -1 betyder "
+#~ "ubegrænset."
 
 #~ msgid "Default recurrence count"
 #~ msgstr "Forvalgt gentagelsesantal"
@@ -30228,11 +30060,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "iCalendar-fejl"
 
 #~ msgid ""
-#~ "Please review the following information, and then select an action from the "
-#~ "menu below."
+#~ "Please review the following information, and then select an action from "
+#~ "the menu below."
 #~ msgstr ""
-#~ "Kontrollér venligst følgende information og vælg så en handling fra menuen "
-#~ "nedenfor."
+#~ "Kontrollér venligst følgende information og vælg så en handling fra "
+#~ "menuen nedenfor."
 
 #~ msgid ""
 #~ "The meeting has been canceled, however it could not be found in your "
@@ -30240,7 +30072,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Mødet er blevet aflyst, men det blev ikke fundet i dine kalendere"
 
 #~ msgid ""
-#~ "The task has been canceled, however it could not be found in your task lists"
+#~ "The task has been canceled, however it could not be found in your task "
+#~ "lists"
 #~ msgstr ""
 #~ "Opgaven er blevet aflyst, men den blev ikke fundet i dine opgavelister"
 
@@ -30357,7 +30190,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "This response is not from a current attendee.  Add as an attendee?"
 #~ msgstr ""
-#~ "Dette svar er ikke fra en nuværende mødesdeltager. Tilføj som mødesdeltager?"
+#~ "Dette svar er ikke fra en nuværende mødesdeltager. Tilføj som "
+#~ "mødesdeltager?"
 
 #~ msgid "Attendee status could not be updated because of an invalid status!\n"
 #~ msgstr "Deltagerstatus kunne ikke opdateres pga. ugyldig status!\n"
@@ -30410,8 +30244,8 @@ msgstr "Importeret certifikat"
 #~ msgid ""
 #~ "Unable to activate the HTML editor control.\n"
 #~ "\n"
-#~ "Please make sure that you have the correct version of gtkhtml and libgtkhtml "
-#~ "installed."
+#~ "Please make sure that you have the correct version of gtkhtml and "
+#~ "libgtkhtml installed."
 #~ msgstr ""
 #~ "Kan ikke aktivere HTML-redigeringskomponenten.\n"
 #~ "\n"
@@ -30482,8 +30316,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "This store does not support subscriptions, or they are not enabled."
 #~ msgstr ""
-#~ "Dette opbevaringssted understøtter ikke abonnementer eller også er de ikke "
-#~ "aktiveret."
+#~ "Dette opbevaringssted understøtter ikke abonnementer eller også er de "
+#~ "ikke aktiveret."
 
 #~ msgid "Subscribed"
 #~ msgstr "Tilmeldt"
@@ -30531,7 +30365,8 @@ msgstr "Importeret certifikat"
 #~ "Note: you will not be prompted for a password until you connect for the "
 #~ "first time"
 #~ msgstr ""
-#~ "Bemærk: du bliver ikke spurgt om adgangskoden før du tilslutter første gang"
+#~ "Bemærk: du bliver ikke spurgt om adgangskoden før du tilslutter første "
+#~ "gang"
 
 #~ msgid "Printed Fonts"
 #~ msgstr "Skrifttyper til udskrift"
@@ -30639,7 +30474,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "<span size=\"large\" weight=\"bold\">Google account settings:</span>"
 #~ msgstr ""
-#~ "<span size=\"large\" weight=\"bold\">Indstillinger for Google-konto:</span>"
+#~ "<span size=\"large\" weight=\"bold\">Indstillinger for Google-konto:</"
+#~ "span>"
 
 #~ msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
 #~ msgstr ""
@@ -30955,8 +30791,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Kunne ikke oprette opbevaringssted “%s”: %s til lokal e-mail"
 
 #~ msgid ""
-#~ "Unable to read settings from previous Evolution install, "
-#~ "`evolution/config.xmldb' does not exist or is corrupt."
+#~ "Unable to read settings from previous Evolution install, `evolution/"
+#~ "config.xmldb' does not exist or is corrupt."
 #~ msgstr ""
 #~ "Kan ikke læse indstillingerne fra tidligere installation af Evolution, "
 #~ "“evolution/config.xmldb” findes ikke eller er ødelagt."
@@ -31012,8 +30848,8 @@ msgstr "Importeret certifikat"
 #~ "There are only hidden messages in this folder. Use View->Show Hidden "
 #~ "Messages to show them."
 #~ msgstr ""
-#~ "Der er kun skjulte beskeder i denne mappe. Brug “Vis”->“Vis skjulte breve” "
-#~ "for at se dem."
+#~ "Der er kun skjulte beskeder i denne mappe. Brug “Vis”->“Vis skjulte "
+#~ "breve” for at se dem."
 
 #~ msgid "Table column:"
 #~ msgstr "Tabelkolonne:"
@@ -31141,13 +30977,13 @@ msgstr "Importeret certifikat"
 #~ msgstr "Tabelmodellen for opgave"
 
 #~ msgid ""
-#~ "The location and hierarchy of the Evolution task folders has changed since "
-#~ "Evolution 1.x.\n"
+#~ "The location and hierarchy of the Evolution task folders has changed "
+#~ "since Evolution 1.x.\n"
 #~ "\n"
 #~ "Please be patient while Evolution migrates your folders..."
 #~ msgstr ""
-#~ "Placering og struktur for Evolutions opgavemapper er ændret siden Evolution "
-#~ "1. x.\n"
+#~ "Placering og struktur for Evolutions opgavemapper er ændret siden "
+#~ "Evolution 1. x.\n"
 #~ "\n"
 #~ "Vent venligst mens Evolution overflytter dine mapper …"
 
@@ -31186,28 +31022,28 @@ msgstr "Importeret certifikat"
 #~ msgstr "Skjul slettede breve i stedet for at vise dem gennemstreget"
 
 #~ msgid ""
-#~ "Evolution backup can start only when Evolution is not running. Please make "
-#~ "sure that you save and close all your unsaved windows before proceeding.  If "
-#~ "you want Evolution to restart automatically after backup, please enable the "
-#~ "toggle button."
+#~ "Evolution backup can start only when Evolution is not running. Please "
+#~ "make sure that you save and close all your unsaved windows before "
+#~ "proceeding.  If you want Evolution to restart automatically after backup, "
+#~ "please enable the toggle button."
 #~ msgstr ""
-#~ "Evolution-sikkerhedskopiering kan kun starte når Evolution ikke kører. Sikr "
-#~ "dig at du gemmer og lukker alle ugemte vinduer før du går videre. Hvis du "
-#~ "ønsker at Evolution skal genstarte automatisk efter sikkerhedskopiering så "
-#~ "slå til/fra knappen til."
+#~ "Evolution-sikkerhedskopiering kan kun starte når Evolution ikke kører. "
+#~ "Sikr dig at du gemmer og lukker alle ugemte vinduer før du går videre. "
+#~ "Hvis du ønsker at Evolution skal genstarte automatisk efter "
+#~ "sikkerhedskopiering så slå til/fra knappen til."
 
 #~ msgid ""
 #~ "This will delete all your current Evolution data and settings and restore "
 #~ "them from your backup. Evolution restore can start only when Evolution is "
-#~ "not running. Please make sure that you close all your unsaved windows before "
-#~ "you proceed. If you want Evolution to restart automatically restart after "
-#~ "restore, please enable the toggle button."
+#~ "not running. Please make sure that you close all your unsaved windows "
+#~ "before you proceed. If you want Evolution to restart automatically "
+#~ "restart after restore, please enable the toggle button."
 #~ msgstr ""
 #~ "Dette vil slette alle dine nuværende Evolution-data og indstillinger og "
 #~ "genoprette nogle andre fra din sikkerhedskopifil. Evolution genoprettelse "
-#~ "kan kun starte når Evolution ikke kører. Sikr dig at du lukker alle ugemte "
-#~ "vinduer før du fortsætter. Hvis du ønsker at Evolution skal genstarte "
-#~ "automatisk efter genoprettelsen så slå til/fra knappen til."
+#~ "kan kun starte når Evolution ikke kører. Sikr dig at du lukker alle "
+#~ "ugemte vinduer før du fortsætter. Hvis du ønsker at Evolution skal "
+#~ "genstarte automatisk efter genoprettelsen så slå til/fra knappen til."
 
 #~ msgid "Check whether Evolution is the default mail client on startup."
 #~ msgstr ""
@@ -31382,8 +31218,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Skal gamle data virkelig slettes?"
 
 #~ msgid ""
-#~ "The entire contents of the &quot;evolution&quot; directory are about to be "
-#~ "permanently removed.\n"
+#~ "The entire contents of the &quot;evolution&quot; directory are about to "
+#~ "be permanently removed.\n"
 #~ "\n"
 #~ "It is suggested you manually verify that all of your mail, contact, and "
 #~ "calendar data is present, and that this version of Evolution operates "
@@ -31399,35 +31235,37 @@ msgstr "Importeret certifikat"
 #~ "kalender-data er tilstede, og at denne version af Evolution opfører sig "
 #~ "korrekt, før du sletter disse gamle data.\n"
 #~ "\n"
-#~ "Når dataene er slettet, kan du ikke nedgradere til en tidligere version af "
-#~ "Evolution, uden manuel indgriben.\n"
+#~ "Når dataene er slettet, kan du ikke nedgradere til en tidligere version "
+#~ "af Evolution, uden manuel indgriben.\n"
 
 #~ msgid ""
-#~ "The previous version of Evolution stored its data in a different location.\n"
+#~ "The previous version of Evolution stored its data in a different "
+#~ "location.\n"
 #~ "\n"
-#~ "If you choose to remove this data, the entire contents of the "
-#~ "&quot;evolution&quot; directory will be removed permanently. If you choose "
-#~ "to keep this data, then you may manually remove the contents of "
-#~ "&quot;evolution&quot; at your convenience.\n"
+#~ "If you choose to remove this data, the entire contents of the &quot;"
+#~ "evolution&quot; directory will be removed permanently. If you choose to "
+#~ "keep this data, then you may manually remove the contents of &quot;"
+#~ "evolution&quot; at your convenience.\n"
 #~ msgstr ""
 #~ "Den tidligere version af Evolution lagrede sine data et andet sted.\n"
 #~ "\n"
 #~ "Hvis du vælger at fjerne disse data, vil alt indholdet af &quot; "
 #~ "evolution&quot;-mappen blive fjernet permanent. Hvis du vælger at beholde "
-#~ "disse data, kan du manuelt fjerne indholdet af &quot;evolution&quot; når du "
-#~ "har lyst.\n"
+#~ "disse data, kan du manuelt fjerne indholdet af &quot;evolution&quot; når "
+#~ "du har lyst.\n"
 
 #~ msgid ""
-#~ "Upgrading your data and settings will require up to {0} of disk space, but "
-#~ "you only have {1} available.\n"
+#~ "Upgrading your data and settings will require up to {0} of disk space, "
+#~ "but you only have {1} available.\n"
 #~ "\n"
-#~ "You will need to make more space available in your home directory before you "
-#~ "can continue."
+#~ "You will need to make more space available in your home directory before "
+#~ "you can continue."
 #~ msgstr ""
-#~ "Opgradering af dine data og indstillinger vil kræve optil {0} diskplads, men "
-#~ "du har kun {1} tilgængelig.\n"
+#~ "Opgradering af dine data og indstillinger vil kræve optil {0} diskplads, "
+#~ "men du har kun {1} tilgængelig.\n"
 #~ "\n"
-#~ "Du må gøre mere plads tilgængelig i dit hjemmekatalog før du kan fortsætte."
+#~ "Du må gøre mere plads tilgængelig i dit hjemmekatalog før du kan "
+#~ "fortsætte."
 
 #~ msgid "_Remind Me Later"
 #~ msgstr "_Påmind mig senere"
@@ -31582,10 +31420,11 @@ msgstr "Importeret certifikat"
 #~ msgid "Vertical Row Spacing"
 #~ msgstr "Lodret rækkemellemrum"
 
-#~ msgid "Vertical space between rows. It is added to top and to bottom of a row"
+#~ msgid ""
+#~ "Vertical space between rows. It is added to top and to bottom of a row"
 #~ msgstr ""
-#~ "Lodret plads mellem rækker. Det bliver tilføjet til toppen og bunden af en "
-#~ "række"
+#~ "Lodret plads mellem rækker. Det bliver tilføjet til toppen og bunden af "
+#~ "en række"
 
 #~ msgid "ETree table adapter"
 #~ msgstr "ETree-tabel-adapter"
@@ -31698,11 +31537,37 @@ msgstr "Importeret certifikat"
 #~ msgid "<b>Telephone</b>"
 #~ msgstr "<b>Telefon</b>"
 
-#~ msgid "\nMr.\nMrs.\nMs.\nMiss\nDr."
-#~ msgstr "\nHr.\nFru\nFr.\nFrk.\nDr."
+#~ msgid ""
+#~ "\n"
+#~ "Mr.\n"
+#~ "Mrs.\n"
+#~ "Ms.\n"
+#~ "Miss\n"
+#~ "Dr."
+#~ msgstr ""
+#~ "\n"
+#~ "Hr.\n"
+#~ "Fru\n"
+#~ "Fr.\n"
+#~ "Frk.\n"
+#~ "Dr."
 
-#~ msgid "\nSr.\nJr.\nI\nII\nIII\nEsq."
-#~ msgstr "\nSen.\nJr.\nI\nII\nIII\nEsq."
+#~ msgid ""
+#~ "\n"
+#~ "Sr.\n"
+#~ "Jr.\n"
+#~ "I\n"
+#~ "II\n"
+#~ "III\n"
+#~ "Esq."
+#~ msgstr ""
+#~ "\n"
+#~ "Sen.\n"
+#~ "Jr.\n"
+#~ "I\n"
+#~ "II\n"
+#~ "III\n"
+#~ "Esq."
 
 #~ msgid "<b>Members</b>"
 #~ msgstr "<b>Medlemmer:</b>"
@@ -31936,10 +31801,11 @@ msgstr "Importeret certifikat"
 
 #~ msgid ""
 #~ "To attach the contents of this directory, either attach the files in this "
-#~ "directory individually, or create an archive of the directory and attach it."
+#~ "directory individually, or create an archive of the directory and attach "
+#~ "it."
 #~ msgstr ""
-#~ "For at tilføje indholdet af denne mappe, må du enten vedlægge filerne hver "
-#~ "for sig, eller oprette et arkiv af mappen og vedlægge dette."
+#~ "For at tilføje indholdet af denne mappe, må du enten vedlægge filerne "
+#~ "hver for sig, eller oprette et arkiv af mappen og vedlægge dette."
 
 #~ msgid "Warning: Modified Message"
 #~ msgstr "Advarsel: Brevet ændret"
@@ -32152,25 +32018,25 @@ msgstr "Importeret certifikat"
 
 #~ msgid ""
 #~ "The search base is the distinguished name (DN) of the entry where your "
-#~ "searches will begin. If you leave this blank, the search will begin at the "
-#~ "root of the directory tree."
+#~ "searches will begin. If you leave this blank, the search will begin at "
+#~ "the root of the directory tree."
 #~ msgstr ""
-#~ "Udgangspunktet for søgningen er et specielt navn (DN) for posten hvor dine "
-#~ "søgninger starter. Hvis du efterlader dette tomt kommer søgningen at begynde "
-#~ "ved roden af katalogtræet."
+#~ "Udgangspunktet for søgningen er et specielt navn (DN) for posten hvor "
+#~ "dine søgninger starter. Hvis du efterlader dette tomt kommer søgningen at "
+#~ "begynde ved roden af katalogtræet."
 
 #~ msgid ""
-#~ "This is the full name of your LDAP server. For example, "
-#~ "\"ldap.mycompany.com\"."
+#~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
+#~ "com\"."
 #~ msgstr ""
 #~ "Dette er din LDAP-servers fulde navn. For eksempel “ldap.mitfirma.dk”."
 
 #~ msgid ""
-#~ "This is the maximum number of entries to download. Setting this number to be "
-#~ "too large will slow down your address book."
+#~ "This is the maximum number of entries to download. Setting this number to "
+#~ "be too large will slow down your address book."
 #~ msgstr ""
-#~ "Dette er det største antal poster der skal hentes. Sættes dette tal for højt "
-#~ "sænkes hastigheden på adressebogen."
+#~ "Dette er det største antal poster der skal hentes. Sættes dette tal for "
+#~ "højt sænkes hastigheden på adressebogen."
 
 #~ msgid "Copy selected memo"
 #~ msgstr "Kopiér valgte memo"
@@ -32197,8 +32063,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Sikker adgangskode"
 
 #~ msgid ""
-#~ "This option will connect to the Exchange server using secure password (NTLM) "
-#~ "authentication."
+#~ "This option will connect to the Exchange server using secure password "
+#~ "(NTLM) authentication."
 #~ msgstr ""
 #~ "Dette alternativ vil tilslutte Exchange-serveren ved hjælp af sikker "
 #~ "adgangskode (NTLM)-godkendelse."
@@ -32210,8 +32076,8 @@ msgstr "Importeret certifikat"
 #~ "This option will connect to the Exchange server using standard plaintext "
 #~ "password authentication."
 #~ msgstr ""
-#~ "Med denne indstilling, vil der tilsluttes til Exchange-serveren ved hjælp af "
-#~ "standardgodkendelse med adgangskode i klartekst."
+#~ "Med denne indstilling, vil der tilsluttes til Exchange-serveren ved hjælp "
+#~ "af standardgodkendelse med adgangskode i klartekst."
 
 #~ msgid "Out Of Office"
 #~ msgstr "Fraværende"
@@ -32269,11 +32135,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "0 kB"
 
 #~ msgid ""
-#~ "The current password does not match the existing password for your account. "
-#~ "Please enter the correct password"
+#~ "The current password does not match the existing password for your "
+#~ "account. Please enter the correct password"
 #~ msgstr ""
-#~ "Den nuværende adgangskode matcher ikke den eksisterende adgangskode for din "
-#~ "konto. Angiv den korrekte adgangskode"
+#~ "Den nuværende adgangskode matcher ikke den eksisterende adgangskode for "
+#~ "din konto. Angiv den korrekte adgangskode"
 
 #~ msgid "The two passwords do not match. Please re-enter the passwords."
 #~ msgstr "De to adgangskoder matcher ikke. Angiv adgangskoden igen."
@@ -32309,11 +32175,12 @@ msgstr "Importeret certifikat"
 #~ msgstr "Rettigheder for %s"
 
 #~ msgid ""
-#~ "This message was sent automatically by Evolution to inform you that you have "
-#~ "been designated as a delegate. You can now send messages on my behalf."
+#~ "This message was sent automatically by Evolution to inform you that you "
+#~ "have been designated as a delegate. You can now send messages on my "
+#~ "behalf."
 #~ msgstr ""
-#~ "Denne besked blev automatisk udsendt af Evolution for at gøre dig opmærksom "
-#~ "at du er blevet delegat. Du kan nu sende breve på mine vegne."
+#~ "Denne besked blev automatisk udsendt af Evolution for at gøre dig "
+#~ "opmærksom at du er blevet delegat. Du kan nu sende breve på mine vegne."
 
 #~ msgid "You have been given the following permissions on my folders:"
 #~ msgstr "Du har fået tildelt følgende rettigheder over mine mapper:"
@@ -32415,8 +32282,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "<b>Status:</b>"
 
 #~ msgid ""
-#~ "<small>The message specified below will be automatically sent to each person "
-#~ "who sends\n"
+#~ "<small>The message specified below will be automatically sent to each "
+#~ "person who sends\n"
 #~ "mail to you while you are out of the office.</small>"
 #~ msgstr ""
 #~ "<small>Beskeden nedenfor sendes automatisk til hver person som\n"
@@ -32554,11 +32421,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "Kan ikke vise mapper."
 
 #~ msgid ""
-#~ "Changes to options for Exchange account \"{0}\" will only take effect after "
-#~ "restarting Evolution."
+#~ "Changes to options for Exchange account \"{0}\" will only take effect "
+#~ "after restarting Evolution."
 #~ msgstr ""
-#~ "Ændringer i indstillinger for Exchange-konto “{0}” vil først træde i kraft "
-#~ "efter genstart af Evolution."
+#~ "Ændringer i indstillinger for Exchange-konto “{0}” vil først træde i "
+#~ "kraft efter genstart af Evolution."
 
 #~ msgid "Could not authenticate to server."
 #~ msgstr "Kunne ikke opnå brugergodkendelse hos server."
@@ -32609,8 +32476,8 @@ msgstr "Importeret certifikat"
 
 #~ msgid "Evolution requires a restart to load the subscribed user's mailbox"
 #~ msgstr ""
-#~ "Evolution skal bruge en genstart for at kunne indlæse den tilmeldte brugers "
-#~ "brevbakke"
+#~ "Evolution skal bruge en genstart for at kunne indlæse den tilmeldte "
+#~ "brugers brevbakke"
 
 #~ msgid "Exchange Account is offline."
 #~ msgstr "Exchange-konto er offline."
@@ -32658,8 +32525,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Global Catalog Server er ikke tilgængelig"
 
 #~ msgid ""
-#~ "If OWA is running on a different path, you must specify that in the account "
-#~ "configuration dialog."
+#~ "If OWA is running on a different path, you must specify that in the "
+#~ "account configuration dialog."
 #~ msgstr ""
 #~ "Hvis OWA kører på en anden sti, må du anføre denne i kontoopsætningen."
 
@@ -32749,7 +32616,8 @@ msgstr "Importeret certifikat"
 #~ msgid "Unsupported operation"
 #~ msgstr "En ikke-understøttet handling"
 
-#~ msgid "You are nearing your quota available for storing mail on this server."
+#~ msgid ""
+#~ "You are nearing your quota available for storing mail on this server."
 #~ msgstr ""
 #~ "Du er ved at have opbrugt din kvote for at gemme post på denne server."
 
@@ -32767,8 +32635,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Du har overskredet din kvote for at gemme post på denne server."
 
 #~ msgid ""
-#~ "Your current usage is: {0} KB. Try to clear up some space by deleting some "
-#~ "mail."
+#~ "Your current usage is: {0} KB. Try to clear up some space by deleting "
+#~ "some mail."
 #~ msgstr ""
 #~ "Dit aktuelle pladsforbrug er: {0} kB. Prøv at frigøre noget plads ved at "
 #~ "slette noget post."
@@ -32781,8 +32649,8 @@ msgstr "Importeret certifikat"
 #~ "modtage post."
 
 #~ msgid ""
-#~ "Your current usage is: {0} KB. You will not be able to send mail until you "
-#~ "clear up some space by deleting some mail."
+#~ "Your current usage is: {0} KB. You will not be able to send mail until "
+#~ "you clear up some space by deleting some mail."
 #~ msgstr ""
 #~ "Dit aktuelle pladsforbrug er: {0} kB. Du vil ikke kunne sende post før du "
 #~ "frigør noget plads ved at slette noget post."
@@ -32818,8 +32686,8 @@ msgstr "Importeret certifikat"
 #~ "Vedhæft et lille billede af dit ansigt til udgående breve.\n"
 #~ "\n"
 #~ "Første gang skal brugeren konfigurere et 48*48 png-billede. Det bliver "
-#~ "base64-kodet og lagret i “~/.evolution/faces”. Dette vil blive brugt i breve "
-#~ "der sendes fremover."
+#~ "base64-kodet og lagret i “~/.evolution/faces”. Dette vil blive brugt i "
+#~ "breve der sendes fremover."
 
 #~ msgid "Add Novell GroupWise support to Evolution."
 #~ msgstr "Tilføj Novell GroupWise-understøttelse til Evolution."
@@ -32846,12 +32714,13 @@ msgstr "Importeret certifikat"
 #~ "The \"hald\" service is required but not currently running. Please enable "
 #~ "the service and rerun this program, or contact your system administrator."
 #~ msgstr ""
-#~ "Servicen “hald” er påkrævet, men kører ikke på nuværende tidspunkt. Aktivér "
-#~ "denne service og genstart programmet, eller kontakt din systemadministrator."
+#~ "Servicen “hald” er påkrævet, men kører ikke på nuværende tidspunkt. "
+#~ "Aktivér denne service og genstart programmet, eller kontakt din "
+#~ "systemadministrator."
 
 #~ msgid ""
-#~ "Evolution could not find an iPod to synchronize with. Either the iPod is not "
-#~ "connected to the system or it is not powered on."
+#~ "Evolution could not find an iPod to synchronize with. Either the iPod is "
+#~ "not connected to the system or it is not powered on."
 #~ msgstr ""
 #~ "Evolution kunne ikke finde en iPod at synkronisere med. Den er enten ikke "
 #~ "forbundet til systemet eller ikke tændt."
@@ -33117,7 +32986,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Opgradering af kalenderne mislykkedes."
 
 #~ msgid "Unable to open the calendar '%s' for creating events and meetings"
-#~ msgstr "Kan ikke åbne kalenderen “%s” for oprettelse af begivenheder og møder"
+#~ msgstr ""
+#~ "Kan ikke åbne kalenderen “%s” for oprettelse af begivenheder og møder"
 
 #~ msgid "There is no calendar available for creating events and meetings"
 #~ msgstr ""
@@ -33187,7 +33057,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Opgradering af memo mislykkedes."
 
 #~ msgid "Unable to open the memo list '%s' for creating events and meetings"
-#~ msgstr "Kan ikke åbne memolisten “%s” til oprettelse af begivenheder og møder"
+#~ msgstr ""
+#~ "Kan ikke åbne memolisten “%s” til oprettelse af begivenheder og møder"
 
 #~ msgid "There is no calendar available for creating memos"
 #~ msgstr "Ingen kalender tilgængelig for oprettelse af memoer"
@@ -33223,11 +33094,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "_Opgaveliste"
 
 #~ msgid ""
-#~ "A label having the same tag already exists on the server. Please rename your "
-#~ "label."
+#~ "A label having the same tag already exists on the server. Please rename "
+#~ "your label."
 #~ msgstr ""
-#~ "Mærkat med samme mærke eksisterer allerede på serveren. Omdøb venligst din "
-#~ "mærkat."
+#~ "Mærkat med samme mærke eksisterer allerede på serveren. Omdøb venligst "
+#~ "din mærkat."
 
 #~ msgid ""
 #~ "Configure mail preferences, including security and message display, here"
@@ -33343,8 +33214,8 @@ msgstr "Importeret certifikat"
 #~ "If the \"Preview\" pane is on, then show it side-by-side rather than "
 #~ "vertically."
 #~ msgstr ""
-#~ "Hvis forhåndsvisningsruden er synlig, så vis den ved siden af, i stedet for "
-#~ "ovenfor."
+#~ "Hvis forhåndsvisningsruden er synlig, så vis den ved siden af, i stedet "
+#~ "for ovenfor."
 
 #~ msgid "Message Window default height"
 #~ msgstr "Standardhøjden på brevvinduet"
@@ -33377,8 +33248,8 @@ msgstr "Importeret certifikat"
 #~ "If the server uses a non-standard port then specify the server address as "
 #~ "\"server-name:port-number\""
 #~ msgstr ""
-#~ "Angiv serveradressen som “server-navn:port-nummer”, hvis serveren bruger en "
-#~ "port som ikke er standard"
+#~ "Angiv serveradressen som “server-navn:port-nummer”, hvis serveren bruger "
+#~ "en port som ikke er standard"
 
 #~ msgid "Signatures Table"
 #~ msgstr "Signaturtabel"
@@ -33393,7 +33264,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Kopieringsværktøj"
 
 #~ msgid ""
-#~ "Unsubscribe from an IMAP folder by right-clicking on it in the folder tree."
+#~ "Unsubscribe from an IMAP folder by right-clicking on it in the folder "
+#~ "tree."
 #~ msgstr "Afmeld en IMAP-mappe ved at højreklikke på den i mappetræet."
 
 #~ msgid "Disable an account by right-clicking on it in the folder tree."
@@ -33746,12 +33618,12 @@ msgstr "Importeret certifikat"
 #~ "Looks for clues in a message for mention of attachments and warns if the "
 #~ "attachment is missing"
 #~ msgstr ""
-#~ "Kigger efter spor som omhandler bilag i dette brev og advarer hvis der ikke "
-#~ "er noget bilag"
+#~ "Kigger efter spor som omhandler bilag i dette brev og advarer hvis der "
+#~ "ikke er noget bilag"
 
 #~ msgid ""
-#~ "A formatter plugin which displays audio attachments inline and allows you to "
-#~ "play them directly from Evolution."
+#~ "A formatter plugin which displays audio attachments inline and allows you "
+#~ "to play them directly from Evolution."
 #~ msgstr ""
 #~ "Et formateringsudvidelsesmodul, der viser lydbilag indlejret, og tillader "
 #~ "dig at afspille dem direkte i Evolution."
@@ -33780,19 +33652,19 @@ msgstr "Importeret certifikat"
 #~ "A test plugin which demonstrates a popup menu plugin which lets you copy "
 #~ "things to the clipboard."
 #~ msgstr ""
-#~ "Et test-udvidelsesmodul som demonstrerer et pop op-menu-udvidelsesmodul der "
-#~ "lader dig kopiere ting til udklipsholderen."
+#~ "Et test-udvidelsesmodul som demonstrerer et pop op-menu-udvidelsesmodul "
+#~ "der lader dig kopiere ting til udklipsholderen."
 
 #~ msgid ""
 #~ "Provides functionality for marking a calendar or an address book as the "
 #~ "default one."
 #~ msgstr ""
-#~ "Sørger for funktionalitet til at markere en kalender eller en adressebog som "
-#~ "den forvalgte."
+#~ "Sørger for funktionalitet til at markere en kalender eller en adressebog "
+#~ "som den forvalgte."
 
 #~ msgid ""
-#~ "A plugin that manages a collection of Exchange account specific operations "
-#~ "and features."
+#~ "A plugin that manages a collection of Exchange account specific "
+#~ "operations and features."
 #~ msgstr ""
 #~ "Et udvidelsesmodul der håndterer et udvalg af specifikke handlinger og "
 #~ "funktioner for en Exchange-konto."
@@ -33826,18 +33698,20 @@ msgstr "Importeret certifikat"
 #~ msgstr "Tillader deaktivering af konti."
 
 #~ msgid ""
-#~ "Generates a D-Bus message or notifies the user with an icon in notification "
-#~ "area and a notification message whenever a new message has arrived."
+#~ "Generates a D-Bus message or notifies the user with an icon in "
+#~ "notification area and a notification message whenever a new message has "
+#~ "arrived."
 #~ msgstr ""
-#~ "Genererer en D-Bus-besked eller underretter brugeren om at der er ankommet "
-#~ "ny post ved hjælp af et ikon i påmindelsesområdet og en påmindelsesbesked."
+#~ "Genererer en D-Bus-besked eller underretter brugeren om at der er "
+#~ "ankommet ny post ved hjælp af et ikon i påmindelsesområdet og en "
+#~ "påmindelsesbesked."
 
 #~ msgid ""
 #~ "A plugin which allows the creation of tasks from the contents of a mail "
 #~ "message."
 #~ msgstr ""
-#~ "Et udvidelsesmodul der tillader oprettelse af opgaver ud fra indholdet af et "
-#~ "brev."
+#~ "Et udvidelsesmodul der tillader oprettelse af opgaver ud fra indholdet af "
+#~ "et brev."
 
 #~ msgid "Used for marking all the messages under a folder as read"
 #~ msgstr "Bruges til at markere alle breve i en mappe som læste"
@@ -33847,19 +33721,20 @@ msgstr "Importeret certifikat"
 
 #~ msgid "A plugin for managing which plugins are enabled or disabled."
 #~ msgstr ""
-#~ "Et udvidelsesmodul der håndterer hvilke udvidelsesmoduler der er aktiveret "
-#~ "eller deaktiveret."
+#~ "Et udvidelsesmodul der håndterer hvilke udvidelsesmoduler der er "
+#~ "aktiveret eller deaktiveret."
 
 #~ msgid ""
-#~ "A test plugin which demonstrates a formatter plugin which lets you choose to "
-#~ "disable HTML messages.\n"
+#~ "A test plugin which demonstrates a formatter plugin which lets you choose "
+#~ "to disable HTML messages.\n"
 #~ "\n"
 #~ "This plugin is unsupported demonstration code only.\n"
 #~ msgstr ""
-#~ "Et formaterings-testudvidelsesmodul som gør det muligt at deaktivere "
-#~ "HTML-breve.\n"
+#~ "Et formaterings-testudvidelsesmodul som gør det muligt at deaktivere HTML-"
+#~ "breve.\n"
 #~ "\n"
-#~ "Dette udvidelsesmodul er ikke understøttet og kun til demonstrationsbrug.\n"
+#~ "Dette udvidelsesmodul er ikke understøttet og kun til "
+#~ "demonstrationsbrug.\n"
 
 #~ msgid "Writes a log of profiling data events."
 #~ msgstr "Skriver en log over begivenheder ifm. dannelse af profil."
@@ -33868,8 +33743,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "SpamAssassin (indbygget)"
 
 #~ msgid ""
-#~ "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
-#~ "to be installed."
+#~ "Filters junk messages using SpamAssassin. This plugin requires "
+#~ "SpamAssassin to be installed."
 #~ msgstr ""
 #~ "Bortfiltrerer spam med SpamAssassin. Dette udvidelsesmodul kræver at "
 #~ "SpamAssassin er installeret."
@@ -33878,7 +33753,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Indikerer om trådning af breve, skal falde tilbage på emne."
 
 #~ msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
-#~ msgstr "Et simpelt udvidelsesmodul som bruger yTNEF til at afkode TNEF-bilag."
+#~ msgstr ""
+#~ "Et simpelt udvidelsesmodul som bruger yTNEF til at afkode TNEF-bilag."
 
 #~ msgid "A plugin to setup WebDAV contacts."
 #~ msgstr "Et udvidelsesmodul til opsætning af WebDAV-kontaktpersoner."
@@ -34785,14 +34661,14 @@ msgstr "Importeret certifikat"
 #~ msgstr "Intet bilag"
 
 #~ msgid ""
-#~ "Enable side bar search feature so that you can start interactive searching "
-#~ "by typing in the text. Use is that you can easily find a folder in that side "
-#~ "bar by just typing the folder name and the selection jumps automatically to "
-#~ "that folder."
+#~ "Enable side bar search feature so that you can start interactive "
+#~ "searching by typing in the text. Use is that you can easily find a folder "
+#~ "in that side bar by just typing the folder name and the selection jumps "
+#~ "automatically to that folder."
 #~ msgstr ""
-#~ "Aktivér sidepanelet, så du kan starte en interaktiv søgning ved at indtaste "
-#~ "søgeteksten. Man kan f.eks. let finde en mappe ved simpelthen at indtaste "
-#~ "dens navn og derefter hoppe til denne mappe."
+#~ "Aktivér sidepanelet, så du kan starte en interaktiv søgning ved at "
+#~ "indtaste søgeteksten. Man kan f.eks. let finde en mappe ved simpelthen at "
+#~ "indtaste dens navn og derefter hoppe til denne mappe."
 
 #~ msgid "S_OCKS Host:"
 #~ msgstr "S_OCKS-vært:"
@@ -34819,11 +34695,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "_Opgaver :"
 
 #~ msgid ""
-#~ "A plugin which allows the creation of meetings from the contents of a mail "
-#~ "message."
+#~ "A plugin which allows the creation of meetings from the contents of a "
+#~ "mail message."
 #~ msgstr ""
-#~ "Et udvidelsesmodul der tillader oprettelse af møder ud fra indholdet af et "
-#~ "brev."
+#~ "Et udvidelsesmodul der tillader oprettelse af møder ud fra indholdet af "
+#~ "et brev."
 
 #~ msgid "Mail to meeting"
 #~ msgstr "Brev til møde"
@@ -34862,11 +34738,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "Tekst til mærkning af udfolder"
 
 #~ msgid ""
-#~ "If set, an underline in the text indicates the next character should be used "
-#~ "for the mnemonic accelerator key"
+#~ "If set, an underline in the text indicates the next character should be "
+#~ "used for the mnemonic accelerator key"
 #~ msgstr ""
-#~ "Hvis sat indikerer en understregning i teksten at det næste tegn skal bruges "
-#~ "som genvejstast"
+#~ "Hvis sat indikerer en understregning i teksten at det næste tegn skal "
+#~ "bruges som genvejstast"
 
 #~ msgid "Space to put between the label and the child"
 #~ msgstr "Mellemrum mellem etiketten og barnet"
@@ -35022,8 +34898,8 @@ msgstr "Importeret certifikat"
 #~ "Are you sure you want to permanently remove all the deleted messages in "
 #~ "folder &quot;{0}&quot;?"
 #~ msgstr ""
-#~ "Er du sikker på du vil fjerne alle de slettede breve i mappen "
-#~ "&quot;{0}&quot; permanent?"
+#~ "Er du sikker på du vil fjerne alle de slettede breve i mappen &quot;{0}"
+#~ "&quot; permanent?"
 
 #~ msgid "Do you want the operation to be performed also in the subfolders?"
 #~ msgstr "Skal handlingen også udføres i undermapperne?"
@@ -35221,9 +35097,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "Systemfejl: %s"
 
 #~ msgid ""
-#~ "A plugin which implements a CORBA interface for accessing mail data remotely."
+#~ "A plugin which implements a CORBA interface for accessing mail data "
+#~ "remotely."
 #~ msgstr ""
-#~ "Et udvidelsesmodul som giver et CORBA-interface til fjernadgang til e-post."
+#~ "Et udvidelsesmodul som giver et CORBA-interface til fjernadgang til e-"
+#~ "post."
 
 #~ msgid "Mail Remote"
 #~ msgstr "Fjernadgang til e-mail"
@@ -35259,8 +35137,8 @@ msgstr "Importeret certifikat"
 #~ "All information in these journal entries will be deleted and can not be "
 #~ "restored."
 #~ msgstr ""
-#~ "Al information i disse journalindførsler vil blive slettet og vil ikke kunne "
-#~ "genoprettes."
+#~ "Al information i disse journalindførsler vil blive slettet og vil ikke "
+#~ "kunne genoprettes."
 
 #~ msgid ""
 #~ "All information on this journal entry will be deleted and can not be "
@@ -35276,11 +35154,11 @@ msgstr "Importeret certifikat"
 #~ msgstr "Er du sikker på du vil slette denne journalindførsel?"
 
 #~ msgid ""
-#~ "If you do not send a cancelation notice, the other participants may not know "
-#~ "the journal has been deleted."
+#~ "If you do not send a cancelation notice, the other participants may not "
+#~ "know the journal has been deleted."
 #~ msgstr ""
-#~ "Hvis du ikke underretter de øvrige deltagere om at du har slettet journalen, "
-#~ "vil de måske ikke vide det."
+#~ "Hvis du ikke underretter de øvrige deltagere om at du har slettet "
+#~ "journalen, vil de måske ikke vide det."
 
 #~ msgid "This journal entry has been deleted."
 #~ msgstr "Denne journalindførsel er slettet."
@@ -35299,7 +35177,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "Journalindførslen kunne ikke fjernes pga. en fejl"
 
 #~ msgid ""
-#~ "You are modifying a recurring journal entry. What would you like to modify?"
+#~ "You are modifying a recurring journal entry. What would you like to "
+#~ "modify?"
 #~ msgstr "Du ændrer en tilbagevendende journalindførsel. Hvad vil du ændre?"
 
 #~ msgid "Journal information"
@@ -35429,14 +35308,15 @@ msgstr "Importeret certifikat"
 #~ msgstr "<b>Afsendelse af e-mail:</b>"
 
 #~ msgid ""
-#~ "<small>This page allows you to choose if you want to be notified via a read "
-#~ "receipt when a message you\n"
-#~ "sent is read, and to specify what Evolution should do when someone requests "
-#~ "a receipt from you.</small>"
+#~ "<small>This page allows you to choose if you want to be notified via a "
+#~ "read receipt when a message you\n"
+#~ "sent is read, and to specify what Evolution should do when someone "
+#~ "requests a receipt from you.</small>"
 #~ msgstr ""
-#~ "<small>Denne side lader dig vælge om du ønsker at blive underrettet med en "
-#~ "læsningskvittering, når en besked som du har sendt bliver læst, og at angive "
-#~ "hvad Evolution bør gøre når nogen anmoder om en kvittering fra dig.</small>"
+#~ "<small>Denne side lader dig vælge om du ønsker at blive underrettet med "
+#~ "en læsningskvittering, når en besked som du har sendt bliver læst, og at "
+#~ "angive hvad Evolution bør gøre når nogen anmoder om en kvittering fra dig."
+#~ "</small>"
 
 #~ msgid "Ask me if I want to send back a read receipt"
 #~ msgstr "Spørg mig om jeg ønsker at sende en læsningskvittering tilbage"
@@ -35448,14 +35328,17 @@ msgstr "Importeret certifikat"
 #~ msgstr "Læsningskvitteringer"
 
 #~ msgid "Request a read receipt for all messages I send"
-#~ msgstr "Bed om en kvittering for at brevet er læst, for alle breve jeg sender"
-
-#~ msgid "Unless the message is sent to a mailing list, and not to me personally"
-#~ msgstr "Med mindre brevet sendes til en postliste, og ikke til mig personligt"
+#~ msgstr ""
+#~ "Bed om en kvittering for at brevet er læst, for alle breve jeg sender"
 
 #~ msgid ""
-#~ "When you receive an email with a read receipt request, what should Evolution "
-#~ "do?"
+#~ "Unless the message is sent to a mailing list, and not to me personally"
+#~ msgstr ""
+#~ "Med mindre brevet sendes til en postliste, og ikke til mig personligt"
+
+#~ msgid ""
+#~ "When you receive an email with a read receipt request, what should "
+#~ "Evolution do?"
 #~ msgstr ""
 #~ "Når du modtager et brev med anmodning om læsningskvittering, hvad bør "
 #~ "Evolution gøre?"
@@ -35538,8 +35421,8 @@ msgstr "Importeret certifikat"
 #~ msgstr "<b>Dato og tidspunkt</b>"
 
 #~ msgid ""
-#~ "The output directory was not found on iPod! Please ensure that iPod has been "
-#~ "correctly set up and try again."
+#~ "The output directory was not found on iPod! Please ensure that iPod has "
+#~ "been correctly set up and try again."
 #~ msgstr ""
 #~ "iPods uddata-mappe blev ikke fundet! Sørg venligst for at iPod er sat "
 #~ "rigtigt op og prøv igen."
@@ -35593,5 +35476,3 @@ msgstr "Importeret certifikat"
 #~ msgstr ""
 #~ "En fil med samme navn eksisterer allerede.\n"
 #~ "Overskriv den?"
-
-
