@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 10:44+0000\n"
-"PO-Revision-Date: 2017-08-11 20:07+0200\n"
+"POT-Creation-Date: 2017-08-22 17:05+0000\n"
+"PO-Revision-Date: 2017-08-27 09:59+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
@@ -2792,6 +2792,9 @@ msgid ""
 "Advanced users can experiment by exploring and editing the corresponding "
 "system-wide file(s) under <file>$PREFIX/share/evolution/ui/</file>."
 msgstr ""
+"Fortgeschrittene Benutzer können experimentell die entsprechenden "
+"systemweiten Dateien in <file>$PREFIX/share/evolution/ui/</file> durchsuchen "
+"und bearbeiten."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:31
@@ -2802,6 +2805,11 @@ msgid ""
 "so the next <app>Evolution</app> software update will not overwrite your "
 "changes."
 msgstr ""
+"Kopieren Sie die Dateien mit der Endung <file>.ui</file>, die Sie anpassen "
+"wollen, in Ihren persönlichen Konfigurationsordner <file>$HOME/.config/"
+"evolution/ui/</file>. Bearbeiten Sie nur die Dateien in Ihrem persönlichen "
+"Konfigurationsordner, damit Ihre Anpassungen nicht durch die nächste "
+"Software-Aktualisierung von <app>Evolution</app> überschrieben werden."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
@@ -2810,6 +2818,9 @@ msgid ""
 "attribute of the root <code>ui</code> element matches the version of the "
 "default files provided by <app>Evolution</app>."
 msgstr ""
+"Die bearbeiteten Dateien werden benutzt, wenn das Attribut <code>evolution-"
+"ui-version</code> des <code>ui</code>-Wurzelelements zur Version der von "
+"<app>Evolution</app> bereitgestellten Standarddateien passt."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -3322,14 +3333,14 @@ msgstr ""
 "profile\">Suchen Sie nach dem Profilordner von <app>Thunderbird</app>.</link>"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:60
+#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr ""
 "Klicken Sie auf <guiseq><gui>Datei</gui><gui>Importieren</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:61
+#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3383,7 +3394,7 @@ msgstr ""
 "gui> die Kalenderdaten in einem unüblichen Format speichert."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "Der Dateityp wird automatisch bestimmt."
@@ -3398,7 +3409,7 @@ msgstr ""
 "<app>Evolution</app>."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:66
+#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr "Wiederholen Sie diese Schritte, bis alle Ihre Daten importiert sind."
 
@@ -3413,7 +3424,7 @@ msgid "Outlook"
 msgstr "Outlook"
 
 #. (itstool) path: page/p
-#: C/import-apps-outlook.page:26
+#: C/import-apps-outlook.page:28
 msgid ""
 "These steps refer to locally stored data such as POP accounts. For remote "
 "data (like IMAP) this is not necessary, since the data is still on the "
@@ -3428,19 +3439,19 @@ msgstr ""
 "<app>Evolution</app> einrichten, woraufhin die Daten herunter geladen werden."
 
 #. (itstool) path: section/title
-#: C/import-apps-outlook.page:29
+#: C/import-apps-outlook.page:31
 msgid "Prerequisites under Windows"
 msgstr "Voraussetzungen unter Windows"
 
 #. (itstool) path: section/p
-#: C/import-apps-outlook.page:30
+#: C/import-apps-outlook.page:32
 msgid "First, while using Microsoft Windows, prepare your messages for import:"
 msgstr ""
 "Bereiten Sie zunächst Ihre Nachrichten unter Microsoft Windows für das "
 "Importieren vor:"
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:32
+#: C/import-apps-outlook.page:34
 msgid ""
 "Find your Outlook files (they normally have the file ending <file>.pst</"
 "file> or <file>.ost</file>):"
@@ -3449,30 +3460,30 @@ msgstr ""
 "<file>.pst</file> oder <file>.ost</file>):"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:35
+#: C/import-apps-outlook.page:37
 msgid "Windows 7, Windows Vista"
 msgstr "Windows 7, Windows Vista"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:35
+#: C/import-apps-outlook.page:37
 msgid "Windows XP"
 msgstr "Windows XP"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:38
+#: C/import-apps-outlook.page:40
 msgid "Outlook 2010"
 msgstr "Outlook 2010"
 
 # Windows 7/Vista
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:38
+#: C/import-apps-outlook.page:40
 msgid "<file>C:\\Users\\username\\My Documents\\Outlook Files</file>"
 msgstr ""
 "C:\\Dokumente und Einstellungen\\Benutzername\\Lokale Einstellungen"
 "\\Anwendungsdaten\\Microsoft\\Outlook"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:38
+#: C/import-apps-outlook.page:40
 msgid ""
 "<file>C:\\Documents and Settings\\username\\My Documents\\Outlook Files</"
 "file>"
@@ -3481,20 +3492,20 @@ msgstr ""
 "\\Anwendungsdaten\\Microsoft\\Outlook</file>"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:41
+#: C/import-apps-outlook.page:43
 msgid "Outlook 2007 and earlier"
 msgstr "Outlook 2007 und früher"
 
 # Windows 7/Vista
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:41
+#: C/import-apps-outlook.page:43
 msgid "<file>C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook</file>"
 msgstr ""
 "<file>C:\\Dokumente und Einstellungen\\Benutzername\\Lokale Einstellungen"
 "\\Anwendungsdaten\\Microsoft\\Outlook</file>"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:41
+#: C/import-apps-outlook.page:43
 msgid ""
 "<file>C:\\Documents and Settings\\username\\AppData\\Local\\Microsoft"
 "\\Outlook</file>"
@@ -3503,12 +3514,12 @@ msgstr ""
 "\\Anwendungsdaten\\Microsoft\\Outlook</file>"
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:44
+#: C/import-apps-outlook.page:46
 msgid "(Replace \"username\" by your username.)"
 msgstr "(Ersetzen Sie »Benutzername« durch Ihren Benutzernamen)"
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:47
+#: C/import-apps-outlook.page:49
 msgid ""
 "Copy the Outlook files to the system or partition that <app>Evolution</app> "
 "is installed on."
@@ -3517,7 +3528,7 @@ msgstr ""
 "<app>Evolution</app> installiert ist."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:48
+#: C/import-apps-outlook.page:50
 msgid ""
 "As your Windows hard drive is probably in the NTFS format, some Linux "
 "systems cannot read it without additional software. You might find it "
@@ -3529,12 +3540,12 @@ msgstr ""
 "eine CD zu brennen."
 
 #. (itstool) path: section/title
-#: C/import-apps-outlook.page:53
+#: C/import-apps-outlook.page:55
 msgid "Importing into <app>Evolution</app>"
 msgstr "In <app>Evolution</app> importieren"
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:55
+#: C/import-apps-outlook.page:57
 msgid ""
 "Depending on your last step, either plug in the disk or USB drive with the "
 "data and wait until the file manager window opens, or mount your Windows "
@@ -3545,7 +3556,7 @@ msgstr ""
 "Dateiverwaltung öffnet. Oder Sie binden Ihr Windows-Laufwerk ein."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:56
+#: C/import-apps-outlook.page:58
 msgid ""
 "Copy all the mail files into your home directory or another convenient place."
 msgstr ""
@@ -3553,12 +3564,12 @@ msgstr ""
 "anderen gewünschten Ort."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:57 C/mail-filters-not-working.page:48
+#: C/import-apps-outlook.page:59 C/mail-filters-not-working.page:48
 msgid "Start <app>Evolution</app>."
 msgstr "Starten Sie <app>Evolution</app>."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:58
+#: C/import-apps-outlook.page:60
 msgid ""
 "Optionally select <guiseq><gui>File</gui><gui>New</gui><gui>Mail Folder</"
 "gui></guiseq> to create the <link xref=\"mail-folders\">folders</link> you "
@@ -3569,7 +3580,7 @@ msgstr ""
 "\">Ordner</link> zu erstellen."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:62
+#: C/import-apps-outlook.page:64
 msgid ""
 "Choose the Outlook personal folders (.pst) file that you would like to "
 "import."
@@ -3578,7 +3589,7 @@ msgstr ""
 "importieren wollen."
 
 #. (itstool) path: note/p
-#: C/import-apps-outlook.page:63
+#: C/import-apps-outlook.page:65
 msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
@@ -3592,7 +3603,7 @@ msgstr ""
 "freigeschaltet."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:65 C/import-single-files.page:27
+#: C/import-apps-outlook.page:67 C/import-single-files.page:27
 msgid ""
 "Choose the destination (e.g. the folder in <app>Evolution</app>) for the "
 "imported data."
@@ -3659,6 +3670,18 @@ msgid ""
 "importers/evolution-csv-importer.c?"
 "id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></link>."
 msgstr ""
+"Wenn Sie den <gui>Dateityp</gui> auf <gui>Kontakte CSV oder Tab</gui> "
+"setzen, müssen die Spaltenüberschriften dem ersten Eintrag (in Englisch) in "
+"jedem Objekt im Importer-Code für <link href=\"https://git.gnome.org/browse/"
+"evolution/tree/src/addressbook/importers/evolution-csv-importer.c?"
+"id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
+"link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
+"addressbook/importers/evolution-csv-importer.c?"
+"id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></link> "
+"und <link href=\"https://git.gnome.org/browse/evolution/tree/src/addressbook/"
+"importers/evolution-csv-importer.c?"
+"id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></link> "
+"entsprechen."
 
 #. (itstool) path: info/desc
 #: C/import-supported-file-formats.page:5
@@ -4419,11 +4442,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:37
-#, fuzzy
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/window-overview-layers.png' "
-#| "md5='3156497ff1c51756838f9ddfbce9baee'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
@@ -4470,10 +4488,8 @@ msgstr "<_:media-1/> Nachrichtenliste"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:55
-#, fuzzy
-#| msgid "<_:media-1/> Tool bar"
 msgid "<_:media-1/> To Do bar"
-msgstr "<_:media-1/> Werkzeugleiste"
+msgstr "<_:media-1/> To-Do-Leiste"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:58
@@ -4584,7 +4600,7 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/intro-main-window.page:89
 msgid "To Do bar"
-msgstr ""
+msgstr "To-Do-Leiste"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:90
@@ -4592,19 +4608,17 @@ msgid ""
 "The to do bar displays calendar appointments and tasks with due dates within "
 "the next seven days."
 msgstr ""
+"Die To-Do-Leiste zeigt Kalendertermine und Aufgaben an, deren "
+"Fälligkeitszeitpunkt in den nächsten sieben Tagen liegt."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:91
-#, fuzzy
-#| msgid ""
-#| "You can disable the preview pane by toggling <guiseq><gui>View</"
-#| "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
 msgid ""
 "You can disable the to do bar by toggling <guiseq><gui>View</"
 "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
 msgstr ""
-"Sie können die Vorschau über <guiseq><gui>Ansicht</gui><gui>Vorschau</"
-"gui><gui>Nachrichtenvorschau anzeigen</gui></guiseq> ein- oder ausblenden."
+"Sie können die To-Do-Leiste über <guiseq><gui>Ansicht</gui><gui>Anordnung</"
+"gui><gui>To-Do-Leiste anzeigen</gui></guiseq> ein- oder ausblenden."
 
 #. (itstool) path: section/p
 #: C/intro-main-window.page:98
@@ -5297,6 +5311,8 @@ msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
 msgstr ""
+"Legen Sie fest, wie in einem bestimmten Zeitraum auf E-Mail an interne oder "
+"externe Personen automatisch geantwortet werden soll."
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
@@ -5308,6 +5324,8 @@ msgstr "Vertreter"
 msgid ""
 "Define who can send emails and reply to meeting requests on your behalf."
 msgstr ""
+"Legen Sie fest, wer in Ihrem Namen E-Mails senden und auf "
+"Besprechungsanfragen antworten darf."
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
@@ -5922,12 +5940,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:27
-#, fuzzy
-#| msgid ""
-#| "Check your search view in the search bar right above the message list. "
-#| "Perhaps the <gui>Show</gui> dropdown list is set to a filter like "
-#| "<gui>Read Messages</gui>, or the text input filed contains some value. "
-#| "Click the broom icon to clear the search field."
 msgid ""
 "Check your <link xref=\"mail-searching#search-many\">search view in the "
 "search bar</link> right above the message list. Perhaps the <gui>Show</gui> "
@@ -5935,11 +5947,11 @@ msgid ""
 "input filed contains some value. Click the broom icon to clear the search "
 "field."
 msgstr ""
-"Prüfen Sie die Suche in der Suchleiste über der Nachrichtenliste. Eventuell "
-"ist die Auswahlliste <gui>Anzeigen</gui> auf einen Suchfilter wie z.B. "
-"<gui>Gelesene Nachrichten</gui> eingestellt, oder das Texteingabefeld "
-"enthält einen Suchbegriff. Klicken Sie auf das Besensymbol, um das Suchfeld "
-"zu leeren."
+"Prüfen Sie die <link xref=\"mail-searching#search-many\">Suche in der "
+"Suchleiste</link> rechts über der Nachrichtenliste. Eventuell ist die "
+"Auswahlliste <gui>Anzeigen</gui> auf einen Suchfilter wie z.B. <gui>Gelesene "
+"Nachrichten</gui> eingestellt, oder das Texteingabefeld enthält einen "
+"Suchbegriff. Klicken Sie auf das Besensymbol, um das Suchfeld zu leeren."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:30
@@ -5956,19 +5968,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
-#, fuzzy
-#| msgid ""
-#| "Look in the <gui>Junk</gui> folder. Messages that are marked as Junk "
-#| "disappear from the original folder and are moved to the <gui>Junk</gui> "
-#| "folder."
 msgid ""
 "Look in the <link xref=\"mail-spam\"><gui>Junk</gui> folder</link>. Messages "
 "that are marked as Junk disappear from the original folder and are moved to "
 "the <gui>Junk</gui> folder."
 msgstr ""
-"Schauen Sie in den <gui>Unerwünscht</gui>-Ordner. Als unerwünscht markierte "
-"Nachrichten verschwinden aus dem Originalordner und werden in den "
-"<gui>Unerwünscht</gui>-Ordner verschoben."
+"Schauen Sie in den <link xref=\"mail-spam\"><gui>Unerwünscht</gui>-Ordner</"
+"link>. Als unerwünscht markierte Nachrichten verschwinden aus dem "
+"Originalordner und werden in den <gui>Unerwünscht</gui>-Ordner verschoben."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:37
@@ -5987,6 +5994,9 @@ msgid ""
 "link> Perhaps they are set to some other folder than the folder you thought "
 "of."
 msgstr ""
+"<link xref=\"mail-default-folder-locations\">Überprüfen Sie Ihre "
+"Ordnereinstellungen.</link> Vielleicht sind diese auf andere Ordner "
+"festgelegt, als Sie vermuten."
 
 #. (itstool) path: info/desc
 #: C/mail-change-columns-in-message-list.page:5
@@ -8035,14 +8045,6 @@ msgstr "Vorgaben für Kopien und Blindkopien"
 
 #. (itstool) path: page/p
 #: C/mail-default-CC-and-BCC.page:31
-#, fuzzy
-#| msgid ""
-#| "You can set email addresses that should always receive copies of your "
-#| "sent mail (either as CC visible for all recipients, or BCC not visible "
-#| "for other recipients) in the <gui>Defaults</gui> section of the mail "
-#| "account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
-#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></"
-#| "guiseq>)."
 msgid ""
 "You can set email addresses that should always receive copies of your sent "
 "mail (either as CC visible for all recipients, or BCC not visible for other "
@@ -8053,7 +8055,7 @@ msgstr ""
 "Sie können E-Mail-Adressen festlegen, an die immer Kopien Ihrer gesendeten "
 "Nachrichten geschickt werden sollen, entweder als für alle Empfänger "
 "sichtbare Kopie, oder als Blindkopie, die nicht für die anderen Empfänger "
-"sichtbar ist. Sie können dies im Abschnitt <gui>Defaults</gui> des "
+"sichtbar ist. Sie können dies im Abschnitt <gui>Vorgaben</gui> des "
 "Nachrichtenkonteneditors einstellen, erreichbar unter "
 "<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-Konten</"
 "gui><gui style=\"button\">Bearbeiten</gui><gui>Vorgaben</gui></guiseq>."
@@ -10410,6 +10412,8 @@ msgid ""
 "Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
 "config/evolution/accels</file>."
 msgstr ""
+"Fortgeschrittene Benutzer können die Tastenkombinationen durch Bearbeiten "
+"von <file>$HOME/.config/evolution/accels</file> anpassen."
 
 #. (itstool) path: note/p
 #: C/mail-reading-keyboard-shortcuts.page:69
@@ -11366,6 +11370,10 @@ msgid ""
 "Search Folder is located in, <link xref=\"mail-change-columns-in-message-list"
 "\">add the <gui>Location</gui> column</link> to the message list."
 msgstr ""
+"Wenn Sie wissen wollen, in welchem physischen Ordner sich eine im Suchordner "
+"angezeigte Nachricht befindet, <link xref=\"mail-change-columns-in-message-"
+"list\">fügen Sie die <gui>Orte</gui>-Spalte zur Nachrichtenliste hinzu</"
+"link>."
 
 #. (itstool) path: info/desc
 #: C/mail-searching-attachment-type.page:5
@@ -11810,6 +11818,8 @@ msgid ""
 "You can apply a secondary sort criterion by clicking a column label while "
 "pressing <key>Ctrl</key>."
 msgstr ""
+"Sie können weitere Suchkriterien anwenden, wenn Sie die <key>Strg</key>-"
+"Taste gedrückt halten und auf eine Spaltenbeschriftung klicken."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:58
@@ -12171,8 +12181,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-spam-settings.page:58
-#| msgid ""
-#| "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgid ""
 "The exact location depends on <link xref=\"mail-default-folder-locations"
 "\">your junk folder setting</link>."
@@ -13692,6 +13700,8 @@ msgid ""
 "Only the BCC recipients of the message. Obviously this can only be applied "
 "to outgoing filters."
 msgstr ""
+"Nur die Empfänger im Feld »Blindkopie an«. Selbstverständlich kann dies nur "
+"auf Ausgangsfilter angewendet werden."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:15
@@ -13724,15 +13734,13 @@ msgstr "Bestimmte Kopfzeile:"
 
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:22
-#, fuzzy
-#| msgid "Custom Header Lines"
 msgid "custom ones"
-msgstr "Benutzerdefinierte Kopfzeilen"
+msgstr "angepasste"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:22
 msgid "Any header including <_:link-1/>."
-msgstr ""
+msgstr "Alle Kopfzeilen einschließlich <_:link-1/>."
 
 #. (itstool) path: p/app
 #: C/xinclude-filter-vfolder-conditions.xml:23
@@ -13750,6 +13758,14 @@ msgid ""
 "\", <_:app-2/> filters as though the second declaration did not occur. To "
 "filter on messages that use headers multiple times, use a regular expression."
 msgstr ""
+"Falls eine Nachricht die gleiche Kopfzeile mehr als einmal benutzt, so "
+"wertet <_:app-1/> nur ihr erstes Auftreten aus, selbst wenn die Nachricht "
+"die Kopfzeile beim zweiten Mal anders definiert. Wenn zum Beispiel eine "
+"Nachricht die Kopfzeile »Resent-From:« als »engineering@example.com« und "
+"dann nochmals als »marketing@example.com« definiert, so filtert <_:app-2/>, "
+"als ob der zweite Wert nicht existieren würde. Verwenden Sie reguläre "
+"Ausdrücke, um Nachrichten zu filtern, welche die gleichen Kopfzeilen mehr "
+"als einmal definieren."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:25
@@ -13759,7 +13775,7 @@ msgstr "Nachrichtenrumpf:"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:26
 msgid "Searches in the actual text of the message."
-msgstr ""
+msgstr "Sucht im eigentlichen Text der Nachricht."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:28
@@ -13777,22 +13793,27 @@ msgid ""
 "(For programmers only) Match a message according to an expression you write "
 "in the Scheme language used to define <_:link-1/> in <_:app-2/>."
 msgstr ""
+"(Nur für Programmierer) Eine Nachricht mit einem in der Programmiersprache "
+"Scheme geschriebenen Ausdruck vergleichen, mit dem <_:link-1/> in <_:app-2/> "
+"definiert werden."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:31
 msgid "Free Form Expression:"
-msgstr ""
+msgstr "Freier Ausdruck:"
 
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:32
 msgid "special syntax"
-msgstr ""
+msgstr "Spezielle Syntax"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:32
 msgid ""
 "(For advanced users only) Combine numerous conditions by using a <_:link-1/>."
 msgstr ""
+"(Nur für fortgeschrittene Benutzer) Zahlreiche Bedingungen mit Hilfe eines "
+"<_:link-1/> kombinieren."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:34
@@ -13810,6 +13831,14 @@ msgid ""
 "for a message within a range of time relative to the filter, such as two to "
 "four days ago."
 msgstr ""
+"Filtert Nachrichten gemäß dem Datum, an dem sie verschickt wurden. Wählen "
+"Sie zunächst die Bedingungen, die auf eine Nachricht zutreffen sollen, wie "
+"zum Beispiel vor einem bestimmten Zeitpunkt oder nach einem bestimmten "
+"Zeitpunkt. Wählen Sie dann den Zeitpunkt aus. Der Filter vergleicht den "
+"Zeitstempel der Nachricht mit der Systemzeit, wenn der Filter angewendet "
+"wird, oder mit einem von Ihnen vorgegebenen Zeitpunkt. Es kann auch in den "
+"Nachrichten nach einem relativen Zeitpunkt gesucht werden, also zum Beispiel "
+"zwei oder vier Tage zuvor."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:37
@@ -13822,18 +13851,17 @@ msgid ""
 "This works the same way as the Date Sent option, except that it compares the "
 "time you received the message with the dates you specify."
 msgstr ""
+"Dies funktioniert genau so wie das Filtern gemäß dem Verschickt-Datum, nur "
+"dass hierbei der Zeitpunkt verglichen wird, an dem Sie die Nachricht "
+"erhalten haben."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:40
-#, fuzzy
-#| msgid "Labels"
 msgid "Label:"
-msgstr "Beschriftungen"
+msgstr "Beschriftung:"
 
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:41
-#, fuzzy
-#| msgid "Labels"
 msgid "labels"
 msgstr "Beschriftungen"
 
@@ -13843,13 +13871,14 @@ msgid ""
 "Messages can have <_:link-1/> of Important, Work, Personal, To Do, or Later. "
 "You can set labels with other filters or manually."
 msgstr ""
+"Nachrichten können <_:link-1/> wie »Wichtig«, »Geschäftlich«, »Persönlich«, "
+"»Zu erledigen« oder »Später« haben. Sie können Beschriftungen durch Filter "
+"oder per Hand anwenden."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:43
-#, fuzzy
-#| msgid "Assign Score:"
 msgid "Score:"
-msgstr "Bewertung zuweisen:"
+msgstr "Bewertung:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:44
@@ -13860,6 +13889,12 @@ msgid ""
 "particular: it is simply a number you can assign to messages so other "
 "filters can process them."
 msgstr ""
+"Setzt die Bewertung der Nachricht auf einen ganzzahligen Wert, der größer "
+"als 0 ist. Sie können einen Filter haben, der die Bewertung setzt, und einen "
+"weiteren Filter, der auf der Bewertung basierend die Nachrichten in Ordner "
+"verschiebt. Eine Bewertung basiert auf keinen speziellen Eigenschaften, es "
+"handelt sich nur um eine Nummer, die Sie Nachrichten zuweisen können, damit "
+"andere Filter diese weiterverarbeiten können."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:46
@@ -13869,7 +13904,7 @@ msgstr "Größe (kB):"
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:47
 msgid "Sorts based on the size of the message in kilobytes."
-msgstr ""
+msgstr "Sortiert gemäß der Größe der Nachricht in Kilobyte."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:49
@@ -13878,16 +13913,12 @@ msgstr "Status:"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:50
-#, fuzzy
-#| msgid ""
-#| "Sets the status of the message. The status can be Replied To, Draft, "
-#| "Important, Read, or Junk."
 msgid ""
 "Filters according to the status of a message. The status can be Replied To, "
 "Draft, Important, Read, or Junk."
 msgstr ""
-"Setzt den Status einer Nachricht. Der Status kann Beantwortet, Entwurf, "
-"Wichtig, Gelesen, oder Unerwünscht sein."
+"Filtert gemäß dem Status einer Nachricht, der »Beantwortet«, »Entwurf«, "
+"»Wichtig«, »Gelesen« oder »Unerwünscht« sein kann."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:52
@@ -13897,16 +13928,16 @@ msgstr "Folgenachricht:"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:53
 msgid "flagged for follow-up"
-msgstr ""
+msgstr "zur Nachverfolgung markiert"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:53
-#, fuzzy
-#| msgid "Checks whether the message is located in a specific folder."
 msgid ""
 "Checks whether the message is <_:link-1/> or completed (after a certain "
 "date)."
-msgstr "Prüft, ob sich die Nachricht in einem bestimmten Ordner befindet."
+msgstr ""
+"Prüft, ob die Nachricht <_:link-1/> oder abgeschlossen ist (nach einem "
+"bestimmten Datum)."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:55
@@ -13932,6 +13963,11 @@ msgid ""
 "mail. Mail from list servers that do not set X-BeenThere properly are not be "
 "caught by these filters."
 msgstr ""
+"Filtert basierend auf der Mailingliste, von welcher die Nachricht stammt. "
+"Dieser Filter prüft auf die X-BeenThere-Kopfzeile von Nachrichten, welche "
+"genutzt wird, um Mailinglisten zu kennzeichnen. E-Mails, die von List-"
+"Servern stammen, die diese Kopfzeile nicht korrekt benutzen, werden von "
+"diesem Filter nicht erkannt."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:61
@@ -13941,17 +13977,17 @@ msgstr "Regex-Treffer:"
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "regex"
-msgstr ""
+msgstr "Regex"
 
 #. (itstool) path: link/cmd
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "grep"
-msgstr ""
+msgstr "grep"
 
 #. (itstool) path: p/link
 #: C/xinclude-filter-vfolder-conditions.xml:62
 msgid "the man page for the <_:cmd-1/>"
-msgstr "die Handbuchseite für <_:cmd-1/>"
+msgstr "der Handbuchseite zum <_:cmd-1/>"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:62
@@ -13963,6 +13999,13 @@ msgid ""
 "messages that declare a particular header twice. For information about how "
 "to use regular expressions, check <_:link-2/> command."
 msgstr ""
+"(Nur für Programmierer) Wenn Sie mit <_:link-1/> (regulären Ausdrücken) "
+"hinreichend vertraut sind, können Sie mit dieser Option nach komplexen "
+"Buchstabenmustern suchen. Auf diese Weise finden Sie beispielsweise alle "
+"Wörter, die mit »a« beginnen und »m« enden und zwischen sechs und fünfzehn "
+"Buchstaben lang sind, oder alle Nachrichten, die eine bestimmte Kopfzeile "
+"zweimal deklarieren. Weitere Informationen zur Verwendung regulärer "
+"Ausdrücke finden Sie in <_:link-2/>-Befehl."
 
 #. (itstool) path: section/title
 #: C/xinclude-mail-account-identity.xml:4
@@ -13983,6 +14026,10 @@ msgid ""
 "work, or the organization you represent when you send email from this "
 "account)."
 msgstr ""
+"Optional können Sie dieses Konto zu Ihrem Vorgabe-Konto machen (z.B. für das "
+"Verfassen von E-Mails), eine Antwort-Adresse festlegen (wenn Antworten an "
+"eine andere Adresse erfolgen sollen) und eine Organisation angeben (z.B. "
+"Ihre Firma oder sonstige Institution, in deren Auftrag Sie arbeiten)."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
@@ -14001,6 +14048,7 @@ msgstr "Suchen"
 #: C/xinclude-searching.xml:6
 msgid "Select the <_:guiseq-1/> menu to open the dialog box."
 msgstr ""
+"Wählen Sie im Menü <_:guiseq-1/>, um das entsprechende Fenster zu öffnen."
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:7
@@ -14015,13 +14063,12 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:8
-#, fuzzy
-#| msgid "Select the scope from the drop-down list right to the text box."
 msgid ""
 "Select the condition from the dropdown list, and then type a search entry in "
 "the field."
 msgstr ""
-"Wählen Sie den Bereich aus der Auswahlliste rechts neben dem Textfeld aus."
+"Wählen Sie die Bedingung in der Auswahlliste aus und geben Sie danach einen "
+"Suchbegriff in das Feld ein."
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:9 C/xinclude-searching.xml:21
@@ -14043,7 +14090,7 @@ msgstr "Suchergebnisse leeren"
 #. (itstool) path: guiseq/gui
 #: C/xinclude-searching.xml:15
 msgid "Clear"
-msgstr ""
+msgstr "Leeren"
 
 #. (itstool) path: keyseq/key
 #: C/xinclude-searching.xml:15
@@ -14067,6 +14114,10 @@ msgid ""
 "gui-1/> icon in the search string field, or choose <_:guiseq-2/> from the "
 "menubar. You can also press <_:keyseq-3/> to clear the search."
 msgstr ""
+"Um die Suche zu löschen und zur Standard-Ansicht zurückzukehren, klicken Sie "
+"auf das <_:gui-1/>-Symbol rechts im Suchfeld, oder wählen Sie <_:guiseq-2/> "
+"in der Menüleiste aus. Sie können auch <_:keyseq-3/> zum Leeren des Feldes "
+"drücken."
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:19
@@ -14079,6 +14130,8 @@ msgid ""
 "If you search for something rather often, you will prefer not to type it "
 "many times. In this case you can use saved searches."
 msgstr ""
+"Wenn Sie nach etwas Bestimmtem häufig suchen, so bietet es sich an, "
+"Tipparbeit zu sparen und gespeicherte Suchen einzusetzen."
 
 #. (itstool) path: p/gui
 #: C/xinclude-searching.xml:21
@@ -14098,6 +14151,10 @@ msgid ""
 "select <_:guiseq-3/>. From now on this search will be directly available "
 "from the <_:gui-4/> menu."
 msgstr ""
+"Um Ihre Suchergebnisse zu speichern, klicken Sie im Suchfenster auf <_:gui-1/"
+"> anstatt auf <_:gui-2/>. Falls die Suchergebnisse bereits angezeigt werden, "
+"wählen Sie <_:guiseq-3/>. Ab diesem Zeitpunkt wird die Suche direkt im Menü "
+"<_:gui-4/> verfügbar sein."
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:25
@@ -14139,122 +14196,3 @@ msgstr "Bearbeiten Sie den Titel oder die Suchbedingungen im Dialog."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicken Sie auf <_:gui-1/>."
-
-#~ msgid ""
-#~ "For more information see <link xref=\"change-switcher-appearance"
-#~ "\">Changing the Switcher appearance</link>."
-#~ msgstr ""
-#~ "Lesen Sie für weitere Informationen <link xref=\"change-switcher-"
-#~ "appearance\">Das Erscheinungsbild der Umschalter-Knöpfe ändern</link>."
-
-#~ msgid ""
-#~ "Check your default folder under <guiseq><gui>Edit</gui><gui>Preferences</"
-#~ "gui><gui>Email Accounts</gui><gui>Edit</gui><gui>Defaults</gui></guiseq>. "
-#~ "Perhaps it is set to some other folder than the folder you thought of."
-#~ msgstr ""
-#~ "Prüfen Sie den Vorgabeordner unter <guiseq><gui>Bearbeiten</"
-#~ "gui><gui>Einstellungen</gui><gui>E-Mail-Konten</gui><gui>Bearbeiten</"
-#~ "gui><gui>Vorgabeeinstellungen</gui></guiseq>. Eventuell ist hier ein "
-#~ "anderer als der von Ihnen erwartete Ordner festgelegt."
-
-#~ msgid "Changing the display of the window buttons in the lower left corner."
-#~ msgstr ""
-#~ "So ändern Sie die Anzeige der Fenster-Knöpfe in der linken unteren Ecke."
-
-#~ msgid "Changing the Switcher appearance"
-#~ msgstr "Das Erscheinungsbild der Umschalter-Knöpfe ändern"
-
-#~ msgid ""
-#~ "The display of the window buttons in the lower left corner (Mail, "
-#~ "Contacts, Calendar, Tasks and Memos) can be changed via "
-#~ "<guiseq><gui>View</gui><gui>Switcher Appearance</gui></guiseq>. This can "
-#~ "be helpful if you have a small display. You can also completely hide them."
-#~ msgstr ""
-#~ "Die Darstellung der Fenster-Knöpfe (E-Mail, Kontakte, Kalender, Aufgaben "
-#~ "und Notizen) in der linken unteren Ecke kann über <guiseq><gui>Ansicht</"
-#~ "gui><gui>Umschalter-Knöpfe</gui></guiseq> angepasst werden. Dies ist im "
-#~ "Falle eines kleinen Bildschirms nützlich. Sie können auch vollständig "
-#~ "verborgen werden."
-
-#~ msgid "The available options are:"
-#~ msgstr "Die folgenden Optionen sind verfügbar:"
-
-#~ msgid "Icons and Text"
-#~ msgstr "Symbole und Text"
-
-#~ msgid "Icons Only"
-#~ msgstr "Nur Symbole"
-
-#~ msgid "Text Only"
-#~ msgstr "Nur Text"
-
-#~ msgid "Toolbar Style"
-#~ msgstr "Werkzeugleistenstil"
-
-#~ msgid "Show Buttons"
-#~ msgstr "Knöpfe anzeigen"
-
-#~ msgid "Sorting the mail folder list in the left pane."
-#~ msgstr ""
-#~ "So sortieren Sie die E-Mail-Nachrichtenordnerliste im linken "
-#~ "Seitenfenster."
-
-#~ msgid "Sorting the mail folder list"
-#~ msgstr "Sortieren der E-Mail-Nachrichtenordnerliste"
-
-#~ msgid "Default sort order"
-#~ msgstr "Voreingestellte Sortierreihenfolge"
-
-#~ msgid ""
-#~ "By default the <link xref=\"intro-main-window#e-mail\">mail folder list</"
-#~ "link> in the left pane contains top-level nodes in the following order:"
-#~ msgstr ""
-#~ "Per Voreinstellung enthält die <link xref=\"intro-main-window#e-mail\">E-"
-#~ "Mail-Ordnerliste</link> im linken Seitenfenster die obersten Knoten in "
-#~ "der folgenden Reihenfolge:"
-
-#~ msgid ""
-#~ "<gui>On This Computer</gui> - contains all mail for local account types "
-#~ "(if configured)"
-#~ msgstr ""
-#~ "<gui>Auf diesem Rechner</gui> - enthält alle E-Mails lokaler Konten "
-#~ "(falls welche eingerichtet sind)"
-
-#~ msgid "One or more remote email account types (if configured)"
-#~ msgstr "Einem oder mehreren entfernten E-Mail-Konten (falls eingerichtet)"
-
-#~ msgid ""
-#~ "<gui><link xref=\"mail-search-folders\">Search Folders</link></gui> (if "
-#~ "enabled)"
-#~ msgstr ""
-#~ "<gui><link xref=\"mail-search-folders\">Suchordner</link></gui> (falls "
-#~ "aktiviert)"
-
-#~ msgid ""
-#~ "The folders under each top-level node are sorted in alphabetical order."
-#~ msgstr ""
-#~ "Die Ordner unter jedem obersten Knoten sind in alphabetischer Reihenfolge "
-#~ "sortiert."
-
-#~ msgid "Changing the sort order"
-#~ msgstr "Die Sortierreihenfolge ändern"
-
-#~ msgid ""
-#~ "You can change the default sort order of the top-level nodes under "
-#~ "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></"
-#~ "guiseq> by dragging an account in the list up or down."
-#~ msgstr ""
-#~ "Sie können die voreingestellte Sortierreihenfolge der obersten Knoten "
-#~ "unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-"
-#~ "Konten</gui></guiseq> ändern, indem Sie ein Konto mittels Ziehen-und-"
-#~ "Ablegen in der Liste nach oben oder unten verschieben."
-
-#~ msgid ""
-#~ "You can revert your custom sort order by choosing <guiseq><gui>Edit</"
-#~ "gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style=\"button"
-#~ "\">Restore Default</gui></guiseq>."
-#~ msgstr ""
-#~ "Sie können Ihre persönliche Sortierreihenfolge zurücknehmen, indem Sie "
-#~ "<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-Konten</"
-#~ "gui><gui style=\"button\">Reihenfolge zurücksetzen</gui></guiseq> "
-#~ "auswählen."
