@@ -42,7 +42,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-08-04 08:14+0000\n"
-"PO-Revision-Date: 2017-09-01 13:39+0200\n"
+"PO-Revision-Date: 2017-09-09 14:15+0200\n"
 "Last-Translator: Gianvito Cavasoli <gianvito@gmx.it>\n"
 "Language-Team: Italiano <gnome-it-list@gnome.org>\n"
 "Language: it\n"
@@ -524,7 +524,7 @@ msgstr "Orario inizio giornata lavorativa di venerdì"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
 msgid "Workday end time for Friday"
-msgstr "Orario termine giornata lavorativa di veneedì"
+msgstr "Orario termine giornata lavorativa di venerdì"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
 msgid "Workday start time for Saturday"
@@ -925,7 +925,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show appointment end times in week and month views"
 msgstr ""
-"Mostra gli orari di termine degli appuntamenti nelle vista settimanale e "
+"Mostra gli orari di termine degli appuntamenti nella vista settimanale e "
 "mensile"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
@@ -936,7 +936,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid "Show appointment icons in the month view"
-msgstr "Mostra le icone degli appuntamenti nelle vista mensile"
+msgstr "Mostra le icone degli appuntamenti nella vista mensile"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 msgid "Whether to show icons of events in the month view"
@@ -949,7 +949,7 @@ msgstr "Mostra il riquadro anteprima dei memo"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 msgid "If “true”, show the memo preview pane in the main window"
 msgstr ""
-"Se impostata a \"VERO\", mostra il riquadro di anteprima del memo nella "
+"Se impostata a \"VERO\", mostra il riquadro di anteprima dei memo nella "
 "finestra principale"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
@@ -959,8 +959,8 @@ msgstr "Mostra il riquadro anteprima delle attività"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid "If “true”, show the task preview pane in the main window"
 msgstr ""
-"Se impostata a \"VERO\", mostra il riquadro di anteprima dell'attività nella "
-"finestra principale"
+"Se impostata a \"VERO\", mostra il riquadro di anteprima delle attività "
+"nella finestra principale"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
@@ -1040,7 +1040,7 @@ msgid ""
 "for completed tasks are suppressed."
 msgstr ""
 "Indica se mostrare un promemoria per le attività completate. Quando "
-"impostata a falsa, i promemoria per le attività completate sono soppressi."
+"impostata a falso, i promemoria per le attività completate sono soppressi."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid "Highlight overdue tasks"
