@@ -42,7 +42,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-08-04 08:14+0000\n"
-"PO-Revision-Date: 2017-09-09 14:15+0200\n"
+"PO-Revision-Date: 2017-09-10 13:13+0200\n"
 "Last-Translator: Gianvito Cavasoli <gianvito@gmx.it>\n"
 "Language-Team: Italiano <gnome-it-list@gnome.org>\n"
 "Language: it\n"
@@ -18300,7 +18300,7 @@ msgstr "Impossibile scaricare i messaggi nell'archivio di primo livello"
 #: ../src/mail/em-folder-tree-model.c:445
 #: ../src/mail/em-folder-tree-model.c:447
 msgid "UNMATCHED"
-msgstr "NESSUNA CORRISPONDENZA"
+msgstr "NON CORRISPONDENTI"
 
 #: ../src/mail/em-folder-tree-model.c:1326
 #: ../src/mail/em-folder-tree-model.c:1702
@@ -24240,7 +24240,7 @@ msgstr "Mostra la barra dei da fare con appuntamenti e attività"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2040
 msgid "_Unmatched Folder Enabled"
-msgstr "Cartella _non corrispondenti abilitata"
+msgstr "Cartella _Non corrispondenti abilitata"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2042
 msgid "Toggles whether Unmatched search folder is enabled"
