@@ -7,9 +7,8 @@
 	"rename-desktop-file": "evolution.desktop",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "master",
-	"desktop-file-name-suffix": " (Development)",
-	"tags": [ "devel" ],
+	"branch": "gnome-3-26",
+	"desktop-file-name-suffix": " (3.26)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
@@ -245,7 +244,7 @@
 				{
 					"type": "git",
 					"url": "https://git.gnome.org/browse/evolution-data-server",
-					"branch": "master"
+					"branch": "gnome-3-26"
 				}
 			]
 		},
@@ -292,7 +291,7 @@
 				{
 					"type": "git",
 					"url": "https://git.gnome.org/browse/evolution",
-					"branch": "master"
+					"branch": "gnome-3-26"
 				},
 
 				{
@@ -344,7 +343,7 @@
 				{
 					"type": "git",
 					"url": "https://git.gnome.org/browse/evolution-ews",
-					"branch": "master"
+					"branch": "gnome-3-26"
 				}
 			]
 		}
