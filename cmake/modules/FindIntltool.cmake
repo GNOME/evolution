@@ -189,7 +189,7 @@ macro(add_appdata_file _infilename _outfilename)
 	endif(NOT TARGET appdata-files)
 
 	set(_out ${_outfilename})
-	get_filename_component(_outtarget ${_out} NAME_WE)
+	get_filename_component(_outtarget ${_out} NAME)
 	get_filename_component(_path ${_out} DIRECTORY)
 	if(_path STREQUAL "")
 		set(_out ${CMAKE_CURRENT_BINARY_DIR}/${_out})

@@ -718,8 +718,6 @@ add_pkgconfig_file(evolution-calendar.pc.in evolution-calendar-${INTERFACE_VERSI
 add_pkgconfig_file(evolution-mail.pc.in evolution-mail-${INTERFACE_VERSION}.pc)
 add_pkgconfig_file(evolution-shell.pc.in evolution-shell-${INTERFACE_VERSION}.pc)
 
-add_appdata_file(evolution.appdata.xml.in evolution.appdata.xml)
-
 add_subdirectory(data)
 add_subdirectory(po)
 add_subdirectory(src)

@@ -4,7 +4,6 @@
 	"runtime-version": "3.24",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
-	"rename-desktop-file": "evolution.desktop",
 	"rename-icon": "evolution",
 	"copy-icon": true,
 	"branch": "master",
