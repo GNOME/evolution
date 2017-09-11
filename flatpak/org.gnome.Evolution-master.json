@@ -270,7 +270,6 @@
 			"name": "evolution",
 			"buildsystem": "cmake",
 			"config-opts": [
-				"-DVERSION_SUBSTRING:STRING=' (flatpak)'",
 				"-DENABLE_AUTOAR=OFF",
 				"-DENABLE_CONTACT_MAPS=OFF",
 				"-DENABLE_GNOME_DESKTOP=OFF",
@@ -292,6 +291,14 @@
 					"type": "git",
 					"url": "https://git.gnome.org/browse/evolution",
 					"branch": "master"
+				},
+
+				{
+					"type": "shell",
+					"commands": [
+						"cp config.h.in config.h.in.orig",
+						"cat config.h.in.orig | sed -e \"s|\\@VERSION_SUBSTRING\\@| \\(flatpak git$(git log --pretty=format:%h HEAD^..HEAD)\\)|\" >config.h.in"
+					]
 				},
 
 				{
