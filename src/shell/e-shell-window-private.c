@@ -259,7 +259,29 @@ delayed_menubar_show_cb (gpointer user_data)
 		main_menu = e_shell_window_get_managed_widget (shell_window, "/main-menu");
 
 		gtk_widget_show (main_menu);
-		gtk_widget_grab_focus (main_menu);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+delayed_menubar_hide_cb (gpointer user_data)
+{
+	EShellWindow *shell_window = user_data;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+
+	shell_window->priv->delayed_menubar_hide_id = 0;
+
+	if (!e_shell_window_get_menubar_visible (shell_window) &&
+	    !shell_window->priv->delayed_menubar_show_id) {
+		GtkWidget *main_menu;
+
+		main_menu = e_shell_window_get_managed_widget (shell_window, "/main-menu");
+
+		if (gtk_widget_get_visible (main_menu) &&
+		    !gtk_menu_shell_get_selected_item (GTK_MENU_SHELL (main_menu)))
+			gtk_widget_hide (main_menu);
 	}
 
 	return FALSE;
@@ -293,6 +315,11 @@ e_shell_window_event_after_cb (EShellWindow *shell_window,
 
 		if ((key_event->keyval == GDK_KEY_Alt_L || key_event->keyval == GDK_KEY_Alt_R) &&
 		    !(key_event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_SUPER_MASK | GDK_HYPER_MASK | GDK_META_MASK))) {
+			if (shell_window->priv->delayed_menubar_hide_id) {
+				g_source_remove (shell_window->priv->delayed_menubar_hide_id);
+				shell_window->priv->delayed_menubar_hide_id = 0;
+			}
+
 			if (shell_window->priv->delayed_menubar_show_id) {
 				g_source_remove (shell_window->priv->delayed_menubar_show_id);
 				shell_window->priv->delayed_menubar_show_id = 0;
@@ -310,8 +337,11 @@ e_shell_window_event_after_cb (EShellWindow *shell_window,
 			shell_window->priv->delayed_menubar_show_id = 0;
 		}
 
-		if (gtk_widget_get_visible (main_menu))
-			gtk_widget_hide (main_menu);
+		if (gtk_widget_get_visible (main_menu) &&
+		    !shell_window->priv->delayed_menubar_hide_id) {
+			shell_window->priv->delayed_menubar_hide_id =
+				e_named_timeout_add (500, delayed_menubar_hide_cb, shell_window);
+		}
 	}
 }
 
@@ -614,6 +644,11 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 	if (priv->delayed_menubar_show_id) {
 		g_source_remove (priv->delayed_menubar_show_id);
 		priv->delayed_menubar_show_id = 0;
+	}
+
+	if (priv->delayed_menubar_hide_id) {
+		g_source_remove (priv->delayed_menubar_hide_id);
+		priv->delayed_menubar_hide_id = 0;
 	}
 
 	/* Need to disconnect handlers before we unref the shell. */
