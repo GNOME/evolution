@@ -572,6 +572,20 @@ ensure_scrolled_height_cb (GtkAdjustment *adj,
 	ensure_scrolled_height (scrolled_window);
 }
 
+static void
+filter_type_changed_cb (GtkComboBox *combobox,
+			EFilterRule *fr)
+{
+	const gchar *id;
+
+	g_return_if_fail (GTK_IS_COMBO_BOX (combobox));
+	g_return_if_fail (E_IS_FILTER_RULE (fr));
+
+	id = gtk_combo_box_get_active_id (combobox);
+	if (id && *id)
+		e_filter_rule_set_source (fr, id);
+}
+
 static GtkWidget *
 get_widget (EFilterRule *fr,
             ERuleContext *rc)
@@ -590,6 +604,29 @@ get_widget (EFilterRule *fr,
 
 	widget = E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->
 		get_widget (fr, rc);
+
+	g_warn_if_fail (GTK_IS_GRID (widget));
+
+	label = gtk_label_new_with_mnemonic (_("Rul_e type:"));
+	w = gtk_combo_box_text_new ();
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), w);
+
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (w), E_FILTER_SOURCE_INCOMING, _("Incoming"));
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (w), E_FILTER_SOURCE_OUTGOING, _("Outgoing"));
+
+	gtk_combo_box_set_active_id (GTK_COMBO_BOX (w), fr->source);
+
+	g_signal_connect (w, "changed", G_CALLBACK (filter_type_changed_cb), fr);
+
+	hgrid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_column_spacing (hgrid, 12);
+
+	gtk_grid_attach (hgrid, label, 0, 0, 1, 1);
+	gtk_grid_attach_next_to (hgrid, w, label, GTK_POS_RIGHT, 1, 1);
+
+	gtk_grid_insert_row (GTK_GRID (widget), 1);
+	gtk_grid_attach (GTK_GRID (widget), GTK_WIDGET (hgrid), 0, 1, 1, 1);
 
 	/* and now for the action area */
 	msg = g_strdup_printf ("<b>%s</b>", _("Then"));

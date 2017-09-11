@@ -57,6 +57,22 @@ G_DEFINE_TYPE (
 	e_rule_editor,
 	GTK_TYPE_DIALOG)
 
+static gboolean
+update_selected_rule (ERuleEditor *editor)
+{
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	selection = gtk_tree_view_get_selection (editor->list);
+	if (selection && gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		gtk_tree_model_get (GTK_TREE_MODEL (editor->model), &iter, 1, &editor->current, -1);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 dialog_rule_changed (EFilterRule *fr,
                      GtkWidget *dialog)
@@ -74,6 +90,8 @@ add_editor_response (GtkWidget *dialog,
 	GtkTreeSelection *selection;
 	GtkTreePath *path;
 	GtkTreeIter iter;
+
+	g_signal_handlers_disconnect_by_func (editor->edit, G_CALLBACK (dialog_rule_changed), editor->dialog);
 
 	if (button == GTK_RESPONSE_OK) {
 		EAlert *alert = NULL;
@@ -93,24 +111,30 @@ add_editor_response (GtkWidget *dialog,
 
 		g_object_ref (editor->edit);
 
-		gtk_list_store_append (editor->model, &iter);
-		gtk_list_store_set (
-			editor->model, &iter,
-			0, editor->edit->name,
-			1, editor->edit,
-			2, editor->edit->enabled, -1);
-		selection = gtk_tree_view_get_selection (editor->list);
-		gtk_tree_selection_select_iter (selection, &iter);
+		e_rule_context_add_rule (editor->context, editor->edit);
 
-		/* scroll to the newly added row */
-		path = gtk_tree_model_get_path (
-			GTK_TREE_MODEL (editor->model), &iter);
-		gtk_tree_view_scroll_to_cell (
-			editor->list, path, NULL, TRUE, 1.0, 0.0);
-		gtk_tree_path_free (path);
+		if (g_strcmp0 (editor->source, editor->edit->source) == 0) {
+			gtk_list_store_append (editor->model, &iter);
+			gtk_list_store_set (
+				editor->model, &iter,
+				0, editor->edit->name,
+				1, editor->edit,
+				2, editor->edit->enabled, -1);
+			selection = gtk_tree_view_get_selection (editor->list);
+			gtk_tree_selection_select_iter (selection, &iter);
 
-		editor->current = editor->edit;
-		e_rule_context_add_rule (editor->context, editor->current);
+			/* scroll to the newly added row */
+			path = gtk_tree_model_get_path (
+				GTK_TREE_MODEL (editor->model), &iter);
+			gtk_tree_view_scroll_to_cell (
+				editor->list, path, NULL, TRUE, 1.0, 0.0);
+			gtk_tree_path_free (path);
+
+			editor->current = editor->edit;
+		} else {
+			editor->current = NULL;
+			update_selected_rule (editor);
+		}
 	}
 
 	gtk_widget_destroy (dialog);
@@ -129,22 +153,6 @@ editor_destroy (ERuleEditor *editor,
 
 	gtk_widget_set_sensitive (GTK_WIDGET (editor), TRUE);
 	e_rule_editor_set_sensitive (editor);
-}
-
-static gboolean
-update_selected_rule (ERuleEditor *editor)
-{
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-
-	selection = gtk_tree_view_get_selection (editor->list);
-	if (selection && gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (editor->model), &iter, 1, &editor->current, -1);
-		return TRUE;
-	}
-
-	return FALSE;
 }
 
 static void
@@ -213,6 +221,8 @@ edit_editor_response (GtkWidget *dialog,
 	GtkTreeIter iter;
 	gint pos;
 
+	g_signal_handlers_disconnect_by_func (editor->edit, G_CALLBACK (dialog_rule_changed), editor->dialog);
+
 	if (button == GTK_RESPONSE_OK) {
 		EAlert *alert = NULL;
 		if (!e_filter_rule_validate (editor->edit, &alert)) {
@@ -246,12 +256,19 @@ edit_editor_response (GtkWidget *dialog,
 				GTK_TREE_MODEL (editor->model), &iter, path);
 			gtk_tree_path_free (path);
 
-			gtk_list_store_set (
-				editor->model, &iter,
-				0, editor->edit->name, -1);
-
 			/* replace the old rule with the new rule */
 			e_filter_rule_copy (editor->current, editor->edit);
+
+			if (g_strcmp0 (editor->source, editor->edit->source) == 0) {
+				gtk_list_store_set (
+					editor->model, &iter,
+					0, editor->edit->name, -1);
+			} else {
+				gtk_list_store_remove (editor->model, &iter);
+				editor->current = NULL;
+
+				update_selected_rule (editor);
+			}
 		}
 	}
 
@@ -496,6 +513,8 @@ rule_editor_finalize (GObject *object)
 	ERuleEditor *editor = E_RULE_EDITOR (object);
 
 	g_object_unref (editor->context);
+
+	g_clear_pointer (&editor->source, g_free);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_rule_editor_parent_class)->finalize (object);
@@ -759,6 +778,8 @@ e_rule_editor_construct (ERuleEditor *editor,
 
 	renderer = GTK_CELL_RENDERER (list->data);
 	g_warn_if_fail (GTK_IS_CELL_RENDERER_TOGGLE (renderer));
+
+	g_list_free (list);
 
 	g_signal_connect (
 		renderer, "toggled",
