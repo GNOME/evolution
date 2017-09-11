@@ -87,8 +87,6 @@ struct _EMailDisplayPrivate {
 
 	guint web_extension_headers_collapsed_signal_id;
 	guint web_extension_mail_part_appeared_signal_id;
-
-	GtkAllocation attachment_popup_position;
 };
 
 enum {
@@ -1004,50 +1002,6 @@ mail_display_attachment_menu_deactivate_cb (GtkMenuShell *menu,
 }
 
 static void
-mail_display_attachment_menu_position_cb (GtkMenu *menu,
-					  gint *x,
-					  gint *y,
-					  gboolean *push_in,
-					  gpointer user_data)
-{
-	GtkRequisition menu_requisition;
-	GtkTextDirection direction;
-	GtkAllocation allocation;
-	GdkRectangle monitor;
-	GdkScreen *screen;
-	GdkWindow *window;
-	GtkWidget *widget;
-	EMailDisplay *display = user_data;
-	gint monitor_num;
-
-	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
-
-	widget = GTK_WIDGET (display);
-	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &menu_requisition, NULL);
-
-	window = gtk_widget_get_parent_window (widget);
-	screen = gtk_widget_get_screen (GTK_WIDGET (menu));
-	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
-	if (monitor_num < 0)
-		monitor_num = 0;
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
-	allocation = display->priv->attachment_popup_position;
-
-	gdk_window_get_origin (window, x, y);
-	*x += allocation.x;
-	*y += allocation.y + allocation.height;
-
-	direction = gtk_widget_get_direction (widget);
-	if (direction == GTK_TEXT_DIR_LTR)
-		*x += MAX (allocation.width - menu_requisition.width, 0);
-	else if (menu_requisition.width > allocation.width)
-		*x -= menu_requisition.width - allocation.width;
-
-	*push_in = FALSE;
-}
-
-static void
 mail_display_attachment_select_path (EAttachmentView *view,
 				     EAttachment *attachment)
 {
@@ -1099,13 +1053,24 @@ mail_display_attachment_menu_clicked_cb (EWebView *web_view,
 			G_CALLBACK (mail_display_attachment_menu_deactivate_cb), display);
 
 		mail_display_attachment_select_path (view, attachment);
-		display->priv->attachment_popup_position = *element_position;
-
 		mail_display_attachment_inline_update_actions (display);
 		gtk_action_group_set_visible (display->priv->attachment_inline_group, TRUE);
 
-		e_attachment_view_show_popup_menu (view, NULL,
-			mail_display_attachment_menu_position_cb, display);
+		e_attachment_view_update_actions (view);
+		popup_menu = e_attachment_view_get_popup_menu (view);
+
+		g_object_set (GTK_MENU (popup_menu),
+		              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
+		                               GDK_ANCHOR_SLIDE |
+		                               GDK_ANCHOR_RESIZE),
+		              NULL);
+
+		gtk_menu_popup_at_rect (GTK_MENU (popup_menu),
+		                        gtk_widget_get_parent_window (GTK_WIDGET (display)),
+		                        element_position,
+		                        GDK_GRAVITY_SOUTH_WEST,
+		                        GDK_GRAVITY_NORTH_WEST,
+		                        NULL);
 	}
 
 	g_clear_object (&attachment);

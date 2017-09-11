@@ -3261,7 +3261,6 @@ e_web_view_show_popup_menu (EWebView *web_view,
 			    GdkEvent *event)
 {
 	GtkWidget *menu;
-	guint button;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
@@ -3269,12 +3268,7 @@ e_web_view_show_popup_menu (EWebView *web_view,
 
 	menu = e_web_view_get_popup_menu (web_view);
 
-	if (!event || !gdk_event_get_button (event, &button))
-		button = 0;
-
-	gtk_menu_popup (
-		GTK_MENU (menu), NULL, NULL, NULL, NULL,
-		button, event ? gdk_event_get_time (event) : gtk_get_current_event_time ());
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), event);
 }
 
 /**

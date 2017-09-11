@@ -230,11 +230,6 @@ GtkWidget *	e_attachment_view_get_popup_menu
 						(EAttachmentView *view);
 GtkUIManager *	e_attachment_view_get_ui_manager
 						(EAttachmentView *view);
-void		e_attachment_view_show_popup_menu
-						(EAttachmentView *view,
-						 GdkEventButton *event,
-						 GtkMenuPositionFunc func,
-						 gpointer user_data);
 void		e_attachment_view_update_actions
 						(EAttachmentView *view);
 

@@ -2046,29 +2046,6 @@ popup_menu_detach (GtkWidget *attach_widget,
 }
 
 static void
-popup_menu_placement_cb (GtkMenu *menu,
-                         gint *x,
-                         gint *y,
-                         gboolean *push_in,
-                         gpointer user_data)
-{
-	EText *text = E_TEXT (user_data);
-	GnomeCanvasItem *item = &text->item;
-	GnomeCanvas *parent = item->canvas;
-
-	if (parent) {
-		GdkWindow *window;
-
-		window = gtk_widget_get_window (GTK_WIDGET (parent));
-		gdk_window_get_origin (window, x, y);
-		*x += item->x1 + text->width / 2;
-		*y += item->y1 + text->height / 2;
-	}
-
-	return;
-}
-
-static void
 popup_targets_received (GtkClipboard *clipboard,
                         GtkSelectionData *data,
                         gpointer user_data)
@@ -2080,10 +2057,9 @@ popup_targets_received (GtkClipboard *clipboard,
 	GtkWidget *popup_menu = gtk_menu_new ();
 	GtkWidget *menuitem, *submenu;
 	guint event_button = 0;
-	guint32 event_time;
+	GdkRectangle rect;
 
 	gdk_event_get_button (event, &event_button);
-	event_time = gdk_event_get_time (event);
 
 	g_free (closure);
 
@@ -2166,17 +2142,20 @@ popup_targets_received (GtkClipboard *clipboard,
 		popup_menu);
 
 	/* If invoked by S-F10 key binding, button will be 0. */
-	if (event_button == 0) {
-		gtk_menu_popup (
-			GTK_MENU (popup_menu), NULL, NULL,
-			popup_menu_placement_cb, (gpointer) text,
-			event_button, GDK_CURRENT_TIME);
-	} else {
-		gtk_menu_popup (
-			GTK_MENU (popup_menu), NULL, NULL,
-			NULL, NULL,
-			event_button, event_time);
-	}
+	if (event_button == 0 && text->item.canvas) {
+		rect.x = text->item.x1;
+		rect.y = text->item.y1;
+		rect.width = text->width;
+		rect.height = text->height;
+
+		gtk_menu_popup_at_rect (GTK_MENU (popup_menu),
+		                        gtk_widget_get_window (GTK_WIDGET (text->item.canvas)),
+		                        &rect,
+		                        GDK_GRAVITY_CENTER,
+		                        GDK_GRAVITY_NORTH_WEST,
+		                        event);
+	} else
+		gtk_menu_popup_at_pointer (GTK_MENU (popup_menu), event);
 
 	g_object_unref (text);
 	gdk_event_free (event);

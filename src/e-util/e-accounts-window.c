@@ -1380,59 +1380,6 @@ accounts_window_tree_view_new (EAccountsWindow *accounts_window)
 }
 
 static void
-accounts_window_add_menu_position (GtkMenu *menu,
-				   gint *x,
-				   gint *y,
-				   gboolean *push_in,
-				   gpointer user_data)
-{
-	GtkRequisition menu_requisition;
-	GtkTextDirection direction;
-	GtkAllocation allocation;
-	GdkRectangle monitor;
-	GdkScreen *screen;
-	GdkWindow *window;
-	GtkWidget *widget = user_data;
-	gint monitor_num;
-
-	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &menu_requisition, NULL);
-
-	window = gtk_widget_get_parent_window (widget);
-	screen = gtk_widget_get_screen (GTK_WIDGET (menu));
-	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
-	if (monitor_num < 0)
-		monitor_num = 0;
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
-	gtk_widget_get_allocation (widget, &allocation);
-
-	gdk_window_get_origin (window, x, y);
-	*x += allocation.x;
-	*y += allocation.y;
-
-	direction = gtk_widget_get_direction (widget);
-	if (direction == GTK_TEXT_DIR_LTR)
-		*x += MAX (allocation.width - menu_requisition.width, 0);
-	else if (menu_requisition.width > allocation.width)
-		*x -= menu_requisition.width - allocation.width;
-
-	gtk_widget_get_allocation (widget, &allocation);
-
-	if ((*y + allocation.height +
-		menu_requisition.height) <= monitor.y + monitor.height)
-		*y += allocation.height;
-	else if ((*y - menu_requisition.height) >= monitor.y)
-		*y -= menu_requisition.height;
-	else if (monitor.y + monitor.height -
-		(*y + allocation.height) > *y)
-		*y += allocation.height;
-	else
-		*y -= menu_requisition.height;
-
-	*push_in = FALSE;
-}
-
-static void
 accounts_window_add_menu_activate_cb (GObject *item,
 				      gpointer user_data)
 {
@@ -1487,15 +1434,17 @@ accounts_window_show_add_popup (EAccountsWindow *accounts_window,
 
 	gtk_menu_attach_to_widget (GTK_MENU (popup_menu), accounts_window->priv->add_box, NULL);
 
-	if (event) {
-		gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
-			accounts_window_add_menu_position, accounts_window->priv->add_box,
-			event->button, event->time);
-	} else {
-		gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
-			accounts_window_add_menu_position, accounts_window->priv->add_box,
-			0, gtk_get_current_event_time ());
-	}
+	g_object_set (popup_menu,
+	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
+	                               GDK_ANCHOR_SLIDE |
+	                               GDK_ANCHOR_RESIZE),
+	              NULL);
+
+	gtk_menu_popup_at_widget (GTK_MENU (popup_menu),
+	                          accounts_window->priv->add_box,
+	                          GDK_GRAVITY_SOUTH_WEST,
+	                          GDK_GRAVITY_NORTH_WEST,
+	                          (const GdkEvent *) event);
 }
 
 static void

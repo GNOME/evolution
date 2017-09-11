@@ -1993,7 +1993,6 @@ etdp_popup_menu (EToDoPane *to_do_pane,
 		 GdkEvent *event)
 {
 	GtkMenu *menu;
-	guint button, event_time;
 
 	menu = GTK_MENU (gtk_menu_new ());
 
@@ -2002,18 +2001,8 @@ etdp_popup_menu (EToDoPane *to_do_pane,
 
 	etdp_fill_popup_menu (to_do_pane, menu);
 
-	if (event) {
-		if (!gdk_event_get_button (event, &button))
-			button = 0;
-
-		event_time = gdk_event_get_time (event);
-	} else {
-		button = 0;
-		event_time = gtk_get_current_event_time ();
-	}
-
 	gtk_menu_attach_to_widget (menu, GTK_WIDGET (to_do_pane->priv->tree_view), NULL);
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, button, event_time);
+	gtk_menu_popup_at_pointer (menu, event);
 }
 
 static gboolean

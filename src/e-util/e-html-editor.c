@@ -492,8 +492,7 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 typedef struct _ContextMenuData {
 	GWeakRef *editor_weakref; /* EHTMLEditor * */
 	EContentEditorNodeFlags flags;
-	guint button;
-	guint32 time;
+	GdkEvent *event;
 } ContextMenuData;
 
 static void
@@ -502,6 +501,7 @@ context_menu_data_free (gpointer ptr)
 	ContextMenuData *cmd = ptr;
 
 	if (cmd) {
+		g_clear_pointer (&cmd->event, gdk_event_free);
 		e_weak_ref_free (cmd->editor_weakref);
 		g_free (cmd);
 	}
@@ -526,8 +526,7 @@ html_editor_show_context_menu_idle_cb (gpointer user_data)
 		if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
 			gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
 
-		gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL,
-			GTK_WIDGET (e_html_editor_get_content_editor (editor)), cmd->button, cmd->time);
+		gtk_menu_popup_at_pointer (GTK_MENU (menu), cmd->event);
 
 		g_object_unref (editor);
 	}
@@ -548,11 +547,7 @@ html_editor_context_menu_requested_cb (EContentEditor *cnt_editor,
 	cmd = g_new0 (ContextMenuData, 1);
 	cmd->editor_weakref = e_weak_ref_new (editor);
 	cmd->flags = flags;
-
-	if (!event || !gdk_event_get_button (event, &cmd->button))
-		cmd->button = 0;
-
-	cmd->time = event ? gdk_event_get_time (event) : gtk_get_current_event_time ();
+	cmd->event = gdk_event_copy (event);
 
 	g_idle_add_full (G_PRIORITY_LOW, html_editor_show_context_menu_idle_cb,
 		cmd, context_menu_data_free);

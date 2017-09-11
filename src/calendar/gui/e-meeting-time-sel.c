@@ -115,11 +115,6 @@ static void e_meeting_time_selector_on_canvas_realized (GtkWidget *widget,
 
 static void e_meeting_time_selector_on_options_button_clicked (GtkWidget *button,
 							       EMeetingTimeSelector *mts);
-static void e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
-								    gint *x,
-								    gint *y,
-								    gboolean *push_in,
-								    gpointer user_data);
 static void e_meeting_time_selector_on_zoomed_out_toggled (GtkCheckMenuItem *button,
 							   EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_on_working_hours_toggled (GtkCheckMenuItem *menuitem,
@@ -130,11 +125,6 @@ static void e_meeting_time_selector_on_update_free_busy (GtkWidget *button,
 							 EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_on_autopick_button_clicked (GtkWidget *button,
 								EMeetingTimeSelector *mts);
-static void e_meeting_time_selector_autopick_menu_position_callback (GtkMenu *menu,
-								     gint *x,
-								     gint *y,
-								     gboolean *push_in,
-								     gpointer user_data);
 static void e_meeting_time_selector_on_autopick_option_toggled (GtkWidget *button,
 								EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_on_prev_button_clicked (GtkWidget *button,
@@ -1678,42 +1668,17 @@ static void
 e_meeting_time_selector_on_options_button_clicked (GtkWidget *button,
                                                    EMeetingTimeSelector *mts)
 {
-	gtk_menu_popup (
-		GTK_MENU (mts->options_menu), NULL, NULL,
-		e_meeting_time_selector_options_menu_position_callback,
-		mts, 1, GDK_CURRENT_TIME);
-}
+	g_object_set (mts->options_menu,
+	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
+	                               GDK_ANCHOR_SLIDE |
+	                               GDK_ANCHOR_RESIZE),
+	              NULL);
 
-static void
-e_meeting_time_selector_options_menu_position_callback (GtkMenu *menu,
-                                                        gint *x,
-                                                        gint *y,
-                                                        gboolean *push_in,
-                                                        gpointer user_data)
-{
-	EMeetingTimeSelector *mts;
-	GtkRequisition menu_requisition;
-	GtkAllocation allocation;
-	GtkWidget *widget;
-	GdkWindow *window;
-	gint max_x, max_y;
-
-	mts = E_MEETING_TIME_SELECTOR (user_data);
-
-	/* Calculate our preferred position. */
-	widget = mts->options_button;
-	window = gtk_widget_get_window (widget);
-	gdk_window_get_origin (window, x, y);
-	gtk_widget_get_allocation (widget, &allocation);
-	*x += allocation.x;
-	*y += allocation.y + allocation.height - 2;
-
-	/* Now make sure we are on the screen. */
-	gtk_widget_get_preferred_size (mts->options_menu, &menu_requisition, NULL);
-	max_x = MAX (0, gdk_screen_width () - menu_requisition.width);
-	max_y = MAX (0, gdk_screen_height () - menu_requisition.height);
-	*x = CLAMP (*x, 0, max_x);
-	*y = CLAMP (*y, 0, max_y);
+	gtk_menu_popup_at_widget (GTK_MENU (mts->options_menu),
+	                          mts->options_button,
+	                          GDK_GRAVITY_SOUTH_WEST,
+	                          GDK_GRAVITY_NORTH_WEST,
+	                          NULL);
 }
 
 static void
@@ -1732,42 +1697,17 @@ static void
 e_meeting_time_selector_on_autopick_button_clicked (GtkWidget *button,
                                                     EMeetingTimeSelector *mts)
 {
-	gtk_menu_popup (
-		GTK_MENU (mts->autopick_menu), NULL, NULL,
-		e_meeting_time_selector_autopick_menu_position_callback,
-		mts, 1, GDK_CURRENT_TIME);
-}
+	g_object_set (mts->autopick_menu,
+	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
+	                               GDK_ANCHOR_SLIDE |
+	                               GDK_ANCHOR_RESIZE),
+	              NULL);
 
-static void
-e_meeting_time_selector_autopick_menu_position_callback (GtkMenu *menu,
-                                                         gint *x,
-                                                         gint *y,
-                                                         gboolean *push_in,
-                                                         gpointer user_data)
-{
-	EMeetingTimeSelector *mts;
-	GtkRequisition menu_requisition;
-	GtkAllocation allocation;
-	GtkWidget *widget;
-	GdkWindow *window;
-	gint max_x, max_y;
-
-	mts = E_MEETING_TIME_SELECTOR (user_data);
-
-	/* Calculate our preferred position. */
-	widget = mts->autopick_button;
-	window = gtk_widget_get_window (widget);
-	gdk_window_get_origin (window, x, y);
-	gtk_widget_get_allocation (widget, &allocation);
-	*x += allocation.x;
-	*y += allocation.y + allocation.height - 2;
-
-	/* Now make sure we are on the screen. */
-	gtk_widget_get_preferred_size (mts->autopick_menu, &menu_requisition, NULL);
-	max_x = MAX (0, gdk_screen_width () - menu_requisition.width);
-	max_y = MAX (0, gdk_screen_height () - menu_requisition.height);
-	*x = CLAMP (*x, 0, max_x);
-	*y = CLAMP (*y, 0, max_y);
+	gtk_menu_popup_at_widget (GTK_MENU (mts->autopick_menu),
+	                          mts->autopick_button,
+	                          GDK_GRAVITY_SOUTH_WEST,
+	                          GDK_GRAVITY_NORTH_WEST,
+	                          NULL);
 }
 
 static void

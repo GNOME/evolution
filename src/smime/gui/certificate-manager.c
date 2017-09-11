@@ -367,18 +367,18 @@ treeview_header_clicked (GtkWidget *widget,
 {
 	GtkMenu *menu = user_data;
 	guint event_button = 0;
-	guint32 event_time;
 
 	gdk_event_get_button (button_event, &event_button);
-	event_time = gdk_event_get_time (button_event);
 
 	if (event_button != 3)
 		return FALSE;
 
 	gtk_widget_show_all (GTK_WIDGET (menu));
+
 	if (!gtk_menu_get_attach_widget (menu))
 		gtk_menu_attach_to_widget (menu, widget, NULL);
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event_button, event_time);
+
+	gtk_menu_popup_at_pointer (menu, button_event);
 
 	return TRUE;
 }

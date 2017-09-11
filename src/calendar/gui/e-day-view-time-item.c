@@ -888,9 +888,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 	gtk_menu_attach_to_widget (GTK_MENU (menu),
 				   GTK_WIDGET (day_view),
 				   NULL);
-	gtk_menu_popup (
-		GTK_MENU (menu), NULL, NULL, NULL, NULL,
-		event->button.button, event->button.time);
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), event);
 }
 
 static void

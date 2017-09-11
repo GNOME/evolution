@@ -583,48 +583,6 @@ subscription_editor_create_menu_item (const gchar *label,
 	return item;
 }
 
-static void
-position_below_widget_cb (GtkMenu *menu,
-                          gint *x,
-                          gint *y,
-                          gboolean *push_in,
-                          gpointer under_widget)
-{
-	GtkRequisition menu_requisition;
-	GtkTextDirection direction;
-	GtkAllocation allocation;
-	GdkRectangle monitor;
-	GdkScreen *screen;
-	GdkWindow *window;
-	GtkWidget *widget;
-	gint monitor_num;
-
-	widget = under_widget;
-	gtk_widget_get_preferred_size (
-		GTK_WIDGET (menu), &menu_requisition, NULL);
-
-	window = gtk_widget_get_parent_window (widget);
-	screen = gtk_widget_get_screen (GTK_WIDGET (menu));
-	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
-	if (monitor_num < 0)
-		monitor_num = 0;
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
-	gtk_widget_get_allocation (widget, &allocation);
-
-	gdk_window_get_origin (window, x, y);
-	*x += allocation.x;
-	*y += allocation.y + 2 + gtk_widget_get_allocated_height (under_widget);
-
-	direction = gtk_widget_get_direction (widget);
-	if (direction == GTK_TEXT_DIR_LTR)
-		*x += MAX (allocation.width - menu_requisition.width, 0);
-	else if (menu_requisition.width > allocation.width)
-		*x -= menu_requisition.width - allocation.width;
-
-	*push_in = FALSE;
-}
-
 static TreeRowData *
 subscription_editor_tree_row_data_from_iter (GtkTreeView *tree_view,
                                              GtkTreeModel *model,
@@ -875,11 +833,18 @@ subscription_editor_subscribe_popup_cb (EMSubscriptionEditor *editor)
 			editor));
 
 	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
-	gtk_menu_popup (
-		GTK_MENU (menu), NULL, NULL,
-		position_below_widget_cb,
-		editor->priv->subscribe_button,
-		0, gtk_get_current_event_time ());
+
+	g_object_set (menu,
+	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
+	                               GDK_ANCHOR_SLIDE |
+	                               GDK_ANCHOR_RESIZE),
+	              NULL);
+
+	gtk_menu_popup_at_widget (GTK_MENU (menu),
+	                          editor->priv->subscribe_button,
+	                          GDK_GRAVITY_SOUTH_WEST,
+	                          GDK_GRAVITY_NORTH_WEST,
+	                          NULL);
 }
 
 static void
@@ -990,11 +955,18 @@ subscription_editor_unsubscribe_popup_cb (EMSubscriptionEditor *editor)
 			editor));
 
 	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
-	gtk_menu_popup (
-		GTK_MENU (menu), NULL, NULL,
-		position_below_widget_cb,
-		editor->priv->unsubscribe_button,
-		0, gtk_get_current_event_time ());
+
+	g_object_set (menu,
+	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
+	                               GDK_ANCHOR_SLIDE |
+	                               GDK_ANCHOR_RESIZE),
+	              NULL);
+
+	gtk_menu_popup_at_widget (GTK_MENU (menu),
+	                          editor->priv->unsubscribe_button,
+	                          GDK_GRAVITY_SOUTH_WEST,
+	                          GDK_GRAVITY_NORTH_WEST,
+	                          NULL);
 }
 
 static void

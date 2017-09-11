@@ -1213,6 +1213,7 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 {
 	EAttachmentViewPrivate *priv;
 	GtkTreePath *path;
+	GtkWidget *menu;
 	gboolean editable;
 	gboolean handled = FALSE;
 	gboolean path_is_selected = FALSE;
@@ -1280,8 +1281,9 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 		 * popup menu when right-clicking on an attachment,
 		 * but editable views can show the menu any time. */
 		if (path != NULL || editable) {
-			e_attachment_view_show_popup_menu (
-				view, event, NULL, NULL);
+			e_attachment_view_update_actions (view);
+			menu = e_attachment_view_get_popup_menu (view);
+			gtk_menu_popup_at_pointer (GTK_MENU (menu), (const GdkEvent *) event);
 			handled = TRUE;
 		}
 	}
@@ -1873,30 +1875,6 @@ e_attachment_view_get_ui_manager (EAttachmentView *view)
 	priv = e_attachment_view_get_private (view);
 
 	return priv->ui_manager;
-}
-
-void
-e_attachment_view_show_popup_menu (EAttachmentView *view,
-                                   GdkEventButton *event,
-                                   GtkMenuPositionFunc func,
-                                   gpointer user_data)
-{
-	GtkWidget *menu;
-
-	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
-
-	e_attachment_view_update_actions (view);
-
-	menu = e_attachment_view_get_popup_menu (view);
-
-	if (event != NULL)
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, func,
-			user_data, event->button, event->time);
-	else
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, func,
-			user_data, 0, gtk_get_current_event_time ());
 }
 
 void

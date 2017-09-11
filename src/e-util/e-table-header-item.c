@@ -1710,14 +1710,10 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	gboolean ascending = TRUE;
 	gdouble event_x_win = 0;
 	gdouble event_y_win = 0;
-	guint event_button = 0;
-	guint32 event_time;
 
 	d (g_print ("ethi_header_context_menu: \n"));
 
-	gdk_event_get_button (button_event, &event_button);
 	gdk_event_get_coords (button_event, &event_x_win, &event_y_win);
-	event_time = gdk_event_get_time (button_event);
 
 	info->ethi = ethi;
 	info->col = ethi_find_col_by_x (ethi, event_x_win);
@@ -1811,10 +1807,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	gtk_menu_attach_to_widget (GTK_MENU (popup),
 				   GTK_WIDGET (ethi->parent.canvas),
 				   NULL);
-	gtk_menu_popup (
-		GTK_MENU (popup),
-		NULL, NULL, NULL, NULL,
-		event_button, event_time);
+	gtk_menu_popup_at_pointer (popup, button_event);
 }
 
 static void
@@ -2118,10 +2111,7 @@ ethi_event (GnomeCanvasItem *item,
 			gtk_menu_attach_to_widget (GTK_MENU (popup),
 						   GTK_WIDGET (canvas),
 						   NULL);
-			gtk_menu_popup (
-				GTK_MENU (popup),
-				NULL, NULL, NULL, NULL,
-				0, GDK_CURRENT_TIME);
+			gtk_menu_popup_at_pointer (popup, event);
 		} else if (event_keyval == GDK_KEY_space) {
 			ETableCol *ecol;
 

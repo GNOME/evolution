@@ -329,7 +329,6 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 	EWebView *web_view;
 	GtkMenu *menu;
 	guint32 state;
-	guint button;
 
 	if (uri != NULL)
 		return FALSE;
@@ -345,12 +344,7 @@ mail_browser_popup_event_cb (EMailBrowser *browser,
 	state = e_mail_reader_check_state (reader);
 	e_mail_reader_update_actions (reader, state);
 
-	if (!event || !gdk_event_get_button (event, &button))
-		button = 0;
-
-	gtk_menu_popup (
-		menu, NULL, NULL, NULL, NULL,
-		button, event ? gdk_event_get_time (event) : gtk_get_current_event_time ());
+	gtk_menu_popup_at_pointer (menu, event);
 
 	return TRUE;
 }

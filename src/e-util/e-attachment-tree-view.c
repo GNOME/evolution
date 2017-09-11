@@ -382,8 +382,11 @@ static gboolean
 attachment_tree_view_popup_menu (GtkWidget *widget)
 {
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
+	GtkWidget *menu;
 
-	e_attachment_view_show_popup_menu (view, NULL, NULL, NULL);
+	e_attachment_view_update_actions (view);
+	menu = e_attachment_view_get_popup_menu (view);
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
 
 	return TRUE;
 }

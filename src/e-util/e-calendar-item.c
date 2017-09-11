@@ -194,11 +194,6 @@ static void	e_calendar_item_show_popup_menu	(ECalendarItem *calitem,
 static void	e_calendar_item_on_menu_item_activate
 						(GtkWidget *menuitem,
 						 ECalendarItem *calitem);
-static void	e_calendar_item_position_menu	(GtkMenu *menu,
-						 gint *x,
-						 gint *y,
-						 gboolean *push_in,
-						 gpointer user_data);
 static void	e_calendar_item_date_range_changed
 						(ECalendarItem *calitem);
 static void	e_calendar_item_queue_signal_emission
@@ -3674,8 +3669,6 @@ e_calendar_item_show_popup_menu (ECalendarItem *calitem,
 	gint year, month;
 	const gchar *name;
 	gchar buffer[64];
-	guint event_button = 0;
-	guint32 event_time;
 
 	menu = gtk_menu_new ();
 
@@ -3722,15 +3715,9 @@ e_calendar_item_show_popup_menu (ECalendarItem *calitem,
 		menu, "deactivate",
 		G_CALLBACK (deactivate_menu_cb), NULL);
 
-	gdk_event_get_button (button_event, &event_button);
-	event_time = gdk_event_get_time (button_event);
-
 	canvas_widget = GTK_WIDGET (calitem->canvas_item.canvas);
 	gtk_menu_attach_to_widget (GTK_MENU (menu), canvas_widget, NULL);
-	gtk_menu_popup (
-		GTK_MENU (menu), NULL, NULL,
-		e_calendar_item_position_menu, calitem,
-		event_button, event_time);
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), button_event);
 }
 
 static void
@@ -3755,30 +3742,6 @@ e_calendar_item_on_menu_item_activate (GtkWidget *menuitem,
 	month -= month_offset;
 	e_calendar_item_normalize_date (calitem, &year, &month);
 	e_calendar_item_set_first_month_with_emit (calitem, year, month, TRUE);
-}
-
-static void
-e_calendar_item_position_menu (GtkMenu *menu,
-                               gint *x,
-                               gint *y,
-                               gboolean *push_in,
-                               gpointer user_data)
-{
-	GtkRequisition requisition;
-	gint screen_width, screen_height;
-
-	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &requisition, NULL);
-
-	*x -= (gtk_widget_get_direction(GTK_WIDGET(menu)) == GTK_TEXT_DIR_RTL)
-		? requisition.width - 2
-		: 2;
-	*y -= requisition.height / 2;
-
-	screen_width = gdk_screen_width ();
-	screen_height = gdk_screen_height ();
-
-	*x = CLAMP (*x, 0, screen_width - requisition.width);
-	*y = CLAMP (*y, 0, screen_height - requisition.height);
 }
 
 /* Sets the function to call to get the colors to use for a particular day. */
