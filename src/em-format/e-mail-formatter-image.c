@@ -67,6 +67,7 @@ emfe_image_format (EMailFormatterExtension *extension,
 {
 	gchar *content;
 	CamelMimePart *mime_part;
+	CamelContentType *content_type;
 	CamelDataWrapper *dw;
 	GBytes *bytes;
 	GOutputStream *raw_content;
@@ -75,6 +76,15 @@ emfe_image_format (EMailFormatterExtension *extension,
 		return FALSE;
 
 	mime_part = e_mail_part_ref_mime_part (part);
+
+	content_type = camel_mime_part_get_content_type (mime_part);
+
+	/* Skip TIFF images, which cannot be shown inline */
+	if (content_type && (
+	    camel_content_type_is (content_type, "image", "tiff") ||
+	    camel_content_type_is (content_type, "image", "tif")))
+		return FALSE;
+
 	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 	g_return_val_if_fail (dw, FALSE);
 
