@@ -152,6 +152,9 @@ static GtkWidget *
 e_calendar_create_button (GtkArrowType arrow_type)
 {
 	GtkWidget *button, *pixmap;
+	GtkCssProvider *css_provider;
+	GtkStyleContext *style_context;
+	GError *error = NULL;
 
 	button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
@@ -161,33 +164,25 @@ e_calendar_create_button (GtkArrowType arrow_type)
 	gtk_widget_show (pixmap);
 	gtk_container_add (GTK_CONTAINER (button), pixmap);
 
-	#if GTK_CHECK_VERSION (3, 20, 0)
-	{
-		GtkCssProvider *css_provider;
-		GtkStyleContext *style_context;
-		GError *error = NULL;
-
-		css_provider = gtk_css_provider_new ();
-		gtk_css_provider_load_from_data (css_provider,
-			"button.ecalendar {"
-			" min-height: 0px;"
-			" min-width: 0px;"
-			" padding: 0px;"
-			"}", -1, &error);
-		style_context = gtk_widget_get_style_context (button);
-		if (error == NULL) {
-			gtk_style_context_add_class (style_context, "ecalendar");
-			gtk_style_context_add_provider (
-				style_context,
-				GTK_STYLE_PROVIDER (css_provider),
-				GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-		} else {
-			g_warning ("%s: %s", G_STRFUNC, error->message);
-			g_clear_error (&error);
-		}
-		g_object_unref (css_provider);
+	css_provider = gtk_css_provider_new ();
+	gtk_css_provider_load_from_data (css_provider,
+		"button.ecalendar {"
+		" min-height: 0px;"
+		" min-width: 0px;"
+		" padding: 0px;"
+		"}", -1, &error);
+	style_context = gtk_widget_get_style_context (button);
+	if (error == NULL) {
+		gtk_style_context_add_class (style_context, "ecalendar");
+		gtk_style_context_add_provider (
+			style_context,
+			GTK_STYLE_PROVIDER (css_provider),
+			GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	} else {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_clear_error (&error);
 	}
-	#endif
+	g_object_unref (css_provider);
 
 	return button;
 }

@@ -748,11 +748,7 @@ mail_shell_backend_create_network_page (EPreferencesWindow *window)
 	pango_attr_list_unref (bold);
 
 	hbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4));
-	#if GTK_CHECK_VERSION(3,12,0)
 	gtk_widget_set_margin_start (GTK_WIDGET (hbox), 12);
-	#else
-	gtk_widget_set_margin_left (GTK_WIDGET (hbox), 12);
-	#endif
 
 	label = gtk_label_new_with_mnemonic (C_("NetworkMonitor", "Method to detect _online state:"));
 	gtk_box_pack_start (hbox, label, FALSE, FALSE, 0);

@@ -2018,11 +2018,7 @@ ecep_recurrence_constructed (GObject *object)
 		"halign", GTK_ALIGN_START,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		"margin-bottom", 6,
 		NULL);
 	gtk_widget_show (widget);
@@ -2038,11 +2034,7 @@ ecep_recurrence_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		"margin-bottom", 6,
 		NULL);
 	gtk_widget_show (widget);
@@ -2148,11 +2140,7 @@ ecep_recurrence_constructed (GObject *object)
 		"halign", GTK_ALIGN_START,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		"margin-bottom", 6,
 		NULL);
 	gtk_widget_hide (widget);
@@ -2176,11 +2164,7 @@ ecep_recurrence_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_FILL,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		"margin-bottom", 6,
 		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
 		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
@@ -2269,11 +2253,7 @@ ecep_recurrence_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
 		"valign", GTK_ALIGN_FILL,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		NULL);
 	gtk_widget_show (widget);
 	gtk_grid_attach (grid, widget, 0, 7, 2, 1);

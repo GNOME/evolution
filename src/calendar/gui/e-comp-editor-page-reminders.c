@@ -1016,11 +1016,7 @@ ecep_reminders_setup_name_selector (ECompEditorPageReminders *page_reminders)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_CENTER,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 4,
-		#else
-		"margin-left", 4,
-		#endif
 		NULL);
 	gtk_widget_show (widget);
 	gtk_grid_attach (GTK_GRID (option_grid), widget, 1, 0, 1, 1);
@@ -1623,11 +1619,7 @@ ecep_reminders_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		"margin-bottom", 6,
 		NULL);
 	gtk_widget_show (widget);
@@ -1721,11 +1713,7 @@ ecep_reminders_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_FILL,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		"margin-bottom", 6,
 		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
 		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
@@ -1796,11 +1784,7 @@ ecep_reminders_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		"margin-bottom", 6,
 		NULL);
 	gtk_widget_show (widget);
@@ -1909,11 +1893,7 @@ ecep_reminders_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		"margin-bottom", 6,
 		NULL);
 	gtk_widget_show (widget);
@@ -2012,11 +1992,7 @@ ecep_reminders_constructed (GObject *object)
 		"halign", GTK_ALIGN_FILL,
 		"vexpand", TRUE,
 		"valign", GTK_ALIGN_FILL,
-		#if GTK_CHECK_VERSION(3, 12, 0)
 		"margin-start", 12,
-		#else
-		"margin-left", 12,
-		#endif
 		"show-tabs", FALSE,
 		"show-border", FALSE,
 		NULL);

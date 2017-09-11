@@ -3542,7 +3542,6 @@ e_table_class_init (ETableClass *class)
 		GAL_A11Y_TYPE_E_TABLE);
 }
 
-#if GTK_CHECK_VERSION (3, 15, 9)
 static gboolean
 e_table_scrollable_get_border (GtkScrollable *scrollable,
 			       GtkBorder *border)
@@ -3565,14 +3564,11 @@ e_table_scrollable_get_border (GtkScrollable *scrollable,
 
 	return TRUE;
 }
-#endif
 
 static void
 e_table_scrollable_init (GtkScrollableInterface *iface)
 {
-#if GTK_CHECK_VERSION (3, 15, 9)
 	iface->get_border = e_table_scrollable_get_border;
-#endif
 }
 
 void

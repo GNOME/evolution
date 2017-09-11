@@ -3573,15 +3573,12 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			NULL);
 
 		if (link == NULL) {
-			#if GTK_CHECK_VERSION(3,12,0)
 			GdkRGBA rgba;
 			GtkStateFlags state;
-			#endif
 
 			link = g_slice_new0 (GdkColor);
 			link->blue = G_MAXINT16;
 
-			#if GTK_CHECK_VERSION(3,12,0)
 			rgba.alpha = 1;
 			rgba.red = 0;
 			rgba.green = 0;
@@ -3597,19 +3594,15 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			gtk_style_context_restore (context);
 
 			e_rgba_to_color (&rgba, link);
-			#endif
 		}
 
 		if (visited == NULL) {
-			#if GTK_CHECK_VERSION(3,12,0)
 			GdkRGBA rgba;
 			GtkStateFlags state;
-			#endif
 
 			visited = g_slice_new0 (GdkColor);
 			visited->red = G_MAXINT16;
 
-			#if GTK_CHECK_VERSION(3,12,0)
 			rgba.alpha = 1;
 			rgba.red = 1;
 			rgba.green = 0;
@@ -3625,7 +3618,6 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			gtk_style_context_restore (context);
 
 			e_rgba_to_color (&rgba, visited);
-			#endif
 		}
 
 		g_string_append_printf (

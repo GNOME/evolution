@@ -1581,16 +1581,13 @@ get_color_from_context (GtkStyleContext *context,
 
 	if (color == NULL) {
 		gboolean is_visited = strstr (name, "visited") != NULL;
-		#if GTK_CHECK_VERSION(3,12,0)
 		GtkStateFlags state;
-		#endif
 
 		out_color->alpha = 1;
 		out_color->red = is_visited ? 1 : 0;
 		out_color->green = 0;
 		out_color->blue = is_visited ? 0 : 1;
 
-		#if GTK_CHECK_VERSION(3,12,0)
 		state = gtk_style_context_get_state (context);
 		state = state & (~(GTK_STATE_FLAG_VISITED | GTK_STATE_FLAG_LINK));
 		state = state | (is_visited ? GTK_STATE_FLAG_VISITED : GTK_STATE_FLAG_LINK);
@@ -1599,7 +1596,6 @@ get_color_from_context (GtkStyleContext *context,
 		gtk_style_context_set_state (context, state);
 		gtk_style_context_get_color (context, state, out_color);
 		gtk_style_context_restore (context);
-		#endif
 	} else {
 		out_color->alpha = 1;
 		out_color->red = ((gdouble) color->red) / G_MAXUINT16;

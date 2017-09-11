@@ -3249,7 +3249,6 @@ e_tree_class_init (ETreeClass *class)
 		GAL_A11Y_TYPE_E_TREE);
 }
 
-#if GTK_CHECK_VERSION (3, 15, 9)
 static gboolean
 e_tree_scrollable_get_border (GtkScrollable *scrollable,
 			      GtkBorder *border)
@@ -3272,14 +3271,11 @@ e_tree_scrollable_get_border (GtkScrollable *scrollable,
 
 	return TRUE;
 }
-#endif
 
 static void
 e_tree_scrollable_init (GtkScrollableInterface *iface)
 {
-#if GTK_CHECK_VERSION (3, 15, 9)
 	iface->get_border = e_tree_scrollable_get_border;
-#endif
 }
 
 static void
