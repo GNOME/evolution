@@ -1,3 +1,20 @@
+Evolution 3.26.0 2017-09-11
+---------------------------
+
+Miscellaneous:
+	Add flatpak build script (Milan Crha)
+
+Translations:
+	Jiri Grönroos (fi)
+	Alan Mortensen (da)
+	Çağatay Yiğit Şahin (tr)
+	Gianvito Cavasoli (it)
+	Bruce Cowan (en_GB)
+	Inaki Larranaga Murgoitio (eu)
+	Jordi Mas (ca)
+	Anders Jonsson (sv)
+	Christian Kirbach (de)
+
 Evolution 3.25.92.2 2017-09-04
 ------------------------------
 
