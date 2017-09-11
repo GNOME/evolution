@@ -185,7 +185,6 @@ set(HELP_FILES
 	mail-receiving-options-unix-mbox-spool-directory.page
 	mail-receiving-options-unix-mbox-spool-file.page
 	mail-receiving-options-usenet-news.page
-	mail-recognized-thread-related-headers.page
 	mail-refresh-folders.page
 	mail-save-as-pdf.page
 	mail-search-folders-add.page
