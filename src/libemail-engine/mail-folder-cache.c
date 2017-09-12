@@ -2092,20 +2092,14 @@ mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
 		}
 
 		if (!store_online) {
-			e_mail_store_go_online_sync (
-				CAMEL_STORE (service),
-				cancellable, &local_error);
-
-			if (local_error != NULL) {
-				g_simple_async_result_take_error (
-					simple, local_error);
-				goto exit;
-			}
+			/* Ignore these errors, it can still provide folders in offline */
+			store_online = e_mail_store_go_online_sync (CAMEL_STORE (service), cancellable, NULL);
 		}
 
-		if (!mail_folder_cache_maybe_run_initial_setup_sync (service, cancellable, &local_error)) {
-			g_simple_async_result_take_error (simple, local_error);
-			goto exit;
+		if (store_online && !mail_folder_cache_maybe_run_initial_setup_sync (service, cancellable, &local_error)) {
+			/* Just log on console, but keep going otherwise */
+			g_warning ("%s: Failed to run initial setup for '%s': %s", G_STRFUNC, camel_service_get_display_name (service), local_error ? local_error->message : "Unknown error");
+			g_clear_error (&local_error);
 		}
 	}
 
