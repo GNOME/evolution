@@ -89,6 +89,7 @@ struct _EMailReaderPrivate {
 
 	guint group_by_threads : 1;
 	guint mark_seen_always : 1;
+	guint delete_selects_previous : 1;
 
 	/* to be able to start the mark_seen timeout only after
 	 * the message is loaded into the EMailDisplay */
@@ -507,8 +508,12 @@ action_mail_delete_cb (GtkAction *action,
 	/* FIXME Verify all selected messages are deletable.
 	 *       But handle it by disabling this action. */
 
-	if (e_mail_reader_mark_selected (reader, mask, set) != 0)
-		e_mail_reader_select_next_message (reader, FALSE);
+	if (e_mail_reader_mark_selected (reader, mask, set) != 0) {
+		if (e_mail_reader_get_delete_selects_previous (reader))
+			e_mail_reader_select_previous_message (reader, FALSE);
+		else
+			e_mail_reader_select_next_message (reader, FALSE);
+	}
 }
 
 static void
@@ -4109,6 +4114,15 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 			FALSE,
 			G_PARAM_READWRITE));
 
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boolean (
+			"delete-selects-previous",
+			"Delete Selects Previous",
+			"Whether go to the previous message after message deletion",
+			FALSE,
+			G_PARAM_READWRITE));
+
 	signals[CHANGED] = g_signal_new (
 		"changed",
 		G_OBJECT_CLASS_TYPE (iface),
@@ -5055,6 +5069,36 @@ e_mail_reader_set_mark_seen_always (EMailReader *reader,
 	priv->mark_seen_always = mark_seen_always;
 
 	g_object_notify (G_OBJECT (reader), "mark-seen-always");
+}
+
+gboolean
+e_mail_reader_get_delete_selects_previous (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	return priv->delete_selects_previous;
+}
+
+void
+e_mail_reader_set_delete_selects_previous (EMailReader *reader,
+					   gboolean delete_selects_previous)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	if (priv->delete_selects_previous == delete_selects_previous)
+		return;
+
+	priv->delete_selects_previous = delete_selects_previous;
+
+	g_object_notify (G_OBJECT (reader), "delete-selects-previous");
 }
 
 void

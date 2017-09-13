@@ -91,6 +91,9 @@ void		e_mail_reader_save_messages	(EMailReader *reader);
 void		e_mail_reader_select_next_message
 						(EMailReader *reader,
 						 gboolean or_else_previous);
+void		e_mail_reader_select_previous_message
+						(EMailReader *reader,
+						 gboolean or_else_next);
 void		e_mail_reader_create_filter_from_selected
 						(EMailReader *reader,
 						 gint filter_type);

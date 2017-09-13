@@ -64,7 +64,8 @@ enum {
 	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
 	PROP_REPLY_STYLE,
-	PROP_MARK_SEEN_ALWAYS
+	PROP_MARK_SEEN_ALWAYS,
+	PROP_DELETE_SELECTS_PREVIOUS
 };
 
 #define STATE_KEY_GROUP_BY_THREADS	"GroupByThreads"
@@ -319,6 +320,12 @@ mail_paned_view_set_property (GObject *object,
 				E_MAIL_READER (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_DELETE_SELECTS_PREVIOUS:
+			e_mail_reader_set_delete_selects_previous (
+				E_MAIL_READER (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -356,6 +363,13 @@ mail_paned_view_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_mail_reader_get_mark_seen_always (
+				E_MAIL_READER (object)));
+			return;
+
+		case PROP_DELETE_SELECTS_PREVIOUS:
+			g_value_set_boolean (
+				value,
+				e_mail_reader_get_delete_selects_previous (
 				E_MAIL_READER (object)));
 			return;
 	}
@@ -1150,6 +1164,12 @@ e_mail_paned_view_class_init (EMailPanedViewClass *class)
 		object_class,
 		PROP_MARK_SEEN_ALWAYS,
 		"mark-seen-always");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_DELETE_SELECTS_PREVIOUS,
+		"delete-selects-previous");
 }
 
 static void

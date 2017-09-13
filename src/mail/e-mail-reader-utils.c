@@ -2935,6 +2935,29 @@ e_mail_reader_select_next_message (EMailReader *reader,
 			MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
 }
 
+void
+e_mail_reader_select_previous_message (EMailReader *reader,
+				       gboolean or_else_next)
+{
+	GtkWidget *message_list;
+	gboolean hide_deleted;
+	gboolean success;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	hide_deleted = e_mail_reader_get_hide_deleted (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	success = message_list_select (
+		MESSAGE_LIST (message_list),
+		MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+
+	if (!success && (hide_deleted || or_else_next))
+		message_list_select (
+			MESSAGE_LIST (message_list),
+			MESSAGE_LIST_SELECT_NEXT, 0, 0);
+}
+
 /* Helper for e_mail_reader_create_filter_from_selected() */
 static void
 mail_reader_create_filter_cb (GObject *source_object,

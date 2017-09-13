@@ -698,6 +698,11 @@
       <_summary>Show start up wizard</_summary>
       <_description>Whether show start up wizard when there is no mail account configured.</_description>
     </key>
+    <key name="delete-selects-previous" type="b">
+      <default>false</default>
+      <_summary>Whether go to the previous message after message deletion</_summary>
+      <_description>If set to true, goes to the previous message when the selected is deleted; or to the next message, when it's set to false.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

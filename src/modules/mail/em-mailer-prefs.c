@@ -1288,6 +1288,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "chkDeleteSelectsPrevious");
+	g_settings_bind (
+		settings, "delete-selects-previous",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	/* Mail Fonts */
 	widget = e_builder_get_widget (prefs->priv->builder, "radFontUseSame");
 	g_settings_bind (

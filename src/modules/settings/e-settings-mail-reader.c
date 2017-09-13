@@ -64,6 +64,11 @@ settings_mail_reader_idle_cb (EExtension *extension)
 		extensible, "mark-seen-always",
 		G_SETTINGS_BIND_GET);
 
+	g_settings_bind (
+		settings, "delete-selects-previous",
+		extensible, "delete-selects-previous",
+		G_SETTINGS_BIND_GET);
+
 	g_object_unref (settings);
 
 	action_group = e_mail_reader_get_action_group (

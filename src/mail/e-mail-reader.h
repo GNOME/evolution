@@ -180,6 +180,11 @@ gboolean	e_mail_reader_get_mark_seen_always
 void		e_mail_reader_set_mark_seen_always
 						(EMailReader *reader,
 						 gboolean mark_seen_always);
+gboolean	e_mail_reader_get_delete_selects_previous
+						(EMailReader *reader);
+void		e_mail_reader_set_delete_selects_previous
+						(EMailReader *reader,
+						 gboolean delete_selects_previous);
 void		e_mail_reader_create_charset_menu
 						(EMailReader *reader,
 						 GtkUIManager *ui_manager,
