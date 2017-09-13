@@ -147,11 +147,9 @@ e_icon_factory_pixbuf_scale (GdkPixbuf *pixbuf,
 	if (height <= 0)
 		height = 1;
 
-	#ifdef HAVE_GNOME_DESKTOP
 	/* because this can only scale down, not up */
 	if (gdk_pixbuf_get_width (pixbuf) > width && gdk_pixbuf_get_height (pixbuf) > height)
-		return gnome_desktop_thumbnail_scale_down_pixbuf (pixbuf, width, height);
-	#endif
+		return gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_HYPER);
 
 	return gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 }
