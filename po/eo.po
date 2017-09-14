@@ -27230,9 +27230,6 @@ msgstr ""
 #~ "Tio ĉi povas havi unu el tri valoroj. \"0\" = eraro. \"1\" = averto. "
 #~ "\"2\" = erarospura informo."
 
-#~ msgid "Could not open “%s”"
-#~ msgstr "Ne eblis malfermi na “%s”"
-
 #, fuzzy
 #~| msgid "Calendar Properties"
 #~ msgid "Changed property"
