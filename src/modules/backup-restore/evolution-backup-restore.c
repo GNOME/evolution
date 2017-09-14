@@ -231,8 +231,21 @@ set_local_only (GtkFileChooser *file_chooser,
 	 *     takes a filename argument, not a URI. */
 	gtk_file_chooser_set_local_only (file_chooser, TRUE);
 
-	/* Not NULL when saving file. */
+	/* Not NULL when saving file, contains the suggested file name. */
 	if (user_data) {
+		GSList *filters;
+
+		filters = gtk_file_chooser_list_filters (file_chooser);
+
+		if (g_slist_length (filters) > 2) {
+			if (g_str_has_suffix (user_data, ".xz"))
+				gtk_file_chooser_set_filter (file_chooser, filters->data);
+			else
+				gtk_file_chooser_set_filter (file_chooser, filters->next->data);
+		}
+
+		g_slist_free (filters);
+
 		g_signal_connect (file_chooser, "notify::filter",
 			G_CALLBACK (file_chooser_filter_changed_cb), NULL);
 	}
@@ -274,22 +287,40 @@ action_settings_backup_cb (GtkAction *action,
 	GFileInfo *file_info;
 	const gchar *attribute;
 	GError *error = NULL;
-	gchar *suggest;
+	gchar *suggest, *tmp;
 	gboolean has_xz;
+	GSettings *settings;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	tmp = g_settings_get_string (settings, "backup-restore-extension");
 
 	has_xz = is_xz_available ();
-	suggest = suggest_file_name (has_xz ? ".xz" : ".gz");
+	suggest = suggest_file_name ((has_xz && g_strcmp0 (tmp, ".xz") == 0) ? ".xz" : ".gz");
+
+	g_free (tmp);
 
 	file = e_shell_run_save_dialog (
 		e_shell_window_get_shell (shell_window),
 		_("Select name of the Evolution backup file"),
 		suggest, has_xz ? "*.tar.xz;*.tar.gz" : "*.tar.gz", (GtkCallback)
-		set_local_only, has_xz ? GINT_TO_POINTER (1) : NULL);
+		set_local_only, has_xz ? suggest : NULL);
 
 	g_free (suggest);
 
-	if (file == NULL)
+	if (file == NULL) {
+		g_object_unref (settings);
 		return;
+	}
+
+	tmp = g_file_get_path (file);
+
+	if (tmp && g_str_has_suffix (tmp, ".xz"))
+		g_settings_set_string (settings, "backup-restore-extension", ".xz");
+	else if (tmp && g_str_has_suffix (tmp, ".gz"))
+		g_settings_set_string (settings, "backup-restore-extension", ".gz");
+
+	g_object_unref (settings);
+	g_free (tmp);
 
 	/* Make sure the parent directory can be written to. */
 
