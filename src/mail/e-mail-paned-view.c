@@ -218,43 +218,92 @@ mail_paned_view_message_selected_cb (EMailView *view,
 	g_object_unref (folder);
 }
 
+/* To recognize old values from new values */
+#define PROPORTION_LOWER_LIMIT 1000000
+
+static gboolean
+mail_paned_view_map_setting_to_proportion_cb (GValue *value,
+					      GVariant *variant,
+					      gpointer user_data)
+{
+	gint stored;
+	gdouble proportion = 0.5;
+
+	stored = g_variant_get_int32 (variant);
+
+	if (stored >= PROPORTION_LOWER_LIMIT)
+		proportion = (stored - PROPORTION_LOWER_LIMIT) / ((gdouble) PROPORTION_LOWER_LIMIT);
+
+	g_value_set_double (value, proportion);
+
+	return TRUE;
+}
+
+static GVariant *
+mail_paned_view_map_proportion_to_setting_cb (const GValue *value,
+					      const GVariantType *expected_type,
+					      gpointer user_data)
+{
+	gdouble proportion;
+
+	proportion = g_value_get_double (value);
+
+	return g_variant_new_int32 (PROPORTION_LOWER_LIMIT + (gint32) (proportion * PROPORTION_LOWER_LIMIT));
+}
+
+static void
+mail_paned_view_notify_orientation_cb (GtkWidget *paned,
+				       GParamSpec *param,
+				       EShellWindow *shell_window)
+{
+	GSettings *settings;
+	const gchar *settings_key;
+	guint32 add_flags = 0;
+
+	g_return_if_fail (E_IS_PANED (paned));
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	g_settings_unbind (paned, "proportion");
+
+	if (e_shell_window_is_main_instance (shell_window)) {
+		if (gtk_orientable_get_orientation (GTK_ORIENTABLE (paned)) == GTK_ORIENTATION_HORIZONTAL)
+			settings_key = "hpaned-size";
+		else
+			settings_key = "paned-size";
+	} else {
+		if (gtk_orientable_get_orientation (GTK_ORIENTABLE (paned)) == GTK_ORIENTATION_HORIZONTAL)
+			settings_key = "hpaned-size-sub";
+		else
+			settings_key = "paned-size-sub";
+
+		add_flags = G_SETTINGS_BIND_GET_NO_CHANGES;
+	}
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	g_settings_bind_with_mapping (settings, settings_key,
+		paned, "proportion",
+		G_SETTINGS_BIND_DEFAULT | add_flags,
+		mail_paned_view_map_setting_to_proportion_cb,
+		mail_paned_view_map_proportion_to_setting_cb,
+		NULL, NULL);
+
+	g_object_unref (settings);
+}
+
 static void
 mail_paned_view_restore_state_cb (EShellWindow *shell_window,
                                   EShellView *shell_view,
                                   EMailPanedView *view)
 {
 	EMailPanedViewPrivate *priv;
-	GSettings *settings;
 
 	priv = E_MAIL_PANED_VIEW (view)->priv;
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	g_signal_connect (priv->paned, "notify::orientation",
+		G_CALLBACK (mail_paned_view_notify_orientation_cb), shell_window);
 
-	if (e_shell_window_is_main_instance (shell_window)) {
-		g_settings_bind (
-			settings, "hpaned-size",
-			priv->paned, "hposition",
-			G_SETTINGS_BIND_DEFAULT);
-
-		g_settings_bind (
-			settings, "paned-size",
-			priv->paned, "vposition",
-			G_SETTINGS_BIND_DEFAULT);
-	} else {
-		g_settings_bind (
-			settings, "hpaned-size-sub",
-			priv->paned, "hposition",
-			G_SETTINGS_BIND_DEFAULT |
-			G_SETTINGS_BIND_GET_NO_CHANGES);
-
-		g_settings_bind (
-			settings, "paned-size-sub",
-			priv->paned, "vposition",
-			G_SETTINGS_BIND_DEFAULT |
-			G_SETTINGS_BIND_GET_NO_CHANGES);
-	}
-
-	g_object_unref (settings);
+	mail_paned_view_notify_orientation_cb (priv->paned, NULL, shell_window);
 }
 
 static void
