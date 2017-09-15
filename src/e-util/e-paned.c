@@ -276,7 +276,7 @@ paned_size_allocate (GtkWidget *widget,
 	gdouble proportion, old_proportion = -1.0;
 	gint allocated;
 	gint position, min_position = -1, max_position = -1, clamp_position;
-	gboolean corrected_portion = FALSE;
+	gboolean corrected_portion = FALSE, notify_proportion_change = FALSE;
 
 	if (!e_paned_get_fixed_resize (paned))
 		old_proportion = e_paned_get_proportion (paned);
@@ -287,16 +287,23 @@ paned_size_allocate (GtkWidget *widget,
 	if (paned->priv->sync_request == SYNC_REQUEST_PROPORTION &&
 	    old_proportion != e_paned_get_proportion (paned) && old_proportion > 0.0) {
 		paned->priv->proportion = old_proportion;
-		g_object_notify (G_OBJECT (paned), "proportion");
-
+		notify_proportion_change = TRUE;
 		corrected_portion = TRUE;
 	}
 
-	if (!paned->priv->toplevel_ready)
+	if (!paned->priv->toplevel_ready) {
+		if (notify_proportion_change)
+			g_object_notify (G_OBJECT (paned), "proportion");
+
 		return;
+	}
 
 	if (paned->priv->sync_request == SYNC_REQUEST_NONE) {
 		paned_recalc_positions (paned, FALSE);
+
+		if (notify_proportion_change)
+			g_object_notify (G_OBJECT (paned), "proportion");
+
 		return;
 	}
 
@@ -319,7 +326,7 @@ paned_size_allocate (GtkWidget *widget,
 		if (!e_paned_get_fixed_resize (paned) && allocated > 0) {
 			proportion = 1.0 - ((gdouble) position / allocated);
 			paned->priv->proportion = proportion;
-			g_object_notify (G_OBJECT (paned), "proportion");
+			notify_proportion_change = TRUE;
 		}
 	} else {
 		position = (1.0 - proportion) * allocated;
@@ -338,6 +345,7 @@ paned_size_allocate (GtkWidget *widget,
 	if (clamp_position != position && allocated > 0) {
 		proportion = 1.0 - ((gdouble) clamp_position / allocated);
 		paned->priv->proportion = proportion;
+		notify_proportion_change = TRUE;
 
 		corrected_portion = TRUE;
 	}
@@ -355,6 +363,9 @@ paned_size_allocate (GtkWidget *widget,
 			}
 		}
 	}
+
+	if (notify_proportion_change)
+		g_object_notify (G_OBJECT (paned), "proportion");
 
 	paned->priv->sync_request = SYNC_REQUEST_NONE;
 
