@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-28 02:40+0000\n"
-"PO-Revision-Date: 2017-09-02 11:37+0200\n"
+"POT-Creation-Date: 2017-09-11 07:16+0000\n"
+"PO-Revision-Date: 2017-09-16 09:59+0200\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -1490,7 +1490,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "Include signature in new messages only"
-msgstr ""
+msgstr "Zahrnúť podpis iba v nových správach"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid ""
@@ -2583,32 +2583,24 @@ msgstr ""
 "priečinky Na tomto počítači."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
-#, fuzzy
-#| msgid "Whether to show icons of events in the month view"
 msgid "Whether the To Do bar is visible in the main window"
-msgstr "Určuje, či zobraziť ikony udalostí v mesačnom pohľade"
+msgstr "Určuje, či je lišta Úlohy viditeľná v hlavnom okne"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
-#, fuzzy
-#| msgid "If “true”, show the memo preview pane in the main window"
 msgid "Width of the To Do bar in the main window"
-msgstr "Ak je  „true“, tak sa zobrazí panel náhľadu poznámky v hlavnom okne"
+msgstr "Šírka lišty Úlohy v hlavnom okne"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
-#, fuzzy
-#| msgid "Apply the given geometry to the main window"
 msgid "Holds the width of the To Do bar for the main window."
-msgstr "Použiť dodaný rozmer pre hlavné okno"
+msgstr "Drží šírku lišty Úlohy v hlavnom okne."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the To Do bar is visible in a sub-window"
-msgstr "Určuje, či má byť viditeľná lišta nástrojov."
+msgstr "Určuje, či je lišta Úlohy viditeľná v podradenom okne"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid "Stores whether the To Do bar is visible in a sub-window."
@@ -2623,10 +2615,8 @@ msgid "Holds the width of the To Do bar for a sub-window."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
-#, fuzzy
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the To Do bar should show also completed tasks"
-msgstr "Určuje, či má byť viditeľná lišta nástrojov."
+msgstr "Určuje, či má sa majú v lište Úlohy zobraziť tiež dokončené úlohy"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid "Stores whether the To Do bar should show also completed tasks."
@@ -3905,7 +3895,7 @@ msgstr "Práca"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:525
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
-#: ../src/calendar/gui/e-cal-model.c:3798
+#: ../src/calendar/gui/e-cal-model.c:3805
 msgid "Other"
 msgstr "Iné"
 
@@ -5267,7 +5257,7 @@ msgid "Start time"
 msgstr "Čas začiatku"
 
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:1
-#: ../src/calendar/alarm-notify/alarm-queue.c:1988
+#: ../src/calendar/alarm-notify/alarm-queue.c:1991
 msgid "Appointments"
 msgstr "Schôdzky"
 
@@ -5309,8 +5299,8 @@ msgstr "O_dmietnuť"
 
 # * https://bugzilla.gnome.org/show_bug.cgi?id=641020
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:7
-#: ../src/calendar/alarm-notify/alarm-queue.c:1955
-#: ../src/calendar/alarm-notify/alarm-queue.c:1965
+#: ../src/calendar/alarm-notify/alarm-queue.c:1958
+#: ../src/calendar/alarm-notify/alarm-queue.c:1968
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249
 #: ../src/modules/itip-formatter/itip-view.c:1678
 #: ../src/modules/itip-formatter/itip-view.c:1789
@@ -5345,27 +5335,27 @@ msgstr "hodín"
 msgid "minutes"
 msgstr "minút"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1756
-#: ../src/calendar/alarm-notify/alarm-queue.c:1936
+#: ../src/calendar/alarm-notify/alarm-queue.c:1759
+#: ../src/calendar/alarm-notify/alarm-queue.c:1939
 msgid "No summary available."
 msgstr "Súhrn nie je k dispozícii."
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1765
-#: ../src/calendar/alarm-notify/alarm-queue.c:1767
+#: ../src/calendar/alarm-notify/alarm-queue.c:1768
+#: ../src/calendar/alarm-notify/alarm-queue.c:1770
 msgid "No description available."
 msgstr "Popis nie je k dispozícii."
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1775
+#: ../src/calendar/alarm-notify/alarm-queue.c:1778
 msgid "No location information available."
 msgstr "Informácia o mieste nie je k dispozícii."
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1780
-#: ../src/calendar/alarm-notify/alarm-queue.c:1927
-#: ../src/calendar/alarm-notify/alarm-queue.c:2278
+#: ../src/calendar/alarm-notify/alarm-queue.c:1783
+#: ../src/calendar/alarm-notify/alarm-queue.c:1930
+#: ../src/calendar/alarm-notify/alarm-queue.c:2281
 msgid "Evolution Reminders"
 msgstr "Pripomienky Evolution"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1823
+#: ../src/calendar/alarm-notify/alarm-queue.c:1826
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
@@ -5373,20 +5363,20 @@ msgstr[0] "Máte %d pripomenutí"
 msgstr[1] "Máte %d pripomenutie"
 msgstr[2] "Máte %d pripomenutia"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2096
+#: ../src/calendar/alarm-notify/alarm-queue.c:2099
 msgid "Warning"
 msgstr "Upozornenie"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2097
+#: ../src/calendar/alarm-notify/alarm-queue.c:2100
 #: ../src/mail/mail-dialogs.ui.h:20
 msgid "_No"
 msgstr "_Nie"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2098
+#: ../src/calendar/alarm-notify/alarm-queue.c:2101
 msgid "_Yes"
 msgstr "Án_o"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2102
+#: ../src/calendar/alarm-notify/alarm-queue.c:2105
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -5403,7 +5393,7 @@ msgstr ""
 "\n"
 "Ste si istý, že chcete tento program spustiť?"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2117
+#: ../src/calendar/alarm-notify/alarm-queue.c:2120
 msgid "Do not ask me about this program again."
 msgstr "Pre tento program túto správu už nezobrazovať."
 
@@ -6597,7 +6587,7 @@ msgstr "Priorita:"
 #: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:548
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:322
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:323
 msgid "High"
 msgstr "Vysoká"
 
@@ -6605,14 +6595,14 @@ msgstr "Vysoká"
 #: ../src/calendar/gui/e-cal-model.c:1890
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:321
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:322
 msgid "Normal"
 msgstr "Normálna"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:320
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:321
 msgid "Low"
 msgstr "Nízka"
 
@@ -6987,7 +6977,7 @@ msgstr "Áno"
 msgid "No"
 msgstr "Nie"
 
-#: ../src/calendar/gui/e-cal-model.c:3793
+#: ../src/calendar/gui/e-cal-model.c:3800
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
@@ -6995,7 +6985,7 @@ msgstr "Nie"
 msgid "Accepted"
 msgstr "Prijatý"
 
-#: ../src/calendar/gui/e-cal-model.c:3794
+#: ../src/calendar/gui/e-cal-model.c:3801
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
@@ -7003,7 +6993,7 @@ msgstr "Prijatý"
 msgid "Declined"
 msgstr "Odmietnutý"
 
-#: ../src/calendar/gui/e-cal-model.c:3795
+#: ../src/calendar/gui/e-cal-model.c:3802
 #: ../src/calendar/gui/e-meeting-list-view.c:221
 #: ../src/calendar/gui/e-meeting-store.c:198
 #: ../src/calendar/gui/e-meeting-store.c:221
@@ -7011,7 +7001,7 @@ msgstr "Odmietnutý"
 msgid "Tentative"
 msgstr "Predbežný"
 
-#: ../src/calendar/gui/e-cal-model.c:3796
+#: ../src/calendar/gui/e-cal-model.c:3803
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
@@ -7019,13 +7009,13 @@ msgstr "Predbežný"
 msgid "Delegated"
 msgstr "Poverený"
 
-#: ../src/calendar/gui/e-cal-model.c:3797
+#: ../src/calendar/gui/e-cal-model.c:3804
 msgid "Needs action"
 msgstr "Vyžaduje akciu"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/e-cal-model.c:3852
+#: ../src/calendar/gui/e-cal-model.c:3859
 #: ../src/calendar/gui/e-meeting-list-view.c:687
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-task-table.etspec.h:11
@@ -8911,32 +8901,32 @@ msgstr "Úlohy"
 msgid "%d %B"
 msgstr "%d. %B"
 
-#: ../src/calendar/gui/itip-utils.c:793 ../src/calendar/gui/itip-utils.c:855
-#: ../src/calendar/gui/itip-utils.c:989
+#: ../src/calendar/gui/itip-utils.c:798 ../src/calendar/gui/itip-utils.c:860
+#: ../src/calendar/gui/itip-utils.c:994
 msgid "An organizer must be set."
 msgstr "Organizátor musí byť nastavený."
 
-#: ../src/calendar/gui/itip-utils.c:846
+#: ../src/calendar/gui/itip-utils.c:851
 msgid "At least one attendee is necessary"
 msgstr "Nutný je aspoň jeden účastník"
 
-#: ../src/calendar/gui/itip-utils.c:1077 ../src/calendar/gui/itip-utils.c:1238
+#: ../src/calendar/gui/itip-utils.c:1082 ../src/calendar/gui/itip-utils.c:1243
 msgid "Event information"
 msgstr "Informácie o udalosti"
 
-#: ../src/calendar/gui/itip-utils.c:1080 ../src/calendar/gui/itip-utils.c:1241
+#: ../src/calendar/gui/itip-utils.c:1085 ../src/calendar/gui/itip-utils.c:1246
 msgid "Task information"
 msgstr "Informácie o úlohe"
 
-#: ../src/calendar/gui/itip-utils.c:1083 ../src/calendar/gui/itip-utils.c:1244
+#: ../src/calendar/gui/itip-utils.c:1088 ../src/calendar/gui/itip-utils.c:1249
 msgid "Memo information"
 msgstr "Informácie o poznámke"
 
-#: ../src/calendar/gui/itip-utils.c:1086 ../src/calendar/gui/itip-utils.c:1262
+#: ../src/calendar/gui/itip-utils.c:1091 ../src/calendar/gui/itip-utils.c:1267
 msgid "Free/Busy information"
 msgstr "Informácie o diári"
 
-#: ../src/calendar/gui/itip-utils.c:1089
+#: ../src/calendar/gui/itip-utils.c:1094
 msgid "Calendar information"
 msgstr "Informácie o kalendári"
 
@@ -8944,7 +8934,7 @@ msgstr "Informácie o kalendári"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1126
+#: ../src/calendar/gui/itip-utils.c:1131
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "Prijaté"
@@ -8953,7 +8943,7 @@ msgstr "Prijaté"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1133
+#: ../src/calendar/gui/itip-utils.c:1138
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "Predbežne prijaté"
@@ -8965,7 +8955,7 @@ msgstr "Predbežne prijaté"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1140 ../src/calendar/gui/itip-utils.c:1188
+#: ../src/calendar/gui/itip-utils.c:1145 ../src/calendar/gui/itip-utils.c:1193
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "Odmietnuté"
@@ -8974,7 +8964,7 @@ msgstr "Odmietnuté"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1147
+#: ../src/calendar/gui/itip-utils.c:1152
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Zverené"
@@ -8982,7 +8972,7 @@ msgstr "Zverené"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1160
+#: ../src/calendar/gui/itip-utils.c:1165
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "Aktualizované"
@@ -8990,7 +8980,7 @@ msgstr "Aktualizované"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1167
+#: ../src/calendar/gui/itip-utils.c:1172
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "Zrušenie"
@@ -8998,7 +8988,7 @@ msgstr "Zrušenie"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1174
+#: ../src/calendar/gui/itip-utils.c:1179
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Doplnenie"
@@ -9006,42 +8996,42 @@ msgstr "Doplnenie"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1181
+#: ../src/calendar/gui/itip-utils.c:1186
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Protinávrh"
 
-#: ../src/calendar/gui/itip-utils.c:1259
+#: ../src/calendar/gui/itip-utils.c:1264
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Informácie o diári (%s do %s)"
 
-#: ../src/calendar/gui/itip-utils.c:1267
+#: ../src/calendar/gui/itip-utils.c:1272
 msgid "iCalendar information"
 msgstr "Informácie o iCalendar"
 
-#: ../src/calendar/gui/itip-utils.c:1296
+#: ../src/calendar/gui/itip-utils.c:1301
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Nedá sa zarezervovať zdroj, nová udalosť koliduje s nejakou inou."
 
-#: ../src/calendar/gui/itip-utils.c:1301
+#: ../src/calendar/gui/itip-utils.c:1306
 msgid "Unable to book a resource, error: "
 msgstr "Nedá sa zarezervovať zdroj, chyba: "
 
-#: ../src/calendar/gui/itip-utils.c:1472
+#: ../src/calendar/gui/itip-utils.c:1477
 msgid "You must be an attendee of the event."
 msgstr "Musíte byť účastníkom stretnutia."
 
-#: ../src/calendar/gui/itip-utils.c:2153
+#: ../src/calendar/gui/itip-utils.c:2209
 msgid "Sending an event"
 msgstr "Odosiela sa udalosť"
 
-#: ../src/calendar/gui/itip-utils.c:2157
+#: ../src/calendar/gui/itip-utils.c:2213
 msgid "Sending a memo"
 msgstr "Odosiela sa poznámka"
 
-#: ../src/calendar/gui/itip-utils.c:2161
+#: ../src/calendar/gui/itip-utils.c:2217
 msgid "Sending a task"
 msgstr "Odosiela sa úloha"
 
@@ -11715,6 +11705,7 @@ msgstr "Platný podpis"
 #: ../src/em-format/e-mail-formatter-secure-button.c:50
 msgid "Valid signature, but sender address and signer address do not match"
 msgstr ""
+"Podpis je platný, ale adresa odosielateľa a adresa podpisovateľa sa nezhodujú"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:51
 msgid ""
@@ -12334,7 +12325,7 @@ msgid "Month Calendar"
 msgstr "Kalendár mesiaca"
 
 #. This is a strftime() format. %B = Month name.
-#: ../src/e-util/e-calendar-item.c:1338 ../src/e-util/e-calendar-item.c:2218
+#: ../src/e-util/e-calendar-item.c:1338 ../src/e-util/e-calendar-item.c:2221
 msgctxt "CalItem"
 msgid "%B"
 msgstr "%B"
@@ -12446,7 +12437,7 @@ msgid "popup list"
 msgstr "vysúvací zoznam"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2066
+#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2067
 msgid "?"
 msgstr "?"
 
@@ -14533,15 +14524,15 @@ msgstr "Z_apamätať toto heslo na zvyšok tejto relácie"
 msgid "Evolution Preferences"
 msgstr "Nastavenia programu Evolution"
 
-#: ../src/e-util/e-print.c:158
+#: ../src/e-util/e-print.c:164
 msgid "An error occurred while printing"
 msgstr "Vyskytla sa chyba pri tlači"
 
-#: ../src/e-util/e-print.c:165
+#: ../src/e-util/e-print.c:171
 msgid "The printing system reported the following details about the error:"
 msgstr "Tlačový systém oznámil nasledujúce podrobnosti o chybe:"
 
-#: ../src/e-util/e-print.c:171
+#: ../src/e-util/e-print.c:177
 msgid ""
 "The printing system did not report any additional details about the error."
 msgstr "Tlačový systém neoznámil žiadne ďalšie podrobnosti o chybe."
@@ -15352,15 +15343,15 @@ msgstr "Načítava sa…"
 
 #: ../src/e-util/e-webdav-browser.c:1383
 msgid "Searching collection children…"
-msgstr ""
+msgstr "Vyhľadávajú sa potomkovia zbierky…"
 
 #: ../src/e-util/e-webdav-browser.c:1385
 msgid "Failed to search for collection children"
-msgstr ""
+msgstr "Zlyhalo vyhľadávanie potomkov zbierky"
 
 #: ../src/e-util/e-webdav-browser.c:1419
 msgid "Searching for user home, please wait…"
-msgstr ""
+msgstr "Prosím, čakajte, vyhľadáva sa domovský priečinok používateľa…"
 
 #: ../src/e-util/e-webdav-browser.c:1421
 msgid "Failed to search for user home"
@@ -15368,7 +15359,7 @@ msgstr "Zlyhalo vyhľadanie domovského priečinku používateľa"
 
 #: ../src/e-util/e-webdav-browser.c:1763
 msgid "At least one component type should be set"
-msgstr ""
+msgstr "Aspoň jeden typ súčasti by mal byť nastavený"
 
 #: ../src/e-util/e-webdav-browser.c:1781
 #, fuzzy
@@ -15411,12 +15402,12 @@ msgstr "Zlyhalo vytvorenie novej zbierky"
 
 #: ../src/e-util/e-webdav-browser.c:1961
 msgid "It is not allowed to create book under another book or calendar"
-msgstr ""
+msgstr "Nie je umožnené vytvárať knihu pod inou knihou alebo kalendárom"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
 #: ../src/e-util/e-webdav-browser.c:1963
 msgid "It is not allowed to create calendar under another book or calendar"
-msgstr ""
+msgstr "Nie je umožnené vytvárať kalendár pod inou knihou alebo kalendárom"
 
 #: ../src/e-util/e-webdav-browser.c:2189
 msgid "Deleting book…"
@@ -16137,7 +16128,7 @@ msgstr "Prebieha pokus o presun správu zo zdroja „%s“, ktorý nie je mbox"
 #: ../src/libemail-engine/mail-tools.c:193
 #, c-format
 msgid "[Fwd: %s]"
-msgstr ""
+msgstr "[Posl: %s]"
 
 #. Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
 #. It results in "[Fwd: No Subject]" being used as a subject of the forwarded message.
@@ -18069,12 +18060,12 @@ msgstr "Presúva sa priečinok %s"
 msgid "Copying folder %s"
 msgstr "Kopíruje sa priečinok %s"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2508
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2509
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Presúvajú sa správy do priečinka %s"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2510
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2511
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopírujú sa správy do priečinka %s"
@@ -18789,7 +18780,7 @@ msgstr "Štýl _odosielania ďalej:"
 
 #: ../src/mail/mail-config.ui.h:22
 msgid "Include si_gnature in new messages only"
-msgstr ""
+msgstr "Zahrnúť _podpis iba v nových správach"
 
 #: ../src/mail/mail-config.ui.h:23
 msgid "Ig_nore Reply-To: for mailing lists"
@@ -19936,6 +19927,8 @@ msgid ""
 "There had not been found any active mail account to send the message. Create "
 "or enable one first, please."
 msgstr ""
+"Nenašiel sa žiadny aktívny poštový účet na odoslanie správy. Prosím, najskôr "
+"nejaký vytvorte, alebo povoľte."
 
 #: ../src/mail/mail.error.xml.h:160
 msgid "Mail Deletion Failed"
@@ -19972,7 +19965,7 @@ msgstr "Priečinok „{0}“ neobsahuje žiadnu duplicitnú správu."
 
 #: ../src/mail/mail.error.xml.h:169
 msgid "Failed to connect account “{0}”."
-msgstr "Zlyhalo pripojenie poštového účtu „{0}“"
+msgstr "Zlyhalo pripojenie účtu „{0}“."
 
 #: ../src/mail/mail.error.xml.h:170
 msgid "Failed to disconnect account “{0}”."
@@ -20166,6 +20159,8 @@ msgid ""
 "These messages will be shown in the Trash folder, where they can be "
 "permanently deleted later."
 msgstr ""
+"Tieto správy budú zobrazené v priečinku Kôš, kde budú môcť byť neskôr "
+"natrvalo odstránené."
 
 #: ../src/mail/mail.error.xml.h:216
 msgid "_Empty Junk"
@@ -20227,87 +20222,87 @@ msgstr "Upraviť vyhľadávací priečinok"
 msgid "New Search Folder"
 msgstr "Nový vyhľadávací priečinok"
 
-#: ../src/mail/message-list.c:300
+#: ../src/mail/message-list.c:301
 msgid "Unseen"
 msgstr "Neprečítané"
 
-#: ../src/mail/message-list.c:301
+#: ../src/mail/message-list.c:302
 msgid "Seen"
 msgstr "Prečítané"
 
-#: ../src/mail/message-list.c:302
+#: ../src/mail/message-list.c:303
 msgid "Answered"
 msgstr "Odpovedané"
 
-#: ../src/mail/message-list.c:303
+#: ../src/mail/message-list.c:304
 msgid "Forwarded"
 msgstr "Odoslané ďalej"
 
-#: ../src/mail/message-list.c:304
+#: ../src/mail/message-list.c:305
 msgid "Multiple Unseen Messages"
 msgstr "Viacero neprečítaných správ"
 
-#: ../src/mail/message-list.c:305
+#: ../src/mail/message-list.c:306
 msgid "Multiple Messages"
 msgstr "Viacero správ"
 
-#: ../src/mail/message-list.c:318
+#: ../src/mail/message-list.c:319
 msgid "Lowest"
 msgstr "Najnižšia"
 
-#: ../src/mail/message-list.c:319
+#: ../src/mail/message-list.c:320
 msgid "Lower"
 msgstr "Nižšia"
 
-#: ../src/mail/message-list.c:323
+#: ../src/mail/message-list.c:324
 msgid "Higher"
 msgstr "Vyššia"
 
-#: ../src/mail/message-list.c:324
+#: ../src/mail/message-list.c:325
 msgid "Highest"
 msgstr "Najvyššia"
 
-#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6289
+#: ../src/mail/message-list.c:471 ../src/mail/message-list.c:6304
 msgid "Generating message list"
 msgstr "Generuje sa zoznam správ"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2074
+#: ../src/mail/message-list.c:2075
 #: ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
 msgstr "Dnes %H:%M"
 
-#: ../src/mail/message-list.c:2083
+#: ../src/mail/message-list.c:2084
 msgid "Yesterday %l:%M %p"
 msgstr "Včera %H:%M"
 
-#: ../src/mail/message-list.c:2095
+#: ../src/mail/message-list.c:2096
 msgid "%a %l:%M %p"
 msgstr "%a, %H:%M"
 
-#: ../src/mail/message-list.c:2103
+#: ../src/mail/message-list.c:2104
 msgid "%b %d %l:%M %p"
 msgstr "%d. %b %H:%M"
 
-#: ../src/mail/message-list.c:2105
+#: ../src/mail/message-list.c:2106
 msgid "%b %d %Y"
 msgstr "%d. %b %Y"
 
-#: ../src/mail/message-list.c:3062
+#: ../src/mail/message-list.c:3063
 msgid "Select all visible messages"
 msgstr "Vybrať všetky viditeľné správy"
 
-#: ../src/mail/message-list.c:3781 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3782 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Správy"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5213
+#: ../src/mail/message-list.c:5214
 msgid "Follow-up"
 msgstr "Vybaviť"
 
-#: ../src/mail/message-list.c:6228
+#: ../src/mail/message-list.c:6243
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20319,7 +20314,7 @@ msgstr ""
 "vyššie, alebo spustením nového hľadania cez ponuku Nájsť→Vymazať alebo "
 "zmenou požiadavky vyššie."
 
-#: ../src/mail/message-list.c:6236
+#: ../src/mail/message-list.c:6251
 msgid "There are no messages in this folder."
 msgstr "V tomto priečinku nie sú žiadne správy."
 
@@ -20452,11 +20447,14 @@ msgstr "_Späť"
 msgid "_Browse"
 msgstr "_Prehliadať"
 
+# tooltip
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:197
 msgid ""
 "Browse a WebDAV (CalDAV or CardDAV) server and create, edit or delete "
 "address books, calendars, memo lists or task lists there"
 msgstr ""
+"Prehliada server WebDAV (CalDAV alebo CardDAV), na ktorom vytvorí, upraví, "
+"alebo odstráni adresáre kontaktov, kalendáre, zoznamy poznámok alebo úloh"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
@@ -21691,11 +21689,11 @@ msgstr "Zoznam úloh"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:61
 msgid "Highlight t_asks due today"
-msgstr "Zvýrazniť úlohy s _dnešným termínom:"
+msgstr "Zvýrazniť úlohy s _dnešným termínom"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:63
 msgid "Highlight _overdue tasks"
-msgstr "Zvýrazniť úlohy _po termíne:"
+msgstr "Zvýrazniť úlohy _po termíne"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:64
 msgid "_Hide completed tasks after"
@@ -23505,7 +23503,7 @@ msgstr "Funckie služby Yahoo!"
 
 #: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:261
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
-msgstr "Pridajte ka_lendáre a úlohy služby Yahoo! do programu Evolution."
+msgstr "Pridajte ka_lendáre a úlohy služby Yahoo! do tohto účtu"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:671
 #, c-format
@@ -23914,7 +23912,7 @@ msgstr "Zobraziť lištu s ú_lohami"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2034
 msgid "Show To Do bar with appointments and tasks"
-msgstr ""
+msgstr "Zobraziť lištu Úlohy so schôdzkami a úlohami"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2040
 msgid "_Unmatched Folder Enabled"
@@ -26445,7 +26443,7 @@ msgstr "Názov certifikátu"
 #: ../src/smime/gui/certificate-manager.c:83
 #: ../src/smime/gui/certificate-manager.c:103
 msgid "Issued To Organization"
-msgstr "Vydaný pre organizáciu:"
+msgstr "Vydaný pre organizáciu"
 
 #: ../src/smime/gui/certificate-manager.c:84
 #: ../src/smime/gui/certificate-manager.c:104
@@ -26839,7 +26837,7 @@ msgstr "Nedôverovať pravosti tohoto certifikátu"
 
 #: ../src/smime/gui/smime-ui.ui.h:29
 msgid "C_ertificate:"
-msgstr "C_ertifikát"
+msgstr "C_ertifikát:"
 
 #: ../src/smime/lib/e-cert.c:235 ../src/smime/lib/e-cert.c:247
 msgid "%d/%m/%Y"
