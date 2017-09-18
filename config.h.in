@@ -131,6 +131,3 @@
 
 /* Define to the full path of mozilla nss library */
 #define MOZILLA_NSS_LIB_DIR "@MOZILLA_NSS_LIB_DIR@"
-
-/* When defined contacts preview will contain maps */
-#cmakedefine ENABLE_CONTACT_MAPS 1
