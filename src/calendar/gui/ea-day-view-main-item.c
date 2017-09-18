@@ -44,7 +44,7 @@ static AtkObject * ea_day_view_main_item_get_parent (AtkObject *accessible);
 static gint ea_day_view_main_item_get_index_in_parent (AtkObject *accessible);
 
 /* callbacks */
-static void ea_day_view_main_item_time_range_changed_cb (ECalModel *model, time_t start, time_t end, gpointer data);
+static void ea_day_view_main_item_time_range_changed_cb (ECalModel *model, gint64 i64_start, gint64 i64_end, gpointer data);
 static void ea_day_view_main_item_time_change_cb (EDayView *day_view, gpointer data);
 
 /* component interface */
@@ -372,8 +372,8 @@ ea_day_view_main_item_get_index_in_parent (AtkObject *accessible)
 
 static void
 ea_day_view_main_item_time_range_changed_cb (ECalModel *model,
-					     time_t start,
-					     time_t end,
+					     gint64 i64_start,
+					     gint64 i64_end,
 					     gpointer data)
 {
 	EaDayViewMainItem *ea_main_item;

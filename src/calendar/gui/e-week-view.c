@@ -445,10 +445,11 @@ e_week_view_precalc_visible_time_range (ECalendarView *cal_view,
 
 static void
 week_view_time_range_changed_cb (EWeekView *week_view,
-                                 time_t start_time,
-                                 time_t end_time,
+                                 gint64 i64_start_time,
+                                 gint64 i64_end_time,
                                  ECalModel *model)
 {
+	time_t start_time = (time_t) i64_start_time;
 	GDate date, base_date;
 	GDateWeekday weekday;
 	GDateWeekday display_start_day;

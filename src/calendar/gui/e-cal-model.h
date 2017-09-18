@@ -155,8 +155,8 @@ struct _ECalModelClass {
 
 	/* Signals */
 	void		(*time_range_changed)	(ECalModel *model,
-						 time_t start,
-						 time_t end);
+						 gint64 start, /* time_t */
+						 gint64 end); /* time_t */
 	void		(*row_appended)		(ECalModel *model);
 	void		(*comps_deleted)	(ECalModel *model,
 						 gpointer list);

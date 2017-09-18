@@ -2555,14 +2555,14 @@ e_day_view_precalc_visible_time_range (ECalendarView *cal_view,
 
 static void
 time_range_changed_cb (ECalModel *model,
-                       time_t start_time,
-                       time_t end_time,
+                       gint64 i64_start_time,
+                       gint64 i64_end_time,
                        gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
 	EDayViewTimeItem *eti;
 	gint days_shown;
-	time_t lower;
+	time_t lower, start_time = (time_t) i64_start_time, end_time = (time_t) i64_end_time;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 

@@ -2525,10 +2525,10 @@ e_cal_model_class_init (ECalModelClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ECalModelClass, time_range_changed),
 		NULL, NULL,
-		e_marshal_VOID__LONG_LONG,
+		e_marshal_VOID__INT64_INT64,
 		G_TYPE_NONE, 2,
-		G_TYPE_LONG,
-		G_TYPE_LONG);
+		G_TYPE_INT64,
+		G_TYPE_INT64);
 
 	signals[ROW_APPENDED] = g_signal_new (
 		"row_appended",
@@ -3715,7 +3715,7 @@ e_cal_model_set_time_range (ECalModel *model,
 	priv->start = start;
 	priv->end = end;
 
-	g_signal_emit (model, signals[TIME_RANGE_CHANGED], 0, start, end);
+	g_signal_emit (model, signals[TIME_RANGE_CHANGED], 0, (gint64) start, (gint64) end);
 
 	e_cal_data_model_unsubscribe (model->priv->data_model, subscriber);
 	e_cal_model_remove_all_objects (model);

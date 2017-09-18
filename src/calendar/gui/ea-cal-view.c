@@ -39,7 +39,7 @@ static void ea_cal_view_event_added_cb (ECalendarView *cal_view,
                                         gpointer data);
 
 static gboolean idle_dates_changed (gpointer data);
-static void ea_cal_model_time_range_changed_cb (ECalModel *model, time_t start, time_t end, gpointer data);
+static void ea_cal_model_time_range_changed_cb (ECalModel *model, gint64 i64_start, gint64 i64_end, gpointer data);
 
 static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean action_interface_do_action (AtkAction *action, gint i);
@@ -266,8 +266,8 @@ idle_dates_changed (gpointer data)
 
 static void
 ea_cal_model_time_range_changed_cb (ECalModel *model,
-				    time_t start,
-				    time_t end,
+				    gint64 i64_start,
+				    gint64 i64_end,
 				    gpointer data)
 {
 	g_idle_add (idle_dates_changed, data);

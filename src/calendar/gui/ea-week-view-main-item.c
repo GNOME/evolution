@@ -50,8 +50,8 @@ static gint	ea_week_view_main_item_get_index_in_parent
 /* callbacks */
 static void	ea_week_view_main_item_time_range_changed_cb
 						(ECalModel *model,
-						 time_t start,
-						 time_t end,
+						 gint64 i64_start,
+						 gint64 i64_end,
 						 gpointer data);
 static void	ea_week_view_main_item_time_change_cb
 						(EWeekView *week_view,
@@ -401,8 +401,8 @@ ea_week_view_main_item_get_index_in_parent (AtkObject *accessible)
 
 static void
 ea_week_view_main_item_time_range_changed_cb (ECalModel *model,
-					      time_t start,
-					      time_t end,
+					      gint64 i64_start,
+					      gint64 i64_end,
 					      gpointer data)
 {
 	EaWeekViewMainItem *ea_main_item;
