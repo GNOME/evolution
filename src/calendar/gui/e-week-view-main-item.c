@@ -187,7 +187,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	if (!multi_week_view) {
 		show_day_name = TRUE;
 		show_month_name = TRUE;
-	} else if (day == 0 || day_of_month == 1) {
+	} else if ((day % 7) == 0 || day_of_month == 1) {
 		show_month_name = TRUE;
 	}
 
