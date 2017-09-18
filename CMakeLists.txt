@@ -291,6 +291,16 @@ pkg_check_modules(ENCHANT REQUIRED enchant>=${enchant_minimum_version})
 pkg_check_modules(LIBSOUP REQUIRED libsoup-2.4>=${soup_minimum_version})
 pkg_check_modules(WEB_EXTENSION REQUIRED webkit2gtk-4.0>=${webkit2gtk_minimum_version})
 
+set(CMAKE_REQUIRED_FLAGS ${ENCHANT_CFLAGS})
+set(CMAKE_REQUIRED_INCLUDES ${ENCHANT_INCLUDE_DIRS})
+set(CMAKE_REQUIRED_LIBRARIES ${ENCHANT_LDFLAGS})
+CHECK_C_SOURCE_COMPILES("#include <enchant/enchant.h>
+			#include <stdio.h>
+			int main(void) { enchant_dict_add (NULL, NULL, 0); enchant_dict_free_string_list (NULL, NULL); return 0; }" HAVE_ENCHANT_NEW_API)
+unset(CMAKE_REQUIRED_FLAGS)
+unset(CMAKE_REQUIRED_INCLUDES)
+unset(CMAKE_REQUIRED_LIBRARIES)
+
 # ******************************
 # Canberra / Canberra-GTK Sound
 # ******************************

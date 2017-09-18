@@ -134,3 +134,6 @@
 
 /* When defined contacts preview will contain maps */
 #cmakedefine ENABLE_CONTACT_MAPS 1
+
+/* Whether enchant contains new API */
+#cmakedefine HAVE_ENCHANT_NEW_API 1
