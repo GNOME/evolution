@@ -671,7 +671,7 @@ e_spell_dictionary_learn_word (ESpellDictionary *dictionary,
 		spell_checker, e_spell_dictionary_get_code (dictionary));
 	g_return_if_fail (enchant_dict != NULL);
 
-	enchant_dict_add_to_personal (enchant_dict, word, length);
+	enchant_dict_add (enchant_dict, word, length);
 
 	g_object_unref (spell_checker);
 }
@@ -751,7 +751,7 @@ e_spell_dictionary_get_suggestions (ESpellDictionary *dictionary,
 	suggestions = enchant_dict_suggest (enchant_dict, word, length, &count);
 	for (ii = 0; ii < count; ii++)
 		list = g_list_prepend (list, g_strdup (suggestions[ii]));
-	enchant_dict_free_suggestions (enchant_dict, suggestions);
+	enchant_dict_free_string_list (enchant_dict, suggestions);
 
 	g_object_unref (spell_checker);
 

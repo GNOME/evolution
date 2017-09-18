@@ -71,7 +71,7 @@ add_definitions(-DGDK_VERSION_MIN_REQUIRED=${gdk_encoded_version})
 add_definitions(-DSOUP_VERSION_MIN_REQUIRED=${soup_encoded_version})
 
 set(eds_minimum_version ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
-set(enchant_minimum_version 1.1.7)
+set(enchant_minimum_version 1.6.0)
 set(gcr_minimum_version 3.4)
 set(gdk_pixbuf_minimum_version 2.24.0)
 set(gnome_desktop_minimum_version 2.91.3)
