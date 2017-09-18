@@ -76,7 +76,7 @@
 </steps>
 
 <note style="tip"><p>For more information and specific Bogofilter or SpamAssassin configuration questions it is recommended to check out the Frequently Asked Questions for <link href="http://bogofilter.sourceforge.net/faq.shtml">Bogofilter</link> resp. 
-<link href="http://wiki.apache.org/spamassassin/FrequentlyAskedQuestions">SpamAssassin</link>.</p></note>
+<link href="https://wiki.apache.org/spamassassin/FrequentlyAskedQuestions">SpamAssassin</link>.</p></note>
 </section>
 
 </page>
