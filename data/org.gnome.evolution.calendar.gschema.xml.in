@@ -469,6 +469,10 @@
       <default>true</default>
       <_summary>Draw events as flat, not shaded.</_summary>
     </key>
+    <key name="week-view-days-left-to-right" type="b">
+      <default>false</default>
+      <_summary>Whether to order days in the Week View from left to right, rather than from top to bottom.</_summary>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

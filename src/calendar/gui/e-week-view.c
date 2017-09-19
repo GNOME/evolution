@@ -100,6 +100,7 @@ struct _EWeekViewPrivate {
 
 	gboolean show_icons_month_view;
 	gboolean draw_flat_events;
+	gboolean days_left_to_right;
 };
 
 typedef struct {
@@ -198,6 +199,7 @@ enum {
 	PROP_0,
 	PROP_COMPRESS_WEEKEND,
 	PROP_DRAW_FLAT_EVENTS,
+	PROP_DAYS_LEFT_TO_RIGHT,
 	PROP_SHOW_EVENT_END_TIMES,
 	PROP_SHOW_ICONS_MONTH_VIEW,
 	PROP_IS_EDITING
@@ -784,6 +786,12 @@ week_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_DAYS_LEFT_TO_RIGHT:
+			e_week_view_set_days_left_to_right (
+				E_WEEK_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_DRAW_FLAT_EVENTS:
 			e_week_view_set_draw_flat_events (
 				E_WEEK_VIEW (object),
@@ -817,6 +825,13 @@ week_view_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_week_view_get_compress_weekend (
+				E_WEEK_VIEW (object)));
+			return;
+
+		case PROP_DAYS_LEFT_TO_RIGHT:
+			g_value_set_boolean (
+				value,
+				e_week_view_get_days_left_to_right (
 				E_WEEK_VIEW (object)));
 			return;
 
@@ -1657,6 +1672,17 @@ e_week_view_class_init (EWeekViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_DAYS_LEFT_TO_RIGHT,
+		g_param_spec_boolean (
+			"days-left-to-right",
+			"Days Left To Right",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_DRAW_FLAT_EVENTS,
 		g_param_spec_boolean (
 			"draw-flat-events",
@@ -1708,6 +1734,7 @@ e_week_view_init (EWeekView *week_view)
 	week_view->priv = E_WEEK_VIEW_GET_PRIVATE (week_view);
 	week_view->priv->weeks_shown = 6;
 	week_view->priv->compress_weekend = TRUE;
+	week_view->priv->days_left_to_right = FALSE;
 	week_view->priv->draw_flat_events = TRUE;
 	week_view->priv->show_event_end_times = TRUE;
 	week_view->priv->update_base_date = TRUE;
@@ -2524,6 +2551,34 @@ e_week_view_set_draw_flat_events (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 
 	g_object_notify (G_OBJECT (week_view), "draw-flat-events");
+}
+
+gboolean
+e_week_view_get_days_left_to_right (EWeekView *week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
+
+	return week_view->priv->days_left_to_right;
+}
+
+void
+e_week_view_set_days_left_to_right (EWeekView *week_view,
+				    gboolean days_left_to_right)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if ((week_view->priv->days_left_to_right ? 1 : 0) == (days_left_to_right ? 1 : 0))
+		return;
+
+	week_view->priv->days_left_to_right = days_left_to_right;
+
+	week_view->events_need_layout = TRUE;
+	week_view->events_need_reshape = TRUE;
+
+	gtk_widget_queue_draw (week_view->main_canvas);
+	e_week_view_queue_layout (week_view);
+
+	g_object_notify (G_OBJECT (week_view), "days-left-to-right");
 }
 
 /* Whether we display event end times. */

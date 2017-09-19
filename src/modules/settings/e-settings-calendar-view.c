@@ -92,6 +92,11 @@ settings_calendar_view_constructed (GObject *object)
 			G_SETTINGS_BIND_GET);
 
 		g_settings_bind (
+			settings, "week-view-days-left-to-right",
+			extensible, "days-left-to-right",
+			G_SETTINGS_BIND_GET);
+
+		g_settings_bind (
 			settings, "draw-flat-events",
 			extensible, "draw-flat-events",
 			G_SETTINGS_BIND_GET);

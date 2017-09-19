@@ -341,6 +341,7 @@ e_week_view_layout_get_day_position (gint day,
 		gint arr[4] = {1, 1, 1, 1};
 		gint edge, i, wd, m, M;
 		gboolean any = TRUE;
+		gboolean days_left_to_right;
 		gint n_work_days_mon_wed = 0;
 		gint n_work_days_thu_sun = 0;
 
@@ -350,6 +351,8 @@ e_week_view_layout_get_day_position (gint day,
 		g_return_if_fail (day < 7);
 
 		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+		days_left_to_right = g_settings_get_boolean (settings, "week-view-days-left-to-right");
 
 		if (g_settings_get_boolean (settings, "work-day-monday"))
 			work_days[0] = 1, n_work_days_mon_wed++;
@@ -372,6 +375,26 @@ e_week_view_layout_get_day_position (gint day,
 			edge = 4;  /* Friday */
 		else
 			edge = 3;  /* Thursday */
+
+		if (days_left_to_right) {
+			/* The default view is always with two columns:
+			     Mon  Thu
+			     Tue  Fri
+			     Wed  Sat/Sun
+			   eventually:
+			     Mon  Fri
+			     Tue  Sat
+			     Wed  Sun
+			     Thu
+			*/
+			if (edge == 3) {
+				const gint transform[] = { 0, 3, 1, 4, 2, 5, 6 };
+				day = transform[day];
+			} else {
+				const gint transform[] = { 0, 4, 1, 5, 2, 3, 6 };
+				day = transform[day];
+			}
+		}
 
 		if (day < edge) {
 			*day_x = 0;

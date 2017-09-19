@@ -985,6 +985,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "week_view_days_left_to_right");
+	g_settings_bind (
+		settings, "week-view-days-left-to-right",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "tasks_due_today_highlight");
 	g_settings_bind (
 		settings, "task-due-today-highlight",

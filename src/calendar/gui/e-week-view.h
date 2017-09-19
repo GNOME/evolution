@@ -338,6 +338,11 @@ gboolean	e_week_view_get_draw_flat_events
 void		e_week_view_set_draw_flat_events
 						(EWeekView *week_view,
 						 gboolean draw_flat_events);
+gboolean	e_week_view_get_days_left_to_right
+						(EWeekView *week_view);
+void		e_week_view_set_days_left_to_right
+						(EWeekView *week_view,
+						 gboolean days_left_to_right);
 
 /* The first day shown. Note that it will be rounded down to the start of a
  * week when set. The returned value will be invalid if no date has been set
