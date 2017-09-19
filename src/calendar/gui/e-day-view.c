@@ -170,6 +170,8 @@ struct _EDayViewPrivate {
 	GtkWidget *timezone_name_2_label; /* not referenced */
 
 	GdkDragContext *drag_context;
+
+	gboolean draw_flat_events;
 };
 
 typedef struct {
@@ -489,6 +491,7 @@ static EDayViewEvent *tooltip_get_view_event (EDayView *day_view, gint day, gint
 
 enum {
 	PROP_0,
+	PROP_DRAW_FLAT_EVENTS,
 	PROP_MARCUS_BAINS_SHOW_LINE,
 	PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
 	PROP_MARCUS_BAINS_TIME_BAR_COLOR,
@@ -888,6 +891,12 @@ day_view_set_property (GObject *object,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_DRAW_FLAT_EVENTS:
+			e_day_view_set_draw_flat_events (
+				E_DAY_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_MARCUS_BAINS_SHOW_LINE:
 			e_day_view_marcus_bains_set_show_line (
 				E_DAY_VIEW (object),
@@ -917,6 +926,13 @@ day_view_get_property (GObject *object,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_DRAW_FLAT_EVENTS:
+			g_value_set_boolean (
+				value,
+				e_day_view_get_draw_flat_events (
+				E_DAY_VIEW (object)));
+			return;
+
 		case PROP_MARCUS_BAINS_SHOW_LINE:
 			g_value_set_boolean (
 				value,
@@ -1997,7 +2013,17 @@ e_day_view_class_init (EDayViewClass *class)
 	view_class->precalc_visible_time_range = e_day_view_precalc_visible_time_range;
 	view_class->paste_text = day_view_paste_text;
 
-	/* XXX Should these be constructor properties? */
+	g_object_class_install_property (
+		object_class,
+		PROP_DRAW_FLAT_EVENTS,
+		g_param_spec_boolean (
+			"draw-flat-events",
+			"Draw Flat Events",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -3884,6 +3910,32 @@ e_day_view_marcus_bains_set_show_line (EDayView *day_view,
 	e_day_view_marcus_bains_update (day_view);
 
 	g_object_notify (G_OBJECT (day_view), "marcus-bains-show-line");
+}
+
+gboolean
+e_day_view_get_draw_flat_events (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), FALSE);
+
+	return day_view->priv->draw_flat_events;
+}
+
+void
+e_day_view_set_draw_flat_events (EDayView *day_view,
+				 gboolean draw_flat_events)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if ((day_view->priv->draw_flat_events ? 1 : 0) == (draw_flat_events ? 1 : 0))
+		return;
+
+	day_view->priv->draw_flat_events = draw_flat_events;
+
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->top_dates_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+
+	g_object_notify (G_OBJECT (day_view), "draw-flat-events");
 }
 
 const gchar *

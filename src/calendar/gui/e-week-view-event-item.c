@@ -729,6 +729,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	gdouble radius, cx0, cy0, rect_height, rect_width;
 	cairo_region_t *draw_region;
 	GdkRectangle rect;
+	gboolean draw_flat_events;
 
 	event_item = E_WEEK_VIEW_EVENT_ITEM (canvas_item);
 	parent = gtk_widget_get_parent (GTK_WIDGET (canvas_item->canvas));
@@ -785,6 +786,8 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 		return;
 	}
 
+	draw_flat_events = e_week_view_get_draw_flat_events (week_view);
+
 	icon_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT + E_WEEK_VIEW_ICON_Y_PAD;
 
 	/* Get the start & end times in 24-hour format. */
@@ -819,48 +822,59 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 		rect_x = x1 + E_WEEK_VIEW_EVENT_L_PAD;
 		rect_w = x2 - x1 - E_WEEK_VIEW_EVENT_L_PAD - E_WEEK_VIEW_EVENT_R_PAD + 1;
 
-		/* Here we draw the border around the event*/
 		cx0 = rect_x;
 		cy0 = y1 + 1;
 		rect_width = rect_w;
 		rect_height = y2 - y1 - 1;
 
-		radius = 12;
-
 		if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
-			cairo_save (cr);
-			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
-			cairo_set_line_width (cr, 2.0);
-			gdk_cairo_set_source_rgba (cr, &bg_rgba);
-			cairo_stroke (cr);
-			cairo_restore (cr);
-		}
+			if (draw_flat_events) {
+				cairo_save (cr);
+				cairo_rectangle (cr, cx0, cy0, rect_width, rect_height);
+				gdk_cairo_set_source_rgba (cr, &bg_rgba);
+				cairo_fill (cr);
+				cairo_restore (cr);
+			} else {
+				/* Here we draw the border around the event*/
 
-		/* Fill it in the Event */
+				radius = 12;
 
-		cx0 = rect_x + 1.5;
-		cy0 = y1 + 2.75;
-		rect_width = rect_w - 3.;
-		rect_height = y2 - y1 - 4.5;
+				if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
+					cairo_save (cr);
+					draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
+					cairo_set_line_width (cr, 2.0);
+					gdk_cairo_set_source_rgba (cr, &bg_rgba);
+					cairo_stroke (cr);
+					cairo_restore (cr);
+				}
 
-		radius = 8;
+				/* Fill it in the Event */
 
-		if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
-			cairo_save (cr);
-			draw_curved_rectangle (
-				cr, cx0, cy0, rect_width, rect_height, radius);
+				cx0 = rect_x + 1.5;
+				cy0 = y1 + 2.75;
+				rect_width = rect_w - 3.;
+				rect_height = y2 - y1 - 4.5;
 
-			pat = cairo_pattern_create_linear (
-				rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
-			cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
-			cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
-			cairo_set_source (cr, pat);
-			cairo_fill_preserve (cr);
-			cairo_pattern_destroy (pat);
-			cairo_set_source_rgba (cr, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.2 * bg_rgba.alpha);
-			cairo_set_line_width (cr, 0.5);
-			cairo_stroke (cr);
-			cairo_restore (cr);
+				radius = 8;
+
+				if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
+					cairo_save (cr);
+					draw_curved_rectangle (
+						cr, cx0, cy0, rect_width, rect_height, radius);
+
+					pat = cairo_pattern_create_linear (
+						rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
+					cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
+					cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
+					cairo_set_source (cr, pat);
+					cairo_fill_preserve (cr);
+					cairo_pattern_destroy (pat);
+					cairo_set_source_rgba (cr, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.2 * bg_rgba.alpha);
+					cairo_set_line_width (cr, 0.5);
+					cairo_stroke (cr);
+					cairo_restore (cr);
+				}
+			}
 		}
 
 		/* Draw the start and end times, as required. */
@@ -933,48 +947,59 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			rect_w -= 2;
 		}
 
-		/* Here we draw the border around the event */
-
 		cx0 = rect_x;
 		cy0 = y1 + 1;
 		rect_width = rect_w;
 		rect_height = y2 - y1 - 1;
 
-		radius = 12;
-
 		if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
-			cairo_save (cr);
-			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
-			cairo_set_line_width (cr, 2.0);
-			gdk_cairo_set_source_rgba (cr, &bg_rgba);
-			cairo_stroke (cr);
-			cairo_restore (cr);
-		}
+			if (draw_flat_events) {
+				cairo_save (cr);
+				gdk_cairo_set_source_rgba (cr, &bg_rgba);
+				cairo_rectangle (cr, cx0, cy0, rect_width, rect_height);
+				cairo_fill (cr);
+				cairo_restore (cr);
+			} else {
 
-		/* Here we fill it in the event*/
+				/* Here we draw the border around the event */
 
-		cx0 = rect_x + 1.5;
-		cy0 = y1 + 2.75;
-		rect_width = rect_w - 3.;
-		rect_height = y2 - y1 - 4.5;
+				radius = 12;
 
-		radius = 8;
+				if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
+					cairo_save (cr);
+					draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
+					cairo_set_line_width (cr, 2.0);
+					gdk_cairo_set_source_rgba (cr, &bg_rgba);
+					cairo_stroke (cr);
+					cairo_restore (cr);
+				}
 
-		if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
-			cairo_save (cr);
-			draw_curved_rectangle (
-				cr, cx0, cy0, rect_width, rect_height, radius);
+				/* Here we fill it in the event*/
 
-			pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
-			cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
-			cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
-			cairo_set_source (cr, pat);
-			cairo_fill_preserve (cr);
-			cairo_pattern_destroy (pat);
-			cairo_set_source_rgba (cr, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.2 * bg_rgba.alpha);
-			cairo_set_line_width (cr, 0.5);
-			cairo_stroke (cr);
-			cairo_restore (cr);
+				cx0 = rect_x + 1.5;
+				cy0 = y1 + 2.75;
+				rect_width = rect_w - 3.;
+				rect_height = y2 - y1 - 4.5;
+
+				radius = 8;
+
+				if (can_draw_in_region (draw_region, cx0, cy0, rect_width, rect_height)) {
+					cairo_save (cr);
+					draw_curved_rectangle (
+						cr, cx0, cy0, rect_width, rect_height, radius);
+
+					pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
+					cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
+					cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
+					cairo_set_source (cr, pat);
+					cairo_fill_preserve (cr);
+					cairo_pattern_destroy (pat);
+					cairo_set_source_rgba (cr, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.2 * bg_rgba.alpha);
+					cairo_set_line_width (cr, 0.5);
+					cairo_stroke (cr);
+					cairo_restore (cr);
+				}
+			}
 		}
 
 		if (draw_start_triangle) {

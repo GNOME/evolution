@@ -99,6 +99,7 @@ struct _EWeekViewPrivate {
 	gulong notify_week_start_day_id;
 
 	gboolean show_icons_month_view;
+	gboolean draw_flat_events;
 };
 
 typedef struct {
@@ -196,6 +197,7 @@ G_DEFINE_TYPE (EWeekView, e_week_view, E_TYPE_CALENDAR_VIEW)
 enum {
 	PROP_0,
 	PROP_COMPRESS_WEEKEND,
+	PROP_DRAW_FLAT_EVENTS,
 	PROP_SHOW_EVENT_END_TIMES,
 	PROP_SHOW_ICONS_MONTH_VIEW,
 	PROP_IS_EDITING
@@ -782,6 +784,12 @@ week_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_DRAW_FLAT_EVENTS:
+			e_week_view_set_draw_flat_events (
+				E_WEEK_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_SHOW_EVENT_END_TIMES:
 			e_week_view_set_show_event_end_times (
 				E_WEEK_VIEW (object),
@@ -809,6 +817,13 @@ week_view_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_week_view_get_compress_weekend (
+				E_WEEK_VIEW (object)));
+			return;
+
+		case PROP_DRAW_FLAT_EVENTS:
+			g_value_set_boolean (
+				value,
+				e_week_view_get_draw_flat_events (
 				E_WEEK_VIEW (object)));
 			return;
 
@@ -1642,6 +1657,17 @@ e_week_view_class_init (EWeekViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_DRAW_FLAT_EVENTS,
+		g_param_spec_boolean (
+			"draw-flat-events",
+			"Draw Flat Events",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SHOW_EVENT_END_TIMES,
 		g_param_spec_boolean (
 			"show-event-end-times",
@@ -1682,6 +1708,7 @@ e_week_view_init (EWeekView *week_view)
 	week_view->priv = E_WEEK_VIEW_GET_PRIVATE (week_view);
 	week_view->priv->weeks_shown = 6;
 	week_view->priv->compress_weekend = TRUE;
+	week_view->priv->draw_flat_events = TRUE;
 	week_view->priv->show_event_end_times = TRUE;
 	week_view->priv->update_base_date = TRUE;
 	week_view->priv->display_start_day = G_DATE_MONDAY;
@@ -2472,6 +2499,31 @@ e_week_view_set_compress_weekend (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 
 	g_object_notify (G_OBJECT (week_view), "compress-weekend");
+}
+
+gboolean
+e_week_view_get_draw_flat_events (EWeekView *week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
+
+	return week_view->priv->draw_flat_events;
+}
+
+void
+e_week_view_set_draw_flat_events (EWeekView *week_view,
+				  gboolean draw_flat_events)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if ((week_view->priv->draw_flat_events ? 1 : 0) == (draw_flat_events ? 1 : 0))
+		return;
+
+	week_view->priv->draw_flat_events = draw_flat_events;
+
+	gtk_widget_queue_draw (week_view->titles_canvas);
+	gtk_widget_queue_draw (week_view->main_canvas);
+
+	g_object_notify (G_OBJECT (week_view), "draw-flat-events");
 }
 
 /* Whether we display event end times. */

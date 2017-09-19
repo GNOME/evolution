@@ -151,8 +151,10 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	GdkRGBA bg_rgba, rgba;
 	cairo_pattern_t *pat;
 	gdouble x0, y0, rect_height, rect_width, radius;
+	gboolean draw_flat_events;
 
 	day_view = e_day_view_top_item_get_day_view (top_item);
+	draw_flat_events = e_day_view_get_draw_flat_events (day_view);
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
 	/* If the event is currently being dragged, don't draw it. It will
@@ -187,65 +189,79 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		bg_rgba.alpha = 1.0;
 	}
 
-	/* Fill the background with white to play with transparency */
-	cairo_save (cr);
-	x0 = item_x - x + 4;
-	y0 = item_y + 1 - y;
-	rect_width = item_w - 8;
-	rect_height = item_h - 2;
+	if (draw_flat_events) {
+		x0 = item_x - x;
+		y0 = item_y - y + 2;
+		rect_width = item_w;
+		rect_height = item_h - 2;
 
-	radius = 12;
+		cairo_save (cr);
+		cairo_rectangle (cr, x0, y0, rect_width, rect_height);
+		gdk_cairo_set_source_rgba (cr, &bg_rgba);
+		cairo_fill (cr);
+		cairo_restore (cr);
+	} else {
+		/* Fill the background with white to play with transparency */
+		cairo_save (cr);
 
-	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+		x0 = item_x - x + 4;
+		y0 = item_y + 1 - y;
+		rect_width = item_w - 8;
+		rect_height = item_h - 2;
 
-	cairo_set_source_rgba (cr, 1, 1, 1, 1.0);
-	cairo_fill_preserve (cr);
+		radius = 12;
 
-	cairo_restore (cr);
+		draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	/* Draw the border around the event */
+		cairo_set_source_rgba (cr, 1, 1, 1, 1.0);
+		cairo_fill_preserve (cr);
 
-	cairo_save (cr);
-	x0 = item_x - x + 4;
-	y0 = item_y + 1 - y;
-	rect_width = item_w - 8;
-	rect_height = item_h - 2;
+		cairo_restore (cr);
 
-	radius = 12;
+		/* Draw the border around the event */
 
-	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+		cairo_save (cr);
+		x0 = item_x - x + 4;
+		y0 = item_y + 1 - y;
+		rect_width = item_w - 8;
+		rect_height = item_h - 2;
 
-	gdk_cairo_set_source_rgba (cr, &bg_rgba);
-	cairo_set_line_width (cr, 1.5);
-	cairo_stroke (cr);
-	cairo_restore (cr);
+		radius = 12;
 
-	/* Fill in with gradient */
+		draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	cairo_save (cr);
+		gdk_cairo_set_source_rgba (cr, &bg_rgba);
+		cairo_set_line_width (cr, 1.5);
+		cairo_stroke (cr);
+		cairo_restore (cr);
 
-	x0 = item_x - x + 5.5;
-	y0 = item_y + 2.5 - y;
-	rect_width = item_w - 11;
-	rect_height = item_h - 5;
+		/* Fill in with gradient */
 
-	radius = 10;
+		cairo_save (cr);
 
-	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+		x0 = item_x - x + 5.5;
+		y0 = item_y + 2.5 - y;
+		rect_width = item_w - 11;
+		rect_height = item_h - 5;
 
-	pat = cairo_pattern_create_linear (
-		item_x - x + 5.5, item_y + 2.5 - y,
-		item_x - x + 5, item_y - y + item_h + 7.5);
-	cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
-	cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
-	cairo_set_source (cr, pat);
-	cairo_fill_preserve (cr);
-	cairo_pattern_destroy (pat);
+		radius = 10;
 
-	gdk_cairo_set_source_rgba (cr, &bg_rgba);
-	cairo_set_line_width (cr, 0.5);
-	cairo_stroke (cr);
-	cairo_restore (cr);
+		draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+
+		pat = cairo_pattern_create_linear (
+			item_x - x + 5.5, item_y + 2.5 - y,
+			item_x - x + 5, item_y - y + item_h + 7.5);
+		cairo_pattern_add_color_stop_rgba (pat, 1, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.8 * bg_rgba.alpha);
+		cairo_pattern_add_color_stop_rgba (pat, 0, bg_rgba.red, bg_rgba.green, bg_rgba.blue, 0.4 * bg_rgba.alpha);
+		cairo_set_source (cr, pat);
+		cairo_fill_preserve (cr);
+		cairo_pattern_destroy (pat);
+
+		gdk_cairo_set_source_rgba (cr, &bg_rgba);
+		cairo_set_line_width (cr, 0.5);
+		cairo_stroke (cr);
+		cairo_restore (cr);
+	}
 
 	/* When resizing we don't draw the triangles.*/
 	draw_start_triangle = TRUE;
@@ -264,16 +280,16 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	if (draw_start_triangle
 	    && event->start < day_view->day_starts[start_day]) {
 		day_view_top_item_draw_triangle (
-			top_item, cr, item_x - x + 4, item_y - y,
-			-E_DAY_VIEW_BAR_WIDTH, item_h, event_num);
+			top_item, cr, item_x - x, item_y - y + 2,
+			-E_DAY_VIEW_BAR_WIDTH, item_h - 1, event_num);
 	}
 
 	/* Similar for the event end. */
 	if (draw_end_triangle
 	    && event->end > day_view->day_starts[end_day + 1]) {
 		day_view_top_item_draw_triangle (
-			top_item, cr, item_x + item_w - 4 - x,
-			item_y - y, E_DAY_VIEW_BAR_WIDTH, item_h,
+			top_item, cr, item_x + item_w - x,
+			item_y - y + 2, E_DAY_VIEW_BAR_WIDTH, item_h - 1,
 			event_num);
 	}
 

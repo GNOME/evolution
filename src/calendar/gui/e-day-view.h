@@ -450,6 +450,10 @@ struct _EDayViewClass {
 GType		e_day_view_get_type		(void) G_GNUC_CONST;
 ECalendarView *	e_day_view_new			(ECalModel *model);
 
+gboolean	e_day_view_get_draw_flat_events	(EDayView *day_view);
+void		e_day_view_set_draw_flat_events	(EDayView *day_view,
+						 gboolean draw_flat_events);
+
 /* Whether we are displaying a work-week, in which case the display always
  * starts on the first day of the working week. */
 gboolean	e_day_view_get_work_week_view	(EDayView *day_view);

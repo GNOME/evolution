@@ -61,7 +61,7 @@
 #define E_WEEK_VIEW_ICON_HEIGHT		16
 #define E_WEEK_VIEW_ICON_X_PAD		1
 #define E_WEEK_VIEW_ICON_Y_PAD		1
-#define E_WEEK_VIEW_ICON_R_PAD		8
+#define E_WEEK_VIEW_ICON_R_PAD		4
 
 /* The space on the left & right outside of the event. (The triangle to
  * indicate the event continues is displayed in this space). */
@@ -82,7 +82,7 @@
 #define E_WEEK_VIEW_EVENT_TIME_SPACING	2
 
 /* The space between the time and the event text or icons. */
-#define E_WEEK_VIEW_EVENT_TIME_X_PAD	8
+#define E_WEEK_VIEW_EVENT_TIME_X_PAD	4
 
 /* The space between the borders of long events and any text of icons. */
 #define E_WEEK_VIEW_EVENT_EDGE_X_PAD	2
@@ -332,6 +332,12 @@ struct _EWeekViewClass {
 
 GType		e_week_view_get_type		(void);
 ECalendarView *	e_week_view_new			(ECalModel *model);
+
+gboolean	e_week_view_get_draw_flat_events
+						(EWeekView *week_view);
+void		e_week_view_set_draw_flat_events
+						(EWeekView *week_view,
+						 gboolean draw_flat_events);
 
 /* The first day shown. Note that it will be rounded down to the start of a
  * week when set. The returned value will be invalid if no date has been set

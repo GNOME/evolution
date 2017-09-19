@@ -62,6 +62,11 @@ settings_calendar_view_constructed (GObject *object)
 			G_SETTINGS_BIND_GET);
 
 		g_settings_bind (
+			settings, "draw-flat-events",
+			extensible, "draw-flat-events",
+			G_SETTINGS_BIND_GET);
+
+		g_settings_bind (
 			settings, "marcus-bains-line",
 			extensible, "marcus-bains-show-line",
 			G_SETTINGS_BIND_GET);
@@ -84,6 +89,11 @@ settings_calendar_view_constructed (GObject *object)
 		g_settings_bind (
 			settings, "compress-weekend",
 			extensible, "compress-weekend",
+			G_SETTINGS_BIND_GET);
+
+		g_settings_bind (
+			settings, "draw-flat-events",
+			extensible, "draw-flat-events",
 			G_SETTINGS_BIND_GET);
 
 		g_settings_bind (

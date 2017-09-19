@@ -209,8 +209,10 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	gint scroll_flag = 0;
 	gint row_y;
 	PangoLayout *layout;
+	gboolean draw_flat_events;
 
 	day_view = e_day_view_main_item_get_day_view (main_item);
+	draw_flat_events = e_day_view_get_draw_flat_events (day_view);
 
 	cal_view = E_CALENDAR_VIEW (day_view);
 	model = e_calendar_view_get_model (cal_view);
@@ -270,7 +272,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		g_object_get (event->canvas_item, "x_offset", &text_x_offset, NULL);
 
 	/* Draw shadow around the event when selected */
-	if (is_editing && (gtk_widget_has_focus (day_view->main_canvas))) {
+	if (!draw_flat_events && is_editing && (gtk_widget_has_focus (day_view->main_canvas))) {
 		/* For embossing Item selection */
 		item_x -= 1;
 		item_y -= 2;
@@ -416,51 +418,64 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		item_y += 2;
 	}
 
-	/* Draw the background of the event with white to play with transparency */
-	cairo_save (cr);
+	if (!draw_flat_events) {
+		/* Draw the background of the event with white to play with transparency */
+		cairo_save (cr);
 
-	x0 = item_x + E_DAY_VIEW_BAR_WIDTH + 1;
-	y0 = item_y + 2;
-	rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 3, 0);
-	rect_height = item_h - 4.;
+		x0 = item_x + E_DAY_VIEW_BAR_WIDTH + 1;
+		y0 = item_y + 2;
+		rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 3, 0);
+		rect_height = item_h - 4.;
 
-	radius = 16;
+		radius = 16;
 
-	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+		draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	cairo_set_source_rgba (cr, 1, 1, 1, 1.0);
-	cairo_fill (cr);
+		cairo_set_source_rgba (cr, 1, 1, 1, 1.0);
+		cairo_fill (cr);
 
-	cairo_restore (cr);
+		cairo_restore (cr);
 
-	/* Here we draw the border in event color */
-	cairo_save (cr);
+		/* Here we draw the border in event color */
+		cairo_save (cr);
 
-	x0 = item_x + E_DAY_VIEW_BAR_WIDTH;
-	y0 = item_y + 1.;
-	rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1., 0);
-	rect_height = item_h - 2.;
+		x0 = item_x + E_DAY_VIEW_BAR_WIDTH;
+		y0 = item_y + 1.;
+		rect_width = MAX (item_w - E_DAY_VIEW_BAR_WIDTH - 1., 0);
+		rect_height = item_h - 2.;
 
-	radius = 16;
+		radius = 16;
 
-	draw_curved_rectangle (cr, x0, y0, rect_width,rect_height, radius);
-	cairo_set_line_width (cr, 2.);
-	gdk_cairo_set_source_rgba (cr, &bg_rgba);
-	cairo_stroke (cr);
-	cairo_restore (cr);
+		draw_curved_rectangle (cr, x0, y0, rect_width,rect_height, radius);
+		cairo_set_line_width (cr, 2.);
+		gdk_cairo_set_source_rgba (cr, &bg_rgba);
+		cairo_stroke (cr);
+		cairo_restore (cr);
+	}
 
 	/* Fill in the Event */
 
 	cairo_save (cr);
 
-	x0 = item_x + E_DAY_VIEW_BAR_WIDTH + 1.75;
-	y0 = item_y + 2.75;
-	rect_width = item_w - E_DAY_VIEW_BAR_WIDTH - 4.5;
-	rect_height = item_h - 5.5;
+	if (draw_flat_events) {
+		x0 = item_x + E_DAY_VIEW_BAR_WIDTH;
+		y0 = item_y;
+		rect_width = item_w - E_DAY_VIEW_BAR_WIDTH;
+		rect_height = item_h - 1;
 
-	radius = 14;
+		cairo_rectangle (cr, x0, y0, rect_width, rect_height);
+		gdk_cairo_set_source_rgba (cr, &bg_rgba);
+		cairo_fill (cr);
+	} else {
+		x0 = item_x + E_DAY_VIEW_BAR_WIDTH + 1.75;
+		y0 = item_y + 2.75;
+		rect_width = item_w - E_DAY_VIEW_BAR_WIDTH - 4.5;
+		rect_height = item_h - 5.5;
 
-	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+		radius = 14;
+
+		draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
+	}
 
 	date_fraction = rect_height / day_view->row_height;
 	interval = event->end_minute - event->start_minute;
@@ -796,7 +811,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		cairo_save (cr);
 		cairo_rectangle (
 			cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
-			item_w - E_DAY_VIEW_BAR_WIDTH - 4.5,
+			item_w - E_DAY_VIEW_BAR_WIDTH - (draw_flat_events ? 0.0 : 4.5),
 			14);
 
 		cairo_clip (cr);
@@ -1096,6 +1111,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			if (can_draw_in_region (draw_region, day_x, 0 - y, day_w, work_day_start_y - (0 - y))) {
 				cairo_save (cr);
 				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING]);
+				cairo_set_line_width (cr, 0.5);
 				cairo_rectangle (cr, day_x, 0 - y, day_w, work_day_start_y - (0 - y));
 				cairo_fill (cr);
 				cairo_restore (cr);
@@ -1159,7 +1175,10 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			if (can_draw_in_region (draw_region, rect_x, rect_y, rect_width, rect_height)) {
 				cairo_save (cr);
 				gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED]);
-				cairo_rectangle (cr, rect_x, rect_y, rect_width, rect_height);
+				if (e_day_view_get_draw_flat_events (day_view))
+					cairo_rectangle (cr, rect_x, rect_y, rect_width, rect_height);
+				else
+					cairo_rectangle (cr, rect_x, rect_y, rect_width, rect_height);
 				cairo_fill (cr);
 				cairo_restore (cr);
 			}
@@ -1179,9 +1198,9 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	     row < day_view->rows && row_y < height;
 	     row++, row_y += day_view->row_height) {
 		if (row_y >= 0 && row_y < height) {
-			cairo_set_line_width (cr, 0.7);
-			cairo_move_to (cr, grid_x1, row_y);
-			cairo_line_to (cr, grid_x2, row_y);
+			cairo_set_line_width (cr, 0.5);
+			cairo_move_to (cr, grid_x1, row_y + 0.5);
+			cairo_line_to (cr, grid_x2, row_y + 0.5);
 			cairo_stroke (cr);
 		}
 	}
