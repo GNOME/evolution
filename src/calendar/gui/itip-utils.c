@@ -774,8 +774,6 @@ comp_from (ECalComponentItipMethod method,
 
 	switch (method) {
 	case E_CAL_COMPONENT_METHOD_PUBLISH:
-		return NULL;
-
 	case E_CAL_COMPONENT_METHOD_REQUEST:
 		return itip_get_comp_attendee (registry, comp, NULL);
 
@@ -2103,6 +2101,7 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	EShell *shell;
 	icalcomponent *top_level = NULL;
 	icaltimezone *default_zone;
+	gchar *identity_uid, *identity_name = NULL, *identity_address = NULL;
 
 	g_return_if_fail (isc != NULL);
 
@@ -2113,9 +2112,17 @@ itip_send_component_complete (ItipSendComponentData *isc)
 
 	default_zone = calendar_config_get_icaltimezone ();
 
+	shell = e_shell_get_default ();
+
+	identity_uid = get_identity_uid_for_from (shell, isc->method, isc->send_comps->data, isc->cal_client, &identity_name, &identity_address);
+
 	/* Tidy up the comp */
-	if (!comp_compliant (isc->registry, isc->method, isc->send_comps, TRUE, isc->cal_client, isc->zones, default_zone, isc->strip_alarms))
+	if (!comp_compliant (isc->registry, isc->method, isc->send_comps, TRUE, isc->cal_client, isc->zones, default_zone, isc->strip_alarms)) {
+		g_free (identity_uid);
+		g_free (identity_name);
+		g_free (identity_address);
 		goto cleanup;
+	}
 
 	/* Recipients */
 	destinations = comp_to_list (
@@ -2126,15 +2133,19 @@ itip_send_component_complete (ItipSendComponentData *isc)
 		if (destinations == NULL) {
 			/* We sent them all via the server */
 			isc->success = TRUE;
+			g_free (identity_uid);
+			g_free (identity_name);
+			g_free (identity_address);
 			goto cleanup;
 		}
 	}
 
-	shell = e_shell_get_default ();
 	top_level = comp_toplevel_with_zones (isc->method, isc->send_comps, isc->cal_client, isc->zones);
 
 	ccd = g_new0 (CreateComposerData, 1);
-	ccd->identity_uid = get_identity_uid_for_from (shell, isc->method, isc->send_comps->data, isc->cal_client, &ccd->identity_name, &ccd->identity_address);
+	ccd->identity_uid = identity_uid;
+	ccd->identity_name = identity_name;
+	ccd->identity_address = identity_address;
 	ccd->destinations = destinations;
 	ccd->subject = comp_subject (isc->registry, isc->method, isc->send_comps->data);
 	ccd->ical_string = icalcomponent_as_ical_string_r (top_level);
@@ -2392,6 +2403,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	icalcomponent *top_level = NULL;
 	icaltimezone *default_zone;
 	gboolean retval = FALSE;
+	gchar *identity_uid, *identity_name = NULL, *identity_address = NULL;
 	GSList *ecomps;
 	CreateComposerData *ccd;
 
@@ -2404,14 +2416,22 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 
 	ecomps = g_slist_prepend (NULL, send_comp);
 
+	identity_uid = get_identity_uid_for_from (shell, method, send_comp, cal_client, &identity_name, &identity_address);
+
 	/* Tidy up the comp */
-	if (!comp_compliant (registry, method, ecomps, FALSE, cal_client, zones, default_zone, TRUE))
+	if (!comp_compliant (registry, method, ecomps, FALSE, cal_client, zones, default_zone, TRUE)) {
+		g_free (identity_uid);
+		g_free (identity_name);
+		g_free (identity_address);
 		goto cleanup;
+	}
 
 	top_level = comp_toplevel_with_zones (method, ecomps, cal_client, zones);
 
 	ccd = g_new0 (CreateComposerData, 1);
-	ccd->identity_uid = get_identity_uid_for_from (shell, method, send_comp, cal_client, &ccd->identity_name, &ccd->identity_address);
+	ccd->identity_uid = identity_uid;
+	ccd->identity_name = identity_name;
+	ccd->identity_address = identity_address;
 	ccd->destinations = comp_to_list (registry, method, ecomps->data, NULL, reply_all, NULL);
 	ccd->subject = comp_subject (registry, method, ecomps->data);
 	ccd->ical_string = icalcomponent_as_ical_string_r (top_level);
