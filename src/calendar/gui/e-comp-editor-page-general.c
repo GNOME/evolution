@@ -936,7 +936,7 @@ ecep_general_fill_component (ECompEditorPage *page,
 		comp_editor = e_comp_editor_page_ref_editor (page);
 		flags = e_comp_editor_get_flags (comp_editor);
 
-		if ((flags & E_COMP_EDITOR_FLAG_IS_NEW) != 0 &&
+		if ((flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0 &&
 		    !ecep_general_get_organizer (page_general, NULL, NULL)) {
 			e_comp_editor_set_validation_error (comp_editor, page,
 				page_general->priv->organizer_combo_box,
@@ -958,7 +958,7 @@ ecep_general_fill_component (ECompEditorPage *page,
 		}
 
 		/* Organizer */
-		if ((flags & E_COMP_EDITOR_FLAG_IS_NEW) != 0 &&
+		if ((flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0 &&
 		    ecep_general_get_organizer (page_general, &organizer_name, &organizer_mailto)) {
 			const gchar *cal_email_address;
 			icalparameter *param;
