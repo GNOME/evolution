@@ -9927,7 +9927,7 @@ msgid ""
 "ignore for the time being, via the <gui>IMAP Subscriptions Manager</gui>."
 msgstr ""
 "Weil das Öffnen vieler IMAP-Ordner auf dem Server Zeit beansprucht, können "
-"Sie festlegen, welche IMAP-Ordner abgefragt und in <gui>Evolution/<gui> "
+"Sie festlegen, welche IMAP-Ordner abgefragt und in <app>Evolution</app> "
 "angezeigt werden sollen, und welche vorerst ignoriert werden sollen. Die "
 "Einstellung erfolgt in der <gui>IMAP-Abonnementverwaltung</gui>."
 
@@ -11041,7 +11041,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-refresh-folders.page:5
 msgid "Ways to update your <app>Evolution</app> folders."
-msgstr "So aktualisieren Sie Ordner in <gui>Evolution<gui>."
+msgstr "So aktualisieren Sie Ordner in <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-refresh-folders.page:20
