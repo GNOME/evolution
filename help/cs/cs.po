@@ -12754,7 +12754,7 @@ msgid ""
 "app>."
 msgstr ""
 "Seznam úkolů bude přidán do seznamu se seznamy úkolů v aplikaci "
-"<app>Evolution<app>."
+"<app>Evolution</app>."
 
 #. (itstool) path: info/desc
 #: C/tasks-display-settings.page:5
