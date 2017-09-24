@@ -5331,7 +5331,7 @@ msgstr ""
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
 msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
 msgstr ""
-"Microsoft Exchange MAPI-Konto in <app>Evolution<app> hinzufügen und "
+"Microsoft Exchange MAPI-Konto in <app>Evolution</app> hinzufügen und "
 "bearbeiten."
 
 #. (itstool) path: page/title
