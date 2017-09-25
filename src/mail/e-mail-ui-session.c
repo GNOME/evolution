@@ -278,11 +278,10 @@ main_get_filter_driver (CamelSession *session,
 	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
 	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
 
-	add_junk_test =
+	add_junk_test = g_str_equal (type, E_FILTER_SOURCE_JUNKTEST) || (
 		priv->check_junk &&
-		(g_str_equal (type, E_FILTER_SOURCE_INCOMING) ||
-		g_str_equal (type, E_FILTER_SOURCE_JUNKTEST)) &&
-		session_folder_can_filter_junk (for_folder);
+		g_str_equal (type, E_FILTER_SOURCE_INCOMING) &&
+		session_folder_can_filter_junk (for_folder));
 
 	if (add_junk_test) {
 		/* implicit junk check as 1st rule */
