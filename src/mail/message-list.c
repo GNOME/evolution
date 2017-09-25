@@ -4835,7 +4835,6 @@ message_list_set_folder (MessageList *message_list,
 	g_signal_emit (message_list, signals[MESSAGE_SELECTED], 0, NULL);
 
 	if (folder != NULL) {
-		CamelStore *store;
 		gboolean non_trash_folder;
 		gboolean non_junk_folder;
 		gint strikeout_col, strikeout_color_col;
@@ -4845,14 +4844,8 @@ message_list_set_folder (MessageList *message_list,
 		message_list->priv->folder = folder;
 		message_list->just_set_folder = TRUE;
 
-		store = camel_folder_get_parent_store (folder);
-
-		non_trash_folder =
-			((camel_store_get_flags (store) & CAMEL_STORE_VTRASH) == 0) ||
-			((camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_TRASH) == 0);
-		non_junk_folder =
-			((camel_store_get_flags (store) & CAMEL_STORE_VJUNK) == 0) ||
-			((camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_JUNK) == 0);
+		non_trash_folder = !(camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_TRASH);
+		non_junk_folder = !(camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_JUNK);
 
 		strikeout_col = -1;
 		strikeout_color_col = -1;
