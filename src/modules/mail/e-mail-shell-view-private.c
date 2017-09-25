@@ -933,6 +933,12 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	/* "Trash" folder (virtual or real) */
 	if (camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_TRASH) {
+		if (num_unread > 0 && selected_count <= 1) {
+			g_string_append_printf (
+				buffer, ngettext ("%d unread, ",
+				"%d unread, ", num_unread), num_unread);
+		}
+
 		if (CAMEL_IS_VTRASH_FOLDER (folder)) {
 			/* For a virtual Trash folder, count
 			 * the messages marked for deletion. */
@@ -957,9 +963,14 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 				buffer, ngettext ("%d deleted",
 				"%d deleted", num_visible), num_visible);
 		}
-
 	/* "Junk" folder (virtual or real) */
 	} else if (camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_JUNK) {
+		if (num_unread > 0 && selected_count <= 1) {
+			g_string_append_printf (
+				buffer, ngettext ("%d unread, ",
+				"%d unread, ", num_unread), num_unread);
+		}
+
 		if (e_mail_reader_get_hide_deleted (reader)) {
 			/* Junk folder with deleted messages hidden. */
 			g_string_append_printf (
