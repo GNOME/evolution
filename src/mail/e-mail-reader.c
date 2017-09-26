@@ -401,6 +401,42 @@ action_mail_copy_cb (GtkAction *action,
 	mail_reader_copy_or_move_selected_messages (reader, FALSE);
 }
 
+static gboolean
+mail_reader_replace_vee_folder_with_real (CamelFolder **inout_folder,
+					  const gchar *uid,
+					  gchar **out_real_uid)
+{
+	g_return_val_if_fail (inout_folder != NULL, FALSE);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (*inout_folder), FALSE);
+	g_return_val_if_fail (uid != NULL, FALSE);
+	g_return_val_if_fail (out_real_uid != NULL, FALSE);
+
+	*out_real_uid = NULL;
+
+	if (CAMEL_IS_VEE_FOLDER (*inout_folder)) {
+		CamelMessageInfo *info;
+
+		info = camel_folder_get_message_info (*inout_folder, uid);
+		if (info) {
+			CamelFolder *real_folder;
+
+			real_folder = camel_vee_folder_get_location (CAMEL_VEE_FOLDER (*inout_folder), CAMEL_VEE_MESSAGE_INFO (info), out_real_uid);
+
+			if (real_folder && *out_real_uid) {
+				g_object_unref (*inout_folder);
+
+				*inout_folder = g_object_ref (real_folder);
+			}
+
+			g_object_unref (info);
+		} else {
+			g_warn_if_reached ();
+		}
+	}
+
+	return *out_real_uid != NULL;
+}
+
 static void
 action_mail_edit_note_cb (GtkAction *action,
 			  EMailReader *reader)
@@ -412,7 +448,15 @@ action_mail_edit_note_cb (GtkAction *action,
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	if (uids && uids->len == 1) {
-		e_mail_notes_edit (e_mail_reader_get_window (reader), folder, uids->pdata[0]);
+		gchar *real_uid = NULL;
+		const gchar *uid = uids->pdata[0];
+
+		if (mail_reader_replace_vee_folder_with_real (&folder, uid, &real_uid))
+			uid = real_uid;
+
+		e_mail_notes_edit (e_mail_reader_get_window (reader), folder, uid);
+
+		g_free (real_uid);
 	} else {
 		g_warn_if_reached ();
 	}
@@ -468,10 +512,15 @@ action_mail_delete_note_cb (GtkAction *action,
 		EAlertSink *alert_sink;
 		EActivity *activity;
 		gchar *full_display_name;
+		gchar *real_uid = NULL;
+		const gchar *uid = uids->pdata[0];
+
+		if (mail_reader_replace_vee_folder_with_real (&folder, uid, &real_uid))
+			uid = real_uid;
 
 		dnd = g_new0 (DeleteNoteData, 1);
 		dnd->folder = g_object_ref (folder);
-		dnd->uid = g_strdup (uids->pdata[0]);
+		dnd->uid = g_strdup (uid);
 
 		full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
 		alert_sink = e_mail_reader_get_alert_sink (reader);
@@ -487,6 +536,7 @@ action_mail_delete_note_cb (GtkAction *action,
 
 		g_clear_object (&activity);
 		g_free (full_display_name);
+		g_free (real_uid);
 	} else {
 		g_warn_if_reached ();
 	}
