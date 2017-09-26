@@ -363,6 +363,8 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 	gchar *source_uid = NULL;
 	gchar *comp_uid = NULL;
 	gchar *comp_rid = NULL;
+	gchar *new_ics = NULL;
+	gboolean attendees = FALSE;
 	gboolean handled = FALSE;
 	GSettings *settings;
 	GList *windows, *link;
@@ -452,6 +454,10 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 			comp_uid = g_strdup (content);
 		else if (g_ascii_strcasecmp (header, "comp-rid") == 0)
 			comp_rid = g_strdup (content);
+		else if (g_ascii_strcasecmp (header, "new-ics") == 0)
+			new_ics = g_strdup (content);
+		else if (g_ascii_strcasecmp (header, "attendees") == 0)
+			attendees = g_strcmp0 (content, "true") == 0 || g_strcmp0 (content, "1") == 0;
 		g_free (content);
 
 		cp += content_len;
@@ -473,7 +479,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		goto exit;
 	}
 
-	if (source_uid == NULL || comp_uid == NULL)
+	if (!new_ics && (!source_uid || !comp_uid))
 		goto exit;
 
 	/* URI is valid, so consider it handled.  Whether
@@ -491,7 +497,66 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		}
 	}
 
-	if (shell_window) {
+	if (new_ics) {
+		gchar *content = NULL;
+		icalcomponent *icalcomp;
+		GError *error = NULL;
+
+		if (!g_file_get_contents (new_ics, &content, NULL, &error)) {
+			if (error)
+				g_warning ("Cannot create new ics: %s", error->message);
+			else
+				g_warning ("Cannot create new ics: Failed to open file '%s': Unknown error", new_ics);
+			g_clear_error (&error);
+			goto exit;
+		}
+
+		icalcomp = content ? icalcomponent_new_from_string (content) : NULL;
+		if (!icalcomp) {
+			g_warning ("Cannot create new ics: File '%s' doesn't contain valid iCalendar component", new_ics);
+			g_free (content);
+			goto exit;
+		}
+
+		if (icalcomponent_isa (icalcomp) == ICAL_VEVENT_COMPONENT &&
+		    source_type != E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
+			g_warning ("Cannot create new ics: Expected %s, but got VEVENT", source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? "VTODO" : "VJOURNAL");
+		} else if (icalcomponent_isa (icalcomp) == ICAL_VJOURNAL_COMPONENT &&
+			   source_type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
+			g_warning ("Cannot create new ics: Expected %s, but got VJOURNAL", source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? "VTODO" : "VEVENT");
+		} else if (icalcomponent_isa (icalcomp) == ICAL_VTODO_COMPONENT &&
+			   source_type != E_CAL_CLIENT_SOURCE_TYPE_TASKS) {
+			g_warning ("Cannot create new ics: Expected %s, but got VTODO", source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? "VJOURNAL" : "VEVENT");
+		} else if (icalcomponent_isa (icalcomp) != ICAL_VEVENT_COMPONENT &&
+			   icalcomponent_isa (icalcomp) != ICAL_VJOURNAL_COMPONENT &&
+			   icalcomponent_isa (icalcomp) != ICAL_VTODO_COMPONENT) {
+			g_warning ("Cannot create new ics: Received unexpected component type '%s'", icalcomponent_kind_to_string (icalcomponent_isa (icalcomp)));
+		} else {
+			ECompEditor *comp_editor;
+			ESource *source = NULL;
+			ECompEditorFlags flags;
+
+			if (source_uid) {
+				ESourceRegistry *registry;
+
+				registry = e_shell_get_registry (shell);
+				source = e_source_registry_ref_source (registry, source_uid);
+			}
+
+			flags = E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER |
+				(attendees ? E_COMP_EDITOR_FLAG_WITH_ATTENDEES : 0);
+
+			comp_editor = e_comp_editor_open_for_component (NULL, shell, source, icalcomp, flags);
+
+			if (comp_editor)
+				gtk_window_present (GTK_WINDOW (comp_editor));
+
+			g_clear_object (&source);
+		}
+
+		icalcomponent_free (icalcomp);
+		g_free (content);
+	} else if (shell_window) {
 		HandleUriData *hud;
 		ESourceRegistry *registry;
 		ESource *source;
@@ -538,6 +603,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 	g_free (source_uid);
 	g_free (comp_uid);
 	g_free (comp_rid);
+	g_free (new_ics);
 
 	soup_uri_free (soup_uri);
 
