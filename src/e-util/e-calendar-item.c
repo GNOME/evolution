@@ -1542,7 +1542,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem *calitem,
 	gboolean today, selected, has_focus, drop_target = FALSE;
 	gboolean bold, italic, draw_day, finished = FALSE;
 	gint today_year, today_month, today_mday, month_offset;
-	gchar buffer[9];
+	gchar buffer[64];
 	gint day_style = 0;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
