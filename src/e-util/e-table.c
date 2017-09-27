@@ -916,7 +916,7 @@ group_key_press (ETableGroup *etg,
 {
 	gboolean return_val = FALSE;
 	GdkEventKey *key = (GdkEventKey *) event;
-	gint y, row_local, col_local;
+	gint y, row_local = -1, col_local = -1;
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
 	gdouble page_size;
@@ -930,7 +930,7 @@ group_key_press (ETableGroup *etg,
 	case GDK_KEY_Page_Down:
 	case GDK_KEY_KP_Page_Down:
 		page_size = gtk_adjustment_get_page_size (adjustment);
-		upper = gtk_adjustment_get_value (adjustment);
+		upper = gtk_adjustment_get_upper (adjustment);
 		value = gtk_adjustment_get_value (adjustment);
 
 		y = CLAMP (value + (2 * page_size - 50), 0, upper);
