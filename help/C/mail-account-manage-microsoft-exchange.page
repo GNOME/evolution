@@ -7,7 +7,6 @@
     <desc>Add and edit a Microsoft Exchange account in <app>Evolution</app>.</desc>
 
     <link type="guide" xref="mail-account-management#mail-corporate-account-types"/>
-    <link type="guide" xref="exchange-placeholder"/>
 
     <revision pkgversion="2.30.2" version="0.3" date="2011-07-30" status="draft"/>
     <credit type="author">
