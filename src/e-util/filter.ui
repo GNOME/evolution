@@ -447,7 +447,7 @@ a time relative to when filtering occurs.</property>
                         </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="column_enabled">
-                            <property name="title">Enabled</property>
+                            <property name="title" translatable="yes">Enabled</property>
                             <child>
                               <object class="GtkCellRendererToggle" id="cell_renderer_enabled"/>
                               <attributes>
@@ -458,7 +458,7 @@ a time relative to when filtering occurs.</property>
                         </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="column_rule_name">
-                            <property name="title">Rule Name</property>
+                            <property name="title" translatable="yes">Rule Name</property>
                             <child>
                               <object class="GtkCellRendererText" id="cell_renderer_rule_name"/>
                               <attributes>
