@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-07-20 16:59+0200\n"
-"PO-Revision-Date: 2017-09-26 15:00+0200\n"
+"PO-Revision-Date: 2017-09-29 11:41+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -44,13 +44,6 @@ msgstr ""
 "pošto, koledarjem in imenikom."
 
 #: ../evolution.appdata.xml.in.h:4
-#, fuzzy
-#| msgid ""
-#| "Evolution supports a wide range of industry standard data formats and "
-#| "network protocols for information exchange, with an emphasis on standards "
-#| "compliance and security. Evolution can also integrate smoothly with "
-#| "Microsoft Exchange by way of the \"Exchange Web Services\" (EWS) "
-#| "extension."
 msgid ""
 "Evolution supports a wide range of industry standard data formats and "
 "network protocols for information exchange, with an emphasis on standards "
@@ -59,9 +52,8 @@ msgid ""
 msgstr ""
 "Program Evulution podpira širok nabor standardnih podatkovnih zapisov in "
 "omrežnih protokolov za izmenjavo podatkov. Poudarjeni so standardi, ki so "
-"znani zaradi splošne uporabnosti in varnosti. Evolution podpira tudi "
-"povezavo s sistemom Microsoft Exchange preko razširitve EWS - »Exchange Web "
-"Services»."
+"nujni zaradi splošne uporabnosti in varnosti. Program podpira tudi povezavo "
+"s sistemom Microsoft Exchange prek razširitve EWS – »Exchange Web Services»."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 msgid "Evolution Alarm Notify"
@@ -185,22 +177,16 @@ msgid "Contact layout style"
 msgstr "Slog razporeditve stikov"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:10
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the contact list. \"0\" (Classic View) places the preview pane below "
-#| "the contact list. \"1\" (Vertical View) places the preview pane next to "
-#| "the contact list."
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the contact list. “0” (Classic View) places the preview pane below the "
 "contact list. “1” (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
-"Slog razporeditve določa kje bo postavljen pladenj predogleda glede na "
+"Slog razporeditve določa, kje bo postavljen pladenj predogleda glede na "
 "seznam stikov. Vrednost »0« predstavlja običajni pogled s pladnjem "
-"predogleda pod seznamom stikov, »1« pa predstavlja navpični slog, kjer sta "
-"okni eno ob drugem."
+"predogleda pod seznamom stikov, »1« pa določa navpični slog, kjer sta okni "
+"eno ob drugem."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:11
 msgid "Contact preview pane position (horizontal)"
@@ -231,15 +217,12 @@ msgid "Primary address book"
 msgstr "Osnovni imenik stikov"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:18
-#, fuzzy
-#| msgid ""
-#| "The UID of the selected (or \"primary\") address book in the sidebar of "
-#| "the \"Contacts\" view"
 msgid ""
 "The UID of the selected (or “primary”) address book in the sidebar of the "
 "“Contacts” view"
 msgstr ""
-"UID izbranega (ali »glavnega«) imenika v stranski vrstici pogleda »Stiki«."
+"Vrednost UID izbranega (ali »glavnega«) imenika v stranski vrstici pogleda "
+"»stikov«."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:19
 msgid "Show preview pane"
@@ -343,10 +326,6 @@ msgid "Birthday and anniversary reminder units"
 msgstr "Enote opomnika rojstnih dni in obletnic"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
-#, fuzzy
-#| msgid ""
-#| "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
-#| "\"days\""
 msgid ""
 "Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
 msgstr ""
@@ -509,16 +488,12 @@ msgid "The second timezone for a Day View"
 msgstr "Drug časovni pas v dnevnem pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:41
-#, fuzzy
-#| msgid ""
-#| "Shows the second time zone in a Day View, if set. Value is similar to one "
-#| "used in a 'timezone' key"
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a “timezone” key"
 msgstr ""
-"V dnevnem pogledu prikaže drug časovni pas, če je nastavljen. Vrednost je "
-"podobna vrednosti ključa 'timezone'."
+"V dnevnem pogledu prikaže drug časovni pas, če je ta nastavljen. Vrednost je "
+"podobna vrednosti ključa »časovni pas«."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
 msgid "Recently used second time zones in a Day View"
@@ -533,16 +508,12 @@ msgid "Maximum number of recently used timezones to remember"
 msgstr "Največje število nedavno uporabljenih časovnih pasov za pomnjenje."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
-#, fuzzy
-#| msgid ""
-#| "Maximum number of recently used timezones to remember in a 'day-second-"
-#| "zones' list"
 msgid ""
 "Maximum number of recently used timezones to remember in a “day-second-"
 "zones” list"
 msgstr ""
-"Največje število nedavno uporabljenih časovnih pasov na seznamu drugotnih "
-"časovnih pasov za pomnjenje"
+"Največje število nedavno uporabljenih časovnih pasov na seznamu časovnih "
+"pasov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Default reminder value"
@@ -557,8 +528,6 @@ msgid "Default reminder units"
 msgstr "Privzete enote opomnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
-#, fuzzy
-#| msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\""
 msgid "Units for a default reminder, “minutes”, “hours” or “days”"
 msgstr "Enote privzetega opomnika: »minute«, »ure« ali »dnevi«."
 
@@ -636,12 +605,8 @@ msgid "Hide task units"
 msgstr "Skrij enote nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
-#, fuzzy
-#| msgid ""
-#| "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days"
-#| "\""
 msgid "Units for determining when to hide tasks, “minutes”, “hours” or “days”"
-msgstr "Enote za določanje skrivanja nalog »minute«, »ure« ali »dnevi«."
+msgstr "Enote za določanje skrivanja nalog: »minute«, »ure« ali »dnevi«."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 msgid "Hide task value"
@@ -719,12 +684,6 @@ msgid "Memo layout style"
 msgstr "Slog razporeditve opomnikov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the memo list. \"0\" (Classic View) places the preview pane below the "
-#| "memo list. \"1\" (Vertical View) places the preview pane next to the memo "
-#| "list"
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. “0” (Classic View) places the preview pane below the memo "
@@ -732,8 +691,8 @@ msgid ""
 msgstr ""
 "Slog razporeditve določa kje sta postavljena pladenj predogleda in seznam "
 "opomnikov. Vrednost »0« predstavlja običajni pogled s pladnjem predogleda "
-"pod seznamom opomnikov, »1« pa predstavlja navpični slog, kjer sta okni eno "
-"ob drugem."
+"pod seznamom opomnikov, »1« pa določa navpični slog, kjer sta okni eno ob "
+"drugem."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 msgid "Memo preview pane position (vertical)"
@@ -780,10 +739,8 @@ msgid "Whether or not to use the notification tray for display reminders"
 msgstr "Ali naj bo za zaslonske opomnike uporabljena obvestilna vrstica."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
-#, fuzzy
-#| msgid "Show display reminders in notification tray"
 msgid "Show reminder notification dialog always on top"
-msgstr "Pokaži zaslonske opomnike v obvestilni vrstici"
+msgstr "Pokaži opomnike obvestil vedno na vrhu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid ""
@@ -806,48 +763,36 @@ msgid "Primary calendar"
 msgstr "Osnovni koledar"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
-#, fuzzy
-#| msgid ""
-#| "The UID of the selected (or \"primary\") calendar in the sidebar of the "
-#| "\"Calendar\" view"
 msgid ""
 "The UID of the selected (or “primary”) calendar in the sidebar of the "
 "“Calendar” view"
 msgstr ""
-"UID izbranega (ali »glavnega«) seznama koledarjev v stranski vrstici pogleda "
-"»Koledar«."
+"Vrednost UID izbranega (ali »glavnega«) koledarja v stranski vrstici pogleda "
+"»koledarja«."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid "Primary memo list"
 msgstr "Osnovni seznam opomnikov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
-#, fuzzy
-#| msgid ""
-#| "The UID of the selected (or \"primary\") memo list in the sidebar of the "
-#| "\"Memos\" view"
 msgid ""
 "The UID of the selected (or “primary”) memo list in the sidebar of the "
 "“Memos” view"
 msgstr ""
-"UID izbranega (ali »glavnega«) seznama opomnikov v stranski vrstici pogleda "
-"»Opomniki«."
+"Vrednost UID izbranega (ali »glavnega«) seznama opomnikov v stranski vrstici "
+"pogleda »opomnikov«."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Primary task list"
 msgstr "Osnovni seznam nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
-#, fuzzy
-#| msgid ""
-#| "The UID of the selected (or \"primary\") task list in the sidebar of the "
-#| "\"Tasks\" view"
 msgid ""
 "The UID of the selected (or “primary”) task list in the sidebar of the "
 "“Tasks” view"
 msgstr ""
-"UID izbranega (ali »glavnega«) seznama nalog v stranski vrstici pogleda "
-"»Naloge«."
+"Vrednost UID izbranega (ali »glavnega«) seznama nalog v stranski vrstici "
+"pogleda »nalog«."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Free/busy template URL"
@@ -907,8 +852,6 @@ msgid "Show the memo preview pane"
 msgstr "Pokaži pladenj predogleda opomnikov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
-#, fuzzy
-#| msgid "If \"true\", show the memo preview pane in the main window"
 msgid "If “true”, show the memo preview pane in the main window"
 msgstr ""
 "Izbrana možnost omogoča prikaz pladnja predogleda opomnikov v glavnem oknu."
@@ -918,8 +861,6 @@ msgid "Show the task preview pane"
 msgstr "Pokaži pladenj predogleda nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
-#, fuzzy
-#| msgid "If \"true\", show the task preview pane in the main window"
 msgid "If “true”, show the task preview pane in the main window"
 msgstr ""
 "Izbrana možnost omogoča prikaz pladnja predogleda nalog v glavnem oknu."
@@ -952,16 +893,12 @@ msgid "Tasks due today color"
 msgstr "Barva nalog, ki zakasnijo danes"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
-#, fuzzy
-#| msgid ""
-#| "Background color of tasks that are due today, in \"#rrggbb\" format. Used "
-#| "together with task-due-today-highlight"
 msgid ""
 "Background color of tasks that are due today, in “#rrggbb” format. Used "
 "together with task-due-today-highlight"
 msgstr ""
-"Barva ozadja nalog, ki zakasnijo danes, v obliki »#rrggbb«. Uporabljeno "
-"skupaj z možnostjo poudarjanja danes zakasnelih nalog."
+"Barva ozadja nalog, ki zakasnijo na današnji dan, v obliki »#rrggbb«. "
+"Uporabljeno skupaj z možnostjo poudarjanja danes zakasnelih nalog."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid "Task preview pane position (horizontal)"
@@ -972,12 +909,6 @@ msgid "Task layout style"
 msgstr "Slog razporeditve nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the task list. \"0\" (Classic View) places the preview pane below the "
-#| "task list. \"1\" (Vertical View) places the preview pane next to the task "
-#| "list"
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. “0” (Classic View) places the preview pane below the task "
@@ -985,8 +916,7 @@ msgid ""
 msgstr ""
 "Slog razporeditve določa kje sta postavljena pladenj predogleda in seznam "
 "nalog. Vrednost »0« predstavlja običajni pogled s pladnjem predogleda pod "
-"seznamom nalog, »1« pa predstavlja navpični slog, kjer sta okni eno ob "
-"drugem."
+"seznamom nalog, »1« pa določa navpični slog, kjer sta okni eno ob drugem."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Task preview pane position (vertical)"
@@ -1022,10 +952,6 @@ msgid "Overdue tasks color"
 msgstr "Barva zakasnelih nalog"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
-#, fuzzy
-#| msgid ""
-#| "Background color of tasks that are overdue, in \"#rrggbb\" format. Used "
-#| "together with task-overdue-highlight."
 msgid ""
 "Background color of tasks that are overdue, in “#rrggbb” format. Used "
 "together with task-overdue-highlight."
@@ -1048,16 +974,12 @@ msgid "Timezone"
 msgstr "Časovni pas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
-#, fuzzy
-#| msgid ""
-#| "The default timezone to use for dates and times in the calendar, as an "
-#| "untranslated Olson timezone database location like \"America/New York\""
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like “America/New York”"
 msgstr ""
 "Privzet časovni pas za uporabo časov in datumov v koledarju kot neprevedena "
-"podatkovna zbirka časovnih pasov Olsen, kot npr. »America/New York»."
+"podatkovna zbirka časovnih pasov Olsen; primer: »America/New York«."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "Twenty four hour time format"
@@ -1134,10 +1056,6 @@ msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Opuščeno) Prvi dan tedna, od nedelje (0) do sobote (6)."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "\"week-start-day-name\" instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -1150,11 +1068,6 @@ msgid "(Deprecated) Work days"
 msgstr "(Opuščeno) Delovni dnevi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
-#, fuzzy
-#| msgid ""
-#| "Days on which the start and end of work hours should be indicated. (This "
-#| "key was deprecated in version 3.10 and should no longer be used. Use the "
-#| "\"work-day-monday\", \"work-day-tuesday\", etc. keys instead.)"
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -1162,26 +1075,21 @@ msgid ""
 msgstr ""
 "Dnevi, s katerimi so opredeljene ure začetka in konca delovnika. (Ključ je "
 "opuščen z različico 3.10 in ne bo več v rabi. Priporočena je uporaba "
-"možnosti »prvi dan je ponedeljek«, »prvi dan je torek« ...)"
+"možnosti »prvi dan je ponedeljek«, »prvi dan je torek« ...)."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
 msgid "Previous Evolution version"
 msgstr "Predhodna različica programa Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
-#, fuzzy
-#| msgid ""
-#| "The most recently used version of Evolution, expressed as \"major.minor."
-#| "micro\". This is used for data and settings migration from older to newer "
-#| "versions."
 msgid ""
 "The most recently used version of Evolution, expressed as “major.minor."
 "micro”. This is used for data and settings migration from older to newer "
 "versions."
 msgstr ""
 "Najbolj nedavno uporabljena različica programa Evolution, izražena kot "
-"»glavna.manjša.mikro«. To se uporablja za selitev podatkov in nastavitev iz "
-"starejših v novejše različice."
+"»glavna veja.podveja.objava«. Podatek se uporablja pri selitvi podatkov in "
+"nastavitev iz starejših na novejše različice."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
@@ -1540,15 +1448,6 @@ msgid "Ignore list Reply-To:"
 msgstr "Prezri seznam odgovori-na:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:56
-#, fuzzy
-#| msgid ""
-#| "Some mailing lists set a Reply-To: header to trick users into sending "
-#| "replies to the list, even when they ask Evolution to make a private "
-#| "reply. Setting this option to TRUE will attempt to ignore such Reply-To: "
-#| "headers, so that Evolution will do as you ask it. If you use the private "
-#| "reply action, it will reply privately, while if you use the 'Reply to "
-#| "List' action it will do that. It works by comparing the Reply-To: header "
-#| "with a List-Post: header, if there is one."
 msgid ""
 "Some mailing lists set a Reply-To: header to trick users into sending "
 "replies to the list, even when they ask Evolution to make a private reply. "
@@ -1561,8 +1460,8 @@ msgstr ""
 "Nekateri dopisni seznami določajo možnost odgovori-na: s katerim se "
 "sporočila pošiljajo na seznam tudi, če je izbrana možnost zasebnega "
 "sporočila pošiljatelju. Izbrana možnost poskuša prezreti odgovarjanje na "
-"naslov dopisnega seznama. Program Evolution bo zahteval potrdilo za "
-"pošiljanje na zasebni naslov ali na dopisni seznam.."
+"naslov dopisnega seznama. Program Evolution bo zahteval potrditev za "
+"pošiljanje ali na zasebni naslov ali na dopisni seznam."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
 msgid "List of localized “Re”"
@@ -1583,19 +1482,15 @@ msgid "List of localized “Re” separators"
 msgstr "Seznam krajevno prilagojenih okrajšanih predpon »Re:«"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
-#, fuzzy
-#| msgid ""
-#| "Comma-separated list of localized 'Re' abbreviations to skip in a subject "
-#| "text when replying to a message, as an addition to the standard \"Re\" "
-#| "prefix. An example is 'SV,AV'."
 msgid ""
 "A list of localized “Re” separators, used to skip in a subject text when "
 "replying to a message, as an addition to the standard “:” and the Unicode "
 "“︰” separators."
 msgstr ""
 "Z vejico ločen seznam krajevno prilagojenih okrajšanih predpon za odgovor na "
-"sporočilo v vrstici zadeve, ki se izpiše med odgovarjanjem na sporočilo, kot "
-"prevod običajne predpone »Re:«. Primer je »Odg.: ali Odgovor:«."
+"sporočilo v vrstici zadeve, ki je namenjen okrajševanju besedila zadeve med "
+"ogovarjanjem na sporočilo, kot dodatek dvopičju » : « oziroma unikod "
+"ločilniku »︰«."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "Number of characters for wrapping"
@@ -1606,14 +1501,11 @@ msgid "Will autowrap lines after given number of characters."
 msgstr "Omogoči prelom vrstic po določenem številu vpisanih znakov"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
-#, fuzzy
-#| msgid ""
-#| "Number of To and CC recipients to ask 'prompt-on-many-to-cc-recips' from"
 msgid ""
 "Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
 msgstr ""
-"Število prejemnikov Za in Kp, preden se pokaže opozorilo o večjem številu "
-"prejemnikov"
+"Največje število prejemnikov Za in Kp, preden se pokaže opozorilo o večjem "
+"številu prejemnikov"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
@@ -1626,11 +1518,6 @@ msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgstr "Ali naj bosta v orodni vrstici prikazana gumba Podpiši in Šifriraj"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
-#, fuzzy
-#| msgid ""
-#| "If set to 'true', the Sign and Encrypt buttons for either PGP or S/MIME "
-#| "are always shown in the composer's toolbar. Otherwise they are shown only "
-#| "when being used."
 msgid ""
 "If set to “true”, the Sign and Encrypt buttons for either PGP or S/MIME are "
 "always shown in the composer’s toolbar. Otherwise they are shown only when "
@@ -1654,10 +1541,6 @@ msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr "Ali naj se upošteva pravilo prikazovanja prilog znotraj sporočila"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
-#, fuzzy
-#| msgid ""
-#| "Set to 'false' to block automatic display of attachments with Content-"
-#| "Disposition: inline."
 msgid ""
 "Set to “false” to block automatic display of attachments with Content-"
 "Disposition: inline."
@@ -1720,11 +1603,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Mark citations in the message “Preview”"
-msgstr "Označi navedeno besedilo v »Predogledu» sporočila"
+msgstr "Označi navedeno besedilo v »predogledu« sporočila"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Mark citations in the message “Preview”."
-msgstr "Označi navedeno besedilo v »Predogledu» sporočila."
+msgstr "Označi navedeno besedilo v »predogledu« sporočila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid "Citation highlight color"
@@ -1898,10 +1781,6 @@ msgid "Hides the per-folder preview and removes the selection"
 msgstr "Skrije predogled map in odstrani izbiro"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
-#, fuzzy
-#| msgid ""
-#| "This key is read only once and reset to \"false\" after read. This "
-#| "unselects the mail in the list and removes the preview for that folder."
 msgid ""
 "This key is read only once and reset to “false” after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -1935,12 +1814,6 @@ msgid "Layout style"
 msgstr "Slog razporeditve"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the message list. \"0\" (Classic View) places the preview pane below "
-#| "the message list. \"1\" (Vertical View) places the preview pane next to "
-#| "the message list."
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. “0” (Classic View) places the preview pane below the "
@@ -1948,9 +1821,8 @@ msgid ""
 "message list."
 msgstr ""
 "Slog razporeditve določa kje bosta postavljena pladenj predogleda in seznam "
-"sporočil. Vrednost »0» predstavlja običajni pogled s pladnjem predogleda pod "
-"seznamom sporočil, »1» pa predstavlja navpični slog, kjer sta okni eno ob "
-"drugem."
+"sporočil. Vrednost »0« predstavlja običajni pogled s pladnjem predogleda pod "
+"seznamom sporočil, »1« pa določa navpični slog, kjer sta okni eno ob drugem."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Variable width font"
@@ -1993,16 +1865,12 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Število naslovov za prikaz v poljih ZA/KP/SKP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
-#, fuzzy
-#| msgid ""
-#| "This sets the number of addresses to show in default message list view, "
-#| "beyond which a '...' is shown."
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
 msgstr ""
-"To določa število naslovov, ki se prikažejo v privzetem pogledu seznama "
-"sporočil, preko katerega se prikaže '...'."
+"Nastavitev določa število naslovov, ki se prikažejo v privzetem pogledu "
+"seznama, za katerimi se izpiše tropičje » ... «."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Thread the message-list based on Subject"
@@ -2033,18 +1901,13 @@ msgid "Whether sort threads based on latest message in that thread"
 msgstr "Ali naj bodo niti razvrščene po zadnjih sporočilih v niti"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
-#, fuzzy
-#| msgid ""
-#| "This setting specifies whether the threads should be sorted based on "
-#| "latest message in each thread, rather than by message's date. Evolution "
-#| "requires a restart."
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message’s date. Evolution requires a "
 "restart."
 msgstr ""
-"Nastavitev določa ali naj privzete niti sporočil ostanejo razvrščene po "
-"zadnjemu sporočilu v vsakem nizu namesto po datumu sporočila. Spreminjanje "
+"Nastavitev določa, ali naj privzete niti sporočil ostanejo razvrščene po "
+"zadnjemu sporočilu v vsakem nizu in ne po datumu sporočila. Spreminjanje "
 "nastavitve zahteva ponovni zagon programa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
@@ -2096,11 +1959,6 @@ msgid "Flush Outbox after filtering"
 msgstr "Počisti odhodni predal po filtriranju"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
-#, fuzzy
-#| msgid ""
-#| "Whether to flush Outbox after filtering is done. Outbox flush will happen "
-#| "only when there was used any 'Forward to' filter action and approximately "
-#| "one minute after the last action invocation."
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any “Forward to” filter action and approximately "
@@ -2306,10 +2164,6 @@ msgstr ""
 "oblikovanje sporočila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
-#, fuzzy
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that you are switching "
-#| "composer mode and the content needs to lose its formatting."
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
@@ -2322,10 +2176,6 @@ msgid "Prompt when sending to many To and CC recipients"
 msgstr "Opozori pred pošiljanjem več prejemnikom"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
-#, fuzzy
-#| msgid ""
-#| "Enable or disable the prompt when sending to many To and CC recipients. "
-#| "The 'composer-many-to-cc-recips-num' defines the threshold."
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
@@ -2387,19 +2237,14 @@ msgid "Show original “Date” header value."
 msgstr "Pokaži izvorno vrednost »datuma« v glavi sporočila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
-#, fuzzy
-#| msgid ""
-#| "Show the original \"Date\" header (with a local time only if the time "
-#| "zone differs). Otherwise always show \"Date\" header value in a user "
-#| "preferred format and local time zone."
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
 "format and local time zone."
 msgstr ""
-"Pokaži osnovno glavo »Datum» (s krajevnim časom le v primeru, da sta je "
-"časovni pas različen). V nasprotnem primeru, bo glava »Datum» pokazana v "
-"prednostni obliki uporabnika in v krajevnem časovnem pasu."
+"Pokaži osnovno glavo »Datum« (s krajevnim časom le v primeru, da sta je "
+"časovni pas različen). V nasprotnem primeru, bo glava polja »datuma« "
+"pokazana v prednostni obliki uporabnika in v krajevnem časovnem pasu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "List of Labels and their associated colors"
@@ -2452,11 +2297,6 @@ msgid "The default plugin for Junk hook"
 msgstr "Privzeti vstavek za vsiljeno pošto"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
-#, fuzzy
-#| msgid ""
-#| "This is the default junk plugin, even though there are multiple plugins "
-#| "enabled. If the default listed plugin is disabled, then it won't fall "
-#| "back to the other available plugins."
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
@@ -2471,12 +2311,6 @@ msgid "Determines whether to lookup in address book for sender email"
 msgstr "Določa ali naj bo imenik pregledan za elektronski naslov pošiljatelja"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
-#, fuzzy
-#| msgid ""
-#| "Determines whether to lookup the sender email in address book. If found, "
-#| "it shouldn't be a spam. It looks up in the books marked for "
-#| "autocompletion. It can be slow, if remote address books (like LDAP) are "
-#| "marked for autocompletion."
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2484,10 +2318,10 @@ msgid ""
 "autocompletion."
 msgstr ""
 "Možnost določa ali naj se elektronski naslov pošiljatelja poišče tudi v "
-"imeniku. Če je pošiljatelj najden, sporočilo ni označeno kot neželena pošta. "
-"Imena so pregledana v imenikih označenih za samodejno dopolnjevanje. "
-"Postopek je lahko počasen, če so v uporabi tudi oddaljeni imeniki kot je "
-"LDAP."
+"imeniku. Če je naslov pošiljatelja najden, sporočilo ni nikoli označeno kot "
+"neželena pošta. Imena pregleda v imenikih, označenih za samodejno "
+"dopolnjevanje. Postopek je lahko počasen, če so v uporabi tudi oddaljeni "
+"imeniki kot je LDAP."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid ""
@@ -2526,16 +2360,12 @@ msgid "Custom headers to use while checking for junk."
 msgstr "Glave po meri za uporabo pri preverjanju vsiljene pošte."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
-#, fuzzy
-#| msgid ""
-#| "Custom headers to use while checking for junk. The list elements are "
-#| "string in the format \"headername=value\"."
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
 msgstr ""
 "Glave po meri za uporabo pri preverjanju vsiljene pošte. Zapis je v obliki "
-"»imeglave=vrednost»."
+"»imeglave=vrednost«."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "UID string of the default account."
@@ -2574,12 +2404,6 @@ msgid "Check for new messages in all active accounts"
 msgstr "Preveri za nova sporočila v vseh dejavnih računih"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
-#, fuzzy
-#| msgid ""
-#| "Whether to check for new messages in all active accounts regardless of "
-#| "the account \"Check for new messages every X minutes\" option when "
-#| "Evolution is started. This option is used only together with "
-#| "'send_recv_on_start' option."
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
@@ -2587,7 +2411,8 @@ msgid ""
 msgstr ""
 "Ali naj program preveri za nova sporočila v vseh dejavnih računih ob zagonu "
 "programa Evolution ne glede na možnost »Preveri za nova sporočila vsakih X "
-"minut». Ta možnost se uporablja le skupaj z možnostjo 'send_recv_on_start'."
+"minut«. Ta možnost se uporablja le skupaj z možnostjo »pošiljanja in "
+"prejemanja ob zagonu programa«."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Server synchronization interval"
@@ -2606,14 +2431,13 @@ msgid "Allow expunge in virtual folders"
 msgstr "Dovoli počiščenje v navideznih mapah"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
-#, fuzzy
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
 "folders for all deleted messages within the virtual folder, not only for "
 "deleted messages belonging to the virtual folder."
 msgstr ""
-"Omogoči počiščenje sporočil v navideznih mapah, kar pomeni, da bo "
+"Omogoči počiščenje sporočil v navideznih mapah, kar pomeni, da bo možnost "
 "Mapa→Počisti usklajena z dejanskimi sporočili. To vpliva na vsa sporočila, "
 "ki so v vseh mapah."
 
@@ -2748,12 +2572,9 @@ msgid "Enable autocontacts"
 msgstr "Omogoči samodejne stike"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:6
-#, fuzzy
-#| msgid ""
-#| "Whether contacts should be automatically added to the user's address book."
 msgid ""
 "Whether contacts should be automatically added to the user’s address book."
-msgstr "Ali naj bodo stiki samodejno dodani v uporabnikov imenik"
+msgstr "Ali naj bodo stiki samodejno dodani v uporabnikov imenik."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "Pidgin address book source"
@@ -2794,12 +2615,6 @@ msgid "List of Custom Headers"
 msgstr "Seznam glav po meri"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
-#, fuzzy
-#| msgid ""
-#| "The key specifies the list of custom headers that you can add to an "
-#| "outgoing message. The format for specifying a Header and Header value is: "
-#| "Name of the custom header followed by \"=\" and the values separated by "
-#| "\";\""
 msgid ""
 "The key specifies the list of custom headers that you can add to an outgoing "
 "message. The format for specifying a Header and Header value is: Name of the "
@@ -2807,7 +2622,7 @@ msgid ""
 msgstr ""
 "Ključ določa seznam glav po meri, ki jih lahko dodate odhajajoči pošti. "
 "Oblika za navedbo glave in vrednosti glave je: Ime glave po meri, ki mu "
-"sledi znak »=» in nato vrednosti ločene z znakom »;»"
+"sledi enačaj » = « in nato vrednosti ločene s podpičjem » ; «."
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:1
 msgid "Default External Editor"
@@ -2887,20 +2702,14 @@ msgstr ""
 "Ko prispejo nova sporočila, pokaži ikono nove pošte v obvestilnem področju."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
-#, fuzzy
-#| msgid ""
-#| "Whether to make a sound of any kind when new messages arrive. If \"false"
-#| "\", the \"notify-sound-beep\", \"notify-sound-file\", \"notify-sound-play-"
-#| "file\" and \"notify-sound-use-theme\" keys are disregarded."
 msgid ""
 "Whether to make a sound of any kind when new messages arrive. If “false”, "
 "the “notify-sound-beep”, “notify-sound-file”, “notify-sound-play-file” and "
 "“notify-sound-use-theme” keys are disregarded."
 msgstr ""
-"Ali naj se predvaja zvok ob prispelem novem poštnem sporočilu. Z izbiro "
-"logičnega »napak», so možnosti »notify-sound-beep» (glasovni pisk), »notify-"
-"sound-file» (zvočna datoteka), »notify-sound-play-file» (predvajanje "
-"datoteke) in »notify-sound-use-theme» (zvočna tema) prezrte."
+"Ali naj se predvaja zvok ob prispetju novega sporočila. Neizbrana možnost "
+"prezre nastavitve glasovnega piska, zvokovne datoteka, predvajanje datoteke "
+"in zvočne teme."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:11
 msgid "Whether to emit a beep."
@@ -14050,7 +13859,7 @@ msgstr "Izbor datoteke"
 
 #: ../src/e-util/e-import-assistant.c:1365
 msgid "Click “Apply” to begin importing the file into Evolution."
-msgstr "Kliknite »Uvozi» za začetek uvoza datoteke v program Evolution."
+msgstr "Kliknite »Uvozi« za začetek uvoza datoteke v program Evolution."
 
 #: ../src/e-util/e-mail-signature-combo-box.c:431
 msgid "Autogenerated"
@@ -15688,7 +15497,7 @@ msgstr "Ni mogoče ustvariti vrstilne mape »%s«: %s"
 #: ../src/libemail-engine/mail-tools.c:108
 #, c-format
 msgid "Trying to movemail a non-mbox source “%s”"
-msgstr ""
+msgstr "Poteka poskus premikanja vira »%s«"
 
 #: ../src/libemail-engine/mail-tools.c:257
 #, c-format
@@ -15715,15 +15524,7 @@ msgstr "Posodabljanje iskalne mape za »%s : %s«"
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
 #: ../src/libemail-engine/mail-vfolder.c:666
-#, fuzzy, c-format
-#| msgid ""
-#| "The Search Folder \"%s\" has been modified to account for the deleted "
-#| "folder\n"
-#| "\"%s\"."
-#| msgid_plural ""
-#| "The following Search Folders\n"
-#| "%s have been modified to account for the deleted folder\n"
-#| "\"%s\"."
+#, c-format
 msgid ""
 "The Search Folder “%s” has been modified to account for the deleted folder\n"
 "“%s”."
@@ -15732,18 +15533,19 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "“%s”."
 msgstr[0] ""
-"Naslednje iskalne mape\n"
+"Navedene iskalne mape\n"
 "%s so bile spremenjene zaradi odstranjene mape\n"
 "»%s«."
 msgstr[1] ""
-"Iskalna mapa »%s« je bila spremenjena zaradi odstranjene mape\n"
+"Navedena iskalna mapa\n"
+"%s je bila spremenjena zaradi odstranjene mape\n"
 "»%s«."
 msgstr[2] ""
-"Naslednji iskalni mapi\n"
+"Navedeni iskalni mapi\n"
 "%s sta bili spremenjeni zaradi odstranjene mape\n"
 "»%s«."
 msgstr[3] ""
-"Naslednje iskalne mape\n"
+"Navedene iskalne mape\n"
 "%s so bile spremenjene zaradi odstranjene mape\n"
 "»%s«."
 
@@ -15837,7 +15639,7 @@ msgstr ""
 "\n"
 "Sedaj lahko pošto prejemate tudi s programom Evolution.\n"
 "\n"
-"S klikom na gumb »Uveljavi» bodo spremembe shranjene."
+"S klikom na gumb »Uveljavi« bodo spremembe shranjene."
 
 #: ../src/mail/e-mail-config-confirm-page.c:168
 msgid "Done"
@@ -15987,7 +15789,7 @@ msgid ""
 "do not need to be filled in, unless you wish to include this information in "
 "email you send."
 msgstr ""
-"Spodaj vnesite svoje ime in naslov elektronske pošte. Polj »dodatno» ni "
+"Spodaj vnesite svoje ime in naslov elektronske pošte. Polj »dodatno« ni "
 "treba izpolnjevati, razen če želite tudi te podatke vključiti v elektronsko "
 "pošto, ki jo boste pošiljali."
 
@@ -16003,7 +15805,7 @@ msgid ""
 "Use for example, “Work” or “Personal”."
 msgstr ""
 "Navedeno ime bo uporabljeno kot določilo računa.\n"
-"Uporabite lahko opisni vpis; na primer »Služba» ali »Osebno»"
+"Uporabite lahko opisni vpis; na primer »Službeno« ali »Osebno«"
 
 #: ../src/mail/e-mail-config-identity-page.c:599
 msgid "Required Information"
@@ -17243,13 +17045,7 @@ msgstr "Tiskanje"
 #. Translators: %s is replaced with a folder
 #. * name %u with count of duplicate messages.
 #: ../src/mail/e-mail-reader-utils.c:1676
-#, fuzzy, c-format
-#| msgid ""
-#| "Folder '%s' contains %u duplicate message. Are you sure you want to "
-#| "delete it?"
-#| msgid_plural ""
-#| "Folder '%s' contains %u duplicate messages. Are you sure you want to "
-#| "delete them?"
+#, c-format
 msgid ""
 "Folder “%s” contains %u duplicate message. Are you sure you want to delete "
 "it?"
@@ -17257,17 +17053,17 @@ msgid_plural ""
 "Folder “%s” contains %u duplicate messages. Are you sure you want to delete "
 "them?"
 msgstr[0] ""
-"Mapa '%s' vsebuje %u podvojenih sporočil. Ali ste prepričani, da želite "
-"sporočila izbrisati?"
+"V mapi »%s« so %u podvojenih sporočil. Ali ste prepričani, da jih želite "
+"izbrisati?"
 msgstr[1] ""
-"Mapa '%s' vsebuje %u podvojeno sporočilo. Ali ste prepričani, da želite "
-"sporočilo izbrisati?"
+"V mapi »%s« je %u podvojeno sporočilo. Ali ste prepričani, da ga želite "
+"izbrisati?"
 msgstr[2] ""
-"Mapa '%s' vsebuje %u podvojeni sporočili. Ali ste prepričani, da želite "
-"sporočili izbrisati?"
+"V mapi »%s« sta %u podvojeni sporočili. Ali ste prepričani, da ju želite "
+"izbrisati?"
 msgstr[3] ""
-"Mapa '%s' vsebuje %u podvojena sporočila. Ali ste prepričani, da želite "
-"sporočila izbrisati?"
+"V mapi »%s« so %u podvojena sporočila. Ali ste prepričani, da jih želite "
+"izbrisati?"
 
 #: ../src/mail/e-mail-reader-utils.c:2694
 msgid "Save Message"
@@ -18210,15 +18006,7 @@ msgstr "Dodaj pravilo filtra"
 #. * them on a separate line, with four spaces in front
 #. * of its name, without quotes.
 #: ../src/mail/mail-autofilter.c:509
-#, fuzzy, c-format
-#| msgid ""
-#| "The filter rule \"%s\" has been modified to account for the deleted "
-#| "folder\n"
-#| "\"%s\"."
-#| msgid_plural ""
-#| "The following filter rules\n"
-#| "%s have been modified to account for the deleted folder\n"
-#| "\"%s\"."
+#, c-format
 msgid ""
 "The filter rule “%s” has been modified to account for the deleted folder\n"
 "“%s”."
@@ -18227,19 +18015,20 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "“%s”."
 msgstr[0] ""
-"Naslednja pravila filtra\n"
-"%s so bila spremenjena zaradi odstranjene mape\n"
+"Navedena pravila filtra\n"
+"%s so spremenjena zaradi odstranjene mape\n"
 "»%s«."
 msgstr[1] ""
-"Pravilo filtra %s je bilo spremenjeno zaradi odstranjene mape\n"
+"Navedeno pravilo filtra\n"
+"%s je spremenjeno zaradi odstranjene mape\n"
 "»%s«."
 msgstr[2] ""
-"Naslednji pravili filtra\n"
-"%s sta bili spremenjeni zaradi odstranjene mape\n"
+"Navedeni pravili filtra\n"
+"%s sta spremenjeni zaradi odstranjene mape\n"
 "»%s«."
 msgstr[3] ""
-"Naslednja pravila filtra\n"
-"%s so bila spremenjena zaradi odstranjene mape\n"
+"Navedena pravila filtra\n"
+"%s so spremenjena zaradi odstranjene mape\n"
 "»%s«."
 
 #: ../src/mail/mail-config.ui.h:1
@@ -19449,15 +19238,15 @@ msgstr "Nimate zadostnih dovoljenj za izbris te pošte."
 
 #: ../src/mail/mail.error.xml.h:160
 msgid "“Check Junk” Failed"
-msgstr "Preverjanje, ali je »Sporočilo vsiljeno» je spodletelo"
+msgstr "Preverjanje, ali je »sporočilo vsiljeno« je spodletelo"
 
 #: ../src/mail/mail.error.xml.h:161
 msgid "“Report Junk” Failed"
-msgstr "Objavljanje, da je »Sporočilo vsiljeno» je spodletelo"
+msgstr "Objavljanje, da je »sporočilo vsiljeno« je spodletelo"
 
 #: ../src/mail/mail.error.xml.h:162
 msgid "“Report Not Junk” Failed"
-msgstr "Objavljanje, da »Sporočilo ni vsiljeno» je spodletelo"
+msgstr "Objavljanje, da »sporočilo ni vsiljeno« je spodletelo"
 
 #: ../src/mail/mail.error.xml.h:163
 msgid "Remove duplicate messages?"
@@ -19645,7 +19434,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:210
 msgid "Something has gone wrong when displaying the signature"
-msgstr ""
+msgstr "Prišlo je do napake med prikazovanjem podpisa"
 
 #: ../src/mail/mail.error.xml.h:211
 msgid ""
@@ -20609,8 +20398,8 @@ msgid ""
 "entries one level beneath your search base."
 msgstr ""
 "Obseg iskanja določa, kako globoko po drevesu map naj se iskanje izvaja. "
-"Obseg iskanja v »podmapah» vključi vsa sporočila, ki so znotraj iskalne "
-"osnove, med tem ko obseg »Ene ravni» poišče le vnose, ki so eno raven pod "
+"Obseg iskanja v »podmapah« vključi vsa sporočila, ki so znotraj iskalne "
+"osnove, med tem ko obseg »Ene ravni« poišče le vnose, ki so eno raven pod "
 "iskalno osnovo."
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:795
@@ -20864,11 +20653,11 @@ msgstr "Izberite koledarje za obvestila opomnikov"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:532
 msgid "Selected Memo Lists for Notifications of Reminders"
-msgstr ""
+msgstr "Izbran seznam opomnikov s prikazom obvestila"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:539
 msgid "Selected Task Lists for Notifications of Reminders"
-msgstr ""
+msgstr "Izbran seznam nalog s prikazom obvestila"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:635
 msgid "Meeting Invitations"
