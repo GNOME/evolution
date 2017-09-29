@@ -602,7 +602,7 @@ etdp_get_component_root_paths (EToDoPane *to_do_pane,
 		}
 	}
 
-	if (!roots && first_root_path)
+	if (!roots && first_root_path && start_date_mark < prev_date_mark)
 		roots = g_slist_prepend (roots, first_root_path);
 	else
 		gtk_tree_path_free (first_root_path);
@@ -1277,7 +1277,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 
 		tt_begin = icaltime_as_timet_with_zone (itt, zone);
 		tt_begin = time_day_begin_with_zone (tt_begin, zone);
-		tt_end = time_add_week_with_zone (tt_begin, 1, zone);
+		tt_end = time_add_week_with_zone (tt_begin, 1, zone) - 1;
 
 		iso_begin_all = isodate_from_time_t (0);
 		iso_begin = isodate_from_time_t (tt_begin);
