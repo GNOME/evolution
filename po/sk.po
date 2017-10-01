@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-09-29 09:52+0000\n"
-"PO-Revision-Date: 2017-09-30 10:11+0200\n"
+"POT-Creation-Date: 2017-09-30 08:13+0000\n"
+"PO-Revision-Date: 2017-10-01 11:13+0200\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: slovenčina <>\n"
 "Language: sk\n"
@@ -34,7 +34,7 @@ msgstr "Evolution"
 
 #: ../evolution.appdata.xml.in.h:2 ../data/evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
-msgstr "Spravujte váš email, kontakty a časový plán"
+msgstr "Spravuje váš email, kontakty a časový plán"
 
 #: ../evolution.appdata.xml.in.h:3
 msgid ""
@@ -2110,16 +2110,14 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Pýta sa používateľa pri jeho pokuse o vyčistenie priečinka."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
-#, fuzzy
-#| msgid "Prompt when user expunges"
 msgid "Prompt when user calls Empty Junk"
-msgstr "Pýtať sa pri používateľskom čistení"
+msgstr "Pýtať sa pri používateľskom vyprázdnení nevyžiadanej pošty"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
-#, fuzzy
-#| msgid "Prompt the user when he or she tries to expunge a folder."
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
-msgstr "Pýta sa používateľa pri jeho pokuse o vyčistenie priečinka."
+msgstr ""
+"Pýta sa používateľa pri jeho pokuse o vyprázdnenie priečinka Nevyžiadaná "
+"pošta."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt before sending to recipients not entered as mail addresses"
