@@ -238,9 +238,11 @@ macro(add_gsettings_schemas _target _schema0)
 	if(_install_code)
 		# Compile gsettings schemas and ensure that all of them are in the place.
 		install(CODE
-			"execute_process(${_install_code}
-				COMMAND ${CMAKE_COMMAND} -E chdir . \"${GLIB_COMPILE_SCHEMAS}\" \"${GSETTINGS_SCHEMAS_DIR}\"
-			)")
+			"if(\"\$ENV{DESTDIR}\" STREQUAL \"\")
+				execute_process(${_install_code}
+					COMMAND ${CMAKE_COMMAND} -E chdir . \"${GLIB_COMPILE_SCHEMAS}\" \"${GSETTINGS_SCHEMAS_DIR}\"
+				)
+			endif(\"\$ENV{DESTDIR}\" STREQUAL \"\")")
 	endif(_install_code)
 endmacro(add_gsettings_schemas)
 
