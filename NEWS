@@ -1,3 +1,35 @@
+Evolution 3.26.1 2017-10-02
+---------------------------
+
+Bug Fixes:
+	Bug 758945 - Disable inline display of TIFF images (Milan Crha)
+	Bug 787411 - [Wayland] Alt-shown hidden menubar cannot be interacted with (Milan Crha)
+	Bug 785618 - Unread mail count in IMAP folder not always updated (Milan Crha)
+	Bug 787590 - Replace use of gnome_desktop_thumbnail_scale_down_pixbuf() (Emmanuele Bassi)
+	Bug 785178 - Message preview pane size gets reset every time on HiDPI (Milan Crha)
+	Bug 787646 - Replace deprecated and removed enchant API usage (Milan Crha)
+	Bug 739059 - Wrong mail account chosen when Forward as iCalendar (Milan Crha)
+	Bug 788050 - Manual check for Junk requires automatic junk filtering on (Milan Crha)
+	Bug 788051 - Junk messages moved to a real folder are considered seen (Milan Crha)
+	Bug 788164 - Allow adding notes to messages in a search folder (Milan Crha)
+	Bug 788231 - PageDown in Contacts List view mode misbehaves (Milan Crha)
+	Bug 788112 - To Do Bar has recurring items from following week (Milan Crha)
+
+Miscellaneous:
+	Add flatpak build script for stable Evolution version (Milan Crha)
+	Show also git commit ID of Evolution in VERSION_SUBSTRING of flatpak build (Milan Crha)
+	Correct runtime warning when creating All Day Appointment (Milan Crha)
+	Cannot change organizer of existing meeting (Milan Crha)
+	Use large-enough buffer in e_calendar_item_draw_day_numbers() (Milan Crha)
+	Fix some syntax errors in translations (Jeremy Bicha)
+	Remove linked page that got deleted in 8f967d9f (Andre Klapper)
+
+Translations:
+	Hannie Dumoleyn (nl)
+	Dušan Kazik (sk)
+	Pawan Chitrakar (ne)
+	Matej Urbančič (sl)
+
 Evolution 3.26.0 2017-09-11
 ---------------------------
 
