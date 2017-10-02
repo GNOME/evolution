@@ -1,3 +1,17 @@
+Evolution 3.24.6 2017-10-02
+---------------------------
+
+Bug Fixes:
+	Bug 785178 - Message preview pane size gets reset every time on HiDPI (Milan Crha)
+	Bug 788164 - Allow adding notes to messages in a search folder (Milan Crha)
+	Bug 788231 - PageDown in Contacts List view mode misbehaves (Milan Crha)
+
+Translations:
+	Marek Cernocky (cs)
+	Matej Urbančič (sl)
+	Stas Solovey (ru)
+	Dušan Kazik (sk)
+
 Evolution 3.24.5 2017-08-07
 ---------------------------
 
