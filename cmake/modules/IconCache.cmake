@@ -60,9 +60,11 @@ macro(add_icon_cache_files _destdir _fileslistvar)
 
 	if(GTK_UPDATE_ICON_CACHE)
 		install(CODE
-			"execute_process(${_install_code}
-				COMMAND ${CMAKE_COMMAND} -E chdir . ${_update_icon_cache_cmd}
-			)")
+			"if(\"\$ENV{DESTDIR}\" STREQUAL \"\")
+				execute_process(${_install_code}
+					COMMAND ${CMAKE_COMMAND} -E chdir . ${_update_icon_cache_cmd}
+				)
+			endif(\"\$ENV{DESTDIR}\" STREQUAL \"\")")
 	endif(GTK_UPDATE_ICON_CACHE)
 endmacro(add_icon_cache_files)
 
