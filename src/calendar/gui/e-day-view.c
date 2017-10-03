@@ -6481,11 +6481,12 @@ e_day_view_do_key_press (GtkWidget *widget,
 
 	/* We only want to start an edit with a return key or a simple
 	 * character. */
-	if ((keyval != GDK_KEY_Return) &&
+	if ((keyval != GDK_KEY_Return && keyval != GDK_KEY_KP_Enter) &&
 	    (((keyval >= 0x20) && (keyval <= 0xFF)
 	      && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 	     || (event->length == 0)
-	     || (keyval == GDK_KEY_Tab))) {
+	     || (keyval == GDK_KEY_Tab)
+	     || (keyval == GDK_KEY_Escape))) {
 		return FALSE;
 	}
 
@@ -7369,7 +7370,9 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	switch (event->type) {
 	case GDK_KEY_PRESS:
 		tooltip_destroy (day_view, item);
-		if (!E_TEXT (item)->preedit_len && event && event->key.keyval == GDK_KEY_Return) {
+		if (!E_TEXT (item)->preedit_len && event && (
+		     event->key.keyval == GDK_KEY_Return ||
+		     event->key.keyval == GDK_KEY_KP_Enter)) {
 			day_view->resize_event_num = -1;
 
 			/* We set the keyboard focus to the EDayView, so the

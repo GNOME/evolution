@@ -430,6 +430,7 @@ handle_key_press_event (EWeekdayChooser *chooser,
 			break;
 		case GDK_KEY_space:
 		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
 			day_clicked (chooser, priv->focus_day);
 			return TRUE;
 		default:
