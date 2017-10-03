@@ -31,7 +31,7 @@ set(mozilla_nss "")
 set(MOZILLA_NSS_LIB_DIR "")
 
 # Use pkg-config when none is specified
-if((WITH_NSPR_INCLUDES STREQUAL "") AND (WITH_NSPR_LIBS STREQUAL "") AND (WITH_NSS_INCLUDES STREQUAL "") AND (WITH_NSS_INCLUDES STREQUAL ""))
+if((WITH_NSPR_INCLUDES STREQUAL "") AND (WITH_NSPR_LIBS STREQUAL "") AND (WITH_NSS_INCLUDES STREQUAL "") AND (WITH_NSS_LIBS STREQUAL ""))
 	foreach(pkg nspr mozilla-nspr firefox-nspr xulrunner-nspr seamonkey-nspr)
 		pkg_check_exists(_have_pkg ${pkg})
 		if(_have_pkg)
@@ -70,7 +70,7 @@ if(NOT (WITH_NSPR_INCLUDES STREQUAL ""))
 	set(CMAKE_REQUIRED_INCLUDES ${WITH_NSPR_INCLUDES})
 endif(NOT (WITH_NSPR_INCLUDES STREQUAL ""))
 
-CHECK_INCLUDE_FILES(nspr.h prio.h _have_headers)
+CHECK_INCLUDE_FILES("nspr.h;prio.h" _have_headers)
 
 unset(CMAKE_REQUIRED_INCLUDES)
 
@@ -86,7 +86,7 @@ set(CMAKE_REQUIRED_INCLUDES ${MANUAL_NSPR_INCLUDES})
 set(CMAKE_REQUIRED_LIBRARIES ${nsprlibs})
 CHECK_C_SOURCE_COMPILES("#include <prinit.h>
 			int main(void) { PR_Initialized(); return 0; }" _nsprlibs_okay)
-unset(CMAKE_REQUIRED_FLAGS)
+unset(CMAKE_REQUIRED_INCLUDES)
 unset(CMAKE_REQUIRED_LIBRARIES)
 
 if(NOT _nsprlibs_okay)
@@ -109,7 +109,13 @@ if(NOT (WITH_NSS_INCLUDES STREQUAL ""))
 	set(CMAKE_REQUIRED_INCLUDES ${WITH_NSS_INCLUDES})
 endif(NOT (WITH_NSS_INCLUDES STREQUAL ""))
 
-CHECK_INCLUDE_FILES(nss.h ssl.h smime.h _have_headers)
+if(NOT (WITH_NSPR_INCLUDES STREQUAL ""))
+	list(APPEND CMAKE_REQUIRED_INCLUDES ${WITH_NSPR_INCLUDES})
+endif(NOT (WITH_NSPR_INCLUDES STREQUAL ""))
+
+unset(_have_headers CACHE)
+
+CHECK_INCLUDE_FILES("nss.h;ssl.h;smime.h" _have_headers)
 
 unset(CMAKE_REQUIRED_INCLUDES)
 
@@ -125,7 +131,7 @@ set(CMAKE_REQUIRED_INCLUDES ${MANUAL_NSS_INCLUDES})
 set(CMAKE_REQUIRED_LIBRARIES ${nsslibs} ${nsprlibs})
 CHECK_C_SOURCE_COMPILES("#include <nss.h>
 			int main(void) { NSS_Init(\"\"); return 0; }" _nsslibs_okay)
-unset(CMAKE_REQUIRED_FLAGS)
+unset(CMAKE_REQUIRED_INCLUDES)
 unset(CMAKE_REQUIRED_LIBRARIES)
 
 if(NOT _nsslibs_okay)
