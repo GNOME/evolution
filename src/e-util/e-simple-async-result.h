@@ -48,6 +48,10 @@ typedef struct _ESimpleAsyncResult ESimpleAsyncResult;
 typedef struct _ESimpleAsyncResultClass ESimpleAsyncResultClass;
 typedef struct _ESimpleAsyncResultPrivate ESimpleAsyncResultPrivate;
 
+typedef void (* ESimpleAsyncResultThreadFunc)	(ESimpleAsyncResult *result,
+						 gpointer source_object,
+						 GCancellable *cancellable);
+
 /**
  * ESimpleAsyncResult:
  *
@@ -83,10 +87,16 @@ void		e_simple_async_result_set_op_pointer
 						 gpointer ptr);
 gpointer	e_simple_async_result_get_op_pointer
 						(ESimpleAsyncResult *result);
+void		e_simple_async_result_run_in_thread
+						(ESimpleAsyncResult *result,
+						 gint io_priority,
+						 ESimpleAsyncResultThreadFunc func,
+						 GCancellable *cancellable);
 void		e_simple_async_result_complete	(ESimpleAsyncResult *result);
 void		e_simple_async_result_complete_idle
 						(ESimpleAsyncResult *result);
-
+void		e_simple_async_result_free_global_memory
+						(void);
 
 G_END_DECLS
 

@@ -689,6 +689,7 @@ exit:
 
 	e_util_cleanup_settings ();
 	e_spell_checker_free_global_memory ();
+	e_simple_async_result_free_global_memory ();
 
 	return 0;
 }

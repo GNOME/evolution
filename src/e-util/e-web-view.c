@@ -99,6 +99,8 @@ struct _EWebViewPrivate {
 
 	gboolean need_input;
 	guint web_extension_need_input_changed_signal_id;
+
+	GCancellable *load_cancellable;
 };
 
 struct _AsyncContext {
@@ -962,6 +964,11 @@ web_view_dispose (GObject *object)
 
 	priv = E_WEB_VIEW_GET_PRIVATE (object);
 
+	if (priv->load_cancellable) {
+		g_cancellable_cancel (priv->load_cancellable);
+		g_clear_object (&priv->load_cancellable);
+	}
+
 	if (priv->font_name_changed_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->font_settings,
@@ -1097,6 +1104,7 @@ static void
 web_view_process_uri_request_cb (WebKitURISchemeRequest *request,
 				 gpointer user_data)
 {
+	EWebView *web_view = NULL;
 	EContentRequest *content_request = user_data;
 	const gchar *uri;
 	gchar *redirect_to_uri = NULL;
@@ -1140,9 +1148,11 @@ web_view_process_uri_request_cb (WebKitURISchemeRequest *request,
 
 			return;
 		}
+
+		web_view = E_WEB_VIEW (requester);
 	}
 
-	e_content_request_process (content_request, uri, requester, NULL,
+	e_content_request_process (content_request, uri, requester, web_view ? web_view->priv->load_cancellable : NULL,
 		web_view_uri_request_done_cb, g_object_ref (request));
 
 	g_free (redirect_to_uri);
@@ -1253,6 +1263,21 @@ web_view_constructed (GObject *object)
 	web_view_initialize (WEBKIT_WEB_VIEW (object));
 
 	web_view_set_find_controller (E_WEB_VIEW (object));
+}
+
+static void
+e_web_view_replace_load_cancellable (EWebView *web_view,
+				     gboolean create_new)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (web_view->priv->load_cancellable) {
+		g_cancellable_cancel (web_view->priv->load_cancellable);
+		g_clear_object (&web_view->priv->load_cancellable);
+	}
+
+	if (create_new)
+		web_view->priv->load_cancellable = g_cancellable_new ();
 }
 
 static gboolean
@@ -1473,6 +1498,7 @@ web_view_popup_event (EWebView *web_view,
 static void
 web_view_stop_loading (EWebView *web_view)
 {
+	e_web_view_replace_load_cancellable (web_view, FALSE);
 	webkit_web_view_stop_loading (WEBKIT_WEB_VIEW (web_view));
 }
 
@@ -2528,6 +2554,8 @@ e_web_view_init (EWebView *web_view)
 	e_plugin_ui_enable_manager (ui_manager, id);
 
 	web_view->priv->element_clicked_cbs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
+
+	web_view->priv->load_cancellable = NULL;
 }
 
 GtkWidget *
@@ -2542,6 +2570,8 @@ void
 e_web_view_clear (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	e_web_view_replace_load_cancellable (web_view, FALSE);
 
 	webkit_web_view_load_html (
 		WEBKIT_WEB_VIEW (web_view),
@@ -2563,6 +2593,8 @@ e_web_view_load_string (EWebView *web_view,
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_if_fail (class->load_string != NULL);
 
+	e_web_view_replace_load_cancellable (web_view, TRUE);
+
 	class->load_string (web_view, string);
 }
 
@@ -2576,6 +2608,8 @@ e_web_view_load_uri (EWebView *web_view,
 
 	class = E_WEB_VIEW_GET_CLASS (web_view);
 	g_return_if_fail (class->load_uri != NULL);
+
+	e_web_view_replace_load_cancellable (web_view, TRUE);
 
 	class->load_uri (web_view, uri);
 }
@@ -2625,6 +2659,8 @@ void
 e_web_view_reload (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	e_web_view_replace_load_cancellable (web_view, TRUE);
 
 	webkit_web_view_reload (WEBKIT_WEB_VIEW (web_view));
 }

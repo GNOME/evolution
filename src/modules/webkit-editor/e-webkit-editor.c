@@ -5096,6 +5096,7 @@ static void
 webkit_editor_process_uri_request_cb (WebKitURISchemeRequest *request,
 				      gpointer user_data)
 {
+	EWebKitEditor *wk_editor;
 	EContentRequest *content_request = user_data;
 	const gchar *uri;
 	GObject *requester;
@@ -5118,7 +5119,9 @@ webkit_editor_process_uri_request_cb (WebKitURISchemeRequest *request,
 
 	g_return_if_fail (e_content_request_can_process_uri (content_request, uri));
 
-	e_content_request_process (content_request, uri, requester, NULL,
+	wk_editor = E_IS_WEBKIT_EDITOR (requester) ? E_WEBKIT_EDITOR (requester) : NULL;
+
+	e_content_request_process (content_request, uri, requester, wk_editor ? wk_editor->priv->cancellable : NULL,
 		webkit_editor_uri_request_done_cb, g_object_ref (request));
 }
 
