@@ -4086,7 +4086,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		tooltip_destroy (week_view, item);
 		gdk_event_get_keyval (gdk_event, &event_keyval);
 
-		if (!E_TEXT (item)->preedit_len && event_keyval == GDK_KEY_Return) {
+		if (!E_TEXT (item)->preedit_len && (event_keyval == GDK_KEY_Return || event_keyval == GDK_KEY_KP_Enter)) {
 			/* We set the keyboard focus to the EDayView, so the
 			 * EText item loses it and stops the edit. */
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
@@ -4958,12 +4958,13 @@ e_week_view_do_key_press (GtkWidget *widget,
 
 	/* We only want to start an edit with a return key or a simple
 	 * character. */
-	if (event->keyval == GDK_KEY_Return) {
+	if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
 		initial_text = NULL;
 	} else if (((event->keyval >= 0x20) && (event->keyval <= 0xFF)
 		    && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 		   || (event->length == 0)
-		   || (event->keyval == GDK_KEY_Tab)) {
+		   || (event->keyval == GDK_KEY_Tab)
+		   || (event->keyval == GDK_KEY_Escape)) {
 		return FALSE;
 	} else
 		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
@@ -5055,7 +5056,7 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 		/* with a return key or a simple character (from 0x20 to 0xff),
 		 * jump to the day
 		 */
-		if ((event->key.keyval == GDK_KEY_Return) ||
+		if ((event->key.keyval == GDK_KEY_Return || event->key.keyval == GDK_KEY_KP_Enter) ||
 		    ((event->key.keyval >= 0x20) &&
 		     (event->key.keyval <= 0xFF))) {
 			e_week_view_jump_to_button_item (week_view, item);
