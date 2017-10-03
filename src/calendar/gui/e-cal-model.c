@@ -3580,7 +3580,7 @@ e_cal_model_get_default_source_uid (ECalModel *model)
 	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
-	if (model->priv->default_source_uid && !model->priv->default_source_uid)
+	if (model->priv->default_source_uid && !*model->priv->default_source_uid)
 		return NULL;
 
 	return model->priv->default_source_uid;
