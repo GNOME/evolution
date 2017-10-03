@@ -206,6 +206,87 @@ e_simple_async_result_get_op_pointer (ESimpleAsyncResult *result)
 	return result->priv->op_pointer;
 }
 
+static GThreadPool *thread_pool = NULL;
+static GThreadPool *low_prio_thread_pool = NULL;
+G_LOCK_DEFINE_STATIC (thread_pool);
+
+typedef struct _ThreadData {
+	ESimpleAsyncResult *result;
+	gint io_priority;
+	ESimpleAsyncResultThreadFunc func;
+	GCancellable *cancellable;
+} ThreadData;
+
+static gint
+e_simple_async_result_thread_pool_sort_func (gconstpointer ptra,
+					     gconstpointer ptrb,
+					     gpointer user_data)
+{
+	const ThreadData *tda = ptra, *tdb = ptrb;
+
+	if (!tda || !tdb)
+		return 0;
+
+	return tda->io_priority < tdb->io_priority ? -1 :
+	       tda->io_priority > tdb->io_priority ? 1 : 0;
+}
+
+static void
+e_simple_async_result_thread (gpointer data,
+			      gpointer user_data)
+{
+	ThreadData *td = data;
+
+	g_return_if_fail (td != NULL);
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (td->result));
+	g_return_if_fail (td->func != NULL);
+
+	td->func (td->result,
+		g_async_result_get_source_object (G_ASYNC_RESULT (td->result)),
+		td->cancellable);
+
+	e_simple_async_result_complete_idle (td->result);
+
+	g_clear_object (&td->result);
+	g_clear_object (&td->cancellable);
+	g_free (td);
+}
+
+void
+e_simple_async_result_run_in_thread (ESimpleAsyncResult *result,
+				     gint io_priority,
+				     ESimpleAsyncResultThreadFunc func,
+				     GCancellable *cancellable)
+{
+	ThreadData *td;
+
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
+	g_return_if_fail (func != NULL);
+
+	td = g_new0 (ThreadData, 1);
+	td->result = g_object_ref (result);
+	td->io_priority = io_priority;
+	td->func = func;
+	td->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
+
+	G_LOCK (thread_pool);
+
+	if (!thread_pool) {
+		thread_pool = g_thread_pool_new (e_simple_async_result_thread, NULL, 10, FALSE, NULL);
+		g_thread_pool_set_sort_function (thread_pool, e_simple_async_result_thread_pool_sort_func, NULL);
+
+		low_prio_thread_pool = g_thread_pool_new (e_simple_async_result_thread, NULL, 10, FALSE, NULL);
+		g_thread_pool_set_sort_function (low_prio_thread_pool, e_simple_async_result_thread_pool_sort_func, NULL);
+	}
+
+	if (io_priority >= G_PRIORITY_LOW)
+		g_thread_pool_push (low_prio_thread_pool, td, NULL);
+	else
+		g_thread_pool_push (thread_pool, td, NULL);
+
+	G_UNLOCK (thread_pool);
+}
+
 void
 e_simple_async_result_complete (ESimpleAsyncResult *result)
 {
@@ -237,4 +318,22 @@ e_simple_async_result_complete_idle (ESimpleAsyncResult *result)
 	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
 
 	g_idle_add (result_complete_idle_cb, g_object_ref (result));
+}
+
+void
+e_simple_async_result_free_global_memory (void)
+{
+	G_LOCK (thread_pool);
+
+	if (thread_pool) {
+		g_thread_pool_free (thread_pool, TRUE, FALSE);
+		thread_pool = NULL;
+	}
+
+	if (low_prio_thread_pool) {
+		g_thread_pool_free (low_prio_thread_pool, TRUE, FALSE);
+		low_prio_thread_pool = NULL;
+	}
+
+	G_UNLOCK (thread_pool);
 }

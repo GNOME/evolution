@@ -20,7 +20,8 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <gio/gio.h>
+
+#include "e-simple-async-result.h"
 
 #include "e-content-request.h"
 
@@ -90,6 +91,8 @@ typedef struct _ThreadData
 	GInputStream *out_stream;
 	gint64 out_stream_length;
 	gchar *out_mime_type;
+	GError *error;
+	gboolean success;
 } ThreadData;
 
 static void
@@ -102,29 +105,27 @@ thread_data_free (gpointer ptr)
 		g_clear_object (&td->requester);
 		g_free (td->uri);
 		g_free (td->out_mime_type);
+		g_clear_error (&td->error);
 		g_free (td);
 	}
 }
 
 static void
-content_request_process_thread (GTask *task,
+content_request_process_thread (ESimpleAsyncResult *result,
 				gpointer source_object,
-				gpointer task_data,
 				GCancellable *cancellable)
 {
-	ThreadData *td = task_data;
-	GError *local_error = NULL;
+	ThreadData *td;
 
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
 	g_return_if_fail (E_IS_CONTENT_REQUEST (source_object));
+
+	td = e_simple_async_result_get_user_data (result);
 	g_return_if_fail (td != NULL);
 
-	if (!e_content_request_process_sync (E_CONTENT_REQUEST (source_object),
+	td->success = e_content_request_process_sync (E_CONTENT_REQUEST (source_object),
 		td->uri, td->requester, &td->out_stream, &td->out_stream_length, &td->out_mime_type,
-		cancellable, &local_error)) {
-		g_task_return_error (task, local_error);
-	} else {
-		g_task_return_boolean (task, TRUE);
-	}
+		cancellable, &td->error);
 }
 
 void
@@ -135,21 +136,27 @@ e_content_request_process (EContentRequest *request,
 			   GAsyncReadyCallback callback,
 			   gpointer user_data)
 {
-	GTask *task;
 	ThreadData *td;
+	ESimpleAsyncResult *result;
+	gboolean is_http;
 
 	g_return_if_fail (E_IS_CONTENT_REQUEST (request));
 	g_return_if_fail (uri != NULL);
 	g_return_if_fail (G_IS_OBJECT (requester));
 
+	is_http = g_ascii_strncasecmp (uri, "http", 4) == 0 ||
+		  g_ascii_strncasecmp (uri, "evo-http", 8) == 0;
+
 	td = g_new0 (ThreadData, 1);
 	td->uri = g_strdup (uri);
 	td->requester = g_object_ref (requester);
 
-	task = g_task_new (request, cancellable, callback, user_data);
-	g_task_set_task_data (task, td, thread_data_free);
-	g_task_run_in_thread (task, content_request_process_thread);
-	g_object_unref (task);
+	result = e_simple_async_result_new (G_OBJECT (request), callback, user_data, e_content_request_process);
+
+	e_simple_async_result_set_user_data (result, td, thread_data_free);
+	e_simple_async_result_run_in_thread (result, is_http ? G_PRIORITY_LOW : G_PRIORITY_DEFAULT, content_request_process_thread, cancellable);
+
+	g_object_unref (result);
 }
 
 gboolean
@@ -162,18 +169,24 @@ e_content_request_process_finish (EContentRequest *request,
 {
 	ThreadData *td;
 
-	g_return_val_if_fail (g_task_is_valid (result, request), FALSE);
+	g_return_val_if_fail (g_async_result_is_tagged (result, e_content_request_process), FALSE);
 	g_return_val_if_fail (E_IS_CONTENT_REQUEST (request), FALSE);
-	g_return_val_if_fail (G_IS_TASK (result), FALSE);
+	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 	g_return_val_if_fail (out_stream != NULL, FALSE);
 	g_return_val_if_fail (out_stream_length != NULL, FALSE);
 	g_return_val_if_fail (out_mime_type != NULL, FALSE);
 
-	td = g_task_get_task_data (G_TASK (result));
+	td = e_simple_async_result_get_user_data (E_SIMPLE_ASYNC_RESULT (result));
 	g_return_val_if_fail (td != NULL, FALSE);
 
-	if (!g_task_propagate_boolean (G_TASK (result), error))
+	if (td->error || !td->success) {
+		if (td->error) {
+			g_propagate_error (error, td->error);
+			td->error = NULL;
+		}
+
 		return FALSE;
+	}
 
 	*out_stream = td->out_stream;
 	*out_stream_length = td->out_stream_length;
