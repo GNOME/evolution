@@ -559,6 +559,10 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_shell_window_add_action_group (shell_window, "mail-label");
 	e_shell_window_add_action_group (shell_window, "search-folders");
 
+	g_signal_connect (
+		shell_window, "set-focus",
+		G_CALLBACK (e_mail_shell_view_update_labels_sensitivity), shell_view);
+
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	priv->label_merge_id = merge_id;
 
@@ -1544,4 +1548,40 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 		gtk_menu_tool_button_set_menu (
 			GTK_MENU_TOOL_BUTTON (priv->send_receive_tool_item),
 			create_send_receive_submenu (mail_shell_view));
+}
+
+void
+e_mail_shell_view_update_labels_sensitivity (EShellWindow *shell_window,
+					     GtkWidget *focused_widget)
+{
+	GtkActionGroup *action_group;
+	GtkAction *action;
+	GtkWidget *widget;
+	gboolean sensitive = FALSE;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	/* It can be called also during the dispose of the GtkWindow,
+	   when the UI manager is already freed */
+	if (!e_shell_window_get_ui_manager (shell_window))
+		return;
+
+	widget = focused_widget ? focused_widget : gtk_window_get_focus (GTK_WINDOW (shell_window));
+
+	while (widget) {
+		if (IS_MESSAGE_LIST (widget)) {
+			sensitive = TRUE;
+			break;
+		}
+
+		widget = gtk_widget_get_parent (widget);
+	}
+
+	action_group = ACTION_GROUP (MAIL_LABEL);
+	if (action_group)
+		gtk_action_group_set_sensitive (action_group, sensitive);
+
+	action = ACTION (MAIL_LABEL_NONE);
+	if (action)
+		gtk_action_set_sensitive (action, sensitive);
 }

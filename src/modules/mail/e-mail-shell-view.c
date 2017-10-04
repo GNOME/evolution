@@ -1225,6 +1225,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE);
 	gtk_action_set_visible (action, folder_is_store && folder_is_virtual);
 
+	e_mail_shell_view_update_labels_sensitivity (shell_window, NULL);
+
 	e_mail_shell_view_update_popup_labels (mail_shell_view);
 }
 
