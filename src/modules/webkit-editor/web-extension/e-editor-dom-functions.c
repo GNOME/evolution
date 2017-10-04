@@ -944,8 +944,7 @@ e_editor_dom_node_is_citation_node (WebKitDOMNode *node)
 }
 
 gint
-e_editor_dom_get_citation_level (WebKitDOMNode *node,
-                                 gboolean set_plaintext_quoted)
+e_editor_dom_get_citation_level (WebKitDOMNode *node)
 {
 	WebKitDOMNode *parent = node;
 	gint level = 0;
@@ -1109,7 +1108,7 @@ e_editor_dom_wrap_and_quote_element (EEditorPage *editor_page,
 	if (e_editor_page_get_html_mode (editor_page))
 		return element;
 
-	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element), FALSE);
+	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element));
 
 	e_editor_dom_remove_quoting_from_element (element);
 	e_editor_dom_remove_wrapping_from_element (element);
@@ -3513,7 +3512,7 @@ e_editor_dom_body_input_event_process (EEditorPage *editor_page,
 
 		node = webkit_dom_range_get_end_container (range, NULL);
 
-		citation_level = e_editor_dom_get_citation_level (node, FALSE);
+		citation_level = e_editor_dom_get_citation_level (node);
 		if (citation_level == 0)
 			goto out;
 
@@ -3880,7 +3879,7 @@ e_editor_dom_body_key_up_event_process_backspace_or_delete (EEditorPage *editor_
 
 	/* Under some circumstances we will end with block inside the citation
 	 * that has the quote marks removed and we have to reinsert them back. */
-	level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (selection_start_marker), FALSE);
+	level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (selection_start_marker));
 	node = webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (selection_end_marker));
 	if (level > 0 && node && !WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
 		WebKitDOMElement *block;
@@ -4056,8 +4055,7 @@ delete_hidden_space (EEditorPage *editor_page)
 	block = WEBKIT_DOM_ELEMENT (e_editor_dom_get_parent_block_node_from_child (
 		WEBKIT_DOM_NODE (selection_start_marker)));
 
-	citation_level = e_editor_dom_get_citation_level (
-		WEBKIT_DOM_NODE (selection_start_marker), FALSE);
+	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (selection_start_marker));
 
 	if (selection_start_marker && citation_level > 0) {
 		EEditorUndoRedoManager *manager;
@@ -4229,8 +4227,7 @@ e_editor_dom_move_quoted_block_level_up (EEditorPage *editor_page)
 
 	block = e_editor_dom_get_parent_block_node_from_child (WEBKIT_DOM_NODE (selection_start_marker));
 
-	citation_level = e_editor_dom_get_citation_level (
-		WEBKIT_DOM_NODE (selection_start_marker), FALSE);
+	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (selection_start_marker));
 
 	if (selection_start_marker && citation_level > 0) {
 		if (webkit_dom_element_query_selector (
@@ -4818,7 +4815,7 @@ e_editor_dom_quote_plain_text_element (EEditorPage *editor_page,
 
 	document = e_editor_page_get_document (editor_page);
 	element_clone = webkit_dom_node_clone_node_with_error (WEBKIT_DOM_NODE (element), TRUE, NULL);
-	level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element), TRUE);
+	level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element));
 
 	/* Remove old quote characters if the exists */
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
@@ -5548,6 +5545,7 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 	EEditorHistoryEvent *ev = NULL;
 	EEditorUndoRedoManager *manager;
 	gchar *inner_html;
+	gboolean node_added = FALSE;
 
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
 
@@ -5592,6 +5590,7 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 	selection_start = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-start-marker");
 	node = webkit_dom_node_get_previous_sibling (WEBKIT_DOM_NODE (selection_start));
+
 	/* Check if block is empty. If so, replace it otherwise insert the quoted
 	 * content after current block. */
 	if (!node || WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
@@ -5606,15 +5605,37 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 				WEBKIT_DOM_NODE (blockquote),
 				webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start)),
 				NULL);
+			node_added = TRUE;
 		}
-	} else {
-		webkit_dom_node_insert_before (
-			WEBKIT_DOM_NODE (webkit_dom_document_get_body (document)),
-			WEBKIT_DOM_NODE (blockquote),
-			webkit_dom_node_get_next_sibling (
-				webkit_dom_node_get_parent_node (
-					WEBKIT_DOM_NODE (selection_start))),
-			NULL);
+	}
+
+	if (!node_added) {
+		WebKitDOMNode *parent, *next_sibling = NULL;
+
+		parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (selection_start));
+		next_sibling = webkit_dom_node_get_next_sibling (parent);
+
+		if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (parent)) {
+			WebKitDOMNode *up_parent;
+
+			up_parent = webkit_dom_node_get_parent_node (parent);
+			if (WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (up_parent)) {
+				parent = up_parent;
+			}
+		}
+
+		if (next_sibling) {
+			webkit_dom_node_insert_before (
+				webkit_dom_node_get_parent_node (next_sibling),
+				WEBKIT_DOM_NODE (blockquote),
+				next_sibling,
+				NULL);
+		} else {
+			webkit_dom_node_append_child (
+				parent,
+				WEBKIT_DOM_NODE (blockquote),
+				NULL);
+		}
 	}
 
 	parse_html_into_blocks (editor_page, blockquote, NULL, inner_html);
@@ -5633,7 +5654,8 @@ e_editor_dom_quote_and_insert_text_into_selection (EEditorPage *editor_page,
 				node = WEBKIT_DOM_NODE (e_editor_dom_wrap_paragraph_length (editor_page, WEBKIT_DOM_ELEMENT (node), word_wrap_length - 2));
 
 			webkit_dom_node_normalize (node);
-			e_editor_dom_quote_plain_text_element_after_wrapping (editor_page, WEBKIT_DOM_ELEMENT (node), 1);
+			e_editor_dom_quote_plain_text_element_after_wrapping (editor_page, WEBKIT_DOM_ELEMENT (node),
+				e_editor_dom_get_citation_level (node));
 
 			next_sibling = webkit_dom_node_get_next_sibling (node);
 			if (!next_sibling)
@@ -5748,7 +5770,7 @@ quote_plain_text_elements_after_wrapping_in_element (EEditorPage *editor_page,
 		WebKitDOMNode *child;
 
 		child = webkit_dom_node_list_item (list, ii);
-		citation_level = e_editor_dom_get_citation_level (child, TRUE);
+		citation_level = e_editor_dom_get_citation_level (child);
 		e_editor_dom_quote_plain_text_element_after_wrapping (editor_page, WEBKIT_DOM_ELEMENT (child), citation_level);
 	}
 	g_clear_object (&list);
@@ -6454,7 +6476,7 @@ e_editor_dom_convert_and_insert_html_into_selection (EEditorPage *editor_page,
 			current_block = NULL;
 	}
 
-	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (selection_end_marker), FALSE);
+	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (selection_end_marker));
 	/* Pasting into the citation */
 	if (citation_level > 0) {
 		gint length;
@@ -9374,7 +9396,7 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 								WebKitDOMNode *clone;
 
 								clone = webkit_dom_node_clone_node_with_error (actual_block, TRUE, NULL);
-								if (e_editor_dom_get_citation_level (actual_block, FALSE) > 0)
+								if (e_editor_dom_get_citation_level (actual_block) > 0)
 									webkit_dom_element_set_attribute (
 										WEBKIT_DOM_ELEMENT (clone),
 										"data-evo-quoted",
@@ -9384,7 +9406,7 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 									WEBKIT_DOM_NODE (fragment), clone, NULL);
 
 								clone = webkit_dom_node_clone_node_with_error (tmp_block, TRUE, NULL);
-								if (e_editor_dom_get_citation_level (tmp_block, FALSE) > 0)
+								if (e_editor_dom_get_citation_level (tmp_block) > 0)
 									webkit_dom_element_set_attribute (
 										WEBKIT_DOM_ELEMENT (clone),
 										"data-evo-quoted",
@@ -9396,7 +9418,7 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 								WebKitDOMNode *clone;
 
 								clone = webkit_dom_node_clone_node_with_error (tmp_block, TRUE, NULL);
-								if (e_editor_dom_get_citation_level (tmp_block, FALSE) > 0)
+								if (e_editor_dom_get_citation_level (tmp_block) > 0)
 									webkit_dom_element_set_attribute (
 										WEBKIT_DOM_ELEMENT (clone),
 										"data-evo-quoted",
@@ -9406,7 +9428,7 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 									WEBKIT_DOM_NODE (fragment), clone, NULL);
 
 								clone = webkit_dom_node_clone_node_with_error (actual_block, TRUE, NULL);
-								if (e_editor_dom_get_citation_level (tmp_block, FALSE) > 0)
+								if (e_editor_dom_get_citation_level (tmp_block) > 0)
 									webkit_dom_element_set_attribute (
 										WEBKIT_DOM_ELEMENT (clone),
 										"data-evo-quoted",
@@ -10711,7 +10733,7 @@ deleting_block_starting_in_quoted_content (EEditorPage *editor_page,
 	element = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-end-marker");
 
-	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element), FALSE);
+	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element));
 
 	enable_quote_marks_select (document);
 	e_editor_dom_selection_restore (editor_page);
@@ -14519,7 +14541,7 @@ e_editor_dom_selection_wrap (EEditorPage *editor_page)
 		after_selection_end = webkit_dom_node_contains (
 			block, WEBKIT_DOM_NODE (selection_end_marker));
 
-		citation_level = e_editor_dom_get_citation_level (block, FALSE);
+		citation_level = e_editor_dom_get_citation_level (block);
 		quote = citation_level ? citation_level * 2 : 0;
 
 		wrapped_paragraph = e_editor_dom_wrap_paragraph_length (
@@ -14568,7 +14590,7 @@ e_editor_dom_wrap_paragraphs_in_document (EEditorPage *editor_page)
 		gint word_wrap_length, quote, citation_level;
 		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
-		citation_level = e_editor_dom_get_citation_level (node, FALSE);
+		citation_level = e_editor_dom_get_citation_level (node);
 		quote = citation_level ? citation_level * 2 : 0;
 		word_wrap_length = e_editor_page_get_word_wrap_length (editor_page);
 
@@ -14599,7 +14621,7 @@ e_editor_dom_wrap_paragraph (EEditorPage *editor_page,
 	g_return_val_if_fail (WEBKIT_DOM_IS_ELEMENT (paragraph), NULL);
 
 	indentation_level = get_indentation_level (paragraph);
-	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (paragraph), FALSE);
+	citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (paragraph));
 
 	if (node_is_list_or_item (WEBKIT_DOM_NODE (paragraph))) {
 		gint list_level = get_list_level (WEBKIT_DOM_NODE (paragraph));
@@ -16555,7 +16577,7 @@ process_block_to_block (EEditorPage *editor_page,
 
 		remove_node (block);
 
-		citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element), FALSE);
+		citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element));
 
 		if (!next_block && !after_selection_end && citation_level > 0) {
 			next_block = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (element));
@@ -16565,7 +16587,7 @@ process_block_to_block (EEditorPage *editor_page,
 		block = next_block;
 
 		if (!html_mode && format == E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH) {
-			citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element), FALSE);
+			citation_level = e_editor_dom_get_citation_level (WEBKIT_DOM_NODE (element));
 
 			if (citation_level > 0) {
 				gint quote, word_wrap_length;
