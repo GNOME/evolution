@@ -32,9 +32,7 @@
 #include "alarm-notify.h"
 #include "config-data.h"
 
-#ifdef G_OS_WIN32
 #include <libedataserver/libedataserver.h>
-#endif
 
 #include "e-util/e-util-private.h"
 
@@ -67,6 +65,8 @@ main (gint argc,
 	textdomain (GETTEXT_PACKAGE);
 
 	gtk_init (&argc, &argv);
+
+	e_xml_initialize_in_main ();
 
 	alarm_notify_service = alarm_notify_new (NULL, &error);
 
