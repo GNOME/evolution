@@ -1347,7 +1347,7 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 		icaltimezone *ds_zone;
 
 		dtstart = icalproperty_get_dtstart (ip);
-		if (!dtstart.is_utc)
+		if (!icaltime_is_utc (dtstart))
 			ds_zone = find_zone (ip, tz_top_level);
 		else
 			ds_zone = icaltimezone_get_utc_timezone ();
@@ -1367,7 +1367,7 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 		icaltimezone *de_zone;
 
 		dtend = icalproperty_get_dtend (ip);
-		if (!dtend.is_utc)
+		if (!icaltime_is_utc (dtend))
 			de_zone = find_zone (ip, tz_top_level);
 		else
 			de_zone = icaltimezone_get_utc_timezone ();

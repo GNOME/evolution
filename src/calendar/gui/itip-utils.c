@@ -1614,7 +1614,7 @@ comp_compliant_one (ESourceRegistry *registry,
 			r->until.is_date = FALSE;
 
 			icaltimezone_convert_time (&r->until, from_zone, to_zone);
-			r->until.is_utc = TRUE;
+			r->until.zone = to_zone;
 
 			e_cal_component_free_datetime (&dt);
 			e_cal_component_set_rrule_list (clone, rrule_list);
