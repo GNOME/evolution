@@ -286,7 +286,7 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 	if (icalcomponent_get_first_property (component, ICAL_DTSTART_PROPERTY)) {
 		dtstart = icalcomponent_get_dtstart (component);
 		if (icaltime_is_valid_time (dtstart)) {
-			if (dtstart.is_utc)
+			if (icaltime_is_utc (dtstart))
 				zone = icaltimezone_get_utc_timezone ();
 			else
 				zone = ece_event_get_timezone_from_property (comp_editor,
@@ -297,7 +297,7 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 	if (icalcomponent_get_first_property (component, ICAL_DTEND_PROPERTY)) {
 		dtend = icalcomponent_get_dtend (component);
 		if (!zone && icaltime_is_valid_time (dtend)) {
-			if (dtend.is_utc)
+			if (icaltime_is_utc (dtend))
 				zone = icaltimezone_get_utc_timezone ();
 			else
 				zone = ece_event_get_timezone_from_property (comp_editor,
@@ -310,7 +310,7 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 
 		itt = icalcomponent_get_due (component);
 		if (icaltime_is_valid_time (itt)) {
-			if (itt.is_utc)
+			if (icaltime_is_utc (itt))
 				zone = icaltimezone_get_utc_timezone ();
 			else
 				zone = ece_event_get_timezone_from_property (comp_editor,
@@ -497,10 +497,8 @@ ece_event_fill_component (ECompEditor *comp_editor,
 				dtstart.zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (timezone_entry));
 				if (!dtstart.zone)
 					dtstart.zone = icaltimezone_get_utc_timezone ();
-				dtstart.is_utc = dtstart.zone == icaltimezone_get_utc_timezone ();
 
 				dtend.zone = dtstart.zone;
-				dtend.is_utc = dtstart.is_utc;
 
 				set_dtstart = TRUE;
 				set_dtend = TRUE;

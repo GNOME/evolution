@@ -6167,9 +6167,9 @@ itip_view_init_view (ItipView *view)
 
                 /* If the timezone is not in the component, guess the local time */
                 /* Should we guess if the timezone is an olsen name somehow? */
-		if (datetime.value->is_utc)
+		if (icaltime_is_utc (*datetime.value))
 			from_zone = icaltimezone_get_utc_timezone ();
-		else if (!datetime.value->is_utc && datetime.tzid) {
+		else if (!icaltime_is_utc (*datetime.value) && datetime.tzid) {
 			from_zone = icalcomponent_get_timezone (view->priv->top_level, datetime.tzid);
 
 			if (!from_zone)
@@ -6206,9 +6206,9 @@ itip_view_init_view (ItipView *view)
 
                 /* If the timezone is not in the component, guess the local time */
                 /* Should we guess if the timezone is an olsen name somehow? */
-		if (datetime.value->is_utc)
+		if (icaltime_is_utc (*datetime.value))
 			from_zone = icaltimezone_get_utc_timezone ();
-		else if (!datetime.value->is_utc && datetime.tzid) {
+		else if (!icaltime_is_utc (*datetime.value) && datetime.tzid) {
 			from_zone = icalcomponent_get_timezone (view->priv->top_level, datetime.tzid);
 
 			if (!from_zone)

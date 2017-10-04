@@ -188,7 +188,7 @@ etdp_itt_to_zone (struct icaltimetype *itt,
 
 	if (itt_tzid) {
 		e_cal_client_get_timezone_sync (client, itt_tzid, &zone, NULL, NULL);
-	} else if (itt->is_utc) {
+	} else if (icaltime_is_utc (*itt)) {
 		zone = icaltimezone_get_utc_timezone ();
 	}
 

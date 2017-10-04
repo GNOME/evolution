@@ -1088,7 +1088,6 @@ ecep_recurrence_fill_ending_date (ECompEditorPageRecurrence *page_recurrence,
 				rrule->until.minute = 0;
 				rrule->until.second = 0;
 				rrule->until.is_date = TRUE;
-				rrule->until.is_utc = FALSE;
 			}
 
 			page_recurrence->priv->ending_date_tt = rrule->until;

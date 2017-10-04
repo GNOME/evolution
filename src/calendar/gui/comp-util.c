@@ -123,8 +123,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 	/* If the event uses UTC for DTSTART & DTEND, return TRUE. Outlook
 	 * will send single events as UTC, so we don't want to mark all of
 	 * these. */
-	if ((!start_datetime.value || start_datetime.value->is_utc)
-	    && (!end_datetime.value || end_datetime.value->is_utc)) {
+	if ((!start_datetime.value || icaltime_is_utc (*start_datetime.value))
+	    && (!end_datetime.value || icaltime_is_utc (*end_datetime.value))) {
 		retval = TRUE;
 		goto out;
 	}
@@ -1328,7 +1328,7 @@ cal_comp_util_update_tzid_parameter (icalproperty *prop,
 	if (tt.zone)
 		tzid = icaltimezone_get_tzid ((icaltimezone *) tt.zone);
 
-	if (tt.zone && tzid && *tzid && !tt.is_utc && !tt.is_date) {
+	if (tt.zone && tzid && *tzid && !icaltime_is_utc (tt) && !tt.is_date) {
 		if (param) {
 			icalparameter_set_tzid (param, (gchar *) tzid);
 		} else {

@@ -168,7 +168,7 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 	if (dt->tzid != NULL) {
 		e_cal_client_get_timezone_sync (
 			client, dt->tzid, &zone, NULL, NULL);
-	} else if (dt->value->is_utc) {
+	} else if (icaltime_is_utc (*dt->value)) {
 		zone = icaltimezone_get_utc_timezone ();
 	}
 

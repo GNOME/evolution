@@ -872,8 +872,6 @@ e_comp_editor_property_part_datetime_get_value (ECompEditorPropertyPartDatetime 
 			value.zone = e_timezone_entry_get_timezone (timezone_entry);
 		if (!value.zone)
 			value.zone = icaltimezone_get_utc_timezone ();
-
-		value.is_utc = value.zone == icaltimezone_get_utc_timezone ();
 	}
 
 	g_clear_object (&timezone_entry);

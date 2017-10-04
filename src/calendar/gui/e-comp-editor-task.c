@@ -120,7 +120,7 @@ ece_task_update_timezone (ECompEditorTask *task_editor,
 				if (force_allday && dt.is_date)
 					*force_allday = TRUE;
 
-				if (dt.is_utc)
+				if (icaltime_is_utc (dt))
 					zone = icaltimezone_get_utc_timezone ();
 				else
 					zone = ece_task_get_timezone_from_property (comp_editor,
