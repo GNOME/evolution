@@ -44,13 +44,10 @@
 
 #include <windows.h>
 #include "e-util/e-util-private.h"
-#include <libedataserver/libedataserver.h>
 
 #endif
 
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
+#include <libedataserver/libedataserver.h>
 
 #include <webkit2/webkit2.h>
 
@@ -568,6 +565,7 @@ main (gint argc,
 
 	e_util_init_main_thread (NULL);
 	e_passwords_init ();
+	e_xml_initialize_in_main ();
 
 	gtk_window_set_default_icon_name ("evolution");
 
