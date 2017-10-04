@@ -1465,6 +1465,7 @@ em_utils_is_re_in_subject (const gchar *subject,
 {
 	gchar **prefixes_strv;
 	gchar **separators_strv;
+	const gchar *localized_re, *localized_separator;
 	gboolean res;
 	gint ii;
 
@@ -1496,6 +1497,33 @@ em_utils_is_re_in_subject (const gchar *subject,
 			g_strfreev (separators_strv);
 
 		return TRUE;
+	}
+
+	/* Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string. */
+	localized_re = C_("reply-attribution", "Re");
+
+	/* Translators: This is a reply attribution separator in the message reply subject. This should match the ':' in 'Re: %s' in the 'reply-attribution' translation context. */
+	localized_separator = C_("reply-attribution", ":");
+
+	if (check_prefix (subject, localized_re, (const gchar * const *) separators_strv, skip_len)) {
+		if (!use_separators_strv)
+			g_strfreev (separators_strv);
+
+		return TRUE;
+	}
+
+	if (localized_separator && g_strcmp0 (localized_separator, ":") != 0) {
+		const gchar *localized_separator_strv[2];
+
+		localized_separator_strv[0] = localized_separator;
+		localized_separator_strv[1] = NULL;
+
+		if (check_prefix (subject, localized_re, (const gchar * const *) localized_separator_strv, skip_len)) {
+			if (!use_separators_strv)
+				g_strfreev (separators_strv);
+
+			return TRUE;
+		}
 	}
 
 	if (use_prefixes_strv) {

@@ -2558,8 +2558,8 @@ reply_setup_composer (EMsgComposer *composer,
 		if (em_utils_is_re_in_subject (subject, &skip_len, NULL, NULL) && skip_len > 0)
 			subject = subject + skip_len;
 
-		/* Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. */
-		subject = g_strdup_printf (_("Re: %s"), subject);
+		/* Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator. */
+		subject = g_strdup_printf (C_("reply-attribution", "Re: %s"), subject);
 	} else {
 		subject = g_strdup ("");
 	}
