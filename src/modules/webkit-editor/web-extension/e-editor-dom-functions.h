@@ -206,8 +206,7 @@ WebKitDOMElement *
 		e_editor_dom_wrap_and_quote_element
 						(EEditorPage *editor_page,
 						 WebKitDOMElement *element);
-gint		e_editor_dom_get_citation_level	(WebKitDOMNode *node,
-						 gboolean set_plaintext_quoted);
+gint		e_editor_dom_get_citation_level	(WebKitDOMNode *node);
 void		e_editor_dom_save_history_for_drag
 						(EEditorPage *editor_page);
 void		e_editor_dom_save_history_for_drop

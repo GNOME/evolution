@@ -373,7 +373,7 @@ undo_delete (EEditorPage *editor_page,
 				if (WEBKIT_DOM_IS_ELEMENT (node) && (
 				    webkit_dom_element_query_selector (WEBKIT_DOM_ELEMENT (node), ".-x-evo-quoted", NULL) ||
 				    webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (node), "data-evo-quoted"))) {
-					if (e_editor_dom_get_citation_level (block, FALSE) > 0) {
+					if (e_editor_dom_get_citation_level (block) > 0) {
 						webkit_dom_node_insert_before (
 							webkit_dom_node_get_parent_node (block),
 							node,
@@ -393,7 +393,7 @@ undo_delete (EEditorPage *editor_page,
 							NULL);
 					}
 				} else {
-					if (e_editor_dom_get_citation_level (block, FALSE) > 0) {
+					if (e_editor_dom_get_citation_level (block) > 0) {
 						WebKitDOMNode *next_node;
 
 						if ((next_node = split_node_into_two (block, -1)))
@@ -685,7 +685,7 @@ undo_delete (EEditorPage *editor_page,
 		if (insert_before &&
 		    WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (
 			webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (fragment))) &&
-		    e_editor_dom_get_citation_level (insert_before, FALSE > 0))
+		    e_editor_dom_get_citation_level (insert_before) > 0)
 			insert_before = split_node_into_two (insert_before, -1);
 
 		/* Remove the first block from deleted content as its content was already
@@ -876,7 +876,7 @@ undo_delete (EEditorPage *editor_page,
 			WebKitDOMNode *current_block;
 
 			current_block = e_editor_dom_get_parent_block_node_from_child (parent);
-			if (e_editor_dom_get_citation_level (current_block, FALSE) > 0)
+			if (e_editor_dom_get_citation_level (current_block) > 0)
 				e_editor_dom_wrap_and_quote_element (editor_page, WEBKIT_DOM_ELEMENT (current_block));
 		}
 
@@ -947,7 +947,7 @@ redo_delete (EEditorPage *editor_page,
 		node = webkit_dom_range_get_end_container (range, NULL);
 		g_clear_object (&range);
 		current_block = e_editor_dom_get_parent_block_node_from_child (node);
-		if (e_editor_dom_get_citation_level (current_block, FALSE) > 0 &&
+		if (e_editor_dom_get_citation_level (current_block) > 0 &&
 		    (next_block = webkit_dom_node_get_next_sibling (current_block))) {
 			e_editor_dom_remove_wrapping_from_element (WEBKIT_DOM_ELEMENT (next_block));
 			e_editor_dom_remove_quoting_from_element (WEBKIT_DOM_ELEMENT (next_block));
