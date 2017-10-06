@@ -188,7 +188,7 @@ the current time when filtering occurs.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">The message’s date will be compared against
-12:00am of the date specified.</property>
+beginning of the specified day.</property>
                 <property name="justify">center</property>
               </object>
               <packing>
