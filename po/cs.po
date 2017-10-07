@@ -15798,12 +15798,12 @@ msgstr "Odpojuje se od „%s“"
 #: ../src/libemail-engine/e-mail-store-utils.c:264
 #, c-format
 msgid "Reconnecting to “%s”"
-msgstr "Opětovné se připojuje k „%s“"
+msgstr "Opětovně se připojuje k „%s“"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:349
 #, c-format
 msgid "Preparing account “%s” for offline"
-msgstr "Příprava účtu „%s“ pro režim odpojení"
+msgstr "Přípravuje se účet „%s“ pro režim odpojení"
 
 #: ../src/libemail-engine/mail-ops.c:88
 msgid "Filtering Selected Messages"
