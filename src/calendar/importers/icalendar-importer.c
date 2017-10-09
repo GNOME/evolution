@@ -546,17 +546,13 @@ ical_supported (EImport *ei,
 		return FALSE;
 
 	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
-		icalcomponent *icalcomp = NULL;
+		icalcomponent *icalcomp;
 
-		if (g_ascii_strncasecmp (contents, "BEGIN:", 6) == 0)
-			icalcomp = e_cal_util_parse_ics_string (contents);
+		icalcomp = e_cal_util_parse_ics_string (contents);
 		g_free (contents);
 
 		if (icalcomp) {
-			if (is_icalcomp_usable (icalcomp))
-				ret = TRUE;
-			else
-				ret = FALSE;
+			ret = is_icalcomp_usable (icalcomp);
 			icalcomponent_free (icalcomp);
 		}
 	}
