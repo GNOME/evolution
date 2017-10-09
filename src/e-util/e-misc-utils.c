@@ -51,6 +51,13 @@
 
 #include <webkit2/webkit2.h>
 
+#ifdef HAVE_LDAP
+#include <ldap.h>
+#ifndef SUNLDAP
+#include <ldap_schema.h>
+#endif
+#endif /* HAVE_LDAP */
+
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
 #include "e-client-cache.h"
@@ -4049,4 +4056,148 @@ e_util_resize_window_for_screen (GtkWindow *window,
 		if (content_width > 0 && content_height > 0)
 			gtk_window_set_default_size (GTK_WINDOW (window), width + content_width, height + content_height);
 	}
+}
+
+/**
+ * e_util_query_ldap_root_dse_sync:
+ * @host: an LDAP server host name
+ * @port: an LDAP server port
+ * @out_root_dse: (out) (transfer full): NULL-terminated array of the server root DSE-s, or %NULL on error
+ * @cancellable: optional #GCancellable object, or %NULL
+ * @error: return location for a #GError, or %NULL
+ *
+ * Queries an LDAP server identified by @host and @port for supported
+ * search bases and returns them as an NULL-terminated array of strings
+ * at @out_root_dse. It sets @out_root_dse to NULL on error.
+ * Free the returned @out_root_dse with g_strfreev() when no longer needed.
+ *
+ * The function fails and sets @error to G_IO_ERROR_NOT_SUPPORTED when
+ * Evolution had been compiled without LDAP support.
+ *
+ * Returns: Whether succeeded.
+ *
+ * Since: 3.28
+ **/
+gboolean
+e_util_query_ldap_root_dse_sync (const gchar *host,
+				 guint16 port,
+				 gchar ***out_root_dse,
+				 GCancellable *cancellable,
+				 GError **error)
+{
+#ifdef HAVE_LDAP
+	G_LOCK_DEFINE_STATIC (ldap);
+	LDAP *ldap = NULL;
+	LDAPMessage *result = NULL;
+	struct timeval timeout;
+	gchar **values = NULL, **root_dse;
+	gint ldap_error;
+	gint option;
+	gint version;
+	gint ii;
+	const gchar *attrs[] = { "namingContexts", NULL };
+
+	g_return_val_if_fail (host && *host, FALSE);
+	g_return_val_if_fail (port > 0, FALSE);
+	g_return_val_if_fail (out_root_dse != NULL, FALSE);
+
+	*out_root_dse = NULL;
+
+	timeout.tv_sec = 60;
+	timeout.tv_usec = 0;
+
+	G_LOCK (ldap);
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		goto exit;
+
+	ldap = ldap_init (host, port);
+	if (!ldap) {
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
+			_("This address book server might be unreachable or the server name may be misspelled or your network connection could be down."));
+		goto exit;
+	}
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		goto exit;
+
+	version = LDAP_VERSION3;
+	option = LDAP_OPT_PROTOCOL_VERSION;
+	ldap_error = ldap_set_option (ldap, option, &version);
+	if (ldap_error != LDAP_OPT_SUCCESS) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_NOT_INITIALIZED,
+			_("Failed to set protocol version to LDAPv3 (%d): %s"), ldap_error,
+			ldap_err2string (ldap_error) ? ldap_err2string (ldap_error) : _("Unknown error"));
+		goto exit;
+	}
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		goto exit;
+
+	/* FIXME Use the user's actual authentication settings. */
+	ldap_error = ldap_simple_bind_s (ldap, NULL, NULL);
+	if (ldap_error != LDAP_SUCCESS) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED,
+			_("Failed to authenticate with LDAP server (%d): %s"), ldap_error,
+			ldap_err2string (ldap_error) ? ldap_err2string (ldap_error) : _("Unknown error"));
+		goto exit;
+	}
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		goto exit;
+
+	ldap_error = ldap_search_ext_s (
+		ldap, LDAP_ROOT_DSE, LDAP_SCOPE_BASE,
+		"(objectclass=*)", (gchar **) attrs, 0,
+		NULL, NULL, &timeout, LDAP_NO_LIMIT, &result);
+	if (ldap_error != LDAP_SUCCESS) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED,
+			_("This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases.\n\nDetailed error (%d): %s"),
+			ldap_error, ldap_err2string (ldap_error) ? ldap_err2string (ldap_error) : _("Unknown error"));
+		goto exit;
+	}
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		goto exit;
+
+	values = ldap_get_values (ldap, result, "namingContexts");
+	if (values == NULL || values[0] == NULL || *values[0] == '\0') {
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_FAILED,
+			_("This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases."));
+		goto exit;
+	}
+
+	if (g_cancellable_set_error_if_cancelled (cancellable, error))
+		goto exit;
+
+	root_dse = g_new0 (gchar *, g_strv_length (values) + 1);
+
+	for (ii = 0; values[ii]; ii++) {
+		root_dse[ii] = g_strdup (values[ii]);
+	}
+
+	root_dse[ii] = NULL;
+
+	*out_root_dse = root_dse;
+
+ exit:
+	if (values)
+		ldap_value_free (values);
+
+	if (result)
+		ldap_msgfree (result);
+
+	if (ldap)
+		ldap_unbind_s (ldap);
+
+	G_UNLOCK (ldap);
+
+	return *out_root_dse != NULL;
+
+#else /* HAVE_LDAP */
+	g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED,
+		_("Evolution had not been compiled with LDAP support"));
+
+	return FALSE;
+#endif
 }

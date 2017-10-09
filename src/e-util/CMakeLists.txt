@@ -647,6 +647,20 @@ target_link_libraries(evolution-util
 	${MATH_LDFLAGS}
 )
 
+if(HAVE_LDAP)
+	target_compile_options(evolution-util PUBLIC
+		${LDAP_CFLAGS}
+	)
+
+	target_include_directories(evolution-util PUBLIC
+		${LDAP_INCLUDE_DIRS}
+	)
+
+	target_link_libraries(evolution-util
+		${LDAP_LIBS}
+	)
+endif(HAVE_LDAP)
+
 install(TARGETS evolution-util
 	DESTINATION ${privsolibdir}
 )

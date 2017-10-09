@@ -3,17 +3,17 @@
 
   <error id="ldap-init" type="error">
     <_primary>This address book could not be opened.</_primary>
-    <_secondary>This address book server might be unreachable or the server name may be misspelled or your network connection could be down.</_secondary>
+    <secondary>{0}</secondary>
   </error>
 
-  <error id="ldap-auth" type="error">
-    <_primary>Failed to authenticate with LDAP server.</_primary>
-    <_secondary>Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on.</_secondary>
+  <error id="ldap-communicate" type="error">
+    <_primary>Failed to communicate with LDAP server.</_primary>
+    <secondary>{0}</secondary>
   </error>
 
   <error id="ldap-search-base" type="error">
     <_primary>This address book server does not have any suggested search bases.</_primary>
-    <_secondary>This LDAP server may use an older version of LDAP, which does not support this functionality or it may be misconfigured. Ask your administrator for supported search bases.</_secondary>
+    <secondary>{0}</secondary>
   </error>
 
   <error id="ldap-v3-schema" type="error">
