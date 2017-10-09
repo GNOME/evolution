@@ -742,7 +742,8 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 
 			now = icaltime_current_time_with_zone (default_zone);
 
-			if (icaltime_compare (itt, now) <= 0) {
+			if ((dt.value->is_date && icaltime_compare_date_only (itt, now) < 0) ||
+			    (!dt.value->is_date && icaltime_compare (itt, now) <= 0)) {
 				bgcolor = to_do_pane->priv->overdue_color;
 			} else if (out_nearest_due) {
 				time_t due_tt;
