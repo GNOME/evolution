@@ -758,6 +758,32 @@ prepare_destination_page (GtkAssistant *assistant,
 	return FALSE;
 }
 
+typedef struct _ProgressData {
+	EImportAssistant *assistant;
+	EImportCompleteFunc done;
+} ProgressData;
+
+static gboolean
+run_import_progress_page_idle (gpointer user_data)
+{
+	ProgressData *pd = user_data;
+
+	g_return_val_if_fail (pd != NULL, FALSE);
+
+	if (pd->done)
+		e_import_import (
+			pd->assistant->priv->import, pd->assistant->priv->import_target,
+			pd->assistant->priv->import_importer, import_status,
+			pd->done, pd->assistant);
+	else
+		import_assistant_finished (pd->assistant, NULL);
+
+	g_object_unref (pd->assistant);
+	g_free (pd);
+
+	return FALSE;
+}
+
 static void
 prepare_progress_page (GtkAssistant *assistant,
                        GtkWidget *vbox)
@@ -766,6 +792,7 @@ prepare_progress_page (GtkAssistant *assistant,
 	EImportCompleteFunc done = NULL;
 	ImportSelectionPage *page;
 	GtkWidget *cancel_button;
+	ProgressData *pd;
 	gboolean intelligent_import;
 	gboolean is_simple = FALSE;
 
@@ -809,13 +836,11 @@ prepare_progress_page (GtkAssistant *assistant,
 		}
 	}
 
-	if (done)
-		e_import_import (
-			priv->import, priv->import_target,
-			priv->import_importer, import_status,
-			done, assistant);
-	else
-		import_assistant_finished (E_IMPORT_ASSISTANT (assistant), NULL);
+	pd = g_new0 (ProgressData, 1);
+	pd->assistant = g_object_ref (assistant);
+	pd->done = done;
+
+	g_idle_add_full (G_PRIORITY_HIGH_IDLE, run_import_progress_page_idle, pd, NULL);
 }
 
 static void
