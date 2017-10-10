@@ -113,14 +113,19 @@ composer_to_meeting_component (EMsgComposer *composer)
 	if (source) {
 		EComposerHeader *composer_header;
 		const gchar *name = NULL, *address = NULL;
+		gboolean is_from_override = FALSE;
 
 		composer_header = e_composer_header_table_get_header (header_table, E_COMPOSER_HEADER_FROM);
 		if (e_composer_from_header_get_override_visible (E_COMPOSER_FROM_HEADER (composer_header))) {
 			name = e_composer_header_table_get_from_name (header_table);
 			address = e_composer_header_table_get_from_address (header_table);
 
-			if (address && !*address)
+			if (address && !*address) {
+				name = NULL;
 				address = NULL;
+			}
+
+			is_from_override = address != NULL;
 		}
 
 		if (!address) {
@@ -130,7 +135,7 @@ composer_to_meeting_component (EMsgComposer *composer)
 				address = alias_address;
 		}
 
-		if (!address || !name || !*name) {
+		if (!is_from_override && (!address || !name || !*name)) {
 			ESourceMailIdentity *mail_identity;
 
 			mail_identity = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
