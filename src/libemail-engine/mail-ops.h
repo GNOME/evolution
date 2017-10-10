@@ -62,7 +62,8 @@ void		mail_send_queue			(EMailSession *session,
 						 gpointer get_data,
 						 CamelFilterStatusFunc status,
 						 gpointer status_data,
-						 void (*done)(gpointer data),
+						  /* Return %TRUE, when the error had been reported to the user */
+						 gboolean (* done)(gpointer data, const GError *error, const GPtrArray *failed_uids),
 						 gpointer data);
 
 typedef void	(*MailProviderFetchLockFunc)	(const gchar *source);

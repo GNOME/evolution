@@ -32,6 +32,7 @@
 #include <e-util/e-util.h>
 
 #include "e-mail-account-store.h"
+#include "e-mail-reader-utils.h"
 #include "e-mail-ui-session.h"
 #include "em-event.h"
 #include "em-filter-rule.h"
@@ -124,7 +125,7 @@ static CamelFolder *
 						 const gchar *uri,
 						 gpointer data,
 						 GError **error);
-static void	send_done (gpointer data);
+static gboolean	send_done (gpointer data, const GError *error, const GPtrArray *failed_uids);
 
 static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
@@ -435,23 +436,10 @@ format_service_name (CamelService *service)
 	return pretty_url;
 }
 
-struct ReportErrorToUIData
+static EShellView *
+mail_send_receive_get_mail_shell_view (void)
 {
-	gchar *display_name;
-	gchar *error_ident;
-	GError *error;
-};
-
-static gboolean
-report_error_to_ui_cb (gpointer user_data)
-{
-	struct ReportErrorToUIData *data = user_data;
 	EShellView *shell_view = NULL;
-
-	g_return_val_if_fail (data != NULL, FALSE);
-	g_return_val_if_fail (data->display_name != NULL, FALSE);
-	g_return_val_if_fail (data->error_ident != NULL, FALSE);
-	g_return_val_if_fail (data->error != NULL, FALSE);
 
 	if (send_recv_dialog) {
 		GtkWidget *parent;
@@ -478,6 +466,97 @@ report_error_to_ui_cb (gpointer user_data)
 		}
 	}
 
+	return shell_view;
+}
+
+static void
+mail_send_recv_send_fail_alert_response_cb (EAlert *alert,
+					    gint response_id,
+					    gpointer user_data)
+{
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree = NULL;
+	EMailSession *session;
+	CamelFolder *outbox;
+	GPtrArray *uids;
+
+	if (response_id != GTK_RESPONSE_APPLY && response_id != GTK_RESPONSE_REJECT)
+		return;
+
+	shell_view = mail_send_receive_get_mail_shell_view ();
+	if (!shell_view)
+		return;
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+	g_object_get (G_OBJECT (shell_sidebar), "folder-tree", &folder_tree, NULL);
+	g_return_if_fail (folder_tree != NULL);
+
+	session = em_folder_tree_get_session (folder_tree);
+	outbox = e_mail_session_get_local_folder (session, E_MAIL_LOCAL_FOLDER_OUTBOX);
+
+	uids = g_object_get_data (G_OBJECT (alert), "message-uids");
+
+	if (uids && response_id == GTK_RESPONSE_APPLY) {
+		e_mail_reader_edit_messages (E_MAIL_READER (shell_content), outbox, uids, TRUE, TRUE);
+	} else if (folder_tree) {
+		gchar *folder_uri;
+
+		folder_uri = e_mail_folder_uri_from_folder (outbox);
+		g_warn_if_fail (folder_uri != NULL);
+
+		if (folder_uri) {
+			CamelFolder *selected_folder;
+
+			em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
+
+			selected_folder = e_mail_reader_ref_folder (E_MAIL_READER (shell_content));
+
+			/* This makes sure the Outbox folder content is shown even
+			   when the On This Computer account is disabled */
+			if (selected_folder != outbox) {
+				GtkTreeSelection *selection;
+
+				selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+				gtk_tree_selection_unselect_all (selection);
+
+				em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
+				e_mail_reader_set_folder (E_MAIL_READER (shell_content), outbox);
+			}
+
+			g_clear_object (&selected_folder);
+		}
+
+		g_free (folder_uri);
+	}
+
+	g_clear_object (&folder_tree);
+}
+
+struct ReportErrorToUIData
+{
+	gchar *display_name;
+	gchar *error_ident;
+	GError *error;
+	GPtrArray *send_failed_uids;
+};
+
+static gboolean
+report_error_to_ui_cb (gpointer user_data)
+{
+	struct ReportErrorToUIData *data = user_data;
+	EShellView *shell_view;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (data->display_name != NULL, FALSE);
+	g_return_val_if_fail (data->error_ident != NULL, FALSE);
+	g_return_val_if_fail (data->error != NULL, FALSE);
+
+	shell_view = mail_send_receive_get_mail_shell_view ();
+
 	if (shell_view) {
 		EShellContent *shell_content;
 		EAlertSink *alert_sink;
@@ -488,6 +567,29 @@ report_error_to_ui_cb (gpointer user_data)
 
 		alert = e_alert_new (data->error_ident, data->display_name,
 			data->error->message ? data->error->message : _("Unknown error"), NULL);
+
+		if (data->send_failed_uids) {
+			GtkAction *action;
+
+			if (data->send_failed_uids->len == 1) {
+				g_object_set_data_full (G_OBJECT (alert), "message-uids",
+					g_ptr_array_ref (data->send_failed_uids),
+					(GDestroyNotify) g_ptr_array_unref);
+			}
+
+			if (data->send_failed_uids->len == 1) {
+				action = gtk_action_new ("send-failed-edit-action", _("Edit Message"), NULL, NULL);
+				e_alert_add_action (alert, action, GTK_RESPONSE_APPLY);
+				g_object_unref (action);
+			}
+
+			action = gtk_action_new ("send-failed-outbox-action", _("Open Outbox Folder"), NULL, NULL);
+			e_alert_add_action (alert, action, GTK_RESPONSE_REJECT);
+			g_object_unref (action);
+
+			g_signal_connect (alert, "response",
+				G_CALLBACK (mail_send_recv_send_fail_alert_response_cb), NULL);
+		}
 
 		e_alert_sink_submit_alert (alert_sink, alert);
 
@@ -500,6 +602,8 @@ report_error_to_ui_cb (gpointer user_data)
 	g_free (data->display_name);
 	g_free (data->error_ident);
 	g_error_free (data->error);
+	if (data->send_failed_uids)
+		g_ptr_array_unref (data->send_failed_uids);
 	g_free (data);
 
 	return FALSE;
@@ -508,7 +612,8 @@ report_error_to_ui_cb (gpointer user_data)
 static void
 report_error_to_ui (CamelService *service,
 		    const gchar *folder_name,
-		    const GError *error)
+		    const GError *error,
+		    const GPtrArray *send_failed_uids)
 {
 	gchar *tmp = NULL;
 	const gchar *display_name, *ident;
@@ -527,6 +632,9 @@ report_error_to_ui (CamelService *service,
 			folder_name);
 		display_name = tmp;
 		ident = "mail:no-refresh-folder";
+	} else if (send_failed_uids) {
+		display_name = _("Sending message");
+		ident = "mail:async-error";
 	} else {
 		display_name = camel_service_get_display_name (service);
 		ident = "mail:failed-connect";
@@ -536,6 +644,18 @@ report_error_to_ui (CamelService *service,
 	data->display_name = g_strdup (display_name);
 	data->error_ident = g_strdup (ident);
 	data->error = g_error_copy (error);
+
+	if (send_failed_uids) {
+		gint ii;
+
+		data->send_failed_uids = g_ptr_array_new_full (send_failed_uids->len + 1, (GDestroyNotify) camel_pstring_free);
+
+		for (ii = 0; ii < send_failed_uids->len; ii++) {
+			g_ptr_array_add (data->send_failed_uids, (gpointer) camel_pstring_strdup (g_ptr_array_index (send_failed_uids, ii)));
+		}
+	} else {
+		data->send_failed_uids = NULL;
+	}
 
 	g_idle_add_full (G_PRIORITY_DEFAULT, report_error_to_ui_cb, data, NULL);
 
@@ -1004,10 +1124,24 @@ receive_done (gpointer data)
 	free_send_info (info);
 }
 
-static void
-send_done (gpointer data)
+static gboolean
+send_done (gpointer data,
+	   const GError *error,
+	   const GPtrArray *failed_uids)
 {
+	gboolean res = FALSE;
+
+	if (error && failed_uids) {
+		struct _send_info *info = data;
+
+		res = TRUE;
+
+		report_error_to_ui (info->service, NULL, error, failed_uids);
+	}
+
 	receive_done (data);
+
+	return res;
 }
 /* although we dont do anythign smart here yet, there is no need for this interface to
  * be available to anyone else.
@@ -1305,7 +1439,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 					full_name = (const gchar *) m->folders->pdata[i];
 				}
 
-				report_error_to_ui (CAMEL_SERVICE (store), full_name, local_error);
+				report_error_to_ui (CAMEL_SERVICE (store), full_name, local_error, NULL);
 
 				/* To not report one error for multiple folders multiple times */
 				g_hash_table_insert (known_errors, g_strdup (error_message), GINT_TO_POINTER (1));
@@ -1384,7 +1518,7 @@ receive_update_got_folderinfo (GObject *source_object,
 	/* XXX Need to hand this off to an EAlertSink. */
 	} else if (local_error != NULL) {
 		g_warn_if_fail (info == NULL);
-		report_error_to_ui (send_info->service, NULL, local_error);
+		report_error_to_ui (send_info->service, NULL, local_error, NULL);
 		g_error_free (local_error);
 
 		receive_done (send_info);

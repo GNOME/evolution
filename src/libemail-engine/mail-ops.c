@@ -557,7 +557,9 @@ struct _send_queue_msg {
 	CamelFilterStatusFunc status;
 	gpointer status_data;
 
-	void (*done)(gpointer data);
+	GPtrArray *failed_uids;
+
+	gboolean (* done)(gpointer data, const GError *error, const GPtrArray *failed_uids);
 	gpointer data;
 };
 
@@ -1000,6 +1002,7 @@ send_queue_exec (struct _send_queue_msg *m,
 		mail_send_message (
 			m, m->queue, send_uids->pdata[i],
 			m->driver, cancellable, &local_error);
+
 		if (local_error != NULL) {
 			if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 				/* merge exceptions into one */
@@ -1021,6 +1024,11 @@ send_queue_exec (struct _send_queue_msg *m,
 					g_propagate_error (&m->base.error, local_error);
 					local_error = NULL;
 				}
+
+				if (!m->failed_uids)
+					m->failed_uids = g_ptr_array_new_with_free_func ((GDestroyNotify) camel_pstring_free);
+
+				g_ptr_array_add (m->failed_uids, (gpointer) camel_pstring_strdup (send_uids->pdata[i]));
 
 				/* keep track of the number of failures */
 				j++;
@@ -1075,8 +1083,13 @@ send_queue_exec (struct _send_queue_msg *m,
 static void
 send_queue_done (struct _send_queue_msg *m)
 {
-	if (m->done)
-		m->done (m->data);
+	if (m->done) {
+		if (g_error_matches (m->base.error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			m->done (m->data, NULL, NULL);
+		} else if (m->done (m->data, m->base.error, m->failed_uids)) {
+			g_clear_error (&m->base.error);
+		}
+	}
 }
 
 static gchar *
@@ -1094,6 +1107,8 @@ send_queue_free (struct _send_queue_msg *m)
 		g_object_unref (m->driver);
 	if (m->transport != NULL)
 		g_object_unref (m->transport);
+	if (m->failed_uids)
+		g_ptr_array_unref (m->failed_uids);
 	g_object_unref (m->queue);
 }
 
@@ -1118,7 +1133,7 @@ mail_send_queue (EMailSession *session,
                  gpointer get_data,
                  CamelFilterStatusFunc status,
                  gpointer status_data,
-                 void (*done)(gpointer data),
+                 gboolean (* done)(gpointer data, const GError *error, const GPtrArray *failed_uids),
                  gpointer data)
 {
 	struct _send_queue_msg *m;
