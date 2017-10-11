@@ -14249,11 +14249,19 @@ wrap_lines (EEditorPage *editor_page,
 						remove_node (nd);
 					g_free (nd_content);
 
-					if (no_sibling)
+					if (no_sibling) {
 						node = NULL;
-					else
+					} else {
+						nd = node;
+
 						node = webkit_dom_node_get_next_sibling (
 							WEBKIT_DOM_NODE (element));
+
+						if (nd == node)
+							node = webkit_dom_node_get_next_sibling (node);
+						if (nd == node)
+							node = NULL;
+					}
 				} else {
 					webkit_dom_node_append_child (
 						webkit_dom_node_get_parent_node (node),
