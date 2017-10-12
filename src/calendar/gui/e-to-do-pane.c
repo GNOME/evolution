@@ -32,7 +32,7 @@
 
 #include "e-to-do-pane.h"
 
-#define N_ROOTS 7
+#define N_ROOTS 8
 #define MAX_TOOLTIP_DESCRIPTION_LEN 128
 
 struct _EToDoPanePrivate {
@@ -40,6 +40,7 @@ struct _EToDoPanePrivate {
 	gboolean highlight_overdue;
 	GdkRGBA *overdue_color;
 	gboolean show_completed_tasks;
+	gboolean show_no_duedate_tasks;
 	gboolean use_24hour_format;
 
 	EClientCache *client_cache;
@@ -68,6 +69,7 @@ enum {
 	PROP_OVERDUE_COLOR,
 	PROP_SHELL_VIEW,
 	PROP_SHOW_COMPLETED_TASKS,
+	PROP_SHOW_NO_DUEDATE_TASKS,
 	PROP_USE_24HOUR_FORMAT
 };
 
@@ -314,6 +316,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	ECalComponentId *id;
 	struct icaltimetype itt = icaltime_null_time ();
 	const gchar *prefix, *location, *description;
+	gboolean task_has_due_date = TRUE; /* ignored for events, thus like being set */
 	GString *tooltip;
 
 	g_return_val_if_fail (E_IS_TO_DO_PANE (to_do_pane), FALSE);
@@ -347,13 +350,35 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	*out_is_completed = FALSE;
 
 	if (*out_is_task) {
+		ECalComponentDateTime dtstart = { 0 };
 		struct icaltimetype *completed = NULL;
 
 		/* Tasks after events */
 		prefix = "1";
 
+		e_cal_component_get_dtstart (comp, &dtstart);
 		e_cal_component_get_due (comp, &dt);
 		e_cal_component_get_completed (comp, &completed);
+
+		if (dtstart.value) {
+			gchar *tmp;
+
+			tmp = etdp_format_date_time (client, default_zone, dtstart.value, dtstart.tzid);
+
+			g_string_append (tooltip, "\n");
+			/* Translators: It will display "Start: StartDateAndTime" */
+			etdp_append_to_string_escaped (tooltip, _("Start: %s"), tmp, NULL);
+
+			g_free (tmp);
+
+			if (!dt.value) {
+				/* Fill the itt structure in case the task has no Due date */
+				itt = *dtstart.value;
+				etdp_itt_to_zone (&itt, dtstart.tzid, client, default_zone);
+			}
+
+			e_cal_component_free_datetime (&dtstart);
+		}
 
 		if (dt.value) {
 			gchar *tmp;
@@ -365,6 +390,8 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			etdp_append_to_string_escaped (tooltip, _("Due: %s"), tmp, NULL);
 
 			g_free (tmp);
+		} else {
+			task_has_due_date = FALSE;
 		}
 
 		if (completed) {
@@ -459,9 +486,23 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 	id = e_cal_component_get_id (comp);
 
-	*out_sort_key = g_strdup_printf ("%s-%04d%02d%02d%02d%02d%02d-%s-%s",
-		prefix, itt.year, itt.month, itt.day, itt.hour, itt.minute, itt.second,
-		(id && id->uid) ? id->uid : "", (id && id->rid) ? id->rid : "");
+	if (!task_has_due_date) {
+		if (icaltime_is_null_time (itt)) {
+			/* Sort those without Start date after those with it */
+			*out_sort_key = g_strdup_printf ("%s-Z-%s-%s-%s",
+				prefix, icalcomponent_get_summary (icalcomp),
+				(id && id->uid) ? id->uid : "", (id && id->rid) ? id->rid : "");
+		} else {
+			*out_sort_key = g_strdup_printf ("%s-%04d%02d%02d%02d%02d%02d-%s-%s-%s",
+				prefix, itt.year, itt.month, itt.day, itt.hour, itt.minute, itt.second,
+				icalcomponent_get_summary (icalcomp),
+				(id && id->uid) ? id->uid : "", (id && id->rid) ? id->rid : "");
+		}
+	} else {
+		*out_sort_key = g_strdup_printf ("%s-%04d%02d%02d%02d%02d%02d-%s-%s",
+			prefix, itt.year, itt.month, itt.day, itt.hour, itt.minute, itt.second,
+			(id && id->uid) ? id->uid : "", (id && id->rid) ? id->rid : "");
+	}
 
 	if (id)
 		e_cal_component_free_id (id);
@@ -578,7 +619,27 @@ etdp_get_component_root_paths (EToDoPane *to_do_pane,
 
 	model = GTK_TREE_MODEL (to_do_pane->priv->tree_store);
 
-	for (ii = 0; ii < N_ROOTS; ii++) {
+	if (start_date_mark == 0 && e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO) {
+		if (!to_do_pane->priv->show_no_duedate_tasks)
+			return NULL;
+
+		if (gtk_tree_row_reference_valid (to_do_pane->priv->roots[N_ROOTS - 1])) {
+			GtkTreePath *root_path;
+			GtkTreeIter root_iter;
+
+			root_path = gtk_tree_row_reference_get_path (to_do_pane->priv->roots[N_ROOTS - 1]);
+			if (root_path && gtk_tree_model_get_iter (model, &root_iter, root_path)) {
+				roots = g_slist_prepend (roots, root_path);
+				root_path = NULL;
+			}
+
+			gtk_tree_path_free (root_path);
+		}
+
+		return roots;
+	}
+
+	for (ii = 0; ii < N_ROOTS - 1; ii++) {
 		if (gtk_tree_row_reference_valid (to_do_pane->priv->roots[ii])) {
 			GtkTreePath *root_path;
 			GtkTreeIter root_iter;
@@ -1283,7 +1344,13 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 		iso_begin_all = isodate_from_time_t (0);
 		iso_begin = isodate_from_time_t (tt_begin);
 		iso_end = isodate_from_time_t (tt_end);
-		if (to_do_pane->priv->show_completed_tasks) {
+		if (to_do_pane->priv->show_no_duedate_tasks) {
+			if (to_do_pane->priv->show_completed_tasks) {
+				tasks_filter = g_strdup ("#t");
+			} else {
+				tasks_filter = g_strdup ("(not (is-completed?))");
+			}
+		} else if (to_do_pane->priv->show_completed_tasks) {
 			tasks_filter = g_strdup_printf (
 					"(or"
 					" (and"
@@ -1309,8 +1376,36 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 			GtkTreePath *path;
 			GtkTreeIter iter;
 
-			if (!gtk_tree_row_reference_valid (to_do_pane->priv->roots[ii]))
-				continue;
+			if (!gtk_tree_row_reference_valid (to_do_pane->priv->roots[ii])) {
+				if (ii == N_ROOTS - 1) {
+					GtkTreeModel *model;
+					gchar *sort_key;
+
+					if (!to_do_pane->priv->show_no_duedate_tasks)
+						continue;
+
+					sort_key = g_strdup_printf ("%c", 'A' + ii);
+
+					gtk_tree_store_append (to_do_pane->priv->tree_store, &iter, NULL);
+					gtk_tree_store_set (to_do_pane->priv->tree_store, &iter,
+						COLUMN_SORTKEY, sort_key,
+						COLUMN_HAS_ICON_NAME, FALSE,
+						-1);
+
+					g_free (sort_key);
+
+					model = GTK_TREE_MODEL (to_do_pane->priv->tree_store);
+					path = gtk_tree_model_get_path (model, &iter);
+
+					gtk_tree_row_reference_free (to_do_pane->priv->roots[ii]);
+					to_do_pane->priv->roots[ii] = gtk_tree_row_reference_new (model, path);
+					g_warn_if_fail (to_do_pane->priv->roots[ii] != NULL);
+
+					gtk_tree_path_free (path);
+				} else {
+					continue;
+				}
+			}
 
 			path = gtk_tree_row_reference_get_path (to_do_pane->priv->roots[ii]);
 
@@ -1329,6 +1424,16 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 					markup = g_markup_printf_escaped ("<b>%s</b>", _("Today"));
 				} else if (ii == 1) {
 					markup = g_markup_printf_escaped ("<b>%s</b>", _("Tomorrow"));
+				} else if (ii == N_ROOTS - 1) {
+					if (!to_do_pane->priv->show_no_duedate_tasks) {
+						gtk_tree_store_remove (to_do_pane->priv->tree_store, &iter);
+						gtk_tree_row_reference_free (to_do_pane->priv->roots[ii]);
+						to_do_pane->priv->roots[ii] = NULL;
+						gtk_tree_path_free (path);
+						break;
+					}
+
+					markup = g_markup_printf_escaped ("<b>%s</b>", _("Tasks without Due date"));
 				} else {
 					gchar *date;
 
@@ -1875,6 +1980,17 @@ etdp_delete_series_cb (GtkMenuItem *item,
 }
 
 static void
+etdp_show_tasks_without_due_date_cb (GtkCheckMenuItem *check_menu_item,
+				     gpointer user_data)
+{
+	EToDoPane *to_do_pane = user_data;
+
+	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
+
+	e_to_do_pane_set_show_no_duedate_tasks (to_do_pane, !e_to_do_pane_get_show_no_duedate_tasks (to_do_pane));
+}
+
+static void
 etdp_fill_popup_menu (EToDoPane *to_do_pane,
 		      GtkMenu *menu)
 {
@@ -1969,6 +2085,17 @@ etdp_fill_popup_menu (EToDoPane *to_do_pane,
 
 	g_clear_object (&client);
 	g_clear_object (&comp);
+
+	item = gtk_separator_menu_item_new ();
+	gtk_widget_show (item);
+	gtk_menu_shell_append (menu_shell, item);
+
+	item = gtk_check_menu_item_new_with_mnemonic (_("_Show Tasks without Due date"));
+	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), to_do_pane->priv->show_no_duedate_tasks);
+	g_signal_connect (item, "toggled",
+		G_CALLBACK (etdp_show_tasks_without_due_date_cb), to_do_pane);
+	gtk_widget_show (item);
+	gtk_menu_shell_append (menu_shell, item);
 }
 
 static gboolean
@@ -2125,6 +2252,12 @@ e_to_do_pane_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SHOW_NO_DUEDATE_TASKS:
+			e_to_do_pane_set_show_no_duedate_tasks (
+				E_TO_DO_PANE (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_USE_24HOUR_FORMAT:
 			e_to_do_pane_set_use_24hour_format (
 				E_TO_DO_PANE (object),
@@ -2167,6 +2300,13 @@ e_to_do_pane_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_to_do_pane_get_show_completed_tasks (
+				E_TO_DO_PANE (object)));
+			return;
+
+		case PROP_SHOW_NO_DUEDATE_TASKS:
+			g_value_set_boolean (
+				value,
+				e_to_do_pane_get_show_no_duedate_tasks (
 				E_TO_DO_PANE (object)));
 			return;
 
@@ -2301,7 +2441,7 @@ e_to_do_pane_constructed (GObject *object)
 	gtk_tree_view_append_column (tree_view, column);
 	gtk_tree_view_set_expander_column (tree_view, column);
 
-	for (ii = 0; ii < N_ROOTS; ii++) {
+	for (ii = 0; ii < N_ROOTS - 1; ii++) {
 		GtkTreePath *path;
 		gchar *sort_key;
 
@@ -2538,6 +2678,18 @@ e_to_do_pane_class_init (EToDoPaneClass *klass)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SHOW_NO_DUEDATE_TASKS,
+		g_param_spec_boolean (
+			"show-no-duedate-tasks",
+			"Show tasks without Due date",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_USE_24HOUR_FORMAT,
 		g_param_spec_boolean (
 			"use-24hour-format",
@@ -2728,6 +2880,47 @@ e_to_do_pane_set_show_completed_tasks (EToDoPane *to_do_pane,
 	etdp_update_queries (to_do_pane);
 
 	g_object_notify (G_OBJECT (to_do_pane), "show-completed-tasks");
+}
+
+/**
+ * e_to_do_pane_get_show_no_duedate_tasks:
+ * @to_do_pane: an #EToDoPane
+ *
+ * Returns: Whether tasks without Due date should be shown in the view.
+ *
+ * Since: 3.28
+ **/
+gboolean
+e_to_do_pane_get_show_no_duedate_tasks (EToDoPane *to_do_pane)
+{
+	g_return_val_if_fail (E_IS_TO_DO_PANE (to_do_pane), FALSE);
+
+	return to_do_pane->priv->show_no_duedate_tasks;
+}
+
+/**
+ * e_to_do_pane_set_show_no_duedate_tasks:
+ * @to_do_pane: an #EToDoPane
+ * @show_no_duedate_tasks: a value to set
+ *
+ * Sets whether tasks without Due date should be shown in the view.
+ *
+ * Since: 3.28
+ **/
+void
+e_to_do_pane_set_show_no_duedate_tasks (EToDoPane *to_do_pane,
+					gboolean show_no_duedate_tasks)
+{
+	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
+
+	if ((to_do_pane->priv->show_no_duedate_tasks ? 1 : 0) == (show_no_duedate_tasks ? 1 : 0))
+		return;
+
+	to_do_pane->priv->show_no_duedate_tasks = show_no_duedate_tasks;
+
+	etdp_update_queries (to_do_pane);
+
+	g_object_notify (G_OBJECT (to_do_pane), "show-no-duedate-tasks");
 }
 
 /**

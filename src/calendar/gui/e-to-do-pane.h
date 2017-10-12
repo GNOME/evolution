@@ -76,6 +76,11 @@ gboolean	e_to_do_pane_get_show_completed_tasks
 void		e_to_do_pane_set_show_completed_tasks
 						(EToDoPane *to_do_pane,
 						 gboolean show_completed_tasks);
+gboolean	e_to_do_pane_get_show_no_duedate_tasks
+						(EToDoPane *to_do_pane);
+void		e_to_do_pane_set_show_no_duedate_tasks
+						(EToDoPane *to_do_pane,
+						 gboolean show_no_duedate_tasks);
 gboolean	e_to_do_pane_get_use_24hour_format
 						(EToDoPane *to_do_pane);
 void		e_to_do_pane_set_use_24hour_format

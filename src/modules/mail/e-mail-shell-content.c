@@ -300,6 +300,11 @@ mail_shell_content_constructed (GObject *object)
 		priv->to_do_pane, "show-completed-tasks",
 		G_SETTINGS_BIND_DEFAULT);
 
+	g_settings_bind (
+		settings, "to-do-bar-show-no-duedate-tasks",
+		priv->to_do_pane, "show-no-duedate-tasks",
+		G_SETTINGS_BIND_DEFAULT);
+
 	g_object_unref (settings);
 
 	window = e_mail_reader_get_window (E_MAIL_READER (object));

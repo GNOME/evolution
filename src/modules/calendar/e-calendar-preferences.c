@@ -715,6 +715,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	ECalConfigTargetPrefs *target;
 	GSettings *settings;
 	GSettings *eds_settings;
+	GSettings *mail_settings;
 	gboolean locale_supports_12_hour_format;
 	gint i;
 	GtkWidget *toplevel;
@@ -723,6 +724,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	GSList *l;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+	mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	locale_supports_12_hour_format =
 		calendar_config_locale_supports_12_hour_format ();
@@ -1059,6 +1061,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "to_do_bar_show_no_duedate_tasks");
+	g_settings_bind (
+		mail_settings, "to-do-bar-show-no-duedate-tasks",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	/* Alarms tab */
 	widget = e_builder_get_widget (prefs->priv->builder, "notify_with_tray");
 	g_settings_bind (
@@ -1117,6 +1125,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	/* FIXME: weakref? */
 	setup_changes (prefs);
 
+	g_object_unref (mail_settings);
 	g_object_unref (settings);
 }
 
