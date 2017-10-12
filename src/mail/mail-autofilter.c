@@ -448,6 +448,46 @@ mail_filter_rename_folder (CamelStore *store,
 	g_object_unref (session);
 }
 
+static void
+mail_autofilter_open_filters_clicked_cb (GtkWidget *button,
+					 gpointer user_data)
+{
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	EShellView *shell_view = NULL;
+	EMailSession *session;
+	EShell *shell;
+	GList *windows, *link;
+
+	shell = e_shell_get_default ();
+
+	windows = gtk_application_get_windows (GTK_APPLICATION (shell));
+
+	for (link = windows; link && !shell_view; link = g_list_next (link)) {
+		GtkWindow *window = link->data;
+
+		if (E_IS_SHELL_WINDOW (window)) {
+			shell_window = E_SHELL_WINDOW (window);
+			shell_view = e_shell_window_peek_shell_view (shell_window, "mail");
+		}
+	}
+
+	if (!shell_view)
+		return;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+	em_utils_edit_filters (
+		session,
+		E_ALERT_SINK (shell_content),
+		GTK_WINDOW (shell_window));
+}
+
 void
 mail_filter_delete_folder (CamelStore *store,
                            const gchar *folder_name,
@@ -478,6 +518,8 @@ mail_filter_delete_folder (CamelStore *store,
 	deleted = e_rule_context_delete_uri (
 		(ERuleContext *) fc, uri, g_str_equal);
 	if (deleted) {
+		EAlert *alert;
+		GtkWidget *button;
 		GString *s;
 		guint s_count;
 		gchar *info;
@@ -511,8 +553,18 @@ mail_filter_delete_folder (CamelStore *store,
 			"The following filter rules\n%s have been modified "
 			"to account for the deleted folder\n“%s”.",
 			s_count), s->str, folder_name);
-		e_alert_submit (
-			alert_sink, "mail:filter-updated", info, NULL);
+
+		alert = e_alert_new ("mail:filter-updated", info, NULL);
+
+		button = gtk_button_new_with_mnemonic (_("Open Message Filters"));
+		gtk_widget_show (button);
+		g_signal_connect (button, "clicked",
+			G_CALLBACK (mail_autofilter_open_filters_clicked_cb), NULL);
+
+		e_alert_add_widget (alert, button);
+
+		e_alert_sink_submit_alert (alert_sink, alert);
+		g_object_unref (alert);
 		g_string_free (s, TRUE);
 		g_free (info);
 
