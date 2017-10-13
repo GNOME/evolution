@@ -34,6 +34,7 @@
 
 #include <glib/gi18n.h>
 
+#include "e-util/e-util.h"
 #include "e-mail-session.h"
 #include "mail-folder-cache.h"
 #include "mail-tools.h"
@@ -155,6 +156,8 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	gchar *subject = NULL;
 	gchar *fwd_subj;
 	const gint max_subject_length = 1024;
+	const gchar *format;
+	GSettings *settings;
 
 	orig_subject = camel_mime_message_get_subject (msg);
 
@@ -189,8 +192,17 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 			subject = camel_address_format (CAMEL_ADDRESS (from));
 	}
 
-	/* Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message. */
-	fwd_subj = g_strdup_printf (_("[Fwd: %s]"),
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (settings, "composer-use-localized-fwd-re")) {
+		/* Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message. */
+		format = _("[Fwd: %s]");
+	} else {
+		/* Do not localize this string */
+		format = "[Fwd: %s]";
+	}
+	g_clear_object (&settings);
+
+	fwd_subj = g_strdup_printf (format,
 		/* Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
 	           It results in "[Fwd: No Subject]" being used as a subject of the forwarded message. */
 		(subject && *subject) ? subject : _("No Subject"));

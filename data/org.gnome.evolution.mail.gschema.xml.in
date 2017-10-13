@@ -190,6 +190,11 @@
       <_summary>List of localized “Re” separators</_summary>
       <_description>A list of localized “Re” separators, used to skip in a subject text when replying to a message, as an addition to the standard “:” and the Unicode “︰” separators.</_description>
     </key>
+    <key name="composer-use-localized-fwd-re" type="b">
+      <default>false</default>
+      <_summary>Use localized “Fwd”/“Re” in message Subject</_summary>
+      <_description>When set to true, uses localized “Fwd”/“Re” in message Subject on reply and forward as provided by current locale translation, otherwise uses unlocalized version.</_description>
+    </key>
     <key name="composer-word-wrap-length" type="i">
       <default>71</default>
       <_summary>Number of characters for wrapping</_summary>

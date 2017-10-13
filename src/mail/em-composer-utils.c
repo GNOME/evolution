@@ -2553,13 +2553,21 @@ reply_setup_composer (EMsgComposer *composer,
 
 	/* Set the subject of the new message. */
 	if ((subject = (gchar *) camel_mime_message_get_subject (message))) {
+		GSettings *settings;
 		gboolean skip_len = -1;
 
 		if (em_utils_is_re_in_subject (subject, &skip_len, NULL, NULL) && skip_len > 0)
 			subject = subject + skip_len;
 
-		/* Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator. */
-		subject = g_strdup_printf (C_("reply-attribution", "Re: %s"), subject);
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		if (g_settings_get_boolean (settings, "composer-use-localized-fwd-re")) {
+			/* Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator. */
+			subject = g_strdup_printf (C_("reply-attribution", "Re: %s"), subject);
+		} else {
+			/* Do not localize this string */
+			subject = g_strdup_printf ("Re: %s", subject);
+		}
+		g_clear_object (&settings);
 	} else {
 		subject = g_strdup ("");
 	}
