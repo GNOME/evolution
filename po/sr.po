@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-28 02:40+0000\n"
+"POT-Creation-Date: 2017-10-02 17:32+0000\n"
 "PO-Revision-Date: 2017-08-20 16:53+0200\n"
 "Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
@@ -239,8 +239,7 @@ msgid ""
 "The UID of the selected (or “primary”) address book in the sidebar of the "
 "“Contacts” view"
 msgstr ""
-"ЈИБ изабраног (или „примарног“) именика у бочној површи у прегледу "
-"„Контакти“"
+"ЈИБ изабраног (или „примарног“) именика у бочној површи у прегледу „Контакти“"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:19
 msgid "Show preview pane"
@@ -3328,8 +3327,8 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Покушавате да преместите контакт из једног именика у други али се он не "
-"може уклонити из извора. Желите ли да сачувате копију уместо тога?"
+"Покушавате да преместите контакт из једног именика у други али се он не може "
+"уклонити из извора. Желите ли да сачувате копију уместо тога?"
 
 #: ../src/addressbook/addressbook.error.xml.h:26
 msgid ""
@@ -3828,7 +3827,7 @@ msgstr "Посао"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:525
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
-#: ../src/calendar/gui/e-cal-model.c:3798
+#: ../src/calendar/gui/e-cal-model.c:3805
 msgid "Other"
 msgstr "Друго"
 
@@ -4509,9 +4508,9 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the address book once in online mode to download its contents."
 msgstr ""
-"Не могу да отворим овај именик. То значи да он или није означен за "
-"коришћење ван мреже или да још није преузет за рад ван мреже. Учитајте "
-"именик када се повежете ради преузимања његовог садржаја."
+"Не могу да отворим овај именик. То значи да он или није означен за коришћење "
+"ван мреже или да још није преузет за рад ван мреже. Учитајте именик када се "
+"повежете ради преузимања његовог садржаја."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:138
 #, c-format
@@ -4905,7 +4904,7 @@ msgstr "У_већај"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
-#: ../src/mail/e-mail-reader.c:2415
+#: ../src/mail/e-mail-reader.c:2465
 msgid "Zoom _Out"
 msgstr "У_мањи"
 
@@ -5187,7 +5186,7 @@ msgid "Start time"
 msgstr "Време почетка"
 
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:1
-#: ../src/calendar/alarm-notify/alarm-queue.c:1988
+#: ../src/calendar/alarm-notify/alarm-queue.c:1991
 msgid "Appointments"
 msgstr "Заказивања"
 
@@ -5228,8 +5227,8 @@ msgid "_Dismiss"
 msgstr "_Занемари"
 
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:7
-#: ../src/calendar/alarm-notify/alarm-queue.c:1955
-#: ../src/calendar/alarm-notify/alarm-queue.c:1965
+#: ../src/calendar/alarm-notify/alarm-queue.c:1958
+#: ../src/calendar/alarm-notify/alarm-queue.c:1968
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249
 #: ../src/modules/itip-formatter/itip-view.c:1678
 #: ../src/modules/itip-formatter/itip-view.c:1789
@@ -5264,28 +5263,28 @@ msgstr "сати"
 msgid "minutes"
 msgstr "минута"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1756
-#: ../src/calendar/alarm-notify/alarm-queue.c:1936
+#: ../src/calendar/alarm-notify/alarm-queue.c:1759
+#: ../src/calendar/alarm-notify/alarm-queue.c:1939
 msgid "No summary available."
 msgstr "Нема доступног сажетка."
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1765
-#: ../src/calendar/alarm-notify/alarm-queue.c:1767
+#: ../src/calendar/alarm-notify/alarm-queue.c:1768
+#: ../src/calendar/alarm-notify/alarm-queue.c:1770
 msgid "No description available."
 msgstr "Нема доступног описа."
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1775
+#: ../src/calendar/alarm-notify/alarm-queue.c:1778
 msgid "No location information available."
 msgstr "Нема доступног податка о локацији."
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:1780
-#: ../src/calendar/alarm-notify/alarm-queue.c:1927
-#: ../src/calendar/alarm-notify/alarm-queue.c:2278
+#: ../src/calendar/alarm-notify/alarm-queue.c:1783
+#: ../src/calendar/alarm-notify/alarm-queue.c:1930
+#: ../src/calendar/alarm-notify/alarm-queue.c:2281
 msgid "Evolution Reminders"
 msgstr "Подсетници Еволуције"
 
 # bug(slobo): plural-forms. Report this one to bugzilla.gnome.org
-#: ../src/calendar/alarm-notify/alarm-queue.c:1823
+#: ../src/calendar/alarm-notify/alarm-queue.c:1826
 #, c-format
 msgid "You have %d reminder"
 msgid_plural "You have %d reminders"
@@ -5294,20 +5293,20 @@ msgstr[1] "Имате %d потсетника"
 msgstr[2] "Имате %d потсетника"
 msgstr[3] "Имате један потсетник"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2096
+#: ../src/calendar/alarm-notify/alarm-queue.c:2099
 msgid "Warning"
 msgstr "Упозорење"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2097
+#: ../src/calendar/alarm-notify/alarm-queue.c:2100
 #: ../src/mail/mail-dialogs.ui.h:20
 msgid "_No"
 msgstr "_Не"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2098
+#: ../src/calendar/alarm-notify/alarm-queue.c:2101
 msgid "_Yes"
 msgstr "_Да"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2102
+#: ../src/calendar/alarm-notify/alarm-queue.c:2105
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -5324,7 +5323,7 @@ msgstr ""
 "\n"
 "Да ли сте сигурни да желите да покренете овај програм?"
 
-#: ../src/calendar/alarm-notify/alarm-queue.c:2117
+#: ../src/calendar/alarm-notify/alarm-queue.c:2120
 msgid "Do not ask me about this program again."
 msgstr "Не питај ме поново за овај програм."
 
@@ -6527,7 +6526,7 @@ msgstr "Важност:"
 #: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:548
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:322
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:323
 msgid "High"
 msgstr "Висок"
 
@@ -6535,14 +6534,14 @@ msgstr "Висок"
 #: ../src/calendar/gui/e-cal-model.c:1890
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:321
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:322
 msgid "Normal"
 msgstr "Обичан"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:320
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:321
 msgid "Low"
 msgstr "Низак"
 
@@ -6922,7 +6921,7 @@ msgstr "Да"
 msgid "No"
 msgstr "Не"
 
-#: ../src/calendar/gui/e-cal-model.c:3793
+#: ../src/calendar/gui/e-cal-model.c:3800
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
@@ -6930,7 +6929,7 @@ msgstr "Не"
 msgid "Accepted"
 msgstr "Прихваћено"
 
-#: ../src/calendar/gui/e-cal-model.c:3794
+#: ../src/calendar/gui/e-cal-model.c:3801
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
@@ -6938,7 +6937,7 @@ msgstr "Прихваћено"
 msgid "Declined"
 msgstr "Одбијено"
 
-#: ../src/calendar/gui/e-cal-model.c:3795
+#: ../src/calendar/gui/e-cal-model.c:3802
 #: ../src/calendar/gui/e-meeting-list-view.c:221
 #: ../src/calendar/gui/e-meeting-store.c:198
 #: ../src/calendar/gui/e-meeting-store.c:221
@@ -6946,7 +6945,7 @@ msgstr "Одбијено"
 msgid "Tentative"
 msgstr "Са резервом"
 
-#: ../src/calendar/gui/e-cal-model.c:3796
+#: ../src/calendar/gui/e-cal-model.c:3803
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
@@ -6954,13 +6953,13 @@ msgstr "Са резервом"
 msgid "Delegated"
 msgstr "Делегирано"
 
-#: ../src/calendar/gui/e-cal-model.c:3797
+#: ../src/calendar/gui/e-cal-model.c:3804
 msgid "Needs action"
 msgstr "Захтева радњу"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/e-cal-model.c:3852
+#: ../src/calendar/gui/e-cal-model.c:3859
 #: ../src/calendar/gui/e-meeting-list-view.c:687
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-task-table.etspec.h:11
@@ -8302,13 +8301,13 @@ msgid "Paste the clipboard"
 msgstr "Убаците из списка исечака"
 
 #: ../src/calendar/gui/e-comp-editor.c:2026
-#: ../src/composer/e-composer-actions.c:381 ../src/mail/e-mail-reader.c:2317
+#: ../src/composer/e-composer-actions.c:381 ../src/mail/e-mail-reader.c:2367
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1235
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1249
 msgid "_Print..."
 msgstr "_Штампај..."
 
-#: ../src/calendar/gui/e-comp-editor.c:2033 ../src/mail/e-mail-reader.c:2324
+#: ../src/calendar/gui/e-comp-editor.c:2033 ../src/mail/e-mail-reader.c:2374
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1242
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
@@ -8861,32 +8860,32 @@ msgstr "За уради_ти"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../src/calendar/gui/itip-utils.c:793 ../src/calendar/gui/itip-utils.c:855
-#: ../src/calendar/gui/itip-utils.c:989
+#: ../src/calendar/gui/itip-utils.c:796 ../src/calendar/gui/itip-utils.c:858
+#: ../src/calendar/gui/itip-utils.c:992
 msgid "An organizer must be set."
 msgstr "Организатор мора бити одређен."
 
-#: ../src/calendar/gui/itip-utils.c:846
+#: ../src/calendar/gui/itip-utils.c:849
 msgid "At least one attendee is necessary"
 msgstr "Најмање један учесник је неопходан"
 
-#: ../src/calendar/gui/itip-utils.c:1077 ../src/calendar/gui/itip-utils.c:1238
+#: ../src/calendar/gui/itip-utils.c:1080 ../src/calendar/gui/itip-utils.c:1241
 msgid "Event information"
 msgstr "Подаци о догађају"
 
-#: ../src/calendar/gui/itip-utils.c:1080 ../src/calendar/gui/itip-utils.c:1241
+#: ../src/calendar/gui/itip-utils.c:1083 ../src/calendar/gui/itip-utils.c:1244
 msgid "Task information"
 msgstr "Подаци о задатку"
 
-#: ../src/calendar/gui/itip-utils.c:1083 ../src/calendar/gui/itip-utils.c:1244
+#: ../src/calendar/gui/itip-utils.c:1086 ../src/calendar/gui/itip-utils.c:1247
 msgid "Memo information"
 msgstr "Подаци о белешци"
 
-#: ../src/calendar/gui/itip-utils.c:1086 ../src/calendar/gui/itip-utils.c:1262
+#: ../src/calendar/gui/itip-utils.c:1089 ../src/calendar/gui/itip-utils.c:1265
 msgid "Free/Busy information"
 msgstr "Подаци слободно/заузето"
 
-#: ../src/calendar/gui/itip-utils.c:1089
+#: ../src/calendar/gui/itip-utils.c:1092
 msgid "Calendar information"
 msgstr "Подаци о календару"
 
@@ -8894,7 +8893,7 @@ msgstr "Подаци о календару"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1126
+#: ../src/calendar/gui/itip-utils.c:1129
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "Прихваћено"
@@ -8903,7 +8902,7 @@ msgstr "Прихваћено"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1133
+#: ../src/calendar/gui/itip-utils.c:1136
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "Прихваћено с резервом"
@@ -8915,7 +8914,7 @@ msgstr "Прихваћено с резервом"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1140 ../src/calendar/gui/itip-utils.c:1188
+#: ../src/calendar/gui/itip-utils.c:1143 ../src/calendar/gui/itip-utils.c:1191
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "Одбијено"
@@ -8924,7 +8923,7 @@ msgstr "Одбијено"
 #. * line of a meeting request or update email.
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1147
+#: ../src/calendar/gui/itip-utils.c:1150
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "Делегирано"
@@ -8932,7 +8931,7 @@ msgstr "Делегирано"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1160
+#: ../src/calendar/gui/itip-utils.c:1163
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "Освежено"
@@ -8940,7 +8939,7 @@ msgstr "Освежено"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1167
+#: ../src/calendar/gui/itip-utils.c:1170
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "Откажи"
@@ -8948,7 +8947,7 @@ msgstr "Откажи"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1174
+#: ../src/calendar/gui/itip-utils.c:1177
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Освежи"
@@ -8956,42 +8955,42 @@ msgstr "Освежи"
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
 #. * line would be: "Counter-proposal: Meeting Name".
-#: ../src/calendar/gui/itip-utils.c:1181
+#: ../src/calendar/gui/itip-utils.c:1184
 msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Против-предлог"
 
-#: ../src/calendar/gui/itip-utils.c:1259
+#: ../src/calendar/gui/itip-utils.c:1262
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Подаци слободно/заузето (%s до %s)"
 
-#: ../src/calendar/gui/itip-utils.c:1267
+#: ../src/calendar/gui/itip-utils.c:1270
 msgid "iCalendar information"
 msgstr "Подаци иКалендара"
 
-#: ../src/calendar/gui/itip-utils.c:1296
+#: ../src/calendar/gui/itip-utils.c:1299
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
 msgstr "Не могу да сачувам унос, нови догађај се сукобљава са неким другим."
 
-#: ../src/calendar/gui/itip-utils.c:1301
+#: ../src/calendar/gui/itip-utils.c:1304
 msgid "Unable to book a resource, error: "
 msgstr "Не могу да сачувам унос, грешка: "
 
-#: ../src/calendar/gui/itip-utils.c:1472
+#: ../src/calendar/gui/itip-utils.c:1475
 msgid "You must be an attendee of the event."
 msgstr "Морате бити учесник догађаја."
 
-#: ../src/calendar/gui/itip-utils.c:2153
+#: ../src/calendar/gui/itip-utils.c:2220
 msgid "Sending an event"
 msgstr "Шаљем догађај"
 
-#: ../src/calendar/gui/itip-utils.c:2157
+#: ../src/calendar/gui/itip-utils.c:2224
 msgid "Sending a memo"
 msgstr "Шаљем белешку"
 
-#: ../src/calendar/gui/itip-utils.c:2161
+#: ../src/calendar/gui/itip-utils.c:2228
 msgid "Sending a task"
 msgstr "Шаљем задатак"
 
@@ -11565,11 +11564,11 @@ msgstr "(без наслова)"
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Поруку шаље „%s“ на име „%s“"
 
-#: ../src/em-format/e-mail-formatter-image.c:168
+#: ../src/em-format/e-mail-formatter-image.c:178
 msgid "Regular Image"
 msgstr "Обична слика"
 
-#: ../src/em-format/e-mail-formatter-image.c:169
+#: ../src/em-format/e-mail-formatter-image.c:179
 msgid "Display part as an image"
 msgstr "Приказује делове као слику"
 
@@ -12274,7 +12273,7 @@ msgid "Month Calendar"
 msgstr "Месечни календар"
 
 #. This is a strftime() format. %B = Month name.
-#: ../src/e-util/e-calendar-item.c:1338 ../src/e-util/e-calendar-item.c:2218
+#: ../src/e-util/e-calendar-item.c:1338 ../src/e-util/e-calendar-item.c:2221
 msgctxt "CalItem"
 msgid "%B"
 msgstr "%B"
@@ -12384,7 +12383,7 @@ msgid "popup list"
 msgstr "искачућа листа"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2066
+#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2067
 msgid "?"
 msgstr "?"
 
@@ -12679,7 +12678,7 @@ msgstr "бела"
 #: ../src/e-util/e-color-combo.c:642 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:404
 #: ../src/mail/e-mail-config-security-page.c:568
-#: ../src/mail/e-mail-reader.c:4043 ../src/mail/mail-config.ui.h:76
+#: ../src/mail/e-mail-reader.c:4093 ../src/mail/mail-config.ui.h:76
 msgid "Default"
 msgstr "Основно"
 
@@ -14476,15 +14475,15 @@ msgstr "_Запамти ову лозинку до краја ове сесиј�
 msgid "Evolution Preferences"
 msgstr "Подешавања Еволуције"
 
-#: ../src/e-util/e-print.c:158
+#: ../src/e-util/e-print.c:164
 msgid "An error occurred while printing"
 msgstr "Дошло је до грешке за време штампања"
 
-#: ../src/e-util/e-print.c:165
+#: ../src/e-util/e-print.c:171
 msgid "The printing system reported the following details about the error:"
 msgstr "Систем за штампање је известио следеће детаље о грешци:"
 
-#: ../src/e-util/e-print.c:171
+#: ../src/e-util/e-print.c:177
 msgid ""
 "The printing system did not report any additional details about the error."
 msgstr "Систем за штампање није понудио никакве додатне детаље о грешци."
@@ -15837,8 +15836,8 @@ msgstr "Неисправна путања фасцикле „%s“"
 #: ../src/mail/em-folder-properties.c:1150
 #: ../src/mail/em-folder-tree-model.c:1237
 #: ../src/mail/importers/kmail-libs.c:139
-#: ../src/modules/mail/e-mail-shell-view-private.c:1026
 #: ../src/modules/mail/e-mail-shell-view-private.c:1037
+#: ../src/modules/mail/e-mail-shell-view-private.c:1048
 msgid "Inbox"
 msgstr "Сандуче"
 
@@ -15846,7 +15845,7 @@ msgstr "Сандуче"
 #: ../src/libemail-engine/e-mail-session.c:126
 #: ../src/mail/em-folder-tree-model.c:1230
 #: ../src/mail/importers/kmail-libs.c:145
-#: ../src/modules/mail/e-mail-shell-view-private.c:1024
+#: ../src/modules/mail/e-mail-shell-view-private.c:1035
 msgid "Drafts"
 msgstr "Нацрти"
 
@@ -15854,7 +15853,7 @@ msgstr "Нацрти"
 #: ../src/libemail-engine/e-mail-session.c:127
 #: ../src/mail/em-folder-tree-model.c:1241
 #: ../src/mail/importers/kmail-libs.c:141
-#: ../src/modules/mail/e-mail-shell-view-private.c:1028
+#: ../src/modules/mail/e-mail-shell-view-private.c:1039
 msgid "Outbox"
 msgstr "За слање"
 
@@ -15862,7 +15861,7 @@ msgstr "За слање"
 #: ../src/libemail-engine/e-mail-session.c:128
 #: ../src/mail/em-folder-tree-model.c:1245
 #: ../src/mail/importers/kmail-libs.c:143
-#: ../src/modules/mail/e-mail-shell-view-private.c:1030
+#: ../src/modules/mail/e-mail-shell-view-private.c:1041
 msgid "Sent"
 msgstr "Послато"
 
@@ -15870,7 +15869,7 @@ msgstr "Послато"
 #: ../src/libemail-engine/e-mail-session.c:129
 #: ../src/mail/em-folder-tree-model.c:1233
 #: ../src/mail/importers/kmail-libs.c:147
-#: ../src/modules/mail/e-mail-shell-view-private.c:1032
+#: ../src/modules/mail/e-mail-shell-view-private.c:1043
 #: ../src/plugins/templates/e-templates-store.c:2212
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
@@ -16067,7 +16066,7 @@ msgstr "Покушавам да преместим пошту из не-мбок
 #: ../src/libemail-engine/mail-tools.c:193
 #, c-format
 msgid "[Fwd: %s]"
-msgstr "[Прослеђено: %s]"
+msgstr "[Про: %s]"
 
 #. Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
 #. It results in "[Fwd: No Subject]" being used as a subject of the forwarded message.
@@ -16948,620 +16947,620 @@ msgstr "Пре_мести"
 msgid "C_opy"
 msgstr "_Копирај"
 
-#: ../src/mail/e-mail-reader.c:479
+#: ../src/mail/e-mail-reader.c:528
 msgid "Deleting message note..."
 msgstr "Бришем напомену поруке..."
 
-#: ../src/mail/e-mail-reader.c:1301 ../src/mail/e-mail-reader.c:1513
-#: ../src/mail/e-mail-reader.c:1553
+#: ../src/mail/e-mail-reader.c:1351 ../src/mail/e-mail-reader.c:1563
+#: ../src/mail/e-mail-reader.c:1603
 msgid "_Do not ask me again."
 msgstr "_Не питај ме поново."
 
-#: ../src/mail/e-mail-reader.c:1559
+#: ../src/mail/e-mail-reader.c:1609
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "_Увек занемари „Одговор-за:“ за дописне листе."
 
-#: ../src/mail/e-mail-reader.c:1762
+#: ../src/mail/e-mail-reader.c:1812
 msgid "Failed to retrieve message:"
 msgstr "Не могу да довучем поруку:"
 
-#: ../src/mail/e-mail-reader.c:1807 ../src/mail/e-mail-reader.c:3166
+#: ../src/mail/e-mail-reader.c:1857 ../src/mail/e-mail-reader.c:3216
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Преузимам поруку „%s“"
 
-#: ../src/mail/e-mail-reader.c:1995
+#: ../src/mail/e-mail-reader.c:2045
 msgid "A_dd Sender to Address Book"
 msgstr "До_дај пошиљаоца у именик"
 
-#: ../src/mail/e-mail-reader.c:1997
+#: ../src/mail/e-mail-reader.c:2047
 msgid "Add sender to address book"
 msgstr "Додај пошиљаоца у именик"
 
-#: ../src/mail/e-mail-reader.c:2002
+#: ../src/mail/e-mail-reader.c:2052
 msgid "_Archive..."
 msgstr "_Архива..."
 
-#: ../src/mail/e-mail-reader.c:2004
+#: ../src/mail/e-mail-reader.c:2054
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "Премешта изабране поруке у фасциклу за архивирање поруке у овом налогу"
 
-#: ../src/mail/e-mail-reader.c:2009
+#: ../src/mail/e-mail-reader.c:2059
 msgid "Check for _Junk"
 msgstr "Провери да ли има _ђубрета"
 
-#: ../src/mail/e-mail-reader.c:2011
+#: ../src/mail/e-mail-reader.c:2061
 msgid "Filter the selected messages for junk status"
 msgstr "Филтрира да ли међу изабраним порукама има ђубрета"
 
-#: ../src/mail/e-mail-reader.c:2016
+#: ../src/mail/e-mail-reader.c:2066
 msgid "_Copy to Folder..."
 msgstr "_Копирај у фасциклу..."
 
-#: ../src/mail/e-mail-reader.c:2018
+#: ../src/mail/e-mail-reader.c:2068
 msgid "Copy selected messages to another folder"
 msgstr "Копира изабране поруке у другу фасциклу"
 
-#: ../src/mail/e-mail-reader.c:2023
+#: ../src/mail/e-mail-reader.c:2073
 msgid "_Delete Message"
 msgstr "_Обриши поруку"
 
-#: ../src/mail/e-mail-reader.c:2025
+#: ../src/mail/e-mail-reader.c:2075
 msgid "Mark the selected messages for deletion"
 msgstr "Означите изабрану(е) поруку(е) за брисање"
 
-#: ../src/mail/e-mail-reader.c:2030
+#: ../src/mail/e-mail-reader.c:2080
 msgid "_Add note..."
 msgstr "_Додај белешку..."
 
-#: ../src/mail/e-mail-reader.c:2032
+#: ../src/mail/e-mail-reader.c:2082
 msgid "Add a note for the selected message"
 msgstr "Додајте белешку за изабрану поруку"
 
-#: ../src/mail/e-mail-reader.c:2037
+#: ../src/mail/e-mail-reader.c:2087
 msgid "Delete no_te"
 msgstr "Обриши _белешку"
 
-#: ../src/mail/e-mail-reader.c:2039
+#: ../src/mail/e-mail-reader.c:2089
 msgid "Delete the note for the selected message"
 msgstr "Обришите белешку за изабрану поруку"
 
-#: ../src/mail/e-mail-reader.c:2044
+#: ../src/mail/e-mail-reader.c:2094
 msgid "_Edit note..."
 msgstr "_Уреди белешку..."
 
-#: ../src/mail/e-mail-reader.c:2046
+#: ../src/mail/e-mail-reader.c:2096
 msgid "Edit a note for the selected message"
 msgstr "Уредите белешку за изабрану поруку"
 
-#: ../src/mail/e-mail-reader.c:2051
+#: ../src/mail/e-mail-reader.c:2101
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr "Направи правило пропусника за дописну _листу..."
 
-#: ../src/mail/e-mail-reader.c:2053
+#: ../src/mail/e-mail-reader.c:2103
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Наравите правило за пропуштање порука на ову дописну листу"
 
-#: ../src/mail/e-mail-reader.c:2058
+#: ../src/mail/e-mail-reader.c:2108
 msgid "Create a Filter Rule for _Recipients..."
 msgstr "Направи правило пропусника за _примаоце..."
 
-#: ../src/mail/e-mail-reader.c:2060
+#: ../src/mail/e-mail-reader.c:2110
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Направите правило за пропуштање порука овим примаоцима"
 
-#: ../src/mail/e-mail-reader.c:2065
+#: ../src/mail/e-mail-reader.c:2115
 msgid "Create a Filter Rule for Se_nder..."
 msgstr "Направи правило пропусника за _пошиљаоца..."
 
-#: ../src/mail/e-mail-reader.c:2067
+#: ../src/mail/e-mail-reader.c:2117
 msgid "Create a rule to filter messages from this sender"
 msgstr "Направите правило за пропуштање порука са овог пошиљаоца"
 
-#: ../src/mail/e-mail-reader.c:2072
+#: ../src/mail/e-mail-reader.c:2122
 msgid "Create a Filter Rule for _Subject..."
 msgstr "Направи правило пропусника за _наслов..."
 
-#: ../src/mail/e-mail-reader.c:2074
+#: ../src/mail/e-mail-reader.c:2124
 msgid "Create a rule to filter messages with this subject"
 msgstr "Направите правило за прпуштање порука са овим насловом"
 
-#: ../src/mail/e-mail-reader.c:2079
+#: ../src/mail/e-mail-reader.c:2129
 msgid "A_pply Filters"
 msgstr "При_мени пропуснике"
 
-#: ../src/mail/e-mail-reader.c:2081
+#: ../src/mail/e-mail-reader.c:2131
 msgid "Apply filter rules to the selected messages"
 msgstr "Примените правила пропуштања на изабране поруке"
 
-#: ../src/mail/e-mail-reader.c:2086
+#: ../src/mail/e-mail-reader.c:2136
 msgid "_Find in Message..."
 msgstr "П_ронађи у поруци..."
 
-#: ../src/mail/e-mail-reader.c:2088
+#: ../src/mail/e-mail-reader.c:2138
 msgid "Search for text in the body of the displayed message"
 msgstr "Потражите текст у телу приказане поруке"
 
-#: ../src/mail/e-mail-reader.c:2093
+#: ../src/mail/e-mail-reader.c:2143
 msgid "_Clear Flag"
 msgstr "Скло_ни ознаку"
 
-#: ../src/mail/e-mail-reader.c:2095
+#: ../src/mail/e-mail-reader.c:2145
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Уклоните ознаку за праћење са изабраних порука"
 
-#: ../src/mail/e-mail-reader.c:2100
+#: ../src/mail/e-mail-reader.c:2150
 msgid "_Flag Completed"
 msgstr "Означ_и као завршено"
 
-#: ../src/mail/e-mail-reader.c:2102
+#: ../src/mail/e-mail-reader.c:2152
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Поставите ознаку за праћење као завршену на изабраним порукама"
 
-#: ../src/mail/e-mail-reader.c:2107
+#: ../src/mail/e-mail-reader.c:2157
 msgid "Follow _Up..."
 msgstr "Сле_ди..."
 
-#: ../src/mail/e-mail-reader.c:2109
+#: ../src/mail/e-mail-reader.c:2159
 msgid "Flag the selected messages for follow-up"
 msgstr "Означите изабране поруке за праћење"
 
-#: ../src/mail/e-mail-reader.c:2114
+#: ../src/mail/e-mail-reader.c:2164
 #: ../src/modules/mail/e-mail-attachment-handler.c:430
 msgid "_Attached"
 msgstr "При_ложено"
 
-#: ../src/mail/e-mail-reader.c:2116 ../src/mail/e-mail-reader.c:2123
+#: ../src/mail/e-mail-reader.c:2166 ../src/mail/e-mail-reader.c:2173
 #: ../src/modules/mail/e-mail-attachment-handler.c:432
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Проследите изабрану поруку некоме као прилог"
 
-#: ../src/mail/e-mail-reader.c:2121
+#: ../src/mail/e-mail-reader.c:2171
 msgid "Forward As _Attached"
 msgstr "Проследи као _прилог"
 
-#: ../src/mail/e-mail-reader.c:2128
+#: ../src/mail/e-mail-reader.c:2178
 #: ../src/modules/mail/e-mail-attachment-handler.c:437
 msgid "_Inline"
 msgstr "Унут_ар"
 
-#: ../src/mail/e-mail-reader.c:2130 ../src/mail/e-mail-reader.c:2137
+#: ../src/mail/e-mail-reader.c:2180 ../src/mail/e-mail-reader.c:2187
 #: ../src/modules/mail/e-mail-attachment-handler.c:439
 msgid "Forward the selected message in the body of a new message"
 msgstr "Проследите изабрану поруку у телу нове поруке"
 
-#: ../src/mail/e-mail-reader.c:2135
+#: ../src/mail/e-mail-reader.c:2185
 msgid "Forward As _Inline"
 msgstr "Проследи као _унутар поруке"
 
-#: ../src/mail/e-mail-reader.c:2142
+#: ../src/mail/e-mail-reader.c:2192
 #: ../src/modules/mail/e-mail-attachment-handler.c:444
 msgid "_Quoted"
 msgstr "_Цитирано"
 
-#: ../src/mail/e-mail-reader.c:2144 ../src/mail/e-mail-reader.c:2151
+#: ../src/mail/e-mail-reader.c:2194 ../src/mail/e-mail-reader.c:2201
 #: ../src/modules/mail/e-mail-attachment-handler.c:446
 msgid "Forward the selected message quoted like a reply"
 msgstr "Проследите изабрану поруку цитирану као одговор"
 
-#: ../src/mail/e-mail-reader.c:2149
+#: ../src/mail/e-mail-reader.c:2199
 msgid "Forward As _Quoted"
 msgstr "Проследи као _цитат"
 
-#: ../src/mail/e-mail-reader.c:2156
+#: ../src/mail/e-mail-reader.c:2206
 msgid "_Load Images"
 msgstr "_Учитај слике"
 
-#: ../src/mail/e-mail-reader.c:2158
+#: ../src/mail/e-mail-reader.c:2208
 msgid "Force images in HTML mail to be loaded"
 msgstr "Присилите учитавање слика у ХТМЛ порукама"
 
-#: ../src/mail/e-mail-reader.c:2163 ../src/mail/e-mail-reader.c:2553
+#: ../src/mail/e-mail-reader.c:2213 ../src/mail/e-mail-reader.c:2603
 msgid "_Ignore Subthread"
 msgstr "За_немари подрасправу"
 
-#: ../src/mail/e-mail-reader.c:2165
+#: ../src/mail/e-mail-reader.c:2215
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Аутоматски означава нове е-поруке у овој подрасправи као прочитане"
 
-#: ../src/mail/e-mail-reader.c:2170 ../src/mail/e-mail-reader.c:2557
+#: ../src/mail/e-mail-reader.c:2220 ../src/mail/e-mail-reader.c:2607
 msgid "_Ignore Thread"
 msgstr "_Занемари расправу"
 
-#: ../src/mail/e-mail-reader.c:2172
+#: ../src/mail/e-mail-reader.c:2222
 msgid "Mark new mails in this thread as read automatically"
 msgstr "Аутоматски означава нове е-поруке у овој расправи као прочитане"
 
-#: ../src/mail/e-mail-reader.c:2177
+#: ../src/mail/e-mail-reader.c:2227
 msgid "_Important"
 msgstr "_Важно"
 
-#: ../src/mail/e-mail-reader.c:2179
+#: ../src/mail/e-mail-reader.c:2229
 msgid "Mark the selected messages as important"
 msgstr "Означава изабрану поруку као важну"
 
-#: ../src/mail/e-mail-reader.c:2184
+#: ../src/mail/e-mail-reader.c:2234
 msgid "_Junk"
 msgstr "_Ђубре"
 
-#: ../src/mail/e-mail-reader.c:2186
+#: ../src/mail/e-mail-reader.c:2236
 msgid "Mark the selected messages as junk"
 msgstr "Означава изабрану поруку као нежељену пошту"
 
-#: ../src/mail/e-mail-reader.c:2191
+#: ../src/mail/e-mail-reader.c:2241
 msgid "_Not Junk"
 msgstr "Ни_је ђубре"
 
-#: ../src/mail/e-mail-reader.c:2193
+#: ../src/mail/e-mail-reader.c:2243
 msgid "Mark the selected messages as not being junk"
 msgstr "Означава изабрану поруку као пожељну пошту"
 
-#: ../src/mail/e-mail-reader.c:2198
+#: ../src/mail/e-mail-reader.c:2248
 msgid "_Read"
 msgstr "Про_читано"
 
-#: ../src/mail/e-mail-reader.c:2200
+#: ../src/mail/e-mail-reader.c:2250
 msgid "Mark the selected messages as having been read"
 msgstr "Означава изабрану поруку као прочитану"
 
-#: ../src/mail/e-mail-reader.c:2205 ../src/mail/e-mail-reader.c:2577
+#: ../src/mail/e-mail-reader.c:2255 ../src/mail/e-mail-reader.c:2627
 msgid "Do not _Ignore Subthread"
 msgstr "Не занема_руј подрасправе"
 
-#: ../src/mail/e-mail-reader.c:2207
+#: ../src/mail/e-mail-reader.c:2257
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "Не означава нове поруке у овој подрасправи као прочитане"
 
-#: ../src/mail/e-mail-reader.c:2212 ../src/mail/e-mail-reader.c:2581
+#: ../src/mail/e-mail-reader.c:2262 ../src/mail/e-mail-reader.c:2631
 msgid "Do not _Ignore Thread"
 msgstr "Не занемар_уј расправе"
 
-#: ../src/mail/e-mail-reader.c:2214
+#: ../src/mail/e-mail-reader.c:2264
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "Не означава нове поруке у овој расправи као прочитане"
 
-#: ../src/mail/e-mail-reader.c:2219
+#: ../src/mail/e-mail-reader.c:2269
 msgid "Uni_mportant"
 msgstr "Не_важно"
 
-#: ../src/mail/e-mail-reader.c:2221
+#: ../src/mail/e-mail-reader.c:2271
 msgid "Mark the selected messages as unimportant"
 msgstr "Означите изабрану(е) поруку(е) као неважно"
 
-#: ../src/mail/e-mail-reader.c:2226
+#: ../src/mail/e-mail-reader.c:2276
 msgid "_Unread"
 msgstr "_Непрочитано"
 
-#: ../src/mail/e-mail-reader.c:2228
+#: ../src/mail/e-mail-reader.c:2278
 msgid "Mark the selected messages as not having been read"
 msgstr "Означите изабрану(е) поруку(е) као непрочитано"
 
-#: ../src/mail/e-mail-reader.c:2233
+#: ../src/mail/e-mail-reader.c:2283
 #: ../src/modules/mail/e-mail-attachment-handler.c:416
 msgid "_Edit as New Message..."
 msgstr "_Уреди као нову поруку..."
 
-#: ../src/mail/e-mail-reader.c:2235
+#: ../src/mail/e-mail-reader.c:2285
 #: ../src/modules/mail/e-mail-attachment-handler.c:418
 msgid "Open the selected messages in the composer for editing"
 msgstr "Отворите изабрану поруку у састављачу ради уређивања"
 
-#: ../src/mail/e-mail-reader.c:2240
+#: ../src/mail/e-mail-reader.c:2290
 msgid "Compose _New Message"
 msgstr "Састави _нову поруку"
 
-#: ../src/mail/e-mail-reader.c:2242
+#: ../src/mail/e-mail-reader.c:2292
 msgid "Open a window for composing a mail message"
 msgstr "Отворите прозор за састављање поруке"
 
-#: ../src/mail/e-mail-reader.c:2247
+#: ../src/mail/e-mail-reader.c:2297
 msgid "_Open in New Window"
 msgstr "_Отвори у новом прозору"
 
-#: ../src/mail/e-mail-reader.c:2249
+#: ../src/mail/e-mail-reader.c:2299
 msgid "Open the selected messages in a new window"
 msgstr "Отворите изабране поруке у новом прозору"
 
-#: ../src/mail/e-mail-reader.c:2254
+#: ../src/mail/e-mail-reader.c:2304
 msgid "_Move to Folder..."
 msgstr "_Премести у фасциклу..."
 
-#: ../src/mail/e-mail-reader.c:2256
+#: ../src/mail/e-mail-reader.c:2306
 msgid "Move selected messages to another folder"
 msgstr "Преместите изабрану(е) поруку(е) у другу фасциклу"
 
-#: ../src/mail/e-mail-reader.c:2261
+#: ../src/mail/e-mail-reader.c:2311
 msgid "_Next Message"
 msgstr "_Следећа порука"
 
-#: ../src/mail/e-mail-reader.c:2263
+#: ../src/mail/e-mail-reader.c:2313
 msgid "Display the next message"
 msgstr "Прикажите следећу поруку"
 
-#: ../src/mail/e-mail-reader.c:2268
+#: ../src/mail/e-mail-reader.c:2318
 msgid "Next _Important Message"
 msgstr "Следећа _важна порука"
 
-#: ../src/mail/e-mail-reader.c:2270
+#: ../src/mail/e-mail-reader.c:2320
 msgid "Display the next important message"
 msgstr "Прикажите следећу важну поруку"
 
-#: ../src/mail/e-mail-reader.c:2275
+#: ../src/mail/e-mail-reader.c:2325
 msgid "Next _Thread"
 msgstr "_Следећа расправа"
 
-#: ../src/mail/e-mail-reader.c:2277
+#: ../src/mail/e-mail-reader.c:2327
 msgid "Display the next thread"
 msgstr "Прикажите следећу расправу"
 
-#: ../src/mail/e-mail-reader.c:2282
+#: ../src/mail/e-mail-reader.c:2332
 msgid "Next _Unread Message"
 msgstr "Следећа _непрочитана порука"
 
-#: ../src/mail/e-mail-reader.c:2284
+#: ../src/mail/e-mail-reader.c:2334
 msgid "Display the next unread message"
 msgstr "Прикажите следећу непрочитану поруку"
 
-#: ../src/mail/e-mail-reader.c:2289
+#: ../src/mail/e-mail-reader.c:2339
 msgid "_Previous Message"
 msgstr "_Претходна порука"
 
-#: ../src/mail/e-mail-reader.c:2291
+#: ../src/mail/e-mail-reader.c:2341
 msgid "Display the previous message"
 msgstr "Прикажите претходну поруку"
 
-#: ../src/mail/e-mail-reader.c:2296
+#: ../src/mail/e-mail-reader.c:2346
 msgid "Pr_evious Important Message"
 msgstr "Пр_етходна важна порука"
 
-#: ../src/mail/e-mail-reader.c:2298
+#: ../src/mail/e-mail-reader.c:2348
 msgid "Display the previous important message"
 msgstr "Прикажите претходну важну поруку"
 
-#: ../src/mail/e-mail-reader.c:2303
+#: ../src/mail/e-mail-reader.c:2353
 msgid "Previous T_hread"
 msgstr "_Претходна тема"
 
-#: ../src/mail/e-mail-reader.c:2305
+#: ../src/mail/e-mail-reader.c:2355
 msgid "Display the previous thread"
 msgstr "Прикажите претходну тему"
 
-#: ../src/mail/e-mail-reader.c:2310
+#: ../src/mail/e-mail-reader.c:2360
 msgid "P_revious Unread Message"
 msgstr "П_ретходна непрочитана порука"
 
-#: ../src/mail/e-mail-reader.c:2312
+#: ../src/mail/e-mail-reader.c:2362
 msgid "Display the previous unread message"
 msgstr "Прикажите претходну непрочитану поруку"
 
-#: ../src/mail/e-mail-reader.c:2319
+#: ../src/mail/e-mail-reader.c:2369
 msgid "Print this message"
 msgstr "Штампајте ову поруку"
 
-#: ../src/mail/e-mail-reader.c:2326
+#: ../src/mail/e-mail-reader.c:2376
 msgid "Preview the message to be printed"
 msgstr "Прегледајте поруку пред штампу"
 
-#: ../src/mail/e-mail-reader.c:2331
+#: ../src/mail/e-mail-reader.c:2381
 #: ../src/modules/mail/e-mail-attachment-handler.c:451
 msgid "Re_direct"
 msgstr "Преу_смери"
 
-#: ../src/mail/e-mail-reader.c:2333
+#: ../src/mail/e-mail-reader.c:2383
 #: ../src/modules/mail/e-mail-attachment-handler.c:453
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Преусмерите (без читања) изабрану поруку некоме"
 
-#: ../src/mail/e-mail-reader.c:2338
+#: ../src/mail/e-mail-reader.c:2388
 msgid "Remo_ve Attachments"
 msgstr "_Уклони прилоге"
 
-#: ../src/mail/e-mail-reader.c:2340
+#: ../src/mail/e-mail-reader.c:2390
 msgid "Remove attachments"
 msgstr "Уклоните прилоге"
 
-#: ../src/mail/e-mail-reader.c:2345
+#: ../src/mail/e-mail-reader.c:2395
 msgid "Remove Du_plicate Messages"
 msgstr "Уклони _дуплиране поруке"
 
-#: ../src/mail/e-mail-reader.c:2347
+#: ../src/mail/e-mail-reader.c:2397
 msgid "Checks selected messages for duplicates"
 msgstr "Проверите изабране поруке за дупликате"
 
-#: ../src/mail/e-mail-reader.c:2352 ../src/mail/mail.error.xml.h:28
+#: ../src/mail/e-mail-reader.c:2402 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
 #: ../src/modules/mail/e-mail-attachment-handler.c:395
 msgid "Reply to _All"
 msgstr "Одговори _свима"
 
-#: ../src/mail/e-mail-reader.c:2354
+#: ../src/mail/e-mail-reader.c:2404
 #: ../src/modules/mail/e-mail-attachment-handler.c:397
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Саставите одговор свим примаоцима изабране поруке"
 
-#: ../src/mail/e-mail-reader.c:2359 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/e-mail-reader.c:2409 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:402
 msgid "Reply to _List"
 msgstr "Одговори на _листу"
 
-#: ../src/mail/e-mail-reader.c:2361
+#: ../src/mail/e-mail-reader.c:2411
 #: ../src/modules/mail/e-mail-attachment-handler.c:404
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Саставите одговор дописној листи изабране поруке"
 
-#: ../src/mail/e-mail-reader.c:2366
+#: ../src/mail/e-mail-reader.c:2416
 #: ../src/modules/mail/e-mail-attachment-handler.c:409
 msgid "_Reply to Sender"
 msgstr "_Одговори пошиљаоцу"
 
-#: ../src/mail/e-mail-reader.c:2368
+#: ../src/mail/e-mail-reader.c:2418
 #: ../src/modules/mail/e-mail-attachment-handler.c:411
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Саставите одговор пошиљаоцу изабране поруке"
 
-#: ../src/mail/e-mail-reader.c:2373
+#: ../src/mail/e-mail-reader.c:2423
 msgid "_Save as mbox..."
 msgstr "_Сачувај као мбокс..."
 
-#: ../src/mail/e-mail-reader.c:2375
+#: ../src/mail/e-mail-reader.c:2425
 msgid "Save selected messages as an mbox file"
 msgstr "Сачувајте изабране поруке као „mbox“ датотеку"
 
-#: ../src/mail/e-mail-reader.c:2380
+#: ../src/mail/e-mail-reader.c:2430
 msgid "_Message Source"
 msgstr "Изво_рни код поруке"
 
-#: ../src/mail/e-mail-reader.c:2382
+#: ../src/mail/e-mail-reader.c:2432
 msgid "Show the raw email source of the message"
 msgstr "Прикажите изворни код електронске поруке"
 
-#: ../src/mail/e-mail-reader.c:2394
+#: ../src/mail/e-mail-reader.c:2444
 msgid "_Undelete Message"
 msgstr "П_оврати поруку"
 
-#: ../src/mail/e-mail-reader.c:2396
+#: ../src/mail/e-mail-reader.c:2446
 msgid "Undelete the selected messages"
 msgstr "Повратите изабране поруке"
 
-#: ../src/mail/e-mail-reader.c:2401
+#: ../src/mail/e-mail-reader.c:2451
 msgid "_Normal Size"
 msgstr "_Уобичајена величина"
 
-#: ../src/mail/e-mail-reader.c:2403
+#: ../src/mail/e-mail-reader.c:2453
 msgid "Reset the text to its original size"
 msgstr "Вратите текст на оригиналну величину"
 
-#: ../src/mail/e-mail-reader.c:2408
+#: ../src/mail/e-mail-reader.c:2458
 msgid "_Zoom In"
 msgstr "У_већај"
 
-#: ../src/mail/e-mail-reader.c:2410
+#: ../src/mail/e-mail-reader.c:2460
 msgid "Increase the text size"
 msgstr "Увећајте величину текста"
 
-#: ../src/mail/e-mail-reader.c:2417
+#: ../src/mail/e-mail-reader.c:2467
 msgid "Decrease the text size"
 msgstr "Умањите величину текста"
 
-#: ../src/mail/e-mail-reader.c:2424
+#: ../src/mail/e-mail-reader.c:2474
 msgid "Cre_ate"
 msgstr "_Направи"
 
-#: ../src/mail/e-mail-reader.c:2431
+#: ../src/mail/e-mail-reader.c:2481
 msgid "Ch_aracter Encoding"
 msgstr "Кодна ст_рана"
 
-#: ../src/mail/e-mail-reader.c:2438
+#: ../src/mail/e-mail-reader.c:2488
 #: ../src/modules/mail/e-mail-attachment-handler.c:423
 msgid "F_orward As"
 msgstr "_Проследи као"
 
-#: ../src/mail/e-mail-reader.c:2445
+#: ../src/mail/e-mail-reader.c:2495
 msgid "_Group Reply"
 msgstr "О_дговори групи"
 
-#: ../src/mail/e-mail-reader.c:2452
+#: ../src/mail/e-mail-reader.c:2502
 msgid "_Go To"
 msgstr "_Иди на"
 
-#: ../src/mail/e-mail-reader.c:2459
+#: ../src/mail/e-mail-reader.c:2509
 msgid "Mar_k As"
 msgstr "О_значи као"
 
-#: ../src/mail/e-mail-reader.c:2466
+#: ../src/mail/e-mail-reader.c:2516
 msgid "_Message"
 msgstr "_Порука"
 
-#: ../src/mail/e-mail-reader.c:2473
+#: ../src/mail/e-mail-reader.c:2523
 msgid "_Zoom"
 msgstr "Ув_ећај"
 
-#: ../src/mail/e-mail-reader.c:2483
+#: ../src/mail/e-mail-reader.c:2533
 msgid "Create a Search Folder from Mailing _List..."
 msgstr "Направи фасциклу претраге са дописне _листе..."
 
-#: ../src/mail/e-mail-reader.c:2485
+#: ../src/mail/e-mail-reader.c:2535
 msgid "Create a search folder for this mailing list"
 msgstr "Направите фасциклу претраге за ову дописну листу"
 
-#: ../src/mail/e-mail-reader.c:2490
+#: ../src/mail/e-mail-reader.c:2540
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr "Направи фасциклу претраге од при_малаца..."
 
-#: ../src/mail/e-mail-reader.c:2492
+#: ../src/mail/e-mail-reader.c:2542
 msgid "Create a search folder for these recipients"
 msgstr "Направите фасциклу претраге за ове примаоце"
 
-#: ../src/mail/e-mail-reader.c:2497
+#: ../src/mail/e-mail-reader.c:2547
 msgid "Create a Search Folder from Sen_der..."
 msgstr "Направи фасциклу претраге од по_шиљаоца..."
 
-#: ../src/mail/e-mail-reader.c:2499
+#: ../src/mail/e-mail-reader.c:2549
 msgid "Create a search folder for this sender"
 msgstr "Направите фасциклу претраге за овог пошиљаоца"
 
-#: ../src/mail/e-mail-reader.c:2504
+#: ../src/mail/e-mail-reader.c:2554
 msgid "Create a Search Folder from S_ubject..."
 msgstr "Направи фасциклу претраге из _наслова..."
 
-#: ../src/mail/e-mail-reader.c:2506
+#: ../src/mail/e-mail-reader.c:2556
 msgid "Create a search folder for this subject"
 msgstr "Направите фасциклу претраге за овај наслов"
 
-#: ../src/mail/e-mail-reader.c:2545
+#: ../src/mail/e-mail-reader.c:2595
 msgid "Mark for Follo_w Up..."
 msgstr "Обележи за _праћење..."
 
-#: ../src/mail/e-mail-reader.c:2561
+#: ../src/mail/e-mail-reader.c:2611
 msgid "Mark as _Important"
 msgstr "Оначи као _важно"
 
-#: ../src/mail/e-mail-reader.c:2565
+#: ../src/mail/e-mail-reader.c:2615
 msgid "Mark as _Junk"
 msgstr "Означи као _ђубре"
 
-#: ../src/mail/e-mail-reader.c:2569
+#: ../src/mail/e-mail-reader.c:2619
 msgid "Mark as _Not Junk"
 msgstr "Означи да _није ђубре"
 
-#: ../src/mail/e-mail-reader.c:2573
+#: ../src/mail/e-mail-reader.c:2623
 msgid "Mar_k as Read"
 msgstr "О_значи као прочитано"
 
-#: ../src/mail/e-mail-reader.c:2585
+#: ../src/mail/e-mail-reader.c:2635
 msgid "Mark as Uni_mportant"
 msgstr "Означи као _неважно"
 
-#: ../src/mail/e-mail-reader.c:2589
+#: ../src/mail/e-mail-reader.c:2639
 msgid "Mark as _Unread"
 msgstr "Означи као _непрочитано"
 
-#: ../src/mail/e-mail-reader.c:2633
+#: ../src/mail/e-mail-reader.c:2683
 msgid "_Caret Mode"
 msgstr "Метод у_метања"
 
-#: ../src/mail/e-mail-reader.c:2635
+#: ../src/mail/e-mail-reader.c:2685
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Прикажите трепћући курсор у телу приказаних порука"
 
-#: ../src/mail/e-mail-reader.c:2641
+#: ../src/mail/e-mail-reader.c:2691
 msgid "All Message _Headers"
 msgstr "Сва _заглавља поруке"
 
-#: ../src/mail/e-mail-reader.c:2643
+#: ../src/mail/e-mail-reader.c:2693
 msgid "Show messages with all email headers"
 msgstr "Прикажите поруку са свим заглављима е-поште"
 
-#: ../src/mail/e-mail-reader.c:3172
+#: ../src/mail/e-mail-reader.c:3222
 msgid "Retrieving message"
 msgstr "Преузимам поруку"
 
-#: ../src/mail/e-mail-reader.c:4222
+#: ../src/mail/e-mail-reader.c:4272
 #: ../src/modules/mail/e-mail-attachment-handler.c:388
 msgid "_Forward"
 msgstr "Просл_еди"
 
-#: ../src/mail/e-mail-reader.c:4223
+#: ../src/mail/e-mail-reader.c:4273
 #: ../src/modules/mail/e-mail-attachment-handler.c:390
 msgid "Forward the selected message to someone"
 msgstr "Прослеђује изабрану поруку некоме"
@@ -17570,52 +17569,52 @@ msgstr "Прослеђује изабрану поруку некоме"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:4242
+#: ../src/mail/e-mail-reader.c:4292
 msgid "Group Reply"
 msgstr "Одговор групи"
 
-#: ../src/mail/e-mail-reader.c:4243
+#: ../src/mail/e-mail-reader.c:4293
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Одговорите дописној листи или свим примаоцима"
 
-#: ../src/mail/e-mail-reader.c:4309 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:4359 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Обриши"
 
-#: ../src/mail/e-mail-reader.c:4321
+#: ../src/mail/e-mail-reader.c:4371
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1281
 msgid "Next"
 msgstr "Следеће"
 
-#: ../src/mail/e-mail-reader.c:4325
+#: ../src/mail/e-mail-reader.c:4375
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1274
 msgid "Previous"
 msgstr "Претходно"
 
-#: ../src/mail/e-mail-reader.c:4334 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:4384 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Одговори"
 
-#: ../src/mail/e-mail-reader.c:5407
+#: ../src/mail/e-mail-reader.c:5457
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Дозволи удаљени садржај свима са %s"
 
-#: ../src/mail/e-mail-reader.c:5409
+#: ../src/mail/e-mail-reader.c:5459
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Дозволи удаљени садржај за %s"
 
-#: ../src/mail/e-mail-reader.c:5426
+#: ../src/mail/e-mail-reader.c:5476
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Дозволи удаљени садржај свима од %s"
 
-#: ../src/mail/e-mail-reader.c:5443
+#: ../src/mail/e-mail-reader.c:5493
 msgid "Do not show this message again"
 msgstr "Не приказуј више ову поруку"
 
-#: ../src/mail/e-mail-reader.c:5491
+#: ../src/mail/e-mail-reader.c:5541
 msgid "Load remote content"
 msgstr "Учитај удаљени садржај"
 
@@ -17709,12 +17708,12 @@ msgstr "Порука не садржи текст."
 msgid "Flag to Follow Up"
 msgstr "Означи за праћење"
 
-#: ../src/mail/e-mail-ui-session.c:821
+#: ../src/mail/e-mail-ui-session.c:820
 #, c-format
 msgid "%s authentication failed"
 msgstr "Није успело %s потврђивање идентитета"
 
-#: ../src/mail/e-mail-ui-session.c:871
+#: ../src/mail/e-mail-ui-session.c:870
 #, c-format
 msgid "No data source found for UID “%s”"
 msgstr "Није пронађен извор података за ЈИБ „%s“"
@@ -17803,7 +17802,7 @@ msgstr "-----Оригинална порука-----"
 #: ../src/mail/em-composer-utils.c:2562
 #, c-format
 msgid "Re: %s"
-msgstr "Одговорeno: %s"
+msgstr "Одг: %s"
 
 #: ../src/mail/em-composer-utils.c:3103
 msgid "an unknown sender"
@@ -17991,12 +17990,12 @@ msgstr "Премештам фасциклу „%s“"
 msgid "Copying folder %s"
 msgstr "Копирам фасциклу „%s“"
 
-#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2508
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2509
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Премештам поруке у фасциклу „%s“"
 
-#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2510
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2511
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копирам поруке у фасциклу „%s“"
@@ -18052,7 +18051,9 @@ msgid "Unsubscribe From _All"
 msgstr "Одја_ви се са свих"
 
 #: ../src/mail/em-subscription-editor.c:1339
-#: ../src/modules/mail/e-mail-shell-view-private.c:1003
+#: ../src/modules/mail/e-mail-shell-view-private.c:938
+#: ../src/modules/mail/e-mail-shell-view-private.c:970
+#: ../src/modules/mail/e-mail-shell-view-private.c:1014
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -18062,7 +18063,7 @@ msgstr[2] "%d непрочитаних, "
 msgstr[3] "%d непрочитана, "
 
 #: ../src/mail/em-subscription-editor.c:1343
-#: ../src/modules/mail/e-mail-shell-view-private.c:1013
+#: ../src/modules/mail/e-mail-shell-view-private.c:1024
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -18557,7 +18558,7 @@ msgid "Import mail and contacts from KMail."
 msgstr "Увози пошту и контакте из К-поште."
 
 #: ../src/mail/importers/kmail-libs.c:150
-#: ../src/modules/mail/e-mail-shell-view-private.c:1034
+#: ../src/modules/mail/e-mail-shell-view-private.c:1045
 msgid "Trash"
 msgstr "Смеће"
 
@@ -20163,87 +20164,87 @@ msgstr "Уреди фасциклу претраге"
 msgid "New Search Folder"
 msgstr "Нова фасцикла претраге"
 
-#: ../src/mail/message-list.c:300
+#: ../src/mail/message-list.c:301
 msgid "Unseen"
 msgstr "Невиђено"
 
-#: ../src/mail/message-list.c:301
+#: ../src/mail/message-list.c:302
 msgid "Seen"
 msgstr "Виђено"
 
-#: ../src/mail/message-list.c:302
+#: ../src/mail/message-list.c:303
 msgid "Answered"
 msgstr "Одговорено"
 
-#: ../src/mail/message-list.c:303
+#: ../src/mail/message-list.c:304
 msgid "Forwarded"
 msgstr "Прослеђено"
 
-#: ../src/mail/message-list.c:304
+#: ../src/mail/message-list.c:305
 msgid "Multiple Unseen Messages"
 msgstr "Вишеструке невиђене поруке"
 
-#: ../src/mail/message-list.c:305
+#: ../src/mail/message-list.c:306
 msgid "Multiple Messages"
 msgstr "Вишеструке поруке"
 
-#: ../src/mail/message-list.c:318
+#: ../src/mail/message-list.c:319
 msgid "Lowest"
 msgstr "Најниже"
 
-#: ../src/mail/message-list.c:319
+#: ../src/mail/message-list.c:320
 msgid "Lower"
 msgstr "Ниже"
 
-#: ../src/mail/message-list.c:323
+#: ../src/mail/message-list.c:324
 msgid "Higher"
 msgstr "Више"
 
-#: ../src/mail/message-list.c:324
+#: ../src/mail/message-list.c:325
 msgid "Highest"
 msgstr "Највише"
 
-#: ../src/mail/message-list.c:470 ../src/mail/message-list.c:6289
+#: ../src/mail/message-list.c:471 ../src/mail/message-list.c:6297
 msgid "Generating message list"
 msgstr "Прављење листе порука"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2074
+#: ../src/mail/message-list.c:2075
 #: ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
 msgstr "Данас у %l:%M %p"
 
-#: ../src/mail/message-list.c:2083
+#: ../src/mail/message-list.c:2084
 msgid "Yesterday %l:%M %p"
 msgstr "Јуче у %l:%M %p"
 
-#: ../src/mail/message-list.c:2095
+#: ../src/mail/message-list.c:2096
 msgid "%a %l:%M %p"
 msgstr "%a у %l:%M %p"
 
-#: ../src/mail/message-list.c:2103
+#: ../src/mail/message-list.c:2104
 msgid "%b %d %l:%M %p"
 msgstr "%d. %b у %l:%M %p"
 
-#: ../src/mail/message-list.c:2105
+#: ../src/mail/message-list.c:2106
 msgid "%b %d %Y"
 msgstr "%d. %b %Y."
 
-#: ../src/mail/message-list.c:3062
+#: ../src/mail/message-list.c:3063
 msgid "Select all visible messages"
 msgstr "Изабери све видљиве поруке"
 
-#: ../src/mail/message-list.c:3781 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3782 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Поруке"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5213
+#: ../src/mail/message-list.c:5207
 msgid "Follow-up"
 msgstr "Следи"
 
-#: ../src/mail/message-list.c:6228
+#: ../src/mail/message-list.c:6236
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20255,7 +20256,7 @@ msgstr ""
 "покрените нову претрагу било чишћењем исте помоћу ставке изборника "
 "„Претрага→Очисти“ или изменивши горњи упит."
 
-#: ../src/mail/message-list.c:6236
+#: ../src/mail/message-list.c:6244
 msgid "There are no messages in this folder."
 msgstr "Нема порука у овој фасцикли."
 
@@ -23886,8 +23887,8 @@ msgstr[1] "%d изабране, "
 msgstr[2] "%d изабраних, "
 msgstr[3] "%d изабрана, "
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:940
-#: ../src/modules/mail/e-mail-shell-view-private.c:957
+#: ../src/modules/mail/e-mail-shell-view-private.c:946
+#: ../src/modules/mail/e-mail-shell-view-private.c:963
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
@@ -23896,8 +23897,8 @@ msgstr[1] "%d обрисане"
 msgstr[2] "%d обрисаних"
 msgstr[3] "%d обрисана"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:966
-#: ../src/modules/mail/e-mail-shell-view-private.c:972
+#: ../src/modules/mail/e-mail-shell-view-private.c:977
+#: ../src/modules/mail/e-mail-shell-view-private.c:983
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
@@ -23906,7 +23907,7 @@ msgstr[1] "%d непожељне"
 msgstr[2] "%d непожељних"
 msgstr[3] "%d непожељна"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:979
+#: ../src/modules/mail/e-mail-shell-view-private.c:990
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
@@ -23915,7 +23916,7 @@ msgstr[1] "%d нацрта"
 msgstr[2] "%d нацрта"
 msgstr[3] "%d нацрт"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:985
+#: ../src/modules/mail/e-mail-shell-view-private.c:996
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
@@ -23924,7 +23925,7 @@ msgstr[1] "%d непослате"
 msgstr[2] "%d непослатих"
 msgstr[3] "%d непослата"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:991
+#: ../src/modules/mail/e-mail-shell-view-private.c:1002
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
@@ -23933,7 +23934,7 @@ msgstr[1] "%d послате"
 msgstr[2] "%d послатих"
 msgstr[3] "%d послата"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1008
+#: ../src/modules/mail/e-mail-shell-view-private.c:1019
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
@@ -23942,7 +23943,7 @@ msgstr[1] "%d непрочитане"
 msgstr[2] "%d непрочитаних"
 msgstr[3] "%d непрочитана"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1526
+#: ../src/modules/mail/e-mail-shell-view-private.c:1537
 msgid "Send / Receive"
 msgstr "Пошаљи / Прими"
 
@@ -25994,7 +25995,7 @@ msgid "New"
 msgstr "Нова"
 
 #. Translators: This is used for the main window title.
-#: ../src/shell/e-shell-window-private.c:721
+#: ../src/shell/e-shell-window-private.c:756
 #, c-format
 msgid "%s — Evolution"
 msgstr "%s — Еволуција"
