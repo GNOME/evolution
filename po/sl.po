@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-09-29 11:42+0200\n"
-"PO-Revision-Date: 2017-10-13 22:59+0200\n"
+"PO-Revision-Date: 2017-10-14 21:43+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -40,7 +40,7 @@ msgid ""
 "Evolution supports a wide range of industry standard data formats and network protocols for information exchange, with an emphasis on standards compliance "
 "and security. Evolution can also integrate smoothly with Microsoft Exchange by way of the “Exchange Web Services” (EWS) extension."
 msgstr ""
-"Program Evulution podpira širok nabor standardnih podatkovnih zapisov in omrežnih protokolov za izmenjavo podatkov. Poudarjeni so standardi, ki so nujni "
+"Program Evolution podpira širok nabor standardnih podatkovnih zapisov in omrežnih protokolov za izmenjavo podatkov. Poudarjeni so standardi, ki so nujni "
 "zaradi splošne uporabnosti in varnosti. Program podpira tudi povezavo s sistemom Microsoft Exchange prek razširitve EWS – »Exchange Web Services»."
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
@@ -57,7 +57,7 @@ msgstr "Zbirka za skupinsko delo"
 
 #: ../data/evolution.desktop.in.in.h:3
 msgid "Evolution Mail and Calendar"
-msgstr "Evolution koledar in pošta"
+msgstr "Koledar Evolution in pošta"
 
 #: ../data/evolution.desktop.in.in.h:5
 msgid "email;calendar;contact;addressbook;task;"
@@ -115,7 +115,7 @@ msgstr "Dolžina za samodejno dopolnjevanje"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:4
 msgid "The number of characters that must be typed before Evolution will attempt to autocomplete."
-msgstr "Število znakov, ki jih je treba vnesti preden Evolution poskusi samodejno dopolniti vnos."
+msgstr "Število znakov, ki jih je treba vnesti preden začne program izvajati samodejno dopolnjevanje niza."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:5
 msgid "Show autocompleted name with an address"
@@ -651,7 +651,7 @@ msgstr "Pokaži opomnike obvestil vedno na vrhu"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid ""
 "Whether or not to show reminder notification dialog always on top. Note this works only as a hint for the window manager, which may or may not obey it."
-msgstr "Ali naj bo okno obestil opomnikov vedno na vrhu. Možnost deluje le kot namig upravljalnika oken, ki lahko prikaz upošteva, ali pa ne."
+msgstr "Ali naj bo okno obvestil opomnikov vedno na vrhu. Možnost deluje le kot namig upravljalnika oken, ki lahko prikaz upošteva, ali pa ne."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Preferred New button item"
@@ -687,7 +687,7 @@ msgstr "Vrednost UID izbranega (ali »glavnega«) seznama nalog v stranski vrsti
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Free/busy template URL"
-msgstr "URL predloge zasedenosti"
+msgstr "Naslov URL predloge zasedenosti"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 #, no-c-format
@@ -980,11 +980,11 @@ msgstr "Ali so naloge iz koledarja GNOME uspešno uvožene ali ne"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr "Preveri, ali je Evolution privzet poštni odjemalec"
+msgstr "Preveri, ali je program Evolution privzet poštni odjemalec"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:2
 msgid "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "Ob vsakem zagonu Evolutiona preveri, ali je privzeti poštni odjemalec."
+msgstr "Ob vsakem zagonu programa Evolution preveri, ali je privzeti poštni odjemalec."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:3
 msgid "Default charset in which to compose messages"
@@ -1181,12 +1181,12 @@ msgid ""
 "Encode filenames in the mail headers same as Outlook or GMail do, to let them display correctly filenames with UTF-8 letters sent by Evolution, because "
 "they do not follow the RFC 2231, but use the incorrect RFC 2047 standard."
 msgstr ""
-"Možnost omogoča kodiranje imen datotek v glavi sporočila na enak način kot v MS Outlooku in Gmailu. To MS Outlooku in GMailu omogoča pravilen prikaz imen z "
-"znaki v naboru UTF-8, ki jih pošilja program Evolution. Odjemalca uporabljata namesto RFC 2231 neveljaven standard RFC 2047."
+"Možnost omogoča kodiranje imen datotek v glavi sporočila na enak način kot v pri programih MS Outlook in Gmail. To omogoča pravilen prikaz imen z znaki v "
+"naboru UTF-8, ki jih pošilja program Evolution. Odjemalca uporabljata namesto RFC 2231 neveljaven standard RFC 2047."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
 msgid "Send messages through Outbox folder"
-msgstr "Pošlji sporočilo preko odhodne mape"
+msgstr "Pošlji sporočilo prek odhodne mape"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
 msgid "Always save messages to Outbox folder when sending, to let a user choose when the messages should be sent."
@@ -1375,7 +1375,7 @@ msgstr "Privzeti znakovni nabor za prikaz sporočil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Automatically load images for HTML messages over HTTP"
-msgstr "Samodejno naloži slike sporočil HTML preko HTTP"
+msgstr "Samodejno naloži slike sporočil HTML prek HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Show notification about missing remote content"
@@ -1413,7 +1413,7 @@ msgid ""
 "Each header is represented as a pair: the header name, and a boolean indicating whether the header is enabled. Disabled headers are not shown when viewing "
 "a message, but are still listed in Preferences."
 msgstr ""
-"Vsaka glava je predstavljena kot par: ime glave in logična vrednost. Slednja določa ali je glava omogočena. Onemogočene gleve niso prikazane med "
+"Vsaka glava je predstavljena kot par: ime glave in logična vrednost. Slednja določa ali je glava omogočena. Onemogočene glave niso prikazane med "
 "pregledovanjem sporočila, so pa še vedno izpisane med možnostmi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
@@ -1641,7 +1641,7 @@ msgstr "Dnevniška datoteka za beleženje dejanj filtra"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid "If not set, or being “stdout”, then the logging is done to stdout, instead to a file."
-msgstr ""
+msgstr "Če možnost ni nastavljena oziroma je nastavljen standardni odvod, naj se beleženje izvaja odvod in ne v datoteko."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Flush Outbox after filtering"
@@ -1786,7 +1786,7 @@ msgstr "Opozori med zasebnim odgovarjanjem na sporočilo dopisnega seznama"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid "It disables/enables the repeated prompts to warn that you are sending a private reply to a message which arrived via a mailing list."
-msgstr "Onemogoči ali omogoči možnost ponavljajočih se opozoril z vprašanjem ali pošiljate zasebni odgovor na sporočilo prejeto preko dopisnega seznama."
+msgstr "Onemogoči ali omogoči možnost ponavljajočih se opozoril z vprašanjem ali pošiljate zasebni odgovor na sporočilo prejeto prek dopisnega seznama."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Prompt when mailing list hijacks private replies"
@@ -1797,8 +1797,8 @@ msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
-"Onemogoči ali omogoči možnost ponavljajočih se opozoril z opozorilom, da je zasebni odgovor na sporočilo, ki je prispelo preko dopisnega seznama, poslano "
-"preko odgovori-na možnosti nazaj na dopisni seznam."
+"Onemogoči ali omogoči možnost ponavljajočih se opozoril z opozorilom, da je zasebni odgovor na sporočilo, ki je prispelo prek dopisnega seznama, poslano "
+"prek odgovori-na možnosti nazaj na dopisni seznam."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt when replying to many recipients"
@@ -1882,7 +1882,8 @@ msgstr "Seznam oznak in z njimi povezanih barv"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid "List of labels known to the mail component of Evolution. The list contains strings containing name:color where color uses the HTML hex encoding."
-msgstr "Seznam oznak, ki jih pozna poštna komponenta Evolutiona. Seznam vsebuje nize v obliki ime:barva, kjer je barva podana v šestiškem kodiranju HTML."
+msgstr ""
+"Seznam oznak, ki jih pozna poštna komponenta programa Evolution. Seznam vsebuje nize v obliki ime:barva, kjer je barva podana v šestiškem kodiranju HTML."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Check incoming mail being junk"
@@ -1914,7 +1915,7 @@ msgstr "Čas zadnjega praznjenja vsiljene pošte"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
-msgstr "Čas zadnjega praznjenja vsiljene pošte v dneh od epoha (1. Januar 1970)."
+msgstr "Čas zadnjega praznjenja vsiljene pošte v dneh od 1. januarja 1970."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "The default plugin for Junk hook"
@@ -2035,7 +2036,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238 ../src/mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML format"
-msgstr "Prevzami barve teme v načinu HTML"
+msgstr "Prevzemi barve teme v načinu HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid "When enabled the theme colors for background, text and links are sent in resulting HTML formatted message."
@@ -2047,7 +2048,7 @@ msgstr "Arhivska mapa za mape Na tem računalniku."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid "An Archive folder to use for Messages|Archive... feature when in an On This Computer folder."
-msgstr "Mapa arhiva, ki naj bo uporabljen za možnost Sporočila|Arhiv ... , ko je je uporabih v ustrezni mapi."
+msgstr "Mapa arhiva, ki naj bo uporabljen za možnost Sporočila|Arhiv ... , ko je v uporabi v ustrezni mapi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 #| msgid "Whether to show icons of events in the month view"
@@ -2100,7 +2101,7 @@ msgstr "Pokaži čarovnika prvega zagona"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid "Whether show start up wizard when there is no mail account configured."
-msgstr ""
+msgstr "Ali naj bo, kadar ni nastavljenega nobenega računa za elektronsko pošto, prikazan čarovnik za nastavljanje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "(Deprecated) Default forward style"
@@ -2128,7 +2129,7 @@ msgstr "Ključ je opuščen z različico 3.10 in ne bo več v rabi. Priporočena
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr "(Opuščeno) Naloži slike sporočil HTML preko HTTP"
+msgstr "(Opuščeno) Naloži slike sporočil HTML prek HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid "This key was deprecated in version 3.10 and should no longer be used. Use “image-loading-policy” instead."
@@ -2431,7 +2432,7 @@ msgstr "Seznam imen gumbov, ki naj bodo v preklopniku oken skriti"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:18
 msgid "Valid values are “mail”, “addressbook”, “calendar”, “tasks” and “memos”. Change of this requires restart of the application."
-msgstr "Veljavne vredonsti so »pošta«, »imenik«, »koledar«, »naloga« in »opomnik«. Sprememba te nastavitve zahteva ponovni zagon programa."
+msgstr "Veljavne vrednosti so »pošta«, »imenik«, »koledar«, »naloga« in »opomnik«. Sprememba te nastavitve zahteva ponovni zagon programa."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:19
 msgid "Window buttons are visible"
@@ -2542,6 +2543,8 @@ msgid ""
 "Use “highlight --list-scripts=themes” to get the list of installed themes and then the value to one of them. The change requires only re-format of the "
 "message part to take into effect, like using right-click→Format As→...."
 msgstr ""
+"Uporabite možnost »highlight --list-scripts=themes« za izpis seznama nameščenih tem in nato vpišite vrednost za uporabo ene od njih. Sprememba zahteva le "
+"ponovno oblikovanje dela sporočila za uveljavitev učinka, kot je uporaba možnosti menija desnega klika → Oblikuj kot → ...."
 
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
@@ -3289,7 +3292,7 @@ msgstr "»%s« mora biti datum v preteklosti"
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4692
 #, c-format
 msgid "%s“%s” has an invalid format"
-msgstr "%s'%s' ima neveljavan zapis "
+msgstr "%s'%s' ima neveljaven zapis"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4705 ../src/addressbook/gui/contact-editor/e-contact-editor.c:4719
 #, c-format
@@ -3495,7 +3498,7 @@ msgstr "Katerokoli polje vsebuje"
 #: ../src/addressbook/gui/widgets/ea-addressbook-view.c:92 ../src/addressbook/gui/widgets/ea-addressbook-view.c:101
 #: ../src/addressbook/gui/widgets/ea-minicard-view.c:223
 msgid "evolution address book"
-msgstr "Imenik Evolutiona"
+msgstr "imenik Evolution"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:185
 msgid "Copy _Email Address"
@@ -5774,7 +5777,7 @@ msgstr "%a %d.%b.%Y"
 
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:1 ../src/calendar/gui/e-memo-table.etspec.h:5
 msgid "Start Date"
-msgstr "Začetni daum"
+msgstr "Začetni datum"
 
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:2
 msgid "End Date"
@@ -8030,7 +8033,7 @@ msgstr "Koledar GNOME"
 
 #: ../src/calendar/importers/icalendar-importer.c:1151
 msgid "Evolution Calendar intelligent importer"
-msgstr "Pametni uvoznik koledarja Evolutiona"
+msgstr "Pametni uvoznik koledarja Evolution"
 
 #: ../src/calendar/importers/icalendar-importer.c:1222 ../src/calendar/importers/icalendar-importer.c:1536
 msgctxt "iCalImp"
@@ -10180,7 +10183,7 @@ msgstr "Predvajalnik zvoka"
 
 #: ../src/em-format/e-mail-formatter-audio.c:152
 msgid "Play the attachment in embedded audio player"
-msgstr "Predvajaj prilogo v vgrajnem predvajalniku zvoka"
+msgstr "Predvajaj prilogo v vgrajenem predvajalniku zvoka"
 
 #: ../src/em-format/e-mail-formatter-headers.c:107 ../src/em-format/e-mail-part-headers.c:46 ../src/mail/e-mail-tag-editor.c:203
 #: ../src/mail/message-list.etspec.h:5 ../src/modules/mail/em-mailer-prefs.c:60
@@ -10273,7 +10276,7 @@ msgstr "Veljaven podpis"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:50
 msgid "Valid signature, but sender address and signer address do not match"
-msgstr ""
+msgstr "Podpis je veljaven, vendar pa naslova pošiljatelja in podpisnika nista skladna!"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:51
 msgid "This message is signed and is valid meaning that it is very likely that this message is authentic."
@@ -12400,7 +12403,7 @@ msgstr "Lastnosti povezave"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:68
 msgid "Perforated Paper"
-msgstr "Perforiran papir"
+msgstr "Naluknjan papir"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:77
 msgid "Blue Ink"
@@ -13730,7 +13733,7 @@ msgstr "Ustvarjanje novega koledarja je spodletelo."
 
 #: ../src/e-util/e-webdav-browser.c:1821
 msgid "Creating new collection…"
-msgstr "Potaka ustvarjanje nove zbirke ..."
+msgstr "Poteka ustvarjanje nove zbirke ..."
 
 #: ../src/e-util/e-webdav-browser.c:1822
 msgid "Failed to create new collection"
@@ -13738,12 +13741,12 @@ msgstr "Ustvarjanje nove zbirke je spodletelo"
 
 #: ../src/e-util/e-webdav-browser.c:1961
 msgid "It is not allowed to create book under another book or calendar"
-msgstr ""
+msgstr "Ni dovoljeno ustvariti knjige znotraj druge knjiga ali koledarja."
 
 #. if (button == webdav_browser->priv->create_calendar_button)
 #: ../src/e-util/e-webdav-browser.c:1963
 msgid "It is not allowed to create calendar under another book or calendar"
-msgstr ""
+msgstr "Ni dovoljeno ustvariti koledarja znotraj druge knjiga ali koledarja."
 
 #: ../src/e-util/e-webdav-browser.c:2189
 msgid "Deleting book…"
@@ -13755,7 +13758,7 @@ msgstr "Brisanje knjige je spodletelo"
 
 #: ../src/e-util/e-webdav-browser.c:2193
 msgid "Deleting calendar…"
-msgstr "Poteka krisanje koledarja ..."
+msgstr "Poteka brisanje koledarja ..."
 
 #: ../src/e-util/e-webdav-browser.c:2194
 msgid "Failed to delete calendar"
@@ -14137,7 +14140,7 @@ msgstr "Google OAuth2"
 
 #: ../src/libemail-engine/camel-sasl-oauth2-google.c:28
 msgid "This option will use an OAuth 2.0 access token to connect to the Google server"
-msgstr "Ta možnost uporablja za povezavo s strežnikom Google žeton dostopa OAuth 2.0."
+msgstr "Ta možnost uporablja za povezavo s strežnikom žeton Google dostopa OAuth 2.0."
 
 #: ../src/libemail-engine/camel-sasl-xoauth2.c:27
 msgid "OAuth2"
@@ -14474,7 +14477,7 @@ msgstr "Odpri _spletni račun"
 
 #: ../src/mail/e-mail-account-manager.c:144 ../src/mail/e-mail-account-manager.c:231
 msgid "This account was created through the Online Accounts service."
-msgstr "Račun je bil ustvarjen preko storitve spletnih računov."
+msgstr "Račun je bil ustvarjen prek storitve spletnih računov."
 
 #: ../src/mail/e-mail-account-manager.c:690
 msgid "_Reset Order"
@@ -14557,7 +14560,7 @@ msgstr "_Preskoči poizvedbo"
 
 #: ../src/mail/e-mail-config-assistant.c:718
 msgid "Evolution Account Assistant"
-msgstr "Pomočnik za račune Evolutiona"
+msgstr "Pomočnik za račune Evolution"
 
 #: ../src/mail/e-mail-config-assistant.c:1025
 msgid "_Revise Details"
@@ -14584,7 +14587,7 @@ msgstr "Priloga"
 #: ../src/mail/e-mail-config-composing-page.c:120 ../src/mail/mail-config.ui.h:28
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
-msgstr "Medvrtično (slog Outlook)"
+msgstr "Medvrstično (slog Outlook)"
 
 #: ../src/mail/e-mail-config-composing-page.c:122 ../src/mail/mail-config.ui.h:29
 msgctxt "ReplyForward"
@@ -14851,7 +14854,7 @@ msgstr "Splošno"
 
 #: ../src/mail/e-mail-config-security-page.c:327
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
-msgstr "Ne po_dpisuj zahtev za srečanja (za združljivost z Outlookom)"
+msgstr "Ne po_dpisuj zahtev za srečanja (za združljivost s programom MS Outlook)"
 
 #: ../src/mail/e-mail-config-security-page.c:349
 msgid "Pretty Good Privacy (OpenPGP)"
@@ -14988,7 +14991,7 @@ msgstr "Varnost:"
 
 #: ../src/mail/e-mail-config-summary-page.c:651
 msgid "Cannot have both receiving and sending parts set to None"
-msgstr ""
+msgstr "Ni mogoče imeti pošiljanja in prejemanja nastavljenega na »Brez«"
 
 #: ../src/mail/e-mail-config-summary-page.c:807
 msgid "Account Summary"
@@ -16947,7 +16950,7 @@ msgstr "Preverjaj črkovanje med _tipkanjem"
 
 #: ../src/mail/mail-config.ui.h:41
 msgid "To help avoid email accidents and embarrassments, ask for confirmation before taking the following checkmarked actions:"
-msgstr "Za pomoč pri izogibanju nesrečam in osramotitvam preko e-pošte, vprašaj za potrditev pred izvajanjem naslednjih izbranih dejanj:"
+msgstr "Za pomoč pri izogibanju nesrečam in osramotitvam prek elektronske pošte, vprašaj za potrditev pred izvajanjem naslednjih izbranih dejanj:"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../src/mail/mail-config.ui.h:43
@@ -17298,7 +17301,7 @@ msgstr "_Končano"
 
 #: ../src/mail/mail-dialogs.ui.h:19
 msgid "License Agreement"
-msgstr "Licenčni dogovor"
+msgstr "Dovoljenje uporabe"
 
 #: ../src/mail/mail-dialogs.ui.h:21
 msgid "_Accept License"
@@ -17306,7 +17309,7 @@ msgstr "_Sprejmi licenco"
 
 #: ../src/mail/mail-dialogs.ui.h:22
 msgid "_Tick this to accept the license agreement"
-msgstr "_Obkljukajte za sprejem licenčnega dogovora"
+msgstr "_Odkljukajte za sprejem pogojev uporabe"
 
 #: ../src/mail/mail-dialogs.ui.h:23
 msgid "Security Information"
@@ -17413,7 +17416,7 @@ msgid ""
 "You are replying privately to a message which arrived via a mailing list, but the list is trying to redirect your reply to go back to the list. Are you "
 "sure you want to proceed?"
 msgstr ""
-"Odgovarjate zasebno pošiljatelju na sporočilo, ki je prispelo preko dopisnega seznama, vendar pa bo sporočilo poslano neposredno na dopisni seznam. Ali "
+"Odgovarjate zasebno pošiljatelju na sporočilo, ki je prispelo prek dopisnega seznama, vendar pa bo sporočilo poslano neposredno na dopisni seznam. Ali "
 "želite nadaljevati?"
 
 #: ../src/mail/mail.error.xml.h:25
@@ -17424,7 +17427,7 @@ msgstr "Odgovori zasebno"
 msgid ""
 "You are replying to a message which arrived via a mailing list, but you are replying privately to the sender; not to the list. Are you sure you want to "
 "proceed?"
-msgstr "Odgovarjate na sporočilo, ki je prispelo preko dopisnega seznama, vendar odgovarjate zasebno pošiljatelju in ne na seznam. Ali želite nadaljevati?"
+msgstr "Odgovarjate na sporočilo, ki je prispelo prek dopisnega seznama, vendar odgovarjate zasebno pošiljatelju in ne na seznam. Ali želite nadaljevati?"
 
 #: ../src/mail/mail.error.xml.h:29
 msgid "Send reply to all recipients?"
@@ -17494,7 +17497,7 @@ msgstr "Imate neposlana sporočila. Ali želite kljub temu končati?"
 
 #: ../src/mail/mail.error.xml.h:46
 msgid "If you quit, these messages will not be sent until Evolution is started again."
-msgstr "V primeru, da program končate, sporočila ne bodo poslana do ponovnega zagona Evolutiona."
+msgstr "V primeru, da program končate, sporočila ne bodo poslana do ponovnega zagona Evolution."
 
 #. Translators: the {0} is replaced with an operation name, which failed.
 #. It can be basically anything run asynchronously, like "Fetching Mail",
@@ -17549,7 +17552,7 @@ msgstr "Ni mogoče izbrisati sistemske mape »{0}«."
 
 #: ../src/mail/mail.error.xml.h:62
 msgid "System folders are required for Evolution to function correctly and cannot be renamed, moved, or deleted."
-msgstr "Za pravilno delovanje Evolutiona je treba ohraniti sistemske mape, ki ne smejo biti preimenovane, premaknjene ali izbrisane."
+msgstr "Za pravilno delovanje Evolution je treba ohraniti sistemske mape, ki ne smejo biti preimenovane, premaknjene ali izbrisane."
 
 #: ../src/mail/mail.error.xml.h:63
 msgid "Failed to expunge folder “{0}”."
@@ -17789,7 +17792,7 @@ msgstr "_Preseli zdaj"
 
 #: ../src/mail/mail.error.xml.h:125
 msgid "Unable to read license file."
-msgstr "Licenčne datoteke ni mogoče prebrati."
+msgstr "Datoteke dovoljenja ni mogoče prebrati."
 
 #: ../src/mail/mail.error.xml.h:126
 msgid "Cannot read the license file “{0}”, due to an installation problem. You will not be able to use this provider until you can accept its license."
@@ -17920,7 +17923,7 @@ msgstr "Tega sporočila ni mogoče poslati, ker poštni račun ni ustrezno nasta
 
 #: ../src/mail/mail.error.xml.h:159
 msgid "There had not been found any active mail account to send the message. Create or enable one first, please."
-msgstr ""
+msgstr "Ni najdenega nobenega računa elektronske pošte za pošiljanje sporočila. Najprej je treba račun ustvariti."
 
 #: ../src/mail/mail.error.xml.h:160
 msgid "Mail Deletion Failed"
@@ -18130,7 +18133,7 @@ msgstr "Ali ste prepričani, da želite trajno izbrisati vsa vsiljena sporočila
 
 #: ../src/mail/mail.error.xml.h:215
 msgid "These messages will be shown in the Trash folder, where they can be permanently deleted later."
-msgstr ""
+msgstr "Ta sporočila bodo premaknjena v mapo Smeti, kjer jih je mogoče trajno izbrisati tudi kasneje."
 
 #: ../src/mail/mail.error.xml.h:216
 msgid "_Empty Junk"
@@ -18400,7 +18403,7 @@ msgstr "Pre_brskaj"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:197
 msgid "Browse a WebDAV (CalDAV or CardDAV) server and create, edit or delete address books, calendars, memo lists or task lists there"
-msgstr ""
+msgstr "Prebrskajte strežnik WebDAV (CalDAV ali CardDAV) in ustvarite, urediti ali izbrišite imenik, koledar, seznam opomnikov ali nalog."
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124 ../src/modules/mail/em-mailer-prefs.c:1562
@@ -18803,7 +18806,7 @@ msgstr "Ustvari varnostno kopijo mape programa Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:75
 msgid "Restore Evolution directory"
-msgstr "Povrni mapo Evolutiona"
+msgstr "Povrni mapo Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:77
 msgid "Check Evolution Back up"
@@ -18869,7 +18872,7 @@ msgstr "Shranjevanje varnostne kopije v datoteko %s"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:904
 msgid "Evolution Restore"
-msgstr "Obnavljanje Evolutiona"
+msgstr "Obnavljanje Evolution"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:905
 #, c-format
@@ -18989,7 +18992,7 @@ msgstr "Katalog Microsoft Global"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:461
 msgid "Microsoft Global Catalog over SSL/TLS"
-msgstr "Katalog Microsoft Global preko SSL/TLS"
+msgstr "Katalog Microsoft Global prek SSL/TLS"
 
 #. Page 1
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:568
@@ -19166,7 +19169,7 @@ msgstr "Izberite, kateri imenik želite uporabljati."
 
 #: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:204
 msgid "Use in Birthdays & Anniversaries calendar"
-msgstr "Uporabite v koledarju rojstnih dnevov in obletnic"
+msgstr "Uporabite v koledarju rojstnih dni in obletnic"
 
 #: ../src/modules/cal-config-google/e-cal-config-google.c:101
 msgid "Enable Calendars to synchronize"
@@ -20534,7 +20537,7 @@ msgstr "Prejeto v imenu %s"
 #: ../src/modules/itip-formatter/itip-view.c:438
 #, c-format
 msgid "%s through %s has published the following meeting information:"
-msgstr "%s je preko %s objavil(a) naslednje podatke o srečanju:"
+msgstr "%s je prek %s objavil(a) naslednje podatke o srečanju:"
 
 #: ../src/modules/itip-formatter/itip-view.c:440
 #, c-format
@@ -20549,7 +20552,7 @@ msgstr "%s vam je pooblastil zastopanje naslednjega srečanja:"
 #: ../src/modules/itip-formatter/itip-view.c:448
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
-msgstr "%s preko %s zahteva vašo navzočnost na naslednjem srečanju:"
+msgstr "%s prek %s zahteva vašo navzočnost na naslednjem srečanju:"
 
 #: ../src/modules/itip-formatter/itip-view.c:450
 #, c-format
@@ -20559,7 +20562,7 @@ msgstr "%s zahteva vašo navzočnost na naslednjem srečanju:"
 #: ../src/modules/itip-formatter/itip-view.c:456
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
-msgstr "%s vas želi preko %s dodati k obstoječemu srečanju:"
+msgstr "%s vas želi prek %s dodati k obstoječemu srečanju:"
 
 #: ../src/modules/itip-formatter/itip-view.c:458
 #, c-format
@@ -20569,7 +20572,7 @@ msgstr "%s vas želi dodati k obstoječemu srečanju:"
 #: ../src/modules/itip-formatter/itip-view.c:462
 #, c-format
 msgid "%s through %s wishes to receive the latest information for the following meeting:"
-msgstr "%s želi preko %s pridobiti najnovejše podrobnosti o srečanju:"
+msgstr "%s želi prek %s pridobiti najnovejše podrobnosti o srečanju:"
 
 #: ../src/modules/itip-formatter/itip-view.c:464
 #, c-format
@@ -20579,7 +20582,7 @@ msgstr "%s želi dobiti najnovejše podatke o naslednjem srečanju:"
 #: ../src/modules/itip-formatter/itip-view.c:468
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
-msgstr "%s</b> je preko %s poslal(a) naslednji odgovor o srečanju:"
+msgstr "%s</b> je prek %s poslal(a) naslednji odgovor o srečanju:"
 
 #: ../src/modules/itip-formatter/itip-view.c:470
 #, c-format
@@ -20599,7 +20602,7 @@ msgstr "%s je preklical(a) naslednje srečanje:"
 #: ../src/modules/itip-formatter/itip-view.c:480
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
-msgstr "%s preko %s predlaga naslednje spremembe srečanja."
+msgstr "%s prek %s predlaga naslednje spremembe srečanja."
 
 #: ../src/modules/itip-formatter/itip-view.c:482
 #, c-format
@@ -20609,7 +20612,7 @@ msgstr "%s predlaga naslednje spremembe srečanja:"
 #: ../src/modules/itip-formatter/itip-view.c:486
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
-msgstr "%s je preko %s odklonil(a) naslednje spremembe srečanja:"
+msgstr "%s je prek %s odklonil(a) naslednje spremembe srečanja:"
 
 #: ../src/modules/itip-formatter/itip-view.c:488
 #, c-format
@@ -20619,7 +20622,7 @@ msgstr "%s je odklonil(a) naslednje spremembe srečanja:"
 #: ../src/modules/itip-formatter/itip-view.c:528
 #, c-format
 msgid "%s through %s has published the following task:"
-msgstr "%s je preko %s objavil(a) naslednje naloge:"
+msgstr "%s je prek %s objavil(a) naslednje naloge:"
 
 #: ../src/modules/itip-formatter/itip-view.c:530
 #, c-format
@@ -20634,7 +20637,7 @@ msgstr "%s zahteva dodelitev %s naslednji nalogi:"
 #: ../src/modules/itip-formatter/itip-view.c:538
 #, c-format
 msgid "%s through %s has assigned you a task:"
-msgstr "%s vam je preko %s dodelil(a) nalogo:"
+msgstr "%s vam je prek %s dodelil(a) nalogo:"
 
 #: ../src/modules/itip-formatter/itip-view.c:540
 #, c-format
@@ -20644,7 +20647,7 @@ msgstr "%s vam je dodelil(a) nalogo:"
 #: ../src/modules/itip-formatter/itip-view.c:546
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
-msgstr "%s vas želi preko %s dodati k obstoječi nalogi:"
+msgstr "%s vas želi prek %s dodati k obstoječi nalogi:"
 
 #: ../src/modules/itip-formatter/itip-view.c:548
 #, c-format
@@ -20654,7 +20657,7 @@ msgstr "%s vas želi dodati k obstoječi nalogi:"
 #: ../src/modules/itip-formatter/itip-view.c:552
 #, c-format
 msgid "%s through %s wishes to receive the latest information for the following assigned task:"
-msgstr "%s želi preko %s pridobiti najnovejše podrobnosti o naslednji nalogi:"
+msgstr "%s želi prek %s pridobiti najnovejše podrobnosti o naslednji nalogi:"
 
 #: ../src/modules/itip-formatter/itip-view.c:554
 #, c-format
@@ -20664,7 +20667,7 @@ msgstr "%s želi dobiti najnovejše podatke o naslednji nalogi:"
 #: ../src/modules/itip-formatter/itip-view.c:558
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
-msgstr "%s preko %s pošilja naslednji odgovor o dodeljeni nalogi:"
+msgstr "%s prek %s pošilja naslednji odgovor o dodeljeni nalogi:"
 
 #: ../src/modules/itip-formatter/itip-view.c:560
 #, c-format
@@ -20684,7 +20687,7 @@ msgstr "%s je preklical(a) naslednjo dodeljeno nalogo:"
 #: ../src/modules/itip-formatter/itip-view.c:570
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
-msgstr "%s je preko %s predlagal(a) naslednje spremembe dodelitev naloge:"
+msgstr "%s je prek %s predlagal(a) naslednje spremembe dodelitev naloge:"
 
 #: ../src/modules/itip-formatter/itip-view.c:572
 #, c-format
@@ -20694,7 +20697,7 @@ msgstr "%s je predlagal(a) naslednje spremembe dodelitev naloge:"
 #: ../src/modules/itip-formatter/itip-view.c:576
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
-msgstr "%s je preko %s odklonil(a) naslednjo dodeljeno nalogo:"
+msgstr "%s je prek %s odklonil(a) naslednjo dodeljeno nalogo:"
 
 #: ../src/modules/itip-formatter/itip-view.c:578
 #, c-format
@@ -20704,7 +20707,7 @@ msgstr "%s je odklonil(a) naslednjo dodeljeno nalogo:"
 #: ../src/modules/itip-formatter/itip-view.c:617
 #, c-format
 msgid "%s through %s has published the following memo:"
-msgstr "%s je preko %s objavil(a) naslednji opomnik:"
+msgstr "%s je prek %s objavil(a) naslednji opomnik:"
 
 #: ../src/modules/itip-formatter/itip-view.c:619
 #, c-format
@@ -20714,7 +20717,7 @@ msgstr "%s je objavil(a) naslednji opomnik:"
 #: ../src/modules/itip-formatter/itip-view.c:624
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
-msgstr "%s vas želi preko %s dodati k obstoječemu opomniku:"
+msgstr "%s vas želi prek %s dodati k obstoječemu opomniku:"
 
 #: ../src/modules/itip-formatter/itip-view.c:626
 #, c-format
@@ -20856,7 +20859,7 @@ msgstr[3] "V koledarju »%s« so %d sestanki, ki so v sporu s tem srečanjem"
 #: ../src/modules/itip-formatter/itip-view.c:3740
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
-msgstr "V koledrju »%s« je najden sestanek"
+msgstr "V koledarju »%s« je najden sestanek"
 
 #: ../src/modules/itip-formatter/itip-view.c:3749
 msgid "This meeting invitation is obsolete. It had been updated."
@@ -21186,7 +21189,7 @@ msgid ""
 "   %F — stands for the From address\n"
 "   %R — stands for the recipient addresses"
 msgstr ""
-"Privzete uastavice so '-i -f %F -- %R', kjer\n"
+"Privzete zastavice so '-i -f %F -- %R', kjer\n"
 "   %F – predstavlja naslov Od\n"
 "   %R – predstavlja naslove prejemnikov"
 
@@ -22027,7 +22030,7 @@ msgid ""
 msgstr ""
 "Dobrodošli v Evolution.\n"
 "\n"
-"Naslednjih nekaj zaslonov bo omogočilo programu Evolution, da se poveže z vašimi računi e-pošte in da uvozi datoteke iz drugih programov."
+"Naslednjih nekaj zaslonov bo omogočilo nastavitev računov elektronske pošte in uvoz datotek iz drugih programov."
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:165
 msgid "Do not _show this wizard again"
@@ -22417,7 +22420,7 @@ msgstr "Zaupno"
 #: ../src/plugins/email-custom-header/email-custom-header.c:299
 msgctxt "email-custom-header-Security"
 msgid "Secret"
-msgstr "Srkivnost"
+msgstr "Skrivnost"
 
 #: ../src/plugins/email-custom-header/email-custom-header.c:300
 msgctxt "email-custom-header-Security"
@@ -22740,7 +22743,7 @@ msgstr "Zadeva: %s"
 
 #: ../src/plugins/mail-notification/mail-notification.c:443
 msgid "New email in Evolution"
-msgstr "Nova pošta v Evolutionu"
+msgstr "Nova pošta v programu Evolution"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
@@ -22882,7 +22885,7 @@ msgstr "Izbrani koledar je le za branje, zato dogodka ni mogoče ustvariti. Izbe
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:845
 msgid "Selected task list is read only, thus cannot create task there. Select other task list, please."
-msgstr "Izbran senzam nalog je le za branje, zato je ni mogoče ustvariti. Izberite drug seznam."
+msgstr "Izbran seznam nalog je le za branje, zato je ni mogoče ustvariti. Izberite drug seznam."
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:848
 msgid "Selected memo list is read only, thus cannot create memo there. Select other memo list, please."
@@ -23018,7 +23021,7 @@ msgstr "Tedensko"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "Manual (via Actions menu)"
-msgstr "Ročno (preko menija Dejanja)"
+msgstr "Ročno (prek menija Dejanja)"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:9
 msgid "Secure FTP (SFTP)"
@@ -23337,7 +23340,7 @@ msgid "translator-credits"
 msgstr ""
 "Matej Urbančič <mateju@svn.gnome.org>\n"
 "Matjaž Horvat\n"
-"Andrej Žnidaršič <andrej.znidarsic@gmail.com>"
+"Andrej Žnidaršič"
 
 #: ../src/shell/e-shell-utils.c:430
 msgid "Evolution Website"
@@ -23361,7 +23364,7 @@ msgstr "Programa Bug buddy ni mogoče zagnati."
 
 #: ../src/shell/e-shell-window-actions.c:798
 msgid "Show information about Evolution"
-msgstr "Pokaže podatke o Evolutionu"
+msgstr "Pokaže podatke o programu Evolution"
 
 #: ../src/shell/e-shell-window-actions.c:803
 msgid "_Accounts"
@@ -23659,17 +23662,17 @@ msgstr ""
 "Pozdravljeni! Hvala, ker ste si vzeli čas za prenos predstavitvene\n"
 "izdaje zbirke za skupinsko delo Evolution.\n"
 "\n"
-"Ta različica Evolutiona še ni povsem končana, zato nekatere\n"
-"zmogljivosti niso dokončane ali ne delujejo pravilno.\n"
+"Ta različica programa še ni povsem končana, zato nekatere\n"
+"zmogljivosti niso dokončane ali lahko ne delujejo pravilno.\n"
 "\n"
-"Če želite stabilno različico Evolutiona, predlagamo da odstranite\n"
-"to različico in namesto nje namestite različico %s.\n"
+"Če želite stabilno različico, predlagamo, da preizkusno\n"
+"odstranite in namesto nje namestite različico %s.\n"
 "\n"
-"Če najdete hrošče, jih lahko sporočite na bugzilla.gnome.org.\n"
-"Ta izdelek prihaja brez kakršnegakoli jamstva in ni primeren za\n"
-"osebe, ki doživljajo nasilne napade jeze.\n"
+"Če naletite na hrošča, ga sporočite na bugzilla.gnome.org.\n"
+"Ta program je objavljen brez kakršnegakoli jamstva in ni\n"
+" primeren za osebe, ki doživljajo nasilne napade jeze.\n"
 "\n"
-"Upamo, da boste uživali sadove našega trdega dela, in nestrpno\n"
+"Upamo, da boste uživali sadove našega trdega dela. Nestrpno\n"
 "pričakujemo vaše prispevke!\n"
 
 #: ../src/shell/main.c:219
@@ -23761,7 +23764,7 @@ msgid ""
 msgstr ""
 "{0}\n"
 "\n"
-"V primeru nadaljevanja morda do nekaterih starih podatkov ne boste mogli več dostopati.\n"
+"V primeru nadaljevanja morda do nekaterih starih podatkov dostop ne bo več mogoč.\n"
 
 #: ../src/shell/shell.error.xml.h:7
 msgid "Continue Anyway"
