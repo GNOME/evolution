@@ -235,6 +235,7 @@ static void
 queue_midnight_refresh (void)
 {
 	icaltimezone *zone;
+	time_t now;
 
 	if (midnight_refresh_id != NULL) {
 		alarm_remove (midnight_refresh_id);
@@ -242,7 +243,14 @@ queue_midnight_refresh (void)
 	}
 
 	zone = config_data_get_timezone ();
-	midnight = time_day_end_with_zone (time (NULL), zone);
+	now = time (NULL);
+	midnight = time_day_end_with_zone (now, zone);
+
+	while (midnight <= now) {
+		now += 60 * 60; /* increment one day */
+		midnight = time_day_end_with_zone (now, zone);
+		debug (("Required correction of the day end, now at %s", e_ctime (&midnight)));
+	}
 
 	debug (("Refresh at %s", e_ctime (&midnight)));
 
@@ -299,6 +307,9 @@ midnight_refresh_cb (gpointer alarm_id,
                      gpointer data)
 {
 	struct _midnight_refresh_msg *msg;
+
+	if (midnight_refresh_id == alarm_id)
+		midnight_refresh_id = NULL;
 
 	msg = g_slice_new0 (struct _midnight_refresh_msg);
 	msg->header.func = (MessageFunc) midnight_refresh_async;

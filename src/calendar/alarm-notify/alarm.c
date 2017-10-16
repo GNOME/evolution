@@ -248,7 +248,7 @@ alarm_remove (gpointer alarm)
 
 	l = g_list_find (alarms, ar);
 	if (!l) {
-		g_warning (G_STRLOC ": Requested removal of nonexistent alarm!");
+		debug ((G_STRLOC ": Requested removal of nonexistent alarm!"));
 		return;
 	}
 
