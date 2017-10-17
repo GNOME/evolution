@@ -1336,6 +1336,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			-1);
 
 		path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), iter);
+		g_signal_emit (model, signals[LOADED_ROW], 0, path, iter);
 		g_signal_emit (model, signals[LOADING_ROW], 0, path, iter);
 		gtk_tree_path_free (path);
 		return;

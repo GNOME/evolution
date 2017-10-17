@@ -95,7 +95,6 @@ struct _EMFolderTreePrivate {
 	guint autoexpand_id;
 	GtkTreeRowReference *autoexpand_row;
 
-	guint loading_row_id;
 	guint loaded_row_id;
 	guint row_changed_id;
 
@@ -1209,11 +1208,6 @@ folder_tree_dispose (GObject *object)
 		priv->loaded_row_id = 0;
 	}
 
-	if (priv->loading_row_id != 0) {
-		g_signal_handler_disconnect (model, priv->loading_row_id);
-		priv->loading_row_id = 0;
-	}
-
 	if (priv->row_changed_id != 0) {
 		g_signal_handler_disconnect (model, priv->row_changed_id);
 		priv->row_changed_id = 0;
@@ -1295,11 +1289,6 @@ folder_tree_constructed (GObject *object)
 	tree_view = GTK_TREE_VIEW (object);
 	model = gtk_tree_view_get_model (tree_view);
 	selection = gtk_tree_view_get_selection (tree_view);
-
-	handler_id = g_signal_connect (
-		model, "loading-row",
-		G_CALLBACK (folder_tree_maybe_expand_row), object);
-	priv->loading_row_id = handler_id;
 
 	handler_id = g_signal_connect (
 		model, "loaded-row",
