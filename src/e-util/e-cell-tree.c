@@ -211,6 +211,9 @@ draw_expander (ECellTreeView *ectv,
 	GtkStateFlags flags = 0;
 	gint exp_size;
 
+	if (!E_CELL_TREE (ectv->cell_view.ecell)->show_expander)
+		return;
+
 	tree = gtk_widget_get_parent (GTK_WIDGET (ectv->canvas));
 	style_context = gtk_widget_get_style_context (tree);
 
@@ -296,7 +299,8 @@ ect_draw (ECellView *ecell_view,
 		rect.height = y2 - y1;
 
 		/* now draw our icon if we're expandable */
-		if (e_tree_model_node_is_expandable (tree_model, node)) {
+		if (E_CELL_TREE (tree_view->cell_view.ecell)->show_expander &&
+		    e_tree_model_node_is_expandable (tree_model, node)) {
 			gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 			GdkRectangle r;
 
@@ -437,7 +441,8 @@ ect_event (ECellView *ecell_view,
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
 
-		if (event_in_expander (event, offset, 0)) {
+		if (E_CELL_TREE (tree_view->cell_view.ecell)->show_expander &&
+		    event_in_expander (event, offset, 0)) {
 			if (e_tree_model_node_is_expandable (tree_model, node)) {
 				gboolean expanded = e_tree_table_adapter_node_is_expanded (etta, node);
 				gint tmp_row = row;
@@ -480,7 +485,8 @@ ect_event (ECellView *ecell_view,
 
 	case GDK_MOTION_NOTIFY:
 
-		if (e_tree_model_node_is_expandable (tree_model, node)) {
+		if (E_CELL_TREE (tree_view->cell_view.ecell)->show_expander &&
+		    e_tree_model_node_is_expandable (tree_model, node)) {
 			gint height = ect_height (ecell_view, model_col, view_col, row);
 			GdkRectangle area;
 			gboolean in_expander = event_in_expander (event, offset, height);
@@ -720,7 +726,7 @@ ect_print (ECellView *ecell_view,
 		}
 
 		/* now draw our icon if we're expandable */
-		if (expandable) {
+		if (expandable && E_CELL_TREE (tree_view->cell_view.ecell)->show_expander) {
 			gboolean expanded;
 			GdkRectangle r;
 			gint exp_size = 0;
@@ -811,6 +817,7 @@ e_cell_tree_init (ECellTree *ect)
  * e_cell_tree_construct:
  * @ect: the ECellTree we're constructing.
  * @draw_lines: whether or not to draw the lines between parents/children/siblings.
+ * @show_expander: whether to show expander
  * @subcell: the ECell to render to the right of the tree effects.
  *
  * Constructs an ECellTree.  used by subclasses that need to
@@ -820,6 +827,7 @@ e_cell_tree_init (ECellTree *ect)
 void
 e_cell_tree_construct (ECellTree *ect,
                        gboolean draw_lines,
+		       gboolean show_expander,
                        ECell *subcell)
 {
 	ect->subcell = subcell;
@@ -827,12 +835,14 @@ e_cell_tree_construct (ECellTree *ect,
 		g_object_ref_sink (subcell);
 
 	ect->draw_lines = draw_lines;
+	ect->show_expander = show_expander;
 	ect->grouped_view = TRUE;
 }
 
 /**
  * e_cell_tree_new:
  * @draw_lines: whether or not to draw the lines between parents/children/siblings.
+ * @show_expander: whether to show expander
  * @subcell: the ECell to render to the right of the tree effects.
  *
  * Creates a new ECell renderer that can be used to render tree
@@ -846,11 +856,12 @@ e_cell_tree_construct (ECellTree *ect,
  **/
 ECell *
 e_cell_tree_new (gboolean draw_lines,
+		 gboolean show_expander,
                  ECell *subcell)
 {
 	ECellTree *ect = g_object_new (E_TYPE_CELL_TREE, NULL);
 
-	e_cell_tree_construct (ect, draw_lines, subcell);
+	e_cell_tree_construct (ect, draw_lines, show_expander, subcell);
 
 	return (ECell *) ect;
 }
@@ -870,4 +881,21 @@ e_cell_tree_set_grouped_view (ECellTree *cell_tree,
 	g_return_if_fail (E_IS_CELL_TREE (cell_tree));
 
 	cell_tree->grouped_view = grouped_view;
+}
+
+gboolean
+e_cell_tree_get_show_expander (ECellTree *cell_tree)
+{
+	g_return_val_if_fail (E_IS_CELL_TREE (cell_tree), FALSE);
+
+	return cell_tree->show_expander;
+}
+
+void
+e_cell_tree_set_show_expander (ECellTree *cell_tree,
+			       gboolean show_expander)
+{
+	g_return_if_fail (E_IS_CELL_TREE (cell_tree));
+
+	cell_tree->show_expander = show_expander;
 }

@@ -323,7 +323,7 @@ e_table_extras_init (ETableExtras *extras)
 	g_object_unref (cell);
 
 	sub_cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	cell = e_cell_tree_new (TRUE, sub_cell);
+	cell = e_cell_tree_new (TRUE, TRUE, sub_cell);
 	e_table_extras_add_cell (extras, "tree-string", cell);
 	g_object_unref (sub_cell);
 	g_object_unref (cell);

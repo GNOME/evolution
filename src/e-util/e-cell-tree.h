@@ -67,6 +67,7 @@ struct _ECellTree {
 
 	gboolean draw_lines;
 	gboolean grouped_view;
+	gboolean show_expander;
 
 	ECell *subcell;
 };
@@ -77,15 +78,20 @@ struct _ECellTreeClass {
 
 GType		e_cell_tree_get_type		(void) G_GNUC_CONST;
 ECell *		e_cell_tree_new			(gboolean draw_lines,
+						 gboolean show_expander,
 						 ECell *subcell);
 void		e_cell_tree_construct		(ECellTree *ect,
 						 gboolean draw_lines,
+						 gboolean show_expander,
 						 ECell *subcell);
 ECellView *	e_cell_tree_view_get_subcell_view
 						(ECellView *ect);
 gboolean	e_cell_tree_get_grouped_view	(ECellTree *cell_tree);
 void		e_cell_tree_set_grouped_view	(ECellTree *cell_tree,
 						 gboolean grouped_view);
+gboolean	e_cell_tree_get_show_expander	(ECellTree *cell_tree);
+void		e_cell_tree_set_show_expander	(ECellTree *cell_tree,
+						 gboolean show_expander);
 
 G_END_DECLS
 

@@ -177,6 +177,11 @@ void		message_list_set_show_deleted	(MessageList *message_list,
 gboolean	message_list_get_show_junk	(MessageList *message_list);
 void		message_list_set_show_junk	(MessageList *message_list,
 						 gboolean show_junk);
+gboolean	message_list_get_show_subject_above_sender
+						(MessageList *message_list);
+void		message_list_set_show_subject_above_sender
+						(MessageList *message_list,
+						 gboolean show_subject_above_sender);
 gboolean	message_list_get_thread_latest	(MessageList *message_list);
 void		message_list_set_thread_latest	(MessageList *message_list,
 						 gboolean thread_latest);

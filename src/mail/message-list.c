@@ -107,6 +107,7 @@ struct _MessageListPrivate {
 	gboolean thread_latest;
 	gboolean thread_subject;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
+	gboolean show_subject_above_sender;
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
@@ -181,6 +182,7 @@ enum {
 	PROP_SESSION,
 	PROP_SHOW_DELETED,
 	PROP_SHOW_JUNK,
+	PROP_SHOW_SUBJECT_ABOVE_SENDER,
 	PROP_THREAD_LATEST,
 	PROP_THREAD_SUBJECT
 };
@@ -2110,16 +2112,19 @@ filter_date (const gint64 *pdate)
 	return g_strdup (buf);
 }
 
-static ECell * create_composite_cell (gint col)
+static ECell *
+create_composite_cell (GSettings *mail_settings,
+		       gint col)
 {
-	ECell *cell_vbox, *cell_hbox, *cell_sub, *cell_date, *cell_from, *cell_tree, *cell_attach;
-	GSettings *settings;
+	ECell *cell_vbox, *cell_hbox, *cell_sub, *cell_date, *cell_from, *top_cell_tree, *bottom_cell_tree, *cell_attach;
 	gboolean show_email;
-	gint alt_col = (col == COL_FROM) ? COL_SENDER : COL_RECIPIENTS;
+	gboolean show_subject_above_sender;
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	show_email = g_settings_get_boolean (settings, "show-email");
-	g_object_unref (settings);
+	show_email = g_settings_get_boolean (mail_settings, "show-email");
+	show_subject_above_sender = g_settings_get_boolean (mail_settings, "show-subject-above-sender");
+
+	if (!show_email)
+		col = (col == COL_FROM) ? COL_SENDER : COL_RECIPIENTS;
 
 	cell_vbox = e_cell_vbox_new ();
 
@@ -2145,7 +2150,7 @@ static ECell * create_composite_cell (gint col)
 		"color_column", COL_COLOUR,
 		NULL);
 
-	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_from, show_email ? col : alt_col, 68);
+	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_from, show_subject_above_sender ? COL_SUBJECT : col, 68);
 	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_attach, COL_ATTACHMENT, 5);
 	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_date, COL_SENT, 27);
 	g_object_unref (cell_from);
@@ -2157,18 +2162,59 @@ static ECell * create_composite_cell (gint col)
 		cell_sub,
 		"color_column", COL_COLOUR,
 		NULL);
-	cell_tree = e_cell_tree_new (TRUE, cell_sub);
-	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), cell_hbox, COL_FROM);
-	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), cell_tree, COL_SUBJECT);
+	top_cell_tree = e_cell_tree_new (TRUE, FALSE, cell_hbox);
+	bottom_cell_tree = e_cell_tree_new (TRUE, TRUE, cell_sub);
+	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), top_cell_tree, show_subject_above_sender ? COL_SUBJECT : col);
+	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), bottom_cell_tree, show_subject_above_sender ? col : COL_SUBJECT);
 	g_object_unref (cell_sub);
 	g_object_unref (cell_hbox);
-	g_object_unref (cell_tree);
+	g_object_unref (top_cell_tree);
+	g_object_unref (bottom_cell_tree);
 
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_date", cell_date);
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_sub", cell_sub);
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_from", cell_from);
+	g_object_set_data (G_OBJECT (cell_vbox), "cell_hbox", cell_hbox);
+	g_object_set_data (G_OBJECT (cell_vbox), "address_model_col", GINT_TO_POINTER (col));
 
 	return cell_vbox;
+}
+
+static void
+composite_cell_set_show_subject_above_sender (ECell *cell,
+					      gboolean show_subject_above_sender)
+{
+	ECellVbox *cell_vbox;
+	ECellHbox *cell_hbox;
+	ECell *cell_from;
+	GObject *cell_obj;
+	gint address_model_col, cell_from_index;
+
+	g_return_if_fail (E_IS_CELL_VBOX (cell));
+
+	cell_obj = G_OBJECT (cell);
+	address_model_col = GPOINTER_TO_INT (g_object_get_data (cell_obj, "address_model_col"));
+
+	cell_vbox = E_CELL_VBOX (cell);
+	g_return_if_fail (cell_vbox->subcell_count == 2);
+	g_return_if_fail (cell_vbox->model_cols != NULL);
+
+	cell_from = g_object_get_data (cell_obj, "cell_from");
+	g_return_if_fail (E_IS_CELL (cell_from));
+
+	cell_hbox = g_object_get_data (cell_obj, "cell_hbox");
+	g_return_if_fail (E_IS_CELL_HBOX (cell_hbox));
+
+	for (cell_from_index = 0; cell_from_index < cell_hbox->subcell_count; cell_from_index++) {
+		if (cell_hbox->subcells[cell_from_index] == cell_from)
+			break;
+	}
+
+	g_return_if_fail (cell_from_index < cell_hbox->subcell_count);
+
+	cell_hbox->model_cols[cell_from_index] = show_subject_above_sender ? COL_SUBJECT : address_model_col;
+	cell_vbox->model_cols[0] = show_subject_above_sender ? COL_SUBJECT : address_model_col;
+	cell_vbox->model_cols[1] = show_subject_above_sender ? address_model_col : COL_SUBJECT;
 }
 
 static void
@@ -2188,7 +2234,7 @@ composite_cell_set_strike_col (ECell *cell,
 }
 
 static ETableExtras *
-message_list_create_extras (void)
+message_list_create_extras (GSettings *mail_settings)
 {
 	ETableExtras *extras;
 	ECell *cell;
@@ -2250,7 +2296,7 @@ message_list_create_extras (void)
 	e_table_extras_add_cell (extras, "render_text", cell);
 	g_object_unref (cell);
 
-	cell = e_cell_tree_new (TRUE, cell);
+	cell = e_cell_tree_new (TRUE, TRUE, cell);
 	e_table_extras_add_cell (extras, "render_tree", cell);
 	g_object_unref (cell);
 
@@ -2266,11 +2312,11 @@ message_list_create_extras (void)
 	g_object_unref (cell);
 
 	/* Composite cell for wide view */
-	cell = create_composite_cell (COL_FROM);
+	cell = create_composite_cell (mail_settings, COL_FROM);
 	e_table_extras_add_cell (extras, "render_composite_from", cell);
 	g_object_unref (cell);
 
-	cell = create_composite_cell (COL_TO);
+	cell = create_composite_cell (mail_settings, COL_TO);
 	e_table_extras_add_cell (extras, "render_composite_to", cell);
 	g_object_unref (cell);
 
@@ -2853,6 +2899,12 @@ message_list_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SHOW_SUBJECT_ABOVE_SENDER:
+			message_list_set_show_subject_above_sender (
+				MESSAGE_LIST (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_THREAD_LATEST:
 			message_list_set_thread_latest (
 				MESSAGE_LIST (object),
@@ -2922,6 +2974,13 @@ message_list_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				message_list_get_show_junk (
+				MESSAGE_LIST (object)));
+			return;
+
+		case PROP_SHOW_SUBJECT_ABOVE_SENDER:
+			g_value_set_boolean (
+				value,
+				message_list_get_show_subject_above_sender (
 				MESSAGE_LIST (object)));
 			return;
 
@@ -3594,6 +3653,18 @@ message_list_class_init (MessageListClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SHOW_SUBJECT_ABOVE_SENDER,
+		g_param_spec_boolean (
+			"show-subject-above-sender",
+			"Show Subject Above Sender",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_THREAD_LATEST,
 		g_param_spec_boolean (
 			"thread-latest",
@@ -3752,7 +3823,7 @@ message_list_construct (MessageList *message_list)
 	/*
 	 * The etree
 	 */
-	message_list->extras = message_list_create_extras ();
+	message_list->extras = message_list_create_extras (message_list->priv->mail_settings);
 
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "message-list.etspec", NULL);
@@ -5006,6 +5077,45 @@ message_list_set_show_junk (MessageList *message_list,
 		mail_regen_list (message_list, NULL, FALSE);
 	else
 		message_list->priv->thaw_needs_regen = TRUE;
+}
+
+gboolean
+message_list_get_show_subject_above_sender (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->show_subject_above_sender;
+}
+
+void
+message_list_set_show_subject_above_sender (MessageList *message_list,
+					    gboolean show_subject_above_sender)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (show_subject_above_sender == message_list->priv->show_subject_above_sender)
+		return;
+
+	message_list->priv->show_subject_above_sender = show_subject_above_sender;
+
+	if (message_list->extras) {
+		ECell *cell;
+
+		cell = e_table_extras_get_cell (message_list->extras, "render_composite_from");
+		if (cell)
+			composite_cell_set_show_subject_above_sender (cell, show_subject_above_sender);
+
+		cell = e_table_extras_get_cell (message_list->extras, "render_composite_to");
+		if (cell)
+			composite_cell_set_show_subject_above_sender (cell, show_subject_above_sender);
+
+		if (message_list->priv->folder &&
+		    gtk_widget_get_realized (GTK_WIDGET (message_list)) &&
+		    gtk_widget_get_visible (GTK_WIDGET (message_list)))
+			mail_regen_list (message_list, NULL, FALSE);
+	}
+
+	g_object_notify (G_OBJECT (message_list), "show-subject-above-sender");
 }
 
 gboolean

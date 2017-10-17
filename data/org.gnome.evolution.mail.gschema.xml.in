@@ -713,6 +713,11 @@
       <_summary>Whether go to the previous message after message deletion</_summary>
       <_description>If set to true, goes to the previous message when the selected is deleted; or to the next message, when it's set to false.</_description>
     </key>
+    <key name="show-subject-above-sender" type="b">
+      <default>false</default>
+      <_summary>Show Subject above Sender in Messages column</_summary>
+      <_description>Whether to show Subject above Sender (From/To) in the Messages column, usually shown in the Vertical/Wide view of the message list</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 
