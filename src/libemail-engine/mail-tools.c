@@ -189,8 +189,7 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 			subject = camel_address_format (CAMEL_ADDRESS (from));
 	}
 
-	/* Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message. */
-	fwd_subj = g_strdup_printf (_("[Fwd: %s]"),
+	fwd_subj = g_strdup_printf ("[Fwd: %s]",
 		/* Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
 	           It results in "[Fwd: No Subject]" being used as a subject of the forwarded message. */
 		(subject && *subject) ? subject : _("No Subject"));
