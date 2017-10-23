@@ -1044,6 +1044,111 @@ test_bug_780088 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_bug_788829 (TestFixture *fixture)
+{
+	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-wrap-quoted-text-in-replies", TRUE);
+	test_utils_fixture_change_setting_int32 (fixture, "org.gnome.evolution.mail", "composer-word-wrap-length", 71);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<div>Xxxxx xx xxxxxxxxx xx xxxxxxx xx xxxxx xxxx xxxx xx xxx xxx xxxx xxx xxxçx xôxé "
+		"\"xxxxx xxxx xxxxxxx xxx\" xx xxxx xxxxé xxx xxx xxxéx xxx x'x xéxxxxé x'xxxxxxxxx xx "
+		"xxx \"<a href=\"https://gnome.org\">Xxxx XXX Xxxxxx Xxx</a>\". Xx xxxx xxxxxxxx xxx <a"
+		" href=\"https://gnome.org/\">xxxxxxxxxxxxxxxx.xx</a> (xxxxxxx xxxxxxxxxx xx .xxx). Xxxx "
+		"êxxx xxx xxxxxxxxxxx xxxéxxxxxxxx, xxxx xxxxx xx XXX xx xéxxx à xx xxx \"xxx xxxxxx xxxx "
+		"xx xxxxxxx\" xx xxxx xx xxxxx xxxxxxxx xxxxxxxx xx $ xx xxxx x'xxxxxx.</div><div><br>"
+		"</div><div>Xxxx xx xéxxxxxxx, xxxxxxxx xxxxxxx (!), xxxxxxx à xxx, xxxx ooo$ XXX xxxxé: "
+		"<a href=\"https://gnome.org\">https://xxxxxxxxxxxxxxxx.xx/xxxxxxx/xxxxx-xxxx-xxxxxxxx-x"
+		"xxxx-xxxx-xxx-xxxxxxxx-xxx/</a> xx xx xxxx xéxéxxxxxxx x'xxxxxx xxxx xx xxxxxx xx xxxxxx"
+		"xxxxxx xx xxx (xxxxx Xxxxxx) xxxx xxxx x'xxxxxxx xx xxxxxx: <a href=\"https://gnome.org\">"
+		"https://xxxxxxxxxxxxxxxx.xxx/xx-xxxxxxx/xxxxxxx/Xxxxxxxxxxxx-Xxxxx-Xxxx-XXX-Xxxxxx-Xxx.xxx"
+		"</a></div><div><br></div><div>Xxxx xxx xxx xxxxxxx xxxxxxxéxx x'xxxêxxxx à xxxxx, xxx xx x"
+		"xxxé xx oooxooo xxxxx xxxxx xxxx... xxxx x'xxx xxxxxxxxxxxx xxxxx xxx xxxxxxxx xx \"xx xxx"
+		"xx xxx xxx xxxxxxx xxxxxxx xxxxxxxxxxxxxx xxxx xxxxx xxxxxx xx xx xxxx xx x'xxxxxx\". Xx "
+		"xxxx-êxxx xxx xx xxxxxxxx xx xxxx \"x'xxxêxx à xxxxx xx oooxooo xxxx xxx xéxxxxxxxx, xxxx"
+		"\"...</div><div><br></div><div>Xxxxx xxxxxx'xx xxx x xxxx xxxxxxx xxxxx xx xxèx xxxxxxxxx "
+		"xxxxxxxxxxxxxxxx à xx xxx x'xx xx xêxx (éxxxxxxxxx xxxx-xx-xxxxxxxx): <a href=\"https://"
+		"gnome.org\">https://xxxxxxxxxxxxxxxx.xxx/xx-xxxxxxx/xxxxxxx/Xxxxx-xxxx-xxx-xxxxxxxxxx-xx"
+		"xxx.xxx</a> ;&nbsp;</div><div><br></div><div>...x'x xxxxx xx xxxxxx x'xxxxxx xéxxxxxxx, "
+		"xx xxx xxxx xxxxxx x'xxxxxxxxxxx xxxxxx, xxxx <a href=\"https://gnome.org\">https://xxxx"
+		"xxxxxxxxxxxx.xxx/xxxxxxxx-xxxxxxx-xxxx-xxx-o/</a> xxxxx xxx <a href=\"https://gnome.org/\""
+		">https://xxxxxxxxxxxxxxxx.xxx/xxxxxxxx-xxxxxxx-xxxx-xxx-o/</a> ...</div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div><blockquote type=\"cite\" "
+		"style=\"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex\">"
+		"<div style=\"width: 71ch;\">&gt; Xxxxx xx xxxxxxxxx xx xxxxxxx xx xxxxx xxxx "
+		"xxxx xx xxx xxx xxxx xxx<br>&gt; xxxçx xôxé \"xxxxx xxxx xxxxxxx xxx\" xx xxxx "
+		"xxxxé xxx xxx xxxéx xxx<br>&gt; x'x xéxxxxé x'xxxxxxxxx xx xxx \"Xxxx XXX Xxxxxx "
+		"Xxx\". Xx xxxx<br>&gt; xxxxxxxx xxx xxxxxxxxxxxxxxxx.xx (xxxxxxx xxxxxxxxxx xx .xx"
+		"x). Xxxx<br>&gt; êxxx xxx xxxxxxxxxxx xxxéxxxxxxxx, xxxx xxxxx xx XXX xx xéxxx à "
+		"xx<br>&gt; xxx \"xxx xxxxxx xxxx xx xxxxxxx\" xx xxxx xx xxxxx xxxxxxxx xxxxxxxx"
+		"<br>&gt; xx $ xx xxxx x'xxxxxx.</div><div style=\"width: 71ch;\">&gt; <br></div>"
+		"<div style=\"width: 71ch;\">&gt; Xxxx xx xéxxxxxxx, xxxxxxxx xxxxxxx (!), "
+		"xxxxxxx à xxx, xxxx ooo$ XXX<br>&gt; xxxxé: https://xxxxxxxxxxxxxxxx.xx/xxx"
+		"xxxx/xxxxx-xxxx-xxxxxxxx-xxxxx-<br>&gt; xxxx-xxx-xxxxxxxx-xxx/ xx xx xxxx "
+		"xéxéxxxxxxx x'xxxxxx xxxx xx xxxxxx<br>&gt; xx xxxxxxxxxxxx xx xxx (xxxxx "
+		"Xxxxxx) xxxx xxxx x'xxxxxxx xx xxxxxx: <br>&gt; https://xxxxxxxxxxxxxxxx.xx"
+		"x/xx-xxxxxxx/xxxxxxx/Xxxxxxxxxxxx-Xxxxx-Xx<br>&gt; xx-XXX-Xxxxxx-Xxx.xxx</div>"
+		"<div style=\"width: 71ch;\">&gt; <br></div><div style=\"width: 71ch;\">&gt; Xx"
+		"xx xxx xxx xxxxxxx xxxxxxxéxx x'xxxêxxxx à xxxxx, xxx xx xxxxé xx<br>&gt; oooxo"
+		"oo xxxxx xxxxx xxxx... xxxx x'xxx xxxxxxxxxxxx xxxxx xxx<br>&gt; xxxxxxxx xx \""
+		"xx xxxxx xxx xxx xxxxxxx xxxxxxx xxxxxxxxxxxxxx xxxx<br>&gt; xxxxx xxxxxx xx xx "
+		"xxxx xx x'xxxxxx\". Xx xxxx-êxxx xxx xx xxxxxxxx xx<br>&gt; xxxx \"x'xxxêxx à "
+		"xxxxx xx oooxooo xxxx xxx xéxxxxxxxx, xxxx\"...</div><div style=\"width: 71ch;\">"
+		"&gt; <br></div><div style=\"width: 71ch;\">&gt; Xxxxx xxxxxx'xx xxx x xxxx xxxxxxx "
+		"xxxxx xx xxèx xxxxxxxxx<br>&gt; <br>&gt; xxxxxxxxxxxxxxxx à xx xxx x'xx xx xêxx "
+		"(éxxxxxxxxx xxxx-xx-xxxxxxxx): <a href=\"https://xxxxxxxxxxxxxxxx.xxx/xx-xxxxxxx/"
+		"xxxxxxx/Xxxxx-xxxx-xxx-xxxxxxxxxx-xxxxx.xxx\">https://xxxxxxxxxxxxxxxx.xxx/xx-xxx"
+		"xxxx/xxxxxxx/Xxxxx-xxxx-xxx-<br>&gt; xxxxxxxxxx-xxxxx.xxx</a> ;&nbsp;</div><div "
+		"style=\"width: 71ch;\">&gt; <br></div><div style=\"width: 71ch;\">&gt; ...x'x "
+		"xxxxx xx xxxxxx x'xxxxxx xéxxxxxxx, xx xxx xxxx xxxxxx<br>&gt; x'xxxxxxxxxxx "
+		"xxxxxx, xxxx https://xxxxxxxxxxxxxxxx.xxx/xxxxxxxx-xxxx<br>&gt; xxx-xxxx-xxx-o/ "
+		"xxxxx xxx https://xxxxxxxxxxxxxxxx.xxx/xxxxxxxx-xxxxx<br>&gt; xx-xxxx-xxx-o/ ...</div>" HTML_SUFFIX,
+		"On Today, User wrote:\n"
+		"> Xxxxx xx xxxxxxxxx xx xxxxxxx xx xxxxx xxxx xxxx xx xxx xxx xxxx xxx\n"
+		"> xxxçx xôxé \"xxxxx xxxx xxxxxxx xxx\" xx xxxx xxxxé xxx xxx xxxéx xxx\n"
+		"> x'x xéxxxxé x'xxxxxxxxx xx xxx \"Xxxx XXX Xxxxxx Xxx\". Xx xxxx\n"
+		"> xxxxxxxx xxx xxxxxxxxxxxxxxxx.xx (xxxxxxx xxxxxxxxxx xx .xxx). Xxxx\n"
+		"> êxxx xxx xxxxxxxxxxx xxxéxxxxxxxx, xxxx xxxxx xx XXX xx xéxxx à xx\n"
+		"> xxx \"xxx xxxxxx xxxx xx xxxxxxx\" xx xxxx xx xxxxx xxxxxxxx xxxxxxxx\n"
+		"> xx $ xx xxxx x'xxxxxx.\n"
+		"> \n"
+		"> Xxxx xx xéxxxxxxx, xxxxxxxx xxxxxxx (!), xxxxxxx à xxx, xxxx ooo$ XXX\n"
+		"> xxxxé: https://xxxxxxxxxxxxxxxx.xx/xxxxxxx/xxxxx-xxxx-xxxxxxxx-xxxxx-\n"
+		"> xxxx-xxx-xxxxxxxx-xxx/ xx xx xxxx xéxéxxxxxxx x'xxxxxx xxxx xx xxxxxx\n"
+		"> xx xxxxxxxxxxxx xx xxx (xxxxx Xxxxxx) xxxx xxxx x'xxxxxxx xx xxxxxx: \n"
+		"> https://xxxxxxxxxxxxxxxx.xxx/xx-xxxxxxx/xxxxxxx/Xxxxxxxxxxxx-Xxxxx-Xx\n"
+		"> xx-XXX-Xxxxxx-Xxx.xxx\n"
+		"> \n"
+		"> Xxxx xxx xxx xxxxxxx xxxxxxxéxx x'xxxêxxxx à xxxxx, xxx xx xxxxé xx\n"
+		"> oooxooo xxxxx xxxxx xxxx... xxxx x'xxx xxxxxxxxxxxx xxxxx xxx\n"
+		"> xxxxxxxx xx \"xx xxxxx xxx xxx xxxxxxx xxxxxxx xxxxxxxxxxxxxx xxxx\n"
+		"> xxxxx xxxxxx xx xx xxxx xx x'xxxxxx\". Xx xxxx-êxxx xxx xx xxxxxxxx xx\n"
+		"> xxxx \"x'xxxêxx à xxxxx xx oooxooo xxxx xxx xéxxxxxxxx, xxxx\"...\n"
+		"> \n"
+		"> Xxxxx xxxxxx'xx xxx x xxxx xxxxxxx xxxxx xx xxèx xxxxxxxxx\n"
+		"> \n"
+		"> xxxxxxxxxxxxxxxx à xx xxx x'xx xx xêxx (éxxxxxxxxx xxxx-xx-xxxxxxxx): https://xxxxxxxxxxxxxxxx.xxx/xx-xxxxxxx/xxxxxxx/Xxxxx-xxxx-xxx-\n"
+		"> xxxxxxxxxx-xxxxx.xxx ; \n"
+		"> \n"
+		"> ...x'x xxxxx xx xxxxxx x'xxxxxx xéxxxxxxx, xx xxx xxxx xxxxxx\n"
+		"> x'xxxxxxxxxxx xxxxxx, xxxx https://xxxxxxxxxxxxxxxx.xxx/xxxxxxxx-xxxx\n"
+		"> xxx-xxxx-xxx-o/ xxxxx xxx https://xxxxxxxxxxxxxxxx.xxx/xxxxxxxx-xxxxx\n"
+		"> xx-xxxx-xxx-o/ ..."))
+		g_test_fail ();
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -1071,4 +1176,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/781722", test_bug_781722);
 	test_utils_add_test ("/bug/781116", test_bug_781116);
 	test_utils_add_test ("/bug/780088", test_bug_780088);
+	test_utils_add_test ("/bug/788829", test_bug_788829);
 }
