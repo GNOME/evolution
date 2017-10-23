@@ -999,11 +999,16 @@ e_dom_resize_document_content_to_preview_width (WebKitDOMDocument *document)
 }
 
 static void
-dom_window_resize_cb (WebKitDOMElement *element,
+dom_window_resize_cb (WebKitDOMDOMWindow *dom_window,
                       WebKitDOMEvent *event,
-                      WebKitDOMDocument *document)
+                      gpointer user_data)
 {
-	e_dom_resize_document_content_to_preview_width (document);
+	WebKitDOMDocument *document;
+
+	document = webkit_dom_dom_window_get_document (dom_window);
+
+	if (document)
+		e_dom_resize_document_content_to_preview_width (document);
 }
 
 void
@@ -1036,8 +1041,7 @@ e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
 		WEBKIT_DOM_EVENT_TARGET (dom_window),
 		"resize",
 		G_CALLBACK (dom_window_resize_cb),
-		FALSE,
-		document);
+		FALSE, NULL);
 
 	e_dom_utils_add_css_rule_into_style_sheet (
 		document,
