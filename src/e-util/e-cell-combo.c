@@ -414,7 +414,9 @@ e_cell_combo_show_popup (ECellCombo *ecc,
                          gint view_col)
 {
 	GdkWindow *window;
+	GtkWidget *toplevel = NULL;
 	GtkAllocation allocation;
+	ETableItem *eti;
 	gint x, y, width, height, old_width, old_height;
 
 	gtk_widget_get_allocation (ecc->popup_window, &allocation);
@@ -434,6 +436,15 @@ e_cell_combo_show_popup (ECellCombo *ecc,
 			gtk_scrolled_window_get_vscrollbar (
 			GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
 	}
+
+	eti = E_TABLE_ITEM (E_CELL_POPUP (ecc)->popup_cell_view->cell_view.e_table_item_view);
+	if (eti) {
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas));
+		if (!GTK_IS_WINDOW (toplevel))
+			toplevel = NULL;
+	}
+
+	gtk_window_set_transient_for (GTK_WINDOW (ecc->popup_window), toplevel ? GTK_WINDOW (toplevel) : NULL);
 
 	gtk_window_move (GTK_WINDOW (ecc->popup_window), x, y);
 	gtk_widget_set_size_request (ecc->popup_window, width, height);
