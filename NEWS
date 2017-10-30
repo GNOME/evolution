@@ -1,3 +1,40 @@
+Evolution 3.26.2 2017-10-30
+---------------------------
+
+Bug Fixes:
+	Bug 781645 - Skip GSettings schema compile and icon cache update when DESTDIR is set (Milan Crha)
+	Bug 788156 - Remote content download slows down message preview (Milan Crha)
+	Bug 788430 - Corrections to FindSMIME.cmake (Дилян Палаузов)
+	Bug 788450 - Correct typo in e_cal_model_get_default_source_uid() (Milan Crha)
+	Bug 788293 - Editing an appointment name inline inserts newline when pressing Enter (Milan Crha)
+	Bug 788478 - Pasting as citation appends text to the end of message (Milan Crha)
+	Bug 788686 - To Do bar higlights as overdue tasks with DATE-only Due (Milan Crha)
+	Bug 788675 - [iCalendar import] Leave validation of iCalendar streams to libecal (Tim Ruffing)
+	Bug 788639 - Allow use of no Name in composer "From Override" (Milan Crha)
+	Bug 788829 - Busy loop when wrapping Reply quoted text (Milan Crha)
+	Bug 696047 - [alarm-notify] Busy loop on midnight and DST change (Milan Crha)
+	Bug 789009 - Inbox is not expanded automatically on restart (Michael Kuhn)
+	Bug 788916 - Localized "Fwd:"/"Re:" can't be disabled (Milan Crha)
+
+Miscellaneous:
+	Initialize libxml2 global memory in the main() (Milan Crha)
+	Use icaltime_is_utc() instead of icaltimetype::is_utc (Milan Crha)
+	Label shortcuts prevent typing numbers (Milan Crha)
+	Crash after import file disappears before import is done (Milan Crha)
+	Crash under e_dom_resize_document_content_to_preview_width() (Milan Crha)
+	[ECellCombo] Misplaced combo popup under Wayland (Milan Crha)
+	Disable expand of To Do bar icon renderer (Milan Crha)
+	Store To Do bar width as proportion, not as absolute value (Milan Crha)
+
+Translations:
+	Efstathios Iosifidis (el)
+	Gianvito Cavasoli (it)
+	Xavi Ivars (ca@valencia)
+	Marek Cernocky (cs)
+	Matej Urbančič (sl)
+	Pawan Chitrakar (ne)
+	Милош Поповић (sr)
+
 Evolution 3.26.1 2017-10-02
 ---------------------------
 
