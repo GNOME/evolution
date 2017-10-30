@@ -105,6 +105,39 @@ reconnect_folder_loaded_event (EMailReader *child,
 	g_signal_emit_by_name (parent, "folder-loaded");
 }
 
+/* To recognize old values from new values */
+#define PROPORTION_LOWER_LIMIT 1000000
+
+static gboolean
+mail_shell_content_map_setting_to_proportion_cb (GValue *value,
+						 GVariant *variant,
+						 gpointer user_data)
+{
+	gint stored;
+	gdouble proportion = 0.15;
+
+	stored = g_variant_get_int32 (variant);
+
+	if (stored >= PROPORTION_LOWER_LIMIT)
+		proportion = (stored - PROPORTION_LOWER_LIMIT) / ((gdouble) PROPORTION_LOWER_LIMIT);
+
+	g_value_set_double (value, proportion);
+
+	return TRUE;
+}
+
+static GVariant *
+mail_shell_content_map_proportion_to_setting_cb (const GValue *value,
+						 const GVariantType *expected_type,
+						 gpointer user_data)
+{
+	gdouble proportion;
+
+	proportion = g_value_get_double (value);
+
+	return g_variant_new_int32 (PROPORTION_LOWER_LIMIT + (gint32) (proportion * PROPORTION_LOWER_LIMIT));
+}
+
 static void
 mail_shell_content_set_property (GObject *object,
                                  guint property_id,
@@ -239,7 +272,8 @@ mail_shell_content_constructed (GObject *object)
 
 	/* Build content widgets. */
 
-	widget = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	widget = e_paned_new (GTK_ORIENTATION_HORIZONTAL);
+	e_paned_set_fixed_resize (E_PANED (widget), FALSE);
 	gtk_container_add (GTK_CONTAINER (shell_content), widget);
 	gtk_widget_show (widget);
 
@@ -284,15 +318,21 @@ mail_shell_content_constructed (GObject *object)
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	if (e_shell_window_is_main_instance (e_shell_view_get_shell_window (shell_view))) {
-		g_settings_bind (
+		g_settings_bind_with_mapping (
 			settings, "to-do-bar-width",
-			paned, "position",
-			G_SETTINGS_BIND_DEFAULT);
+			paned, "proportion",
+			G_SETTINGS_BIND_DEFAULT,
+			mail_shell_content_map_setting_to_proportion_cb,
+			mail_shell_content_map_proportion_to_setting_cb,
+			NULL, NULL);
 	} else {
-		g_settings_bind (
+		g_settings_bind_with_mapping (
 			settings, "to-do-bar-width-sub",
-			paned, "position",
-			G_SETTINGS_BIND_DEFAULT);
+			paned, "proportion",
+			G_SETTINGS_BIND_DEFAULT,
+			mail_shell_content_map_setting_to_proportion_cb,
+			mail_shell_content_map_proportion_to_setting_cb,
+			NULL, NULL);
 	}
 
 	g_settings_bind (
