@@ -75,14 +75,42 @@ struct _EMCopyFolders {
 	gint delete;
 };
 
+static guint32
+emft_copy_folders_count_n_folders (CamelFolderInfo *fi,
+				   gboolean can_subfolders)
+{
+	guint32 n_folders = 0;
+
+	while (fi) {
+		n_folders++;
+
+		if (fi->child && can_subfolders)
+			n_folders += emft_copy_folders_count_n_folders (fi->child, can_subfolders);
+
+		fi = fi->next;
+	}
+
+	return n_folders;
+}
+
+static void
+emft_copy_folders_pass_progress_cb (GCancellable *local_cancellable,
+				    gint percent,
+				    gpointer user_data)
+{
+	GCancellable *caller_cancellable = user_data;
+
+	camel_operation_progress (caller_cancellable, percent);
+}
+
 static gchar *
 emft_copy_folders__desc (struct _EMCopyFolders *m,
                          gint complete)
 {
 	if (m->delete)
-		return g_strdup_printf (_("Moving folder %s"), m->frombase);
+		return g_strdup_printf (_("Moving folder “%s”"), m->frombase);
 	else
-		return g_strdup_printf (_("Copying folder %s"), m->frombase);
+		return g_strdup_printf (_("Copying folder “%s”"), m->frombase);
 }
 
 static void
@@ -90,7 +118,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
                          GCancellable *cancellable,
                          GError **error)
 {
-	guint32 flags;
+	guint32 flags, n_folders, nth_folder = 1;
 	GList *pending = NULL, *deleting = NULL, *l;
 	GString *fromname, *toname;
 	CamelFolderInfo *fi;
@@ -112,6 +140,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 	if (fi == NULL)
 		return;
 
+	n_folders = emft_copy_folders_count_n_folders (fi, (!m->delete || !same_store));
 	pending = g_list_append (pending, fi);
 
 	toname = g_string_new ("");
@@ -176,6 +205,9 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 
 					deleted = 1;
 				} else {
+					GCancellable *local_cancellable;
+					gulong handler_id_cancelled;
+					gulong handler_id_progress;
 					gboolean success;
 
 					fromfolder = camel_store_get_folder_sync (
@@ -199,12 +231,46 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 						goto exception;
 					}
 
+					/* to not propagate status messages from sub-functions into UI */
+					if (cancellable) {
+						local_cancellable = camel_operation_new ();
+						handler_id_cancelled = g_signal_connect_swapped (cancellable, "cancelled",
+							G_CALLBACK (g_cancellable_cancel), local_cancellable);
+						handler_id_progress = g_signal_connect (local_cancellable, "progress",
+							G_CALLBACK (emft_copy_folders_pass_progress_cb), cancellable);
+					} else {
+						local_cancellable = NULL;
+						handler_id_cancelled = 0;
+						handler_id_progress = 0;
+					}
+
+					if (n_folders > 1) {
+						gchar *full_display_name;
+
+						full_display_name = e_mail_folder_to_full_display_name (fromfolder, NULL);
+						camel_operation_push_message (cancellable,
+							m->delete ? _("Moving folder “%s” (%d/%d)") : _("Copying folder “%s” (%d/%d)"),
+							full_display_name ? full_display_name : camel_folder_get_display_name (fromfolder),
+							nth_folder, n_folders);
+						g_free (full_display_name);
+					}
+
 					uids = camel_folder_get_uids (fromfolder);
 					success = camel_folder_transfer_messages_to_sync (
 						fromfolder, uids, tofolder,
 						m->delete, NULL,
-						cancellable, error);
+						local_cancellable, error);
 					camel_folder_free_uids (fromfolder, uids);
+
+					if (n_folders > 1)
+						camel_operation_pop_message (cancellable);
+
+					if (cancellable) {
+						g_signal_handler_disconnect (cancellable, handler_id_cancelled);
+						g_signal_handler_disconnect (local_cancellable, handler_id_progress);
+					}
+
+					g_clear_object (&local_cancellable);
 
 					if (m->delete && success) {
 						camel_folder_synchronize_sync (
@@ -235,6 +301,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 					toname->str, cancellable, NULL);
 
 			info = info->next;
+			nth_folder++;
 		}
 	}
 
