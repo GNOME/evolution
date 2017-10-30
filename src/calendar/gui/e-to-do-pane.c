@@ -2288,9 +2288,13 @@ e_to_do_pane_constructed (GObject *object)
 
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
+	column = gtk_tree_view_column_new ();
+
 	renderer = gtk_cell_renderer_pixbuf_new ();
 
-	column = gtk_tree_view_column_new_with_attributes ("Text", renderer,
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+
+	gtk_tree_view_column_set_attributes (column, renderer,
 		"icon-name", COLUMN_ICON_NAME,
 		"visible", COLUMN_HAS_ICON_NAME,
 		NULL);
