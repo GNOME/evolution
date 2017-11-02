@@ -79,6 +79,11 @@ EMailPartList *	e_mail_parser_parse_finish	(EMailParser *parser,
 						 GAsyncResult *result,
 						 GError **error);
 
+GQueue *	e_mail_parser_get_parsers_for_part
+						(EMailParser *parser,
+						 CamelMimePart *part);
+GQueue *	e_mail_parser_get_parsers	(EMailParser *parser,
+						 const gchar *mime_type);
 gboolean	e_mail_parser_parse_part	(EMailParser *parser,
 						 CamelMimePart *part,
 						 GString *part_id,

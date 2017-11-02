@@ -140,12 +140,65 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 
 		g_string_append_printf (part_id, ".mixed.%d", i);
 
-		handled = e_mail_parser_parse_part (
-			parser, subpart, part_id, cancellable, &work_queue);
+		handled = FALSE;
+		ct = camel_mime_part_get_content_type (subpart);
+		if (ct)
+			ct = camel_content_type_ref (ct);
+
+		if (!e_mail_parser_get_parsers_for_part (parser, subpart)) {
+			const gchar *snoop_type;
+			CamelContentType *snoop_ct = NULL;
+
+			snoop_type = e_mail_part_snoop_type (subpart);
+			if (snoop_type)
+				snoop_ct = camel_content_type_decode (snoop_type);
+
+			if (snoop_ct && snoop_ct->type && snoop_ct->subtype && (
+			    !ct || g_ascii_strcasecmp (snoop_ct->type, ct->type) != 0 ||
+			    g_ascii_strcasecmp (snoop_ct->subtype, ct->subtype) != 0)) {
+				CamelStream *mem_stream;
+
+				mem_stream = camel_stream_mem_new ();
+				if (camel_data_wrapper_decode_to_stream_sync (
+					camel_medium_get_content (CAMEL_MEDIUM (subpart)),
+					mem_stream, cancellable, NULL)) {
+					CamelMimePart *opart;
+					CamelDataWrapper *dw;
+
+					g_seekable_seek (G_SEEKABLE (mem_stream), 0, G_SEEK_SET, cancellable, NULL);
+
+					opart = camel_mime_part_new ();
+
+					dw = camel_data_wrapper_new ();
+					camel_data_wrapper_set_mime_type (dw, snoop_type);
+					if (camel_data_wrapper_construct_from_stream_sync (dw, mem_stream, cancellable, NULL)) {
+						camel_medium_set_content (CAMEL_MEDIUM (opart), dw);
+						camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (opart), snoop_type);
+
+						handled = e_mail_parser_parse_part (parser, opart, part_id, cancellable, &work_queue);
+						if (handled) {
+							camel_content_type_unref (ct);
+							ct = camel_content_type_ref (snoop_ct);
+						}
+					}
+
+					g_object_unref (opart);
+					g_object_unref (dw);
+				}
+
+				g_object_unref (mem_stream);
+			}
+
+			if (snoop_ct)
+				camel_content_type_unref (snoop_ct);
+		}
+
+		if (!handled) {
+			handled = e_mail_parser_parse_part (
+				parser, subpart, part_id, cancellable, &work_queue);
+		}
 
 		mail_part = g_queue_peek_head (&work_queue);
-
-		ct = camel_mime_part_get_content_type (subpart);
 
 		/* Display parts with CID as attachments
 		 * (unless they already are attachments).
@@ -178,6 +231,9 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 		e_queue_transfer (&work_queue, out_mail_parts);
 
 		g_string_truncate (part_id, len);
+
+		if (ct)
+			camel_content_type_unref (ct);
 	}
 
 	return TRUE;
