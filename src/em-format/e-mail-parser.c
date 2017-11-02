@@ -494,6 +494,63 @@ e_mail_parser_parse_finish (EMailParser *parser,
 	return g_object_ref (part_list);
 }
 
+GQueue *
+e_mail_parser_get_parsers_for_part (EMailParser *parser,
+				    CamelMimePart *part)
+{
+	CamelContentType *ct;
+	gchar *mime_type;
+	GQueue *parsers;
+
+	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
+
+	ct = camel_mime_part_get_content_type (part);
+	if (!ct) {
+		mime_type = (gchar *) "application/vnd.evolution.error";
+	} else {
+		gchar *tmp;
+		tmp = camel_content_type_simple (ct);
+		mime_type = g_ascii_strdown (tmp, -1);
+		g_free (tmp);
+	}
+
+	parsers = e_mail_parser_get_parsers (parser, mime_type);
+
+	if (ct)
+		g_free (mime_type);
+
+	return parsers;
+}
+
+GQueue *
+e_mail_parser_get_parsers (EMailParser *parser,
+			   const gchar *mime_type)
+{
+	EMailExtensionRegistry *reg;
+	EMailParserClass *parser_class;
+	gchar *as_mime_type;
+	GQueue *parsers;
+
+	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), NULL);
+
+	if (mime_type)
+		as_mime_type = g_ascii_strdown (mime_type, -1);
+	else
+		as_mime_type = NULL;
+
+	parser_class = E_MAIL_PARSER_GET_CLASS (parser);
+	reg = E_MAIL_EXTENSION_REGISTRY (parser_class->extension_registry);
+
+	parsers = e_mail_extension_registry_get_for_mime_type (reg, as_mime_type);
+	if (!parsers)
+		parsers = e_mail_extension_registry_get_fallback (reg, as_mime_type);
+
+	g_free (as_mime_type);
+
+	return parsers;
+}
+
 gboolean
 e_mail_parser_parse_part (EMailParser *parser,
                           CamelMimePart *part,
@@ -536,26 +593,9 @@ e_mail_parser_parse_part_as (EMailParser *parser,
 {
 	GQueue *parsers;
 	GList *iter;
-	EMailExtensionRegistry *reg;
-	EMailParserClass *parser_class;
-	gchar *as_mime_type;
 	gboolean mime_part_handled = FALSE;
 
-	if (mime_type)
-		as_mime_type = g_ascii_strdown (mime_type, -1);
-	else
-		as_mime_type = NULL;
-
-	parser_class = E_MAIL_PARSER_GET_CLASS (parser);
-	reg = E_MAIL_EXTENSION_REGISTRY (parser_class->extension_registry);
-
-	parsers = e_mail_extension_registry_get_for_mime_type (reg, as_mime_type);
-	if (!parsers) {
-		parsers = e_mail_extension_registry_get_fallback (reg, as_mime_type);
-	}
-
-	if (as_mime_type)
-		g_free (as_mime_type);
+	parsers = e_mail_parser_get_parsers (parser, mime_type);
 
 	if (parsers == NULL) {
 		e_mail_parser_wrap_as_attachment (
