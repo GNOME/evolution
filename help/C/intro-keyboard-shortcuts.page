@@ -1,0 +1,309 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="intro-keyboard-shortcuts">
+
+  <info>
+    <desc>Keyboard shortcuts that can save you some time.</desc>
+
+    <link type="guide" xref="index#getting-started" />
+    <revision pkgversion="3.26.2" version="0.5" date="2017-11-04" status="final"/>
+    <credit type="author">
+      <name its:translate="no">Raniere Silva</name>
+      <email its:translate="no">raniere@rgaiacs.com</email>
+    </credit>
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+ <credit type="author">
+   <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-getnsend-read.html.en -->
+ </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+  </info>
+
+<title>Shortcut keys</title>
+
+<p>This page provides an overview of keyboard shortcuts that can help you
+use <app>Evolution</app> more efficiently.</p>
+
+<section id="global">
+<title>Global</title>
+<table rules="rows" frame="top bottom">
+  <tr xml:id="ctrl-1">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>1</key></keyseq>
+    </p></td>
+    <td><p>Select Mail component.</p></td>
+  </tr>
+  <tr xml:id="ctrl-2">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>2</key></keyseq>
+    </p></td>
+    <td><p>Select Contacts component.</p></td>
+  </tr>
+  <tr xml:id="ctrl-3">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>3</key></keyseq>
+    </p></td>
+    <td><p>Select Calendars component.</p></td>
+  </tr>
+  <tr xml:id="ctrl-4">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>4</key></keyseq>
+    </p></td>
+    <td><p>Select Tasks component.</p></td>
+  </tr>
+  <tr xml:id="ctrl-5">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>5</key></keyseq>
+    </p></td>
+    <td><p>Select Memos component.</p></td>
+  </tr>
+  <tr xml:id="ctrl-n">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>N</key></keyseq>
+    </p></td>
+    <td><p>Create a new item in current component.</p></td>
+  </tr>
+  <tr xml:id="f6">
+    <td><p>
+      <key>F6</key>
+    </p></td>
+    <td><p>Cycle focus between panes.</p></td>
+  </tr>
+  <tr xml:id="shift-ctrl-q">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>
+    </p></td>
+    <td><p>Clear search bar.</p></td>
+  </tr>
+  <tr xml:id="ctrl-w">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>W</key></keyseq>
+    </p></td>
+    <td><p>Close window.</p></td>
+  </tr>
+  <tr xml:id="shift-ctrl-w">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>
+    </p></td>
+    <td><p>Open new window.</p></td>
+  </tr>
+  <tr xml:id="ctrl-q">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>Q</key></keyseq>
+    </p></td>
+    <td><p>Quit <app>Evolution</app>.</p></td>
+  </tr>
+  <tr xml:id="ctrl-p">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>P</key></keyseq>
+    </p></td>
+    <td><p>Print selection.</p></td>
+  </tr>
+  <tr xml:id="ctrl-s">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>S</key></keyseq>
+    </p></td>
+    <td><p>Save selection.</p></td>
+  </tr>
+  <tr xml:id="del">
+    <td><p>
+      <key>Del</key> or <key>Backspace</key>
+    </p></td>
+    <td><p>Delete selection.</p></td>
+  </tr>
+  <tr xml:id="shift-ctrl-v">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>
+    </p></td>
+    <td><p>Move mails or contacts to folder.</p></td>
+  </tr>
+  <tr xml:id="shift-ctrl-y">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>
+    </p></td>
+    <td><p>Copy mails or contacts to folder.</p></td>
+  </tr>
+</table>
+</section>
+
+<section id="mail">
+<title>Mail</title>
+<table rules="rows" frame="top bottom">
+  <tr xml:id="shift-ctrl-m">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>
+    </p></td>
+    <td><p>Create a new message.</p></td>
+  </tr>
+  <tr xml:id="f12">
+    <td><p>
+      <key>F12</key>
+    </p></td>
+    <td><p>Send and receive messages.</p></td>
+  </tr>
+  <tr xml:id="ctrl-y">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>Y</key></keyseq>
+    </p></td>
+    <td><p>Apply filters to selection.</p></td>
+  </tr>
+  <tr xml:id="ctrl-o">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>
+    </p></td>
+    <td><p>Open selection in new window.</p></td>
+  </tr>
+  <tr xml:id="ctrl-f">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>F</key></keyseq>
+    </p></td>
+    <td><p>Forward selection.</p></td>
+  </tr>
+  <tr xml:id="ctrl-k">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>K</key></keyseq>
+    </p></td>
+    <td><p>Mark the selection as read.</p></td>
+  </tr>
+  <tr xml:id="ctrl-shift-k">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>
+    </p></td>
+    <td><p>Mark the selection as unread.</p></td>
+  </tr>
+  <tr xml:id="arrow-down">
+    <td><p>
+      <key>↓</key>
+    </p></td>
+    <td><p>Jump to next message.</p></td>
+  </tr>
+  <tr xml:id="arrow-up">
+    <td><p>
+      <key>↑</key>
+    </p></td>
+    <td><p>Jump to previous message.</p></td>
+  </tr>
+  <tr xml:id="dot">
+    <td><p>
+      <key>.</key> or <key>]</key>
+    </p></td>
+    <td><p>Jump to next unread message.</p></td>
+  </tr>
+  <tr xml:id="comma">
+    <td><p>
+      <key>,</key> or <key>[</key>
+    </p></td>
+    <td><p>Jump to previous unread message.</p></td>
+  </tr>
+  <tr xml:id="ctrl-r">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>R</key></keyseq>
+    </p></td>
+    <td><p>Reply to sender.</p></td>
+  </tr>
+  <tr xml:id="ctrl-l">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>L</key></keyseq>
+    </p></td>
+    <td><p>Reply to list.</p></td>
+  </tr>
+  <tr xml:id="shift-ctrl-r">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>
+    </p></td>
+    <td><p>Reply to all recipients.</p></td>
+  </tr>
+  <tr xml:id="backspace">
+    <td><p>
+      <key>Backspace</key>
+    </p></td>
+    <td><p>Scroll up.</p></td>
+  </tr>
+  <tr xml:id="space">
+    <td><p>
+      <key>Space</key>
+    </p></td>
+    <td><p>Scroll down.</p></td>
+  </tr>
+</table>
+
+<p><key>Space</key> also allows navigating in unread mail across folders:</p>
+<list>
+<item><p>When you press the Spacebar for the first time, it takes you to the next unread message.</p></item>
+<item><p>If the message is more than one screen long, <key>Space</key> works as <key>Page Down</key>.</p></item>
+<item><p>If you press <key>Space</key> after you reach the bottom of the page, it takes you to the next unread message.</p></item>
+<item><p>If there are no more unread messages in the mailbox, pressing <key>Space</key> takes you to the next unread message in the next folder.</p></item>
+<item><p>If new messages arrive in a number of folders, <key>Space</key> toggles between those folders. This feature allows you to switch to the next unread message in a different folder without clicking the folder.</p></item>
+</list>
+</section>
+
+<section id="calendar">
+<title>Calendar</title>
+<table rules="rows" frame="top bottom">
+  <tr xml:id="shift-ctrl-a">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>
+    </p></td>
+    <td><p>Create a new appointment.</p></td>
+  </tr>
+  <tr xml:id="shift-ctrl-e">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>
+    </p></td>
+    <td><p>Create a new meeting.</p></td>
+  </tr>
+  <tr xml:id="shift-ctrl-t">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>
+    </p></td>
+    <td><p>Create a new task.</p></td>
+  </tr>
+  <tr xml:id="shift-ctrl-o">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>
+    </p></td>
+    <td><p>Create a new memo.</p></td>
+  </tr>
+  <tr xml:id="ctrl-t">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>T</key></keyseq>
+    </p></td>
+    <td><p>Go to today.</p></td>
+  </tr>
+  <tr xml:id="ctrl-g">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>G</key></keyseq>
+    </p></td>
+    <td><p>Go to date.</p></td>
+  </tr>
+</table>
+</section>
+
+<section id="contacts">
+<title>Contacts</title>
+<table rules="rows" frame="top bottom">
+  <tr xml:id="shift-ctrl-c">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>
+    </p></td>
+    <td><p>Create a new contact.</p></td>
+  </tr>
+  <tr xml:id="shift-ctrl-l">
+    <td><p>
+      <keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>
+    </p></td>
+    <td><p>Create a new contact list.</p></td>
+  </tr>
+</table>
+</section>
+
+<section id="change-keyboard-shortcuts">
+<title>Changing keyboard shortcuts</title>
+<note style="advanced"><p>Advanced users can customize keyboard shortcuts by editing <file>$HOME/.config/evolution/accels</file>.</p><p>See <link href="https://major.io/2015/11/27/custom-keyboard-shortcuts-for-evolution-in-gnome/">this blog post</link> for more information.</p></note>
+</section>
+
+</page>
+

@@ -89,6 +89,7 @@ set(HELP_FILES
 	index.page
 	intro-application.page
 	intro-first-run.page
+	intro-keyboard-shortcuts.page
 	intro-main-window.page
 	legal.xml
 	mail-access-gmail-imap-account.page
@@ -171,7 +172,6 @@ set(HELP_FILES
 	mail-moving-emails.page
 	mail-not-sent.page
 	mail-organizing.page
-	mail-reading-keyboard-shortcuts.page
 	mail-read-receipts.page
 	mail-received-notification.page
 	mail-receiving-options-exchange-ews.page
