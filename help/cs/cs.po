@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
-"POT-Creation-Date: 2017-10-02 17:24+0000\n"
-"PO-Revision-Date: 2017-10-29 22:18+0100\n"
+"POT-Creation-Date: 2017-11-05 11:51+0000\n"
+"PO-Revision-Date: 2017-11-05 17:13+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -2975,7 +2975,7 @@ msgstr "Trvalé smazání pošty nebo příloh"
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
-#: C/intro-main-window.page:35
+#: C/intro-keyboard-shortcuts.page:133 C/intro-main-window.page:35
 msgid "Mail"
 msgstr "Pošta"
 
@@ -3593,7 +3593,8 @@ msgstr ""
 "Express 5/6</app>. Pro novější verze je doporučován formát PST."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:46 C/intro-main-window.page:97
+#: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:244
+#: C/intro-main-window.page:97
 msgid "Calendar"
 msgstr "Kalendář"
 
@@ -3629,7 +3630,8 @@ msgstr ""
 "dalšími."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:60 C/intro-main-window.page:143
+#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:286
+#: C/intro-main-window.page:143
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -4245,6 +4247,510 @@ msgid ""
 "application</link>."
 msgstr ""
 "Pokračujte na <link xref=\"import-data\">Import dat z jiných aplikací</link>."
+
+#. (itstool) path: info/desc
+#: C/intro-keyboard-shortcuts.page:5
+msgid "Keyboard shortcuts that can save you some time."
+msgstr "Jak můžete ušetřit čas pomocí klávesových zkratek."
+
+#. (itstool) path: page/title
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:25 C/mail-composer-reply.page:41
+msgid "Shortcut keys"
+msgstr "Klávesové zkratky"
+
+#. (itstool) path: page/p
+#: C/intro-keyboard-shortcuts.page:27
+msgid ""
+"This page provides an overview of keyboard shortcuts that can help you use "
+"<app>Evolution</app> more efficiently."
+msgstr ""
+"Tato stránka poskytuje přehled klávesových zkratek, které vám pomohou "
+"používat aplikaci <app>Evolution</app> efektivněji."
+
+#. (itstool) path: section/title
+#: C/intro-keyboard-shortcuts.page:31
+msgid "Global"
+msgstr "Globální"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:34
+msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:37
+msgid "Select Mail component."
+msgstr "Přepnout se na poštu"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:40
+msgid "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:43
+msgid "Select Contacts component."
+msgstr "Přepnout se na kontakty"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:46
+msgid "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:49
+msgid "Select Calendars component."
+msgstr "Přepnout se na kalendář"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:52
+msgid "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:55
+msgid "Select Tasks component."
+msgstr "Přepnout se na úkoly"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:58
+msgid "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:61
+msgid "Select Memos component."
+msgstr "Přepnout se na poznámky"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:64
+msgid "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:67
+msgid "Create a new item in current component."
+msgstr "Vytvořit novou položku v aktuální části"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:70
+msgid "<key>F6</key>"
+msgstr "<key>F6</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:73
+msgid "Cycle focus between panes."
+msgstr "Cyklicky přepínat zaměření mezi panely"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:76
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:79
+msgid "Clear search bar."
+msgstr "Vyčistit vyhledávací lištu"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:82
+msgid "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:85
+msgid "Close window."
+msgstr "Zavřít okno"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:88
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:91
+msgid "Open new window."
+msgstr "Otevřít nové okno"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:94
+msgid "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:97
+msgid "Quit <app>Evolution</app>."
+msgstr "Ukončit <app>Evolution</app>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:100
+msgid "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:103
+msgid "Print selection."
+msgstr "Vytisknout výběr"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:106
+msgid "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:109
+msgid "Save selection."
+msgstr "Uložit výběr"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:112
+msgid "<key>Del</key> or <key>Backspace</key>"
+msgstr "<key>Del</key> nebo <key>Backspace</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:115
+msgid "Delete selection."
+msgstr "Smazat výběr"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:118
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:121
+msgid "Move mails or contacts to folder."
+msgstr "Přesunout poštu nebo kontakty do složky"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:124
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:127
+msgid "Copy mails or contacts to folder."
+msgstr "Zkopírovat poštu nebo kontakty do složky"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:136
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:139
+msgid "Create a new message."
+msgstr "Vytvořit novou zprávu"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:142
+msgid "<key>F12</key>"
+msgstr "<key>F12</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:145
+msgid "Send and receive messages."
+msgstr "Odeslat a přijmout zprávy"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:148
+msgid "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:151
+msgid "Apply filters to selection."
+msgstr "Použít na výběr filtry"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:154
+msgid "<keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>"
+msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq> nebo <key>Enter</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:157
+msgid "Open selection in new window."
+msgstr "Otevřít výběr v novém okně"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:160
+msgid "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:163
+msgid "Forward selection."
+msgstr "Přeposlat výběr"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:166
+msgid "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:169
+msgid "Mark the selection as read."
+msgstr "Označit výběr jako přečtené"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:172
+msgid "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:175
+msgid "Mark the selection as unread."
+msgstr "Označit výběr jako nepřečtené"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:178
+msgid "<key>↓</key>"
+msgstr "<key>↓</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:181
+msgid "Jump to next message."
+msgstr "Přeskočit na následující zprávu"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:184
+msgid "<key>↑</key>"
+msgstr "<key>↑</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:187
+msgid "Jump to previous message."
+msgstr "Přeskočit na předchozí zprávu"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:190
+msgid "<key>.</key> or <key>]</key>"
+msgstr "<key>.</key> nebo <key>]</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:193
+msgid "Jump to next unread message."
+msgstr "Přeskočit na následující nepřečtenou zprávu"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:196
+msgid "<key>,</key> or <key>[</key>"
+msgstr "<key>,</key> nebo <key>[</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:199
+msgid "Jump to previous unread message."
+msgstr "Přeskočit na předchozí nepřečtenou zprávu"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:202 C/mail-composer-reply.page:43
+msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:205
+msgid "Reply to sender."
+msgstr "Odpovědět odesílateli"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:208 C/mail-composer-reply.page:45
+msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:211
+msgid "Reply to list."
+msgstr "Odpovědět seznamu adresátů"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:214 C/mail-composer-reply.page:47
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:217
+msgid "Reply to all recipients."
+msgstr "Odpovědět všem příjemcům"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:220
+msgid "<key>Backspace</key>"
+msgstr "<key>Backspace</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:223
+msgid "Scroll up."
+msgstr "Posunout nahoru"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:226
+msgid "<key>Space</key>"
+msgstr "<key>mezerník</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:229
+msgid "Scroll down."
+msgstr "Posunout dolů"
+
+#. (itstool) path: section/p
+#: C/intro-keyboard-shortcuts.page:233
+msgid "<key>Space</key> also allows navigating in unread mail across folders:"
+msgstr ""
+"Klávesou <key>mezerník</key> se můžete také pohybovat po nepřečtených "
+"zprávách napříč složkami:"
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:235
+msgid ""
+"When you press the Spacebar for the first time, it takes you to the next "
+"unread message."
+msgstr ""
+"Když zmáčknete mezerník poprvé, přesune vás na následující nepřečtenou "
+"zprávu."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:236
+msgid ""
+"If the message is more than one screen long, <key>Space</key> works as "
+"<key>Page Down</key>."
+msgstr ""
+"V případě, že je zpráva delší než obrazovka, funguje <key>mezerník</key> jak "
+"<key>Page Down</key>."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:237
+msgid ""
+"If you press <key>Space</key> after you reach the bottom of the page, it "
+"takes you to the next unread message."
+msgstr ""
+"Pokud zmáčknete <key>mezerník</key> poté, co jste se dostali na konec "
+"stránky, přesune vás na další nepřečtenou zprávu."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:238
+msgid ""
+"If there are no more unread messages in the mailbox, pressing <key>Space</"
+"key> takes you to the next unread message in the next folder."
+msgstr ""
+"Pokud se v poštovní schránce nenachází žádné další nepřečtené právy, "
+"zmáčknutí <key>mezerníku</key> vás přenese na nepřečtenou zprávu v další "
+"složce."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:239
+msgid ""
+"If new messages arrive in a number of folders, <key>Space</key> toggles "
+"between those folders. This feature allows you to switch to the next unread "
+"message in a different folder without clicking the folder."
+msgstr ""
+"Pokud nové zprávy přicházejí do více složek, <key>mezerník</key> bude "
+"přepínat mezi těmito složkami. Tato funkce vám umožňuje přeskočit na další "
+"nepřečtenou zprávu v jiné složce, aniž byste klikali na složku."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:247
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:250
+msgid "Create a new appointment."
+msgstr "Vytvořit novou událost"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:253
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:256
+msgid "Create a new meeting."
+msgstr "Vytvořit novou schůzku"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:259
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:262
+msgid "Create a new task."
+msgstr "Vytvořit nový úkol"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:265
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:268
+msgid "Create a new memo."
+msgstr "Vytvořit novou poznámku"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:271
+msgid "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:274
+msgid "Go to today."
+msgstr "Přejít na dnešní den"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:277
+msgid "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:280
+msgid "Go to date."
+msgstr "Přejít na datum"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:289
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:292
+msgid "Create a new contact."
+msgstr "Vytvořit nový kontakt"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:295
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:298
+msgid "Create a new contact list."
+msgstr "Vytvořit nový seznamu kontaktů"
+
+#. (itstool) path: section/title
+#: C/intro-keyboard-shortcuts.page:304
+msgid "Changing keyboard shortcuts"
+msgstr "Změna klávesových zkratek"
+
+#. (itstool) path: note/p
+#: C/intro-keyboard-shortcuts.page:305
+msgid ""
+"Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
+"config/evolution/accels</file>."
+msgstr ""
+"Pokročilí uživatelé si mohou přizpůsobit klávesové zkratky úpravou souboru "
+"<file>$HOME/.config/evolution/accels</file>."
+
+#. (itstool) path: note/p
+#: C/intro-keyboard-shortcuts.page:305
+msgid ""
+"See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
+"evolution-in-gnome/\">this blog post</link> for more information."
+msgstr ""
+"Více informací najdete v <link href=\"https://major.io/2015/11/27/custom-"
+"keyboard-shortcuts-for-evolution-in-gnome/\">tomto blogovém příspěvku</link> "
+"(odkazovaný text je v angličtině)."
 
 #. (itstool) path: info/desc
 #: C/intro-main-window.page:5
@@ -7363,19 +7869,9 @@ msgid "Action"
 msgstr "Činnost"
 
 #. (itstool) path: td/p
-#: C/mail-composer-reply.page:41
-msgid "Shortcut keys"
-msgstr "Klávesové zkratky"
-
-#. (itstool) path: td/p
 #: C/mail-composer-reply.page:43
 msgid "Reply to Sender"
 msgstr "Odpovědět odesílateli"
-
-#. (itstool) path: td/p
-#: C/mail-composer-reply.page:43
-msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/mail-composer-reply.page:45
@@ -7383,19 +7879,9 @@ msgid "Reply to Mailing List"
 msgstr "Odpovědět do poštovní konference"
 
 #. (itstool) path: td/p
-#: C/mail-composer-reply.page:45
-msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
-
-#. (itstool) path: td/p
 #: C/mail-composer-reply.page:47
 msgid "Reply to All"
 msgstr "Odpovědět všem"
-
-#. (itstool) path: td/p
-#: C/mail-composer-reply.page:47
-msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:54
@@ -9890,198 +10376,6 @@ msgid "Advanced Options"
 msgstr "Pokročilé volby"
 
 #. (itstool) path: info/desc
-#: C/mail-reading-keyboard-shortcuts.page:5
-msgid "Keyboard shortcuts that can save you some time when reading mail."
-msgstr "Klávesové zkratky, kterými můžete ušetřit čas při čtení pošty."
-
-#. (itstool) path: page/title
-#: C/mail-reading-keyboard-shortcuts.page:24
-msgid "Using shortcut keys to read mail"
-msgstr "Používání klávesových zkratek ke čtení"
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:27
-msgid "Viewing an email"
-msgstr "Zobrazení e-mailu"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:28
-msgid ""
-"In the Mail window you read a message by selecting it in the message list. "
-"If you would like to see the message in its own window, either double-click "
-"it, press <key>Enter</key>, or press <keyseq><key>Ctrl</key><key>O</key></"
-"keyseq>."
-msgstr ""
-"Když si chcete přečíst zprávu v okně pošty, stačí ji vybrat v seznamu zpráv. "
-"Jestli ji ale raději chcete vidět v samostatném okně, buď na ni dvojitě "
-"klikněte nebo zmáčkněte <key>Enter</key>, nebo <keyseq><key>Ctrl</"
-"key><key>O</key></keyseq>."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:32
-msgid "Marking a message as read or unread"
-msgstr "Označení zprávy jako přečtené nebo nepřečtené"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:33
-msgid ""
-"To mark the currently selected message as read, press <keyseq><key>Ctrl</"
-"key><key>K</key></keyseq>."
-msgstr ""
-"Pokud chcete právě vybrané zprávy označit jako přečtené, zmáčkněte "
-"<keyseq><key>Ctrl</key><key>K</key></keyseq>."
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:34
-msgid ""
-"To mark the currently selected message as unread, press <keyseq><key>Ctrl</"
-"key><key>Shift</key><key>K</key></keyseq>."
-msgstr ""
-"Pokud chcete právě vybrané zprávy označit jako nepřečtené, zmáčkněte "
-"<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:38
-msgid "Navigating in a message"
-msgstr "Pohyb ve zprávě"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:39
-msgid ""
-"To read mail with the keyboard, you can press the <key>Spacebar</key> to "
-"page down and press <key>Backspace</key> to page up while reading an email. "
-"Ensure that you use the keys when the message list is focused."
-msgstr ""
-"Chcete-li číst poštu pomocí klávesnice, můžete během čtení e-mailu mačkat "
-"<key>mezerník</key> pro posouvání dolů a <key>Backspace</key> pro posouvání "
-"nahoru. Ujistěte se, že tyto klávesy používáte, když je zaměřen seznam zpráv."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:43
-msgid "Navigating in a folder in the message list"
-msgstr "Pohyb ve složce v seznamu zpráv"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:44
-msgid "Navigate in the message list by using the arrow keys on the keyboard."
-msgstr "V seznamu zpráv se pohybujte pomocí kláves se šipkami na klávesnici."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:48
-msgid "Navigating in a folder's unread mail in the message list"
-msgstr "Pohyb po nepřečtených zprávách složky v seznamu zpráv"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:49
-msgid ""
-"To go to the next or previous unread messages, press the period (<key>.</"
-"key>) or comma (<key>,</key>) keys. On some keyboards, these keys are also "
-"marked with the <key>&gt;</key> and <key>&lt;</key> symbols, which is a "
-"convenient way to remember that they move you forward and backward in your "
-"message list. You can also use the right square bracket (<key>]</key>) for "
-"the next unread message, and the left square bracket (<key>[</key>) for the "
-"previous unread message."
-msgstr ""
-"Na následující, respektive předchozí nepřečtenou zprávu se dostanete "
-"zmáčknutím klávesy s tečkou (<key>.</key>), respektive čárkou (<key>,</"
-"key>). Na některých klávesnicích jsou na těchto klávesách i symboly <key>&gt;"
-"</key> a <key>&lt;</key>, díky kterým si je můžete snadno zapamatovat, že "
-"slouží pro pohyb vpřed a zpět v seznamu zpráv. Rovněž můžete použít pravou "
-"hranatou závorku (<key>]</key>) pro následující nepřečtenou zprávu a levou "
-"hranatou závorku (<key>[</key>) pro předchozí nepřečtenou."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:53
-msgid "Navigating in unread mail across folders"
-msgstr "Pohyb po nepřečtených zprávách napříč složkami"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:55
-msgid ""
-"You can easily read the unread messages in all the mail folders by using the "
-"<key>Spacebar</key>."
-msgstr ""
-"Nepřečtené zprávy ve všech poštovních složkách si můžete snadno číst pomocí "
-"<key>mezerníku</key>."
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:57
-msgid ""
-"When you are in the Mail window, the Spacebar has the following behavior:"
-msgstr "Když jste v okně pošty, chová se mezerník následovně:"
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:59
-msgid ""
-"When you press the Spacebar for the first time, it takes you to the next "
-"unread message."
-msgstr ""
-"Když zmáčknete mezerník poprvé, přesune vás na následující nepřečtenou "
-"zprávu."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:60
-msgid ""
-"If the message is more than one screen long, the Spacebar works as <key>Page "
-"Down</key>."
-msgstr ""
-"V případě, že je zpráva delší než obrazovka, funguje mezerník jak <key>Page "
-"Down</key>."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:61
-msgid ""
-"If you press the Spacebar after you reach the bottom of the page, it takes "
-"you to the next unread message."
-msgstr ""
-"Pokud zmáčknete mezerník poté, co jste se dostali na konec stránky, vezme "
-"vás na další nepřečtenou zprávu."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:62
-msgid ""
-"If there are no more unread messages in the mailbox, pressing the Spacebar "
-"takes you to the next unread message in the next folder."
-msgstr ""
-"Pokud se v poštovní schránce nenachází žádné další nepřečtené právy, "
-"zmáčknutí mezerníku vás přenese na nepřečtenou zprávu v další složce."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:63
-msgid ""
-"If new messages arrive in a number of folders, the Spacebar toggles between "
-"those folders. This feature allows you to switch to the next unread message "
-"in a different folder without clicking the folder."
-msgstr ""
-"Pokud nové zprávy přicházejí do více složek, mezerník bude přepínat mezi "
-"těmito složkami. Tato funkce vám umožňuje přeskočit na další nepřečtenou "
-"zprávu v jiné složce, aniž byste klikali na složku."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:68
-msgid "Changing keyboard shortcuts"
-msgstr "Změna klávesových zkratek"
-
-#. (itstool) path: note/p
-#: C/mail-reading-keyboard-shortcuts.page:69
-msgid ""
-"Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
-"config/evolution/accels</file>."
-msgstr ""
-"Pokročilí uživatelé si mohou přizpůsobit klávesové zkratky úpravou souboru "
-"<file>$HOME/.config/evolution/accels</file>."
-
-#. (itstool) path: note/p
-#: C/mail-reading-keyboard-shortcuts.page:69
-msgid ""
-"See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
-"evolution-in-gnome/\">this blog post</link> for more information."
-msgstr ""
-"Více informací najdete v <link href=\"https://major.io/2015/11/27/custom-"
-"keyboard-shortcuts-for-evolution-in-gnome/\">tomto blogovém příspěvku</link> "
-"(odkazovaný text je v angličtině)."
-
-#. (itstool) path: info/desc
 #: C/mail-read-receipts.page:5
 msgid "How to enable requesting read receipts."
 msgstr "Jak zapnout požadování doručenky o přečtení."
@@ -11321,10 +11615,11 @@ msgid ""
 "gui><gui>Message Display</gui><gui>Fall back to threading messages by "
 "subject</gui></guiseq>."
 msgstr ""
-"<app>Evolution</app> za tímto účelem rozpoznává poštovní hlavičky <_:code-1/> "
-"a <_:code-2/>. Mimo to můžete zapnout funkci <guiseq><gui>Upravit</gui> "
+"<app>Evolution</app> za tímto účelem rozpoznává poštovní hlavičky <_:code-1/"
+"> a <_:code-2/>. Mimo to můžete zapnout funkci <guiseq><gui>Upravit</gui> "
 "<gui>Předvolby</gui> <gui>Předvolby pošty</gui> <gui>Obecné</gui> "
-"<gui>Zobrazení zprávy</gui> <gui>Seskupovat zprávy podle předmětu</gui></guiseq>."
+"<gui>Zobrazení zprávy</gui> <gui>Seskupovat zprávy podle předmětu</gui></"
+"guiseq>."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:37
@@ -13711,4 +14006,3 @@ msgstr "V dialogovém okně upravte název nebo podmínky hledání."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klikněte na <_:gui-1/>."
-
