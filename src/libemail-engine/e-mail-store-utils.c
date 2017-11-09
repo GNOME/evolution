@@ -535,6 +535,8 @@ e_mail_store_save_initial_setup_sync (CamelStore *store,
 		} else {
 			g_warning ("%s: Unknown source name '%s' given in '%s'", G_STRFUNC, keys[0], (const gchar *) key);
 		}
+
+		g_strfreev (keys);
 	}
 
 	if (write_sources) {
