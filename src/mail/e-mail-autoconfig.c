@@ -98,6 +98,7 @@ struct _EMailAutoconfigPrivate {
 	gchar *email_address;
 	gchar *email_local_part;
 	gchar *email_domain_part;
+	gchar *use_domain;
 	EMailAutoconfigResult imap_result;
 	EMailAutoconfigResult pop3_result;
 	EMailAutoconfigResult smtp_result;
@@ -111,7 +112,8 @@ struct _ParserClosure {
 enum {
 	PROP_0,
 	PROP_EMAIL_ADDRESS,
-	PROP_REGISTRY
+	PROP_REGISTRY,
+	PROP_USE_DOMAIN
 };
 
 /* Forward Declarations */
@@ -241,7 +243,7 @@ mail_autoconfig_parse_text (GMarkupParseContext *context,
 			}
 
 			variable = "%EMAILDOMAIN%";
-			substitute = priv->email_domain_part;
+			substitute = priv->use_domain;
 
 			if (strncmp (cp, variable, strlen (variable)) == 0) {
 				g_string_append (string, substitute);
@@ -455,7 +457,8 @@ exit:
 static gboolean
 mail_autoconfig_set_details (EMailAutoconfigResult *result,
                              ESource *source,
-                             const gchar *extension_name)
+                             const gchar *extension_name,
+			     const gchar *default_backend_name)
 {
 	ESourceCamel *camel_ext;
 	ESourceBackend *backend_ext;
@@ -472,6 +475,14 @@ mail_autoconfig_set_details (EMailAutoconfigResult *result,
 
 	backend_ext = e_source_get_extension (source, extension_name);
 	backend_name = e_source_backend_get_backend_name (backend_ext);
+	if (!backend_name || !*backend_name) {
+		e_source_backend_set_backend_name (backend_ext, default_backend_name);
+		backend_name = default_backend_name;
+	}
+
+	if (!backend_name)
+		return FALSE;
+
 	extension_name = e_source_camel_get_extension_name (backend_name);
 	camel_ext = e_source_get_extension (source, extension_name);
 
@@ -521,6 +532,7 @@ G_DEFINE_TYPE (EMailConfigLookupResult, e_mail_config_lookup_result, E_TYPE_CONF
 
 static gboolean
 mail_config_lookup_result_configure_source (EConfigLookupResult *lookup_result,
+					    EConfigLookup *config_lookup,
 					    ESource *source)
 {
 	EMailConfigLookupResult *mail_result;
@@ -530,7 +542,8 @@ mail_config_lookup_result_configure_source (EConfigLookupResult *lookup_result,
 	mail_result = E_MAIL_CONFIG_LOOKUP_RESULT (lookup_result);
 
 	/* No chain up to parent method, not needed here, because not used */
-	return mail_autoconfig_set_details (&mail_result->result, source, mail_result->extension_name);
+	return mail_autoconfig_set_details (&mail_result->result, source, mail_result->extension_name,
+		e_config_lookup_result_get_protocol (lookup_result));
 }
 
 static void
@@ -589,6 +602,7 @@ e_mail_config_lookup_result_new (EConfigLookupResultKind kind,
 		"protocol", protocol,
 		"display-name", display_name,
 		"description", description,
+		"password", NULL,
 		NULL);
 
 	mail_result->result.set = result->set;
@@ -665,6 +679,16 @@ mail_autoconfig_set_email_address (EMailAutoconfig *autoconfig,
 }
 
 static void
+mail_autoconfig_set_use_domain (EMailAutoconfig *autoconfig,
+				const gchar *use_domain)
+{
+	if (g_strcmp0 (autoconfig->priv->use_domain, use_domain) != 0) {
+		g_free (autoconfig->priv->use_domain);
+		autoconfig->priv->use_domain = g_strdup (use_domain);
+	}
+}
+
+static void
 mail_autoconfig_set_registry (EMailAutoconfig *autoconfig,
                               ESourceRegistry *registry)
 {
@@ -692,6 +716,12 @@ mail_autoconfig_set_property (GObject *object,
 				E_MAIL_AUTOCONFIG (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_USE_DOMAIN:
+			mail_autoconfig_set_use_domain (
+				E_MAIL_AUTOCONFIG (object),
+				g_value_get_string (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -715,6 +745,13 @@ mail_autoconfig_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				e_mail_autoconfig_get_registry (
+				E_MAIL_AUTOCONFIG (object)));
+			return;
+
+		case PROP_USE_DOMAIN:
+			g_value_set_string (
+				value,
+				e_mail_autoconfig_get_use_domain (
 				E_MAIL_AUTOCONFIG (object)));
 			return;
 	}
@@ -745,6 +782,7 @@ mail_autoconfig_finalize (GObject *object)
 	g_free (priv->email_address);
 	g_free (priv->email_local_part);
 	g_free (priv->email_domain_part);
+	g_free (priv->use_domain);
 
 	g_free (priv->imap_result.user);
 	g_free (priv->imap_result.host);
@@ -798,6 +836,9 @@ mail_autoconfig_initable_init (GInitable *initable,
 	autoconfig->priv->email_local_part =
 		g_strndup (email_address, cp - email_address);
 	autoconfig->priv->email_domain_part = g_strdup (domain);
+
+	if (autoconfig->priv->use_domain && *autoconfig->priv->use_domain)
+		domain = autoconfig->priv->use_domain;
 
 	/* First try the email address domain verbatim. */
 	success = mail_autoconfig_lookup (
@@ -892,6 +933,18 @@ e_mail_autoconfig_class_init (EMailAutoconfigClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_USE_DOMAIN,
+		g_param_spec_string (
+			"use-domain",
+			"Use Domain",
+			"A domain to use, instead of the one from email-address",
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -909,6 +962,7 @@ e_mail_autoconfig_init (EMailAutoconfig *autoconfig)
 EMailAutoconfig *
 e_mail_autoconfig_new_sync (ESourceRegistry *registry,
                             const gchar *email_address,
+			    const gchar *use_domain,
                             GCancellable *cancellable,
                             GError **error)
 {
@@ -920,12 +974,14 @@ e_mail_autoconfig_new_sync (ESourceRegistry *registry,
 		cancellable, error,
 		"registry", registry,
 		"email-address", email_address,
+		"use-domain", use_domain,
 		NULL);
 }
 
 void
 e_mail_autoconfig_new (ESourceRegistry *registry,
                        const gchar *email_address,
+		       const gchar *use_domain,
                        gint io_priority,
                        GCancellable *cancellable,
                        GAsyncReadyCallback callback,
@@ -940,6 +996,7 @@ e_mail_autoconfig_new (ESourceRegistry *registry,
 		callback, user_data,
 		"registry", registry,
 		"email-address", email_address,
+		"use-domain", use_domain,
 		NULL);
 }
 
@@ -991,6 +1048,14 @@ e_mail_autoconfig_get_email_address (EMailAutoconfig *autoconfig)
 	return autoconfig->priv->email_address;
 }
 
+const gchar *
+e_mail_autoconfig_get_use_domain (EMailAutoconfig *autoconfig)
+{
+	g_return_val_if_fail (E_IS_MAIL_AUTOCONFIG (autoconfig), NULL);
+
+	return autoconfig->priv->use_domain;
+}
+
 gboolean
 e_mail_autoconfig_set_imap_details (EMailAutoconfig *autoconfig,
                                     ESource *imap_source)
@@ -1000,7 +1065,7 @@ e_mail_autoconfig_set_imap_details (EMailAutoconfig *autoconfig,
 
 	return mail_autoconfig_set_details (
 		&autoconfig->priv->imap_result,
-		imap_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+		imap_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT, "imapx");
 }
 
 gboolean
@@ -1012,7 +1077,7 @@ e_mail_autoconfig_set_pop3_details (EMailAutoconfig *autoconfig,
 
 	return mail_autoconfig_set_details (
 		&autoconfig->priv->pop3_result,
-		pop3_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+		pop3_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT, "pop3");
 }
 
 gboolean
@@ -1024,7 +1089,7 @@ e_mail_autoconfig_set_smtp_details (EMailAutoconfig *autoconfig,
 
 	return mail_autoconfig_set_details (
 		&autoconfig->priv->smtp_result,
-		smtp_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT);
+		smtp_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT, "smtp");
 }
 
 void
@@ -1043,7 +1108,10 @@ e_mail_autoconfig_dump_results (EMailAutoconfig *autoconfig)
 		autoconfig->priv->smtp_result.set;
 
 	if (have_results) {
-		g_print ("Results for <%s>\n", email_address);
+		if (autoconfig->priv->use_domain && *autoconfig->priv->use_domain)
+			g_print ("Results for <%s> and domain '%s'\n", email_address, autoconfig->priv->use_domain);
+		else
+			g_print ("Results for <%s>\n", email_address);
 
 		if (autoconfig->priv->imap_result.set) {
 			g_print (
@@ -1069,6 +1137,8 @@ e_mail_autoconfig_dump_results (EMailAutoconfig *autoconfig)
 				autoconfig->priv->smtp_result.port);
 		}
 
+	} else if (autoconfig->priv->use_domain && *autoconfig->priv->use_domain) {
+		g_print ("No results for <%s> and domain '%s'\n", email_address, autoconfig->priv->use_domain);
 	} else {
 		g_print ("No results for <%s>\n", email_address);
 	}

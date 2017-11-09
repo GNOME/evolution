@@ -96,12 +96,14 @@ set(SOURCES
 	e-client-cache.c
 	e-client-combo-box.c
 	e-client-selector.c
+	e-collection-account-wizard.c
 	e-color-chooser-widget.c
 	e-color-combo.c
 	e-config.c
 	e-config-lookup.c
 	e-config-lookup-result.c
 	e-config-lookup-result-simple.c
+	e-config-lookup-worker.c
 	e-conflict-search-selector.c
 	e-contact-store.c
 	e-content-editor.c
@@ -365,12 +367,14 @@ set(HEADERS
 	e-client-cache.h
 	e-client-combo-box.h
 	e-client-selector.h
+	e-collection-account-wizard.h
 	e-color-chooser-widget.h
 	e-color-combo.h
 	e-config.h
 	e-config-lookup.h
 	e-config-lookup-result.h
 	e-config-lookup-result-simple.h
+	e-config-lookup-worker.h
 	e-conflict-search-selector.h
 	e-contact-store.h
 	e-content-editor.h

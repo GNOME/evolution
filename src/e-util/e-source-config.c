@@ -1473,7 +1473,7 @@ e_source_config_add_user_entry (ESourceConfig *config,
 
 	widget = gtk_entry_new ();
 	e_source_config_insert_widget (
-		config, scratch_source, _("User"), widget);
+		config, scratch_source, _("User:"), widget);
 	gtk_widget_show (widget);
 
 	e_binding_bind_object_text_property (

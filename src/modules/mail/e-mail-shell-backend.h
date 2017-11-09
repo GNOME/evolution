@@ -58,7 +58,7 @@ struct _EMailShellBackendClass {
 	EMailBackendClass parent_class;
 
 	/* Signals */
-	void		(* new_account)		(EMailShellBackend *mail_shell_backend,
+	GtkWidget *	(* new_account)		(EMailShellBackend *mail_shell_backend,
 						 GtkWindow *parent);
 	void		(* edit_account)	(EMailShellBackend *mail_shell_backend,
 						 GtkWindow *parent,
@@ -69,7 +69,7 @@ GType		e_mail_shell_backend_get_type	(void);
 void		e_mail_shell_backend_type_register
 						(GTypeModule *type_module);
 
-void		e_mail_shell_backend_new_account
+GtkWidget *	e_mail_shell_backend_new_account
 						(EMailShellBackend *mail_shell_backend,
 						 GtkWindow *parent);
 void		e_mail_shell_backend_edit_account

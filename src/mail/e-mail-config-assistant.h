@@ -56,6 +56,10 @@ struct _EMailConfigAssistant {
 
 struct _EMailConfigAssistantClass {
 	GtkAssistantClass parent_class;
+
+	/* Signals */
+	void		(* new_source)	(EMailConfigAssistant *assistant,
+					 const gchar *uid);
 };
 
 GType		e_mail_config_assistant_get_type

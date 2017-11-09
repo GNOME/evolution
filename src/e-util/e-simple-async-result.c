@@ -124,7 +124,6 @@ e_simple_async_result_new (GObject *source_object,
 {
 	ESimpleAsyncResult *result;
 
-	g_return_val_if_fail (callback != NULL, NULL);
 	if (source_object)
 		g_return_val_if_fail (G_IS_OBJECT (source_object), NULL);
 
@@ -294,7 +293,8 @@ e_simple_async_result_complete (ESimpleAsyncResult *result)
 
 	g_object_ref (result);
 
-	result->priv->callback (result->priv->source_object, G_ASYNC_RESULT (result), result->priv->callback_user_data);
+	if (result->priv->callback)
+		result->priv->callback (result->priv->source_object, G_ASYNC_RESULT (result), result->priv->callback_user_data);
 
 	g_object_unref (result);
 }

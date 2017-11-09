@@ -61,6 +61,7 @@ struct _EAccountsWindowPrivate {
 	GtkWidget *delete_button;	/* not referenced */
 
 	GHashTable *references; /* gchar *UID ~> GtkTreeRowReference * */
+	gchar *select_source_uid; /* Which source to select, or NULL */
 
 	gulong source_enabled_handler_id;
 	gulong source_disabled_handler_id;
@@ -177,10 +178,10 @@ accounts_window_emit_delete_source (EAccountsWindow *accounts_window)
 }
 
 static gboolean
-accounts_window_find_source_iter (EAccountsWindow *accounts_window,
-				  ESource *source,
-				  GtkTreeIter *out_iter,
-				  GtkTreeModel **out_model)
+accounts_window_find_source_uid_iter (EAccountsWindow *accounts_window,
+				      const gchar *uid,
+				      GtkTreeIter *out_iter,
+				      GtkTreeModel **out_model)
 {
 	GtkTreeRowReference *reference;
 	GtkTreePath *path;
@@ -188,13 +189,13 @@ accounts_window_find_source_iter (EAccountsWindow *accounts_window,
 	gboolean valid;
 
 	g_return_val_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window), FALSE);
-	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+	g_return_val_if_fail (uid != NULL, FALSE);
 	g_return_val_if_fail (out_iter != NULL, FALSE);
 
-	reference = g_hash_table_lookup (accounts_window->priv->references, e_source_get_uid (source));
+	reference = g_hash_table_lookup (accounts_window->priv->references, uid);
 	if (!reference ||
 	    !gtk_tree_row_reference_valid (reference)) {
-		g_hash_table_remove (accounts_window->priv->references, e_source_get_uid (source));
+		g_hash_table_remove (accounts_window->priv->references, uid);
 
 		return FALSE;
 	}
@@ -212,6 +213,19 @@ accounts_window_find_source_iter (EAccountsWindow *accounts_window,
 		*out_model = model;
 
 	return valid;
+}
+
+static gboolean
+accounts_window_find_source_iter (EAccountsWindow *accounts_window,
+				  ESource *source,
+				  GtkTreeIter *out_iter,
+				  GtkTreeModel **out_model)
+{
+	g_return_val_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
+	g_return_val_if_fail (out_iter != NULL, FALSE);
+
+	return accounts_window_find_source_uid_iter (accounts_window, e_source_get_uid (source), out_iter, out_model);
 }
 
 static gboolean
@@ -346,7 +360,7 @@ accounts_window_fill_row_with_source (EAccountsWindow *accounts_window,
 			use_type = g_strconcat ("UOA:", backend_name, NULL);
 			icon_name = "credentials-preferences";
 			enabled_visible = FALSE;
-		} else {
+		} else if (g_strcmp0 (backend_name, "none") != 0) {
 			use_type = backend_name;
 			backend_name = NULL;
 		}
@@ -502,7 +516,7 @@ accounts_window_fill_children (EAccountsWindow *accounts_window,
 		gboolean *subroot_set;
 		GtkTreeIter iter, *subroot;
 
-		if (accounts_window_get_sort_hint_for_source (source) == -1)
+		if (accounts_window_get_sort_hint_for_source (source) == UNKNOWN_SORT_HINT)
 			continue;
 
 		if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
@@ -551,7 +565,9 @@ accounts_window_fill_children (EAccountsWindow *accounts_window,
 				subroot_display_name, subroot_icon_name, subroot_sort_hint);
 		}
 
-		gtk_tree_store_append (tree_store, &iter, subroot);
+		if (!lookup_subroot ||
+		    !accounts_window_find_source_iter (accounts_window, source, &iter, NULL))
+			gtk_tree_store_append (tree_store, &iter, subroot);
 
 		accounts_window_fill_row_with_source (accounts_window, tree_store, &iter, source, mail_account_slaves, !is_managed_collection);
 	}
@@ -772,6 +788,7 @@ accounts_window_source_added_cb (ESourceRegistry *registry,
 	GtkTreeIter iter, root;
 	GSList *children_and_siblings = NULL;
 	GList *sources, *llink;
+	gboolean restart = FALSE;
 
 	g_return_if_fail (E_IS_SOURCE (source));
 	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
@@ -780,14 +797,18 @@ accounts_window_source_added_cb (ESourceRegistry *registry,
 	    accounts_window_find_source_iter (accounts_window, source, &iter, NULL))
 		return;
 
+	g_object_ref (source);
+
 	tree_store = GTK_TREE_STORE (gtk_tree_model_sort_get_model (
 		GTK_TREE_MODEL_SORT (gtk_tree_view_get_model (
 		GTK_TREE_VIEW (accounts_window->priv->tree_view)))));
 
 	sources = e_source_registry_list_sources (accounts_window->priv->registry, NULL);
-	for (llink = sources; llink; llink = g_list_next (llink)) {
+	for (llink = sources; llink; llink = restart ? sources : g_list_next (llink)) {
 		ESource *other_source = llink->data;
 		const gchar *parent_uid;
+
+		restart = FALSE;
 
 		if (!E_IS_SOURCE (other_source) ||
 		    e_source_has_extension (other_source, E_SOURCE_EXTENSION_PROXY) ||
@@ -799,6 +820,16 @@ accounts_window_source_added_cb (ESourceRegistry *registry,
 		    g_strcmp0 (parent_uid, e_source_get_parent (source)) == 0 ||
 		    g_strcmp0 (parent_uid, e_source_get_uid (source)) == 0)) {
 			children_and_siblings = g_slist_prepend (children_and_siblings, g_object_ref (other_source));
+		} else if (e_source_has_extension (other_source, E_SOURCE_EXTENSION_COLLECTION) && other_source != source &&
+			   !e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION) &&
+			   g_strcmp0 (e_source_get_uid (other_source), e_source_get_parent (source)) == 0) {
+			/* Use the collection source when there's any such found */
+			g_object_unref (source);
+			source = g_object_ref (other_source);
+
+			g_slist_free_full (children_and_siblings, g_object_unref);
+			children_and_siblings = NULL;
+			restart = TRUE;
 		}
 	}
 
@@ -807,12 +838,14 @@ accounts_window_source_added_cb (ESourceRegistry *registry,
 	if (e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION)) {
 		gboolean is_managed_collection;
 
-		gtk_tree_store_append (tree_store, &iter, NULL);
-
 		is_managed_collection = e_source_has_extension (source, E_SOURCE_EXTENSION_GOA) ||
 			e_source_has_extension (source, E_SOURCE_EXTENSION_UOA);
 
-		accounts_window_fill_row_with_source (accounts_window, tree_store, &iter, source, NULL, TRUE);
+		if (!accounts_window_find_source_iter (accounts_window, source, &iter, NULL)) {
+			gtk_tree_store_append (tree_store, &iter, NULL);
+			accounts_window_fill_row_with_source (accounts_window, tree_store, &iter, source, NULL, TRUE);
+		}
+
 		accounts_window_fill_children (accounts_window, tree_store, &iter, is_managed_collection, TRUE, children_and_siblings);
 	} else if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT) && (
 		   !e_source_get_parent (source) || g_strcmp0 (e_source_get_parent (source), "") == 0)) {
@@ -898,6 +931,10 @@ accounts_window_source_added_cb (ESourceRegistry *registry,
 	}
 
 	g_slist_free_full (children_and_siblings, g_object_unref);
+	g_object_unref (source);
+
+	if (accounts_window->priv->select_source_uid)
+		e_accounts_window_select_source (accounts_window, accounts_window->priv->select_source_uid);
 }
 
 static void
@@ -1406,7 +1443,7 @@ accounts_window_show_add_popup (EAccountsWindow *accounts_window,
 		const gchar *text;
 		const gchar *icon_name;
 	} items[] = {
-		/* { "collection",	N_("Collection _Account"),	"evolution" }, */
+		{ "collection",	N_("Collection _Account"),	"evolution" },
 		{ "mail",	N_("_Mail Account"),		"evolution-mail" },
 		{ "book",	N_("Address _Book"),		"x-office-address-book" },
 		{ "calendar",	N_("_Calendar"),		"x-office-calendar" },
@@ -1585,6 +1622,7 @@ accounts_window_finalize (GObject *object)
 	EAccountsWindow *accounts_window = E_ACCOUNTS_WINDOW (object);
 
 	g_hash_table_destroy (accounts_window->priv->references);
+	g_clear_pointer (&accounts_window->priv->select_source_uid, g_free);
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_accounts_window_parent_class)->finalize (object);
@@ -1604,7 +1642,7 @@ accounts_window_constructed (GObject *object)
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_accounts_window_parent_class)->constructed (object);
 
-	gtk_window_set_default_size (GTK_WINDOW (accounts_window), 480, 360);
+	gtk_window_set_default_size (GTK_WINDOW (accounts_window), 480, 410);
 	gtk_window_set_title (GTK_WINDOW (accounts_window), _("Evolution Accounts"));
 	gtk_container_set_border_width (GTK_CONTAINER (accounts_window), 12);
 
@@ -1701,14 +1739,14 @@ accounts_window_constructed (GObject *object)
 		GTK_ACCEL_VISIBLE);
 	gtk_window_add_accel_group (GTK_WINDOW (accounts_window), accel_group);
 
+	registry = e_accounts_window_get_registry (accounts_window);
+
 	gtk_widget_show_all (GTK_WIDGET (grid));
 
 	/* First load extensions, thus the fill-tree-view can call them. */
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	accounts_window_fill_tree_view (accounts_window);
-
-	registry = e_accounts_window_get_registry (accounts_window);
 
 	accounts_window->priv->source_enabled_handler_id =
 		g_signal_connect (registry, "source-enabled",
@@ -2020,6 +2058,67 @@ e_accounts_window_ref_selected_source (EAccountsWindow *accounts_window)
 		gtk_tree_model_get (model, &iter, COLUMN_OBJECT_SOURCE, &source, -1);
 
 	return source;
+}
+
+/**
+ * e_accounts_window_select_source:
+ * @accounts_window: an #EAccountsWindow
+ * @uid: (nullable): an #ESource UID to select
+ *
+ * Selects an #ESource with the given @uid. If no such is available in time
+ * of this call, then it is remembered and selected once it appears.
+ * The function doesn't change selection, when @uid is %NULL, but it
+ * unsets remembered UID from any previous call.
+ *
+ * Since: 3.28
+ **/
+void
+e_accounts_window_select_source (EAccountsWindow *accounts_window,
+				 const gchar *uid)
+{
+	GtkTreeModel *model;
+	GtkTreeIter child_iter;
+
+	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
+
+	if (!uid || !*uid) {
+		g_clear_pointer (&accounts_window->priv->select_source_uid, g_free);
+		return;
+	}
+
+	if (accounts_window_find_source_uid_iter (accounts_window, uid, &child_iter, &model)) {
+		GtkTreeModel *sort_model;
+		GtkTreeView *tree_view;
+		GtkTreeIter iter;
+
+		g_clear_pointer (&accounts_window->priv->select_source_uid, g_free);
+
+		tree_view = GTK_TREE_VIEW (accounts_window->priv->tree_view);
+		sort_model = gtk_tree_view_get_model (tree_view);
+
+		if (gtk_tree_model_sort_convert_child_iter_to_iter (GTK_TREE_MODEL_SORT (sort_model), &iter, &child_iter)) {
+			GtkTreeSelection *selection;
+			GtkTreePath *path;
+
+			path = gtk_tree_model_get_path (sort_model, &iter);
+			if (path) {
+				gtk_tree_view_expand_to_path (tree_view, path);
+				gtk_tree_view_scroll_to_cell (tree_view, path, NULL, FALSE, 0.0, 0.0);
+			}
+
+			gtk_tree_path_free (path);
+
+			selection = gtk_tree_view_get_selection (tree_view);
+			gtk_tree_selection_select_iter (selection, &iter);
+		}
+
+		return;
+	}
+
+	if (g_strcmp0 (accounts_window->priv->select_source_uid, uid) != 0) {
+		g_clear_pointer (&accounts_window->priv->select_source_uid, g_free);
+		accounts_window->priv->select_source_uid = g_strdup (uid);
+	}
 }
 
 /**

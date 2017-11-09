@@ -195,8 +195,10 @@ src/e-util/e-cell-text.c
 src/e-util/e-charset.c
 src/e-util/e-charset-combo-box.c
 src/e-util/e-client-cache.c
+src/e-util/e-collection-account-wizard.c
 src/e-util/e-color-chooser-widget.c
 src/e-util/e-color-combo.c
+src/e-util/e-config-lookup.c
 src/e-util/e-dateedit.c
 src/e-util/e-datetime-format.c
 src/e-util/e-dialog-utils.c
@@ -384,6 +386,7 @@ src/mail/message-list.etspec
 src/mail/searchtypes.xml.in
 src/mail/vfoldertypes.xml.in
 src/modules/accounts-window/e-accounts-window-editors.c
+src/modules/accounts-window/e-collection-wizard-page.c
 src/modules/accounts-window/e-webdav-browser-page.c
 src/modules/addressbook/autocompletion-config.c
 src/modules/addressbook/eab-composer-util.c
@@ -439,7 +442,9 @@ src/modules/calendar/e-task-shell-view.c
 src/modules/calendar/e-task-shell-view-private.c
 src/modules/composer-to-meeting/e-composer-to-meeting.c
 src/modules/composer-to-meeting/e-meeting-to-composer.c
+src/modules/config-lookup/e-gnome-config-lookup.c
 src/modules/config-lookup/e-srv-config-lookup.c
+src/modules/config-lookup/e-webdav-config-lookup.c
 src/modules/itip-formatter/e-mail-formatter-itip.c
 src/modules/itip-formatter/itip-view.c
 src/modules/itip-formatter/org-gnome-itip-formatter.error.xml

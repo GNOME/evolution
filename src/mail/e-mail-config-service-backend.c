@@ -527,7 +527,7 @@ e_mail_config_service_backend_commit_changes (EMailConfigServiceBackend *backend
  * @config_lookup: an #EConfigLookup
  * @kind: an #EConfigLookupResultKind
  * @protocol: (nullable): optional protocol name, or %NULL
- * @source: (nullable): optioanl #ESource to configure, or %NULL
+ * @source: (nullable): optional #ESource to configure, or %NULL
  * @out_priority: (out) (nullable): priority of the chosen lookup result
  * @out_is_complete: (out) (nullable): whether the config is complete
  *
@@ -535,7 +535,7 @@ e_mail_config_service_backend_commit_changes (EMailConfigServiceBackend *backend
  * configures the @source with it. The @out_priority is set to the priority
  * of that lookup result.
  *
- * If no @protocol is given, then the backend name of the @backend it used.
+ * If no @protocol is given, then the backend name of the @backend is used.
  * If no @source is given, then gets it with e_mail_config_service_backend_get_source().
  *
  * Returns: whether applied any changes
@@ -567,13 +567,13 @@ e_mail_config_service_backend_auto_configure_for_kind (EMailConfigServiceBackend
 	if (!protocol)
 		protocol = klass->backend_name;
 
-	results = e_config_lookup_get_results (config_lookup, kind, protocol);
+	results = e_config_lookup_dup_results (config_lookup, kind, protocol);
 	results = g_slist_sort (results, e_config_lookup_result_compare);
 
 	if (results && results->data) {
 		EConfigLookupResult *lookup_result = results->data;
 
-		changed = e_config_lookup_result_configure_source (lookup_result, source);
+		changed = e_config_lookup_result_configure_source (lookup_result, config_lookup, source);
 
 		if (changed) {
 			if (out_priority)

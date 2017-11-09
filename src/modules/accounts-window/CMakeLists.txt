@@ -6,6 +6,8 @@ set(sources
 	accounts-window.c
 	e-accounts-window-editors.c
 	e-accounts-window-editors.h
+	e-collection-wizard-page.c
+	e-collection-wizard-page.h
 	e-webdav-browser-page.c
 	e-webdav-browser-page.h
 )

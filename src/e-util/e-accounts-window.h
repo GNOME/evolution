@@ -98,6 +98,8 @@ ESourceRegistry *
 void		e_accounts_window_show_with_parent	(EAccountsWindow *accounts_window,
 							 GtkWindow *parent);
 ESource *	e_accounts_window_ref_selected_source	(EAccountsWindow *accounts_window);
+void		e_accounts_window_select_source		(EAccountsWindow *accounts_window,
+							 const gchar *uid);
 void		e_accounts_window_insert_to_add_popup	(EAccountsWindow *accounts_window,
 							 GtkMenuShell *popup_menu,
 							 const gchar *kind,

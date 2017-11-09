@@ -46,6 +46,8 @@
 
 G_BEGIN_DECLS
 
+struct _EConfigLookup;
+
 typedef struct _EConfigLookupResultSimple EConfigLookupResultSimple;
 typedef struct _EConfigLookupResultSimpleClass EConfigLookupResultSimpleClass;
 typedef struct _EConfigLookupResultSimplePrivate EConfigLookupResultSimplePrivate;
@@ -69,6 +71,7 @@ struct _EConfigLookupResultSimpleClass {
 	GObjectClass parent_class;
 
 	gboolean	(* configure_source)		(EConfigLookupResult *lookup_result,
+							 struct _EConfigLookup *config_lookup,
 							 ESource *source);
 };
 
@@ -79,7 +82,8 @@ EConfigLookupResult *
 							 gboolean is_complete,
 							 const gchar *protocol,
 							 const gchar *display_name,
-							 const gchar *description);
+							 const gchar *description,
+							 const gchar *password);
 void		e_config_lookup_result_simple_add_value	(EConfigLookupResult *lookup_result,
 							 const gchar *extension_name,
 							 const gchar *property_name,

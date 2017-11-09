@@ -395,6 +395,46 @@ accounts_window_editors_get_editing_flags_cb (EAccountsWindow *accounts_window,
 	return FALSE;
 }
 
+static void
+accounts_window_editors_commit_changes_cb (ESourceConfig *config,
+					   ESource *scratch_source,
+					   gpointer user_data)
+{
+	EAccountsWindow *accounts_window;
+	GWeakRef *weakref = user_data;
+
+	g_return_if_fail (E_IS_SOURCE (scratch_source));
+	g_return_if_fail (weakref != NULL);
+
+	accounts_window = g_weak_ref_get (weakref);
+	if (!accounts_window)
+		return;
+
+	e_accounts_window_select_source (accounts_window, e_source_get_uid (scratch_source));
+
+	g_object_unref (accounts_window);
+}
+
+static void
+accounts_window_editors_new_mail_source_cb (GtkWidget *assistant,
+					    const gchar *uid,
+					    gpointer user_data)
+{
+	EAccountsWindow *accounts_window;
+	GWeakRef *weakref = user_data;
+
+	g_return_if_fail (uid != NULL);
+	g_return_if_fail (weakref != NULL);
+
+	accounts_window = g_weak_ref_get (weakref);
+	if (!accounts_window)
+		return;
+
+	e_accounts_window_select_source (accounts_window, uid);
+
+	g_object_unref (accounts_window);
+}
+
 static gboolean
 accounts_window_editors_add_source_cb (EAccountsWindow *accounts_window,
 				       const gchar *kind,
@@ -417,9 +457,17 @@ accounts_window_editors_add_source_cb (EAccountsWindow *accounts_window,
 		EShell *shell = e_shell_get_default ();
 
 		if (shell) {
+			GtkWidget *assistant = NULL;
+
 			shell_backend = e_shell_get_backend_by_name (shell, "mail");
 
-			g_signal_emit_by_name (shell_backend, "new-account", GTK_WINDOW (accounts_window));
+			g_signal_emit_by_name (shell_backend, "new-account", GTK_WINDOW (accounts_window), &assistant);
+
+			if (assistant) {
+				g_signal_connect_data (assistant, "new-source",
+					G_CALLBACK (accounts_window_editors_new_mail_source_cb),
+					e_weak_ref_new (accounts_window), (GClosureNotify) e_weak_ref_free, 0);
+			}
 		}
 
 		return TRUE;
@@ -443,6 +491,10 @@ accounts_window_editors_add_source_cb (EAccountsWindow *accounts_window,
 
 	if (config) {
 		GtkWidget *dialog;
+
+		g_signal_connect_data (config, "commit-changes",
+			G_CALLBACK (accounts_window_editors_commit_changes_cb),
+			e_weak_ref_new (accounts_window), (GClosureNotify) e_weak_ref_free, 0);
 
 		dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
 

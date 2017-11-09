@@ -8,6 +8,8 @@ set(sources
 	e-gnome-config-lookup.h
 	e-srv-config-lookup.c
 	e-srv-config-lookup.h
+	e-webdav-config-lookup.c
+	e-webdav-config-lookup.h
 )
 set(extra_defines)
 set(extra_cflags)

@@ -59,10 +59,12 @@ GType		e_mail_autoconfig_get_type	(void) G_GNUC_CONST;
 EMailAutoconfig *
 		e_mail_autoconfig_new_sync	(ESourceRegistry *registry,
 						 const gchar *email_address,
+						 const gchar *use_domain,
 						 GCancellable *cancellable,
 						 GError **error);
 void		e_mail_autoconfig_new		(ESourceRegistry *registry,
 						 const gchar *email_address,
+						 const gchar *use_domain,
 						 gint io_priority,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
@@ -73,6 +75,8 @@ EMailAutoconfig *
 ESourceRegistry *
 		e_mail_autoconfig_get_registry	(EMailAutoconfig *autoconfig);
 const gchar *	e_mail_autoconfig_get_email_address
+						(EMailAutoconfig *autoconfig);
+const gchar *	e_mail_autoconfig_get_use_domain
 						(EMailAutoconfig *autoconfig);
 gboolean	e_mail_autoconfig_set_imap_details
 						(EMailAutoconfig *autoconfig,

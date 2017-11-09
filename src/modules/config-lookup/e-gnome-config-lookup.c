@@ -17,6 +17,8 @@
 
 #include "evolution-config.h"
 
+#include <glib/gi18n-lib.h>
+
 #include "mail/e-mail-autoconfig.h"
 #include "e-util/e-util.h"
 
@@ -54,18 +56,31 @@ struct _EGnomeConfigLookupClass {
 
 GType e_gnome_config_lookup_get_type (void) G_GNUC_CONST;
 
-G_DEFINE_DYNAMIC_TYPE (EGnomeConfigLookup, e_gnome_config_lookup, E_TYPE_EXTENSION)
+static void gnome_config_lookup_worker_iface_init (EConfigLookupWorkerInterface *iface);
+
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (EGnomeConfigLookup, e_gnome_config_lookup, E_TYPE_EXTENSION, 0,
+	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_CONFIG_LOOKUP_WORKER, gnome_config_lookup_worker_iface_init))
+
+static const gchar *
+gnome_config_lookup_worker_get_display_name (EConfigLookupWorker *lookup_worker)
+{
+	return _("Look up e-mail domain on the GNOME server");
+}
 
 static void
-gnome_config_lookup_thread (EConfigLookup *config_lookup,
-			    const ENamedParameters *params,
-			    gpointer user_data,
-			    GCancellable *cancellable)
+gnome_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
+				EConfigLookup *config_lookup,
+				const ENamedParameters *params,
+				ENamedParameters **out_restart_params,
+				GCancellable *cancellable,
+				GError **error)
 {
 	EMailAutoconfig *mail_autoconfig;
 	ESourceRegistry *registry;
 	const gchar *email_address;
+	const gchar *servers;
 
+	g_return_if_fail (E_IS_GNOME_CONFIG_LOOKUP (lookup_worker));
 	g_return_if_fail (E_IS_CONFIG_LOOKUP (config_lookup));
 	g_return_if_fail (params != NULL);
 
@@ -75,25 +90,29 @@ gnome_config_lookup_thread (EConfigLookup *config_lookup,
 	if (!email_address || !*email_address)
 		return;
 
-	mail_autoconfig = e_mail_autoconfig_new_sync (registry, email_address, cancellable, NULL);
+	mail_autoconfig = e_mail_autoconfig_new_sync (registry, email_address, NULL, cancellable, NULL);
 	if (mail_autoconfig)
 		e_mail_autoconfig_copy_results_to_config_lookup (mail_autoconfig, config_lookup);
 
 	g_clear_object (&mail_autoconfig);
-}
 
-static void
-gnome_config_lookup_run_cb (EConfigLookup *config_lookup,
-			    const ENamedParameters *params,
-			    EActivity *activity,
-			    gpointer user_data)
-{
-	g_return_if_fail (E_IS_CONFIG_LOOKUP (config_lookup));
-	g_return_if_fail (E_IS_GNOME_CONFIG_LOOKUP (user_data));
-	g_return_if_fail (E_IS_ACTIVITY (activity));
+	servers = e_named_parameters_get (params, E_CONFIG_LOOKUP_PARAM_SERVERS);
+	if (servers && *servers) {
+		gchar **servers_strv;
+		gint ii;
 
-	e_config_lookup_create_thread (config_lookup, params, activity,
-		gnome_config_lookup_thread, NULL, NULL);
+		servers_strv = g_strsplit (servers, ";", 0);
+
+		for (ii = 0; servers_strv && servers_strv[ii] && !g_cancellable_is_cancelled (cancellable); ii++) {
+			mail_autoconfig = e_mail_autoconfig_new_sync (registry, email_address, servers_strv[ii], cancellable, NULL);
+			if (mail_autoconfig)
+				e_mail_autoconfig_copy_results_to_config_lookup (mail_autoconfig, config_lookup);
+
+			g_clear_object (&mail_autoconfig);
+		}
+
+		g_strfreev (servers_strv);
+	}
 }
 
 static void
@@ -106,8 +125,7 @@ gnome_config_lookup_constructed (GObject *object)
 
 	config_lookup = E_CONFIG_LOOKUP (e_extension_get_extensible (E_EXTENSION (object)));
 
-	g_signal_connect (config_lookup, "run",
-		G_CALLBACK (gnome_config_lookup_run_cb), object);
+	e_config_lookup_register_worker (config_lookup, E_CONFIG_LOOKUP_WORKER (object));
 }
 
 static void
@@ -126,6 +144,13 @@ e_gnome_config_lookup_class_init (EGnomeConfigLookupClass *class)
 static void
 e_gnome_config_lookup_class_finalize (EGnomeConfigLookupClass *class)
 {
+}
+
+static void
+gnome_config_lookup_worker_iface_init (EConfigLookupWorkerInterface *iface)
+{
+	iface->get_display_name = gnome_config_lookup_worker_get_display_name;
+	iface->run = gnome_config_lookup_worker_run;
 }
 
 static void

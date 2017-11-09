@@ -914,7 +914,7 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	}
 }
 
-static void
+static GtkWidget *
 mail_shell_backend_new_account_default (EMailShellBackend *mail_shell_backend,
 					GtkWindow *parent)
 {
@@ -922,13 +922,13 @@ mail_shell_backend_new_account_default (EMailShellBackend *mail_shell_backend,
 	EMailBackend *backend;
 	EMailSession *session;
 
-	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
+	g_return_val_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
 
 	assistant = mail_shell_backend->priv->assistant;
 
 	if (assistant != NULL) {
 		gtk_window_present (GTK_WINDOW (assistant));
-		return;
+		return assistant;
 	}
 
 	backend = E_MAIL_BACKEND (mail_shell_backend);
@@ -945,6 +945,8 @@ mail_shell_backend_new_account_default (EMailShellBackend *mail_shell_backend,
 	g_object_add_weak_pointer (
 		G_OBJECT (mail_shell_backend->priv->assistant),
 		&mail_shell_backend->priv->assistant);
+
+	return assistant;
 }
 
 static void
@@ -1109,6 +1111,8 @@ e_mail_shell_backend_class_init (EMailShellBackendClass *class)
 	 *
 	 * Opens wizard to create a new mail account.
 	 *
+	 * Returns: The new mail account assistant widget
+	 *
 	 * Since: 3.26
 	 **/
 	signals[NEW_ACCOUNT] = g_signal_new (
@@ -1118,7 +1122,7 @@ e_mail_shell_backend_class_init (EMailShellBackendClass *class)
 		G_STRUCT_OFFSET (EMailShellBackendClass, new_account),
 		NULL, NULL,
 		NULL,
-		G_TYPE_NONE, 1,
+		GTK_TYPE_WIDGET, 1,
 		GTK_TYPE_WINDOW);
 
 	/**
@@ -1163,14 +1167,18 @@ e_mail_shell_backend_type_register (GTypeModule *type_module)
 	e_mail_shell_backend_register_type (type_module);
 }
 
-void
+GtkWidget *
 e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
 				  GtkWindow *parent)
 {
-	g_return_if_fail (mail_shell_backend != NULL);
-	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
+	GtkWidget *assistant = NULL;
 
-	g_signal_emit (mail_shell_backend, signals[NEW_ACCOUNT], 0, parent);
+	g_return_val_if_fail (mail_shell_backend != NULL, NULL);
+	g_return_val_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
+
+	g_signal_emit (mail_shell_backend, signals[NEW_ACCOUNT], 0, parent, &assistant);
+
+	return assistant;
 }
 
 void

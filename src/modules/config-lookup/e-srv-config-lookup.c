@@ -60,7 +60,10 @@ struct _ESrvConfigLookupClass {
 
 GType e_srv_config_lookup_get_type (void) G_GNUC_CONST;
 
-G_DEFINE_DYNAMIC_TYPE (ESrvConfigLookup, e_srv_config_lookup, E_TYPE_EXTENSION)
+static void srv_config_lookup_worker_iface_init (EConfigLookupWorkerInterface *iface);
+
+G_DEFINE_DYNAMIC_TYPE_EXTENDED (ESrvConfigLookup, e_srv_config_lookup, E_TYPE_EXTENSION, 0,
+	G_IMPLEMENT_INTERFACE_DYNAMIC (E_TYPE_CONFIG_LOOKUP_WORKER, srv_config_lookup_worker_iface_init))
 
 static void
 srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
@@ -73,19 +76,20 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 		EConfigLookupResultKind kind;
 		const gchar *evo_protocol;
 		const gchar *display_name;
+		const gchar *lookup_info;
 		gint priority_base;
 	} known_services[] = {
-		{ "imaps",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "imapx",   _("IMAP server"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_IMAP },
-		{ "imap",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "imapx",   _("IMAP server"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_IMAP + PRIORITY_OFFSET / 2 },
-		{ "pop3s",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "pop",     _("POP3 server"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_POP3 },
-		{ "pop3",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "pop",     _("POP3 server"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_POP3 + PRIORITY_OFFSET / 2 },
-		{ "submission",	E_CONFIG_LOOKUP_RESULT_MAIL_SEND,     "smtp",    _("SMTP server"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_SMTP },
-		{ "caldavs",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "caldav",  _("CalDAV server"),  PRIORITY_DEFAULT },
-		{ "caldav",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "caldav",  _("CalDAV server"),  PRIORITY_DEFAULT + PRIORITY_OFFSET / 2 },
-		{ "carddavs",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "carddav", _("CardDAV server"), PRIORITY_DEFAULT },
-		{ "carddav",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "carddav", _("CardDAV server"), PRIORITY_DEFAULT + PRIORITY_OFFSET / 2 },
-		{ "ldaps",	E_CONFIG_LOOKUP_RESULT_ADDRESS_BOOK,  "ldap",    _("LDAP server"),    PRIORITY_DEFAULT },
-		{ "ldap",	E_CONFIG_LOOKUP_RESULT_ADDRESS_BOOK,  "ldap",    _("LDAP server"),    PRIORITY_DEFAULT + PRIORITY_OFFSET / 2 }
+		{ "imaps",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "imapx",   N_("IMAP server"),    N_("Looking up IMAP server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_IMAP },
+		{ "imap",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "imapx",   N_("IMAP server"),    N_("Looking up IMAP server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_IMAP + PRIORITY_OFFSET / 2 },
+		{ "pop3s",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "pop",     N_("POP3 server"),    N_("Looking up POP3 server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_POP3 },
+		{ "pop3",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "pop",     N_("POP3 server"),    N_("Looking up POP3 server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_POP3 + PRIORITY_OFFSET / 2 },
+		{ "submission",	E_CONFIG_LOOKUP_RESULT_MAIL_SEND,     "smtp",    N_("SMTP server"),    N_("Looking up SMTP server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_SMTP },
+		{ "caldavs",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "caldav",  N_("CalDAV server"),  N_("Looking up CalDAV server…"),  PRIORITY_DEFAULT },
+		{ "caldav",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "caldav",  N_("CalDAV server"),  N_("Looking up CalDAV server…"),  PRIORITY_DEFAULT + PRIORITY_OFFSET / 2 },
+		{ "carddavs",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "carddav", N_("CardDAV server"), N_("Looking up CardDAV server…"), PRIORITY_DEFAULT },
+		{ "carddav",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "carddav", N_("CardDAV server"), N_("Looking up CardDAV server…"), PRIORITY_DEFAULT + PRIORITY_OFFSET / 2 },
+		{ "ldaps",	E_CONFIG_LOOKUP_RESULT_ADDRESS_BOOK,  "ldap",    N_("LDAP server"),    N_("Looking up LDAP server…"),    PRIORITY_DEFAULT },
+		{ "ldap",	E_CONFIG_LOOKUP_RESULT_ADDRESS_BOOK,  "ldap",    N_("LDAP server"),    N_("Looking up LDAP server…"),    PRIORITY_DEFAULT + PRIORITY_OFFSET / 2 }
 	};
 
 	GResolver *resolver;
@@ -103,7 +107,9 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 		GList *targets;
 		GError *local_error = NULL;
 
+		camel_operation_push_message (cancellable, "%s", _(known_services[ii].lookup_info));
 		targets = g_resolver_lookup_service (resolver, known_services[ii].gio_protocol, "tcp", domain, cancellable, &local_error);
+		camel_operation_pop_message (cancellable);
 
 		if (local_error) {
 			if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -136,8 +142,9 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 					known_services[ii].priority_base - PRIORITY_OFFSET,
 					FALSE,
 					known_services[ii].evo_protocol,
-					known_services[ii].display_name,
-					description);
+					_(known_services[ii].display_name),
+					description,
+					NULL);
 
 				g_free (description);
 
@@ -179,15 +186,25 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 						"backend-name", "webdav");
 
 					e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_COLLECTION,
+						"identity", email_address);
+
+					e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_COLLECTION,
 						is_calendar ? "calendar-url" : "contacts-url", url);
 
 					g_free (url);
 				} else if (known_services[ii].kind == E_CONFIG_LOOKUP_RESULT_ADDRESS_BOOK) {
 					ESourceLDAPSecurity security;
 
+					e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_ADDRESS_BOOK,
+						"backend-name", "ldap");
+
 					e_config_lookup_result_simple_add_string (lookup_result, NULL, "parent", "ldap-stub");
 					e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_AUTHENTICATION, "host", hostname);
 					e_config_lookup_result_simple_add_uint (lookup_result, E_SOURCE_EXTENSION_AUTHENTICATION, "port", g_srv_target_get_port (target));
+
+					e_config_lookup_result_simple_add_enum (lookup_result,
+						E_SOURCE_EXTENSION_LDAP_BACKEND, "scope",
+						E_TYPE_SOURCE_LDAP_SCOPE, E_SOURCE_LDAP_SCOPE_SUBTREE);
 
 					if (g_str_equal (known_services[ii].gio_protocol, "ldaps"))
 						security = E_SOURCE_LDAP_SECURITY_LDAPS;
@@ -195,7 +212,7 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 						security = E_SOURCE_LDAP_SECURITY_NONE;
 
 					e_config_lookup_result_simple_add_enum (lookup_result,
-						E_SOURCE_EXTENSION_LDAP_BACKEND, "security-method",
+						E_SOURCE_EXTENSION_LDAP_BACKEND, "security",
 						E_TYPE_SOURCE_LDAP_SECURITY, security);
 				} else {
 					g_warn_if_reached ();
@@ -211,15 +228,25 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 	g_object_unref (resolver);
 }
 
+static const gchar *
+srv_config_lookup_worker_get_display_name (EConfigLookupWorker *worker)
+{
+	return _("Look up in SRV records");
+}
+
 static void
-srv_config_lookup_thread (EConfigLookup *config_lookup,
-			  const ENamedParameters *params,
-			  gpointer user_data,
-			  GCancellable *cancellable)
+srv_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
+			      EConfigLookup *config_lookup,
+			      const ENamedParameters *params,
+			      ENamedParameters **out_restart_params,
+			      GCancellable *cancellable,
+			      GError **error)
 {
 	const gchar *email_address;
-	gchar *domain;
+	const gchar *domain;
+	const gchar *servers;
 
+	g_return_if_fail (E_IS_SRV_CONFIG_LOOKUP (lookup_worker));
 	g_return_if_fail (E_IS_CONFIG_LOOKUP (config_lookup));
 	g_return_if_fail (params != NULL);
 
@@ -229,28 +256,25 @@ srv_config_lookup_thread (EConfigLookup *config_lookup,
 		return;
 
 	domain = strchr (email_address, '@');
-	if (!domain)
-		return;
+	if (domain && *domain)
+		srv_config_lookup_domain_sync (config_lookup, email_address, domain + 1, cancellable);
 
-	domain = g_strdup (domain + 1);
+	servers = e_named_parameters_get (params, E_CONFIG_LOOKUP_PARAM_SERVERS);
+	if (servers && *servers) {
+		gchar **servers_strv;
+		gint ii;
 
-	srv_config_lookup_domain_sync (config_lookup, email_address, domain, cancellable);
+		servers_strv = g_strsplit (servers, ";", 0);
 
-	g_free (domain);
-}
+		for (ii = 0; servers_strv && servers_strv[ii] && !g_cancellable_is_cancelled (cancellable); ii++) {
+			domain = servers_strv[ii];
 
-static void
-srv_config_lookup_run_cb (EConfigLookup *config_lookup,
-			  const ENamedParameters *params,
-			  EActivity *activity,
-			  gpointer user_data)
-{
-	g_return_if_fail (E_IS_CONFIG_LOOKUP (config_lookup));
-	g_return_if_fail (E_IS_SRV_CONFIG_LOOKUP (user_data));
-	g_return_if_fail (E_IS_ACTIVITY (activity));
+			if (domain && *domain)
+				srv_config_lookup_domain_sync (config_lookup, email_address, domain, cancellable);
+		}
 
-	e_config_lookup_create_thread (config_lookup, params, activity,
-		srv_config_lookup_thread, NULL, NULL);
+		g_strfreev (servers_strv);
+	}
 }
 
 static void
@@ -263,8 +287,7 @@ srv_config_lookup_constructed (GObject *object)
 
 	config_lookup = E_CONFIG_LOOKUP (e_extension_get_extensible (E_EXTENSION (object)));
 
-	g_signal_connect (config_lookup, "run",
-		G_CALLBACK (srv_config_lookup_run_cb), object);
+	e_config_lookup_register_worker (config_lookup, E_CONFIG_LOOKUP_WORKER (object));
 }
 
 static void
@@ -283,6 +306,13 @@ e_srv_config_lookup_class_init (ESrvConfigLookupClass *class)
 static void
 e_srv_config_lookup_class_finalize (ESrvConfigLookupClass *class)
 {
+}
+
+static void
+srv_config_lookup_worker_iface_init (EConfigLookupWorkerInterface *iface)
+{
+	iface->get_display_name = srv_config_lookup_worker_get_display_name;
+	iface->run = srv_config_lookup_worker_run;
 }
 
 static void

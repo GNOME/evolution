@@ -619,6 +619,14 @@ typedef enum {
 	E_CONFIG_LOOKUP_RESULT_TASK_LIST
 } EConfigLookupResultKind;
 
+/**
+ * @E_CONFIG_LOOKUP_RESULT_LAST_KIND:
+ * The last known %EConfigLookupResultKind.
+ *
+ * Since: 3.28
+ **/
+#define E_CONFIG_LOOKUP_RESULT_LAST_KIND E_CONFIG_LOOKUP_RESULT_TASK_LIST
+
 G_END_DECLS
 
 #endif /* E_UTIL_ENUMS_H */

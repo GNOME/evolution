@@ -51,6 +51,8 @@
 
 G_BEGIN_DECLS
 
+struct _EConfigLookup;
+
 typedef struct _EConfigLookupResult EConfigLookupResult;
 typedef struct _EConfigLookupResultInterface EConfigLookupResultInterface;
 
@@ -64,7 +66,9 @@ struct _EConfigLookupResultInterface {
 	const gchar *	(* get_protocol)		(EConfigLookupResult *lookup_result);
 	const gchar *	(* get_display_name)		(EConfigLookupResult *lookup_result);
 	const gchar *	(* get_description)		(EConfigLookupResult *lookup_result);
+	const gchar *	(* get_password)		(EConfigLookupResult *lookup_result);
 	gboolean	(* configure_source)		(EConfigLookupResult *lookup_result,
+							 struct _EConfigLookup *config_lookup,
 							 ESource *source);
 };
 
@@ -76,9 +80,13 @@ gboolean	e_config_lookup_result_get_is_complete	(EConfigLookupResult *lookup_res
 const gchar *	e_config_lookup_result_get_protocol	(EConfigLookupResult *lookup_result);
 const gchar *	e_config_lookup_result_get_display_name	(EConfigLookupResult *lookup_result);
 const gchar *	e_config_lookup_result_get_description	(EConfigLookupResult *lookup_result);
+const gchar *	e_config_lookup_result_get_password	(EConfigLookupResult *lookup_result);
 gboolean	e_config_lookup_result_configure_source	(EConfigLookupResult *lookup_result,
+							 struct _EConfigLookup *config_lookup,
 							 ESource *source);
 gint		e_config_lookup_result_compare		(gconstpointer lookup_result_a,
+							 gconstpointer lookup_result_b);
+gboolean	e_config_lookup_result_equal		(gconstpointer lookup_result_a,
 							 gconstpointer lookup_result_b);
 
 G_END_DECLS

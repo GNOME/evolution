@@ -35,6 +35,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-util-enumtypes.h"
+#include "e-config-lookup.h"
 #include "e-config-lookup-result.h"
 
 #include "e-config-lookup-result-simple.h"
@@ -46,6 +47,7 @@ struct _EConfigLookupResultSimplePrivate {
 	gchar *protocol;
 	gchar *display_name;
 	gchar *description;
+	gchar *password;
 	GSList *values; /* ValueData * */
 };
 
@@ -56,7 +58,8 @@ enum {
 	PROP_IS_COMPLETE,
 	PROP_PROTOCOL,
 	PROP_DISPLAY_NAME,
-	PROP_DESCRIPTION
+	PROP_DESCRIPTION,
+	PROP_PASSWORD
 };
 
 static void e_config_lookup_result_simple_result_init (EConfigLookupResultInterface *iface);
@@ -148,14 +151,24 @@ config_lookup_result_simple_get_description (EConfigLookupResult *lookup_result)
 	return E_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result)->priv->description;
 }
 
+static const gchar *
+config_lookup_result_simple_get_password (EConfigLookupResult *lookup_result)
+{
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result), NULL);
+
+	return E_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result)->priv->password;
+}
+
 static gboolean
 config_lookup_result_simple_configure_source (EConfigLookupResult *lookup_result,
+					      EConfigLookup *config_lookup,
 					      ESource *source)
 {
 	EConfigLookupResultSimple *result_simple;
 	GSList *link;
 
 	g_return_val_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result), FALSE);
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP (config_lookup), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	result_simple = E_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result);
@@ -192,18 +205,20 @@ config_lookup_result_simple_configure_source (EConfigLookupResult *lookup_result
 
 static gboolean
 config_lookup_result_simple_configure_source_wrapper (EConfigLookupResult *lookup_result,
+						      EConfigLookup *config_lookup,
 						      ESource *source)
 {
 	EConfigLookupResultSimpleClass *klass;
 
 	g_return_val_if_fail (E_IS_CONFIG_LOOKUP_RESULT_SIMPLE (lookup_result), FALSE);
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP (config_lookup), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	klass = E_CONFIG_LOOKUP_RESULT_SIMPLE_GET_CLASS (lookup_result);
 	g_return_val_if_fail (klass != NULL, FALSE);
 	g_return_val_if_fail (klass->configure_source != NULL, FALSE);
 
-	return klass->configure_source (lookup_result, source);
+	return klass->configure_source (lookup_result, config_lookup, source);
 }
 
 static void
@@ -287,6 +302,12 @@ config_lookup_result_simple_set_property (GObject *object,
 				result_simple, g_value_get_string (value),
 				&result_simple->priv->description);
 			return;
+
+		case PROP_PASSWORD:
+			config_lookup_result_simple_set_string (
+				result_simple, g_value_get_string (value),
+				&result_simple->priv->password);
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -340,6 +361,13 @@ config_lookup_result_simple_get_property (GObject *object,
 				config_lookup_result_simple_get_description (
 				E_CONFIG_LOOKUP_RESULT (object)));
 			return;
+
+		case PROP_PASSWORD:
+			g_value_set_string (
+				value,
+				config_lookup_result_simple_get_password (
+				E_CONFIG_LOOKUP_RESULT (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -353,6 +381,7 @@ config_lookup_result_simple_finalize (GObject *object)
 	g_free (result_simple->priv->protocol);
 	g_free (result_simple->priv->display_name);
 	g_free (result_simple->priv->description);
+	e_util_safe_free_string (result_simple->priv->password);
 	g_slist_free_full (result_simple->priv->values, value_data_free);
 
 	/* Chain up to parent's method. */
@@ -488,6 +517,26 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EConfigLookupResultSimple:password:
+	 *
+	 * The password to store for the #EConfigLookupResult.
+	 * Can be %NULL, to not store any.
+	 *
+	 * Since: 3.28
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_PASSWORD,
+		g_param_spec_string (
+			"password",
+			"Password",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -499,6 +548,7 @@ e_config_lookup_result_simple_result_init (EConfigLookupResultInterface *iface)
 	iface->get_protocol = config_lookup_result_simple_get_protocol;
 	iface->get_display_name = config_lookup_result_simple_get_display_name;
 	iface->get_description = config_lookup_result_simple_get_description;
+	iface->get_password = config_lookup_result_simple_get_password;
 	iface->configure_source = config_lookup_result_simple_configure_source_wrapper;
 }
 
@@ -516,6 +566,7 @@ e_config_lookup_result_simple_init (EConfigLookupResultSimple *result_simple)
  * @protocol: (nullable): protocol name of the result, or %NULL
  * @display_name: display name of the result
  * @description: description of the result
+ * @password: (nullable): password to store with the result
  *
  * Creates a new #EConfigLookupResultSimple instance with prefilled values.
  *
@@ -529,7 +580,8 @@ e_config_lookup_result_simple_new (EConfigLookupResultKind kind,
 				   gboolean is_complete,
 				   const gchar *protocol,
 				   const gchar *display_name,
-				   const gchar *description)
+				   const gchar *description,
+				   const gchar *password)
 {
 	g_return_val_if_fail (kind != E_CONFIG_LOOKUP_RESULT_UNKNOWN, NULL);
 	g_return_val_if_fail (display_name != NULL, NULL);
@@ -542,6 +594,7 @@ e_config_lookup_result_simple_new (EConfigLookupResultKind kind,
 		"protocol", protocol,
 		"display-name", display_name,
 		"description", description,
+		"password", password,
 		NULL);
 }
 

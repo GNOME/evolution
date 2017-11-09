@@ -84,6 +84,13 @@ enum {
 	PROP_TRANSPORT_SOURCE
 };
 
+enum {
+	NEW_SOURCE,
+	LAST_SIGNAL
+};
+
+static gulong signals[LAST_SIGNAL];
+
 /* XXX We implement EAlertSink but don't implement a custom submit_alert()
  *     method.  So any alert results in a pop-up message dialog, which is a
  *     fashion faux pas these days.  But it's only used when submitting the
@@ -1208,6 +1215,23 @@ e_mail_config_assistant_class_init (EMailConfigAssistantClass *class)
 			E_TYPE_SOURCE,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
+
+	/**
+	 * EMailConfigAssistant::new-source:
+	 * @uid: an #ESource UID which had been created
+	 *
+	 * Emitted to notify about the assistant finishing an account #ESource.
+	 *
+	 * Since: 3.28
+	 **/
+	signals[NEW_SOURCE] = g_signal_new (
+		"new-source",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMailConfigAssistantClass, new_source),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 1, G_TYPE_STRING);
 }
 
 static void
@@ -1474,6 +1498,7 @@ e_mail_config_assistant_commit_finish (EMailConfigAssistant *assistant,
                                        GError **error)
 {
 	GSimpleAsyncResult *simple;
+	gboolean success;
 
 	g_return_val_if_fail (
 		g_simple_async_result_is_valid (
@@ -1483,6 +1508,16 @@ e_mail_config_assistant_commit_finish (EMailConfigAssistant *assistant,
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 
 	/* Assume success unless a GError is set. */
-	return !g_simple_async_result_propagate_error (simple, error);
+	success = !g_simple_async_result_propagate_error (simple, error);
+
+	if (success) {
+		ESource *source;
+
+		source = e_mail_config_assistant_get_account_source (assistant);
+		if (source)
+			g_signal_emit (assistant, signals[NEW_SOURCE], 0, e_source_get_uid (source));
+	}
+
+	return success;
 }
 

@@ -32,6 +32,7 @@
 #include <libedataserver/libedataserver.h>
 
 #include "e-util-enums.h"
+#include "e-config-lookup.h"
 
 #include "e-config-lookup-result.h"
 
@@ -46,6 +47,7 @@ e_config_lookup_result_default_init (EConfigLookupResultInterface *iface)
 	iface->get_protocol = NULL;
 	iface->get_display_name = NULL;
 	iface->get_description = NULL;
+	iface->get_password = NULL;
 	iface->configure_source = NULL;
 }
 
@@ -184,11 +186,35 @@ e_config_lookup_result_get_description (EConfigLookupResult *lookup_result)
 }
 
 /**
+ * e_config_lookup_result_get_password:
+ * @lookup_result: an #EConfigLookupResult
+ *
+ * Returns: password to store with this @lookup_result, or %NULL for none
+ *
+ * Since: 3.28
+ **/
+const gchar *
+e_config_lookup_result_get_password (EConfigLookupResult *lookup_result)
+{
+	EConfigLookupResultInterface *iface;
+
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP_RESULT (lookup_result), NULL);
+
+	iface = E_CONFIG_LOOKUP_RESULT_GET_INTERFACE (lookup_result);
+	g_return_val_if_fail (iface != NULL, NULL);
+	g_return_val_if_fail (iface->get_password != NULL, NULL);
+
+	return iface->get_password (lookup_result);
+}
+
+/**
  * e_config_lookup_result_configure_source:
  * @lookup_result: an #EConfigLookupResult
+ * @config_lookup: an #EConfigLookup
  * @source: an #ESource to configure
  *
- * Configures the @source with the looked up configuration.
+ * Configures the @source with the looked up configuration. The @config_lookup
+ * can be used to get other than the provided @source.
  *
  * Returns: %TRUE when made any changes to the @source, %FALSE otherwise
  *
@@ -196,17 +222,19 @@ e_config_lookup_result_get_description (EConfigLookupResult *lookup_result)
  **/
 gboolean
 e_config_lookup_result_configure_source (EConfigLookupResult *lookup_result,
+					 EConfigLookup *config_lookup,
 					 ESource *source)
 {
 	EConfigLookupResultInterface *iface;
 
 	g_return_val_if_fail (E_IS_CONFIG_LOOKUP_RESULT (lookup_result), FALSE);
+	g_return_val_if_fail (E_IS_CONFIG_LOOKUP (config_lookup), FALSE);
 
 	iface = E_CONFIG_LOOKUP_RESULT_GET_INTERFACE (lookup_result);
 	g_return_val_if_fail (iface != NULL, FALSE);
 	g_return_val_if_fail (iface->configure_source != NULL, FALSE);
 
-	return iface->configure_source (lookup_result, source);
+	return iface->configure_source (lookup_result, config_lookup, source);
 }
 
 /**
@@ -219,7 +247,9 @@ e_config_lookup_result_configure_source (EConfigLookupResult *lookup_result,
  * and value greater than 0, when @lookup_result_a is after @lookup_result_b.
  *
  * The comparison is done on kind, is-complete, priority and display name values,
- * in this order.
+ * in this order. Due to this it doesn't mean that the two results are equal when
+ * the function returns 0, use e_config_lookup_result_equal() to check complete
+ * equality instead.
  *
  * Returns: strcmp()-like value, what the position between @lookup_result_a and
  *    @lookup_result_b is.
@@ -260,4 +290,39 @@ e_config_lookup_result_compare (gconstpointer lookup_result_a,
 	}
 
 	return res;
+}
+
+/**
+ * e_config_lookup_result_equal:
+ * @lookup_result_a: the first #EConfigLookupResult
+ * @lookup_result_b: the second #EConfigLookupResult
+ *
+ * Returns: whether the two results are the same.
+ *
+ * Since: 3.28
+ **/
+gboolean
+e_config_lookup_result_equal (gconstpointer lookup_result_a,
+			      gconstpointer lookup_result_b)
+{
+	EConfigLookupResult *lra = (EConfigLookupResult *) lookup_result_a;
+	EConfigLookupResult *lrb = (EConfigLookupResult *) lookup_result_b;
+
+	if (!lra || !lrb || lra == lrb)
+		return lra == lrb;
+
+	return e_config_lookup_result_get_kind (lra) ==
+		e_config_lookup_result_get_kind (lrb) &&
+		e_config_lookup_result_get_priority (lra) ==
+		e_config_lookup_result_get_priority (lrb) &&
+		(e_config_lookup_result_get_is_complete (lra) ? 1 : 0) ==
+		(e_config_lookup_result_get_is_complete (lrb) ? 1 : 0) &&
+		g_strcmp0 (e_config_lookup_result_get_protocol (lra),
+			   e_config_lookup_result_get_protocol (lrb)) == 0 &&
+		g_strcmp0 (e_config_lookup_result_get_display_name (lra),
+			   e_config_lookup_result_get_display_name (lrb)) == 0 &&
+		g_strcmp0 (e_config_lookup_result_get_description (lra),
+			   e_config_lookup_result_get_description (lrb)) == 0 &&
+		g_strcmp0 (e_config_lookup_result_get_password (lra),
+			   e_config_lookup_result_get_password (lrb)) == 0;
 }
