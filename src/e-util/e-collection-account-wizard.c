@@ -323,7 +323,7 @@ collection_account_wizard_worker_finished_cb (EConfigLookup *config_lookup,
 		n_results = e_config_lookup_count_results (wizard->priv->config_lookup);
 
 		if (!n_results) {
-			gtk_label_set_text (GTK_LABEL (wizard->priv->results_label), _("Found no candidates. It can also mean that the server doesn't provide any information about its configuration using the selected lookup methods. Enter the account manually instead or change above settings."));
+			gtk_label_set_text (GTK_LABEL (wizard->priv->results_label), _("Found no candidates. It can also mean that the server doesn’t provide any information about its configuration using the selected lookup methods. Enter the account manually instead or change above settings."));
 		} else {
 			str = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "Found one candidate", "Found %d candidates", n_results), n_results);
 			gtk_label_set_text (GTK_LABEL (wizard->priv->results_label), str);
@@ -893,7 +893,7 @@ collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 		if (!root_dn || !*root_dn) {
 			gchar **root_dse = NULL;
 
-			camel_operation_push_message (cancellable, "%s", _("Looking up LDAP server's search base…"));
+			camel_operation_push_message (cancellable, "%s", _("Looking up LDAP server’s search base…"));
 
 			if (e_util_query_ldap_root_dse_sync (
 				e_source_authentication_get_host (auth_extension),
@@ -1400,7 +1400,7 @@ collection_account_wizard_constructed (GObject *object)
 		"visible", FALSE,
 		NULL);
 	wizard->priv->servers_entry = widget;
-	gtk_widget_set_tooltip_text (widget, _("Semicolon (';') separated list of servers to look up information for, in addition to the domain of the e-mail address."));
+	gtk_widget_set_tooltip_text (widget, _("Semicolon (“;”) separated list of servers to look up information for, in addition to the domain of the e-mail address."));
 
 	g_signal_connect_swapped (wizard->priv->servers_entry, "changed",
 		G_CALLBACK (collection_account_wizard_mark_changed), wizard);

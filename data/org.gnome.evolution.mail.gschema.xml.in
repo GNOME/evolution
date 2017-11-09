@@ -711,7 +711,7 @@
     <key name="delete-selects-previous" type="b">
       <default>false</default>
       <_summary>Whether go to the previous message after message deletion</_summary>
-      <_description>If set to true, goes to the previous message when the selected is deleted; or to the next message, when it's set to false.</_description>
+      <_description>If set to true, goes to the previous message when the selected is deleted; or to the next message, when it’s set to false.</_description>
     </key>
     <key name="show-subject-above-sender" type="b">
       <default>false</default>
