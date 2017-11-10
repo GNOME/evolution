@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-11-09 17:14+0000\n"
-"PO-Revision-Date: 2017-11-10 17:00+0100\n"
+"PO-Revision-Date: 2017-11-10 17:12+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -2577,10 +2577,6 @@ msgid "Whether go to the previous message after message deletion"
 msgstr "Indiche se lâ al messaç precedent dopo vê eliminât un messaç"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
-#, fuzzy
-#| msgid ""
-#| "If set to true, goes to the previous message when the selected is "
-#| "deleted; or to the next message, when it's set to false."
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
@@ -12600,6 +12596,10 @@ msgid ""
 "information about its configuration using the selected lookup methods. Enter "
 "the account manually instead or change above settings."
 msgstr ""
+"No son stâts cjatâts candidâts. Al pues significâ ancje che il servidôr nol "
+"furnìs nissune informazion su la sô configurazion doprant i metodis di "
+"ricercje selezionâts. Inserî a man l'account al so puest o cambie lis "
+"impostazions parsore."
 
 #: ../src/e-util/e-collection-account-wizard.c:328
 #, c-format
@@ -12643,10 +12643,8 @@ msgid "Address Book"
 msgstr "Rubriche"
 
 #: ../src/e-util/e-collection-account-wizard.c:560
-#, fuzzy
-#| msgid "Memo Lists"
 msgid "Memo List"
-msgstr "Listis memorandum"
+msgstr "Liste memorandum"
 
 #: ../src/e-util/e-collection-account-wizard.c:561
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:61
@@ -12689,10 +12687,8 @@ msgstr ""
 "informazions, in zonte al domini de direzion e-mail."
 
 #: ../src/e-util/e-collection-account-wizard.c:1594
-#, fuzzy
-#| msgid "Level beyond which the message should be logged."
 msgid "Select which parts should be configured:"
-msgstr "Nivel daspò il cuâl il messaç al varès di jessi regjistrât."
+msgstr "Selezione cualis parts a varessin di jessi configuradis:"
 
 #: ../src/e-util/e-collection-account-wizard.c:1718
 #: ../src/mail/e-mail-config-identity-page.c:541
@@ -22680,27 +22676,21 @@ msgstr "Volte a messaç di pueste"
 
 #: ../src/modules/config-lookup/e-gnome-config-lookup.c:67
 msgid "Look up e-mail domain on the GNOME server"
-msgstr ""
+msgstr "Cîr domini e-mail sul servidôr GNOME"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
-#, fuzzy
-#| msgid "IMAP server"
 msgid "Looking up IMAP server…"
-msgstr "Servidôr IMAP"
+msgstr "Daûr a cirî il Servidôr IMAP…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
-#, fuzzy
-#| msgid "POP3 server"
 msgid "Looking up POP3 server…"
-msgstr "Servidôr POP3"
+msgstr "Daûr a cirî il Servidôr POP3…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
-#, fuzzy
-#| msgid "SMTP server"
 msgid "Looking up SMTP server…"
-msgstr "Servidôr SMTP"
+msgstr "Daûr a cirî il Servidôr SMTP…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
@@ -22710,10 +22700,8 @@ msgstr "Servidôr CalDAV"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
-#, fuzzy
-#| msgid "CalDAV server"
 msgid "Looking up CalDAV server…"
-msgstr "Servidôr CalDAV"
+msgstr "Daûr a cirî il Servidôr CalDAV…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
@@ -22723,10 +22711,8 @@ msgstr "Servidôr CardDAV"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
-#, fuzzy
-#| msgid "CardDAV server"
 msgid "Looking up CardDAV server…"
-msgstr "Servidôr CardDAV"
+msgstr "Daûr a cirî il Servidôr CardDAV…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
@@ -22735,36 +22721,31 @@ msgstr "Servidôr LDAP"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
-#, fuzzy
-#| msgid "LDAP server"
 msgid "Looking up LDAP server…"
-msgstr "Servidôr LDAP"
+msgstr "Daûr a cirî il Servidôr LDAP…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:234
 msgid "Look up in SRV records"
-msgstr ""
+msgstr "Cîr tai regjistris SRV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:104
-#, fuzzy, c-format
-#| msgid "CalDAV server"
+#, c-format
 msgid "CalDAV: %s"
-msgstr "Servidôr CalDAV"
+msgstr "CalDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:111
-#, fuzzy, c-format
+#, c-format
 #| msgid "CardDAV server"
 msgid "CardDAV: %s"
-msgstr "Servidôr CardDAV"
+msgstr "CardDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:117
-#, fuzzy
-#| msgid "CardDAV server"
 msgid "CalDAV and CardDAV server"
-msgstr "Servidôr CardDAV"
+msgstr "Servidôr CalDAV e CardDAV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:209
 msgid "Look up for a CalDAV/CardDAV server"
-msgstr ""
+msgstr "Cîr un servidôr CalDAV/CardDAV"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:162
 msgid "ITIP"
