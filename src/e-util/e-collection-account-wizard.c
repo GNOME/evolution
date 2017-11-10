@@ -1466,6 +1466,7 @@ collection_account_wizard_constructed (GObject *object)
 			continue;
 
 		wd = g_new0 (WorkerData, 1);
+		wd->remember_password = TRUE;
 
 		widget = gtk_check_button_new_with_label (e_config_lookup_worker_get_display_name (worker));
 		g_object_set (G_OBJECT (widget),
@@ -2102,6 +2103,7 @@ e_collection_account_wizard_reset (ECollectionAccountWizard *wizard)
 		gtk_widget_hide (wd->running_box);
 		e_named_parameters_free (wd->restart_params);
 		wd->restart_params = NULL;
+		wd->remember_password = TRUE;
 	}
 
 	gtk_entry_set_text (GTK_ENTRY (wizard->priv->email_entry), "");
