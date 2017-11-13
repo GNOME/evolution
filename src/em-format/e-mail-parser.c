@@ -750,7 +750,7 @@ e_mail_parser_wrap_as_attachment (EMailParser *parser,
 	empa->snoop_mime_type = snoop_mime_type;
 
 	first_part = g_queue_peek_head (parts_queue);
-	if (first_part != NULL) {
+	if (first_part != NULL && !E_IS_MAIL_PART_ATTACHMENT (first_part)) {
 		const gchar *id = e_mail_part_get_id (first_part);
 		empa->part_id_with_attachment = g_strdup (id);
 		first_part->is_hidden = TRUE;

@@ -73,25 +73,24 @@ static const gchar *parser_mime_types[] = {
 	NULL
 };
 
-gint verbose = 0;
-gint saveRTF = 0;
-gint saveintermediate = 0;
-gboolean loaded = FALSE;
-void processTnef (TNEFStruct *tnef, const gchar *tmpdir);
-void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir);
-void saveVCard (TNEFStruct *tnef, const gchar *tmpdir);
-void saveVTask (TNEFStruct *tnef, const gchar *tmpdir);
+static gint verbose = 0;
+static gint saveRTF = 0;
+static gint saveintermediate = 0;
+static void processTnef (TNEFStruct *tnef, const gchar *tmpdir);
+static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir);
+static void saveVCard (TNEFStruct *tnef, const gchar *tmpdir);
+static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir);
 
 /* Other Prototypes */
-void fprintProperty (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]);
-void fprintUserProp (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]);
-void quotedfprint (FILE *fptr, variableLength *vl);
-void cstylefprint (FILE *fptr, variableLength *vl);
-void printRtf (FILE *fptr, variableLength *vl);
-void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef);
-guchar getRruleCount (guchar a, guchar b);
-guchar getRruleMonthNum (guchar a, guchar b);
-gchar * getRruleDayname (guchar a);
+static void fprintProperty (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]);
+static void fprintUserProp (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]);
+static void quotedfprint (FILE *fptr, variableLength *vl);
+static void cstylefprint (FILE *fptr, variableLength *vl);
+static void printRtf (FILE *fptr, variableLength *vl);
+static void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef);
+static guchar getRruleCount (guchar a, guchar b);
+static guchar getRruleMonthNum (guchar a, guchar b);
+static gchar * getRruleDayname (guchar a);
 
 static gchar *
 sanitize_filename (const gchar *filename)
@@ -133,22 +132,26 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 
 	out = camel_stream_fs_new_with_name (name, O_RDWR | O_CREAT, 0666, NULL);
 	if (out == NULL) {
-	    g_free (name);
-	    return FALSE;
+		g_free (tmpdir);
+		g_free (name);
+		return FALSE;
 	}
 	content = camel_medium_get_content ((CamelMedium *) part);
 	if (content == NULL) {
-		g_free (name);
 		g_object_unref (out);
-		return FALSE;
-	}
-	if (camel_data_wrapper_decode_to_stream_sync (content, out, NULL, NULL) == -1
-	    || camel_stream_close (out, NULL, NULL) == -1) {
-		g_object_unref (out);
+		g_free (tmpdir);
 		g_free (name);
 		return FALSE;
 	}
-	g_object_unref (out);
+	if (camel_data_wrapper_decode_to_stream_sync (content, out, cancellable, NULL) == -1
+	    || camel_stream_flush (out, cancellable, NULL) == -1
+	    || camel_stream_close (out, cancellable, NULL) == -1) {
+		g_object_unref (out);
+		g_free (tmpdir);
+		g_free (name);
+		return FALSE;
+	}
+	g_clear_object (&out);
 
 	/* Extracting the winmail.dat */
 	TNEFInitialize (&tnef);
@@ -163,9 +166,9 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 
 	dir = opendir (tmpdir);
 	if (dir == NULL) {
-	    g_object_unref (out);
-	    g_free (name);
-	    return FALSE;
+		g_free (tmpdir);
+		g_free (name);
+		return FALSE;
 	}
 
 	mainpart = camel_mime_part_new ();
@@ -220,18 +223,9 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	g_string_append_printf (part_id, ".tnef");
 
 	if (camel_multipart_get_number (mp) > 0) {
-
-		CamelMimePart *part = camel_mime_part_new ();
-
-		camel_medium_set_content (
-			(CamelMedium *) part,
-			CAMEL_DATA_WRAPPER (mp));
-
 		e_mail_parser_parse_part_as (
-			parser, part, part_id, "multipart/mixed",
+			parser, mainpart, part_id, "multipart/mixed",
 			cancellable, &work_queue);
-
-		g_object_unref (part);
 	}
 
 	g_string_truncate (part_id, len);
@@ -277,7 +271,7 @@ e_mail_parser_tnef_attachment_type_register (GTypeModule *type_module)
 	e_mail_parser_tnef_attachment_register_type (type_module);
 }
 
-void
+static void
 processTnef (TNEFStruct *tnef,
              const gchar *tmpdir)
 {
@@ -456,7 +450,7 @@ processTnef (TNEFStruct *tnef,
     g_free (ifilename);
 }
 
-void
+static void
 saveVCard (TNEFStruct *tnef,
            const gchar *tmpdir)
 {
@@ -751,11 +745,11 @@ saveVCard (TNEFStruct *tnef,
     g_free (ifilename);
 }
 
-guchar getRruleCount (guchar a, guchar b) {
+static guchar getRruleCount (guchar a, guchar b) {
     return ((a << 8) | b);
 }
 
-guchar getRruleMonthNum (guchar a, guchar b) {
+static guchar getRruleMonthNum (guchar a, guchar b) {
     switch (a) {
         case 0x00:
             switch (b) {
@@ -825,7 +819,7 @@ guchar getRruleMonthNum (guchar a, guchar b) {
     return (0);
 }
 
-gchar * getRruleDayname (guchar a) {
+static gchar * getRruleDayname (guchar a) {
     static gchar daystring[25];
 
     *daystring = 0;
@@ -859,7 +853,7 @@ gchar * getRruleDayname (guchar a) {
     return (daystring);
 }
 
-void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef)
+static void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef)
 {
     variableLength *filename;
 
@@ -939,7 +933,7 @@ void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef)
     fprintf (fptr, "\n");
 }
 
-void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
+static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
     gchar *ifilename;
     variableLength *filename;
     gchar *charptr, *charptr2;
@@ -1187,7 +1181,7 @@ void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
     g_free (ifilename);
 }
 
-void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
+static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
     variableLength *vl;
     variableLength *filename;
     gint index;
@@ -1313,7 +1307,7 @@ void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
     g_free (ifilename);
 }
 
-void fprintProperty (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]) {
+static void fprintProperty (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]) {
     variableLength *vl;
     if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (proptype, propid))) != MAPI_UNDEFINED) {
         if (vl->size > 0) {
@@ -1325,7 +1319,7 @@ void fprintProperty (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid,
     }
 }
 
-void fprintUserProp (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]) {
+static void fprintUserProp (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]) {
     variableLength *vl;
     if ((vl = MAPIFindUserProp (&(tnef->MapiProperties), PROP_TAG (proptype, propid))) != MAPI_UNDEFINED) {
         if (vl->size > 0) {
@@ -1337,7 +1331,7 @@ void fprintUserProp (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid,
     }
 }
 
-void quotedfprint (FILE *fptr, variableLength *vl) {
+static void quotedfprint (FILE *fptr, variableLength *vl) {
     gint index;
 
     for (index = 0; index < vl->size - 1; index++) {
@@ -1350,7 +1344,7 @@ void quotedfprint (FILE *fptr, variableLength *vl) {
     }
 }
 
-void cstylefprint (FILE *fptr, variableLength *vl) {
+static void cstylefprint (FILE *fptr, variableLength *vl) {
     gint index;
 
     for (index = 0; index < vl->size - 1; index++) {
@@ -1370,7 +1364,7 @@ void cstylefprint (FILE *fptr, variableLength *vl) {
     }
 }
 
-void printRtf (FILE *fptr, variableLength *vl) {
+static void printRtf (FILE *fptr, variableLength *vl) {
     gint index;
     gchar *byte;
     gint brace_ct;
