@@ -1,3 +1,33 @@
+Evolution 3.27.2 2017-11-13
+---------------------------
+
+Bug Fixes:
+	Bug 696047 - [alarm-notify] Busy loop on midnight and DST change (Milan Crha)
+	Bug 789009 - Inbox is not expanded automatically on restart (Michael Kuhn)
+	Bug 788934 - Add option to have Subject above Sender in Wide view (Milan Crha)
+	Bug 789648 - Problem viewing .eml attachment (Milan Crha)
+	Bug 770141 - Add a dedicated global shortcuts page to the user docs (Raniere Silva)
+	Bug 760329 - Try to poke autodiscovery when creating new account (Milan Crha)
+
+Miscellaneous:
+	Crash under e_dom_resize_document_content_to_preview_width() (Milan Crha)
+	[ECellCombo] Misplaced combo popup under Wayland (Milan Crha)
+	Disable expand of To Do bar icon renderer (Milan Crha)
+	Store To Do bar width as proportion, not as absolute value (Milan Crha)
+	Enhance progress indicator of folder copy/move (Milan Crha)
+	Add HTML editor unit test for bug 788829 (Milan Crha)
+	Revert UI part of the change for bug 788916 (Use of localized Fwd/Re) (Milan Crha)
+	Fix a memory leak in e_mail_store_save_initial_setup_sync() (Milan Crha)
+	Use the fancy Unicode quotation marks in new strings (Piotr Drąg)
+	[ECollectionAccountWizard] Preset to remember password by default (Milan Crha)
+	Fix duplicate wording in help pages (Christian Kirbach)
+
+Translations:
+	Marek Cernocky (cs)
+	Mario Blättermann (de)
+	Kjartan Maraas (nb)
+	Fabio Tomat (fu)
+
 Evolution 3.27.1 2017-10-16
 ---------------------------
 
