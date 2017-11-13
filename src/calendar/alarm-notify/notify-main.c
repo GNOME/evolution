@@ -64,6 +64,11 @@ main (gint argc,
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+	/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=674885 */
+	g_type_ensure (G_TYPE_DBUS_CONNECTION);
+	g_type_ensure (G_TYPE_DBUS_PROXY);
+	g_type_ensure (G_BUS_TYPE_SESSION);
+
 	gtk_init (&argc, &argv);
 
 	e_xml_initialize_in_main ();
