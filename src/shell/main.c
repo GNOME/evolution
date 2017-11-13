@@ -456,6 +456,11 @@ main (gint argc,
 	/* Initialize timezone specific global variables */
 	tzset ();
 
+	/* Workaround https://bugzilla.gnome.org/show_bug.cgi?id=674885 */
+	g_type_ensure (G_TYPE_DBUS_CONNECTION);
+	g_type_ensure (G_TYPE_DBUS_PROXY);
+	g_type_ensure (G_BUS_TYPE_SESSION);
+
 	/* The contact maps feature uses clutter-gtk. */
 #ifdef ENABLE_CONTACT_MAPS
 	success = gtk_clutter_init_with_args (
