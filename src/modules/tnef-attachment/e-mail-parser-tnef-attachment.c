@@ -87,7 +87,7 @@ static void fprintUserProp (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD 
 static void quotedfprint (FILE *fptr, variableLength *vl);
 static void cstylefprint (FILE *fptr, variableLength *vl);
 static void printRtf (FILE *fptr, variableLength *vl);
-static void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef);
+static void printRrule (FILE *fptr, const guchar *recur_data, gint size, TNEFStruct *tnef);
 static guchar getRruleCount (guchar a, guchar b);
 static guchar getRruleMonthNum (guchar a, guchar b);
 static gchar * getRruleDayname (guchar a);
@@ -304,7 +304,7 @@ processTnef (TNEFStruct *tnef,
 
     if ((filename = MAPIFindUserProp (&(tnef->MapiProperties),
 			PROP_TAG (PT_STRING8,0x24))) != MAPI_UNDEFINED) {
-	if (strcmp (filename->data, "IPM.Appointment") == 0) {
+	if (strcmp ((const gchar *) filename->data, "IPM.Appointment") == 0) {
              /* If it's "indicated" twice, we don't want to save 2 calendar entries. */
 	    if (foundCal == 0) {
 		saveVCalendar (tnef, tmpdir);
@@ -319,8 +319,8 @@ processTnef (TNEFStruct *tnef,
 					   PROP_TAG (PT_BINARY, PR_RTF_COMPRESSED)))
 		    != MAPI_UNDEFINED) {
 		variableLength buf;
-		if ((buf.data = (gchar *) DecompressRTF (filename, &buf.size)) != NULL) {
-		    file = sanitize_filename (tnef->subject.data);
+		if ((buf.data = DecompressRTF (filename, &buf.size)) != NULL) {
+		    file = sanitize_filename ((const gchar *) tnef->subject.data);
 		    if (!file)
 			    return;
 		    absfilename = g_strconcat (file, ".rtf", NULL);
@@ -417,9 +417,9 @@ processTnef (TNEFStruct *tnef,
 		if (filename->size == 1) {
 		    filename->size = 20;
 		    g_sprintf (tmpname, "file_%03i.dat", count);
-		    filename->data = tmpname;
+		    filename->data = (guchar *) tmpname;
 		}
-		absfilename = sanitize_filename (filename->data);
+		absfilename = sanitize_filename ((const gchar *) filename->data);
 		if (!absfilename)
 		    return;
 		ifilename = g_build_filename (tmpdir, absfilename, NULL);
@@ -465,20 +465,20 @@ saveVCard (TNEFStruct *tnef,
     if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, PR_DISPLAY_NAME))) == MAPI_UNDEFINED) {
 	if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, PR_COMPANY_NAME))) == MAPI_UNDEFINED) {
 	    if (tnef->subject.size > 0) {
-	       file = sanitize_filename (tnef->subject.data);
+	       file = sanitize_filename ((const gchar *) tnef->subject.data);
 		if (!file)
 		    return;
 		absfilename = g_strconcat (file, ".vcard", NULL);
 	    } else
 		absfilename = g_strdup ("unknown.vcard");
      } else {
-	    file = sanitize_filename (vl->data);
+	    file = sanitize_filename ((const gchar *) vl->data);
 	    if (!file)
 		return;
 	    absfilename = g_strconcat (file, ".vcard", NULL);
 	}
     } else {
-	file = sanitize_filename (vl->data);
+	file = sanitize_filename ((const gchar *) vl->data);
 	if (!file)
 	    return;
 	absfilename = g_strconcat (file, ".vcard", NULL);
@@ -853,7 +853,7 @@ static gchar * getRruleDayname (guchar a) {
     return (daystring);
 }
 
-static void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef)
+static void printRrule (FILE *fptr, const guchar *recur_data, gint size, TNEFStruct *tnef)
 {
     variableLength *filename;
 
@@ -1002,7 +1002,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
         if ((filename = MAPIFindProperty (&(tnef->MapiProperties),
                         PROP_TAG (PT_BINARY, PR_SENDER_SEARCH_KEY)))
                 != MAPI_UNDEFINED) {
-            charptr = filename->data;
+            charptr = (gchar *) filename->data;
             charptr2 = strstr (charptr, ":");
             if (charptr2 == NULL)
                 charptr2 = charptr;
@@ -1018,7 +1018,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
 	    /* We have a list of required participants, so
 	       write them out. */
             if (filename->size > 1) {
-                charptr = filename->data - 1;
+                charptr = (gchar *) filename->data - 1;
                 while (charptr != NULL) {
                     charptr++;
                     charptr2 = strstr (charptr, ";");
@@ -1039,7 +1039,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
                             PROP_TAG (PT_STRING8, 0x823c))) != MAPI_UNDEFINED) {
                     /* The list of optional participants */
                 if (filename->size > 1) {
-                    charptr = filename->data - 1;
+                    charptr = (gchar *) filename->data - 1;
                     while (charptr != NULL) {
                         charptr++;
                         charptr2 = strstr (charptr, ";");
@@ -1059,7 +1059,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
         } else if ((filename = MAPIFindUserProp (&(tnef->MapiProperties),
                         PROP_TAG (PT_STRING8, 0x8238))) != MAPI_UNDEFINED) {
             if (filename->size > 1) {
-                charptr = filename->data - 1;
+                charptr = (gchar *) filename->data - 1;
                 while (charptr != NULL) {
                     charptr++;
                     charptr2 = strstr (charptr, ";");
@@ -1092,7 +1092,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
                                 PROP_TAG (PT_BINARY, PR_RTF_COMPRESSED)))
                 != MAPI_UNDEFINED) {
             variableLength buf;
-            if ((buf.data = (gchar *) DecompressRTF (filename, &buf.size)) != NULL) {
+            if ((buf.data = DecompressRTF (filename, &buf.size)) != NULL) {
                 fprintf (fptr, "DESCRIPTION:");
                 printRtf (fptr, &buf);
                 free (buf.data);
@@ -1198,11 +1198,11 @@ static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
         return;
     }
 
-    index = strlen (vl->data);
+    index = strlen ((const gchar *) vl->data);
     while (vl->data[index] == ' ')
             vl->data[index--] = 0;
 
-    file = sanitize_filename (vl->data);
+    file = sanitize_filename ((const gchar *) vl->data);
     if (!file)
 	return;
     absfilename = g_strconcat (file, ".vcf", NULL);
@@ -1234,7 +1234,7 @@ static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
             filename = MAPIFindUserProp (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, 0x811f));
         }
         if ((filename != MAPI_UNDEFINED) && (filename->size > 1)) {
-            charptr = filename->data - 1;
+            charptr = (gchar *) filename->data - 1;
             while (charptr != NULL) {
                 charptr++;
                 charptr2 = strstr (charptr, ";");
@@ -1366,7 +1366,7 @@ static void cstylefprint (FILE *fptr, variableLength *vl) {
 
 static void printRtf (FILE *fptr, variableLength *vl) {
     gint index;
-    gchar *byte;
+    guchar *byte;
     gint brace_ct;
     gint key;
 
