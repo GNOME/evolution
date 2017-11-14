@@ -239,6 +239,7 @@
                     <property name="label" translatable="yes">location of appointment</property>
                     <property name="wrap">True</property>
                     <property name="max_width_chars">80</property>
+                    <property name="selectable">True</property>
                     <property name="xalign">0</property>
                   </object>
                   <packing>

@@ -27,6 +27,8 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include <camel/camel.h>
+
 #include "e-util/e-util.h"
 
 #include "alarm-notify-dialog.h"
@@ -274,6 +276,20 @@ dialog_destroyed_cb (GtkWidget *dialog,
 	g_free (an);
 }
 
+static gboolean
+location_activate_link_cb (GtkWidget *label,
+			   const gchar *uri,
+			   gpointer user_data)
+{
+	GtkWidget *toplevel;
+
+	toplevel = gtk_widget_get_toplevel (label);
+
+	e_show_uri (GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL, uri);
+
+	return TRUE;
+}
+
 /**
  * notified_alarms_dialog_new:
  *
@@ -382,6 +398,9 @@ notified_alarms_dialog_new (void)
 	gtk_image_set_from_icon_name (
 		GTK_IMAGE (image), "stock_alarm", GTK_ICON_SIZE_DIALOG);
 
+	g_signal_connect (
+		an->location, "activate-link",
+		G_CALLBACK (location_activate_link_cb), an);
 	g_signal_connect (
 		an->edit_btn, "clicked",
 		G_CALLBACK (edit_pressed_cb), an);
@@ -557,10 +576,19 @@ fill_in_labels (AlarmNotify *an,
 {
 	GtkTextTagTable *table = gtk_text_tag_table_new ();
 	GtkTextBuffer *buffer = gtk_text_buffer_new (table);
+	gchar *location_markup;
+
 	gtk_text_buffer_set_text (buffer, description, -1);
 	e_buffer_tagger_disconnect (GTK_TEXT_VIEW (an->description));
 	gtk_text_view_set_buffer (GTK_TEXT_VIEW (an->description), buffer);
-	gtk_label_set_text (GTK_LABEL (an->location), location);
+
+	location_markup = location ? camel_text_to_html (location, CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0) : NULL;
+	if (location_markup)
+		gtk_label_set_markup (GTK_LABEL (an->location), location_markup);
+	else
+		gtk_label_set_text (GTK_LABEL (an->location), location);
+	g_free (location_markup);
+
 	e_buffer_tagger_connect (GTK_TEXT_VIEW (an->description));
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (an->description));
 	g_object_unref (table);
