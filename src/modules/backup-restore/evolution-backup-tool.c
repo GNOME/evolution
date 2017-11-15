@@ -888,9 +888,13 @@ main (gint argc,
 		&argc, &argv, NULL, options, GETTEXT_PACKAGE, &error);
 
 	if (error != NULL) {
-		g_printerr ("%s\n", error->message);
-		g_error_free (error);
-		exit (EXIT_FAILURE);
+		if (gui_arg)
+			g_printerr ("Failed to initialize gtk+. Do not use --gui, to run without it. Reported error: %s\n", error->message);
+
+		g_clear_error (&error);
+
+		if (gui_arg)
+			exit (EXIT_FAILURE);
 	}
 
 	if (opt_remaining != NULL) {
