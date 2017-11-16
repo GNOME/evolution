@@ -42,6 +42,100 @@ struct _ECalBaseShellBackendPrivate {
 
 G_DEFINE_ABSTRACT_TYPE (ECalBaseShellBackend, e_cal_base_shell_backend, E_TYPE_SHELL_BACKEND)
 
+static void
+cal_base_shell_backend_handle_webcal_uri (EShellBackend *shell_backend,
+					  const gchar *uri)
+{
+	EShell *shell;
+	ESourceRegistry *registry;
+	ESourceConfig *source_config;
+	const gchar *extension_name;
+	GtkWidget *config;
+	GtkWidget *dialog;
+	GtkWindow *window, *active_window;
+	GSList *candidates, *link;
+
+	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
+	g_return_if_fail (uri != NULL);
+
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	active_window = e_shell_get_active_window (shell);
+	registry = e_shell_get_registry (shell);
+	config = e_cal_source_config_new (registry, NULL, E_CAL_CLIENT_SOURCE_TYPE_EVENTS);
+	source_config = E_SOURCE_CONFIG (config);
+
+	extension_name = e_source_config_get_backend_extension_name (source_config);
+
+	dialog = e_source_config_dialog_new (source_config);
+	window = GTK_WINDOW (dialog);
+
+	if (active_window)
+		gtk_window_set_transient_for (window, active_window);
+	gtk_window_set_icon_name (window, "x-office-calendar");
+	gtk_window_set_title (window, _("New Calendar"));
+
+	gtk_widget_show (dialog);
+
+	/* Can do this only after the dialog is shown, thus the list
+	   of candidates is populated. */
+	candidates = e_source_config_list_candidates (source_config);
+
+	for (link = candidates; link; link = g_slist_next (link)) {
+		ESource *candidate = link->data;
+
+		if (e_source_has_extension (candidate, extension_name)) {
+			const gchar *backend_name;
+
+			backend_name = e_source_backend_get_backend_name (
+				e_source_get_extension (candidate, extension_name));
+			if (g_strcmp0 (backend_name, "webcal") == 0) {
+				ESourceWebdav *webdav_extension;
+				SoupURI *soup_uri;
+
+				soup_uri = soup_uri_new (uri);
+				if (!soup_uri) {
+					/* Just a fallback when the passed-in URI is invalid,
+					   to have set something in the UI. */
+					soup_uri = soup_uri_new (NULL);
+					soup_uri_set_path (soup_uri, uri);
+				}
+
+				/* https everywhere */
+				soup_uri_set_scheme (soup_uri, "https");
+
+				if (soup_uri_get_path (soup_uri)) {
+					gchar *basename;
+
+					basename = g_path_get_basename (soup_uri_get_path (soup_uri));
+					if (basename && g_utf8_strlen (basename, -1) > 3) {
+						gchar *dot;
+
+						dot = strrchr (basename, '.');
+						if (dot && strlen (dot) <= 4)
+							*dot = '\0';
+
+						if (*basename)
+							e_source_set_display_name (candidate, basename);
+					}
+
+					g_free (basename);
+				}
+
+				webdav_extension = e_source_get_extension (candidate, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+				e_source_webdav_set_soup_uri (webdav_extension, soup_uri);
+
+				e_source_config_select_page (source_config, candidate);
+
+				soup_uri_free (soup_uri);
+				break;
+			}
+		}
+	}
+
+	g_slist_free_full (candidates, g_object_unref);
+}
+
 static gboolean
 cal_base_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 				      const gchar *uri)
@@ -50,6 +144,11 @@ cal_base_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 
 	g_return_val_if_fail (E_IS_CAL_BASE_SHELL_BACKEND (shell_backend), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
+
+	if (g_str_has_prefix (uri, "webcal:")) {
+		cal_base_shell_backend_handle_webcal_uri (shell_backend, uri);
+		return TRUE;
+	}
 
 	klass = E_CAL_BASE_SHELL_BACKEND_GET_CLASS (shell_backend);
 	g_return_val_if_fail (klass != NULL, FALSE);

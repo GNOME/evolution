@@ -1121,6 +1121,30 @@ e_source_config_get_page (ESourceConfig *config,
 	return page;
 }
 
+void
+e_source_config_select_page (ESourceConfig *config,
+			     ESource *scratch_source)
+{
+	Candidate *candidate;
+	GPtrArray *array;
+	gint index;
+
+	g_return_if_fail (E_IS_SOURCE_CONFIG (config));
+	g_return_if_fail (E_IS_SOURCE (scratch_source));
+
+	array = config->priv->candidates;
+
+	for (index = 0; index < array->len; index++) {
+		candidate = g_ptr_array_index (array, index);
+		if (e_source_equal (scratch_source, candidate->scratch_source)) {
+			gtk_combo_box_set_active (GTK_COMBO_BOX (config->priv->type_combo), index);
+			return;
+		}
+	}
+
+	g_warn_if_reached ();
+}
+
 const gchar *
 e_source_config_get_backend_extension_name (ESourceConfig *config)
 {
@@ -1192,6 +1216,27 @@ e_source_config_get_collection_source (ESourceConfig *config)
 	g_return_val_if_fail (E_IS_SOURCE_CONFIG (config), NULL);
 
 	return config->priv->collection_source;
+}
+
+GSList * /* (transfer full) (element-type #ESource) */
+e_source_config_list_candidates (ESourceConfig *config)
+{
+	GSList *candidates = NULL;
+	GPtrArray *array;
+	gint index;
+
+	g_return_val_if_fail (E_IS_SOURCE_CONFIG (config), NULL);
+
+	array = config->priv->candidates;
+
+	for (index = 0; index < array->len; index++) {
+		Candidate *candidate;
+
+		candidate = g_ptr_array_index (array, index);
+		candidates = g_slist_prepend (candidates, g_object_ref (candidate->scratch_source));
+	}
+
+	return g_slist_reverse (candidates);
 }
 
 ESourceRegistry *

@@ -83,6 +83,8 @@ void		e_source_config_insert_widget	(ESourceConfig *config,
 						 GtkWidget *widget);
 GtkWidget *	e_source_config_get_page	(ESourceConfig *config,
 						 ESource *scratch_source);
+void		e_source_config_select_page	(ESourceConfig *config,
+						 ESource *scratch_source);
 const gchar *	e_source_config_get_backend_extension_name
 						(ESourceConfig *config);
 GList *		e_source_config_list_eligible_collections
@@ -92,6 +94,7 @@ ESource *	e_source_config_get_original_source
 						(ESourceConfig *config);
 ESource *	e_source_config_get_collection_source
 						(ESourceConfig *config);
+GSList *	e_source_config_list_candidates	(ESourceConfig *config); /* ESource * */
 ESourceRegistry *
 		e_source_config_get_registry	(ESourceConfig *config);
 void		e_source_config_resize_window	(ESourceConfig *config);
