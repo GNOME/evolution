@@ -6139,10 +6139,12 @@ message_list_regen_done_cb (GObject *source_object,
 
 		e_table_item_thaw (table_item);
 
-		if (!saveuid && message_list->cursor_uid && g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) {
+		if ((!saveuid || !g_hash_table_lookup (message_list->uid_nodemap, saveuid)) &&
+		    message_list->cursor_uid && g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) {
 			/* this makes sure a visible node is selected, like when
 			 * collapsing all nodes and a children had been selected
-			*/
+			 */
+			g_free (saveuid);
 			saveuid = g_strdup (message_list->cursor_uid);
 		}
 
