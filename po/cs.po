@@ -15,14 +15,14 @@
 # Jiri Eischmann <jiri@eischmann.cz>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016.
 # Marek Černocký <marek@manet.cz>, 2010, 2014, 2015, 2016, 2017.
 #
-#: ../src/shell/main.c:516
+#: ../src/shell/main.c:521
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-10-30 11:35+0000\n"
-"PO-Revision-Date: 2017-10-31 10:29+0100\n"
+"POT-Creation-Date: 2017-11-16 16:31+0000\n"
+"PO-Revision-Date: 2017-11-17 21:39+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -2517,7 +2517,7 @@ msgstr "Zda po smazání zprávy přejít na předchozí zprávu"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
-"or to the next message, when it's set to false."
+"or to the next message, when it’s set to false."
 msgstr ""
 "Když je zapnuto, přejde se po smazání vybrané zprávy na předchozí zprávu. "
 "Když není zapnuto, přejde se na následující."
@@ -3032,7 +3032,7 @@ msgstr "Poslední použitá přípona při zálohování dat aplikace Evolution.
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:37
 msgid ""
-"It can be either '.gz' or '.xz' and it influences what extension will be "
+"It can be either “.gz” or “.xz” and it influences what extension will be "
 "preselected in the file chooser."
 msgstr ""
 "Může být „.gz“ nebo „.xz“ a ovlivňuje, která přípona bude předvybraná v "
@@ -3152,6 +3152,7 @@ msgstr "Kontakty"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:845
+#: ../src/e-util/e-collection-account-wizard.c:559
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:469
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:197
 #: ../src/modules/calendar/e-cal-shell-view.c:582
@@ -3421,7 +3422,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:721
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1355
-#: ../src/e-util/e-accounts-window.c:1489
+#: ../src/e-util/e-accounts-window.c:1526
 #: ../src/e-util/e-mail-signature-manager.c:328
 #: ../src/e-util/e-name-selector-dialog.c:1033 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:719
@@ -3597,6 +3598,8 @@ msgstr "Možnosti"
 #: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:302
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:140
 #: ../src/e-util/e-category-editor.c:211 ../src/e-util/e-charset-combo-box.c:99
+#: ../src/e-util/e-collection-account-wizard.c:1563
+#: ../src/e-util/e-collection-account-wizard.c:1798
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:289
 #: ../src/e-util/e-html-editor-actions.c:321
@@ -3618,7 +3621,7 @@ msgstr "Možnosti"
 #: ../src/mail/mail-send-recv.c:867 ../src/mail/mail-send-recv.c:949
 #: ../src/mail/mail-vfolder-ui.c:149 ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:932
+#: ../src/modules/backup-restore/evolution-backup-tool.c:936
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -4728,7 +4731,7 @@ msgstr "Opravdu chcete smazat tento kontakt (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1361
 #: ../src/calendar/gui/e-comp-editor.c:2005
-#: ../src/e-util/e-accounts-window.c:1676 ../src/e-util/e-focus-tracker.c:783
+#: ../src/e-util/e-accounts-window.c:1714 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/e-util/e-webdav-browser.c:2688
 #: ../src/mail/e-mail-account-manager.c:737
@@ -5193,28 +5196,28 @@ msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefon"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:103
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:105
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuta"
 msgstr[1] "minuty"
 msgstr[2] "minut"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:116
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:118
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "hodina"
 msgstr[1] "hodiny"
 msgstr[2] "hodin"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:129
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:131
 msgid "day"
 msgid_plural "days"
 msgstr[0] "den"
 msgstr[1] "dny"
 msgstr[2] "dní"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:357
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:373
 msgid "Start time"
 msgstr "Čas začátku"
 
@@ -5235,7 +5238,7 @@ msgstr "Od_ložit"
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1363
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2222
 #: ../src/calendar/gui/e-comp-editor.c:2070
-#: ../src/e-util/e-accounts-window.c:1668
+#: ../src/e-util/e-accounts-window.c:1706
 #: ../src/e-util/e-html-editor-actions.c:922
 #: ../src/e-util/e-mail-signature-manager.c:358
 #: ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:26
@@ -6103,6 +6106,7 @@ msgstr "neobsahuje"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
+#: ../src/e-util/e-collection-account-wizard.c:1655
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -6883,7 +6887,7 @@ msgstr "Neznámá"
 
 #: ../src/calendar/gui/e-cal-model.c:1402 ../src/calendar/gui/e-cal-ops.c:614
 #: ../src/calendar/gui/e-cal-ops.c:1250
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:289
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:388
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Zdroj s UID „%s“ nebyl nalezen"
@@ -8197,7 +8201,7 @@ msgstr "Žádné shrnutí"
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:1984
 #: ../src/composer/e-composer-actions.c:327
-#: ../src/e-util/e-accounts-window.c:1692
+#: ../src/e-util/e-accounts-window.c:1730
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:309
 #: ../src/e-util/e-name-selector-dialog.c:548
@@ -8490,8 +8494,9 @@ msgstr "Účastník                          "
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
 #: ../src/calendar/gui/e-memo-table.etspec.h:3
 #: ../src/calendar/gui/e-task-table.etspec.h:3
-#: ../src/e-util/e-accounts-window.c:1370
+#: ../src/e-util/e-accounts-window.c:1407
 #: ../src/e-util/e-attachment-tree-view.c:205
+#: ../src/e-util/e-collection-account-wizard.c:1696
 #: ../src/e-util/e-webdav-browser.c:2381
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -8521,6 +8526,7 @@ msgid "Failure reason: %s"
 msgstr "Důvod sehlání: %s"
 
 #: ../src/calendar/gui/e-meeting-store.c:1914
+#: ../src/e-util/e-collection-account-wizard.c:268
 #: ../src/plugins/publish-calendar/publish-calendar.c:349
 #: ../src/smime/gui/component.c:61
 msgid "Enter password"
@@ -9229,15 +9235,16 @@ msgid "Appointments and Meetings"
 msgstr "Události a schůzky"
 
 #: ../src/calendar/importers/icalendar-importer.c:306
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:432
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:181
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:480
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:76
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:280
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:178
 msgid "New Calendar"
 msgstr "Nový kalendář"
 
 #: ../src/calendar/importers/icalendar-importer.c:309
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:440
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:189
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:488
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:288
 #: ../src/modules/calendar/e-task-shell-view-actions.c:202
 msgid "New Task List"
 msgstr "Nový seznam úkolů"
@@ -11142,6 +11149,7 @@ msgid "Save Draft"
 msgstr "Uložit koncept"
 
 #: ../src/composer/e-composer-from-header.c:108
+#: ../src/e-util/e-collection-account-wizard.c:1728
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
 #: ../src/e-util/e-webdav-browser.c:2408
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -11366,6 +11374,7 @@ msgid "_Save to Outbox"
 msgstr "_Uložit do složky K odeslání"
 
 #: ../src/composer/mail-composer.error.xml.h:32
+#: ../src/e-util/e-collection-account-wizard.c:440
 msgid "_Try Again"
 msgstr "_Zkusit znovu"
 
@@ -11770,7 +11779,7 @@ msgstr "Šifrováno S/MIME"
 msgid "Security"
 msgstr "Zabezpečení"
 
-#: ../src/em-format/e-mail-parser-application-mbox.c:85
+#: ../src/em-format/e-mail-parser-application-mbox.c:125
 #, c-format
 msgid "Error parsing MBOX part: %s"
 msgstr "Chyba při zpracování části MBOX: %s"
@@ -11896,36 +11905,36 @@ msgstr "Kalendář: od %s do %s"
 msgid "evolution calendar item"
 msgstr "položka kalendáře evolution"
 
-#: ../src/e-util/e-accounts-window.c:509 ../src/e-util/e-accounts-window.c:624
-#: ../src/e-util/e-accounts-window.c:827
+#: ../src/e-util/e-accounts-window.c:523 ../src/e-util/e-accounts-window.c:640
+#: ../src/e-util/e-accounts-window.c:860
 #: ../src/modules/mail/e-mail-shell-backend.c:836
 msgid "Mail Accounts"
 msgstr "Poštovní účty"
 
-#: ../src/e-util/e-accounts-window.c:516 ../src/e-util/e-accounts-window.c:653
-#: ../src/e-util/e-accounts-window.c:841
+#: ../src/e-util/e-accounts-window.c:530 ../src/e-util/e-accounts-window.c:669
+#: ../src/e-util/e-accounts-window.c:874
 msgid "Address Books"
 msgstr "Adresáře"
 
-#: ../src/e-util/e-accounts-window.c:522 ../src/e-util/e-accounts-window.c:654
-#: ../src/e-util/e-accounts-window.c:842
+#: ../src/e-util/e-accounts-window.c:536 ../src/e-util/e-accounts-window.c:670
+#: ../src/e-util/e-accounts-window.c:875
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Calendars"
 msgstr "Kalendáře"
 
-#: ../src/e-util/e-accounts-window.c:528 ../src/e-util/e-accounts-window.c:655
-#: ../src/e-util/e-accounts-window.c:843
+#: ../src/e-util/e-accounts-window.c:542 ../src/e-util/e-accounts-window.c:671
+#: ../src/e-util/e-accounts-window.c:876
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:85
 msgid "Memo Lists"
 msgstr "Seznamy poznámek"
 
-#: ../src/e-util/e-accounts-window.c:534 ../src/e-util/e-accounts-window.c:656
-#: ../src/e-util/e-accounts-window.c:844
+#: ../src/e-util/e-accounts-window.c:548 ../src/e-util/e-accounts-window.c:672
+#: ../src/e-util/e-accounts-window.c:877
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "Task Lists"
 msgstr "Seznamy úkolů"
 
-#: ../src/e-util/e-accounts-window.c:1326 ../src/e-util/filter.ui.h:23
+#: ../src/e-util/e-accounts-window.c:1363 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1305
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:355
@@ -11933,33 +11942,37 @@ msgstr "Seznamy úkolů"
 msgid "Enabled"
 msgstr "Povoleno"
 
-#: ../src/e-util/e-accounts-window.c:1342
+#: ../src/e-util/e-accounts-window.c:1379
 #: ../src/mail/e-mail-account-tree-view.c:108
 msgid "Account Name"
 msgstr "Název účtu"
 
-#. { "collection",	N_("Collection _Account"),	"evolution" },
-#: ../src/e-util/e-accounts-window.c:1410
+#: ../src/e-util/e-accounts-window.c:1446
+#| msgid "Evolution Accounts"
+msgid "Collection _Account"
+msgstr "Úč_et kolekce"
+
+#: ../src/e-util/e-accounts-window.c:1447
 msgid "_Mail Account"
 msgstr "_Poštovní účet"
 
-#: ../src/e-util/e-accounts-window.c:1411
+#: ../src/e-util/e-accounts-window.c:1448
 msgid "Address _Book"
 msgstr "_Adresář"
 
-#: ../src/e-util/e-accounts-window.c:1412
+#: ../src/e-util/e-accounts-window.c:1449
 msgid "_Calendar"
 msgstr "Ka_lendář"
 
-#: ../src/e-util/e-accounts-window.c:1413
+#: ../src/e-util/e-accounts-window.c:1450
 msgid "M_emo List"
 msgstr "S_eznam poznámek"
 
-#: ../src/e-util/e-accounts-window.c:1414
+#: ../src/e-util/e-accounts-window.c:1451
 msgid "_Task List"
 msgstr "Seznam ú_kolů"
 
-#: ../src/e-util/e-accounts-window.c:1608
+#: ../src/e-util/e-accounts-window.c:1646
 msgid "Evolution Accounts"
 msgstr "Účty Evolution"
 
@@ -12463,6 +12476,135 @@ msgstr "Jiné…"
 msgid "Cannot create a client object from extension name “%s”"
 msgstr "Nelze vytvořit objekt klienta z názvu rozšíření „%s“"
 
+#: ../src/e-util/e-collection-account-wizard.c:214
+msgid "Looking up details, please wait…"
+msgstr "Hledají se prodrobnosti, počkejte prosím…"
+
+#. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
+#: ../src/e-util/e-collection-account-wizard.c:271
+#, c-format
+msgid "Requires password to continue. %s."
+msgstr "Pro pokračování je zapotřebí heslo. %s."
+
+#: ../src/e-util/e-collection-account-wizard.c:284
+msgid "View certificate"
+msgstr "Zobrazit certifikát"
+
+#. Translators: The first %s is replaced with actual error message about site certificate invalidity,
+#. like "The signing certificate authority is not known.", the second %s is replaced with a link "View certificate".
+#: ../src/e-util/e-collection-account-wizard.c:288
+#, c-format
+msgctxt "collection-account-wizard"
+msgid "%s %s."
+msgstr "%s %s."
+
+#: ../src/e-util/e-collection-account-wizard.c:326
+msgid ""
+"Found no candidates. It can also mean that the server doesn’t provide any "
+"information about its configuration using the selected lookup methods. Enter "
+"the account manually instead or change above settings."
+msgstr ""
+"Nebyl nalezen žádný kandidát. Může to ale i znamenat, že server neposkytuje "
+"žádné informace o svém nastavení pomocí vybrané metody vyhledávání. Zadejte "
+"místo toho účet ručně, nebo nastavení výše změňte ."
+
+#: ../src/e-util/e-collection-account-wizard.c:328
+#, c-format
+msgid "Found one candidate"
+msgid_plural "Found %d candidates"
+msgstr[0] "Nalezen jeden kandidát"
+msgstr[1] "Nalezeni %d kandidáti"
+msgstr[2] "Nalezeno %d kandidátů"
+
+#: ../src/e-util/e-collection-account-wizard.c:423
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
+#: ../src/smime/gui/certificate-manager.c:785
+msgid "_Password:"
+msgstr "_Heslo:"
+
+#: ../src/e-util/e-collection-account-wizard.c:434
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
+msgid "_Remember password"
+msgstr "Za_pamatovat si heslo"
+
+#: ../src/e-util/e-collection-account-wizard.c:555
+#: ../src/e-util/e-webdav-browser.c:473
+msgid "Collection"
+msgstr "Kolekce"
+
+#: ../src/e-util/e-collection-account-wizard.c:556
+#| msgid "Mail Receipt"
+msgid "Mail Receive"
+msgstr "Příjem pošty"
+
+#: ../src/e-util/e-collection-account-wizard.c:557
+#| msgid "Mailer"
+msgid "Mail Send"
+msgstr "Odesílání pošty"
+
+#: ../src/e-util/e-collection-account-wizard.c:558
+#: ../src/e-util/e-name-selector-dialog.c:445
+#: ../src/mail/importers/pine-importer.c:430
+msgid "Address Book"
+msgstr "Adresář"
+
+#: ../src/e-util/e-collection-account-wizard.c:560
+msgid "Memo List"
+msgstr "Seznam poznámek"
+
+#: ../src/e-util/e-collection-account-wizard.c:561
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
+msgid "Task List"
+msgstr "Seznam úkolů"
+
+#: ../src/e-util/e-collection-account-wizard.c:896
+msgid "Looking up LDAP server’s search base…"
+msgstr "Hledají se základní větve LDAP pro vyhledávání…"
+
+#: ../src/e-util/e-collection-account-wizard.c:1193
+#| msgid "Searching for user home, please wait…"
+msgid "Saving account settings, please wait…"
+msgstr "Ukládá se nastavení účtu, počkejte prosím…"
+
+#: ../src/e-util/e-collection-account-wizard.c:1337
+#| msgid "_Revise Details"
+msgid "User details"
+msgstr "Údaje o uživateli"
+
+#: ../src/e-util/e-collection-account-wizard.c:1350
+msgid "_Email Address or User name:"
+msgstr "_E-mailová adresa nebo uživatelské jméno:"
+
+#: ../src/e-util/e-collection-account-wizard.c:1380
+msgid "_Advanced Options"
+msgstr "_Pokročilé volby"
+
+#: ../src/e-util/e-collection-account-wizard.c:1385
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:216
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:172
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:24
+msgid "_Server:"
+msgstr "S_erver:"
+
+#: ../src/e-util/e-collection-account-wizard.c:1403
+msgid ""
+"Semicolon (“;”) separated list of servers to look up information for, in "
+"addition to the domain of the e-mail address."
+msgstr ""
+"Středníkem („;“) oddělený seznam serverů, na kterých se mají hledat "
+"informace, navíc k doméně e-mailové adresy."
+
+#: ../src/e-util/e-collection-account-wizard.c:1595
+#| msgid "Level beyond which the message should be logged."
+msgid "Select which parts should be configured:"
+msgstr "Vyberte, které části by se měly nastavit."
+
+#: ../src/e-util/e-collection-account-wizard.c:1719
+#: ../src/mail/e-mail-config-identity-page.c:541
+#: ../src/mail/e-mail-config-summary-page.c:323
+msgid "Account Information"
+msgstr "Informace o účtu"
+
 #: ../src/e-util/e-color-chooser-widget.c:122
 msgid "Choose custom color"
 msgstr "Výběr vlastní barvy"
@@ -12633,6 +12775,10 @@ msgstr "bílá"
 #: ../src/mail/e-mail-reader.c:4098 ../src/mail/mail-config.ui.h:76
 msgid "Default"
 msgstr "Výchozí"
+
+#: ../src/e-util/e-config-lookup.c:817
+msgid "Running…"
+msgstr "Běží…"
 
 #: ../src/e-util/e-dateedit.c:524
 msgid "Date and Time"
@@ -13069,7 +13215,7 @@ msgstr "Hledat položky, které splňují následující podmínky"
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
-#: ../src/mail/e-mail-autoconfig.c:644
+#: ../src/mail/e-mail-autoconfig.c:658
 #: ../src/mail/e-mail-config-summary-page.c:141
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:680
 msgid "None"
@@ -14360,11 +14506,6 @@ msgstr "K_ontakty"
 msgid "Search"
 msgstr "Hledat"
 
-#: ../src/e-util/e-name-selector-dialog.c:445
-#: ../src/mail/importers/pine-importer.c:430
-msgid "Address Book"
-msgstr "Adresář"
-
 #: ../src/e-util/e-name-selector-dialog.c:573
 msgid "Select Contacts from Address Book"
 msgstr "Vybrat kontakty z adresáře"
@@ -14561,6 +14702,7 @@ msgid "Clear the search"
 msgstr "Vyprázdnit hledání"
 
 #: ../src/e-util/e-search-bar.c:653
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:73
 msgid "_Previous"
 msgstr "_Předchozí"
 
@@ -14569,6 +14711,8 @@ msgid "Find the previous occurrence of the phrase"
 msgstr "Hledat předchozí výskyt fráze"
 
 #: ../src/e-util/e-search-bar.c:665
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:80
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:224
 msgid "_Next"
 msgstr "_Další"
 
@@ -14751,21 +14895,21 @@ msgstr "Jméno nemůže být prázdné."
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1314
+#: ../src/e-util/e-source-config.c:1359
 msgid "Refresh every"
 msgstr "Aktualizovat každých"
 
-#: ../src/e-util/e-source-config.c:1344 ../src/e-util/e-source-config.c:1414
+#: ../src/e-util/e-source-config.c:1389 ../src/e-util/e-source-config.c:1459
 msgid "Use a secure connection"
 msgstr "Používat zabezpečené připojení"
 
-#: ../src/e-util/e-source-config.c:1440
+#: ../src/e-util/e-source-config.c:1485
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Zrušit _důvěru v certifikát SSL/TLS"
 
-#: ../src/e-util/e-source-config.c:1476
-msgid "User"
-msgstr "Uživatel"
+#: ../src/e-util/e-source-config.c:1521
+msgid "User:"
+msgstr "Uživatel:"
 
 #: ../src/e-util/e-source-selector.c:3212
 msgid "Show"
@@ -15242,10 +15386,6 @@ msgstr "Adresář"
 #: ../src/e-util/e-webdav-browser.c:458
 msgid "Events"
 msgstr "Události"
-
-#: ../src/e-util/e-webdav-browser.c:473
-msgid "Collection"
-msgstr "Kolekce"
 
 #: ../src/e-util/e-webdav-browser.c:514
 msgid "Loading…"
@@ -16095,58 +16235,58 @@ msgstr "Můžete chytit a táhnout názvy účtů, chcete-li změnit jejich poř
 msgid "De_fault"
 msgstr "_Výchozí"
 
-#: ../src/mail/e-mail-autoconfig.c:634
+#: ../src/mail/e-mail-autoconfig.c:648
 #, c-format
 msgid "Host: %s:%d"
 msgstr "Hostitel: %s:%d"
 
-#: ../src/mail/e-mail-autoconfig.c:638
+#: ../src/mail/e-mail-autoconfig.c:652
 #, c-format
 msgid "User: %s"
 msgstr "Uživatel: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:642
+#: ../src/mail/e-mail-autoconfig.c:656
 #, c-format
 msgid "Security method: %s"
 msgstr "Způsob zabezpečení: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:643
+#: ../src/mail/e-mail-autoconfig.c:657
 #: ../src/mail/e-mail-config-summary-page.c:144
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-autoconfig.c:644
+#: ../src/mail/e-mail-autoconfig.c:658
 #: ../src/mail/e-mail-config-summary-page.c:147
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-autoconfig.c:648
+#: ../src/mail/e-mail-autoconfig.c:662
 #, c-format
 msgid "Authentication mechanism: %s"
 msgstr "Ověřevací mechanizmus: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:783
+#: ../src/mail/e-mail-autoconfig.c:821
 msgid "No email address provided"
 msgstr "Nebyla poskytnuta žádná e-mailová adresa"
 
-#: ../src/mail/e-mail-autoconfig.c:792
+#: ../src/mail/e-mail-autoconfig.c:830
 msgid "Missing domain in email address"
 msgstr "Chybějící doména v e-mailové adrese"
 
-#: ../src/mail/e-mail-autoconfig.c:1097
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:78
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:79
+#: ../src/mail/e-mail-autoconfig.c:1167
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
 msgid "IMAP server"
 msgstr "Server IMAP"
 
-#: ../src/mail/e-mail-autoconfig.c:1104
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:80
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:81
+#: ../src/mail/e-mail-autoconfig.c:1174
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:85
 msgid "POP3 server"
 msgstr "Server POP3"
 
-#: ../src/mail/e-mail-autoconfig.c:1111
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
+#: ../src/mail/e-mail-autoconfig.c:1181
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:86
 msgid "SMTP server"
 msgstr "Server SMTP"
 
@@ -16166,15 +16306,15 @@ msgid "Go _Back"
 msgstr "Jít _zpět"
 
 #. GtkAssistant sinks the floating button reference.
-#: ../src/mail/e-mail-config-assistant.c:123
+#: ../src/mail/e-mail-config-assistant.c:130
 msgid "_Skip Lookup"
 msgstr "_Přeskočit vyhledávání"
 
-#: ../src/mail/e-mail-config-assistant.c:718
+#: ../src/mail/e-mail-config-assistant.c:725
 msgid "Evolution Account Assistant"
 msgstr "Asistent pro účet Evolution"
 
-#: ../src/mail/e-mail-config-assistant.c:1025
+#: ../src/mail/e-mail-config-assistant.c:1032
 msgid "_Revise Details"
 msgstr "_Zkontrolovat podrobnosti"
 
@@ -16362,11 +16502,6 @@ msgstr ""
 "Vyplňte své jméno a e-mailovou adresu. Políčka označená „nepovinné“ nemusí "
 "být vyplněna, ledaže byste si přáli, aby byly tyto informace obsaženy v "
 "odesílaných e-mailech."
-
-#: ../src/mail/e-mail-config-identity-page.c:541
-#: ../src/mail/e-mail-config-summary-page.c:323
-msgid "Account Information"
-msgstr "Informace o účtu"
 
 #: ../src/mail/e-mail-config-identity-page.c:579
 #: ../src/mail/e-mail-config-summary-page.c:353
@@ -20161,7 +20296,7 @@ msgstr "Vyšší"
 msgid "Highest"
 msgstr "Nejvyšší"
 
-#: ../src/mail/message-list.c:473 ../src/mail/message-list.c:6407
+#: ../src/mail/message-list.c:473 ../src/mail/message-list.c:6409
 msgid "Generating message list"
 msgstr "Generuje se seznam zpráv"
 
@@ -20201,7 +20336,7 @@ msgstr "Zprávy"
 msgid "Follow-up"
 msgstr "K vyřízení"
 
-#: ../src/mail/message-list.c:6346
+#: ../src/mail/message-list.c:6348
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20213,7 +20348,7 @@ msgstr ""
 "nového hledání vymazáním v nabídce Hledat → Vymazat nebo změnou dotazu "
 "nahoře."
 
-#: ../src/mail/message-list.c:6354
+#: ../src/mail/message-list.c:6356
 msgid "There are no messages in this folder."
 msgstr "V této složce nejsou žádné zprávy."
 
@@ -20305,41 +20440,47 @@ msgstr "_Pošta"
 msgid "C_alendar"
 msgstr "_Kalendář"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:428
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:476
 #: ../src/modules/addressbook/e-book-shell-backend.c:262
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:137
 msgid "New Address Book"
 msgstr "Nový adresář"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:436
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:185
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:484
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:284
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:178
 msgid "New Memo List"
 msgstr "Nový seznam poznámek"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:480
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:532
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:210
 msgid "Address Book Properties"
 msgstr "Vlastnosti adresáře"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:484
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:536
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:283
 msgid "Calendar Properties"
 msgstr "Vlastnosti kalendáře"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:488
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:540
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:250
 msgid "Memo List Properties"
 msgstr "Vlastnosti seznamu poznámek"
 
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:492
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:544
 #: ../src/modules/calendar/e-task-shell-view-actions.c:274
 msgid "Task List Properties"
 msgstr "Vlastnosti seznamů úkolů"
 
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:75
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:209
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:174
 msgid "_Back"
 msgstr "_Zpět"
+
+#: ../src/modules/accounts-window/e-collection-wizard-page.c:78
+msgid "_Finish"
+msgstr "_Dokončit"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:195
 msgid "_Browse"
@@ -20840,41 +20981,41 @@ msgstr "Odstraňují se dočasné soubory zálohy"
 msgid "Reloading registry service"
 msgstr "Znovunačítání služby registrů"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:899
+#: ../src/modules/backup-restore/evolution-backup-tool.c:903
 msgid "Evolution Back Up"
 msgstr "Zálohování aplikace Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:900
+#: ../src/modules/backup-restore/evolution-backup-tool.c:904
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "Zálohuje se do souboru %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:904
+#: ../src/modules/backup-restore/evolution-backup-tool.c:908
 msgid "Evolution Restore"
 msgstr "Obnova Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:905
+#: ../src/modules/backup-restore/evolution-backup-tool.c:909
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "Obnovuje se ze souboru %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:974
+#: ../src/modules/backup-restore/evolution-backup-tool.c:978
 msgid "Backing up Evolution Data"
 msgstr "Zálohování dat aplikace Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:975
+#: ../src/modules/backup-restore/evolution-backup-tool.c:979
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Prosím počkejte, dokud Evolution nezazálohuje vaše data."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:977
+#: ../src/modules/backup-restore/evolution-backup-tool.c:981
 msgid "Restoring Evolution Data"
 msgstr "Obnova dat aplikace Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:978
+#: ../src/modules/backup-restore/evolution-backup-tool.c:982
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Prosím počkejte, dokud Evolution neobnoví vaše data."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1000
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1004
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Toto může chvíli trvat v závislosti na tom, jaké množství dat váš účet "
@@ -21569,10 +21710,6 @@ msgstr "_Vyžadovat potvrzení před odstraňováním položek"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:60
 msgid "Display"
 msgstr "Zobrazení"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
-msgid "Task List"
-msgstr "Seznam úkolů"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Highlight t_asks due today"
@@ -22439,20 +22576,77 @@ msgstr "Př_evést na zprávu"
 msgid "Convert to the mail message"
 msgstr "Převést na poštovní zprávu"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
-msgid "CalDAV server"
-msgstr "Server CalDAV"
+#: ../src/modules/config-lookup/e-gnome-config-lookup.c:67
+msgid "Look up e-mail domain on the GNOME server"
+msgstr "Vyhledat doménu e-mailu na serveru GNOME"
 
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:82
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:83
+msgid "Looking up IMAP server…"
+msgstr "Hledá se server IMAP…"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
+msgid "Looking up POP3 server…"
+msgstr "Hledá se server POP3…"
+
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
-msgid "CardDAV server"
-msgstr "Server CardDAV"
+msgid "Looking up SMTP server…"
+msgstr "Hledá se server SMTP…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
+#: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
+msgid "CalDAV server"
+msgstr "Server CalDAV"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:87
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:88
+msgid "Looking up CalDAV server…"
+msgstr "Hledá se server CalDAV…"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
+#: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
+msgid "CardDAV server"
+msgstr "Server CardDAV"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:89
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:90
+msgid "Looking up CardDAV server…"
+msgstr "Hledá se server CardDAV…"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "LDAP server"
 msgstr "Server LDAP"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:91
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:92
+msgid "Looking up LDAP server…"
+msgstr "Hledá se server LDAP…"
+
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:234
+msgid "Look up in SRV records"
+msgstr "Vyhledat záznamy SRV"
+
+#: ../src/modules/config-lookup/e-webdav-config-lookup.c:104
+#, c-format
+msgid "CalDAV: %s"
+msgstr "CalDAV: %s"
+
+#: ../src/modules/config-lookup/e-webdav-config-lookup.c:111
+#, c-format
+msgid "CardDAV: %s"
+msgstr "CardDAV: %s"
+
+#: ../src/modules/config-lookup/e-webdav-config-lookup.c:117
+msgid "CalDAV and CardDAV server"
+msgstr "Server CalDAV a CardDAV"
+
+#: ../src/modules/config-lookup/e-webdav-config-lookup.c:209
+msgid "Look up for a CalDAV/CardDAV server"
+msgstr "Vyhledat server CalDAV/CardDAV"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:162
 msgid "ITIP"
@@ -23260,12 +23454,6 @@ msgstr "Složka schránky mbox nemůže být prázdná"
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:216
-#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:172
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:24
-msgid "_Server:"
-msgstr "S_erver:"
-
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:230
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:185
 msgid "_Port:"
@@ -23435,7 +23623,7 @@ msgstr "Předvolby sítě"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1216
+#: ../src/modules/mail/e-mail-shell-backend.c:1224
 msgctxt "label"
 msgid "None"
 msgstr "Žádný"
@@ -25338,15 +25526,6 @@ msgstr "P_ort:"
 msgid "_Username:"
 msgstr "_Uživatelské jméno:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
-#: ../src/smime/gui/certificate-manager.c:785
-msgid "_Password:"
-msgstr "_Heslo:"
-
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
-msgid "_Remember password"
-msgstr "Za_pamatovat si heslo"
-
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "Publishing Location"
 msgstr "Umístění zveřejňování"
@@ -26006,11 +26185,11 @@ msgstr ""
 "Nelze spustit aplikaci Evolution. Pravděpodobně již běží a neodpovídá. "
 "Systémová chyba: %s"
 
-#: ../src/shell/main.c:463 ../src/shell/main.c:468
+#: ../src/shell/main.c:468 ../src/shell/main.c:473
 msgid "— The Evolution PIM and Email Client"
 msgstr "– PIM a poštovní klient Evolution"
 
-#: ../src/shell/main.c:530
+#: ../src/shell/main.c:535
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -26019,7 +26198,7 @@ msgstr ""
 "%s: --online a --offline není možné použít najednou.\n"
 "  Použijte „%s --help“, chcete-li zobrazit více informací.\n"
 
-#: ../src/shell/main.c:536
+#: ../src/shell/main.c:541
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
