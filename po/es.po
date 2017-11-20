@@ -12,14 +12,14 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
 #
-#: ../src/shell/main.c:516
+#: ../src/shell/main.c:521
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-11-09 17:14+0000\n"
-"PO-Revision-Date: 2017-11-13 15:30+0100\n"
+"POT-Creation-Date: 2017-11-17 20:41+0000\n"
+"PO-Revision-Date: 2017-11-20 09:52+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -1039,13 +1039,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "Draw events as flat, not shaded."
-msgstr ""
+msgstr "Dibujar eventos planos, no sombreados."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
 msgstr ""
+"Indica si se deben ordenar los días de izquierda a derecha en la vista "
+"semanal, en lugar de arriba a abajo."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1525,6 +1527,8 @@ msgid ""
 "forward as provided by current locale translation, otherwise uses "
 "unlocalized version."
 msgstr ""
+"Si se establece a cierto, usa la traducción de «Fwd/Re» en el asunto del "
+"mensaje al responder o reenviar; si no, se usa la versión sin traducir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Number of characters for wrapping"
@@ -2596,19 +2600,17 @@ msgstr ""
 "completadas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
-#| msgid "Whether the To Do bar should show also completed tasks"
 msgid "Whether the To Do bar should show also tasks without Due date"
 msgstr ""
 "Indica si la barra de tareas pendientes debe mostrar también las tareas con "
 "fecha de vencimiento"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
-#, fuzzy
 #| msgid "Stores whether the To Do bar should show also completed tasks."
 msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr ""
 "Almacena si la barra de tareas pendientes debe mostrar también las tareas "
-"completadas."
+"sin fecha de vencimiento."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "Show start up wizard"
@@ -2623,22 +2625,28 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid "Whether go to the previous message after message deletion"
 msgstr ""
+"Indica si se debe ir al mensaje anterior después de eliminar un mensaje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
 msgstr ""
+"Si es cierto, va al mensaje anterior cuando el mensaje seleccionado se "
+"elimina; o al siguiente si se establece a falso."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "Show Subject above Sender in Messages column"
-msgstr ""
+msgstr "Mostrar el asunto encima del remitente en la columna de mensajes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list"
 msgstr ""
+"Indica si se debe mostrar el asunto encima del remitente en la columna de "
+"mensajes, mostrada habitualmente en la vista vertical/ancha de la lista de "
+"mensajes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid "(Deprecated) Default forward style"
@@ -3159,6 +3167,8 @@ msgid ""
 "It can be either “.gz” or “.xz” and it influences what extension will be "
 "preselected in the file chooser."
 msgstr ""
+"Puede ser «.gz» o «.xz» y afecta a qué extensión se preselecciona en el "
+"selector de archivos."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3405,7 +3415,6 @@ msgid "This address book could not be opened."
 msgstr "No se pudo abrir esta libreta de direcciones."
 
 #: ../src/addressbook/addressbook.error.xml.h:2
-#| msgid "Failed to authenticate with LDAP server."
 msgid "Failed to communicate with LDAP server."
 msgstr "Falló al comunicarse con el servidor LDAP."
 
@@ -3730,8 +3739,8 @@ msgstr "Opciones"
 #: ../src/e-util/e-categories-dialog.c:80
 #: ../src/e-util/e-category-editor.c:140 ../src/e-util/e-category-editor.c:211
 #: ../src/e-util/e-charset-combo-box.c:99
-#: ../src/e-util/e-collection-account-wizard.c:1562
-#: ../src/e-util/e-collection-account-wizard.c:1797
+#: ../src/e-util/e-collection-account-wizard.c:1563
+#: ../src/e-util/e-collection-account-wizard.c:1798
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:289
 #: ../src/e-util/e-html-editor-actions.c:321
@@ -3754,7 +3763,7 @@ msgstr "Opciones"
 #: ../src/mail/mail-send-recv.c:949 ../src/mail/mail-vfolder-ui.c:149
 #: ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:932
+#: ../src/modules/backup-restore/evolution-backup-tool.c:936
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -5332,25 +5341,25 @@ msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefono"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:103
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:105
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minuto"
 msgstr[1] "minutos"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:116
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:118
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "hora"
 msgstr[1] "horas"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:129
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:131
 msgid "day"
 msgid_plural "days"
 msgstr[0] "día"
 msgstr[1] "días"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:357
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:373
 msgid "Start time"
 msgstr "Hora de inicio"
 
@@ -6238,7 +6247,7 @@ msgstr "no contiene"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:1654
+#: ../src/e-util/e-collection-account-wizard.c:1655
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -7023,7 +7032,7 @@ msgstr "Desconocido"
 
 #: ../src/calendar/gui/e-cal-model.c:1402 ../src/calendar/gui/e-cal-ops.c:614
 #: ../src/calendar/gui/e-cal-ops.c:1250
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:289
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:388
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "No se encontró la fuente con el UID «%s»"
@@ -8628,7 +8637,7 @@ msgstr "Participante                          "
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1407
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:1695
+#: ../src/e-util/e-collection-account-wizard.c:1696
 #: ../src/e-util/e-webdav-browser.c:2381
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -8884,7 +8893,6 @@ msgstr "Seleccione la zona horaria"
 #. Translators: It will display "Start: StartDateAndTime"
 #: ../src/calendar/gui/e-to-do-pane.c:370
 #, c-format
-#| msgid "Start: "
 msgid "Start: %s"
 msgstr "Empieza: %s"
 
@@ -8916,7 +8924,6 @@ msgid "Tomorrow"
 msgstr "Mañana"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1436
-#| msgid "With _Due Date"
 msgid "Tasks without Due date"
 msgstr "Tareas sin fecha de vencimiento"
 
@@ -9372,14 +9379,15 @@ msgstr "Reuniones y citas"
 
 #: ../src/calendar/importers/icalendar-importer.c:306
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:480
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:181
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:76
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:280
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:178
 msgid "New Calendar"
 msgstr "Calendario nuevo"
 
 #: ../src/calendar/importers/icalendar-importer.c:309
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:488
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:189
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:288
 #: ../src/modules/calendar/e-task-shell-view-actions.c:202
 msgid "New Task List"
 msgstr "Lista de tareas nueva"
@@ -11282,7 +11290,7 @@ msgid "Save Draft"
 msgstr "Guardar borrador"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:1727
+#: ../src/e-util/e-collection-account-wizard.c:1728
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
 #: ../src/e-util/e-webdav-browser.c:2408
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12091,10 +12099,9 @@ msgid "Account Name"
 msgstr "Nombre de la cuenta"
 
 #: ../src/e-util/e-accounts-window.c:1446
-#, fuzzy
 #| msgid "Evolution Accounts"
 msgid "Collection _Account"
-msgstr "Cuentas de Evolution"
+msgstr "Colección de _cuentas"
 
 #: ../src/e-util/e-accounts-window.c:1447
 msgid "_Mail Account"
@@ -12628,7 +12635,6 @@ msgstr ""
 "No se puede crear un objeto cliente a partir de un nombre de extensión «%s»"
 
 #: ../src/e-util/e-collection-account-wizard.c:214
-#| msgid "Searching for user home, please wait…"
 msgid "Looking up details, please wait…"
 msgstr "Buscando detalles, espere…"
 
@@ -12639,7 +12645,6 @@ msgid "Requires password to continue. %s."
 msgstr "Se necesita una contraseña para continuar: %s."
 
 #: ../src/e-util/e-collection-account-wizard.c:284
-#| msgid "_View Certificate"
 msgid "View certificate"
 msgstr "Ver certificado"
 
@@ -12686,12 +12691,10 @@ msgid "Collection"
 msgstr "Colección"
 
 #: ../src/e-util/e-collection-account-wizard.c:556
-#| msgid "Mail Receipt"
 msgid "Mail Receive"
 msgstr "Recibir correo"
 
 #: ../src/e-util/e-collection-account-wizard.c:557
-#| msgid "Mailer"
 msgid "Mail Send"
 msgstr "Enviar correo"
 
@@ -12702,7 +12705,6 @@ msgid "Address Book"
 msgstr "Libreta de direcciones"
 
 #: ../src/e-util/e-collection-account-wizard.c:560
-#| msgid "Memo Lists"
 msgid "Memo List"
 msgstr "Lista de notas"
 
@@ -12716,22 +12718,18 @@ msgid "Looking up LDAP server’s search base…"
 msgstr "Buscando bases de búsqueda del servidor LDAP…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1193
-#| msgid "Searching for user home, please wait…"
 msgid "Saving account settings, please wait…"
 msgstr "Guardando detalles de la cuenta, espere…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1337
-#| msgid "_Revise Details"
 msgid "User details"
 msgstr "Detalles del usuario"
 
 #: ../src/e-util/e-collection-account-wizard.c:1350
-#| msgid "Email Address cannot be empty"
 msgid "_Email Address or User name:"
 msgstr "Dirección de correo-e o nombre de usuario:"
 
 #: ../src/e-util/e-collection-account-wizard.c:1380
-#| msgid "Send Options"
 msgid "_Advanced Options"
 msgstr "_Opciones avanzadas"
 
@@ -12747,13 +12745,14 @@ msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
 msgstr ""
+"Lista de servidores separados por «;» en los que buscar información, además "
+"del dominio para la dirección de correo-e."
 
-#: ../src/e-util/e-collection-account-wizard.c:1594
-#| msgid "Level beyond which the message should be logged."
+#: ../src/e-util/e-collection-account-wizard.c:1595
 msgid "Select which parts should be configured:"
 msgstr "Seleccione qué partes se deben configurar:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1718
+#: ../src/e-util/e-collection-account-wizard.c:1719
 #: ../src/mail/e-mail-config-identity-page.c:541
 #: ../src/mail/e-mail-config-summary-page.c:323
 msgid "Account Information"
@@ -12932,7 +12931,6 @@ msgid "Default"
 msgstr "Predeterminado"
 
 #: ../src/e-util/e-config-lookup.c:817
-#| msgid "Loading…"
 msgid "Running…"
 msgstr "Ejecutándose…"
 
@@ -14588,16 +14586,11 @@ msgstr "Falló al establecer la versión del protocolo a LDAPv3 (%d): %s"
 
 #: ../src/e-util/e-misc-utils.c:4141
 #, c-format
-#| msgid "Failed to authenticate with LDAP server."
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Falló al autenticar con el servidor LDAP (%d): %s"
 
 #: ../src/e-util/e-misc-utils.c:4155
 #, c-format
-#| msgid ""
-#| "This LDAP server may use an older version of LDAP, which does not support "
-#| "this functionality or it may be misconfigured. Ask your administrator for "
-#| "supported search bases."
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -15054,20 +15047,19 @@ msgstr "El nombre no puede estar vacío"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1314
+#: ../src/e-util/e-source-config.c:1359
 msgid "Refresh every"
 msgstr "Actualizar cada"
 
-#: ../src/e-util/e-source-config.c:1344 ../src/e-util/e-source-config.c:1414
+#: ../src/e-util/e-source-config.c:1389 ../src/e-util/e-source-config.c:1459
 msgid "Use a secure connection"
 msgstr "Usar una conexión segura"
 
-#: ../src/e-util/e-source-config.c:1440
+#: ../src/e-util/e-source-config.c:1485
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "No confiar en el cer_tificado SSL/TSL"
 
-#: ../src/e-util/e-source-config.c:1476
-#| msgid "User"
+#: ../src/e-util/e-source-config.c:1521
 msgid "User:"
 msgstr "Usuario:"
 
@@ -15911,9 +15903,6 @@ msgstr ""
 "fecha actual del momento del filtrado."
 
 #: ../src/e-util/filter.ui.h:17
-#| msgid ""
-#| "The message’s date will be compared against\n"
-#| "12:00am of the date specified."
 msgid ""
 "The message’s date will be compared against\n"
 "the beginning of the specified day."
@@ -15938,7 +15927,6 @@ msgid "_Filter Rules"
 msgstr "Reglas de _filtrado"
 
 #: ../src/e-util/filter.ui.h:24
-#| msgid "R_ule name:"
 msgid "Rule Name"
 msgstr "Nombre de la regla"
 
@@ -18046,7 +18034,6 @@ msgstr "-----Mensaje original-----"
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
 #: ../src/mail/em-composer-utils.c:2565
 #, c-format
-#| msgid "Re: %s"
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Re: %s"
@@ -18069,7 +18056,6 @@ msgid "Select Folder"
 msgstr "Seleccionar carpeta"
 
 #: ../src/mail/em-filter-rule.c:610
-#| msgid "File _type:"
 msgid "Rul_e type:"
 msgstr "Tipo de r_egla:"
 
@@ -18262,25 +18248,21 @@ msgstr "Cargando…"
 
 #: ../src/mail/em-folder-utils.c:111
 #, c-format
-#| msgid "Removing folder “%s”"
 msgid "Moving folder “%s”"
 msgstr "Moviendo carpeta «%s»"
 
 #: ../src/mail/em-folder-utils.c:113
 #, c-format
-#| msgid "Storing folder “%s”"
 msgid "Copying folder “%s”"
 msgstr "Copiando carpeta «%s»"
 
 #: ../src/mail/em-folder-utils.c:252
 #, c-format
-#| msgid "Removing folder “%s”"
 msgid "Moving folder “%s” (%d/%d)"
 msgstr "Moviendo carpeta «%s» (%d/%d)"
 
 #: ../src/mail/em-folder-utils.c:252
 #, c-format
-#| msgid "Storing folder “%s”"
 msgid "Copying folder “%s” (%d/%d)"
 msgstr "Copiando carpeta «%s» (%d/%d)"
 
@@ -18416,7 +18398,6 @@ msgstr "Mensajes de %s"
 
 #. Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string.
 #: ../src/mail/em-utils.c:1503
-#| msgid "Redo"
 msgctxt "reply-attribution"
 msgid "Re"
 msgstr "Re"
@@ -18916,7 +18897,6 @@ msgstr[1] ""
 "«%s»."
 
 #: ../src/mail/mail-autofilter.c:559
-#| msgid "Message Filters"
 msgid "Open Message Filters"
 msgstr "Abrir filtros de mensajes"
 
@@ -19237,7 +19217,6 @@ msgid "Confirm when emptying a _Junk folder"
 msgstr "_Confirmar an vaciar la carpeta SPAM"
 
 #: ../src/mail/mail-config.ui.h:104
-#| msgid "Go to the section %s of the message"
 msgid "Go to the previ_ous message after message deletion"
 msgstr "Ir al mensaje anteri_or después de eliminar un mensaje"
 
@@ -20397,12 +20376,10 @@ msgid "Canceling..."
 msgstr "Cancelando…"
 
 #: ../src/mail/mail-send-recv.c:581
-#| msgid "_Edit Message"
 msgid "Edit Message"
 msgstr "Editar mensaje"
 
 #: ../src/mail/mail-send-recv.c:586
-#| msgid "Move to Folder"
 msgid "Open Outbox Folder"
 msgstr "Abrir carpeta de correo saliente"
 
@@ -20494,7 +20471,7 @@ msgstr "Más alta"
 msgid "Highest"
 msgstr "La más alta"
 
-#: ../src/mail/message-list.c:473 ../src/mail/message-list.c:6407
+#: ../src/mail/message-list.c:473 ../src/mail/message-list.c:6409
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -20534,7 +20511,7 @@ msgstr "Mensajes"
 msgid "Follow-up"
 msgstr "Seguimiento"
 
-#: ../src/mail/message-list.c:6346
+#: ../src/mail/message-list.c:6348
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20546,7 +20523,7 @@ msgstr ""
 "desplegable o ejecutando una búsqueda nueva, limpiándola con Buscar→Limpiar "
 "o cambiando la consulta anterior."
 
-#: ../src/mail/message-list.c:6354
+#: ../src/mail/message-list.c:6356
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
@@ -20645,7 +20622,7 @@ msgid "New Address Book"
 msgstr "Libreta de direcciones nueva"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:484
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:185
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:284
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:178
 msgid "New Memo List"
 msgstr "Lista de notas nueva"
@@ -20678,7 +20655,6 @@ msgstr "A_trás"
 
 # En conflicto con _Buscar del menu principal
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:78
-#| msgid "_Find"
 msgid "_Finish"
 msgstr "_Terminar"
 
@@ -21186,41 +21162,41 @@ msgstr "Eliminando archivos temporales de respaldo"
 msgid "Reloading registry service"
 msgstr "Recargando el servicio de registro"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:899
+#: ../src/modules/backup-restore/evolution-backup-tool.c:903
 msgid "Evolution Back Up"
 msgstr "Respaldo de Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:900
+#: ../src/modules/backup-restore/evolution-backup-tool.c:904
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "Respaldando al archivo %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:904
+#: ../src/modules/backup-restore/evolution-backup-tool.c:908
 msgid "Evolution Restore"
 msgstr "Restaurador de Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:905
+#: ../src/modules/backup-restore/evolution-backup-tool.c:909
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "Restaurando desde el archivo %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:974
+#: ../src/modules/backup-restore/evolution-backup-tool.c:978
 msgid "Backing up Evolution Data"
 msgstr "Respaldando los datos de Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:975
+#: ../src/modules/backup-restore/evolution-backup-tool.c:979
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Espere mientras Evolution respalda sus datos."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:977
+#: ../src/modules/backup-restore/evolution-backup-tool.c:981
 msgid "Restoring Evolution Data"
 msgstr "Restaurando los datos de Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:978
+#: ../src/modules/backup-restore/evolution-backup-tool.c:982
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Espere mientras Evolution restaura sus datos."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1000
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1004
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Esto puede llevar un tiempo dependiendo de la cantidad de datos en su cuenta."
@@ -21320,7 +21296,6 @@ msgid "User name cannot be empty"
 msgstr "El nombre de usuario no puede estar vacío"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:418
-#| msgid "Searching for user home, please wait…"
 msgid "Looking up server search bases, please wait…"
 msgstr "Buscando las bases de búsqueda del servidor, espere…"
 
@@ -21908,6 +21883,7 @@ msgstr "Desplazar la vista mens_ual una semana"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:57
 msgid "Order days in Week View from _left to right"
 msgstr ""
+"Ordenar los días de la semana de _izquierda a derecha en la vista de semana"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Alerts"
@@ -21934,7 +21910,6 @@ msgid "_Hide completed tasks after"
 msgstr "_Ocultar tareas terminadas tras"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:66
-#| msgid "To Do"
 msgid "To Do bar"
 msgstr "Barra de tareas pendientes"
 
@@ -22794,18 +22769,15 @@ msgstr "Buscar dominio de correo-e en el servidor de GNOME"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
-#| msgid "IMAP server"
 msgid "Looking up IMAP server…"
 msgstr "Buscando servidor IMAP…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
-#| msgid "POP3 server"
 msgid "Looking up POP3 server…"
 msgstr "Buscando servidor POP3…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
-#| msgid "SMTP server"
 msgid "Looking up SMTP server…"
 msgstr "Buscando servidor SMTP…"
 
@@ -22817,7 +22789,6 @@ msgstr "Servidor CalDAV"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
-#| msgid "CalDAV server"
 msgid "Looking up CalDAV server…"
 msgstr "Buscando servidor CalDAV…"
 
@@ -22829,7 +22800,6 @@ msgstr "Servidor CardDAV"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
-#| msgid "CardDAV server"
 msgid "Looking up CardDAV server…"
 msgstr "Buscando servidor CardDAV…"
 
@@ -22840,7 +22810,6 @@ msgstr "Servidor LDAP"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
-#| msgid "LDAP server"
 msgid "Looking up LDAP server…"
 msgstr "Buscando servidor LDAP…"
 
@@ -22850,18 +22819,15 @@ msgstr "Buscar en registros SRV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:104
 #, c-format
-#| msgid "CalDAV server"
 msgid "CalDAV: %s"
 msgstr "CalDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:111
 #, c-format
-#| msgid "CardDAV server"
 msgid "CardDAV: %s"
 msgstr "CardDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:117
-#| msgid "CardDAV server"
 msgid "CalDAV and CardDAV server"
 msgstr "Servidor CalDAV y CardDAV"
 
@@ -26424,11 +26390,11 @@ msgstr ""
 "No se puede iniciar Evolution. Es posible que haya otra instancia de "
 "Evolution que no responde. Error del sistema: %s"
 
-#: ../src/shell/main.c:463 ../src/shell/main.c:468
+#: ../src/shell/main.c:468 ../src/shell/main.c:473
 msgid "— The Evolution PIM and Email Client"
 msgstr "— El cliente de correo-e y MIP Evolution"
 
-#: ../src/shell/main.c:530
+#: ../src/shell/main.c:535
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -26437,7 +26403,7 @@ msgstr ""
 "%s: --online y --offline no se pueden usar a la vez.\n"
 "  Ejecute «%s --help» para obtener más información.\n"
 
-#: ../src/shell/main.c:536
+#: ../src/shell/main.c:541
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
