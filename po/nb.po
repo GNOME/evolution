@@ -4,13 +4,14 @@
 # Terance Edward Sola <terance@lyse.net>, 2005.
 # Torstein Adolf Winterseth <kvikende@fsfe.org>, 2010.
 # Alexander Strand <godsetalex@gmail.com>
-#: ../src/shell/main.c:516
+#: ../src/shell/main.c:521
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 3.27.x\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-11-09 17:14+0000\n"
-"PO-Revision-Date: 2017-11-09 19:48+0100\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-11-17 20:41+0000\n"
+"PO-Revision-Date: 2017-11-20 12:13+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: nb\n"
@@ -933,10 +934,8 @@ msgid "Sunday is a work day"
 msgstr "Søndag er en arbeidsdag"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
-#, fuzzy
-#| msgid "Create events, memos and tasks as _Private by default"
 msgid "Create events, memos and tasks as Private by default"
-msgstr "Lag hendelser, notater og oppgaver som _private som forvalg"
+msgstr "Lag hendelser, notater og oppgaver som private som forvalg"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "Draw events as flat, not shaded."
@@ -959,10 +958,8 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
-#, fuzzy
-#| msgid "(Deprecated) Default forward style"
 msgid "(Deprecated) Work days"
-msgstr "Forvalgt videresendingsstil (utgått)"
+msgstr "(Utfaset) Arbeidsdager"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 msgid ""
@@ -1556,10 +1553,8 @@ msgid "Search gravatar.com for photo of the sender"
 msgstr "Søk etter bilde av avsender på gravatar.com"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
-#, fuzzy
-#| msgid "Search gravatar.com for photo of the sender"
 msgid "Allow searching also at gravatar.com for photo of the sender."
-msgstr "Søk etter bilde av avsender på gravatar.com"
+msgstr "Tillat søk etter bilde av avsender på gravatar.com"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Mark as Seen after specified timeout"
@@ -1592,16 +1587,10 @@ msgid "Show Attachment Bar"
 msgstr "Vis vedleggsfelt"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
-#, fuzzy
-#| msgid ""
-#| "Show Attachment Bar below the message preview pane when the message has "
-#| "attachments"
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
-msgstr ""
-"Vis vedleggsfelt under under område for forhåndsvisning av meldinger når "
-"meldingen har vedlegg"
+msgstr "Vis vedleggsfelt under under område for forhåndsvisning av meldinger når meldingen har vedlegg."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Sender email-address column in the message list"
@@ -1834,10 +1823,8 @@ msgid "Default reply style"
 msgstr "Forvalgt svarstil"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
-#, fuzzy
-#| msgid "Sending a message using _key accelerator (Ctrl+Enter)"
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
-msgstr "Sender en melding med _tastatursnarvei (Ctrl+linjeskift)"
+msgstr "Spør ved sending ved bruk av _tastatursnarvei (Ctrl+linjeskift)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid ""
@@ -1871,21 +1858,16 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Stopp og spør før en mappe blir tømt."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
-#, fuzzy
-#| msgid "Prompt when user expunges"
 msgid "Prompt when user calls Empty Junk"
-msgstr "Stopp og spør før tømming"
+msgstr "Spør når bruker ber om tømming av søppelpost"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
-#, fuzzy
-#| msgid "Prompt the user when he or she tries to expunge a folder."
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
-msgstr "Stopp og spør før en mappe blir tømt."
+msgstr "Spør bruker når han eller hun prøver å tømme en søppelpostmappe."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Prompt before sending to recipients not entered as mail addresses"
-msgstr ""
-"Varsle før utsending til mottakere som ikke er oppgitt som e-postadresser"
+msgstr "Spør før utsending til mottakere som ikke er oppgitt som e-postadresser"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid ""
@@ -2373,10 +2355,8 @@ msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr "Om verktøylinjen skal være synlig."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
-#, fuzzy
-#| msgid "Show the status bar"
 msgid "Show start up wizard"
-msgstr "Vis statuslinjen"
+msgstr "Vis oppstartsveiviseren"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid "Whether show start up wizard when there is no mail account configured."
@@ -2413,10 +2393,8 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
-#, fuzzy
-#| msgid "(Deprecated) Default forward style"
 msgid "(Deprecated) Default reply style"
-msgstr "Forvalgt videresendingsstil (utgått)"
+msgstr "(Utfaset) Forvalgt svarstil"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 msgid ""
@@ -3428,8 +3406,8 @@ msgstr "Alternativer"
 #: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:302
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:140
 #: ../src/e-util/e-category-editor.c:211 ../src/e-util/e-charset-combo-box.c:99
-#: ../src/e-util/e-collection-account-wizard.c:1562
-#: ../src/e-util/e-collection-account-wizard.c:1797
+#: ../src/e-util/e-collection-account-wizard.c:1563
+#: ../src/e-util/e-collection-account-wizard.c:1798
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:289
 #: ../src/e-util/e-html-editor-actions.c:321
@@ -3451,7 +3429,7 @@ msgstr "Alternativer"
 #: ../src/mail/mail-send-recv.c:867 ../src/mail/mail-send-recv.c:949
 #: ../src/mail/mail-vfolder-ui.c:149 ../src/mail/mail-vfolder-ui.c:271
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:277
-#: ../src/modules/backup-restore/evolution-backup-tool.c:932
+#: ../src/modules/backup-restore/evolution-backup-tool.c:936
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -5018,25 +4996,25 @@ msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefon"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:103
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:105
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minutt"
 msgstr[1] "minutter"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:116
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:118
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "time"
 msgstr[1] "timer"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:129
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:131
 msgid "day"
 msgid_plural "days"
 msgstr[0] "dag"
 msgstr[1] "dager"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:357
+#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:373
 msgid "Start time"
 msgstr "Starttid"
 
@@ -5918,7 +5896,7 @@ msgstr "inneholder ikke"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:1654
+#: ../src/e-util/e-collection-account-wizard.c:1655
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -6696,7 +6674,7 @@ msgstr "Ukjent"
 
 #: ../src/calendar/gui/e-cal-model.c:1402 ../src/calendar/gui/e-cal-ops.c:614
 #: ../src/calendar/gui/e-cal-ops.c:1250
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:289
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:388
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Kilde med UID «%s» ble ikke funnet"
@@ -8282,7 +8260,7 @@ msgstr "Deltaker                          "
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1407
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:1695
+#: ../src/e-util/e-collection-account-wizard.c:1696
 #: ../src/e-util/e-webdav-browser.c:2381
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -9024,14 +9002,15 @@ msgstr "Avtaler og møter"
 
 #: ../src/calendar/importers/icalendar-importer.c:306
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:480
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:181
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:76
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:280
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:178
 msgid "New Calendar"
 msgstr "Ny kalender"
 
 #: ../src/calendar/importers/icalendar-importer.c:309
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:488
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:189
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:288
 #: ../src/modules/calendar/e-task-shell-view-actions.c:202
 msgid "New Task List"
 msgstr "Ny oppgaveliste"
@@ -10936,7 +10915,7 @@ msgid "Save Draft"
 msgstr "Lagre utkast"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:1727
+#: ../src/e-util/e-collection-account-wizard.c:1728
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
 #: ../src/e-util/e-webdav-browser.c:2408
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -12298,7 +12277,10 @@ msgid ""
 "Found no candidates. It can also mean that the server doesn’t provide any "
 "information about its configuration using the selected lookup methods. Enter "
 "the account manually instead or change above settings."
-msgstr "Fant ingen kandidater. Dette kan også bety at tjeneren ikke tilbyr informasjon om konfigurasjonen med valgt oppslagsmetode. Skriv inn kontoinformasjonen manuelt i stedet eller endre innstillingene over."
+msgstr ""
+"Fant ingen kandidater. Dette kan også bety at tjeneren ikke tilbyr "
+"informasjon om konfigurasjonen med valgt oppslagsmetode. Skriv inn "
+"kontoinformasjonen manuelt i stedet eller endre innstillingene over."
 
 #: ../src/e-util/e-collection-account-wizard.c:328
 #, c-format
@@ -12377,13 +12359,15 @@ msgstr "Tj_ener:"
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
-msgstr "Semikolonseparert liste med tjenere som skal brukes til å slå opp informasjon ut over domenet for e-postadressen."
+msgstr ""
+"Semikolonseparert liste med tjenere som skal brukes til å slå opp "
+"informasjon ut over domenet for e-postadressen."
 
-#: ../src/e-util/e-collection-account-wizard.c:1594
+#: ../src/e-util/e-collection-account-wizard.c:1595
 msgid "Select which parts should be configured:"
 msgstr "Velg hvilke deler som skal konfigureres:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1718
+#: ../src/e-util/e-collection-account-wizard.c:1719
 #: ../src/mail/e-mail-config-identity-page.c:541
 #: ../src/mail/e-mail-config-summary-page.c:323
 msgid "Account Information"
@@ -14222,7 +14206,9 @@ msgid ""
 "\n"
 "Detailed error (%d): %s"
 msgstr ""
-"Denne LDAP-tjeneren bruker kanskje en gammel versjon av LDAP som ikke støtter denne funksjonaliteten eller så er den satt opp feil. Spør din administrator for støttede søkebaser.\n"
+"Denne LDAP-tjeneren bruker kanskje en gammel versjon av LDAP som ikke "
+"støtter denne funksjonaliteten eller så er den satt opp feil. Spør din "
+"administrator for støttede søkebaser.\n"
 "\n"
 "Detaljert feil (%d): %s"
 
@@ -14661,19 +14647,19 @@ msgstr "Navnet kan ikke være tomt"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1314
+#: ../src/e-util/e-source-config.c:1359
 msgid "Refresh every"
 msgstr "Oppdater hver"
 
-#: ../src/e-util/e-source-config.c:1344 ../src/e-util/e-source-config.c:1414
+#: ../src/e-util/e-source-config.c:1389 ../src/e-util/e-source-config.c:1459
 msgid "Use a secure connection"
 msgstr "Bruk sikker forbindelse"
 
-#: ../src/e-util/e-source-config.c:1440
+#: ../src/e-util/e-source-config.c:1485
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Fjern _tillit til SSL/TLS-sertifikat"
 
-#: ../src/e-util/e-source-config.c:1476
+#: ../src/e-util/e-source-config.c:1521
 msgid "User:"
 msgstr "Bruker:"
 
@@ -18794,10 +18780,8 @@ msgid "Confirm when emptying a _Junk folder"
 msgstr "_Bekreft ved tømming av en søppelpostmappe"
 
 #: ../src/mail/mail-config.ui.h:104
-#, fuzzy
-#| msgid "Go to the section %s of the message"
 msgid "Go to the previ_ous message after message deletion"
-msgstr "Gå til %s-del av meldingen"
+msgstr "Gå til f_orrige melding etter sletting av en melding"
 
 #: ../src/mail/mail-config.ui.h:105
 msgid "Archive Mail"
@@ -20033,7 +20017,7 @@ msgstr "Høyere"
 msgid "Highest"
 msgstr "Høyest"
 
-#: ../src/mail/message-list.c:473 ../src/mail/message-list.c:6407
+#: ../src/mail/message-list.c:473 ../src/mail/message-list.c:6409
 msgid "Generating message list"
 msgstr "Genererer meldingsliste"
 
@@ -20073,7 +20057,7 @@ msgstr "Meldinger"
 msgid "Follow-up"
 msgstr "Følg opp"
 
-#: ../src/mail/message-list.c:6346
+#: ../src/mail/message-list.c:6348
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20085,7 +20069,7 @@ msgstr ""
 "starte et nytt søk enten ved å tømme det med Søk->Tøm menyoppføringen eller "
 "ved å endre spørringen over."
 
-#: ../src/mail/message-list.c:6354
+#: ../src/mail/message-list.c:6356
 msgid "There are no messages in this folder."
 msgstr "Det er ingen meldinger i denne mappen."
 
@@ -20184,7 +20168,7 @@ msgid "New Address Book"
 msgstr "Ny adressebok"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:484
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:185
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:284
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:178
 msgid "New Memo List"
 msgstr "Ny notatliste"
@@ -20717,41 +20701,41 @@ msgstr "Fjerner midlertidige sikkerhetskopifiler"
 msgid "Reloading registry service"
 msgstr "Laster registertjenesten på nytt"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:899
+#: ../src/modules/backup-restore/evolution-backup-tool.c:903
 msgid "Evolution Back Up"
 msgstr "Evolution sikkerhetskopiering"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:900
+#: ../src/modules/backup-restore/evolution-backup-tool.c:904
 #, c-format
 msgid "Backing up to the file %s"
 msgstr "Sikkerhetskopierer til fil %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:904
+#: ../src/modules/backup-restore/evolution-backup-tool.c:908
 msgid "Evolution Restore"
 msgstr "Evolution gjenoppretting"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:905
+#: ../src/modules/backup-restore/evolution-backup-tool.c:909
 #, c-format
 msgid "Restoring from the file %s"
 msgstr "Gjenoppretter fra fil %s"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:974
+#: ../src/modules/backup-restore/evolution-backup-tool.c:978
 msgid "Backing up Evolution Data"
 msgstr "Ta sikkerhetskopi av data for Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:975
+#: ../src/modules/backup-restore/evolution-backup-tool.c:979
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Vennligst vent mens Evolution tar sikkerhetskopi av dine data."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:977
+#: ../src/modules/backup-restore/evolution-backup-tool.c:981
 msgid "Restoring Evolution Data"
 msgstr "Gjenoppretter data for Evolution"
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:978
+#: ../src/modules/backup-restore/evolution-backup-tool.c:982
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Vennligst vent mens Evolution gjenoppretter dine data."
 
-#: ../src/modules/backup-restore/evolution-backup-tool.c:1000
+#: ../src/modules/backup-restore/evolution-backup-tool.c:1004
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Dette kan ta en stund avhengig av hvor mye data du har i din konto."
 
@@ -20849,10 +20833,8 @@ msgid "User name cannot be empty"
 msgstr "Brukernavn kan ikke være tomt"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:418
-#, fuzzy
-#| msgid "Searching for user home, please wait…"
 msgid "Looking up server search bases, please wait…"
-msgstr "Søker etter hjem for bruker. Vennligst vent …"
+msgstr "Slår opp søkebaser på tjener. Vennligst vent …"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
 msgid "Standard LDAP Port"
@@ -25897,11 +25879,11 @@ msgstr ""
 "Kan ikke starte Evolution. En annen instans kjører sannsynligvis og svarer "
 "ikke. Systemfeil: %s"
 
-#: ../src/shell/main.c:463 ../src/shell/main.c:468
+#: ../src/shell/main.c:468 ../src/shell/main.c:473
 msgid "— The Evolution PIM and Email Client"
 msgstr "– Evolution personlig informasjonshåndterer og e-postklient"
 
-#: ../src/shell/main.c:530
+#: ../src/shell/main.c:535
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -25910,7 +25892,7 @@ msgstr ""
 "%s: --online og --offline kan ikke brukes samtidig.\n"
 "  Bruk «%s --help» for mer informasjon.\n"
 
-#: ../src/shell/main.c:536
+#: ../src/shell/main.c:541
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
