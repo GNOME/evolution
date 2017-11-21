@@ -102,6 +102,18 @@ write_calendar (const gchar *uid,
 		for (iter = objects; iter; iter = iter->next) {
 			ECalComponent *comp = iter->data;
 			icalcomponent *icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
+			icalproperty *prop;
+
+			if (!icalcomp)
+				continue;
+
+			for (prop = icalcomponent_get_first_property (icalcomp, ICAL_FREEBUSY_PROPERTY);
+			     prop;
+			     prop = icalcomponent_get_next_property (icalcomp, ICAL_FREEBUSY_PROPERTY)) {
+				icalproperty_remove_parameter_by_name (prop, "X-SUMMARY");
+				icalproperty_remove_parameter_by_name (prop, "X-LOCATION");
+			}
+
 			icalcomponent_add_component (top_level, icalcomp);
 		}
 
