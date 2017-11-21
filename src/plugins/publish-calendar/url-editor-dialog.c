@@ -115,14 +115,14 @@ check_input (UrlEditorDialog *dialog)
 
 	uri = dialog->uri;
 
-	if (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->type_selector)) == 1) {
-		gtk_widget_show (dialog->fb_duration_label);
-		gtk_widget_show (dialog->fb_duration_spin);
-		gtk_widget_show (dialog->fb_duration_combo);
-	} else {
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->type_selector)) == URI_PUBLISH_AS_ICAL) {
 		gtk_widget_hide (dialog->fb_duration_label);
 		gtk_widget_hide (dialog->fb_duration_spin);
 		gtk_widget_hide (dialog->fb_duration_combo);
+	} else {
+		gtk_widget_show (dialog->fb_duration_label);
+		gtk_widget_show (dialog->fb_duration_spin);
+		gtk_widget_show (dialog->fb_duration_combo);
 	}
 
 	if (gtk_widget_get_sensitive (dialog->events_selector)) {

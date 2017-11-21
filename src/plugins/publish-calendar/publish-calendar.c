@@ -224,6 +224,7 @@ publish_online (EPublishUri *uri,
 			publish_calendar_as_ical (stream, uri, &error);
 			break;
 		case URI_PUBLISH_AS_FB:
+		case URI_PUBLISH_AS_FB_WITH_DETAILS:
 			publish_calendar_as_fb (stream, uri, &error);
 			break;
 	}

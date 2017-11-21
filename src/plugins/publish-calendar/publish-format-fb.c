@@ -32,6 +32,7 @@
 static gboolean
 write_calendar (const gchar *uid,
                 GOutputStream *stream,
+		gboolean with_details,
                 gint dur_type,
                 gint dur_value,
                 GError **error)
@@ -102,6 +103,21 @@ write_calendar (const gchar *uid,
 		for (iter = objects; iter; iter = iter->next) {
 			ECalComponent *comp = iter->data;
 			icalcomponent *icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
+
+			if (!icalcomp)
+				continue;
+
+			if (!with_details) {
+				icalproperty *prop;
+
+				for (prop = icalcomponent_get_first_property (icalcomp, ICAL_FREEBUSY_PROPERTY);
+				     prop;
+				     prop = icalcomponent_get_next_property (icalcomp, ICAL_FREEBUSY_PROPERTY)) {
+					icalproperty_remove_parameter_by_name (prop, "X-SUMMARY");
+					icalproperty_remove_parameter_by_name (prop, "X-LOCATION");
+				}
+			}
+
 			icalcomponent_add_component (top_level, icalcomp);
 		}
 
@@ -132,12 +148,13 @@ publish_calendar_as_fb (GOutputStream *stream,
                         GError **error)
 {
 	GSList *l;
+	gboolean with_details = uri->publish_format == URI_PUBLISH_AS_FB_WITH_DETAILS;
 
 	/* events */
 	l = uri->events;
 	while (l) {
 		gchar *uid = l->data;
-		if (!write_calendar (uid, stream, uri->fb_duration_type, uri->fb_duration_value, error))
+		if (!write_calendar (uid, stream, with_details, uri->fb_duration_type, uri->fb_duration_value, error))
 			break;
 		l = g_slist_next (l);
 	}

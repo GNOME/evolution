@@ -38,7 +38,8 @@ enum publish_frequency {
 
 enum publish_format {
 	URI_PUBLISH_AS_ICAL,
-	URI_PUBLISH_AS_FB
+	URI_PUBLISH_AS_FB,
+	URI_PUBLISH_AS_FB_WITH_DETAILS
 };
 
 enum FBDurationType {
