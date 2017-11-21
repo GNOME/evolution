@@ -2853,6 +2853,22 @@ ml_style_updated_cb (MessageList *message_list)
 }
 
 static void
+message_list_get_preferred_width (GtkWidget *widget,
+				  gint *out_minimum_width,
+				  gint *out_natural_width)
+{
+	/* Chain up to parent's method. */
+	GTK_WIDGET_CLASS (message_list_parent_class)->get_preferred_width (widget, out_minimum_width, out_natural_width);
+
+	if (out_minimum_width && *out_minimum_width < 50)
+		*out_minimum_width = 50;
+
+	if (out_natural_width && out_minimum_width &&
+	    *out_natural_width < *out_minimum_width)
+		*out_natural_width = *out_minimum_width;
+}
+
+static void
 message_list_set_session (MessageList *message_list,
                           EMailSession *session)
 {
@@ -3552,6 +3568,7 @@ static void
 message_list_class_init (MessageListClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	if (!ml_drag_info[0].atom) {
 		gint ii;
@@ -3570,6 +3587,9 @@ message_list_class_init (MessageListClass *class)
 	}
 
 	g_type_class_add_private (class, sizeof (MessageListPrivate));
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->get_preferred_width = message_list_get_preferred_width;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = message_list_set_property;
