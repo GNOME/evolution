@@ -3330,8 +3330,8 @@ set_style_from_attendee (EDayViewEvent *event,
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
 
-		if ((g_str_equal (itip_strip_mailto (attendee->value), address))
-		 || (attendee->sentby && g_str_equal (itip_strip_mailto (attendee->sentby), address))) {
+		if ((attendee->value && g_strcmp0 (itip_strip_mailto (attendee->value), address) == 0)
+		 || (attendee->sentby && g_strcmp0 (itip_strip_mailto (attendee->sentby), address) == 0)) {
 			at = attendee;
 			break;
 		}
