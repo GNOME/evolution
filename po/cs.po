@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-11-16 16:31+0000\n"
-"PO-Revision-Date: 2017-11-17 21:39+0100\n"
+"POT-Creation-Date: 2017-11-22 09:05+0000\n"
+"PO-Revision-Date: 2017-11-22 10:23+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -3156,7 +3156,7 @@ msgstr "Kontakty"
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:469
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:197
 #: ../src/modules/calendar/e-cal-shell-view.c:582
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:21
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
 msgid "Calendar"
 msgstr "Kalendář"
 
@@ -3433,7 +3433,7 @@ msgstr ""
 #: ../src/modules/mail/em-composer-prefs.c:422
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:543
 #: ../src/plugins/email-custom-header/email-custom-header.c:837
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:32
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
 #: ../src/plugins/templates/templates.c:463
 msgid "_Add"
 msgstr "_Přidat"
@@ -3626,7 +3626,7 @@ msgstr "Možnosti"
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
 #: ../src/plugins/face/face.c:295
-#: ../src/plugins/publish-calendar/publish-calendar.c:788
+#: ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:419
 #: ../src/plugins/save-calendar/save-calendar.c:185
 #: ../src/shell/e-shell-content.c:639 ../src/shell/e-shell-content.c:746
@@ -3914,8 +3914,8 @@ msgstr "Přidat _X.509"
 #: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:62
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:553
 #: ../src/plugins/email-custom-header/email-custom-header.c:847
-#: ../src/plugins/publish-calendar/publish-calendar.c:789
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
+#: ../src/plugins/publish-calendar/publish-calendar.c:790
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:35
 #: ../src/plugins/templates/templates.c:473
 msgid "_Remove"
 msgstr "_Odstranit"
@@ -5247,7 +5247,7 @@ msgstr "Od_ložit"
 #: ../src/mail/em-folder-properties.c:1034 ../src/mail/mail-config.ui.h:66
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:548
 #: ../src/plugins/email-custom-header/email-custom-header.c:842
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:33
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/templates/templates.c:468
 #: ../src/shell/e-shell-window-actions.c:980 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
@@ -5284,7 +5284,7 @@ msgstr "_Doba odložení:"
 #: ../src/calendar/alarm-notify/alarm-notify.ui.h:10
 #: ../src/e-util/e-interval-chooser.c:144 ../src/e-util/filter.ui.h:8
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:342
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:6
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:7
 msgid "days"
 msgstr "dnů"
 
@@ -6176,8 +6176,8 @@ msgstr "Účastník"
 #: ../src/calendar/gui/caltypes.xml.in.h:14
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:5
 #: ../src/mail/message-list.etspec.h:14
-#: ../src/plugins/publish-calendar/publish-calendar.c:860
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:22
+#: ../src/plugins/publish-calendar/publish-calendar.c:861
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:23
 #: ../src/plugins/save-calendar/csv-format.c:387
 msgid "Location"
 msgstr "Místo"
@@ -8527,7 +8527,7 @@ msgstr "Důvod sehlání: %s"
 
 #: ../src/calendar/gui/e-meeting-store.c:1914
 #: ../src/e-util/e-collection-account-wizard.c:268
-#: ../src/plugins/publish-calendar/publish-calendar.c:349
+#: ../src/plugins/publish-calendar/publish-calendar.c:350
 #: ../src/smime/gui/component.c:61
 msgid "Enter password"
 msgstr "Zadejte heslo"
@@ -11938,7 +11938,7 @@ msgstr "Seznamy úkolů"
 #: ../src/mail/e-mail-account-tree-view.c:84
 #: ../src/modules/mail/em-composer-prefs.c:1305
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:355
-#: ../src/plugins/publish-calendar/publish-calendar.c:853
+#: ../src/plugins/publish-calendar/publish-calendar.c:854
 msgid "Enabled"
 msgstr "Povoleno"
 
@@ -11948,7 +11948,6 @@ msgid "Account Name"
 msgstr "Název účtu"
 
 #: ../src/e-util/e-accounts-window.c:1446
-#| msgid "Evolution Accounts"
 msgid "Collection _Account"
 msgstr "Úč_et kolekce"
 
@@ -12517,13 +12516,13 @@ msgstr[1] "Nalezeni %d kandidáti"
 msgstr[2] "Nalezeno %d kandidátů"
 
 #: ../src/e-util/e-collection-account-wizard.c:423
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../src/smime/gui/certificate-manager.c:785
 msgid "_Password:"
 msgstr "_Heslo:"
 
 #: ../src/e-util/e-collection-account-wizard.c:434
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:30
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
 msgid "_Remember password"
 msgstr "Za_pamatovat si heslo"
 
@@ -12533,12 +12532,10 @@ msgid "Collection"
 msgstr "Kolekce"
 
 #: ../src/e-util/e-collection-account-wizard.c:556
-#| msgid "Mail Receipt"
 msgid "Mail Receive"
 msgstr "Příjem pošty"
 
 #: ../src/e-util/e-collection-account-wizard.c:557
-#| msgid "Mailer"
 msgid "Mail Send"
 msgstr "Odesílání pošty"
 
@@ -12562,12 +12559,10 @@ msgid "Looking up LDAP server’s search base…"
 msgstr "Hledají se základní větve LDAP pro vyhledávání…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1193
-#| msgid "Searching for user home, please wait…"
 msgid "Saving account settings, please wait…"
 msgstr "Ukládá se nastavení účtu, počkejte prosím…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1337
-#| msgid "_Revise Details"
 msgid "User details"
 msgstr "Údaje o uživateli"
 
@@ -12582,7 +12577,7 @@ msgstr "_Pokročilé volby"
 #: ../src/e-util/e-collection-account-wizard.c:1385
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:216
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:172
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:24
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "S_erver:"
 
@@ -12595,7 +12590,6 @@ msgstr ""
 "informace, navíc k doméně e-mailové adresy."
 
 #: ../src/e-util/e-collection-account-wizard.c:1595
-#| msgid "Level beyond which the message should be logged."
 msgid "Select which parts should be configured:"
 msgstr "Vyberte, které části by se měly nastavit."
 
@@ -15704,12 +15698,12 @@ msgid "seconds"
 msgstr "sekundách"
 
 #: ../src/e-util/filter.ui.h:9
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:7
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:8
 msgid "weeks"
 msgstr "týdnů"
 
 #: ../src/e-util/filter.ui.h:10
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:8
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:9
 msgid "months"
 msgstr "měsíce"
 
@@ -16525,7 +16519,7 @@ msgid "Email _Address:"
 msgstr "E-mailová _adresa:"
 
 #: ../src/mail/e-mail-config-identity-page.c:683
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:26
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:27
 msgid "Optional Information"
 msgstr "Nepovinné informace"
 
@@ -16610,7 +16604,7 @@ msgstr "%s — %s"
 #: ../src/modules/calendar/e-calendar-preferences.c:642
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
 #: ../src/modules/mail/e-mail-shell-backend.c:737
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:16
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Obecné"
 
@@ -20296,7 +20290,7 @@ msgstr "Vyšší"
 msgid "Highest"
 msgstr "Nejvyšší"
 
-#: ../src/mail/message-list.c:473 ../src/mail/message-list.c:6409
+#: ../src/mail/message-list.c:473 ../src/mail/message-list.c:6429
 msgid "Generating message list"
 msgstr "Generuje se seznam zpráv"
 
@@ -20323,20 +20317,20 @@ msgstr "%d %b %k:%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3122
+#: ../src/mail/message-list.c:3138
 msgid "Select all visible messages"
 msgstr "Vybrat všechny viditelné zprávy"
 
-#: ../src/mail/message-list.c:3853 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3873 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Zprávy"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5317
+#: ../src/mail/message-list.c:5337
 msgid "Follow-up"
 msgstr "K vyřízení"
 
-#: ../src/mail/message-list.c:6348
+#: ../src/mail/message-list.c:6368
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20348,7 +20342,7 @@ msgstr ""
 "nového hledání vymazáním v nabídce Hledat → Vymazat nebo změnou dotazu "
 "nahoře."
 
-#: ../src/mail/message-list.c:6356
+#: ../src/mail/message-list.c:6376
 msgid "There are no messages in this folder."
 msgstr "V této složce nejsou žádné zprávy."
 
@@ -25415,38 +25409,38 @@ msgid "Publish calendars to the web."
 msgstr "Zveřejňuje kalendáře na web."
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:215
-#: ../src/plugins/publish-calendar/publish-calendar.c:482
+#: ../src/plugins/publish-calendar/publish-calendar.c:483
 #, c-format
 msgid "Could not open %s:"
 msgstr "Nelze otevřít %s:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.c:234
+#: ../src/plugins/publish-calendar/publish-calendar.c:235
 #, c-format
 msgid "There was an error while publishing to %s:"
 msgstr "Při zveřejnění na %s došlo k chybě:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.c:240
+#: ../src/plugins/publish-calendar/publish-calendar.c:241
 #, c-format
 msgid "Publishing to %s finished successfully"
 msgstr "Zveřejnění na %s úspěšně dokončeno"
 
-#: ../src/plugins/publish-calendar/publish-calendar.c:288
+#: ../src/plugins/publish-calendar/publish-calendar.c:289
 #, c-format
 msgid "Mount of %s failed:"
 msgstr "Připojení %s selhalo:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.c:787
+#: ../src/plugins/publish-calendar/publish-calendar.c:788
 msgid "Are you sure you want to remove this location?"
 msgstr "Opravdu chcete odstranit toto umístění?"
 
 #. To Translators: This is shown to a user when creation of a new thread,
 #. * where the publishing should be done, fails. Basically, this shouldn't
 #. * ever happen, and if so, then something is really wrong.
-#: ../src/plugins/publish-calendar/publish-calendar.c:1097
+#: ../src/plugins/publish-calendar/publish-calendar.c:1098
 msgid "Could not create publish thread."
 msgstr "Nelze vytvořit zveřejněné vlákno."
 
-#: ../src/plugins/publish-calendar/publish-calendar.c:1107
+#: ../src/plugins/publish-calendar/publish-calendar.c:1108
 msgid "_Publish Calendar Information"
 msgstr "_Zveřejnit kalendář"
 
@@ -25455,82 +25449,86 @@ msgid "iCal"
 msgstr "iCal"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:3
+msgid "Free/Busy with Details"
+msgstr "Volný/obsazený čas s podrobnostmi"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:4
 msgid "Daily"
 msgstr "Denně"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:4
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "Weekly"
 msgstr "Týdně"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:5
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:6
 msgid "Manual (via Actions menu)"
 msgstr "Ručně (přes nabídku Akce)"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:9
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:10
 msgid "Secure FTP (SFTP)"
 msgstr "Zabezpečené FTP (SFTP)"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:10
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:11
 msgid "Public FTP"
 msgstr "Veřejné FTP"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:11
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:12
 msgid "FTP (with login)"
 msgstr "FTP (s přihlášením)"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:12
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:13
 msgid "Windows share"
 msgstr "Sdílení Windows"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:13
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:14
 msgid "WebDAV (HTTP)"
 msgstr "WebDAV (HTTP)"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:14
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:15
 msgid "Secure WebDAV (HTTPS)"
 msgstr "Zabezpečené WebDAV (HTTPS)"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:15
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:16
 msgid "Custom Location"
 msgstr "Vlastní umístění"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:18
 msgid "_Publish as:"
 msgstr "_Zveřejnit jako:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:18
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:19
 msgid "Publishing _Frequency:"
 msgstr "_Frekvence zveřejňování:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:19
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:20
 msgid "Time _duration:"
 msgstr "Doba _trvání:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:20
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:21
 msgid "Sources"
 msgstr "Zdroje"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:23
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "Service _type:"
 msgstr "_Typ serveru:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "_File:"
 msgstr "_Soubor:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:27
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "P_ort:"
 msgstr "P_ort:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:28
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:29
 msgid "_Username:"
 msgstr "_Uživatelské jméno:"
 
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:31
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:32
 msgid "Publishing Location"
 msgstr "Umístění zveřejňování"
 
-#: ../src/plugins/publish-calendar/publish-format-fb.c:82
+#: ../src/plugins/publish-calendar/publish-format-fb.c:83
 #: ../src/plugins/publish-calendar/publish-format-ical.c:102
 #, c-format
 msgid "Invalid source UID “%s”"
@@ -26798,45 +26796,3 @@ msgstr "Nelze zapsat úložiště na disk, kód chyby: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Importovaný certifikát"
-
-#~ msgid ""
-#~ "Check to make sure your password is spelled correctly and that you are "
-#~ "using a supported login method. Remember that many passwords are case "
-#~ "sensitive; your caps lock might be on."
-#~ msgstr ""
-#~ "Zkontrolujte, že vaše heslo je zadáno správně a že používáte podporovanou "
-#~ "metodu přihlašování. Nezapomeňte, že u mnoha hesel se rozlišuje velikost "
-#~ "písmen; možná máte zapnut Caps Lock."
-
-#~ msgid "Logfile to log filter actions."
-#~ msgstr "Soubor, kam zaznamenávat akce filtrů."
-
-#~ msgid "Delete address book “{0}”?"
-#~ msgstr "Smazat adresář „{0}“?"
-
-#~ msgid "Delete calendar “{0}”?"
-#~ msgstr "Smazat kalendář „{0}“?"
-
-#~ msgid "Delete task list “{0}”?"
-#~ msgstr "Smazat seznam úkolů „{0}“?"
-
-#~ msgid "Delete memo list “{0}”?"
-#~ msgstr "Smazat seznam poznámek „{0}“?"
-
-#~ msgid "Delete remote calendar “{0}”?"
-#~ msgstr "Smazat vzdálený kalendář „{0}“?"
-
-#~ msgid "Delete remote task list “{0}”?"
-#~ msgstr "Smazat vzdálený seznam úkolů „{0}“?"
-
-#~ msgid "Delete remote memo list “{0}”?"
-#~ msgstr "Smazat vzdálený seznam poznámek „{0}“?"
-
-#~ msgid "Edit"
-#~ msgstr "Upravit"
-
-#~ msgid "Are you sure you want to delete this account?"
-#~ msgstr "Opravdu chcete smazat tento účet?"
-
-#~ msgid "Address formatting"
-#~ msgstr "Formátování adres"
