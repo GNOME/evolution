@@ -138,7 +138,7 @@ struct _ItipViewPrivate {
 	time_t end_time;
 
 	gint current;
-	gint total;
+	gboolean with_detached_instances;
 
 	gchar *calendar_uid;
 
@@ -4694,12 +4694,28 @@ receive_objects_ready_cb (GObject *ecalclient,
 }
 
 static void
+remove_alarms_in_component (icalcomponent *clone)
+{
+	icalcomponent *alarm_comp;
+	icalcompiter alarm_iter;
+
+	alarm_iter = icalcomponent_begin_component (clone, ICAL_VALARM_COMPONENT);
+	while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
+		icalcompiter_next (&alarm_iter);
+
+		icalcomponent_remove_component (clone, alarm_comp);
+		icalcomponent_free (alarm_comp);
+	}
+}
+
+static void
 update_item (ItipView *view,
              ItipViewResponse response)
 {
 	struct icaltimetype stamp;
 	icalproperty *prop;
-	icalcomponent *clone;
+	icalcomponent *toplevel_clone, *clone;
+	gboolean remove_alarms;
 	ECalComponent *clone_comp;
 	gchar *str;
 
@@ -4721,20 +4737,31 @@ update_item (ItipView *view,
 	icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
 	icalcomponent_add_property (view->priv->ical_comp, prop);
 
+	toplevel_clone = icalcomponent_new_clone (view->priv->top_level);
 	clone = icalcomponent_new_clone (view->priv->ical_comp);
-	icalcomponent_add_component (view->priv->top_level, clone);
-	icalcomponent_set_method (view->priv->top_level, view->priv->method);
+	icalcomponent_add_component (toplevel_clone, clone);
+	icalcomponent_set_method (toplevel_clone, view->priv->method);
 
-	if (!itip_view_get_inherit_alarm_check_state (view)) {
-		icalcomponent *alarm_comp;
-		icalcompiter alarm_iter;
+	remove_alarms = !itip_view_get_inherit_alarm_check_state (view);
 
-		alarm_iter = icalcomponent_begin_component (clone, ICAL_VALARM_COMPONENT);
-		while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
-			icalcompiter_next (&alarm_iter);
+	if (remove_alarms)
+		remove_alarms_in_component (clone);
 
-			icalcomponent_remove_component (clone, alarm_comp);
-			icalcomponent_free (alarm_comp);
+	if (view->priv->with_detached_instances) {
+		icalcomponent *icomp;
+		icalcomponent_kind use_kind = icalcomponent_isa (view->priv->ical_comp);
+
+		for (icomp = icalcomponent_get_first_component (view->priv->main_comp, use_kind);
+		     icomp;
+		     icomp = icalcomponent_get_next_component (view->priv->main_comp, use_kind)) {
+			if (icomp != view->priv->ical_comp) {
+				icalcomponent *di_clone = icalcomponent_new_clone (icomp);
+
+				if (remove_alarms)
+					remove_alarms_in_component (di_clone);
+
+				icalcomponent_add_component (toplevel_clone, di_clone);
+			}
 		}
 	}
 
@@ -4834,14 +4861,14 @@ update_item (ItipView *view,
 
 	e_cal_client_receive_objects (
 		view->priv->current_client,
-		view->priv->top_level,
+		toplevel_clone,
 		view->priv->cancellable,
 		receive_objects_ready_cb,
 		view);
 
  cleanup:
-	icalcomponent_remove_component (view->priv->top_level, clone);
 	g_object_unref (clone_comp);
+	icalcomponent_free (toplevel_clone);
 }
 
 /* TODO These operations should be available in e-cal-component.c */
@@ -5429,6 +5456,7 @@ extract_itip_data (ItipView *view,
 	icalcompiter alarm_iter;
 	ECalComponent *comp;
 	gboolean use_default_reminder;
+	gint total;
 
 	if (!view->priv->vcalendar) {
 		set_itip_error (
@@ -5496,6 +5524,57 @@ extract_itip_data (ItipView *view,
 		return FALSE;
 	}
 
+	view->priv->with_detached_instances = FALSE;
+
+	total = icalcomponent_count_components (view->priv->main_comp, ICAL_VEVENT_COMPONENT);
+	total += icalcomponent_count_components (view->priv->main_comp, ICAL_VTODO_COMPONENT);
+	total += icalcomponent_count_components (view->priv->main_comp, ICAL_VFREEBUSY_COMPONENT);
+	total += icalcomponent_count_components (view->priv->main_comp, ICAL_VJOURNAL_COMPONENT);
+
+	if (total > 1) {
+		icalcomponent *icomp, *master_comp = NULL;
+		gint orig_total = total;
+		const gchar *expected_uid = NULL;
+
+		for (icomp = icalcomponent_get_first_component (view->priv->main_comp, ICAL_ANY_COMPONENT);
+		     icomp;
+		     icomp = icalcomponent_get_next_component (view->priv->main_comp, ICAL_ANY_COMPONENT)) {
+			icalcomponent_kind icomp_kind;
+			const gchar *uid;
+
+			icomp_kind = icalcomponent_isa (icomp);
+
+			if (icomp_kind != ICAL_VEVENT_COMPONENT &&
+			    icomp_kind != ICAL_VJOURNAL_COMPONENT &&
+			    icomp_kind != ICAL_VTODO_COMPONENT)
+				continue;
+
+			uid = icalcomponent_get_uid (icomp);
+
+			if (!master_comp) {
+				struct icaltimetype rid;
+
+				rid = icalcomponent_get_recurrenceid (icomp);
+				if (!icaltime_is_valid_time (rid) || icaltime_is_null_time (rid))
+					master_comp = icomp;
+			}
+
+			/* Maybe it's an event with detached instances */
+			if (!expected_uid) {
+				expected_uid = uid;
+			} else if (g_strcmp0 (uid, expected_uid) == 0) {
+				total--;
+			} else {
+				total = orig_total;
+				break;
+			}
+		}
+
+		view->priv->with_detached_instances = orig_total != total;
+		if (view->priv->with_detached_instances && master_comp && master_comp != view->priv->ical_comp)
+			view->priv->ical_comp = master_comp;
+	}
+
 	switch (icalcomponent_isa (view->priv->ical_comp)) {
 	case ICAL_VEVENT_COMPONENT:
 		view->priv->type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
@@ -5526,22 +5605,15 @@ extract_itip_data (ItipView *view,
 		return FALSE;
 	}
 
-	view->priv->total = icalcomponent_count_components (view->priv->main_comp, ICAL_VEVENT_COMPONENT);
-	view->priv->total += icalcomponent_count_components (view->priv->main_comp, ICAL_VTODO_COMPONENT);
-	view->priv->total += icalcomponent_count_components (view->priv->main_comp, ICAL_VFREEBUSY_COMPONENT);
-	view->priv->total += icalcomponent_count_components (view->priv->main_comp, ICAL_VJOURNAL_COMPONENT);
-
-	if (view->priv->total > 1) {
-
+	if (total > 1) {
 		set_itip_error (
 			view,
 			_("The calendar attached contains multiple items"),
 			_("To process all of these items, the file should be saved and the calendar imported"),
 			TRUE);
-
 	}
 
-	if (view->priv->total > 0) {
+	if (total > 0) {
 		view->priv->current = 1;
 	} else {
 		view->priv->current = 0;
