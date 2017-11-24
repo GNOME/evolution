@@ -965,6 +965,7 @@ typedef struct _CreateComposerData {
 	EMailReader *reader;
 	CamelMimeMessage *message;
 	CamelFolder *folder;
+	const gchar *message_uid; /* In the Camel string pool */
 	gboolean is_redirect;
 } CreateComposerData;
 
@@ -987,7 +988,7 @@ mail_reader_new_composer_created_cb (GObject *source_object,
 		if (ccd->is_redirect)
 			em_utils_redirect_message (composer, ccd->message);
 		else
-			em_utils_compose_new_message (composer, ccd->folder);
+			em_utils_compose_new_message_with_selection (composer, ccd->folder, ccd->message_uid);
 
 		e_mail_reader_composer_created (ccd->reader, composer, ccd->message);
 	}
@@ -995,6 +996,7 @@ mail_reader_new_composer_created_cb (GObject *source_object,
 	g_clear_object (&ccd->reader);
 	g_clear_object (&ccd->message);
 	g_clear_object (&ccd->folder);
+	camel_pstring_free (ccd->message_uid);
 	g_free (ccd);
 }
 
@@ -1007,9 +1009,23 @@ action_mail_message_new_cb (GtkAction *action,
 	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	CreateComposerData *ccd;
+	GPtrArray *selected_uids = NULL;
+	const gchar *selected_uid = NULL;
 
 	folder = e_mail_reader_ref_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
+
+	selected_uids = e_mail_reader_get_selected_uids (reader);
+	if (selected_uids && selected_uids->len > 0)
+		selected_uid = g_ptr_array_index (selected_uids, 0);
+
+	if (!selected_uid) {
+		GtkWidget *message_list;
+
+		message_list = e_mail_reader_get_message_list (reader);
+		if (message_list)
+			selected_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	}
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -1017,9 +1033,13 @@ action_mail_message_new_cb (GtkAction *action,
 	ccd = g_new0 (CreateComposerData, 1);
 	ccd->reader = g_object_ref (reader);
 	ccd->folder = folder;
+	ccd->message_uid = camel_pstring_strdup (selected_uid);
 	ccd->is_redirect = FALSE;
 
 	e_msg_composer_new (shell, mail_reader_new_composer_created_cb, ccd);
+
+	if (selected_uids)
+		g_ptr_array_unref (selected_uids);
 }
 
 static void
@@ -1255,6 +1275,7 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	ccd = g_new0 (CreateComposerData, 1);
 	ccd->reader = g_object_ref (closure->reader);
 	ccd->message = message;
+	ccd->message_uid = camel_pstring_strdup (closure->message_uid);
 	ccd->is_redirect = TRUE;
 
 	e_msg_composer_new (shell, mail_reader_new_composer_created_cb, ccd);
@@ -1285,6 +1306,7 @@ action_mail_redirect_cb (GtkAction *action,
 	closure = g_slice_new0 (EMailReaderClosure);
 	closure->activity = activity;
 	closure->reader = g_object_ref (reader);
+	closure->message_uid = g_strdup (message_uid);
 
 	folder = e_mail_reader_ref_folder (reader);
 

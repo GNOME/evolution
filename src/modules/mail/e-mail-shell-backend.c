@@ -40,6 +40,7 @@
 #include <mail/mail-vfolder-ui.h>
 #include <mail/importers/mail-importer.h>
 #include <mail/e-mail-ui-session.h>
+#include <mail/message-list.h>
 
 #include <em-format/e-mail-parser.h>
 #include <em-format/e-mail-formatter.h>
@@ -298,46 +299,54 @@ action_mail_account_new_cb (GtkAction *action,
 		GTK_WINDOW (shell_window));
 }
 
+typedef struct _NewComposerData
+{
+	CamelFolder *folder;
+	const gchar *message_uid; /* In the Camel string pool */
+} NewComposerData;
+
 static void
 action_mail_message_new_composer_created_cb (GObject *source_object,
 					     GAsyncResult *result,
 					     gpointer user_data)
 {
-	CamelFolder *folder = user_data;
+	NewComposerData *ncd = user_data;
 	EMsgComposer *composer;
 	GError *error = NULL;
 
-	if (folder)
-		g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (ncd != NULL);
+
+	if (ncd->folder)
+		g_return_if_fail (CAMEL_IS_FOLDER (ncd->folder));
 
 	composer = e_msg_composer_new_finish (result, &error);
 	if (error) {
 		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
 		g_clear_error (&error);
 	} else {
-		em_utils_compose_new_message (composer, folder);
+		em_utils_compose_new_message_with_selection (composer, ncd->folder, ncd->message_uid);
 	}
 
-	g_clear_object (&folder);
+	g_clear_object (&ncd->folder);
+	camel_pstring_free (ncd->message_uid);
+	g_free (ncd);
 }
 
 static void
 action_mail_message_new_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
-	EMailShellSidebar *mail_shell_sidebar;
-	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	EShell *shell;
 	ESourceRegistry *registry;
-	EMFolderTree *folder_tree;
 	CamelFolder *folder = NULL;
-	CamelStore *store;
 	GList *list;
 	const gchar *extension_name;
 	const gchar *view_name;
 	gboolean no_transport_defined;
-	gchar *folder_name;
+	const gchar *message_uid = NULL;
+	GtkWidget *message_list;
+	NewComposerData *ncd;
 
 	shell = e_shell_window_get_shell (shell_window);
 	registry = e_shell_get_registry (shell);
@@ -356,24 +365,31 @@ action_mail_message_new_cb (GtkAction *action,
 		goto exit;
 
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
-	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
-	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	message_list = e_mail_reader_get_message_list (E_MAIL_READER (e_shell_view_get_shell_content (shell_view)));
+	if (message_list) {
+		MessageList *ml = MESSAGE_LIST (message_list);
+		GPtrArray *selected_uids;
 
-	if (em_folder_tree_get_selected (folder_tree, &store, &folder_name)) {
+		folder = message_list_ref_folder (ml);
 
-		/* FIXME This blocks and is not cancellable. */
-		folder = camel_store_get_folder_sync (
-			store, folder_name, 0, NULL, NULL);
+		selected_uids = message_list_get_selected (ml);
+		if (selected_uids && selected_uids->len > 0)
+			message_uid = camel_pstring_strdup (g_ptr_array_index (selected_uids, 0));
 
-		g_object_unref (store);
-		g_free (folder_name);
+		if (!message_uid)
+			message_uid = camel_pstring_strdup (ml->cursor_uid);
+
+		if (selected_uids)
+			g_ptr_array_unref (selected_uids);
 	}
 
  exit:
-	e_msg_composer_new (shell, action_mail_message_new_composer_created_cb,
-		folder ? g_object_ref (folder) : NULL);
+	ncd = g_new0 (NewComposerData, 1);
+	ncd->folder = folder;
+	ncd->message_uid = message_uid;
+
+	e_msg_composer_new (shell, action_mail_message_new_composer_created_cb, ncd);
 }
 
 static GtkActionEntry item_entries[] = {

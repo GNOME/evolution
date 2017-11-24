@@ -322,14 +322,13 @@ mail_display_process_mailto (EWebView *web_view,
 	if (g_ascii_strncasecmp (mailto_uri, "mailto:", 7) == 0) {
 		EShell *shell;
 		EMailPartList *part_list;
-		CamelFolder *folder;
 
 		part_list = E_MAIL_DISPLAY (web_view)->priv->part_list;
-		folder = e_mail_part_list_get_folder (part_list);
 
 		shell = e_shell_get_default ();
-		em_utils_compose_new_message_with_mailto (
-			shell, mailto_uri, folder);
+		em_utils_compose_new_message_with_mailto_and_selection (shell, mailto_uri,
+			e_mail_part_list_get_folder (part_list),
+			e_mail_part_list_get_message_uid (part_list));
 
 		handled = TRUE;
 	}

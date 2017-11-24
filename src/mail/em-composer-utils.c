@@ -1402,6 +1402,8 @@ sort_sources_by_ui (GList **psources,
 
 /* Composing messages... */
 
+static CamelMimeMessage *em_utils_get_composer_recipients_as_message (EMsgComposer *composer);
+
 static void
 set_up_new_composer (EMsgComposer *composer,
 		     const gchar *subject,
@@ -1425,14 +1427,106 @@ set_up_new_composer (EMsgComposer *composer,
 		GList *list;
 
 		if (message) {
+			g_object_ref (message);
+		} else if (message_uid) {
+			message = em_utils_get_composer_recipients_as_message (composer);
+		}
+
+		if (message) {
 			EShell *shell;
 
 			shell = e_msg_composer_get_shell (composer);
+
+			/* Check send account override for the passed-in folder */
 			source = em_utils_check_send_account_override (shell, message, folder, &identity_name, &identity_address);
-			if (!source)
+
+			/* If not set and it's a search folder, then check the original folder */
+			if (!source && message_uid && CAMEL_IS_VEE_FOLDER (folder)) {
+				CamelMessageInfo *mi = camel_folder_get_message_info (folder, message_uid);
+				if (mi) {
+					CamelFolder *location;
+
+					location = camel_vee_folder_get_location (CAMEL_VEE_FOLDER (folder), (CamelVeeMessageInfo *) mi, NULL);
+					if (location)
+						source = em_utils_check_send_account_override (shell, message, location, &identity_name, &identity_address);
+					g_clear_object (&mi);
+				}
+			}
+
+			/* If no send account override, then guess */
+			if (!source) {
 				source = em_utils_guess_mail_identity_with_recipients_and_sort (
 					registry, message, folder, message_uid, &identity_name, &identity_address, sort_sources_by_ui, shell);
+			}
 		}
+
+		/* In case of search folder, try to guess the store from
+		   the internal folders of it. If they are all from the same
+		   store, then use that store. */
+		if (!source && CAMEL_IS_VEE_FOLDER (folder)) {
+			GHashTable *stores, *done_folders;
+			GSList *todo;
+
+			stores = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
+			done_folders = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+			todo = g_slist_prepend (NULL, g_object_ref (folder));
+
+			while (todo) {
+				CamelVeeFolder *vfolder = todo->data;
+
+				todo = g_slist_remove (todo, vfolder);
+				if (!g_hash_table_contains (done_folders, vfolder)) {
+					GList *folders, *llink;
+
+					g_hash_table_insert (done_folders, vfolder, NULL);
+
+					folders = camel_vee_folder_ref_folders (vfolder);
+					for (llink = folders; llink; llink = g_list_next (llink)) {
+						CamelFolder *subfolder = llink->data;
+
+						if (!g_hash_table_contains (done_folders, subfolder)) {
+							if (CAMEL_IS_VEE_FOLDER (subfolder)) {
+								todo = g_slist_prepend (todo, g_object_ref (subfolder));
+							} else {
+								CamelStore *store = camel_folder_get_parent_store (subfolder);
+
+								g_hash_table_insert (done_folders, subfolder, NULL);
+
+								if (store) {
+									g_hash_table_insert (stores, g_object_ref (store), NULL);
+
+									if (g_hash_table_size (stores) > 1) {
+										g_slist_free_full (todo, g_object_unref);
+										todo = NULL;
+										break;
+									}
+								}
+							}
+						}
+					}
+
+					g_list_free_full (folders, g_object_unref);
+				}
+
+				g_object_unref (vfolder);
+			}
+
+			if (g_hash_table_size (stores) == 1) {
+				GHashTableIter iter;
+				gpointer store;
+
+				g_hash_table_iter_init (&iter, stores);
+				if (g_hash_table_iter_next (&iter, &store, NULL) && store)
+					source = em_utils_ref_mail_identity_for_store (registry, store);
+			}
+
+			g_slist_free_full (todo, g_object_unref);
+			g_hash_table_destroy (done_folders);
+			g_hash_table_destroy (stores);
+		}
+
+		g_clear_object (&message);
 
 		if (!source) {
 			CamelStore *store;
@@ -1455,7 +1549,8 @@ set_up_new_composer (EMsgComposer *composer,
 		g_object_unref (source);
 	}
 
-	e_composer_header_table_set_subject (table, subject);
+	if (subject)
+		e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_identity_uid (table, identity, identity_name, identity_address);
 
 	em_utils_apply_send_account_override_to_composer (composer, folder);
@@ -1475,18 +1570,40 @@ set_up_new_composer (EMsgComposer *composer,
  *
  * Sets up a new @composer window.
  *
+ * See: em_utils_compose_new_message_with_selection()
+ *
  * Since: 3.22
  **/
 void
 em_utils_compose_new_message (EMsgComposer *composer,
                               CamelFolder *folder)
 {
+	em_utils_compose_new_message_with_selection (composer, folder, NULL);
+}
+
+/**
+ * em_utils_compose_new_message_with_selection:
+ * @composer: an #EMsgComposer
+ * @folder: (nullable): a #CamelFolder, or %NULL
+ * @message_uid: (nullable): a UID of the selected message, or %NULL
+ *
+ * Sets up a new @composer window, similar to em_utils_compose_new_message(),
+ * but also tries to identify From account more precisely, when the @folder
+ * is a search folder.
+ *
+ * Since: 3.28
+ **/
+void
+em_utils_compose_new_message_with_selection (EMsgComposer *composer,
+					     CamelFolder *folder,
+					     const gchar *message_uid)
+{
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	if (folder != NULL)
+	if (folder)
 		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	set_up_new_composer (composer, "", folder, NULL, NULL);
+	set_up_new_composer (composer, "", folder, NULL, message_uid);
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
@@ -1570,8 +1687,9 @@ em_utils_get_composer_recipients_as_message (EMsgComposer *composer)
 }
 
 typedef struct _CreateComposerData {
-	gchar *mailto;
 	CamelFolder *folder;
+	const gchar *message_uid; /* In the Camel string pool */
+	gchar *mailto;
 } CreateComposerData;
 
 static void
@@ -1581,6 +1699,7 @@ create_composer_data_free (gpointer ptr)
 
 	if (ccd) {
 		g_clear_object (&ccd->folder);
+		camel_pstring_free (ccd->message_uid);
 		g_free (ccd->mailto);
 		g_free (ccd);
 	}
@@ -1612,7 +1731,7 @@ msg_composer_created_with_mailto_cb (GObject *source_object,
 	if (ccd->mailto)
 		e_msg_composer_setup_from_url (composer, ccd->mailto);
 
-	em_utils_apply_send_account_override_to_composer (composer, ccd->folder);
+	set_up_new_composer (composer, NULL, ccd->folder, NULL, ccd->message_uid);
 
 	table = e_msg_composer_get_header_table (composer);
 
@@ -1655,21 +1774,48 @@ msg_composer_created_with_mailto_cb (GObject *source_object,
  * Opens a new composer window as a child window of @parent's toplevel
  * window. If @mailto is non-NULL, the composer fields will be filled in
  * according to the values in the mailto URL.
+ *
+ * See: em_utils_compose_new_message_with_mailto_and_selection()
  **/
 void
 em_utils_compose_new_message_with_mailto (EShell *shell,
                                           const gchar *mailto,
                                           CamelFolder *folder)
 {
+	em_utils_compose_new_message_with_mailto_and_selection (shell, mailto, folder, NULL);
+}
+
+/**
+ * em_utils_compose_new_message_with_mailto_and_selection:
+ * @shell: an #EShell
+ * @mailto: a mailto URL
+ * @folder: a #CamelFolder, or %NULL
+ * @message_uid: (nullable): a UID of the selected message, or %NULL
+ *
+ * similarly to em_utils_compose_new_message_with_mailto(), opens a new composer
+ * window as a child window of @parent's toplevel window. If @mailto is non-NULL,
+ * the composer fields will be filled in according to the values in the mailto URL.
+ * It also tries to identify From account more precisely, when the @folder
+ * is a search folder.
+ *
+ * Since: 3.28
+ **/
+void
+em_utils_compose_new_message_with_mailto_and_selection (EShell *shell,
+							const gchar *mailto,
+							CamelFolder *folder,
+							const gchar *message_uid)
+{
 	CreateComposerData *ccd;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	if (folder != NULL)
+	if (folder)
 		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
 	ccd = g_new0 (CreateComposerData, 1);
 	ccd->folder = folder ? g_object_ref (folder) : NULL;
+	ccd->message_uid = camel_pstring_strdup (message_uid);
 	ccd->mailto = g_strdup (mailto);
 
 	e_msg_composer_new (shell, msg_composer_created_with_mailto_cb, ccd);

@@ -100,6 +100,7 @@ struct _AsyncContext {
 	EActivity *activity;
 	EMailReader *reader;
 	EmlaAction action;
+	const gchar *message_uid; /* In the Camel string pool */
 };
 
 static void
@@ -110,6 +111,8 @@ async_context_free (AsyncContext *context)
 
 	if (context->reader != NULL)
 		g_object_unref (context->reader);
+
+	camel_pstring_free (context->message_uid);
 
 	g_slice_free (AsyncContext, context);
 }
@@ -283,7 +286,7 @@ emla_list_action_cb (CamelFolder *folder,
 				e_msg_composer_new (shell, send_message_composer_created_cb, smd);
 			} else if (send_message_response == GTK_RESPONSE_NO) {
 				/* show composer */
-				em_utils_compose_new_message_with_mailto (shell, url, folder);
+				em_utils_compose_new_message_with_mailto_and_selection (shell, url, folder, context->message_uid);
 			}
 
 			goto exit;
@@ -344,6 +347,7 @@ emla_list_action (EMailReader *reader,
 	context->activity = activity;
 	context->reader = g_object_ref (reader);
 	context->action = action;
+	context->message_uid = camel_pstring_strdup (message_uid);
 
 	folder = e_mail_reader_ref_folder (reader);
 

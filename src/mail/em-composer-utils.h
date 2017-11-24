@@ -35,10 +35,19 @@ G_BEGIN_DECLS
 
 void		em_utils_compose_new_message	(EMsgComposer *composer,
 						 CamelFolder *folder);
+void		em_utils_compose_new_message_with_selection
+						(EMsgComposer *composer,
+						 CamelFolder *folder,
+						 const gchar *message_uid);
 void		em_utils_compose_new_message_with_mailto
 						(EShell *shell,
 						 const gchar *mailto,
 						 CamelFolder *folder);
+void		em_utils_compose_new_message_with_mailto_and_selection
+						(EShell *shell,
+						 const gchar *mailto,
+						 CamelFolder *folder,
+						 const gchar *message_uid);
 void		em_utils_edit_message		(EMsgComposer *composer,
 						 CamelFolder *folder,
 						 CamelMimeMessage *message,
