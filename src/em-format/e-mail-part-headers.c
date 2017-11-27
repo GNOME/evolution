@@ -59,17 +59,10 @@ static GtkTreeModel *
 mail_part_headers_build_print_model (EMailPartHeaders *part)
 {
 	GtkListStore *list_store;
-	EMailPartList *part_list;
-	CamelMimeMessage *message;
+	CamelMimePart *mime_part;
 	const CamelNameValueArray *headers;
 	gint default_position = 0;
 	guint ii, length = 0;
-
-	/* If the part list is NULL, it means the function was called
-	 * too early.  The part must be added to a part list first so
-	 * we have access to the CamelMimeMessage. */
-	part_list = e_mail_part_ref_part_list (E_MAIL_PART (part));
-	g_return_val_if_fail (part_list != NULL, NULL);
 
 	list_store = gtk_list_store_new (
 		E_MAIL_PART_HEADERS_PRINT_MODEL_NUM_COLUMNS,
@@ -77,8 +70,8 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 		G_TYPE_STRING,   /* HEADER_NAME */
 		G_TYPE_STRING);  /* HEADER_VALUE */
 
-	message = e_mail_part_list_get_message (part_list);
-	headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
+	mime_part = e_mail_part_ref_mime_part (E_MAIL_PART (part));
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (mime_part));
 	length = camel_name_value_array_get_length (headers);
 
 	for (ii = 0; ii < length; ii++) {
@@ -124,7 +117,7 @@ mail_part_headers_build_print_model (EMailPartHeaders *part)
 			-1);
 	}
 
-	g_object_unref (part_list);
+	g_object_unref (mime_part);
 
 	/* Stash the print model internally. */
 
