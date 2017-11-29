@@ -172,8 +172,24 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 					dw = camel_data_wrapper_new ();
 					camel_data_wrapper_set_mime_type (dw, snoop_type);
 					if (camel_data_wrapper_construct_from_stream_sync (dw, mem_stream, cancellable, NULL)) {
+						const gchar *disposition;
+
 						camel_medium_set_content (CAMEL_MEDIUM (opart), dw);
-						camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (opart), snoop_type);
+
+						/* Copy Content-Disposition header, if available */
+						disposition = camel_medium_get_header (CAMEL_MEDIUM (subpart), "Content-Disposition");
+						if (disposition)
+							camel_medium_set_header (CAMEL_MEDIUM (opart), "Content-Disposition", disposition);
+
+						/* Copy also any existing parameters of the Content-Type, like 'name' or 'charset'. */
+						if (ct && ct->params) {
+							CamelHeaderParam *param;
+							for (param = ct->params; param; param = param->next) {
+								camel_content_type_set_param (snoop_ct, param->name, param->value);
+							}
+						}
+
+						camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (opart), snoop_ct);
 
 						handled = e_mail_parser_parse_part (parser, opart, part_id, cancellable, &work_queue);
 						if (handled) {
