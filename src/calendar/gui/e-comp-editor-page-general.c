@@ -408,7 +408,8 @@ ecep_general_attendee_added_cb (EMeetingListView *meeting_list_view,
 static gboolean
 ecep_general_get_organizer (ECompEditorPageGeneral *page_general,
 			    gchar **out_name,
-			    gchar **out_mailto)
+			    gchar **out_mailto,
+			    const gchar **out_error_message)
 {
 	gchar *organizer_text;
 	gboolean valid = FALSE;
@@ -429,6 +430,8 @@ ecep_general_get_organizer (ECompEditorPageGeneral *page_general,
 				*out_name = g_strdup (str_name);
 			if (out_mailto)
 				*out_mailto = g_strconcat ("MAILTO:", itip_strip_mailto (str_address), NULL);
+		} else if (out_error_message) {
+			*out_error_message = _("Organizer address is not a valid user mail address");
 		}
 
 		g_object_unref (address);
@@ -820,7 +823,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 
 				cn = icalparameter_get_cn (param);
 				if (cn && *cn) {
-					value = g_strdup_printf ("%s <%s>", cn, itip_strip_mailto (organizer));
+					value = camel_internet_address_format_address (cn, itip_strip_mailto (organizer));
 				}
 			}
 
@@ -932,15 +935,16 @@ ecep_general_fill_component (ECompEditorPage *page,
 		gchar *organizer_name = NULL, *organizer_mailto = NULL;
 		guint32 flags;
 		gint ii, added_attendees = 0;
+		const gchar *error_message = NULL;
 
 		comp_editor = e_comp_editor_page_ref_editor (page);
 		flags = e_comp_editor_get_flags (comp_editor);
 
 		if ((flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0 &&
-		    !ecep_general_get_organizer (page_general, NULL, NULL)) {
+		    !ecep_general_get_organizer (page_general, NULL, NULL, &error_message)) {
 			e_comp_editor_set_validation_error (comp_editor, page,
 				page_general->priv->organizer_combo_box,
-				_("An organizer is required."));
+				error_message ? error_message : _("An organizer is required."));
 
 			g_clear_object (&comp_editor);
 
@@ -959,7 +963,7 @@ ecep_general_fill_component (ECompEditorPage *page,
 
 		/* Organizer */
 		if ((flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0 &&
-		    ecep_general_get_organizer (page_general, &organizer_name, &organizer_mailto)) {
+		    ecep_general_get_organizer (page_general, &organizer_name, &organizer_mailto, NULL)) {
 			const gchar *cal_email_address;
 			icalparameter *param;
 
