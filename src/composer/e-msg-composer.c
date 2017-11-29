@@ -4446,8 +4446,12 @@ handle_mailto (EMsgComposer *composer,
 
 	buf = g_strdup (mailto);
 
-	/* Parse recipients (everything after ':' until '?' or eos). */
+	/* Parse recipients (everything after ':' and up to three leading forward slashes until '?' or eos). */
 	p = buf + 7;
+
+	while (*p == '/' && p - buf < 10)
+		p++;
+
 	len = strcspn (p, "?");
 	if (len) {
 		content = g_strndup (p, len);
