@@ -820,7 +820,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 
 				cn = icalparameter_get_cn (param);
 				if (cn && *cn) {
-					value = g_strdup_printf ("%s <%s>", cn, itip_strip_mailto (organizer));
+					value = camel_internet_address_format_address (cn, itip_strip_mailto (organizer));
 				}
 			}
 

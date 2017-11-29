@@ -185,12 +185,8 @@ itip_get_user_identities (ESourceRegistry *registry)
 		name = e_source_mail_identity_get_name (extension);
 		address = e_source_mail_identity_get_address (extension);
 
-		if (address) {
-			if (name && *name)
-				g_ptr_array_add (identities, g_strdup_printf ("%s <%s>", name, address));
-			else
-				g_ptr_array_add (identities, g_strdup_printf ("%s", address));
-		}
+		if (address)
+			g_ptr_array_add (identities, camel_internet_address_format_address (name, address));
 
 		aliases = e_source_mail_identity_dup_aliases (extension);
 		if (aliases && *aliases) {
@@ -208,10 +204,7 @@ itip_get_user_identities (ESourceRegistry *registry)
 					if (!alias_name || !*alias_name)
 						alias_name = name;
 
-					if (alias_name && *alias_name)
-						g_ptr_array_add (identities, g_strdup_printf ("%s <%s>", alias_name, alias_address));
-					else
-						g_ptr_array_add (identities, g_strdup_printf ("%s", alias_address));
+					g_ptr_array_add (identities, camel_internet_address_format_address (alias_name, alias_address));
 				}
 			}
 		}
@@ -269,12 +262,8 @@ itip_get_fallback_identity (ESourceRegistry *registry)
 	name = e_source_mail_identity_get_name (mail_identity);
 	address = e_source_mail_identity_get_address (mail_identity);
 
-	if (address != NULL) {
-		if (name && *name)
-			identity = g_strdup_printf ("%s <%s>", name, address);
-		else
-			identity = g_strdup_printf ("%s", address);
-	}
+	if (address)
+		identity = camel_internet_address_format_address (name, address);
 
 	g_object_unref (source);
 
