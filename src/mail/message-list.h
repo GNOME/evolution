@@ -191,6 +191,8 @@ void		message_list_set_thread_subject	(MessageList *message_list,
 void		message_list_freeze		(MessageList *message_list);
 void		message_list_thaw		(MessageList *message_list);
 GPtrArray *	message_list_get_selected	(MessageList *message_list);
+GPtrArray *	message_list_get_selected_with_collapsed_threads
+						(MessageList *message_list);
 void		message_list_set_selected	(MessageList *message_list,
 						 GPtrArray *uids);
 gboolean	message_list_select		(MessageList *message_list,

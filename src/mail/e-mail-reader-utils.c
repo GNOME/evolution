@@ -1033,7 +1033,7 @@ e_mail_reader_mark_selected (EMailReader *reader,
 
 		camel_folder_freeze (folder);
 
-		uids = e_mail_reader_get_selected_uids (reader);
+		uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 
 		for (ii = 0; ii < uids->len; ii++)
 			camel_folder_set_message_flags (
@@ -1323,7 +1323,7 @@ e_mail_reader_mark_selected_ignore_thread (EMailReader *reader,
 		GPtrArray *uids;
 		guint ii;
 
-		uids = e_mail_reader_get_selected_uids (reader);
+		uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 		if (uids && uids->len > 0) {
 			MarkIgnoreThreadData *mit;
 			EAlertSink *alert_sink;
@@ -1881,7 +1881,7 @@ e_mail_reader_remove_duplicates (EMailReader *reader)
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	g_return_if_fail (uids != NULL);
 
 	/* Find duplicate messages asynchronously. */

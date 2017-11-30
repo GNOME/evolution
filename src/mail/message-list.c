@@ -1474,7 +1474,7 @@ message_list_copy (MessageList *message_list,
 
 	clear_selection (message_list, &priv->clipboard);
 
-	uids = message_list_get_selected (message_list);
+	uids = message_list_get_selected_with_collapsed_threads (message_list);
 
 	if (uids->len > 0) {
 		if (cut) {
@@ -2506,7 +2506,7 @@ ml_tree_drag_data_get (ETree *tree,
 	GPtrArray *uids;
 
 	folder = message_list_ref_folder (message_list);
-	uids = message_list_get_selected (message_list);
+	uids = message_list_get_selected_with_collapsed_threads (message_list);
 
 	if (uids->len > 0) {
 		switch (info) {
@@ -5386,8 +5386,26 @@ on_click (ETree *tree,
 
 struct _ml_selected_data {
 	MessageList *message_list;
+	ETreeTableAdapter *adapter;
+	gboolean with_collapsed_threads;
 	GPtrArray *uids;
 };
+
+static gboolean
+ml_getselected_collapsed_cb (ETreeModel *tree_model,
+			     ETreePath path,
+			     gpointer user_data)
+{
+	struct _ml_selected_data *data = user_data;
+	const gchar *uid;
+	GNode *node = (GNode *) path;
+
+	uid = get_message_uid (data->message_list, node);
+	g_return_val_if_fail (uid != NULL, FALSE);
+	g_ptr_array_add (data->uids, g_strdup (uid));
+
+	return FALSE;
+}
 
 static void
 ml_getselected_cb (GNode *node,
@@ -5402,10 +5420,16 @@ ml_getselected_cb (GNode *node,
 	uid = get_message_uid (data->message_list, node);
 	g_return_if_fail (uid != NULL);
 	g_ptr_array_add (data->uids, g_strdup (uid));
+
+	if (data->with_collapsed_threads && g_node_first_child (node) &&
+	    !e_tree_table_adapter_node_is_expanded (data->adapter, node)) {
+		e_tree_model_node_traverse (E_TREE_MODEL (data->message_list), node, ml_getselected_collapsed_cb, data);
+	}
 }
 
-GPtrArray *
-message_list_get_selected (MessageList *message_list)
+static GPtrArray *
+message_list_get_selected_full (MessageList *message_list,
+				gboolean with_collapsed_threads)
 {
 	CamelFolder *folder;
 	ESelectionModel *selection;
@@ -5417,6 +5441,8 @@ message_list_get_selected (MessageList *message_list)
 
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
 
+	data.adapter = e_tree_get_table_adapter (E_TREE (message_list));
+	data.with_collapsed_threads = with_collapsed_threads;
 	data.uids = g_ptr_array_new ();
 	g_ptr_array_set_free_func (data.uids, (GDestroyNotify) g_free);
 
@@ -5434,6 +5460,18 @@ message_list_get_selected (MessageList *message_list)
 	g_clear_object (&folder);
 
 	return data.uids;
+}
+
+GPtrArray *
+message_list_get_selected (MessageList *message_list)
+{
+	return message_list_get_selected_full (message_list, FALSE);
+}
+
+GPtrArray *
+message_list_get_selected_with_collapsed_threads (MessageList *message_list)
+{
+	return message_list_get_selected_full (message_list, TRUE);
 }
 
 void

@@ -309,7 +309,7 @@ action_mail_check_for_junk_cb (GtkAction *action,
 
 	folder = e_mail_reader_ref_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 
 	session = e_mail_backend_get_session (backend);
 
@@ -341,7 +341,7 @@ mail_reader_copy_or_move_selected_messages (EMailReader *reader,
 
 	folder = e_mail_reader_ref_folder (reader);
 	window = e_mail_reader_get_window (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 
 	model = em_folder_tree_model_get_default ();
 
@@ -605,7 +605,7 @@ action_mail_filters_apply_cb (GtkAction *action,
 
 	folder = e_mail_reader_ref_folder (reader);
 	backend = e_mail_reader_get_backend (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 
 	session = e_mail_backend_get_session (backend);
 
@@ -649,7 +649,7 @@ action_mail_flag_clear_cb (GtkAction *action,
 
 	folder = e_mail_reader_ref_folder (reader);
 	display = e_mail_reader_get_mail_display (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	window = e_mail_reader_get_window (reader);
 
 	em_utils_flag_for_followup_clear (window, folder, uids);
@@ -671,7 +671,7 @@ action_mail_flag_completed_cb (GtkAction *action,
 
 	folder = e_mail_reader_ref_folder (reader);
 	display = e_mail_reader_get_mail_display (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	window = e_mail_reader_get_window (reader);
 
 	em_utils_flag_for_followup_completed (window, folder, uids);
@@ -690,7 +690,7 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	folder = e_mail_reader_ref_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 
 	em_utils_flag_for_followup (reader, folder, uids);
 
@@ -706,7 +706,7 @@ action_mail_forward_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	window = e_mail_reader_get_window (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len)) {
@@ -732,7 +732,7 @@ action_mail_forward_attached_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	window = e_mail_reader_get_window (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len)) {
@@ -758,7 +758,7 @@ action_mail_forward_inline_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	window = e_mail_reader_get_window (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len)) {
@@ -784,7 +784,7 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	window = e_mail_reader_get_window (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len)) {
@@ -1070,7 +1070,7 @@ action_mail_archive_cb (GtkAction *action,
 	backend = e_mail_reader_get_backend (reader);
 	session = e_mail_backend_get_session (backend);
 
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	g_return_if_fail (uids != NULL);
 
 	folder = e_mail_reader_ref_folder (reader);
@@ -1924,7 +1924,7 @@ action_mail_toggle_important_cb (GtkAction *action,
 	guint ii;
 
 	folder = e_mail_reader_ref_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 
 	camel_folder_freeze (folder);
 
@@ -3439,6 +3439,16 @@ mail_reader_get_selected_uids (EMailReader *reader)
 	return message_list_get_selected (MESSAGE_LIST (message_list));
 }
 
+static GPtrArray *
+mail_reader_get_selected_uids_with_collapsed_threads (EMailReader *reader)
+{
+	GtkWidget *message_list;
+
+	message_list = e_mail_reader_get_message_list (reader);
+
+	return message_list_get_selected_with_collapsed_threads (MESSAGE_LIST (message_list));
+}
+
 static CamelFolder *
 mail_reader_ref_folder (EMailReader *reader)
 {
@@ -4146,6 +4156,7 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 
 	iface->get_alert_sink = mail_reader_get_alert_sink;
 	iface->get_selected_uids = mail_reader_get_selected_uids;
+	iface->get_selected_uids_with_collapsed_threads = mail_reader_get_selected_uids_with_collapsed_threads;
 	iface->ref_folder = mail_reader_ref_folder;
 	iface->set_folder = mail_reader_set_folder;
 	iface->set_message = mail_reader_set_message;
@@ -4615,7 +4626,7 @@ e_mail_reader_check_state (EMailReader *reader)
 		E_MAIL_UI_SESSION (mail_session));
 
 	folder = e_mail_reader_ref_folder (reader);
-	uids = e_mail_reader_get_selected_uids (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 
 	if (folder != NULL) {
 		gchar *archive_folder;
@@ -4962,6 +4973,19 @@ e_mail_reader_get_selected_uids (EMailReader *reader)
 	g_return_val_if_fail (iface->get_selected_uids != NULL, NULL);
 
 	return iface->get_selected_uids (reader);
+}
+
+GPtrArray *
+e_mail_reader_get_selected_uids_with_collapsed_threads (EMailReader *reader)
+{
+	EMailReaderInterface *iface;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
+
+	iface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (iface->get_selected_uids_with_collapsed_threads != NULL, NULL);
+
+	return iface->get_selected_uids_with_collapsed_threads (reader);
 }
 
 GtkWindow *

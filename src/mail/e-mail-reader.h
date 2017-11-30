@@ -108,6 +108,8 @@ struct _EMailReaderInterface {
 	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
 	EPreviewPane *	(*get_preview_pane)	(EMailReader *reader);
 	GPtrArray *	(*get_selected_uids)	(EMailReader *reader);
+	GPtrArray *	(*get_selected_uids_with_collapsed_threads)
+						(EMailReader *reader);
 	GtkWindow *	(*get_window)		(EMailReader *reader);
 
 	CamelFolder *	(*ref_folder)		(EMailReader *reader);
@@ -131,6 +133,9 @@ struct _EMailReaderInterface {
 	void		(*show_search_bar)	(EMailReader *reader);
 	void		(*update_actions)	(EMailReader *reader,
 						 guint32 state);
+
+	/* Padding for future expansion */
+	gpointer reserved[4];
 };
 
 GType		e_mail_reader_get_type		(void);
@@ -157,6 +162,8 @@ guint		e_mail_reader_open_selected_mail
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
 EPreviewPane *	e_mail_reader_get_preview_pane	(EMailReader *reader);
 GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);
+GPtrArray *	e_mail_reader_get_selected_uids_with_collapsed_threads
+						(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
 CamelFolder *	e_mail_reader_ref_folder	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
