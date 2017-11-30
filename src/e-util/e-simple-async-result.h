@@ -74,6 +74,9 @@ ESimpleAsyncResult *
 						 GAsyncReadyCallback callback,
 						 gpointer user_data,
 						 gpointer source_tag);
+gboolean	e_simple_async_result_is_valid	(GAsyncResult *result,
+						 GObject *source,
+						 gpointer source_tag);
 void		e_simple_async_result_set_user_data
 						(ESimpleAsyncResult *result,
 						 gpointer user_data,
@@ -84,7 +87,8 @@ gpointer	e_simple_async_result_steal_user_data
 						(ESimpleAsyncResult *result);
 void		e_simple_async_result_set_op_pointer
 						(ESimpleAsyncResult *result,
-						 gpointer ptr);
+						 gpointer ptr,
+						 GDestroyNotify destroy_ptr);
 gpointer	e_simple_async_result_get_op_pointer
 						(ESimpleAsyncResult *result);
 void		e_simple_async_result_run_in_thread
@@ -95,6 +99,12 @@ void		e_simple_async_result_run_in_thread
 void		e_simple_async_result_complete	(ESimpleAsyncResult *result);
 void		e_simple_async_result_complete_idle
 						(ESimpleAsyncResult *result);
+void		e_simple_async_result_take_error
+						(ESimpleAsyncResult *result,
+						 GError *error);
+gboolean	e_simple_async_result_propagate_error
+						(ESimpleAsyncResult *result,
+						 GError **error);
 void		e_simple_async_result_free_global_memory
 						(void);
 

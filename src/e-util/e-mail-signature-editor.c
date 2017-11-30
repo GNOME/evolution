@@ -758,7 +758,7 @@ mail_signature_editor_html_editor_created_cb (GObject *source_object,
 
 	g_object_ref (signature_editor);
 
-	e_simple_async_result_set_op_pointer (eresult, signature_editor);
+	e_simple_async_result_set_op_pointer (eresult, signature_editor, NULL);
 
 	e_simple_async_result_complete (eresult);
 

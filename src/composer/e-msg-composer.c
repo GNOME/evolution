@@ -2770,7 +2770,7 @@ e_msg_composer_editor_created_cb (GObject *source_object,
 		g_warning ("%s: Failed to create HTML editor: %s", G_STRFUNC, error->message);
 		g_clear_error (&error);
 	} else {
-		e_simple_async_result_set_op_pointer (eresult, editor);
+		e_simple_async_result_set_op_pointer (eresult, editor, NULL);
 		e_simple_async_result_complete (eresult);
 	}
 

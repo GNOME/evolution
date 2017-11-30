@@ -38,8 +38,9 @@
 
 #include <libedataserver/libedataserver.h>
 
-#include <libemail-engine/mail-mt.h>
+#include "e-util/e-util.h"
 
+#include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
 #include "e-mail-utils.h"
@@ -2056,8 +2057,8 @@ mail_folder_cache_first_update (MailFolderCache *cache,
 
 /* Helper for mail_folder_cache_note_store() */
 static void
-mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
-                                     GObject *source_object,
+mail_folder_cache_note_store_thread (ESimpleAsyncResult *simple,
+                                     gpointer source_object,
                                      GCancellable *cancellable)
 {
 	MailFolderCache *cache;
@@ -2070,7 +2071,7 @@ mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
 	GError *local_error = NULL;
 
 	cache = MAIL_FOLDER_CACHE (source_object);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	async_context = e_simple_async_result_get_op_pointer (simple);
 	store_info = async_context->store_info;
 
 	service = CAMEL_SERVICE (store_info->store);
@@ -2125,7 +2126,7 @@ mail_folder_cache_note_store_thread (GSimpleAsyncResult *simple,
 
 	if (local_error != NULL) {
 		g_warn_if_fail (async_context->info == NULL);
-		g_simple_async_result_take_error (simple, local_error);
+		e_simple_async_result_take_error (simple, local_error);
 		goto exit;
 	}
 
@@ -2153,15 +2154,15 @@ exit:
 	g_mutex_unlock (&store_info->lock);
 
 	while (!g_queue_is_empty (&result_queue)) {
-		GSimpleAsyncResult *queued_result;
+		ESimpleAsyncResult *queued_result;
 
 		queued_result = g_queue_pop_head (&result_queue);
 
-		/* Skip the GSimpleAsyncResult passed into this function.
-		 * g_simple_async_result_run_in_thread() will complete it
+		/* Skip the ESimpleAsyncResult passed into this function.
+		 * e_simple_async_result_run_in_thread() will complete it
 		 * for us, and we don't want to complete it twice. */
 		if (queued_result != simple)
-			g_simple_async_result_complete_in_idle (queued_result);
+			e_simple_async_result_complete_idle (queued_result);
 
 		g_clear_object (&queued_result);
 	}
@@ -2184,7 +2185,7 @@ mail_folder_cache_note_store (MailFolderCache *cache,
                               gpointer user_data)
 {
 	StoreInfo *store_info;
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 
 	g_return_if_fail (MAIL_IS_FOLDER_CACHE (cache));
@@ -2197,13 +2198,11 @@ mail_folder_cache_note_store (MailFolderCache *cache,
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->store_info = store_info_ref (store_info);
 
-	simple = g_simple_async_result_new (
+	simple = e_simple_async_result_new (
 		G_OBJECT (cache), callback, user_data,
 		mail_folder_cache_note_store);
 
-	g_simple_async_result_set_check_cancellable (simple, cancellable);
-
-	g_simple_async_result_set_op_res_gpointer (
+	e_simple_async_result_set_op_pointer (
 		simple, async_context, (GDestroyNotify) async_context_free);
 
 	g_mutex_lock (&store_info->lock);
@@ -2219,10 +2218,10 @@ mail_folder_cache_note_store (MailFolderCache *cache,
 	 * this store in progress so we'll just pick up the result
 	 * when it finishes. */
 	if (g_queue_get_length (&store_info->folderinfo_updates) == 1)
-		g_simple_async_result_run_in_thread (
-			simple,
+		e_simple_async_result_run_in_thread (
+			simple, G_PRIORITY_DEFAULT,
 			mail_folder_cache_note_store_thread,
-			G_PRIORITY_DEFAULT, cancellable);
+			cancellable);
 
 	g_mutex_unlock (&store_info->lock);
 
@@ -2237,18 +2236,18 @@ mail_folder_cache_note_store_finish (MailFolderCache *cache,
                                      CamelFolderInfo **out_info,
                                      GError **error)
 {
-	GSimpleAsyncResult *simple;
+	ESimpleAsyncResult *simple;
 	AsyncContext *async_context;
 
 	g_return_val_if_fail (
-		g_simple_async_result_is_valid (
+		e_simple_async_result_is_valid (
 		result, G_OBJECT (cache),
 		mail_folder_cache_note_store), FALSE);
 
-	simple = G_SIMPLE_ASYNC_RESULT (result);
-	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+	simple = E_SIMPLE_ASYNC_RESULT (result);
+	async_context = e_simple_async_result_get_op_pointer (simple);
 
-	if (g_simple_async_result_propagate_error (simple, error))
+	if (e_simple_async_result_propagate_error (simple, error))
 		return FALSE;
 
 	if (out_info != NULL) {

@@ -30,6 +30,9 @@ struct _ESimpleAsyncResultPrivate {
 	GDestroyNotify destroy_user_data;
 
 	gpointer op_pointer;
+	GDestroyNotify destroy_op_pointer;
+
+	GError *error;
 };
 
 static void e_simple_async_result_iface_init (GAsyncResultIface *iface);
@@ -93,7 +96,14 @@ e_simple_async_result_finalize (GObject *object)
 	result->priv->destroy_user_data = NULL;
 	result->priv->user_data = NULL;
 
+	if (result->priv->op_pointer && result->priv->destroy_op_pointer)
+		result->priv->destroy_op_pointer (result->priv->op_pointer);
+
+	result->priv->destroy_op_pointer = NULL;
+	result->priv->op_pointer = NULL;
+
 	g_clear_object (&result->priv->source_object);
+	g_clear_error (&result->priv->error);
 
 	/* Chain up to parent's method */
 	G_OBJECT_CLASS (e_simple_async_result_parent_class)->finalize (object);
@@ -135,6 +145,17 @@ e_simple_async_result_new (GObject *source_object,
 	result->priv->source_tag = source_tag;
 
 	return result;
+}
+
+gboolean
+e_simple_async_result_is_valid (GAsyncResult *result,
+				GObject *source,
+				gpointer source_tag)
+{
+	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+
+	return g_async_result_get_source_object (result) == source &&
+	       g_async_result_is_tagged (result, source_tag);
 }
 
 void
@@ -190,11 +211,19 @@ e_simple_async_result_steal_user_data (ESimpleAsyncResult *result)
 
 void
 e_simple_async_result_set_op_pointer (ESimpleAsyncResult *result,
-				      gpointer ptr)
+				      gpointer ptr,
+				      GDestroyNotify destroy_ptr)
 {
 	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
 
+	if (result->priv->op_pointer == ptr)
+		return;
+
+	if (result->priv->op_pointer && result->priv->destroy_op_pointer)
+		result->priv->destroy_op_pointer (result->priv->op_pointer);
+
 	result->priv->op_pointer = ptr;
+	result->priv->destroy_op_pointer = destroy_ptr;
 }
 
 gpointer
@@ -318,6 +347,33 @@ e_simple_async_result_complete_idle (ESimpleAsyncResult *result)
 	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
 
 	g_idle_add (result_complete_idle_cb, g_object_ref (result));
+}
+
+void
+e_simple_async_result_take_error (ESimpleAsyncResult *result,
+				  GError *error)
+{
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
+
+	if (error != result->priv->error) {
+		g_clear_error (&result->priv->error);
+		result->priv->error = error;
+	}
+}
+
+gboolean
+e_simple_async_result_propagate_error (ESimpleAsyncResult *result,
+				       GError **error)
+{
+	g_return_val_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
+
+	if (!result->priv->error)
+		return FALSE;
+
+	if (error)
+		g_propagate_error (error, g_error_copy (result->priv->error));
+
+	return TRUE;
 }
 
 void
