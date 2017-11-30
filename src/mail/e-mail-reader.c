@@ -837,8 +837,12 @@ action_mail_mark_junk_cb (GtkAction *action,
 		CAMEL_MESSAGE_JUNK |
 		CAMEL_MESSAGE_JUNK_LEARN;
 
-	if (e_mail_reader_mark_selected (reader, mask, set) != 0)
-		e_mail_reader_select_next_message (reader, TRUE);
+	if (e_mail_reader_mark_selected (reader, mask, set) != 0) {
+		if (e_mail_reader_get_delete_selects_previous (reader))
+			e_mail_reader_select_previous_message (reader, TRUE);
+		else
+			e_mail_reader_select_next_message (reader, TRUE);
+	}
 }
 
 static void
@@ -853,8 +857,12 @@ action_mail_mark_notjunk_cb (GtkAction *action,
 		CAMEL_MESSAGE_NOTJUNK |
 		CAMEL_MESSAGE_JUNK_LEARN;
 
-	if (e_mail_reader_mark_selected (reader, mask, set) != 0)
-		e_mail_reader_select_next_message (reader, TRUE);
+	if (e_mail_reader_mark_selected (reader, mask, set) != 0) {
+		if (e_mail_reader_get_delete_selects_previous (reader))
+			e_mail_reader_select_previous_message (reader, TRUE);
+		else
+			e_mail_reader_select_next_message (reader, TRUE);
+	}
 }
 
 static void
