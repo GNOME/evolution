@@ -345,6 +345,12 @@ e_composer_private_constructed (EMsgComposer *composer)
 			G_BINDING_SYNC_CREATE);
 	}
 
+	g_settings_bind (
+		settings, "composer-visually-wrap-long-lines",
+		cnt_editor, "visually-wrap-long-lines",
+		G_SETTINGS_BIND_DEFAULT);
+
+
 	/* Disable actions that start asynchronous activities while an
 	 * asynchronous activity is in progress. We enforce this with
 	 * a simple inverted binding to EMsgComposer's "busy" property. */

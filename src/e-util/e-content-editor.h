@@ -525,6 +525,11 @@ void		e_content_editor_set_top_signature
 						 EThreeState value);
 EThreeState	e_content_editor_get_top_signature
 						(EContentEditor *editor);
+void		e_content_editor_set_visually_wrap_long_lines
+						(EContentEditor *editor,
+						 gboolean value);
+gboolean	e_content_editor_get_visually_wrap_long_lines
+						(EContentEditor *editor);
 
 /* Methods */
 void		e_content_editor_initialize	(EContentEditor *content_editor,

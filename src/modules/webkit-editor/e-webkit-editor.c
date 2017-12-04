@@ -50,6 +50,7 @@ enum {
 	PROP_SPELL_CHECKER,
 	PROP_START_BOTTOM,
 	PROP_TOP_SIGNATURE,
+	PROP_VISUALLY_WRAP_LONG_LINES,
 
 	PROP_ALIGNMENT,
 	PROP_BACKGROUND_COLOR,
@@ -124,6 +125,8 @@ struct _EWebKitEditorPrivate {
 
 	ESpellChecker *spell_checker;
 	gboolean spell_check_enabled;
+
+	gboolean visually_wrap_long_lines;
 
 	gulong owner_change_primary_clipboard_cb_id;
 	gulong owner_change_clipboard_cb_id;
@@ -1329,6 +1332,14 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"}\n",
 		e_web_view_get_citation_color_for_level (5));
 
+	if (wk_editor->priv->visually_wrap_long_lines) {
+		g_string_append (
+			stylesheet,
+			"pre {\n"
+			"  white-space: pre-wrap;\n"
+			"}\n");
+	}
+
 	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw) || !wk_editor->priv->html_mode)
 		min_size = ms;
 	else
@@ -2347,6 +2358,30 @@ webkit_editor_get_spell_check_enabled (EWebKitEditor *wk_editor)
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
 
 	return wk_editor->priv->spell_check_enabled;
+}
+
+static void
+webkit_editor_set_visually_wrap_long_lines (EWebKitEditor *wk_editor,
+					    gboolean value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if ((wk_editor->priv->visually_wrap_long_lines ? 1 : 0) == (value ? 1 : 0))
+		return;
+
+	wk_editor->priv->visually_wrap_long_lines = value;
+
+	webkit_editor_update_styles (E_CONTENT_EDITOR (wk_editor));
+
+	g_object_notify (G_OBJECT (wk_editor), "visually-wrap-long-lines");
+}
+
+static gboolean
+webkit_editor_get_visually_wrap_long_lines (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+
+	return wk_editor->priv->visually_wrap_long_lines;
 }
 
 static gboolean
@@ -5495,6 +5530,12 @@ webkit_editor_set_property (GObject *object,
 				E_WEBKIT_EDITOR (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_VISUALLY_WRAP_LONG_LINES:
+			webkit_editor_set_visually_wrap_long_lines (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -5691,6 +5732,13 @@ webkit_editor_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				webkit_editor_get_spell_checker (
+					E_WEBKIT_EDITOR (object)));
+			return;
+
+		case PROP_VISUALLY_WRAP_LONG_LINES:
+			g_value_set_boolean (
+				value,
+				webkit_editor_get_visually_wrap_long_lines (
 					E_WEBKIT_EDITOR (object)));
 			return;
 	}
@@ -6382,6 +6430,8 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 	g_object_class_override_property (
 		object_class, PROP_SPELL_CHECK_ENABLED, "spell-check-enabled");
 	g_object_class_override_property (
+		object_class, PROP_VISUALLY_WRAP_LONG_LINES, "visually-wrap-long-lines");
+	g_object_class_override_property (
 		object_class, PROP_SPELL_CHECKER, "spell-checker");
 }
 
@@ -6398,6 +6448,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->spell_check_enabled = TRUE;
 	wk_editor->priv->spell_checker = e_spell_checker_new ();
 	wk_editor->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+	wk_editor->priv->visually_wrap_long_lines = FALSE;
 
 	g_signal_connect (
 		wk_editor, "load-changed",

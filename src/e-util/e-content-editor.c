@@ -461,6 +461,23 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
+	 * EContentEditor:visually-wrap-long-lines:
+	 *
+	 * Whether to visually wrap long preformatted lines.
+	 *
+	 * Since: 3.28
+	 */
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boolean (
+			"visually-wrap-long-lines",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
 	 * EContentEditor:paste-clipboard
 	 *
 	 * Emitted when user presses middle button on EContentEditor.
@@ -1384,6 +1401,44 @@ e_content_editor_get_top_signature (EContentEditor *editor)
 	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
 
 	g_object_get (G_OBJECT (editor), "top-signature", &value, NULL);
+
+	return value;
+}
+
+/**
+ * e_content_editor_set_visually_wrap_long_lines:
+ * @editor: an #EContactEditor
+ * @value: value to set
+ *
+ * Sets whether to visually wrap long preformatted lines.
+ *
+ * Since: 3.28
+ **/
+void
+e_content_editor_set_visually_wrap_long_lines (EContentEditor *editor,
+					       gboolean value)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "visually-wrap-long-lines", value, NULL);
+}
+
+/**
+ * e_content_editor_get_visually_wrap_long_lines:
+ * @editor: an #EContactEditor
+ *
+ * Returns: Whether visually wraps long preformatted lines.
+ *
+ * Since: 3.28
+ **/
+gboolean
+e_content_editor_get_visually_wrap_long_lines (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "visually-wrap-long-lines", &value, NULL);
 
 	return value;
 }

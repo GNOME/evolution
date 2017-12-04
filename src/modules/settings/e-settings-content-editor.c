@@ -53,6 +53,19 @@ settings_content_editor_inline_spelling_changed (ESettingsContentEditor *extensi
 }
 
 static void
+settings_content_editor_visually_wrap_long_lines_changed (ESettingsContentEditor *extension,
+							  gboolean value)
+{
+	EExtensible *extensible;
+	EContentEditor *cnt_editor;
+
+	extensible = e_extension_get_extensible (E_EXTENSION (extension));
+	cnt_editor = e_html_editor_get_content_editor (E_HTML_EDITOR (extensible));
+
+	e_content_editor_set_visually_wrap_long_lines (cnt_editor, value);
+}
+
+static void
 settings_content_editor_load_style (ESettingsContentEditor *extension)
 {
 	EExtensible *extensible;
@@ -81,6 +94,8 @@ settings_content_editor_changed_cb (GSettings *settings,
 
 		if (g_strcmp0 (key, "composer-inline-spelling") == 0)
 			settings_content_editor_inline_spelling_changed (extension, g_settings_get_boolean (settings, key));
+		else if (g_strcmp0 (key, "composer-visually-wrap-long-lines") == 0)
+			settings_content_editor_visually_wrap_long_lines_changed (extension, g_settings_get_boolean (settings, key));
 		else
 			settings_content_editor_load_style (extension);
 	} else if (new_value) {
@@ -97,6 +112,7 @@ settings_content_editor_html_editor_realize_cb (GtkWidget *html_editor,
 	settings = extension->priv->settings;
 
 	settings_content_editor_inline_spelling_changed (extension, g_settings_get_boolean (settings, "composer-inline-spelling"));
+	settings_content_editor_visually_wrap_long_lines_changed (extension, g_settings_get_boolean (settings, "composer-visually-wrap-long-lines"));
 	settings_content_editor_load_style (extension);
 
 	/* Reload the web view when certain settings change. */
@@ -123,6 +139,10 @@ settings_content_editor_html_editor_realize_cb (GtkWidget *html_editor,
 
 	g_signal_connect (
 		settings, "changed::composer-inline-spelling",
+		G_CALLBACK (settings_content_editor_changed_cb), extension);
+
+	g_signal_connect (
+		settings, "changed::composer-visually-wrap-long-lines",
 		G_CALLBACK (settings_content_editor_changed_cb), extension);
 }
 

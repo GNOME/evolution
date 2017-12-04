@@ -110,6 +110,11 @@ EContentEditorAlignment
 		e_editor_page_get_alignment	(EEditorPage *editor_page);
 void		e_editor_page_set_alignment	(EEditorPage *editor_page,
 						 EContentEditorAlignment value);
+gboolean	e_editor_page_get_visually_wrap_long_lines
+						(EEditorPage *editor_page);
+void		e_editor_page_set_visually_wrap_long_lines
+						(EEditorPage *editor_page,
+						 gboolean value);
 gint		e_editor_page_get_word_wrap_length
 						(EEditorPage *editor_page);
 gboolean	e_editor_page_is_processing_keypress_event

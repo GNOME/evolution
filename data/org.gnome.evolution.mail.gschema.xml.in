@@ -718,6 +718,11 @@
       <_summary>Show Subject above Sender in Messages column</_summary>
       <_description>Whether to show Subject above Sender (From/To) in the Messages column, usually shown in the Vertical/Wide view of the message list</_description>
     </key>
+    <key name="composer-visually-wrap-long-lines" type="b">
+      <default>false</default>
+      <_summary>Visually wrap long lines in composer</_summary>
+      <_description>Whether to visually wrap long lines of text to avoid horizontal scrolling</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

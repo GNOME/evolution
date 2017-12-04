@@ -541,6 +541,14 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  NULL,
 	  N_("Toggles whether the Reply-To field is displayed"),
 	  NULL,  /* Handled by property bindings */
+	  FALSE },
+
+	{ "visually-wrap-long-lines",
+	  NULL,
+	  N_("Visually _Wrap Long Lines"),
+	  NULL,
+	  N_("Whether to visually wrap long lines of text to avoid horizontal scrolling"),
+	  NULL,
 	  FALSE }
 };
 
@@ -691,6 +699,11 @@ e_composer_actions_init (EMsgComposer *composer)
 		cnt_editor, "editable",
 		e_html_editor_get_action (editor, "picture-gallery"), "sensitive",
 		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		cnt_editor, "visually-wrap-long-lines",
+		e_html_editor_get_action (editor, "visually-wrap-long-lines"), "active",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 
 #if defined (ENABLE_SMIME)
 	visible = TRUE;

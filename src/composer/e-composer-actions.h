@@ -76,5 +76,7 @@
 	E_COMPOSER_ACTION ((composer), "view-from-override")
 #define E_COMPOSER_ACTION_VIEW_REPLY_TO(composer) \
 	E_COMPOSER_ACTION ((composer), "view-reply-to")
+#define E_COMPOSER_ACTION_VISUALLY_WRAP_LONG_LINES(composer) \
+	E_COMPOSER_ACTION ((composer), "visually-wrap-long-lines")
 
 #endif /* E_COMPOSER_ACTIONS_H */
