@@ -3472,6 +3472,7 @@ gchar *
 e_util_save_image_from_clipboard (GtkClipboard *clipboard)
 {
 	GdkPixbuf *pixbuf = NULL;
+	gchar *tmpl;
 	gchar *filename = NULL;
 	gchar *uri = NULL;
 	GError *error = NULL;
@@ -3482,8 +3483,13 @@ e_util_save_image_from_clipboard (GtkClipboard *clipboard)
 	pixbuf = gtk_clipboard_wait_for_image (clipboard);
 	g_return_val_if_fail (pixbuf != NULL, FALSE);
 
+	tmpl = g_strconcat (_("Image"), "-XXXXXX.png", NULL);
+
 	/* Reserve a temporary file. */
-	filename = e_mktemp (NULL);
+	filename = e_mktemp (tmpl);
+
+	g_free (tmpl);
+
 	if (filename == NULL) {
 		g_set_error (
 			&error, G_FILE_ERROR,
