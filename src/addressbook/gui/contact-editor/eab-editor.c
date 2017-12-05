@@ -178,7 +178,7 @@ eab_editor_class_init (EABEditorClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (EABEditorClass, contact_added),
 		NULL, NULL,
-		e_marshal_NONE__POINTER_OBJECT,
+		e_marshal_VOID__POINTER_OBJECT,
 		G_TYPE_NONE, 2,
 		G_TYPE_POINTER,
 		G_TYPE_OBJECT);
@@ -189,7 +189,7 @@ eab_editor_class_init (EABEditorClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (EABEditorClass, contact_modified),
 		NULL, NULL,
-		e_marshal_NONE__POINTER_OBJECT,
+		e_marshal_VOID__POINTER_OBJECT,
 		G_TYPE_NONE, 2,
 		G_TYPE_POINTER,
 		G_TYPE_OBJECT);
@@ -200,7 +200,7 @@ eab_editor_class_init (EABEditorClass *class)
 		G_SIGNAL_RUN_FIRST,
 		G_STRUCT_OFFSET (EABEditorClass, contact_deleted),
 		NULL, NULL,
-		e_marshal_NONE__POINTER_OBJECT,
+		e_marshal_VOID__POINTER_OBJECT,
 		G_TYPE_NONE, 2,
 		G_TYPE_POINTER,
 		G_TYPE_OBJECT);

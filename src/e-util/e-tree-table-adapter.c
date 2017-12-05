@@ -1109,7 +1109,7 @@ e_tree_table_adapter_class_init (ETreeTableAdapterClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETreeTableAdapterClass, sorting_changed),
 		NULL, NULL,
-		e_marshal_BOOLEAN__NONE,
+		e_marshal_BOOLEAN__VOID,
 		G_TYPE_BOOLEAN, 0,
 		G_TYPE_NONE);
 }

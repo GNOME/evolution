@@ -110,7 +110,7 @@ e_text_model_class_init (ETextModelClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETextModelClass, reposition),
 		NULL, NULL,
-		e_marshal_NONE__POINTER_POINTER,
+		e_marshal_VOID__POINTER_POINTER,
 		G_TYPE_NONE, 2,
 		G_TYPE_POINTER,
 		G_TYPE_POINTER);

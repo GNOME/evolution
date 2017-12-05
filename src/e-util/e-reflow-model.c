@@ -248,7 +248,7 @@ e_reflow_model_class_init (EReflowModelClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EReflowModelClass, model_items_inserted),
 		NULL, NULL,
-		e_marshal_NONE__INT_INT,
+		e_marshal_VOID__INT_INT,
 		G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	signals[MODEL_ITEM_CHANGED] = g_signal_new (

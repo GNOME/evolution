@@ -722,7 +722,7 @@ e_table_group_class_init (ETableGroupClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETableGroupClass, double_click),
 		NULL, NULL,
-		e_marshal_NONE__INT_INT_BOXED,
+		e_marshal_VOID__INT_INT_BOXED,
 		G_TYPE_NONE, 3,
 		G_TYPE_INT,
 		G_TYPE_INT,

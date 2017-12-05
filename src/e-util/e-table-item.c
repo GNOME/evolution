@@ -3324,7 +3324,7 @@ e_table_item_class_init (ETableItemClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ETableItemClass, double_click),
 		NULL, NULL,
-		e_marshal_NONE__INT_INT_BOXED,
+		e_marshal_VOID__INT_INT_BOXED,
 		G_TYPE_NONE, 3,
 		G_TYPE_INT,
 		G_TYPE_INT,

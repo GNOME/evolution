@@ -719,7 +719,7 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EAddressbookModelClass, contact_added),
 		NULL, NULL,
-		e_marshal_NONE__INT_INT,
+		e_marshal_VOID__INT_INT,
 		G_TYPE_NONE, 2,
 		G_TYPE_INT,
 		G_TYPE_INT);

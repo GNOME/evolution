@@ -56,7 +56,7 @@ e_printable_class_init (EPrintableClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EPrintableClass, print_page),
 		NULL, NULL,
-		e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+		e_marshal_VOID__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
 		G_TYPE_NONE, 4,
 		G_TYPE_OBJECT,
 		G_TYPE_DOUBLE,
@@ -69,7 +69,7 @@ e_printable_class_init (EPrintableClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EPrintableClass, data_left),
 		NULL, NULL,
-		e_marshal_BOOLEAN__NONE,
+		e_marshal_BOOLEAN__VOID,
 		G_TYPE_BOOLEAN, 0,
 		G_TYPE_NONE);
 

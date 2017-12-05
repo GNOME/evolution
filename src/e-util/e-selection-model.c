@@ -152,7 +152,7 @@ e_selection_model_class_init (ESelectionModelClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ESelectionModelClass, cursor_changed),
 		NULL, NULL,
-		e_marshal_NONE__INT_INT,
+		e_marshal_VOID__INT_INT,
 		G_TYPE_NONE, 2,
 		G_TYPE_INT,
 		G_TYPE_INT);
@@ -163,7 +163,7 @@ e_selection_model_class_init (ESelectionModelClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (ESelectionModelClass, cursor_activated),
 		NULL, NULL,
-		e_marshal_NONE__INT_INT,
+		e_marshal_VOID__INT_INT,
 		G_TYPE_NONE, 2,
 		G_TYPE_INT,
 		G_TYPE_INT);
