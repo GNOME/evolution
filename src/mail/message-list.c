@@ -1598,47 +1598,78 @@ latest_foreach (ETreeModel *etm,
 	return FALSE;
 }
 
-static gchar *
-sanitize_recipients (const gchar *string)
+static void
+ml_add_name_or_email (GString *addresses,
+		      const gchar *address,
+		      gint addr_start,
+		      gboolean use_name)
 {
-	GString     *gstring;
-	gboolean     quoted = FALSE;
+	g_return_if_fail (addresses != NULL);
+
+	if (!address || !*address)
+		return;
+
+	while (*address == ' ') {
+		if (addr_start >= 0)
+			addr_start--;
+
+		address++;
+	}
+
+	if (addresses->len)
+		g_string_append_c (addresses, ' ');
+
+	if (addr_start < 0) {
+		g_string_append (addresses, address);
+	} else if (use_name) {
+		g_string_append_len (addresses, address, addr_start - 1);
+	} else {
+		const gchar *addr_end = strrchr (address + addr_start, '>');
+
+		if (addr_end)
+			g_string_append_len (addresses, address + addr_start, addr_end - address - addr_start);
+		else
+			g_string_append (addresses, address + addr_start);
+	}
+}
+
+static gchar *
+sanitize_addresses (const gchar *string,
+		    gboolean return_names)
+{
+	GString  *gstring;
+	gboolean quoted = FALSE;
 	const gchar *p;
-	GString *recipients = g_string_new ("");
-	gchar *single_add;
-	gchar **name;
+	gint addr_start = -1;
+	GString *addresses = g_string_new ("");
 
 	if (!string || !*string)
-		return g_string_free (recipients, FALSE);
+		return g_string_free (addresses, FALSE);
 
 	gstring = g_string_new ("");
 
 	for (p = string; *p; p = g_utf8_next_char (p)) {
 		gunichar c = g_utf8_get_char (p);
 
-		if (c == '"')
+		if (c == '"') {
 			quoted = ~quoted;
-		else if (c == ',' && !quoted) {
-			single_add = g_string_free (gstring, FALSE);
-			name = g_strsplit (single_add,"<",2);
-			g_string_append (recipients, *name);
-			g_string_append (recipients, ",");
-			g_free (single_add);
-			g_strfreev (name);
-			gstring = g_string_new ("");
+		} else if (c == '<' && !quoted && addr_start == -1) {
+			addr_start = gstring->len + 1;
+		} else if (c == ',' && !quoted) {
+			ml_add_name_or_email (addresses, gstring->str, addr_start, return_names);
+			g_string_append (addresses, ",");
+			g_string_truncate (gstring, 0);
+			addr_start = -1;
 			continue;
 		}
 
 		g_string_append_unichar (gstring, c);
 	}
 
-	single_add = g_string_free (gstring, FALSE);
-	name = g_strsplit (single_add,"<",2);
-	g_string_append (recipients, *name);
-	g_free (single_add);
-	g_strfreev (name);
+	ml_add_name_or_email (addresses, gstring->str, addr_start, return_names);
+	g_string_free (gstring, TRUE);
 
-	return g_string_free (recipients, FALSE);
+	return g_string_free (addresses, FALSE);
 }
 
 struct LabelsData {
@@ -1995,24 +2026,16 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		return g_strdup_printf ("%s : %s", store_name, folder_name);
 	}
 	case COL_MIXED_RECIPIENTS:
-	case COL_RECIPIENTS:{
+	case COL_RECIPIENTS:
+	case COL_RECIPIENTS_MAIL: {
 		str = camel_message_info_get_to (msg_info);
-
-		return sanitize_recipients (str);
+		return sanitize_addresses (str, col != COL_RECIPIENTS_MAIL);
 	}
 	case COL_MIXED_SENDER:
-	case COL_SENDER:{
-		gchar **sender_name = NULL;
+	case COL_SENDER:
+	case COL_SENDER_MAIL: {
 		str = camel_message_info_get_from (msg_info);
-		if (str && str[0] != '\0') {
-			gchar *res;
-			sender_name = g_strsplit (str,"<",2);
-			res = g_strdup (*sender_name);
-			g_strfreev (sender_name);
-			return (gpointer)(res);
-		}
-		else
-			return (gpointer) g_strdup ("");
+		return sanitize_addresses (str, col != COL_SENDER_MAIL);
 	}
 	case COL_LABELS:{
 		struct LabelsData ld;
@@ -3351,7 +3374,9 @@ message_list_duplicate_value (ETreeModel *tree_model,
 		case COL_SUBJECT:
 		case COL_TO:
 		case COL_SENDER:
+		case COL_SENDER_MAIL:
 		case COL_RECIPIENTS:
+		case COL_RECIPIENTS_MAIL:
 		case COL_MIXED_SENDER:
 		case COL_MIXED_RECIPIENTS:
 		case COL_LOCATION:
@@ -3412,7 +3437,9 @@ message_list_free_value (ETreeModel *tree_model,
 
 		case COL_LOCATION:
 		case COL_SENDER:
+		case COL_SENDER_MAIL:
 		case COL_RECIPIENTS:
+		case COL_RECIPIENTS_MAIL:
 		case COL_MIXED_SENDER:
 		case COL_MIXED_RECIPIENTS:
 		case COL_LABELS:
@@ -3455,7 +3482,9 @@ message_list_initialize_value (ETreeModel *tree_model,
 
 		case COL_LOCATION:
 		case COL_SENDER:
+		case COL_SENDER_MAIL:
 		case COL_RECIPIENTS:
+		case COL_RECIPIENTS_MAIL:
 		case COL_MIXED_SENDER:
 		case COL_MIXED_RECIPIENTS:
 		case COL_LABELS:
@@ -3494,7 +3523,9 @@ message_list_value_is_empty (ETreeModel *tree_model,
 		case COL_FOLLOWUP_FLAG:
 		case COL_LOCATION:
 		case COL_SENDER:
+		case COL_SENDER_MAIL:
 		case COL_RECIPIENTS:
+		case COL_RECIPIENTS_MAIL:
 		case COL_MIXED_SENDER:
 		case COL_MIXED_RECIPIENTS:
 		case COL_LABELS:
@@ -3551,7 +3582,9 @@ message_list_value_to_string (ETreeModel *tree_model,
 		case COL_FOLLOWUP_FLAG:
 		case COL_LOCATION:
 		case COL_SENDER:
+		case COL_SENDER_MAIL:
 		case COL_RECIPIENTS:
+		case COL_RECIPIENTS_MAIL:
 		case COL_MIXED_SENDER:
 		case COL_MIXED_RECIPIENTS:
 		case COL_LABELS:
