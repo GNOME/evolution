@@ -50,6 +50,7 @@ enum {
 
 struct _ERuleEditorPrivate {
 	GtkButton *buttons[BUTTON_LAST];
+	gint drag_index;
 };
 
 G_DEFINE_TYPE (
@@ -612,6 +613,7 @@ static void
 e_rule_editor_init (ERuleEditor *editor)
 {
 	editor->priv = E_RULE_EDITOR_GET_PRIVATE (editor);
+	editor->priv->drag_index = -1;
 }
 
 /**
@@ -724,6 +726,121 @@ rule_able_toggled (GtkCellRendererToggle *renderer,
 	gtk_tree_path_free (path);
 }
 
+static void
+editor_tree_drag_begin_cb (GtkWidget *widget,
+			   GdkDragContext *context,
+			   gpointer user_data)
+{
+	ERuleEditor *editor = user_data;
+	GtkTreeSelection *selection;
+	cairo_surface_t *surface;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	EFilterRule *rule = NULL;
+
+	g_return_if_fail (editor != NULL);
+
+	selection = gtk_tree_view_get_selection (editor->list);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter)) {
+		editor->priv->drag_index = -1;
+		return;
+	}
+
+	gtk_tree_model_get (model, &iter, 1, &rule, -1);
+	if (!rule) {
+		editor->priv->drag_index = -1;
+		return;
+	}
+
+	editor->priv->drag_index = e_rule_context_get_rank_rule (editor->context, rule, editor->source);
+
+	path = gtk_tree_model_get_path (model, &iter);
+
+	surface = gtk_tree_view_create_row_drag_icon (editor->list, path);
+	gtk_drag_set_icon_surface (context, surface);
+
+	gtk_tree_path_free (path);
+}
+
+static gboolean
+editor_tree_drag_drop_cb (GtkWidget *widget,
+			  GdkDragContext *context,
+			  gint x,
+			  gint y,
+			  guint time,
+			  gpointer user_data)
+{
+	ERuleEditor *editor = user_data;
+
+	g_return_val_if_fail (editor != NULL, FALSE);
+
+	editor->priv->drag_index = -1;
+
+	return TRUE;
+}
+
+static void
+editor_tree_drag_end_cb (GtkWidget *widget,
+			 GdkDragContext *context,
+			 gpointer user_data)
+{
+	ERuleEditor *editor = user_data;
+
+	g_return_if_fail (editor != NULL);
+
+	editor->priv->drag_index = -1;
+}
+
+static gboolean
+editor_tree_drag_motion_cb (GtkWidget *widget,
+			    GdkDragContext *context,
+			    gint x,
+			    gint y,
+			    guint time,
+			    gpointer user_data)
+{
+	ERuleEditor *editor = user_data;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkTreePath *path = NULL;
+	EFilterRule *rule = NULL;
+
+	g_return_val_if_fail (editor != NULL, FALSE);
+
+	if (editor->priv->drag_index == -1 ||
+	    !gtk_tree_view_get_dest_row_at_pos (editor->list, x, y, &path, NULL))
+		return FALSE;
+
+	model = gtk_tree_view_get_model (editor->list);
+
+	g_warn_if_fail (gtk_tree_model_get_iter (model, &iter, path));
+
+	gtk_tree_path_free (path);
+
+	gtk_tree_model_get (model, &iter, 1, &rule, -1);
+
+	if (rule) {
+		gint drop_index;
+
+		drop_index = e_rule_context_get_rank_rule (editor->context, rule, editor->source);
+
+		if (drop_index != editor->priv->drag_index && drop_index >= 0) {
+			editor->current = e_rule_context_find_rank_rule (editor->context, editor->priv->drag_index, editor->source);
+			rule_move (editor, editor->priv->drag_index, drop_index);
+
+			editor->priv->drag_index = drop_index;
+
+			/* to update the editor->current */
+			cursor_changed (NULL, editor);
+		}
+	}
+
+	gdk_drag_status (context, (!rule || editor->priv->drag_index == -1) ? 0 : GDK_ACTION_MOVE, time);
+
+	return TRUE;
+}
+
 void
 e_rule_editor_construct (ERuleEditor *editor,
                          ERuleContext *context,
@@ -731,6 +848,9 @@ e_rule_editor_construct (ERuleEditor *editor,
                          const gchar *source,
                          const gchar *label)
 {
+	const GtkTargetEntry row_targets[] = {
+		{ (gchar *) "ERuleEditorRow", GTK_TARGET_SAME_WIDGET, 0 }
+	};
 	GtkWidget *widget;
 	GtkWidget *action_area;
 	GtkWidget *content_area;
@@ -810,4 +930,16 @@ e_rule_editor_construct (ERuleEditor *editor,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
+
+	gtk_drag_source_set (GTK_WIDGET (editor->list), GDK_BUTTON1_MASK, row_targets, G_N_ELEMENTS (row_targets), GDK_ACTION_MOVE);
+	gtk_drag_dest_set (GTK_WIDGET (editor->list), GTK_DEST_DEFAULT_MOTION, row_targets, G_N_ELEMENTS (row_targets), GDK_ACTION_MOVE);
+
+	g_signal_connect (editor->list, "drag-begin",
+		G_CALLBACK (editor_tree_drag_begin_cb), editor);
+	g_signal_connect (editor->list, "drag-drop",
+		G_CALLBACK (editor_tree_drag_drop_cb), editor);
+	g_signal_connect (editor->list, "drag-end",
+		G_CALLBACK (editor_tree_drag_end_cb), editor);
+	g_signal_connect (editor->list, "drag-motion",
+		G_CALLBACK (editor_tree_drag_motion_cb), editor);
 }
