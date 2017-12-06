@@ -391,36 +391,203 @@ get_rule_part_widget (EMFilterContext *f,
 struct _rule_data {
 	EFilterRule *fr;
 	EMFilterContext *f;
-	GtkWidget *parts;
+	GtkGrid *parts_grid;
+	GtkWidget *drag_widget;
+
+	gint n_rows;
 };
+
+enum {
+	DND_TYPE_FILTER_ACTION,
+	N_DND_TYPES
+};
+
+static GtkTargetEntry dnd_types[] = {
+	{ (gchar *) "x-evolution-filter-action", GTK_TARGET_SAME_APP, DND_TYPE_FILTER_ACTION }
+};
+
+static GdkAtom dnd_atoms[N_DND_TYPES] = { 0 };
+
+static void
+event_box_drag_begin (GtkWidget *widget,
+		      GdkDragContext *context,
+		      gpointer user_data)
+{
+	struct _rule_data *data = user_data;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	GtkStyleContext *style_context;
+
+	data->drag_widget = widget;
+
+	/* Just 1x1 dot as an image. No need to have there real icon,
+	   because the move is done immediately */
+	surface = gdk_window_create_similar_surface ( gtk_widget_get_window (widget), CAIRO_CONTENT_COLOR, 1, 1);
+	style_context = gtk_widget_get_style_context (widget);
+	cr = cairo_create (surface);
+	gtk_render_background (style_context, cr, 0, 0, 1, 1);
+	cairo_destroy (cr);
+
+	cairo_surface_set_device_offset (surface, 0, 0);
+
+	gtk_drag_set_icon_surface (context, surface);
+}
+
+static gboolean
+event_box_drag_drop (GtkWidget *widget,
+		     GdkDragContext *context,
+		     gint x,
+		     gint y,
+		     guint time,
+		     gpointer user_data)
+{
+	struct _rule_data *data = user_data;
+
+	data->drag_widget = NULL;
+
+	return FALSE;
+}
+
+static void
+event_box_drag_end (GtkWidget *widget,
+		    GdkDragContext *context,
+		    gpointer user_data)
+{
+	struct _rule_data *data = user_data;
+
+	data->drag_widget = NULL;
+}
+
+static gboolean
+event_box_drag_motion_cb (GtkWidget *widget,
+			  GdkDragContext *context,
+			  gint x,
+			  gint y,
+			  guint time,
+			  gpointer user_data)
+{
+	struct _rule_data *data = user_data;
+
+	gdk_drag_status (context, widget == data->drag_widget ? 0 : GDK_ACTION_MOVE, time);
+
+	if (widget != data->drag_widget) {
+		gint index, index_src = -1, index_des = -1;
+
+		for (index = 0; index < data->n_rows && (index_src == -1 || index_des == -1); index++) {
+			GtkWidget *event_box;
+
+			event_box = gtk_grid_get_child_at (data->parts_grid, 0, index);
+			if (event_box == data->drag_widget) {
+				index_src = index;
+			} else if (event_box == widget) {
+				index_des = index;
+			}
+		}
+
+		g_warn_if_fail (index_src != -1);
+		g_warn_if_fail (index_des != -1);
+		g_warn_if_fail (index_src != index_des);
+
+		if (index_src != -1 && index_des != -1 && index_src != index_des) {
+			EMFilterRule *fr = (EMFilterRule *) data->fr;
+			GtkWidget *event_box, *content, *remove_button;
+			gpointer rule;
+
+			/* Move internal data first */
+			rule = g_list_nth_data (fr->actions, index_src);
+			fr->actions = g_list_remove (fr->actions, rule);
+			fr->actions = g_list_insert (fr->actions, rule, index_des);
+
+			/* Then the UI part */
+			event_box = gtk_grid_get_child_at (data->parts_grid, 0, index_src);
+			content = gtk_grid_get_child_at (data->parts_grid, 1, index_src);
+			remove_button = gtk_grid_get_child_at (data->parts_grid, 2, index_src);
+
+			g_warn_if_fail (event_box != NULL);
+			g_warn_if_fail (content != NULL);
+			g_warn_if_fail (remove_button != NULL);
+
+			g_object_ref (event_box);
+			g_object_ref (content);
+			g_object_ref (remove_button);
+
+			gtk_grid_remove_row (data->parts_grid, index_src);
+			gtk_grid_insert_row (data->parts_grid, index_des);
+			gtk_grid_attach (data->parts_grid, event_box, 0, index_des, 1, 1);
+			gtk_grid_attach (data->parts_grid, content, 1, index_des, 1, 1);
+			gtk_grid_attach (data->parts_grid, remove_button, 2, index_des, 1, 1);
+
+			g_object_unref (event_box);
+			g_object_unref (content);
+			g_object_unref (remove_button);
+		}
+	}
+
+	return TRUE;
+}
+
+static gboolean
+rule_widget_drag_motion_cb (GtkWidget *widget,
+			    GdkDragContext *context,
+			    gint x,
+			    gint y,
+			    guint time,
+			    gpointer user_data)
+{
+	struct _rule_data *data = user_data;
+	gint ii;
+
+	for (ii = 0; ii < data->n_rows; ii++) {
+		if (gtk_grid_get_child_at (data->parts_grid, 1, ii) == widget) {
+			return event_box_drag_motion_cb (gtk_grid_get_child_at (data->parts_grid, 0, ii),
+				context, x, y, time, user_data);
+		}
+	}
+
+	gdk_drag_status (context, 0, time);
+
+	return FALSE;
+}
 
 static void
 less_parts (GtkWidget *button,
             struct _rule_data *data)
 {
 	EFilterPart *part;
-	GtkWidget *rule;
+	GtkWidget *content = NULL;
 	struct _part_data *part_data;
-	GList *l;
+	gint index;
 
-	l =((EMFilterRule *) data->fr)->actions;
-	if (g_list_length (l) < 2)
+	if (g_list_length (((EMFilterRule *) data->fr)->actions) < 2)
 		return;
 
-	rule = g_object_get_data ((GObject *) button, "rule");
-	part_data = g_object_get_data ((GObject *) rule, "data");
+	for (index = 0; index < data->n_rows; index++) {
+		if (button == gtk_grid_get_child_at (data->parts_grid, 2, index)) {
+			content = gtk_grid_get_child_at (data->parts_grid, 1, index);
+			break;
+		}
+	}
+
+	g_return_if_fail (content != NULL);
+
+	part_data = g_object_get_data ((GObject *) content, "data");
 
 	g_return_if_fail (part_data != NULL);
 
 	part = part_data->part;
+
+	index = g_list_index (((EMFilterRule *) data->fr)->actions, part);
+	g_warn_if_fail (index >= 0);
 
 	/* remove the part from the list */
 	em_filter_rule_remove_action ((EMFilterRule *) data->fr, part);
 	g_object_unref (part);
 
 	/* and from the display */
-	gtk_container_remove (GTK_CONTAINER (data->parts), rule);
-	gtk_container_remove (GTK_CONTAINER (data->parts), button);
+	if (index >= 0) {
+		gtk_grid_remove_row (data->parts_grid, index);
+		data->n_rows--;
+	}
 }
 
 static void
@@ -430,21 +597,70 @@ attach_rule (GtkWidget *rule,
              gint row)
 {
 	GtkWidget *remove;
+	GtkWidget *event_box, *label;
 
-	gtk_table_attach (
-		GTK_TABLE (data->parts), rule, 0, 1, row, row + 1,
-		GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	event_box = gtk_event_box_new ();
+	label = gtk_label_new ("⇕");
+	gtk_container_add (GTK_CONTAINER (event_box), label);
+	gtk_widget_set_sensitive (label, FALSE);
+	gtk_widget_show (label);
+
+	g_object_set (G_OBJECT (event_box),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", FALSE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", FALSE,
+		"visible", TRUE,
+		NULL);
+
+	g_object_set (G_OBJECT (rule),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_CENTER,
+		"vexpand", FALSE,
+		NULL);
 
 	remove = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
-	g_object_set_data ((GObject *) remove, "rule", rule);
-	/*gtk_button_set_relief(GTK_BUTTON(remove), GTK_RELIEF_NONE);*/
+	g_object_set (G_OBJECT (remove),
+		"halign", GTK_ALIGN_START,
+		"hexpand", FALSE,
+		"valign", GTK_ALIGN_CENTER,
+		"vexpand", FALSE,
+		"visible", TRUE,
+		NULL);
+
 	g_signal_connect (
 		remove, "clicked",
 		G_CALLBACK (less_parts), data);
-	gtk_table_attach (
-		GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
-		0, 0, 0, 0);
-	gtk_widget_show (remove);
+
+	gtk_grid_insert_row (data->parts_grid, row);
+	gtk_grid_attach (data->parts_grid, event_box, 0, row, 1, 1);
+	gtk_grid_attach (data->parts_grid, rule, 1, row, 1, 1);
+	gtk_grid_attach (data->parts_grid, remove, 2, row, 1, 1);
+
+	if (!dnd_atoms[0]) {
+		gint ii;
+
+		for (ii = 0; ii < N_DND_TYPES; ii++)
+			dnd_atoms[ii] = gdk_atom_intern (dnd_types[ii].target, FALSE);
+	}
+
+	gtk_drag_source_set (event_box, GDK_BUTTON1_MASK, dnd_types, N_DND_TYPES, GDK_ACTION_MOVE);
+	gtk_drag_dest_set (event_box, GTK_DEST_DEFAULT_MOTION, dnd_types, N_DND_TYPES, GDK_ACTION_MOVE);
+
+	g_signal_connect (event_box, "drag-begin",
+		G_CALLBACK (event_box_drag_begin), data);
+	g_signal_connect (event_box, "drag-motion",
+		G_CALLBACK (event_box_drag_motion_cb), data);
+	g_signal_connect (event_box, "drag-drop",
+		G_CALLBACK (event_box_drag_drop), data);
+	g_signal_connect (event_box, "drag-end",
+		G_CALLBACK (event_box_drag_end), data);
+
+	gtk_drag_dest_set (rule, GTK_DEST_DEFAULT_MOTION, dnd_types, N_DND_TYPES, GDK_ACTION_MOVE);
+
+	g_signal_connect (rule, "drag-motion",
+		G_CALLBACK (rule_widget_drag_motion_cb), data);
 }
 
 static void
@@ -476,15 +692,13 @@ more_parts (GtkWidget *button,
 	new = em_filter_context_next_action ((EMFilterContext *) data->f, NULL);
 	if (new) {
 		GtkWidget *w;
-		guint rows;
 
 		new = e_filter_part_clone (new);
 		em_filter_rule_add_action ((EMFilterRule *) data->fr, new);
 		w = get_rule_part_widget (data->f, new, data->fr);
 
-		g_object_get (data->parts, "n-rows", &rows, NULL);
-		gtk_table_resize (GTK_TABLE (data->parts), rows + 1, 2);
-		attach_rule (w, data, new, rows);
+		attach_rule (w, data, new, data->n_rows);
+		data->n_rows++;
 
 		if (GTK_IS_CONTAINER (w)) {
 			gboolean done = FALSE;
@@ -591,15 +805,14 @@ get_widget (EFilterRule *fr,
             ERuleContext *rc)
 {
 	GtkWidget *widget, *add, *label;
-	GtkWidget *parts, *inframe, *w;
+	GtkWidget *inframe, *w;
 	GtkWidget *scrolledwindow;
-	GtkGrid *hgrid;
+	GtkGrid *hgrid, *parts_grid;
 	GtkAdjustment *hadj, *vadj;
-	GList *l;
+	GList *link;
 	EFilterPart *part;
 	struct _rule_data *data;
-	EMFilterRule *ff =(EMFilterRule *) fr;
-	gint rows, i = 0;
+	EMFilterRule *ff = (EMFilterRule *) fr;
 	gchar *msg;
 
 	widget = E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->
@@ -655,23 +868,31 @@ get_widget (EFilterRule *fr,
 
 	gtk_grid_attach_next_to (hgrid, inframe, label, GTK_POS_RIGHT, 1, 1);
 
-	rows = g_list_length (ff->actions);
-	parts = gtk_table_new (rows, 2, FALSE);
-	data = g_malloc0 (sizeof (*data));
-	data->f =(EMFilterContext *) rc;
+	parts_grid = GTK_GRID (gtk_grid_new ());
+	g_object_set (G_OBJECT (parts_grid),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		NULL);
+
+	data = g_malloc0 (sizeof (struct _rule_data));
+	data->f = (EMFilterContext *) rc;
 	data->fr = fr;
-	data->parts = parts;
+	data->parts_grid = parts_grid;
+	data->drag_widget = NULL;
+	data->n_rows = 0;
 
 	/* only set to automatically clean up the memory */
 	g_object_set_data_full ((GObject *) hgrid, "data", data, g_free);
 
-	l = ff->actions;
-	while (l) {
-		part = l->data;
+	for (link = ff->actions; link; link = g_list_next (link)) {
+		part = link->data;
 		d (printf ("adding action %s\n", part->title));
 		w = get_rule_part_widget ((EMFilterContext *) rc, part, fr);
-		attach_rule (w, data, part, i++);
-		l = l->next;
+
+		attach_rule (w, data, part, data->n_rows);
+		data->n_rows++;
 	}
 
 	hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0));
@@ -682,7 +903,7 @@ get_widget (EFilterRule *fr,
 		GTK_SCROLLED_WINDOW (scrolledwindow),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_add_with_viewport (
-		GTK_SCROLLED_WINDOW (scrolledwindow), parts);
+		GTK_SCROLLED_WINDOW (scrolledwindow), GTK_WIDGET (parts_grid));
 
 	gtk_widget_set_hexpand (scrolledwindow, TRUE);
 	gtk_widget_set_halign (scrolledwindow, GTK_ALIGN_FILL);
