@@ -41,6 +41,10 @@ gboolean	e_composer_save_snapshot_finish	(EMsgComposer *composer,
 						 GAsyncResult *result,
 						 GError **error);
 GFile *		e_composer_get_snapshot_file	(EMsgComposer *composer);
+void		e_composer_prevent_snapshot_file_delete
+						(EMsgComposer *composer);
+void		e_composer_allow_snapshot_file_delete
+						(EMsgComposer *composer);
 
 G_END_DECLS
 

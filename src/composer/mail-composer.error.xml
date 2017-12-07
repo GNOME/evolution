@@ -23,6 +23,13 @@
   <button _label="_Recover" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="recover-autosave-malfunction" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Do you want to recover last saved version of the message?</_primary>
+  <_secondary>Recovering the message will allow you to continue where it had been saved the last time.</_secondary>
+  <button _label="_Do not Recover" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="_Recover" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="no-autosave" type="error">
   <_primary>Could not save to autosave file “{0}”.</_primary>
   <_secondary>Error saving to autosave because “{1}”.</_secondary>

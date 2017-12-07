@@ -446,6 +446,7 @@ struct _EContentEditorInterface {
 
 ESpellChecker *	e_content_editor_ref_spell_checker
 						(EContentEditor *editor);
+gboolean	e_content_editor_is_malfunction	(EContentEditor *editor);
 gboolean	e_content_editor_can_cut	(EContentEditor *editor);
 gboolean	e_content_editor_can_copy	(EContentEditor *editor);
 gboolean	e_content_editor_can_paste	(EContentEditor *editor);

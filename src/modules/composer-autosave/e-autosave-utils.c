@@ -556,3 +556,31 @@ e_composer_get_snapshot_file (EMsgComposer *composer)
 
 	return g_object_get_data (G_OBJECT (composer), SNAPSHOT_FILE_KEY);
 }
+
+void
+e_composer_prevent_snapshot_file_delete (EMsgComposer *composer)
+{
+	GFile *snapshot_file;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	snapshot_file = g_object_steal_data (G_OBJECT (composer), SNAPSHOT_FILE_KEY);
+	if (snapshot_file) {
+		g_object_set_data_full (G_OBJECT (composer), SNAPSHOT_FILE_KEY,
+			snapshot_file, g_object_unref);
+	}
+}
+
+void
+e_composer_allow_snapshot_file_delete (EMsgComposer *composer)
+{
+	GFile *snapshot_file;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	snapshot_file = g_object_steal_data (G_OBJECT (composer), SNAPSHOT_FILE_KEY);
+	if (snapshot_file) {
+		g_object_set_data_full (G_OBJECT (composer), SNAPSHOT_FILE_KEY,
+			snapshot_file, (GDestroyNotify) delete_snapshot_file);
+	}
+}

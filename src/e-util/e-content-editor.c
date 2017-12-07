@@ -45,6 +45,22 @@ static void
 e_content_editor_default_init (EContentEditorInterface *iface)
 {
 	/**
+	 * EContentEditor:is-malfunction
+	 *
+	 * Determines whether the composer is malfunction. If it does, then
+	 * the result of calling functions like get_content() is undefined.
+	 */
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boolean (
+			"is-malfunction",
+			"Is Malfunction",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
 	 * EContentEditor:can-copy
 	 *
 	 * Determines whether it's possible to copy to clipboard. The action
@@ -609,6 +625,18 @@ e_content_editor_ref_spell_checker (EContentEditor *editor)
 	g_object_get (G_OBJECT (editor), "spell-checker", &spell_checker, NULL);
 
 	return spell_checker;
+}
+
+gboolean
+e_content_editor_is_malfunction (EContentEditor *editor)
+{
+	gboolean value = FALSE;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+
+	g_object_get (G_OBJECT (editor), "is-malfunction", &value, NULL);
+
+	return value;
 }
 
 gboolean

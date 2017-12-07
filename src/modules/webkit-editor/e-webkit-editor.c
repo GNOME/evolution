@@ -38,6 +38,7 @@
 enum {
 	PROP_0,
 	PROP_WEB_EXTENSION, /* for test purposes */
+	PROP_IS_MALFUNCTION,
 	PROP_CAN_COPY,
 	PROP_CAN_CUT,
 	PROP_CAN_PASTE,
@@ -146,6 +147,7 @@ struct _EWebKitEditorPrivate {
 
 	EThreeState start_bottom;
 	EThreeState top_signature;
+	gboolean is_malfunction;
 };
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
@@ -253,6 +255,14 @@ webkit_editor_can_copy_cb (WebKitWebView *view,
 		/* FIXME notify web extension about pasting content from itself */
 		g_object_notify (G_OBJECT (wk_editor), "can-copy");
 	}
+}
+
+static gboolean
+webkit_editor_is_malfunction (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+
+	return wk_editor->priv->is_malfunction;
 }
 
 static gboolean
@@ -5554,6 +5564,12 @@ webkit_editor_get_property (GObject *object,
 				E_WEBKIT_EDITOR (object)));
 			return;
 
+		case PROP_IS_MALFUNCTION:
+			g_value_set_boolean (
+				value, webkit_editor_is_malfunction (
+				E_WEBKIT_EDITOR (object)));
+			return;
+
 		case PROP_CAN_COPY:
 			g_value_set_boolean (
 				value, webkit_editor_can_copy (
@@ -6162,6 +6178,9 @@ webkit_editor_web_process_crashed_cb (EWebKitEditor *wk_editor)
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
+	wk_editor->priv->is_malfunction = TRUE;
+	g_object_notify (G_OBJECT (wk_editor), "is-malfunction");
+
 	widget = GTK_WIDGET (wk_editor);
 	while (widget) {
 		if (E_IS_ALERT_SINK (widget)) {
@@ -6380,6 +6399,8 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_override_property (
+		object_class, PROP_IS_MALFUNCTION, "is-malfunction");
+	g_object_class_override_property (
 		object_class, PROP_CAN_COPY, "can-copy");
 	g_object_class_override_property (
 		object_class, PROP_CAN_CUT, "can-cut");
@@ -6445,6 +6466,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 
 	/* To be able to cancel any pending calls when 'dispose' is called. */
 	wk_editor->priv->cancellable = g_cancellable_new ();
+	wk_editor->priv->is_malfunction = FALSE;
 	wk_editor->priv->spell_check_enabled = TRUE;
 	wk_editor->priv->spell_checker = e_spell_checker_new ();
 	wk_editor->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
