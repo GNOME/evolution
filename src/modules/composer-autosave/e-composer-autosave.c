@@ -35,6 +35,9 @@ struct _EComposerAutosavePrivate {
 
 	/* Prevent error dialogs from piling up. */
 	gboolean error_shown;
+
+	GFile *malfunction_snapshot_file;
+	gboolean editor_is_malfunction;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -95,6 +98,10 @@ composer_autosave_timeout_cb (gpointer user_data)
 	EExtensible *extensible;
 
 	autosave = E_COMPOSER_AUTOSAVE (user_data);
+
+	if (autosave->priv->editor_is_malfunction)
+		return FALSE;
+
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 
 	/* Cancel the previous snapshot if it's still in
@@ -126,10 +133,80 @@ composer_autosave_changed_cb (EComposerAutosave *autosave)
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (autosave->priv->timeout_id == 0 && e_content_editor_get_changed (cnt_editor)) {
+	if (autosave->priv->timeout_id == 0 &&
+	    !autosave->priv->editor_is_malfunction &&
+	    e_content_editor_get_changed (cnt_editor)) {
 		autosave->priv->timeout_id = e_named_timeout_add_seconds (
 			AUTOSAVE_INTERVAL,
 			composer_autosave_timeout_cb, autosave);
+	}
+}
+
+static void
+composer_autosave_editor_is_malfunction_cb (EComposerAutosave *autosave)
+{
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	EExtensible *extensible;
+
+	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
+
+	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	g_clear_object (&autosave->priv->malfunction_snapshot_file);
+	autosave->priv->editor_is_malfunction = e_content_editor_is_malfunction (cnt_editor);
+
+	if (autosave->priv->editor_is_malfunction) {
+		e_composer_prevent_snapshot_file_delete (E_MSG_COMPOSER (extensible));
+		autosave->priv->malfunction_snapshot_file = e_composer_get_snapshot_file (E_MSG_COMPOSER (extensible));
+		if (autosave->priv->malfunction_snapshot_file)
+			g_object_ref (autosave->priv->malfunction_snapshot_file);
+	} else {
+		e_composer_allow_snapshot_file_delete (E_MSG_COMPOSER (extensible));
+		composer_autosave_changed_cb (autosave);
+	}
+}
+
+static void
+composer_autosave_recovered_cb (GObject *source_object,
+				GAsyncResult *result,
+				gpointer user_data)
+{
+	EMsgComposer *composer;
+	GError *local_error = NULL;
+
+	composer = e_composer_load_snapshot_finish (E_SHELL (source_object), result, &local_error);
+
+	if (local_error != NULL) {
+		/* FIXME Show an alert dialog here explaining
+		 *       why we could not recover the message.
+		 *       Will need a new error XML entry. */
+		g_warn_if_fail (composer == NULL);
+		g_warning ("%s: %s", G_STRFUNC, local_error->message);
+		g_error_free (local_error);
+	} else {
+		gtk_widget_show (GTK_WIDGET (composer));
+		g_object_unref (composer);
+	}
+}
+
+static void
+composer_autosave_msg_composer_before_destroy_cb (EMsgComposer *composer,
+						  gpointer user_data)
+{
+	EComposerAutosave *autosave = user_data;
+
+	g_return_if_fail (autosave != NULL);
+
+	if (autosave->priv->malfunction_snapshot_file) {
+		if (e_alert_run_dialog_for_args (GTK_WINDOW (composer), "mail-composer:recover-autosave", NULL) == GTK_RESPONSE_YES) {
+			e_composer_load_snapshot (
+				e_msg_composer_get_shell (composer), autosave->priv->malfunction_snapshot_file, NULL,
+				composer_autosave_recovered_cb, NULL);
+		} else {
+			g_file_delete (autosave->priv->malfunction_snapshot_file, NULL, NULL);
+		}
 	}
 }
 
@@ -150,6 +227,8 @@ composer_autosave_dispose (GObject *object)
 
 	g_clear_object (&priv->cancellable);
 
+	g_clear_object (&priv->malfunction_snapshot_file);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_autosave_parent_class)->dispose (object);
 }
@@ -167,6 +246,14 @@ composer_autosave_constructed (GObject *object)
 	extensible = e_extension_get_extensible (E_EXTENSION (object));
 	editor = e_msg_composer_get_editor (E_MSG_COMPOSER (extensible));
 	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	g_signal_connect (
+		extensible, "before-destroy",
+		G_CALLBACK (composer_autosave_msg_composer_before_destroy_cb), object);
+
+	e_signal_connect_notify_swapped (
+		cnt_editor, "notify::is-malfunction",
+		G_CALLBACK (composer_autosave_editor_is_malfunction_cb), object);
 
 	/* Do not use e_signal_connect_notify_swapped() here,
 	   this module relies on "false" change notifications. */
@@ -205,6 +292,8 @@ e_composer_autosave_init (EComposerAutosave *autosave)
 {
 	autosave->priv = E_COMPOSER_AUTOSAVE_GET_PRIVATE (autosave);
 	autosave->priv->cancellable = g_cancellable_new ();
+	autosave->priv->malfunction_snapshot_file = NULL;
+	autosave->priv->editor_is_malfunction = FALSE;
 }
 
 void

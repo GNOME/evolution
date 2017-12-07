@@ -101,6 +101,7 @@ enum {
 	SAVE_TO_DRAFTS,
 	SAVE_TO_OUTBOX,
 	PRINT,
+	BEFORE_DESTROY,
 	LAST_SIGNAL
 };
 
@@ -2746,6 +2747,23 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 		GTK_TYPE_PRINT_OPERATION_ACTION,
 		CAMEL_TYPE_MIME_MESSAGE,
 		E_TYPE_ACTIVITY);
+
+	signals[BEFORE_DESTROY] = g_signal_new (
+		"before-destroy",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_LAST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0,
+		G_TYPE_NONE);
+}
+
+void
+e_composer_emit_before_destroy (EMsgComposer *composer)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	g_signal_emit (composer, signals[BEFORE_DESTROY], 0);
 }
 
 static void
@@ -4016,6 +4034,7 @@ msg_composer_save_to_drafts_done_cb (gpointer user_data,
 
 	if (e_msg_composer_is_exiting (composer) &&
 	    !e_content_editor_get_changed (cnt_editor)) {
+		e_composer_emit_before_destroy (composer);
 		gtk_widget_destroy (GTK_WIDGET (composer));
 	} else if (e_msg_composer_is_exiting (composer)) {
 		gtk_widget_set_sensitive (GTK_WIDGET (composer), TRUE);
@@ -5366,7 +5385,8 @@ e_msg_composer_can_close (EMsgComposer *composer,
 	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
 		return FALSE;
 
-	if (!e_content_editor_get_changed (cnt_editor))
+	if (!e_content_editor_get_changed (cnt_editor) ||
+	    e_content_editor_is_malfunction (cnt_editor))
 		return TRUE;
 
 	window = gtk_widget_get_window (widget);

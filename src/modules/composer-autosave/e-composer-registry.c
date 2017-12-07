@@ -62,7 +62,7 @@ composer_registry_recovered_cb (GObject *source_object,
 		 *       why we could not recover the message.
 		 *       Will need a new error XML entry. */
 		g_warn_if_fail (composer == NULL);
-		g_warning ("%s", local_error->message);
+		g_warning ("%s: %s", G_STRFUNC, local_error->message);
 		g_error_free (local_error);
 		goto exit;
 	}

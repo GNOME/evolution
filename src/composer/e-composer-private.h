@@ -142,6 +142,7 @@ gboolean	e_composer_selection_is_image_uris
 						(EMsgComposer *composer,
 						 GtkSelectionData *selection);
 void		e_composer_update_signature	(EMsgComposer *composer);
+void		e_composer_emit_before_destroy	(EMsgComposer *composer);
 
 G_END_DECLS
 

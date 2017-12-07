@@ -58,8 +58,10 @@ static void
 action_close_cb (GtkAction *action,
                  EMsgComposer *composer)
 {
-	if (e_msg_composer_can_close (composer, TRUE))
+	if (e_msg_composer_can_close (composer, TRUE)) {
+		e_composer_emit_before_destroy (composer);
 		gtk_widget_destroy (GTK_WIDGET (composer));
+	}
 }
 
 static void
