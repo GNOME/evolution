@@ -57,6 +57,20 @@ void em_utils_selection_get_uidlist (GtkSelectionData *data, EMailSession *sessi
 void em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder);
 
+/* Return TRUE to continue, FALSE to stop further processing */
+typedef gboolean (* EMUtilsUIDListFunc)		(CamelFolder *folder,
+						 const GPtrArray *uids,
+						 gpointer user_data,
+						 GCancellable *cancellable,
+						 GError **error);
+
+void	em_utils_selection_uidlist_foreach_sync	(GtkSelectionData *selection_data,
+						 EMailSession *session,
+						 EMUtilsUIDListFunc func,
+						 gpointer user_data,
+						 GCancellable *cancellable,
+						 GError **error);
+
 /* FIXME: should this have an override charset? */
 gchar *		em_utils_message_to_html	(CamelSession *session,
 						 CamelMimeMessage *msg,
