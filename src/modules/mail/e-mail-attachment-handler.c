@@ -27,6 +27,7 @@
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-reader.h"
 #include "mail/em-composer-utils.h"
+#include "mail/em-utils.h"
 
 #define E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -533,6 +534,33 @@ exit:
 	gtk_drag_finish (drag_context, success, FALSE, time);
 }
 
+static gboolean
+gather_x_uid_list_messages_cb (CamelFolder *folder,
+			       const GPtrArray *uids,
+			       gpointer user_data,
+			       GCancellable *cancellable,
+			       GError **error)
+{
+	GSList **pmessages = user_data;
+	guint ii;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+	g_return_val_if_fail (uids != NULL, FALSE);
+	g_return_val_if_fail (pmessages != NULL, FALSE);
+
+	for (ii = 0; ii < uids->len; ii++) {
+		CamelMimeMessage *message;
+
+		message = camel_folder_get_message_sync (folder, uids->pdata[ii], cancellable, error);
+		if (!message)
+			return FALSE;
+
+		*pmessages = g_slist_prepend (*pmessages, message);
+	}
+
+	return TRUE;
+}
+
 static void
 mail_attachment_handler_x_uid_list (EAttachmentView *view,
                                     GdkDragContext *drag_context,
@@ -546,20 +574,14 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	static GdkAtom atom = GDK_NONE;
 	EMailAttachmentHandlerPrivate *priv;
 	CamelDataWrapper *wrapper;
-	CamelMimeMessage *message;
 	CamelMultipart *multipart;
 	CamelMimePart *mime_part;
-	CamelFolder *folder = NULL;
 	EAttachment *attachment;
 	EAttachmentStore *store;
 	EMailSession *session;
-	GPtrArray *uids;
-	const gchar *data;
-	const gchar *cp, *end;
+	GSList *messages = NULL, *link;
 	gchar *description;
 	gpointer parent;
-	gint length;
-	guint ii;
 	GError *local_error = NULL;
 
 	if (G_UNLIKELY (atom == GDK_NONE))
@@ -574,124 +596,73 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	uids = g_ptr_array_new ();
-
-	data = (const gchar *) gtk_selection_data_get_data (selection_data);
-	length = gtk_selection_data_get_length (selection_data);
-
-	/* The UID list is delimited by NUL characters.
-	 * Brilliant.  So we can't use g_strsplit(). */
-
-	cp = data;
-	end = data + length;
-
-	while (cp < end) {
-		const gchar *start = cp;
-
-		while (cp < end && *cp != '\0')
-			cp++;
-
-		/* Skip the first string. */
-		if (start > data)
-			g_ptr_array_add (uids, g_strndup (start, cp - start));
-
-		cp++;
-	}
-
-	if (uids->len == 0)
-		goto exit;
-
 	session = e_mail_backend_get_session (priv->backend);
 
-	/* The first string is the folder URI. */
-	/* FIXME Not passing a GCancellable here. */
-	folder = e_mail_session_uri_to_folder_sync (
-		session, data, 0, NULL, &local_error);
-	if (folder == NULL)
+	em_utils_selection_uidlist_foreach_sync (selection_data, session,
+		gather_x_uid_list_messages_cb, &messages, NULL, &local_error);
+
+	if (local_error || !messages)
 		goto exit;
 
 	/* Handle one message. */
-	if (uids->len == 1) {
-		const gchar *message_uid;
-
-		message_uid = g_ptr_array_index (uids, 0);
-
-		/* FIXME Not passing a GCancellable here. */
-		message = camel_folder_get_message_sync (
-			folder, message_uid, NULL, &local_error);
-		if (message == NULL)
-			goto exit;
-
-		attachment = e_attachment_new_for_message (message);
+	if (!messages->next) {
+		attachment = e_attachment_new_for_message (messages->data);
 		e_attachment_store_add_attachment (store, attachment);
 		e_attachment_load_async (
 			attachment, (GAsyncReadyCallback)
 			call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
 
 		g_object_unref (attachment);
+	} else {
+		gint n_messages = g_slist_length (messages);
 
-		g_object_unref (message);
-		goto exit;
-	}
+		messages = g_slist_reverse (messages);
 
-	/* Build a multipart/digest message out of the UIDs. */
+		/* Build a multipart/digest message out of the UIDs. */
+		multipart = camel_multipart_new ();
+		wrapper = CAMEL_DATA_WRAPPER (multipart);
+		camel_data_wrapper_set_mime_type (wrapper, "multipart/digest");
+		camel_multipart_set_boundary (multipart, NULL);
 
-	multipart = camel_multipart_new ();
-	wrapper = CAMEL_DATA_WRAPPER (multipart);
-	camel_data_wrapper_set_mime_type (wrapper, "multipart/digest");
-	camel_multipart_set_boundary (multipart, NULL);
-
-	for (ii = 0; ii < uids->len; ii++) {
-		/* FIXME Not passing a GCancellable here. */
-		message = camel_folder_get_message_sync (
-			folder, uids->pdata[ii], NULL, &local_error);
-		if (message == NULL) {
-			g_object_unref (multipart);
-			goto exit;
+		for (link = messages; link; link = g_slist_next (link)) {
+			mime_part = camel_mime_part_new ();
+			wrapper = CAMEL_DATA_WRAPPER (link->data);
+			camel_mime_part_set_disposition (mime_part, "inline");
+			camel_medium_set_content (
+				CAMEL_MEDIUM (mime_part), wrapper);
+			camel_mime_part_set_content_type (mime_part, "message/rfc822");
+			camel_multipart_add_part (multipart, mime_part);
+			g_object_unref (mime_part);
 		}
 
 		mime_part = camel_mime_part_new ();
-		wrapper = CAMEL_DATA_WRAPPER (message);
-		camel_mime_part_set_disposition (mime_part, "inline");
-		camel_medium_set_content (
-			CAMEL_MEDIUM (mime_part), wrapper);
-		camel_mime_part_set_content_type (mime_part, "message/rfc822");
-		camel_multipart_add_part (multipart, mime_part);
-		g_object_unref (mime_part);
+		wrapper = CAMEL_DATA_WRAPPER (multipart);
+		camel_medium_set_content (CAMEL_MEDIUM (mime_part), wrapper);
 
-		g_object_unref (message);
+		description = g_strdup_printf (
+			ngettext (
+				"%d attached message",
+				"%d attached messages",
+				n_messages),
+			n_messages);
+		camel_mime_part_set_description (mime_part, description);
+		g_free (description);
+
+		attachment = e_attachment_new ();
+		e_attachment_set_mime_part (attachment, mime_part);
+		e_attachment_store_add_attachment (store, attachment);
+		e_attachment_load_async (
+			attachment, (GAsyncReadyCallback)
+			call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
+		g_object_unref (attachment);
+
+		g_object_unref (mime_part);
+		g_object_unref (multipart);
 	}
 
-	mime_part = camel_mime_part_new ();
-	wrapper = CAMEL_DATA_WRAPPER (multipart);
-	camel_medium_set_content (CAMEL_MEDIUM (mime_part), wrapper);
-
-	description = g_strdup_printf (
-		ngettext (
-			"%d attached message",
-			"%d attached messages",
-			uids->len),
-		uids->len);
-	camel_mime_part_set_description (mime_part, description);
-	g_free (description);
-
-	attachment = e_attachment_new ();
-	e_attachment_set_mime_part (attachment, mime_part);
-	e_attachment_store_add_attachment (store, attachment);
-	e_attachment_load_async (
-		attachment, (GAsyncReadyCallback)
-		call_attachment_load_handle_error, parent ? g_object_ref (parent) : NULL);
-	g_object_unref (attachment);
-
-	g_object_unref (mime_part);
-	g_object_unref (multipart);
-
-exit:
+ exit:
 	if (local_error != NULL) {
-		const gchar *folder_name = data;
-
-		if (folder != NULL)
-			folder_name = camel_folder_get_display_name (folder);
+		const gchar *folder_name = (const gchar *) gtk_selection_data_get_data (selection_data);
 
 		e_alert_run_dialog_for_args (
 			parent, "mail-composer:attach-nomessages",
@@ -700,10 +671,7 @@ exit:
 		g_clear_error (&local_error);
 	}
 
-	if (folder != NULL)
-		g_object_unref (folder);
-
-	g_ptr_array_free (uids, TRUE);
+	g_slist_free_full (messages, g_object_unref);
 
 	g_signal_stop_emission_by_name (view, "drag-data-received");
 }

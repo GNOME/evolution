@@ -742,22 +742,27 @@ em_utils_selection_set_uidlist (GtkSelectionData *selection_data,
 }
 
 /**
- * em_utils_selection_get_uidlist:
- * @data: selection data
+ * em_utils_selection_uidlist_foreach_sync:
+ * @selection_data: a #GtkSelectionData with x-uid-list content
  * @session: an #EMailSession
- * @move: do we delete the messages.
+ * @func: a function to call for each UID and its folder
+ * @user_data: user data for @func
+ * @cancellable: optional #GCancellable object, or %NULL
+ * @error: return location for a #GError, or %NULL
  *
- * Convert a uid list into a copy/move operation.
+ * Calls @func for each folder and UID provided in @selection_data.
  *
  * Warning: Could take some time to run.
+ *
+ * Since: 3.26.3
  **/
 void
-em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
-                                EMailSession *session,
-                                CamelFolder *dest,
-                                gint move,
-                                GCancellable *cancellable,
-                                GError **error)
+em_utils_selection_uidlist_foreach_sync (GtkSelectionData *selection_data,
+					 EMailSession *session,
+					 EMUtilsUIDListFunc func,
+					 gpointer user_data,
+					 GCancellable *cancellable,
+					 GError **error)
 {
 	/* format: "uri1\0uid1\0uri2\0uid2\0...\0urin\0uidn\0" */
 	gchar *inptr, *inend;
@@ -768,10 +773,12 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 	GHashTable *uids_by_uri;
 	GHashTableIter iter;
 	gpointer key, value;
+	gboolean can_continue = TRUE;
 	GError *local_error = NULL;
 
 	g_return_if_fail (selection_data != NULL);
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (func != NULL);
 
 	data = gtk_selection_data_get_data (selection_data);
 	length = gtk_selection_data_get_length (selection_data);
@@ -823,14 +830,12 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 		const gchar *uri = key;
 		GPtrArray *uids = value;
 
-		if (!local_error) {
+		if (!local_error && can_continue) {
 			/* FIXME e_mail_session_uri_to_folder_sync() may block. */
 			folder = e_mail_session_uri_to_folder_sync (
 				session, uri, 0, cancellable, &local_error);
 			if (folder) {
-				/* FIXME camel_folder_transfer_messages_to_sync() may block. */
-				camel_folder_transfer_messages_to_sync (
-					folder, uids, dest, move, NULL, cancellable, &local_error);
+				can_continue = func (folder, uids, user_data, cancellable, &local_error);
 				g_object_unref (folder);
 			}
 		}
@@ -843,6 +848,55 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 
 	if (local_error)
 		g_propagate_error (error, local_error);
+}
+
+struct UIDListData {
+	CamelFolder *dest;
+	gboolean move;
+};
+
+static gboolean
+uidlist_move_uids_cb (CamelFolder *folder,
+		      const GPtrArray *uids,
+		      gpointer user_data,
+		      GCancellable *cancellable,
+		      GError **error)
+{
+	struct UIDListData *uld = user_data;
+
+	g_return_val_if_fail (uld != NULL, FALSE);
+
+	/* FIXME camel_folder_transfer_messages_to_sync() may block. */
+	return camel_folder_transfer_messages_to_sync (
+		folder, (GPtrArray *) uids, uld->dest, uld->move, NULL, cancellable, error);
+}
+
+/**
+ * em_utils_selection_get_uidlist:
+ * @data: selection data
+ * @session: an #EMailSession
+ * @move: do we delete the messages.
+ *
+ * Convert a uid list into a copy/move operation.
+ *
+ * Warning: Could take some time to run.
+ **/
+void
+em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
+                                EMailSession *session,
+                                CamelFolder *dest,
+                                gint move,
+                                GCancellable *cancellable,
+                                GError **error)
+{
+	struct UIDListData uld;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (dest));
+
+	uld.dest = dest;
+	uld.move = move;
+
+	em_utils_selection_uidlist_foreach_sync	(selection_data, session, uidlist_move_uids_cb, &uld, cancellable, error);
 }
 
 /**
