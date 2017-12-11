@@ -1,3 +1,46 @@
+Evolution 3.27.3 2017-12-11
+---------------------------
+
+Bug Fixes:
+	Bug 700778 - TNEF attachment not processed properly (Milan Crha)
+	Bug 790263 - [alarm-notify] URLs in Location field should be clickable (Milan Crha)
+	Bug 790326 - [evolution-backup] Allow running without GUI/DISPLAY (Milan Crha)
+	Bug 789526 - Incorrect message selected after Delete in real Trash folder (Milan Crha)
+	Bug 789571 - Handle webcal:// URI to add new On The Web calendar (Milan Crha)
+	Bug 790069 - Free/Busy Publishing should not include X-SUMMARY and X-LOCATION (Milan Crha)
+	Bug 790291 - Disallow shrinking message list to zero width (Milan Crha)
+	Bug 790020 - Use original location when composing new message in Search Folder (Milan Crha)
+	Bug 680268 - Handle meeting invitation with detached instances (Milan Crha)
+	Bug 790311 - Print of message attachment shows main message headers (Milan Crha)
+	Bug 790944 - Attachment filename in multipart/mixed can be lost (Milan Crha)
+	Bug 790666 - Comma in Full Name breaks meeting organizer validity check (Milan Crha)
+	Bug 790952 - Skip extra leading forward slashes in mailto: from Chrome (Milan Crha)
+	Bug 790635 - Slow start with 10+ mail accounts enabled (Milan Crha)
+	Bug 262328 - Selecting collapsed threads only selects the first message (Milan Crha)
+	Bug 791203 - Add file extension to pasted image in Plain Text mode (Milan Crha)
+	Bug 790632 - Option to visually wrap long lines in composer (Milan Crha)
+	Bug 790773 - Add message list columns to show Sender/Recipients email addresses only (Milan Crha)
+	Bug 788603 - Ability to reorder mail filtering rules' conditions and actions (Milan Crha)
+	Bug 651270 - Allow Drag&Drop to reorder items in Mail Filters dialog (Milan Crha)
+
+Miscellaneous:
+	Workaround bug 674885 (type initialisation deadlock in GObject) (Milan Crha)
+	Address compiler warnings introduced with libytnef 1.9.2 (Milan Crha)
+	[Calendar] set_style_from_attendee(): Prevent crash when attendee has no mail set (Milan Crha)
+	Extend "delete-selects-previous" mail option to cover mark junk/not-junk too (Milan Crha)
+	Replace deprecated NONE with VOID in e-marshal.list (Milan Crha)
+	Drag&drop of multiple messages from message list to composer fails (Milan Crha)
+	[Composer] Better care of autosave snapshot after WebKitWebProcess crash (Milan Crha)
+	Remove the OMF file in help/ (Piotr Drąg)
+
+Translations:
+	Daniel Mustieles (es)
+	Marek Cernocky (cs)
+	Kjartan Maraas (nb)
+	Aurimas Černius (lt)
+	Kukuh Syafaat (id)
+	Christian Kirbach (de)
+
 Evolution 3.27.2 2017-11-13
 ---------------------------
 
