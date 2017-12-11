@@ -1,3 +1,31 @@
+Evolution 3.26.3 2017-12-11
+---------------------------
+
+Bug Fixes:
+	Bug 789648 - Problem viewing .eml attachment (Milan Crha)
+	Bug 700778 - TNEF attachment not processed properly (Milan Crha)
+	Bug 790263 - [alarm-notify] URLs in Location field should be clickable (Milan Crha)
+	Bug 790326 - [evolution-backup] Allow running without GUI/DISPLAY (Milan Crha)
+	Bug 789526 - Incorrect message selected after Delete in real Trash folder (Milan Crha)
+	Bug 789571 - Handle webcal:// URI to add new On The Web calendar (Milan Crha)
+	Bug 790069 - Free/Busy Publishing should not include X-SUMMARY and X-LOCATION (Milan Crha)
+	Bug 790291 - Disallow shrinking message list to zero width (Milan Crha)
+	Bug 680268 - Handle meeting invitation with detached instances (Milan Crha)
+	Bug 790311 - Print of message attachment shows main message headers (Milan Crha)
+	Bug 790944 - Attachment filename in multipart/mixed can be lost (Milan Crha)
+	Bug 790666 - Comma in Full Name breaks meeting organizer validity check (Milan Crha)
+	Bug 790952 - Skip extra leading forward slashes in mailto: from Chrome (Milan Crha)
+	Bug 791203 - Add file extension to pasted image in Plain Text mode (Milan Crha)
+
+Miscellaneous:
+	Workaround bug 674885 (type initialisation deadlock in GObject) (Milan Crha)
+	[Calendar] set_style_from_attendee(): Prevent crash when attendee has no mail set (Milan Crha)
+	Drag&drop of multiple messages from message list to composer fails (Milan Crha)
+	[Composer] Better care of autosave snapshot after WebKitWebProcess crash (Milan Crha)
+
+Translations:
+	Kjartan Maraas (nb)
+
 Evolution 3.26.2 2017-10-30
 ---------------------------
 
