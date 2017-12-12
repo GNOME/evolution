@@ -13,9 +13,9 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-12-05 12:00+0000\n"
-"PO-Revision-Date: 2017-12-06 19:26+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"POT-Creation-Date: 2017-12-07 17:34+0000\n"
+"PO-Revision-Date: 2017-12-11 16:19+0700\n"
+"Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -2543,6 +2543,14 @@ msgstr ""
 msgid "Visually wrap long lines in composer"
 msgstr "Secara visual lipat baris panjang pada komposer"
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
+#: ../src/composer/e-composer-actions.c:552
+msgid ""
+"Whether to visually wrap long lines of text to avoid horizontal scrolling"
+msgstr ""
+"Apakah secara visual membungkus teks baris yang panjang untuk menghindari "
+"pengguliran horizontal"
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 msgid "(Deprecated) Default forward style"
 msgstr "(Tak dipakai lagi) Gaya baku untuk penerusan surat"
@@ -3598,7 +3606,7 @@ msgstr "Opsi"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1360
 #: ../src/calendar/gui/e-cal-dialogs.c:694
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:301
-#: ../src/composer/e-composer-actions.c:227 ../src/e-util/e-activity-bar.c:357
+#: ../src/composer/e-composer-actions.c:229 ../src/e-util/e-activity-bar.c:357
 #: ../src/e-util/e-attachment-dialog.c:309
 #: ../src/e-util/e-attachment-store.c:664
 #: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:302
@@ -3613,8 +3621,8 @@ msgstr "Opsi"
 #: ../src/e-util/e-image-chooser-dialog.c:169
 #: ../src/e-util/e-mail-signature-script-dialog.c:366
 #: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:813
-#: ../src/e-util/e-rule-editor.c:186 ../src/e-util/e-rule-editor.c:297
-#: ../src/e-util/e-rule-editor.c:810 ../src/e-util/e-send-options.ui.h:16
+#: ../src/e-util/e-rule-editor.c:187 ../src/e-util/e-rule-editor.c:298
+#: ../src/e-util/e-rule-editor.c:930 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:360
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
@@ -3651,8 +3659,8 @@ msgstr "Ba_tal"
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:719
 #: ../src/calendar/calendar.error.xml.h:47
 #: ../src/calendar/gui/e-comp-editor.c:2115
-#: ../src/composer/e-composer-actions.c:228
-#: ../src/composer/e-composer-actions.c:348
+#: ../src/composer/e-composer-actions.c:230
+#: ../src/composer/e-composer-actions.c:350
 #: ../src/e-util/e-attachment-store.c:833
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
 #: ../src/e-util/e-webdav-browser.c:2467 ../src/e-util/e-web-view.c:4119
@@ -3911,12 +3919,12 @@ msgstr "Tambah _X.509"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1375
-#: ../src/e-util/e-attachment-view.c:356 ../src/e-util/e-filter-rule.c:223
+#: ../src/e-util/e-attachment-view.c:356 ../src/e-util/e-filter-rule.c:409
 #: ../src/e-util/e-mail-signature-manager.c:368
 #: ../src/e-util/e-name-selector-dialog.c:1037
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27
 #: ../src/mail/e-mail-config-identity-page.c:871
-#: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:438
+#: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:623
 #: ../src/mail/em-folder-properties.c:1037
 #: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:62
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:553
@@ -4099,8 +4107,8 @@ msgstr "Kontak tidak sah."
 #: ../src/e-util/e-filter-datespec.c:290
 #: ../src/e-util/e-html-editor-link-dialog.c:255
 #: ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:814
-#: ../src/e-util/e-rule-editor.c:187 ../src/e-util/e-rule-editor.c:298
-#: ../src/e-util/e-rule-editor.c:811 ../src/e-util/e-send-options.ui.h:17
+#: ../src/e-util/e-rule-editor.c:188 ../src/e-util/e-rule-editor.c:299
+#: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:361
 #: ../src/e-util/e-source-selector-dialog.c:371
 #: ../src/e-util/e-table-config.c:549 ../src/e-util/e-table-config.ui.h:4
@@ -5543,7 +5551,7 @@ msgid "_Save Changes"
 msgstr "_Simpan Perubahan"
 
 #: ../src/calendar/calendar.error.xml.h:31
-#: ../src/composer/mail-composer.error.xml.h:13
+#: ../src/composer/mail-composer.error.xml.h:15
 msgid "_Discard Changes"
 msgstr "_Abaikan Perubahan"
 
@@ -5583,7 +5591,7 @@ msgstr ""
 "mereka."
 
 #: ../src/calendar/calendar.error.xml.h:40
-#: ../src/composer/mail-composer.error.xml.h:38 ../src/mail/mail.error.xml.h:8
+#: ../src/composer/mail-composer.error.xml.h:40 ../src/mail/mail.error.xml.h:8
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Kirim"
@@ -6465,7 +6473,7 @@ msgid "calendar view for one or more weeks"
 msgstr "tampilan kalender untuk satu minggu atau lebih"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:214
-#: ../src/e-util/e-filter-rule.c:770 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:985 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Tak ada judul"
 
@@ -7416,12 +7424,12 @@ msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, pl
 msgstr "Lampiran “%s” tak memiliki URI yang valid, harap hapus dari daftar"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:647
-#: ../src/composer/e-composer-actions.c:320
+#: ../src/composer/e-composer-actions.c:322
 msgid "_Attachment..."
 msgstr "L_ampiran..."
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:649
-#: ../src/composer/e-composer-actions.c:322
+#: ../src/composer/e-composer-actions.c:324
 #: ../src/e-util/e-attachment-view.c:344
 msgid "Attach a file"
 msgstr "Lampirkan berkas"
@@ -8164,7 +8172,7 @@ msgstr "Tidak ada judul"
 
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:1984
-#: ../src/composer/e-composer-actions.c:327
+#: ../src/composer/e-composer-actions.c:329
 #: ../src/e-util/e-accounts-window.c:1730
 #: ../src/e-util/e-html-editor-dialog.c:194
 #: ../src/e-util/e-mail-signature-editor.c:309
@@ -8240,7 +8248,7 @@ msgid "Paste the clipboard"
 msgstr "Tempel isi clipboard"
 
 #: ../src/calendar/gui/e-comp-editor.c:2026
-#: ../src/composer/e-composer-actions.c:381 ../src/mail/e-mail-reader.c:2402
+#: ../src/composer/e-composer-actions.c:383 ../src/mail/e-mail-reader.c:2402
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1235
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1249
 msgid "_Print..."
@@ -8283,7 +8291,7 @@ msgid "_Insert"
 msgstr "_Masukkan"
 
 #: ../src/calendar/gui/e-comp-editor.c:2098
-#: ../src/composer/e-composer-actions.c:371
+#: ../src/composer/e-composer-actions.c:373
 msgid "_Options"
 msgstr "_Opsi"
 
@@ -10957,145 +10965,145 @@ msgstr "Pasifik/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pasifik/Yap"
 
-#: ../src/composer/e-composer-actions.c:225
+#: ../src/composer/e-composer-actions.c:227
 msgid "Save as..."
 msgstr "Simpan sebagai..."
 
-#: ../src/composer/e-composer-actions.c:329
+#: ../src/composer/e-composer-actions.c:331
 msgid "Close the current file"
 msgstr "Menutup berkas yang aktif saat ini"
 
-#: ../src/composer/e-composer-actions.c:334
+#: ../src/composer/e-composer-actions.c:336
 msgid "New _Message"
 msgstr "_Pesan Baru"
 
-#: ../src/composer/e-composer-actions.c:336
+#: ../src/composer/e-composer-actions.c:338
 msgid "Open New Message window"
 msgstr "Buka jendela pesan baru"
 
-#: ../src/composer/e-composer-actions.c:341 ../src/shell/e-shell.c:1302
+#: ../src/composer/e-composer-actions.c:343 ../src/shell/e-shell.c:1302
 #: ../src/shell/e-shell-window-actions.c:887
 msgid "_Preferences"
 msgstr "_Preferensi"
 
-#: ../src/composer/e-composer-actions.c:343
+#: ../src/composer/e-composer-actions.c:345
 #: ../src/shell/e-shell-window-actions.c:889
 msgid "Configure Evolution"
 msgstr "Konfigurasi Evolution"
 
-#: ../src/composer/e-composer-actions.c:350
+#: ../src/composer/e-composer-actions.c:352
 msgid "Save the current file"
 msgstr "Menyimpan berkas ini"
 
-#: ../src/composer/e-composer-actions.c:355
+#: ../src/composer/e-composer-actions.c:357
 msgid "Save _As..."
 msgstr "Simpan Seb_agai..."
 
-#: ../src/composer/e-composer-actions.c:357
+#: ../src/composer/e-composer-actions.c:359
 msgid "Save the current file with a different name"
 msgstr "Simpan file aktif sekarang dengan nama yang berbeda"
 
-#: ../src/composer/e-composer-actions.c:364
+#: ../src/composer/e-composer-actions.c:366
 msgid "Character _Encoding"
 msgstr "Pengkodean Karakt_er"
 
-#: ../src/composer/e-composer-actions.c:388
+#: ../src/composer/e-composer-actions.c:390
 msgid "Print Pre_view"
 msgstr "_Pratinjau Cetak"
 
-#: ../src/composer/e-composer-actions.c:395
+#: ../src/composer/e-composer-actions.c:397
 msgid "Save as _Draft"
 msgstr "Simpan sebagai _Rancangan"
 
-#: ../src/composer/e-composer-actions.c:397
+#: ../src/composer/e-composer-actions.c:399
 msgid "Save as draft"
 msgstr "Menyimpan sebagai rancangan pesan"
 
-#: ../src/composer/e-composer-actions.c:402
+#: ../src/composer/e-composer-actions.c:404
 msgid "S_end"
 msgstr "_Kirim"
 
-#: ../src/composer/e-composer-actions.c:404
+#: ../src/composer/e-composer-actions.c:406
 msgid "Send this message"
 msgstr "Mengirim pesan ini"
 
-#: ../src/composer/e-composer-actions.c:412
+#: ../src/composer/e-composer-actions.c:414
 msgid "PGP _Encrypt"
 msgstr "_Enkripsi PGP"
 
-#: ../src/composer/e-composer-actions.c:414
+#: ../src/composer/e-composer-actions.c:416
 msgid "Encrypt this message with PGP"
 msgstr "Mengenkripsi pesan ini dengan PGP"
 
-#: ../src/composer/e-composer-actions.c:420
+#: ../src/composer/e-composer-actions.c:422
 msgid "PGP _Sign"
 msgstr "_Tanda tangani PGP"
 
-#: ../src/composer/e-composer-actions.c:422
+#: ../src/composer/e-composer-actions.c:424
 msgid "Sign this message with your PGP key"
 msgstr "Menandatangani pesan ini dengan kunci PGP"
 
-#: ../src/composer/e-composer-actions.c:428
+#: ../src/composer/e-composer-actions.c:430
 msgid "_Picture Gallery"
 msgstr "_Galeri Gambar"
 
-#: ../src/composer/e-composer-actions.c:430
+#: ../src/composer/e-composer-actions.c:432
 msgid "Show a collection of pictures that you can drag to your message"
 msgstr "Tampilkan koleksi gambar yang dapat Anda seret ke pesan Anda"
 
-#: ../src/composer/e-composer-actions.c:436
+#: ../src/composer/e-composer-actions.c:438
 msgid "_Prioritize Message"
 msgstr "_Prioritaskan Pesan"
 
-#: ../src/composer/e-composer-actions.c:438
+#: ../src/composer/e-composer-actions.c:440
 msgid "Set the message priority to high"
 msgstr "Buat prioritas pesan tinggi"
 
-#: ../src/composer/e-composer-actions.c:444
+#: ../src/composer/e-composer-actions.c:446
 msgid "Re_quest Read Receipt"
 msgstr "Minta _Penerimaan Baca"
 
-#: ../src/composer/e-composer-actions.c:446
+#: ../src/composer/e-composer-actions.c:448
 msgid "Get delivery notification when your message is read"
 msgstr "Dapatkan pengiriman pemberitahuan ketika pesan Anda dibaca"
 
-#: ../src/composer/e-composer-actions.c:452
+#: ../src/composer/e-composer-actions.c:454
 msgid "S/MIME En_crypt"
 msgstr "_Enkripsi S/MIME"
 
-#: ../src/composer/e-composer-actions.c:454
+#: ../src/composer/e-composer-actions.c:456
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Acak surel ini dengan Sertifikat Enkripsi S/MIME"
 
-#: ../src/composer/e-composer-actions.c:460
+#: ../src/composer/e-composer-actions.c:462
 msgid "S/MIME Sig_n"
 msgstr "Ta_nda tangani S/MIME"
 
-#: ../src/composer/e-composer-actions.c:462
+#: ../src/composer/e-composer-actions.c:464
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Tanda tangani pesan ini dengan Sertifikat Tanda Tangan S/MIME"
 
-#: ../src/composer/e-composer-actions.c:516
+#: ../src/composer/e-composer-actions.c:518
 msgid "_Bcc Field"
 msgstr "Kolom _Bcc"
 
-#: ../src/composer/e-composer-actions.c:518
+#: ../src/composer/e-composer-actions.c:520
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Atur untuk menampilkan/menyembunyikan kolom Bcc"
 
-#: ../src/composer/e-composer-actions.c:524
+#: ../src/composer/e-composer-actions.c:526
 msgid "_Cc Field"
 msgstr "Kolom _Tembusan"
 
-#: ../src/composer/e-composer-actions.c:526
+#: ../src/composer/e-composer-actions.c:528
 msgid "Toggles whether the CC field is displayed"
 msgstr "Atur untuk menampilkan/menyembunyikan kolom Tembusan"
 
-#: ../src/composer/e-composer-actions.c:532
+#: ../src/composer/e-composer-actions.c:534
 msgid "_From Override Field"
 msgstr "_Dari Kolom Timpa"
 
-#: ../src/composer/e-composer-actions.c:534
+#: ../src/composer/e-composer-actions.c:536
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
@@ -11103,23 +11111,23 @@ msgstr ""
 "Jungkitkan apakah menimpa kolom Dari untuk mengganti nama atau alamat surel "
 "ditampilkan"
 
-#: ../src/composer/e-composer-actions.c:540
+#: ../src/composer/e-composer-actions.c:542
 msgid "_Reply-To Field"
 msgstr "Kolom _Alamat Balasan"
 
-#: ../src/composer/e-composer-actions.c:542
+#: ../src/composer/e-composer-actions.c:544
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Atur untuk menampilkan/menyembunyikan kolom Reply-To"
 
-#: ../src/composer/e-composer-actions.c:548
+#: ../src/composer/e-composer-actions.c:550
 msgid "Visually _Wrap Long Lines"
 msgstr "Secara Visual _Lipat Baris Panjang"
 
-#: ../src/composer/e-composer-actions.c:605
+#: ../src/composer/e-composer-actions.c:607
 msgid "Attach"
 msgstr "Lampirkan"
 
-#: ../src/composer/e-composer-actions.c:611
+#: ../src/composer/e-composer-actions.c:613
 msgid "Save Draft"
 msgstr "Simpan Draf"
 
@@ -11193,7 +11201,7 @@ msgstr "Klik untuk membuka buku alamat"
 msgid "Click here to select folders to post to"
 msgstr "Klik disini untuk memilih folder tempat posting"
 
-#: ../src/composer/e-msg-composer.c:859
+#: ../src/composer/e-msg-composer.c:860
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -11201,7 +11209,7 @@ msgstr ""
 "Tidak dapat menandatangani pesan keluar: Sertifikat untuk tanda tangan belum "
 "diset untuk akun ini"
 
-#: ../src/composer/e-msg-composer.c:868
+#: ../src/composer/e-msg-composer.c:869
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -11210,11 +11218,11 @@ msgstr ""
 "Tidak dapat mengacak pesan keluar: Sertifikat enkripsi belum diset untuk "
 "akun ini"
 
-#: ../src/composer/e-msg-composer.c:1627 ../src/composer/e-msg-composer.c:2299
+#: ../src/composer/e-msg-composer.c:1628 ../src/composer/e-msg-composer.c:2300
 msgid "Compose Message"
 msgstr "Tulis Pesan Baru"
 
-#: ../src/composer/e-msg-composer.c:4666
+#: ../src/composer/e-msg-composer.c:4685
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Komposer mengandung badan bukan teks, sehingga tidak dapat disunting."
 
@@ -11258,20 +11266,32 @@ msgid "_Recover"
 msgstr "_Kembalikan"
 
 #: ../src/composer/mail-composer.error.xml.h:9
+msgid "Do you want to recover last saved version of the message?"
+msgstr "Apakah Anda ingin memulihkan versi pesan tersimpan terakhir?"
+
+#: ../src/composer/mail-composer.error.xml.h:10
+msgid ""
+"Recovering the message will allow you to continue where it had been saved "
+"the last time."
+msgstr ""
+"Memulihkan pesan akan memungkinkan Anda melanjutkan penyimpanannya untuk "
+"yang terakhir kalinya."
+
+#: ../src/composer/mail-composer.error.xml.h:11
 msgid "Could not save to autosave file “{0}”."
 msgstr "Tidak dapat menyimpan ke berkas simpan otomatis “{0}”."
 
-#: ../src/composer/mail-composer.error.xml.h:10
+#: ../src/composer/mail-composer.error.xml.h:12
 msgid "Error saving to autosave because “{1}”."
 msgstr "Galat menyimpan ke berkas simpan otomatis karena “{1}”."
 
-#: ../src/composer/mail-composer.error.xml.h:11
+#: ../src/composer/mail-composer.error.xml.h:13
 msgid ""
 "Are you sure you want to discard the message, titled “{0}”, you are "
 "composing?"
 msgstr "Anda yakin ingin membuang pesan berjudul “{0}” yang sedang Anda tulis?"
 
-#: ../src/composer/mail-composer.error.xml.h:12
+#: ../src/composer/mail-composer.error.xml.h:14
 msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
@@ -11283,23 +11303,23 @@ msgstr ""
 "lanjutkan pada kesempatan lain. Bila tidak yakin, tekan tombol \"Batal\"."
 
 #. Response codes were chosen somewhat arbitrarily.
-#: ../src/composer/mail-composer.error.xml.h:15
+#: ../src/composer/mail-composer.error.xml.h:17
 msgid "_Continue Editing"
 msgstr "_Lanjutkan pengeditan"
 
-#: ../src/composer/mail-composer.error.xml.h:16
+#: ../src/composer/mail-composer.error.xml.h:18
 msgid "_Save Draft"
 msgstr "_Simpan Draf"
 
-#: ../src/composer/mail-composer.error.xml.h:17
+#: ../src/composer/mail-composer.error.xml.h:19
 msgid "Are you sure you want to discard the message you are composing?"
 msgstr "Anda yakin ingin membuang pesan yang sedang Anda susun?"
 
-#: ../src/composer/mail-composer.error.xml.h:18
+#: ../src/composer/mail-composer.error.xml.h:20
 msgid "Could not create message."
 msgstr "Tidak dapat membuat pesan."
 
-#: ../src/composer/mail-composer.error.xml.h:19
+#: ../src/composer/mail-composer.error.xml.h:21
 msgid ""
 "You may need to select different mail options.\n"
 "\n"
@@ -11309,63 +11329,63 @@ msgstr ""
 "\n"
 "Rincian kesalahan: {0}"
 
-#: ../src/composer/mail-composer.error.xml.h:22
+#: ../src/composer/mail-composer.error.xml.h:24
 msgid "Could not read signature file “{0}”."
 msgstr "Tidak dapat membaca berkas tanda tangan “{0}”."
 
-#: ../src/composer/mail-composer.error.xml.h:23
+#: ../src/composer/mail-composer.error.xml.h:25
 msgid "All accounts have been removed."
 msgstr "Semua akun telah dihapus."
 
-#: ../src/composer/mail-composer.error.xml.h:24
+#: ../src/composer/mail-composer.error.xml.h:26
 msgid "You need to configure an account before you can compose mail."
 msgstr "Anda harus mengonfigurasi akun sebelum dapat menulis pesan baru."
 
-#: ../src/composer/mail-composer.error.xml.h:25
+#: ../src/composer/mail-composer.error.xml.h:27
 msgid "An error occurred while saving to your Outbox folder."
 msgstr "Terjadi galat ketika menyimpan ke folder Outbox Anda."
 
-#: ../src/composer/mail-composer.error.xml.h:26
+#: ../src/composer/mail-composer.error.xml.h:28
 msgid "The reported error was “{0}”. The message has not been sent."
 msgstr "Galat yang dilaporkan adalah “{0}”. Pesan belum terkirim."
 
-#: ../src/composer/mail-composer.error.xml.h:27
+#: ../src/composer/mail-composer.error.xml.h:29
 msgid "An error occurred while saving to your Drafts folder."
 msgstr "Terjadi galat ketika menyimpan ke folder Draft Anda."
 
-#: ../src/composer/mail-composer.error.xml.h:28
+#: ../src/composer/mail-composer.error.xml.h:30
 msgid ""
 "The reported error was “{0}”. The message has most likely not been saved."
 msgstr "Galat yang dilaporkan adalah “{0}”. Pesan boleh jadi tak tersimpan."
 
-#: ../src/composer/mail-composer.error.xml.h:29
+#: ../src/composer/mail-composer.error.xml.h:31
 msgid "An error occurred while sending. How do you want to proceed?"
 msgstr ""
 "Terjadi galat ketika mengirim. Anda ingin melanjutkan dengan cara bagaimana?"
 
-#: ../src/composer/mail-composer.error.xml.h:30
+#: ../src/composer/mail-composer.error.xml.h:32
 #: ../src/mail/mail.error.xml.h:177
 msgid "The reported error was “{0}”."
 msgstr "Galat yang dilaporkan adalah “{0}”."
 
-#: ../src/composer/mail-composer.error.xml.h:31
+#: ../src/composer/mail-composer.error.xml.h:33
 msgid "_Save to Outbox"
 msgstr "_Simpan ke Outbox"
 
-#: ../src/composer/mail-composer.error.xml.h:32
+#: ../src/composer/mail-composer.error.xml.h:34
 #: ../src/e-util/e-collection-account-wizard.c:440
 msgid "_Try Again"
 msgstr "Coba _Lagi"
 
-#: ../src/composer/mail-composer.error.xml.h:33
+#: ../src/composer/mail-composer.error.xml.h:35
 msgid "Your message was sent, but an error occurred during post-processing."
 msgstr "Pesan Anda terkirim, tapi terjadi galat saat paska pemrosesan."
 
-#: ../src/composer/mail-composer.error.xml.h:34
+#: ../src/composer/mail-composer.error.xml.h:36
 msgid "Saving message to Outbox."
 msgstr "Menyimpan pesan ke Outbox."
 
-#: ../src/composer/mail-composer.error.xml.h:35
+#: ../src/composer/mail-composer.error.xml.h:37
 msgid ""
 "The message will be saved to your local Outbox folder, because the "
 "destination service is currently unavailable. You can send the message by "
@@ -11375,11 +11395,11 @@ msgstr ""
 "kini tak tersedia. Anda dapat mengirim pesan dengan mengklik tombol Kirim/"
 "Terima pada bilah perkakas Evolution."
 
-#: ../src/composer/mail-composer.error.xml.h:36
+#: ../src/composer/mail-composer.error.xml.h:38
 msgid "Are you sure you want to send the message?"
 msgstr "Anda yakin ingin mengirim pesan?"
 
-#: ../src/composer/mail-composer.error.xml.h:37
+#: ../src/composer/mail-composer.error.xml.h:39
 msgid ""
 "A keyboard accelerator to send the message has been pressed. Either cancel "
 "sending the message, if it was done by an accident, or send the message."
@@ -11388,11 +11408,11 @@ msgstr ""
 "membatalkan pengiriman pesan, jika hal itu dilakukan oleh kecelakaan, atau "
 "mengirim pesan."
 
-#: ../src/composer/mail-composer.error.xml.h:39
+#: ../src/composer/mail-composer.error.xml.h:41
 msgid "Are you sure you want to change the composer format?"
 msgstr "Apakah Anda yakin ingin mengubah format komposer?"
 
-#: ../src/composer/mail-composer.error.xml.h:40
+#: ../src/composer/mail-composer.error.xml.h:42
 msgid ""
 "Switching to Plain Text format will cause the text to lose all the HTML "
 "formatting. Do you want to continue?"
@@ -11400,23 +11420,23 @@ msgstr ""
 "Beralih ke format Plain Text  akan menyebabkan teks kehilangan semua format "
 "HTML. Apakah Anda ingin melanjutkan?"
 
-#: ../src/composer/mail-composer.error.xml.h:41
+#: ../src/composer/mail-composer.error.xml.h:43
 msgid "_Don’t lose formatting"
 msgstr "Jangan kehilangan format"
 
-#: ../src/composer/mail-composer.error.xml.h:42
+#: ../src/composer/mail-composer.error.xml.h:44
 msgid "Lose _formatting"
 msgstr "Kehilangan format"
 
-#: ../src/composer/mail-composer.error.xml.h:43
+#: ../src/composer/mail-composer.error.xml.h:45
 msgid "An error occurred while saving to your Templates folder."
 msgstr "Terjadi galat ketika menyimpan ke folder Templat Anda."
 
-#: ../src/composer/mail-composer.error.xml.h:44
+#: ../src/composer/mail-composer.error.xml.h:46
 msgid "Are you sure you want to convert the message into a meeting?"
 msgstr "Apakah Anda yakin Anda ingin mengkonversi pesan ke dalam rapat?"
 
-#: ../src/composer/mail-composer.error.xml.h:45
+#: ../src/composer/mail-composer.error.xml.h:47
 msgid ""
 "By converting the message into the meeting the composed message will be "
 "closed and the changes being done discarded."
@@ -11424,15 +11444,15 @@ msgstr ""
 "Dengan mengkonversi pesan ke dalam rapat, pesan yang disusun akan ditutup "
 "dan perubahan yang selesai dilakukan dibuang."
 
-#: ../src/composer/mail-composer.error.xml.h:46
+#: ../src/composer/mail-composer.error.xml.h:48
 msgid "Convert to _Meeting"
 msgstr "Konversi ke _Rapat"
 
-#: ../src/composer/mail-composer.error.xml.h:47
+#: ../src/composer/mail-composer.error.xml.h:49
 msgid "Are you sure you want to convert the event into a message?"
 msgstr "Apakah Anda yakin Anda ingin mengkonversi acara ke dalam pesan?"
 
-#: ../src/composer/mail-composer.error.xml.h:48
+#: ../src/composer/mail-composer.error.xml.h:50
 msgid ""
 "By converting the event into the message the editing window will be closed "
 "and the changes being done discarded."
@@ -11440,15 +11460,15 @@ msgstr ""
 "Dengan mengkonversi acara menjadi pesan, jendela penyuntingan akan ditutup "
 "dan perubahan yang selesai dilakukan dibuang."
 
-#: ../src/composer/mail-composer.error.xml.h:49
+#: ../src/composer/mail-composer.error.xml.h:51
 msgid "Convert to _Message"
 msgstr "Konversi ke Pesa_n"
 
-#: ../src/composer/mail-composer.error.xml.h:50
+#: ../src/composer/mail-composer.error.xml.h:52
 msgid "Are you sure you want to convert the memo into a message?"
 msgstr "Apakah Anda yakin Anda ingin mengkonversi memo ke dalam pesan?"
 
-#: ../src/composer/mail-composer.error.xml.h:51
+#: ../src/composer/mail-composer.error.xml.h:53
 msgid ""
 "By converting the memo into the message the editing window will be closed "
 "and the changes being done discarded."
@@ -11456,11 +11476,11 @@ msgstr ""
 "Dengan mengkonversi memo menjadi pesan, jendela penyuntingan akan ditutup "
 "dan perubahan yang selesai dilakukan dibuang."
 
-#: ../src/composer/mail-composer.error.xml.h:52
+#: ../src/composer/mail-composer.error.xml.h:54
 msgid "Are you sure you want to convert the task into a message?"
 msgstr "Apakah Anda yakin Anda ingin mengkonversi tugas ke dalam pesan?"
 
-#: ../src/composer/mail-composer.error.xml.h:53
+#: ../src/composer/mail-composer.error.xml.h:55
 msgid ""
 "By converting the task into the message the editing window will be closed "
 "and the changes being done discarded."
@@ -11468,11 +11488,11 @@ msgstr ""
 "Dengan mengkonversi tugas menjadi pesan, jendela penyuntingan akan ditutup "
 "dan perubahan yang selesai dilakukan dibuang."
 
-#: ../src/composer/mail-composer.error.xml.h:54
+#: ../src/composer/mail-composer.error.xml.h:56
 msgid "Something has gone wrong when editing the message"
 msgstr "Ada yang tidak beres saat menyunting pesan"
 
-#: ../src/composer/mail-composer.error.xml.h:55
+#: ../src/composer/mail-composer.error.xml.h:57
 msgid ""
 "A WebKitWebProcess crashed when editing the message. You can try again by "
 "closing the composer window and opening a new one. If the issue persists, "
@@ -13136,23 +13156,23 @@ msgstr "Pilih tanggal pembanding"
 msgid "Choose a File"
 msgstr "Pilih berkas"
 
-#: ../src/e-util/e-filter-rule.c:763
+#: ../src/e-util/e-filter-rule.c:978
 msgid "R_ule name:"
 msgstr "Nama at_uran:"
 
-#: ../src/e-util/e-filter-rule.c:813
+#: ../src/e-util/e-filter-rule.c:1034
 msgid "all the following conditions"
 msgstr "semua kondisi berikut"
 
-#: ../src/e-util/e-filter-rule.c:814
+#: ../src/e-util/e-filter-rule.c:1035
 msgid "any of the following conditions"
 msgstr "sebarang syarat berikut"
 
-#: ../src/e-util/e-filter-rule.c:820
+#: ../src/e-util/e-filter-rule.c:1041
 msgid "_Find items which match:"
 msgstr "_Temukan objek yang cocok:"
 
-#: ../src/e-util/e-filter-rule.c:843
+#: ../src/e-util/e-filter-rule.c:1064
 msgid "Find items that meet the following conditions"
 msgstr "Temukan objek yang memenuhi kondisi berikut"
 
@@ -13160,7 +13180,7 @@ msgstr "Temukan objek yang memenuhi kondisi berikut"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:858
+#: ../src/e-util/e-filter-rule.c:1079
 #: ../src/e-util/e-html-editor-page-dialog.c:59
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -13171,36 +13191,36 @@ msgstr "Temukan objek yang memenuhi kondisi berikut"
 msgid "None"
 msgstr "Nihil"
 
-#: ../src/e-util/e-filter-rule.c:859
+#: ../src/e-util/e-filter-rule.c:1080
 msgid "All related"
 msgstr "Semua yg berhubungan"
 
-#: ../src/e-util/e-filter-rule.c:860 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1081 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Balasan"
 
-#: ../src/e-util/e-filter-rule.c:861
+#: ../src/e-util/e-filter-rule.c:1082
 msgid "Replies and parents"
 msgstr "Balasan dan induk"
 
-#: ../src/e-util/e-filter-rule.c:862
+#: ../src/e-util/e-filter-rule.c:1083
 msgid "No reply or parent"
 msgstr "Tidak ada balasan ataupun orang tua"
 
-#: ../src/e-util/e-filter-rule.c:865
+#: ../src/e-util/e-filter-rule.c:1086
 msgid "I_nclude threads:"
 msgstr "Ter_masuk ulir diskusi:"
 
-#: ../src/e-util/e-filter-rule.c:944
+#: ../src/e-util/e-filter-rule.c:1164
 msgid "A_dd Condition"
 msgstr "_Tambah Syarat"
 
-#: ../src/e-util/e-filter-rule.c:1258 ../src/e-util/filter.ui.h:1
-#: ../src/mail/em-filter-rule.c:615 ../src/mail/em-utils.c:166
+#: ../src/e-util/e-filter-rule.c:1478 ../src/e-util/filter.ui.h:1
+#: ../src/mail/em-filter-rule.c:828 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Masuk"
 
-#: ../src/e-util/e-filter-rule.c:1258 ../src/mail/em-filter-rule.c:616
+#: ../src/e-util/e-filter-rule.c:1478 ../src/mail/em-filter-rule.c:829
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Keluar"
@@ -14625,11 +14645,11 @@ msgstr "Membuat suatu profil proksi baru"
 msgid "Delete the selected proxy profile"
 msgstr "Hapus profil proksi yang dipilih"
 
-#: ../src/e-util/e-rule-editor.c:190
+#: ../src/e-util/e-rule-editor.c:191
 msgid "Add Rule"
 msgstr "Tambah Aturan"
 
-#: ../src/e-util/e-rule-editor.c:301
+#: ../src/e-util/e-rule-editor.c:302
 msgid "Edit Rule"
 msgstr "Ganti Aturan"
 
@@ -17132,12 +17152,12 @@ msgid "Flag the selected messages for follow-up"
 msgstr "Tandai pesan-pesan yang dipilih untuk ditindaklanjuti"
 
 #: ../src/mail/e-mail-reader.c:2199
-#: ../src/modules/mail/e-mail-attachment-handler.c:430
+#: ../src/modules/mail/e-mail-attachment-handler.c:431
 msgid "_Attached"
 msgstr "Terl_ampir"
 
 #: ../src/mail/e-mail-reader.c:2201 ../src/mail/e-mail-reader.c:2208
-#: ../src/modules/mail/e-mail-attachment-handler.c:432
+#: ../src/modules/mail/e-mail-attachment-handler.c:433
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Meneruskan pesan ini ke orang lain sebagai lampiran"
 
@@ -17146,12 +17166,12 @@ msgid "Forward As _Attached"
 msgstr "Terusk_an Sebagai Lampiran"
 
 #: ../src/mail/e-mail-reader.c:2213
-#: ../src/modules/mail/e-mail-attachment-handler.c:437
+#: ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
 msgstr "_Teks Pesan"
 
 #: ../src/mail/e-mail-reader.c:2215 ../src/mail/e-mail-reader.c:2222
-#: ../src/modules/mail/e-mail-attachment-handler.c:439
+#: ../src/modules/mail/e-mail-attachment-handler.c:440
 msgid "Forward the selected message in the body of a new message"
 msgstr "Meneruskan pesan ini sebagai bagian teks untuk pesan yang baru"
 
@@ -17160,12 +17180,12 @@ msgid "Forward As _Inline"
 msgstr "Teruskan Sebaga_i Teks Pesan"
 
 #: ../src/mail/e-mail-reader.c:2227
-#: ../src/modules/mail/e-mail-attachment-handler.c:444
+#: ../src/modules/mail/e-mail-attachment-handler.c:445
 msgid "_Quoted"
 msgstr "_Kutipan"
 
 #: ../src/mail/e-mail-reader.c:2229 ../src/mail/e-mail-reader.c:2236
-#: ../src/modules/mail/e-mail-attachment-handler.c:446
+#: ../src/modules/mail/e-mail-attachment-handler.c:447
 msgid "Forward the selected message quoted like a reply"
 msgstr "Meneruskan pesan ini dalam bentuk kutipan"
 
@@ -17264,12 +17284,12 @@ msgid "Mark the selected messages as not having been read"
 msgstr "Menandai pesan yang dipilih sebagai belum dibaca"
 
 #: ../src/mail/e-mail-reader.c:2318
-#: ../src/modules/mail/e-mail-attachment-handler.c:416
+#: ../src/modules/mail/e-mail-attachment-handler.c:417
 msgid "_Edit as New Message..."
 msgstr "Sunting s_ebagai Pesan Baru..."
 
 #: ../src/mail/e-mail-reader.c:2320
-#: ../src/modules/mail/e-mail-attachment-handler.c:418
+#: ../src/modules/mail/e-mail-attachment-handler.c:419
 msgid "Open the selected messages in the composer for editing"
 msgstr "Membuka pesan yang dipilih pada komposer untuk disunting"
 
@@ -17370,12 +17390,12 @@ msgid "Preview the message to be printed"
 msgstr "Melihat pratinjau pesan sebelum dicetak"
 
 #: ../src/mail/e-mail-reader.c:2416
-#: ../src/modules/mail/e-mail-attachment-handler.c:451
+#: ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
 msgstr "Re_direksi"
 
 #: ../src/mail/e-mail-reader.c:2418
-#: ../src/modules/mail/e-mail-attachment-handler.c:453
+#: ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Meredireksi (bounce) pesan ini kepada orang lain"
 
@@ -17397,32 +17417,32 @@ msgstr "Periksa apakah ada duplikat pada pesan-pesan yang dipilih"
 
 #: ../src/mail/e-mail-reader.c:2437 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
-#: ../src/modules/mail/e-mail-attachment-handler.c:395
+#: ../src/modules/mail/e-mail-attachment-handler.c:396
 msgid "Reply to _All"
 msgstr "B_alas ke Semua"
 
 #: ../src/mail/e-mail-reader.c:2439
-#: ../src/modules/mail/e-mail-attachment-handler.c:397
+#: ../src/modules/mail/e-mail-attachment-handler.c:398
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Menulis balasan ke semua penerima pesan ini"
 
 #: ../src/mail/e-mail-reader.c:2444 ../src/mail/mail.error.xml.h:26
-#: ../src/modules/mail/e-mail-attachment-handler.c:402
+#: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
 msgstr "Balas ke Mi_lis"
 
 #: ../src/mail/e-mail-reader.c:2446
-#: ../src/modules/mail/e-mail-attachment-handler.c:404
+#: ../src/modules/mail/e-mail-attachment-handler.c:405
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Menulis balasan kepada milis pesan ini"
 
 #: ../src/mail/e-mail-reader.c:2451
-#: ../src/modules/mail/e-mail-attachment-handler.c:409
+#: ../src/modules/mail/e-mail-attachment-handler.c:410
 msgid "_Reply to Sender"
 msgstr "Balas ke Pengi_rim"
 
 #: ../src/mail/e-mail-reader.c:2453
-#: ../src/modules/mail/e-mail-attachment-handler.c:411
+#: ../src/modules/mail/e-mail-attachment-handler.c:412
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Menulis balasan kepada pengirim pesan ini"
 
@@ -17479,7 +17499,7 @@ msgid "Ch_aracter Encoding"
 msgstr "Enkode K_arakter"
 
 #: ../src/mail/e-mail-reader.c:2523
-#: ../src/modules/mail/e-mail-attachment-handler.c:423
+#: ../src/modules/mail/e-mail-attachment-handler.c:424
 msgid "F_orward As"
 msgstr "Ter_uskan Sebagai"
 
@@ -17584,12 +17604,12 @@ msgid "Retrieving message"
 msgstr "Mengambil pesan"
 
 #: ../src/mail/e-mail-reader.c:4327
-#: ../src/modules/mail/e-mail-attachment-handler.c:388
+#: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "_Teruskan"
 
 #: ../src/mail/e-mail-reader.c:4328
-#: ../src/modules/mail/e-mail-attachment-handler.c:390
+#: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Meneruskan pesan yang dipilih ke orang lain"
 
@@ -17811,16 +17831,16 @@ msgstr "Pilih folder tempat melakukan posting."
 msgid "Select Folder"
 msgstr "Pilih Folder"
 
-#: ../src/mail/em-filter-rule.c:610
+#: ../src/mail/em-filter-rule.c:823
 msgid "Rul_e type:"
 msgstr "_Jenis Aturan:"
 
 #. and now for the action area
-#: ../src/mail/em-filter-rule.c:632
+#: ../src/mail/em-filter-rule.c:845
 msgid "Then"
 msgstr "Lalu Berdasarkan"
 
-#: ../src/mail/em-filter-rule.c:697
+#: ../src/mail/em-filter-rule.c:918
 msgid "Add Ac_tion"
 msgstr "_Tambah aksi"
 
@@ -18142,24 +18162,24 @@ msgstr[0] "Anda yakin ingin membuka sekaligus %d pesan?"
 msgid "Message Filters"
 msgstr "Penyaringan Pesan"
 
-#: ../src/mail/em-utils.c:950
+#: ../src/mail/em-utils.c:1004
 #, c-format
 msgid "Messages from %s"
 msgstr "Pesan dari %s"
 
 #. Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string.
-#: ../src/mail/em-utils.c:1503
+#: ../src/mail/em-utils.c:1557
 msgctxt "reply-attribution"
 msgid "Re"
 msgstr "Bls"
 
 #. Translators: This is a reply attribution separator in the message reply subject. This should match the ':' in 'Re: %s' in the 'reply-attribution' translation context.
-#: ../src/mail/em-utils.c:1506
+#: ../src/mail/em-utils.c:1560
 msgctxt "reply-attribution"
 msgid ":"
 msgstr ":"
 
-#: ../src/mail/em-utils.c:1792
+#: ../src/mail/em-utils.c:1846
 msgid "Deleting old messages"
 msgstr "Sedang menghapus pesan lama"
 
@@ -23453,7 +23473,7 @@ msgstr "Fitur Yahoo!"
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
 msgstr "Tambah Tugas dan Ka_lender Yahoo! ke akun ini"
 
-#: ../src/modules/mail/e-mail-attachment-handler.c:671
+#: ../src/modules/mail/e-mail-attachment-handler.c:644
 #, c-format
 msgid "%d attached message"
 msgid_plural "%d attached messages"
