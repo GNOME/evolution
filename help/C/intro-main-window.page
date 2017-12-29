@@ -8,7 +8,7 @@
     <link type="seealso" xref="calendar-layout"/>
     <link type="seealso" xref="mail-layout-changing"/>
 
-    <revision pkgversion="3.25.90" version="0.7" date="2017-08-04" status="final"/>
+    <revision pkgversion="3.26.3" version="0.8" date="2017-12-29" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -91,6 +91,7 @@
 <note style="tip"><p>You can disable the to do bar by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>.</p></note>
 </item>
 </terms>
+<note style="tip"><p>If you ever accidentially hide the menu bar, open a Terminal application and run the command <cmd>gsettings set org.gnome.evolution.shell menubar-visible true</cmd> to reenable it.</p></note>
 </section>
 
 <section id="calendar">
