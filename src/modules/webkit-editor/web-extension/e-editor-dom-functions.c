@@ -2871,7 +2871,7 @@ body_keypress_event_cb (WebKitDOMElement *element,
 	g_clear_object (&dom_window);
 	range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 
-	if (!webkit_dom_range_get_collapsed (range, NULL))
+	if (range && !webkit_dom_range_get_collapsed (range, NULL))
 		insert_delete_event (editor_page, range);
 
 	g_clear_object (&dom_selection);
