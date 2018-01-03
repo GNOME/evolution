@@ -36,6 +36,7 @@
 #include <enchant/enchant.h>
 
 #include "e-composer-from-header.h"
+#include "e-composer-text-header.h"
 #include "e-composer-private.h"
 
 #include <em-format/e-mail-part.h>
@@ -1198,9 +1199,19 @@ composer_build_message (EMsgComposer *composer,
 
 		/* Disposition-Notification-To */
 		if (flags & COMPOSER_FLAG_REQUEST_READ_RECEIPT) {
+			EComposerHeader *header;
 			const gchar *mdn_address;
 
-			mdn_address = e_source_mail_identity_get_reply_to (mi);
+			header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_REPLY_TO);
+			mdn_address = e_composer_text_header_get_text (E_COMPOSER_TEXT_HEADER (header));
+
+			if (!mdn_address || !*mdn_address) {
+				header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM);
+				mdn_address = e_composer_from_header_get_address (E_COMPOSER_FROM_HEADER (header));
+			}
+
+			if (!mdn_address || !*mdn_address)
+				mdn_address = e_source_mail_identity_get_reply_to (mi);
 			if (mdn_address == NULL)
 				mdn_address = e_source_mail_identity_get_address (mi);
 			if (mdn_address != NULL)
