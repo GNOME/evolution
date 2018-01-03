@@ -1603,7 +1603,9 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 
 	fast_insert =
 		(g_utf8_strchr (new_text, new_text_length, ' ') == NULL) &&
-		(g_utf8_strchr (new_text, new_text_length, ',') == NULL);
+		(g_utf8_strchr (new_text, new_text_length, ',') == NULL) &&
+		(g_utf8_strchr (new_text, new_text_length, '\t') == NULL) &&
+		(g_utf8_strchr (new_text, new_text_length, '\n') == NULL);
 
 	/* If the text to insert does not contain spaces or commas,
 	 * insert all of it at once.  This avoids confusing on-going
@@ -1623,9 +1625,22 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 	 * can be inserted, and insert a trailing space after comma. */
 	} else {
 		const gchar *cp;
+		gboolean last_was_comma = FALSE;
 
 		for (cp = new_text; *cp; cp = g_utf8_next_char (cp)) {
 			gunichar uc = g_utf8_get_char (cp);
+
+			if (uc == '\n' || uc == '\t') {
+				if (last_was_comma)
+					continue;
+				last_was_comma = TRUE;
+				uc = ',';
+			} else if (uc == '\r') {
+				continue;
+			} else {
+				last_was_comma = uc == ',';
+			}
+
 			insert_unichar (name_selector_entry, position, uc);
 			chars_inserted++;
 		}
