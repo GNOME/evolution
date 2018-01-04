@@ -1777,6 +1777,71 @@ mail_display_suggest_filename (EWebView *web_view,
 }
 
 static void
+mail_display_save_part_for_drop (CamelMimePart *mime_part,
+				 GtkSelectionData *data)
+{
+	gchar *tmp, *path, *filename;
+	const gchar *part_filename;
+	CamelDataWrapper *dw;
+
+	g_return_if_fail (CAMEL_IS_MIME_PART (mime_part));
+	g_return_if_fail (data != NULL);
+
+	tmp = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
+	path = e_mkdtemp (tmp);
+	g_free (tmp);
+
+	g_return_if_fail (path != NULL);
+
+	part_filename = camel_mime_part_get_filename (mime_part);
+	if (!part_filename || !*part_filename) {
+		CamelDataWrapper *content;
+
+		content = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+
+		if (CAMEL_IS_MIME_MESSAGE (content))
+			part_filename = camel_mime_message_get_subject (CAMEL_MIME_MESSAGE (content));
+	}
+
+	if (!part_filename || !*part_filename)
+		part_filename = "mail-part";
+
+	tmp = g_strdup (part_filename);
+	e_filename_make_safe (tmp);
+
+	filename = g_build_filename (path, tmp, NULL);
+	g_free (tmp);
+
+	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+	g_warn_if_fail (dw);
+
+	if (dw) {
+		CamelStream *stream;
+
+		stream = camel_stream_fs_new_with_name (filename, O_CREAT | O_TRUNC | O_WRONLY, 0666, NULL);
+		if (stream) {
+			if (camel_data_wrapper_decode_to_stream_sync (dw, stream, NULL, NULL)) {
+				tmp = g_filename_to_uri (filename, NULL, NULL);
+				if (tmp) {
+					gtk_selection_data_set (
+						data,
+						gtk_selection_data_get_data_type (data),
+						gtk_selection_data_get_format (data),
+						(const guchar *) tmp, strlen (tmp));
+					g_free (tmp);
+				}
+			}
+
+			camel_stream_close (stream, NULL, NULL);
+			g_object_unref (stream);
+		}
+	}
+
+	g_free (filename);
+	g_free (path);
+}
+
+static void
 mail_display_drag_data_get (GtkWidget *widget,
                             GdkDragContext *context,
                             GtkSelectionData *data,
@@ -1799,6 +1864,52 @@ mail_display_drag_data_get (GtkWidget *widget,
 	uri = g_strndup ((const gchar *) data_from_webkit, length);
 
 	mime_part = camel_mime_part_from_cid (display, uri);
+
+	if (!mime_part && g_str_has_prefix (uri, "mail:")) {
+		SoupURI *soup_uri;
+		const gchar *soup_query;
+
+		soup_uri = soup_uri_new (uri);
+		if (soup_uri) {
+			soup_query = soup_uri_get_query (soup_uri);
+			if (soup_query) {
+				GHashTable *query;
+				const gchar *part_id_raw;
+
+				query = soup_form_decode (soup_query);
+				part_id_raw = query ? g_hash_table_lookup (query, "part_id") : NULL;
+				if (part_id_raw && *part_id_raw) {
+					EMailPartList *part_list;
+					EMailPart *mail_part;
+
+					part_list = e_mail_display_get_part_list (display);
+					if (part_list) {
+						gchar *part_id = soup_uri_decode (part_id_raw);
+
+						mail_part = e_mail_part_list_ref_part (part_list, part_id);
+						g_free (part_id);
+
+						if (mail_part) {
+							CamelMimePart *part;
+
+							part = e_mail_part_ref_mime_part (mail_part);
+							if (part) {
+								mail_display_save_part_for_drop (part, data);
+							}
+
+							g_clear_object (&part);
+							g_object_unref (mail_part);
+						}
+					}
+				}
+
+				if (query)
+					g_hash_table_unref (query);
+			}
+
+			soup_uri_free (soup_uri);
+		}
+	}
 
 	if (!mime_part)
 		goto out;
