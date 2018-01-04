@@ -457,10 +457,6 @@ e_cal_component_preview_init (ECalComponentPreview *preview)
 	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
 
 	g_signal_connect (
-		preview, "style-updated",
-		G_CALLBACK (load_comp), NULL);
-
-	g_signal_connect (
 		preview, "web-process-crashed",
 		G_CALLBACK (cal_component_preview_web_process_crashed_cb), NULL);
 }
