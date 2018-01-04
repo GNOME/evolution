@@ -124,6 +124,7 @@
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
                     <property name="wrap_mode">word</property>
+                    <property name="monospace">True</property>
                   </object>
                 </child>
               </object>

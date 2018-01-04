@@ -557,6 +557,7 @@ ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 
 	text_view = GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (*out_edit_widget)));
 	gtk_text_view_set_wrap_mode (text_view, GTK_WRAP_WORD);
+	gtk_text_view_set_monospace (text_view, TRUE);
 	e_buffer_tagger_connect (text_view);
 	e_spell_text_view_attach (text_view);
 
