@@ -1,3 +1,15 @@
+Evolution 3.26.4 2018-01-08
+---------------------------
+
+Bug Fixes:
+	Bug 791291 - Composer crashes if Ctrl+\ is pressed multiple times (Milan Crha)
+	Bug 791341 - Support pasting multiple addresses with line breaks (Milan Crha)
+	Bug 791346 - ‘Disposition-Notification-To’ header doesn’t take into account the ‘From Override’ field’s value (Milan Crha)
+	Bug 791793 - Unnecessary preview reload on style-updated in Tasks/Memos (Milan Crha)
+
+Translations:
+	Stas Solovey (ru)
+
 Evolution 3.26.3 2017-12-11
 ---------------------------
 
