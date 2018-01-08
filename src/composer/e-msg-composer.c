@@ -5549,4 +5549,6 @@ e_msg_composer_set_is_reply_or_forward (EMsgComposer *composer,
 	composer->priv->is_reply_or_forward = is_reply_or_forward;
 
 	g_object_notify (G_OBJECT (composer), "is-reply-or-forward");
+
+	msg_composer_mail_identity_changed_cb (composer);
 }
