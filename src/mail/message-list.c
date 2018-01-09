@@ -144,6 +144,8 @@ struct _RegenData {
 
 	EActivity *activity;
 	MessageList *message_list;
+	ETableSortInfo *sort_info;
+	ETableHeader *full_header;
 
 	gchar *search;
 
@@ -465,6 +467,9 @@ regen_data_new (MessageList *message_list,
 	RegenData *regen_data;
 	EActivity *activity;
 	EMailSession *session;
+	ETreeTableAdapter *adapter;
+
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
 
 	activity = e_activity_new ();
 	e_activity_set_cancellable (activity, cancellable);
@@ -476,6 +481,16 @@ regen_data_new (MessageList *message_list,
 	regen_data->message_list = g_object_ref (message_list);
 	regen_data->folder = message_list_ref_folder (message_list);
 	regen_data->last_row = -1;
+
+	if (adapter) {
+		regen_data->sort_info = e_tree_table_adapter_get_sort_info (adapter);
+		regen_data->full_header = e_tree_table_adapter_get_header (adapter);
+
+		if (regen_data->sort_info)
+			g_object_ref (regen_data->sort_info);
+		if (regen_data->full_header)
+			g_object_ref (regen_data->full_header);
+	}
 
 	if (message_list->just_set_folder)
 		regen_data->select_uid = g_strdup (message_list->cursor_uid);
@@ -511,6 +526,8 @@ regen_data_unref (RegenData *regen_data)
 
 		g_clear_object (&regen_data->activity);
 		g_clear_object (&regen_data->message_list);
+		g_clear_object (&regen_data->sort_info);
+		g_clear_object (&regen_data->full_header);
 
 		g_free (regen_data->search);
 
@@ -4800,6 +4817,8 @@ message_list_set_folder (MessageList *message_list,
 		g_object_ref (folder);
 	}
 
+	mail_regen_cancel (message_list);
+
 	g_free (message_list->search);
 	message_list->search = NULL;
 
@@ -4813,8 +4832,6 @@ message_list_set_folder (MessageList *message_list,
 
 	/* reset the normalised sort performance hack */
 	g_hash_table_remove_all (message_list->normalised_hash);
-
-	mail_regen_cancel (message_list);
 
 	if (message_list->priv->folder != NULL)
 		save_tree_state (message_list, message_list->priv->folder);
@@ -5663,12 +5680,11 @@ free_message_info_data (gpointer uid,
 
 static void
 ml_sort_uids_by_tree (MessageList *message_list,
+		      ETableSortInfo *sort_info,
+		      ETableHeader *full_header,
                       GPtrArray *uids,
                       GCancellable *cancellable)
 {
-	ETreeTableAdapter *adapter;
-	ETableSortInfo *sort_info;
-	ETableHeader *full_header;
 	CamelFolder *folder;
 	struct sort_array_data sort_data;
 	guint i, len;
@@ -5680,12 +5696,6 @@ ml_sort_uids_by_tree (MessageList *message_list,
 
 	folder = message_list_ref_folder (message_list);
 	g_return_if_fail (folder != NULL);
-
-	adapter = e_tree_get_table_adapter (E_TREE (message_list));
-	g_return_if_fail (adapter != NULL);
-
-	sort_info = e_tree_table_adapter_get_sort_info (adapter);
-	full_header = e_tree_table_adapter_get_header (adapter);
 
 	if (!sort_info || uids->len == 0 || !full_header || e_table_sort_info_sorting_get_count (sort_info) == 0) {
 		camel_folder_sort_uids (folder, uids);
@@ -5962,7 +5972,7 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	if (regen_data->group_by_threads) {
 		CamelFolderThread *thread_tree;
 
-		ml_sort_uids_by_tree (message_list, uids, cancellable);
+		ml_sort_uids_by_tree (message_list, regen_data->sort_info, regen_data->full_header, uids, cancellable);
 
 		thread_tree = message_list_ref_thread_tree (message_list);
 
