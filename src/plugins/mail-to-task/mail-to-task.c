@@ -667,7 +667,7 @@ comp_editor_closed (ECompEditor *comp_editor,
  * This handler takes title of the editor window and
  * inserts information about number of processed mails and
  * number of all mails to process, so the window title
- * will look like "Appointment (3/10) - An appoitment name"
+ * will look like "Appointment (3/10) — An appoitment name"
  */
 static void
 comp_editor_title_changed (GtkWidget *widget,
@@ -687,14 +687,14 @@ comp_editor_title_changed (GtkWidget *widget,
 	if (mc->editor_title && g_utf8_collate (mc->editor_title, title) == 0)
 		return;
 
-	splitter = strchr (title, '-');
+	splitter = strstr (title, "—");
 	if (!splitter)
 		return;
 
 	comp_name = g_strndup (title, splitter - title - 1);
-	task_name = g_strdup (splitter + 2);
+	task_name = g_strdup (splitter + strlen ("—") + 1);
 	new_title = g_strdup_printf (
-		"%s (%d/%d) - %s",
+		"%s (%d/%d) — %s",
 		comp_name, mc->mails_done, mc->mails_count, task_name);
 
 	/* Remember the new title, so that when gtk_window_set_title() causes
