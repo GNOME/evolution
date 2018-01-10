@@ -25,6 +25,7 @@
 #define EM_FILTER_RULE_H
 
 #include <e-util/e-util.h>
+#include <libemail-engine/libemail-engine.h>
 
 #define EM_TYPE_FILTER_RULE \
 	(em_filter_rule_get_type ())
@@ -36,11 +37,12 @@
 
 typedef struct _EMFilterRule EMFilterRule;
 typedef struct _EMFilterRuleClass EMFilterRuleClass;
+typedef struct _EMFilterRulePrivate EMFilterRulePrivate;
 
 struct _EMFilterRule {
 	EFilterRule parent_object;
 
-	GList *actions;
+	EMFilterRulePrivate *priv;
 };
 
 struct _EMFilterRuleClass {
@@ -56,5 +58,10 @@ void            em_filter_rule_remove_action  (EMFilterRule *fr, EFilterPart *fp
 void            em_filter_rule_replace_action (EMFilterRule *fr, EFilterPart *fp, EFilterPart *new);
 
 void            em_filter_rule_build_action   (EMFilterRule *fr, GString *out);
+
+GList *		em_filter_rule_get_actions	(EMFilterRule *rule);
+const gchar *	em_filter_rule_get_account_uid	(EMFilterRule *rule);
+void		em_filter_rule_set_account_uid	(EMFilterRule *rule,
+						 const gchar *account_uid);
 
 #endif /* EM_FILTER_RULE_H */

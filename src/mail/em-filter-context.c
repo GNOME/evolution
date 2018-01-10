@@ -136,7 +136,7 @@ filter_context_rename_uri (ERuleContext *context,
 	while ((rule = e_rule_context_next_rule (context, rule, NULL))) {
 		gint rulecount = 0;
 
-		l = EM_FILTER_RULE (rule)->actions;
+		l = em_filter_rule_get_actions (EM_FILTER_RULE (rule));
 		while (l) {
 			action = l->data;
 
@@ -191,7 +191,7 @@ filter_context_delete_uri (ERuleContext *context,
 	while ((rule = e_rule_context_next_rule (context, rule, NULL))) {
 		gint recorded = 0;
 
-		l = EM_FILTER_RULE (rule)->actions;
+		l = em_filter_rule_get_actions (EM_FILTER_RULE (rule));
 		while (l) {
 			action = l->data;
 

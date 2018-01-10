@@ -29,10 +29,16 @@
 
 #include <e-util/e-util.h>
 
+#include "e-mail-ui-session.h"
 #include "em-filter-rule.h"
 #include "em-filter-context.h"
 
 #define d(x)
+
+struct _EMFilterRulePrivate {
+	GList *actions;
+	gchar *account_uid;
+};
 
 static gint validate (EFilterRule *fr, EAlert **alert);
 static gint filter_eq (EFilterRule *fr, EFilterRule *cm);
@@ -44,11 +50,39 @@ static GtkWidget *get_widget (EFilterRule *fr, ERuleContext *rc);
 G_DEFINE_TYPE (EMFilterRule, em_filter_rule, E_TYPE_FILTER_RULE)
 
 static void
+em_filter_rule_build_code (EFilterRule *rule,
+			   GString *out)
+{
+	EMFilterRule *ff;
+
+	g_return_if_fail (EM_IS_FILTER_RULE (rule));
+	g_return_if_fail (out != NULL);
+
+	ff = EM_FILTER_RULE (rule);
+
+	E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->build_code (rule, out);
+
+	if (ff->priv->account_uid && *ff->priv->account_uid) {
+		if (out->len) {
+			gchar *prefix;
+
+			prefix = g_strdup_printf ("(and (header-source \"%s\")\n", ff->priv->account_uid);
+			g_string_prepend (out, prefix);
+			g_string_append (out, ")\n");
+			g_free (prefix);
+		} else {
+			g_string_append_printf (out, "(header-source \"%s\")\n", ff->priv->account_uid);
+		}
+	}
+}
+
+static void
 em_filter_rule_finalize (GObject *object)
 {
-	EMFilterRule *ff =(EMFilterRule *) object;
+	EMFilterRule *ff = EM_FILTER_RULE (object);
 
-	g_list_free_full (ff->actions, (GDestroyNotify) g_object_unref);
+	g_list_free_full (ff->priv->actions, g_object_unref);
+	g_free (ff->priv->account_uid);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_filter_rule_parent_class)->finalize (object);
@@ -60,6 +94,8 @@ em_filter_rule_class_init (EMFilterRuleClass *class)
 	GObjectClass *object_class;
 	EFilterRuleClass *filter_rule_class;
 
+	g_type_class_add_private (class, sizeof (EMFilterRulePrivate));
+
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = em_filter_rule_finalize;
 
@@ -68,6 +104,7 @@ em_filter_rule_class_init (EMFilterRuleClass *class)
 	filter_rule_class->eq = filter_eq;
 	filter_rule_class->xml_encode = xml_encode;
 	filter_rule_class->xml_decode = xml_decode;
+	filter_rule_class->build_code = em_filter_rule_build_code;
 	filter_rule_class->copy = rule_copy;
 	filter_rule_class->get_widget = get_widget;
 }
@@ -75,6 +112,7 @@ em_filter_rule_class_init (EMFilterRuleClass *class)
 static void
 em_filter_rule_init (EMFilterRule *ff)
 {
+	ff->priv = G_TYPE_INSTANCE_GET_PRIVATE (ff, EM_TYPE_FILTER_RULE, EMFilterRulePrivate);
 }
 
 /**
@@ -94,7 +132,7 @@ void
 em_filter_rule_add_action (EMFilterRule *fr,
                            EFilterPart *fp)
 {
-	fr->actions = g_list_append (fr->actions, fp);
+	fr->priv->actions = g_list_append (fr->priv->actions, fp);
 
 	e_filter_rule_emit_changed ((EFilterRule *) fr);
 }
@@ -103,7 +141,7 @@ void
 em_filter_rule_remove_action (EMFilterRule *fr,
                               EFilterPart *fp)
 {
-	fr->actions = g_list_remove (fr->actions, fp);
+	fr->priv->actions = g_list_remove (fr->priv->actions, fp);
 
 	e_filter_rule_emit_changed ((EFilterRule *) fr);
 }
@@ -115,11 +153,11 @@ em_filter_rule_replace_action (EMFilterRule *fr,
 {
 	GList *l;
 
-	l = g_list_find (fr->actions, fp);
+	l = g_list_find (fr->priv->actions, fp);
 	if (l) {
 		l->data = new;
 	} else {
-		fr->actions = g_list_append (fr->actions, new);
+		fr->priv->actions = g_list_append (fr->priv->actions, new);
 	}
 
 	e_filter_rule_emit_changed ((EFilterRule *) fr);
@@ -130,7 +168,7 @@ em_filter_rule_build_action (EMFilterRule *fr,
                              GString *out)
 {
 	g_string_append (out, "(begin\n");
-	e_filter_part_build_code_list (fr->actions, out);
+	e_filter_part_build_code_list (fr->priv->actions, out);
 	g_string_append (out, ")\n");
 }
 
@@ -146,7 +184,7 @@ validate (EFilterRule *fr,
 		validate (fr, alert);
 
 	/* validate rule actions */
-	parts = ff->actions;
+	parts = ff->priv->actions;
 	while (parts && valid) {
 		valid = e_filter_part_validate ((EFilterPart *) parts->data, alert);
 		parts = parts->next;
@@ -177,9 +215,10 @@ filter_eq (EFilterRule *fr,
            EFilterRule *cm)
 {
 	return E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->eq (fr, cm)
+		&& g_strcmp0 (em_filter_rule_get_account_uid (EM_FILTER_RULE (fr)), em_filter_rule_get_account_uid (EM_FILTER_RULE (cm))) == 0
 		&& list_eq (
-			((EMFilterRule *) fr)->actions,
-			((EMFilterRule *) cm)->actions);
+			((EMFilterRule *) fr)->priv->actions,
+			((EMFilterRule *) cm)->priv->actions);
 }
 
 static xmlNodePtr
@@ -192,9 +231,13 @@ xml_encode (EFilterRule *fr)
 	node = E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->
 		xml_encode (fr);
 	g_return_val_if_fail (node != NULL, NULL);
+
+	if (ff->priv->account_uid && *ff->priv->account_uid)
+		xmlSetProp (node, (const xmlChar *) "account-uid", (const xmlChar *) ff->priv->account_uid);
+
 	set = xmlNewNode (NULL, (const guchar *)"actionset");
 	xmlAddChild (node, set);
-	l = ff->actions;
+	l = ff->priv->actions;
 	while (l) {
 		work = e_filter_part_xml_encode ((EFilterPart *) l->data);
 		xmlAddChild (set, work);
@@ -241,12 +284,23 @@ xml_decode (EFilterRule *fr,
 {
 	EMFilterRule *ff =(EMFilterRule *) fr;
 	xmlNodePtr work;
+	xmlChar *account_uid;
 	gint result;
 
 	result = E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->
 		xml_decode (fr, node, rc);
 	if (result != 0)
 		return result;
+
+	g_clear_pointer (&ff->priv->account_uid, g_free);
+
+	account_uid = xmlGetProp (node, (const xmlChar *) "account-uid");
+	if (account_uid) {
+		if (*account_uid)
+			ff->priv->account_uid = g_strdup ((const gchar *) account_uid);
+
+		xmlFree (account_uid);
+	}
 
 	work = node->children;
 	while (work) {
@@ -269,20 +323,21 @@ rule_copy (EFilterRule *dest,
 	fdest =(EMFilterRule *) dest;
 	fsrc =(EMFilterRule *) src;
 
-	if (fdest->actions) {
-		g_list_foreach (fdest->actions, (GFunc) g_object_unref, NULL);
-		g_list_free (fdest->actions);
-		fdest->actions = NULL;
+	if (fdest->priv->actions) {
+		g_list_free_full (fdest->priv->actions, g_object_unref);
+		fdest->priv->actions = NULL;
 	}
 
-	node = fsrc->actions;
+	node = fsrc->priv->actions;
 	while (node) {
 		EFilterPart *part = node->data;
 
 		g_object_ref (part);
-		fdest->actions = g_list_append (fdest->actions, part);
+		fdest->priv->actions = g_list_append (fdest->priv->actions, part);
 		node = node->next;
 	}
+
+	em_filter_rule_set_account_uid (fdest, em_filter_rule_get_account_uid (fsrc));
 
 	E_FILTER_RULE_CLASS (em_filter_rule_parent_class)->copy (dest, src);
 }
@@ -494,9 +549,9 @@ event_box_drag_motion_cb (GtkWidget *widget,
 			gpointer rule;
 
 			/* Move internal data first */
-			rule = g_list_nth_data (fr->actions, index_src);
-			fr->actions = g_list_remove (fr->actions, rule);
-			fr->actions = g_list_insert (fr->actions, rule, index_des);
+			rule = g_list_nth_data (fr->priv->actions, index_src);
+			fr->priv->actions = g_list_remove (fr->priv->actions, rule);
+			fr->priv->actions = g_list_insert (fr->priv->actions, rule, index_des);
 
 			/* Then the UI part */
 			event_box = gtk_grid_get_child_at (data->parts_grid, 0, index_src);
@@ -558,7 +613,7 @@ less_parts (GtkWidget *button,
 	struct _part_data *part_data;
 	gint index;
 
-	if (g_list_length (((EMFilterRule *) data->fr)->actions) < 2)
+	if (g_list_length (((EMFilterRule *) data->fr)->priv->actions) < 2)
 		return;
 
 	for (index = 0; index < data->n_rows; index++) {
@@ -576,7 +631,7 @@ less_parts (GtkWidget *button,
 
 	part = part_data->part;
 
-	index = g_list_index (((EMFilterRule *) data->fr)->actions, part);
+	index = g_list_index (((EMFilterRule *) data->fr)->priv->actions, part);
 	g_warn_if_fail (index >= 0);
 
 	/* remove the part from the list */
@@ -800,6 +855,166 @@ filter_type_changed_cb (GtkComboBox *combobox,
 		e_filter_rule_set_source (fr, id);
 }
 
+static void
+filter_rule_accounts_changed_cb (GtkComboBox *combobox,
+				 EMFilterRule *fr)
+{
+	const gchar *id;
+
+	g_return_if_fail (GTK_IS_COMBO_BOX (combobox));
+	g_return_if_fail (EM_IS_FILTER_RULE (fr));
+
+	id = gtk_combo_box_get_active_id (combobox);
+	if (id && *id)
+		em_filter_rule_set_account_uid (fr, id);
+}
+
+/* This should have blocked the filter_rule_accounts_changed_cb() handler */
+static void
+filter_rule_select_account (GtkComboBox *accounts,
+			    const gchar *account_uid)
+{
+	g_return_if_fail (GTK_IS_COMBO_BOX (accounts));
+
+	if (!account_uid || !*account_uid) {
+		gtk_combo_box_set_active (accounts, 0);
+		return;
+	}
+
+	if (!gtk_combo_box_set_active_id (accounts, account_uid)) {
+		CamelSession *session = g_object_get_data (G_OBJECT (accounts), "e-mail-session");
+		CamelService *service = camel_session_ref_service (session, account_uid);
+
+		if (service) {
+			/* It is disabled account */
+			gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (accounts),
+				camel_service_get_uid (service),
+				camel_service_get_display_name (service));
+		} else {
+			/* It is removed/non-existent account */
+			gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (accounts),
+				account_uid, account_uid);
+		}
+
+		g_warn_if_fail (gtk_combo_box_set_active_id (accounts, account_uid));
+
+		g_clear_object (&service);
+	}
+}
+
+static gint
+filter_rule_compare_services (gconstpointer s1,
+			      gconstpointer s2)
+{
+	CamelService *service1 = (CamelService *) s1;
+	CamelService *service2 = (CamelService *) s2;
+
+	return g_utf8_collate (camel_service_get_display_name (service1), camel_service_get_display_name (service2));
+}
+
+static void
+filter_rule_fill_account_combo (GtkComboBox *source_combo,
+				GtkComboBoxText *accounts_combo)
+{
+	ESourceRegistry *registry;
+	CamelSession *session;
+	GList *services, *link;
+	GSList *add_services = NULL, *slink;
+	gboolean is_incoming;
+	gchar *account_id;
+
+	g_return_if_fail (GTK_IS_COMBO_BOX (source_combo));
+	g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (accounts_combo));
+
+	session = g_object_get_data (G_OBJECT (accounts_combo), "e-mail-session");
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+	is_incoming = g_strcmp0 (gtk_combo_box_get_active_id (source_combo), E_FILTER_SOURCE_INCOMING) == 0;
+	account_id = g_strdup (gtk_combo_box_get_active_id (GTK_COMBO_BOX (accounts_combo)));
+
+	g_signal_handlers_block_matched (accounts_combo, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, filter_rule_accounts_changed_cb, NULL);
+
+	gtk_combo_box_text_remove_all (accounts_combo);
+
+	/* Translators: This is in a Mail filter rule editor, part of "For account: [ Any   ]" section */
+	gtk_combo_box_text_append (accounts_combo, NULL, C_("mail-filter-rule", "Any"));
+
+	services = camel_session_list_services (session);
+
+	for (link = services; link; link = g_list_next (link)) {
+		CamelService *service = link->data;
+		const gchar *uid = camel_service_get_uid (service);
+
+		if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0 ||
+		    g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0)
+			continue;
+
+		if ((is_incoming && CAMEL_IS_STORE (service)) ||
+		    (!is_incoming && CAMEL_IS_TRANSPORT (service))) {
+			ESource *source = e_source_registry_ref_source (registry, uid);
+
+			if (!source || !e_source_registry_check_enabled (registry, source)) {
+				g_clear_object (&source);
+				continue;
+			}
+
+			g_clear_object (&source);
+
+			add_services = g_slist_prepend (add_services, service);
+		}
+	}
+
+	add_services = g_slist_sort (add_services, filter_rule_compare_services);
+
+	for (slink = add_services; slink; slink = g_slist_next (slink)) {
+		CamelService *service = slink->data;
+
+		gtk_combo_box_text_append (accounts_combo,
+			camel_service_get_uid (service),
+			camel_service_get_display_name (service));
+	}
+
+	g_list_free_full (services, g_object_unref);
+	g_slist_free (add_services);
+
+	filter_rule_select_account (GTK_COMBO_BOX (accounts_combo), account_id);
+
+	g_signal_handlers_unblock_matched (accounts_combo, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, filter_rule_accounts_changed_cb, NULL);
+
+	g_free (account_id);
+}
+
+static GtkWidget *
+filter_rule_create_account_combo (EMFilterRule *fr,
+				  EMailSession *session,
+				  GtkWidget *source_combo)
+{
+	GtkComboBox *accounts;
+	gulong handler_id;
+
+	g_return_val_if_fail (EM_IS_FILTER_RULE (fr), NULL);
+	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), NULL);
+	g_return_val_if_fail (GTK_IS_COMBO_BOX (source_combo), NULL);
+
+	accounts = GTK_COMBO_BOX (gtk_combo_box_text_new ());
+	g_object_set_data_full (G_OBJECT (accounts), "e-mail-session", g_object_ref (session), g_object_unref);
+
+	g_signal_connect (source_combo, "changed",
+		G_CALLBACK (filter_rule_fill_account_combo), accounts);
+
+	handler_id = g_signal_connect (accounts, "changed",
+		G_CALLBACK (filter_rule_accounts_changed_cb), fr);
+
+	filter_rule_fill_account_combo (GTK_COMBO_BOX (source_combo), GTK_COMBO_BOX_TEXT (accounts));
+
+	g_signal_handler_block (accounts, handler_id);
+	filter_rule_select_account (accounts, fr->priv->account_uid);
+	g_signal_handler_unblock (accounts, handler_id);
+
+	return GTK_WIDGET (accounts);
+}
+
 static GtkWidget *
 get_widget (EFilterRule *fr,
             ERuleContext *rc)
@@ -836,6 +1051,14 @@ get_widget (EFilterRule *fr,
 	gtk_grid_set_column_spacing (hgrid, 12);
 
 	gtk_grid_attach (hgrid, label, 0, 0, 1, 1);
+	gtk_grid_attach_next_to (hgrid, w, label, GTK_POS_RIGHT, 1, 1);
+
+	label = gtk_label_new_with_mnemonic (_("_For Account:"));
+	w = filter_rule_create_account_combo (ff, em_filter_context_get_session (EM_FILTER_CONTEXT (rc)), w);
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), w);
+
+	gtk_grid_attach (hgrid, label, 2, 0, 1, 1);
 	gtk_grid_attach_next_to (hgrid, w, label, GTK_POS_RIGHT, 1, 1);
 
 	gtk_grid_insert_row (GTK_GRID (widget), 1);
@@ -886,7 +1109,7 @@ get_widget (EFilterRule *fr,
 	/* only set to automatically clean up the memory */
 	g_object_set_data_full ((GObject *) hgrid, "data", data, g_free);
 
-	for (link = ff->actions; link; link = g_list_next (link)) {
+	for (link = ff->priv->actions; link; link = g_list_next (link)) {
 		part = link->data;
 		d (printf ("adding action %s\n", part->title));
 		w = get_rule_part_widget ((EMFilterContext *) rc, part, fr);
@@ -934,4 +1157,35 @@ get_widget (EFilterRule *fr,
 	gtk_widget_show_all (widget);
 
 	return widget;
+}
+
+GList *
+em_filter_rule_get_actions (EMFilterRule *rule)
+{
+	g_return_val_if_fail (EM_IS_FILTER_RULE (rule), NULL);
+
+	return rule->priv->actions;
+}
+
+const gchar *
+em_filter_rule_get_account_uid (EMFilterRule *rule)
+{
+	g_return_val_if_fail (EM_IS_FILTER_RULE (rule), NULL);
+
+	return rule->priv->account_uid;
+}
+
+void
+em_filter_rule_set_account_uid (EMFilterRule *rule,
+				const gchar *account_uid)
+{
+	g_return_if_fail (EM_IS_FILTER_RULE (rule));
+
+	if (g_strcmp0 (account_uid, rule->priv->account_uid) == 0)
+		return;
+
+	g_clear_pointer (&rule->priv->account_uid, g_free);
+	rule->priv->account_uid = (account_uid && *account_uid) ? g_strdup (account_uid) : NULL;
+
+	e_filter_rule_emit_changed (E_FILTER_RULE (rule));
 }
