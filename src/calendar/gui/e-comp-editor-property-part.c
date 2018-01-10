@@ -862,16 +862,16 @@ e_comp_editor_property_part_datetime_get_value (ECompEditorPropertyPartDatetime 
 	if (!e_date_edit_get_show_time (date_edit)) {
 		value.is_date = 1;
 	} else {
-		value.is_date = 0;
 		value.zone = NULL;
+		value.is_date = !e_date_edit_get_time_of_day (date_edit, &value.hour, &value.minute);
 
-		e_date_edit_get_time_of_day (date_edit, &value.hour, &value.minute);
-
-		timezone_entry = g_weak_ref_get (&part_datetime->priv->timezone_entry);
-		if (timezone_entry)
-			value.zone = e_timezone_entry_get_timezone (timezone_entry);
-		if (!value.zone)
-			value.zone = icaltimezone_get_utc_timezone ();
+		if (!value.is_date) {
+			timezone_entry = g_weak_ref_get (&part_datetime->priv->timezone_entry);
+			if (timezone_entry)
+				value.zone = e_timezone_entry_get_timezone (timezone_entry);
+			if (!value.zone)
+				value.zone = icaltimezone_get_utc_timezone ();
+		}
 	}
 
 	g_clear_object (&timezone_entry);
