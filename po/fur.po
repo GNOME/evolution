@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-01-04 18:07+0000\n"
-"PO-Revision-Date: 2018-01-08 15:05+0100\n"
+"POT-Creation-Date: 2018-01-10 17:37+0000\n"
+"PO-Revision-Date: 2018-01-15 11:59+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -4004,7 +4004,7 @@ msgstr "Zonte _X.509"
 #: ../src/e-util/e-name-selector-dialog.c:1037
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27
 #: ../src/mail/e-mail-config-identity-page.c:871
-#: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:623
+#: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:678
 #: ../src/mail/em-folder-properties.c:1037
 #: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:62
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:553
@@ -6641,7 +6641,7 @@ msgstr "Prioritât:"
 #: ../src/calendar/gui/e-cal-component-preview.c:327
 #: ../src/calendar/gui/e-task-table.c:548
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:325
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:327
 msgid "High"
 msgstr "Alte"
 
@@ -6649,14 +6649,14 @@ msgstr "Alte"
 #: ../src/calendar/gui/e-cal-model.c:1890
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:324
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:326
 msgid "Normal"
 msgstr "Normâl"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:323
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:325
 msgid "Low"
 msgstr "Basse"
 
@@ -12480,7 +12480,7 @@ msgid "popup list"
 msgstr "liste a comparî"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2092
+#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2109
 msgid "?"
 msgstr "?"
 
@@ -13354,11 +13354,11 @@ msgid "A_dd Condition"
 msgstr "Zontâ con_dizion"
 
 #: ../src/e-util/e-filter-rule.c:1478 ../src/e-util/filter.ui.h:1
-#: ../src/mail/em-filter-rule.c:828 ../src/mail/em-utils.c:166
+#: ../src/mail/em-filter-rule.c:1043 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "In jentrade"
 
-#: ../src/e-util/e-filter-rule.c:1478 ../src/mail/em-filter-rule.c:829
+#: ../src/e-util/e-filter-rule.c:1478 ../src/mail/em-filter-rule.c:1044
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "In jessude"
@@ -18002,16 +18002,26 @@ msgstr "Sielzi lis cartelis dulà publicâ il messaç."
 msgid "Select Folder"
 msgstr "Selezionâ cartele"
 
-#: ../src/mail/em-filter-rule.c:823
+#. Translators: This is in a Mail filter rule editor, part of "For account: [ Any   ]" section
+#: ../src/mail/em-filter-rule.c:941
+msgctxt "mail-filter-rule"
+msgid "Any"
+msgstr "Ducj"
+
+#: ../src/mail/em-filter-rule.c:1038
 msgid "Rul_e type:"
 msgstr "Gjenar di regul_e:"
 
+#: ../src/mail/em-filter-rule.c:1056
+msgid "_For Account:"
+msgstr "_Pal Account:"
+
 #. and now for the action area
-#: ../src/mail/em-filter-rule.c:845
+#: ../src/mail/em-filter-rule.c:1068
 msgid "Then"
 msgstr "Alore"
 
-#: ../src/mail/em-filter-rule.c:918
+#: ../src/mail/em-filter-rule.c:1141
 msgid "Add Ac_tion"
 msgstr "Zonte a_zion"
 
@@ -18167,12 +18177,12 @@ msgstr "Daûr a spostâ la cartele %s"
 msgid "Copying folder %s"
 msgstr "Daûr a copiâ la cartele %s"
 
-#: ../src/mail/em-folder-tree.c:2289 ../src/mail/message-list.c:2578
+#: ../src/mail/em-folder-tree.c:2289 ../src/mail/message-list.c:2595
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Daûr a spostâ i messaçs te cartele %s"
 
-#: ../src/mail/em-folder-tree.c:2293 ../src/mail/message-list.c:2580
+#: ../src/mail/em-folder-tree.c:2293 ../src/mail/message-list.c:2597
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Daûr a copiâ i messaçs te cartele %s"
@@ -20380,87 +20390,87 @@ msgstr "Modifiche cartele di ricercje"
 msgid "New Search Folder"
 msgstr "Gnove cartele di ricercje"
 
-#: ../src/mail/message-list.c:303
+#: ../src/mail/message-list.c:305
 msgid "Unseen"
 msgstr "No viodût"
 
-#: ../src/mail/message-list.c:304
+#: ../src/mail/message-list.c:306
 msgid "Seen"
 msgstr "Viodût"
 
-#: ../src/mail/message-list.c:305
+#: ../src/mail/message-list.c:307
 msgid "Answered"
 msgstr "Rispuindût"
 
-#: ../src/mail/message-list.c:306
+#: ../src/mail/message-list.c:308
 msgid "Forwarded"
 msgstr "Mandât indenant"
 
-#: ../src/mail/message-list.c:307
+#: ../src/mail/message-list.c:309
 msgid "Multiple Unseen Messages"
 msgstr "Messaçs multiplis no viodûts"
 
-#: ../src/mail/message-list.c:308
+#: ../src/mail/message-list.c:310
 msgid "Multiple Messages"
 msgstr "Messaçs multiplis"
 
-#: ../src/mail/message-list.c:321
+#: ../src/mail/message-list.c:323
 msgid "Lowest"
 msgstr "La plui basse"
 
-#: ../src/mail/message-list.c:322
+#: ../src/mail/message-list.c:324
 msgid "Lower"
 msgstr "Plui basse"
 
-#: ../src/mail/message-list.c:326
+#: ../src/mail/message-list.c:328
 msgid "Higher"
 msgstr "Plui alte"
 
-#: ../src/mail/message-list.c:327
+#: ../src/mail/message-list.c:329
 msgid "Highest"
 msgstr "La plui alte"
 
-#: ../src/mail/message-list.c:473 ../src/mail/message-list.c:6500
+#: ../src/mail/message-list.c:478 ../src/mail/message-list.c:6510
 msgid "Generating message list"
 msgstr "Daûr a gjenerâ liste messaçs"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2100
+#: ../src/mail/message-list.c:2117
 #: ../src/modules/itip-formatter/itip-view.c:267
 msgid "Today %l:%M %p"
 msgstr "Vuê %l:%M %p"
 
-#: ../src/mail/message-list.c:2109
+#: ../src/mail/message-list.c:2126
 msgid "Yesterday %l:%M %p"
 msgstr "Îr %l:%M %p"
 
-#: ../src/mail/message-list.c:2121
+#: ../src/mail/message-list.c:2138
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2129
+#: ../src/mail/message-list.c:2146
 msgid "%b %d %l:%M %p"
 msgstr "%e di %b %l:%M %p"
 
-#: ../src/mail/message-list.c:2131
+#: ../src/mail/message-list.c:2148
 msgid "%b %d %Y"
 msgstr "%e di %b dal %Y"
 
-#: ../src/mail/message-list.c:3161
+#: ../src/mail/message-list.c:3178
 msgid "Select all visible messages"
 msgstr "Selezione ducj i messaçs visibii"
 
-#: ../src/mail/message-list.c:3906 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3923 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Messaçs"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5370
+#: ../src/mail/message-list.c:5387
 msgid "Follow-up"
 msgstr "Di completâ"
 
-#: ../src/mail/message-list.c:6439
+#: ../src/mail/message-list.c:6449
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20472,7 +20482,7 @@ msgstr ""
 "eseguint une gnove ricercje netant cun la vôs tal menù Cîr→Nete o modificant "
 "la interogazion precedente."
 
-#: ../src/mail/message-list.c:6447
+#: ../src/mail/message-list.c:6457
 msgid "There are no messages in this folder."
 msgstr "In cheste cartele no'ndi son messaçs."
 
