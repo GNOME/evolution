@@ -6438,7 +6438,9 @@ e_day_view_do_key_press (GtkWidget *widget,
 	      && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 	     || (event->length == 0)
 	     || (keyval == GDK_KEY_Tab)
-	     || (keyval == GDK_KEY_Escape))) {
+	     || (keyval == GDK_KEY_Escape)
+	     || (keyval == GDK_KEY_Delete)
+	     || (keyval == GDK_KEY_KP_Delete))) {
 		return FALSE;
 	}
 
@@ -7174,8 +7176,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 	if (key_event) {
 		if (gtk_im_context_filter_keypress (((EText *)(event->canvas_item))->im_context, key_event)) {
 			((EText *)(event->canvas_item))->need_im_reset = TRUE;
-		}
-		else {
+		} else if (key_event->keyval != GDK_KEY_Return && key_event->keyval != GDK_KEY_KP_Enter) {
 			gchar *initial_text;
 
 			initial_text = e_utf8_from_gtk_event_key (GTK_WIDGET (day_view), key_event->keyval, key_event->string);

@@ -4964,7 +4964,9 @@ e_week_view_do_key_press (GtkWidget *widget,
 		    && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 		   || (event->length == 0)
 		   || (event->keyval == GDK_KEY_Tab)
-		   || (event->keyval == GDK_KEY_Escape)) {
+		   || (event->keyval == GDK_KEY_Escape)
+		   || (event->keyval == GDK_KEY_Delete)
+		   || (event->keyval == GDK_KEY_KP_Delete)) {
 		return FALSE;
 	} else
 		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
