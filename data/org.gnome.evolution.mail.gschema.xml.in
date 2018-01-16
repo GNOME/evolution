@@ -241,7 +241,7 @@
       <_description>Enable this to use Space bar key to scroll in message preview, message list and folders.</_description>
     </key>
     <key name="global-view-setting" type="b">
-      <default>false</default>
+      <default>true</default>
       <_summary>Enable to use a similar message list view settings for all folders</_summary>
       <_description>Enable to use a similar message list view settings for all folders.</_description>
     </key>
