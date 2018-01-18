@@ -726,6 +726,37 @@ e_mail_part_get_validity_flags (EMailPart *part)
 	return flags;
 }
 
+static gboolean
+from_matches_signers_alt_emails (CamelInternetAddress *from_address,
+				 CamelCipherCertInfo *cinfo)
+{
+	GSList *props_link;
+	gboolean matches = FALSE;
+
+	for (props_link = cinfo->properties; props_link && !matches; props_link = g_slist_next (props_link)) {
+		const CamelCipherCertInfoProperty *prop = props_link->data;
+
+		if (prop && g_strcmp0 (prop->name, CAMEL_CIPHER_CERT_INFO_PROPERTY_SIGNERS_ALT_EMAILS) == 0 && prop->value) {
+			CamelInternetAddress *address;
+			gint count, ii;
+
+			address = camel_internet_address_new ();
+			count = camel_address_unformat (CAMEL_ADDRESS (address), prop->value);
+			for (ii = 0; ii < count && !matches; ii++) {
+				const gchar *email = NULL;
+
+				if (camel_internet_address_get (address, ii, NULL, &email) && email && *email) {
+					matches = camel_internet_address_find_address (from_address, email, NULL) >= 0;
+				}
+			}
+			g_object_unref (address);
+			break;
+		}
+	}
+
+	return matches;
+}
+
 void
 e_mail_part_verify_validity_sender (EMailPart *part,
 				    CamelInternetAddress *from_address)
@@ -752,7 +783,8 @@ e_mail_part_verify_validity_sender (EMailPart *part,
 
 					if (cinfo->email && *cinfo->email) {
 						from_matches_signer = from_matches_signer ||
-							(from_address && camel_internet_address_find_address (from_address, cinfo->email, NULL) >= 0);
+							(from_address && camel_internet_address_find_address (from_address, cinfo->email, NULL) >= 0) ||
+							(from_address && from_matches_signers_alt_emails (from_address, cinfo));
 					}
 				}
 
