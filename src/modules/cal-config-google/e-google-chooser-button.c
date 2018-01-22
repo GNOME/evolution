@@ -21,6 +21,7 @@
 
 #include <libedataserverui/libedataserverui.h>
 
+#include "module-cal-config-google.h"
 #include "e-google-chooser-button.h"
 
 #define E_GOOGLE_CHOOSER_BUTTON_GET_PRIVATE(obj) \
@@ -196,7 +197,7 @@ google_chooser_button_clicked (GtkButton *button)
 	webdav_extension = e_source_get_extension (priv->source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
 
 	uri = e_source_webdav_dup_soup_uri (webdav_extension);
-	can_google_auth = e_source_credentials_google_is_supported () &&
+	can_google_auth = e_module_cal_config_google_is_supported (NULL, registry) &&
 			  g_strcmp0 (e_source_authentication_get_method (authentication_extension), "OAuth2") != 0;
 
 	e_google_chooser_button_construct_default_uri (uri, e_source_authentication_get_user (authentication_extension));

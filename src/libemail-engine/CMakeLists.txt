@@ -7,8 +7,6 @@ set(DEPENDENCIES
 
 set(SOURCES
 	camel-null-store.c
-	camel-sasl-oauth2-google.c
-	camel-sasl-xoauth2.c
 	e-mail-folder-utils.c
 	e-mail-junk-filter.c
 	e-mail-session-utils.c
@@ -30,8 +28,6 @@ set(SOURCES
 set(HEADERS
 	libemail-engine.h
 	camel-null-store.h
-	camel-sasl-oauth2-google.h
-	camel-sasl-xoauth2.h
 	e-mail-engine-enums.h
 	e-mail-folder-utils.h
 	e-mail-junk-filter.h

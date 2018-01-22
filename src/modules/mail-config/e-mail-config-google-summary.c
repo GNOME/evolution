@@ -21,6 +21,7 @@
 
 #include <libedataserver/libedataserver.h>
 #include <mail/e-mail-config-summary-page.h>
+#include "shell/e-shell.h"
 
 #include "e-mail-config-google-summary.h"
 
@@ -98,6 +99,23 @@ mail_config_google_summary_is_applicable (EMailConfigSummaryPage *page)
 	return FALSE;
 }
 
+static gboolean
+mail_config_google_summary_is_oauth2_supported (void)
+{
+	EShell *shell;
+	ESourceRegistry *registry;
+
+	shell = e_shell_get_default ();
+	if (!shell)
+		return FALSE;
+
+	registry = e_shell_get_registry (shell);
+	if (!registry)
+		return FALSE;
+
+	return e_oauth2_services_is_oauth2_alias (e_source_registry_get_oauth2_services (registry), "Google");
+}
+
 static void
 mail_config_google_summary_refresh_cb (EMailConfigSummaryPage *page,
                                        EMailConfigGoogleSummary *extension)
@@ -132,7 +150,7 @@ mail_config_google_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	toggle_button = GTK_TOGGLE_BUTTON (extension->priv->calendar_toggle);
 	calendar_active = gtk_toggle_button_get_active (toggle_button);
 
-	if (e_source_credentials_google_is_supported ()) {
+	if (mail_config_google_summary_is_oauth2_supported ()) {
 		toggle_button = GTK_TOGGLE_BUTTON (extension->priv->contacts_toggle);
 		contacts_active = gtk_toggle_button_get_active (toggle_button);
 	} else {
@@ -142,7 +160,7 @@ mail_config_google_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	/* If the user declined both Calendar and Contacts, do nothing,
 	   but set the Google/OAuth2 authentication for the sources. */
 	if (!calendar_active && !contacts_active) {
-		if (e_source_credentials_google_is_supported ()) {
+		if (mail_config_google_summary_is_oauth2_supported ()) {
 			source = e_mail_config_summary_page_get_account_source (page);
 			auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
 			e_source_authentication_set_method (auth_extension, "Google");
@@ -180,7 +198,7 @@ mail_config_google_summary_commit_changes_cb (EMailConfigSummaryPage *page,
 	auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
 	e_source_authentication_set_host (auth_extension, "");
 
-	if (e_source_credentials_google_is_supported ()) {
+	if (mail_config_google_summary_is_oauth2_supported ()) {
 		e_source_authentication_set_user (auth_extension, user);
 		e_source_authentication_set_method (auth_extension, "Google");
 	}
@@ -297,7 +315,7 @@ mail_config_google_summary_constructed (GObject *object)
 	extension->priv->calendar_toggle = widget;  /* not referenced */
 	gtk_widget_show (widget);
 
-	if (e_source_credentials_google_is_supported ()) {
+	if (mail_config_google_summary_is_oauth2_supported ()) {
 		text = _("Add Google Con_tacts to this account");
 		widget = gtk_check_button_new_with_mnemonic (text);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
@@ -321,7 +339,7 @@ mail_config_google_summary_constructed (GObject *object)
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	if (e_source_credentials_google_is_supported ())
+	if (mail_config_google_summary_is_oauth2_supported ())
 		gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 1, 1);
 	else
 		gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
@@ -344,7 +362,7 @@ mail_config_google_summary_constructed (GObject *object)
 		collection_extension, "calendar-enabled",
 		G_BINDING_SYNC_CREATE);
 
-	if (e_source_credentials_google_is_supported ())
+	if (mail_config_google_summary_is_oauth2_supported ())
 		e_binding_bind_property (
 			extension->priv->contacts_toggle, "active",
 			collection_extension, "contacts-enabled",

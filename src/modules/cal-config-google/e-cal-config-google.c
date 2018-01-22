@@ -132,7 +132,7 @@ cal_config_google_commit_changes (ESourceConfigBackend *backend,
 	authentication_extension = e_source_get_extension (
 		scratch_source, E_SOURCE_EXTENSION_AUTHENTICATION);
 
-	can_google_auth = e_source_credentials_google_is_supported () &&
+	can_google_auth = e_module_cal_config_google_is_supported (backend, NULL) &&
 			  g_strcmp0 (e_source_authentication_get_method (authentication_extension), "OAuth2") != 0;
 
 	/* The backend name is actually "caldav" even though the

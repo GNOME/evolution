@@ -951,7 +951,7 @@ collection_account_wizard_write_changes_thread (ESimpleAsyncResult *result,
 	if (!text || !*text)
 		e_source_backend_set_backend_name (E_SOURCE_BACKEND (collection_extension), "none");
 
-	google_supported = e_source_credentials_google_is_supported ();
+	google_supported = e_oauth2_services_is_oauth2_alias (e_source_registry_get_oauth2_services (wizard->priv->registry), "Google");
 
 	for (ii = 0; ii <= E_CONFIG_LOOKUP_RESULT_LAST_KIND; ii++) {
 		source = wizard->priv->sources[ii];

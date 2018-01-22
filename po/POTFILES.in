@@ -304,8 +304,6 @@ src/e-util/gal-view-instance-save-as-dialog.c
 [type: gettext/glade]src/e-util/gal-view-instance-save-as-dialog.ui
 src/e-util/widgets.error.xml
 src/libemail-engine/camel-null-store.c
-src/libemail-engine/camel-sasl-oauth2-google.c
-src/libemail-engine/camel-sasl-xoauth2.c
 src/libemail-engine/e-mail-folder-utils.c
 src/libemail-engine/e-mail-session.c
 src/libemail-engine/e-mail-session-utils.c

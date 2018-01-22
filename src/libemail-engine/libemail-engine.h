@@ -21,7 +21,6 @@
 #define __LIBEMAIL_ENGINE_H_INSIDE__
 
 #include <libemail-engine/camel-null-store.h>
-#include <libemail-engine/camel-sasl-xoauth2.h>
 #include <libemail-engine/e-mail-engine-enums.h>
 #include <libemail-engine/e-mail-engine-enumtypes.h>
 #include <libemail-engine/e-mail-folder-utils.h>

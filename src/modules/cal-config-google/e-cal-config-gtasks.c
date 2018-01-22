@@ -64,7 +64,7 @@ cal_config_gtasks_allow_creation (ESourceConfigBackend *backend)
 		return FALSE;
 
 	source = e_source_config_get_original_source (config);
-	if (!source && e_source_credentials_google_is_supported ())
+	if (!source && e_module_cal_config_google_is_supported (backend, NULL))
 		return TRUE;
 
 	if (!e_source_has_extension (source, E_SOURCE_EXTENSION_TASK_LIST))

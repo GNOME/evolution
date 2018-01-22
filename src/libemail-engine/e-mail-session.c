@@ -47,10 +47,6 @@
 /* This is our hack, not part of libcamel. */
 #include "camel-null-store.h"
 
-/* These too, though it's less of a hack. */
-#include "camel-sasl-xoauth2.h"
-#include "camel-sasl-oauth2-google.h"
-
 #include "e-mail-session.h"
 #include "e-mail-folder-utils.h"
 #include "e-mail-utils.h"
@@ -1198,7 +1194,7 @@ mail_session_add_service (CamelSession *session,
 	if (CAMEL_IS_SERVICE (service)) {
 		ESource *source;
 		ESource *tmp_source;
-		gboolean is_google = FALSE;
+		EOAuth2Service *oauth2_service;
 
 		/* Each CamelService has a corresponding ESource. */
 		source = e_source_registry_ref_source (registry, uid);
@@ -1227,32 +1223,17 @@ mail_session_add_service (CamelSession *session,
 		 * if necessary. */
 		camel_service_migrate_files (service);
 
-		if (e_source_has_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION)) {
-			ESourceAuthentication *auth_extension;
-			const gchar *host;
+		/* Kind of hack, to add also correct OAuth2 SASL implementation */
+		oauth2_service = e_oauth2_services_find (e_source_registry_get_oauth2_services (registry), source);
+		if (oauth2_service) {
+			CamelServiceAuthType *auth_type;
 
-			auth_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
-			host = e_source_authentication_get_host (auth_extension);
+			auth_type = camel_sasl_authtype (e_oauth2_service_get_name (oauth2_service));
+			if (auth_type) {
+				CamelProvider *provider;
 
-			is_google = host && (
-				e_util_utf8_strstrcase (host, "gmail.com") != NULL ||
-				e_util_utf8_strstrcase (host, "googlemail.com") != NULL);
-		}
-
-		g_object_unref (source);
-
-		/* Kind of hack for the custom SASL authentication unknown to Camel. */
-		if (is_google) {
-			CamelProvider *provider;
-			CamelSaslOAuth2GoogleClass *oauth2_google_class;
-
-			oauth2_google_class = g_type_class_ref (CAMEL_TYPE_SASL_OAUTH2_GOOGLE);
-			provider = camel_service_get_provider (service);
-
-			if (provider && oauth2_google_class) {
-				CamelServiceAuthType *auth_type = oauth2_google_class->parent_class.auth_type;
-
-				if (!g_list_find (provider->authtypes, auth_type))
+				provider = camel_service_get_provider (service);
+				if (provider && !g_list_find (provider->authtypes, auth_type))
 					provider->authtypes = g_list_append (provider->authtypes, auth_type);
 			}
 		}
@@ -1531,6 +1512,60 @@ mail_session_forward_to_sync (CamelSession *session,
 	return success;
 }
 
+static gboolean
+mail_session_get_oauth2_access_token_sync (CamelSession *session,
+					   CamelService *service,
+					   gchar **out_access_token,
+					   gint *out_expires_in,
+					   GCancellable *cancellable,
+					   GError **error)
+{
+	EMailSession *mail_session;
+	ESource *source, *cred_source;
+	GError *local_error = NULL;
+	gboolean success;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
+
+	mail_session = E_MAIL_SESSION (session);
+	source = e_source_registry_ref_source (mail_session->priv->registry, camel_service_get_uid (service));
+	if (!source) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND,
+			_("Corresponding source for service with UID “%s” not found"),
+			camel_service_get_uid (service));
+
+		return FALSE;
+	}
+
+	cred_source = e_source_registry_find_extension (mail_session->priv->registry, source, E_SOURCE_EXTENSION_COLLECTION);
+	if (cred_source && !e_util_can_use_collection_as_credential_source (cred_source, source)) {
+		g_clear_object (&cred_source);
+	}
+
+	success = e_source_get_oauth2_access_token_sync (cred_source ? cred_source : source, cancellable, out_access_token, out_expires_in, &local_error);
+
+	/* The Connection Refused error can be returned when the OAuth2 token is expired or
+	   when its refresh failed for some reason. In that case change the error domain/code,
+	   thus the other Camel/mail code understands it. */
+	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_REFUSED) ||
+	    g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
+		local_error->domain = CAMEL_SERVICE_ERROR;
+		local_error->code = CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE;
+
+		e_source_invoke_credentials_required_sync (cred_source ? cred_source : source,
+			E_SOURCE_CREDENTIALS_REASON_REJECTED, NULL, 0, local_error, cancellable, NULL);
+	}
+
+	if (local_error)
+		g_propagate_error (error, local_error);
+
+	g_clear_object (&cred_source);
+	g_object_unref (source);
+
+	return success;
+}
+
 static EMVFolderContext *
 mail_session_create_vfolder_context (EMailSession *session)
 {
@@ -1557,6 +1592,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->get_password = mail_session_get_password;
 	session_class->forget_password = mail_session_forget_password;
 	session_class->forward_to_sync = mail_session_forward_to_sync;
+	session_class->get_oauth2_access_token_sync = mail_session_get_oauth2_access_token_sync;
 
 	class->create_vfolder_context = mail_session_create_vfolder_context;
 
@@ -1695,10 +1731,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 
 	/* Make sure ESourceCamel picks up the "none" provider. */
 	e_source_camel_generate_subtype ("none", CAMEL_TYPE_SETTINGS);
-
-	/* Make sure CamelSasl picks up our mechanisms. */
-	g_type_ensure (CAMEL_TYPE_SASL_XOAUTH2);
-	g_type_ensure (CAMEL_TYPE_SASL_OAUTH2_GOOGLE);
 }
 
 static void
