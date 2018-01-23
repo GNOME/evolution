@@ -1194,7 +1194,6 @@ mail_session_add_service (CamelSession *session,
 	if (CAMEL_IS_SERVICE (service)) {
 		ESource *source;
 		ESource *tmp_source;
-		EOAuth2Service *oauth2_service;
 
 		/* Each CamelService has a corresponding ESource. */
 		source = e_source_registry_ref_source (registry, uid);
@@ -1222,21 +1221,6 @@ mail_session_add_service (CamelSession *session,
 		 * URL-based directory to a UID-based directory
 		 * if necessary. */
 		camel_service_migrate_files (service);
-
-		/* Kind of hack, to add also correct OAuth2 SASL implementation */
-		oauth2_service = e_oauth2_services_find (e_source_registry_get_oauth2_services (registry), source);
-		if (oauth2_service) {
-			CamelServiceAuthType *auth_type;
-
-			auth_type = camel_sasl_authtype (e_oauth2_service_get_name (oauth2_service));
-			if (auth_type) {
-				CamelProvider *provider;
-
-				provider = camel_service_get_provider (service);
-				if (provider && !g_list_find (provider->authtypes, auth_type))
-					provider->authtypes = g_list_append (provider->authtypes, auth_type);
-			}
-		}
 	}
 
 	return service;

@@ -37,6 +37,8 @@ struct _EMailConfigAuthCheckPrivate {
 	gchar *active_mechanism;
 
 	GtkWidget *combo_box;  /* not referenced */
+	gulong host_changed_id;
+	CamelServiceAuthType *used_xoauth2;
 };
 
 struct _AsyncContext {
@@ -234,6 +236,47 @@ mail_config_auth_check_init_mechanism (EMailConfigAuthCheck *auth_check)
 }
 
 static void
+mail_config_auth_check_host_changed_cb (CamelNetworkSettings *network_settings,
+					GParamSpec *param,
+					EMailConfigAuthCheck *auth_check)
+{
+	EMailConfigServiceBackend *backend;
+	ESourceRegistry *registry;
+	EOAuth2Service *oauth2_service;
+	CamelProvider *provider;
+	CamelServiceAuthType *change_authtype = NULL;
+
+	g_return_if_fail (CAMEL_IS_NETWORK_SETTINGS (network_settings));
+	g_return_if_fail (E_IS_MAIL_CONFIG_AUTH_CHECK (auth_check));
+
+	backend = e_mail_config_auth_check_get_backend (auth_check);
+	provider = e_mail_config_service_backend_get_provider (backend);
+
+	registry = e_mail_config_service_page_get_registry (e_mail_config_service_backend_get_page (backend));
+	oauth2_service = e_oauth2_services_find (e_source_registry_get_oauth2_services (registry),
+		e_mail_config_service_backend_get_source (backend));
+	if (!oauth2_service) {
+		oauth2_service = e_oauth2_services_guess (e_source_registry_get_oauth2_services (registry),
+			provider ? provider->protocol : NULL, camel_network_settings_get_host (network_settings));
+	}
+
+	if (oauth2_service)
+		change_authtype = camel_sasl_authtype (e_oauth2_service_get_name (oauth2_service));
+
+	g_clear_object (&oauth2_service);
+
+	if (change_authtype != auth_check->priv->used_xoauth2) {
+		if (auth_check->priv->used_xoauth2)
+			e_auth_combo_box_remove_auth_type (E_AUTH_COMBO_BOX (auth_check->priv->combo_box), auth_check->priv->used_xoauth2);
+
+		auth_check->priv->used_xoauth2 = change_authtype;
+
+		if (auth_check->priv->used_xoauth2)
+			e_auth_combo_box_add_auth_type (E_AUTH_COMBO_BOX (auth_check->priv->combo_box), auth_check->priv->used_xoauth2);
+	}
+}
+
+static void
 mail_config_auth_check_set_backend (EMailConfigAuthCheck *auth_check,
                                     EMailConfigServiceBackend *backend)
 {
@@ -299,6 +342,14 @@ mail_config_auth_check_dispose (GObject *object)
 	priv = E_MAIL_CONFIG_AUTH_CHECK_GET_PRIVATE (object);
 
 	if (priv->backend != NULL) {
+		if (priv->host_changed_id) {
+			CamelSettings *settings;
+
+			settings = e_mail_config_service_backend_get_settings (priv->backend);
+			if (settings)
+				e_signal_disconnect_notify_handler (settings, &priv->host_changed_id);
+		}
+
 		g_object_unref (priv->backend);
 		priv->backend = NULL;
 	}
@@ -328,6 +379,7 @@ mail_config_auth_check_constructed (GObject *object)
 	EMailConfigAuthCheck *auth_check;
 	EMailConfigServiceBackend *backend;
 	CamelProvider *provider;
+	CamelSettings *settings;
 	GtkWidget *widget;
 	const gchar *text;
 
@@ -353,6 +405,31 @@ mail_config_auth_check_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (object), widget, FALSE, FALSE, 0);
 	auth_check->priv->combo_box = widget;  /* do not reference */
 	gtk_widget_show (widget);
+
+	settings = e_mail_config_service_backend_get_settings (backend);
+	if (CAMEL_IS_NETWORK_SETTINGS (settings)) {
+		ESourceRegistry *registry;
+		EOAuth2Service *oauth2_service;
+
+		auth_check->priv->host_changed_id = e_signal_connect_notify (
+			settings, "notify::host", G_CALLBACK (mail_config_auth_check_host_changed_cb), auth_check);
+
+		registry = e_mail_config_service_page_get_registry (e_mail_config_service_backend_get_page (backend));
+		oauth2_service = e_oauth2_services_find (e_source_registry_get_oauth2_services (registry),
+			e_mail_config_service_backend_get_source (backend));
+		if (!oauth2_service) {
+			oauth2_service = e_oauth2_services_guess (e_source_registry_get_oauth2_services (registry),
+				provider ? provider->protocol : NULL, camel_network_settings_get_host (CAMEL_NETWORK_SETTINGS (settings)));
+		}
+
+		if (oauth2_service)
+			auth_check->priv->used_xoauth2 = camel_sasl_authtype (e_oauth2_service_get_name (oauth2_service));
+
+		g_clear_object (&oauth2_service);
+
+		if (auth_check->priv->used_xoauth2)
+			e_auth_combo_box_add_auth_type (E_AUTH_COMBO_BOX (auth_check->priv->combo_box), auth_check->priv->used_xoauth2);
+	}
 
 	e_binding_bind_property (
 		widget, "active-id",
@@ -405,6 +482,8 @@ static void
 e_mail_config_auth_check_init (EMailConfigAuthCheck *auth_check)
 {
 	auth_check->priv = E_MAIL_CONFIG_AUTH_CHECK_GET_PRIVATE (auth_check);
+	auth_check->priv->host_changed_id = 0;
+	auth_check->priv->used_xoauth2 = NULL;
 
 	gtk_orientable_set_orientation (
 		GTK_ORIENTABLE (auth_check),

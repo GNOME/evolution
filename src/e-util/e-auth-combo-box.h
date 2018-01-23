@@ -64,6 +64,11 @@ GtkWidget *	e_auth_combo_box_new		(void);
 CamelProvider *	e_auth_combo_box_get_provider	(EAuthComboBox *combo_box);
 void		e_auth_combo_box_set_provider	(EAuthComboBox *combo_box,
 						 CamelProvider *provider);
+void		e_auth_combo_box_add_auth_type	(EAuthComboBox *combo_box,
+						 CamelServiceAuthType *auth_type);
+void		e_auth_combo_box_remove_auth_type
+						(EAuthComboBox *combo_box,
+						 CamelServiceAuthType *auth_type);
 void		e_auth_combo_box_update_available
 						(EAuthComboBox *combo_box,
 						 GList *available_authtypes);
