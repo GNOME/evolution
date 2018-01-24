@@ -1153,8 +1153,6 @@ action_mail_goto_folder_cb (GtkAction *action,
 			em_folder_tree_set_selected (folder_tree, uri, FALSE);
 			g_free (uri);
 		}
-
-		g_object_unref (folder);
 	}
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
