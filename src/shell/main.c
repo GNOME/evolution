@@ -358,6 +358,7 @@ create_default_shell (void)
 	GSettings *settings;
 	GApplicationFlags flags;
 	gboolean online = TRUE;
+	GList *module_types;
 	GError *error = NULL;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.shell");
@@ -390,6 +391,10 @@ create_default_shell (void)
 		g_warning ("%s", error->message);
 		g_clear_error (&error);
 	}
+
+	/* Load all shared library modules. */
+	module_types = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
+	g_list_free_full (module_types, (GDestroyNotify) g_type_module_unuse);
 
 	flags = G_APPLICATION_HANDLES_OPEN |
 		G_APPLICATION_HANDLES_COMMAND_LINE;
