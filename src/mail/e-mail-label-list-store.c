@@ -184,9 +184,7 @@ mail_label_list_store_get_stock_id (EMailLabelListStore *store,
 		GdkPixbuf *pixbuf;
 		guint32 pixel;
 
-		pixel = ((color.red & 0xFF00) << 16) +
-			((color.green & 0xFF00) << 8) +
-			(color.blue & 0xFF00);
+		pixel = (e_color_to_value (&color) & 0xffffff) << 8;
 
 		pixbuf = gdk_pixbuf_new (
 			GDK_COLORSPACE_RGB, FALSE, 8, 16, 16);

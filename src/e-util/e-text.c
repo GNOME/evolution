@@ -752,10 +752,7 @@ e_text_set_property (GObject *object,
 			break;
 		}
 
-		text->rgba = ((color.red & 0xff00) << 16 |
-			      (color.green & 0xff00) << 8 |
-			      (color.blue & 0xff00) |
-			      0xff);
+		text->rgba = ((e_color_to_value (&color) & 0xffffff) << 8) | 0xff;
 		text->rgba_set = TRUE;
 		text->needs_redraw = 1;
 		needs_update = 1;
@@ -767,10 +764,7 @@ e_text_set_property (GObject *object,
 			color = *pcolor;
 		}
 
-		text->rgba = ((color.red & 0xff00) << 16 |
-			      (color.green & 0xff00) << 8 |
-			      (color.blue & 0xff00) |
-			      0xff);
+		text->rgba = ((e_color_to_value (&color) & 0xffffff) << 8) | 0xff;
 		text->rgba_set = TRUE;
 		text->needs_redraw = 1;
 		needs_update = 1;

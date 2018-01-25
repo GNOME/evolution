@@ -933,11 +933,15 @@ e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 	g_array_set_size (
 		new_info->priv->groupings,
 		sort_info->priv->groupings->len);
-	memmove (
-		new_info->priv->groupings->data,
-		sort_info->priv->groupings->data,
-		sort_info->priv->groupings->len *
-		g_array_get_element_size (sort_info->priv->groupings));
+	if (new_info->priv->groupings->data &&
+	    sort_info->priv->groupings->data &&
+	    sort_info->priv->groupings->len) {
+		memmove (
+			new_info->priv->groupings->data,
+			sort_info->priv->groupings->data,
+			sort_info->priv->groupings->len *
+			g_array_get_element_size (sort_info->priv->groupings));
+	}
 
 	for (ii = 0; ii < new_info->priv->groupings->len; ii++) {
 		ColumnData *column_data;
@@ -950,11 +954,15 @@ e_table_sort_info_duplicate (ETableSortInfo *sort_info)
 	g_array_set_size (
 		new_info->priv->sortings,
 		sort_info->priv->sortings->len);
-	memmove (
-		new_info->priv->sortings->data,
-		sort_info->priv->sortings->data,
-		sort_info->priv->sortings->len *
-		g_array_get_element_size (sort_info->priv->sortings));
+	if (new_info->priv->sortings->data &&
+	    sort_info->priv->sortings->data &&
+	    sort_info->priv->sortings->len) {
+		memmove (
+			new_info->priv->sortings->data,
+			sort_info->priv->sortings->data,
+			sort_info->priv->sortings->len *
+			g_array_get_element_size (sort_info->priv->sortings));
+	}
 
 	for (ii = 0; ii < new_info->priv->sortings->len; ii++) {
 		ColumnData *column_data;

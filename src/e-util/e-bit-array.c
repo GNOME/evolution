@@ -224,7 +224,7 @@ e_bit_array_foreach (EBitArray *bit_array,
 	}
 }
 
-#define PART(x,n) (((x) & (0x01010101 << n)) >> n)
+#define PART(x,n) ((guint32) ((((guint64) x) & (((guint64) 0x01010101) << n)) >> n))
 #define SECTION(x, n) (((x) >> (n * 8)) & 0xff)
 
 /**

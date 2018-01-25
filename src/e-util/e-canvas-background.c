@@ -36,6 +36,7 @@
 
 #include "e-canvas.h"
 #include "e-canvas-utils.h"
+#include "e-misc-utils.h"
 
 #define E_CANVAS_BACKGROUND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -120,10 +121,7 @@ ecb_set_property (GObject *object,
 	case PROP_FILL_COLOR:
 		if (g_value_get_string (value) &&
 		    gdk_color_parse (g_value_get_string (value), &color)) {
-			ecb->priv->rgba = ((color.red & 0xff00) << 16 |
-					   (color.green & 0xff00) << 8 |
-					   (color.blue & 0xff00) |
-					   0xff);
+			ecb->priv->rgba = ((e_color_to_value (&color) & 0xffffff) << 8) | 0xff;
 		}
 		break;
 
@@ -133,10 +131,7 @@ ecb_set_property (GObject *object,
 			color = *pcolor;
 		}
 
-		ecb->priv->rgba = ((color.red & 0xff00) << 16 |
-				   (color.green & 0xff00) << 8 |
-				   (color.blue & 0xff00) |
-				   0xff);
+		ecb->priv->rgba = ((e_color_to_value (&color) & 0xffffff) << 8) | 0xff;
 		break;
 
 	case PROP_FILL_COLOR_RGBA:
