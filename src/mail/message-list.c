@@ -5745,13 +5745,11 @@ ml_sort_uids_by_tree (MessageList *message_list,
 
 		uid = g_ptr_array_index (uids, i);
 		mi = camel_folder_get_message_info (folder, uid);
-		if (mi == NULL) {
-			g_warning (
-				"%s: Cannot find uid '%s' in folder '%s'",
-				G_STRFUNC, uid,
-				camel_folder_get_full_name (folder));
+
+		/* This can happen when the folder is updated and messages moved
+		   elsewhere or deleted while the message list regeneration is running. */
+		if (!mi)
 			continue;
-		}
 
 		md = g_new0 (struct sort_message_info_data, 1);
 		md->mi = mi;
