@@ -190,12 +190,19 @@ prepend_from (CamelMimeMessage *message,
 	if (from && camel_internet_address_get (from, 0, &name, &eml))
 		addr = camel_internet_address_format_address (name, eml);
 
+	if (addr && !g_utf8_validate (addr, -1, NULL)) {
+		tmp = e_util_utf8_make_valid (addr);
+		g_free (addr);
+		addr = tmp;
+	}
+
 	/* To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>" */
 	tmp = g_strdup_printf (_("Created from a mail by %s"), addr ? addr : "");
 
 	res = g_strconcat (tmp, "\n", *text, NULL);
 
 	g_free (tmp);
+	g_free (addr);
 	g_free (*text);
 
 	*text = res;
@@ -205,17 +212,19 @@ prepend_from (CamelMimeMessage *message,
 
 static void
 set_description (ECalComponent *comp,
-                 CamelMimeMessage *message)
+		 CamelMimeMessage *message,
+		 const gchar *default_charset,
+		 const gchar *forced_charset)
 {
 	CamelDataWrapper *content;
 	CamelStream *stream;
-	CamelContentType *type, *mime_type;
+	CamelContentType *type;
 	CamelMimePart *mime_part = CAMEL_MIME_PART (message);
+	const gchar *charset = NULL;
 	ECalComponentText *text = NULL;
 	GByteArray *byte_array;
 	GSList *sl = NULL;
 	gchar *str, *convert_str = NULL;
-	gsize bytes_read, bytes_written;
 	gint count = 2;
 
 	content = camel_medium_get_content ((CamelMedium *) message);
@@ -244,15 +253,35 @@ set_description (ECalComponent *comp,
 	str = g_strndup ((gchar *) byte_array->data, byte_array->len);
 	g_object_unref (stream);
 
-	mime_type = camel_data_wrapper_get_mime_type_field (content);
+	if (forced_charset && *forced_charset) {
+		charset = forced_charset;
+	} else {
+		CamelContentType *mime_type;
+
+		mime_type = camel_data_wrapper_get_mime_type_field (content);
+
+		if (mime_type) {
+			charset = camel_content_type_param (mime_type, "charset");
+			if (charset && !*charset)
+				charset = NULL;
+		}
+	}
+
+	if (!charset && default_charset && *default_charset)
+		charset = default_charset;
 
 	/* convert to UTF-8 string */
-	if (str && mime_type && mime_type->params && mime_type->params->value) {
+	if (str && charset) {
+		gsize bytes_read, bytes_written;
+
 		convert_str = g_convert (
 			str, strlen (str),
-			"UTF-8", mime_type->params->value,
+			"UTF-8", charset,
 			&bytes_read, &bytes_written, NULL);
 	}
+
+	if (!convert_str && str)
+		convert_str = e_util_utf8_make_valid (str);
 
 	text = g_new0 (ECalComponentText, 1);
 	if (convert_str)
@@ -815,6 +844,8 @@ typedef struct {
 	CamelFolder *folder;
 	GPtrArray *uids;
 	gchar *selected_text;
+	gchar *default_charset;
+	gchar *forced_charset;
 	gboolean with_attendees;
 }AsyncData;
 
@@ -938,7 +969,7 @@ do_mail_to_event (AsyncData *data)
 
 				e_cal_component_set_description_list (comp, &sl);
 			} else
-				set_description (comp, message);
+				set_description (comp, message, data->default_charset, data->forced_charset);
 
 			if (data->with_attendees) {
 				gchar *organizer;
@@ -1023,6 +1054,8 @@ do_mail_to_event (AsyncData *data)
 
 	if (data->selected_text)
 		g_free (data->selected_text);
+	g_free (data->default_charset);
+	g_free (data->forced_charset);
 	g_object_unref (data->client_cache);
 	g_object_unref (data->source);
 	g_free (data);
@@ -1082,6 +1115,21 @@ get_selected_text (EMailReader *reader)
 	}
 
 	return text;
+}
+
+static void
+get_charsets (EMailReader *reader,
+	      gchar **default_charset,
+	      gchar **forced_charset)
+{
+	EMailDisplay *display;
+	EMailFormatter *formatter;
+
+	display = e_mail_reader_get_mail_display (reader);
+	formatter = e_mail_display_get_formatter (display);
+
+	*default_charset = e_mail_formatter_dup_default_charset (formatter);
+	*forced_charset = e_mail_formatter_dup_charset (formatter);
 }
 
 static void
@@ -1193,6 +1241,7 @@ mail_to_event (ECalClientSourceType source_type,
 		data->folder = e_mail_reader_ref_folder (reader);
 		data->uids = g_ptr_array_ref (uids);
 		data->with_attendees = with_attendees;
+		get_charsets (reader, &data->default_charset, &data->forced_charset);
 
 		if (uids->len == 1)
 			data->selected_text = get_selected_text (reader);
