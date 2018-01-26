@@ -6871,38 +6871,46 @@ process_indented_element (WebKitDOMElement *element)
 {
 	gchar *spaces;
 	WebKitDOMNode *child;
+	gboolean needs_indent = TRUE;
 
 	if (!element)
 		return;
 
-	spaces = g_strnfill (4 * get_indentation_level (element), ' ');
+	spaces = g_strnfill (SPACES_PER_INDENTATION * get_indentation_level (element), ' ');
 
 	child = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
 	while (child) {
 		/* If next sibling is indented blockqoute skip it,
 		 * it will be processed afterwards */
 		if (WEBKIT_DOM_IS_ELEMENT (child) &&
-		    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented"))
+		    element_has_class (WEBKIT_DOM_ELEMENT (child), "-x-evo-indented")) {
 			child = webkit_dom_node_get_next_sibling (child);
+			if (!child)
+				break;
+		}
 
 		if (WEBKIT_DOM_IS_TEXT (child)) {
 			gchar *text_content;
-			gchar *indented_text;
+			gchar *indented_text = NULL;
 
 			text_content = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (child));
-			indented_text = g_strconcat (spaces, text_content, NULL);
+			if (needs_indent) {
+				indented_text = g_strconcat (spaces, text_content, NULL);
+				needs_indent = FALSE;
+			}
 
 			webkit_dom_character_data_set_data (
 				WEBKIT_DOM_CHARACTER_DATA (child),
-				indented_text,
+				indented_text ? indented_text : text_content,
 				NULL);
 
 			g_free (text_content);
 			g_free (indented_text);
+		} else if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (child) ||
+			   WEBKIT_DOM_IS_HTML_DIV_ELEMENT (child) ||
+			   WEBKIT_DOM_IS_HTML_PRE_ELEMENT (child)) {
+			needs_indent = TRUE;
 		}
-
-		if (!child)
-			break;
 
 		/* Move to next node */
 		if (webkit_dom_node_has_child_nodes (child))
