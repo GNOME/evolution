@@ -199,6 +199,9 @@ composer_autosave_msg_composer_before_destroy_cb (EMsgComposer *composer,
 
 	g_return_if_fail (autosave != NULL);
 
+	/* Cancel any snapshots in progress, composer is going to destroy its content. */
+	g_cancellable_cancel (autosave->priv->cancellable);
+
 	if (autosave->priv->malfunction_snapshot_file) {
 		if (e_alert_run_dialog_for_args (GTK_WINDOW (composer), "mail-composer:recover-autosave-malfunction", NULL) == GTK_RESPONSE_YES) {
 			e_composer_load_snapshot (
