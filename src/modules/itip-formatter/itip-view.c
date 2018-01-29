@@ -28,6 +28,7 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-utils.h>
 
+#include <calendar/gui/comp-util.h>
 #include <calendar/gui/itip-utils.h>
 
 #include <mail/em-config.h>
@@ -1055,8 +1056,10 @@ append_text_table_row (GString *buffer,
 
 		g_string_append_printf (
 			buffer,
-			"<tr id=\"%s\" %s><th>%s</th><td>%s</td></tr>\n",
-			id, (value && *value) ? "" : "hidden=\"\"", label, value ? value : "");
+			"<tr id=\"%s\" %s><th%s>%s</th><td>%s</td></tr>\n",
+			id, (value && *value) ? "" : "hidden=\"\"",
+			g_strcmp0 (id, TABLE_ROW_COMMENT) == 0 ? " style=\"vertical-align: top;\"" : "",
+			label, value ? value : "");
 
 	} else {
 
@@ -1809,9 +1812,9 @@ itip_view_write_for_printing (ItipView *view,
 			"<div id=\"" TABLE_ROW_DESCRIPTION "\" "
 			"class=\"itip description\" %s>%s</div>\n",
 			view->priv->description ? "" : "hidden=\"\"", view->priv->description);
-
-		g_string_append (buffer, "</div>");
 	}
+
+	g_string_append (buffer, "</div>");
 }
 
 static void
@@ -2304,6 +2307,150 @@ itip_view_get_comment (ItipView *view)
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 
 	return view->priv->comment;
+}
+
+static gchar *
+itip_plain_text_to_html (const gchar *plain)
+{
+	return camel_text_to_html (
+		plain,
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES,
+		0);
+}
+
+static void
+itip_view_extract_attendee_info (ItipView *view)
+{
+	icalproperty *prop;
+	icalcomponent *ical_comp;
+	gint num_attendees;
+	const gchar *top_comment;
+	GString *new_comment = NULL;
+
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
+	if (!view->priv->comp)
+		return;
+
+	ical_comp = e_cal_component_get_icalcomponent (view->priv->comp);
+	if (!ical_comp)
+		return;
+
+	num_attendees = icalcomponent_count_properties (ical_comp, ICAL_ATTENDEE_PROPERTY);
+	if (num_attendees <= 0)
+		return;
+
+	top_comment = icalcomponent_get_comment (ical_comp);
+
+	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
+	     prop != NULL;
+	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
+		gchar *guests_str = NULL;
+		guint32 num_guests = 0;
+		const gchar *value;
+
+		value = cal_comp_util_find_parameter_xvalue (prop, "X-NUM-GUESTS");
+		if (value && *value)
+			num_guests = atoi (value);
+
+		value = cal_comp_util_find_parameter_xvalue (prop, "X-RESPONSE-COMMENT");
+
+		if (value && *value && num_attendees == 1 &&
+		    g_strcmp0 (value, top_comment) == 0)
+			value = NULL;
+
+		if (num_guests)
+			guests_str = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "with one guest", "with %d guests", num_guests), num_guests);
+
+		if (num_attendees == 1) {
+			if (!value)
+				value = top_comment;
+
+			if (value && *value) {
+				gchar *html;
+
+				if (num_guests) {
+					gchar *plain;
+
+					plain = g_strconcat (guests_str, "; ", value, NULL);
+					html = itip_plain_text_to_html (plain);
+					g_free (plain);
+				} else {
+					html = itip_plain_text_to_html (value);
+				}
+
+				itip_view_set_comment (view, html);
+
+				g_free (html);
+			} else if (guests_str) {
+				gchar *html;
+
+				html = itip_plain_text_to_html (guests_str);
+				itip_view_set_comment (view, html);
+				g_free (html);
+			}
+		} else if (guests_str || (value && *value)) {
+			const gchar *email = icalproperty_get_attendee (prop);
+			const gchar *cn = NULL;
+			icalparameter *cnparam;
+
+			cnparam = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+			if (cnparam) {
+				cn = icalparameter_get_cn (cnparam);
+				if (!cn || !*cn)
+					cn = NULL;
+			}
+
+			email = itip_strip_mailto (email);
+
+			if ((email && *email) || (cn && *cn)) {
+				if (!new_comment)
+					new_comment = g_string_new ("");
+				else
+					g_string_append_c (new_comment, '\n');
+
+				if (cn && *cn) {
+					g_string_append (new_comment, cn);
+
+					if (g_strcmp0 (email, cn) == 0)
+						email = NULL;
+				}
+
+				if (email && *email) {
+					if (cn && *cn)
+						g_string_append_printf (new_comment, " <%s>", email);
+					else
+						g_string_append (new_comment, email);
+				}
+
+				g_string_append (new_comment, ": ");
+
+				if (guests_str) {
+					g_string_append (new_comment, guests_str);
+
+					if (value && *value)
+						g_string_append (new_comment, "; ");
+				}
+
+				if (value && *value)
+					g_string_append (new_comment, value);
+			}
+		}
+
+		g_free (guests_str);
+	}
+
+	if (new_comment) {
+		gchar *html;
+
+		html = itip_plain_text_to_html (new_comment->str);
+		itip_view_set_comment (view, html);
+		g_free (html);
+
+		g_string_free (new_comment, TRUE);
+	}
 }
 
 void
@@ -6183,6 +6330,8 @@ itip_view_init_view (ItipView *view)
 		}
 		e_cal_component_free_text_list (list);
 	}
+
+	itip_view_extract_attendee_info (view);
 
 	e_cal_component_get_description_list (view->priv->comp, &list);
 	for (l = list; l; l = l->next) {

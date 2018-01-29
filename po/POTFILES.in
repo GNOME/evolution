@@ -66,6 +66,7 @@ src/calendar/alarm-notify/alarm-queue.c
 src/calendar/alarm-notify/util.c
 src/calendar/calendar.error.xml
 src/calendar/gui/caltypes.xml.in
+src/calendar/gui/comp-util.c
 src/calendar/gui/ea-cal-view.c
 src/calendar/gui/ea-cal-view-event.c
 src/calendar/gui/ea-day-view.c

@@ -36,6 +36,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "calendar-config.h"
+#include "comp-util.h"
 #include "e-cal-dialogs.h"
 #include "e-cal-model-tasks.h"
 #include "e-cal-ops.h"
@@ -910,6 +911,17 @@ task_table_query_tooltip (GtkWidget *widget,
 		tmp = NULL;
 
 		gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &norm_text);
+	}
+
+	tmp = cal_comp_util_get_attendee_comments (e_cal_component_get_icalcomponent (new_comp));
+	if (tmp) {
+		l = gtk_label_new (tmp);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+		gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &norm_text);
+
+		g_free (tmp);
+		tmp = NULL;
 	}
 
 	tmp2 = g_string_new ("");

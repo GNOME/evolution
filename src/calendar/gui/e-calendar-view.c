@@ -1929,6 +1929,17 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 		g_free (tmp);
 	}
 
+	tmp = cal_comp_util_get_attendee_comments (e_cal_component_get_icalcomponent (newcomp));
+	if (tmp) {
+		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+		gtk_box_pack_start ((GtkBox *) hbox, gtk_label_new (tmp), FALSE, FALSE, 0);
+		ebox = gtk_event_box_new ();
+		gtk_container_add ((GtkContainer *) ebox, hbox);
+		gtk_box_pack_start ((GtkBox *) box, ebox, FALSE, FALSE, 0);
+
+		g_free (tmp);
+	}
+
 	pevent->tooltip = gtk_window_new (GTK_WINDOW_POPUP);
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (data->cal_view));

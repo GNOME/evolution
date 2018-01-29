@@ -23,12 +23,15 @@
 
 #include "evolution-config.h"
 
+#include <glib/gi18n-lib.h>
+
 #include <string.h>
 #include <time.h>
 
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-calendar-view.h"
+#include "itip-utils.h"
 
 #include "shell/e-shell-window.h"
 #include "shell/e-shell-view.h"
@@ -1439,4 +1442,112 @@ cal_comp_util_set_added_attendees_mails (ECalComponent *comp,
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	g_object_set_data_full (G_OBJECT (comp), "new-attendees", emails, free_slist_strs);
+}
+
+const gchar *
+cal_comp_util_find_parameter_xvalue (icalproperty *prop,
+				     const gchar *name)
+{
+	icalparameter *param;
+
+	if (!prop || !name || !*name)
+		return NULL;
+
+	for (param = icalproperty_get_first_parameter (prop, ICAL_X_PARAMETER);
+	     param;
+	     param = icalproperty_get_next_parameter (prop, ICAL_X_PARAMETER)) {
+		const gchar *xname = icalparameter_get_xname (param);
+
+		if (xname && g_ascii_strcasecmp (xname, name) == 0)
+			return icalparameter_get_xvalue (param);
+	}
+
+	return NULL;
+}
+
+gchar *
+cal_comp_util_get_attendee_comments (icalcomponent *icalcomp)
+{
+	GString *comments = NULL;
+	icalproperty *prop;
+
+	g_return_val_if_fail (icalcomp != NULL, NULL);
+
+	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+	     prop != NULL;
+	     prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
+		gchar *guests_str = NULL;
+		guint32 num_guests = 0;
+		const gchar *value;
+
+		value = cal_comp_util_find_parameter_xvalue (prop, "X-NUM-GUESTS");
+		if (value && *value)
+			num_guests = atoi (value);
+
+		value = cal_comp_util_find_parameter_xvalue (prop, "X-RESPONSE-COMMENT");
+
+		if (num_guests)
+			guests_str = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "with one guest", "with %d guests", num_guests), num_guests);
+
+		if (guests_str || (value && *value)) {
+			const gchar *email = icalproperty_get_attendee (prop);
+			const gchar *cn = NULL;
+			icalparameter *cnparam;
+
+			cnparam = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+			if (cnparam) {
+				cn = icalparameter_get_cn (cnparam);
+				if (!cn || !*cn)
+					cn = NULL;
+			}
+
+			email = itip_strip_mailto (email);
+
+			if ((email && *email) || (cn && *cn)) {
+				if (!comments)
+					comments = g_string_new ("");
+				else
+					g_string_append (comments, "\n    ");
+
+				if (cn && *cn) {
+					g_string_append (comments, cn);
+
+					if (g_strcmp0 (email, cn) == 0)
+						email = NULL;
+				}
+
+				if (email && *email) {
+					if (cn && *cn)
+						g_string_append_printf (comments, " <%s>", email);
+					else
+						g_string_append (comments, email);
+				}
+
+				g_string_append (comments, ": ");
+
+				if (guests_str) {
+					g_string_append (comments, guests_str);
+
+					if (value && *value)
+						g_string_append (comments, "; ");
+				}
+
+				if (value && *value)
+					g_string_append (comments, value);
+			}
+		}
+
+		g_free (guests_str);
+	}
+
+	if (comments) {
+		gchar *str;
+
+		str = g_strdup_printf (_("Comments: %s"), comments->str);
+		g_string_free (comments, TRUE);
+
+		return str;
+	}
+
+	return NULL;
 }

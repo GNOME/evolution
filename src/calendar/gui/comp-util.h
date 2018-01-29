@@ -139,5 +139,9 @@ void		cal_comp_util_copy_new_attendees
 void		cal_comp_util_set_added_attendees_mails
 						(ECalComponent *comp,
 						 GSList *emails);
-
+const gchar *	cal_comp_util_find_parameter_xvalue
+						(icalproperty *prop,
+						 const gchar *name);
+gchar *		cal_comp_util_get_attendee_comments
+						(icalcomponent *icalcomp);
 #endif
