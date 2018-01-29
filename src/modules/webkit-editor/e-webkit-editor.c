@@ -5730,7 +5730,7 @@ webkit_editor_move_caret_on_current_coordinates (GtkWidget *widget)
 	gdk_window_get_device_position (
 		gtk_widget_get_window (widget), pointer, &x, &y, NULL);
 	webkit_editor_move_caret_on_coordinates
-		(E_CONTENT_EDITOR (widget), x, y, TRUE);
+		(E_CONTENT_EDITOR (widget), x, y, FALSE);
 }
 
 static void
