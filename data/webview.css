@@ -80,7 +80,7 @@ object { /* GtkWidgets */
   font-weight: bold;
 }
 
-a {
+a.evo-awrap {
   white-space: normal;
   word-break: break-all;
 }
