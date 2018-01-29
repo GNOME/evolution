@@ -540,7 +540,7 @@ ecep_recurrence_make_recur_month_num_subtree (GtkTreeStore *store,
 
 	for (i = start; i < end; i++) {
 		gtk_tree_store_append (store, &iter, &parent);
-		gtk_tree_store_set (store, &iter, 0, _(e_cal_recur_nth[i]), 1, i + 1, -1);
+		gtk_tree_store_set (store, &iter, 0, e_cal_recur_get_localized_nth (i), 1, i + 1, -1);
 	}
 }
 
@@ -614,7 +614,7 @@ ecep_recurrence_make_recur_month_num_combo (gint month_index)
 
 	/* Current date */
 	gtk_tree_store_append (store, &iter, NULL);
-	gtk_tree_store_set (store, &iter, 0, _(e_cal_recur_nth[month_index - 1]), 1, MONTH_NUM_DAY, -1);
+	gtk_tree_store_set (store, &iter, 0, e_cal_recur_get_localized_nth (month_index - 1), 1, MONTH_NUM_DAY, -1);
 
 	gtk_tree_store_append (store, &iter, NULL);
 	/* TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
@@ -718,7 +718,7 @@ ecep_recurrence_month_num_combo_changed_cb (GtkComboBox *combo,
 
 			g_return_if_fail (gtk_tree_model_iter_nth_child (model, &iter, NULL, month_num));
 
-			gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, _(e_cal_recur_nth[page_recurrence->priv->month_index - 1]), -1);
+			gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, e_cal_recur_get_localized_nth (page_recurrence->priv->month_index - 1), -1);
 			gtk_combo_box_set_active_iter (GTK_COMBO_BOX (page_recurrence->priv->month_num_combo), &iter);
 		} else {
 			/* top level node */
