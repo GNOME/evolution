@@ -41,7 +41,7 @@ th {
         margin: 8px;
 }
 
-a {
+a.evo-awrap {
 	white-space:normal;
 	word-break:break-all;
 }

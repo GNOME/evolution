@@ -1011,6 +1011,75 @@ dom_window_resize_cb (WebKitDOMDOMWindow *dom_window,
 		e_dom_resize_document_content_to_preview_width (document);
 }
 
+static gboolean
+e_dom_text_requires_wrap (const gchar *text)
+{
+	gint cnt;
+
+	if (!text || !*text)
+		return FALSE;
+
+	for (cnt = -1; *text; text++) {
+		cnt++;
+
+		if (g_ascii_isspace (*text))
+			cnt = -1;
+		else if (cnt > 80)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+e_dom_wrap_long_anchors (WebKitDOMDocument *document)
+{
+	WebKitDOMHTMLCollection *frames;
+	WebKitDOMHTMLCollection *anchors;
+	WebKitDOMNode *node;
+	gint ii, length;
+
+	if (!document || !WEBKIT_DOM_IS_HTML_DOCUMENT (document))
+		return;
+
+	anchors = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "a");
+	length = webkit_dom_html_collection_get_length (anchors);
+
+	for (ii = 0; ii < length; ii++) {
+		node = webkit_dom_html_collection_item (anchors, ii);
+
+		if (WEBKIT_DOM_IS_HTML_ANCHOR_ELEMENT (node)) {
+			gchar *inner_text;
+
+			inner_text = webkit_dom_html_element_get_inner_text (WEBKIT_DOM_HTML_ELEMENT (node));
+
+			if (e_dom_text_requires_wrap (inner_text))
+				element_add_class (WEBKIT_DOM_ELEMENT (node), "evo-awrap");
+			else
+				element_remove_class (WEBKIT_DOM_ELEMENT (node), "evo-awrap");
+
+			g_free (inner_text);
+		}
+	}
+
+	g_object_unref (anchors);
+
+	frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
+	length = webkit_dom_html_collection_get_length (frames);
+
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMDocument *iframe_document;
+
+		node = webkit_dom_html_collection_item (frames, ii);
+		iframe_document = webkit_dom_html_iframe_element_get_content_document (WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+
+		if (iframe_document)
+			e_dom_wrap_long_anchors (iframe_document);
+	}
+
+	g_object_unref (frames);
+}
+
 void
 e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
                                      GDBusConnection *connection)
@@ -1046,8 +1115,10 @@ e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
 	e_dom_utils_add_css_rule_into_style_sheet (
 		document,
 		"-e-mail-formatter-style-sheet",
-		"a",
+		"a.evo-awrap",
 		"white-space: normal; word-break: break-all;");
+
+	e_dom_wrap_long_anchors (document);
 
 	e_dom_resize_document_content_to_preview_width (document);
 }
