@@ -3444,7 +3444,13 @@ composer_set_body (EMsgComposer *composer,
 	gchar *text, *credits, *original;
 	CamelMimePart *part;
 	CamelSession *session;
-	guint32 validity_found = 0;
+	GSettings *settings;
+	guint32 validity_found = 0, keep_sig_flag = 0;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (settings, "composer-reply-keep-signature"))
+		keep_sig_flag = E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
+	g_clear_object (&settings);
 
 	session = e_msg_composer_ref_session (composer);
 
@@ -3461,7 +3467,7 @@ composer_set_body (EMsgComposer *composer,
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
 		original = quoting_text (QUOTING_ORIGINAL);
 		text = em_utils_message_to_html (
-			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS,
+			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS | keep_sig_flag,
 			parts_list, NULL, NULL, &validity_found);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		g_free (text);
@@ -3474,7 +3480,7 @@ composer_set_body (EMsgComposer *composer,
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (message);
 		text = em_utils_message_to_html (
-			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE,
+			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE | keep_sig_flag,
 			parts_list, NULL, NULL, &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);

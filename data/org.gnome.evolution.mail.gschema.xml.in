@@ -175,6 +175,11 @@
       <_summary>Do not add signature delimiter</_summary>
       <_description>Set to TRUE in case you do not want to add signature delimiter before your signature when composing a mail.</_description>
     </key>
+    <key name="composer-reply-keep-signature" type="b">
+      <default>false</default>
+      <_summary>Keep original message signature in replies</_summary>
+      <_description>When set to TRUE, keep original message signature in replies, otherwise strip the signature and everything below it when replying to the message.</_description>
+    </key>
     <key name="composer-ignore-list-reply-to" type="b">
       <default>false</default>
       <_summary>Ignore list Reply-To:</_summary>
