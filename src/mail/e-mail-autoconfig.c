@@ -848,7 +848,9 @@ mail_autoconfig_initable_init (GInitable *initable,
 			cp++;
 	}
 
-	if (local_error != NULL)
+	if (!success && !local_error)
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Unknown error"));
+	else if (local_error)
 		g_propagate_error (error, local_error);
 
 	g_free (name_server);
