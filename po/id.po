@@ -13,9 +13,9 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-01-29 17:24+0000\n"
-"PO-Revision-Date: 2018-01-31 14:17+0700\n"
-"Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
+"POT-Creation-Date: 2018-02-01 16:58+0000\n"
+"PO-Revision-Date: 2018-02-03 13:23+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -1391,10 +1391,23 @@ msgstr ""
 "tangan Anda ketika menyusun surat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
+msgid "Keep original message signature in replies"
+msgstr "Pertahankan tanda tangan pesan asli dalam jawaban"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
+msgid ""
+"When set to TRUE, keep original message signature in replies, otherwise "
+"strip the signature and everything below it when replying to the message."
+msgstr ""
+"Ketika diisi TRUE, mempertahankan tanda tangan asli pesan dalam jawaban, "
+"bila tidak, menghapus tanda tangan dan semua di bawahnya ketika menjawab "
+"pesan."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "Ignore list Reply-To:"
 msgstr "Abaikan daftar Jawab-Ke:"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid ""
 "Some mailing lists set a Reply-To: header to trick users into sending "
 "replies to the list, even when they ask Evolution to make a private reply. "
@@ -1412,11 +1425,11 @@ msgstr ""
 "anda menggunakan aksi \"Jawab ke Daftar\" itu akan melakukannya. Ini bekerja "
 "dengan membandingkan tajuk Jawab-Ke: dengan tajuk Daftar-Post:, bila ada."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "List of localized “Re”"
 msgstr "Daftar \"Re\" yang terlokalkan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
 "Comma-separated list of localized “Re” abbreviations to skip in a subject "
 "text when replying to a message, as an addition to the standard “Re” prefix. "
@@ -1426,11 +1439,11 @@ msgstr ""
 "melompati dalam teks subjek ketika menjawab suatu pesan, sebagai tambahan "
 "atas prefiks standar \"Re\". Suatu contoh adalah \"Pe,Ttg\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "List of localized “Re” separators"
 msgstr "Daftar pemisah \"Re\" yang terlokalisasi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
 "A list of localized “Re” separators, used to skip in a subject text when "
 "replying to a message, as an addition to the standard “:” and the Unicode "
@@ -1440,11 +1453,11 @@ msgstr ""
 "melompati dalam teks subjek ketika menjawab suatu pesan, sebagai tambahan "
 "standar “:” dan pemisah Unicode “︰”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Use localized “Fwd”/“Re” in message Subject"
 msgstr "Gunakan \"Fwd\"/\"Re\" yang terlokalisasi dalam Subjek pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid ""
 "When set to true, uses localized “Fwd”/“Re” in message Subject on reply and "
 "forward as provided by current locale translation, otherwise uses "
@@ -1454,33 +1467,33 @@ msgstr ""
 "pesan Subjek pada balas dan teruskan seperti yang disediakan oleh terjemahan "
 "lokal saat ini, jika tidak menggunakan versi yang tidak dilisensikan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Number of characters for wrapping"
 msgstr "Cacah karakter yang akan dilipat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
 msgid "Will autowrap lines after given number of characters."
 msgstr "Akan otomatis melipat baris setelah diberikan cacah karakter."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid ""
 "Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
 msgstr ""
 "Cacah penerima Untuk dan CC untuk meminta “meminta-banyak-ke-cc-penerima” "
 "dari mereka"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid ""
 "When to ask, when the number of To and CC recipients reaches this value."
 msgstr ""
 "Ketika bertanya, ketika jumlah Untuk dan CC penerima mencapai nilai ini."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgstr ""
 "Apakah akan selalu menampilkan tombol Tandatangan dan Enkrip pada bilah alat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid ""
 "If set to “true”, the Sign and Encrypt buttons for either PGP or S/MIME are "
 "always shown in the composer’s toolbar. Otherwise they are shown only when "
@@ -1490,19 +1503,19 @@ msgstr ""
 "selalu ditampilkan pada bilah alat komposer. Jika tidak, mereka akan "
 "ditampilkan hanya ketika sedang digunakan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Wrap quoted text in replies"
 msgstr "Melipat teks yang dikutip pada balasan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid "If set to “true” quoted text in replies will be wrapped."
 msgstr "Jika diatur ke “true” teks yang dikutip dalam balasan akan dilipat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr "Apakah menuruti hint header pesan Content-Disposition:inline"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Set to “false” to block automatic display of attachments with Content-"
 "Disposition: inline."
@@ -1510,19 +1523,19 @@ msgstr ""
 "Isi dengan \"false\" untuk memblokir menampilkan otomatis lampiran dengan "
 "Content-Disposition:inline."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Save file format for drag-and-drop operation"
 msgstr "Simpan format berkas bagi operasi seret-dan-jatuhkan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid "Can be either “mbox” or “pdf”."
 msgstr "Bisa berupa \"mbox\" atau \"pdf\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Show image animations"
 msgstr "Menampilkan gambar animasi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
@@ -1530,11 +1543,11 @@ msgstr ""
 "Bolehkan gambar bergerak di surat HTML. Banyak pengguna terganggu oleh "
 "gambar bergerak dan lebih suka melihat gambar diam."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Enable or disable type ahead search feature"
 msgstr "Aktif atau matikan pengetikan pada fasilitas cari"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
@@ -1542,11 +1555,11 @@ msgstr ""
 "Aktifkan fitur pencarian bilah sisi untuk memungkinkan pencarian nama folder "
 "secara interaktif."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid "Enable or disable magic space bar"
 msgstr "Aktif atau matikan bilah spasi ajaib"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
@@ -1554,59 +1567,59 @@ msgstr ""
 "Aktifkan ini untuk memakai tombol spasi untuk menggulung dalam pratilik "
 "pesan, daftar pesan, dan folder."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
 "Aktifkan untuk memakai pengaturan tilikan daftar pesan yang serupa bagi "
 "semua folder"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
 "Aktifkan untuk memakai pengaturan tilikan daftar pesan yang serupa bagi "
 "semua folder."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Mark citations in the message “Preview”"
 msgstr "Tandai kutipan dalam pesan \"Pratinjau\""
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Mark citations in the message “Preview”."
 msgstr "Tandai kutipan dalam pesan \"Pratinjau\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Citation highlight color"
 msgstr "Warna penanda kutipan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Citation highlight color."
 msgstr "Warna penanda kutipan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Enable/disable caret mode"
 msgstr "Aktifkan/matikan mode caret"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "Aktifkan moda caret, kursor akan tampak saat Anda membaca surel."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid "Default charset in which to display messages"
 msgstr "Gugus karakter utama yang digunakan untuk menampilkan pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "Default charset in which to display messages."
 msgstr "Gugus karakter utama yang digunakan untuk menampilkan pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Otomatis muat gambar untuk pesan HTML melalui HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Show notification about missing remote content"
 msgstr "Tampilkan pemberitahuan tentang isi remote yang hilang"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid ""
 "When the message preview shows a message which requires to download remote "
 "content, while the download is not allowed for the user or the site, then "
@@ -1616,27 +1629,27 @@ msgstr ""
 "konten jauh, sementara unduh tidak diperbolehkan untuk pengguna atau situs, "
 "kemudian menunjukkan notifikasi tentang hal tersebut di atas panel pratinjau."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Show Animations"
 msgstr "Tampilkan Animasi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Show animated images as animations."
 msgstr "Tampilkan gambar animasi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Show all message headers"
 msgstr "Tampilkan seluruh header pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Show all the headers when viewing a messages."
 msgstr "Menampilkan semua tajuk saat menampilkan sebuah pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "List of headers to show when viewing a message."
 msgstr "Daftar tajuk yang ditampilkan saat melihat sebuah pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid ""
 "Each header is represented as a pair: the header name, and a boolean "
 "indicating whether the header is enabled. Disabled headers are not shown "
@@ -1646,35 +1659,35 @@ msgstr ""
 "mengindikasikan apakah tajuk difungsikan. Tajuk yang dinonaktifkan tak "
 "ditampilkan ketika melihat suatu pesan, tapi masih didaftar dalam Preferensi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Show photo of the sender"
 msgstr "Tampilkan foto pengirim"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Menampilkan foto pengirim pesan di dalam panel pembaca."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Search gravatar.com for photo of the sender"
 msgstr "Cari foto pengirim di gravatar.com"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Allow searching also at gravatar.com for photo of the sender."
 msgstr "Izinkan pencarian juga pada gravatar.com bagi foto pengirim ini."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Mark as Seen after specified timeout"
 msgstr "Tandai sebagai Terlihat setelah jeda tertentu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Mark as Seen after specified timeout."
 msgstr "Tandai sebagai Terlihat setelah jeda tertentu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Mark as Seen always after specified timeout"
 msgstr "Tandai sebagai Terlihat selalu setelah jeda tertentu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid ""
 "If set to true, the selected message will be set as unread after the timeout "
 "also after the folder change."
@@ -1682,20 +1695,20 @@ msgstr ""
 "Jika diatur ke true, pesan yang dipilih akan ditetapkan sebagai belum dibaca "
 "setelah batas waktu juga setelah perubahan folder."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Timeout for marking messages as seen"
 msgstr "Tenggang waktu untuk menandai pesan sebagai telah dilihat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr ""
 "Tenggang waktu dalam mili detik untuk menandai pesan sebagai telah dilihat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Show Attachment Bar"
 msgstr "Tampilkan Baris Lampiran"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
@@ -1703,38 +1716,38 @@ msgstr ""
 "Tampilkan Bilah Lampiran dibawah jendela pratinjau pesan ketika pesan "
 "memiliki lampiran."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Sender email-address column in the message list"
 msgstr "Kolom alamat surel pengirim pada daftar pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr ""
 "Menampilkan alamat surel pengirim di kolom yang berbeda pada daftar pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Show deleted messages in the message-list"
 msgstr "Tampilkan pesan yang telah dihapus pada daftar pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Menampilkan pesan yang terhapus dengan tercoret dalam daftar pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid "Show junk messages in the message-list"
 msgstr "Tampilkan pesan sampah pada daftar-pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr "Menampilkan pesan sampah dengan tercoret merah pada daftar pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid "Enable Unmatched search folder"
 msgstr "Aktifkan folder pencarian Tak Cocok"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
@@ -1742,11 +1755,11 @@ msgstr ""
 "Aktifkan folder pencarian Tak Cocok di dalam Folder Pencarian. Ini tak "
 "melakukan apapun bila Folder Pencarian dinonaktifkan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Sembunyikan pratilik per folder dan hapus pilihan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid ""
 "This key is read only once and reset to “false” after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -1755,31 +1768,31 @@ msgstr ""
 "Ini membatalkan pilihan atas surel di daftar dan menghapus pratilik bagi "
 "folder itu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid "Height of the message-list pane"
 msgstr "Tinggi panel daftar pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Height of the message-list pane."
 msgstr "Tinggi panel daftar pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "Whether message headers are collapsed in the user interface"
 msgstr "Apakah tajuk pesan dilipat dalam antar muka pengguna"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Width of the message-list pane"
 msgstr "Tinggi panel daftar pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "Width of the message-list pane."
 msgstr "Tinggi panel daftar pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Layout style"
 msgstr "Gaya tata letak"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. “0” (Classic View) places the preview pane below the "
@@ -1791,36 +1804,36 @@ msgstr ""
 "pesan. \"1\" (Tilikan Vertikal) menempatkan panel pratilik di sebelah daftar "
 "pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Variable width font"
 msgstr "Huruf lebar bebas"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid "The variable width font for mail display."
 msgstr "Fonta lebar variable untuk penampil surat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Terminal font"
 msgstr "Huruf jenis Terminal"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid "The terminal font for mail display."
 msgstr "Fonta terminal untuk penampil surat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Use custom fonts"
 msgstr "Gunakan jenis huruf sendiri"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid "Use custom fonts for displaying mail."
 msgstr ""
 "Menggunakan fonta ubahan (yang dipilih sendiri) untuk menampilkan surat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr "Padatkan tampilan alamat pada TO/CC/BCC"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
@@ -1828,11 +1841,11 @@ msgstr ""
 "Padatkan tampilan alamat dalam TO/CC/BCC ke nomor yang ditentukan dalam "
 "address_count."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Jumlah alamat ditampilkan dalam TO/CC/BCC"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
@@ -1840,11 +1853,11 @@ msgstr ""
 "Ini menetapkan jumlah alamat yang akan ditampilkan dalam tampilan daftar "
 "pesan bawaan, di luar tampilan \"...\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Thread the message-list based on Subject"
 msgstr "Hubungkan daftar-pesan berdasarkan pada Subjek"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -1852,11 +1865,11 @@ msgstr ""
 "Tentukan apakah akan kembali menampilkan dalam bentuk thread berdasarkan "
 "judul saat subjek tidak berisi kolom In-Reply-To atau References."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Default value for thread expand state"
 msgstr "Nilai baku untuk tingkat perluasan topik"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -1864,11 +1877,11 @@ msgstr ""
 "Tatanan ini menyatakan apakah thread mesti dalam keadaan terkembang atau "
 "terlipat secara default. Evolution perlu dijalankan ulang."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "Apakah mengurutkan thread berdasarkan pesan terakhir dalam thread itu"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message’s date. Evolution requires a "
@@ -1878,11 +1891,11 @@ msgstr ""
 "terakhir pada setiap thread, bukan berdasarkan tanggal pesan. Evolution "
 "perlu dijalankan ulang."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Whether sort thread children always ascending"
 msgstr "Apakah urutan anak thread selalu berurut naik"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
@@ -1890,11 +1903,11 @@ msgstr ""
 "Pengaturan ini menentukan apakah simpul thread harus diurutkan selalu naik, "
 "daripada menggunakan urutan yang sama seperti pada tingkat root thread."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Urutkan akun secara alfabetis dalam pohon folder"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -1906,19 +1919,19 @@ msgstr ""
 "dengan pengecualian folder Pada Komputer Ini dan Pencarian, selain itu akun "
 "diurutkan berdasarkan urutan yang diminta oleh pengguna"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Log filter actions"
 msgstr "Aksi saringan log"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Log filter actions to the specified log file."
 msgstr "Aksi saringan log ke berkas log yang ditentukan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Logfile to log filter actions"
 msgstr "Aksi berkas log ke saringan log"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid ""
 "If not set, or being “stdout”, then the logging is done to stdout, instead "
 "to a file."
@@ -1926,11 +1939,11 @@ msgstr ""
 "Jika tidak diatur, atau menjadi \"stdout\", maka pencatatan log dilakukan ke "
 "stdout, alih-alih sebuah berkas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Flush Outbox after filtering"
 msgstr "Gelontor Outbox setelah penyaringan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any “Forward to” filter action and approximately "
@@ -1941,19 +1954,19 @@ msgstr ""
 "\"Alihkan ke\" dipakai dan kira-kira satu menit setelah pemanggilan aksi "
 "terakhir."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Default forward style"
 msgstr "Gaya baku untuk penerusan surat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Default reply style"
 msgstr "Gaya baku jawaban"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "Konfirmasi saat mengirim menggunakan tombol akselerator (Ctrl + Enter)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
@@ -1961,46 +1974,46 @@ msgstr ""
 "Konfirmasi pengguna saat dia mencoba mengirim pesan dengan tombol "
 "akselerator."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt on empty subject"
 msgstr "Konfirmasi untuk pesan tanpa subjek"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Mengonfirmasi pengguna jika akan mengirim pesan tanpa subjek."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt when emptying the trash"
 msgstr "Konfirmasi saat mengosongkan tong sampah"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Konfirmasi pada saat pengguna hendak mengosongkan tong sampah."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt when user expunges"
 msgstr "Konfirmasi saat pengguna menghapus"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Konfirmasi pada saat user hendak menghapus folder."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Prompt when user calls Empty Junk"
 msgstr "Konfirmasi saat pengguna mengosongkan Sampah Kosong"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr "Konfirmasi pengguna saat dia mencoba mengosongkan folder Sampah."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Konfirmasi sebelum mengirim ke penerima yang tidak dimasukkan sebagai alamat "
 "surel"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -2009,19 +2022,19 @@ msgstr ""
 "mencoba mengirim suatu pesan ke penerima yang tidak dimasukkan sebagai "
 "alamat surat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Prompt when user only fills Bcc"
 msgstr "Konfirmasi saat user hanya mengisi kolom Bcc saja"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "Konfirmasi saat user hendak mengirim surel tanpa mengisi To atau Cc."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Konfirmasi saat user mengirim surel HTML yang tidak diinginkan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -2029,11 +2042,11 @@ msgstr ""
 "Konfirmasi saat user hendak mengirim surel dalam HTML padahal alamat tujuan "
 "tidak mau menerima surel dalam HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Konfirmasi saat user hendak membuka 10 atau lebih pesan pada satu saat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -2041,19 +2054,19 @@ msgstr ""
 "Jika pengguna membuka 10 atau lebih pesan pada suatu saat, tanya mereka "
 "apakah memang benar-benar ingin melakukannya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Prompt while marking multiple messages"
 msgstr "Konfirmasi saat menandai beberapa pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "Aktifkan atau nonaktifkan konfirmasi saat menandai beberapa pesan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Prompt when deleting messages in search folder"
 msgstr "Konfirmasi saat menghapus pesan dalam folder pencarian"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -2063,13 +2076,13 @@ msgstr ""
 "menghapus pesan dari folder pencarian menghapus pesan secara permanen, bukan "
 "sekedar menghilangkannya dari hasil pencarian."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Menanyakan apakah akan menyalin suatu folder dengan seret &amp; jatuhkan "
 "dalam pohon folder"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of "
 "folders in folder tree, “always” — allow copy with drag &amp; drop of "
@@ -2081,13 +2094,13 @@ msgstr ""
 "seret &amp; jatuhkan folder dalam pohon folder tanpa bertanya, atau \"ask\" "
 "— (atau sebarang nilai lain) akan bertanya ke pengguna."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Menanyakan apakah akan memindah suatu folder dengan seret &amp; jatuhkan "
 "dalam pohon folder"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of "
 "folders in folder tree, “always” — allow move with drag &amp; drop of "
@@ -2099,11 +2112,11 @@ msgstr ""
 "seret &amp; jatuhkan folder dalam pohon folder tanpa bertanya, atau \"ask\" "
 "— (atau sebarang nilai lain) akan bertanya ke pengguna."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt when replying privately to list messages"
 msgstr "Konfirmasi saat menjawab pesan pribadi ke daftar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
@@ -2111,11 +2124,11 @@ msgstr ""
 "Ini mematikan/mengaktifkan tampilan berulang yang memperingatkan bahwa Anda "
 "mengirim jawaban privat ke suatu pesan yang datang melalui milis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Konfirmasi saat mailing list membajak balasan pribadi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
@@ -2126,11 +2139,11 @@ msgstr ""
 "tapi list menata tajuk Reply-To: yang mengalihkan jawaban Anda kembali ke "
 "list"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Prompt when replying to many recipients"
 msgstr "Konfirmasi saat menjawab ke banyak penerima"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
@@ -2138,7 +2151,7 @@ msgstr ""
 "Ini mematikan/mengaktifkan tampilan berulang yang memperingatkan bahwa Anda "
 "mengirim jawaban ke banyak orang."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
@@ -2146,7 +2159,7 @@ msgstr ""
 "Konfirmasi saat mengganti format komposer dan konten yang perlu kehilangan "
 "formatnya"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
@@ -2154,11 +2167,11 @@ msgstr ""
 "Ini menonaktifkan/mengaktifkan permintaan berulang untuk memperingatkan "
 "bahwa Anda mengganti format komposer dan konten harus kehilangan formatnya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Konfirmasi Saat mengirim ke banyak penerima Ke dan CC"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
@@ -2166,7 +2179,7 @@ msgstr ""
 "Aktifkan atau nonaktifkan konfirmasi saat mengirim ke banyak penerima To dan "
 "CC. “composer-many-to-cc-recips-num” mendefinisikan ambang batas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
@@ -2174,43 +2187,43 @@ msgstr ""
 "Kebijakan untuk secara otomatis menutup jendela peramban pesan ketika "
 "meneruskan atau menjawab pesan yang sedang ditampilkan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Empty Trash folders on exit"
 msgstr "Bersihkan Tong Sampah saat keluar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Kosongkan folder Sampah saat keluar dari Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Hari paling sedikit antara mengosongkan sampah pada saat keluar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 "Waktu paling sedikit antara mengosongkan sampah pada saat keluar, dalam hari."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Last time Empty Trash was run"
 msgstr "Kala terakhir Kosongkan Tong Sampah dijalankan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Kala terakhir Kosongkan Tong Sampah dijalankan, dalam hari sejak 1 Januari "
 "1970 (Epos)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Lamanya galat ditampilkan pada baris status (dalam detik)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Level beyond which the message should be logged."
 msgstr "Pesan mesti dilog bila nilai level lebih dari ini."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
@@ -2218,11 +2231,11 @@ msgstr ""
 "Terdapat tiga nilai yang mungkin. \"0\" untuk galat. \"1\" untuk peringatan. "
 "\"2\" untuk pesan awakutu."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Show original “Date” header value."
 msgstr "Tampilkan nilai kepala \"Tanggal\" yang asli."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
@@ -2232,11 +2245,11 @@ msgstr ""
 "berbeda). Selain itu selalu tampilkan nilai tajuk \"Tanggal\" dalam waktu "
 "lokal dan dalam bentuk yang lebih disukai pengguna."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "List of Labels and their associated colors"
 msgstr "Daftar label dan warne yang bersesuaian"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -2245,46 +2258,46 @@ msgstr ""
 "kalimat yang berisi nama:warna di mana warna menggunakan penerjemahan hex "
 "HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Check incoming mail being junk"
 msgstr "Periksa apakah surel yang datang spam atau bukan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Run junk test on incoming mail."
 msgstr "Menjalakan tes pesan sampah pada surat yang masuk."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Empty Junk folders on exit"
 msgstr "Bersihkan Tong Sampah saat keluar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr "Kosongkan semua folder Sampah saat keluar dari Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Hari minimal untuk mengosongkan sampah pada saat keluar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "Waktu minimal untuk mengosongkan sampah pada saat keluar, dalam hari."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "Last time Empty Junk was run"
 msgstr "Kala terakhir Kosongkan Sampah dijalankan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "Kala terakhir Kosongkan Spam dijalankan, dalam hari sejak 1 Januari 1970 "
 "(Epos)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "The default plugin for Junk hook"
 msgstr "Plugin bawaan bagi kait Spam"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
@@ -2294,11 +2307,11 @@ msgstr ""
 "diaktifkan. Bila pengaya terdaftar bawaan dimatikan, maka ini tidak akan "
 "beralih ke pengaya lain yang tersedia."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Apakah melihat di buku alamat untuk alamat pengirim"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2310,14 +2323,14 @@ msgstr ""
 "ditandai bagi pelengkapan otomatis. Ini bisa lambat bila buku alamat jauh "
 "(seperti LDAP) ditandai untuk pelengkapan otomatis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
 msgstr ""
 "Apakah melihat alamat untuk penyaringan sampah hanya pada buku alamat lokal"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -2328,11 +2341,11 @@ msgstr ""
 "mengecualikan surat yang dikirim oleh kontak yang dikenal dari penyaringan "
 "spam."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid "Determines whether to use custom headers to check for junk"
 msgstr "Apakah memakai tajuk ubahan untuk memeriksa spam"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -2341,11 +2354,11 @@ msgstr ""
 "Apakah memakai tajuk ubahan untuk memeriksa spam. Bila opsi ini diaktifkan "
 "dan tajuk disebutkan, ini akan meningkatkan kecepatan pengujian spam."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Custom headers to use while checking for junk."
 msgstr "Tajuk ubahan untuk dipakai ketika memeriksa sampah."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
@@ -2353,31 +2366,31 @@ msgstr ""
 "Tajuk ubahan untuk dipakai ketika memeriksa sampah. Elemen daftar adalah "
 "string dengan bentuk \"namatajuk=nilai\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid "UID string of the default account."
 msgstr "Kode UID akun standar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Save directory"
 msgstr "Direktori simpan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid "Directory for saving mail component files."
 msgstr "Direktori untuk menyimpan berkas yang menjadi komponen surat."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "Composer load/attach directory"
 msgstr "Direktori muat/lampirkan Penyusun"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid "Directory for loading/attaching files to composer."
 msgstr "Direktori untuk memuat/melampirkan berkas ke komposer."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "Check for new messages on start"
 msgstr "Periksa pesan baru saat awalan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -2385,11 +2398,11 @@ msgstr ""
 "Apakah memeriksa pesan baru saat Evolution dimulai. Ini termasuk juga "
 "mengirim pesan dari Outbox."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "Check for new messages in all active accounts"
 msgstr "Periksa pesan baru pada setiap akun aktif"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
@@ -2399,11 +2412,11 @@ msgstr ""
 "\"Periksa pesan baru setiap X menit\" ketika Evolution dimulai. Opsi ini "
 "hanya dipakai bersama dengan opsi \"send_recv_on_start\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid "Server synchronization interval"
 msgstr "Selang waktu sinkronisasi server"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -2411,11 +2424,11 @@ msgstr ""
 "Mengendalikan seberapa sering perubahan lokal diselaraskan dengan server "
 "surat jauh. Interval mesti paling tidak 30 detik."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "Allow expunge in virtual folders"
 msgstr "Bolehkan membersihkan pada folder virtual"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
@@ -2427,12 +2440,12 @@ msgstr ""
 "dilakukan pada semua folder untuk semua pesan yang dihapus dalam folder "
 "virtual, tidak hanya untuk pesan yang dihapus milik folder virtual."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 #: ../src/mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML format"
 msgstr "Mewarisi warna tema dalam format HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
@@ -2440,11 +2453,11 @@ msgstr ""
 "Bila warna tema untuk latar belakang diaktifkan, teks dan tautan dikirim "
 "dalam pesan berformat HTML yang dihasilkan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid "An Archive folder for On This Computer folders."
 msgstr "Folder Arsip untuk folder Pada Komputer Ini."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -2452,74 +2465,74 @@ msgstr ""
 "Folder Arsip untuk digunakan untuk fitur Pesan|Arsip ... saat berada dalam "
 "folder Pada Komputer Ini."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Whether the To Do bar is visible in the main window"
 msgstr "Apakah bilah Untuk Dilakukan terlihat pada jendela utama"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr "Menyimpan apakah bilah Untuk Dilakukan terlihat pada jendela utama."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Width of the To Do bar in the main window"
 msgstr "Lebar bilah Untuk Dilakukan pada jendela utama"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid "Holds the width of the To Do bar for the main window."
 msgstr "Pertahankan lebar bilah Untuk Dilakukan untuk jendela utama."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "Apakah bilah Untuk Dilakukan terlihat pada sub-jendela"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr "Menyimpan apakah bilah Untuk Dilakukan terlihat pada sub-jendela."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
 msgid "Width of the To Do bar in a sub-window"
 msgstr "Lebar bilah Untuk Dilakukan pada sub-jendela"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid "Holds the width of the To Do bar for a sub-window."
 msgstr "Pertahankan lebar bilah Untuk Dilakukan untuk sub-jendela."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr "Apakah bilah Untuk Dilakukan harus ditunjukkan juga tugas yang selesai"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr ""
 "Menyimpan apakah bilah untuk dilakukan juga harus menunjukkan tugas yang "
 "telah selesai."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "Whether the To Do bar should show also tasks without Due date"
 msgstr ""
 "Apakah bilah Untuk Dilakukan juga harus menampilkan tugas tanpa tanggal "
 "jatuh tempo"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr ""
 "Menyimpan apakah bilah Untuk Dilakukan juga harus menunjukkan tugas  tanpa "
 "tanggal jatuh tempo."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid "Show start up wizard"
 msgstr "Tampilkan wizard awal mula"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid "Whether show start up wizard when there is no mail account configured."
 msgstr ""
 "Pesan ini tidak dapat dikirim karena tidak ada akun surel yang dikonfigurasi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "Whether go to the previous message after message deletion"
 msgstr "Apakah pergi ke pesan sebelumnya setelah penghapusan pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
@@ -2527,11 +2540,11 @@ msgstr ""
 "Jika disetel ke benar (true), masuk ke pesan sebelumnya saat yang dihapus "
 "terpilih; atau ke pesan berikutnya, bila disetel ke salah (false)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid "Show Subject above Sender in Messages column"
 msgstr "Tampilkan Subjek di atas kolom Pengirim pada Pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list"
@@ -2539,11 +2552,11 @@ msgstr ""
 "Apakah untuk menunjukkan Subjek di atas Pengirim (Dari/Ke) di kolom Pesan, "
 "biasanya ditampilkan dalam tampilan Vertikal/Lebar dari daftar pesan"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 msgid "Visually wrap long lines in composer"
 msgstr "Secara visual lipat baris panjang pada komposer"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 #: ../src/composer/e-composer-actions.c:552
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
@@ -2551,11 +2564,11 @@ msgstr ""
 "Apakah secara visual membungkus teks baris yang panjang untuk menghindari "
 "pengguliran horizontal"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid "(Deprecated) Default forward style"
 msgstr "(Tak dipakai lagi) Gaya baku untuk penerusan surat"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2563,11 +2576,11 @@ msgstr ""
 "Kunci ini dipensiunkan dalam versi 3.10 dan mestinya tak dipakai lagi. "
 "Gunakan \"forward-style-name\" sebagai gantinya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
 msgid "(Deprecated) Default reply style"
 msgstr "(Tak dipakai lagi) Gaya baku jawaban"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2575,11 +2588,11 @@ msgstr ""
 "Kunci ini dipensiunkan dalam versi 3.10 dan mestinya tak dipakai lagi. "
 "Gunakan \"reply-style-name\" sebagai gantinya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Tak dipakai lagi) Daftar tajuk gubahan dan apakah mereka diaktifkan."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2587,11 +2600,11 @@ msgstr ""
 "Kunci ini dipensiunkan dalam versi 3.10 dan mestinya tak dipakai lagi. "
 "Gunakan \"show-headers\" sebagai gantinya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Tak dipakai lagi) Muat gambar untuk pesan HTML melalui HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2599,7 +2612,7 @@ msgstr ""
 "Kunci ini dipensiunkan dalam versi 3.10 dan mestinya tak dipakai lagi. "
 "Gunakan \"image-loading-policy\" sebagai gantinya."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2607,7 +2620,7 @@ msgstr ""
 "(Tak dipakai lagi) Menanyakan apakah menutup jendela pesan ketika pengguna "
 "meneruskan atau menjawab pesan yang ditampilkan di jendela"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -7228,12 +7241,13 @@ msgstr "Waktu awal bukan waktu yang valid"
 #: ../src/calendar/gui/e-comp-editor.c:338
 #: ../src/em-format/e-mail-part-secure-button.c:93
 #: ../src/e-util/e-misc-utils.c:4136 ../src/e-util/e-misc-utils.c:4148
-#: ../src/e-util/e-misc-utils.c:4162 ../src/mail/e-mail-display.c:2191
-#: ../src/mail/e-mail-reader-utils.c:806 ../src/mail/mail-send-recv.c:569
-#: ../src/mail/mail-send-recv.c:1422
+#: ../src/e-util/e-misc-utils.c:4162 ../src/mail/e-mail-autoconfig.c:893
+#: ../src/mail/e-mail-display.c:2191 ../src/mail/e-mail-reader-utils.c:806
+#: ../src/mail/mail-send-recv.c:569 ../src/mail/mail-send-recv.c:1422
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:174 ../src/shell/e-shell.c:1073
 #: ../src/shell/e-shell.c:1097 ../src/smime/gui/certificate-manager.c:357
+#, c-format
 msgid "Unknown error"
 msgstr "Galat tak dikenal"
 
@@ -16102,19 +16116,19 @@ msgstr "Tak ada alamat surel yang diberikan"
 msgid "Missing domain in email address"
 msgstr "Kurang domain dalam alamat surel"
 
-#: ../src/mail/e-mail-autoconfig.c:1167
+#: ../src/mail/e-mail-autoconfig.c:1169
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
 msgid "IMAP server"
 msgstr "Server IMAP"
 
-#: ../src/mail/e-mail-autoconfig.c:1174
+#: ../src/mail/e-mail-autoconfig.c:1176
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
 msgid "POP3 server"
 msgstr "Server POP3"
 
-#: ../src/mail/e-mail-autoconfig.c:1181
+#: ../src/mail/e-mail-autoconfig.c:1183
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
 msgid "SMTP server"
 msgstr "Server SMTP"
@@ -17694,11 +17708,11 @@ msgid "an unknown sender"
 msgstr "pengirim tidak diketahui"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3735
+#: ../src/mail/em-composer-utils.c:3741
 msgid "Posting destination"
 msgstr "Tujuan posting"
 
-#: ../src/mail/em-composer-utils.c:3740
+#: ../src/mail/em-composer-utils.c:3746
 msgid "Choose folders to post the message to."
 msgstr "Pilih folder tempat melakukan posting."
 
@@ -26598,113 +26612,3 @@ msgstr "Tak bisa menulis simpanan ke diska, galat: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Sertifikat Yang Diimpor"
-
-#~ msgid "1st"
-#~ msgstr "1"
-
-#~ msgid "2nd"
-#~ msgstr "2"
-
-#~ msgid "3rd"
-#~ msgstr "3"
-
-#~ msgid "4th"
-#~ msgstr "4"
-
-#~ msgid "5th"
-#~ msgstr "5"
-
-#~ msgid "6th"
-#~ msgstr "6"
-
-#~ msgid "7th"
-#~ msgstr "7"
-
-#~ msgid "8th"
-#~ msgstr "8"
-
-#~ msgid "9th"
-#~ msgstr "9"
-
-#~ msgid "10th"
-#~ msgstr "10"
-
-#~ msgid "11th"
-#~ msgstr "11"
-
-#~ msgid "12th"
-#~ msgstr "12"
-
-#~ msgid "13th"
-#~ msgstr "13"
-
-#~ msgid "14th"
-#~ msgstr "14"
-
-#~ msgid "15th"
-#~ msgstr "15"
-
-#~ msgid "16th"
-#~ msgstr "16"
-
-#~ msgid "17th"
-#~ msgstr "17"
-
-#~ msgid "18th"
-#~ msgstr "18"
-
-#~ msgid "19th"
-#~ msgstr "19"
-
-#~ msgid "20th"
-#~ msgstr "20"
-
-#~ msgid "21st"
-#~ msgstr "21"
-
-#~ msgid "22nd"
-#~ msgstr "22"
-
-#~ msgid "23rd"
-#~ msgstr "23"
-
-#~ msgid "24th"
-#~ msgstr "24"
-
-#~ msgid "25th"
-#~ msgstr "25"
-
-#~ msgid "26th"
-#~ msgstr "26"
-
-#~ msgid "27th"
-#~ msgstr "27"
-
-#~ msgid "28th"
-#~ msgstr "28"
-
-#~ msgid "29th"
-#~ msgstr "29"
-
-#~ msgid "30th"
-#~ msgstr "30"
-
-#~ msgid "31st"
-#~ msgstr "31"
-
-#~ msgid "OAuth2 Google"
-#~ msgstr "OAuth2 Google"
-
-#~ msgid ""
-#~ "This option will use an OAuth 2.0 access token to connect to the Google "
-#~ "server"
-#~ msgstr ""
-#~ "Opsi ini akan memakai token akses OAuth 2.0 untuk menyambung ke server"
-
-#~ msgid "OAuth2"
-#~ msgstr "OAuth2"
-
-#~ msgid ""
-#~ "This option will use an OAuth 2.0 access token to connect to the server"
-#~ msgstr ""
-#~ "Opsi ini akan memakai token akses OAuth 2.0 untuk menyambung ke server"
