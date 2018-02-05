@@ -1,3 +1,26 @@
+Evolution 3.26.5 2018-02-05
+---------------------------
+
+Bug Fixes:
+	Bug 339675 - 'Include signature in new messages only' doesn't always work (Milan Crha)
+	Bug 792343 - [CompEditor] Date-only value changed to DateTime on save (Milan Crha)
+	Bug 792385 - [mail-to-task] Odd component editor window title (Unicode dash) (Milan Crha)
+	Bug 792480 - Delete key press should not create new event in Calendar views (Milan Crha)
+	Bug 792781 - 'Go to Folder' incorrectly unrefs CamelFolder twice (Milan Crha)
+	Bug 792736 - Remove false runtime warning from ml_sort_uids_by_tree() (Milan Crha)
+	Bug 792909 - [mail-to-task] Ensure UTF-8 valid Description (Milan Crha)
+	Bug 788589 - [Composer] Middle mouse button pastes selected text in wrong location (Milan Crha)
+	Bug 788823 - Link wrapping breaks paragraph text incorrectly (Milan Crha)
+	Bug 720387 - Always set error on failure of mail_autoconfig_initable_init() (Milan Crha)
+
+Miscellaneous:
+	Crash under message-list.c:free_message_info_data() (Milan Crha)
+	Indentation in plain text adds unwanted spaces around links (Milan Crha)
+	[composer-autosave] Use-after-free during snapshot save to file (Milan Crha)
+
+Translations:
+	Pieter Schalk Schoeman (af)
+
 Evolution 3.26.4 2018-01-08
 ---------------------------
 
