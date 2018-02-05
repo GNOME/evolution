@@ -1,3 +1,42 @@
+Evolution 3.27.90 2018-02-05
+----------------------------
+
+Bug Fixes:
+	Bug 339675 - 'Include signature in new messages only' doesn't always work (Milan Crha)
+	Bug 792343 - [CompEditor] Date-only value changed to DateTime on save (Milan Crha)
+	Bug 792385 - [mail-to-task] Odd component editor window title (Unicode dash) (Milan Crha)
+	Bug 788543 - Add a way to filter on Source Account first (Milan Crha)
+	Bug 792076 - Set "Apply the same view to all folders" by default (Milan Crha)
+	Bug 792480 - Delete key press should not create new event in Calendar views (Milan Crha)
+	Bug 792610 - [GPG] Consider alternate signer emails in sender address verification (Milan Crha)
+	Bug 792781 - 'Go to Folder' incorrectly unrefs CamelFolder twice (Milan Crha)
+	Bug 792736 - Remove false runtime warning from ml_sort_uids_by_tree() (Milan Crha)
+	Bug 792909 - [mail-to-task] Ensure UTF-8 valid Description (Milan Crha)
+	Bug 788904 - Show extra Google attendee info in Calendar and itip messages (Milan Crha)
+	Bug 788589 - [Composer] Middle mouse button pastes selected text in wrong location (Milan Crha)
+	Bug 788823 - Link wrapping breaks paragraph text incorrectly (Milan Crha)
+	Bug 778065 - Add hidden option to keep original signature in replies (Milan Crha)
+	Bug 720387 - Always set error on failure of mail_autoconfig_initable_init() (Milan Crha)
+
+Miscellaneous:
+	[devel-doc] Rename api-index IDs, to not clash with gtk-doc generated IDs (Milan Crha)
+	Crash under message-list.c:free_message_info_data() (Milan Crha)
+	Expand also input fields in filter rule editor (Milan Crha)
+	Adapt to changes in built-in OAuth2 implementation in evolution-data-server (Milan Crha)
+	Change how UI deals with XOAUTH2 for Camel providers (Milan Crha)
+	Change when Evolution loads its extension modules (Milan Crha)
+	Address some issues reported by Undefined Behavior Sanitizer (Milan Crha)
+	Indentation in plain text adds unwanted spaces around links (Milan Crha)
+	[composer-autosave] Use-after-free during snapshot save to file (Milan Crha)
+	Use e_cal_recur_get_localized_nth() instead of e_cal_recur_nth array (Milan Crha)
+
+Translations:
+	Fabio Tomat (fur)
+	Balázs Úr (hu)
+	Kukuh Syafaat (id)
+	Rafael Fontenelle (pt_BR)
+	Andika Triwidada (id)
+
 Evolution 3.27.4 2018-01-08
 ---------------------------
 
