@@ -1092,6 +1092,36 @@ GType e_comp_editor_property_part_completed_get_type (void) G_GNUC_CONST;
 G_DEFINE_TYPE (ECompEditorPropertyPartCompleted, e_comp_editor_property_part_completed, E_TYPE_COMP_EDITOR_PROPERTY_PART_DATETIME_LABELED)
 
 static void
+e_comp_editor_property_part_completed_ensure_date_time (struct icaltimetype *pvalue)
+{
+	if (!pvalue || !pvalue->is_date)
+		return;
+
+	pvalue->is_date = 0;
+	pvalue->hour = 0;
+	pvalue->minute = 0;
+	pvalue->second = 0;
+	pvalue->zone = icaltimezone_get_utc_timezone ();
+}
+
+static icalproperty *
+e_comp_editor_property_part_completed_new_func_wrapper (struct icaltimetype value)
+{
+	e_comp_editor_property_part_completed_ensure_date_time (&value);
+
+	return icalproperty_new_completed (value);
+}
+
+static void
+e_comp_editor_property_part_completed_set_func_wrapper (icalproperty *prop,
+							struct icaltimetype value)
+{
+	e_comp_editor_property_part_completed_ensure_date_time (&value);
+
+	return icalproperty_set_completed (prop, value);
+}
+
+static void
 e_comp_editor_property_part_completed_init (ECompEditorPropertyPartCompleted *part_completed)
 {
 }
@@ -1103,8 +1133,8 @@ e_comp_editor_property_part_completed_class_init (ECompEditorPropertyPartComplet
 
 	part_datetime_class = E_COMP_EDITOR_PROPERTY_PART_DATETIME_CLASS (klass);
 	part_datetime_class->ical_prop_kind = ICAL_COMPLETED_PROPERTY;
-	part_datetime_class->ical_new_func = icalproperty_new_completed;
-	part_datetime_class->ical_set_func = icalproperty_set_completed;
+	part_datetime_class->ical_new_func = e_comp_editor_property_part_completed_new_func_wrapper;
+	part_datetime_class->ical_set_func = e_comp_editor_property_part_completed_set_func_wrapper;
 	part_datetime_class->ical_get_func = icalproperty_get_completed;
 }
 

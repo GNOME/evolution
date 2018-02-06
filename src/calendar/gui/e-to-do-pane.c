@@ -407,6 +407,11 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 			*out_is_completed = TRUE;
 			e_cal_component_free_icaltimetype (completed);
+		} else {
+			icalproperty_status status = ICAL_STATUS_NONE;
+
+			e_cal_component_get_status (comp, &status);
+			*out_is_completed = *out_is_completed || status == ICAL_STATUS_COMPLETED;
 		}
 	} else {
 		/* Events first */
