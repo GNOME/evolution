@@ -1,10 +1,10 @@
 <schemalist>
   <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.attachment-reminder" path="/org/gnome/evolution/plugin/attachment-reminder/">
      <key name="attachment-reminder-clues" type="as">
-<!-- Translators: This is the a list of words for the attach reminder plugin to look 
+<!-- Translators: This is a list of words for the attach reminder plugin to look
 for in a message body. Please use any number of words here in your language that might
 indicate that an attachment should have been attached to the message. -->
-      <_default l10n="messages" context="words_to_look_for">['attachment','attaching','attached','enclosed']</_default>
+      <_default l10n='messages'>['attachment','attaching','attached','enclosed']</_default>
       <_summary>List of clues for the attachment reminder plugin to look for in a message body</_summary>
       <_description>List of clues for the attachment reminder plugin to look for in a message body.</_description>
     </key>
