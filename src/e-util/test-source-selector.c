@@ -19,6 +19,7 @@
 #include <e-util/e-util.h>
 
 #define OPENED_KEY "sources-opened-key"
+#define VIEW_KEY "sources-view-key"
 #define SOURCE_TYPE_KEY "sources-source-type-key"
 #define EXTENSION_NAME_KEY "sources-extension-name-key"
 #define TOOLTIP_ENTRY_KEY "sources-tooltip-entry-key"
@@ -79,6 +80,48 @@ enable_widget_if_opened_cb (ESourceSelector *selector,
 		sensitive = g_hash_table_contains (opened_sources, source);
 	gtk_widget_set_sensitive (widget, sensitive);
 	g_clear_object (&source);
+}
+
+static void
+enable_widget_if_opened_and_view (ESourceSelector *selector,
+				  GtkWidget *widget,
+				  gboolean need_view)
+{
+	GHashTable *opened_sources;
+	ESource *source;
+	gboolean sensitive = FALSE;
+
+	opened_sources = g_object_get_data (G_OBJECT (selector), OPENED_KEY);
+	g_return_if_fail (opened_sources != NULL);
+
+	source = e_source_selector_ref_primary_selection (selector);
+	if (source != NULL) {
+		EClient *client = g_hash_table_lookup (opened_sources, source);
+
+		if (client) {
+			gpointer view = g_object_get_data (G_OBJECT (client), VIEW_KEY);
+			if (need_view)
+				sensitive = view != NULL;
+			else
+				sensitive = view == NULL;
+		}
+	}
+	gtk_widget_set_sensitive (widget, sensitive);
+	g_clear_object (&source);
+}
+
+static void
+enable_widget_if_opened_and_no_view_cb (ESourceSelector *selector,
+					GtkWidget *widget)
+{
+	enable_widget_if_opened_and_view (selector, widget, FALSE);
+}
+
+static void
+enable_widget_if_opened_and_has_view_cb (ESourceSelector *selector,
+					GtkWidget *widget)
+{
+	enable_widget_if_opened_and_view (selector, widget, TRUE);
 }
 
 static void
@@ -202,7 +245,6 @@ refresh_selected_clicked_cb (GtkWidget *button,
 		return;
 
 	client = g_hash_table_lookup (opened_sources, source);
-	g_object_unref (source);
 
 	g_return_if_fail (client != NULL);
 
@@ -214,6 +256,319 @@ refresh_selected_clicked_cb (GtkWidget *button,
 	}
 
 	g_clear_error (&error);
+	g_object_unref (source);
+}
+
+static void
+cal_view_objects_added_cb (ECalClientView *client_view,
+			   const GSList *objects,
+			   ESource *source)
+{
+	GSList *link;
+
+	g_print ("%s: view:%p of %s; %d modified\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		g_slist_length ((GSList *) objects));
+
+	for (link = (GSList *) objects; link; link = g_slist_next (link)) {
+		icalcomponent *icalcomp = link->data;
+
+		if (icalcomp)
+			g_print ("%s\n    -----------------------------\n", icalcomponent_as_ical_string (icalcomp));
+		else
+			g_print ("\tnull\n");
+	}
+}
+
+static void
+cal_view_objects_modified_cb (ECalClientView *client_view,
+			      const GSList *objects,
+			      ESource *source)
+{
+	GSList *link;
+
+	g_print ("%s: view:%p of %s; %d modified\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		g_slist_length ((GSList *) objects));
+
+	for (link = (GSList *) objects; link; link = g_slist_next (link)) {
+		icalcomponent *icalcomp = link->data;
+
+		if (icalcomp)
+			g_print ("%s\n    -----------------------------\n", icalcomponent_as_ical_string (icalcomp));
+		else
+			g_print ("\tnull\n");
+	}
+}
+
+static void
+cal_view_objects_removed_cb (ECalClientView *client_view,
+			     const GSList *uids,
+			     ESource *source)
+{
+	GSList *link;
+
+	g_print ("%s: view:%p of %s; %d removed\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		g_slist_length ((GSList *) uids));
+
+	for (link = (GSList *) uids; link; link = g_slist_next (link)) {
+		ECalComponentId *id = link->data;
+
+		if (id)
+			g_print ("\tuid:%s%s%s\n", id->uid, id->rid ? " rid:" : "", id->rid ? id->rid : "");
+		else
+			g_print ("\tnull\n");
+	}
+}
+
+static void
+cal_view_progress_cb (ECalClientView *client_view,
+		      guint percent,
+		      const gchar *message,
+		      ESource *source)
+{
+	g_print ("   %s: view:%p of %s; percent:%u message:%s\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		percent, message);
+}
+
+static void
+cal_view_complete_cb (ECalClientView *client_view,
+		      const GError *error,
+		      ESource *source)
+{
+	g_print ("   %s: view:%p of %s: %s\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		error ? error->message : "Success");
+}
+
+static void
+book_view_objects_added_cb (EBookClientView *client_view,
+			    const GSList *objects,
+			    ESource *source)
+{
+	GSList *link;
+
+	g_print ("%s: view:%p of %s; %d modified\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		g_slist_length ((GSList *) objects));
+
+	for (link = (GSList *) objects; link; link = g_slist_next (link)) {
+		EContact *contact = link->data;
+
+		if (contact) {
+			gchar *vcard;
+
+			vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+			g_print ("%s\n    -----------------------------\n", vcard);
+			g_free (vcard);
+		} else {
+			g_print ("\tnull\n");
+		}
+	}
+}
+
+static void
+book_view_objects_modified_cb (EBookClientView *client_view,
+			       const GSList *objects,
+			       ESource *source)
+{
+	GSList *link;
+
+	g_print ("%s: view:%p of %s; %d modified\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		g_slist_length ((GSList *) objects));
+
+	for (link = (GSList *) objects; link; link = g_slist_next (link)) {
+		EContact *contact = link->data;
+
+		if (contact) {
+			gchar *vcard;
+
+			vcard = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+			g_print ("%s\n    -----------------------------\n", vcard);
+			g_free (vcard);
+		} else {
+			g_print ("\tnull\n");
+		}
+	}
+}
+
+static void
+book_view_objects_removed_cb (EBookClientView *client_view,
+			      const GSList *uids,
+			      ESource *source)
+{
+	GSList *link;
+
+	g_print ("%s: view:%p of %s; %d removed\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		g_slist_length ((GSList *) uids));
+
+	for (link = (GSList *) uids; link; link = g_slist_next (link)) {
+		const gchar *id = link->data;
+
+		if (id)
+			g_print ("\tuid:%s\n", id);
+		else
+			g_print ("\tnull\n");
+	}
+}
+
+static void
+book_view_progress_cb (EBookClientView *client_view,
+		       guint percent,
+		       const gchar *message,
+		       ESource *source)
+{
+	g_print ("   %s: view:%p of %s; percent:%u message:%s\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		percent, message);
+}
+
+static void
+book_view_complete_cb (EBookClientView *client_view,
+		       const GError *error,
+		       ESource *source)
+{
+	g_print ("   %s: view:%p of %s: %s\n", G_STRFUNC, client_view, e_source_get_display_name (source),
+		error ? error->message : "Success");
+}
+
+static void
+create_view_clicked_cb (GtkWidget *button,
+			ESourceSelector *selector)
+{
+	GHashTable *opened_sources;
+	EClient *client;
+	ESource *source;
+	gboolean success = FALSE;
+	GError *error = NULL;
+
+	opened_sources = g_object_get_data (G_OBJECT (selector), OPENED_KEY);
+	g_return_if_fail (opened_sources != NULL);
+
+	source = e_source_selector_ref_primary_selection (selector);
+	if (source == NULL)
+		return;
+
+	client = g_hash_table_lookup (opened_sources, source);
+
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (g_object_get_data (G_OBJECT (client), VIEW_KEY) == NULL);
+
+	if (E_IS_CAL_CLIENT (client)) {
+		ECalClientView *view = NULL;
+		gchar *expr = NULL;
+
+		if (e_cal_client_get_source_type (E_CAL_CLIENT (client)) == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
+			struct icaltimetype tt;
+			gchar *start, *end;
+
+			tt = icaltime_today ();
+			start = isodate_from_time_t (icaltime_as_timet (tt));
+			icaltime_adjust (&tt, 14, 0, 0, 0);
+			end = isodate_from_time_t (icaltime_as_timet (tt));
+
+			expr = g_strdup_printf (
+				"(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"UTC\")",
+				start, end);
+
+			g_free (start);
+			g_free (end);
+		}
+
+		success = e_cal_client_get_view_sync (E_CAL_CLIENT (client), expr ? expr : "#t", &view, NULL, &error) && view;
+
+		g_free (expr);
+
+		if (view) {
+			g_object_set_data_full (G_OBJECT (client), VIEW_KEY, view, g_object_unref);
+
+			g_signal_connect (view, "objects-added", G_CALLBACK (cal_view_objects_added_cb), source);
+			g_signal_connect (view, "objects-modified", G_CALLBACK (cal_view_objects_modified_cb), source);
+			g_signal_connect (view, "objects-removed", G_CALLBACK (cal_view_objects_removed_cb), source);
+			g_signal_connect (view, "progress", G_CALLBACK (cal_view_progress_cb), source);
+			g_signal_connect (view, "complete", G_CALLBACK (cal_view_complete_cb), source);
+
+			g_print ("Calendar view %p for %s created\n", view, e_source_get_display_name (source));
+
+			e_cal_client_view_start (view, &error);
+		}
+	} else if (E_IS_BOOK_CLIENT (client)) {
+		EBookClientView *view = NULL;
+
+		success = e_book_client_get_view_sync (E_BOOK_CLIENT (client), "(contains \"full_name\" \"a\")", &view, NULL, &error) && view;
+
+		if (view) {
+			g_object_set_data_full (G_OBJECT (client), VIEW_KEY, view, g_object_unref);
+
+			g_signal_connect (view, "objects-added", G_CALLBACK (book_view_objects_added_cb), source);
+			g_signal_connect (view, "objects-modified", G_CALLBACK (book_view_objects_modified_cb), source);
+			g_signal_connect (view, "objects-removed", G_CALLBACK (book_view_objects_removed_cb), source);
+			g_signal_connect (view, "progress", G_CALLBACK (book_view_progress_cb), source);
+			g_signal_connect (view, "complete", G_CALLBACK (book_view_complete_cb), source);
+
+			g_print ("Book view %p for %s created\n", view, e_source_get_display_name (source));
+
+			e_book_client_view_start (view, &error);
+		}
+	} else {
+		g_warn_if_reached ();
+	}
+
+	if (success) {
+		g_signal_emit_by_name (selector, "primary-selection-changed", 0);
+
+		if (error) {
+			g_warning ("Failed to call 'startView' on '%s': %s",
+				e_source_get_display_name (source), error->message);
+		}
+	} else {
+		g_warning ("Failed to call 'getView' on '%s': %s",
+			e_source_get_display_name (source),
+			error ? error->message : "Unknown error");
+	}
+
+	g_clear_error (&error);
+	g_object_unref (source);
+}
+
+static void
+destroy_view_clicked_cb (GtkWidget *button,
+			 ESourceSelector *selector)
+{
+	GHashTable *opened_sources;
+	EClient *client;
+	ESource *source;
+	gpointer view;
+	GError *error = NULL;
+
+	opened_sources = g_object_get_data (G_OBJECT (selector), OPENED_KEY);
+	g_return_if_fail (opened_sources != NULL);
+
+	source = e_source_selector_ref_primary_selection (selector);
+	if (source == NULL)
+		return;
+
+	client = g_hash_table_lookup (opened_sources, source);
+
+	g_return_if_fail (client != NULL);
+
+	view = g_object_get_data (G_OBJECT (client), VIEW_KEY);
+	g_return_if_fail (view != NULL);
+
+	if (E_IS_CAL_CLIENT_VIEW (view))
+		e_cal_client_view_stop (view, &error);
+	else if (E_IS_BOOK_CLIENT_VIEW (view))
+		e_book_client_view_stop (view, &error);
+	else
+		g_warn_if_reached ();
+
+	g_object_set_data (G_OBJECT (client), VIEW_KEY, NULL);
+	g_signal_emit_by_name (selector, "primary-selection-changed", 0);
+
+	if (error) {
+		g_warning ("Failed to destroy view %p on '%s': %s",
+			view, e_source_get_display_name (source), error->message);
+	} else {
+		g_print ("View %p for %s destroyed\n", view, e_source_get_display_name (source));
+	}
+
+	g_clear_error (&error);
+	g_object_unref (source);
 }
 
 static void
@@ -322,6 +677,26 @@ create_page (ESourceRegistry *registry,
 	g_signal_connect (
 		selector, "primary-selection-changed",
 		G_CALLBACK (enable_widget_if_opened_cb), widget);
+
+	widget = gtk_button_new_with_label ("Create View");
+	gtk_container_add (GTK_CONTAINER (button_box), widget);
+
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (create_view_clicked_cb), selector);
+	g_signal_connect (
+		selector, "primary-selection-changed",
+		G_CALLBACK (enable_widget_if_opened_and_no_view_cb), widget);
+
+	widget = gtk_button_new_with_label ("Destroy View");
+	gtk_container_add (GTK_CONTAINER (button_box), widget);
+
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (destroy_view_clicked_cb), selector);
+	g_signal_connect (
+		selector, "primary-selection-changed",
+		G_CALLBACK (enable_widget_if_opened_and_has_view_cb), widget);
 
 	widget = gtk_button_new_with_label ("Flip busy status");
 	gtk_widget_set_margin_top (widget, 10);
