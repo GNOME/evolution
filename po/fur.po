@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-01-10 17:37+0000\n"
-"PO-Revision-Date: 2018-01-15 11:59+0100\n"
+"POT-Creation-Date: 2018-02-05 17:59+0000\n"
+"PO-Revision-Date: 2018-02-07 17:38+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -1420,10 +1420,23 @@ msgstr ""
 "firme cuant che si scrîf une e-mail."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
+msgid "Keep original message signature in replies"
+msgstr "Ten la firme dal messaç origjinâl tes rispuestis"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
+msgid ""
+"When set to TRUE, keep original message signature in replies, otherwise "
+"strip the signature and everything below it when replying to the message."
+msgstr ""
+"Se metût a VÊR, ten la firme dal messaç origjinâl intes rispuestis, in cas "
+"contrari, cuant che si rispuint al messaç, gjave la firme e dut ce che i sta "
+"sot."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "Ignore list Reply-To:"
 msgstr "Ignorâ il \"Rispuint a:\" ae liste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
 msgid ""
 "Some mailing lists set a Reply-To: header to trick users into sending "
 "replies to the list, even when they ask Evolution to make a private reply. "
@@ -1442,11 +1455,11 @@ msgstr ""
 "liste” al rispuindarà ae liste. Al funzione confrontant la intestazion "
 "Rispuint-A: cuntune intestazion List-Post:, se 'ndi esist une."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "List of localized “Re”"
 msgstr "Liste dal “Re” tradot"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
 "Comma-separated list of localized “Re” abbreviations to skip in a subject "
 "text when replying to a message, as an addition to the standard “Re” prefix. "
@@ -1456,7 +1469,7 @@ msgstr ""
 "sogjet dal test cuant che si rispuint a un messaç, in zonte al prefìs comun "
 "“Re”. Un esempli al è “SV,AV”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "List of localized “Re” separators"
 msgstr "Liste di separadôrs di “Re” tradots"
 
@@ -1466,7 +1479,7 @@ msgstr "Liste di separadôrs di “Re” tradots"
 #
 #
 #            OU CHIALE CHI!
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
 "A list of localized “Re” separators, used to skip in a subject text when "
 "replying to a message, as an addition to the standard “:” and the Unicode "
@@ -1476,11 +1489,11 @@ msgstr ""
 "cuant che si rispuint a un messaç, come une zonte ai separadôrs standard “:” "
 "e Unicode “︰”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Use localized “Fwd”/“Re” in message Subject"
 msgstr "Doprâ “Fwd”/“Re” localizâts tal ogjet dal messaç"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid ""
 "When set to true, uses localized “Fwd”/“Re” in message Subject on reply and "
 "forward as provided by current locale translation, otherwise uses "
@@ -1491,32 +1504,32 @@ msgstr ""
 "indenant, come specificât de traduzion locâl atuâl, se no al dopre la "
 "version no localizade."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Number of characters for wrapping"
 msgstr "Numars di caratars par lâ a gnove rie"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
 msgid "Will autowrap lines after given number of characters."
 msgstr "Al larà a gnove rie dopo il numar di caratars specificâts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid ""
 "Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
 msgstr ""
 "Numar di destinataris di A e Cc di domandâ di “prompt-on-many-to-cc-recips”"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid ""
 "When to ask, when the number of To and CC recipients reaches this value."
 msgstr ""
 "Cuant domandâ: cuant il numar di destinataris A e Cc al rive al chest valôr."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgstr ""
 "Indiche se mostrâ simpri i botons Firme e Cifre su la sbare dai struments"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid ""
 "If set to “true”, the Sign and Encrypt buttons for either PGP or S/MIME are "
 "always shown in the composer’s toolbar. Otherwise they are shown only when "
@@ -1526,22 +1539,22 @@ msgstr ""
 "simpri mostrâts te sbare dai struments dal compositôr. Se no a saran "
 "mostrâts nome cuant che si ju dopre."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Wrap quoted text in replies"
 msgstr "Justâ lis riis dal test citât tes rispuestis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid "If set to “true” quoted text in replies will be wrapped."
 msgstr ""
 "Se metude a “true” lis riis dal test citât tes rispuestis a vignaran "
 "justadis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr ""
 "Indiche se rispietâ il sugjeriment de intestazion Content-Disposition:inline"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Set to “false” to block automatic display of attachments with Content-"
 "Disposition: inline."
@@ -1549,20 +1562,20 @@ msgstr ""
 "Met a “false” par blocâ la viodude automatiche des zontis cun Content-"
 "Disposition: inline."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Save file format for drag-and-drop operation"
 msgstr ""
 "Formât dal file di salvament pes operazions strissine-e-mole (drag-and-drop)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid "Can be either “mbox” or “pdf”."
 msgstr "A puedin jessi “mbox” o “pdf”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Show image animations"
 msgstr "Mostre lis animazions des imagjins"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
@@ -1570,11 +1583,11 @@ msgstr ""
 "Abilite lis imagjins animadis inte pueste in HTML. Une vore di utents lis "
 "cjatin fastidiosis e a preferissin viodi une imagjin ferme."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid "Enable or disable type ahead search feature"
 msgstr "Abilite o disabilite la funzionalitât di ricercje intant che si scrîf"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
@@ -1582,11 +1595,11 @@ msgstr ""
 "Abilite la funzion di ricercje tal ricuadri laterâl, permetint di cirî in "
 "maniere interative tai nons des cartelis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid "Enable or disable magic space bar"
 msgstr "Abilite o disabilite la sbare di spazi magjiche"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
@@ -1594,61 +1607,61 @@ msgstr ""
 "Abilitâ cheste clâf par doprâ il tast sbare di spazi par scori te anteprime "
 "dal messaç, te liste dai messaçs e tes cartelis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
 "Abilitâ par doprâ une impostazion di viodude liste messaçs similâr par dutis "
 "lis cartelis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
 "Abilitâ par doprâ une impostazion di viodude liste messaçs similâr par dutis "
 "lis cartelis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
 msgid "Mark citations in the message “Preview”"
 msgstr "Segne lis citazions te anteprime dal messaç"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
 msgid "Mark citations in the message “Preview”."
 msgstr "Segne lis citazions te anteprime dal messaç."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Citation highlight color"
 msgstr "Colôr de citazion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
 msgid "Citation highlight color."
 msgstr "Colôr de citazion."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
 msgid "Enable/disable caret mode"
 msgstr "Abilite/disabilite modalitât a cursôr"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr ""
 "Abilite la modalitât a cursôr, in maniere di mostrâ il cursôr intant che si "
 "lei la pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
 msgid "Default charset in which to display messages"
 msgstr "Cumbinazion di caratars predefinide par mostrâ i messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "Default charset in which to display messages."
 msgstr "Cumbinazion di caratars predefinide par mostrâ i messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Automatically load images for HTML messages over HTTP"
 msgstr "Cjarie in automatic lis imagjins tai messaçs HTML vie HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Show notification about missing remote content"
 msgstr "Mostre une notifiche sul contignût rimot che al mancje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid ""
 "When the message preview shows a message which requires to download remote "
 "content, while the download is not allowed for the user or the site, then "
@@ -1659,27 +1672,27 @@ msgstr ""
 "alore, parsore dal ricuadri di anteprime, e vegnarà mostrade une notifiche "
 "in merit."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Show Animations"
 msgstr "Mostre animazions"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Show animated images as animations."
 msgstr "Mostre lis imagjins animadis come animazions."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Show all message headers"
 msgstr "Mostre dutis lis intestazions dal messaç"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Show all the headers when viewing a messages."
 msgstr "Mostre dutis lis intestazions cuant che al ven mostrât un messaç."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
 msgid "List of headers to show when viewing a message."
 msgstr "Liste des intestazions di mostrâ cuant che si mostre un messaç."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid ""
 "Each header is represented as a pair: the header name, and a boolean "
 "indicating whether the header is enabled. Disabled headers are not shown "
@@ -1690,35 +1703,35 @@ msgstr ""
 "intestazions disabilitadis no vegnin mostradis cuant che si mostre un "
 "messaç, ma a son ancjemò listadis tes preferencis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Show photo of the sender"
 msgstr "Mostre la foto dal mitent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Mostre la foto dal mitent tal ricuadri di leture dal messaç."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid "Search gravatar.com for photo of the sender"
 msgstr "Cîr su gravatar.com pe foto dal mitent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Allow searching also at gravatar.com for photo of the sender."
 msgstr "Permeti di cirî ancje su gravatar.com pe foto dal mitent."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Mark as Seen after specified timeout"
 msgstr "Segne come let dopo un timp specificât"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Mark as Seen after specified timeout."
 msgstr "Segne come let dopo un timp specificât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Mark as Seen always after specified timeout"
 msgstr "Segne come let simpri dopo un timp specificât"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid ""
 "If set to true, the selected message will be set as unread after the timeout "
 "also after the folder change."
@@ -1726,19 +1739,19 @@ msgstr ""
 "Se metude a vêr, il messaç selezionât al sarà segnât come no let dopo il "
 "timp specificât e ancje dopo la modifiche de cartele."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
 msgid "Timeout for marking messages as seen"
 msgstr "Timp daspò il cuâl segnâ i messaçs come lets"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
 msgid "Timeout in milliseconds for marking messages as seen."
 msgstr "Timp di spiete in miliseconts daspò il cuâl segnâ i messaçs come lets."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
 msgid "Show Attachment Bar"
 msgstr "Mostre sbare zontis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
@@ -1746,11 +1759,11 @@ msgstr ""
 "Mostre la sbare des zontis sot dal ricuadri di anteprime dal messaç cuant "
 "che il messaç al à zontis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Sender email-address column in the message list"
 msgstr "Colone direzion e-mail dal mitent te liste dai messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
@@ -1758,28 +1771,28 @@ msgstr ""
 "Mostre la direzion e-mail dal mitent intune colone separade te liste dai "
 "messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Show deleted messages in the message-list"
 msgstr "Mostre i messaçs eliminâts te liste messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Mostre i messaçs eliminâts (cuntune rie sore) te liste dai messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
 msgid "Show junk messages in the message-list"
 msgstr "Mostre i messaçs malvolûts te liste messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Show junk messages (with a red strike-through) in the message-list."
 msgstr ""
 "Mostre i messaçs malvolûts (cuntune rie rosse sore) te liste dai messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid "Enable Unmatched search folder"
 msgstr "Abilite cartele di ricercje no corispondents"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
@@ -1787,11 +1800,11 @@ msgstr ""
 "Abilite la cartele di ricercje no corispondents dentri des cartelis di "
 "ricercje. Nol sucêt nuie se lis cartelis di ricercje a son disabilitadis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Plate la antemprime par-cartele e gjave la selezion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
 msgid ""
 "This key is read only once and reset to “false” after read. This unselects "
 "the mail in the list and removes the preview for that folder."
@@ -1800,32 +1813,32 @@ msgstr ""
 "Chest al gjave la selezion de pueste te liste e al gjave la anteprime di chê "
 "cartele."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
 msgid "Height of the message-list pane"
 msgstr "Altece dal ricuadri liste messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
 msgid "Height of the message-list pane."
 msgstr "Altece dal ricuadri liste messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "Whether message headers are collapsed in the user interface"
 msgstr ""
 "Indiche se lis intestazions dai messaçs a son strenzudis te interface utent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Width of the message-list pane"
 msgstr "Largjece dal ricuadri liste messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
 msgid "Width of the message-list pane."
 msgstr "Largjece dal ricuadri liste messaçs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
 msgid "Layout style"
 msgstr "Stîl disposizion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the message list. “0” (Classic View) places the preview pane below the "
@@ -1837,35 +1850,35 @@ msgstr ""
 "ricuadri di anteprime juste sot de liste dai messaçs, cun “1” (viodude "
 "verticâl) si place il ricuadri in bande ae liste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Variable width font"
 msgstr "Caratar a largjece variabile"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
 msgid "The variable width font for mail display."
 msgstr "Il caratar a largjece variabile pe viodude de pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
 msgid "Terminal font"
 msgstr "Caratar dal terminâl"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
 msgid "The terminal font for mail display."
 msgstr "Il caratar di terminâl pe viodude de pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
 msgid "Use custom fonts"
 msgstr "Dopre caratars personalizâts"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
 msgid "Use custom fonts for displaying mail."
 msgstr "Dopre i caratars personalizâts par mostrâ la pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
 msgid "Compress display of addresses in TO/CC/BCC"
 msgstr "Strenç la viodude des direzions in A/CC/CCP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
@@ -1873,11 +1886,11 @@ msgstr ""
 "Strenç la viodude des direzions in A/CC/CCP al numar specificât te clâf "
 "address_count."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Numar di direzions di mostrâ in A/CC/CCP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
@@ -1885,11 +1898,11 @@ msgstr ""
 "Cheste clâf a stabilìs il numar di direzions di mostrâ te viodude a liste "
 "messaçs predefinide, daspò il cuâl al ven mostrât un “...”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Thread the message-list based on Subject"
 msgstr "Liste par discussions basadis sul ogjet"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
@@ -1897,11 +1910,11 @@ msgstr ""
 "Indiche se tornâ o no al intropament des discussions in base ai ogjets dai "
 "discors se i messaçs no àn lis intestazions In-Rispueste-A o Riferiments."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Default value for thread expand state"
 msgstr "Valôr predefinît pal stât pandût de discussion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
@@ -1909,13 +1922,13 @@ msgstr ""
 "Cheste impostazion e specifiche se fâ vê in mût predefinît aes discussions "
 "il stât pandût o strenzût. Par aplicâle si scugne tornâ a inviâ Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
 "Indiche se meti in ordin lis discussions in base al ultin messaç te "
 "discussion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message’s date. Evolution requires a "
@@ -1925,11 +1938,11 @@ msgstr ""
 "ultin messaç in ogni discussion, invezit che pe date dal messaç. Par "
 "aplicâle si scugne tornâ a inviâ Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Whether sort thread children always ascending"
 msgstr "Indiche se meti in ordin simpri in mût cressint lis discussion fiis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
@@ -1938,11 +1951,11 @@ msgstr ""
 "discussions fiis, invezit che doprâ il stes ordenament de discussion tal "
 "nivel lidrîs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Sort accounts alphabetically in a folder tree"
 msgstr "Ordene i account in maniere alfabetiche intun arbul di cartelis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid ""
 "Tells how to sort accounts in a folder tree used in a Mail view. When set to "
 "true accounts are sorted alphabetically, with an exception of On This "
@@ -1954,19 +1967,19 @@ msgstr ""
 "cun la ecezion des cartelis Ricercje e Su chest computer. In câs contrari i "
 "account a vegnin ordenâts secont un criteri indicât dal utent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
 msgid "Log filter actions"
 msgstr "Azions di filtrament dai regjistris"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Log filter actions to the specified log file."
 msgstr "Azions di filtrament sul file di regjistri specificât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid "Logfile to log filter actions"
 msgstr "File regjistri par regjistrâ azions filtris"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid ""
 "If not set, or being “stdout”, then the logging is done to stdout, instead "
 "to a file."
@@ -1974,11 +1987,11 @@ msgstr ""
 "Se no stabilît, o mandât su “stdout”, alore la scriture dal regjistri e ven "
 "fate sul stdout, invezit che suntun file."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Flush Outbox after filtering"
 msgstr "Disvuede la cartele \"In jessude\" dopo il filtrament"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 "only when there was used any “Forward to” filter action and approximately "
@@ -1988,68 +2001,68 @@ msgstr ""
 "al sucedarà dome cuant che e je stade doprade cualsisei azion di filtri "
 "“Mande indenant a” e pressapôc un minût dopo la ultime invocazion de azion."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
 msgid "Default forward style"
 msgstr "Stîl par mandâ indenant predefinît"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Default reply style"
 msgstr "Stîl predefinît de rispueste"
 
 # ctrl+enter e in furlan?
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr "Visâ cuant che si invie doprant la scurte di tastiere (Ctrl+Enter)"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr ""
 "Visâ l'utent cuant che si cîr di inviâ un messaç cuntune scurte di tastiere."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt on empty subject"
 msgstr "Visâ cuant che l'ogjet al è vueit"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Visâ l'utent cuant che si cîr di inviâ un messaç cence ogjet."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt when emptying the trash"
 msgstr "Visâ cuant che si disvuede la scovacere"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Prompt the user when he or she tries to empty the trash."
 msgstr "Visâ l'utent cuant che si cîr di disvuedâ la scovacere."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
 msgid "Prompt when user expunges"
 msgstr "Visâ l'utent cuant che al nete vie alc"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Visâ l'utent cuant che si cîr di netâ une cartele."
 
 # malvolût malvolûts malvolude...
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:167
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
 msgid "Prompt when user calls Empty Junk"
 msgstr "Visâ l'utent cuant che al clame la funzion Disvuede Malvolûts"
 
 # malvolûts malvolût malvolude
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr ""
 "Visâ l'utent cuant che si cîr di disvuedâ une cartele di pueste malvolude."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Visâ prime di inviâ a destinataris no inserîts come direzions di pueste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -2057,20 +2070,20 @@ msgstr ""
 "Abilite/disabilite il visâ ripetût plui voltis che si cîr di inviâ un messaç "
 "a destinataris no inserîts come direzions di pueste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Prompt when user only fills Bcc"
 msgstr "Visâ l'utent cuant che si compile dome il cjamp Ccp"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:172
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
 "Visâ cuant che l'utent al cîr di inviâ un messaç cence destinataris A: o CC:."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Visâ cuant che l'utent al cîr di inviâ HTML malvolût"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:174
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
@@ -2078,11 +2091,11 @@ msgstr ""
 "Vise cuant che l'utent al cîr di inviâ pueste in HTML a destinataris che "
 "podaressin no volêle ricevi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:175
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Vise l'utent cuant che al cîr di vierzi 10 o plui messaçs adun"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:176
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
@@ -2090,19 +2103,19 @@ msgstr ""
 "Se un utent al cîr di vierzi 10 o plui messaç intune volte, domande se si è "
 "sigûrs di ce che si sta fasint."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Prompt while marking multiple messages"
 msgstr "Visâ cuant che si segnin plui messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:178
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid "Enable or disable the prompt whilst marking multiple messages."
 msgstr "Abilite o disabilte il visâ cuant che plui messaçs a vegnin segnâts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 msgid "Prompt when deleting messages in search folder"
 msgstr "Visâ cuant che si eliminin messaçs in cartelis di ricercje"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
 msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
@@ -2112,12 +2125,12 @@ msgstr ""
 "cartele di ricercje, si elimine par simpri il messaç, invezit di gjavâlu dai "
 "risultâts de ricercje."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Domande se copiâ une cartele cul strissine-e-mole tal arbul des cartelis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:182
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
 msgid ""
 "Possible values are: “never” — do not allow copy with drag &amp; drop of "
 "folders in folder tree, “always” — allow copy with drag &amp; drop of "
@@ -2129,12 +2142,12 @@ msgstr ""
 "des cartelis cence domandâ, opûr “ask” — ( o cualsisei altri valôr) par "
 "domandâ al utent."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
 "Domande se spostâ une cartele cul strissine-e-mole tal arbul des cartelis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid ""
 "Possible values are: “never” — do not allow move with drag &amp; drop of "
 "folders in folder tree, “always” — allow move with drag &amp; drop of "
@@ -2146,11 +2159,11 @@ msgstr ""
 "strissine-e-mole lis cartelis tal arbul des cartelis cence domandâ, opûr "
 "“ask” — ( o cualsisei altri valôr) par domandâ al utent."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt when replying privately to list messages"
 msgstr "Visâ cuant che si rispuint in maniere privade ai messaçs di liste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
@@ -2158,11 +2171,11 @@ msgstr ""
 "Al disabilite/abilite il visâ ripetût che si sta inviant une rispueste "
 "privade a un messaç rivât vie mailing list."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "Visâ cuant che la mailing list e disvie lis rispuestis privadis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:188
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
@@ -2173,11 +2186,11 @@ msgstr ""
 "à stabilît la intestazion \"Rispuint a:\" che e torne a mandâ lis rispuestis "
 "ae stesse liste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:189
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
 msgid "Prompt when replying to many recipients"
 msgstr "Visâ cuant che si rispuint a plui destinataris"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:190
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
@@ -2185,7 +2198,7 @@ msgstr ""
 "Al disabilite/abilite il visâ ripetût che si sta inviant une rispueste a "
 "plui personis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:191
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
 msgid ""
 "Prompt when switching composer format and the content needs to lose its "
 "formatting"
@@ -2193,7 +2206,7 @@ msgstr ""
 "Visâ cuant che si cambie il formât dal compositôr e il contignût al à "
 "dibisugne di pierdi la sô formatazion"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:192
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
@@ -2201,11 +2214,11 @@ msgstr ""
 "Al disabilite/abilite il visâ ripetût che si sta cambiant il formât dal "
 "compositôr e il contignût al scugne pierdi la sô formatazion."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:193
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
 msgid "Prompt when sending to many To and CC recipients"
 msgstr "Visâ cuant che si invie a plui destinataris A e Cc"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:194
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
 msgid ""
 "Enable or disable the prompt when sending to many To and CC recipients. The "
 "“composer-many-to-cc-recips-num” defines the threshold."
@@ -2213,7 +2226,7 @@ msgstr ""
 "Abilite o disabilite il visâ cuant che si invie a plui destinataris A e CC. "
 "Il valôr “composer-many-to-cc-recips-num” al definìs il liminâr."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:195
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
 msgid ""
 "Policy for automatically closing the message browser window when forwarding "
 "or replying to the displayed message."
@@ -2221,42 +2234,42 @@ msgstr ""
 "Politiche par sierâ in automatic il barcon dal esploradôr dai messaçs cuant "
 "che si mande indenant o si rispuint al messaç mostrât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:196
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
 msgid "Empty Trash folders on exit"
 msgstr "Disvuede cartelis Scovacere ae jessude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
 msgid "Empty all Trash folders when exiting Evolution."
 msgstr "Disvuede dutis lis cartelis Scovacere cuant che si jes di Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:198
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Dîs minims tra il disvuedâ de scovacere ae jessude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Timp minim tra il disvuedâ de scovacere ae jessude, in dîs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:200
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid "Last time Empty Trash was run"
 msgstr "Ultime volte che e je stade disvuedade la scovacere"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "La ultime volte che e je stade disvuedade la scovacere, in dîs dal 1ⁿ di "
 "zenâr dal 1970 (Epoch)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Amount of time in seconds the error should be shown on the status bar."
 msgstr "Timp in seconts par tignî mostrât l'erôr te sbare di stât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Level beyond which the message should be logged."
 msgstr "Nivel daspò il cuâl il messaç al varès di jessi regjistrât."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
@@ -2264,11 +2277,11 @@ msgstr ""
 "Chest al pues vê trê pussibii valôrs: “0” par erôrs, “1” pai avertiments, "
 "“2” pai messaçs di debug."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Show original “Date” header value."
 msgstr "Mostre il valôr origjinâl de intestazion “Date”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:206
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
@@ -2278,11 +2291,11 @@ msgstr ""
 "fûs oraris a diferissin). In câs contrari mostre simpri il valôr de "
 "intestazion “Date” intun formât sielt dal utent e tal fûs orari locâl."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
 msgid "List of Labels and their associated colors"
 msgstr "Liste des etichetis e dai colôrs associâts"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
@@ -2291,49 +2304,49 @@ msgstr ""
 "ten stringhis dal gjenar NON:COLÔR, dulà che COLÔR al dopre la notazion "
 "esadecimâl dal HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:209
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid "Check incoming mail being junk"
 msgstr "Control pueste malvolude in jentrade"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
 msgid "Run junk test on incoming mail."
 msgstr "Al eseguìs controi su pe pueste malvolude in jentrade."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
 msgid "Empty Junk folders on exit"
 msgstr "Disvuede cartele di pueste malvolude ae jessude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:212
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
 msgid "Empty all Junk folders when exiting Evolution."
 msgstr ""
 "Disvuede dutis lis cartelis di pueste malvolude cuant che si jes di "
 "Evolution."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:213
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Dîs minims tra lis eliminazions de pueste malvolude ae jessude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:214
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr ""
 "Timp minim tra lis eliminazions de pueste malvolude ae jessude, in dîs."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:215
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "Last time Empty Junk was run"
 msgstr "Ultime volte che e je stade eliminade la pueste malvolude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:216
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "La ultime volte che e je stade eliminade la pueste malvolude, in dîs dal 1ⁿ "
 "di zenâr dal 1970 (Epoch)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
 msgid "The default plugin for Junk hook"
 msgstr "Il plugin predefinît pe pueste malvolude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
@@ -2343,11 +2356,11 @@ msgstr ""
 "fossin abilitâts. Se il plugin listât come predefinît al è disabilitât, "
 "alore no vignaran doprâts nancje chei altris plugin disponibii."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Determine se consultâ la rubriche pe e-mail dal mitent"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
@@ -2359,7 +2372,7 @@ msgstr ""
 "pal completament automatic. Al podarès jessi lent, se a vegnin segnadis pal "
 "completament automatic lis rubrichis rimotis (come LDAP)."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
@@ -2367,7 +2380,7 @@ msgstr ""
 "Determine se consultâ nome lis rubrichis locâi pes direzions di doprâ tal "
 "filtrament de pueste malvolude"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:222
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
@@ -2377,12 +2390,12 @@ msgstr ""
 "par determinâ se consultâ lis direzions nome te rubriche locâl, cussì di "
 "escludi, dai filtris di spam, la pueste inviade dai contats cognossûts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:223
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
 "Determine se doprâ intestazions personalizadis tal controlâ i malvolûts"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:224
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
@@ -2392,12 +2405,12 @@ msgstr ""
 "malvolûts. Se cheste opzion e je abilitade e lis intestazions a son "
 "nomenadis, e miore la velocitât di control dai malvolûts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Custom headers to use while checking for junk."
 msgstr ""
 "Intestazions personalizadis di doprâ intant che si controle i malvolûts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
@@ -2406,31 +2419,31 @@ msgstr ""
 "malvolûts. I elements de liste a son stringhis tal formât "
 "“nonintestazion=valôr”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
 msgid "UID string of the default account."
 msgstr "Stringhe UID dal account predefinît."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
 msgid "Save directory"
 msgstr "Cartele di salvament"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
 msgid "Directory for saving mail component files."
 msgstr "Cartele pal salvament dai file di components de pueste."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:230
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
 msgid "Composer load/attach directory"
 msgstr "Cartele cjarie/zonte dal compositôr"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:231
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
 msgid "Directory for loading/attaching files to composer."
 msgstr "Cartele par cjariâ/zontâ file al compositôr."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
 msgid "Check for new messages on start"
 msgstr "Controle gnûfs messaçs al inviament"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:233
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
@@ -2438,11 +2451,11 @@ msgstr ""
 "Indiche se controlâ la presince di gnûfs messaçs al inviament di Evolution. "
 "Chest al inclût anche il spedî dai messaçs in \"In jessude\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "Check for new messages in all active accounts"
 msgstr "Controle gnûfs messaçs in ducj i account atîfs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
@@ -2453,11 +2466,11 @@ msgstr ""
 "minûts” dai singui account. Cheste opzion e je doprade nome adun cun la "
 "opzion “send_recv_on_start”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
 msgid "Server synchronization interval"
 msgstr "Interval sincronizazion servidôr"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:237
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
@@ -2465,11 +2478,11 @@ msgstr ""
 "Controle trop di frecuent i cambiaments locâi a son sincronizâts cul "
 "servidôr di pueste rimot. L'interval al à di jessi di almancul 30 seconts."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:238
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
 msgid "Allow expunge in virtual folders"
 msgstr "Permet netisie intes cartelis virtuâls"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:239
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid ""
 "Enables Expunge in virtual folders, which means that the Folder→Expunge will "
 "be callable in virtual folders, while the expunge itself will be done in all "
@@ -2482,12 +2495,12 @@ msgstr ""
 "eliminâts inte cartele virtuâl , no nome pai messaçs eliminâts che a "
 "apartegnin ae cartele virtuâl."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:240
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
 #: ../src/mail/mail-config.ui.h:9
 msgid "Inherit theme colors in HTML format"
 msgstr "Ereditâ colôrs dal teme in formât HTML"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
@@ -2495,11 +2508,11 @@ msgstr ""
 "Cuant che al è abilitât i colôrs dal teme pal sfont, test e colegaments a "
 "vegnin alore inviâts intun messaç formatât in HTML."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:242
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
 msgid "An Archive folder for On This Computer folders."
 msgstr "Une cartele di archivi pes cartelis \"Su chest computer\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:243
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
@@ -2507,76 +2520,76 @@ msgstr ""
 "Une cartele di archivi di doprâ pe funzionalitât Messaçs|Archivi... cuant "
 "che si è intune cartele \"Su chest computer\"."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:244
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Whether the To Do bar is visible in the main window"
 msgstr "Indiche se la sbare “Di fâ” e à di jessi visibile tal barcon principâl"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
 msgid "Stores whether the To Do bar is visible in the main window."
 msgstr "Al memorize se la sbare “Di fâ” e je visibile tal barcon principâl."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Width of the To Do bar in the main window"
 msgstr "Largjece de sbare “Di fâ” tal barcon principâl"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid "Holds the width of the To Do bar for the main window."
 msgstr "Al ten la largjece de sbare “Di fâ” pal barcon principâl."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "Indiche se la sbare “Di fâ” e je visibile intun sot-barcon"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr "Al memorize se la sbare “Di fâ” e je visibile intun sot-barcon."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
 msgid "Width of the To Do bar in a sub-window"
 msgstr "Largjece de sbare “Di fâ” intun sot-barcon"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:251
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid "Holds the width of the To Do bar for a sub-window."
 msgstr "Al ten la largjece de sbare “Di fâ” par un sot-barcon."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 msgid "Whether the To Do bar should show also completed tasks"
 msgstr ""
 "Indiche se la sbare “Di fâ” e à di mostrâ ancje lis ativitâts completadis"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
 msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr ""
 "Al memorize se la sbare “Di fâ” e à di mostrâ ancje lis ativitâts "
 "completadis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "Whether the To Do bar should show also tasks without Due date"
 msgstr ""
 "Indiche se la sbare “Di fâ” e à di mostrâ ancje lis ativitâts cence date di "
 "scjadince"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:255
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
 msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr ""
 "Al memorize se la sbare “Di fâ” e à di mostrâ ancje lis ativitâts cence date "
 "di scjadince."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid "Show start up wizard"
 msgstr "Mostre il wizard di inviament"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
 msgid "Whether show start up wizard when there is no mail account configured."
 msgstr ""
 "Indiche se mostrâ il wizard di inviament cuant che nol è configurât nissun "
 "account e-mail."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "Whether go to the previous message after message deletion"
 msgstr "Indiche se lâ al messaç precedent dopo vê eliminât un messaç"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:259
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
@@ -2584,11 +2597,11 @@ msgstr ""
 "Se metût a vêr, al va al messaç precedent cuant che chel selezionât al ven "
 "eliminât; o al sucessîf messaç se al ven metût a fals."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid "Show Subject above Sender in Messages column"
 msgstr "Mostre l'ogjet parsore dal mitent inte colone Messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list"
@@ -2596,11 +2609,11 @@ msgstr ""
 "Indiche se mostrâ l'ogjet parsore dal mitent (Di/A) inte colone dai messaçs, "
 "di solit mostrât inte viodude Verticâl/Largje de liste dai messaçs"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 msgid "Visually wrap long lines in composer"
 msgstr "In grafiche, juste a rie gnove lis riis lungjis tal compositôr"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 #: ../src/composer/e-composer-actions.c:552
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
@@ -2608,11 +2621,11 @@ msgstr ""
 "Indiche se justâ a rie gnove, a nivel grafic, lis riis di test lungjis par "
 "sparagnâ di scori in orizontâl"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid "(Deprecated) Default forward style"
 msgstr "(Deplorade) Stîl predefinît par mandâ indenant"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2620,11 +2633,11 @@ msgstr ""
 "Cheste clâf e je stade deplorade te version 3.10 e no varès di jessi plui "
 "doprade. Doprâ invezit “forward-style-name”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
 msgid "(Deprecated) Default reply style"
 msgstr "(Deplorade) Stîl predefinît de rispueste"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:267
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2632,12 +2645,12 @@ msgstr ""
 "Cheste clâf e je stade deplorade te version 3.10 e no varès di jessi plui "
 "doprade. Doprâ invezit “reply-style-name”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 "(Deplorade) Liste des intestazions personalizadis e se a son abilitadis."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2645,11 +2658,11 @@ msgstr ""
 "Cheste clâf e je stade deplorade inte version 3.10 e no varès di jessi plui "
 "doprade. Doprâ invezit “show-headers”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Deplorade) Cjarie lis imagjins pai messaçs HTML  vie HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2657,7 +2670,7 @@ msgstr ""
 "Cheste clâf e je stade deplorade inte version 3.10 e no varès di jessi plui "
 "doprade. Doprâ invezit “image-loading-policy”."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2665,7 +2678,7 @@ msgstr ""
 "(Deplorade) Domande se sierâ il barcon dal messaç cuant che l'utent al mande "
 "indenant o al rispuint al messaç mostrât intal barcon"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3269,7 +3282,7 @@ msgid "Memos"
 msgstr "Promemorie"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:696 ../src/calendar/gui/print.c:2418
+#: ../src/calendar/gui/e-task-table.c:697 ../src/calendar/gui/print.c:2408
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1110
 #: ../src/e-util/e-webdav-browser.c:460
@@ -3821,7 +3834,7 @@ msgstr "_Pagjine web:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
 #: ../src/calendar/gui/e-comp-editor-event.c:725
-#: ../src/modules/itip-formatter/itip-view.c:2045
+#: ../src/modules/itip-formatter/itip-view.c:2048
 msgid "_Calendar:"
 msgstr "_Calendari:"
 
@@ -3911,14 +3924,14 @@ msgstr "_Aniversari:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:893
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
-#: ../src/calendar/gui/e-calendar-view.c:2045
+#: ../src/calendar/gui/e-calendar-view.c:2056
 msgid "Anniversary"
 msgstr "Aniversari"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:892
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
-#: ../src/calendar/gui/e-calendar-view.c:2044
+#: ../src/calendar/gui/e-calendar-view.c:2055
 msgid "Birthday"
 msgstr "Complean"
 
@@ -4586,9 +4599,9 @@ msgstr "Blog"
 #: ../src/calendar/gui/e-cal-component-preview.c:308
 #: ../src/calendar/gui/e-cal-model-tasks.c:314
 #: ../src/calendar/gui/e-cal-model-tasks.c:556
-#: ../src/calendar/gui/e-task-table.c:209
-#: ../src/calendar/gui/e-task-table.c:224
-#: ../src/calendar/gui/e-task-table.c:634 ../src/calendar/gui/print.c:3596
+#: ../src/calendar/gui/e-task-table.c:210
+#: ../src/calendar/gui/e-task-table.c:225
+#: ../src/calendar/gui/e-task-table.c:635 ../src/calendar/gui/print.c:3586
 #: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:1086
 msgid "Cancelled"
 msgstr "Anulade"
@@ -4833,7 +4846,7 @@ msgstr "Sigûrs di eliminâ chest contat (%s)?"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1524
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:676
 #: ../src/modules/calendar/e-task-shell-view-actions.c:830
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1680
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1678
 #: ../src/shell/e-shell-window-actions.c:852
 #: ../src/smime/gui/certificate-manager.c:1672 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
@@ -5353,8 +5366,8 @@ msgstr "_Scarte"
 #: ../src/calendar/alarm-notify/alarm-queue.c:1969
 #: ../src/calendar/alarm-notify/alarm-queue.c:1979
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249
-#: ../src/modules/itip-formatter/itip-view.c:1678
-#: ../src/modules/itip-formatter/itip-view.c:1789
+#: ../src/modules/itip-formatter/itip-view.c:1681
+#: ../src/modules/itip-formatter/itip-view.c:1792
 msgid "Location:"
 msgstr "Ubicazion:"
 
@@ -6236,21 +6249,21 @@ msgstr "nol è/no je"
 #: ../src/calendar/gui/caltypes.xml.in.h:9
 #: ../src/calendar/gui/e-cal-list-view.c:238
 #: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-cal-model.c:310
-#: ../src/calendar/gui/e-task-table.c:522
+#: ../src/calendar/gui/e-task-table.c:523
 #: ../src/calendar/gui/memotypes.xml.in.h:10
 msgid "Public"
 msgstr "Public"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
 #: ../src/calendar/gui/e-cal-list-view.c:239
-#: ../src/calendar/gui/e-cal-model.c:312 ../src/calendar/gui/e-task-table.c:523
+#: ../src/calendar/gui/e-cal-model.c:312 ../src/calendar/gui/e-task-table.c:524
 #: ../src/calendar/gui/memotypes.xml.in.h:11
 msgid "Private"
 msgstr "Privât"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
 #: ../src/calendar/gui/e-cal-list-view.c:240
-#: ../src/calendar/gui/e-cal-model.c:314 ../src/calendar/gui/e-task-table.c:524
+#: ../src/calendar/gui/e-cal-model.c:314 ../src/calendar/gui/e-task-table.c:525
 #: ../src/calendar/gui/memotypes.xml.in.h:12
 #: ../src/e-util/e-html-editor-page-dialog.c:113
 #: ../src/e-util/e-send-options.ui.h:7
@@ -6345,6 +6358,19 @@ msgstr "La sintesi e conten"
 #: ../src/calendar/gui/tasktypes.xml.in.h:29
 msgid "Description Contains"
 msgstr "La descrizion e conten"
+
+#: ../src/calendar/gui/comp-util.c:1490
+#: ../src/modules/itip-formatter/itip-view.c:2365
+#, c-format
+msgid "with one guest"
+msgid_plural "with %d guests"
+msgstr[0] "cuntun ospit"
+msgstr[1] "cun %d ospits"
+
+#: ../src/calendar/gui/comp-util.c:1546
+#, c-format
+msgid "Comments: %s"
+msgstr "Coments: %s"
 
 #: ../src/calendar/gui/ea-cal-view.c:281
 msgid "New Appointment"
@@ -6596,8 +6622,8 @@ msgid "Due Date:"
 msgstr "Date di scjadince:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:298
-#: ../src/modules/itip-formatter/itip-view.c:1681
-#: ../src/modules/itip-formatter/itip-view.c:1798
+#: ../src/modules/itip-formatter/itip-view.c:1684
+#: ../src/modules/itip-formatter/itip-view.c:1801
 msgid "Status:"
 msgstr "Stât:"
 
@@ -6605,9 +6631,9 @@ msgstr "Stât:"
 #: ../src/calendar/gui/e-cal-model-tasks.c:310
 #: ../src/calendar/gui/e-cal-model-tasks.c:552
 #: ../src/calendar/gui/e-cal-model-tasks.c:633
-#: ../src/calendar/gui/e-task-table.c:205
-#: ../src/calendar/gui/e-task-table.c:220
-#: ../src/calendar/gui/e-task-table.c:632 ../src/calendar/gui/print.c:3590
+#: ../src/calendar/gui/e-task-table.c:206
+#: ../src/calendar/gui/e-task-table.c:221
+#: ../src/calendar/gui/e-task-table.c:633 ../src/calendar/gui/print.c:3580
 msgid "In Progress"
 msgstr "In cors"
 
@@ -6616,9 +6642,9 @@ msgstr "In cors"
 #: ../src/calendar/gui/e-cal-model-tasks.c:554
 #: ../src/calendar/gui/e-meeting-store.c:202
 #: ../src/calendar/gui/e-meeting-store.c:225
-#: ../src/calendar/gui/e-task-table.c:207
-#: ../src/calendar/gui/e-task-table.c:222
-#: ../src/calendar/gui/e-task-table.c:633 ../src/calendar/gui/print.c:3593
+#: ../src/calendar/gui/e-task-table.c:208
+#: ../src/calendar/gui/e-task-table.c:223
+#: ../src/calendar/gui/e-task-table.c:634 ../src/calendar/gui/print.c:3583
 #: ../src/calendar/gui/tasktypes.xml.in.h:13
 #: ../src/plugins/save-calendar/csv-format.c:377
 msgid "Completed"
@@ -6627,9 +6653,9 @@ msgstr "Completât"
 #: ../src/calendar/gui/e-cal-component-preview.c:312
 #: ../src/calendar/gui/e-cal-model-tasks.c:308
 #: ../src/calendar/gui/e-cal-model-tasks.c:550
-#: ../src/calendar/gui/e-task-table.c:203
-#: ../src/calendar/gui/e-task-table.c:218
-#: ../src/calendar/gui/e-task-table.c:631 ../src/calendar/gui/print.c:3587
+#: ../src/calendar/gui/e-task-table.c:204
+#: ../src/calendar/gui/e-task-table.c:219
+#: ../src/calendar/gui/e-task-table.c:632 ../src/calendar/gui/print.c:3577
 #: ../src/calendar/gui/tasktypes.xml.in.h:11
 msgid "Not Started"
 msgstr "No tacât"
@@ -6639,7 +6665,7 @@ msgid "Priority:"
 msgstr "Prioritât:"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:327
-#: ../src/calendar/gui/e-task-table.c:548
+#: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:327
 msgid "High"
@@ -6647,14 +6673,14 @@ msgstr "Alte"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:329
 #: ../src/calendar/gui/e-cal-model.c:1890
-#: ../src/calendar/gui/e-task-table.c:549
+#: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:326
 msgid "Normal"
 msgstr "Normâl"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:331
-#: ../src/calendar/gui/e-task-table.c:550
+#: ../src/calendar/gui/e-task-table.c:551
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:325
 msgid "Low"
@@ -6864,7 +6890,7 @@ msgstr "Daûr a tacâ dâts iCalendar"
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #: ../src/calendar/gui/e-calendar-view.c:1831
 #: ../src/calendar/gui/e-memo-table.c:493
-#: ../src/calendar/gui/e-task-table.c:818
+#: ../src/calendar/gui/e-task-table.c:819
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizadôr: %s <%s>"
@@ -6874,7 +6900,7 @@ msgstr "Organizadôr: %s <%s>"
 #. * organizer.value.
 #: ../src/calendar/gui/e-calendar-view.c:1835
 #: ../src/calendar/gui/e-memo-table.c:498
-#: ../src/calendar/gui/e-task-table.c:822
+#: ../src/calendar/gui/e-task-table.c:823
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizadôr: %s"
@@ -6883,7 +6909,7 @@ msgstr "Organizadôr: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:1851
 #: ../src/calendar/gui/e-meeting-time-sel.c:2671
-#: ../src/calendar/gui/e-to-do-pane.c:346 ../src/calendar/gui/print.c:3541
+#: ../src/calendar/gui/e-to-do-pane.c:346 ../src/calendar/gui/print.c:3531
 #, c-format
 msgid "Location: %s"
 msgstr "Ubicazion: %s"
@@ -6896,10 +6922,10 @@ msgstr "Ubicazion: %s"
 msgid "Time: %s %s"
 msgstr "Date e ore: %s %s"
 
-#: ../src/calendar/gui/e-calendar-view.c:2277
-#: ../src/calendar/gui/e-calendar-view.c:2284
-#: ../src/calendar/gui/e-calendar-view.c:2291
-#: ../src/calendar/gui/e-calendar-view.c:2294
+#: ../src/calendar/gui/e-calendar-view.c:2288
+#: ../src/calendar/gui/e-calendar-view.c:2295
+#: ../src/calendar/gui/e-calendar-view.c:2302
+#: ../src/calendar/gui/e-calendar-view.c:2305
 msgid "%d %b %Y"
 msgstr "%e di %B dal %Y"
 
@@ -6908,14 +6934,14 @@ msgstr "%e di %B dal %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:2282
+#: ../src/calendar/gui/e-calendar-view.c:2293
 #: ../src/calendar/gui/e-day-view.c:3104
 #: ../src/calendar/gui/e-day-view-top-item.c:865
 #: ../src/calendar/gui/e-week-view-main-item.c:228
 msgid "%d %b"
 msgstr "%e di %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:2304
+#: ../src/calendar/gui/e-calendar-view.c:2315
 msgid "%A %d %b %Y"
 msgstr "%A, %e di %b dal %Y"
 
@@ -6925,16 +6951,16 @@ msgstr "%A, %e di %b dal %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:2308
+#: ../src/calendar/gui/e-calendar-view.c:2319
 #: ../src/calendar/gui/e-day-view.c:3088
 #: ../src/calendar/gui/e-day-view-top-item.c:861
 #: ../src/calendar/gui/e-week-view-main-item.c:214
 msgid "%a %d %b"
 msgstr "%a, %e di %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:2311
-#: ../src/calendar/gui/e-calendar-view.c:2317
-#: ../src/calendar/gui/e-calendar-view.c:2320
+#: ../src/calendar/gui/e-calendar-view.c:2322
+#: ../src/calendar/gui/e-calendar-view.c:2328
+#: ../src/calendar/gui/e-calendar-view.c:2331
 msgid "%a %d %b %Y"
 msgstr "%a, %e di %b dal %Y"
 
@@ -6972,10 +6998,10 @@ msgstr "Sorzint"
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:132
 #: ../src/calendar/gui/e-meeting-store.c:167
-#: ../src/calendar/gui/e-meeting-store.c:230 ../src/calendar/gui/print.c:1257
-#: ../src/calendar/gui/print.c:1274 ../src/e-util/e-charset.c:49
-#: ../src/modules/itip-formatter/itip-view.c:3412
-#: ../src/modules/itip-formatter/itip-view.c:6154
+#: ../src/calendar/gui/e-meeting-store.c:230 ../src/calendar/gui/print.c:1247
+#: ../src/calendar/gui/print.c:1264 ../src/e-util/e-charset.c:49
+#: ../src/modules/itip-formatter/itip-view.c:3559
+#: ../src/modules/itip-formatter/itip-view.c:6301
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "No cognossût"
@@ -7030,7 +7056,7 @@ msgstr "No"
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
-#: ../src/modules/itip-formatter/itip-view.c:6142
+#: ../src/modules/itip-formatter/itip-view.c:6289
 msgid "Accepted"
 msgstr "Acetât"
 
@@ -7038,7 +7064,7 @@ msgstr "Acetât"
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
-#: ../src/modules/itip-formatter/itip-view.c:6148
+#: ../src/modules/itip-formatter/itip-view.c:6295
 msgid "Declined"
 msgstr "Ricusât"
 
@@ -7054,7 +7080,7 @@ msgstr "Provisori"
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
-#: ../src/modules/itip-formatter/itip-view.c:6151
+#: ../src/modules/itip-formatter/itip-view.c:6298
 msgid "Delegated"
 msgstr "Delegât"
 
@@ -7075,13 +7101,13 @@ msgid "Status"
 msgstr "Stât"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:148
-#: ../src/calendar/gui/e-task-table.c:606
+#: ../src/calendar/gui/e-task-table.c:607
 msgid "Free"
 msgstr "Libar"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:151
 #: ../src/calendar/gui/e-meeting-time-sel.c:524
-#: ../src/calendar/gui/e-task-table.c:607
+#: ../src/calendar/gui/e-task-table.c:608
 msgid "Busy"
 msgstr "Impegnât"
 
@@ -7323,12 +7349,13 @@ msgstr "La ore di inizi no je valide"
 #: ../src/calendar/gui/e-comp-editor.c:338
 #: ../src/em-format/e-mail-part-secure-button.c:93
 #: ../src/e-util/e-misc-utils.c:4136 ../src/e-util/e-misc-utils.c:4148
-#: ../src/e-util/e-misc-utils.c:4162 ../src/mail/e-mail-display.c:2191
-#: ../src/mail/e-mail-reader-utils.c:806 ../src/mail/mail-send-recv.c:569
-#: ../src/mail/mail-send-recv.c:1422
+#: ../src/e-util/e-misc-utils.c:4162 ../src/mail/e-mail-autoconfig.c:893
+#: ../src/mail/e-mail-display.c:2191 ../src/mail/e-mail-reader-utils.c:806
+#: ../src/mail/mail-send-recv.c:569 ../src/mail/mail-send-recv.c:1422
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:174 ../src/shell/e-shell.c:1073
 #: ../src/shell/e-shell.c:1097 ../src/smime/gui/certificate-manager.c:357
+#, c-format
 msgid "Unknown error"
 msgstr "Erôr no cognossût"
 
@@ -8316,7 +8343,7 @@ msgstr "Siere il barcon atuâl"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:1991 ../src/e-util/e-focus-tracker.c:773
-#: ../src/e-util/e-html-editor-actions.c:878 ../src/e-util/e-text.c:2086
+#: ../src/e-util/e-html-editor-actions.c:878 ../src/e-util/e-text.c:2080
 #: ../src/e-util/e-web-view.c:409 ../src/mail/e-mail-browser.c:135
 #: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:838
 msgid "_Copy"
@@ -8332,7 +8359,7 @@ msgstr "Copie la selezion"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:1998 ../src/e-util/e-focus-tracker.c:768
-#: ../src/e-util/e-html-editor-actions.c:885 ../src/e-util/e-text.c:2072
+#: ../src/e-util/e-html-editor-actions.c:885 ../src/e-util/e-text.c:2066
 #: ../src/mail/e-mail-browser.c:142 ../src/shell/e-shell-window-actions.c:845
 msgid "Cu_t"
 msgstr "Ta_ie"
@@ -8356,7 +8383,7 @@ msgstr "Viôt il jutori"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2019 ../src/e-util/e-focus-tracker.c:778
-#: ../src/e-util/e-html-editor-actions.c:892 ../src/e-util/e-text.c:2098
+#: ../src/e-util/e-html-editor-actions.c:892 ../src/e-util/e-text.c:2092
 #: ../src/mail/e-mail-browser.c:149 ../src/shell/e-shell-window-actions.c:873
 msgid "_Paste"
 msgstr "_Tache"
@@ -8438,17 +8465,17 @@ msgstr "Salve i cambiaments atuâi e siere l'editôr"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/e-day-view.c:2156 ../src/calendar/gui/e-to-do-pane.c:241
-#: ../src/calendar/gui/e-week-view.c:1781 ../src/calendar/gui/print.c:1080
-#: ../src/calendar/gui/print.c:1099 ../src/calendar/gui/print.c:2636
-#: ../src/calendar/gui/print.c:2656
+#: ../src/calendar/gui/e-week-view.c:1781 ../src/calendar/gui/print.c:1070
+#: ../src/calendar/gui/print.c:1089 ../src/calendar/gui/print.c:2626
+#: ../src/calendar/gui/print.c:2646
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/e-day-view.c:2159 ../src/calendar/gui/e-to-do-pane.c:245
-#: ../src/calendar/gui/e-week-view.c:1784 ../src/calendar/gui/print.c:1085
-#: ../src/calendar/gui/print.c:1101 ../src/calendar/gui/print.c:2641
-#: ../src/calendar/gui/print.c:2658
+#: ../src/calendar/gui/e-week-view.c:1784 ../src/calendar/gui/print.c:1075
+#: ../src/calendar/gui/print.c:1091 ../src/calendar/gui/print.c:2631
+#: ../src/calendar/gui/print.c:2648
 msgid "pm"
 msgstr "pm"
 
@@ -8461,7 +8488,7 @@ msgstr "pm"
 #: ../src/calendar/gui/e-day-view.c:3071
 #: ../src/calendar/gui/e-day-view-top-item.c:857
 #: ../src/calendar/gui/e-week-view-main-item.c:205
-#: ../src/calendar/gui/print.c:2103
+#: ../src/calendar/gui/print.c:2093
 msgid "%A %d %B"
 msgstr "%A %e di %B"
 
@@ -8524,51 +8551,51 @@ msgstr "Partecipants"
 #: ../src/calendar/gui/e-meeting-list-view.c:179
 #: ../src/calendar/gui/e-meeting-store.c:107
 #: ../src/calendar/gui/e-meeting-store.c:124
-#: ../src/calendar/gui/e-meeting-store.c:1015 ../src/calendar/gui/print.c:1253
+#: ../src/calendar/gui/e-meeting-store.c:1015 ../src/calendar/gui/print.c:1243
 msgid "Individual"
 msgstr "Individuâl"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:180
 #: ../src/calendar/gui/e-meeting-store.c:109
-#: ../src/calendar/gui/e-meeting-store.c:126 ../src/calendar/gui/print.c:1254
+#: ../src/calendar/gui/e-meeting-store.c:126 ../src/calendar/gui/print.c:1244
 #: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Grup"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:181
 #: ../src/calendar/gui/e-meeting-store.c:111
-#: ../src/calendar/gui/e-meeting-store.c:128 ../src/calendar/gui/print.c:1255
+#: ../src/calendar/gui/e-meeting-store.c:128 ../src/calendar/gui/print.c:1245
 msgid "Resource"
 msgstr "Risorse"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:182
 #: ../src/calendar/gui/e-meeting-store.c:113
-#: ../src/calendar/gui/e-meeting-store.c:130 ../src/calendar/gui/print.c:1256
+#: ../src/calendar/gui/e-meeting-store.c:130 ../src/calendar/gui/print.c:1246
 msgid "Room"
 msgstr "Stanzie"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:193
 #: ../src/calendar/gui/e-meeting-store.c:142
-#: ../src/calendar/gui/e-meeting-store.c:159 ../src/calendar/gui/print.c:1270
+#: ../src/calendar/gui/e-meeting-store.c:159 ../src/calendar/gui/print.c:1260
 msgid "Chair"
 msgstr "Moderadôr"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:194
 #: ../src/calendar/gui/e-meeting-store.c:144
 #: ../src/calendar/gui/e-meeting-store.c:161
-#: ../src/calendar/gui/e-meeting-store.c:1018 ../src/calendar/gui/print.c:1271
+#: ../src/calendar/gui/e-meeting-store.c:1018 ../src/calendar/gui/print.c:1261
 msgid "Required Participant"
 msgstr "Partecipant necessari"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:195
 #: ../src/calendar/gui/e-meeting-store.c:146
-#: ../src/calendar/gui/e-meeting-store.c:163 ../src/calendar/gui/print.c:1272
+#: ../src/calendar/gui/e-meeting-store.c:163 ../src/calendar/gui/print.c:1262
 msgid "Optional Participant"
 msgstr "Partecipant opzionâl"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:148
-#: ../src/calendar/gui/e-meeting-store.c:165 ../src/calendar/gui/print.c:1273
+#: ../src/calendar/gui/e-meeting-store.c:165 ../src/calendar/gui/print.c:1263
 msgid "Non-Participant"
 msgstr "No partecipin"
 
@@ -8699,7 +8726,7 @@ msgstr ""
 "Ubicazion: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2669
-#: ../src/calendar/gui/print.c:3530
+#: ../src/calendar/gui/print.c:3520
 #, c-format
 msgid "Summary: %s"
 msgstr "Sintesi: %s"
@@ -8729,19 +8756,19 @@ msgid "Language"
 msgstr "Lenghe"
 
 #: ../src/calendar/gui/e-memo-table.c:455
-#: ../src/calendar/gui/e-task-table.c:781
+#: ../src/calendar/gui/e-task-table.c:782
 msgid "* No Summary *"
 msgstr "* Nissune sintesi *"
 
 #. Translators: This is followed by an event's start date/time
 #: ../src/calendar/gui/e-memo-table.c:540
-#: ../src/calendar/gui/e-task-table.c:863
+#: ../src/calendar/gui/e-task-table.c:864
 msgid "Start: "
 msgstr "Inizi: "
 
 #. Translators: This is followed by an event's due date/time
 #: ../src/calendar/gui/e-memo-table.c:560
-#: ../src/calendar/gui/e-task-table.c:882
+#: ../src/calendar/gui/e-task-table.c:883
 msgid "Due: "
 msgstr "Scjadince: "
 
@@ -8770,7 +8797,7 @@ msgstr "Selezione ducj i memorandums visibii"
 msgid "Click to add a memo"
 msgstr "Fâs clic par zontâ un memorandum"
 
-#: ../src/calendar/gui/e-task-table.c:551
+#: ../src/calendar/gui/e-task-table.c:552
 #: ../src/calendar/gui/tasktypes.xml.in.h:22
 #: ../src/e-util/e-send-options.ui.h:1
 msgid "Undefined"
@@ -8780,29 +8807,29 @@ msgstr "No definide"
 #. * %d is the actual value, %% is replaced with a percent sign.
 #. * Result values will be 0%, 10%, 20%, ... 100%
 #.
-#: ../src/calendar/gui/e-task-table.c:579
+#: ../src/calendar/gui/e-task-table.c:580
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../src/calendar/gui/e-task-table.c:1084
+#: ../src/calendar/gui/e-task-table.c:1096
 msgid "Cut selected tasks to the clipboard"
 msgstr "Taie lis ativitâts selezionadis intes notis"
 
-#: ../src/calendar/gui/e-task-table.c:1090
+#: ../src/calendar/gui/e-task-table.c:1102
 msgid "Copy selected tasks to the clipboard"
 msgstr "Copie lis ativitâts selezionadis intes notis"
 
-#: ../src/calendar/gui/e-task-table.c:1096
+#: ../src/calendar/gui/e-task-table.c:1108
 msgid "Paste tasks from the clipboard"
 msgstr "Tache lis ativitâts des notis"
 
-#: ../src/calendar/gui/e-task-table.c:1102
+#: ../src/calendar/gui/e-task-table.c:1114
 #: ../src/modules/calendar/e-task-shell-view-actions.c:684
 msgid "Delete selected tasks"
 msgstr "Elimine lis ativitâts selezionadis"
 
-#: ../src/calendar/gui/e-task-table.c:1108
+#: ../src/calendar/gui/e-task-table.c:1120
 msgid "Select all visible tasks"
 msgstr "Selezione dutis lis ativitâts visibilis"
 
@@ -8864,14 +8891,14 @@ msgstr "Completade: %s"
 #: ../src/calendar/gui/e-to-do-pane.c:1424 ../src/e-util/e-cell-date-edit.c:328
 #: ../src/e-util/e-datetime-format.c:206
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1842
-#: ../src/modules/itip-formatter/itip-view.c:253
+#: ../src/modules/itip-formatter/itip-view.c:254
 msgid "Today"
 msgstr "Vuê"
 
 #. strftime format of a weekday and a date.
 #: ../src/calendar/gui/e-to-do-pane.c:1426
 #: ../src/e-util/e-datetime-format.c:217
-#: ../src/modules/itip-formatter/itip-view.c:281
+#: ../src/modules/itip-formatter/itip-view.c:282
 msgid "Tomorrow"
 msgstr "Doman"
 
@@ -8925,7 +8952,7 @@ msgstr "Di fâ"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:222
-#: ../src/calendar/gui/print.c:2082
+#: ../src/calendar/gui/print.c:2072
 msgid "%d %B"
 msgstr "%e di %B"
 
@@ -9063,242 +9090,118 @@ msgstr "Daûr a inviâ un memorandum"
 msgid "Sending a task"
 msgstr "Daûr a inviâ une ativitât"
 
-#: ../src/calendar/gui/print.c:665
-msgid "1st"
-msgstr "1ⁿ"
-
-#: ../src/calendar/gui/print.c:665
-msgid "2nd"
-msgstr "2"
-
-#: ../src/calendar/gui/print.c:665
-msgid "3rd"
-msgstr "3"
-
-#: ../src/calendar/gui/print.c:665
-msgid "4th"
-msgstr "4"
-
-#: ../src/calendar/gui/print.c:665
-msgid "5th"
-msgstr "5"
-
-#: ../src/calendar/gui/print.c:666
-msgid "6th"
-msgstr "6"
-
-#: ../src/calendar/gui/print.c:666
-msgid "7th"
-msgstr "7"
-
-#: ../src/calendar/gui/print.c:666
-msgid "8th"
-msgstr "8"
-
-#: ../src/calendar/gui/print.c:666
-msgid "9th"
-msgstr "9"
-
-#: ../src/calendar/gui/print.c:666
-msgid "10th"
-msgstr "10"
-
-#: ../src/calendar/gui/print.c:667
-msgid "11th"
-msgstr "11"
-
-#: ../src/calendar/gui/print.c:667
-msgid "12th"
-msgstr "12"
-
-#: ../src/calendar/gui/print.c:667
-msgid "13th"
-msgstr "13"
-
-#: ../src/calendar/gui/print.c:667
-msgid "14th"
-msgstr "14"
-
-#: ../src/calendar/gui/print.c:667
-msgid "15th"
-msgstr "15"
-
-#: ../src/calendar/gui/print.c:668
-msgid "16th"
-msgstr "16"
-
-#: ../src/calendar/gui/print.c:668
-msgid "17th"
-msgstr "17"
-
-#: ../src/calendar/gui/print.c:668
-msgid "18th"
-msgstr "18"
-
-#: ../src/calendar/gui/print.c:668
-msgid "19th"
-msgstr "19"
-
-#: ../src/calendar/gui/print.c:668
-msgid "20th"
-msgstr "20"
-
-#: ../src/calendar/gui/print.c:669
-msgid "21st"
-msgstr "21"
-
-#: ../src/calendar/gui/print.c:669
-msgid "22nd"
-msgstr "22"
-
-#: ../src/calendar/gui/print.c:669
-msgid "23rd"
-msgstr "23"
-
-#: ../src/calendar/gui/print.c:669
-msgid "24th"
-msgstr "24"
-
-#: ../src/calendar/gui/print.c:669
-msgid "25th"
-msgstr "25"
-
-#: ../src/calendar/gui/print.c:670
-msgid "26th"
-msgstr "26"
-
-#: ../src/calendar/gui/print.c:670
-msgid "27th"
-msgstr "27"
-
-#: ../src/calendar/gui/print.c:670
-msgid "28th"
-msgstr "28"
-
-#: ../src/calendar/gui/print.c:670
-msgid "29th"
-msgstr "29"
-
-#: ../src/calendar/gui/print.c:670
-msgid "30th"
-msgstr "30"
-
-#: ../src/calendar/gui/print.c:671
-msgid "31st"
-msgstr "31"
-
 #. G_DATE_BAD_WEEKDAY
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
 #. G_DATE_MONDAY
-#: ../src/calendar/gui/print.c:731
+#: ../src/calendar/gui/print.c:721
 msgid "Mo"
 msgstr "Lu"
 
 #. G_DATE_TUESDAY
-#: ../src/calendar/gui/print.c:732
+#: ../src/calendar/gui/print.c:722
 msgid "Tu"
 msgstr "Ma"
 
 #. G_DATE_WEDNESDAY
-#: ../src/calendar/gui/print.c:733
+#: ../src/calendar/gui/print.c:723
 msgid "We"
 msgstr "Mi"
 
 #. G_DATE_THURSDAY
-#: ../src/calendar/gui/print.c:734
+#: ../src/calendar/gui/print.c:724
 msgid "Th"
 msgstr "Jo"
 
 #. G_DATE_FRIDAY
-#: ../src/calendar/gui/print.c:735
+#: ../src/calendar/gui/print.c:725
 msgid "Fr"
 msgstr "Vi"
 
 #. G_DATE_SATURDAY
-#: ../src/calendar/gui/print.c:736
+#: ../src/calendar/gui/print.c:726
 msgid "Sa"
 msgstr "Sa"
 
 #. G_DATE_SUNDAY
-#: ../src/calendar/gui/print.c:737
+#: ../src/calendar/gui/print.c:727
 msgid "Su"
 msgstr "Do"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../src/calendar/gui/print.c:3323
+#: ../src/calendar/gui/print.c:3313
 msgid " to "
 msgstr " a "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../src/calendar/gui/print.c:3333
+#: ../src/calendar/gui/print.c:3323
 msgid " (Completed "
 msgstr " (Completât "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../src/calendar/gui/print.c:3339
+#: ../src/calendar/gui/print.c:3329
 msgid "Completed "
 msgstr "Completât "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../src/calendar/gui/print.c:3349
+#: ../src/calendar/gui/print.c:3339
 msgid " (Due "
 msgstr " (Scjadince "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../src/calendar/gui/print.c:3356
+#: ../src/calendar/gui/print.c:3346
 msgid "Due "
 msgstr "Scjadince "
 
-#: ../src/calendar/gui/print.c:3500
+#: ../src/calendar/gui/print.c:3490
 msgid "Appointment"
 msgstr "Apontament"
 
-#: ../src/calendar/gui/print.c:3502 ../src/e-util/e-send-options.c:551
+#: ../src/calendar/gui/print.c:3492 ../src/e-util/e-send-options.c:551
 msgid "Task"
 msgstr "Ativitât"
 
-#: ../src/calendar/gui/print.c:3504
+#: ../src/calendar/gui/print.c:3494
 msgid "Memo"
 msgstr "Promemorie"
 
-#: ../src/calendar/gui/print.c:3560
+#: ../src/calendar/gui/print.c:3550
 msgid "Attendees: "
 msgstr "Partecipants: "
 
-#: ../src/calendar/gui/print.c:3604
+#: ../src/calendar/gui/print.c:3594
 #, c-format
 msgid "Status: %s"
 msgstr "Stât: %s"
 
-#: ../src/calendar/gui/print.c:3620
+#: ../src/calendar/gui/print.c:3610
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritât: %s"
 
-#: ../src/calendar/gui/print.c:3638
+#: ../src/calendar/gui/print.c:3628
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Percentuâl completade: %i"
 
-#: ../src/calendar/gui/print.c:3652
+#: ../src/calendar/gui/print.c:3642
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../src/calendar/gui/print.c:3666
+#: ../src/calendar/gui/print.c:3656
 #, c-format
 msgid "Categories: %s"
 msgstr "Categoriis: %s"
 
-#: ../src/calendar/gui/print.c:3677
+#: ../src/calendar/gui/print.c:3667
 msgid "Contacts: "
 msgstr "Contats: "
 
@@ -12142,7 +12045,7 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completade)"
 
 #: ../src/e-util/e-activity-proxy.c:350
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1851
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1849
 msgid "Cancel"
 msgstr "Anule"
 
@@ -12316,8 +12219,8 @@ msgstr "_Zonte zonte..."
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1316
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1645
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1716
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1643
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1714
 msgid "_Properties"
 msgstr "_Proprietâts"
 
@@ -15435,11 +15338,11 @@ msgstr "_Ordene par"
 msgid "_Custom"
 msgstr "_Personalize"
 
-#: ../src/e-util/e-text.c:2111
+#: ../src/e-util/e-text.c:2105
 msgid "Select All"
 msgstr "Selezione Dut"
 
-#: ../src/e-util/e-text.c:2124
+#: ../src/e-util/e-text.c:2118
 msgid "Input Methods"
 msgstr "Metodis di input"
 
@@ -15632,8 +15535,8 @@ msgstr "Cree colezio_n"
 #. webdav_browser->priv->permissions_button = widget;
 #: ../src/e-util/e-webdav-browser.c:2699
 #: ../src/mail/em-subscription-editor.c:1948
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1652
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1723
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1650
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1721
 msgid "_Refresh"
 msgstr "_Inzorne"
 
@@ -15973,27 +15876,6 @@ msgstr "Impussibil cjariâ la firme."
 msgid "Could not save signature."
 msgstr "Impussibil salvâ la firme."
 
-#: ../src/libemail-engine/camel-sasl-oauth2-google.c:27
-msgid "OAuth2 Google"
-msgstr "OAuth2 Google"
-
-#: ../src/libemail-engine/camel-sasl-oauth2-google.c:28
-msgid ""
-"This option will use an OAuth 2.0 access token to connect to the Google "
-"server"
-msgstr ""
-"Cheste opzion e doprarà un token di acès OAuth 2.0 par conetisi al servidôr "
-"di Google"
-
-#: ../src/libemail-engine/camel-sasl-xoauth2.c:27
-msgid "OAuth2"
-msgstr "OAuth2"
-
-#: ../src/libemail-engine/camel-sasl-xoauth2.c:28
-msgid "This option will use an OAuth 2.0 access token to connect to the server"
-msgstr ""
-"Cheste opzion e doprarà un token di acès OAuth 2.0 par conetisi al servidôr"
-
 #: ../src/libemail-engine/e-mail-folder-utils.c:106
 #, c-format
 msgid "Saving message to folder “%s”"
@@ -16046,7 +15928,7 @@ msgid "Invalid folder URI “%s”"
 msgstr "URI cartele “%s” no valit"
 
 #. Some local folders
-#: ../src/libemail-engine/e-mail-session.c:125
+#: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/em-folder-properties.c:1150
 #: ../src/mail/em-folder-tree-model.c:1237
 #: ../src/mail/importers/kmail-libs.c:139
@@ -16056,7 +15938,7 @@ msgid "Inbox"
 msgstr "In jentrade"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../src/libemail-engine/e-mail-session.c:126
+#: ../src/libemail-engine/e-mail-session.c:122
 #: ../src/mail/em-folder-tree-model.c:1230
 #: ../src/mail/importers/kmail-libs.c:145
 #: ../src/modules/mail/e-mail-shell-view-private.c:1033
@@ -16064,7 +15946,7 @@ msgid "Drafts"
 msgstr "Stampons"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../src/libemail-engine/e-mail-session.c:127
+#: ../src/libemail-engine/e-mail-session.c:123
 #: ../src/mail/em-folder-tree-model.c:1241
 #: ../src/mail/importers/kmail-libs.c:141
 #: ../src/modules/mail/e-mail-shell-view-private.c:1037
@@ -16072,7 +15954,7 @@ msgid "Outbox"
 msgstr "In jessude"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../src/libemail-engine/e-mail-session.c:128
+#: ../src/libemail-engine/e-mail-session.c:124
 #: ../src/mail/em-folder-tree-model.c:1245
 #: ../src/mail/importers/kmail-libs.c:143
 #: ../src/modules/mail/e-mail-shell-view-private.c:1039
@@ -16080,7 +15962,7 @@ msgid "Sent"
 msgstr "Inviade"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../src/libemail-engine/e-mail-session.c:129
+#: ../src/libemail-engine/e-mail-session.c:125
 #: ../src/mail/em-folder-tree-model.c:1233
 #: ../src/mail/importers/kmail-libs.c:147
 #: ../src/modules/mail/e-mail-shell-view-private.c:1041
@@ -16089,12 +15971,12 @@ msgstr "Inviade"
 msgid "Templates"
 msgstr "Modei"
 
-#: ../src/libemail-engine/e-mail-session.c:1332
+#: ../src/libemail-engine/e-mail-session.c:1297
 #, c-format
 msgid "User cancelled operation"
 msgstr "Operazion anulade dal utent"
 
-#: ../src/libemail-engine/e-mail-session.c:1389
+#: ../src/libemail-engine/e-mail-session.c:1354
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -16103,14 +15985,19 @@ msgstr ""
 "Nissune direzion di destinazion furnide, il mandâ indenant dal messaç al è "
 "stât anulât."
 
-#: ../src/libemail-engine/e-mail-session.c:1402
+#: ../src/libemail-engine/e-mail-session.c:1367
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "No si à cjatât nissune identitât di doprâ, il mandâ indenant dal messaç al è "
 "stât anulât."
 
-#: ../src/libemail-engine/e-mail-session.c:2444
+#: ../src/libemail-engine/e-mail-session.c:1519
+#, c-format
+msgid "Corresponding source for service with UID “%s” not found"
+msgstr "Sorzint corispondente pal servizi cun UID “%s” no cjatade"
+
+#: ../src/libemail-engine/e-mail-session.c:2460
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "In spiete di “%s”"
@@ -16392,19 +16279,19 @@ msgstr "Nissune direzion e-mail furnide"
 msgid "Missing domain in email address"
 msgstr "Al mancje il domini te direzion e-mail"
 
-#: ../src/mail/e-mail-autoconfig.c:1167
+#: ../src/mail/e-mail-autoconfig.c:1169
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
 msgid "IMAP server"
 msgstr "Servidôr IMAP"
 
-#: ../src/mail/e-mail-autoconfig.c:1174
+#: ../src/mail/e-mail-autoconfig.c:1176
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
 msgid "POP3 server"
 msgstr "Servidôr POP3"
 
-#: ../src/mail/e-mail-autoconfig.c:1181
+#: ../src/mail/e-mail-autoconfig.c:1183
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
 msgid "SMTP server"
 msgstr "Servidôr SMTP"
@@ -16437,11 +16324,11 @@ msgstr "Assistent ai account di Evolution"
 msgid "_Revise Details"
 msgstr "_Riviôt detais"
 
-#: ../src/mail/e-mail-config-auth-check.c:178
+#: ../src/mail/e-mail-config-auth-check.c:180
 msgid "Querying authentication types..."
 msgstr "Interogazion gjenars di autenticazion..."
 
-#: ../src/mail/e-mail-config-auth-check.c:341
+#: ../src/mail/e-mail-config-auth-check.c:393
 msgid "Check for Supported Types"
 msgstr "Verifiche gjenars supuartâts"
 
@@ -17061,7 +16948,7 @@ msgstr "Plui _tart"
 
 #: ../src/mail/e-mail-label-manager.c:169
 #: ../src/mail/em-folder-properties.c:842
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1245
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1243
 msgid "Add Label"
 msgstr "Zonte etichete"
 
@@ -17990,11 +17877,11 @@ msgid "an unknown sender"
 msgstr "un mitent no cognossût"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:3735
+#: ../src/mail/em-composer-utils.c:3741
 msgid "Posting destination"
 msgstr "Destinazion di publicazion"
 
-#: ../src/mail/em-composer-utils.c:3740
+#: ../src/mail/em-composer-utils.c:3746
 msgid "Choose folders to post the message to."
 msgstr "Sielzi lis cartelis dulà publicâ il messaç."
 
@@ -18245,7 +18132,7 @@ msgstr "Sotscrîf _a ducj"
 
 #: ../src/mail/em-subscription-editor.c:935
 #: ../src/mail/em-subscription-editor.c:1886 ../src/mail/mail.error.xml.h:73
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1751
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1749
 msgid "_Unsubscribe"
 msgstr "_Anule sotscrizion"
 
@@ -18301,7 +18188,7 @@ msgid "Su_bscribe"
 msgstr "So_tscrîf"
 
 #: ../src/mail/em-subscription-editor.c:1885
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1753
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1751
 msgid "Unsubscribe from the selected folder"
 msgstr "Anule la sotscrizion ae cartele selezionade"
 
@@ -19586,7 +19473,7 @@ msgstr ""
 "Sigûrs di gjavâ par simpri ducj i messaçs eliminâts in dutis lis cartelis?"
 
 #: ../src/mail/mail.error.xml.h:42
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1631
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1629
 msgid "_Empty Trash"
 msgstr "Dis_vuede scovacere"
 
@@ -20430,14 +20317,14 @@ msgstr "Plui alte"
 msgid "Highest"
 msgstr "La plui alte"
 
-#: ../src/mail/message-list.c:478 ../src/mail/message-list.c:6510
+#: ../src/mail/message-list.c:478 ../src/mail/message-list.c:6508
 msgid "Generating message list"
 msgstr "Daûr a gjenerâ liste messaçs"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
 #: ../src/mail/message-list.c:2117
-#: ../src/modules/itip-formatter/itip-view.c:267
+#: ../src/modules/itip-formatter/itip-view.c:268
 msgid "Today %l:%M %p"
 msgstr "Vuê %l:%M %p"
 
@@ -20470,7 +20357,7 @@ msgstr "Messaçs"
 msgid "Follow-up"
 msgstr "Di completâ"
 
-#: ../src/mail/message-list.c:6449
+#: ../src/mail/message-list.c:6447
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20482,7 +20369,7 @@ msgstr ""
 "eseguint une gnove ricercje netant cun la vôs tal menù Cîr→Nete o modificant "
 "la interogazion precedente."
 
-#: ../src/mail/message-list.c:6457
+#: ../src/mail/message-list.c:6455
 msgid "There are no messages in this folder."
 msgstr "In cheste cartele no'ndi son messaçs."
 
@@ -20537,32 +20424,32 @@ msgid "Subject or Addresses contains"
 msgstr "Ogjet o Direzions a contegnin"
 
 #: ../src/mail/searchtypes.xml.in.h:58
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2179
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2177
 msgid "Recipients contain"
 msgstr "Destinataris al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:59
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2172
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2170
 msgid "Message contains"
 msgstr "Messaç al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:60
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2193
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2191
 msgid "Subject contains"
 msgstr "Ogjet al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:61
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2186
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2184
 msgid "Sender contains"
 msgstr "Mitent al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:62
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2158
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2156
 msgid "Body contains"
 msgstr "Cuarp al ten"
 
 #: ../src/mail/searchtypes.xml.in.h:63
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2165
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2163
 msgid "Free form expression"
 msgstr "Forme libare di espression"
 
@@ -20797,7 +20684,7 @@ msgstr "Mostre une mape cun ducj i contats de rubriche selezionade"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1337
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:619
 #: ../src/modules/calendar/e-task-shell-view-actions.c:745
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1730
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1728
 msgid "_Rename..."
 msgstr "_Cambie non..."
 
@@ -20878,7 +20765,7 @@ msgstr "A_zions"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1084
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:663
 #: ../src/modules/calendar/e-task-shell-view-actions.c:817
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1902
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1900
 msgid "_Preview"
 msgstr "Ante_prime"
 
@@ -20912,7 +20799,7 @@ msgstr "Mostre lis mapis tal barcon di anteprime dai contats"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1170
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:741
 #: ../src/modules/calendar/e-task-shell-view-actions.c:907
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2060
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2058
 msgid "_Classic View"
 msgstr "Viodude _classiche"
 
@@ -20923,7 +20810,7 @@ msgstr "Mostre la anteprime dal contat sot de liste dai contats"
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1177
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:748
 #: ../src/modules/calendar/e-task-shell-view-actions.c:914
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2067
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2065
 msgid "_Vertical View"
 msgstr "Viodude _verticâl"
 
@@ -20942,7 +20829,7 @@ msgstr "No corispondents"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1706
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 #: ../src/modules/calendar/e-task-shell-view-actions.c:976
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2151
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2149
 #: ../src/shell/e-shell-content.c:637
 msgid "Advanced Search"
 msgstr "Ricercje avanzade"
@@ -21434,17 +21321,17 @@ msgid "URL is not a valid http:// nor https:// URL"
 msgstr "Il URL nol è un valit URL http:// o https://"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:110
-#: ../src/modules/cal-config-google/e-google-chooser-button.c:225
+#: ../src/modules/cal-config-google/e-google-chooser-button.c:226
 msgid "Choose a Calendar"
 msgstr "Sielç un calendari"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:114
-#: ../src/modules/cal-config-google/e-google-chooser-button.c:229
+#: ../src/modules/cal-config-google/e-google-chooser-button.c:230
 msgid "Choose a Memo List"
 msgstr "Sielç une liste memorandum"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:118
-#: ../src/modules/cal-config-google/e-google-chooser-button.c:233
+#: ../src/modules/cal-config-google/e-google-chooser-button.c:234
 msgid "Choose a Task List"
 msgstr "Sielç une liste di ativitâts"
 
@@ -21480,7 +21367,7 @@ msgstr "Doprâ tal calendari «Compleans e aniversaris»"
 msgid "Enable Calendars to synchronize"
 msgstr "Abilite Calendaris ae sincronizazion"
 
-#: ../src/modules/cal-config-google/e-google-chooser-button.c:144
+#: ../src/modules/cal-config-google/e-google-chooser-button.c:145
 msgid "Default User Calendar"
 msgstr "Calendari utent predefinît"
 
@@ -22805,201 +22692,201 @@ msgstr "Mostre part come un invît"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:258
+#: ../src/modules/itip-formatter/itip-view.c:259
 msgid "Today %H:%M"
 msgstr "Vuê aes %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:262
+#: ../src/modules/itip-formatter/itip-view.c:263
 msgid "Today %H:%M:%S"
 msgstr "Vuê aes %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:271
+#: ../src/modules/itip-formatter/itip-view.c:272
 msgid "Today %l:%M:%S %p"
 msgstr "Vuê aes %l:%M:%S %p"
 
 #. strftime format of a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:286
+#: ../src/modules/itip-formatter/itip-view.c:287
 msgid "Tomorrow %H:%M"
 msgstr "Doman aes %H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:290
+#: ../src/modules/itip-formatter/itip-view.c:291
 msgid "Tomorrow %H:%M:%S"
 msgstr "Doman aes %H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:295
+#: ../src/modules/itip-formatter/itip-view.c:296
 msgid "Tomorrow %l:%M %p"
 msgstr "Doman aes %l:%M %p"
 
 #. strftime format of a time,
 #. * in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:299
+#: ../src/modules/itip-formatter/itip-view.c:300
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "Doman aes %l:%M:%S %p"
 
 #. strftime format of a weekday.
-#: ../src/modules/itip-formatter/itip-view.c:318
+#: ../src/modules/itip-formatter/itip-view.c:319
 #, c-format
 msgid "%A"
 msgstr "%A"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:323
+#: ../src/modules/itip-formatter/itip-view.c:324
 msgid "%A %H:%M"
 msgstr "%A aes %H:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:327
+#: ../src/modules/itip-formatter/itip-view.c:328
 msgid "%A %H:%M:%S"
 msgstr "%A aes %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:332
+#: ../src/modules/itip-formatter/itip-view.c:333
 msgid "%A %l:%M %p"
 msgstr "%A aes %l:%M %p"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:336
+#: ../src/modules/itip-formatter/itip-view.c:337
 msgid "%A %l:%M:%S %p"
 msgstr "%A aes %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. * without a year.
-#: ../src/modules/itip-formatter/itip-view.c:345
+#: ../src/modules/itip-formatter/itip-view.c:346
 msgid "%A, %B %e"
 msgstr "%A, %e di %B"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:351
+#: ../src/modules/itip-formatter/itip-view.c:352
 msgid "%A, %B %e %H:%M"
 msgstr "%A, %e di %B aes %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:355
+#: ../src/modules/itip-formatter/itip-view.c:356
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A, %e di %B aes %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:360
+#: ../src/modules/itip-formatter/itip-view.c:361
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A, %e di %B aes %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:364
+#: ../src/modules/itip-formatter/itip-view.c:365
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A, %e di %B aes %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../src/modules/itip-formatter/itip-view.c:370
+#: ../src/modules/itip-formatter/itip-view.c:371
 msgid "%A, %B %e, %Y"
 msgstr "%A, %e di %B dal %Y"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:375
+#: ../src/modules/itip-formatter/itip-view.c:376
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A, %e di %B dal %Y aes %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:379
+#: ../src/modules/itip-formatter/itip-view.c:380
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A, %e di %B dal %Y aes %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
-#: ../src/modules/itip-formatter/itip-view.c:384
+#: ../src/modules/itip-formatter/itip-view.c:385
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A, %e di %B dal %Y aes %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
-#: ../src/modules/itip-formatter/itip-view.c:388
+#: ../src/modules/itip-formatter/itip-view.c:389
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %e di %B dal %Y aes %l:%M:%S %p"
 
-#: ../src/modules/itip-formatter/itip-view.c:426
 #: ../src/modules/itip-formatter/itip-view.c:427
-#: ../src/modules/itip-formatter/itip-view.c:516
+#: ../src/modules/itip-formatter/itip-view.c:428
 #: ../src/modules/itip-formatter/itip-view.c:517
-#: ../src/modules/itip-formatter/itip-view.c:606
+#: ../src/modules/itip-formatter/itip-view.c:518
+#: ../src/modules/itip-formatter/itip-view.c:607
 msgid "An unknown person"
 msgstr "Une persone no cognossude"
 
-#: ../src/modules/itip-formatter/itip-view.c:431
-#: ../src/modules/itip-formatter/itip-view.c:521
-#: ../src/modules/itip-formatter/itip-view.c:610
+#: ../src/modules/itip-formatter/itip-view.c:432
+#: ../src/modules/itip-formatter/itip-view.c:522
+#: ../src/modules/itip-formatter/itip-view.c:611
 #, c-format
 msgid "Please respond on behalf of %s"
 msgstr "Rispuint par cont di %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:433
-#: ../src/modules/itip-formatter/itip-view.c:523
-#: ../src/modules/itip-formatter/itip-view.c:612
+#: ../src/modules/itip-formatter/itip-view.c:434
+#: ../src/modules/itip-formatter/itip-view.c:524
+#: ../src/modules/itip-formatter/itip-view.c:613
 #, c-format
 msgid "Received on behalf of %s"
 msgstr "Ricevût par cont di %s"
 
 # cui publichial? M o F?
-#: ../src/modules/itip-formatter/itip-view.c:438
+#: ../src/modules/itip-formatter/itip-view.c:439
 #, c-format
 msgid "%s through %s has published the following meeting information:"
 msgstr ""
 "%s midiant di %s al à publicât lis informazions su la riunion chi daurman:"
 
 # cui? M o F?
-#: ../src/modules/itip-formatter/itip-view.c:440
+#: ../src/modules/itip-formatter/itip-view.c:441
 #, c-format
 msgid "%s has published the following meeting information:"
 msgstr "A son stadis publicadis di %s chestis informazions su la riunion:"
 
-#: ../src/modules/itip-formatter/itip-view.c:445
+#: ../src/modules/itip-formatter/itip-view.c:446
 #, c-format
 msgid "%s has delegated the following meeting to you:"
 msgstr "%s Us à delegât la riunion chi daurman:"
 
 # cui domandial? M o F?
-#: ../src/modules/itip-formatter/itip-view.c:448
+#: ../src/modules/itip-formatter/itip-view.c:449
 #, c-format
 msgid "%s through %s requests your presence at the following meeting:"
 msgstr "%s midiant di %s al domande la tô presince ae riunion chi daurman:"
 
 # cui domandial? M o F?
-#: ../src/modules/itip-formatter/itip-view.c:450
+#: ../src/modules/itip-formatter/itip-view.c:451
 #, c-format
 msgid "%s requests your presence at the following meeting:"
 msgstr "E je stade domandade di %s la tô presince ae riunion chi daurman:"
 
 # cui desiderial? M o F?
-#: ../src/modules/itip-formatter/itip-view.c:456
+#: ../src/modules/itip-formatter/itip-view.c:457
 #, c-format
 msgid "%s through %s wishes to add to an existing meeting:"
 msgstr "%s midiant di %s al desidere zontâsi a une riunion esistente:"
 
 # %s maschile o femminile?
-#: ../src/modules/itip-formatter/itip-view.c:458
+#: ../src/modules/itip-formatter/itip-view.c:459
 #, c-format
 msgid "%s wishes to add to an existing meeting:"
 msgstr "%s al desidere zontâsi a une riunion esistente:"
 
-#: ../src/modules/itip-formatter/itip-view.c:462
+#: ../src/modules/itip-formatter/itip-view.c:463
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
@@ -23008,89 +22895,89 @@ msgstr ""
 "%s midiant di %s al desidere ricevi lis ultimis informazions pe riunion chi "
 "daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:464
+#: ../src/modules/itip-formatter/itip-view.c:465
 #, c-format
 msgid "%s wishes to receive the latest information for the following meeting:"
 msgstr "%s al desidere ricevi lis ultimis informazions pe riunion chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:468
+#: ../src/modules/itip-formatter/itip-view.c:469
 #, c-format
 msgid "%s through %s has sent back the following meeting response:"
 msgstr ""
 "%s midiant di %s al à tornât indaûr la rispueste ae riunion chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:470
+#: ../src/modules/itip-formatter/itip-view.c:471
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "E je stade mandade indaûr di %s cheste rispueste ae riunion:"
 
-#: ../src/modules/itip-formatter/itip-view.c:474
+#: ../src/modules/itip-formatter/itip-view.c:475
 #, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s midiant di %s al à anulât la riunion chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:476
+#: ../src/modules/itip-formatter/itip-view.c:477
 #, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "E je stade anulade di %s cheste riunion:"
 
-#: ../src/modules/itip-formatter/itip-view.c:480
+#: ../src/modules/itip-formatter/itip-view.c:481
 #, c-format
 msgid "%s through %s has proposed the following meeting changes."
 msgstr "%s midiant di %s al à proponût lis modifichis ae riunion chi daurman."
 
-#: ../src/modules/itip-formatter/itip-view.c:482
+#: ../src/modules/itip-formatter/itip-view.c:483
 #, c-format
 msgid "%s has proposed the following meeting changes:"
 msgstr "A son stadis proponudis di %s chestis modifichis ae riunion:"
 
-#: ../src/modules/itip-formatter/itip-view.c:486
+#: ../src/modules/itip-formatter/itip-view.c:487
 #, c-format
 msgid "%s through %s has declined the following meeting changes:"
 msgstr "%s midiant di %s al à declinât lis modifichis ae riunion chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:488
+#: ../src/modules/itip-formatter/itip-view.c:489
 #, c-format
 msgid "%s has declined the following meeting changes:"
 msgstr "A son stadis declinadis di %s chestis modifichis ae riunion:"
 
-#: ../src/modules/itip-formatter/itip-view.c:528
+#: ../src/modules/itip-formatter/itip-view.c:529
 #, c-format
 msgid "%s through %s has published the following task:"
 msgstr "%s midiant di %s al à publicât la ativitât chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:530
+#: ../src/modules/itip-formatter/itip-view.c:531
 #, c-format
 msgid "%s has published the following task:"
 msgstr "E je stade publicade di %s cheste ativitât:"
 
-#: ../src/modules/itip-formatter/itip-view.c:535
+#: ../src/modules/itip-formatter/itip-view.c:536
 #, c-format
 msgid "%s requests the assignment of %s to the following task:"
 msgstr ""
 "E je stade domandade di %s la assegnazion di %s ae ativitât chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:538
+#: ../src/modules/itip-formatter/itip-view.c:539
 #, c-format
 msgid "%s through %s has assigned you a task:"
 msgstr "%s midiant di %s us à assegnât une ativitât:"
 
-#: ../src/modules/itip-formatter/itip-view.c:540
+#: ../src/modules/itip-formatter/itip-view.c:541
 #, c-format
 msgid "%s has assigned you a task:"
 msgstr "%s us à assegnât une ativitât:"
 
-#: ../src/modules/itip-formatter/itip-view.c:546
+#: ../src/modules/itip-formatter/itip-view.c:547
 #, c-format
 msgid "%s through %s wishes to add to an existing task:"
 msgstr "%s midiant di %s al desidere zontâsi a une ativitât esistente:"
 
-#: ../src/modules/itip-formatter/itip-view.c:548
+#: ../src/modules/itip-formatter/itip-view.c:549
 #, c-format
 msgid "%s wishes to add to an existing task:"
 msgstr "%s al desidere zontâsi a une ativitât esistente:"
 
-#: ../src/modules/itip-formatter/itip-view.c:552
+#: ../src/modules/itip-formatter/itip-view.c:553
 #, c-format
 msgid ""
 "%s through %s wishes to receive the latest information for the following "
@@ -23099,7 +22986,7 @@ msgstr ""
 "%s midiant di %s al desidere ricevi lis ultimis informazions pe ativitât "
 "assegnade chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:554
+#: ../src/modules/itip-formatter/itip-view.c:555
 #, c-format
 msgid ""
 "%s wishes to receive the latest information for the following assigned task:"
@@ -23107,203 +22994,203 @@ msgstr ""
 "%s al desidere ricevi lis ultimis informazions pe ativitât assegnade chi "
 "daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:558
+#: ../src/modules/itip-formatter/itip-view.c:559
 #, c-format
 msgid "%s through %s has sent back the following assigned task response:"
 msgstr ""
 "%s midiant di %s al à tornât indaûr la rispueste, chi daurman, pe ativitât "
 "assegnade:"
 
-#: ../src/modules/itip-formatter/itip-view.c:560
+#: ../src/modules/itip-formatter/itip-view.c:561
 #, c-format
 msgid "%s has sent back the following assigned task response:"
 msgstr ""
 "E je stade mandade indaûr di %s cheste rispueste pe ativitât assegnade:"
 
-#: ../src/modules/itip-formatter/itip-view.c:564
+#: ../src/modules/itip-formatter/itip-view.c:565
 #, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s midiant di %s al à anulât la ativitât assegnade chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:566
+#: ../src/modules/itip-formatter/itip-view.c:567
 #, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "E je stade anulade di %s cheste ativitât assegnade:"
 
-#: ../src/modules/itip-formatter/itip-view.c:570
+#: ../src/modules/itip-formatter/itip-view.c:571
 #, c-format
 msgid "%s through %s has proposed the following task assignment changes:"
 msgstr ""
 "%s midiant di %s al à proponût lis modifichis, chi daurman, ae assegnazion "
 "de ativitât:"
 
-#: ../src/modules/itip-formatter/itip-view.c:572
+#: ../src/modules/itip-formatter/itip-view.c:573
 #, c-format
 msgid "%s has proposed the following task assignment changes:"
 msgstr ""
 "A son stadis proponudis di %s chestis modifichis ae assegnazion de ativitât:"
 
-#: ../src/modules/itip-formatter/itip-view.c:576
+#: ../src/modules/itip-formatter/itip-view.c:577
 #, c-format
 msgid "%s through %s has declined the following assigned task:"
 msgstr "%s midiant di %s al à declinât la ativitât assegnade chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:578
+#: ../src/modules/itip-formatter/itip-view.c:579
 #, c-format
 msgid "%s has declined the following assigned task:"
 msgstr "E je stade declinade di %s cheste ativitât assegnade:"
 
-#: ../src/modules/itip-formatter/itip-view.c:617
+#: ../src/modules/itip-formatter/itip-view.c:618
 #, c-format
 msgid "%s through %s has published the following memo:"
 msgstr "%s midiant di %s al à publicât il memorandum chi daurman:"
 
-#: ../src/modules/itip-formatter/itip-view.c:619
+#: ../src/modules/itip-formatter/itip-view.c:620
 #, c-format
 msgid "%s has published the following memo:"
 msgstr "Al è stât publicât di %s chest memorandum:"
 
-#: ../src/modules/itip-formatter/itip-view.c:624
+#: ../src/modules/itip-formatter/itip-view.c:625
 #, c-format
 msgid "%s through %s wishes to add to an existing memo:"
 msgstr "%s midiant di %s al desidere zontâsi a un memorandum esistent:"
 
-#: ../src/modules/itip-formatter/itip-view.c:626
+#: ../src/modules/itip-formatter/itip-view.c:627
 #, c-format
 msgid "%s wishes to add to an existing memo:"
 msgstr "%s al desidere zontâsi a un memorandum esistent:"
 
-#: ../src/modules/itip-formatter/itip-view.c:630
+#: ../src/modules/itip-formatter/itip-view.c:631
 #, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s midiant di %s al à anulât il memorandum condividût chi daurman:"
 
 # m o f?
-#: ../src/modules/itip-formatter/itip-view.c:632
+#: ../src/modules/itip-formatter/itip-view.c:633
 #, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "Al è stât anulât di %s chest memorandum condividût:"
 
-#: ../src/modules/itip-formatter/itip-view.c:857
+#: ../src/modules/itip-formatter/itip-view.c:858
 msgid "All day:"
 msgstr "Dut il dì:"
 
-#: ../src/modules/itip-formatter/itip-view.c:863
+#: ../src/modules/itip-formatter/itip-view.c:864
 msgid "Start day:"
 msgstr "Inizi de zornade:"
 
-#: ../src/modules/itip-formatter/itip-view.c:863
-#: ../src/modules/itip-formatter/itip-view.c:1679
+#: ../src/modules/itip-formatter/itip-view.c:864
+#: ../src/modules/itip-formatter/itip-view.c:1682
 msgid "Start time:"
 msgstr "Orari di inizi:"
 
-#: ../src/modules/itip-formatter/itip-view.c:872
+#: ../src/modules/itip-formatter/itip-view.c:873
 msgid "End day:"
 msgstr "Fin de zornade:"
 
-#: ../src/modules/itip-formatter/itip-view.c:872
-#: ../src/modules/itip-formatter/itip-view.c:1680
+#: ../src/modules/itip-formatter/itip-view.c:873
+#: ../src/modules/itip-formatter/itip-view.c:1683
 msgid "End time:"
 msgstr "Orari di fin:"
 
-#: ../src/modules/itip-formatter/itip-view.c:1210
+#: ../src/modules/itip-formatter/itip-view.c:1213
 msgid "Ope_n Calendar"
 msgstr "_Vierç calendari"
 
-#: ../src/modules/itip-formatter/itip-view.c:1213
+#: ../src/modules/itip-formatter/itip-view.c:1216
 msgid "_Decline all"
 msgstr "_Refude ducj"
 
-#: ../src/modules/itip-formatter/itip-view.c:1216
+#: ../src/modules/itip-formatter/itip-view.c:1219
 msgid "_Decline"
 msgstr "_Refude"
 
-#: ../src/modules/itip-formatter/itip-view.c:1219
+#: ../src/modules/itip-formatter/itip-view.c:1222
 msgid "_Tentative all"
 msgstr "_Ducj pal moment"
 
-#: ../src/modules/itip-formatter/itip-view.c:1222
+#: ../src/modules/itip-formatter/itip-view.c:1225
 msgid "_Tentative"
 msgstr "_Pal moment"
 
-#: ../src/modules/itip-formatter/itip-view.c:1225
+#: ../src/modules/itip-formatter/itip-view.c:1228
 msgid "Acce_pt all"
 msgstr "Acete _ducj"
 
-#: ../src/modules/itip-formatter/itip-view.c:1228
+#: ../src/modules/itip-formatter/itip-view.c:1231
 msgid "Acce_pt"
 msgstr "Ace_te"
 
-#: ../src/modules/itip-formatter/itip-view.c:1231
+#: ../src/modules/itip-formatter/itip-view.c:1234
 msgid "Send _Information"
 msgstr "Invie _informazions"
 
-#: ../src/modules/itip-formatter/itip-view.c:1234
+#: ../src/modules/itip-formatter/itip-view.c:1237
 msgid "_Update Attendee Status"
 msgstr "In_zorne stât partecipant"
 
-#: ../src/modules/itip-formatter/itip-view.c:1237
+#: ../src/modules/itip-formatter/itip-view.c:1240
 #: ../src/smime/gui/certificate-manager.c:1677
 msgid "_Update"
 msgstr "In_zorne"
 
-#: ../src/modules/itip-formatter/itip-view.c:1682
-#: ../src/modules/itip-formatter/itip-view.c:1730
-#: ../src/modules/itip-formatter/itip-view.c:1801
+#: ../src/modules/itip-formatter/itip-view.c:1685
+#: ../src/modules/itip-formatter/itip-view.c:1733
+#: ../src/modules/itip-formatter/itip-view.c:1804
 msgid "Comment:"
 msgstr "Coment:"
 
 #. RSVP area
-#: ../src/modules/itip-formatter/itip-view.c:1718
+#: ../src/modules/itip-formatter/itip-view.c:1721
 msgid "Send reply to sender"
 msgstr "Invie rispueste al mitent"
 
 #. Updates
-#: ../src/modules/itip-formatter/itip-view.c:1733
+#: ../src/modules/itip-formatter/itip-view.c:1736
 msgid "Send _updates to attendees"
 msgstr "Invie in_zornaments ai partecipants"
 
 #. The recurrence check button
-#: ../src/modules/itip-formatter/itip-view.c:1736
+#: ../src/modules/itip-formatter/itip-view.c:1739
 msgid "_Apply to all instances"
 msgstr "_Apliche a dutis lis istancis"
 
-#: ../src/modules/itip-formatter/itip-view.c:1737
+#: ../src/modules/itip-formatter/itip-view.c:1740
 msgid "Show time as _free"
 msgstr "_Mostre timp come libar"
 
-#: ../src/modules/itip-formatter/itip-view.c:1738
+#: ../src/modules/itip-formatter/itip-view.c:1741
 msgid "_Preserve my reminder"
 msgstr "Conserve chest _promemorie"
 
-#: ../src/modules/itip-formatter/itip-view.c:1739
+#: ../src/modules/itip-formatter/itip-view.c:1742
 msgid "_Inherit reminder"
 msgstr "_Ereditâ il promemorie"
 
-#: ../src/modules/itip-formatter/itip-view.c:2048
+#: ../src/modules/itip-formatter/itip-view.c:2051
 msgid "_Tasks:"
 msgstr "A_tivitâts:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2051
+#: ../src/modules/itip-formatter/itip-view.c:2054
 msgid "_Memos:"
 msgstr "Pro_memorie:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2964
+#: ../src/modules/itip-formatter/itip-view.c:3111
 msgid "Sa_ve"
 msgstr "Sal_ve"
 
-#: ../src/modules/itip-formatter/itip-view.c:3486
-#: ../src/modules/itip-formatter/itip-view.c:5042
+#: ../src/modules/itip-formatter/itip-view.c:3633
+#: ../src/modules/itip-formatter/itip-view.c:5189
 msgid "Attendee status updated"
 msgstr "Stât dal partecipant inzornât"
 
-#: ../src/modules/itip-formatter/itip-view.c:3701
+#: ../src/modules/itip-formatter/itip-view.c:3848
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr ""
 "Un apontament “%s” tal calendari “%s” al è in conflit cun cheste riunion"
 
-#: ../src/modules/itip-formatter/itip-view.c:3707
+#: ../src/modules/itip-formatter/itip-view.c:3854
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -23314,152 +23201,152 @@ msgstr[0] ""
 msgstr[1] ""
 "Il calendari “%s” al à %d apontaments che a son in conflit cun cheste riunion"
 
-#: ../src/modules/itip-formatter/itip-view.c:3740
+#: ../src/modules/itip-formatter/itip-view.c:3887
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Cjatât l'apontament intal calendari “%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:3749
+#: ../src/modules/itip-formatter/itip-view.c:3896
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "L'invît ae riunion al è vecjo. Al è stât inzornât."
 
-#: ../src/modules/itip-formatter/itip-view.c:3891
+#: ../src/modules/itip-formatter/itip-view.c:4038
 msgid "Unable to find any calendars"
 msgstr "No si rive a cjatâ nissun calendari"
 
-#: ../src/modules/itip-formatter/itip-view.c:3899
+#: ../src/modules/itip-formatter/itip-view.c:4046
 msgid "Unable to find this meeting in any calendar"
 msgstr "No si rive a cjatâ cheste riunion in nissun calendari"
 
-#: ../src/modules/itip-formatter/itip-view.c:3904
+#: ../src/modules/itip-formatter/itip-view.c:4051
 msgid "Unable to find this task in any task list"
 msgstr "No si rive a cjatâ cheste ativitât in nissune liste di ativitâts"
 
-#: ../src/modules/itip-formatter/itip-view.c:3909
+#: ../src/modules/itip-formatter/itip-view.c:4056
 msgid "Unable to find this memo in any memo list"
 msgstr "No si rive a cjatâ chest memorandum in nissune liste dai memorandums"
 
-#: ../src/modules/itip-formatter/itip-view.c:4250
+#: ../src/modules/itip-formatter/itip-view.c:4397
 msgid "Opening the calendar. Please wait..."
 msgstr "Daûr a vierzi il calendari. Par plasê spiete..."
 
-#: ../src/modules/itip-formatter/itip-view.c:4255
+#: ../src/modules/itip-formatter/itip-view.c:4402
 msgid "Searching for an existing version of this appointment"
 msgstr "Daûr a cirî une version esistente di chest apontament"
 
-#: ../src/modules/itip-formatter/itip-view.c:4654
+#: ../src/modules/itip-formatter/itip-view.c:4801
 #, c-format
 msgid "Unable to send item to calendar “%s”.  %s"
 msgstr "Impussibil inviâ l'element al calendari “%s”.  %s"
 
 # Inviât o inviade acetât o acedate?
-#: ../src/modules/itip-formatter/itip-view.c:4669
+#: ../src/modules/itip-formatter/itip-view.c:4816
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Inviât al calendari “%s” come acetât"
 
 # inviât o inviade? provisori o provisorie?
-#: ../src/modules/itip-formatter/itip-view.c:4674
+#: ../src/modules/itip-formatter/itip-view.c:4821
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Inviât al calendari “%s” come provisori"
 
 # inviât o inviade, declinât o declinade?
-#: ../src/modules/itip-formatter/itip-view.c:4680
+#: ../src/modules/itip-formatter/itip-view.c:4827
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Inviât al calendari “%s” come declinât"
 
 # inviât o inviade? anulât o anulade?
-#: ../src/modules/itip-formatter/itip-view.c:4686
+#: ../src/modules/itip-formatter/itip-view.c:4833
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Inviât al calendari “%s” come anulât"
 
-#: ../src/modules/itip-formatter/itip-view.c:4722
-#: ../src/modules/itip-formatter/itip-view.c:5179
-#: ../src/modules/itip-formatter/itip-view.c:5282
+#: ../src/modules/itip-formatter/itip-view.c:4869
+#: ../src/modules/itip-formatter/itip-view.c:5326
+#: ../src/modules/itip-formatter/itip-view.c:5429
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Daûr a salvâ lis modifichis sul calendari. Par plasê spiete..."
 
-#: ../src/modules/itip-formatter/itip-view.c:4774
+#: ../src/modules/itip-formatter/itip-view.c:4921
 msgid "Unable to parse item"
 msgstr "Impussibil elaborâ l'element"
 
-#: ../src/modules/itip-formatter/itip-view.c:4966
+#: ../src/modules/itip-formatter/itip-view.c:5113
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "L'organizadôr al à gjavât il delegât %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:4983
+#: ../src/modules/itip-formatter/itip-view.c:5130
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Inviade une notifiche di anulament al delegât"
 
-#: ../src/modules/itip-formatter/itip-view.c:4987
+#: ../src/modules/itip-formatter/itip-view.c:5134
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Impussibil inviâ une notifiche di anulament al delegât"
 
-#: ../src/modules/itip-formatter/itip-view.c:5034
+#: ../src/modules/itip-formatter/itip-view.c:5181
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Impussibil inzornâ il partecipant. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5069
+#: ../src/modules/itip-formatter/itip-view.c:5216
 msgid "The meeting is invalid and cannot be updated"
 msgstr "La riunion no je valide e no pues jessi inzornade"
 
-#: ../src/modules/itip-formatter/itip-view.c:5144
+#: ../src/modules/itip-formatter/itip-view.c:5291
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Il stât dal partecipant nol pues jessi inzornât parcè che il stât nol è valit"
 
-#: ../src/modules/itip-formatter/itip-view.c:5215
-#: ../src/modules/itip-formatter/itip-view.c:5253
+#: ../src/modules/itip-formatter/itip-view.c:5362
+#: ../src/modules/itip-formatter/itip-view.c:5400
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Il stât dal partecipant nol pues jessi inzornât par vie che l'element nol "
 "esist plui"
 
-#: ../src/modules/itip-formatter/itip-view.c:5314
+#: ../src/modules/itip-formatter/itip-view.c:5461
 msgid "Meeting information sent"
 msgstr "Informazions su la riunion inviadis"
 
-#: ../src/modules/itip-formatter/itip-view.c:5319
+#: ../src/modules/itip-formatter/itip-view.c:5466
 msgid "Task information sent"
 msgstr "Informazions su la ativitât inviadis"
 
-#: ../src/modules/itip-formatter/itip-view.c:5324
+#: ../src/modules/itip-formatter/itip-view.c:5471
 msgid "Memo information sent"
 msgstr "Informazions sul memorandum inviadis"
 
-#: ../src/modules/itip-formatter/itip-view.c:5335
+#: ../src/modules/itip-formatter/itip-view.c:5482
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Impussibil inviâ informazions su la riunion, la riunion no esist"
 
-#: ../src/modules/itip-formatter/itip-view.c:5340
+#: ../src/modules/itip-formatter/itip-view.c:5487
 msgid "Unable to send task information, the task does not exist"
 msgstr "Impussibil inviâ informazions su la ativitât, la ativitât no esist"
 
-#: ../src/modules/itip-formatter/itip-view.c:5345
+#: ../src/modules/itip-formatter/itip-view.c:5492
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Impussibil inviâ informazions sul memorandum, il memorandum nol esist"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5410
+#: ../src/modules/itip-formatter/itip-view.c:5557
 msgid "calendar.ics"
 msgstr "calendari.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5415
+#: ../src/modules/itip-formatter/itip-view.c:5562
 msgid "Save Calendar"
 msgstr "Salve calendari"
 
-#: ../src/modules/itip-formatter/itip-view.c:5464
-#: ../src/modules/itip-formatter/itip-view.c:5477
+#: ../src/modules/itip-formatter/itip-view.c:5611
+#: ../src/modules/itip-formatter/itip-view.c:5624
 msgid "The calendar attached is not valid"
 msgstr "Il calendari alegât nol è valit"
 
-#: ../src/modules/itip-formatter/itip-view.c:5465
-#: ../src/modules/itip-formatter/itip-view.c:5478
+#: ../src/modules/itip-formatter/itip-view.c:5612
+#: ../src/modules/itip-formatter/itip-view.c:5625
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -23467,15 +23354,15 @@ msgstr ""
 "Il messaç al declare di contignî un calendari, ma il calendari nol è un "
 "valit iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:5520
-#: ../src/modules/itip-formatter/itip-view.c:5601
-#: ../src/modules/itip-formatter/itip-view.c:5697
+#: ../src/modules/itip-formatter/itip-view.c:5667
+#: ../src/modules/itip-formatter/itip-view.c:5748
+#: ../src/modules/itip-formatter/itip-view.c:5844
 msgid "The item in the calendar is not valid"
 msgstr "L'element tal calendari nol è valit"
 
-#: ../src/modules/itip-formatter/itip-view.c:5521
-#: ../src/modules/itip-formatter/itip-view.c:5602
-#: ../src/modules/itip-formatter/itip-view.c:5698
+#: ../src/modules/itip-formatter/itip-view.c:5668
+#: ../src/modules/itip-formatter/itip-view.c:5749
+#: ../src/modules/itip-formatter/itip-view.c:5845
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -23483,11 +23370,11 @@ msgstr ""
 "Il messaç al à un calendari, ma chest nol conten events, ativitâts o "
 "informazions libar/impegnât"
 
-#: ../src/modules/itip-formatter/itip-view.c:5611
+#: ../src/modules/itip-formatter/itip-view.c:5758
 msgid "The calendar attached contains multiple items"
 msgstr "Il calendari alegât al à elements multiplis"
 
-#: ../src/modules/itip-formatter/itip-view.c:5612
+#: ../src/modules/itip-formatter/itip-view.c:5759
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -23495,24 +23382,24 @@ msgstr ""
 "Par processâ ducj chescj elements, il file al varès di jessi salvât e il "
 "calendari impuartât"
 
-#: ../src/modules/itip-formatter/itip-view.c:6129
+#: ../src/modules/itip-formatter/itip-view.c:6276
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Nissun"
 
-#: ../src/modules/itip-formatter/itip-view.c:6145
+#: ../src/modules/itip-formatter/itip-view.c:6292
 msgid "Tentatively Accepted"
 msgstr "Acetât pal moment"
 
-#: ../src/modules/itip-formatter/itip-view.c:6311
+#: ../src/modules/itip-formatter/itip-view.c:6460
 msgid "This meeting recurs"
 msgstr "Cheste riunion e cole"
 
-#: ../src/modules/itip-formatter/itip-view.c:6314
+#: ../src/modules/itip-formatter/itip-view.c:6463
 msgid "This task recurs"
 msgstr "Cheste ativitât e cole"
 
-#: ../src/modules/itip-formatter/itip-view.c:6317
+#: ../src/modules/itip-formatter/itip-view.c:6466
 msgid "This memo recurs"
 msgstr "Chest memorandum al cole"
 
@@ -23530,35 +23417,35 @@ msgstr "Cheste riunion e je stade delegade"
 msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
 msgstr "La riunion e je stade delegade di “{0}”. Zontâ il delegât “{1}”?"
 
-#: ../src/modules/mail-config/e-mail-config-google-summary.c:283
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:301
 msgid "Google Features"
 msgstr "Funzionalitâts Google"
 
-#: ../src/modules/mail-config/e-mail-config-google-summary.c:292
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:310
 msgid "Add Google Ca_lendar to this account"
 msgstr "Zonte Ca_lendari di Google a chest account"
 
-#: ../src/modules/mail-config/e-mail-config-google-summary.c:301
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:319
 msgid "Add Google Con_tacts to this account"
 msgstr "Zonte Con_tats di Goggle a chest account"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
-#: ../src/modules/mail-config/e-mail-config-google-summary.c:312
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:330
 msgctxt "GoggleSummary"
 msgid "IMAP access"
 msgstr "Acès IMAP"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
-#: ../src/modules/mail-config/e-mail-config-google-summary.c:315
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:333
 msgctxt "GoggleSummary"
 msgid "Calendars to synchronize"
 msgstr "Calendaris di sincronizâ"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
-#: ../src/modules/mail-config/e-mail-config-google-summary.c:318
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:336
 #, c-format
 msgctxt "GoggleSummary"
 msgid "You may need to enable %s and %s"
@@ -23813,250 +23700,250 @@ msgstr "Va ae cartele"
 msgid "_Select"
 msgstr "_Selezione"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1624
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1622
 msgid "_Disable Account"
 msgstr "_Disabilite account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1626
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1624
 msgid "Disable this account"
 msgstr "Disabilite chest account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1633
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1631
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Gjave par simpri ducj i messaçs eliminâts di dutis lis cartelis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1638
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1636
 msgid "Empty _Junk"
 msgstr "Disvuede Mal_volûts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1640
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1638
 msgid "Delete all Junk messages from all folders"
 msgstr "Elimine ducj i messaçs di pueste malvolude di dutis lis cartelis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1647
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1645
 msgid "Edit properties of this account"
 msgstr "Modifiche lis proprietâts di chest account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1654
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1652
 msgid "Refresh list of folders of this account"
 msgstr "Inzorne la liste des cartelis di chest account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1659
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1657
 msgid "_Download Messages for Offline Usage"
 msgstr "_Discjarie messaçs par l'ûs fûr rêt"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1661
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1659
 msgid "Download messages of accounts and folders marked for offline usage"
 msgstr "Discjarie i messaçs dai account e des cartelis segnadis pal ûs fûr rêt"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1666
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1664
 msgid "Fl_ush Outbox"
 msgstr "Invie pueste «In jessude»"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1673
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1671
 msgid "_Copy Folder To..."
 msgstr "_Copie cartele su..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1675
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1673
 msgid "Copy the selected folder into another folder"
 msgstr "Copie la cartele selezionade intune altre cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1682
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1680
 msgid "Permanently remove this folder"
 msgstr "Gjave par simpri cheste cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1687
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1685
 msgid "E_xpunge"
 msgstr "_Nete"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1689
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1687
 msgid "Permanently remove all deleted messages from this folder"
 msgstr "Gjave par simpri di cheste cartele ducj i messaçs eliminâts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1694
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1802
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1692
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1800
 msgid "Mar_k All Messages as Read"
 msgstr "Segne duc_j i messaçs come lets"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1696
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1804
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1694
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1802
 msgid "Mark all messages in the folder as read"
 msgstr "Segne come lets ducj i messaçs inte cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1699
 msgid "_Move Folder To..."
 msgstr "_Sposte cartele su..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1703
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
 msgid "Move the selected folder into another folder"
 msgstr "Sposte la cartele selezionade intune altre cartele"
 
 #. Translators: An action caption to create a new mail folder
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1709
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1707
 msgid "_New..."
 msgstr "_Gnove..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1711
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1709
 msgid "Create a new folder for storing mail"
 msgstr "Cree une gnove cartele par memorizâ la pueste"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1718
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1716
 msgid "Change the properties of this folder"
 msgstr "Cambie lis proprietâts di cheste cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1725
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1723
 msgid "Refresh the folder"
 msgstr "Inzorne la cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1732
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1730
 msgid "Change the name of this folder"
 msgstr "Cambie il non di cheste cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1737
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1735
 msgid "Select Message _Thread"
 msgstr "Selezione _discussion dal messaç"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1739
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1737
 msgid "Select all messages in the same thread as the selected message"
 msgstr "Selezione ducj i messaçs de stesse discussion dal messaç selezionât"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1744
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1742
 msgid "Select Message S_ubthread"
 msgstr "Selezione s_ot-discussion dal messaç"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1746
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1744
 msgid "Select all replies to the currently selected message"
 msgstr "Selezione dutis lis rispuestis al messaç cumò selezionât"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1758
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1756
 msgid "Empty _Trash"
 msgstr "Dis_vuede scovacere"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1760
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1758
 msgid "Permanently remove all the deleted messages from all accounts"
 msgstr "Gjave par simpri ducj i messaçs eliminâts di ducj i account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1765
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1763
 msgid "Go to _Folder"
 msgstr "Va ae _cartele"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1767
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1765
 msgid "Opens a dialog to select a folder to go to"
 msgstr "Vierç un dialic par selezionâ une cartele dulà lâ"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1772
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1770
 msgid "_New Label"
 msgstr "_Gnove etichete"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1781
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1779
 msgid "N_one"
 msgstr "Niss_un"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1795
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1793
 msgid "_Manage Subscriptions"
 msgstr "_Gjestìs sotscrizion"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1797
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1881
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1795
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1879
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "Sotscrîf o anule sotscrizion a cartelis su servidôrs rimots"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1809
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1830
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1807
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1828
 msgid "Send / _Receive"
 msgstr "Invie / _Ricêf"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1811
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1809
 msgid "Send queued items and retrieve new items"
 msgstr "Invie elements in code e ricêf chei gnûfs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1816
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1814
 msgid "R_eceive All"
 msgstr "Ric_êf dut"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1818
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1816
 msgid "Receive new items from all accounts"
 msgstr "Ricêf gnûfs elements di ducj i account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1823
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1821
 msgid "_Send All"
 msgstr "In_vie dut"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1825
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1823
 msgid "Send queued items in all accounts"
 msgstr "Invie elements in code in ducj i account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1853
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1851
 msgid "Cancel the current mail operation"
 msgstr "Anule la operazion di pueste in vore"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1858
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1856
 msgid "Collapse All _Threads"
 msgstr "Strenç du_tis lis discussions"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1860
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1858
 msgid "Collapse all message threads"
 msgstr "Al strenç ducj i messaçs tes discussions"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1865
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1863
 msgid "E_xpand All Threads"
 msgstr "Pant dutis lis discussions"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1867
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1865
 msgid "Expand all message threads"
 msgstr "Al pant ducj i messaçs tes discussions"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1872
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1870
 msgid "_Message Filters"
 msgstr "_Filtris dai messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1874
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1872
 msgid "Create or edit rules for filtering new mail"
 msgstr "Cree o modifiche lis regulis par filtrâ lis gnovis mail"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1879
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1877
 msgid "_Subscriptions..."
 msgstr "_Sotscrizions..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1888
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1886
 msgid "F_older"
 msgstr "Car_telis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1895
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1893
 msgid "_Label"
 msgstr "_Etichetis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1912
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1910
 msgid "C_reate Search Folder From Search..."
 msgstr "Cun la ricercje _cree cartele di ricercje..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1919
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1917
 msgid "Search F_olders"
 msgstr "C_artele di ricercje"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1921
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1919
 msgid "Create or edit search folder definitions"
 msgstr "Cree o modifiche definizions des cartelis di ricercje"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1964
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1962
 msgid "_New Folder..."
 msgstr "_Gnove cartele..."
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1992
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1990
 msgid "Show Message _Preview"
 msgstr "Mostre ante_prime messaç"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:1994
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1992
 msgid "Show message preview pane"
 msgstr "Mostre il ricuadri di anteprime dai messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2000
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1998
 msgid "Show _Attachment Bar"
 msgstr "Mostre sbare _zontis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2002
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2000
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments"
@@ -24064,107 +23951,107 @@ msgstr ""
 "Mostre la sbare des zontis sot dal ricuadri di anteprime dal messaç cuant "
 "che il messaç al à zontis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2008
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2006
 msgid "Show _Deleted Messages"
 msgstr "Mostre messaçs e_liminâts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2010
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2008
 msgid "Show deleted messages with a line through them"
 msgstr "Mostre messaçs eliminâts cuntune linie parsore"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2016
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2014
 msgid "Show _Junk Messages"
 msgstr "Mostre messaçs _malvolûts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2018
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2016
 msgid "Show junk messages with a red line through them"
 msgstr "Mostre i messaçs malvolûts cuntune linie rosse parsore"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2024
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2022
 msgid "_Group By Threads"
 msgstr "_Intrope par discussion"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2026
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2024
 msgid "Threaded message list"
 msgstr "Liste di messaçs par discussions"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2032
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2030
 msgid "Show To _Do Bar"
 msgstr "Mostre sbare “Di fâ”"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2034
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2032
 msgid "Show To Do bar with appointments and tasks"
 msgstr "Mostre la sbare “Di fâ” cun apontaments e ativitâts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2040
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2038
 msgid "_Unmatched Folder Enabled"
 msgstr "Cartele _no corispondents abilitade"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2042
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2040
 msgid "Toggles whether Unmatched search folder is enabled"
 msgstr "Al comute se la cartele di ricercje No corispondents e je abilitade"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2062
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2060
 msgid "Show message preview below the message list"
 msgstr "Mostre la anteprime dai messaçs sot de liste dai messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2069
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2067
 msgid "Show message preview alongside the message list"
 msgstr "Mostre la anteprime dai messaçs in bande ae liste dai messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2077
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2075
 msgid "All Messages"
 msgstr "Ducj i messaçs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2084
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2082
 msgid "Important Messages"
 msgstr "Messaçs impuartants"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2091
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2089
 msgid "Last 5 Days’ Messages"
 msgstr "Messaçs dai ultins 5 dîs"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2098
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2096
 msgid "Messages Not Junk"
 msgstr "Messaçs no malvolûts"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2105
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2103
 msgid "Messages with Attachments"
 msgstr "Messaçs cun zontis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2112
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2110
 msgid "Messages with Notes"
 msgstr "Messaçs cun notis"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2119
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2117
 msgid "No Label"
 msgstr "Nissune etichete"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2126
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2124
 msgid "Read Messages"
 msgstr "Messaçs lets"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2133
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2131
 msgid "Unread Messages"
 msgstr "Messaçs no lets"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2140
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2138
 msgid "Message Thread"
 msgstr "Discussion dal messaç"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2200
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2198
 msgid "Subject or Addresses contain"
 msgstr "Ogjet o direzions a contegnin"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2210
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2208
 msgid "All Accounts"
 msgstr "Ducj i account"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2217
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2215
 msgid "Current Account"
 msgstr "Account atuâl"
 
-#: ../src/modules/mail/e-mail-shell-view-actions.c:2224
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2222
 msgid "Current Folder"
 msgstr "Cartele atuâl"
 
@@ -25356,37 +25243,37 @@ msgid "Notifies you when new mail messages arrive."
 msgstr "Notifiche il rivâ di gnûfs messaçs di pueste."
 
 #. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
-#: ../src/plugins/mail-to-task/mail-to-task.c:194
+#: ../src/plugins/mail-to-task/mail-to-task.c:200
 #, c-format
 msgid "Created from a mail by %s"
 msgstr "Creade di une e-mail di %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:576
+#: ../src/plugins/mail-to-task/mail-to-task.c:605
 msgctxt "mail-to-task"
 msgid "_Cancel"
 msgstr "_Anule"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:578
+#: ../src/plugins/mail-to-task/mail-to-task.c:607
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "_Modifiche"
 
 #. Translators: Dialog button to create a New event/memo/task
-#: ../src/plugins/mail-to-task/mail-to-task.c:580
+#: ../src/plugins/mail-to-task/mail-to-task.c:609
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Gnûf"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:598
+#: ../src/plugins/mail-to-task/mail-to-task.c:627
 #, c-format
 msgid ""
 "Selected calendar contains event “%s” already. Would you like to edit the "
 "old event?"
 msgstr "Il calendari selezionât al à za l'event “%s”. Modificâ chel vecjo?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:601
+#: ../src/plugins/mail-to-task/mail-to-task.c:630
 #, c-format
 msgid ""
 "Selected task list contains task “%s” already. Would you like to edit the "
@@ -25395,7 +25282,7 @@ msgstr ""
 "La liste di ativitâts selezionade e à za la ativitât “%s”. Modificâ chê "
 "vecje?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:604
+#: ../src/plugins/mail-to-task/mail-to-task.c:633
 #, c-format
 msgid ""
 "Selected memo list contains memo “%s” already. Would you like to edit the "
@@ -25405,7 +25292,7 @@ msgstr ""
 "memorandum?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:624
+#: ../src/plugins/mail-to-task/mail-to-task.c:653
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to events. Do you really want to "
@@ -25421,7 +25308,7 @@ msgstr[1] ""
 "zontâlis dutis?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:631
+#: ../src/plugins/mail-to-task/mail-to-task.c:660
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to tasks. Do you really want to "
@@ -25437,7 +25324,7 @@ msgstr[1] ""
 "zontâlis dutis?"
 
 #. Translators: Note there are always more than 10 mails selected
-#: ../src/plugins/mail-to-task/mail-to-task.c:638
+#: ../src/plugins/mail-to-task/mail-to-task.c:667
 #, c-format
 msgid ""
 "You have selected %d mails to be converted to memos. Do you really want to "
@@ -25452,29 +25339,29 @@ msgstr[1] ""
 "A son stadis selezionadis %d e-mail di convertî in memorandums. Zontâlis "
 "pardabon dutis?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:659
+#: ../src/plugins/mail-to-task/mail-to-task.c:688
 msgid "Do you wish to continue converting remaining mails?"
 msgstr "Continuâ a convertî lis e-mail restadis?"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:735
+#: ../src/plugins/mail-to-task/mail-to-task.c:764
 msgid "[No Summary]"
 msgstr "[Nissune sintesi]"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:748
+#: ../src/plugins/mail-to-task/mail-to-task.c:777
 msgid "Invalid object returned from a server"
 msgstr "Tornât di un servidôr un ogjet no valit"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:802
+#: ../src/plugins/mail-to-task/mail-to-task.c:831
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "Si è presentât un erôr dilunc il procès: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:838
+#: ../src/plugins/mail-to-task/mail-to-task.c:869
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Impussibil vierzi il calendari. %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:842
+#: ../src/plugins/mail-to-task/mail-to-task.c:873
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
@@ -25482,7 +25369,7 @@ msgstr ""
 "Il calendari selezionât al è in dome-leture, duncje no si pues creâi events. "
 "Selezionâ un altri calendari."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:845
+#: ../src/plugins/mail-to-task/mail-to-task.c:876
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
@@ -25490,7 +25377,7 @@ msgstr ""
 "La liste di ativitâts selezionade e je in dome-leture, duncje no si pues "
 "creâi ativitâts. Selezionâ une altre liste ativitâts."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:848
+#: ../src/plugins/mail-to-task/mail-to-task.c:879
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
@@ -25498,35 +25385,35 @@ msgstr ""
 "La liste dai memorandums selezionade e je in dome-leture, duncje no si pues "
 "creâ memorandum lì. Selezionâ une altre liste dai memorandums."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1252
+#: ../src/plugins/mail-to-task/mail-to-task.c:1301
 msgid "Create an _Appointment"
 msgstr "Cree un _apontament"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1254
+#: ../src/plugins/mail-to-task/mail-to-task.c:1303
 msgid "Create a new event from the selected message"
 msgstr "Cree un gnûf event dal messaç selezionât"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1259
+#: ../src/plugins/mail-to-task/mail-to-task.c:1308
 msgid "Create a Mem_o"
 msgstr "Cree un promem_orie"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1261
+#: ../src/plugins/mail-to-task/mail-to-task.c:1310
 msgid "Create a new memo from the selected message"
 msgstr "Cree un gnûf memorandum dal messaç selezionât"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1266
+#: ../src/plugins/mail-to-task/mail-to-task.c:1315
 msgid "Create a _Task"
 msgstr "Cree une a_tivitât"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1268
+#: ../src/plugins/mail-to-task/mail-to-task.c:1317
 msgid "Create a new task from the selected message"
 msgstr "Cree une gnove ativitât dal messaç selezionât"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1276
+#: ../src/plugins/mail-to-task/mail-to-task.c:1325
 msgid "Create a _Meeting"
 msgstr "Cree une _riunion"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1278
+#: ../src/plugins/mail-to-task/mail-to-task.c:1327
 msgid "Create a new meeting from the selected message"
 msgstr "Cree une gnove riunion dal messaç selezionât"
 
@@ -26342,7 +26229,7 @@ msgstr "Impuarte URI o nons di file indicâts tal rest dai argoments."
 msgid "Request a running Evolution process to quit"
 msgstr "Domande a un procès in esecuzion di Evolution di terminâ"
 
-#: ../src/shell/main.c:412
+#: ../src/shell/main.c:417
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -26351,11 +26238,11 @@ msgstr ""
 "Impussibil inviâ Evolution. Une altre istance de aplicazion no rispuint. "
 "Erôr di sisteme: %s"
 
-#: ../src/shell/main.c:468 ../src/shell/main.c:473
+#: ../src/shell/main.c:473 ../src/shell/main.c:478
 msgid "— The Evolution PIM and Email Client"
 msgstr "— Client di pueste e calendari Evolution"
 
-#: ../src/shell/main.c:535
+#: ../src/shell/main.c:540
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -26364,7 +26251,7 @@ msgstr ""
 "%s: impussibil doprâ --online e --offline adun.\n"
 "  Eseguî “%s --help” par vê plui informazions.\n"
 
-#: ../src/shell/main.c:541
+#: ../src/shell/main.c:546
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
@@ -26970,6 +26857,118 @@ msgstr "Impussibil scrivi il salvament sul disc, codiç di erôr: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificât impuartât"
+
+#~ msgid "1st"
+#~ msgstr "1ⁿ"
+
+#~ msgid "2nd"
+#~ msgstr "2"
+
+#~ msgid "3rd"
+#~ msgstr "3"
+
+#~ msgid "4th"
+#~ msgstr "4"
+
+#~ msgid "5th"
+#~ msgstr "5"
+
+#~ msgid "6th"
+#~ msgstr "6"
+
+#~ msgid "7th"
+#~ msgstr "7"
+
+#~ msgid "8th"
+#~ msgstr "8"
+
+#~ msgid "9th"
+#~ msgstr "9"
+
+#~ msgid "10th"
+#~ msgstr "10"
+
+#~ msgid "11th"
+#~ msgstr "11"
+
+#~ msgid "12th"
+#~ msgstr "12"
+
+#~ msgid "13th"
+#~ msgstr "13"
+
+#~ msgid "14th"
+#~ msgstr "14"
+
+#~ msgid "15th"
+#~ msgstr "15"
+
+#~ msgid "16th"
+#~ msgstr "16"
+
+#~ msgid "17th"
+#~ msgstr "17"
+
+#~ msgid "18th"
+#~ msgstr "18"
+
+#~ msgid "19th"
+#~ msgstr "19"
+
+#~ msgid "20th"
+#~ msgstr "20"
+
+#~ msgid "21st"
+#~ msgstr "21"
+
+#~ msgid "22nd"
+#~ msgstr "22"
+
+#~ msgid "23rd"
+#~ msgstr "23"
+
+#~ msgid "24th"
+#~ msgstr "24"
+
+#~ msgid "25th"
+#~ msgstr "25"
+
+#~ msgid "26th"
+#~ msgstr "26"
+
+#~ msgid "27th"
+#~ msgstr "27"
+
+#~ msgid "28th"
+#~ msgstr "28"
+
+#~ msgid "29th"
+#~ msgstr "29"
+
+#~ msgid "30th"
+#~ msgstr "30"
+
+#~ msgid "31st"
+#~ msgstr "31"
+
+#~ msgid "OAuth2 Google"
+#~ msgstr "OAuth2 Google"
+
+#~ msgid ""
+#~ "This option will use an OAuth 2.0 access token to connect to the Google "
+#~ "server"
+#~ msgstr ""
+#~ "Cheste opzion e doprarà un token di acès OAuth 2.0 par conetisi al "
+#~ "servidôr di Google"
+
+#~ msgid "OAuth2"
+#~ msgstr "OAuth2"
+
+#~ msgid ""
+#~ "This option will use an OAuth 2.0 access token to connect to the server"
+#~ msgstr ""
+#~ "Cheste opzion e doprarà un token di acès OAuth 2.0 par conetisi al "
+#~ "servidôr"
 
 #~ msgid ""
 #~ "Check to make sure your password is spelled correctly and that you are "
