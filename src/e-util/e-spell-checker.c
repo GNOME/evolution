@@ -18,6 +18,8 @@
 
 #include "evolution-config.h"
 
+#include <enchant.h>
+
 #include "e-spell-checker.h"
 #include "e-spell-dictionary.h"
 
@@ -386,7 +388,7 @@ e_spell_checker_ref_dictionary (ESpellChecker *checker,
  *
  * Returns: the #EnchantDict for @language_code, or %NULL
  **/
-EnchantDict *
+gpointer
 e_spell_checker_get_enchant_dict (ESpellChecker *checker,
                                   const gchar *language_code)
 {

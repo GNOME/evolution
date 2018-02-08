@@ -18,6 +18,8 @@
 
 #include "evolution-config.h"
 
+#include <enchant.h>
+
 #include "e-util-private.h"
 #include "e-spell-dictionary.h"
 #include "e-spell-checker.h"
@@ -437,7 +439,7 @@ e_spell_dictionary_init (ESpellDictionary *dictionary)
 
 ESpellDictionary *
 e_spell_dictionary_new (ESpellChecker *spell_checker,
-                        EnchantDict *enchant_dict)
+                        gpointer enchant_dict)
 {
 	ESpellDictionary *dictionary;
 
