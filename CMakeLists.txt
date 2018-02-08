@@ -71,7 +71,8 @@ add_definitions(-DGDK_VERSION_MIN_REQUIRED=${gdk_encoded_version})
 add_definitions(-DSOUP_VERSION_MIN_REQUIRED=${soup_encoded_version})
 
 set(eds_minimum_version ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
-set(enchant_minimum_version 1.6.0)
+set(enchant1_minimum_version 1.6.0)
+set(enchant2_minimum_version 2.2.0)
 set(gcr_minimum_version 3.4)
 set(gdk_pixbuf_minimum_version 2.24.0)
 set(gnome_desktop_minimum_version 2.91.3)
@@ -287,9 +288,36 @@ pkg_check_modules(EVOLUTION_DATA_SERVER REQUIRED
 )
 
 pkg_check_modules(A11Y REQUIRED atk)
-pkg_check_modules(ENCHANT REQUIRED enchant>=${enchant_minimum_version})
 pkg_check_modules(LIBSOUP REQUIRED libsoup-2.4>=${soup_minimum_version})
 pkg_check_modules(WEB_EXTENSION REQUIRED webkit2gtk-4.0>=${webkit2gtk_minimum_version})
+
+# ******************************
+# Enchant - support both, but better to use the same as the dependencies (gtkspell3, webkitgtk+,...)
+# ******************************
+
+add_printable_option(WITH_ENCHANT_VERSION "Set Enchant version to use, values are: 'auto' (default), 1 or 2" "auto")
+
+if(WITH_ENCHANT_VERSION STREQUAL "1")
+	pkg_check_modules(ENCHANT REQUIRED enchant>=${enchant1_minimum_version})
+else(WITH_ENCHANT_VERSION STREQUAL "1")
+	if(WITH_ENCHANT_VERSION STREQUAL "2")
+		pkg_check_modules(ENCHANT REQUIRED enchant-2>=${enchant2_minimum_version})
+	else(WITH_ENCHANT_VERSION STREQUAL "2")
+		pkg_check_modules(ENCHANT enchant>=${enchant1_minimum_version})
+		if(ENCHANT_FOUND)
+			set(WITH_ENCHANT_VERSION "auto (enchant-1)")
+		else(ENCHANT_FOUND)
+			unset(ENCHANT_FOUND)
+			pkg_check_modules(ENCHANT enchant-2>=${enchant2_minimum_version})
+			if(ENCHANT_FOUND)
+				set(WITH_ENCHANT_VERSION "auto (enchant-2)")
+			else(ENCHANT_FOUND)
+				message(FATAL_ERROR "Cannot find enchant 1 neither enchant 2, or new-enough version. Install either of them "
+						    "or specify which to use with -DWITH_ENCHANT_VERSION=auto|1|2, where 'auto' is the default")
+			endif(ENCHANT_FOUND)
+		endif(ENCHANT_FOUND)
+	endif(WITH_ENCHANT_VERSION STREQUAL "2")
+endif(WITH_ENCHANT_VERSION STREQUAL "1")
 
 # ******************************
 # Canberra / Canberra-GTK Sound

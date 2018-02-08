@@ -22,7 +22,7 @@
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <string.h>
-#include <enchant/enchant.h>
+#include <enchant.h>
 
 #include "e-html-editor.h"
 #include "e-html-editor-private.h"

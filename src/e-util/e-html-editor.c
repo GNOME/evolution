@@ -23,7 +23,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <camel/camel.h>
-#include <enchant/enchant.h>
+#include <enchant.h>
 #include <libedataserver/libedataserver.h>
 
 #include "e-html-editor.h"

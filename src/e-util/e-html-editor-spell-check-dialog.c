@@ -23,7 +23,7 @@
 #include "e-html-editor-spell-check-dialog.h"
 
 #include <glib/gi18n-lib.h>
-#include <enchant/enchant.h>
+#include <enchant.h>
 
 #include "e-spell-checker.h"
 #include "e-spell-dictionary.h"

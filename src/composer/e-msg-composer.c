@@ -33,7 +33,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <fcntl.h>
-#include <enchant/enchant.h>
+#include <enchant.h>
 
 #include "e-composer-from-header.h"
 #include "e-composer-text-header.h"

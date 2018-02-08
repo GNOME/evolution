@@ -24,7 +24,7 @@
 #define E_SPELL_DICTIONARY_H
 
 #include <glib-object.h>
-#include <enchant/enchant.h>
+#include <enchant.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SPELL_DICTIONARY \
