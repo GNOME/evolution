@@ -559,20 +559,22 @@ e_mail_part_describe (CamelMimePart *part,
 	filename = camel_mime_part_get_filename (part);
 	description = camel_mime_part_get_description (part);
 
-	if (!filename || !*filename) {
+	if (filename && *filename) {
+		gchar *basename = g_path_get_basename (filename);
+		g_string_append_printf (stext, " (%s)", basename);
+		g_free (basename);
+	} else {
 		CamelDataWrapper *content;
 
+		filename = NULL;
 		content = camel_medium_get_content (CAMEL_MEDIUM (part));
 
 		if (CAMEL_IS_MIME_MESSAGE (content))
 			filename = camel_mime_message_get_subject (
 				CAMEL_MIME_MESSAGE (content));
-	}
 
-	if (filename != NULL && *filename != '\0') {
-		gchar *basename = g_path_get_basename (filename);
-		g_string_append_printf (stext, " (%s)", basename);
-		g_free (basename);
+		if (filename && *filename)
+			g_string_append_printf (stext, " (%s)", filename);
 	}
 
 	if (description != NULL && *description != '\0' &&

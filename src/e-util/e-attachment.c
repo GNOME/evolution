@@ -2239,6 +2239,7 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 		}
 	}
 	g_free (allocated);
+	allocated = NULL;
 
 	/* Strip any path components from the filename. */
 	string = camel_mime_part_get_filename (mime_part);
@@ -2277,9 +2278,13 @@ attachment_load_from_mime_part_thread (GSimpleAsyncResult *simple,
 			g_free (decoded_string);
 			decoded_string = NULL;
 		}
+
+		if (string && *string) {
+			allocated = g_path_get_basename (string);
+			string = allocated;
+		}
 	}
-	allocated = g_path_get_basename (string);
-	g_file_info_set_display_name (file_info, allocated);
+	g_file_info_set_display_name (file_info, string);
 	g_free (decoded_string);
 	g_free (allocated);
 
@@ -2951,7 +2956,7 @@ attachment_save_new_candidate (SaveContext *save_context)
 	GFileInfo *file_info;
 	EAttachment *attachment;
 	const gchar *display_name = NULL;
-	gchar *basename;
+	gchar *basename, *allocated;
 
 	attachment = save_context->attachment;
 	file_info = e_attachment_ref_file_info (attachment);
@@ -2962,12 +2967,16 @@ attachment_save_new_candidate (SaveContext *save_context)
 		/* Translators: Default attachment filename. */
 		display_name = _("attachment.dat");
 
-	basename = get_new_name_with_count (display_name, save_context->count);
+	allocated = g_strdup (display_name);
+	e_filename_make_safe (allocated);
+
+	basename = get_new_name_with_count (allocated, save_context->count);
 
 	save_context->count++;
 
 	candidate = g_file_get_child (save_context->directory, basename);
 
+	g_free (allocated);
 	g_free (basename);
 
 	g_clear_object (&file_info);

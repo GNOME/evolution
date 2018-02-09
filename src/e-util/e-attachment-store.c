@@ -870,6 +870,7 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 		EAttachment *attachment;
 		GFileInfo *file_info;
 		const gchar *name = NULL;
+		gchar *allocated;
 
 #ifdef HAVE_AUTOAR
 		gchar *mime_type;
@@ -885,7 +886,12 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 			/* Translators: Default attachment filename. */
 			name = _("attachment.dat");
 
-		gtk_file_chooser_set_current_name (file_chooser, name);
+		allocated = g_strdup (name);
+		e_filename_make_safe (allocated);
+
+		gtk_file_chooser_set_current_name (file_chooser, allocated);
+
+		g_free (allocated);
 
 #ifdef HAVE_AUTOAR
 		mime_type = e_attachment_dup_mime_type (attachment);
