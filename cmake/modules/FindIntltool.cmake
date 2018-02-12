@@ -39,7 +39,7 @@
 #
 # add_appdata_file(_infilename _outfilename)
 #    A shortcut to call intltool-merge() for an appdata file and install it
-#    to ${SHARE_INSTALL_PREFIX}/appdata
+#    to ${SHARE_INSTALL_PREFIX}/metainfo
 
 include(FindGettext)
 
@@ -204,6 +204,6 @@ macro(add_appdata_file _infilename _outfilename)
 	add_dependencies(appdata-files appdata-${_outtarget})
 
 	install(FILES ${_out}
-		DESTINATION ${SHARE_INSTALL_PREFIX}/appdata
+		DESTINATION ${SHARE_INSTALL_PREFIX}/metainfo
 	)
 endmacro(add_appdata_file)
