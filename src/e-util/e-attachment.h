@@ -128,6 +128,7 @@ gchar *		e_attachment_dup_description	(EAttachment *attachment);
 gchar *		e_attachment_dup_thumbnail_path	(EAttachment *attachment);
 gboolean	e_attachment_is_rfc822		(EAttachment *attachment);
 GList *		e_attachment_list_apps		(EAttachment *attachment);
+GAppInfo *	e_attachment_ref_default_app	(EAttachment *attachment);
 void		e_attachment_update_store_columns
 						(EAttachment *attachment);
 

@@ -260,7 +260,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		"<table width=\"100%%\" border=\"0\" style=\"border-spacing: 0px\">"
 		"<tr valign=\"middle\">"
 		"<td align=\"left\" width=\"1px\" style=\"white-space:pre;\">"
-		"<button type=\"button\" class=\"attachment-expander\" id=\"%s\" value=\"%p\" data=\"%s\" style=\"vertical-align:middle; margin:0px;\" %s>"
+		"<button type=\"button\" class=\"attachment-expander\" id=\"%s\" value=\"%p\" data=\"%s\" style=\"vertical-align:middle; margin:0px;\">"
 		"<img id=\"attachment-expander-img-%p\" src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
 		"<img src=\"%s\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
 		"</button>"
@@ -268,8 +268,9 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		"<img src=\"gtk-stock://x-evolution-arrow-down?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
 		"</button>"
 		"</td><td align=\"left\">%s</td></tr>",
-		part_id, attachment_ptr, html, e_mail_part_attachment_get_expandable (empa) ? "" : "disabled",
-		attachment_ptr, e_mail_part_should_show_inline (part) ? "go-down" : "go-next", GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
+		part_id, attachment_ptr, html, attachment_ptr,
+		e_mail_part_should_show_inline (part) ? "go-down" : e_mail_part_attachment_get_expandable (empa) ? "go-next" : "go-top",
+		GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
 		icon_uri, icon_width, icon_height,
 		part_id, attachment_ptr, GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
 		html);

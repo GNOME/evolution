@@ -875,6 +875,21 @@ mail_display_ref_attachment_from_element (EMailDisplay *display,
 }
 
 static void
+call_attachment_save_handle_error (GObject *source_object,
+				   GAsyncResult *result,
+				   gpointer user_data)
+{
+	GtkWindow *window = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT (source_object));
+	g_return_if_fail (!window || GTK_IS_WINDOW (window));
+
+	e_attachment_save_handle_error (E_ATTACHMENT (source_object), result, window);
+
+	g_clear_object (&window);
+}
+
+static void
 mail_display_attachment_expander_clicked_cb (EWebView *web_view,
 					     const gchar *element_class,
 					     const gchar *element_value,
@@ -893,8 +908,45 @@ mail_display_attachment_expander_clicked_cb (EWebView *web_view,
 	attachment = mail_display_ref_attachment_from_element (display, element_value);
 
 	if (attachment) {
-		/* Flip the current 'visible' state */
-		mail_display_change_one_attachment_visibility (display, attachment, FALSE, TRUE);
+		if (e_attachment_get_can_show (attachment)) {
+			/* Flip the current 'visible' state */
+			mail_display_change_one_attachment_visibility (display, attachment, FALSE, TRUE);
+		} else {
+			GAppInfo *default_app;
+			gpointer parent;
+
+			parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
+			parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+			/* Either open in the default application... */
+			default_app = e_attachment_ref_default_app (attachment);
+			if (default_app) {
+				e_attachment_open_async (
+					attachment, default_app, (GAsyncReadyCallback)
+					e_attachment_open_handle_error, parent);
+
+				g_object_unref (default_app);
+			} else {
+				/* ...or save it */
+				GList *attachments;
+				EAttachmentStore *store;
+				GFile *destination;
+
+				store = e_mail_display_get_attachment_store (display);
+				attachments = g_list_prepend (NULL, attachment);
+
+				destination = e_attachment_store_run_save_dialog (store, attachments, parent);
+				if (destination) {
+					e_attachment_save_async (
+						attachment, destination, (GAsyncReadyCallback)
+						call_attachment_save_handle_error, parent ? g_object_ref (parent) : NULL);
+
+					g_object_unref (destination);
+				}
+
+				g_list_free (attachments);
+			}
+		}
 	}
 
 	g_clear_object (&attachment);

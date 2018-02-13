@@ -1684,6 +1684,28 @@ e_attachment_is_rfc822 (EAttachment *attachment)
 	return is_rfc822;
 }
 
+GAppInfo *
+e_attachment_ref_default_app (EAttachment *attachment)
+{
+	GFileInfo *file_info;
+	GAppInfo *default_app = NULL;
+	const gchar *content_type;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	file_info = e_attachment_ref_file_info (attachment);
+	if (file_info == NULL)
+		return NULL;
+
+	content_type = g_file_info_get_content_type (file_info);
+	if (content_type && !g_content_type_equals (content_type, "application/octet-stream"))
+		default_app = g_app_info_get_default_for_type (content_type, FALSE);
+
+	g_object_unref (file_info);
+
+	return default_app;
+}
+
 GList *
 e_attachment_list_apps (EAttachment *attachment)
 {
@@ -1721,7 +1743,7 @@ e_attachment_list_apps (EAttachment *attachment)
 	g_free (allocated);
 
  exit:
-	default_app = g_app_info_get_default_for_type (content_type, FALSE);
+	default_app = e_attachment_ref_default_app (attachment);
 	if (default_app) {
 		GList *link;
 
