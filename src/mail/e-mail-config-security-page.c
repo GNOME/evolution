@@ -61,6 +61,7 @@ G_DEFINE_TYPE_WITH_CODE (
 		E_TYPE_MAIL_CONFIG_PAGE,
 		e_mail_config_security_page_interface_init))
 
+#ifdef ENABLE_SMIME
 static void
 mail_config_security_page_cert_selected (ECertSelector *selector,
                                          const gchar *key,
@@ -124,6 +125,7 @@ mail_config_security_page_clear_cert (GtkButton *button,
 {
 	gtk_entry_set_text (entry, "");
 }
+#endif /* ENABLE_SMIME */
 
 static void
 mail_config_security_page_set_identity_source (EMailConfigSecurityPage *page,
@@ -269,7 +271,6 @@ mail_config_security_page_constructed (GObject *object)
 	ESource *source;
 	ESourceMailComposition *composition_ext;
 	ESourceOpenPGP *openpgp_ext;
-	GtkEntry *entry;
 	GtkLabel *label;
 	GtkWidget *widget;
 	GtkWidget *container;
@@ -281,6 +282,7 @@ mail_config_security_page_constructed (GObject *object)
 
 #if defined (ENABLE_SMIME)
 	ESourceSMIME *smime_ext;
+	GtkEntry *entry;
 #endif /* ENABLE_SMIME */
 
 	page = E_MAIL_CONFIG_SECURITY_PAGE (object);
