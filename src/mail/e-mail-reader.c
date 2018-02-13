@@ -4930,6 +4930,16 @@ e_mail_reader_get_message_list (EMailReader *reader)
 	return iface->get_message_list (reader);
 }
 
+static void
+e_mail_reader_popup_menu_deactivate_cb (GtkMenu *popup_menu,
+					EMailReader *reader)
+{
+	g_return_if_fail (GTK_IS_MENU (popup_menu));
+
+	g_signal_handlers_disconnect_by_func (popup_menu, e_mail_reader_popup_menu_deactivate_cb, reader);
+	gtk_menu_detach (popup_menu);
+}
+
 GtkMenu *
 e_mail_reader_get_popup_menu (EMailReader *reader)
 {
@@ -4942,10 +4952,15 @@ e_mail_reader_get_popup_menu (EMailReader *reader)
 	g_return_val_if_fail (iface->get_popup_menu != NULL, NULL);
 
 	menu = iface->get_popup_menu (reader);
-	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
+	if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
 		gtk_menu_attach_to_widget (GTK_MENU (menu),
 					   GTK_WIDGET (reader),
 					   NULL);
+		g_signal_connect (
+			menu, "deactivate",
+			G_CALLBACK (e_mail_reader_popup_menu_deactivate_cb), reader);
+	}
+
 	return menu;
 }
 

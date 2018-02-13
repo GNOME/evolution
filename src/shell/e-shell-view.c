@@ -1884,6 +1884,16 @@ e_shell_view_update_actions_in_idle (EShellView *shell_view)
 			shell_view_call_update_actions_idle, shell_view);
 }
 
+static void
+e_shell_view_popup_menu_deactivate (GtkMenu *popup_menu,
+				    gpointer user_data)
+{
+	g_return_if_fail (GTK_IS_MENU (popup_menu));
+
+	g_signal_handlers_disconnect_by_func (popup_menu, e_shell_view_popup_menu_deactivate, user_data);
+	gtk_menu_detach (popup_menu);
+}
+
 /**
  * e_shell_view_show_popup_menu:
  * @shell_view: an #EShellView
@@ -1916,10 +1926,13 @@ e_shell_view_show_popup_menu (EShellView *shell_view,
 	menu = e_shell_window_get_managed_widget (shell_window, widget_path);
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
 
-	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
+	if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
 		gtk_menu_attach_to_widget (GTK_MENU (menu),
 					   GTK_WIDGET (shell_window),
 					   NULL);
+
+		g_signal_connect (menu, "deactivate", G_CALLBACK (e_shell_view_popup_menu_deactivate), NULL);
+	}
 
 	gtk_menu_popup_at_pointer (GTK_MENU (menu), button_event);
 

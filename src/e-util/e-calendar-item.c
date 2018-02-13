@@ -3643,22 +3643,6 @@ e_calendar_item_ensure_days_visible (ECalendarItem *calitem,
 	return need_update;
 }
 
-static gboolean
-destroy_menu_idle_cb (gpointer menu)
-{
-	gtk_widget_destroy (menu);
-
-	return FALSE;
-}
-
-static void
-deactivate_menu_cb (GtkWidget *menu)
-{
-	g_signal_handlers_disconnect_by_func (menu, deactivate_menu_cb, NULL);
-
-	g_idle_add (destroy_menu_idle_cb, menu);
-}
-
 static void
 e_calendar_item_show_popup_menu (ECalendarItem *calitem,
                                  GdkEvent *button_event,
@@ -3713,7 +3697,7 @@ e_calendar_item_show_popup_menu (ECalendarItem *calitem,
 
 	g_signal_connect (
 		menu, "deactivate",
-		G_CALLBACK (deactivate_menu_cb), NULL);
+		G_CALLBACK (gtk_menu_detach), NULL);
 
 	canvas_widget = GTK_WIDGET (calitem->canvas_item.canvas);
 	gtk_menu_attach_to_widget (GTK_MENU (menu), canvas_widget, NULL);

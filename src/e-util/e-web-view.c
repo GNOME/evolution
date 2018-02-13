@@ -3272,6 +3272,16 @@ e_web_view_get_ui_manager (EWebView *web_view)
 	return web_view->priv->ui_manager;
 }
 
+static void
+e_web_view_popup_menu_deactivate_cb (GtkMenu *popup_menu,
+				     GtkWidget *web_view)
+{
+	g_return_if_fail (GTK_IS_MENU (popup_menu));
+
+	g_signal_handlers_disconnect_by_func (popup_menu, e_web_view_popup_menu_deactivate_cb, web_view);
+	gtk_menu_detach (popup_menu);
+}
+
 GtkWidget *
 e_web_view_get_popup_menu (EWebView *web_view)
 {
@@ -3284,10 +3294,15 @@ e_web_view_get_popup_menu (EWebView *web_view)
 	menu = gtk_ui_manager_get_widget (ui_manager, "/context");
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
 
-	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
-		gtk_menu_attach_to_widget (GTK_MENU (menu),
-					   GTK_WIDGET (web_view),
-					   NULL);
+	g_warn_if_fail (!gtk_menu_get_attach_widget (GTK_MENU (menu)));
+
+	gtk_menu_attach_to_widget (GTK_MENU (menu),
+				   GTK_WIDGET (web_view),
+				   NULL);
+
+	g_signal_connect (
+		menu, "deactivate",
+		G_CALLBACK (e_web_view_popup_menu_deactivate_cb), web_view);
 
 	return menu;
 }

@@ -833,6 +833,7 @@ subscription_editor_subscribe_popup_cb (EMSubscriptionEditor *editor)
 			editor));
 
 	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
+	g_signal_connect (menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
 
 	g_object_set (menu,
 	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
@@ -955,6 +956,7 @@ subscription_editor_unsubscribe_popup_cb (EMSubscriptionEditor *editor)
 			editor));
 
 	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
+	g_signal_connect (menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
 
 	g_object_set (menu,
 	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |

@@ -402,6 +402,7 @@ day_second_zone_clicked (GtkWidget *widget,
 	gtk_widget_show_all (menu);
 
 	gtk_menu_attach_to_widget (GTK_MENU (menu), widget, NULL);
+	g_signal_connect (menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
 	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
 }
 

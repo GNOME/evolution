@@ -1845,6 +1845,16 @@ e_attachment_view_get_action_group (EAttachmentView *view,
 	return e_lookup_action_group (ui_manager, group_name);
 }
 
+static void
+e_attachment_view_menu_deactivate_cb (GtkMenu *popup_menu,
+				      gpointer user_data)
+{
+	g_return_if_fail (GTK_IS_MENU (popup_menu));
+
+	g_signal_handlers_disconnect_by_func (popup_menu, e_attachment_view_menu_deactivate_cb, user_data);
+	gtk_menu_detach (popup_menu);
+}
+
 GtkWidget *
 e_attachment_view_get_popup_menu (EAttachmentView *view)
 {
@@ -1857,10 +1867,14 @@ e_attachment_view_get_popup_menu (EAttachmentView *view)
 	menu = gtk_ui_manager_get_widget (ui_manager, "/context");
 	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
 
-	if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
+	if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
 		gtk_menu_attach_to_widget (GTK_MENU (menu),
 					   GTK_WIDGET (view),
 					   NULL);
+		g_signal_connect (
+			menu, "deactivate",
+			G_CALLBACK (e_attachment_view_menu_deactivate_cb), NULL);
+	}
 
 	return menu;
 }

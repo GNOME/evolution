@@ -1799,7 +1799,6 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 			G_CALLBACK (sort_by_id), ethi);
 	}
 
-	g_object_ref_sink (popup);
 	g_signal_connect (
 		popup, "selection-done",
 		G_CALLBACK (free_popup_info), info);
@@ -1807,6 +1806,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 	gtk_menu_attach_to_widget (GTK_MENU (popup),
 				   GTK_WIDGET (ethi->parent.canvas),
 				   NULL);
+	g_signal_connect (popup, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
 	gtk_menu_popup_at_pointer (popup, button_event);
 }
 
@@ -2111,6 +2111,7 @@ ethi_event (GnomeCanvasItem *item,
 			gtk_menu_attach_to_widget (GTK_MENU (popup),
 						   GTK_WIDGET (canvas),
 						   NULL);
+			g_signal_connect (popup, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
 			gtk_menu_popup_at_pointer (popup, event);
 		} else if (event_keyval == GDK_KEY_space) {
 			ETableCol *ecol;

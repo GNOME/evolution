@@ -2034,12 +2034,6 @@ typedef struct {
 } PopupClosure;
 
 static void
-popup_menu_detach (GtkWidget *attach_widget,
-                   GtkMenu *menu)
-{
-}
-
-static void
 popup_targets_received (GtkClipboard *clipboard,
                         GtkSelectionData *data,
                         gpointer user_data)
@@ -2060,7 +2054,8 @@ popup_targets_received (GtkClipboard *clipboard,
 	gtk_menu_attach_to_widget (
 		GTK_MENU (popup_menu),
 		GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
-		popup_menu_detach);
+		NULL);
+	g_signal_connect (popup_menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
 
 	/* cut menu item */
 	menuitem = gtk_image_menu_item_new_with_mnemonic (_("Cu_t"));

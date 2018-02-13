@@ -2103,24 +2103,6 @@ etdp_fill_popup_menu (EToDoPane *to_do_pane,
 	gtk_menu_shell_append (menu_shell, item);
 }
 
-static gboolean
-etdp_destroy_menu_idle_cb (gpointer user_data)
-{
-	GtkWidget *widget = user_data;
-
-	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
-
-	gtk_widget_destroy (widget);
-
-	return FALSE;
-}
-
-static void
-etdp_menu_deactivate_cb (GtkWidget *widget)
-{
-	g_idle_add (etdp_destroy_menu_idle_cb, widget);
-}
-
 static void
 etdp_popup_menu (EToDoPane *to_do_pane,
 		 GdkEvent *event)
@@ -2129,12 +2111,10 @@ etdp_popup_menu (EToDoPane *to_do_pane,
 
 	menu = GTK_MENU (gtk_menu_new ());
 
-	g_signal_connect (menu, "deactivate",
-		G_CALLBACK (etdp_menu_deactivate_cb), NULL);
-
 	etdp_fill_popup_menu (to_do_pane, menu);
 
 	gtk_menu_attach_to_widget (menu, GTK_WIDGET (to_do_pane->priv->tree_view), NULL);
+	g_signal_connect (menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
 	gtk_menu_popup_at_pointer (menu, event);
 }
 

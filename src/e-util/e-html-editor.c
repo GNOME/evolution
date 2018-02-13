@@ -507,6 +507,16 @@ context_menu_data_free (gpointer ptr)
 	}
 }
 
+static void
+html_editor_menu_deactivate_cb (GtkMenu *popup_menu,
+				gpointer user_data)
+{
+	g_return_if_fail (GTK_IS_MENU (popup_menu));
+
+	g_signal_handlers_disconnect_by_func (popup_menu, html_editor_menu_deactivate_cb, user_data);
+	gtk_menu_detach (popup_menu);
+}
+
 static gboolean
 html_editor_show_context_menu_idle_cb (gpointer user_data)
 {
@@ -523,8 +533,13 @@ html_editor_show_context_menu_idle_cb (gpointer user_data)
 
 		g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, cmd->flags);
 
-		if (!gtk_menu_get_attach_widget (GTK_MENU (menu)))
+		if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
 			gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
+
+			g_signal_connect (
+				menu, "deactivate",
+				G_CALLBACK (html_editor_menu_deactivate_cb), NULL);
+		}
 
 		gtk_menu_popup_at_pointer (GTK_MENU (menu), cmd->event);
 
