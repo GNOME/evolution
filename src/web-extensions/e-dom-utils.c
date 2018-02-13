@@ -701,7 +701,7 @@ toggle_headers_visibility (WebKitDOMElement *button,
 static void
 toggle_address_visibility (WebKitDOMElement *button,
                            WebKitDOMEvent *event,
-                           GDBusConnection *connection)
+                           gpointer user_data)
 {
 	WebKitDOMElement *full_addr = NULL, *ellipsis = NULL;
 	WebKitDOMElement *parent = NULL, *bold = NULL;
@@ -709,7 +709,6 @@ toggle_address_visibility (WebKitDOMElement *button,
 	const gchar *path;
 	gchar *property_value;
 	gboolean expanded;
-	GError *error = NULL;
 
 	/* <b> element */
 	bold = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (button));
@@ -754,20 +753,6 @@ toggle_address_visibility (WebKitDOMElement *button,
 		webkit_dom_html_image_element_set_src (WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), path);
 	} else
 		webkit_dom_html_image_element_set_src (WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
-
-	g_dbus_connection_emit_signal (
-		connection,
-		NULL,
-		E_WEB_EXTENSION_OBJECT_PATH,
-		E_WEB_EXTENSION_INTERFACE,
-		"HeadersCollapsed",
-		g_variant_new ("(b)", expanded),
-		&error);
-
-	if (error) {
-		g_warning ("Error emitting signal HeadersCollapsed: %s\n", error->message);
-		g_error_free (error);
-	}
 
  clean:
 	g_clear_object (&css_full);
@@ -1098,7 +1083,7 @@ e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
 		"*[id^=__evo-moreaddr-]",
 		"click",
 		toggle_address_visibility,
-		connection);
+		NULL);
 
 	dom_window = webkit_dom_document_get_default_view (document);
 
