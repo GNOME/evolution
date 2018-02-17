@@ -12523,7 +12523,7 @@ msgstr "S'està cercant la base de servidors LDAP"
 #: ../src/e-util/e-collection-account-wizard.c:1193
 #| msgid "Searching for user home, please wait…"
 msgid "Saving account settings, please wait…"
-msgstr "S'està desant els paràmetres del compte, espereu..."
+msgstr "S'estan desant els paràmetres del compte, espereu..."
 
 #: ../src/e-util/e-collection-account-wizard.c:1337
 #| msgid "_Revise Details"
@@ -13452,7 +13452,7 @@ msgstr "Insereix un enllaç"
 #: ../src/e-util/e-html-editor-actions.c:1211
 #: ../src/e-util/e-html-editor-actions.c:1255
 msgid "_Rule..."
-msgstr "Línia ho_ritzonal..."
+msgstr "Línia ho_ritzontal..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1214
@@ -16203,7 +16203,7 @@ msgid_plural ""
 msgstr[0] ""
 "La carpeta de cerca «%s» s'ha actualitzat, atès que l'usuari ha suprimit la "
 "carpeta\n"
-"«%s»"
+"«%s»."
 msgstr[1] ""
 "Les carpetes de cerca següents\n"
 "«%s» s'han actualitzat, atès que l'usuari ha suprimit la carpeta\n"
@@ -16234,7 +16234,7 @@ msgstr "_Per defecte"
 #: ../src/mail/e-mail-autoconfig.c:648
 #, c-format
 msgid "Host: %s:%d"
-msgstr "Amftrió: %s:%d"
+msgstr "Amfitrió: %s:%d"
 
 #: ../src/mail/e-mail-autoconfig.c:652
 #, c-format
@@ -16668,7 +16668,7 @@ msgstr "Confia sempre en les claus del meu anell de claus en _xifrar"
 #: ../src/mail/e-mail-config-security-page.c:480
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
-"Prefereix la signatura / l'encriptament _interns per als missatges de text "
+"Prefereix la signatura / l'encriptació _interns per als missatges de text "
 "sense format"
 
 #: ../src/mail/e-mail-config-security-page.c:504
@@ -21185,7 +21185,7 @@ msgstr "El nom d'usuari no pot estar buit"
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:418
 #| msgid "Searching for user home, please wait…"
 msgid "Looking up server search bases, please wait…"
-msgstr "S'està cercant les bases de cerca de servidors. Espereu..."
+msgstr "S'estan cercant les bases de cerca de servidors. Espereu..."
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
 msgid "Standard LDAP Port"
@@ -21773,7 +21773,7 @@ msgstr "Des_plaça la visualització mensual en passos d'una setmana"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:57
 msgid "Order days in Week View from _left to right"
-msgstr "Ordena el dies  de visualització de la setmana de _esquerra a dreta"
+msgstr "Ordena _els dies de visualització de la setmana d'esquerra a dreta"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Alerts"
