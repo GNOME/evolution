@@ -21,7 +21,7 @@
 # ##
 #
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2017.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2018.
 # Gabor Karsay <gabor.karsay@gmx.at>, 2011, 2012.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009, 2010, 2011, 2012, 2013.
 # Benjamin Steinwender <b@stbe.at>, 2013.
@@ -31,23 +31,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-11 17:44+0000\n"
-"PO-Revision-Date: 2017-11-13 22:31+0100\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2018-02-05 18:00+0000\n"
+"PO-Revision-Date: 2018-02-18 15:54+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Andre Klapper <ak-47@gmx.net>, 2007-2009\n"
-"Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2017\n"
+"Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2018\n"
 "Christian Kirbach <Christian.Kirbach@gmail.com>, 2009-2013, 2015-2017\n"
 "Gabor Karsay <gabor.karsay@gmx.at>, 2011-2012\n"
 "Bernd Homuth <dev@hmt.im>, 2015"
@@ -56,8 +56,8 @@ msgstr ""
 #: C/backup-restore.page:18
 msgid "Back up and restore your <app>Evolution</app> data and settings."
 msgstr ""
-"So sichern und stellen Sie wieder Ihre <app>Evolution</app>-Daten und "
-"Einstellungen her."
+"So sichern und stellen Sie Ihre <app>Evolution</app>-Daten und Einstellungen "
+"wieder her."
 
 #. (itstool) path: page/title
 #: C/backup-restore.page:22
@@ -72,7 +72,7 @@ msgid ""
 "gzip-compressed tar archive file."
 msgstr ""
 "Sie können Ihre <app>Evolution</app>-Daten sichern. Die Sicherungskopie "
-"speichert Ihre Einstellungen, E-Mail, Kontakte, Aufgaben, Notzien und "
+"speichert Ihre Einstellungen, E-Mail, Kontakte, Aufgaben, Notizen und "
 "Kalender. Diese wird in einem mit gzip komprimierten tar-Archiv gespeichert."
 
 #. (itstool) path: section/title
@@ -119,7 +119,7 @@ msgstr ""
 "Beachten Sie, dass Ihre Einstellungen zum <link xref=\"mail-spam\">Filtern "
 "unerwünschter Nachrichten</link> nicht in der Sicherungskopie enthalten "
 "sind, weil diese Einstellungen nicht Teil von <app>Evolution</app> sind und "
-"weil Entwickler von Filter-Software Ihre Implementierung ändern könnten. "
+"weil Entwickler von Filter-Software ihre Implementierung ändern könnten. "
 "Wenn Sie Bogofilter verwenden, so müssen Sie den verborgenen Ordner <file>~/."
 "bogofilter/</file> sichern. Wenn Sie SpamAssassin verwenden, so müssen Sie "
 "den verborgenen Ordner <file>~/.spamassassin/</file> sichern."
@@ -3750,7 +3750,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:244
-#: C/intro-main-window.page:97
+#: C/intro-main-window.page:98
 msgid "Calendar"
 msgstr "Kalender"
 
@@ -3787,7 +3787,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:286
-#: C/intro-main-window.page:143
+#: C/intro-main-window.page:144
 msgid "Contacts"
 msgstr "Kontakte"
 
@@ -4966,14 +4966,14 @@ msgid "Corresponding elements in the mail main window:"
 msgstr "Die entsprechenden Elemente im E-Mail-Hauptfenster sind folgende:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:44 C/intro-main-window.page:101
-#: C/intro-main-window.page:147
+#: C/intro-main-window.page:44 C/intro-main-window.page:102
+#: C/intro-main-window.page:148
 msgid "<_:media-1/> Menu bar"
 msgstr "<_:media-1/> Menüleiste"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:47 C/intro-main-window.page:104
-#: C/intro-main-window.page:150
+#: C/intro-main-window.page:47 C/intro-main-window.page:105
+#: C/intro-main-window.page:151
 msgid "<_:media-1/> Tool bar"
 msgstr "<_:media-1/> Werkzeugleiste"
 
@@ -4983,8 +4983,8 @@ msgid "<_:media-1/> Folder list"
 msgstr "<_:media-1/> Ordnerliste"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:51 C/intro-main-window.page:108
-#: C/intro-main-window.page:154
+#: C/intro-main-window.page:51 C/intro-main-window.page:109
+#: C/intro-main-window.page:155
 msgid "<_:media-1/> Search bar"
 msgstr "<_:media-1/> Suchleiste"
 
@@ -5004,14 +5004,14 @@ msgid "<_:media-1/> Preview pane"
 msgstr "<_:media-1/> Vorschau"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:61 C/intro-main-window.page:119
-#: C/intro-main-window.page:160
+#: C/intro-main-window.page:61 C/intro-main-window.page:120
+#: C/intro-main-window.page:161
 msgid "<_:media-1/> Switcher"
 msgstr "<_:media-1/> Umschalter"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:64 C/intro-main-window.page:122
-#: C/intro-main-window.page:164
+#: C/intro-main-window.page:64 C/intro-main-window.page:123
+#: C/intro-main-window.page:165
 msgid "<_:media-1/> Status bar"
 msgstr "<_:media-1/> Statusleiste"
 
@@ -5127,43 +5127,54 @@ msgstr ""
 "Sie können die To-Do-Leiste über <guiseq><gui>Ansicht</gui><gui>Anordnung</"
 "gui><gui>To-Do-Leiste anzeigen</gui></guiseq> ein- oder ausblenden."
 
+#. (itstool) path: note/p
+#: C/intro-main-window.page:94
+msgid ""
+"If you ever accidentially hide the menu bar, open a Terminal application and "
+"run the command <cmd>gsettings set org.gnome.evolution.shell menubar-visible "
+"true</cmd> to reenable it."
+msgstr ""
+"Sollten Sie einmal die Menüleiste unabsichtlich verborgen haben, öffnen Sie "
+"ein Terminal und führen Sie den Befehl <cmd>gsettings set org.gnome."
+"evolution.shell menubar-visible true</cmd> aus, um sie wieder anzuzeigen."
+
 #. (itstool) path: section/p
-#: C/intro-main-window.page:98
+#: C/intro-main-window.page:99
 msgid "Elements in the calendar main window:"
 msgstr "Elemente im Hauptfenster des Kalenders:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:107
+#: C/intro-main-window.page:108
 msgid "<_:media-1/> Calendar list"
 msgstr "<_:media-1/> Kalenderliste"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:111
+#: C/intro-main-window.page:112
 msgid "<_:media-1/> Appointment list"
 msgstr "<_:media-1/> Terminliste"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:112
+#: C/intro-main-window.page:113
 msgid "Task list"
 msgstr "Aufgabenliste"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:115
+#: C/intro-main-window.page:116
 msgid "Month pane"
 msgstr "Monatsfeld"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:116
+#: C/intro-main-window.page:117
 msgid "Memo list"
 msgstr "Notizliste"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:127
+#: C/intro-main-window.page:128
 msgid "Appointment List"
 msgstr "Terminliste"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:128
+#: C/intro-main-window.page:129
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
@@ -5172,12 +5183,12 @@ msgstr ""
 "dar."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:131
+#: C/intro-main-window.page:132
 msgid "Month Pane"
 msgstr "Monatsfeld"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:132
+#: C/intro-main-window.page:133
 msgid ""
 "The month pane is a small view of a calendar month. To display additional "
 "months, drag the column border to the right. You can also select a range of "
@@ -5191,12 +5202,12 @@ msgstr ""
 "die in Ihrer Kalenderansicht angezeigt werden sollen."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:135
+#: C/intro-main-window.page:136
 msgid "Task list and Memo list"
 msgstr "Aufgabenliste und Notizliste"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:136
+#: C/intro-main-window.page:137
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -5207,27 +5218,27 @@ msgstr ""
 "um zu diesen Bereichen zu wechseln."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:144
+#: C/intro-main-window.page:145
 msgid "Elements in the contacts main window:"
 msgstr "Elemente im Kontakte-Hauptfenster:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:153
+#: C/intro-main-window.page:154
 msgid "<_:media-1/> Address book list"
 msgstr "<_:media-1/> Adressbuchliste"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:157
+#: C/intro-main-window.page:158
 msgid "<_:media-1/> Contacts list"
 msgstr "<_:media-1/> Kontaktliste"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:161
+#: C/intro-main-window.page:162
 msgid "<_:media-1/> Contact preview"
 msgstr "<_:media-1/> Kontaktvorschau"
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:167
+#: C/intro-main-window.page:168
 msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
@@ -14464,119 +14475,3 @@ msgstr "Bearbeiten Sie den Titel oder die Suchbedingungen im Dialog."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicken Sie auf <_:gui-1/>."
-
-#~ msgid "Using shortcut keys to read mail"
-#~ msgstr "Tastenkürzel beim Lesen von Nachrichten verwenden"
-
-#~ msgid "Viewing an email"
-#~ msgstr "Eine E-Mail betrachten"
-
-#~ msgid ""
-#~ "In the Mail window you read a message by selecting it in the message "
-#~ "list. If you would like to see the message in its own window, either "
-#~ "double-click it, press <key>Enter</key>, or press <keyseq><key>Ctrl</"
-#~ "key><key>O</key></keyseq>."
-#~ msgstr ""
-#~ "Um eine Nachricht im E-Mail-Fenster zu lesen, wählen Sie diese in der E-"
-#~ "Mail-Liste aus. Falls Sie die Nachricht in einem separaten Fenster "
-#~ "betrachten möchten, klicken Sie entweder zweimal auf die Nachricht und "
-#~ "drücken Sie die <key>Eingabetaste</key>, oder drücken Sie "
-#~ "<keyseq><key>Strg</key><key>O</key></keyseq>."
-
-#~ msgid "Marking a message as read or unread"
-#~ msgstr "Eine Nachricht als gelesen oder ungelesen markieren"
-
-#~ msgid ""
-#~ "To mark the currently selected message as read, press <keyseq><key>Ctrl</"
-#~ "key><key>K</key></keyseq>."
-#~ msgstr ""
-#~ "Um die gewählte Nachricht als gelesen zu markieren drücken Sie "
-#~ "<keyseq><key>Strg</key><key>K</key></keyseq>."
-
-#~ msgid ""
-#~ "To mark the currently selected message as unread, press "
-#~ "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>."
-#~ msgstr ""
-#~ "Um die gewählte Nachricht als nicht gelesen zu markieren drücken Sie "
-#~ "<keyseq><key>Umschalttaste</key><key>Strg</key><key>K</key></keyseq>."
-
-#~ msgid "Navigating in a message"
-#~ msgstr "So schauen Sie sich in Nachrichten um"
-
-#~ msgid ""
-#~ "To read mail with the keyboard, you can press the <key>Spacebar</key> to "
-#~ "page down and press <key>Backspace</key> to page up while reading an "
-#~ "email. Ensure that you use the keys when the message list is focused."
-#~ msgstr ""
-#~ "Um E-Mails per Tastatur zu lesen, drücken Sie die <key>Leertaste</key> "
-#~ "zum abwärts Bewegen und die <key>Rücktaste</key> zum aufwärts Bewegen "
-#~ "innerhalb einer E-Mail. Stellen Sie hierfür sicher, dass sich der "
-#~ "Eingabefokus in der E-Mail-Liste befindet."
-
-#~ msgid "Navigating in a folder in the message list"
-#~ msgstr "So durchschauen Sie einen Ordner in der Nachrichtenliste"
-
-#~ msgid ""
-#~ "Navigate in the message list by using the arrow keys on the keyboard."
-#~ msgstr ""
-#~ "Mit Hilfe der Pfeiltasten auf der Tastatur in der Nachrichtenliste "
-#~ "bewegen."
-
-#~ msgid "Navigating in a folder's unread mail in the message list"
-#~ msgstr ""
-#~ "In ungelesenen Nachrichten eines Ordners in der Nachrichtenliste bewegen"
-
-#~ msgid ""
-#~ "To go to the next or previous unread messages, press the period (<key>.</"
-#~ "key>) or comma (<key>,</key>) keys. On some keyboards, these keys are "
-#~ "also marked with the <key>&gt;</key> and <key>&lt;</key> symbols, which "
-#~ "is a convenient way to remember that they move you forward and backward "
-#~ "in your message list. You can also use the right square bracket (<key>]</"
-#~ "key>) for the next unread message, and the left square bracket (<key>[</"
-#~ "key>) for the previous unread message."
-#~ msgstr ""
-#~ "Drücken Sie die Punkttaste (<key>.</key>) bzw. die Kommataste (<key>,</"
-#~ "key>), um zur nächsten oder vorherigen ungelesenen Nachricht zu gelangen. "
-#~ "Auf einigen Tastaturen sind diese Tasten auch mit den Symbolen <key>&gt;</"
-#~ "key> bzw. <key>&lt;</key> beschriftet. Dies deutet intuitiv an, ob man "
-#~ "sich vorwärts oder rückwärts in der Nachrichtenliste bewegt. Sie können "
-#~ "auch die Taste mit der rechten eckigen Klammer (<key>]</key>) verwenden, "
-#~ "um zur nächsten ungelesenen Nachricht zu gelangen, und die Taste mit der "
-#~ "linken eckigen Klammer (<key>[</key>) für die vorherige ungelesene "
-#~ "Nachricht."
-
-#~ msgid ""
-#~ "You can easily read the unread messages in all the mail folders by using "
-#~ "the <key>Spacebar</key>."
-#~ msgstr ""
-#~ "Sie können bequem alle ungelesenen Nachrichten in allen E-Mail-Ordnern "
-#~ "mit der <key>Leertaste</key> lesen."
-
-#~ msgid ""
-#~ "When you are in the Mail window, the Spacebar has the following behavior:"
-#~ msgstr ""
-#~ "Wenn Sie sich im E-Mail-Fenster befinden, verhält sich die Leertaste wie "
-#~ "folgt:"
-
-#~ msgid "Which thread-related headers are recognized by <app>Evolution</app>."
-#~ msgstr ""
-#~ "Welche themenbezogenen Kopfzeilen <gui>Evolution</gui> erkennen kann."
-
-#~ msgid "Thread related headers recognized by <app>Evolution</app>"
-#~ msgstr "Durch <gui>Evolution</gui> erkannte themenbezogene Kopfzeilen"
-
-#~ msgid "<app>Evolution</app> supports the following headers:"
-#~ msgstr "<gui>Evolution</gui> unterstützt die folgenden Kopfzeilen:"
-
-#~ msgid "References"
-#~ msgstr "Referenzen"
-
-#~ msgid "In-Reply-To"
-#~ msgstr "In-Reply-To"
-
-#~ msgid ""
-#~ "<gui>Thread-*</gui> headers are Microsoft's proprietary headers and not "
-#~ "supported."
-#~ msgstr ""
-#~ "Kopfzeilen der Form <gui>Thread-*</gui> sind proprietäre Microsoft-"
-#~ "Kopfzeilen und werden nicht unterstützt."
