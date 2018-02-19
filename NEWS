@@ -1,3 +1,31 @@
+Evolution 3.27.91 2018-02-19
+----------------------------
+
+Bug Fixes:
+	Bug 793064 - Default value of attachment-reminder-clues doesn't localize (Milan Crha)
+	Bug 793104 - COMPLETED in libical 3.0+ is DATE-TIME only (Milan Crha)
+	Bug 793107 - Add option to build with enchant 1.x or 2.x (Rafael Fontenelle)
+	Bug 793109 - Name of attached mail with dash in Subject truncated (Milan Crha)
+	Bug 793368 - Install AppStream metadata to /usr/share/metainfo/ (Jeremy Bicha)
+	Bug 793396 - Collapsing expanded recipients list collapses entire header (Milan Crha)
+	Bug 793125 - Crash due to popup menus left attached too long (Milan Crha)
+	Bug 792746 - Fails to build with ENABLE_SMIME set to OFF (Milan Crha)
+	Bug 793240 - Let open attachments in default application easily (Milan Crha)
+
+Miscellaneous:
+	Add Create/Destroy view options to test-source-selector utility (Milan Crha)
+	Hide enchant dependency from public headers (Milan Crha)
+
+Translations:
+	Carles Ferrando Garcia (ca)
+	Fabio Tomat (fur)
+	Jiri Grönroos (fi)
+	Piotr Drąg (pl)
+	Mario Blättermann (de)
+	Fran Dieguez (gl)
+	Jordi Mas (ca)
+	Nathan Follens (nl)
+
 Evolution 3.27.90 2018-02-05
 ----------------------------
 
