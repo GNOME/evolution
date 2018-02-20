@@ -903,6 +903,24 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 #endif
 
 		g_clear_object (&file_info);
+#ifdef HAVE_AUTOAR
+	} else {
+		GList *iter;
+		gboolean any_supported = FALSE;
+
+		for (iter = attachment_list; iter && !any_supported; iter = iter->next) {
+			EAttachment *attachment = iter->data;
+			gchar *mime_type;
+
+			mime_type = e_attachment_dup_mime_type (attachment);
+
+			any_supported = autoar_check_mime_type_supported (mime_type);
+
+			g_free (mime_type);
+		}
+
+		gtk_widget_set_visible (extra_box_widget, any_supported);
+#endif
 	}
 
 	e_util_load_file_chooser_folder (file_chooser);
