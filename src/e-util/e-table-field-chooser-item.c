@@ -494,6 +494,7 @@ etfci_draw (GnomeCanvasItem *item,
             gint height)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
+	GtkStyleContext *style_context;
 	GnomeCanvas *canvas = item->canvas;
 	gint rows;
 	gint y1, y2;
@@ -501,6 +502,12 @@ etfci_draw (GnomeCanvasItem *item,
 
 	if (etfci->combined_header == NULL)
 		return;
+
+	style_context = gtk_widget_get_style_context (GTK_WIDGET (canvas));
+
+	gtk_style_context_save (style_context);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_HEADER);
 
 	rows = e_table_header_count (etfci->combined_header);
 
@@ -533,6 +540,8 @@ etfci_draw (GnomeCanvasItem *item,
 
 		cairo_restore (cr);
 	}
+
+	gtk_style_context_restore (style_context);
 }
 
 static GnomeCanvasItem *
@@ -567,6 +576,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
                   gdouble y)
 {
 	GtkWidget *widget = GTK_WIDGET (GNOME_CANVAS_ITEM (etfci)->canvas);
+	GtkStyleContext *style_context;
 	GtkTargetList *list;
 	GdkDragContext *context;
 	ETableCol *ecol;
@@ -607,6 +617,12 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
 		etfci->width, button_height);
 	cr = cairo_create (cs);
 
+	style_context = gtk_widget_get_style_context (widget);
+
+	gtk_style_context_save (style_context);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_VIEW);
+	gtk_style_context_add_class (style_context, GTK_STYLE_CLASS_HEADER);
+
 	e_table_header_draw_button (
 		cr, ecol,
 		widget, 0, 0,
@@ -614,6 +630,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci,
 		etfci->width, button_height,
 		E_TABLE_COL_ARROW_NONE);
 
+	gtk_style_context_restore (style_context);
 	gtk_drag_set_icon_surface (context, cs);
 
 	cairo_surface_destroy (cs);
