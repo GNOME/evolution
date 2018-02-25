@@ -12516,7 +12516,7 @@ msgstr "Adreça de corr_eu electrònica o nom d'usuari:"
 
 #: ../src/e-util/e-collection-account-wizard.c:1380
 msgid "_Advanced Options"
-msgstr "Opcions  _avançades"
+msgstr "Opcions _avançades"
 
 #: ../src/e-util/e-collection-account-wizard.c:1385
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:216
