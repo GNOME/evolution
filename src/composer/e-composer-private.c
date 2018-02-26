@@ -236,6 +236,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 		E_ATTACHMENT_PANED (priv->attachment_paned));
 
 	widget = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
+	gtk_paned_set_wide_handle (GTK_PANED (widget), TRUE);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 

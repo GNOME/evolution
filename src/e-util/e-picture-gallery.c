@@ -365,6 +365,11 @@ picture_gallery_constructed (GObject *object)
 	gtk_icon_view_set_text_column (icon_view, COL_FILENAME_TEXT);
 	gtk_icon_view_set_tooltip_column (icon_view, -1);
 
+	/* Fit more icons by letting text wrap, especially with long filenames.
+	 * The thumbnail is usually 128x128, so match it, as the text won't wrap
+	 * smaller than the thumbnail width anyway. */
+	gtk_icon_view_set_item_width (icon_view, 128);
+
 	list = gtk_target_list_new (NULL, 0);
 	gtk_target_list_add_uri_targets (list, 0);
 	targets = gtk_target_table_new_from_list (list, &n_targets);
