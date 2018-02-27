@@ -4490,7 +4490,7 @@ change_status (ESourceRegistry *registry,
 			itip_get_default_name_and_address (
 				registry, &default_name, &default_address);
 
-			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (address), NULL);
+			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (default_address), NULL);
 			prop = icalproperty_new_attendee (mailto_uri);
 			icalcomponent_add_property (ical_comp, prop);
 			g_free (mailto_uri);
