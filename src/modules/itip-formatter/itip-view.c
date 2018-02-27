@@ -4322,9 +4322,13 @@ change_status (ESourceRegistry *registry,
 	} else {
 		icalparameter *param;
 
-		if (address != NULL) {
-			prop = icalproperty_new_attendee (address);
+		if (address && *address) {
+			gchar *mailto_uri;
+
+			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (address), NULL);
+			prop = icalproperty_new_attendee (mailto_uri);
 			icalcomponent_add_property (ical_comp, prop);
+			g_free (mailto_uri);
 
 			param = icalparameter_new_role (ICAL_ROLE_OPTPARTICIPANT);
 			icalproperty_add_parameter (prop, param);
@@ -4334,15 +4338,20 @@ change_status (ESourceRegistry *registry,
 		} else {
 			gchar *default_name = NULL;
 			gchar *default_address = NULL;
+			gchar *mailto_uri;
 
 			itip_get_default_name_and_address (
 				registry, &default_name, &default_address);
 
-			prop = icalproperty_new_attendee (default_address);
+			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (default_address), NULL);
+			prop = icalproperty_new_attendee (mailto_uri);
 			icalcomponent_add_property (ical_comp, prop);
+			g_free (mailto_uri);
 
-			param = icalparameter_new_cn (default_name);
-			icalproperty_add_parameter (prop, param);
+			if (default_name && *default_name && g_strcmp0 (default_name, default_address) != 0) {
+				param = icalparameter_new_cn (default_name);
+				icalproperty_add_parameter (prop, param);
+			}
 
 			param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
 			icalproperty_add_parameter (prop, param);
@@ -5808,8 +5817,14 @@ view_response_cb (ItipView *view,
 			e_cal_component_set_transparency (view->priv->comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
 	}
 
-	if (!view->priv->to_address && view->priv->current_client != NULL)
+	if (!view->priv->to_address && view->priv->current_client != NULL) {
 		e_client_get_backend_property_sync (E_CLIENT (view->priv->current_client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &view->priv->to_address, NULL, NULL);
+
+		if (view->priv->to_address && !*view->priv->to_address) {
+			g_free (view->priv->to_address);
+			view->priv->to_address = NULL;
+		}
+	}
 
 	/* check if it is a  recur instance (no master object) and
 	 * add a property */
