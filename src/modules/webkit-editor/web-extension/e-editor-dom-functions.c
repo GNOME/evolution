@@ -6959,7 +6959,6 @@ get_alpha_value (gint value,
                  gboolean lower)
 {
 	GString *str;
-	gchar *rv;
 	gint add = lower ? 'a' : 'A';
 
 	str = g_string_new (". ");
@@ -6969,10 +6968,7 @@ get_alpha_value (gint value,
 		value = (value - 1) / 26;
 	} while (value);
 
-	rv = str->str;
-	g_string_free (str, FALSE);
-
-	return rv;
+	return g_string_free (str, FALSE);
 }
 
 /* Taken from GtkHTML */
@@ -6982,7 +6978,6 @@ get_roman_value (gint value,
 {
 	GString *str;
 	const gchar *base = "IVXLCDM";
-	gchar *rv;
 	gint b, r, add = lower ? 'a' - 'A' : 0;
 
 	if (value > 3999)
@@ -7012,10 +7007,7 @@ get_roman_value (gint value,
 		}
 	}
 
-	rv = str->str;
-	g_string_free (str, FALSE);
-
-	return rv;
+	return g_string_free (str, FALSE);
 }
 
 static void
@@ -8352,13 +8344,15 @@ e_editor_dom_process_content_to_plain_text_for_exporting (EEditorPage *editor_pa
 				list_pre = webkit_dom_document_create_element (document, "pre", NULL);
 				webkit_dom_html_element_set_inner_text (
 					WEBKIT_DOM_HTML_ELEMENT (list_pre),
-					g_string_free (list_plain_text, FALSE),
+					list_plain_text->str,
 					NULL);
 				webkit_dom_node_replace_child (
 					WEBKIT_DOM_NODE (wrapper),
 					WEBKIT_DOM_NODE (list_pre),
 					item,
 					NULL);
+
+				g_string_free (list_plain_text, TRUE);
 			}
 			g_clear_object (&list);
 
