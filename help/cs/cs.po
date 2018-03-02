@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the evolution package.
 #
 # Jiri Eischmann <jiri@eischmann.cz>, 2008, 2009, 2010, 2011, 2012.
-# Marek Černocký <marek@manet.cz>, 2014, 2015, 2016, 2017.
+# Marek Černocký <marek@manet.cz>, 2014, 2015, 2016, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
-"POT-Creation-Date: 2017-11-15 08:27+0000\n"
-"PO-Revision-Date: 2017-11-17 20:32+0100\n"
+"POT-Creation-Date: 2018-02-27 21:02+0000\n"
+"PO-Revision-Date: 2018-03-02 19:03+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -3594,7 +3594,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:244
-#: C/intro-main-window.page:97
+#: C/intro-main-window.page:98
 msgid "Calendar"
 msgstr "Kalendář"
 
@@ -3631,7 +3631,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:286
-#: C/intro-main-window.page:143
+#: C/intro-main-window.page:144
 msgid "Contacts"
 msgstr "Kontakty"
 
@@ -4800,14 +4800,14 @@ msgid "Corresponding elements in the mail main window:"
 msgstr "Příslušné části v hlavním okně pošty:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:44 C/intro-main-window.page:101
-#: C/intro-main-window.page:147
+#: C/intro-main-window.page:44 C/intro-main-window.page:102
+#: C/intro-main-window.page:148
 msgid "<_:media-1/> Menu bar"
 msgstr "<_:media-1/> Nabídková lišta"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:47 C/intro-main-window.page:104
-#: C/intro-main-window.page:150
+#: C/intro-main-window.page:47 C/intro-main-window.page:105
+#: C/intro-main-window.page:151
 msgid "<_:media-1/> Tool bar"
 msgstr "<_:media-1/> Nástrojová lišta"
 
@@ -4817,8 +4817,8 @@ msgid "<_:media-1/> Folder list"
 msgstr "<_:media-1/> Seznam složek"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:51 C/intro-main-window.page:108
-#: C/intro-main-window.page:154
+#: C/intro-main-window.page:51 C/intro-main-window.page:109
+#: C/intro-main-window.page:155
 msgid "<_:media-1/> Search bar"
 msgstr "<_:media-1/> Vyhledávací lišta"
 
@@ -4838,14 +4838,14 @@ msgid "<_:media-1/> Preview pane"
 msgstr "<_:media-1/> Panel s náhledem"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:61 C/intro-main-window.page:119
-#: C/intro-main-window.page:160
+#: C/intro-main-window.page:61 C/intro-main-window.page:120
+#: C/intro-main-window.page:161
 msgid "<_:media-1/> Switcher"
 msgstr "<_:media-1/> Přepínač"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:64 C/intro-main-window.page:122
-#: C/intro-main-window.page:164
+#: C/intro-main-window.page:64 C/intro-main-window.page:123
+#: C/intro-main-window.page:165
 msgid "<_:media-1/> Status bar"
 msgstr "<_:media-1/> Stavová lišta"
 
@@ -4958,43 +4958,54 @@ msgstr ""
 "Panel k vyřízení můžete vypnout přepnutím <guiseq><gui>Zobrazit</gui> "
 "<gui>Rozložení</gui> <gui>Zobrazovat panel k vyřízení</gui></guiseq>."
 
+#. (itstool) path: note/p
+#: C/intro-main-window.page:94
+msgid ""
+"If you ever accidentially hide the menu bar, open a Terminal application and "
+"run the command <cmd>gsettings set org.gnome.evolution.shell menubar-visible "
+"true</cmd> to reenable it."
+msgstr ""
+"Pokud si nechtěně skryjete nabídkovou lištu, otevřete aplikaci Terminál a "
+"spuštěním příkazu <cmd>gsettings set org.gnome.evolution.shell menubar-"
+"visible true</cmd> si ji znovu zapněte."
+
 #. (itstool) path: section/p
-#: C/intro-main-window.page:98
+#: C/intro-main-window.page:99
 msgid "Elements in the calendar main window:"
 msgstr "Části hlavního okna kalendáře:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:107
+#: C/intro-main-window.page:108
 msgid "<_:media-1/> Calendar list"
 msgstr "<_:media-1/> Seznam kalendářů"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:111
+#: C/intro-main-window.page:112
 msgid "<_:media-1/> Appointment list"
 msgstr "<_:media-1/> Seznam událostí"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:112
+#: C/intro-main-window.page:113
 msgid "Task list"
 msgstr "Seznam úkolů"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:115
+#: C/intro-main-window.page:116
 msgid "Month pane"
 msgstr "Měsíční panel"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:116
+#: C/intro-main-window.page:117
 msgid "Memo list"
 msgstr "Seznam poznámek"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:127
+#: C/intro-main-window.page:128
 msgid "Appointment List"
 msgstr "Seznam událostí"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:128
+#: C/intro-main-window.page:129
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
@@ -5003,12 +5014,12 @@ msgstr ""
 "časovém období."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:131
+#: C/intro-main-window.page:132
 msgid "Month Pane"
 msgstr "Měsíční panel"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:132
+#: C/intro-main-window.page:133
 msgid ""
 "The month pane is a small view of a calendar month. To display additional "
 "months, drag the column border to the right. You can also select a range of "
@@ -5020,12 +5031,12 @@ msgstr ""
 "měsíčním panelu pro zobrazení vlastního rozsahu dnů v seznamu událostí."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:135
+#: C/intro-main-window.page:136
 msgid "Task list and Memo list"
 msgstr "Seznam úkolů a seznam poznámek"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:136
+#: C/intro-main-window.page:137
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -5036,27 +5047,27 @@ msgstr ""
 "hlavního okna."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:144
+#: C/intro-main-window.page:145
 msgid "Elements in the contacts main window:"
 msgstr "Části hlavního okna kontaktů:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:153
+#: C/intro-main-window.page:154
 msgid "<_:media-1/> Address book list"
 msgstr "<_:media-1/> Adresář"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:157
+#: C/intro-main-window.page:158
 msgid "<_:media-1/> Contacts list"
 msgstr "<_:media-1/> Seznam kontaktů"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:161
+#: C/intro-main-window.page:162
 msgid "<_:media-1/> Contact preview"
 msgstr "<_:media-1/> Náhled kontaktu"
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:167
+#: C/intro-main-window.page:168
 msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
