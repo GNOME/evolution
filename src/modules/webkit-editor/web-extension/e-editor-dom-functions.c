@@ -8806,6 +8806,60 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 		}
 
 		goto out;
+	} else {
+		WebKitDOMNodeList *list;
+		gulong ii;
+
+		list = webkit_dom_document_query_selector_all (document, "pre", NULL);
+		for (ii = webkit_dom_node_list_get_length (list); ii--;) {
+			WebKitDOMNode *node = webkit_dom_node_list_item (list, ii), *parent;
+			WebKitDOMElement *element;
+			gchar *inner_html;
+
+			element = WEBKIT_DOM_ELEMENT (node);
+			parent = webkit_dom_node_get_parent_node (node);
+			inner_html = webkit_dom_element_get_inner_html (element);
+
+			if (inner_html && *inner_html) {
+				gchar **strv;
+
+				strv = g_strsplit (inner_html, "\n", -1);
+				if (strv && strv[0] && strv[1]) {
+					WebKitDOMElement *pre;
+					gint jj;
+
+					for (jj = 0; strv[jj]; jj++) {
+						pre = webkit_dom_document_create_element (document, "pre", NULL);
+						if (*(strv[jj])) {
+							gint len = strlen (strv[jj]);
+
+							if (strv[jj][len - 1] == '\r') {
+								strv[jj][len - 1] = '\0';
+							}
+						}
+
+						if (*(strv[jj])) {
+							webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (pre), strv[jj], NULL);
+						} else {
+							WebKitDOMElement *br;
+
+							br = webkit_dom_document_create_element (document, "br", NULL);
+							webkit_dom_node_append_child (WEBKIT_DOM_NODE (pre), WEBKIT_DOM_NODE (br), NULL);
+						}
+
+						webkit_dom_node_insert_before (parent, WEBKIT_DOM_NODE (pre), node, NULL);
+					}
+
+					remove_node (node);
+				}
+
+				g_strfreev (strv);
+			}
+
+			g_free (inner_html);
+		}
+
+		g_clear_object (&list);
 	}
 
 	adapt_to_editor_dom_changes (document);
