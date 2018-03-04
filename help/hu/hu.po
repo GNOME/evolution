@@ -4,15 +4,15 @@
 # This file is distributed under the same license as the evolution help.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
 # Balázs Úr <urbalazs at gmail dot com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-08-11 18:10+0000\n"
-"PO-Revision-Date: 2017-08-27 22:26+0200\n"
+"POT-Creation-Date: 2017-12-29 18:33+0000\n"
+"PO-Revision-Date: 2018-03-04 23:56+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -27,7 +27,8 @@ msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.\n"
-"Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2015, 2017.\n"
+"Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2015, 2017, "
+"2018.\n"
 "Nagy Zoltán <dzodzie at gmail dot com>, 2011.\n"
 "Úr Balázs <urbalazs at gmail dot com>, 2014."
 
@@ -2705,9 +2706,9 @@ msgid ""
 "changes."
 msgstr ""
 "Másolja a módosítani kívánt <file>.ui</file> kiterjesztésű fájlokat a "
-"személyes <file>$HOME/.config/"
-"evolution/ui/</file> beállítókönyvtárába. Az átmásolt fájlokat módosítsa, "
-"hogy az <app>Evolution</app> következő frissítése már ne írhassa felül ezeket."
+"személyes <file>$HOME/.config/evolution/ui/</file> beállítókönyvtárába. Az "
+"átmásolt fájlokat módosítsa, hogy az <app>Evolution</app> következő "
+"frissítése már ne írhassa felül ezeket."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
@@ -2717,8 +2718,8 @@ msgid ""
 "default files provided by <app>Evolution</app>."
 msgstr ""
 "A módosított fájlok akkor lesznek felhasználva, ha a gyökér <code>ui</code> "
-"elem <code>evolution-ui-version</code> attribútuma megegyezik az <app>"
-"Evolution</app> által biztosított alapértelmezett fájlokéval."
+"elem <code>evolution-ui-version</code> attribútuma megegyezik az "
+"<app>Evolution</app> által biztosított alapértelmezett fájlokéval."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -3006,7 +3007,7 @@ msgstr "E-mailek vagy mellékletek végleges törlése"
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
-#: C/intro-main-window.page:35
+#: C/intro-keyboard-shortcuts.page:133 C/intro-main-window.page:35
 msgid "Mail"
 msgstr "Levelezés"
 
@@ -3222,14 +3223,14 @@ msgstr ""
 "profile\">Keresse meg a <app>Thunderbird</app> profil mappáját.</link>"
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:60
+#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr ""
 "Válassza a <guiseq><gui>Fájl</gui><gui>Importálás</gui></guiseq> menüpontot."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:61
+#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
@@ -3283,7 +3284,7 @@ msgstr ""
 "naptáradatokat nem szabványos formátumú adatbázisban tárolja."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr "A fájl típusa automatikusan meghatározásra kerül."
@@ -3298,7 +3299,7 @@ msgstr ""
 "<app>Evolutionben</app>)."
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:66
+#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Ismételje az importálási lépéseket, amíg nem importálta az összes adatát."
@@ -3314,7 +3315,7 @@ msgid "Outlook"
 msgstr "Outlook"
 
 #. (itstool) path: page/p
-#: C/import-apps-outlook.page:26
+#: C/import-apps-outlook.page:28
 msgid ""
 "These steps refer to locally stored data such as POP accounts. For remote "
 "data (like IMAP) this is not necessary, since the data is still on the "
@@ -3329,19 +3330,19 @@ msgstr ""
 "<app>Evolutionben</app>, és az adatok letöltésre kerülnek."
 
 #. (itstool) path: section/title
-#: C/import-apps-outlook.page:29
+#: C/import-apps-outlook.page:31
 msgid "Prerequisites under Windows"
 msgstr "Előfeltételek Windows alatt"
 
 #. (itstool) path: section/p
-#: C/import-apps-outlook.page:30
+#: C/import-apps-outlook.page:32
 msgid "First, while using Microsoft Windows, prepare your messages for import:"
 msgstr ""
 "Első lépésként a Microsoft Windows használata során készítse elő üzeneteit "
 "importálásra:"
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:32
+#: C/import-apps-outlook.page:34
 msgid ""
 "Find your Outlook files (they normally have the file ending <file>.pst</"
 "file> or <file>.ost</file>):"
@@ -3350,27 +3351,27 @@ msgstr ""
 "<file>.ost</file> kiterjesztésűek):"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:35
+#: C/import-apps-outlook.page:37
 msgid "Windows 7, Windows Vista"
 msgstr "Windows 7, Windows Vista"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:35
+#: C/import-apps-outlook.page:37
 msgid "Windows XP"
 msgstr "Windows XP"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:38
+#: C/import-apps-outlook.page:40
 msgid "Outlook 2010"
 msgstr "Outlook 2010"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:38
+#: C/import-apps-outlook.page:40
 msgid "<file>C:\\Users\\username\\My Documents\\Outlook Files</file>"
 msgstr "<file>C:\\Users\\felhasználónév\\Dokumentumok\\Outlook Fájlok</file>"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:38
+#: C/import-apps-outlook.page:40
 msgid ""
 "<file>C:\\Documents and Settings\\username\\My Documents\\Outlook Files</"
 "file>"
@@ -3379,18 +3380,18 @@ msgstr ""
 "Fájlok</file>"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:41
+#: C/import-apps-outlook.page:43
 msgid "Outlook 2007 and earlier"
 msgstr "Outlook 2007 és korábbi"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:41
+#: C/import-apps-outlook.page:43
 msgid "<file>C:\\Users\\username\\AppData\\Local\\Microsoft\\Outlook</file>"
 msgstr ""
 "<file>C:\\Users\\felhasználónév\\AppData\\Local\\Microsoft\\Outlook</file>"
 
 #. (itstool) path: td/p
-#: C/import-apps-outlook.page:41
+#: C/import-apps-outlook.page:43
 msgid ""
 "<file>C:\\Documents and Settings\\username\\AppData\\Local\\Microsoft"
 "\\Outlook</file>"
@@ -3399,12 +3400,12 @@ msgstr ""
 "\\Outlook</file>"
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:44
+#: C/import-apps-outlook.page:46
 msgid "(Replace \"username\" by your username.)"
 msgstr "(A „felhasználónév” helyett saját felhasználónevét használja.)"
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:47
+#: C/import-apps-outlook.page:49
 msgid ""
 "Copy the Outlook files to the system or partition that <app>Evolution</app> "
 "is installed on."
@@ -3413,7 +3414,7 @@ msgstr ""
 "<app>Evolution</app> telepítve van."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:48
+#: C/import-apps-outlook.page:50
 msgid ""
 "As your Windows hard drive is probably in the NTFS format, some Linux "
 "systems cannot read it without additional software. You might find it "
@@ -3424,12 +3425,12 @@ msgstr ""
 "lehet a levélmappákat USB-meghajtóra vagy CD-re másolni."
 
 #. (itstool) path: section/title
-#: C/import-apps-outlook.page:53
+#: C/import-apps-outlook.page:55
 msgid "Importing into <app>Evolution</app>"
 msgstr "Importálás az <app>Evolutionbe</app>"
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:55
+#: C/import-apps-outlook.page:57
 msgid ""
 "Depending on your last step, either plug in the disk or USB drive with the "
 "data and wait until the file manager window opens, or mount your Windows "
@@ -3440,7 +3441,7 @@ msgstr ""
 "Windows rendszert tartalmazó meghajtóját."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:56
+#: C/import-apps-outlook.page:58
 msgid ""
 "Copy all the mail files into your home directory or another convenient place."
 msgstr ""
@@ -3448,12 +3449,12 @@ msgstr ""
 "elérhető helyre."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:57 C/mail-filters-not-working.page:48
+#: C/import-apps-outlook.page:59 C/mail-filters-not-working.page:48
 msgid "Start <app>Evolution</app>."
 msgstr "Indítsa el az <app>Evolutiont</app>."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:58
+#: C/import-apps-outlook.page:60
 msgid ""
 "Optionally select <guiseq><gui>File</gui><gui>New</gui><gui>Mail Folder</"
 "gui></guiseq> to create the <link xref=\"mail-folders\">folders</link> you "
@@ -3464,14 +3465,14 @@ msgstr ""
 "létrehozásához."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:62
+#: C/import-apps-outlook.page:64
 msgid ""
 "Choose the Outlook personal folders (.pst) file that you would like to "
 "import."
 msgstr "Válassza ki az importálni kívánt Outlook (.pst) fájlt."
 
 #. (itstool) path: note/p
-#: C/import-apps-outlook.page:63
+#: C/import-apps-outlook.page:65
 msgid ""
 "If the option to import Outlook personal folders (.pst files) is not "
 "available under <guiseq><gui>File</gui><gui>Import</gui><gui>Import single "
@@ -3484,7 +3485,7 @@ msgstr ""
 "akkor a disztribúciója nem kapcsolta be ezt a funkciót."
 
 #. (itstool) path: item/p
-#: C/import-apps-outlook.page:65 C/import-single-files.page:27
+#: C/import-apps-outlook.page:67 C/import-single-files.page:27
 msgid ""
 "Choose the destination (e.g. the folder in <app>Evolution</app>) for the "
 "imported data."
@@ -3555,9 +3556,9 @@ msgid ""
 msgstr ""
 "A <gui>Fájltípus</gui> <gui>Névjegyek CSV vagy Tab</gui> formátumra "
 "állításakor az oszlopfejléceknek meg kell felelniük minden elemben az első "
-"bejegyzés angol nevének az importáló kódban az <link "
-"href=\"https://git.gnome.org/browse/evolution/"
-"tree/src/addressbook/importers/evolution-csv-importer.c?"
+"bejegyzés angol nevének az importáló kódban az <link href=\"https://git."
+"gnome.org/browse/evolution/tree/src/addressbook/importers/evolution-csv-"
+"importer.c?"
 "id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
 "link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
 "addressbook/importers/evolution-csv-importer.c?"
@@ -3633,7 +3634,8 @@ msgstr ""
 "fájlformátum. Újabb verziókhoz a PST-importálás szükséges."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:46 C/intro-main-window.page:97
+#: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:244
+#: C/intro-main-window.page:98
 msgid "Calendar"
 msgstr "Naptár"
 
@@ -3668,7 +3670,8 @@ msgstr ""
 "<app>Microsoft Outlook</app>, Palm OS kéziszámítógépek és mások használnak."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:60 C/intro-main-window.page:143
+#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:286
+#: C/intro-main-window.page:144
 msgid "Contacts"
 msgstr "Névjegyek"
 
@@ -4053,7 +4056,7 @@ msgstr "Ehhez telepítve kell lennie az <sys>evolution-ews</sys> csomagnak."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:108 C/mail-account-manage-microsoft-exchange.page:31
+#: C/intro-first-run.page:108 C/mail-account-manage-microsoft-exchange.page:30
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4086,7 +4089,7 @@ msgstr "Ehhez telepítve kell lennie az <sys>evolution-mapi</sys> csomagnak."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:132 C/mail-account-manage-microsoft-exchange.page:42
+#: C/intro-first-run.page:132 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4289,6 +4292,570 @@ msgstr ""
 "alkalmazásból</link> szakasszal."
 
 #. (itstool) path: info/desc
+#: C/intro-keyboard-shortcuts.page:5
+#| msgid "Keyboard shortcuts that can save you some time when reading mail."
+msgid "Keyboard shortcuts that can save you some time."
+msgstr "Időt spórolhat ezekkel a gyorsbillentyűkkel."
+
+#. (itstool) path: page/title
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:25 C/mail-composer-reply.page:41
+msgid "Shortcut keys"
+msgstr "Gyorsbillentyűk"
+
+#. (itstool) path: page/p
+#: C/intro-keyboard-shortcuts.page:27
+msgid ""
+"This page provides an overview of keyboard shortcuts that can help you use "
+"<app>Evolution</app> more efficiently."
+msgstr ""
+"Ez az oldal bemutatja az <app>Evolution</app> hatékonyabb használatát segítő "
+"gyorsbillentyűket."
+
+#. (itstool) path: section/title
+#: C/intro-keyboard-shortcuts.page:31
+msgid "Global"
+msgstr "Globális"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:34
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:37
+msgid "Select Mail component."
+msgstr "A levelező komponens kiválasztása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:40
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:43
+msgid "Select Contacts component."
+msgstr "A névjegy komponens kiválasztása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:46
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:49
+msgid "Select Calendars component."
+msgstr "A naptár komponens kiválasztása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:52
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:55
+msgid "Select Tasks component."
+msgstr "A feladatok komponens kiválasztása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:58
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:61
+msgid "Select Memos component."
+msgstr "A feljegyzések komponens kiválasztása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:64
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:67
+msgid "Create a new item in current component."
+msgstr "Új elem létrehozása az aktuális komponensben."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:70
+msgid "<key>F6</key>"
+msgstr "<key>F6</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:73
+msgid "Cycle focus between panes."
+msgstr "Fókuszváltás az ablaktáblák közt."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:76
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:79
+#| msgid "<_:media-1/> Search bar"
+msgid "Clear search bar."
+msgstr "A keresősáv törlése."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:82
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:85
+msgid "Close window."
+msgstr "Ablak bezárása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:88
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:91
+msgid "Open new window."
+msgstr "Új ablak megnyitása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:94
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:97
+#| msgid "Start <app>Evolution</app>."
+msgid "Quit <app>Evolution</app>."
+msgstr "Kilépés az <app>Evolutionből</app>."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:100
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:103
+msgid "Print selection."
+msgstr "A kijelölés nyomtatása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:106
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:109
+msgid "Save selection."
+msgstr "A kijelölés mentése."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:112
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<key>Del</key> or <key>Backspace</key>"
+msgstr "<key>Del</key> vagy <key>Backspace</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:115
+#| msgid "Delegating Meetings"
+msgid "Delete selection."
+msgstr "Kijelölés törlése."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:118
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:121
+msgid "Move mails or contacts to folder."
+msgstr "Levelek vagy névjegyek áthelyezése mappába."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:124
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:127
+msgid "Copy mails or contacts to folder."
+msgstr "Levelek vagy névjegyek másolása mappába."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:136
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:139
+#| msgid "Composing a new message"
+msgid "Create a new message."
+msgstr "Új üzenet létrehozása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:142
+msgid "<key>F12</key>"
+msgstr "<key>F12</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:145
+#| msgid "Manually send and receive messages"
+msgid "Send and receive messages."
+msgstr "Üzenetek küldése és fogadása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:148
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:151
+msgid "Apply filters to selection."
+msgstr "Szűrők alkalmazása a kijelölésre."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:154
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>"
+msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq> vagy <key>Enter</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:157
+msgid "Open selection in new window."
+msgstr "Kijelölés megnyitása új ablakban."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:160
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:163
+#| msgid "Forward to:"
+msgid "Forward selection."
+msgstr "Kijelölés továbbítása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:166
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:169
+msgid "Mark the selection as read."
+msgstr "Kijelölés megjelölése olvasottként."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:172
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:175
+msgid "Mark the selection as unread."
+msgstr "Kijelölés megjelölése olvasatlanként."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:178
+msgid "<key>↓</key>"
+msgstr "<key>↓</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:181
+#| msgid "Composing a new message"
+msgid "Jump to next message."
+msgstr "Ugrás a következő üzenetre."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:184
+msgid "<key>↑</key>"
+msgstr "<key>↑</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:187
+msgid "Jump to previous message."
+msgstr "Ugrás az előző üzenetre."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:190
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<key>.</key> or <key>]</key>"
+msgstr "<key>.</key> vagy <key>]</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:193
+msgid "Jump to next unread message."
+msgstr "Ugrás a következő olvasatlan üzenetre."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:196
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<key>,</key> or <key>[</key>"
+msgstr "<key>,</key> vagy <key>[</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:199
+msgid "Jump to previous unread message."
+msgstr "Ugrás az előző olvasatlan üzenetre."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:202 C/mail-composer-reply.page:43
+msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:205
+#| msgid "Reply to Sender"
+msgid "Reply to sender."
+msgstr "Válasz a feladónak."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:208 C/mail-composer-reply.page:45
+msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:211
+#| msgid "Reply to All"
+msgid "Reply to list."
+msgstr "Válasz a listára."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:214 C/mail-composer-reply.page:47
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:217
+#| msgid "Autocompletion of mail recipients"
+msgid "Reply to all recipients."
+msgstr "Válasz az összes címzettnek."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:220
+msgid "<key>Backspace</key>"
+msgstr "<key>Backspace</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:223
+msgid "Scroll up."
+msgstr "Görgetés felfelé."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:226
+msgid "<key>Space</key>"
+msgstr "<key>Szóköz</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:229
+msgid "Scroll down."
+msgstr "Görgetés lefelé."
+
+#. (itstool) path: section/p
+#: C/intro-keyboard-shortcuts.page:233
+#| msgid "Navigating in unread mail across folders"
+msgid "<key>Space</key> also allows navigating in unread mail across folders:"
+msgstr ""
+"A <key>Szóköz</key> lehetővé teszi a navigációt az olvasatlan üzenetekben "
+"mappák között:"
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:235
+msgid ""
+"When you press the Spacebar for the first time, it takes you to the next "
+"unread message."
+msgstr "Az első megnyomásakor a következő olvasatlan levélre viszi."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:236
+#| msgid ""
+#| "If the message is more than one screen long, the Spacebar works as "
+#| "<key>Page Down</key>."
+msgid ""
+"If the message is more than one screen long, <key>Space</key> works as "
+"<key>Page Down</key>."
+msgstr ""
+"Ha a levél egy képernyőnél hosszabb, akkor a <key>Szóköz<key> úgy működik, "
+"mint a "
+"<key>Page Down</key>."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:237
+#| msgid ""
+#| "If you press the Spacebar after you reach the bottom of the page, it "
+#| "takes you to the next unread message."
+msgid ""
+"If you press <key>Space</key> after you reach the bottom of the page, it "
+"takes you to the next unread message."
+msgstr ""
+"Ha a <key>Szóközt</key> az oldal aljának elérése után nyomja meg, akkor a "
+"következő "
+"olvasatlan üzenetre viszi."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:238
+#| msgid ""
+#| "If there are no more unread messages in the mailbox, pressing the "
+#| "Spacebar takes you to the next unread message in the next folder."
+msgid ""
+"If there are no more unread messages in the mailbox, pressing <key>Space</"
+"key> takes you to the next unread message in the next folder."
+msgstr ""
+"Ha nincs több olvasatlan levél a postafiókban, akkor a <key>Szóköz</key> "
+"megnyomása a "
+"következő mappa következő olvasatlan levelére viszi."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:239
+#| msgid ""
+#| "If new messages arrive in a number of folders, the Spacebar toggles "
+#| "between those folders. This feature allows you to switch to the next "
+#| "unread message in a different folder without clicking the folder."
+msgid ""
+"If new messages arrive in a number of folders, <key>Space</key> toggles "
+"between those folders. This feature allows you to switch to the next unread "
+"message in a different folder without clicking the folder."
+msgstr ""
+"Ha több mappába is érkeznek új üzenetek, akkor a <key>Szóköz</key> a mappák "
+"közt vált. "
+"Ez a szolgáltatás lehetővé teszi, hogy a következő olvasatlan levélre úgy "
+"válthasson át, hogy nem kattint a mappára."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:247
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:250
+#| msgid "Repeating appointments."
+msgid "Create a new appointment."
+msgstr "Új értekezlet létrehozása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:253
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:256
+msgid "Create a new meeting."
+msgstr "Új találkozó létrehozása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:259
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:262
+msgid "Create a new task."
+msgstr "Új feladat létrehozása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:265
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:268
+msgid "Create a new memo."
+msgstr "Új feljegyzés létrehozása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:271
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:274
+msgid "Go to today."
+msgstr "Ugrás a mai napra."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:277
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:280
+msgid "Go to date."
+msgstr "Ugrás dátumra."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:289
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:292
+#| msgid "Creating a contact list"
+msgid "Create a new contact."
+msgstr "Új névjegy létrehozása."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:295
+#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
+msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:298
+#| msgid "Creating a contact list"
+msgid "Create a new contact list."
+msgstr "Új címlista létrehozása."
+
+#. (itstool) path: section/title
+#: C/intro-keyboard-shortcuts.page:304
+msgid "Changing keyboard shortcuts"
+msgstr "Gyorsbillentyűk megváltoztatása"
+
+#. (itstool) path: note/p
+#: C/intro-keyboard-shortcuts.page:305
+msgid ""
+"Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
+"config/evolution/accels</file>."
+msgstr ""
+"A tapasztalt felhasználók személyre szabhatják a gyorsbillentyűket a <file>"
+"$HOME/.config/evolution/accels</file> fájl szerkesztésével."
+
+#. (itstool) path: note/p
+#: C/intro-keyboard-shortcuts.page:305
+msgid ""
+"See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
+"evolution-in-gnome/\">this blog post</link> for more information."
+msgstr ""
+"További információkért nézze meg <link href=\"https://major.io/2015/11/27/"
+"custom-keyboard-shortcuts-for-evolution-in-gnome/\">ezt a blogbejegyzést</"
+"link>."
+
+#. (itstool) path: info/desc
 #: C/intro-main-window.page:5
 msgid "An explanation of the areas shown in the <app>Evolution</app> window."
 msgstr "Az <app>Evolution</app> ablakban látható területek ismertetése."
@@ -4317,10 +4884,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:37
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/window-overview-layers.png' "
-#| "md5='3156497ff1c51756838f9ddfbce9baee'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
@@ -4340,14 +4903,14 @@ msgid "Corresponding elements in the mail main window:"
 msgstr "A levelező főablak elemei:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:44 C/intro-main-window.page:101
-#: C/intro-main-window.page:147
+#: C/intro-main-window.page:44 C/intro-main-window.page:102
+#: C/intro-main-window.page:148
 msgid "<_:media-1/> Menu bar"
 msgstr "<_:media-1/> Menüsáv"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:47 C/intro-main-window.page:104
-#: C/intro-main-window.page:150
+#: C/intro-main-window.page:47 C/intro-main-window.page:105
+#: C/intro-main-window.page:151
 msgid "<_:media-1/> Tool bar"
 msgstr "<_:media-1/> Eszköztár"
 
@@ -4357,8 +4920,8 @@ msgid "<_:media-1/> Folder list"
 msgstr "<_:media-1/> Mappalista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:51 C/intro-main-window.page:108
-#: C/intro-main-window.page:154
+#: C/intro-main-window.page:51 C/intro-main-window.page:109
+#: C/intro-main-window.page:155
 msgid "<_:media-1/> Search bar"
 msgstr "<_:media-1/> Keresősáv"
 
@@ -4369,7 +4932,6 @@ msgstr "<_:media-1/> Üzenetlista"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:55
-#| msgid "<_:media-1/> Tool bar"
 msgid "<_:media-1/> To Do bar"
 msgstr "<_:media-1/> Teendő sáv"
 
@@ -4379,14 +4941,14 @@ msgid "<_:media-1/> Preview pane"
 msgstr "<_:media-1/> Előnézet ablaktábla"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:61 C/intro-main-window.page:119
-#: C/intro-main-window.page:160
+#: C/intro-main-window.page:61 C/intro-main-window.page:120
+#: C/intro-main-window.page:161
 msgid "<_:media-1/> Switcher"
 msgstr "<_:media-1/> Váltógombok"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:64 C/intro-main-window.page:122
-#: C/intro-main-window.page:164
+#: C/intro-main-window.page:64 C/intro-main-window.page:123
+#: C/intro-main-window.page:165
 msgid "<_:media-1/> Status bar"
 msgstr "<_:media-1/> Állapotsor"
 
@@ -4494,54 +5056,62 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:91
-#| msgid ""
-#| "You can disable the preview pane by toggling <guiseq><gui>View</"
-#| "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
 msgid ""
 "You can disable the to do bar by toggling <guiseq><gui>View</"
 "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
 msgstr ""
-"A <guiseq><gui>Nézet</gui><gui>Előnézet</gui><gui>Teendő sáv megjelenítése<"
-"/gui></guiseq> menüpont kiválasztásával kikapcsolhatja az "
-"előnézet ablaktáblát."
+"A <guiseq><gui>Nézet</gui><gui>Előnézet</gui><gui>Teendő sáv megjelenítése</"
+"gui></guiseq> menüpont kiválasztásával kikapcsolhatja az előnézet "
+"ablaktáblát."
+
+#. (itstool) path: note/p
+#: C/intro-main-window.page:94
+msgid ""
+"If you ever accidentially hide the menu bar, open a Terminal application and "
+"run the command <cmd>gsettings set org.gnome.evolution.shell menubar-visible "
+"true</cmd> to reenable it."
+msgstr ""
+"Ha véletlenül elrejti a menüsávot, akkor nyisson egy Terminált, és futtassa a "
+"következő parancsot a visszakapcsolásához: <cmd>gsettings set "
+"org.gnome.evolution.shell menubar-visible true</cmd>"
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:98
+#: C/intro-main-window.page:99
 msgid "Elements in the calendar main window:"
 msgstr "A naptár főablak elemei:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:107
+#: C/intro-main-window.page:108
 msgid "<_:media-1/> Calendar list"
 msgstr "<_:media-1/> Naptárlista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:111
+#: C/intro-main-window.page:112
 msgid "<_:media-1/> Appointment list"
 msgstr "<_:media-1/> Találkozólista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:112
+#: C/intro-main-window.page:113
 msgid "Task list"
 msgstr "Feladatlista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:115
+#: C/intro-main-window.page:116
 msgid "Month pane"
 msgstr "Hónap ablaktábla"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:116
+#: C/intro-main-window.page:117
 msgid "Memo list"
 msgstr "Feljegyzéslista"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:127
+#: C/intro-main-window.page:128
 msgid "Appointment List"
 msgstr "Találkozólista"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:128
+#: C/intro-main-window.page:129
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
@@ -4550,12 +5120,12 @@ msgstr ""
 "időszakban."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:131
+#: C/intro-main-window.page:132
 msgid "Month Pane"
 msgstr "Hónap ablaktábla"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:132
+#: C/intro-main-window.page:133
 msgid ""
 "The month pane is a small view of a calendar month. To display additional "
 "months, drag the column border to the right. You can also select a range of "
@@ -4568,12 +5138,12 @@ msgstr ""
 "időszakot jeleníthet meg."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:135
+#: C/intro-main-window.page:136
 msgid "Task list and Memo list"
 msgstr "Feladatlista és feljegyzéslista"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:136
+#: C/intro-main-window.page:137
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -4584,27 +5154,27 @@ msgstr ""
 "ezek főablakaira."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:144
+#: C/intro-main-window.page:145
 msgid "Elements in the contacts main window:"
 msgstr "A névjegyek főablak elemei:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:153
+#: C/intro-main-window.page:154
 msgid "<_:media-1/> Address book list"
 msgstr "<_:media-1/> Címjegyzéklista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:157
+#: C/intro-main-window.page:158
 msgid "<_:media-1/> Contacts list"
 msgstr "<_:media-1/> Névjegyek listája"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:161
+#: C/intro-main-window.page:162
 msgid "<_:media-1/> Contact preview"
 msgstr "<_:media-1/> Névjegy előnézete"
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:167
+#: C/intro-main-window.page:168
 msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
@@ -4896,8 +5466,6 @@ msgstr "Alapértékek"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-imap-plus.page:57
-#| msgctxt "link"
-#| msgid "Sending Email (IMAP+ accounts)"
 msgctxt "link"
 msgid "Composing Messages (IMAP+ accounts)"
 msgstr "Üzenetek írása (IMAP+ fiókok)"
@@ -4913,7 +5481,6 @@ msgstr "Üzenetek írása (IMAP+ fiókok)"
 #: C/mail-account-manage-unix-mbox-spool-directory.page:59
 #: C/mail-account-manage-unix-mbox-spool-file.page:59
 #: C/mail-account-manage-usenet-news.page:59
-#| msgid "Composing a new message"
 msgid "Composing Messages"
 msgstr "Üzenetek írása"
 
@@ -5004,8 +5571,6 @@ msgstr "Alapbeállítások (helyi kézbesítésű fiókok)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-local-delivery.page:57
-#| msgctxt "link"
-#| msgid "Sending Email (Local Delivery accounts)"
 msgctxt "link"
 msgid "Composing Messages (Local Delivery accounts)"
 msgstr "Üzenetek írása (helyi kézbesítésű fiókok)"
@@ -5057,8 +5622,6 @@ msgstr "Alapbeállítások (Maildir-formátumú levélkönyvtár fiókok)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:58
-#| msgctxt "link"
-#| msgid "Defaults (Maildir Format Mail Directories accounts)"
 msgctxt "link"
 msgid "Composing Messages (Maildir Format Mail Directories accounts)"
 msgstr "Üzenetek írása (Maildir-formátumú levélkönyvtár fiókok)"
@@ -5127,8 +5690,6 @@ msgstr "Alapbeállítások (MH-formátumú levélkönyvtár fiókok)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-mh-format-directories.page:57
-#| msgctxt "link"
-#| msgid "Defaults (MH Format Mail Directories accounts)"
 msgctxt "link"
 msgid "Composing Messages (MH Format Mail Directories accounts)"
 msgstr "Üzenetek írása (MH-formátumú levélkönyvtár fiókok)"
@@ -5167,8 +5728,6 @@ msgstr "Alapbeállítások (Webes Exchange-szolgáltatások fiókok)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:50
-#| msgctxt "link"
-#| msgid "Defaults (Exchange Web Services accounts)"
 msgctxt "link"
 msgid "Composing Messages (Exchange Web Services accounts)"
 msgstr "Üzenetek írása (Webes Exchange-szolgáltatások fiókok)"
@@ -5195,7 +5754,6 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
-#| msgid "Delete:"
 msgid "Delegates"
 msgstr "Meghatalmazottak"
 
@@ -5231,8 +5789,6 @@ msgstr "Alapbeállítások (Exchange MAPI fiókok)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50
-#| msgctxt "link"
-#| msgid "Defaults (Exchange MAPI accounts)"
 msgctxt "link"
 msgid "Composing Messages (Exchange MAPI accounts)"
 msgstr "Üzenetek írása (Exchange MAPI fiókok)"
@@ -5259,12 +5815,12 @@ msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
 msgstr "Microsoft Exchange fiók hozzáadása és szerkesztése."
 
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange.page:23
+#: C/mail-account-manage-microsoft-exchange.page:22
 msgid "Microsoft Exchange account settings"
 msgstr "Microsoft Exchange fiók beállításai"
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:25
+#: C/mail-account-manage-microsoft-exchange.page:24
 msgid ""
 "Depending on the version of the Microsoft Exchange server that you would "
 "like to connect to it is required to make sure that an additional package is "
@@ -5274,7 +5830,7 @@ msgstr ""
 "szeretne, telepítenie kell az adott funkcionalitást biztosító csomagot."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:27
+#: C/mail-account-manage-microsoft-exchange.page:26
 msgid ""
 "For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
 "package <sys>evolution-ews</sys>."
@@ -5283,7 +5839,7 @@ msgstr ""
 "csomag használata javasolt."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:37
+#: C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
 "does not work well for you, try <sys>evolution-mapi</sys>. It uses "
@@ -5299,7 +5855,7 @@ msgstr ""
 "ews</sys>-é."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:47
+#: C/mail-account-manage-microsoft-exchange.page:46
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
@@ -5308,7 +5864,7 @@ msgstr ""
 "rendszergazdától kaphat további információkat."
 
 #. (itstool) path: page/p
-#: C/mail-account-manage-microsoft-exchange.page:49
+#: C/mail-account-manage-microsoft-exchange.page:48
 msgid ""
 "For topics not covered here please refer to the <link href=\"https://help."
 "gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
@@ -5348,8 +5904,6 @@ msgstr "Alapbeállítások (POP fiókok)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:57
-#| msgctxt "link"
-#| msgid "Sending Email (POP accounts)"
 msgctxt "link"
 msgid "Composing Messages (POP accounts)"
 msgstr "Üzenetek írása (POP fiókok)"
@@ -5396,8 +5950,6 @@ msgstr "Alapbeállítások (szabványos Unix mbox tárolókönyvtár fiókok)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:57
-#| msgctxt "link"
-#| msgid "Defaults (Standard Unix mbox Spool Directory accounts)"
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool Directory accounts)"
 msgstr "Üzenetek írása (szabványos Unix mbox tárolókönyvtár fiókok)"
@@ -5443,8 +5995,6 @@ msgstr "Alapbeállítások (szabványos Unix mbox tárolófájl fiókok)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:57
-#| msgctxt "link"
-#| msgid "Defaults (Standard Unix mbox Spool File accounts)"
 msgctxt "link"
 msgid "Composing Messages (Standard Unix mbox Spool File accounts)"
 msgstr "Üzenetek írása (szabványos Unix mbox tárolófájl fiókok)"
@@ -5485,8 +6035,6 @@ msgstr "Alapbeállítások (Usenet hírfiókok)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:57
-#| msgctxt "link"
-#| msgid "Sending Email (Usenet News accounts)"
 msgctxt "link"
 msgid "Composing Messages (Usenet News accounts)"
 msgstr "Üzenetek írása (Usenet hírfiókok)"
@@ -5570,11 +6118,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:33
-#| msgid ""
-#| "The options available for an attachment vary depending on the type of "
-#| "attachment and the applications that are installed on your system. For "
-#| "example, image files can be opened in the <gui>Image Viewer</gui> "
-#| "application or in the <gui>GIMP</gui> graphics editor."
 msgid ""
 "The options available for an attachment vary depending on the type of "
 "attachment and the applications that are installed on your system. Your "
@@ -5807,25 +6350,17 @@ msgstr "Nem találom a leveleimet, hol vannak?"
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:24
-#| msgid ""
-#| "Check whether you are using filters on incoming (or outgoing) messages. "
-#| "These could be automatically moving your messages to another destination."
 msgid ""
 "Check whether you are <link xref=\"mail-filters-not-working\">using filters</"
 "link> on incoming (or outgoing) messages. These could be automatically "
 "moving your messages to another destination."
 msgstr ""
 "Ellenőrizze, hogy nem <link xref=\"mail-filters-not-working\">használ-e "
-"szűrőket</link> a bejövő (vagy kimenő) üzeneteire. "
-"Ezek automatikusan áthelyezhetik üzeneteit más helyekre."
+"szűrőket</link> a bejövő (vagy kimenő) üzeneteire. Ezek automatikusan "
+"áthelyezhetik üzeneteit más helyekre."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:27
-#| msgid ""
-#| "Check your search view in the search bar right above the message list. "
-#| "Perhaps the <gui>Show</gui> dropdown list is set to a filter like "
-#| "<gui>Read Messages</gui>, or the text input filed contains some value. "
-#| "Click the broom icon to clear the search field."
 msgid ""
 "Check your <link xref=\"mail-searching#search-many\">search view in the "
 "search bar</link> right above the message list. Perhaps the <gui>Show</gui> "
@@ -5833,12 +6368,11 @@ msgid ""
 "input filed contains some value. Click the broom icon to clear the search "
 "field."
 msgstr ""
-"Ellenőrizze a <link xref=\"mail-searching#search-many\">keresés nézetet "
-"az üzenetlista feletti keresősávban</link>. Lehet, "
-"hogy a <gui>Megjelenítés</gui> legördülő lista egy olyan szűrőre van "
-"állítva, mint az <gui>Olvasott üzenetek</gui>, vagy a szövegbeviteli mezőbe "
-"valami van írva. Ebben az esetben kattintson a seprű ikonra a keresőmező "
-"törléséhez."
+"Ellenőrizze a <link xref=\"mail-searching#search-many\">keresés nézetet az "
+"üzenetlista feletti keresősávban</link>. Lehet, hogy a <gui>Megjelenítés</"
+"gui> legördülő lista egy olyan szűrőre van állítva, mint az <gui>Olvasott "
+"üzenetek</gui>, vagy a szövegbeviteli mezőbe valami van írva. Ebben az "
+"esetben kattintson a seprű ikonra a keresőmező törléséhez."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:30
@@ -5855,19 +6389,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
-#| msgid ""
-#| "Look in the <gui>Junk</gui> folder. Messages that are marked as Junk "
-#| "disappear from the original folder and are moved to the <gui>Junk</gui> "
-#| "folder."
 msgid ""
 "Look in the <link xref=\"mail-spam\"><gui>Junk</gui> folder</link>. Messages "
 "that are marked as Junk disappear from the original folder and are moved to "
 "the <gui>Junk</gui> folder."
 msgstr ""
 "Nézze meg a <link xref=\"mail-spam\"><gui>Levélszemét</gui></link> mappát. A "
-"levélszemétként megjelölt "
-"üzenetek eltűnnek az eredeti mappájukból, és a <gui>Levélszemét</gui> "
-"mappába kerülnek áthelyezésre."
+"levélszemétként megjelölt üzenetek eltűnnek az eredeti mappájukból, és a "
+"<gui>Levélszemét</gui> mappába kerülnek áthelyezésre."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:37
@@ -5886,8 +6415,8 @@ msgid ""
 "link> Perhaps they are set to some other folder than the folder you thought "
 "of."
 msgstr ""
-"<link xref=\"mail-default-folder-locations\">Ellenőrizze mappabeállításait.<"
-"/link> Talán másik mappára vannak állítva, mint amelyikről Ön ezt gondolja."
+"<link xref=\"mail-default-folder-locations\">Ellenőrizze mappabeállításait.</"
+"link> Talán másik mappára vannak állítva, mint amelyikről Ön ezt gondolja."
 
 #. (itstool) path: info/desc
 #: C/mail-change-columns-in-message-list.page:5
@@ -6836,10 +7365,6 @@ msgstr "Aláírások kezelése"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures-manage.page:22
-#| msgid ""
-#| "You can add, edit and delete all your signatures under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Composer preferences</gui><gui>Signatures</"
-#| "gui></guiseq>."
 msgid ""
 "You can add, edit and delete all your signatures under <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Signatures</"
@@ -6885,11 +7410,6 @@ msgstr "E-mail aláírások használata"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures.page:23
-#| msgid ""
-#| "A signature consists of one or more lines of text (or even a picture) "
-#| "that will be added at the end of an email that you send. It can contain "
-#| "contact information or other things. A signature always begins with two "
-#| "dashes and a space (<code>-- </code>)."
 msgid ""
 "A signature consists of one or more lines of text (or even a picture) that "
 "will be added at the end of an email that you send. It can contain contact "
@@ -7474,19 +7994,9 @@ msgid "Action"
 msgstr "Művelet"
 
 #. (itstool) path: td/p
-#: C/mail-composer-reply.page:41
-msgid "Shortcut keys"
-msgstr "Gyorsbillentyűk"
-
-#. (itstool) path: td/p
 #: C/mail-composer-reply.page:43
 msgid "Reply to Sender"
 msgstr "Válasz a feladónak"
-
-#. (itstool) path: td/p
-#: C/mail-composer-reply.page:43
-msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/mail-composer-reply.page:45
@@ -7494,19 +8004,9 @@ msgid "Reply to Mailing List"
 msgstr "Válasz a levelezőlistának"
 
 #. (itstool) path: td/p
-#: C/mail-composer-reply.page:45
-msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
-
-#. (itstool) path: td/p
 #: C/mail-composer-reply.page:47
 msgid "Reply to All"
 msgstr "Válasz mindenkinek"
-
-#. (itstool) path: td/p
-#: C/mail-composer-reply.page:47
-msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:54
@@ -7906,13 +8406,6 @@ msgstr "Alapértelmezett másolat és rejtett másolat"
 
 #. (itstool) path: page/p
 #: C/mail-default-CC-and-BCC.page:31
-#| msgid ""
-#| "You can set email addresses that should always receive copies of your "
-#| "sent mail (either as CC visible for all recipients, or BCC not visible "
-#| "for other recipients) in the <gui>Defaults</gui> section of the mail "
-#| "account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
-#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></"
-#| "guiseq>)."
 msgid ""
 "You can set email addresses that should always receive copies of your sent "
 "mail (either as CC visible for all recipients, or BCC not visible for other "
@@ -9236,7 +9729,7 @@ msgstr "Zárja be az <app>Evolutiont</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:45 C/mail-localized-re-subjects.page:24
-#: C/mail-save-as-pdf.page:27 C/mail-sorting-message-list.page:39
+#: C/mail-save-as-pdf.page:27 C/mail-sorting-message-list.page:40
 msgid "Open the <app>Terminal</app> application."
 msgstr "Nyissa meg a <app>Terminál</app> alkalmazást."
 
@@ -10053,200 +10546,6 @@ msgid "Advanced Options"
 msgstr "Speciális beállítások"
 
 #. (itstool) path: info/desc
-#: C/mail-reading-keyboard-shortcuts.page:5
-msgid "Keyboard shortcuts that can save you some time when reading mail."
-msgstr "Levelek olvasásakor időt spórolhat ezekkel a gyorsbillentyűkkel."
-
-#. (itstool) path: page/title
-#: C/mail-reading-keyboard-shortcuts.page:24
-msgid "Using shortcut keys to read mail"
-msgstr "Gyorsbillentyűk használata levelek olvasásakor"
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:27
-msgid "Viewing an email"
-msgstr "E-mail megjelenítése"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:28
-msgid ""
-"In the Mail window you read a message by selecting it in the message list. "
-"If you would like to see the message in its own window, either double-click "
-"it, press <key>Enter</key>, or press <keyseq><key>Ctrl</key><key>O</key></"
-"keyseq>."
-msgstr ""
-"A levelező ablakban a leveleket az üzenetlistában kiválasztva olvashatja. Ha "
-"a levelet saját ablakban szeretné látni, akkor kattintson rá duplán, nyomja "
-"meg az <key>Enter</key> billentyűt, vagy nyomja meg a <keyseq><key>Ctrl</"
-"key><key>O</key></keyseq> kombinációt."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:32
-msgid "Marking a message as read or unread"
-msgstr "Üzenet megjelölése olvasottként vagy olvasatlanként"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:33
-msgid ""
-"To mark the currently selected message as read, press <keyseq><key>Ctrl</"
-"key><key>K</key></keyseq>."
-msgstr ""
-"Az éppen kijelölt üzenet olvasottként való megjelöléséhez nyomja meg a "
-"<keyseq><key>Ctrl</key><key>K</key></keyseq> kombinációt."
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:34
-msgid ""
-"To mark the currently selected message as unread, press <keyseq><key>Ctrl</"
-"key><key>Shift</key><key>K</key></keyseq>."
-msgstr ""
-"Az éppen kijelölt üzenet olvasatlanként való megjelöléséhez nyomja meg a "
-"<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq> kombinációt."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:38
-msgid "Navigating in a message"
-msgstr "Navigáció egy üzenetben"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:39
-msgid ""
-"To read mail with the keyboard, you can press the <key>Spacebar</key> to "
-"page down and press <key>Backspace</key> to page up while reading an email. "
-"Ensure that you use the keys when the message list is focused."
-msgstr ""
-"A levelek olvasásakor megnyomhatja a <key>szóközt</key> a következő oldal, "
-"vagy a <key>Backspace</key> az előző oldal megjelenítéséhez. Győződjön meg "
-"róla, hogy a billentyűket akkor nyomja meg, amikor az üzenetlista van "
-"fókuszban."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:43
-msgid "Navigating in a folder in the message list"
-msgstr "Navigáció az üzenetlistán lévő mappában"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:44
-msgid "Navigate in the message list by using the arrow keys on the keyboard."
-msgstr "Az üzenetlistában a nyílbillentyűk használatával navigálhat."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:48
-msgid "Navigating in a folder's unread mail in the message list"
-msgstr "Navigáció a mappa olvasatlan levelei közt az üzenetlistában"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:49
-msgid ""
-"To go to the next or previous unread messages, press the period (<key>.</"
-"key>) or comma (<key>,</key>) keys. On some keyboards, these keys are also "
-"marked with the <key>&gt;</key> and <key>&lt;</key> symbols, which is a "
-"convenient way to remember that they move you forward and backward in your "
-"message list. You can also use the right square bracket (<key>]</key>) for "
-"the next unread message, and the left square bracket (<key>[</key>) for the "
-"previous unread message."
-msgstr ""
-"A következő vagy előző olvasatlan üzenetre lépéshez nyomja meg a pont (<key>."
-"</key>) vagy vessző (<key>,</key>) billentyűt. Egyes billentyűzeteken ezeket "
-"a <key>&gt;</key> és <key>&lt;</key> szimbólumok is jelölik, így egyszerűen "
-"megjegyezhető, hogy ezekkel előre és hátra lépkedhet az üzenetlistában. "
-"Használhatja a jobb szögletes zárójelet (<key>]</key>) a következő "
-"olvasatlan üzenet, és a bal szögletes zárójelet (<key>[</key>) a következő "
-"olvasatlan üzenet elérésére is."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:53
-msgid "Navigating in unread mail across folders"
-msgstr "Navigáció az olvasatlan üzenetekben mappák között"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:55
-msgid ""
-"You can easily read the unread messages in all the mail folders by using the "
-"<key>Spacebar</key>."
-msgstr ""
-"Az összes mappa olvasatlan üzenetein egyszerűen végiglépkedhet a "
-"<key>szóköz</key> használatával."
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:57
-msgid ""
-"When you are in the Mail window, the Spacebar has the following behavior:"
-msgstr ""
-"Ha a levelezőablakban van, akkor a szóköz billentyű a következőképpen "
-"viselkedik:"
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:59
-msgid ""
-"When you press the Spacebar for the first time, it takes you to the next "
-"unread message."
-msgstr "Az első megnyomásakor a következő olvasatlan levélre viszi."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:60
-msgid ""
-"If the message is more than one screen long, the Spacebar works as <key>Page "
-"Down</key>."
-msgstr ""
-"Ha a levél egy képernyőnél hosszabb, akkor a szóköz úgy működik, mint a "
-"<key>Page Down</key>."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:61
-msgid ""
-"If you press the Spacebar after you reach the bottom of the page, it takes "
-"you to the next unread message."
-msgstr ""
-"Ha a szóközt az oldal aljának elérése után nyomja meg, akkor a következő "
-"olvasatlan üzenetre viszi."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:62
-msgid ""
-"If there are no more unread messages in the mailbox, pressing the Spacebar "
-"takes you to the next unread message in the next folder."
-msgstr ""
-"Ha nincs több olvasatlan levél a postafiókban, akkor a szóköz megnyomása a "
-"következő mappa következő olvasatlan levelére viszi."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:63
-msgid ""
-"If new messages arrive in a number of folders, the Spacebar toggles between "
-"those folders. This feature allows you to switch to the next unread message "
-"in a different folder without clicking the folder."
-msgstr ""
-"Ha több mappába is érkeznek új üzenetek, akkor a szóköz a mappák közt vált. "
-"Ez a szolgáltatás lehetővé teszi, hogy a következő olvasatlan levélre úgy "
-"válthasson át, hogy nem kattint a mappára."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:68
-#| msgid "Keyboard shortcuts"
-msgid "Changing keyboard shortcuts"
-msgstr "Gyorsbillentyűk megváltoztatása"
-
-#. (itstool) path: note/p
-#: C/mail-reading-keyboard-shortcuts.page:69
-msgid ""
-"Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
-"config/evolution/accels</file>."
-msgstr ""
-"A tapasztalt felhasználók személyre szabhatják a gyorsbillentyűket a <file>"
-"$HOME/."
-"config/evolution/accels</file> fájl szerkesztésével."
-
-#. (itstool) path: note/p
-#: C/mail-reading-keyboard-shortcuts.page:69
-msgid ""
-"See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
-"evolution-in-gnome/\">this blog post</link> for more information."
-msgstr ""
-"További információkért nézze meg <link href=\"https://major.io/2015/11/27/cust"
-"om-keyboard-shortcuts-for-evolution-in-gnome/\">ezt a blogbejegyzést</link>."
-
-#. (itstool) path: info/desc
 #: C/mail-read-receipts.page:5
 msgid "How to enable requesting read receipts."
 msgstr "Tértivevények kérésének engedélyezése."
@@ -10281,10 +10580,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:40
-#| msgid ""
-#| "For read receipts that you receive you can define <app>Evolution</app>'s "
-#| "behavior under <gui>Message Receipts</gui> under the account's <link xref="
-#| "\"mail-default-folder-locations\"><gui>Defaults</gui></link>."
 msgid ""
 "For read receipts that you receive you can define <app>Evolution</app>'s "
 "behavior under <gui>Message Receipts</gui> in the <gui>Composing Messages</"
@@ -10308,18 +10603,14 @@ msgstr "Értesítés új levelekről"
 
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:23
-#| msgid ""
-#| "<app>Evolution</app> always notifies you of new messages by adding a "
-#| "yellow star to the mailer icon in the window <link xref=\"change-switcher-"
-#| "appearance\">switcher</link>."
 msgid ""
 "<app>Evolution</app> always notifies you of new messages by adding a yellow "
 "star to the mailer icon in the window <link xref=\"intro-main-window"
 "\">switcher</link>."
 msgstr ""
 "Az <app>Evolution</app> mindig értesíti az új levelekről egy sárga csillag "
-"hozzáadásával a levelezőikonhoz az <link xref=\"intro-main-window\">"
-"ablakváltóban</link>."
+"hozzáadásával a levelezőikonhoz az <link xref=\"intro-main-window"
+"\">ablakváltóban</link>."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -10370,7 +10661,6 @@ msgstr ""
 
 #. (itstool) path: media/p
 #: C/mail-received-notification.page:32
-#| msgid "Switcher layout when a new message has arrived"
 msgid "GNOME notification area when a new message has arrived"
 msgstr "A GNOME értesítési területe új üzenet érkezésekor"
 
@@ -10823,41 +11113,6 @@ msgstr ""
 "meg."
 
 #. (itstool) path: info/desc
-#: C/mail-recognized-thread-related-headers.page:5
-msgid "Which thread-related headers are recognized by <app>Evolution</app>."
-msgstr "Az <app>Evolution</app> milyen szálakkal kapcsolatos fejléceket ismer."
-
-#. (itstool) path: page/title
-#: C/mail-recognized-thread-related-headers.page:20
-msgid "Thread related headers recognized by <app>Evolution</app>"
-msgstr ""
-"Az <app>Evolution</app> által felismert, szálakkal kapcsolatos fejlécek"
-
-#. (itstool) path: page/p
-#: C/mail-recognized-thread-related-headers.page:22
-msgid "<app>Evolution</app> supports the following headers:"
-msgstr "Az <app>Evolution</app> a következő fejléceket támogatja:"
-
-#. (itstool) path: item/p
-#: C/mail-recognized-thread-related-headers.page:24
-msgid "References"
-msgstr "References"
-
-#. (itstool) path: item/p
-#: C/mail-recognized-thread-related-headers.page:25
-msgid "In-Reply-To"
-msgstr "In-Reply-To"
-
-#. (itstool) path: page/p
-#: C/mail-recognized-thread-related-headers.page:29
-msgid ""
-"<gui>Thread-*</gui> headers are Microsoft's proprietary headers and not "
-"supported."
-msgstr ""
-"A <gui>Thread-*</gui> fejlécek a Microsoft által védettek, és nem "
-"támogatottak."
-
-#. (itstool) path: info/desc
 #: C/mail-refresh-folders.page:5
 msgid "Ways to update your <app>Evolution</app> folders."
 msgstr "Módszerek az <app>Evolution</app> mappáinak frissítésére."
@@ -11142,12 +11397,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:30
-#| msgid ""
-#| "<app>Evolution</app> automatically updates the search folder contents "
-#| "when new messages are received or message are deleted. You can get also "
-#| "manually update the search folder either by switching to another folder "
-#| "and then back again, or by right-clicking on the search folder and "
-#| "choosing <gui>Refresh</gui>."
 msgid ""
 "<app>Evolution</app> automatically updates the search folder contents when "
 "new messages are received or messages are deleted. You can also manually "
@@ -11543,8 +11792,27 @@ msgstr ""
 "Ez a szolgáltatás a válaszokat csoportosítja az eredeti e-maillel, és "
 "lehetővé teszi az üzenetváltás követését az egyik levélről a másikra."
 
-#. (itstool) path: section/p
+#. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:36
+#| msgid ""
+#| "To make this the default setting, go to <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
+#| "gui><gui>Message Display</gui><gui>Default character encoding</gui></"
+#| "guiseq>."
+msgid ""
+"<app>Evolution</app> recognizes <_:code-1/> and <_:code-2/> mail headers. In "
+"addition, you can enable <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Preferences</gui><gui>General</gui><gui>Message Display</"
+"gui><gui>Fall back to threading messages by subject</gui></guiseq>."
+msgstr ""
+"Az <app>Evolution</app> felismeri a <_:code-1/> és <_:code-2/> "
+"levélfejléceket. Ezen kívül engedélyezheti a "
+"<guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Levelezés "
+"beállításai</gui><gui>Általános</gui><gui>Üzenetmegjelenítés</"
+"gui><gui>Üzenetek szálakra bontása tárgy szerint</gui></guiseq> beállítást is."
+
+#. (itstool) path: section/p
+#: C/mail-sorting-message-list.page:37
 msgid ""
 "When a new message arrives, it will be added below the parent message. "
 "Threads are sorted and displayed based on the date of the most recent "
@@ -11554,7 +11822,7 @@ msgstr ""
 "érkezett levél dátuma szerint kerülnek rendezésre és megjelenítésre."
 
 #. (itstool) path: note/p
-#: C/mail-sorting-message-list.page:37
+#: C/mail-sorting-message-list.page:38
 msgid ""
 "For Advanced Users: There is a GSettings key that allows you to toggle "
 "between the collapsed and expanded state of the email threads. The collapsed "
@@ -11569,7 +11837,7 @@ msgstr ""
 "cmd> parancs használatával."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:40
+#: C/mail-sorting-message-list.page:41
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
 "accels true</cmd>"
@@ -11578,12 +11846,12 @@ msgstr ""
 "interface can-change-accels true</cmd>"
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:46
+#: C/mail-sorting-message-list.page:47
 msgid "Sorting Mail with Column Headers"
 msgstr "Levelek rendezése oszlopfejlécekkel"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:47
+#: C/mail-sorting-message-list.page:48
 msgid ""
 "The message list displays columns that indicate whether a message has been "
 "read, whether it has attachments, how important the message is, the sender, "
@@ -11596,17 +11864,17 @@ msgstr ""
 "teheti:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:49
+#: C/mail-sorting-message-list.page:50
 msgid "Drag and drop the column header bars"
 msgstr "Fogd és vidd módszerrel átrendezheti az oszlopfejléceket"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:50
+#: C/mail-sorting-message-list.page:51
 msgid "Right-click on the header."
 msgstr "Kattintson a jobb egérgombbal a fejlécre."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:51
+#: C/mail-sorting-message-list.page:52
 msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
@@ -11614,7 +11882,7 @@ msgstr ""
 "gui> menüpontot."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:54
+#: C/mail-sorting-message-list.page:55
 msgid ""
 "<app>Evolution</app> allows you to sort your messages using these columns. "
 "Just click on the column label to sort the emails. The direction of the "
@@ -11625,7 +11893,7 @@ msgstr ""
 "melletti nyíl jelzi a rendezés irányát."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:54
+#: C/mail-sorting-message-list.page:55
 msgid ""
 "You can apply a secondary sort criterion by clicking a column label while "
 "pressing <key>Ctrl</key>."
@@ -11634,12 +11902,12 @@ msgstr ""
 "közben egy oszlopcímkére kattint."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:58
+#: C/mail-sorting-message-list.page:59
 msgid "Using Other Sorting Options"
 msgstr "Más rendezési beállítások használata"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:59
+#: C/mail-sorting-message-list.page:60
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
@@ -11649,169 +11917,169 @@ msgstr ""
 "visszaállítása menüpontokat is."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:61
+#: C/mail-sorting-message-list.page:62
 msgid "Sort By"
 msgstr "Rendezés"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:62
+#: C/mail-sorting-message-list.page:63
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr "Az e-maileket a <gui>Rendezés</gui> lista segítségével is rendezheti."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:64 C/mail-sorting-message-list.page:94
-#: C/mail-sorting-message-list.page:103 C/mail-sorting-message-list.page:112
+#: C/mail-sorting-message-list.page:65 C/mail-sorting-message-list.page:95
+#: C/mail-sorting-message-list.page:104 C/mail-sorting-message-list.page:113
 msgid "Right-click on the message list column headers."
 msgstr "Kattintson a levéllista egyik oszlopfejlécére a jobb egérgombbal."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:65
+#: C/mail-sorting-message-list.page:66
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Válassza a <gui>Rendezés</gui> menüpontot."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:65
+#: C/mail-sorting-message-list.page:66
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr ""
 "Ez megjeleníti az e-mailek rendezésére használható feltételek listáját:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:67
+#: C/mail-sorting-message-list.page:68
 msgid "Subject - Trimmed"
 msgstr "Tárgy - Csonkítva"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:68
+#: C/mail-sorting-message-list.page:69
 msgid "Labels"
 msgstr "Címkék"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:70
 msgid "Recipients"
 msgstr "Címzettek"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:70
+#: C/mail-sorting-message-list.page:71
 msgid "Sender"
 msgstr "Feladó"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:71
+#: C/mail-sorting-message-list.page:72
 msgid "Location"
 msgstr "Hely"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:72
+#: C/mail-sorting-message-list.page:73
 msgid "Due By"
 msgstr "Esedékes"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:73
+#: C/mail-sorting-message-list.page:74
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Nyomonkövetés-jelölő</link>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:74
+#: C/mail-sorting-message-list.page:75
 msgid "Flag Status"
 msgstr "Jelölő állapota"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:75
+#: C/mail-sorting-message-list.page:76
 msgid "Size"
 msgstr "Méret"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:76
+#: C/mail-sorting-message-list.page:77
 msgid "To"
 msgstr "Címzett"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:77
+#: C/mail-sorting-message-list.page:78
 msgid "Received"
 msgstr "Érkezett"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:78
+#: C/mail-sorting-message-list.page:79
 msgid "Date"
 msgstr "Dátum"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:79
+#: C/mail-sorting-message-list.page:80
 msgid "Subject"
 msgstr "Tárgy"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:80
+#: C/mail-sorting-message-list.page:81
 msgid "From"
 msgstr "Feladó"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:81
+#: C/mail-sorting-message-list.page:82
 msgid "Attachment"
 msgstr "Melléklet"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:82
+#: C/mail-sorting-message-list.page:83
 msgid "Flagged"
 msgstr "Megjelölve"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:83
+#: C/mail-sorting-message-list.page:84
 msgid "Status"
 msgstr "Állapot"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:84
+#: C/mail-sorting-message-list.page:85
 msgid "Custom"
 msgstr "Egyéni"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:87
+#: C/mail-sorting-message-list.page:88
 msgid "Select the option you wish to use in sorting email messages."
 msgstr "Válassza ki az e-mailek rendezésére használni kívánt feltételt."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:92
+#: C/mail-sorting-message-list.page:93
 msgid "Sort Ascending"
 msgstr "Növekvő sorrend"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:95
+#: C/mail-sorting-message-list.page:96
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Válassza a <gui>Növekvő sorrend</gui> menüpontot."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:97
+#: C/mail-sorting-message-list.page:98
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr "Az üzenetek megjelenítésekor a legújabb kerül alulra."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:101
+#: C/mail-sorting-message-list.page:102
 msgid "Sort Descending"
 msgstr "Csökkenő sorrend"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:104
+#: C/mail-sorting-message-list.page:105
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Válassza a <gui>Csökkenő sorrend</gui> menüpontot."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:106
+#: C/mail-sorting-message-list.page:107
 msgid "The messages will be displayed with the most recent at the top."
 msgstr "Az üzenetek megjelenítésekor a legújabb kerül felülre."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:110
+#: C/mail-sorting-message-list.page:111
 msgid "Reset sort"
 msgstr "Sorrend visszaállítása"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:113
+#: C/mail-sorting-message-list.page:114
 msgid "Select the <gui>Reset sort</gui> option."
 msgstr "Válassza a <gui>Sorrend visszaállítása</gui> menüpontot."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:115
+#: C/mail-sorting-message-list.page:116
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
@@ -11983,8 +12251,6 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-spam-settings.page:58
-#| msgid ""
-#| "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgid ""
 "The exact location depends on <link xref=\"mail-default-folder-locations"
 "\">your junk folder setting</link>."
@@ -12079,16 +12345,22 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:78
+#| msgid ""
+#| "For more information and specific Bogofilter or SpamAssassin "
+#| "configuration questions it is recommended to check out the Frequently "
+#| "Asked Questions for <link href=\"http://bogofilter.sourceforge.net/faq."
+#| "shtml\">Bogofilter</link> resp. <link href=\"http://wiki.apache.org/"
+#| "spamassassin/FrequentlyAskedQuestions\">SpamAssassin</link>."
 msgid ""
 "For more information and specific Bogofilter or SpamAssassin configuration "
 "questions it is recommended to check out the Frequently Asked Questions for "
 "<link href=\"http://bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> "
-"resp. <link href=\"http://wiki.apache.org/spamassassin/"
+"resp. <link href=\"https://wiki.apache.org/spamassassin/"
 "FrequentlyAskedQuestions\">SpamAssassin</link>."
 msgstr ""
 "További információkért, vagy a Bogofilter vagy a SpamAssassin beállításával "
 "kapcsolatos konkrét válaszokért nézze meg a <link href=\"http://bogofilter."
-"sourceforge.net/faq.shtml\">Bogofilter</link> vagy a <link href=\"http://"
+"sourceforge.net/faq.shtml\">Bogofilter</link> vagy a <link href=\"https://"
 "wiki.apache.org/spamassassin/FrequentlyAskedQuestions\">SpamAssassin</link> "
 "angol nyelvű Gyakori kérdések oldalát."
 
@@ -13703,7 +13975,6 @@ msgstr "jelölve nyomon követésre"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:53
-#| msgid "Checks whether the message is <_:link-1/>."
 msgid ""
 "Checks whether the message is <_:link-1/> or completed (after a certain "
 "date)."
@@ -13967,4 +14238,113 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
 
+#~ msgid "Using shortcut keys to read mail"
+#~ msgstr "Gyorsbillentyűk használata levelek olvasásakor"
 
+#~ msgid "Viewing an email"
+#~ msgstr "E-mail megjelenítése"
+
+#~ msgid ""
+#~ "In the Mail window you read a message by selecting it in the message "
+#~ "list. If you would like to see the message in its own window, either "
+#~ "double-click it, press <key>Enter</key>, or press <keyseq><key>Ctrl</"
+#~ "key><key>O</key></keyseq>."
+#~ msgstr ""
+#~ "A levelező ablakban a leveleket az üzenetlistában kiválasztva olvashatja. "
+#~ "Ha a levelet saját ablakban szeretné látni, akkor kattintson rá duplán, "
+#~ "nyomja meg az <key>Enter</key> billentyűt, vagy nyomja meg a "
+#~ "<keyseq><key>Ctrl</key><key>O</key></keyseq> kombinációt."
+
+#~ msgid "Marking a message as read or unread"
+#~ msgstr "Üzenet megjelölése olvasottként vagy olvasatlanként"
+
+#~ msgid ""
+#~ "To mark the currently selected message as read, press <keyseq><key>Ctrl</"
+#~ "key><key>K</key></keyseq>."
+#~ msgstr ""
+#~ "Az éppen kijelölt üzenet olvasottként való megjelöléséhez nyomja meg a "
+#~ "<keyseq><key>Ctrl</key><key>K</key></keyseq> kombinációt."
+
+#~ msgid ""
+#~ "To mark the currently selected message as unread, press "
+#~ "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>."
+#~ msgstr ""
+#~ "Az éppen kijelölt üzenet olvasatlanként való megjelöléséhez nyomja meg a "
+#~ "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq> kombinációt."
+
+#~ msgid "Navigating in a message"
+#~ msgstr "Navigáció egy üzenetben"
+
+#~ msgid ""
+#~ "To read mail with the keyboard, you can press the <key>Spacebar</key> to "
+#~ "page down and press <key>Backspace</key> to page up while reading an "
+#~ "email. Ensure that you use the keys when the message list is focused."
+#~ msgstr ""
+#~ "A levelek olvasásakor megnyomhatja a <key>szóközt</key> a következő "
+#~ "oldal, vagy a <key>Backspace</key> az előző oldal megjelenítéséhez. "
+#~ "Győződjön meg róla, hogy a billentyűket akkor nyomja meg, amikor az "
+#~ "üzenetlista van fókuszban."
+
+#~ msgid "Navigating in a folder in the message list"
+#~ msgstr "Navigáció az üzenetlistán lévő mappában"
+
+#~ msgid ""
+#~ "Navigate in the message list by using the arrow keys on the keyboard."
+#~ msgstr "Az üzenetlistában a nyílbillentyűk használatával navigálhat."
+
+#~ msgid "Navigating in a folder's unread mail in the message list"
+#~ msgstr "Navigáció a mappa olvasatlan levelei közt az üzenetlistában"
+
+#~ msgid ""
+#~ "To go to the next or previous unread messages, press the period (<key>.</"
+#~ "key>) or comma (<key>,</key>) keys. On some keyboards, these keys are "
+#~ "also marked with the <key>&gt;</key> and <key>&lt;</key> symbols, which "
+#~ "is a convenient way to remember that they move you forward and backward "
+#~ "in your message list. You can also use the right square bracket (<key>]</"
+#~ "key>) for the next unread message, and the left square bracket (<key>[</"
+#~ "key>) for the previous unread message."
+#~ msgstr ""
+#~ "A következő vagy előző olvasatlan üzenetre lépéshez nyomja meg a pont "
+#~ "(<key>.</key>) vagy vessző (<key>,</key>) billentyűt. Egyes "
+#~ "billentyűzeteken ezeket a <key>&gt;</key> és <key>&lt;</key> szimbólumok "
+#~ "is jelölik, így egyszerűen megjegyezhető, hogy ezekkel előre és hátra "
+#~ "lépkedhet az üzenetlistában. Használhatja a jobb szögletes zárójelet "
+#~ "(<key>]</key>) a következő olvasatlan üzenet, és a bal szögletes "
+#~ "zárójelet (<key>[</key>) a következő olvasatlan üzenet elérésére is."
+
+#~ msgid ""
+#~ "You can easily read the unread messages in all the mail folders by using "
+#~ "the <key>Spacebar</key>."
+#~ msgstr ""
+#~ "Az összes mappa olvasatlan üzenetein egyszerűen végiglépkedhet a "
+#~ "<key>szóköz</key> használatával."
+
+#~ msgid ""
+#~ "When you are in the Mail window, the Spacebar has the following behavior:"
+#~ msgstr ""
+#~ "Ha a levelezőablakban van, akkor a szóköz billentyű a következőképpen "
+#~ "viselkedik:"
+
+#~ msgid "Which thread-related headers are recognized by <app>Evolution</app>."
+#~ msgstr ""
+#~ "Az <app>Evolution</app> milyen szálakkal kapcsolatos fejléceket ismer."
+
+#~ msgid "Thread related headers recognized by <app>Evolution</app>"
+#~ msgstr ""
+#~ "Az <app>Evolution</app> által felismert, szálakkal kapcsolatos fejlécek"
+
+#~ msgid "<app>Evolution</app> supports the following headers:"
+#~ msgstr "Az <app>Evolution</app> a következő fejléceket támogatja:"
+
+#~ msgid "References"
+#~ msgstr "References"
+
+#~ msgid "In-Reply-To"
+#~ msgstr "In-Reply-To"
+
+#~ msgid ""
+#~ "<gui>Thread-*</gui> headers are Microsoft's proprietary headers and not "
+#~ "supported."
+#~ msgstr ""
+#~ "A <gui>Thread-*</gui> fejlécek a Microsoft által védettek, és nem "
+#~ "támogatottak."
