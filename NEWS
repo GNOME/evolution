@@ -1,3 +1,30 @@
+Evolution 3.27.92 2018-03-05
+----------------------------
+
+Bug Fixes:
+	Bug 793477 - Hide Autoar options in "Save all" when not needed (Milan Crha)
+	Bug 793582 - Add Column dialog doesn't work with dark themes (Milan Crha)
+	Bug 753704 - Wrap file names in the picture gallery icon view (Jean-François Fortin Tam)
+	Bug 793848 - Split PRE into separate paragraphs in HTML (Milan Crha)
+	Bug 794034 - Add <provides><id> into org.gnome.Evolution.appdata (Milan Crha)
+
+Miscellaneous:
+	[itip-formatter] Meeting request attendee response address not properly filled (Milan Crha)
+	Fix a memory leak in e_editor_dom_process_content_to_plain_text_for_exporting() (Milan Crha)
+
+Translations:
+	Милош Поповић (sr)
+	Милош Поповић (sr@latin)
+	Daniel Mustieles (es)
+	Jordi Mas (ca)
+	Baurzhan Muftakhidinov (kk)
+	Bruce Cowan (en_GB)
+	Changwoo Ryu (ko)
+	Dušan Kazik (sk)
+	Aurimas Černius (lt)
+	Marek Černocký (cs)
+	Gábor Kelemen (hu)
+
 Evolution 3.27.91 2018-02-19
 ----------------------------
 
