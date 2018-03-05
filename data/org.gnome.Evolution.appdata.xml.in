@@ -22,6 +22,9 @@
   <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=evolution</url>
   <url type="donation">http://www.gnome.org/friends/</url>
   <url type="help">https://help.gnome.org/users/evolution/stable/</url>
+  <provides>
+    <id>evolution.desktop</id>
+  </provides>
   <screenshots>
     <screenshot type="default">
       <image>https://wiki.gnome.org/Apps/Evolution/Screenshots?action=AttachFile&amp;do=get&amp;target=evolution_mail.png</image>
