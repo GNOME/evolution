@@ -484,6 +484,26 @@ em_unset_initial_setup_for_accounts (EShellBackend *shell_backend)
 	g_list_free_full (sources, g_object_unref);
 }
 
+/* The default value for this key changed from 'false' to 'true' in 3.27.90,
+   but existing users can be affected by the change when they never changed
+   the option, thus make sure their value will remain 'false' here. */
+static void
+em_ensure_global_view_setting_key (EShellBackend *shell_backend)
+{
+	GSettings *settings;
+	GVariant *value;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	value = g_settings_get_user_value (settings, "global-view-setting");
+	if (value)
+		g_variant_unref (value);
+	else
+		g_settings_set_boolean (settings, "global-view-setting", FALSE);
+
+	g_clear_object (&settings);
+}
+
 gboolean
 e_mail_migrate (EShellBackend *shell_backend,
                 gint major,
@@ -506,6 +526,9 @@ e_mail_migrate (EShellBackend *shell_backend,
 
 	if (major <= 2 || (major == 3 && minor < 19) || (major == 3 && minor == 19 && micro < 90))
 		em_unset_initial_setup_for_accounts (shell_backend);
+
+	if (major <= 2 || (major == 3 && minor < 27) || (major == 3 && minor == 27 && micro < 90))
+		em_ensure_global_view_setting_key (shell_backend);
 
 	return TRUE;
 }
