@@ -28,8 +28,9 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-utils.h>
 
-#include <calendar/gui/comp-util.h>
-#include <calendar/gui/itip-utils.h>
+#include "calendar/gui/calendar-config.h"
+#include "calendar/gui/comp-util.h"
+#include "calendar/gui/itip-utils.h"
 
 #include <mail/em-config.h>
 #include <mail/em-utils.h>
@@ -6144,6 +6145,21 @@ itip_view_guess_timezone (const gchar *tzid)
 	return zone;
 }
 
+static void
+itip_view_add_recurring_info (ItipView *view)
+{
+	gchar *description;
+
+	description = e_cal_recur_describe_recurrence (e_cal_component_get_icalcomponent (view->priv->comp),
+		calendar_config_get_week_start_day (),
+		E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_PREFIXED | E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_FALLBACK);
+
+	if (description) {
+		itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, description);
+		g_free (description);
+	}
+}
+
 void
 itip_view_init_view (ItipView *view)
 {
@@ -6467,24 +6483,7 @@ itip_view_init_view (ItipView *view)
 	e_cal_component_free_datetime (&datetime);
 
         /* Recurrence info */
-        /* FIXME Better recurring description */
-	if (e_cal_component_has_recurrences (view->priv->comp)) {
-                /* FIXME Tell the user we don't support recurring tasks */
-		switch (view->priv->type) {
-			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-				itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This meeting recurs"));
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-				itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This task recurs"));
-				break;
-			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-				itip_view_add_upper_info_item (view, ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("This memo recurs"));
-				break;
-			default:
-				g_warn_if_reached ();
-				break;
-		}
-	}
+	itip_view_add_recurring_info (view);
 
 	g_signal_connect (
 		view, "response",
