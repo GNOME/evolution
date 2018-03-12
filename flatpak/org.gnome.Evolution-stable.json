@@ -1,14 +1,14 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "3.24",
+	"runtime-version": "3.26",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-desktop-file": "evolution.desktop",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "gnome-3-26",
-	"desktop-file-name-suffix": " (3.26)",
+	"branch": "gnome-3-28",
+	"desktop-file-name-suffix": " (3.28)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
@@ -244,7 +244,7 @@
 				{
 					"type": "git",
 					"url": "https://git.gnome.org/browse/evolution-data-server",
-					"branch": "gnome-3-26"
+					"branch": "gnome-3-28"
 				}
 			]
 		},
@@ -290,7 +290,7 @@
 				{
 					"type": "git",
 					"url": "https://git.gnome.org/browse/evolution",
-					"branch": "gnome-3-26"
+					"branch": "gnome-3-28"
 				},
 
 				{
@@ -350,7 +350,7 @@
 				{
 					"type": "git",
 					"url": "https://git.gnome.org/browse/evolution-ews",
-					"branch": "gnome-3-26"
+					"branch": "gnome-3-28"
 				}
 			]
 		}

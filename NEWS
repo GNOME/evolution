@@ -1,3 +1,16 @@
+Evolution 3.28.0 2018-03-12
+---------------------------
+
+Miscellaneous:
+	Add migration code for global-view-setting default change (bug 792076) (Milan Crha)
+
+Translations:
+	Alan Mortensen (da)
+	Gianvito Cavasoli (it)
+	Rūdolfs Mazurs (lv)
+	Matej Urbančič (sl)
+	Anders Jonsson (sv)
+
 Evolution 3.27.92 2018-03-05
 ----------------------------
 
