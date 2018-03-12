@@ -1,24 +1,23 @@
 /*
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * Copyright (C) 2008 - Diego Escalante Urrelo
+ * Copyright (C) 2018 Red Hat, Inc. (www.redhat.com)
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by
  * the Free Software Foundation.
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
  * for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *		Diego Escalante Urrelo <diegoe@gnome.org>
  *		Bharath Acharya <abharath@novell.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- * Copyright (C) 2008 - Diego Escalante Urrelo
- *
  */
 
 #include "evolution-config.h"
@@ -27,19 +26,19 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-#include <e-util/e-util.h>
+#include "e-util/e-util.h"
 
-#include <shell/e-shell-view.h>
+#include "shell/e-shell-view.h"
 
-#include <mail/e-mail-reader.h>
-#include <mail/e-mail-ui-session.h>
-#include <mail/em-composer-utils.h>
-#include <mail/em-utils.h>
-#include <mail/message-list.h>
+#include "mail/e-mail-reader.h"
+#include "mail/e-mail-ui-session.h"
+#include "mail/e-mail-templates.h"
+#include "mail/e-mail-templates-store.h"
+#include "mail/em-composer-utils.h"
+#include "mail/em-utils.h"
+#include "mail/message-list.h"
 
-#include <composer/e-msg-composer.h>
-
-#include "e-templates-store.h"
+#include "composer/e-msg-composer.h"
 
 #define CONF_KEY_TEMPLATE_PLACEHOLDERS "template-placeholders"
 
@@ -48,11 +47,11 @@ typedef struct _AsyncContext AsyncContext;
 struct _AsyncContext {
 	EActivity *activity;
 	EMailReader *reader;
-	CamelMimeMessage *message;
-	CamelMimeMessage *template;
+	CamelMimeMessage *source_message;
+	CamelMimeMessage *new_message;
 	CamelFolder *template_folder;
 	gchar *source_folder_uri;
-	gchar *message_uid;
+	gchar *source_message_uid;
 	gchar *template_message_uid;
 };
 
@@ -83,7 +82,7 @@ gint		e_plugin_lib_enable		(EPlugin *plugin,
 #define TEMPLATES_DATA_KEY "templates::data"
 
 typedef struct _TemplatesData {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 	gulong changed_handler_id;
 	gboolean changed;
 	guint merge_id;
@@ -124,12 +123,12 @@ async_context_free (AsyncContext *context)
 {
 	g_clear_object (&context->activity);
 	g_clear_object (&context->reader);
-	g_clear_object (&context->message);
-	g_clear_object (&context->template);
+	g_clear_object (&context->source_message);
+	g_clear_object (&context->new_message);
 	g_clear_object (&context->template_folder);
 
 	g_free (context->source_folder_uri);
-	g_free (context->message_uid);
+	g_free (context->source_message_uid);
 	g_free (context->template_message_uid);
 
 	g_slice_free (AsyncContext, context);
@@ -554,296 +553,6 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	return hbox;
 }
 
-/* Case insensitive version of strstr */
-static gchar *
-strstr_nocase (const gchar *haystack,
-               const gchar *needle)
-{
-/* When _GNU_SOURCE is available, use the nonstandard extension of libc */
-#ifdef _GNU_SOURCE
-	g_return_val_if_fail (haystack, NULL);
-	g_return_Val_if_fail (needle, NULL);
-
-	return strcasestr (haystack, needle)
-#else
-/* Otherwise convert both, haystack and needle to lowercase and use good old strstr */
-	gchar *l_haystack;
-	gchar *l_needle;
-	gchar *pos;
-
-	g_return_val_if_fail (haystack, NULL);
-	g_return_val_if_fail (needle, NULL);
-
-	l_haystack = g_ascii_strdown (haystack, -1);
-	l_needle = g_ascii_strdown (needle, -1);
-	pos = strstr (l_haystack, l_needle);
-
-	/* Get actual position of the needle in the haystack instead of l_haystack or
-	 * leave it NULL */
-	if (pos)
-		pos = (gchar *)(haystack + (pos - l_haystack));
-
-	g_free (l_haystack);
-	g_free (l_needle);
-
-	return pos;
-#endif
-}
-
-/* Replaces $ORIG[variable] in given template by given replacement from the original message */
-static void
-replace_template_variable (GString *text,
-                           const gchar *variable,
-                           const gchar *replacement)
-{
-	const gchar *p, *next;
-	GString *str;
-	gint find_len;
-	gchar *find;
-
-	g_return_if_fail (text != NULL);
-	g_return_if_fail (variable != NULL);
-	g_return_if_fail (*variable);
-
-	find = g_strconcat ("$ORIG[", variable, "]", NULL);
-
-	find_len = strlen (find);
-	str = g_string_new ("");
-	p = text->str;
-	while (next = strstr_nocase (p, find), next) {
-		if (p < next)
-			g_string_append_len (str, p, next - p);
-		if (replacement && *replacement)
-			g_string_append (str, replacement);
-		p = next + find_len;
-	}
-	g_string_append (str, p);
-
-	g_string_assign (text, str->str);
-
-	g_string_free (str, TRUE);
-	g_free (find);
-}
-
-static void
-replace_email_addresses (GString *template,
-                         CamelInternetAddress *internet_address,
-                         const gchar *variable)
-{
-	gint address_index = 0;
-	GString *emails = g_string_new ("");
-	const gchar *address_name, *address_email;
-
-	g_return_if_fail (template);
-	g_return_if_fail (internet_address);
-	g_return_if_fail (variable);
-
-	while (camel_internet_address_get (internet_address, address_index, &address_name, &address_email)) {
-		gchar *address = camel_internet_address_format_address (address_name, address_email);
-
-		if (address_index > 0)
-			g_string_append_printf (emails, ", %s", address);
-		else
-			g_string_append_printf (emails, "%s", address);
-
-		address_index++;
-		g_free (address);
-	}
-	replace_template_variable (template, variable, emails->str);
-	g_string_free (emails, TRUE);
-}
-
-static CamelMimePart *
-fill_template (CamelMimeMessage *message,
-               CamelMimePart *template)
-{
-	const CamelNameValueArray *headers;
-	CamelContentType *ct;
-	CamelStream *stream;
-	CamelMimePart *return_part;
-	CamelMimePart *message_part = NULL;
-	CamelDataWrapper *dw;
-	CamelInternetAddress *internet_address;
-	GString *template_body;
-	GByteArray *byte_array;
-	gint i;
-	guint jj, len;
-	gboolean message_html, template_html;
-
-	ct = camel_mime_part_get_content_type (template);
-	template_html = ct && camel_content_type_is (ct, "text", "html");
-
-	message_html = FALSE;
-	/* When template is html, then prefer HTML part of the original message. Otherwise go for plaintext */
-	dw = camel_medium_get_content (CAMEL_MEDIUM (message));
-	if (CAMEL_IS_MULTIPART (dw)) {
-		CamelMultipart *multipart = CAMEL_MULTIPART (dw);
-
-		for (i = 0; i < camel_multipart_get_number (multipart); i++) {
-			CamelMimePart *part = camel_multipart_get_part (multipart, i);
-			CamelContentType *ct = camel_mime_part_get_content_type (part);
-
-			if (!ct)
-				continue;
-
-			if (camel_content_type_is (ct, "text", "html") && template_html) {
-				message_part = camel_multipart_get_part (multipart, i);
-				message_html = TRUE;
-				break;
-			} else if (camel_content_type_is (ct, "text", "plain") && message_html == FALSE) {
-				message_part = camel_multipart_get_part (multipart, i);
-			}
-		}
-	} else
-		message_part = CAMEL_MIME_PART (message);
-
-	/* Get content of the template */
-	stream = camel_stream_mem_new ();
-	camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (template)), stream, NULL, NULL);
-	camel_stream_flush (stream, NULL, NULL);
-	byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
-	template_body = g_string_new_len ((gchar *) byte_array->data, byte_array->len);
-	g_object_unref (stream);
-
-	/* Replace all $ORIG[header_name] by respective values */
-	headers = camel_medium_get_headers (CAMEL_MEDIUM (message));
-	len = camel_name_value_array_get_length (headers);
-	for (jj = 0; jj < len; jj++) {
-		const gchar *header_name = NULL, *header_value = NULL;
-
-		if (!camel_name_value_array_get (headers, jj, &header_name, &header_value) ||
-		    !header_name)
-			continue;
-
-		if (g_ascii_strncasecmp (header_name, "content-", 8) != 0 &&
-		    g_ascii_strcasecmp (header_name, "to") != 0 &&
-		    g_ascii_strcasecmp (header_name, "cc") != 0 &&
-		    g_ascii_strcasecmp (header_name, "bcc") != 0 &&
-		    g_ascii_strcasecmp (header_name, "from") != 0 &&
-		    g_ascii_strcasecmp (header_name, "subject") != 0)
-			replace_template_variable (template_body, header_name, header_value);
-	}
-
-	/* Now manually replace the *subject* header. The header->value for subject header could be
-	 * base64 encoded, so let camel_mime_message to decode it for us if needed */
-	replace_template_variable (template_body, "subject", camel_mime_message_get_subject (message));
-
-	/* Replace TO and FROM modifiers. */
-	internet_address = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-	replace_email_addresses (template_body, internet_address, "to");
-
-	internet_address = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-	replace_email_addresses (template_body, internet_address, "cc");
-
-	internet_address = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
-	replace_email_addresses (template_body, internet_address, "bcc");
-
-	internet_address = camel_mime_message_get_from (message);
-	replace_email_addresses (template_body, internet_address, "from");
-
-	/* Now extract body of the original message and replace the $ORIG[body] modifier in template */
-	if (message_part && strstr_nocase (template_body->str, "$ORIG[body]")) {
-		GString *message_body;
-		CamelStream *mem_stream;
-
-		stream = camel_stream_mem_new ();
-		mem_stream = stream;
-
-		ct = camel_mime_part_get_content_type (message_part);
-		if (ct) {
-			const gchar *charset = camel_content_type_param (ct, "charset");
-			if (charset && *charset) {
-				CamelMimeFilter *filter = camel_mime_filter_charset_new (charset, "UTF-8");
-				if (filter) {
-					CamelStream *filtered = camel_stream_filter_new (stream);
-
-					if (filtered) {
-						camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered), filter);
-						g_object_unref (stream);
-						stream = filtered;
-					}
-
-					g_object_unref (filter);
-				}
-			}
-		}
-
-		camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (message_part)), stream, NULL, NULL);
-		camel_stream_flush (stream, NULL, NULL);
-		byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem_stream));
-		message_body = g_string_new_len ((gchar *) byte_array->data, byte_array->len);
-		g_object_unref (stream);
-
-		if (template_html && !message_html) {
-			gchar *html = camel_text_to_html (
-				message_body->str,
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-				CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
-				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
-			g_string_assign (message_body, html);
-			g_free (html);
-		} else if (!template_html && message_html) {
-			g_string_prepend (message_body, "<pre>");
-			g_string_append (message_body, "</pre>");
-		} /* Other cases should not occur. And even if they happen to do, there's nothing we can really do about it */
-
-		replace_template_variable (template_body, "body", message_body->str);
-		g_string_free (message_body, TRUE);
-	} else {
-		replace_template_variable (template_body, "body", "");
-	}
-
-	return_part = camel_mime_part_new ();
-
-	if (template_html)
-		camel_mime_part_set_content (return_part, template_body->str, template_body->len, "text/html");
-	else
-		camel_mime_part_set_content (return_part, template_body->str, template_body->len, "text/plain");
-
-	g_string_free (template_body, TRUE);
-
-	return return_part;
-}
-
-static CamelMimePart *
-find_template_part_in_multipart (CamelMultipart *multipart,
-				 CamelMultipart *new_multipart)
-{
-	CamelMimePart *template_part = NULL;
-	gint ii;
-
-	for (ii = 0; ii < camel_multipart_get_number (multipart); ii++) {
-		CamelMimePart *part = camel_multipart_get_part (multipart, ii);
-		CamelContentType *ct = camel_mime_part_get_content_type (part);
-
-		if (!template_part && ct && camel_content_type_is (ct, "multipart", "*")) {
-			CamelDataWrapper *dw;
-
-			dw = camel_medium_get_content (CAMEL_MEDIUM (part));
-			template_part = (dw && CAMEL_IS_MULTIPART (dw)) ?
-				find_template_part_in_multipart (CAMEL_MULTIPART (dw), new_multipart) : NULL;
-
-			if (!template_part) {
-				/* Copy any other parts (attachments...) to the output message */
-				camel_mime_part_set_disposition (part, "attachment");
-				camel_multipart_add_part (new_multipart, part);
-			}
-		} else if (ct && camel_content_type_is (ct, "text", "html")) {
-			template_part = part;
-		} else if (ct && camel_content_type_is (ct, "text", "plain") && !template_part) {
-			template_part = part;
-		} else {
-			/* Copy any other parts (attachments...) to the output message */
-			camel_mime_part_set_disposition (part, "attachment");
-			camel_multipart_add_part (new_multipart, part);
-		}
-	}
-
-	return template_part;
-}
-
 static void
 create_new_message_composer_created_cb (GObject *source_object,
 					GAsyncResult *result,
@@ -851,19 +560,7 @@ create_new_message_composer_created_cb (GObject *source_object,
 {
 	AsyncContext *context = user_data;
 	EAlertSink *alert_sink;
-	CamelMimeMessage *new;
-	CamelMimeMessage *message;
-	CamelMimeMessage *template;
-	CamelMultipart *new_multipart;
-	CamelDataWrapper *dw;
-	const CamelNameValueArray *headers;
-	CamelMimePart *template_part = NULL;
-	CamelFolder *folder;
-	EMailBackend *backend;
-	EMailSession *session;
-	const gchar *message_uid;
 	EMsgComposer *composer;
-	guint ii, len;
 	GError *error = NULL;
 
 	g_return_if_fail (context != NULL);
@@ -873,13 +570,11 @@ create_new_message_composer_created_cb (GObject *source_object,
 	composer = e_msg_composer_new_finish (result, &error);
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (context->template == NULL);
 		async_context_free (context);
 		g_error_free (error);
 		return;
 
 	} else if (error != NULL) {
-		g_warn_if_fail (context->template == NULL);
 		e_alert_submit (
 			alert_sink, "mail:no-retrieve-message",
 			error->message, NULL);
@@ -890,154 +585,41 @@ create_new_message_composer_created_cb (GObject *source_object,
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	message = context->message;
-	message_uid = context->message_uid;
-	template = context->template;
-
-	backend = e_mail_reader_get_backend (context->reader);
-	session = e_mail_backend_get_session (backend);
-
-	folder = e_mail_session_get_local_folder (session, E_MAIL_LOCAL_FOLDER_TEMPLATES);
-
-	new = camel_mime_message_new ();
-	new_multipart = camel_multipart_new ();
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (new_multipart), "multipart/alternative");
-	camel_multipart_set_boundary (new_multipart, NULL);
-
-	dw = camel_medium_get_content (CAMEL_MEDIUM (template));
-	/* If template is a multipart, then try to use HTML. When no HTML part is available, use plaintext. Every other
-	 * add as an attachment */
-	if (CAMEL_IS_MULTIPART (dw)) {
-		template_part = find_template_part_in_multipart (CAMEL_MULTIPART (dw), new_multipart);
-	} else {
-		CamelContentType *ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (template));
-
-		if (ct && (camel_content_type_is (ct, "text", "html") ||
-		    camel_content_type_is (ct, "text", "plain"))) {
-			template_part = CAMEL_MIME_PART (template);
-		}
-	}
-
-	g_warn_if_fail (template_part != NULL);
-
-	if (template_part) {
-		CamelMimePart *out_part = NULL;
-
-		/* Here replace all the modifiers in template body by values
-		   from message and return the newly created part */
-		out_part = fill_template (message, template_part);
-
-		/* Assigning part directly to mime_message causes problem with
-		   "Content-type" header displaying in the HTML message (camel parsing bug?) */
-		camel_multipart_add_part (new_multipart, out_part);
-		g_object_unref (out_part);
-	}
-
-	camel_medium_set_content (CAMEL_MEDIUM (new), CAMEL_DATA_WRAPPER (new_multipart));
-
-	/* Add the headers from the message we are replying to, so CC and that
-	 * stuff is preserved. Also replace any $ORIG[header-name] modifiers ignoring
-	 * 'content-*' headers */
-	headers = camel_medium_dup_headers (CAMEL_MEDIUM (message));
-	len = camel_name_value_array_get_length (headers);
-	for (ii = 0; ii < len; ii++) {
-		const gchar *header_name = NULL, *header_value = NULL;
-
-		if (!camel_name_value_array_get (headers, ii, &header_name, &header_value) ||
-		    !header_name)
-			continue;
-
-		if (g_ascii_strncasecmp (header_name, "content-", 8) != 0 &&
-		    g_ascii_strcasecmp (header_name, "from") != 0) {
-			gchar *new_header_value = NULL;
-
-			/* Some special handling of the 'subject' header */
-			if (g_ascii_strncasecmp (header_name, "subject", 7) == 0) {
-				GString *subject = g_string_new (camel_mime_message_get_subject (template));
-				guint jj;
-
-				/* Now replace all possible $ORIG[]s in the subject line by values from original message */
-				for (jj = 0; jj < len; jj++) {
-					const gchar *m_header_name = NULL, *m_header_value = NULL;
-
-					if (camel_name_value_array_get (headers, jj, &m_header_name, &m_header_value) &&
-					    m_header_name &&
-					    g_ascii_strncasecmp (m_header_name, "content-", 8) != 0 &&
-					    g_ascii_strcasecmp (m_header_name, "subject") != 0)
-						replace_template_variable (subject, m_header_name, m_header_value);
-				}
-				/* Now replace $ORIG[subject] variable, handling possible base64 encryption */
-				replace_template_variable (
-					subject, "subject",
-					camel_mime_message_get_subject (message));
-				new_header_value = g_string_free (subject, FALSE);
-			}
-
-			camel_medium_add_header (CAMEL_MEDIUM (new), header_name, new_header_value ? new_header_value : header_value);
-
-			g_free (new_header_value);
-		}
-	}
-
-	/* Set the To: field to the same To: field of the message we are replying to. */
-	camel_mime_message_set_recipients (
-		new, CAMEL_RECIPIENT_TYPE_TO,
-		camel_mime_message_get_reply_to (message) ? camel_mime_message_get_reply_to (message) :
-		camel_mime_message_get_from (message));
-
-	/* Copy the CC and BCC from the template.*/
-	camel_mime_message_set_recipients (
-		new, CAMEL_RECIPIENT_TYPE_CC,
-		camel_mime_message_get_recipients (
-			template, CAMEL_RECIPIENT_TYPE_CC));
-
-	camel_mime_message_set_recipients (
-		new, CAMEL_RECIPIENT_TYPE_BCC,
-		camel_mime_message_get_recipients (
-			template, CAMEL_RECIPIENT_TYPE_BCC));
-
 	/* Create the composer */
-	em_utils_edit_message (composer, folder, new, message_uid, TRUE);
-	if (composer && context->source_folder_uri && context->message_uid)
+	em_utils_edit_message (composer, context->template_folder, context->new_message, context->source_message_uid, TRUE);
+	if (composer && context->source_folder_uri && context->source_message_uid)
 		e_msg_composer_set_source_headers (
 			composer, context->source_folder_uri,
-			context->message_uid, CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN);
-
-	g_object_unref (new_multipart);
-	g_object_unref (new);
+			context->source_message_uid, CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN);
 
 	async_context_free (context);
 }
 
 static void
-create_new_message (GObject *source_object,
-                    GAsyncResult *result,
-                    gpointer user_data)
+templates_template_applied_cb (GObject *source_object,
+			       GAsyncResult *result,
+			       gpointer user_data)
 {
 	AsyncContext *context = user_data;
 	EAlertSink *alert_sink;
 	EMailBackend *backend;
 	EShell *shell;
-	CamelFolder *folder;
 	GError *error = NULL;
 
-	g_return_if_fail (CAMEL_IS_FOLDER (source_object));
 	g_return_if_fail (context != NULL);
-
-	folder = CAMEL_FOLDER (source_object);
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
 
-	context->template = camel_folder_get_message_finish (folder, result, &error);
+	context->new_message = e_mail_templates_apply_finish (source_object, result, &error);
 
 	if (e_activity_handle_cancellation (context->activity, error)) {
-		g_warn_if_fail (context->template == NULL);
+		g_warn_if_fail (context->new_message == NULL);
 		async_context_free (context);
 		g_error_free (error);
 		return;
 
 	} else if (error != NULL) {
-		g_warn_if_fail (context->template == NULL);
+		g_warn_if_fail (context->new_message == NULL);
 		e_alert_submit (
 			alert_sink, "mail:no-retrieve-message",
 			error->message, NULL);
@@ -1046,7 +628,7 @@ create_new_message (GObject *source_object,
 		return;
 	}
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (context->template));
+	g_warn_if_fail (context->new_message != NULL);
 
 	backend = e_mail_reader_get_backend (context->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
@@ -1060,12 +642,10 @@ template_got_source_message (CamelFolder *folder,
                              AsyncContext *context)
 {
 	EAlertSink *alert_sink;
-	GCancellable *cancellable;
 	CamelMimeMessage *message;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
-	cancellable = e_activity_get_cancellable (context->activity);
 
 	message = camel_folder_get_message_finish (folder, result, &error);
 
@@ -1087,19 +667,14 @@ template_got_source_message (CamelFolder *folder,
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	context->message = message;
+	context->source_message = message;
 
-	/* Now fetch the template message. */
-
-	camel_folder_get_message (
-		context->template_folder,
-		context->template_message_uid,
-		G_PRIORITY_DEFAULT, cancellable,
-		create_new_message, context);
+	e_mail_templates_apply (context->source_message, context->template_folder, context->template_message_uid,
+		e_activity_get_cancellable (context->activity), templates_template_applied_cb, context);
 }
 
 static void
-action_reply_with_template_cb (ETemplatesStore *templates_store,
+action_reply_with_template_cb (EMailTemplatesStore *templates_store,
 			       CamelFolder *template_folder,
 			       const gchar *template_message_uid,
 			       gpointer user_data)
@@ -1135,10 +710,10 @@ action_reply_with_template_cb (ETemplatesStore *templates_store,
 	em_utils_get_real_folder_uri_and_message_uid (
 		folder, message_uid,
 		&context->source_folder_uri,
-		&context->message_uid);
+		&context->source_message_uid);
 
-	if (context->message_uid == NULL)
-		context->message_uid = g_strdup (message_uid);
+	if (context->source_message_uid == NULL)
+		context->source_message_uid = g_strdup (message_uid);
 
 	camel_folder_get_message (
 		folder, message_uid, G_PRIORITY_DEFAULT,
@@ -1343,7 +918,7 @@ templates_update_actions_cb (EShellView *shell_view,
 			shell_window = e_shell_view_get_shell_window (shell_view);
 			ui_manager = e_shell_window_get_ui_manager (shell_window);
 
-			e_templates_store_build_menu (td->templates_store, shell_view, ui_manager, action_group,
+			e_mail_templates_store_build_menu (td->templates_store, shell_view, ui_manager, action_group,
 				"/mail-message-popup/mail-message-templates", td->merge_id,
 				action_reply_with_template_cb, shell_view);
 		}
@@ -1370,7 +945,7 @@ init_composer_actions (GtkUIManager *ui_manager,
 }
 
 static void
-templates_store_changed_cb (ETemplatesStore *templates_store,
+templates_store_changed_cb (EMailTemplatesStore *templates_store,
 			    gpointer user_data)
 {
 	TemplatesData *td = user_data;
@@ -1401,7 +976,7 @@ mail_shell_view_created_cb (EShellWindow *shell_window,
 	session = e_mail_backend_get_session (backend);
 
 	td = g_new0 (TemplatesData, 1);
-	td->templates_store = e_templates_store_ref_default (e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session)));
+	td->templates_store = e_mail_templates_store_ref_default (e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session)));
 	td->changed_handler_id = g_signal_connect (td->templates_store, "changed", G_CALLBACK (templates_store_changed_cb), td);
 	td->merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	td->changed = TRUE;

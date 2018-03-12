@@ -87,6 +87,8 @@ set(SOURCES
 	e-mail-send-account-override.c
 	e-mail-sidebar.c
 	e-mail-tag-editor.c
+	e-mail-templates.c
+	e-mail-templates-store.c
 	e-mail-ui-session.c
 	e-mail-view.c
 	em-composer-utils.c
@@ -173,6 +175,8 @@ set(HEADERS
 	e-mail-send-account-override.h
 	e-mail-sidebar.h
 	e-mail-tag-editor.h
+	e-mail-templates.h
+	e-mail-templates-store.h
 	e-mail-ui-session.h
 	e-mail-view.h
 	em-composer-utils.h

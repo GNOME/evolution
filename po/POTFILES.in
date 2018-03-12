@@ -352,6 +352,7 @@ src/mail/e-mail-reader.c
 src/mail/e-mail-reader-utils.c
 src/mail/e-mail-request.c
 src/mail/e-mail-tag-editor.c
+src/mail/e-mail-templates-store.c
 src/mail/e-mail-ui-session.c
 src/mail/em-composer-utils.c
 src/mail/em-filter-editor.c
@@ -521,7 +522,6 @@ src/plugins/save-calendar/ical-format.c
 src/plugins/save-calendar/org-gnome-save-calendar.eplug.xml
 src/plugins/save-calendar/rdf-format.c
 src/plugins/save-calendar/save-calendar.c
-src/plugins/templates/e-templates-store.c
 src/plugins/templates/org-gnome-templates.eplug.xml
 src/plugins/templates/templates.c
 src/shell/e-shell-backend.c

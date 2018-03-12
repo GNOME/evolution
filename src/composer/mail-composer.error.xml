@@ -148,4 +148,9 @@ Detailed error: {0}</_secondary>
    <_primary>Something has gone wrong when editing the message</_primary>
    <_secondary>A WebKitWebProcess crashed when editing the message. You can try again by closing the composer window and opening a new one. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
  </error>
+
+ <error id="failed-create-composer" type="error">
+  <_primary>An error occurred while creating message composer.</_primary>
+  <secondary>{0}</secondary>
+ </error>
 </error-list>

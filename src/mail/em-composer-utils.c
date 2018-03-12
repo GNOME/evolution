@@ -43,6 +43,8 @@
 
 #include "e-mail-printer.h"
 #include "e-mail-ui-session.h"
+#include "e-mail-templates.h"
+#include "e-mail-templates-store.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-folder-selector.h"
@@ -2668,64 +2670,58 @@ em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 	return destv;
 }
 
-static void
-reply_setup_composer (EMsgComposer *composer,
-		      CamelMimeMessage *message,
-		      const gchar *identity_uid,
-		      const gchar *identity_name,
-		      const gchar *identity_address,
-		      CamelInternetAddress *to,
-		      CamelInternetAddress *cc,
-		      CamelFolder *folder,
-		      const gchar *message_uid,
-		      CamelNNTPAddress *postto)
+static gchar *
+emcu_construct_reply_subject (const gchar *source_subject)
 {
-	gchar *message_id, *references;
-	EDestination **tov, **ccv;
+	gchar *res;
+
+	if (source_subject) {
+		GSettings *settings;
+		gboolean skip_len = -1;
+
+		if (em_utils_is_re_in_subject (source_subject, &skip_len, NULL, NULL) && skip_len > 0)
+			source_subject = source_subject + skip_len;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		if (g_settings_get_boolean (settings, "composer-use-localized-fwd-re")) {
+			/* Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator. */
+			res = g_strdup_printf (C_("reply-attribution", "Re: %s"), source_subject);
+		} else {
+			/* Do not localize this string */
+			res = g_strdup_printf ("Re: %s", source_subject);
+		}
+		g_clear_object (&settings);
+	} else {
+		res = g_strdup ("");
+	}
+
+	return res;
+}
+
+static void
+reply_setup_composer_recipients (EMsgComposer *composer,
+				 CamelInternetAddress *to,
+				 CamelInternetAddress *cc,
+				 CamelFolder *folder,
+				 const gchar *message_uid,
+				 CamelNNTPAddress *postto)
+{
 	EComposerHeaderTable *table;
-	CamelMedium *medium;
-	gchar *subject;
+	EDestination **tov, **ccv;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
-
-	e_msg_composer_set_is_reply_or_forward (composer, TRUE);
-
 	if (to != NULL)
 		g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (to));
 
 	if (cc != NULL)
 		g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (cc));
 
-	/* construct the tov/ccv */
+	/* Construct the tov/ccv */
 	tov = em_utils_camel_address_to_destination (to);
 	ccv = em_utils_camel_address_to_destination (cc);
 
-	/* Set the subject of the new message. */
-	if ((subject = (gchar *) camel_mime_message_get_subject (message))) {
-		GSettings *settings;
-		gboolean skip_len = -1;
-
-		if (em_utils_is_re_in_subject (subject, &skip_len, NULL, NULL) && skip_len > 0)
-			subject = subject + skip_len;
-
-		settings = e_util_ref_settings ("org.gnome.evolution.mail");
-		if (g_settings_get_boolean (settings, "composer-use-localized-fwd-re")) {
-			/* Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator. */
-			subject = g_strdup_printf (C_("reply-attribution", "Re: %s"), subject);
-		} else {
-			/* Do not localize this string */
-			subject = g_strdup_printf ("Re: %s", subject);
-		}
-		g_clear_object (&settings);
-	} else {
-		subject = g_strdup ("");
-	}
-
 	table = e_msg_composer_get_header_table (composer);
-	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_destinations_to (table, tov);
-	e_composer_header_table_set_identity_uid (table, identity_uid, identity_name, identity_address);
 
 	/* Add destinations instead of setting, so we don't remove
 	 * automatic CC addresses that have already been added. */
@@ -2733,9 +2729,8 @@ reply_setup_composer (EMsgComposer *composer,
 
 	e_destination_freev (tov);
 	e_destination_freev (ccv);
-	g_free (subject);
 
-	/* add post-to, if nessecary */
+	/* Add post-to, if necessary */
 	if (postto && camel_address_length ((CamelAddress *) postto)) {
 		CamelFolder *use_folder = folder, *temp_folder = NULL;
 		gchar *store_url = NULL;
@@ -2773,6 +2768,46 @@ reply_setup_composer (EMsgComposer *composer,
 		g_free (store_url);
 		g_clear_object (&temp_folder);
 	}
+}
+
+static void
+reply_setup_composer (EMsgComposer *composer,
+		      CamelMimeMessage *message,
+		      const gchar *identity_uid,
+		      const gchar *identity_name,
+		      const gchar *identity_address,
+		      CamelInternetAddress *to,
+		      CamelInternetAddress *cc,
+		      CamelFolder *folder,
+		      const gchar *message_uid,
+		      CamelNNTPAddress *postto)
+{
+	gchar *message_id, *references;
+	EComposerHeaderTable *table;
+	CamelMedium *medium;
+	gchar *subject;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	e_msg_composer_set_is_reply_or_forward (composer, TRUE);
+
+	if (to != NULL)
+		g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (to));
+
+	if (cc != NULL)
+		g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (cc));
+
+	reply_setup_composer_recipients (composer, to, cc, folder, message_uid, postto);
+
+	/* Set the subject of the new message. */
+	subject = emcu_construct_reply_subject (camel_mime_message_get_subject (message));
+
+	table = e_msg_composer_get_header_table (composer);
+	e_composer_header_table_set_subject (table, subject);
+	e_composer_header_table_set_identity_uid (table, identity_uid, identity_name, identity_address);
+
+	g_free (subject);
 
 	/* Add In-Reply-To and References. */
 
@@ -3566,9 +3601,722 @@ emcu_folder_is_inbox (CamelFolder *folder)
 	return is_inbox;
 }
 
+typedef struct _AltReplyContext {
+	EShell *shell;
+	EAlertSink *alert_sink;
+	CamelMimeMessage *source_message;
+	CamelFolder *folder;
+	gchar *message_uid;
+	CamelMimeMessage *new_message; /* When processed with a template */
+	EMailPartList *source;
+	EMailReplyType type;
+	EMailReplyStyle style;
+	guint32 flags;
+	gboolean template_preserve_subject;
+} AltReplyContext;
+
+static void
+alt_reply_context_free (gpointer ptr)
+{
+	AltReplyContext *context = ptr;
+
+	if (context) {
+		g_clear_object (&context->shell);
+		g_clear_object (&context->alert_sink);
+		g_clear_object (&context->source_message);
+		g_clear_object (&context->folder);
+		g_clear_object (&context->source);
+		g_clear_object (&context->new_message);
+		g_free (context->message_uid);
+		g_free (context);
+	}
+}
+
+static void
+alt_reply_composer_created_cb (GObject *source_object,
+			       GAsyncResult *result,
+			       gpointer user_data)
+{
+	AltReplyContext *context = user_data;
+	EMsgComposer *composer;
+	GError *error = NULL;
+
+	g_return_if_fail (context != NULL);
+
+	composer = e_msg_composer_new_finish (result, &error);
+
+	if (composer) {
+		EContentEditor *cnt_editor;
+
+		cnt_editor = e_html_editor_get_content_editor (e_msg_composer_get_editor (composer));
+
+		if (context->new_message) {
+			CamelInternetAddress *to = NULL, *cc = NULL;
+			CamelNNTPAddress *postto = NULL;
+			gboolean need_reply_all = FALSE;
+
+			if ((context->flags & (E_MAIL_REPLY_FLAG_FORMAT_PLAIN | E_MAIL_REPLY_FLAG_FORMAT_HTML)) != 0) {
+				e_content_editor_set_html_mode (cnt_editor, (context->flags & E_MAIL_REPLY_FLAG_FORMAT_HTML) != 0);
+			}
+
+			em_utils_edit_message (composer, context->folder, context->new_message, context->message_uid, TRUE);
+
+			if (context->type == E_MAIL_REPLY_TO_SENDER) {
+				/* Reply to sender */
+				to = camel_internet_address_new ();
+				if (context->folder)
+					postto = camel_nntp_address_new ();
+				get_reply_sender (context->source_message, to, postto);
+			} else if (context->type == E_MAIL_REPLY_TO_LIST) {
+				/* Reply to list */
+				to = camel_internet_address_new ();
+
+				if (!get_reply_list (context->source_message, to)) {
+					need_reply_all = TRUE;
+					g_clear_object (&to);
+				}
+			} else if (context->type != E_MAIL_REPLY_TO_ALL) {
+				g_warn_if_reached ();
+			}
+
+			if (context->type == E_MAIL_REPLY_TO_ALL || need_reply_all) {
+				/* Reply to all */
+				to = camel_internet_address_new ();
+				cc = camel_internet_address_new ();
+
+				if (context->folder)
+					postto = camel_nntp_address_new ();
+
+				em_utils_get_reply_all (e_shell_get_registry (context->shell), context->source_message, to, cc, postto);
+			}
+
+			reply_setup_composer_recipients (composer, to, cc, context->folder, context->message_uid, postto);
+
+			composer_set_no_change (composer);
+
+			g_clear_object (&to);
+			g_clear_object (&cc);
+			g_clear_object (&postto);
+
+			if (context->folder && context->message_uid) {
+				gchar *source_folder_uri = NULL;
+				gchar *source_message_uid = NULL;
+
+				em_utils_get_real_folder_uri_and_message_uid (context->folder, context->message_uid,
+					&source_folder_uri, &source_message_uid);
+
+				if (!source_message_uid)
+					source_message_uid = g_strdup (context->message_uid);
+
+				if (source_folder_uri) {
+					e_msg_composer_set_source_headers (composer, source_folder_uri,
+						source_message_uid, CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN);
+				}
+
+				g_free (source_folder_uri);
+				g_free (source_message_uid);
+			}
+		} else {
+			em_utils_reply_to_message (composer, context->source_message,
+				context->folder, context->message_uid, context->type, context->style,
+				context->source, NULL, context->flags);
+		}
+	} else {
+		e_alert_submit (context->alert_sink, "mail-composer:failed-create-composer",
+			error ? error->message : _("Unknown error"), NULL);
+	}
+
+	alt_reply_context_free (context);
+	g_clear_error (&error);
+}
+
+static void
+alt_reply_template_applied_cb (GObject *source_object,
+			       GAsyncResult *result,
+			       gpointer user_data)
+{
+	AltReplyContext *context = user_data;
+	GError *error = NULL;
+
+	g_return_if_fail (context != NULL);
+
+	context->new_message = e_mail_templates_apply_finish (source_object, result, &error);
+
+	if (context->new_message) {
+		if (context->template_preserve_subject) {
+			gchar *subject;
+
+			subject = emcu_construct_reply_subject (camel_mime_message_get_subject (context->source_message));
+			camel_mime_message_set_subject (context->new_message, subject);
+			g_free (subject);
+		}
+
+		e_msg_composer_new (context->shell, alt_reply_composer_created_cb, context);
+	} else {
+		e_alert_submit (context->alert_sink, "mail:no-retrieve-message",
+			error ? error->message : _("Unknown error"), NULL);
+		alt_reply_context_free (context);
+	}
+
+	g_clear_error (&error);
+}
+
+static void
+emcu_three_state_toggled_cb (GtkToggleButton *widget,
+			     gpointer user_data)
+{
+	glong *phandlerid = user_data;
+
+	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (widget));
+	g_return_if_fail (phandlerid != NULL);
+
+	g_signal_handler_block (widget, *phandlerid);
+
+	if (gtk_toggle_button_get_inconsistent (widget) &&
+	    gtk_toggle_button_get_active (widget)) {
+		gtk_toggle_button_set_active (widget, FALSE);
+		gtk_toggle_button_set_inconsistent (widget, FALSE);
+	} else if (!gtk_toggle_button_get_active (widget)) {
+		gtk_toggle_button_set_inconsistent (widget, TRUE);
+		gtk_toggle_button_set_active (widget, FALSE);
+	} else {
+	}
+
+	g_signal_handler_unblock (widget, *phandlerid);
+}
+
+static void
+emcu_connect_three_state_changer (GtkToggleButton *toggle_button)
+{
+	glong *phandlerid;
+
+	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (toggle_button));
+
+	phandlerid = g_new0 (glong, 1);
+
+	*phandlerid = g_signal_connect_data (toggle_button, "toggled",
+		G_CALLBACK (emcu_three_state_toggled_cb),
+		phandlerid, (GClosureNotify) g_free, 0);
+}
+
+static void
+emcu_three_state_set_value (GtkToggleButton *toggle_button,
+			    EThreeState value)
+{
+	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (toggle_button));
+
+	if (value == E_THREE_STATE_OFF) {
+		gtk_toggle_button_set_active (toggle_button, FALSE);
+		gtk_toggle_button_set_inconsistent (toggle_button, FALSE);
+	} else if (value == E_THREE_STATE_ON) {
+		gtk_toggle_button_set_active (toggle_button, TRUE);
+		gtk_toggle_button_set_inconsistent (toggle_button, FALSE);
+	} else {
+		gtk_toggle_button_set_active (toggle_button, FALSE);
+		gtk_toggle_button_set_inconsistent (toggle_button, TRUE);
+	}
+}
+
+static EThreeState
+emcu_three_state_get_value (GtkToggleButton *toggle_button)
+{
+	g_return_val_if_fail (GTK_IS_TOGGLE_BUTTON (toggle_button), E_THREE_STATE_INCONSISTENT);
+
+	if (gtk_toggle_button_get_inconsistent (toggle_button))
+		return E_THREE_STATE_INCONSISTENT;
+	else if (gtk_toggle_button_get_active (toggle_button))
+		return E_THREE_STATE_ON;
+
+	return E_THREE_STATE_OFF;
+}
+
+static GtkComboBox *
+emcu_create_templates_combo (EShell *shell,
+			     const gchar *folder_uri,
+			     const gchar *message_uid)
+{
+	GtkComboBox *combo;
+	GtkCellRenderer *renderer;
+	EShellBackend *shell_backend;
+	EMailSession *mail_session;
+	EMailTemplatesStore *templates_store;
+	GtkTreeStore *tree_store;
+	GtkTreeIter found_iter;
+	gboolean found_message = FALSE;
+
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (shell_backend), NULL);
+
+	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+	templates_store = e_mail_templates_store_ref_default (e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (mail_session)));
+
+	tree_store = e_mail_templates_store_build_model (templates_store, folder_uri, message_uid, &found_message, &found_iter);
+
+	combo = GTK_COMBO_BOX (gtk_combo_box_new_with_model (GTK_TREE_MODEL (tree_store)));
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer),
+		"ellipsize", PANGO_ELLIPSIZE_END,
+		"max-width-chars", 60,
+		NULL);
+
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), renderer, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), renderer,
+		"text", E_MAIL_TEMPLATES_STORE_COLUMN_DISPLAY_NAME,
+		NULL);
+
+	g_clear_object (&templates_store);
+	g_clear_object (&tree_store);
+
+	if (found_message) {
+		gtk_combo_box_set_active_iter (combo, &found_iter);
+	} else {
+		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
+	}
+
+	return combo;
+}
+
+/**
+ * em_utils_reply_alternative:
+ * @parent: (nullable): a parent #GtkWindow for the question dialog
+ * @shell: an #EShell instance used to create #EMsgComposer
+ * @alert_sink: an #EAlertSink to put any errors to
+ * @message: a #CamelMimeMessage
+ * @folder: (nullable): a #CamelFolder, or %NULL
+ * @message_uid: (nullable): the UID of @message, or %NULL
+ * @style: the reply style to use
+ * @source: (nullable): source to inherit view settings from
+ *
+ * This is similar to em_utils_reply_to_message(), except it asks user to
+ * change some settings before sending. It calls em_utils_reply_to_message()
+ * at the end for non-templated replies.
+ *
+ * Since: 3.30
+ **/
+void
+em_utils_reply_alternative (GtkWindow *parent,
+			    EShell *shell,
+			    EAlertSink *alert_sink,
+			    CamelMimeMessage *message,
+			    CamelFolder *folder,
+			    const gchar *message_uid,
+			    EMailReplyStyle default_style,
+			    EMailPartList *source)
+{
+	GtkWidget *dialog, *widget, *style_label;
+	GtkBox *hbox, *vbox;
+	GtkRadioButton *recip_sender, *recip_list, *recip_all;
+	GtkLabel *sender_label, *list_label, *all_label;
+	GtkRadioButton *style_default, *style_attach, *style_inline, *style_quote, *style_no_quote;
+	GtkToggleButton *html_format;
+	GtkToggleButton *bottom_posting;
+	GtkCheckButton *apply_template;
+	GtkComboBox *templates;
+	GtkCheckButton *preserve_message_subject;
+	PangoAttrList *attr_list;
+	GSettings *settings;
+	gchar *last_tmpl_folder_uri, *last_tmpl_message_uid, *address, *text;
+	gboolean can_reply_list = FALSE;
+	CamelInternetAddress *to, *cc;
+	CamelNNTPAddress *postto = NULL;
+	gint n_addresses;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	dialog = gtk_dialog_new_with_buttons (_("Alternative Reply"), parent,
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_Reply"), GTK_RESPONSE_OK,
+		NULL);
+
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+
+	vbox = GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG (dialog)));
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_box_set_spacing (vbox, 2);
+
+	#define add_with_indent(x) \
+		gtk_widget_set_margin_left (GTK_WIDGET (x), 12); \
+		gtk_box_pack_start (vbox, GTK_WIDGET (x), FALSE, FALSE, 0);
+
+	widget = gtk_label_new (_("Recipients:"));
+	g_object_set (G_OBJECT (widget),
+		"hexpand", FALSE,
+		"halign", GTK_ALIGN_START,
+		NULL);
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+
+	attr_list = pango_attr_list_new ();
+	pango_attr_list_insert (attr_list, pango_attr_style_new (PANGO_STYLE_ITALIC));
+
+	#define add_with_label(wgt, lbl) G_STMT_START { \
+		GtkWidget *divider_label = gtk_label_new (":"); \
+		gtk_label_set_attributes (GTK_LABEL (lbl), attr_list); \
+		hbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6)); \
+		gtk_box_pack_start (hbox, GTK_WIDGET (wgt), FALSE, FALSE, 0); \
+		gtk_box_pack_start (hbox, GTK_WIDGET (divider_label), FALSE, FALSE, 0); \
+		gtk_box_pack_start (hbox, GTK_WIDGET (lbl), FALSE, FALSE, 0); \
+		e_binding_bind_property ( \
+			wgt, "sensitive", \
+			divider_label, "visible", \
+			G_BINDING_SYNC_CREATE); \
+		e_binding_bind_property ( \
+			wgt, "sensitive", \
+			lbl, "visible", \
+			G_BINDING_SYNC_CREATE); \
+		add_with_indent (hbox); } G_STMT_END
+
+	recip_sender = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
+		NULL, _("Reply to _Sender")));
+	sender_label = GTK_LABEL (gtk_label_new (""));
+	add_with_label (recip_sender, sender_label);
+
+	recip_list = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
+		gtk_radio_button_get_group (recip_sender), _("Reply to _List")));
+	list_label = GTK_LABEL (gtk_label_new (""));
+	add_with_label (recip_list, list_label);
+
+	recip_all = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
+		gtk_radio_button_get_group (recip_sender), _("Reply to _All")));
+	all_label = GTK_LABEL (gtk_label_new (""));
+	add_with_label (recip_all, all_label);
+
+	#undef add_with_label
+
+	pango_attr_list_unref (attr_list);
+
+	/* One line gap between sections */
+	widget = gtk_label_new (" ");
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+
+	style_label = gtk_label_new (_("Reply style:"));
+	g_object_set (G_OBJECT (style_label),
+		"hexpand", FALSE,
+		"halign", GTK_ALIGN_START,
+		NULL);
+	gtk_box_pack_start (vbox, style_label, FALSE, FALSE, 0);
+
+	style_default = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
+		NULL, _("_Default")));
+	add_with_indent (style_default);
+
+	style_attach = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
+		gtk_radio_button_get_group (style_default), _("Attach_ment")));
+	add_with_indent (style_attach);
+
+	style_inline = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
+		gtk_radio_button_get_group (style_default), _("Inline (_Outlook style)")));
+	add_with_indent (style_inline);
+
+	style_quote = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
+		gtk_radio_button_get_group (style_default), _("_Quote")));
+	add_with_indent (style_quote);
+
+	style_no_quote = GTK_RADIO_BUTTON (gtk_radio_button_new_with_mnemonic (
+		gtk_radio_button_get_group (style_default), _("Do _Not Quote")));
+	add_with_indent (style_no_quote);
+
+	/* One line gap between sections */
+	widget = gtk_label_new (" ");
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+
+	html_format = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("_Format message in HTML")));
+	gtk_box_pack_start (vbox, GTK_WIDGET (html_format), FALSE, FALSE, 0);
+
+	bottom_posting = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("Start _typing at the bottom")));
+	gtk_box_pack_start (vbox, GTK_WIDGET (bottom_posting), FALSE, FALSE, 0);
+
+	/* One line gap between sections */
+	widget = gtk_label_new (" ");
+	gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+
+	apply_template = GTK_CHECK_BUTTON (gtk_check_button_new_with_mnemonic (_("Apply t_emplate")));
+	gtk_box_pack_start (vbox, GTK_WIDGET (apply_template), FALSE, FALSE, 0);
+
+	last_tmpl_folder_uri = g_settings_get_string (settings, "alt-reply-template-folder-uri");
+	last_tmpl_message_uid = g_settings_get_string (settings, "alt-reply-template-message-uid");
+
+	templates = emcu_create_templates_combo (shell, last_tmpl_folder_uri, last_tmpl_message_uid);
+	add_with_indent (templates);
+
+	g_free (last_tmpl_folder_uri);
+	g_free (last_tmpl_message_uid);
+
+	preserve_message_subject = GTK_CHECK_BUTTON (gtk_check_button_new_with_mnemonic (_("Preserve original message S_ubject")));
+	add_with_indent (preserve_message_subject);
+
+	#undef add_with_indent
+
+	gtk_widget_show_all (GTK_WIDGET (vbox));
+
+	#define populate_label_with_text(lbl, txt) \
+		g_object_set (G_OBJECT (lbl), \
+			"ellipsize", PANGO_ELLIPSIZE_END, \
+			"max-width-chars", 50, \
+			"label", txt ? txt : "", \
+			"tooltip-text", txt ? txt : "", \
+			NULL);
+
+	/* Reply to sender */
+	to = camel_internet_address_new ();
+	if (folder)
+		postto = camel_nntp_address_new ();
+	get_reply_sender (message, to, postto);
+
+	if (postto && camel_address_length (CAMEL_ADDRESS (postto)) > 0) {
+		address = camel_address_format (CAMEL_ADDRESS (postto));
+	} else {
+		address = camel_address_format (CAMEL_ADDRESS (to));
+	}
+
+	populate_label_with_text (sender_label, address);
+
+	g_clear_object (&postto);
+	g_clear_object (&to);
+	g_free (address);
+
+	/* Reply to list */
+	to = camel_internet_address_new ();
+
+	if (!get_reply_list (message, to)) {
+		gtk_widget_set_sensitive (GTK_WIDGET (recip_list), FALSE);
+	} else {
+		can_reply_list = TRUE;
+
+		address = camel_address_format (CAMEL_ADDRESS (to));
+		populate_label_with_text (list_label, address);
+		g_free (address);
+	}
+
+	g_clear_object (&to);
+
+	/* Reply to all */
+	to = camel_internet_address_new ();
+	cc = camel_internet_address_new ();
+
+	if (folder)
+		postto = camel_nntp_address_new ();
+
+	em_utils_get_reply_all (e_shell_get_registry (shell), message, to, cc, postto);
+
+	if (postto && camel_address_length (CAMEL_ADDRESS (postto)) > 0) {
+		n_addresses = camel_address_length (CAMEL_ADDRESS (postto));
+		address = camel_address_format (CAMEL_ADDRESS (postto));
+	} else {
+		camel_address_cat (CAMEL_ADDRESS (to), CAMEL_ADDRESS (cc));
+		n_addresses = camel_address_length (CAMEL_ADDRESS (to));
+		address = camel_address_format (CAMEL_ADDRESS (to));
+	}
+
+	text = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE, "one recipient", "%d recipients", n_addresses), n_addresses);
+	populate_label_with_text (all_label, text);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (all_label), address);
+
+	g_clear_object (&to);
+	g_clear_object (&cc);
+	g_clear_object (&postto);
+	g_free (address);
+	g_free (text);
+
+	#undef populate_label_with_text
+
+	/* Prefer reply-to-list */
+	if (g_settings_get_boolean (settings, "composer-group-reply-to-list")) {
+		if (can_reply_list)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (recip_list), TRUE);
+		else if (n_addresses > 1)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (recip_all), TRUE);
+		else
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (recip_sender), TRUE);
+
+	/* Prefer reply-to-all */
+	} else {
+		if (n_addresses > 1)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (recip_all), TRUE);
+		else if (can_reply_list)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (recip_list), TRUE);
+		else
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (recip_sender), TRUE);
+	}
+
+	switch (g_settings_get_enum (settings, "alt-reply-style")) {
+	case E_MAIL_REPLY_STYLE_UNKNOWN:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (style_default), TRUE);
+		break;
+	case E_MAIL_REPLY_STYLE_QUOTED:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (style_quote), TRUE);
+		break;
+	case E_MAIL_REPLY_STYLE_DO_NOT_QUOTE:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (style_no_quote), TRUE);
+		break;
+	case E_MAIL_REPLY_STYLE_ATTACH:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (style_attach), TRUE);
+		break;
+	case E_MAIL_REPLY_STYLE_OUTLOOK:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (style_inline), TRUE);
+		break;
+	}
+
+	emcu_three_state_set_value (html_format, g_settings_get_enum (settings, "alt-reply-html-format"));
+	emcu_three_state_set_value (bottom_posting, g_settings_get_enum (settings, "alt-reply-start-bottom"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (apply_template), g_settings_get_boolean (settings, "alt-reply-template-apply"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (preserve_message_subject), g_settings_get_boolean (settings, "alt-reply-template-preserve-subject"));
+
+	if (!gtk_widget_get_sensitive (GTK_WIDGET (templates)))
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (apply_template), FALSE);
+
+	emcu_connect_three_state_changer (html_format);
+	emcu_connect_three_state_changer (bottom_posting);
+
+	e_binding_bind_property (
+		apply_template, "active",
+		templates, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		apply_template, "active",
+		preserve_message_subject, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	/* Enable the 'Reply Style' section only if not using Template */
+	e_binding_bind_property (
+		apply_template, "active",
+		style_label, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	e_binding_bind_property (
+		apply_template, "active",
+		style_default, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	e_binding_bind_property (
+		apply_template, "active",
+		style_attach, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	e_binding_bind_property (
+		apply_template, "active",
+		style_inline, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	e_binding_bind_property (
+		apply_template, "active",
+		style_quote, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	e_binding_bind_property (
+		apply_template, "active",
+		style_no_quote, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	/* Similarly with bottom posting, which doesn't work when using Templates */
+	e_binding_bind_property (
+		apply_template, "active",
+		bottom_posting, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		GtkTreeIter iter;
+		AltReplyContext *context;
+		EThreeState three_state;
+		CamelFolder *template_folder = NULL;
+		gchar *template_message_uid = NULL;
+
+		context = g_new0 (AltReplyContext, 1);
+		context->shell = g_object_ref (shell);
+		context->alert_sink = g_object_ref (alert_sink);
+		context->source_message = g_object_ref (message);
+		context->folder = folder ? g_object_ref (folder) : NULL;
+		context->source = source ? g_object_ref (source) : NULL;
+		context->message_uid = g_strdup (message_uid);
+		context->style = E_MAIL_REPLY_STYLE_UNKNOWN;
+		context->flags = E_MAIL_REPLY_FLAG_FORCE_STYLE;
+
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (style_quote)))
+			context->style = E_MAIL_REPLY_STYLE_QUOTED;
+		else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (style_no_quote)))
+			context->style = E_MAIL_REPLY_STYLE_DO_NOT_QUOTE;
+		else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (style_attach)))
+			context->style = E_MAIL_REPLY_STYLE_ATTACH;
+		else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (style_inline)))
+			context->style = E_MAIL_REPLY_STYLE_OUTLOOK;
+		else
+			context->flags = context->flags & (~E_MAIL_REPLY_FLAG_FORCE_STYLE);
+
+		three_state = emcu_three_state_get_value (html_format);
+		g_settings_set_enum (settings, "alt-reply-html-format", three_state);
+
+		if (three_state == E_THREE_STATE_ON)
+			context->flags |= E_MAIL_REPLY_FLAG_FORMAT_HTML;
+		else if (three_state == E_THREE_STATE_OFF)
+			context->flags |= E_MAIL_REPLY_FLAG_FORMAT_PLAIN;
+
+		three_state = emcu_three_state_get_value (bottom_posting);
+		g_settings_set_enum (settings, "alt-reply-start-bottom", three_state);
+
+		if (three_state == E_THREE_STATE_ON)
+			context->flags |= E_MAIL_REPLY_FLAG_BOTTOM_POSTING;
+		else if (three_state == E_THREE_STATE_OFF)
+			context->flags |= E_MAIL_REPLY_FLAG_TOP_POSTING;
+
+		g_settings_set_enum (settings, "alt-reply-style", context->style);
+		g_settings_set_boolean (settings, "alt-reply-template-apply", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (apply_template)));
+		g_settings_set_boolean (settings, "alt-reply-template-preserve-subject", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (preserve_message_subject)));
+
+		if (gtk_combo_box_get_active_iter (templates, &iter)) {
+			gtk_tree_model_get (gtk_combo_box_get_model (templates), &iter,
+				E_MAIL_TEMPLATES_STORE_COLUMN_FOLDER, &template_folder,
+				E_MAIL_TEMPLATES_STORE_COLUMN_MESSAGE_UID, &template_message_uid,
+				-1);
+		}
+
+		if (template_folder) {
+			gchar *folder_uri;
+
+			folder_uri = e_mail_folder_uri_from_folder (template_folder);
+			g_settings_set_string (settings, "alt-reply-template-folder-uri", folder_uri ? folder_uri : "");
+			g_free (folder_uri);
+		}
+
+		g_settings_set_string (settings, "alt-reply-template-message-uid", template_message_uid ? template_message_uid : "");
+
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (recip_sender)))
+			context->type = E_MAIL_REPLY_TO_SENDER;
+		else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (recip_list)))
+			context->type = E_MAIL_REPLY_TO_LIST;
+		else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (recip_all)))
+			context->type = E_MAIL_REPLY_TO_ALL;
+		else
+			g_warn_if_reached ();
+
+		if (context->style == E_MAIL_REPLY_STYLE_UNKNOWN)
+			context->style = default_style;
+
+		context->template_preserve_subject = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (preserve_message_subject));
+
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (apply_template))) {
+			e_mail_templates_apply (context->source_message, template_folder, template_message_uid,
+				NULL, alt_reply_template_applied_cb, context);
+
+		} else {
+			e_msg_composer_new (context->shell, alt_reply_composer_created_cb, context);
+		}
+
+		g_clear_object (&template_folder);
+		g_free (template_message_uid);
+	}
+
+	gtk_widget_destroy (dialog);
+	g_clear_object (&settings);
+}
+
 /**
  * em_utils_reply_to_message:
- * @shell: an #EShell
+ * @composer: an #EMsgComposer
  * @message: a #CamelMimeMessage
  * @folder: a #CamelFolder, or %NULL
  * @message_uid: the UID of @message, or %NULL
@@ -3576,6 +4324,7 @@ emcu_folder_is_inbox (CamelFolder *folder)
  * @style: the reply style to use
  * @source: source to inherit view settings from
  * @address: used for E_MAIL_REPLY_TO_RECIPIENT @type
+ * @reply_flags: bit-or of #EMailReplyFlags
  *
  * Creates a new composer ready to reply to @message.
  *
@@ -3590,7 +4339,8 @@ em_utils_reply_to_message (EMsgComposer *composer,
                            EMailReplyType type,
                            EMailReplyStyle style,
                            EMailPartList *parts_list,
-                           CamelInternetAddress *address)
+			   CamelInternetAddress *address,
+			   EMailReplyFlags reply_flags)
 {
 	ESourceRegistry *registry;
 	CamelInternetAddress *to, *cc;
@@ -3598,11 +4348,24 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	EShell *shell;
 	ESourceMailCompositionReplyStyle prefer_reply_style = E_SOURCE_MAIL_COMPOSITION_REPLY_STYLE_DEFAULT;
 	ESource *source;
+	EContentEditor *cnt_editor;
 	gchar *identity_uid = NULL, *identity_name = NULL, *identity_address = NULL;
 	guint32 flags;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	cnt_editor = e_html_editor_get_content_editor (e_msg_composer_get_editor (composer));
+
+	if ((reply_flags & (E_MAIL_REPLY_FLAG_FORMAT_PLAIN | E_MAIL_REPLY_FLAG_FORMAT_HTML)) != 0) {
+		e_content_editor_set_html_mode (cnt_editor, (reply_flags & E_MAIL_REPLY_FLAG_FORMAT_HTML) != 0);
+	}
+
+	if ((reply_flags & (E_MAIL_REPLY_FLAG_TOP_POSTING | E_MAIL_REPLY_FLAG_BOTTOM_POSTING)) != 0) {
+		e_content_editor_set_start_bottom (cnt_editor,
+			(reply_flags & E_MAIL_REPLY_FLAG_TOP_POSTING) != 0 ?
+			E_THREE_STATE_OFF : E_THREE_STATE_ON);
+	}
 
 	to = camel_internet_address_new ();
 	cc = camel_internet_address_new ();
@@ -3617,7 +4380,8 @@ em_utils_reply_to_message (EMsgComposer *composer,
 			registry, message, folder, message_uid, &identity_name, &identity_address, sort_sources_by_ui, shell);
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
-		if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
+		if (!(reply_flags & E_MAIL_REPLY_FLAG_FORCE_STYLE) &&
+		    e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
 			ESourceMailComposition *extension;
 
 			extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
@@ -3685,7 +4449,8 @@ em_utils_reply_to_message (EMsgComposer *composer,
 		if (used_identity_uid) {
 			source = e_source_registry_ref_source (e_shell_get_registry (shell), used_identity_uid);
 			if (source) {
-				if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
+				if (!(reply_flags & E_MAIL_REPLY_FLAG_FORCE_STYLE) &&
+				    e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
 					ESourceMailComposition *extension;
 
 					extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
@@ -3733,6 +4498,13 @@ em_utils_reply_to_message (EMsgComposer *composer,
 
 	/* because some reply types can change recipients after the composer is populated */
 	em_utils_apply_send_account_override_to_composer (composer, folder);
+
+	/* This is required to be done (also) at the end */
+	if ((reply_flags & (E_MAIL_REPLY_FLAG_TOP_POSTING | E_MAIL_REPLY_FLAG_BOTTOM_POSTING)) != 0) {
+		e_content_editor_set_start_bottom (cnt_editor,
+			(reply_flags & E_MAIL_REPLY_FLAG_TOP_POSTING) != 0 ?
+			E_THREE_STATE_OFF : E_THREE_STATE_ON);
+	}
 
 	composer_set_no_change (composer);
 

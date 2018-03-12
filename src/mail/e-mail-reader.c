@@ -1477,6 +1477,85 @@ action_mail_reply_all_cb (GtkAction *action,
 }
 
 static void
+action_mail_reply_alternative_got_message (CamelFolder *folder,
+					   GAsyncResult *result,
+					   EMailReaderClosure *closure)
+{
+	EAlertSink *alert_sink;
+	EMailDisplay *mail_display;
+	CamelMimeMessage *message;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (closure->activity);
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	if (e_activity_handle_cancellation (closure->activity, error)) {
+		g_warn_if_fail (message == NULL);
+		mail_reader_closure_free (closure);
+		g_error_free (error);
+		return;
+
+	} else if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_submit (
+			alert_sink, "mail:no-retrieve-message",
+			error->message, NULL);
+		mail_reader_closure_free (closure);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	g_clear_object (&closure->activity);
+
+	mail_display = e_mail_reader_get_mail_display (closure->reader);
+
+	em_utils_reply_alternative (e_mail_reader_get_window (closure->reader),
+		e_shell_backend_get_shell (E_SHELL_BACKEND (e_mail_reader_get_backend (closure->reader))),
+		alert_sink, message, folder, closure->message_uid,
+		e_mail_reader_get_reply_style (closure->reader),
+		mail_display ? e_mail_display_get_part_list (mail_display) : NULL);
+
+	g_object_unref (message);
+	mail_reader_closure_free (closure);
+}
+
+static void
+action_mail_reply_alternative_cb (GtkAction *action,
+				  EMailReader *reader)
+{
+	EActivity *activity;
+	GCancellable *cancellable;
+	EMailReaderClosure *closure;
+	CamelFolder *folder;
+	GtkWidget *message_list;
+	const gchar *message_uid;
+
+	message_list = e_mail_reader_get_message_list (reader);
+	message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	g_return_if_fail (message_uid != NULL);
+
+	activity = e_mail_reader_new_activity (reader);
+	cancellable = e_activity_get_cancellable (activity);
+
+	closure = g_slice_new0 (EMailReaderClosure);
+	closure->activity = activity;
+	closure->reader = g_object_ref (reader);
+	closure->message_uid = g_strdup (message_uid);
+
+	folder = e_mail_reader_ref_folder (reader);
+
+	camel_folder_get_message (
+		folder, message_uid, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		action_mail_reply_alternative_got_message, closure);
+
+	g_clear_object (&folder);
+}
+
+static void
 action_mail_reply_group_cb (GtkAction *action,
                             EMailReader *reader)
 {
@@ -2438,6 +2517,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  "<Shift><Control>r",
 	  N_("Compose a reply to all the recipients of the selected message"),
 	  G_CALLBACK (action_mail_reply_all_cb) },
+
+	{ "mail-reply-alternative",
+	  NULL,
+	  N_("Al_ternative Reply…"),
+	  "<Alt><Control>r",
+	  N_("Choose reply options for the selected message"),
+	  G_CALLBACK (action_mail_reply_alternative_cb) },
 
 	{ "mail-reply-list",
 	  NULL,
@@ -4066,6 +4152,11 @@ mail_reader_update_actions (EMailReader *reader,
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-reply-all";
+	sensitive = have_enabled_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-reply-alternative";
 	sensitive = have_enabled_account && single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);

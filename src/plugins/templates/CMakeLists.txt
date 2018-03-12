@@ -10,8 +10,6 @@ set(DEPENDENCIES
 
 set(SOURCES
 	templates.c
-	e-templates-store.h
-	e-templates-store.c
 )
 
 add_library(org-gnome-templates MODULE

@@ -1838,6 +1838,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		if (!(wk_editor->priv->html_mode)) {
 			if (strstr (content, "<!-- text/html -->")) {
 				if (!show_lose_formatting_dialog (wk_editor)) {
+					set_convert_in_situ (wk_editor, FALSE);
 					wk_editor->priv->reload_in_progress = TRUE;
 					webkit_editor_set_html_mode (wk_editor, TRUE);
 					webkit_web_view_load_html (

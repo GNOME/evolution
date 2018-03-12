@@ -29,6 +29,7 @@ typedef enum {
 } EMailForwardStyle;
 
 typedef enum {
+	E_MAIL_REPLY_STYLE_UNKNOWN = -1,
 	E_MAIL_REPLY_STYLE_QUOTED,
 	E_MAIL_REPLY_STYLE_DO_NOT_QUOTE,
 	E_MAIL_REPLY_STYLE_ATTACH,
@@ -42,6 +43,35 @@ typedef enum {
 	E_MAIL_REPLY_TO_ALL,
 	E_MAIL_REPLY_TO_LIST
 } EMailReplyType;
+
+/**
+ * EMailReplyFlags:
+ * @E_MAIL_REPLY_FLAG_NONE: no flags used
+ * @E_MAIL_REPLY_FLAG_FORCE_STYLE: Force use of the passed-in reply style; if not set,
+ *    then also checks reply style setting for the used mail account.
+ * @E_MAIL_REPLY_FLAG_FORMAT_PLAIN: Force compose in Plain Text format; cannot be used together
+ *    with @E_MAIL_REPLY_FLAG_FORMAT_HTML. If none of these is set, then uses
+ *    global setting.
+ * @E_MAIL_REPLY_FLAG_FORMAT_HTML: Force compose in HTML format; cannot be used together
+ *    with @E_MAIL_REPLY_FLAG_FORMAT_PLAIN. If none of these is set, then uses
+ *    global setting.
+ * @E_MAIL_REPLY_FLAG_TOP_POSTING: Force top posting; cannot be used together
+ *    with @E_MAIL_REPLY_FLAG_BOTTOM_POSTING. If none it set, then uses global settings.
+ * @E_MAIL_REPLY_FLAG_BOTTOM_POSTING: Force bottom posting; cannot be used together
+ *    with @E_MAIL_REPLY_FLAG_BOTTOM_POSTING. If none it set, then uses global settings.
+ *
+ * Flags influencing behavior of em_utils_reply_to_message().
+ *
+ * Since: 3.30
+ **/
+typedef enum { /*< flags >*/
+	E_MAIL_REPLY_FLAG_NONE			= 0,
+	E_MAIL_REPLY_FLAG_FORCE_STYLE		= 1 << 0,
+	E_MAIL_REPLY_FLAG_FORMAT_PLAIN		= 1 << 1,
+	E_MAIL_REPLY_FLAG_FORMAT_HTML		= 1 << 2,
+	E_MAIL_REPLY_FLAG_TOP_POSTING		= 1 << 3,
+	E_MAIL_REPLY_FLAG_BOTTOM_POSTING	= 1 << 4
+} EMailReplyFlags;
 
 G_END_DECLS
 

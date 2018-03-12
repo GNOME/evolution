@@ -214,7 +214,7 @@ mail_attachment_handler_composer_created_cb (GObject *source_object,
 			style = g_settings_get_enum (settings, "reply-style-name");
 			g_object_unref (settings);
 
-			em_utils_reply_to_message (composer, ccd->message, NULL, NULL, ccd->reply_type, style, NULL, NULL);
+			em_utils_reply_to_message (composer, ccd->message, NULL, NULL, ccd->reply_type, style, NULL, NULL, E_MAIL_REPLY_FLAG_NONE);
 		} else if (ccd->is_forward) {
 			em_utils_forward_message (composer, ccd->message, ccd->forward_style, ccd->folder, NULL);
 		} else {

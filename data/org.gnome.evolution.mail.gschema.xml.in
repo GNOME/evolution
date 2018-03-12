@@ -16,6 +16,7 @@
 
   <!-- Keep this synchronized with EMailReplyStyle. -->
   <enum id="org.gnome.evolution.mail.ReplyStyle">
+    <value nick='unknown'      value='-1'/>
     <value nick='quoted'       value='0'/>
     <value nick='do-not-quote' value='1'/>
     <value nick='attach'       value='2'/>
@@ -27,6 +28,13 @@
     <value nick='never'     value='0'/>
     <value nick='sometimes' value='1'/>
     <value nick='always'    value='2'/>
+  </enum>
+
+  <!-- Keep this synchronized with EThreeState from evolution-data-server. -->
+  <enum id="org.gnome.evolution.mail.ThreeState">
+    <value nick='off'          value='0'/>
+    <value nick='on'           value='1'/>
+    <value nick='inconsistent' value='2'/>
   </enum>
 
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
@@ -733,7 +741,35 @@
       <_summary>Visually wrap long lines in composer</_summary>
       <_description>Whether to visually wrap long lines of text to avoid horizontal scrolling</_description>
     </key>
-
+    <key name="alt-reply-style" enum="org.gnome.evolution.mail.ReplyStyle">
+      <default>'quoted'</default>
+      <_summary>Alternative reply style</_summary>
+    </key>
+    <key name="alt-reply-html-format" enum="org.gnome.evolution.mail.ThreeState">
+      <default>'inconsistent'</default>
+      <_summary>Format message in HTML</_summary>
+    </key>
+    <key name="alt-reply-start-bottom" enum="org.gnome.evolution.mail.ThreeState">
+      <default>'inconsistent'</default>
+      <_summary>Put the cursor at the bottom of alternative replies</_summary>
+      <_description>This determines whether the cursor is placed at the top of the message or the bottom when using Alternative Reply.</_description>
+    </key>
+    <key name="alt-reply-template-apply" type="b">
+      <default>false</default>
+      <_summary>Apply chosen template when using Alternative Reply</_summary>
+    </key>
+    <key name="alt-reply-template-folder-uri" type="s">
+      <default>''</default>
+      <_summary>Last chosen template's folder URI for Alternative Reply</_summary>
+    </key>
+    <key name="alt-reply-template-message-uid" type="s">
+      <default>''</default>
+      <_summary>Last chosen template's message UID for Alternative Reply</_summary>
+    </key>
+    <key name="alt-reply-template-preserve-subject" type="b">
+      <default>false</default>
+      <_summary>Whether preserve original message subject when applying template for Alternative Reply</_summary>
+    </key>
     <!-- The following keys are deprecated. -->
 
     <key name="forward-style" type="i">

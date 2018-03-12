@@ -2410,7 +2410,8 @@ mail_reader_reply_composer_created_cb (GObject *object,
 			async_context->reply_type,
 			async_context->reply_style,
 			async_context->part_list,
-			async_context->address);
+			async_context->address,
+			E_MAIL_REPLY_FLAG_NONE);
 
 		e_mail_reader_composer_created (async_context->reader, composer, message);
 	}
@@ -2518,7 +2519,7 @@ mail_reader_reply_to_message_composer_created_cb (GObject *source_object,
 	} else {
 		em_utils_reply_to_message (
 			composer, ccd->message, ccd->folder, ccd->message_uid,
-			ccd->reply_type, ccd->reply_style, ccd->part_list, ccd->address);
+			ccd->reply_type, ccd->reply_style, ccd->part_list, ccd->address, E_MAIL_REPLY_FLAG_NONE);
 
 		if (ccd->validity_pgp_sum != 0 || ccd->validity_smime_sum != 0) {
 			GtkToggleAction *action;

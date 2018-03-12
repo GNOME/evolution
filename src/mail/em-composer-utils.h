@@ -85,7 +85,16 @@ void		em_utils_reply_to_message	(EMsgComposer *composer,
 						 EMailReplyType type,
 						 EMailReplyStyle style,
 						 EMailPartList *source,
-						 CamelInternetAddress *address);
+						 CamelInternetAddress *address,
+						 guint32 reply_flags); /* bit-or of EMailReplyFlags */
+void		em_utils_reply_alternative	(GtkWindow *parent,
+						 EShell *shell,
+						 EAlertSink *alert_sink,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder,
+						 const gchar *message_uid,
+						 EMailReplyStyle default_style,
+						 EMailPartList *source);
 EDestination **	em_utils_camel_address_to_destination
 						(CamelInternetAddress *iaddr);
 void		em_configure_new_composer	(EMsgComposer *composer,

@@ -25,9 +25,9 @@
 
 #include "shell/e-shell-view.h"
 
-#include "e-templates-store.h"
+#include "e-mail-templates-store.h"
 
-struct _ETemplatesStorePrivate {
+struct _EMailTemplatesStorePrivate {
 	GWeakRef *account_store_weakref; /* EMailAccountStore * */
 
 	gulong service_enabled_handler_id;
@@ -41,7 +41,7 @@ struct _ETemplatesStorePrivate {
 	guint menu_refresh_idle_id;
 };
 
-G_DEFINE_TYPE (ETemplatesStore, e_templates_store, G_TYPE_OBJECT);
+G_DEFINE_TYPE (EMailTemplatesStore, e_mail_templates_store, G_TYPE_OBJECT);
 
 enum {
 	PROP_0,
@@ -56,25 +56,25 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 static void
-templates_store_lock (ETemplatesStore *templates_store)
+templates_store_lock (EMailTemplatesStore *templates_store)
 {
-	g_return_if_fail (E_IS_TEMPLATES_STORE (templates_store));
+	g_return_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store));
 
 	g_mutex_lock (&templates_store->priv->busy_lock);
 }
 
 static void
-templates_store_unlock (ETemplatesStore *templates_store)
+templates_store_unlock (EMailTemplatesStore *templates_store)
 {
-	g_return_if_fail (E_IS_TEMPLATES_STORE (templates_store));
+	g_return_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store));
 
 	g_mutex_unlock (&templates_store->priv->busy_lock);
 }
 
 static void
-templates_store_emit_changed (ETemplatesStore *templates_store)
+templates_store_emit_changed (EMailTemplatesStore *templates_store)
 {
-	g_return_if_fail (E_IS_TEMPLATES_STORE (templates_store));
+	g_return_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store));
 
 	g_signal_emit (templates_store, signals[CHANGED], 0, NULL);
 }
@@ -174,7 +174,7 @@ tmpl_message_data_compare (gconstpointer ptr1,
 
 typedef struct _TmplFolderData {
 	volatile gint ref_count;
-	GWeakRef *templates_store_weakref; /* ETemplatesStore * */
+	GWeakRef *templates_store_weakref; /* EMailTemplatesStore * */
 	CamelFolder *folder;
 	gulong changed_handler_id;
 
@@ -187,12 +187,12 @@ typedef struct _TmplFolderData {
 } TmplFolderData;
 
 static TmplFolderData *
-tmpl_folder_data_new (ETemplatesStore *templates_store,
+tmpl_folder_data_new (EMailTemplatesStore *templates_store,
 		      CamelFolder *folder)
 {
 	TmplFolderData *tfd;
 
-	g_return_val_if_fail (E_IS_TEMPLATES_STORE (templates_store), NULL);
+	g_return_val_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store), NULL);
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
 	tfd = g_new0 (TmplFolderData, 1);
@@ -397,7 +397,7 @@ tmpl_folder_data_update_done_cb (GObject *source,
 
 	if (g_task_propagate_boolean (G_TASK (result), &local_error)) {
 		/* Content changed, rebuild menu when needed */
-		ETemplatesStore *templates_store;
+		EMailTemplatesStore *templates_store;
 
 		templates_store = g_weak_ref_get (tfd->templates_store_weakref);
 		if (templates_store) {
@@ -515,7 +515,7 @@ static void
 tmpl_folder_data_schedule_update (TmplFolderData *tfd,
 				  CamelFolderChangeInfo *change_info)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 	TfdUpdateData *tud;
 	GTask *task;
 	guint ii;
@@ -574,7 +574,7 @@ tmpl_folder_data_folder_changed_cb (CamelFolder *folder,
 	    (change_info->uid_changed && change_info->uid_changed->len)) {
 		tmpl_folder_data_schedule_update (tfd, change_info);
 	} else if (change_info->uid_removed && change_info->uid_removed->len) {
-		ETemplatesStore *templates_store;
+		EMailTemplatesStore *templates_store;
 
 		templates_store = g_weak_ref_get (tfd->templates_store_weakref);
 		if (templates_store) {
@@ -614,7 +614,7 @@ tmpl_store_data_traverse_to_free_cb (GNode *node,
 
 typedef struct _TmplStoreData {
 	volatile gint ref_count;
-	GWeakRef *templates_store_weakref; /* ETemplatesStore * */
+	GWeakRef *templates_store_weakref; /* EMailTemplatesStore * */
 	GWeakRef *store_weakref; /* CamelStore * */
 
 	gulong folder_created_handler_id;
@@ -634,7 +634,7 @@ tmpl_store_data_set_root_folder_path (TmplStoreData *tsd,
 				      const gchar *root_folder_path);
 
 static TmplStoreData *
-tmpl_store_data_new (ETemplatesStore *templates_store,
+tmpl_store_data_new (EMailTemplatesStore *templates_store,
 		     CamelStore *store,
 		     const gchar *root_folder_path,
 		     const gchar *templates_folder_uri,
@@ -642,7 +642,7 @@ tmpl_store_data_new (ETemplatesStore *templates_store,
 {
 	TmplStoreData *tsd;
 
-	g_return_val_if_fail (E_IS_TEMPLATES_STORE (templates_store), NULL);
+	g_return_val_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store), NULL);
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 	g_return_val_if_fail (root_folder_path && *root_folder_path, NULL);
 	g_return_val_if_fail (templates_folder_uri && *templates_folder_uri, NULL);
@@ -960,7 +960,7 @@ tmpl_store_data_update_done_cb (GObject *source,
 
 	if (g_task_propagate_boolean (G_TASK (result), &local_error)) {
 		/* Content changed, rebuild menu when needed */
-		ETemplatesStore *templates_store;
+		EMailTemplatesStore *templates_store;
 
 		templates_store = g_weak_ref_get (tsd->templates_store_weakref);
 		if (templates_store) {
@@ -980,7 +980,7 @@ tmpl_store_data_initial_setup_thread (GTask *task,
 				      gpointer task_data,
 				      GCancellable *cancellable)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 	TmplStoreData *tsd = task_data;
 	CamelStore *store;
 	gboolean changed = FALSE;
@@ -1079,7 +1079,7 @@ tmpl_store_data_initial_setup_thread (GTask *task,
 static void
 tmpl_store_data_schedule_initial_setup (TmplStoreData *tsd)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 	GTask *task;
 
 	g_return_if_fail (tsd != NULL);
@@ -1123,7 +1123,7 @@ tmpl_store_data_folder_thread (GTask *task,
 			       gpointer task_data,
 			       GCancellable *cancellable)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 	TsdFolderData *fd = task_data;
 	CamelStore *store;
 	gboolean changed = FALSE;
@@ -1230,7 +1230,7 @@ tmpl_store_data_folder_created_cb (CamelStore *store,
 				   gpointer user_data)
 {
 	TmplStoreData *tsd = user_data;
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (folder_info != NULL);
@@ -1271,7 +1271,7 @@ tmpl_store_data_folder_deleted_cb (CamelStore *store,
 				   gpointer user_data)
 {
 	TmplStoreData *tsd = user_data;
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 	gboolean changed = FALSE;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -1309,7 +1309,7 @@ tmpl_store_data_folder_renamed_cb (CamelStore *store,
 				   gpointer user_data)
 {
 	TmplStoreData *tsd = user_data;
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 	gboolean changed = FALSE;
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
@@ -1375,7 +1375,7 @@ tmpl_store_data_notify_display_name_cb (CamelService *service,
 					gpointer user_data)
 {
 	TmplStoreData *tsd = user_data;
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 	g_return_if_fail (tsd != NULL);
@@ -1385,7 +1385,7 @@ tmpl_store_data_notify_display_name_cb (CamelService *service,
 		EMailAccountStore *account_store;
 		gboolean changed = FALSE;
 
-		account_store = e_templates_store_ref_account_store (templates_store);
+		account_store = e_mail_templates_store_ref_account_store (templates_store);
 
 		templates_store_lock (templates_store);
 
@@ -1404,7 +1404,7 @@ tmpl_store_data_notify_display_name_cb (CamelService *service,
 }
 
 static gchar *
-templates_store_find_custom_templates_root_folder_path (ETemplatesStore *templates_store,
+templates_store_find_custom_templates_root_folder_path (EMailTemplatesStore *templates_store,
 							CamelStore *store,
 							EMailSession *mail_session,
 							ESource **out_identity_source,
@@ -1414,7 +1414,7 @@ templates_store_find_custom_templates_root_folder_path (ETemplatesStore *templat
 	ESource *identity_source;
 	gchar *root_folder_path = NULL;
 
-	g_return_val_if_fail (E_IS_TEMPLATES_STORE (templates_store), NULL);
+	g_return_val_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store), NULL);
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 	g_return_val_if_fail (out_identity_source != NULL, NULL);
 	g_return_val_if_fail (out_use_store != NULL, NULL);
@@ -1471,7 +1471,7 @@ templates_store_find_custom_templates_root_folder_path (ETemplatesStore *templat
 }
 
 static void
-templates_store_maybe_add_store (ETemplatesStore *templates_store,
+templates_store_maybe_add_store (EMailTemplatesStore *templates_store,
 				 CamelStore *store)
 {
 	ESource *identity_source = NULL;
@@ -1481,10 +1481,10 @@ templates_store_maybe_add_store (ETemplatesStore *templates_store,
 	gchar *root_folder_path, *templates_folder_uri = NULL;
 	gboolean changed = FALSE;
 
-	g_return_if_fail (E_IS_TEMPLATES_STORE (templates_store));
+	g_return_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
-	account_store = e_templates_store_ref_account_store (templates_store);
+	account_store = e_mail_templates_store_ref_account_store (templates_store);
 	if (!account_store)
 		return;
 
@@ -1544,13 +1544,13 @@ templates_store_maybe_add_store (ETemplatesStore *templates_store,
 }
 
 static void
-templates_store_maybe_remove_store (ETemplatesStore *templates_store,
+templates_store_maybe_remove_store (EMailTemplatesStore *templates_store,
 				    CamelStore *store)
 {
 	GSList *link;
 	gboolean changed = FALSE;
 
-	g_return_if_fail (E_IS_TEMPLATES_STORE (templates_store));
+	g_return_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 
 	templates_store_lock (templates_store);
@@ -1582,15 +1582,15 @@ templates_store_maybe_remove_store (ETemplatesStore *templates_store,
 }
 
 static void
-templates_store_maybe_add_enabled_services (ETemplatesStore *templates_store)
+templates_store_maybe_add_enabled_services (EMailTemplatesStore *templates_store)
 {
 	EMailAccountStore *account_store;
 	GQueue queue = G_QUEUE_INIT;
 
-	g_return_if_fail (E_IS_TEMPLATES_STORE (templates_store));
+	g_return_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store));
 	g_return_if_fail (templates_store->priv->stores == NULL);
 
-	account_store = e_templates_store_ref_account_store (templates_store);
+	account_store = e_mail_templates_store_ref_account_store (templates_store);
 	g_return_if_fail (account_store != NULL);
 
 	e_mail_account_store_queue_enabled_services (account_store, &queue);
@@ -1612,7 +1612,7 @@ templates_store_service_enabled_cb (EMailAccountStore *account_store,
 				    CamelService *service,
 				    GWeakRef *weak_ref)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 
 	if (!CAMEL_IS_STORE (service))
 		return;
@@ -1630,7 +1630,7 @@ templates_store_service_disabled_cb (EMailAccountStore *account_store,
 				     CamelService *service,
 				     GWeakRef *weak_ref)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 
 	if (!CAMEL_IS_STORE (service))
 		return;
@@ -1648,7 +1648,7 @@ templates_store_service_removed_cb (EMailAccountStore *account_store,
 				    CamelService *service,
 				    GWeakRef *weak_ref)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 
 	if (!CAMEL_IS_STORE (service))
 		return;
@@ -1666,7 +1666,7 @@ templates_store_source_changed_cb (ESourceRegistry *registry,
 				   ESource *source,
 				   GWeakRef *weak_ref)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 
 	g_return_if_fail (E_IS_SOURCE (source));
 
@@ -1754,7 +1754,7 @@ templates_store_source_changed_cb (ESourceRegistry *registry,
 }
 
 static void
-templates_store_set_account_store (ETemplatesStore *templates_store,
+templates_store_set_account_store (EMailTemplatesStore *templates_store,
 				   EMailAccountStore *account_store)
 {
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_STORE (account_store));
@@ -1771,7 +1771,7 @@ templates_store_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_ACCOUNT_STORE:
 			templates_store_set_account_store (
-				E_TEMPLATES_STORE (object),
+				E_MAIL_TEMPLATES_STORE (object),
 				g_value_get_object (value));
 			return;
 	}
@@ -1789,8 +1789,8 @@ templates_store_get_property (GObject *object,
 		case PROP_ACCOUNT_STORE:
 			g_value_take_object (
 				value,
-				e_templates_store_ref_account_store (
-				E_TEMPLATES_STORE (object)));
+				e_mail_templates_store_ref_account_store (
+				E_MAIL_TEMPLATES_STORE (object)));
 			return;
 	}
 
@@ -1800,12 +1800,12 @@ templates_store_get_property (GObject *object,
 static void
 templates_store_dispose (GObject *object)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 	EMailAccountStore *account_store;
 
-	templates_store = E_TEMPLATES_STORE (object);
+	templates_store = E_MAIL_TEMPLATES_STORE (object);
 
-	account_store = e_templates_store_ref_account_store (templates_store);
+	account_store = e_mail_templates_store_ref_account_store (templates_store);
 
 	if (account_store) {
 		if (templates_store->priv->service_enabled_handler_id) {
@@ -1843,15 +1843,15 @@ templates_store_dispose (GObject *object)
 	g_clear_object (&account_store);
 
 	/* Chain up to parent's method. */
-	G_OBJECT_CLASS (e_templates_store_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_mail_templates_store_parent_class)->dispose (object);
 }
 
 static void
 templates_store_finalize (GObject *object)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 
-	templates_store = E_TEMPLATES_STORE (object);
+	templates_store = E_MAIL_TEMPLATES_STORE (object);
 
 	g_slist_free_full (templates_store->priv->stores, tmpl_store_data_unref);
 	templates_store->priv->stores = NULL;
@@ -1862,25 +1862,25 @@ templates_store_finalize (GObject *object)
 	g_mutex_clear (&templates_store->priv->busy_lock);
 
 	/* Chain up to parent's method. */
-	G_OBJECT_CLASS (e_templates_store_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_mail_templates_store_parent_class)->finalize (object);
 }
 
 static void
 templates_store_constructed (GObject *object)
 {
-	ETemplatesStore *templates_store;
+	EMailTemplatesStore *templates_store;
 	ESourceRegistry *registry;
 	EMailAccountStore *account_store;
 	EMailSession *session;
 
-	templates_store = E_TEMPLATES_STORE (object);
+	templates_store = E_MAIL_TEMPLATES_STORE (object);
 
 	/* Chain up to parent's method. */
-	G_OBJECT_CLASS (e_templates_store_parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_mail_templates_store_parent_class)->constructed (object);
 
 	templates_store->priv->cancellable = g_cancellable_new ();
 
-	account_store = e_templates_store_ref_account_store (templates_store);
+	account_store = e_mail_templates_store_ref_account_store (templates_store);
 	g_return_if_fail (account_store != NULL);
 
 	session = e_mail_account_store_get_session (account_store);
@@ -1916,11 +1916,11 @@ templates_store_constructed (GObject *object)
 }
 
 static void
-e_templates_store_class_init (ETemplatesStoreClass *class)
+e_mail_templates_store_class_init (EMailTemplatesStoreClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (ETemplatesStorePrivate));
+	g_type_class_add_private (class, sizeof (EMailTemplatesStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = templates_store_set_property;
@@ -1945,22 +1945,22 @@ e_templates_store_class_init (ETemplatesStoreClass *class)
 		"changed",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETemplatesStoreClass, changed),
+		G_STRUCT_OFFSET (EMailTemplatesStoreClass, changed),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 0, G_TYPE_NONE);
 }
 
 static void
-e_templates_store_init (ETemplatesStore *templates_store)
+e_mail_templates_store_init (EMailTemplatesStore *templates_store)
 {
-	templates_store->priv = G_TYPE_INSTANCE_GET_PRIVATE (templates_store, E_TYPE_TEMPLATES_STORE, ETemplatesStorePrivate);
+	templates_store->priv = G_TYPE_INSTANCE_GET_PRIVATE (templates_store, E_TYPE_MAIL_TEMPLATES_STORE, EMailTemplatesStorePrivate);
 
 	g_mutex_init (&templates_store->priv->busy_lock);
 	templates_store->priv->account_store_weakref = e_weak_ref_new (NULL);
 }
 
-ETemplatesStore *
-e_templates_store_ref_default (EMailAccountStore *account_store)
+EMailTemplatesStore *
+e_mail_templates_store_ref_default (EMailAccountStore *account_store)
 {
 	static gpointer def_templates_store = NULL;
 
@@ -1969,7 +1969,7 @@ e_templates_store_ref_default (EMailAccountStore *account_store)
 	if (def_templates_store) {
 		g_object_ref (def_templates_store);
 	} else {
-		def_templates_store = g_object_new (E_TYPE_TEMPLATES_STORE,
+		def_templates_store = g_object_new (E_TYPE_MAIL_TEMPLATES_STORE,
 			"account-store", account_store,
 			NULL);
 
@@ -1980,9 +1980,9 @@ e_templates_store_ref_default (EMailAccountStore *account_store)
 }
 
 EMailAccountStore *
-e_templates_store_ref_account_store (ETemplatesStore *templates_store)
+e_mail_templates_store_ref_account_store (EMailTemplatesStore *templates_store)
 {
-	g_return_val_if_fail (E_IS_TEMPLATES_STORE (templates_store), NULL);
+	g_return_val_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store), NULL);
 
 	return g_weak_ref_get (templates_store->priv->account_store_weakref);
 }
@@ -2011,18 +2011,18 @@ tmpl_store_data_folder_has_messages_cb (GNode *node,
 }
 
 typedef struct _TmplActionData {
-	ETemplatesStore *templates_store; /* not referenced */
+	EMailTemplatesStore *templates_store; /* not referenced */
 	CamelFolder *folder;
 	const gchar *uid; /* from camel_pstring */
-	ETemplatesStoreActionFunc action_cb;
+	EMailTemplatesStoreActionFunc action_cb;
 	gpointer action_cb_user_data;
 } TmplActionData;
 
 static TmplActionData *
-tmpl_action_data_new (ETemplatesStore *templates_store,
+tmpl_action_data_new (EMailTemplatesStore *templates_store,
 		      CamelFolder *folder,
 		      const gchar *uid,
-		      ETemplatesStoreActionFunc action_cb,
+		      EMailTemplatesStoreActionFunc action_cb,
 		      gpointer action_cb_user_data)
 {
 	TmplActionData *tad;
@@ -2063,20 +2063,19 @@ templates_store_action_activated_cb (GtkAction *action,
 }
 
 static void
-templates_store_add_to_menu_recurse (ETemplatesStore *templates_store,
+templates_store_add_to_menu_recurse (EMailTemplatesStore *templates_store,
 				     GNode *node,
 				     GtkUIManager *ui_manager,
 				     GtkActionGroup *action_group,
 				     const gchar *base_menu_path,
 				     guint merge_id,
-				     ETemplatesStoreActionFunc action_cb,
+				     EMailTemplatesStoreActionFunc action_cb,
 				     gpointer action_cb_user_data,
 				     gboolean with_folder_menu,
 				     guint *action_count)
 {
 	TmplFolderData *tfd;
 
-	g_return_if_fail (E_IS_TEMPLATES_STORE (templates_store));
 	g_return_if_fail (node != NULL);
 
 	while (node) {
@@ -2152,14 +2151,14 @@ templates_store_add_to_menu_recurse (ETemplatesStore *templates_store,
 }
 
 void
-e_templates_store_build_menu (ETemplatesStore *templates_store,
-			      EShellView *shell_view,
-			      GtkUIManager *ui_manager,
-			      GtkActionGroup *action_group,
-			      const gchar *base_menu_path,
-			      guint merge_id,
-			      ETemplatesStoreActionFunc action_cb,
-			      gpointer action_cb_user_data)
+e_mail_templates_store_build_menu (EMailTemplatesStore *templates_store,
+				   EShellView *shell_view,
+				   GtkUIManager *ui_manager,
+				   GtkActionGroup *action_group,
+				   const gchar *base_menu_path,
+				   guint merge_id,
+				   EMailTemplatesStoreActionFunc action_cb,
+				   gpointer action_cb_user_data)
 {
 	GSList *link;
 	GtkAction *action;
@@ -2169,7 +2168,7 @@ e_templates_store_build_menu (ETemplatesStore *templates_store,
 	gchar *tmp_menu_path = NULL;
 	gchar *action_name;
 
-	g_return_if_fail (E_IS_TEMPLATES_STORE (templates_store));
+	g_return_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store));
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
 	g_return_if_fail (GTK_IS_ACTION_GROUP (action_group));
@@ -2277,4 +2276,181 @@ e_templates_store_build_menu (ETemplatesStore *templates_store,
 	gtk_ui_manager_ensure_update (ui_manager);
 
 	g_free (tmp_menu_path);
+}
+
+static void
+templates_store_add_to_tree_store_recurse (EMailTemplatesStore *templates_store,
+					   GNode *node,
+					   GtkTreeStore *tree_store,
+					   GtkTreeIter *parent,
+					   gboolean with_folder_name,
+					   const gchar *find_folder_uri,
+					   const gchar *find_message_uid,
+					   gboolean *out_found_message,
+					   GtkTreeIter *out_found_iter,
+					   gboolean *out_found_first_message,
+					   GtkTreeIter *out_found_first_iter)
+{
+	TmplFolderData *tfd;
+
+	g_return_if_fail (node != NULL);
+	g_return_if_fail (tree_store != NULL);
+
+	while (node) {
+		tfd = node->data;
+		if (tfd) {
+			tmpl_folder_data_lock (tfd);
+
+			if (tfd->folder) {
+				GtkTreeIter *pparent = parent, iparent, iter;
+				GSList *link;
+				gboolean is_the_folder = FALSE;
+
+				if (out_found_message && !*out_found_message && out_found_iter && find_folder_uri && *find_folder_uri) {
+					gchar *folder_uri;
+
+					folder_uri = e_mail_folder_uri_from_folder (tfd->folder);
+					is_the_folder = g_strcmp0 (folder_uri, find_folder_uri) == 0;
+					g_free (folder_uri);
+				}
+
+				if (with_folder_name) {
+					gtk_tree_store_append (tree_store, &iparent, pparent);
+					gtk_tree_store_set (tree_store, &iparent,
+						E_MAIL_TEMPLATES_STORE_COLUMN_DISPLAY_NAME, camel_folder_get_display_name (tfd->folder),
+						-1);
+
+					pparent = &iparent;
+				}
+
+				if (node->children) {
+					templates_store_add_to_tree_store_recurse (templates_store, node->children, tree_store, pparent,
+						TRUE, find_folder_uri, find_message_uid, out_found_message, out_found_iter,
+						out_found_first_message, out_found_first_iter);
+				}
+
+				for (link = tfd->messages; link; link = g_slist_next (link)) {
+					TmplMessageData *tmd = link->data;
+
+					if (tmd && tmd->uid && tmd->subject) {
+						gtk_tree_store_append (tree_store, &iter, pparent);
+						gtk_tree_store_set (tree_store, &iter,
+							E_MAIL_TEMPLATES_STORE_COLUMN_DISPLAY_NAME, tmd->subject,
+							E_MAIL_TEMPLATES_STORE_COLUMN_FOLDER, tfd->folder,
+							E_MAIL_TEMPLATES_STORE_COLUMN_MESSAGE_UID, tmd->uid,
+							-1);
+
+						if (!*out_found_first_message) {
+							*out_found_first_message = TRUE;
+							*out_found_first_iter = iter;
+						}
+
+						if (is_the_folder && out_found_message && !*out_found_message) {
+							*out_found_message = g_strcmp0 (tmd->uid, find_message_uid) == 0;
+
+							if (*out_found_message && out_found_iter)
+								*out_found_iter = iter;
+						}
+					}
+				}
+			}
+
+			tmpl_folder_data_unlock (tfd);
+		}
+
+		node = node->next;
+	}
+}
+
+GtkTreeStore *
+e_mail_templates_store_build_model (EMailTemplatesStore *templates_store,
+				    const gchar *find_folder_uri,
+				    const gchar *find_message_uid,
+				    gboolean *out_found_message,
+				    GtkTreeIter *out_found_iter)
+{
+	GtkTreeStore *tree_store;
+	GSList *link;
+	gint multiple_accounts = 0;
+	gboolean found_first_message = FALSE;
+	GtkTreeIter found_first_iter;
+
+	g_return_val_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store), NULL);
+
+	if (out_found_message)
+		*out_found_message = FALSE;
+
+	tree_store = gtk_tree_store_new (E_MAIL_TEMPLATES_STORE_N_COLUMNS,
+		G_TYPE_STRING,		/* E_MAIL_TEMPLATES_STORE_COLUMN_DISPLAY_NAME */
+		CAMEL_TYPE_FOLDER,	/* E_MAIL_TEMPLATES_STORE_COLUMN_FOLDER */
+		G_TYPE_STRING);		/* E_MAIL_TEMPLATES_STORE_COLUMN_MESSAGE_UID */
+
+	templates_store_lock (templates_store);
+
+	for (link = templates_store->priv->stores; link && multiple_accounts <= 1; link = g_slist_next (link)) {
+		TmplStoreData *tsd = link->data;
+
+		if (!tsd)
+			continue;
+
+		tmpl_store_data_lock (tsd);
+
+		if (tsd->folders && tsd->folders->children) {
+			CamelStore *store;
+
+			store = g_weak_ref_get (tsd->store_weakref);
+			if (store) {
+				g_node_traverse (tsd->folders, G_PRE_ORDER, G_TRAVERSE_ALL, -1,
+					tmpl_store_data_folder_has_messages_cb, &multiple_accounts);
+			}
+
+			g_clear_object (&store);
+		}
+
+		tmpl_store_data_unlock (tsd);
+	}
+
+	for (link = templates_store->priv->stores; link && multiple_accounts > 0; link = g_slist_next (link)) {
+		TmplStoreData *tsd = link->data;
+
+		if (!tsd)
+			continue;
+
+		tmpl_store_data_lock (tsd);
+
+		if (tsd->folders && tsd->folders->children) {
+			CamelStore *store;
+
+			store = g_weak_ref_get (tsd->store_weakref);
+			if (store) {
+				GtkTreeIter *pparent = NULL, parent;
+
+				if (multiple_accounts > 1) {
+					gtk_tree_store_append (tree_store, &parent, NULL);
+					gtk_tree_store_set (tree_store, &parent,
+						E_MAIL_TEMPLATES_STORE_COLUMN_DISPLAY_NAME, camel_service_get_display_name (CAMEL_SERVICE (store)),
+						-1);
+
+					pparent = &parent;
+				}
+
+				templates_store_add_to_tree_store_recurse (templates_store, tsd->folders->children, tree_store, pparent, FALSE,
+					find_folder_uri, find_message_uid, out_found_message, out_found_iter,
+					&found_first_message, &found_first_iter);
+			}
+
+			g_clear_object (&store);
+		}
+
+		tmpl_store_data_unlock (tsd);
+	}
+
+	templates_store_unlock (templates_store);
+
+	if (out_found_message && !*out_found_message && out_found_iter) {
+		*out_found_message = found_first_message;
+		*out_found_iter = found_first_iter;
+	}
+
+	return tree_store;
 }
