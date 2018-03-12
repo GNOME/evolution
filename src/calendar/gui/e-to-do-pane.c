@@ -32,7 +32,7 @@
 
 #include "e-to-do-pane.h"
 
-#define N_ROOTS 8
+#define N_ROOTS 9
 #define MAX_TOOLTIP_DESCRIPTION_LEN 128
 
 struct _EToDoPanePrivate {
@@ -1344,7 +1344,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 
 		tt_begin = icaltime_as_timet_with_zone (itt, zone);
 		tt_begin = time_day_begin_with_zone (tt_begin, zone);
-		tt_end = time_add_week_with_zone (tt_begin, 1, zone) - 1;
+		tt_end = time_add_week_with_zone (tt_begin, 1, zone) + (3600 * 24) - 1;
 
 		iso_begin_all = isodate_from_time_t (0);
 		iso_begin = isodate_from_time_t (tt_begin);
