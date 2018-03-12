@@ -220,6 +220,11 @@
       <_summary>Wrap quoted text in replies</_summary>
       <_description>If set to “true” quoted text in replies will be wrapped.</_description>
     </key>
+    <key name="composer-reply-credits-utc-to-localtime" type="b">
+      <default>false</default>
+      <_summary>Convert UTC time in reply credits to local time</_summary>
+      <_description>Whether the time in reply credits should be converted to local time when it's in UTC in the message.</_description>
+    </key>
     <key name="display-content-disposition-inline" type="b">
       <default>true</default>
       <_summary>Whether to obey Content-Disposition:inline message header hint</_summary>

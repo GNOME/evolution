@@ -54,9 +54,13 @@
 #ifdef gmtime_r
 #undef gmtime_r
 #endif
+#ifdef localtime_r
+#undef localtime_r
+#endif
 
-/* The gmtime() in Microsoft's C library is MT-safe */
+/* The gmtime() and localtime() in Microsoft's C library are MT-safe */
 #define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
+#define localtime_r(tp,tmp) (localtime(tp)?(*(tmp)=*localtime(tp),(tmp)):0)
 #endif
 
 typedef struct _AsyncContext AsyncContext;
@@ -3325,6 +3329,25 @@ attribution_format (CamelMimeMessage *message)
 		/* That didn't work either, use current time */
 		time (&date);
 		tzone = 0;
+	} else if (tzone == 0) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+		if (g_settings_get_boolean (settings, "composer-reply-credits-utc-to-localtime")) {
+			struct tm gmtm, lctm;
+			time_t gmtt, lctt;
+
+			gmtime_r (&date, &gmtm);
+			localtime_r (&date, &lctm);
+
+			gmtt = mktime (&gmtm);
+			lctt = mktime (&lctm);
+
+			tzone = (lctt - gmtt) * 100 / 3600;
+		}
+
+		g_clear_object (&settings);
 	}
 
 	/* Convert to UTC */
