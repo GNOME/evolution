@@ -104,7 +104,7 @@ memo_shell_view_execute_search (EShellView *shell_view)
 
 		case MEMO_FILTER_UNMATCHED:
 			temp = g_strdup_printf (
-				"(and (has-categories? #f) %s", query);
+				"(and (has-categories? #f) %s)", query);
 			g_free (query);
 			query = temp;
 			break;
