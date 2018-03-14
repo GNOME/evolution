@@ -127,7 +127,7 @@
 #cmakedefine HAVE_LDAP 1
 
 /* Define if you use SunLDAP */
-/#cmakedefine SUNLDAP 1
+#cmakedefine SUNLDAP 1
 
 /* Define to the full path of mozilla nss library */
 #define MOZILLA_NSS_LIB_DIR "@MOZILLA_NSS_LIB_DIR@"
