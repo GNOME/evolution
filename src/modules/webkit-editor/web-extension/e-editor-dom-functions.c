@@ -8833,7 +8833,7 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 						}
 
 						if (*(strv[jj])) {
-							webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (pre), strv[jj], NULL);
+							webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (pre), strv[jj], NULL);
 						} else {
 							WebKitDOMElement *br;
 

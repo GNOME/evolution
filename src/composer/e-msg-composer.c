@@ -4612,9 +4612,24 @@ handle_mailto (EMsgComposer *composer,
 	g_free (subject);
 
 	if (body) {
+		GSettings *settings;
 		gchar *html_body;
+		guint32 flags = 0;
 
-		html_body = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+		if (g_settings_get_boolean (settings, "composer-magic-links")) {
+			flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
+		}
+
+		if (g_settings_get_boolean (settings, "composer-mailto-body-in-pre"))
+			flags |= CAMEL_MIME_FILTER_TOHTML_PRE;
+		else
+			flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
+
+		g_clear_object (&settings);
+
+		html_body = camel_text_to_html (body, flags, 0);
 		set_editor_text (composer, html_body, TRUE, TRUE);
 		g_free (html_body);
 	}
