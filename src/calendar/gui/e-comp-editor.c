@@ -1623,7 +1623,8 @@ ece_fill_component (ECompEditor *comp_editor,
 		ECompEditorPage *page = link->data;
 
 		g_warn_if_fail (E_IS_COMP_EDITOR_PAGE (page));
-		if (!E_IS_COMP_EDITOR_PAGE (page))
+		if (!E_IS_COMP_EDITOR_PAGE (page) ||
+		    !gtk_widget_get_visible (GTK_WIDGET (page)))
 			continue;
 
 		if (!e_comp_editor_page_fill_component (page, component))

@@ -28,6 +28,7 @@
 #include "e-comp-editor-page.h"
 #include "e-comp-editor-page-attachments.h"
 #include "e-comp-editor-page-general.h"
+#include "e-comp-editor-page-recurrence.h"
 #include "e-comp-editor-page-reminders.h"
 #include "e-comp-editor-property-part.h"
 #include "e-comp-editor-property-parts.h"
@@ -36,6 +37,7 @@
 
 struct _ECompEditorTaskPrivate {
 	ECompEditorPage *page_general;
+	ECompEditorPage *recurrence_page;
 	ECompEditorPropertyPart *categories;
 	ECompEditorPropertyPart *dtstart;
 	ECompEditorPropertyPart *due_date;
@@ -168,6 +170,7 @@ ece_task_notify_target_client_cb (GObject *object,
 	GtkAction *action;
 	gboolean date_only;
 	gboolean was_allday;
+	gboolean can_recur;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (object));
 
@@ -197,6 +200,9 @@ ece_task_notify_target_client_cb (GObject *object,
 		action = e_comp_editor_get_action (comp_editor, "all-day-task");
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 	}
+
+	can_recur = !cal_client || e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_TASK_CAN_RECUR);
+	gtk_widget_set_visible (GTK_WIDGET (task_editor->priv->recurrence_page), can_recur);
 }
 
 static void
@@ -524,6 +530,21 @@ ece_task_fill_component (ECompEditor *comp_editor,
 		return FALSE;
 	}
 
+	if (e_cal_util_component_has_recurrences (component)) {
+		struct icaltimetype dtstart;
+
+		dtstart = e_comp_editor_property_part_datetime_get_value (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart));
+
+		if (icaltime_is_null_time (dtstart) || !icaltime_is_valid_time (dtstart)) {
+			e_comp_editor_set_validation_error (comp_editor,
+				task_editor->priv->page_general,
+				e_comp_editor_property_part_get_edit_widget (task_editor->priv->dtstart),
+				_("Start date is required for recurring tasks"));
+
+			return FALSE;
+		}
+	}
+
 	if (!e_comp_editor_property_part_datetime_check_validity (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->due_date), NULL, NULL)) {
 
@@ -557,7 +578,28 @@ ece_task_fill_component (ECompEditor *comp_editor,
 		return FALSE;
 	}
 
-	return E_COMP_EDITOR_CLASS (e_comp_editor_task_parent_class)->fill_component (comp_editor, component);
+	if (!E_COMP_EDITOR_CLASS (e_comp_editor_task_parent_class)->fill_component (comp_editor, component))
+		return FALSE;
+
+	if (e_cal_util_component_has_recurrences (component)) {
+		ECalClient *cal_client;
+
+		cal_client = e_comp_editor_get_source_client (comp_editor);
+		if (!cal_client)
+			cal_client = e_comp_editor_get_target_client (comp_editor);
+
+		if (cal_client) {
+			if ((e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) != 0) {
+				e_cal_util_init_recur_task_sync	(component, cal_client, NULL, NULL);
+			} else if (icalcomponent_get_first_property (component, ICAL_COMPLETED_PROPERTY)) {
+				e_cal_util_mark_task_complete_sync (component, (time_t) -1, cal_client, NULL, NULL);
+			} else if (!icalcomponent_get_first_property (component, ICAL_DUE_PROPERTY)) {
+				e_cal_util_init_recur_task_sync	(component, cal_client, NULL, NULL);
+			}
+		}
+	}
+
+	return TRUE;
 }
 
 static void
@@ -780,6 +822,10 @@ e_comp_editor_task_constructed (GObject *object)
 
 	page = e_comp_editor_page_reminders_new (comp_editor);
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Reminders"), page);
+
+	page = e_comp_editor_page_recurrence_new (comp_editor);
+	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Recurrence"), page);
+	task_editor->priv->recurrence_page = page;
 
 	page = e_comp_editor_page_attachments_new (comp_editor);
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Attachments"), page);

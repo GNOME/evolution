@@ -1183,11 +1183,11 @@ ecepp_picker_fill_component (ECompEditorPropertyPart *property_part,
 	g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (edit_widget));
 
 	id = gtk_combo_box_get_active_id (GTK_COMBO_BOX (edit_widget));
-	g_return_if_fail (id != NULL);
-
-	e_comp_editor_property_part_picker_set_to_component (
-		E_COMP_EDITOR_PROPERTY_PART_PICKER (property_part),
-		id, component);
+	if (id) {
+		e_comp_editor_property_part_picker_set_to_component (
+			E_COMP_EDITOR_PROPERTY_PART_PICKER (property_part),
+			id, component);
+	}
 }
 
 static void

@@ -1957,6 +1957,7 @@ ecep_recurrence_setup_ui (ECompEditorPageRecurrence *page_recurrence)
 	ECompEditor *comp_editor;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
+	GtkAction *action;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
@@ -1969,6 +1970,14 @@ ecep_recurrence_setup_ui (ECompEditorPageRecurrence *page_recurrence)
 		options_actions, G_N_ELEMENTS (options_actions), page_recurrence);
 
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
+
+	action = gtk_action_group_get_action (action_group, "page-recurrence");
+	if (action) {
+		e_binding_bind_property (
+			page_recurrence, "visible",
+			action, "visible",
+			G_BINDING_SYNC_CREATE);
+	}
 
 	g_clear_object (&comp_editor);
 

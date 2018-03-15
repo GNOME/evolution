@@ -76,50 +76,8 @@ static void
 ensure_task_complete (ECalModelComponent *comp_data,
                       time_t completed_date)
 {
-	icalproperty *prop;
-	gboolean set_completed = TRUE;
-
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
-
-	/* Date Completed. */
-	if (completed_date == -1) {
-		if (prop)
-			set_completed = FALSE;
-		else
-			completed_date = time (NULL);
-	}
-
-	if (set_completed) {
-		icaltimezone *utc_zone;
-		struct icaltimetype new_completed;
-
-		/* COMPLETED is stored in UTC. */
-		utc_zone = icaltimezone_get_utc_timezone ();
-		new_completed = icaltime_from_timet_with_zone (
-			completed_date,
-			FALSE,
-			utc_zone);
-		if (prop)
-			icalproperty_set_completed (prop, new_completed);
-		else {
-			prop = icalproperty_new_completed (new_completed);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
-		}
-	}
-
-	/* Percent. */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
-	if (!prop)
-		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_percentcomplete (100));
-	else
-		icalproperty_set_percentcomplete (prop, 100);
-
-	/* Status. */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
-	if (prop)
-		icalproperty_set_status (prop, ICAL_STATUS_COMPLETED);
-	else
-		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_status (ICAL_STATUS_COMPLETED));
+	e_cal_util_mark_task_complete_sync (comp_data->icalcomp, completed_date,
+		comp_data->client, NULL, NULL);
 }
 
 static void

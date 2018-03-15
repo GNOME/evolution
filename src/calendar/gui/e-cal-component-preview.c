@@ -23,14 +23,16 @@
 
 #include "evolution-config.h"
 
-#include "e-cal-component-preview.h"
-
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <camel/camel.h>
 
 #include "shell/e-shell-utils.h"
+
+#include "calendar-config.h"
+
+#include "e-cal-component-preview.h"
 
 #define E_CAL_COMPONENT_PREVIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -287,6 +289,18 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&dt);
+
+	if (e_cal_util_component_has_recurrences (e_cal_component_get_icalcomponent (comp))) {
+		str = e_cal_recur_describe_recurrence (e_cal_component_get_icalcomponent (comp),
+			calendar_config_get_week_start_day (), E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_NONE);
+
+		if (str) {
+			g_string_append_printf (
+				buffer, "<tr><th>%s</th><td>%s</td></tr>",
+				_("Recurs:"), str);
+			g_free (str);
+		}
+	}
 
 	/* write status */
 	icalcomp = e_cal_component_get_icalcomponent (comp);
