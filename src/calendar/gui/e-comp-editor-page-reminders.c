@@ -1556,6 +1556,7 @@ ecep_reminders_setup_ui (ECompEditorPageReminders *page_reminders)
 	ECompEditor *comp_editor;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
+	GtkAction *action;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
@@ -1568,6 +1569,14 @@ ecep_reminders_setup_ui (ECompEditorPageReminders *page_reminders)
 		options_actions, G_N_ELEMENTS (options_actions), page_reminders);
 
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
+
+	action = gtk_action_group_get_action (action_group, "page-reminders");
+	if (action) {
+		e_binding_bind_property (
+			page_reminders, "visible",
+			action, "visible",
+			G_BINDING_SYNC_CREATE);
+	}
 
 	g_clear_object (&comp_editor);
 

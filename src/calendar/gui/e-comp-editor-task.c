@@ -38,6 +38,7 @@
 struct _ECompEditorTaskPrivate {
 	ECompEditorPage *page_general;
 	ECompEditorPage *recurrence_page;
+	ECompEditorPage *reminders_page;
 	ECompEditorPropertyPart *categories;
 	ECompEditorPropertyPart *dtstart;
 	ECompEditorPropertyPart *due_date;
@@ -171,6 +172,7 @@ ece_task_notify_target_client_cb (GObject *object,
 	gboolean date_only;
 	gboolean was_allday;
 	gboolean can_recur;
+	gboolean can_reminders;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (object));
 
@@ -200,6 +202,9 @@ ece_task_notify_target_client_cb (GObject *object,
 		action = e_comp_editor_get_action (comp_editor, "all-day-task");
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 	}
+
+	can_reminders = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_TASK_NO_ALARM);
+	gtk_widget_set_visible (GTK_WIDGET (task_editor->priv->reminders_page), can_reminders);
 
 	can_recur = !cal_client || e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_TASK_CAN_RECUR);
 	gtk_widget_set_visible (GTK_WIDGET (task_editor->priv->recurrence_page), can_recur);
@@ -822,6 +827,7 @@ e_comp_editor_task_constructed (GObject *object)
 
 	page = e_comp_editor_page_reminders_new (comp_editor);
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Reminders"), page);
+	task_editor->priv->reminders_page = page;
 
 	page = e_comp_editor_page_recurrence_new (comp_editor);
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Recurrence"), page);
