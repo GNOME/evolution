@@ -4694,7 +4694,7 @@ msgid ""
 "If the message is more than one screen long, <key>Space</key> works as "
 "<key>Page Down</key>."
 msgstr ""
-"Ha a levél egy képernyőnél hosszabb, akkor a <key>Szóköz<key> úgy működik, "
+"Ha a levél egy képernyőnél hosszabb, akkor a <key>Szóköz</key> úgy működik, "
 "mint a "
 "<key>Page Down</key>."
 
