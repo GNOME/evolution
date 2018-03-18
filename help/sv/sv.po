@@ -1,15 +1,15 @@
 # Swedish messages for Evolution manual.
-# Copyright © 2007-2017 Free Software Foundation, Inc.
+# Copyright © 2007-2018 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2017-08-20 15:05+0000\n"
-"PO-Revision-Date: 2017-09-11 01:32+0200\n"
+"POT-Creation-Date: 2018-03-12 15:01+0000\n"
+"PO-Revision-Date: 2018-03-16 23:03+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -2991,7 +2991,7 @@ msgstr "Ta bort e-post eller bilagor permanent"
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
-#: C/intro-main-window.page:35
+#: C/intro-keyboard-shortcuts.page:133 C/intro-main-window.page:35
 msgid "Mail"
 msgstr "Post"
 
@@ -3606,7 +3606,8 @@ msgstr ""
 "För nyare versioner rekommenderas PST-import."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:46 C/intro-main-window.page:97
+#: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:244
+#: C/intro-main-window.page:98
 msgid "Calendar"
 msgstr "Kalender"
 
@@ -3642,7 +3643,8 @@ msgstr ""
 "andra."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:60 C/intro-main-window.page:143
+#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:286
+#: C/intro-main-window.page:144
 msgid "Contacts"
 msgstr "Kontakter"
 
@@ -4023,7 +4025,7 @@ msgstr "Detta kräver att paketet <sys>evolution-ews</sys> är installerat."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:108 C/mail-account-manage-microsoft-exchange.page:31
+#: C/intro-first-run.page:108 C/mail-account-manage-microsoft-exchange.page:30
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4057,7 +4059,7 @@ msgstr "Detta kräver att paketet <sys>evolution-mapi</sys> är installerat."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:132 C/mail-account-manage-microsoft-exchange.page:42
+#: C/intro-first-run.page:132 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4262,6 +4264,509 @@ msgstr ""
 "program</link>."
 
 #. (itstool) path: info/desc
+#: C/intro-keyboard-shortcuts.page:5
+msgid "Keyboard shortcuts that can save you some time."
+msgstr "Tangentbordsgenvägar som kan spara dig lite tid."
+
+#. (itstool) path: page/title
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:25 C/mail-composer-reply.page:41
+msgid "Shortcut keys"
+msgstr "Snabbtangenter"
+
+#. (itstool) path: page/p
+#: C/intro-keyboard-shortcuts.page:27
+msgid ""
+"This page provides an overview of keyboard shortcuts that can help you use "
+"<app>Evolution</app> more efficiently."
+msgstr ""
+"Denna sida tillhandahåller en översikt över tangentbordsgenvägar som kan "
+"hjälpa dig att använda <app>Evolution</app> mer effektivt."
+
+#. (itstool) path: section/title
+#: C/intro-keyboard-shortcuts.page:31
+msgid "Global"
+msgstr "Globalt"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:34
+msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:37
+msgid "Select Mail component."
+msgstr "Välj e-postkomponent."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:40
+msgid "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:43
+msgid "Select Contacts component."
+msgstr "Välj kontaktkomponent."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:46
+msgid "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:49
+msgid "Select Calendars component."
+msgstr "Välj kalenderkomponent."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:52
+msgid "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:55
+msgid "Select Tasks component."
+msgstr "Välj uppgiftskomponent."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:58
+msgid "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:61
+msgid "Select Memos component."
+msgstr "Välj memokomponent."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:64
+msgid "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:67
+msgid "Create a new item in current component."
+msgstr "Skapa ett nytt objekt i aktuell komponent."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:70
+msgid "<key>F6</key>"
+msgstr "<key>F6</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:73
+msgid "Cycle focus between panes."
+msgstr "Växla fokus mellan paneler."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:76
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>Q</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:79
+msgid "Clear search bar."
+msgstr "Töm sökfält."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:82
+msgid "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:85
+msgid "Close window."
+msgstr "Stäng fönster."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:88
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>W</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:91
+msgid "Open new window."
+msgstr "Öppna nytt fönster."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:94
+msgid "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:97
+msgid "Quit <app>Evolution</app>."
+msgstr "Avsluta <app>Evolution</app>."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:100
+msgid "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:103
+msgid "Print selection."
+msgstr "Skriv ut markering."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:106
+msgid "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:109
+msgid "Save selection."
+msgstr "Spara markering."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:112
+#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgid "<key>Del</key> or <key>Backspace</key>"
+msgstr "<key>Del</key> eller <key>Backsteg</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:115
+msgid "Delete selection."
+msgstr "Ta bort markering."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:118
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>V</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:121
+msgid "Move mails or contacts to folder."
+msgstr "Flytta e-postmeddelanden eller kontakter till mapp."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:124
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>Y</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:127
+msgid "Copy mails or contacts to folder."
+msgstr "Kopiera e-postmeddelanden eller kontakter till mapp."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:136
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>M</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:139
+msgid "Create a new message."
+msgstr "Skapa ett nytt meddelande."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:142
+msgid "<key>F12</key>"
+msgstr "<key>F12</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:145
+msgid "Send and receive messages."
+msgstr "Skicka och ta emot meddelanden."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:148
+msgid "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:151
+msgid "Apply filters to selection."
+msgstr "Tillämpa filter på markering."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:154
+msgid "<keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>"
+msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq> eller <key>Retur</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:157
+msgid "Open selection in new window."
+msgstr "Öppna markering i nytt fönster."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:160
+msgid "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:163
+msgid "Forward selection."
+msgstr "Vidarebefordra markering."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:166
+msgid "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:169
+msgid "Mark the selection as read."
+msgstr "Markera markeringen som läst."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:172
+msgid "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Skift</key><key>K</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:175
+msgid "Mark the selection as unread."
+msgstr "Markera markeringen som oläst."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:178
+msgid "<key>↓</key>"
+msgstr "<key>↓</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:181
+msgid "Jump to next message."
+msgstr "Hoppa till nästa meddelande."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:184
+msgid "<key>↑</key>"
+msgstr "<key>↑</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:187
+msgid "Jump to previous message."
+msgstr "Hoppa till föregående meddelande."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:190
+msgid "<key>.</key> or <key>]</key>"
+msgstr "<key>.</key> eller <key>]</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:193
+msgid "Jump to next unread message."
+msgstr "Hoppa till nästa olästa meddelande."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:196
+msgid "<key>,</key> or <key>[</key>"
+msgstr "<key>,</key> eller <key>[</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:199
+msgid "Jump to previous unread message."
+msgstr "Hoppa till föregående olästa meddelande."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:202 C/mail-composer-reply.page:43
+msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:205
+msgid "Reply to sender."
+msgstr "Svara till avsändare."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:208 C/mail-composer-reply.page:45
+msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:211
+msgid "Reply to list."
+msgstr "Svara till lista."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:214 C/mail-composer-reply.page:47
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>R</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:217
+msgid "Reply to all recipients."
+msgstr "Svara till alla mottagare."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:220
+msgid "<key>Backspace</key>"
+msgstr "<key>Backsteg</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:223
+msgid "Scroll up."
+msgstr "Rulla uppåt."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:226
+msgid "<key>Space</key>"
+msgstr "<key>Blanksteg</key>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:229
+msgid "Scroll down."
+msgstr "Rulla nedåt."
+
+#. (itstool) path: section/p
+#: C/intro-keyboard-shortcuts.page:233
+msgid "<key>Space</key> also allows navigating in unread mail across folders:"
+msgstr ""
+"<key>Blanksteg</key> tillåter också navigering bland olästa meddelanden i "
+"alla mappar:"
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:235
+msgid ""
+"When you press the Spacebar for the first time, it takes you to the next "
+"unread message."
+msgstr ""
+"När du trycker på blanksteg första gången kommer du att flyttas till nästa "
+"olästa meddelande."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:236
+msgid ""
+"If the message is more than one screen long, <key>Space</key> works as "
+"<key>Page Down</key>."
+msgstr ""
+"Om meddelanden är längre än en skärm kommer <key>blanksteg</key> att fungera "
+"som <key>Page Down</key>."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:237
+msgid ""
+"If you press <key>Space</key> after you reach the bottom of the page, it "
+"takes you to the next unread message."
+msgstr ""
+"Om du trycker på <key>blanksteg</key> efter att du nått botten på sidan tas "
+"du till nästa olästa meddelande."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:238
+msgid ""
+"If there are no more unread messages in the mailbox, pressing <key>Space</"
+"key> takes you to the next unread message in the next folder."
+msgstr ""
+"Om det inte finns fler olästa meddelanden i brevlådan, kommer tryck på "
+"<key>blanksteg</key> att ta dig till nästa olästa meddelande i nästa mapp."
+
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:239
+msgid ""
+"If new messages arrive in a number of folders, <key>Space</key> toggles "
+"between those folders. This feature allows you to switch to the next unread "
+"message in a different folder without clicking the folder."
+msgstr ""
+"Om nya meddelanden ankommer i ett antal mappar, kommer <key>blanksteg</key> "
+"att växla mellan dessa mappar. Denna funktion låter dig växla till nästa "
+"olästa meddelande i en annan mapp utan att klicka på mappen."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:247
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>A</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:250
+msgid "Create a new appointment."
+msgstr "Skapa ett nytt möte."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:253
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>E</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:256
+msgid "Create a new meeting."
+msgstr "Skapa ett nytt sammanträde."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:259
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>T</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:262
+msgid "Create a new task."
+msgstr "Skapa en ny uppgift."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:265
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>O</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:268
+msgid "Create a new memo."
+msgstr "Skapa ett nytt memo."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:271
+msgid "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:274
+msgid "Go to today."
+msgstr "Gå till idag."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:277
+msgid "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:280
+msgid "Go to date."
+msgstr "Gå till datum."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:289
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>C</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:292
+msgid "Create a new contact."
+msgstr "Skapa en ny kontakt."
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:295
+msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
+msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>L</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:298
+msgid "Create a new contact list."
+msgstr "Skapa en ny kontaktlista."
+
+#. (itstool) path: section/title
+#: C/intro-keyboard-shortcuts.page:304
+msgid "Changing keyboard shortcuts"
+msgstr "Ändra tangentbordsgenvägar"
+
+#. (itstool) path: note/p
+#: C/intro-keyboard-shortcuts.page:305
+msgid ""
+"Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
+"config/evolution/accels</file>."
+msgstr ""
+"Avancerade användare kan anpassa tangentbordsgenvägar genom att redigera "
+"<file>$HOME/.config/evolution/accels</file>."
+
+#. (itstool) path: note/p
+#: C/intro-keyboard-shortcuts.page:305
+msgid ""
+"See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
+"evolution-in-gnome/\">this blog post</link> for more information."
+msgstr ""
+"Se <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
+"evolution-in-gnome/\">denna bloggpost</link> för mer information."
+
+#. (itstool) path: info/desc
 #: C/intro-main-window.page:5
 msgid "An explanation of the areas shown in the <app>Evolution</app> window."
 msgstr ""
@@ -4291,10 +4796,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:37
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/window-overview-layers.png' "
-#| "md5='3156497ff1c51756838f9ddfbce9baee'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
@@ -4314,14 +4815,14 @@ msgid "Corresponding elements in the mail main window:"
 msgstr "Motsvarande element i huvudfönstret för e-post:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:44 C/intro-main-window.page:101
-#: C/intro-main-window.page:147
+#: C/intro-main-window.page:44 C/intro-main-window.page:102
+#: C/intro-main-window.page:148
 msgid "<_:media-1/> Menu bar"
 msgstr "<_:media-1/> Menyfält"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:47 C/intro-main-window.page:104
-#: C/intro-main-window.page:150
+#: C/intro-main-window.page:47 C/intro-main-window.page:105
+#: C/intro-main-window.page:151
 msgid "<_:media-1/> Tool bar"
 msgstr "<_:media-1/> Verktygsfält"
 
@@ -4331,8 +4832,8 @@ msgid "<_:media-1/> Folder list"
 msgstr "<_:media-1/> Mapplista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:51 C/intro-main-window.page:108
-#: C/intro-main-window.page:154
+#: C/intro-main-window.page:51 C/intro-main-window.page:109
+#: C/intro-main-window.page:155
 msgid "<_:media-1/> Search bar"
 msgstr "<_:media-1/> Sökfält"
 
@@ -4352,14 +4853,14 @@ msgid "<_:media-1/> Preview pane"
 msgstr "<_:media-1/> Förhandsgranskningspanel"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:61 C/intro-main-window.page:119
-#: C/intro-main-window.page:160
+#: C/intro-main-window.page:61 C/intro-main-window.page:120
+#: C/intro-main-window.page:161
 msgid "<_:media-1/> Switcher"
 msgstr "<_:media-1/> Växlaren"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:64 C/intro-main-window.page:122
-#: C/intro-main-window.page:164
+#: C/intro-main-window.page:64 C/intro-main-window.page:123
+#: C/intro-main-window.page:165
 msgid "<_:media-1/> Status bar"
 msgstr "<_:media-1/> Statusrad"
 
@@ -4475,43 +4976,54 @@ msgstr ""
 "Du kan inaktivera Att göra-fältet genom att slå av <guiseq><gui>Visa</"
 "gui><gui>Layout</gui><gui>Visa Att göra-fält</gui></guiseq>."
 
+#. (itstool) path: note/p
+#: C/intro-main-window.page:94
+msgid ""
+"If you ever accidentially hide the menu bar, open a Terminal application and "
+"run the command <cmd>gsettings set org.gnome.evolution.shell menubar-visible "
+"true</cmd> to reenable it."
+msgstr ""
+"Om du någonsin döljer menyraden av misstag kan du öppna ett terminalprogram "
+"och köra kommandot <cmd>gsettings set org.gnome.evolution.shell menubar-"
+"visible true</cmd> för att aktivera den på nytt."
+
 #. (itstool) path: section/p
-#: C/intro-main-window.page:98
+#: C/intro-main-window.page:99
 msgid "Elements in the calendar main window:"
 msgstr "Element i kalenderns huvudfönster:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:107
+#: C/intro-main-window.page:108
 msgid "<_:media-1/> Calendar list"
 msgstr "<_:media-1/> Kalenderlista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:111
+#: C/intro-main-window.page:112
 msgid "<_:media-1/> Appointment list"
 msgstr "<_:media-1/> Möteslista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:112
+#: C/intro-main-window.page:113
 msgid "Task list"
 msgstr "Uppgiftslista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:115
+#: C/intro-main-window.page:116
 msgid "Month pane"
 msgstr "Månadspanel"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:116
+#: C/intro-main-window.page:117
 msgid "Memo list"
 msgstr "Memolista"
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:127
+#: C/intro-main-window.page:128
 msgid "Appointment List"
 msgstr "Möteslista"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:128
+#: C/intro-main-window.page:129
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
@@ -4519,12 +5031,12 @@ msgstr ""
 "Möteslistan visar alla dina schemalagda möten inom den valda tidsramen."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:131
+#: C/intro-main-window.page:132
 msgid "Month Pane"
 msgstr "Månadspanel"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:132
+#: C/intro-main-window.page:133
 msgid ""
 "The month pane is a small view of a calendar month. To display additional "
 "months, drag the column border to the right. You can also select a range of "
@@ -4537,12 +5049,12 @@ msgstr ""
 "möteslistan."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:135
+#: C/intro-main-window.page:136
 msgid "Task list and Memo list"
 msgstr "Uppgiftslista och memolista"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:136
+#: C/intro-main-window.page:137
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -4552,27 +5064,27 @@ msgstr ""
 "några möten. Använd <gui>växlaren</gui> för att gå till deras huvudfönster."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:144
+#: C/intro-main-window.page:145
 msgid "Elements in the contacts main window:"
 msgstr "Element i kontakten huvudfönster:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:153
+#: C/intro-main-window.page:154
 msgid "<_:media-1/> Address book list"
 msgstr "<_:media-1/> Adressbokslista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:157
+#: C/intro-main-window.page:158
 msgid "<_:media-1/> Contacts list"
 msgstr "<_:media-1/> Kontaktlista"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:161
+#: C/intro-main-window.page:162
 msgid "<_:media-1/> Contact preview"
 msgstr "<_:media-1/> Förhandsgranskning av kontakt"
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:167
+#: C/intro-main-window.page:168
 msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
@@ -5224,12 +5736,12 @@ msgstr ""
 "Lägg till och redigera ett Microsoft Exchange-konto i <app>Evolution</app>."
 
 #. (itstool) path: page/title
-#: C/mail-account-manage-microsoft-exchange.page:23
+#: C/mail-account-manage-microsoft-exchange.page:22
 msgid "Microsoft Exchange account settings"
 msgstr "Inställningar för Microsoft Exchange-konto"
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:25
+#: C/mail-account-manage-microsoft-exchange.page:24
 msgid ""
 "Depending on the version of the Microsoft Exchange server that you would "
 "like to connect to it is required to make sure that an additional package is "
@@ -5240,7 +5752,7 @@ msgstr ""
 "funktionalitet."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:27
+#: C/mail-account-manage-microsoft-exchange.page:26
 msgid ""
 "For Microsoft Exchange 2007, 2010 and newer it is recommended to use the "
 "package <sys>evolution-ews</sys>."
@@ -5249,7 +5761,7 @@ msgstr ""
 "paketet <sys>evolution-ews</sys>."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:37
+#: C/mail-account-manage-microsoft-exchange.page:36
 msgid ""
 "For older versions of Microsoft Exchange, or if <sys>evolution-ews</sys> "
 "does not work well for you, try <sys>evolution-mapi</sys>. It uses "
@@ -5265,7 +5777,7 @@ msgstr ""
 "ews</sys>."
 
 #. (itstool) path: note/p
-#: C/mail-account-manage-microsoft-exchange.page:47
+#: C/mail-account-manage-microsoft-exchange.page:46
 msgid ""
 "If you are unsure which Microsoft Exchange server version is used, you may "
 "want to contact your system administrator for more information."
@@ -5274,7 +5786,7 @@ msgstr ""
 "kontakta din systemadministratör för mer information."
 
 #. (itstool) path: page/p
-#: C/mail-account-manage-microsoft-exchange.page:49
+#: C/mail-account-manage-microsoft-exchange.page:48
 msgid ""
 "For topics not covered here please refer to the <link href=\"https://help."
 "gnome.org/users/evolution/2.32/usage-exchange.html\">old <app>Evolution</"
@@ -7402,19 +7914,9 @@ msgid "Action"
 msgstr "Åtgärd"
 
 #. (itstool) path: td/p
-#: C/mail-composer-reply.page:41
-msgid "Shortcut keys"
-msgstr "Snabbtangenter"
-
-#. (itstool) path: td/p
 #: C/mail-composer-reply.page:43
 msgid "Reply to Sender"
 msgstr "Svara till avsändare"
-
-#. (itstool) path: td/p
-#: C/mail-composer-reply.page:43
-msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/mail-composer-reply.page:45
@@ -7422,19 +7924,9 @@ msgid "Reply to Mailing List"
 msgstr "Svara till sändlista"
 
 #. (itstool) path: td/p
-#: C/mail-composer-reply.page:45
-msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
-
-#. (itstool) path: td/p
 #: C/mail-composer-reply.page:47
 msgid "Reply to All"
 msgstr "Svara till alla"
-
-#. (itstool) path: td/p
-#: C/mail-composer-reply.page:47
-msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
-msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: section/p
 #: C/mail-composer-reply.page:54
@@ -9159,7 +9651,7 @@ msgstr "Stäng <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-not-working.page:45 C/mail-localized-re-subjects.page:24
-#: C/mail-save-as-pdf.page:27 C/mail-sorting-message-list.page:39
+#: C/mail-save-as-pdf.page:27 C/mail-sorting-message-list.page:40
 msgid "Open the <app>Terminal</app> application."
 msgstr "Öppna <app>Terminal</app>-programmet."
 
@@ -9970,202 +10462,6 @@ msgid "Advanced Options"
 msgstr "Avancerade alternativ"
 
 #. (itstool) path: info/desc
-#: C/mail-reading-keyboard-shortcuts.page:5
-msgid "Keyboard shortcuts that can save you some time when reading mail."
-msgstr ""
-"Tangentbordsgenvägar som kan spara dig lite tid när du läser e-"
-"postmeddelande."
-
-#. (itstool) path: page/title
-#: C/mail-reading-keyboard-shortcuts.page:24
-msgid "Using shortcut keys to read mail"
-msgstr "Användning av genvägstangenter för att läsa e-post"
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:27
-msgid "Viewing an email"
-msgstr "Visa ett meddelande"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:28
-msgid ""
-"In the Mail window you read a message by selecting it in the message list. "
-"If you would like to see the message in its own window, either double-click "
-"it, press <key>Enter</key>, or press <keyseq><key>Ctrl</key><key>O</key></"
-"keyseq>."
-msgstr ""
-"I meddelandefönstret kan du läsa ett meddelande genom att välja det i "
-"meddelandelistan. Om du vill se meddelandet i ett eget fönster antingen "
-"dubbelklicka på det, tryck på <key>Retur</key> eller tryck "
-"<keyseq><key>Ctrl</key><key>O</key></keyseq>."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:32
-msgid "Marking a message as read or unread"
-msgstr "Markera ett meddelande som läst eller oläst"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:33
-msgid ""
-"To mark the currently selected message as read, press <keyseq><key>Ctrl</"
-"key><key>K</key></keyseq>."
-msgstr ""
-"För att markera det aktuella meddelandet som läst, tryck <keyseq><key>Ctrl</"
-"key><key>K</key></keyseq>."
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:34
-msgid ""
-"To mark the currently selected message as unread, press <keyseq><key>Ctrl</"
-"key><key>Shift</key><key>K</key></keyseq>."
-msgstr ""
-"För att markera det aktuella meddelandet som oläst, tryck <keyseq><key>Ctrl</"
-"key><key>Shift</key><key>K</key></keyseq>."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:38
-msgid "Navigating in a message"
-msgstr "Navigera i ett meddelande"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:39
-msgid ""
-"To read mail with the keyboard, you can press the <key>Spacebar</key> to "
-"page down and press <key>Backspace</key> to page up while reading an email. "
-"Ensure that you use the keys when the message list is focused."
-msgstr ""
-"För att läsa post med tangentbordet kan du trycka på <key>blanksteg</key> "
-"för att gå ner en sida och trycka på <key>backsteg</key> för att gå upp en "
-"sida när du läser ett e-postmeddelande. Försäkra dig om att du använder "
-"tangenterna när meddelandelistan är i fokus."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:43
-msgid "Navigating in a folder in the message list"
-msgstr "Navigering i en mapp i meddelandelistan"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:44
-msgid "Navigate in the message list by using the arrow keys on the keyboard."
-msgstr ""
-"Navigera i meddelandelistan genom att använda piltangenterna på "
-"tangentbordet."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:48
-msgid "Navigating in a folder's unread mail in the message list"
-msgstr "Navigering bland en mapps olästa meddelanden i meddelandelistan"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:49
-msgid ""
-"To go to the next or previous unread messages, press the period (<key>.</"
-"key>) or comma (<key>,</key>) keys. On some keyboards, these keys are also "
-"marked with the <key>&gt;</key> and <key>&lt;</key> symbols, which is a "
-"convenient way to remember that they move you forward and backward in your "
-"message list. You can also use the right square bracket (<key>]</key>) for "
-"the next unread message, and the left square bracket (<key>[</key>) for the "
-"previous unread message."
-msgstr ""
-"För att gå till nästa eller föregående olästa meddelande kan du trycka på "
-"punkt- (<key>.</key>) eller kommatangenterna (<key>,</key>). På vissa "
-"tangentbord är dessa tangenter även markerade med symbolerna <key>&gt;</key> "
-"och <key>&lt;</key>, vilket är ett smidigt sätt att komma ihåg att de "
-"flyttar dig framåt och bakåt i din meddelandelista. Du kan även använda den "
-"högra hakparentesen (<key>]</key>) för nästa olästa meddelande samt den "
-"vänstra hakparentesen (<key>[</key>) för föregående olästa meddelande."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:53
-msgid "Navigating in unread mail across folders"
-msgstr "Navigering bland olästa meddelanden i alla mappar"
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:55
-msgid ""
-"You can easily read the unread messages in all the mail folders by using the "
-"<key>Spacebar</key>."
-msgstr ""
-"Du kan enkelt läsa dina olästa meddelanden i alla e-postmappar genom att "
-"använda <key>blanksteg</key>."
-
-#. (itstool) path: section/p
-#: C/mail-reading-keyboard-shortcuts.page:57
-msgid ""
-"When you are in the Mail window, the Spacebar has the following behavior:"
-msgstr "När du är i Meddelandefönstret har blanksteg följande beteenden:"
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:59
-msgid ""
-"When you press the Spacebar for the first time, it takes you to the next "
-"unread message."
-msgstr ""
-"När du trycker på blanksteg första gången kommer du att flyttas till nästa "
-"olästa meddelande."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:60
-msgid ""
-"If the message is more than one screen long, the Spacebar works as <key>Page "
-"Down</key>."
-msgstr ""
-"Om meddelanden är längre än en skärm kommer blanksteg att fungera som "
-"<key>Page Down</key>."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:61
-msgid ""
-"If you press the Spacebar after you reach the bottom of the page, it takes "
-"you to the next unread message."
-msgstr ""
-"Om du trycker på blanksteg efter att du nått botten på sidan tas du till "
-"nästa olästa meddelande."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:62
-msgid ""
-"If there are no more unread messages in the mailbox, pressing the Spacebar "
-"takes you to the next unread message in the next folder."
-msgstr ""
-"Om det inte finns fler olästa meddelanden i brevlådan, kommer tryck på "
-"blanksteg att ta dig till nästa olästa meddelande i nästa mapp."
-
-#. (itstool) path: item/p
-#: C/mail-reading-keyboard-shortcuts.page:63
-msgid ""
-"If new messages arrive in a number of folders, the Spacebar toggles between "
-"those folders. This feature allows you to switch to the next unread message "
-"in a different folder without clicking the folder."
-msgstr ""
-"Om nya meddelanden ankommer i ett antal mappar, kommer blanksteg att växla "
-"mellan dessa mapparna. Denna funktion låter dig växla till nästa olästa "
-"meddelande i en annan mapp utan att klicka på mappen."
-
-#. (itstool) path: section/title
-#: C/mail-reading-keyboard-shortcuts.page:68
-msgid "Changing keyboard shortcuts"
-msgstr "Ändra tangentbordsgenvägar"
-
-#. (itstool) path: note/p
-#: C/mail-reading-keyboard-shortcuts.page:69
-msgid ""
-"Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
-"config/evolution/accels</file>."
-msgstr ""
-"Avancerade användare kan anpassa tangentbordsgenvägar genom att redigera "
-"<file>$HOME/.config/evolution/accels</file>."
-
-#. (itstool) path: note/p
-#: C/mail-reading-keyboard-shortcuts.page:69
-msgid ""
-"See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
-"evolution-in-gnome/\">this blog post</link> for more information."
-msgstr ""
-"Se <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
-"evolution-in-gnome/\">denna bloggpost</link> för mer information."
-
-#. (itstool) path: info/desc
 #: C/mail-read-receipts.page:5
 msgid "How to enable requesting read receipts."
 msgstr "Hur man aktiverar begäran av läskvitto."
@@ -10732,40 +11028,6 @@ msgid ""
 msgstr ""
 "Om du väljer att visa relativa mappnamn kommer endast namnet på mappen att "
 "visas. Till exempel skulle mappen evolution.mail visas som evolution."
-
-#. (itstool) path: info/desc
-#: C/mail-recognized-thread-related-headers.page:5
-msgid "Which thread-related headers are recognized by <app>Evolution</app>."
-msgstr "Vilka trådrelaterade rubriker känns igen av <app>Evolution</app>."
-
-#. (itstool) path: page/title
-#: C/mail-recognized-thread-related-headers.page:20
-msgid "Thread related headers recognized by <app>Evolution</app>"
-msgstr "Trådrelaterade rubriker som <app>Evolution</app> känner igen"
-
-#. (itstool) path: page/p
-#: C/mail-recognized-thread-related-headers.page:22
-msgid "<app>Evolution</app> supports the following headers:"
-msgstr "<app>Evolution</app> har stöd för följande rubriker:"
-
-#. (itstool) path: item/p
-#: C/mail-recognized-thread-related-headers.page:24
-msgid "References"
-msgstr "References"
-
-#. (itstool) path: item/p
-#: C/mail-recognized-thread-related-headers.page:25
-msgid "In-Reply-To"
-msgstr "In-Reply-To"
-
-#. (itstool) path: page/p
-#: C/mail-recognized-thread-related-headers.page:29
-msgid ""
-"<gui>Thread-*</gui> headers are Microsoft's proprietary headers and not "
-"supported."
-msgstr ""
-"<gui>Thread-*</gui>-rubriker är Microsofts egenutvecklade rubriker och stöds "
-"ej."
 
 #. (itstool) path: info/desc
 #: C/mail-refresh-folders.page:5
@@ -11446,8 +11708,22 @@ msgstr ""
 "originalmeddelandet och låter dig följa konversationens flöde från ett "
 "meddelande till nästa."
 
-#. (itstool) path: section/p
+#. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:36
+msgid ""
+"<app>Evolution</app> recognizes <_:code-1/> and <_:code-2/> mail headers. In "
+"addition, you can enable <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Preferences</gui><gui>General</gui><gui>Message Display</"
+"gui><gui>Fall back to threading messages by subject</gui></guiseq>."
+msgstr ""
+"<app>Evolution</app> känner igen e-postrubrikerna <_:code-1/> och <_:code-2/"
+">. Utöver detta kan du aktivera <guiseq><gui>Redigera</"
+"gui><gui>Inställningar</gui><gui>E-postinställningar</gui><gui>Allmänt</"
+"gui><gui>Meddelandevisning</gui><gui>Fall tillbaka på trådning av "
+"meddelanden efter ämne</gui></guiseq>."
+
+#. (itstool) path: section/p
+#: C/mail-sorting-message-list.page:37
 msgid ""
 "When a new message arrives, it will be added below the parent message. "
 "Threads are sorted and displayed based on the date of the most recent "
@@ -11458,7 +11734,7 @@ msgstr ""
 "när det senaste meddelandet togs emot."
 
 #. (itstool) path: note/p
-#: C/mail-sorting-message-list.page:37
+#: C/mail-sorting-message-list.page:38
 msgid ""
 "For Advanced Users: There is a GSettings key that allows you to toggle "
 "between the collapsed and expanded state of the email threads. The collapsed "
@@ -11473,7 +11749,7 @@ msgstr ""
 "gnome.evolution.mail thread-expand true</cmd>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:40
+#: C/mail-sorting-message-list.page:41
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
 "accels true</cmd>"
@@ -11482,12 +11758,12 @@ msgstr ""
 "accels true</cmd>"
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:46
+#: C/mail-sorting-message-list.page:47
 msgid "Sorting Mail with Column Headers"
 msgstr "Sortera post med kolumnhuvuden"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:47
+#: C/mail-sorting-message-list.page:48
 msgid ""
 "The message list displays columns that indicate whether a message has been "
 "read, whether it has attachments, how important the message is, the sender, "
@@ -11500,17 +11776,17 @@ msgstr ""
 "kan du göra endera av följande:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:49
+#: C/mail-sorting-message-list.page:50
 msgid "Drag and drop the column header bars"
 msgstr "Dra och släpp kolumnrubriker"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:50
+#: C/mail-sorting-message-list.page:51
 msgid "Right-click on the header."
 msgstr "Högerklicka på rubriken."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:51
+#: C/mail-sorting-message-list.page:52
 msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
@@ -11518,7 +11794,7 @@ msgstr ""
 "kolumn</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:54
+#: C/mail-sorting-message-list.page:55
 msgid ""
 "<app>Evolution</app> allows you to sort your messages using these columns. "
 "Just click on the column label to sort the emails. The direction of the "
@@ -11529,7 +11805,7 @@ msgstr ""
 "Riktningen på pilen intill etiketten indikerar sorteringsordningen."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:54
+#: C/mail-sorting-message-list.page:55
 msgid ""
 "You can apply a secondary sort criterion by clicking a column label while "
 "pressing <key>Ctrl</key>."
@@ -11538,12 +11814,12 @@ msgstr ""
 "kolumnetikett medan du trycker <key>Ctrl</key>."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:58
+#: C/mail-sorting-message-list.page:59
 msgid "Using Other Sorting Options"
 msgstr "Användning av andra sorteringsalternativ"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:59
+#: C/mail-sorting-message-list.page:60
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
@@ -11553,171 +11829,171 @@ msgstr ""
 "fallande, eller Återställ sortering."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:61
+#: C/mail-sorting-message-list.page:62
 msgid "Sort By"
 msgstr "Sortera efter"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:62
+#: C/mail-sorting-message-list.page:63
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
 "Du kan också sortera e-postmeddelanden via listan <gui>Sortera efter</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:64 C/mail-sorting-message-list.page:94
-#: C/mail-sorting-message-list.page:103 C/mail-sorting-message-list.page:112
+#: C/mail-sorting-message-list.page:65 C/mail-sorting-message-list.page:95
+#: C/mail-sorting-message-list.page:104 C/mail-sorting-message-list.page:113
 msgid "Right-click on the message list column headers."
 msgstr "Högerklicka på kolumnrubriken i meddelandelistan."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:65
+#: C/mail-sorting-message-list.page:66
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Välj alternativet <gui>Sortera efter</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:65
+#: C/mail-sorting-message-list.page:66
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr "Detta visar listan av kriterier för att sortera e-postmeddelanden:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:67
+#: C/mail-sorting-message-list.page:68
 msgid "Subject - Trimmed"
 msgstr "Ämne - Nedkortat"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:68
+#: C/mail-sorting-message-list.page:69
 msgid "Labels"
 msgstr "Etiketter"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:70
 msgid "Recipients"
 msgstr "Mottagare"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:70
+#: C/mail-sorting-message-list.page:71
 msgid "Sender"
 msgstr "Avsändare"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:71
+#: C/mail-sorting-message-list.page:72
 msgid "Location"
 msgstr "Plats"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:72
+#: C/mail-sorting-message-list.page:73
 msgid "Due By"
 msgstr "Ska utföras den"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:73
+#: C/mail-sorting-message-list.page:74
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Uppföljningsflagga</link>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:74
+#: C/mail-sorting-message-list.page:75
 msgid "Flag Status"
 msgstr "Flaggstatus"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:75
+#: C/mail-sorting-message-list.page:76
 msgid "Size"
 msgstr "Storlek"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:76
+#: C/mail-sorting-message-list.page:77
 msgid "To"
 msgstr "Till"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:77
+#: C/mail-sorting-message-list.page:78
 msgid "Received"
 msgstr "Mottaget"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:78
+#: C/mail-sorting-message-list.page:79
 msgid "Date"
 msgstr "Datum"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:79
+#: C/mail-sorting-message-list.page:80
 msgid "Subject"
 msgstr "Ämne"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:80
+#: C/mail-sorting-message-list.page:81
 msgid "From"
 msgstr "Från"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:81
+#: C/mail-sorting-message-list.page:82
 msgid "Attachment"
 msgstr "Bilaga"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:82
+#: C/mail-sorting-message-list.page:83
 msgid "Flagged"
 msgstr "Flaggad"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:83
+#: C/mail-sorting-message-list.page:84
 msgid "Status"
 msgstr "Status"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:84
+#: C/mail-sorting-message-list.page:85
 msgid "Custom"
 msgstr "Anpassad"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:87
+#: C/mail-sorting-message-list.page:88
 msgid "Select the option you wish to use in sorting email messages."
 msgstr ""
 "Välj det alternativ du önskar använda vid sortering av e-postmeddelanden."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:92
+#: C/mail-sorting-message-list.page:93
 msgid "Sort Ascending"
 msgstr "Sortera stigande"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:95
+#: C/mail-sorting-message-list.page:96
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Välj alternativet <gui>Sortera stigande</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:97
+#: C/mail-sorting-message-list.page:98
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr "Meddelandena kommer att visas med det senaste längst ner."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:101
+#: C/mail-sorting-message-list.page:102
 msgid "Sort Descending"
 msgstr "Sortera fallande"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:104
+#: C/mail-sorting-message-list.page:105
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Välj alternativet <gui>Sortera fallande</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:106
+#: C/mail-sorting-message-list.page:107
 msgid "The messages will be displayed with the most recent at the top."
 msgstr "Meddelandena kommer att visas med det senaste längst upp."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:110
+#: C/mail-sorting-message-list.page:111
 msgid "Reset sort"
 msgstr "Återställ sortering"
 
 # sebras: Unsorted?
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:113
+#: C/mail-sorting-message-list.page:114
 msgid "Select the <gui>Reset sort</gui> option."
 msgstr "Välj alternativet <gui>Återställ sortering</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:115
+#: C/mail-sorting-message-list.page:116
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
@@ -11989,14 +12265,14 @@ msgid ""
 "For more information and specific Bogofilter or SpamAssassin configuration "
 "questions it is recommended to check out the Frequently Asked Questions for "
 "<link href=\"http://bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> "
-"resp. <link href=\"http://wiki.apache.org/spamassassin/"
+"resp. <link href=\"https://wiki.apache.org/spamassassin/"
 "FrequentlyAskedQuestions\">SpamAssassin</link>."
 msgstr ""
 "För vidare information och specifika frågor kring konfiguration av "
 "Bogofilter eller SpamAssassin rekommenderas det att titta på sidan för ofta "
 "ställda frågor (Frequently Asked Questions) för <link href=\"http://"
 "bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> respektive <link "
-"href=\"http://wiki.apache.org/spamassassin/FrequentlyAskedQuestions"
+"href=\"https://wiki.apache.org/spamassassin/FrequentlyAskedQuestions"
 "\">SpamAssassin</link>."
 
 #. (itstool) path: info/desc
@@ -13859,6 +14135,116 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
 
+#~ msgid "Using shortcut keys to read mail"
+#~ msgstr "Användning av genvägstangenter för att läsa e-post"
+
+#~ msgid "Viewing an email"
+#~ msgstr "Visa ett meddelande"
+
+#~ msgid ""
+#~ "In the Mail window you read a message by selecting it in the message "
+#~ "list. If you would like to see the message in its own window, either "
+#~ "double-click it, press <key>Enter</key>, or press <keyseq><key>Ctrl</"
+#~ "key><key>O</key></keyseq>."
+#~ msgstr ""
+#~ "I meddelandefönstret kan du läsa ett meddelande genom att välja det i "
+#~ "meddelandelistan. Om du vill se meddelandet i ett eget fönster antingen "
+#~ "dubbelklicka på det, tryck på <key>Retur</key> eller tryck "
+#~ "<keyseq><key>Ctrl</key><key>O</key></keyseq>."
+
+#~ msgid "Marking a message as read or unread"
+#~ msgstr "Markera ett meddelande som läst eller oläst"
+
+#~ msgid ""
+#~ "To mark the currently selected message as read, press <keyseq><key>Ctrl</"
+#~ "key><key>K</key></keyseq>."
+#~ msgstr ""
+#~ "För att markera det aktuella meddelandet som läst, tryck "
+#~ "<keyseq><key>Ctrl</key><key>K</key></keyseq>."
+
+#~ msgid ""
+#~ "To mark the currently selected message as unread, press "
+#~ "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>."
+#~ msgstr ""
+#~ "För att markera det aktuella meddelandet som oläst, tryck "
+#~ "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>."
+
+#~ msgid "Navigating in a message"
+#~ msgstr "Navigera i ett meddelande"
+
+#~ msgid ""
+#~ "To read mail with the keyboard, you can press the <key>Spacebar</key> to "
+#~ "page down and press <key>Backspace</key> to page up while reading an "
+#~ "email. Ensure that you use the keys when the message list is focused."
+#~ msgstr ""
+#~ "För att läsa post med tangentbordet kan du trycka på <key>blanksteg</key> "
+#~ "för att gå ner en sida och trycka på <key>backsteg</key> för att gå upp "
+#~ "en sida när du läser ett e-postmeddelande. Försäkra dig om att du "
+#~ "använder tangenterna när meddelandelistan är i fokus."
+
+#~ msgid "Navigating in a folder in the message list"
+#~ msgstr "Navigering i en mapp i meddelandelistan"
+
+#~ msgid ""
+#~ "Navigate in the message list by using the arrow keys on the keyboard."
+#~ msgstr ""
+#~ "Navigera i meddelandelistan genom att använda piltangenterna på "
+#~ "tangentbordet."
+
+#~ msgid "Navigating in a folder's unread mail in the message list"
+#~ msgstr "Navigering bland en mapps olästa meddelanden i meddelandelistan"
+
+#~ msgid ""
+#~ "To go to the next or previous unread messages, press the period (<key>.</"
+#~ "key>) or comma (<key>,</key>) keys. On some keyboards, these keys are "
+#~ "also marked with the <key>&gt;</key> and <key>&lt;</key> symbols, which "
+#~ "is a convenient way to remember that they move you forward and backward "
+#~ "in your message list. You can also use the right square bracket (<key>]</"
+#~ "key>) for the next unread message, and the left square bracket (<key>[</"
+#~ "key>) for the previous unread message."
+#~ msgstr ""
+#~ "För att gå till nästa eller föregående olästa meddelande kan du trycka på "
+#~ "punkt- (<key>.</key>) eller kommatangenterna (<key>,</key>). På vissa "
+#~ "tangentbord är dessa tangenter även markerade med symbolerna <key>&gt;</"
+#~ "key> och <key>&lt;</key>, vilket är ett smidigt sätt att komma ihåg att "
+#~ "de flyttar dig framåt och bakåt i din meddelandelista. Du kan även "
+#~ "använda den högra hakparentesen (<key>]</key>) för nästa olästa "
+#~ "meddelande samt den vänstra hakparentesen (<key>[</key>) för föregående "
+#~ "olästa meddelande."
+
+#~ msgid ""
+#~ "You can easily read the unread messages in all the mail folders by using "
+#~ "the <key>Spacebar</key>."
+#~ msgstr ""
+#~ "Du kan enkelt läsa dina olästa meddelanden i alla e-postmappar genom att "
+#~ "använda <key>blanksteg</key>."
+
+#~ msgid ""
+#~ "When you are in the Mail window, the Spacebar has the following behavior:"
+#~ msgstr "När du är i Meddelandefönstret har blanksteg följande beteenden:"
+
+#~ msgid "Which thread-related headers are recognized by <app>Evolution</app>."
+#~ msgstr "Vilka trådrelaterade rubriker känns igen av <app>Evolution</app>."
+
+#~ msgid "Thread related headers recognized by <app>Evolution</app>"
+#~ msgstr "Trådrelaterade rubriker som <app>Evolution</app> känner igen"
+
+#~ msgid "<app>Evolution</app> supports the following headers:"
+#~ msgstr "<app>Evolution</app> har stöd för följande rubriker:"
+
+#~ msgid "References"
+#~ msgstr "References"
+
+#~ msgid "In-Reply-To"
+#~ msgstr "In-Reply-To"
+
+#~ msgid ""
+#~ "<gui>Thread-*</gui> headers are Microsoft's proprietary headers and not "
+#~ "supported."
+#~ msgstr ""
+#~ "<gui>Thread-*</gui>-rubriker är Microsofts egenutvecklade rubriker och "
+#~ "stöds ej."
+
 #~ msgid ""
 #~ "For more information see <link xref=\"change-switcher-appearance"
 #~ "\">Changing the Switcher appearance</link>."
@@ -14070,9 +14456,6 @@ msgstr "Klicka på <_:gui-1/>."
 
 #~ msgid "Unsort"
 #~ msgstr "Osortera"
-
-#~ msgid "The Evolution mail main window"
-#~ msgstr "Huvudfönstret för Evolution"
 
 # sebras: that you send using GPG/OpenPGP.
 #~ msgid "Signing or encrypting messages via GPG/OpenPGP that you send."
