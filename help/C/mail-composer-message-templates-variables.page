@@ -52,10 +52,8 @@
 <title>Using Elements From a Message in a Template When Replying</title>
 <p>Templates can contain more than just the predefined set of <link xref="#configure">key-value pairs</link>. You can also get any message header values from the email that you are applying the template on, plus the complete message body.</p>
 
-<!-- TRANSLATORS: Do NOT translate "$ORIG[subject]" and "$ORIG[body]" in this sentence. -->
 <p its:locNote="TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this sentence!">In order to do this, use the format <code>$ORIG[header_name]</code> and replace the variable <code>header_name</code> by the actual header. For example, if you would like to insert the subject line of the message that you reply to, use <code>$ORIG[subject]</code>. To insert the complete body, use <code>$ORIG[body]</code>.</p>
 
-<!-- TRANSLATORS: Do NOT translate "$ORIG[body]" and "$ORIG[reply-to]" in this sentence. -->
 <p its:locNote="TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in this sentence!">If no replacement for a variable is found, the variable is not removed (except for <code>$ORIG[body]</code>) but left in place so that you see that something went wrong. This could happen when trying to use headers that are not necessarily always available in the original message (for example <code>$ORIG[reply-to]</code>).</p>
 </section>
 
