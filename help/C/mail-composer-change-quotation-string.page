@@ -40,8 +40,8 @@
 <item><p>Enter the preferred quotation string as the value for the key <code>composer-message-attribution</code>.</p></item>
 </list>
 
-<p>The default string in English is:
-<code xmlns:its="http://www.w3.org/2005/11/its" its:locNote="Translators: Do NOT translate the variable names inside the brackets!">"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:"</code>
+<p xmlns:its="http://www.w3.org/2005/11/its" its:locNote="Translators: Do NOT translate the variable names inside the ${brackets}!">The default string in English is:
+<code>"On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:"</code>
 </p>
 
 <p>The following placeholders are available:</p>
