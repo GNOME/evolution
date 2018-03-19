@@ -249,7 +249,7 @@ e_mail_formatter_canon_header_name (gchar *name)
 	while (*inptr) {
 		if (inptr[-1] == '-' && *inptr >= 'a' && *inptr <= 'z')
 			*inptr -= 0x20;
-		else if (*inptr >= 'A' && *inptr <= 'Z')
+		else if (inptr[-1] != '-' && *inptr >= 'A' && *inptr <= 'Z')
 			*inptr += 0x20;
 
 		inptr++;
