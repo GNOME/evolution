@@ -8,11 +8,17 @@ To build it, one can follow the below commands, which expect flatpak and
 flatpak-builder installed. Refer to the Flatpak developer documentation
 and command man pages for the meaning of respective arguments.
 
+Note the actual versions of the GNOME SDK and Platform (below is used
+version 3.26) can differ each release of Evolution. The exact expected
+version can be seen (or changed) in the .json file, the runtime-version
+key (line "runtime-version": "3.26",). Use the same version in the below
+install commands as is written in the runtime-version key of the .json file.
+
 To prepare Flatpak, add GNOME repository and install the SDK and Platform:
 
    $ flatpak remote-add --from gnome https://sdk.gnome.org/gnome.flatpakrepo
-   $ flatpak install gnome org.gnome.Platform//3.24
-   $ flatpak install gnome org.gnome.Sdk//3.24
+   $ flatpak install gnome org.gnome.Platform//3.26
+   $ flatpak install gnome org.gnome.Sdk//3.26
 
 After this, Evolution can be built. While the below commands build the git master
 version of Evolution, it can be changed to the stable version, when all "-master"
