@@ -1349,8 +1349,8 @@ move_elements_to_body (EEditorPage *editor_page)
 	body = webkit_dom_document_get_body (document);
 	list = webkit_dom_document_query_selector_all (
 		document, "div[data-headers]", NULL);
-	for (jj = 0, ii = webkit_dom_node_list_get_length (list); ii--; jj++) {
-		WebKitDOMNode *node = webkit_dom_node_list_item (list, jj);
+	for (ii = webkit_dom_node_list_get_length (list); ii--;) {
+		WebKitDOMNode *node = webkit_dom_node_list_item (list, ii);
 
 		webkit_dom_element_remove_attribute (
 			WEBKIT_DOM_ELEMENT (node), "data-headers");
