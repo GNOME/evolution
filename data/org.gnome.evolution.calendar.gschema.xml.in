@@ -473,6 +473,10 @@
       <default>false</default>
       <_summary>Whether to order days in the Week View from left to right, rather than from top to bottom.</_summary>
     </key>
+    <key name="allow-direct-summary-edit" type="b">
+      <default>false</default>
+      <_summary>Allow direct edit of event Summary when clicking on it in the Day, Work Week, Week or Month view.</_summary>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

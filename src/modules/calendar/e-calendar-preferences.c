@@ -994,6 +994,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "allow_direct_summary_edit");
+	g_settings_bind (
+		settings, "allow-direct-summary-edit",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "tasks_due_today_highlight");
 	g_settings_bind (
 		settings, "task-due-today-highlight",

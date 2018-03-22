@@ -276,6 +276,11 @@ void		draw_curved_rectangle		(cairo_t *cr,
 GdkColor	get_today_background		(GdkColor event_background);
 
 gboolean	e_calendar_view_is_editing	(ECalendarView *cal_view);
+gboolean	e_calendar_view_get_allow_direct_summary_edit
+						(ECalendarView *cal_view);
+void		e_calendar_view_set_allow_direct_summary_edit
+						(ECalendarView *cal_view,
+						 gboolean allow);
 
 G_END_DECLS
 

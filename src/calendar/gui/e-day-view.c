@@ -4935,7 +4935,8 @@ e_day_view_on_top_canvas_button_release (GtkWidget *widget,
 		e_day_view_finish_selection (day_view);
 	} else if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
 		e_day_view_finish_long_event_resize (day_view);
-	} else if (day_view->pressed_event_day != -1) {
+	} else if (day_view->pressed_event_day != -1 &&
+		   e_calendar_view_get_allow_direct_summary_edit (E_CALENDAR_VIEW (day_view))) {
 		e_day_view_start_editing_event (
 			day_view,
 			day_view->pressed_event_day,
@@ -4971,7 +4972,8 @@ e_day_view_on_main_canvas_button_release (GtkWidget *widget,
 	} else if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
 		e_day_view_finish_resize (day_view);
 		e_day_view_stop_auto_scroll (day_view);
-	} else if (day_view->pressed_event_day != -1) {
+	} else if (day_view->pressed_event_day != -1 &&
+		   e_calendar_view_get_allow_direct_summary_edit (E_CALENDAR_VIEW (day_view))) {
 		e_day_view_start_editing_event (
 			day_view,
 			day_view->pressed_event_day,
@@ -6142,8 +6144,10 @@ e_day_view_reshape_day_events (EDayView *day_view,
 			continue;
 		}
 
-		if (strncmp (current_comp_string, day_view->last_edited_comp_string,50) == 0) {
-			e_canvas_item_grab_focus (event->canvas_item, TRUE);
+		if (strncmp (current_comp_string, day_view->last_edited_comp_string, 50) == 0) {
+			if (e_calendar_view_get_allow_direct_summary_edit (E_CALENDAR_VIEW (day_view)))
+				e_canvas_item_grab_focus (event->canvas_item, TRUE);
+
 			g_free (day_view->last_edited_comp_string);
 			day_view-> last_edited_comp_string = NULL;
 		}
@@ -7208,7 +7212,8 @@ e_day_view_start_editing_event (EDayView *day_view,
 	if (!is_comp_data_valid (event))
 		return;
 
-	if (e_client_is_readonly (E_CLIENT (event->comp_data->client)))
+	if (e_client_is_readonly (E_CLIENT (event->comp_data->client)) ||
+	    (!key_event && !e_calendar_view_get_allow_direct_summary_edit (E_CALENDAR_VIEW (day_view))))
 		return;
 
 	/* If the event is not shown, don't try to edit it. */

@@ -62,6 +62,8 @@ struct _ECalendarViewPrivate {
 	/* All keyboard devices are grabbed
 	 * while a tooltip window is shown. */
 	GQueue grabbed_keyboards;
+
+	gboolean allow_direct_summary_edit;
 };
 
 enum {
@@ -70,7 +72,8 @@ enum {
 	PROP_MODEL,
 	PROP_PASTE_TARGET_LIST,
 	PROP_TIME_DIVISIONS,
-	PROP_IS_EDITING
+	PROP_IS_EDITING,
+	PROP_ALLOW_DIRECT_SUMMARY_EDIT
 };
 
 /* FIXME Why are we emitting these event signals here? Can't the model just be listened to? */
@@ -298,6 +301,12 @@ calendar_view_set_property (GObject *object,
 				E_CALENDAR_VIEW (object),
 				g_value_get_int (value));
 			return;
+
+		case PROP_ALLOW_DIRECT_SUMMARY_EDIT:
+			e_calendar_view_set_allow_direct_summary_edit (
+				E_CALENDAR_VIEW (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -336,6 +345,10 @@ calendar_view_get_property (GObject *object,
 
 		case PROP_IS_EDITING:
 			g_value_set_boolean (value, e_calendar_view_is_editing (E_CALENDAR_VIEW (object)));
+			return;
+
+		case PROP_ALLOW_DIRECT_SUMMARY_EDIT:
+			g_value_set_boolean (value, e_calendar_view_get_allow_direct_summary_edit (E_CALENDAR_VIEW (object)));
 			return;
 	}
 
@@ -1133,6 +1146,16 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 			"Whether is in an editing mode",
 			FALSE,
 			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ALLOW_DIRECT_SUMMARY_EDIT,
+		g_param_spec_boolean (
+			"allow-direct-summary-edit",
+			"Whether can edit event Summary directly",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
 
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
@@ -2345,4 +2368,26 @@ e_calendar_view_move_view_range (ECalendarView *cal_view,
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
 	g_signal_emit (cal_view, signals[MOVE_VIEW_RANGE], 0, mode_type, (gint64) exact_date);
+}
+
+gboolean
+e_calendar_view_get_allow_direct_summary_edit (ECalendarView *cal_view)
+{
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
+
+	return cal_view->priv->allow_direct_summary_edit;
+}
+
+void
+e_calendar_view_set_allow_direct_summary_edit (ECalendarView *cal_view,
+					       gboolean allow)
+{
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	if ((cal_view->priv->allow_direct_summary_edit ? 1 : 0) == (allow ? 1 : 0))
+		return;
+
+	cal_view->priv->allow_direct_summary_edit = allow;
+
+	g_object_notify (G_OBJECT (cal_view), "allow-direct-summary-edit");
 }

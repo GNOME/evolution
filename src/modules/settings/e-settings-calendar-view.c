@@ -52,6 +52,11 @@ settings_calendar_view_constructed (GObject *object)
 		extensible, "time-divisions",
 		G_SETTINGS_BIND_DEFAULT);
 
+	g_settings_bind (
+		settings, "allow-direct-summary-edit",
+		extensible, "allow-direct-summary-edit",
+		G_SETTINGS_BIND_DEFAULT);
+
 	/*** EDayView ***/
 
 	if (E_IS_DAY_VIEW (extensible)) {

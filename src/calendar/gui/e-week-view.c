@@ -4051,7 +4051,8 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
 
-	if (e_client_is_readonly (E_CLIENT (event->comp_data->client)))
+	if (e_client_is_readonly (E_CLIENT (event->comp_data->client)) ||
+	    (!initial_text && !e_calendar_view_get_allow_direct_summary_edit (E_CALENDAR_VIEW (week_view))))
 		return FALSE;
 
 	/* If the event is not shown, don't try to edit it. */
