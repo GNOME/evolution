@@ -247,9 +247,12 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 }
 
 GtkWidget *
-e_contact_editor_fullname_new (const EContactName *name)
+e_contact_editor_fullname_new (GtkWindow *parent,
+			       const EContactName *name)
 {
-	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_FULLNAME, NULL);
+	GtkWidget *widget = g_object_new (E_TYPE_CONTACT_EDITOR_FULLNAME,
+		"transient-for", parent,
+		NULL);
 
 	g_object_set (
 		widget,

@@ -62,7 +62,8 @@ struct _EContactEditorFullnameClass
 	GtkDialogClass parent_class;
 };
 
-GtkWidget *e_contact_editor_fullname_new (const EContactName *name);
+GtkWidget *e_contact_editor_fullname_new (GtkWindow *parent,
+					  const EContactName *name);
 GType      e_contact_editor_fullname_get_type (void);
 
 G_END_DECLS

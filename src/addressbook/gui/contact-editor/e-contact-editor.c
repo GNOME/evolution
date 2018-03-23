@@ -4102,6 +4102,7 @@ full_name_clicked (GtkWidget *button,
                    EContactEditor *editor)
 {
 	GtkDialog *dialog;
+	GtkWindow *parent;
 	gboolean fullname_supported;
 
 	if (editor->priv->fullname_dialog) {
@@ -4109,7 +4110,8 @@ full_name_clicked (GtkWidget *button,
 		return;
 	}
 
-	dialog = GTK_DIALOG (e_contact_editor_fullname_new (editor->priv->name));
+	parent = eab_editor_get_window (EAB_EDITOR (editor));
+	dialog = GTK_DIALOG (e_contact_editor_fullname_new (parent, editor->priv->name));
 	fullname_supported = is_field_supported (editor, E_CONTACT_FULL_NAME);
 
 	g_object_set (
