@@ -29,6 +29,7 @@
 #define CONF_KEY_GAIM_LAST_SYNC_TIME	"gaim-last-sync-time"
 #define CONF_KEY_GAIM_LAST_SYNC_MD5	"gaim-last-sync-md5"
 #define CONF_KEY_GAIM_CHECK_INTERVAL	"gaim-check-interval"
+#define CONF_KEY_FILE_UNDER_AS_FIRST_LAST "file-under-as-first-last"
 
 /* How often to poll the buddy list for changes (every two minutes is default) */
 #define BBDB_BLIST_DEFAULT_CHECK_INTERVAL (2 * 60)

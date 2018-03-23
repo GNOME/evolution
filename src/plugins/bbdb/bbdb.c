@@ -306,6 +306,7 @@ bbdb_do_it (EBookClient *client,
 	EClientCache *client_cache;
 	GList *addressbooks;
 	GList *aux_addressbooks;
+	GSettings *settings;
 	EBookClient *client_addressbook;
 	ESourceAutocomplete *autocomplete_extension;
 	gboolean on_autocomplete, has_autocomplete;
@@ -319,7 +320,7 @@ bbdb_do_it (EBookClient *client,
 		return;
 
 	/* don't miss the entry if the mail has only e-mail id and no name */
-	if (name == NULL || !strcmp (name, "")) {
+	if (!name || !*name) {
 		temp_name = g_strndup (email, delim - email);
 		name = temp_name;
 	}
@@ -453,6 +454,26 @@ bbdb_do_it (EBookClient *client,
 	/* Otherwise, create a new contact. */
 	contact = e_contact_new ();
 	e_contact_set (contact, E_CONTACT_FULL_NAME, (gpointer) name);
+
+	settings = e_util_ref_settings (CONF_SCHEMA);
+	if (g_settings_get_boolean (settings, CONF_KEY_FILE_UNDER_AS_FIRST_LAST)) {
+		EContactName *cnt_name = e_contact_name_from_string (name);
+
+		if (cnt_name) {
+			if (cnt_name->family && *cnt_name->family &&
+			    cnt_name->given && *cnt_name->given) {
+				gchar *str;
+
+				str = g_strconcat (cnt_name->given, " ", cnt_name->family, NULL);
+				e_contact_set (contact, E_CONTACT_FILE_AS, str);
+				g_free (str);
+			}
+
+			e_contact_name_free (cnt_name);
+		}
+	}
+	g_clear_object (&settings);
+
 	add_email_to_contact (contact, email);
 	g_free (temp_name);
 
@@ -755,6 +776,18 @@ bbdb_create_config_widget (void)
 	g_signal_connect (
 		check, "toggled",
 		G_CALLBACK (enable_toggled_cb), stuff);
+	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
+
+	/* File Under setting */
+	check = gtk_check_button_new_with_mnemonic (_("Set File _under as “First Last”, instead of “Last, First”"));
+	g_settings_bind (
+		settings, CONF_KEY_FILE_UNDER_AS_FIRST_LAST,
+		check, "active",
+		G_SETTINGS_BIND_DEFAULT);
+	g_settings_bind (
+		settings, CONF_KEY_ENABLE,
+		check, "sensitive",
+		G_SETTINGS_BIND_GET);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 
 	label = gtk_label_new (_("Select Address book for Automatic Contacts"));
