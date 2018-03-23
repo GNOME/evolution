@@ -59,7 +59,10 @@ emfe_itip_format (EMailFormatterExtension *extension,
 	GString *buffer;
 	EMailPartItip *itip_part;
 
-	g_return_val_if_fail (E_IS_MAIL_PART_ITIP (part), FALSE);
+	/* This can be called with attachment parts too, thus
+	   return silently in that case */
+	if (!E_IS_MAIL_PART_ITIP (part))
+		return FALSE;
 
 	itip_part = (EMailPartItip *) part;
 
