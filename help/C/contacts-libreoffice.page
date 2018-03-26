@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="index#data-migration-and-sync"/>
 
-    <revision pkgversion="3.1.5" version="0.2" date="2012-02-18" status="draft"/>
+    <revision pkgversion="3.26.6" version="0.3" date="2018-03-26" status="draft"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -20,13 +20,13 @@
 
   <title>Contacts in LibreOffice</title>
 
-  <p>You can use your <app>Evolution</app> address books in LibreOffice as a data source.
-  The following steps refer to LibreOffice version 3.3.3.</p>
+  <p>You can use your <app>Evolution</app> address books in <app>LibreOffice Writer</app> as a data source.
+  The following steps refer to LibreOffice version 5.4.</p>
 
   <steps>
     <item>
       <p>Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq>
-      in the menu bar. This will bring up the <gui>Exchange databases</gui>
+      in the menu bar. This will bring up the <gui>Exchange Databases</gui>
       dialog box.</p>
     </item>
     <item>
@@ -37,25 +37,11 @@
     <item>
       <p>Choose an addressbook and click <gui style="button">Define</gui>.</p>
     </item>
-    <item>
-      <p>In case it is not listed already, click
-      <gui style="button">Browse…</gui>. A file chooser dialog opens.</p>
-    </item>
-    <item>
-      <p>As <app>Evolution</app> stores its data in a hidden directory, press
-      <keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar
-      displayed.</p>
-    </item>
-    <item>
-      <p>Go to
-      <file>~/.local/share/evolution/addressbook/system/addressbook.db</file>
-      and click <gui style="button">Open</gui>.</p>
-    </item>
   </steps>
 
   <p>This makes the <app>Evolution</app> address book the default data source
   for LibreOffice. You can now select a field to insert into a LibreOffice
   document via
-  <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></guiseq>.</p>
+  <guiseq><gui>Insert</gui><gui>Field</gui></guiseq>.</p>
 
 </page>
