@@ -46,6 +46,7 @@ struct _ECompEditorTaskPrivate {
 	ECompEditorPropertyPart *percentcomplete;
 	ECompEditorPropertyPart *status;
 	ECompEditorPropertyPart *timezone;
+	ECompEditorPropertyPart *description;
 
 	gpointer in_the_past_alert;
 	gpointer insensitive_info_alert;
@@ -446,6 +447,7 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 {
 	ECompEditorTask *task_editor;
 	GtkAction *action;
+	GtkWidget *widget;
 	gboolean is_organizer;
 	guint32 flags;
 
@@ -456,6 +458,12 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 	flags = e_comp_editor_get_flags (comp_editor);
 	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 	task_editor = E_COMP_EDITOR_TASK (comp_editor);
+
+	/* Make the Description read-only, not completely insensitive,
+	   thus it can be read and scrolled through and so on */
+	widget = e_comp_editor_property_part_get_edit_widget (task_editor->priv->description);
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (widget))), gtk_widget_get_sensitive (widget));
+	gtk_widget_set_sensitive (widget, TRUE);
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-task");
 	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
@@ -808,6 +816,7 @@ e_comp_editor_task_constructed (GObject *object)
 
 	part = e_comp_editor_property_part_description_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 9, 4, 1);
+	task_editor->priv->description = part;
 
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "General"), page);
 	task_editor->priv->page_general = page;

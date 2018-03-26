@@ -33,6 +33,7 @@
 struct _ECompEditorMemoPrivate {
 	ECompEditorPropertyPart *dtstart;
 	ECompEditorPropertyPart *categories;
+	ECompEditorPropertyPart *description;
 
 	gpointer insensitive_info_alert;
 };
@@ -65,6 +66,7 @@ ece_memo_sensitize_widgets (ECompEditor *comp_editor,
 			    gboolean force_insensitive)
 {
 	ECompEditorMemo *memo_editor;
+	GtkWidget *widget;
 	gboolean is_organizer;
 	guint32 flags;
 
@@ -75,6 +77,12 @@ ece_memo_sensitize_widgets (ECompEditor *comp_editor,
 	flags = e_comp_editor_get_flags (comp_editor);
 	is_organizer = (flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0;
 	memo_editor = E_COMP_EDITOR_MEMO (comp_editor);
+
+	/* Make the Description read-only, not completely insensitive,
+	   thus it can be read and scrolled through and so on */
+	widget = e_comp_editor_property_part_get_edit_widget (memo_editor->priv->description);
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (widget))), gtk_widget_get_sensitive (widget));
+	gtk_widget_set_sensitive (widget, TRUE);
 
 	if (memo_editor->priv->insensitive_info_alert)
 		e_alert_response (memo_editor->priv->insensitive_info_alert, GTK_RESPONSE_OK);
@@ -209,6 +217,7 @@ e_comp_editor_memo_constructed (GObject *object)
 
 	part = e_comp_editor_property_part_description_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 6, 2, 1);
+	memo_editor->priv->description = part;
 
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "General"), page);
 

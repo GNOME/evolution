@@ -43,6 +43,7 @@ struct _ECompEditorEventPrivate {
 	ECompEditorPropertyPart *categories;
 	ECompEditorPropertyPart *timezone;
 	ECompEditorPropertyPart *transparency;
+	ECompEditorPropertyPart *description;
 	GtkWidget *all_day_check;
 
 	gpointer in_the_past_alert;
@@ -152,6 +153,7 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	ECompEditorEvent *event_editor;
 	gboolean is_organizer;
 	GtkAction *action;
+	GtkWidget *widget;
 	guint32 flags;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (comp_editor));
@@ -165,8 +167,6 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	gtk_widget_set_sensitive (event_editor->priv->all_day_check, !force_insensitive && is_organizer);
 
 	#define sensitize_part(x) G_STMT_START { \
-		GtkWidget *widget; \
-		\
 		widget = e_comp_editor_property_part_get_label_widget (x); \
 		if (widget) \
 			gtk_widget_set_sensitive (widget, !force_insensitive && is_organizer); \
@@ -181,6 +181,12 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	sensitize_part (event_editor->priv->timezone);
 
 	#undef sensitize_part
+
+	/* Make the Description read-only, not completely insensitive,
+	   thus it can be read and scrolled through and so on */
+	widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->description);
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (widget))), gtk_widget_get_sensitive (widget));
+	gtk_widget_set_sensitive (widget, TRUE);
 
 	action = e_comp_editor_get_action (comp_editor, "all-day-event");
 	gtk_action_set_sensitive (action, !force_insensitive && is_organizer);
@@ -773,6 +779,7 @@ e_comp_editor_event_constructed (GObject *object)
 
 	part = e_comp_editor_property_part_description_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 8, 3, 1);
+	event_editor->priv->description = part;
 
 	widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->timezone);
 	e_comp_editor_property_part_datetime_attach_timezone_entry (
