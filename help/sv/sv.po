@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2018-03-12 15:01+0000\n"
-"PO-Revision-Date: 2018-03-16 23:03+0100\n"
+"POT-Creation-Date: 2018-03-26 18:48+0000\n"
+"PO-Revision-Date: 2018-03-27 09:50+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -2119,17 +2119,19 @@ msgstr "Kontakter i LibreOffice"
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
 msgid ""
-"You can use your <app>Evolution</app> address books in LibreOffice as a data "
-"source. The following steps refer to LibreOffice version 3.3.3."
+"You can use your <app>Evolution</app> address books in <app>LibreOffice "
+"Writer</app> as a data source. The following steps refer to LibreOffice "
+"version 5.4."
 msgstr ""
 "Du kan använda dina adressböcker i <app>Evolution</app> som en datakälla i "
-"LibreOffice. Följande steg fungerar med LibreOffice version 3.3.3."
+"<app>LibreOffice Writer</app>. Följande steg fungerar med LibreOffice "
+"version 5.4."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
-"menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
+"menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
 "Klicka på <guiseq><gui>Redigera</gui><gui>Exchange-databas…</gui></guiseq> i "
 "menyfältet. Det kommer att visa dialogrutan <gui>Exchange-databaser</gui>."
@@ -2150,45 +2152,16 @@ msgstr ""
 msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
 msgstr "Välj en adressbok och klicka på <gui style=\"button\">Definiera</gui>."
 
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:41
-msgid ""
-"In case it is not listed already, click <gui style=\"button\">Browse…</gui>. "
-"A file chooser dialog opens."
-msgstr ""
-"Om den inte redan finns listad, klicka på <gui style=\"button\">Bläddra…</"
-"gui>. En filväljardialog öppnas."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:45
-msgid ""
-"As <app>Evolution</app> stores its data in a hidden directory, press "
-"<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
-"displayed."
-msgstr ""
-"Då <app>Evolution</app> lagrar sina data i en dold katalog, tryck på "
-"<keyseq><key>Ctrl</key><key>L</key></keyseq> för att visa platsfältet."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:50
-msgid ""
-"Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
-"file> and click <gui style=\"button\">Open</gui>."
-msgstr ""
-"Gå till <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
-"file> och klicka på <gui style=\"button\">Öppna</gui>."
-
 #. (itstool) path: page/p
-#: C/contacts-libreoffice.page:56
+#: C/contacts-libreoffice.page:42
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
-"document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
-"guiseq>."
+"document via <guiseq><gui>Insert</gui><gui>Field</gui></guiseq>."
 msgstr ""
 "Detta gör <app>Evolution</app>-adressboken till standarddatakällan för "
 "LibreOffice. Du kan nu välja ett fält att infoga i ett LibreOffice-dokument "
-"via <guiseq><gui>Infoga</gui><gui>Fält</gui><gui>Annat</gui></guiseq>."
+"via <guiseq><gui>Infoga</gui><gui>Fält</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/contacts-local.page:17
@@ -2577,7 +2550,7 @@ msgid "Authors of the <app>Evolution</app> User Documentation"
 msgstr "Upphovsmän till användardokumentationen för <app>Evolution</app>"
 
 #. (itstool) path: item/p
-#: C/credits.page:25 C/credits.page:55
+#: C/credits.page:25 C/credits.page:54
 msgid "André Klapper"
 msgstr "André Klapper"
 
@@ -2608,34 +2581,34 @@ msgstr "Översättare av användardokumentationen för <app>Evolution</app>"
 #. use '\n' for linebreaks or square brackets for potential email
 #. addresses here as this will not work. Thanks for all your hard work!
 #. andre
-#: C/credits.page:43
+#: C/credits.page:42
 msgid "(Not applicable to the English version)"
 msgstr "Daniel Nylander, Sebastian Rasmussen"
 
 #. (itstool) path: section/title
-#: C/credits.page:47
+#: C/credits.page:46
 msgid "Authors of the previous version"
 msgstr "Författare av den föregående versionen"
 
 #. (itstool) path: section/title
-#: C/credits.page:89
+#: C/credits.page:88
 msgid "Contact information"
 msgstr "Kontaktinformation"
 
 #. (itstool) path: section/p
-#: C/credits.page:90
+#: C/credits.page:89
 msgid "The GNOME Documentation Project:"
 msgstr "Dokumentationsprojektet för GNOME:"
 
 #. (itstool) path: item/p
-#: C/credits.page:92
+#: C/credits.page:91
 msgid ""
 "<link href=\"https://wiki.gnome.org/DocumentationProject\">Website</link>"
 msgstr ""
 "<link href=\"https://wiki.gnome.org/DocumentationProject\">Webbplats</link>"
 
 #. (itstool) path: item/p
-#: C/credits.page:95
+#: C/credits.page:94
 msgid ""
 "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-list"
 "\">Mailing list</link>"
@@ -4420,7 +4393,6 @@ msgstr "Spara markering."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:112
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<key>Del</key> or <key>Backspace</key>"
 msgstr "<key>Del</key> eller <key>Backsteg</key>"
 
@@ -6486,7 +6458,8 @@ msgstr ""
 "message-attribution</code>."
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:44
+#. Translators: Do NOT translate the variable names inside the ${brackets}!
+#: C/mail-composer-change-quotation-string.page:43
 msgid ""
 "The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-"
 "${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
@@ -6495,32 +6468,32 @@ msgstr ""
 "${Day} klockan ${24Hour}:${Minute} ${TimeZone} skrev ${Sender}:”</code>"
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:48
+#: C/mail-composer-change-quotation-string.page:47
 msgid "The following placeholders are available:"
 msgstr "Följande platshållare finns tillgängliga:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:57
+#: C/mail-composer-change-quotation-string.page:56
 msgid "<_:code-1/> (format: 01-31)"
 msgstr "<_:code-1/> (format: 01-31)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:58
+#: C/mail-composer-change-quotation-string.page:57
 msgid "<_:code-1/> (format: 1-31)"
 msgstr "<_:code-1/> (format: 1-31)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:63
+#: C/mail-composer-change-quotation-string.page:62
 msgid "<_:code-1/> (format: 1-366)"
 msgstr "<_:code-1/> (format: 1-366)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:64
+#: C/mail-composer-change-quotation-string.page:63
 msgid "<_:code-1/> (format: 01-12)"
 msgstr "<_:code-1/> (format: 01-12)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:67
+#: C/mail-composer-change-quotation-string.page:66
 msgid "<_:code-1/> (e.g. 15 for the year 2015)"
 msgstr "<_:code-1/> (t.ex. 15 för året 2015)"
 
@@ -6872,7 +6845,11 @@ msgstr ""
 "standardavsändarnamn och e-postadress i motsvarande fält."
 
 #. (itstool) path: page/p
-#: C/mail-composer-from-field-override.page:27
+#. Translators: If no Wikipedia article exists for your language and you
+#. leave the URL untranslated and pointing to the English Wikipedia, you
+#. might want to indicate in your translation text that the link is in
+#. English.
+#: C/mail-composer-from-field-override.page:24
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
@@ -6885,7 +6862,11 @@ msgstr ""
 "Email_address#Address_tags\">underadressering</link>."
 
 #. (itstool) path: note/p
-#: C/mail-composer-from-field-override.page:32
+#. Translators: If no Wikipedia article exists for your language and you
+#. leave the URL untranslated and pointing to the English Wikipedia, you
+#. might want to indicate in your translation text that the link is in
+#. English.
+#: C/mail-composer-from-field-override.page:26
 msgid ""
 "Setting an arbitrary address might collide with your email provider's <link "
 "href=\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">Sender Policy "
@@ -7668,7 +7649,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:56
+#: C/mail-composer-message-templates-variables.page:55
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7685,7 +7666,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:59
+#: C/mail-composer-message-templates-variables.page:57
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -10535,7 +10516,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:25
+#: C/mail-received-notification.page:24
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
@@ -10545,12 +10526,14 @@ msgstr ""
 "md5='be4dbdb5f6e3dcbd5111b87169cae268'"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:26
+#. Translators: Please make sure that the screenshot does have the small
+#. yellow star in the Mail icon
+#: C/mail-received-notification.page:25
 msgid "Switcher layout when a new message has arrived"
 msgstr "Växlarlayout när ett nytt meddelande har ankommit"
 
 #. (itstool) path: page/p
-#: C/mail-received-notification.page:29
+#: C/mail-received-notification.page:28
 msgid ""
 "In order to also be notified of new messages in the GNOME Notification area "
 "at the bottom of the screen, make sure that <guiseq><gui>Edit</"
@@ -10568,7 +10551,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:31
+#: C/mail-received-notification.page:30
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -10578,7 +10561,7 @@ msgstr ""
 "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:32
+#: C/mail-received-notification.page:31
 msgid "GNOME notification area when a new message has arrived"
 msgstr "GNOME:s aviseringsyta när ett nytt meddelande har ankommit"
 
@@ -14134,6 +14117,28 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
+
+#~ msgid ""
+#~ "In case it is not listed already, click <gui style=\"button\">Browse…</"
+#~ "gui>. A file chooser dialog opens."
+#~ msgstr ""
+#~ "Om den inte redan finns listad, klicka på <gui style=\"button\">Bläddra…</"
+#~ "gui>. En filväljardialog öppnas."
+
+#~ msgid ""
+#~ "As <app>Evolution</app> stores its data in a hidden directory, press "
+#~ "<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
+#~ "displayed."
+#~ msgstr ""
+#~ "Då <app>Evolution</app> lagrar sina data i en dold katalog, tryck på "
+#~ "<keyseq><key>Ctrl</key><key>L</key></keyseq> för att visa platsfältet."
+
+#~ msgid ""
+#~ "Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
+#~ "file> and click <gui style=\"button\">Open</gui>."
+#~ msgstr ""
+#~ "Gå till <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
+#~ "file> och klicka på <gui style=\"button\">Öppna</gui>."
 
 #~ msgid "Using shortcut keys to read mail"
 #~ msgstr "Användning av genvägstangenter för att läsa e-post"
