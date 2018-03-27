@@ -32,6 +32,26 @@
 
 #include "e-cal-base-shell-backend.h"
 
+/*
+ * FIXME: Remove this when there's a build time dependency on libical
+ * 3.0.4 (where this is fixed). See
+ * https://github.com/libical/libical/pull/335 and the implementation in
+ * https://github.com/libical/libical/blob/master/src/libical/icalversion.h.cmake.
+ */
+#if defined(ICAL_CHECK_VERSION) && defined(ICAL_MAJOR_VERSION) && defined(ICAL_MINOR_VERSION) && defined(ICAL_MICRO_VERSION)
+#undef ICAL_CHECK_VERSION
+#define ICAL_CHECK_VERSION(major,minor,micro)                          \
+    (ICAL_MAJOR_VERSION > (major) ||                                   \
+    (ICAL_MAJOR_VERSION == (major) && ICAL_MINOR_VERSION > (minor)) || \
+    (ICAL_MAJOR_VERSION == (major) && ICAL_MINOR_VERSION == (minor) && \
+    ICAL_MICRO_VERSION >= (micro)))
+#else
+#if defined(ICAL_CHECK_VERSION)
+#undef ICAL_CHECK_VERSION
+#endif
+#define ICAL_CHECK_VERSION(major,minor,micro) (0)
+#endif
+
 #define E_CAL_BASE_SHELL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_BASE_SHELL_BACKEND, ECalBaseShellBackendPrivate))
@@ -232,11 +252,14 @@ e_cal_base_shell_backend_class_init (ECalBaseShellBackendClass *class)
 static void
 e_cal_base_shell_backend_init (ECalBaseShellBackend *cal_base_shell_backend)
 {
+#if !ICAL_CHECK_VERSION(3, 0, 2)
 	icalarray *builtin_timezones;
 	gint ii;
+#endif
 
 	cal_base_shell_backend->priv = E_CAL_BASE_SHELL_BACKEND_GET_PRIVATE (cal_base_shell_backend);
 
+#if !ICAL_CHECK_VERSION(3, 0, 2)
 	/* XXX Pre-load all built-in timezones in libical.
 	 *
 	 *     Built-in time zones in libical 0.43 are loaded on demand,
@@ -247,6 +270,11 @@ e_cal_base_shell_backend_init (ECalBaseShellBackend *cal_base_shell_backend)
 	 *     loading all built-in time zones now, so libical's internal
 	 *     time zone array will be fully populated before any threads
 	 *     are spawned.
+	 *
+	 *     This is apparently fixed with additional locking in
+	 *     libical 3.0.1 and 3.0.2:
+	 *     https://github.com/libical/libical/releases/tag/v3.0.1
+	 *     https://github.com/libical/libical/releases/tag/v3.0.2
 	 */
 	builtin_timezones = icaltimezone_get_builtin_timezones ();
 	for (ii = 0; ii < builtin_timezones->num_elements; ii++) {
@@ -259,6 +287,7 @@ e_cal_base_shell_backend_init (ECalBaseShellBackend *cal_base_shell_backend)
 		 * icaltimezone_load_builtin_timezone(). */
 		icaltimezone_get_component (zone);
 	}
+#endif
 }
 
 void
