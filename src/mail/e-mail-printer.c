@@ -51,6 +51,7 @@ struct _EMailPrinterPrivate {
 struct _AsyncContext {
 	WebKitWebView *web_view;
 	gulong load_status_handler_id;
+	GError *error;
 
 	GtkPrintOperationResult print_result;
 };
@@ -83,6 +84,7 @@ async_context_free (AsyncContext *async_context)
 			async_context->load_status_handler_id);
 
 	g_clear_object (&async_context->web_view);
+	g_clear_error (&async_context->error);
 
 	g_slice_free (AsyncContext, async_context);
 }
@@ -170,15 +172,22 @@ mail_printer_print_finished_cb (WebKitPrintOperation *print_operation,
 
 	async_context = g_task_get_task_data (task);
 	g_return_if_fail (async_context != NULL);
-	async_context->print_result = GTK_PRINT_OPERATION_RESULT_APPLY;
 
-	g_task_return_boolean (task, TRUE);
+	if (async_context->print_result == GTK_PRINT_OPERATION_RESULT_IN_PROGRESS) {
+		async_context->print_result = GTK_PRINT_OPERATION_RESULT_APPLY;
+		g_task_return_boolean (task, TRUE);
+	} else if (async_context->error) {
+		g_task_return_error (task, g_error_copy (async_context->error));
+	} else {
+		g_task_return_boolean (task, FALSE);
+	}
+
 	g_object_unref (task);
 }
 
 static void
 mail_printer_print_failed_cb (WebKitPrintOperation *print_operation,
-                              GError *error,
+                              const GError *error,
                               GTask *task)
 {
 	AsyncContext *async_context;
@@ -189,15 +198,7 @@ mail_printer_print_failed_cb (WebKitPrintOperation *print_operation,
 	async_context = g_task_get_task_data (task);
 	g_return_if_fail (async_context != NULL);
 	async_context->print_result = GTK_PRINT_OPERATION_RESULT_ERROR;
-
-	if (error != NULL)
-		g_task_return_error (task, error);
-	else {
-		g_warning ("WebKit print operation returned ERROR result without setting a GError");
-		g_task_return_boolean (task, FALSE);
-	}
-
-	g_object_unref (task);
+	async_context->error = error ? g_error_copy (error) : NULL;
 }
 
 static gboolean
@@ -530,6 +531,8 @@ e_mail_printer_print (EMailPrinter *printer,
 	/* EMailFormatter can be NULL. */
 
 	async_context = g_slice_new0 (AsyncContext);
+	async_context->print_result = GTK_PRINT_OPERATION_RESULT_IN_PROGRESS;
+	async_context->error = NULL;
 
 	part_list = e_mail_printer_ref_part_list (printer);
 	folder = e_mail_part_list_get_folder (part_list);
