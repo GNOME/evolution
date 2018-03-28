@@ -31,7 +31,7 @@
 
 <p>If you just want to quickly add a task by entering a summary you can directly enter it in the list of tasks.</p>
 
-<p>You can also define a <link xref="calendar-timezones">time zone</link>, a <link xref="using-categories">category</link>, or a <link xref="calendar-classifications">classification</link> for the task, or add an attachment.</p>
+<p>You can also define a <link xref="calendar-timezones">time zone</link>, a <link xref="using-categories">category</link>, or a <link xref="calendar-classifications">classification</link> (via the drop-down menu) for the task, or add an attachment or set a <link xref="calendar-alarms-and-reminders">reminder</link> (via the corresponding tabs).</p>
 
 <section id="assigned-tasks">
 <title>Assigned Tasks</title>
