@@ -3088,6 +3088,16 @@ message_list_dispose (GObject *object)
 	if (message_list->priv->folder != NULL)
 		mail_regen_cancel (message_list);
 
+	g_mutex_lock (&message_list->priv->regen_lock);
+
+	/* This can happen when the regen_idle_id is removed before it's invoked */
+	if (message_list->priv->regen_data) {
+		regen_data_unref (message_list->priv->regen_data);
+		message_list->priv->regen_data = NULL;
+	}
+
+	g_mutex_unlock (&message_list->priv->regen_lock);
+
 	if (message_list->uid_nodemap) {
 		g_hash_table_foreach (
 			message_list->uid_nodemap,
