@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2018-03-26 18:48+0000\n"
-"PO-Revision-Date: 2018-03-27 09:50+0200\n"
+"POT-Creation-Date: 2018-03-28 13:01+0000\n"
+"PO-Revision-Date: 2018-03-28 23:11+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -314,8 +314,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
-msgid "Classifying appointments and tasks on remote servers."
-msgstr "Klassificera möten och uppgifter på fjärrservrar."
+msgid "Restricting visibility of appointments on remote servers."
+msgstr "Begränsa synlighet för möten på fjärrservrar."
 
 #. (itstool) path: page/title
 #: C/calendar-classifications.page:26
@@ -336,19 +336,19 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:32
 msgid ""
-"To set a classification for an appointment or a task, click "
-"<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
-"classification in the editor. <gui>Public</gui> is the default category, and "
-"a public appointment can be viewed by anyone on the calendar-sharing "
-"network. <gui>Private</gui> denotes one level of security, and "
-"<gui>Confidential</gui> an even higher level."
+"To set a classification for an appointment, click <guiseq><gui>Options</"
+"gui><gui>Classification</gui></guiseq> and select a classification in the "
+"editor. <gui>Public</gui> is the default category, and a public appointment "
+"can be viewed by anyone on the calendar-sharing network. <gui>Private</gui> "
+"denotes one level of security, and <gui>Confidential</gui> an even higher "
+"level."
 msgstr ""
-"För att ställa in en klassificering för ett möte eller en uppgift, klicka på "
+"För att ställa in en klassificering för ett möte, klicka på "
 "<guiseq><gui>Alternativ</gui><gui>Klassificering</gui></guiseq> och välj en "
 "klassificering i redigeraren. <gui>Publikt</gui> är standardkategorin, och "
 "ett publikt möte kan ses av vem som helst på det kalender-delande nätverket. "
-"<gui>Privat</gui> betecknar en nivå av säkerhet och <gui>Konfidentiellt</"
-"gui> en ännu högre nivå."
+"<gui>Privat</gui> betecknar en säkerhetsnivå, och <gui>Konfidentiellt</gui> "
+"en ännu högre nivå."
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:39
@@ -1182,7 +1182,6 @@ msgstr "Välj datum och tid."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:78
-#: C/calendar-usage-add-appointment.page:53
 msgid ""
 "If the event is not an all day event, select either <gui>For</gui> to "
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
@@ -1194,7 +1193,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:83
-#: C/calendar-usage-add-appointment.page:58
+#: C/calendar-usage-add-appointment.page:53
 msgid "(Optional) Enter a description in the <gui>Description</gui> field."
 msgstr "(Valfritt) Ange en beskrivning i fältet <gui>Beskrivning</gui>."
 
@@ -1225,7 +1224,7 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:99
-#: C/calendar-usage-add-appointment.page:67
+#: C/calendar-usage-add-appointment.page:62
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, a <link xref=\"calendar-"
@@ -1514,19 +1513,19 @@ msgstr "Ställa in en tidszon för ett möte"
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
-"appointment</link> and click the globe button to customize the time zone "
-"that the time exists in. For example, if you live in New York but have a "
-"telephone meeting set for noon with someone in California, you need to make "
-"sure that your schedules are coordinated. Setting time zones on a per-"
-"appointment basis helps avoid that potential confusion."
+"appointment</link>. Under <gui>Time zone</gui>, click <gui style=\"button"
+"\">Select…</gui> to customize the time zone. For example, if you live in New "
+"York but have a telephone meeting set with someone in California, you need "
+"to make sure that your schedules are coordinated. Setting time zones on a "
+"per-appointment basis helps avoid that potential confusion."
 msgstr ""
 "Du kan också konfigurera tidszonsinformation för varje specifikt möte. För "
 "att göra det <link xref=\"calendar-usage\">lägg till ett nytt eller redigera "
-"ett existerande möte</link> och klicka på jordglobsknappen för att anpassa "
-"tidszonen som tiden anges i. Om du till exempel bor i New York men har ett "
-"telefonmöte bokat vid lunchtid med någon i Kalifornien måste du säkerställa "
-"att era scheman är koordinerade. Att ställa in tidszoner för varje möte "
-"hjälper till att undvika den möjliga förvirringen."
+"ett existerande möte</link>. Under <gui>Tidszon</gui>, klicka på <gui style="
+"\"button\">Välj…</gui> för att anpassa tidszonen. Om du till exempel bor i "
+"New York men har ett telefonmöte bokat med någon i Kalifornien måste du "
+"säkerställa att era scheman är koordinerade. Att ställa in tidszoner för "
+"varje möte hjälper till att undvika den möjliga förvirringen."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-add-appointment.page:17
@@ -1560,7 +1559,7 @@ msgid "If you use the Appointment dialog:"
 msgstr "Om du använder Mötesdialogen:"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:61
+#: C/calendar-usage-add-appointment.page:56
 msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
 "click <guiseq><gui>Options</gui> <gui>Show Time as Busy</gui></guiseq>."
@@ -13294,12 +13293,15 @@ msgstr ""
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, or a <link xref=\"calendar-"
-"classifications\">classification</link> for the task, or add an attachment."
+"classifications\">classification</link> (via the drop-down menu) for the "
+"task, or add an attachment or set a <link xref=\"calendar-alarms-and-"
+"reminders\">reminder</link> (via the corresponding tabs)."
 msgstr ""
 "Du kan också definiera en <link xref=\"calendar-timezones\">tidszon</link>, "
 "en <link xref=\"using-categories\">kategori</link>, eller en <link xref="
-"\"calendar-classifications\">klassificering</link> för uppgifter, eller "
-"lägga till en bilaga."
+"\"calendar-classifications\">klassificering</link> (via rullgardinsmenyn) "
+"för uppgiften, eller lägga till en bilaga eller ställa in en <link xref="
+"\"calendar-alarms-and-reminders\">påminnelse</link> (via motsvarande flikar)."
 
 #. (itstool) path: section/title
 #: C/tasks-usage-add-task.page:37
