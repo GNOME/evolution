@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="calendar-layout" />
 
-    <revision pkgversion="3.13.90" version="0.5" date="2015-03-10" status="final"/>
+    <revision pkgversion="3.26.5" version="0.6" date="2018-03-28" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -47,6 +47,9 @@
       <p>Show appointment end times in week and month views:</p>
       <p>If there is space, <app>Evolution</app> shows the end times in the
       week and month views for each appointment.</p>
+    </item>
+    <item>
+      <p>Show appointment icons in the month view</p>
     </item>
     <item>
       <p>Compress weekends in month view:</p>
