@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="index#calendar-advanced" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2017-04-08" status="final"/>
+    <revision pkgversion="3.26.5" version="0.3" date="2018-03-28" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -20,7 +20,7 @@
 
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
-    <desc>Classifying appointments and tasks on remote servers.</desc>
+    <desc>Restricting visibility of appointments on remote servers.</desc>
   </info>
 
   <title>Using Classifications</title>
@@ -29,7 +29,7 @@
   or Microsoft Exchange), you can select a classification to determine who can
   view it.</p>
 
-  <p>To set a classification for an appointment or a task, click
+  <p>To set a classification for an appointment, click
   <guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a
   classification in the editor. <gui>Public</gui> is the default category, and
   a public appointment can be viewed by anyone on the calendar-sharing network.
