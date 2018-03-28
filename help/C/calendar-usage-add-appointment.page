@@ -50,11 +50,6 @@
       <p>Select the date and time.</p>
     </item>
     <item>
-      <p>If the event is not an all day event, select either <gui>For</gui> to
-      specify the duration, or select <gui>Until</gui> to specify the ending
-      time of the event.</p>
-    </item>
-    <item>
       <p>(Optional) Enter a description in the <gui>Description</gui> field.</p>
     </item>
     <item>
