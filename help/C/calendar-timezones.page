@@ -47,10 +47,10 @@
 
   <p>You can also configure time zone information specific to each appointment.
   To do that,
-  <link xref="calendar-usage">add a new or edit an existing appointment</link>
-  and click the globe button to customize the time zone that the time exists
-  in. For example, if you live in New York but have a telephone meeting set for
-  noon with someone in California, you need to make sure that your schedules
+  <link xref="calendar-usage">add a new or edit an existing appointment</link>.
+  Under <gui>Time zone</gui>, click <gui style="button">Select…</gui> to customize
+  the time zone. For example, if you live in New York but have a telephone meeting
+  set with someone in California, you need to make sure that your schedules
   are coordinated. Setting time zones on a per-appointment basis helps avoid
   that potential confusion.</p>
 
