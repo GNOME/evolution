@@ -433,6 +433,8 @@ mail_paned_view_dispose (GObject *object)
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (object);
 
+	e_mail_reader_dispose (E_MAIL_READER (object));
+
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
 		priv->paned = NULL;
@@ -457,6 +459,8 @@ mail_paned_view_dispose (GObject *object)
 		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
 	}
+
+	priv->display = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_paned_view_parent_class)->dispose (object);

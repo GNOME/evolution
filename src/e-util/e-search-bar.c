@@ -360,6 +360,8 @@ search_bar_dispose (GObject *object)
 	priv = E_SEARCH_BAR_GET_PRIVATE (object);
 
 	if (priv->web_view != NULL) {
+		g_signal_handlers_disconnect_by_data (priv->web_view, object);
+
 		g_object_unref (priv->web_view);
 		priv->web_view = NULL;
 	}

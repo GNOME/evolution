@@ -46,6 +46,8 @@ settings_mail_reader_idle_cb (EExtension *extension)
 	EShell *shell;
 
 	extensible = e_extension_get_extensible (extension);
+	if (!extensible)
+		return FALSE;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
