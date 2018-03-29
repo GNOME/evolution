@@ -581,6 +581,8 @@ mail_browser_dispose (GObject *object)
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
 
+	e_mail_reader_dispose (E_MAIL_READER (object));
+
 	if (priv->close_on_reply_response_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->close_on_reply_alert,
@@ -846,6 +848,9 @@ mail_browser_get_mail_display (EMailReader *reader)
 	EWebView *web_view;
 
 	preview_pane = e_mail_reader_get_preview_pane (reader);
+	if (!preview_pane)
+		return NULL;
+
 	web_view = e_preview_pane_get_web_view (preview_pane);
 
 	return E_MAIL_DISPLAY (web_view);
@@ -870,6 +875,9 @@ mail_browser_get_popup_menu (EMailReader *reader)
 
 	browser = E_MAIL_BROWSER (reader);
 	ui_manager = e_mail_browser_get_ui_manager (browser);
+	if (!ui_manager)
+		return NULL;
+
 	widget = gtk_ui_manager_get_widget (ui_manager, "/mail-preview-popup");
 
 	return GTK_MENU (widget);
@@ -881,6 +889,9 @@ mail_browser_get_preview_pane (EMailReader *reader)
 	EMailBrowserPrivate *priv;
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+
+	if (!priv->preview_pane)
+		return NULL;
 
 	return E_PREVIEW_PANE (priv->preview_pane);
 }

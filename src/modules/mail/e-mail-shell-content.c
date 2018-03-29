@@ -244,6 +244,10 @@ mail_shell_content_dispose (GObject *object)
 		priv->mail_view = NULL;
 	}
 
+	/* Intentionally after freeing the mail_view, because
+	   the widgets it contains/references can be freed already */
+	e_mail_reader_dispose (E_MAIL_READER (object));
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_shell_content_parent_class)->dispose (object);
 }
@@ -362,6 +366,9 @@ mail_shell_content_check_state (EShellContent *shell_content)
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
 
+	if (!mail_shell_content->priv->mail_view)
+		return 0;
+
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
 	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
@@ -378,6 +385,9 @@ mail_shell_content_focus_search_results (EShellContent *shell_content)
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
 
+	if (!mail_shell_content->priv->mail_view)
+		return;
+
 	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -393,6 +403,9 @@ mail_shell_content_open_selected_mail (EMailReader *reader)
 	EMailShellContent *mail_shell_content;
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	if (!mail_shell_content->priv->mail_view)
+		return 0;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -435,6 +448,9 @@ mail_shell_content_get_backend (EMailReader *reader)
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
 
+	if (!mail_shell_content->priv->mail_view)
+		return NULL;
+
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
 	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
@@ -449,9 +465,13 @@ mail_shell_content_get_mail_display (EMailReader *reader)
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
 
+	if (!mail_shell_content->priv->mail_view)
+		return NULL;
+
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
 	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
+
 	return e_mail_reader_get_mail_display (reader);
 }
 
@@ -461,6 +481,9 @@ mail_shell_content_get_hide_deleted (EMailReader *reader)
 	EMailShellContent *mail_shell_content;
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	if (!mail_shell_content->priv->mail_view)
+		return FALSE;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -476,6 +499,9 @@ mail_shell_content_get_message_list (EMailReader *reader)
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
 
+	if (!mail_shell_content->priv->mail_view)
+		return NULL;
+
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
 	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
@@ -489,6 +515,9 @@ mail_shell_content_get_popup_menu (EMailReader *reader)
 	EMailShellContent *mail_shell_content;
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	if (!mail_shell_content->priv->mail_view)
+		return NULL;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -504,6 +533,9 @@ mail_shell_content_get_preview_pane (EMailReader *reader)
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
 
+	if (!mail_shell_content->priv->mail_view)
+		return NULL;
+
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
 	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
@@ -517,6 +549,9 @@ mail_shell_content_get_window (EMailReader *reader)
 	EMailShellContent *mail_shell_content;
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	if (!mail_shell_content->priv->mail_view)
+		return NULL;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -532,6 +567,9 @@ mail_shell_content_set_folder (EMailReader *reader,
 	EMailShellContent *mail_shell_content;
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	if (!mail_shell_content->priv->mail_view)
+		return;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */

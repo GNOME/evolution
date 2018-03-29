@@ -142,6 +142,7 @@ GType		e_mail_reader_get_type		(void);
 void		e_mail_reader_init		(EMailReader *reader,
 						 gboolean init_actions,
 						 gboolean connect_signals);
+void		e_mail_reader_dispose		(EMailReader *reader);
 void		e_mail_reader_changed		(EMailReader *reader);
 guint32		e_mail_reader_check_state	(EMailReader *reader);
 EActivity *	e_mail_reader_new_activity	(EMailReader *reader);

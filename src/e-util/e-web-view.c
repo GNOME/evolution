@@ -1982,6 +1982,7 @@ web_view_can_execute_editing_command_cb (WebKitWebView *webkit_web_view,
 		webkit_web_view, result, NULL);
 
 	gtk_action_set_sensitive (action, can_do_command);
+	g_object_unref (action);
 }
 
 static void
@@ -2008,7 +2009,7 @@ web_view_selectable_update_actions (ESelectable *selectable,
 		WEBKIT_EDITING_COMMAND_CUT,
 		NULL, /* cancellable */
 		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
-		action);
+		g_object_ref (action));
 	gtk_action_set_tooltip (action, _("Cut the selection"));
 
 	action = e_focus_tracker_get_paste_clipboard_action (focus_tracker);
@@ -2017,7 +2018,7 @@ web_view_selectable_update_actions (ESelectable *selectable,
 		WEBKIT_EDITING_COMMAND_PASTE,
 		NULL, /* cancellable */
 		(GAsyncReadyCallback) web_view_can_execute_editing_command_cb,
-		action);
+		g_object_ref (action));
 	gtk_action_set_tooltip (action, _("Paste the clipboard"));
 
 	action = e_focus_tracker_get_select_all_action (focus_tracker);

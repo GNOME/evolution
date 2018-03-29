@@ -99,6 +99,8 @@ struct _EMailReaderPrivate {
 	gpointer remote_content_alert; /* EAlert */
 
 	gpointer followup_alert; /* weak pointer to an EAlert */
+
+	GSList *ongoing_operations; /* GCancellable * */
 };
 
 enum {
@@ -150,7 +152,7 @@ mail_reader_private_free (EMailReaderPrivate *priv)
 	if (priv->retrieving_message != NULL) {
 		g_cancellable_cancel (priv->retrieving_message);
 		g_object_unref (priv->retrieving_message);
-		priv->retrieving_message = 0;
+		priv->retrieving_message = NULL;
 	}
 
 	g_slice_free (EMailReaderPrivate, priv);
@@ -1839,15 +1841,17 @@ mail_source_retrieved (GObject *source_object,
 			closure->message_uid, message,
 			CAMEL_FOLDER (source_object));
 		g_object_unref (message);
-	} else {
-		gchar *status;
+	} else if (error) {
+		if (display) {
+			gchar *status;
 
-		status = g_strdup_printf (
-			"%s<br>%s",
-			_("Failed to retrieve message:"),
-			error->message);
-		e_mail_display_set_status (display, status);
-		g_free (status);
+			status = g_strdup_printf (
+				"%s<br>%s",
+				_("Failed to retrieve message:"),
+				error->message);
+			e_mail_display_set_status (display, status);
+			g_free (status);
+		}
 
 		g_error_free (error);
 	}
@@ -1894,7 +1898,7 @@ action_mail_show_source_cb (GtkAction *action,
 	e_mail_display_set_status (display, string);
 	gtk_widget_show (browser);
 
-	activity = e_mail_reader_new_activity (reader);
+	activity = e_mail_reader_new_activity (E_MAIL_READER (browser));
 	e_activity_set_text (activity, string);
 	cancellable = e_activity_get_cancellable (activity);
 	g_free (string);
@@ -3547,7 +3551,6 @@ set_mail_display_part_list (GObject *object,
 	GError *local_error = NULL;
 
 	reader = E_MAIL_READER (object);
-	display = e_mail_reader_get_mail_display (reader);
 
 	part_list = e_mail_reader_parse_message_finish (reader, result, &local_error);
 
@@ -3557,6 +3560,8 @@ set_mail_display_part_list (GObject *object,
 		g_clear_error (&local_error);
 		return;
 	}
+
+	display = e_mail_reader_get_mail_display (reader);
 
 	e_mail_display_set_part_list (display, part_list);
 	e_mail_display_load (display, NULL);
@@ -3585,6 +3590,9 @@ mail_reader_set_display_formatter_for_message (EMailReader *reader,
 	g_free (mail_uri);
 
 	if (parts == NULL) {
+		if (!priv->retrieving_message)
+			priv->retrieving_message = camel_operation_new ();
+
 		e_mail_reader_parse_message (
 			reader, folder, message_uid, message,
 			priv->retrieving_message,
@@ -4565,6 +4573,63 @@ connect_signals:
 		G_CALLBACK (e_mail_reader_changed), reader);
 }
 
+static void
+mail_reader_ongoing_operation_destroyed (gpointer user_data,
+					 GObject *cancellable)
+{
+	EMailReader *reader = user_data;
+	EMailReaderPrivate *priv;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	priv->ongoing_operations = g_slist_remove (priv->ongoing_operations, cancellable);
+}
+
+void
+e_mail_reader_dispose (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+	EMailDisplay *mail_display;
+	GtkWidget *message_list;
+	GSList *ongoing_operations, *link;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	if (priv->message_selected_timeout_id > 0) {
+		g_source_remove (priv->message_selected_timeout_id);
+		priv->message_selected_timeout_id = 0;
+	}
+
+	if (priv->retrieving_message)
+		g_cancellable_cancel (priv->retrieving_message);
+
+	ongoing_operations = g_slist_copy_deep (priv->ongoing_operations, (GCopyFunc) g_object_ref, NULL);
+	g_slist_free (priv->ongoing_operations);
+	priv->ongoing_operations = NULL;
+
+	for (link = ongoing_operations; link; link = g_slist_next (link)) {
+		GCancellable *cancellable = link->data;
+
+		g_object_weak_unref (G_OBJECT (cancellable), mail_reader_ongoing_operation_destroyed, reader);
+
+		g_cancellable_cancel (cancellable);
+	}
+
+	g_slist_free_full (ongoing_operations, g_object_unref);
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	if (mail_display)
+		g_signal_handlers_disconnect_by_data (mail_display, reader);
+
+	message_list = e_mail_reader_get_message_list (reader);
+	if (message_list)
+		g_signal_handlers_disconnect_by_data (message_list, reader);
+}
+
 void
 e_mail_reader_changed (EMailReader *reader)
 {
@@ -4793,6 +4858,7 @@ e_mail_reader_check_state (EMailReader *reader)
 EActivity *
 e_mail_reader_new_activity (EMailReader *reader)
 {
+	EMailReaderPrivate *priv;
 	EActivity *activity;
 	EMailBackend *backend;
 	EAlertSink *alert_sink;
@@ -4800,12 +4866,18 @@ e_mail_reader_new_activity (EMailReader *reader)
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
 	activity = e_activity_new ();
 
 	alert_sink = e_mail_reader_get_alert_sink (reader);
 	e_activity_set_alert_sink (activity, alert_sink);
 
 	cancellable = camel_operation_new ();
+
+	priv->ongoing_operations = g_slist_prepend (priv->ongoing_operations, cancellable);
+	g_object_weak_ref (G_OBJECT (cancellable), mail_reader_ongoing_operation_destroyed, reader);
+
 	e_activity_set_cancellable (activity, cancellable);
 	g_object_unref (cancellable);
 
