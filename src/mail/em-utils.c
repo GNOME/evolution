@@ -1239,6 +1239,7 @@ em_utils_message_to_html (CamelSession *session,
 	gsize n_bytes_written = 0;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
+	gboolean found_text_part = FALSE;
 	gchar *data;
 
 	shell = e_shell_get_default ();
@@ -1283,13 +1284,20 @@ em_utils_message_to_html (CamelSession *session,
 
 		/* prefer-plain can hide HTML parts, even when it's the only
 		 * text part in the email, thus show it (and hide again later) */
-		if (part->is_hidden && !hidden_text_html_part &&
+		if (!found_text_part && !hidden_text_html_part &&
 		    mime_type != NULL &&
-		    !e_mail_part_get_is_attachment (part) &&
-		    g_ascii_strcasecmp (mime_type, "text/html") == 0 &&
-		    is_only_text_part_in_this_level (head, part)) {
-			part->is_hidden = FALSE;
-			hidden_text_html_part = part;
+		    !e_mail_part_get_is_attachment (part)) {
+			if (!part->is_hidden &&
+			    g_ascii_strcasecmp (mime_type, "text/plain") == 0) {
+				found_text_part = TRUE;
+			} else if (g_ascii_strcasecmp (mime_type, "text/html") == 0) {
+				if (!part->is_hidden) {
+					found_text_part = TRUE;
+				} else if (is_only_text_part_in_this_level (head, part)) {
+					part->is_hidden = FALSE;
+					hidden_text_html_part = part;
+				}
+			}
 		}
 
 		is_validity_found |= e_mail_part_get_validity_flags (part);
