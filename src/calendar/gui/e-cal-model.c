@@ -369,13 +369,10 @@ get_dtstart (ECalModel *model,
 			got_zone = TRUE;
 
 		if (e_cal_data_model_get_expand_recurrences (priv->data_model)) {
-			if (got_zone) {
+			if (got_zone)
 				tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, zone);
-				if (priv->zone)
-					icaltimezone_convert_time (&tt_start, zone, priv->zone);
-			} else
-				if (priv->zone)
-					tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, priv->zone);
+			else if (priv->zone)
+				tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, priv->zone);
 		}
 
 		if (!icaltime_is_valid_time (tt_start) || icaltime_is_null_time (tt_start))

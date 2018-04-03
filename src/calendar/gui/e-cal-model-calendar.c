@@ -70,8 +70,6 @@ get_dtend (ECalModelCalendar *model,
 
 		if (got_zone) {
 			tt_end = icaltime_from_timet_with_zone (comp_data->instance_end, tt_end.is_date, zone);
-			if (model_zone)
-				icaltimezone_convert_time (&tt_end, zone, model_zone);
 		} else {
 			tt_end = icaltime_from_timet_with_zone (
 				comp_data->instance_end,
@@ -94,8 +92,6 @@ get_dtend (ECalModelCalendar *model,
 
 			if (got_start_zone) {
 				tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, start_zone);
-				if (model_zone)
-					icaltimezone_convert_time (&tt_start, start_zone, model_zone);
 			} else {
 				tt_start = icaltime_from_timet_with_zone (
 					comp_data->instance_start,
