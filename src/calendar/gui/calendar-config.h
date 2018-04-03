@@ -28,7 +28,7 @@
 #define _CALENDAR_CONFIG_H_
 
 #include <gio/gio.h>
-#include <gdk/gdk.h>
+#include <gtk/gtk.h>
 #include <libecal/libecal.h>
 
 #include <e-util/e-util.h>
@@ -65,7 +65,7 @@ GSList *calendar_config_get_day_second_zones (void);
 void    calendar_config_free_day_second_zones (GSList *zones);
 void    calendar_config_set_day_second_zone (const gchar *location);
 gchar *  calendar_config_get_day_second_zone (void);
-void    calendar_config_select_day_second_zone (void);
+void    calendar_config_select_day_second_zone (GtkWidget *parent);
 
 void   calendar_config_add_notification_day_second_zone (CalendarConfigChangedFunc func, gpointer data);
 

@@ -389,7 +389,7 @@ calendar_config_get_day_second_zone (void)
 }
 
 void
-calendar_config_select_day_second_zone (void)
+calendar_config_select_day_second_zone (GtkWidget *parent)
 {
 	icaltimezone *zone = NULL;
 	ETimezoneDialog *tzdlg;
@@ -408,6 +408,9 @@ calendar_config_select_day_second_zone (void)
 	e_timezone_dialog_set_timezone (tzdlg, zone);
 
 	dialog = e_timezone_dialog_get_toplevel (tzdlg);
+
+	if (GTK_IS_WINDOW (parent))
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (parent));
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		const gchar *location = NULL;

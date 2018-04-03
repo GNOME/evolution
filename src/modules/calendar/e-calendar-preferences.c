@@ -341,7 +341,7 @@ on_select_day_second_zone (GtkWidget *item,
 {
 	g_return_if_fail (prefs != NULL);
 
-	calendar_config_select_day_second_zone ();
+	calendar_config_select_day_second_zone (gtk_widget_get_toplevel (item));
 	update_day_second_zone_caption (prefs);
 }
 

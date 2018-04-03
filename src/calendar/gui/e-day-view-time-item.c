@@ -752,7 +752,7 @@ static void
 edvti_on_select_zone (GtkWidget *item,
                       EDayViewTimeItem *time_item)
 {
-	calendar_config_select_day_second_zone ();
+	calendar_config_select_day_second_zone (gtk_widget_get_toplevel (item));
 }
 
 static void

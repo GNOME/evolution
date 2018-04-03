@@ -158,6 +158,7 @@ static void
 timezone_entry_button_clicked_cb (ETimezoneEntry *timezone_entry)
 {
 	ETimezoneDialog *timezone_dialog;
+	GtkWidget *toplevel;
 	GtkWidget *dialog;
 	icaltimezone *timezone;
 
@@ -167,6 +168,10 @@ timezone_entry_button_clicked_cb (ETimezoneEntry *timezone_entry)
 	e_timezone_dialog_set_timezone (timezone_dialog, timezone);
 
 	dialog = e_timezone_dialog_get_toplevel (timezone_dialog);
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (timezone_entry));
+	if (GTK_IS_WINDOW (toplevel))
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (toplevel));
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_ACCEPT)
 		goto exit;
