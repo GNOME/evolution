@@ -552,8 +552,12 @@ e_comp_editor_property_part_string_attach_focus_tracker (ECompEditorPropertyPart
 	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (E_COMP_EDITOR_PROPERTY_PART (part_string));
-	if (edit_widget)
-		e_widget_undo_attach (edit_widget, focus_tracker);
+	if (edit_widget) {
+		if (GTK_IS_SCROLLED_WINDOW (edit_widget))
+			e_widget_undo_attach (gtk_bin_get_child (GTK_BIN (edit_widget)), focus_tracker);
+		else
+			e_widget_undo_attach (edit_widget, focus_tracker);
+	}
 }
 
 void
