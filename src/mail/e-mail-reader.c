@@ -560,7 +560,8 @@ action_mail_delete_cb (GtkAction *action,
 	/* FIXME Verify all selected messages are deletable.
 	 *       But handle it by disabling this action. */
 
-	if (e_mail_reader_mark_selected (reader, mask, set) != 0) {
+	if (e_mail_reader_mark_selected (reader, mask, set) != 0 &&
+	    !e_mail_reader_close_on_delete_or_junk (reader)) {
 		if (e_mail_reader_get_delete_selects_previous (reader))
 			e_mail_reader_select_previous_message (reader, FALSE);
 		else
@@ -839,7 +840,8 @@ action_mail_mark_junk_cb (GtkAction *action,
 		CAMEL_MESSAGE_JUNK |
 		CAMEL_MESSAGE_JUNK_LEARN;
 
-	if (e_mail_reader_mark_selected (reader, mask, set) != 0) {
+	if (e_mail_reader_mark_selected (reader, mask, set) != 0 &&
+	    !e_mail_reader_close_on_delete_or_junk (reader)) {
 		if (e_mail_reader_get_delete_selects_previous (reader))
 			e_mail_reader_select_previous_message (reader, TRUE);
 		else
@@ -4221,6 +4223,12 @@ mail_reader_update_actions (EMailReader *reader,
 	gtk_action_set_sensitive (action, sensitive);
 }
 
+static gboolean
+mail_reader_close_on_delete_or_junk (EMailReader *reader)
+{
+	return FALSE;
+}
+
 static void
 mail_reader_init_charset_actions (EMailReader *reader,
                                   GtkActionGroup *action_group)
@@ -4265,6 +4273,7 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 	iface->message_seen = mail_reader_message_seen;
 	iface->show_search_bar = mail_reader_show_search_bar;
 	iface->update_actions = mail_reader_update_actions;
+	iface->close_on_delete_or_junk = mail_reader_close_on_delete_or_junk;
 
 	g_object_interface_install_property (
 		iface,
@@ -5177,6 +5186,19 @@ e_mail_reader_get_window (EMailReader *reader)
 	g_return_val_if_fail (iface->get_window != NULL, NULL);
 
 	return iface->get_window (reader);
+}
+
+gboolean
+e_mail_reader_close_on_delete_or_junk (EMailReader *reader)
+{
+	EMailReaderInterface *iface;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
+
+	iface = E_MAIL_READER_GET_INTERFACE (reader);
+
+	return iface->close_on_delete_or_junk != NULL &&
+	       iface->close_on_delete_or_junk (reader);
 }
 
 CamelFolder *

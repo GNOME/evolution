@@ -774,6 +774,10 @@
       <default>true</default>
       <_summary>Whether set “body” in mailto: URI as Preformatted paragraph style. If set to “false”, then Normal paragraph style will be used.</_summary>
     </key>
+    <key name="browser-close-on-delete-or-junk" type="b">
+      <default>false</default>
+      <_summary>Close the message browser window when the selected message is deleted or marked as Junk.</_summary>
+    </key>
     <!-- The following keys are deprecated. -->
 
     <key name="forward-style" type="i">

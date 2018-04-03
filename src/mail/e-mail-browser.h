@@ -82,6 +82,11 @@ gboolean	e_mail_browser_get_show_junk	(EMailBrowser *browser);
 void		e_mail_browser_set_show_junk	(EMailBrowser *browser,
 						 gboolean show_junk);
 GtkUIManager *	e_mail_browser_get_ui_manager	(EMailBrowser *browser);
+gboolean	e_mail_browser_get_close_on_delete_or_junk
+						(EMailBrowser *browser);
+void		e_mail_browser_set_close_on_delete_or_junk
+						(EMailBrowser *browser,
+						 gboolean close_on_delete_or_junk);
 
 G_END_DECLS
 

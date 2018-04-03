@@ -133,9 +133,11 @@ struct _EMailReaderInterface {
 	void		(*show_search_bar)	(EMailReader *reader);
 	void		(*update_actions)	(EMailReader *reader,
 						 guint32 state);
+	gboolean	(*close_on_delete_or_junk)
+						(EMailReader *reader);
 
 	/* Padding for future expansion */
-	gpointer reserved[4];
+	gpointer reserved[3];
 };
 
 GType		e_mail_reader_get_type		(void);
@@ -166,6 +168,8 @@ GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);
 GPtrArray *	e_mail_reader_get_selected_uids_with_collapsed_threads
 						(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
+gboolean	e_mail_reader_close_on_delete_or_junk
+						(EMailReader *reader);
 CamelFolder *	e_mail_reader_ref_folder	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
 						 CamelFolder *folder);

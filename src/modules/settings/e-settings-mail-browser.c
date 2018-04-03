@@ -59,6 +59,11 @@ settings_mail_browser_constructed (GObject *object)
 		extensible, "show-junk",
 		G_SETTINGS_BIND_GET);
 
+	g_settings_bind (
+		settings, "browser-close-on-delete-or-junk",
+		extensible, "close-on-delete-or-junk",
+		G_SETTINGS_BIND_GET);
+
 	g_object_unref (settings);
 }
 

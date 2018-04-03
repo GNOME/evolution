@@ -61,6 +61,7 @@ struct _EMailBrowserPrivate {
 
 	guint show_deleted : 1;
 	guint show_junk : 1;
+	guint close_on_delete_or_junk : 1;
 };
 
 enum {
@@ -76,7 +77,8 @@ enum {
 	PROP_SHOW_DELETED,
 	PROP_SHOW_JUNK,
 	PROP_UI_MANAGER,
-	PROP_DELETE_SELECTS_PREVIOUS
+	PROP_DELETE_SELECTS_PREVIOUS,
+	PROP_CLOSE_ON_DELETE_OR_JUNK
 };
 
 /* This is too trivial to put in a file.
@@ -474,6 +476,12 @@ mail_browser_set_property (GObject *object,
 				E_MAIL_READER (object),
 				g_value_get_boolean (value));
 			return;
+
+		case PROP_CLOSE_ON_DELETE_OR_JUNK:
+			e_mail_browser_set_close_on_delete_or_junk (
+				E_MAIL_BROWSER (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -568,6 +576,13 @@ mail_browser_get_property (GObject *object,
 				value,
 				e_mail_reader_get_delete_selects_previous (
 				E_MAIL_READER (object)));
+			return;
+
+		case PROP_CLOSE_ON_DELETE_OR_JUNK:
+			g_value_set_boolean (
+				value,
+				e_mail_browser_get_close_on_delete_or_junk (
+				E_MAIL_BROWSER (object)));
 			return;
 	}
 
@@ -968,6 +983,21 @@ mail_browser_composer_created (EMailReader *reader,
 	}
 }
 
+static gboolean
+mail_browser_close_on_delete_or_junk (EMailReader *reader)
+{
+	g_return_val_if_fail (E_IS_MAIL_BROWSER (reader), FALSE);
+
+	if (!e_mail_browser_get_close_on_delete_or_junk (E_MAIL_BROWSER (reader)))
+		return FALSE;
+
+	g_idle_add_full (
+		G_PRIORITY_HIGH_IDLE,
+		close_on_idle_cb, reader, NULL);
+
+	return TRUE;
+}
+
 static void
 e_mail_browser_class_init (EMailBrowserClass *class)
 {
@@ -1098,6 +1128,18 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 			GTK_TYPE_UI_MANAGER,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CLOSE_ON_DELETE_OR_JUNK,
+		g_param_spec_boolean (
+			"close-on-delete-or-junk",
+			"Close On Delete Or Junk",
+			"Close on message delete or when marked as Junk",
+			FALSE,
+			G_PARAM_CONSTRUCT |
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -1113,6 +1155,7 @@ e_mail_browser_reader_init (EMailReaderInterface *iface)
 	iface->get_window = mail_browser_get_window;
 	iface->set_message = mail_browser_set_message;
 	iface->composer_created = mail_browser_composer_created;
+	iface->close_on_delete_or_junk = mail_browser_close_on_delete_or_junk;
 }
 
 static void
@@ -1273,4 +1316,26 @@ e_mail_browser_get_ui_manager (EMailBrowser *browser)
 	g_return_val_if_fail (E_IS_MAIL_BROWSER (browser), NULL);
 
 	return browser->priv->ui_manager;
+}
+
+gboolean
+e_mail_browser_get_close_on_delete_or_junk (EMailBrowser *browser)
+{
+	g_return_val_if_fail (E_IS_MAIL_BROWSER (browser), FALSE);
+
+	return browser->priv->close_on_delete_or_junk;
+}
+
+void
+e_mail_browser_set_close_on_delete_or_junk (EMailBrowser *browser,
+					    gboolean close_on_delete_or_junk)
+{
+	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
+
+	if ((browser->priv->close_on_delete_or_junk ? 1 : 0) == (close_on_delete_or_junk ? 1 : 0))
+		return;
+
+	browser->priv->close_on_delete_or_junk = close_on_delete_or_junk;
+
+	g_object_notify (G_OBJECT (browser), "close-on-delete-or-junk");
 }
