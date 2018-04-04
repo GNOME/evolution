@@ -844,6 +844,45 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 }
 
 static void
+mail_backend_folder_unread_updated_cb (MailFolderCache *folder_cache,
+                                       CamelStore *store,
+                                       const gchar *folder_name,
+                                       gint unread_messages,
+                                       EMailBackend *mail_backend)
+{
+	EMEvent *event = em_event_peek ();
+	EMEventTargetFolderUnread *target;
+	gchar *folder_uri;
+	gint folder_type;
+	CamelFolderInfoFlags flags = 0;
+
+	folder_uri = e_mail_folder_uri_build (store, folder_name);
+
+	mail_folder_cache_get_folder_info_flags (
+		folder_cache, store, folder_name, &flags);
+
+	target = em_event_target_new_folder_unread (
+		event, store, folder_uri, unread_messages);
+
+	g_free (folder_uri);
+
+	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);
+	target->is_inbox = (folder_type == CAMEL_FOLDER_TYPE_INBOX);
+
+	/**
+	 * @Event: folder.unread-updated
+	 * @Title: Folder unread updated
+	 * @Target: EMEventTargetFolder
+	 *
+	 * folder.unread-updated is emitted whenever the number of unread messages
+	 * in a folder changes.
+	 */
+	e_event_emit (
+		(EEvent *) event, "folder.unread-updated",
+		(EEventTarget *) target);
+}
+
+static void
 mail_backend_job_started_cb (CamelSession *session,
                              GCancellable *cancellable,
                              EShellBackend *shell_backend)
@@ -1259,6 +1298,11 @@ mail_backend_constructed (GObject *object)
 	g_signal_connect (
 		folder_cache, "folder-changed",
 		G_CALLBACK (mail_backend_folder_changed_cb), shell_backend);
+
+	g_signal_connect (
+		folder_cache, "folder-unread-updated",
+		G_CALLBACK (mail_backend_folder_unread_updated_cb),
+		shell_backend);
 
 	mail_config_init (priv->session);
 

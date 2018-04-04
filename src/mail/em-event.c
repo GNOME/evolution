@@ -46,6 +46,12 @@ eme_target_free (EEvent *ep,
 		g_free (s->msg_sender);
 		g_free (s->msg_subject);
 		break; }
+	case EM_EVENT_TARGET_FOLDER_UNREAD: {
+		EMEventTargetFolderUnread *s = (EMEventTargetFolderUnread *) t;
+		if (s->store != NULL)
+			g_object_unref (s->store);
+		g_free (s->folder_name);
+		break; }
 	case EM_EVENT_TARGET_MESSAGE: {
 		EMEventTargetMessage *s = (EMEventTargetMessage *) t;
 
@@ -129,6 +135,27 @@ em_event_target_new_folder (EMEvent *eme,
 	t->msg_uid = g_strdup (msg_uid);
 	t->msg_sender = g_strdup (msg_sender);
 	t->msg_subject = g_strdup (msg_subject);
+
+	return t;
+}
+
+EMEventTargetFolderUnread *
+em_event_target_new_folder_unread (EMEvent *eme,
+                                   CamelStore *store,
+                                   const gchar *folder_name,
+                                   guint unread)
+{
+	EMEventTargetFolderUnread *t;
+
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+	g_return_val_if_fail (folder_name != NULL, NULL);
+
+	t = e_event_target_new (
+		&eme->popup, EM_EVENT_TARGET_FOLDER_UNREAD, sizeof (*t));
+
+	t->store = g_object_ref (store);
+	t->folder_name = g_strdup (folder_name);
+	t->unread = unread;
 
 	return t;
 }
