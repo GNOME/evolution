@@ -799,7 +799,7 @@ get_config_widget_sound (void)
 /* -------------------------------------------------------------------  */
 
 static void
-e_mail_notif_open_gnome_notificaiton_settings_cb (GtkWidget *button,
+e_mail_notif_open_gnome_notification_settings_cb (GtkWidget *button,
 						  gpointer user_data)
 {
 #ifndef G_OS_WIN32
@@ -845,7 +845,7 @@ get_cfg_widget (void)
 
 	if (e_util_is_running_gnome ()) {
 		widget = gtk_button_new_with_mnemonic ("Open _GNOME Notification settings");
-		g_signal_connect (widget, "clicked", G_CALLBACK (e_mail_notif_open_gnome_notificaiton_settings_cb), NULL);
+		g_signal_connect (widget, "clicked", G_CALLBACK (e_mail_notif_open_gnome_notification_settings_cb), NULL);
 		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 		gtk_widget_show (widget);
 	} else {
