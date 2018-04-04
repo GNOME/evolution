@@ -383,48 +383,58 @@ new_notify_status (EMEventTargetFolder *t)
 	const gchar *summary;
 	const gchar *icon_name;
 
-	if (!status_count) {
-		status_count = t->new;
+	status_count += t->new;
 
-		text = g_strdup_printf (ngettext (
-			/* Translators: '%d' is the count of mails received. */
-			"You have received %d new message.",
-			"You have received %d new messages.",
-			status_count), status_count);
+	text = g_strdup_printf (ngettext (
+		/* Translators: '%d' is the count of mails received. */
+		"You have received %d new message.",
+		"You have received %d new messages.",
+		status_count), status_count);
 
-		if (t->msg_sender) {
-			gchar *tmp, *str;
+	if (t->msg_sender) {
+		gchar *tmp, *str;
 
-			/* Translators: "From:" is preceding a new mail
-			 * sender address, like "From: user@example.com" */
-			str = g_strdup_printf (_("From: %s"), t->msg_sender);
-			tmp = g_strconcat (text, "\n", str, NULL);
+		/* Translators: "From:" is preceding a new mail
+		 * sender address, like "From: user@example.com" */
+		str = g_strdup_printf (_("From: %s"), t->msg_sender);
+		tmp = g_strconcat (text, "\n", str, NULL);
 
-			g_free (text);
-			g_free (str);
+		g_free (text);
+		g_free (str);
 
-			text = tmp;
-		}
+		text = tmp;
+	}
 
-		if (t->msg_subject) {
-			gchar *tmp, *str;
+	if (t->msg_subject) {
+		gchar *tmp, *str;
 
-			/* Translators: "Subject:" is preceding a new mail
-			 * subject, like "Subject: It happened again" */
-			str = g_strdup_printf (_("Subject: %s"), t->msg_subject);
-			tmp = g_strconcat (text, "\n", str, NULL);
+		/* Translators: "Subject:" is preceding a new mail
+		 * subject, like "Subject: It happened again" */
+		str = g_strdup_printf (_("Subject: %s"), t->msg_subject);
+		tmp = g_strconcat (text, "\n", str, NULL);
 
-			g_free (text);
-			g_free (str);
+		g_free (text);
+		g_free (str);
 
-			text = tmp;
-		}
-	} else {
-		status_count += t->new;
-		text = g_strdup_printf (ngettext (
-			"You have received %d new message.",
-			"You have received %d new messages.",
-			status_count), status_count);
+		text = tmp;
+	}
+
+	if (status_count > 1 && (t->msg_sender || t->msg_subject)) {
+		gchar *tmp, *str;
+		guint additional_messages = status_count - 1;
+
+		str = g_strdup_printf (ngettext (
+			/* Translators: %d is the count of mails received in addition
+			 * to the one displayed in this notification. */
+			"(and %d more)",
+			"(and %d more)",
+			additional_messages), additional_messages);
+		tmp = g_strconcat (text, "\n", str, NULL);
+
+		g_free (text);
+		g_free (str);
+
+		text = tmp;
 	}
 
 	icon_name = "evolution";
