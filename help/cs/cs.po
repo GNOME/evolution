@@ -7,9 +7,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution documentation\n"
-"POT-Creation-Date: 2018-02-27 21:02+0000\n"
-"PO-Revision-Date: 2018-03-02 19:03+0100\n"
+"Project-Id-Version: evolution\n"
+"POT-Creation-Date: 2018-03-28 13:15+0000\n"
+"PO-Revision-Date: 2018-04-05 23:17+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -308,8 +308,8 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
-msgid "Classifying appointments and tasks on remote servers."
-msgstr "Jak klasifikovat události a úkoly na vzdálených serverech."
+msgid "Restricting visibility of appointments on remote servers."
+msgstr "Jak omezit viditelnost událostí na vzdálených serverech."
 
 #. (itstool) path: page/title
 #: C/calendar-classifications.page:26
@@ -330,18 +330,18 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:32
 msgid ""
-"To set a classification for an appointment or a task, click "
-"<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
-"classification in the editor. <gui>Public</gui> is the default category, and "
-"a public appointment can be viewed by anyone on the calendar-sharing "
-"network. <gui>Private</gui> denotes one level of security, and "
-"<gui>Confidential</gui> an even higher level."
+"To set a classification for an appointment, click <guiseq><gui>Options</"
+"gui><gui>Classification</gui></guiseq> and select a classification in the "
+"editor. <gui>Public</gui> is the default category, and a public appointment "
+"can be viewed by anyone on the calendar-sharing network. <gui>Private</gui> "
+"denotes one level of security, and <gui>Confidential</gui> an even higher "
+"level."
 msgstr ""
-"Když chcete nastavit klasifikaci pro událost nebo úkol, klikněte na "
-"<guiseq><gui>Volby</gui> <gui>Klasifikace</gui></guiseq> a v editoru vyberte "
-"klasifikaci. <gui>Veřejné</gui> je výchozí kategorie a veřejná událost může "
-"bý prohlížena kýmkoliv na síti, kde se kalendář sdílí. <gui>Soukromé</gui> "
-"znamená jednu úroveň zabezpečení a <gui>Důvěrné</gui> o něco vyšší úroveň."
+"Když chcete nastavit klasifikaci pro událost, klikněte na <guiseq><gui>Volby"
+"</gui> <gui>Klasifikace</gui></guiseq> a v editoru vyberte klasifikaci. <gui>"
+"Veřejné</gui> je výchozí kategorie a veřejná událost může být prohlížena "
+"kýmkoliv na síti, kde se kalendář sdílí. <gui>Soukromé</gui> znamená jednu "
+"úroveň zabezpečení a <gui>Důvěrné</gui> o něco vyšší úroveň."
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:39
@@ -351,6 +351,19 @@ msgid ""
 msgstr ""
 "Různé úrovně se mění v závislosti na nastavení vašeho serveru. Proberte to "
 "se sým správcem systému nebo upravte své nastavení delegování."
+
+#. (itstool) path: page/p
+#: C/calendar-classifications.page:42
+msgid ""
+"If you want events, memos and tasks to be classified as private by default, "
+"enable the preference under following options are available under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
+"gui><gui>General</gui><gui>Miscellaneous</gui></guiseq>."
+msgstr ""
+"Jestli chcete, aby události, poznámky a úkoly byly standardně klasifikovány "
+"jako soukromé, zapněte předvolbu, které najdete pod <guiseq><gui>Upravit"
+"</gui> <gui>Předvolby</gui> <gui>Kalendář a úkoly</gui> <gui>Obecné</gui> "
+"<gui>Různé</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-free-busy.page:24
@@ -605,7 +618,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:47
 msgid "Show appointment end times in week and month views:"
-msgstr "Zobrazovat konce událostí v zobrazení týdne a měsíce:"
+msgstr "Zobrazovat konce událostí v týdenním a měsíčním přehledu:"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:48
@@ -614,15 +627,20 @@ msgid ""
 "month views for each appointment."
 msgstr ""
 "Pokud je na to místo, zobrazí <app>Evolution</app> v týdenním a měsíčním "
-"zobrazení pro každou událost čas ukončení."
+"přehledu pro každou událost čas ukončení."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:52
+msgid "Show appointment icons in the month view"
+msgstr "Zobrazovat ikony událostí v měsíčním přehledu"
+
+#. (itstool) path: item/p
+#: C/calendar-layout-appointment-display.page:55
 msgid "Compress weekends in month view:"
 msgstr "Komprimovat víkendy v zobrazení měsíce:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:53
+#: C/calendar-layout-appointment-display.page:56
 msgid ""
 "Select this option to display weekends in one box instead of two in the "
 "month view."
@@ -631,32 +649,32 @@ msgstr ""
 "zobrazení měsíce."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:57
+#: C/calendar-layout-appointment-display.page:60
 msgid "Show week numbers:"
 msgstr "Zobrazovat čísla týdnů:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:58
+#: C/calendar-layout-appointment-display.page:61
 msgid "Shows the week numbers next to the respective weeks in the calendar."
 msgstr "Zobrazuje čísla týdnů vedle příslušných týdnů v kalendáři."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:62
+#: C/calendar-layout-appointment-display.page:65
 msgid "Show recurring events in italic in bottom left calendar."
 msgstr "Zobrazit opakující se události kurzívou v kalendáři vlevo dole."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:65
+#: C/calendar-layout-appointment-display.page:68
 msgid "Scroll Month View by a week"
 msgstr "Posouvat zobrazení měsíce po týdnech"
 
 #. (itstool) path: section/title
-#: C/calendar-layout-appointment-display.page:72
+#: C/calendar-layout-appointment-display.page:75
 msgid "Alerts"
 msgstr "Výstrahy"
 
 #. (itstool) path: section/p
-#: C/calendar-layout-appointment-display.page:74
+#: C/calendar-layout-appointment-display.page:77
 msgid ""
 "If you want to be warned before you delete any appointment, select this "
 "option."
@@ -1169,7 +1187,6 @@ msgstr "Zvolte datum a čas."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:78
-#: C/calendar-usage-add-appointment.page:53
 msgid ""
 "If the event is not an all day event, select either <gui>For</gui> to "
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
@@ -1180,7 +1197,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:83
-#: C/calendar-usage-add-appointment.page:58
+#: C/calendar-usage-add-appointment.page:53
 msgid "(Optional) Enter a description in the <gui>Description</gui> field."
 msgstr "(Volitelně) napište popis do pole <gui>Popis</gui>."
 
@@ -1209,7 +1226,7 @@ msgstr "Všem příjemcům bude odeslán e-mail s pozváním na schůzku."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:99
-#: C/calendar-usage-add-appointment.page:67
+#: C/calendar-usage-add-appointment.page:62
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, a <link xref=\"calendar-"
@@ -1494,19 +1511,19 @@ msgstr "Nastavení časového pásma pro událost"
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
-"appointment</link> and click the globe button to customize the time zone "
-"that the time exists in. For example, if you live in New York but have a "
-"telephone meeting set for noon with someone in California, you need to make "
-"sure that your schedules are coordinated. Setting time zones on a per-"
-"appointment basis helps avoid that potential confusion."
+"appointment</link>. Under <gui>Time zone</gui>, click <gui style=\"button"
+"\">Select…</gui> to customize the time zone. For example, if you live in New "
+"York but have a telephone meeting set with someone in California, you need "
+"to make sure that your schedules are coordinated. Setting time zones on a "
+"per-appointment basis helps avoid that potential confusion."
 msgstr ""
-"Můžete také nastavit časové pásmo u jednotlivé události. Uděláte to tak, že "
-"<link xref=\"calendar-usage\">přidáte novou nebo upravíte existující "
-"událost</link>, kliknete na tlačítko s glóbusem a nastavíte časové pásmo. "
-"Například pokud žijete v Brně, ale budete mít telefonát domluvený na poledne "
-"s někým ze Sydney, musíte si být jistí, že jsou vaše rozvrhy zkoordinovány. "
-"Nastavení časových pásem pro každou událost samostatně pomáhá vyhnout se "
-"případným nedorozuměním."
+"Můžete také nastavit časové pásmo u jednotlivé události. Začněte <link xref="
+"\"calendar-usage\">přidáním nové události nebo úpravou některé stávající"
+"</link>. Časové pásmo pak změníte kliknutím na tlačítko <gui style=\"button\">"
+"Vybrat…</gui> pod <gui>Časovým pásmem</gui>. Například pokud žijete v Brně, "
+"ale budete mít telefonát domluvený na poledne s někým ze Sydney, musíte si "
+"být jistí, že jsou vaše rozvrhy zkoordinovány. Nastavení časových pásem pro "
+"každou událost samostatně pomáhá vyhnout se případným nedorozuměním."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-add-appointment.page:17
@@ -1540,7 +1557,7 @@ msgid "If you use the Appointment dialog:"
 msgstr "Když používáte dialogové okno události:"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:61
+#: C/calendar-usage-add-appointment.page:56
 msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
 "click <guiseq><gui>Options</gui> <gui>Show Time as Busy</gui></guiseq>."
@@ -2097,20 +2114,22 @@ msgstr "Kontakty v LibreOffice"
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
 msgid ""
-"You can use your <app>Evolution</app> address books in LibreOffice as a data "
-"source. The following steps refer to LibreOffice version 3.3.3."
+"You can use your <app>Evolution</app> address books in <app>LibreOffice "
+"Writer</app> as a data source. The following steps refer to LibreOffice "
+"version 5.4."
 msgstr ""
-"Adresář <app>Evolution</app> můžete použít jako zdroj dat v LibreOffice. "
-"Následující kroky se vztahují k LibreOffice verze 3.3.3."
+"Adresář <app>Evolution</app> můžete použít jako zdroj dat v aplikaci <app>"
+"LibreOffice Writer</app>. Následující kroky se vztahují k LibreOffice verze "
+"5.4."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
-"menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
+"menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
 "V nabídkové liště klikněte na <guiseq><gui>Upravit</gui> <gui>Vyměnit "
-"databázi…</gui></guiseq> Objeví se dialogové okno <gui>Vyměnit databáze</"
+"databázi…</gui></guiseq> Objeví se dialogové okno <gui>Výměna databází</"
 "gui>."
 
 #. (itstool) path: item/p
@@ -2129,47 +2148,16 @@ msgstr ""
 msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
 msgstr "Vyberte adresář a klikněte na <gui style=\"button\">Definovat</gui>."
 
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:41
-msgid ""
-"In case it is not listed already, click <gui style=\"button\">Browse…</gui>. "
-"A file chooser dialog opens."
-msgstr ""
-"V případě, že zatím není v seznamu, klikněte na <gui style=\"button"
-"\">Procházet…</gui> Objeví se dialogové okno pro výběr souboru."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:45
-msgid ""
-"As <app>Evolution</app> stores its data in a hidden directory, press "
-"<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
-"displayed."
-msgstr ""
-"Protože <app>Evolution</app> uchovává svá data ve skryté složce, zmáčkněte "
-"<keyseq><key>Ctrl</key> <key>L</key></keyseq>, aby se zobrazila lišta, do "
-"které můžete zadat umístění."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:50
-msgid ""
-"Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
-"file> and click <gui style=\"button\">Open</gui>."
-msgstr ""
-"Přejděte do <file>~/.local/share/evolution/addressbook/system/addressbook."
-"db</file> a klikněte na <gui style=\"button\">Otevřít</gui>."
-
 #. (itstool) path: page/p
-#: C/contacts-libreoffice.page:56
+#: C/contacts-libreoffice.page:42
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
-"document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
-"guiseq>."
+"document via <guiseq><gui>Insert</gui><gui>Field</gui></guiseq>."
 msgstr ""
 "Tímto postupem se adresář <app>Evolution</app> stane výchozím zdrojem dat "
 "pro LibreOffice. Od této chvíle z něj můžete přes <guiseq><gui>Vložit</gui> "
-"<gui>Pole</gui> <gui>Jiné…</gui></guiseq> do dokumentů LibreOffice vybírat "
-"jednotlivá pole."
+"<gui>Pole</gui></guiseq> do dokumentů LibreOffice vybírat jednotlivá pole."
 
 #. (itstool) path: info/desc
 #: C/contacts-local.page:17
@@ -2557,7 +2545,7 @@ msgid "Authors of the <app>Evolution</app> User Documentation"
 msgstr "Autoři uživatelské dokumentace k aplikaci <app>Evolution</app>"
 
 #. (itstool) path: item/p
-#: C/credits.page:25 C/credits.page:55
+#: C/credits.page:25 C/credits.page:54
 msgid "André Klapper"
 msgstr "André Klapper"
 
@@ -2588,27 +2576,27 @@ msgstr "Překladatelé uživatelské dokumentace k aplikaci <app>Evolution</app>
 #. use '\n' for linebreaks or square brackets for potential email
 #. addresses here as this will not work. Thanks for all your hard work!
 #. andre
-#: C/credits.page:43
+#: C/credits.page:42
 msgid "(Not applicable to the English version)"
 msgstr "Jiří Eischmann a Marek Černocký"
 
 #. (itstool) path: section/title
-#: C/credits.page:47
+#: C/credits.page:46
 msgid "Authors of the previous version"
 msgstr "Autoři předchozí verze"
 
 #. (itstool) path: section/title
-#: C/credits.page:89
+#: C/credits.page:88
 msgid "Contact information"
 msgstr "Kontaktní údaje"
 
 #. (itstool) path: section/p
-#: C/credits.page:90
+#: C/credits.page:89
 msgid "The GNOME Documentation Project:"
 msgstr "Dokumentační projekt GNOME:"
 
 #. (itstool) path: item/p
-#: C/credits.page:92
+#: C/credits.page:91
 msgid ""
 "<link href=\"https://wiki.gnome.org/DocumentationProject\">Website</link>"
 msgstr ""
@@ -2616,7 +2604,7 @@ msgstr ""
 "link>"
 
 #. (itstool) path: item/p
-#: C/credits.page:95
+#: C/credits.page:94
 msgid ""
 "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-list"
 "\">Mailing list</link>"
@@ -6465,7 +6453,8 @@ msgstr ""
 "message-attribution</code>."
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:44
+#. Translators: Do NOT translate the variable names inside the ${brackets}!
+#: C/mail-composer-change-quotation-string.page:43
 msgid ""
 "The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-"
 "${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
@@ -6476,32 +6465,32 @@ msgstr ""
 "${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>)."
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:48
+#: C/mail-composer-change-quotation-string.page:47
 msgid "The following placeholders are available:"
 msgstr "K dispozici jsou následující zástupné proměnné:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:57
+#: C/mail-composer-change-quotation-string.page:56
 msgid "<_:code-1/> (format: 01-31)"
 msgstr "<_:code-1/> (formát: 01 – 31)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:58
+#: C/mail-composer-change-quotation-string.page:57
 msgid "<_:code-1/> (format: 1-31)"
 msgstr "<_:code-1/> (formát: 1 – 31)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:63
+#: C/mail-composer-change-quotation-string.page:62
 msgid "<_:code-1/> (format: 1-366)"
 msgstr "<_:code-1/> (formát: 1 – 366)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:64
+#: C/mail-composer-change-quotation-string.page:63
 msgid "<_:code-1/> (format: 01-12)"
 msgstr "<_:code-1/> (formát: 01 – 12)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:67
+#: C/mail-composer-change-quotation-string.page:66
 msgid "<_:code-1/> (e.g. 15 for the year 2015)"
 msgstr "<_:code-1/> (např. 15 pro rok 2015)"
 
@@ -6847,7 +6836,11 @@ msgstr ""
 "výchozí údaje."
 
 #. (itstool) path: page/p
-#: C/mail-composer-from-field-override.page:27
+#. Translators: If no Wikipedia article exists for your language and you
+#. leave the URL untranslated and pointing to the English Wikipedia, you
+#. might want to indicate in your translation text that the link is in
+#. English.
+#: C/mail-composer-from-field-override.page:24
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
@@ -6860,7 +6853,11 @@ msgstr ""
 "\">subadresování</link>."
 
 #. (itstool) path: note/p
-#: C/mail-composer-from-field-override.page:32
+#. Translators: If no Wikipedia article exists for your language and you
+#. leave the URL untranslated and pointing to the English Wikipedia, you
+#. might want to indicate in your translation text that the link is in
+#. English.
+#: C/mail-composer-from-field-override.page:26
 msgid ""
 "Setting an arbitrary address might collide with your email provider's <link "
 "href=\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">Sender Policy "
@@ -7636,7 +7633,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:56
+#: C/mail-composer-message-templates-variables.page:55
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7653,7 +7650,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:59
+#: C/mail-composer-message-templates-variables.page:57
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -10458,7 +10455,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:25
+#: C/mail-received-notification.page:24
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
@@ -10468,12 +10465,14 @@ msgstr ""
 "md5='be4dbdb5f6e3dcbd5111b87169cae268'"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:26
+#. Translators: Please make sure that the screenshot does have the small
+#. yellow star in the Mail icon
+#: C/mail-received-notification.page:25
 msgid "Switcher layout when a new message has arrived"
 msgstr "Vzhled přepínače, když přijde nová pošta"
 
 #. (itstool) path: page/p
-#: C/mail-received-notification.page:29
+#: C/mail-received-notification.page:28
 msgid ""
 "In order to also be notified of new messages in the GNOME Notification area "
 "at the bottom of the screen, make sure that <guiseq><gui>Edit</"
@@ -10491,7 +10490,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:31
+#: C/mail-received-notification.page:30
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -10501,7 +10500,7 @@ msgstr ""
 "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:32
+#: C/mail-received-notification.page:31
 msgid "GNOME notification area when a new message has arrived"
 msgstr "Upozorňovací oblast GNOME ve chvíli, kdy dorazila nová zpráva"
 
@@ -13207,11 +13206,15 @@ msgstr ""
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, or a <link xref=\"calendar-"
-"classifications\">classification</link> for the task, or add an attachment."
+"classifications\">classification</link> (via the drop-down menu) for the "
+"task, or add an attachment or set a <link xref=\"calendar-alarms-and-"
+"reminders\">reminder</link> (via the corresponding tabs)."
 msgstr ""
 "Můžete také určit <link xref=\"calendar-timezones\">časové pásmo</link>, "
 "<link xref=\"using-categories\">kategorii</link> nebo <link xref=\"calendar-"
-"classifications\">klasifikaci</link> úkolu, případně přidat přílohu."
+"classifications\">klasifikaci</link> úkolu (pomocí rozbalovací nabídky), "
+"případně přidat přílohu nebo nastavit <link xref=\"calendar-alarms-and-"
+"reminders\">připomínku</link> (pomocí příslušných karet)."
 
 #. (itstool) path: section/title
 #: C/tasks-usage-add-task.page:37
