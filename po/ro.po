@@ -8,8 +8,7 @@
 # Adi Roiban https://launchpad.net/~adiroiban, 2008, 2009
 # Adi Roiban <adi@roiban.ro>, 2010.
 # Lucian Adrian Grijincu <lucian.grijincu@gmail.com>, 2010, 2011.
-# Daniel Șerbănescu <cyber19rider@gmail.com>, 2010, 2011.
-# Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2018.
+# Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2010-2011, 2018.
 #: ../src/shell/main.c:526
 msgid ""
 msgstr ""
@@ -17,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/"
 "enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2018-03-12 14:50+0000\n"
-"PO-Revision-Date: 2018-03-29 19:53+0200\n"
+"PO-Revision-Date: 2018-04-05 23:10+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
@@ -56,14 +55,14 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:5
 msgid "Show autocompleted name with an address"
-msgstr "Afișează numele autocompletate cu o adresă"
+msgstr "Arată numele autocompletate cu o adresă"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:6
 msgid ""
 "Whether force showing the mail address with the name of the autocompleted "
 "contact in the entry."
 msgstr ""
-"Dacă să fie afișată permanent adresa de email cu numele contactului "
+"Dacă să fie arătată permanent adresa de email cu numele contactului "
 "autocompletat."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:7
@@ -118,11 +117,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:15
 msgid "Show maps"
-msgstr "Afișează hărțile"
+msgstr "Arată hărți"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:16
 msgid "Whether to show maps in preview pane"
-msgstr "Dacă să se afișeze hărți în panoul de examinare"
+msgstr "Dacă să se arate hărți în panoul de examinare"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:17
 msgid "Primary address book"
@@ -141,11 +140,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:19
 msgid "Show preview pane"
-msgstr "Afișează panoul de previzualizare"
+msgstr "Arată panoul de previzualizare"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:20
 msgid "Whether to show the preview pane."
-msgstr "Dacă să se afișeze panoul de previzualizare."
+msgstr "Dacă să se arate panoul de previzualizare."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:21
 msgid "true"
@@ -279,14 +278,14 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
-msgstr "Comprimă weekend-urile la Vizualizarea lunii"
+msgstr "Comprimă weekend-urile la vizualizarea lunii"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday"
 msgstr ""
-"Dacă să comprime weekend-urile în Vizualizarea lunii, punând duminica și "
+"Dacă să comprime weekend-urile în vizualizarea lunii, punând duminica și "
 "sâmbăta în spațiul unei singure zile"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:9
@@ -519,54 +518,54 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Show categories field in the event/meeting/task editor"
-msgstr "Afișează câmpul categorii în editorul evenimente/sarcini/întâlniri"
+msgstr "Arată câmpul categorii în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr ""
-"Dacă să afișeze câmpul categorii în editorul evenimente/sarcini/întâlniri"
+"Dacă să se arate câmpul categorii în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 msgid "Show Role field in the event/task/meeting editor"
-msgstr "Afișează câmpul Rol în editorul evenimente/sarcini/întâlniri"
+msgstr "Arată câmpul Rol în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr "Dacă să afișeze câmpul rol în editorul evenimente/sarcini/întâlniri"
+msgstr "Dacă să se arate câmpul rol în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
 msgid "Show RSVP field in the event/task/meeting editor"
-msgstr "Afișează câmpul RSVP în editorul evenimente/sarcini/întâlniri"
+msgstr "Arată câmpul RSVP în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr "Dacă să afișeze câmpul RSVP în editorul evenimente/sarcini/întâlniri"
+msgstr "Dacă să arate câmpul RSVP în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
 msgid "Show status field in the event/task/meeting editor"
-msgstr "Afișează câmpul status în editorul evenimente/sarcini/întâlniri"
+msgstr "Arată câmpul status în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr "Dacă să afișeze câmpul status în editorul evenimente/sarcini/întâlniri"
+msgstr "Dacă să se arate câmpul status în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
 msgid "Show timezone field in the event/meeting editor"
-msgstr "Afișează câmpul fus orar în editorul evenimente/sarcini/întâlniri"
+msgstr "Arată câmpul fus orar în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr ""
-"Dacă să afișeze câmpul de fus orar în editorul evenimente/sarcini/întâlniri"
+"Dacă să se arate câmpul de fus orar în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Show type field in the event/task/meeting editor"
-msgstr "Afișează câmpul tip în editorul evenimente/sarcini/întâlniri"
+msgstr "Arată câmpul tip în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Dacă să afișeze câmpul pentru tip în editorul evenimente/sarcini/întâlniri"
+"Dacă să se arate câmpul pentru tip în editorul evenimente/sarcini/întâlniri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Hide completed tasks"
@@ -728,14 +727,13 @@ msgstr "Programe care pot fi rulate de către mementouri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Show display reminders in notification tray"
-msgstr "Afișează mementourile în zona de notificare"
+msgstr "Arată mementourile în zona de notificare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "Whether or not to use the notification tray for display reminders"
 msgstr "Dacă să folosească zona de notificare pentru a afișa mementourile"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
-#, fuzzy
 #| msgid "Sh_ow reminder notifications"
 msgid "Show reminder notification dialog always on top"
 msgstr ""
@@ -747,21 +745,23 @@ msgid ""
 "Whether or not to show reminder notification dialog always on top. Note this "
 "works only as a hint for the window manager, which may or may not obey it."
 msgstr ""
+"Dacă să se arate sau nu dialogul de notificări pentru mementouri în partea "
+"superioară. Luați aminte că acesta functionează doar ca o sugestie către "
+"administratorul de ferestre, care o poate aplica sau nu."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Preferred New button item"
-msgstr ""
+msgstr "Element de buton nou preferat"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "Name of the preferred New toolbar button item"
-msgstr ""
+msgstr "Numele noului element de bară de unelte preferat"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid "Primary calendar"
 msgstr "Calendar principal"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
-#, fuzzy
 #| msgid ""
 #| "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 #| "\"Calendar\" view"
@@ -777,7 +777,6 @@ msgid "Primary memo list"
 msgstr "Listă principală de memouri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
-#, fuzzy
 #| msgid ""
 #| "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 #| "\"Memos\" view"
@@ -793,7 +792,6 @@ msgid "Primary task list"
 msgstr "Listă de sarcini principală"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
-#, fuzzy
 #| msgid ""
 #| "The UID of the selected (or \"primary\") task list in the sidebar of the "
 #| "\"Tasks\" view"
@@ -828,7 +826,7 @@ msgstr "Arată evenimente recurente în italic în calendarul din stânga jos"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Search range for time-based searching in years"
-msgstr ""
+msgstr "Interval de căutare în ani pentru căutarea bazată pe timp"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid ""
@@ -836,12 +834,14 @@ msgid ""
 "currently selected day when searching for another occurrence; default is ten "
 "years"
 msgstr ""
+"Câți ani în viitor sau în trecut poate căutarea bazată pe timp înainta de la "
+"ziua selectată curent când se caută după altă apariție; implicit este zece "
+"ani"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show appointment end times in week and month views"
 msgstr ""
-"Afișează termenul de final al programărilor în Vizualizarea săptămânii și "
-"lunii"
+"Arată termenul de final al programărilor în Vizualizarea săptămânii și lunii"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "Whether to display the end time of events in the week and month views"
@@ -850,28 +850,21 @@ msgstr ""
 "săptămânii și lunii"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
-#, fuzzy
 #| msgid "Show appointment end times in week and month views"
 msgid "Show appointment icons in the month view"
-msgstr ""
-"Afișează termenul de final al programărilor în Vizualizarea săptămânii și "
-"lunii"
+msgstr "Arată iconițe de programări în vizualizarea pe lună"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
-#, fuzzy
 #| msgid ""
 #| "Whether to display the end time of events in the week and month views"
 msgid "Whether to show icons of events in the month view"
-msgstr ""
-"Dacă să afișeze termenul de final al evenimentelor la Vizualizarea "
-"săptămânii și lunii"
+msgstr "Dacă să se arate iconițe de evenimente în vizualizarea pe lună"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid "Show the memo preview pane"
 msgstr "Arată panoul de previzualizare a memourilor"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
-#, fuzzy
 #| msgid "If \"true\", show the memo preview pane in the main window"
 msgid "If “true”, show the memo preview pane in the main window"
 msgstr ""
@@ -883,7 +876,6 @@ msgid "Show the task preview pane"
 msgstr "Arată panoul de previzualizare a sarcinilor"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
-#, fuzzy
 #| msgid "If \"true\", show the task preview pane in the main window"
 msgid "If “true”, show the task preview pane in the main window"
 msgstr ""
@@ -898,35 +890,36 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Whether to show week numbers in various places in the Calendar"
-msgstr "Dacă să afișeze numărul săptămânilor în varii locații în Calendar"
+msgstr "Dacă să se arate numărul săptămânilor în locații diferite în Calendar"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid "Vertical position for the tag pane"
 msgstr "Poziție verticală pentru panoul etichetă"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
-#, fuzzy
 #| msgid "T_asks due today:"
 msgid "Highlight tasks due today"
-msgstr "S_arcini scadente azi:"
+msgstr "Evidențiază sarcini ce au scadența astăzi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
+"Dacă să se evidențieze sarcinile cu scadența astăzi cu o culoare specială "
+"(task-due-today-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid "Tasks due today color"
-msgstr "Culoarea pentru sarcinile scadente azi"
+msgstr "Culoarea pentru sarcinile scadente astăzi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
-#, fuzzy
 #| msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are due today, in “#rrggbb” format. Used "
 "together with task-due-today-highlight"
 msgstr ""
-"Culoare de fundal pentru sarcinile scadente astăzi, în format „#rrggbb”."
+"Culoare de fundal pentru sarcinile scadente astăzi, în format „#rrggbb”. "
+"Utilizat împreună cu task-due-today-highlight"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid "Task preview pane position (horizontal)"
@@ -937,7 +930,6 @@ msgid "Task layout style"
 msgstr "Stil aranjamet sarcină"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
-#, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
 #| "to the task list. \"0\" (Classic View) places the preview pane below the "
@@ -964,39 +956,42 @@ msgstr ""
 "vertical"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
-#, fuzzy
 #| msgid "Hide completed tasks"
 msgid "Show reminders for completed tasks"
-msgstr "Ascunde sarcinile terminate"
+msgstr "Arată mementouri pentru sarcinile complete"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid ""
 "Whether to show reminders for completed tasks. When set to false, reminders "
 "for completed tasks are suppressed."
 msgstr ""
+"Dacă să se arate mementouri pentru sarcinile complete. Când este stabilit la "
+"„false”, mementourile pentru sarcinile complete sunt suprimate."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
-#, fuzzy
 #| msgid "_Overdue tasks:"
 msgid "Highlight overdue tasks"
-msgstr "Sarcini re_stante:"
+msgstr "Evidențiază sarcinile restante"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
+"Dacă să se eviențieze sarcinile restante cu o culoare specială (task-overdue-"
+"color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Overdue tasks color"
 msgstr "Culoarea pentru sarcini restante"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
-#, fuzzy
 #| msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 msgid ""
 "Background color of tasks that are overdue, in “#rrggbb” format. Used "
 "together with task-overdue-highlight."
-msgstr "Culoarea de fundal a sarcinilor restante, în format „#rrggbb”."
+msgstr ""
+"Culoarea de fundal a sarcinilor restante, în format „#rrggbb”. Utilizat "
+"împreună cu task-overdue-highlight."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Time divisions"
@@ -1004,14 +999,13 @@ msgstr "Diviziuni de timp"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
 msgid "Intervals shown in Day and Work Week views, in minutes"
-msgstr "Intervale afișate în vizualizările zi și săptămână de lucru, în minute"
+msgstr "Intervale arătate în vizualizările zi și săptămână de lucru, în minute"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Timezone"
 msgstr "Fus orar"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
-#, fuzzy
 #| msgid ""
 #| "The default timezone to use for dates and times in the calendar, as an "
 #| "untranslated Olsen timezone database location like \"America/New York\""
@@ -1019,8 +1013,8 @@ msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like “America/New York”"
 msgstr ""
-"Fusul orar implicit folosit pentru dată și oră în calendar, ca o bază de "
-"date de timp netradusă Olsen, de tip „America/New York”"
+"Fusul orar implicit folosit pentru dată și oră în calendar, ca o locație "
+"netradusă din baza de date Olsen cum ar fi „America/New York”"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "Twenty four hour time format"
@@ -1029,7 +1023,7 @@ msgstr "Formatul de timp de 24 de ore"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr ""
-"Dacă să afișeze timpul în formatul de 24 de ore în loc să foloseasca am/pm"
+"Dacă să se arate timpul în formatul de 24 de ore în loc să foloseasca am/pm"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
 msgid "Birthday and anniversary reminder"
@@ -1061,65 +1055,69 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "First day of the week"
-msgstr ""
+msgstr "Prima zi a săptămânii"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Monday is a work day"
-msgstr ""
+msgstr "Luni este o zi lucrătoare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "Tuesday is a work day"
-msgstr ""
+msgstr "Marți este o zi lucrătoare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid "Wednesday is a work day"
-msgstr ""
+msgstr "Miercuri este o zi lucrătoare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "Thursday is a work day"
-msgstr ""
+msgstr "Joi este o zi lucrătoare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "Friday is a work day"
-msgstr ""
+msgstr "Vineri este o zi lucrătoare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid "Saturday is a work day"
-msgstr ""
+msgstr "Sâmbătă este o zi lucrătoare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "Sunday is a work day"
-msgstr ""
+msgstr "Duminică este o zi lucrătoare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid "Create events, memos and tasks as Private by default"
-msgstr ""
+msgstr "Creează evenimente, memouri și sarcini ca Private în mod implicit"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "Draw events as flat, not shaded."
-msgstr ""
+msgstr "Desenează evenimentele plate, nu umbrite."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
 msgstr ""
+"Dacă să se ordoneze zilele din Vizualizarea săptămână de la stânga la "
+"dreapta, în loc de sus în jos."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
-#, fuzzy
 #| msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)"
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
-msgstr "Ziua cu care începe săptămâna, de duminică (0) până sâmbătă (6)"
+msgstr ""
+"(Învechită) Ziua cu care începe săptămâna, de Duminică (0) până Sâmbătă (6)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
 msgstr ""
+"Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui "
+"să mai fie folosită. Utilizați „week-start-day-name” în locul acesteia."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
 msgid "(Deprecated) Work days"
-msgstr ""
+msgstr "(Învechită) Zile lucrătoare"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
 msgid ""
@@ -1127,12 +1125,15 @@ msgid ""
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
 "day-monday”, “work-day-tuesday”, etc. keys instead.)"
 msgstr ""
+"Zile în care începutul și sfârșitul orelor de lucru ar trebui indicate. ("
+"Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar mai "
+"trebui folosită. Utilizați una dintre cheile „work-day-monday”, „work-day-"
+"tuesday”, etc)"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Evolution Restore"
 msgid "Previous Evolution version"
-msgstr "Restaurare Evolution"
+msgstr "Versiunea de Evolution precedentă"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:2
 msgid ""
@@ -1140,6 +1141,9 @@ msgid ""
 "micro”. This is used for data and settings migration from older to newer "
 "versions."
 msgstr ""
+"Cea mai recentă versiune de Evolution folosită, exprimată ca "
+"„majoră.minoră.micro”. Aceasta este folosită pentru date și configură¶i de "
+"migrare de la versiuni mai vechi către versiuni mai noi."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
 msgid "List of disabled plugins"
@@ -1150,58 +1154,49 @@ msgid "The list of disabled plugins in Evolution"
 msgstr "Lista modulelor dezactivate în Evolution"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:5
-#, fuzzy
 #| msgid "Default window X coordinate"
 msgid "The window’s X coordinate"
-msgstr "Coordonată X fereastră implicită"
+msgstr "Coordonata X a ferestrei"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:6
-#, fuzzy
 #| msgid "Default window Y coordinate"
 msgid "The window’s Y coordinate"
-msgstr "Coordonată Y fereastră implicită"
+msgstr "Coordonata Y a ferestrei"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:7
-#, fuzzy
 #| msgid "Default window height"
 msgid "The window’s width in pixels"
-msgstr "Înălțime implicită fereastră"
+msgstr "Lățimea ferestrei în pixeli"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:8
-#, fuzzy
 #| msgid "Default window height"
 msgid "The window’s height in pixels"
-msgstr "Înălțime implicită fereastră"
+msgstr "Înălțimea ferestrei în pixeli"
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:9
-#, fuzzy
 #| msgid "Whether or not the window should be maximized."
 msgid "Whether the window is maximized"
-msgstr "Dacă fereastra să fie maximizată"
+msgstr "Dacă fereastra este maximizată"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
-#, fuzzy
 #| msgid "Gnome Calendar's calendar import done"
 msgid "GNOME Calendar’s calendar import done"
-msgstr "Importarea calendarului Gnome Calendar s-a încheiat"
+msgstr "Importarea calendarului GNOME Calendar s-a încheiat"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
-#, fuzzy
 #| msgid "Whether calendar from Gnome Calendar has been imported or not"
 msgid "Whether calendar from GNOME Calendar has been imported or not"
-msgstr "Dacă calendarul din Gnome Calendar a fost importat"
+msgstr "Dacă calendarul din GNOME Calendar a fost importat sau nu"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
-#, fuzzy
 #| msgid "Gnome Calendar's tasks import done"
 msgid "GNOME Calendar’s tasks import done"
-msgstr "Importarea sarcinilor Gnome Calendar s-a încheiat"
+msgstr "Importarea sarcinilor GNOME Calendar s-a încheiat"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
-#, fuzzy
 #| msgid "Whether tasks from Gnome Calendar have been imported or not"
 msgid "Whether tasks from GNOME Calendar have been imported or not"
-msgstr "Dacă sarcinile din Gnome Calendar au fost importate"
+msgstr "Dacă sarcinile din GNOME Calendar au fost importate sau nu"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -1219,29 +1214,30 @@ msgid "Default charset in which to compose messages"
 msgstr "Setul implicit de caractere pentru compunerea mesajelor"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:4
-#, fuzzy
 #| msgid "Default charset in which to compose messages."
 msgid "Default charset in which to compose messages. Uses UTF-8, if not set."
-msgstr "Setul implicit de caractere pentru compunerea mesajelor."
+msgstr ""
+"Setul implicit de caractere pentru compunerea mesajelor. Se utilizează UTF-"
+"8, în caz de neconfigurare."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:5
-#, fuzzy
 #| msgid "_Show the photograph of sender in the message preview"
 msgid "Name of the editor to prefer in the message composer"
-msgstr "Afișează fotografia expeditorului în previzualizarea me_sajului"
+msgstr "Numele editorului de preferat în compunerea mesajelor"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:6
 msgid ""
 "If the name doesn’t correspond to any known editor, then the built-in WebKit "
 "editor is used."
 msgstr ""
+"Dacă numele nu corespunde niciunui editor cunoscut, atunci editorul integrat "
+"WebKit este folosit."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:7
 msgid "Path where picture gallery should search for its content"
 msgstr "Calea unde galeria de imagini ar trebui să caute pentru conținutul său"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:8
-#, fuzzy
 #| msgid ""
 #| "This value can be an empty string, which means it'll use the system "
 #| "Picture folder, usually set to ~/Pictures. This folder will be also used "
@@ -1277,20 +1273,21 @@ msgid "Automatic emoticon recognition"
 msgstr "Recunoaștere automată a emoticoanelor"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:14
-#, fuzzy
 #| msgid "Recognize emoticons in text and replace them with images."
 msgid ""
 "Recognize emoticons in text and replace them with images or Unicode "
 "characters."
-msgstr "Recunoaște emoticoane în text și înlocuiește-le cu imagini."
+msgstr ""
+"Recunoaște emoticoane în text și înlocuiește-le cu imagini sau caractere "
+"Unicode."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Unicode emoticons"
-msgstr ""
+msgstr "Emoticoane Unicode"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:16
 msgid "Use Unicode characters for emoticons."
-msgstr ""
+msgstr "Utilizează caractere Unicode pentru emoticoane."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:17
 msgid "Attribute message"
@@ -1333,7 +1330,6 @@ msgid "Group Reply replies to list"
 msgstr "Grupează răspunsurile răspunsurilor într-o listă"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:24
-#, fuzzy
 #| msgid ""
 #| "Instead of the normal \"Reply to All\" behaviour, this option will make "
 #| "the 'Group Reply' toolbar button try to reply only to the mailing list "
@@ -1346,7 +1342,7 @@ msgid ""
 "replying."
 msgstr ""
 "În loc de comportamentul normal „Răspunde tuturor”, această opțiune va face "
-"butonul barei de instrumente „Grupează răspunsurile” să încerce să răspundă "
+"butonul barei de instrumente „Răspunde grupului” să încerce să răspundă "
 "numai listei de discuții prin care ați primit o copie a mesajului căruia îi "
 "răspundeți."
 
@@ -1394,13 +1390,11 @@ msgstr ""
 "ortografică."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
-#, fuzzy
 #| msgid "Show \"Bcc\" field when sending a mail message"
 msgid "Show “Bcc” field when sending a mail message"
 msgstr "Arată câmpul „Bcc” la trimiterea unui mesaj"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
-#, fuzzy
 #| msgid ""
 #| "Show the \"Bcc\" field when sending a mail message. This is controlled "
 #| "from the View menu when a mail account is chosen."
@@ -1412,13 +1406,11 @@ msgstr ""
 "meniul Vizualizare la alegerea unui nou cont."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
-#, fuzzy
 #| msgid "Show \"Cc\" field when sending a mail message"
 msgid "Show “Cc” field when sending a mail message"
 msgstr "Arată câmpul „Cc” la trimiterea unui mesaj"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
-#, fuzzy
 #| msgid ""
 #| "Show the \"Cc\" field when sending a mail message. This is controlled "
 #| "from the View menu when a mail account is chosen."
@@ -1430,13 +1422,11 @@ msgstr ""
 "meniul Vizualizare la alegerea unui nou cont."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:37
-#, fuzzy
 #| msgid "Show \"Cc\" field when sending a mail message"
 msgid "Show “From” override field when sending a mail message"
-msgstr "Arată câmpul „Cc” la trimiterea unui mesaj"
+msgstr "Arată câmpul de suprascriere „De la” la trimiterea unui mesaj"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
-#, fuzzy
 #| msgid ""
 #| "Show the \"Cc\" field when sending a mail message. This is controlled "
 #| "from the View menu when a mail account is chosen."
@@ -1444,17 +1434,15 @@ msgid ""
 "Show the “From” override field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
 msgstr ""
-"Arată câmpul „Cc” la trimiterea unui mesaj. Aceasta este controlat din "
-"meniul Vizualizare la alegerea unui nou cont."
+"Arată câmpul de suprascriere „De la” la trimiterea unui mesaj. Aceasta este "
+"controlat din meniul Vizualizare la alegerea unui nou cont."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:39
-#, fuzzy
 #| msgid "Show \"Reply To\" field when sending a mail message"
 msgid "Show “Reply To” field when sending a mail message"
-msgstr "Arată câmpul „Răspunde la” la trimiterea mesajelor"
+msgstr "Arată câmpul „Răspunde la” la trimiterea unui mesaj"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
-#, fuzzy
 #| msgid ""
 #| "Show the \"Reply To\" field when sending a mail message. This is "
 #| "controlled from the View menu when a mail account is chosen."
@@ -1463,16 +1451,14 @@ msgid ""
 "from the View menu when a mail account is chosen."
 msgstr ""
 "Arată câmpul „Răspunde la” la trimiterea unui mesaj. Aceasta este controlat "
-"din meniul Vizualizare la alegerea unui nou cont."
+"din meniul Vizualizare la alegerea unui cont."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:41
-#, fuzzy
 #| msgid "Show \"From\" field when posting to a newsgroup"
 msgid "Show “From” field when posting to a newsgroup"
-msgstr "Arată câmpul „Expeditor” la publicarea pe un grup de știri"
+msgstr "Arată câmpul „De la” la publicarea pe un grup de știri"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
-#, fuzzy
 #| msgid ""
 #| "Show the \"From\" field when posting to a newsgroup. This is controlled "
 #| "from the View menu when a news account is chosen."
@@ -1480,17 +1466,15 @@ msgid ""
 "Show the “From” field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
 msgstr ""
-"Arată câmpul „Expeditor” la publicarea pe un grup de știri. Aceasta este "
-"controlat din meniul Vizualizare la alegerea unui nou cont de știri."
+"Arată câmpul „De la” la publicarea pe un grup de știri. Aceasta este "
+"controlat din meniul Vizualizare la alegerea unui cont de știri."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:43
-#, fuzzy
 #| msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgid "Show “Reply To” field when posting to a newsgroup"
 msgstr "Arată câmpul „Răspunde la” la publicarea pe un grup de știri"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:44
-#, fuzzy
 #| msgid ""
 #| "Show the \"Reply To\" field when posting to a newsgroup. This is "
 #| "controlled from the View menu when a news account is chosen."
@@ -1499,7 +1483,7 @@ msgid ""
 "from the View menu when a news account is chosen."
 msgstr ""
 "Arată câmpul „Răspunde la” la publicarea pe un grup de știri. Aceasta este "
-"controlat din meniul Vizualizare la alegerea unui nou cont de știri."
+"controlat din meniul Vizualizare la alegerea unui cont de știri."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Digitally sign replies when the original message is signed"
@@ -1514,13 +1498,11 @@ msgstr ""
 "mesaj care este de asemenea semnat cu PGP sau S/MIME."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:47
-#, fuzzy
 #| msgid "Encode file names in an Outlook/GMail way"
 msgid "Encode filenames in an Outlook/GMail way"
 msgstr "Codifică numele fișierelor în modul Outlook/GMail"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
-#, fuzzy
 #| msgid ""
 #| "Encode file names in the mail headers same as Outlook or GMail do, to let "
 #| "them display correctly file names with UTF-8 letters sent by Evolution, "
@@ -1538,26 +1520,29 @@ msgstr ""
 "utilizează standardul de codificare incorect RFC 2047."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:49
-#, fuzzy
 #| msgid "Saving message to Outbox."
 msgid "Send messages through Outbox folder"
-msgstr "Se salvează mesajul în dosarul Netrimise."
+msgstr "Trimite mesaje prin dosarul Netrimise"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:50
 msgid ""
 "Always save messages to Outbox folder when sending, to let a user choose "
 "when the messages should be sent."
 msgstr ""
+"Salvează întotdeauna mesajele în dosarul Netrimise când se trimit, pentru a "
+"lăsa utilizatorul să aleagă când mesajele ar trebui trimise."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:51
 msgid "Include signature in new messages only"
-msgstr ""
+msgstr "Include o semnătură numai în mesajele noi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:52
 msgid ""
 "Include selected signature only for new messages, but have no signature "
 "added for Replies or Forwards."
 msgstr ""
+"Include semnăntura selectată numai pentru mesajele noi, dar nu adăuga nicio "
+"semnătură pentru Răspunsuri sau Înaintări."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:53
 msgid "Put personalized signatures at the top of replies"
@@ -1587,23 +1572,24 @@ msgstr ""
 "adăugați înaintea semnăturii delimitatorul de semnătură."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:57
-#, fuzzy
 #| msgid "_Keep signature above the original message on replying"
 msgid "Keep original message signature in replies"
-msgstr "În răspunsuri _menține semnătura deasupra mesajului original"
+msgstr "Păstrează semnătura mesajului original în răspunsuri"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:58
 msgid ""
 "When set to TRUE, keep original message signature in replies, otherwise "
 "strip the signature and everything below it when replying to the message."
 msgstr ""
+"Când este stabilit la TRUE, păstrează semnătura mesajului original în "
+"răspunsuri, altfel elimină semnătura și orice este mai jos de ea când se "
+"răspunde la mesaj."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "Ignore list Reply-To:"
 msgstr "Ignoră lista „Răspunde-la”:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:60
-#, fuzzy
 #| msgid ""
 #| "Some mailing lists set a Reply-To: header to trick users into sending "
 #| "replies to the list, even when they ask Evolution to make a private "
@@ -1621,18 +1607,18 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Unele listele de discuții configurează un antet „Reply-To:” antet pentru a "
+"Unele listele de discuții configurează un antet „Răspunde la:” pentru a "
 "convinge utilizatorii să trimită răspunsurile pe listă, chiar și atunci când "
 "aceștia cer Evolution să trimită un răspuns privat. Stabilirea acestei "
-"opțiuni la TRUE va face Evolution să încerce să ignore astfel de antete "
-"„Reply-To:”. Dacă utilizați acțiunea de răspuns privat, Evolution va "
-"răspunde privat, dar dacă utilizați „Răspundeți la lista”, va face asta. "
-"Evolution compară antetul „Reply-To:” cu antetul „List-Post:”, dacă există "
-"vreunul."
+"opțiuni la TRUE va face Evolution să încerce să ignore astfel de anteturi „"
+"Răspunde la:”. Dacă utilizați acțiunea de răspuns privat, Evolution va "
+"răspunde privat, dar dacă utilizați „Răspundeți la listă”, va face asta. "
+"Evolution compară antetul „Răspunde la:” cu antetul „Postare de listă:”, "
+"dacă există vreunul."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "List of localized “Re”"
-msgstr ""
+msgstr "Listă de „Re” localizat"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
@@ -1640,10 +1626,13 @@ msgid ""
 "text when replying to a message, as an addition to the standard “Re” prefix. "
 "An example is “SV,AV”."
 msgstr ""
+"O listă de abrevieri localizate separate prin virgulă pentru „Re” de omis în "
+"textul subiectului când se răspunde la mesaj, ca un adaos la prefixul "
+"standard „Re”. Un exemplu este „SV,AV,RS”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "List of localized “Re” separators"
-msgstr ""
+msgstr "Listă de separatori localizați pentru „Re”"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
@@ -1651,10 +1640,13 @@ msgid ""
 "replying to a message, as an addition to the standard “:” and the Unicode "
 "“︰” separators."
 msgstr ""
+"O listă de separatori localizăti pentru „Re”, folosită la omitere într-un "
+"text de subiect când se răspunde la un mesaj, ca un adaos la separatorul "
+"standard „:” și cel Unicode „︰”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:65
 msgid "Use localized “Fwd”/“Re” in message Subject"
-msgstr ""
+msgstr "Utilizează „Fwd”/„Re” localizat în mesajul Subiect"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:66
 msgid ""
@@ -1662,28 +1654,37 @@ msgid ""
 "forward as provided by current locale translation, otherwise uses "
 "unlocalized version."
 msgstr ""
+"Când este stabilit la true, folosește „Fwd”/„Re” localizat în mesajul "
+"Subiect la răspunsuri și înaintări așa cum este oferit de traducerea locală, "
+"altfel folosește versiunea nelocalizată."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Number of characters for wrapping"
-msgstr ""
+msgstr "Număr de caractere pentru încadrare"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:68
 msgid "Will autowrap lines after given number of characters."
-msgstr ""
+msgstr "Va autoîncadra liniile după numărul de caractere dat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:69
 msgid ""
 "Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
 msgstr ""
+"Număr de destinatari în câmpurile „Către” și „CC” pentru a întreba despre "
+"cheia „prompt-on-many-to-cc-recips”"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid ""
 "When to ask, when the number of To and CC recipients reaches this value."
 msgstr ""
+"Când să se întrebe, când numărul de destinatari pentru „Către” și „CC” "
+"atinge această valoare."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Whether to always show Sign and Encrypt buttons on the toolbar"
 msgstr ""
+"Dacă să se arate întotdeauna butoanele Semnează și Criptează pe bara de "
+"unelte"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid ""
@@ -1691,36 +1692,43 @@ msgid ""
 "always shown in the composer’s toolbar. Otherwise they are shown only when "
 "being used."
 msgstr ""
+"Dacă este configurat la „true”, butoanele Semnează și Criptează pentru "
+"oricare dintre PGP sau S/MIME sunt arătate întotdeauna în bara redactorului. "
+"Altfel sunt arătate numai când sunt folosite."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "Wrap quoted text in replies"
-msgstr ""
+msgstr "Încadrează textul citat în răspunsuri"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:74
 msgid "If set to “true” quoted text in replies will be wrapped."
-msgstr ""
+msgstr "Dacă este stabilit la „true” textul citat în răspunsuri va fi încadrat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr ""
+"Dacă să se țină cont de sugestia antetului de mesaj Content-"
+"Disposition:inline"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Set to “false” to block automatic display of attachments with Content-"
 "Disposition: inline."
 msgstr ""
+"Stabiliți la „false” pentru a bloca afișarea automată a atașamentelor cu "
+"Content-Disposition: inline."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Save file format for drag-and-drop operation"
-msgstr ""
+msgstr "Formatul de fișier de salvat pentru operația trage-și-plasează"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:78
 msgid "Can be either “mbox” or “pdf”."
-msgstr ""
+msgstr "Pote fi fie „mbox” sau „pdf”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
 msgid "Show image animations"
-msgstr "Afișează animațiile imaginilor"
+msgstr "Arată animațiile imaginilor"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
 msgid ""
@@ -1764,16 +1772,14 @@ msgid "Enable to use a similar message list view settings for all folders."
 msgstr "Permite folosirea unor vizualizări similare pentru toate dosarele."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:87
-#, fuzzy
 #| msgid "Mark citations in the message \"Preview\""
 msgid "Mark citations in the message “Preview”"
-msgstr "Marchează citatele în „previzualizarea” mesajului"
+msgstr "Marchează citatele în „Previzualizarea” mesajului"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:88
-#, fuzzy
 #| msgid "Mark citations in the message \"Preview\"."
 msgid "Mark citations in the message “Preview”."
-msgstr "Marchează citatele în „previzualizarea” mesajului."
+msgstr "Marchează citatele în „Previzualizarea” mesajului."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:89
 msgid "Citation highlight color"
@@ -1802,14 +1808,13 @@ msgid "Default charset in which to display messages."
 msgstr "Setul implicit de caractere pentru afișarea mesajelor."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
-#, fuzzy
 #| msgid "Load images for HTML messages over HTTP"
 msgid "Automatically load images for HTML messages over HTTP"
-msgstr "Încarcă imaginile pentru mesajele HTML via HTTP"
+msgstr "Încarcă imaginile automat pentru mesajele HTML via HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
 msgid "Show notification about missing remote content"
-msgstr ""
+msgstr "Arată notificări despre lipsa conținutului de la distanță"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:97
 msgid ""
@@ -1817,28 +1822,31 @@ msgid ""
 "content, while the download is not allowed for the user or the site, then "
 "show a notification about it on top of the preview panel."
 msgstr ""
+"Când previzualizare mesajului arătă un mesaj ce necesită descărcarea de "
+"conținut de la distanță, în timp ce descărcarea nu este permisă pentru "
+"utilizator sau sit, atunci arată o notificare despre asta în partea "
+"superioară a panoului de previzualizare."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:98
 msgid "Show Animations"
-msgstr "Afișează animațiile"
+msgstr "Arată animațiile"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:99
 msgid "Show animated images as animations."
-msgstr "Afișează imaginile animate ca animații."
+msgstr "Arată imaginile animate ca animații."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:100
 msgid "Show all message headers"
-msgstr "Arată toate antetele mesajului"
+msgstr "Arată toate anteturile mesajului"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:101
 msgid "Show all the headers when viewing a messages."
-msgstr "Arată toate antetele la vizualizarea unui mesaj."
+msgstr "Arată toate anteturile la vizualizarea unui mesaj."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:102
-#, fuzzy
 #| msgid "Show all the headers when viewing a messages."
 msgid "List of headers to show when viewing a message."
-msgstr "Arată toate antetele la vizualizarea unui mesaj."
+msgstr "Listă de anteturi de arătat la vizualizarea unui mesaj."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:103
 msgid ""
@@ -1846,24 +1854,26 @@ msgid ""
 "indicating whether the header is enabled. Disabled headers are not shown "
 "when viewing a message, but are still listed in Preferences."
 msgstr ""
+"Fiecare antet reprezentat ca pereche: numele antetului, și un boolean ce "
+"indică dacă antetul este activat. Anteturile dezactivate nu sunt arătate la "
+"vizualizarea unui mesaj, dar sunt încă listate în Preferințe."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:104
 msgid "Show photo of the sender"
-msgstr "Afișează fotografia expeditorului"
+msgstr "Arată fotografia expeditorului"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Show the photo of the sender in the message reading pane."
-msgstr "Afișează fotografia expeditorului în panoul de citire a mesajului."
+msgstr "Arată fotografia expeditorului în panoul de citire a mesajului."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
-#, fuzzy
 #| msgid "Show photo of the sender"
 msgid "Search gravatar.com for photo of the sender"
-msgstr "Afișează fotografia expeditorului"
+msgstr "Caută gravatar.com pentru o fotografie a expeditorului"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:107
 msgid "Allow searching also at gravatar.com for photo of the sender."
-msgstr ""
+msgstr "Permite căutarea pe gravatar.com după o fotografie a expeditorului."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
 msgid "Mark as Seen after specified timeout"
@@ -1874,40 +1884,42 @@ msgid "Mark as Seen after specified timeout."
 msgstr "Marchează ca citit după durata de timp specificată."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
-#, fuzzy
 #| msgid "Mark as Seen after specified timeout"
 msgid "Mark as Seen always after specified timeout"
-msgstr "Marchează ca citit după durata de timp specificată"
+msgstr "Marchează ca citit întotdeauna după durata de timp specificată"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:111
 msgid ""
 "If set to true, the selected message will be set as unread after the timeout "
 "also after the folder change."
 msgstr ""
+"Dacă este stabilit la „true”, mesajul selectat va fi stabilit ca necitit "
+"după durata de timp specificată chiar și după schimbarea dosarului."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:112
-#, fuzzy
 #| msgid "Timeout for marking message as seen"
 msgid "Timeout for marking messages as seen"
-msgstr "Limită de timp pentru a marca mesajul ca fiind citit (văzut)"
+msgstr "Limită de timp pentru a marca mesajele ca fiind citite (văzute)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:113
-#, fuzzy
 #| msgid "Timeout for marking message as seen."
 msgid "Timeout in milliseconds for marking messages as seen."
-msgstr "Limită de timp pentru a marca mesajul ca fiind citit (văzut)."
+msgstr ""
+"Limită de timp în milisecunde pentru a marca mesajele ca fiind citite "
+"(văzute)."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:114
-#, fuzzy
 #| msgid "Show Attachment _Bar"
 msgid "Show Attachment Bar"
-msgstr "Arată _bara de atașamente"
+msgstr "Arată bara de atașamente"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:115
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments."
 msgstr ""
+"Arată bara de atașamente sub panoul de previzualizare a mesajului când "
+"mesajul are atașamente."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Sender email-address column in the message list"
@@ -1918,47 +1930,45 @@ msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
 msgstr ""
-"Afișează adresa de email a expeditorului întro coloană separată în lista de "
+"Arată adresa de email a expeditorului întro coloană separată în lista de "
 "mesaje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:118
 msgid "Show deleted messages in the message-list"
-msgstr "Afișează mesajele șterse în lista de mesaje"
+msgstr "Arată mesajele șterse în lista de mesaje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:119
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr "Afișează mesajele șterse (cu o tăietură) în lista de mesaje."
+msgstr "Arată mesajele șterse (cu o tăietură) în lista de mesaje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:120
-#, fuzzy
 #| msgid "Show deleted messages in the message-list"
 msgid "Show junk messages in the message-list"
-msgstr "Afișează mesajele șterse în lista de mesaje"
+msgstr "Arată mesajele spam în lista de mesaje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
-#, fuzzy
 #| msgid "Show deleted messages (with a strike-through) in the message-list."
 msgid "Show junk messages (with a red strike-through) in the message-list."
-msgstr "Afișează mesajele șterse (cu o tăietură) în lista de mesaje."
+msgstr "Arată mesajele spam (cu o tăietură roșie) în lista de mesaje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
-#, fuzzy
 #| msgid "Enable search folders"
 msgid "Enable Unmatched search folder"
-msgstr "Activează dosare de căutare"
+msgstr "Activează dosarul de căutare nepotrivit"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
 msgstr ""
+"Activează dosarul de căutare nepotrivit în Căutarea după dosare. Nu face "
+"nimic dacă Căutarea după dosare este dezactivează."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:124
 msgid "Hides the per-folder preview and removes the selection"
 msgstr "Ascunde previzualizarea per-dosar și înlătură selecția"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:125
-#, fuzzy
 #| msgid ""
 #| "This key is read only once and reset to \"false\" after read. This "
 #| "unselects the mail in the list and removes the preview for that folder."
@@ -1966,7 +1976,7 @@ msgid ""
 "This key is read only once and reset to “false” after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Această cheie este citită o singură dată și este resetată la „false” după "
+"Această cheie este citită o singură dată și este restabilită la „false” după "
 "citire. Aceasta deselectează mesajul în listă și elimină previzualizarea "
 "pentru acel dosar."
 
@@ -1980,7 +1990,7 @@ msgstr "Înălțimea panoului cu lista de mesaje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:128
 msgid "Whether message headers are collapsed in the user interface"
-msgstr ""
+msgstr "Dacă anteturile mesajului sunt restrânse în interfața pentru utilizator"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:129
 msgid "Width of the message-list pane"
@@ -1995,7 +2005,6 @@ msgid "Layout style"
 msgstr "Stil aspect"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:132
-#, fuzzy
 #| msgid ""
 #| "The layout style determines where to place the preview pane in relation "
 #| "to the message list. \"0\" (Classic View) places the preview pane below "
@@ -2053,7 +2062,6 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Numărul de adrese pentru afișare în TO/CC/BCC"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:142
-#, fuzzy
 #| msgid ""
 #| "This sets the number of addresses to show in default message list view, "
 #| "beyond which a '...' is shown."
@@ -2061,8 +2069,8 @@ msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
 msgstr ""
-"Aceasta definește numărul adreselor afișare în vizualizarea implicită a "
-"listei de mesaje, după care se va afișa un „...”"
+"Aceasta definește numărul adreselor arătate în vizualizarea implicită a "
+"listei de mesaje, după care se va arăta un „...”"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "Thread the message-list based on Subject"
@@ -2074,7 +2082,7 @@ msgid ""
 "not contain In-Reply-To or References headers."
 msgstr ""
 "Dacă să se revină la gruparea discuțiilor după subiecte atunci când mesajul "
-"nu conține antetele In-Reply-To sau References."
+"nu conține anteturile In-Reply-To sau References."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "Default value for thread expand state"
@@ -2093,7 +2101,6 @@ msgid "Whether sort threads based on latest message in that thread"
 msgstr "Dacă firele de discuții să fie sortate după ultimul mesaj din acel fir"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
-#, fuzzy
 #| msgid ""
 #| "This setting specifies whether the threads should be sorted based on "
 #| "latest message in each thread, rather than by message's date. Evolution "
@@ -2103,16 +2110,16 @@ msgid ""
 "message in each thread, rather than by message’s date. Evolution requires a "
 "restart."
 msgstr ""
-"Această opțiune specifică dacă firele de discuții să fie sortate pe baze "
+"Această opțiune specifică dacă firele de discuții să fie sortate pe baza "
 "ultimului mesaj din acel fir și nu după data mesajului. Necesită repornirea "
-"Evolution."
+"lui Evolution."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Whether sort thread children always ascending"
 msgstr ""
+"Dacă să se sorteze sau nu copii firului de discuție întotdeauna ascendent"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
-#, fuzzy
 #| msgid ""
 #| "This setting specifies whether the threads should be sorted based on "
 #| "latest message in each thread, rather than by message's date. Evolution "
@@ -2121,9 +2128,9 @@ msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
 msgstr ""
-"Această opțiune specifică dacă firele de discuții să fie sortate pe baze "
-"ultimului mesaj din acel fir și nu după data mesajului. Necesită repornirea "
-"Evolution."
+"Această opțiune specifică dacă copii firelor de discuții să fie sortați "
+"întotdeauna ascendent, în loc de a utiliza același tip de ordine de sortare "
+"ca la nivelul rădăcină al firului de discuții."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:151
 msgid "Sort accounts alphabetically in a folder tree"
@@ -2158,13 +2165,14 @@ msgid ""
 "If not set, or being “stdout”, then the logging is done to stdout, instead "
 "to a file."
 msgstr ""
+"Dacă nu este stabilit, sau este „stdout”, atunci înregistrarea este făcută "
+"către stdout, înloc de un fișier."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid "Flush Outbox after filtering"
 msgstr "Golește mesajele netrimise după filtrare"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
-#, fuzzy
 #| msgid ""
 #| "Whether to flush Outbox after filtering is done. Outbox flush will happen "
 #| "only when there was used any 'Forward to' filter action and approximately "
@@ -2190,16 +2198,17 @@ msgstr "Stilul implicit pentru răspuns"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
 msgstr ""
+"Atenționează la trimitere când se folosesc tastele de accelerare (Ctrl+Enter)"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
-#, fuzzy
 #| msgid ""
 #| "Prompt the user when he or she tries to send a message without a Subject."
 msgid ""
 "Prompt the user when he or she tries to send a message with a key "
 "accelerator."
 msgstr ""
-"Atenționează utilizatorul la încercarea de a trimite un mesaj fără subiect."
+"Atenționează utilizatorul la încercarea de a trimite cu tastele de "
+"accelerare."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:163
 msgid "Prompt on empty subject"
@@ -2213,7 +2222,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:165
 msgid "Prompt when emptying the trash"
-msgstr "Avertizează când se golește coșul de gunoi"
+msgstr "Atenționează când se golește coșul de gunoi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:166
 msgid "Prompt the user when he or she tries to empty the trash."
@@ -2230,18 +2239,15 @@ msgstr ""
 "dintr-un dosar."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:169
-#, fuzzy
 #| msgid "Prompt when user expunges"
 msgid "Prompt when user calls Empty Junk"
-msgstr "Atenționează când utilizatorul încearcă să șteargă fizic emailuri"
+msgstr "Atenționează când utilizatorul execută golirea gunoiului"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:170
-#, fuzzy
 #| msgid "Prompt the user when he or she tries to expunge a folder."
 msgid "Prompt the user when he or she tries to Empty a Junk folder."
 msgstr ""
-"Atenționează utilizatorul când acesta încearcă să șteargă definitiv mesajele "
-"dintr-un dosar."
+"Atenționează utilizatorul când acesta încearcă să golească un dosar cu gunoi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:171
 msgid "Prompt before sending to recipients not entered as mail addresses"
@@ -2318,11 +2324,10 @@ msgstr ""
 "permanentă a mesajelor, nu doar înlăturarea lor din rezultatele căutării."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:183
-#, fuzzy
 #| msgid "Whether to show local folders (On This Computer) in a folder tree"
 msgid "Asks whether to copy a folder by drag &amp; drop in the folder tree"
 msgstr ""
-"Dacă pentru a afișa foldere locale (Pe acest calculator) într-un arbore de "
+"Întreabă dacă să se copieze un dosar prin tragere și plasare în arborele cu "
 "dosare"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:184
@@ -2332,13 +2337,16 @@ msgid ""
 "folders in folder tree without asking, or “ask” — (or any other value) will "
 "ask user."
 msgstr ""
+"Valorile posibile sunt: „never” — nu permite copierea de dosare prin tragere "
+"și plasare în arborele cu dosare, „always” — permite copierea prin tragere "
+"și plasare a dosarelor în arborele cu dosare fără a întreba, sau „ask” — ("
+"sau orice altă valuare) va întreba utilizatorul."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
-#, fuzzy
 #| msgid "Whether to show local folders (On This Computer) in a folder tree"
 msgid "Asks whether to move a folder by drag &amp; drop in the folder tree"
 msgstr ""
-"Dacă pentru a afișa foldere locale (Pe acest calculator) într-un arbore de "
+"Întreabă dacă să se mute un dosar prin tragere și plasare în arborele cu "
 "dosare"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
@@ -2348,6 +2356,10 @@ msgid ""
 "folders in folder tree without asking, or “ask” — (or any other value) will "
 "ask user."
 msgstr ""
+"Valorile posibile sunt: „never” — nu permite mutarea de dosare prin tragere "
+"și plasare în arborele cu dosare, „always” — permite mutarea prin tragere și "
+"plasare a dosarelor în arborele cu dosare fără a întreba, sau „ask” — (sau "
+"orice altă valuare) va întreba utilizatorul."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt when replying privately to list messages"
@@ -2457,7 +2469,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr "Numărul de secunde pentru care eroare va fi afișată în bara de stare."
+msgstr "Numărul de secunde pentru care eroare va fi arătată în bara de stare."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
 msgid "Level beyond which the message should be logged."
@@ -2608,7 +2620,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:225
 msgid "Determines whether to use custom headers to check for junk"
 msgstr ""
-"Determină pentru verificarea spamului să fie folosite antete personalizate"
+"Determină pentru verificarea spamului să fie folosite anteturi personalizate"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid ""
@@ -2616,13 +2628,13 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
-"Determină dacă să fie folosite antete specifice pentru a cauta mesajele spam."
-"Dacă această opțiune este activată și se specifică antetele, viteza de "
-"verificare a spamurilor va fi îmbunătățită."
+"Determină dacă să fie folosite anteturi specifice pentru a cauta mesajele "
+"spam.Dacă această opțiune este activată și se specifică anteturile, viteza "
+"de verificare a spamurilor va fi îmbunătățită."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Custom headers to use while checking for junk."
-msgstr "Antetele personalizate de folosit la verificarea pentru spam."
+msgstr "Anteturile personalizate de folosit la verificarea pentru spam."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:228
 #, fuzzy
@@ -2633,7 +2645,7 @@ msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
 msgstr ""
-"Antetele personalizate de folosit la verificarea pentru spam. Elementele "
+"Anteturile personalizate de folosit la verificarea pentru spam. Elementele "
 "listei sunt șiruri de caractere de forma ”numeantet=valoare”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:229
@@ -2879,7 +2891,7 @@ msgstr ""
 #, fuzzy
 #| msgid "List of custom headers and whether they are enabled."
 msgid "(Deprecated) List of custom headers and whether they are enabled."
-msgstr "Lista antetelor personalizate și afișarea lor."
+msgstr "Lista anteturilor personalizate și afișarea lor."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
 msgid ""
@@ -2909,7 +2921,7 @@ msgid ""
 "or replies to the message shown in the window"
 msgstr ""
 "Întreabă dacă să închidă fereastra de mesaje când utilizatorul înaintează "
-"sau răspunde la mesajul afișat în fereastră"
+"sau răspunde la mesajul arătat în fereastră"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid ""
@@ -3029,7 +3041,7 @@ msgstr "Ora ultimei sincronizări GAIM"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:1
 msgid "List of Custom Headers"
-msgstr "Lista antetelor personalizate"
+msgstr "Lista anteturilor personalizate"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
 #, fuzzy
@@ -3043,10 +3055,10 @@ msgid ""
 "message. The format for specifying a Header and Header value is: Name of the "
 "custom header followed by “=” and the values separated by “;”"
 msgstr ""
-"Cheia specifică lista antetelor personalizate pe care le puteți adăuga unui "
-"mesaj la trimitere. Formatul pentru specificarea unui antet și a valorii "
-"acestuia este: Numele antetului personalizat urmat de „=” și valorile "
-"separate prin \";\""
+"Cheia specifică lista anteturilor personalizate pe care le puteți adăuga "
+"unui mesaj la trimitere. Formatul pentru specificarea unui antet și a "
+"valorii acestuia este: Numele antetului personalizat urmat de „=” și "
+"valorile separate prin \";\""
 
 #: ../data/org.gnome.evolution.plugin.external-editor.gschema.xml.in.h:1
 msgid "Default External Editor"
@@ -3109,7 +3121,7 @@ msgstr "Activeză pictogramă în zona de notificare."
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:6
 msgid "Show new mail icon in notification area when new messages arrive."
 msgstr ""
-"Afișează o pictograma de mesaje noi în zona de notificare la primirea de noi "
+"Arată o pictograma de mesaje noi în zona de notificare la primirea de noi "
 "mesaje."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:7
@@ -3118,8 +3130,7 @@ msgstr "Arată mesajele împreună cu iconița."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:8
 msgid "Whether show message over the icon when new messages arrive."
-msgstr ""
-"Dacă să se afișeze mesajul peste iconiță atunci se primește un mesaj nou."
+msgstr "Dacă să se arate mesajul peste iconiță atunci se primește un mesaj nou."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:9
 #, fuzzy
@@ -3208,7 +3219,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
-msgstr "Dacă să se afișeze rezultatul HTML suprimat"
+msgstr "Dacă să se arate rezultatul HTML suprimat"
 
 #: ../data/org.gnome.evolution.plugin.publish-calendar.gschema.xml.in.h:1
 #, fuzzy
@@ -3385,7 +3396,7 @@ msgstr "Dacă bara de stare să fie vizibilă."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:31
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr "ID sau alias al componentei ce va fi afișată implicit la pornire."
+msgstr "ID sau alias al componentei ce va fi arătată implicit la pornire."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:32
 msgid "Default sidebar width"
@@ -5440,7 +5451,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Nu există articole de afișat în această vizualizare.\n"
+"Nu există articole de arătat în această vizualizare.\n"
 "\n"
 "Clic dublu aici pentru crea un contact nou."
 
@@ -5462,7 +5473,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Nu există articole de afișat în această vizualizare."
+"Nu există articole de arătat în această vizualizare."
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:745
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
@@ -6955,7 +6966,7 @@ msgstr "un tabel pentru a vizualiza și selecta timpul curent"
 
 #: ../src/calendar/gui/ea-jump-button.c:148
 msgid "Jump button"
-msgstr "Sări la buton"
+msgstr ""
 
 #: ../src/calendar/gui/ea-jump-button.c:157
 msgid "Click here, you can find more events."
@@ -7992,9 +8003,10 @@ msgstr "Comută afișarea Evenimentului pentru toată ziua"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:608
 msgid "Show Time as _Busy"
-msgstr "Afișează timpul ca _ocupat"
+msgstr "Arată timpul ca _ocupat"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:610
+#, fuzzy
 msgid "Toggles whether to show time as busy"
 msgstr "Comută afișarea timpului ca ocupat"
 
@@ -9063,7 +9075,7 @@ msgstr "_Fus orar:"
 #| msgid "Show Time as _Busy"
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
-msgstr "Afișează timpul ca _ocupat"
+msgstr "Arată timpul ca _ocupat"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:224
 #, fuzzy
@@ -9524,11 +9536,11 @@ msgstr "O_pțiuni"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:583
 msgid "Show _only working hours"
-msgstr "Afișează numai _orele de lucru"
+msgstr "Arată numai _orele de lucru"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:596
 msgid "Show _zoomed out"
-msgstr "Afișează _micșorat"
+msgstr "Arată _micșorat"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:614
 msgid "_Update free/busy"
@@ -13889,7 +13901,7 @@ msgstr "Intrare text pentru introducere dată"
 
 #: ../src/e-util/e-dateedit.c:572
 msgid "Click this button to show a calendar"
-msgstr "Clic pe acest buton pentru a afișa un calendar"
+msgstr "Clic pe acest buton pentru a arăta un calendar"
 
 #: ../src/e-util/e-dateedit.c:627
 msgid "Drop-down combination box to select time"
@@ -16603,7 +16615,7 @@ msgstr "Fără grupare"
 
 #: ../src/e-util/e-table-config.c:545
 msgid "Show Fields"
-msgstr "Afișează câmpurile"
+msgstr "Arată câmpurile"
 
 #: ../src/e-util/e-table-config.c:559
 #, fuzzy
@@ -16617,7 +16629,7 @@ msgstr "Curăță _tot"
 
 #: ../src/e-util/e-table-config.ui.h:5
 msgid "_Show field in View"
-msgstr "Afișare câmp în vi_zualizare"
+msgstr "Arată câmpul în vi_zualizare"
 
 #: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1779
 msgid "Ascending"
@@ -16633,7 +16645,7 @@ msgstr "Grupează elemente după"
 
 #: ../src/e-util/e-table-config.ui.h:9
 msgid "Show _field in View"
-msgstr "Afișare câmp în vi_zualizare"
+msgstr "Arată câmpul în vi_zualizare"
 
 #: ../src/e-util/e-table-config.ui.h:10
 msgid "Then By"
@@ -16641,11 +16653,11 @@ msgstr "Apoi după"
 
 #: ../src/e-util/e-table-config.ui.h:11
 msgid "Show field i_n View"
-msgstr "Afișare câmp î_n vizualizare"
+msgstr "Arată câmpul î_n vizualizare"
 
 #: ../src/e-util/e-table-config.ui.h:12
 msgid "Show field in _View"
-msgstr "Afișare câmp în _vizualizare"
+msgstr "Arată câmpul în _vizualizare"
 
 #: ../src/e-util/e-table-config.ui.h:13
 msgid "Sort"
@@ -16675,7 +16687,7 @@ msgstr "_Grupează după..."
 
 #: ../src/e-util/e-table-config.ui.h:19
 msgid "_Fields Shown..."
-msgstr "_Câmpuri afișate..."
+msgstr "_Câmpuri arătate..."
 
 #: ../src/e-util/e-table-field-chooser.c:164
 msgid ""
@@ -17319,7 +17331,7 @@ msgstr ""
 
 #: ../src/e-util/filter.ui.h:21
 msgid "Show filters for mail:"
-msgstr "Afișează filtrele pentru email:"
+msgstr "Arată filtrele pentru email:"
 
 #: ../src/e-util/filter.ui.h:22 ../src/mail/em-filter-editor.c:163
 msgid "_Filter Rules"
@@ -17894,7 +17906,7 @@ msgstr "Folosind adresa email"
 #, fuzzy
 #| msgid "IMAP Headers"
 msgid "IMAP server"
-msgstr "Antete IMAP"
+msgstr "Server IMAP"
 
 #: ../src/mail/e-mail-autoconfig.c:1176
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
@@ -18789,7 +18801,7 @@ msgstr "Nume antet"
 
 #: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:128
 msgid "Headers"
-msgstr "Antete"
+msgstr "Anteturi"
 
 #: ../src/mail/e-mail-printer.c:142
 #, c-format
@@ -19309,7 +19321,7 @@ msgstr "Sursă _mesaj"
 
 #: ../src/mail/e-mail-reader.c:2467
 msgid "Show the raw email source of the message"
-msgstr "Atașează sursa primară a mesajului"
+msgstr "Arată sursa primară a mesajului"
 
 #: ../src/mail/e-mail-reader.c:2479
 msgid "_Undelete Message"
@@ -19446,7 +19458,7 @@ msgstr "Mod cu _cursor"
 
 #: ../src/mail/e-mail-reader.c:2720
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "Afișează un cursor clipitor în corpul mesajelor afișate"
+msgstr "Arată un cursor clipitor în corpul mesajelor afișate"
 
 #: ../src/mail/e-mail-reader.c:2726
 msgid "All Message _Headers"
@@ -19454,7 +19466,7 @@ msgstr "Toate a_ntetele mesajului"
 
 #: ../src/mail/e-mail-reader.c:2728
 msgid "Show messages with all email headers"
-msgstr "Afișează mesajele cu toate antetele de email"
+msgstr "Arată mesajele cu toate anteturile de email"
 
 #: ../src/mail/e-mail-reader.c:3257
 #, fuzzy
@@ -21034,7 +21046,7 @@ msgstr "Pe acest calculator"
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../src/mail/mail-config.ui.h:109
 msgid "_Show animated images"
-msgstr "Afișează _imagini animate"
+msgstr "Arată _imagini animate"
 
 #: ../src/mail/mail-config.ui.h:110
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
@@ -21104,7 +21116,7 @@ msgstr "Fotografie expeditor"
 
 #: ../src/mail/mail-config.ui.h:123
 msgid "_Show the photograph of sender in the message preview"
-msgstr "Afișează fotografia expeditorului în previzualizarea me_sajului"
+msgstr "Arată fotografia expeditorului în previzualizarea me_sajului"
 
 #: ../src/mail/mail-config.ui.h:124
 msgid "Search gra_vatar.com for the photograph of sender"
@@ -21112,11 +21124,11 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:125
 msgid "Displayed Message Headers"
-msgstr "Antetele afișate ale mesajului"
+msgstr "Anteturile afișate ale mesajului"
 
 #: ../src/mail/mail-config.ui.h:126
 msgid "Mail Headers Table"
-msgstr "Tabel antete email"
+msgstr "Tabel anteturi email"
 
 #: ../src/mail/mail-config.ui.h:127
 #: ../src/modules/addressbook/autocompletion-config.c:118
@@ -21150,7 +21162,7 @@ msgstr "Caută doar în agenda _locală"
 
 #: ../src/mail/mail-config.ui.h:134
 msgid "Check cu_stom headers for junk"
-msgstr "Vefică antetele per_sonalizate pentru spam"
+msgstr "Vefică anteturile per_sonalizate pentru spam"
 
 #: ../src/mail/mail-config.ui.h:136
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:302
@@ -22534,7 +22546,7 @@ msgstr "Destinatari"
 #, fuzzy
 #| msgid "IMAP Headers"
 msgid "Any header"
-msgstr "Antete IMAP"
+msgstr "Orice antet"
 
 #: ../src/mail/searchtypes.xml.in.h:57
 msgid "Subject or Addresses contains"
@@ -22688,7 +22700,7 @@ msgstr "Autocompletare"
 
 #: ../src/modules/addressbook/autocompletion-config.c:172
 msgid "Always _show address of the autocompleted contact"
-msgstr "Afișează întotdeauna adre_a contactului autocompletat"
+msgstr "Arată întotdeauna adre_a contactului autocompletat"
 
 #: ../src/modules/addressbook/eab-composer-util.c:98
 msgid "Multiple vCards"
@@ -22812,7 +22824,7 @@ msgstr "_Harta agendei"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:993
 msgid "Show map with all contacts from selected address book"
-msgstr "Afișează harta cu toate contactele din agenda selectată"
+msgstr "Arată harta cu toate contactele din agenda selectată"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:998
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1337
@@ -22922,15 +22934,15 @@ msgstr "_Previzualizare contact"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1143
 msgid "Show contact preview window"
-msgstr "Afișează fereastra de previzualizare de contacte"
+msgstr "Arată fereastra de previzualizare de contacte"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1149
 msgid "Show _Maps"
-msgstr "Afișează _hărți"
+msgstr "Arată _hărți"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1151
 msgid "Show maps in contact preview window"
-msgstr "Afișează hărți în fereastra de previzualizare a contactelor"
+msgstr "Arată hărți în fereastra de previzualizare a contactelor"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1170
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:741
@@ -22972,7 +22984,7 @@ msgstr "Căutare avansată"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1237
 msgid "Print all shown contacts"
-msgstr "Tipărește toate contactele afișate"
+msgstr "Tipărește toate contactele arătate"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1244
 msgid "Preview the contacts to be printed"
@@ -23842,7 +23854,7 @@ msgstr "Fus orar se_cundar:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:12
 msgid "(Shown in a Day View)"
-msgstr "(Afișat în Vizualizarea zilei)"
+msgstr "(Arătat în Vizualizarea zilei)"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:13
 msgid "Time _zone:"
@@ -23966,24 +23978,22 @@ msgstr "Diviziuni de _timp:"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:51
 msgid "_Show appointment end times in week and month view"
 msgstr ""
-"_Afișează termenul de final al programărilor la Vizualizarea săptămânii și "
-"lunii"
+"_Arată termenul de final al programărilor la Vizualizarea săptămânii și lunii"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:52
 #, fuzzy
 #| msgid "Show appointment end times in week and month views"
 msgid "Show appointment _icons in the month view"
 msgstr ""
-"Afișează termenul de final al programărilor în Vizualizarea săptămânii și "
-"lunii"
+"Arată termenul de final al programărilor în Vizualizarea săptămânii și lunii"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:53
 msgid "_Compress weekends in month view"
-msgstr "C_omprimă weekend-urile în Vizualizarea lunii"
+msgstr "C_omprimă weekend-urile în vizualizarea lunii"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:54
 msgid "Show week _numbers"
-msgstr "Afișează _numărul de săptămâni"
+msgstr "Arată _numărul de săptămâni"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:55
 msgid "Show r_ecurring events in italic in bottom left calendar"
@@ -24404,7 +24414,7 @@ msgstr "Zi"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1632
 msgid "Show one day"
-msgstr "Afișează o zi"
+msgstr "Arată o zi"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1637
 msgid "List"
@@ -24412,7 +24422,7 @@ msgstr "Listă"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1639
 msgid "Show as list"
-msgstr "Afișează ca listă"
+msgstr "Arată ca listă"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1644
 msgid "Month"
@@ -24420,7 +24430,7 @@ msgstr "Lună"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1646
 msgid "Show one month"
-msgstr "Afișează o lună"
+msgstr "Arată o lună"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1651
 msgid "Week"
@@ -24428,7 +24438,7 @@ msgstr "Săptămână"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1653
 msgid "Show one week"
-msgstr "Afișează o săptămână"
+msgstr "Arată o săptămână"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1660
 msgid "Show one work week"
@@ -24836,7 +24846,7 @@ msgstr "Afișează d_oar această listă de sarcini"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:759
 msgid "Show _Only This Task List"
-msgstr "Afișează d_oar această listă de sarcini"
+msgstr "Arată d_oar această listă de sarcini"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:773
 msgid "Mar_k as Incomplete"
@@ -25488,7 +25498,7 @@ msgstr "_Aplică tutoror instanțelor"
 
 #: ../src/modules/itip-formatter/itip-view.c:1740
 msgid "Show time as _free"
-msgstr "Afișare timp ca li_ber"
+msgstr "Arată timpul ca li_ber"
 
 #: ../src/modules/itip-formatter/itip-view.c:1741
 msgid "_Preserve my reminder"
@@ -25785,7 +25795,7 @@ msgstr "Adaugă calendare Google în Evolution."
 #| msgid "IMAP Headers"
 msgctxt "GoggleSummary"
 msgid "IMAP access"
-msgstr "Antete IMAP"
+msgstr "Access IMAP"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
@@ -26353,6 +26363,7 @@ msgid "_New Folder..."
 msgstr "Dosar _nou..."
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1990
+#, fuzzy
 msgid "Show Message _Preview"
 msgstr "_Previzualizare de mesaje"
 
@@ -26380,7 +26391,7 @@ msgstr "Arată mesa_jele șterse"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2008
 msgid "Show deleted messages with a line through them"
-msgstr "Afișează mesajele șterse cu o tăietură în lista de mesaje."
+msgstr "Arată mesajele șterse cu o tăietură în lista de mesaje."
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2014
 #, fuzzy
@@ -26392,7 +26403,7 @@ msgstr "Arată mesa_jele șterse"
 #, fuzzy
 #| msgid "Show deleted messages with a line through them"
 msgid "Show junk messages with a red line through them"
-msgstr "Afișează mesajele șterse cu o tăietură în lista de mesaje."
+msgstr "Arată mesajele șterse cu o tăietură în lista de mesaje."
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2022
 msgid "_Group By Threads"
@@ -26423,6 +26434,7 @@ msgid "Toggles whether Unmatched search folder is enabled"
 msgstr "Comută afișarea câmpului Rol"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2060
+#, fuzzy
 msgid "Show message preview below the message list"
 msgstr "Previzualizează mesajul sub lista de mesaje"
 
@@ -26770,12 +26782,12 @@ msgstr "Afișează mesajul precedent important"
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:77
 #: ../src/modules/prefer-plain/plugin/config-ui.c:35
 msgid "Show HTML if present"
-msgstr "Afișează HTML dacă este prezent"
+msgstr "Arată HTML dacă este prezent"
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:78
 #: ../src/modules/prefer-plain/plugin/config-ui.c:36
 msgid "Let Evolution choose the best part to show."
-msgstr "Permite Evolution să aleagă cea mai bună parte pentru afișare."
+msgstr "Permite Evolution să aleagă cea mai bună parte de arătat."
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:81
 #: ../src/modules/prefer-plain/plugin/config-ui.c:39
@@ -26789,7 +26801,7 @@ msgid ""
 "part to show."
 msgstr ""
 "Arată partea cu text simplu, dacă este prezentă, alfel permite Evolution să "
-"aleagă cea mai bună parte pentru afișare."
+"aleagă cea mai bună parte de arătat."
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:86
 #: ../src/modules/prefer-plain/plugin/config-ui.c:44
@@ -26812,7 +26824,7 @@ msgstr ""
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:91
 #: ../src/modules/prefer-plain/plugin/config-ui.c:49
 msgid "Only ever show plain text"
-msgstr "Afișează numai text simplu"
+msgstr "Arată numai text simplu"
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:92
 #: ../src/modules/prefer-plain/plugin/config-ui.c:50
@@ -27192,14 +27204,14 @@ msgstr ""
 #, fuzzy
 #| msgid "Show Full vCard"
 msgid "Show F_ull vCard"
-msgstr "Afișează tot vCard"
+msgstr "Arată tot vCard"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:132
 #: ../src/modules/vcard-inline/e-mail-part-vcard.c:193
 #, fuzzy
 #| msgid "Show Compact vCard"
 msgid "Show Com_pact vCard"
-msgstr "Afișează compact vCard"
+msgstr "Arată compact vCard"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:163
 #, fuzzy
@@ -27409,7 +27421,7 @@ msgstr "Antet personalizat"
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
 msgid "Add custom headers to outgoing mail messages."
-msgstr "Adaugă antete personalizate mesajelor trimise."
+msgstr "Adaugă anteturi personalizate mesajelor trimise."
 
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:1
 msgid "Email Custom Header"
@@ -27750,7 +27762,7 @@ msgstr "Se repornește Evolution"
 #: ../src/plugins/mail-notification/mail-notification.c:483
 #, c-format
 msgid "Show %s"
-msgstr "Afișează %s"
+msgstr "Arată %s"
 
 #: ../src/plugins/mail-notification/mail-notification.c:687
 msgid "_Play sound when a new message arrives"
@@ -28448,6 +28460,7 @@ msgid "translator-credits"
 msgstr ""
 "Tiberiu Micu <tibimicu@gmx.net>\n"
 "Mugurel Tudor <mugurelu@gnome.ro>\n"
+"Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2018\n"
 "\n"
 "Launchpad Contributions:\n"
 "  Adi Roiban https://launchpad.net/~adiroiban\n"
@@ -28480,7 +28493,7 @@ msgstr "Bug Buddy nu poate fi rulat."
 
 #: ../src/shell/e-shell-window-actions.c:798
 msgid "Show information about Evolution"
-msgstr "Afișează informații despre Evolution"
+msgstr "Arată informații despre Evolution"
 
 #: ../src/shell/e-shell-window-actions.c:803
 #, fuzzy
@@ -28532,7 +28545,6 @@ msgid "_Quick Reference"
 msgstr "Referință ra_pidă"
 
 #: ../src/shell/e-shell-window-actions.c:896
-#, fuzzy
 #| msgid "Show Evolution's shortcut keys"
 msgid "Show Evolution’s shortcut keys"
 msgstr "Arată scurtăturile de taste Evolution"
@@ -28630,7 +28642,7 @@ msgstr "_Fereastră"
 #, fuzzy
 #| msgid "Show _Status Bar"
 msgid "Show _Menu Bar"
-msgstr "Afișează bara de _stare"
+msgstr "Arată bara de _stare"
 
 #: ../src/shell/e-shell-window-actions.c:1068
 #, fuzzy
@@ -28640,7 +28652,7 @@ msgstr "Arată bara laterală"
 
 #: ../src/shell/e-shell-window-actions.c:1074
 msgid "Show Side _Bar"
-msgstr "Afișează _bara laterală"
+msgstr "Arată _bara laterală"
 
 #: ../src/shell/e-shell-window-actions.c:1076
 msgid "Show the side bar"
@@ -28652,11 +28664,11 @@ msgstr "Arată _butoane"
 
 #: ../src/shell/e-shell-window-actions.c:1084
 msgid "Show the switcher buttons"
-msgstr "Afișează butoanele comutatorului"
+msgstr "Arată butoanele comutatorului"
 
 #: ../src/shell/e-shell-window-actions.c:1090
 msgid "Show _Status Bar"
-msgstr "Afișează bara de _stare"
+msgstr "Arată bara de _stare"
 
 #: ../src/shell/e-shell-window-actions.c:1092
 msgid "Show the status bar"
