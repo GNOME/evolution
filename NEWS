@@ -1,3 +1,55 @@
+Evolution 3.28.1 2018-04-09
+---------------------------
+
+Bug Fixes:
+	Bug 794151 - The "File Under" field can not be edited (Milan Crha)
+	Bug 794138 - Search for Category Unmatched in Memos results in an error (Milan Crha)
+	Bug 793848 - Split PRE into separate paragraphs in HTML ][ (Milan Crha)
+	Bug 794474 - Headers in forwarded message credits in opposite order (HTML) (Milan Crha)
+	Bug 791244 - Cannot copy text/click links in read-only events (Milan Crha)
+	Bug 792688 - Failed mail print operation causes crash (Milan Crha)
+	Bug 794628 - Don't preload timezones on libical 3.0.2+ (Dan Nicholson)
+	Bug 764044 - Leftover "Generating message list" in the status pane (Milan Crha)
+	Bug 794693 - Crash when trying to view email message source (Milan Crha)
+	Bug 794648 - Undo/Redo doesn't work in component Description (Milan Crha)
+	Bug 794718 - Calendar List view shows wrong start/end time (when in UTC) (Milan Crha)
+	Bug 794451 - Fix my previous changes (Andre Klapper)
+
+Miscellaneous:
+	Correct typo in config.h.in (Milan Crha)
+	Correct e_mail_formatter_canon_header_name() (Milan Crha)
+	Correct evolution stable flatpak build (Milan Crha)
+	Update version requirements in flatpak files (Milan Crha)
+	Avoid runtime warning when printing message with text/calendar attachment (Milan Crha)
+	Avoid runtime warning when creating fullname.ui	dialog (Milan Crha)
+	Reply includes HTML attachment in message body (Milan Crha)
+	Mark missing string for translation (Piotr Drąg)
+	Ensure transient parent for ETimezoneDialog (Milan Crha)
+	Fix broken markup in Hungarian translation (Andre Klapper)
+	Use proper its format for translator comments (Andre Klapper)
+	Update how to use address book as a data source in LibreOffice (Andre Klapper)
+	Remove step covering a non-existing UI element (Andre Klapper)
+	No globe button anymore, just a 'Select' button (Andre Klapper)
+	Classification UI in task/cal editor is not consistent anymore (Andre Klapper)
+
+Translations:
+	Efstathios Iosifidis (el)
+	Stas Solovey (ru)
+	Muhammet Kara (tr)
+	Emin Tufan Çetin (tr)
+	Cheng-Chia Tseng (zh_TW)
+	Daniel Șerbănescu (ro)
+	Piotr Drąg (pl)
+	Anders Jonsson (sv)
+	Rafael Fontenelle (pt_BR)
+	Marek Černocký (cs)
+	Gianvito Cavasoli (it)
+	Christian Kirbach (de)
+	Rūdolfs Mazurs (lv)
+	Aurimas Černius (lt)
+	Daniel Șerbănescu (ro)
+	Hannie Dumoleyn (nl)
+
 Evolution 3.28.0 2018-03-12
 ---------------------------
 
