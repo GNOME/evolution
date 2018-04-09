@@ -2568,7 +2568,7 @@ do_reload_display (EMailDisplay *display)
 
 	display->priv->scheduled_reload = 0;
 
-	if (uri == NULL || *uri == '\0')
+	if (!uri || !*uri || g_ascii_strcasecmp (uri, "about:blank") == 0)
 		return FALSE;
 
 	if (strstr (uri, "?") == NULL) {
@@ -2623,9 +2623,14 @@ do_reload_display (EMailDisplay *display)
 void
 e_mail_display_reload (EMailDisplay *display)
 {
+	const gchar *uri;
+
 	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
 
-	if (display->priv->scheduled_reload > 0)
+	uri = webkit_web_view_get_uri (WEBKIT_WEB_VIEW (display));
+
+	if (!uri || !*uri || g_ascii_strcasecmp (uri, "about:blank") == 0 ||
+	    display->priv->scheduled_reload > 0)
 		return;
 
 	/* Schedule reloading if neccessary.
