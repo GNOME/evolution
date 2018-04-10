@@ -125,6 +125,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 	gint i = 0;
 	gchar *str = NULL;
 	gint limit = mail_config_get_address_count ();
+	gboolean show_mails = mail_config_get_show_mails_in_preview ();
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
 	g_return_val_if_fail (out != NULL, NULL);
@@ -143,12 +144,14 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 			if (name != NULL && *name != '\0') {
 				gchar *real, *mailaddr;
 
-				if (strchr (a->name, ',') || strchr (a->name, ';'))
-					g_string_append_printf (out, "&quot;%s&quot;", name);
-				else
-					g_string_append (out, name);
+				if (show_mails || no_links) {
+					if (strchr (a->name, ',') || strchr (a->name, ';'))
+						g_string_append_printf (out, "&quot;%s&quot;", name);
+					else
+						g_string_append (out, name);
 
-				g_string_append (out, " &lt;");
+					g_string_append (out, " &lt;");
+				}
 
 				/* rfc2368 for mailto syntax and url encoding extras */
 				if ((real = camel_header_encode_phrase ((guchar *) a->name))) {
@@ -165,12 +168,14 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 			addr = camel_text_to_html (a->v.addr, flags, 0);
 			if (no_links)
 				g_string_append_printf (out, "%s", addr);
+			else if (!show_mails && name && *name)
+				g_string_append_printf (out, "<a href=\"mailto:%s\">%s</a>", mailto, name);
 			else
 				g_string_append_printf (out, "<a href=\"mailto:%s\">%s</a>", mailto, addr);
 			g_free (mailto);
 			g_free (addr);
 
-			if (name != NULL && *name != '\0')
+			if (name != NULL && *name != '\0' && (show_mails || no_links))
 				g_string_append (out, "&gt;");
 			break;
 		case CAMEL_HEADER_ADDRESS_GROUP:

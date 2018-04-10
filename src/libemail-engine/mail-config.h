@@ -36,6 +36,8 @@ void		mail_config_init		(EMailSession *session);
 /* General Accessor functions */
 
 gint		mail_config_get_address_count	(void);
+gboolean	mail_config_get_show_mails_in_preview
+						(void);
 
 /* static utility functions */
 gchar *		mail_config_folder_to_cachename	(CamelFolder *folder,

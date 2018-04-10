@@ -37,6 +37,7 @@ typedef struct {
 
 	gboolean address_compress;
 	gint address_count;
+	gboolean show_mails_in_preview;
 
 	GSList *jh_header;
 	gboolean jh_check;
@@ -166,6 +167,12 @@ mail_config_get_address_count (void)
 	return config->address_count;
 }
 
+gboolean
+mail_config_get_show_mails_in_preview (void)
+{
+	return config->show_mails_in_preview;
+}
+
 /* timeout interval, in seconds, when to call server update */
 gint
 mail_config_get_sync_timeout (void)
@@ -282,6 +289,13 @@ mail_config_init (EMailSession *session)
 		&config->address_count);
 	config->address_count = g_settings_get_int (
 		mail_settings, "address-count");
+
+	g_signal_connect (
+		mail_settings, "changed::show-mails-in-preview",
+		G_CALLBACK (settings_bool_value_changed),
+		&config->show_mails_in_preview);
+	config->show_mails_in_preview = g_settings_get_boolean (
+		mail_settings, "show-mails-in-preview");
 
 	/* Junk Configuration */
 

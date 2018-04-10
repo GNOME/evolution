@@ -416,6 +416,11 @@
       <_summary>Number of addresses to display in TO/CC/BCC</_summary>
       <_description>This sets the number of addresses to show in default message list view, beyond which a “...” is shown.</_description>
     </key>
+    <key name="show-mails-in-preview" type="b">
+      <default>true</default>
+      <_summary>Show mails in headers part of the message preview when name is available</_summary>
+      <_description>When set to false, the mail addresses which contain both the name and the email parts in headers like To/Cc/Bcc will be shown only with the name part, without the actual email, with the name made clickable.</_description>
+    </key>
     <key name="thread-subject" type="b">
       <default>false</default>
       <_summary>Thread the message-list based on Subject</_summary>

@@ -1409,6 +1409,12 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "chkShowMailsInPreview");
+	g_settings_bind (
+		settings, "show-mails-in-preview",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	container = e_builder_get_widget (prefs->priv->builder, "archive-mail-hbox");
 	widget = em_folder_selection_button_new (session, "", _("Choose a folder to archive messages to."));
 	gtk_widget_set_hexpand (widget, FALSE);
