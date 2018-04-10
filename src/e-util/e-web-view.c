@@ -1448,14 +1448,15 @@ static void
 web_view_load_string (EWebView *web_view,
                       const gchar *string)
 {
-	GBytes *bytes;
+	if (!string || !*string) {
+		webkit_web_view_load_html (WEBKIT_WEB_VIEW (web_view), "", "evo-file://");
+	} else {
+		GBytes *bytes;
 
-	if (string == NULL)
-		string = "";
-
-	bytes = g_bytes_new (string, strlen (string));
-	webkit_web_view_load_bytes (WEBKIT_WEB_VIEW (web_view), bytes, NULL, NULL, "evo-file:///");
-	g_bytes_unref (bytes);
+		bytes = g_bytes_new (string, strlen (string));
+		webkit_web_view_load_bytes (WEBKIT_WEB_VIEW (web_view), bytes, NULL, NULL, "evo-file://");
+		g_bytes_unref (bytes);
+	}
 }
 
 static void

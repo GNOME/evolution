@@ -1763,26 +1763,6 @@ set_convert_in_situ (EWebKitEditor *wk_editor,
 }
 
 static void
-e_webkit_editor_load_html_as_bytes (EWebKitEditor *wk_editor,
-				    const gchar *html)
-{
-	GBytes *bytes;
-
-	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-
-	if (!html)
-		html = "";
-
-	bytes = g_bytes_new (html, strlen (html));
-
-	/* Make WebKit think we are displaying a local file, so that it
-	 * does not block loading resources from file:// protocol */
-	webkit_web_view_load_bytes (WEBKIT_WEB_VIEW (wk_editor), bytes, NULL, NULL, "file://");
-
-	g_bytes_unref (bytes);
-}
-
-static void
 webkit_editor_insert_content (EContentEditor *editor,
                               const gchar *content,
                               EContentEditorInsertContentFlags flags)
@@ -1843,14 +1823,14 @@ webkit_editor_insert_content (EContentEditor *editor,
 		if ((strstr (content, "data-evo-draft") ||
 		     strstr (content, "data-evo-signature-plain-text-mode"))) {
 			wk_editor->priv->reload_in_progress = TRUE;
-			e_webkit_editor_load_html_as_bytes (wk_editor, content);
+			webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
 			return;
 		}
 
 		if (strstr (content, "data-evo-draft") && !(wk_editor->priv->html_mode)) {
 			set_convert_in_situ (wk_editor, TRUE);
 			wk_editor->priv->reload_in_progress = TRUE;
-			e_webkit_editor_load_html_as_bytes (wk_editor, content);
+			webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
 			return;
 		}
 
@@ -1861,7 +1841,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 					set_convert_in_situ (wk_editor, FALSE);
 					wk_editor->priv->reload_in_progress = TRUE;
 					webkit_editor_set_html_mode (wk_editor, TRUE);
-					e_webkit_editor_load_html_as_bytes (wk_editor, content);
+					webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
 					return;
 				}
 			}
@@ -1869,7 +1849,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		}
 
 		wk_editor->priv->reload_in_progress = TRUE;
-		e_webkit_editor_load_html_as_bytes (wk_editor, content);
+		webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_PLAIN)) {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
@@ -5224,7 +5204,10 @@ webkit_editor_constructed (GObject *object)
 	webkit_settings_set_allow_file_access_from_file_urls (web_settings, TRUE);
 	webkit_settings_set_enable_developer_extras (web_settings, e_util_get_webkit_developer_mode_enabled ());
 
-	e_webkit_editor_load_html_as_bytes (wk_editor, "");
+	/* Make WebKit think we are displaying a local file, so that it
+	 * does not block loading resources from file:// protocol */
+	webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), "", "file://");
+
 }
 
 static GObjectConstructParam*
