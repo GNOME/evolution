@@ -1353,13 +1353,18 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 			if (to_do_pane->priv->show_completed_tasks) {
 				tasks_filter = g_strdup ("#t");
 			} else {
-				tasks_filter = g_strdup ("(not (is-completed?))");
+				tasks_filter = g_strdup (
+					"(and"
+					" (not (is-completed?))"
+					" (not (contains? \"status\" \"CANCELLED\"))"
+					")");
 			}
 		} else if (to_do_pane->priv->show_completed_tasks) {
 			tasks_filter = g_strdup_printf (
 					"(or"
 					" (and"
 					 " (not (is-completed?))"
+					 " (not (contains? \"status\" \"CANCELLED\"))"
 					 " (due-in-time-range? (make-time \"%s\") (make-time \"%s\"))"
 					 ")"
 					" (and"
@@ -1371,6 +1376,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 			tasks_filter = g_strdup_printf (
 					"(and"
 					" (not (is-completed?))"
+					" (not (contains? \"status\" \"CANCELLED\"))"
 					" (due-in-time-range? (make-time \"%s\") (make-time \"%s\"))"
 					")",
 					iso_begin_all, iso_end);
