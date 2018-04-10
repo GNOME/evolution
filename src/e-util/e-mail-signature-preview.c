@@ -95,14 +95,12 @@ mail_signature_preview_load_cb (ESource *source,
 	mime_type = e_source_mail_signature_get_mime_type (extension);
 
 	if (g_strcmp0 (mime_type, "text/html") == 0) {
-		webkit_web_view_load_html (
-			WEBKIT_WEB_VIEW (preview), contents, "file:///");
+		e_web_view_load_string (E_WEB_VIEW (preview), contents);
 	} else {
 		gchar *string;
 
 		string = g_markup_printf_escaped ("<pre>%s</pre>", contents);
-		webkit_web_view_load_html (
-			WEBKIT_WEB_VIEW (preview), string, "file:///");
+		e_web_view_load_string (E_WEB_VIEW (preview), string);
 		g_free (string);
 	}
 

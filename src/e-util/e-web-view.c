@@ -1448,11 +1448,14 @@ static void
 web_view_load_string (EWebView *web_view,
                       const gchar *string)
 {
+	GBytes *bytes;
+
 	if (string == NULL)
 		string = "";
 
-	webkit_web_view_load_html (
-		WEBKIT_WEB_VIEW (web_view), string, "evo-file:///");
+	bytes = g_bytes_new (string, strlen (string));
+	webkit_web_view_load_bytes (WEBKIT_WEB_VIEW (web_view), bytes, NULL, NULL, "evo-file:///");
+	g_bytes_unref (bytes);
 }
 
 static void
@@ -2574,13 +2577,11 @@ e_web_view_clear (EWebView *web_view)
 
 	e_web_view_replace_load_cancellable (web_view, FALSE);
 
-	webkit_web_view_load_html (
-		WEBKIT_WEB_VIEW (web_view),
+	e_web_view_load_string (web_view,
 		"<html>"
 		"<head></head>"
 		"<body class=\"-e-web-view-background-color -e-web-view-text-color\"></body>"
-		"</html>",
-		NULL);
+		"</html>");
 }
 
 void
