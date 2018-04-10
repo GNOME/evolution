@@ -117,9 +117,12 @@ struct _EMMailerPrefsPrivate {
 	/* Headers tab */
 	GtkButton *add_header;
 	GtkButton *remove_header;
+	GtkButton *reset_headers;
 	GtkEntry *entry_header;
 	GtkTreeView *header_list;
 	GtkListStore *header_list_store;
+	gulong header_list_store_row_changed_id;
+	guint save_headers_id;
 
 	GtkToggleButton *junk_header_check;
 	GtkTreeView *junk_header_tree;
@@ -146,6 +149,20 @@ G_DEFINE_TYPE (
 	GTK_TYPE_BOX)
 
 static void
+em_mailer_prefs_dispose (GObject *object)
+{
+	EMMailerPrefs *prefs = (EMMailerPrefs *) object;
+
+	if (prefs->priv->save_headers_id) {
+		g_source_remove (prefs->priv->save_headers_id);
+		prefs->priv->save_headers_id = 0;
+	}
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (em_mailer_prefs_parent_class)->dispose (object);
+}
+
+static void
 em_mailer_prefs_finalize (GObject *object)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) object;
@@ -165,6 +182,7 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 	g_type_class_add_private (class, sizeof (EMMailerPrefsPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = em_mailer_prefs_dispose;
 	object_class->finalize = em_mailer_prefs_finalize;
 }
 
@@ -540,6 +558,29 @@ emmp_save_headers (EMMailerPrefs *prefs)
 	g_settings_set_value (prefs->priv->settings, "show-headers", variant);
 }
 
+static gboolean
+emmp_save_headers_idle_cb (gpointer user_data)
+{
+	EMMailerPrefs *prefs = user_data;
+
+	g_return_val_if_fail (prefs != NULL, FALSE);
+
+	if (!g_source_is_destroyed (g_main_current_source ())) {
+		prefs->priv->save_headers_id = 0;
+		emmp_save_headers (prefs);
+	}
+
+	return FALSE;
+}
+
+static void
+emmp_shedule_save_headers (EMMailerPrefs *prefs)
+{
+	if (!prefs->priv->save_headers_id) {
+		prefs->priv->save_headers_id = g_idle_add (emmp_save_headers_idle_cb, prefs);
+	}
+}
+
 static void
 emmp_header_list_enabled_toggled (GtkCellRendererToggle *cell,
                                   const gchar *path_string,
@@ -549,6 +590,8 @@ emmp_header_list_enabled_toggled (GtkCellRendererToggle *cell,
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	GtkTreeIter iter;
 	gint enabled;
+
+	g_signal_handler_block (model, prefs->priv->header_list_store_row_changed_id);
 
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_model_get (
@@ -561,6 +604,8 @@ emmp_header_list_enabled_toggled (GtkCellRendererToggle *cell,
 	gtk_tree_path_free (path);
 
 	emmp_save_headers (prefs);
+
+	g_signal_handler_unblock (model, prefs->priv->header_list_store_row_changed_id);
 }
 
 static void
@@ -574,6 +619,8 @@ emmp_header_add_header (GtkWidget *widget,
 	g_strstrip ((gchar *) text);
 
 	if (text && (strlen (text) > 0)) {
+		g_signal_handler_block (model, prefs->priv->header_list_store_row_changed_id);
+
 		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 		gtk_list_store_set (
 			GTK_LIST_STORE (model), &iter,
@@ -587,6 +634,8 @@ emmp_header_add_header (GtkWidget *widget,
 		emmp_header_add_sensitivity (prefs);
 
 		emmp_save_headers (prefs);
+
+		g_signal_handler_unblock (model, prefs->priv->header_list_store_row_changed_id);
 	}
 }
 
@@ -604,10 +653,59 @@ emmp_header_remove_header (GtkWidget *button,
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
 		return;
 
+	g_signal_handler_block (model, prefs->priv->header_list_store_row_changed_id);
+
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 	emmp_header_remove_sensitivity (prefs);
 
 	emmp_save_headers (prefs);
+
+	g_signal_handler_unblock (model, prefs->priv->header_list_store_row_changed_id);
+}
+
+static void
+emmp_header_reset_headers (GtkWidget *button,
+			   gpointer user_data)
+{
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
+	GtkTreeModel *model = GTK_TREE_MODEL (prefs->priv->header_list_store);
+	gint ii;
+
+	g_signal_handler_block (model, prefs->priv->header_list_store_row_changed_id);
+
+	gtk_list_store_clear (GTK_LIST_STORE (model));
+
+	for (ii = 0; ii < G_N_ELEMENTS (default_headers); ii++) {
+		GtkTreeIter iter;
+		const gchar *display_name;
+		const gchar *header_name;
+		gboolean enabled;
+
+		header_name = default_headers[ii];
+		if (g_strcmp0 (header_name, EM_FORMAT_HEADER_XMAILER) == 0) {
+			display_name = _("Mailer");
+			enabled = FALSE;
+		} else {
+			display_name = _(header_name);
+			enabled = TRUE;
+		}
+
+		gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+
+		gtk_list_store_set (
+			GTK_LIST_STORE (model), &iter,
+			HEADER_LIST_NAME_COLUMN, display_name,
+			HEADER_LIST_ENABLED_COLUMN, enabled,
+			HEADER_LIST_IS_DEFAULT_COLUMN, TRUE,
+			HEADER_LIST_HEADER_COLUMN, header_name,
+			-1);
+	}
+
+	emmp_header_remove_sensitivity (prefs);
+	emmp_header_add_sensitivity (prefs);
+	emmp_save_headers (prefs);
+
+	g_signal_handler_unblock (model, prefs->priv->header_list_store_row_changed_id);
 }
 
 static void
@@ -1435,11 +1533,14 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	prefs->priv->remove_header = GTK_BUTTON (e_builder_get_widget (prefs->priv->builder, "cmdHeadersRemove"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->remove_header, FALSE);
 
+	prefs->priv->reset_headers = GTK_BUTTON (e_builder_get_widget (prefs->priv->builder, "cmdHeadersReset"));
+
 	prefs->priv->entry_header = GTK_ENTRY (e_builder_get_widget (prefs->priv->builder, "txtHeaders"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->entry_header, !locked);
 
 	prefs->priv->header_list = GTK_TREE_VIEW (e_builder_get_widget (prefs->priv->builder, "treeHeaders"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->priv->header_list, !locked);
+	gtk_tree_view_set_reorderable (prefs->priv->header_list, TRUE);
 
 	selection = gtk_tree_view_get_selection (prefs->priv->header_list);
 	g_signal_connect (
@@ -1453,12 +1554,18 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		"activate", G_CALLBACK (emmp_header_add_header), prefs);
 	/* initialise the tree with appropriate headings */
 	prefs->priv->header_list_store = gtk_list_store_newv (HEADER_LIST_N_COLUMNS, col_types);
+	prefs->priv->header_list_store_row_changed_id = g_signal_connect_swapped (
+		prefs->priv->header_list_store, "row-changed",
+		G_CALLBACK (emmp_shedule_save_headers), prefs);
 	g_signal_connect (
 		prefs->priv->add_header, "clicked",
 		G_CALLBACK (emmp_header_add_header), prefs);
 	g_signal_connect (
 		prefs->priv->remove_header, "clicked",
 		G_CALLBACK (emmp_header_remove_header), prefs);
+	g_signal_connect (
+		prefs->priv->reset_headers, "clicked",
+		G_CALLBACK (emmp_header_reset_headers), prefs);
 	gtk_tree_view_set_model (prefs->priv->header_list, GTK_TREE_MODEL (prefs->priv->header_list_store));
 
 	renderer = gtk_cell_renderer_toggle_new ();
@@ -1495,39 +1602,43 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	tree_model = GTK_TREE_MODEL (prefs->priv->header_list_store);
 
-	for (ii = 0; ii < G_N_ELEMENTS (default_headers); ii++) {
-		GtkTreeIter iter;
-		const gchar *display_name;
-		const gchar *header_name;
-		gboolean enabled;
-
-		header_name = default_headers[ii];
-		if (g_strcmp0 (header_name, EM_FORMAT_HEADER_XMAILER) == 0) {
-			display_name = _("Mailer");
-			enabled = FALSE;
-		} else {
-			display_name = _(header_name);
-			enabled = TRUE;
-		}
-
-		gtk_list_store_append (
-			GTK_LIST_STORE (tree_model), &iter);
-
-		gtk_list_store_set (
-			GTK_LIST_STORE (tree_model), &iter,
-			HEADER_LIST_NAME_COLUMN, display_name,
-			HEADER_LIST_ENABLED_COLUMN, enabled,
-			HEADER_LIST_IS_DEFAULT_COLUMN, TRUE,
-			HEADER_LIST_HEADER_COLUMN, header_name,
-			-1);
-
-		g_hash_table_insert (
-			default_header_hash, g_strdup (header_name),
-			gtk_tree_model_get_path (tree_model, &iter));
-	}
+	g_signal_handler_block (tree_model, prefs->priv->header_list_store_row_changed_id);
 
 	variant = g_settings_get_value (prefs->priv->settings, "show-headers");
 	n_children = g_variant_n_children (variant);
+
+	if (n_children == 0) {
+		for (ii = 0; ii < G_N_ELEMENTS (default_headers); ii++) {
+			GtkTreeIter iter;
+			const gchar *display_name;
+			const gchar *header_name;
+			gboolean enabled;
+
+			header_name = default_headers[ii];
+			if (g_strcmp0 (header_name, EM_FORMAT_HEADER_XMAILER) == 0) {
+				display_name = _("Mailer");
+				enabled = FALSE;
+			} else {
+				display_name = _(header_name);
+				enabled = TRUE;
+			}
+
+			gtk_list_store_append (
+				GTK_LIST_STORE (tree_model), &iter);
+
+			gtk_list_store_set (
+				GTK_LIST_STORE (tree_model), &iter,
+				HEADER_LIST_NAME_COLUMN, display_name,
+				HEADER_LIST_ENABLED_COLUMN, enabled,
+				HEADER_LIST_IS_DEFAULT_COLUMN, TRUE,
+				HEADER_LIST_HEADER_COLUMN, header_name,
+				-1);
+
+			g_hash_table_insert (
+				default_header_hash, g_strdup (header_name),
+				gtk_tree_model_get_path (tree_model, &iter));
+		}
+	}
 
 	for (ii = 0; ii < n_children; ii++) {
 		GtkTreeIter iter;
@@ -1551,12 +1662,22 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 				HEADER_LIST_ENABLED_COLUMN, enabled,
 				-1);
 		} else {
+			const gchar *display_name;
+
+			if (g_strcmp0 (header_name, EM_FORMAT_HEADER_XMAILER) == 0) {
+				display_name = _("Mailer");
+				enabled = FALSE;
+			} else {
+				display_name = _(header_name);
+				enabled = TRUE;
+			}
+
 			gtk_list_store_append (
 				GTK_LIST_STORE (tree_model), &iter);
 
 			gtk_list_store_set (
 				GTK_LIST_STORE (tree_model), &iter,
-				HEADER_LIST_NAME_COLUMN, _(header_name),
+				HEADER_LIST_NAME_COLUMN, display_name,
 				HEADER_LIST_ENABLED_COLUMN, enabled,
 				HEADER_LIST_IS_DEFAULT_COLUMN, FALSE,
 				HEADER_LIST_HEADER_COLUMN, header_name,
@@ -1567,6 +1688,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_variant_unref (variant);
 
 	g_hash_table_destroy (default_header_hash);
+	g_signal_handler_unblock (tree_model, prefs->priv->header_list_store_row_changed_id);
 
 	/* date/time format */
 	table = e_builder_get_widget (prefs->priv->builder, "datetime-format-table");
