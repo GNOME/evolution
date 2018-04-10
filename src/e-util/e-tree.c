@@ -1813,10 +1813,11 @@ et_foreach_recurse (ETreeModel *model,
 
 	callback (path, closure);
 
-	child = e_tree_model_node_get_first_child (E_TREE_MODEL (model), path);
-	for (; child; child = e_tree_model_node_get_next (E_TREE_MODEL (model), child))
-		if (child)
-			et_foreach_recurse (model, child, callback, closure);
+	for (child = e_tree_model_node_get_first_child (E_TREE_MODEL (model), path);
+	     child;
+	     child = e_tree_model_node_get_next (E_TREE_MODEL (model), child)) {
+		et_foreach_recurse (model, child, callback, closure);
+	}
 }
 
 void

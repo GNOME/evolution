@@ -585,15 +585,11 @@ do_drag_motion (ETableHeaderItem *ethi,
 		col = ethi_find_col_by_x_nearest (ethi, x);
 		suggested_action = gdk_drag_context_get_suggested_action (context);
 
-		if (ethi->drag_col != -1 && (col == ethi->drag_col ||
-		    col == ethi->drag_col + 1)) {
-			if (ethi->drag_col != -1)
-				ethi_remove_destroy_marker (ethi);
-
+		if (ethi->drag_col != -1 && (col == ethi->drag_col || col == ethi->drag_col + 1)) {
+			ethi_remove_destroy_marker (ethi);
 			ethi_remove_drop_marker (ethi);
 			gdk_drag_status (context, suggested_action, time);
-		}
-		else if (col != -1) {
+		} else if (col != -1) {
 			if (ethi->drag_col != -1)
 				ethi_remove_destroy_marker (ethi);
 
