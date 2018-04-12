@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-03-09 21:12+0000\n"
-"PO-Revision-Date: 2018-03-10 20:04+0100\n"
+"POT-Creation-Date: 2018-03-27 15:34+0000\n"
+"PO-Revision-Date: 2018-04-12 17:31+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -968,6 +968,8 @@ msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
 msgstr ""
+"Ali naj bodo dnevi v tedenskem pogledu postavljeni z leve na desno, namesto "
+"od zgoraj navzdol."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1384,6 +1386,8 @@ msgid ""
 "When set to TRUE, keep original message signature in replies, otherwise "
 "strip the signature and everything below it when replying to the message."
 msgstr ""
+"Izbrana možnost določa, da bo v odgovorih vedno ohranjen izvorni podpis, "
+"sicer se ta izbriše skupaj z vso vsebino."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:59
 msgid "Ignore list Reply-To:"
@@ -1444,6 +1448,9 @@ msgid ""
 "forward as provided by current locale translation, otherwise uses "
 "unlocalized version."
 msgstr ""
+"Izbrana možnost določa, da bo pri odgovoru na sporočilo uporabljena "
+"jezikovno prilagojena okrajšava za posredovanje in odgovor »Pos / Odg« v "
+"zadevi sporočila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:67
 msgid "Number of characters for wrapping"
@@ -2476,16 +2483,16 @@ msgid "Stores whether the To Do bar should show also completed tasks."
 msgstr "Shrani nastavitev prikaza končanih nalog v vrstici opravil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
-#, fuzzy
-#| msgid "Whether the To Do bar should show also completed tasks"
 msgid "Whether the To Do bar should show also tasks without Due date"
-msgstr "Ali naj bodo v vrstici opravil vidne tudi končane naloge"
+msgstr ""
+"Ali naj bodo v vrstici opravil vidne tudi naloge, ki nimajo določenega "
+"datuma končanja"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:257
-#, fuzzy
-#| msgid "Stores whether the To Do bar should show also completed tasks."
 msgid "Stores whether the To Do bar should show also tasks without Due date."
-msgstr "Shrani nastavitev prikaza končanih nalog v vrstici opravil."
+msgstr ""
+"Shrani nastavitev prikaza nalog, ki nimajo določenega datuma končanja, v "
+"vrstici opravil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid "Show start up wizard"
@@ -2499,13 +2506,16 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:260
 msgid "Whether go to the previous message after message deletion"
-msgstr ""
+msgstr "Ali naj pogled skoči na predhodno sporočilo po brisanju izbranega."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:261
 msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
 msgstr ""
+"Izbrana možnost določa, da bo ob brisanju izbranega sporočila, pokazano "
+"predhodno sporočilo, če možnost ni izbrana, pogled skoči na naslednje "
+"sporočilo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
 msgid "Show Subject above Sender in Messages column"
@@ -2516,6 +2526,8 @@ msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list"
 msgstr ""
+"Ali naj bo prikazana zadeva nad pošiljateljem (Od/Za) v stolpcu sporočila, "
+"običajno pokazanega v navpičnem oziroma širokem pogledu seznama sporočil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 msgid "Visually wrap long lines in composer"
@@ -2526,6 +2538,8 @@ msgstr "Vizualno prelomi dolge vrstice v sestavljalniku sporočila"
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
 msgstr ""
+"Ali naj bodo dolge vrstice prelomljene, da se prepreči uporaba vodoravnega "
+"drsnika."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:266
 msgid "(Deprecated) Default forward style"
@@ -3020,12 +3034,16 @@ msgstr "Vsaka sprememba te možnosti zahteva ponoven zagon programa."
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:36
 msgid "The last extension being used when backing up Evolution data."
 msgstr ""
+"Zadnja uporabljena razširitev med ustvarjanjem varnostne kopije podatkov "
+"Evolution."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:37
 msgid ""
 "It can be either “.gz” or “.xz” and it influences what extension will be "
 "preselected in the file chooser."
 msgstr ""
+"Lahko je pripona datoteke ».gz« ali ».xz«, vpliva pa na izbor datoteke "
+"razširitve v izbirniku datotek."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -3708,7 +3726,7 @@ msgid "_Home Page:"
 msgstr "_Osebna stran:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
-#: ../src/calendar/gui/e-comp-editor-event.c:725
+#: ../src/calendar/gui/e-comp-editor-event.c:731
 #: ../src/modules/itip-formatter/itip-view.c:2048
 msgid "_Calendar:"
 msgstr "_Koledar:"
@@ -6247,10 +6265,10 @@ msgstr "Opis vsebuje"
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "s skupno %d gosti"
+msgstr[1] "s skupno %d gostom"
+msgstr[2] "s skupno %d gostoma"
+msgstr[3] "s skupno %d gosti"
 
 #: ../src/calendar/gui/comp-util.c:1546
 #, c-format
@@ -6901,7 +6919,7 @@ msgstr "Neznano"
 
 #: ../src/calendar/gui/e-cal-model.c:1402 ../src/calendar/gui/e-cal-ops.c:614
 #: ../src/calendar/gui/e-cal-ops.c:1250
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:388
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:417
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Vira z UID »%s« ni mogoče najti."
@@ -7229,35 +7247,35 @@ msgstr ""
 "Datum mora biti vpisan v obliki: \n"
 "%s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:99
+#: ../src/calendar/gui/e-comp-editor-event.c:100
 msgid "Event’s time is in the past"
 msgstr "Čas dogodka je v preteklosti"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:200
+#: ../src/calendar/gui/e-comp-editor-event.c:206
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
 msgstr "Dogodka ni mogoče urejati, ker izbranega koledarja ni mogoče odpreti"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:202
+#: ../src/calendar/gui/e-comp-editor-event.c:208
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
 "Dogodka ni mogoče urejati, ker je izbrani koledar na voljo le za branje"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:204
+#: ../src/calendar/gui/e-comp-editor-event.c:210
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr "Dogodka ni mogoče polno urejati, ker niste organizator"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:436
-#: ../src/calendar/gui/e-comp-editor-task.c:522
+#: ../src/calendar/gui/e-comp-editor-event.c:442
+#: ../src/calendar/gui/e-comp-editor-task.c:530
 msgid "Start date is not a valid date"
 msgstr "Začetni datum ni veljaven datum"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:438
+#: ../src/calendar/gui/e-comp-editor-event.c:444
 msgid "Start time is not a valid time"
 msgstr "Začetni čas ni veljaven čas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:442
-#: ../src/calendar/gui/e-comp-editor-event.c:458
+#: ../src/calendar/gui/e-comp-editor-event.c:448
+#: ../src/calendar/gui/e-comp-editor-event.c:464
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:338
 #: ../src/em-format/e-mail-part-secure-button.c:93
@@ -7272,165 +7290,165 @@ msgstr "Začetni čas ni veljaven čas"
 msgid "Unknown error"
 msgstr "Neznana napaka"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:452
+#: ../src/calendar/gui/e-comp-editor-event.c:458
 msgid "End date is not a valid date"
 msgstr "Končni datum ni veljaven datum"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:454
+#: ../src/calendar/gui/e-comp-editor-event.c:460
 msgid "End time is not a valid time"
 msgstr "Končni čas ni veljaven čas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:584
-#: ../src/calendar/gui/e-comp-editor-memo.c:126
-#: ../src/calendar/gui/e-comp-editor-task.c:591
+#: ../src/calendar/gui/e-comp-editor-event.c:590
+#: ../src/calendar/gui/e-comp-editor-memo.c:134
+#: ../src/calendar/gui/e-comp-editor-task.c:599
 msgid "_Categories"
 msgstr "_Kategorije"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:586
-#: ../src/calendar/gui/e-comp-editor-memo.c:128
-#: ../src/calendar/gui/e-comp-editor-task.c:593
+#: ../src/calendar/gui/e-comp-editor-event.c:592
+#: ../src/calendar/gui/e-comp-editor-memo.c:136
+#: ../src/calendar/gui/e-comp-editor-task.c:601
 msgid "Toggles whether to display categories"
 msgstr "Preklopi prikaz kategorij"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:592
-#: ../src/calendar/gui/e-comp-editor-task.c:599
+#: ../src/calendar/gui/e-comp-editor-event.c:598
+#: ../src/calendar/gui/e-comp-editor-task.c:607
 msgid "Time _Zone"
 msgstr "Časovni _pas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:594
-#: ../src/calendar/gui/e-comp-editor-task.c:601
+#: ../src/calendar/gui/e-comp-editor-event.c:600
+#: ../src/calendar/gui/e-comp-editor-task.c:609
 msgid "Toggles whether the time zone is displayed"
 msgstr "Preklopi prikaz časovnega pasu"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:600
+#: ../src/calendar/gui/e-comp-editor-event.c:606
 msgid "All _Day Event"
 msgstr "Celo_dnevni dogodek"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:602
+#: ../src/calendar/gui/e-comp-editor-event.c:608
 msgid "Toggles whether to have All Day Event"
 msgstr "Preklopi celodnevnost dogodka"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:608
+#: ../src/calendar/gui/e-comp-editor-event.c:614
 msgid "Show Time as _Busy"
 msgstr "Pokaži čas kot _zaseden"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:610
+#: ../src/calendar/gui/e-comp-editor-event.c:616
 msgid "Toggles whether to show time as busy"
 msgstr "Preklopi prikaz zasedenosti časa"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:619
+#: ../src/calendar/gui/e-comp-editor-event.c:625
 msgid "Pu_blic"
 msgstr "_Javno"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:621
+#: ../src/calendar/gui/e-comp-editor-event.c:627
 msgid "Classify as public"
 msgstr "Razvrsti kot javno"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:626
+#: ../src/calendar/gui/e-comp-editor-event.c:632
 msgid "_Private"
 msgstr "Z_asebno"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:628
+#: ../src/calendar/gui/e-comp-editor-event.c:634
 msgid "Classify as private"
 msgstr "Razvrsti kot zasebno"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:633
+#: ../src/calendar/gui/e-comp-editor-event.c:639
 msgid "_Confidential"
 msgstr "_Zaupno"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:635
+#: ../src/calendar/gui/e-comp-editor-event.c:641
 msgid "Classify as confidential"
 msgstr "Razvrsti kot zaupno"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:736
+#: ../src/calendar/gui/e-comp-editor-event.c:742
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "_Začetni čas:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:741
+#: ../src/calendar/gui/e-comp-editor-event.c:747
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "_Končni čas:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:751
+#: ../src/calendar/gui/e-comp-editor-event.c:757
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Celo_dnevni dogodek"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:804
-#: ../src/calendar/gui/e-comp-editor-memo.c:213
-#: ../src/calendar/gui/e-comp-editor-task.c:765
+#: ../src/calendar/gui/e-comp-editor-event.c:811
+#: ../src/calendar/gui/e-comp-editor-memo.c:222
+#: ../src/calendar/gui/e-comp-editor-task.c:774
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Splošno"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:807
-#: ../src/calendar/gui/e-comp-editor-task.c:782
+#: ../src/calendar/gui/e-comp-editor-event.c:814
+#: ../src/calendar/gui/e-comp-editor-task.c:791
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Opomniki"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:810
+#: ../src/calendar/gui/e-comp-editor-event.c:817
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Ponovitev"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:813
-#: ../src/calendar/gui/e-comp-editor-memo.c:216
-#: ../src/calendar/gui/e-comp-editor-task.c:785
+#: ../src/calendar/gui/e-comp-editor-event.c:820
+#: ../src/calendar/gui/e-comp-editor-memo.c:225
+#: ../src/calendar/gui/e-comp-editor-task.c:794
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Priloge"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:823
+#: ../src/calendar/gui/e-comp-editor-event.c:830
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Urnik"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:855
+#: ../src/calendar/gui/e-comp-editor-event.c:862
 #, c-format
 msgid "Meeting — %s"
 msgstr "Srečanje - %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:856
+#: ../src/calendar/gui/e-comp-editor-event.c:863
 #, c-format
 msgid "Appointment — %s"
 msgstr "Sestanek - %s"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:88
+#: ../src/calendar/gui/e-comp-editor-memo.c:96
 msgid ""
 "Memo cannot be edited, because the selected memo list could not be opened"
 msgstr ""
 "Opomnika ni mogoče urejati, ker je izbranega seznama opomnikov ni mogoče "
 "odpreti"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:90
+#: ../src/calendar/gui/e-comp-editor-memo.c:98
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr ""
 "Opomnika ni mogoče polno urejati, ker je izbrani seznam opomnikov na voljo "
 "le za branje"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:92
+#: ../src/calendar/gui/e-comp-editor-memo.c:100
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "Opomnika ni mogoče polno urejati, ker niste organizator"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:188
-#: ../src/calendar/gui/e-comp-editor-task.c:700
+#: ../src/calendar/gui/e-comp-editor-memo.c:196
+#: ../src/calendar/gui/e-comp-editor-task.c:708
 msgid "_List:"
 msgstr "_Seznam:"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:195
-#: ../src/calendar/gui/e-comp-editor-task.c:707
+#: ../src/calendar/gui/e-comp-editor-memo.c:203
+#: ../src/calendar/gui/e-comp-editor-task.c:715
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
 msgstr "Začetni _datum:"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:247
+#: ../src/calendar/gui/e-comp-editor-memo.c:256
 #, c-format
 msgid "Assigned Memo — %s"
 msgstr "Dodeljen opomnik – %s"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:248
+#: ../src/calendar/gui/e-comp-editor-memo.c:257
 #, c-format
 msgid "Memo — %s"
 msgstr "Opomnik – %s"
@@ -7526,10 +7544,8 @@ msgstr[2] "Izbris izbranih udeležencev je spodletel"
 msgstr[3] "Izbris izbranih udeležencev je spodletel"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:434
-#, fuzzy
-#| msgid "Email Address is not a valid email"
 msgid "Organizer address is not a valid user mail address"
-msgstr "Elektronski naslov ni zapisan na veljaven način"
+msgstr "Naslov ni veljaven uporabniški elektronski naslov"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:584
 msgid "A_ttendees"
@@ -8167,55 +8183,55 @@ msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Pokaži čas kot _zaseden"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:224
+#: ../src/calendar/gui/e-comp-editor-task.c:225
 msgid "Task’s start date is in the past"
 msgstr "Začetni čas opravila je v preteklosti"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:232
+#: ../src/calendar/gui/e-comp-editor-task.c:233
 msgid "Task’s due date is in the past"
 msgstr "Datum zapadlosti opravila je v preteklosti"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:461
+#: ../src/calendar/gui/e-comp-editor-task.c:469
 msgid ""
 "Task cannot be edited, because the selected task list could not be opened"
 msgstr ""
 "Naloge ni mogoče urejati, ker izbranega seznama nalog ni mogoče odpreti"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:463
+#: ../src/calendar/gui/e-comp-editor-task.c:471
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
 "Naloge ni mogoče urejati, ker je izbran seznam nalog dostopen le za branje"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:465
+#: ../src/calendar/gui/e-comp-editor-task.c:473
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "Naloge ni mogoče v polno urejati, saj niste organizator"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:533
+#: ../src/calendar/gui/e-comp-editor-task.c:541
 msgid "Due date is not a valid date"
 msgstr "Datum zapadlosti ni veljaven datum"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:544
+#: ../src/calendar/gui/e-comp-editor-task.c:552
 msgid "Completed date is not a valid date"
 msgstr "Datum konca ni veljaven datum"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:555
+#: ../src/calendar/gui/e-comp-editor-task.c:563
 msgid "Completed date cannot be in the future"
 msgstr "Datum zaključka ne more biti v prihodnosti"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:607
+#: ../src/calendar/gui/e-comp-editor-task.c:615
 msgid "All _Day Task"
 msgstr "Celo_dnevni dogodek"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:609
+#: ../src/calendar/gui/e-comp-editor-task.c:617
 msgid "Toggles whether to have All Day Task"
 msgstr "Preklopi možnost na celodnevni dogodek"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:818
+#: ../src/calendar/gui/e-comp-editor-task.c:827
 #, c-format
 msgid "Assigned Task — %s"
 msgstr "Dodeljena naloga – %s"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:819
+#: ../src/calendar/gui/e-comp-editor-task.c:828
 #, c-format
 msgid "Task — %s"
 msgstr "Naloga – %s"
@@ -9151,15 +9167,15 @@ msgstr "Sestanki in srečanja"
 
 #: ../src/calendar/importers/icalendar-importer.c:306
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:480
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:76
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:280
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:96
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:309
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:178
 msgid "New Calendar"
 msgstr "Nov koledar"
 
 #: ../src/calendar/importers/icalendar-importer.c:309
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:488
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:288
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:317
 #: ../src/modules/calendar/e-task-shell-view-actions.c:202
 msgid "New Task List"
 msgstr "Nov seznam nalog"
@@ -11206,6 +11222,8 @@ msgid ""
 "Recovering the message will allow you to continue where it had been saved "
 "the last time."
 msgstr ""
+"Obnavljanje sporočila omogoča nadaljevanje sestavljanja na mestu, kjer je "
+"bilo to prekinjeno."
 
 #: ../src/composer/mail-composer.error.xml.h:11
 msgid "Could not save to autosave file “{0}”."
@@ -12415,7 +12433,7 @@ msgstr "Poteka iskanje podrobnosti. Počakajte ..."
 #: ../src/e-util/e-collection-account-wizard.c:271
 #, c-format
 msgid "Requires password to continue. %s."
-msgstr ""
+msgstr "Pred nadaljevanjem je treba vpisati geslo. %s"
 
 #: ../src/e-util/e-collection-account-wizard.c:284
 msgid "View certificate"
@@ -12435,6 +12453,9 @@ msgid ""
 "information about its configuration using the selected lookup methods. Enter "
 "the account manually instead or change above settings."
 msgstr ""
+"Ni najdenih kandidatov. To lahko pomeni tudi, da strežnik ne objavlja "
+"podatkov o nastavitvah prek izbranih načinov poizvedbe. Račun je lahko "
+"vpisan tudi ročno ali pa je treba prilagoditi nastavitve."
 
 #: ../src/e-util/e-collection-account-wizard.c:328
 #, c-format
@@ -12462,16 +12483,12 @@ msgid "Collection"
 msgstr "Zbirka"
 
 #: ../src/e-util/e-collection-account-wizard.c:556
-#, fuzzy
-#| msgid "Mail Receipt"
 msgid "Mail Receive"
-msgstr "Poštna povratnica"
+msgstr "Prejemanje pošte"
 
 #: ../src/e-util/e-collection-account-wizard.c:557
-#, fuzzy
-#| msgid "Mailer"
 msgid "Mail Send"
-msgstr "Poštni odjemalec"
+msgstr "Pošiljanje pošte"
 
 #: ../src/e-util/e-collection-account-wizard.c:558
 #: ../src/e-util/e-name-selector-dialog.c:445
@@ -12490,7 +12507,7 @@ msgstr "Seznam nalog"
 
 #: ../src/e-util/e-collection-account-wizard.c:896
 msgid "Looking up LDAP server’s search base…"
-msgstr ""
+msgstr "Poteka pregledovanje iskalne zbirke strežnika LDAP ..."
 
 #: ../src/e-util/e-collection-account-wizard.c:1193
 msgid "Saving account settings, please wait…"
@@ -12520,6 +12537,8 @@ msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
 msgstr ""
+"S podpičjem » ; « ločen seznam strežnikov, kjer naj program išče informacije "
+"ob običajnem določilu domene, podane v naslovu elektronske pošte."
 
 #: ../src/e-util/e-collection-account-wizard.c:1595
 msgid "Select which parts should be configured:"
@@ -14377,7 +14396,7 @@ msgstr ""
 #: ../src/e-util/e-misc-utils.c:4135
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
-msgstr ""
+msgstr "Nastavljanje različice protokola na LDAPv3 je spodletelo (%d): %s"
 
 #: ../src/e-util/e-misc-utils.c:4147
 #, c-format
@@ -14411,7 +14430,7 @@ msgstr ""
 
 #: ../src/e-util/e-misc-utils.c:4205
 msgid "Evolution had not been compiled with LDAP support"
-msgstr ""
+msgstr "Program ni kodno pretvorjen s podporo za LDAP"
 
 #: ../src/e-util/e-name-selector-dialog.c:274
 msgid "Show Contacts"
@@ -15683,16 +15702,12 @@ msgstr ""
 "časom, ko se izvede filtriranje."
 
 #: ../src/e-util/filter.ui.h:17
-#, fuzzy
-#| msgid ""
-#| "The message’s date will be compared against\n"
-#| "12:00am of the date specified."
 msgid ""
 "The message’s date will be compared against\n"
 "the beginning of the specified day."
 msgstr ""
 "Datum tega sporočila bo primerjan s časom\n"
-"12:00 na navedeni datum."
+"začetka navedenega dne."
 
 #: ../src/e-util/filter.ui.h:19
 msgid ""
@@ -16950,11 +16965,11 @@ msgstr "Ime glave"
 msgid "Header Value"
 msgstr "Vrednost glave"
 
-#: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:128
+#: ../src/mail/e-mail-printer.c:102 ../src/mail/mail-config.ui.h:128
 msgid "Headers"
 msgstr "Glave"
 
-#: ../src/mail/e-mail-printer.c:142
+#: ../src/mail/e-mail-printer.c:144
 #, c-format
 msgid "Page %d of %d"
 msgstr "Stran %d od %d"
@@ -17826,8 +17841,7 @@ msgstr "-------- Izvirno sporočilo --------"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
 #: ../src/mail/em-composer-utils.c:2711
-#, fuzzy, c-format
-#| msgid "Re: %s"
+#, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Odg: %s"
@@ -18721,10 +18735,8 @@ msgstr[3] ""
 "»%s«."
 
 #: ../src/mail/mail-autofilter.c:559
-#, fuzzy
-#| msgid "Message Filters"
 msgid "Open Message Filters"
-msgstr "Filtri sporočil"
+msgstr "Odpri filtre sporočil"
 
 #: ../src/mail/mail-config.ui.h:1
 msgid "Set custom junk header"
@@ -19487,7 +19499,7 @@ msgstr "Napaka med izvajanjem opravila."
 
 #: ../src/mail/mail.error.xml.h:52
 msgid "Enter password."
-msgstr "Vnesite geslo."
+msgstr "Vpis gesla."
 
 #: ../src/mail/mail.error.xml.h:53
 msgid "Error loading filter definitions."
@@ -20195,10 +20207,8 @@ msgid "Edit Message"
 msgstr "Uredi sporočilo"
 
 #: ../src/mail/mail-send-recv.c:586
-#, fuzzy
-#| msgid "Move to Folder"
 msgid "Open Outbox Folder"
-msgstr "Premakne v mapo"
+msgstr "Odpri odhodni predal"
 
 #: ../src/mail/mail-send-recv.c:760
 msgid "Send & Receive Mail"
@@ -20446,7 +20456,7 @@ msgid "New Address Book"
 msgstr "Nov imenik"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:484
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:284
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:313
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:178
 msgid "New Memo List"
 msgstr "Nov seznam opomnikov"
@@ -21702,7 +21712,7 @@ msgstr "D_rsenje po tednih v mesečnem pogledu"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:57
 msgid "Order days in Week View from _left to right"
-msgstr ""
+msgstr "Uredi dneve v tedenskem pogledu od _leve proti desni"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Alerts"
@@ -22590,7 +22600,7 @@ msgstr "Pretvori v poštno sporočilo"
 
 #: ../src/modules/config-lookup/e-gnome-config-lookup.c:67
 msgid "Look up e-mail domain on the GNOME server"
-msgstr ""
+msgstr "Iskanje domene elektronske pošte na strežniku GNOME"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
@@ -22640,17 +22650,15 @@ msgstr "Poteka preverjanje strežnika LDAP …"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:234
 msgid "Look up in SRV records"
-msgstr ""
+msgstr "Preglej vire v zapisih SRV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:104
 #, c-format
-#| msgid "CalDAV server"
 msgid "CalDAV: %s"
 msgstr "CalDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:111
 #, c-format
-#| msgid "CardDAV server"
 msgid "CardDAV: %s"
 msgstr "CardDAV: %s"
 
@@ -22660,13 +22668,13 @@ msgstr "Strežnik CardDAV in CalDAV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:209
 msgid "Look up for a CalDAV/CardDAV server"
-msgstr ""
+msgstr "Pregled vire za strežnik CalDAV/CardDAV"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:162
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:165
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:163
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:166
 msgid "Display part as an invitation"
 msgstr "Prikaži del kot vabilo"
 
