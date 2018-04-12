@@ -11,15 +11,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2017-12-29 18:33+0000\n"
-"PO-Revision-Date: 2018-03-04 23:56+0100\n"
+"POT-Creation-Date: 2018-03-28 13:01+0000\n"
+"PO-Revision-Date: 2018-04-12 20:55+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -317,8 +317,9 @@ msgstr "A naptár hozzáadásra kerül az <app>Evolution</app> naptárlistájáh
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
-msgid "Classifying appointments and tasks on remote servers."
-msgstr "Értekezletek és feladatok besorolása távoli kiszolgálókon."
+#| msgid "Classifying appointments and tasks on remote servers."
+msgid "Restricting visibility of appointments on remote servers."
+msgstr "Értekezletek láthatóságának korlátozása távoli kiszolgálókon."
 
 #. (itstool) path: page/title
 #: C/calendar-classifications.page:26
@@ -338,15 +339,22 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:32
+#| msgid ""
+#| "To set a classification for an appointment or a task, click "
+#| "<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
+#| "classification in the editor. <gui>Public</gui> is the default category, "
+#| "and a public appointment can be viewed by anyone on the calendar-sharing "
+#| "network. <gui>Private</gui> denotes one level of security, and "
+#| "<gui>Confidential</gui> an even higher level."
 msgid ""
-"To set a classification for an appointment or a task, click "
-"<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
-"classification in the editor. <gui>Public</gui> is the default category, and "
-"a public appointment can be viewed by anyone on the calendar-sharing "
-"network. <gui>Private</gui> denotes one level of security, and "
-"<gui>Confidential</gui> an even higher level."
+"To set a classification for an appointment, click <guiseq><gui>Options</"
+"gui><gui>Classification</gui></guiseq> and select a classification in the "
+"editor. <gui>Public</gui> is the default category, and a public appointment "
+"can be viewed by anyone on the calendar-sharing network. <gui>Private</gui> "
+"denotes one level of security, and <gui>Confidential</gui> an even higher "
+"level."
 msgstr ""
-"Értekezlet vagy feladat besorolásának megadásához kattintson a "
+"Értekezlet besorolásának megadásához kattintson a "
 "<guiseq><gui>Beállítások</gui><gui>Besorolás</gui></guiseq> menüpontra, és a "
 "szerkesztőben válasszon egy besorolást. Az alapértelmezett kategória a "
 "<gui>Nyilvános</gui>, ebben az esetben egy nyilvános értekezletet bárki "
@@ -1182,7 +1190,6 @@ msgstr "Válassza ki a dátumot és időt."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:78
-#: C/calendar-usage-add-appointment.page:53
 msgid ""
 "If the event is not an all day event, select either <gui>For</gui> to "
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
@@ -1194,7 +1201,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:83
-#: C/calendar-usage-add-appointment.page:58
+#: C/calendar-usage-add-appointment.page:53
 msgid "(Optional) Enter a description in the <gui>Description</gui> field."
 msgstr "(Opcionális) A <gui>Leírás</gui> mezőbe írja be az esemény leírását."
 
@@ -1222,7 +1229,7 @@ msgstr "A címzettek kapni fognak egy e-mailt, a meghívóval az eseményére."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:99
-#: C/calendar-usage-add-appointment.page:67
+#: C/calendar-usage-add-appointment.page:62
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, a <link xref=\"calendar-"
@@ -1507,19 +1514,29 @@ msgstr "Értekezlet időzónájának beállítása"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:48
+#| msgid ""
+#| "You can also configure time zone information specific to each "
+#| "appointment. To do that, <link xref=\"calendar-usage\">add a new or edit "
+#| "an existing appointment</link> and click the globe button to customize "
+#| "the time zone that the time exists in. For example, if you live in New "
+#| "York but have a telephone meeting set for noon with someone in "
+#| "California, you need to make sure that your schedules are coordinated. "
+#| "Setting time zones on a per-appointment basis helps avoid that potential "
+#| "confusion."
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
-"appointment</link> and click the globe button to customize the time zone "
-"that the time exists in. For example, if you live in New York but have a "
-"telephone meeting set for noon with someone in California, you need to make "
-"sure that your schedules are coordinated. Setting time zones on a per-"
-"appointment basis helps avoid that potential confusion."
+"appointment</link>. Under <gui>Time zone</gui>, click <gui style=\"button"
+"\">Select…</gui> to customize the time zone. For example, if you live in New "
+"York but have a telephone meeting set with someone in California, you need "
+"to make sure that your schedules are coordinated. Setting time zones on a "
+"per-appointment basis helps avoid that potential confusion."
 msgstr ""
 "Megadhatja az egyes értekezletek időzóna-információit is. Ehhez <link xref="
 "\"calendar-usage\">vegyen fel egy új, vagy szerkesszen egy meglévő "
-"értekezletet</link>, és kattintson a földgolyó ikonra az időzóna "
-"megadásához, amelyben az időt érteni kell. Ha például Budapesten él, de fel "
+"értekezletet</link>. Az <gui>Időzóna</gui> alatt kattintson a "
+"<gui style=\"button\">Kiválasztás</gui> ikonra az időzóna "
+"megadásához. Ha például Budapesten él, de fel "
 "kell hívnia valakit délben Londonban, akkor meg kell győződnie róla, hogy az "
 "időbeosztások össze vannak hangolva. Az időzóna értekezletenkénti "
 "megadásával elkerülheti az esetleges tévedéseket."
@@ -1557,7 +1574,7 @@ msgid "If you use the Appointment dialog:"
 msgstr "Ha az Értekezlet ablakot használja:"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:61
+#: C/calendar-usage-add-appointment.page:56
 msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
 "click <guiseq><gui>Options</gui> <gui>Show Time as Busy</gui></guiseq>."
@@ -2122,22 +2139,31 @@ msgstr "Névjegyek a LibreOfficeban"
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
+#| msgid ""
+#| "You can use your <app>Evolution</app> address books in LibreOffice as a "
+#| "data source. The following steps refer to LibreOffice version 3.3.3."
 msgid ""
-"You can use your <app>Evolution</app> address books in LibreOffice as a data "
-"source. The following steps refer to LibreOffice version 3.3.3."
+"You can use your <app>Evolution</app> address books in <app>LibreOffice "
+"Writer</app> as a data source. The following steps refer to LibreOffice "
+"version 5.4."
 msgstr ""
 "Az <app>Evolution</app> címjegyzékeit felhasználhatja adatforrásként a "
-"LibreOffice-ban. A következő lépések a LibreOffice 3.3.3-as verziójára "
+"<app>LibreOffice Writerben</app>. A következő lépések a LibreOffice 5.4-es"
+" verziójára "
 "vonatkoznak."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
+#| msgid ""
+#| "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in "
+#| "the menu bar. This will bring up the <gui>Exchange databases</gui> dialog "
+#| "box."
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
-"menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
+"menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
-"Válassza a menüsáv <guiseq><gui>Szerkesztés</gui><gui>Adatbázisok "
-"kiválasztása</gui></guiseq> menüpontját. Ezután megjelenik az "
+"Válassza a menüsáv <guiseq><gui>Szerkesztés</gui><gui>Adatbázis kicserélése<"
+"/gui></guiseq> menüpontját. Ezután megjelenik az "
 "<gui>Adatbázisok kicserélése</gui> ablak."
 
 #. (itstool) path: item/p
@@ -2158,47 +2184,21 @@ msgstr ""
 "Válassza ki a címjegyzéket, és nyomja meg a <gui style=\"button\">Megadás</"
 "gui> gombot."
 
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:41
-msgid ""
-"In case it is not listed already, click <gui style=\"button\">Browse…</gui>. "
-"A file chooser dialog opens."
-msgstr ""
-"Ha még nincs felsorolva, akkor kattintson a <gui style=\"button\">Tallózás</"
-"gui> gombra. Megnyílik egy fájlválasztó ablak."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:45
-msgid ""
-"As <app>Evolution</app> stores its data in a hidden directory, press "
-"<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
-"displayed."
-msgstr ""
-"Mivel az <app>Evolution</app> az adatait egy rejtett könyvtárban tárolja, "
-"nyomja meg a <keyseq><key>Ctrl</key><key>L</key></keyseq> kombinációt a "
-"címsáv megjelenítéséhez."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:50
-msgid ""
-"Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
-"file> and click <gui style=\"button\">Open</gui>."
-msgstr ""
-"Válassza ki a <file>~/.local/share/evolution/addressbook/system/addressbook."
-"db</file> fájlt, és nyomja meg a <gui style=\"button\">Megnyitás</gui> "
-"gombot."
-
 #. (itstool) path: page/p
-#: C/contacts-libreoffice.page:56
+#: C/contacts-libreoffice.page:42
+#| msgid ""
+#| "This makes the <app>Evolution</app> address book the default data source "
+#| "for LibreOffice. You can now select a field to insert into a LibreOffice "
+#| "document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
+#| "guiseq>."
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
-"document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
-"guiseq>."
+"document via <guiseq><gui>Insert</gui><gui>Field</gui></guiseq>."
 msgstr ""
 "Ez az <app>Evolution</app> címjegyzéket a LibreOffice alapértelmezett "
 "adatforrásává teszi. Ezután egy LibreOffice dokumentumba szúrandó mezőt a "
-"<guiseq><gui>Beszúrás</gui><gui>Mezők</gui><gui>Egyéb mező</gui></guiseq> "
+"<guiseq><gui>Beszúrás</gui><gui>Mező</gui></guiseq> "
 "menüpont használatával választhat ki."
 
 #. (itstool) path: info/desc
@@ -2591,7 +2591,7 @@ msgid "Authors of the <app>Evolution</app> User Documentation"
 msgstr "Az <app>Evolution</app> felhasználói dokumentáció szerzői"
 
 #. (itstool) path: item/p
-#: C/credits.page:25 C/credits.page:55
+#: C/credits.page:25 C/credits.page:54
 msgid "André Klapper"
 msgstr "André Klapper"
 
@@ -2622,7 +2622,7 @@ msgstr "Az <app>Evolution</app> felhasználói dokumentáció fordítói"
 #. use '\n' for linebreaks or square brackets for potential email
 #. addresses here as this will not work. Thanks for all your hard work!
 #. andre
-#: C/credits.page:43
+#: C/credits.page:42
 msgid "(Not applicable to the English version)"
 msgstr ""
 "Lukács Bence\n"
@@ -2630,29 +2630,29 @@ msgstr ""
 "Nagy Zoltán"
 
 #. (itstool) path: section/title
-#: C/credits.page:47
+#: C/credits.page:46
 msgid "Authors of the previous version"
 msgstr "A korábbi verzió szerzői"
 
 #. (itstool) path: section/title
-#: C/credits.page:89
+#: C/credits.page:88
 msgid "Contact information"
 msgstr "Névjegy-információk"
 
 #. (itstool) path: section/p
-#: C/credits.page:90
+#: C/credits.page:89
 msgid "The GNOME Documentation Project:"
 msgstr "GNOME dokumentációs projekt:"
 
 #. (itstool) path: item/p
-#: C/credits.page:92
+#: C/credits.page:91
 msgid ""
 "<link href=\"https://wiki.gnome.org/DocumentationProject\">Website</link>"
 msgstr ""
 "<link href=\"https://wiki.gnome.org/DocumentationProject\">Weboldal</link>"
 
 #. (itstool) path: item/p
-#: C/credits.page:95
+#: C/credits.page:94
 msgid ""
 "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-list"
 "\">Mailing list</link>"
@@ -4293,7 +4293,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/intro-keyboard-shortcuts.page:5
-#| msgid "Keyboard shortcuts that can save you some time when reading mail."
 msgid "Keyboard shortcuts that can save you some time."
 msgstr "Időt spórolhat ezekkel a gyorsbillentyűkkel."
 
@@ -4319,7 +4318,6 @@ msgstr "Globális"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:34
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
 
@@ -4330,7 +4328,6 @@ msgstr "A levelező komponens kiválasztása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:40
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
 
@@ -4341,7 +4338,6 @@ msgstr "A névjegy komponens kiválasztása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:46
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
 
@@ -4352,7 +4348,6 @@ msgstr "A naptár komponens kiválasztása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:52
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
 
@@ -4363,7 +4358,6 @@ msgstr "A feladatok komponens kiválasztása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:58
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
 
@@ -4374,7 +4368,6 @@ msgstr "A feljegyzések komponens kiválasztása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:64
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
 
@@ -4395,19 +4388,16 @@ msgstr "Fókuszváltás az ablaktáblák közt."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:76
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:79
-#| msgid "<_:media-1/> Search bar"
 msgid "Clear search bar."
 msgstr "A keresősáv törlése."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:82
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
 
@@ -4418,7 +4408,6 @@ msgstr "Ablak bezárása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:88
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
 
@@ -4429,19 +4418,16 @@ msgstr "Új ablak megnyitása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:94
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:97
-#| msgid "Start <app>Evolution</app>."
 msgid "Quit <app>Evolution</app>."
 msgstr "Kilépés az <app>Evolutionből</app>."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:100
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
 
@@ -4452,7 +4438,6 @@ msgstr "A kijelölés nyomtatása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:106
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
 
@@ -4463,19 +4448,16 @@ msgstr "A kijelölés mentése."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:112
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<key>Del</key> or <key>Backspace</key>"
 msgstr "<key>Del</key> vagy <key>Backspace</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:115
-#| msgid "Delegating Meetings"
 msgid "Delete selection."
 msgstr "Kijelölés törlése."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:118
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
 
@@ -4486,7 +4468,6 @@ msgstr "Levelek vagy névjegyek áthelyezése mappába."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:124
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
 
@@ -4497,13 +4478,11 @@ msgstr "Levelek vagy névjegyek másolása mappába."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:136
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:139
-#| msgid "Composing a new message"
 msgid "Create a new message."
 msgstr "Új üzenet létrehozása."
 
@@ -4514,13 +4493,11 @@ msgstr "<key>F12</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:145
-#| msgid "Manually send and receive messages"
 msgid "Send and receive messages."
 msgstr "Üzenetek küldése és fogadása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:148
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 
@@ -4531,7 +4508,6 @@ msgstr "Szűrők alkalmazása a kijelölésre."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:154
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>"
 msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq> vagy <key>Enter</key>"
 
@@ -4542,19 +4518,16 @@ msgstr "Kijelölés megnyitása új ablakban."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:160
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:163
-#| msgid "Forward to:"
 msgid "Forward selection."
 msgstr "Kijelölés továbbítása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:166
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 
@@ -4565,7 +4538,6 @@ msgstr "Kijelölés megjelölése olvasottként."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:172
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
 
@@ -4581,7 +4553,6 @@ msgstr "<key>↓</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:181
-#| msgid "Composing a new message"
 msgid "Jump to next message."
 msgstr "Ugrás a következő üzenetre."
 
@@ -4597,7 +4568,6 @@ msgstr "Ugrás az előző üzenetre."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:190
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<key>.</key> or <key>]</key>"
 msgstr "<key>.</key> vagy <key>]</key>"
 
@@ -4608,7 +4578,6 @@ msgstr "Ugrás a következő olvasatlan üzenetre."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:196
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<key>,</key> or <key>[</key>"
 msgstr "<key>,</key> vagy <key>[</key>"
 
@@ -4624,7 +4593,6 @@ msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:205
-#| msgid "Reply to Sender"
 msgid "Reply to sender."
 msgstr "Válasz a feladónak."
 
@@ -4635,7 +4603,6 @@ msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:211
-#| msgid "Reply to All"
 msgid "Reply to list."
 msgstr "Válasz a listára."
 
@@ -4646,7 +4613,6 @@ msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:217
-#| msgid "Autocompletion of mail recipients"
 msgid "Reply to all recipients."
 msgstr "Válasz az összes címzettnek."
 
@@ -4672,7 +4638,6 @@ msgstr "Görgetés lefelé."
 
 #. (itstool) path: section/p
 #: C/intro-keyboard-shortcuts.page:233
-#| msgid "Navigating in unread mail across folders"
 msgid "<key>Space</key> also allows navigating in unread mail across folders:"
 msgstr ""
 "A <key>Szóköz</key> lehetővé teszi a navigációt az olvasatlan üzenetekben "
@@ -4687,74 +4652,54 @@ msgstr "Az első megnyomásakor a következő olvasatlan levélre viszi."
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:236
-#| msgid ""
-#| "If the message is more than one screen long, the Spacebar works as "
-#| "<key>Page Down</key>."
 msgid ""
 "If the message is more than one screen long, <key>Space</key> works as "
 "<key>Page Down</key>."
 msgstr ""
 "Ha a levél egy képernyőnél hosszabb, akkor a <key>Szóköz</key> úgy működik, "
-"mint a "
-"<key>Page Down</key>."
+"mint a <key>Page Down</key>."
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:237
-#| msgid ""
-#| "If you press the Spacebar after you reach the bottom of the page, it "
-#| "takes you to the next unread message."
 msgid ""
 "If you press <key>Space</key> after you reach the bottom of the page, it "
 "takes you to the next unread message."
 msgstr ""
 "Ha a <key>Szóközt</key> az oldal aljának elérése után nyomja meg, akkor a "
-"következő "
-"olvasatlan üzenetre viszi."
+"következő olvasatlan üzenetre viszi."
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:238
-#| msgid ""
-#| "If there are no more unread messages in the mailbox, pressing the "
-#| "Spacebar takes you to the next unread message in the next folder."
 msgid ""
 "If there are no more unread messages in the mailbox, pressing <key>Space</"
 "key> takes you to the next unread message in the next folder."
 msgstr ""
 "Ha nincs több olvasatlan levél a postafiókban, akkor a <key>Szóköz</key> "
-"megnyomása a "
-"következő mappa következő olvasatlan levelére viszi."
+"megnyomása a következő mappa következő olvasatlan levelére viszi."
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:239
-#| msgid ""
-#| "If new messages arrive in a number of folders, the Spacebar toggles "
-#| "between those folders. This feature allows you to switch to the next "
-#| "unread message in a different folder without clicking the folder."
 msgid ""
 "If new messages arrive in a number of folders, <key>Space</key> toggles "
 "between those folders. This feature allows you to switch to the next unread "
 "message in a different folder without clicking the folder."
 msgstr ""
 "Ha több mappába is érkeznek új üzenetek, akkor a <key>Szóköz</key> a mappák "
-"közt vált. "
-"Ez a szolgáltatás lehetővé teszi, hogy a következő olvasatlan levélre úgy "
-"válthasson át, hogy nem kattint a mappára."
+"közt vált. Ez a szolgáltatás lehetővé teszi, hogy a következő olvasatlan "
+"levélre úgy válthasson át, hogy nem kattint a mappára."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:247
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:250
-#| msgid "Repeating appointments."
 msgid "Create a new appointment."
 msgstr "Új értekezlet létrehozása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:253
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
 
@@ -4765,7 +4710,6 @@ msgstr "Új találkozó létrehozása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:259
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
 
@@ -4776,7 +4720,6 @@ msgstr "Új feladat létrehozása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:265
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
 
@@ -4787,7 +4730,6 @@ msgstr "Új feljegyzés létrehozása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:271
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 
@@ -4798,7 +4740,6 @@ msgstr "Ugrás a mai napra."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:277
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 
@@ -4809,25 +4750,21 @@ msgstr "Ugrás dátumra."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:289
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:292
-#| msgid "Creating a contact list"
 msgid "Create a new contact."
 msgstr "Új névjegy létrehozása."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:295
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:298
-#| msgid "Creating a contact list"
 msgid "Create a new contact list."
 msgstr "Új címlista létrehozása."
 
@@ -5071,9 +5008,9 @@ msgid ""
 "run the command <cmd>gsettings set org.gnome.evolution.shell menubar-visible "
 "true</cmd> to reenable it."
 msgstr ""
-"Ha véletlenül elrejti a menüsávot, akkor nyisson egy Terminált, és futtassa a "
-"következő parancsot a visszakapcsolásához: <cmd>gsettings set "
-"org.gnome.evolution.shell menubar-visible true</cmd>"
+"Ha véletlenül elrejti a menüsávot, akkor nyisson egy Terminált, és futtassa "
+"a következő parancsot a visszakapcsolásához: <cmd>gsettings set org.gnome."
+"evolution.shell menubar-visible true</cmd>"
 
 #. (itstool) path: section/p
 #: C/intro-main-window.page:99
@@ -6557,7 +6494,8 @@ msgstr ""
 "attribution</code> kulcs értékeként."
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:44
+#. Translators: Do NOT translate the variable names inside the ${brackets}!
+#: C/mail-composer-change-quotation-string.page:43
 msgid ""
 "The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-"
 "${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
@@ -6566,32 +6504,32 @@ msgstr ""
 "${WeekdayName} keltezéssel ${24Hour}.${Minute}-kor ${Sender} ezt írta:</code>"
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:48
+#: C/mail-composer-change-quotation-string.page:47
 msgid "The following placeholders are available:"
 msgstr "A következő helykitöltők használhatók:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:57
+#: C/mail-composer-change-quotation-string.page:56
 msgid "<_:code-1/> (format: 01-31)"
 msgstr "<_:code-1/> (formátum: 01-31)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:58
+#: C/mail-composer-change-quotation-string.page:57
 msgid "<_:code-1/> (format: 1-31)"
 msgstr "<_:code-1/> (formátum: 1-31)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:63
+#: C/mail-composer-change-quotation-string.page:62
 msgid "<_:code-1/> (format: 1-366)"
 msgstr "<_:code-1/> (formátum: 1-366)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:64
+#: C/mail-composer-change-quotation-string.page:63
 msgid "<_:code-1/> (format: 01-12)"
 msgstr "<_:code-1/> (formátum: 01-12)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:67
+#: C/mail-composer-change-quotation-string.page:66
 msgid "<_:code-1/> (e.g. 15 for the year 2015)"
 msgstr "<_:code-1/> (például 15 a 2015-ös évben)"
 
@@ -6943,7 +6881,11 @@ msgstr ""
 "és e-mail cím mezőket."
 
 #. (itstool) path: page/p
-#: C/mail-composer-from-field-override.page:27
+#. Translators: If no Wikipedia article exists for your language and you
+#. leave the URL untranslated and pointing to the English Wikipedia, you
+#. might want to indicate in your translation text that the link is in
+#. English.
+#: C/mail-composer-from-field-override.page:24
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
@@ -6955,7 +6897,11 @@ msgstr ""
 "org/wiki/Email_address#Address_tags\">részcímzés</link> használatakor."
 
 #. (itstool) path: note/p
-#: C/mail-composer-from-field-override.page:32
+#. Translators: If no Wikipedia article exists for your language and you
+#. leave the URL untranslated and pointing to the English Wikipedia, you
+#. might want to indicate in your translation text that the link is in
+#. English.
+#: C/mail-composer-from-field-override.page:26
 msgid ""
 "Setting an arbitrary address might collide with your email provider's <link "
 "href=\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">Sender Policy "
@@ -7746,7 +7692,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:56
+#: C/mail-composer-message-templates-variables.page:55
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7763,7 +7709,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:59
+#: C/mail-composer-message-templates-variables.page:57
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -10617,7 +10563,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:25
+#: C/mail-received-notification.page:24
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
@@ -10627,12 +10573,14 @@ msgstr ""
 "md5='be4dbdb5f6e3dcbd5111b87169cae268'"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:26
+#. Translators: Please make sure that the screenshot does have the small
+#. yellow star in the Mail icon
+#: C/mail-received-notification.page:25
 msgid "Switcher layout when a new message has arrived"
 msgstr "Az ablakváltó elrendezése új üzenet érkezésekor"
 
 #. (itstool) path: page/p
-#: C/mail-received-notification.page:29
+#: C/mail-received-notification.page:28
 msgid ""
 "In order to also be notified of new messages in the GNOME Notification area "
 "at the bottom of the screen, make sure that <guiseq><gui>Edit</"
@@ -10650,7 +10598,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:31
+#: C/mail-received-notification.page:30
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -10660,7 +10608,7 @@ msgstr ""
 "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:32
+#: C/mail-received-notification.page:31
 msgid "GNOME notification area when a new message has arrived"
 msgstr "A GNOME értesítési területe új üzenet érkezésekor"
 
@@ -11794,11 +11742,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:36
-#| msgid ""
-#| "To make this the default setting, go to <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
-#| "gui><gui>Message Display</gui><gui>Default character encoding</gui></"
-#| "guiseq>."
 msgid ""
 "<app>Evolution</app> recognizes <_:code-1/> and <_:code-2/> mail headers. In "
 "addition, you can enable <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -11806,10 +11749,10 @@ msgid ""
 "gui><gui>Fall back to threading messages by subject</gui></guiseq>."
 msgstr ""
 "Az <app>Evolution</app> felismeri a <_:code-1/> és <_:code-2/> "
-"levélfejléceket. Ezen kívül engedélyezheti a "
-"<guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Levelezés "
-"beállításai</gui><gui>Általános</gui><gui>Üzenetmegjelenítés</"
-"gui><gui>Üzenetek szálakra bontása tárgy szerint</gui></guiseq> beállítást is."
+"levélfejléceket. Ezen kívül engedélyezheti a <guiseq><gui>Szerkesztés</"
+"gui><gui>Beállítások</gui><gui>Levelezés beállításai</gui><gui>Általános</"
+"gui><gui>Üzenetmegjelenítés</gui><gui>Üzenetek szálakra bontása tárgy "
+"szerint</gui></guiseq> beállítást is."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:37
@@ -12345,12 +12288,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:78
-#| msgid ""
-#| "For more information and specific Bogofilter or SpamAssassin "
-#| "configuration questions it is recommended to check out the Frequently "
-#| "Asked Questions for <link href=\"http://bogofilter.sourceforge.net/faq."
-#| "shtml\">Bogofilter</link> resp. <link href=\"http://wiki.apache.org/"
-#| "spamassassin/FrequentlyAskedQuestions\">SpamAssassin</link>."
 msgid ""
 "For more information and specific Bogofilter or SpamAssassin configuration "
 "questions it is recommended to check out the Frequently Asked Questions for "
@@ -13407,15 +13344,24 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-usage-add-task.page:34
+#| msgid ""
+#| "You can also define a <link xref=\"calendar-timezones\">time zone</link>, "
+#| "a <link xref=\"using-categories\">category</link>, or a <link xref="
+#| "\"calendar-classifications\">classification</link> for the task, or add "
+#| "an attachment."
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, or a <link xref=\"calendar-"
-"classifications\">classification</link> for the task, or add an attachment."
+"classifications\">classification</link> (via the drop-down menu) for the "
+"task, or add an attachment or set a <link xref=\"calendar-alarms-and-"
+"reminders\">reminder</link> (via the corresponding tabs)."
 msgstr ""
 "Emellett beállíthat a feladathoz <link xref=\"calendar-timezones\">időzónát</"
 "link>, <link xref=\"using-categories\">kategóriát</link> vagy <link xref="
-"\"calendar-classifications\">besorolást</link>, valamint mellékletet is "
-"csatolhat."
+"\"calendar-classifications\">besorolást</link> a legördülő menüből, valamint"
+" mellékletet is "
+"csatolhat és beállíthat <link xref=\"calendar-alarms-and-reminders\""
+">emlékeztetőt</link> a megfelelő lapokon."
 
 #. (itstool) path: section/title
 #: C/tasks-usage-add-task.page:37
@@ -14237,6 +14183,30 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
+
+#~ msgid ""
+#~ "In case it is not listed already, click <gui style=\"button\">Browse…</"
+#~ "gui>. A file chooser dialog opens."
+#~ msgstr ""
+#~ "Ha még nincs felsorolva, akkor kattintson a <gui style=\"button"
+#~ "\">Tallózás</gui> gombra. Megnyílik egy fájlválasztó ablak."
+
+#~ msgid ""
+#~ "As <app>Evolution</app> stores its data in a hidden directory, press "
+#~ "<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
+#~ "displayed."
+#~ msgstr ""
+#~ "Mivel az <app>Evolution</app> az adatait egy rejtett könyvtárban tárolja, "
+#~ "nyomja meg a <keyseq><key>Ctrl</key><key>L</key></keyseq> kombinációt a "
+#~ "címsáv megjelenítéséhez."
+
+#~ msgid ""
+#~ "Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
+#~ "file> and click <gui style=\"button\">Open</gui>."
+#~ msgstr ""
+#~ "Válassza ki a <file>~/.local/share/evolution/addressbook/system/"
+#~ "addressbook.db</file> fájlt, és nyomja meg a <gui style=\"button"
+#~ "\">Megnyitás</gui> gombot."
 
 #~ msgid "Using shortcut keys to read mail"
 #~ msgstr "Gyorsbillentyűk használata levelek olvasásakor"
