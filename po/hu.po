@@ -14,16 +14,16 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-02-01 16:58+0000\n"
-"PO-Revision-Date: 2018-02-04 18:25+0100\n"
-"Last-Translator: Meskó Balázs <mesko.balazs@fsf.hu>\n"
+"POT-Creation-Date: 2018-04-01 15:11+0000\n"
+"PO-Revision-Date: 2018-04-11 13:32+0200\n"
+"Last-Translator: Meskó Balázs <meskobalazs@fedoraproject.org>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -2463,7 +2463,7 @@ msgstr ""
 "Ez a kulcs elavult a 3.10-ben és nem szabad használni. Helyette használja a „browser-close-"
 "on-reply-policy” kulcsot."
 
-#. Translators: This is the a list of words for the attach reminder plugin to look
+#. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
@@ -2924,7 +2924,7 @@ msgstr ""
 "használatával."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.h:1
-#: ../data/org.gnome.Evolution.desktop.in.in.h:1 ../src/mail/e-mail-browser.c:1112
+#: ../data/org.gnome.Evolution.desktop.in.in.h:1 ../src/mail/e-mail-browser.c:1123
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:240
 msgid "Evolution"
@@ -3417,7 +3417,7 @@ msgstr "Beállítások"
 #: ../src/e-util/e-send-options.ui.h:16 ../src/e-util/e-source-config-dialog.c:360
 #: ../src/e-util/e-source-selector-dialog.c:370 ../src/e-util/e-table-config.c:548
 #: ../src/e-util/e-table-config.ui.h:3 ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4118
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4134
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267 ../src/mail/e-mail-config-window.c:334
 #: ../src/mail/e-mail-label-dialog.c:194 ../src/mail/e-mail-tag-editor.c:168
 #: ../src/mail/em-folder-selector.c:318 ../src/mail/mail-config.ui.h:2
@@ -3447,7 +3447,7 @@ msgstr "Mé_gse"
 #: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2115
 #: ../src/composer/e-composer-actions.c:230 ../src/composer/e-composer-actions.c:350
 #: ../src/e-util/e-attachment-store.c:833 ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2467 ../src/e-util/e-web-view.c:4119
+#: ../src/e-util/e-webdav-browser.c:2467 ../src/e-util/e-web-view.c:4135
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268 ../src/shell/e-shell-content.c:640
 #: ../src/shell/e-shell-utils.c:140 ../src/smime/gui/certificate-manager.c:666
 #: ../src/smime/gui/certificate-manager.c:743
@@ -3521,7 +3521,7 @@ msgid "_Home Page:"
 msgstr "_Honlap:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
-#: ../src/calendar/gui/e-comp-editor-event.c:725
+#: ../src/calendar/gui/e-comp-editor-event.c:731
 #: ../src/modules/itip-formatter/itip-view.c:2048
 msgid "_Calendar:"
 msgstr "_Naptár:"
@@ -4709,7 +4709,7 @@ msgid "Zoom _In"
 msgstr "_Nagyítás"
 
 #. Zoom-out button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:417 ../src/mail/e-mail-reader.c:2500
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:417 ../src/mail/e-mail-reader.c:2504
 msgid "Zoom _Out"
 msgstr "Kicsin_yítés"
 
@@ -6466,7 +6466,7 @@ msgstr "Hely: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-calendar-view.c:1891 ../src/calendar/gui/e-to-do-pane.c:438
+#: ../src/calendar/gui/e-calendar-view.c:1891 ../src/calendar/gui/e-to-do-pane.c:443
 #, c-format
 msgid "Time: %s %s"
 msgstr "Idő: %s %s"
@@ -6536,13 +6536,13 @@ msgstr "Forrás"
 #: ../src/calendar/gui/e-meeting-store.c:167 ../src/calendar/gui/e-meeting-store.c:230
 #: ../src/calendar/gui/print.c:1247 ../src/calendar/gui/print.c:1264
 #: ../src/e-util/e-charset.c:49 ../src/modules/itip-formatter/itip-view.c:3559
-#: ../src/modules/itip-formatter/itip-view.c:6301
+#: ../src/modules/itip-formatter/itip-view.c:6316
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Ismeretlen"
 
 #: ../src/calendar/gui/e-cal-model.c:1402 ../src/calendar/gui/e-cal-ops.c:614
-#: ../src/calendar/gui/e-cal-ops.c:1250 ../src/modules/calendar/e-cal-base-shell-backend.c:388
+#: ../src/calendar/gui/e-cal-ops.c:1250 ../src/modules/calendar/e-cal-base-shell-backend.c:417
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Nem található „%s” UID-val rendelkező forrás"
@@ -6583,13 +6583,13 @@ msgstr "Nem"
 
 #: ../src/calendar/gui/e-cal-model.c:3800 ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194 ../src/calendar/gui/e-meeting-store.c:217
-#: ../src/modules/itip-formatter/itip-view.c:6289
+#: ../src/modules/itip-formatter/itip-view.c:6304
 msgid "Accepted"
 msgstr "Elfogadva"
 
 #: ../src/calendar/gui/e-cal-model.c:3801 ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196 ../src/calendar/gui/e-meeting-store.c:219
-#: ../src/modules/itip-formatter/itip-view.c:6295
+#: ../src/modules/itip-formatter/itip-view.c:6310
 msgid "Declined"
 msgstr "Elutasítva"
 
@@ -6601,7 +6601,7 @@ msgstr "Feltételes"
 
 #: ../src/calendar/gui/e-cal-model.c:3803 ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200 ../src/calendar/gui/e-meeting-store.c:223
-#: ../src/modules/itip-formatter/itip-view.c:6298
+#: ../src/modules/itip-formatter/itip-view.c:6313
 msgid "Delegated"
 msgstr "Átruházva"
 
@@ -6656,15 +6656,15 @@ msgstr "Feljegyzés módosítása"
 msgid "Modifying a task"
 msgstr "Feladat módosítása"
 
-#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1918
+#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1923
 msgid "Removing an event"
 msgstr "Esemény eltávolítása"
 
-#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1922
+#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1927
 msgid "Removing a memo"
 msgstr "Feljegyzés eltávolítása"
 
-#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1926
+#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1931
 msgid "Removing a task"
 msgstr "Feladat eltávolítása"
 
@@ -6829,36 +6829,36 @@ msgstr ""
 "A dátumot a következő formában tudja beírni: \n"
 "%s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:99
+#: ../src/calendar/gui/e-comp-editor-event.c:100
 msgid "Event’s time is in the past"
 msgstr "Az esemény ideje a múltban van"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:200
+#: ../src/calendar/gui/e-comp-editor-event.c:206
 msgid "Event cannot be edited, because the selected calendar could not be opened"
 msgstr "Az esemény nem szerkeszthető, mert a kiválasztott naptár nem nyitható meg"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:202
+#: ../src/calendar/gui/e-comp-editor-event.c:208
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr "Az esemény nem szerkeszthető, mert a kiválasztott naptár írásvédett"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:204
+#: ../src/calendar/gui/e-comp-editor-event.c:210
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr "Az esemény nem teljesen szerkeszthető, mert nem Ön a szervező"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:436 ../src/calendar/gui/e-comp-editor-task.c:522
+#: ../src/calendar/gui/e-comp-editor-event.c:442 ../src/calendar/gui/e-comp-editor-task.c:530
 msgid "Start date is not a valid date"
 msgstr "A kezdés dátuma érvénytelen"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:438
+#: ../src/calendar/gui/e-comp-editor-event.c:444
 msgid "Start time is not a valid time"
 msgstr "A kezdés időpontja érvénytelen"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:442 ../src/calendar/gui/e-comp-editor-event.c:458
+#: ../src/calendar/gui/e-comp-editor-event.c:448 ../src/calendar/gui/e-comp-editor-event.c:464
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:338 ../src/em-format/e-mail-part-secure-button.c:93
 #: ../src/e-util/e-misc-utils.c:4136 ../src/e-util/e-misc-utils.c:4148
 #: ../src/e-util/e-misc-utils.c:4162 ../src/mail/e-mail-autoconfig.c:893
-#: ../src/mail/e-mail-display.c:2191 ../src/mail/e-mail-reader-utils.c:806
+#: ../src/mail/e-mail-display.c:2243 ../src/mail/e-mail-reader-utils.c:806
 #: ../src/mail/mail-send-recv.c:569 ../src/mail/mail-send-recv.c:1422
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:174 ../src/shell/e-shell.c:1073 ../src/shell/e-shell.c:1097
@@ -6867,151 +6867,151 @@ msgstr "A kezdés időpontja érvénytelen"
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:452
+#: ../src/calendar/gui/e-comp-editor-event.c:458
 msgid "End date is not a valid date"
 msgstr "A lejárat dátuma érvénytelen"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:454
+#: ../src/calendar/gui/e-comp-editor-event.c:460
 msgid "End time is not a valid time"
 msgstr "A befejezés időpontja érvénytelen"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:584 ../src/calendar/gui/e-comp-editor-memo.c:126
-#: ../src/calendar/gui/e-comp-editor-task.c:591
+#: ../src/calendar/gui/e-comp-editor-event.c:590 ../src/calendar/gui/e-comp-editor-memo.c:134
+#: ../src/calendar/gui/e-comp-editor-task.c:599
 msgid "_Categories"
 msgstr "_Kategóriák"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:586 ../src/calendar/gui/e-comp-editor-memo.c:128
-#: ../src/calendar/gui/e-comp-editor-task.c:593
+#: ../src/calendar/gui/e-comp-editor-event.c:592 ../src/calendar/gui/e-comp-editor-memo.c:136
+#: ../src/calendar/gui/e-comp-editor-task.c:601
 msgid "Toggles whether to display categories"
 msgstr "Átváltja a kategóriák megjelenítését"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:592 ../src/calendar/gui/e-comp-editor-task.c:599
+#: ../src/calendar/gui/e-comp-editor-event.c:598 ../src/calendar/gui/e-comp-editor-task.c:607
 msgid "Time _Zone"
 msgstr "Idő_zóna"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:594 ../src/calendar/gui/e-comp-editor-task.c:601
+#: ../src/calendar/gui/e-comp-editor-event.c:600 ../src/calendar/gui/e-comp-editor-task.c:609
 msgid "Toggles whether the time zone is displayed"
 msgstr "Átváltja az Időzóna mező megjelenítését"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:600
+#: ../src/calendar/gui/e-comp-editor-event.c:606
 msgid "All _Day Event"
 msgstr "_Egész napos esemény"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:602
+#: ../src/calendar/gui/e-comp-editor-event.c:608
 msgid "Toggles whether to have All Day Event"
 msgstr "Egész napos esemény átváltása"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:608
+#: ../src/calendar/gui/e-comp-editor-event.c:614
 msgid "Show Time as _Busy"
 msgstr "Megjelenítés el_foglaltként"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:610
+#: ../src/calendar/gui/e-comp-editor-event.c:616
 msgid "Toggles whether to show time as busy"
 msgstr "Átváltja az idő megjelenítését elfoglaltként"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:619
+#: ../src/calendar/gui/e-comp-editor-event.c:625
 msgid "Pu_blic"
 msgstr "N_yilvános"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:621
+#: ../src/calendar/gui/e-comp-editor-event.c:627
 msgid "Classify as public"
 msgstr "Besorolás nyilvánosként"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:626
+#: ../src/calendar/gui/e-comp-editor-event.c:632
 msgid "_Private"
 msgstr "_Magánjellegű"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:628
+#: ../src/calendar/gui/e-comp-editor-event.c:634
 msgid "Classify as private"
 msgstr "Besorolás magánjellegűként"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:633
+#: ../src/calendar/gui/e-comp-editor-event.c:639
 msgid "_Confidential"
 msgstr "Bi_zalmas"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:635
+#: ../src/calendar/gui/e-comp-editor-event.c:641
 msgid "Classify as confidential"
 msgstr "Besorolás bizalmasként"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:736
+#: ../src/calendar/gui/e-comp-editor-event.c:742
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "_Kezdés időpontja:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:741
+#: ../src/calendar/gui/e-comp-editor-event.c:747
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "_Befejezés időpontja:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:751
+#: ../src/calendar/gui/e-comp-editor-event.c:757
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "_Egész napos esemény"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:804 ../src/calendar/gui/e-comp-editor-memo.c:213
-#: ../src/calendar/gui/e-comp-editor-task.c:765
+#: ../src/calendar/gui/e-comp-editor-event.c:811 ../src/calendar/gui/e-comp-editor-memo.c:222
+#: ../src/calendar/gui/e-comp-editor-task.c:774
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Általános"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:807 ../src/calendar/gui/e-comp-editor-task.c:782
+#: ../src/calendar/gui/e-comp-editor-event.c:814 ../src/calendar/gui/e-comp-editor-task.c:791
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Emlékeztetők"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:810
+#: ../src/calendar/gui/e-comp-editor-event.c:817
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Ismétlődés"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:813 ../src/calendar/gui/e-comp-editor-memo.c:216
-#: ../src/calendar/gui/e-comp-editor-task.c:785
+#: ../src/calendar/gui/e-comp-editor-event.c:820 ../src/calendar/gui/e-comp-editor-memo.c:225
+#: ../src/calendar/gui/e-comp-editor-task.c:794
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Mellékletek"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:823
+#: ../src/calendar/gui/e-comp-editor-event.c:830
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Ütemezés"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:855
+#: ../src/calendar/gui/e-comp-editor-event.c:862
 #, c-format
 msgid "Meeting — %s"
 msgstr "Találkozó – %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:856
+#: ../src/calendar/gui/e-comp-editor-event.c:863
 #, c-format
 msgid "Appointment — %s"
 msgstr "Értekezlet – %s"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:88
+#: ../src/calendar/gui/e-comp-editor-memo.c:96
 msgid "Memo cannot be edited, because the selected memo list could not be opened"
 msgstr "A feljegyzés nem szerkeszthető, mert a kiválasztott feljegyzéslista nem nyitható meg"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:90
+#: ../src/calendar/gui/e-comp-editor-memo.c:98
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr "A feljegyzés nem szerkeszthető, mert a kiválasztott feljegyzéslista írásvédett"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:92
+#: ../src/calendar/gui/e-comp-editor-memo.c:100
 msgid "Memo cannot be fully edited, because you are not the organizer"
 msgstr "A feljegyzés nem teljesen szerkeszthető, mert nem Ön a szervező"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:188 ../src/calendar/gui/e-comp-editor-task.c:700
+#: ../src/calendar/gui/e-comp-editor-memo.c:196 ../src/calendar/gui/e-comp-editor-task.c:708
 msgid "_List:"
 msgstr "_Lista:"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:195 ../src/calendar/gui/e-comp-editor-task.c:707
+#: ../src/calendar/gui/e-comp-editor-memo.c:203 ../src/calendar/gui/e-comp-editor-task.c:715
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
 msgstr "Ke_zdés dátuma:"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:247
+#: ../src/calendar/gui/e-comp-editor-memo.c:256
 #, c-format
 msgid "Assigned Memo — %s"
 msgstr "Kiosztott feljegyzés – %s"
 
-#: ../src/calendar/gui/e-comp-editor-memo.c:248
+#: ../src/calendar/gui/e-comp-editor-memo.c:257
 #, c-format
 msgid "Memo — %s"
 msgstr "Feljegyzés – %s"
@@ -7019,7 +7019,7 @@ msgstr "Feljegyzés – %s"
 # fixme: ez mi? #: ../composer/e-msg-composer.c:1500 ../mail/em-format-html-display.c:1913
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
-#: ../src/em-format/e-mail-formatter-attachment.c:333 ../src/e-util/e-attachment-bar.c:101
+#: ../src/em-format/e-mail-formatter-attachment.c:334 ../src/e-util/e-attachment-bar.c:101
 #: ../src/e-util/e-attachment-bar.c:106 ../src/e-util/e-attachment-paned.c:175
 #: ../src/e-util/e-attachment-paned.c:180 ../src/mail/message-list.etspec.h:4
 msgid "Attachment"
@@ -7027,12 +7027,12 @@ msgid_plural "Attachments"
 msgstr[0] "Melléklet"
 msgstr[1] "Mellékletek"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:201 ../src/e-util/e-attachment.c:2442
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:201 ../src/e-util/e-attachment.c:2469
 #, c-format
 msgid "Could not load “%s”"
 msgstr "„%s” nem tölthető be"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:203 ../src/e-util/e-attachment.c:2445
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:203 ../src/e-util/e-attachment.c:2472
 #, c-format
 msgid "Could not load the attachment"
 msgstr "Nem tölthető be a melléklet"
@@ -7640,142 +7640,142 @@ msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "Le_járat:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1118
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1148
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr "Befejezés _dátuma:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1134
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1164
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "Nyilvános"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1135
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1165
 msgctxt "ECompEditor"
 msgid "Private"
 msgstr "Magánjellegű"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1136
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1166
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "Bizalmas"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1152
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1182
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr "_Besorolás:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1171
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1201
 msgctxt "ECompEditor"
 msgid "Not Started"
 msgstr "Nincs elkezdve"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1172
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1202
 msgctxt "ECompEditor"
 msgid "In Progress"
 msgstr "Folyamatban"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1173
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1203
 msgctxt "ECompEditor"
 msgid "Completed"
 msgstr "Befejezve"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1174
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1204
 msgctxt "ECompEditor"
 msgid "Cancelled"
 msgstr "Megszakítva"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1183
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1213
 msgctxt "ECompEditor"
 msgid "_Status:"
 msgstr "Áll_apot:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1213
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1243
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "Nincs megadva"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1214
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1244
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "Magas"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1215
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1245
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "Normál"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1216
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1246
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "Alacsony"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1225
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1255
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr "_Prioritás:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1279
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1309
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr "Százalék kész:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1360
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1390
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "Idő_zóna:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1485
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1515
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Megjelenítés el_foglaltként"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:224
+#: ../src/calendar/gui/e-comp-editor-task.c:225
 msgid "Task’s start date is in the past"
 msgstr "A feladat kezdési ideje a múltban van"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:232
+#: ../src/calendar/gui/e-comp-editor-task.c:233
 msgid "Task’s due date is in the past"
 msgstr "A feladat esedékességi ideje a múltban van"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:461
+#: ../src/calendar/gui/e-comp-editor-task.c:469
 msgid "Task cannot be edited, because the selected task list could not be opened"
 msgstr "A feladat nem szerkeszthető, mert a kiválasztott feladatlista nem nyitható meg"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:463
+#: ../src/calendar/gui/e-comp-editor-task.c:471
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr "A feladat nem szerkeszthető, mert a kiválasztott feladatlista írásvédett"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:465
+#: ../src/calendar/gui/e-comp-editor-task.c:473
 msgid "Task cannot be fully edited, because you are not the organizer"
 msgstr "A feladat nem teljesen szerkeszthető, mert nem Ön a szervező"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:533
+#: ../src/calendar/gui/e-comp-editor-task.c:541
 msgid "Due date is not a valid date"
 msgstr "Érvénytelen a lejárat dátuma"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:544
+#: ../src/calendar/gui/e-comp-editor-task.c:552
 msgid "Completed date is not a valid date"
 msgstr "Érvénytelen a befejezés dátuma"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:555
+#: ../src/calendar/gui/e-comp-editor-task.c:563
 msgid "Completed date cannot be in the future"
 msgstr "A befejezés dátuma nem lehet a jövőben"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:607
+#: ../src/calendar/gui/e-comp-editor-task.c:615
 msgid "All _Day Task"
 msgstr "_Egész napos feladat"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:609
+#: ../src/calendar/gui/e-comp-editor-task.c:617
 msgid "Toggles whether to have All Day Task"
 msgstr "Egész napos feladat átváltása"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:818
+#: ../src/calendar/gui/e-comp-editor-task.c:827
 #, c-format
 msgid "Assigned Task — %s"
 msgstr "Kiosztott feladat – %s"
 
-#: ../src/calendar/gui/e-comp-editor-task.c:819
+#: ../src/calendar/gui/e-comp-editor-task.c:828
 #, c-format
 msgid "Task — %s"
 msgstr "Feladat – %s"
@@ -7803,7 +7803,7 @@ msgstr "Nincs összefoglaló"
 #: ../src/e-util/e-mail-signature-editor.c:309 ../src/e-util/e-name-selector-dialog.c:548
 #: ../src/e-util/e-preferences-window.c:399 ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:128 ../src/mail/e-mail-notes.c:931
-#: ../src/mail/em-folder-properties.c:1158 ../src/mail/em-subscription-editor.c:1737
+#: ../src/mail/em-folder-properties.c:1158 ../src/mail/em-subscription-editor.c:1739
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:254
 #: ../src/shell/e-shell-window-actions.c:296 ../src/shell/e-shell-window-actions.c:817
 #: ../src/smime/gui/certificate-manager.c:2212
@@ -7816,7 +7816,7 @@ msgstr "A jelenlegi ablak bezárása"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:1991 ../src/e-util/e-focus-tracker.c:773
-#: ../src/e-util/e-html-editor-actions.c:878 ../src/e-util/e-text.c:2080
+#: ../src/e-util/e-html-editor-actions.c:878 ../src/e-util/e-text.c:2075
 #: ../src/e-util/e-web-view.c:409 ../src/mail/e-mail-browser.c:135
 #: ../src/mail/mail.error.xml.h:146 ../src/shell/e-shell-window-actions.c:838
 msgid "_Copy"
@@ -7825,21 +7825,21 @@ msgstr "_Másolás"
 #: ../src/calendar/gui/e-comp-editor.c:1993 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:411
-#: ../src/e-util/e-web-view.c:2003 ../src/mail/e-mail-browser.c:137
+#: ../src/e-util/e-web-view.c:2004 ../src/mail/e-mail-browser.c:137
 #: ../src/shell/e-shell-window-actions.c:840
 msgid "Copy the selection"
 msgstr "A kijelölés másolása"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:1998 ../src/e-util/e-focus-tracker.c:768
-#: ../src/e-util/e-html-editor-actions.c:885 ../src/e-util/e-text.c:2066
+#: ../src/e-util/e-html-editor-actions.c:885 ../src/e-util/e-text.c:2061
 #: ../src/mail/e-mail-browser.c:142 ../src/shell/e-shell-window-actions.c:845
 msgid "Cu_t"
 msgstr "_Kivágás"
 
 #: ../src/calendar/gui/e-comp-editor.c:2000 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
-#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:2012
+#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:2013
 #: ../src/mail/e-mail-browser.c:144 ../src/shell/e-shell-window-actions.c:847
 msgid "Cut the selection"
 msgstr "A kijelölés kivágása"
@@ -7856,26 +7856,26 @@ msgstr "Súgó megjelenítése"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2019 ../src/e-util/e-focus-tracker.c:778
-#: ../src/e-util/e-html-editor-actions.c:892 ../src/e-util/e-text.c:2092
+#: ../src/e-util/e-html-editor-actions.c:892 ../src/e-util/e-text.c:2087
 #: ../src/mail/e-mail-browser.c:149 ../src/shell/e-shell-window-actions.c:873
 msgid "_Paste"
 msgstr "_Beillesztés"
 
 #: ../src/calendar/gui/e-comp-editor.c:2021 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
-#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:2021
+#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:2022
 #: ../src/mail/e-mail-browser.c:151 ../src/shell/e-shell-window-actions.c:875
 msgid "Paste the clipboard"
 msgstr "A vágólap tartalmának beillesztése"
 
 #: ../src/calendar/gui/e-comp-editor.c:2026 ../src/composer/e-composer-actions.c:383
-#: ../src/mail/e-mail-reader.c:2402
+#: ../src/mail/e-mail-reader.c:2406
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1235
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1249
 msgid "_Print..."
 msgstr "N_yomtatás…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2033 ../src/mail/e-mail-reader.c:2409
+#: ../src/calendar/gui/e-comp-editor.c:2033 ../src/mail/e-mail-reader.c:2413
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1242
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
@@ -8330,7 +8330,7 @@ msgid "Completed: %s"
 msgstr "Befejezve: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1424 ../src/e-util/e-cell-date-edit.c:328
+#: ../src/calendar/gui/e-to-do-pane.c:1429 ../src/e-util/e-cell-date-edit.c:328
 #: ../src/e-util/e-datetime-format.c:206
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1842
 #: ../src/modules/itip-formatter/itip-view.c:254
@@ -8338,54 +8338,54 @@ msgid "Today"
 msgstr "Ma"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1426 ../src/e-util/e-datetime-format.c:217
+#: ../src/calendar/gui/e-to-do-pane.c:1431 ../src/e-util/e-datetime-format.c:217
 #: ../src/modules/itip-formatter/itip-view.c:282
 msgid "Tomorrow"
 msgstr "Holnap"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1436
+#: ../src/calendar/gui/e-to-do-pane.c:1441
 msgid "Tasks without Due date"
 msgstr "Határidő nélküli feladatok"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2009
+#: ../src/calendar/gui/e-to-do-pane.c:2014
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1449
 msgid "New _Appointment..."
 msgstr "Új érte_kezlet…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2017
+#: ../src/calendar/gui/e-to-do-pane.c:2022
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1435
 msgid "New _Meeting..."
 msgstr "Új _találkozó…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2025
+#: ../src/calendar/gui/e-to-do-pane.c:2030
 msgid "New _Task..."
 msgstr "Új fela_dat…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2033
+#: ../src/calendar/gui/e-to-do-pane.c:2038
 msgid "_New Assigned Task..."
 msgstr "Új ki_osztott feladat…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2046
+#: ../src/calendar/gui/e-to-do-pane.c:2051
 msgid "_Open..."
 msgstr "_Megnyitás…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2060
+#: ../src/calendar/gui/e-to-do-pane.c:2065
 msgid "_Delete This Instance..."
 msgstr "_Előfordulás törlése…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2068
+#: ../src/calendar/gui/e-to-do-pane.c:2073
 msgid "D_elete All Instances..."
 msgstr "Mi_nden előfordulás törlése…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2076
+#: ../src/calendar/gui/e-to-do-pane.c:2081
 msgid "_Delete..."
 msgstr "_Törlés…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2093
+#: ../src/calendar/gui/e-to-do-pane.c:2098
 msgid "_Show Tasks without Due date"
 msgstr "Határidő nélküli feladatok _megjelenítése"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2379
+#: ../src/calendar/gui/e-to-do-pane.c:2364
 msgid "To Do"
 msgstr "Teendő"
 
@@ -8670,15 +8670,15 @@ msgstr "Értekezletek és találkozók"
 
 #: ../src/calendar/importers/icalendar-importer.c:306
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:480
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:76
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:280
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:96
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:309
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:178
 msgid "New Calendar"
 msgstr "Új naptár"
 
 #: ../src/calendar/importers/icalendar-importer.c:309
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:488
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:288
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:317
 #: ../src/modules/calendar/e-task-shell-view-actions.c:202
 msgid "New Task List"
 msgstr "Új feladatlista"
@@ -10929,7 +10929,7 @@ msgstr ""
 "szerkesztőablakot, és újra megnyitni. Ha a probléma továbbra is fennáll, küldjön "
 "hibajelentést a GNOME bugzillába."
 
-#: ../src/em-format/e-mail-formatter-attachment.c:334
+#: ../src/em-format/e-mail-formatter-attachment.c:335
 msgid "Display as attachment"
 msgstr "Megjelenítés mellékletként"
 
@@ -11175,7 +11175,7 @@ msgstr "S/MIME aláírt"
 msgid "S/MIME encrypted"
 msgstr "S/MIME titkosított"
 
-#: ../src/em-format/e-mail-formatter-utils.c:609 ../src/mail/e-mail-config-security-page.c:716
+#: ../src/em-format/e-mail-formatter-utils.c:609 ../src/mail/e-mail-config-security-page.c:718
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:272
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:215
 msgid "Security"
@@ -11430,44 +11430,44 @@ msgstr "A szál létrehozása meghiúsult: "
 msgid "Attached message"
 msgstr "Mellékelt üzenet"
 
-#: ../src/e-util/e-attachment.c:2063 ../src/e-util/e-attachment.c:3116
+#: ../src/e-util/e-attachment.c:2085 ../src/e-util/e-attachment.c:3147
 msgid "Operation was cancelled"
 msgstr "A művelet megszakítva"
 
 #. Translators: Default attachment filename.
-#: ../src/e-util/e-attachment.c:2247 ../src/e-util/e-attachment.c:2963
-#: ../src/e-util/e-attachment.c:3406 ../src/e-util/e-attachment-store.c:886
+#: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:2990
+#: ../src/e-util/e-attachment.c:3437 ../src/e-util/e-attachment-store.c:887
 msgid "attachment.dat"
 msgstr "melléklet.dat"
 
-#: ../src/e-util/e-attachment.c:2325 ../src/e-util/e-attachment.c:3466
+#: ../src/e-util/e-attachment.c:2352 ../src/e-util/e-attachment.c:3497
 msgid "A load operation is already in progress"
 msgstr "Már folyamatban van betöltési művelet"
 
-#: ../src/e-util/e-attachment.c:2333 ../src/e-util/e-attachment.c:3474
+#: ../src/e-util/e-attachment.c:2360 ../src/e-util/e-attachment.c:3505
 msgid "A save operation is already in progress"
 msgstr "Már folyamatban van mentési művelet"
 
-#: ../src/e-util/e-attachment.c:2730
+#: ../src/e-util/e-attachment.c:2757
 #, c-format
 msgid "Could not open “%s”"
 msgstr "„%s” nem nyitható meg"
 
-#: ../src/e-util/e-attachment.c:2733
+#: ../src/e-util/e-attachment.c:2760
 #, c-format
 msgid "Could not open the attachment"
 msgstr "Nem nyitható meg a melléklet"
 
-#: ../src/e-util/e-attachment.c:3483
+#: ../src/e-util/e-attachment.c:3514
 msgid "Attachment contents not loaded"
 msgstr "A melléklet tartalma nincs betöltve"
 
-#: ../src/e-util/e-attachment.c:3574
+#: ../src/e-util/e-attachment.c:3605
 #, c-format
 msgid "Could not save “%s”"
 msgstr "„%s” nem menthető"
 
-#: ../src/e-util/e-attachment.c:3577
+#: ../src/e-util/e-attachment.c:3608
 #, c-format
 msgid "Could not save the attachment"
 msgstr "A melléklet nem menthető"
@@ -12142,8 +12142,8 @@ msgid "white"
 msgstr "fehér"
 
 #: ../src/e-util/e-color-combo.c:642 ../src/mail/e-mail-account-tree-view.c:135
-#: ../src/mail/e-mail-config-security-page.c:404 ../src/mail/e-mail-config-security-page.c:568
-#: ../src/mail/e-mail-reader.c:4138 ../src/mail/mail-config.ui.h:76
+#: ../src/mail/e-mail-config-security-page.c:406 ../src/mail/e-mail-config-security-page.c:570
+#: ../src/mail/e-mail-reader.c:4146 ../src/mail/mail-config.ui.h:76
 msgid "Default"
 msgstr "Alapértelmezett"
 
@@ -13094,19 +13094,19 @@ msgstr "_Vonal"
 msgid "_Table"
 msgstr "_Táblázat"
 
-#: ../src/e-util/e-html-editor.c:727
+#: ../src/e-util/e-html-editor.c:742
 msgid "Paragraph Style"
 msgstr "Bekezdés stílusa"
 
-#: ../src/e-util/e-html-editor.c:741
+#: ../src/e-util/e-html-editor.c:756
 msgid "Editing Mode"
 msgstr "Szerkesztési mód"
 
-#: ../src/e-util/e-html-editor.c:753
+#: ../src/e-util/e-html-editor.c:768
 msgid "Font Color"
 msgstr "Betűszín"
 
-#: ../src/e-util/e-html-editor.c:763
+#: ../src/e-util/e-html-editor.c:778
 msgid "Font Size"
 msgstr "Betűméret"
 
@@ -14010,46 +14010,46 @@ msgstr "Szabály szerkesztése"
 msgid "Matches: %u"
 msgstr "Találatok: %u"
 
-#: ../src/e-util/e-search-bar.c:609
+#: ../src/e-util/e-search-bar.c:611
 msgid "Close the find bar"
 msgstr "A keresősáv bezárása"
 
-#: ../src/e-util/e-search-bar.c:617
+#: ../src/e-util/e-search-bar.c:619
 msgid "Fin_d:"
 msgstr "Kere_sés:"
 
-#: ../src/e-util/e-search-bar.c:629
+#: ../src/e-util/e-search-bar.c:631
 msgid "Clear the search"
 msgstr "Keresés törlése"
 
-#: ../src/e-util/e-search-bar.c:653
+#: ../src/e-util/e-search-bar.c:655
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:73
 msgid "_Previous"
 msgstr "_Előző"
 
-#: ../src/e-util/e-search-bar.c:656
+#: ../src/e-util/e-search-bar.c:658
 msgid "Find the previous occurrence of the phrase"
 msgstr "A kifejezés előző előfordulásának keresése"
 
-#: ../src/e-util/e-search-bar.c:665
+#: ../src/e-util/e-search-bar.c:667
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:80
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:224
 msgid "_Next"
 msgstr "_Következő"
 
-#: ../src/e-util/e-search-bar.c:668
+#: ../src/e-util/e-search-bar.c:670
 msgid "Find the next occurrence of the phrase"
 msgstr "A kifejezés következő előfordulásának keresése"
 
-#: ../src/e-util/e-search-bar.c:677
+#: ../src/e-util/e-search-bar.c:679
 msgid "Mat_ch case"
 msgstr "Kis- és _nagybetűk"
 
-#: ../src/e-util/e-search-bar.c:705
+#: ../src/e-util/e-search-bar.c:707
 msgid "Reached bottom of page, continued from top"
 msgstr "Az oldal vége elérve, folytatás az elejétől"
 
-#: ../src/e-util/e-search-bar.c:727
+#: ../src/e-util/e-search-bar.c:729
 msgid "Reached top of page, continued from bottom"
 msgstr "Az oldal eleje elérve, folytatás a végétől"
 
@@ -14265,7 +14265,7 @@ msgid "Select destination"
 msgstr "Válasszon célt"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-spell-dictionary.c:264
+#: ../src/e-util/e-spell-dictionary.c:266
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -14273,7 +14273,7 @@ msgstr "Ismeretlen (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-spell-dictionary.c:279 ../src/e-util/e-spell-dictionary.c:284
+#: ../src/e-util/e-spell-dictionary.c:281 ../src/e-util/e-spell-dictionary.c:286
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
@@ -14617,11 +14617,11 @@ msgstr "_Rendezés"
 msgid "_Custom"
 msgstr "_Egyéni"
 
-#: ../src/e-util/e-text.c:2105
+#: ../src/e-util/e-text.c:2100
 msgid "Select All"
 msgstr "Összes kijelölése"
 
-#: ../src/e-util/e-text.c:2118
+#: ../src/e-util/e-text.c:2113
 msgid "Input Methods"
 msgstr "Beviteli módok"
 
@@ -14809,7 +14809,7 @@ msgstr "_Gyűjtemény létrehozása"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-webdav-browser.c:2699 ../src/mail/em-subscription-editor.c:1948
+#: ../src/e-util/e-webdav-browser.c:2699 ../src/mail/em-subscription-editor.c:1950
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1650
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1721
 msgid "_Refresh"
@@ -14859,7 +14859,7 @@ msgstr "_Kép mentése…"
 msgid "Save the image to a file"
 msgstr "A kép mentése fájlba"
 
-#: ../src/e-util/e-web-view.c:421 ../src/e-util/e-web-view.c:2025
+#: ../src/e-util/e-web-view.c:421 ../src/e-util/e-web-view.c:2026
 msgid "Select all text and images"
 msgstr "Az összes szöveg és kép kijelölése az üzenetben"
 
@@ -14886,20 +14886,20 @@ msgstr "Ugrás az üzenet kezdetéhez"
 msgid "Click to open %s"
 msgstr "Kattintson a(z) %s megnyitásához"
 
-#: ../src/e-util/e-web-view.c:3928
+#: ../src/e-util/e-web-view.c:3944
 msgid "Copying image to clipboard"
 msgstr "Kép másolása a vágólapra"
 
-#: ../src/e-util/e-web-view.c:4116
+#: ../src/e-util/e-web-view.c:4132
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: ../src/e-util/e-web-view.c:4157
+#: ../src/e-util/e-web-view.c:4173
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Kép mentése ide: „%s”"
 
-#: ../src/e-util/e-web-view.c:4252
+#: ../src/e-util/e-web-view.c:4268
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Nem lehet lekérni a(z) „%s” URI-t, mert nem lehet tudni, hogy kell letölteni."
@@ -15835,111 +15835,111 @@ msgstr "Levelek fogadása"
 
 #. Translators: This string is to describe a PGP key in a combo box in mail account's preferences.
 #. The first '%s' is a key ID, the second '%s' is a display name of the key.
-#: ../src/mail/e-mail-config-security-page.c:231
+#: ../src/mail/e-mail-config-security-page.c:233
 #, c-format
 msgctxt "PGPKeyDescription"
 msgid "%s — %s"
 msgstr "%s — %s"
 
-#: ../src/mail/e-mail-config-security-page.c:318 ../src/mail/em-folder-properties.c:1070
+#: ../src/mail/e-mail-config-security-page.c:320 ../src/mail/em-folder-properties.c:1070
 #: ../src/mail/mail-config.ui.h:32 ../src/modules/addressbook/autocompletion-config.c:115
-#: ../src/modules/calendar/e-calendar-preferences.c:642
+#: ../src/modules/calendar/e-calendar-preferences.c:643
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
 #: ../src/modules/mail/e-mail-shell-backend.c:753
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Általános"
 
-#: ../src/mail/e-mail-config-security-page.c:327
+#: ../src/mail/e-mail-config-security-page.c:329
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "_Ne írja alá a találkozó-összehívási kérést (Outlook-kompatibilitás érdekében)"
 
-#: ../src/mail/e-mail-config-security-page.c:349
+#: ../src/mail/e-mail-config-security-page.c:351
 msgid "Pretty Good Privacy (OpenPGP)"
 msgstr "Pretty Good Privacy (OpenPGP)"
 
-#: ../src/mail/e-mail-config-security-page.c:358
+#: ../src/mail/e-mail-config-security-page.c:360
 msgid "OpenPGP _Key ID:"
 msgstr "_OpenPGP kulcs azonosítója:"
 
-#: ../src/mail/e-mail-config-security-page.c:391
+#: ../src/mail/e-mail-config-security-page.c:393
 msgid "Si_gning algorithm:"
 msgstr "_Aláírási algoritmus:"
 
-#: ../src/mail/e-mail-config-security-page.c:407 ../src/mail/e-mail-config-security-page.c:571
+#: ../src/mail/e-mail-config-security-page.c:409 ../src/mail/e-mail-config-security-page.c:573
 #: ../src/mail/mail-config.ui.h:77
 msgid "SHA1"
 msgstr "SHA1"
 
-#: ../src/mail/e-mail-config-security-page.c:410 ../src/mail/e-mail-config-security-page.c:574
+#: ../src/mail/e-mail-config-security-page.c:412 ../src/mail/e-mail-config-security-page.c:576
 #: ../src/mail/mail-config.ui.h:78
 msgid "SHA256"
 msgstr "SHA256"
 
-#: ../src/mail/e-mail-config-security-page.c:413 ../src/mail/e-mail-config-security-page.c:577
+#: ../src/mail/e-mail-config-security-page.c:415 ../src/mail/e-mail-config-security-page.c:579
 #: ../src/mail/mail-config.ui.h:79
 msgid "SHA384"
 msgstr "SHA384"
 
-#: ../src/mail/e-mail-config-security-page.c:416 ../src/mail/e-mail-config-security-page.c:580
+#: ../src/mail/e-mail-config-security-page.c:418 ../src/mail/e-mail-config-security-page.c:582
 #: ../src/mail/mail-config.ui.h:80
 msgid "SHA512"
 msgstr "SHA512"
 
-#: ../src/mail/e-mail-config-security-page.c:432
+#: ../src/mail/e-mail-config-security-page.c:434
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "M_indig írja alá az ebből a postafiókból kimenő üzeneteket"
 
-#: ../src/mail/e-mail-config-security-page.c:444
+#: ../src/mail/e-mail-config-security-page.c:446
 msgid "Always enc_rypt outgoing messages when using this account"
 msgstr "Mindig _titkosítsa az ebből a postafiókból kimenő üzeneteket"
 
-#: ../src/mail/e-mail-config-security-page.c:456
+#: ../src/mail/e-mail-config-security-page.c:458
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr "_Mindig titkosít nekem is titkosított levelek küldésekor"
 
-#: ../src/mail/e-mail-config-security-page.c:468
+#: ../src/mail/e-mail-config-security-page.c:470
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Titkosításkor mindig megbízom a k_ulcstartómon található kulcsokban"
 
-#: ../src/mail/e-mail-config-security-page.c:480
+#: ../src/mail/e-mail-config-security-page.c:482
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr "Beágyazott _aláírás/titkosítás előnyben részesítése az egyszerű szöveges üzeneteknél"
 
-#: ../src/mail/e-mail-config-security-page.c:504
+#: ../src/mail/e-mail-config-security-page.c:506
 msgid "Secure MIME (S/MIME)"
 msgstr "Biztonságos MIME (S/MIME)"
 
-#: ../src/mail/e-mail-config-security-page.c:513
+#: ../src/mail/e-mail-config-security-page.c:515
 msgid "Sig_ning certificate:"
 msgstr "_Aláírási tanúsítvány:"
 
-#: ../src/mail/e-mail-config-security-page.c:537 ../src/mail/e-mail-config-security-page.c:635
+#: ../src/mail/e-mail-config-security-page.c:539 ../src/mail/e-mail-config-security-page.c:637
 msgid "Select"
 msgstr "Válasszon"
 
-#: ../src/mail/e-mail-config-security-page.c:546 ../src/mail/e-mail-config-security-page.c:644
+#: ../src/mail/e-mail-config-security-page.c:548 ../src/mail/e-mail-config-security-page.c:646
 #: ../src/mail/mail-dialogs.ui.h:16 ../src/shell/e-shell-window-actions.c:915
 msgid "_Clear"
 msgstr "_Törlés"
 
-#: ../src/mail/e-mail-config-security-page.c:555
+#: ../src/mail/e-mail-config-security-page.c:557
 msgid "Signing _algorithm:"
 msgstr "Aláírási alg_oritmus:"
 
-#: ../src/mail/e-mail-config-security-page.c:596
+#: ../src/mail/e-mail-config-security-page.c:598
 msgid "Always sign outgoing messages when using this account"
 msgstr "Mindig írja alá az ebből a postafiókból kimenő üzeneteket"
 
-#: ../src/mail/e-mail-config-security-page.c:611
+#: ../src/mail/e-mail-config-security-page.c:613
 msgid "Encryption certificate:"
 msgstr "Titkosítási tanúsítvány:"
 
-#: ../src/mail/e-mail-config-security-page.c:653
+#: ../src/mail/e-mail-config-security-page.c:655
 msgid "Always encrypt outgoing messages when using this account"
 msgstr "Mindig titkosítsa az ebből a postafiókból kimenő üzeneteket"
 
-#: ../src/mail/e-mail-config-security-page.c:665
+#: ../src/mail/e-mail-config-security-page.c:667
 msgid "Always encrypt to myself when sending encrypted messages"
 msgstr "Mindig titkosítson nekem is titkosított levelek küldésekor"
 
@@ -16232,633 +16232,633 @@ msgstr "Fejléc neve"
 msgid "Header Value"
 msgstr "Fejléc értéke"
 
-#: ../src/mail/e-mail-printer.c:100 ../src/mail/mail-config.ui.h:128
+#: ../src/mail/e-mail-printer.c:102 ../src/mail/mail-config.ui.h:128
 msgid "Headers"
 msgstr "Fejlécek"
 
-#: ../src/mail/e-mail-printer.c:142
+#: ../src/mail/e-mail-printer.c:144
 #, c-format
 msgid "Page %d of %d"
 msgstr "%d/%d oldal"
 
-#: ../src/mail/e-mail-reader.c:350 ../src/mail/filtertypes.xml.in.h:65
+#: ../src/mail/e-mail-reader.c:352 ../src/mail/filtertypes.xml.in.h:65
 msgid "Move to Folder"
 msgstr "Áthelyezés mappába"
 
-#: ../src/mail/e-mail-reader.c:350 ../src/mail/filtertypes.xml.in.h:66
+#: ../src/mail/e-mail-reader.c:352 ../src/mail/filtertypes.xml.in.h:66
 msgid "Copy to Folder"
 msgstr "Másolás mappába"
 
-#: ../src/mail/e-mail-reader.c:354 ../src/mail/em-folder-utils.c:568
+#: ../src/mail/e-mail-reader.c:356 ../src/mail/em-folder-utils.c:568
 #: ../src/mail/mail.error.xml.h:152
 msgid "_Move"
 msgstr "Á_thelyezés"
 
-#: ../src/mail/e-mail-reader.c:354 ../src/mail/em-folder-utils.c:568
+#: ../src/mail/e-mail-reader.c:356 ../src/mail/em-folder-utils.c:568
 msgid "C_opy"
 msgstr "Má_solás"
 
-#: ../src/mail/e-mail-reader.c:529
+#: ../src/mail/e-mail-reader.c:531
 msgid "Deleting message note..."
 msgstr "Üzenetfeljegyzés törlése…"
 
-#: ../src/mail/e-mail-reader.c:1386 ../src/mail/e-mail-reader.c:1598
-#: ../src/mail/e-mail-reader.c:1638
+#: ../src/mail/e-mail-reader.c:1388 ../src/mail/e-mail-reader.c:1600
+#: ../src/mail/e-mail-reader.c:1640
 msgid "_Do not ask me again."
 msgstr "_Ne kérdezze meg többé."
 
-#: ../src/mail/e-mail-reader.c:1644
+#: ../src/mail/e-mail-reader.c:1646
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "A _válaszcím mellőzése levelezőlistákhoz mindig."
 
-#: ../src/mail/e-mail-reader.c:1847
+#: ../src/mail/e-mail-reader.c:1850
 msgid "Failed to retrieve message:"
 msgstr "Az üzenet letöltése sikertelen:"
 
-#: ../src/mail/e-mail-reader.c:1892 ../src/mail/e-mail-reader.c:3251
+#: ../src/mail/e-mail-reader.c:1896 ../src/mail/e-mail-reader.c:3255
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "„%s” üzenet letöltése"
 
-#: ../src/mail/e-mail-reader.c:2080
+#: ../src/mail/e-mail-reader.c:2084
 msgid "A_dd Sender to Address Book"
 msgstr "Feladó hozzáadása a _címjegyzékhez"
 
-#: ../src/mail/e-mail-reader.c:2082
+#: ../src/mail/e-mail-reader.c:2086
 msgid "Add sender to address book"
 msgstr "Feladó hozzáadása a címjegyzékhez"
 
-#: ../src/mail/e-mail-reader.c:2087
+#: ../src/mail/e-mail-reader.c:2091
 msgid "_Archive..."
 msgstr "_Archiválás…"
 
-#: ../src/mail/e-mail-reader.c:2089
+#: ../src/mail/e-mail-reader.c:2093
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "A kijelölt üzenetek áthelyezése a fiók Archívum mappájába"
 
-#: ../src/mail/e-mail-reader.c:2094
+#: ../src/mail/e-mail-reader.c:2098
 msgid "Check for _Junk"
 msgstr "Sze_mét keresése"
 
-#: ../src/mail/e-mail-reader.c:2096
+#: ../src/mail/e-mail-reader.c:2100
 msgid "Filter the selected messages for junk status"
 msgstr "A kijelölt üzenetek szűrése levélszemét állapotuk szerint"
 
-#: ../src/mail/e-mail-reader.c:2101
+#: ../src/mail/e-mail-reader.c:2105
 msgid "_Copy to Folder..."
 msgstr "Másolás ma_ppába…"
 
-#: ../src/mail/e-mail-reader.c:2103
+#: ../src/mail/e-mail-reader.c:2107
 msgid "Copy selected messages to another folder"
 msgstr "A kijelölt üzenetek másolása másik mappába"
 
-#: ../src/mail/e-mail-reader.c:2108
+#: ../src/mail/e-mail-reader.c:2112
 msgid "_Delete Message"
 msgstr "Üzenet tö_rlése"
 
-#: ../src/mail/e-mail-reader.c:2110
+#: ../src/mail/e-mail-reader.c:2114
 msgid "Mark the selected messages for deletion"
 msgstr "A kijelölt üzenetek megjelölése töröltként"
 
-#: ../src/mail/e-mail-reader.c:2115
+#: ../src/mail/e-mail-reader.c:2119
 msgid "_Add note..."
 msgstr "Feljegyzés hozzá_adása…"
 
-#: ../src/mail/e-mail-reader.c:2117
+#: ../src/mail/e-mail-reader.c:2121
 msgid "Add a note for the selected message"
 msgstr "Új feljegyzés létrehozása a kijelölt üzenethez"
 
-#: ../src/mail/e-mail-reader.c:2122
+#: ../src/mail/e-mail-reader.c:2126
 msgid "Delete no_te"
 msgstr "Feljegyzés _törlése"
 
-#: ../src/mail/e-mail-reader.c:2124
+#: ../src/mail/e-mail-reader.c:2128
 msgid "Delete the note for the selected message"
 msgstr "A kijelölt üzenethez tartozó feljegyzés törlése"
 
-#: ../src/mail/e-mail-reader.c:2129
+#: ../src/mail/e-mail-reader.c:2133
 msgid "_Edit note..."
 msgstr "Feljegyzés sz_erkesztése"
 
-#: ../src/mail/e-mail-reader.c:2131
+#: ../src/mail/e-mail-reader.c:2135
 msgid "Edit a note for the selected message"
 msgstr "A kijelölt üzenethez tartozó feljegyzés szerkesztése"
 
-#: ../src/mail/e-mail-reader.c:2136
+#: ../src/mail/e-mail-reader.c:2140
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr "Szűrőszabály készítése a _levelezőlistára…"
 
-#: ../src/mail/e-mail-reader.c:2138
+#: ../src/mail/e-mail-reader.c:2142
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Szabály készítése, amely szűri az erre a levelezőlistára érkező üzeneteket"
 
-#: ../src/mail/e-mail-reader.c:2143
+#: ../src/mail/e-mail-reader.c:2147
 msgid "Create a Filter Rule for _Recipients..."
 msgstr "Szűrőszabály készítése a cí_mzettekre…"
 
-#: ../src/mail/e-mail-reader.c:2145
+#: ../src/mail/e-mail-reader.c:2149
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Szabály alkotása, amely szűri az ezeknek a címzetteknek szóló üzeneteket"
 
-#: ../src/mail/e-mail-reader.c:2150
+#: ../src/mail/e-mail-reader.c:2154
 msgid "Create a Filter Rule for Se_nder..."
 msgstr "Szűrőszabály készítése a _feladóra…"
 
-#: ../src/mail/e-mail-reader.c:2152
+#: ../src/mail/e-mail-reader.c:2156
 msgid "Create a rule to filter messages from this sender"
 msgstr "Szabály alkotása, amely szűri az ettől feladótól érkező üzeneteket"
 
-#: ../src/mail/e-mail-reader.c:2157
+#: ../src/mail/e-mail-reader.c:2161
 msgid "Create a Filter Rule for _Subject..."
 msgstr "Szűrőszabály készítése a _tárgyra…"
 
-#: ../src/mail/e-mail-reader.c:2159
+#: ../src/mail/e-mail-reader.c:2163
 msgid "Create a rule to filter messages with this subject"
 msgstr "Szabály alkotása, amely szűri az ilyen tárgyú üzeneteket"
 
-#: ../src/mail/e-mail-reader.c:2164
+#: ../src/mail/e-mail-reader.c:2168
 msgid "A_pply Filters"
 msgstr "_Szűrők alkalmazása"
 
-#: ../src/mail/e-mail-reader.c:2166
+#: ../src/mail/e-mail-reader.c:2170
 msgid "Apply filter rules to the selected messages"
 msgstr "Szűrőszabályok alkalmazása a kijelölt üzenetekre"
 
-#: ../src/mail/e-mail-reader.c:2171
+#: ../src/mail/e-mail-reader.c:2175
 msgid "_Find in Message..."
 msgstr "Ke_resés üzenetben…"
 
-#: ../src/mail/e-mail-reader.c:2173
+#: ../src/mail/e-mail-reader.c:2177
 msgid "Search for text in the body of the displayed message"
 msgstr "Szöveg keresése a megjelenített üzenet törzsében"
 
-#: ../src/mail/e-mail-reader.c:2178
+#: ../src/mail/e-mail-reader.c:2182
 msgid "_Clear Flag"
 msgstr "J_elölő törlése"
 
-#: ../src/mail/e-mail-reader.c:2180
+#: ../src/mail/e-mail-reader.c:2184
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "A nyomon követés jelző eltávolítása a kijelölt üzenetről"
 
-#: ../src/mail/e-mail-reader.c:2185
+#: ../src/mail/e-mail-reader.c:2189
 msgid "_Flag Completed"
 msgstr "Meg_jelölés befejezettként"
 
-#: ../src/mail/e-mail-reader.c:2187
+#: ../src/mail/e-mail-reader.c:2191
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "A nyomon követés jelző befejezettre állítása a kijelölt üzeneteken"
 
-#: ../src/mail/e-mail-reader.c:2192
+#: ../src/mail/e-mail-reader.c:2196
 msgid "Follow _Up..."
 msgstr "_Nyomon követés…"
 
-#: ../src/mail/e-mail-reader.c:2194
+#: ../src/mail/e-mail-reader.c:2198
 msgid "Flag the selected messages for follow-up"
 msgstr "A kijelölt üzenetek megjelölése nyomon követésre"
 
-#: ../src/mail/e-mail-reader.c:2199 ../src/modules/mail/e-mail-attachment-handler.c:431
+#: ../src/mail/e-mail-reader.c:2203 ../src/modules/mail/e-mail-attachment-handler.c:431
 msgid "_Attached"
 msgstr "_Mellékelve"
 
-#: ../src/mail/e-mail-reader.c:2201 ../src/mail/e-mail-reader.c:2208
+#: ../src/mail/e-mail-reader.c:2205 ../src/mail/e-mail-reader.c:2212
 #: ../src/modules/mail/e-mail-attachment-handler.c:433
 msgid "Forward the selected message to someone as an attachment"
 msgstr "A kijelölt üzenet továbbítása valakinek mellékletként"
 
-#: ../src/mail/e-mail-reader.c:2206
+#: ../src/mail/e-mail-reader.c:2210
 msgid "Forward As _Attached"
 msgstr "_Továbbítás mellékletként"
 
-#: ../src/mail/e-mail-reader.c:2213 ../src/modules/mail/e-mail-attachment-handler.c:438
+#: ../src/mail/e-mail-reader.c:2217 ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
 msgstr "Beág_yazva"
 
-#: ../src/mail/e-mail-reader.c:2215 ../src/mail/e-mail-reader.c:2222
+#: ../src/mail/e-mail-reader.c:2219 ../src/mail/e-mail-reader.c:2226
 #: ../src/modules/mail/e-mail-attachment-handler.c:440
 msgid "Forward the selected message in the body of a new message"
 msgstr "A kijelölt üzenet továbbítása az új üzenet törzsében"
 
-#: ../src/mail/e-mail-reader.c:2220
+#: ../src/mail/e-mail-reader.c:2224
 msgid "Forward As _Inline"
 msgstr "Továbbítás _beágyazva"
 
-#: ../src/mail/e-mail-reader.c:2227 ../src/modules/mail/e-mail-attachment-handler.c:445
+#: ../src/mail/e-mail-reader.c:2231 ../src/modules/mail/e-mail-attachment-handler.c:445
 msgid "_Quoted"
 msgstr "I_dézet"
 
-#: ../src/mail/e-mail-reader.c:2229 ../src/mail/e-mail-reader.c:2236
+#: ../src/mail/e-mail-reader.c:2233 ../src/mail/e-mail-reader.c:2240
 #: ../src/modules/mail/e-mail-attachment-handler.c:447
 msgid "Forward the selected message quoted like a reply"
 msgstr "Az üzenet továbbítása idézetként, ahogy a válaszban szokás"
 
-#: ../src/mail/e-mail-reader.c:2234
+#: ../src/mail/e-mail-reader.c:2238
 msgid "Forward As _Quoted"
 msgstr "Továbbítás i_dézetként"
 
-#: ../src/mail/e-mail-reader.c:2241
+#: ../src/mail/e-mail-reader.c:2245
 msgid "_Load Images"
 msgstr "_Képek betöltése"
 
-#: ../src/mail/e-mail-reader.c:2243
+#: ../src/mail/e-mail-reader.c:2247
 msgid "Force images in HTML mail to be loaded"
 msgstr "Képek betöltésének kényszerítése HTML levelekben"
 
-#: ../src/mail/e-mail-reader.c:2248 ../src/mail/e-mail-reader.c:2638
+#: ../src/mail/e-mail-reader.c:2252 ../src/mail/e-mail-reader.c:2642
 msgid "_Ignore Subthread"
 msgstr "_Alszál mellőzése"
 
-#: ../src/mail/e-mail-reader.c:2250
+#: ../src/mail/e-mail-reader.c:2254
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Egy alszál új leveleinek automatikus megjelölése olvasottként"
 
-#: ../src/mail/e-mail-reader.c:2255 ../src/mail/e-mail-reader.c:2642
+#: ../src/mail/e-mail-reader.c:2259 ../src/mail/e-mail-reader.c:2646
 msgid "_Ignore Thread"
 msgstr "Szál _mellőzése"
 
-#: ../src/mail/e-mail-reader.c:2257
+#: ../src/mail/e-mail-reader.c:2261
 msgid "Mark new mails in this thread as read automatically"
 msgstr "A szál új leveleinek automatikus megjelölése olvasottként"
 
-#: ../src/mail/e-mail-reader.c:2262
+#: ../src/mail/e-mail-reader.c:2266
 msgid "_Important"
 msgstr "_Fontos"
 
-#: ../src/mail/e-mail-reader.c:2264
+#: ../src/mail/e-mail-reader.c:2268
 msgid "Mark the selected messages as important"
 msgstr "A kijelölt üzenetek megjelölése fontosként"
 
-#: ../src/mail/e-mail-reader.c:2269
+#: ../src/mail/e-mail-reader.c:2273
 msgid "_Junk"
 msgstr "_Levélszemét"
 
-#: ../src/mail/e-mail-reader.c:2271
+#: ../src/mail/e-mail-reader.c:2275
 msgid "Mark the selected messages as junk"
 msgstr "A kijelölt üzenetek megjelölése levélszemétként"
 
-#: ../src/mail/e-mail-reader.c:2276
+#: ../src/mail/e-mail-reader.c:2280
 msgid "_Not Junk"
 msgstr "Ne_m levélszemét"
 
-#: ../src/mail/e-mail-reader.c:2278
+#: ../src/mail/e-mail-reader.c:2282
 msgid "Mark the selected messages as not being junk"
 msgstr "A kijelölt üzenetek megjelölése nem levélszemétként"
 
-#: ../src/mail/e-mail-reader.c:2283
+#: ../src/mail/e-mail-reader.c:2287
 msgid "_Read"
 msgstr "Ol_vasott"
 
-#: ../src/mail/e-mail-reader.c:2285
+#: ../src/mail/e-mail-reader.c:2289
 msgid "Mark the selected messages as having been read"
 msgstr "A kijelölt üzenetek megjelölése olvasottként"
 
-#: ../src/mail/e-mail-reader.c:2290 ../src/mail/e-mail-reader.c:2662
+#: ../src/mail/e-mail-reader.c:2294 ../src/mail/e-mail-reader.c:2666
 msgid "Do not _Ignore Subthread"
 msgstr "_Ne mellőzze az alszálat"
 
-#: ../src/mail/e-mail-reader.c:2292
+#: ../src/mail/e-mail-reader.c:2296
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr "Ne jelölje meg automatikusan az alszál új leveleit olvasottként"
 
-#: ../src/mail/e-mail-reader.c:2297 ../src/mail/e-mail-reader.c:2666
+#: ../src/mail/e-mail-reader.c:2301 ../src/mail/e-mail-reader.c:2670
 msgid "Do not _Ignore Thread"
 msgstr "_Ne mellőzze a szálat"
 
-#: ../src/mail/e-mail-reader.c:2299
+#: ../src/mail/e-mail-reader.c:2303
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr "Ne jelölje meg automatikusan a szál új leveleit olvasottként"
 
-#: ../src/mail/e-mail-reader.c:2304
+#: ../src/mail/e-mail-reader.c:2308
 msgid "Uni_mportant"
 msgstr "Nem _fontos"
 
-#: ../src/mail/e-mail-reader.c:2306
+#: ../src/mail/e-mail-reader.c:2310
 msgid "Mark the selected messages as unimportant"
 msgstr "A kijelölt üzenetek megjelölése nem fontosként"
 
-#: ../src/mail/e-mail-reader.c:2311
+#: ../src/mail/e-mail-reader.c:2315
 msgid "_Unread"
 msgstr "_Olvasatlan"
 
-#: ../src/mail/e-mail-reader.c:2313
+#: ../src/mail/e-mail-reader.c:2317
 msgid "Mark the selected messages as not having been read"
 msgstr "A kijelölt üzenetek megjelölése olvasatlanként"
 
-#: ../src/mail/e-mail-reader.c:2318 ../src/modules/mail/e-mail-attachment-handler.c:417
+#: ../src/mail/e-mail-reader.c:2322 ../src/modules/mail/e-mail-attachment-handler.c:417
 msgid "_Edit as New Message..."
 msgstr "S_zerkesztés új üzenetként…"
 
-#: ../src/mail/e-mail-reader.c:2320 ../src/modules/mail/e-mail-attachment-handler.c:419
+#: ../src/mail/e-mail-reader.c:2324 ../src/modules/mail/e-mail-attachment-handler.c:419
 msgid "Open the selected messages in the composer for editing"
 msgstr "A kijelölt üzenetek megnyitása a szerkesztőben szerkesztésre"
 
-#: ../src/mail/e-mail-reader.c:2325
+#: ../src/mail/e-mail-reader.c:2329
 msgid "Compose _New Message"
 msgstr "Új ü_zenet írása"
 
-#: ../src/mail/e-mail-reader.c:2327
+#: ../src/mail/e-mail-reader.c:2331
 msgid "Open a window for composing a mail message"
 msgstr "Ablak megnyitása levélíráshoz"
 
-#: ../src/mail/e-mail-reader.c:2332
+#: ../src/mail/e-mail-reader.c:2336
 msgid "_Open in New Window"
 msgstr "Megnyitás ú_j ablakban"
 
-#: ../src/mail/e-mail-reader.c:2334
+#: ../src/mail/e-mail-reader.c:2338
 msgid "Open the selected messages in a new window"
 msgstr "A kijelölt üzenetek megnyitása új ablakban"
 
-#: ../src/mail/e-mail-reader.c:2339
+#: ../src/mail/e-mail-reader.c:2343
 msgid "_Move to Folder..."
 msgstr "Át_helyezés mappába…"
 
-#: ../src/mail/e-mail-reader.c:2341
+#: ../src/mail/e-mail-reader.c:2345
 msgid "Move selected messages to another folder"
 msgstr "A kijelölt üzenetek áthelyezése egy másik mappába"
 
-#: ../src/mail/e-mail-reader.c:2346
+#: ../src/mail/e-mail-reader.c:2350
 msgid "_Next Message"
 msgstr "_Következő üzenet"
 
-#: ../src/mail/e-mail-reader.c:2348
+#: ../src/mail/e-mail-reader.c:2352
 msgid "Display the next message"
 msgstr "A következő üzenet megjelenítése"
 
-#: ../src/mail/e-mail-reader.c:2353
+#: ../src/mail/e-mail-reader.c:2357
 msgid "Next _Important Message"
 msgstr "Következő _fontos üzenet"
 
-#: ../src/mail/e-mail-reader.c:2355
+#: ../src/mail/e-mail-reader.c:2359
 msgid "Display the next important message"
 msgstr "A következő fontos üzenet megjelenítése"
 
-#: ../src/mail/e-mail-reader.c:2360
+#: ../src/mail/e-mail-reader.c:2364
 msgid "Next _Thread"
 msgstr "Következő _szál"
 
-#: ../src/mail/e-mail-reader.c:2362
+#: ../src/mail/e-mail-reader.c:2366
 msgid "Display the next thread"
 msgstr "A következő szál megjelenítése"
 
-#: ../src/mail/e-mail-reader.c:2367
+#: ../src/mail/e-mail-reader.c:2371
 msgid "Next _Unread Message"
 msgstr "Következő _olvasatlan üzenet"
 
-#: ../src/mail/e-mail-reader.c:2369
+#: ../src/mail/e-mail-reader.c:2373
 msgid "Display the next unread message"
 msgstr "A következő olvasatlan üzenet megjelenítése"
 
-#: ../src/mail/e-mail-reader.c:2374
+#: ../src/mail/e-mail-reader.c:2378
 msgid "_Previous Message"
 msgstr "_Előző üzenet"
 
-#: ../src/mail/e-mail-reader.c:2376
+#: ../src/mail/e-mail-reader.c:2380
 msgid "Display the previous message"
 msgstr "Az előző üzenet megjelenítése"
 
-#: ../src/mail/e-mail-reader.c:2381
+#: ../src/mail/e-mail-reader.c:2385
 msgid "Pr_evious Important Message"
 msgstr "Előző fo_ntos üzenet"
 
-#: ../src/mail/e-mail-reader.c:2383
+#: ../src/mail/e-mail-reader.c:2387
 msgid "Display the previous important message"
 msgstr "Az előző fontos üzenet megjelenítése"
 
-#: ../src/mail/e-mail-reader.c:2388
+#: ../src/mail/e-mail-reader.c:2392
 msgid "Previous T_hread"
 msgstr "_Előző szál"
 
-#: ../src/mail/e-mail-reader.c:2390
+#: ../src/mail/e-mail-reader.c:2394
 msgid "Display the previous thread"
 msgstr "Az előző szál megjelenítése"
 
-#: ../src/mail/e-mail-reader.c:2395
+#: ../src/mail/e-mail-reader.c:2399
 msgid "P_revious Unread Message"
 msgstr "Előző ol_vasatlan üzenet"
 
-#: ../src/mail/e-mail-reader.c:2397
+#: ../src/mail/e-mail-reader.c:2401
 msgid "Display the previous unread message"
 msgstr "Az előző olvasatlan üzenet megjelenítése"
 
-#: ../src/mail/e-mail-reader.c:2404
+#: ../src/mail/e-mail-reader.c:2408
 msgid "Print this message"
 msgstr "Üzenet nyomtatása"
 
-#: ../src/mail/e-mail-reader.c:2411
+#: ../src/mail/e-mail-reader.c:2415
 msgid "Preview the message to be printed"
 msgstr "A nyomtatandó üzenet nyomtatási képe"
 
-#: ../src/mail/e-mail-reader.c:2416 ../src/modules/mail/e-mail-attachment-handler.c:452
+#: ../src/mail/e-mail-reader.c:2420 ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
 msgstr "Át_irányítás"
 
-#: ../src/mail/e-mail-reader.c:2418 ../src/modules/mail/e-mail-attachment-handler.c:454
+#: ../src/mail/e-mail-reader.c:2422 ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "A kijelölt üzenet átirányítása valakinek"
 
-#: ../src/mail/e-mail-reader.c:2423
+#: ../src/mail/e-mail-reader.c:2427
 msgid "Remo_ve Attachments"
 msgstr "Mellékletek _eltávolítása"
 
-#: ../src/mail/e-mail-reader.c:2425
+#: ../src/mail/e-mail-reader.c:2429
 msgid "Remove attachments"
 msgstr "Mellékletek eltávolítása"
 
-#: ../src/mail/e-mail-reader.c:2430
+#: ../src/mail/e-mail-reader.c:2434
 msgid "Remove Du_plicate Messages"
 msgstr "_Többszörös üzenetek eltávolítása"
 
-#: ../src/mail/e-mail-reader.c:2432
+#: ../src/mail/e-mail-reader.c:2436
 msgid "Checks selected messages for duplicates"
 msgstr "Többszörös üzenetek keresése a kijelöltek közt"
 
-#: ../src/mail/e-mail-reader.c:2437 ../src/mail/mail.error.xml.h:28
+#: ../src/mail/e-mail-reader.c:2441 ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
 msgid "Reply to _All"
 msgstr "Vál_asz mindenkinek"
 
-#: ../src/mail/e-mail-reader.c:2439 ../src/modules/mail/e-mail-attachment-handler.c:398
+#: ../src/mail/e-mail-reader.c:2443 ../src/modules/mail/e-mail-attachment-handler.c:398
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Válasz írása a kijelölt üzenet összes címzettjének"
 
-#: ../src/mail/e-mail-reader.c:2444 ../src/mail/mail.error.xml.h:26
+#: ../src/mail/e-mail-reader.c:2448 ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
 msgstr "Válasz a _listának"
 
-#: ../src/mail/e-mail-reader.c:2446 ../src/modules/mail/e-mail-attachment-handler.c:405
+#: ../src/mail/e-mail-reader.c:2450 ../src/modules/mail/e-mail-attachment-handler.c:405
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Válasz írása a kijelölt üzenethez tartozó levelezőlistára"
 
-#: ../src/mail/e-mail-reader.c:2451 ../src/modules/mail/e-mail-attachment-handler.c:410
+#: ../src/mail/e-mail-reader.c:2455 ../src/modules/mail/e-mail-attachment-handler.c:410
 msgid "_Reply to Sender"
 msgstr "Válasz a _feladónak"
 
-#: ../src/mail/e-mail-reader.c:2453 ../src/modules/mail/e-mail-attachment-handler.c:412
+#: ../src/mail/e-mail-reader.c:2457 ../src/modules/mail/e-mail-attachment-handler.c:412
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Válasz írása a kijelölt üzenet feladójának"
 
-#: ../src/mail/e-mail-reader.c:2458
+#: ../src/mail/e-mail-reader.c:2462
 msgid "_Save as mbox..."
 msgstr "Mentés mbo_xként…"
 
-#: ../src/mail/e-mail-reader.c:2460
+#: ../src/mail/e-mail-reader.c:2464
 msgid "Save selected messages as an mbox file"
 msgstr "A kijelölt üzenetek mentése mbox-fájlként"
 
-#: ../src/mail/e-mail-reader.c:2465
+#: ../src/mail/e-mail-reader.c:2469
 msgid "_Message Source"
 msgstr "Üzenet f_orrása"
 
-#: ../src/mail/e-mail-reader.c:2467
+#: ../src/mail/e-mail-reader.c:2471
 msgid "Show the raw email source of the message"
 msgstr "Üzenet nyers forrásának megjelenítése"
 
-#: ../src/mail/e-mail-reader.c:2479
+#: ../src/mail/e-mail-reader.c:2483
 msgid "_Undelete Message"
 msgstr "Üzenettörlés _visszavonása"
 
-#: ../src/mail/e-mail-reader.c:2481
+#: ../src/mail/e-mail-reader.c:2485
 msgid "Undelete the selected messages"
 msgstr "A kijelölt üzenetek törlésének visszavonása"
 
-#: ../src/mail/e-mail-reader.c:2486
+#: ../src/mail/e-mail-reader.c:2490
 msgid "_Normal Size"
 msgstr "No_rmál méret"
 
-#: ../src/mail/e-mail-reader.c:2488
+#: ../src/mail/e-mail-reader.c:2492
 msgid "Reset the text to its original size"
 msgstr "Visszaállítja a szöveg eredeti betűméretét"
 
-#: ../src/mail/e-mail-reader.c:2493
+#: ../src/mail/e-mail-reader.c:2497
 msgid "_Zoom In"
 msgstr "_Nagyítás"
 
-#: ../src/mail/e-mail-reader.c:2495
+#: ../src/mail/e-mail-reader.c:2499
 msgid "Increase the text size"
 msgstr "Szöveg betűméretének növelése"
 
-#: ../src/mail/e-mail-reader.c:2502
+#: ../src/mail/e-mail-reader.c:2506
 msgid "Decrease the text size"
 msgstr "Szöveg betűméretének csökkentése"
 
-#: ../src/mail/e-mail-reader.c:2509
+#: ../src/mail/e-mail-reader.c:2513
 msgid "Cre_ate"
 msgstr "_Létrehozás"
 
-#: ../src/mail/e-mail-reader.c:2516
+#: ../src/mail/e-mail-reader.c:2520
 msgid "Ch_aracter Encoding"
 msgstr "Karakterkó_dolás"
 
-#: ../src/mail/e-mail-reader.c:2523 ../src/modules/mail/e-mail-attachment-handler.c:424
+#: ../src/mail/e-mail-reader.c:2527 ../src/modules/mail/e-mail-attachment-handler.c:424
 msgid "F_orward As"
 msgstr "_Továbbítás másként"
 
-#: ../src/mail/e-mail-reader.c:2530
+#: ../src/mail/e-mail-reader.c:2534
 msgid "_Group Reply"
 msgstr "_Csoportos válasz"
 
-#: ../src/mail/e-mail-reader.c:2537
+#: ../src/mail/e-mail-reader.c:2541
 msgid "_Go To"
 msgstr "_Ugrás"
 
-#: ../src/mail/e-mail-reader.c:2544
+#: ../src/mail/e-mail-reader.c:2548
 msgid "Mar_k As"
 msgstr "Me_gjelölés mint"
 
-#: ../src/mail/e-mail-reader.c:2551
+#: ../src/mail/e-mail-reader.c:2555
 msgid "_Message"
 msgstr "Üz_enet"
 
-#: ../src/mail/e-mail-reader.c:2558
+#: ../src/mail/e-mail-reader.c:2562
 msgid "_Zoom"
 msgstr "_Nagyítás"
 
-#: ../src/mail/e-mail-reader.c:2568
+#: ../src/mail/e-mail-reader.c:2572
 msgid "Create a Search Folder from Mailing _List..."
 msgstr "Keresőmappa készítése a _levelezőlistából…"
 
-#: ../src/mail/e-mail-reader.c:2570
+#: ../src/mail/e-mail-reader.c:2574
 msgid "Create a search folder for this mailing list"
 msgstr "Keresőmappa létrehozása erre a levelezőlistára"
 
-#: ../src/mail/e-mail-reader.c:2575
+#: ../src/mail/e-mail-reader.c:2579
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr "Keresőmappa készítése a _címzettekből…"
 
-#: ../src/mail/e-mail-reader.c:2577
+#: ../src/mail/e-mail-reader.c:2581
 msgid "Create a search folder for these recipients"
 msgstr "Keresőmappa létrehozása ezekre a címzettekre"
 
-#: ../src/mail/e-mail-reader.c:2582
+#: ../src/mail/e-mail-reader.c:2586
 msgid "Create a Search Folder from Sen_der..."
 msgstr "Keresőmappa készítése a _feladóból…"
 
-#: ../src/mail/e-mail-reader.c:2584
+#: ../src/mail/e-mail-reader.c:2588
 msgid "Create a search folder for this sender"
 msgstr "Keresőmappa létrehozása erre a feladóra"
 
-#: ../src/mail/e-mail-reader.c:2589
+#: ../src/mail/e-mail-reader.c:2593
 msgid "Create a Search Folder from S_ubject..."
 msgstr "Keresőmappa készítése a _tárgyból…"
 
-#: ../src/mail/e-mail-reader.c:2591
+#: ../src/mail/e-mail-reader.c:2595
 msgid "Create a search folder for this subject"
 msgstr "Keresőmappa létrehozása erre a tárgyra"
 
-#: ../src/mail/e-mail-reader.c:2630
+#: ../src/mail/e-mail-reader.c:2634
 msgid "Mark for Follo_w Up..."
 msgstr "Nyomon _követés…"
 
-#: ../src/mail/e-mail-reader.c:2646
+#: ../src/mail/e-mail-reader.c:2650
 msgid "Mark as _Important"
 msgstr "Fo_ntos"
 
-#: ../src/mail/e-mail-reader.c:2650
+#: ../src/mail/e-mail-reader.c:2654
 msgid "Mark as _Junk"
 msgstr "_Levélszemét"
 
-#: ../src/mail/e-mail-reader.c:2654
+#: ../src/mail/e-mail-reader.c:2658
 msgid "Mark as _Not Junk"
 msgstr "Nem le_vélszemét"
 
-#: ../src/mail/e-mail-reader.c:2658
+#: ../src/mail/e-mail-reader.c:2662
 msgid "Mar_k as Read"
 msgstr "Ol_vasott"
 
-#: ../src/mail/e-mail-reader.c:2670
+#: ../src/mail/e-mail-reader.c:2674
 msgid "Mark as Uni_mportant"
 msgstr "Nem _fontos"
 
-#: ../src/mail/e-mail-reader.c:2674
+#: ../src/mail/e-mail-reader.c:2678
 msgid "Mark as _Unread"
 msgstr "_Olvasatlan"
 
-#: ../src/mail/e-mail-reader.c:2718
+#: ../src/mail/e-mail-reader.c:2722
 msgid "_Caret Mode"
 msgstr "K_urzor mód"
 
-#: ../src/mail/e-mail-reader.c:2720
+#: ../src/mail/e-mail-reader.c:2724
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Villogó kurzor megjelenítése a megjelenített üzenet törzsében"
 
-#: ../src/mail/e-mail-reader.c:2726
+#: ../src/mail/e-mail-reader.c:2730
 msgid "All Message _Headers"
 msgstr "Az összes üzenet_fejléc"
 
-#: ../src/mail/e-mail-reader.c:2728
+#: ../src/mail/e-mail-reader.c:2732
 msgid "Show messages with all email headers"
 msgstr "Üzenetek megjelenítése a teljes e-mail fejléccel"
 
-#: ../src/mail/e-mail-reader.c:3257
+#: ../src/mail/e-mail-reader.c:3261
 msgid "Retrieving message"
 msgstr "Üzenet letöltése"
 
-#: ../src/mail/e-mail-reader.c:4327 ../src/modules/mail/e-mail-attachment-handler.c:389
+#: ../src/mail/e-mail-reader.c:4335 ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "T_ovábbítás"
 
-#: ../src/mail/e-mail-reader.c:4328 ../src/modules/mail/e-mail-attachment-handler.c:391
+#: ../src/mail/e-mail-reader.c:4336 ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "A kijelölt üzenet továbbítása valakinek"
 
@@ -16866,50 +16866,50 @@ msgstr "A kijelölt üzenet továbbítása valakinek"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:4347
+#: ../src/mail/e-mail-reader.c:4355
 msgid "Group Reply"
 msgstr "Csoportos válasz"
 
-#: ../src/mail/e-mail-reader.c:4348
+#: ../src/mail/e-mail-reader.c:4356
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Válasz írása a levelezőlistára, vagy minden címzettnek"
 
-#: ../src/mail/e-mail-reader.c:4414 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:4422 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Törlés"
 
-#: ../src/mail/e-mail-reader.c:4426 ../src/modules/calendar/e-cal-shell-view-actions.c:1281
+#: ../src/mail/e-mail-reader.c:4434 ../src/modules/calendar/e-cal-shell-view-actions.c:1281
 msgid "Next"
 msgstr "Következő"
 
-#: ../src/mail/e-mail-reader.c:4430 ../src/modules/calendar/e-cal-shell-view-actions.c:1274
+#: ../src/mail/e-mail-reader.c:4438 ../src/modules/calendar/e-cal-shell-view-actions.c:1274
 msgid "Previous"
 msgstr "Előző"
 
-#: ../src/mail/e-mail-reader.c:4439 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:4447 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Válasz"
 
-#: ../src/mail/e-mail-reader.c:5502
+#: ../src/mail/e-mail-reader.c:5589
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Távoli tartalom engedélyezése bárkinek innen: %s"
 
-#: ../src/mail/e-mail-reader.c:5504
+#: ../src/mail/e-mail-reader.c:5591
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Távoli tartalom engedélyezése ennek: %s"
 
-#: ../src/mail/e-mail-reader.c:5521
+#: ../src/mail/e-mail-reader.c:5608
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Távoli tartalom engedélyezése innen: %s"
 
-#: ../src/mail/e-mail-reader.c:5538
+#: ../src/mail/e-mail-reader.c:5625
 msgid "Do not show this message again"
 msgstr "Ne mutassa ezt többé"
 
-#: ../src/mail/e-mail-reader.c:5590
+#: ../src/mail/e-mail-reader.c:5677
 msgid "Load remote content"
 msgstr "Távol tartalom betöltése"
 
@@ -17319,20 +17319,20 @@ msgstr "Feliratkozás _megjelenítettre"
 msgid "Subscribe To _All"
 msgstr "Feliratkozás min_dre"
 
-#: ../src/mail/em-subscription-editor.c:935 ../src/mail/em-subscription-editor.c:1886
+#: ../src/mail/em-subscription-editor.c:936 ../src/mail/em-subscription-editor.c:1888
 #: ../src/mail/mail.error.xml.h:73 ../src/modules/mail/e-mail-shell-view-actions.c:1749
 msgid "_Unsubscribe"
 msgstr "_Leiratkozás"
 
-#: ../src/mail/em-subscription-editor.c:944
+#: ../src/mail/em-subscription-editor.c:945
 msgid "Unsu_bscribe From Hidden"
 msgstr "Leiratkozás _rejtettről"
 
-#: ../src/mail/em-subscription-editor.c:952
+#: ../src/mail/em-subscription-editor.c:953
 msgid "Unsubscribe From _All"
 msgstr "Leiratkozás _mindről"
 
-#: ../src/mail/em-subscription-editor.c:1311
+#: ../src/mail/em-subscription-editor.c:1313
 #: ../src/modules/mail/e-mail-shell-view-private.c:936
 #: ../src/modules/mail/e-mail-shell-view-private.c:968
 #: ../src/modules/mail/e-mail-shell-view-private.c:1012
@@ -17342,7 +17342,7 @@ msgid_plural "%d unread, "
 msgstr[0] "%d olvasatlan, "
 msgstr[1] "%d olvasatlan, "
 
-#: ../src/mail/em-subscription-editor.c:1315
+#: ../src/mail/em-subscription-editor.c:1317
 #: ../src/modules/mail/e-mail-shell-view-private.c:1022
 #, c-format
 msgid "%d total"
@@ -17350,60 +17350,60 @@ msgid_plural "%d total"
 msgstr[0] "összesen %d"
 msgstr[1] "összesen %d"
 
-#: ../src/mail/em-subscription-editor.c:1727
+#: ../src/mail/em-subscription-editor.c:1729
 msgid "Folder Subscriptions"
 msgstr "Feliratkozás mappákra"
 
-#: ../src/mail/em-subscription-editor.c:1762
+#: ../src/mail/em-subscription-editor.c:1764
 msgid "_Account:"
 msgstr "_Postafiók:"
 
-#: ../src/mail/em-subscription-editor.c:1775
+#: ../src/mail/em-subscription-editor.c:1777
 msgid "Clear Search"
 msgstr "Keresés törlése"
 
-#: ../src/mail/em-subscription-editor.c:1792
+#: ../src/mail/em-subscription-editor.c:1794
 msgid "Sho_w items that contain:"
 msgstr "A_z ezt tartalmazó elemek:"
 
-#: ../src/mail/em-subscription-editor.c:1839
+#: ../src/mail/em-subscription-editor.c:1841
 msgid "Subscribe to the selected folder"
 msgstr "Feliratkozás a kijelölt mappára"
 
-#: ../src/mail/em-subscription-editor.c:1840
+#: ../src/mail/em-subscription-editor.c:1842
 msgid "Su_bscribe"
 msgstr "_Feliratkozás"
 
-#: ../src/mail/em-subscription-editor.c:1885
+#: ../src/mail/em-subscription-editor.c:1887
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1751
 msgid "Unsubscribe from the selected folder"
 msgstr "Leiratkozás a kijelölt mappáról"
 
-#: ../src/mail/em-subscription-editor.c:1925
+#: ../src/mail/em-subscription-editor.c:1927
 msgid "Collapse all folders"
 msgstr "Összes mappa összecsukása"
 
-#: ../src/mail/em-subscription-editor.c:1926
+#: ../src/mail/em-subscription-editor.c:1928
 msgid "C_ollapse All"
 msgstr "Összes össze_csukása"
 
-#: ../src/mail/em-subscription-editor.c:1936
+#: ../src/mail/em-subscription-editor.c:1938
 msgid "Expand all folders"
 msgstr "Összes mappa kibontása"
 
-#: ../src/mail/em-subscription-editor.c:1937
+#: ../src/mail/em-subscription-editor.c:1939
 msgid "E_xpand All"
 msgstr "Öss_zes kibontása"
 
-#: ../src/mail/em-subscription-editor.c:1947
+#: ../src/mail/em-subscription-editor.c:1949
 msgid "Refresh the folder list"
 msgstr "A mappalista frissítése"
 
-#: ../src/mail/em-subscription-editor.c:1959
+#: ../src/mail/em-subscription-editor.c:1961
 msgid "Stop the current operation"
 msgstr "A jelenlegi művelet leállítása"
 
-#: ../src/mail/em-subscription-editor.c:1960
+#: ../src/mail/em-subscription-editor.c:1962
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1005
 msgid "_Stop"
 msgstr "_Leállítás"
@@ -17429,18 +17429,18 @@ msgid "Messages from %s"
 msgstr "A feladó %s"
 
 #. Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string.
-#: ../src/mail/em-utils.c:1557
+#: ../src/mail/em-utils.c:1565
 msgctxt "reply-attribution"
 msgid "Re"
 msgstr "Re"
 
 #. Translators: This is a reply attribution separator in the message reply subject. This should match the ':' in 'Re: %s' in the 'reply-attribution' translation context.
-#: ../src/mail/em-utils.c:1560
+#: ../src/mail/em-utils.c:1568
 msgctxt "reply-attribution"
 msgid ":"
 msgstr ":"
 
-#: ../src/mail/em-utils.c:1846
+#: ../src/mail/em-utils.c:1854
 msgid "Deleting old messages"
 msgstr "Régi üzenetek törlése"
 
@@ -19423,7 +19423,7 @@ msgstr "Magasabb"
 msgid "Highest"
 msgstr "Legmagasabb"
 
-#: ../src/mail/message-list.c:478 ../src/mail/message-list.c:6508
+#: ../src/mail/message-list.c:478 ../src/mail/message-list.c:6518
 msgid "Generating message list"
 msgstr "Üzenetlista létrehozása"
 
@@ -19449,20 +19449,20 @@ msgstr "%b. %d., %k.%M"
 msgid "%b %d %Y"
 msgstr "%Y. %b %d."
 
-#: ../src/mail/message-list.c:3178
+#: ../src/mail/message-list.c:3188
 msgid "Select all visible messages"
 msgstr "Az összes látható üzenet kijelölése"
 
-#: ../src/mail/message-list.c:3923 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:3933 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Üzenetek"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5387
+#: ../src/mail/message-list.c:5397
 msgid "Follow-up"
 msgstr "Nyomon követés"
 
-#: ../src/mail/message-list.c:6447
+#: ../src/mail/message-list.c:6457
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a new Show "
 "message filter from the drop down list above or by running a new search either by clearing "
@@ -19473,7 +19473,7 @@ msgstr ""
 "futtatásával a Keresés → Törlés menüpont kiválasztásával vagy a fenti lekérdezés "
 "módosításával."
 
-#: ../src/mail/message-list.c:6455
+#: ../src/mail/message-list.c:6465
 msgid "There are no messages in this folder."
 msgstr "Ebben a mappában nincsenek üzenetek."
 
@@ -19573,7 +19573,7 @@ msgid "New Address Book"
 msgstr "Új címjegyzék"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:484
-#: ../src/modules/calendar/e-cal-base-shell-backend.c:284
+#: ../src/modules/calendar/e-cal-base-shell-backend.c:313
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:178
 msgid "New Memo List"
 msgstr "Új feljegyzéslista"
@@ -20591,41 +20591,41 @@ msgstr "Feljegyzéslista-választó"
 msgid "Task List Selector"
 msgstr "Feladatlista-választó"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:523
+#: ../src/modules/calendar/e-calendar-preferences.c:524
 msgid "Selected Calendars for Notifications of Reminders"
 msgstr "Kiválasztott naptárak az emlékeztető értesítésekhez"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:530
+#: ../src/modules/calendar/e-calendar-preferences.c:531
 msgid "Selected Memo Lists for Notifications of Reminders"
 msgstr "Kiválasztott feljegyzéslisták az emlékeztető értesítésekhez"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:537
+#: ../src/modules/calendar/e-calendar-preferences.c:538
 msgid "Selected Task Lists for Notifications of Reminders"
 msgstr "Kiválasztott feladatlisták az emlékeztető értesítésekhez"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:633
+#: ../src/modules/calendar/e-calendar-preferences.c:634
 msgid "Meeting Invitations"
 msgstr "Találkozómeghívók"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:659
+#: ../src/modules/calendar/e-calendar-preferences.c:660
 msgid "_Delete message after acting"
 msgstr "Üzenet tö_rlése reagálás után"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:673
-#: ../src/modules/calendar/e-calendar-preferences.c:704
+#: ../src/modules/calendar/e-calendar-preferences.c:674
+#: ../src/modules/calendar/e-calendar-preferences.c:705
 msgid "Conflict Search"
 msgstr "Ütközéskeresés"
 
 #. Source selector
-#: ../src/modules/calendar/e-calendar-preferences.c:688
+#: ../src/modules/calendar/e-calendar-preferences.c:689
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Válassza ki a naptárt ütköző találkozók kereséséhez"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1114
+#: ../src/modules/calendar/e-calendar-preferences.c:1115
 msgid "Ti_me and date:"
 msgstr "_Dátum és idő:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1115
+#: ../src/modules/calendar/e-calendar-preferences.c:1116
 msgid "_Date only:"
 msgstr "_Csak dátum:"
 
@@ -21762,11 +21762,11 @@ msgstr "CalDAV és CardDAV kiszolgáló"
 msgid "Look up for a CalDAV/CardDAV server"
 msgstr "CalDAV és CardDAV kiszolgáló keresése"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:162
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:165
 msgid "ITIP"
 msgstr "ITIP"
 
-#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:163
+#: ../src/modules/itip-formatter/e-mail-formatter-itip.c:166
 msgid "Display part as an invitation"
 msgstr "A rész megjelenítése meghívóként"
 
@@ -22232,7 +22232,7 @@ msgid "Sa_ve"
 msgstr "_Mentés"
 
 #: ../src/modules/itip-formatter/itip-view.c:3633
-#: ../src/modules/itip-formatter/itip-view.c:5189
+#: ../src/modules/itip-formatter/itip-view.c:5198
 msgid "Attendee status updated"
 msgstr "A résztvevő állapota frissítve"
 
@@ -22281,125 +22281,125 @@ msgstr "Naptár megnyitása, kis türelmet…"
 msgid "Searching for an existing version of this appointment"
 msgstr "Ezen értekezlet egy létező változatának keresése"
 
-#: ../src/modules/itip-formatter/itip-view.c:4801
+#: ../src/modules/itip-formatter/itip-view.c:4810
 #, c-format
 msgid "Unable to send item to calendar “%s”.  %s"
 msgstr "Nem küldhető el az elem a(z) „%s” naptárnak: %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4816
+#: ../src/modules/itip-formatter/itip-view.c:4825
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "„%s” naptárnak elküldve elfogadottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4821
+#: ../src/modules/itip-formatter/itip-view.c:4830
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "„%s” naptárnak elküldve feltételesként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4827
+#: ../src/modules/itip-formatter/itip-view.c:4836
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "„%s” naptárnak elküldve elutasítottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4833
+#: ../src/modules/itip-formatter/itip-view.c:4842
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "„%s” naptárnak elküldve lemondottként"
 
-#: ../src/modules/itip-formatter/itip-view.c:4869
-#: ../src/modules/itip-formatter/itip-view.c:5326
-#: ../src/modules/itip-formatter/itip-view.c:5429
+#: ../src/modules/itip-formatter/itip-view.c:4878
+#: ../src/modules/itip-formatter/itip-view.c:5335
+#: ../src/modules/itip-formatter/itip-view.c:5438
 msgid "Saving changes to the calendar. Please wait..."
 msgstr "Változtatások mentése a naptárba, kis türelmet…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4921
+#: ../src/modules/itip-formatter/itip-view.c:4930
 msgid "Unable to parse item"
 msgstr "Nem dolgozható fel az elem"
 
-#: ../src/modules/itip-formatter/itip-view.c:5113
+#: ../src/modules/itip-formatter/itip-view.c:5122
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "A szervező eltávolította %s meghatalmazottat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5130
+#: ../src/modules/itip-formatter/itip-view.c:5139
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Lemondási értesítés elküldve a meghatalmazottnak"
 
-#: ../src/modules/itip-formatter/itip-view.c:5134
+#: ../src/modules/itip-formatter/itip-view.c:5143
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Nem sikerült elküldeni a lemondási értesítést a meghatalmazottnak"
 
-#: ../src/modules/itip-formatter/itip-view.c:5181
+#: ../src/modules/itip-formatter/itip-view.c:5190
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Nem frissíthető a résztvevő: %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5216
+#: ../src/modules/itip-formatter/itip-view.c:5225
 msgid "The meeting is invalid and cannot be updated"
 msgstr "A találkozó érvénytelen, és nem frissíthető"
 
-#: ../src/modules/itip-formatter/itip-view.c:5291
+#: ../src/modules/itip-formatter/itip-view.c:5300
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "A résztvevő állapotát nem lehetett frissíteni, mert az állapot érvénytelen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5362
-#: ../src/modules/itip-formatter/itip-view.c:5400
+#: ../src/modules/itip-formatter/itip-view.c:5371
+#: ../src/modules/itip-formatter/itip-view.c:5409
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "A résztvevő állapotát nem lehetett frissíteni, mert az elem nem létezik többé"
 
-#: ../src/modules/itip-formatter/itip-view.c:5461
+#: ../src/modules/itip-formatter/itip-view.c:5470
 msgid "Meeting information sent"
 msgstr "A találkozóinformációk elküldve"
 
-#: ../src/modules/itip-formatter/itip-view.c:5466
+#: ../src/modules/itip-formatter/itip-view.c:5475
 msgid "Task information sent"
 msgstr "A feladatinformációk elküldve"
 
-#: ../src/modules/itip-formatter/itip-view.c:5471
+#: ../src/modules/itip-formatter/itip-view.c:5480
 msgid "Memo information sent"
 msgstr "A feljegyzésinformációk elküldve"
 
-#: ../src/modules/itip-formatter/itip-view.c:5482
+#: ../src/modules/itip-formatter/itip-view.c:5491
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "A találkozóinformációk nem küldhetők el, a találkozó nem létezik"
 
-#: ../src/modules/itip-formatter/itip-view.c:5487
+#: ../src/modules/itip-formatter/itip-view.c:5496
 msgid "Unable to send task information, the task does not exist"
 msgstr "A feladatinformációk nem küldhetők el, a feladat nem létezik"
 
-#: ../src/modules/itip-formatter/itip-view.c:5492
+#: ../src/modules/itip-formatter/itip-view.c:5501
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "A feljegyzésinformációk nem küldhetők el, a feljegyzés nem létezik"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5557
+#: ../src/modules/itip-formatter/itip-view.c:5566
 msgid "calendar.ics"
 msgstr "naptár.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5562
+#: ../src/modules/itip-formatter/itip-view.c:5571
 msgid "Save Calendar"
 msgstr "Naptár mentése"
 
-#: ../src/modules/itip-formatter/itip-view.c:5611
-#: ../src/modules/itip-formatter/itip-view.c:5624
+#: ../src/modules/itip-formatter/itip-view.c:5620
+#: ../src/modules/itip-formatter/itip-view.c:5633
 msgid "The calendar attached is not valid"
 msgstr "A csatolt naptár érvénytelen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5612
-#: ../src/modules/itip-formatter/itip-view.c:5625
+#: ../src/modules/itip-formatter/itip-view.c:5621
+#: ../src/modules/itip-formatter/itip-view.c:5634
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr ""
 "Az üzenet azt állítja, hogy egy naptárt tartalmaz, de a naptár nem egy érvényes iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:5667
-#: ../src/modules/itip-formatter/itip-view.c:5748
-#: ../src/modules/itip-formatter/itip-view.c:5844
+#: ../src/modules/itip-formatter/itip-view.c:5676
+#: ../src/modules/itip-formatter/itip-view.c:5757
+#: ../src/modules/itip-formatter/itip-view.c:5853
 msgid "The item in the calendar is not valid"
 msgstr "Az elem a naptárban érvénytelen"
 
-#: ../src/modules/itip-formatter/itip-view.c:5668
-#: ../src/modules/itip-formatter/itip-view.c:5749
-#: ../src/modules/itip-formatter/itip-view.c:5845
+#: ../src/modules/itip-formatter/itip-view.c:5677
+#: ../src/modules/itip-formatter/itip-view.c:5758
+#: ../src/modules/itip-formatter/itip-view.c:5854
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, tasks or free/"
 "busy information"
@@ -22407,33 +22407,33 @@ msgstr ""
 "Az üzenet tartalmaz egy naptárt, de az nem tartalmaz eseményeket, feladatokat vagy "
 "időbeosztásokat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5758
+#: ../src/modules/itip-formatter/itip-view.c:5767
 msgid "The calendar attached contains multiple items"
 msgstr "A csatolt naptár több elemet tartalmaz"
 
-#: ../src/modules/itip-formatter/itip-view.c:5759
+#: ../src/modules/itip-formatter/itip-view.c:5768
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr ""
 "Ezen elemek mindegyikének feldolgozásához a fájlt el kell menteni és a naptárt importálni"
 
-#: ../src/modules/itip-formatter/itip-view.c:6276
+#: ../src/modules/itip-formatter/itip-view.c:6291
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Nincs"
 
-#: ../src/modules/itip-formatter/itip-view.c:6292
+#: ../src/modules/itip-formatter/itip-view.c:6307
 msgid "Tentatively Accepted"
 msgstr "Feltételesen elfogadva"
 
-#: ../src/modules/itip-formatter/itip-view.c:6460
+#: ../src/modules/itip-formatter/itip-view.c:6475
 msgid "This meeting recurs"
 msgstr "Ez az értekezlet ismétlődik"
 
-#: ../src/modules/itip-formatter/itip-view.c:6463
+#: ../src/modules/itip-formatter/itip-view.c:6478
 msgid "This task recurs"
 msgstr "Ez a feladat ismétlődik"
 
-#: ../src/modules/itip-formatter/itip-view.c:6466
+#: ../src/modules/itip-formatter/itip-view.c:6481
 msgid "This memo recurs"
 msgstr "Ez a feljegyzés ismétlődik"
 
@@ -24399,6 +24399,10 @@ msgid "Create a new meeting from the selected message"
 msgstr "Új találkozó létrehozása a kijelölt üzenetből"
 
 #: ../src/plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
+msgid "Mail-to-Task"
+msgstr "Levél feladattá"
+
+#: ../src/plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 msgid "Convert a mail message to a task."
 msgstr "Levél átalakítása feladattá."
 
