@@ -6875,7 +6875,7 @@ msgstr "Hora: %s %s"
 #: ../src/calendar/gui/e-calendar-view.c:2302
 #: ../src/calendar/gui/e-calendar-view.c:2305
 msgid "%d %b %Y"
-msgstr "%d de %B del %Y"
+msgstr "%d %B del %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. * Don't use any other specifiers.
@@ -6891,7 +6891,7 @@ msgstr "%d %b"
 
 #: ../src/calendar/gui/e-calendar-view.c:2315
 msgid "%A %d %b %Y"
-msgstr "%A, %d de %B del %Y"
+msgstr "%A, %d %B del %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. * %b = abbreviated month name. Don't use any other specifiers.
@@ -8433,7 +8433,7 @@ msgstr "pm"
 #: ../src/calendar/gui/e-week-view-main-item.c:205
 #: ../src/calendar/gui/print.c:2093
 msgid "%A %d %B"
-msgstr "%A, %d de %B"
+msgstr "%A, %d %B"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
 #: ../src/calendar/gui/e-day-view.c:3792
@@ -20261,11 +20261,11 @@ msgstr "%a a les %k:%M"
 
 #: ../src/mail/message-list.c:2146
 msgid "%b %d %l:%M %p"
-msgstr "el %d de %b a les %k:%M"
+msgstr "el %d %b a les %k:%M"
 
 #: ../src/mail/message-list.c:2148
 msgid "%b %d %Y"
-msgstr "%d de %b del %Y"
+msgstr "%d %b del %Y"
 
 #: ../src/mail/message-list.c:3178
 msgid "Select all visible messages"
@@ -22701,63 +22701,63 @@ msgstr "%A a les %l:%M:%S %p"
 #. * without a year.
 #: ../src/modules/itip-formatter/itip-view.c:346
 msgid "%A, %B %e"
-msgstr "%A, %e de %B"
+msgstr "%A, %e %B"
 
 #. strftime format of a weekday, a date
 #. * without a year and a time,
 #. * in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:352
 msgid "%A, %B %e %H:%M"
-msgstr "%A, %e de %B a les %H:%M"
+msgstr "%A, %e %B a les %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:356
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%A, %e de %B a les %H:%M:%S"
+msgstr "%A, %e %B a les %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:361
 msgid "%A, %B %e %l:%M %p"
-msgstr "%A, %e de %B a les %l:%M %p"
+msgstr "%A, %e %B a les %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:365
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%A, %e de %B a les %l:%M:%S %p"
+msgstr "%A, %e %B a les %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../src/modules/itip-formatter/itip-view.c:371
 msgid "%A, %B %e, %Y"
-msgstr "%A, %e de %B del %Y"
+msgstr "%A, %e %B del %Y"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:376
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%A, %e de %B del %Y a les %H:%M"
+msgstr "%A, %e %B del %Y a les %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:380
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%A, %e de %B del %Y a les %H:%M:%S"
+msgstr "%A, %e %B del %Y a les %H:%M:%S"
 
 # consulteu man 3 strftime per comprendre aquest format
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:385
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%A, %e de %B del %Y a les %l:%M %p"
+msgstr "%A, %e %B del %Y a les %l:%M %p"
 
 # consulteu man 3 strftime per comprendre aquest format
 #. strftime format of a weekday, a date and a
 #. * time, in 12-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:389
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%A, %e de %B del %Y a les %l:%M:%S %p"
+msgstr "%A, %e %B del %Y a les %l:%M:%S %p"
 
 #: ../src/modules/itip-formatter/itip-view.c:427
 #: ../src/modules/itip-formatter/itip-view.c:428
