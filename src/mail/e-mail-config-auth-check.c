@@ -120,6 +120,7 @@ static void
 mail_config_auth_check_update (EMailConfigAuthCheck *auth_check)
 {
 	EActivity *activity;
+	ESource *source;
 	EMailConfigServicePage *page;
 	EMailConfigServiceBackend *backend;
 	EMailConfigServicePageClass *page_class;
@@ -135,6 +136,7 @@ mail_config_auth_check_update (EMailConfigAuthCheck *auth_check)
 	backend = e_mail_config_auth_check_get_backend (auth_check);
 	page = e_mail_config_service_backend_get_page (backend);
 	settings = e_mail_config_service_backend_get_settings (backend);
+	source = e_mail_config_service_backend_get_source (backend);
 
 	page_class = E_MAIL_CONFIG_SERVICE_PAGE_GET_CLASS (page);
 	backend_class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
@@ -173,6 +175,41 @@ mail_config_auth_check_update (EMailConfigAuthCheck *auth_check)
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	camel_service_set_settings (service, settings);
+
+	/* Setup Proxy */
+	if (source) {
+		ESourceRegistry *registry;
+		ESource *authentication_source;
+
+		registry = e_mail_config_service_page_get_registry (e_mail_config_service_backend_get_page (backend));
+		authentication_source = e_source_registry_find_extension (registry, source, E_SOURCE_EXTENSION_AUTHENTICATION);
+
+		if (authentication_source) {
+			GProxyResolver *proxy_resolver = NULL;
+			ESourceAuthentication *extension;
+			ESource *proxy_source = NULL;
+			gchar *uid;
+
+			extension = e_source_get_extension (authentication_source, E_SOURCE_EXTENSION_AUTHENTICATION);
+
+			uid = e_source_authentication_dup_proxy_uid (extension);
+			if (uid) {
+				proxy_source = e_source_registry_ref_source (registry, uid);
+				g_free (uid);
+			}
+
+			if (proxy_source) {
+				proxy_resolver = G_PROXY_RESOLVER (proxy_source);
+				if (!g_proxy_resolver_is_supported (proxy_resolver))
+					proxy_resolver = NULL;
+			}
+
+			camel_service_set_proxy_resolver (service, proxy_resolver);
+
+			g_clear_object (&authentication_source);
+			g_clear_object (&proxy_source);
+		}
+	}
 
 	activity = e_mail_config_activity_page_new_activity (
 		E_MAIL_CONFIG_ACTIVITY_PAGE (page));
