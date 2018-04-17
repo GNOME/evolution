@@ -99,6 +99,9 @@
 /* Define if you have libnotify */
 #cmakedefine HAVE_LIBNOTIFY 1
 
+/* Define if you have libunity */
+#cmakedefine HAVE_LIBUNITY 1
+
 /* libical provides ical_set_unknown_token_handling_setting function */
 #cmakedefine HAVE_ICAL_UNKNOWN_TOKEN_HANDLING 1
 

@@ -28,6 +28,7 @@ target_compile_options(org-gnome-mail-notification PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
 	${LIBNOTIFY_CFLAGS}
+	${LIBUNITY_CFLAGS}
 )
 
 target_include_directories(org-gnome-mail-notification PUBLIC
@@ -39,6 +40,7 @@ target_include_directories(org-gnome-mail-notification PUBLIC
 	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 	${LIBNOTIFY_INCLUDE_DIRS}
+	${LIBUNITY_INCLUDE_DIRS}
 )
 
 target_link_libraries(org-gnome-mail-notification
@@ -47,6 +49,7 @@ target_link_libraries(org-gnome-mail-notification
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 	${LIBNOTIFY_LDFLAGS}
+	${LIBUNITY_LDFLAGS}
 )
 
 install(TARGETS org-gnome-mail-notification

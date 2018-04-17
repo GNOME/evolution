@@ -91,6 +91,7 @@ set(gnome_autoar_minimum_version 0.1.1)
 set(gweather_minimum_version 3.10)
 set(libcanberra_gtk_minimum_version 0.25)
 set(libnotify_minimum_version 0.7)
+set(libunity_minimum_version 7.1.4)
 
 # Load modules from the source tree
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
@@ -584,6 +585,13 @@ set(CERT_UI_LIBS ${MANUAL_NSPR_LIBS})
 
 pkg_check_modules(LIBNOTIFY libnotify>=${libnotify_minimum_version})
 set(HAVE_LIBNOTIFY ${LIBNOTIFY_FOUND})
+
+# ******************************
+# Libunity
+# ******************************
+
+pkg_check_modules(LIBUNITY unity>=${libunity_minimum_version})
+set(HAVE_LIBUNITY ${LIBUNITY_FOUND})
 
 # ******************************
 # libical tweaks
