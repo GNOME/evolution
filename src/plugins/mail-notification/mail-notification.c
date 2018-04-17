@@ -45,6 +45,10 @@
 #include <libnotify/notify.h>
 #endif
 
+#ifdef HAVE_LIBUNITY
+#include <unity.h>
+#endif
+
 #define CONF_KEY_NOTIFY_ONLY_INBOX	"notify-only-inbox"
 #define CONF_KEY_ENABLED_STATUS	        "notify-status-enabled"
 #define CONF_KEY_STATUS_NOTIFICATION	"notify-status-notification"
@@ -526,6 +530,14 @@ unread_notify_status (EMEventTargetFolderUnread *t)
 			g_hash_table_remove (unread_messages_by_folder, t->folder_name);
 		}
 	}
+
+#ifdef HAVE_LIBUNITY
+	if (t->is_inbox) {
+		UnityLauncherEntry *entry = unity_launcher_entry_get_for_desktop_id ("org.gnome.Evolution.desktop");
+		unity_launcher_entry_set_count (entry, t->unread);
+		unity_launcher_entry_set_count_visible (entry, t->unread != 0);
+	}
+#endif
 }
 
 static void
