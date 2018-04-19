@@ -147,7 +147,7 @@ update_publish_notification (GtkMessageType msg_type,
 			notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
 			notify_notification_set_hint (
 				notify, "desktop-entry",
-				g_variant_new_string (PACKAGE));
+				g_variant_new_string ("org.gnome.Evolution"));
 			e_named_timeout_add (500, show_notify_cb, NULL);
 
 			g_signal_connect (

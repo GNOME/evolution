@@ -1995,7 +1995,7 @@ popup_notification (time_t trigger,
 	 * with its own .desktop file. */
 	notify_notification_set_hint (
 		qa->notify, "desktop-entry",
-		g_variant_new_string (PACKAGE));
+		g_variant_new_string ("org.gnome.Evolution"));
 
 	if (can_support_actions ()) {
 		notify_notification_add_action (
