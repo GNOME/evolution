@@ -109,6 +109,9 @@ void		e_mail_parser_wrap_as_attachment
 						 GQueue *parts_queue);
 
 CamelSession *	e_mail_parser_get_session	(EMailParser *parser);
+EMailPartList *	e_mail_parser_ref_part_list_for_operation
+						(EMailParser *parser,
+						 GCancellable *operation);
 
 EMailExtensionRegistry *
 		e_mail_parser_get_extension_registry

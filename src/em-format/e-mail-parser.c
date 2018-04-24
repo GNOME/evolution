@@ -42,6 +42,7 @@ struct _EMailParserPrivate {
 	gint last_error;
 
 	CamelSession *session;
+	GHashTable *ongoing_part_lists; /* GCancellable * ~> EMailPartList * */
 };
 
 enum {
@@ -91,6 +92,15 @@ mail_parser_run (EMailParser *parser,
 	GList *iter;
 	GString *part_id;
 
+	if (cancellable)
+		g_object_ref (cancellable);
+	else
+		cancellable = g_cancellable_new ();
+
+	g_mutex_lock (&parser->priv->mutex);
+	g_hash_table_insert (parser->priv->ongoing_part_lists, cancellable, part_list);
+	g_mutex_unlock (&parser->priv->mutex);
+
 	message = e_mail_part_list_get_message (part_list);
 
 	reg = e_mail_parser_get_extension_registry (parser);
@@ -138,6 +148,11 @@ mail_parser_run (EMailParser *parser,
 		g_object_unref (mail_part);
 	}
 
+	g_mutex_lock (&parser->priv->mutex);
+	g_hash_table_remove (parser->priv->ongoing_part_lists, cancellable);
+	g_mutex_unlock (&parser->priv->mutex);
+
+	g_clear_object (&cancellable);
 	g_string_free (part_id, TRUE);
 }
 
@@ -205,6 +220,7 @@ e_mail_parser_finalize (GObject *object)
 	priv = E_MAIL_PARSER_GET_PRIVATE (object);
 
 	g_clear_object (&priv->session);
+	g_hash_table_destroy (priv->ongoing_part_lists);
 	g_mutex_clear (&priv->mutex);
 
 	/* Chain up to parent's finalize() method. */
@@ -285,6 +301,7 @@ static void
 e_mail_parser_init (EMailParser *parser)
 {
 	parser->priv = E_MAIL_PARSER_GET_PRIVATE (parser);
+	parser->priv->ongoing_part_lists = g_hash_table_new (g_direct_hash, g_direct_equal);
 
 	g_mutex_init (&parser->priv->mutex);
 }
@@ -814,6 +831,25 @@ e_mail_parser_get_session (EMailParser *parser)
 	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), NULL);
 
 	return parser->priv->session;
+}
+
+/* The 'operation' is not used as a GCancellable, but as an identificator
+   of an ongoing operation for which the part list is requested. */
+EMailPartList *
+e_mail_parser_ref_part_list_for_operation (EMailParser *parser,
+					   GCancellable *operation)
+{
+	EMailPartList *part_list;
+
+	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), NULL);
+
+	g_mutex_lock (&parser->priv->mutex);
+	part_list = g_hash_table_lookup (parser->priv->ongoing_part_lists, operation);
+	if (part_list)
+		g_object_ref (part_list);
+	g_mutex_unlock (&parser->priv->mutex);
+
+	return part_list;
 }
 
 EMailExtensionRegistry *

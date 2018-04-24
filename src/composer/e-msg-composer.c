@@ -3146,8 +3146,10 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	g_object_unref (cipher);
 	g_object_unref (session);
 
-	if (valid == NULL)
+	if (valid == NULL) {
+		g_object_unref (mime_part);
 		return;
+	}
 
 	camel_cipher_validity_free (valid);
 

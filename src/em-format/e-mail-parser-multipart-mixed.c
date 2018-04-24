@@ -41,6 +41,45 @@ static const gchar *parser_mime_types[] = {
 	NULL
 };
 
+static void
+empe_mp_mixed_maybe_update_message_info_headers (EMailParser *parser,
+						 const gchar *part_id,
+						 const gchar *subject,
+						 GCancellable *cancellable)
+{
+	EMailPartList *part_list;
+	CamelFolder *folder;
+	const gchar *message_uid;
+
+	g_return_if_fail (E_IS_MAIL_PARSER (parser));
+	g_return_if_fail (part_id != NULL);
+	g_return_if_fail (subject != NULL);
+
+	/* The Subject can be changed only if this is the top message, thus when
+	   the encrypted message/part is not an attachment. */
+	if (g_strcmp0 (part_id, ".message.encrypted-pgp") != 0)
+		return;
+
+	part_list = e_mail_parser_ref_part_list_for_operation (parser, cancellable);
+	if (!part_list)
+		return;
+
+	folder = e_mail_part_list_get_folder (part_list);
+	message_uid = e_mail_part_list_get_message_uid (part_list);
+
+	if (CAMEL_IS_FOLDER (folder) && message_uid) {
+		CamelMessageInfo *info;
+
+		info = camel_folder_get_message_info (folder, message_uid);
+		if (info) {
+			camel_message_info_set_subject (info, subject);
+			g_clear_object (&info);
+		}
+	}
+
+	g_object_unref (part_list);
+}
+
 static gboolean
 empe_mp_mixed_parse (EMailParserExtension *extension,
                      EMailParser *parser,
@@ -136,6 +175,26 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 				g_object_unref (encrypted);
 			}
 			continue;
+		}
+
+		if (i == 0 && g_str_has_suffix (part_id->str, ".encrypted-pgp")) {
+			ct = camel_mime_part_get_content_type (subpart);
+			if (ct && camel_content_type_is (ct, "text", "rfc822-headers") &&
+			    camel_content_type_param (ct, "protected-headers")) {
+				ct = camel_mime_part_get_content_type (part);
+				if (ct && camel_content_type_param (ct, "protected-headers")) {
+					const gchar *subject;
+
+					/* The multipart/mixed contains some of the original headers */
+					subject = camel_medium_get_header (CAMEL_MEDIUM (part), "Subject");
+					if (subject) {
+						empe_mp_mixed_maybe_update_message_info_headers (parser, part_id->str, subject, cancellable);
+
+						/* Skip the text/rfc822-headers part, it's not needed to be shown */
+						continue;
+					}
+				}
+			}
 		}
 
 		g_string_append_printf (part_id, ".mixed.%d", i);
