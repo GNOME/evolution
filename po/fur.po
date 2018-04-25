@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-04-10 16:22+0000\n"
-"PO-Revision-Date: 2018-04-17 20:11+0200\n"
+"POT-Creation-Date: 2018-04-24 09:55+0000\n"
+"PO-Revision-Date: 2018-04-25 07:05+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -1557,13 +1557,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Convert UTC time in reply credits to local time"
-msgstr ""
+msgstr "Fâs deventâ la ore UTC tai credits de rispueste in ore locâl"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Whether the time in reply credits should be converted to local time when "
 "it's in UTC in the message."
 msgstr ""
+"Indiche se la ore tai credits de rispueste e à di jessi convertide in ore "
+"locâl cuant che tal messaç e sta in UTC."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Whether to obey Content-Disposition:inline message header hint"
@@ -1931,6 +1933,9 @@ msgid ""
 "email parts in headers like To/Cc/Bcc will be shown only with the name part, "
 "without the actual email, with the name made clickable."
 msgstr ""
+"Cuant che al è metût a fals, lis direzions mail, che a contegnin sedi il non "
+"che lis parts e-mail intes intestazions come A/Cc/Ccp, a vignaran mostradis "
+"dome cun la part dal non, cence la e-mail atuâl; sul non si pues fâ clic."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Thread the message-list based on Subject"
@@ -2672,24 +2677,28 @@ msgid ""
 "This determines whether the cursor is placed at the top of the message or "
 "the bottom when using Alternative Reply."
 msgstr ""
+"Chest al determine se il cursôr al è posizionât parsore dal messaç o sot, "
+"cuant che si dopre la Rispueste alternative."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
 msgid "Apply chosen template when using Alternative Reply"
-msgstr ""
+msgstr "Apliche il model sielt cuant che si dopre la Rispueste alternative"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid "Last chosen template's folder URI for Alternative Reply"
-msgstr ""
+msgstr "URI de cartele dal ultin model sielt pe Rispueste alternative"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "Last chosen template's message UID for Alternative Reply"
-msgstr ""
+msgstr "UID dal messaç dal ultin model sielt pe Rispueste alternative"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid ""
 "Whether preserve original message subject when applying template for "
 "Alternative Reply"
 msgstr ""
+"Indiche se preservâ l'ogjet dal messaç origjinâl cuant che si apliche il "
+"model pe Rispueste alternative"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid ""
@@ -2702,6 +2711,8 @@ msgid ""
 "Close the message browser window when the selected message is deleted or "
 "marked as Junk."
 msgstr ""
+"Siere il barcon dal navigadôr dai messaçs cuant che il messaç selezionât al "
+"ven eliminât o segnât come malvolût."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid "(Deprecated) Default forward style"
@@ -7234,15 +7245,15 @@ msgstr "Daûr a modificâ un memorandum"
 msgid "Modifying a task"
 msgstr "Daûr a modificâ une ativitât"
 
-#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1923
+#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1929
 msgid "Removing an event"
 msgstr "Daûr a gjavâ un event"
 
-#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1927
+#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1933
 msgid "Removing a memo"
 msgstr "Daûr a gjavâ un memorandum"
 
-#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1931
+#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1937
 msgid "Removing a task"
 msgstr "Daûr a gjavâ une ativitât"
 
@@ -8989,7 +9000,7 @@ msgid "Completed: %s"
 msgstr "Completade: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1429 ../src/e-util/e-cell-date-edit.c:328
+#: ../src/calendar/gui/e-to-do-pane.c:1435 ../src/e-util/e-cell-date-edit.c:328
 #: ../src/e-util/e-datetime-format.c:206
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1842
 #: ../src/modules/itip-formatter/itip-view.c:255
@@ -8997,55 +9008,55 @@ msgid "Today"
 msgstr "Vuê"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1431
+#: ../src/calendar/gui/e-to-do-pane.c:1437
 #: ../src/e-util/e-datetime-format.c:217
 #: ../src/modules/itip-formatter/itip-view.c:283
 msgid "Tomorrow"
 msgstr "Doman"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1441
+#: ../src/calendar/gui/e-to-do-pane.c:1447
 msgid "Tasks without Due date"
 msgstr "Ativitâts cence date di scjadince"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2014
+#: ../src/calendar/gui/e-to-do-pane.c:2020
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1449
 msgid "New _Appointment..."
 msgstr "Gnûf _apontament..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2022
+#: ../src/calendar/gui/e-to-do-pane.c:2028
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1435
 msgid "New _Meeting..."
 msgstr "Gnove _Riunion..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2030
+#: ../src/calendar/gui/e-to-do-pane.c:2036
 msgid "New _Task..."
 msgstr "Gnove a_tivitât..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2038
+#: ../src/calendar/gui/e-to-do-pane.c:2044
 msgid "_New Assigned Task..."
 msgstr "Gnove ativitât assegna_de..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2051
+#: ../src/calendar/gui/e-to-do-pane.c:2057
 msgid "_Open..."
 msgstr "_Vierç..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2065
+#: ../src/calendar/gui/e-to-do-pane.c:2071
 msgid "_Delete This Instance..."
 msgstr "Elimine cheste _istance..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2073
+#: ../src/calendar/gui/e-to-do-pane.c:2079
 msgid "D_elete All Instances..."
 msgstr "_Elimine dutis lis istancis..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2081
+#: ../src/calendar/gui/e-to-do-pane.c:2087
 msgid "_Delete..."
 msgstr "Eli_mine..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2098
+#: ../src/calendar/gui/e-to-do-pane.c:2104
 msgid "_Show Tasks without Due date"
 msgstr "_Mostre ativitât cence date di scjadince"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2364
+#: ../src/calendar/gui/e-to-do-pane.c:2370
 msgid "To Do"
 msgstr "Di fâ"
 
@@ -11344,7 +11355,7 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Scrîf messaç"
 
-#: ../src/composer/e-msg-composer.c:4711
+#: ../src/composer/e-msg-composer.c:4713
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Il compositôr al à un cuarp messaç no di test, che nol è pussibil modificâ."
@@ -16431,11 +16442,11 @@ msgstr "Assistent ai account di Evolution"
 msgid "_Revise Details"
 msgstr "_Riviôt detais"
 
-#: ../src/mail/e-mail-config-auth-check.c:180
+#: ../src/mail/e-mail-config-auth-check.c:217
 msgid "Querying authentication types..."
 msgstr "Interogazion gjenars di autenticazion..."
 
-#: ../src/mail/e-mail-config-auth-check.c:393
+#: ../src/mail/e-mail-config-auth-check.c:430
 msgid "Check for Supported Types"
 msgstr "Verifiche gjenars supuartâts"
 
@@ -19325,10 +19336,8 @@ msgid "Displayed Message Headers"
 msgstr "Intestazions di messaç mostradis"
 
 #: ../src/mail/mail-config.ui.h:126
-#, fuzzy
-#| msgid "Show junk messages in the message-list"
 msgid "Show _full mail addresses in message preview"
-msgstr "Mostre i messaçs malvolûts te liste messaçs"
+msgstr "Mostre lis direzions di pueste _completis te anteprime dal messaç"
 
 #: ../src/mail/mail-config.ui.h:127
 msgid "Mail Headers Table"
