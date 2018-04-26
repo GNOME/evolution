@@ -1145,6 +1145,7 @@ action_mail_goto_folder_cb (GtkAction *action,
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (folder_tree));
+	em_folder_selector_maybe_collapse_archive_folders (selector);
 
 	if (folder) {
 		gchar *uri = e_mail_folder_uri_from_folder (folder);

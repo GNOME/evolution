@@ -363,6 +363,7 @@ mail_reader_copy_or_move_selected_messages (EMailReader *reader,
 		EMFT_EXCLUDE_VIRTUAL |
 		EMFT_EXCLUDE_VTRASH);
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (folder_tree));
+	em_folder_selector_maybe_collapse_archive_folders (selector);
 
 	if (default_xfer_messages_uri != NULL) {
 		em_folder_tree_set_selected (

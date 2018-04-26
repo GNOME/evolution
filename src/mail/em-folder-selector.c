@@ -825,3 +825,101 @@ em_folder_selector_new_activity (EMFolderSelector *selector)
 	return activity;
 }
 
+void
+em_folder_selector_maybe_collapse_archive_folders (EMFolderSelector *selector)
+{
+	EMFolderTreeModel *model;
+	EMailSession *mail_session;
+	ESourceRegistry *registry;
+	CamelSession *session;
+	GSettings *settings;
+	GList *services, *link;
+	GHashTable *archives;
+	gchar *local_archive_folder;
+
+	g_return_if_fail (EM_IS_FOLDER_SELECTOR (selector));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	if (!g_settings_get_boolean (settings, "collapse-archive-folders-in-selectors")) {
+		g_object_unref (settings);
+		return;
+	}
+	local_archive_folder = g_settings_get_string (settings, "local-archive-folder");
+	g_object_unref (settings);
+
+	model = em_folder_selector_get_model (selector);
+	mail_session = em_folder_tree_model_get_session (model);
+	registry = e_mail_session_get_registry (mail_session);
+	session = CAMEL_SESSION (mail_session);
+
+	archives = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	if (local_archive_folder && *local_archive_folder) {
+		g_hash_table_insert (archives, local_archive_folder, NULL);
+	} else {
+		g_free (local_archive_folder);
+	}
+
+	services = camel_session_list_services (session);
+	for (link = services; link; link = g_list_next (link)) {
+		CamelService *service = link->data;
+
+		if (CAMEL_IS_STORE (service)) {
+			ESource *source;
+
+			source = e_source_registry_ref_source (registry, camel_service_get_uid (service));
+			if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+				ESourceMailAccount *account_ext;
+				gchar *archive_folder;
+
+				account_ext = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+
+				archive_folder = e_source_mail_account_dup_archive_folder (account_ext);
+				if (archive_folder && *archive_folder) {
+					g_hash_table_insert (archives, archive_folder, NULL);
+				} else {
+					g_free (archive_folder);
+				}
+			}
+
+			g_clear_object (&source);
+		}
+	}
+
+	g_list_free_full (services, g_object_unref);
+
+	if (g_hash_table_size (archives)) {
+		GtkTreeView *tree_view;
+		GHashTableIter iter;
+		gpointer key;
+
+		tree_view = GTK_TREE_VIEW (em_folder_selector_get_folder_tree (selector));
+
+		g_hash_table_iter_init (&iter, archives);
+
+		while (g_hash_table_iter_next (&iter, &key, NULL)) {
+			const gchar *folder_uri = key;
+			CamelStore *store = NULL;
+			gchar *folder_name = NULL;
+
+			if (folder_uri && *folder_uri &&
+			    e_mail_folder_uri_parse (session, folder_uri, &store, &folder_name, NULL)) {
+				GtkTreeRowReference *row;
+
+				row = em_folder_tree_model_get_row_reference (model, store, folder_name);
+				if (row) {
+					GtkTreePath *path;
+
+					path = gtk_tree_row_reference_get_path (row);
+					gtk_tree_view_collapse_row (tree_view, path);
+					gtk_tree_path_free (path);
+				}
+
+				g_clear_object (&store);
+				g_free (folder_name);
+			}
+		}
+	}
+
+	g_hash_table_destroy (archives);
+}

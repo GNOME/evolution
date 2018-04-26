@@ -783,6 +783,10 @@
       <default>false</default>
       <_summary>Close the message browser window when the selected message is deleted or marked as Junk.</_summary>
     </key>
+    <key name="collapse-archive-folders-in-selectors" type="b">
+      <default>false</default>
+      <_summary>Collapse archive folders in Move/Copy message to Folder and Go to Folder selectors.</_summary>
+    </key>
     <!-- The following keys are deprecated. -->
 
     <key name="forward-style" type="i">
