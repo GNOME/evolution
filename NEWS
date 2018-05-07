@@ -1,3 +1,24 @@
+Evolution 3.28.2 2018-05-07
+---------------------------
+
+Bug Fixes:
+	Bug 793583 - webkit_web_view_load_html() garbages linked CSS content (Milan Crha)
+	Bug 795106 - Compiler warnings about identical inner 'if' condition (Milan Crha)
+	Bug 795108 - Trailing bracket not stripped when linkifying URL inside angle brackets (Milan Crha)
+	Bug 795289 - Proxy settings ignored when checking for auth types (Milan Crha)
+	Bug 795331 - Use correct desktop-entry name in notifications (Mathieu Bridon)
+
+Miscellaneous:
+	[EMailDisplay] Do not call reload when nothing is loaded (Milan Crha)
+	Revert message composer part of the previous commit (Milan Crha)
+
+Translations:
+	Stas Solovey (ru)
+	Matej Urbančič (sl)
+	Balázs Meskó (hu)
+	Muhammet Kara (tr)
+	Gábor Kelemen (hu)
+
 Evolution 3.28.1 2018-04-09
 ---------------------------
 
