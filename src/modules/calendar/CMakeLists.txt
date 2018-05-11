@@ -2,6 +2,8 @@ install(FILES e-calendar-preferences.ui
 	DESTINATION ${uidir}
 )
 
+pkg_check_variable(edsprivlibexecdir evolution-data-server-1.2 privlibexecdir)
+
 set(extra_deps
 	econtacteditor
 	econtactlisteditor
@@ -69,7 +71,7 @@ set(sources
 	e-task-shell-view-private.h
 )
 set(extra_defines
-	-DEVOLUTION_PRIVLIBEXECDIR=\"${privlibexecdir}\"
+	-DEVOLUTION_DATA_SERVER_PRIVLIBEXECDIR=\"${edsprivlibexecdir}\"
 )
 set(extra_cflags)
 set(extra_incdirs)

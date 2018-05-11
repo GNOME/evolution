@@ -174,11 +174,6 @@
       <_summary>Default reminder units</_summary>
       <_description>Units for a default reminder, “minutes”, “hours” or “days”</_description>
     </key>
-    <key name="default-snooze-minutes" type="i">
-      <default>5</default>
-      <_summary>Default reminder snooze interval, in minutes</_summary>
-      <_description>Default reminder snooze interval, in minutes, to be filled in the reminder notification dialog</_description>
-    </key>
     <key name="editor-show-categories" type="b">
       <default>false</default>
       <_summary>Show categories field in the event/meeting/task editor</_summary>
@@ -234,11 +229,6 @@
       <_summary>Last reminder time</_summary>
       <_description>Time the last reminder ran, in time_t</_description>
     </key>
-    <key name="allow-past-reminders" type="b">
-      <default>false</default>
-      <_summary>Allow past reminders</_summary>
-      <_description>Whether can show reminders for events/tasks/memos which already happened</_description>
-    </key>
     <key name="marcus-bains-color-dayview" type="s">
       <default>'#ff0000'</default>
       <_summary>Marcus Bains Line Color — Day View</_summary>
@@ -278,21 +268,6 @@
       <default>true</default>
       <_summary>Scroll Month View by a week, not by a month</_summary>
       <_description>Whether to scroll a Month View by a week, not by a month</_description>
-    </key>
-    <key name="notify-programs" type="as">
-      <default>[]</default>
-      <_summary>Reminder programs</_summary>
-      <_description>Programs that are allowed to be run by reminders</_description>
-    </key>
-    <key name="notify-with-tray" type="b">
-      <default>true</default>
-      <_summary>Show display reminders in notification tray</_summary>
-      <_description>Whether or not to use the notification tray for display reminders</_description>
-    </key>
-    <key name="notify-window-on-top" type="b">
-      <default>true</default>
-      <_summary>Show reminder notification dialog always on top</_summary>
-      <_description>Whether or not to show reminder notification dialog always on top. Note this works only as a hint for the window manager, which may or may not obey it.</_description>
     </key>
     <key name="prefer-new-item" type="s">
       <default>''</default>
@@ -383,11 +358,6 @@
       <default>400</default>
       <_summary>Task preview pane position (vertical)</_summary>
       <_description>Position of the task preview pane when oriented vertically</_description>
-    </key>
-    <key name="task-reminder-for-completed" type="b">
-      <default>false</default>
-      <_summary>Show reminders for completed tasks</_summary>
-      <_description>Whether to show reminders for completed tasks. When set to false, reminders for completed tasks are suppressed.</_description>
     </key>
     <key name="task-overdue-highlight" type="b">
       <default>true</default>

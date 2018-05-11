@@ -21,7 +21,6 @@ data/org.gnome.evolution.spamassassin.gschema.xml.in
 data/org.gnome.evolution.text-highlight.gschema.xml.in
 data/org.gnome.Evolution.appdata.xml.in
 data/org.gnome.Evolution.desktop.in.in
-data/org.gnome.Evolution-alarm-notify.desktop.in.in
 data/views/addressbook/galview.xml
 data/views/calendar/galview.xml
 data/views/mail/galview.xml
@@ -60,10 +59,6 @@ src/addressbook/importers/evolution-ldif-importer.c
 src/addressbook/importers/evolution-vcard-importer.c
 src/addressbook/printing/e-contact-print.c
 src/addressbook/util/eab-book-util.c
-src/calendar/alarm-notify/alarm-notify-dialog.c
-[type: gettext/glade]src/calendar/alarm-notify/alarm-notify.ui
-src/calendar/alarm-notify/alarm-queue.c
-src/calendar/alarm-notify/util.c
 src/calendar/calendar.error.xml
 src/calendar/gui/caltypes.xml.in
 src/calendar/gui/comp-util.c
@@ -396,6 +391,7 @@ src/modules/addressbook/e-book-shell-migrate.c
 src/modules/addressbook/e-book-shell-sidebar.c
 src/modules/addressbook/e-book-shell-view-actions.c
 src/modules/addressbook/e-book-shell-view.c
+src/modules/alarm-notify/alarm-notify.c
 src/modules/backup-restore/e-mail-config-restore-page.c
 src/modules/backup-restore/e-mail-config-restore-ready-page.c
 src/modules/backup-restore/evolution-backup-restore.c

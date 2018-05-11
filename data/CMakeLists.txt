@@ -1,5 +1,4 @@
 set(filedeps)
-set(autostartdir ${SYSCONF_INSTALL_DIR}/xdg/autostart)
 set(desktopdir ${SHARE_INSTALL_PREFIX}/applications)
 set(themedir ${privdatadir}/theme)
 
@@ -17,19 +16,6 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.desktop
 )
 
 add_appdata_file(org.gnome.Evolution.appdata.xml.in org.gnome.Evolution.appdata.xml)
-
-configure_file(org.gnome.Evolution-alarm-notify.desktop.in.in
-	org.gnome.Evolution-alarm-notify.desktop.in
-	@ONLY
-)
-
-intltool_merge(${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution-alarm-notify.desktop.in org.gnome.Evolution-alarm-notify.desktop --desktop-style --utf8)
-
-list(APPEND filedeps ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution-alarm-notify.desktop)
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution-alarm-notify.desktop
-	DESTINATION ${autostartdir}
-)
 
 install(FILES webview.css
 		webview-print.css

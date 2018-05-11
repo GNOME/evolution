@@ -24,6 +24,8 @@
 #include <calendar/gui/e-cal-ops.h>
 #include <calendar/importers/evolution-calendar-importer.h>
 
+#include "e-util/e-util-private.h"
+
 #include "e-calendar-preferences.h"
 
 #include "e-cal-base-shell-sidebar.h"
@@ -192,7 +194,7 @@ ensure_alarm_notify_is_running (void)
 	#ifdef G_OS_WIN32
 	base_dir = EVOLUTION_BINDIR;
 	#else
-	base_dir = EVOLUTION_PRIVLIBEXECDIR;
+	base_dir = EVOLUTION_DATA_SERVER_PRIVLIBEXECDIR;
 	#endif
 
 	filename = g_build_filename (base_dir, "evolution-alarm-notify", NULL);

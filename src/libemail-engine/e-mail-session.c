@@ -35,10 +35,6 @@
 
 #include <gtk/gtk.h>
 
-#ifdef HAVE_CANBERRA
-#include <canberra-gtk.h>
-#endif
-
 #include <libebackend/libebackend.h>
 #include <libedataserver/libedataserver.h>
 

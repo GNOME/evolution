@@ -717,6 +717,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	GSettings *settings;
 	GSettings *eds_settings;
 	GSettings *mail_settings;
+	GSettings *eds_calendar_settings;
 	gboolean locale_supports_12_hour_format;
 	gint i;
 	GtkWidget *toplevel;
@@ -726,6 +727,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 	mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	eds_calendar_settings = e_util_ref_settings ("org.gnome.evolution-data-server.calendar");
 
 	locale_supports_12_hour_format =
 		calendar_config_locale_supports_12_hour_format ();
@@ -1077,32 +1079,26 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	/* Alarms tab */
 	widget = e_builder_get_widget (prefs->priv->builder, "notify_with_tray");
 	g_settings_bind (
-		settings, "notify-with-tray",
+		eds_calendar_settings, "notify-with-tray",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->priv->builder, "notify_window_on_top");
 	g_settings_bind (
-		settings, "notify-window-on-top",
+		eds_calendar_settings, "notify-window-on-top",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->priv->builder, "task_reminder_for_completed");
 	g_settings_bind (
-		settings, "task-reminder-for-completed",
+		eds_calendar_settings, "notify-completed-tasks",
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
 	widget = e_builder_get_widget (prefs->priv->builder, "allow-past-reminders");
 	g_settings_bind (
-		settings, "allow-past-reminders",
+		eds_calendar_settings, "notify-past-events",
 		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
-
-	widget = e_builder_get_widget (prefs->priv->builder, "default-snooze-minutes-spin");
-	g_settings_bind (
-		settings, "default-snooze-minutes",
-		widget, "value",
 		G_SETTINGS_BIND_DEFAULT);
 
 	prefs->priv->reminder_calendars_scrolled_window = e_builder_get_widget (prefs->priv->builder, "reminder-calendars-scrolled-window");
@@ -1132,6 +1128,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	/* FIXME: weakref? */
 	setup_changes (prefs);
 
+	g_object_unref (eds_calendar_settings);
 	g_object_unref (mail_settings);
 	g_object_unref (settings);
 }
