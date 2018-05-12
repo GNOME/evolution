@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-04-26 09:50+0000\n"
-"PO-Revision-Date: 2018-05-04 15:00+0200\n"
+"POT-Creation-Date: 2018-05-11 11:31+0000\n"
+"PO-Revision-Date: 2018-05-12 13:45+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -452,96 +452,84 @@ msgstr ""
 "„days“ (dny)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
-msgid "Default reminder snooze interval, in minutes"
-msgstr "Výchozí déla přestávky do připomenutí, v minutách"
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
-msgid ""
-"Default reminder snooze interval, in minutes, to be filled in the reminder "
-"notification dialog"
-msgstr ""
-"Výchozí délka přestávky do připomenutí, v minutách, která se vyplní do "
-"upozorňovacího dialogového okna s připomínkou."
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Show categories field in the event/meeting/task editor"
 msgstr "Zobrazovat pole kategorií v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr "Jestli zobrazovat pole kategorie v editoru událost/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Show Role field in the event/task/meeting editor"
 msgstr "Zobrazovat pole Funkce v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr "Jestli zobrazovat pole funkce v editoru událost/úkol/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 msgid "Show RSVP field in the event/task/meeting editor"
 msgstr "Zobrazovat pole RSVP v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr "Jestli zobrazovat pole RSVP v editoru událost/úkol/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
 msgid "Show status field in the event/task/meeting editor"
 msgstr "Zobrazovat pole stavu v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr "Jestli zobrazovat pole stav v editoru událost/úkol/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
 msgid "Show timezone field in the event/meeting editor"
 msgstr "Zobrazovat pole časového pásma v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr "Jestli zobrazovat pole časové pásmo v editoru událost/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
 msgid "Show type field in the event/task/meeting editor"
 msgstr "Zobrazovat pole typu v editoru události/úkolu/schůzky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Jestli zobrazovat pole typ v editoru událost/úkol/schůzka"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Hide completed tasks"
 msgstr "Skrýt dokončené úkoly"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Whether to hide completed tasks in the tasks view"
 msgstr "Jestli skrývat dokončené úkoly v zobrazení úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Hide task units"
 msgstr "Skrýt jednotky úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Units for determining when to hide tasks, “minutes”, “hours” or “days”"
 msgstr ""
 "Jednotky pro určení, kdy skrývat úkoly, „minutes“ (minuty), „hours“ (hodiny) "
 "nebo „days“ (dny)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 msgid "Hide task value"
 msgstr "Skrýt hodnotu úkolu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 msgid "Number of units for determining when to hide tasks"
 msgstr "Počet jednotek pro určení, kdy skrývat úkoly"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 msgid "Horizontal pane position"
 msgstr "Umístění vodorovného panelu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels"
@@ -549,64 +537,53 @@ msgstr ""
 "Umístění vodorovného panelu mezi kalendářem navigátoru data a seznamem úkolů "
 "mimo zobrazení měsíce, v pixelech"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid "Last reminder time"
 msgstr "Poslední čas připomenutí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 msgid "Time the last reminder ran, in time_t"
 msgstr "Čas, kdy běžela poslední připomínka, ve formátu time_t"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
-msgid "Allow past reminders"
-msgstr "Povolit promeškaná připomenutí"
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
-msgid ""
-"Whether can show reminders for events/tasks/memos which already happened"
-msgstr ""
-"Zda povolit zobrazení připomenutí pro události/úkoly/poznámky, které se již "
-"událi."
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
 msgid "Marcus Bains Line Color — Day View"
 msgstr "Barva čáry Marca Bainse — zobrazení dne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:73
 msgid "Color to draw the Marcus Bains line in the Day View"
 msgstr "Barva, kterou kreslit čáru Marca Bainse v zobrazení dne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
 msgid "Marcus Bains Line Color — Time bar"
 msgstr "Barva čáry Marca Bainse — časová lišta"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Barva, kterou kreslit čáru Marca Bainse v časové liště (prázdné pro výchozí)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
 msgid "Marcus Bains Line"
 msgstr "Čára Marca Bainse"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
 msgstr "Jestli v kalendáři kreslit čáru Marca Bainse (čáru aktuálního času)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
 msgid "Memo preview pane position (horizontal)"
 msgstr "Poloha panelu náhledu poznámek (vodorovná)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 msgid "Position of the task preview pane when oriented horizontally"
 msgstr "Poloha panelu náhledu úkolů, když je orientován vodorovně"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid "Memo layout style"
 msgstr "Styl rozložení poznámek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. “0” (Classic View) places the preview pane below the memo "
@@ -617,19 +594,19 @@ msgstr ""
 "poznámek. „1“ (svislé zobrazení) umísťuje panel náhledu vedle seznamu "
 "poznámek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid "Memo preview pane position (vertical)"
 msgstr "Poloha panelu náhledu poznámek (svislá)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 msgid "Position of the memo preview pane when oriented vertically"
 msgstr "Poloha panelu náhledu poznámek, když je orientován svisle"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
 msgid "Month view horizontal pane position"
 msgstr "Umístění vodorovného panelu v zobrazení měsíce"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels"
@@ -637,56 +614,27 @@ msgstr ""
 "Umístění vodorovného panelu mezi kalendářem navigátoru data a seznamem úkolů "
 "v zobrazení měsíce, v pixelech"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 msgid "Scroll Month View by a week, not by a month"
 msgstr "Posouvat zobrazení měsíce po týdnech místo po měsících."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:87
 msgid "Whether to scroll a Month View by a week, not by a month"
 msgstr "Zda posouvat zobrazení měsíce po týdnech místo po měsících"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
-msgid "Reminder programs"
-msgstr "Programy připomenutí"
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
-msgid "Programs that are allowed to be run by reminders"
-msgstr "Programy, které mohou být spouštěny připomínkami"
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
-msgid "Show display reminders in notification tray"
-msgstr "Zobrazovat připomenutí v oznamovací oblasti"
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
-msgid "Whether or not to use the notification tray for display reminders"
-msgstr "Jestli používat oznamovací oblast pro zobrazování připomínek"
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
-msgid "Show reminder notification dialog always on top"
-msgstr "Zobrazovat dialogové okno připomenutí vždy nahoře"
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
-msgid ""
-"Whether or not to show reminder notification dialog always on top. Note this "
-"works only as a hint for the window manager, which may or may not obey it."
-msgstr ""
-"Zda zobrazovat nebo nezobrazovat dialogové okno připomenutí vždy nahoře. "
-"Vezměte na vědomí, že to je jen doporučení pro správce oken, který se jím "
-"nemusí řídit."
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:88
 msgid "Preferred New button item"
 msgstr "Upřednostňovaná položka tlačítka Nový"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:89
 msgid "Name of the preferred New toolbar button item"
 msgstr "Název upřednostňované položky tlačítka Nový v nástrojové liště"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Primary calendar"
 msgstr "Hlavní kalendář"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid ""
 "The UID of the selected (or “primary”) calendar in the sidebar of the "
 "“Calendar” view"
@@ -694,11 +642,11 @@ msgstr ""
 "UID vybraného (nebo „hlavního“) kalendáře v postranním panelu zobrazení "
 "„Kalendář“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
 msgid "Primary memo list"
 msgstr "Hlavní seznam poznámek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
 msgid ""
 "The UID of the selected (or “primary”) memo list in the sidebar of the "
 "“Memos” view"
@@ -706,11 +654,11 @@ msgstr ""
 "UID vybraného (nebo „hlavního“) seznamu poznámek v postranním panelu "
 "zobrazení „Poznámky“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Primary task list"
 msgstr "Hlavní seznam úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid ""
 "The UID of the selected (or “primary”) task list in the sidebar of the "
 "“Tasks” view"
@@ -718,11 +666,11 @@ msgstr ""
 "UID vybraného (nebo „hlavního“) seznamu úkolů v postranním panelu zobrazení "
 "„Úkoly“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 msgid "Free/busy template URL"
 msgstr "Adresa URL šablony s volnými/obsazenými termíny"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -732,20 +680,20 @@ msgstr ""
 "obsazenými termíny, %u je nahrazeno uživatelskou částí e-mailové adresy a %d "
 "je nahrazeno doménou"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid "Recurrent Events in Italic"
 msgstr "Opakující se události kurzívou"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
 "Zobrazit dny s opakujícími se událostmi kurzívou v kalendáři vlevo dole"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid "Search range for time-based searching in years"
 msgstr "Rozsah pro časové hledání v rocích"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid ""
 "How many years can the time-based search go forward or backward from "
 "currently selected day when searching for another occurrence; default is ten "
@@ -754,68 +702,68 @@ msgstr ""
 "Kolik roků může jít časové vyhledávání dozadu nebo dopředu v čase z aktuálně "
 "vybraného dne, když se hledá další výskyt v kalendáři; výchozí je deset let."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
 msgid "Show appointment end times in week and month views"
 msgstr "Zobrazovat časy konců událostí v týdenním a měsíčním přehledu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 msgid "Whether to display the end time of events in the week and month views"
 msgstr "Jestli zobrazovat časy konců událostí v týdenním a měsíčním přehledu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 msgid "Show appointment icons in the month view"
 msgstr "Zobrazovat ikony událostí v měsíčním přehledu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Whether to show icons of events in the month view"
 msgstr "Jestli zobrazovat ikony událostí v měsíčním přehledu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 msgid "Show the memo preview pane"
 msgstr "Zobrazovat panel náhledu poznámek"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid "If “true”, show the memo preview pane in the main window"
 msgstr "Pokud je „true“, zobrazit panel náhledu poznámek v hlavním okně"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid "Show the task preview pane"
 msgstr "Zobrazovat panel náhledu úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 msgid "If “true”, show the task preview pane in the main window"
 msgstr "Pokud je „true“, zobrazit panel náhledu úkolů v hlavním okně"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
 "Zobrazovat čísla týdnů v Zobrazení dne, v Zobrazení pracovního týdne a "
 "navigátoru v datech"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr "Jestli zobrazovat čísla týdnů na různých místech v Kalendáři"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Vertical position for the tag pane"
 msgstr "Svislá poloha panelu se štítky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "Highlight tasks due today"
 msgstr "Zvýrazňovat úkoly, které mají být dokončené dnes"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
 "Zda zvýrazňovat úkoly, které mají být dokončeny dnes, speciální barvou (task-"
 "due-today-color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 msgid "Tasks due today color"
 msgstr "Barva úkolů, které mají být dokončené dnes"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid ""
 "Background color of tasks that are due today, in “#rrggbb” format. Used "
 "together with task-due-today-highlight"
@@ -823,15 +771,15 @@ msgstr ""
 "Barva pozadí úkolů, které mají být dokončeny dnes, ve formátu „#rrggbb“. "
 "Používá se společně s task-due-today-highlight"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 msgid "Task preview pane position (horizontal)"
 msgstr "Poloha panelu náhledu úkolů (vodorovná)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid "Task layout style"
 msgstr "Styl rozložení úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. “0” (Classic View) places the preview pane below the task "
@@ -841,40 +789,28 @@ msgstr ""
 "úkolů. „0“ (klasické zobrazení) umísťuje panel náhledu pod seznam úkolů. "
 "„1“ (svislé zobrazení) umísťuje panel náhledu vedle seznam úkolů"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid "Task preview pane position (vertical)"
 msgstr "Poloha panelu náhledu úkolů (svislá)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Position of the task preview pane when oriented vertically"
 msgstr "Poloha panelu náhledu úkolů, když je orientován svisle"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
-msgid "Show reminders for completed tasks"
-msgstr "Zobrazovat připomenutí dokončených úkolů"
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
-msgid ""
-"Whether to show reminders for completed tasks. When set to false, reminders "
-"for completed tasks are suppressed."
-msgstr ""
-"Zda-li zobrazovat připomínky dokončených úkolů. Pokud nastaveno jako "
-"neplatné, připomínky dokončených úkolů jsou potlačené."
-
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid "Highlight overdue tasks"
 msgstr "Zvýrazňovat úkoly ve skluzu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr "Zda zvýrazňovat úkoly ve skluzu speciální barvou (task-overdue-color)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Overdue tasks color"
 msgstr "Barva úkolů ve skluzu"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid ""
 "Background color of tasks that are overdue, in “#rrggbb” format. Used "
 "together with task-overdue-highlight."
@@ -882,19 +818,19 @@ msgstr ""
 "Barva pozadí úkolů, které jsou ve skluzu, ve formátu „#rrggbb“. Používá se "
 "společně s task-overdue-highlight."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Time divisions"
 msgstr "Časové úseky"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr "Intervaly zobrazované v zobrazeních dne a pracovního týdne, v minutách"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Timezone"
 msgstr "Časové pásmo"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like “America/New York”"
@@ -903,82 +839,82 @@ msgstr ""
 "umístění z Olsenovy databáze časových pásem (bez překladu), např. „America/"
 "New York“"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Twenty four hour time format"
 msgstr "Dvacetičtyřhodinový formát času"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr ""
 "Jestli zobrazovat časy ve dvacetičtyřhodinovém formátu místo používání am/pm"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid "Birthday and anniversary reminder"
 msgstr "Připomínka narozenin a výročí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Jestli nastavovat připomínku narozenin a výročí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid "Default appointment reminder"
 msgstr "Výchozí připomínka události"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid "Whether to set a default reminder for appointments"
 msgstr "Jestli nastavovat výchozí připomínku událostí"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Use system timezone"
 msgstr "Použít systémové časové pásmo"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr ""
 "Použít systémové časové pásmo místo časového pásma vybraného v aplikaci "
 "Evolution"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "First day of the week"
 msgstr "První den týdne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
 msgid "Monday is a work day"
 msgstr "Pondělí je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Tuesday is a work day"
 msgstr "Úterý je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
 msgid "Wednesday is a work day"
 msgstr "Středa je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "Thursday is a work day"
 msgstr "Čtvrtek je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
 msgid "Friday is a work day"
 msgstr "Pátek je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
 msgid "Saturday is a work day"
 msgstr "Sobota je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
 msgid "Sunday is a work day"
 msgstr "Neděle je pracovní den"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
 msgid "Create events, memos and tasks as Private by default"
 msgstr "Vytvářet události, poznámky a úkoly výchozí jako soukromé"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
 msgid "Draw events as flat, not shaded."
 msgstr "Vykreslovat události ploché, bez stínování"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
 msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
@@ -986,7 +922,7 @@ msgstr ""
 "Zda se mají dny v týdenním zobrazení uspořádat zleva doprava místo shora "
 "dolů."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:162
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
 msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
@@ -994,11 +930,11 @@ msgstr ""
 "Umožnit přímé úpravy souhrnu události, když se klikne na denní, pracovní, "
 "týdenní nebo měsíční zobrazení."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:163
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(zavržené) Den týdne, kdy týden začíná, od neděle (0) do soboty (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:164
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -1006,11 +942,11 @@ msgstr ""
 "Tento klíč byl zavržen ve verzi 3.10 a nadále by neměl být používán. Místo "
 "něj použijte „week-start-day-name“."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "(Deprecated) Work days"
 msgstr "(zavržené) Pracovní dny"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -3325,14 +3261,6 @@ msgstr "Poznámky"
 msgid "Tasks"
 msgstr "Úkoly"
 
-#: ../data/org.gnome.Evolution-alarm-notify.desktop.in.in.h:1
-msgid "Evolution Alarm Notify"
-msgstr "Upozornění alarmem Evolution"
-
-#: ../data/org.gnome.Evolution-alarm-notify.desktop.in.in.h:2
-msgid "Calendar event notifications"
-msgstr "Upozornění na události v kalendáři"
-
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
 msgstr "Karty s _adresami"
@@ -5332,217 +5260,6 @@ msgctxt "addressbook-label"
 msgid "Phone"
 msgstr "Telefon"
 
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:105
-msgid "minute"
-msgid_plural "minutes"
-msgstr[0] "minuta"
-msgstr[1] "minuty"
-msgstr[2] "minut"
-
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:118
-msgid "hour"
-msgid_plural "hours"
-msgstr[0] "hodina"
-msgstr[1] "hodiny"
-msgstr[2] "hodin"
-
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:131
-msgid "day"
-msgid_plural "days"
-msgstr[0] "den"
-msgstr[1] "dny"
-msgstr[2] "dní"
-
-#: ../src/calendar/alarm-notify/alarm-notify-dialog.c:373
-msgid "Start time"
-msgstr "Čas začátku"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:1
-#: ../src/calendar/alarm-notify/alarm-queue.c:2002
-msgid "Appointments"
-msgstr "Události"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:2
-msgid "Dismiss _All"
-msgstr "Zahodit _vše"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:3
-msgid "_Snooze"
-msgstr "Od_ložit"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:4
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1367
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
-#: ../src/calendar/gui/e-comp-editor.c:2071
-#: ../src/e-util/e-accounts-window.c:1706
-#: ../src/e-util/e-html-editor-actions.c:922
-#: ../src/e-util/e-mail-signature-manager.c:358
-#: ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:26
-#: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:174
-#: ../src/mail/e-mail-label-manager.c:380
-#: ../src/mail/em-folder-properties.c:1034 ../src/mail/mail-config.ui.h:66
-#: ../src/plugins/attachment-reminder/attachment-reminder.c:548
-#: ../src/plugins/email-custom-header/email-custom-header.c:842
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
-#: ../src/plugins/templates/templates.c:467
-#: ../src/shell/e-shell-window-actions.c:980 ../src/smime/gui/smime-ui.ui.h:11
-msgid "_Edit"
-msgstr "_Upravit"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:5
-msgid "_Print"
-msgstr "_Tisk"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:6
-#: ../src/e-util/e-alert-dialog.c:162
-msgid "_Dismiss"
-msgstr "_Zahodit"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:7
-#: ../src/calendar/alarm-notify/alarm-queue.c:1969
-#: ../src/calendar/alarm-notify/alarm-queue.c:1979
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249
-#: ../src/modules/itip-formatter/itip-view.c:1682
-#: ../src/modules/itip-formatter/itip-view.c:1793
-msgid "Location:"
-msgstr "Místo:"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:8
-msgid "location of appointment"
-msgstr "umístění události"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:9
-msgid "Snooze _time:"
-msgstr "_Doba odložení:"
-
-#. Translators: This is the last part of the sentence:
-#. * "Purge events older than <<spin-button>> days"
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:10
-#: ../src/e-util/e-interval-chooser.c:144 ../src/e-util/filter.ui.h:8
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:342
-#: ../src/plugins/publish-calendar/publish-calendar.ui.h:7
-msgid "days"
-msgstr "dnů"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:11
-#: ../src/e-util/e-interval-chooser.c:142 ../src/e-util/filter.ui.h:7
-msgid "hours"
-msgstr "hodiny"
-
-#: ../src/calendar/alarm-notify/alarm-notify.ui.h:12
-#: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
-#: ../src/mail/e-mail-config-provider-page.c:579
-msgid "minutes"
-msgstr "minut"
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:1770
-#: ../src/calendar/alarm-notify/alarm-queue.c:1950
-msgid "No summary available."
-msgstr "Souhrn není k dispozici."
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:1779
-#: ../src/calendar/alarm-notify/alarm-queue.c:1781
-msgid "No description available."
-msgstr "Popis není dostupný."
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:1789
-msgid "No location information available."
-msgstr "Informace o místě nejsou k dispozici."
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:1794
-#: ../src/calendar/alarm-notify/alarm-queue.c:1941
-#: ../src/calendar/alarm-notify/alarm-queue.c:2292
-msgid "Evolution Reminders"
-msgstr "Připomenutí aplikace Evolution"
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:1837
-#, c-format
-msgid "You have %d reminder"
-msgid_plural "You have %d reminders"
-msgstr[0] "Máte %d připomenutí"
-msgstr[1] "Máte %d připomenutí"
-msgstr[2] "Máte %d připomenutí"
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:2110
-msgid "Warning"
-msgstr "Varování"
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:2111
-#: ../src/mail/mail-dialogs.ui.h:20
-msgid "_No"
-msgstr "_Ne"
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:2112
-msgid "_Yes"
-msgstr "_Ano"
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:2116
-#, c-format
-msgid ""
-"An Evolution Calendar reminder is about to trigger. This reminder is "
-"configured to run the following program:\n"
-"\n"
-"        %s\n"
-"\n"
-"Are you sure you want to run this program?"
-msgstr ""
-"Připomínka kalendáře Evolution se chystá spustit se. Tato připomínka je "
-"nastavena tak, aby spustila následující program:\n"
-"\n"
-"        %s\n"
-"\n"
-"Opravdu chcete spustit tento program?"
-
-#: ../src/calendar/alarm-notify/alarm-queue.c:2131
-msgid "Do not ask me about this program again."
-msgstr "Příště se neptat na tento program."
-
-#: ../src/calendar/alarm-notify/util.c:65
-msgid "invalid time"
-msgstr "neplatný čas"
-
-#. Translator: Entire string is like "Pop up an alert %d days before start"
-#: ../src/calendar/alarm-notify/util.c:91
-#: ../src/calendar/gui/e-alarm-list.c:368 ../src/calendar/gui/misc.c:95
-#, c-format
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] "%d den"
-msgstr[1] "%d dny"
-msgstr[2] "%d dnů"
-
-#. Translator: Entire string is like "Pop up an alert %d hours before start"
-#: ../src/calendar/alarm-notify/util.c:97
-#: ../src/calendar/gui/e-alarm-list.c:380 ../src/calendar/gui/misc.c:101
-#, c-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] "%d hodinu"
-msgstr[1] "%d hodiny"
-msgstr[2] "%d hodin"
-
-#. Translator: Entire string is like "Pop up an alert %d minutes before start"
-#: ../src/calendar/alarm-notify/util.c:103
-#: ../src/calendar/gui/e-alarm-list.c:386 ../src/calendar/gui/misc.c:107
-#, c-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "%d minutu"
-msgstr[1] "%d minuty"
-msgstr[2] "%d minut"
-
-#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#. Translator: Entire string is like "Pop up an alert %d seconds before start"
-#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../src/calendar/alarm-notify/util.c:107
-#: ../src/calendar/gui/e-alarm-list.c:392 ../src/calendar/gui/misc.c:111
-#, c-format
-msgid "%d second"
-msgid_plural "%d seconds"
-msgstr[0] "%d sekundu"
-msgstr[1] "%d sekundy"
-msgstr[2] "%d sekund"
-
 #: ../src/calendar/calendar.error.xml.h:1
 msgid "Would you like to send all the participants a cancelation notice?"
 msgstr "Chcete poslat všem účastníkům oznámení o zrušení?"
@@ -6500,6 +6217,15 @@ msgstr "Tlačítko skoku"
 msgid "Click here, you can find more events."
 msgstr "Další události můžete hledat kliknutím sem."
 
+#. Translator: Entire string is like "Pop up an alert %d days before start"
+#: ../src/calendar/gui/e-alarm-list.c:368 ../src/calendar/gui/misc.c:95
+#, c-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d den"
+msgstr[1] "%d dny"
+msgstr[2] "%d dnů"
+
 #. Translator: Entire string is like "Pop up an alert %d weeks before start"
 #: ../src/calendar/gui/e-alarm-list.c:374
 #, c-format
@@ -6508,6 +6234,34 @@ msgid_plural "%d weeks"
 msgstr[0] "%d týden"
 msgstr[1] "%d týdny"
 msgstr[2] "%d týdnů"
+
+#. Translator: Entire string is like "Pop up an alert %d hours before start"
+#: ../src/calendar/gui/e-alarm-list.c:380 ../src/calendar/gui/misc.c:101
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d hodinu"
+msgstr[1] "%d hodiny"
+msgstr[2] "%d hodin"
+
+#. Translator: Entire string is like "Pop up an alert %d minutes before start"
+#: ../src/calendar/gui/e-alarm-list.c:386 ../src/calendar/gui/misc.c:107
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minutu"
+msgstr[1] "%d minuty"
+msgstr[2] "%d minut"
+
+#. Translator: Entire string is like "Pop up an alert %d seconds before start"
+#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
+#: ../src/calendar/gui/e-alarm-list.c:392 ../src/calendar/gui/misc.c:111
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d sekundu"
+msgstr[1] "%d sekundy"
+msgstr[2] "%d sekund"
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:419
@@ -7713,6 +7467,24 @@ msgstr "_Organizátor:"
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Úč_astníci…"
+
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1367
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
+#: ../src/calendar/gui/e-comp-editor.c:2071
+#: ../src/e-util/e-accounts-window.c:1706
+#: ../src/e-util/e-html-editor-actions.c:922
+#: ../src/e-util/e-mail-signature-manager.c:358
+#: ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:26
+#: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:174
+#: ../src/mail/e-mail-label-manager.c:380
+#: ../src/mail/em-folder-properties.c:1034 ../src/mail/mail-config.ui.h:66
+#: ../src/plugins/attachment-reminder/attachment-reminder.c:548
+#: ../src/plugins/email-custom-header/email-custom-header.c:842
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
+#: ../src/plugins/templates/templates.c:467
+#: ../src/shell/e-shell-window-actions.c:980 ../src/smime/gui/smime-ui.ui.h:11
+msgid "_Edit"
+msgstr "_Upravit"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:325
 msgid "Add exception"
@@ -11981,19 +11753,19 @@ msgstr "Adresáře"
 
 #: ../src/e-util/e-accounts-window.c:536 ../src/e-util/e-accounts-window.c:670
 #: ../src/e-util/e-accounts-window.c:875
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Calendars"
 msgstr "Kalendáře"
 
 #: ../src/e-util/e-accounts-window.c:542 ../src/e-util/e-accounts-window.c:671
 #: ../src/e-util/e-accounts-window.c:876
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
 msgid "Memo Lists"
 msgstr "Seznamy poznámek"
 
 #: ../src/e-util/e-accounts-window.c:548 ../src/e-util/e-accounts-window.c:672
 #: ../src/e-util/e-accounts-window.c:877
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "Task Lists"
 msgstr "Seznamy úkolů"
 
@@ -12086,6 +11858,10 @@ msgstr "Zrušit"
 #: ../src/e-util/e-alert-bar.c:125
 msgid "Close this message (Escape)"
 msgstr "Zavřít tuto zprávu (Esc)"
+
+#: ../src/e-util/e-alert-dialog.c:162
+msgid "_Dismiss"
+msgstr "_Zahodit"
 
 #: ../src/e-util/e-alert-sink.c:244
 msgid "Failed to create a thread: "
@@ -14118,7 +13894,7 @@ msgid "<b>Background Image</b>"
 msgstr "<b>Obrázek pozadí</b>"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:473
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "_Template:"
 msgstr "Šabl_ona:"
 
@@ -14382,6 +14158,23 @@ msgstr "Vyberte soubor"
 #: ../src/e-util/e-import-assistant.c:1390
 msgid "Click “Apply” to begin importing the file into Evolution."
 msgstr "Spusťte import souboru do aplikace Evolution kliknutím na „Použít“."
+
+#: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
+#: ../src/mail/e-mail-config-provider-page.c:579
+msgid "minutes"
+msgstr "minut"
+
+#: ../src/e-util/e-interval-chooser.c:142 ../src/e-util/filter.ui.h:7
+msgid "hours"
+msgstr "hodiny"
+
+#. Translators: This is the last part of the sentence:
+#. * "Purge events older than <<spin-button>> days"
+#: ../src/e-util/e-interval-chooser.c:144 ../src/e-util/filter.ui.h:8
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:342
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:7
+msgid "days"
+msgstr "dnů"
 
 #: ../src/e-util/e-mail-signature-combo-box.c:431
 msgid "Autogenerated"
@@ -15961,7 +15754,7 @@ msgid "Invalid folder URI “%s”"
 msgstr "Neplatná adresa URI složky: „%s“"
 
 #. Some local folders
-#: ../src/libemail-engine/e-mail-session.c:121
+#: ../src/libemail-engine/e-mail-session.c:117
 #: ../src/mail/em-folder-properties.c:1150
 #: ../src/mail/em-folder-tree-model.c:1237
 #: ../src/mail/importers/kmail-libs.c:139
@@ -15971,7 +15764,7 @@ msgid "Inbox"
 msgstr "Přijaté"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../src/libemail-engine/e-mail-session.c:122
+#: ../src/libemail-engine/e-mail-session.c:118
 #: ../src/mail/em-folder-tree-model.c:1230
 #: ../src/mail/importers/kmail-libs.c:145
 #: ../src/modules/mail/e-mail-shell-view-private.c:1033
@@ -15979,7 +15772,7 @@ msgid "Drafts"
 msgstr "Koncepty"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../src/libemail-engine/e-mail-session.c:123
+#: ../src/libemail-engine/e-mail-session.c:119
 #: ../src/mail/em-folder-tree-model.c:1241
 #: ../src/mail/importers/kmail-libs.c:141
 #: ../src/modules/mail/e-mail-shell-view-private.c:1037
@@ -15987,7 +15780,7 @@ msgid "Outbox"
 msgstr "K odeslání"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../src/libemail-engine/e-mail-session.c:124
+#: ../src/libemail-engine/e-mail-session.c:120
 #: ../src/mail/em-folder-tree-model.c:1245
 #: ../src/mail/importers/kmail-libs.c:143
 #: ../src/modules/mail/e-mail-shell-view-private.c:1039
@@ -15995,7 +15788,7 @@ msgid "Sent"
 msgstr "Odeslané"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../src/libemail-engine/e-mail-session.c:125
+#: ../src/libemail-engine/e-mail-session.c:121
 #: ../src/mail/e-mail-templates-store.c:2211
 #: ../src/mail/em-folder-tree-model.c:1233
 #: ../src/mail/importers/kmail-libs.c:147
@@ -16004,31 +15797,31 @@ msgstr "Odeslané"
 msgid "Templates"
 msgstr "Šablony"
 
-#: ../src/libemail-engine/e-mail-session.c:1297
+#: ../src/libemail-engine/e-mail-session.c:1293
 #, c-format
 msgid "User cancelled operation"
 msgstr "Uživatel zrušil operaci"
 
-#: ../src/libemail-engine/e-mail-session.c:1354
+#: ../src/libemail-engine/e-mail-session.c:1350
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
 "cancelled."
 msgstr "Žádná cílová adresa neposkytnuta, přeposlání zprávy bylo zrušeno."
 
-#: ../src/libemail-engine/e-mail-session.c:1367
+#: ../src/libemail-engine/e-mail-session.c:1363
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Žádná identita, kterou lze použít, nenalezena, přeposlání zprávy bylo "
 "zrušeno."
 
-#: ../src/libemail-engine/e-mail-session.c:1519
+#: ../src/libemail-engine/e-mail-session.c:1515
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "Odpovídající zdroj pro službu s UID „%s“ nebyl nalezen"
 
-#: ../src/libemail-engine/e-mail-session.c:2460
+#: ../src/libemail-engine/e-mail-session.c:2456
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Čeká se na „%s“"
@@ -19372,6 +19165,10 @@ msgstr "_Dokončeno"
 msgid "License Agreement"
 msgstr "Licenční smlouva"
 
+#: ../src/mail/mail-dialogs.ui.h:20
+msgid "_No"
+msgstr "_Ne"
+
 #: ../src/mail/mail-dialogs.ui.h:21
 msgid "_Accept License"
 msgstr "_Přijmout licenci"
@@ -20996,6 +20793,11 @@ msgstr "Poslat seznamu _zprávu"
 msgid "_Send Message to Contact"
 msgstr "Poslat kontaktu _zprávu"
 
+#: ../src/modules/alarm-notify/alarm-notify.c:169
+#, c-format
+msgid "Failed to launch command “%s”:"
+msgstr "Selhalo spuštění příkazu „%s“:"
+
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:162
 msgid ""
 "You can restore Evolution from a backup file.\n"
@@ -21510,6 +21312,12 @@ msgctxt "locale-metric"
 msgid "default:mm"
 msgstr "default:mm"
 
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249
+#: ../src/modules/itip-formatter/itip-view.c:1682
+#: ../src/modules/itip-formatter/itip-view.c:1793
+msgid "Location:"
+msgstr "Místo:"
+
 #. Translators: This is the temperature in degrees
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:259
@@ -21648,11 +21456,11 @@ msgstr "Hledání konfliktů"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Zvolte kalendáře, ve kterých hledat konflikty se schůzkou"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1121
+#: ../src/modules/calendar/e-calendar-preferences.c:1117
 msgid "Ti_me and date:"
 msgstr "Čas a datu_m:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1122
+#: ../src/modules/calendar/e-calendar-preferences.c:1118
 msgid "_Date only:"
 msgstr "Pouze _datum:"
 
@@ -21914,65 +21722,61 @@ msgid "before every anniversary/birthday"
 msgstr "před každým výročím/narozeninami"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:83
-msgid "Default _snooze time (in minutes)"
-msgstr "Výchozí doba pře_stávky (v minutách)"
-
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
 msgid "Select the sources for reminder notification:"
 msgstr "Zvolte zdroje pro připomenutí:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
 msgid "Default Free/Busy Server"
 msgstr "Výchozí server volno/obsazeno"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr "%u a %d budou nahrazeny uživatelem a doménou z e-mailové adresy."
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
 msgid "Publishing Information"
 msgstr "Zveřejněné informace"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:113
+#: ../src/modules/calendar/e-cal-shell-backend.c:115
 msgctxt "New"
 msgid "_Appointment"
 msgstr "_Událost"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:115
+#: ../src/modules/calendar/e-cal-shell-backend.c:117
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1451
 msgid "Create a new appointment"
 msgstr "Vytvořit novou událost"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:120
+#: ../src/modules/calendar/e-cal-shell-backend.c:122
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "_Celodenní událost"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:122
+#: ../src/modules/calendar/e-cal-shell-backend.c:124
 msgid "Create a new all-day appointment"
 msgstr "Vytvořit novou celodenní událost"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:127
+#: ../src/modules/calendar/e-cal-shell-backend.c:129
 msgctxt "New"
 msgid "M_eeting"
 msgstr "_Schůzka"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:129
+#: ../src/modules/calendar/e-cal-shell-backend.c:131
 msgid "Create a new meeting request"
 msgstr "Vytvořit žádost o novou schůzku"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:137
+#: ../src/modules/calendar/e-cal-shell-backend.c:139
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "_Kalendář"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:139
+#: ../src/modules/calendar/e-cal-shell-backend.c:141
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1311
 msgid "Create a new calendar"
 msgstr "Vytvořit nový kalendář"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:256
+#: ../src/modules/calendar/e-cal-shell-backend.c:258
 msgid "Calendar and Tasks"
 msgstr "Kalendář a úkoly"
 
@@ -26937,3 +26741,149 @@ msgstr "Nelze zapsat úložiště na disk, kód chyby: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Importovaný certifikát"
+
+#~ msgid "Default reminder snooze interval, in minutes"
+#~ msgstr "Výchozí déla přestávky do připomenutí, v minutách"
+
+#~ msgid ""
+#~ "Default reminder snooze interval, in minutes, to be filled in the "
+#~ "reminder notification dialog"
+#~ msgstr ""
+#~ "Výchozí délka přestávky do připomenutí, v minutách, která se vyplní do "
+#~ "upozorňovacího dialogového okna s připomínkou."
+
+#~ msgid "Allow past reminders"
+#~ msgstr "Povolit promeškaná připomenutí"
+
+#~ msgid ""
+#~ "Whether can show reminders for events/tasks/memos which already happened"
+#~ msgstr ""
+#~ "Zda povolit zobrazení připomenutí pro události/úkoly/poznámky, které se "
+#~ "již událi."
+
+#~ msgid "Reminder programs"
+#~ msgstr "Programy připomenutí"
+
+#~ msgid "Programs that are allowed to be run by reminders"
+#~ msgstr "Programy, které mohou být spouštěny připomínkami"
+
+#~ msgid "Show display reminders in notification tray"
+#~ msgstr "Zobrazovat připomenutí v oznamovací oblasti"
+
+#~ msgid "Whether or not to use the notification tray for display reminders"
+#~ msgstr "Jestli používat oznamovací oblast pro zobrazování připomínek"
+
+#~ msgid "Show reminder notification dialog always on top"
+#~ msgstr "Zobrazovat dialogové okno připomenutí vždy nahoře"
+
+#~ msgid ""
+#~ "Whether or not to show reminder notification dialog always on top. Note "
+#~ "this works only as a hint for the window manager, which may or may not "
+#~ "obey it."
+#~ msgstr ""
+#~ "Zda zobrazovat nebo nezobrazovat dialogové okno připomenutí vždy nahoře. "
+#~ "Vezměte na vědomí, že to je jen doporučení pro správce oken, který se jím "
+#~ "nemusí řídit."
+
+#~ msgid "Show reminders for completed tasks"
+#~ msgstr "Zobrazovat připomenutí dokončených úkolů"
+
+#~ msgid ""
+#~ "Whether to show reminders for completed tasks. When set to false, "
+#~ "reminders for completed tasks are suppressed."
+#~ msgstr ""
+#~ "Zda-li zobrazovat připomínky dokončených úkolů. Pokud nastaveno jako "
+#~ "neplatné, připomínky dokončených úkolů jsou potlačené."
+
+#~ msgid "Evolution Alarm Notify"
+#~ msgstr "Upozornění alarmem Evolution"
+
+#~ msgid "Calendar event notifications"
+#~ msgstr "Upozornění na události v kalendáři"
+
+#~ msgid "minute"
+#~ msgid_plural "minutes"
+#~ msgstr[0] "minuta"
+#~ msgstr[1] "minuty"
+#~ msgstr[2] "minut"
+
+#~ msgid "hour"
+#~ msgid_plural "hours"
+#~ msgstr[0] "hodina"
+#~ msgstr[1] "hodiny"
+#~ msgstr[2] "hodin"
+
+#~ msgid "day"
+#~ msgid_plural "days"
+#~ msgstr[0] "den"
+#~ msgstr[1] "dny"
+#~ msgstr[2] "dní"
+
+#~ msgid "Start time"
+#~ msgstr "Čas začátku"
+
+#~ msgid "Appointments"
+#~ msgstr "Události"
+
+#~ msgid "Dismiss _All"
+#~ msgstr "Zahodit _vše"
+
+#~ msgid "_Snooze"
+#~ msgstr "Od_ložit"
+
+#~ msgid "_Print"
+#~ msgstr "_Tisk"
+
+#~ msgid "location of appointment"
+#~ msgstr "umístění události"
+
+#~ msgid "Snooze _time:"
+#~ msgstr "_Doba odložení:"
+
+#~ msgid "No summary available."
+#~ msgstr "Souhrn není k dispozici."
+
+#~ msgid "No description available."
+#~ msgstr "Popis není dostupný."
+
+#~ msgid "No location information available."
+#~ msgstr "Informace o místě nejsou k dispozici."
+
+#~ msgid "Evolution Reminders"
+#~ msgstr "Připomenutí aplikace Evolution"
+
+#~ msgid "You have %d reminder"
+#~ msgid_plural "You have %d reminders"
+#~ msgstr[0] "Máte %d připomenutí"
+#~ msgstr[1] "Máte %d připomenutí"
+#~ msgstr[2] "Máte %d připomenutí"
+
+#~ msgid "Warning"
+#~ msgstr "Varování"
+
+#~ msgid "_Yes"
+#~ msgstr "_Ano"
+
+#~ msgid ""
+#~ "An Evolution Calendar reminder is about to trigger. This reminder is "
+#~ "configured to run the following program:\n"
+#~ "\n"
+#~ "        %s\n"
+#~ "\n"
+#~ "Are you sure you want to run this program?"
+#~ msgstr ""
+#~ "Připomínka kalendáře Evolution se chystá spustit se. Tato připomínka je "
+#~ "nastavena tak, aby spustila následující program:\n"
+#~ "\n"
+#~ "        %s\n"
+#~ "\n"
+#~ "Opravdu chcete spustit tento program?"
+
+#~ msgid "Do not ask me about this program again."
+#~ msgstr "Příště se neptat na tento program."
+
+#~ msgid "invalid time"
+#~ msgstr "neplatný čas"
+
+#~ msgid "Default _snooze time (in minutes)"
+#~ msgstr "Výchozí doba pře_stávky (v minutách)"
