@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-05 18:00+0000\n"
-"PO-Revision-Date: 2018-02-18 15:54+0100\n"
+"POT-Creation-Date: 2018-03-28 13:01+0000\n"
+"PO-Revision-Date: 2018-05-14 09:30+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
@@ -48,7 +48,7 @@ msgid "translator-credits"
 msgstr ""
 "Andre Klapper <ak-47@gmx.net>, 2007-2009\n"
 "Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2018\n"
-"Christian Kirbach <Christian.Kirbach@gmail.com>, 2009-2013, 2015-2017\n"
+"Christian Kirbach <Christian.Kirbach@gmail.com>, 2009-2013, 2015-2018\n"
 "Gabor Karsay <gabor.karsay@gmx.at>, 2011-2012\n"
 "Bernd Homuth <dev@hmt.im>, 2015"
 
@@ -341,8 +341,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
-msgid "Classifying appointments and tasks on remote servers."
-msgstr "So klassifizieren Sie Termine und Aufgaben auf entfernten Servern."
+msgid "Restricting visibility of appointments on remote servers."
+msgstr ""
+"So beschränken Sie die Sichtbarkeit von Terminen auf entfernten Servern."
 
 #. (itstool) path: page/title
 #: C/calendar-classifications.page:26
@@ -363,19 +364,19 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:32
 msgid ""
-"To set a classification for an appointment or a task, click "
-"<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
-"classification in the editor. <gui>Public</gui> is the default category, and "
-"a public appointment can be viewed by anyone on the calendar-sharing "
-"network. <gui>Private</gui> denotes one level of security, and "
-"<gui>Confidential</gui> an even higher level."
+"To set a classification for an appointment, click <guiseq><gui>Options</"
+"gui><gui>Classification</gui></guiseq> and select a classification in the "
+"editor. <gui>Public</gui> is the default category, and a public appointment "
+"can be viewed by anyone on the calendar-sharing network. <gui>Private</gui> "
+"denotes one level of security, and <gui>Confidential</gui> an even higher "
+"level."
 msgstr ""
-"Um eine Einstufung für einen Termin oder eine Aufgabe festzulegen, klicken "
-"Sie auf <guiseq><gui>Optionen</gui><gui>Einstufungen</gui></guiseq> und "
-"wählen Sie eine Einstufung im Editor. <gui>Öffentlich</gui> ist die "
-"voreingestellte Einstufung. Ein öffentlicher Termin kann von jedem im "
-"Netzwerk eingesehen werden. <gui>Privat</gui> bezeichnet die erste "
-"Sicherheitsstufe und <gui>Vertraulich</gui> eine noch höhere."
+"Um eine Einstufung für einen Termin festzulegen, klicken Sie auf "
+"<guiseq><gui>Optionen</gui><gui>Einstufungen</gui></guiseq> und wählen Sie "
+"eine Einstufung im Editor. <gui>Öffentlich</gui> ist die voreingestellte "
+"Einstufung. Ein öffentlicher Termin kann von jedem im selben Netzwerk "
+"eingesehen werden. <gui>Privat</gui> bezeichnet die erste Sicherheitsstufe "
+"und <gui>Vertraulich</gui> eine noch höhere."
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:39
@@ -1232,7 +1233,6 @@ msgstr "Wählen Sie Datum und Zeit."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:78
-#: C/calendar-usage-add-appointment.page:53
 msgid ""
 "If the event is not an all day event, select either <gui>For</gui> to "
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
@@ -1244,7 +1244,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:83
-#: C/calendar-usage-add-appointment.page:58
+#: C/calendar-usage-add-appointment.page:53
 msgid "(Optional) Enter a description in the <gui>Description</gui> field."
 msgstr ""
 "(Optional) Geben Sie eine Beschreibung im <gui>Beschreibung</gui>-Feld ein."
@@ -1276,7 +1276,7 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:99
-#: C/calendar-usage-add-appointment.page:67
+#: C/calendar-usage-add-appointment.page:62
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, a <link xref=\"calendar-"
@@ -1573,20 +1573,20 @@ msgstr "Eine Zeitzone für einen Termin festlegen"
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
-"appointment</link> and click the globe button to customize the time zone "
-"that the time exists in. For example, if you live in New York but have a "
-"telephone meeting set for noon with someone in California, you need to make "
-"sure that your schedules are coordinated. Setting time zones on a per-"
-"appointment basis helps avoid that potential confusion."
+"appointment</link>. Under <gui>Time zone</gui>, click <gui style=\"button"
+"\">Select…</gui> to customize the time zone. For example, if you live in New "
+"York but have a telephone meeting set with someone in California, you need "
+"to make sure that your schedules are coordinated. Setting time zones on a "
+"per-appointment basis helps avoid that potential confusion."
 msgstr ""
-"Sie können die Zeitzone-Informationen auch spezifisch für einen Termin "
+"Sie können die Zeitzone-Informationen auch individuell für jeden Termin "
 "eingeben. Hierzu <link xref=\"calendar-usage\">erstellen Sie einen neuen "
-"Termin oder bearbeiten einen bestehenden Termin</link> und klicken dann auf "
-"den Globus-Knopf, um die gewünschte Zeitzone einzugeben. Wenn Sie zum "
-"Beispiel in Berlin leben, aber eine Telefonbesprechung mit jemandem in New "
-"York um 12 Uhr mittags haben, müssen Sie Ihre Planungen untereinander "
-"koordinieren. Sie können Verwirrung vermeiden, indem Sie die Zeitzone dieses "
-"Termins korrekt setzen."
+"Termin oder bearbeiten einen bestehenden Termin</link> und klicken dann "
+"unter <gui>Zeitzone</gui> auf <gui style=\"button\">Auswählen …/gui>, um die "
+"gewünschte Zeitzone einzugeben. Wenn Sie zum Beispiel in Berlin leben, aber "
+"eine Telefonbesprechung mit jemandem in New York um 12 Uhr mittags haben, "
+"müssen Sie Ihre Planungen untereinander koordinieren. Sie können Verwirrung "
+"vermeiden, indem Sie die Zeitzone dieses Termins korrekt setzen."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-add-appointment.page:17
@@ -1621,7 +1621,7 @@ msgid "If you use the Appointment dialog:"
 msgstr "Falls Sie den Termindialog verwenden:"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:61
+#: C/calendar-usage-add-appointment.page:56
 msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
 "click <guiseq><gui>Options</gui> <gui>Show Time as Busy</gui></guiseq>."
@@ -2206,22 +2206,23 @@ msgstr "Kontakte in LibreOffice"
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
 msgid ""
-"You can use your <app>Evolution</app> address books in LibreOffice as a data "
-"source. The following steps refer to LibreOffice version 3.3.3."
+"You can use your <app>Evolution</app> address books in <app>LibreOffice "
+"Writer</app> as a data source. The following steps refer to LibreOffice "
+"version 5.4."
 msgstr ""
-"Sie können Ihre <app>Evolution</app>-Adressbücher in LibreOffice als "
-"Datenquelle nutzen. Die folgenden Schritte beziehen sich auf LibreOffice "
-"3.3.3."
+"Sie können Ihre <app>Evolution</app>-Adressbücher in <app>LibreOffice</app> "
+"als Datenquelle nutzen. Die folgenden Schritte beziehen sich auf LibreOffice "
+"5.4."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
-"menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
+"menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
 "Klicken Sie in der Menüleiste auf <guiseq><gui>Bearbeiten</gui><gui>Exchange-"
-"Datenbank…</gui></guiseq>. Daraufhin öffnet sich der Dialog <gui>Exchange-"
-"Datenbank</gui>."
+"Datenbank …</gui></guiseq>. Daraufhin öffnet sich der Dialog <gui>Exchange-"
+"Datenbanken</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:33
@@ -2241,47 +2242,17 @@ msgstr ""
 "Wählen Sie ein Adressbuch und klicken Sie auf <gui style=\"button"
 "\">Definieren</gui>."
 
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:41
-msgid ""
-"In case it is not listed already, click <gui style=\"button\">Browse…</gui>. "
-"A file chooser dialog opens."
-msgstr ""
-"Falls es dort nicht schon aufgeführt ist, klicken Sie auf <gui style=\"button"
-"\">Durchsuchen …</gui>. Daraufhin öffnet sich ein Dateiwähler."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:45
-msgid ""
-"As <app>Evolution</app> stores its data in a hidden directory, press "
-"<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
-"displayed."
-msgstr ""
-"Weil <app>Evolution</app> seine Daten in einem versteckten Ordner speichert, "
-"drücken Sie <keyseq><key>Strg</key><key>L</key></keyseq>, um zur Ortsleiste "
-"zu gelangen."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:50
-msgid ""
-"Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
-"file> and click <gui style=\"button\">Open</gui>."
-msgstr ""
-"Suchen Sie nach <file>~/.local/share/evolution/addressbook/system/"
-"addressbook.db</file> und klicken Sie auf <gui style=\"button\">Öffnen</gui>."
-
 #. (itstool) path: page/p
-#: C/contacts-libreoffice.page:56
+#: C/contacts-libreoffice.page:42
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
-"document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
-"guiseq>."
+"document via <guiseq><gui>Insert</gui><gui>Field</gui></guiseq>."
 msgstr ""
 "Damit wird das <app>Evolution</app>-Adressbuch die vorausgewählte "
 "Datenquelle für LibreOffice. Sie können nun ein Feld wählen, um es in ein "
-"LibreOffice-Dokument einzufügen mit <guiseq><gui>Einfügen</gui><gui>Felder</"
-"gui><gui>Andere</gui></guiseq>."
+"LibreOffice-Dokument einzufügen mit <guiseq><gui>Einfügen</gui><gui>Feld</"
+"gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/contacts-local.page:17
@@ -2689,7 +2660,7 @@ msgid "Authors of the <app>Evolution</app> User Documentation"
 msgstr "Die Autoren des Benutzerhandbuchs von <app>Evolution</app>"
 
 #. (itstool) path: item/p
-#: C/credits.page:25 C/credits.page:55
+#: C/credits.page:25 C/credits.page:54
 msgid "André Klapper"
 msgstr "André Klapper"
 
@@ -2720,27 +2691,27 @@ msgstr "Die Übersetzer des Benutzerhandbuchs von <app>Evolution</app>"
 #. use '\n' for linebreaks or square brackets for potential email
 #. addresses here as this will not work. Thanks for all your hard work!
 #. andre
-#: C/credits.page:43
+#: C/credits.page:42
 msgid "(Not applicable to the English version)"
 msgstr "Christian Kirbach, Gabor Karsay, Mario Blättermann"
 
 #. (itstool) path: section/title
-#: C/credits.page:47
+#: C/credits.page:46
 msgid "Authors of the previous version"
 msgstr "Die Autoren der vorherigen Version"
 
 #. (itstool) path: section/title
-#: C/credits.page:89
+#: C/credits.page:88
 msgid "Contact information"
 msgstr "Kontaktinformationen"
 
 #. (itstool) path: section/p
-#: C/credits.page:90
+#: C/credits.page:89
 msgid "The GNOME Documentation Project:"
 msgstr "Das GNOME-Dokumentationsprojekt:"
 
 #. (itstool) path: item/p
-#: C/credits.page:92
+#: C/credits.page:91
 msgid ""
 "<link href=\"https://wiki.gnome.org/DocumentationProject\">Website</link>"
 msgstr ""
@@ -2748,7 +2719,7 @@ msgstr ""
 "link>"
 
 #. (itstool) path: item/p
-#: C/credits.page:95
+#: C/credits.page:94
 msgid ""
 "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-list"
 "\">Mailing list</link>"
@@ -6656,7 +6627,8 @@ msgstr ""
 "<code>composer-message-attribution</code> an."
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:44
+#. Translators: Do NOT translate the variable names inside the ${brackets}!
+#: C/mail-composer-change-quotation-string.page:43
 msgid ""
 "The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-"
 "${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
@@ -6666,32 +6638,32 @@ msgstr ""
 "${TimeZone}, ${Sender} wrote:\"</code>"
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:48
+#: C/mail-composer-change-quotation-string.page:47
 msgid "The following placeholders are available:"
 msgstr "Die folgenden Platzhalter sind verfügbar:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:57
+#: C/mail-composer-change-quotation-string.page:56
 msgid "<_:code-1/> (format: 01-31)"
 msgstr "<_:code-1/> (Format: 01-31)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:58
+#: C/mail-composer-change-quotation-string.page:57
 msgid "<_:code-1/> (format: 1-31)"
 msgstr "<_:code-1/> (Format: 1-31)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:63
+#: C/mail-composer-change-quotation-string.page:62
 msgid "<_:code-1/> (format: 1-366)"
 msgstr "<_:code-1/> (Format: 1-366)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:64
+#: C/mail-composer-change-quotation-string.page:63
 msgid "<_:code-1/> (format: 01-12)"
 msgstr "<_:code-1/> (Format: 01-12)"
 
 #. (itstool) path: item/p
-#: C/mail-composer-change-quotation-string.page:67
+#: C/mail-composer-change-quotation-string.page:66
 msgid "<_:code-1/> (e.g. 15 for the year 2015)"
 msgstr "<_:code-1/> (z.B. »15« für das Jahr 2015)"
 
@@ -7048,7 +7020,11 @@ msgstr ""
 "Feldern."
 
 #. (itstool) path: page/p
-#: C/mail-composer-from-field-override.page:27
+#. Translators: If no Wikipedia article exists for your language and you
+#. leave the URL untranslated and pointing to the English Wikipedia, you
+#. might want to indicate in your translation text that the link is in
+#. English.
+#: C/mail-composer-from-field-override.page:24
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
@@ -7061,7 +7037,11 @@ msgstr ""
 "\">Unteradressierung</link>."
 
 #. (itstool) path: note/p
-#: C/mail-composer-from-field-override.page:32
+#. Translators: If no Wikipedia article exists for your language and you
+#. leave the URL untranslated and pointing to the English Wikipedia, you
+#. might want to indicate in your translation text that the link is in
+#. English.
+#: C/mail-composer-from-field-override.page:26
 msgid ""
 "Setting an arbitrary address might collide with your email provider's <link "
 "href=\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">Sender Policy "
@@ -7868,7 +7848,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:56
+#: C/mail-composer-message-templates-variables.page:55
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7885,7 +7865,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:59
+#: C/mail-composer-message-templates-variables.page:57
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -10797,7 +10777,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:25
+#: C/mail-received-notification.page:24
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
@@ -10805,13 +10785,15 @@ msgid ""
 msgstr "lokalisiert"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:26
+#. Translators: Please make sure that the screenshot does have the small
+#. yellow star in the Mail icon
+#: C/mail-received-notification.page:25
 msgid "Switcher layout when a new message has arrived"
 msgstr ""
 "Layout der Umschalter-Knöpfe, sobald eine neue Nachricht eingetroffen ist"
 
 #. (itstool) path: page/p
-#: C/mail-received-notification.page:29
+#: C/mail-received-notification.page:28
 msgid ""
 "In order to also be notified of new messages in the GNOME Notification area "
 "at the bottom of the screen, make sure that <guiseq><gui>Edit</"
@@ -10829,7 +10811,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:31
+#: C/mail-received-notification.page:30
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -10837,7 +10819,7 @@ msgid ""
 msgstr "lokalisiert"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:32
+#: C/mail-received-notification.page:31
 msgid "GNOME notification area when a new message has arrived"
 msgstr "GNOME-Benachrichtigung, wenn eine neue Nachricht eingetroffen ist"
 
@@ -13627,12 +13609,15 @@ msgstr ""
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, or a <link xref=\"calendar-"
-"classifications\">classification</link> for the task, or add an attachment."
+"classifications\">classification</link> (via the drop-down menu) for the "
+"task, or add an attachment or set a <link xref=\"calendar-alarms-and-"
+"reminders\">reminder</link> (via the corresponding tabs)."
 msgstr ""
 "Legen Sie auf Wunsch eine <link xref=\"calendar-timezones\">Zeitzone</link>, "
 "eine <link xref=\"using-categories\">Kategorie</link> oder eine <link xref="
-"\"calendar-classifications\">Einstufung</link> für die Aufgabe fest. Oder "
-"Sie fügen einen Anhang hinzu."
+"\"calendar-classifications\">Einstufung</link> mit Hilfe des Auswahlmenüs "
+"für die Aufgabe fest. Oder Sie fügen einen Anhang hinzu oder legen eine "
+"<link xref=\"calendar-alarms-and-reminders\">Erinnerung</link> fest."
 
 #. (itstool) path: section/title
 #: C/tasks-usage-add-task.page:37
@@ -14475,3 +14460,27 @@ msgstr "Bearbeiten Sie den Titel oder die Suchbedingungen im Dialog."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicken Sie auf <_:gui-1/>."
+
+#~ msgid ""
+#~ "In case it is not listed already, click <gui style=\"button\">Browse…</"
+#~ "gui>. A file chooser dialog opens."
+#~ msgstr ""
+#~ "Falls es dort nicht schon aufgeführt ist, klicken Sie auf <gui style="
+#~ "\"button\">Durchsuchen …</gui>. Daraufhin öffnet sich ein Dateiwähler."
+
+#~ msgid ""
+#~ "As <app>Evolution</app> stores its data in a hidden directory, press "
+#~ "<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
+#~ "displayed."
+#~ msgstr ""
+#~ "Weil <app>Evolution</app> seine Daten in einem versteckten Ordner "
+#~ "speichert, drücken Sie <keyseq><key>Strg</key><key>L</key></keyseq>, um "
+#~ "zur Ortsleiste zu gelangen."
+
+#~ msgid ""
+#~ "Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
+#~ "file> and click <gui style=\"button\">Open</gui>."
+#~ msgstr ""
+#~ "Suchen Sie nach <file>~/.local/share/evolution/addressbook/system/"
+#~ "addressbook.db</file> und klicken Sie auf <gui style=\"button\">Öffnen</"
+#~ "gui>."
