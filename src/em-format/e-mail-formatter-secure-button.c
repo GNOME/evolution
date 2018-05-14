@@ -100,7 +100,7 @@ e_mail_formatter_secure_button_get_sign_description (CamelCipherValiditySign sta
 const gchar *
 e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncrypt status)
 {
-	g_return_val_if_fail (status >= 0 && status < G_N_ELEMENTS (smime_encrypt_table), NULL);
+	g_return_val_if_fail (status >= 0 && ((gint) status) < G_N_ELEMENTS (smime_encrypt_table), NULL);
 
 	return _(smime_encrypt_table[status].description);
 }
