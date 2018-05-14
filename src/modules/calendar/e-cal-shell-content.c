@@ -378,7 +378,7 @@ cal_shell_content_change_selection_in_current_view (ECalShellContent *cal_shell_
 {
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
-	if (cal_shell_content->priv->current_view >= 0 &&
+	if (cal_shell_content->priv->current_view >= E_CAL_VIEW_KIND_DAY &&
 	    cal_shell_content->priv->current_view < E_CAL_VIEW_KIND_LAST) {
 		ECalendarView *view;
 

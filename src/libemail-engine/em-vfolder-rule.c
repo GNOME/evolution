@@ -357,7 +357,7 @@ xml_encode (EFilterRule *fr)
 
 	node = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->xml_encode (fr);
 	g_return_val_if_fail (node != NULL, NULL);
-	g_return_val_if_fail (vr->priv->with < G_N_ELEMENTS (with_names), NULL);
+	g_return_val_if_fail (((gint) vr->priv->with) < G_N_ELEMENTS (with_names), NULL);
 
 	set = xmlNewNode (NULL, (const guchar *)"sources");
 	xmlAddChild (node, set);
