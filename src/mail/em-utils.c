@@ -1803,12 +1803,16 @@ em_utils_process_autoarchive_sync (EMailBackend *mail_backend,
 
 	g_date_time_unref (now_time);
 
-	search_sexp = g_strdup_printf ("(match-all (< (get-sent-date) %" G_GINT64_FORMAT "))", g_date_time_to_unix (use_time));
+	search_sexp = g_strdup_printf ("(match-all (and "
+		"(not (system-flag \"junk\")) "
+		"(not (system-flag \"deleted\")) "
+		"(< (get-sent-date) %" G_GINT64_FORMAT ")"
+		"))", g_date_time_to_unix (use_time));
 	uids = camel_folder_search_by_expression (folder, search_sexp, cancellable, error);
 
 	if (!uids) {
 		success = FALSE;
-	} else {
+	} else if (uids->len > 0) {
 		gint ii;
 
 		if (aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_ARCHIVE ||
@@ -1863,9 +1867,10 @@ em_utils_process_autoarchive_sync (EMailBackend *mail_backend,
 
 			camel_folder_thaw (folder);
 		}
-
-		camel_folder_search_free (folder, uids);
 	}
+
+	if (uids)
+		camel_folder_search_free (folder, uids);
 
 	g_free (search_sexp);
 	g_free (aa_custom_target_folder_uri);
