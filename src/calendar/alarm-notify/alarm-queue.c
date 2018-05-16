@@ -475,7 +475,7 @@ has_known_notification (ECalComponent *comp,
 /* Callback used when an alarm triggers */
 static void
 alarm_trigger_cb (gpointer alarm_id,
-                  time_t trigger,
+                  time_t trigger_time,
                   gpointer data)
 {
 	CompQueuedAlarms *cqa;
@@ -488,8 +488,8 @@ alarm_trigger_cb (gpointer alarm_id,
 	comp = cqa->alarms->comp;
 
 	config_data_set_last_notification_time (
-		cqa->parent_client->cal_client, trigger);
-	debug (("Setting Last notification time to %s", e_ctime (&trigger)));
+		cqa->parent_client->cal_client, trigger_time);
+	debug (("Setting Last notification time to %s", e_ctime (&trigger_time)));
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO) {
 		icalproperty_status status = ICAL_STATUS_NONE;
@@ -564,22 +564,22 @@ alarm_trigger_cb (gpointer alarm_id,
 
 	switch (action) {
 	case E_CAL_COMPONENT_ALARM_AUDIO:
-		audio_notification (trigger, cqa, alarm_id);
+		audio_notification (trigger_time, cqa, alarm_id);
 		break;
 
 	case E_CAL_COMPONENT_ALARM_DISPLAY:
 #ifdef HAVE_LIBNOTIFY
-		popup_notification (trigger, cqa, alarm_id, TRUE);
+		popup_notification (trigger_time, cqa, alarm_id, TRUE);
 #endif
-		display_notification (trigger, cqa, alarm_id, TRUE);
+		display_notification (trigger_time, cqa, alarm_id, TRUE);
 		break;
 
 	case E_CAL_COMPONENT_ALARM_EMAIL:
-		mail_notification (trigger, cqa, alarm_id);
+		mail_notification (trigger_time, cqa, alarm_id);
 		break;
 
 	case E_CAL_COMPONENT_ALARM_PROCEDURE:
-		procedure_notification (trigger, cqa, alarm_id);
+		procedure_notification (trigger_time, cqa, alarm_id);
 		break;
 
 	default:
