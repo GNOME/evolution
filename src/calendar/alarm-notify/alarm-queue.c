@@ -1965,12 +1965,12 @@ popup_notification (time_t trigger,
 	if (organiser.cn) {
 		if (location)
 			body = g_strdup_printf (
-				"<b>%s</b>\n%s %s\n%s %s",
+				"%s\n%s %s\n%s %s",
 				organiser.cn, _("Location:"),
 				location, start_str, time_str);
 		else
 			body = g_strdup_printf (
-				"<b>%s</b>\n%s %s",
+				"%s\n%s %s",
 				organiser.cn, start_str, time_str);
 	}
 	else {
