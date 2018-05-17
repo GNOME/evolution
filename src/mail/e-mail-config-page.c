@@ -217,11 +217,12 @@ e_mail_config_page_compare (GtkWidget *page_a,
 	if (interface_a == interface_b)
 		return 0;
 
-	if (interface_a != NULL && interface_b == NULL)
-		return -1;
+	if (!interface_a || !interface_b) {
+		if (interface_a == interface_b)
+			return 0;
 
-	if (interface_a == NULL && interface_b != NULL)
-		return 1;
+		return interface_a ? -1 : 1;
+	}
 
 	/* coverity[var_deref_op] */
 	if (interface_a->sort_order < interface_b->sort_order)

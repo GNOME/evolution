@@ -5864,7 +5864,7 @@ body_compositionend_event_cb (WebKitDOMElement *element,
 
 static void
 body_drop_event_cb (WebKitDOMElement *element,
-                    WebKitDOMUIEvent *event,
+                    WebKitDOMUIEvent *dom_ui_event,
                     EEditorPage *editor_page)
 {
 	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));

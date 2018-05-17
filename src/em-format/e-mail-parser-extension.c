@@ -79,6 +79,7 @@ e_mail_parser_extension_parse (EMailParserExtension *extension,
 	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), FALSE);
 
 	class = E_MAIL_PARSER_EXTENSION_GET_CLASS (extension);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->parse != NULL, FALSE);
 
 	/* Check for cancellation before calling the method. */

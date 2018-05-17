@@ -1189,7 +1189,7 @@ accounts_window_tree_view_enabled_toggled_cb (GtkCellRendererToggle *cell_render
 
 			/* And finally the collection, but only to enable it, if disabled */
 			collection = e_source_registry_find_extension (accounts_window->priv->registry, source, E_SOURCE_EXTENSION_COLLECTION);
-			if (collection && set_enabled && (e_source_get_enabled (collection) ? 1 : 0) != (set_enabled ? 1 : 0)) {
+			if (collection && set_enabled && (e_source_get_enabled (collection) ? 1 : 0) != 1) {
 				e_source_set_enabled (collection, set_enabled);
 
 				if (e_source_get_writable (collection))

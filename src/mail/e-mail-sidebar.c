@@ -644,6 +644,7 @@ e_mail_sidebar_check_state (EMailSidebar *sidebar)
 	g_return_val_if_fail (E_IS_MAIL_SIDEBAR (sidebar), 0);
 
 	class = E_MAIL_SIDEBAR_GET_CLASS (sidebar);
+	g_return_val_if_fail (class != NULL, 0);
 	g_return_val_if_fail (class->check_state != NULL, 0);
 
 	return class->check_state (sidebar);

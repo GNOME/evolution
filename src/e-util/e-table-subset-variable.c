@@ -26,8 +26,6 @@
 
 #include "e-table-subset-variable.h"
 
-#define ETSSV_CLASS(e) (E_TABLE_SUBSET_VARIABLE_GET_CLASS (e))
-
 G_DEFINE_TYPE (
 	ETableSubsetVariable,
 	e_table_subset_variable,
@@ -172,11 +170,16 @@ void
 e_table_subset_variable_add (ETableSubsetVariable *etssv,
                              gint row)
 {
+	ETableSubsetVariableClass *klass;
+
 	g_return_if_fail (etssv != NULL);
 	g_return_if_fail (E_IS_TABLE_SUBSET_VARIABLE (etssv));
 
-	if (ETSSV_CLASS (etssv)->add)
-		ETSSV_CLASS (etssv)->add (etssv, row);
+	klass = E_TABLE_SUBSET_VARIABLE_GET_CLASS (etssv);
+	g_return_if_fail (klass != NULL);
+
+	if (klass->add)
+		klass->add (etssv, row);
 }
 
 void
@@ -184,32 +187,47 @@ e_table_subset_variable_add_array (ETableSubsetVariable *etssv,
                                    const gint *array,
                                    gint count)
 {
+	ETableSubsetVariableClass *klass;
+
 	g_return_if_fail (etssv != NULL);
 	g_return_if_fail (E_IS_TABLE_SUBSET_VARIABLE (etssv));
 
-	if (ETSSV_CLASS (etssv)->add_array)
-		ETSSV_CLASS (etssv)->add_array (etssv, array, count);
+	klass = E_TABLE_SUBSET_VARIABLE_GET_CLASS (etssv);
+	g_return_if_fail (klass != NULL);
+
+	if (klass->add_array)
+		klass->add_array (etssv, array, count);
 }
 
 void
 e_table_subset_variable_add_all (ETableSubsetVariable *etssv)
 {
+	ETableSubsetVariableClass *klass;
+
 	g_return_if_fail (etssv != NULL);
 	g_return_if_fail (E_IS_TABLE_SUBSET_VARIABLE (etssv));
 
-	if (ETSSV_CLASS (etssv)->add_all)
-		ETSSV_CLASS (etssv)->add_all (etssv);
+	klass = E_TABLE_SUBSET_VARIABLE_GET_CLASS (etssv);
+	g_return_if_fail (klass != NULL);
+
+	if (klass->add_all)
+		klass->add_all (etssv);
 }
 
 gboolean
 e_table_subset_variable_remove (ETableSubsetVariable *etssv,
                                 gint row)
 {
+	ETableSubsetVariableClass *klass;
+
 	g_return_val_if_fail (etssv != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_SUBSET_VARIABLE (etssv), FALSE);
 
-	if (ETSSV_CLASS (etssv)->remove)
-		return ETSSV_CLASS (etssv)->remove (etssv, row);
+	klass = E_TABLE_SUBSET_VARIABLE_GET_CLASS (etssv);
+	g_return_val_if_fail (klass != NULL, FALSE);
+
+	if (klass->remove)
+		return klass->remove (etssv, row);
 	else
 		return FALSE;
 }

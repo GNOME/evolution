@@ -1153,6 +1153,7 @@ e_source_config_get_backend_extension_name (ESourceConfig *config)
 	g_return_val_if_fail (E_IS_SOURCE_CONFIG (config), NULL);
 
 	class = E_SOURCE_CONFIG_GET_CLASS (config);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->get_backend_extension_name != NULL, NULL);
 
 	return class->get_backend_extension_name (config);
@@ -1166,6 +1167,7 @@ e_source_config_list_eligible_collections (ESourceConfig *config)
 	g_return_val_if_fail (E_IS_SOURCE_CONFIG (config), NULL);
 
 	class = E_SOURCE_CONFIG_GET_CLASS (config);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->list_eligible_collections != NULL, NULL);
 
 	return class->list_eligible_collections (config);

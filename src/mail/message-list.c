@@ -6142,8 +6142,9 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 	if (local_error == NULL) {
 		/* coverity[unchecked_value] */
-		g_cancellable_set_error_if_cancelled (
-			cancellable, &local_error);
+		if (g_cancellable_set_error_if_cancelled (cancellable, &local_error)) {
+			;
+		}
 	}
 
 	if (local_error != NULL) {

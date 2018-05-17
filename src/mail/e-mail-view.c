@@ -393,6 +393,7 @@ e_mail_view_update_view_instance (EMailView *view)
 	g_return_if_fail (E_IS_MAIL_VIEW (view));
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->update_view_instance != NULL);
 
 	class->update_view_instance (view);
@@ -406,6 +407,7 @@ e_mail_view_get_view_instance (EMailView *view)
 	g_return_val_if_fail (E_IS_MAIL_VIEW (view), NULL);
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->get_view_instance != NULL, NULL);
 
 	return class->get_view_instance (view);
@@ -420,6 +422,7 @@ e_mail_view_set_search_strings (EMailView *view,
 	g_return_if_fail (E_IS_MAIL_VIEW (view));
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_search_strings != NULL);
 
 	class->set_search_strings (view, search_strings);
@@ -433,6 +436,7 @@ e_mail_view_get_orientation (EMailView *view)
 	g_return_val_if_fail (E_IS_MAIL_VIEW (view), 0);
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (class != NULL, 0);
 	g_return_val_if_fail (class->get_orientation != NULL, 0);
 
 	return class->get_orientation (view);
@@ -447,6 +451,7 @@ e_mail_view_set_orientation (EMailView *view,
 	g_return_if_fail (E_IS_MAIL_VIEW (view));
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_orientation != NULL);
 
 	class->set_orientation (view, orientation);
@@ -460,6 +465,7 @@ e_mail_view_get_preview_visible (EMailView *view)
 	g_return_val_if_fail (E_IS_MAIL_VIEW (view), FALSE);
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->get_preview_visible != NULL, FALSE);
 
 	return class->get_preview_visible (view);
@@ -474,6 +480,7 @@ e_mail_view_set_preview_visible (EMailView *view,
 	g_return_if_fail (E_IS_MAIL_VIEW (view));
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_preview_visible != NULL);
 
 	class->set_preview_visible (view, visible);
@@ -517,6 +524,7 @@ e_mail_view_get_show_deleted (EMailView *view)
 	g_return_val_if_fail (E_IS_MAIL_VIEW (view), FALSE);
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->get_show_deleted != NULL, FALSE);
 
 	return class->get_show_deleted (view);
@@ -531,6 +539,7 @@ e_mail_view_set_show_deleted (EMailView *view,
 	g_return_if_fail (E_IS_MAIL_VIEW (view));
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_show_deleted != NULL);
 
 	class->set_show_deleted (view, show_deleted);
@@ -544,6 +553,7 @@ e_mail_view_get_show_junk (EMailView *view)
 	g_return_val_if_fail (E_IS_MAIL_VIEW (view), FALSE);
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->get_show_junk != NULL, FALSE);
 
 	return class->get_show_junk (view);
@@ -558,6 +568,7 @@ e_mail_view_set_show_junk (EMailView *view,
 	g_return_if_fail (E_IS_MAIL_VIEW (view));
 
 	class = E_MAIL_VIEW_GET_CLASS (view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_show_junk != NULL);
 
 	class->set_show_junk (view, show_junk);

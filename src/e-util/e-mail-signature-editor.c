@@ -211,12 +211,12 @@ action_close_cb (GtkAction *action,
 			"widgets:ask-signature-changed", NULL);
 		if (response == GTK_RESPONSE_YES) {
 			GtkActionGroup *action_group;
-			GtkAction *action;
+			GtkAction *action2;
 
 			action_group = window->priv->action_group;
-			action = gtk_action_group_get_action (
+			action2 = gtk_action_group_get_action (
 				action_group, "save-and-close");
-			gtk_action_activate (action);
+			gtk_action_activate (action2);
 			return;
 		} else if (response == GTK_RESPONSE_CANCEL)
 			return;

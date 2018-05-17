@@ -86,6 +86,7 @@ shell_backend_debug_list_activities (EShellBackend *shell_backend)
 	guint n_activities;
 
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_if_fail (class != NULL);
 
 	n_activities = g_queue_get_length (shell_backend->priv->activities);
 
@@ -190,6 +191,8 @@ shell_backend_constructor (GType type,
 	/* Install a reference to ourselves in the
 	 * corresponding EShellViewClass structure. */
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_val_if_fail (class != NULL, object);
+
 	shell_view_class = g_type_class_ref (class->shell_view_type);
 	shell_view_class->shell_backend = g_object_ref (shell_backend);
 	shell_backend->priv->shell_view_class = shell_view_class;
@@ -289,6 +292,7 @@ shell_backend_get_config_dir (EShellBackend *shell_backend)
 	EShellBackendClass *class;
 
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	/* Determine the user config directory for this backend. */
 	if (G_UNLIKELY (shell_backend->priv->config_dir == NULL)) {
@@ -309,6 +313,7 @@ shell_backend_get_data_dir (EShellBackend *shell_backend)
 	EShellBackendClass *class;
 
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	/* Determine the user data directory for this backend. */
 	if (G_UNLIKELY (shell_backend->priv->data_dir == NULL)) {
@@ -416,10 +421,19 @@ gint
 e_shell_backend_compare (EShellBackend *shell_backend_a,
                          EShellBackend *shell_backend_b)
 {
-	gint a = E_SHELL_BACKEND_GET_CLASS (shell_backend_a)->sort_order;
-	gint b = E_SHELL_BACKEND_GET_CLASS (shell_backend_b)->sort_order;
+	EShellBackendClass *a_klass, *b_klass;
+	gint aa, bb;
 
-	return (a < b) ? -1 : (a > b);
+	a_klass = E_SHELL_BACKEND_GET_CLASS (shell_backend_a);
+	b_klass = E_SHELL_BACKEND_GET_CLASS (shell_backend_b);
+
+	g_return_val_if_fail (a_klass != NULL, 0);
+	g_return_val_if_fail (b_klass != NULL, 0);
+
+	aa = a_klass->sort_order;
+	bb = b_klass->sort_order;
+
+	return (aa < bb) ? -1 : (aa > bb) ? 1 : 0;
 }
 
 /**
@@ -440,6 +454,7 @@ e_shell_backend_get_config_dir (EShellBackend *shell_backend)
 	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
 
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->get_config_dir != NULL, NULL);
 
 	return class->get_config_dir (shell_backend);
@@ -463,6 +478,7 @@ e_shell_backend_get_data_dir (EShellBackend *shell_backend)
 	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
 
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->get_data_dir != NULL, NULL);
 
 	return class->get_data_dir (shell_backend);
@@ -644,6 +660,7 @@ e_shell_backend_start (EShellBackend *shell_backend)
 		return;
 
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_if_fail (class != NULL);
 
 	if (class->start != NULL)
 		class->start (shell_backend);
@@ -693,6 +710,7 @@ e_shell_backend_migrate (EShellBackend *shell_backend,
 	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), TRUE);
 
 	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_val_if_fail (class != NULL, TRUE);
 
 	if (class->migrate == NULL)
 		return TRUE;

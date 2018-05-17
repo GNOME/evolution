@@ -41,9 +41,9 @@ struct _EColorComboPrivate {
 	guint popup_shown	: 1;
 	guint popup_in_progress : 1;
 
+	guint default_transparent: 1;
 	GdkRGBA *current_color;
 	GdkRGBA *default_color;
-	gint default_transparent: 1;
 
 	GList *palette;
 

@@ -744,6 +744,7 @@ gal_view_collection_append_with_title (GalViewCollection *collection,
 	g_return_val_if_fail (GAL_IS_VIEW (view), NULL);
 
 	view_class = GAL_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (view_class != NULL, NULL);
 
 	gal_view_set_title (view, title);
 
@@ -786,6 +787,7 @@ gal_view_collection_set_nth_view (GalViewCollection *collection,
 	g_return_val_if_fail (i < collection->priv->view_count, NULL);
 
 	view_class = GAL_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (view_class != NULL, NULL);
 
 	item = collection->priv->view_data[i];
 

@@ -103,6 +103,7 @@ e_attachment_handler_get_drag_actions (EAttachmentHandler *handler)
 	g_return_val_if_fail (E_IS_ATTACHMENT_HANDLER (handler), 0);
 
 	class = E_ATTACHMENT_HANDLER_GET_CLASS (handler);
+	g_return_val_if_fail (class != NULL, 0);
 
 	if (class->get_drag_actions != NULL)
 		return class->get_drag_actions (handler);
@@ -119,6 +120,7 @@ e_attachment_handler_get_target_table (EAttachmentHandler *handler,
 	g_return_val_if_fail (E_IS_ATTACHMENT_HANDLER (handler), NULL);
 
 	class = E_ATTACHMENT_HANDLER_GET_CLASS (handler);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	if (class->get_target_table != NULL)
 		return class->get_target_table (handler, n_targets);

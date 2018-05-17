@@ -656,11 +656,12 @@ mail_shell_backend_changes_committed_cb (EMailConfigWindow *window,
 
 	/* Find an EShellWindow to serve as an EAlertSink. */
 	for (link = list; link != NULL; link = g_list_next (link)) {
-		GtkWindow *window = GTK_WINDOW (link->data);
+		GtkWindow *appwindow = GTK_WINDOW (link->data);
 
-		if (E_IS_SHELL_WINDOW (window)) {
-			EAlertSink *alert_sink = E_ALERT_SINK (window);
+		if (E_IS_SHELL_WINDOW (appwindow)) {
+			EAlertSink *alert_sink = E_ALERT_SINK (appwindow);
 			e_activity_set_alert_sink (activity, alert_sink);
+			break;
 		}
 	}
 

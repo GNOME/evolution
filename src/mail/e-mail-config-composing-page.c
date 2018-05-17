@@ -96,7 +96,7 @@ mail_config_composing_page_string_to_addrs (GBinding *binding,
 		const gchar *name = NULL;
 		const gchar *addr = NULL;
 
-		camel_internet_address_get (address, ii, &name, &addr);
+		g_warn_if_fail (camel_internet_address_get (address, ii, &name, &addr));
 		strv[ii] = camel_internet_address_format_address (name, addr);
 	}
 

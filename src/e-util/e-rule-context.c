@@ -649,6 +649,7 @@ e_rule_context_load (ERuleContext *context,
 	g_return_val_if_fail (user != NULL, -1);
 
 	class = E_RULE_CONTEXT_GET_CLASS (context);
+	g_return_val_if_fail (class != NULL, -1);
 	g_return_val_if_fail (class->load != NULL, -1);
 
 	context->priv->frozen++;
@@ -677,6 +678,7 @@ e_rule_context_save (ERuleContext *context,
 	g_return_val_if_fail (user != NULL, -1);
 
 	class = E_RULE_CONTEXT_GET_CLASS (context);
+	g_return_val_if_fail (class != NULL, -1);
 	g_return_val_if_fail (class->save != NULL, -1);
 
 	return class->save (context, user);
@@ -702,6 +704,7 @@ e_rule_context_revert (ERuleContext *context,
 	g_return_val_if_fail (user != NULL, 0);
 
 	class = E_RULE_CONTEXT_GET_CLASS (context);
+	g_return_val_if_fail (class != NULL, 0);
 	g_return_val_if_fail (class->revert != NULL, 0);
 
 	return class->revert (context, user);
@@ -958,6 +961,7 @@ e_rule_context_rename_uri (ERuleContext *context,
 	g_return_val_if_fail (compare != NULL, NULL);
 
 	class = E_RULE_CONTEXT_GET_CLASS (context);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	/* This method is optional. */
 	if (class->rename_uri == NULL)
@@ -978,6 +982,7 @@ e_rule_context_delete_uri (ERuleContext *context,
 	g_return_val_if_fail (compare != NULL, NULL);
 
 	class = E_RULE_CONTEXT_GET_CLASS (context);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	/* This method is optional. */
 	if (class->delete_uri == NULL)
@@ -1017,6 +1022,7 @@ e_rule_context_new_element (ERuleContext *context,
 	g_return_val_if_fail (name != NULL, NULL);
 
 	class = E_RULE_CONTEXT_GET_CLASS (context);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->new_element != NULL, NULL);
 
 	return class->new_element (context, name);

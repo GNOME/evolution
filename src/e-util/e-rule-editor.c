@@ -649,6 +649,7 @@ e_rule_editor_set_sensitive (ERuleEditor *editor)
 	g_return_if_fail (E_IS_RULE_EDITOR (editor));
 
 	class = E_RULE_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_sensitive != NULL);
 
 	class->set_sensitive (editor);
@@ -663,6 +664,7 @@ e_rule_editor_set_source (ERuleEditor *editor,
 	g_return_if_fail (E_IS_RULE_EDITOR (editor));
 
 	class = E_RULE_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_source != NULL);
 
 	class->set_source (editor, source);
@@ -676,6 +678,7 @@ e_rule_editor_create_rule (ERuleEditor *editor)
 	g_return_val_if_fail (E_IS_RULE_EDITOR (editor), NULL);
 
 	class = E_RULE_EDITOR_GET_CLASS (editor);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->create_rule != NULL, NULL);
 
 	return class->create_rule (editor);

@@ -3142,9 +3142,11 @@ static void
 attachment_save_extracted_cancelled_cb (AutoarExtractor *extractor,
                                         SaveContext *save_context)
 {
-	attachment_save_check_for_error (save_context,
-		g_error_new_literal (
-			G_IO_ERROR, G_IO_ERROR_CANCELLED, _("Operation was cancelled")));
+	if (attachment_save_check_for_error (save_context,
+		g_error_new_literal (G_IO_ERROR, G_IO_ERROR_CANCELLED, _("Operation was cancelled")))) {
+		;
+	}
+
 	g_object_unref (extractor);
 }
 
@@ -3161,7 +3163,10 @@ attachment_save_extracted_error_cb (AutoarExtractor *extractor,
                                     GError *error,
                                     SaveContext *save_context)
 {
-	attachment_save_check_for_error (save_context, g_error_copy (error));
+	if (attachment_save_check_for_error (save_context, g_error_copy (error))) {
+		;
+	}
+
 	g_object_unref (extractor);
 }
 

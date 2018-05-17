@@ -235,6 +235,7 @@ e_filter_element_validate (EFilterElement *element,
 	g_return_val_if_fail (E_IS_FILTER_ELEMENT (element), FALSE);
 
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->validate != NULL, FALSE);
 
 	return class->validate (element, alert);
@@ -254,6 +255,7 @@ e_filter_element_eq (EFilterElement *element_a,
 		return FALSE;
 
 	class = E_FILTER_ELEMENT_GET_CLASS (element_a);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->eq != NULL, FALSE);
 
 	return class->eq (element_a, element_b);
@@ -277,6 +279,7 @@ e_filter_element_xml_create (EFilterElement *element,
 	g_return_if_fail (node != NULL);
 
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->xml_create != NULL);
 
 	class->xml_create (element, node);
@@ -298,6 +301,7 @@ e_filter_element_xml_encode (EFilterElement *element)
 	g_return_val_if_fail (E_IS_FILTER_ELEMENT (element), NULL);
 
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->xml_encode != NULL, NULL);
 
 	return class->xml_encode (element);
@@ -322,6 +326,7 @@ e_filter_element_xml_decode (EFilterElement *element,
 	g_return_val_if_fail (node != NULL, FALSE);
 
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->xml_decode != NULL, FALSE);
 
 	return class->xml_decode (element, node);
@@ -343,6 +348,7 @@ e_filter_element_clone (EFilterElement *element)
 	g_return_val_if_fail (E_IS_FILTER_ELEMENT (element), NULL);
 
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->clone != NULL, NULL);
 
 	return class->clone (element);
@@ -365,6 +371,7 @@ e_filter_element_get_widget (EFilterElement *element)
 	g_return_val_if_fail (E_IS_FILTER_ELEMENT (element), NULL);
 
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->get_widget != NULL, NULL);
 
 	return class->get_widget (element);
@@ -390,6 +397,7 @@ e_filter_element_build_code (EFilterElement *element,
 	g_return_if_fail (E_IS_FILTER_PART (part));
 
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
+	g_return_if_fail (class != NULL);
 
 	/* This method is optional. */
 	if (class->build_code != NULL)
@@ -414,6 +422,7 @@ e_filter_element_format_sexp (EFilterElement *element,
 	g_return_if_fail (out != NULL);
 
 	class = E_FILTER_ELEMENT_GET_CLASS (element);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->format_sexp != NULL);
 
 	class->format_sexp (element, out);
@@ -439,6 +448,7 @@ e_filter_element_copy_value (EFilterElement *dst_element,
 	g_return_if_fail (E_IS_FILTER_ELEMENT (src_element));
 
 	class = E_FILTER_ELEMENT_GET_CLASS (dst_element);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->copy_value != NULL);
 
 	class->copy_value (dst_element, src_element);

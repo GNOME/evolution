@@ -88,6 +88,7 @@ e_source_config_backend_allow_creation (ESourceConfigBackend *backend)
 	g_return_val_if_fail (E_IS_SOURCE_CONFIG_BACKEND (backend), FALSE);
 
 	class = E_SOURCE_CONFIG_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->allow_creation != NULL, FALSE);
 
 	return class->allow_creation (backend);
@@ -103,6 +104,7 @@ e_source_config_backend_insert_widgets (ESourceConfigBackend *backend,
 	g_return_if_fail (E_IS_SOURCE (scratch_source));
 
 	class = E_SOURCE_CONFIG_BACKEND_GET_CLASS (backend);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->insert_widgets != NULL);
 
 	class->insert_widgets (backend, scratch_source);
@@ -118,6 +120,7 @@ e_source_config_backend_check_complete (ESourceConfigBackend *backend,
 	g_return_val_if_fail (E_IS_SOURCE (scratch_source), FALSE);
 
 	class = E_SOURCE_CONFIG_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->check_complete != NULL, FALSE);
 
 	return class->check_complete (backend, scratch_source);
@@ -133,6 +136,7 @@ e_source_config_backend_commit_changes (ESourceConfigBackend *backend,
 	g_return_if_fail (E_IS_SOURCE (scratch_source));
 
 	class = E_SOURCE_CONFIG_BACKEND_GET_CLASS (backend);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->commit_changes != NULL);
 
 	class->commit_changes (backend, scratch_source);

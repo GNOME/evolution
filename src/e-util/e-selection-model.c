@@ -248,6 +248,7 @@ e_selection_model_is_row_selected (ESelectionModel *model,
 	g_return_val_if_fail (E_IS_SELECTION_MODEL (model), FALSE);
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->is_row_selected != NULL, FALSE);
 
 	return class->is_row_selected (model, n);
@@ -273,6 +274,7 @@ e_selection_model_foreach (ESelectionModel *model,
 	g_return_if_fail (callback != NULL);
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->foreach != NULL);
 
 	class->foreach (model, callback, closure);
@@ -292,6 +294,7 @@ e_selection_model_clear (ESelectionModel *model)
 	g_return_if_fail (E_IS_SELECTION_MODEL (model));
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->clear != NULL);
 
 	class->clear (model);
@@ -313,6 +316,7 @@ e_selection_model_selected_count (ESelectionModel *model)
 	g_return_val_if_fail (E_IS_SELECTION_MODEL (model), 0);
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, 0);
 	g_return_val_if_fail (class->selected_count != NULL, 0);
 
 	return class->selected_count (model);
@@ -333,6 +337,7 @@ e_selection_model_select_all (ESelectionModel *model)
 	g_return_if_fail (E_IS_SELECTION_MODEL (model));
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->select_all != NULL);
 
 	class->select_all (model);
@@ -346,6 +351,7 @@ e_selection_model_row_count (ESelectionModel *model)
 	g_return_val_if_fail (E_IS_SELECTION_MODEL (model), 0);
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, 0);
 	g_return_val_if_fail (class->row_count != NULL, 0);
 
 	return class->row_count (model);
@@ -361,6 +367,7 @@ e_selection_model_change_one_row (ESelectionModel *model,
 	g_return_if_fail (E_IS_SELECTION_MODEL (model));
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->change_one_row != NULL);
 
 	return class->change_one_row (model, row, grow);
@@ -376,6 +383,7 @@ e_selection_model_change_cursor (ESelectionModel *model,
 	g_return_if_fail (E_IS_SELECTION_MODEL (model));
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->change_cursor != NULL);
 
 	class->change_cursor (model, row, col);
@@ -389,6 +397,7 @@ e_selection_model_cursor_row (ESelectionModel *model)
 	g_return_val_if_fail (E_IS_SELECTION_MODEL (model), -1);
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, -1);
 	g_return_val_if_fail (class->cursor_row != NULL, -1);
 
 	return class->cursor_row (model);
@@ -402,6 +411,7 @@ e_selection_model_cursor_col (ESelectionModel *model)
 	g_return_val_if_fail (E_IS_SELECTION_MODEL (model), -1);
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, -1);
 	g_return_val_if_fail (class->cursor_col != NULL, -1);
 
 	return class->cursor_col (model);
@@ -416,6 +426,7 @@ e_selection_model_select_single_row (ESelectionModel *model,
 	g_return_if_fail (E_IS_SELECTION_MODEL (model));
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->select_single_row != NULL);
 
 	class->select_single_row (model, row);
@@ -430,6 +441,7 @@ e_selection_model_toggle_single_row (ESelectionModel *model,
 	g_return_if_fail (E_IS_SELECTION_MODEL (model));
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->toggle_single_row != NULL);
 
 	class->toggle_single_row (model, row);
@@ -444,6 +456,7 @@ e_selection_model_move_selection_end (ESelectionModel *model,
 	g_return_if_fail (E_IS_SELECTION_MODEL (model));
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->move_selection_end != NULL);
 
 	class->move_selection_end (model, row);
@@ -458,6 +471,7 @@ e_selection_model_set_selection_end (ESelectionModel *model,
 	g_return_if_fail (E_IS_SELECTION_MODEL (model));
 
 	class = E_SELECTION_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_selection_end != NULL);
 
 	class->set_selection_end (model, row);

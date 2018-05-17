@@ -1265,7 +1265,7 @@ action_mail_label_new_cb (GtkAction *action,
 	 *     probably needs some rethinking. */
 	model = GTK_TREE_MODEL (label_store);
 	n_children = gtk_tree_model_iter_n_children (model, NULL);
-	gtk_tree_model_iter_nth_child (model, &iter, NULL, n_children - 1);
+	g_warn_if_fail (gtk_tree_model_iter_nth_child (model, &iter, NULL, n_children - 1));
 	label_tag = e_mail_label_list_store_get_tag (label_store, &iter);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;

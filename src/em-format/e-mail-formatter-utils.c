@@ -297,21 +297,21 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		struct _camel_header_address *addrs;
 		GString *html;
 		gchar *img;
-		gchar *charset;
+		gchar *fmt_charset;
 
-		charset = e_mail_formatter_dup_charset (formatter);
-		if (charset == NULL)
-			charset = e_mail_formatter_dup_default_charset (formatter);
+		fmt_charset = e_mail_formatter_dup_charset (formatter);
+		if (fmt_charset == NULL)
+			fmt_charset = e_mail_formatter_dup_default_charset (formatter);
 
 		buf = camel_header_unfold (header_value);
-		addrs = camel_header_address_decode (buf, charset);
+		addrs = camel_header_address_decode (buf, fmt_charset);
 		if (addrs == NULL) {
-			g_free (charset);
+			g_free (fmt_charset);
 			g_free (buf);
 			return;
 		}
 
-		g_free (charset);
+		g_free (fmt_charset);
 		g_free (buf);
 
 		html = g_string_new ("");

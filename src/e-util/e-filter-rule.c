@@ -547,6 +547,7 @@ e_filter_rule_get_widget (EFilterRule *rule,
 	g_return_val_if_fail (E_IS_RULE_CONTEXT (context), NULL);
 
 	class = E_FILTER_RULE_GET_CLASS (rule);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->get_widget != NULL, NULL);
 
 	return class->get_widget (rule, context);
@@ -1277,6 +1278,7 @@ e_filter_rule_validate (EFilterRule *rule,
 	g_return_val_if_fail (E_IS_FILTER_RULE (rule), FALSE);
 
 	class = E_FILTER_RULE_GET_CLASS (rule);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->validate != NULL, FALSE);
 
 	return class->validate (rule, alert);
@@ -1292,6 +1294,7 @@ e_filter_rule_eq (EFilterRule *rule_a,
 	g_return_val_if_fail (E_IS_FILTER_RULE (rule_b), FALSE);
 
 	class = E_FILTER_RULE_GET_CLASS (rule_a);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->eq != NULL, FALSE);
 
 	if (G_OBJECT_TYPE (rule_a) != G_OBJECT_TYPE (rule_b))
@@ -1308,6 +1311,7 @@ e_filter_rule_xml_encode (EFilterRule *rule)
 	g_return_val_if_fail (E_IS_FILTER_RULE (rule), NULL);
 
 	class = E_FILTER_RULE_GET_CLASS (rule);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->xml_encode != NULL, NULL);
 
 	return class->xml_encode (rule);
@@ -1326,6 +1330,7 @@ e_filter_rule_xml_decode (EFilterRule *rule,
 	g_return_val_if_fail (E_IS_RULE_CONTEXT (context), FALSE);
 
 	class = E_FILTER_RULE_GET_CLASS (rule);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->xml_decode != NULL, FALSE);
 
 	rule->priv->frozen++;
@@ -1347,6 +1352,7 @@ e_filter_rule_copy (EFilterRule *dst_rule,
 	g_return_if_fail (E_IS_FILTER_RULE (src_rule));
 
 	class = E_FILTER_RULE_GET_CLASS (dst_rule);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->copy != NULL);
 
 	class->copy (dst_rule, src_rule);
@@ -1408,6 +1414,7 @@ e_filter_rule_build_code (EFilterRule *rule,
 	g_return_if_fail (out != NULL);
 
 	class = E_FILTER_RULE_GET_CLASS (rule);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->build_code != NULL);
 
 	class->build_code (rule, out);

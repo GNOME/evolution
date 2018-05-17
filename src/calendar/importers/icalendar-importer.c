@@ -428,6 +428,8 @@ ivcal_import_items (gpointer d)
 {
 	ICalImporter *ici = d;
 
+	ici->idle_id = 0;
+
 	switch (ici->source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		prepare_events (ici->icalcomp, NULL);
@@ -440,12 +442,9 @@ ivcal_import_items (gpointer d)
 	default:
 		g_warn_if_reached ();
 
-		ici->idle_id = 0;
 		ivcal_import_done (ici, NULL);
 		return FALSE;
 	}
-
-	ici->idle_id = 0;
 
 	return FALSE;
 }
@@ -1230,7 +1229,7 @@ preview_comp (EWebViewPreview *preview,
 
 	have = FALSE;
 	if (e_cal_component_has_recurrences (comp)) {
-		e_web_view_preview_add_section (preview, have ? NULL : str, C_("iCalImp", "has recurrences"));
+		e_web_view_preview_add_section (preview, /*have ? NULL :*/ str, C_("iCalImp", "has recurrences"));
 		have = TRUE;
 	}
 

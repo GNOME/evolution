@@ -119,6 +119,8 @@ mail_config_service_page_new_candidate (EMailConfigServicePage *page,
 
 	/* Get the backend name for this scratch source. */
 	class = E_MAIL_CONFIG_SERVICE_PAGE_GET_CLASS (page);
+	g_return_val_if_fail (class != NULL, NULL);
+
 	extension_name = class->extension_name;
 	extension = e_source_get_extension (scratch_source, extension_name);
 	backend_name = e_source_backend_get_backend_name (extension);
@@ -610,6 +612,8 @@ mail_config_service_page_setup_defaults (EMailConfigPage *page)
 	guint ii;
 
 	class = E_MAIL_CONFIG_SERVICE_PAGE_GET_CLASS (page);
+	g_return_if_fail (class != NULL);
+
 	priv = E_MAIL_CONFIG_SERVICE_PAGE_GET_PRIVATE (page);
 
 	for (ii = 0; ii < priv->candidates->len; ii++) {

@@ -120,6 +120,7 @@ mail_formatter_create_context (EMailFormatter *formatter,
 	EMailFormatterContext *context;
 
 	class = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	g_warn_if_fail (class->context_size >= sizeof (EMailFormatterContext));
 
@@ -856,6 +857,7 @@ e_mail_formatter_format_sync (EMailFormatter *formatter,
 	g_return_if_fail (G_IS_OUTPUT_STREAM (stream));
 
 	class = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->run != NULL);
 
 	context = mail_formatter_create_context (
@@ -903,6 +905,7 @@ e_mail_formatter_format (EMailFormatter *formatter,
 	g_return_if_fail (G_IS_OUTPUT_STREAM (stream));
 
 	class = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->run != NULL);
 
 	async_context = g_slice_new0 (AsyncContext);
@@ -1164,30 +1167,42 @@ e_mail_formatter_get_html_header (EMailFormatter *formatter)
 EMailExtensionRegistry *
 e_mail_formatter_get_extension_registry (EMailFormatter *formatter)
 {
-	EMailFormatterClass * class;
+	EMailFormatterClass *klass;
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
 
-	class = E_MAIL_FORMATTER_GET_CLASS (formatter);
-	return E_MAIL_EXTENSION_REGISTRY (class->extension_registry);
+	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_val_if_fail (klass != NULL, NULL);
+
+	return E_MAIL_EXTENSION_REGISTRY (klass->extension_registry);
 }
 
 CamelMimeFilterToHTMLFlags
 e_mail_formatter_get_text_format_flags (EMailFormatter *formatter)
 {
+	EMailFormatterClass *klass;
+
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), 0);
 
-	return E_MAIL_FORMATTER_GET_CLASS (formatter)->text_html_flags;
+	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_val_if_fail (klass != NULL, 0);
+
+	return klass->text_html_flags;
 }
 
 const GdkRGBA *
 e_mail_formatter_get_color (EMailFormatter *formatter,
                             EMailFormatterColor type)
 {
+	EMailFormatterClass *klass;
+
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), NULL);
 	g_return_val_if_fail (type < E_MAIL_FORMATTER_NUM_COLOR_TYPES, NULL);
 
-	return &E_MAIL_FORMATTER_GET_CLASS (formatter)->colors[type];
+	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_val_if_fail (klass != NULL, NULL);
+
+	return &(klass->colors[type]);
 }
 
 void
@@ -1195,6 +1210,7 @@ e_mail_formatter_set_color (EMailFormatter *formatter,
                             EMailFormatterColor type,
                             const GdkRGBA *color)
 {
+	EMailFormatterClass *klass;
 	GdkRGBA *format_color;
 	const gchar *property_name;
 
@@ -1202,7 +1218,10 @@ e_mail_formatter_set_color (EMailFormatter *formatter,
 	g_return_if_fail (type < E_MAIL_FORMATTER_NUM_COLOR_TYPES);
 	g_return_if_fail (color != NULL);
 
-	format_color = &E_MAIL_FORMATTER_GET_CLASS (formatter)->colors[type];
+	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_if_fail (klass != NULL);
+
+	format_color = &(klass->colors[type]);
 
 	if (gdk_rgba_equal (color, format_color))
 		return;
@@ -1246,6 +1265,7 @@ e_mail_formatter_update_style (EMailFormatter *formatter,
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
 	class = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->update_style != NULL);
 
 	class->update_style (formatter, state);
@@ -1276,11 +1296,15 @@ e_mail_formatter_set_image_loading_policy (EMailFormatter *formatter,
 gboolean
 e_mail_formatter_get_mark_citations (EMailFormatter *formatter)
 {
+	EMailFormatterClass *klass;
 	guint32 flags;
 
 	g_return_val_if_fail (E_IS_MAIL_FORMATTER (formatter), FALSE);
 
-	flags = E_MAIL_FORMATTER_GET_CLASS (formatter)->text_html_flags;
+	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_val_if_fail (klass != NULL, FALSE);
+
+	flags = klass->text_html_flags;
 
 	return ((flags & CAMEL_MIME_FILTER_TOHTML_MARK_CITATION) != 0);
 }
@@ -1289,14 +1313,17 @@ void
 e_mail_formatter_set_mark_citations (EMailFormatter *formatter,
                                      gboolean mark_citations)
 {
+	EMailFormatterClass *klass;
+
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 
+	klass = E_MAIL_FORMATTER_GET_CLASS (formatter);
+	g_return_if_fail (klass != NULL);
+
 	if (mark_citations)
-		E_MAIL_FORMATTER_GET_CLASS (formatter)->text_html_flags |=
-			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+		klass->text_html_flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 	else
-		E_MAIL_FORMATTER_GET_CLASS (formatter)->text_html_flags &=
-			~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+		klass->text_html_flags &= ~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 
 	g_object_notify (G_OBJECT (formatter), "mark-citations");
 }

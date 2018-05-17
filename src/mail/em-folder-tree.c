@@ -1748,9 +1748,9 @@ em_folder_tree_set_selectable_widget (EMFolderTree *folder_tree,
 
 static void
 folder_tree_selectable_update_actions (ESelectable *selectable,
-                                        EFocusTracker *focus_tracker,
-                                        GdkAtom *clipboard_targets,
-                                        gint n_clipboard_targets)
+				       EFocusTracker *focus_tracker,
+				       GdkAtom *clipboard_targets,
+				       gint n_clipboard_targets)
 {
 	EMFolderTree *folder_tree;
 
@@ -1759,14 +1759,15 @@ folder_tree_selectable_update_actions (ESelectable *selectable,
 
 	if (folder_tree->priv->selectable != NULL) {
 		ESelectableInterface *iface;
-		ESelectable *selectable;
+		ESelectable *inner_selectable;
 
-		selectable = E_SELECTABLE (folder_tree->priv->selectable);
-		iface = E_SELECTABLE_GET_INTERFACE (selectable);
+		inner_selectable = E_SELECTABLE (folder_tree->priv->selectable);
+		iface = E_SELECTABLE_GET_INTERFACE (inner_selectable);
+		g_return_if_fail (iface != NULL);
 		g_return_if_fail (iface->update_actions != NULL);
 
 		iface->update_actions (
-			selectable, focus_tracker,
+			inner_selectable, focus_tracker,
 			clipboard_targets, n_clipboard_targets);
 	}
 }
@@ -3308,8 +3309,8 @@ folder_tree_descend (GtkTreeModel *model,
 		if (n_children == 0)
 			return gtk_tree_model_get_iter_first (model, iter);
 
-		gtk_tree_model_iter_nth_child (
-			model, &parent, NULL, n_children - 1);
+		if (!gtk_tree_model_iter_nth_child (model, &parent, NULL, n_children - 1))
+			return FALSE;
 	} else
 		parent = *root;
 
@@ -3318,8 +3319,8 @@ folder_tree_descend (GtkTreeModel *model,
 	while (n_children > 0) {
 		GtkTreeIter child;
 
-		gtk_tree_model_iter_nth_child (
-			model, &child, &parent, n_children - 1);
+		if (!gtk_tree_model_iter_nth_child (model, &child, &parent, n_children - 1))
+			break;
 
 		parent = child;
 

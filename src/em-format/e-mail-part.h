@@ -68,18 +68,18 @@ struct _EMailPart {
 	 * This is used for example to prevent images
 	 * related to text/html parts from being
 	 * rendered as attachments. */
-	gint is_hidden: 1;
+	guint is_hidden: 1;
 
 	/* Force attachment to be expanded, even without
 	 * content-disposition: inline */
-	gint force_inline: 1;
+	guint force_inline: 1;
 
 	/* Force attachment to be collapsed, even with
 	 * content-disposition: inline */
-	gint force_collapse: 1;
+	guint force_collapse: 1;
 
 	/* Does part contain an error message? */
-	gint is_error: 1;
+	guint is_error: 1;
 };
 
 struct _EMailPartClass {

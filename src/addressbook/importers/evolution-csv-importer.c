@@ -430,10 +430,10 @@ parseLine (CSVImporter *gci,
 	home_street = g_string_new ("");
 	work_street = g_string_new ("");
 	other_street = g_string_new ("");
-	home_address = g_new0 (EContactAddress, 1);
-	work_address = g_new0 (EContactAddress, 1);
-	other_address = g_new0 (EContactAddress, 1);
-	bday = g_new0 (EContactDate, 1);
+	home_address = e_contact_address_new ();
+	work_address = e_contact_address_new ();
+	other_address = e_contact_address_new ();
+	bday = e_contact_date_new ();
 
 	if (!g_utf8_validate (pptr, -1, NULL)) {
 		do_free = g_convert (pptr, -1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
@@ -627,6 +627,10 @@ parseLine (CSVImporter *gci,
 			e_contact_set (contact, E_CONTACT_BIRTH_DATE, bday);
 	}
 
+	e_contact_address_free (home_address);
+	e_contact_address_free (work_address);
+	e_contact_address_free (other_address);
+	e_contact_date_free (bday);
 	g_free (do_free);
 
 	return TRUE;

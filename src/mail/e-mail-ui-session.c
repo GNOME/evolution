@@ -1159,8 +1159,7 @@ e_mail_ui_session_check_known_address_sync (EMailUISession *session,
 
 	g_return_val_if_fail (E_IS_MAIL_UI_SESSION (session), FALSE);
 	g_return_val_if_fail (CAMEL_IS_INTERNET_ADDRESS (addr), FALSE);
-
-	camel_internet_address_get (addr, 0, NULL, &email_address);
+	g_return_val_if_fail (camel_internet_address_get (addr, 0, NULL, &email_address), FALSE);
 	g_return_val_if_fail (email_address != NULL, FALSE);
 
 	g_mutex_lock (&session->priv->address_cache_mutex);

@@ -535,15 +535,12 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 	status = camel_service_get_connection_status (context->transport);
 	if (status != CAMEL_SERVICE_CONNECTED) {
-		EMailSession *session;
 		ESourceRegistry *registry;
 		ESource *source;
 
 		/* Make sure user will be asked for a password, in case he/she cancelled it */
-		session = E_MAIL_SESSION (camel_service_ref_session (context->transport));
 		registry = e_mail_session_get_registry (session);
 		source = e_source_registry_ref_source (registry, camel_service_get_uid (context->transport));
-		g_object_unref (session);
 
 		if (source) {
 			e_mail_session_emit_allow_auth_prompt (session, source);

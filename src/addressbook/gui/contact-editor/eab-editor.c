@@ -245,6 +245,7 @@ eab_editor_show (EABEditor *editor)
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
 	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->show != NULL);
 
 	class->show (editor);
@@ -258,6 +259,7 @@ eab_editor_close (EABEditor *editor)
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
 	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->close != NULL);
 
 	class->close (editor);
@@ -271,6 +273,7 @@ eab_editor_raise (EABEditor *editor)
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
 	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->raise != NULL);
 
 	class->raise (editor);
@@ -285,6 +288,7 @@ eab_editor_save_contact (EABEditor *editor,
 	g_return_if_fail (EAB_IS_EDITOR (editor));
 
 	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->save_contact != NULL);
 
 	class->save_contact (editor, should_close);
@@ -298,6 +302,7 @@ eab_editor_is_changed (EABEditor *editor)
 	g_return_val_if_fail (EAB_IS_EDITOR (editor), FALSE);
 
 	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->is_changed != NULL, FALSE);
 
 	return class->is_changed (editor);
@@ -311,6 +316,7 @@ eab_editor_is_valid (EABEditor *editor)
 	g_return_val_if_fail (EAB_IS_EDITOR (editor), FALSE);
 
 	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->is_valid != NULL, FALSE);
 
 	return class->is_valid (editor);
@@ -324,6 +330,7 @@ eab_editor_get_window (EABEditor *editor)
 	g_return_val_if_fail (EAB_IS_EDITOR (editor), NULL);
 
 	class = EAB_EDITOR_GET_CLASS (editor);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->get_window != NULL, NULL);
 
 	return class->get_window (editor);

@@ -551,12 +551,14 @@ e_mail_parser_get_parsers (EMailParser *parser,
 
 	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), NULL);
 
+	parser_class = E_MAIL_PARSER_GET_CLASS (parser);
+	g_return_val_if_fail (parser_class != NULL, NULL);
+
 	if (mime_type)
 		as_mime_type = g_ascii_strdown (mime_type, -1);
 	else
 		as_mime_type = NULL;
 
-	parser_class = E_MAIL_PARSER_GET_CLASS (parser);
 	reg = E_MAIL_EXTENSION_REGISTRY (parser_class->extension_registry);
 
 	parsers = e_mail_extension_registry_get_for_mime_type (reg, as_mime_type);
@@ -860,5 +862,7 @@ e_mail_parser_get_extension_registry (EMailParser *parser)
 	g_return_val_if_fail (E_IS_MAIL_PARSER (parser), NULL);
 
 	parser_class = E_MAIL_PARSER_GET_CLASS (parser);
+	g_return_val_if_fail (parser_class != NULL, NULL);
+
 	return E_MAIL_EXTENSION_REGISTRY (parser_class->extension_registry);
 }

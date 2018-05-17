@@ -1304,6 +1304,7 @@ e_shell_window_get_shell_view (EShellWindow *shell_window,
 		return shell_view;
 
 	class = E_SHELL_WINDOW_GET_CLASS (shell_window);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->create_shell_view != NULL, NULL);
 
 	shell_view = class->create_shell_view (shell_window, view_name);

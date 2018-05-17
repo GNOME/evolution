@@ -3226,8 +3226,8 @@ em_utils_get_reply_all (ESourceRegistry *registry,
 	/* Promote the first Cc: address to To: if To: is empty. */
 	if (camel_address_length ((CamelAddress *) to) == 0 &&
 	    camel_address_length ((CamelAddress *) cc) > 0) {
-		camel_internet_address_get (cc, 0, &name, &addr);
-		camel_internet_address_add (to, name, addr);
+		if (camel_internet_address_get (cc, 0, &name, &addr))
+			camel_internet_address_add (to, name, addr);
 		camel_address_remove ((CamelAddress *) cc, 0);
 	}
 
@@ -3274,21 +3274,23 @@ format_sender (GString *str,
 
 	sender = camel_mime_message_get_from (message);
 	if (sender != NULL && camel_address_length (CAMEL_ADDRESS (sender)) > 0) {
-		camel_internet_address_get (sender, 0, &name, &addr);
+		name = NULL;
 
-		if (name && !*name) {
-			name = NULL;
-		} else if (name && *name == '\"') {
-			gint len = strlen (name);
-
-			if (len == 1) {
+		if (camel_internet_address_get (sender, 0, &name, &addr)) {
+			if (name && !*name) {
 				name = NULL;
-			} else if (len > 1 && name[len - 1] == '\"') {
-				if (len == 2) {
+			} else if (name && *name == '\"') {
+				gint len = strlen (name);
+
+				if (len == 1) {
 					name = NULL;
-				} else {
-					tmp = g_strndup (name + 1, len - 2);
-					name = tmp;
+				} else if (len > 1 && name[len - 1] == '\"') {
+					if (len == 2) {
+						name = NULL;
+					} else {
+						tmp = g_strndup (name + 1, len - 2);
+						name = tmp;
+					}
 				}
 			}
 		}

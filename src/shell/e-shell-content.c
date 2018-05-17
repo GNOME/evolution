@@ -541,6 +541,7 @@ e_shell_content_check_state (EShellContent *shell_content)
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), 0);
 
 	shell_content_class = E_SHELL_CONTENT_GET_CLASS (shell_content);
+	g_return_val_if_fail (shell_content_class != NULL, 0);
 	g_return_val_if_fail (shell_content_class->check_state != NULL, 0);
 
 	return shell_content_class->check_state (shell_content);
@@ -564,6 +565,7 @@ e_shell_content_focus_search_results (EShellContent *shell_content)
 	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
 
 	shell_content_class = E_SHELL_CONTENT_GET_CLASS (shell_content);
+	g_return_if_fail (shell_content_class != NULL);
 
 	if (shell_content_class->focus_search_results != NULL)
 		shell_content_class->focus_search_results (shell_content);

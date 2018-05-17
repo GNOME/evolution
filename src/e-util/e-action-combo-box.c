@@ -44,7 +44,7 @@ struct _EActionComboBoxPrivate {
 	guint changed_handler_id;		/* action::changed */
 	guint group_sensitive_handler_id;	/* action-group::sensitive */
 	guint group_visible_handler_id;		/* action-group::visible */
-	gboolean group_has_icons : 1;
+	gboolean group_has_icons;
 };
 
 G_DEFINE_TYPE (
