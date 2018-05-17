@@ -1194,7 +1194,7 @@ e_attachment_view_remove_selected (EAttachmentView *view,
 	}
 
 	/* If we only removed one attachment, try to select another. */
-	if (select_next && g_list_length (list) == 1) {
+	if (select_next && list && list->data && !list->next) {
 		GtkTreePath *path = list->data;
 
 		e_attachment_view_select_path (view, path);
@@ -1308,10 +1308,10 @@ e_attachment_view_button_release_event (EAttachmentView *view,
 	priv = e_attachment_view_get_private (view);
 
 	for (iter = priv->event_list; iter != NULL; iter = iter->next) {
-		GdkEvent *event = iter->data;
+		GdkEvent *an_event = iter->data;
 
-		gtk_propagate_event (widget, event);
-		gdk_event_free (event);
+		gtk_propagate_event (widget, an_event);
+		gdk_event_free (an_event);
 	}
 
 	g_list_free (priv->event_list);

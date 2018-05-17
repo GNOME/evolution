@@ -2346,6 +2346,7 @@ e_source_selector_select_source (ESourceSelector *selector,
 	g_return_if_fail (gtk_tree_row_reference_valid (reference));
 
 	class = E_SOURCE_SELECTOR_GET_CLASS (selector);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_source_selected != NULL);
 
 	if (class->set_source_selected (selector, source, TRUE)) {
@@ -2383,6 +2384,7 @@ e_source_selector_unselect_source (ESourceSelector *selector,
 	g_return_if_fail (gtk_tree_row_reference_valid (reference));
 
 	class = E_SOURCE_SELECTOR_GET_CLASS (selector);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_source_selected != NULL);
 
 	if (class->set_source_selected (selector, source, FALSE)) {
@@ -2414,6 +2416,7 @@ e_source_selector_select_exclusive (ESourceSelector *selector,
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	class = E_SOURCE_SELECTOR_GET_CLASS (selector);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_source_selected != NULL);
 
 	source_index = selector->priv->source_index;
@@ -2454,6 +2457,7 @@ e_source_selector_select_all (ESourceSelector *selector)
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 
 	class = E_SOURCE_SELECTOR_GET_CLASS (selector);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_source_selected != NULL);
 
 	source_index = selector->priv->source_index;
@@ -2501,6 +2505,7 @@ e_source_selector_source_is_selected (ESourceSelector *selector,
 	g_return_val_if_fail (gtk_tree_row_reference_valid (reference), FALSE);
 
 	class = E_SOURCE_SELECTOR_GET_CLASS (selector);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->get_source_selected != NULL, FALSE);
 
 	return class->get_source_selected (selector, source);

@@ -638,7 +638,7 @@ check_if_same (EContact *contact,
 			} else { /* Do pairwise-comparisons on all of the e-mail addresses. */
 				iter1 = email_attr_list1;
 				while (iter1) {
-					gboolean         match = FALSE;
+					gboolean         matches = FALSE;
 					EVCardAttribute *attr;
 					gchar           *email_address1;
 
@@ -646,14 +646,14 @@ check_if_same (EContact *contact,
 					email_address1 = e_vcard_attribute_get_value (attr);
 
 					iter2 = email_attr_list2;
-					while ( iter2 && match == FALSE) {
+					while ( iter2 && matches == FALSE) {
 						gchar *email_address2;
 
 						attr = iter2->data;
 						email_address2 = e_vcard_attribute_get_value (attr);
 
 						if (g_ascii_strcasecmp (email_address1, email_address2) == 0) {
-							match = TRUE;
+							matches = TRUE;
 						}
 
 						g_free (email_address2);
@@ -663,7 +663,7 @@ check_if_same (EContact *contact,
 					g_free (email_address1);
 					iter1 = g_list_next (iter1);
 
-					if (match == FALSE) {
+					if (matches == FALSE) {
 						res = FALSE;
 						break;
 					}

@@ -576,6 +576,7 @@ web_view_mouse_target_changed_cb (EWebView *web_view,
 	 *     behavior from subclasses for special URI types. */
 
 	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->hovering_over_link != NULL);
 
 	class->hovering_over_link (web_view, title, uri);
@@ -652,6 +653,7 @@ web_view_decide_policy_cb (EWebView *web_view,
 	 *     behavior from subclasses for special URI types. */
 
 	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->link_clicked != NULL, FALSE);
 
 	webkit_policy_decision_ignore (decision);
@@ -2594,6 +2596,7 @@ e_web_view_load_string (EWebView *web_view,
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->load_string != NULL);
 
 	e_web_view_replace_load_cancellable (web_view, TRUE);
@@ -2610,6 +2613,7 @@ e_web_view_load_uri (EWebView *web_view,
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->load_uri != NULL);
 
 	e_web_view_replace_load_cancellable (web_view, TRUE);
@@ -2648,6 +2652,7 @@ e_web_view_suggest_filename (EWebView *web_view,
 	g_return_val_if_fail (uri != NULL, NULL);
 
 	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->suggest_filename != NULL, NULL);
 
 	filename = class->suggest_filename (web_view, uri);
@@ -3819,6 +3824,8 @@ e_web_view_update_fonts (EWebView *web_view)
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	class = E_WEB_VIEW_GET_CLASS (web_view);
+	g_return_if_fail (class != NULL);
+
 	if (class->set_fonts != NULL)
 		class->set_fonts (web_view, &ms, &vw);
 

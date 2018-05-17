@@ -54,6 +54,7 @@ mail_config_service_backend_init_collection (EMailConfigServiceBackend *backend)
 	g_return_if_fail (backend->priv->collection == NULL);
 
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->new_collection != NULL);
 
 	backend->priv->collection = class->new_collection (backend);
@@ -351,6 +352,7 @@ e_mail_config_service_backend_get_provider (EMailConfigServiceBackend *backend)
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend), NULL);
 
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->backend_name != NULL, NULL);
 
 	return camel_provider_get (class->backend_name, NULL);
@@ -445,6 +447,7 @@ e_mail_config_service_backend_get_selectable (EMailConfigServiceBackend *backend
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend), FALSE);
 
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->get_selectable != NULL, FALSE);
 
 	return class->get_selectable (backend);
@@ -460,6 +463,7 @@ e_mail_config_service_backend_insert_widgets (EMailConfigServiceBackend *backend
 	g_return_if_fail (GTK_IS_BOX (parent));
 
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->insert_widgets != NULL);
 
 	class->insert_widgets (backend, parent);
@@ -473,6 +477,7 @@ e_mail_config_service_backend_setup_defaults (EMailConfigServiceBackend *backend
 	g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend));
 
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->setup_defaults != NULL);
 
 	return class->setup_defaults (backend);
@@ -490,6 +495,7 @@ e_mail_config_service_backend_auto_configure (EMailConfigServiceBackend *backend
 	g_return_val_if_fail (E_IS_CONFIG_LOOKUP (config_lookup), FALSE);
 
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->auto_configure != NULL, FALSE);
 
 	return class->auto_configure (backend, config_lookup, out_priority, out_is_complete);
@@ -503,6 +509,7 @@ e_mail_config_service_backend_check_complete (EMailConfigServiceBackend *backend
 	g_return_val_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend), FALSE);
 
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->check_complete != NULL, FALSE);
 
 	return class->check_complete (backend);
@@ -516,6 +523,7 @@ e_mail_config_service_backend_commit_changes (EMailConfigServiceBackend *backend
 	g_return_if_fail (E_IS_MAIL_CONFIG_SERVICE_BACKEND (backend));
 
 	class = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->commit_changes != NULL);
 
 	class->commit_changes (backend);
@@ -560,6 +568,7 @@ e_mail_config_service_backend_auto_configure_for_kind (EMailConfigServiceBackend
 	g_return_val_if_fail (kind != E_CONFIG_LOOKUP_RESULT_UNKNOWN, FALSE);
 
 	klass = E_MAIL_CONFIG_SERVICE_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (klass != NULL, FALSE);
 	g_return_val_if_fail (klass->backend_name != NULL, FALSE);
 
 	if (!source)

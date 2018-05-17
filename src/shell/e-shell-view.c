@@ -153,6 +153,7 @@ static void
 shell_view_init_view_collection (EShellViewClass *class)
 {
 	EShellBackend *shell_backend;
+	EShellBackendClass *backend_class;
 	const gchar *base_directory;
 	const gchar *name;
 	gchar *system_directory;
@@ -160,7 +161,11 @@ shell_view_init_view_collection (EShellViewClass *class)
 
 	shell_backend = class->shell_backend;
 	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
-	name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
+
+	backend_class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	g_return_if_fail (backend_class != NULL);
+
+	name = backend_class->name;
 
 	base_directory = EVOLUTION_GALVIEWSDIR;
 	system_directory = g_build_filename (base_directory, name, NULL);
@@ -598,6 +603,7 @@ shell_view_constructed (GObject *object)
 
 	shell_view = E_SHELL_VIEW (object);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_if_fail (shell_view_class != NULL);
 
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -653,6 +659,8 @@ shell_view_construct_searchbar (EShellView *shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_val_if_fail (shell_view_class != NULL, NULL);
+
 	widget = shell_view_class->new_shell_searchbar (shell_view);
 	e_shell_content_set_searchbar (shell_content, widget);
 	gtk_widget_show (widget);
@@ -690,6 +698,8 @@ shell_view_toggled (EShellView *shell_view)
 	gboolean view_is_active;
 
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_if_fail (shell_view_class != NULL);
+
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	view_is_active = e_shell_view_is_active (shell_view);
@@ -1210,8 +1220,12 @@ e_shell_view_set_title (EShellView *shell_view,
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	if (title == NULL)
-		title = E_SHELL_VIEW_GET_CLASS (shell_view)->label;
+	if (!title) {
+		EShellViewClass *klass = E_SHELL_VIEW_GET_CLASS (shell_view);
+		g_return_if_fail (klass != NULL);
+
+		title = klass->label;
+	}
 
 	if (g_strcmp0 (shell_view->priv->title, title) == 0)
 		return;
@@ -1290,6 +1304,7 @@ e_shell_view_new_view_instance (EShellView *shell_view,
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	view_collection = class->view_collection;
 
@@ -1473,6 +1488,7 @@ e_shell_view_get_search_name (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->get_search_name != NULL, NULL);
 
 	return class->get_search_name (shell_view);
@@ -1605,6 +1621,7 @@ e_shell_view_get_shell_backend (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->shell_backend != NULL, NULL);
 
 	return class->shell_backend;

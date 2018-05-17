@@ -213,7 +213,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	const gchar *alarm_string;
 	const gchar *recur_string;
 	const gchar *meeting_string;
-	gchar *summary_string;
+	gchar *summary_string = NULL;
 	const gchar *summary;
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW_EVENT (accessible), NULL);
@@ -237,15 +237,13 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp))
 			meeting_string = _("It is a meeting.");
 
+		summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+		if (summary)
+			summary_string = g_strdup_printf (_("Calendar Event: Summary is %s."), summary);
 	}
 
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	if (summary)
-		summary_string = g_strdup_printf (
-			_("Calendar Event: Summary is %s."), summary);
-	else
-		summary_string = g_strdup (
-			_("Calendar Event: It has no summary."));
+	if (!summary_string)
+		summary_string = g_strdup (_("Calendar Event: It has no summary."));
 
 	name_string = g_strdup_printf (
 		"%s %s %s %s", summary_string,

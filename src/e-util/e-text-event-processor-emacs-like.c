@@ -116,15 +116,13 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 {
 	ETextEventProcessorCommand command;
 	ETextEventProcessorEmacsLike *tep_el = E_TEXT_EVENT_PROCESSOR_EMACS_LIKE (tep);
-	command.action = E_TEP_NOP;
+	ETextEventProcessorEventKey key;
 
-	/* Warning from the Intel compiler here:
-	 * e-text-event-processor-emacs-like.c(136): warning #589:
-	 *   transfer of control bypasses initialization of:
-	 *   variable "key" (declared at line 194)
-	 *  switch (event->type) {
-	 *  ^
-	 */
+	g_return_val_if_fail (event != NULL, 0);
+
+	command.action = E_TEP_NOP;
+	key = event->key;
+
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 1 || event->button.button == 2) {
@@ -189,8 +187,6 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 
 	case GDK_KEY_PRESS:
 		{
-			ETextEventProcessorEventKey key = event->key;
-
 			command.time = event->key.time;
 
 			if (key.state & GDK_SHIFT_MASK)

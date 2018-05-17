@@ -380,7 +380,10 @@ if(NOT HAVE_ICONV)
 endif(NOT HAVE_ICONV)
 
 set(CMAKE_REQUIRED_LIBRARIES ${ICONV_LIBS})
-CHECK_C_SOURCE_RUNS("#include \"${CMAKE_SOURCE_DIR}/iconv-detect.c\"" _correct_iconv)
+file(TO_NATIVE_PATH "${CMAKE_BINARY_DIR}/" _binary_dir_with_separator)
+CHECK_C_SOURCE_RUNS("#define ICONV_DETECT_BUILD_DIR \"${_binary_dir_with_separator}\"
+		     #include \"${CMAKE_SOURCE_DIR}/iconv-detect.c\"" _correct_iconv)
+unset(_binary_dir_with_separator)
 unset(CMAKE_REQUIRED_LIBRARIES)
 
 if(NOT _correct_iconv)

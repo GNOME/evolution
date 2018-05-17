@@ -1109,7 +1109,7 @@ insert_to_checked_msgids (GHashTable *checked_msgids,
 
 static gboolean
 mark_ignore_thread_traverse_uids (CamelFolder *folder,
-				  const gchar *uid,
+				  const gchar *in_uid,
 				  GHashTable *checked_uids,
 				  GHashTable *checked_msgids,
 				  gboolean whole_thread,
@@ -1126,10 +1126,10 @@ mark_ignore_thread_traverse_uids (CamelFolder *folder,
 	if (!success)
 		return success;
 
-	if (g_hash_table_contains (checked_uids, uid))
+	if (g_hash_table_contains (checked_uids, in_uid))
 		return success;
 
-	to_check = g_slist_prepend (NULL, (gpointer) camel_pstring_strdup (uid));
+	to_check = g_slist_prepend (NULL, (gpointer) camel_pstring_strdup (in_uid));
 
 	while (to_check != NULL && !g_cancellable_set_error_if_cancelled (cancellable, error)) {
 		CamelMessageInfo *mi;

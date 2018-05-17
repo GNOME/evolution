@@ -517,7 +517,7 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 	y = 2 * mts->row_height - scroll_y - 1;
 
 	/* Get the first visible busy periods for all the attendees. */
-	first_periods = g_new (gint, e_meeting_store_count_actual_attendees (mts->model));
+	first_periods = g_new0 (gint, e_meeting_store_count_actual_attendees (mts->model) + 1);
 	for (row = 0; row < e_meeting_store_count_actual_attendees (mts->model); row++)
 		first_periods[row] = e_meeting_time_selector_item_find_first_busy_period (mts_item, date, row);
 

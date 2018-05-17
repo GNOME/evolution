@@ -324,14 +324,14 @@ action_interface_do_action (AtkAction *action,
 		break;
 	case 1:
 		/* New All Day Event */
-		e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+		g_warn_if_fail (e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend));
 		e_cal_ops_new_component_editor_from_model (
 			e_calendar_view_get_model (cal_view), NULL,
 			dtstart, dtend, FALSE, TRUE);
 		break;
 	case 2:
 		/* New Meeting */
-		e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
+		g_warn_if_fail (e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend));
 		e_cal_ops_new_component_editor_from_model (
 			e_calendar_view_get_model (cal_view), NULL,
 			dtstart, dtend, TRUE, FALSE);

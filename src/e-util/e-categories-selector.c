@@ -527,7 +527,7 @@ e_categories_selector_delete_selection (ECategoriesSelector *selector)
 	selector->priv->ignore_category_changes = FALSE;
 
 	/* If we only remove one category, try to select another */
-	if (g_list_length (selected) == 1) {
+	if (selected && selected->data && !selected->next) {
 		GtkTreePath *path = selected->data;
 
 		gtk_tree_selection_select_path (selection, path);

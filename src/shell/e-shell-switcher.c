@@ -124,10 +124,13 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 			btns_per_row--;
 	}
 
+	if (btns_per_row <= 0)
+		btns_per_row = 1;
+
 	/* Assign buttons to rows. */
 	rows = g_new0 (GList *, num_btns / btns_per_row + 1);
 
-	if (!icons_only && num_btns % btns_per_row != 0) {
+	if (!icons_only && num_btns % btns_per_row != 0 && switcher->priv->proxies) {
 		rows[0] = g_list_append (rows[0], switcher->priv->proxies->data);
 
 		p = switcher->priv->proxies->next;
@@ -290,7 +293,7 @@ shell_switcher_get_preferred_width (GtkWidget *widget,
 }
 
 static void
-shell_switcher_get_preferred_height (GtkWidget *widget,
+shell_switcher_get_preferred_height (GtkWidget *switcher_widget,
                                      gint *minimum,
                                      gint *natural)
 {
@@ -298,11 +301,11 @@ shell_switcher_get_preferred_height (GtkWidget *widget,
 	GtkWidget *child;
 	GList *iter;
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
+	priv = E_SHELL_SWITCHER_GET_PRIVATE (switcher_widget);
 
 	*minimum = *natural = 0;
 
-	child = gtk_bin_get_child (GTK_BIN (widget));
+	child = gtk_bin_get_child (GTK_BIN (switcher_widget));
 	if (child != NULL)
 		gtk_widget_get_preferred_height (child, minimum, natural);
 
@@ -389,7 +392,7 @@ shell_switcher_screen_changed (GtkWidget *widget,
 
 static void
 shell_switcher_remove (GtkContainer *container,
-                       GtkWidget *widget)
+                       GtkWidget *remove_widget)
 {
 	EShellSwitcherPrivate *priv;
 	GList *link;
@@ -398,7 +401,7 @@ shell_switcher_remove (GtkContainer *container,
 
 	/* Look in the internal widgets first. */
 
-	link = g_list_find (priv->proxies, widget);
+	link = g_list_find (priv->proxies, remove_widget);
 	if (link != NULL) {
 		GtkWidget *widget = link->data;
 
@@ -410,7 +413,7 @@ shell_switcher_remove (GtkContainer *container,
 
 	/* Chain up to parent's remove() method. */
 	GTK_CONTAINER_CLASS (e_shell_switcher_parent_class)->remove (
-		container, widget);
+		container, remove_widget);
 }
 
 static void

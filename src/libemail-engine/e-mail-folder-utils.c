@@ -284,7 +284,7 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
 		ESourceBackend *extension;
-		CamelFolder *folder;
+		CamelFolder *inbox_folder;
 		CamelService *service;
 		CamelSettings *settings;
 		const gchar *backend_name;
@@ -321,21 +321,21 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 			continue;
 		}
 
-		folder = camel_store_get_inbox_folder_sync (
+		inbox_folder = camel_store_get_inbox_folder_sync (
 			CAMEL_STORE (service), cancellable, error);
 
 		/* Abort the loop on error. */
-		if (folder == NULL) {
+		if (inbox_folder == NULL) {
 			g_object_unref (service);
 			success = FALSE;
 			break;
 		}
 
-		uids = camel_folder_get_uids (folder);
+		uids = camel_folder_get_uids (inbox_folder);
 
 		if (uids == NULL) {
 			g_object_unref (service);
-			g_object_unref (folder);
+			g_object_unref (inbox_folder);
 			continue;
 		}
 
@@ -347,17 +347,17 @@ mail_folder_expunge_pop3_stores (CamelFolder *folder,
 			if (g_strcmp0 (source_uid, service_uid) == 0) {
 				any_found = TRUE;
 				camel_folder_delete_message (
-					folder, uids->pdata[ii]);
+					inbox_folder, uids->pdata[ii]);
 			}
 		}
 
-		camel_folder_free_uids (folder, uids);
+		camel_folder_free_uids (inbox_folder, uids);
 
 		if (any_found)
 			success = camel_folder_synchronize_sync (
-				folder, TRUE, cancellable, error);
+				inbox_folder, TRUE, cancellable, error);
 
-		g_object_unref (folder);
+		g_object_unref (inbox_folder);
 		g_object_unref (service);
 
 		/* Abort the loop on error. */

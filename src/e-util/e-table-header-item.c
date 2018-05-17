@@ -1097,8 +1097,8 @@ ethi_draw (GnomeCanvasItem *item,
 			cr, ecol, GTK_WIDGET (canvas),
 			x1 - x, -y, width, height,
 			x2 - x1, ethi->height,
-			(ETableColArrow) g_hash_table_lookup (
-			arrows, GINT_TO_POINTER (ecol->spec->model_col)));
+			(ETableColArrow) GPOINTER_TO_INT (g_hash_table_lookup (
+			arrows, GINT_TO_POINTER (ecol->spec->model_col))));
 
 		gtk_style_context_restore (context);
 	}
@@ -1318,8 +1318,8 @@ ethi_start_drag (ETableHeaderItem *ethi,
 		widget, 0, 0,
 		col_width, ethi->height,
 		col_width, ethi->height,
-		(ETableColArrow) g_hash_table_lookup (
-			arrows, GINT_TO_POINTER (ecol->spec->model_col)));
+		(ETableColArrow) GPOINTER_TO_INT (g_hash_table_lookup (
+			arrows, GINT_TO_POINTER (ecol->spec->model_col))));
 	gtk_drag_set_icon_surface (context, s);
 	cairo_surface_destroy (s);
 
@@ -1971,13 +1971,13 @@ ethi_event (GnomeCanvasItem *item,
 
 				event_device = gdk_event_get_device (event);
 
-				gnome_canvas_item_grab (
+				g_warn_if_fail (gnome_canvas_item_grab (
 					item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
 					ethi->resize_cursor,
 					event_device,
-					event_time);
+					event_time));
 			}
 
 			new_width = x - ethi->resize_start_pos;

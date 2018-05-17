@@ -24,7 +24,7 @@
 
 #include <gtk/gtk.h>
 
-#include <e-util/e-util.h>
+#include <e-util/e-spell-checker.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SPELL_ENTRY \

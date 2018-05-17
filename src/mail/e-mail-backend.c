@@ -1416,6 +1416,8 @@ e_mail_backend_delete_junk_policy_decision (EMailBackend *backend)
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), FALSE);
 
 	class = E_MAIL_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (class != NULL, FALSE);
+
 	if (class->delete_junk_policy_decision == NULL)
 		return FALSE;
 
@@ -1430,6 +1432,8 @@ e_mail_backend_empty_trash_policy_decision (EMailBackend *backend)
 	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), FALSE);
 
 	class = E_MAIL_BACKEND_GET_CLASS (backend);
+	g_return_val_if_fail (class != NULL, FALSE);
+
 	if (class->empty_trash_policy_decision == NULL)
 		return FALSE;
 

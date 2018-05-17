@@ -429,6 +429,7 @@ e_activity_describe (EActivity *activity)
 	g_return_val_if_fail (E_IS_ACTIVITY (activity), NULL);
 
 	class = E_ACTIVITY_GET_CLASS (activity);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->describe != NULL, NULL);
 
 	return class->describe (activity);

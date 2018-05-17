@@ -267,12 +267,12 @@ ea_week_view_ref_child (AtkObject *accessible,
 					ea_calendar_helpers_get_accessible_for (
 					span->text_item);
 			} else {
-				gint index;
+				gint jump_index;
 
-				index = (current_day != -1) ? current_day : 0;
+				jump_index = (current_day != -1) ? current_day : 0;
 				atk_object =
 					ea_calendar_helpers_get_accessible_for (
-					week_view->jump_buttons[index]);
+					week_view->jump_buttons[jump_index]);
 			}
 			g_object_ref (atk_object);
 			break;

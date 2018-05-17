@@ -85,12 +85,12 @@ struct _ItipViewPrivate {
 	gchar *comment;
 
 	struct tm *start_tm;
-	gint start_tm_is_date : 1;
+	guint start_tm_is_date : 1;
         gchar *start_label;
         const gchar *start_header;
 
 	struct tm *end_tm;
-	gint end_tm_is_date : 1;
+	guint end_tm_is_date : 1;
         gchar *end_label;
         const gchar *end_header;
 
@@ -101,11 +101,11 @@ struct _ItipViewPrivate {
 
 	gchar *description;
 
-	gint buttons_sensitive : 1;
+	guint buttons_sensitive : 1;
 
         gboolean is_recur_set;
 
-	gint needs_decline : 1;
+	guint needs_decline : 1;
 
         gpointer itip_part_ptr; /* not referenced, only for a "reference" to which part this belongs */
 
@@ -4537,9 +4537,9 @@ message_foreach_part (CamelMimePart *part,
 		parts = camel_multipart_get_number (CAMEL_MULTIPART (containee));
 		for (i = 0; go && i < parts; i++) {
 			/* Reuse already declared *parts? */
-			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (containee), i);
+			CamelMimePart *subpart = camel_multipart_get_part (CAMEL_MULTIPART (containee), i);
 
-			message_foreach_part (part, part_list);
+			message_foreach_part (subpart, part_list);
 		}
 	} else if (CAMEL_IS_MIME_MESSAGE (containee)) {
 		message_foreach_part ((CamelMimePart *) containee, part_list);

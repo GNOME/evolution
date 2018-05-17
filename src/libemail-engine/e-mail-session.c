@@ -2333,6 +2333,7 @@ e_mail_session_create_vfolder_context (EMailSession *session)
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 
 	class = E_MAIL_SESSION_GET_CLASS (session);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->create_vfolder_context != NULL, NULL);
 
 	return class->create_vfolder_context (session);

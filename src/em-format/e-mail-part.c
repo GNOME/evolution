@@ -595,6 +595,7 @@ e_mail_part_bind_dom_element (EMailPart *part,
 	g_return_if_fail (element_id && *element_id);
 
 	class = E_MAIL_PART_GET_CLASS (part);
+	g_return_if_fail (class != NULL);
 
 	if (class->bind_dom_element != NULL)
 		class->bind_dom_element (part, web_view, page_id, element_id);
@@ -610,6 +611,7 @@ e_mail_part_web_view_loaded (EMailPart *part,
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	klass = E_MAIL_PART_GET_CLASS (part);
+	g_return_if_fail (klass != NULL);
 
 	if (klass->web_view_loaded)
 		klass->web_view_loaded (part, web_view);

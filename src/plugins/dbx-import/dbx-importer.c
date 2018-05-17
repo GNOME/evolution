@@ -454,6 +454,7 @@ dbx_read_mail_body (DbxImporter *m,
 				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 				"Failed to read mail data block from "
 				"DBX file at offset %x", offset);
+			g_free (buffer);
 			return FALSE;
 		}
 		hdr.self = GUINT32_FROM_LE (hdr.self);
@@ -466,6 +467,7 @@ dbx_read_mail_body (DbxImporter *m,
 				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 				"Corrupt DBX file: Mail data block at "
 				"0x%x does not point to itself", offset);
+			g_free (buffer);
 			return FALSE;
 		}
 
@@ -482,6 +484,7 @@ dbx_read_mail_body (DbxImporter *m,
 				"Failed to read mail data from DBX file "
 				"at offset %lx",
 				(long)(offset + sizeof (hdr)));
+			g_free (buffer);
 			return FALSE;
 		}
 		if (write (bodyfd, buffer, hdr.blocksize) != hdr.blocksize) {
@@ -489,10 +492,14 @@ dbx_read_mail_body (DbxImporter *m,
 				&m->base.error,
 				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 				"Failed to write mail data to temporary file");
+			g_free (buffer);
 			return FALSE;
 		}
 		offset = hdr.nextaddress;
 	}
+
+	g_free (buffer);
+
 	return TRUE;
 }
 

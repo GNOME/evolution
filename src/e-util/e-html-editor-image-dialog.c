@@ -131,7 +131,7 @@ html_editor_image_dialog_set_width_units (EHTMLEditorImageDialog *dialog)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gint requested;
-	gint32 natural = 0;
+	gint32 natural;
 	gint width = 0;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
@@ -155,7 +155,7 @@ html_editor_image_dialog_set_width_units (EHTMLEditorImageDialog *dialog)
 			break;
 
 		case 1: /* percent */
-			if (gtk_widget_is_sensitive (dialog->priv->width_edit)) {
+			if (natural && gtk_widget_is_sensitive (dialog->priv->width_edit)) {
 				width = (((gdouble) requested) / natural) * 100;
 			} else {
 				width = 100;
@@ -219,7 +219,7 @@ html_editor_image_dialog_set_height_units (EHTMLEditorImageDialog *dialog)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gint requested;
-	gulong natural = 0;
+	gulong natural;
 	gint height = -1;
 
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
@@ -243,7 +243,7 @@ html_editor_image_dialog_set_height_units (EHTMLEditorImageDialog *dialog)
 			break;
 
 		case 1: /* percent */
-			if (gtk_widget_is_sensitive (dialog->priv->height_edit)) {
+			if (natural && gtk_widget_is_sensitive (dialog->priv->height_edit)) {
 				height = (((gdouble) requested) / natural) * 100;
 			} else {
 				height = 100;

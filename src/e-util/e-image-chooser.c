@@ -92,8 +92,8 @@ set_image_from_data (EImageChooser *chooser,
 	new_height = gdk_pixbuf_get_height (pixbuf);
 	new_width = gdk_pixbuf_get_width (pixbuf);
 
-	if (chooser->priv->image_height == 0
-	    && chooser->priv->image_width == 0) {
+	if (chooser->priv->image_height == 0 ||
+	    chooser->priv->image_width == 0) {
 		scale = 1.0;
 	} else if (chooser->priv->image_height < new_height
 		 || chooser->priv->image_width < new_width) {

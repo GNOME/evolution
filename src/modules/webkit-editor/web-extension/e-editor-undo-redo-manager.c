@@ -139,9 +139,11 @@ print_history_event (EEditorHistoryEvent *event)
 				printf ("    type: backspace\n");
 			if (g_object_get_data (G_OBJECT (event->data.fragment), "history-control-key"))
 				printf ("          control\n");
+		/* fall through */
 		case HISTORY_INPUT:
 			if (event->data.fragment && g_object_get_data (G_OBJECT (event->data.fragment), "history-return-key"))
 				printf ("    type: return\n");
+		/* fall through */
 		case HISTORY_REMOVE_LINK:
 		case HISTORY_SMILEY:
 		case HISTORY_IMAGE:
@@ -189,6 +191,7 @@ print_history_event (EEditorHistoryEvent *event)
 			break;
 		default:
 			printf ("  Unknown history type\n");
+			break;
 	}
 }
 
@@ -1739,7 +1742,9 @@ undo_redo_replace_all (EEditorUndoRedoManager *manager,
 				next_item = next_item->next;
 			}
 
-			manager->priv->history = next_item->prev;
+			g_warn_if_fail (next_item != NULL);
+
+			manager->priv->history = next_item ? next_item->prev : NULL;
 
 			dom_window = webkit_dom_document_get_default_view (document);
 			dom_selection = webkit_dom_dom_window_get_selection (dom_window);

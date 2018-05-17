@@ -589,6 +589,7 @@ e_plugin_construct (EPlugin *plugin,
 	g_return_val_if_fail (E_IS_PLUGIN (plugin), -1);
 
 	class = E_PLUGIN_GET_CLASS (plugin);
+	g_return_val_if_fail (class != NULL, -1);
 	g_return_val_if_fail (class->construct != NULL, -1);
 
 	return class->construct (plugin, root);
@@ -621,6 +622,7 @@ e_plugin_invoke (EPlugin *plugin,
 	g_return_val_if_fail (plugin->enabled, NULL);
 
 	class = E_PLUGIN_GET_CLASS (plugin);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->invoke != NULL, NULL);
 
 	return class->invoke (plugin, name, data);
@@ -645,6 +647,7 @@ e_plugin_get_symbol (EPlugin *plugin,
 	g_return_val_if_fail (E_IS_PLUGIN (plugin), NULL);
 
 	class = E_PLUGIN_GET_CLASS (plugin);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->get_symbol != NULL, NULL);
 
 	return class->get_symbol (plugin, name);
@@ -671,6 +674,7 @@ e_plugin_enable (EPlugin *plugin,
 		return;
 
 	class = E_PLUGIN_GET_CLASS (plugin);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->enable != NULL);
 
 	class->enable (plugin, state);
@@ -695,6 +699,8 @@ e_plugin_get_configure_widget (EPlugin *plugin)
 	g_return_val_if_fail (E_IS_PLUGIN (plugin), NULL);
 
 	class = E_PLUGIN_GET_CLASS (plugin);
+	g_return_val_if_fail (class != NULL, NULL);
+
 	if (class->get_configure_widget == NULL)
 		return NULL;
 
@@ -892,6 +898,7 @@ e_plugin_hook_enable (EPluginHook *plugin_hook,
 	g_return_if_fail (E_IS_PLUGIN_HOOK (plugin_hook));
 
 	class = E_PLUGIN_HOOK_GET_CLASS (plugin_hook);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->enable != NULL);
 
 	class->enable (plugin_hook, state);

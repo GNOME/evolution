@@ -57,6 +57,7 @@ e_reflow_model_set_width (EReflowModel *reflow_model,
 	g_return_if_fail (E_IS_REFLOW_MODEL (reflow_model));
 
 	class = E_REFLOW_MODEL_GET_CLASS (reflow_model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->set_width != NULL);
 
 	class->set_width (reflow_model, width);
@@ -76,6 +77,7 @@ e_reflow_model_count (EReflowModel *reflow_model)
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (reflow_model), 0);
 
 	class = E_REFLOW_MODEL_GET_CLASS (reflow_model);
+	g_return_val_if_fail (class != NULL, 0);
 	g_return_val_if_fail (class->count != NULL, 0);
 
 	return class->count (reflow_model);
@@ -99,6 +101,7 @@ e_reflow_model_height (EReflowModel *reflow_model,
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (reflow_model), 0);
 
 	class = E_REFLOW_MODEL_GET_CLASS (reflow_model);
+	g_return_val_if_fail (class != NULL, 0);
 	g_return_val_if_fail (class->height != NULL, 0);
 
 	return class->height (reflow_model, n, parent);
@@ -124,6 +127,7 @@ e_reflow_model_incarnate (EReflowModel *reflow_model,
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (reflow_model), NULL);
 
 	class = E_REFLOW_MODEL_GET_CLASS (reflow_model);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->incarnate != NULL, NULL);
 
 	return class->incarnate (reflow_model, n, parent);
@@ -147,6 +151,7 @@ e_reflow_model_create_cmp_cache (EReflowModel *reflow_model)
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (reflow_model), NULL);
 
 	class = E_REFLOW_MODEL_GET_CLASS (reflow_model);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	if (class->create_cmp_cache == NULL)
 		return NULL;
@@ -179,6 +184,7 @@ e_reflow_model_compare (EReflowModel *reflow_model,
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (reflow_model), 0);
 
 	class = E_REFLOW_MODEL_GET_CLASS (reflow_model);
+	g_return_val_if_fail (class != NULL, 0);
 	g_return_val_if_fail (class->compare != NULL, 0);
 
 	return class->compare (reflow_model, n1, n2, cmp_cache);
@@ -202,6 +208,7 @@ e_reflow_model_reincarnate (EReflowModel *reflow_model,
 	g_return_if_fail (E_IS_REFLOW_MODEL (reflow_model));
 
 	class = E_REFLOW_MODEL_GET_CLASS (reflow_model);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->reincarnate != NULL);
 
 	class->reincarnate (reflow_model, n, item);

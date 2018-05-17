@@ -27,7 +27,6 @@
 
 #include <atk/atk.h>
 #include "gal-a11y-e-cell.h"
-#include "gal-a11y-e-cell-toggle.h"
 
 G_BEGIN_DECLS
 

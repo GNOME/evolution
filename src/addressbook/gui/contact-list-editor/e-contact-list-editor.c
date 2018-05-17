@@ -285,13 +285,13 @@ contact_list_editor_add_email (EContactListEditor *editor,
 	addr = camel_internet_address_new ();
 	addr_length = camel_address_unformat (CAMEL_ADDRESS (addr), email);
 	if (addr_length >= 1) {
-		const gchar *name, *mail;
 		gint ii;
 
 		for (ii = 0; ii < addr_length; ii++) {
-			camel_internet_address_get (addr, ii, &name, &mail);
+			const gchar *name = NULL, *mail = NULL;
 
-			if (name || mail) {
+			if (camel_internet_address_get (addr, ii, &name, &mail) &&
+			    (name || mail)) {
 				dest = e_destination_new ();
 				if (mail)
 					e_destination_set_email (dest, mail);

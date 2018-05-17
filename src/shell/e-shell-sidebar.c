@@ -538,6 +538,7 @@ e_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), 0);
 
 	shell_sidebar_class = E_SHELL_SIDEBAR_GET_CLASS (shell_sidebar);
+	g_return_val_if_fail (shell_sidebar_class != NULL, 0);
 	g_return_val_if_fail (shell_sidebar_class->check_state != NULL, 0);
 
 	return shell_sidebar_class->check_state (shell_sidebar);

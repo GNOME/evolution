@@ -255,6 +255,7 @@ e_comp_editor_property_part_create_widgets (ECompEditorPropertyPart *property_pa
 	g_return_if_fail (property_part->priv->edit_widget == NULL);
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_GET_CLASS (property_part);
+	g_return_if_fail (klass != NULL);
 	g_return_if_fail (klass->create_widgets != NULL);
 
 	klass->create_widgets (property_part, out_label_widget, out_edit_widget);
@@ -285,6 +286,7 @@ e_comp_editor_property_part_fill_widget (ECompEditorPropertyPart *property_part,
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART (property_part));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_GET_CLASS (property_part);
+	g_return_if_fail (klass != NULL);
 	g_return_if_fail (klass->fill_widget != NULL);
 
 	klass->fill_widget (property_part, component);
@@ -299,6 +301,7 @@ e_comp_editor_property_part_fill_component (ECompEditorPropertyPart *property_pa
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART (property_part));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_GET_CLASS (property_part);
+	g_return_if_fail (klass != NULL);
 	g_return_if_fail (klass->fill_component != NULL);
 
 	klass->fill_component (property_part, component);

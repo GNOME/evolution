@@ -303,6 +303,7 @@ e_text_model_changed (ETextModel *model)
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 
 	/*
 	  Objectify before emitting any signal.
@@ -344,6 +345,7 @@ e_text_model_validate_position (ETextModel *model,
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, 0);
 
 	if (class->validate_pos != NULL)
 		pos = class->validate_pos (model, pos);
@@ -359,6 +361,7 @@ e_text_model_get_text (ETextModel *model)
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), NULL);
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	if (class->get_text == NULL)
 		return "";
@@ -374,6 +377,7 @@ e_text_model_get_text_length (ETextModel *model)
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, 0);
 
 	if (class->get_text_len (model)) {
 
@@ -404,6 +408,7 @@ e_text_model_set_text (ETextModel *model,
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 
 	if (class->set_text != NULL)
 		class->set_text (model, text);
@@ -422,6 +427,7 @@ e_text_model_insert (ETextModel *model,
 		return;
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 
 	if (class->insert != NULL)
 		class->insert (model, position, text);
@@ -442,6 +448,7 @@ e_text_model_insert_length (ETextModel *model,
 		return;
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 
 	if (class->insert_length != NULL)
 		class->insert_length (model, position, text, length);
@@ -490,6 +497,7 @@ e_text_model_delete (ETextModel *model,
 		return;
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_if_fail (class != NULL);
 
 	if (class->delete != NULL)
 		class->delete (model, position, length);
@@ -503,6 +511,7 @@ e_text_model_object_count (ETextModel *model)
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, 0);
 
 	if (class->obj_count == NULL)
 		return 0;
@@ -523,6 +532,7 @@ e_text_model_get_nth_object (ETextModel *model,
 		return NULL;
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	if (class->get_nth_obj == NULL)
 		return NULL;
@@ -585,6 +595,7 @@ e_text_model_get_object_at_offset (ETextModel *model,
 		return -1;
 
 	class = E_TEXT_MODEL_GET_CLASS (model);
+	g_return_val_if_fail (class != NULL, -1);
 
 	/* If an optimized version has been provided, we use it. */
 	if (class->obj_at_offset != NULL) {

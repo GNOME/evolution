@@ -915,9 +915,17 @@ prepare_simple_page (GtkAssistant *assistant,
 	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype)));
 	gtk_list_store_clear (store);
 
+	if (!importers || !importers->data) {
+		g_slist_free (importers);
+		return;
+	}
+
 	for (imp = importers; imp; imp = imp->next) {
 		GtkTreeIter iter;
 		EImportImporter *eii = imp->data;
+
+		if (!eii)
+			continue;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (

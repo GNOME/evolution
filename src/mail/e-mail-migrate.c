@@ -89,7 +89,8 @@ cp (const gchar *src,
     gboolean show_progress,
     gint mode)
 {
-	guchar readbuf[65536];
+	const gint nreadbuf = 65535;
+	guchar *readbuf = NULL;
 	gssize nread, nwritten;
 	gint errnosav, readfd, writefd;
 	gsize total = 0;
@@ -114,9 +115,10 @@ cp (const gchar *src,
 		return FALSE;
 	}
 
+	readbuf = g_new0 (guchar, nreadbuf);
 	do {
 		do {
-			nread = read (readfd, readbuf, sizeof (readbuf));
+			nread = read (readfd, readbuf, nreadbuf);
 		} while (nread == -1 && errno == EINTR);
 
 		if (nread == 0)
@@ -152,6 +154,8 @@ cp (const gchar *src,
 		g_warning ("%s: Failed to chmod '%s': %s", G_STRFUNC, dest, g_strerror (errno));
 	}
 
+	g_free (readbuf);
+
 	return TRUE;
 
  exception:
@@ -166,6 +170,8 @@ cp (const gchar *src,
 	errnosav = errno;
 	unlink (dest);
 	errno = errnosav;
+
+	g_free (readbuf);
 
 	return FALSE;
 }
@@ -198,11 +204,12 @@ emm_setup_initial (const gchar *data_dir)
 		if (g_file_test (local, G_FILE_TEST_EXISTS))
 			break;
 		g_free (local);
+		local = NULL;
 		language_names++;
 	}
 
 	/* Make sure we found one. */
-	g_return_val_if_fail (*language_names != NULL, FALSE);
+	g_return_val_if_fail (local != NULL, FALSE);
 
 	dir = g_dir_open (local, 0, NULL);
 	if (dir) {

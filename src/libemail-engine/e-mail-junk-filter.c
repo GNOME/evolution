@@ -46,6 +46,7 @@ e_mail_junk_filter_available (EMailJunkFilter *junk_filter)
 	g_return_val_if_fail (E_IS_MAIL_JUNK_FILTER (junk_filter), FALSE);
 
 	class = E_MAIL_JUNK_FILTER_GET_CLASS (junk_filter);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->available != NULL, FALSE);
 
 	return class->available (junk_filter);
@@ -60,6 +61,7 @@ e_mail_junk_filter_new_config_widget (EMailJunkFilter *junk_filter)
 	g_return_val_if_fail (E_IS_MAIL_JUNK_FILTER (junk_filter), NULL);
 
 	class = E_MAIL_JUNK_FILTER_GET_CLASS (junk_filter);
+	g_return_val_if_fail (class != NULL, NULL);
 
 	if (class->new_config_widget != NULL)
 		widget = class->new_config_widget (junk_filter);
@@ -76,6 +78,9 @@ e_mail_junk_filter_compare (EMailJunkFilter *junk_filter_a,
 
 	class_a = E_MAIL_JUNK_FILTER_GET_CLASS (junk_filter_a);
 	class_b = E_MAIL_JUNK_FILTER_GET_CLASS (junk_filter_b);
+
+	g_return_val_if_fail (class_a != NULL, 0);
+	g_return_val_if_fail (class_b != NULL, 0);
 
 	return g_utf8_collate (class_a->display_name, class_b->display_name);
 }

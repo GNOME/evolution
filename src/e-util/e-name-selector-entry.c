@@ -935,7 +935,7 @@ build_textrep_for_contact (EContact *contact,
 		case E_CONTACT_EMAIL:
 			name = NULL;
 			l = e_contact_get (contact, cue_field);
-			email = strdup (g_list_nth_data (l, email_num));
+			email = g_strdup (g_list_nth_data (l, email_num));
 			g_list_free_full (l, g_free);
 			break;
 
@@ -944,16 +944,21 @@ build_textrep_for_contact (EContact *contact,
 			break;
 	}
 
-	g_return_val_if_fail (email, NULL);
-	g_return_val_if_fail (strlen (email) > 0, NULL);
-
-	if (name)
-		textrep = g_strdup_printf ("%s <%s>", name, email);
-	else
-		textrep = g_strdup_printf ("%s", email);
+	if (email && *email) {
+		if (name)
+			textrep = g_strdup_printf ("%s <%s>", name, email);
+		else
+			textrep = g_strdup_printf ("%s", email);
+	} else {
+		textrep = NULL;
+		g_warn_if_fail (email != NULL);
+		if (email)
+			g_warn_if_fail (*email != '\0');
+	}
 
 	g_free (name);
 	g_free (email);
+
 	return textrep;
 }
 

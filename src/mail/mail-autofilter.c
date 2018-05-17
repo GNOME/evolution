@@ -210,21 +210,22 @@ rule_from_address (EFilterRule *rule,
 	rule->grouping = E_FILTER_GROUP_ALL;
 
 	if (flags & AUTO_FROM) {
-		const gchar *name, *address;
+		const gchar *name = NULL, *address = NULL;
 		gchar *namestr;
 
-		camel_internet_address_get (addr, 0, &name, &address);
-		rule_add_sender (context, rule, address);
-		if (name == NULL || name[0] == '\0')
-			name = address;
-		namestr = g_strdup_printf (_("Mail from %s"), name);
-		e_filter_rule_set_name (rule, namestr);
-		g_free (namestr);
+		if (camel_internet_address_get (addr, 0, &name, &address)) {
+			rule_add_sender (context, rule, address);
+			if (name == NULL || name[0] == '\0')
+				name = address;
+			namestr = g_strdup_printf (_("Mail from %s"), name);
+			e_filter_rule_set_name (rule, namestr);
+			g_free (namestr);
+		}
 	}
+
 	if (flags & AUTO_TO) {
 		rule_match_recipients (context, rule, addr);
 	}
-
 }
 
 static void

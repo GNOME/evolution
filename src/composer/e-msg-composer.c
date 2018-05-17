@@ -734,9 +734,9 @@ composer_build_message_pgp (AsyncContext *context,
 	g_object_unref (context->top_level_part);
 	context->top_level_part = NULL;
 
-	if (pgp_key_id == NULL || *pgp_key_id == '\0')
-		camel_internet_address_get (
-			context->from, 0, NULL, &pgp_key_id);
+	if ((pgp_key_id == NULL || *pgp_key_id == '\0') &&
+	    !camel_internet_address_get (context->from, 0, NULL, &pgp_key_id))
+		pgp_key_id = NULL;
 
 	if (context->pgp_sign) {
 		CamelMimePart *npart;

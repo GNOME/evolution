@@ -139,20 +139,20 @@ emfqe_format_header (EMailFormatter *formatter,
 		CamelMedium *medium;
 		struct _camel_header_address *addrs;
 		GString *html;
-		gchar *charset;
+		gchar *fmt_charset;
 
 		medium = CAMEL_MEDIUM (mime_part);
 		txt = camel_medium_get_header (medium, canon_name);
 		if (txt == NULL)
 			return;
 
-		charset = e_mail_formatter_dup_charset (formatter);
-		if (!charset)
-			charset = e_mail_formatter_dup_default_charset (formatter);
+		fmt_charset = e_mail_formatter_dup_charset (formatter);
+		if (!fmt_charset)
+			fmt_charset = e_mail_formatter_dup_default_charset (formatter);
 
 		buf = camel_header_unfold (txt);
-		addrs = camel_header_address_decode (txt, charset);
-		g_free (charset);
+		addrs = camel_header_address_decode (txt, fmt_charset);
+		g_free (fmt_charset);
 
 		if (addrs == NULL) {
 			g_free (buf);

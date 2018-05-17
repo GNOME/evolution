@@ -134,7 +134,7 @@ on_selection_changed (ECalendarItem *calitem)
 {
 	GDate start_date, end_date;
 
-	e_calendar_item_get_selection (calitem, &start_date, &end_date);
+	g_warn_if_fail (e_calendar_item_get_selection (calitem, &start_date, &end_date));
 
 	g_print (
 		"Selection changed (D/M/Y): %i/%i/%i - %i/%i/%i\n",

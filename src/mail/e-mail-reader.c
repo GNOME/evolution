@@ -203,8 +203,8 @@ action_mail_add_sender_cb (GtkAction *action,
 
 		photo_cache = e_mail_ui_session_get_photo_cache (
 			E_MAIL_UI_SESSION (session));
-		camel_internet_address_get (cia, 0, NULL, &address_only);
-		e_photo_cache_remove_photo (photo_cache, address_only);
+		if (camel_internet_address_get (cia, 0, NULL, &address_only))
+			e_photo_cache_remove_photo (photo_cache, address_only);
 	}
 	g_object_unref (cia);
 
@@ -268,8 +268,8 @@ action_add_to_address_book_cb (GtkAction *action,
 	/* Remove this address from the photo cache. */
 	photo_cache = e_mail_ui_session_get_photo_cache (
 		E_MAIL_UI_SESSION (session));
-	camel_internet_address_get (cia, 0, NULL, &address_only);
-	e_photo_cache_remove_photo (photo_cache, address_only);
+	if (camel_internet_address_get (cia, 0, NULL, &address_only))
+		e_photo_cache_remove_photo (photo_cache, address_only);
 
 	g_object_unref (cia);
 
@@ -2967,7 +2967,7 @@ mail_reader_load_changed_cb (EMailReader *reader,
 	}
 }
 
-static gboolean
+static void
 maybe_schedule_timeout_mark_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
@@ -2982,7 +2982,7 @@ maybe_schedule_timeout_mark_seen (EMailReader *reader)
 	message_uid = message_list->cursor_uid;
 	if (message_uid == NULL ||
 	    e_tree_is_dragging (E_TREE (message_list)))
-		return FALSE;
+		return;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
@@ -3002,8 +3002,6 @@ maybe_schedule_timeout_mark_seen (EMailReader *reader)
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	priv->schedule_mark_seen = schedule_timeout;
 	priv->schedule_mark_seen_interval = timeout_interval;
-
-	return schedule_timeout;
 }
 
 static gboolean
@@ -3618,7 +3616,6 @@ mail_reader_message_loaded (EMailReader *reader,
 	EShell *shell;
 	EMEvent *event;
 	EMEventTargetMessage *target;
-	GError *error = NULL;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
@@ -3656,16 +3653,8 @@ mail_reader_message_loaded (EMailReader *reader,
 
 	/* Determine whether to mark the message as read. */
 	if (message != NULL &&
-	    !priv->avoid_next_mark_as_seen &&
-	    maybe_schedule_timeout_mark_seen (reader)) {
-		g_clear_error (&error);
-	} else if (error != NULL) {
-		e_alert_submit (
-			E_ALERT_SINK (display),
-			"mail:no-retrieve-message",
-			error->message, NULL);
-		g_error_free (error);
-	}
+	    !priv->avoid_next_mark_as_seen)
+		maybe_schedule_timeout_mark_seen (reader);
 
 	priv->avoid_next_mark_as_seen = FALSE;
 

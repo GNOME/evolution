@@ -1098,19 +1098,19 @@ mail_paned_view_update_view_instance (EMailView *view)
 			folder, "et-header-");
 
 		if (g_file_test (state_filename, G_FILE_TEST_IS_REGULAR)) {
-			GalView *view;
+			GalView *gal_view;
 
-			view = gal_view_etable_new ("");
+			gal_view = gal_view_etable_new ("");
 
 			/* XXX This only stashes the filename in the view.
 			 *     The state file is not actually loaded until
 			 *     the MessageList is attached to the view. */
-			gal_view_load (view, state_filename);
+			gal_view_load (gal_view, state_filename);
 
 			gal_view_instance_set_custom_view (
-				view_instance, view);
+				view_instance, gal_view);
 
-			g_object_unref (view);
+			g_object_unref (gal_view);
 		}
 
 		g_free (state_filename);

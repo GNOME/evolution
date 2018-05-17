@@ -500,11 +500,16 @@ esma_set_selection_end (ESelectionModel *selection,
 gint
 e_selection_model_array_get_row_count (ESelectionModelArray *esma)
 {
+	ESelectionModelArrayClass *klass;
+
 	g_return_val_if_fail (esma != NULL, 0);
 	g_return_val_if_fail (E_IS_SELECTION_MODEL_ARRAY (esma), 0);
 
-	if (E_SELECTION_MODEL_ARRAY_GET_CLASS (esma)->get_row_count)
-		return E_SELECTION_MODEL_ARRAY_GET_CLASS (esma)->get_row_count (esma);
+	klass = E_SELECTION_MODEL_ARRAY_GET_CLASS (esma);
+	g_return_val_if_fail (klass != NULL, 0);
+
+	if (klass->get_row_count)
+		return klass->get_row_count (esma);
 	else
 		return 0;
 }

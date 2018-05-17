@@ -1404,7 +1404,7 @@ tmpl_store_data_notify_display_name_cb (CamelService *service,
 }
 
 static gchar *
-templates_store_find_custom_templates_root_folder_path (ETemplatesStore *templates_store,
+templates_store_find_custom_templates_root_folder_path (ETemplatesStore *in_templates_store,
 							CamelStore *store,
 							EMailSession *mail_session,
 							ESource **out_identity_source,
@@ -1414,7 +1414,7 @@ templates_store_find_custom_templates_root_folder_path (ETemplatesStore *templat
 	ESource *identity_source;
 	gchar *root_folder_path = NULL;
 
-	g_return_val_if_fail (E_IS_TEMPLATES_STORE (templates_store), NULL);
+	g_return_val_if_fail (E_IS_TEMPLATES_STORE (in_templates_store), NULL);
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 	g_return_val_if_fail (out_identity_source != NULL, NULL);
 	g_return_val_if_fail (out_use_store != NULL, NULL);

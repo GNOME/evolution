@@ -638,7 +638,7 @@ ecal_event (ECalendarItem *calitem,
 	icaltimezone *timezone;
 	time_t et;
 
-	e_calendar_item_get_selection (calitem, &start_date, &end_date);
+	g_warn_if_fail (e_calendar_item_get_selection (calitem, &start_date, &end_date));
 	timezone = e_cal_data_model_get_timezone (dlg->data_model);
 
 	tt.year = g_date_get_year (&start_date);

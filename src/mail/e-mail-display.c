@@ -961,7 +961,6 @@ mail_display_attachment_inline_update_actions (EMailDisplay *display)
 	EAttachmentView *view;
 	guint n_shown = 0;
 	guint n_hidden = 0;
-	guint n_selected = 0;
 	gboolean can_show = FALSE;
 	gboolean shown = FALSE;
 	gboolean is_image = FALSE;
@@ -993,9 +992,8 @@ mail_display_attachment_inline_update_actions (EMailDisplay *display)
 
 	view = e_mail_display_get_attachment_view (display);
 	attachments = view ? e_attachment_view_get_selected_attachments (view) : NULL;
-	n_selected = g_list_length (attachments);
 
-	if (n_selected == 1) {
+	if (attachments && attachments->data && !attachments->next) {
 		EAttachment *attachment;
 		gchar *mime_type;
 		guint32 flags;

@@ -168,6 +168,7 @@ gal_view_load (GalView *view,
 	g_return_if_fail (filename != NULL);
 
 	class = GAL_VIEW_GET_CLASS (view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->load != NULL);
 
 	class->load (view, filename);
@@ -188,6 +189,7 @@ gal_view_save (GalView *view,
 	g_return_if_fail (filename != NULL);
 
 	class = GAL_VIEW_GET_CLASS (view);
+	g_return_if_fail (class != NULL);
 	g_return_if_fail (class->save != NULL);
 
 	class->save (view, filename);
@@ -241,6 +243,7 @@ gal_view_clone (GalView *view)
 	g_return_val_if_fail (GAL_IS_VIEW (view), NULL);
 
 	class = GAL_VIEW_GET_CLASS (view);
+	g_return_val_if_fail (class != NULL, NULL);
 	g_return_val_if_fail (class->clone != NULL, NULL);
 
 	return class->clone (view);

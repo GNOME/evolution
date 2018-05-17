@@ -73,8 +73,8 @@ e_mail_formatter_extension_format (EMailFormatterExtension *extension,
 	g_return_val_if_fail (G_IS_OUTPUT_STREAM (stream), FALSE);
 
 	class = E_MAIL_FORMATTER_EXTENSION_GET_CLASS (extension);
+	g_return_val_if_fail (class != NULL, FALSE);
 	g_return_val_if_fail (class->format != NULL, FALSE);
 
-	return class->format (
-		extension, formatter, context, part, stream, cancellable);
+	return class->format (extension, formatter, context, part, stream, cancellable);
 }

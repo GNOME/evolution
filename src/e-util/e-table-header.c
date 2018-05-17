@@ -932,7 +932,7 @@ eth_calc_widths (ETableHeader *eth)
 	gint *widths;
 	gboolean changed;
 
-	widths = g_new (int, eth->col_count);
+	widths = g_new0 (int, eth->col_count + 1);
 
 	extra = eth->width;
 	expansion = 0;
