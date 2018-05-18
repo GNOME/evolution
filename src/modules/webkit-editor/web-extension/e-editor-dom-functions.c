@@ -1594,11 +1594,13 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 		webkit_dom_text_split_text (
 			WEBKIT_DOM_TEXT (node), url_start, NULL);
 		url_text_node = webkit_dom_node_get_next_sibling (node);
-		url_text = webkit_dom_character_data_get_data (
-			WEBKIT_DOM_CHARACTER_DATA (url_text_node));
+		if (url_text_node)
+			url_text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (url_text_node));
+		else
+			url_text = NULL;
 
 		/* Sanity check */
-		if (strrchr (url_text, ' '))
+		if (!url_text || !*url_text || strrchr (url_text, ' '))
 			goto skip;
 
 		if (g_str_has_prefix (url_text, "www."))
