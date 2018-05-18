@@ -617,13 +617,17 @@ tool_item_button_cb (GtkWidget *internal_widget,
                      GdkEvent *button_event,
                      GtkAction *action)
 {
+	guint32 my_mods = GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK |
+		GDK_SUPER_MASK | GDK_HYPER_MASK | GDK_META_MASK;
+	GdkModifierType event_state = 0;
 	guint event_button = 0;
 
 	g_return_val_if_fail (GTK_IS_ACTION (action), FALSE);
 
 	gdk_event_get_button (button_event, &event_button);
+	gdk_event_get_state (button_event, &event_state);
 
-	if (event_button == 2) {
+	if (event_button == 2 || (event_button == 1 && (event_state & my_mods) == GDK_SHIFT_MASK)) {
 		gtk_action_activate (action);
 		return TRUE;
 	}
