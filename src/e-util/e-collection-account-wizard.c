@@ -544,6 +544,28 @@ collection_account_wizard_activate_link_cb (GtkWidget *label,
 }
 
 static gboolean
+collection_account_wizard_is_first_result_of_this_kind (GSList *known_results,
+							EConfigLookupResult *result)
+{
+	GSList *link;
+	gboolean known = FALSE;
+
+	for (link = known_results; link && !known; link = g_slist_next (link)) {
+		EConfigLookupResult *result2 = link->data;
+
+		if (!result2 || result2 == result)
+			continue;
+
+		known = e_config_lookup_result_get_kind (result) ==
+			e_config_lookup_result_get_kind (result2) &&
+			g_strcmp0 (e_config_lookup_result_get_protocol (result),
+			e_config_lookup_result_get_protocol (result2)) == 0;
+	}
+
+	return !known;
+}
+
+static gboolean
 collection_account_wizard_fill_results (ECollectionAccountWizard *wizard)
 {
 	struct _results_info {
@@ -586,6 +608,7 @@ collection_account_wizard_fill_results (ECollectionAccountWizard *wizard)
 
 	for (ii = 0; ii < G_N_ELEMENTS (results_info); ii++) {
 		GSList *results = results_info[ii].results, *link, *known_results = NULL, *klink;
+		gboolean is_collection_kind = results_info[ii].kind == E_CONFIG_LOOKUP_RESULT_COLLECTION;
 		GtkTreePath *path;
 
 		/* Skip empty groups */
@@ -598,7 +621,7 @@ collection_account_wizard_fill_results (ECollectionAccountWizard *wizard)
 			PART_COLUMN_BOOL_ENABLED_VISIBLE, TRUE,
 			PART_COLUMN_BOOL_RADIO, FALSE,
 			PART_COLUMN_BOOL_SENSITIVE, results != NULL,
-			PART_COLUMN_BOOL_IS_COLLECTION_GROUP, results_info[ii].kind == E_CONFIG_LOOKUP_RESULT_COLLECTION,
+			PART_COLUMN_BOOL_IS_COLLECTION_GROUP, is_collection_kind,
 			PART_COLUMN_BOOL_ICON_VISIBLE, results_info[ii].icon_name != NULL,
 			PART_COLUMN_STRING_ICON_NAME, results_info[ii].icon_name,
 			PART_COLUMN_STRING_DESCRIPTION, _(results_info[ii].display_name),
@@ -634,9 +657,9 @@ collection_account_wizard_fill_results (ECollectionAccountWizard *wizard)
 
 			gtk_tree_store_append (tree_store, &iter, &parent);
 			gtk_tree_store_set (tree_store, &iter,
-				PART_COLUMN_BOOL_ENABLED, link == results,
+				PART_COLUMN_BOOL_ENABLED, link == results || (is_collection_kind && collection_account_wizard_is_first_result_of_this_kind (known_results, result)),
 				PART_COLUMN_BOOL_ENABLED_VISIBLE, g_slist_next (results) != NULL,
-				PART_COLUMN_BOOL_RADIO, results_info[ii].kind != E_CONFIG_LOOKUP_RESULT_COLLECTION,
+				PART_COLUMN_BOOL_RADIO, !is_collection_kind,
 				PART_COLUMN_BOOL_SENSITIVE, TRUE,
 				PART_COLUMN_BOOL_ICON_VISIBLE, NULL,
 				PART_COLUMN_STRING_ICON_NAME, NULL,
