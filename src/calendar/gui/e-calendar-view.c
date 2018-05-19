@@ -2271,8 +2271,8 @@ e_calendar_view_get_description_text (ECalendarView *cal_view)
 	struct tm start_tm, end_tm;
 	struct icaltimetype start_tt, end_tt;
 	icaltimezone *zone;
-	gchar buffer[1024] = { 0 };
-	gchar end_buffer[512] = { 0 };
+	gchar buffer[2024] = { 0 };
+	gchar end_buffer[1024] = { 0 };
 
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
 
@@ -2343,7 +2343,7 @@ e_calendar_view_get_description_text (ECalendarView *cal_view)
 			e_utf8_strftime (
 				end_buffer, sizeof (end_buffer),
 				_("%a %d %b %Y"), &end_tm);
-			strcat (buffer, " - ");
+			strlcat (buffer, " - ");
 			strcat (buffer, end_buffer);
 		} else {
 			e_utf8_strftime (
