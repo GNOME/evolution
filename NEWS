@@ -1,3 +1,27 @@
+Evolution 3.29.2 2018-05-21
+---------------------------
+
+Bug Fixes:
+	Bug 795289 - Proxy settings ignored when checking for auth types (Milan Crha)
+	Bug 795331 - Use correct desktop-entry name in notifications (Mathieu Bridon)
+	Bug 795447 - Enigmail GPG encrypted Subject not shown in message list (Milan Crha)
+	Bug 795567 - Do not expand archive folder in Copy/Move message to folder dialog (Milan Crha)
+	Bug 795977 - AutoArchive archives Junk and Deleted messages too (Milan Crha)
+	Bug 796114 - [Collection Accounts] Preselect each unique collection kind, not only first (Milan Crha)
+
+Miscellaneous:
+	Move evolution-alarm-notify to evolution-data-server (Milan Crha)
+	Address some of the clang warnings (Milan Crha)
+	Address some of the compiler and static analyzers warnings (Milan Crha)
+	Crash when making links clickable in composer (Milan Crha)
+	Shift+Click on switcher button to open a new window (Milan Crha)
+
+Translations:
+	Fabio Tomat (fur)
+	Yuras Shumovich (be)
+	Marek Černocký (cs)
+	Christian Kirbach (de)
+
 Evolution 3.29.1 2018-04-16
 ---------------------------
 
