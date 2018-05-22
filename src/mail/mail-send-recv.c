@@ -102,7 +102,6 @@ struct _send_info {
 	GCancellable *cancellable;
 	CamelSession *session;
 	CamelService *service;
-	gboolean keep_on_server;
 	send_state_t state;
 	GtkWidget *progress_bar;
 	GtkWidget *cancel_button;
@@ -702,27 +701,6 @@ get_receive_type (CamelService *service)
 	return SEND_INVALID;
 }
 
-static gboolean
-get_keep_on_server (CamelService *service)
-{
-	GObjectClass *class;
-	CamelSettings *settings;
-	gboolean keep_on_server = FALSE;
-
-	settings = camel_service_ref_settings (service);
-	class = G_OBJECT_GET_CLASS (settings);
-
-	/* XXX This is a POP3-specific setting. */
-	if (g_object_class_find_property (class, "keep-on-server") != NULL)
-		g_object_get (
-			settings, "keep-on-server",
-			&keep_on_server, NULL);
-
-	g_object_unref (settings);
-
-	return keep_on_server;
-}
-
 static void
 build_dialog (GtkWindow *parent,
               EMailSession *session,
@@ -821,7 +799,6 @@ build_dialog (GtkWindow *parent,
 			info->type = type;
 			info->session = g_object_ref (session);
 			info->service = g_object_ref (service);
-			info->keep_on_server = get_keep_on_server (service);
 			info->cancellable = camel_operation_new ();
 			info->state = allow_send ? SEND_ACTIVE : SEND_COMPLETE;
 			info->timeout_id = e_named_timeout_add (
@@ -910,7 +887,6 @@ build_dialog (GtkWindow *parent,
 			info->type = SEND_SEND;
 			info->session = g_object_ref (session);
 			info->service = g_object_ref (transport);
-			info->keep_on_server = FALSE;
 			info->cancellable = camel_operation_new ();
 			info->state = SEND_ACTIVE;
 			info->timeout_id = e_named_timeout_add (
@@ -1820,7 +1796,6 @@ mail_receive_service (CamelService *service)
 	info->progress_bar = NULL;
 	info->session = g_object_ref (session);
 	info->service = g_object_ref (service);
-	info->keep_on_server = get_keep_on_server (service);
 	info->cancellable = camel_operation_new ();
 	info->cancel_button = NULL;
 	info->data = data;
@@ -1912,7 +1887,6 @@ do_mail_send (EMailSession *session,
 	info->progress_bar = NULL;
 	info->session = g_object_ref (session);
 	info->service = g_object_ref (service);
-	info->keep_on_server = FALSE;
 	info->cancellable = NULL;
 	info->cancel_button = NULL;
 	info->data = data;
