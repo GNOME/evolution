@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2018-05-11 11:31+0000\n"
-"PO-Revision-Date: 2018-05-12 13:45+0200\n"
+"POT-Creation-Date: 2018-05-22 08:56+0000\n"
+"PO-Revision-Date: 2018-05-22 13:56+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -3222,7 +3222,7 @@ msgstr "Kontakty"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:845
-#: ../src/e-util/e-collection-account-wizard.c:559
+#: ../src/e-util/e-collection-account-wizard.c:581
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:469
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:197
 #: ../src/modules/calendar/e-cal-shell-view.c:582
@@ -3251,7 +3251,7 @@ msgstr "Poznámky"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
 #: ../src/calendar/gui/e-task-table.c:697 ../src/calendar/gui/print.c:2408
 #: ../src/calendar/importers/icalendar-importer.c:77
-#: ../src/calendar/importers/icalendar-importer.c:1110
+#: ../src/calendar/importers/icalendar-importer.c:1109
 #: ../src/e-util/e-webdav-browser.c:460
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:69
 #: ../src/modules/calendar/e-cal-shell-content.c:1679
@@ -3489,7 +3489,7 @@ msgstr ""
 #: ../src/e-util/e-name-selector-dialog.c:1033 ../src/e-util/filter.ui.h:25
 #: ../src/mail/e-mail-account-manager.c:719
 #: ../src/mail/e-mail-label-manager.c:371
-#: ../src/mail/em-folder-properties.c:1031
+#: ../src/mail/em-folder-properties.c:1023
 #: ../src/mail/em-vfolder-editor-rule.c:397
 #: ../src/mail/em-vfolder-editor-rule.c:626 ../src/mail/mail-config.ui.h:61
 #: ../src/modules/mail/em-composer-prefs.c:422
@@ -3660,25 +3660,25 @@ msgstr "Možnosti"
 #: ../src/e-util/e-attachment-store.c:832 ../src/e-util/e-attachment-view.c:302
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:140
 #: ../src/e-util/e-category-editor.c:211 ../src/e-util/e-charset-combo-box.c:99
-#: ../src/e-util/e-collection-account-wizard.c:1563
-#: ../src/e-util/e-collection-account-wizard.c:1798
+#: ../src/e-util/e-collection-account-wizard.c:1586
+#: ../src/e-util/e-collection-account-wizard.c:1821
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:289
 #: ../src/e-util/e-html-editor-actions.c:321
 #: ../src/e-util/e-html-editor-actions.c:415
 #: ../src/e-util/e-image-chooser-dialog.c:169
 #: ../src/e-util/e-mail-signature-script-dialog.c:366
-#: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:813
+#: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:816
 #: ../src/e-util/e-rule-editor.c:187 ../src/e-util/e-rule-editor.c:298
-#: ../src/e-util/e-rule-editor.c:930 ../src/e-util/e-send-options.ui.h:16
+#: ../src/e-util/e-rule-editor.c:933 ../src/e-util/e-send-options.ui.h:16
 #: ../src/e-util/e-source-config-dialog.c:360
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4136
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4143
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
-#: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-composer-utils.c:3932
+#: ../src/mail/e-mail-tag-editor.c:168 ../src/mail/em-composer-utils.c:3934
 #: ../src/mail/em-folder-selector.c:318 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:867
 #: ../src/mail/mail-send-recv.c:949 ../src/mail/mail-vfolder-ui.c:149
@@ -3692,7 +3692,7 @@ msgstr "Možnosti"
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:419
 #: ../src/plugins/save-calendar/save-calendar.c:185
-#: ../src/shell/e-shell-content.c:639 ../src/shell/e-shell-content.c:746
+#: ../src/shell/e-shell-content.c:641 ../src/shell/e-shell-content.c:748
 #: ../src/shell/e-shell-utils.c:70 ../src/shell/e-shell-utils.c:139
 #: ../src/smime/gui/certificate-manager.c:665
 #: ../src/smime/gui/certificate-manager.c:742
@@ -3712,9 +3712,9 @@ msgstr "_Zrušit"
 #: ../src/composer/e-composer-actions.c:350
 #: ../src/e-util/e-attachment-store.c:833
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2467 ../src/e-util/e-web-view.c:4137
+#: ../src/e-util/e-webdav-browser.c:2467 ../src/e-util/e-web-view.c:4144
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
-#: ../src/shell/e-shell-content.c:640 ../src/shell/e-shell-utils.c:140
+#: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:140
 #: ../src/smime/gui/certificate-manager.c:666
 #: ../src/smime/gui/certificate-manager.c:743
 msgid "_Save"
@@ -3974,7 +3974,7 @@ msgstr "Přidat _X.509"
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27
 #: ../src/mail/e-mail-config-identity-page.c:871
 #: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:678
-#: ../src/mail/em-folder-properties.c:1037
+#: ../src/mail/em-folder-properties.c:1029
 #: ../src/mail/em-vfolder-editor-rule.c:631 ../src/mail/mail-config.ui.h:62
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:553
 #: ../src/plugins/email-custom-header/email-custom-header.c:847
@@ -4155,9 +4155,9 @@ msgstr "Neplatný kontakt."
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:290
 #: ../src/e-util/e-html-editor-link-dialog.c:255
-#: ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:814
+#: ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:817
 #: ../src/e-util/e-rule-editor.c:188 ../src/e-util/e-rule-editor.c:299
-#: ../src/e-util/e-rule-editor.c:931 ../src/e-util/e-send-options.ui.h:17
+#: ../src/e-util/e-rule-editor.c:934 ../src/e-util/e-send-options.ui.h:17
 #: ../src/e-util/e-source-config-dialog.c:361
 #: ../src/e-util/e-source-selector-dialog.c:371
 #: ../src/e-util/e-table-config.c:549 ../src/e-util/e-table-config.ui.h:4
@@ -4169,7 +4169,7 @@ msgstr "Neplatný kontakt."
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:278
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:4
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:420
-#: ../src/shell/e-shell-content.c:641 ../src/shell/e-shell-content.c:747
+#: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
 #: ../src/shell/main.c:177 ../src/smime/gui/certificate-manager.c:1349
 #: ../src/smime/gui/e-cert-selector.c:236 ../src/smime/gui/smime-ui.ui.h:18
 msgid "_OK"
@@ -4308,12 +4308,12 @@ msgid "_Top"
 msgstr "Na_horu"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3469 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3474 ../src/e-util/filter.ui.h:29
 msgid "_Up"
 msgstr "_Výš"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3470 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3475 ../src/e-util/filter.ui.h:30
 msgid "_Down"
 msgstr "_Níž"
 
@@ -4389,7 +4389,7 @@ msgid "Send a mail message to this address"
 msgstr "Odeslat e-mailovou zprávu na tuto adresu?"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:321
-#: ../src/e-util/e-web-view.c:1374
+#: ../src/e-util/e-web-view.c:1376
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknutím sem pošlete e-mail %s"
@@ -5077,41 +5077,41 @@ msgstr ""
 "\n"
 "V tomto zobrazení nejsou viditelné žádné položky."
 
-#: ../src/addressbook/importers/evolution-csv-importer.c:745
+#: ../src/addressbook/importers/evolution-csv-importer.c:749
 #: ../src/addressbook/importers/evolution-ldif-importer.c:547
 #: ../src/addressbook/importers/evolution-vcard-importer.c:247
-#: ../src/calendar/importers/icalendar-importer.c:479
-#: ../src/calendar/importers/icalendar-importer.c:972
-#: ../src/calendar/importers/icalendar-importer.c:1012
+#: ../src/calendar/importers/icalendar-importer.c:478
+#: ../src/calendar/importers/icalendar-importer.c:971
+#: ../src/calendar/importers/icalendar-importer.c:1011
 #: ../src/shell/shell.error.xml.h:1
 msgid "Importing..."
 msgstr "Importuje se…"
 
-#: ../src/addressbook/importers/evolution-csv-importer.c:927
+#: ../src/addressbook/importers/evolution-csv-importer.c:931
 msgid "Can’t open .csv file"
 msgstr "Nezdařilo se otevřít soubor .csv"
 
-#: ../src/addressbook/importers/evolution-csv-importer.c:1096
+#: ../src/addressbook/importers/evolution-csv-importer.c:1100
 msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
 msgstr "Kontakty Outlook - CSV nebo Tab (.csv, .tab)"
 
-#: ../src/addressbook/importers/evolution-csv-importer.c:1097
+#: ../src/addressbook/importers/evolution-csv-importer.c:1101
 msgid "Outlook Contacts CSV and Tab Importer"
 msgstr "Import kontaktů z aplikace Outlook (CSV a Tab)"
 
-#: ../src/addressbook/importers/evolution-csv-importer.c:1105
+#: ../src/addressbook/importers/evolution-csv-importer.c:1109
 msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
 msgstr "Kontakty Mozilla - CSV nebo Tab (.csv, .tab)"
 
-#: ../src/addressbook/importers/evolution-csv-importer.c:1106
+#: ../src/addressbook/importers/evolution-csv-importer.c:1110
 msgid "Mozilla Contacts CSV and Tab Importer"
 msgstr "Import kontaktů z Mozilly (CSV a Tab)"
 
-#: ../src/addressbook/importers/evolution-csv-importer.c:1114
+#: ../src/addressbook/importers/evolution-csv-importer.c:1118
 msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
 msgstr "Kontakty Evolution - CSV nebo Tab (.csv, .tab)"
 
-#: ../src/addressbook/importers/evolution-csv-importer.c:1115
+#: ../src/addressbook/importers/evolution-csv-importer.c:1119
 msgid "Evolution Contacts CSV and Tab Importer"
 msgstr "Import kontaktů z aplikace Evolution (CSV nebo Tab)"
 
@@ -5959,7 +5959,7 @@ msgstr "neobsahuje"
 #: ../src/calendar/gui/memotypes.xml.in.h:4
 #: ../src/calendar/gui/tasktypes.xml.in.h:4
 #: ../src/e-util/e-attachment-tree-view.c:147
-#: ../src/e-util/e-collection-account-wizard.c:1655
+#: ../src/e-util/e-collection-account-wizard.c:1678
 #: ../src/e-util/e-table-config.ui.h:20
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:66
 msgid "Description"
@@ -6147,20 +6147,20 @@ msgstr "Opakuje se."
 msgid "It is a meeting."
 msgstr "Je to schůzka."
 
-#: ../src/calendar/gui/ea-cal-view-event.c:245
+#: ../src/calendar/gui/ea-cal-view-event.c:242
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "Událost kalendáře: Souhrn je %s."
 
-#: ../src/calendar/gui/ea-cal-view-event.c:248
+#: ../src/calendar/gui/ea-cal-view-event.c:246
 msgid "Calendar Event: It has no summary."
 msgstr "Událost kalendáře: Nemá souhrn."
 
-#: ../src/calendar/gui/ea-cal-view-event.c:271
+#: ../src/calendar/gui/ea-cal-view-event.c:269
 msgid "calendar view event"
 msgstr "událost zobrazení kalendáře"
 
-#: ../src/calendar/gui/ea-cal-view-event.c:503
+#: ../src/calendar/gui/ea-cal-view-event.c:501
 msgid "Grab Focus"
 msgstr "Získat zaměření"
 
@@ -6379,7 +6379,7 @@ msgid "calendar view for one or more weeks"
 msgstr "zobrazení kalendáře na jeden nebo více týdnů"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:216
-#: ../src/e-util/e-filter-rule.c:985 ../src/mail/e-mail-config-page.c:124
+#: ../src/e-util/e-filter-rule.c:986 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Bez názvu"
 
@@ -6473,7 +6473,7 @@ msgid "Low"
 msgstr "Nízká"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:364
-#: ../src/mail/e-mail-config-service-page.c:531
+#: ../src/mail/e-mail-config-service-page.c:533
 msgid "Description:"
 msgstr "Popis:"
 
@@ -7145,8 +7145,8 @@ msgstr "Čas začátku není platný čas"
 #: ../src/em-format/e-mail-part-secure-button.c:93
 #: ../src/e-util/e-misc-utils.c:4136 ../src/e-util/e-misc-utils.c:4148
 #: ../src/e-util/e-misc-utils.c:4162 ../src/mail/e-mail-autoconfig.c:893
-#: ../src/mail/e-mail-display.c:2243 ../src/mail/e-mail-reader-utils.c:806
-#: ../src/mail/em-composer-utils.c:3726 ../src/mail/em-composer-utils.c:3757
+#: ../src/mail/e-mail-display.c:2241 ../src/mail/e-mail-reader-utils.c:806
+#: ../src/mail/em-composer-utils.c:3728 ../src/mail/em-composer-utils.c:3759
 #: ../src/mail/mail-send-recv.c:569 ../src/mail/mail-send-recv.c:1422
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:174 ../src/shell/e-shell.c:1073
@@ -7477,7 +7477,7 @@ msgstr "Úč_astníci…"
 #: ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:174
 #: ../src/mail/e-mail-label-manager.c:380
-#: ../src/mail/em-folder-properties.c:1034 ../src/mail/mail-config.ui.h:66
+#: ../src/mail/em-folder-properties.c:1026 ../src/mail/mail-config.ui.h:66
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:548
 #: ../src/plugins/email-custom-header/email-custom-header.c:842
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
@@ -8145,7 +8145,7 @@ msgstr "Žádné shrnutí"
 #: ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:130 ../src/mail/e-mail-notes.c:931
-#: ../src/mail/em-folder-properties.c:1158
+#: ../src/mail/em-folder-properties.c:1150
 #: ../src/mail/em-subscription-editor.c:1739
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:254
 #: ../src/shell/e-shell-window-actions.c:296
@@ -8169,7 +8169,7 @@ msgstr "_Kopírovat"
 #: ../src/calendar/gui/e-comp-editor.c:1994 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:411
-#: ../src/e-util/e-web-view.c:2008 ../src/mail/e-mail-browser.c:139
+#: ../src/e-util/e-web-view.c:2010 ../src/mail/e-mail-browser.c:139
 #: ../src/shell/e-shell-window-actions.c:840
 msgid "Copy the selection"
 msgstr "Kopírovat výběr"
@@ -8183,7 +8183,7 @@ msgstr "_Vyjmout"
 
 #: ../src/calendar/gui/e-comp-editor.c:2001 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
-#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:2017
+#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:2019
 #: ../src/mail/e-mail-browser.c:146 ../src/shell/e-shell-window-actions.c:847
 msgid "Cut the selection"
 msgstr "Vyjmout výběr"
@@ -8207,7 +8207,7 @@ msgstr "V_ložit"
 
 #: ../src/calendar/gui/e-comp-editor.c:2022 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
-#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:2026
+#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:2028
 #: ../src/mail/e-mail-browser.c:153 ../src/shell/e-shell-window-actions.c:875
 msgid "Paste the clipboard"
 msgstr "Vložit schránku"
@@ -8433,7 +8433,7 @@ msgstr "Účastník                          "
 #: ../src/calendar/gui/e-task-table.etspec.h:3
 #: ../src/e-util/e-accounts-window.c:1407
 #: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:1696
+#: ../src/e-util/e-collection-account-wizard.c:1719
 #: ../src/e-util/e-webdav-browser.c:2381
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
@@ -9070,184 +9070,185 @@ msgstr "Vytvořit nový k_alendář"
 msgid "Cre_ate new task list"
 msgstr "Vytvořit nový sezn_am úkolů"
 
-#: ../src/calendar/importers/icalendar-importer.c:501
-#: ../src/calendar/importers/icalendar-importer.c:940
+#: ../src/calendar/importers/icalendar-importer.c:500
+#: ../src/calendar/importers/icalendar-importer.c:939
 msgid "Opening calendar"
 msgstr "Otevírám kalendář"
 
-#: ../src/calendar/importers/icalendar-importer.c:648
+#: ../src/calendar/importers/icalendar-importer.c:647
 msgid "iCalendar files (.ics)"
 msgstr "soubory iCalendar (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:649
+#: ../src/calendar/importers/icalendar-importer.c:648
 msgid "Evolution iCalendar importer"
 msgstr "Import Evolution z iCalendar"
 
-#: ../src/calendar/importers/icalendar-importer.c:741
+#: ../src/calendar/importers/icalendar-importer.c:740
 msgid "Reminder!"
 msgstr "Připomenutí!"
 
-#: ../src/calendar/importers/icalendar-importer.c:826
+#: ../src/calendar/importers/icalendar-importer.c:825
 msgid "vCalendar files (.vcs)"
 msgstr "Soubory vCalendar (.vcf)"
 
-#: ../src/calendar/importers/icalendar-importer.c:827
+#: ../src/calendar/importers/icalendar-importer.c:826
 msgid "Evolution vCalendar importer"
 msgstr "Import Evolution z vCalendar"
 
-#: ../src/calendar/importers/icalendar-importer.c:1103
+#: ../src/calendar/importers/icalendar-importer.c:1102
 msgid "Calendar Events"
 msgstr "Události kalendáře"
 
-#: ../src/calendar/importers/icalendar-importer.c:1146
+#: ../src/calendar/importers/icalendar-importer.c:1145
 msgid "GNOME Calendar"
 msgstr "Kalendář GNOME"
 
-#: ../src/calendar/importers/icalendar-importer.c:1147
+#: ../src/calendar/importers/icalendar-importer.c:1146
 msgid "Evolution Calendar intelligent importer"
 msgstr "Inteligentní import kalendáře Evolution"
 
-#: ../src/calendar/importers/icalendar-importer.c:1218
-#: ../src/calendar/importers/icalendar-importer.c:1532
+#: ../src/calendar/importers/icalendar-importer.c:1217
+#: ../src/calendar/importers/icalendar-importer.c:1531
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Schůzka"
 
-#: ../src/calendar/importers/icalendar-importer.c:1218
-#: ../src/calendar/importers/icalendar-importer.c:1532
+#: ../src/calendar/importers/icalendar-importer.c:1217
+#: ../src/calendar/importers/icalendar-importer.c:1531
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Událost"
 
-#: ../src/calendar/importers/icalendar-importer.c:1221
-#: ../src/calendar/importers/icalendar-importer.c:1533
+#: ../src/calendar/importers/icalendar-importer.c:1220
+#: ../src/calendar/importers/icalendar-importer.c:1532
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Úkol"
 
-#: ../src/calendar/importers/icalendar-importer.c:1224
-#: ../src/calendar/importers/icalendar-importer.c:1534
+#: ../src/calendar/importers/icalendar-importer.c:1223
+#: ../src/calendar/importers/icalendar-importer.c:1533
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Poznámka"
 
-#: ../src/calendar/importers/icalendar-importer.c:1233
+#. have ? NULL :
+#: ../src/calendar/importers/icalendar-importer.c:1232
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "opakuje se"
 
-#: ../src/calendar/importers/icalendar-importer.c:1238
+#: ../src/calendar/importers/icalendar-importer.c:1237
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "je instancí"
 
-#: ../src/calendar/importers/icalendar-importer.c:1243
+#: ../src/calendar/importers/icalendar-importer.c:1242
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "má připomenutí"
 
-#: ../src/calendar/importers/icalendar-importer.c:1248
+#: ../src/calendar/importers/icalendar-importer.c:1247
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "má přílohy"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1261
+#: ../src/calendar/importers/icalendar-importer.c:1260
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Veřejné"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1264
+#: ../src/calendar/importers/icalendar-importer.c:1263
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Soukromé"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1267
+#: ../src/calendar/importers/icalendar-importer.c:1266
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Důvěrné"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1271
+#: ../src/calendar/importers/icalendar-importer.c:1270
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Klasifikace"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1276
-#: ../src/calendar/importers/icalendar-importer.c:1576
+#: ../src/calendar/importers/icalendar-importer.c:1275
+#: ../src/calendar/importers/icalendar-importer.c:1575
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Přehled"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1282
+#: ../src/calendar/importers/icalendar-importer.c:1281
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Místo"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1290
-#: ../src/calendar/importers/icalendar-importer.c:1571
+#: ../src/calendar/importers/icalendar-importer.c:1289
+#: ../src/calendar/importers/icalendar-importer.c:1570
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Začátek"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1301
+#: ../src/calendar/importers/icalendar-importer.c:1300
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Plánované dokončení"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1313
+#: ../src/calendar/importers/icalendar-importer.c:1312
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Konec"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1323
+#: ../src/calendar/importers/icalendar-importer.c:1322
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Kategorie"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1347
+#: ../src/calendar/importers/icalendar-importer.c:1346
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Dokončeno"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1355
+#: ../src/calendar/importers/icalendar-importer.c:1354
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "Adresa URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1366
-#: ../src/calendar/importers/icalendar-importer.c:1369
+#: ../src/calendar/importers/icalendar-importer.c:1365
+#: ../src/calendar/importers/icalendar-importer.c:1368
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Organizátor"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1389
-#: ../src/calendar/importers/icalendar-importer.c:1392
+#: ../src/calendar/importers/icalendar-importer.c:1388
+#: ../src/calendar/importers/icalendar-importer.c:1391
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Účastníci"
 
-#: ../src/calendar/importers/icalendar-importer.c:1406
+#: ../src/calendar/importers/icalendar-importer.c:1405
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Popis"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1566
+#: ../src/calendar/importers/icalendar-importer.c:1565
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Typ"
@@ -10966,7 +10967,7 @@ msgid "Save Draft"
 msgstr "Uložit koncept"
 
 #: ../src/composer/e-composer-from-header.c:108
-#: ../src/e-util/e-collection-account-wizard.c:1728
+#: ../src/e-util/e-collection-account-wizard.c:1751
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
 #: ../src/e-util/e-webdav-browser.c:2408
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
@@ -11742,7 +11743,7 @@ msgstr "položka kalendáře evolution"
 
 #: ../src/e-util/e-accounts-window.c:523 ../src/e-util/e-accounts-window.c:640
 #: ../src/e-util/e-accounts-window.c:860
-#: ../src/modules/mail/e-mail-shell-backend.c:852
+#: ../src/modules/mail/e-mail-shell-backend.c:853
 msgid "Mail Accounts"
 msgstr "Poštovní účty"
 
@@ -11875,21 +11876,21 @@ msgstr "Selhalo vytvoření vlákna:"
 msgid "Attached message"
 msgstr "Připojená zpráva"
 
-#: ../src/e-util/e-attachment.c:2085 ../src/e-util/e-attachment.c:3147
+#: ../src/e-util/e-attachment.c:2085 ../src/e-util/e-attachment.c:3146
 msgid "Operation was cancelled"
 msgstr "Operace byla zrušena."
 
 #. Translators: Default attachment filename.
 #: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:2990
-#: ../src/e-util/e-attachment.c:3437 ../src/e-util/e-attachment-store.c:887
+#: ../src/e-util/e-attachment.c:3442 ../src/e-util/e-attachment-store.c:887
 msgid "attachment.dat"
 msgstr "priloha.dat"
 
-#: ../src/e-util/e-attachment.c:2352 ../src/e-util/e-attachment.c:3497
+#: ../src/e-util/e-attachment.c:2352 ../src/e-util/e-attachment.c:3502
 msgid "A load operation is already in progress"
 msgstr "Operace načítání již probíhá"
 
-#: ../src/e-util/e-attachment.c:2360 ../src/e-util/e-attachment.c:3505
+#: ../src/e-util/e-attachment.c:2360 ../src/e-util/e-attachment.c:3510
 msgid "A save operation is already in progress"
 msgstr "Operace ukládání již probíhá"
 
@@ -11903,16 +11904,16 @@ msgstr "Nelze otevřít „%s“:"
 msgid "Could not open the attachment"
 msgstr "Nelze otevřít přílohu"
 
-#: ../src/e-util/e-attachment.c:3514
+#: ../src/e-util/e-attachment.c:3519
 msgid "Attachment contents not loaded"
 msgstr "Obsah přílohy nebyl načten"
 
-#: ../src/e-util/e-attachment.c:3605
+#: ../src/e-util/e-attachment.c:3610
 #, c-format
 msgid "Could not save “%s”"
 msgstr "Nelze uložit „%s“"
 
-#: ../src/e-util/e-attachment.c:3608
+#: ../src/e-util/e-attachment.c:3613
 #, c-format
 msgid "Could not save the attachment"
 msgstr "Přílohu nelze uložit"
@@ -12365,62 +12366,62 @@ msgstr "_Heslo:"
 msgid "_Remember password"
 msgstr "Za_pamatovat si heslo"
 
-#: ../src/e-util/e-collection-account-wizard.c:555
+#: ../src/e-util/e-collection-account-wizard.c:577
 #: ../src/e-util/e-webdav-browser.c:473
 msgid "Collection"
 msgstr "Kolekce"
 
-#: ../src/e-util/e-collection-account-wizard.c:556
+#: ../src/e-util/e-collection-account-wizard.c:578
 msgid "Mail Receive"
 msgstr "Příjem pošty"
 
-#: ../src/e-util/e-collection-account-wizard.c:557
+#: ../src/e-util/e-collection-account-wizard.c:579
 msgid "Mail Send"
 msgstr "Odesílání pošty"
 
-#: ../src/e-util/e-collection-account-wizard.c:558
+#: ../src/e-util/e-collection-account-wizard.c:580
 #: ../src/e-util/e-name-selector-dialog.c:445
 #: ../src/mail/importers/pine-importer.c:430
 msgid "Address Book"
 msgstr "Adresář"
 
-#: ../src/e-util/e-collection-account-wizard.c:560
+#: ../src/e-util/e-collection-account-wizard.c:582
 msgid "Memo List"
 msgstr "Seznam poznámek"
 
-#: ../src/e-util/e-collection-account-wizard.c:561
+#: ../src/e-util/e-collection-account-wizard.c:583
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "Task List"
 msgstr "Seznam úkolů"
 
-#: ../src/e-util/e-collection-account-wizard.c:896
+#: ../src/e-util/e-collection-account-wizard.c:919
 msgid "Looking up LDAP server’s search base…"
 msgstr "Hledají se základní větve LDAP pro vyhledávání…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1193
+#: ../src/e-util/e-collection-account-wizard.c:1216
 msgid "Saving account settings, please wait…"
 msgstr "Ukládá se nastavení účtu, počkejte prosím…"
 
-#: ../src/e-util/e-collection-account-wizard.c:1337
+#: ../src/e-util/e-collection-account-wizard.c:1360
 msgid "User details"
 msgstr "Údaje o uživateli"
 
-#: ../src/e-util/e-collection-account-wizard.c:1350
+#: ../src/e-util/e-collection-account-wizard.c:1373
 msgid "_Email Address or User name:"
 msgstr "_E-mailová adresa nebo uživatelské jméno:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1380
+#: ../src/e-util/e-collection-account-wizard.c:1403
 msgid "_Advanced Options"
 msgstr "_Pokročilé volby"
 
-#: ../src/e-util/e-collection-account-wizard.c:1385
+#: ../src/e-util/e-collection-account-wizard.c:1408
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:216
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:172
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:25
 msgid "_Server:"
 msgstr "S_erver:"
 
-#: ../src/e-util/e-collection-account-wizard.c:1403
+#: ../src/e-util/e-collection-account-wizard.c:1426
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in "
 "addition to the domain of the e-mail address."
@@ -12428,11 +12429,11 @@ msgstr ""
 "Středníkem („;“) oddělený seznam serverů, na kterých se mají hledat "
 "informace, navíc k doméně e-mailové adresy."
 
-#: ../src/e-util/e-collection-account-wizard.c:1595
+#: ../src/e-util/e-collection-account-wizard.c:1618
 msgid "Select which parts should be configured:"
 msgstr "Vyberte, které části by se měly nastavit."
 
-#: ../src/e-util/e-collection-account-wizard.c:1719
+#: ../src/e-util/e-collection-account-wizard.c:1742
 #: ../src/mail/e-mail-config-identity-page.c:541
 #: ../src/mail/e-mail-config-summary-page.c:323
 msgid "Account Information"
@@ -12605,7 +12606,7 @@ msgstr "bílá"
 #: ../src/e-util/e-color-combo.c:642 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:406
 #: ../src/mail/e-mail-config-security-page.c:570
-#: ../src/mail/e-mail-reader.c:4246 ../src/mail/mail-config.ui.h:76
+#: ../src/mail/e-mail-reader.c:4235 ../src/mail/mail-config.ui.h:76
 msgid "Default"
 msgstr "Výchozí"
 
@@ -13019,23 +13020,23 @@ msgstr "Vybrat čas pro porovnání"
 msgid "Choose a File"
 msgstr "Vybrat soubor"
 
-#: ../src/e-util/e-filter-rule.c:978
+#: ../src/e-util/e-filter-rule.c:979
 msgid "R_ule name:"
 msgstr "Ná_zev pravidla:"
 
-#: ../src/e-util/e-filter-rule.c:1034
+#: ../src/e-util/e-filter-rule.c:1035
 msgid "all the following conditions"
 msgstr "všechny následující podmínky"
 
-#: ../src/e-util/e-filter-rule.c:1035
+#: ../src/e-util/e-filter-rule.c:1036
 msgid "any of the following conditions"
 msgstr "některá z následujících podmínek"
 
-#: ../src/e-util/e-filter-rule.c:1041
+#: ../src/e-util/e-filter-rule.c:1042
 msgid "_Find items which match:"
 msgstr "_Najít položky, které odpovídají:"
 
-#: ../src/e-util/e-filter-rule.c:1064
+#: ../src/e-util/e-filter-rule.c:1065
 msgid "Find items that meet the following conditions"
 msgstr "Hledat položky, které splňují následující podmínky"
 
@@ -13043,7 +13044,7 @@ msgstr "Hledat položky, které splňují následující podmínky"
 #. * part of "Include threads: None"
 #. protocol:
 #. name:
-#: ../src/e-util/e-filter-rule.c:1079
+#: ../src/e-util/e-filter-rule.c:1080
 #: ../src/e-util/e-html-editor-page-dialog.c:59
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
@@ -13054,36 +13055,36 @@ msgstr "Hledat položky, které splňují následující podmínky"
 msgid "None"
 msgstr "žádný"
 
-#: ../src/e-util/e-filter-rule.c:1080
+#: ../src/e-util/e-filter-rule.c:1081
 msgid "All related"
 msgstr "Vše související"
 
-#: ../src/e-util/e-filter-rule.c:1081 ../src/e-util/e-send-options.ui.h:24
+#: ../src/e-util/e-filter-rule.c:1082 ../src/e-util/e-send-options.ui.h:24
 msgid "Replies"
 msgstr "Odpovědi"
 
-#: ../src/e-util/e-filter-rule.c:1082
+#: ../src/e-util/e-filter-rule.c:1083
 msgid "Replies and parents"
 msgstr "Odpovědi a rodiče"
 
-#: ../src/e-util/e-filter-rule.c:1083
+#: ../src/e-util/e-filter-rule.c:1084
 msgid "No reply or parent"
 msgstr "Bez odpovědi nebo rodič"
 
-#: ../src/e-util/e-filter-rule.c:1086
+#: ../src/e-util/e-filter-rule.c:1087
 msgid "I_nclude threads:"
 msgstr "Z_ahrnout vlákna:"
 
-#: ../src/e-util/e-filter-rule.c:1164
+#: ../src/e-util/e-filter-rule.c:1165
 msgid "A_dd Condition"
 msgstr "Při_dat podmínku"
 
-#: ../src/e-util/e-filter-rule.c:1478 ../src/e-util/filter.ui.h:1
+#: ../src/e-util/e-filter-rule.c:1485 ../src/e-util/filter.ui.h:1
 #: ../src/mail/em-filter-rule.c:1043 ../src/mail/em-utils.c:166
 msgid "Incoming"
 msgstr "Příchozí"
 
-#: ../src/e-util/e-filter-rule.c:1478 ../src/mail/em-filter-rule.c:1044
+#: ../src/e-util/e-filter-rule.c:1485 ../src/mail/em-filter-rule.c:1044
 #: ../src/mail/em-utils.c:167
 msgid "Outgoing"
 msgstr "Odchozí"
@@ -14065,7 +14066,7 @@ msgid "File _type:"
 msgstr "_Typ souboru:"
 
 #: ../src/e-util/e-import-assistant.c:343
-#: ../src/e-util/e-import-assistant.c:948
+#: ../src/e-util/e-import-assistant.c:956
 msgid "Choose the destination for this import"
 msgstr "Zvolte cíl pro tento import"
 
@@ -14108,33 +14109,33 @@ msgstr "Z %s:"
 msgid "_Cancel Import"
 msgstr "_Zrušit import"
 
-#: ../src/e-util/e-import-assistant.c:947
+#: ../src/e-util/e-import-assistant.c:955
 msgid "Preview data to be imported"
 msgstr "Zobrazit náhled dat, která se budou importovat"
 
-#: ../src/e-util/e-import-assistant.c:953
-#: ../src/e-util/e-import-assistant.c:966
-#: ../src/e-util/e-import-assistant.c:1319
-#: ../src/e-util/e-import-assistant.c:1395
-#: ../src/e-util/e-import-assistant.c:1404
+#: ../src/e-util/e-import-assistant.c:961
+#: ../src/e-util/e-import-assistant.c:974
+#: ../src/e-util/e-import-assistant.c:1327
+#: ../src/e-util/e-import-assistant.c:1403
+#: ../src/e-util/e-import-assistant.c:1412
 msgid "Import Data"
 msgstr "Importovat data"
 
-#: ../src/e-util/e-import-assistant.c:961
+#: ../src/e-util/e-import-assistant.c:969
 msgid "Select what type of file you want to import from the list."
 msgstr "Vyberte, který typ souboru chcete ze seznamu importovat."
 
-#: ../src/e-util/e-import-assistant.c:1309
-#: ../src/e-util/e-import-assistant.c:1344
+#: ../src/e-util/e-import-assistant.c:1317
+#: ../src/e-util/e-import-assistant.c:1352
 msgid "Evolution Import Assistant"
 msgstr "Asistent Evolution pro import"
 
-#: ../src/e-util/e-import-assistant.c:1326
-#: ../src/e-util/e-import-assistant.c:1382
+#: ../src/e-util/e-import-assistant.c:1334
+#: ../src/e-util/e-import-assistant.c:1390
 msgid "Import Location"
 msgstr "Importovat umístění"
 
-#: ../src/e-util/e-import-assistant.c:1337
+#: ../src/e-util/e-import-assistant.c:1345
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
@@ -14143,19 +14144,19 @@ msgstr ""
 "Vítejte v průvodci Evolution pro import.\n"
 "Tento asistent vás provede importem externích souborů do aplikace Evolution."
 
-#: ../src/e-util/e-import-assistant.c:1354
+#: ../src/e-util/e-import-assistant.c:1362
 msgid "Importer Type"
 msgstr "Typ importu"
 
-#: ../src/e-util/e-import-assistant.c:1364
+#: ../src/e-util/e-import-assistant.c:1372
 msgid "Select Information to Import"
 msgstr "Vyberte informace, které importovat"
 
-#: ../src/e-util/e-import-assistant.c:1373
+#: ../src/e-util/e-import-assistant.c:1381
 msgid "Select a File"
 msgstr "Vyberte soubor"
 
-#: ../src/e-util/e-import-assistant.c:1390
+#: ../src/e-util/e-import-assistant.c:1398
 msgid "Click “Apply” to begin importing the file into Evolution."
 msgstr "Spusťte import souboru do aplikace Evolution kliknutím na „Použít“."
 
@@ -14361,25 +14362,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Vybrat kontakty z adresáře"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3237
+#: ../src/e-util/e-name-selector-entry.c:3242
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Rozbalit %s jako vložené"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3253
+#: ../src/e-util/e-name-selector-entry.c:3258
 #, c-format
 msgid "Cop_y %s"
 msgstr "Ko_pírovat %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3264
+#: ../src/e-util/e-name-selector-entry.c:3269
 #, c-format
 msgid "C_ut %s"
 msgstr "_Vyjmout %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3282
+#: ../src/e-util/e-name-selector-entry.c:3287
 #, c-format
 msgid "_Edit %s"
 msgstr "_Upravit %s"
@@ -14745,44 +14746,44 @@ msgstr "Jméno nemůže být prázdné."
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1359
+#: ../src/e-util/e-source-config.c:1361
 msgid "Refresh every"
 msgstr "Aktualizovat každých"
 
-#: ../src/e-util/e-source-config.c:1389 ../src/e-util/e-source-config.c:1459
+#: ../src/e-util/e-source-config.c:1391 ../src/e-util/e-source-config.c:1461
 msgid "Use a secure connection"
 msgstr "Používat zabezpečené připojení"
 
-#: ../src/e-util/e-source-config.c:1485
+#: ../src/e-util/e-source-config.c:1487
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Zrušit _důvěru v certifikát SSL/TLS"
 
-#: ../src/e-util/e-source-config.c:1521
+#: ../src/e-util/e-source-config.c:1523
 msgid "User:"
 msgstr "Uživatel:"
 
-#: ../src/e-util/e-source-selector.c:3212
+#: ../src/e-util/e-source-selector.c:3217
 msgid "Show"
 msgstr "Zobrazovat"
 
-#: ../src/e-util/e-source-selector.c:3219
+#: ../src/e-util/e-source-selector.c:3224
 msgid "Group name"
 msgstr "Název skupiny"
 
-#: ../src/e-util/e-source-selector.c:3374 ../src/mail/e-mail-display.c:793
+#: ../src/e-util/e-source-selector.c:3379 ../src/mail/e-mail-display.c:793
 msgid "_Hide"
 msgstr "_Skrýt"
 
-#: ../src/e-util/e-source-selector.c:3374
-#: ../src/e-util/e-source-selector.c:3473
+#: ../src/e-util/e-source-selector.c:3379
+#: ../src/e-util/e-source-selector.c:3478
 msgid "_Show"
 msgstr "_Zobrazit"
 
-#: ../src/e-util/e-source-selector.c:3426
+#: ../src/e-util/e-source-selector.c:3431
 msgid "Manage Groups"
 msgstr "Správa skupin"
 
-#: ../src/e-util/e-source-selector.c:3438
+#: ../src/e-util/e-source-selector.c:3443
 msgid "Available Groups:"
 msgstr "Dostupné skupiny:"
 
@@ -15408,47 +15409,47 @@ msgstr "Uložit _obrázek…"
 msgid "Save the image to a file"
 msgstr "Uložit obrázek do souboru"
 
-#: ../src/e-util/e-web-view.c:421 ../src/e-util/e-web-view.c:2030
+#: ../src/e-util/e-web-view.c:421 ../src/e-util/e-web-view.c:2032
 msgid "Select all text and images"
 msgstr "Vybrat celý text a obrázky"
 
-#: ../src/e-util/e-web-view.c:1379
+#: ../src/e-util/e-web-view.c:1381
 #, c-format
 msgid "Click to call %s"
 msgstr "Kliknutím zavoláte %s"
 
-#: ../src/e-util/e-web-view.c:1381
+#: ../src/e-util/e-web-view.c:1383
 msgid "Click to hide/unhide addresses"
 msgstr "Skrýt/odkrýt adresy"
 
-#: ../src/e-util/e-web-view.c:1392
+#: ../src/e-util/e-web-view.c:1394
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Přejít na oddíl %s zprávy"
 
-#: ../src/e-util/e-web-view.c:1394
+#: ../src/e-util/e-web-view.c:1396
 msgid "Go to the beginning of the message"
 msgstr "Přejít na začátek zprávy"
 
-#: ../src/e-util/e-web-view.c:1398
+#: ../src/e-util/e-web-view.c:1400
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknutím sem otevřete %s"
 
-#: ../src/e-util/e-web-view.c:3946
+#: ../src/e-util/e-web-view.c:3953
 msgid "Copying image to clipboard"
 msgstr "Kopíruje se obrázku do schránky"
 
-#: ../src/e-util/e-web-view.c:4134
+#: ../src/e-util/e-web-view.c:4141
 msgid "Save Image"
 msgstr "Uložit obrázek"
 
-#: ../src/e-util/e-web-view.c:4175
+#: ../src/e-util/e-web-view.c:4182
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Ukládá se obrázek do „%s“"
 
-#: ../src/e-util/e-web-view.c:4270
+#: ../src/e-util/e-web-view.c:4277
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Nelze získat URI „%s“, tudíž nelze určit, jak jej stáhnout."
@@ -15755,7 +15756,7 @@ msgstr "Neplatná adresa URI složky: „%s“"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:117
-#: ../src/mail/em-folder-properties.c:1150
+#: ../src/mail/em-folder-properties.c:1142
 #: ../src/mail/em-folder-tree-model.c:1237
 #: ../src/mail/importers/kmail-libs.c:139
 #: ../src/modules/mail/e-mail-shell-view-private.c:1035
@@ -15821,7 +15822,7 @@ msgstr ""
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "Odpovídající zdroj pro službu s UID „%s“ nebyl nalezen"
 
-#: ../src/libemail-engine/e-mail-session.c:2456
+#: ../src/libemail-engine/e-mail-session.c:2457
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Čeká se na „%s“"
@@ -15830,26 +15831,26 @@ msgstr "Čeká se na „%s“"
 msgid "No mail transport service available"
 msgstr "Není k dispozici žádná služba pro přenos pošty"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:616
+#: ../src/libemail-engine/e-mail-session-utils.c:613
 #: ../src/libemail-engine/mail-ops.c:708
 #, c-format
 msgid "Posting message to “%s”"
 msgstr "Přesouvá se zpráva do „%s“"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:653
+#: ../src/libemail-engine/e-mail-session-utils.c:650
 #: ../src/libemail-engine/mail-ops.c:744
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Nelze použít odchozí filtry: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:686
-#: ../src/libemail-engine/e-mail-session-utils.c:721
+#: ../src/libemail-engine/e-mail-session-utils.c:683
+#: ../src/libemail-engine/e-mail-session-utils.c:718
 #: ../src/libemail-engine/mail-ops.c:772 ../src/libemail-engine/mail-ops.c:807
 #, c-format
 msgid "Storing sent message to “%s”"
 msgstr "Ukládá se odeslaná zpráva do „%s“"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:710
+#: ../src/libemail-engine/e-mail-session-utils.c:707
 #: ../src/libemail-engine/mail-ops.c:796
 #, c-format
 msgid ""
@@ -15859,13 +15860,13 @@ msgstr ""
 "Nelze připojit do %s: %s\n"
 "Místo toho se připojí do místní složky „Odeslané“."
 
-#: ../src/libemail-engine/e-mail-session-utils.c:740
+#: ../src/libemail-engine/e-mail-session-utils.c:737
 #: ../src/libemail-engine/mail-ops.c:824
 #, c-format
 msgid "Failed to append to local “Sent” folder: %s"
 msgstr "Nelze připojit do místní složky „Odeslané“: %s"
 
-#: ../src/libemail-engine/e-mail-session-utils.c:928
+#: ../src/libemail-engine/e-mail-session-utils.c:925
 #: ../src/libemail-engine/mail-ops.c:985 ../src/libemail-engine/mail-ops.c:1098
 #: ../src/mail/mail-send-recv.c:636
 msgid "Sending message"
@@ -16207,7 +16208,7 @@ msgid "Re_ply style:"
 msgstr "Styl od_povědí:"
 
 #: ../src/mail/e-mail-config-composing-page.c:488
-#: ../src/mail/em-composer-utils.c:4030 ../src/mail/mail-config.ui.h:20
+#: ../src/mail/em-composer-utils.c:4032 ../src/mail/mail-config.ui.h:20
 msgid "Start _typing at the bottom"
 msgstr "Z_ačít psát dole"
 
@@ -16439,11 +16440,11 @@ msgid "%s — %s"
 msgstr "%s — %s"
 
 #: ../src/mail/e-mail-config-security-page.c:320
-#: ../src/mail/em-folder-properties.c:1070 ../src/mail/mail-config.ui.h:32
+#: ../src/mail/em-folder-properties.c:1062 ../src/mail/mail-config.ui.h:32
 #: ../src/modules/addressbook/autocompletion-config.c:115
 #: ../src/modules/calendar/e-calendar-preferences.c:643
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:48
-#: ../src/modules/mail/e-mail-shell-backend.c:753
+#: ../src/modules/mail/e-mail-shell-backend.c:754
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:17
 msgid "General"
 msgstr "Obecné"
@@ -16551,7 +16552,7 @@ msgstr "Vždy šifrovat sobě při odesílání šifrované zprávy"
 msgid "Sending Email"
 msgstr "Odesílání pošty"
 
-#: ../src/mail/e-mail-config-service-page.c:499
+#: ../src/mail/e-mail-config-service-page.c:501
 msgid "Server _Type:"
 msgstr "_Typ serveru:"
 
@@ -16769,13 +16770,13 @@ msgid "_Later"
 msgstr "Po_zději"
 
 #: ../src/mail/e-mail-label-manager.c:169
-#: ../src/mail/em-folder-properties.c:842
+#: ../src/mail/em-folder-properties.c:834
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1244
 msgid "Add Label"
 msgstr "Přidat štítek"
 
 #: ../src/mail/e-mail-label-manager.c:220
-#: ../src/mail/em-folder-properties.c:869
+#: ../src/mail/em-folder-properties.c:861
 msgid "Edit Label"
 msgstr "Úprava štítku"
 
@@ -16882,7 +16883,7 @@ msgstr "Vždy ignorov_at „Komu odpovědět“: pro poštovní konference."
 msgid "Failed to retrieve message:"
 msgstr "Selhalo získání zprávy:"
 
-#: ../src/mail/e-mail-reader.c:1978 ../src/mail/e-mail-reader.c:3344
+#: ../src/mail/e-mail-reader.c:1978 ../src/mail/e-mail-reader.c:3342
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Získává se zpráva „%s“"
@@ -17285,7 +17286,7 @@ msgstr "Odstranit d_uplicitní zprávy"
 msgid "Checks selected messages for duplicates"
 msgstr "Zkontrolovat duplicitu vybraných zpráv"
 
-#: ../src/mail/e-mail-reader.c:2523 ../src/mail/em-composer-utils.c:3984
+#: ../src/mail/e-mail-reader.c:2523 ../src/mail/em-composer-utils.c:3986
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -17305,7 +17306,7 @@ msgstr "Al_ternativní odpověď…"
 msgid "Choose reply options for the selected message"
 msgstr "Zvolit možnosti odpovědi pro vybranou zprávu"
 
-#: ../src/mail/e-mail-reader.c:2537 ../src/mail/em-composer-utils.c:3979
+#: ../src/mail/e-mail-reader.c:2537 ../src/mail/em-composer-utils.c:3981
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -17479,16 +17480,16 @@ msgstr "Všechny _hlavičky zprávy"
 msgid "Show messages with all email headers"
 msgstr "Zobrazovat zprávu se všemi hlavičkami e-mailu"
 
-#: ../src/mail/e-mail-reader.c:3350
+#: ../src/mail/e-mail-reader.c:3348
 msgid "Retrieving message"
 msgstr "Získává se zpráva"
 
-#: ../src/mail/e-mail-reader.c:4436
+#: ../src/mail/e-mail-reader.c:4425
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "_Přeposlat"
 
-#: ../src/mail/e-mail-reader.c:4437
+#: ../src/mail/e-mail-reader.c:4426
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Přeposlat někomu vybranou zprávu"
@@ -17497,52 +17498,52 @@ msgstr "Přeposlat někomu vybranou zprávu"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:4456
+#: ../src/mail/e-mail-reader.c:4445
 msgid "Group Reply"
 msgstr "Skupinová odpověď"
 
-#: ../src/mail/e-mail-reader.c:4457
+#: ../src/mail/e-mail-reader.c:4446
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Odpovědět do poštovní konference nebo všem příjemcům"
 
-#: ../src/mail/e-mail-reader.c:4523 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:4512 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Smazat"
 
-#: ../src/mail/e-mail-reader.c:4535
+#: ../src/mail/e-mail-reader.c:4524
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1281
 msgid "Next"
 msgstr "Další"
 
-#: ../src/mail/e-mail-reader.c:4539
+#: ../src/mail/e-mail-reader.c:4528
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1274
 msgid "Previous"
 msgstr "Předchozí"
 
-#: ../src/mail/e-mail-reader.c:4548 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:4537 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Odpovědět"
 
-#: ../src/mail/e-mail-reader.c:5703
+#: ../src/mail/e-mail-reader.c:5692
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Povolit vzdálený obsah pro kohokoliv z %s"
 
-#: ../src/mail/e-mail-reader.c:5705
+#: ../src/mail/e-mail-reader.c:5694
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Povolit vzdálený obsah pro %s"
 
-#: ../src/mail/e-mail-reader.c:5722
+#: ../src/mail/e-mail-reader.c:5711
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Povolit vzdálený obsah z %s"
 
-#: ../src/mail/e-mail-reader.c:5739
+#: ../src/mail/e-mail-reader.c:5728
 msgid "Do not show this message again"
 msgstr "Příště tuto zprávu nezobrazovat"
 
-#: ../src/mail/e-mail-reader.c:5791
+#: ../src/mail/e-mail-reader.c:5780
 msgid "Load remote content"
 msgstr "Načíst vzdálený obsah"
 
@@ -17716,64 +17717,64 @@ msgctxt "reply-attribution"
 msgid "Re: %s"
 msgstr "Odp.: %s"
 
-#: ../src/mail/em-composer-utils.c:3296
+#: ../src/mail/em-composer-utils.c:3298
 msgid "an unknown sender"
 msgstr "neznámý odesílatel"
 
-#: ../src/mail/em-composer-utils.c:3930
+#: ../src/mail/em-composer-utils.c:3932
 msgid "Alternative Reply"
 msgstr "Alternativní odpověď"
 
-#: ../src/mail/em-composer-utils.c:3933
+#: ../src/mail/em-composer-utils.c:3935
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1470
 msgid "_Reply"
 msgstr "_Odpovědět"
 
-#: ../src/mail/em-composer-utils.c:3946
+#: ../src/mail/em-composer-utils.c:3948
 msgid "Recipients:"
 msgstr "Příjemci:"
 
-#: ../src/mail/em-composer-utils.c:3974
+#: ../src/mail/em-composer-utils.c:3976
 msgid "Reply to _Sender"
 msgstr "Odpovědět ode_sílateli"
 
-#: ../src/mail/em-composer-utils.c:3996
+#: ../src/mail/em-composer-utils.c:3998
 msgid "Reply style:"
 msgstr "Styl odpovědi:"
 
-#: ../src/mail/em-composer-utils.c:4004
+#: ../src/mail/em-composer-utils.c:4006
 msgid "_Default"
 msgstr "_Výchozí"
 
-#: ../src/mail/em-composer-utils.c:4008
+#: ../src/mail/em-composer-utils.c:4010
 msgid "Attach_ment"
 msgstr "Přílo_ha"
 
-#: ../src/mail/em-composer-utils.c:4012
+#: ../src/mail/em-composer-utils.c:4014
 msgid "Inline (_Outlook style)"
 msgstr "Vložené (jako _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4016
+#: ../src/mail/em-composer-utils.c:4018
 msgid "_Quote"
 msgstr "_Citovat"
 
-#: ../src/mail/em-composer-utils.c:4020
+#: ../src/mail/em-composer-utils.c:4022
 msgid "Do _Not Quote"
 msgstr "_Necitovat"
 
-#: ../src/mail/em-composer-utils.c:4027
+#: ../src/mail/em-composer-utils.c:4029
 msgid "_Format message in HTML"
 msgstr "_Formátovat zprávu v HTML"
 
-#: ../src/mail/em-composer-utils.c:4037
+#: ../src/mail/em-composer-utils.c:4039
 msgid "Apply t_emplate"
 msgstr "Použít šab_lonu"
 
-#: ../src/mail/em-composer-utils.c:4049
+#: ../src/mail/em-composer-utils.c:4051
 msgid "Preserve original message S_ubject"
 msgstr "Zachovat př_edmět původní zprávy"
 
-#: ../src/mail/em-composer-utils.c:4115
+#: ../src/mail/em-composer-utils.c:4117
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -17782,11 +17783,11 @@ msgstr[1] "%d příjemci"
 msgstr[2] "%d příjemců"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4536
+#: ../src/mail/em-composer-utils.c:4538
 msgid "Posting destination"
 msgstr "Cíl odeslání"
 
-#: ../src/mail/em-composer-utils.c:4541
+#: ../src/mail/em-composer-utils.c:4543
 msgid "Choose folders to post the message to."
 msgstr "Zvolte složky, kam poslat zprávu."
 
@@ -17848,76 +17849,76 @@ msgid "_Send Account Override:"
 msgstr "_Nahradit odesílací účet:"
 
 #: ../src/mail/em-folder-properties.c:605
-msgid "_Archive this folder using these settings:"
-msgstr "_Archivovat tuto složku s následujícími nastaveními:"
+msgid "Archive this folder using these settings:"
+msgstr "Archivovat tuto složku s následujícími nastaveními:"
 
-#. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
-#: ../src/mail/em-folder-properties.c:614
+#. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
+#: ../src/mail/em-folder-properties.c:617
 msgctxt "autoarchive"
-msgid "_Cleanup messages older than"
-msgstr "_Odstranit zprávy starší než"
+msgid "Auto-_cleanup messages older than"
+msgstr "Automati_cky odstranit zprávy starší než"
 
-#. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
+#. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:630
 msgctxt "autoarchive"
 msgid "days"
 msgstr "dnů"
 
-#. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
+#. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:632
 msgctxt "autoarchive"
 msgid "weeks"
 msgstr "týdnů"
 
-#. Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]"
+#. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:634
 msgctxt "autoarchive"
 msgid "months"
 msgstr "měsíců"
 
 #: ../src/mail/em-folder-properties.c:640
-msgid "Move old messages to the default archive _folder"
-msgstr "Přesunout staré zprávy do výchozí složky pro _archivaci"
+msgid "Move messages to the default archive _folder"
+msgstr "Přesunout zprávy do výchozí složky pro _archivaci"
+
+#: ../src/mail/em-folder-properties.c:647
+msgid "_Move messages to:"
+msgstr "_Přesunout zprávy do:"
 
 #: ../src/mail/em-folder-properties.c:651
-msgid "_Move old messages to:"
-msgstr "_Přesunout staré zprávy do:"
+msgid "Archive folder"
+msgstr "Archivní složka"
+
+#: ../src/mail/em-folder-properties.c:651
+msgid "Select folder to use for Archive"
+msgstr "Vyberte složku pro účely archivace"
 
 #: ../src/mail/em-folder-properties.c:655
-msgid "AutoArchive folder"
-msgstr "Složka AutoArchivace"
+msgid "_Delete messages"
+msgstr "_Smazat zprávy"
 
-#: ../src/mail/em-folder-properties.c:655
-msgid "Select folder to use for AutoArchive"
-msgstr "Vyberte složku pro AutoArchivaci"
-
-#: ../src/mail/em-folder-properties.c:661
-msgid "_Delete old messages"
-msgstr "_Smazat staré zprávy"
-
-#: ../src/mail/em-folder-properties.c:1018
+#: ../src/mail/em-folder-properties.c:1010
 msgid "Server Tag"
 msgstr "Značka serveru"
 
-#: ../src/mail/em-folder-properties.c:1022 ../src/mail/filtertypes.xml.in.h:29
+#: ../src/mail/em-folder-properties.c:1014 ../src/mail/filtertypes.xml.in.h:29
 #: ../src/mail/searchtypes.xml.in.h:31 ../src/mail/vfoldertypes.xml.in.h:31
 msgid "Label"
 msgstr "Štítek"
 
-#: ../src/mail/em-folder-properties.c:1073
-msgid "AutoArchive"
-msgstr "AutoArchivace"
+#: ../src/mail/em-folder-properties.c:1065
+msgid "Archive"
+msgstr "Archivování"
 
-#: ../src/mail/em-folder-properties.c:1076 ../src/mail/mail-config.ui.h:121
+#: ../src/mail/em-folder-properties.c:1068 ../src/mail/mail-config.ui.h:121
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Štítky"
 
-#: ../src/mail/em-folder-properties.c:1155
+#: ../src/mail/em-folder-properties.c:1147
 msgid "Folder Properties"
 msgstr "Vlastnosti složky"
 
-#: ../src/mail/em-folder-properties.c:1394
+#: ../src/mail/em-folder-properties.c:1386
 msgid "Gathering folder properties"
 msgstr "Získávají se vlastnosti kategorie"
 
@@ -17961,27 +17962,27 @@ msgstr "%s (%u%s)"
 msgid "Mail Folder Tree"
 msgstr "Strom složek pošty"
 
-#: ../src/mail/em-folder-tree.c:2279
+#: ../src/mail/em-folder-tree.c:2280
 #, c-format
 msgid "Moving folder %s"
 msgstr "Probíhá přesun složky %s"
 
-#: ../src/mail/em-folder-tree.c:2282
+#: ../src/mail/em-folder-tree.c:2283
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopírování složky %s"
 
-#: ../src/mail/em-folder-tree.c:2289 ../src/mail/message-list.c:2595
+#: ../src/mail/em-folder-tree.c:2290 ../src/mail/message-list.c:2595
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Probíhá přesun zprávy do složky %s"
 
-#: ../src/mail/em-folder-tree.c:2293 ../src/mail/message-list.c:2597
+#: ../src/mail/em-folder-tree.c:2294 ../src/mail/message-list.c:2597
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopírování zprávy do složky %s"
 
-#: ../src/mail/em-folder-tree.c:2312
+#: ../src/mail/em-folder-tree.c:2313
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Nelze upustit zprávy do úložiště nejvyšší úrovně"
@@ -18162,7 +18163,7 @@ msgctxt "reply-attribution"
 msgid ":"
 msgstr ":"
 
-#: ../src/mail/em-utils.c:1854
+#: ../src/mail/em-utils.c:1868
 msgid "Deleting old messages"
 msgstr "Odstraňování starých zpráv"
 
@@ -18581,7 +18582,7 @@ msgstr "Importuje se pošta a kontakty z KMailu"
 #. Destination folder, was set in our widget
 #: ../src/mail/importers/mail-importer.c:187
 #: ../src/mail/importers/mail-importer.c:312
-#: ../src/plugins/dbx-import/dbx-importer.c:605
+#: ../src/plugins/dbx-import/dbx-importer.c:612
 #: ../src/plugins/pst-import/pst-importer.c:756
 #, c-format
 msgid "Importing “%s”"
@@ -18609,22 +18610,22 @@ msgstr "Importovat poštu z Pine."
 msgid "Mail to %s"
 msgstr "Poslat %s"
 
-#: ../src/mail/mail-autofilter.c:220 ../src/mail/mail-autofilter.c:267
+#: ../src/mail/mail-autofilter.c:220 ../src/mail/mail-autofilter.c:268
 #, c-format
 msgid "Mail from %s"
 msgstr "Pošta od %s"
 
-#: ../src/mail/mail-autofilter.c:250
+#: ../src/mail/mail-autofilter.c:251
 #, c-format
 msgid "Subject is %s"
 msgstr "Předmět je %s"
 
-#: ../src/mail/mail-autofilter.c:290
+#: ../src/mail/mail-autofilter.c:291
 #, c-format
 msgid "%s mailing list"
 msgstr "%s konferencí"
 
-#: ../src/mail/mail-autofilter.c:400
+#: ../src/mail/mail-autofilter.c:401
 msgid "Add Filter Rule"
 msgstr "Přidat pravidlo filtru"
 
@@ -18633,7 +18634,7 @@ msgstr "Přidat pravidlo filtru"
 #. * folder. For more than one filter rule is each of
 #. * them on a separate line, with four spaces in front
 #. * of its name, without quotes.
-#: ../src/mail/mail-autofilter.c:551
+#: ../src/mail/mail-autofilter.c:552
 #, c-format
 msgid ""
 "The filter rule “%s” has been modified to account for the deleted folder\n"
@@ -18654,7 +18655,7 @@ msgstr[2] ""
 "%s byla změněna, aby reflektovala smazanou složku\n"
 "„%s“."
 
-#: ../src/mail/mail-autofilter.c:559
+#: ../src/mail/mail-autofilter.c:560
 msgid "Open Message Filters"
 msgstr "Otevřít filtry zpráv"
 
@@ -20227,7 +20228,7 @@ msgstr "Vyšší"
 msgid "Highest"
 msgstr "Nejvyšší"
 
-#: ../src/mail/message-list.c:478 ../src/mail/message-list.c:6518
+#: ../src/mail/message-list.c:478 ../src/mail/message-list.c:6519
 msgid "Generating message list"
 msgstr "Generuje se seznam zpráv"
 
@@ -20267,7 +20268,7 @@ msgstr "Zprávy"
 msgid "Follow-up"
 msgstr "K vyřízení"
 
-#: ../src/mail/message-list.c:6457
+#: ../src/mail/message-list.c:6458
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20279,7 +20280,7 @@ msgstr ""
 "nového hledání vymazáním v nabídce Hledat → Vymazat nebo změnou dotazu "
 "nahoře."
 
-#: ../src/mail/message-list.c:6465
+#: ../src/mail/message-list.c:6466
 msgid "There are no messages in this folder."
 msgstr "V této složce nejsou žádné zprávy."
 
@@ -20739,7 +20740,7 @@ msgstr "Nepřiřazené"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:775
 #: ../src/modules/calendar/e-task-shell-view-actions.c:976
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2150
-#: ../src/shell/e-shell-content.c:637
+#: ../src/shell/e-shell-content.c:639
 msgid "Advanced Search"
 msgstr "Pokročilé vyhledávání"
 
@@ -23507,57 +23508,57 @@ msgstr "Vytvořit novou složku pošty"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:733
+#: ../src/modules/mail/e-mail-shell-backend.c:734
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:736
+#: ../src/modules/mail/e-mail-shell-backend.c:737
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
-#: ../src/modules/mail/e-mail-shell-backend.c:739
+#: ../src/modules/mail/e-mail-shell-backend.c:740
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
 msgstr "networkmanager"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:769
+#: ../src/modules/mail/e-mail-shell-backend.c:770
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
 msgstr "Metoda pro rozpoznání _online stavu:"
 
 #. Always as the first
-#: ../src/modules/mail/e-mail-shell-backend.c:778
+#: ../src/modules/mail/e-mail-shell-backend.c:779
 msgctxt "NetworkMonitor"
 msgid "Default"
 msgstr "Výchozí"
 
 #. Always as the last
-#: ../src/modules/mail/e-mail-shell-backend.c:792
+#: ../src/modules/mail/e-mail-shell-backend.c:793
 msgctxt "NetworkMonitor"
 msgid "Always Online"
 msgstr "Vždy online"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:861
+#: ../src/modules/mail/e-mail-shell-backend.c:862
 msgid "Mail Preferences"
 msgstr "Předvolby pošty"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:870
+#: ../src/modules/mail/e-mail-shell-backend.c:871
 msgid "Composer Preferences"
 msgstr "Předvolby editoru"
 
-#: ../src/modules/mail/e-mail-shell-backend.c:879
+#: ../src/modules/mail/e-mail-shell-backend.c:880
 msgid "Network Preferences"
 msgstr "Předvolby sítě"
 
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
-#: ../src/modules/mail/e-mail-shell-backend.c:1240
+#: ../src/modules/mail/e-mail-shell-backend.c:1241
 msgctxt "label"
 msgid "None"
 msgstr "Žádný"
@@ -24328,11 +24329,11 @@ msgstr "_Formátovat jako…"
 msgid "_Other languages"
 msgstr "_Ostatní jazyky"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:453
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:458
 msgid "Text Highlight"
 msgstr "Zvýraznění textu"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:454
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:459
 msgid "Syntax highlighting of mail parts"
 msgstr "Zvýraznění syntaxe v poštovních částech"
 
@@ -25678,11 +25679,11 @@ msgstr "O _aplikaci"
 msgid "_Quit"
 msgstr "U_končit"
 
-#: ../src/shell/e-shell-content.c:700 ../src/shell/e-shell-content.c:701
+#: ../src/shell/e-shell-content.c:702 ../src/shell/e-shell-content.c:703
 msgid "Searches"
 msgstr "Hledání"
 
-#: ../src/shell/e-shell-content.c:744
+#: ../src/shell/e-shell-content.c:746
 msgid "Save Search"
 msgstr "Uložit vyhledávání"
 
@@ -25734,7 +25735,7 @@ msgstr ""
 msgid "Evolution Website"
 msgstr "Webová stránka Evolution"
 
-#: ../src/shell/e-shell-view.c:290
+#: ../src/shell/e-shell-view.c:295
 msgid "Saving user interface state"
 msgstr "Ukládání stavu uživatelského rozhraní"
 
@@ -26741,6 +26742,12 @@ msgstr "Nelze zapsat úložiště na disk, kód chyby: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Importovaný certifikát"
+
+#~ msgid "_Delete old messages"
+#~ msgstr "_Smazat staré zprávy"
+
+#~ msgid "AutoArchive"
+#~ msgstr "AutoArchivace"
 
 #~ msgid "Default reminder snooze interval, in minutes"
 #~ msgstr "Výchozí déla přestávky do připomenutí, v minutách"
