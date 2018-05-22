@@ -1660,13 +1660,18 @@ em_utils_get_archive_folder_uri_from_folder (CamelFolder *folder,
 
 	if (em_folder_properties_autoarchive_get (mail_backend, folder_uri,
 		&aa_enabled, &aa_config, &aa_n_units, &aa_unit, &aa_custom_target_folder_uri)) {
-		if (aa_enabled && aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM &&
+		if (aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM &&
 		    aa_custom_target_folder_uri && *aa_custom_target_folder_uri) {
 			g_free (folder_uri);
 			return aa_custom_target_folder_uri;
 		}
 
 		g_free (aa_custom_target_folder_uri);
+
+		if (aa_config == E_AUTO_ARCHIVE_CONFIG_DELETE) {
+			g_free (folder_uri);
+			return NULL;
+		}
 	}
 	g_free (folder_uri);
 
@@ -1710,13 +1715,18 @@ em_utils_get_archive_folder_uri_from_folder (CamelFolder *folder,
 
 			if (em_folder_properties_autoarchive_get (mail_backend, folder_uri,
 				&aa_enabled, &aa_config, &aa_n_units, &aa_unit, &aa_custom_target_folder_uri)) {
-				if (aa_enabled && aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM &&
+				if (aa_config == E_AUTO_ARCHIVE_CONFIG_MOVE_TO_CUSTOM &&
 				    aa_custom_target_folder_uri && *aa_custom_target_folder_uri) {
 					g_free (folder_uri);
 					return aa_custom_target_folder_uri;
 				}
 
 				g_free (aa_custom_target_folder_uri);
+
+				if (aa_config == E_AUTO_ARCHIVE_CONFIG_DELETE) {
+					g_free (folder_uri);
+					return NULL;
+				}
 			}
 
 			g_free (folder_uri);

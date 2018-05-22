@@ -602,67 +602,59 @@ emfp_get_autoarchive_item (EConfig *ec,
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_box_pack_start (GTK_BOX (parent), GTK_WIDGET (grid), TRUE, TRUE, 0);
 
-	check = gtk_check_button_new_with_mnemonic (_("_Archive this folder using these settings:"));
-	gtk_grid_attach (grid, check, 0, 0, 3, 1);
-	aad->enabled_check = check;
+	label = gtk_label_new (_("Archive this folder using these settings:"));
+	gtk_grid_attach (grid, label, 0, 0, 3, 1);
+	g_object_set (G_OBJECT (label),
+		"halign", GTK_ALIGN_START,
+		"hexpand", FALSE,
+		NULL);
 
 	label = gtk_label_new ("");
 	g_object_set (G_OBJECT (label), "margin-left", 12, NULL);
 	gtk_grid_attach (grid, label, 0, 1, 1, 3);
 
-	/* Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]" */
-	label = gtk_label_new_with_mnemonic (C_("autoarchive", "_Cleanup messages older than"));
-	gtk_grid_attach (grid, label, 1, 1, 1, 1);
-
-	e_binding_bind_property (check, "active", label, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
+	/* Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]" */
+	check = gtk_check_button_new_with_mnemonic (C_("autoarchive", "Auto-_cleanup messages older than"));
+	gtk_grid_attach (grid, check, 1, 1, 1, 1);
+	aad->enabled_check = check;
 
 	widget = gtk_spin_button_new_with_range (1.0, 999.0, 1.0);
 	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (widget), 0);
 	gtk_grid_attach (grid, widget, 2, 1, 1, 1);
 	aad->n_units_spin = widget;
 
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
-
 	e_binding_bind_property (check, "active", widget, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 
 	widget = gtk_combo_box_text_new ();
-	/* Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]" */
+	/* Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]" */
 	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), emfp_autoarchive_unit_to_string (E_AUTO_ARCHIVE_UNIT_DAYS), C_("autoarchive", "days"));
-	/* Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]" */
+	/* Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]" */
 	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), emfp_autoarchive_unit_to_string (E_AUTO_ARCHIVE_UNIT_WEEKS), C_("autoarchive", "weeks"));
-	/* Translators: This text is part of "Cleanup messages older than [X] [days/weeks/months]" */
+	/* Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]" */
 	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), emfp_autoarchive_unit_to_string (E_AUTO_ARCHIVE_UNIT_MONTHS), C_("autoarchive", "months"));
 	gtk_grid_attach (grid, widget, 3, 1, 1, 1);
 	aad->unit_combo = widget;
 
 	e_binding_bind_property (check, "active", widget, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 
-	radio = gtk_radio_button_new_with_mnemonic (NULL, _("Move old messages to the default archive _folder"));
+	radio = gtk_radio_button_new_with_mnemonic (NULL, _("Move messages to the default archive _folder"));
 	gtk_grid_attach (grid, radio, 1, 2, 2, 1);
 	aad->move_to_default_radio = radio;
-
-	e_binding_bind_property (check, "active", radio, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
 	gtk_grid_attach (grid, hbox, 1, 3, 2, 1);
 
-	e_binding_bind_property (check, "active", hbox, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
-
-	widget = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (radio), _("_Move old messages to:"));
+	widget = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (radio), _("_Move messages to:"));
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
 	aad->move_to_custom_radio = widget;
 
-	widget = em_folder_selection_button_new (e_mail_backend_get_session (mail_backend), _("AutoArchive folder"), _("Select folder to use for AutoArchive"));
+	widget = em_folder_selection_button_new (e_mail_backend_get_session (mail_backend), _("Archive folder"), _("Select folder to use for Archive"));
 	gtk_box_pack_start (GTK_BOX (hbox), widget, TRUE, FALSE, 0);
 	aad->custom_folder_butt = widget;
 
-	e_binding_bind_property (aad->move_to_custom_radio, "active", widget, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
-
-	widget = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (radio), _("_Delete old messages"));
+	widget = gtk_radio_button_new_with_mnemonic_from_widget (GTK_RADIO_BUTTON (radio), _("_Delete messages"));
 	gtk_grid_attach (grid, widget, 1, 4, 2, 1);
 	aad->delete_radio = widget;
-
-	e_binding_bind_property (check, "active", widget, "sensitive", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 
 	aad->folder_uri = e_mail_folder_uri_build (
 		camel_folder_get_parent_store (context->folder),
@@ -1070,7 +1062,7 @@ static EMConfigItem emfp_items[] = {
 	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) N_("General") },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/00.folder", NULL /* set by code */ },
 	{ E_CONFIG_ITEM, (gchar *) "00.general/00.folder/00.info", NULL, emfp_get_folder_item },
-	{ E_CONFIG_PAGE, (gchar *) "10.autoarchive", (gchar *) N_("AutoArchive") },
+	{ E_CONFIG_PAGE, (gchar *) "10.autoarchive", (gchar *) N_("Archive") },
 	{ E_CONFIG_SECTION, (gchar *) "10.autoarchive/00.folder", NULL },
 	{ E_CONFIG_ITEM, (gchar *) "10.autoarchive/00.folder/00.info", NULL, emfp_get_autoarchive_item },
 	{ E_CONFIG_PAGE, (gchar *) "20.labels", (gchar *) N_("Labels") },
