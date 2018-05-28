@@ -8774,6 +8774,7 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 
 	body = webkit_dom_document_get_body (document);
 
+	webkit_dom_element_remove_attribute (webkit_dom_document_get_document_element (document), "dir");
 	webkit_dom_element_remove_attribute (WEBKIT_DOM_ELEMENT (body), "style");
 	html_mode = e_editor_page_get_html_mode (editor_page);
 	if (!html_mode)
@@ -8891,6 +8892,9 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 	change_cid_images_src_to_base64 (editor_page);
 
  out:
+	webkit_dom_element_set_attribute (webkit_dom_document_get_document_element (document), "dir", "ltr", NULL);
+	webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (body), "style", "text-align:left; direction:ltr;", NULL);
+
 	/* Register on input event that is called when the content (body) is modified */
 	e_editor_dom_register_input_event_listener_on_body (editor_page);
 	register_html_events_handlers (editor_page, body);
