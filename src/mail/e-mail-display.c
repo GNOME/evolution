@@ -1703,7 +1703,7 @@ mail_display_uri_requested_cb (EWebView *web_view,
 	if (uri_is_http) {
 		CamelFolder *folder;
 		const gchar *message_uid;
-		gchar *new_uri, *mail_uri, *enc;
+		gchar *new_uri, *mail_uri;
 		SoupURI *soup_uri;
 		GHashTable *query;
 		gboolean can_download_uri;
@@ -1744,14 +1744,29 @@ mail_display_uri_requested_cb (EWebView *web_view,
 		mail_uri = e_mail_part_build_uri (
 			folder, message_uid, NULL, NULL);
 
-		if (soup_uri->query)
-			query = soup_form_decode (soup_uri->query);
-		else
-			query = g_hash_table_new_full (
-				g_str_hash, g_str_equal,
-				g_free, g_free);
-		enc = soup_uri_encode (mail_uri, NULL);
-		g_hash_table_insert (query, g_strdup ("__evo-mail"), enc);
+		query = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			g_free, g_free);
+
+		if (soup_uri->query) {
+			GHashTable *uri_query;
+			GHashTableIter iter;
+			gpointer key, value;
+
+			/* It's required to copy the hash table, because it's uncertain
+			   which of the key/value pair is freed and which not, while the code
+			   below expects to have freed both. */
+			uri_query = soup_form_decode (soup_uri->query);
+
+			g_hash_table_iter_init (&iter, uri_query);
+			while (g_hash_table_iter_next (&iter, &key, &value)) {
+				g_hash_table_insert (query, g_strdup (key), g_strdup (value));
+			}
+
+			g_hash_table_unref (uri_query);
+		}
+
+		g_hash_table_insert (query, g_strdup ("__evo-mail"), soup_uri_encode (mail_uri, NULL));
 
 		/* Required, because soup_uri_set_query_from_form() can change
 		   order of arguments, then the URL checksum doesn't match. */
@@ -1766,14 +1781,13 @@ mail_display_uri_requested_cb (EWebView *web_view,
 			e_mail_display_claim_skipped_uri (display, uri);
 		}
 
-		g_free (mail_uri);
-
 		soup_uri_set_query_from_form (soup_uri, query);
 
 		new_uri = soup_uri_to_string (soup_uri, FALSE);
 
 		soup_uri_free (soup_uri);
 		g_hash_table_unref (query);
+		g_free (mail_uri);
 
 		g_free (*redirect_to_uri);
 		*redirect_to_uri = new_uri;
