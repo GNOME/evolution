@@ -90,6 +90,7 @@ typedef enum {
 enum {
 	PROP_0,
 	PROP_BUSY,
+	PROP_SOFT_BUSY,
 	PROP_EDITOR,
 	PROP_FOCUS_TRACKER,
 	PROP_SHELL,
@@ -167,6 +168,30 @@ async_context_free (AsyncContext *context)
 		g_ptr_array_free (context->recipients, TRUE);
 
 	g_slice_free (AsyncContext, context);
+}
+
+static void
+e_msg_composer_inc_soft_busy (EMsgComposer *composer)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (composer->priv->soft_busy_count + 1 > composer->priv->soft_busy_count);
+
+	composer->priv->soft_busy_count++;
+
+	if (composer->priv->soft_busy_count == 1)
+		g_object_notify (G_OBJECT (composer), "soft-busy");
+}
+
+static void
+e_msg_composer_dec_soft_busy (EMsgComposer *composer)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (composer->priv->soft_busy_count > 0);
+
+	composer->priv->soft_busy_count--;
+
+	if (composer->priv->soft_busy_count == 0)
+		g_object_notify (G_OBJECT (composer), "soft-busy");
 }
 
 /**
@@ -1102,10 +1127,10 @@ composer_build_message (EMsgComposer *composer,
 	const gchar *from_domain;
 	gint i;
 
+	e_msg_composer_inc_soft_busy (composer);
+
 	priv = composer->priv;
 	table = e_msg_composer_get_header_table (composer);
-	view = e_msg_composer_get_attachment_view (composer);
-	store = e_attachment_view_get_store (view);
 
 	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
 	if (identity_uid) {
@@ -1154,6 +1179,8 @@ composer_build_message (EMsgComposer *composer,
 
 	/* If this is a redirected message, just tweak the headers. */
 	if (priv->redirect) {
+		e_msg_composer_dec_soft_busy (composer);
+
 		context->skip_content = TRUE;
 		context->message = g_object_ref (priv->redirect);
 		build_message_headers (composer, context->message, TRUE);
@@ -1474,6 +1501,9 @@ composer_build_message (EMsgComposer *composer,
 		g_slist_free_full (inline_images_parts, g_object_unref);
 	}
 
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
+
 	/* If there are attachments, wrap what we've built so far
 	 * along with the attachments in a multipart/mixed part. */
 	if (e_attachment_store_get_num_attachments (store) > 0) {
@@ -1507,6 +1537,8 @@ composer_build_message (EMsgComposer *composer,
 			io_priority, cancellable);
 	else
 		g_simple_async_result_complete (simple);
+
+	e_msg_composer_dec_soft_busy (composer);
 
 	g_object_unref (simple);
 }
@@ -2163,6 +2195,12 @@ msg_composer_get_property (GObject *object,
 				E_MSG_COMPOSER (object)));
 			return;
 
+		case PROP_SOFT_BUSY:
+			g_value_set_boolean (
+				value, e_msg_composer_is_soft_busy (
+				E_MSG_COMPOSER (object)));
+			return;
+
 		case PROP_EDITOR:
 			g_value_set_object (
 				value, e_msg_composer_get_editor (
@@ -2240,35 +2278,31 @@ composer_notify_activity_cb (EActivityBar *activity_bar,
 {
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	gboolean editable = TRUE;
-	gboolean busy;
+	gboolean has_activities;
 
-	busy = (e_activity_bar_get_activity (activity_bar) != NULL);
+	has_activities = (e_activity_bar_get_activity (activity_bar) != NULL);
 
-	if (busy == composer->priv->busy)
+	if (has_activities == composer->priv->had_activities)
 		return;
 
-	composer->priv->busy = busy;
-
-	if (busy)
-		e_msg_composer_save_focused_widget (composer);
+	composer->priv->had_activities = has_activities;
 
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (busy) {
-		editable = e_content_editor_is_editable (cnt_editor);
+	if (has_activities) {
+		e_msg_composer_save_focused_widget (composer);
+
+		composer->priv->saved_editable = e_content_editor_is_editable (cnt_editor);
 		e_content_editor_set_editable (cnt_editor, FALSE);
-		composer->priv->saved_editable = editable;
 	} else {
-		editable = composer->priv->saved_editable;
-		e_content_editor_set_editable (cnt_editor, editable);
+		e_content_editor_set_editable (cnt_editor, composer->priv->saved_editable);
+
+		e_msg_composer_restore_focus_on_composer (composer);
 	}
 
 	g_object_notify (G_OBJECT (composer), "busy");
-
-	if (!busy)
-		e_msg_composer_restore_focus_on_composer (composer);
+	g_object_notify (G_OBJECT (composer), "soft-busy");
 }
 
 static void
@@ -2627,7 +2661,24 @@ e_msg_composer_is_busy (EMsgComposer *composer)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 
-	return composer->priv->busy;
+	return composer->priv->had_activities;
+}
+
+/**
+ * e_msg_composer_is_soft_busy:
+ * @composer: an #EMsgComposer
+ *
+ * Returns: %TRUE when e_msg_composer_is_busy() returns %TRUE or
+ *    when the asynchronous operations are disabled.
+ *
+ * Since: 3.29.3
+ **/
+gboolean
+e_msg_composer_is_soft_busy (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+
+	return composer->priv->soft_busy_count > 0 || e_msg_composer_is_busy (composer);
 }
 
 static void
@@ -2658,6 +2709,17 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 			"busy",
 			"Busy",
 			"Whether an activity is in progress",
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SOFT_BUSY,
+		g_param_spec_boolean (
+			"soft-busy",
+			"Soft Busy",
+			"Whether asynchronous actions are disabled",
 			FALSE,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
