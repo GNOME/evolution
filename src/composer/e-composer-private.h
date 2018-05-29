@@ -92,7 +92,8 @@ struct _EMsgComposerPrivate {
 
 	CamelMimeMessage *redirect;
 
-	gboolean busy;
+	guint soft_busy_count; /* Only to disable async operations when >0 */
+	gboolean had_activities; /* Hard busy flag */
 	gboolean disable_signature;
 	gboolean is_reply_or_forward;
 	/* The web view is uneditable while the editor is busy.

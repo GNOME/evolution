@@ -207,6 +207,7 @@ void		e_msg_composer_save_focused_widget
 void		e_msg_composer_restore_focus_on_composer
 						(EMsgComposer *composer);
 gboolean	e_msg_composer_is_busy		(EMsgComposer *composer);
+gboolean	e_msg_composer_is_soft_busy	(EMsgComposer *composer);
 gboolean	e_msg_composer_get_is_reply_or_forward
 						(EMsgComposer *composer);
 void		e_msg_composer_set_is_reply_or_forward

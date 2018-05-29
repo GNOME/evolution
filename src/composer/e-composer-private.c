@@ -130,7 +130,8 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->set_signature_from_message = FALSE;
 	priv->disable_signature = FALSE;
-	priv->busy = FALSE;
+	priv->soft_busy_count = 0;
+	priv->had_activities = FALSE;
 	priv->saved_editable = FALSE;
 	priv->dnd_history_saved = FALSE;
 	priv->check_if_signature_is_changed = FALSE;
@@ -357,7 +358,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	 * a simple inverted binding to EMsgComposer's "busy" property. */
 
 	e_binding_bind_property (
-		composer, "busy",
+		composer, "soft-busy",
 		priv->async_actions, "sensitive",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
