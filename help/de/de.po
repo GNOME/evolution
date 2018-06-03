@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-28 13:01+0000\n"
-"PO-Revision-Date: 2018-05-14 09:30+0200\n"
+"POT-Creation-Date: 2018-05-14 22:10+0000\n"
+"PO-Revision-Date: 2018-06-03 17:31+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.7\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -388,6 +388,23 @@ msgstr ""
 "Fragen Sie dazu Ihren Systemverwalter oder passen Sie Ihre "
 "Vertretungseinstellungen an."
 
+#. (itstool) path: page/p
+#: C/calendar-classifications.page:42
+#, fuzzy
+#| msgid ""
+#| "The following options are available under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</"
+#| "gui></guiseq>."
+msgid ""
+"If you want events, memos and tasks to be classified as private by default, "
+"enable the preference under following options are available under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and Tasks</"
+"gui><gui>General</gui><gui>Miscellaneous</gui></guiseq>."
+msgstr ""
+"Die folgenden Optionen sind unter <guiseq><gui>Bearbeiten</"
+"gui><gui>Einstellungen</gui><gui>Kalender und Aufgaben</gui><gui>Allgemein</"
+"gui></guiseq> verfügbar."
+
 #. (itstool) path: info/desc
 #: C/calendar-free-busy.page:24
 msgid "Using the Free/Busy view on a groupware server to set up meetings."
@@ -666,11 +683,16 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:52
+msgid "Show appointment icons in the month view"
+msgstr "Endzeiten von Terminen in Wochen- und Monatsansicht anzeigen"
+
+#. (itstool) path: item/p
+#: C/calendar-layout-appointment-display.page:55
 msgid "Compress weekends in month view:"
 msgstr "Wochenende in Monatsansicht komprimieren:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:53
+#: C/calendar-layout-appointment-display.page:56
 msgid ""
 "Select this option to display weekends in one box instead of two in the "
 "month view."
@@ -679,34 +701,34 @@ msgstr ""
 "dargestellt werden sollen."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:57
+#: C/calendar-layout-appointment-display.page:60
 msgid "Show week numbers:"
 msgstr "Wochennummern anzeigen:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:58
+#: C/calendar-layout-appointment-display.page:61
 msgid "Shows the week numbers next to the respective weeks in the calendar."
 msgstr ""
 "Zeigt die Wochennummer neben der jeweiligen Woche im kleinen Kalender in der "
 "Seitenleiste an."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:62
+#: C/calendar-layout-appointment-display.page:65
 msgid "Show recurring events in italic in bottom left calendar."
 msgstr "Wiederkehrende Termine im unteren linken Kalender kursiv anzeigen."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:65
+#: C/calendar-layout-appointment-display.page:68
 msgid "Scroll Month View by a week"
 msgstr "Monatsansicht wochenweise durchblättern"
 
 #. (itstool) path: section/title
-#: C/calendar-layout-appointment-display.page:72
+#: C/calendar-layout-appointment-display.page:75
 msgid "Alerts"
 msgstr "Alarme"
 
 #. (itstool) path: section/p
-#: C/calendar-layout-appointment-display.page:74
+#: C/calendar-layout-appointment-display.page:77
 msgid ""
 "If you want to be warned before you delete any appointment, select this "
 "option."
@@ -6810,7 +6832,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-external-editor.page:20
 msgid "Using an external editor"
-msgstr "So verwenden Sie einen Wetterkalender"
+msgstr "So verwenden Sie einen externen Editor"
 
 #. (itstool) path: page/p
 #: C/mail-composer-external-editor.page:22
