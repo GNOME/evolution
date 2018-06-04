@@ -56,7 +56,8 @@ enum _em_event_target_t {
 	EM_EVENT_TARGET_MESSAGE,
 	EM_EVENT_TARGET_COMPOSER,
 	EM_EVENT_TARGET_SEND_RECEIVE,
-	EM_EVENT_TARGET_CUSTOM_ICON
+	EM_EVENT_TARGET_CUSTOM_ICON,
+	EM_EVENT_TARGET_FOLDER_UNREAD
 };
 
 /* Flags that describe TARGET_FOLDER */
@@ -99,6 +100,16 @@ struct _EMEventTargetFolder {
 	gchar *msg_uid;
 	gchar *msg_sender;
 	gchar *msg_subject;
+};
+
+typedef struct _EMEventTargetFolderUnread EMEventTargetFolderUnread;
+
+struct _EMEventTargetFolderUnread {
+	EEventTarget target;
+	CamelStore *store;
+	gchar *folder_uri;
+	guint unread;
+	gboolean is_inbox;
 };
 
 typedef struct _EMEventTargetMessage EMEventTargetMessage;
@@ -158,6 +169,12 @@ EMEventTargetFolder *
 						 const gchar *msg_uid,
 						 const gchar *msg_sender,
 						 const gchar *msg_subject);
+EMEventTargetFolderUnread *
+		em_event_target_new_folder_unread
+						(EMEvent *emp,
+						 CamelStore *store,
+						 const gchar *folder_uri,
+						 guint32 count_unread_msgs);
 EMEventTargetComposer *
 		em_event_target_new_composer	(EMEvent *emp,
 						 EMsgComposer *composer,

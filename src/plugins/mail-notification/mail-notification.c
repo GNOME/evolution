@@ -260,6 +260,7 @@ enable_dbus (gint enable)
 #ifdef HAVE_LIBNOTIFY
 
 static guint status_count = 0;
+static GHashTable *unread_messages_by_folder = NULL;
 
 static NotifyNotification *notify = NULL;
 
@@ -499,6 +500,32 @@ new_notify_status (EMEventTargetFolder *t)
 
 	g_free (escaped_text);
 	g_free (text);
+}
+
+static void
+unread_notify_status (EMEventTargetFolderUnread *t)
+{
+	gpointer lookup;
+	guint old_unread;
+
+	if (unread_messages_by_folder == NULL)
+		unread_messages_by_folder = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	lookup = g_hash_table_lookup (unread_messages_by_folder, t->folder_uri);
+	old_unread = lookup == NULL ? 0 : GPOINTER_TO_UINT (lookup);
+
+	/* Infer that a message has been read by a decrease in the number of unread
+	 * messages in a folder. */
+	if (t->unread < old_unread)
+		remove_notification ();
+
+	if (t->unread != old_unread) {
+		if (t->unread) {
+			g_hash_table_insert (unread_messages_by_folder, g_strdup (t->folder_uri), GUINT_TO_POINTER (t->unread));
+		} else {
+			g_hash_table_remove (unread_messages_by_folder, t->folder_uri);
+		}
+	}
 }
 
 static void
@@ -868,6 +895,7 @@ get_cfg_widget (void)
 }
 
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
+void org_gnome_mail_unread_notify (EPlugin *ep, EMEventTargetFolderUnread *t);
 void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
@@ -896,6 +924,26 @@ org_gnome_mail_new_notify (EPlugin *ep,
 		new_notify_sound (t);
 
 	g_mutex_unlock (&mlock);
+}
+
+void
+org_gnome_mail_unread_notify (EPlugin *ep,
+                              EMEventTargetFolderUnread *t)
+{
+#ifdef HAVE_LIBNOTIFY
+	g_return_if_fail (t != NULL);
+
+	if (!enabled || (!t->is_inbox &&
+		is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)))
+		return;
+
+	g_mutex_lock (&mlock);
+
+	if (is_part_enabled (CONF_KEY_ENABLED_STATUS) || e_util_is_running_gnome ())
+		unread_notify_status (t);
+
+	g_mutex_unlock (&mlock);
+#endif
 }
 
 void

@@ -17,6 +17,12 @@
 		</hook>
 
 		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event id="folder.unread-updated"
+			handle="org_gnome_mail_unread_notify"
+			target="folder"/>
+		</hook>
+
+		<hook class="org.gnome.evolution.mail.events:1.0">
 			<event id="message.reading"
 			handle="org_gnome_mail_read_notify"
 			target="message"/>
