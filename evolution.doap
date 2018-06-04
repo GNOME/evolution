@@ -9,9 +9,9 @@
   <shortdesc xml:lang="en">Manage your email, contacts and schedule</shortdesc>
   <description>Manage your email, contacts and schedule</description>
   <homepage rdf:resource="https://wiki.gnome.org/Apps/Evolution" />
-  <mailing-list rdf:resource="http://mail.gnome.org/mailman/listinfo/evolution-list" />
-  <download-page rdf:resource="http://download.gnome.org/sources/evolution" />
-  <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=evolution" />
+  <mailing-list rdf:resource="https://mail.gnome.org/mailman/listinfo/evolution-list" />
+  <download-page rdf:resource="https://download.gnome.org/sources/evolution" />
+  <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/evolution/issues/" />
   <category rdf:resource="http://api.gnome.org/doap-extensions#apps" />
   <programming-language>C</programming-language>
   <programming-language>XML</programming-language>

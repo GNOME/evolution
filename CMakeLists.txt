@@ -6,7 +6,7 @@ cmake_policy(VERSION 3.1)
 project(evolution
 	VERSION 3.29.3
 	LANGUAGES C)
-set(PROJECT_BUGREPORT "http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution")
+set(PROJECT_BUGREPORT "https://gitlab.gnome.org/GNOME/evolution/issues/")
 set(PROJECT_URL "http://wiki.gnome.org/Apps/Evolution/")
 
 # Base Version: This is for API/version tracking for things like
