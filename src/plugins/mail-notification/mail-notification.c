@@ -45,6 +45,10 @@
 #include <libnotify/notify.h>
 #endif
 
+#ifdef HAVE_LIBUNITY
+#include <unity.h>
+#endif
+
 #define CONF_KEY_NOTIFY_ONLY_INBOX	"notify-only-inbox"
 #define CONF_KEY_ENABLED_STATUS	        "notify-status-enabled"
 #define CONF_KEY_STATUS_NOTIFICATION	"notify-status-notification"
@@ -260,6 +264,11 @@ enable_dbus (gint enable)
 #ifdef HAVE_LIBNOTIFY
 
 static guint status_count = 0;
+static GHashTable *unread_messages_by_folder = NULL;
+
+#ifdef HAVE_LIBUNITY
+static guint unread_message_count = 0;
+#endif
 
 static NotifyNotification *notify = NULL;
 
@@ -383,60 +392,58 @@ new_notify_status (EMEventTargetFolder *t)
 	const gchar *summary;
 	const gchar *icon_name;
 
-	if (!status_count) {
-		CamelService *service;
-		const gchar *store_name;
-		gchar *folder_name;
+	status_count += t->new;
 
-		service = CAMEL_SERVICE (t->store);
-		store_name = camel_service_get_display_name (service);
+	text = g_strdup_printf (ngettext (
+		/* Translators: '%d' is the count of mails received. */
+		"You have received %d new message.",
+		"You have received %d new messages.",
+		status_count), status_count);
 
-		folder_name = g_strdup_printf (
-			"%s/%s", store_name, t->folder_name);
+	if (t->msg_sender) {
+		gchar *tmp, *str;
 
-		status_count = t->new;
+		/* Translators: "From:" is preceding a new mail
+		 * sender address, like "From: user@example.com" */
+		str = g_strdup_printf (_("From: %s"), t->msg_sender);
+		tmp = g_strconcat (text, "\n", str, NULL);
 
-		text = g_strdup_printf (ngettext (
-			/* Translators: '%d' is the count of mails received. */
-			"You have received %d new message.",
-			"You have received %d new messages.",
-			status_count), status_count);
+		g_free (text);
+		g_free (str);
 
-		g_free (folder_name);
+		text = tmp;
+	}
 
-		if (t->msg_sender) {
-			gchar *tmp, *str;
+	if (t->msg_subject) {
+		gchar *tmp, *str;
 
-			/* Translators: "From:" is preceding a new mail
-			 * sender address, like "From: user@example.com" */
-			str = g_strdup_printf (_("From: %s"), t->msg_sender);
-			tmp = g_strconcat (text, "\n", str, NULL);
+		/* Translators: "Subject:" is preceding a new mail
+		 * subject, like "Subject: It happened again" */
+		str = g_strdup_printf (_("Subject: %s"), t->msg_subject);
+		tmp = g_strconcat (text, "\n", str, NULL);
 
-			g_free (text);
-			g_free (str);
+		g_free (text);
+		g_free (str);
 
-			text = tmp;
-		}
+		text = tmp;
+	}
 
-		if (t->msg_subject) {
-			gchar *tmp, *str;
+	if (status_count > 1 && (t->msg_sender || t->msg_subject)) {
+		gchar *tmp, *str;
+		guint additional_messages = status_count - 1;
 
-			/* Translators: "Subject:" is preceding a new mail
-			 * subject, like "Subject: It happened again" */
-			str = g_strdup_printf (_("Subject: %s"), t->msg_subject);
-			tmp = g_strconcat (text, "\n", str, NULL);
+		str = g_strdup_printf (ngettext (
+			/* Translators: %d is the count of mails received in addition
+			 * to the one displayed in this notification. */
+			"(and %d more)",
+			"(and %d more)",
+			additional_messages), additional_messages);
+		tmp = g_strconcat (text, "\n", str, NULL);
 
-			g_free (text);
-			g_free (str);
+		g_free (text);
+		g_free (str);
 
-			text = tmp;
-		}
-	} else {
-		status_count += t->new;
-		text = g_strdup_printf (ngettext (
-			"You have received %d new message.",
-			"You have received %d new messages.",
-			status_count), status_count);
+		text = tmp;
 	}
 
 	icon_name = "evolution";
@@ -501,6 +508,41 @@ new_notify_status (EMEventTargetFolder *t)
 
 	g_free (escaped_text);
 	g_free (text);
+}
+
+static void
+unread_notify_status (EMEventTargetFolderUnread *t)
+{
+	gpointer lookup;
+	guint old_unread;
+
+	if (unread_messages_by_folder == NULL)
+		unread_messages_by_folder = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	lookup = g_hash_table_lookup (unread_messages_by_folder, t->folder_uri);
+	old_unread = lookup == NULL ? 0 : GPOINTER_TO_UINT (lookup);
+
+	/* Infer that a message has been read by a decrease in the number of unread
+	 * messages in a folder. */
+	if (t->unread < old_unread)
+		remove_notification ();
+
+	if (t->unread != old_unread) {
+		if (t->unread) {
+			g_hash_table_insert (unread_messages_by_folder, g_strdup (t->folder_uri), GUINT_TO_POINTER (t->unread));
+		} else {
+			g_hash_table_remove (unread_messages_by_folder, t->folder_uri);
+		}
+	}
+
+#ifdef HAVE_LIBUNITY
+	if (t->is_inbox) {
+		UnityLauncherEntry *entry = unity_launcher_entry_get_for_desktop_id ("org.gnome.Evolution.desktop");
+		unread_message_count += t->unread - old_unread;
+		unity_launcher_entry_set_count (entry, unread_message_count);
+		unity_launcher_entry_set_count_visible (entry, unread_message_count != 0);
+	}
+#endif
 }
 
 static void
@@ -799,7 +841,7 @@ get_config_widget_sound (void)
 /* -------------------------------------------------------------------  */
 
 static void
-e_mail_notif_open_gnome_notificaiton_settings_cb (GtkWidget *button,
+e_mail_notif_open_gnome_notification_settings_cb (GtkWidget *button,
 						  gpointer user_data)
 {
 #ifndef G_OS_WIN32
@@ -845,7 +887,7 @@ get_cfg_widget (void)
 
 	if (e_util_is_running_gnome ()) {
 		widget = gtk_button_new_with_mnemonic ("Open _GNOME Notification settings");
-		g_signal_connect (widget, "clicked", G_CALLBACK (e_mail_notif_open_gnome_notificaiton_settings_cb), NULL);
+		g_signal_connect (widget, "clicked", G_CALLBACK (e_mail_notif_open_gnome_notification_settings_cb), NULL);
 		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 		gtk_widget_show (widget);
 	} else {
@@ -870,6 +912,7 @@ get_cfg_widget (void)
 }
 
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
+void org_gnome_mail_unread_notify (EPlugin *ep, EMEventTargetFolderUnread *t);
 void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
@@ -898,6 +941,26 @@ org_gnome_mail_new_notify (EPlugin *ep,
 		new_notify_sound (t);
 
 	g_mutex_unlock (&mlock);
+}
+
+void
+org_gnome_mail_unread_notify (EPlugin *ep,
+                              EMEventTargetFolderUnread *t)
+{
+#ifdef HAVE_LIBNOTIFY
+	g_return_if_fail (t != NULL);
+
+	if (!enabled || (!t->is_inbox &&
+		is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)))
+		return;
+
+	g_mutex_lock (&mlock);
+
+	if (is_part_enabled (CONF_KEY_ENABLED_STATUS) || e_util_is_running_gnome ())
+		unread_notify_status (t);
+
+	g_mutex_unlock (&mlock);
+#endif
 }
 
 void
