@@ -1990,6 +1990,7 @@ mail_display_drag_data_get (GtkWidget *widget,
 
 	if (!byte_array->data) {
 		g_object_unref (stream);
+		g_free (mime_type);
 		goto out;
 	}
 
