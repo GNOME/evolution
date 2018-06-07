@@ -2130,21 +2130,23 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 		return;
 	}
 
-	stream = camel_stream_mem_new ();
 	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
 	g_return_if_fail (dw);
 
-	mime_type = camel_data_wrapper_get_mime_type (dw);
+	stream = camel_stream_mem_new ();
 	camel_data_wrapper_decode_to_stream_sync (dw, stream, NULL, NULL);
 	camel_stream_close (stream, NULL, NULL);
 
 	byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
 
-	if (!byte_array->data)
+	if (!byte_array->data) {
+		g_object_unref (stream);
 		return;
+	}
 
 	base64_encoded = g_base64_encode ((const guchar *) byte_array->data, byte_array->len);
 
+	mime_type = camel_data_wrapper_get_mime_type (dw);
 	name = camel_mime_part_get_filename (part);
 	/* Insert file name before new src */
 	src = g_strconcat (name ? name : "", name ? ";data:" : "", mime_type, ";base64,", base64_encoded, NULL);

@@ -252,8 +252,7 @@ ece_get_mime_attach_list (ECompEditor *comp_editor)
 		if (description == NULL || *description == '\0')
 			description = _("attachment");
 		cal_mime_attach->description = g_strdup (description);
-		cal_mime_attach->content_type = g_strdup (
-			camel_data_wrapper_get_mime_type (wrapper));
+		cal_mime_attach->content_type = camel_data_wrapper_get_mime_type (wrapper);
 		cal_mime_attach->content_id = g_strdup (
 			camel_mime_part_get_content_id (mime_part));
 

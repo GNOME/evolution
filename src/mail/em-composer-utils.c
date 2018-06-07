@@ -2536,7 +2536,7 @@ em_utils_forward_attachment (EMsgComposer *composer,
 	if (CAMEL_IS_MIME_MESSAGE (content)) {
 		emu_add_composer_references_from_message (composer, CAMEL_MIME_MESSAGE (content));
 	} else if (CAMEL_IS_MULTIPART (content)) {
-		const gchar *mime_type;
+		gchar *mime_type;
 
 		mime_type = camel_data_wrapper_get_mime_type (content);
 		if (mime_type && g_ascii_strcasecmp (mime_type, "multipart/digest") == 0) {
@@ -2550,6 +2550,8 @@ em_utils_forward_attachment (EMsgComposer *composer,
 			for (ii = 0; ii < nparts; ii++) {
 				CamelMimePart *mpart;
 
+				g_free (mime_type);
+
 				mpart = camel_multipart_get_part (multipart, ii);
 				mime_type = camel_data_wrapper_get_mime_type (CAMEL_DATA_WRAPPER (mpart));
 
@@ -2561,6 +2563,8 @@ em_utils_forward_attachment (EMsgComposer *composer,
 				}
 			}
 		}
+
+		g_free (mime_type);
 	}
 
 	if (uids != NULL)
