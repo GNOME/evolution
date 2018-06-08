@@ -38,6 +38,7 @@ struct _ESourceConfigPrivate {
 	ESource *original_source;
 	ESource *collection_source;
 	ESourceRegistry *registry;
+	gchar *preselect_type;
 
 	GHashTable *backends;
 	GPtrArray *candidates;
@@ -461,6 +462,28 @@ source_config_init_for_adding_source (ESourceConfig *config)
 		source_config_init_for_adding_source_foreach, config);
 
 	g_tree_unref (scratch_source_tree);
+
+	if (config->priv->preselect_type) {
+		Candidate *candidate;
+		GPtrArray *array;
+		gint index;
+
+		array = config->priv->candidates;
+
+		for (index = 0; index < array->len; index++) {
+			ESourceConfigBackendClass *backend_class;
+
+			candidate = g_ptr_array_index (array, index);
+			backend_class = E_SOURCE_CONFIG_BACKEND_GET_CLASS (candidate->backend);
+
+			if (backend_class && (
+			    g_strcmp0 (config->priv->preselect_type, backend_class->backend_name) == 0 ||
+			    g_strcmp0 (config->priv->preselect_type, backend_class->parent_uid) == 0)) {
+				gtk_combo_box_set_active (GTK_COMBO_BOX (config->priv->type_combo), index);
+				break;
+			}
+		}
+	}
 }
 
 static void
@@ -641,6 +664,8 @@ source_config_dispose (GObject *object)
 
 	g_hash_table_remove_all (priv->backends);
 	g_ptr_array_set_size (priv->candidates, 0);
+
+	g_clear_pointer (&priv->preselect_type, g_free);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_source_config_parent_class)->dispose (object);
@@ -1059,6 +1084,26 @@ e_source_config_new (ESourceRegistry *registry,
 	return g_object_new (
 		E_TYPE_SOURCE_CONFIG, "registry", registry,
 		"original-source", original_source, NULL);
+}
+
+void
+e_source_config_set_preselect_type (ESourceConfig *config,
+				    const gchar *source_uid)
+{
+	g_return_if_fail (E_IS_SOURCE_CONFIG (config));
+
+	if (config->priv->preselect_type != source_uid) {
+		g_free (config->priv->preselect_type);
+		config->priv->preselect_type = g_strdup (source_uid);
+	}
+}
+
+const gchar *
+e_source_config_get_preselect_type (ESourceConfig *config)
+{
+	g_return_val_if_fail (E_IS_SOURCE_CONFIG (config), NULL);
+
+	return config->priv->preselect_type;
 }
 
 void

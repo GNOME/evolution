@@ -167,6 +167,8 @@ action_memo_list_new_cb (GtkAction *action,
 	source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 	config = e_cal_source_config_new (registry, NULL, source_type);
 
+	e_cal_base_shell_view_preselect_source_config (shell_view, config);
+
 	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
 
 	gtk_window_set_transient_for (

@@ -251,6 +251,13 @@ action_address_book_new_cb (GtkAction *action,
 	registry = e_shell_get_registry (shell);
 	config = e_book_source_config_new (registry, NULL);
 
+	if (g_strcmp0 (e_shell_window_get_active_view (shell_window), "addressbook") == 0) {
+		EShellView *shell_view = e_shell_window_peek_shell_view (shell_window, "addressbook");
+
+		if (shell_view)
+			e_book_shell_view_preselect_source_config (shell_view, config);
+	}
+
 	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
 
 	gtk_window_set_transient_for (

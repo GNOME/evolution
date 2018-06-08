@@ -126,6 +126,8 @@ action_address_book_new_cb (GtkAction *action,
 	registry = book_shell_view->priv->registry;
 	config = e_book_source_config_new (registry, NULL);
 
+	e_book_shell_view_preselect_source_config (shell_view, config);
+
 	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
 
 	gtk_window_set_transient_for (

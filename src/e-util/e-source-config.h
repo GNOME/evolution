@@ -77,6 +77,11 @@ struct _ESourceConfigClass {
 GType		e_source_config_get_type	(void) G_GNUC_CONST;
 GtkWidget *	e_source_config_new		(ESourceRegistry *registry,
 						 ESource *original_source);
+void		e_source_config_set_preselect_type
+						(ESourceConfig *config,
+						 const gchar *source_uid);
+const gchar *	e_source_config_get_preselect_type
+						(ESourceConfig *config);
 void		e_source_config_insert_widget	(ESourceConfig *config,
 						 ESource *scratch_source,
 						 const gchar *caption,

@@ -30,6 +30,7 @@
 #include "shell/e-shell-view.h"
 #include "shell/e-shell-window.h"
 
+#include "e-cal-base-shell-view.h"
 #include "e-cal-base-shell-backend.h"
 
 /*
@@ -84,6 +85,17 @@ cal_base_shell_backend_handle_webcal_uri (EShellBackend *shell_backend,
 	registry = e_shell_get_registry (shell);
 	config = e_cal_source_config_new (registry, NULL, E_CAL_CLIENT_SOURCE_TYPE_EVENTS);
 	source_config = E_SOURCE_CONFIG (config);
+
+	if (E_IS_SHELL_WINDOW (active_window)) {
+		EShellWindow *shell_window;
+		EShellView *shell_view;
+
+		shell_window = E_SHELL_WINDOW (active_window);
+		shell_view = e_shell_window_peek_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
+
+		if (shell_view && E_IS_CAL_BASE_SHELL_VIEW (shell_view))
+			e_cal_base_shell_view_preselect_source_config (shell_view, config);
+	}
 
 	extension_name = e_source_config_get_backend_extension_name (source_config);
 
@@ -295,6 +307,7 @@ e_cal_base_shell_backend_util_new_source (EShellWindow *shell_window,
 					  ECalClientSourceType source_type)
 {
 	EShell *shell;
+	EShellView *shell_view;
 	ESourceRegistry *registry;
 	GtkWidget *config;
 	GtkWidget *dialog;
@@ -326,6 +339,11 @@ e_cal_base_shell_backend_util_new_source (EShellWindow *shell_window,
 
 	registry = e_shell_get_registry (shell);
 	config = e_cal_source_config_new (registry, NULL, source_type);
+
+	shell_view = e_shell_window_peek_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
+
+	if (shell_view && E_IS_CAL_BASE_SHELL_VIEW (shell_view))
+		e_cal_base_shell_view_preselect_source_config (shell_view, config);
 
 	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
 	window = GTK_WINDOW (dialog);

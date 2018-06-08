@@ -454,3 +454,42 @@ e_cal_base_shell_view_refresh_backend (EShellView *shell_view,
 
 	g_object_unref (cancellable);
 }
+
+void
+e_cal_base_shell_view_preselect_source_config (EShellView *shell_view,
+					       GtkWidget *source_config)
+{
+	ESource *clicked_source, *primary_source, *use_source = NULL;
+
+	g_return_if_fail (E_IS_CAL_BASE_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_SOURCE_CONFIG (source_config));
+
+	clicked_source = e_cal_base_shell_view_get_clicked_source (shell_view);
+	primary_source = e_source_selector_ref_primary_selection (e_cal_base_shell_sidebar_get_selector (
+		E_CAL_BASE_SHELL_SIDEBAR (e_shell_view_get_shell_sidebar (shell_view))));
+
+	if (clicked_source && clicked_source != primary_source)
+		use_source = clicked_source;
+	else if (primary_source)
+		use_source = primary_source;
+
+	if (use_source) {
+		ESourceBackend *source_backend = NULL;
+
+		if (e_source_has_extension (use_source, E_SOURCE_EXTENSION_COLLECTION))
+			source_backend = e_source_get_extension (use_source, E_SOURCE_EXTENSION_COLLECTION);
+		else if (e_source_has_extension (use_source, E_SOURCE_EXTENSION_CALENDAR))
+			source_backend = e_source_get_extension (use_source, E_SOURCE_EXTENSION_CALENDAR);
+		else if (e_source_has_extension (use_source, E_SOURCE_EXTENSION_MEMO_LIST))
+			source_backend = e_source_get_extension (use_source, E_SOURCE_EXTENSION_MEMO_LIST);
+		else if (e_source_has_extension (use_source, E_SOURCE_EXTENSION_TASK_LIST))
+			source_backend = e_source_get_extension (use_source, E_SOURCE_EXTENSION_TASK_LIST);
+
+		if (source_backend)
+			e_source_config_set_preselect_type (E_SOURCE_CONFIG (source_config), e_source_backend_get_backend_name (source_backend));
+		else if (use_source == clicked_source)
+			e_source_config_set_preselect_type (E_SOURCE_CONFIG (source_config), e_source_get_uid (use_source));
+	}
+
+	g_clear_object (&primary_source);
+}

@@ -592,3 +592,38 @@ e_book_shell_view_get_clicked_source (EShellView *shell_view)
 
 	return book_shell_view->priv->clicked_source;
 }
+
+void
+e_book_shell_view_preselect_source_config (EShellView *shell_view,
+					   GtkWidget *source_config)
+{
+	ESource *clicked_source, *primary_source, *use_source = NULL;
+
+	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_SOURCE_CONFIG (source_config));
+
+	clicked_source = e_book_shell_view_get_clicked_source (shell_view);
+	primary_source = e_source_selector_ref_primary_selection (e_book_shell_sidebar_get_selector (
+		E_BOOK_SHELL_SIDEBAR (e_shell_view_get_shell_sidebar (shell_view))));
+
+	if (clicked_source && clicked_source != primary_source)
+		use_source = clicked_source;
+	else if (primary_source)
+		use_source = primary_source;
+
+	if (use_source) {
+		ESourceBackend *source_backend = NULL;
+
+		if (e_source_has_extension (use_source, E_SOURCE_EXTENSION_COLLECTION))
+			source_backend = e_source_get_extension (use_source, E_SOURCE_EXTENSION_COLLECTION);
+		else if (e_source_has_extension (use_source, E_SOURCE_EXTENSION_ADDRESS_BOOK))
+			source_backend = e_source_get_extension (use_source, E_SOURCE_EXTENSION_ADDRESS_BOOK);
+
+		if (source_backend)
+			e_source_config_set_preselect_type (E_SOURCE_CONFIG (source_config), e_source_backend_get_backend_name (source_backend));
+		else if (use_source == clicked_source)
+			e_source_config_set_preselect_type (E_SOURCE_CONFIG (source_config), e_source_get_uid (use_source));
+	}
+
+	g_clear_object (&primary_source);
+}

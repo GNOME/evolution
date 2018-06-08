@@ -66,6 +66,9 @@ void		e_book_shell_view_maybe_prefill_list_with_selection
 						(EShellView *shell_view,
 						 EContact *contact);
 ESource *	e_book_shell_view_get_clicked_source	(EShellView *shell_view);
+void		e_book_shell_view_preselect_source_config
+							(EShellView *shell_view,
+							 GtkWidget *source_config);
 
 G_END_DECLS
 

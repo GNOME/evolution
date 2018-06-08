@@ -79,6 +79,9 @@ ESource *	e_cal_base_shell_view_get_clicked_source
 							(EShellView *shell_view);
 void		e_cal_base_shell_view_refresh_backend	(EShellView *shell_view,
 							 ESource *collection_source);
+void		e_cal_base_shell_view_preselect_source_config
+							(EShellView *shell_view,
+							 GtkWidget *source_config);
 
 G_END_DECLS
 
