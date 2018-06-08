@@ -24,6 +24,67 @@
 
 #include "e-book-shell-view-private.h"
 
+static gboolean
+book_shell_view_cleanup_clicked_source_idle_cb (gpointer user_data)
+{
+	EBookShellView *book_shell_view = user_data;
+
+	g_return_val_if_fail (E_IS_BOOK_SHELL_VIEW (book_shell_view), FALSE);
+
+	g_clear_object (&book_shell_view->priv->clicked_source);
+	g_clear_object (&book_shell_view);
+
+	return FALSE;
+}
+
+static void
+book_shell_view_popup_menu_hidden_cb (GObject *object,
+				      GParamSpec *param,
+				      gpointer user_data)
+{
+	EBookShellView *book_shell_view = user_data;
+
+	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (book_shell_view));
+
+	/* Cannot do the clean up immediately, because the menu is hidden before
+	   the action is executed. */
+	g_idle_add (book_shell_view_cleanup_clicked_source_idle_cb, book_shell_view);
+
+	g_signal_handlers_disconnect_by_func (object, book_shell_view_popup_menu_hidden_cb, user_data);
+}
+
+static GtkWidget *
+e_book_shell_view_show_popup_menu (EShellView *shell_view,
+				   const gchar *widget_path,
+				   GdkEvent *button_event,
+				   ESource *clicked_source)
+{
+	EBookShellView *book_shell_view;
+	GtkWidget *menu;
+
+	g_return_val_if_fail (E_IS_BOOK_SHELL_VIEW (shell_view), NULL);
+	g_return_val_if_fail (widget_path != NULL, NULL);
+	if (clicked_source)
+		g_return_val_if_fail (E_IS_SOURCE (clicked_source), NULL);
+
+	book_shell_view = E_BOOK_SHELL_VIEW (shell_view);
+
+	g_clear_object (&book_shell_view->priv->clicked_source);
+	if (clicked_source)
+		book_shell_view->priv->clicked_source = g_object_ref (clicked_source);
+
+	menu = e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+
+	if (menu) {
+		g_signal_connect (menu, "notify::visible",
+			G_CALLBACK (book_shell_view_popup_menu_hidden_cb), g_object_ref (shell_view));
+	} else {
+		g_clear_object (&book_shell_view->priv->clicked_source);
+	}
+
+	return menu;
+}
+
 static void
 open_contact (EBookShellView *book_shell_view,
               EContact *contact,
@@ -59,16 +120,10 @@ open_contact (EBookShellView *book_shell_view,
 }
 
 static void
-popup_event (EBookShellView *book_shell_view,
+popup_event (EShellView *shell_view,
              GdkEvent *button_event)
 {
-	EShellView *shell_view;
-	const gchar *widget_path;
-
-	widget_path = "/contact-popup";
-	shell_view = E_SHELL_VIEW (book_shell_view);
-
-	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+	e_book_shell_view_show_popup_menu (shell_view, "/contact-popup", button_event, NULL);
 }
 
 static void
@@ -369,39 +424,13 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 }
 
 static gboolean
-book_shell_view_show_popup_menu (GdkEvent *button_event,
-                                 EShellView *shell_view)
+book_shell_view_selector_popup_event_cb (EShellView *shell_view,
+                                         ESource *clicked_source,
+                                         GdkEvent *button_event)
 {
-	const gchar *widget_path;
-
-	widget_path = "/address-book-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+	e_book_shell_view_show_popup_menu (shell_view, "/address-book-popup", button_event, clicked_source);
 
 	return TRUE;
-}
-
-static gboolean
-book_shell_view_selector_button_press_event_cb (EShellView *shell_view,
-                                                GdkEvent *button_event)
-{
-	guint event_button = 0;
-
-	/* XXX Use ESourceSelector's "popup-event" signal instead. */
-
-	gdk_event_get_button (button_event, &event_button);
-
-	if (button_event->type != GDK_BUTTON_PRESS || event_button != 3)
-		return FALSE;
-
-	return book_shell_view_show_popup_menu (button_event, shell_view);
-}
-
-static gboolean
-book_shell_view_selector_popup_menu_cb (EShellView *shell_view)
-{
-	/* XXX Use ESourceSelector's "popup-event" signal instead. */
-
-	return book_shell_view_show_popup_menu (NULL, shell_view);
 }
 
 static void
@@ -547,13 +576,8 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	priv->source_removed_handler_id = handler_id;
 
 	g_signal_connect_object (
-		selector, "button-press-event",
-		G_CALLBACK (book_shell_view_selector_button_press_event_cb),
-		book_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		selector, "popup-menu",
-		G_CALLBACK (book_shell_view_selector_popup_menu_cb),
+		selector, "popup-event",
+		G_CALLBACK (book_shell_view_selector_popup_event_cb),
 		book_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
@@ -593,6 +617,7 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	g_clear_object (&priv->book_shell_content);
 	g_clear_object (&priv->book_shell_sidebar);
 
+	g_clear_object (&priv->clicked_source);
 	g_clear_object (&priv->client_cache);
 	g_clear_object (&priv->registry);
 

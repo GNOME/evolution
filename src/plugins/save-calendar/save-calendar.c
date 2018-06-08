@@ -338,7 +338,7 @@ calendar_save_as_init (GtkUIManager *ui_manager,
 {
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkAction *action;
+	GtkAction *action, *select_one_action;
 	const gchar *tooltip;
 	const gchar *icon_name;
 	const gchar *name;
@@ -358,6 +358,14 @@ calendar_save_as_init (GtkUIManager *ui_manager,
 		action, "activate",
 		G_CALLBACK (action_calendar_save_as_cb), shell_view);
 
+	/* select-one is always sensitive, except when the clicked and the primary source differ */
+	select_one_action = e_shell_window_get_action (shell_window, "calendar-select-one");
+
+	e_binding_bind_property (
+		select_one_action, "sensitive",
+		action, "visible",
+		G_BINDING_SYNC_CREATE);
+
 	g_object_unref (action);
 
 	return TRUE;
@@ -369,7 +377,7 @@ memo_list_save_as_init (GtkUIManager *ui_manager,
 {
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkAction *action;
+	GtkAction *action, *select_one_action;
 	const gchar *tooltip;
 	const gchar *icon_name;
 	const gchar *name;
@@ -389,6 +397,14 @@ memo_list_save_as_init (GtkUIManager *ui_manager,
 		action, "activate",
 		G_CALLBACK (action_memo_list_save_as_cb), shell_view);
 
+	/* select-one is always sensitive, except when the clicked and the primary source differ */
+	select_one_action = e_shell_window_get_action (shell_window, "memo-list-select-one");
+
+	e_binding_bind_property (
+		select_one_action, "sensitive",
+		action, "visible",
+		G_BINDING_SYNC_CREATE);
+
 	g_object_unref (action);
 
 	return TRUE;
@@ -400,7 +416,7 @@ task_list_save_as_init (GtkUIManager *ui_manager,
 {
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkAction *action;
+	GtkAction *action, *select_one_action;
 	const gchar *tooltip;
 	const gchar *icon_name;
 	const gchar *name;
@@ -419,6 +435,14 @@ task_list_save_as_init (GtkUIManager *ui_manager,
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (action_task_list_save_as_cb), shell_view);
+
+	/* select-one is always sensitive, except when the clicked and the primary source differ */
+	select_one_action = e_shell_window_get_action (shell_window, "task-list-select-one");
+
+	e_binding_bind_property (
+		select_one_action, "sensitive",
+		action, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	g_object_unref (action);
 

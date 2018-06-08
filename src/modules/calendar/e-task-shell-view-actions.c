@@ -307,6 +307,20 @@ action_task_list_refresh_cb (GtkAction *action,
 }
 
 static void
+action_task_list_refresh_backend_cb (GtkAction *action,
+				     EShellView *shell_view)
+{
+	ESource *source;
+
+	g_return_if_fail (E_IS_TASK_SHELL_VIEW (shell_view));
+
+	source = e_cal_base_shell_view_get_clicked_source (shell_view);
+
+	if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION))
+		e_cal_base_shell_view_refresh_backend (shell_view, source);
+}
+
+static void
 action_task_list_rename_cb (GtkAction *action,
                             ETaskShellView *task_shell_view)
 {
@@ -740,6 +754,13 @@ static GtkActionEntry task_entries[] = {
 	  N_("Refresh the selected task list"),
 	  G_CALLBACK (action_task_list_refresh_cb) },
 
+	{ "task-list-refresh-backend",
+	  "view-refresh",
+	  N_("Re_fresh list of account task lists"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_task_list_refresh_backend_cb) },
+
 	{ "task-list-rename",
 	  NULL,
 	  N_("_Rename..."),
@@ -841,6 +862,10 @@ static EPopupActionEntry task_popup_entries[] = {
 	{ "task-list-popup-refresh",
 	  NULL,
 	  "task-list-refresh" },
+
+	{ "task-list-popup-refresh-backend",
+	  NULL,
+	  "task-list-refresh-backend" },
 
 	{ "task-list-popup-rename",
 	  NULL,

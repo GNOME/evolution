@@ -71,6 +71,14 @@ void		e_cal_base_shell_view_model_row_appended
 							(EShellView *shell_view,
 							 ECalModel *model);
 void		e_cal_base_shell_view_copy_calendar	(EShellView *shell_view);
+GtkWidget *	e_cal_base_shell_view_show_popup_menu	(EShellView *shell_view,
+							 const gchar *widget_path,
+							 GdkEvent *button_event,
+							 ESource *clicked_source);
+ESource *	e_cal_base_shell_view_get_clicked_source
+							(EShellView *shell_view);
+void		e_cal_base_shell_view_refresh_backend	(EShellView *shell_view,
+							 ESource *collection_source);
 
 G_END_DECLS
 

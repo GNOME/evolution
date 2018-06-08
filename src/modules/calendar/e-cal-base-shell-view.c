@@ -34,12 +34,18 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_BASE_SHELL_VIEW, ECalBaseShellViewPrivate))
 
-G_DEFINE_ABSTRACT_TYPE (ECalBaseShellView, e_cal_base_shell_view, E_TYPE_SHELL_VIEW)
-
 struct _ECalBaseShellViewPrivate {
 	EShell *shell;
 	guint prepare_for_quit_handler_id;
+	ESource *clicked_source;
 };
+
+enum {
+	PROP_0,
+	PROP_CLICKED_SOURCE
+};
+
+G_DEFINE_ABSTRACT_TYPE (ECalBaseShellView, e_cal_base_shell_view, E_TYPE_SHELL_VIEW)
 
 static void
 cal_base_shell_view_prepare_for_quit_cb (EShell *shell,
@@ -59,6 +65,23 @@ cal_base_shell_view_prepare_for_quit_cb (EShell *shell,
 }
 
 static void
+cal_base_shell_view_get_property (GObject *object,
+				  guint property_id,
+				  GValue *value,
+				  GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CLICKED_SOURCE:
+			g_value_set_object (
+				value, e_cal_base_shell_view_get_clicked_source (
+				E_SHELL_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 cal_base_shell_view_dispose (GObject *object)
 {
 	ECalBaseShellView *cal_base_shell_view = E_CAL_BASE_SHELL_VIEW (object);
@@ -70,6 +93,7 @@ cal_base_shell_view_dispose (GObject *object)
 	}
 
 	g_clear_object (&cal_base_shell_view->priv->shell);
+	g_clear_object (&cal_base_shell_view->priv->clicked_source);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_cal_base_shell_view_parent_class)->dispose (object);
@@ -105,10 +129,21 @@ e_cal_base_shell_view_class_init (ECalBaseShellViewClass *class)
 	g_type_class_add_private (class, sizeof (ECalBaseShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = cal_base_shell_view_get_property;
 	object_class->dispose = cal_base_shell_view_dispose;
 	object_class->constructed = cal_base_shell_view_constructed;
 
 	class->source_type = E_CAL_CLIENT_SOURCE_TYPE_LAST;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CLICKED_SOURCE,
+		g_param_spec_object (
+			"clicked-source",
+			"Clicked Source",
+			"An ESource which had been clicked in the source selector before showing context menu",
+			E_TYPE_SOURCE,
+			G_PARAM_READABLE));
 }
 
 static void
@@ -278,4 +313,144 @@ e_cal_base_shell_view_copy_calendar (EShellView *shell_view)
 	e_cal_dialogs_copy_source (GTK_WINDOW (shell_window), model, from_source);
 
 	g_clear_object (&from_source);
+}
+
+static gboolean
+cal_base_shell_view_cleanup_clicked_source_idle_cb (gpointer user_data)
+{
+	ECalBaseShellView *cal_base_shell_view = user_data;
+
+	g_return_val_if_fail (E_IS_CAL_BASE_SHELL_VIEW (cal_base_shell_view), FALSE);
+
+	g_clear_object (&cal_base_shell_view->priv->clicked_source);
+	g_clear_object (&cal_base_shell_view);
+
+	return FALSE;
+}
+
+static void
+cal_base_shell_view_popup_menu_hidden_cb (GObject *object,
+					  GParamSpec *param,
+					  gpointer user_data)
+{
+	ECalBaseShellView *cal_base_shell_view = user_data;
+
+	g_return_if_fail (E_IS_CAL_BASE_SHELL_VIEW (cal_base_shell_view));
+
+	/* Cannot do the clean up immediately, because the menu is hidden before
+	   the action is executed. */
+	g_idle_add (cal_base_shell_view_cleanup_clicked_source_idle_cb, cal_base_shell_view);
+
+	g_signal_handlers_disconnect_by_func (object, cal_base_shell_view_popup_menu_hidden_cb, user_data);
+}
+
+GtkWidget *
+e_cal_base_shell_view_show_popup_menu (EShellView *shell_view,
+				       const gchar *widget_path,
+				       GdkEvent *button_event,
+				       ESource *clicked_source)
+{
+	ECalBaseShellView *cal_base_shell_view;
+	GtkWidget *menu;
+
+	g_return_val_if_fail (E_IS_CAL_BASE_SHELL_VIEW (shell_view), NULL);
+	g_return_val_if_fail (widget_path != NULL, NULL);
+	if (clicked_source)
+		g_return_val_if_fail (E_IS_SOURCE (clicked_source), NULL);
+
+	cal_base_shell_view = E_CAL_BASE_SHELL_VIEW (shell_view);
+
+	g_clear_object (&cal_base_shell_view->priv->clicked_source);
+	if (clicked_source)
+		cal_base_shell_view->priv->clicked_source = g_object_ref (clicked_source);
+
+	menu = e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+
+	if (menu) {
+		g_signal_connect (menu, "notify::visible",
+			G_CALLBACK (cal_base_shell_view_popup_menu_hidden_cb), g_object_ref (shell_view));
+	} else {
+		g_clear_object (&cal_base_shell_view->priv->clicked_source);
+	}
+
+	return menu;
+}
+
+ESource *
+e_cal_base_shell_view_get_clicked_source (EShellView *shell_view)
+{
+	ECalBaseShellView *cal_base_shell_view;
+
+	g_return_val_if_fail (E_IS_CAL_BASE_SHELL_VIEW (shell_view), NULL);
+
+	cal_base_shell_view = E_CAL_BASE_SHELL_VIEW (shell_view);
+
+	return cal_base_shell_view->priv->clicked_source;
+}
+
+static void
+cal_base_shell_view_refresh_backend_done_cb (GObject *source_object,
+					     GAsyncResult *result,
+					     gpointer user_data)
+{
+	ESourceRegistry *registry;
+	EActivity *activity = user_data;
+	EAlertSink *alert_sink;
+	GError *local_error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (source_object));
+
+	registry = E_SOURCE_REGISTRY (source_object);
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	e_source_registry_refresh_backend_finish (registry, result, &local_error);
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
+		e_alert_submit (alert_sink, "system:refresh-backend-failed", local_error->message, NULL);
+		g_error_free (local_error);
+
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	}
+
+	g_clear_object (&activity);
+}
+
+void
+e_cal_base_shell_view_refresh_backend (EShellView *shell_view,
+				       ESource *source)
+{
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EShell *shell;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	ESourceRegistry *registry;
+	GCancellable *cancellable;
+
+	g_return_if_fail (E_IS_CAL_BASE_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	activity = e_activity_new ();
+	cancellable = g_cancellable_new ();
+
+	e_activity_set_alert_sink (activity, alert_sink);
+	e_activity_set_cancellable (activity, cancellable);
+
+	registry = e_shell_get_registry (shell);
+
+	e_source_registry_refresh_backend (registry, e_source_get_uid (source), cancellable,
+		cal_base_shell_view_refresh_backend_done_cb, activity);
+
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	g_object_unref (cancellable);
 }

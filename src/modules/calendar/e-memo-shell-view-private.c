@@ -29,21 +29,15 @@ static void
 memo_shell_view_table_popup_event_cb (EShellView *shell_view,
                                       GdkEvent *button_event)
 {
-	const gchar *widget_path;
-
-	widget_path = "/memo-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "/memo-popup", button_event, NULL);
 }
 
 static gboolean
 memo_shell_view_selector_popup_event_cb (EShellView *shell_view,
-                                         ESource *primary_source,
+                                         ESource *clicked_source,
                                          GdkEvent *button_event)
 {
-	const gchar *widget_path;
-
-	widget_path = "/memo-list-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "/memo-list-popup", button_event, clicked_source);
 
 	return TRUE;
 }

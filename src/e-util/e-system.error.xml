@@ -101,4 +101,9 @@
    <button _label="_Delete From Server" response="GTK_RESPONSE_YES"/>
  </error>
 
+  <error id="refresh-backend-failed" type="error">
+    <_primary>Failed to refresh list of account sources</_primary>
+    <secondary>{1}</secondary>
+  </error>
+
 </error-list>

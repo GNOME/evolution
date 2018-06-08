@@ -96,6 +96,8 @@ struct _EBookShellViewPrivate {
 	/* Can track whether search changed while locked,
 	 * but it is not usable at the moment. */
 	gint search_locked;
+
+	ESource *clicked_source;
 };
 
 void		e_book_shell_view_private_init

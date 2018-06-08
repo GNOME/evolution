@@ -59,6 +59,7 @@ struct _EAccountsWindowPrivate {
 	GtkWidget *add_box;		/* not referenced */
 	GtkWidget *edit_button;		/* not referenced */
 	GtkWidget *delete_button;	/* not referenced */
+	GtkWidget *refresh_backend_button;	/* not referenced */
 
 	GHashTable *references; /* gchar *UID ~> GtkTreeRowReference * */
 	gchar *select_source_uid; /* Which source to select, or NULL */
@@ -172,6 +173,39 @@ accounts_window_emit_delete_source (EAccountsWindow *accounts_window)
 		gboolean handled = FALSE;
 
 		g_signal_emit (accounts_window, signals[DELETE_SOURCE], 0, source, &handled);
+
+		g_object_unref (source);
+	}
+}
+
+static void
+accounts_window_refresh_backend_done_cb (GObject *source_object,
+					 GAsyncResult *result,
+					 gpointer user_data)
+{
+	GError *error = NULL;
+
+	if (!e_source_registry_refresh_backend_finish (E_SOURCE_REGISTRY (source_object), result, &error)) {
+		g_warning ("%s: Failed to refresh backend: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	}
+
+	g_clear_error (&error);
+}
+
+static void
+accounts_window_refresh_backend_cb (EAccountsWindow *accounts_window)
+{
+	ESource *source;
+
+	source = e_accounts_window_ref_selected_source (accounts_window);
+
+	if (source) {
+		ESourceRegistry *registry;
+
+		registry = e_accounts_window_get_registry (accounts_window);
+
+		e_source_registry_refresh_backend (registry, e_source_get_uid (source), NULL,
+			accounts_window_refresh_backend_done_cb, accounts_window);
 
 		g_object_unref (source);
 	}
@@ -1048,6 +1082,8 @@ accounts_window_selection_changed_cb (GtkTreeSelection *selection,
 
 	gtk_widget_set_sensitive (accounts_window->priv->edit_button, (editing_flags & E_SOURCE_EDITING_FLAG_CAN_EDIT) != 0);
 	gtk_widget_set_sensitive (accounts_window->priv->delete_button, (editing_flags & E_SOURCE_EDITING_FLAG_CAN_DELETE) != 0);
+	gtk_widget_set_sensitive (accounts_window->priv->refresh_backend_button,
+		source && e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION));
 
 	g_signal_emit (accounts_window, signals[SELECTION_CHANGED], 0, source);
 
@@ -1718,6 +1754,15 @@ accounts_window_constructed (GObject *object)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (accounts_window_emit_delete_source), accounts_window);
+
+	widget = e_dialog_button_new_with_icon ("view-refresh", _("_Refresh"));
+	gtk_widget_set_tooltip_text (widget, _("Initiates refresh of account sources"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	accounts_window->priv->refresh_backend_button = widget;
+
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (accounts_window_refresh_backend_cb), accounts_window);
 
 	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);

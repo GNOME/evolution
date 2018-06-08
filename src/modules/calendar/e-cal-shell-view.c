@@ -284,6 +284,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gboolean single_event_selected;
 	gboolean refresh_supported;
 	gboolean all_sources_selected;
+	gboolean clicked_source_is_primary;
+	gboolean clicked_source_is_collection;
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (e_cal_shell_view_parent_class)->
@@ -348,33 +350,53 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		(state & E_CAL_BASE_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 	all_sources_selected =
 		(state & E_CAL_BASE_SHELL_SIDEBAR_ALL_SOURCES_SELECTED) != 0;
+	clicked_source_is_primary =
+		(state & E_CAL_BASE_SHELL_SIDEBAR_CLICKED_SOURCE_IS_PRIMARY) != 0;
+	clicked_source_is_collection =
+		(state & E_CAL_BASE_SHELL_SIDEBAR_CLICKED_SOURCE_IS_COLLECTION) != 0;
 
 	any_events_selected = (single_event_selected || multiple_events_selected);
 
 	action = ACTION (CALENDAR_SELECT_ALL);
-	sensitive = !all_sources_selected;
+	sensitive = clicked_source_is_primary && !all_sources_selected;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CALENDAR_SELECT_ONE);
+	sensitive = clicked_source_is_primary;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_COPY);
-	sensitive = has_primary_source;
+	sensitive = clicked_source_is_primary && has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_DELETE);
-	sensitive =
+	sensitive = clicked_source_is_primary && (
 		primary_source_is_removable ||
-		primary_source_is_remote_deletable;
+		primary_source_is_remote_deletable);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CALENDAR_PRINT);
+	sensitive = clicked_source_is_primary;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CALENDAR_PRINT_PREVIEW);
+	sensitive = clicked_source_is_primary;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PROPERTIES);
-	sensitive = primary_source_is_writable;
+	sensitive = clicked_source_is_primary && primary_source_is_writable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_REFRESH);
-	sensitive = refresh_supported;
+	sensitive = clicked_source_is_primary && refresh_supported;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CALENDAR_REFRESH_BACKEND);
+	sensitive = clicked_source_is_collection;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_RENAME);
-	sensitive =
+	sensitive = clicked_source_is_primary &&
 		primary_source_is_writable &&
 		!primary_source_in_collection;
 	gtk_action_set_sensitive (action, sensitive);

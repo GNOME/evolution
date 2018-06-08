@@ -38,6 +38,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "address-book-properties")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_REFRESH(window) \
 	E_SHELL_WINDOW_ACTION ((window), "address-book-refresh")
+#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_REFRESH_BACKEND(window) \
+	E_SHELL_WINDOW_ACTION ((window), "address-book-refresh-backend")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_RENAME(window) \
 	E_SHELL_WINDOW_ACTION ((window), "address-book-rename")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_SAVE_AS(window) \

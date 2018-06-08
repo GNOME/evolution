@@ -65,6 +65,7 @@ void		e_book_shell_view_enable_searching (EBookShellView *book_shell_view);
 void		e_book_shell_view_maybe_prefill_list_with_selection
 						(EShellView *shell_view,
 						 EContact *contact);
+ESource *	e_book_shell_view_get_clicked_source	(EShellView *shell_view);
 
 G_END_DECLS
 

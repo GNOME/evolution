@@ -48,6 +48,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-purge")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_REFRESH(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-refresh")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_REFRESH_BACKEND(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-refresh-backend")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_RENAME(window) \
 	E_SHELL_WINDOW_ACTION ((window), "calendar-rename")
 #define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_PREV(window) \

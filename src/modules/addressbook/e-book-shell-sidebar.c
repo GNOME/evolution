@@ -185,7 +185,7 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	EBookShellSidebar *book_shell_sidebar;
 	ESourceSelector *selector;
 	ESourceRegistry *registry;
-	ESource *source;
+	ESource *source, *clicked_source;
 	gboolean is_writable = FALSE;
 	gboolean is_removable = FALSE;
 	gboolean is_remote_creatable = FALSE;
@@ -232,6 +232,11 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		g_object_unref (source);
 	}
 
+	clicked_source = e_book_shell_view_get_clicked_source (e_shell_sidebar_get_shell_view (shell_sidebar));
+	if (clicked_source && clicked_source == source)
+		state |= E_BOOK_SHELL_SIDEBAR_CLICKED_SOURCE_IS_PRIMARY;
+	if (clicked_source && e_source_has_extension (clicked_source, E_SOURCE_EXTENSION_COLLECTION))
+		state |= E_BOOK_SHELL_SIDEBAR_CLICKED_SOURCE_IS_COLLECTION;
 	if (has_primary_source)
 		state |= E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
 	if (is_writable)

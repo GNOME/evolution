@@ -388,6 +388,20 @@ action_calendar_refresh_cb (GtkAction *action,
 }
 
 static void
+action_calendar_refresh_backend_cb (GtkAction *action,
+				    EShellView *shell_view)
+{
+	ESource *source;
+
+	g_return_if_fail (E_IS_CAL_SHELL_VIEW (shell_view));
+
+	source = e_cal_base_shell_view_get_clicked_source (shell_view);
+
+	if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION))
+		e_cal_base_shell_view_refresh_backend (shell_view, source);
+}
+
+static void
 action_calendar_rename_cb (GtkAction *action,
                            ECalShellView *cal_shell_view)
 {
@@ -1332,6 +1346,13 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Refresh the selected calendar"),
 	  G_CALLBACK (action_calendar_refresh_cb) },
 
+	{ "calendar-refresh-backend",
+	  "view-refresh",
+	  N_("Re_fresh list of account calendars"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_calendar_refresh_backend_cb) },
+
 	{ "calendar-rename",
 	  NULL,
 	  N_("_Rename..."),
@@ -1543,6 +1564,10 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	{ "calendar-popup-refresh",
 	  NULL,
 	  "calendar-refresh" },
+
+	{ "calendar-popup-refresh-backend",
+	  NULL,
+	  "calendar-refresh-backend" },
 
 	{ "calendar-popup-rename",
 	  NULL,

@@ -86,18 +86,15 @@ cal_shell_view_popup_event_cb (EShellView *shell_view,
 	else
 		widget_path = "/calendar-event-popup";
 
-	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+	e_cal_base_shell_view_show_popup_menu (shell_view, widget_path, button_event, NULL);
 }
 
 static gboolean
 cal_shell_view_selector_popup_event_cb (EShellView *shell_view,
-                                        ESource *primary_source,
+                                        ESource *clicked_source,
                                         GdkEvent *button_event)
 {
-	const gchar *widget_path;
-
-	widget_path = "/calendar-popup";
-	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "/calendar-popup", button_event, clicked_source);
 
 	return TRUE;
 }
@@ -106,26 +103,18 @@ static void
 cal_shell_view_memopad_popup_event_cb (EShellView *shell_view,
                                        GdkEvent *button_event)
 {
-	const gchar *widget_path;
-
-	widget_path = "/calendar-memopad-popup";
-
 	e_cal_shell_view_memopad_actions_update (E_CAL_SHELL_VIEW (shell_view));
 
-	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "/calendar-memopad-popup", button_event, NULL);
 }
 
 static void
 cal_shell_view_taskpad_popup_event_cb (EShellView *shell_view,
                                        GdkEvent *button_event)
 {
-	const gchar *widget_path;
-
-	widget_path = "/calendar-taskpad-popup";
-
 	e_cal_shell_view_taskpad_actions_update (E_CAL_SHELL_VIEW (shell_view));
 
-	e_shell_view_show_popup_menu (shell_view, widget_path, button_event);
+	e_cal_base_shell_view_show_popup_menu (shell_view, "/calendar-taskpad-popup", button_event, NULL);
 }
 
 static void

@@ -318,6 +318,77 @@ action_address_book_refresh_cb (GtkAction *action,
 	g_object_unref (client);
 }
 
+static void
+book_shell_view_refresh_backend_done_cb (GObject *source_object,
+					 GAsyncResult *result,
+					 gpointer user_data)
+{
+	ESourceRegistry *registry;
+	EActivity *activity = user_data;
+	EAlertSink *alert_sink;
+	GError *local_error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (source_object));
+
+	registry = E_SOURCE_REGISTRY (source_object);
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	e_source_registry_refresh_backend_finish (registry, result, &local_error);
+
+	if (e_activity_handle_cancellation (activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
+		e_alert_submit (alert_sink, "addressbook:refresh-backend-failed", local_error->message, NULL);
+		g_error_free (local_error);
+
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	}
+
+	g_clear_object (&activity);
+}
+
+static void
+action_address_book_refresh_backend_cb (GtkAction *action,
+					EShellView *shell_view)
+{
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EShell *shell;
+	ESource *source;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	ESourceRegistry *registry;
+	GCancellable *cancellable;
+
+	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (shell_view));
+
+	source = e_book_shell_view_get_clicked_source (shell_view);
+	if (!source || !e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION))
+		return;
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	activity = e_activity_new ();
+	cancellable = g_cancellable_new ();
+
+	e_activity_set_alert_sink (activity, alert_sink);
+	e_activity_set_cancellable (activity, cancellable);
+
+	registry = e_shell_get_registry (shell);
+
+	e_source_registry_refresh_backend (registry, e_source_get_uid (source), cancellable,
+		book_shell_view_refresh_backend_done_cb, activity);
+
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	g_object_unref (cancellable);
+}
+
 #ifdef ENABLE_CONTACT_MAPS
 static void
 contact_editor_contact_modified_cb (EABEditor *editor,
@@ -986,6 +1057,13 @@ static GtkActionEntry contact_entries[] = {
 	  N_("Refresh the selected address book"),
 	  G_CALLBACK (action_address_book_refresh_cb) },
 
+	{ "address-book-refresh-backend",
+	  "view-refresh",
+	  N_("Re_fresh list of account address books"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_address_book_refresh_backend_cb) },
+
 	{ "address-book-map",
 	  NULL,
 	  N_("Address Book _Map"),
@@ -1104,6 +1182,10 @@ static EPopupActionEntry contact_popup_entries[] = {
 	{ "address-book-popup-refresh",
 	  NULL,
 	  "address-book-refresh" },
+
+	{ "address-book-popup-refresh-backend",
+	  NULL,
+	  "address-book-refresh-backend" },
 
 	{ "address-book-popup-map",
 	  N_("Address Book Map"),

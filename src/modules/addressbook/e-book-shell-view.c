@@ -24,10 +24,32 @@
 
 #include "addressbook/gui/widgets/gal-view-minicard.h"
 
+enum {
+	PROP_0,
+	PROP_CLICKED_SOURCE
+};
+
 G_DEFINE_DYNAMIC_TYPE (
 	EBookShellView,
 	e_book_shell_view,
 	E_TYPE_SHELL_VIEW);
+
+static void
+book_shell_view_get_property (GObject *object,
+			      guint property_id,
+			      GValue *value,
+			      GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_CLICKED_SOURCE:
+			g_value_set_object (
+				value, e_book_shell_view_get_clicked_source (
+				E_SHELL_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 book_shell_view_dispose (GObject *object)
@@ -214,6 +236,8 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gboolean selection_has_email;
 	gboolean source_is_busy;
 	gboolean source_is_editable;
+	gboolean clicked_source_is_primary;
+	gboolean clicked_source_is_collection;
 
 	/* Chain up to parent's update_actions() method. */
 	E_SHELL_VIEW_CLASS (e_book_shell_view_parent_class)->
@@ -252,40 +276,56 @@ book_shell_view_update_actions (EShellView *shell_view)
 		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IN_COLLECTION);
 	refresh_supported =
 		(state & E_BOOK_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
+	clicked_source_is_primary =
+		(state & E_BOOK_SHELL_SIDEBAR_CLICKED_SOURCE_IS_PRIMARY) != 0;
+	clicked_source_is_collection =
+		(state & E_BOOK_SHELL_SIDEBAR_CLICKED_SOURCE_IS_COLLECTION) != 0;
 
 	any_contacts_selected =
 		(single_contact_selected || multiple_contacts_selected);
 
 	action = ACTION (ADDRESS_BOOK_MOVE);
-	sensitive = source_is_editable;
+	sensitive = clicked_source_is_primary && source_is_editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_DELETE);
-	sensitive =
+	sensitive = clicked_source_is_primary && (
 		primary_source_is_removable ||
-		primary_source_is_remote_deletable;
+		primary_source_is_remote_deletable);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PRINT);
-	sensitive = has_primary_source;
+	sensitive = clicked_source_is_primary && has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PRINT_PREVIEW);
-	sensitive = has_primary_source;
+	sensitive = clicked_source_is_primary && has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PROPERTIES);
-	sensitive = primary_source_is_writable;
+	sensitive = clicked_source_is_primary && primary_source_is_writable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_REFRESH);
-	sensitive = refresh_supported;
+	sensitive = clicked_source_is_primary && refresh_supported;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (ADDRESS_BOOK_REFRESH_BACKEND);
+	sensitive = clicked_source_is_collection;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_RENAME);
-	sensitive =
+	sensitive = clicked_source_is_primary && (
 		primary_source_is_writable &&
-		!primary_source_in_collection;
+		!primary_source_in_collection);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (ADDRESS_BOOK_SAVE_AS);
+	sensitive = clicked_source_is_primary && has_primary_source;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (ADDRESS_BOOK_POPUP_MAP);
+	sensitive = clicked_source_is_primary;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_STOP);
@@ -363,6 +403,7 @@ e_book_shell_view_class_init (EBookShellViewClass *class)
 	g_type_class_add_private (class, sizeof (EBookShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = book_shell_view_get_property;
 	object_class->dispose = book_shell_view_dispose;
 	object_class->finalize = book_shell_view_finalize;
 	object_class->constructed = book_shell_view_constructed;
@@ -378,6 +419,16 @@ e_book_shell_view_class_init (EBookShellViewClass *class)
 	shell_view_class->new_shell_sidebar = e_book_shell_sidebar_new;
 	shell_view_class->execute_search = book_shell_view_execute_search;
 	shell_view_class->update_actions = book_shell_view_update_actions;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CLICKED_SOURCE,
+		g_param_spec_object (
+			"clicked-source",
+			"Clicked Source",
+			"An ESource which had been clicked in the source selector before showing context menu",
+			E_TYPE_SOURCE,
+			G_PARAM_READABLE));
 
 	/* Ensure the GalView types we need are registered. */
 	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
@@ -528,4 +579,16 @@ e_book_shell_view_maybe_prefill_list_with_selection (EShellView *shell_view,
 		if (atld.any_added)
 			e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
 	}
+}
+
+ESource *
+e_book_shell_view_get_clicked_source (EShellView *shell_view)
+{
+	EBookShellView *book_shell_view;
+
+	g_return_val_if_fail (E_IS_BOOK_SHELL_VIEW (shell_view), NULL);
+
+	book_shell_view = E_BOOK_SHELL_VIEW (shell_view);
+
+	return book_shell_view->priv->clicked_source;
 }
