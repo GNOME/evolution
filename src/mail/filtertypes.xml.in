@@ -584,25 +584,25 @@
    <option value="is">
     <_title>is</_title>
     <code>
-       (match-all (= (get-sent-date) ${versus}))
+       (match-all (= (compare-date (get-sent-date) ${versus}) 0))
     </code>
    </option>
    <option value="is-not">
     <_title>is not</_title>
     <code>
-       (match-all (not (= (get-sent-date) ${versus})))
+       (match-all (not (= (compare-date (get-sent-date) ${versus}) 0)))
     </code>
    </option>
    <option value="before">
     <_title>is before</_title>
     <code>
-       (match-all (&lt; (get-sent-date) ${versus}))
+       (match-all (&lt; (compare-date (get-sent-date) ${versus}) 0))
     </code>
    </option>
    <option value="after">
     <_title>is after</_title>
     <code>
-       (match-all (&gt; (get-sent-date) ${versus}))
+       (match-all (&gt; (compare-date (get-sent-date) ${versus}) 0))
     </code>
    </option>
   </input>    
@@ -615,25 +615,25 @@
    <option value="is">
     <_title>is</_title>
     <code>
-       (match-all (= (get-received-date) ${versus}))
+       (match-all (= (compare-date (get-received-date) ${versus}) 0))
     </code>
    </option>
    <option value="is-not">
     <_title>is not</_title>
     <code>
-       (match-all (not (= (get-received-date) ${versus})))
+       (match-all (not (= (compare-date (get-received-date) ${versus}) 0)))
     </code>
    </option>
    <option value="before">
     <_title>is before</_title>
     <code>
-       (match-all (&lt; (get-received-date) ${versus}))
+       (match-all (&lt; (compare-date (get-received-date) ${versus}) 0))
     </code>
    </option>
    <option value="after">
     <_title>is after</_title>
     <code>
-       (match-all (&gt; (get-received-date) ${versus}))
+       (match-all (&gt; (compare-date (get-received-date) ${versus}) 0))
     </code>
    </option>
   </input>    
