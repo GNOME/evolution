@@ -175,6 +175,7 @@ function(gdbus_codegen_custom _xml _interface_prefix _c_namespace _files_prefix 
 			--generate-docbook ${_files_prefix}
 			${_args}
 			${CMAKE_CURRENT_SOURCE_DIR}/${_xml}
+		MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${_xml}
 		VERBATIM
 	)
 endfunction(gdbus_codegen_custom)
