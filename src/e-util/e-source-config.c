@@ -692,6 +692,7 @@ source_config_constructed (GObject *object)
 	ESourceRegistry *registry;
 	ESource *original_source;
 	ESource *collection_source = NULL;
+	gboolean is_webdav_collection = FALSE;
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_source_config_parent_class)->constructed (object);
@@ -709,6 +710,13 @@ source_config_constructed (GObject *object)
 		collection_source = e_source_registry_find_extension (
 			registry, original_source, extension_name);
 		config->priv->collection_source = collection_source;
+
+		if (collection_source) {
+			ESourceCollection *collection_extension;
+
+			collection_extension = e_source_get_extension (collection_source, extension_name);
+			is_webdav_collection = g_strcmp0 (e_source_backend_get_backend_name (E_SOURCE_BACKEND (collection_extension)), "webdav") == 0;
+		}
 	}
 
 	if (original_source != NULL)
@@ -722,8 +730,10 @@ source_config_constructed (GObject *object)
 
 	/* If the original source is part of a collection then we assume
 	 * the display name is server-assigned and not user-assigned, at
-	 * least not assigned through Evolution. */
-	if (collection_source != NULL)
+	 * least not assigned through Evolution.
+	 * Let the WebDAV collection change the display name, because it
+	 * can synchronize it when the user didn't change it. */
+	if (collection_source != NULL && !is_webdav_collection)
 		e_source_config_insert_widget (
 			config, NULL, _("Name:"),
 			config->priv->name_label);
