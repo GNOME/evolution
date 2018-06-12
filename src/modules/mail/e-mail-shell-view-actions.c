@@ -2223,7 +2223,14 @@ static GtkRadioActionEntry mail_scope_entries[] = {
 	  N_("Current Folder"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  MAIL_SCOPE_CURRENT_FOLDER }
+	  MAIL_SCOPE_CURRENT_FOLDER },
+
+	{ "mail-scope-current-folder-and-subfolders",
+	  NULL,
+	  N_("Current Folder and Subfolders"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  MAIL_SCOPE_CURRENT_FOLDER_AND_SUBFOLDERS }
 };
 
 void

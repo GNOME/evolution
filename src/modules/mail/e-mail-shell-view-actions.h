@@ -254,6 +254,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-scope-current-account")
 #define E_SHELL_WINDOW_ACTION_MAIL_SCOPE_CURRENT_FOLDER(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-scope-current-folder")
+#define E_SHELL_WINDOW_ACTION_MAIL_SCOPE_CURRENT_FOLDER_AND_SUBFOLDERS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-scope-current-folder-and-subfolders")
 #define E_SHELL_WINDOW_ACTION_MAIL_SCOPE_CURRENT_MESSAGE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-scope-current-message")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_BODY_CONTAINS(window) \

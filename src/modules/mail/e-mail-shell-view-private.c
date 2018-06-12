@@ -758,20 +758,10 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 		g_clear_object (&priv->opening_folder);
 	}
 
-	if (priv->search_account_all != NULL) {
-		g_object_unref (priv->search_account_all);
-		priv->search_account_all = NULL;
-	}
-
-	if (priv->search_account_current != NULL) {
-		g_object_unref (priv->search_account_current);
-		priv->search_account_current = NULL;
-	}
-
-	if (priv->search_account_cancel != NULL) {
-		g_object_unref (priv->search_account_cancel);
-		priv->search_account_cancel = NULL;
-	}
+	g_clear_object (&priv->search_folder_and_subfolders);
+	g_clear_object (&priv->search_account_all);
+	g_clear_object (&priv->search_account_current);
+	g_clear_object (&priv->search_account_cancel);
 
 	g_slist_free_full (priv->selected_uids, (GDestroyNotify) camel_pstring_free);
 	priv->selected_uids = NULL;
@@ -824,6 +814,10 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 		goto exit;
 
 	vee_folder = mail_shell_view->priv->search_account_current;
+	if (vee_folder != NULL && folder == CAMEL_FOLDER (vee_folder))
+		goto exit;
+
+	vee_folder = mail_shell_view->priv->search_folder_and_subfolders;
 	if (vee_folder != NULL && folder == CAMEL_FOLDER (vee_folder))
 		goto exit;
 

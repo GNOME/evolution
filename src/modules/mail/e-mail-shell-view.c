@@ -186,6 +186,120 @@ mail_shell_view_setup_search_results_folder (CamelFolder *folder,
 	return id;
 }
 
+typedef struct {
+	MailMsg base;
+
+	CamelFolder *vfolder;
+	GCancellable *cancellable;
+	CamelFolder *root_folder;
+} SearchResultsWithSubfoldersMsg;
+
+static gchar *
+search_results_with_subfolders_desc (SearchResultsWithSubfoldersMsg *msg)
+{
+	return g_strdup (_("Searching"));
+}
+
+static void
+search_results_with_subfolders_exec (SearchResultsWithSubfoldersMsg *msg,
+				     GCancellable *cancellable,
+				     GError **error)
+{
+	GList *folders = NULL;
+	CamelStore *root_store;
+	CamelFolderInfo *fi;
+	const CamelFolderInfo *cur;
+	const gchar *root_folder_name;
+
+	root_store = camel_folder_get_parent_store (msg->root_folder);
+	if (!root_store)
+		return;
+
+	root_folder_name = camel_folder_get_full_name (msg->root_folder);
+
+	fi = camel_store_get_folder_info_sync (root_store, root_folder_name,
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE, cancellable, NULL);
+
+	cur = fi;
+	while (cur && !g_cancellable_is_cancelled (cancellable)) {
+		if ((cur->flags & CAMEL_FOLDER_NOSELECT) == 0) {
+			CamelFolder *folder;
+
+			folder = camel_store_get_folder_sync (root_store, cur->full_name, 0, cancellable, NULL);
+			if (folder)
+				folders = g_list_prepend (folders, folder);
+		}
+
+		/* move to the next fi */
+		if (cur->child) {
+			cur = cur->child;
+		} else if (cur->next) {
+			cur = cur->next;
+		} else {
+			while (cur && !cur->next) {
+				cur = cur->parent;
+			}
+
+			if (cur)
+				cur = cur->next;
+		}
+	}
+
+	camel_folder_info_free (fi);
+
+	if (!g_cancellable_is_cancelled (cancellable)) {
+		CamelVeeFolder *vfolder = CAMEL_VEE_FOLDER (msg->vfolder);
+
+		folders = g_list_reverse (folders);
+
+		camel_vee_folder_set_folders (vfolder, folders, cancellable);
+	}
+
+	g_list_free_full (folders, g_object_unref);
+}
+
+static void
+search_results_with_subfolders_done (SearchResultsWithSubfoldersMsg *msg)
+{
+}
+
+static void
+search_results_with_subfolders_free (SearchResultsWithSubfoldersMsg *msg)
+{
+	g_object_unref (msg->vfolder);
+	g_object_unref (msg->root_folder);
+}
+
+static MailMsgInfo search_results_with_subfolders_setup_info = {
+	sizeof (SearchResultsWithSubfoldersMsg),
+	(MailMsgDescFunc) search_results_with_subfolders_desc,
+	(MailMsgExecFunc) search_results_with_subfolders_exec,
+	(MailMsgDoneFunc) search_results_with_subfolders_done,
+	(MailMsgFreeFunc) search_results_with_subfolders_free
+};
+
+static gint
+mail_shell_view_setup_search_results_folder_and_subfolders (CamelFolder *vfolder,
+							    CamelFolder *root_folder,
+							    GCancellable *cancellable)
+{
+	SearchResultsWithSubfoldersMsg *msg;
+	gint id;
+
+	if (!root_folder)
+		return 0;
+
+	msg = mail_msg_new (&search_results_with_subfolders_setup_info);
+	msg->vfolder = g_object_ref (vfolder);
+	msg->cancellable = cancellable;
+	msg->root_folder = g_object_ref (root_folder);
+
+	id = msg->base.seq;
+	mail_msg_slow_ordered_push (msg);
+
+	return id;
+}
+
 static void
 mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
                                             CamelFolder *folder)
@@ -682,6 +796,9 @@ filter:
 		case MAIL_SCOPE_CURRENT_FOLDER:
 			goto execute;
 
+		case MAIL_SCOPE_CURRENT_FOLDER_AND_SUBFOLDERS:
+			goto current_and_subfolders;
+
 		case MAIL_SCOPE_CURRENT_ACCOUNT:
 			goto current_account;
 
@@ -692,6 +809,125 @@ filter:
 			g_warn_if_reached ();
 			goto execute;
 	}
+
+ current_and_subfolders:
+
+	/* Prepare search folder for current folder and its subfolders. */
+
+	/* If the search text is empty, cancel any
+	 * account-wide searches still in progress. */
+	text = e_shell_searchbar_get_search_text (searchbar);
+	if ((text == NULL || *text == '\0') && !e_shell_view_get_search_rule (shell_view)) {
+		CamelStore *selected_store = NULL;
+		gchar *selected_folder_name = NULL;
+
+		if (priv->search_folder_and_subfolders != NULL) {
+			g_object_unref (priv->search_folder_and_subfolders);
+			priv->search_folder_and_subfolders = NULL;
+		}
+
+		if (priv->search_account_cancel != NULL) {
+			g_cancellable_cancel (priv->search_account_cancel);
+			g_object_unref (priv->search_account_cancel);
+			priv->search_account_cancel = NULL;
+		}
+
+		/* Reset the message list to the current folder tree
+		 * selection.  This needs to happen synchronously to
+		 * avoid search conflicts, so we can't just grab the
+		 * folder URI and let the asynchronous callbacks run
+		 * after we've already kicked off the search. */
+		em_folder_tree_get_selected (
+			folder_tree, &selected_store, &selected_folder_name);
+		if (selected_store != NULL && selected_folder_name != NULL) {
+			folder = camel_store_get_folder_sync (
+				selected_store, selected_folder_name,
+				0, NULL, NULL);
+			e_mail_reader_set_folder (reader, folder);
+			g_object_unref (folder);
+		}
+
+		g_clear_object (&selected_store);
+		g_free (selected_folder_name);
+
+		gtk_widget_set_sensitive (GTK_WIDGET (combo_box), TRUE);
+
+		goto execute;
+	}
+
+	search_folder = priv->search_folder_and_subfolders;
+
+	/* Skip the search if we already have the results. */
+	if (search_folder != NULL) {
+		const gchar *vf_query;
+
+		vf_query = camel_vee_folder_get_expression (search_folder);
+		if (g_strcmp0 (query, vf_query) == 0)
+			goto current_folder_and_subfolders_setup;
+	}
+
+	/* Disable the scope combo while search is in progress. */
+	gtk_widget_set_sensitive (GTK_WIDGET (combo_box), FALSE);
+
+	/* If we already have a search folder, reuse it. */
+	if (search_folder != NULL) {
+		if (priv->search_account_cancel != NULL) {
+			g_cancellable_cancel (priv->search_account_cancel);
+			g_object_unref (priv->search_account_cancel);
+			priv->search_account_cancel = NULL;
+		}
+
+		camel_vee_folder_set_expression (search_folder, query);
+
+		goto current_folder_and_subfolders_setup;
+	}
+
+	/* Create a new search folder. */
+
+	/* FIXME Complete lack of error checking here. */
+	service = camel_session_ref_service (CAMEL_SESSION (session), E_MAIL_SESSION_VFOLDER_UID);
+	camel_service_connect_sync (service, NULL, NULL);
+
+	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
+		CAMEL_STORE (service),
+		_("Current Folder and Subfolders Search"),
+		CAMEL_STORE_FOLDER_PRIVATE);
+	priv->search_folder_and_subfolders = search_folder;
+
+	g_object_unref (service);
+
+	camel_vee_folder_set_expression (search_folder, query);
+
+ current_folder_and_subfolders_setup:
+
+	if (folder != NULL && folder != CAMEL_FOLDER (search_folder)) {
+		/* Just use the folder */
+	} else {
+		CamelStore *selected_store = NULL;
+		gchar *selected_folder_name = NULL;
+
+		g_clear_object (&folder);
+
+		em_folder_tree_get_selected (folder_tree, &selected_store, &selected_folder_name);
+		if (selected_store != NULL && selected_folder_name != NULL) {
+			folder = camel_store_get_folder_sync (selected_store, selected_folder_name, 0, NULL, NULL);
+		}
+
+		g_clear_object (&selected_store);
+		g_free (selected_folder_name);
+	}
+
+	priv->search_account_cancel = camel_operation_new ();
+
+	mail_shell_view_setup_search_results_folder_and_subfolders (
+		CAMEL_FOLDER (search_folder), folder,
+		priv->search_account_cancel);
+
+	mail_shell_view_show_search_results_folder (
+		E_MAIL_SHELL_VIEW (shell_view),
+		CAMEL_FOLDER (search_folder));
+
+	goto execute;
 
 all_accounts:
 

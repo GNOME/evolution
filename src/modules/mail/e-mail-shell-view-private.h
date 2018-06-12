@@ -104,6 +104,7 @@ enum {
 /* Scope items are displayed in ascending order. */
 enum {
 	MAIL_SCOPE_CURRENT_FOLDER,
+	MAIL_SCOPE_CURRENT_FOLDER_AND_SUBFOLDERS,
 	MAIL_SCOPE_CURRENT_ACCOUNT,
 	MAIL_SCOPE_ALL_ACCOUNTS
 };
@@ -131,6 +132,7 @@ struct _EMailShellViewPrivate {
 	GCancellable *opening_folder;
 
 	/* Search folders for interactive search. */
+	CamelVeeFolder *search_folder_and_subfolders;
 	CamelVeeFolder *search_account_all;
 	CamelVeeFolder *search_account_current;
 	GCancellable *search_account_cancel;
