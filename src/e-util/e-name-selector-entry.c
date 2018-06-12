@@ -1351,7 +1351,7 @@ insert_destination_at_position (ENameSelectorEntry *name_selector_entry,
 	g_object_unref (destination);
 }
 
-static void
+static gboolean
 modify_destination_at_position (ENameSelectorEntry *name_selector_entry,
                                 gint pos)
 {
@@ -1362,11 +1362,11 @@ modify_destination_at_position (ENameSelectorEntry *name_selector_entry,
 
 	destination = find_destination_at_position (name_selector_entry, pos);
 	if (!destination)
-		return;
+		return FALSE;
 
 	text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
 	raw_address = get_address_at_position (text, pos);
-	g_return_if_fail (raw_address);
+	g_return_val_if_fail (raw_address, FALSE);
 
 	if (e_destination_get_contact (destination))
 		rebuild_attributes = TRUE;
@@ -1383,6 +1383,8 @@ modify_destination_at_position (ENameSelectorEntry *name_selector_entry,
 
 	if (rebuild_attributes)
 		generate_attribute_list (name_selector_entry);
+
+	return TRUE;
 }
 
 static gchar *
@@ -1497,12 +1499,13 @@ post_insert_update (ENameSelectorEntry *name_selector_entry,
 	length = g_utf8_strlen (text, -1);
 	text = g_utf8_next_char (text);
 
-	if (*text == '\0') {
-		/* First and only character, create initial destination. */
-		insert_destination_at_position (name_selector_entry, 0);
-	} else {
-		/* Modified an existing destination. */
-		modify_destination_at_position (name_selector_entry, position);
+	if (!*text)
+		position = 0;
+
+	/* Modified an existing destination or add a new. */
+	if (!*text || !modify_destination_at_position (name_selector_entry, position)) {
+		/* Create destination when it's the only character or when modify failed. */
+		insert_destination_at_position (name_selector_entry, position);
 	}
 
 	/* If editing within the string, regenerate attributes. */
@@ -1601,7 +1604,7 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
                   gpointer user_data)
 {
 	gint chars_inserted = 0;
-	gboolean fast_insert;
+	gboolean fast_insert, has_focus;
 
 	g_signal_handlers_block_by_func (name_selector_entry, user_insert_text, name_selector_entry);
 	g_signal_handlers_block_by_func (name_selector_entry, user_delete_text, name_selector_entry);
@@ -1611,6 +1614,13 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 		(g_utf8_strchr (new_text, new_text_length, ',') == NULL) &&
 		(g_utf8_strchr (new_text, new_text_length, '\t') == NULL) &&
 		(g_utf8_strchr (new_text, new_text_length, '\n') == NULL);
+
+	has_focus = gtk_widget_has_focus (GTK_WIDGET (name_selector_entry));
+
+	if (!has_focus && *position && *position == gtk_entry_get_text_length (GTK_ENTRY (name_selector_entry))) {
+		gtk_editable_insert_text (GTK_EDITABLE (name_selector_entry), ", ", 2, position);
+		insert_destination_at_position (name_selector_entry, *position);
+	}
 
 	/* If the text to insert does not contain spaces or commas,
 	 * insert all of it at once.  This avoids confusing on-going
@@ -1651,7 +1661,7 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 		}
 	}
 
-	if (chars_inserted >= 1) {
+	if (chars_inserted >= 1 && has_focus) {
 		/* If the user inserted one character, kick off completion */
 		re_set_timeout (
 			name_selector_entry->priv->update_completions_cb_id,
