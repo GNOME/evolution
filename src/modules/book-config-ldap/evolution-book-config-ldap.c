@@ -580,6 +580,10 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 	const gchar *extension_name;
 	const gchar *tab_label;
 	const gchar *uid;
+	GtkTreeIter iter;
+	GtkListStore *list_store;
+	GtkCellRenderer *cell;
+	gchar *tmp;
 	gboolean is_new_source;
 
 	context = g_slice_new (Context);
@@ -728,27 +732,47 @@ book_config_ldap_insert_widgets (ESourceConfigBackend *backend,
 
 	container = widget;
 
+	widget = gtk_combo_box_new ();
+	list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+	gtk_combo_box_set_model (GTK_COMBO_BOX (widget), GTK_TREE_MODEL (list_store));
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (widget), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (widget), cell, "markup", 0, NULL);
+
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (widget), 0);
+	gtk_combo_box_set_id_column (GTK_COMBO_BOX (widget), 1);
+
 	/* This must follow the order of ESourceLDAPAuthentication. */
-	widget = gtk_combo_box_text_new ();
-	gtk_combo_box_text_append_text (
-		GTK_COMBO_BOX_TEXT (widget),
-		_("Anonymous"));
-	gtk_combo_box_text_append_text (
-		GTK_COMBO_BOX_TEXT (widget),
-		_("Using email address"));
-	gtk_combo_box_text_append_text (
-		GTK_COMBO_BOX_TEXT (widget),
-		_("Using distinguished name (DN)"));
+	tmp = g_markup_printf_escaped ("%s\n<span font_size=\"x-small\">%s</span>",
+		_("Anonymous"),
+		_("Username can be left empty"));
+	gtk_list_store_append (list_store, &iter);
+	gtk_list_store_set (list_store, &iter, 0, tmp, -1);
+	g_free (tmp);
+
+	tmp = g_markup_printf_escaped ("%s\n<span font_size=\"x-small\">%s</span>",
+		_("Using email address"),
+		_("requires anonymous access to your LDAP server"));
+	gtk_list_store_append (list_store, &iter);
+	gtk_list_store_set (list_store, &iter, 0, tmp, -1);
+	g_free (tmp);
+
+	tmp = g_markup_printf_escaped ("%s\n<span font_size=\"x-small\">%s</span>",
+		_("Using distinguished name (DN)"),
+		_("for example: uid=user,dc=example,dc=com"));
+	gtk_list_store_append (list_store, &iter);
+	gtk_list_store_set (list_store, &iter, 0, tmp, -1);
+	g_free (tmp);
+
+	g_object_unref (list_store);
+
 	book_config_ldap_insert_notebook_widget (
 		container, size_group, _("Method:"), widget);
 	context->auth_combo = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	gtk_widget_set_tooltip_text (
-		widget, _("This is the method Evolution will use to "
-		"authenticate you.  Note that setting this to “Using "
-		"email address” requires anonymous access to your LDAP "
-		"server."));
+	gtk_widget_set_tooltip_text (widget, _("This is the method Evolution will use to authenticate you."));
 
 	widget = gtk_entry_new ();
 	book_config_ldap_insert_notebook_widget (
