@@ -2271,7 +2271,7 @@ e_calendar_view_get_description_text (ECalendarView *cal_view)
 	struct tm start_tm, end_tm;
 	struct icaltimetype start_tt, end_tt;
 	icaltimezone *zone;
-	gchar buffer[1024] = { 0 };
+	gchar start_buffer[512] = { 0 };
 	gchar end_buffer[512] = { 0 };
 
 	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
@@ -2305,59 +2305,34 @@ e_calendar_view_get_description_text (ECalendarView *cal_view)
 	if (E_IS_MONTH_VIEW (cal_view) || E_IS_CAL_LIST_VIEW (cal_view)) {
 		if (start_tm.tm_year == end_tm.tm_year) {
 			if (start_tm.tm_mon == end_tm.tm_mon) {
-				e_utf8_strftime (buffer, sizeof (buffer),
-					"%d", &start_tm);
-				e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					_("%d %b %Y"), &end_tm);
-				strcat (buffer, " - ");
-				strcat (buffer, end_buffer);
+				e_utf8_strftime (start_buffer, sizeof (start_buffer), "%d", &start_tm);
+				e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
 			} else {
-				e_utf8_strftime (buffer, sizeof (buffer),
-					_("%d %b"), &start_tm);
-				e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					_("%d %b %Y"), &end_tm);
-				strcat (buffer, " - ");
-				strcat (buffer, end_buffer);
+				e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%d %b"), &start_tm);
+				e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
 			}
 		} else {
-			e_utf8_strftime (
-				buffer, sizeof (buffer),
-				_("%d %b %Y"), &start_tm);
-			e_utf8_strftime (
-				end_buffer, sizeof (end_buffer),
-				_("%d %b %Y"), &end_tm);
-			strcat (buffer, " - ");
-			strcat (buffer, end_buffer);
+			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%d %b %Y"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%d %b %Y"), &end_tm);
 		}
 	} else {
 		if (start_tm.tm_year == end_tm.tm_year &&
 			start_tm.tm_mon == end_tm.tm_mon &&
 			start_tm.tm_mday == end_tm.tm_mday) {
-			e_utf8_strftime (
-				buffer, sizeof (buffer),
-				_("%A %d %b %Y"), &start_tm);
+			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%A %d %b %Y"), &start_tm);
 		} else if (start_tm.tm_year == end_tm.tm_year) {
-			e_utf8_strftime (
-				buffer, sizeof (buffer),
-				_("%a %d %b"), &start_tm);
-			e_utf8_strftime (
-				end_buffer, sizeof (end_buffer),
-				_("%a %d %b %Y"), &end_tm);
-			strcat (buffer, " - ");
-			strcat (buffer, end_buffer);
+			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%a %d %b"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%a %d %b %Y"), &end_tm);
 		} else {
-			e_utf8_strftime (
-				buffer, sizeof (buffer),
-				_("%a %d %b %Y"), &start_tm);
-			e_utf8_strftime (
-				end_buffer, sizeof (end_buffer),
-				_("%a %d %b %Y"), &end_tm);
-			strcat (buffer, " - ");
-			strcat (buffer, end_buffer);
+			e_utf8_strftime (start_buffer, sizeof (start_buffer), _("%a %d %b %Y"), &start_tm);
+			e_utf8_strftime (end_buffer, sizeof (end_buffer), _("%a %d %b %Y"), &end_tm);
 		}
 	}
 
-	return g_strdup (buffer);
+	if (*start_buffer && *end_buffer)
+		return g_strdup_printf ("%s - %s", start_buffer, end_buffer);
+
+	return g_strdup_printf ("%s%s", start_buffer, end_buffer);
 }
 
 void
