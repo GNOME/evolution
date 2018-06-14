@@ -927,9 +927,14 @@ update_1folder (MailFolderCache *cache,
 	}
 }
 
+#define IGNORE_THREAD_VALUE_TODO	GINT_TO_POINTER (1)
+#define IGNORE_THREAD_VALUE_IN_PROGRESS	GINT_TO_POINTER (2)
+#define IGNORE_THREAD_VALUE_DONE	GINT_TO_POINTER (3)
+
 static gboolean
 folder_cache_check_ignore_thread (CamelFolder *folder,
 				  CamelMessageInfo *info,
+				  GHashTable *added_uids, /* gchar *uid ~> IGNORE_THREAD_VALUE_... */
 				  GCancellable *cancellable,
 				  GError **error)
 {
@@ -941,6 +946,11 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 	g_return_val_if_fail (info != NULL, FALSE);
+	g_return_val_if_fail (added_uids != NULL, FALSE);
+	g_return_val_if_fail (camel_message_info_get_uid (info) != NULL, FALSE);
+
+	if (g_hash_table_lookup (added_uids, camel_message_info_get_uid (info)) == IGNORE_THREAD_VALUE_DONE)
+		return camel_message_info_get_user_flag (info, "ignore-thread");
 
 	references = camel_message_info_dup_references (info);
 	if (!references || references->len <= 0) {
@@ -976,18 +986,45 @@ folder_cache_check_ignore_thread (CamelFolder *folder,
 			for (ii = 0; ii < uids->len; ii++) {
 				const gchar *refruid = uids->pdata[ii];
 				CamelMessageInfo *refrinfo;
+				gpointer cached_value;
 
 				refrinfo = camel_folder_get_message_info (folder, refruid);
 				if (!refrinfo)
 					continue;
 
+				/* This is for cases when a subthread is received and the order of UIDs
+				   doesn't match the order in the thread (parent before child). */
+				cached_value = g_hash_table_lookup (added_uids, refruid);
+				if (cached_value == IGNORE_THREAD_VALUE_TODO) {
+					GError *local_error = NULL;
+
+					/* To avoid infinite recursion */
+					g_hash_table_insert (added_uids, (gpointer) camel_pstring_strdup (refruid), IGNORE_THREAD_VALUE_IN_PROGRESS);
+
+					if (folder_cache_check_ignore_thread (folder, refrinfo, added_uids, cancellable, &local_error))
+						camel_message_info_set_user_flag (refrinfo, "ignore-thread", TRUE);
+
+					if (local_error) {
+						g_clear_error (&local_error);
+					} else {
+						cached_value = IGNORE_THREAD_VALUE_DONE;
+						g_hash_table_insert (added_uids, (gpointer) camel_pstring_strdup (refruid), IGNORE_THREAD_VALUE_DONE);
+					}
+				}
+
+				if (!cached_value)
+					cached_value = IGNORE_THREAD_VALUE_DONE;
+
 				if (first_msgid && camel_message_info_get_message_id (refrinfo) == first_msgid) {
-					/* The first msgid in the references is In-ReplyTo, which is the master;
+					/* The first msgid in the references is In-Reply-To, which is the master;
 					   the rest is just a guess. */
-					found_first_msgid = TRUE;
 					first_ignore_thread = camel_message_info_get_user_flag (refrinfo, "ignore-thread");
-					g_clear_object (&refrinfo);
-					break;
+					found_first_msgid = first_ignore_thread || cached_value == IGNORE_THREAD_VALUE_DONE;
+
+					if (found_first_msgid) {
+						g_clear_object (&refrinfo);
+						break;
+					}
 				}
 
 				has_ignore_thread = has_ignore_thread || camel_message_info_get_user_flag (refrinfo, "ignore-thread");
@@ -1061,6 +1098,20 @@ folder_cache_process_folder_changes_thread (CamelFolder *folder,
 	    && folder != local_outbox
 	    && folder != local_sent
 	    && changes && (changes->uid_added->len > 0)) {
+		GHashTable *added_uids; /* gchar *uid ~> IGNORE_THREAD_VALUE_... */
+
+		/* The messages can be received in a wrong order (by UID), the same as the In-Reply-To
+		   message can be a new message here, in which case it might not be already updated,
+		   thus remember which messages are added and eventually update them when needed. */
+		added_uids = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) camel_pstring_free, NULL);
+
+		for (i = 0; i < changes->uid_added->len; i++) {
+			const gchar *uid = changes->uid_added->pdata[i];
+
+			if (uid)
+				g_hash_table_insert (added_uids, (gpointer) camel_pstring_strdup (uid), IGNORE_THREAD_VALUE_TODO);
+		}
+
 		/* for each added message, check to see that it is
 		 * brand new, not junk and not already deleted */
 		for (i = 0; i < changes->uid_added->len && !g_cancellable_is_cancelled (cancellable); i++) {
@@ -1072,7 +1123,7 @@ folder_cache_process_folder_changes_thread (CamelFolder *folder,
 				flags = camel_message_info_get_flags (info);
 				if (((flags & CAMEL_MESSAGE_SEEN) == 0) &&
 				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
-				    folder_cache_check_ignore_thread (folder, info, cancellable, &local_error)) {
+				    folder_cache_check_ignore_thread (folder, info, added_uids, cancellable, &local_error)) {
 					camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 					camel_message_info_set_user_flag (info, "ignore-thread", TRUE);
 					flags = flags | CAMEL_MESSAGE_SEEN;
@@ -1108,6 +1159,8 @@ folder_cache_process_folder_changes_thread (CamelFolder *folder,
 				}
 			}
 		}
+
+		g_hash_table_destroy (added_uids);
 	}
 
 	if (new > 0) {
@@ -1133,6 +1186,10 @@ folder_cache_process_folder_changes_thread (CamelFolder *folder,
 
 	g_object_unref (session);
 }
+
+#undef IGNORE_THREAD_VALUE_TODO
+#undef IGNORE_THREAD_VALUE_IN_PROGRESS
+#undef IGNORE_THREAD_VALUE_DONE
 
 static void
 folder_changed_cb (CamelFolder *folder,
