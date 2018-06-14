@@ -55,9 +55,6 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_MEETING_TIME_SELECTOR))
 
-/* Define this to include the debugging functions. */
-#undef E_MEETING_TIME_SELECTOR_DEBUG
-
 /* This is the width of the icon column in the attendees list. */
 #define E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH	24
 
@@ -417,15 +414,6 @@ void		e_meeting_time_selector_refresh_free_busy
 						(EMeetingTimeSelector *mts,
 						 gint row,
 						 gboolean all);
-
-/* Debugging function to dump information on all attendees. */
-#ifdef E_MEETING_TIME_SELECTOR_DEBUG
-void		e_meeting_time_selector_dump	(EMeetingTimeSelector *mts);
-gchar *		e_meeting_time_selector_dump_time
-						(EMeetingTime *mtstime);
-gchar *		e_meeting_time_selector_dump_date
-						(GDate *date);
-#endif /* E_MEETING_TIME_SELECTOR_DEBUG */
 
 G_END_DECLS
 

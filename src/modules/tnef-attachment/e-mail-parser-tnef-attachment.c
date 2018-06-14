@@ -824,29 +824,16 @@ static gchar * getRruleDayname (guchar a) {
 
     *daystring = 0;
 
-    if (a & 0x01) {
-        strcat (daystring, "SU,");
-    }
-    if (a & 0x02) {
-        strcat (daystring, "MO,");
-    }
-    if (a & 0x04) {
-        strcat (daystring, "TU,");
-    }
-    if (a & 0x08) {
-        strcat (daystring, "WE,");
-    }
-    if (a & 0x10) {
-        strcat (daystring, "TH,");
-    }
-    if (a & 0x20) {
-        strcat (daystring, "FR,");
-    }
-    if (a & 0x40) {
-        strcat (daystring, "SA,");
-    }
+    g_snprintf (daystring, sizeof (daystring), "%s%s%s%s%s%s%s",
+	(a & 0x01) ? "SU," : "",
+	(a & 0x02) ? "MO," : "",
+	(a & 0x04) ? "TU," : "",
+	(a & 0x08) ? "WE," : "",
+	(a & 0x10) ? "TH," : "",
+	(a & 0x20) ? "FR," : "",
+	(a & 0x40) ? "SA," : "");
 
-    if (strlen (daystring)) {
+    if (*daystring) {
         daystring[strlen (daystring) - 1] = 0;
     }
 

@@ -3200,8 +3200,10 @@ write_label_piece (time_t t,
 
 	convert_timet_to_struct_tm (t, zone, &tmp_tm);
 
-	if (stext != NULL)
-		strcat (buffer, stext);
+	if (stext != NULL) {
+		len = strlen (buffer);
+		g_snprintf (buffer + len, size - len, "%s", stext);
+	}
 
 	len = strlen (buffer);
 	if (start_cmp && same_date (tmp_tm, *start_cmp, zone))
@@ -3212,8 +3214,11 @@ write_label_piece (time_t t,
 		e_time_format_date_and_time (
 			&tmp_tm, use_24_hour_format, FALSE,
 			FALSE, &buffer[len], size - len);
-	if (etext != NULL)
-		strcat (buffer, etext);
+
+	if (etext != NULL) {
+		len = strlen (buffer);
+		g_snprintf (buffer + len, size - len, "%s", etext);
+	}
 }
 
 static icaltimezone *

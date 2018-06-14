@@ -101,8 +101,7 @@ _get_isocodeslocaledir (void)
 	if (beenhere)
 		return retval;
 
-	strcpy (retval, _get_iso_codes_prefix ());
-	strcat (retval, "\\share\\locale" );
+	g_snprintf (retval, sizeof (retval), "%s\\share\\locale", _get_iso_codes_prefix ());
 	beenhere = 1;
 	return retval;
 }
