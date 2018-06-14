@@ -26,8 +26,8 @@
 #include <libemail-engine/e-mail-utils.h>
 #include <libemail-engine/mail-tools.h>
 
-/* X-Mailer header value */
-#define X_MAILER ("Evolution " VERSION VERSION_SUBSTRING " " VERSION_COMMENT)
+/* User-Agent header value */
+#define USER_AGENT ("Evolution " VERSION VERSION_SUBSTRING " " VERSION_COMMENT)
 
 /* FIXME: Temporary - remove this after we move filter/ to eds */
 #define E_FILTER_SOURCE_OUTGOING "outgoing"
@@ -814,7 +814,7 @@ e_mail_session_send_to (EMailSession *session,
 
 	medium = CAMEL_MEDIUM (message);
 
-	camel_medium_set_header (medium, "X-Mailer", X_MAILER);
+	camel_medium_set_header (medium, "User-Agent", USER_AGENT);
 
 	/* Do this before removing "X-Evolution" headers. */
 	transport = e_mail_session_ref_transport_for_message (

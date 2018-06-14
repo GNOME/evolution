@@ -28,8 +28,8 @@
 
 #include "e-mail-utils.h"
 
-/* X-Mailer header value */
-#define X_MAILER ("Evolution " VERSION VERSION_SUBSTRING " " VERSION_COMMENT)
+/* User-Agent header value */
+#define USER_AGENT ("Evolution " VERSION VERSION_SUBSTRING " " VERSION_COMMENT)
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -107,8 +107,8 @@ e_mail_folder_append_message_sync (CamelFolder *folder,
 		full_display_name ? full_display_name : camel_folder_get_display_name (folder));
 	g_free (full_display_name);
 
-	if (camel_medium_get_header (medium, "X-Mailer") == NULL)
-		camel_medium_set_header (medium, "X-Mailer", X_MAILER);
+	if (camel_medium_get_header (medium, "User-Agent") == NULL)
+		camel_medium_set_header (medium, "User-Agent", USER_AGENT);
 
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 

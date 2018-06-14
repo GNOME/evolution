@@ -46,8 +46,7 @@
 #define w(x)
 #define d(x)
 
-/* XXX Make this a preprocessor definition. */
-const gchar *x_mailer = "Evolution " VERSION VERSION_SUBSTRING " " VERSION_COMMENT;
+#define USER_AGENT ("Evolution " VERSION VERSION_SUBSTRING " " VERSION_COMMENT)
 
 /* used for both just filtering a folder + uid's, and for filtering a whole folder */
 /* used both for fetching mail, and for filtering mail */
@@ -599,7 +598,7 @@ mail_send_message (struct _send_queue_msg *m,
 	if (!message)
 		return;
 
-	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer", x_mailer);
+	camel_medium_set_header (CAMEL_MEDIUM (message), "User-Agent", USER_AGENT);
 
 	/* Do this before removing "X-Evolution" headers. */
 	service = e_mail_session_ref_transport_for_message (

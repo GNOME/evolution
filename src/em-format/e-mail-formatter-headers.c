@@ -391,10 +391,10 @@ format_full_headers (EMailFormatter *formatter,
 				 * as it's the least preferred. */
 				if (header_value == NULL)
 					header_value = camel_medium_get_header (
-						medium, "X-Mailer");
+						medium, "User-Agent");
 				if (header_value == NULL)
 					header_value = camel_medium_get_header (
-						medium, "User-Agent");
+						medium, "X-Mailer");
 				if (header_value == NULL)
 					header_value = camel_medium_get_header (
 						medium, "X-Newsreader");

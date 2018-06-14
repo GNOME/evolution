@@ -1965,8 +1965,10 @@ mail_reader_edit_messages_composer_created_cb (GObject *source_object,
 		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
 		g_clear_error (&error);
 	} else {
-		camel_medium_remove_header (
-			CAMEL_MEDIUM (ccd->message), "X-Mailer");
+		camel_medium_remove_header (CAMEL_MEDIUM (ccd->message), "User-Agent");
+		camel_medium_remove_header (CAMEL_MEDIUM (ccd->message), "X-Mailer");
+		camel_medium_remove_header (CAMEL_MEDIUM (ccd->message), "X-Newsreader");
+		camel_medium_remove_header (CAMEL_MEDIUM (ccd->message), "X-MimeOLE");
 
 		em_utils_edit_message (
 			composer, ccd->folder, ccd->message, ccd->message_uid,

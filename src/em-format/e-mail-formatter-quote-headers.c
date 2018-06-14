@@ -182,9 +182,9 @@ emfqe_format_header (EMailFormatter *formatter,
 		CamelMedium *medium;
 
 		medium = CAMEL_MEDIUM (mime_part);
-		txt = camel_medium_get_header (medium, "x-mailer");
+		txt = camel_medium_get_header (medium, "user-agent");
 		if (txt == NULL)
-			txt = camel_medium_get_header (medium, "user-agent");
+			txt = camel_medium_get_header (medium, "x-mailer");
 		if (txt == NULL)
 			txt = camel_medium_get_header (medium, "x-newsreader");
 		if (txt == NULL)
