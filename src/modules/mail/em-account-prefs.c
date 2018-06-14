@@ -247,6 +247,7 @@ em_account_prefs_new (EPreferencesWindow *window)
 	EMailAccountStore *account_store;
 	EMailBackend *backend;
 	EMailSession *session;
+	GError *error = NULL;
 
 	/* XXX Figure out a better way to get the mail backend. */
 	shell = e_preferences_window_get_shell (window);
@@ -256,6 +257,12 @@ em_account_prefs_new (EPreferencesWindow *window)
 	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_ui_session_get_account_store (
 		E_MAIL_UI_SESSION (session));
+
+	/* Ensure the sort order is loaded */
+	if (!e_mail_account_store_load_sort_order (account_store, &error)) {
+		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_error_free (error);
+	}
 
 	return g_object_new (
 		EM_TYPE_ACCOUNT_PREFS,
