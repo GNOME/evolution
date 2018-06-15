@@ -17,6 +17,8 @@
 
 #include "evolution-config.h"
 
+#include <string.h>
+
 #include <glib/gi18n-lib.h>
 
 #include <e-util/e-util.h>
@@ -25,12 +27,6 @@
 #if defined (ENABLE_SMIME)
 #include <smime/gui/e-cert-selector.h>
 #endif /* ENABLE_SMIME */
-
-#ifdef HAVE_LIBCRYPTUI
-#define LIBCRYPTUI_API_SUBJECT_TO_CHANGE
-#include <libcryptui/cryptui.h>
-#undef LIBCRYPTUI_API_SUBJECT_TO_CHANGE
-#endif /* HAVE_LIBCRYPTUI */
 
 #include "e-mail-config-security-page.h"
 
@@ -189,66 +185,211 @@ mail_config_security_page_dispose (GObject *object)
 		dispose (object);
 }
 
-#ifdef HAVE_LIBCRYPTUI
+static GHashTable * /* gchar *keyid ~> gchar *display_name */
+mail_security_page_list_seahorse_keys (void)
+{
+	enum {
+		KEY_FLAG_IS_VALID =    0x00000001,
+		KEY_FLAG_CAN_ENCRYPT = 0x00000002,
+		KEY_FLAG_CAN_SIGN =    0x00000004,
+		KEY_FLAG_EXPIRED =     0x00000100,
+		KEY_FLAG_REVOKED =     0x00000200,
+		KEY_FLAG_DISABLED =    0x00000400,
+		KEY_FLAG_TRUSTED =     0x00001000,
+		KEY_FLAG_EXPORTABLE =  0x00100000
+	};
+	GDBusProxy *proxy;
+	GError *error = NULL;
+	GHashTable *keys = NULL;
+	GVariant *keysres;
+
+	proxy = g_dbus_proxy_new_for_bus_sync (G_BUS_TYPE_SESSION,
+		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES | G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
+		NULL,
+		"org.gnome.seahorse",
+		"/org/gnome/seahorse/keys/openpgp",
+		"org.gnome.seahorse.Keys",
+		NULL,
+		&error);
+
+	if (!proxy) {
+		g_debug ("%s: Failed to create proxy: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
+		return NULL;
+	}
+
+	keysres = g_dbus_proxy_call_sync (proxy, "ListKeys", NULL, G_DBUS_CALL_FLAGS_NONE, 2000, NULL, &error);
+	if (keysres) {
+		gchar **strv = NULL;
+
+		g_variant_get (keysres, "(^as)", &strv);
+		if (strv) {
+			const gchar *fields[] = { "key-id", "display-name", "flags", NULL };
+			gint ii;
+
+			for (ii = 0; strv[ii]; ii++) {
+				const gchar *keyid = strv[ii];
+
+				/* Expected result is "openpgp:key-id:subkey-index", but
+				   care only of those without subkey index */
+				if (*keyid && strchr (keyid, ':') == strrchr (keyid, ':')) {
+					GVariant *keyinfo;
+
+					keyinfo = g_dbus_proxy_call_sync (proxy, "GetKeyFields",
+						g_variant_new ("(s^as)", keyid, fields),
+						G_DBUS_CALL_FLAGS_NONE, 2000, NULL, &error);
+
+					if (keyinfo) {
+						GVariantDict *dict;
+						GVariant *val = NULL;
+
+						g_variant_get (keyinfo, "(@a{sv})", &val);
+						if (!val) {
+							g_variant_unref (keyinfo);
+							g_debug ("%s: Cannot get keyinfo value", G_STRFUNC);
+							continue;
+						}
+
+						dict = g_variant_dict_new (val);
+						g_variant_unref (val);
+
+						if (!dict) {
+							g_variant_unref (keyinfo);
+							g_debug ("%s: Cannot create dictionary from keyinfo value", G_STRFUNC);
+							continue;
+						}
+
+						val = g_variant_dict_lookup_value (dict, "flags", G_VARIANT_TYPE_UINT32);
+						if (val) {
+							guint32 flags = g_variant_get_uint32 (val);
+
+							g_variant_unref (val);
+
+							if ((flags & KEY_FLAG_CAN_SIGN) != 0 &&
+							    (flags & KEY_FLAG_IS_VALID) != 0 &&
+							    (flags & (KEY_FLAG_EXPIRED | KEY_FLAG_REVOKED | KEY_FLAG_DISABLED)) == 0) {
+								gchar *keyid = NULL, *display_name = NULL;
+
+								val = g_variant_dict_lookup_value (dict, "key-id", G_VARIANT_TYPE_STRING);
+								if (val) {
+									keyid = g_variant_dup_string (val, NULL);
+									g_variant_unref (val);
+								}
+
+								val = g_variant_dict_lookup_value (dict, "display-name", G_VARIANT_TYPE_STRING);
+								if (val) {
+									display_name = g_variant_dup_string (val, NULL);
+									g_variant_unref (val);
+								}
+
+								if (keyid && *keyid && display_name && *display_name) {
+									if (!keys)
+										keys = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+									g_hash_table_insert (keys, keyid, display_name);
+								} else {
+									g_free (keyid);
+									g_free (display_name);
+								}
+							}
+						}
+
+						g_variant_dict_unref (dict);
+						g_variant_unref (keyinfo);
+					} else {
+						g_debug ("%s: Failed to get key fields for '%s': %s", G_STRFUNC, keyid, error ? error->message : "Unknown error");
+						g_clear_error (&error);
+					}
+				}
+			}
+
+			g_strfreev (strv);
+		}
+
+		g_variant_unref (keysres);
+	} else {
+		g_debug ("%s: Failed to call ListKeys: %s", G_STRFUNC, error ? error->message : "Unknown error");
+		g_clear_error (&error);
+	}
+
+	g_clear_object (&proxy);
+
+	return keys;
+}
+
+static gint
+compare_by_display_name (gconstpointer v1,
+			 gconstpointer v2,
+			 gpointer user_data)
+{
+	const gchar *dn1, *dn2;
+
+	if (!v1 || !v2) {
+		if (v1 == v2)
+			return 0;
+
+		return v1 ? 1 : -1;
+	}
+
+	dn1 = g_hash_table_lookup (user_data, v1);
+	dn2 = g_hash_table_lookup (user_data, v2);
+
+	if (!dn1 || !dn2) {
+		if (dn1 == dn2)
+			return 0;
+
+		return dn1 ? 1 : -1;
+	}
+
+	return g_utf8_collate (dn1, dn2);
+}
+
 static GtkWidget *
 mail_security_page_get_openpgpg_combo (void)
 {
 	GtkWidget *widget;
 	GtkListStore *store;
-	CryptUIKeyset *keyset;
 	GtkCellRenderer *cell;
-	GList *keys, *kiter;
+	GHashTable *keys_hash;
+	GList *keys, *link;
+
+	keys_hash = mail_security_page_list_seahorse_keys ();
+	if (!keys_hash || !g_hash_table_size (keys_hash)) {
+		if (keys_hash)
+			g_hash_table_destroy (keys_hash);
+		return NULL;
+	}
 
 	store = GTK_LIST_STORE (gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING));
 
-	keyset = cryptui_keyset_new ("openpgp", FALSE);
-	cryptui_keyset_set_expand_keys (keyset, TRUE);
+	keys = g_hash_table_get_keys (keys_hash);
+	keys = g_list_sort_with_data (keys, compare_by_display_name, keys_hash);
 
-	keys = cryptui_keyset_get_keys (keyset);
-	for (kiter = keys; kiter; kiter = g_list_next (kiter)) {
-		const gchar *key = kiter->data;
-		guint flags;
+	for (link = keys; link; link = g_list_next (link)) {
+		const gchar *keyid = link->data, *display_name;
+		gchar *description;
 
-		flags = cryptui_keyset_key_flags (keyset, key);
+		display_name = g_hash_table_lookup (keys_hash, keyid);
 
-		if ((flags & CRYPTUI_FLAG_CAN_SIGN) != 0 &&
-		    (flags & CRYPTUI_FLAG_IS_VALID) != 0 &&
-		    (flags & (CRYPTUI_FLAG_EXPIRED | CRYPTUI_FLAG_REVOKED | CRYPTUI_FLAG_DISABLED)) == 0) {
-			gchar *keyid, *display_name, *display_id, *description;
+		if (keyid && *keyid && display_name && *display_name) {
+			GtkTreeIter iter;
 
-			keyid = cryptui_keyset_key_raw_keyid (keyset, key);
-			if (keyid && *keyid) {
-				GtkTreeIter iter;
+			/* Translators: This string is to describe a PGP key in a combo box in mail account's preferences.
+					The first '%s' is a key ID, the second '%s' is a display name of the key. */
+			description = g_strdup_printf (C_("PGPKeyDescription", "%s — %s"), keyid, display_name);
 
-				display_name = cryptui_keyset_key_display_name (keyset, key);
-				display_id = cryptui_keyset_key_display_id (keyset, key);
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter,
+				0, keyid,
+				1, description,
+				-1);
 
-				if (!display_id || !*display_id) {
-					g_free (display_id);
-					display_id = g_strdup (keyid);
-				}
-
-				/* Translators: This string is to describe a PGP key in a combo box in mail account's preferences.
-						The first '%s' is a key ID, the second '%s' is a display name of the key. */
-				description = g_strdup_printf (C_("PGPKeyDescription", "%s — %s"), display_id, display_name);
-
-				gtk_list_store_append (store, &iter);
-				gtk_list_store_set (store, &iter,
-					0, keyid,
-					1, description,
-					-1);
-
-				g_free (display_name);
-				g_free (display_id);
-				g_free (description);
-			}
-
-			g_free (keyid);
+			g_free (description);
 		}
 	}
 
 	g_list_free (keys);
-	g_object_unref (keyset);
+	g_hash_table_destroy (keys_hash);
 
 	widget = gtk_combo_box_new_with_model_and_entry (GTK_TREE_MODEL (store));
 	g_object_unref (store);
@@ -262,7 +403,6 @@ mail_security_page_get_openpgpg_combo (void)
 
 	return widget;
 }
-#endif /* HAVE_LIBCRYPTUI */
 
 static void
 mail_config_security_page_constructed (GObject *object)
@@ -367,22 +507,20 @@ mail_config_security_page_constructed (GObject *object)
 
 	label = GTK_LABEL (widget);
 
-#ifdef HAVE_LIBCRYPTUI
 	widget = mail_security_page_get_openpgpg_combo ();
-#else /* HAVE_LIBCRYPTUI */
-	widget = gtk_entry_new ();
-#endif /* HAVE_LIBCRYPTUI */
+	if (!widget)
+		widget = gtk_entry_new ();
 
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 1, 1);
 	gtk_widget_show (widget);
 
-#ifdef HAVE_LIBCRYPTUI
-	/* There's expected an entry, thus provide it. */
-	widget = gtk_bin_get_child (GTK_BIN (widget));
-	g_warn_if_fail (GTK_IS_ENTRY (widget));
-#endif /* HAVE_LIBCRYPTUI */
+	if (!GTK_IS_ENTRY (widget)) {
+		/* There's expected an entry, thus provide it. */
+		widget = gtk_bin_get_child (GTK_BIN (widget));
+		g_warn_if_fail (GTK_IS_ENTRY (widget));
+	}
 
 	e_binding_bind_object_text_property (
 		openpgp_ext, "key-id",
