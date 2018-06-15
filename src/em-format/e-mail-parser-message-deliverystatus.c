@@ -21,6 +21,7 @@
 
 #include <e-util/e-util.h>
 
+#include "e-mail-part-attachment.h"
 #include "e-mail-parser-extension.h"
 
 typedef EMailParserExtension EMailParserMessageDeliveryStatus;
@@ -49,6 +50,7 @@ empe_msg_deliverystatus_parse (EMailParserExtension *extension,
                                GQueue *out_mail_parts)
 {
 	GQueue work_queue = G_QUEUE_INIT;
+	CamelContentType *ct;
 	EMailPart *mail_part;
 	gsize len;
 
@@ -64,6 +66,15 @@ empe_msg_deliverystatus_parse (EMailParserExtension *extension,
 	/* The only reason for having a separate parser for
 	 * message/delivery-status is to display the part as an attachment */
 	e_mail_parser_wrap_as_attachment (parser, part, part_id, &work_queue);
+
+	ct = camel_mime_part_get_content_type (part);
+	if (ct && camel_content_type_is (ct, "message", "feedback-report")) {
+		EMailPart *attachment_part;
+
+		attachment_part = g_queue_peek_head (&work_queue);
+		if (attachment_part && E_IS_MAIL_PART_ATTACHMENT (attachment_part))
+			attachment_part->force_inline = TRUE;
+	}
 
 	e_queue_transfer (&work_queue, out_mail_parts);
 
