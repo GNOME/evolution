@@ -75,9 +75,6 @@
 /* defined if you have X11/XF86keysym.h */
 #cmakedefine HAVE_XFREE 1
 
-/* Define if using libcryptui */
-#cmakedefine HAVE_LIBCRYPTUI 1
-
 /* Define if TNEF attachments parser should be built */
 #cmakedefine ENABLE_YTNEF 1
 
