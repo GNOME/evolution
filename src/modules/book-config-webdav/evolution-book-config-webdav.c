@@ -53,9 +53,9 @@ G_DEFINE_DYNAMIC_TYPE (
 static void
 book_config_webdav_context_free (Context *context)
 {
-	g_object_unref (context->url_entry);
-	g_object_unref (context->find_button);
-	g_object_unref (context->avoid_ifmatch);
+	g_clear_object (&context->url_entry);
+	g_clear_object (&context->find_button);
+	g_clear_object (&context->avoid_ifmatch);
 
 	g_slice_free (Context, context);
 }
@@ -216,15 +216,17 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
                                    ESource *scratch_source)
 {
 	ESourceConfig *config;
+	ESource *collection_source;
 	ESourceExtension *extension;
 	GtkWidget *widget;
 	Context *context;
 	const gchar *extension_name;
 	const gchar *uid;
 
-	context = g_slice_new (Context);
+	context = g_slice_new0 (Context);
 	uid = e_source_get_uid (scratch_source);
 	config = e_source_config_backend_get_config (backend);
+	collection_source = e_source_config_get_collection_source (config);
 
 	context->backend = backend;
 	context->scratch_source = scratch_source;
@@ -236,25 +238,48 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 	e_book_source_config_add_offline_toggle (
 		E_BOOK_SOURCE_CONFIG (config), scratch_source);
 
-	widget = gtk_entry_new ();
-	e_source_config_insert_widget (
-		config, scratch_source, _("URL:"), widget);
-	context->url_entry = g_object_ref (widget);
-	gtk_widget_show (widget);
+	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
+	extension = e_source_get_extension (scratch_source, extension_name);
+
+	if (collection_source) {
+		widget = gtk_label_new ("");
+		g_object_set (G_OBJECT (widget),
+			"ellipsize", PANGO_ELLIPSIZE_MIDDLE,
+			"selectable", TRUE,
+			NULL);
+		e_source_config_insert_widget (config, scratch_source, _("URL:"), widget);
+		gtk_widget_show (widget);
+
+		e_binding_bind_property_full (
+			extension, "soup-uri",
+			widget, "label",
+			G_BINDING_SYNC_CREATE,
+			book_config_webdav_uri_to_text,
+			NULL,
+			g_object_ref (scratch_source),
+			(GDestroyNotify) g_object_unref);
+	} else {
+		widget = gtk_entry_new ();
+		e_source_config_insert_widget (config, scratch_source, _("URL:"), widget);
+		context->url_entry = g_object_ref (widget);
+		gtk_widget_show (widget);
+	}
 
 	e_source_config_add_secure_connection_for_webdav (
 		config, scratch_source);
 
-	e_source_config_add_user_entry (config, scratch_source);
+	if (!collection_source) {
+		e_source_config_add_user_entry (config, scratch_source);
 
-	widget = gtk_button_new_with_label (_("Find Address Books"));
-	e_source_config_insert_widget (config, scratch_source, NULL, widget);
-	context->find_button = g_object_ref (widget);
-	gtk_widget_show (widget);
+		widget = gtk_button_new_with_label (_("Find Address Books"));
+		e_source_config_insert_widget (config, scratch_source, NULL, widget);
+		context->find_button = g_object_ref (widget);
+		gtk_widget_show (widget);
 
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (book_config_webdav_run_dialog), context);
+		g_signal_connect (
+			widget, "clicked",
+			G_CALLBACK (book_config_webdav_run_dialog), context);
+	}
 
 	widget = gtk_check_button_new_with_label (
 		_("Avoid IfMatch (needed on Apache < 2.2.8)"));
@@ -263,23 +288,22 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 	context->avoid_ifmatch = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
-	extension = e_source_get_extension (scratch_source, extension_name);
-
 	e_binding_bind_property (
 		extension, "avoid-ifmatch",
 		context->avoid_ifmatch, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	e_binding_bind_property_full (
-		extension, "soup-uri",
-		context->url_entry, "text",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		book_config_webdav_uri_to_text,
-		book_config_webdav_text_to_uri,
-		NULL, (GDestroyNotify) NULL);
+	if (context->url_entry) {
+		e_binding_bind_property_full (
+			extension, "soup-uri",
+			context->url_entry, "text",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE,
+			book_config_webdav_uri_to_text,
+			book_config_webdav_text_to_uri,
+			NULL, (GDestroyNotify) NULL);
+	}
 }
 
 static gboolean
@@ -296,6 +320,9 @@ book_config_webdav_check_complete (ESourceConfigBackend *backend,
 	uid = e_source_get_uid (scratch_source);
 	context = g_object_get_data (G_OBJECT (backend), uid);
 	g_return_val_if_fail (context != NULL, FALSE);
+
+	if (!context->url_entry)
+		return TRUE;
 
 	entry = GTK_ENTRY (context->url_entry);
 	uri_string = gtk_entry_get_text (entry);

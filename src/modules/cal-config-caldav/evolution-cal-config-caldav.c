@@ -280,6 +280,25 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	/* If this data source is a collection member,
 	 * just add a subset and skip the rest. */
 	if (collection_source != NULL) {
+		widget = gtk_label_new ("");
+		g_object_set (G_OBJECT (widget),
+			"ellipsize", PANGO_ELLIPSIZE_MIDDLE,
+			"selectable", TRUE,
+			NULL);
+		e_source_config_insert_widget (config, scratch_source, _("URL:"), widget);
+		gtk_widget_show (widget);
+
+		extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+
+		e_binding_bind_property_full (
+			extension, "soup-uri",
+			widget, "label",
+			G_BINDING_SYNC_CREATE,
+			cal_config_caldav_uri_to_text,
+			NULL,
+			g_object_ref (scratch_source),
+			(GDestroyNotify) g_object_unref);
+
 		e_source_config_add_secure_connection_for_webdav (config, scratch_source);
 		e_source_config_add_refresh_interval (config, scratch_source);
 		return;
