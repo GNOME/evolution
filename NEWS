@@ -1,3 +1,38 @@
+Evolution 3.29.3 2018-06-18
+---------------------------
+
+Bug Fixes:
+	Bug 796155 - Allow changing per-folder archive settings when auto-archiving is disabled (Milan Crha)
+	Bug 796294 - No LTR text direction style in composed HTML messages (Milan Crha)
+	Bug 795870 - Add a way to initiate refresh of account sources (Milan Crha)
+	Bug 795869 - Synchronize color of WebDAV resources (Milan Crha)
+	Bug 776162 - "Ignore Thread" does not always ignore thread (Milan Crha)
+	Bug 796174 - strcat() considered unsafe for buffer overflow (Milan Crha)
+	I#9 - Mail notification tweaks (Ryan Hendrickson)
+	I#14 - Add 'in Current Folder and Subfolders' search option (Milan Crha)
+	I#20 - Hint authentication methods for LDAP address books (Milan Crha)
+	I#19 - Show "message/feedback-report" attachments inline (Milan Crha)
+
+Miscellaneous:
+	[mail-send-recv] Remove unused struct _send_info::keep_on_server property (Milan Crha)
+	Update bug URL and switch to https:// in the DOAP file (Milan Crha)
+	Fix a possible memory leak in mail_display_uri_requested_cb() (Milan Crha)
+	[composer-autosave] Use-after-free during snapshot save to file ][ (Milan Crha)
+	Fix few memory leaks around camel_data_wrapper_get_mime_type() (Milan Crha)
+	Try to preselect source type when creating new source (Milan Crha)
+	Missing build dependency for gdbus-codegen on input .xml file (Milan Crha)
+	Compare only date when searching with Sent/Received dates (Milan Crha)
+	[ENameSelectorEntry] Plain text drag & drop between entries misbehaves (Milan Crha)
+	Use 'User-Agent' instead of 'X-Mailer' header when sending message (Milan Crha)
+	Mail Accounts in Preferences not always properly sorted (Milan Crha)
+	Drop dependency on libcryptui (Milan Crha)
+
+Translations:
+	Daniel Mustieles (es)
+	Marek Cernocky (cs)
+	Cheng-Chia Tseng (zh_TW)
+	Mario Blättermann (de)
+
 Evolution 3.29.2 2018-05-21
 ---------------------------
 
