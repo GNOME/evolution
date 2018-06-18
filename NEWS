@@ -1,3 +1,33 @@
+Evolution 3.28.3 2018-06-18
+---------------------------
+
+Bug Fixes:
+	Bug 795977 - AutoArchive archives Junk and Deleted messages too (Milan Crha)
+	Bug 796114 - [Collection Accounts] Preselect each unique collection kind, not only first (Milan Crha)
+	Bug 796294 - No LTR text direction style in composed HTML messages (Milan Crha)
+	Bug 776162 - "Ignore Thread" does not always ignore thread (Milan Crha)
+	I#19 - Show "message/feedback-report" attachments inline (Milan Crha)
+
+Miscellaneous:
+	Address some of the clang warnings (Milan Crha)
+	Fix a 'variable hides parameter' warning (Milan Crha)
+	[alarm-notify] Do not use markup around organizer name in libnotify text (Milan Crha)
+	Address some of the compiler and static analyzers warnings (Milan Crha)
+	Crash when making links clickable in composer (Milan Crha)
+	Shift+Click on switcher button to open a new window (Milan Crha)
+	Fix a possible memory leak in mail_display_uri_requested_cb() (Milan Crha)
+	[composer-autosave] Use-after-free during snapshot save to file ][ (Milan Crha)
+	Update bug URL and switch to https:// in the DOAP file (Milan Crha)
+	Fix few memory leaks around camel_data_wrapper_get_mime_type() (Milan Crha)
+	[ENameSelectorEntry] Plain text drag & drop between entries misbehaves (Milan Crha)
+	Mail Accounts in Preferences not always properly sorted (Milan Crha)
+	Drop dependency on libcryptui (Milan Crha)
+
+Translations:
+	Kukuh Syafaat (id)
+	Uladzimir Manulenka (be)
+	Christian Kirbach (de)
+
 Evolution 3.28.2 2018-05-07
 ---------------------------
 
