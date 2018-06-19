@@ -18046,7 +18046,7 @@ msgstr "Alle _aufklappen"
 
 #: ../src/mail/em-subscription-editor.c:1949
 msgid "Refresh the folder list"
-msgstr "Die Ordnerliste auffrischen"
+msgstr "Die Ordnerliste aktualisieren"
 
 #: ../src/mail/em-subscription-editor.c:1961
 msgid "Stop the current operation"
@@ -20509,11 +20509,11 @@ msgstr "Die Eigenschaften des gewählten Adressbuchs anzeigen"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:612
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "Re_fresh"
-msgstr "Auf_frischen"
+msgstr "Aktualisieren"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:986
 msgid "Refresh the selected address book"
-msgstr "Das gewählte Adressbuch auffrischen"
+msgstr "Das gewählte Adressbuch aktualisieren"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:991
 msgid "Address Book _Map"
@@ -23620,7 +23620,7 @@ msgstr "Die Eigenschaften dieses Ordners ändern"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1723
 msgid "Refresh the folder"
-msgstr "Den Ordner auffrischen"
+msgstr "Den Ordner aktualisieren"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1730
 msgid "Change the name of this folder"
