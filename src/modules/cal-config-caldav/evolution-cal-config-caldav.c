@@ -67,10 +67,10 @@ cal_config_caldav_context_new (ESourceConfigBackend *backend,
 static void
 cal_config_caldav_context_free (Context *context)
 {
-	g_object_unref (context->url_entry);
-	g_object_unref (context->email_entry);
-	g_object_unref (context->find_button);
-	g_object_unref (context->auto_schedule_toggle);
+	g_clear_object (&context->url_entry);
+	g_clear_object (&context->email_entry);
+	g_clear_object (&context->find_button);
+	g_clear_object (&context->auto_schedule_toggle);
 
 	g_slice_free (Context, context);
 }
@@ -277,9 +277,14 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	e_cal_source_config_add_offline_toggle (
 		E_CAL_SOURCE_CONFIG (config), scratch_source);
 
-	/* If this data source is a collection member,
-	 * just add a subset and skip the rest. */
-	if (collection_source != NULL) {
+	uid = e_source_get_uid (scratch_source);
+	context = cal_config_caldav_context_new (backend, scratch_source);
+
+	g_object_set_data_full (
+		G_OBJECT (backend), uid, context,
+		(GDestroyNotify) cal_config_caldav_context_free);
+
+	if (collection_source) {
 		widget = gtk_label_new ("");
 		g_object_set (G_OBJECT (widget),
 			"ellipsize", PANGO_ELLIPSIZE_MIDDLE,
@@ -298,56 +303,47 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 			NULL,
 			g_object_ref (scratch_source),
 			(GDestroyNotify) g_object_unref);
-
-		e_source_config_add_secure_connection_for_webdav (config, scratch_source);
-		e_source_config_add_refresh_interval (config, scratch_source);
-		return;
+	} else {
+		widget = gtk_entry_new ();
+		e_source_config_insert_widget (
+			config, scratch_source, _("URL:"), widget);
+		context->url_entry = g_object_ref (widget);
+		gtk_widget_show (widget);
 	}
-
-	uid = e_source_get_uid (scratch_source);
-	context = cal_config_caldav_context_new (backend, scratch_source);
-
-	g_object_set_data_full (
-		G_OBJECT (backend), uid, context,
-		(GDestroyNotify) cal_config_caldav_context_free);
-
-	widget = gtk_entry_new ();
-	e_source_config_insert_widget (
-		config, scratch_source, _("URL:"), widget);
-	context->url_entry = g_object_ref (widget);
-	gtk_widget_show (widget);
 
 	e_source_config_add_secure_connection_for_webdav (
 		config, scratch_source);
 
-	e_source_config_add_user_entry (config, scratch_source);
+	if (!collection_source) {
+		e_source_config_add_user_entry (config, scratch_source);
 
-	source_type = e_cal_source_config_get_source_type (
-		E_CAL_SOURCE_CONFIG (config));
+		source_type = e_cal_source_config_get_source_type (
+			E_CAL_SOURCE_CONFIG (config));
 
-	switch (source_type) {
-		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
-			label = _("Find Calendars");
-			break;
-		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
-			label = _("Find Memo Lists");
-			break;
-		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
-			label = _("Find Task Lists");
-			break;
-		default:
-			g_return_if_reached ();
+		switch (source_type) {
+			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+				label = _("Find Calendars");
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+				label = _("Find Memo Lists");
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+				label = _("Find Task Lists");
+				break;
+			default:
+				g_return_if_reached ();
+		}
+
+		widget = gtk_button_new_with_label (label);
+		e_source_config_insert_widget (
+			config, scratch_source, NULL, widget);
+		context->find_button = g_object_ref (widget);
+		gtk_widget_show (widget);
+
+		g_signal_connect (
+			widget, "clicked",
+			G_CALLBACK (cal_config_caldav_run_dialog), context);
 	}
-
-	widget = gtk_button_new_with_label (label);
-	e_source_config_insert_widget (
-		config, scratch_source, NULL, widget);
-	context->find_button = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (cal_config_caldav_run_dialog), context);
 
 	widget = gtk_entry_new ();
 	e_source_config_insert_widget (
@@ -379,38 +375,35 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	e_binding_bind_property_full (
-		extension, "soup-uri",
-		context->url_entry, "text",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		cal_config_caldav_uri_to_text,
-		cal_config_caldav_text_to_uri,
-		g_object_ref (scratch_source),
-		(GDestroyNotify) g_object_unref);
+	if (context->url_entry) {
+		e_binding_bind_property_full (
+			extension, "soup-uri",
+			context->url_entry, "text",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE,
+			cal_config_caldav_uri_to_text,
+			cal_config_caldav_text_to_uri,
+			g_object_ref (scratch_source),
+			(GDestroyNotify) g_object_unref);
+	}
 }
 
 static gboolean
 cal_config_caldav_check_complete (ESourceConfigBackend *backend,
                                   ESource *scratch_source)
 {
-	ESourceConfig *config;
-	ESource *collection_source;
 	Context *context;
 	const gchar *uid;
 	const gchar *uri_string;
 	SoupURI *soup_uri;
 	gboolean complete;
 
-	config = e_source_config_backend_get_config (backend);
-	collection_source = e_source_config_get_collection_source (config);
-
-	if (collection_source != NULL)
-		return TRUE;
-
 	uid = e_source_get_uid (scratch_source);
 	context = g_object_get_data (G_OBJECT (backend), uid);
 	g_return_val_if_fail (context != NULL, FALSE);
+
+	if (!context->url_entry)
+		return TRUE;
 
 	uri_string = gtk_entry_get_text (GTK_ENTRY (context->url_entry));
 	soup_uri = soup_uri_new (uri_string);
