@@ -149,6 +149,8 @@ reformat (GtkAction *old,
 		query, g_strdup ("__formatas"), (gpointer) gtk_action_get_name (action));
 	g_hash_table_replace (
 		query, g_strdup ("mime_type"), (gpointer) "text/plain");
+	g_hash_table_replace (
+		query, g_strdup ("__force_highlight"), (gpointer) "true");
 
 	soup_uri_set_query_from_form (soup_uri, query);
 	g_hash_table_destroy (query);
@@ -276,6 +278,19 @@ create_group (EMailDisplayPopupExtension *extension)
 	return group;
 }
 
+static gboolean
+emdp_text_highlight_is_enabled (void)
+{
+	GSettings *settings;
+	gboolean enabled;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.text-highlight");
+	enabled = g_settings_get_boolean (settings, "enabled");
+	g_object_unref (settings);
+
+	return enabled;
+}
+
 static void
 update_actions (EMailDisplayPopupExtension *extension,
 		const gchar *popup_document_uri)
@@ -300,9 +315,15 @@ update_actions (EMailDisplayPopupExtension *extension,
 		soup_uri = soup_uri_new (th_extension->document_uri);
 		if (soup_uri && soup_uri->query) {
 			GHashTable *query = soup_form_decode (soup_uri->query);
-			gchar *highlighter;
+			const gchar *highlighter;
 
-			highlighter = g_hash_table_lookup (query, "__formatas");
+			if (!emdp_text_highlight_is_enabled () &&
+			    g_strcmp0 (g_hash_table_lookup (query, "__force_highlight"), "true") != 0) {
+				highlighter = "txt";
+			} else {
+				highlighter = g_hash_table_lookup (query, "__formatas");
+			}
+
 			if (highlighter && *highlighter) {
 				GtkAction *action = gtk_action_group_get_action (
 					th_extension->action_group, highlighter);

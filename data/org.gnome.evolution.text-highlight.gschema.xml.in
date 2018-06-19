@@ -1,5 +1,9 @@
 <schemalist>
   <schema gettext-domain="evolution" id="org.gnome.evolution.text-highlight" path="/org/gnome/evolution/text-highlight/">
+    <key name="enabled" type="b">
+      <default>true</default>
+      <_summary>Whether the text-highlight module is enabled</_summary>
+    </key>
     <key name="theme" type="s">
       <default>''</default>
       <_summary>Theme name to use, defaults to “bclear”</_summary>

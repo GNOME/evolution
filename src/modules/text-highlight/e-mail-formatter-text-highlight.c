@@ -54,6 +54,19 @@ G_DEFINE_DYNAMIC_TYPE (
 	e_mail_formatter_text_highlight,
 	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
+static gboolean
+emfe_text_highlight_formatter_is_enabled (void)
+{
+	GSettings *settings;
+	gboolean enabled;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.text-highlight");
+	enabled = g_settings_get_boolean (settings, "enabled");
+	g_object_unref (settings);
+
+	return enabled;
+}
+
 static gchar *
 get_syntax (EMailPart *part,
             const gchar *uri)
@@ -276,6 +289,33 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			"--failsafe",
 			NULL };
 
+		if (!emfe_text_highlight_formatter_is_enabled ()) {
+			gboolean can_process = FALSE;
+
+			if (context->uri) {
+				SoupURI *soup_uri;
+
+				soup_uri = soup_uri_new (context->uri);
+				if (soup_uri) {
+					GHashTable *query;
+
+					query = soup_form_decode (soup_uri->query);
+					can_process = query && g_strcmp0 (g_hash_table_lookup (query, "__force_highlight"), "true") == 0;
+					if (query)
+						g_hash_table_destroy (query);
+					soup_uri_free (soup_uri);
+				}
+			}
+
+			if (!can_process) {
+				success = e_mail_formatter_format_as (
+					formatter, context, part, stream,
+					"application/vnd.evolution.plaintext",
+					cancellable);
+				goto exit;
+			}
+		}
+
 		dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 		if (dw == NULL)
 			goto exit;
@@ -379,7 +419,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 				 * for text/x-patch or application/php would show
 				 * an error, as there is no other handler registered
 				 * for these */
-				e_mail_formatter_format_as (
+				success = e_mail_formatter_format_as (
 					formatter, context, part, stream,
 					"application/vnd.evolution.plaintext",
 					cancellable);
