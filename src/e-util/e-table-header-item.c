@@ -1941,9 +1941,9 @@ ethi_event (GnomeCanvasItem *item,
 
 	if ((event_state & GDK_CONTROL_MASK) != 0) {
 		if ((event_state & GDK_SHIFT_MASK) != 0)
-			sort_flag = E_TABLE_HEADER_ITEM_SORT_FLAG_ADD_AS_LAST;
-		else
 			sort_flag = E_TABLE_HEADER_ITEM_SORT_FLAG_ADD_AS_FIRST;
+		else
+			sort_flag = E_TABLE_HEADER_ITEM_SORT_FLAG_ADD_AS_LAST;
 	}
 
 	switch (event->type) {
