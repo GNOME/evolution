@@ -2845,7 +2845,7 @@ extract_simple_field (EContactEditor *editor,
 
 	if (GTK_IS_ENTRY (widget)) {
 		const gchar *text = gtk_entry_get_text (GTK_ENTRY (widget));
-		e_contact_set (contact, field_id, (gchar *) text);
+		e_contact_set (contact, field_id, (text && *text) ? (gchar *) text : NULL);
 
 	} else if (GTK_IS_COMBO_BOX_TEXT (widget)) {
 		gchar *text = NULL;
@@ -2859,7 +2859,7 @@ extract_simple_field (EContactEditor *editor,
 		if (!text)
 			text = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (widget));
 
-		e_contact_set (contact, field_id, text);
+		e_contact_set (contact, field_id, (text && *text) ? text : NULL);
 
 		g_free (text);
 	} else if (GTK_IS_COMBO_BOX (widget)) {
@@ -2885,7 +2885,7 @@ extract_simple_field (EContactEditor *editor,
 				-1);
 		}
 
-		e_contact_set (contact, field_id, text);
+		e_contact_set (contact, field_id, (text && *text) ? text : NULL);
 
 		g_free (text);
 
@@ -2897,12 +2897,12 @@ extract_simple_field (EContactEditor *editor,
 		gtk_text_buffer_get_start_iter (buffer, &start);
 		gtk_text_buffer_get_end_iter   (buffer, &end);
 		text = gtk_text_buffer_get_text (buffer, &start, &end, FALSE);
-		e_contact_set (contact, field_id, text);
+		e_contact_set (contact, field_id, (text && *text) ? text : NULL);
 		g_free (text);
 
 	} else if (E_IS_URL_ENTRY (widget)) {
 		const gchar *text = gtk_entry_get_text (GTK_ENTRY (widget));
-		e_contact_set (contact, field_id, (gchar *) text);
+		e_contact_set (contact, field_id, (text && *text) ? (gchar *) text : NULL);
 
 	} else if (E_IS_DATE_EDIT (widget)) {
 		EContactDate date;
