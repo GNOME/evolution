@@ -22,11 +22,11 @@
 		"*.a"
 	],
 	"finish-args": [
-		"--socket=x11",
 		"--share=ipc",
+		"--share=network",
+		"--socket=x11",
 		"--socket=wayland",
-		"--socket=pulseaudio",
-		"--share=network"
+		"--socket=pulseaudio"
 	],
 	"modules": [
 		{
@@ -243,7 +243,7 @@
 			"sources": [
 				{
 					"type": "git",
-					"url": "https://git.gnome.org/browse/evolution-data-server",
+					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
 					"branch": "master"
 				}
 			]
@@ -288,7 +288,7 @@
 			"sources": [
 				{
 					"type": "git",
-					"url": "https://git.gnome.org/browse/evolution",
+					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
 					"branch": "master"
 				},
 
@@ -348,7 +348,7 @@
 			"sources": [
 				{
 					"type": "git",
-					"url": "https://git.gnome.org/browse/evolution-ews",
+					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
 					"branch": "master"
 				}
 			]
