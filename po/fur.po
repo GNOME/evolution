@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2018-06-18 16:00+0000\n"
-"PO-Revision-Date: 2018-06-20 20:54+0200\n"
+"POT-Creation-Date: 2018-06-26 12:32+0000\n"
+"PO-Revision-Date: 2018-06-26 17:37+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -215,29 +215,29 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:1
 msgid "Save directory for reminder audio"
-msgstr "Cartele dulà salvâ i promemorie sonôrs"
+msgstr "Cartele dulà salvâ i pro memoria sonôrs"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:2
 msgid "Directory for saving reminder audio files"
-msgstr "Cartele par salvâ i file audio di promemorie"
+msgstr "Cartele par salvâ i file audio di pro memoria"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
 msgid "Birthday and anniversary reminder value"
-msgstr "Valôr promemorie compleans e aniversaris"
+msgstr "Valôr pro memoria compleans e aniversaris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
 msgid "Number of units for determining a birthday or anniversary reminder"
-msgstr "Numar di unitâts par determinâ un promemorie di complean o aniversari"
+msgstr "Numar di unitâts par determinâ un pro memoria di complean o aniversari"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
 msgid "Birthday and anniversary reminder units"
-msgstr "Unitâts promemorie compleans e aniversaris"
+msgstr "Unitâts pro memoria compleans e aniversaris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
 msgid ""
 "Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
 msgstr ""
-"Unitâts di timp par un promemorie di complean o aniversari, “minutes”, "
+"Unitâts di timp par un pro memoria di complean o aniversari, “minutes”, "
 "“hours” o “days”"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
@@ -427,20 +427,20 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Default reminder value"
-msgstr "Valôr predefinît promemorie"
+msgstr "Valôr predefinît pro memoria"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Number of units for determining a default reminder"
-msgstr "Numar di unitâts par determinâ un promemorie predefinît"
+msgstr "Numar di unitâts par determinâ un pro memoria predefinît"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid "Default reminder units"
-msgstr "Unitâts predefinidis promemorie"
+msgstr "Unitâts predefinidis pro memoria"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Units for a default reminder, “minutes”, “hours” or “days”"
 msgstr ""
-"Unitâts di timp par un promemorie predefinît: “minutes”, “hours” o “days”"
+"Unitâts di timp par un pro memoria predefinît: “minutes”, “hours” o “days”"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid "Show categories field in the event/meeting/task editor"
@@ -533,11 +533,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid "Last reminder time"
-msgstr "Orari ultin promemorie"
+msgstr "Orari ultin pro memoria"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 msgid "Time the last reminder ran, in time_t"
-msgstr "Orari di esecuzion dal ultin promemorie, in time_t"
+msgstr "Orari di esecuzion dal ultin pro memoria, in time_t"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
 msgid "Marcus Bains Line Color — Day View"
@@ -653,7 +653,7 @@ msgid ""
 "“Memos” view"
 msgstr ""
 "Il UID de liste memorandum selezionade (o “primarie”) tal ricuadri laterâl "
-"de viodude “Promemorie”"
+"de viodude “Pro memoria”"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Primary task list"
@@ -863,19 +863,19 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid "Birthday and anniversary reminder"
-msgstr "Promemorie compleans e aniversaris"
+msgstr "Pro memoria compleans e aniversaris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "Whether to set a reminder for birthdays and anniversaries"
-msgstr "Indiche se stabilî un promemorie pai compleans e aniversaris"
+msgstr "Indiche se stabilî un pro memoria pai compleans e aniversaris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid "Default appointment reminder"
-msgstr "Promemorie apontament predefinît"
+msgstr "Pro memoria apontament predefinît"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid "Whether to set a default reminder for appointments"
-msgstr "Indiche se stabilî un promemorie predefinît pai apontaments"
+msgstr "Indiche se stabilî un pro memoria predefinît pai apontaments"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Use system timezone"
@@ -939,6 +939,8 @@ msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
 msgstr ""
+"Permet la modifiche direte de sintesi dal event, cuant che si fâs clic su di "
+"chel, inte viodude zornaliere, setemanâl lavorative, setemanâl o mensîl."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -2729,14 +2731,15 @@ msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
 msgstr ""
-"Liste dai indizis pal plugin promemorie zontis di cirî tal cuarp dai messaçs"
+"Liste dai indizis pal plugin pro memoria zontis di cirî tal cuarp dai messaçs"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:6
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
 msgstr ""
-"Liste dai indizis pal plugin promemorie zontis di cirî tal cuarp dai messaçs."
+"Liste dai indizis pal plugin pro memoria zontis di cirî tal cuarp dai "
+"messaçs."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
 msgid "Address book source"
@@ -3216,10 +3219,14 @@ msgstr ""
 "vê altris argoments."
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
+msgid "Whether the text-highlight module is enabled"
+msgstr "Indiche se il modul evidenzie-test al è abilitât"
+
+#: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
 msgid "Theme name to use, defaults to “bclear”"
 msgstr "Non dal teme di doprâ, il predefinît al è “bclear”"
 
-#: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
+#: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:3
 msgid ""
 "Use “highlight --list-scripts=themes” to get the list of installed themes "
 "and then the value to one of them. The change requires only re-format of the "
@@ -3318,7 +3325,7 @@ msgstr "Pueste"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
 #: ../src/modules/calendar/e-memo-shell-view.c:335
 msgid "Memos"
-msgstr "Promemorie"
+msgstr "Memorandums"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
 #: ../src/calendar/gui/e-task-table.c:697 ../src/calendar/gui/print.c:2408
@@ -3397,7 +3404,7 @@ msgstr "Come cartele Inviâts pe viodude slar_gjade"
 
 #: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2439
 msgid "_Memos"
-msgstr "_Promemorie"
+msgstr "_Pro memoria"
 
 #: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2443
 #: ../src/plugins/pst-import/pst-importer.c:571
@@ -3558,7 +3565,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:31
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:721
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1359
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1433
 #: ../src/e-util/e-accounts-window.c:1562
 #: ../src/e-util/e-mail-signature-manager.c:328
 #: ../src/e-util/e-name-selector-dialog.c:1033 ../src/e-util/filter.ui.h:25
@@ -4023,7 +4030,7 @@ msgstr "Lavôr"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:525
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:927
-#: ../src/calendar/gui/e-cal-model.c:3802
+#: ../src/calendar/gui/e-cal-model.c:3820
 msgid "Other"
 msgstr "Altri"
 
@@ -4047,7 +4054,7 @@ msgstr "Zonte _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1375
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1449
 #: ../src/e-util/e-attachment-view.c:356 ../src/e-util/e-filter-rule.c:409
 #: ../src/e-util/e-mail-signature-manager.c:368
 #: ../src/e-util/e-name-selector-dialog.c:1037
@@ -5619,7 +5626,7 @@ msgid ""
 "lists up to date."
 msgstr ""
 "Inviant lis informazions di inzornament si permet a chei altris partecipants "
-"di mantignî lis propriis listis di  memorandum inzornadis."
+"di mantignî lis propriis listis di memorandum inzornadis."
 
 #: ../src/calendar/calendar.error.xml.h:56
 msgid "Editor could not be loaded."
@@ -6227,7 +6234,7 @@ msgstr "Va ae date"
 
 #: ../src/calendar/gui/ea-cal-view-event.c:232
 msgid "It has reminders."
-msgstr "Al à dai promemorie."
+msgstr "Al à dai pro memoria."
 
 #: ../src/calendar/gui/ea-cal-view-event.c:235
 msgid "It has recurrences."
@@ -6542,7 +6549,7 @@ msgid "High"
 msgstr "Alte"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:343
-#: ../src/calendar/gui/e-cal-model.c:1887
+#: ../src/calendar/gui/e-cal-model.c:1905
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:326
@@ -6703,7 +6710,7 @@ msgstr "Dutis lis istancis"
 #: ../src/calendar/gui/e-cal-dialogs.c:1174
 #: ../src/calendar/gui/e-cal-dialogs.c:1256
 msgid "Send my reminders with this event"
-msgstr "Inviâ i miei promemorie cun chest event"
+msgstr "Inviâ i miei pro memoria cun chest event"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:1176
 #: ../src/calendar/gui/e-cal-dialogs.c:1258
@@ -6876,37 +6883,37 @@ msgstr "Sorzint"
 msgid "Unknown"
 msgstr "No cognossût"
 
-#: ../src/calendar/gui/e-cal-model.c:1399 ../src/calendar/gui/e-cal-ops.c:614
+#: ../src/calendar/gui/e-cal-model.c:1417 ../src/calendar/gui/e-cal-ops.c:614
 #: ../src/calendar/gui/e-cal-ops.c:1250
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:435
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Sorzint cun UID “%s” no cjatade"
 
-#: ../src/calendar/gui/e-cal-model.c:1504 ../src/calendar/gui/e-cal-ops.c:186
+#: ../src/calendar/gui/e-cal-model.c:1522 ../src/calendar/gui/e-cal-ops.c:186
 #: ../src/calendar/gui/e-cal-ops.c:1367
 msgid "Creating an event"
 msgstr "Daûr a creâ un event"
 
-#: ../src/calendar/gui/e-cal-model.c:1508 ../src/calendar/gui/e-cal-ops.c:190
+#: ../src/calendar/gui/e-cal-model.c:1526 ../src/calendar/gui/e-cal-ops.c:190
 #: ../src/calendar/gui/e-cal-ops.c:1371
 msgid "Creating a memo"
 msgstr "Daûr a creâ un memorandum"
 
-#: ../src/calendar/gui/e-cal-model.c:1512 ../src/calendar/gui/e-cal-ops.c:194
+#: ../src/calendar/gui/e-cal-model.c:1530 ../src/calendar/gui/e-cal-ops.c:194
 #: ../src/calendar/gui/e-cal-ops.c:1375
 msgid "Creating a task"
 msgstr "Daûr a creâ une ativitât"
 
-#: ../src/calendar/gui/e-cal-model.c:1889
+#: ../src/calendar/gui/e-cal-model.c:1907
 msgid "Recurring"
 msgstr "Ricorint"
 
-#: ../src/calendar/gui/e-cal-model.c:1891
+#: ../src/calendar/gui/e-cal-model.c:1909
 msgid "Assigned"
 msgstr "Assegnât"
 
-#: ../src/calendar/gui/e-cal-model.c:1893
+#: ../src/calendar/gui/e-cal-model.c:1911
 #: ../src/calendar/gui/e-cal-model-tasks.c:1094
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:174
@@ -6915,14 +6922,14 @@ msgstr "Assegnât"
 msgid "Yes"
 msgstr "Sì"
 
-#: ../src/calendar/gui/e-cal-model.c:1893
+#: ../src/calendar/gui/e-cal-model.c:1911
 #: ../src/calendar/gui/e-cal-model-tasks.c:1094
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:186
 msgid "No"
 msgstr "No"
 
-#: ../src/calendar/gui/e-cal-model.c:3797
+#: ../src/calendar/gui/e-cal-model.c:3815
 #: ../src/calendar/gui/e-meeting-list-view.c:219
 #: ../src/calendar/gui/e-meeting-store.c:194
 #: ../src/calendar/gui/e-meeting-store.c:217
@@ -6930,7 +6937,7 @@ msgstr "No"
 msgid "Accepted"
 msgstr "Acetât"
 
-#: ../src/calendar/gui/e-cal-model.c:3798
+#: ../src/calendar/gui/e-cal-model.c:3816
 #: ../src/calendar/gui/e-meeting-list-view.c:220
 #: ../src/calendar/gui/e-meeting-store.c:196
 #: ../src/calendar/gui/e-meeting-store.c:219
@@ -6938,7 +6945,7 @@ msgstr "Acetât"
 msgid "Declined"
 msgstr "Ricusât"
 
-#: ../src/calendar/gui/e-cal-model.c:3799
+#: ../src/calendar/gui/e-cal-model.c:3817
 #: ../src/calendar/gui/e-meeting-list-view.c:221
 #: ../src/calendar/gui/e-meeting-store.c:198
 #: ../src/calendar/gui/e-meeting-store.c:221
@@ -6946,7 +6953,7 @@ msgstr "Ricusât"
 msgid "Tentative"
 msgstr "Provisori"
 
-#: ../src/calendar/gui/e-cal-model.c:3800
+#: ../src/calendar/gui/e-cal-model.c:3818
 #: ../src/calendar/gui/e-meeting-list-view.c:222
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:223
@@ -6954,13 +6961,13 @@ msgstr "Provisori"
 msgid "Delegated"
 msgstr "Delegât"
 
-#: ../src/calendar/gui/e-cal-model.c:3801
+#: ../src/calendar/gui/e-cal-model.c:3819
 msgid "Needs action"
 msgstr "E covente azion"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/e-cal-model.c:3856
+#: ../src/calendar/gui/e-cal-model.c:3874
 #: ../src/calendar/gui/e-meeting-list-view.c:687
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-task-table.etspec.h:11
@@ -7009,15 +7016,15 @@ msgstr "Daûr a modificâ un memorandum"
 msgid "Modifying a task"
 msgstr "Daûr a modificâ une ativitât"
 
-#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1929
+#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1946
 msgid "Removing an event"
 msgstr "Daûr a gjavâ un event"
 
-#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1933
+#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1950
 msgid "Removing a memo"
 msgstr "Daûr a gjavâ un memorandum"
 
-#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1937
+#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1954
 msgid "Removing a task"
 msgstr "Daûr a gjavâ une ativitât"
 
@@ -7326,7 +7333,7 @@ msgstr "Gjenerâl"
 #: ../src/calendar/gui/e-comp-editor-task.c:838
 msgctxt "ECompEditorPage"
 msgid "Reminders"
-msgstr "Promemorie"
+msgstr "Pro memoria"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:817
 #: ../src/calendar/gui/e-comp-editor-task.c:842
@@ -7388,12 +7395,12 @@ msgstr "Date di i_nizi:"
 #: ../src/calendar/gui/e-comp-editor-memo.c:256
 #, c-format
 msgid "Assigned Memo — %s"
-msgstr "Promemorie assegnât — %s"
+msgstr "Memorandum assegnât — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:257
 #, c-format
 msgid "Memo — %s"
-msgstr "Promemorie — %s"
+msgstr "Memorandum — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
@@ -7465,86 +7472,108 @@ msgstr "Viodude a iconis"
 msgid "List View"
 msgstr "Viodude a liste"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:311
+#: ../src/calendar/gui/e-comp-editor-page-general.c:315
 #, c-format
 msgid "Cannot find attendee “%s” in the list of attendees"
 msgstr "Impussibil cjatâ il partecipant “%s” te liste dai partecipants"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:318
+#: ../src/calendar/gui/e-comp-editor-page-general.c:322
 #, c-format
 msgid "Not enough rights to delete attendee “%s”"
 msgstr "No si àn vonde permès par eliminâ il partecipant “%s”"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:348
+#: ../src/calendar/gui/e-comp-editor-page-general.c:352
 msgid "Failed to delete selected attendee"
 msgid_plural "Failed to delete selected attendees"
 msgstr[0] "No si è rivâts a eliminâ il partecipant selezionât"
 msgstr[1] "No si è rivâts a eliminâ i partecipants selezionâts"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:434
+#: ../src/calendar/gui/e-comp-editor-page-general.c:438
 msgid "Organizer address is not a valid user mail address"
 msgstr ""
 "La direzion dal organizadôr no je une direzion di pueste di utent valide"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:584
+#: ../src/calendar/gui/e-comp-editor-page-general.c:599
 msgid "A_ttendees"
 msgstr "Par_tecipants"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:586
+#: ../src/calendar/gui/e-comp-editor-page-general.c:601
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Comute indicant se si mostrin i partecipants"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:595
+#: ../src/calendar/gui/e-comp-editor-page-general.c:610
 msgid "R_ole Field"
 msgstr "Cjamp _rûl"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:597
+#: ../src/calendar/gui/e-comp-editor-page-general.c:612
 msgid "Toggles whether the Role field is displayed"
 msgstr "Al comute cuant che si mostre il cjamp “Rûl”"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:603
+#: ../src/calendar/gui/e-comp-editor-page-general.c:618
 msgid "_RSVP"
 msgstr "_RSVP"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:605
+#: ../src/calendar/gui/e-comp-editor-page-general.c:620
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Al comute il visualizâ dal cjamp RSVP"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:611
+#: ../src/calendar/gui/e-comp-editor-page-general.c:626
 msgid "_Status Field"
 msgstr "Cjamp di _stât"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:613
+#: ../src/calendar/gui/e-comp-editor-page-general.c:628
 msgid "Toggles whether the Status field is displayed"
 msgstr "Al comute cuant che si mostre il cjamp “Stât”"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:619
+#: ../src/calendar/gui/e-comp-editor-page-general.c:634
 msgid "_Type Field"
 msgstr "Cjamp _Gjenar"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:621
+#: ../src/calendar/gui/e-comp-editor-page-general.c:636
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Al comute se si mostre il cjamp “Gjenar di partecipant”"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:947
+#: ../src/calendar/gui/e-comp-editor-page-general.c:981
 msgid "An organizer is required."
 msgstr "Al covente un organizadôr."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:957
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1088
+#: ../src/calendar/gui/e-comp-editor-page-general.c:991
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1122
 msgid "At least one attendee is required."
 msgstr "Al covente almancul un partecipant."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1211
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1246
 msgid "Or_ganizer:"
 msgstr "Or_ganizadôr:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1290
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1348
+msgid ""
+"Override color of the event. If not set, then color of the calendar is used."
+msgstr ""
+"Passe sore al colôr dal event. Se no stabilît, alore al ven doprât il colôr "
+"dal calendari."
+
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1350
+msgid ""
+"Override color of the memo. If not set, then color of the memo list is used."
+msgstr ""
+"Passe sore al colôr dal memorandum. Se no stabilît, alore al ven doprât il "
+"colôr de liste dai memorandums."
+
+#. E_SOURCE_EXTENSION_TASK_LIST
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1352
+msgid ""
+"Override color of the task. If not set, then color of the task list is used."
+msgstr ""
+"Passe sore al colôr de ativitât. Se no stabilît, alore al ven doprât il "
+"colôr de liste des ativitâts."
+
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1364
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Partecipa_nts..."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1367
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1441
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
 #: ../src/calendar/gui/e-comp-editor.c:2070
 #: ../src/e-util/e-accounts-window.c:1742
@@ -7842,20 +7871,20 @@ msgstr "Invie a"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1550
 msgid "_Reminders"
-msgstr "P_romemorie"
+msgstr "P_ro memoria"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1552
 msgid "Set or unset reminders"
-msgstr "Met o gjave i promemorie"
+msgstr "Met o gjave i pro memoria"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1614
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "Reminders"
-msgstr "Promemorie"
+msgstr "Pro memoria"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1639
 msgid "_Reminder"
-msgstr "P_romemorie"
+msgstr "P_ro memoria"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1672
 #, c-format
@@ -7953,7 +7982,7 @@ msgstr "fin"
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1915
 msgid "Re_peat the reminder"
-msgstr "Ri_pet il promemorie"
+msgstr "Ri_pet il pro memoria"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1940
@@ -7989,7 +8018,7 @@ msgstr "_Messaç personalizât"
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2062
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
-msgstr "_Sun promemorie personalizât"
+msgstr "_Sun pro memoria personalizât"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2073
 msgid "Select a sound file"
@@ -8134,6 +8163,12 @@ msgstr "_Fûs orari:"
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Mostre ore come _impegnât"
+
+#. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1642
+msgctxt "ECompEditor"
+msgid "None"
+msgstr "Nissun"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:236
 msgid "Task’s start date is in the past"
@@ -8782,7 +8817,7 @@ msgid "Completed: %s"
 msgstr "Completade: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1435 ../src/e-util/e-cell-date-edit.c:328
+#: ../src/calendar/gui/e-to-do-pane.c:1452 ../src/e-util/e-cell-date-edit.c:328
 #: ../src/e-util/e-datetime-format.c:206
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1869
 #: ../src/modules/itip-formatter/itip-view.c:255
@@ -8790,55 +8825,55 @@ msgid "Today"
 msgstr "Vuê"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1437
+#: ../src/calendar/gui/e-to-do-pane.c:1454
 #: ../src/e-util/e-datetime-format.c:217
 #: ../src/modules/itip-formatter/itip-view.c:283
 msgid "Tomorrow"
 msgstr "Doman"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1447
+#: ../src/calendar/gui/e-to-do-pane.c:1464
 msgid "Tasks without Due date"
 msgstr "Ativitâts cence date di scjadince"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2020
+#: ../src/calendar/gui/e-to-do-pane.c:2037
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1472
 msgid "New _Appointment..."
 msgstr "Gnûf _apontament..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2028
+#: ../src/calendar/gui/e-to-do-pane.c:2045
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1458
 msgid "New _Meeting..."
 msgstr "Gnove _Riunion..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2036
+#: ../src/calendar/gui/e-to-do-pane.c:2053
 msgid "New _Task..."
 msgstr "Gnove a_tivitât..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2044
+#: ../src/calendar/gui/e-to-do-pane.c:2061
 msgid "_New Assigned Task..."
 msgstr "Gnove ativitât assegna_de..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2057
+#: ../src/calendar/gui/e-to-do-pane.c:2074
 msgid "_Open..."
 msgstr "_Vierç..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2071
+#: ../src/calendar/gui/e-to-do-pane.c:2088
 msgid "_Delete This Instance..."
 msgstr "Elimine cheste _istance..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2079
+#: ../src/calendar/gui/e-to-do-pane.c:2096
 msgid "D_elete All Instances..."
 msgstr "_Elimine dutis lis istancis..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2087
+#: ../src/calendar/gui/e-to-do-pane.c:2104
 msgid "_Delete..."
 msgstr "Eli_mine..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2104
+#: ../src/calendar/gui/e-to-do-pane.c:2121
 msgid "_Show Tasks without Due date"
 msgstr "_Mostre ativitât cence date di scjadince"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2370
+#: ../src/calendar/gui/e-to-do-pane.c:2387
 msgid "To Do"
 msgstr "Di fâ"
 
@@ -9064,7 +9099,7 @@ msgstr "Ativitât"
 
 #: ../src/calendar/gui/print.c:3499
 msgid "Memo"
-msgstr "Promemorie"
+msgstr "Pro memoria"
 
 #: ../src/calendar/gui/print.c:3555
 msgid "Attendees: "
@@ -9164,7 +9199,7 @@ msgstr "Impuartadôr iCalendar di Evolution"
 
 #: ../src/calendar/importers/icalendar-importer.c:740
 msgid "Reminder!"
-msgstr "Promemorie!"
+msgstr "Pro memoria!"
 
 #: ../src/calendar/importers/icalendar-importer.c:825
 msgid "vCalendar files (.vcs)"
@@ -9208,7 +9243,7 @@ msgstr "Ativitât"
 #: ../src/calendar/importers/icalendar-importer.c:1533
 msgctxt "iCalImp"
 msgid "Memo"
-msgstr "Promemorie"
+msgstr "Memorandum"
 
 # m o f?
 #. have ? NULL :
@@ -9227,7 +9262,7 @@ msgstr "e je une istance"
 #: ../src/calendar/importers/icalendar-importer.c:1242
 msgctxt "iCalImp"
 msgid "has reminders"
-msgstr "al à dai promemorie"
+msgstr "al à dai pro memoria"
 
 # m o f?
 #: ../src/calendar/importers/icalendar-importer.c:1247
@@ -12713,7 +12748,7 @@ msgstr "purpure clare"
 msgid "white"
 msgstr "blanc"
 
-#: ../src/e-util/e-color-combo.c:642 ../src/mail/e-mail-account-tree-view.c:135
+#: ../src/e-util/e-color-combo.c:641 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:708
 #: ../src/mail/e-mail-reader.c:4235 ../src/mail/mail-config.ui.h:76
@@ -17950,12 +17985,9 @@ msgstr "Archivie cheste cartele doprant chestis impostazions:"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:617
-#, fuzzy
-#| msgctxt "autoarchive"
-#| msgid "_Cleanup messages older than"
 msgctxt "autoarchive"
 msgid "Auto-_cleanup messages older than"
-msgstr "_Nete i messaçs plui vecjos di"
+msgstr "_Nete in automatic i messaçs plui vecjos di"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:630
@@ -20541,7 +20573,7 @@ msgid ""
 "address books, calendars, memo lists or task lists there"
 msgstr ""
 "Esplore un servidôr WebDAV (CalDAV o CardDAV) e lì cree, modifiche o elimine "
-"rubrichis, calendaris, listis di promemorie o listis di ativitâts"
+"rubrichis, calendaris, listis di memorandums o listis di ativitâts"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124
@@ -20692,10 +20724,8 @@ msgid "Refresh the selected address book"
 msgstr "Inzorne la rubriche selezionade"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
-#, fuzzy
-#| msgid "Refresh the selected address book"
 msgid "Re_fresh list of account address books"
-msgstr "Inzorne la rubriche selezionade"
+msgstr "_Inzorne la liste des rubrichis dal account"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1071
 msgid "Address Book _Map"
@@ -21339,8 +21369,8 @@ msgstr "Sielç une rubriche"
 
 #: ../src/modules/book-config-webdav/evolution-book-config-webdav.c:250
 #: ../src/modules/book-config-webdav/evolution-book-config-webdav.c:263
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:288
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:316
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:293
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:309
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:128
 msgid "URL:"
 msgstr "URL:"
@@ -21354,7 +21384,7 @@ msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Evitâ IfMatch (necessari par Apache < 2.2.8)"
 
 #: ../src/modules/book-config-webdav/evolution-book-config-webdav.c:336
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:432
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:425
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:185
 msgid "URL is not a valid http:// nor https:// URL"
 msgstr "Il URL nol è un valit URL http:// o https://"
@@ -21374,23 +21404,23 @@ msgstr "Sielç une liste memorandum"
 msgid "Choose a Task List"
 msgstr "Sielç une liste di ativitâts"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:330
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:325
 msgid "Find Calendars"
 msgstr "Cjate calendaris"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:333
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:328
 msgid "Find Memo Lists"
 msgstr "Cjate listis memorandum"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:336
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:331
 msgid "Find Task Lists"
 msgstr "Cjate listis ativitâts"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:354
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:350
 msgid "Email:"
 msgstr "E-mail:"
 
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:359
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:355
 msgid "Server handles meeting invitations"
 msgstr "Il servidôr al gjestìs i invîts di riunion"
 
@@ -21557,15 +21587,15 @@ msgstr "Seletôr liste ativitâts"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:524
 msgid "Selected Calendars for Notifications of Reminders"
-msgstr "Calendaris selezionâts pes notifichis di promemorie"
+msgstr "Calendaris selezionâts pes notifichis di pro memoria"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:531
 msgid "Selected Memo Lists for Notifications of Reminders"
-msgstr "Listis di memorandum selezionadis pes notifichis di promemorie"
+msgstr "Listis di memorandum selezionadis pes notifichis di pro memoria"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:538
 msgid "Selected Task Lists for Notifications of Reminders"
-msgstr "Listis di ativitâts selezionadis pes notifichis di promemorie"
+msgstr "Listis di ativitâts selezionadis pes notifichis di pro memoria"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:634
 msgid "Meeting Invitations"
@@ -21781,7 +21811,7 @@ msgstr "Ordenâ i dîs inte viodude setemanâl di _çampe a drete"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Allo_w direct edit of event Summary"
-msgstr ""
+msgstr "_Permet modifiche direte de sintesi dal event"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:59
 msgid "Alerts"
@@ -21817,24 +21847,24 @@ msgstr "Mostre ativitât cence _date di scjadince"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:71
 msgid "Display reminders in _notification area only"
-msgstr "Mostrâ i promemorie nome inte aree di _notifiche"
+msgstr "Mostrâ i pro memoria nome inte aree di _notifiche"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:72
 msgid "Keep reminder notification _window always on top"
-msgstr "Ten il _barcon di notifiche promemorie simpri denant"
+msgstr "Ten il _barcon di notifiche pro memoria simpri denant"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Display reminders for completed _tasks"
-msgstr "Mostrâ i promemorie pes a_tivitâts completadis"
+msgstr "Mostrâ i pro memoria pes a_tivitâts completadis"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Display reminders for _past events"
-msgstr "Mostrâ i promemorie pai events _passâts"
+msgstr "Mostrâ i pro memoria pai events _passâts"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:76
 msgid "Set _default reminder"
-msgstr "Stabilìs promemorie pre_definît"
+msgstr "Stabilìs pro memoria pre_definît"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:78
@@ -21844,7 +21874,7 @@ msgstr "prime di ogni gnûf apontament"
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:80
 msgid "Show a _reminder"
-msgstr "Mostrâ un p_romemorie"
+msgstr "Mostrâ un p_ro memoria"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:82
@@ -21853,7 +21883,7 @@ msgstr "prime di ogni aniversari/complean"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 msgid "Select the sources for reminder notification:"
-msgstr "Selezione lis sorzints pes notifichis dai promemorie:"
+msgstr "Selezione lis sorzints pes notifichis dai pro memoria:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:87
 msgid "Default Free/Busy Server"
@@ -22008,10 +22038,8 @@ msgid "Refresh the selected calendar"
 msgstr "Inzorne il calendari selezionât"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1353
-#, fuzzy
-#| msgid "Refresh the selected calendar"
 msgid "Re_fresh list of account calendars"
-msgstr "Inzorne il calendari selezionât"
+msgstr "_Inzorne la liste dai calendaris dal account"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 msgid "Rename the selected calendar"
@@ -22246,7 +22274,7 @@ msgstr "memorandum"
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:248
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:663
 msgid "New _Memo"
-msgstr "Gnûf pro_memorie"
+msgstr "Gnûf _memorandum"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:250
 #: ../src/modules/calendar/e-memo-shell-backend.c:79
@@ -22364,12 +22392,12 @@ msgstr "Stampe la ativitât selezionade"
 #: ../src/modules/calendar/e-memo-shell-backend.c:77
 msgctxt "New"
 msgid "Mem_o"
-msgstr "Promem_orie"
+msgstr "Mem_orandum"
 
 #: ../src/modules/calendar/e-memo-shell-backend.c:84
 msgctxt "New"
 msgid "_Shared Memo"
-msgstr "Promemorie con_dividût"
+msgstr "Memorandum con_dividût"
 
 #: ../src/modules/calendar/e-memo-shell-backend.c:86
 msgid "Create a new shared memo"
@@ -22427,10 +22455,8 @@ msgid "Refresh the selected memo list"
 msgstr "Inzorne la liste memorandum selezionade"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:635
-#, fuzzy
-#| msgid "Refresh the selected memo list"
 msgid "Re_fresh list of account memo lists"
-msgstr "Inzorne la liste memorandum selezionade"
+msgstr "_Inzorne la liste des listis dai memorandums dal account"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:644
 msgid "Rename the selected memo list"
@@ -22568,10 +22594,8 @@ msgid "Refresh the selected task list"
 msgstr "Inzorne la liste des ativitâts selezionade"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:761
-#, fuzzy
-#| msgid "Refresh the selected task list"
 msgid "Re_fresh list of account task lists"
-msgstr "Inzorne la liste des ativitâts selezionade"
+msgstr "_Inzorne la liste des listis des ativitâts dal account"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:770
 msgid "Rename the selected task list"
@@ -23220,11 +23244,11 @@ msgstr "_Mostre timp come libar"
 
 #: ../src/modules/itip-formatter/itip-view.c:1742
 msgid "_Preserve my reminder"
-msgstr "Conserve chest _promemorie"
+msgstr "Conserve chest _pro memoria"
 
 #: ../src/modules/itip-formatter/itip-view.c:1743
 msgid "_Inherit reminder"
-msgstr "_Ereditâ il promemorie"
+msgstr "_Ereditâ il pro memoria"
 
 #: ../src/modules/itip-formatter/itip-view.c:2052
 msgid "_Tasks:"
@@ -23232,7 +23256,7 @@ msgstr "A_tivitâts:"
 
 #: ../src/modules/itip-formatter/itip-view.c:2055
 msgid "_Memos:"
-msgstr "Pro_memorie:"
+msgstr "_Memorandums:"
 
 #: ../src/modules/itip-formatter/itip-view.c:3112
 msgid "Sa_ve"
@@ -24507,11 +24531,11 @@ msgstr "_Formate come..."
 msgid "_Other languages"
 msgstr "_Altris lenghis"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:458
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:498
 msgid "Text Highlight"
 msgstr "Test evidenziât"
 
-#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:459
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:499
 msgid "Syntax highlighting of mail parts"
 msgstr "Evidenzie la sintassi di parts de pueste"
 
@@ -24788,7 +24812,7 @@ msgstr "_Modifiche messaç"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 msgid "Attachment Reminder"
-msgstr "Promemorie zontis"
+msgstr "Pro memoria zontis"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
@@ -25463,7 +25487,7 @@ msgstr "Cree un gnûf event dal messaç selezionât"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1308
 msgid "Create a Mem_o"
-msgstr "Cree un promem_orie"
+msgstr "Cree un mem_orandum"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1310
 msgid "Create a new memo from the selected message"
