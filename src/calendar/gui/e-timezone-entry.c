@@ -130,9 +130,13 @@ timezone_entry_add_relation (ETimezoneEntry *timezone_entry)
 		relation = atk_relation_set_get_relation_by_type (
 			set, ATK_RELATION_LABELLED_BY);
 		/* check whether has a labelled_by relation already */
-		if (relation != NULL)
+		if (relation != NULL) {
+			g_object_unref (set);
 			return;
+		}
 	}
+
+	g_clear_object (&set);
 
 	set = atk_object_ref_relation_set (a11y_timezone_entry);
 	if (!set)
@@ -150,6 +154,8 @@ timezone_entry_add_relation (ETimezoneEntry *timezone_entry)
 				ATK_OBJECT (target_object));
 		}
 	}
+
+	g_clear_object (&set);
 }
 
 /* The arrow button beside the date field has been clicked, so we show the

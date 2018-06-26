@@ -2089,9 +2089,13 @@ add_relation (EDateEdit *dedit,
 		relation = atk_relation_set_get_relation_by_type (
 			set, ATK_RELATION_LABELLED_BY);
 		/* check whether has a labelled_by relation already */
-		if (relation != NULL)
+		if (relation != NULL) {
+			g_object_unref (set);
 			return;
+		}
 	}
+
+	g_clear_object (&set);
 
 	set = atk_object_ref_relation_set (a11yEdit);
 	if (!set)
@@ -2109,6 +2113,8 @@ add_relation (EDateEdit *dedit,
 					ATK_OBJECT (target_object));
 		}
 	}
+
+	g_clear_object (&set);
 }
 
 /* This sets the text in the date entry according to the current settings. */
