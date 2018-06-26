@@ -60,6 +60,8 @@ ECompEditorPropertyPart *
 		e_comp_editor_property_part_timezone_new	(void);
 ECompEditorPropertyPart *
 		e_comp_editor_property_part_transparency_new	(void);
+ECompEditorPropertyPart *
+		e_comp_editor_property_part_color_new		(void);
 
 G_END_DECLS
 

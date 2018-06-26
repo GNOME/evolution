@@ -614,6 +614,16 @@ CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
 				return 0;
 			}" HAVE_ICAL_FILENAME_PARAMETER)
 
+CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
+			int main(void) {
+				icalproperty *prop;
+				prop = icalcomponent_get_first_property (NULL, ICAL_COLOR_PROPERTY);
+				icalproperty_get_color (prop);
+				icalproperty_set_color (prop, \"white\");
+				prop = icalproperty_new_color (NULL);
+				return 0;
+			}" HAVE_ICAL_COLOR_PROPERTY)
+
 unset(CMAKE_REQUIRED_DEFINITIONS)
 unset(CMAKE_REQUIRED_INCLUDES)
 unset(CMAKE_REQUIRED_LIBRARIES)

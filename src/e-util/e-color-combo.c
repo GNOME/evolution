@@ -442,7 +442,7 @@ color_combo_draw_frame_cb (GtkWidget *widget,
 	if (rgba.alpha == 0) {
 		draw_transparent_graphic (cr, width, height);
 	} else {
-		cairo_set_source_rgb (cr, rgba.red, rgba.green, rgba.blue);
+		cairo_set_source_rgba (cr, rgba.red, rgba.green, rgba.blue, rgba.alpha);
 		cairo_rectangle (cr, 0, 0, width, height);
 		cairo_fill (cr);
 	}
@@ -456,7 +456,6 @@ color_combo_set_default_color_cb (EColorCombo *combo,
 
 	e_color_combo_get_default_color (combo, &color);
 	e_color_combo_set_current_color (combo, &color);
-	e_color_combo_set_default_transparent (combo, (color.alpha == 0));
 
 	g_signal_emit (combo, signals[ACTIVATED], 0, &color);
 }
@@ -749,6 +748,8 @@ e_color_combo_init (EColorCombo *combo)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	combo->priv->arrow = widget;  /* do not reference */
 
+	gtk_widget_show_all (container);
+
 	/* Build the drop-down menu */
 	widget = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
@@ -933,8 +934,6 @@ e_color_combo_set_default_color (EColorCombo *combo,
 
 	gtk_color_chooser_set_rgba (
 		GTK_COLOR_CHOOSER (combo->priv->chooser_widget), color);
-
-	e_color_combo_set_default_transparent (combo, (color->alpha == 0));
 
 	g_object_notify (G_OBJECT (combo), "default-color");
 }

@@ -108,6 +108,9 @@
 /* libical provides ICAL_FILENAME_PARAMETER */
 #cmakedefine HAVE_ICAL_FILENAME_PARAMETER 1
 
+/* libical provides ICAL_COLOR_PROPERTY */
+#cmakedefine HAVE_ICAL_COLOR_PROPERTY 1
+
 /* When defined spell checking is enabled */
 #cmakedefine HAVE_GTKSPELL 1
 

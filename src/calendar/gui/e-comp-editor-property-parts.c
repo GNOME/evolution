@@ -1595,3 +1595,173 @@ e_comp_editor_property_part_transparency_new (void)
 }
 
 /* ************************************************************************* */
+
+#define E_TYPE_COMP_EDITOR_PROPERTY_PART_COLOR \
+	(e_comp_editor_property_part_color_get_type ())
+#define E_COMP_EDITOR_PROPERTY_PART_COLOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_COMP_EDITOR_PROPERTY_PART_COLOR, ECompEditorPropertyPartColor))
+#define E_IS_COMP_EDITOR_PROPERTY_PART_COLOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_COMP_EDITOR_PROPERTY_PART_COLOR))
+
+typedef struct _ECompEditorPropertyPartColor ECompEditorPropertyPartColor;
+typedef struct _ECompEditorPropertyPartColorClass ECompEditorPropertyPartColorClass;
+
+struct _ECompEditorPropertyPartColor {
+	ECompEditorPropertyPart parent;
+};
+
+struct _ECompEditorPropertyPartColorClass {
+	ECompEditorPropertyPartClass parent_class;
+};
+
+GType e_comp_editor_property_part_color_get_type (void) G_GNUC_CONST;
+
+G_DEFINE_TYPE (ECompEditorPropertyPartColor, e_comp_editor_property_part_color, E_TYPE_COMP_EDITOR_PROPERTY_PART)
+
+static void
+ecepp_color_create_widgets (ECompEditorPropertyPart *property_part,
+			    GtkWidget **out_label_widget,
+			    GtkWidget **out_edit_widget)
+{
+	GdkRGBA rgba;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_COLOR (property_part));
+	g_return_if_fail (out_label_widget != NULL);
+	g_return_if_fail (out_edit_widget != NULL);
+
+	rgba.red = 0.0;
+	rgba.green = 0.0;
+	rgba.blue = 0.0;
+	rgba.alpha = 0.001;
+
+	*out_label_widget = NULL;
+
+	/* Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color' */
+	*out_edit_widget = e_color_combo_new_defaults (&rgba, C_("ECompEditor", "None"));
+
+	g_object_set (G_OBJECT (*out_edit_widget),
+		"hexpand", FALSE,
+		"halign", GTK_ALIGN_START,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_CENTER,
+		NULL);
+
+	gtk_widget_show (*out_edit_widget);
+
+	g_signal_connect_swapped (*out_edit_widget, "activated",
+		G_CALLBACK (e_comp_editor_property_part_emit_changed), property_part);
+}
+
+static void
+ecepp_color_fill_widget (ECompEditorPropertyPart *property_part,
+			 icalcomponent *component)
+{
+	#ifdef HAVE_ICAL_COLOR_PROPERTY
+	GtkWidget *edit_widget;
+	icalproperty *prop;
+	gboolean color_set = FALSE;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_COLOR (property_part));
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
+	g_return_if_fail (E_IS_COLOR_COMBO (edit_widget));
+
+	prop = icalcomponent_get_first_property (component, ICAL_COLOR_PROPERTY);
+	if (prop) {
+		const gchar *color = icalproperty_get_color (prop);
+		GdkRGBA rgba;
+
+		if (color && gdk_rgba_parse (&rgba, color)) {
+			e_color_combo_set_current_color (E_COLOR_COMBO (edit_widget), &rgba);
+			color_set = TRUE;
+		}
+	}
+
+	if (!color_set) {
+		GdkRGBA rgba;
+
+		rgba.red = 0.0;
+		rgba.green = 0.0;
+		rgba.blue = 0.0;
+		rgba.alpha = 0.001;
+
+		e_color_combo_set_current_color (E_COLOR_COMBO (edit_widget), &rgba);
+	}
+	#endif
+}
+
+static void
+ecepp_color_fill_component (ECompEditorPropertyPart *property_part,
+			    icalcomponent *component)
+{
+	#ifdef HAVE_ICAL_COLOR_PROPERTY
+	GtkWidget *edit_widget;
+	icalproperty *prop;
+	GdkRGBA rgba;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_COLOR (property_part));
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
+	g_return_if_fail (E_IS_COLOR_COMBO (edit_widget));
+
+	rgba.red = 0.0;
+	rgba.green = 0.0;
+	rgba.blue = 0.0;
+	rgba.alpha = 0.001;
+
+	e_color_combo_get_current_color (E_COLOR_COMBO (edit_widget), &rgba);
+
+	prop = icalcomponent_get_first_property (component, ICAL_COLOR_PROPERTY);
+
+	if (rgba.alpha <= 1.0 - 1e-9) {
+		if (prop) {
+			icalcomponent_remove_property (component, prop);
+			icalproperty_free (prop);
+		}
+	} else {
+		gchar *str;
+
+		str = gdk_rgba_to_string (&rgba);
+		if (str) {
+			if (prop) {
+				icalproperty_set_color (prop, str);
+			} else {
+				prop = icalproperty_new_color (str);
+				icalcomponent_add_property (component, prop);
+			}
+
+			g_free (str);
+		} else {
+			g_warning ("%s: Failed to convert RGBA (%f,%f,%f,%f) to string", G_STRFUNC, rgba.red, rgba.green, rgba.blue, rgba.alpha);
+		}
+	}
+	#endif
+}
+
+static void
+e_comp_editor_property_part_color_init (ECompEditorPropertyPartColor *part_color)
+{
+}
+
+static void
+e_comp_editor_property_part_color_class_init (ECompEditorPropertyPartColorClass *klass)
+{
+	ECompEditorPropertyPartClass *part_class;
+
+	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
+	part_class->create_widgets = ecepp_color_create_widgets;
+	part_class->fill_widget = ecepp_color_fill_widget;
+	part_class->fill_component = ecepp_color_fill_component;
+}
+
+ECompEditorPropertyPart *
+e_comp_editor_property_part_color_new (void)
+{
+	#ifdef HAVE_ICAL_COLOR_PROPERTY
+	return g_object_new (E_TYPE_COMP_EDITOR_PROPERTY_PART_COLOR, NULL);
+	#else
+	return NULL;
+	#endif
+}

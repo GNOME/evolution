@@ -1234,6 +1234,9 @@ cal_model_get_color_for_component (ECalModel *model,
 	const gchar *extension_name;
 	const gchar *uid;
 	gint i, first_empty = 0;
+	#ifdef HAVE_ICAL_COLOR_PROPERTY
+	icalproperty *prop;
+	#endif
 
 	static AssignedColorData assigned_colors[] = {
 		{ "#BECEDD", NULL }, /* 190 206 221     Blue */
@@ -1249,6 +1252,21 @@ cal_model_get_color_for_component (ECalModel *model,
 	};
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	#ifdef HAVE_ICAL_COLOR_PROPERTY
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COLOR_PROPERTY);
+	if (prop) {
+		GdkRGBA rgba;
+
+		color_spec = icalproperty_get_color (prop);
+		if (color_spec && gdk_rgba_parse (&rgba, color_spec)) {
+			g_free (comp_data->color);
+			comp_data->color = g_strdup (color_spec);
+
+			return comp_data->color;
+		}
+	}
+	#endif
 
 	switch (e_cal_client_get_source_type (comp_data->client)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:

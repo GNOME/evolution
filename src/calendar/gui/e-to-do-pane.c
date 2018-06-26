@@ -774,7 +774,11 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 		      gboolean *out_fgcolor_set,
 		      time_t *out_nearest_due)
 {
-	GdkRGBA *bgcolor, fgcolor;
+	GdkRGBA *bgcolor = NULL, fgcolor;
+	#ifdef HAVE_ICAL_COLOR_PROPERTY
+	GdkRGBA stack_bgcolor;
+	icalproperty *prop;
+	#endif
 
 	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 	g_return_if_fail (out_bgcolor);
@@ -788,7 +792,20 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	bgcolor = g_hash_table_lookup (to_do_pane->priv->client_colors, e_client_get_source (E_CLIENT (client)));
+	#ifdef HAVE_ICAL_COLOR_PROPERTY
+	prop = icalcomponent_get_first_property (e_cal_component_get_icalcomponent (comp), ICAL_COLOR_PROPERTY);
+	if (prop) {
+		const gchar *color_spec;
+
+		color_spec = icalproperty_get_color (prop);
+		if (color_spec && gdk_rgba_parse (&stack_bgcolor, color_spec)) {
+			bgcolor = &stack_bgcolor;
+		}
+	}
+	#endif
+
+	if (!bgcolor)
+		bgcolor = g_hash_table_lookup (to_do_pane->priv->client_colors, e_client_get_source (E_CLIENT (client)));
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO &&
 	    to_do_pane->priv->highlight_overdue &&

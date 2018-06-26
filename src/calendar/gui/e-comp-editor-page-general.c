@@ -28,6 +28,7 @@
 #include "comp-util.h"
 #include "e-comp-editor.h"
 #include "e-comp-editor-page.h"
+#include "e-comp-editor-property-parts.h"
 #include "e-meeting-list-view.h"
 #include "itip-utils.h"
 
@@ -46,6 +47,9 @@ struct _ECompEditorPageGeneralPrivate {
 	GtkWidget *attendees_button_add;
 	GtkWidget *attendees_button_edit;
 	GtkWidget *attendees_button_remove;
+	ECompEditorPropertyPart *comp_color;
+	gulong comp_color_changed_handler_id;
+	GtkWidget *source_and_color_hbox; /* has together source_combo_box and comp_color::edit_widget */
 
 	gint data_column_width;
 	gchar *source_label_text;
@@ -497,6 +501,17 @@ ecep_general_target_client_notify_cb (ECompEditor *comp_editor,
 
 	cal_email_address = e_comp_editor_get_cal_email_address (comp_editor);
 	ecep_general_pick_organizer_for_email_address (page_general, cal_email_address);
+
+	if (page_general->priv->comp_color) {
+		ECalClient *target_client;
+		gboolean supports_color = FALSE;
+
+		target_client = e_comp_editor_get_target_client (comp_editor);
+		if (target_client)
+			supports_color = e_client_check_capability (E_CLIENT (target_client), CAL_STATIC_CAPABILITY_COMPONENT_COLOR);
+
+		e_comp_editor_property_part_set_visible (page_general->priv->comp_color, supports_color);
+	}
 }
 
 static gboolean
@@ -749,6 +764,19 @@ ecep_general_sensitize_widgets (ECompEditorPage *page,
 	action = e_comp_editor_get_action (comp_editor, "option-attendees");
 	gtk_action_set_sensitive (action, !force_insensitive && !read_only && organizer_is_user);
 
+	if (page_general->priv->comp_color &&
+	    !e_comp_editor_property_part_get_sensitize_handled (page_general->priv->comp_color)) {
+		GtkWidget *widget;
+
+		widget = e_comp_editor_property_part_get_label_widget (page_general->priv->comp_color);
+		if (widget)
+			gtk_widget_set_sensitive (widget, !force_insensitive && !read_only);
+
+		widget = e_comp_editor_property_part_get_edit_widget (page_general->priv->comp_color);
+		if (widget)
+			gtk_widget_set_sensitive (widget, !force_insensitive && !read_only);
+	}
+
 	g_clear_object (&comp_editor);
 }
 
@@ -765,6 +793,9 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 	E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_general_parent_class)->fill_widgets (page, component);
 
 	page_general = E_COMP_EDITOR_PAGE_GENERAL (page);
+
+	if (page_general->priv->comp_color)
+		e_comp_editor_property_part_fill_widget (page_general->priv->comp_color, component);
 
 	g_slist_free_full (page_general->priv->orig_attendees, g_free);
 	page_general->priv->orig_attendees = NULL;
@@ -925,6 +956,9 @@ ecep_general_fill_component (ECompEditorPage *page,
 	g_return_val_if_fail (component != NULL, FALSE);
 
 	page_general = E_COMP_EDITOR_PAGE_GENERAL (page);
+
+	if (page_general->priv->comp_color)
+		e_comp_editor_property_part_fill_component (page_general->priv->comp_color, component);
 
 	cal_comp_util_remove_all_properties (component, ICAL_ATTENDEE_PROPERTY);
 
@@ -1192,6 +1226,7 @@ ecep_general_constructed (GObject *object)
 {
 	ECompEditor *comp_editor;
 	ECompEditorPageGeneral *page_general;
+	ECompEditorPropertyPart *part;
 	GtkWidget *widget, *scrolled_window;
 	GtkTreeSelection *selection;
 	GtkGrid *grid;
@@ -1266,6 +1301,18 @@ ecep_general_constructed (GObject *object)
 
 	page_general->priv->source_label = widget;
 
+	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
+	g_object_set (G_OBJECT (widget),
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_CENTER,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (page_general->priv->organizer_hbox), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	page_general->priv->source_and_color_hbox = widget;
+
 	shell = e_comp_editor_get_shell (comp_editor);
 	widget = e_source_combo_box_new (
 		e_shell_get_registry (shell),
@@ -1277,7 +1324,7 @@ ecep_general_constructed (GObject *object)
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
 		NULL);
-	gtk_box_pack_start (GTK_BOX (page_general->priv->organizer_hbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (page_general->priv->source_and_color_hbox), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	page_general->priv->source_combo_box = widget;
@@ -1286,6 +1333,33 @@ ecep_general_constructed (GObject *object)
 		page_general->priv->source_combo_box);
 	g_signal_connect (page_general->priv->source_combo_box, "changed",
 		G_CALLBACK (ecep_general_source_combo_box_changed_cb), page_general);
+
+	/* Returns NULL when not supported by libical */
+	part = e_comp_editor_property_part_color_new ();
+	if (part) {
+		widget = e_comp_editor_property_part_get_edit_widget (part);
+
+		if (widget) {
+			const gchar *tooltip;
+
+			gtk_box_pack_start (GTK_BOX (page_general->priv->source_and_color_hbox), widget, FALSE, FALSE, 0);
+
+			if (g_strcmp0 (page_general->priv->source_extension_name, E_SOURCE_EXTENSION_CALENDAR) == 0) {
+				tooltip = _("Override color of the event. If not set, then color of the calendar is used.");
+			} else if (g_strcmp0 (page_general->priv->source_extension_name, E_SOURCE_EXTENSION_MEMO_LIST) == 0) {
+				tooltip = _("Override color of the memo. If not set, then color of the memo list is used.");
+			} else { /* E_SOURCE_EXTENSION_TASK_LIST */
+				tooltip = _("Override color of the task. If not set, then color of the task list is used.");
+			}
+
+			gtk_widget_set_tooltip_text (widget, tooltip);
+		}
+
+		page_general->priv->comp_color_changed_handler_id = g_signal_connect_swapped (part, "changed",
+			G_CALLBACK (e_comp_editor_page_emit_changed), page_general);
+
+		page_general->priv->comp_color = part;
+	}
 
 	widget = gtk_button_new_with_mnemonic (C_("ECompEditor", "Atte_ndees..."));
 	g_object_set (G_OBJECT (widget),
@@ -1403,6 +1477,12 @@ ecep_general_finalize (GObject *object)
 	g_free (page_general->priv->user_delegator);
 	page_general->priv->user_delegator = NULL;
 
+	if (page_general->priv->comp_color && page_general->priv->comp_color_changed_handler_id) {
+		g_signal_handler_disconnect (page_general->priv->comp_color, page_general->priv->comp_color_changed_handler_id);
+		page_general->priv->comp_color_changed_handler_id = 0;
+	}
+
+	g_clear_object (&page_general->priv->comp_color);
 	g_clear_object (&page_general->priv->select_source);
 	g_clear_object (&page_general->priv->meeting_store);
 
@@ -1694,19 +1774,20 @@ e_comp_editor_page_general_update_view (ECompEditorPageGeneral *page_general)
 
 	if (page_general->priv->show_attendees) {
 		if (gtk_widget_get_parent (page_general->priv->source_label) == GTK_WIDGET (grid)) {
+
 			g_object_ref (page_general->priv->source_label);
-			g_object_ref (page_general->priv->source_combo_box);
+			g_object_ref (page_general->priv->source_and_color_hbox);
 
 			gtk_container_remove (grid, page_general->priv->source_label);
-			gtk_container_remove (grid, page_general->priv->source_combo_box);
+			gtk_container_remove (grid, page_general->priv->source_and_color_hbox);
 
 			gtk_box_pack_start (GTK_BOX (page_general->priv->organizer_hbox),
 				page_general->priv->source_label, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX (page_general->priv->organizer_hbox),
-				page_general->priv->source_combo_box, TRUE, TRUE, 0);
+				page_general->priv->source_and_color_hbox, TRUE, TRUE, 0);
 
 			g_object_unref (page_general->priv->source_label);
-			g_object_unref (page_general->priv->source_combo_box);
+			g_object_unref (page_general->priv->source_and_color_hbox);
 		}
 
 		gtk_container_child_set (grid, page_general->priv->organizer_label,
@@ -1727,21 +1808,21 @@ e_comp_editor_page_general_update_view (ECompEditorPageGeneral *page_general)
 			ggrid = GTK_GRID (grid);
 
 			g_object_ref (page_general->priv->source_label);
-			g_object_ref (page_general->priv->source_combo_box);
+			g_object_ref (page_general->priv->source_and_color_hbox);
 
 			gtk_container_remove (container, page_general->priv->source_label);
-			gtk_container_remove (container, page_general->priv->source_combo_box);
+			gtk_container_remove (container, page_general->priv->source_and_color_hbox);
 
 			gtk_grid_attach (ggrid, page_general->priv->source_label, 0, 0, 1, 1);
-			gtk_grid_attach (ggrid, page_general->priv->source_combo_box, 1, 0, 1, 1);
+			gtk_grid_attach (ggrid, page_general->priv->source_and_color_hbox, 1, 0, 1, 1);
 
 			g_object_unref (page_general->priv->source_label);
-			g_object_unref (page_general->priv->source_combo_box);
+			g_object_unref (page_general->priv->source_and_color_hbox);
 		}
 
 		gtk_container_child_set (grid, page_general->priv->source_label,
 			"left-attach", 0, NULL);
-		gtk_container_child_set (grid, page_general->priv->source_combo_box,
+		gtk_container_child_set (grid, page_general->priv->source_and_color_hbox,
 			"left-attach", 1, "width", page_general->priv->data_column_width, NULL);
 
 		gtk_widget_hide (page_general->priv->organizer_label);
