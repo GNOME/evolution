@@ -220,6 +220,13 @@ composer_to_meeting_component (EMsgComposer *composer)
 		ECalComponentText *description;
 		GSList *descr_list = NULL;
 
+		if (!g_str_has_suffix (text, "\r\n")) {
+			gchar *tmp = text;
+
+			text = g_strconcat (tmp, "\r\n", NULL);
+			g_free (tmp);
+		}
+
 		description = g_new0 (ECalComponentText, 1);
 		description->value = text;
 		description->altrep = NULL;

@@ -343,6 +343,13 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			NULL, NULL);
 
 		if (text && *text) {
+			if (!g_str_has_suffix (text, "\r\n")) {
+				gchar *tmp = text;
+
+				text = g_strconcat (tmp, "\r\n", NULL);
+				g_free (tmp);
+			}
+
 			part = camel_mime_part_new ();
 			camel_mime_part_set_content (part, text, strlen (text), "text/plain");
 			camel_multipart_add_part (multipart_alternative, part);
@@ -366,10 +373,17 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			/* Text is required, thus if there are attachments,
 			   but no text, then store at least a space. */
 			g_free (text);
-			text = g_strdup (" ");
+			text = g_strdup ("\r\n");
 		}
 
 		if (text && *text) {
+			if (!g_str_has_suffix (text, "\r\n")) {
+				gchar *tmp = text;
+
+				text = g_strconcat (tmp, "\r\n", NULL);
+				g_free (tmp);
+			}
+
 			part = camel_mime_part_new ();
 			camel_mime_part_set_content (part, text, strlen (text), "text/html");
 			camel_multipart_add_part (multipart_alternative, part);
@@ -445,10 +459,17 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			/* Text is required, thus if there are attachments,
 			   but no text, then store at least a space. */
 			g_free (text);
-			text = g_strdup (" ");
+			text = g_strdup ("\r\n");
 		}
 
 		if (text && *text) {
+			if (!g_str_has_suffix (text, "\r\n")) {
+				gchar *tmp = text;
+
+				text = g_strconcat (tmp, "\r\n", NULL);
+				g_free (tmp);
+			}
+
 			if (has_attachments) {
 				CamelMultipart *multipart;
 				CamelMimePart *part;
