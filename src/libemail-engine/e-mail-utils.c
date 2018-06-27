@@ -651,6 +651,27 @@ second_preference:
 		}
 	}
 
+	/* Third Preference: Try with the From address (like in Outbox/Sent folders) */
+	if (!source && message) {
+		CamelInternetAddress *from;
+		const gchar *email = NULL;
+
+		from = camel_mime_message_get_from (message);
+		if (from && camel_internet_address_get (from, 0, NULL, &email) && email) {
+			g_hash_table_remove_all (recipients);
+			g_hash_table_add (recipients, (gpointer) email);
+
+			for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+				ESource *temp = E_SOURCE (iter->data);
+
+				if (mail_account_in_recipients (registry, temp, recipients, identity_name, identity_address)) {
+					source = g_object_ref (temp);
+					break;
+				}
+			}
+		}
+	}
+
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	if (source != NULL)
