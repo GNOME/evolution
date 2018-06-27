@@ -1310,6 +1310,8 @@ composer_build_message (EMsgComposer *composer,
 		}
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
+		if (!g_str_has_suffix (text, "\r\n"))
+			g_byte_array_append (data, (const guint8 *) "\r\n", 2);
 		g_free (text);
 
 		type = camel_content_type_new ("text", "plain");
@@ -1416,6 +1418,8 @@ composer_build_message (EMsgComposer *composer,
 
 		length = strlen (text);
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
+		if (!g_str_has_suffix (text, "\r\n"))
+			g_byte_array_append (data, (const guint8 *) "\r\n", 2);
 		pre_encode = text_requires_quoted_printable (text, length);
 		g_free (text);
 
@@ -5362,6 +5366,8 @@ e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gchar *content;
+	GByteArray *bytes;
+	gboolean needs_crlf;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
@@ -5380,7 +5386,14 @@ e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 		content = g_strdup ("");
 	}
 
-	return g_byte_array_new_take ((guint8 *) content, strlen (content));
+	needs_crlf = !g_str_has_suffix (content, "\r\n");
+
+	bytes = g_byte_array_new_take ((guint8 *) content, strlen (content));
+
+	if (needs_crlf)
+		g_byte_array_append (bytes, (const guint8 *) "\r\n", 2);
+
+	return bytes;
 }
 
 /**
@@ -5394,6 +5407,8 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 	gchar *content;
+	GByteArray *bytes;
+	gboolean needs_crlf;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
@@ -5411,7 +5426,14 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 		content = g_strdup ("");
 	}
 
-	return g_byte_array_new_take ((guint8 *) content, strlen (content));
+	needs_crlf = !g_str_has_suffix (content, "\r\n");
+
+	bytes = g_byte_array_new_take ((guint8 *) content, strlen (content));
+
+	if (needs_crlf)
+		g_byte_array_append (bytes, (const guint8 *) "\r\n", 2);
+
+	return bytes;
 }
 
 gboolean
