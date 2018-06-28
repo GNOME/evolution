@@ -21,6 +21,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "e-mail-formatter-utils.h"
 #include "e-mail-parser-extension.h"
 #include "e-mail-part-utils.h"
 
@@ -170,6 +171,10 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 			e_mail_part_update_validity (
 				mail_part, valid,
 				validity_type | E_MAIL_PART_VALIDITY_SIGNED);
+
+			/* Do not traverse sub-messages */
+			if (g_str_has_suffix (e_mail_part_get_id (mail_part), ".rfc822"))
+				link = e_mail_formatter_find_rfc822_end_iter (link);
 		}
 
 		e_queue_transfer (&work_queue, out_mail_parts);

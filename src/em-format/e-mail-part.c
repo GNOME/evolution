@@ -662,6 +662,15 @@ e_mail_part_update_validity (EMailPart *part,
 
 	mask = E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SMIME;
 
+	/* Auto-add flags when the related part is present */
+	if (!(validity_type & E_MAIL_PART_VALIDITY_SIGNED) &&
+	    validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
+		validity_type |= E_MAIL_PART_VALIDITY_SIGNED;
+
+	if (!(validity_type & E_MAIL_PART_VALIDITY_ENCRYPTED) &&
+	    validity->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE)
+		validity_type |= E_MAIL_PART_VALIDITY_ENCRYPTED;
+
 	pair = mail_part_find_validity_pair (part, validity_type & mask);
 	if (pair != NULL) {
 		pair->validity_type |= validity_type;

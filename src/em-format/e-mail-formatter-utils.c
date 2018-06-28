@@ -554,71 +554,136 @@ e_mail_formatter_format_security_header (EMailFormatter *formatter,
                                          EMailPart *part,
                                          guint32 flags)
 {
-	const gchar* part_id;
-	gchar* part_id_prefix;
-	GString* tmp;
+	struct _validity_flags {
+		guint32 flags;
+		const gchar *description_complete;
+		const gchar *description_partial;
+	} validity_flags[] = {
+		{ E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SIGNED, N_("GPG signed"), N_("partially GPG signed") },
+		{ E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_ENCRYPTED, N_("GPG encrypted"), N_("partially GPG encrypted") },
+		{ E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_SIGNED, N_("S/MIME signed"), N_("partially S/MIME signed") },
+		{ E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_ENCRYPTED, N_("S/MIME encrypted"), N_("partially S/MIME encrypted") }
+	};
+	const gchar *part_id;
+	gchar *part_id_prefix;
 	GQueue queue = G_QUEUE_INIT;
 	GList *head, *link;
+	guint32 check_valid_flags = 0;
+	gint part_id_prefix_len;
+	gboolean is_partial = FALSE;
+	guint ii;
 
 	g_return_if_fail (E_IS_MAIL_PART_HEADERS (part));
 
 	/* Get prefix of this PURI */
 	part_id = e_mail_part_get_id (part);
 	part_id_prefix = g_strndup (part_id, g_strrstr (part_id, ".") - part_id);
-
-	/* Add encryption/signature header */
-	tmp = g_string_new ("");
+	part_id_prefix_len = strlen (part_id_prefix);
 
 	e_mail_part_list_queue_parts (context->part_list, NULL, &queue);
 
 	head = g_queue_peek_head_link (&queue);
 
-	/* Find first secured part. */
-	for (link = head; link != NULL; link = g_list_next(link)) {
-		EMailPart *mail_part = link->data;
+	/* Ignore the main message, the headers and the end parts */
+	#define should_skip_part(_id) \
+		(g_strcmp0 (_id, part_id_prefix) == 0 || \
+		(_id && g_str_has_suffix (_id, ".rfc822.end")) || \
+		(_id && strlen (_id) == part_id_prefix_len + 8 /* strlen (".headers") */ && \
+		g_strcmp0 (_id + part_id_prefix_len, ".headers") == 0))
 
-		if (!e_mail_part_has_validity (mail_part))
-			continue;
+	/* Check parts for this ID. */
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPart *mail_part = link->data;
+		const gchar *id = e_mail_part_get_id (mail_part);
 
 		if (!e_mail_part_id_has_prefix (mail_part, part_id_prefix))
 			continue;
 
-		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SIGNED)) {
-			g_string_append (tmp, _("GPG signed"));
+		if (should_skip_part (id))
+			continue;
+
+		if (!e_mail_part_has_validity (mail_part)) {
+			/* A part without validity, thus it's partially signed/encrypted */
+			is_partial = TRUE;
+		} else {
+			guint32 validies = 0;
+			for (ii = 0; ii < G_N_ELEMENTS (validity_flags); ii++) {
+				if (e_mail_part_get_validity (mail_part, validity_flags[ii].flags))
+					validies |= validity_flags[ii].flags;
+			}
+			check_valid_flags |= validies;
 		}
 
-		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_ENCRYPTED)) {
-			if (tmp->len > 0)
-				g_string_append (tmp, ", ");
-			g_string_append (tmp, _("GPG encrypted"));
-		}
-
-		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_SIGNED)) {
-			if (tmp->len > 0)
-				g_string_append (tmp, ", ");
-			g_string_append (tmp, _("S/MIME signed"));
-		}
-
-		if (e_mail_part_get_validity (mail_part, E_MAIL_PART_VALIDITY_SMIME | E_MAIL_PART_VALIDITY_ENCRYPTED)) {
-			if (tmp->len > 0)
-				g_string_append (tmp, ", ");
-			g_string_append (tmp, _("S/MIME encrypted"));
-		}
-
-		break;
+		/* Do not traverse sub-messages */
+		if (g_str_has_suffix (e_mail_part_get_id (mail_part), ".rfc822") &&
+		    !g_str_equal (e_mail_part_get_id (mail_part), part_id_prefix))
+			link = e_mail_formatter_find_rfc822_end_iter (link);
 	}
 
-	if (tmp->len > 0) {
-		e_mail_formatter_format_header (
-			formatter, buffer,
-			_("Security"), tmp->str,
-			flags,
-			"UTF-8");
+	if (check_valid_flags) {
+		GString *tmp;
+
+		if (!is_partial) {
+			for (link = head; link != NULL && !is_partial; link = g_list_next (link)) {
+				EMailPart *mail_part = link->data;
+				const gchar *id = e_mail_part_get_id (mail_part);
+
+				if (!e_mail_part_id_has_prefix (mail_part, part_id_prefix))
+					continue;
+
+				if (should_skip_part (id))
+					continue;
+
+				if (!e_mail_part_has_validity (mail_part)) {
+					/* A part without validity, thus it's partially signed/encrypted */
+					is_partial = TRUE;
+					break;
+				}
+
+				is_partial = !e_mail_part_get_validity (mail_part, check_valid_flags);
+
+				/* Do not traverse sub-messages */
+				if (g_str_has_suffix (e_mail_part_get_id (mail_part), ".rfc822") &&
+				    !g_str_equal (e_mail_part_get_id (mail_part), part_id_prefix))
+					link = e_mail_formatter_find_rfc822_end_iter (link);
+			}
+		}
+
+		/* Add encryption/signature header */
+		tmp = g_string_new ("");
+
+		for (link = head; link; link = g_list_next (link)) {
+			EMailPart *mail_part = link->data;
+			const gchar *id = e_mail_part_get_id (mail_part);
+
+			if (!e_mail_part_has_validity (mail_part) ||
+			    !e_mail_part_id_has_prefix (mail_part, part_id_prefix))
+				continue;
+
+			if (should_skip_part (id))
+				continue;
+
+			for (ii = 0; ii < G_N_ELEMENTS (validity_flags); ii++) {
+				if (e_mail_part_get_validity (mail_part, validity_flags[ii].flags)) {
+					if (tmp->len > 0)
+						g_string_append (tmp, ", ");
+					g_string_append (tmp, is_partial ? _(validity_flags[ii].description_partial) : _(validity_flags[ii].description_complete));
+				}
+			}
+
+			break;
+		}
+
+		if (tmp->len > 0)
+			e_mail_formatter_format_header (formatter, buffer, _("Security"), tmp->str, flags, "UTF-8");
+
+		g_string_free (tmp, TRUE);
 	}
+
+	#undef should_skip_part
 
 	while (!g_queue_is_empty (&queue))
 		g_object_unref (g_queue_pop_head (&queue));
 
-	g_string_free (tmp, TRUE);
 	g_free (part_id_prefix);
 }
