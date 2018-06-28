@@ -252,7 +252,7 @@ secure_button_format_validity (EMailPart *part,
 		icon_height = 24;
 	}
 
-	g_string_append (html, "<table width=\"100%\" style=\"vertical-align:middle;");
+	g_string_append (html, "<table width=\"100%\" style=\"margin-bottom:4px; vertical-align:middle;");
 	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE &&
 	    smime_sign_colour[info_index].alpha > 1e-9)
 		g_string_append_printf (html, " background:#%06x;",
