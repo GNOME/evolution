@@ -241,6 +241,8 @@ secure_button_show_validity_dialog (EWebView *web_view,
 	w = gtk_label_new (e_mail_formatter_secure_button_get_sign_description (validity->sign.status));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (w), 80);
+	gtk_label_set_max_width_chars (GTK_LABEL (w), 100);
 	gtk_container_add (GTK_CONTAINER (grid), w);
 	if (validity->sign.description) {
 		GtkTextBuffer *buffer;
@@ -277,6 +279,8 @@ secure_button_show_validity_dialog (EWebView *web_view,
 	w = gtk_label_new (e_mail_formatter_secure_button_get_encrypt_description (validity->encrypt.status));
 	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (w), 80);
+	gtk_label_set_max_width_chars (GTK_LABEL (w), 100);
 	gtk_container_add (GTK_CONTAINER (grid), w);
 	if (validity->encrypt.description) {
 		GtkTextBuffer *buffer;
