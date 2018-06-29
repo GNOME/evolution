@@ -75,8 +75,7 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_AUTOCONFIG, EMailAutoconfigPrivate))
 
-#define AUTOCONFIG_BASE_URI \
-	"https://api.gnome.org/evolution/autoconfig/1.1/"
+#define AUTOCONFIG_BASE_URI "https://autoconfig.thunderbird.net/v1.1/"
 
 #define ERROR_IS_NOT_FOUND(error) \
 	(g_error_matches ((error), SOUP_HTTP_ERROR, SOUP_STATUS_NOT_FOUND))
@@ -405,7 +404,22 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 	uri = g_strconcat (AUTOCONFIG_BASE_URI, domain, NULL);
 
 	soup_message = soup_message_new (SOUP_METHOD_GET, uri);
+
+	if (!soup_message) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
+			_("Invalid URI: “%s”"), uri);
+
+		g_object_unref (soup_session);
+		g_free (uri);
+
+		return FALSE;
+	}
+
 	g_free (uri);
+
+	soup_message_headers_append (
+		soup_message->request_headers,
+		"User-Agent", "Evolution/" VERSION VERSION_SUBSTRING " " VERSION_COMMENT);
 
 	if (G_IS_CANCELLABLE (cancellable))
 		cancel_id = g_cancellable_connect (
