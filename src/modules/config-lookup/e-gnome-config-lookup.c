@@ -64,7 +64,7 @@ G_DEFINE_DYNAMIC_TYPE_EXTENDED (EGnomeConfigLookup, e_gnome_config_lookup, E_TYP
 static const gchar *
 gnome_config_lookup_worker_get_display_name (EConfigLookupWorker *lookup_worker)
 {
-	return _("Look up e-mail domain on the GNOME server");
+	return _("Look up configuration with e-mail domain");
 }
 
 static void
