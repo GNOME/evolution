@@ -440,16 +440,6 @@ e_cal_base_shell_sidebar_source_unselected (ESourceSelector *selector,
 		g_signal_emit (sidebar, signals[CLIENT_CLOSED], 0, source);
 }
 
-static void
-e_cal_base_shell_sidebar_selector_realize_cb (ESourceSelector *selector,
-					      ECalBaseShellSidebar *sidebar)
-{
-	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
-	g_return_if_fail (E_IS_CAL_BASE_SHELL_SIDEBAR (sidebar));
-
-	e_cal_base_shell_sidebar_ensure_sources_open (sidebar);
-}
-
 typedef struct {
 	ESource *source;
 	ESource *destination;
@@ -778,10 +768,6 @@ cal_base_shell_sidebar_constructed (GObject *object)
 	g_signal_connect (shell_window,
 		"notify::switcher-visible", G_CALLBACK (e_cal_base_shell_sidebar_update_calendar_margin_cb),
 		widget);
-
-	g_signal_connect (cal_base_shell_sidebar->priv->selector,
-		"realize", G_CALLBACK (e_cal_base_shell_sidebar_selector_realize_cb),
-		cal_base_shell_sidebar);
 
 	g_signal_connect (cal_base_shell_sidebar->priv->selector,
 		"data-dropped", G_CALLBACK (e_cal_base_shell_sidebar_selector_data_dropped),
