@@ -187,6 +187,8 @@ cal_base_shell_content_view_created_cb (EShellWindow *shell_window,
 		cal_base_shell_content->priv->data_model, "view-state-changed",
 		G_CALLBACK (cal_base_shell_content_view_state_changed_cb), cal_base_shell_content);
 
+	e_cal_base_shell_sidebar_ensure_sources_open (E_CAL_BASE_SHELL_SIDEBAR (shell_sidebar));
+
 	klass = E_CAL_BASE_SHELL_CONTENT_GET_CLASS (cal_base_shell_content);
 	g_return_if_fail (klass != NULL);
 
