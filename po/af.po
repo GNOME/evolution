@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2018-06-04 16:10+0000\n"
-"PO-Revision-Date: 2018-06-30 21:25+0200\n"
+"PO-Revision-Date: 2018-06-30 22:11+0200\n"
 "Last-Translator: F Wolff <friedel@translate.org.za>\n"
 "Language-Team: translate-discuss-af@lists.sourceforge.net\n"
 "Language: af\n"
@@ -3480,7 +3480,7 @@ msgstr "_Kalender:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
 msgid "_Free/Busy:"
-msgstr "_Beskikbaar/besig"
+msgstr "_Beskikbaar/besig:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
 msgid "_Video Chat:"
@@ -4102,20 +4102,16 @@ msgid "Click to open map for %s"
 msgstr "Klik om te skryf aan %s"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:154
-#, fuzzy
-#| msgid "_Open Memo"
 msgid "Open map"
-msgstr "_Open memo"
+msgstr "Maak die kaart oop"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:450
 msgid "SIP"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:694
-#, fuzzy
-#| msgid "List Members"
 msgid "List Members:"
-msgstr "Lyslede"
+msgstr "Lyslede:"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:766
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
@@ -4318,10 +4314,8 @@ msgid "Conflicting Contact:"
 msgstr ""
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:830
-#, fuzzy
-#| msgid "Contact: "
 msgid "Old Contact:"
-msgstr "Kontak: "
+msgstr "Ou kontak:"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:119
 msgid ""
@@ -5957,7 +5951,7 @@ msgstr "Aanhegsels"
 #: ../src/mail/filtertypes.xml.in.h:48 ../src/mail/searchtypes.xml.in.h:50
 #: ../src/mail/vfoldertypes.xml.in.h:51
 msgid "Exist"
-msgstr "bestaan"
+msgstr "Bestaan"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:18
 #: ../src/calendar/gui/memotypes.xml.in.h:16
@@ -5965,7 +5959,7 @@ msgstr "bestaan"
 #: ../src/mail/filtertypes.xml.in.h:49 ../src/mail/searchtypes.xml.in.h:51
 #: ../src/mail/vfoldertypes.xml.in.h:52
 msgid "Do Not Exist"
-msgstr "bestaan nie"
+msgstr "Bestaan nie"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:19
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2002
@@ -6034,10 +6028,8 @@ msgid "Go to Date"
 msgstr ""
 
 #: ../src/calendar/gui/ea-cal-view-event.c:232
-#, fuzzy
-#| msgid "Sh_ow a reminder"
 msgid "It has reminders."
-msgstr "_Wys 'n herinnering "
+msgstr "Dit het herinneringe."
 
 #: ../src/calendar/gui/ea-cal-view-event.c:235
 msgid "It has recurrences."
@@ -6802,10 +6794,8 @@ msgid "Modifying an event"
 msgstr ""
 
 #: ../src/calendar/gui/e-cal-ops.c:309
-#, fuzzy
-#| msgid "Missing name."
 msgid "Modifying a memo"
-msgstr "Ontbrekende naam."
+msgstr "Verander 'n memo"
 
 #: ../src/calendar/gui/e-cal-ops.c:313
 msgid "Modifying a task"
@@ -6949,12 +6939,11 @@ msgstr[0] "Kan nie geleentheid stoor nie"
 msgstr[1] "Kan nie geleentheid stoor nie"
 
 #: ../src/calendar/gui/e-cal-ops.c:2067
-#, fuzzy, c-format
-#| msgid "Missing name."
+#, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
-msgstr[0] "Ontbrekende naam."
-msgstr[1] "Ontbrekende naam."
+msgstr[0] "Skuif 'n memo"
+msgstr[1] "Skuif %d memo's"
 
 #: ../src/calendar/gui/e-cal-ops.c:2068
 #, fuzzy, c-format
@@ -7254,16 +7243,12 @@ msgid "Attach a file"
 msgstr "Heg 'n lêer aan"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:656
-#, fuzzy
-#| msgid "Attachments"
 msgid "_Attachments"
-msgstr "Aanhegsels"
+msgstr "_Aanhegsels"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:658
-#, fuzzy
-#| msgid "Show Attachments"
 msgid "Show attachments"
-msgstr "Wys aanhegsels"
+msgstr "Vertoon aanhegsels"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:811
 #: ../src/e-util/e-attachment-bar.c:764 ../src/e-util/e-attachment-paned.c:725
@@ -7645,22 +7630,16 @@ msgid "Re_move"
 msgstr "_Verwyder"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2238
-#, fuzzy
-#| msgid "Preview:"
 msgid "Preview"
-msgstr "Voorskou:"
+msgstr "Voorskou"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:39
-#, fuzzy
-#| msgid "Send To:"
 msgid "Send To"
-msgstr "Stuur aan:"
+msgstr "Stuur na"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1550
-#, fuzzy
-#| msgid "Reminder!"
 msgid "_Reminders"
-msgstr "Herinnering!"
+msgstr "_Herinneringe"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1552
 #, fuzzy
@@ -7670,10 +7649,8 @@ msgstr "_Wys 'n herinnering "
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1605
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:69
-#, fuzzy
-#| msgid "Reminder!"
 msgid "Reminders"
-msgstr "Herinnering!"
+msgstr "Herinneringe"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1630
 msgid "_Reminder"
@@ -7911,15 +7888,11 @@ msgid "In Progress"
 msgstr "Onderweg"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1203
-#, fuzzy
-#| msgid "Completed"
 msgctxt "ECompEditor"
 msgid "Completed"
 msgstr "Voltooid"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1204
-#, fuzzy
-#| msgid "Cancelled"
 msgctxt "ECompEditor"
 msgid "Cancelled"
 msgstr "Gekanselleer"
@@ -7962,11 +7935,9 @@ msgid "Percent complete:"
 msgstr "P_ersentasie voltooid:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1390
-#, fuzzy
-#| msgid "Time _zone:"
 msgctxt "ECompEditor"
 msgid "Time _zone:"
-msgstr "Tyd_sone:"
+msgstr "_Tydsone:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1515
 #, fuzzy
@@ -8044,10 +8015,8 @@ msgid "Sending notifications to attendees..."
 msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor.c:997
-#, fuzzy
-#| msgid "_Save Changes"
 msgid "Saving changes..."
-msgstr "_Stoor veranderinge"
+msgstr "_Stoor veranderinge..."
 
 #: ../src/calendar/gui/e-comp-editor.c:1257
 msgid "No Summary"
@@ -8146,10 +8115,8 @@ msgstr "_Druk..."
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1744
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:813
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1014
-#, fuzzy
-#| msgid "Preview:"
 msgid "Pre_view..."
-msgstr "Voorskou:"
+msgstr "_Voorskou..."
 
 #: ../src/calendar/gui/e-comp-editor.c:2040 ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:906 ../src/e-util/e-web-view.c:419
@@ -8460,12 +8427,13 @@ msgid "_End time:"
 msgstr "_Eindtyd:"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2667
-#, fuzzy, c-format
-#| msgid "Location: %s"
+#, c-format
 msgid ""
 "Summary: %s\n"
 "Location: %s"
-msgstr "Plek: %s"
+msgstr ""
+"Opsomming: %s\n"
+"Ligging: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2669
 #: ../src/calendar/gui/print.c:3520
@@ -8483,7 +8451,7 @@ msgstr "Lid"
 
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "Delegated To"
-msgstr "Gedelegeer aan:"
+msgstr "Gedelegeer aan"
 
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "Delegated From"
@@ -8669,16 +8637,12 @@ msgstr "Nuwe _afspraak..."
 
 #: ../src/calendar/gui/e-to-do-pane.c:2022
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1435
-#, fuzzy
-#| msgid "New _Meeting"
 msgid "New _Meeting..."
-msgstr "Nuwe _vergadering"
+msgstr "Nuwe _vergadering..."
 
 #: ../src/calendar/gui/e-to-do-pane.c:2030
-#, fuzzy
-#| msgid "New _Task"
 msgid "New _Task..."
-msgstr "Nuwe _taak"
+msgstr "Nuwe _taak..."
 
 #: ../src/calendar/gui/e-to-do-pane.c:2038
 #, fuzzy
@@ -8687,10 +8651,8 @@ msgid "_New Assigned Task..."
 msgstr "Toegekende taak - %s"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2051
-#, fuzzy
-#| msgid "_Open"
 msgid "_Open..."
-msgstr "_Open"
+msgstr "_Open..."
 
 #: ../src/calendar/gui/e-to-do-pane.c:2065
 #, fuzzy
@@ -8705,10 +8667,8 @@ msgid "D_elete All Instances..."
 msgstr "Sk_uif alle kontakte na..."
 
 #: ../src/calendar/gui/e-to-do-pane.c:2081
-#, fuzzy
-#| msgid "_Delete"
 msgid "_Delete..."
-msgstr "_Skrap"
+msgstr "_Skrap..."
 
 #: ../src/calendar/gui/e-to-do-pane.c:2098
 msgid "_Show Tasks without Due date"
@@ -8849,22 +8809,16 @@ msgid "You must be an attendee of the event."
 msgstr "U moet die geleentheid bywoon."
 
 #: ../src/calendar/gui/itip-utils.c:2209
-#, fuzzy
-#| msgid "Sending message"
 msgid "Sending an event"
-msgstr "Stuur tans boodskap"
+msgstr "Stuur tans 'n geleentheid"
 
 #: ../src/calendar/gui/itip-utils.c:2213
-#, fuzzy
-#| msgid "Sending message"
 msgid "Sending a memo"
-msgstr "Stuur tans boodskap"
+msgstr "Stuur tans 'n memo"
 
 #: ../src/calendar/gui/itip-utils.c:2217
-#, fuzzy
-#| msgid "Sending Email"
 msgid "Sending a task"
-msgstr "Stuur van e-pos"
+msgstr "Stuur tans 'n taak"
 
 #. G_DATE_BAD_WEEKDAY
 #. Translators: These are workday abbreviations,
@@ -8950,7 +8904,7 @@ msgstr "Memo"
 
 #: ../src/calendar/gui/print.c:3550
 msgid "Attendees: "
-msgstr "Bywonendes:"
+msgstr "Bywonendes: "
 
 #: ../src/calendar/gui/print.c:3594
 #, c-format
@@ -8979,7 +8933,7 @@ msgstr "Kategorieë: %s"
 
 #: ../src/calendar/gui/print.c:3667
 msgid "Contacts: "
-msgstr "Kontakte:"
+msgstr "Kontakte: "
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:12
 msgid "In progress"
@@ -9022,10 +8976,8 @@ msgid "New Task List"
 msgstr "Nuwe taaklys"
 
 #: ../src/calendar/importers/icalendar-importer.c:351
-#, fuzzy
-#| msgid "Create a new calendar"
 msgid "Cre_ate new calendar"
-msgstr "Skep 'n nuwe kalender"
+msgstr "_Skep 'n nuwe kalender"
 
 #: ../src/calendar/importers/icalendar-importer.c:355
 #, fuzzy
@@ -9751,7 +9703,7 @@ msgstr ""
 
 #: ../src/calendar/zones.h:152
 msgid "America/Montevideo"
-msgstr "maili"
+msgstr ""
 
 #: ../src/calendar/zones.h:153
 msgid "America/Montreal"
@@ -10992,7 +10944,7 @@ msgstr "_Onderwerp:"
 #: ../src/composer/e-composer-header-table.c:883
 #: ../src/mail/e-mail-config-identity-page.c:743
 msgid "Si_gnature:"
-msgstr "Handtekenin_g"
+msgstr "_Handtekening:"
 
 #: ../src/composer/e-composer-name-header.c:237
 msgid "Click here for the address book"
@@ -11333,10 +11285,8 @@ msgid "From"
 msgstr "Van"
 
 #: ../src/em-format/e-mail-formatter-headers.c:132
-#, fuzzy
-#| msgid "Subject"
 msgid "(no subject)"
-msgstr "Onderwerp"
+msgstr "(geen onderwerp)"
 
 #. Translators: This message suggests to the receipients
 #. * that the sender of the mail is different from the one
@@ -11358,10 +11308,8 @@ msgid "Display part as an image"
 msgstr "Vertoon die volgende belangrike boodskap"
 
 #: ../src/em-format/e-mail-formatter-message-rfc822.c:249
-#, fuzzy
-#| msgid "message"
 msgid "RFC822 message"
-msgstr "boodskap"
+msgstr "RFC822-boodskap"
 
 #: ../src/em-format/e-mail-formatter-message-rfc822.c:250
 msgid "Format part as an RFC822 message"
@@ -11783,8 +11731,6 @@ msgstr "Geaktiveer"
 
 #: ../src/e-util/e-accounts-window.c:1379
 #: ../src/mail/e-mail-account-tree-view.c:108
-#, fuzzy
-#| msgid "Account name"
 msgid "Account Name"
 msgstr "Rekeningnaam"
 
@@ -11818,10 +11764,8 @@ msgid "M_emo List"
 msgstr "Memolys"
 
 #: ../src/e-util/e-accounts-window.c:1451
-#, fuzzy
-#| msgid "Task List"
 msgid "_Task List"
-msgstr "Taaklys"
+msgstr "_Taaklys"
 
 #: ../src/e-util/e-accounts-window.c:1646
 #, fuzzy
@@ -11831,17 +11775,15 @@ msgstr "Evolution se rekeningassistent"
 
 #. Translators: This is a cancelled activity.
 #: ../src/e-util/e-activity.c:256
-#, fuzzy, c-format
-#| msgid "Cancelled"
+#, c-format
 msgid "%s (cancelled)"
-msgstr "Gekanselleer"
+msgstr "%s (gekanselleer)"
 
 #. Translators: This is a completed activity.
 #: ../src/e-util/e-activity.c:259
-#, fuzzy, c-format
-#| msgid "%s (%d%% complete)"
+#, c-format
 msgid "%s (completed)"
-msgstr "%s (%d%% klaar)"
+msgstr "%s (voltooid)"
 
 #. Translators: This is an activity waiting to run.
 #: ../src/e-util/e-activity.c:262
@@ -11891,9 +11833,6 @@ msgstr ""
 #. * message to be attached has also filled Subject, then this text is
 #. * of form "Attached message - Subject", otherwise it's left as is.
 #: ../src/e-util/e-attachment.c:1138
-#, fuzzy
-#| msgid "Attached message"
-#| msgid_plural "%d attached messages"
 msgid "Attached message"
 msgstr "Aangehegde boodskap"
 
@@ -11904,10 +11843,8 @@ msgstr ""
 #. Translators: Default attachment filename.
 #: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:2990
 #: ../src/e-util/e-attachment.c:3442 ../src/e-util/e-attachment-store.c:887
-#, fuzzy
-#| msgid "attachment"
 msgid "attachment.dat"
-msgstr "aanhegsel"
+msgstr "aanhegsel.dat"
 
 #: ../src/e-util/e-attachment.c:2352 ../src/e-util/e-attachment.c:3502
 msgid "A load operation is already in progress"
@@ -11986,10 +11923,8 @@ msgstr "Stel as _agtergrond"
 
 #: ../src/e-util/e-attachment-icon-view.c:168
 #: ../src/e-util/e-attachment-tree-view.c:168
-#, fuzzy
-#| msgid "Loading..."
 msgid "Loading"
-msgstr "Laai tans..."
+msgstr "Laai tans"
 
 #: ../src/e-util/e-attachment-icon-view.c:180
 #: ../src/e-util/e-attachment-tree-view.c:180
@@ -12050,19 +11985,15 @@ msgid "S_ave All"
 msgstr "Stoor _almal"
 
 #: ../src/e-util/e-attachment-view.c:323
-#, fuzzy
-#| msgid "Save As..."
 msgid "Sa_ve As"
-msgstr "Stoor as..."
+msgstr "_Stoor as"
 
 #: ../src/e-util/e-attachment-view.c:332
 #: ../src/plugins/save-calendar/save-calendar.c:351
 #: ../src/plugins/save-calendar/save-calendar.c:382
 #: ../src/plugins/save-calendar/save-calendar.c:413
-#, fuzzy
-#| msgid "Save _As..."
 msgid "Save _As"
-msgstr "Stoor _as..."
+msgstr "Stoor _as"
 
 #: ../src/e-util/e-attachment-view.c:342
 #, fuzzy
@@ -12081,10 +12012,9 @@ msgid "_Properties"
 msgstr "_Eienskappe"
 
 #: ../src/e-util/e-attachment-view.c:778
-#, fuzzy, c-format
-#| msgid "O_pen With"
+#, c-format
 msgid "Open With “%s”"
-msgstr "_Open met"
+msgstr "Open met \"%s\""
 
 #: ../src/e-util/e-attachment-view.c:781
 #, fuzzy, c-format
@@ -12120,11 +12050,8 @@ msgid "Previous month"
 msgstr "Vorige maand"
 
 #: ../src/e-util/e-calendar.c:286
-#, fuzzy
-#| msgid "every month"
-#| msgid_plural "every %d months"
 msgid "Next month"
-msgstr "elke maand"
+msgstr "Volgende maand"
 
 #: ../src/e-util/e-calendar.c:306
 msgid "Previous year"
@@ -12231,10 +12158,8 @@ msgid "Category Icon"
 msgstr "Kategorie"
 
 #: ../src/e-util/e-category-editor.c:142
-#, fuzzy
-#| msgid "_Load Images"
 msgid "_No Image"
-msgstr "_Laai beelde"
+msgstr "_Geen beeld"
 
 #: ../src/e-util/e-category-editor.c:175
 #, fuzzy
@@ -12551,17 +12476,12 @@ msgid "purple #2"
 msgstr ""
 
 #: ../src/e-util/e-color-combo.c:86
-#, fuzzy
-#| msgid "Every day"
-#| msgid_plural "Every %d days"
 msgid "very dark gray"
-msgstr "Elke dag"
+msgstr "Baie donker grys"
 
 #: ../src/e-util/e-color-combo.c:88
-#, fuzzy
-#| msgid "Mark as _Unread"
 msgid "dark red"
-msgstr "Merk as _ongelees"
+msgstr "donker rooi"
 
 #: ../src/e-util/e-color-combo.c:89
 msgid "red-orange"
@@ -12596,10 +12516,8 @@ msgid "red"
 msgstr "rooi"
 
 #: ../src/e-util/e-color-combo.c:98
-#, fuzzy
-#| msgid "Changed"
 msgid "orange"
-msgstr "Gewysig"
+msgstr "oranje"
 
 #: ../src/e-util/e-color-combo.c:99
 msgid "lime"
@@ -12626,10 +12544,8 @@ msgid "gray"
 msgstr "grys"
 
 #: ../src/e-util/e-color-combo.c:106
-#, fuzzy
-#| msgid "Image"
 msgid "magenta"
-msgstr "Beeld"
+msgstr "magenta"
 
 #: ../src/e-util/e-color-combo.c:107
 msgid "bright orange"
@@ -13315,10 +13231,8 @@ msgstr "Be_lyning"
 #. Left
 #: ../src/e-util/e-html-editor-actions.c:1061
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:99
-#, fuzzy
-#| msgid "Left:"
 msgid "_Left"
-msgstr "Links:"
+msgstr "_Links"
 
 #: ../src/e-util/e-html-editor-actions.c:1063
 #, fuzzy
@@ -13329,10 +13243,8 @@ msgstr "Be_lyning"
 #. Right
 #: ../src/e-util/e-html-editor-actions.c:1068
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:117
-#, fuzzy
-#| msgid "Right:"
 msgid "_Right"
-msgstr "Regs:"
+msgstr "_Regs"
 
 #: ../src/e-util/e-html-editor-actions.c:1070
 #, fuzzy
@@ -13411,10 +13323,8 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1195
 #: ../src/e-util/e-html-editor-actions.c:1233
-#, fuzzy
-#| msgid "Image"
 msgid "_Image..."
-msgstr "Beeld"
+msgstr "_Beeld..."
 
 #. Translators: This is an action tooltip
 #: ../src/e-util/e-html-editor-actions.c:1198
@@ -13443,10 +13353,8 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1219
 #: ../src/e-util/e-html-editor-actions.c:1262
-#, fuzzy
-#| msgid "Table"
 msgid "_Table..."
-msgstr "Tabel"
+msgstr "_Tabel..."
 
 #: ../src/e-util/e-html-editor-actions.c:1221
 msgid "Insert Table"
@@ -13612,26 +13520,20 @@ msgid "Cell..."
 msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1513
-#, fuzzy
-#| msgid "Image"
 msgid "Image..."
-msgstr "Beeld"
+msgstr "Beeld..."
 
 #: ../src/e-util/e-html-editor-actions.c:1520
 msgid "Link..."
 msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1527
-#, fuzzy
-#| msgid "Page"
 msgid "Page..."
-msgstr "Bladsy"
+msgstr "Bladsy..."
 
 #: ../src/e-util/e-html-editor-actions.c:1534
-#, fuzzy
-#| msgid "Paraguay"
 msgid "Paragraph..."
-msgstr "Paraguay"
+msgstr "Paragraaf..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1542
@@ -13641,16 +13543,12 @@ msgid "Rule..."
 msgstr "Volle _naam..."
 
 #: ../src/e-util/e-html-editor-actions.c:1549
-#, fuzzy
-#| msgid "Table"
 msgid "Table..."
-msgstr "Tabel"
+msgstr "Tabel..."
 
 #: ../src/e-util/e-html-editor-actions.c:1556
-#, fuzzy
-#| msgid "Text"
 msgid "Text..."
-msgstr "Teks"
+msgstr "Teks..."
 
 #: ../src/e-util/e-html-editor-actions.c:1563
 #, fuzzy
@@ -13665,10 +13563,8 @@ msgid "Add Word to Dictionary"
 msgstr "Voeg _voorwaarde by"
 
 #: ../src/e-util/e-html-editor-actions.c:1587
-#, fuzzy
-#| msgid "Color for _misspelled words:"
 msgid "Ignore Misspelled Word"
-msgstr "Kleur vir spel_foute:"
+msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1594
 msgid "Add Word To"
@@ -13701,10 +13597,8 @@ msgid "Re_place"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-actions.c:1878
-#, fuzzy
-#| msgid "Image"
 msgid "_Image"
-msgstr "Beeld"
+msgstr "_Beeld"
 
 #: ../src/e-util/e-html-editor-actions.c:1881
 msgid "_Link"
@@ -13712,17 +13606,13 @@ msgstr ""
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1885
-#, fuzzy
-#| msgid "Add Rule"
 msgid "_Rule"
-msgstr "Voeg reël by"
+msgstr "_Reël"
 
 #: ../src/e-util/e-html-editor-actions.c:1888
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
-#, fuzzy
-#| msgid "Table"
 msgid "_Table"
-msgstr "Tabel"
+msgstr "_Tabel"
 
 #: ../src/e-util/e-html-editor.c:742
 #, fuzzy
@@ -13771,10 +13661,8 @@ msgstr ""
 #: ../src/e-util/e-html-editor-cell-dialog.c:484
 #: ../src/e-util/e-html-editor-hrule-dialog.c:328
 #: ../src/e-util/e-html-editor-table-dialog.c:649
-#, fuzzy
-#| msgid "Left:"
 msgid "Left"
-msgstr "Links:"
+msgstr "Links"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:485
 #: ../src/e-util/e-html-editor-hrule-dialog.c:330
@@ -13785,43 +13673,31 @@ msgstr ""
 #: ../src/e-util/e-html-editor-cell-dialog.c:486
 #: ../src/e-util/e-html-editor-hrule-dialog.c:332
 #: ../src/e-util/e-html-editor-table-dialog.c:651
-#, fuzzy
-#| msgid "Right:"
 msgid "Right"
-msgstr "Regs:"
+msgstr "Regs"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:494
-#, fuzzy
-#| msgid "Horizontal Draw Grid"
 msgid "_Horizontal:"
-msgstr "Horisontale tekenrooster"
+msgstr "_Horisontaal:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:502
 #: ../src/e-util/e-html-editor-image-dialog.c:575
-#, fuzzy
-#| msgid "Top:"
 msgid "Top"
-msgstr "Bo:"
+msgstr "Bo"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:503
 #: ../src/e-util/e-html-editor-image-dialog.c:576
-#, fuzzy
-#| msgid "_Middle:"
 msgid "Middle"
-msgstr "_Middel:"
+msgstr "Middel"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:504
 #: ../src/e-util/e-html-editor-image-dialog.c:577
-#, fuzzy
-#| msgid "Bottom:"
 msgid "Bottom"
-msgstr "Onder:"
+msgstr "Onder"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:512
-#, fuzzy
-#| msgid "_Vertical View"
 msgid "_Vertical:"
-msgstr "_Vertikale aansig"
+msgstr "_Vertikaal:"
 
 #. Wrap Text
 #: ../src/e-util/e-html-editor-cell-dialog.c:518
@@ -13865,10 +13741,8 @@ msgid "Transparent"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:633
-#, fuzzy
-#| msgid "Color"
 msgid "C_olor:"
-msgstr "Kleur"
+msgstr "_Kleur:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:641
 #: ../src/e-util/e-html-editor-image-dialog.c:477
@@ -13885,10 +13759,8 @@ msgid "Images"
 msgstr "Beelde"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:659
-#, fuzzy
-#| msgid "Image"
 msgid "_Image:"
-msgstr "Beeld"
+msgstr "_Beeld:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:666
 #: ../src/e-util/e-html-editor-page-dialog.c:495
@@ -13917,10 +13789,8 @@ msgid "Search _backwards"
 msgstr "Soek_gidse"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:222
-#, fuzzy
-#| msgid "Case _sensitive"
 msgid "Case _Sensitive"
-msgstr "Kas_sensitief"
+msgstr "_Kassensitief"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:229
 #, fuzzy
@@ -13929,44 +13799,32 @@ msgid "_Wrap Search"
 msgstr "_Soek"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:268
-#, fuzzy
-#| msgid "_Find Now"
 msgid "Find"
-msgstr "S_oek nou"
+msgstr "Vind"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:263
-#, fuzzy
-#| msgid "<b>Server</b>"
 msgid "<b>Size</b>"
-msgstr "<b>Bediener</b>"
+msgstr "<b>Grootte</b>"
 
 #. Width
 #: ../src/e-util/e-html-editor-hrule-dialog.c:283
 #: ../src/e-util/e-html-editor-image-dialog.c:533
 #: ../src/e-util/e-html-editor-table-dialog.c:572
-#, fuzzy
-#| msgid "Width:"
 msgid "_Width:"
-msgstr "Wydte:"
+msgstr "_Breedte:"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:308
-#, fuzzy
-#| msgid "Size:"
 msgid "_Size:"
-msgstr "Grootte:"
+msgstr "_Grootte:"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:315
-#, fuzzy
-#| msgid "<b>Other</b>"
 msgid "<b>Style</b>"
-msgstr "<b>Ander</b>"
+msgstr "<b>Styl</b>"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:340
 #: ../src/e-util/e-html-editor-table-dialog.c:658
-#, fuzzy
-#| msgid "A_lignment"
 msgid "_Alignment:"
-msgstr "Be_lyning"
+msgstr ""
 
 #. Shaded
 #: ../src/e-util/e-html-editor-hrule-dialog.c:346
@@ -13988,10 +13846,8 @@ msgid "<b>General</b>"
 msgstr "<b>Herhaal</b>"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:494
-#, fuzzy
-#| msgid "Source"
 msgid "_Source:"
-msgstr "Bron"
+msgstr "_Bron:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:557
 msgid "_Height:"
@@ -14077,16 +13933,12 @@ msgid "Graph Paper"
 msgstr "Papier"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:379
-#, fuzzy
-#| msgid "<b>Work</b>"
 msgid "<b>Colors</b>"
-msgstr "<b>Werk</b>"
+msgstr "<b>Kleure</b>"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:398
-#, fuzzy
-#| msgid "Text"
 msgid "_Text:"
-msgstr "Teks"
+msgstr "_Teks:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:413
 msgid "_Link:"
@@ -14097,23 +13949,17 @@ msgid "_Visited Link:"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-page-dialog.c:443
-#, fuzzy
-#| msgid "Set as _Background"
 msgid "_Background:"
-msgstr "Stel as _agtergrond"
+msgstr "_Agtergrond:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:451
-#, fuzzy
-#| msgid "<b>_Languages</b>"
 msgid "<b>Background Image</b>"
-msgstr "<b>_Tale</b>"
+msgstr "<b>Agtergrondbeeld</b>"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:473
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:88
-#, fuzzy
-#| msgid "Template:"
 msgid "_Template:"
-msgstr "Sjabloon:"
+msgstr "_Sjabloon:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:481
 #: ../src/e-util/e-import-assistant.c:286
@@ -14121,10 +13967,8 @@ msgid "Select a file"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-page-dialog.c:488
-#, fuzzy
-#| msgid "Customize"
 msgid "_Custom:"
-msgstr "Eie"
+msgstr "_Pasgemaak:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:515
 #, fuzzy
@@ -14162,10 +14006,8 @@ msgid "R_eplace:"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:287
-#, fuzzy
-#| msgid "O_pen With"
 msgid "_With:"
-msgstr "_Open met"
+msgstr "_Breedte:"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:299
 #, fuzzy
@@ -14259,10 +14101,8 @@ msgid "C_olumns:"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-table-dialog.c:605
-#, fuzzy
-#| msgid "Spacing"
 msgid "_Spacing:"
-msgstr "Spasiëring"
+msgstr "_Spasiëring:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:622
 msgid "_Padding:"
@@ -14275,10 +14115,8 @@ msgid "_Color:"
 msgstr "_Kleur:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:712
-#, fuzzy
-#| msgid "Image"
 msgid "Image:"
-msgstr "Beeld"
+msgstr "Beeld:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:739
 #, fuzzy
@@ -14563,16 +14401,12 @@ msgid "Address B_ook:"
 msgstr "Adresboek"
 
 #: ../src/e-util/e-name-selector-dialog.c:313
-#, fuzzy
-#| msgid "Category"
 msgid "Cat_egory:"
-msgstr "Kategorie"
+msgstr "_Kategorie:"
 
 #: ../src/e-util/e-name-selector-dialog.c:337
-#, fuzzy
-#| msgid "_Search"
 msgid "_Search:"
-msgstr "_Soek"
+msgstr "_Soek:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1330
@@ -14940,10 +14774,8 @@ msgid "_Priority:"
 msgstr "_Prioriteit:"
 
 #: ../src/e-util/e-send-options.ui.h:36
-#, fuzzy
-#| msgid "_Classification"
 msgid "_Classification:"
-msgstr "_Klassifikasie"
+msgstr "_Klassifikasie:"
 
 #: ../src/e-util/e-send-options.ui.h:37
 msgid "Gene_ral Options"
@@ -15022,10 +14854,8 @@ msgid "Refresh every"
 msgstr "Verfris elke"
 
 #: ../src/e-util/e-source-config.c:1391 ../src/e-util/e-source-config.c:1461
-#, fuzzy
-#| msgid "_Use secure connection:"
 msgid "Use a secure connection"
-msgstr "Gebr_uik beveiligde verbinding:"
+msgstr "Gebruik 'n veilige verbinding"
 
 #: ../src/e-util/e-source-config.c:1487
 msgid "Unset _trust for SSL/TLS certificate"
@@ -15061,10 +14891,8 @@ msgid "Available Groups:"
 msgstr "Beskikbare velde:"
 
 #: ../src/e-util/e-source-selector-dialog.c:234
-#, fuzzy
-#| msgid "_Description:"
 msgid "_Destination"
-msgstr "_Beskrywing:"
+msgstr "_Bestemming"
 
 #: ../src/e-util/e-source-selector-dialog.c:362
 msgid "Select destination"
@@ -15336,7 +15164,7 @@ msgstr ""
 
 #: ../src/e-util/e-table-config.ui.h:10
 msgid "Then By"
-msgstr "daarna volgens"
+msgstr "Daarna volgens"
 
 #: ../src/e-util/e-table-config.ui.h:11
 msgid "Show field i_n View"
@@ -15383,10 +15211,8 @@ msgstr ""
 "na die plek waar u dit wil laat verskyn."
 
 #: ../src/e-util/e-table-field-chooser-dialog.c:224
-#, fuzzy
-#| msgid "Add a C_olumn..."
 msgid "Add a Column"
-msgstr "Voeg k_olom by..."
+msgstr "Voeg 'n kolom by"
 
 #. Translators: This text is used as a special row when an ETable
 #. * has turned on grouping on a column, which has set a title.
@@ -15546,8 +15372,6 @@ msgid "Identity"
 msgstr "Identiteit"
 
 #: ../src/e-util/e-webdav-browser.c:447
-#, fuzzy
-#| msgid "Address Book"
 msgid "Address book"
 msgstr "Adresboek"
 
@@ -15556,8 +15380,6 @@ msgid "Events"
 msgstr ""
 
 #: ../src/e-util/e-webdav-browser.c:514
-#, fuzzy
-#| msgid "Loading..."
 msgid "Loading…"
 msgstr "Laai tans..."
 
@@ -15586,10 +15408,8 @@ msgid "Failed to get selected collection HREF"
 msgstr ""
 
 #: ../src/e-util/e-webdav-browser.c:1812
-#, fuzzy
-#| msgid "_Save Changes"
 msgid "Saving changes…"
-msgstr "_Stoor veranderinge"
+msgstr "Stoor tans veranderinge…"
 
 #: ../src/e-util/e-webdav-browser.c:1813
 #, fuzzy
@@ -15598,10 +15418,8 @@ msgid "Failed to save changes"
 msgstr "Kon %d van %d boodskappe nie stuur nie"
 
 #: ../src/e-util/e-webdav-browser.c:1815
-#, fuzzy
-#| msgid "Create a new address book"
 msgid "Creating new book…"
-msgstr "Skep 'n nuwe adresboek"
+msgstr "Skep tans 'n nuwe boek…"
 
 #: ../src/e-util/e-webdav-browser.c:1816
 #, fuzzy
@@ -15610,10 +15428,8 @@ msgid "Failed to create new book"
 msgstr "Kan nie nuwe gids `%s' skep nie: %s"
 
 #: ../src/e-util/e-webdav-browser.c:1818
-#, fuzzy
-#| msgid "Create a new calendar"
 msgid "Creating new calendar…"
-msgstr "Skep 'n nuwe kalender"
+msgstr "Skep tans 'n nuwe kalender…"
 
 #: ../src/e-util/e-webdav-browser.c:1819
 #, fuzzy
@@ -15622,10 +15438,8 @@ msgid "Failed to create new calendar"
 msgstr "Skep 'n nuwe kalender"
 
 #: ../src/e-util/e-webdav-browser.c:1821
-#, fuzzy
-#| msgid "Create a new contact"
 msgid "Creating new collection…"
-msgstr "Skep 'n nuwe kontak"
+msgstr "Skep tans 'n nuwe versameling…"
 
 #: ../src/e-util/e-webdav-browser.c:1822
 #, fuzzy
@@ -15651,10 +15465,8 @@ msgid "Failed to delete book"
 msgstr ""
 
 #: ../src/e-util/e-webdav-browser.c:2193
-#, fuzzy
-#| msgid "New calendar"
 msgid "Deleting calendar…"
-msgstr "Nuwe kalender"
+msgstr "Skrap tans kalender…"
 
 #: ../src/e-util/e-webdav-browser.c:2194
 #, fuzzy
@@ -15663,20 +15475,16 @@ msgid "Failed to delete calendar"
 msgstr "Merk as _verstek kalender"
 
 #: ../src/e-util/e-webdav-browser.c:2197
-#, fuzzy
-#| msgid "Meeting Cancelation"
 msgid "Deleting collection…"
-msgstr "Vergaderingkansellasie"
+msgstr "Skrap tans versameling…"
 
 #: ../src/e-util/e-webdav-browser.c:2198
 msgid "Failed to delete collection"
 msgstr ""
 
 #: ../src/e-util/e-webdav-browser.c:2429
-#, fuzzy
-#| msgid "Component"
 msgid "For Components:"
-msgstr "Komponent"
+msgstr "Vir komponente:"
 
 #: ../src/e-util/e-webdav-browser.c:2435
 msgid "_Events"
@@ -15909,10 +15717,8 @@ msgid "Filter should have at least one condition."
 msgstr ""
 
 #: ../src/e-util/filter.error.xml.h:14
-#, fuzzy
-#| msgid "Missing date."
 msgid "Missing value."
-msgstr "Ontbrekende datum."
+msgstr "Ontbrekende waarde."
 
 #: ../src/e-util/filter.error.xml.h:15
 #, fuzzy
@@ -16017,8 +15823,6 @@ msgid "_Filter Rules"
 msgstr "_Filterreëls"
 
 #: ../src/e-util/filter.ui.h:24
-#, fuzzy
-#| msgid "Rule name"
 msgid "Rule Name"
 msgstr "Reëlnaam"
 
@@ -16103,16 +15907,12 @@ msgid "Unable to save image."
 msgstr "Kon nie boodskap kry nie"
 
 #: ../src/e-util/widgets.error.xml.h:8
-#, fuzzy
-#| msgid "Could not save signature file."
 msgid "Could not load signature."
-msgstr "Kon nie handtekeninglêer stoor nie."
+msgstr "Kon nie handtekening laai nie."
 
 #: ../src/e-util/widgets.error.xml.h:9
-#, fuzzy
-#| msgid "Could not save signature file."
 msgid "Could not save signature."
-msgstr "Kon nie handtekeninglêer stoor nie."
+msgstr "Kon nie handtekening stoor nie."
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:106
 #, c-format
@@ -16350,10 +16150,8 @@ msgstr[0] "Kon %d van %d boodskappe nie stuur nie"
 msgstr[1] "Kon %d van %d boodskappe nie stuur nie"
 
 #: ../src/libemail-engine/mail-ops.c:1060
-#, fuzzy
-#| msgid "Cancelled"
 msgid "Cancelled."
-msgstr "Gekanselleer"
+msgstr "Gekanselleer."
 
 #: ../src/libemail-engine/mail-ops.c:1062
 msgid "Complete."
@@ -16414,10 +16212,8 @@ msgstr ""
 #. Translators: This is a subject attribution for forwarded messages, used when there could not be used any subject.
 #. It results in "[Fwd: No Subject]" being used as a subject of the forwarded message.
 #: ../src/libemail-engine/mail-tools.c:208
-#, fuzzy
-#| msgid "Subject"
 msgid "No Subject"
-msgstr "Onderwerp"
+msgstr "Geen onderwerp"
 
 #: ../src/libemail-engine/mail-tools.c:283
 #, fuzzy, c-format
@@ -16459,10 +16255,8 @@ msgstr[1] ""
 
 #: ../src/mail/e-mail-account-manager.c:118
 #: ../src/mail/e-mail-account-manager.c:205
-#, fuzzy
-#| msgid "All Accounts"
 msgid "Open _Online Accounts"
-msgstr "Alle rekeninge"
+msgstr "Maak oop in aanlyn rekeninge"
 
 #: ../src/mail/e-mail-account-manager.c:144
 #: ../src/mail/e-mail-account-manager.c:231
@@ -16487,10 +16281,9 @@ msgid "Host: %s:%d"
 msgstr ""
 
 #: ../src/mail/e-mail-autoconfig.c:652
-#, fuzzy, c-format
-#| msgid "Users"
+#, c-format
 msgid "User: %s"
-msgstr "Gebruikers"
+msgstr "Gebruiker: %s"
 
 #: ../src/mail/e-mail-autoconfig.c:656
 #, fuzzy, c-format
@@ -16535,10 +16328,8 @@ msgstr ""
 
 #: ../src/mail/e-mail-autoconfig.c:1183
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
-#, fuzzy
-#| msgid "_Server:"
 msgid "SMTP server"
-msgstr "_Bediener:"
+msgstr "SMTP-bediener"
 
 #: ../src/mail/e-mail-browser.c:130 ../src/shell/e-shell-window-actions.c:812
 #: ../src/shell/e-shell-window-actions.c:819
@@ -16547,10 +16338,8 @@ msgid "Close this window"
 msgstr "Sluit hierdie venster"
 
 #: ../src/mail/e-mail-browser.c:288
-#, fuzzy
-#| msgid "Subject"
 msgid "(No Subject)"
-msgstr "Onderwerp"
+msgstr "(Geen onderwerp)"
 
 #. GtkAssistant's back button label.
 #: ../src/mail/e-mail-config-assistant.c:48
@@ -16737,10 +16526,8 @@ msgid "S_ave replies in the folder of the message being replied to"
 msgstr ""
 
 #: ../src/mail/e-mail-config-defaults-page.c:775
-#, fuzzy
-#| msgid "Search Folders"
 msgid "Archi_ve Folder:"
-msgstr "Soekgidse"
+msgstr "_Argiveer gids:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:785
 #: ../src/modules/mail/em-mailer-prefs.c:1413
@@ -16825,10 +16612,8 @@ msgstr ""
 "Byvoorbeeld: \"Werk\" of \"Persoonlik\""
 
 #: ../src/mail/e-mail-config-identity-page.c:596
-#, fuzzy
-#| msgid "Server Information"
 msgid "Required Information"
-msgstr "Bedienerinligting"
+msgstr "Benodigde inligting"
 
 #: ../src/mail/e-mail-config-identity-page.c:605
 msgid "Full Nam_e:"
@@ -16840,10 +16625,8 @@ msgstr "E-pos_adres:"
 
 #: ../src/mail/e-mail-config-identity-page.c:683
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:27
-#, fuzzy
-#| msgid "Personal Information"
 msgid "Optional Information"
-msgstr "Persoonlike inligting"
+msgstr "Opsionele inligting"
 
 #: ../src/mail/e-mail-config-identity-page.c:692
 msgid "Re_ply-To:"
@@ -17014,10 +16797,8 @@ msgstr ""
 
 #: ../src/mail/e-mail-config-security-page.c:539
 #: ../src/mail/e-mail-config-security-page.c:637
-#, fuzzy
-#| msgid "Select..."
 msgid "Select"
-msgstr "Kies..."
+msgstr "Kies"
 
 #: ../src/mail/e-mail-config-security-page.c:548
 #: ../src/mail/e-mail-config-security-page.c:646
@@ -17056,10 +16837,8 @@ msgid "Sending Email"
 msgstr "Stuur van e-pos"
 
 #: ../src/mail/e-mail-config-service-page.c:501
-#, fuzzy
-#| msgid "Server _Type: "
 msgid "Server _Type:"
-msgstr "Bediener_tipe: "
+msgstr "_Bedienertipe:"
 
 #: ../src/mail/e-mail-config-summary-page.c:306
 msgid ""
@@ -17087,10 +16866,8 @@ msgid "Sending"
 msgstr "Stuur tans"
 
 #: ../src/mail/e-mail-config-summary-page.c:431
-#, fuzzy
-#| msgid "Server _Type: "
 msgid "Server Type:"
-msgstr "Bediener_tipe: "
+msgstr "Bedienertipe:"
 
 #: ../src/mail/e-mail-config-summary-page.c:452
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:657
@@ -17099,10 +16876,8 @@ msgstr "Bediener:"
 
 #: ../src/mail/e-mail-config-summary-page.c:473
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:755
-#, fuzzy
-#| msgid "Us_ername:"
 msgid "Username:"
-msgstr "G_ebruikernaam"
+msgstr "Gebruikernaam:"
 
 #: ../src/mail/e-mail-config-summary-page.c:494
 msgid "Security:"
@@ -17113,10 +16888,8 @@ msgid "Cannot have both receiving and sending parts set to None"
 msgstr ""
 
 #: ../src/mail/e-mail-config-summary-page.c:807
-#, fuzzy
-#| msgid "Account Search"
 msgid "Account Summary"
-msgstr "Rekeningsoektog"
+msgstr "Rekeningopsomming"
 
 #: ../src/mail/e-mail-config-welcome-page.c:161
 #, fuzzy
@@ -18245,12 +18018,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../src/mail/e-mail-reader-utils.c:2854
-#, fuzzy
-#| msgid "Save Message..."
 msgid "Save Message"
 msgid_plural "Save Messages"
-msgstr[0] "Stoor boodskap..."
-msgstr[1] "Stoor boodskap..."
+msgstr[0] "Stoor boodskap"
+msgstr[1] "Stoor boodskappe"
 
 #. Translators: This is part of a suggested file name
 #. * used when saving a message or multiple messages to
@@ -18621,10 +18392,8 @@ msgid "Copy Folder To"
 msgstr "_Kopieer gids na..."
 
 #: ../src/mail/em-subscription-editor.c:813
-#, fuzzy
-#| msgid "Subscribed"
 msgid "_Subscribe"
-msgstr "Ingeskryf"
+msgstr "_Teken in"
 
 #: ../src/mail/em-subscription-editor.c:822
 #, fuzzy
@@ -18886,10 +18655,8 @@ msgstr "Afsender of ontvangers"
 
 #: ../src/mail/filtertypes.xml.in.h:17 ../src/mail/searchtypes.xml.in.h:18
 #: ../src/mail/vfoldertypes.xml.in.h:18
-#, fuzzy
-#| msgid "Pass_word:"
 msgid "has words"
-msgstr "_Wagwoord:"
+msgstr "het woorde"
 
 #: ../src/mail/filtertypes.xml.in.h:18 ../src/mail/searchtypes.xml.in.h:19
 #: ../src/mail/vfoldertypes.xml.in.h:19
@@ -19171,16 +18938,12 @@ msgstr ""
 
 #. Translators: Column header for a message subject
 #: ../src/mail/importers/evolution-mbox-importer.c:510
-#, fuzzy
-#| msgid "Subject"
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "Onderwerp"
 
 #. Translators: Column header for a message From address
 #: ../src/mail/importers/evolution-mbox-importer.c:515
-#, fuzzy
-#| msgid "From"
 msgctxt "mboxImp"
 msgid "From"
 msgstr "Van"
@@ -19195,12 +18958,11 @@ msgid "Importer Berkeley Mailbox format folders"
 msgstr ""
 
 #: ../src/mail/importers/kmail-importer.c:261
-#, fuzzy, c-format
-#| msgid "Address"
+#, c-format
 msgid "%d Address"
 msgid_plural "%d Addresses"
-msgstr[0] "Adres"
-msgstr[1] "Adres"
+msgstr[0] "%d adres"
+msgstr[1] "%d adresse"
 
 #: ../src/mail/importers/kmail-importer.c:352
 #, fuzzy
@@ -19604,7 +19366,7 @@ msgstr "_Vaste wydte:"
 
 #: ../src/mail/mail-config.ui.h:92
 msgid "_Mark messages as read after"
-msgstr "_Merk boodskappe as gelees na:"
+msgstr "_Merk boodskappe as gelees na"
 
 #: ../src/mail/mail-config.ui.h:94
 msgid "Highlight _quotations with"
@@ -19785,7 +19547,7 @@ msgstr "Gemorstoets"
 #: ../src/mail/mail-config.ui.h:132
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
-"Moenie boodskappe merk as gemors as die afsender in my adresboek is nie."
+"Moenie boodskappe _merk as gemors as die afsender in my adresboek is nie"
 
 #: ../src/mail/mail-config.ui.h:133
 msgid "_Lookup in local address book only"
@@ -20722,10 +20484,8 @@ msgid ""
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:186
-#, fuzzy
-#| msgid "Importing files"
 msgid "Printing failed."
-msgstr "Invoer van lêers"
+msgstr "Druk het misluk."
 
 #: ../src/mail/mail.error.xml.h:187
 msgid "The printer replied “{0}”."
@@ -20995,10 +20755,8 @@ msgstr "Boodskappe"
 
 #. default follow-up flag name to use when clicked in the message list column
 #: ../src/mail/message-list.c:5397
-#, fuzzy
-#| msgid "Follow _Up..."
 msgid "Follow-up"
-msgstr "Volg _op..."
+msgstr "Opvolg"
 
 #: ../src/mail/message-list.c:6458
 msgid ""
@@ -21161,10 +20919,8 @@ msgid "_Back"
 msgstr "_Terug"
 
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:78
-#, fuzzy
-#| msgid "_Find items:"
 msgid "_Finish"
-msgstr "_Vind items:"
+msgstr "_Klaar"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:195
 msgid "_Browse"
@@ -21190,11 +20946,9 @@ msgstr ""
 
 #. Translators: This is part of a sentence "Open maps with OpenStreetMap" and "Open maps with Google"
 #: ../src/modules/addressbook/autocompletion-config.c:143
-#, fuzzy
-#| msgid "ends with"
 msgctxt "OpenMap"
 msgid "Open _maps with"
-msgstr "eindig met"
+msgstr "Open _kaarte met"
 
 #. Translators: This is part of "Open maps with OpenStreetMap"
 #: ../src/modules/addressbook/autocompletion-config.c:150
@@ -21249,7 +21003,7 @@ msgstr "Skep 'n nuwe kontak"
 #: ../src/modules/addressbook/e-book-shell-backend.c:278
 msgctxt "New"
 msgid "Contact _List"
-msgstr "kontak_lys"
+msgstr "_Kontaklys"
 
 #: ../src/modules/addressbook/e-book-shell-backend.c:280
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1056
@@ -21269,10 +21023,8 @@ msgstr "Skep 'n nuwe adresboek"
 #. Translators: This is a save dialog title
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:534
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:835
-#, fuzzy
-#| msgid "Save as vCard..."
 msgid "Save as vCard"
-msgstr "Stoor as vCard..."
+msgstr "Stoor as vCard"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:942
 msgid "Co_py All Contacts To..."
@@ -21466,10 +21218,8 @@ msgstr "_Voorskou"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1536
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:680
 #: ../src/modules/calendar/e-task-shell-view-actions.c:834
-#, fuzzy
-#| msgid "_Manager:"
 msgid "_Manage groups..."
-msgstr "_Bestuurder:"
+msgstr "_Bestuur groepe..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1109
 #, fuzzy
@@ -21486,10 +21236,8 @@ msgid "Show contact preview window"
 msgstr "Wys voorskouvenster vir kontak"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1149
-#, fuzzy
-#| msgid "Show as list"
 msgid "Show _Maps"
-msgstr "Wys as 'n lys"
+msgstr "Vertoon _kaarte"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1151
 #, fuzzy
@@ -22186,10 +21934,8 @@ msgid "Kelvin (K)"
 msgstr ""
 
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:270
-#, fuzzy
-#| msgid "_Units:"
 msgid "Units:"
-msgstr "_Eenhede:"
+msgstr "Eenhede:"
 
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:322
 #, fuzzy
@@ -22458,7 +22204,7 @@ msgstr "Woensdag"
 #. Thursday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:33
 msgid "T_hu"
-msgstr "D_o."
+msgstr "_Do."
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Thursday"
@@ -22476,7 +22222,7 @@ msgstr "Vrydag"
 #. Saturday
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:39
 msgid "_Sat"
-msgstr "S_a."
+msgstr "_Sa."
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:40
 msgid "Saturday"
@@ -22653,7 +22399,7 @@ msgstr "Skep 'n nuwe afspraak"
 #: ../src/modules/calendar/e-cal-shell-backend.c:120
 msgctxt "New"
 msgid "All Day A_ppointment"
-msgstr "voldag-_afspraak"
+msgstr "_Voldag-afspraak"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:122
 msgid "Create a new all-day appointment"
@@ -22662,7 +22408,7 @@ msgstr "Skep 'n nuwe voldag-afspraak"
 #: ../src/modules/calendar/e-cal-shell-backend.c:127
 msgctxt "New"
 msgid "M_eeting"
-msgstr "v_ergadering"
+msgstr "_Vergadering"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:129
 msgid "Create a new meeting request"
@@ -22671,7 +22417,7 @@ msgstr "Skep 'n nuwe versoek tot vergadering"
 #: ../src/modules/calendar/e-cal-shell-backend.c:137
 msgctxt "New"
 msgid "Cale_ndar"
-msgstr "kale_nder"
+msgstr "_Kalender"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:139
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1311
@@ -22836,7 +22582,7 @@ msgstr "Kopieer na kalender..."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1386
 msgid "_Delegate Meeting..."
-msgstr "_Delegeer vergadering"
+msgstr "_Delegeer vergadering..."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1393
 #, fuzzy
@@ -22930,7 +22676,7 @@ msgstr "Antwoo_rd"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1484
 msgid "_Schedule Meeting..."
-msgstr "_Skeduleer vergadering"
+msgstr "_Skeduleer vergadering..."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1486
 #, fuzzy
@@ -23318,11 +23064,9 @@ msgstr[1] "%d memo's"
 
 #: ../src/modules/calendar/e-memo-shell-view-private.c:371
 #: ../src/modules/calendar/e-task-shell-view-private.c:548
-#, fuzzy, c-format
-#| msgid ", %d selected"
-#| msgid_plural ", %d selected"
+#, c-format
 msgid "%d selected"
-msgstr ", %d geselekteer"
+msgstr "%d gekies"
 
 #: ../src/modules/calendar/e-task-shell-backend.c:75
 msgctxt "New"
@@ -23339,8 +23083,6 @@ msgid "Create a new assigned task"
 msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-backend.c:92
-#, fuzzy
-#| msgid "Task List"
 msgctxt "New"
 msgid "Tas_k List"
 msgstr "Taaklys"
@@ -23364,10 +23106,8 @@ msgid ""
 msgstr ""
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:564
-#, fuzzy
-#| msgid "Do not ask me again."
 msgid "Do not ask me again"
-msgstr "Moenie my weer vra nie."
+msgstr "Moenie my weer vra nie"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:682
 #, fuzzy
@@ -23494,16 +23234,12 @@ msgid "Preview the list of tasks to be printed"
 msgstr "Voorskou van die taaklys wat gedruk word"
 
 #: ../src/modules/calendar/e-task-shell-view.c:321
-#, fuzzy
-#| msgid "Completed Tasks"
 msgid "Delete Tasks"
-msgstr "Voltooide take"
+msgstr "Skrap take"
 
 #: ../src/modules/calendar/e-task-shell-view.c:323
-#, fuzzy
-#| msgid "Delete"
 msgid "Delete Task"
-msgstr "Skrap"
+msgstr "Skrap taak"
 
 #: ../src/modules/calendar/e-task-shell-view-private.c:544
 #, c-format
@@ -23557,10 +23293,8 @@ msgstr ""
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
-#, fuzzy
-#| msgid "CalDAV sources"
 msgid "CalDAV server"
-msgstr "CalDAV-bronne"
+msgstr "CalDAV-bediener"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
@@ -23570,10 +23304,8 @@ msgstr ""
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
-#, fuzzy
-#| msgid "CalDAV sources"
 msgid "CardDAV server"
-msgstr "CalDAV-bronne"
+msgstr "CardDAV-bediener"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
@@ -23595,22 +23327,18 @@ msgid "Look up in SRV records"
 msgstr ""
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:104
-#, fuzzy, c-format
-#| msgid "CalDAV"
+#, c-format
 msgid "CalDAV: %s"
-msgstr "CalDAV"
+msgstr "CalDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:111
-#, fuzzy, c-format
-#| msgid "vCard for %s"
+#, c-format
 msgid "CardDAV: %s"
-msgstr "vCard vir %s"
+msgstr "CardDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:117
-#, fuzzy
-#| msgid "CalDAV Calendar sources"
 msgid "CalDAV and CardDAV server"
-msgstr "CalDAV-kalenderbronne"
+msgstr "CalDAV en CardDAV-bediener"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:209
 msgid "Look up for a CalDAV/CardDAV server"
@@ -24010,10 +23738,8 @@ msgid "All day:"
 msgstr ""
 
 #: ../src/modules/itip-formatter/itip-view.c:864
-#, fuzzy
-#| msgid "Sta_rt date:"
 msgid "Start day:"
-msgstr "_Begindatum"
+msgstr "Begindag:"
 
 #: ../src/modules/itip-formatter/itip-view.c:864
 #: ../src/modules/itip-formatter/itip-view.c:1682
@@ -24061,16 +23787,12 @@ msgid "Acce_pt all"
 msgstr "_Aanvaar almal"
 
 #: ../src/modules/itip-formatter/itip-view.c:1231
-#, fuzzy
-#| msgid "Accept"
 msgid "Acce_pt"
-msgstr "Aanvaar"
+msgstr "_Aanvaar"
 
 #: ../src/modules/itip-formatter/itip-view.c:1234
-#, fuzzy
-#| msgid "Send Latest Information"
 msgid "Send _Information"
-msgstr "Stuur jongste inligting"
+msgstr "Stuur _inligting"
 
 #: ../src/modules/itip-formatter/itip-view.c:1237
 msgid "_Update Attendee Status"
@@ -24272,10 +23994,8 @@ msgstr ""
 
 #. Translators: This is a default filename for a calendar.
 #: ../src/modules/itip-formatter/itip-view.c:5566
-#, fuzzy
-#| msgid "Calendars"
 msgid "calendar.ics"
-msgstr "Kalenders"
+msgstr "kalender.ics"
 
 #: ../src/modules/itip-formatter/itip-view.c:5571
 #, fuzzy
@@ -24322,8 +24042,6 @@ msgid ""
 msgstr ""
 
 #: ../src/modules/itip-formatter/itip-view.c:6291
-#, fuzzy
-#| msgid "None"
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Geen"
@@ -24488,7 +24206,7 @@ msgstr "_Poort:"
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:251
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:313
 msgid "User_name:"
-msgstr "Gebruiker_naam"
+msgstr "_Gebruikernaam:"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:265
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:327
@@ -24604,7 +24322,7 @@ msgstr "Skep 'n nuwe posgids"
 #: ../src/modules/mail/e-mail-shell-backend.c:416
 msgctxt "New"
 msgid "Mail _Folder"
-msgstr "pos_gids"
+msgstr "_Posgids"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:418
 msgid "Create a new mail folder"
@@ -24690,10 +24408,8 @@ msgid "_Disable Account"
 msgstr "Posrekeninge"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1624
-#, fuzzy
-#| msgid "Delete account?"
 msgid "Disable this account"
-msgstr "Skrap rekening?"
+msgstr "Deaktiveer die rekening"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1631
 #, fuzzy
@@ -24863,20 +24579,16 @@ msgid "Send queued items and retrieve new items"
 msgstr ""
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1814
-#, fuzzy
-#| msgid "Received"
 msgid "R_eceive All"
-msgstr "Ontvang"
+msgstr "_Ontvang alles"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1816
 msgid "Receive new items from all accounts"
 msgstr ""
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1821
-#, fuzzy
-#| msgid "_Send"
 msgid "_Send All"
-msgstr "_Stuur"
+msgstr "_Stuur alles"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1823
 msgid "Send queued items in all accounts"
@@ -25034,8 +24746,6 @@ msgid "Important Messages"
 msgstr "Belangrike boodskappe"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2089
-#, fuzzy
-#| msgid "Last 5 Days' Messages"
 msgid "Last 5 Days’ Messages"
 msgstr "Boodskappe van die afgelope 5 dae"
 
@@ -25470,16 +25180,12 @@ msgid "Importing Files"
 msgstr "Invoer van lêers"
 
 #: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:257
-#, fuzzy
-#| msgid "I_mportance: "
 msgid "Import cancelled."
-msgstr "Bela_ngrikheid: "
+msgstr "Invoer gekanselleer."
 
 #: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:274
-#, fuzzy
-#| msgid "Update complete\n"
 msgid "Import complete."
-msgstr "Opdatering voltooid\n"
+msgstr "Invoer voltooid."
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:158
 #, fuzzy
@@ -25519,10 +25225,8 @@ msgid "_Format as..."
 msgstr "Formateer _kolomme..."
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:101
-#, fuzzy
-#| msgid "Other Date"
 msgid "_Other languages"
-msgstr "Ander datum"
+msgstr "_Ander tale"
 
 #: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:458
 msgid "Text Highlight"
@@ -26260,18 +25964,16 @@ msgstr[1] ""
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
 #: ../src/plugins/mail-notification/mail-notification.c:412
-#, fuzzy, c-format
-#| msgid "From %s:"
+#, c-format
 msgid "From: %s"
-msgstr "Vanaf %s:"
+msgstr "Vanaf: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
 #: ../src/plugins/mail-notification/mail-notification.c:426
-#, fuzzy, c-format
-#| msgid "Subject is %s"
+#, c-format
 msgid "Subject: %s"
-msgstr "Onderwerp is %s"
+msgstr "Onderwerp: %s"
 
 #: ../src/plugins/mail-notification/mail-notification.c:443
 #, fuzzy
@@ -26301,10 +26003,8 @@ msgid "Use sound _theme"
 msgstr "Gebruik onderstreep"
 
 #: ../src/plugins/mail-notification/mail-notification.c:751
-#, fuzzy
-#| msgid "PNG files"
 msgid "Play _file:"
-msgstr "PNG-lêers"
+msgstr "Speel _lêer:"
 
 #: ../src/plugins/mail-notification/mail-notification.c:760
 msgid "Select sound file"
@@ -26566,10 +26266,9 @@ msgstr "Voorskou van die kalender wat gedruk word"
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:215
 #: ../src/plugins/publish-calendar/publish-calendar.c:483
-#, fuzzy, c-format
-#| msgid "Could not open the link."
+#, c-format
 msgid "Could not open %s:"
-msgstr "Kon nie die skakel open nie."
+msgstr "Kon nie %s oopmaak nie:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:235
 #, c-format
@@ -26813,10 +26512,8 @@ msgid "RDF (.rdf)"
 msgstr ""
 
 #: ../src/plugins/save-calendar/save-calendar.c:117
-#, fuzzy
-#| msgid "_Forget"
 msgid "_Format:"
-msgstr "_Vergeet"
+msgstr "_Formaat:"
 
 #: ../src/plugins/save-calendar/save-calendar.c:182
 msgid "Select destination file"
@@ -27026,16 +26723,12 @@ msgid "Create a new window displaying this view"
 msgstr "Skep 'n nuwe venster wat hierdie gids wys"
 
 #: ../src/shell/e-shell-window-actions.c:880
-#, fuzzy
-#| msgid "_Available Categories:"
 msgid "Available Cate_gories"
-msgstr "_Beskikbare kategorieë:"
+msgstr "Beskikbare _kategorieë:"
 
 #: ../src/shell/e-shell-window-actions.c:882
-#, fuzzy
-#| msgid "_Available Categories:"
 msgid "Manage available categories"
-msgstr "_Beskikbare kategorieë:"
+msgstr "Bestuur beskikbare kategorieë"
 
 #: ../src/shell/e-shell-window-actions.c:894
 msgid "_Quick Reference"
@@ -27098,10 +26791,8 @@ msgid "Save the current search parameters"
 msgstr "Stoor die huidige lêer"
 
 #: ../src/shell/e-shell-window-actions.c:957
-#, fuzzy
-#| msgid "Submit _Bug Report"
 msgid "Submit _Bug Report..."
-msgstr "Dien _foutverslag in"
+msgstr "Dien _foutverslag in..."
 
 #: ../src/shell/e-shell-window-actions.c:959
 msgid "Submit a bug report using Bug Buddy"
@@ -27169,10 +26860,8 @@ msgid "Show the side bar"
 msgstr "Wys kant_balk"
 
 #: ../src/shell/e-shell-window-actions.c:1082
-#, fuzzy
-#| msgid "Show _Status Bar"
 msgid "Show _Buttons"
-msgstr "Wys _statusbalk"
+msgstr "Vertoon _knoppies"
 
 #: ../src/shell/e-shell-window-actions.c:1084
 #, fuzzy
@@ -27294,11 +26983,9 @@ msgstr ""
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
 #: ../src/shell/e-shell-window.c:563
-#, fuzzy
-#| msgid "_New"
 msgctxt "toolbar-button"
 msgid "New"
-msgstr "_Nuwe"
+msgstr "Nuwe"
 
 #. Translators: This is used for the main window title.
 #: ../src/shell/e-shell-window-private.c:756
@@ -27417,16 +27104,12 @@ msgid ""
 msgstr ""
 
 #: ../src/shell/shell.error.xml.h:7
-#, fuzzy
-#| msgid "_Continue Editing"
 msgid "Continue Anyway"
-msgstr "Redigeer _verder"
+msgstr "Gaan in elk geval voort"
 
 #: ../src/shell/shell.error.xml.h:8
-#, fuzzy
-#| msgid "_Quit"
 msgid "Quit Now"
-msgstr "_Sluit af"
+msgstr "Sluit nou af"
 
 #: ../src/shell/shell.error.xml.h:9
 #, fuzzy
@@ -27459,10 +27142,8 @@ msgid "_Close Immediately"
 msgstr "Kies beeld"
 
 #: ../src/shell/shell.error.xml.h:14
-#, fuzzy
-#| msgid "Waiting..."
 msgid "Keep _Waiting"
-msgstr "Wag tans..."
+msgstr "Hou aan _wag"
 
 #: ../src/shell/shell.error.xml.h:15
 msgid "Failed to get values from “{0}”"
@@ -27552,10 +27233,8 @@ msgstr "Naam van sertifikaat"
 
 #: ../src/smime/gui/certificate-manager.c:83
 #: ../src/smime/gui/certificate-manager.c:103
-#, fuzzy
-#| msgid "Or_ganization:"
 msgid "Issued To Organization"
-msgstr "Or_ganisasie:"
+msgstr "Uitgereik aan organisasie"
 
 #: ../src/smime/gui/certificate-manager.c:84
 #: ../src/smime/gui/certificate-manager.c:104
