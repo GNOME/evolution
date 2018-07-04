@@ -212,6 +212,17 @@ struct _source_data {
 };
 
 static void
+source_data_free (gpointer ptr)
+{
+	struct _source_data *sd = ptr;
+
+	if (sd) {
+		g_clear_object (&sd->model);
+		g_free (sd);
+	}
+}
+
+static void
 set_sensitive (struct _source_data *data)
 {
 	GtkTreeSelection *selection;
@@ -517,7 +528,7 @@ get_widget (EFilterRule *fr,
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (frame), GTK_ORIENTATION_VERTICAL);
 	gtk_grid_set_row_spacing (GTK_GRID (frame), 6);
 
-	g_object_set_data_full (G_OBJECT (frame), "data", data, g_free);
+	g_object_set_data_full (G_OBJECT (frame), "data", data, source_data_free);
 
 	tmp = g_strdup_printf ("<b>%s</b>", _("Search Folder Sources"));
 	label = gtk_label_new (tmp);

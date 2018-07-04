@@ -456,6 +456,7 @@ mail_config_provider_page_add_options (EMailConfigProviderPage *page,
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), combo);
 	gtk_box_pack_start (GTK_BOX (hbox), combo, FALSE, FALSE, 0);
 	gtk_widget_show (combo);
+	g_object_unref (store);
 
 	e_binding_bind_property_full (
 		settings, entry->name,

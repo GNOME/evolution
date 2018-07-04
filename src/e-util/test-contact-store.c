@@ -118,6 +118,8 @@ start_test (const gchar *param)
 
 	g_signal_connect (entry, "changed", G_CALLBACK (entry_changed), contact_store);
 
+	g_object_unref (contact_store);
+
 	gtk_widget_show_all (window);
 
 	return FALSE;

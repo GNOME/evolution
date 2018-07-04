@@ -208,7 +208,7 @@ mail_config_assistant_list_providers (void)
 	}
 
 	while ((link = g_queue_pop_head (&trash)) != NULL)
-		list = g_list_remove_link (list, link);
+		list = g_list_delete_link (list, link);
 
 	return list;
 }
