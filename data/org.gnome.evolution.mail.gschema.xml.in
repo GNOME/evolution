@@ -23,7 +23,7 @@
     <value nick='outlook'      value='3'/>
   </enum>
 
-  <!-- Keep this synchronized with EMailImageLoadingPolicy. -->
+  <!-- Keep this synchronized with EImageLoadingPolicy. -->
   <enum id="org.gnome.evolution.mail.ImageLoadingPolicy">
     <value nick='never'     value='0'/>
     <value nick='sometimes' value='1'/>
@@ -35,6 +35,13 @@
     <value nick='off'          value='0'/>
     <value nick='on'           value='1'/>
     <value nick='inconsistent' value='2'/>
+  </enum>
+
+  <!-- Keep this synchronized with EMailRecipientCertificateLookup. -->
+  <enum id="org.gnome.evolution.mail.MailRecipientCertificateLookup">
+    <value nick='off'           value='0'/>
+    <value nick='autocompleted' value='1'/>
+    <value nick='books'         value='2'/>
   </enum>
 
   <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/org/gnome/evolution/mail/">
@@ -787,6 +794,12 @@
       <default>false</default>
       <_summary>Collapse archive folders in Move/Copy message to Folder and Go to Folder selectors.</_summary>
     </key>
+    <key name="lookup-recipient-certificates" enum="org.gnome.evolution.mail.MailRecipientCertificateLookup">
+      <default>'books'</default>
+      <_summary>Where to lookup recipient S/MIME certificates or PGP keys when encrypting messages.</_summary>
+      <_description>The “off” value completely disables certificate lookup; the “autocompleted” value provides certificates only for auto-completed contacts; the “books” value uses certificates from auto-completed contacts and searches in books marked for auto-completion.</_description>
+    </key>
+
     <!-- The following keys are deprecated. -->
 
     <key name="forward-style" type="i">

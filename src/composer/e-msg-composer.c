@@ -64,6 +64,7 @@ struct _AsyncContext {
 	GtkPrintOperationAction print_action;
 
 	GPtrArray *recipients;
+	GSList *recipients_with_certificate; /* EContact * */
 
 	guint skip_content : 1;
 	guint need_thread : 1;
@@ -166,6 +167,9 @@ async_context_free (AsyncContext *context)
 
 	if (context->recipients != NULL)
 		g_ptr_array_free (context->recipients, TRUE);
+
+	if (context->recipients_with_certificate)
+		g_slist_free_full (context->recipients_with_certificate, g_object_unref);
 
 	g_slice_free (AsyncContext, context);
 }
@@ -716,6 +720,107 @@ composer_add_quoted_printable_filter (CamelStream *stream)
 	g_object_unref (filter);
 }
 
+/* Extracts auto-completed contacts which have X.509 or PGP certificate set.
+   This should be called in the GUI thread, because it accesses GtkWidget-s. */
+static GSList * /* EContact * */
+composer_get_completed_recipients_with_certificate (EMsgComposer *composer)
+{
+	EComposerHeaderTable *table;
+	GSList *contacts = NULL;
+	EDestination **to, **cc, **bcc;
+	gint ii;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	table = e_msg_composer_get_header_table (composer);
+	to = e_composer_header_table_get_destinations_to (table);
+	cc = e_composer_header_table_get_destinations_cc (table);
+	bcc = e_composer_header_table_get_destinations_bcc (table);
+
+	#define traverse_destv(x) \
+		for (ii = 0; x && x[ii]; ii++) { \
+			EDestination *dest = x[ii]; \
+			EContactCert *x509cert, *pgpcert; \
+			EContact *contact; \
+			 \
+			contact = e_destination_get_contact (dest); \
+			 \
+			/* Get certificates only for individuals, not for lists */ \
+			if (!contact || e_destination_is_evolution_list (dest)) \
+				continue; \
+			 \
+			x509cert = e_contact_get (contact, E_CONTACT_X509_CERT); \
+			pgpcert = e_contact_get (contact, E_CONTACT_PGP_CERT); \
+			 \
+			if (x509cert || pgpcert) \
+				contacts = g_slist_prepend (contacts, e_contact_duplicate (contact)); \
+			 \
+			e_contact_cert_free (x509cert); \
+			e_contact_cert_free (pgpcert); \
+		}
+
+	traverse_destv (to);
+	traverse_destv (cc);
+	traverse_destv (bcc);
+
+	#undef traverse_destv
+
+	e_destination_freev (to);
+	e_destination_freev (cc);
+	e_destination_freev (bcc);
+
+	return contacts;
+}
+
+static gchar *
+composer_get_recipient_certificate_cb (EMailSession *session,
+				       guint32 flags, /* bit-or of CamelRecipientCertificateFlags */
+				       const gchar *email_address,
+				       gpointer user_data)
+{
+	AsyncContext *context = user_data;
+	EContactField field_id;
+	GSList *link;
+	gchar *base64_cert = NULL;
+
+	g_return_val_if_fail (context != NULL, NULL);
+
+	if (!email_address || !*email_address)
+		return NULL;
+
+	if ((flags & CAMEL_RECIPIENT_CERTIFICATE_SMIME) != 0)
+		field_id = E_CONTACT_X509_CERT;
+	else
+		field_id = E_CONTACT_PGP_CERT;
+
+	for (link = context->recipients_with_certificate; link && !base64_cert; link = g_slist_next (link)) {
+		EContact *contact = link->data;
+		GList *emails, *elink;
+		EContactCert *cert;
+
+		cert = e_contact_get (contact, field_id);
+		if (!cert || !cert->data || !cert->length) {
+			e_contact_cert_free (cert);
+			continue;
+		}
+
+		emails = e_contact_get (contact, E_CONTACT_EMAIL);
+
+		for (elink = emails; elink && !base64_cert; elink = g_list_next (elink)) {
+			const gchar *contact_email = elink->data;
+
+			if (contact_email && g_ascii_strcasecmp (contact_email, email_address) == 0) {
+				base64_cert = g_base64_encode ((const guchar *) cert->data, cert->length);
+			}
+		}
+
+		g_list_free_full (emails, g_free);
+		e_contact_cert_free (cert);
+	}
+
+	return base64_cert;
+}
+
 /* Helper for composer_build_message_thread() */
 static gboolean
 composer_build_message_pgp (AsyncContext *context,
@@ -792,6 +897,7 @@ composer_build_message_pgp (AsyncContext *context,
 
 	if (context->pgp_encrypt) {
 		CamelMimePart *npart;
+		gulong handler_id;
 		gboolean success;
 
 		npart = camel_mime_part_new ();
@@ -807,9 +913,15 @@ composer_build_message_pgp (AsyncContext *context,
 		camel_gpg_context_set_always_trust (CAMEL_GPG_CONTEXT (cipher), always_trust);
 		camel_gpg_context_set_prefer_inline (CAMEL_GPG_CONTEXT (cipher), prefer_inline);
 
+		handler_id = g_signal_connect (context->session, "get-recipient-certificate",
+			G_CALLBACK (composer_get_recipient_certificate_cb), context);
+
 		success = camel_cipher_context_encrypt_sync (
 			cipher, pgp_key_id, context->recipients,
 			mime_part, npart, cancellable, error);
+
+		if (handler_id)
+			g_signal_handler_disconnect (context->session, handler_id);
 
 		g_object_unref (cipher);
 
@@ -951,6 +1063,7 @@ composer_build_message_smime (AsyncContext *context,
 	}
 
 	if (context->smime_encrypt) {
+		gulong handler_id;
 		gboolean success;
 
 		/* Check to see if we should encrypt to self.
@@ -965,11 +1078,17 @@ composer_build_message_smime (AsyncContext *context,
 			(CamelSMIMEContext *) cipher, TRUE,
 			encryption_certificate);
 
+		handler_id = g_signal_connect (context->session, "get-recipient-certificate",
+			G_CALLBACK (composer_get_recipient_certificate_cb), context);
+
 		success = camel_cipher_context_encrypt_sync (
 			cipher, NULL,
 			context->recipients, mime_part,
 			CAMEL_MIME_PART (context->message),
 			cancellable, error);
+
+		if (handler_id)
+			g_signal_handler_disconnect (context->session, handler_id);
 
 		g_object_unref (cipher);
 
@@ -1534,13 +1653,16 @@ composer_build_message (EMsgComposer *composer,
 	}
 
 	/* Run any blocking operations in a separate thread. */
-	if (context->need_thread)
+	if (context->need_thread) {
+		context->recipients_with_certificate = composer_get_completed_recipients_with_certificate (composer);
+
 		g_simple_async_result_run_in_thread (
 			simple, (GSimpleAsyncThreadFunc)
 			composer_build_message_thread,
 			io_priority, cancellable);
-	else
+	} else {
 		g_simple_async_result_complete (simple);
+	}
 
 	e_msg_composer_dec_soft_busy (composer);
 
@@ -2675,7 +2797,7 @@ e_msg_composer_is_busy (EMsgComposer *composer)
  * Returns: %TRUE when e_msg_composer_is_busy() returns %TRUE or
  *    when the asynchronous operations are disabled.
  *
- * Since: 3.29.3
+ * Since: 3.30
  **/
 gboolean
 e_msg_composer_is_soft_busy (EMsgComposer *composer)

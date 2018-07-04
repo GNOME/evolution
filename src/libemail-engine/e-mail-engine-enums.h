@@ -39,6 +39,25 @@ typedef enum {
 	E_MAIL_NUM_LOCAL_FOLDERS
 } EMailLocalFolder;
 
+/**
+ * EMailRecipientCertificateLookup:
+ * @E_MAIL_RECIPIENT_CERTIFICATE_LOOKUP_OFF: Do not do any recipient certificate lookup
+ * @E_MAIL_RECIPIENT_CERTIFICATE_LOOKUP_AUTOCOMPLETED: Lookup recipient certificates
+ *    between auto-completed recipients only
+ * @E_MAIL_RECIPIENT_CERTIFICATE_LOOKUP_BOOKS: Lookup recipient certificates between
+ *    auto-completed recipients and all books marked for auto-completion
+ *
+ * Used to set whether and where S/MIME certificates or PGP keys for message encryption
+ * should be looked up for.
+ *
+ * Since: 3.30
+ **/
+typedef enum {
+	E_MAIL_RECIPIENT_CERTIFICATE_LOOKUP_OFF,
+	E_MAIL_RECIPIENT_CERTIFICATE_LOOKUP_AUTOCOMPLETED,
+	E_MAIL_RECIPIENT_CERTIFICATE_LOOKUP_BOOKS
+} EMailRecipientCertificateLookup;
+
 G_END_DECLS
 
 #endif /* E_MAIL_ENGINE_ENUMS_H */

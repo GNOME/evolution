@@ -128,6 +128,7 @@ enum {
 	STORE_ADDED,
 	STORE_REMOVED,
 	ALLOW_AUTH_PROMPT,
+	GET_RECIPIENT_CERTIFICATE,
 	LAST_SIGNAL
 };
 
@@ -1546,6 +1547,146 @@ mail_session_get_oauth2_access_token_sync (CamelSession *session,
 	return success;
 }
 
+static gboolean
+mail_session_is_email_address (const gchar *str)
+{
+	gboolean has_at = FALSE, has_dot_after_at = FALSE;
+	gint ii;
+
+	if (!str)
+		return FALSE;
+
+	for (ii = 0; str[ii]; ii++) {
+		if (str[ii] == '@') {
+			if (has_at)
+				return FALSE;
+
+			has_at = TRUE;
+		} else if (has_at && str[ii] == '.') {
+			has_dot_after_at = TRUE;
+		} else if (g_ascii_isspace (str[ii])) {
+			return FALSE;
+		} else if (strchr ("<>;,\\\"'|", str[ii])) {
+			return FALSE;
+		}
+	}
+
+	return has_at && has_dot_after_at;
+}
+
+static gboolean
+mail_session_get_recipient_certificates_sync (CamelSession *session,
+					      guint32 flags, /* bit-or of CamelRecipientCertificateFlags */
+					      const GPtrArray *recipients, /* gchar * */
+					      GSList **out_certificates, /* gchar * */
+					      GCancellable *cancellable,
+					      GError **error)
+{
+	GHashTable *certificates; /* guint index-to-recipients ~> gchar *certificate */
+	EMailRecipientCertificateLookup lookup_settings;
+	GSettings *settings;
+	gboolean success = TRUE;
+	guint ii;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+	g_return_val_if_fail (recipients != NULL, FALSE);
+	g_return_val_if_fail (out_certificates != NULL, FALSE);
+
+	*out_certificates = NULL;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	lookup_settings = g_settings_get_enum (settings, "lookup-recipient-certificates");
+	g_object_unref (settings);
+
+	if (lookup_settings == E_MAIL_RECIPIENT_CERTIFICATE_LOOKUP_OFF)
+		return TRUE;
+
+	certificates = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	for (ii = 0; ii < recipients->len; ii++) {
+		gchar *certstr = NULL;
+
+		g_signal_emit (session, signals[GET_RECIPIENT_CERTIFICATE], 0, flags, recipients->pdata[ii], &certstr);
+
+		if (certstr && *certstr)
+			g_hash_table_insert (certificates, GUINT_TO_POINTER (ii + 1), certstr);
+		else
+			g_free (certstr);
+	}
+
+	if (lookup_settings == E_MAIL_RECIPIENT_CERTIFICATE_LOOKUP_BOOKS &&
+	    g_hash_table_size (certificates) != recipients->len) {
+		ESourceRegistry *registry;
+		GPtrArray *todo_recipients;
+		GSList *found_certificates = NULL;
+
+		todo_recipients = g_ptr_array_new ();
+		for (ii = 0; ii < recipients->len; ii++) {
+			/* Lookup address books only with email addresses. */
+			if (!g_hash_table_contains (certificates, GUINT_TO_POINTER (ii + 1)) &&
+			    mail_session_is_email_address (recipients->pdata[ii])) {
+				g_ptr_array_add (todo_recipients, recipients->pdata[ii]);
+			}
+		}
+
+		if (todo_recipients->len) {
+			registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+
+			if ((flags & CAMEL_RECIPIENT_CERTIFICATE_SMIME) != 0)
+				camel_operation_push_message (cancellable, "%s", _("Looking up recipient S/MIME certificates in address books…"));
+			else
+				camel_operation_push_message (cancellable, "%s", _("Looking up recipient PGP keys in address books…"));
+
+			success = e_book_utils_get_recipient_certificates_sync (registry, NULL, flags, todo_recipients, &found_certificates, cancellable, error);
+
+			camel_operation_pop_message (cancellable);
+		}
+
+		if (success && found_certificates && g_slist_length (found_certificates) == todo_recipients->len) {
+			GSList *link;
+
+			for (link = found_certificates, ii = 0; link && ii < recipients->len; ii++) {
+				if (!g_hash_table_contains (certificates, GUINT_TO_POINTER (ii + 1))) {
+					if (link->data) {
+						g_hash_table_insert (certificates, GUINT_TO_POINTER (ii + 1), link->data);
+						link->data = NULL;
+					}
+
+					link = g_slist_next (link);
+				}
+			}
+		}
+
+		g_slist_free_full (found_certificates, g_free);
+		g_ptr_array_free (todo_recipients, TRUE);
+	}
+
+	if (success) {
+		for (ii = 0; ii < recipients->len; ii++) {
+			*out_certificates = g_slist_prepend (*out_certificates,
+				g_hash_table_lookup (certificates, GUINT_TO_POINTER (ii + 1)));
+		}
+
+		*out_certificates = g_slist_reverse (*out_certificates);
+	} else {
+		GHashTableIter iter;
+		gpointer value;
+
+		/* There is no destructor for the 'value', to be able to easily pass it to
+		   the out_certificates. This code is here to free the values, though it might
+		   not be usually used, because e_book_utils_get_recipient_certificates_sync()
+		   returns TRUE usually. */
+		g_hash_table_iter_init (&iter, certificates);
+		while (g_hash_table_iter_next (&iter, NULL, &value)) {
+			g_free (value);
+		}
+	}
+
+	g_hash_table_destroy (certificates);
+
+	return success;
+}
+
 static EMVFolderContext *
 mail_session_create_vfolder_context (EMailSession *session)
 {
@@ -1573,6 +1714,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->forget_password = mail_session_forget_password;
 	session_class->forward_to_sync = mail_session_forward_to_sync;
 	session_class->get_oauth2_access_token_sync = mail_session_get_oauth2_access_token_sync;
+	session_class->get_recipient_certificates_sync = mail_session_get_recipient_certificates_sync;
 
 	class->create_vfolder_context = mail_session_create_vfolder_context;
 
@@ -1688,7 +1830,7 @@ e_mail_session_class_init (EMailSessionClass *class)
 		CAMEL_TYPE_STORE);
 
 	/**
-	 * EMailSession::store-removed
+	 * EMailSession::allow-auth-prompt
 	 * @session: the #EMailSession that emitted the signal
 	 * @source: an #ESource
 	 *
@@ -1706,6 +1848,37 @@ e_mail_session_class_init (EMailSessionClass *class)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		E_TYPE_SOURCE);
+
+	/**
+	 * EMailSession::get-recipient-certificate
+	 * @session: the #EMailSession that emitted the signal
+	 * @flags: a bit-or of #CamelRecipientCertificateFlags
+	 * @email_address: recipient's email address
+	 *
+	 * This signal is used to get recipient's S/MIME certificate or
+	 * PGP key for encryption, as part of camel_session_get_recipient_certificates_sync().
+	 * The listener is not supposed to do any expensive look ups, it should only check
+	 * whether it has the certificate available for the given @email_address and
+	 * eventually return it as base64 encoded string.
+	 *
+	 * The caller of the action signal will free returned pointer with g_free(),
+	 * when no longer needed.
+	 *
+	 * Returns: (transfer full) (nullable): %NULL when the certificate not known,
+	 *    or a newly allocated base64-encoded string with the certificate.
+	 *
+	 * Since: 3.30
+	 **/
+	signals[GET_RECIPIENT_CERTIFICATE] = g_signal_new (
+		"get-recipient-certificate",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMailSessionClass, get_recipient_certificate),
+		NULL, NULL,
+		NULL,
+		G_TYPE_STRING, 2,
+		G_TYPE_UINT,
+		G_TYPE_STRING);
 
 	camel_null_store_register_provider ();
 

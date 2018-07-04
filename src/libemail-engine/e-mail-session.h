@@ -84,6 +84,12 @@ struct _EMailSessionClass {
 						 CamelStore *store);
 	void		(*allow_auth_prompt)	(EMailSession *session,
 						 ESource *source);
+	gchar *		(*get_recipient_certificate)
+						(EMailSession *session,
+						 guint flags, /* bit-or of CamelRecipientCertificateFlags */
+						 const gchar *email_address);
+	/* Padding for future expansion */
+	gpointer reserved[10];
 };
 
 GType		e_mail_session_get_type		(void);
