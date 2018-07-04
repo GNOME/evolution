@@ -643,7 +643,12 @@ composer_send_completed (GObject *source_object,
 		e_alert_run_dialog_for_args (
 			GTK_WINDOW (async_context->composer),
 			"mail-composer:saving-to-outbox", NULL);
-		e_msg_composer_save_to_outbox (async_context->composer);
+		if (async_context->message)
+			g_signal_emit_by_name (
+				async_context->composer, "save-to-outbox",
+				async_context->message, activity);
+		else
+			e_msg_composer_save_to_outbox (async_context->composer);
 		goto exit;
 	}
 
@@ -677,8 +682,14 @@ composer_send_completed (GObject *source_object,
 			local_error->message, NULL);
 		if (response == GTK_RESPONSE_OK)  /* Try Again */
 			e_msg_composer_send (async_context->composer);
-		if (response == GTK_RESPONSE_ACCEPT)  /* Save to Outbox */
-			e_msg_composer_save_to_outbox (async_context->composer);
+		if (response == GTK_RESPONSE_ACCEPT) { /* Save to Outbox */
+			if (async_context->message)
+				g_signal_emit_by_name (
+					async_context->composer, "save-to-outbox",
+					async_context->message, activity);
+			else
+				e_msg_composer_save_to_outbox (async_context->composer);
+		}
 		set_changed = TRUE;
 		goto exit;
 	}
@@ -721,7 +732,12 @@ em_utils_composer_real_send (EMsgComposer *composer,
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	if (g_settings_get_boolean (settings, "composer-use-outbox")) {
-		e_msg_composer_save_to_outbox (composer);
+		/* Using e_msg_composer_save_to_outbox() means building
+		   the message again; better to use the built message here. */
+		g_signal_emit_by_name (
+			composer, "save-to-outbox",
+			message, activity);
+
 		g_object_unref (settings);
 		return;
 	}
@@ -732,7 +748,13 @@ em_utils_composer_real_send (EMsgComposer *composer,
 		e_alert_run_dialog_for_args (
 			GTK_WINDOW (composer),
 			"mail-composer:saving-to-outbox", NULL);
-		e_msg_composer_save_to_outbox (composer);
+
+		/* Using e_msg_composer_save_to_outbox() means building
+		   the message again; better to use the built message here. */
+		g_signal_emit_by_name (
+			composer, "save-to-outbox",
+			message, activity);
+
 		return;
 	}
 
