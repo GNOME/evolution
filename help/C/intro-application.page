@@ -6,7 +6,7 @@
 
      <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="3.10.3" version="0.4" date="2014-01-25" status="draft"/>
+    <revision pkgversion="3.28.2" version="0.5" date="2018-07-09" status="draft"/>
     <credit type="author">
       <name its:translate="no">Brian Grohe</name>
       <email its:translate="no">grohe43@gmail.com</email>
@@ -24,7 +24,7 @@
 <title>Getting Started</title>
 <p><app>Evolution</app> allows you to access your personal information like your calendars, mail, address books and tasks in one place.</p>
 
-<p>By default <app>Evolution</app> opens the mail view. This is were you can view all your mail. You can change to other views of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link xref="intro-main-window">Learn more about the elements of the main window</link>.</p>
+<p>By default <app>Evolution</app> opens the mail view. This is where you can view all your mail. You can change to other views of the application by going to the bottom of the left pane in the window (the so-called "switcher") and selecting the desired view. <link xref="intro-main-window">Learn more about the elements of the main window</link>.</p>
 
 <note style="advanced"><p>When <app>Evolution</app> starts, it remembers the last view that you used. However you can also explicitly start <app>Evolution</app> in a specific view. For the calendar view, use the command <cmd>evolution --component=calendar</cmd> in the <app>Terminal</app> application. Other available options are "mail", "contacts", "tasks", and "memos".</p></note>
 
