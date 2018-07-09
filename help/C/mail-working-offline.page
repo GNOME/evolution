@@ -6,7 +6,7 @@
 <!-- TODO:POST-3-8: Offline work for web calendars etc also exists => create index page for Offline working? -->
     <link type="guide" xref="index#mail-basic" />
 
-    <revision pkgversion="3.23.90" version="0.5" date="2017-02-19" status="final"/>
+    <revision pkgversion="3.28.2" version="0.6" date="2018-07-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -28,14 +28,20 @@
 
 <p>POP mail downloads all messages to your local system, but for remote accounts usually just the headers are downloaded. The rest, such as the body of a message, is downloaded only when you want to read the message. Before you force <app>Evolution</app> to be offline, <app>Evolution</app> downloads the unread messages from the folders you have chosen to store.</p>
 
+<section id="accounts">
+<title>Account settings</title>
+<p>The <link xref="mail-receiving-options">Receiving Options</link> of remote accounts offer an option to <gui>Synchronize remote mail locally in all folders</gui> which is applied to all folders of that account.</p>
+<p>To avoid downloading large amounts of data, you can also disable synchronizing messages which are older than a certain time period.</p>
+</section>
+
 <section id="mark-folders">
 <title>Marking folders for offline usage</title>
+If you do not have <gui>Synchronize remote mail locally in all folders</gui> for the account enabled, you can synchronize individual folders.
 <p>To mark a mail folder for offline use,</p>
 <steps>
 <item><p>Right-click the folder, then click <gui>Properties</gui>.</p></item>
 <item><p>Click <gui>Copy folder content locally for offline operation</gui>.</p></item>
 </steps>
-<note style="note"><p>To avoid downloading large amounts of data, the <link href="mail-receiving-options">Receiving Options</link> of remote accounts offer an option to not synchronize messages which are older than a certain time period.</p></note>
 </section>
 
 <section id="sync-for-offline">
