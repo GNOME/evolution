@@ -36,7 +36,7 @@
 
 <section id="mark-folders">
 <title>Marking folders for offline usage</title>
-If you do not have <gui>Synchronize remote mail locally in all folders</gui> for the account enabled, you can synchronize individual folders.
+<p>If you do not have <gui>Synchronize remote mail locally in all folders</gui> for the account enabled, you can synchronize individual folders.</p>
 <p>To mark a mail folder for offline use,</p>
 <steps>
 <item><p>Right-click the folder, then click <gui>Properties</gui>.</p></item>
