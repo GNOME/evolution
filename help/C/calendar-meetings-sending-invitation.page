@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="calendar-meetings" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-29" status="stub"/>
+    <revision pkgversion="3.28.2" version="0.3" date="2018-07-09" status="stub"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -85,8 +85,8 @@
     </item>
     <item>
       <p>To query <link xref="calendar-free-busy">free/busy</link> information
-      for the attendees, click the <gui>Free/Busy</gui> button on the toolbar,
-      or click <guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>.</p>
+      for the attendees, click the <gui style="button">Free/Busy</gui> button on
+      the toolbar, or the <gui>Schedule</gui> tab.</p>
     </item>
     <item>
       <p>Click <gui>Save</gui> to save the meeting.</p>
