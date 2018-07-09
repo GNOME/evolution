@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="index#calendar-advanced" />
 
-    <revision pkgversion="3.26.5" version="0.4" date="2018-03-28" status="final"/>
+    <revision pkgversion="3.28.2" version="0.5" date="2018-07-09" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -40,8 +40,7 @@
   your system administrator or adjust your delegation settings.</p>
 
   <p>If you want events, memos and tasks to be classified as private by default,
-  enable the preference under following options are available under
-  <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar and
-  Tasks</gui><gui>General</gui><gui>Miscellaneous</gui></guiseq>.</p>
+  enable the preference under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Calendar
+  and Tasks</gui><gui>General</gui><gui>Miscellaneous</gui></guiseq>.</p>
 
 </page>
