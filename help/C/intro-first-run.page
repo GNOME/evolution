@@ -9,7 +9,7 @@
 
     <link type="guide" xref="index#getting-started"/>
 
-    <revision pkgversion="3.8.2" version="0.8" date="2017-04-08" status="stub"/>
+    <revision pkgversion="3.28.2" version="0.9" date="2018-07-09" status="stub"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -22,8 +22,9 @@
 
   <title>Starting <app>Evolution</app> for the first time</title>
 
-<p>The first time you run <app>Evolution</app>, it opens the First-Run Assistant to help you set up email accounts and <link xref="import-data">import data from other applications.</link></p>
+<p>The first time you run <app>Evolution</app>, it opens the First-Run Assistant. It helps you set up email accounts and <link xref="import-data">import data from other applications.</link></p>
 
+<p>This assistant is not shown if there is an already configured e-mail account in <link xref="help:gnome-help/accounts"><app>Online accounts</app></link> as that account is automatically picked by <app>Evolution</app>. Not all options of such accounts can be edited in <app>Evolution</app> and such accounts can only be removed in <app>Online accounts</app> itself.</p>
 <include href="xinclude-mail-account-identity.xml"
  xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
  xmlns="http://www.w3.org/2001/XInclude"/>
