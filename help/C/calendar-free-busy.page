@@ -5,7 +5,7 @@
 
     <link type="guide" xref="calendar-sharing-information" />
 
-    <revision pkgversion="3.1.5" version="0.5" date="2012-02-20" status="final"/>
+    <revision pkgversion="3.28.2" version="0.6" date="2018-07-09" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -53,8 +53,8 @@
       people you want to invite.</p>
     </item>
     <item>
-      <p>Click the <gui>Free/Busy</gui> button on the toolbar, or click
-      <guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>.</p>
+      <p>Click the <gui style="button">Free/Busy</gui> button on the toolbar,
+      or the <gui>Schedule</gui> tab.</p>
     </item>
     <item>
       <p>Adjust the meeting time, either by dragging the meeting borders or by
