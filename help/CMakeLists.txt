@@ -321,5 +321,3 @@ endforeach(_file)
 install(FILES ${cinstalled}
 	DESTINATION ${SHARE_INSTALL_PREFIX}/help/C/${HELP_ID}/${HELP_FIGURES_DIR}
 )
-
-add_subdirectory(quickref)
