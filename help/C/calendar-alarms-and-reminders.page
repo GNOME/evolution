@@ -7,7 +7,7 @@
   <info>
     <link type="guide" xref="index#calendar" />
 
-    <revision pkgversion="3.1.5" version="0.4" date="2011-08-02" status="draft"/>
+    <revision pkgversion="3.28.2" version="0.5" date="2018-07-10" status="draft"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -60,12 +60,12 @@
     <item>
       <p>From the dropdown menu, choose either one of the available default
       options when to show a notification reminder, or choose
-      <gui>Customize</gui>.</p>
+      <gui>Custom</gui>.</p>
     </item>
     <item>
-      <p>In case of <gui>Customize</gui>, the reminder can be a popup, a sound
-      played, or a program ran. You can also define whether the reminder should
-      be repeated.</p>
+      <p>In case of <gui>Custom</gui>, the reminder can be a popup, a sound
+      played, a program ran, or an email sent. You can also define whether the
+      reminder should be repeated.</p>
     </item>
   </steps>
 
