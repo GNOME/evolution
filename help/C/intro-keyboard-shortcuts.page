@@ -279,6 +279,36 @@ use <app>Evolution</app> more efficiently.</p>
     </p></td>
     <td><p>Go to date.</p></td>
   </tr>
+  <tr xml:id="ctrl-y">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>Y</key></keyseq>
+    </p></td>
+    <td><p>Day View</p></td>
+  </tr>
+  <tr xml:id="ctrl-j">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>J</key></keyseq>
+    </p></td>
+    <td><p>Work Week View</p></td>
+  </tr>
+  <tr xml:id="ctrl-k">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>K</key></keyseq>
+    </p></td>
+    <td><p>Week View</p></td>
+  </tr>
+  <tr xml:id="ctrl-m">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>M</key></keyseq>
+    </p></td>
+    <td><p>Month View</p></td>
+  </tr>
+  <tr xml:id="ctrl-l">
+    <td><p>
+      <keyseq><key>Ctrl</key><key>L</key></keyseq>
+    </p></td>
+    <td><p>List View</p></td>
+  </tr>
 </table>
 </section>
 
