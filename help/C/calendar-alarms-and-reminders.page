@@ -69,6 +69,11 @@
     </item>
   </steps>
 
+<note style="info"> <!-- bug 794085 -->
+  <p>The <gui>Send an Email</gui> option is only available if the calendar
+  backend supports such functionality.</p>
+</note>
+
 </section>
 
 </page>
