@@ -1,5 +1,5 @@
 <page xmlns="http://projectmallard.org/1.0/"
-      xmlns:its="http://www.w3.org/2005/11/its"
+      xmlns:its="https://www.w3.org/2005/11/its"
       type="topic" id="calendar-timezones">
 
   <info>
@@ -17,7 +17,7 @@
 	   http://library.gnome.org/users/evolution/2.32/bshlzlu.html.en -->
     </credit>
 
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
 
     <desc>Using time zones in the calendar.</desc>
   </info>

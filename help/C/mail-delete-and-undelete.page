@@ -1,4 +1,4 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="https://www.w3.org/2005/11/its"
       type="guide" id="mail-delete-and-undelete">
 
   <info>
@@ -17,7 +17,7 @@
       <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-getnsend-read.html.en#usage-mail-getnsend-delete and http://library.gnome.org/users/evolution/2.32/usage-mail-getnsend-read.html.en#usage-mail-getnsend-undelete -->
     </credit>
     
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
         
 
   </info>

@@ -1,5 +1,5 @@
 <page xmlns="http://projectmallard.org/1.0/"
-      xmlns:its="http://www.w3.org/2005/11/its"
+      xmlns:its="https://www.w3.org/2005/11/its"
       type="guide" id="contacts-using-several-addressbooks">
 
   <info>
@@ -12,7 +12,7 @@
       <email its:translate="no">ak-47@gmx.net</email>
     </credit>
 
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
 
     <desc>Adding different types of address books and using more than one
     address book.</desc>

@@ -1,4 +1,4 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="https://www.w3.org/2005/11/its"
       type="topic" id="mail-search-folders-conditions">
 
   <info>
@@ -15,7 +15,7 @@
    <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-organize-vfolders.html.en -->
  </credit>
     
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
         
     
   </info>
@@ -28,7 +28,7 @@
 included by XInclude. See http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclude/ for how it works. -->
 <include href="xinclude-filter-vfolder-conditions.xml"
   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:item)"
-  xmlns="http://www.w3.org/2001/XInclude"/>
+  xmlns="https://www.w3.org/2001/XInclude"/>
 
 <item><p>Message Location:</p>
 <p>Checks whether the message is located in a specific folder.</p><p>Note that by default, <app>Evolution</app>'s <gui>Trash</gui> and <gui>Junk</gui> folders are <link xref="mail-search-folders"><gui>Search</gui> folders</link> so they cannot be selected here.</p></item>

@@ -1,5 +1,5 @@
 <page xmlns="http://projectmallard.org/1.0/"
-      xmlns:its="http://www.w3.org/2005/11/its"
+      xmlns:its="https://www.w3.org/2005/11/its"
       type="topic" id="contacts-searching">
 
   <info>
@@ -20,7 +20,7 @@
       <name its:translate="no">Novell, Inc</name>
     </credit>
 
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
 
     <desc>Searching contacts.</desc>
   </info>
@@ -89,7 +89,7 @@
 
     <include href="xinclude-searching.xml"
              xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
-             xmlns="http://www.w3.org/2001/XInclude"/>
+             xmlns="https://www.w3.org/2001/XInclude"/>
 
 </section>
 

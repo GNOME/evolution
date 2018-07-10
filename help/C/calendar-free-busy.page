@@ -1,4 +1,4 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="https://www.w3.org/2005/11/its"
       type="topic" id="calendar-free-busy">
 
   <info>
@@ -19,7 +19,7 @@
 	   -->
     </credit>
 
-    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
 
     <desc>Using the Free/Busy view on a groupware server to set up
     meetings.</desc>
