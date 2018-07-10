@@ -14014,30 +14014,36 @@ wrap_lines (EEditorPage *editor_page,
 				g_free (text_content);
 
 				next_sibling = webkit_dom_node_get_next_sibling (node);
-				/* If the anchor doesn't fit on the line move the inner
-				 * nodes out of it and start to wrap them. */
+				/* If the anchor doesn't fit on the line, add it to a separate line. */
 				if ((line_length + anchor_length) > length_to_wrap) {
-					WebKitDOMNode *inner_node;
+					/* Put <BR> before the anchor, thus it starts on a new line */
+					element = webkit_dom_document_create_element (document, "BR", NULL);
+					element_add_class (element, "-x-evo-wrap-br");
+					webkit_dom_node_insert_before (
+						webkit_dom_node_get_parent_node (node),
+						WEBKIT_DOM_NODE (element),
+						node,
+						NULL);
 
-					while ((inner_node = webkit_dom_node_get_first_child (node))) {
-						g_object_set_data (
-							G_OBJECT (inner_node),
-							"-x-evo-anchor-text",
-							GINT_TO_POINTER (1));
+					/* When the anchor itself is too long */
+					if (anchor_length >= length_to_wrap) {
+						/* Put <BR> after the anchor, thus it doesn't contain text after it */
+						element = webkit_dom_document_create_element (document, "BR", NULL);
+						element_add_class (element, "-x-evo-wrap-br");
 						webkit_dom_node_insert_before (
 							webkit_dom_node_get_parent_node (node),
-							inner_node,
+							WEBKIT_DOM_NODE (element),
 							next_sibling,
 							NULL);
-					}
-					next_sibling = webkit_dom_node_get_next_sibling (node);
 
-					remove_node (node);
-					node = next_sibling;
-					continue;
+						line_length = 0;
+					} else {
+						line_length = anchor_length;
+					}
+				} else {
+					line_length += anchor_length;
 				}
 
-				line_length += anchor_length;
 				node = next_sibling;
 				continue;
 			}

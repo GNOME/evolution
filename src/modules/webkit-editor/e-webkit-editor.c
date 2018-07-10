@@ -1192,13 +1192,23 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"  -webkit-margin-after: 0em; \n"
 		"}\n");
 
-	g_string_append (
-		stylesheet,
-		"a "
-		"{\n"
-		"  word-wrap: break-word; \n"
-		"  word-break: break-all; \n"
-		"}\n");
+	if (wk_editor->priv->html_mode) {
+		g_string_append (
+			stylesheet,
+			"a "
+			"{\n"
+			"  word-wrap: break-word; \n"
+			"  word-break: break-all; \n"
+			"}\n");
+	} else {
+		g_string_append (
+			stylesheet,
+			"a "
+			"{\n"
+			"  display: inline-block; \n"
+			"  word-break: normal; \n"
+			"}\n");
+	}
 
 	citation_color = g_settings_get_string (
 		wk_editor->priv->mail_settings, "citation-color");
