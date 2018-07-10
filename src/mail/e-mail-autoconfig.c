@@ -77,6 +77,8 @@
 
 #define AUTOCONFIG_BASE_URI "https://autoconfig.thunderbird.net/v1.1/"
 
+#define FAKE_EVOLUTION_USER_STRING "EVOLUTIONUSER"
+
 #define ERROR_IS_NOT_FOUND(error) \
 	(g_error_matches ((error), SOUP_HTTP_ERROR, SOUP_STATUS_NOT_FOUND))
 
@@ -185,22 +187,63 @@ mail_autoconfig_parse_end_element (GMarkupParseContext *context,
 		closure->result = NULL;
 }
 
+/* Returns NULL when not being there */
+static gchar *
+mail_autoconfig_replace_case_insensitive (const gchar *text,
+					  const gchar *before,
+					  const gchar *after)
+{
+	const gchar *p, *next;
+	GString *str;
+	gint find_len;
+
+	if (!text)
+		return NULL;
+
+	find_len = strlen (before);
+	str = g_string_new ("");
+
+	p = text;
+	while (next = camel_strstrcase (p, before), next) {
+		if (p < next)
+			g_string_append_len (str, p, next - p);
+
+		if (after && *after)
+			g_string_append (str, after);
+
+		p = next + find_len;
+	}
+
+	if (p == text) {
+		g_string_free (str, TRUE);
+		return NULL;
+	}
+
+	g_string_append (str, p);
+
+	return g_string_free (str, FALSE);
+}
+
 static void
 mail_autoconfig_parse_text (GMarkupParseContext *context,
-                            const gchar *text,
-                            gsize text_length,
+                            const gchar *in_text,
+                            gsize in_text_length,
                             gpointer user_data,
                             GError **error)
 {
 	ParserClosure *closure = user_data;
 	EMailAutoconfigPrivate *priv;
-	const gchar *element_name;
+	const gchar *element_name, *text;
+	gchar *to_free;
 	GString *string;
 
 	priv = closure->autoconfig->priv;
 
 	if (closure->result == NULL)
 		return;
+
+	to_free = mail_autoconfig_replace_case_insensitive (in_text, FAKE_EVOLUTION_USER_STRING, priv->email_local_part);
+	text = to_free ? to_free : in_text;
 
 	/* Perform the following text substitutions:
 	 *
@@ -332,6 +375,7 @@ mail_autoconfig_parse_text (GMarkupParseContext *context,
 	}
 
 	g_string_free (string, TRUE);
+	g_free (to_free);
 }
 
 static GMarkupParser mail_autoconfig_parser = {
@@ -375,21 +419,77 @@ mail_autoconfig_abort_soup_session_cb (GCancellable *cancellable,
 }
 
 static gboolean
+mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
+				 const gchar *uri,
+				 SoupSession *soup_session,
+				 GCancellable *cancellable,
+				 GError **error)
+{
+	SoupMessage *soup_message;
+	gboolean success;
+	guint status;
+
+	soup_message = soup_message_new (SOUP_METHOD_GET, uri);
+
+	if (!soup_message) {
+		g_set_error (error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
+			_("Invalid URI: “%s”"), uri);
+		return FALSE;
+	}
+
+	soup_message_headers_append (
+		soup_message->request_headers,
+		"User-Agent", "Evolution/" VERSION VERSION_SUBSTRING " " VERSION_COMMENT);
+
+	status = soup_session_send_message (soup_session, soup_message);
+
+	success = SOUP_STATUS_IS_SUCCESSFUL (status);
+
+	if (success) {
+		GMarkupParseContext *context;
+		ParserClosure closure;
+
+		closure.autoconfig = autoconfig;
+		closure.result = NULL;
+
+		context = g_markup_parse_context_new (
+			&mail_autoconfig_parser, 0,
+			&closure, (GDestroyNotify) NULL);
+
+		success = g_markup_parse_context_parse (
+			context,
+			soup_message->response_body->data,
+			soup_message->response_body->length,
+			error);
+
+		if (success)
+			success = g_markup_parse_context_end_parse (context, error);
+
+		g_markup_parse_context_free (context);
+	} else {
+		g_set_error_literal (
+			error, SOUP_HTTP_ERROR,
+			soup_message->status_code,
+			soup_message->reason_phrase);
+	}
+
+	g_object_unref (soup_message);
+
+	return success;
+}
+
+static gboolean
 mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
                         const gchar *domain,
                         GCancellable *cancellable,
                         GError **error)
 {
-	GMarkupParseContext *context;
 	ESourceRegistry *registry;
 	ESource *proxy_source;
-	SoupMessage *soup_message;
 	SoupSession *soup_session;
-	ParserClosure closure;
 	gulong cancel_id = 0;
-	gboolean success;
-	guint status;
 	gchar *uri;
+	gboolean success = FALSE;
 
 	registry = e_mail_autoconfig_get_registry (autoconfig);
 	proxy_source = e_source_registry_ref_builtin_proxy (registry);
@@ -401,26 +501,6 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 
 	g_object_unref (proxy_source);
 
-	uri = g_strconcat (AUTOCONFIG_BASE_URI, domain, NULL);
-
-	soup_message = soup_message_new (SOUP_METHOD_GET, uri);
-
-	if (!soup_message) {
-		g_set_error (error, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
-			_("Invalid URI: “%s”"), uri);
-
-		g_object_unref (soup_session);
-		g_free (uri);
-
-		return FALSE;
-	}
-
-	g_free (uri);
-
-	soup_message_headers_append (
-		soup_message->request_headers,
-		"User-Agent", "Evolution/" VERSION VERSION_SUBSTRING " " VERSION_COMMENT);
-
 	if (G_IS_CANCELLABLE (cancellable))
 		cancel_id = g_cancellable_connect (
 			cancellable,
@@ -428,41 +508,30 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 			g_object_ref (soup_session),
 			(GDestroyNotify) g_object_unref);
 
-	status = soup_session_send_message (soup_session, soup_message);
+	/* First try user configuration in autoconfig.$DOMAIN URL and ignore error */
+	if (!success && !g_cancellable_is_cancelled (cancellable)) {
+		uri = g_strconcat ("http://autoconfig.", domain, "/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, NULL);
+		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
+		g_free (uri);
+	}
+
+	/* Then with $DOMAIN/.well-known/autoconfig/ and ignore error */
+	if (!success && !g_cancellable_is_cancelled (cancellable)) {
+		uri = g_strconcat ("http://", domain, "/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, NULL);
+		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
+		g_free (uri);
+	}
+
+	/* Final, try the upstream ISPDB and propagate error */
+	if (!success && !g_cancellable_is_cancelled (cancellable)) {
+		uri = g_strconcat (AUTOCONFIG_BASE_URI, domain, NULL);
+		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, error);
+		g_free (uri);
+	}
 
 	if (cancel_id > 0)
 		g_cancellable_disconnect (cancellable, cancel_id);
 
-	success = SOUP_STATUS_IS_SUCCESSFUL (status);
-
-	if (!success) {
-		g_set_error_literal (
-			error, SOUP_HTTP_ERROR,
-			soup_message->status_code,
-			soup_message->reason_phrase);
-		goto exit;
-	}
-
-	closure.autoconfig = autoconfig;
-	closure.result = NULL;
-
-	context = g_markup_parse_context_new (
-		&mail_autoconfig_parser, 0,
-		&closure, (GDestroyNotify) NULL);
-
-	success = g_markup_parse_context_parse (
-		context,
-		soup_message->response_body->data,
-		soup_message->response_body->length,
-		error);
-
-	if (success)
-		success = g_markup_parse_context_end_parse (context, error);
-
-	g_markup_parse_context_free (context);
-
-exit:
-	g_object_unref (soup_message);
 	g_object_unref (soup_session);
 
 	return success;
