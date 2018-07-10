@@ -6,6 +6,4 @@ evolution/mail/default/C/Inbox and can be translated by translating the
 message in the file and also putting it in a locale specific dir, ie
 evolution/mail/default/fr/Inbox.  The file name 'Inbox' should not be
 changed, as this is an internally defined string (the name in the
-folder list will still be translated though). The content of the Quick
-Reference in the "Help" menu can also be translated, see 
-https://bugzilla.gnome.org/show_bug.cgi?id=307856#c3 for a how-to.
+folder list will still be translated though).

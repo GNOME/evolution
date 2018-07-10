@@ -41,10 +41,6 @@ guint		e_shell_utils_import_uris	(EShell *shell,
 						 const gchar * const *uris);
 
 void		e_shell_utils_run_preferences	(EShell *shell);
-gboolean	e_shell_utils_is_quick_reference_available
-						(EShell *shell);
-void		e_shell_utils_run_quick_reference
-						(EShell *shell);
 void		e_shell_utils_run_help_about	(EShell *shell);
 void		e_shell_utils_run_help_contents	(EShell *shell);
 EAlertSink *	e_shell_utils_find_alternate_alert_sink

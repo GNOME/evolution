@@ -321,22 +321,6 @@ action_preferences_cb (GtkAction *action,
 }
 
 /**
- * E_SHELL_WINDOW_ACTION_QUICK_REFERENCE:
- * @window: an #EShellWindow
- *
- * Activation of this action opens a printable table of useful shortcut
- * keys for this application.
- *
- * Main menu item: Help -> Quick Reference
- **/
-static void
-action_quick_reference_cb (GtkAction *action,
-                           EShellWindow *shell_window)
-{
-	e_shell_utils_run_quick_reference (e_shell_window_get_shell (shell_window));
-}
-
-/**
  * E_SHELL_WINDOW_ACTION_QUIT:
  * @window: an #EShellWindow
  *
@@ -889,13 +873,6 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Configure Evolution"),
 	  G_CALLBACK (action_preferences_cb) },
 
-	{ "quick-reference",
-	  NULL,
-	  N_("_Quick Reference"),
-	  NULL,
-	  N_("Show Evolution’s shortcut keys"),
-	  G_CALLBACK (action_quick_reference_cb) },
-
 	{ "quit",
 	  "application-exit",
 	  N_("_Quit"),
@@ -1315,8 +1292,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	/* Fine tuning. */
 
 	gtk_action_set_sensitive (ACTION (SEARCH_QUICK), FALSE);
-	gtk_action_set_visible (ACTION (QUICK_REFERENCE),
-		e_shell_utils_is_quick_reference_available (e_shell_window_get_shell (shell_window)));
 
 	e_binding_bind_property (
 		shell_window, "menubar-visible",

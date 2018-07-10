@@ -1266,8 +1266,6 @@ shell_app_menu_activate_cb (GSimpleAction *action,
 		shell_action_new_window_cb (action, parameter, shell);
 	} else if (g_str_equal (name, "preferences")) {
 		e_shell_utils_run_preferences (shell);
-	} else if (g_str_equal (name, "quick-reference")) {
-		e_shell_utils_run_quick_reference (shell);
 	} else if (g_str_equal (name, "help")) {
 		e_shell_utils_run_help_contents (shell);
 	} else if (g_str_equal (name, "about")) {
@@ -1283,7 +1281,6 @@ shell_create_app_menu (GtkApplication *application)
 	const GActionEntry actions[] = {
 		{ "new-window", shell_app_menu_activate_cb, NULL, NULL, NULL },
 		{ "preferences", shell_app_menu_activate_cb, NULL, NULL, NULL },
-		{ "quick-reference", shell_app_menu_activate_cb, NULL, NULL, NULL },
 		{ "help", shell_app_menu_activate_cb, NULL, NULL, NULL },
 		{ "about", shell_app_menu_activate_cb, NULL, NULL, NULL }
 	};
@@ -1304,8 +1301,6 @@ shell_create_app_menu (GtkApplication *application)
 	g_object_unref (section);
 
 	section = g_menu_new ();
-	if (e_shell_utils_is_quick_reference_available (E_SHELL (application)))
-		g_menu_append (section, _("Quick _Reference"), "app.quick-reference");
 	g_menu_append (section, _("_Help"), "app.help");
 	g_menu_append (section, _("_About"), "app.about");
 	g_menu_append (section, _("_Quit"), "app.quit");

@@ -58,8 +58,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "paste-clipboard")
 #define E_SHELL_WINDOW_ACTION_PREFERENCES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "preferences")
-#define E_SHELL_WINDOW_ACTION_QUICK_REFERENCE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "quick-reference")
 #define E_SHELL_WINDOW_ACTION_QUIT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "quit")
 #define E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED(window) \
