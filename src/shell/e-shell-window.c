@@ -1634,6 +1634,26 @@ e_shell_window_add_action_group (EShellWindow *shell_window,
 	g_object_unref (action_group);
 }
 
+static void
+shell_window_menubar_info_response_cb (EAlert *alert,
+				       gint response_id,
+				       gpointer user_data)
+{
+	GWeakRef *weakref = user_data;
+
+	g_return_if_fail (weakref != NULL);
+
+	if (response_id == GTK_RESPONSE_APPLY) {
+		EShellWindow *shell_window;
+
+		shell_window = g_weak_ref_get (weakref);
+		if (shell_window) {
+			e_shell_window_set_menubar_visible (shell_window, TRUE);
+			g_object_unref (shell_window);
+		}
+	}
+}
+
 /**
  * e_shell_window_get_menubar_visible:
  * @shell_window: an #EShellWindow
@@ -1665,12 +1685,31 @@ void
 e_shell_window_set_menubar_visible (EShellWindow *shell_window,
 				    gboolean menubar_visible)
 {
+	GSettings *settings;
+
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	if (shell_window->priv->menubar_visible == menubar_visible)
 		return;
 
 	shell_window->priv->menubar_visible = menubar_visible;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+	if (!menubar_visible &&
+	    g_settings_get_boolean (settings, e_shell_window_is_main_instance (shell_window) ? "menubar-visible" : "menubar-visible-sub")) {
+		/* The menu bar had been just hidden. Show a hint how to enable it. */
+		EAlert *alert;
+
+		alert = e_alert_new ("shell:menubar-hidden", NULL);
+
+		g_signal_connect_data (alert, "response", G_CALLBACK (shell_window_menubar_info_response_cb),
+			e_weak_ref_new (shell_window), (GClosureNotify) e_weak_ref_free, 0);
+
+		e_alert_sink_submit_alert (E_ALERT_SINK (shell_window), alert);
+		e_alert_start_timer (alert, 30);
+		g_object_unref (alert);
+	}
+	g_object_unref (settings);
 
 	g_object_notify (G_OBJECT (shell_window), "menubar-visible");
 }

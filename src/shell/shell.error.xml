@@ -127,4 +127,10 @@ If you choose to continue, you may not have access to some of your old data.
   <button _label="_View Certificate" response="GTK_RESPONSE_APPLY"/>
  </error>
 
+ <error id="menubar-hidden" type="info">
+  <_primary>Menu Bar is hidden</_primary>
+  <_secondary>Press the “Alt” key to access the Menu Bar again.</_secondary>
+  <button _label="_Show Menu Bar" response="GTK_RESPONSE_APPLY"/>
+ </error>
+
 </error-list>
