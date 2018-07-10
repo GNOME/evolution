@@ -18,7 +18,7 @@
       <email its:translate="no">loonycookie@gmail.com</email>
     </credit>
     <credit type="author">
-      <name its:translate="no">Novell, Inc</name> <!-- Content partially from http://library.gnome.org/users/evolution/2.32/usage-mail-organize-folders.html.en -->
+      <name its:translate="no">Novell, Inc</name> <!-- Content partially from https://help.gnome.org/users/evolution/2.32/usage-mail-organize-folders.html.en -->
     </credit>
     
     <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
@@ -62,7 +62,7 @@
 
 </section>
 
-<!--Reuse http://library.gnome.org/users/evolution/2.32/usage-mail-organize-folders.html.en and add "Novell, Inc" as an author to this page. Mention the combination with filters (see seealso link)-->
+<!--Reuse https://help.gnome.org/users/evolution/2.32/usage-mail-organize-folders.html.en and add "Novell, Inc" as an author to this page. Mention the combination with filters (see seealso link)-->
 	
 </page>
 

@@ -15,7 +15,7 @@
     </credit>
     <credit type="author">
      <name its:translate="no">Novell, Inc</name>
-     <!-- Content partially from http://library.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#CACHCGCI -->
+     <!-- Content partially from https://help.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#CACHCGCI -->
     </credit>
 
     <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>

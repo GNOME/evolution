@@ -14,7 +14,7 @@
     <credit type="author">
       <name its:translate="no">Novell, Inc</name>
       <!-- Content partially from
-	   http://library.gnome.org/users/evolution/2.32/bxqatxt.html -->
+	   https://help.gnome.org/users/evolution/2.32/bxqatxt.html -->
     </credit>
 
     <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>

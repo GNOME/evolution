@@ -14,9 +14,9 @@
     <credit type="author">
       <name its:translate="no">Novell, Inc</name>
       <!-- Content partially from Reuse
-	   http://library.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#bxjng8p
+	   https://help.gnome.org/users/evolution/2.32/config-prefs-cal.html.en#bxjng8p
 	   and
-	   http://library.gnome.org/users/evolution/2.32/usage-calendar-apts.html.en#publishing-freebusy
+	   https://help.gnome.org/users/evolution/2.32/usage-calendar-apts.html.en#publishing-freebusy
 	   -->
     </credit>
 
