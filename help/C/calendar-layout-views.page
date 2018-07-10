@@ -30,19 +30,19 @@
 
   <list>
     <item>
-      <p>Day View (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)</p>
+      <p>Day View</p>
     </item>
     <item>
-      <p>Work Week View (<keyseq><key>Ctrl</key><key>J</key></keyseq>)</p>
+      <p>Work Week View</p>
     </item>
     <item>
-      <p>Week View (<keyseq><key>Ctrl</key><key>K</key></keyseq>)</p>
+      <p>Week View</p>
     </item>
     <item>
-      <p>Month View (<keyseq><key>Ctrl</key><key>M</key></keyseq>)</p>
+      <p>Month View</p>
     </item>
     <item>
-      <p>List View (<keyseq><key>Ctrl</key><key>L</key></keyseq>)</p>
+      <p>List View</p>
     </item>
   </list>
 
