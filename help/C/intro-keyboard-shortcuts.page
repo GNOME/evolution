@@ -30,97 +30,97 @@ use <app>Evolution</app> more efficiently.</p>
 <section id="global">
 <title>Global</title>
 <table rules="rows" frame="top bottom">
-  <tr xml:id="ctrl-1">
+  <tr xml:id="global-ctrl-1">
     <td><p>
       <keyseq><key>Ctrl</key><key>1</key></keyseq>
     </p></td>
     <td><p>Select Mail component.</p></td>
   </tr>
-  <tr xml:id="ctrl-2">
+  <tr xml:id="global-ctrl-2">
     <td><p>
       <keyseq><key>Ctrl</key><key>2</key></keyseq>
     </p></td>
     <td><p>Select Contacts component.</p></td>
   </tr>
-  <tr xml:id="ctrl-3">
+  <tr xml:id="global-ctrl-3">
     <td><p>
       <keyseq><key>Ctrl</key><key>3</key></keyseq>
     </p></td>
     <td><p>Select Calendars component.</p></td>
   </tr>
-  <tr xml:id="ctrl-4">
+  <tr xml:id="global-ctrl-4">
     <td><p>
       <keyseq><key>Ctrl</key><key>4</key></keyseq>
     </p></td>
     <td><p>Select Tasks component.</p></td>
   </tr>
-  <tr xml:id="ctrl-5">
+  <tr xml:id="global-ctrl-5">
     <td><p>
       <keyseq><key>Ctrl</key><key>5</key></keyseq>
     </p></td>
     <td><p>Select Memos component.</p></td>
   </tr>
-  <tr xml:id="ctrl-n">
+  <tr xml:id="global-ctrl-n">
     <td><p>
       <keyseq><key>Ctrl</key><key>N</key></keyseq>
     </p></td>
     <td><p>Create a new item in current component.</p></td>
   </tr>
-  <tr xml:id="f6">
+  <tr xml:id="global-f6">
     <td><p>
       <key>F6</key>
     </p></td>
     <td><p>Cycle focus between panes.</p></td>
   </tr>
-  <tr xml:id="shift-ctrl-q">
+  <tr xml:id="global-shift-ctrl-q">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>
     </p></td>
     <td><p>Clear search bar.</p></td>
   </tr>
-  <tr xml:id="ctrl-w">
+  <tr xml:id="global-ctrl-w">
     <td><p>
       <keyseq><key>Ctrl</key><key>W</key></keyseq>
     </p></td>
     <td><p>Close window.</p></td>
   </tr>
-  <tr xml:id="shift-ctrl-w">
+  <tr xml:id="global-shift-ctrl-w">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>
     </p></td>
     <td><p>Open new window.</p></td>
   </tr>
-  <tr xml:id="ctrl-q">
+  <tr xml:id="global-ctrl-q">
     <td><p>
       <keyseq><key>Ctrl</key><key>Q</key></keyseq>
     </p></td>
     <td><p>Quit <app>Evolution</app>.</p></td>
   </tr>
-  <tr xml:id="ctrl-p">
+  <tr xml:id="global-ctrl-p">
     <td><p>
       <keyseq><key>Ctrl</key><key>P</key></keyseq>
     </p></td>
     <td><p>Print selection.</p></td>
   </tr>
-  <tr xml:id="ctrl-s">
+  <tr xml:id="global-ctrl-s">
     <td><p>
       <keyseq><key>Ctrl</key><key>S</key></keyseq>
     </p></td>
     <td><p>Save selection.</p></td>
   </tr>
-  <tr xml:id="del">
+  <tr xml:id="global-del">
     <td><p>
       <key>Del</key> or <key>Backspace</key>
     </p></td>
     <td><p>Delete selection.</p></td>
   </tr>
-  <tr xml:id="shift-ctrl-v">
+  <tr xml:id="global-shift-ctrl-v">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>
     </p></td>
     <td><p>Move mails or contacts to folder.</p></td>
   </tr>
-  <tr xml:id="shift-ctrl-y">
+  <tr xml:id="global-shift-ctrl-y">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>
     </p></td>
@@ -132,97 +132,97 @@ use <app>Evolution</app> more efficiently.</p>
 <section id="mail">
 <title>Mail</title>
 <table rules="rows" frame="top bottom">
-  <tr xml:id="shift-ctrl-m">
+  <tr xml:id="mail-shift-ctrl-m">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>
     </p></td>
     <td><p>Create a new message.</p></td>
   </tr>
-  <tr xml:id="f12">
+  <tr xml:id="mail-f12">
     <td><p>
       <key>F12</key>
     </p></td>
     <td><p>Send and receive messages.</p></td>
   </tr>
-  <tr xml:id="ctrl-y">
+  <tr xml:id="mail-ctrl-y">
     <td><p>
       <keyseq><key>Ctrl</key><key>Y</key></keyseq>
     </p></td>
     <td><p>Apply filters to selection.</p></td>
   </tr>
-  <tr xml:id="ctrl-o">
+  <tr xml:id="mail-ctrl-o">
     <td><p>
       <keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>
     </p></td>
     <td><p>Open selection in new window.</p></td>
   </tr>
-  <tr xml:id="ctrl-f">
+  <tr xml:id="mail-ctrl-f">
     <td><p>
       <keyseq><key>Ctrl</key><key>F</key></keyseq>
     </p></td>
     <td><p>Forward selection.</p></td>
   </tr>
-  <tr xml:id="ctrl-k">
+  <tr xml:id="mail-ctrl-k">
     <td><p>
       <keyseq><key>Ctrl</key><key>K</key></keyseq>
     </p></td>
     <td><p>Mark the selection as read.</p></td>
   </tr>
-  <tr xml:id="ctrl-shift-k">
+  <tr xml:id="mail-ctrl-shift-k">
     <td><p>
       <keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>
     </p></td>
     <td><p>Mark the selection as unread.</p></td>
   </tr>
-  <tr xml:id="arrow-down">
+  <tr xml:id="mail-arrow-down">
     <td><p>
       <key>↓</key>
     </p></td>
     <td><p>Jump to next message.</p></td>
   </tr>
-  <tr xml:id="arrow-up">
+  <tr xml:id="mail-arrow-up">
     <td><p>
       <key>↑</key>
     </p></td>
     <td><p>Jump to previous message.</p></td>
   </tr>
-  <tr xml:id="dot">
+  <tr xml:id="mail-dot">
     <td><p>
       <key>.</key> or <key>]</key>
     </p></td>
     <td><p>Jump to next unread message.</p></td>
   </tr>
-  <tr xml:id="comma">
+  <tr xml:id="mail-comma">
     <td><p>
       <key>,</key> or <key>[</key>
     </p></td>
     <td><p>Jump to previous unread message.</p></td>
   </tr>
-  <tr xml:id="ctrl-r">
+  <tr xml:id="mail-ctrl-r">
     <td><p>
       <keyseq><key>Ctrl</key><key>R</key></keyseq>
     </p></td>
     <td><p>Reply to sender.</p></td>
   </tr>
-  <tr xml:id="ctrl-l">
+  <tr xml:id="mail-ctrl-l">
     <td><p>
       <keyseq><key>Ctrl</key><key>L</key></keyseq>
     </p></td>
     <td><p>Reply to list.</p></td>
   </tr>
-  <tr xml:id="shift-ctrl-r">
+  <tr xml:id="mail-shift-ctrl-r">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>
     </p></td>
     <td><p>Reply to all recipients.</p></td>
   </tr>
-  <tr xml:id="backspace">
+  <tr xml:id="mail-backspace">
     <td><p>
       <key>Backspace</key>
     </p></td>
     <td><p>Scroll up.</p></td>
   </tr>
-  <tr xml:id="space">
+  <tr xml:id="mail-space">
     <td><p>
       <key>Space</key>
     </p></td>
@@ -243,67 +243,67 @@ use <app>Evolution</app> more efficiently.</p>
 <section id="calendar">
 <title>Calendar</title>
 <table rules="rows" frame="top bottom">
-  <tr xml:id="shift-ctrl-a">
+  <tr xml:id="calendar-shift-ctrl-a">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>
     </p></td>
     <td><p>Create a new appointment.</p></td>
   </tr>
-  <tr xml:id="shift-ctrl-e">
+  <tr xml:id="calendar-shift-ctrl-e">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>
     </p></td>
     <td><p>Create a new meeting.</p></td>
   </tr>
-  <tr xml:id="shift-ctrl-t">
+  <tr xml:id="calendar-shift-ctrl-t">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>
     </p></td>
     <td><p>Create a new task.</p></td>
   </tr>
-  <tr xml:id="shift-ctrl-o">
+  <tr xml:id="calendar-shift-ctrl-o">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>
     </p></td>
     <td><p>Create a new memo.</p></td>
   </tr>
-  <tr xml:id="ctrl-t">
+  <tr xml:id="calendar-ctrl-t">
     <td><p>
       <keyseq><key>Ctrl</key><key>T</key></keyseq>
     </p></td>
     <td><p>Go to today.</p></td>
   </tr>
-  <tr xml:id="ctrl-g">
+  <tr xml:id="calendar-ctrl-g">
     <td><p>
       <keyseq><key>Ctrl</key><key>G</key></keyseq>
     </p></td>
     <td><p>Go to date.</p></td>
   </tr>
-  <tr xml:id="ctrl-y">
+  <tr xml:id="calendar-ctrl-y">
     <td><p>
       <keyseq><key>Ctrl</key><key>Y</key></keyseq>
     </p></td>
     <td><p>Day View</p></td>
   </tr>
-  <tr xml:id="ctrl-j">
+  <tr xml:id="calendar-ctrl-j">
     <td><p>
       <keyseq><key>Ctrl</key><key>J</key></keyseq>
     </p></td>
     <td><p>Work Week View</p></td>
   </tr>
-  <tr xml:id="ctrl-k">
+  <tr xml:id="calendar-ctrl-k">
     <td><p>
       <keyseq><key>Ctrl</key><key>K</key></keyseq>
     </p></td>
     <td><p>Week View</p></td>
   </tr>
-  <tr xml:id="ctrl-m">
+  <tr xml:id="calendar-ctrl-m">
     <td><p>
       <keyseq><key>Ctrl</key><key>M</key></keyseq>
     </p></td>
     <td><p>Month View</p></td>
   </tr>
-  <tr xml:id="ctrl-l">
+  <tr xml:id="calendar-ctrl-l">
     <td><p>
       <keyseq><key>Ctrl</key><key>L</key></keyseq>
     </p></td>
@@ -315,13 +315,13 @@ use <app>Evolution</app> more efficiently.</p>
 <section id="contacts">
 <title>Contacts</title>
 <table rules="rows" frame="top bottom">
-  <tr xml:id="shift-ctrl-c">
+  <tr xml:id="contacts-shift-ctrl-c">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>
     </p></td>
     <td><p>Create a new contact.</p></td>
   </tr>
-  <tr xml:id="shift-ctrl-l">
+  <tr xml:id="contacts-shift-ctrl-l">
     <td><p>
       <keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>
     </p></td>
