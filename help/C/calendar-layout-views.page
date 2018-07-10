@@ -5,7 +5,7 @@
   <info>
     <link type="guide" xref="calendar-layout" />
 
-    <revision pkgversion="3.1.5" version="0.2" date="2011-07-27" status="final"/>
+    <revision pkgversion="3.28.2" version="0.3" date="2018-07-10" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -30,19 +30,19 @@
 
   <list>
     <item>
-      <p>Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)</p>
+      <p>Day View (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)</p>
     </item>
     <item>
-      <p>Work Week (<keyseq><key>Ctrl</key><key>J</key></keyseq>)</p>
+      <p>Work Week View (<keyseq><key>Ctrl</key><key>J</key></keyseq>)</p>
     </item>
     <item>
-      <p>Week (<keyseq><key>Ctrl</key><key>K</key></keyseq>)</p>
+      <p>Week View (<keyseq><key>Ctrl</key><key>K</key></keyseq>)</p>
     </item>
     <item>
-      <p>Month (<keyseq><key>Ctrl</key><key>M</key></keyseq>)</p>
+      <p>Month View (<keyseq><key>Ctrl</key><key>M</key></keyseq>)</p>
     </item>
     <item>
-      <p>List (<keyseq><key>Ctrl</key><key>L</key></keyseq>)</p>
+      <p>List View (<keyseq><key>Ctrl</key><key>L</key></keyseq>)</p>
     </item>
   </list>
 
