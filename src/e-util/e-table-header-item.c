@@ -1586,6 +1586,11 @@ ethi_popup_customize_view (GtkWidget *widget,
 	ETableState *state;
 	ETableSpecification *spec;
 
+	if (ethi->table)
+		widget = GTK_WIDGET (ethi->table);
+	else if (ethi->tree)
+		widget = GTK_WIDGET (ethi->tree);
+
 	if (ethi->config)
 		e_table_config_raise (E_TABLE_CONFIG (ethi->config));
 	else {
