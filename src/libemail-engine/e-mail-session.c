@@ -1693,6 +1693,17 @@ mail_session_create_vfolder_context (EMailSession *session)
 	return em_vfolder_context_new ();
 }
 
+static gpointer
+mail_session_init_null_provider_once (gpointer unused)
+{
+	camel_null_store_register_provider ();
+
+	/* Make sure ESourceCamel picks up the "none" provider. */
+	e_source_camel_generate_subtype ("none", CAMEL_TYPE_SETTINGS);
+
+	return NULL;
+}
+
 static void
 e_mail_session_class_init (EMailSessionClass *class)
 {
@@ -1879,18 +1890,18 @@ e_mail_session_class_init (EMailSessionClass *class)
 		G_TYPE_STRING, 2,
 		G_TYPE_UINT,
 		G_TYPE_STRING);
-
-	camel_null_store_register_provider ();
-
-	/* Make sure ESourceCamel picks up the "none" provider. */
-	e_source_camel_generate_subtype ("none", CAMEL_TYPE_SETTINGS);
 }
 
 static void
 e_mail_session_init (EMailSession *session)
 {
+	static GOnce init_null_provider_once = G_ONCE_INIT;
 	GHashTable *auto_refresh_table;
 	GHashTable *junk_filters;
+
+	/* Do not call this from the class_init(), to avoid a claim from Helgrind about a lock
+	   order violation between CamelProvider's global lock and glib's GType lock. */
+	g_once (&init_null_provider_once, mail_session_init_null_provider_once, NULL);
 
 	auto_refresh_table = g_hash_table_new_full (
 		(GHashFunc) g_str_hash,
