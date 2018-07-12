@@ -88,7 +88,11 @@ void		e_tree_selection_model_change_cursor
 						 ETreePath path);
 ETreePath	e_tree_selection_model_get_cursor
 						(ETreeSelectionModel *etsm);
-
+gint		e_tree_selection_model_get_selection_start_row
+						(ETreeSelectionModel *etsm);
+void		e_tree_selection_model_set_selection_start_row
+						(ETreeSelectionModel *etsm,
+						 gint row);
 G_END_DECLS
 
 #endif /* _E_TREE_SELECTION_MODEL_H_ */

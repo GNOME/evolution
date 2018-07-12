@@ -6224,6 +6224,7 @@ message_list_regen_done_cb (GObject *source_object,
 	ETreeTableAdapter *adapter;
 	gboolean was_searching, is_searching;
 	gint row_count;
+	gchar *start_selection_uid = NULL;
 	GError *local_error = NULL;
 
 	message_list = MESSAGE_LIST (source_object);
@@ -6273,6 +6274,19 @@ message_list_regen_done_cb (GObject *source_object,
 	message_list->search = g_strdup (regen_data->search);
 
 	is_searching = message_list_is_searching (message_list);
+
+	if (!message_list->just_set_folder) {
+		gint row;
+
+		row = e_tree_selection_model_get_selection_start_row (E_TREE_SELECTION_MODEL (e_tree_get_selection_model (tree)));
+		if (row != -1) {
+			GNode *node;
+
+			node = e_tree_table_adapter_node_at_row (adapter, row);
+			if (node)
+				start_selection_uid = g_strdup (get_message_uid (message_list, node));
+		}
+	}
 
 	if (regen_data->group_by_threads) {
 		ETableItem *table_item = e_tree_get_item (E_TREE (message_list));
@@ -6417,6 +6431,22 @@ message_list_regen_done_cb (GObject *source_object,
 	}
 
 	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
+
+	if (start_selection_uid) {
+		GNode *node;
+
+		node = g_hash_table_lookup (message_list->uid_nodemap, start_selection_uid);
+		if (node) {
+			gint row;
+
+			row = e_tree_table_adapter_row_of_node (adapter, node);
+
+			if (row >= 0 && row < row_count)
+				e_tree_selection_model_set_selection_start_row (E_TREE_SELECTION_MODEL (e_tree_get_selection_model (tree)), row);
+		}
+
+		g_free (start_selection_uid);
+	}
 
 	if (regen_data->select_all) {
 		message_list_select_all (message_list);
