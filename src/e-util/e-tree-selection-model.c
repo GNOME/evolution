@@ -833,3 +833,27 @@ e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
 	return etsm->priv->cursor_path;
 }
 
+gint
+e_tree_selection_model_get_selection_start_row (ETreeSelectionModel *etsm)
+{
+	g_return_val_if_fail (E_IS_TREE_SELECTION_MODEL (etsm), -1);
+
+	if (!etsm->priv->start_path)
+		return -1;
+
+	return e_tree_table_adapter_row_of_node (etsm->priv->etta, etsm->priv->start_path);
+}
+
+void
+e_tree_selection_model_set_selection_start_row (ETreeSelectionModel *etsm,
+						gint row)
+{
+	ETreePath path;
+
+	g_return_if_fail (E_IS_TREE_SELECTION_MODEL (etsm));
+
+	path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
+
+	if (path)
+		etsm->priv->start_path = path;
+}
