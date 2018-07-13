@@ -158,6 +158,7 @@ struct _RegenData {
 	/* This indicates we're regenerating the message list because
 	 * we received a "folder-changed" signal from our CamelFolder. */
 	gboolean folder_changed;
+	GHashTable *removed_uids; /* gchar *~>NULL */
 
 	CamelFolder *folder;
 	GPtrArray *summary;
@@ -286,7 +287,7 @@ static gint	on_click			(ETree *tree,
 
 static void	mail_regen_list			(MessageList *message_list,
 						 const gchar *search,
-						 gboolean folder_changed);
+						 CamelFolderChangeInfo *folder_changes);
 static void	mail_regen_cancel		(MessageList *message_list);
 
 static void	clear_info			(gchar *key,
@@ -548,6 +549,8 @@ regen_data_unref (RegenData *regen_data)
 			g_ptr_array_free (regen_data->summary, TRUE);
 		}
 
+		if (regen_data->removed_uids)
+			g_hash_table_destroy (regen_data->removed_uids);
 		g_clear_object (&regen_data->folder);
 
 		if (regen_data->expand_state != NULL)
@@ -2839,7 +2842,7 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter,
 		/* Invalidate the thread tree. */
 		message_list_set_thread_tree (message_list, NULL);
 
-		mail_regen_list (message_list, NULL, FALSE);
+		mail_regen_list (message_list, NULL, NULL);
 
 		return TRUE;
 	} else if (group_by_threads) {
@@ -4882,11 +4885,11 @@ message_list_folder_changed (CamelFolder *folder,
 	}
 
 	if (need_list_regen) {
-		/* Use 'folder_changed = TRUE' only if this is not the first change after the folder
+		/* Use 'changes' only if this is not the first change after the folder
 		   had been set. There could happen a race condition on folder enter which prevented
 		   the message list to scroll to the cursor position due to the folder_changed = TRUE,
 		   by cancelling the full rebuild request. */
-		mail_regen_list (message_list, NULL, !message_list->just_set_folder);
+		mail_regen_list (message_list, NULL, message_list->just_set_folder ? NULL : changes);
 	}
 
 	if (altered_changes != NULL)
@@ -5037,7 +5040,7 @@ message_list_set_folder (MessageList *message_list,
 		message_list->priv->folder_changed_handler_id = handler_id;
 
 		if (message_list->frozen == 0)
-			mail_regen_list (message_list, NULL, FALSE);
+			mail_regen_list (message_list, NULL, NULL);
 		else
 			message_list->priv->thaw_needs_regen = TRUE;
 	}
@@ -5092,7 +5095,7 @@ message_list_set_group_by_threads (MessageList *message_list,
 
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
-		mail_regen_list (message_list, NULL, FALSE);
+		mail_regen_list (message_list, NULL, NULL);
 	else
 		message_list->priv->thaw_needs_regen = TRUE;
 }
@@ -5123,7 +5126,7 @@ message_list_set_show_deleted (MessageList *message_list,
 
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
-		mail_regen_list (message_list, NULL, FALSE);
+		mail_regen_list (message_list, NULL, NULL);
 	else
 		message_list->priv->thaw_needs_regen = TRUE;
 }
@@ -5154,7 +5157,7 @@ message_list_set_show_junk (MessageList *message_list,
 
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
-		mail_regen_list (message_list, NULL, FALSE);
+		mail_regen_list (message_list, NULL, NULL);
 	else
 		message_list->priv->thaw_needs_regen = TRUE;
 }
@@ -5192,7 +5195,7 @@ message_list_set_show_subject_above_sender (MessageList *message_list,
 		if (message_list->priv->folder &&
 		    gtk_widget_get_realized (GTK_WIDGET (message_list)) &&
 		    gtk_widget_get_visible (GTK_WIDGET (message_list)))
-			mail_regen_list (message_list, NULL, FALSE);
+			mail_regen_list (message_list, NULL, NULL);
 	}
 
 	g_object_notify (G_OBJECT (message_list), "show-subject-above-sender");
@@ -5681,7 +5684,7 @@ message_list_thaw (MessageList *message_list)
 		else
 			search = NULL;
 
-		mail_regen_list (message_list, search, FALSE);
+		mail_regen_list (message_list, search, NULL);
 
 		g_free (message_list->frozen_search);
 		message_list->frozen_search = NULL;
@@ -5699,7 +5702,7 @@ message_list_set_threaded_expand_all (MessageList *message_list)
 		message_list->expand_all = 1;
 
 		if (message_list->frozen == 0)
-			mail_regen_list (message_list, NULL, FALSE);
+			mail_regen_list (message_list, NULL, NULL);
 		else
 			message_list->priv->thaw_needs_regen = TRUE;
 	}
@@ -5714,7 +5717,7 @@ message_list_set_threaded_collapse_all (MessageList *message_list)
 		message_list->collapse_all = 1;
 
 		if (message_list->frozen == 0)
-			mail_regen_list (message_list, NULL, FALSE);
+			mail_regen_list (message_list, NULL, NULL);
 		else
 			message_list->priv->thaw_needs_regen = TRUE;
 	}
@@ -5746,7 +5749,7 @@ message_list_set_search (MessageList *message_list,
 	message_list_set_thread_tree (message_list, NULL);
 
 	if (message_list->frozen == 0)
-		mail_regen_list (message_list, search ? search : "", FALSE);
+		mail_regen_list (message_list, search ? search : "", NULL);
 	else {
 		g_free (message_list->frozen_search);
 		message_list->frozen_search = g_strdup (search);
@@ -6211,6 +6214,114 @@ exit:
 	g_object_unref (folder);
 }
 
+static gint
+message_list_correct_row_for_remove (MessageList *message_list,
+				     gint row,
+				     GHashTable *removed_uids)
+{
+	ETreeTableAdapter *adapter;
+	gint orig_row = row, row_count;
+	gboolean delete_selects_previous;
+	GSettings *settings;
+	gboolean done = FALSE;
+	gint round;
+
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), row);
+
+	if (!removed_uids)
+		return row;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	delete_selects_previous = g_settings_get_boolean (settings, "delete-selects-previous");
+	g_clear_object (&settings);
+
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
+
+	for (round = 0; round < 2 && !done && row_count; round++) {
+		row = orig_row;
+
+		/* The first round tries to find the next/previous not-deleted message in the list;
+		   the second round does the same in the opposite direction. */
+		if (round)
+			delete_selects_previous = !delete_selects_previous;
+
+		while (!done && row >= 0 && row < row_count) {
+			GNode *node;
+
+			node = e_tree_table_adapter_node_at_row (adapter, row);
+			if (!node)
+				break;
+
+			done = !g_hash_table_contains (removed_uids, get_message_uid (message_list, node));
+
+			if (!done) {
+				if (delete_selects_previous)
+					row--;
+				else
+					row++;
+			}
+		}
+	}
+
+	if (!done) {
+		/* This is flipped due to the second round */
+		if (delete_selects_previous)
+			row = row_count - 1;
+		else
+			row = row_count ? 0 : -1;
+	}
+
+	return row;
+}
+
+static gint
+message_list_correct_row_for_remove_in_selection (MessageList *message_list,
+						  gint row,
+						  GHashTable *removed_uids)
+{
+	ETreeTableAdapter *adapter;
+	GNode *node;
+	GPtrArray *selected;
+	guint ii;
+	gint best_row = row, best_dist = -1;
+
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), row);
+
+	if (!removed_uids)
+		return row;
+
+	adapter = e_tree_get_table_adapter (E_TREE (message_list));
+	node = e_tree_table_adapter_node_at_row (adapter, row);
+	if (!node || !g_hash_table_contains (removed_uids, get_message_uid (message_list, node)))
+		return row;
+
+	selected = message_list_get_selected (message_list);
+	if (!selected)
+		return row;
+
+	for (ii = 0; ii < selected->len; ii++) {
+		gint sel_row, sel_dist;
+
+		node = g_hash_table_lookup (message_list->uid_nodemap, g_ptr_array_index (selected, ii));
+		if (!node || g_hash_table_contains (removed_uids, get_message_uid (message_list, node)))
+			continue;
+
+		sel_row = e_tree_table_adapter_row_of_node (adapter, node);
+		sel_dist = ABS (sel_row - row);
+
+		/* No good guess between selection, just find the nearest not deleted selected row */
+		if (sel_dist < best_dist || best_dist == -1) {
+			best_row = sel_row;
+			best_dist = sel_dist;
+		}
+	}
+
+	g_ptr_array_unref (selected);
+
+	return best_row;
+}
+
 static void
 message_list_regen_done_cb (GObject *source_object,
                             GAsyncResult *result,
@@ -6224,7 +6335,7 @@ message_list_regen_done_cb (GObject *source_object,
 	ETreeTableAdapter *adapter;
 	gboolean was_searching, is_searching;
 	gint row_count;
-	gchar *start_selection_uid = NULL;
+	const gchar *start_selection_uid = NULL, *last_row_uid = NULL; /* These are in Camel's string pool */
 	GError *local_error = NULL;
 
 	message_list = MESSAGE_LIST (source_object);
@@ -6279,12 +6390,28 @@ message_list_regen_done_cb (GObject *source_object,
 		gint row;
 
 		row = e_tree_selection_model_get_selection_start_row (E_TREE_SELECTION_MODEL (e_tree_get_selection_model (tree)));
+
+		if (row != -1)
+			row = message_list_correct_row_for_remove_in_selection (message_list, row, regen_data->removed_uids);
+
 		if (row != -1) {
 			GNode *node;
 
 			node = e_tree_table_adapter_node_at_row (adapter, row);
 			if (node)
-				start_selection_uid = g_strdup (get_message_uid (message_list, node));
+				start_selection_uid = camel_pstring_strdup (get_message_uid (message_list, node));
+		}
+	}
+
+	if (!regen_data->select_all && !regen_data->select_uid && regen_data->last_row != -1) {
+		regen_data->last_row = message_list_correct_row_for_remove (message_list, regen_data->last_row, regen_data->removed_uids);
+
+		if (regen_data->last_row != -1) {
+			GNode *node;
+
+			node = e_tree_table_adapter_node_at_row (adapter, regen_data->last_row);
+			if (node)
+				last_row_uid = camel_pstring_strdup (get_message_uid (message_list, node));
 		}
 	}
 
@@ -6445,7 +6572,7 @@ message_list_regen_done_cb (GObject *source_object,
 				e_tree_selection_model_set_selection_start_row (E_TREE_SELECTION_MODEL (e_tree_get_selection_model (tree)), row);
 		}
 
-		g_free (start_selection_uid);
+		camel_pstring_free (start_selection_uid);
 	}
 
 	if (regen_data->select_all) {
@@ -6457,19 +6584,94 @@ message_list_regen_done_cb (GObject *source_object,
 			regen_data->select_uid,
 			regen_data->select_use_fallback);
 
-	} else if (message_list->cursor_uid == NULL && regen_data->last_row != -1) {
-		if (regen_data->last_row >= row_count)
-			regen_data->last_row = row_count;
+	} else if (message_list->cursor_uid == NULL && last_row_uid) {
+		GNode *node = NULL;
+		gint sel_count;
 
-		if (regen_data->last_row >= 0) {
-			GNode *node;
+		sel_count = message_list_selected_count (message_list);
 
-			node = e_tree_table_adapter_node_at_row (
-				adapter, regen_data->last_row);
-			if (node != NULL)
-				select_node (message_list, node);
+		/* It can be that multi-select start and/or end had been removed, in which
+		   case "clamp" the new start/end according to start/end of the restored
+		   selection, even if it is not a consecutive selection (Shift+Arrow can
+		   be broken after this "clamp"). */
+		if (sel_count > 0) {
+			GPtrArray *selected;
+
+			selected = message_list_get_selected (message_list);
+
+			if (selected && selected->len) {
+				guint ii;
+				gint min_row = -1, max_row = -1;
+
+				for (ii = 0; ii < selected->len; ii++) {
+					GNode *selected_node;
+
+					selected_node = g_hash_table_lookup (message_list->uid_nodemap, g_ptr_array_index (selected, ii));
+					if (selected_node) {
+						gint selected_row;
+
+						selected_row = e_tree_table_adapter_row_of_node (adapter, selected_node);
+
+						if (selected_row >= 0 && selected_row < row_count) {
+							if (min_row > selected_row || min_row == -1)
+								min_row = selected_row;
+
+							if (max_row < selected_row || max_row == -1)
+								max_row = selected_row;
+						}
+					}
+				}
+
+				if (min_row != -1 && max_row != -1) {
+					gint start_sel_row, new_last_row = regen_data->last_row;
+
+					start_sel_row = e_tree_selection_model_get_selection_start_row (E_TREE_SELECTION_MODEL (e_tree_get_selection_model (tree)));
+					node = g_hash_table_lookup (message_list->uid_nodemap, last_row_uid);
+					if (node)
+						new_last_row = e_tree_table_adapter_row_of_node (adapter, node);
+
+					/* Swap them if needed */
+					if (start_sel_row != -1 && start_sel_row > new_last_row) {
+						gint tmp = min_row;
+						min_row = max_row;
+						max_row = tmp;
+					}
+
+					node = e_tree_table_adapter_node_at_row (adapter, max_row);
+					if (node) {
+						/* This also deselects rows */
+						select_node (message_list, node);
+
+						message_list_set_selected (message_list, selected);
+						e_tree_selection_model_set_selection_start_row (E_TREE_SELECTION_MODEL (e_tree_get_selection_model (tree)), min_row);
+					}
+				}
+			}
+
+			if (selected)
+				g_ptr_array_unref (selected);
+
+			if (!node)
+				sel_count = 0;
 		}
+
+		if (!node)
+			node = g_hash_table_lookup (message_list->uid_nodemap, last_row_uid);
+
+		if (!node) {
+			if (regen_data->last_row >= row_count)
+				regen_data->last_row = row_count - 1;
+
+			if (regen_data->last_row != -1)
+				node = e_tree_table_adapter_node_at_row (adapter, regen_data->last_row);
+		}
+
+		if (node && sel_count <= 1)
+			select_node (message_list, node);
 	}
+
+	if (last_row_uid)
+		camel_pstring_free (last_row_uid);
 
 	if (gtk_widget_get_visible (GTK_WIDGET (message_list))) {
 		const gchar *info_message;
@@ -6614,7 +6816,7 @@ mail_regen_cancel (MessageList *message_list)
 static void
 mail_regen_list (MessageList *message_list,
                  const gchar *search,
-                 gboolean folder_changed)
+                 CamelFolderChangeInfo *folder_changes)
 {
 	GSimpleAsyncResult *simple;
 	GCancellable *cancellable;
@@ -6687,8 +6889,18 @@ mail_regen_list (MessageList *message_list,
 		   the regen was done for folder-changed signal, while the initial regen
 		   request would be due to change of the folder in the view (or other similar
 		   reasons). */
-		if (!folder_changed)
-			old_regen_data->folder_changed = folder_changed;
+		if (!folder_changes) {
+			old_regen_data->folder_changed = FALSE;
+		} else if (folder_changes->uid_removed) {
+			guint ii;
+
+			if (!old_regen_data->removed_uids)
+				old_regen_data->removed_uids = g_hash_table_new_full (g_direct_hash, g_direct_equal, (GDestroyNotify) camel_pstring_free, NULL);
+
+			for (ii = 0; ii < folder_changes->uid_removed->len; ii++) {
+				g_hash_table_insert (old_regen_data->removed_uids, (gpointer) camel_pstring_strdup (folder_changes->uid_removed->pdata[ii]), NULL);
+			}
+		}
 
 		/* Avoid cancelling on the way out. */
 		old_regen_data = NULL;
@@ -6700,7 +6912,17 @@ mail_regen_list (MessageList *message_list,
 
 	new_regen_data = regen_data_new (message_list, cancellable);
 	new_regen_data->search = g_strdup (search);
-	new_regen_data->folder_changed = folder_changed;
+	new_regen_data->folder_changed = folder_changes != NULL;
+
+	if (folder_changes && folder_changes->uid_removed) {
+		guint ii;
+
+		new_regen_data->removed_uids = g_hash_table_new_full (g_direct_hash, g_direct_equal, (GDestroyNotify) camel_pstring_free, NULL);
+
+		for (ii = 0; ii < folder_changes->uid_removed->len; ii++) {
+			g_hash_table_insert (new_regen_data->removed_uids, (gpointer) camel_pstring_strdup (folder_changes->uid_removed->pdata[ii]), NULL);
+		}
+	}
 
 	/* We generate the message list content in a worker thread, and
 	 * then supply our own GAsyncReadyCallback to redraw the widget. */
