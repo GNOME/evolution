@@ -14057,7 +14057,7 @@ wrap_lines (EEditorPage *editor_page,
 				    element_has_class (WEBKIT_DOM_ELEMENT (sibling), "Apple-tab-span"))
 					tab_length = TAB_LENGTH;
 				else {
-					tab_length = TAB_LENGTH - (line_length + compensated ? 0 : (word_wrap_length - length_to_wrap)) % TAB_LENGTH;
+					tab_length = TAB_LENGTH - (line_length + (compensated ? 0 : (word_wrap_length - length_to_wrap))) % TAB_LENGTH;
 					compensated = TRUE;
 				}
 
@@ -14227,16 +14227,26 @@ wrap_lines (EEditorPage *editor_page,
 								if ((nd = webkit_dom_node_get_next_sibling (prev_sibling))) {
 									gchar *nd_content;
 
-									nd_content = webkit_dom_node_get_text_content (nd);
-									if (nd_content && *nd_content) {
-										if (*nd_content == ' ')
-											mark_and_remove_leading_space (document, nd);
+									while (nd_content = webkit_dom_node_get_text_content (nd), nd_content) {
+										gboolean changed = FALSE;
 
-										if (!webkit_dom_node_get_next_sibling (nd) &&
-										    g_str_has_suffix (nd_content, " "))
-											mark_and_remove_trailing_space (document, nd);
+										if (*nd_content) {
+											if (*nd_content == ' ') {
+												mark_and_remove_leading_space (document, nd);
+												changed = TRUE;
+											}
+
+											if (!webkit_dom_node_get_next_sibling (nd) &&
+											    g_str_has_suffix (nd_content, " ")) {
+												mark_and_remove_trailing_space (document, nd);
+												changed = TRUE;
+											}
+										}
 
 										g_free (nd_content);
+
+										if (!changed)
+											break;
 									}
 
 									if (nd) {
@@ -14288,19 +14298,28 @@ wrap_lines (EEditorPage *editor_page,
 					gboolean no_sibling = FALSE;
 					gchar *nd_content;
 
-					nd_content = webkit_dom_node_get_text_content (nd);
-					if (nd_content && *nd_content) {
-						if (*nd_content == ' ')
-							mark_and_remove_leading_space (document, nd);
+					while (nd_content = webkit_dom_node_get_text_content (nd), nd_content) {
+						gboolean changed = FALSE;
 
-						if (!webkit_dom_node_get_next_sibling (nd) &&
-						    length_left <= length_to_wrap &&
-						    g_str_has_suffix (nd_content, " ")) {
-							mark_and_remove_trailing_space (document, nd);
-							no_sibling = TRUE;
+						if (*nd_content) {
+							if (*nd_content == ' ') {
+								mark_and_remove_leading_space (document, nd);
+								changed = TRUE;
+							}
+
+							if (!webkit_dom_node_get_next_sibling (nd) &&
+							    length_left <= length_to_wrap &&
+							    g_str_has_suffix (nd_content, " ")) {
+								mark_and_remove_trailing_space (document, nd);
+								no_sibling = TRUE;
+								changed = TRUE;
+							}
 						}
 
 						g_free (nd_content);
+
+						if (!changed)
+							break;
 					}
 
 					if (!no_sibling)
