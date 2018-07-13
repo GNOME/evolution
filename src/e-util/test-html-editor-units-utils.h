@@ -51,6 +51,8 @@ void		test_utils_set_multiple_web_processes
 						(gboolean multiple_web_processes);
 gboolean	test_utils_get_multiple_web_processes
 						(void);
+void		test_utils_set_keep_going	(gboolean keep_going);
+gboolean	test_utils_get_keep_going	(void);
 void		test_utils_free_global_memory	(void);
 void		test_utils_add_test		(const gchar *name,
 						 ETestFixtureSimpleFunc func);

@@ -19,6 +19,7 @@
 
 #define HTML_PREFIX "<html><head></head><body>"
 #define HTML_SUFFIX "</body></html>"
+#define BLOCKQUOTE_STYLE "style=\"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex\""
 
 G_BEGIN_DECLS
 

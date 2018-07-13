@@ -252,9 +252,9 @@ test_indent_selection (TestFixture *fixture)
 			"</div><div><br></div>"
 		HTML_SUFFIX,
 		"level 0\n"
-		"    level 1\n"
-		"        level 2\n"
-		"    level 1\n"))
+		"   level 1\n"
+		"      level 2\n"
+		"   level 1\n"))
 		g_test_fail ();
 }
 
@@ -280,9 +280,9 @@ test_indent_typed (TestFixture *fixture)
 			"</div><div><br></div>"
 		HTML_SUFFIX,
 		"level 0\n"
-		"    level 1\n"
-		"        level 2\n"
-		"    level 1\n"))
+		"   level 1\n"
+		"      level 2\n"
+		"   level 1\n"))
 		g_test_fail ();
 }
 
@@ -1714,7 +1714,7 @@ test_paste_quoted_singleline_html2html (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div>text before </div>"
-		"<blockquote type=\"cite\"><div>some <b>bold</b> text</div></blockquote>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>some <b>bold</b> text</div></blockquote>"
 		"<div>text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> some bold text\n"
@@ -1734,7 +1734,7 @@ test_paste_quoted_singleline_html2plain (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
-		"<blockquote type=\"cite\"><div style=\"width: 71ch;\">&gt; some <b>bold</b> text</div></blockquote>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div style=\"width: 71ch;\">&gt; some <b>bold</b> text</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> some bold text\n"
@@ -1754,7 +1754,7 @@ test_paste_quoted_singleline_plain2html (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div>text before </div>"
-		"<blockquote type=\"cite\"><div>some plain text</div></blockquote>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>some plain text</div></blockquote>"
 		"<div>text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> some plain text\n"
@@ -1774,7 +1774,7 @@ test_paste_quoted_singleline_plain2plain (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
-		"<blockquote type=\"cite\"><div style=\"width: 71ch;\">&gt; some plain text</div></blockquote>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div style=\"width: 71ch;\">&gt; some plain text</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> some plain text\n"
@@ -1798,7 +1798,7 @@ test_paste_quoted_multiline_html2html (TestFixture *fixture)
 		"seq:b\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div>text before </div>"
-		"<blockquote type=\"cite\">&gt; <b>bold</b> text</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">&gt; <b>bold</b> text</div>"
 		"<div>&gt; <i>italic</i> text</div>"
 		"<div>&gt; <u>underline</u> text</div></blockquote>"
 		"<div>text after</div>" HTML_SUFFIX,
@@ -1827,7 +1827,7 @@ test_paste_quoted_multiline_html2plain (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
-		"<blockquote type=\"cite\"><div>&gt; bold text</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>&gt; bold text</div>"
 		"<div style=\"width: 71ch;\">&gt; italic text</div>"
 		"<div style=\"width: 71ch;\">&gt; underline text</div></blockquote>"
 		"<div style=\"width: 71ch;\">&gt; text after</div>" HTML_SUFFIX,
@@ -1852,7 +1852,7 @@ test_paste_quoted_multiline_plain2html (TestFixture *fixture)
 		"seq:b\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div>text before </div>"
-		"<blockquote type=\"cite\"><div>line 1</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>line 1</div>"
 		"<div>line 2</div>"
 		"<div>line 3</div></blockquote>"
 		"<div>text after</div>" HTML_SUFFIX,
@@ -1876,7 +1876,7 @@ test_paste_quoted_multiline_plain2plain (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
-		"<blockquote type=\"cite\"><div style=\"width: 71ch;\">&gt; line 1</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div style=\"width: 71ch;\">&gt; line 1</div>"
 		"<div style=\"width: 71ch;\">&gt; line 2</div>"
 		"<div style=\"width: 71ch;\">&gt; line 3</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
@@ -1899,11 +1899,11 @@ test_cite_html2plain (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<html><head></head><body>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div data-evo-paragraph=\"\">level 1</div>"
 		"<div data-evo-paragraph=\"\"><br></div>"
 		"<div data-evo-paragraph=\"\">level 1</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div data-evo-paragraph=\"\">level 2</div>"
 		"</blockquote>"
 		"<div data-evo-paragraph=\"\">back in level 1</div>"
@@ -1916,8 +1916,8 @@ test_cite_html2plain (TestFixture *fixture)
 	/* Just check the content was read properly */
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<blockquote type=\"cite\"><div>level 1</div><div><br></div><div>level 1</div>"
-		"<blockquote type=\"cite\"><div>level 2</div></blockquote><div>back in level 1</div></blockquote>"
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>level 1</div><div><br></div><div>level 1</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>level 2</div></blockquote><div>back in level 1</div></blockquote>"
 		"<div><br></div><div>out of the citation</div>" HTML_SUFFIX,
 		"> level 1\n"
 		"> \n"
@@ -1954,14 +1954,14 @@ test_cite_shortline (TestFixture *fixture)
 	}
 
 	test_utils_insert_content (fixture,
-		"<html><head></head><body><blockquote type=\"cite\">"
+		"<html><head></head><body><blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>Just one short line.</div>"
 		"</blockquote></body></html>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<blockquote type=\"cite\">"
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>Just one short line.</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"> Just one short line.")) {
@@ -1978,14 +1978,14 @@ test_cite_shortline (TestFixture *fixture)
 	}
 
 	test_utils_insert_content (fixture,
-		"<html><head></head><body><blockquote type=\"cite\">"
+		"<html><head></head><body><blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>Just one short line.</div>"
 		"</blockquote></body></html>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<blockquote type=\"cite\">"
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>Just one short line.</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"> Just one short line.")) {
@@ -1994,7 +1994,7 @@ test_cite_shortline (TestFixture *fixture)
 	}
 
 	test_utils_insert_content (fixture,
-		"<html><head></head><body><blockquote type=\"cite\">"
+		"<html><head></head><body><blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>short line 1</div>"
 		"<div>short line 2</div>"
 		"<div>short line 3</div>"
@@ -2003,7 +2003,7 @@ test_cite_shortline (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<blockquote type=\"cite\">"
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>short line 1</div>"
 		"<div>short line 2</div>"
 		"<div>short line 3</div>"
@@ -2024,7 +2024,7 @@ test_cite_shortline (TestFixture *fixture)
 	}
 
 	test_utils_insert_content (fixture,
-		"<html><head></head><body><blockquote type=\"cite\">"
+		"<html><head></head><body><blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>short line 1</div>"
 		"<div>short line 2</div>"
 		"<div>short line 3</div>"
@@ -2033,7 +2033,7 @@ test_cite_shortline (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<blockquote type=\"cite\">"
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>short line 1</div>"
 		"<div>short line 2</div>"
 		"<div>short line 3</div>"
@@ -2056,14 +2056,14 @@ test_cite_longline (TestFixture *fixture)
 	}
 
 	test_utils_insert_content (fixture,
-		"<html><head></head><body><blockquote type=\"cite\">"
+		"<html><head></head><body><blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"</blockquote></body></html>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<blockquote type=\"cite\">"
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"> This is the first paragraph of a quoted text which has some long text\n"
@@ -2081,14 +2081,14 @@ test_cite_longline (TestFixture *fixture)
 	}
 
 	test_utils_insert_content (fixture,
-		"<html><head></head><body><blockquote type=\"cite\">"
+		"<html><head></head><body><blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"</blockquote></body></html>",
 		E_CONTENT_EDITOR_INSERT_TEXT_HTML | E_CONTENT_EDITOR_INSERT_REPLACE_ALL);
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<blockquote type=\"cite\">"
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"> This is the first paragraph of a quoted text which has some long text\n"
@@ -2098,7 +2098,7 @@ test_cite_longline (TestFixture *fixture)
 	}
 
 	test_utils_insert_content (fixture,
-		"<html><head></head><body><blockquote type=\"cite\">"
+		"<html><head></head><body><blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"<div>This is the second paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"<div>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
@@ -2107,7 +2107,7 @@ test_cite_longline (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<blockquote type=\"cite\">"
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"<div>This is the second paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"<div>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
@@ -2147,7 +2147,7 @@ test_cite_reply_html (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"",
 		HTML_PREFIX "<div>On Today, User wrote:</div>"
-		"<blockquote type=\"cite\"><pre>line 1\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><pre>line 1\n"
 		"line 2\n"
 		"</pre></blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
@@ -2177,7 +2177,7 @@ test_cite_reply_plain (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
-		"<blockquote type=\"cite\"><div style=\"width: 71ch;\">&gt; line 1</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div style=\"width: 71ch;\">&gt; line 1</div>"
 		"<div style=\"width: 71ch;\">&gt; line 2</div>"
 		"<div style=\"width: 71ch;\">&gt; <br></div></blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
@@ -2601,7 +2601,7 @@ test_delete_quoted (TestFixture *fixture)
 		"undo:test\n"
 		"undo:redo:2",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; a</div>"
 		"<div style=\"width: 71ch;\">&gt; b</div>"
 		"</blockquote>"
@@ -2634,7 +2634,7 @@ test_delete_after_quoted (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ddddbb\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<pre>&gt; a</pre>"
 		"<pre>&gt; b<br></pre>"
 		"</blockquote>"
@@ -2664,7 +2664,7 @@ test_delete_quoted_selection (TestFixture *fixture)
 		"seq:d\n"
 		"type:X\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">line 0</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; line 1</div>"
 		"<div style=\"width: 71ch;\">&gt; <br></div>"
 		"<div style=\"width: 71ch;\">&gt; line 2</div>"
@@ -2729,6 +2729,7 @@ main (gint argc,
 	gint cmd_delay = -1;
 	gboolean background = FALSE;
 	gboolean multiple_web_processes = FALSE;
+	gboolean keep_going = FALSE;
 	GOptionEntry entries[] = {
 		{ "cmd-delay", '\0', 0,
 		  G_OPTION_ARG_INT, &cmd_delay,
@@ -2741,6 +2742,11 @@ main (gint argc,
 		{ "multiple-web-processes", '\0', 0,
 		  G_OPTION_ARG_NONE, &multiple_web_processes,
 		  "Use multiple web processes for each test being run. Default is to use single web process.",
+		  NULL },
+		/* Cannot use --keep-going, it's taken by glib */
+		{ "e-keep-going", '\0', 0,
+		  G_OPTION_ARG_NONE, &keep_going,
+		  "Use to not abort failed tests, but keep going through all tests.",
 		  NULL },
 		{ NULL }
 	};
@@ -2766,6 +2772,9 @@ main (gint argc,
 	g_test_init (&argc, &argv, NULL);
 	g_test_bug_base ("http://bugzilla.gnome.org/show_bug.cgi?id=");
 
+	if (keep_going)
+		g_test_set_nonfatal_assertions ();
+
 	gtk_init (&argc, &argv);
 
 	context = g_option_context_new (NULL);
@@ -2783,6 +2792,7 @@ main (gint argc,
 		test_utils_set_event_processing_delay_ms ((guint) cmd_delay);
 	test_utils_set_background (background);
 	test_utils_set_multiple_web_processes (multiple_web_processes);
+	test_utils_set_keep_going (keep_going);
 
 	e_util_init_main_thread (NULL);
 	e_passwords_init ();
