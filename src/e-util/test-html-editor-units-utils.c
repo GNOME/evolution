@@ -26,6 +26,7 @@
 static guint event_processing_delay_ms = 25;
 static gboolean in_background = FALSE;
 static gboolean use_multiple_web_processes = FALSE;
+static gboolean glob_keep_going = FALSE;
 static GObject *global_web_context = NULL;
 
 void
@@ -62,6 +63,18 @@ gboolean
 test_utils_get_multiple_web_processes (void)
 {
 	return use_multiple_web_processes;
+}
+
+void
+test_utils_set_keep_going (gboolean keep_going)
+{
+	glob_keep_going = keep_going;
+}
+
+gboolean
+test_utils_get_keep_going (void)
+{
+	return glob_keep_going;
 }
 
 void
@@ -126,7 +139,10 @@ undo_content_test (TestFixture *fixture,
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	if (!test_utils_html_equal (fixture, text, uc->html)) {
-		g_warning ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match at command %d", G_STRFUNC, text, uc->html, cmd_index);
+		if (glob_keep_going)
+			g_printerr ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match at command %d\n", G_STRFUNC, text, uc->html, cmd_index);
+		else
+			g_warning ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match at command %d", G_STRFUNC, text, uc->html, cmd_index);
 		g_free (text);
 		return FALSE;
 	}
@@ -137,7 +153,10 @@ undo_content_test (TestFixture *fixture,
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	if (!test_utils_html_equal (fixture, text, uc->plain)) {
-		g_warning ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match at command %d", G_STRFUNC, text, uc->plain, cmd_index);
+		if (glob_keep_going)
+			g_printerr ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match at command %d\n", G_STRFUNC, text, uc->plain, cmd_index);
+		else
+			g_warning ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match at command %d", G_STRFUNC, text, uc->plain, cmd_index);
 		g_free (text);
 		return FALSE;
 	}
@@ -980,7 +999,10 @@ test_utils_run_simple_test (TestFixture *fixture,
 		g_return_val_if_fail (text != NULL, FALSE);
 
 		if (!test_utils_html_equal (fixture, text, expected_html)) {
-			g_warning ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match", G_STRFUNC, text, expected_html);
+			if (glob_keep_going)
+				g_printerr ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match\n", G_STRFUNC, text, expected_html);
+			else
+				g_warning ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match", G_STRFUNC, text, expected_html);
 			g_free (text);
 			return FALSE;
 		}
@@ -993,7 +1015,10 @@ test_utils_run_simple_test (TestFixture *fixture,
 		g_return_val_if_fail (text != NULL, FALSE);
 
 		if (!test_utils_html_equal (fixture, text, expected_plain)) {
-			g_warning ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match", G_STRFUNC, text, expected_plain);
+			if (glob_keep_going)
+				g_printerr ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match\n", G_STRFUNC, text, expected_plain);
+			else
+				g_warning ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match", G_STRFUNC, text, expected_plain);
 			g_free (text);
 			return FALSE;
 		}

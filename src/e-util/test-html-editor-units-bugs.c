@@ -78,11 +78,11 @@ test_bug_750657 (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<html><head></head><body>\n"
-		"<blockquote type=\"cite\">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
 		"<div><br></div>\n"
 		"<div>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
-		"<blockquote type=\"cite\">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
 		"<div>This is the first paragraph of a sub-quoted text which has some long text to test. It has the second sentence as well.</div>\n"
 		"<br>\n"
 		"</blockquote>\n"
@@ -95,11 +95,11 @@ test_bug_750657 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:uuuSuusD\n",
 		HTML_PREFIX
-		"<blockquote type=\"cite\">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
 		"<div><br></div>\n"
 		"<div>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
-		"<blockquote type=\"cite\">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
 		"<div><br></div>\n"
 		"</blockquote>\n"
 		"<div>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
@@ -125,7 +125,7 @@ test_bug_760989 (TestFixture *fixture)
 	test_utils_insert_content (fixture,
 		"<html><head></head><body>\n"
 		"One line before quotation<br>\n"
-		"<blockquote type=\"cite\">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
 		"<div>Single line quoted.</div>\n"
 		"</blockquote>\n"
 		"</body></html>",
@@ -134,7 +134,7 @@ test_bug_760989 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ChcD\n",
 		HTML_PREFIX "<div>One line before quotation</div>\n"
-		"<blockquote type=\"cite\">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
 		"<div>Single line quoted.</div>\n"
 		"</blockquote>" HTML_SUFFIX,
 		"One line before quotation\n"
@@ -146,7 +146,7 @@ test_bug_760989 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:Cecb\n",
 		HTML_PREFIX "<div>One line before quotation</div>\n"
-		"<blockquote type=\"cite\">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
 		"<div>Single line quoted</div>\n"
 		"</blockquote>" HTML_SUFFIX,
 		"One line before quotation\n"
@@ -505,7 +505,7 @@ test_bug_770073 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:Chcddbb\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; the 1st line text</div>"
 		"<div style=\"width: 71ch;\">&gt; the 3rd line text</div>"
 		"</blockquote>" HTML_SUFFIX,
@@ -533,7 +533,7 @@ test_bug_770073 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:Chcddbb\n",
 		HTML_PREFIX "<div>On Today, User wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div><span>the first line text</span></div>"
 		"<div><span>the third line text</span></div>"
 		"</blockquote>" HTML_SUFFIX,
@@ -566,7 +566,7 @@ test_bug_770074 (TestFixture *fixture)
 		"seq:n\n"
 		"undo:undo\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; the 1st line text</div>"
 		"<div style=\"width: 71ch;\">&gt; the 3rd line text</div>"
 		"</blockquote>" HTML_SUFFIX,
@@ -601,7 +601,7 @@ test_bug_771131 (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<body><pre>On &lt;date1&gt;, &lt;name1&gt; wrote:\n"
-		"<blockquote type=\"cite\">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
 		"Hello\n"
 		"\n"
 		"Goodbye</blockquote>"
@@ -613,9 +613,9 @@ test_bug_771131 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Sat, 2016-09-10 at 20:00 +0000, example@example.com wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; On &lt;date1&gt;, &lt;name1&gt; wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; &gt; Hello</div>"
 		"<div style=\"width: 71ch;\">&gt; &gt; <br></div>"
 		"<div style=\"width: 71ch;\">&gt; &gt; Goodbye</div>"
@@ -646,7 +646,7 @@ test_bug_771493 (TestFixture *fixture)
 	test_utils_insert_content (fixture,
 		"<body><pre><br>"
 		"----- Original Message -----\n"
-		"<blockquote type=\"cite\">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
 		"This week summary:"
 		"</blockquote>"
 		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\"></span>"
@@ -656,10 +656,10 @@ test_bug_771493 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; <br></div>"
 		"<div style=\"width: 71ch;\">&gt; ----- Original Message -----</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; &gt; This week summary:</div>"
 		"</blockquote>"
 		"</blockquote>"
@@ -691,7 +691,7 @@ test_bug_772171 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:ddeb",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; <br></div>"
 		"<div style=\"width: 71ch;\">&gt; b</div>"
 		"</blockquote>"
@@ -798,7 +798,7 @@ test_bug_775042 (TestFixture *fixture)
 		"seq:rl\n"
 		"mode:plain\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Fri, 2016-11-25 at 08:18 +0000, user wrote:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<pre>&gt; a<br>"
 		"&gt; b<br>"
 		"&gt; c</pre>"
@@ -854,13 +854,13 @@ test_bug_779707 (TestFixture *fixture)
 		"type:a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be\n"
 		"",
 		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<pre>&gt; line 1</pre>"
 		"</blockquote>"
 		"<div style=\"width: 71ch;\"><br></div>"
 		"<div style=\"width: 71ch;\">a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be</div>"
 		"<div style=\"width: 71ch;\"><br></div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<pre>&gt; line 3</pre>"
 		"</blockquote>"
 		"<div style=\"width: 71ch;\"><br></div>"
@@ -901,7 +901,7 @@ test_bug_780275_html (TestFixture *fixture)
 		"undo:redo\n"
 		"",
 		HTML_PREFIX "<div>line 0</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>Xline 1</div>"
 		"<div>line 2</div>"
 		"</blockquote>"
@@ -939,7 +939,7 @@ test_bug_780275_plain (TestFixture *fixture)
 		"undo:test:1\n"
 		"undo:redo\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">line 0</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; Xline 1</div>"
 		"<div style=\"width: 71ch;\">&gt; line 2</div>"
 		"</blockquote>"
@@ -971,7 +971,7 @@ test_bug_781722 (TestFixture *fixture)
 		"seq:dd\n"
 		"action:style-preformat\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<pre>&gt; Signed-off-by: User &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt;</pre>"
 		"</blockquote>"
 		HTML_SUFFIX,
@@ -1001,7 +1001,7 @@ test_bug_781116 (TestFixture *fixture)
 		"seq:dd\n"
 		"action:wrap-lines\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
-		"<blockquote type=\"cite\">"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<pre>&gt; a very long text, which splits into multiple lines when this<br>"
 		"&gt; paragraph is not marked as preformatted, but as normal, as it should<br>"
 		"&gt; be</pre>"
@@ -1085,8 +1085,7 @@ test_bug_788829 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div><blockquote type=\"cite\" "
-		"style=\"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex\">"
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div><blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div style=\"width: 71ch;\">&gt; Xxxxx xx xxxxxxxxx xx xxxxxxx xx xxxxx xxxx "
 		"xxxx xx xxx xxx xxxx xxx<br>&gt; xxxçx xôxé \"xxxxx xxxx xxxxxxx xxx\" xx xxxx "
 		"xxxxé xxx xxx xxxéx xxx<br>&gt; x'x xéxxxxé x'xxxxxxxxx xx xxx \"Xxxx XXX Xxxxxx "
