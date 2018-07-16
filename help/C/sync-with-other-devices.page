@@ -20,7 +20,7 @@
 
 <p>There are currently no "recommended instructions" for users.</p>
 
-<p>Many distributions provide the application <app><link href="http://syncevolution.org/">SyncEvolution</link></app> that can be used in combination with devices that support <link href="https://en.wikipedia.org/wiki/SyncML">SyncML</link>.<!-- Buteo development seems to have slowed down, hence commenting this section - AndreKlapper, 2011/05/14: Also <link href="http://wiki.meego.com/Buteo">Buteo</link> aims to provide that functionality. A technical comparison of Buteo with SyncEvolution can be found <link href="http://meego.com/sites/all/files/meego-sync-linuxcon-2010.pdf">here on slide #18</link>. --></p>
+<p>Many distributions provide the application <app><link href="http://syncevolution.org/">SyncEvolution</link></app> that can be used in combination with devices that support <link href="https://en.wikipedia.org/wiki/SyncML">SyncML</link>.</p>
 
 <p>In general it is recommended to use applications and devices that both support the <link href="https://en.wikipedia.org/wiki/ActiveSync">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). A <link href="https://en.wikipedia.org/wiki/List_of_collaborative_software">list of collaborative software</link> is available on Wikipedia.</p>
 
