@@ -1,3 +1,62 @@
+Evolution 3.29.4 2018-07-16
+---------------------------
+
+Bug Fixes:
+	Bug 704246 - Cannot send encrypted mail to contact with certificate (Milan Crha)
+	Bug 757504 - [Composer] Do not wrap URLs in Plain Text mode (Milan Crha)
+	Bug 548681 - [MessageList] Restore of cursor mispositioned after delete (Milan Crha)
+	Bug 750636 - [Composer] Wrapped line should not start with a space (Milan Crha)
+	Bug 770141 - Help: Remove Quick Reference PDF (Andre Klapper)
+	Bug 723590 - Help: Cover accounts configured in GOA (Andre Klapper)
+	Bug 794085 - Help: Cover why 'Email reminder' option is greyed out (Andre Klapper)
+	Bug 786747 - Help: Add calendar views to list of keyboard shortcut (Andre Klapper)
+	I#25 - Show also URL in collection CalDAV Properties dialogs (Milan Crha)
+	I#31 - Help: German translation: Fix typo in closing tag (Antoine Jacoutot)
+	I#32 - Add column to sort at the end when Ctrl+Click its header (Milan Crha)
+	I#37 - Color support for iCalendar entries (Milan Crha)
+	I#43 - Tasks not shown when Side Panel is hidden (Milan Crha)
+	I#44 - Use Thunderbird's autoconfig ISPDB directly, not its copy (Milan Crha)
+	I#67 - Provide a hint how to show hidden Menu Bar again (Milan Crha)
+	I#39 - Extend Mail autoconfig to check in server's autoconfiguration too (Milan Crha)
+	I#55 - "Custom sort" dialog freezes Evolution and hogs the CPU under Wayland (Milan Crha)
+	I#53 - Address Helgrind warning about lock acquire order (Milan Crha)
+	I#69 - [MessageList] Regeneration loses selection start (Milan Crha)
+	eds-I#13 - [IMAPx] Fails to append message to Yahoo! with no CRLF at the end (Milan Crha)
+	eds-I#3 - [GPG] Mails that are not encrypted look encrypted (Milan Crha)
+
+Miscellaneous:
+	Show more options in CalDAV Properties for collection sources (Milan Crha)
+	Make it possible to disable text-highlight module with a GSettings option (Milan Crha)
+	Update links to GNOME git repositories in flatpak files (Milan Crha)
+	[EContactEditor] Do not store empty values in vCard (Milan Crha)
+	Correct memory leak of object returned by atk_object_ref_relation_set() (Milan Crha)
+	Try also with the From address when looking up correct From account for composer (Milan Crha)
+	Properly wrap text in 'Security Information' dialog (Milan Crha)
+	Add 4px bottom margin to secure button table (Milan Crha)
+	[autoconfig] Rename look up on GNOME server, because it's not true anymore (I#44) (Milan Crha)
+	[Composer] Message generated twice when using 'Send through Outbox' (Milan Crha)
+	Fix few memory leaks, mostly around gtk_..._new_with_model() (Milan Crha)
+	Update couple HTML editor tests (Milan Crha)
+	Help: Fix grammar in a sentence (Anders Jonsson)
+	Help: Update meeting invitation process due to UI changes (Дилян Палаузов)
+	Help: Fix a typo (Andre Klapper)
+	Help: Cover email aliases from bug 605416 (Andre Klapper)
+	Help: Better explain syncing remote accounts vs individual folders for offline usage (Andre Klapper)
+	Help: Fix my markup in previous commit (Andre Klapper)
+	Help: Add less complicated way to get menu bar displayed again (Andre Klapper)
+	Help: Use same names for views as in the UI (Andre Klapper)
+	Help: Remove shortcuts from calendar views, now in intro-keyboard-shortcuts (Andre Klapper)
+	Help: Fix duplicate section IDs (Andre Klapper)
+	Help: Option is now called Custom, not Customize (Andre Klapper)
+	Help: Use stable if namespace instead of experimental (Andre Klapper)
+	Help: Use https URL for CC license link (Andre Klapper)
+	Help: Use https URL for w3.org links (Andre Klapper)
+	Help: Update URL from library.gnome.org to help.gnome.org for older content (Andre Klapper)
+
+Translations:
+	Fabio Tomat (fur)
+	Daniel Mustieles (es)
+
 Evolution 3.29.3 2018-06-18
 ---------------------------
 
