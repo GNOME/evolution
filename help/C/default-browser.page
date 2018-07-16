@@ -69,7 +69,7 @@
   <p>If the error message "Could not open the link: Operation not supported" is shown, you need to install the package <sys>gvfs</sys>.</p>
   <if:choose xmlns:if="http://projectmallard.org/if/1.0/">
     <if:when test="action:install">
-      <p><link action="install:gvfs" href="http://ftp.gnome.org/pub/gnome/sources/gvfs/" style="button">Install gvfs</link></p>
+      <p><link action="install:gvfs" href="https://ftp.gnome.org/pub/gnome/sources/gvfs/" style="button">Install gvfs</link></p>
     </if:when>
   </if:choose>
 </note>
