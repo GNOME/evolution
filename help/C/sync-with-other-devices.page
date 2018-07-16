@@ -20,7 +20,7 @@
 
 <p>There are currently no "recommended instructions" for users.</p>
 
-<p>Many distributions provide the application <app><link href="http://syncevolution.org/">SyncEvolution</link></app> that can be used in combination with devices that support <link href="https://en.wikipedia.org/wiki/SyncML">SyncML</link>.</p>
+<p>Many distributions provide the application <app><link href="https://syncevolution.org/">SyncEvolution</link></app> that can be used in combination with devices that support <link href="https://en.wikipedia.org/wiki/SyncML">SyncML</link>.</p>
 
 <p>In general it is recommended to use applications and devices that both support the <link href="https://en.wikipedia.org/wiki/ActiveSync">ActiveSync protocol</link> (such as <app>SyncEvolution</app>). A <link href="https://en.wikipedia.org/wiki/List_of_collaborative_software">list of collaborative software</link> is available on Wikipedia.</p>
 
