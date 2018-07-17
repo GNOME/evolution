@@ -45,5 +45,10 @@
       <_summary>Use sound theme</_summary>
       <_description>Play themed sound when new messages arrive, if not in beep mode.</_description>
     </key>
+    <key name="notify-not-accounts" type="as">
+      <default>['']</default>
+      <_summary>Do not notify for these accounts</_summary>
+      <_description>Contains UIDs of accounts for which the notifications should be avoided.</_description>
+    </key>
   </schema>
 </schemalist>

@@ -36,6 +36,9 @@
 
 #include <time.h>
 
+#include <mail/e-mail-account-store.h>
+#include <mail/e-mail-backend.h>
+#include <mail/e-mail-ui-session.h>
 #include <mail/em-utils.h>
 #include <mail/em-event.h>
 #include <mail/em-folder-tree.h>
@@ -57,8 +60,9 @@
 #define GNOME_NOTIFICATIONS_PANEL_DESKTOP "gnome-notifications-panel.desktop"
 
 static gboolean enabled = FALSE;
-static GtkWidget *get_cfg_widget (void);
 static GMutex mlock;
+static gulong not_accounts_handler_id = 0;
+static GHashTable *not_accounts = NULL; /* gchar * ~> NULL; UIDs of accounts which have disabled notifications */
 
 /**
  * each part should "implement" its own "public" functions:
@@ -97,6 +101,65 @@ is_part_enabled (const gchar *key)
 	g_object_unref (settings);
 
 	return res;
+}
+
+static gboolean
+can_notify_account (CamelStore *store)
+{
+	gboolean can_notify;
+	const gchar *uid;
+
+	if (!store)
+		return TRUE;
+
+	g_mutex_lock (&mlock);
+
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	can_notify = !uid || !not_accounts || !g_hash_table_contains (not_accounts, uid);
+
+	g_mutex_unlock (&mlock);
+
+	return can_notify;
+}
+
+static void
+mail_notify_not_accounts_changed_locked (GSettings *settings)
+{
+	gchar **uids;
+
+	g_return_if_fail (G_IS_SETTINGS (settings));
+
+	uids = g_settings_get_strv (settings, "notify-not-accounts");
+
+	if (uids && *uids) {
+		gint ii;
+
+		if (!not_accounts)
+			not_accounts = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+		g_hash_table_remove_all (not_accounts);
+
+		for (ii = 0; uids[ii]; ii++) {
+			g_hash_table_insert (not_accounts, g_strdup (uids[ii]), NULL);
+		}
+	} else if (not_accounts) {
+		g_hash_table_destroy (not_accounts);
+		not_accounts = NULL;
+	}
+
+	g_strfreev (uids);
+}
+
+static void
+mail_notify_not_accounts_changed_cb (GSettings *settings,
+				     const gchar *key,
+				     gpointer user_data)
+{
+	g_return_if_fail (G_IS_SETTINGS (settings));
+
+	g_mutex_lock (&mlock);
+	mail_notify_not_accounts_changed_locked (settings);
+	g_mutex_unlock (&mlock);
 }
 
 /* -------------------------------------------------------------------  */
@@ -861,20 +924,268 @@ e_mail_notif_open_gnome_notification_settings_cb (GtkWidget *button,
 #endif
 }
 
+enum {
+	E_MAIL_NOTIFY_ACCOUNTS_UID = 0,
+	E_MAIL_NOTIFY_ACCOUNTS_DISPLAY_NAME,
+	E_MAIL_NOTIFY_ACCOUNTS_ENABLED,
+	E_MAIL_NOTIFY_ACCOUNTS_N_COLUMNS
+};
+
+static void
+e_mail_notify_account_tree_view_enabled_toggled_cb (GtkCellRendererToggle *cell_renderer,
+						    const gchar *path_string,
+						    gpointer user_data)
+{
+	GtkTreeView *tree_view = user_data;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GPtrArray *array;
+	GSettings *settings;
+	gboolean enabled = FALSE;
+
+	g_return_if_fail (GTK_IS_TREE_VIEW (tree_view));
+
+	model = gtk_tree_view_get_model (tree_view);
+	path = gtk_tree_path_new_from_string (path_string);
+
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		return;
+	}
+
+	gtk_tree_model_get (model, &iter, E_MAIL_NOTIFY_ACCOUNTS_ENABLED, &enabled, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, E_MAIL_NOTIFY_ACCOUNTS_ENABLED, !enabled, -1);
+
+	gtk_tree_path_free (path);
+
+	array = g_ptr_array_new_with_free_func (g_free);
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gchar *uid = NULL;
+			gboolean enabled = FALSE;
+
+			gtk_tree_model_get (model, &iter,
+				E_MAIL_NOTIFY_ACCOUNTS_ENABLED, &enabled,
+				E_MAIL_NOTIFY_ACCOUNTS_UID, &uid,
+				-1);
+
+			if (!enabled && uid) {
+				g_ptr_array_add (array, uid);
+			} else {
+				g_free (uid);
+			}
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	g_ptr_array_add (array, NULL);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
+	g_settings_set_strv (settings, "notify-not-accounts", (const gchar * const *) array->pdata);
+	g_object_unref (settings);
+
+	g_ptr_array_free (array, TRUE);
+}
+
+static GtkWidget *
+get_config_widget_accounts (void)
+{
+	EShell *shell;
+	GtkListStore *list_store;
+	GtkTreeViewColumn *column;
+	GtkCellRenderer *cell_renderer;
+	GtkWidget *container;
+	GtkWidget *tree_view;
+	GtkWidget *widget;
+	GtkWidget *label;
+
+	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"border-width", 12,
+		NULL);
+
+	container = widget;
+
+	widget = gtk_label_new_with_mnemonic (_("Select _Accounts for which enable notifications:"));
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_START,
+		"hexpand", FALSE,
+		"valign", GTK_ALIGN_CENTER,
+		"vexpand", FALSE,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	label = widget;
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"shadow-type", GTK_SHADOW_IN,
+		NULL);
+
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+
+	list_store = gtk_list_store_new (E_MAIL_NOTIFY_ACCOUNTS_N_COLUMNS,
+		G_TYPE_STRING,
+		G_TYPE_STRING,
+		G_TYPE_BOOLEAN);
+
+	shell = e_shell_get_default ();
+	g_warn_if_fail (shell != NULL);
+
+	if (shell) {
+		EMailAccountStore *account_store = NULL;
+		EShellBackend *shell_backend;
+
+		shell_backend = e_shell_get_backend_by_name (shell, "mail");
+		if (shell_backend) {
+			EMailSession *mail_session;
+
+			mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+			account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (mail_session));
+		}
+
+		if (account_store) {
+			GSettings *settings;
+			GtkTreeModel *amodel = GTK_TREE_MODEL (account_store);
+			GtkTreeIter aiter;
+			gchar **strv;
+			GHashTable *local_not_accounts;
+			gint ii;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
+			strv = g_settings_get_strv (settings, "notify-not-accounts");
+			g_object_unref (settings);
+
+			/* Borrows values from 'strv', thus free 'strv' only after free of 'local_not_accounts' */
+			local_not_accounts = g_hash_table_new (g_str_hash, g_str_equal);
+
+			for (ii = 0; strv && strv[ii]; ii++) {
+				g_hash_table_insert (local_not_accounts, strv[ii], NULL);
+			}
+
+			if (gtk_tree_model_get_iter_first (amodel, &aiter)) {
+				do {
+					CamelService *service = NULL;
+
+					gtk_tree_model_get (amodel, &aiter,
+						E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &service,
+						-1);
+
+					if (service) {
+						GtkTreeIter iter;
+						const gchar *uid;
+
+						uid = camel_service_get_uid (service);
+
+						if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) != 0) {
+							gtk_list_store_append (list_store, &iter);
+							gtk_list_store_set (list_store, &iter,
+								E_MAIL_NOTIFY_ACCOUNTS_UID, uid,
+								E_MAIL_NOTIFY_ACCOUNTS_DISPLAY_NAME, camel_service_get_display_name (service),
+								E_MAIL_NOTIFY_ACCOUNTS_ENABLED, !g_hash_table_contains (local_not_accounts, uid),
+								-1);
+						}
+					}
+
+					g_clear_object (&service);
+				} while (gtk_tree_model_iter_next (amodel, &aiter));
+			}
+
+			g_hash_table_destroy (local_not_accounts);
+			g_strfreev (strv);
+		}
+	}
+
+	tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (list_store));
+	g_object_set (G_OBJECT (tree_view),
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		NULL);
+
+	g_object_unref (list_store);
+
+	gtk_container_add (GTK_CONTAINER (widget), tree_view);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), tree_view);
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_expand (column, FALSE);
+	gtk_tree_view_column_set_title (column, _("Enabled"));
+
+	cell_renderer = gtk_cell_renderer_toggle_new ();
+	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
+
+	g_signal_connect (
+		cell_renderer, "toggled",
+		G_CALLBACK (e_mail_notify_account_tree_view_enabled_toggled_cb),
+		tree_view);
+
+	gtk_tree_view_column_add_attribute (column, cell_renderer, "active", E_MAIL_NOTIFY_ACCOUNTS_ENABLED);
+
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
+
+	column = gtk_tree_view_column_new ();
+	gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_column_set_title (column, _("Account Name"));
+
+	cell_renderer = gtk_cell_renderer_text_new ();
+	g_object_set (cell_renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+	gtk_tree_view_column_pack_start (column, cell_renderer, FALSE);
+
+	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_MAIL_NOTIFY_ACCOUNTS_DISPLAY_NAME);
+
+	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
+
+	gtk_widget_show_all (container);
+
+	return container;
+}
+
 static GtkWidget *
 get_cfg_widget (void)
 {
 	GtkWidget *container;
+	GtkWidget *notebook;
 	GtkWidget *widget;
 	GSettings *settings;
 	const gchar *text;
+	gchar *tmp;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
 
+	notebook = gtk_notebook_new ();
+	gtk_widget_show (notebook);
+
 	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
 	gtk_widget_show (widget);
 
 	container = widget;
+
+	tmp = g_strconcat ("<b>", _("Mail Notification"), "</b>", NULL);
+	widget = gtk_label_new ("");
+	g_object_set (G_OBJECT (widget),
+		"halign", GTK_ALIGN_START,
+		"hexpand", FALSE,
+		"valign", GTK_ALIGN_CENTER,
+		"vexpand", FALSE,
+		"use-markup", TRUE,
+		"label", tmp,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+	g_free (tmp);
 
 	text = _("Notify new messages for _Inbox only");
 	widget = gtk_check_button_new_with_mnemonic (text);
@@ -906,9 +1217,15 @@ get_cfg_widget (void)
 		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	}
 
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), container, gtk_label_new (_("Configuration")));
+
+	widget = get_config_widget_accounts ();
+
+	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), widget, gtk_label_new (_("Accounts")));
+
 	g_object_unref (settings);
 
-	return container;
+	return notebook;
 }
 
 void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
@@ -924,8 +1241,9 @@ org_gnome_mail_new_notify (EPlugin *ep,
 {
 	g_return_if_fail (t != NULL);
 
-	if (!enabled || !t->new || (!t->is_inbox &&
-		is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)))
+	if (!enabled || !t->new ||
+	    (!t->is_inbox && is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)) ||
+	    !can_notify_account (t->store))
 		return;
 
 	g_mutex_lock (&mlock);
@@ -950,8 +1268,9 @@ org_gnome_mail_unread_notify (EPlugin *ep,
 #ifdef HAVE_LIBNOTIFY
 	g_return_if_fail (t != NULL);
 
-	if (!enabled || (!t->is_inbox &&
-		is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)))
+	if (!enabled ||
+	    (!t->is_inbox && is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)) ||
+	    !can_notify_account (t->store))
 		return;
 
 	g_mutex_lock (&mlock);
@@ -969,7 +1288,7 @@ org_gnome_mail_read_notify (EPlugin *ep,
 {
 	g_return_if_fail (t != NULL);
 
-	if (!enabled)
+	if (!enabled || !can_notify_account (camel_folder_get_parent_store (t->folder)))
 		return;
 
 	g_mutex_lock (&mlock);
@@ -997,10 +1316,43 @@ e_plugin_lib_enable (EPlugin *ep,
 		if (is_part_enabled (CONF_KEY_ENABLED_SOUND))
 			enable_sound (enable);
 
+		g_mutex_lock (&mlock);
+
+		if (!not_accounts_handler_id) {
+			GSettings *settings;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
+			mail_notify_not_accounts_changed_locked (settings);
+			not_accounts_handler_id = g_signal_connect (settings, "changed::notify-not-accounts",
+				G_CALLBACK (mail_notify_not_accounts_changed_cb), NULL);
+			g_object_unref (settings);
+		}
+
+		g_mutex_unlock (&mlock);
+
 		enabled = TRUE;
 	} else {
 		enable_dbus (enable);
 		enable_sound (enable);
+
+		g_mutex_lock (&mlock);
+
+		if (not_accounts_handler_id) {
+			GSettings *settings;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
+			g_signal_handler_disconnect (settings, not_accounts_handler_id);
+			g_object_unref (settings);
+
+			not_accounts_handler_id = 0;
+
+			if (not_accounts) {
+				g_hash_table_destroy (not_accounts);
+				not_accounts = NULL;
+			}
+		}
+
+		g_mutex_unlock (&mlock);
 
 		enabled = FALSE;
 	}

@@ -106,6 +106,34 @@ eppm_switch_page_cb (GtkNotebook *notebook,
 }
 
 static void
+eppm_move_page (GtkNotebook *src,
+		GtkNotebook *dest,
+		gint src_page_num)
+{
+	GtkWidget *page, *label;
+
+	g_return_if_fail (GTK_IS_NOTEBOOK (src));
+	g_return_if_fail (GTK_IS_NOTEBOOK (dest));
+	g_return_if_fail (src_page_num >= 0 && src_page_num < gtk_notebook_get_n_pages (src));
+
+	page = gtk_notebook_get_nth_page (src, src_page_num);
+	g_return_if_fail (page != NULL);
+
+	label = gtk_notebook_get_tab_label (src, page);
+
+	if (label)
+		g_object_ref (label);
+	g_object_ref (page);
+
+	gtk_notebook_remove_page (src, src_page_num);
+
+	gtk_notebook_append_page (dest, page, label);
+
+	g_clear_object (&page);
+	g_clear_object (&label);
+}
+
+static void
 eppm_show_plugin (Manager *m,
                   EPlugin *ep,
                   GtkWidget *cfg_widget)
@@ -150,16 +178,27 @@ eppm_show_plugin (Manager *m,
 			gtk_label_set_label (m->items[i], "");
 	}
 
-	if (cfg_widget != NULL)
-		gtk_notebook_append_page_menu (
-			GTK_NOTEBOOK (notebook), configure_page,
-			gtk_label_new (_("Configuration")), NULL);
+	if (cfg_widget) {
+		if (GTK_IS_NOTEBOOK (cfg_widget)) {
+			gint ii, n_pages;
+
+			n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (cfg_widget));
+
+			for (ii = 0; ii < n_pages; ii++) {
+				eppm_move_page (GTK_NOTEBOOK (cfg_widget), GTK_NOTEBOOK (notebook), 0);
+			}
+		} else {
+			gtk_notebook_append_page_menu (
+				GTK_NOTEBOOK (notebook), configure_page,
+				gtk_label_new (_("Configuration")), NULL);
+		}
+	}
 
 	if (m->active_cfg_widget != cfg_widget) {
 		if (m->active_cfg_widget)
 			gtk_widget_hide (m->active_cfg_widget);
 
-		if (cfg_widget)
+		if (cfg_widget && !GTK_IS_NOTEBOOK (cfg_widget))
 			gtk_widget_show (cfg_widget);
 
 		m->active_cfg_widget = cfg_widget;
@@ -174,7 +213,20 @@ eppm_selection_changed (GtkTreeSelection *selection,
 	GtkTreeIter iter;
 
 	g_signal_handler_block (notebook, switch_page_handler_id);
-	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), 1);
+
+	if (m->active_cfg_widget && GTK_IS_NOTEBOOK (m->active_cfg_widget)) {
+		gint ii, n_pages;
+
+		n_pages = gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook));
+
+		for (ii = 1; ii < n_pages; ii++) {
+			eppm_move_page (GTK_NOTEBOOK (notebook), GTK_NOTEBOOK (m->active_cfg_widget), 1);
+		}
+	}
+
+	while (gtk_notebook_get_n_pages (GTK_NOTEBOOK (notebook)) > 1)
+		gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), 1);
+
 	g_signal_handler_unblock (notebook, switch_page_handler_id);
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
