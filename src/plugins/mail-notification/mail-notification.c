@@ -384,16 +384,6 @@ new_notify_status (EMEventTargetFolder *t)
 	const gchar *icon_name;
 
 	if (!status_count) {
-		CamelService *service;
-		const gchar *store_name;
-		gchar *folder_name;
-
-		service = CAMEL_SERVICE (t->store);
-		store_name = camel_service_get_display_name (service);
-
-		folder_name = g_strdup_printf (
-			"%s/%s", store_name, t->folder_name);
-
 		status_count = t->new;
 
 		text = g_strdup_printf (ngettext (
@@ -401,8 +391,6 @@ new_notify_status (EMEventTargetFolder *t)
 			"You have received %d new message.",
 			"You have received %d new messages.",
 			status_count), status_count);
-
-		g_free (folder_name);
 
 		if (t->msg_sender) {
 			gchar *tmp, *str;
