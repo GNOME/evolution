@@ -1,5 +1,5 @@
 /*
- * evolution-book-config-webdav.c
+ * evolution-book-config-carddav.c
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -24,8 +24,8 @@
 
 #include <e-util/e-util.h>
 
-typedef ESourceConfigBackend EBookConfigWebdav;
-typedef ESourceConfigBackendClass EBookConfigWebdavClass;
+typedef ESourceConfigBackend EBookConfigCardDAV;
+typedef ESourceConfigBackendClass EBookConfigCardDAVClass;
 
 typedef struct _Context Context;
 
@@ -43,15 +43,15 @@ void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
 
 /* Forward Declarations */
-GType e_book_config_webdav_get_type (void);
+GType e_book_config_carddav_get_type (void);
 
 G_DEFINE_DYNAMIC_TYPE (
-	EBookConfigWebdav,
-	e_book_config_webdav,
+	EBookConfigCardDAV,
+	e_book_config_carddav,
 	E_TYPE_SOURCE_CONFIG_BACKEND)
 
 static void
-book_config_webdav_context_free (Context *context)
+book_config_carddav_context_free (Context *context)
 {
 	g_clear_object (&context->url_entry);
 	g_clear_object (&context->find_button);
@@ -61,15 +61,15 @@ book_config_webdav_context_free (Context *context)
 }
 
 static GtkWindow *
-webdav_config_get_dialog_parent_cb (ECredentialsPrompter *prompter,
-				    GtkWindow *dialog)
+carddav_config_get_dialog_parent_cb (ECredentialsPrompter *prompter,
+				     GtkWindow *dialog)
 {
 	return dialog;
 }
 
 static void
-book_config_webdav_run_dialog (GtkButton *button,
-			       Context *context)
+book_config_carddav_run_dialog (GtkButton *button,
+				Context *context)
 {
 	ESourceConfig *config;
 	ESourceRegistry *registry;
@@ -109,7 +109,7 @@ book_config_webdav_run_dialog (GtkButton *button,
 			G_BINDING_SYNC_CREATE);
 
 	handler_id = g_signal_connect (prompter, "get-dialog-parent",
-		G_CALLBACK (webdav_config_get_dialog_parent_cb), dialog);
+		G_CALLBACK (carddav_config_get_dialog_parent_cb), dialog);
 
 	e_webdav_discover_dialog_refresh (dialog);
 
@@ -157,10 +157,10 @@ book_config_webdav_run_dialog (GtkButton *button,
 }
 
 static gboolean
-book_config_webdav_uri_to_text (GBinding *binding,
-                                const GValue *source_value,
-                                GValue *target_value,
-                                gpointer user_data)
+book_config_carddav_uri_to_text (GBinding *binding,
+				 const GValue *source_value,
+				 GValue *target_value,
+				 gpointer user_data)
 {
 	SoupURI *soup_uri;
 	gchar *text;
@@ -175,10 +175,10 @@ book_config_webdav_uri_to_text (GBinding *binding,
 }
 
 static gboolean
-book_config_webdav_text_to_uri (GBinding *binding,
-                                const GValue *source_value,
-                                GValue *target_value,
-                                gpointer user_data)
+book_config_carddav_text_to_uri (GBinding *binding,
+				 const GValue *source_value,
+				 GValue *target_value,
+				 gpointer user_data)
 {
 	ESource *source;
 	SoupURI *soup_uri;
@@ -212,8 +212,8 @@ book_config_webdav_text_to_uri (GBinding *binding,
 }
 
 static void
-book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
-                                   ESource *scratch_source)
+book_config_carddav_insert_widgets (ESourceConfigBackend *backend,
+				    ESource *scratch_source)
 {
 	ESourceConfig *config;
 	ESource *collection_source;
@@ -233,7 +233,7 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 
 	g_object_set_data_full (
 		G_OBJECT (backend), uid, context,
-		(GDestroyNotify) book_config_webdav_context_free);
+		(GDestroyNotify) book_config_carddav_context_free);
 
 	e_book_source_config_add_offline_toggle (
 		E_BOOK_SOURCE_CONFIG (config), scratch_source);
@@ -254,7 +254,7 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 			extension, "soup-uri",
 			widget, "label",
 			G_BINDING_SYNC_CREATE,
-			book_config_webdav_uri_to_text,
+			book_config_carddav_uri_to_text,
 			NULL,
 			g_object_ref (scratch_source),
 			(GDestroyNotify) g_object_unref);
@@ -278,7 +278,7 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 
 		g_signal_connect (
 			widget, "clicked",
-			G_CALLBACK (book_config_webdav_run_dialog), context);
+			G_CALLBACK (book_config_carddav_run_dialog), context);
 	}
 
 	widget = gtk_check_button_new_with_label (
@@ -300,15 +300,15 @@ book_config_webdav_insert_widgets (ESourceConfigBackend *backend,
 			context->url_entry, "text",
 			G_BINDING_BIDIRECTIONAL |
 			G_BINDING_SYNC_CREATE,
-			book_config_webdav_uri_to_text,
-			book_config_webdav_text_to_uri,
+			book_config_carddav_uri_to_text,
+			book_config_carddav_text_to_uri,
 			NULL, (GDestroyNotify) NULL);
 	}
 }
 
 static gboolean
-book_config_webdav_check_complete (ESourceConfigBackend *backend,
-                                   ESource *scratch_source)
+book_config_carddav_check_complete (ESourceConfigBackend *backend,
+				    ESource *scratch_source)
 {
 	SoupURI *soup_uri;
 	GtkEntry *entry;
@@ -339,33 +339,33 @@ book_config_webdav_check_complete (ESourceConfigBackend *backend,
 }
 
 static void
-e_book_config_webdav_class_init (ESourceConfigBackendClass *class)
+e_book_config_carddav_class_init (ESourceConfigBackendClass *class)
 {
 	EExtensionClass *extension_class;
 
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_BOOK_SOURCE_CONFIG;
 
-	class->parent_uid = "webdav-stub";
-	class->backend_name = "webdav";
-	class->insert_widgets = book_config_webdav_insert_widgets;
-	class->check_complete = book_config_webdav_check_complete;
+	class->parent_uid = "carddav-stub";
+	class->backend_name = "carddav";
+	class->insert_widgets = book_config_carddav_insert_widgets;
+	class->check_complete = book_config_carddav_check_complete;
 }
 
 static void
-e_book_config_webdav_class_finalize (ESourceConfigBackendClass *class)
+e_book_config_carddav_class_finalize (ESourceConfigBackendClass *class)
 {
 }
 
 static void
-e_book_config_webdav_init (ESourceConfigBackend *backend)
+e_book_config_carddav_init (ESourceConfigBackend *backend)
 {
 }
 
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
-	e_book_config_webdav_register_type (type_module);
+	e_book_config_carddav_register_type (type_module);
 }
 
 G_MODULE_EXPORT void

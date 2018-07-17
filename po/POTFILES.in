@@ -399,9 +399,9 @@ src/modules/backup-restore/evolution-backup-tool.c
 src/modules/backup-restore/org-gnome-backup-restore.error.xml
 src/modules/bogofilter/evolution-bogofilter.c
 src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in
+src/modules/book-config-carddav/evolution-book-config-carddav.c
 src/modules/book-config-google/evolution-book-config-google.c
 src/modules/book-config-ldap/evolution-book-config-ldap.c
-src/modules/book-config-webdav/evolution-book-config-webdav.c
 src/modules/cal-config-caldav/evolution-cal-config-caldav.c
 src/modules/cal-config-contacts/evolution-cal-config-contacts.c
 src/modules/cal-config-google/e-cal-config-google.c
