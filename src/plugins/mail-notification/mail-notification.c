@@ -1011,7 +1011,7 @@ get_config_widget_accounts (void)
 
 	container = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Select _Accounts for which enable notifications:"));
+	widget = gtk_label_new_with_mnemonic (_("Select _accounts for which enable notifications:"));
 	g_object_set (G_OBJECT (widget),
 		"halign", GTK_ALIGN_START,
 		"hexpand", FALSE,
