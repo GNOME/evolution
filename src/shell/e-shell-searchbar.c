@@ -242,7 +242,7 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 		e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg);
 
 		css = g_strdup_printf (
-			"GtkEntry#searchbar_searchentry_active { "
+			"#searchbar_searchentry_active { "
 			"   background:none; "
 			"   background-color:#%06x; "
 			"   color:#%06x; "
