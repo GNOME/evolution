@@ -2425,6 +2425,7 @@ e_editor_undo_redo_manager_insert_dash_history_event (EEditorUndoRedoManager *ma
 		item = history->data;
 
 		if (item->type != HISTORY_INPUT) {
+			free_history_event (event);
 			g_object_unref (editor_page);
 			return;
 		}
@@ -2442,7 +2443,11 @@ e_editor_undo_redo_manager_insert_dash_history_event (EEditorUndoRedoManager *ma
 
 			manager->priv->history = g_list_insert_before (
 				manager->priv->history, history, event);
+		} else {
+			free_history_event (event);
 		}
+	} else {
+		free_history_event (event);
 	}
 
 	g_object_unref (editor_page);

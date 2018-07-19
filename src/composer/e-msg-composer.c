@@ -4822,6 +4822,8 @@ handle_mailto (EMsgComposer *composer,
 		html_body = camel_text_to_html (body, flags, 0);
 		set_editor_text (composer, html_body, TRUE, TRUE);
 		g_free (html_body);
+
+		g_free (body);
 	}
 }
 
