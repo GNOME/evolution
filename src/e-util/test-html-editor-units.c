@@ -898,7 +898,7 @@ test_link_insert_typed_append (TestFixture *fixture)
 		"type:www.gnome.org \n"
 		"seq:l\n"
 		"type:/about\n",
-		HTML_PREFIX "<div><a href=\"http://www.gnome.org/about\">www.gnome.org/about</a> </div>" HTML_SUFFIX,
+		HTML_PREFIX "<div><a href=\"http://www.gnome.org/\">www.gnome.org/about</a> </div>" HTML_SUFFIX,
 		"www.gnome.org/about "))
 		g_test_fail ();
 }
@@ -1004,7 +1004,7 @@ test_emoticon_insert_typed (TestFixture *fixture)
 	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-magic-smileys", TRUE);
 	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-unicode-smileys", FALSE);
 
-	image_data_base64 = test_utils_get_base64_data_for_image ("/usr/share/icons/Adwaita/16x16/emotes/face-smile.png");
+	image_data_base64 = test_utils_get_base64_data_for_image ("face-smile");
 
 	expected_html = g_strconcat (HTML_PREFIX "<div>before <img src=\"data:image/png;base64,",
 		image_data_base64, "\" alt=\":-)\">after</div>" HTML_SUFFIX, NULL);
@@ -1030,7 +1030,7 @@ test_emoticon_insert_typed_dash (TestFixture *fixture)
 	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-magic-smileys", TRUE);
 	test_utils_fixture_change_setting_boolean (fixture, "org.gnome.evolution.mail", "composer-unicode-smileys", FALSE);
 
-	image_data_base64 = test_utils_get_base64_data_for_image ("/usr/share/icons/Adwaita/16x16/emotes/face-smile.png");
+	image_data_base64 = test_utils_get_base64_data_for_image ("face-smile");
 
 	expected_html = g_strconcat (HTML_PREFIX "<div>before <img src=\"data:image/png;base64,",
 		image_data_base64, "\" alt=\":-)\">after</div>" HTML_SUFFIX, NULL);

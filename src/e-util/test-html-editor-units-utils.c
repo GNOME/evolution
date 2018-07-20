@@ -1107,7 +1107,21 @@ test_utils_get_base64_data_for_image (const gchar *path)
 	gboolean success;
 	GError *error = NULL;
 
-	success = g_file_get_contents (path, &image_data, &image_data_length, &error);
+	if (path && strchr (path, G_DIR_SEPARATOR)) {
+		success = g_file_get_contents (path, &image_data, &image_data_length, &error);
+	} else {
+		gchar *filename;
+
+		filename = e_icon_factory_get_icon_filename (path, GTK_ICON_SIZE_MENU);
+		if (filename) {
+			success = g_file_get_contents (filename, &image_data, &image_data_length, &error);
+			g_free (filename);
+		} else {
+			g_set_error (&error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND, "Icon '%s' not found", path);
+			success = FALSE;
+		}
+	}
+
 	g_assert_no_error (error);
 	g_assert (success);
 
