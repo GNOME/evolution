@@ -718,19 +718,17 @@ static void
 action_mail_flag_clear_cb (GtkAction *action,
                            EMailReader *reader)
 {
-	EMailDisplay *display;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
 
 	folder = e_mail_reader_ref_folder (reader);
-	display = e_mail_reader_get_mail_display (reader);
 	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	window = e_mail_reader_get_window (reader);
 
 	em_utils_flag_for_followup_clear (window, folder, uids);
 
-	e_mail_display_reload (display);
+	e_mail_reader_reload (reader);
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
@@ -740,19 +738,17 @@ static void
 action_mail_flag_completed_cb (GtkAction *action,
                                EMailReader *reader)
 {
-	EMailDisplay *display;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
 
 	folder = e_mail_reader_ref_folder (reader);
-	display = e_mail_reader_get_mail_display (reader);
 	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 	window = e_mail_reader_get_window (reader);
 
 	em_utils_flag_for_followup_completed (window, folder, uids);
 
-	e_mail_display_reload (display);
+	e_mail_reader_reload (reader);
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
@@ -769,6 +765,8 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
 
 	em_utils_flag_for_followup (reader, folder, uids);
+
+	e_mail_reader_reload (reader);
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
@@ -3311,6 +3309,29 @@ mail_reader_manage_followup_flag (EMailReader *reader,
 }
 
 static void
+mail_reader_reload (EMailReader *reader)
+{
+	CamelFolder *folder;
+	GPtrArray *uids;
+	EMailDisplay *mail_display;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	folder = e_mail_reader_ref_folder (reader);
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
+
+	if (uids && uids->len == 1)
+		mail_reader_manage_followup_flag (reader, folder, uids->pdata[0]);
+
+	g_clear_object (&folder);
+	if (uids)
+		g_ptr_array_unref (uids);
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	e_mail_display_reload (mail_display);
+}
+
+static void
 mail_reader_message_loaded_cb (CamelFolder *folder,
                                GAsyncResult *result,
                                EMailReaderClosure *closure)
@@ -3881,7 +3902,6 @@ mail_reader_update_actions (EMailReader *reader,
 	gboolean any_messages_selected;
 	gboolean enable_flag_clear;
 	gboolean enable_flag_completed;
-	gboolean enable_flag_for_followup;
 	gboolean have_enabled_account;
 	gboolean multiple_messages_selected;
 	gboolean selection_has_attachment_messages;
@@ -3913,8 +3933,6 @@ mail_reader_update_actions (EMailReader *reader,
 		(state & E_MAIL_READER_SELECTION_FLAG_CLEAR);
 	enable_flag_completed =
 		(state & E_MAIL_READER_SELECTION_FLAG_COMPLETED);
-	enable_flag_for_followup =
-		(state & E_MAIL_READER_SELECTION_FLAG_FOLLOWUP);
 	selection_has_attachment_messages =
 		(state & E_MAIL_READER_SELECTION_HAS_ATTACHMENTS);
 	selection_has_deleted_messages =
@@ -4060,7 +4078,7 @@ mail_reader_update_actions (EMailReader *reader,
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-flag-for-followup";
-	sensitive = enable_flag_for_followup;
+	sensitive = any_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -4371,6 +4389,7 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 	iface->show_search_bar = mail_reader_show_search_bar;
 	iface->update_actions = mail_reader_update_actions;
 	iface->close_on_delete_or_junk = mail_reader_close_on_delete_or_junk;
+	iface->reload = mail_reader_reload;
 
 	g_object_interface_install_property (
 		iface,
@@ -5966,4 +5985,17 @@ e_mail_reader_connect_remote_content (EMailReader *reader)
 
 	g_signal_connect (mail_display, "load-changed",
 		G_CALLBACK (mail_reader_display_load_changed_cb), reader);
+}
+
+void
+e_mail_reader_reload (EMailReader *reader)
+{
+	EMailReaderInterface *iface;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	iface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_if_fail (iface->reload != NULL);
+
+	iface->reload (reader);
 }

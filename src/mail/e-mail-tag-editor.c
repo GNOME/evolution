@@ -57,14 +57,6 @@ enum {
 G_DEFINE_TYPE (EMailTagEditor, e_mail_tag_editor, GTK_TYPE_DIALOG)
 
 static void
-mail_tag_editor_clear_clicked_cb (EMailTagEditor *editor)
-{
-	gtk_combo_box_set_active (editor->priv->combo_entry, DEFAULT_FLAG);
-	e_date_edit_set_time (editor->priv->target_date, (time_t) -1);
-	e_mail_tag_editor_set_completed (editor, FALSE);
-}
-
-static void
 mail_tag_editor_set_property (GObject *object,
                               guint property_id,
                               const GValue *value,
@@ -166,6 +158,7 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 	gtk_dialog_add_buttons (
 		dialog,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("Cl_ear"), GTK_RESPONSE_REJECT,
 		_("_OK"), GTK_RESPONSE_OK,
 		NULL);
 
@@ -221,11 +214,6 @@ e_mail_tag_editor_init (EMailTagEditor *editor)
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
-
-	widget = e_builder_get_widget (builder, "clear");
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (mail_tag_editor_clear_clicked_cb), editor);
 
 	g_object_unref (builder);
 }

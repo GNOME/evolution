@@ -236,11 +236,11 @@ em_utils_flag_for_followup (EMailReader *reader,
                             CamelFolder *folder,
                             GPtrArray *uids)
 {
-	EMailDisplay *display;
 	GtkWidget *editor;
 	GtkWindow *window;
 	CamelNameValueArray *tags;
 	guint ii, tags_len;
+	gint response;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
@@ -285,14 +285,19 @@ em_utils_flag_for_followup (EMailReader *reader,
 		}
 	}
 
-	if (gtk_dialog_run (GTK_DIALOG (editor)) != GTK_RESPONSE_OK)
+	response = gtk_dialog_run (GTK_DIALOG (editor));
+	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_REJECT)
 		goto exit;
 
-	tags = e_mail_tag_editor_get_tag_list (E_MAIL_TAG_EDITOR (editor));
-	if (tags == NULL)
-		goto exit;
+	if (response == GTK_RESPONSE_OK) {
+		tags = e_mail_tag_editor_get_tag_list (E_MAIL_TAG_EDITOR (editor));
+		if (!tags)
+			goto exit;
+	} else {
+		tags = NULL;
+	}
 
-	tags_len = camel_name_value_array_get_length (tags);
+	tags_len = tags ? camel_name_value_array_get_length (tags) : 0;
 
 	camel_folder_freeze (folder);
 	for (ii = 0; ii < uids->len; ii++) {
@@ -306,13 +311,19 @@ em_utils_flag_for_followup (EMailReader *reader,
 
 		camel_message_info_freeze_notifications (info);
 
-		for (jj = 0; jj < tags_len; jj++) {
-			const gchar *name = NULL, *value = NULL;
+		if (response == GTK_RESPONSE_REJECT) {
+			camel_message_info_set_user_tag (info, "follow-up", NULL);
+			camel_message_info_set_user_tag (info, "due-by", NULL);
+			camel_message_info_set_user_tag (info, "completed-on", NULL);
+		} else {
+			for (jj = 0; jj < tags_len; jj++) {
+				const gchar *name = NULL, *value = NULL;
 
-			if (!camel_name_value_array_get (tags, jj, &name, &value))
-				continue;
+				if (!camel_name_value_array_get (tags, jj, &name, &value))
+					continue;
 
-			camel_message_info_set_user_tag (info, name, value);
+				camel_message_info_set_user_tag (info, name, value);
+			}
 		}
 
 		camel_message_info_thaw_notifications (info);
@@ -321,9 +332,6 @@ em_utils_flag_for_followup (EMailReader *reader,
 
 	camel_folder_thaw (folder);
 	camel_name_value_array_free (tags);
-
-	display = e_mail_reader_get_mail_display (reader);
-	e_mail_display_reload (display);
 
 exit:
 	gtk_widget_destroy (GTK_WIDGET (editor));
@@ -354,9 +362,11 @@ em_utils_flag_for_followup_clear (GtkWindow *parent,
 		CamelMessageInfo *mi = camel_folder_get_message_info (folder, uids->pdata[i]);
 
 		if (mi) {
+			camel_message_info_freeze_notifications (mi);
 			camel_message_info_set_user_tag (mi, "follow-up", NULL);
 			camel_message_info_set_user_tag (mi, "due-by", NULL);
 			camel_message_info_set_user_tag (mi, "completed-on", NULL);
+			camel_message_info_thaw_notifications (mi);
 			g_clear_object (&mi);
 		}
 	}

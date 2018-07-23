@@ -136,9 +136,10 @@ struct _EMailReaderInterface {
 						 guint32 state);
 	gboolean	(*close_on_delete_or_junk)
 						(EMailReader *reader);
+	void		(*reload)		(EMailReader *reader);
 
 	/* Padding for future expansion */
-	gpointer reserved[3];
+	gpointer reserved[2];
 };
 
 GType		e_mail_reader_get_type		(void);
@@ -212,6 +213,7 @@ void		e_mail_reader_composer_created	(EMailReader *reader,
 						 CamelMimeMessage *message);
 void		e_mail_reader_connect_remote_content
 						(EMailReader *reader);
+void		e_mail_reader_reload		(EMailReader *reader);
 
 G_END_DECLS
 

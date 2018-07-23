@@ -146,28 +146,13 @@ Please select a follow up action from the “Flag” menu.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="clear">
-            <property name="label" translatable="yes">_Clear</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">False</property>
-            <property name="use_underline">True</property>
-          </object>
-          <packing>
-            <property name="left_attach">2</property>
-            <property name="right_attach">3</property>
-            <property name="x_options">GTK_FILL</property>
-            <property name="y_options"/>
-          </packing>
-        </child>
-        <child>
           <object class="EDateEdit" id="target_date">
             <property name="allow-no-date-set">True</property>
             <property name="visible">True</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
-            <property name="right_attach">3</property>
+            <property name="right_attach">2</property>
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
             <property name="y_options">GTK_FILL</property>
@@ -184,7 +169,7 @@ Please select a follow up action from the “Flag” menu.</property>
           </object>
           <packing>
             <property name="left_attach">1</property>
-            <property name="right_attach">3</property>
+            <property name="right_attach">2</property>
             <property name="top_attach">2</property>
             <property name="bottom_attach">3</property>
             <property name="x_options">GTK_FILL</property>
