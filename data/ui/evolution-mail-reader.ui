@@ -76,18 +76,21 @@
         <menuitem action='mail-archive'/>
         <separator/>
         <menu action='mail-mark-as-menu'>
-          <menuitem action="mail-mark-read"/>
-          <menuitem action="mail-mark-unread"/>
+          <menuitem action='mail-mark-read'/>
+          <menuitem action='mail-mark-unread'/>
           <separator/>
-          <menuitem action="mail-mark-important"/>
-          <menuitem action="mail-mark-unimportant"/>
+          <menuitem action='mail-mark-important'/>
+          <menuitem action='mail-mark-unimportant'/>
           <separator/>
-          <menuitem action="mail-mark-junk"/>
-          <menuitem action="mail-mark-notjunk"/>
+          <menuitem action='mail-mark-junk'/>
+          <menuitem action='mail-mark-notjunk'/>
           <separator/>
-          <menuitem action="mail-flag-for-followup"/>
-          <menuitem action="mail-flag-clear"/>
-          <menuitem action="mail-flag-completed"/>
+          <menuitem action='mail-flag-for-followup'/>
+          <menuitem action='mail-flag-clear'/>
+          <menuitem action='mail-flag-completed'/>
+          <separator/>
+          <menuitem action='mail-color-assign'/>
+          <menuitem action='mail-color-unset'/>
           <separator/>
           <menu action='mail-label-menu'>
             <menuitem action='mail-label-none'/>
@@ -97,10 +100,10 @@
             <menuitem action='mail-label-new'/>
           </menu>
           <separator/>
-          <menuitem action="mail-mark-ignore-thread-whole"/>
-          <menuitem action="mail-mark-ignore-thread-sub"/>
-          <menuitem action="mail-mark-unignore-thread-whole"/>
-          <menuitem action="mail-mark-unignore-thread-sub"/>
+          <menuitem action='mail-mark-ignore-thread-whole'/>
+          <menuitem action='mail-mark-ignore-thread-sub'/>
+          <menuitem action='mail-mark-unignore-thread-whole'/>
+          <menuitem action='mail-mark-unignore-thread-sub'/>
         </menu>
         <menuitem action='mail-filters-apply'/>
         <menuitem action='mail-check-for-junk'/>

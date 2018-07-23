@@ -121,8 +121,11 @@
     <menuitem action='mail-popup-mark-junk'/>
     <menuitem action='mail-popup-mark-notjunk'/>
     <menuitem action='mail-popup-flag-for-followup'/>
-    <menuitem action="mail-popup-flag-clear"/>
-    <menuitem action="mail-popup-flag-completed"/>
+    <menuitem action='mail-popup-flag-clear'/>
+    <menuitem action='mail-popup-flag-completed'/>
+    <separator/>
+    <menuitem action='mail-popup-color-assign'/>
+    <menuitem action='mail-popup-color-unset'/>
     <separator/>
     <menuitem action='mail-popup-add-note'/>
     <menuitem action='mail-popup-edit-note'/>

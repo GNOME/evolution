@@ -398,6 +398,78 @@ exit:
 }
 
 static void
+mail_reader_manage_color_flag_on_selection (EMailReader *reader,
+					    const gchar *color)
+{
+	CamelFolder *folder;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	folder = e_mail_reader_ref_folder (reader);
+
+	if (folder != NULL) {
+		GPtrArray *uids;
+		guint ii;
+
+		camel_folder_freeze (folder);
+
+		uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
+
+		for (ii = 0; ii < uids->len; ii++) {
+			CamelMessageInfo *info;
+
+			info = camel_folder_get_message_info (folder, uids->pdata[ii]);
+			if (info) {
+				camel_message_info_set_user_tag (info, "color", color);
+				g_object_unref (info);
+			}
+		}
+
+		g_ptr_array_unref (uids);
+
+		camel_folder_thaw (folder);
+
+		g_object_unref (folder);
+	}
+}
+
+static void
+action_mail_color_assign_cb (GtkAction *action,
+			     EMailReader *reader)
+{
+	GtkWidget *dialog;
+
+	dialog = gtk_color_chooser_dialog_new (NULL, e_mail_reader_get_window (reader));
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		GdkRGBA rgba;
+		gchar *color;
+
+		gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (dialog), &rgba);
+
+		color = g_strdup_printf ("#%02X%02X%02X",
+			0xFF & ((gint) (255 * rgba.red)),
+			0xFF & ((gint) (255 * rgba.green)),
+			0xFF & ((gint) (255 * rgba.blue)));
+
+		if (color) {
+			mail_reader_manage_color_flag_on_selection (reader, color);
+
+			g_free (color);
+		}
+	}
+
+	gtk_widget_destroy (dialog);
+}
+
+static void
+action_mail_color_unset_cb (GtkAction *action,
+			    EMailReader *reader)
+{
+	mail_reader_manage_color_flag_on_selection (reader, NULL);
+}
+
+static void
 action_mail_copy_cb (GtkAction *action,
                      EMailReader *reader)
 {
@@ -2182,6 +2254,20 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Filter the selected messages for junk status"),
 	  G_CALLBACK (action_mail_check_for_junk_cb) },
 
+	{ "mail-color-assign",
+	  NULL,
+	  N_("Assign C_olor…"),
+	  NULL,
+	  N_("Assign color for the selected messages"),
+	  G_CALLBACK (action_mail_color_assign_cb) },
+
+	{ "mail-color-unset",
+	  NULL,
+	  N_("Unse_t Color"),
+	  NULL,
+	  N_("Unset color for the selected messages"),
+	  G_CALLBACK (action_mail_color_unset_cb) },
+
 	{ "mail-copy",
 	  "mail-copy",
 	  N_("_Copy to Folder..."),
@@ -2690,6 +2776,14 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	{ "mail-popup-archive",
 	  NULL,
 	  "mail-archive" },
+
+	{ "mail-popup-color-assign",
+	  NULL,
+	  "mail-color-assign" },
+
+	{ "mail-popup-color-unset",
+	  NULL,
+	  "mail-color-unset" },
 
 	{ "mail-popup-copy",
 	  NULL,
@@ -3802,6 +3896,7 @@ mail_reader_update_actions (EMailReader *reader,
 	gboolean selection_has_unimportant_messages;
 	gboolean selection_has_unread_messages;
 	gboolean selection_has_mail_note;
+	gboolean selection_has_color;
 	gboolean selection_is_mailing_list;
 	gboolean single_message_selected;
 	gboolean first_message_selected = FALSE;
@@ -3844,6 +3939,8 @@ mail_reader_update_actions (EMailReader *reader,
 		(state & E_MAIL_READER_SELECTION_HAS_UNREAD);
 	selection_has_mail_note =
 		(state & E_MAIL_READER_SELECTION_HAS_MAIL_NOTE);
+	selection_has_color =
+		(state & E_MAIL_READER_SELECTION_HAS_COLOR);
 	selection_is_mailing_list =
 		(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST);
 
@@ -3886,6 +3983,16 @@ mail_reader_update_actions (EMailReader *reader,
 
 	action_name = "mail-check-for-junk";
 	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-color-assign";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-color-unset";
+	sensitive = any_messages_selected && selection_has_color;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -4762,6 +4869,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean has_unimportant = FALSE;
 	gboolean has_unread = FALSE;
 	gboolean has_mail_note = FALSE;
+	gboolean has_color = FALSE;
 	gboolean have_enabled_account = FALSE;
 	gboolean drafts_or_outbox = FALSE;
 	gboolean is_mailing_list;
@@ -4815,9 +4923,6 @@ e_mail_reader_check_state (EMailReader *reader)
 			folder, uids->pdata[ii]);
 		if (info == NULL)
 			continue;
-
-		if (camel_message_info_get_user_flag (info, E_MAIL_NOTES_USER_FLAG))
-			has_mail_note = TRUE;
 
 		flags = camel_message_info_get_flags (info);
 
@@ -4880,10 +4985,10 @@ e_mail_reader_check_state (EMailReader *reader)
 		string = camel_message_info_get_mlist (info);
 		is_mailing_list &= (string != NULL && *string != '\0');
 
-		has_ignore_thread = has_ignore_thread ||
-			camel_message_info_get_user_flag (info, "ignore-thread");
-		has_notignore_thread = has_notignore_thread ||
-			!camel_message_info_get_user_flag (info, "ignore-thread");
+		has_ignore_thread = has_ignore_thread || camel_message_info_get_user_flag (info, "ignore-thread");
+		has_notignore_thread = has_notignore_thread || !camel_message_info_get_user_flag (info, "ignore-thread");
+		has_mail_note = has_mail_note || camel_message_info_get_user_flag (info, E_MAIL_NOTES_USER_FLAG);
+		has_color = has_color || camel_message_info_get_user_tag (info, "color") != NULL;
 
 		g_clear_object (&info);
 	}
@@ -4938,6 +5043,8 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_FOLDER_ARCHIVE_FOLDER_SET;
 	if (has_mail_note)
 		state |= E_MAIL_READER_SELECTION_HAS_MAIL_NOTE;
+	if (has_color)
+		state |= E_MAIL_READER_SELECTION_HAS_COLOR;
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
