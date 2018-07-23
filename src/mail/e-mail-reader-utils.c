@@ -568,7 +568,6 @@ mail_reader_empty_junk_thread (EAlertSinkThreadJobData *job_data,
 	folder = async_context->folder;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail ((camel_folder_get_flags (folder) & CAMEL_FOLDER_IS_JUNK) != 0);
 
 	camel_folder_freeze (folder);
 
