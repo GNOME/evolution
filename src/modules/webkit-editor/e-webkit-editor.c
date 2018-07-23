@@ -1201,13 +1201,15 @@ webkit_editor_update_styles (EContentEditor *editor)
 			"  word-break: break-all; \n"
 			"}\n");
 	} else {
-		g_string_append (
+		/* Temporarily disabled due to https://gitlab.gnome.org/GNOME/evolution/issues/71
+		   respectively https://bugs.webkit.org/show_bug.cgi?id=187848 */
+		/* g_string_append (
 			stylesheet,
 			"a "
 			"{\n"
 			"  display: inline-block; \n"
 			"  word-break: normal; \n"
-			"}\n");
+			"}\n"); */
 	}
 
 	citation_color = g_settings_get_string (
