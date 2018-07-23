@@ -535,7 +535,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EMailView *mail_view;
 	EMailDisplay *display;
 	const gchar *source;
-	guint merge_id;
 	gint ii = 0;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
@@ -563,8 +562,8 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		shell_window, "set-focus",
 		G_CALLBACK (e_mail_shell_view_update_labels_sensitivity), shell_view);
 
-	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-	priv->label_merge_id = merge_id;
+	priv->main_menu_label_merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+	priv->popup_menu_label_merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_backend = g_object_ref (shell_backend);

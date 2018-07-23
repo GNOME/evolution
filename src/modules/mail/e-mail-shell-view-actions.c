@@ -2493,9 +2493,8 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 	GtkActionGroup *action_group;
 	GtkTreeIter iter;
 	GPtrArray *uids;
-	const gchar *path;
+	const gchar *main_menu_path, *popup_menu_path;
 	gboolean valid;
-	guint merge_id;
 	gint ii = 0;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
@@ -2514,11 +2513,12 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 		E_MAIL_UI_SESSION (session));
 
 	action_group = ACTION_GROUP (MAIL_LABEL);
-	merge_id = mail_shell_view->priv->label_merge_id;
-	path = "/mail-message-popup/mail-label-menu/mail-label-actions";
+	main_menu_path = "/main-menu/custom-menus/mail-message-menu/mail-mark-as-menu/mail-label-menu/mail-label-actions";
+	popup_menu_path = "/mail-message-popup/mail-label-menu/mail-label-actions";
 
 	/* Unmerge the previous menu items. */
-	gtk_ui_manager_remove_ui (ui_manager, merge_id);
+	gtk_ui_manager_remove_ui (ui_manager, mail_shell_view->priv->main_menu_label_merge_id);
+	gtk_ui_manager_remove_ui (ui_manager, mail_shell_view->priv->popup_menu_label_merge_id);
 	e_action_group_remove_all_actions (action_group);
 	gtk_ui_manager_ensure_update (ui_manager);
 
@@ -2580,8 +2580,12 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 		g_object_unref (label_action);
 
 		gtk_ui_manager_add_ui (
-			ui_manager, merge_id, path, action_name,
-			action_name, GTK_UI_MANAGER_AUTO, FALSE);
+			ui_manager, mail_shell_view->priv->main_menu_label_merge_id, main_menu_path,
+			action_name, action_name, GTK_UI_MANAGER_AUTO, FALSE);
+
+		gtk_ui_manager_add_ui (
+			ui_manager, mail_shell_view->priv->popup_menu_label_merge_id, popup_menu_path,
+			action_name, action_name, GTK_UI_MANAGER_AUTO, FALSE);
 
 		g_free (label);
 		g_free (stock_id);

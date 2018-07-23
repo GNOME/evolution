@@ -120,7 +120,8 @@ struct _EMailShellViewPrivate {
 
 	/* For UI merging and unmerging. */
 	guint merge_id;
-	guint label_merge_id;
+	guint main_menu_label_merge_id;
+	guint popup_menu_label_merge_id;
 
 	/* Filter rules correspond to the search entry menu. */
 	EFilterRule *search_rules[MAIL_NUM_SEARCH_RULES];

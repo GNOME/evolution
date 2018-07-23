@@ -89,6 +89,14 @@
           <menuitem action="mail-flag-clear"/>
           <menuitem action="mail-flag-completed"/>
           <separator/>
+          <menu action='mail-label-menu'>
+            <menuitem action='mail-label-none'/>
+            <separator/>
+            <placeholder name='mail-label-actions'/>
+            <separator/>
+            <menuitem action='mail-label-new'/>
+          </menu>
+          <separator/>
           <menuitem action="mail-mark-ignore-thread-whole"/>
           <menuitem action="mail-mark-ignore-thread-sub"/>
           <menuitem action="mail-mark-unignore-thread-whole"/>
