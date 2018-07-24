@@ -1026,15 +1026,6 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	searchbar->priv->scope_combo_box = widget;
 	gtk_widget_show (widget);
-
-	/* Use G_CONNECT_AFTER here so the EActionComboBox has a
-	 * chance to update its radio actions before we go sifting
-	 * through the radio group for the current action. */
-	g_signal_connect_data (
-		widget, "changed",
-		G_CALLBACK (shell_searchbar_save_search_scope),
-		searchbar, (GClosureNotify) NULL,
-		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 }
 
 /**
@@ -1256,6 +1247,20 @@ e_shell_searchbar_set_scope_visible (EShellSearchbar *searchbar,
 		return;
 
 	searchbar->priv->scope_visible = scope_visible;
+
+	if (searchbar->priv->scope_visible) {
+		/* Use G_CONNECT_AFTER here so the EActionComboBox has a
+		 * chance to update its radio actions before we go sifting
+		 * through the radio group for the current action. */
+		g_signal_connect_data (
+			searchbar->priv->scope_combo_box, "changed",
+			G_CALLBACK (shell_searchbar_save_search_scope),
+			searchbar, (GClosureNotify) NULL,
+			G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+	} else {
+		g_signal_handlers_disconnect_by_func (searchbar->priv->scope_combo_box,
+			G_CALLBACK (shell_searchbar_save_search_scope), searchbar);
+	}
 
 	g_object_notify (G_OBJECT (searchbar), "scope-visible");
 }
