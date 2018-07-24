@@ -607,6 +607,19 @@ cal_data_model_thaw_all_subscribers (ECalDataModel *data_model)
 }
 
 static void
+cal_data_model_gather_subscribers_cb (ECalDataModel *data_model,
+				      ECalClient *client,
+				      ECalDataModelSubscriber *subscriber,
+				      gpointer user_data)
+{
+	GHashTable *subscribers = user_data;
+
+	g_return_if_fail (subscribers != NULL);
+
+	g_hash_table_insert (subscribers, g_object_ref (subscriber), NULL);
+}
+
+static void
 cal_data_model_add_component_cb (ECalDataModel *data_model,
 				 ECalClient *client,
 				 ECalDataModelSubscriber *subscriber,
@@ -793,8 +806,9 @@ cal_data_model_process_added_component (ECalDataModel *data_model,
 					ComponentData *comp_data,
 					GHashTable *known_instances)
 {
-	ECalComponentId *id;
+	ECalComponentId *id, *old_id = NULL;
 	ComponentData *old_comp_data = NULL;
+	time_t old_instance_start = (time_t) 0, old_instance_end = (time_t) 0;
 	gboolean comp_data_equal;
 
 	g_return_if_fail (data_model != NULL);
@@ -824,6 +838,12 @@ cal_data_model_process_added_component (ECalDataModel *data_model,
 
 	comp_data_equal = component_data_equal (comp_data, old_comp_data);
 
+	if (old_comp_data) {
+		old_id = e_cal_component_get_id (old_comp_data->component);
+		old_instance_start = old_comp_data->instance_start;
+		old_instance_end = old_comp_data->instance_end;
+	}
+
 	if (view_data->lost_components)
 		g_hash_table_remove (view_data->lost_components, id);
 
@@ -836,17 +856,62 @@ cal_data_model_process_added_component (ECalDataModel *data_model,
 	g_hash_table_insert (view_data->components, id, comp_data);
 
 	if (!comp_data_equal) {
-		if (!old_comp_data)
+		if (!old_comp_data) {
 			cal_data_model_foreach_subscriber_in_range (data_model, view_data->client,
 				comp_data->instance_start, comp_data->instance_end,
 				cal_data_model_add_component_cb, comp_data->component);
-		else
+		} else if (comp_data->instance_start != old_instance_start ||
+			   comp_data->instance_end != old_instance_end) {
+			/* Component moved to a different time; some subscribers may lose it,
+			   some may just modify it, some may have it added. */
+			GHashTable *old_subscribers, *new_subscribers;
+			GHashTableIter iter;
+			gpointer key;
+
+			old_subscribers = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
+			new_subscribers = g_hash_table_new_full (g_direct_hash, g_direct_equal, g_object_unref, NULL);
+
+			cal_data_model_foreach_subscriber_in_range (data_model, view_data->client,
+				old_instance_start, old_instance_end,
+				cal_data_model_gather_subscribers_cb, old_subscribers);
+
+			cal_data_model_foreach_subscriber_in_range (data_model, view_data->client,
+				comp_data->instance_start, comp_data->instance_end,
+				cal_data_model_gather_subscribers_cb, new_subscribers);
+
+			g_hash_table_iter_init (&iter, old_subscribers);
+			while (g_hash_table_iter_next (&iter, &key, NULL)) {
+				ECalDataModelSubscriber *subscriber = key;
+
+				/* If in both hashes, then the subscriber can be notified with 'modified',
+				   otherwise the component had been 'removed' for it. */
+				if (g_hash_table_remove (new_subscribers, subscriber))
+					e_cal_data_model_subscriber_component_modified (subscriber, view_data->client, comp_data->component);
+				else if (old_id)
+					e_cal_data_model_subscriber_component_removed (subscriber, view_data->client, old_id->uid, old_id->rid);
+			}
+
+			/* Those which left in the new_subscribers have the component added. */
+			g_hash_table_iter_init (&iter, new_subscribers);
+			while (g_hash_table_iter_next (&iter, &key, NULL)) {
+				ECalDataModelSubscriber *subscriber = key;
+
+				e_cal_data_model_subscriber_component_added (subscriber, view_data->client, comp_data->component);
+			}
+
+			g_hash_table_destroy (old_subscribers);
+			g_hash_table_destroy (new_subscribers);
+		} else {
 			cal_data_model_foreach_subscriber_in_range (data_model, view_data->client,
 				comp_data->instance_start, comp_data->instance_end,
 				cal_data_model_modify_component_cb, comp_data->component);
+		}
 	}
 
 	view_data_unlock (view_data);
+
+	if (old_id)
+		e_cal_component_free_id (old_id);
 }
 
 typedef struct _GatherComponentsData {
