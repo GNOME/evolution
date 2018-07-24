@@ -493,7 +493,7 @@ e_tag_calendar_data_subscriber_component_added (ECalDataModelSubscriber *subscri
 
 	e_tag_calendar_update_component_dates (tag_calendar, NULL, oinfo);
 
-	g_hash_table_insert (tag_calendar->priv->objects, oinfo, GINT_TO_POINTER (0));
+	g_hash_table_replace (tag_calendar->priv->objects, oinfo, NULL);
 }
 
 static void
@@ -537,7 +537,7 @@ e_tag_calendar_data_subscriber_component_modified (ECalDataModelSubscriber *subs
 	e_tag_calendar_update_component_dates (tag_calendar, old_oinfo, new_oinfo);
 
 	/* it also frees old_oinfo */
-	g_hash_table_insert (tag_calendar->priv->objects, new_oinfo, GINT_TO_POINTER (0));
+	g_hash_table_replace (tag_calendar->priv->objects, new_oinfo, NULL);
 }
 
 static void
@@ -773,7 +773,7 @@ e_tag_calendar_init (ETagCalendar *tag_calendar)
 		object_info_hash,
 		object_info_equal,
 		object_info_free,
-		g_free);
+		NULL);
 
 	tag_calendar->priv->dates = g_hash_table_new_full (
 		g_direct_hash,
