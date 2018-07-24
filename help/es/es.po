@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-13 17:29+0000\n"
+"POT-Creation-Date: 2018-07-16 08:34+0000\n"
 "PO-Revision-Date: 2017-12-20 15:18+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
@@ -30,6 +30,135 @@ msgstr ""
 "Yolanda Álvarez Pérez <yolandaa.alvarez.perez@gmail.com>, 2016\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
+
+#. (itstool) path: credit/name
+#: C/backup-restore.page:12 C/calendar-alarms-and-reminders.page:13
+#: C/calendar-caldav.page:11 C/calendar-classifications.page:11
+#: C/calendar-free-busy.page:10 C/calendar-google.page:12
+#: C/calendar-layout-appointment-display.page:11
+#: C/calendar-layout-general-formatting.page:10 C/calendar-layout.page:11
+#: C/calendar-layout-views.page:11 C/calendar-local.page:11
+#: C/calendar-marcus-bains-line.page:11 C/calendar-meetings-delegating.page:11
+#: C/calendar-meetings.page:11
+#: C/calendar-meetings-replying-to-invitation.page:11
+#: C/calendar-meetings-sending-invitation.page:11 C/calendar-organizing.page:12
+#: C/calendar-publishing.page:11 C/calendar-recurrence.page:11
+#: C/calendar-searching.page:15 C/calendar-sharing-information.page:11
+#: C/calendar-timezones.page:11 C/calendar-usage-add-appointment.page:11
+#: C/calendar-usage-delete-appointment.page:11
+#: C/calendar-usage-edit-appointment.page:11 C/calendar-usage.page:12
+#: C/calendar-using-several-calendars.page:11 C/calendar-weather.page:11
+#: C/calendar-webdav.page:10 C/contacts-add-automatically.page:11
+#: C/contacts-autocompletion.page:15 C/contacts-google.page:12
+#: C/contacts-ldap.page:11 C/contacts-libreoffice.page:11
+#: C/contacts-local.page:11 C/contacts-organizing.page:12
+#: C/contacts-searching.page:16 C/contacts-usage-add-contact.page:11
+#: C/contacts-usage-delete-contact.page:11
+#: C/contacts-usage-edit-contact.page:11 C/contacts-usage.page:11
+#: C/contacts-using-contact-lists.page:11
+#: C/contacts-using-several-addressbooks.page:11 C/credits.page:11
+#: C/customize-ui-items.page:12 C/data-storage.page:11
+#: C/default-browser.page:13 C/deleting-appointments.page:11
+#: C/deleting-emails.page:17 C/deleting-to-free-disk-space.page:11
+#: C/exporting-data-calendar.page:11 C/exporting-data-contacts.page:11
+#: C/exporting-data-mail.page:11 C/exporting-data.page:11
+#: C/google-services.page:9 C/import-apps-mozilla.page:11
+#: C/import-apps-outlook.page:11 C/import-data.page:11
+#: C/import-single-files.page:11 C/import-supported-file-formats.page:11
+#: C/index.page:14 C/intro-application.page:15 C/intro-first-run.page:14
+#: C/intro-keyboard-shortcuts.page:14 C/intro-main-window.page:13
+#: C/mail-access-gmail-imap-account.page:13
+#: C/mail-access-gmail-pop-account.page:17
+#: C/mail-account-manage-imap-plus.page:11
+#: C/mail-account-manage-local-delivery.page:11
+#: C/mail-account-manage-maildir-format-directories.page:11
+#: C/mail-account-management.page:11
+#: C/mail-account-manage-mh-format-directories.page:11
+#: C/mail-account-manage-microsoft-exchange-evo-ews.page:11
+#: C/mail-account-manage-microsoft-exchange-evo-mapi.page:11
+#: C/mail-account-manage-microsoft-exchange.page:13
+#: C/mail-account-manage-pop.page:11
+#: C/mail-account-manage-unix-mbox-spool-directory.page:11
+#: C/mail-account-manage-unix-mbox-spool-file.page:11
+#: C/mail-account-manage-usenet-news.page:11 C/mail-attachments.page:9
+#: C/mail-attachments-received.page:12 C/mail-attachments-sending.page:12
+#: C/mail-change-columns-in-message-list.page:11
+#: C/mail-change-time-format.page:10
+#: C/mail-composer-change-quotation-string.page:15
+#: C/mail-composer-custom-header-lines.page:11
+#: C/mail-composer-enable-html-format.page:10
+#: C/mail-composer-external-editor.page:11 C/mail-composer-forward.page:11
+#: C/mail-composer-forward-as-attachment.page:12
+#: C/mail-composer-from-field-override.page:11
+#: C/mail-composer-html-image.page:10 C/mail-composer-html-link.page:10
+#: C/mail-composer-html.page:10 C/mail-composer-html-rule.page:10
+#: C/mail-composer-html-table.page:10 C/mail-composer-html-text.page:10
+#: C/mail-composer-mail-signatures-manage.page:11
+#: C/mail-composer-mail-signatures.page:11
+#: C/mail-composer-mail-signatures-per-account.page:20
+#: C/mail-composer-message-templates.page:11
+#: C/mail-composer-message-templates-reply.page:11
+#: C/mail-composer-message-templates-save.page:11
+#: C/mail-composer-message-templates-variables.page:11
+#: C/mail-composer-plain-text.page:10 C/mail-composer-priority.page:11
+#: C/mail-composer-reply.page:11 C/mail-composer-search.page:12
+#: C/mail-composer-send-account-overrides.page:12
+#: C/mail-composer-several-recipients.page:14
+#: C/mail-composer-spellcheck.page:13 C/mail-composer-write-new-message.page:11
+#: C/mail-default-CC-and-BCC.page:20 C/mail-default-folder-locations.page:20
+#: C/mail-delete-and-undelete.page:13
+#: C/mail-displaying-character-encodings.page:12
+#: C/mail-displaying-collapsible-headers.page:11
+#: C/mail-displaying-images-in-html.page:11 C/mail-displaying-message.page:11
+#: C/mail-displaying-sender-photograph.page:11
+#: C/mail-display-message-source.page:11 C/mail-duplicates.page:15
+#: C/mail-encryption-gpg-create-key.page:11
+#: C/mail-encryption-gpg-decrypting.page:11
+#: C/mail-encryption-gpg-getting-keys.page:11
+#: C/mail-encryption-gpg-set-up.page:11
+#: C/mail-encryption-gpg-signing-encrypting.page:11 C/mail-encryption.page:21
+#: C/mail-encryption-s-mime-manage.page:11
+#: C/mail-encryption-s-mime-signing-encrypting.page:11
+#: C/mail-filters-actions.page:11 C/mail-filters-conditions.page:11
+#: C/mail-filters-not-working.page:16 C/mail-filters.page:11
+#: C/mail-folders.page:13 C/mail-follow-up-flag.page:11
+#: C/mail-imap-subscriptions.page:12 C/mail-labels.page:12
+#: C/mail-layout-changing.page:11 C/mail-localized-re-subjects.page:11
+#: C/mail-moving-emails.page:15 C/mail-organizing.page:12
+#: C/mail-read-receipts.page:25 C/mail-received-notification.page:12
+#: C/mail-receiving-options-exchange-ews.page:11
+#: C/mail-receiving-options-exchange-mapi.page:11
+#: C/mail-receiving-options-imap-plus.page:11
+#: C/mail-receiving-options-local-delivery.page:11
+#: C/mail-receiving-options-maildir-format-directories.page:11
+#: C/mail-receiving-options-mh-format-directories.page:11
+#: C/mail-receiving-options.page:9 C/mail-receiving-options-pop.page:11
+#: C/mail-receiving-options-unix-mbox-spool-directory.page:11
+#: C/mail-receiving-options-unix-mbox-spool-file.page:11
+#: C/mail-receiving-options-usenet-news.page:11 C/mail-save-as-pdf.page:11
+#: C/mail-search-folders-add.page:11 C/mail-search-folders-conditions.page:11
+#: C/mail-search-folders.page:11 C/mail-searching-attachment-type.page:12
+#: C/mail-searching.page:16 C/mail-send-and-receive-automatically.page:11
+#: C/mail-send-and-receive-manual.page:11 C/mail-send-and-receive.page:11
+#: C/mail-sending-options-smtp.page:17 C/mail-several-pop-accounts.page:13
+#: C/mail-sorting-message-list.page:12 C/mail-spam-marking.page:11
+#: C/mail-spam.page:11 C/mail-spam-settings.page:14
+#: C/mail-two-trash-folders.page:16 C/mail-usenet-subscriptions.page:12
+#: C/mail-vertical-view.page:10 C/mail-word-wrap.page:11
+#: C/mail-working-offline.page:11 C/memos-searching.page:16
+#: C/memos-usage-add-memo.page:11 C/memos-usage-delete-memo.page:11
+#: C/memos-usage-edit-memo.page:11 C/memos-usage.page:11 C/offline.page:19
+#: C/organizing.page:9 C/problems-debug-how-to.page:12
+#: C/problems-getting-help.page:12 C/problems-reporting-bugs.page:12
+#: C/searching-items.page:9 C/sync-with-other-devices.page:11
+#: C/tasks-caldav.page:11 C/tasks-display-settings.page:11
+#: C/tasks-local.page:11 C/tasks-organizing.page:12 C/tasks-searching.page:16
+#: C/tasks-usage-add-task.page:11 C/tasks-usage-delete-task.page:11
+#: C/tasks-usage-edit-task.page:11 C/tasks-usage.page:11
+#: C/tasks-using-several-tasklists.page:11 C/tasks-webdav.page:11
+#: C/using-categories.page:13
+msgid "Andre Klapper"
+msgstr "Andre Klapper"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -102,7 +231,7 @@ msgstr ""
 "file>. Si usa SpamAssassin deberá respaldar <file>~/.spamassassin/</file>."
 
 #. (itstool) path: section/title
-#: C/backup-restore.page:58 C/intro-first-run.page:39
+#: C/backup-restore.page:58 C/intro-first-run.page:40
 msgid "Restoring"
 msgstr "Restaurar"
 
@@ -127,6 +256,60 @@ msgid ""
 msgstr ""
 "En el <link xref=\"intro-first-run\">asistente de primera ejecución</link> "
 "puede restaurar <app>Evolution</app> desde un archivo de respaldo."
+
+#. (itstool) path: credit/name
+#: C/calendar-alarms-and-reminders.page:17 C/calendar-caldav.page:15
+#: C/calendar-classifications.page:15 C/calendar-free-busy.page:14
+#: C/calendar-google.page:16 C/calendar-layout-appointment-display.page:15
+#: C/calendar-layout-general-formatting.page:14 C/calendar-layout-views.page:15
+#: C/calendar-meetings-delegating.page:15
+#: C/calendar-meetings-replying-to-invitation.page:15
+#: C/calendar-meetings-sending-invitation.page:15 C/calendar-publishing.page:15
+#: C/calendar-recurrence.page:15 C/calendar-searching.page:19
+#: C/calendar-timezones.page:15 C/calendar-using-several-calendars.page:15
+#: C/contacts-autocompletion.page:19 C/contacts-ldap.page:15
+#: C/contacts-searching.page:20 C/contacts-using-contact-lists.page:15
+#: C/exporting-data-contacts.page:15 C/import-apps-outlook.page:15
+#: C/import-supported-file-formats.page:15 C/intro-keyboard-shortcuts.page:18
+#: C/intro-main-window.page:21 C/mail-attachments-received.page:16
+#: C/mail-attachments-sending.page:16
+#: C/mail-calendar-sending-invitations.page:13
+#: C/mail-composer-custom-header-lines.page:15
+#: C/mail-composer-enable-html-format.page:14 C/mail-composer-forward.page:15
+#: C/mail-composer-html-image.page:14 C/mail-composer-html-link.page:14
+#: C/mail-composer-html.page:17 C/mail-composer-html-rule.page:14
+#: C/mail-composer-html-table.page:14 C/mail-composer-html-text.page:14
+#: C/mail-composer-message-templates.page:15
+#: C/mail-composer-message-templates-reply.page:15
+#: C/mail-composer-message-templates-save.page:15
+#: C/mail-composer-message-templates-variables.page:15
+#: C/mail-composer-plain-text.page:14 C/mail-composer-priority.page:15
+#: C/mail-composer-reply.page:15 C/mail-composer-several-recipients.page:18
+#: C/mail-composer-write-new-message.page:15 C/mail-delete-and-undelete.page:17
+#: C/mail-displaying-collapsible-headers.page:15
+#: C/mail-displaying-images-in-html.page:19
+#: C/mail-displaying-sender-photograph.page:15
+#: C/mail-encryption-gpg-decrypting.page:15
+#: C/mail-encryption-gpg-getting-keys.page:15
+#: C/mail-encryption-gpg-set-up.page:15
+#: C/mail-encryption-gpg-signing-encrypting.page:15
+#: C/mail-encryption-s-mime-manage.page:15
+#: C/mail-encryption-s-mime-signing-encrypting.page:15
+#: C/mail-filters-actions.page:15 C/mail-filters-conditions.page:15
+#: C/mail-filters.page:15 C/mail-folders.page:21 C/mail-follow-up-flag.page:15
+#: C/mail-imap-subscriptions.page:16 C/mail-receiving-options-imap-plus.page:15
+#: C/mail-receiving-options-pop.page:19
+#: C/mail-receiving-options-usenet-news.page:15
+#: C/mail-search-folders-add.page:15 C/mail-search-folders-conditions.page:15
+#: C/mail-search-folders.page:15 C/mail-searching.page:20
+#: C/mail-sorting-message-list.page:20 C/mail-spam-marking.page:22
+#: C/mail-spam-settings.page:28 C/mail-usenet-subscriptions.page:16
+#: C/mail-vertical-view.page:14 C/mail-working-offline.page:15
+#: C/memos-searching.page:20 C/memos-usage-add-memo.page:15
+#: C/tasks-display-settings.page:15 C/tasks-searching.page:20
+#: C/tasks-usage-add-task.page:15 C/using-categories.page:17
+msgid "Novell, Inc"
+msgstr "Novell, Inc"
 
 #. (itstool) path: info/desc
 #: C/calendar-alarms-and-reminders.page:23
@@ -198,9 +381,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:61
+#, fuzzy
+#| msgid ""
+#| "From the dropdown menu, choose either one of the available default "
+#| "options when to show a notification reminder, or choose <gui>Customize</"
+#| "gui>."
 msgid ""
 "From the dropdown menu, choose either one of the available default options "
-"when to show a notification reminder, or choose <gui>Customize</gui>."
+"when to show a notification reminder, or choose <gui>Custom</gui>."
 msgstr ""
 "Del menú desplegable, elija una de las opciones predeterminadas disponibles "
 "para mostrar un recordatorio de notificación, o elija <gui>Personalizar</"
@@ -208,14 +396,26 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:66
+#, fuzzy
+#| msgid ""
+#| "In case of <gui>Customize</gui>, the reminder can be a popup, a sound "
+#| "played, or a program ran. You can also define whether the reminder should "
+#| "be repeated."
 msgid ""
-"In case of <gui>Customize</gui>, the reminder can be a popup, a sound "
-"played, or a program ran. You can also define whether the reminder should be "
-"repeated."
+"In case of <gui>Custom</gui>, the reminder can be a popup, a sound played, a "
+"program ran, or an email sent. You can also define whether the reminder "
+"should be repeated."
 msgstr ""
 "En caso de <gui>Personalizar</gui>, el recordatorio puede ser una ventana "
 "emergente, la reproducción de un sonido o la ejecución de un programa. "
 "También puede definir si se debe repetir el recordatorio."
+
+#. (itstool) path: note/p
+#: C/calendar-alarms-and-reminders.page:73
+msgid ""
+"The <gui>Send an Email</gui> option is only available if the calendar "
+"backend supports such functionality."
+msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-caldav.page:23
@@ -237,9 +437,8 @@ msgstr ""
 "pasos:"
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:32 C/calendar-google.page:34
-#: C/calendar-local.page:27 C/calendar-weather.page:29
-#: C/calendar-webdav.page:28
+#: C/calendar-caldav.page:32 C/calendar-google.page:34 C/calendar-local.page:27
+#: C/calendar-weather.page:29 C/calendar-webdav.page:28
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>."
 msgstr ""
@@ -252,19 +451,18 @@ msgid "Select the type <gui>CalDAV</gui>."
 msgstr "Seleccione el tipo <gui>CalDAV</gui>."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:39 C/calendar-google.page:40
-#: C/calendar-local.page:34 C/calendar-weather.page:36
-#: C/calendar-webdav.page:35 C/contacts-google.page:35 C/contacts-ldap.page:48
-#: C/contacts-local.page:34 C/contacts-using-contact-lists.page:48
-#: C/tasks-caldav.page:26 C/tasks-local.page:26 C/tasks-webdav.page:28
+#: C/calendar-caldav.page:39 C/calendar-google.page:40 C/calendar-local.page:34
+#: C/calendar-weather.page:36 C/calendar-webdav.page:35
+#: C/contacts-google.page:35 C/contacts-ldap.page:48 C/contacts-local.page:34
+#: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:26
+#: C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
 msgstr "Introduzca el nombre que quiera."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:42 C/calendar-google.page:43
-#: C/calendar-local.page:37 C/calendar-weather.page:39
-#: C/calendar-webdav.page:38 C/tasks-caldav.page:27 C/tasks-local.page:27
-#: C/tasks-webdav.page:29
+#: C/calendar-caldav.page:42 C/calendar-google.page:43 C/calendar-local.page:37
+#: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:27
+#: C/tasks-local.page:27 C/tasks-webdav.page:29
 msgid "Optionally choose a color that you prefer."
 msgstr "Opcionalmente, elija un color."
 
@@ -301,18 +499,16 @@ msgid "Enter your username and your email address."
 msgstr "Introduzca su nombre de usuario y su dirección de correo-e."
 
 #. (itstool) path: item/p
-#: C/calendar-caldav.page:59 C/calendar-google.page:55
-#: C/calendar-local.page:46 C/calendar-weather.page:56
-#: C/calendar-webdav.page:55 C/contacts-google.page:49 C/contacts-ldap.page:58
-#: C/contacts-local.page:37 C/tasks-caldav.page:32 C/tasks-local.page:28
-#: C/tasks-webdav.page:34
+#: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
+#: C/calendar-weather.page:56 C/calendar-webdav.page:55
+#: C/contacts-google.page:49 C/contacts-ldap.page:58 C/contacts-local.page:37
+#: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
 msgid "Click <gui style=\"button\">Apply</gui>."
 msgstr "Pulse <gui style=\"button\">Aplicar</gui>."
 
 #. (itstool) path: page/p
-#: C/calendar-caldav.page:63 C/calendar-google.page:59
-#: C/calendar-local.page:50 C/calendar-weather.page:60
-#: C/calendar-webdav.page:59
+#: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
+#: C/calendar-weather.page:60 C/calendar-webdav.page:59
 msgid ""
 "The calendar will be added to the list of calendars in <app>Evolution</app>."
 msgstr ""
@@ -320,7 +516,9 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
-msgid "Classifying appointments and tasks on remote servers."
+#, fuzzy
+#| msgid "Classifying appointments and tasks on remote servers."
+msgid "Restricting visibility of appointments on remote servers."
 msgstr "Clasificar citas y tareas en servidores remotos."
 
 #. (itstool) path: page/title
@@ -341,13 +539,21 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:32
+#, fuzzy
+#| msgid ""
+#| "To set a classification for an appointment or a task, click "
+#| "<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
+#| "classification in the editor. <gui>Public</gui> is the default category, "
+#| "and a public appointment can be viewed by anyone on the calendar-sharing "
+#| "network. <gui>Private</gui> denotes one level of security, and "
+#| "<gui>Confidential</gui> an even higher level."
 msgid ""
-"To set a classification for an appointment or a task, click "
-"<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
-"classification in the editor. <gui>Public</gui> is the default category, and "
-"a public appointment can be viewed by anyone on the calendar-sharing "
-"network. <gui>Private</gui> denotes one level of security, and "
-"<gui>Confidential</gui> an even higher level."
+"To set a classification for an appointment, click <guiseq><gui>Options</"
+"gui><gui>Classification</gui></guiseq> and select a classification in the "
+"editor. <gui>Public</gui> is the default category, and a public appointment "
+"can be viewed by anyone on the calendar-sharing network. <gui>Private</gui> "
+"denotes one level of security, and <gui>Confidential</gui> an even higher "
+"level."
 msgstr ""
 "Para establecer una clasificación para una cita o tarea, pulse "
 "<guiseq><gui>Opciones</gui><gui>Clasificación</gui></guiseq> y seleccione "
@@ -365,6 +571,23 @@ msgstr ""
 "Los diferentes niveles varían dependiendo de la configuración de su "
 "servidor; compruebe con el administrador de su sistema o ajuste su "
 "configuración de delegación."
+
+#. (itstool) path: page/p
+#: C/calendar-classifications.page:42
+#, fuzzy
+#| msgid ""
+#| "The following options are available under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</"
+#| "gui></guiseq>."
+msgid ""
+"If you want events, memos and tasks to be classified as private by default, "
+"enable the preference under <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Calendar and Tasks</gui><gui>General</gui><gui>Miscellaneous</gui></"
+"guiseq>."
+msgstr ""
+"Las siguientes opciones están disponibles bajo <guiseq><gui>Editar</"
+"gui><gui>Preferencias</gui><gui>Calendario y tareas</gui><gui>General</gui></"
+"guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-free-busy.page:24
@@ -432,9 +655,13 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:56
+#, fuzzy
+#| msgid ""
+#| "Click the <gui>Free/Busy</gui> button on the toolbar, or click "
+#| "<guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
 msgid ""
-"Click the <gui>Free/Busy</gui> button on the toolbar, or click "
-"<guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
+"Click the <gui style=\"button\">Free/Busy</gui> button on the toolbar, or "
+"the <gui>Schedule</gui> tab."
 msgstr ""
 "Pulse el botón <gui>Disponibilidad</gui> en la barra de herramientas o pulse "
 "<guiseq><gui>Opciones</gui><gui>Disponibilidad</gui></guiseq>."
@@ -637,11 +864,19 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:52
+#, fuzzy
+#| msgid "Show appointment end times in week and month views:"
+msgid "Show appointment icons in the month view"
+msgstr ""
+"Mostrar la hora del final de las citas en las vistas semanales y mensuales:"
+
+#. (itstool) path: item/p
+#: C/calendar-layout-appointment-display.page:55
 msgid "Compress weekends in month view:"
 msgstr "Comprimir fines de semana en la vista mensual:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:53
+#: C/calendar-layout-appointment-display.page:56
 msgid ""
 "Select this option to display weekends in one box instead of two in the "
 "month view."
@@ -650,36 +885,36 @@ msgstr ""
 "de dos en la vista mensual."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:57
+#: C/calendar-layout-appointment-display.page:60
 msgid "Show week numbers:"
 msgstr "Muestra los números de las semanas:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:58
+#: C/calendar-layout-appointment-display.page:61
 msgid "Shows the week numbers next to the respective weeks in the calendar."
 msgstr ""
 "Muestra los números de la semana junto a las respectivas semanas en el "
 "calendario."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:62
+#: C/calendar-layout-appointment-display.page:65
 msgid "Show recurring events in italic in bottom left calendar."
 msgstr ""
 "Mostrar acontecimientos recurrentes en cursiva en el calendario inferior "
 "izquierdo."
 
 #. (itstool) path: item/p
-#: C/calendar-layout-appointment-display.page:65
+#: C/calendar-layout-appointment-display.page:68
 msgid "Scroll Month View by a week"
 msgstr "Desplazar la vista mensual una semana"
 
 #. (itstool) path: section/title
-#: C/calendar-layout-appointment-display.page:72
+#: C/calendar-layout-appointment-display.page:75
 msgid "Alerts"
 msgstr "Alertas"
 
 #. (itstool) path: section/p
-#: C/calendar-layout-appointment-display.page:74
+#: C/calendar-layout-appointment-display.page:77
 msgid ""
 "If you want to be warned before you delete any appointment, select this "
 "option."
@@ -834,29 +1069,41 @@ msgstr ""
 "calendario:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:33
-msgid "Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
-msgstr "Día (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
+#. (itstool) path: td/p
+#: C/calendar-layout-views.page:33 C/intro-keyboard-shortcuts.page:286
+#, fuzzy
+msgid "Day View"
+msgstr "Ver:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:36
-msgid "Work Week (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
-msgstr "Semana laboral (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
+#. (itstool) path: td/p
+#: C/calendar-layout-views.page:36 C/intro-keyboard-shortcuts.page:292
+#, fuzzy
+#| msgid "Work Week"
+msgid "Work Week View"
+msgstr "Semana laboral"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:39
-msgid "Week (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
-msgstr "Semana (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
+#. (itstool) path: td/p
+#: C/calendar-layout-views.page:39 C/intro-keyboard-shortcuts.page:298
+#, fuzzy
+msgid "Week View"
+msgstr "Ver:"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:42
-msgid "Month (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
-msgstr "Mes (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
+#. (itstool) path: td/p
+#: C/calendar-layout-views.page:42 C/intro-keyboard-shortcuts.page:304
+#, fuzzy
+#| msgid "Month pane"
+msgid "Month View"
+msgstr "Panel del mes"
 
 #. (itstool) path: item/p
-#: C/calendar-layout-views.page:45
-msgid "List (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
-msgstr "Lista (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
+#. (itstool) path: td/p
+#: C/calendar-layout-views.page:45 C/intro-keyboard-shortcuts.page:310
+#, fuzzy
+msgid "List View"
+msgstr "Ver:"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:49
@@ -991,8 +1238,8 @@ msgstr "Seleccione los contactos a los que quiere delegar la reunión."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
-#: C/contacts-usage-edit-contact.page:34
-#: C/contacts-using-contact-lists.page:69 C/mail-attachments-sending.page:32
+#: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
+#: C/mail-attachments-sending.page:32
 #: C/mail-composer-custom-header-lines.page:45
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
@@ -1199,7 +1446,6 @@ msgstr "Seleccione la fecha y la hora."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:78
-#: C/calendar-usage-add-appointment.page:53
 msgid ""
 "If the event is not an all day event, select either <gui>For</gui> to "
 "specify the duration, or select <gui>Until</gui> to specify the ending time "
@@ -1211,16 +1457,21 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:83
-#: C/calendar-usage-add-appointment.page:58
+#: C/calendar-usage-add-appointment.page:53
 msgid "(Optional) Enter a description in the <gui>Description</gui> field."
 msgstr "(Opcional) Escriba una descripción en el campo <gui>Descripción</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:87
+#, fuzzy
+#| msgid ""
+#| "To query <link xref=\"calendar-free-busy\">free/busy</link> information "
+#| "for the attendees, click the <gui>Free/Busy</gui> button on the toolbar, "
+#| "or click <guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
 msgid ""
 "To query <link xref=\"calendar-free-busy\">free/busy</link> information for "
-"the attendees, click the <gui>Free/Busy</gui> button on the toolbar, or "
-"click <guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
+"the attendees, click the <gui style=\"button\">Free/Busy</gui> button on the "
+"toolbar, or the <gui>Schedule</gui> tab."
 msgstr ""
 "Para preguntar la información de <link xref=\"calendar-free-busy"
 "\">Disponibilidad</link> de los asistentes, pulse el botón "
@@ -1242,7 +1493,7 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:99
-#: C/calendar-usage-add-appointment.page:67
+#: C/calendar-usage-add-appointment.page:62
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, a <link xref=\"calendar-"
@@ -1362,6 +1613,12 @@ msgstr ""
 "y podrá construir una frase: «cada dos semanas en lunes y viernes hasta el 3 "
 "de enero de 2015« o «de cada mes el primer viernes en 12 ocasiones»."
 
+#. (itstool) path: credit/name
+#: C/calendar-searching.page:11 C/contacts-searching.page:12
+#: C/mail-searching.page:12 C/memos-searching.page:12 C/tasks-searching.page:12
+msgid "Max Vorobuov"
+msgstr "Max Vorobuov"
+
 #. (itstool) path: info/desc
 #: C/calendar-searching.page:27
 msgid "Searching appointments and meetings."
@@ -1374,8 +1631,7 @@ msgstr "Buscar elementos del calendario"
 
 #. (itstool) path: section/title
 #: C/calendar-searching.page:33 C/contacts-searching.page:43
-#: C/mail-searching.page:39 C/memos-searching.page:39
-#: C/tasks-searching.page:39
+#: C/mail-searching.page:39 C/memos-searching.page:39 C/tasks-searching.page:39
 msgid "Quick Search"
 msgstr "Búsqueda rápida"
 
@@ -1394,33 +1650,47 @@ msgstr ""
 msgid "Searching by summary:"
 msgstr "Buscar por resumen:"
 
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/calendar-searching.page:43 C/contacts-searching.page:51
+#: C/mail-searching.page:42 C/memos-searching.page:43 C/tasks-searching.page:43
+msgctxt "_"
+msgid ""
+"external ref='figures/search-icon.png' md5='cd4b82c84c628bfbbfa39d1e0d1eae89'"
+msgstr ""
+"@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
+
 #. (itstool) path: item/p
 #: C/calendar-searching.page:42 C/contacts-searching.page:50
 #: C/memos-searching.page:43 C/tasks-searching.page:43
-msgid "Click the search icon <_:media-1/> to expand the drop-down list."
+#, fuzzy
+#| msgid "Click the search icon <_:media-1/> to expand the drop-down list."
+msgid ""
+"Click the search icon <media type=\"image\" mime=\"image/png\" its:translate="
+"\"no\" src=\"figures/search-icon.png\"/> to expand the drop-down list."
 msgstr ""
 "Pulse el icono de búsqueda <_:media-1/> para expandir la dista desplegable."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:47 C/contacts-searching.page:55
-#: C/mail-searching.page:43 C/memos-searching.page:44
-#: C/tasks-searching.page:44
+#: C/mail-searching.page:43 C/memos-searching.page:44 C/tasks-searching.page:44
 msgid "Select the search condition from the list."
 msgstr "Seleccione el criterio de búsqueda de la lista."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:50 C/contacts-searching.page:58
-#: C/mail-searching.page:49 C/memos-searching.page:45
-#: C/tasks-searching.page:45
+#: C/mail-searching.page:49 C/memos-searching.page:45 C/tasks-searching.page:45
 msgid "Enter the text you want to search for and press <key>Enter</key>."
 msgstr "Escriba el texto que quiere buscar y pulse <key>Intro</key>."
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:53 C/calendar-searching.page:67
 #: C/contacts-searching.page:62 C/contacts-searching.page:76
-#: C/mail-searching.page:50 C/memos-searching.page:46
-#: C/memos-searching.page:52 C/tasks-searching.page:46
-#: C/tasks-searching.page:52
+#: C/mail-searching.page:50 C/memos-searching.page:46 C/memos-searching.page:52
+#: C/tasks-searching.page:46 C/tasks-searching.page:52
 msgid "<app>Evolution</app> displays the search results."
 msgstr "<app>Evolution</app> muestra los resultados de la búsqueda."
 
@@ -1457,8 +1727,7 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:76 C/contacts-searching.page:80
-#: C/mail-searching.page:54 C/memos-searching.page:54
-#: C/tasks-searching.page:54
+#: C/mail-searching.page:54 C/memos-searching.page:54 C/tasks-searching.page:54
 msgid ""
 "If you want to set several search conditions, you should use an Advanced "
 "search, which is described below."
@@ -1533,14 +1802,24 @@ msgstr "Configurar una zona horaria para una cita"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:48
+#, fuzzy
+#| msgid ""
+#| "You can also configure time zone information specific to each "
+#| "appointment. To do that, <link xref=\"calendar-usage\">add a new or edit "
+#| "an existing appointment</link> and click the globe button to customize "
+#| "the time zone that the time exists in. For example, if you live in New "
+#| "York but have a telephone meeting set for noon with someone in "
+#| "California, you need to make sure that your schedules are coordinated. "
+#| "Setting time zones on a per-appointment basis helps avoid that potential "
+#| "confusion."
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
-"appointment</link> and click the globe button to customize the time zone "
-"that the time exists in. For example, if you live in New York but have a "
-"telephone meeting set for noon with someone in California, you need to make "
-"sure that your schedules are coordinated. Setting time zones on a per-"
-"appointment basis helps avoid that potential confusion."
+"appointment</link>. Under <gui>Time zone</gui>, click <gui style=\"button"
+"\">Select…</gui> to customize the time zone. For example, if you live in New "
+"York but have a telephone meeting set with someone in California, you need "
+"to make sure that your schedules are coordinated. Setting time zones on a "
+"per-appointment basis helps avoid that potential confusion."
 msgstr ""
 "También puede configurar información específica de la zona horaria para cada "
 "cita. Para ello <link xref=\"calendar-usage\">añada una cita nueva o edite "
@@ -1583,7 +1862,7 @@ msgid "If you use the Appointment dialog:"
 msgstr "Si usa el diálogo de Cita:"
 
 #. (itstool) path: item/p
-#: C/calendar-usage-add-appointment.page:61
+#: C/calendar-usage-add-appointment.page:56
 msgid ""
 "To show the time as <link xref=\"calendar-free-busy\">busy</link> to others, "
 "click <guiseq><gui>Options</gui> <gui>Show Time as Busy</gui></guiseq>."
@@ -1776,6 +2055,12 @@ msgstr "Seleccione el tipo <gui>En la red</gui>."
 #: C/tasks-webdav.page:33
 msgid "Enter your username."
 msgstr "Introduzca su nombre de usuario."
+
+#. (itstool) path: credit/name
+#: C/contacts-add-automatically.page:15 C/mail-receiving-options-pop.page:15
+#: C/mail-spam-marking.page:18
+msgid "Barbara Tobias"
+msgstr "Barbara Tobias"
 
 #. (itstool) path: info/desc
 #: C/contacts-add-automatically.page:21
@@ -2152,9 +2437,14 @@ msgstr "Contactos en LibreOffice"
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
+#, fuzzy
+#| msgid ""
+#| "You can use your <app>Evolution</app> address books in LibreOffice as a "
+#| "data source. The following steps refer to LibreOffice version 3.3.3."
 msgid ""
-"You can use your <app>Evolution</app> address books in LibreOffice as a data "
-"source. The following steps refer to LibreOffice version 3.3.3."
+"You can use your <app>Evolution</app> address books in <app>LibreOffice "
+"Writer</app> as a data source. The following steps refer to LibreOffice "
+"version 5.4."
 msgstr ""
 "Puede usar sus libretas de direcciones de <app>Evolution</app> en "
 "LibreOffice como fuentes de datos. Los siguientes pasos se conciernen a la "
@@ -2162,9 +2452,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
+#, fuzzy
+#| msgid ""
+#| "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in "
+#| "the menu bar. This will bring up the <gui>Exchange databases</gui> dialog "
+#| "box."
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
-"menu bar. This will bring up the <gui>Exchange databases</gui> dialog box."
+"menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
 "En la barra de menú pulse <guiseq><gui>Editar</gui><gui>Intercambiar base de "
 "datos…</gui></guiseq>. Esto mostrará la caja de diálogo <gui>Intercambiar "
@@ -2189,42 +2484,18 @@ msgstr ""
 "Seleccione una libreta de direcciones y pulse <gui style=\"button\">Definir</"
 "gui>."
 
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:41
-msgid ""
-"In case it is not listed already, click <gui style=\"button\">Browse…</gui>. "
-"A file chooser dialog opens."
-msgstr ""
-"En caso de que no se liste pulse <gui style=\"button\">Examinar…</gui>. Se "
-"abrirá un diálogo de selección de archivos."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:45
-msgid ""
-"As <app>Evolution</app> stores its data in a hidden directory, press "
-"<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
-"displayed."
-msgstr ""
-"Ya que <app>Evolution</app> almacena sus datos en una carpeta oculto, pulse "
-"<keyseq><key>Ctrl</key><key>L</key></keyseq> para mostrar la barra de "
-"direcciones."
-
-#. (itstool) path: item/p
-#: C/contacts-libreoffice.page:50
-msgid ""
-"Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
-"file> and click <gui style=\"button\">Open</gui>."
-msgstr ""
-"Vaya a <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
-"file> y pulse <gui style=\"button\">Abrir</gui>."
-
 #. (itstool) path: page/p
-#: C/contacts-libreoffice.page:56
+#: C/contacts-libreoffice.page:42
+#, fuzzy
+#| msgid ""
+#| "This makes the <app>Evolution</app> address book the default data source "
+#| "for LibreOffice. You can now select a field to insert into a LibreOffice "
+#| "document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
+#| "guiseq>."
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
-"document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
-"guiseq>."
+"document via <guiseq><gui>Insert</gui><gui>Field</gui></guiseq>."
 msgstr ""
 "Esto hace que la libreta de direcciones de <app>Evolution</app> sea la "
 "fuente de datos predeterminada de LibreOffice. Ahora puede seleccionar un "
@@ -2627,7 +2898,7 @@ msgid "Authors of the <app>Evolution</app> User Documentation"
 msgstr "Autores de la documentación del usuario de <app>Evolution</app>"
 
 #. (itstool) path: item/p
-#: C/credits.page:25 C/credits.page:55
+#: C/credits.page:25 C/credits.page:54
 msgid "André Klapper"
 msgstr "André Klapper"
 
@@ -2637,12 +2908,14 @@ msgid "April Gonzalez"
 msgstr "April Gonzalez"
 
 #. (itstool) path: item/p
-#: C/credits.page:31
+#. (itstool) path: credit/name
+#: C/credits.page:31 C/intro-main-window.page:17
 msgid "Barbara M. Tobias"
 msgstr "Barbara M. Tobias"
 
 #. (itstool) path: item/p
-#: C/credits.page:34
+#. (itstool) path: credit/name
+#: C/credits.page:34 C/index.page:10 C/mail-cannot-see.page:11
 msgid "Phil Bull"
 msgstr "Phil Bull"
 
@@ -2652,40 +2925,89 @@ msgid "Translators of the <app>Evolution</app> User Documentation"
 msgstr "Traductores de la documentación del usuario de <app>Evolution</app>"
 
 #. (itstool) path: section/p
-#. TO TRANSLATORS: This is shown in the 'Translators of the User
-#. Documentation' section. Please REPLACE this string by adding your own
-#. names here so you get some well-deserved fame on the interwebs! Do NOT
-#. use '\n' for linebreaks or square brackets for potential email
-#. addresses here as this will not work. Thanks for all your hard work!
-#. andre
-#: C/credits.page:43
+#: C/credits.page:42
 msgid "(Not applicable to the English version)"
 msgstr "Daniel Mustieles (2011-2013), Jorge González (2007-2011)"
 
 #. (itstool) path: section/title
-#: C/credits.page:47
+#: C/credits.page:46
 msgid "Authors of the previous version"
 msgstr "Autores de la versión anterior"
 
+#. (itstool) path: item/p
+#: C/credits.page:48
+msgid "Aaron Weber"
+msgstr "Aaron Weber"
+
+#. (itstool) path: item/p
+#: C/credits.page:51
+msgid "Akhil Laddha"
+msgstr "Akhil Laddha"
+
+#. (itstool) path: item/p
+#: C/credits.page:57
+msgid "Duncan Mak"
+msgstr "Duncan Mak"
+
+#. (itstool) path: item/p
+#: C/credits.page:60
+msgid "Ettore Perazzoli"
+msgstr "Ettore Perazzoli"
+
+#. (itstool) path: item/p
+#: C/credits.page:63
+msgid "Francisco Javier F. Serrador"
+msgstr "Francisco Javier F. Serrador"
+
+#. (itstool) path: item/p
+#: C/credits.page:66
+msgid "Jessica Prabhakar"
+msgstr "Jessica Prabhakar"
+
+#. (itstool) path: item/p
+#: C/credits.page:69
+msgid "Kevin Breit"
+msgstr "Kevin Breit"
+
+#. (itstool) path: item/p
+#: C/credits.page:72
+msgid "Mark Moulder"
+msgstr "Mark Moulder"
+
+#. (itstool) path: item/p
+#: C/credits.page:75
+msgid "Novell, Inc."
+msgstr "Novell, Inc."
+
+#. (itstool) path: item/p
+#: C/credits.page:78
+msgid "Radhika Nair"
+msgstr "Radhika Nair"
+
+#. (itstool) path: item/p
+#: C/credits.page:81
+msgid "Srinivasa Ragavan"
+msgstr "Srinivasa Ragavan"
+
 #. (itstool) path: section/title
-#: C/credits.page:89
+#: C/credits.page:88
 msgid "Contact information"
 msgstr "Información de contacto"
 
 #. (itstool) path: section/p
-#: C/credits.page:90
+#: C/credits.page:89
 msgid "The GNOME Documentation Project:"
 msgstr "Proyecto de Documentación GNOME:"
 
 #. (itstool) path: item/p
-#: C/credits.page:92
+#: C/credits.page:91
 msgid ""
 "<link href=\"https://wiki.gnome.org/DocumentationProject\">Website</link>"
 msgstr ""
 "<link href=\"https://wiki.gnome.org/DocumentationProject\">Página web</link>"
 
 #. (itstool) path: item/p
-#: C/credits.page:95
+#: C/credits.page:94
 msgid ""
 "<link href=\"https://mail.gnome.org/mailman/listinfo/gnome-doc-list"
 "\">Mailing list</link>"
@@ -2769,9 +3091,14 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/data-storage.page:26
+#, fuzzy
+#| msgid ""
+#| "<app>Evolution</app> 3.6 and later stores its data according to the <link "
+#| "href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG "
+#| "Base Directory Specification</link>. By default this means:"
 msgid ""
 "<app>Evolution</app> 3.6 and later stores its data according to the <link "
-"href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG "
+"href=\"https://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG "
 "Base Directory Specification</link>. By default this means:"
 msgstr ""
 "<app>Evolution</app> 3.6 y posterior almacena sus datos según la <link href="
@@ -2800,7 +3127,8 @@ msgid "<file>$HOME/.config/evolution</file>"
 msgstr "<file>$HOME/.config/evolution</file>"
 
 #. (itstool) path: item/title
-#: C/data-storage.page:38
+#. (itstool) path: section/title
+#: C/data-storage.page:38 C/mail-working-offline.page:32
 msgid "Account settings"
 msgstr "Configuración de la cuenta"
 
@@ -2898,6 +3226,20 @@ msgstr ""
 "actual del archivo y pulse <key>Intro</key>:"
 
 #. (itstool) path: item/p
+#: C/default-browser.page:41
+msgid ""
+"<cmd its:translate=\"no\"> xdg-settings set default-url-scheme-handler https "
+"browser.desktop </cmd>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/default-browser.page:47
+msgid ""
+"<cmd its:translate=\"no\"> xdg-settings set default-url-scheme-handler http "
+"browser.desktop </cmd>"
+msgstr ""
+
+#. (itstool) path: item/p
 #: C/default-browser.page:52
 msgid ""
 "<app>Evolution</app> may need to be restarted for the settings to take "
@@ -2955,8 +3297,12 @@ msgstr ""
 
 #. (itstool) path: when/p
 #: C/default-browser.page:72
+#, fuzzy
+#| msgid ""
+#| "<link action=\"install:gvfs\" href=\"http://ftp.gnome.org/pub/gnome/"
+#| "sources/gvfs/\" style=\"button\">Install gvfs</link>"
 msgid ""
-"<link action=\"install:gvfs\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
+"<link action=\"install:gvfs\" href=\"https://ftp.gnome.org/pub/gnome/sources/"
 "gvfs/\" style=\"button\">Install gvfs</link>"
 msgstr ""
 "<link action=\"install:gvfs\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
@@ -2992,7 +3338,7 @@ msgid ""
 "list</file>."
 msgstr ""
 "Si tiene conocimientos técnicos puede ajustar estas configuraciones "
-"definiendo manejadores de esquemas en <file>$HOME/.local/share/applications/"
+"definiendo gestores de esquemas en <file>$HOME/.local/share/applications/"
 "mimeapps.list</file>."
 
 #. (itstool) path: info/desc
@@ -3026,6 +3372,17 @@ msgstr ""
 msgid "Deleting emails or attachments to reduce the size of the mailbox."
 msgstr ""
 "Eliminando correos o adjuntos para reducir el tamaño del buzón de correo."
+
+#. (itstool) path: credit/name
+#: C/deleting-emails.page:13 C/mail-access-gmail-pop-account.page:13
+#: C/mail-displaying-images-in-html.page:15 C/mail-duplicates.page:11
+#: C/mail-filters-not-working.page:12 C/mail-folders.page:17
+#: C/mail-moving-emails.page:11 C/mail-not-sent.page:11
+#: C/mail-read-receipts.page:21 C/mail-refresh-folders.page:11
+#: C/mail-sorting-message-list.page:16 C/mail-spam-settings.page:24
+#: C/mail-two-trash-folders.page:12
+msgid "April Gonzales"
+msgstr "April Gonzales"
 
 #. (itstool) path: page/title
 #: C/deleting-emails.page:26
@@ -3651,7 +4008,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:244
-#: C/intro-main-window.page:97
+#: C/intro-main-window.page:98
 msgid "Calendar"
 msgstr "Calendario"
 
@@ -3687,8 +4044,8 @@ msgstr ""
 "Palm OS y otros."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:286
-#: C/intro-main-window.page:143
+#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:316
+#: C/intro-main-window.page:144
 msgid "Contacts"
 msgstr "Contactos"
 
@@ -3761,21 +4118,39 @@ msgstr ""
 msgid "Manage your email, contacts and schedule"
 msgstr "Gestionar su correo-e, sus contactos y sus tareas"
 
+#. (itstool) path: title/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/index.page:6 C/index.page:24
+msgctxt "_"
+msgid ""
+"external ref='figures/evolutionlogo.png' "
+"md5='4bf469aaba7c368937309e931ba9bdcc'"
+msgstr ""
+"external ref='figures/evolutionlogo.png' "
+"md5='4bf469aaba7c368937309e931ba9bdcc'"
+
 #. (itstool) path: info/title
 #: C/index.page:7
 msgctxt "text"
 msgid "<app>Evolution</app> Mail and Calendar"
 msgstr "Correo y calendario de <app>Evolution</app>"
 
-#. (itstool) path: media/span
-#: C/index.page:25
-msgid "Evolution logo"
-msgstr "Logo de Evolution"
-
 #. (itstool) path: page/title
 #: C/index.page:23
-msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
-msgstr "<_:media-1/> Correo y calendario de <app>Evolution</app>"
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
+#| "media> Evolution Mail and Calendar"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"figures/evolutionlogo.png"
+"\"> <span its:translate=\"yes\">Evolution logo</span> </media> "
+"<app>Evolution</app> Mail and Calendar"
+msgstr ""
+"<media type=\"image\" src=\"figures/evolutionlogo.png\">Logotipo de "
+"Evolution</media> Correo y calendario de Evolution"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -3853,6 +4228,11 @@ msgstr "Lecturas recomendadas"
 msgid "An introduction to <app>Evolution</app>."
 msgstr "Una introducción a <app>Evolution</app>."
 
+#. (itstool) path: credit/name
+#: C/intro-application.page:11 C/offline.page:12
+msgid "Brian Grohe"
+msgstr "Brian Grohe"
+
 #. (itstool) path: page/p
 #: C/intro-application.page:25
 msgid ""
@@ -3864,8 +4244,15 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/intro-application.page:27
+#, fuzzy
+#| msgid ""
+#| "By default <app>Evolution</app> opens the mail view. This is were you can "
+#| "view all your mail. You can change to other views of the application by "
+#| "going to the bottom of the left pane in the window (the so-called "
+#| "\"switcher\") and selecting the desired view. <link xref=\"intro-main-"
+#| "window\">Learn more about the elements of the main window</link>."
 msgid ""
-"By default <app>Evolution</app> opens the mail view. This is were you can "
+"By default <app>Evolution</app> opens the mail view. This is where you can "
 "view all your mail. You can change to other views of the application by "
 "going to the bottom of the left pane in the window (the so-called \"switcher"
 "\") and selecting the desired view. <link xref=\"intro-main-window\">Learn "
@@ -3906,9 +4293,14 @@ msgstr "Iniciar <app>Evolution</app> por primera vez"
 
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
+#, fuzzy
+#| msgid ""
+#| "The first time you run <app>Evolution</app>, it opens the First-Run "
+#| "Assistant to help you set up email accounts and <link xref=\"import-data"
+#| "\">import data from other applications.</link>"
 msgid ""
 "The first time you run <app>Evolution</app>, it opens the First-Run "
-"Assistant to help you set up email accounts and <link xref=\"import-data"
+"Assistant. It helps you set up email accounts and <link xref=\"import-data"
 "\">import data from other applications.</link>"
 msgstr ""
 "La primera vez que ejecuta <app>Evolution</app> se abre el Asistente de "
@@ -3916,13 +4308,23 @@ msgstr ""
 "electrónico e <link xref=\"import-data\">importar datos de otras "
 "aplicaciones</link>."
 
+#. (itstool) path: page/p
+#: C/intro-first-run.page:27
+msgid ""
+"This assistant is not shown if there is an already configured e-mail account "
+"in <link xref=\"help:gnome-help/accounts\"><app>Online accounts</app></link> "
+"as that account is automatically picked by <app>Evolution</app>. Not all "
+"options of such accounts can be edited in <app>Evolution</app> and such "
+"accounts can only be removed in <app>Online accounts</app> itself."
+msgstr ""
+
 #. (itstool) path: section/title
-#: C/intro-first-run.page:32
+#: C/intro-first-run.page:33
 msgid "Restore from backup"
 msgstr "Restaurar desde un respaldo"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:33
+#: C/intro-first-run.page:34
 msgid ""
 "You will be asked whether to restore from a backup of a previous version. If "
 "you do not have a backup, go to the next page."
@@ -3931,13 +4333,13 @@ msgstr ""
 "anterior. Si tiene tal respaldo, vaya a la siguiente página."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:37
+#: C/intro-first-run.page:38
 msgctxt "ui:collapsed"
 msgid "Show how to restore from a backup"
 msgstr "Mostrar cómo restaurar desde un respaldo"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:47 C/mail-receiving-options-exchange-ews.page:23
+#: C/intro-first-run.page:48 C/mail-receiving-options-exchange-ews.page:23
 #: C/mail-receiving-options-exchange-mapi.page:23
 #: C/mail-receiving-options-imap-plus.page:26
 #: C/mail-receiving-options-local-delivery.page:23
@@ -3951,7 +4353,7 @@ msgid "Receiving Email"
 msgstr "Recepción de correo"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:48
+#: C/intro-first-run.page:49
 msgid ""
 "First, choose the server type from the <gui>Server Type</gui> drop-down list."
 msgstr ""
@@ -3959,7 +4361,7 @@ msgstr ""
 "servidor</gui>."
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:49
+#: C/intro-first-run.page:50
 msgid ""
 "If you are unsure about the type of server to choose, ask your system "
 "administrator or Internet Service Provider."
@@ -3968,7 +4370,7 @@ msgstr ""
 "administrador de sistemas o a su proveedor de servicios de Internet."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:51
+#: C/intro-first-run.page:52
 msgid ""
 "Later on, if you want to change an account, or if you want to create another "
 "one, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
@@ -3983,12 +4385,12 @@ msgstr ""
 "<gui style=\"button\">Añadir</gui>."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:54
+#: C/intro-first-run.page:55
 msgid "IMAP+"
 msgstr "IMAP+"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:55
+#: C/intro-first-run.page:56
 msgid ""
 "Keeps the mail on the server so you can access your mail from multiple "
 "systems."
@@ -3997,45 +4399,45 @@ msgstr ""
 "formas."
 
 #. (itstool) path: info/title
-#: C/intro-first-run.page:59 C/intro-first-run.page:75
-#: C/intro-first-run.page:91 C/intro-first-run.page:115
-#: C/intro-first-run.page:139 C/intro-first-run.page:155
-#: C/intro-first-run.page:171 C/intro-first-run.page:187
-#: C/intro-first-run.page:203 C/intro-first-run.page:219
-#: C/intro-first-run.page:246
+#: C/intro-first-run.page:60 C/intro-first-run.page:76
+#: C/intro-first-run.page:92 C/intro-first-run.page:116
+#: C/intro-first-run.page:140 C/intro-first-run.page:156
+#: C/intro-first-run.page:172 C/intro-first-run.page:188
+#: C/intro-first-run.page:204 C/intro-first-run.page:220
+#: C/intro-first-run.page:247
 msgctxt "ui:collapsed"
 msgid "Show how to configure this account type"
 msgstr "Mostrar cómo configurar este tipo de cuenta"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:61 C/mail-receiving-options-imap-plus.page:23
+#: C/intro-first-run.page:62 C/mail-receiving-options-imap-plus.page:23
 msgid "IMAP+ receiving options"
 msgstr "Opciones de recepción IMAP+"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:70
+#: C/intro-first-run.page:71
 msgid "POP"
 msgstr "POP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:71
+#: C/intro-first-run.page:72
 msgid "Downloads your email to your hard disk."
 msgstr "Descarga su correo-e a su disco duro"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:77 C/mail-receiving-options-pop.page:27
+#: C/intro-first-run.page:78 C/mail-receiving-options-pop.page:27
 msgid "POP receiving options"
 msgstr "Opciones de recepción POP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:86
+#: C/intro-first-run.page:87
 msgid "USENET News"
 msgstr "Noticias USENET"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:87
+#: C/intro-first-run.page:88
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
 msgstr ""
@@ -4044,17 +4446,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:93 C/mail-receiving-options-usenet-news.page:23
+#: C/intro-first-run.page:94 C/mail-receiving-options-usenet-news.page:23
 msgid "Usenet news receiving options"
 msgstr "Opciones de recepción de noticias de Usenet"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:102
+#: C/intro-first-run.page:103
 msgid "Exchange EWS"
 msgstr "Exchange EWS"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:103
+#: C/intro-first-run.page:104
 msgid ""
 "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server. Note "
 "that this is currently under development and will replace the <gui>Exchange "
@@ -4067,13 +4469,13 @@ msgstr ""
 "no esté disponible para su distribución."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:105
+#: C/intro-first-run.page:106
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
 msgstr "Esto requiere tener instalado el paquete <sys>evolution-ews</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:108 C/mail-account-manage-microsoft-exchange.page:30
+#: C/intro-first-run.page:109 C/mail-account-manage-microsoft-exchange.page:30
 msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
@@ -4084,29 +4486,29 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:117 C/mail-receiving-options-exchange-ews.page:20
+#: C/intro-first-run.page:118 C/mail-receiving-options-exchange-ews.page:20
 msgid "Exchange Web Services receiving options"
 msgstr "Opciones de recepción Exchange Web Services"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:126
+#: C/intro-first-run.page:127
 msgid "Exchange MAPI"
 msgstr "Exchange MAPI"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:127
+#: C/intro-first-run.page:128
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
 msgstr ""
 "Para conectar con servidores Microsoft Exchange 2007/2010 u OpenChange."
 
 #. (itstool) path: note/p
-#: C/intro-first-run.page:129
+#: C/intro-first-run.page:130
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
 msgstr "Esto requiere tener instalado el paquete <sys>evolution-mapi</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
-#: C/intro-first-run.page:132 C/mail-account-manage-microsoft-exchange.page:41
+#: C/intro-first-run.page:133 C/mail-account-manage-microsoft-exchange.page:41
 msgid ""
 "<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
@@ -4118,17 +4520,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:141 C/mail-receiving-options-exchange-mapi.page:20
+#: C/intro-first-run.page:142 C/mail-receiving-options-exchange-mapi.page:20
 msgid "Exchange MAPI receiving options"
 msgstr "Opciones de recepción Exchange MAPI"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:150
+#: C/intro-first-run.page:151
 msgid "Local delivery"
 msgstr "Envío local"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:151
+#: C/intro-first-run.page:152
 msgid ""
 "Local delivery: If you want to move email from the spool (the location where "
 "mail waits for delivery) and store it in your home directory. You need to "
@@ -4143,35 +4545,35 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:157 C/mail-receiving-options-local-delivery.page:20
+#: C/intro-first-run.page:158 C/mail-receiving-options-local-delivery.page:20
 msgid "Local delivery receiving options"
 msgstr "Opciones de recepción para envío local"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:166
+#: C/intro-first-run.page:167
 msgid "MH-Format Mail Directories"
 msgstr "Directorios de correo en formato MH"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:167
+#: C/intro-first-run.page:168
 msgid "For downloading email using MH or another MH-style application."
 msgstr ""
 "Para descargar correo electrónico usando MH u otro programa de estilo MH."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:173
+#: C/intro-first-run.page:174
 #: C/mail-receiving-options-mh-format-directories.page:20
 msgid "MH-format mail directories receiving options"
 msgstr "Opciones de recepción para directorios de correo en formato MH"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:182
+#: C/intro-first-run.page:183
 msgid "Maildir-Format Mail Directories"
 msgstr "Directorios de correo en formato Maildir"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:183
+#: C/intro-first-run.page:184
 msgid ""
 "Maildir-Format Mail Directories: For downloading your email using Qmail or "
 "another Maildir-style application."
@@ -4181,18 +4583,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:189
+#: C/intro-first-run.page:190
 #: C/mail-receiving-options-maildir-format-directories.page:20
 msgid "Maildir-format mail directories receiving options"
 msgstr "Opciones de recepción para directorios de correo en formato Maildir"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:198
+#: C/intro-first-run.page:199
 msgid "Standard Unix mbox spool file"
 msgstr "Archivo spool mbox estándar de Unix"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:199
+#: C/intro-first-run.page:200
 msgid ""
 "Standard Unix mbox spool file: For reading and storing email in the mail "
 "spool file on your local system."
@@ -4202,18 +4604,18 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:205
+#: C/intro-first-run.page:206
 #: C/mail-receiving-options-unix-mbox-spool-file.page:20
 msgid "Standard Unix mbox spool file receiving options"
 msgstr "Opciones de recepción para el archivo spool mbox estándar de Unix"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:214
+#: C/intro-first-run.page:215
 msgid "Standard Unix mbox spool directory"
 msgstr "Directorios de correo mbox en formato estándar de Unix"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:215
+#: C/intro-first-run.page:216
 msgid ""
 "Standard Unix mbox spool directory: For reading and storing email in the "
 "mail spool directory on your local system."
@@ -4224,7 +4626,7 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:221
+#: C/intro-first-run.page:222
 #: C/mail-receiving-options-unix-mbox-spool-directory.page:20
 msgid "Standard Unix mbox spool directory receiving options"
 msgstr ""
@@ -4232,33 +4634,33 @@ msgstr ""
 "Unix"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:230
+#: C/intro-first-run.page:231
 msgid "None"
 msgstr "Ninguno"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:231
+#: C/intro-first-run.page:232
 msgid "If you do not plan to use <app>Evolution</app> for receiving email."
 msgstr ""
 "Si no tiene intención de usar <app>Evolution</app> para recibir correo."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:237 C/mail-displaying-character-encodings.page:32
+#: C/intro-first-run.page:238 C/mail-displaying-character-encodings.page:32
 msgid "Sending mail"
 msgstr "Envío de correo"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:238
+#: C/intro-first-run.page:239
 msgid "Available server types are:"
 msgstr "Los tipos de servidor disponibles son:"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:241
+#: C/intro-first-run.page:242
 msgid "SMTP"
 msgstr "SMTP"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:242
+#: C/intro-first-run.page:243
 msgid ""
 "Sends mail using an outbound mail server. This is the most common choice for "
 "sending mail."
@@ -4268,17 +4670,17 @@ msgstr ""
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
-#: C/intro-first-run.page:248 C/mail-sending-options-smtp.page:26
+#: C/intro-first-run.page:249 C/mail-sending-options-smtp.page:26
 msgid "SMTP sending options"
 msgstr "Opciones de envío SMTP"
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:257
+#: C/intro-first-run.page:258
 msgid "Sendmail"
 msgstr "Sendmail"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:258
+#: C/intro-first-run.page:259
 msgid ""
 "Uses the <app>Sendmail</app> application to send mail from your system. It "
 "is not easy to configure, so you should select this option only if you know "
@@ -4289,22 +4691,22 @@ msgstr ""
 "opción si sabe cómo poner en marcha un servicio Sendmail."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:264
+#: C/intro-first-run.page:265
 msgid "Account Information"
 msgstr "Información de la cuenta"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:265
+#: C/intro-first-run.page:266
 msgid "Give the account any name you prefer."
 msgstr "Dé a la cuenta el nombre que prefiera."
 
 #. (itstool) path: section/title
-#: C/intro-first-run.page:269
+#: C/intro-first-run.page:270
 msgid "Importing Mail (Optional)"
 msgstr "Importar correo (opcional)"
 
 #. (itstool) path: section/p
-#: C/intro-first-run.page:270
+#: C/intro-first-run.page:271
 msgid ""
 "Continue with <link xref=\"import-data\">Importing data from another "
 "application</link>."
@@ -4314,9 +4716,13 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/intro-keyboard-shortcuts.page:5
-#| msgid "Keyboard shortcuts that can save you some time when reading mail."
 msgid "Keyboard shortcuts that can save you some time."
 msgstr "Atajos de teclado que le pueden ahorrar tiempo."
+
+#. (itstool) path: credit/name
+#: C/intro-keyboard-shortcuts.page:10
+msgid "Raniere Silva"
+msgstr ""
 
 #. (itstool) path: page/title
 #. (itstool) path: td/p
@@ -4338,7 +4744,6 @@ msgstr "Global"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:34
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
 
@@ -4349,7 +4754,6 @@ msgstr "Seleccione el componente Correo."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:40
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
 
@@ -4360,7 +4764,6 @@ msgstr "Seleccione el componente Contactos."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:46
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
 
@@ -4371,7 +4774,6 @@ msgstr "Seleccione el componente Calendario."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:52
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
 
@@ -4382,7 +4784,6 @@ msgstr "Seleccione el componente Tareas."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:58
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
 
@@ -4393,7 +4794,6 @@ msgstr "Seleccione el componente Notas."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:64
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
 
@@ -4414,19 +4814,16 @@ msgstr "Cambiar el foco cíclicamente entre paneles."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:76
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>Q</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:79
-#| msgid "<_:media-1/> Search bar"
 msgid "Clear search bar."
 msgstr "Limpiar la barra de búsqueda"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:82
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
 
@@ -4437,7 +4834,6 @@ msgstr "Cerrar ventana."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:88
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>W</key></keyseq>"
 
@@ -4448,31 +4844,26 @@ msgstr "Abrir una ventana nueva."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:94
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:97
-#| msgid "Start <app>Evolution</app>."
 msgid "Quit <app>Evolution</app>."
 msgstr "Salir de <app>Evolution</app>."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:100
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:103
-#| msgid "Color Selection:"
 msgid "Print selection."
 msgstr "Imprimir la selección:"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:106
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
 
@@ -4483,7 +4874,6 @@ msgstr "Guardar selección."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:112
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<key>Del</key> or <key>Backspace</key>"
 msgstr "<key>Supr</key> o <key>Retroceso</key>"
 
@@ -4494,7 +4884,6 @@ msgstr "Eliminar la selección."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:118
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>V</key></keyseq>"
 
@@ -4505,7 +4894,6 @@ msgstr "Mover correos o contactos a una carpeta."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:124
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>Y</key></keyseq>"
 
@@ -4516,13 +4904,11 @@ msgstr "Copiar correos o contactos a una carpeta."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:136
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:139
-#| msgid "Composing a new message"
 msgid "Create a new message."
 msgstr "Redactar un mensaje de correo nuevo."
 
@@ -4533,13 +4919,11 @@ msgstr "<key>F12</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:145
-#| msgid "Manually send and receive messages"
 msgid "Send and receive messages."
 msgstr "Enviar y recibir mensajes."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:148
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+#: C/intro-keyboard-shortcuts.page:148 C/intro-keyboard-shortcuts.page:283
 msgid "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 
@@ -4550,19 +4934,16 @@ msgstr "Aplicar filtros a la selección."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:154
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>"
 msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq> o <key>Intro</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:157
-#| msgid "The Evolution mail main window"
 msgid "Open selection in new window."
 msgstr "Abrir selección en una ventana nueva."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:160
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 
@@ -4573,8 +4954,7 @@ msgid "Forward selection."
 msgstr "_Estilo de reenvío:"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:166
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
+#: C/intro-keyboard-shortcuts.page:166 C/intro-keyboard-shortcuts.page:295
 msgid "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 
@@ -4585,7 +4965,6 @@ msgstr "Marcar la selección como leída"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:172
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Mayús</key><key>K</key></keyseq>"
 
@@ -4601,7 +4980,6 @@ msgstr "<key>↓</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:181
-#| msgid "Composing a new message"
 msgid "Jump to next message."
 msgstr "Saltar al siguiente mensaje."
 
@@ -4617,7 +4995,6 @@ msgstr "Saltar al mensaje anterior."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:190
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<key>.</key> or <key>]</key>"
 msgstr "<key>.</key> o <key>]</key>"
 
@@ -4628,7 +5005,6 @@ msgstr "Saltar al siguiente mensaje sin leer."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:196
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<key>,</key> or <key>[</key>"
 msgstr "<key>,</key> o <key>[</key>"
 
@@ -4644,18 +5020,17 @@ msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:205
-#| msgid "Reply to Sender"
 msgid "Reply to sender."
 msgstr "Responder al remitente."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:208 C/mail-composer-reply.page:45
+#: C/intro-keyboard-shortcuts.page:208 C/intro-keyboard-shortcuts.page:307
+#: C/mail-composer-reply.page:45
 msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:211
-#| msgid "Reply to List"
 msgid "Reply to list."
 msgstr "Responder a la lista."
 
@@ -4666,7 +5041,6 @@ msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:217
-#| msgid "Autocompletion of mail recipients"
 msgid "Reply to all recipients."
 msgstr "Responder a todos."
 
@@ -4708,9 +5082,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:236
-#| msgid ""
-#| "If the message is more than one screen long, the Spacebar works as "
-#| "<key>Page Down</key>."
 msgid ""
 "If the message is more than one screen long, <key>Space</key> works as "
 "<key>Page Down</key>."
@@ -4720,9 +5091,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:237
-#| msgid ""
-#| "If you press the Spacebar after you reach the bottom of the page, it "
-#| "takes you to the next unread message."
 msgid ""
 "If you press <key>Space</key> after you reach the bottom of the page, it "
 "takes you to the next unread message."
@@ -4732,9 +5100,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:238
-#| msgid ""
-#| "If there are no more unread messages in the mailbox, pressing the "
-#| "Spacebar takes you to the next unread message in the next folder."
 msgid ""
 "If there are no more unread messages in the mailbox, pressing <key>Space</"
 "key> takes you to the next unread message in the next folder."
@@ -4745,10 +5110,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:239
-#| msgid ""
-#| "If new messages arrive in a number of folders, the Spacebar toggles "
-#| "between those folders. This feature allows you to switch to the next "
-#| "unread message in a different folder without clicking the folder."
 msgid ""
 "If new messages arrive in a number of folders, <key>Space</key> toggles "
 "between those folders. This feature allows you to switch to the next unread "
@@ -4761,19 +5122,16 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:247
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>A</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:250
-#| msgid "Repeating appointments."
 msgid "Create a new appointment."
 msgstr "Crear una cita nueva."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:253
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>E</key></keyseq>"
 
@@ -4784,7 +5142,6 @@ msgstr "Crear una reunión nueva."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:259
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>T</key></keyseq>"
 
@@ -4795,7 +5152,6 @@ msgstr "Crea una tarea nueva."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:265
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>O</key></keyseq>"
 
@@ -4806,7 +5162,6 @@ msgstr "Crea una nota nueva."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:271
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 
@@ -4817,7 +5172,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:277
-#| msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 
@@ -4828,35 +5182,45 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:289
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+#, fuzzy
+#| msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:301
+#, fuzzy
+#| msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+msgid "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+
+#. (itstool) path: td/p
+#: C/intro-keyboard-shortcuts.page:319
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>C</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:292
-#| msgid "Creating a contact list"
+#: C/intro-keyboard-shortcuts.page:322
 msgid "Create a new contact."
 msgstr "Crear un contacto nuevo"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:295
-#| msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
+#: C/intro-keyboard-shortcuts.page:325
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Mayús</key><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:298
-#| msgid "Creating a contact list"
+#: C/intro-keyboard-shortcuts.page:328
 msgid "Create a new contact list."
 msgstr "Crear una lista de contactos nueva."
 
 #. (itstool) path: section/title
-#: C/intro-keyboard-shortcuts.page:304
+#: C/intro-keyboard-shortcuts.page:334
 msgid "Changing keyboard shortcuts"
 msgstr "Cambiar los atajos de teclado"
 
 #. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:305
+#: C/intro-keyboard-shortcuts.page:335
 msgid ""
 "Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
 "config/evolution/accels</file>."
@@ -4865,7 +5229,7 @@ msgstr ""
 "el archivo <file>$HOME/.config/evolution/accels</file>."
 
 #. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:305
+#: C/intro-keyboard-shortcuts.page:335
 msgid ""
 "See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
 "evolution-in-gnome/\">this blog post</link> for more information."
@@ -4922,55 +5286,241 @@ msgstr "La ventana principal de correo de <app>Evolution</app>"
 msgid "Corresponding elements in the mail main window:"
 msgstr "Elementos correspondientes en la ventana principal de correo:"
 
-#. (itstool) path: td/p
-#: C/intro-main-window.page:44 C/intro-main-window.page:101
-#: C/intro-main-window.page:147
-msgid "<_:media-1/> Menu bar"
-msgstr "<_:media-1/> Barra de menú"
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/intro-main-window.page:44 C/intro-main-window.page:102
+#: C/intro-main-window.page:148
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-c4a000.png' "
+"md5='9db17d2d5e9013501aeab2e165c6a6c9'"
+msgstr ""
+"external ref='./figures/color-c4a000.png' "
+"md5='9db17d2d5e9013501aeab2e165c6a6c9'"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:47 C/intro-main-window.page:104
-#: C/intro-main-window.page:150
-msgid "<_:media-1/> Tool bar"
-msgstr "<_:media-1/> Barra de herramientas"
+#: C/intro-main-window.page:44
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png"
+#| "\" width=\"10\"/> Menu bar"
+msgid ""
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-c4a000.png\" width=\"10\"/> Menu bar"
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
+"width=\"10\"/> Barra de menú"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/intro-main-window.page:47 C/intro-main-window.page:105
+#: C/intro-main-window.page:151
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-ce5c00.png' "
+"md5='19dae9650e3936312e09198973372a24'"
+msgstr ""
+"external ref='./figures/color-ce5c00.png' "
+"md5='19dae9650e3936312e09198973372a24'"
+
+#. (itstool) path: td/p
+#: C/intro-main-window.page:47
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png"
+#| "\" width=\"10\"/> Tool bar"
+msgid ""
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-ce5c00.png\" width=\"10\"/> Tool bar"
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
+"width=\"10\"/> Barra de herramientas"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/intro-main-window.page:50 C/intro-main-window.page:108
+#: C/intro-main-window.page:154
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-8f5902.png' "
+"md5='ff5ccb859fe04a004cd67e1c22621dc6'"
+msgstr ""
+"external ref='./figures/color-8f5902.png' "
+"md5='ff5ccb859fe04a004cd67e1c22621dc6'"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:50
-msgid "<_:media-1/> Folder list"
-msgstr "<_:media-1/> Lista de carpetas"
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png"
+#| "\" width=\"10\"/> Folder list"
+msgid ""
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-8f5902.png\" width=\"10\"/> Folder list"
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
+"width=\"10\"/> Lista de carpetas"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/intro-main-window.page:51 C/intro-main-window.page:109
+#: C/intro-main-window.page:155
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-4e9a06.png' "
+"md5='b2c2e7b66fb470344c804db396b48b98'"
+msgstr ""
+"external ref='./figures/color-4e9a06.png' "
+"md5='b2c2e7b66fb470344c804db396b48b98'"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:51 C/intro-main-window.page:108
-#: C/intro-main-window.page:154
-msgid "<_:media-1/> Search bar"
-msgstr "<_:media-1/> Barra de búsqueda"
+#: C/intro-main-window.page:51
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png"
+#| "\" width=\"10\"/> Search bar"
+msgid ""
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-4e9a06.png\" width=\"10\"/> Search bar"
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
+"width=\"10\"/> Barra de búsqueda"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/intro-main-window.page:54 C/intro-main-window.page:112
+#: C/intro-main-window.page:158
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-204a87.png' "
+"md5='511497260cc4caab69d67814b1ee3b8b'"
+msgstr ""
+"external ref='./figures/color-204a87.png' "
+"md5='511497260cc4caab69d67814b1ee3b8b'"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:54
-msgid "<_:media-1/> Message list"
-msgstr "<_:media-1/> Lista de mensajes"
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png"
+#| "\" width=\"10\"/> Message list"
+msgid ""
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-204a87.png\" width=\"10\"/> Message list"
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
+"width=\"10\"/> Lista de mensajes"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/intro-main-window.page:55 C/intro-main-window.page:61
+#: C/intro-main-window.page:120 C/intro-main-window.page:161
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-a40000.png' "
+"md5='19195da020e059dab33aa37788763a97'"
+msgstr ""
+"external ref='./figures/color-a40000.png' "
+"md5='19195da020e059dab33aa37788763a97'"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:55
-msgid "<_:media-1/> To Do bar"
-msgstr "<_:media-1/> Barra de tareas pendientes"
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png"
+#| "\" width=\"10\"/> Tool bar"
+msgid ""
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-a40000.png\" width=\"10\"/> To Do bar"
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
+"width=\"10\"/> Barra de herramientas"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/intro-main-window.page:58 C/intro-main-window.page:162
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-5c3566.png' "
+"md5='7c001a57237acc2ff61ee61e05ad3168'"
+msgstr ""
+"external ref='./figures/color-5c3566.png' "
+"md5='7c001a57237acc2ff61ee61e05ad3168'"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:58
-msgid "<_:media-1/> Preview pane"
-msgstr "<_:media-1/> Panel de vista previa"
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png"
+#| "\" width=\"10\"/> Preview pane"
+msgid ""
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-5c3566.png\" width=\"10\"/> Preview pane"
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
+"width=\"10\"/> Panel de vista previa"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:61 C/intro-main-window.page:119
-#: C/intro-main-window.page:160
-msgid "<_:media-1/> Switcher"
-msgstr "<_:media-1/> Intercambiador"
+#: C/intro-main-window.page:61
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png"
+#| "\" width=\"10\"/> Switcher"
+msgid ""
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-a40000.png\" width=\"10\"/> Switcher"
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
+"width=\"10\"/> Selector"
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/intro-main-window.page:64 C/intro-main-window.page:123
+#: C/intro-main-window.page:165
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-2e3436.png' "
+"md5='3c796c7aed3044e59f131bea364e8598'"
+msgstr ""
+"external ref='./figures/color-2e3436.png' "
+"md5='3c796c7aed3044e59f131bea364e8598'"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:64 C/intro-main-window.page:122
-#: C/intro-main-window.page:164
-msgid "<_:media-1/> Status bar"
-msgstr "<_:media-1/> Barra de estado"
+#: C/intro-main-window.page:64
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png"
+#| "\" width=\"10\"/> Status bar"
+msgid ""
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-2e3436.png\" width=\"10\"/> Status bar"
+msgstr ""
+"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
+"width=\"10\"/> Barra de estado"
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:70
@@ -5088,43 +5638,139 @@ msgstr ""
 "gui><gui>Vista previa</gui><gui>Mostrar vista previa del correo</gui></"
 "guiseq>."
 
+#. (itstool) path: note/p
+#: C/intro-main-window.page:94
+#, fuzzy
+#| msgid ""
+#| "You can disable the preview pane by toggling <guiseq><gui>View</"
+#| "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
+msgid ""
+"If you ever accidentially hide the menu bar, press <key>Alt</key> and re-"
+"enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
+"Bar</gui></guiseq>."
+msgstr ""
+"Puede desactivar el panel de vista previa cambiando <guiseq><gui>Ver</"
+"gui><gui>Vista previa</gui><gui>Mostrar vista previa del correo</gui></"
+"guiseq>."
+
 #. (itstool) path: section/p
-#: C/intro-main-window.page:98
+#: C/intro-main-window.page:99
 msgid "Elements in the calendar main window:"
 msgstr "Elementos en la ventana principal del calendario:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:107
-msgid "<_:media-1/> Calendar list"
-msgstr "<_:media-1/> Lista del calendario"
+#: C/intro-main-window.page:102 C/intro-main-window.page:148
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
+#| "Menu bar"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-c4a000.png"
+"\" width=\"10\"/> Menu bar"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
+"Barra de menú"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:111
-msgid "<_:media-1/> Appointment list"
-msgstr "<_:media-1/> Lista de citas"
+#: C/intro-main-window.page:105 C/intro-main-window.page:151
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
+#| "Tool bar"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-ce5c00.png"
+"\" width=\"10\"/> Tool bar"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
+"Barra de herramientas"
+
+#. (itstool) path: td/p
+#: C/intro-main-window.page:108
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+#| "Calendar list"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-8f5902.png"
+"\" width=\"10\"/> Calendar list"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Lista de calendarios"
+
+#. (itstool) path: td/p
+#: C/intro-main-window.page:109 C/intro-main-window.page:155
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
+#| "Search bar"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-4e9a06.png"
+"\" width=\"10\"/> Search bar"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
+"Barra de búsqueda"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:112
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+#| "Appointment list"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-204a87.png"
+"\" width=\"10\"/> Appointment list"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+"Lista de citas"
+
+#. (itstool) path: td/p
+#: C/intro-main-window.page:113
 msgid "Task list"
 msgstr "Lista de tareas"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:115
+#: C/intro-main-window.page:116
 msgid "Month pane"
 msgstr "Panel del mes"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:116
+#: C/intro-main-window.page:117
 msgid "Memo list"
 msgstr "Lista de notas"
 
+#. (itstool) path: td/p
+#: C/intro-main-window.page:120 C/intro-main-window.page:161
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
+#| "Switcher"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-a40000.png"
+"\" width=\"10\"/> Switcher"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
+"Selector"
+
+#. (itstool) path: td/p
+#: C/intro-main-window.page:123 C/intro-main-window.page:165
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
+#| "Status bar"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-2e3436.png"
+"\" width=\"10\"/> Status bar"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
+"Barra de estado"
+
 #. (itstool) path: item/title
-#: C/intro-main-window.page:127
+#: C/intro-main-window.page:128
 msgid "Appointment List"
 msgstr "Lista de citas"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:128
+#: C/intro-main-window.page:129
 msgid ""
 "The appointment list displays all your scheduled appointments in the time "
 "frame selected."
@@ -5133,12 +5779,12 @@ msgstr ""
 "tiempo seleccionado."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:131
+#: C/intro-main-window.page:132
 msgid "Month Pane"
 msgstr "Panel del mes"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:132
+#: C/intro-main-window.page:133
 msgid ""
 "The month pane is a small view of a calendar month. To display additional "
 "months, drag the column border to the right. You can also select a range of "
@@ -5151,12 +5797,12 @@ msgstr ""
 "de citas."
 
 #. (itstool) path: item/title
-#: C/intro-main-window.page:135
+#: C/intro-main-window.page:136
 msgid "Task list and Memo list"
 msgstr "Lista de tareas y notas"
 
 #. (itstool) path: item/p
-#: C/intro-main-window.page:136
+#: C/intro-main-window.page:137
 msgid ""
 "Tasks and memos are just displayed for your convenience and are not "
 "associated to any appointments. Use the <gui>switcher</gui> to go to their "
@@ -5167,27 +5813,51 @@ msgstr ""
 "principales."
 
 #. (itstool) path: section/p
-#: C/intro-main-window.page:144
+#: C/intro-main-window.page:145
 msgid "Elements in the contacts main window:"
 msgstr "Elementos en la ventana principal de contactos:"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:153
-msgid "<_:media-1/> Address book list"
-msgstr "<_:media-1/> Lista de libreta de direcciones"
+#: C/intro-main-window.page:154
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+#| "Address book list"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-8f5902.png"
+"\" width=\"10\"/> Address book list"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
+"Lista de libretas de direcciones"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:157
-msgid "<_:media-1/> Contacts list"
-msgstr "<_:media-1/> Lista de contactos"
+#: C/intro-main-window.page:158
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+#| "Contacts list"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-204a87.png"
+"\" width=\"10\"/> Contacts list"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
+"Lista de contactos"
 
 #. (itstool) path: td/p
-#: C/intro-main-window.page:161
-msgid "<_:media-1/> Contact preview"
-msgstr "<_:media-1/> Vista previa del contacto"
+#: C/intro-main-window.page:162
+#, fuzzy
+#| msgid ""
+#| "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
+#| "Contact preview"
+msgid ""
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-5c3566.png"
+"\" width=\"10\"/> Contact preview"
+msgstr ""
+"<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
+"Vista previa del contacto"
 
 #. (itstool) path: note/p
-#: C/intro-main-window.page:167
+#: C/intro-main-window.page:168
 msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
@@ -6418,11 +7088,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:27
-#| msgid ""
-#| "Check your search view in the search bar right above the message list. "
-#| "Perhaps the <gui>Show</gui> dropdown list is set to a filter like "
-#| "<gui>Read Messages</gui>, or the text input filed contains some value. "
-#| "Click the broom icon to clear the search field."
 msgid ""
 "Check your <link xref=\"mail-searching#search-many\">search view in the "
 "search bar</link> right above the message list. Perhaps the <gui>Show</gui> "
@@ -6579,8 +7244,12 @@ msgstr ""
 
 #. (itstool) path: when/p
 #: C/mail-composer-change-quotation-string.page:30
+#, fuzzy
+#| msgid ""
+#| "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/"
+#| "gnome/sources/dconf/\" style=\"button\">Install dconf-editor</link>"
 msgid ""
-"<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/"
+"<link action=\"install:dconf-editor\" href=\"https://ftp.gnome.org/pub/gnome/"
 "sources/dconf/\" style=\"button\">Install dconf-editor</link>"
 msgstr ""
 "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/"
@@ -6611,7 +7280,7 @@ msgstr ""
 "<gui>composer-message-attribution</gui>."
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:44
+#: C/mail-composer-change-quotation-string.page:43
 msgid ""
 "The default string in English is: <code>\"On ${AbbrevWeekdayName}, ${Year}-"
 "${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:\"</code>"
@@ -6621,34 +7290,112 @@ msgstr ""
 "escribió:»</code>"
 
 #. (itstool) path: page/p
-#: C/mail-composer-change-quotation-string.page:48
+#: C/mail-composer-change-quotation-string.page:47
 msgid "The following placeholders are available:"
 msgstr "Están disponibles los siguientes marcadores de posición:"
 
 #. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:49
+msgid "<code its:translate=\"no\">{Sender}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:50
+msgid "<code its:translate=\"no\">{SenderName}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:51
+msgid "<code its:translate=\"no\">{SenderEMail}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:52
+msgid "<code its:translate=\"no\">{AbbrevWeekdayName}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:53
+msgid "<code its:translate=\"no\">{WeekdayName}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:54
+msgid "<code its:translate=\"no\">{AbbrevMonthName}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:55
+msgid "<code its:translate=\"no\">{MonthName}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:56
+msgid "<code its:translate=\"no\">{Day}</code> (format: 01-31)"
+msgstr ""
+
+#. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:57
-msgid "<_:code-1/> (format: 01-31)"
-msgstr "<_:code-1/> (formato: 01-31)"
+msgid "<code its:translate=\"no\">{ Day}</code> (format: 1-31)"
+msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:58
-msgid "<_:code-1/> (format: 1-31)"
-msgstr "<_:code-1/> (formato: 1-31)"
+msgid "<code its:translate=\"no\">{24Hour}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:59
+msgid "<code its:translate=\"no\">{12Hour}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:60
+msgid "<code its:translate=\"no\">{AmPmUpper}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:61
+msgid "<code its:translate=\"no\">{AmPmLower}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:62
+msgid "<code its:translate=\"no\">{DayOfYear}</code> (format: 1-366)"
+msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:63
-msgid "<_:code-1/> (format: 1-366)"
-msgstr "<_:code-1/> (formato: 1-366)"
+msgid "<code its:translate=\"no\">{Month}</code> (format: 01-12)"
+msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:64
-msgid "<_:code-1/> (format: 01-12)"
-msgstr "<_:code-1/> (formato: 01-12)"
+msgid "<code its:translate=\"no\">{Minute}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:65
+msgid "<code its:translate=\"no\">{Seconds}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:66
+#, fuzzy
+#| msgid "<_:code-1/> (e.g. 15 for the year 2015)"
+msgid ""
+"<code its:translate=\"no\">{2DigitYear}</code> (e.g. 15 for the year 2015)"
+msgstr "<_:code-1/> (ej. 15 para el año 2015)"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:67
-msgid "<_:code-1/> (e.g. 15 for the year 2015)"
-msgstr "<_:code-1/> (ej. 15 para el año 2015)"
+msgid "<code its:translate=\"no\">{Year}</code>"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-composer-change-quotation-string.page:68
+msgid "<code its:translate=\"no\">{TimeZone}</code>"
+msgstr ""
 
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
@@ -7004,7 +7751,7 @@ msgstr ""
 "correo perdeterminados en los campos correspondientes."
 
 #. (itstool) path: page/p
-#: C/mail-composer-from-field-override.page:27
+#: C/mail-composer-from-field-override.page:24
 msgid ""
 "This functionality can be useful for <link href=\"https://en.wikipedia.org/"
 "wiki/Qmail#Innovations\">wildcard mailboxes when using qmail</link> and "
@@ -7017,7 +7764,7 @@ msgstr ""
 "\">subdireccionamiento</link>."
 
 #. (itstool) path: note/p
-#: C/mail-composer-from-field-override.page:32
+#: C/mail-composer-from-field-override.page:26
 msgid ""
 "Setting an arbitrary address might collide with your email provider's <link "
 "href=\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">Sender Policy "
@@ -7067,12 +7814,32 @@ msgstr "Navegue y seleccione el archivo."
 msgid "Click <gui>Open</gui>."
 msgstr "Pulse <gui>Abrir</gui>."
 
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-image.page:30
+msgctxt "_"
+msgid ""
+"external ref='./figures/html-composer-insert-image.png' "
+"md5='45e231e87c10b3fc61a1bbb0ad50c3f3'"
+msgstr ""
+"external ref='./figures/html-composer-insert-image.png' "
+"md5='45e231e87c10b3fc61a1bbb0ad50c3f3'"
+
 #. (itstool) path: page/p
 #: C/mail-composer-html-image.page:30
+#, fuzzy
+#| msgid ""
+#| "Alternately, you can also use the <_:media-1/> icon in the second bar "
+#| "below the <gui>Subject</gui> line, or drag an image into the text area of "
+#| "the message composer."
 msgid ""
-"Alternately, you can also use the <_:media-1/> icon in the second bar below "
-"the <gui>Subject</gui> line, or drag an image into the text area of the "
-"message composer."
+"Alternately, you can also use the <media type=\"image\" its:translate=\"no\" "
+"src=\"./figures/html-composer-insert-image.png\"/> icon in the second bar "
+"below the <gui>Subject</gui> line, or drag an image into the text area of "
+"the message composer."
 msgstr ""
 "Alternativamente, puede usar el icono <_:media-1/> en la segunda barra, "
 "debajo de la línea del <gui>Asunto</gui>, o arrastrar una imagen en el área "
@@ -7115,15 +7882,35 @@ msgstr ""
 msgid "Click <gui>Close</gui>."
 msgstr "Pulse <gui>Cerrar</gui>."
 
-#. (itstool) path: page/p
-#: C/mail-composer-html-link.page:32 C/mail-composer-html-rule.page:31
-#: C/mail-composer-html-table.page:32
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-link.page:32
+msgctxt "_"
 msgid ""
-"Alternately, you can also use the <_:media-1/> icon in the second bar below "
-"the <gui>Subject</gui> line."
+"external ref='./figures/html-composer-insert-link.png' "
+"md5='f143b5dabdc8af72dd68fe7557928893'"
 msgstr ""
-"Alternativamente, puede usar el icono <_:media-1/> en la segunda barra, "
-"debajo de la línea del <gui>Asunto</gui>."
+"external ref='./figures/html-composer-insert-link.png' "
+"md5='f143b5dabdc8af72dd68fe7557928893'"
+
+#. (itstool) path: page/p
+#: C/mail-composer-html-link.page:32
+#, fuzzy
+#| msgid ""
+#| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
+#| "html-composer-insert-rule.png\"/> icon in the second bar below the "
+#| "<gui>Subject</gui> line."
+msgid ""
+"Alternately, you can also use the <media type=\"image\" its:translate=\"no\" "
+"src=\"./figures/html-composer-insert-link.png\"/> icon in the second bar "
+"below the <gui>Subject</gui> line."
+msgstr ""
+"Alternativamente, también puede usar el icono <media type=\"image\" src=\"./"
+"figures/html-composer-insert-rule.png\"/> en la segunda barra de debajo de "
+"la línea del <gui>Asunto</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-link.page:34
@@ -7239,6 +8026,36 @@ msgstr "Seleccione la anchura, tamaño y la alineación."
 msgid "Select <gui>Shaded</gui> if wanted."
 msgstr "Seleccione <gui>Enrollada</gui> si lo desea."
 
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-rule.page:31
+msgctxt "_"
+msgid ""
+"external ref='./figures/html-composer-insert-rule.png' "
+"md5='d3cda5fa4cf0fc2c911fd1aa14908ff3'"
+msgstr ""
+"external ref='./figures/html-composer-insert-rule.png' "
+"md5='d3cda5fa4cf0fc2c911fd1aa14908ff3'"
+
+#. (itstool) path: page/p
+#: C/mail-composer-html-rule.page:31
+#, fuzzy
+#| msgid ""
+#| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
+#| "html-composer-insert-rule.png\"/> icon in the second bar below the "
+#| "<gui>Subject</gui> line."
+msgid ""
+"Alternately, you can also use the <media type=\"image\" its:translate=\"no\" "
+"src=\"./figures/html-composer-insert-rule.png\"/> icon in the second bar "
+"below the <gui>Subject</gui> line."
+msgstr ""
+"Alternativamente, también puede usar el icono <media type=\"image\" src=\"./"
+"figures/html-composer-insert-rule.png\"/> en la segunda barra de debajo de "
+"la línea del <gui>Asunto</gui>."
+
 #. (itstool) path: info/desc
 #: C/mail-composer-html-table.page:5
 msgid "Insert a table in the mail composer."
@@ -7279,6 +8096,36 @@ msgstr "Defina el tipo de distribución de la tabla."
 #: C/mail-composer-html-table.page:28
 msgid "Optionally: Select a background color or image for the table."
 msgstr "Opcional: seleccione un color de fondo o una imagen para la tabla."
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-table.page:32
+msgctxt "_"
+msgid ""
+"external ref='./figures/html-composer-insert-table.png' "
+"md5='d5b54d183ad37488041005964062e7f6'"
+msgstr ""
+"external ref='./figures/html-composer-insert-table.png' "
+"md5='d5b54d183ad37488041005964062e7f6'"
+
+#. (itstool) path: page/p
+#: C/mail-composer-html-table.page:32
+#, fuzzy
+#| msgid ""
+#| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
+#| "html-composer-insert-table.png\"/> icon in the second bar below the "
+#| "<gui>Subject</gui> line."
+msgid ""
+"Alternately, you can also use the <media type=\"image\" its:translate=\"no\" "
+"src=\"./figures/html-composer-insert-table.png\"/> icon in the second bar "
+"below the <gui>Subject</gui> line."
+msgstr ""
+"Alternativamente, también puede usar el icono <media type=\"image\" src=\"./"
+"figures/html-composer-insert-table.png\"/> en la segunda barra de debajo de "
+"la línea del <gui>Asunto</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-text.page:5
@@ -7340,6 +8187,20 @@ msgstr "+0"
 #: C/mail-composer-html-text.page:37
 msgid "Font size."
 msgstr "Tamaño de la tipografía."
+
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-composer-html-text.page:40
+msgctxt "_"
+msgid ""
+"external ref='./figures/color-000000.png' "
+"md5='2d416af8bfaec805470e5d2980d90a68'"
+msgstr ""
+"external ref='./figures/color-000000.png' "
+"md5='2d416af8bfaec805470e5d2980d90a68'"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:41
@@ -7455,8 +8316,14 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-composer-mail-signatures-manage.page:25
 #: C/mail-composer-mail-signatures.page:26
+#, fuzzy
+#| msgid ""
+#| "Per <link href=\"http://tools.ietf.org/html/rfc3676#section-4.3\">long-"
+#| "standing convention</link>, signatures always start with two dashes and a "
+#| "space in a separate line. This allows many email clients to automatically "
+#| "strip signatures from quotes when replying."
 msgid ""
-"Per <link href=\"http://tools.ietf.org/html/rfc3676#section-4.3\">long-"
+"Per <link href=\"https://tools.ietf.org/html/rfc3676#section-4.3\">long-"
 "standing convention</link>, signatures always start with two dashes and a "
 "space in a separate line. This allows many email clients to automatically "
 "strip signatures from quotes when replying."
@@ -7479,11 +8346,6 @@ msgstr "Uso de firmas en los correos"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures.page:23
-#| msgid ""
-#| "A signature consists of one or more lines of text (or even a picture) "
-#| "that will be added at the end of an email that you send. It can contain "
-#| "contact information or other things. A signature always begins with two "
-#| "dashes and a space (<code>-- </code>)."
 msgid ""
 "A signature consists of one or more lines of text (or even a picture) that "
 "will be added at the end of an email that you send. It can contain contact "
@@ -7822,9 +8684,7 @@ msgstr ""
 "además del cuerpo completo del mensaje."
 
 #. (itstool) path: section/p
-#. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
-#. sentence!
-#: C/mail-composer-message-templates-variables.page:56
+#: C/mail-composer-message-templates-variables.page:55
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7839,9 +8699,7 @@ msgstr ""
 "completo, use <code>$ORIG[body]</code>."
 
 #. (itstool) path: section/p
-#. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
-#. this sentence!
-#: C/mail-composer-message-templates-variables.page:59
+#: C/mail-composer-message-templates-variables.page:57
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -8743,23 +9601,61 @@ msgstr ""
 "<app>Evolution</app> comprime las cabeceras Para, Cc, Cco recibidas en los "
 "correos y muestra sólo direcciones limitadas."
 
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-displaying-collapsible-headers.page:27
+msgctxt "_"
+msgid ""
+"external ref='./figures/plus-icon.png' md5='57bf83c4ab8585c30897a6cf89c5949c'"
+msgstr ""
+"external ref='./figures/plus-icon.png' md5='57bf83c4ab8585c30897a6cf89c5949c'"
+
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:27
+#, fuzzy
+#| msgid ""
+#| "To see all recipients, click the <_:media-1/> icon next to the <gui>To:</"
+#| "gui> or <gui>Cc:</gui> line, or click the ellipsis (…) at the end of the "
+#| "five displayed addresses."
 msgid ""
-"To see all recipients, click the <_:media-1/> icon next to the <gui>To:</"
-"gui> or <gui>Cc:</gui> line, or click the ellipsis (…) at the end of the "
-"five displayed addresses."
+"To see all recipients, click the <media type=\"image\" its:translate=\"no\" "
+"src=\"./figures/plus-icon.png\"/> icon next to the <gui>To:</gui> or <gui>Cc:"
+"</gui> line, or click the ellipsis (…) at the end of the five displayed "
+"addresses."
 msgstr ""
 "Para ver todos los destinatarios pulse el icono <_:media-1/> junto a las "
 "líneas <gui>Para:</gui> o <gui>CC:</gui> o pulse la elipsis (…) al final de "
 "las cinco direcciones de correo mostradas."
 
+#. (itstool) path: p/media
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/mail-displaying-collapsible-headers.page:29
+msgctxt "_"
+msgid ""
+"external ref='./figures/minus-icon.png' "
+"md5='7cef9df0f691c8d6ce67cad29ebceac9'"
+msgstr ""
+"external ref='./figures/minus-icon.png' "
+"md5='7cef9df0f691c8d6ce67cad29ebceac9'"
+
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:29
+#, fuzzy
+#| msgid ""
+#| "To collapse all of the message headers and just display the subject and "
+#| "sender in one line, click the icon <_:media-1/> next to the <gui>From:</"
+#| "gui> line. This is helpful on small screens."
 msgid ""
 "To collapse all of the message headers and just display the subject and "
-"sender in one line, click the icon <_:media-1/> next to the <gui>From:</gui> "
-"line. This is helpful on small screens."
+"sender in one line, click the icon <media type=\"image\" its:translate=\"no"
+"\" src=\"./figures/minus-icon.png\"/> next to the <gui>From:</gui> line. "
+"This is helpful on small screens."
 msgstr ""
 "Para contraer todos las cabeceras de correo y mostrar solo el asunto y el "
 "remitente en una línea pulse el icono <_:media-1/> junto a la línea <gui>De:"
@@ -10543,10 +11439,18 @@ msgstr "Los correos movidos aún se muestran en la carpeta original"
 
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:26
+#, fuzzy
+#| msgid ""
+#| "If your IMAP mail server does not yet support <link href=\"http://tools."
+#| "ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was "
+#| "introduced in January 2013, <app>Evolution</app> \"moves\" messages by "
+#| "copying and deleting emails. Deleting means \"marking messages for "
+#| "deletion\" so all the original messages are retained until you expunge "
+#| "the emails marked for deletion."
 msgid ""
-"If your IMAP mail server does not yet support <link href=\"http://tools.ietf."
-"org/html/rfc6851\">IMAP's \"move\" feature</link> which was introduced in "
-"January 2013, <app>Evolution</app> \"moves\" messages by copying and "
+"If your IMAP mail server does not yet support <link href=\"https://tools."
+"ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was introduced "
+"in January 2013, <app>Evolution</app> \"moves\" messages by copying and "
 "deleting emails. Deleting means \"marking messages for deletion\" so all the "
 "original messages are retained until you expunge the emails marked for "
 "deletion."
@@ -10727,7 +11631,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:25
+#: C/mail-received-notification.page:24
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
@@ -10737,12 +11641,12 @@ msgstr ""
 "md5='be4dbdb5f6e3dcbd5111b87169cae268'"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:26
+#: C/mail-received-notification.page:25
 msgid "Switcher layout when a new message has arrived"
 msgstr "Distribución del selector cuando llega un correo nuevo"
 
 #. (itstool) path: page/p
-#: C/mail-received-notification.page:29
+#: C/mail-received-notification.page:28
 msgid ""
 "In order to also be notified of new messages in the GNOME Notification area "
 "at the bottom of the screen, make sure that <guiseq><gui>Edit</"
@@ -10760,7 +11664,7 @@ msgstr ""
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:31
+#: C/mail-received-notification.page:30
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -10770,7 +11674,7 @@ msgstr ""
 "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:32
+#: C/mail-received-notification.page:31
 msgid "GNOME notification area when a new message has arrived"
 msgstr "Área de notificación de GNOME cuando llega un correo nuevo"
 
@@ -11012,9 +11916,14 @@ msgstr "Marque si quiere que <app>Evolution</app> recuerde su contraseña."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:47
+#, fuzzy
+#| msgid ""
+#| "Select <gui>Use Quick Resync</gui> if the IMAP server supports <link href="
+#| "\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
+#| "Resynchronization</link>."
 msgid ""
 "Select <gui>Use Quick Resync</gui> if the IMAP server supports <link href="
-"\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
+"\"https://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
 "Resynchronization</link>."
 msgstr ""
 "Seleccione <gui>Usar resincronización rápida</gui> si el servidor soporta "
@@ -11628,7 +12537,12 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-searching.page:42
-msgid "Click on the search icon <_:media-1/> to expand the drop-down list."
+#, fuzzy
+#| msgid "Click on the search icon <_:media-1/> to expand the drop-down list."
+msgid ""
+"Click on the search icon <media type=\"image\" mime=\"image/png\" its:"
+"translate=\"no\" src=\"figures/search-icon.png\"/> to expand the drop-down "
+"list."
 msgstr ""
 "Pulse el icono de búsqueda <_:media-1/> para expandir la dista desplegable."
 
@@ -11712,10 +12626,16 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-send-and-receive-automatically.page:23
+#, fuzzy
+#| msgid ""
+#| "<app>Evolution</app> supports <link href=\"https://en.wikipedia.org/wiki/"
+#| "IMAP_IDLE\">IMAP IDLE</link> on the currently selected folder and "
+#| "partially supports the <link href=\"http://tools.ietf.org/search/"
+#| "rfc5465\">IMAP NOTIFY</link> extension."
 msgid ""
 "<app>Evolution</app> supports <link href=\"https://en.wikipedia.org/wiki/"
 "IMAP_IDLE\">IMAP IDLE</link> on the currently selected folder and partially "
-"supports the <link href=\"http://tools.ietf.org/search/rfc5465\">IMAP "
+"supports the <link href=\"https://tools.ietf.org/search/rfc5465\">IMAP "
 "NOTIFY</link> extension."
 msgstr ""
 "<app>Evolution</app> soporta <link href=\"http://es.wikipedia.org/wiki/"
@@ -11930,10 +12850,13 @@ msgstr ""
 #| "gui><gui>Message Display</gui><gui>Default character encoding</gui></"
 #| "guiseq>."
 msgid ""
-"<app>Evolution</app> recognizes <_:code-1/> and <_:code-2/> mail headers. In "
-"addition, you can enable <guiseq><gui>Edit</gui><gui>Preferences</"
-"gui><gui>Mail Preferences</gui><gui>General</gui><gui>Message Display</"
-"gui><gui>Fall back to threading messages by subject</gui></guiseq>."
+"<app>Evolution</app> recognizes <code its:translate=\"no\" its:locNote="
+"\"Translators: Do NOT translate 'References'\">References</code> and <code "
+"its:translate=\"no\" its:locNote=\"Translators: Do NOT translate 'In-Reply-"
+"To'\">In-Reply-To</code> mail headers. In addition, you can enable "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
+"gui><gui>General</gui><gui>Message Display</gui><gui>Fall back to threading "
+"messages by subject</gui></guiseq>."
 msgstr ""
 "Para convertir este ajuste en predeterminado, vaya a <guiseq><gui>Editar</"
 "gui><gui>Preferencias</gui><gui>Opciones de correo</gui><gui>General</"
@@ -12231,6 +13154,11 @@ msgstr ""
 msgid "How to mark unwanted junk and spam mail."
 msgstr "Cómo marcar el correo no deseado y SPAM."
 
+#. (itstool) path: credit/name
+#: C/mail-spam-marking.page:15 C/mail-spam-settings.page:21
+msgid "Pete Biggs"
+msgstr "Pete Biggs"
+
 #. (itstool) path: page/title
 #: C/mail-spam-marking.page:30
 msgid "Marking Mail as Junk"
@@ -12305,6 +13233,11 @@ msgstr "Gestión de correo basura"
 #: C/mail-spam-settings.page:7
 msgid "How to set up handling unwanted junk/spam mail."
 msgstr "Cómo configurar la gestión de correo no deseado y SPAM."
+
+#. (itstool) path: credit/name
+#: C/mail-spam-settings.page:18 C/offline.page:16
+msgid "Patrick O'Callaghan"
+msgstr "Patrick O'Callaghan"
 
 #. (itstool) path: page/title
 #: C/mail-spam-settings.page:36
@@ -12738,45 +13671,59 @@ msgstr ""
 "<app>Evolution</app> descargará todos los mensajes sin leer desde las "
 "carpetas que haya elegido almacenar."
 
+#. (itstool) path: section/p
+#: C/mail-working-offline.page:33
+msgid ""
+"The <link xref=\"mail-receiving-options\">Receiving Options</link> of remote "
+"accounts offer an option to <gui>Synchronize remote mail locally in all "
+"folders</gui> which is applied to all folders of that account."
+msgstr ""
+
+#. (itstool) path: section/p
+#: C/mail-working-offline.page:34
+msgid ""
+"To avoid downloading large amounts of data, you can also disable "
+"synchronizing messages which are older than a certain time period."
+msgstr ""
+
 #. (itstool) path: section/title
-#: C/mail-working-offline.page:32
+#: C/mail-working-offline.page:38
 msgid "Marking folders for offline usage"
 msgstr "Marcar carpetas para su uso desconectado"
 
 #. (itstool) path: section/p
-#: C/mail-working-offline.page:33
+#: C/mail-working-offline.page:39
+msgid ""
+"If you do not have <gui>Synchronize remote mail locally in all folders</gui> "
+"for the account enabled, you can synchronize individual folders."
+msgstr ""
+
+#. (itstool) path: section/p
+#: C/mail-working-offline.page:40
 msgid "To mark a mail folder for offline use,"
 msgstr "Para marcar una carpeta de correo para su uso desconectado,"
 
 #. (itstool) path: item/p
-#: C/mail-working-offline.page:35
+#: C/mail-working-offline.page:42
 msgid "Right-click the folder, then click <gui>Properties</gui>."
 msgstr ""
 "Pulse con el botón derecho del ratón sobre la carpeta, después pulse "
 "<gui>Propiedades</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-working-offline.page:36
+#: C/mail-working-offline.page:43
 msgid "Click <gui>Copy folder content locally for offline operation</gui>."
 msgstr ""
 "Pulse <gui>Copiar el contenido de la carpeta localmente para operar "
 "desconectado</gui>."
 
-#. (itstool) path: note/p
-#: C/mail-working-offline.page:38
-msgid ""
-"To avoid downloading large amounts of data, the <link href=\"mail-receiving-"
-"options\">Receiving Options</link> of remote accounts offer an option to not "
-"synchronize messages which are older than a certain time period."
-msgstr ""
-
 #. (itstool) path: section/title
-#: C/mail-working-offline.page:42
+#: C/mail-working-offline.page:48
 msgid "Syncing messages for offline usage"
 msgstr "Sincronizar mensajes para su uso desconectado"
 
 #. (itstool) path: section/p
-#: C/mail-working-offline.page:43
+#: C/mail-working-offline.page:49
 msgid ""
 "Your connection status is shown by an icon in the status bar of the <link "
 "xref=\"intro-main-window\">main window</link>. When you are online, it "
@@ -12794,7 +13741,7 @@ msgstr ""
 "desconectarse."
 
 #. (itstool) path: section/p
-#: C/mail-working-offline.page:44
+#: C/mail-working-offline.page:50
 msgid ""
 "To synchronize folders without going offline immediately, select "
 "<guiseq><gui>File</gui><gui>Download Messages for Offline Usage</gui></"
@@ -12805,12 +13752,12 @@ msgstr ""
 "sin conexión</gui></guiseq>."
 
 #. (itstool) path: section/title
-#: C/mail-working-offline.page:48
+#: C/mail-working-offline.page:54
 msgid "Automatic Network State Handling"
 msgstr "Gestión automática del estado de la red"
 
 #. (itstool) path: section/p
-#: C/mail-working-offline.page:49
+#: C/mail-working-offline.page:55
 msgid ""
 "<app>Evolution</app> automatically understands the network state and acts "
 "accordingly. For instance, <app>Evolution</app> switches to offline mode "
@@ -13120,6 +14067,12 @@ msgstr ""
 "de que no está en ejecución, abra una ventana de la <app>Terminal</app> y "
 "escriba el siguiente comando:"
 
+#. (itstool) path: page/p
+#: C/offline.page:36
+msgid ""
+"<cmd its:translate=\"no\"> GIO_USE_NETWORK_MONITOR=base evolution </cmd>"
+msgstr ""
+
 #. (itstool) path: info/desc
 #: C/organizing.page:5
 msgid "On organizing and finding your data in <app>Evolution</app>."
@@ -13210,14 +14163,23 @@ msgstr "Cómo informar de un error"
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
+#, fuzzy
+#| msgid ""
+#| "If you do not need help for configuration but you are sure that you have "
+#| "found a mistake or wrong behavior in the <app>Evolution</app> software, "
+#| "or if you want to request a feature, you can file a report in the <link "
+#| "href=\"http://bugzilla.gnome.org\">GNOME bug tracking system</link>. Note "
+#| "that this requires registration first. Please try to avoid filing "
+#| "duplicates and check the <link href=\"https://bugzilla.gnome.org/page.cgi?"
+#| "id=bug-writing.html\">bug writing guidelines</link> first."
 msgid ""
 "If you do not need help for configuration but you are sure that you have "
 "found a mistake or wrong behavior in the <app>Evolution</app> software, or "
 "if you want to request a feature, you can file a report in the <link href="
-"\"http://bugzilla.gnome.org\">GNOME bug tracking system</link>. Note that "
-"this requires registration first. Please try to avoid filing duplicates and "
-"check the <link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing."
-"html\">bug writing guidelines</link> first."
+"\"https://gitlab.gnome.org/GNOME/\">GNOME bug tracking system</link>. Note "
+"that this requires registration first. Please try to avoid filing duplicates "
+"and check the <link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-"
+"writing.html\">bug writing guidelines</link> first."
 msgstr ""
 "Si no necesita ayuda para la configuración, pero está seguro de que ha "
 "encontrado un problema o un comportamiento erróneo en <app>Evolution</app>, "
@@ -13296,8 +14258,14 @@ msgstr "Actualmente no hay unas «instrucciones recomendadas» para usuarios."
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:23
+#, fuzzy
+#| msgid ""
+#| "Many distributions provide the application <app><link href=\"http://"
+#| "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
+#| "combination with devices that support <link href=\"https://en.wikipedia."
+#| "org/wiki/SyncML\">SyncML</link>."
 msgid ""
-"Many distributions provide the application <app><link href=\"http://"
+"Many distributions provide the application <app><link href=\"https://"
 "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
 "combination with devices that support <link href=\"https://en.wikipedia.org/"
 "wiki/SyncML\">SyncML</link>."
@@ -13324,11 +14292,16 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:27
+#, fuzzy
+#| msgid ""
+#| "If you can provide good practices or more information on this topic feel "
+#| "free to file a bug report in <link href=\"https://bugzilla.gnome.org/"
+#| "enter_bug.cgi?product=evolution&amp;component=User%20Documentation"
+#| "\">GNOME's bug tracking system</link>."
 msgid ""
 "If you can provide good practices or more information on this topic feel "
-"free to file a bug report in <link href=\"https://bugzilla.gnome.org/"
-"enter_bug.cgi?product=evolution&amp;component=User%20Documentation\">GNOME's "
-"bug tracking system</link>."
+"free to file a bug report in <link href=\"https://gitlab.gnome.org/GNOME/"
+"evolution/issues/new\">GNOME's bug tracking system</link>."
 msgstr ""
 "Si puede proporcionar buenas prácticas o más información acerca de este "
 "tema, rellene un informe de error en <link href=\"https://bugzilla.gnome.org/"
@@ -13542,10 +14515,18 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-usage-add-task.page:34
+#, fuzzy
+#| msgid ""
+#| "You can also define a <link xref=\"calendar-timezones\">time zone</link>, "
+#| "a <link xref=\"using-categories\">category</link>, or a <link xref="
+#| "\"calendar-classifications\">classification</link> for the task, or add "
+#| "an attachment."
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, or a <link xref=\"calendar-"
-"classifications\">classification</link> for the task, or add an attachment."
+"classifications\">classification</link> (via the drop-down menu) for the "
+"task, or add an attachment or set a <link xref=\"calendar-alarms-and-"
+"reminders\">reminder</link> (via the corresponding tabs)."
 msgstr ""
 "También puede definir una <link xref=\"calendar-timezones\">zona horaria</"
 "link>, una <link xref=\"using-categories\">categoría</link> o una <link xref="
@@ -14206,14 +15187,30 @@ msgstr "Identidad"
 msgid "Here you define your name and your email address."
 msgstr "Introduzca aquí su nombre y su dorección de correo electrónico."
 
+#. (itstool) path: p/link
+#: C/xinclude-mail-account-identity.xml:6
+msgid "signature"
+msgstr "firma"
+
+#. (itstool) path: p/link
+#: C/xinclude-mail-account-identity.xml:6
+msgid "email aliases"
+msgstr ""
+
 #. (itstool) path: section/p
 #: C/xinclude-mail-account-identity.xml:6
+#, fuzzy
+#| msgid ""
+#| "Optionally you can make this account your default account (e.g. when "
+#| "writing emails), set a Reply-To email address (if you want replies to "
+#| "messages sent to a different address), and set an organization (the "
+#| "company where you work, or the organization you represent when you send "
+#| "email from this account)."
 msgid ""
-"Optionally you can make this account your default account (e.g. when writing "
-"emails), set a Reply-To email address (if you want replies to messages sent "
-"to a different address), and set an organization (the company where you "
-"work, or the organization you represent when you send email from this "
-"account)."
+"Optionally you can set a Reply-To email address (if you want replies to "
+"messages sent to a different address), set an organization (a company or "
+"organization you represent when you send email from this account), your "
+"default <_:link-1/> for this account, and <_:link-2/>."
 msgstr ""
 "Opcionalmente puede hacer que esta cuenta sea su cuenta predeterminada (ej. "
 "al escribir correos), establezca una dirección para «Responder a» (si quiere "
@@ -14384,6 +15381,111 @@ msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo.
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Pulse <_:gui-1/>."
+
+#~ msgid "Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
+#~ msgstr "Día (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
+
+#~ msgid "Work Week (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
+#~ msgstr "Semana laboral (<keyseq><key>Ctrl</key><key>J</key></keyseq>)"
+
+#~ msgid "Week (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
+#~ msgstr "Semana (<keyseq><key>Ctrl</key><key>K</key></keyseq>)"
+
+#~ msgid "Month (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
+#~ msgstr "Mes (<keyseq><key>Ctrl</key><key>M</key></keyseq>)"
+
+#~ msgid "List (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
+#~ msgstr "Lista (<keyseq><key>Ctrl</key><key>L</key></keyseq>)"
+
+#~ msgid ""
+#~ "In case it is not listed already, click <gui style=\"button\">Browse…</"
+#~ "gui>. A file chooser dialog opens."
+#~ msgstr ""
+#~ "En caso de que no se liste pulse <gui style=\"button\">Examinar…</gui>. "
+#~ "Se abrirá un diálogo de selección de archivos."
+
+#~ msgid ""
+#~ "As <app>Evolution</app> stores its data in a hidden directory, press "
+#~ "<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
+#~ "displayed."
+#~ msgstr ""
+#~ "Ya que <app>Evolution</app> almacena sus datos en una carpeta oculto, "
+#~ "pulse <keyseq><key>Ctrl</key><key>L</key></keyseq> para mostrar la barra "
+#~ "de direcciones."
+
+#~ msgid ""
+#~ "Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
+#~ "file> and click <gui style=\"button\">Open</gui>."
+#~ msgstr ""
+#~ "Vaya a <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
+#~ "file> y pulse <gui style=\"button\">Abrir</gui>."
+
+#~ msgid "Evolution logo"
+#~ msgstr "Logo de Evolution"
+
+#~ msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
+#~ msgstr "<_:media-1/> Correo y calendario de <app>Evolution</app>"
+
+#~ msgid "<_:media-1/> Menu bar"
+#~ msgstr "<_:media-1/> Barra de menú"
+
+#~ msgid "<_:media-1/> Tool bar"
+#~ msgstr "<_:media-1/> Barra de herramientas"
+
+#~ msgid "<_:media-1/> Folder list"
+#~ msgstr "<_:media-1/> Lista de carpetas"
+
+#~ msgid "<_:media-1/> Search bar"
+#~ msgstr "<_:media-1/> Barra de búsqueda"
+
+#~ msgid "<_:media-1/> Message list"
+#~ msgstr "<_:media-1/> Lista de mensajes"
+
+#~ msgid "<_:media-1/> To Do bar"
+#~ msgstr "<_:media-1/> Barra de tareas pendientes"
+
+#~ msgid "<_:media-1/> Preview pane"
+#~ msgstr "<_:media-1/> Panel de vista previa"
+
+#~ msgid "<_:media-1/> Switcher"
+#~ msgstr "<_:media-1/> Intercambiador"
+
+#~ msgid "<_:media-1/> Status bar"
+#~ msgstr "<_:media-1/> Barra de estado"
+
+#~ msgid "<_:media-1/> Calendar list"
+#~ msgstr "<_:media-1/> Lista del calendario"
+
+#~ msgid "<_:media-1/> Appointment list"
+#~ msgstr "<_:media-1/> Lista de citas"
+
+#~ msgid "<_:media-1/> Address book list"
+#~ msgstr "<_:media-1/> Lista de libreta de direcciones"
+
+#~ msgid "<_:media-1/> Contacts list"
+#~ msgstr "<_:media-1/> Lista de contactos"
+
+#~ msgid "<_:media-1/> Contact preview"
+#~ msgstr "<_:media-1/> Vista previa del contacto"
+
+#~ msgid "<_:code-1/> (format: 01-31)"
+#~ msgstr "<_:code-1/> (formato: 01-31)"
+
+#~ msgid "<_:code-1/> (format: 1-31)"
+#~ msgstr "<_:code-1/> (formato: 1-31)"
+
+#~ msgid "<_:code-1/> (format: 1-366)"
+#~ msgstr "<_:code-1/> (formato: 1-366)"
+
+#~ msgid "<_:code-1/> (format: 01-12)"
+#~ msgstr "<_:code-1/> (formato: 01-12)"
+
+#~ msgid ""
+#~ "Alternately, you can also use the <_:media-1/> icon in the second bar "
+#~ "below the <gui>Subject</gui> line."
+#~ msgstr ""
+#~ "Alternativamente, puede usar el icono <_:media-1/> en la segunda barra, "
+#~ "debajo de la línea del <gui>Asunto</gui>."
 
 #~ msgid "Using shortcut keys to read mail"
 #~ msgstr "Usar atajos de teclado para leer el correo"
@@ -14939,39 +16041,6 @@ msgstr "Pulse <_:gui-1/>."
 #~ msgid "Enter the address of the calendar in the <gui>URL</gui> field."
 #~ msgstr "Introduzca la dirección del calendario en el campo <gui>URL</gui>."
 
-#~ msgid "Aaron Weber"
-#~ msgstr "Aaron Weber"
-
-#~ msgid "Akhil Laddha"
-#~ msgstr "Akhil Laddha"
-
-#~ msgid "Duncan Mak"
-#~ msgstr "Duncan Mak"
-
-#~ msgid "Ettore Perazzoli"
-#~ msgstr "Ettore Perazzoli"
-
-#~ msgid "Francisco Javier F. Serrador"
-#~ msgstr "Francisco Javier F. Serrador"
-
-#~ msgid "Jessica Prabhakar"
-#~ msgstr "Jessica Prabhakar"
-
-#~ msgid "Kevin Breit"
-#~ msgstr "Kevin Breit"
-
-#~ msgid "Mark Moulder"
-#~ msgstr "Mark Moulder"
-
-#~ msgid "Novell, Inc."
-#~ msgstr "Novell, Inc."
-
-#~ msgid "Radhika Nair"
-#~ msgstr "Radhika Nair"
-
-#~ msgid "Srinivasa Ragavan"
-#~ msgstr "Srinivasa Ragavan"
-
 #~ msgid "Emails"
 #~ msgstr "Correos-e"
 
@@ -15132,285 +16201,6 @@ msgstr "Pulse <_:gui-1/>."
 #~ msgid "Enter the address of the list in the <gui>URL</gui> field."
 #~ msgstr "Introduzca la dirección de la lista en el campo <gui>URL</gui>."
 
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='figures/evolutionlogo.png' "
-#~ "md5='4bf469aaba7c368937309e931ba9bdcc'"
-#~ msgstr ""
-#~ "external ref='figures/evolutionlogo.png' "
-#~ "md5='4bf469aaba7c368937309e931ba9bdcc'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='figures/search-icon.png' "
-#~ "md5='cd4b82c84c628bfbbfa39d1e0d1eae89'"
-#~ msgstr ""
-#~ "@@image: 'figures/search-icon.png'; md5=cd4b82c84c628bfbbfa39d1e0d1eae89"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/color-c4a000.png' "
-#~ "md5='9db17d2d5e9013501aeab2e165c6a6c9'"
-#~ msgstr ""
-#~ "external ref='./figures/color-c4a000.png' "
-#~ "md5='9db17d2d5e9013501aeab2e165c6a6c9'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/color-ce5c00.png' "
-#~ "md5='19dae9650e3936312e09198973372a24'"
-#~ msgstr ""
-#~ "external ref='./figures/color-ce5c00.png' "
-#~ "md5='19dae9650e3936312e09198973372a24'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/color-8f5902.png' "
-#~ "md5='ff5ccb859fe04a004cd67e1c22621dc6'"
-#~ msgstr ""
-#~ "external ref='./figures/color-8f5902.png' "
-#~ "md5='ff5ccb859fe04a004cd67e1c22621dc6'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/color-4e9a06.png' "
-#~ "md5='b2c2e7b66fb470344c804db396b48b98'"
-#~ msgstr ""
-#~ "external ref='./figures/color-4e9a06.png' "
-#~ "md5='b2c2e7b66fb470344c804db396b48b98'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/color-204a87.png' "
-#~ "md5='511497260cc4caab69d67814b1ee3b8b'"
-#~ msgstr ""
-#~ "external ref='./figures/color-204a87.png' "
-#~ "md5='511497260cc4caab69d67814b1ee3b8b'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/color-a40000.png' "
-#~ "md5='19195da020e059dab33aa37788763a97'"
-#~ msgstr ""
-#~ "external ref='./figures/color-a40000.png' "
-#~ "md5='19195da020e059dab33aa37788763a97'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/color-5c3566.png' "
-#~ "md5='7c001a57237acc2ff61ee61e05ad3168'"
-#~ msgstr ""
-#~ "external ref='./figures/color-5c3566.png' "
-#~ "md5='7c001a57237acc2ff61ee61e05ad3168'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/color-2e3436.png' "
-#~ "md5='3c796c7aed3044e59f131bea364e8598'"
-#~ msgstr ""
-#~ "external ref='./figures/color-2e3436.png' "
-#~ "md5='3c796c7aed3044e59f131bea364e8598'"
-
-#~ msgid ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png"
-#~ "\" width=\"10\"/> Menu bar"
-#~ msgstr ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png"
-#~ "\" width=\"10\"/> Barra de menú"
-
-#~ msgid ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png"
-#~ "\" width=\"10\"/> Tool bar"
-#~ msgstr ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png"
-#~ "\" width=\"10\"/> Barra de herramientas"
-
-#~ msgid ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png"
-#~ "\" width=\"10\"/> Folder list"
-#~ msgstr ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png"
-#~ "\" width=\"10\"/> Lista de carpetas"
-
-#~ msgid ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png"
-#~ "\" width=\"10\"/> Search bar"
-#~ msgstr ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png"
-#~ "\" width=\"10\"/> Barra de búsqueda"
-
-#~ msgid ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png"
-#~ "\" width=\"10\"/> Message list"
-#~ msgstr ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png"
-#~ "\" width=\"10\"/> Lista de mensajes"
-
-#~ msgid ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png"
-#~ "\" width=\"10\"/> Switcher"
-#~ msgstr ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png"
-#~ "\" width=\"10\"/> Selector"
-
-#~ msgid ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png"
-#~ "\" width=\"10\"/> Preview pane"
-#~ msgstr ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png"
-#~ "\" width=\"10\"/> Panel de vista previa"
-
-#~ msgid ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png"
-#~ "\" width=\"10\"/> Status bar"
-#~ msgstr ""
-#~ "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png"
-#~ "\" width=\"10\"/> Barra de estado"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
-#~ "Menu bar"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
-#~ "Barra de menú"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
-#~ "Tool bar"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
-#~ "Barra de herramientas"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-#~ "Calendar list"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-#~ "Lista de calendarios"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
-#~ "Search bar"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
-#~ "Barra de búsqueda"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
-#~ "Appointment list"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
-#~ "Lista de citas"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
-#~ "Switcher"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
-#~ "Selector"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
-#~ "Status bar"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
-#~ "Barra de estado"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-#~ "Address book list"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-#~ "Lista de libretas de direcciones"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
-#~ "Contacts list"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
-#~ "Lista de contactos"
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
-#~ "Contact preview"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
-#~ "Vista previa del contacto"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/html-composer-insert-image.png' "
-#~ "md5='45e231e87c10b3fc61a1bbb0ad50c3f3'"
-#~ msgstr ""
-#~ "external ref='./figures/html-composer-insert-image.png' "
-#~ "md5='45e231e87c10b3fc61a1bbb0ad50c3f3'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/html-composer-insert-link.png' "
-#~ "md5='f143b5dabdc8af72dd68fe7557928893'"
-#~ msgstr ""
-#~ "external ref='./figures/html-composer-insert-link.png' "
-#~ "md5='f143b5dabdc8af72dd68fe7557928893'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/html-composer-insert-rule.png' "
-#~ "md5='d3cda5fa4cf0fc2c911fd1aa14908ff3'"
-#~ msgstr ""
-#~ "external ref='./figures/html-composer-insert-rule.png' "
-#~ "md5='d3cda5fa4cf0fc2c911fd1aa14908ff3'"
-
-#~ msgid ""
-#~ "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
-#~ "html-composer-insert-rule.png\"/> icon in the second bar below the "
-#~ "<gui>Subject</gui> line."
-#~ msgstr ""
-#~ "Alternativamente, también puede usar el icono <media type=\"image\" src="
-#~ "\"./figures/html-composer-insert-rule.png\"/> en la segunda barra de "
-#~ "debajo de la línea del <gui>Asunto</gui>."
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/html-composer-insert-table.png' "
-#~ "md5='d5b54d183ad37488041005964062e7f6'"
-#~ msgstr ""
-#~ "external ref='./figures/html-composer-insert-table.png' "
-#~ "md5='d5b54d183ad37488041005964062e7f6'"
-
-#~ msgid ""
-#~ "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
-#~ "html-composer-insert-table.png\"/> icon in the second bar below the "
-#~ "<gui>Subject</gui> line."
-#~ msgstr ""
-#~ "Alternativamente, también puede usar el icono <media type=\"image\" src="
-#~ "\"./figures/html-composer-insert-table.png\"/> en la segunda barra de "
-#~ "debajo de la línea del <gui>Asunto</gui>."
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/color-000000.png' "
-#~ "md5='2d416af8bfaec805470e5d2980d90a68'"
-#~ msgstr ""
-#~ "external ref='./figures/color-000000.png' "
-#~ "md5='2d416af8bfaec805470e5d2980d90a68'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/plus-icon.png' "
-#~ "md5='57bf83c4ab8585c30897a6cf89c5949c'"
-#~ msgstr ""
-#~ "external ref='./figures/plus-icon.png' "
-#~ "md5='57bf83c4ab8585c30897a6cf89c5949c'"
-
-#~ msgctxt "_"
-#~ msgid ""
-#~ "external ref='./figures/minus-icon.png' "
-#~ "md5='7cef9df0f691c8d6ce67cad29ebceac9'"
-#~ msgstr ""
-#~ "external ref='./figures/minus-icon.png' "
-#~ "md5='7cef9df0f691c8d6ce67cad29ebceac9'"
-
 #~ msgid "Using several address books"
 #~ msgstr "Usar varias libretas de direcciones"
 
@@ -15544,13 +16334,6 @@ msgstr "Pulse <_:gui-1/>."
 #~ "Si ha llegado a esta página desde la página del asistente de primera "
 #~ "ejecución, pulse <link xref=\"intro-first-run#account-information\">aquí</"
 #~ "link> para continuar con el siguiente paso."
-
-#~ msgid ""
-#~ "<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
-#~ "media> Evolution Mail and Calendar"
-#~ msgstr ""
-#~ "<media type=\"image\" src=\"figures/evolutionlogo.png\">Logotipo de "
-#~ "Evolution</media> Correo y calendario de Evolution"
 
 #~ msgid "Novell Groupwise"
 #~ msgstr "Novell GroupWise"
@@ -16252,47 +17035,23 @@ msgstr "Pulse <_:gui-1/>."
 #~ msgid "Using HTML format to enhance emails"
 #~ msgstr "Usar HTML para mejorar el formato de los correos"
 
-#~ msgid "Andre Klapper"
-#~ msgstr "Andre Klapper"
-
 #~ msgid "ak-47@gmx.net"
 #~ msgstr "ak-47@gmx.net"
-
-#~ msgid "Novell, Inc"
-#~ msgstr "Novell, Inc"
-
-#~ msgid "Max Vorobuov"
-#~ msgstr "Max Vorobuov"
 
 #~ msgid "vmax0770@gmail.com"
 #~ msgstr "vmax0770@gmail.com"
 
-#~ msgid "Brian Grohe"
-#~ msgstr "Brian Grohe"
-
 #~ msgid "grohe43@gmail.com"
 #~ msgstr "grohe43@gmail.com"
 
-#~ msgid "Patrick O'Callaghan"
-#~ msgstr "Patrick O'Callaghan"
-
-#~ msgid "April Gonzales"
-#~ msgstr "April Gonzales"
-
 #~ msgid "loonycookie@gmail.com"
 #~ msgstr "loonycookie@gmail.com"
-
-#~ msgid "Pete Biggs"
-#~ msgstr "Pete Biggs"
 
 #~ msgid "Install bogofilter"
 #~ msgstr "Instalar «bogofilter»"
 
 #~ msgid "Install spamassassin"
 #~ msgstr "Instalar «spamassassin»"
-
-#~ msgid "Barbara Tobias"
-#~ msgstr "Barbara Tobias"
 
 #~ msgid "barbtobias09@gmail.com"
 #~ msgstr "barbtobias09@gmail.com"
@@ -16671,10 +17430,6 @@ msgstr "Pulse <_:gui-1/>."
 #, fuzzy
 #~ msgid "Categories..."
 #~ msgstr "Ca_tegorías…"
-
-#, fuzzy
-#~ msgid "View"
-#~ msgstr "Ver:"
 
 #~ msgid "Categories"
 #~ msgstr "Categorías"
@@ -17554,9 +18309,6 @@ msgstr "Pulse <_:gui-1/>."
 
 #~ msgid "Save as Template"
 #~ msgstr "Guardar como plantilla"
-
-#~ msgid "signature"
-#~ msgstr "firma"
 
 #~ msgid "Optional Information"
 #~ msgstr "Información opcional"
