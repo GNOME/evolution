@@ -710,10 +710,146 @@ shell_source_invoke_authenticate_cb (GObject *source_object,
 	}
 }
 
+static void
+shell_wrote_ssl_trust_cb (GObject *source_object,
+			  GAsyncResult *result,
+			  gpointer user_data)
+{
+	ESource *source;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_SOURCE (source_object));
+
+	source = E_SOURCE (source_object);
+
+	if (!e_source_write_finish (source, result, &error) &&
+	    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warning ("%s: Failed to save changes to source '%s' (%s): %s", G_STRFUNC,
+			e_source_get_display_name (source),
+			e_source_get_uid (source),
+			error ? error->message : "Unknown error");
+	}
+
+	g_clear_error (&error);
+}
+
+static gchar *
+shell_extract_ssl_trust (ESource *source)
+{
+	gchar *ssl_trust = NULL;
+
+	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND)) {
+		ESourceWebdav *webdav_extension;
+
+		webdav_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+		ssl_trust = e_source_webdav_dup_ssl_trust (webdav_extension);
+	}
+
+	return ssl_trust;
+}
+
+static void
+shell_maybe_propagate_ssl_trust (EShell *shell,
+				 ESource *source,
+				 const gchar *original_ssl_trust)
+{
+	gchar *new_ssl_trust;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	new_ssl_trust = shell_extract_ssl_trust (source);
+
+	if (g_strcmp0 (original_ssl_trust, new_ssl_trust) != 0 &&
+	    new_ssl_trust && *new_ssl_trust) {
+		g_object_ref (source);
+
+		while (source && !e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION)) {
+			ESource *parent = NULL;
+
+			if (e_source_get_parent (source))
+				parent = e_source_registry_ref_source (shell->priv->registry, e_source_get_parent (source));
+
+			g_clear_object (&source);
+
+			source = parent;
+		}
+
+		if (source) {
+			const gchar *uid;
+			GList *sources, *link;
+			gchar *ssl_trust;
+
+			if (e_source_has_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND)) {
+				ssl_trust = shell_extract_ssl_trust (source);
+
+				if (g_strcmp0 (ssl_trust, original_ssl_trust) == 0) {
+					ESourceWebdav *webdav_extension;
+
+					webdav_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+					e_source_webdav_set_ssl_trust (webdav_extension, new_ssl_trust);
+
+					e_source_write (source, shell->priv->cancellable, shell_wrote_ssl_trust_cb, NULL);
+				}
+
+				g_free (ssl_trust);
+			}
+
+			uid = e_source_get_uid (source);
+
+			sources = e_source_registry_list_sources (shell->priv->registry, NULL);
+
+			for (link = sources; link; link = g_list_next (link)) {
+				ESource *child = link->data;
+
+				if (g_strcmp0 (uid, e_source_get_parent (child)) == 0 &&
+				    e_source_has_extension (child, E_SOURCE_EXTENSION_WEBDAV_BACKEND)) {
+					ssl_trust = shell_extract_ssl_trust (child);
+
+					if (g_strcmp0 (ssl_trust, original_ssl_trust) == 0) {
+						ESourceWebdav *webdav_extension;
+
+						webdav_extension = e_source_get_extension (child, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+						e_source_webdav_set_ssl_trust (webdav_extension, new_ssl_trust);
+
+						e_source_write (child, shell->priv->cancellable, shell_wrote_ssl_trust_cb, NULL);
+					}
+
+					g_free (ssl_trust);
+				}
+			}
+
+			g_list_free_full (sources, g_object_unref);
+		}
+
+		g_clear_object (&source);
+	}
+
+	g_free (new_ssl_trust);
+}
+
 #define SOURCE_ALERT_KEY_SOURCE			"source-alert-key-source"
 #define SOURCE_ALERT_KEY_CERTIFICATE_PEM	"source-alert-key-certificate-pem"
 #define SOURCE_ALERT_KEY_CERTIFICATE_ERRORS	"source-alert-key-certificate-errors"
 #define SOURCE_ALERT_KEY_ERROR_TEXT		"source-alert-key-error-text"
+
+typedef struct _TrustPromptData {
+	EShell *shell; /* not referenced */
+	gchar *original_ssl_trust;
+} TrustPromptData;
+
+static void
+trust_prompt_data_free (gpointer ptr)
+{
+	TrustPromptData *tpd = ptr;
+
+	if (tpd) {
+		g_free (tpd->original_ssl_trust);
+		g_free (tpd);
+	}
+}
 
 static void
 shell_trust_prompt_done_cb (GObject *source_object,
@@ -721,11 +857,12 @@ shell_trust_prompt_done_cb (GObject *source_object,
 			    gpointer user_data)
 {
 	ESource *source;
-	EShell *shell = user_data;
 	ETrustPromptResponse response = E_TRUST_PROMPT_RESPONSE_UNKNOWN;
+	TrustPromptData *tpd = user_data;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_SOURCE (source_object));
+	g_return_if_fail (tpd != NULL);
 
 	source = E_SOURCE (source_object);
 
@@ -735,35 +872,41 @@ shell_trust_prompt_done_cb (GObject *source_object,
 			EAlert *alert;
 			gchar *display_name;
 
-			g_return_if_fail (E_IS_SHELL (shell));
+			g_return_if_fail (E_IS_SHELL (tpd->shell));
 
-			display_name = e_util_get_source_full_name (shell->priv->registry, source);
+			display_name = e_util_get_source_full_name (tpd->shell->priv->registry, source);
 			alert = e_alert_new ("shell:source-trust-prompt-failed",
 				display_name,
 				error->message,
 				NULL);
-			e_shell_submit_alert (shell, alert);
+			e_shell_submit_alert (tpd->shell, alert);
 			g_object_unref (alert);
 			g_free (display_name);
 		}
 
 		g_clear_error (&error);
+		trust_prompt_data_free (tpd);
 		return;
 	}
 
-	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_SHELL (tpd->shell));
 
 	if (response == E_TRUST_PROMPT_RESPONSE_UNKNOWN) {
-		e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, TRUE);
+		e_credentials_prompter_set_auto_prompt_disabled_for (tpd->shell->priv->credentials_prompter, source, TRUE);
+		trust_prompt_data_free (tpd);
 		return;
 	}
 
+	shell_maybe_propagate_ssl_trust (tpd->shell, source, tpd->original_ssl_trust);
+
 	/* If a credentials prompt is required, then it'll be shown immediately. */
-	e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, FALSE);
+	e_credentials_prompter_set_auto_prompt_disabled_for (tpd->shell->priv->credentials_prompter, source, FALSE);
 
 	/* NULL credentials to retry with those used the last time */
-	e_source_invoke_authenticate (source, NULL, shell->priv->cancellable,
-		shell_source_invoke_authenticate_cb, shell);
+	e_source_invoke_authenticate (source, NULL, tpd->shell->priv->cancellable,
+		shell_source_invoke_authenticate_cb, tpd->shell);
+
+	trust_prompt_data_free (tpd);
 }
 
 static void
@@ -864,6 +1007,7 @@ shell_connect_trust_error_alert_response_cb (EAlert *alert,
 	const gchar *certificate_pem;
 	GTlsCertificateFlags certificate_errors;
 	const gchar *error_text;
+	TrustPromptData *tpd;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
@@ -879,9 +1023,13 @@ shell_connect_trust_error_alert_response_cb (EAlert *alert,
 
 	g_object_set_data_full (G_OBJECT (source), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
 
+	tpd = g_new0 (TrustPromptData, 1);
+	tpd->shell = shell;
+	tpd->original_ssl_trust = shell_extract_ssl_trust (source);
+
 	e_trust_prompt_run_for_source (gtk_application_get_active_window (GTK_APPLICATION (shell)),
 		source, certificate_pem, certificate_errors, error_text, TRUE,
-		shell->priv->cancellable, shell_trust_prompt_done_cb, shell);
+		shell->priv->cancellable, shell_trust_prompt_done_cb, tpd);
 }
 
 static void
@@ -1110,11 +1258,17 @@ shell_process_credentials_required_errors (EShell *shell,
 			g_free (cert_errors_str);
 			g_object_unref (alert);
 		} else {
+			TrustPromptData *tpd;
+
 			g_object_set_data_full (G_OBJECT (source), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
+
+			tpd = g_new0 (TrustPromptData, 1);
+			tpd->shell = shell;
+			tpd->original_ssl_trust = shell_extract_ssl_trust (source);
 
 			e_trust_prompt_run_for_source (gtk_application_get_active_window (GTK_APPLICATION (shell)),
 				source, certificate_pem, certificate_errors, op_error ? op_error->message : NULL, TRUE,
-				shell->priv->cancellable, shell_trust_prompt_done_cb, shell);
+				shell->priv->cancellable, shell_trust_prompt_done_cb, tpd);
 		}
 	} else if (reason == E_SOURCE_CREDENTIALS_REASON_REQUIRED ||
 		   reason == E_SOURCE_CREDENTIALS_REASON_REJECTED) {
