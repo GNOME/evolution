@@ -382,6 +382,9 @@ WebKitDOMRange *
 void		e_editor_dom_selection_restore_to_history_event_state
 						(EEditorPage *editor_page,
 						 EEditorSelection selection_state);
+void		e_editor_dom_adapt_to_editor_dom_changes
+						(EEditorPage *editor_page);
+
 G_END_DECLS
 
 #endif /* E_EDITOR_DOM_FUNCTIONS_H */

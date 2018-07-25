@@ -391,6 +391,15 @@ e_composer_dom_insert_signature (EEditorPage *editor_page,
 	if (element)
 		webkit_dom_element_remove_attribute (
 			element, "data-evo-signature-plain-text-mode");
+
+	element = webkit_dom_element_query_selector (insert_signature_in, "#-x-evo-selection-start-marker", NULL);
+	if (element)
+		remove_node (WEBKIT_DOM_NODE (element));
+
+	element = webkit_dom_element_query_selector (insert_signature_in, "#-x-evo-selection-end-marker", NULL);
+	if (element)
+		remove_node (WEBKIT_DOM_NODE (element));
+
 	g_free (signature_text);
 
 insert:
@@ -525,6 +534,8 @@ insert:
 
 	/* Make sure the flag will be unset and won't influence user's choice */
 	*set_signature_from_message = FALSE;
+
+	e_editor_dom_adapt_to_editor_dom_changes (editor_page);
 
 	return NULL;
 }

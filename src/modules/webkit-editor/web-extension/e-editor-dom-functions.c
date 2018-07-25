@@ -8737,19 +8737,69 @@ change_cid_images_src_to_base64 (EEditorPage *editor_page)
 }
 
 static void
-adapt_to_editor_dom_changes (WebKitDOMDocument *document)
+split_div_into_paragraphs (EEditorPage *editor_page,
+			   WebKitDOMDocument *document,
+			   WebKitDOMNode *element,
+			   WebKitDOMNode *parent)
 {
+	WebKitDOMNode *node, *new_div = NULL;
+
+	if (!element || !parent || !WEBKIT_DOM_IS_HTML_DIV_ELEMENT (element))
+		return;
+
+	node = webkit_dom_node_get_first_child (element);
+	while (node) {
+		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (node)) {
+			if (!new_div) {
+				new_div = WEBKIT_DOM_NODE (e_editor_dom_get_paragraph_element (editor_page, -1, 0));
+				webkit_dom_node_insert_before (parent, new_div, element, NULL);
+				webkit_dom_node_append_child (new_div, webkit_dom_node_clone_node_with_error (node, TRUE, NULL), NULL);
+			}
+
+			new_div = NULL;
+		} else if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (node) ||
+			   WEBKIT_DOM_IS_HTML_O_LIST_ELEMENT (node) ||
+			   WEBKIT_DOM_IS_HTML_U_LIST_ELEMENT (node)) {
+			new_div = NULL;
+			webkit_dom_node_insert_before (parent, webkit_dom_node_clone_node_with_error (node, TRUE, NULL), element, NULL);
+		} else {
+			if (!new_div) {
+				new_div = WEBKIT_DOM_NODE (e_editor_dom_get_paragraph_element (editor_page, -1, 0));
+				webkit_dom_node_insert_before (parent, new_div, element, NULL);
+			}
+
+			webkit_dom_node_append_child (new_div, webkit_dom_node_clone_node_with_error (node, TRUE, NULL), NULL);
+		}
+
+		node = webkit_dom_node_get_next_sibling (node);
+	}
+
+	webkit_dom_node_remove_child (parent, element, NULL);
+}
+
+void
+e_editor_dom_adapt_to_editor_dom_changes (EEditorPage *editor_page)
+{
+	WebKitDOMDocument *document;
 	WebKitDOMHTMLCollection *collection = NULL;
 	gint ii;
+
+	document = e_editor_page_get_document (editor_page);
 
 	/* Normal block code div.-x-evo-paragraph replaced by div[data-evo-paragraph] */
 	collection = webkit_dom_document_get_elements_by_class_name_as_html_collection (document, "-x-evo-paragraph");
 	for (ii = webkit_dom_html_collection_get_length (collection); ii--;) {
 		WebKitDOMNode *node;
+		WebKitDOMElement *parent_element;
 
 		node = webkit_dom_html_collection_item (collection, ii);
 		element_remove_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-paragraph");
 		webkit_dom_element_set_attribute (WEBKIT_DOM_ELEMENT (node), "data-evo-paragraph", "", NULL);
+
+		parent_element = webkit_dom_node_get_parent_element (node);
+
+		if (parent_element)
+			split_div_into_paragraphs (editor_page, document, node, WEBKIT_DOM_NODE (parent_element));
 	}
 	g_clear_object (&collection);
 }
@@ -8859,7 +8909,7 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 		g_clear_object (&list);
 	}
 
-	adapt_to_editor_dom_changes (document);
+	e_editor_dom_adapt_to_editor_dom_changes (editor_page);
 
 	/* Make the quote marks non-selectable. */
 	e_editor_dom_disable_quote_marks_select (editor_page);
