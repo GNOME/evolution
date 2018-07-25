@@ -14,9 +14,8 @@
  <credit type="author">
    <name its:translate="no">Novell, Inc</name> <!-- Content partially from https://help.gnome.org/users/evolution/stable/usage-mail-organize-columns.html.en#usage-mail-organize-columns-followup -->
  </credit>
-    
+
     <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
-    
 
   </info>
 
@@ -42,4 +41,5 @@
 
 <note style="tip"><p>If you prefer a simpler way to remind yourself about messages, you can mark them as important by right-clicking the message, then click <gui>Mark as Important</gui>, or by selecting <guiseq><gui>Message</gui><gui>Mark as</gui><gui>Important</gui></guiseq> from the menubar.</p></note>
 
+<!-- TODO: Recheck in 3.30 as https://bugzilla.gnome.org/show_bug.cgi?id=240905 introduced some UI changes! -->
 </page>
