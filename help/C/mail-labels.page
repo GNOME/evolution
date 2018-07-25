@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-organizing#advanced"/>
     <link type="seealso" xref="using-categories"/>
 
-    <revision pkgversion="3.0.2" version="0.3" date="2011-07-30" status="final"/>
+    <revision pkgversion="3.29.90" version="0.4" date="2018-07-25" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -24,10 +24,9 @@
 
 <p>You can search for messages with specific labels by using the <link xref="mail-searching">quick search dropdown</link>. Also, <link xref="mail-search-folders">search folders</link> can be created based on labels.</p>
 
-<!-- TODO: Update once https://bugzilla.gnome.org/show_bug.cgi?id=269852 is FIXED -->
 <section id="add">
 <title>Adding a label to a message</title>
-<p>To assign a label to a message, right-click the message, click <gui>Label</gui>, and choose the label to apply.</p>
+<p>To assign a label to a message, either choose <guiseq><gui>Message</gui><gui>Mark As</gui><gui>Label</gui></guiseq> and choose the label to apply, or right-click the message, click <gui>Label</gui>, and choose the label to apply.</p>
 <p>You can also quickly add a new label by choosing <gui>New Label</gui>.</p>
 </section>
 
