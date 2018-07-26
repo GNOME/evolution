@@ -64,6 +64,25 @@ empe_app_smime_parse (EMailParserExtension *extension,
 	if (camel_content_type_is (ct, "application", "pkcs7-signature") ||
 	    camel_content_type_is (ct, "application", "xpkcs7-signature") ||
 	    camel_content_type_is (ct, "application", "x-pkcs7-signature")) {
+		EMailPartList *part_list;
+		gboolean add_as_attachment = FALSE;
+
+		part_list = e_mail_parser_ref_part_list_for_operation (parser, cancellable);
+		if (part_list) {
+			CamelMimePart *parent_part;
+
+			parent_part = e_mail_part_utils_find_parent_part (e_mail_part_list_get_message (part_list), part);
+			if (parent_part) {
+				ct = camel_mime_part_get_content_type (parent_part);
+				add_as_attachment = !camel_content_type_is (ct, "multipart", "signed");
+			}
+
+			g_object_unref (part_list);
+		}
+
+		if (add_as_attachment)
+			e_mail_parser_wrap_as_non_expandable_attachment (parser, part, part_id, out_mail_parts);
+
 		return TRUE;
 	}
 

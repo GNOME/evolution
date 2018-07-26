@@ -651,3 +651,68 @@ e_mail_part_utils_body_refers (const gchar *body,
 
 	return FALSE;
 }
+
+static gboolean
+message_find_parent_part_rec (CamelMimePart *part,
+			      CamelMimePart *child,
+			      CamelMimePart **out_parent)
+{
+	CamelDataWrapper *containee;
+	gboolean go = TRUE;
+
+	if (part == child)
+		return FALSE;
+
+	containee = camel_medium_get_content (CAMEL_MEDIUM (part));
+
+	if (!containee)
+		return go;
+
+	/* using the object types is more accurate than using the mime/types */
+	if (CAMEL_IS_MULTIPART (containee)) {
+		CamelMultipart *multipart = CAMEL_MULTIPART (containee);
+		gint parts, ii;
+
+		parts = camel_multipart_get_number (multipart);
+		for (ii = 0; go && ii < parts; ii++) {
+			CamelMimePart *mpart = camel_multipart_get_part (multipart, ii);
+
+			if (mpart == child) {
+				*out_parent = part;
+				go = FALSE;
+			} else {
+				go = message_find_parent_part_rec (mpart, child, out_parent);
+			}
+		}
+	} else if (CAMEL_IS_MIME_MESSAGE (containee)) {
+		go = message_find_parent_part_rec (CAMEL_MIME_PART (containee), child, out_parent);
+	}
+
+	return go;
+}
+
+/**
+ * e_mail_part_utils_find_parent_part:
+ * @message: a #CamelMimeMessage
+ * @child: a #CamelMimePart, which is part of @message
+ *
+ * Searches for the parent of the @child in the @message, The @child is
+ * supposed to be in the @message.
+ *
+ * Returns: (nullable) (transfer none): Parent of the @child, or %NULL.
+ *
+ * Since: 3.30
+ **/
+CamelMimePart *
+e_mail_part_utils_find_parent_part (CamelMimeMessage *message,
+				    CamelMimePart *child)
+{
+	CamelMimePart *parent = NULL;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (child), NULL);
+
+	message_find_parent_part_rec (CAMEL_MIME_PART (message), child, &parent);
+
+	return parent;
+}

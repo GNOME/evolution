@@ -107,6 +107,11 @@ void		e_mail_parser_wrap_as_attachment
 						 CamelMimePart *part,
 						 GString *part_id,
 						 GQueue *parts_queue);
+void		e_mail_parser_wrap_as_non_expandable_attachment
+						(EMailParser *parser,
+						 CamelMimePart *part,
+						 GString *part_id,
+						 GQueue *parts_queue);
 
 CamelSession *	e_mail_parser_get_session	(EMailParser *parser);
 EMailPartList *	e_mail_parser_ref_part_list_for_operation

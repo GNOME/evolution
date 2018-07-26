@@ -167,34 +167,10 @@ empe_text_plain_parse (EMailParserExtension *extension,
 		if (is_attachment && CAMEL_IS_MIME_MESSAGE (part) &&
 		    !(camel_content_type_is (camel_data_wrapper_get_mime_type_field (dw), "text", "*")
 		     && camel_mime_part_get_filename (part) == NULL)) {
-			EMailPartAttachment *empa;
+			e_mail_parser_wrap_as_non_expandable_attachment (parser, part, part_id, out_mail_parts);
 
 			/* The main message part has a Content-Disposition header */
 			is_attachment = FALSE;
-
-			e_mail_parser_wrap_as_attachment (parser, part, part_id, out_mail_parts);
-
-			/* attachments are added to the head */
-			empa = g_queue_peek_head (out_mail_parts);
-			g_warn_if_fail (E_IS_MAIL_PART_ATTACHMENT (empa));
-
-			if (E_IS_MAIL_PART_ATTACHMENT (empa)) {
-				EAttachment *attachment;
-				CamelMimePart *att_part;
-
-				empa->shown = FALSE;
-				attachment = e_mail_part_attachment_ref_attachment (empa);
-				e_attachment_set_initially_shown (attachment, FALSE);
-				e_attachment_set_can_show (attachment, FALSE);
-
-				att_part = e_attachment_ref_mime_part (attachment);
-				if (att_part)
-					camel_mime_part_set_disposition (att_part, NULL);
-
-				g_clear_object (&att_part);
-				g_clear_object (&attachment);
-			}
-
 			handled = TRUE;
 		}
 

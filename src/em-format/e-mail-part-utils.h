@@ -58,6 +58,10 @@ gboolean	e_mail_part_is_inline		(CamelMimePart *part,
 
 gboolean	e_mail_part_utils_body_refers	(const gchar *body,
 						 const gchar *cid);
+
+CamelMimePart *	e_mail_part_utils_find_parent_part
+						(CamelMimeMessage *message,
+						 CamelMimePart *child);
 G_END_DECLS
 
 #endif /* E_MAIL_PART_UTILS_H_ */
