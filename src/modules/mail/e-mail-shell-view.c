@@ -438,15 +438,15 @@ mail_shell_view_toggled (EShellView *shell_view)
 	basename = E_MAIL_READER_UI_DEFINITION;
 
 	if (view_is_active && priv->merge_id == 0) {
-		EMailView *mail_view;
+		EMailReader *reader;
 
-		priv->merge_id = e_load_ui_manager_definition (
-			ui_manager, basename);
-		mail_view = e_mail_shell_content_get_mail_view (
-			priv->mail_shell_content);
-		e_mail_reader_create_charset_menu (
-			E_MAIL_READER (mail_view),
-			ui_manager, priv->merge_id);
+		priv->merge_id = e_load_ui_manager_definition (ui_manager, basename);
+
+		reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (priv->mail_shell_content));
+		e_mail_reader_create_charset_menu (reader, ui_manager, priv->merge_id);
+
+		/* This also fills the Label menu */
+		e_mail_reader_update_actions (reader, e_mail_reader_check_state (reader));
 	} else if (!view_is_active && priv->merge_id != 0) {
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
 		gtk_ui_manager_ensure_update (ui_manager);
@@ -1461,9 +1461,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (MAIL_VFOLDER_UNMATCHED_ENABLE);
 	gtk_action_set_visible (action, folder_is_store && folder_is_virtual);
 
-	e_mail_shell_view_update_labels_sensitivity (shell_window, NULL);
-
-	e_mail_shell_view_update_popup_labels (mail_shell_view);
+	e_mail_shell_view_update_labels_sensitivity (shell_window, NULL, mail_shell_view);
 }
 
 static void

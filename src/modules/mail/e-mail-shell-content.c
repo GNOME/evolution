@@ -434,6 +434,9 @@ mail_shell_content_get_action_group (EMailReader *reader,
 		case E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS:
 			group_name = "search-folders";
 			break;
+		case E_MAIL_READER_ACTION_GROUP_LABELS:
+			group_name = "mail-labels";
+			break;
 		default:
 			g_return_val_if_reached (NULL);
 	}
@@ -579,6 +582,24 @@ mail_shell_content_set_folder (EMailReader *reader,
 }
 
 static void
+mail_shell_content_update_actions (EMailReader *reader,
+				   guint32 state)
+{
+	EMailShellContent *mail_shell_content;
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	if (!mail_shell_content->priv->mail_view)
+		return;
+
+	/* Forward this to our internal EMailView, which
+	 * also implements the EMailReader interface. */
+	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
+
+	e_mail_reader_update_actions (reader, state);
+}
+
+static void
 mail_shell_content_reload (EMailReader *reader)
 {
 	EMailShellContent *mail_shell_content;
@@ -683,6 +704,7 @@ e_mail_shell_content_reader_init (EMailReaderInterface *iface)
 	iface->get_window = mail_shell_content_get_window;
 	iface->set_folder = mail_shell_content_set_folder;
 	iface->open_selected_mail = mail_shell_content_open_selected_mail;
+	iface->update_actions = mail_shell_content_update_actions;
 	iface->reload = mail_shell_content_reload;
 }
 

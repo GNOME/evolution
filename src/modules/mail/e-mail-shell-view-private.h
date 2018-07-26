@@ -27,9 +27,6 @@
 #include <camel/camel-search-private.h>  /* for camel_search_word */
 
 #include <mail/e-mail-folder-create-dialog.h>
-#include <mail/e-mail-label-action.h>
-#include <mail/e-mail-label-dialog.h>
-#include <mail/e-mail-label-list-store.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>
 #include <mail/e-mail-sidebar.h>
@@ -120,8 +117,6 @@ struct _EMailShellViewPrivate {
 
 	/* For UI merging and unmerging. */
 	guint merge_id;
-	guint main_menu_label_merge_id;
-	guint popup_menu_label_merge_id;
 
 	/* Filter rules correspond to the search entry menu. */
 	EFilterRule *search_rules[MAIL_NUM_SEARCH_RULES];
@@ -162,8 +157,6 @@ void		e_mail_shell_view_actions_init
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_restore_state
 					(EMailShellView *mail_shell_view);
-void		e_mail_shell_view_update_popup_labels
-					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_search_filter
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_sidebar
@@ -174,7 +167,8 @@ GDBusProxy *	e_mail_shell_view_get_web_extension_proxy
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_labels_sensitivity
 					(EShellWindow *shell_window,
-					 GtkWidget *focused_widget);
+					 GtkWidget *focused_widget,
+					 EMailShellView *mail_shell_view);
 
 G_END_DECLS
 

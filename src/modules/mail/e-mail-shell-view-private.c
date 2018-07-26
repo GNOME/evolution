@@ -418,20 +418,6 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 }
 
 static void
-mail_shell_view_reader_update_actions_cb (EMailReader *reader,
-                                          guint32 state,
-                                          EMailShellView *mail_shell_view)
-{
-	EMailShellContent *mail_shell_content;
-
-	g_return_if_fail (mail_shell_view != NULL);
-	g_return_if_fail (mail_shell_view->priv != NULL);
-
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	e_mail_reader_update_actions (E_MAIL_READER (mail_shell_content), state);
-}
-
-static void
 mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
                                      EActivity *activity)
 {
@@ -525,7 +511,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	ERuleContext *context;
 	EFilterRule *rule = NULL;
 	GtkTreeSelection *selection;
-	GtkUIManager *ui_manager;
 	GtkWidget *message_list;
 	GSettings *settings;
 	EMailLabelListStore *label_store;
@@ -544,8 +529,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-
 	shell = e_shell_window_get_shell (shell_window);
 
 	backend = E_MAIL_BACKEND (shell_backend);
@@ -555,15 +538,12 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	e_shell_window_add_action_group (shell_window, "mail");
 	e_shell_window_add_action_group (shell_window, "mail-filter");
-	e_shell_window_add_action_group (shell_window, "mail-label");
+	e_shell_window_add_action_group (shell_window, "mail-labels");
 	e_shell_window_add_action_group (shell_window, "search-folders");
 
 	g_signal_connect (
 		shell_window, "set-focus",
 		G_CALLBACK (e_mail_shell_view_update_labels_sensitivity), shell_view);
-
-	priv->main_menu_label_merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-	priv->popup_menu_label_merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_backend = g_object_ref (shell_backend);
@@ -633,11 +613,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		reader, "changed",
 		G_CALLBACK (mail_shell_view_reader_changed_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		mail_view, "update-actions",
-		G_CALLBACK (mail_shell_view_reader_update_actions_cb),
-		mail_shell_view, 0);
 
 	g_signal_connect_object (
 		reader, "folder-loaded",
@@ -1545,19 +1520,24 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 
 void
 e_mail_shell_view_update_labels_sensitivity (EShellWindow *shell_window,
-					     GtkWidget *focused_widget)
+					     GtkWidget *focused_widget,
+					     EMailShellView *mail_shell_view)
 {
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	GtkWidget *widget;
+	EMailReader *reader;
 	gboolean sensitive = FALSE;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
 	/* It can be called also during the dispose of the GtkWindow,
 	   when the UI manager is already freed */
 	if (!e_shell_window_get_ui_manager (shell_window))
 		return;
+
+	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content));
 
 	widget = focused_widget ? focused_widget : gtk_window_get_focus (GTK_WINDOW (shell_window));
 
@@ -1570,11 +1550,13 @@ e_mail_shell_view_update_labels_sensitivity (EShellWindow *shell_window,
 		widget = gtk_widget_get_parent (widget);
 	}
 
-	action_group = ACTION_GROUP (MAIL_LABEL);
+	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content));
+
+	action_group = e_mail_reader_get_action_group (reader, E_MAIL_READER_ACTION_GROUP_LABELS);
 	if (action_group)
 		gtk_action_group_set_sensitive (action_group, sensitive);
 
-	action = ACTION (MAIL_LABEL_NONE);
+	action = e_mail_reader_get_action (reader, "mail-label-none");
 	if (action)
 		gtk_action_set_sensitive (action, sensitive);
 }

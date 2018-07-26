@@ -40,6 +40,9 @@
 #include "e-mail-backend.h"
 #include "e-mail-browser.h"
 #include "e-mail-enumtypes.h"
+#include "e-mail-label-action.h"
+#include "e-mail-label-dialog.h"
+#include "e-mail-label-list-store.h"
 #include "e-mail-notes.h"
 #include "e-mail-reader-utils.h"
 #include "e-mail-ui-session.h"
@@ -101,6 +104,9 @@ struct _EMailReaderPrivate {
 	gpointer followup_alert; /* weak pointer to an EAlert */
 
 	GSList *ongoing_operations; /* GCancellable * */
+
+	guint main_menu_label_merge_id;
+	guint popup_menu_label_merge_id;
 };
 
 enum {
@@ -873,6 +879,116 @@ action_mail_forward_quoted_cb (GtkAction *action,
 		g_clear_object (&folder);
 	}
 
+	g_ptr_array_unref (uids);
+}
+
+static void
+action_mail_label_new_cb (GtkAction *action,
+                          EMailReader *reader)
+{
+	EMailLabelDialog *label_dialog;
+	EMailLabelListStore *label_store;
+	EMailBackend *backend;
+	EMailSession *session;
+	CamelFolder *folder;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *dialog;
+	GPtrArray *uids;
+	GdkColor label_color;
+	const gchar *label_name;
+	gchar *label_tag;
+	gint n_children;
+	guint ii;
+
+	dialog = e_mail_label_dialog_new (e_mail_reader_get_window (reader));
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Add Label"));
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+		goto exit;
+
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (session));
+
+	label_dialog = E_MAIL_LABEL_DIALOG (dialog);
+	label_name = e_mail_label_dialog_get_label_name (label_dialog);
+	e_mail_label_dialog_get_label_color (label_dialog, &label_color);
+
+	e_mail_label_list_store_set (
+		label_store, NULL, label_name, &label_color);
+
+	/* XXX This is awkward.  We've added a new label to the list store
+	 *     but we don't have the new label's tag nor an iterator to use
+	 *     to fetch it.  We know the label was appended to the store,
+	 *     so we have to dig it out manually.  EMailLabelListStore API
+	 *     probably needs some rethinking. */
+	model = GTK_TREE_MODEL (label_store);
+	n_children = gtk_tree_model_iter_n_children (model, NULL);
+	g_warn_if_fail (gtk_tree_model_iter_nth_child (model, &iter, NULL, n_children - 1));
+	label_tag = e_mail_label_list_store_get_tag (label_store, &iter);
+
+	folder = e_mail_reader_ref_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
+
+	for (ii = 0; ii < uids->len; ii++)
+		camel_folder_set_message_user_flag (
+			folder, uids->pdata[ii], label_tag, TRUE);
+
+	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
+
+	g_free (label_tag);
+
+ exit:
+	gtk_widget_destroy (dialog);
+}
+
+static void
+action_mail_label_none_cb (GtkAction *action,
+                           EMailReader *reader)
+{
+	EMailBackend *backend;
+	EMailSession *session;
+	EMailLabelListStore *label_store;
+	CamelFolder *folder;
+	GtkTreeIter iter;
+	GPtrArray *uids;
+	gboolean valid;
+	guint ii;
+
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
+	label_store = e_mail_ui_session_get_label_store (
+		E_MAIL_UI_SESSION (session));
+
+	folder = e_mail_reader_ref_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
+
+	valid = gtk_tree_model_get_iter_first (
+		GTK_TREE_MODEL (label_store), &iter);
+
+	while (valid) {
+		gchar *tag;
+
+		tag = e_mail_label_list_store_get_tag (label_store, &iter);
+
+		for (ii = 0; ii < uids->len; ii++) {
+			camel_folder_set_message_user_flag (
+				folder, uids->pdata[ii], tag, FALSE);
+			camel_folder_set_message_user_tag (
+				folder, uids->pdata[ii], "label", NULL);
+		}
+
+		g_free (tag);
+
+		valid = gtk_tree_model_iter_next (
+			GTK_TREE_MODEL (label_store), &iter);
+	}
+
+	g_clear_object (&folder);
 	g_ptr_array_unref (uids);
 }
 
@@ -2406,6 +2522,22 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Forward the selected message quoted like a reply"),
 	  G_CALLBACK (action_mail_forward_quoted_cb) },
 
+	{ "mail-label-new",
+	  NULL,
+	  N_("_New Label"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_label_new_cb) },
+
+	{ "mail-label-none",
+	  NULL,
+	  /* Translators: "None" is used in the message label context menu.
+	   *              It removes all labels from the selected messages. */
+	  N_("N_one"),
+	  "0",
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_label_none_cb) },
+
 	{ "mail-load-images",
 	  "image-x-generic",
 	  N_("_Load Images"),
@@ -2698,6 +2830,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	{ "mail-forward-as-menu",
 	  NULL,
 	  N_("F_orward As"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "mail-label-menu",
+	  NULL,
+	  N_("_Label"),
 	  NULL,
 	  NULL,
 	  NULL },
@@ -3891,6 +4030,212 @@ mail_reader_show_search_bar (EMailReader *reader)
 }
 
 static void
+action_mail_label_cb (GtkToggleAction *action,
+                      EMailReader *reader)
+{
+	CamelFolder *folder;
+	GPtrArray *uids;
+	const gchar *tag;
+	gint ii;
+
+	tag = g_object_get_data (G_OBJECT (action), "tag");
+	g_return_if_fail (tag != NULL);
+
+	folder = e_mail_reader_ref_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
+
+	camel_folder_freeze (folder);
+	for (ii = 0; ii < uids->len; ii++) {
+		if (gtk_toggle_action_get_active (action))
+			camel_folder_set_message_user_flag (
+				folder, uids->pdata[ii], tag, TRUE);
+		else {
+			camel_folder_set_message_user_flag (
+				folder, uids->pdata[ii], tag, FALSE);
+			camel_folder_set_message_user_tag (
+				folder, uids->pdata[ii], "label", NULL);
+		}
+	}
+	camel_folder_thaw (folder);
+
+	g_clear_object (&folder);
+	g_ptr_array_unref (uids);
+}
+
+static void
+mail_reader_update_label_action (GtkToggleAction *action,
+				 EMailReader *reader,
+				 GPtrArray *uids,
+				 const gchar *label_tag)
+{
+	CamelFolder *folder;
+	gboolean exists = FALSE;
+	gboolean not_exists = FALSE;
+	gboolean sensitive;
+	guint ii;
+
+	folder = e_mail_reader_ref_folder (reader);
+
+	/* Figure out the proper label action state for the selected
+	 * messages.  If all the selected messages have the given label,
+	 * make the toggle action active.  If all the selected message
+	 * DO NOT have the given label, make the toggle action inactive.
+	 * If some do and some don't, make the action insensitive. */
+
+	for (ii = 0; ii < uids->len && (!exists || !not_exists); ii++) {
+		const gchar *old_label;
+		gchar *new_label;
+
+		/* Check for new-style labels. */
+		if (camel_folder_get_message_user_flag (
+			folder, uids->pdata[ii], label_tag)) {
+			exists = TRUE;
+			continue;
+		}
+
+		/* Check for old-style labels. */
+		old_label = camel_folder_get_message_user_tag (
+			folder, uids->pdata[ii], "label");
+		if (old_label == NULL) {
+			not_exists = TRUE;
+			continue;
+		}
+
+		/* Convert old-style labels ("<name>") to "$Label<name>". */
+		new_label = g_alloca (strlen (old_label) + 10);
+		g_stpcpy (g_stpcpy (new_label, "$Label"), old_label);
+
+		if (strcmp (new_label, label_tag) == 0)
+			exists = TRUE;
+		else
+			not_exists = TRUE;
+	}
+
+	sensitive = !(exists && not_exists);
+	gtk_toggle_action_set_active (action, exists);
+	gtk_action_set_sensitive (GTK_ACTION (action), sensitive);
+
+	g_clear_object (&folder);
+}
+
+static void
+mail_reader_update_labels_menu (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+	EMailLabelListStore *label_store;
+	EMailBackend *backend;
+	EMailSession *session;
+	GtkWindow *window;
+	GtkUIManager *ui_manager = NULL;
+	GtkActionGroup *action_group;
+	GtkTreeIter iter;
+	GPtrArray *uids;
+	const gchar *main_menu_path, *popup_menu_path;
+	gboolean valid;
+	gint ii = 0;
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	window = e_mail_reader_get_window (reader);
+	g_return_if_fail (window != NULL);
+
+	if (E_IS_SHELL_WINDOW (window))
+		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (window));
+	else if (E_IS_MAIL_BROWSER (window))
+		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (window));
+
+	g_return_if_fail (ui_manager != NULL);
+	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
+
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
+	label_store = e_mail_ui_session_get_label_store (E_MAIL_UI_SESSION (session));
+
+	action_group = e_mail_reader_get_action_group (reader, E_MAIL_READER_ACTION_GROUP_LABELS);
+	main_menu_path = "/main-menu/custom-menus/mail-message-menu/mail-mark-as-menu/mail-label-menu/mail-label-actions";
+	popup_menu_path = "/mail-message-popup/mail-label-menu/mail-label-actions";
+
+	/* Unmerge the previous menu items. */
+	if (priv->main_menu_label_merge_id)
+		gtk_ui_manager_remove_ui (ui_manager, priv->main_menu_label_merge_id);
+	else
+		priv->main_menu_label_merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+
+	if (priv->popup_menu_label_merge_id)
+		gtk_ui_manager_remove_ui (ui_manager, priv->popup_menu_label_merge_id);
+	else
+		priv->popup_menu_label_merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+
+	e_action_group_remove_all_actions (action_group);
+	gtk_ui_manager_ensure_update (ui_manager);
+
+	uids = e_mail_reader_get_selected_uids (reader);
+
+	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (label_store), &iter);
+
+	while (valid) {
+		EMailLabelAction *label_action;
+		GtkAction *action;
+		gchar *action_name;
+		gchar *stock_id;
+		gchar *label;
+		gchar *tag;
+
+		label = e_mail_label_list_store_get_name (label_store, &iter);
+		stock_id = e_mail_label_list_store_get_stock_id (label_store, &iter);
+		tag = e_mail_label_list_store_get_tag (label_store, &iter);
+		action_name = g_strdup_printf ("mail-label-%d", ii);
+
+		/* XXX Add a tooltip! */
+		label_action = e_mail_label_action_new (action_name, label, NULL, stock_id);
+
+		g_object_set_data_full (
+			G_OBJECT (label_action), "tag",
+			tag, (GDestroyNotify) g_free);
+
+		/* Configure the action before we connect to signals. */
+		mail_reader_update_label_action (GTK_TOGGLE_ACTION (label_action), reader, uids, tag);
+
+		g_signal_connect (
+			label_action, "toggled",
+			G_CALLBACK (action_mail_label_cb), reader);
+
+		/* The action group takes ownership of the action. */
+		action = GTK_ACTION (label_action);
+
+		if (ii + 1 < 10) {
+			gchar accel[5];
+
+			accel[0] = '1' + ii;
+			accel[1] = '\0';
+
+			gtk_action_group_add_action_with_accel (action_group, action, accel);
+		} else {
+			gtk_action_group_add_action (action_group, action);
+		}
+		g_object_unref (label_action);
+
+		gtk_ui_manager_add_ui (
+			ui_manager, priv->main_menu_label_merge_id, main_menu_path,
+			action_name, action_name, GTK_UI_MANAGER_AUTO, FALSE);
+
+		gtk_ui_manager_add_ui (
+			ui_manager, priv->popup_menu_label_merge_id, popup_menu_path,
+			action_name, action_name, GTK_UI_MANAGER_AUTO, FALSE);
+
+		g_free (label);
+		g_free (stock_id);
+		g_free (action_name);
+
+		valid = gtk_tree_model_iter_next (
+			GTK_TREE_MODEL (label_store), &iter);
+		ii++;
+	}
+
+	g_ptr_array_unref (uids);
+}
+
+static void
 mail_reader_update_actions (EMailReader *reader,
                             guint32 state)
 {
@@ -4336,6 +4681,8 @@ mail_reader_update_actions (EMailReader *reader,
 	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
+
+	mail_reader_update_labels_menu (reader);
 }
 
 static gboolean

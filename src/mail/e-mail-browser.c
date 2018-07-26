@@ -41,6 +41,7 @@
 
 #define ACTION_GROUP_STANDARD		"action-group-standard"
 #define ACTION_GROUP_SEARCH_FOLDERS	"action-group-search-folders"
+#define ACTION_GROUP_LABELS		"action-group-labels"
 
 struct _EMailBrowserPrivate {
 	EMailBackend *backend;
@@ -721,6 +722,20 @@ mail_browser_constructed (GObject *object)
 		object, ACTION_GROUP_SEARCH_FOLDERS,
 		action_group, (GDestroyNotify) g_object_unref);
 
+	action_group = gtk_action_group_new (ACTION_GROUP_LABELS);
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* For easy access.  Takes ownership of the reference. */
+	g_object_set_data_full (
+		object, ACTION_GROUP_LABELS,
+		action_group, (GDestroyNotify) g_object_unref);
+
+	e_binding_bind_property (
+		display, "need-input",
+		action_group, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
 	e_mail_reader_init (reader, TRUE, TRUE);
 
 	e_load_ui_manager_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
@@ -799,6 +814,12 @@ mail_browser_constructed (GObject *object)
 	e_plugin_ui_register_manager (ui_manager, id, object);
 	e_plugin_ui_enable_manager (ui_manager, id);
 
+	action = e_mail_reader_get_action (reader, "mail-label-none");
+	e_binding_bind_property (
+		display, "need-input",
+		action, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
@@ -828,6 +849,9 @@ mail_browser_get_action_group (EMailReader *reader,
 			break;
 		case E_MAIL_READER_ACTION_GROUP_SEARCH_FOLDERS:
 			group_name = ACTION_GROUP_SEARCH_FOLDERS;
+			break;
+		case E_MAIL_READER_ACTION_GROUP_LABELS:
+			group_name = ACTION_GROUP_LABELS;
 			break;
 		default:
 			g_return_val_if_reached (NULL);

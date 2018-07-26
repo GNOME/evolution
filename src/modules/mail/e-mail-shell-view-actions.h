@@ -106,10 +106,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-forward-inline")
 #define E_SHELL_WINDOW_ACTION_MAIL_FORWARD_QUOTED(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-forward-quoted")
-#define E_SHELL_WINDOW_ACTION_MAIL_LABEL_NEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-label-new")
-#define E_SHELL_WINDOW_ACTION_MAIL_LABEL_NONE(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-label-none")
 #define E_SHELL_WINDOW_ACTION_MAIL_LOAD_IMAGES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-load-images")
 #define E_SHELL_WINDOW_ACTION_MAIL_MANAGE_SUBSCRIPTIONS(window) \
@@ -278,8 +274,6 @@
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail")
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL_FILTER(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail-filter")
-#define E_SHELL_WINDOW_ACTION_GROUP_MAIL_LABEL(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail-label")
 #define E_SHELL_WINDOW_ACTION_GROUP_SEARCH_FOLDERS(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "search-folders")
 
