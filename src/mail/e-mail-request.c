@@ -117,6 +117,12 @@ mail_request_process_mail_sync (EContentRequest *request,
 
 	g_free (tmp);
 
+	if (!part_list && E_IS_MAIL_DISPLAY (requester)) {
+		part_list = e_mail_display_get_part_list (E_MAIL_DISPLAY (requester));
+		if (part_list)
+			g_object_ref (part_list);
+	}
+
 	context.uri = soup_uri_to_string (suri, FALSE);
 
 	if (camel_debug_start ("emformat:requests")) {

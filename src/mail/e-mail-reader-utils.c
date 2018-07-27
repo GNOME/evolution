@@ -3204,9 +3204,14 @@ mail_reader_parse_message_run (GSimpleAsyncResult *simple,
 	EMailReader *reader = E_MAIL_READER (object);
 	CamelObjectBag *registry;
 	EMailPartList *part_list;
+	EMailDisplay *mail_display;
 	AsyncContext *async_context;
 	gchar *mail_uri;
+	gboolean is_source;
 	GError *local_error = NULL;
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	is_source = e_mail_display_get_mode (mail_display) == E_MAIL_FORMATTER_MODE_SOURCE;
 
 	async_context = g_simple_async_result_get_op_res_gpointer (simple);
 
@@ -3217,6 +3222,19 @@ mail_reader_parse_message_run (GSimpleAsyncResult *simple,
 		async_context->message_uid, NULL, NULL);
 
 	part_list = camel_object_bag_reserve (registry, mail_uri);
+
+	if (!part_list && is_source) {
+		EMailPart *mail_part;
+
+		part_list = e_mail_part_list_new (async_context->message, async_context->message_uid, async_context->folder);
+		mail_part = e_mail_part_new (CAMEL_MIME_PART (async_context->message), ".message");
+		e_mail_part_list_add_part (part_list, mail_part);
+		g_object_unref (mail_part);
+
+		/* Do not store it, it'll be taken from EMailDisplay */
+		camel_object_bag_abort (registry, mail_uri);
+	}
+
 	if (part_list == NULL) {
 		EMailBackend *mail_backend;
 		EMailSession *mail_session;
