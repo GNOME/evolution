@@ -44,6 +44,7 @@ struct _EMailPrinterPrivate {
 	EMailFormatter *formatter;
 	EMailPartList *part_list;
 	EMailRemoteContent *remote_content;
+	EMailFormatterMode mode;
 
 	gchar *export_filename;
 };
@@ -329,14 +330,15 @@ mail_printer_load_changed_cb (WebKitWebView *web_view,
 
 static WebKitWebView *
 mail_printer_new_web_view (const gchar *charset,
-                           const gchar *default_charset)
+			   const gchar *default_charset,
+			   EMailFormatterMode mode)
 {
 	WebKitWebView *web_view;
 	EMailFormatter *formatter;
 
 	web_view = g_object_new (
 		E_TYPE_MAIL_DISPLAY,
-		"mode", E_MAIL_FORMATTER_MODE_PRINTING, NULL);
+		"mode", mode, NULL);
 
 	/* Do not load remote images, print what user sees in the preview panel */
 	e_mail_display_set_force_load_images (E_MAIL_DISPLAY (web_view), FALSE);
@@ -475,6 +477,7 @@ e_mail_printer_init (EMailPrinter *printer)
 	printer->priv = E_MAIL_PRINTER_GET_PRIVATE (printer);
 
 	printer->priv->formatter = e_mail_formatter_print_new ();
+	printer->priv->mode = E_MAIL_FORMATTER_MODE_PRINTING;
 }
 
 EMailPrinter *
@@ -506,6 +509,23 @@ e_mail_printer_ref_remote_content (EMailPrinter *printer)
 		return NULL;
 
 	return g_object_ref (printer->priv->remote_content);
+}
+
+void
+e_mail_printer_set_mode (EMailPrinter *printer,
+			 EMailFormatterMode mode)
+{
+	g_return_if_fail (E_IS_MAIL_PRINTER (printer));
+
+	printer->priv->mode = mode;
+}
+
+EMailFormatterMode
+e_mail_printer_get_mode (EMailPrinter *printer)
+{
+	g_return_val_if_fail (E_IS_MAIL_PRINTER (printer), E_MAIL_FORMATTER_MODE_PRINTING);
+
+	return printer->priv->mode;
 }
 
 void
@@ -552,7 +572,7 @@ e_mail_printer_print (EMailPrinter *printer,
 
 	task = g_task_new (printer, cancellable, callback, user_data);
 
-	web_view = mail_printer_new_web_view (charset, default_charset);
+	web_view = mail_printer_new_web_view (charset, default_charset, e_mail_printer_get_mode (printer));
 	e_mail_display_set_part_list (E_MAIL_DISPLAY (web_view), part_list);
 
 	async_context->web_view = g_object_ref_sink (web_view);
@@ -568,7 +588,7 @@ e_mail_printer_print (EMailPrinter *printer,
 	mail_uri = e_mail_part_build_uri (
 		folder, message_uid,
 		"__evo-load-image", G_TYPE_BOOLEAN, TRUE,
-		"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_PRINTING,
+		"mode", G_TYPE_INT, e_mail_printer_get_mode (printer),
 		"formatter_default_charset", G_TYPE_STRING, default_charset,
 		"formatter_charset", G_TYPE_STRING, charset,
 		NULL);

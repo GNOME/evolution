@@ -1593,6 +1593,9 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 	e_mail_printer_set_export_filename (printer, export_basename);
 	g_free (export_basename);
 
+	if (e_mail_display_get_mode (mail_display) == E_MAIL_FORMATTER_MODE_SOURCE)
+		e_mail_printer_set_mode (printer, E_MAIL_FORMATTER_MODE_SOURCE);
+
 	g_clear_object (&remote_content);
 
 	e_activity_set_text (activity, _("Printing"));

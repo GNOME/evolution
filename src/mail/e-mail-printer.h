@@ -64,6 +64,10 @@ EMailPartList *	e_mail_printer_ref_part_list	(EMailPrinter *printer);
 EMailRemoteContent *
 		e_mail_printer_ref_remote_content
 						(EMailPrinter *printer);
+void		e_mail_printer_set_mode		(EMailPrinter *printer,
+						 EMailFormatterMode mode);
+EMailFormatterMode
+		e_mail_printer_get_mode		(EMailPrinter *printer);
 void		e_mail_printer_print		(EMailPrinter *printer,
 						 GtkPrintOperationAction action,
 						 EMailFormatter *formatter,
