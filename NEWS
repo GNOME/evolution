@@ -1,3 +1,45 @@
+Evolution 3.29.90 2018-07-30
+----------------------------
+
+Bug Fixes:
+	Bug 787344 - Mail Notification account selection (Milan Crha)
+	Bug 788370 - Rename address book WebDAV backend to CardDAV (Milan Crha)
+	Bug 269852 - Label should be on "Message" menu when mail is selected (Milan Crha)
+	Bug 241477 - Message color cannot be removed once applied to a message (Milan Crha)
+	Bug 240905 - Can't edit Follow Up flag (Milan Crha)
+	Bug 227703 - Add option to Hide cancelled tasks (Milan Crha)
+	I#75 - "Empty Junk" does not work on a real Junk folder (Milan Crha)
+	I#71 - Workaround cursor movement through unbreakable anchor bug (Milan Crha)
+	I#78 - Search scope in Mail view not restored properly (Milan Crha)
+	I#57 - Edited event time keeps the old instance in the UI (Milan Crha)
+	I#46 - Old plain text signature not updated before editing (Milan Crha)
+	I#80 - p7s attachements are not shown in mail preview (Milan Crha)
+
+Miscellaneous:
+	[mail-notification] Correct a recently added translatable string (Milan Crha)
+	Highlight of the search bar entry doesn't work (Milan Crha)
+	Fix two possible memory leaks related to message composer (Milan Crha)
+	Update some of the editor unit tests to not fail (Milan Crha)
+	Propagate trust prompt response within collection sources (Milan Crha)
+	Unnecessary message parse when viewing message source (Milan Crha)
+	Print of message source doesn't print message source (Milan Crha)
+	Help: Remove comment about Buteo (those links are dead) (Andre Klapper)
+	Help: Use https URL for syncevolution link (Andre Klapper)
+	Help: Use https URL for IETF RFC links (Andre Klapper)
+	Help: Replace GNOME Bugzilla by GNOME Gitlab link to report bugs (Andre Klapper)
+	Help: Use https URL for GNOME FTP link (Andre Klapper)
+	Help: Use https URL for freedesktop.org spec (Andre Klapper)
+	Help: Cover mail label item added to main menu in bug 269852 (Andre Klapper)
+	Help: add a TODO item (Andre Klapper)
+
+Translations:
+	Daniel Șerbănescu (ro)
+	Fabio Tomat (fur)
+	Wolfgang Stöggl (de)
+	Jordi Mas i Hernandez (ca)
+	Aurimas Černius (lt)
+	Daniel Mustieles (es)
+
 Evolution 3.29.4 2018-07-16
 ---------------------------
 
