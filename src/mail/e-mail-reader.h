@@ -138,9 +138,10 @@ struct _EMailReaderInterface {
 	gboolean	(*close_on_delete_or_junk)
 						(EMailReader *reader);
 	void		(*reload)		(EMailReader *reader);
+	void		(*remove_ui)		(EMailReader *reader);
 
 	/* Padding for future expansion */
-	gpointer reserved[2];
+	gpointer reserved[1];
 };
 
 GType		e_mail_reader_get_type		(void);
@@ -215,6 +216,7 @@ void		e_mail_reader_composer_created	(EMailReader *reader,
 void		e_mail_reader_connect_remote_content
 						(EMailReader *reader);
 void		e_mail_reader_reload		(EMailReader *reader);
+void		e_mail_reader_remove_ui		(EMailReader *reader);
 
 G_END_DECLS
 

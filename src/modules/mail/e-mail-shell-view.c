@@ -426,6 +426,7 @@ mail_shell_view_toggled (EShellView *shell_view)
 {
 	EMailShellViewPrivate *priv;
 	EShellWindow *shell_window;
+	EMailReader *reader;
 	GtkUIManager *ui_manager;
 	const gchar *basename;
 	gboolean view_is_active;
@@ -435,19 +436,18 @@ mail_shell_view_toggled (EShellView *shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	view_is_active = e_shell_view_is_active (shell_view);
+	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (priv->mail_shell_content));
 	basename = E_MAIL_READER_UI_DEFINITION;
 
 	if (view_is_active && priv->merge_id == 0) {
-		EMailReader *reader;
-
 		priv->merge_id = e_load_ui_manager_definition (ui_manager, basename);
 
-		reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (priv->mail_shell_content));
 		e_mail_reader_create_charset_menu (reader, ui_manager, priv->merge_id);
 
 		/* This also fills the Label menu */
 		e_mail_reader_update_actions (reader, e_mail_reader_check_state (reader));
 	} else if (!view_is_active && priv->merge_id != 0) {
+		e_mail_reader_remove_ui (reader);
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
 		gtk_ui_manager_ensure_update (ui_manager);
 		priv->merge_id = 0;

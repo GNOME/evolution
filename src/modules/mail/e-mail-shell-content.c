@@ -617,6 +617,23 @@ mail_shell_content_reload (EMailReader *reader)
 }
 
 static void
+mail_shell_content_remove_ui (EMailReader *reader)
+{
+	EMailShellContent *mail_shell_content;
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	if (!mail_shell_content->priv->mail_view)
+		return;
+
+	/* Forward this to our internal EMailView, which
+	 * also implements the EMailReader interface. */
+	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
+
+	e_mail_reader_remove_ui (reader);
+}
+
+static void
 e_mail_shell_content_class_init (EMailShellContentClass *class)
 {
 	GObjectClass *object_class;
@@ -706,6 +723,7 @@ e_mail_shell_content_reader_init (EMailReaderInterface *iface)
 	iface->open_selected_mail = mail_shell_content_open_selected_mail;
 	iface->update_actions = mail_shell_content_update_actions;
 	iface->reload = mail_shell_content_reload;
+	iface->remove_ui = mail_shell_content_remove_ui;
 }
 
 static void

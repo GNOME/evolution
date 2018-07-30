@@ -3471,6 +3471,34 @@ mail_reader_reload (EMailReader *reader)
 }
 
 static void
+mail_reader_remove_ui (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+	GtkWindow *window;
+	GtkUIManager *ui_manager = NULL;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	if (!priv->main_menu_label_merge_id)
+		return;
+
+	window = e_mail_reader_get_window (reader);
+	g_return_if_fail (window != NULL);
+
+	if (E_IS_SHELL_WINDOW (window))
+		ui_manager = e_shell_window_get_ui_manager (E_SHELL_WINDOW (window));
+	else if (E_IS_MAIL_BROWSER (window))
+		ui_manager = e_mail_browser_get_ui_manager (E_MAIL_BROWSER (window));
+
+	g_return_if_fail (ui_manager != NULL);
+	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
+
+	gtk_ui_manager_remove_ui (ui_manager, priv->main_menu_label_merge_id);
+}
+
+static void
 mail_reader_message_loaded_cb (CamelFolder *folder,
                                GAsyncResult *result,
                                EMailReaderClosure *closure)
@@ -4737,6 +4765,7 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 	iface->update_actions = mail_reader_update_actions;
 	iface->close_on_delete_or_junk = mail_reader_close_on_delete_or_junk;
 	iface->reload = mail_reader_reload;
+	iface->remove_ui = mail_reader_remove_ui;
 
 	g_object_interface_install_property (
 		iface,
@@ -6345,4 +6374,17 @@ e_mail_reader_reload (EMailReader *reader)
 	g_return_if_fail (iface->reload != NULL);
 
 	iface->reload (reader);
+}
+
+void
+e_mail_reader_remove_ui (EMailReader *reader)
+{
+	EMailReaderInterface *iface;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	iface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_if_fail (iface->remove_ui != NULL);
+
+	iface->remove_ui (reader);
 }
