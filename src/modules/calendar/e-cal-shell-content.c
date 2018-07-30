@@ -2243,6 +2243,66 @@ cal_shell_content_update_model_filter (ECalDataModel *data_model,
 }
 
 void
+e_cal_shell_content_update_tasks_filter (ECalShellContent *cal_shell_content,
+					 const gchar *cal_filter)
+{
+	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
+
+	if (cal_shell_content->priv->task_table) {
+		ETaskTable *task_table;
+		ECalDataModel *data_model;
+		ECalModel *model;
+		gchar *hide_completed_tasks_sexp;
+		gboolean hide_cancelled_tasks;
+
+		/* Set the query on the task pad. */
+
+		task_table = E_TASK_TABLE (cal_shell_content->priv->task_table);
+		model = e_task_table_get_model (task_table);
+		data_model = e_cal_model_get_data_model (model);
+
+		hide_completed_tasks_sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE);
+		hide_cancelled_tasks = calendar_config_get_hide_cancelled_tasks ();
+
+		if (hide_completed_tasks_sexp != NULL) {
+			if (cal_filter && *cal_filter) {
+				gchar *filter;
+
+				filter = g_strdup_printf ("(and %s %s%s%s)", hide_completed_tasks_sexp,
+					hide_cancelled_tasks ? CALENDAR_CONFIG_NOT_CANCELLED_TASKS_SEXP : "",
+					hide_cancelled_tasks ? " " : "",
+					cal_filter);
+				cal_shell_content_update_model_filter (data_model, model, filter, 0, 0);
+				g_free (filter);
+			} else if (hide_cancelled_tasks) {
+				gchar *filter;
+
+				filter = g_strdup_printf ("(and %s %s)", hide_completed_tasks_sexp,
+					CALENDAR_CONFIG_NOT_CANCELLED_TASKS_SEXP);
+				cal_shell_content_update_model_filter (data_model, model, filter, 0, 0);
+				g_free (filter);
+			} else {
+				cal_shell_content_update_model_filter (data_model, model, hide_completed_tasks_sexp, 0, 0);
+			}
+		} else if (hide_cancelled_tasks) {
+			if (cal_filter && *cal_filter) {
+				gchar *filter;
+
+				filter = g_strdup_printf ("(and %s %s)", CALENDAR_CONFIG_NOT_CANCELLED_TASKS_SEXP, cal_filter);
+				cal_shell_content_update_model_filter (data_model, model, filter, 0, 0);
+				g_free (filter);
+			} else {
+				cal_shell_content_update_model_filter (data_model, model, CALENDAR_CONFIG_NOT_CANCELLED_TASKS_SEXP, 0, 0);
+			}
+		} else {
+			cal_shell_content_update_model_filter (data_model, model, (cal_filter && *cal_filter) ? cal_filter : "#t", 0, 0);
+		}
+
+		g_free (hide_completed_tasks_sexp);
+	}
+}
+
+void
 e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 				    const gchar *cal_filter,
 				    time_t start_range,
@@ -2260,35 +2320,7 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 
 	cal_shell_content_update_model_filter (data_model, model, cal_filter, start_range, end_range);
-
-	if (cal_shell_content->priv->task_table) {
-		ETaskTable *task_table;
-		gchar *hide_completed_tasks_sexp;
-
-		/* Set the query on the task pad. */
-
-		task_table = E_TASK_TABLE (cal_shell_content->priv->task_table);
-		model = e_task_table_get_model (task_table);
-		data_model = e_cal_model_get_data_model (model);
-
-		hide_completed_tasks_sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE);
-
-		if (hide_completed_tasks_sexp != NULL) {
-			if (*cal_filter) {
-				gchar *filter;
-
-				filter = g_strdup_printf ("(and %s %s)", hide_completed_tasks_sexp, cal_filter);
-				cal_shell_content_update_model_filter (data_model, model, filter, 0, 0);
-				g_free (filter);
-			} else {
-				cal_shell_content_update_model_filter (data_model, model, hide_completed_tasks_sexp, 0, 0);
-			}
-		} else {
-			cal_shell_content_update_model_filter (data_model, model, *cal_filter ? cal_filter : "#t", 0, 0);
-		}
-
-		g_free (hide_completed_tasks_sexp);
-	}
+	e_cal_shell_content_update_tasks_filter (cal_shell_content, cal_filter);
 
 	if (cal_shell_content->priv->memo_table) {
 		EMemoTable *memo_table;

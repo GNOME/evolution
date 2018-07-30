@@ -960,6 +960,13 @@ static GtkRadioActionEntry task_filter_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  TASK_FILTER_ANY_CATEGORY },
 
+	{ "task-filter-cancelled-tasks",
+	  NULL,
+	  N_("Cancelled Tasks"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_FILTER_CANCELLED_TASKS },
+
 	{ "task-filter-completed-tasks",
 	  NULL,
 	  N_("Completed Tasks"),

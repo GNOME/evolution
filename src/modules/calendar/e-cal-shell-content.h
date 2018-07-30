@@ -103,6 +103,8 @@ void		e_cal_shell_content_update_filters	(ECalShellContent *cal_shell_content,
 							 const gchar *cal_filter,
 							 time_t start_range,
 							 time_t end_range);
+void		e_cal_shell_content_update_tasks_filter	(ECalShellContent *cal_shell_content,
+							 const gchar *cal_filter);
 
 G_END_DECLS
 

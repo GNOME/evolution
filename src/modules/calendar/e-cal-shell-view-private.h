@@ -125,6 +125,15 @@ struct _ECalShellViewPrivate {
 	gpointer transfer_alert; /* weak pointer to EAlert * */
 
         GFileMonitor *monitors[CHECK_NB];
+
+	/* org.gnome.evolution.calendar */
+	GSettings *settings;
+	GHashTable *old_settings;
+	gulong settings_hide_completed_tasks_handler_id;
+	gulong settings_hide_completed_tasks_units_handler_id;
+	gulong settings_hide_completed_tasks_value_handler_id;
+	gulong settings_hide_cancelled_tasks_handler_id;
+
 };
 
 void		e_cal_shell_view_private_init

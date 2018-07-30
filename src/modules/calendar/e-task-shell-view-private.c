@@ -88,6 +88,28 @@ task_shell_view_hide_completed_tasks_changed_cb (GSettings *settings,
 }
 
 static void
+task_shell_view_hide_cancelled_tasks_changed_cb (GSettings *settings,
+                                                 const gchar *key,
+                                                 ETaskShellView *task_shell_view)
+{
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (task_shell_view->priv->old_settings, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (task_shell_view->priv->old_settings, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (task_shell_view->priv->old_settings, key);
+
+		e_shell_view_execute_search (E_SHELL_VIEW (task_shell_view));
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
+}
+
+static void
 task_shell_view_table_open_component_cb (ETaskShellView *task_shell_view,
 					 ECalModelComponent *comp_data)
 {
@@ -331,6 +353,13 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		task_shell_view);
 	priv->settings_hide_completed_tasks_value_handler_id = handler_id;
 
+	/* Hide/show cancelled tasks */
+	handler_id = g_signal_connect (
+		priv->settings, "changed::hide-cancelled-tasks",
+		G_CALLBACK (task_shell_view_hide_cancelled_tasks_changed_cb),
+		task_shell_view);
+	priv->settings_hide_cancelled_tasks_handler_id = handler_id;
+
 	e_task_shell_view_actions_init (task_shell_view);
 	e_task_shell_view_update_sidebar (task_shell_view);
 	e_task_shell_view_update_search_filter (task_shell_view);
@@ -447,6 +476,13 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 		priv->settings_hide_completed_tasks_value_handler_id = 0;
 	}
 
+	if (priv->settings_hide_cancelled_tasks_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->settings,
+			priv->settings_hide_cancelled_tasks_handler_id);
+		priv->settings_hide_cancelled_tasks_handler_id = 0;
+	}
+
 	g_clear_object (&priv->task_shell_backend);
 	g_clear_object (&priv->task_shell_content);
 	g_clear_object (&priv->task_shell_sidebar);
@@ -475,7 +511,6 @@ e_task_shell_view_private_finalize (ETaskShellView *task_shell_view)
 		g_hash_table_destroy (task_shell_view->priv->old_settings);
 		task_shell_view->priv->old_settings = NULL;
 	}
-
 }
 
 void

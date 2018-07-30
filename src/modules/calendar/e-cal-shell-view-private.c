@@ -161,9 +161,48 @@ cal_shell_view_notify_view_id_cb (EShellView *shell_view)
 	gal_view_instance_set_current_view_id (view_instance, view_id);
 }
 
+static void
+cal_shell_view_taskpad_settings_changed_cb (GSettings *settings,
+					    const gchar *key,
+					    ECalShellView *cal_shell_view)
+{
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (cal_shell_view->priv->old_settings, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (cal_shell_view->priv->old_settings, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (cal_shell_view->priv->old_settings, key);
+
+		if ((g_strcmp0 (key, "hide-completed-tasks-units") == 0 ||
+		    g_strcmp0 (key, "hide-completed-tasks-value") == 0) &&
+		    !calendar_config_get_hide_completed_tasks ())
+			return;
+
+		if (cal_shell_view->priv->cal_shell_content) {
+			ECalModel *model;
+			gchar *cal_filter;
+
+			model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_view->priv->cal_shell_content));
+			cal_filter = e_cal_data_model_dup_filter (e_cal_model_get_data_model (model));
+
+			e_cal_shell_content_update_tasks_filter (cal_shell_view->priv->cal_shell_content, cal_filter);
+
+			g_free (cal_filter);
+		}
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
+}
+
 void
 e_cal_shell_view_private_init (ECalShellView *cal_shell_view)
 {
+	cal_shell_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+
 	e_signal_connect_notify (
 		cal_shell_view, "notify::view-id",
 		G_CALLBACK (cal_shell_view_notify_view_id_cb), NULL);
@@ -342,6 +381,20 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		e_calendar_get_item (calendar), (ECalendarItemGetTimeCallback)
 		cal_shell_view_get_current_time, cal_shell_view, NULL);
 
+	priv->settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+	priv->settings_hide_completed_tasks_handler_id =
+		g_signal_connect (priv->settings, "changed::hide-completed-tasks",
+		G_CALLBACK (cal_shell_view_taskpad_settings_changed_cb), cal_shell_view);
+	priv->settings_hide_completed_tasks_units_handler_id =
+		g_signal_connect (priv->settings, "changed::hide-completed-tasks-units",
+		G_CALLBACK (cal_shell_view_taskpad_settings_changed_cb), cal_shell_view);
+	priv->settings_hide_completed_tasks_value_handler_id =
+		g_signal_connect (priv->settings, "changed::hide-completed-tasks-value",
+		G_CALLBACK (cal_shell_view_taskpad_settings_changed_cb), cal_shell_view);
+	priv->settings_hide_cancelled_tasks_handler_id =
+		g_signal_connect (priv->settings, "changed::hide-cancelled-tasks",
+		G_CALLBACK (cal_shell_view_taskpad_settings_changed_cb), cal_shell_view);
+
 	init_timezone_monitors (cal_shell_view);
 	e_cal_shell_view_actions_init (cal_shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
@@ -410,6 +463,34 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 		priv->task_table_selection_change_handler_id = 0;
 	}
 
+	if (priv->settings_hide_completed_tasks_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->settings,
+			priv->settings_hide_completed_tasks_handler_id);
+		priv->settings_hide_completed_tasks_handler_id = 0;
+	}
+
+	if (priv->settings_hide_completed_tasks_units_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->settings,
+			priv->settings_hide_completed_tasks_units_handler_id);
+		priv->settings_hide_completed_tasks_units_handler_id = 0;
+	}
+
+	if (priv->settings_hide_completed_tasks_value_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->settings,
+			priv->settings_hide_completed_tasks_value_handler_id);
+		priv->settings_hide_completed_tasks_value_handler_id = 0;
+	}
+
+	if (priv->settings_hide_cancelled_tasks_handler_id > 0) {
+		g_signal_handler_disconnect (
+			priv->settings,
+			priv->settings_hide_cancelled_tasks_handler_id);
+		priv->settings_hide_cancelled_tasks_handler_id = 0;
+	}
+
 	for (ii = 0; ii < E_CAL_VIEW_KIND_LAST; ii++) {
 		if (priv->views[ii].popup_event_handler_id > 0) {
 			g_signal_handler_disconnect (
@@ -436,6 +517,7 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	g_clear_object (&priv->client_cache);
 	g_clear_object (&priv->model);
 	g_clear_object (&priv->selector);
+	g_clear_object (&priv->settings);
 	g_clear_object (&priv->memo_table);
 	g_clear_object (&priv->task_table);
 
@@ -446,7 +528,10 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 void
 e_cal_shell_view_private_finalize (ECalShellView *cal_shell_view)
 {
-	/* XXX Nothing to do? */
+	if (cal_shell_view->priv->old_settings) {
+		g_hash_table_destroy (cal_shell_view->priv->old_settings);
+		cal_shell_view->priv->old_settings = NULL;
+	}
 }
 
 void

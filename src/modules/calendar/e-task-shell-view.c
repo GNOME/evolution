@@ -178,6 +178,13 @@ task_shell_view_execute_search (EShellView *shell_view)
 			query = temp;
 			break;
 
+		case TASK_FILTER_CANCELLED_TASKS:
+			temp = g_strdup_printf (
+				"(and " CALENDAR_CONFIG_CANCELLED_TASKS_SEXP " %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
 		case TASK_FILTER_COMPLETED_TASKS:
 			temp = g_strdup_printf (
 				"(and (is-completed?) %s)", query);
@@ -209,6 +216,13 @@ task_shell_view_execute_search (EShellView *shell_view)
 			g_list_free_full (categories, g_free);
 			break;
 		}
+	}
+
+	if (value != TASK_FILTER_CANCELLED_TASKS &&
+	    calendar_config_get_hide_cancelled_tasks ()) {
+		temp = g_strdup_printf ("(and " CALENDAR_CONFIG_NOT_CANCELLED_TASKS_SEXP " %s)", query);
+		g_free (query);
+		query = temp;
 	}
 
 	/* Honor the user's preference to hide completed tasks. */

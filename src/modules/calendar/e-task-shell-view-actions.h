@@ -84,6 +84,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-active-tasks")
 #define E_SHELL_WINDOW_ACTION_TASK_FILTER_ANY_CATEGORY(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-any-category")
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_CANCELLED_TASKS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-cancelled-tasks")
 #define E_SHELL_WINDOW_ACTION_TASK_FILTER_COMPLETED_TASKS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-filter-completed-tasks")
 #define E_SHELL_WINDOW_ACTION_TASK_FILTER_NEXT_7_DAYS_TASKS(window) \

@@ -271,6 +271,14 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 	return sexp;
 }
 
+gboolean
+calendar_config_get_hide_cancelled_tasks (void)
+{
+	calendar_config_init ();
+
+	return g_settings_get_boolean (config, "hide-cancelled-tasks");
+}
+
 void
 calendar_config_set_dir_path (const gchar *path)
 {

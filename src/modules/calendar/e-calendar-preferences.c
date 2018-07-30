@@ -1070,6 +1070,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "sensitive",
 		G_SETTINGS_BIND_GET);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "tasks_hide_cancelled");
+	g_settings_bind (
+		settings, "hide-cancelled-tasks",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "to_do_bar_show_no_duedate_tasks");
 	g_settings_bind (
 		mail_settings, "to-do-bar-show-no-duedate-tasks",

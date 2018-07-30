@@ -56,12 +56,13 @@ G_BEGIN_DECLS
 /* Filter items are displayed in ascending order.
  * Non-negative values are reserved for categories. */
 enum {
-	TASK_FILTER_ANY_CATEGORY = -7,
-	TASK_FILTER_UNMATCHED = -6,
-	TASK_FILTER_NEXT_7_DAYS_TASKS = -5,
-	TASK_FILTER_ACTIVE_TASKS = -4,
-	TASK_FILTER_OVERDUE_TASKS = -3,
-	TASK_FILTER_COMPLETED_TASKS = -2,
+	TASK_FILTER_ANY_CATEGORY = -8,
+	TASK_FILTER_UNMATCHED = -7,
+	TASK_FILTER_NEXT_7_DAYS_TASKS = -6,
+	TASK_FILTER_ACTIVE_TASKS = -5,
+	TASK_FILTER_OVERDUE_TASKS = -4,
+	TASK_FILTER_COMPLETED_TASKS = -3,
+	TASK_FILTER_CANCELLED_TASKS = -2,
 	TASK_FILTER_TASKS_WITH_ATTACHMENTS = -1
 };
 
@@ -104,6 +105,7 @@ struct _ETaskShellViewPrivate {
 	gulong settings_hide_completed_tasks_handler_id;
 	gulong settings_hide_completed_tasks_units_handler_id;
 	gulong settings_hide_completed_tasks_value_handler_id;
+	gulong settings_hide_cancelled_tasks_handler_id;
 
 	guint update_timeout;
 	guint update_completed_timeout;

@@ -33,6 +33,9 @@
 
 #include <e-util/e-util.h>
 
+#define CALENDAR_CONFIG_CANCELLED_TASKS_SEXP "(contains? \"status\" \"CANCELLED\")"
+#define CALENDAR_CONFIG_NOT_CANCELLED_TASKS_SEXP "(not " CALENDAR_CONFIG_CANCELLED_TASKS_SEXP ")"
+
 typedef void (* CalendarConfigChangedFunc) (GSettings *settings,
 					    const gchar *key,
 					    gpointer user_data);
@@ -53,6 +56,9 @@ gboolean  calendar_config_get_24_hour_format	(void);
 gboolean  calendar_config_get_hide_completed_tasks	(void);
 
 gchar *	  calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed);
+
+gboolean  calendar_config_get_hide_cancelled_tasks	(void);
+
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
  * supports 12-hour time format. */
