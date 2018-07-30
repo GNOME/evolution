@@ -1,3 +1,16 @@
+Evolution 3.28.5 2018-07-30
+---------------------------
+
+Bug Fixes:
+	I#71 - Workaround cursor movement through unbreakable anchor bug (Milan Crha)
+	I#75 - "Empty Junk" does not work on a real Junk folder (Milan Crha)
+	I#78 - Search scope in Mail view not restored properly (Milan Crha)
+	I#57 - Edited event time keeps the old instance in the UI (Milan Crha)
+
+Miscellaneous:
+	[Mail-Notification] Remove unused code (reported by David Binderman) (Milan Crha)
+	Highlight of the search bar entry doesn't work (Milan Crha)
+
 Evolution 3.28.4 2018-07-16
 ---------------------------
 
