@@ -5,28 +5,28 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011, 2012.
 #
 # Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>, 2016.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2016, 2017.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2016, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-16 08:34+0000\n"
-"PO-Revision-Date: 2017-12-20 15:18+0100\n"
+"POT-Creation-Date: 2018-07-25 11:55+0000\n"
+"PO-Revision-Date: 2018-07-31 11:37+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2017\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2018\n"
 "Yolanda Álvarez Pérez <yolandaa.alvarez.perez@gmail.com>, 2016\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
@@ -1071,39 +1071,34 @@ msgstr ""
 #. (itstool) path: item/p
 #. (itstool) path: td/p
 #: C/calendar-layout-views.page:33 C/intro-keyboard-shortcuts.page:286
-#, fuzzy
 msgid "Day View"
-msgstr "Ver:"
+msgstr "Vista diaria"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
 #: C/calendar-layout-views.page:36 C/intro-keyboard-shortcuts.page:292
-#, fuzzy
 #| msgid "Work Week"
 msgid "Work Week View"
-msgstr "Semana laboral"
+msgstr "Vista de semana laboral"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
 #: C/calendar-layout-views.page:39 C/intro-keyboard-shortcuts.page:298
-#, fuzzy
 msgid "Week View"
-msgstr "Ver:"
+msgstr "Vista semanal"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
 #: C/calendar-layout-views.page:42 C/intro-keyboard-shortcuts.page:304
-#, fuzzy
 #| msgid "Month pane"
 msgid "Month View"
-msgstr "Panel del mes"
+msgstr "Vista mensual"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
 #: C/calendar-layout-views.page:45 C/intro-keyboard-shortcuts.page:310
-#, fuzzy
 msgid "List View"
-msgstr "Ver:"
+msgstr "Vista de lista"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:49
@@ -3297,7 +3292,6 @@ msgstr ""
 
 #. (itstool) path: when/p
 #: C/default-browser.page:72
-#, fuzzy
 #| msgid ""
 #| "<link action=\"install:gvfs\" href=\"http://ftp.gnome.org/pub/gnome/"
 #| "sources/gvfs/\" style=\"button\">Install gvfs</link>"
@@ -3305,7 +3299,7 @@ msgid ""
 "<link action=\"install:gvfs\" href=\"https://ftp.gnome.org/pub/gnome/sources/"
 "gvfs/\" style=\"button\">Install gvfs</link>"
 msgstr ""
-"<link action=\"install:gvfs\" href=\"http://ftp.gnome.org/pub/gnome/sources/"
+"<link action=\"install:gvfs\" href=\"https://ftp.gnome.org/pub/gnome/sources/"
 "gvfs/\" style=\"button\">Instalar gvfs</link>"
 
 #. (itstool) path: section/title
@@ -4140,7 +4134,6 @@ msgstr "Correo y calendario de <app>Evolution</app>"
 
 #. (itstool) path: page/title
 #: C/index.page:23
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"figures/evolutionlogo.png\"> Evolution logo </"
 #| "media> Evolution Mail and Calendar"
@@ -4149,8 +4142,9 @@ msgid ""
 "\"> <span its:translate=\"yes\">Evolution logo</span> </media> "
 "<app>Evolution</app> Mail and Calendar"
 msgstr ""
-"<media type=\"image\" src=\"figures/evolutionlogo.png\">Logotipo de "
-"Evolution</media> Correo y calendario de Evolution"
+"<media type=\"image\" its:translate=\"no\" src=\"figures/evolutionlogo.png"
+"\"> <span its:translate=\"yes\">Logotipo de Evolution</media> Correo y "
+"calendario de <app>Evolution</app>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -4722,7 +4716,7 @@ msgstr "Atajos de teclado que le pueden ahorrar tiempo."
 #. (itstool) path: credit/name
 #: C/intro-keyboard-shortcuts.page:10
 msgid "Raniere Silva"
-msgstr ""
+msgstr "Raniere Silva"
 
 #. (itstool) path: page/title
 #. (itstool) path: td/p
@@ -5168,7 +5162,7 @@ msgstr "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:274
 msgid "Go to today."
-msgstr ""
+msgstr "Ir a hoy."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:277
@@ -5178,21 +5172,19 @@ msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:280
 msgid "Go to date."
-msgstr ""
+msgstr "Ir a la fecha."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:289
-#, fuzzy
 #| msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:301
-#, fuzzy
 #| msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
 msgid "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:319
@@ -5303,7 +5295,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:44
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png"
 #| "\" width=\"10\"/> Menu bar"
@@ -5311,8 +5302,8 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
 "figures/color-c4a000.png\" width=\"10\"/> Menu bar"
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-c4a000.png\" "
-"width=\"10\"/> Barra de menú"
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-c4a000.png\" width=\"10\"/> Barra de menú"
 
 #. (itstool) path: p/media
 #. This is a reference to an external file such as an image or video. When
@@ -5331,7 +5322,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:47
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png"
 #| "\" width=\"10\"/> Tool bar"
@@ -5339,8 +5329,8 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
 "figures/color-ce5c00.png\" width=\"10\"/> Tool bar"
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
-"width=\"10\"/> Barra de herramientas"
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-ce5c00.png\" width=\"10\"/> Barra de herramientas"
 
 #. (itstool) path: p/media
 #. This is a reference to an external file such as an image or video. When
@@ -5359,7 +5349,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:50
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png"
 #| "\" width=\"10\"/> Folder list"
@@ -5367,8 +5356,8 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
 "figures/color-8f5902.png\" width=\"10\"/> Folder list"
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-8f5902.png\" "
-"width=\"10\"/> Lista de carpetas"
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-8f5902.png\" width=\"10\"/> Lista de carpetas"
 
 #. (itstool) path: p/media
 #. This is a reference to an external file such as an image or video. When
@@ -5387,7 +5376,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:51
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png"
 #| "\" width=\"10\"/> Search bar"
@@ -5395,8 +5383,8 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
 "figures/color-4e9a06.png\" width=\"10\"/> Search bar"
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-4e9a06.png\" "
-"width=\"10\"/> Barra de búsqueda"
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-4e9a06.png\" width=\"10\"/> Barra de búsqueda"
 
 #. (itstool) path: p/media
 #. This is a reference to an external file such as an image or video. When
@@ -5415,7 +5403,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:54
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png"
 #| "\" width=\"10\"/> Message list"
@@ -5423,8 +5410,8 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
 "figures/color-204a87.png\" width=\"10\"/> Message list"
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-204a87.png\" "
-"width=\"10\"/> Lista de mensajes"
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-204a87.png\" width=\"10\"/> Lista de mensajes"
 
 #. (itstool) path: p/media
 #. This is a reference to an external file such as an image or video. When
@@ -5443,7 +5430,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:55
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png"
 #| "\" width=\"10\"/> Tool bar"
@@ -5451,8 +5437,8 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
 "figures/color-a40000.png\" width=\"10\"/> To Do bar"
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-ce5c00.png\" "
-"width=\"10\"/> Barra de herramientas"
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-a40000.png\" width=\"10\"/> Barra de herramientas"
 
 #. (itstool) path: p/media
 #. This is a reference to an external file such as an image or video. When
@@ -5470,7 +5456,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:58
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png"
 #| "\" width=\"10\"/> Preview pane"
@@ -5478,12 +5463,11 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
 "figures/color-5c3566.png\" width=\"10\"/> Preview pane"
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-5c3566.png\" "
-"width=\"10\"/> Panel de vista previa"
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-5c3566.png\" width=\"10\"/> Panel de vista previa"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:61
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png"
 #| "\" width=\"10\"/> Switcher"
@@ -5491,8 +5475,8 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
 "figures/color-a40000.png\" width=\"10\"/> Switcher"
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-a40000.png\" "
-"width=\"10\"/> Selector"
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-a40000.png\" width=\"10\"/> Selector"
 
 #. (itstool) path: p/media
 #. This is a reference to an external file such as an image or video. When
@@ -5511,7 +5495,6 @@ msgstr ""
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:64
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png"
 #| "\" width=\"10\"/> Status bar"
@@ -5519,8 +5502,8 @@ msgid ""
 "<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
 "figures/color-2e3436.png\" width=\"10\"/> Status bar"
 msgstr ""
-"<media type=\"image\" mime=\"image/png\" src=\"./figures/color-2e3436.png\" "
-"width=\"10\"/> Barra de estado"
+"<media type=\"image\" mime=\"image/png\" its:translate=\"no\" src=\"./"
+"figures/color-2e3436.png\" width=\"10\"/> Barra de estado"
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:70
@@ -5660,7 +5643,6 @@ msgstr "Elementos en la ventana principal del calendario:"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:102 C/intro-main-window.page:148
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
 #| "Menu bar"
@@ -5668,12 +5650,11 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-c4a000.png"
 "\" width=\"10\"/> Menu bar"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-c4a000.png\" width=\"10\"/> "
-"Barra de menú"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-c4a000.png"
+"\" width=\"10\"/> Barra de menú"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:105 C/intro-main-window.page:151
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
 #| "Tool bar"
@@ -5681,12 +5662,11 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-ce5c00.png"
 "\" width=\"10\"/> Tool bar"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-ce5c00.png\" width=\"10\"/> "
-"Barra de herramientas"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-ce5c00.png"
+"\" width=\"10\"/> Barra de herramientas"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:108
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 #| "Calendar list"
@@ -5694,12 +5674,11 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-8f5902.png"
 "\" width=\"10\"/> Calendar list"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-"Lista de calendarios"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-8f5902.png"
+"\" width=\"10\"/> Lista de calendarios"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:109 C/intro-main-window.page:155
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
 #| "Search bar"
@@ -5707,12 +5686,11 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-4e9a06.png"
 "\" width=\"10\"/> Search bar"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-4e9a06.png\" width=\"10\"/> "
-"Barra de búsqueda"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-4e9a06.png"
+"\" width=\"10\"/> Barra de búsqueda"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:112
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
 #| "Appointment list"
@@ -5720,8 +5698,8 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-204a87.png"
 "\" width=\"10\"/> Appointment list"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
-"Lista de citas"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-204a87.png"
+"\" width=\"10\"/> Lista de citas"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:113
@@ -5740,7 +5718,6 @@ msgstr "Lista de notas"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:120 C/intro-main-window.page:161
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
 #| "Switcher"
@@ -5748,12 +5725,11 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-a40000.png"
 "\" width=\"10\"/> Switcher"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-a40000.png\" width=\"10\"/> "
-"Selector"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-a40000.png"
+"\" width=\"10\"/> Selector"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:123 C/intro-main-window.page:165
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
 #| "Status bar"
@@ -5761,8 +5737,8 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-2e3436.png"
 "\" width=\"10\"/> Status bar"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-2e3436.png\" width=\"10\"/> "
-"Barra de estado"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-2e3436.png"
+"\" width=\"10\"/> Barra de estado"
 
 #. (itstool) path: item/title
 #: C/intro-main-window.page:128
@@ -5819,7 +5795,6 @@ msgstr "Elementos en la ventana principal de contactos:"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:154
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
 #| "Address book list"
@@ -5827,12 +5802,11 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-8f5902.png"
 "\" width=\"10\"/> Address book list"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-8f5902.png\" width=\"10\"/> "
-"Lista de libretas de direcciones"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-8f5902.png"
+"\" width=\"10\"/> Lista de libretas de direcciones"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:158
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
 #| "Contacts list"
@@ -5840,12 +5814,11 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-204a87.png"
 "\" width=\"10\"/> Contacts list"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-204a87.png\" width=\"10\"/> "
-"Lista de contactos"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-204a87.png"
+"\" width=\"10\"/> Lista de contactos"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:162
-#, fuzzy
 #| msgid ""
 #| "<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
 #| "Contact preview"
@@ -5853,8 +5826,8 @@ msgid ""
 "<media type=\"image\" its:translate=\"no\" src=\"./figures/color-5c3566.png"
 "\" width=\"10\"/> Contact preview"
 msgstr ""
-"<media type=\"image\" src=\"./figures/color-5c3566.png\" width=\"10\"/> "
-"Vista previa del contacto"
+"<media type=\"image\" its:translate=\"no\" src=\"./figures/color-5c3566.png"
+"\" width=\"10\"/> Vista previa del contacto"
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:168
@@ -7244,7 +7217,6 @@ msgstr ""
 
 #. (itstool) path: when/p
 #: C/mail-composer-change-quotation-string.page:30
-#, fuzzy
 #| msgid ""
 #| "<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/"
 #| "gnome/sources/dconf/\" style=\"button\">Install dconf-editor</link>"
@@ -7252,7 +7224,7 @@ msgid ""
 "<link action=\"install:dconf-editor\" href=\"https://ftp.gnome.org/pub/gnome/"
 "sources/dconf/\" style=\"button\">Install dconf-editor</link>"
 msgstr ""
-"<link action=\"install:dconf-editor\" href=\"http://ftp.gnome.org/pub/gnome/"
+"<link action=\"install:dconf-editor\" href=\"https://ftp.gnome.org/pub/gnome/"
 "sources/dconf/\" style=\"button\">Instalar dconf-editor</link>"
 
 #. (itstool) path: page/p
@@ -7297,105 +7269,105 @@ msgstr "Están disponibles los siguientes marcadores de posición:"
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:49
 msgid "<code its:translate=\"no\">{Sender}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{Sender}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:50
 msgid "<code its:translate=\"no\">{SenderName}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{SenderName}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:51
 msgid "<code its:translate=\"no\">{SenderEMail}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{SenderEMail}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:52
 msgid "<code its:translate=\"no\">{AbbrevWeekdayName}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{AbbrevWeekdayName}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:53
 msgid "<code its:translate=\"no\">{WeekdayName}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{WeekdayName}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:54
 msgid "<code its:translate=\"no\">{AbbrevMonthName}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{AbbrevMonthName}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:55
 msgid "<code its:translate=\"no\">{MonthName}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{MonthName}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:56
 msgid "<code its:translate=\"no\">{Day}</code> (format: 01-31)"
-msgstr ""
+msgstr "<code its:translate=\"no\">{Day}</code> (formato: 01-31)"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:57
 msgid "<code its:translate=\"no\">{ Day}</code> (format: 1-31)"
-msgstr ""
+msgstr "<code its:translate=\"no\">{ Day}</code> (formato: 1-31)"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:58
 msgid "<code its:translate=\"no\">{24Hour}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{24Hour}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:59
 msgid "<code its:translate=\"no\">{12Hour}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{12Hour}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:60
 msgid "<code its:translate=\"no\">{AmPmUpper}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{AmPmUpper}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:61
 msgid "<code its:translate=\"no\">{AmPmLower}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{AmPmLower}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:62
 msgid "<code its:translate=\"no\">{DayOfYear}</code> (format: 1-366)"
-msgstr ""
+msgstr "<code its:translate=\"no\">{DayOfYear}</code> (formato: 1-366)"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:63
 msgid "<code its:translate=\"no\">{Month}</code> (format: 01-12)"
-msgstr ""
+msgstr "<code its:translate=\"no\">{Month}</code> (formato: 01-12)"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:64
 msgid "<code its:translate=\"no\">{Minute}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{Minute}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:65
 msgid "<code its:translate=\"no\">{Seconds}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{Seconds}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:66
-#, fuzzy
 #| msgid "<_:code-1/> (e.g. 15 for the year 2015)"
 msgid ""
 "<code its:translate=\"no\">{2DigitYear}</code> (e.g. 15 for the year 2015)"
-msgstr "<_:code-1/> (ej. 15 para el año 2015)"
+msgstr ""
+"<code its:translate=\"no\">{2DigitYear}</code> (ej. 15 para el año 2015)"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:67
 msgid "<code its:translate=\"no\">{Year}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{Year}</code>"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:68
 msgid "<code its:translate=\"no\">{TimeZone}</code>"
-msgstr ""
+msgstr "<code its:translate=\"no\">{TimeZone}</code>"
 
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
@@ -7830,7 +7802,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-image.page:30
-#, fuzzy
 #| msgid ""
 #| "Alternately, you can also use the <_:media-1/> icon in the second bar "
 #| "below the <gui>Subject</gui> line, or drag an image into the text area of "
@@ -7841,9 +7812,10 @@ msgid ""
 "below the <gui>Subject</gui> line, or drag an image into the text area of "
 "the message composer."
 msgstr ""
-"Alternativamente, puede usar el icono <_:media-1/> en la segunda barra, "
-"debajo de la línea del <gui>Asunto</gui>, o arrastrar una imagen en el área "
-"de texto del editor de mensajes."
+"Alternativamente, puede usar el icono <media type=\"image\" its:translate="
+"\"no\" src=\"./figures/html-composer-insert-image.png\"/> en la segunda "
+"barra, debajo de la línea del <gui>Asunto</gui>, o arrastrar una imagen en "
+"el área de texto del editor de mensajes."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-link.page:5
@@ -7898,7 +7870,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-link.page:32
-#, fuzzy
 #| msgid ""
 #| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
 #| "html-composer-insert-rule.png\"/> icon in the second bar below the "
@@ -7908,9 +7879,9 @@ msgid ""
 "src=\"./figures/html-composer-insert-link.png\"/> icon in the second bar "
 "below the <gui>Subject</gui> line."
 msgstr ""
-"Alternativamente, también puede usar el icono <media type=\"image\" src=\"./"
-"figures/html-composer-insert-rule.png\"/> en la segunda barra de debajo de "
-"la línea del <gui>Asunto</gui>."
+"Alternativamente, también puede usar el icono <media type=\"image\" its:"
+"translate=\"no\" src=\"./figures/html-composer-insert-link.png\"/> en la "
+"segunda barra de debajo de la línea del <gui>Asunto</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-link.page:34
@@ -8042,7 +8013,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-rule.page:31
-#, fuzzy
 #| msgid ""
 #| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
 #| "html-composer-insert-rule.png\"/> icon in the second bar below the "
@@ -8052,9 +8022,9 @@ msgid ""
 "src=\"./figures/html-composer-insert-rule.png\"/> icon in the second bar "
 "below the <gui>Subject</gui> line."
 msgstr ""
-"Alternativamente, también puede usar el icono <media type=\"image\" src=\"./"
-"figures/html-composer-insert-rule.png\"/> en la segunda barra de debajo de "
-"la línea del <gui>Asunto</gui>."
+"Alternativamente, también puede usar el icono <media type=\"image\" its:"
+"translate=\"no\" src=\"./figures/html-composer-insert-rule.png\"/> en la "
+"segunda barra de debajo de la línea del <gui>Asunto</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-table.page:5
@@ -8113,7 +8083,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-table.page:32
-#, fuzzy
 #| msgid ""
 #| "Alternately, you can also use the <media type=\"image\" src=\"./figures/"
 #| "html-composer-insert-table.png\"/> icon in the second bar below the "
@@ -8123,9 +8092,9 @@ msgid ""
 "src=\"./figures/html-composer-insert-table.png\"/> icon in the second bar "
 "below the <gui>Subject</gui> line."
 msgstr ""
-"Alternativamente, también puede usar el icono <media type=\"image\" src=\"./"
-"figures/html-composer-insert-table.png\"/> en la segunda barra de debajo de "
-"la línea del <gui>Asunto</gui>."
+"Alternativamente, también puede usar el icono <media type=\"image\" its:"
+"translate=\"no\" src=\"./figures/html-composer-insert-table.png\"/> en la "
+"segunda barra de debajo de la línea del <gui>Asunto</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-text.page:5
@@ -11116,12 +11085,12 @@ msgid "Using flags to remind you of actions."
 msgstr "Usar marcadores para recordarle acciones."
 
 #. (itstool) path: page/title
-#: C/mail-follow-up-flag.page:23
+#: C/mail-follow-up-flag.page:22
 msgid "Follow up flags for emails"
 msgstr "Marcas para seguimiento de correos"
 
 #. (itstool) path: page/p
-#: C/mail-follow-up-flag.page:25
+#: C/mail-follow-up-flag.page:24
 msgid ""
 "To make sure you do not forget about a message, you can use the follow-up "
 "feature."
@@ -11130,22 +11099,22 @@ msgstr ""
 "característica Marca de seguimiento."
 
 #. (itstool) path: item/p
-#: C/mail-follow-up-flag.page:27
+#: C/mail-follow-up-flag.page:26
 msgid "Select one or more messages."
 msgstr "Seleccione uno o más mensajes."
 
 #. (itstool) path: item/p
-#: C/mail-follow-up-flag.page:28
+#: C/mail-follow-up-flag.page:27
 msgid "Right-click one of the messages."
 msgstr "Pulse con el botón derecho sobre uno de los mensajes."
 
 #. (itstool) path: item/p
-#: C/mail-follow-up-flag.page:29
+#: C/mail-follow-up-flag.page:28
 msgid "Click <gui>Mark for Follow Up…</gui>."
 msgstr "Pulse <gui>Marca para seguimiento…</gui>."
 
 #. (itstool) path: page/p
-#: C/mail-follow-up-flag.page:31
+#: C/mail-follow-up-flag.page:30
 msgid ""
 "You can also do this by selecting the message(s) and clicking "
 "<guiseq><gui>Message</gui><gui>Mark as</gui><gui>Follow Up…</gui></guiseq> "
@@ -11157,14 +11126,14 @@ msgstr ""
 "keyseq>."
 
 #. (itstool) path: page/p
-#: C/mail-follow-up-flag.page:33
+#: C/mail-follow-up-flag.page:32
 msgid "A window opens to allow you to set the type of flag and the due date."
 msgstr ""
 "Se abrirá una ventana para permitirle establecer el tipo de marca y la fecha "
 "de vencimiento."
 
 #. (itstool) path: page/p
-#: C/mail-follow-up-flag.page:35
+#: C/mail-follow-up-flag.page:34
 msgid ""
 "The flag itself is the action you want to remind yourself about, such as "
 "Call, Forward and Reply."
@@ -11173,7 +11142,7 @@ msgstr ""
 "Llamar, Reenviar y Responder."
 
 #. (itstool) path: page/p
-#: C/mail-follow-up-flag.page:37
+#: C/mail-follow-up-flag.page:36
 msgid ""
 "After you have added a flag, you can mark it as complete or remove it "
 "entirely by right-clicking the message and clicking either <gui>Flag "
@@ -11184,7 +11153,7 @@ msgstr ""
 "eligiendo <gui>Marcar como terminado</gui> o <gui>Quitar marca</gui>."
 
 #. (itstool) path: page/p
-#: C/mail-follow-up-flag.page:39
+#: C/mail-follow-up-flag.page:38
 msgid ""
 "When you read a flagged message, its flag status is displayed at the top, "
 "before the message headers. An overdue message might tell you \"Overdue: "
@@ -11196,7 +11165,7 @@ msgstr ""
 "abril de 2003 a las 17:00»."
 
 #. (itstool) path: page/p
-#: C/mail-follow-up-flag.page:41
+#: C/mail-follow-up-flag.page:40
 msgid ""
 "Flags can help you organize your work in a number of ways. For example, you "
 "might <link xref=\"mail-change-columns-in-message-list\">add a Flag Status "
@@ -11214,7 +11183,7 @@ msgstr ""
 "carpeta sólo contenga mensajes pendientes."
 
 #. (itstool) path: note/p
-#: C/mail-follow-up-flag.page:43
+#: C/mail-follow-up-flag.page:42
 msgid ""
 "If you prefer a simpler way to remind yourself about messages, you can mark "
 "them as important by right-clicking the message, then click <gui>Mark as "
@@ -11340,34 +11309,40 @@ msgstr ""
 
 # index.docbook:41, index.docbook:293
 #. (itstool) path: section/title
-#: C/mail-labels.page:29
+#: C/mail-labels.page:28
 msgid "Adding a label to a message"
 msgstr "Añadir una etiqueta a un correo"
 
 #. (itstool) path: section/p
-#: C/mail-labels.page:30
+#: C/mail-labels.page:29
+#, fuzzy
+#| msgid ""
+#| "To assign a label to a message, right-click the message, click "
+#| "<gui>Label</gui>, and choose the label to apply."
 msgid ""
-"To assign a label to a message, right-click the message, click <gui>Label</"
-"gui>, and choose the label to apply."
+"To assign a label to a message, either choose <guiseq><gui>Message</"
+"gui><gui>Mark As</gui><gui>Label</gui></guiseq> and choose the label to "
+"apply, or right-click the message, click <gui>Label</gui>, and choose the "
+"label to apply."
 msgstr ""
 "Para asignar una etiqueta a un mensaje, pulse con el botón derecho del ratón "
 "sobre el mensaje, seleccione <gui>Etiqueta</gui> y elija la etiqueta que "
 "quiere aplicar."
 
 #. (itstool) path: section/p
-#: C/mail-labels.page:31
+#: C/mail-labels.page:30
 msgid "You can also quickly add a new label by choosing <gui>New Label</gui>."
 msgstr ""
 "También puede añadir rápidamente una etiqueta nueva eligiendo <gui>Etiqueta "
 "nueva</gui>."
 
 #. (itstool) path: section/title
-#: C/mail-labels.page:35
+#: C/mail-labels.page:34
 msgid "Managing labels"
 msgstr "Gestionar las etiquetas"
 
 #. (itstool) path: section/p
-#: C/mail-labels.page:36
+#: C/mail-labels.page:35
 msgid ""
 "You can add, edit and delete all labels under <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Labels</gui></"
@@ -14072,6 +14047,7 @@ msgstr ""
 msgid ""
 "<cmd its:translate=\"no\"> GIO_USE_NETWORK_MONITOR=base evolution </cmd>"
 msgstr ""
+"<cmd its:translate=\"no\"> GIO_USE_NETWORK_MONITOR=base evolution </cmd>"
 
 #. (itstool) path: info/desc
 #: C/organizing.page:5
