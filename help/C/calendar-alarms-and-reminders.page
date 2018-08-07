@@ -1,5 +1,5 @@
 <page xmlns="http://projectmallard.org/1.0/"
-      xmlns:its="https://www.w3.org/2005/11/its"
+      xmlns:its="http://www.w3.org/2005/11/its"
       xmlns:e="http://projectmallard.org/experimental/"
       xmlns:if="http://projectmallard.org/if/1.0/"
       type="topic" id="calendar-alarms-and-reminders">

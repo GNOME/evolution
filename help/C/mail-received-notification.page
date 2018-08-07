@@ -1,4 +1,4 @@
-<page xmlns="http://projectmallard.org/1.0/" xmlns:its="https://www.w3.org/2005/11/its"
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
       type="topic" id="mail-received-notification">
 
   <info>
@@ -21,7 +21,7 @@
 <title>Getting notified of new mail</title>
 
 <p><app>Evolution</app> always notifies you of new messages by adding a yellow star to the mailer icon in the window <link xref="intro-main-window">switcher</link>.</p>
-<media type="image" src="./figures/new-mail-switcher.png" width="256" xmlns:its="https://www.w3.org/2005/11/its" its:locNote="Translators: Please make sure that the screenshot does have the small yellow star in the Mail icon">
+<media type="image" src="./figures/new-mail-switcher.png" width="256" xmlns:its="http://www.w3.org/2005/11/its" its:locNote="Translators: Please make sure that the screenshot does have the small yellow star in the Mail icon">
   <p>Switcher layout when a new message has arrived</p>
 </media>
 
