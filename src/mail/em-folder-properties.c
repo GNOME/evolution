@@ -1062,6 +1062,7 @@ static EMConfigItem emfp_items[] = {
 	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) N_("General") },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/00.folder", NULL /* set by code */ },
 	{ E_CONFIG_ITEM, (gchar *) "00.general/00.folder/00.info", NULL, emfp_get_folder_item },
+	/* Translators: "Archive" is a noun (This is a tab heading in the mail folder properties) */
 	{ E_CONFIG_PAGE, (gchar *) "10.autoarchive", (gchar *) N_("Archive") },
 	{ E_CONFIG_SECTION, (gchar *) "10.autoarchive/00.folder", NULL },
 	{ E_CONFIG_ITEM, (gchar *) "10.autoarchive/00.folder/00.info", NULL, emfp_get_autoarchive_item },
