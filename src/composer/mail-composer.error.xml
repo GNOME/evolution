@@ -146,7 +146,7 @@ Detailed error: {0}</_secondary>
 
  <error id="webkit-web-process-crashed" type="error">
    <_primary>Something has gone wrong when editing the message</_primary>
-   <_secondary>A WebKitWebProcess crashed when editing the message. You can try again by closing the composer window and opening a new one. If the issue persists, please file a bug report in the GNOME bugzilla.</_secondary>
+   <_secondary>A WebKitWebProcess crashed when editing the message. You can try again by closing the composer window and opening a new one. If the issue persists, please file a bug report in GNOME Gitlab.</_secondary>
  </error>
 
  <error id="failed-create-composer" type="error">
