@@ -238,7 +238,7 @@
     <key name="composer-reply-credits-utc-to-localtime" type="b">
       <default>false</default>
       <_summary>Convert UTC time in reply credits to local time</_summary>
-      <_description>Whether the time in reply credits should be converted to local time when it's in UTC in the message.</_description>
+      <_description>Whether the time in reply credits should be converted to local time when it’s in UTC in the message.</_description>
     </key>
     <key name="display-content-disposition-inline" type="b">
       <default>true</default>
@@ -772,11 +772,11 @@
     </key>
     <key name="alt-reply-template-folder-uri" type="s">
       <default>''</default>
-      <_summary>Last chosen template's folder URI for Alternative Reply</_summary>
+      <_summary>Last chosen template’s folder URI for Alternative Reply</_summary>
     </key>
     <key name="alt-reply-template-message-uid" type="s">
       <default>''</default>
-      <_summary>Last chosen template's message UID for Alternative Reply</_summary>
+      <_summary>Last chosen template’s message UID for Alternative Reply</_summary>
     </key>
     <key name="alt-reply-template-preserve-subject" type="b">
       <default>false</default>
