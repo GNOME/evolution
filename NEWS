@@ -1,3 +1,24 @@
+Evolution 3.29.91 2018-08-13
+----------------------------
+
+Miscellaneous:
+	docs: Use http for w3.org URLs so gettext parsing itstool tags doesn't choke (Andre Klapper)
+	Add a translator comment to "Archive" (Andre Klapper)
+	Replace Bugzilla by Gitlab in user-visible error messages (Andre Klapper)
+	Use the fancy Unicode apostrophes in new strings (Piotr Drąg)
+
+Translations:
+	Daniel Mustieles (es)
+	Aurimas Černius (lt)
+	Fabio Tomat (fur)
+	Matej Urbančič (sl)
+	Mario Blättermann (de)
+	Alexandre Franke (fr)
+	Yuras Shumovich (be)
+	Piotr Drąg (pl)
+	Chao-Hsiung Liao (zh_TW)
+	Yi-Jyun Pan (zh_TW)
+
 Evolution 3.29.90 2018-07-30
 ----------------------------
 
