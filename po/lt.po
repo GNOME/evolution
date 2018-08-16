@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2018-07-31 10:38+0000\n"
-"PO-Revision-Date: 2018-08-05 15:18+0300\n"
+"POT-Creation-Date: 2018-08-12 22:10+0000\n"
+"PO-Revision-Date: 2018-08-16 23:04+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -515,12 +515,10 @@ msgid "Number of units for determining when to hide tasks"
 msgstr "Vienetų skaičius, nurodantis, kada reikia paslėpti užduotis"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#| msgid "Hide completed tasks"
 msgid "Hide cancelled tasks"
 msgstr "Paslėpti atšauktas užduotis"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
-#| msgid "Whether to hide completed tasks in the tasks view"
 msgid "Whether to hide cancelled tasks in the tasks view"
 msgstr "Ar užduočių rodinyje paslėpti atšauktas užduotis"
 
@@ -1460,9 +1458,12 @@ msgid "Convert UTC time in reply credits to local time"
 msgstr "Konvertuoti UTC laiką atsakymuose į vietinį laiką"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#| msgid ""
+#| "Whether the time in reply credits should be converted to local time when "
+#| "it's in UTC in the message."
 msgid ""
 "Whether the time in reply credits should be converted to local time when "
-"it's in UTC in the message."
+"it’s in UTC in the message."
 msgstr ""
 "Ar laikas atsakyme turi būti konvertuotas į vietinį, kai jis yra UTC laiške."
 
@@ -2541,11 +2542,13 @@ msgid "Apply chosen template when using Alternative Reply"
 msgstr "Pritaikyti pasirinktą šabloną naudojant alternatyvų atsakymą"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
-msgid "Last chosen template's folder URI for Alternative Reply"
+#| msgid "Last chosen template's folder URI for Alternative Reply"
+msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr "Paskutinio pasirinkto šablono aplanko URI alternatyviam atsakymui"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
-msgid "Last chosen template's message UID for Alternative Reply"
+#| msgid "Last chosen template's message UID for Alternative Reply"
+msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr "Paskutinio pasirinkto šablono laiško UID alternatyviam atsakymui"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
@@ -3590,14 +3593,18 @@ msgid "Something has gone wrong when displaying the contact"
 msgstr "Kažkas nutiko rodant kontaktą"
 
 #: ../src/addressbook/addressbook.error.xml.h:47
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the contact. You can try again "
+#| "by moving to another contact and back. If the issue persists, please file "
+#| "a bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the contact. You can try again by "
 "moving to another contact and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "WebKitWebProcess užstrigo rodant adresatą. Jūs galite bandyti dar kartą, "
 "pasirinkdami kitą adresatą ir vėl grįždami prie ankstesnio. Jei problema "
-"išlieka, praneškite apie klaidą į GNOME bugzilla."
+"išlieka, praneškite apie klaidą į GNOME Gitlab."
 
 #: ../src/addressbook/addressbook.error.xml.h:48
 msgid "Failed to refresh list of account address books"
@@ -5907,42 +5914,54 @@ msgid "Something has gone wrong when displaying the event"
 msgstr "Rodant įvykį kažkas nutiko"
 
 #: ../src/calendar/calendar.error.xml.h:174
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the event. You can try again "
+#| "by moving to another event and back. If the issue persists, please file a "
+#| "bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the event. You can try again by "
 "moving to another event and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "WebKitWebProcess užstrigo rodant įvykį. Jūs galite bandyti dar kartą, "
 "pasirinkdami kitą įvykį ir vėl grįždami prie ankstesnio. Jei problema "
-"išlieka, praneškite apie klaidą į GNOME bugzilla."
+"išlieka, praneškite apie klaidą į GNOME Gitlab."
 
 #: ../src/calendar/calendar.error.xml.h:175
 msgid "Something has gone wrong when displaying the memo"
 msgstr "Rodant raštelį kažkas nutiko"
 
 #: ../src/calendar/calendar.error.xml.h:176
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the memo. You can try again by "
+#| "moving to another memo and back. If the issue persists, please file a bug "
+#| "report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 "moving to another memo and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "WebKitWebProcess užstrigo rodant raštelį. Jūs galite bandyti dar kartą, "
 "pasirinkdami kitą raštelį ir vėl grįždami prie ankstesnio. Jei problema "
-"išlieka, praneškite apie klaidą į GNOME bugzilla."
+"išlieka, praneškite apie klaidą į GNOME Gitlab."
 
 #: ../src/calendar/calendar.error.xml.h:177
 msgid "Something has gone wrong when displaying the task"
 msgstr "Rodant užduotį kažkas nutiko"
 
 #: ../src/calendar/calendar.error.xml.h:178
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the task. You can try again by "
+#| "moving to another task and back. If the issue persists, please file a bug "
+#| "report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the task. You can try again by "
 "moving to another task and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "WebKitWebProcess užstrigo rodant užduotį. Jūs galite bandyti dar kartą, "
 "pasirinkdami kitą užduotį ir vėl grįždami prie ankstesnės. Jei problema "
-"išlieka, praneškite apie klaidą į GNOME bugzilla."
+"išlieka, praneškite apie klaidą į GNOME Gitlab."
 
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
@@ -8191,7 +8210,7 @@ msgstr "Nėra santraukos"
 #: ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:131 ../src/mail/e-mail-notes.c:952
-#: ../src/mail/em-folder-properties.c:1150
+#: ../src/mail/em-folder-properties.c:1151
 #: ../src/mail/em-subscription-editor.c:1739
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
 #: ../src/shell/e-shell-window-actions.c:296
@@ -11373,14 +11392,18 @@ msgid "Something has gone wrong when editing the message"
 msgstr "Redaguojant laišką kažkas nutiko"
 
 #: ../src/composer/mail-composer.error.xml.h:57
+#| msgid ""
+#| "A WebKitWebProcess crashed when editing the message. You can try again by "
+#| "closing the composer window and opening a new one. If the issue persists, "
+#| "please file a bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when editing the message. You can try again by "
 "closing the composer window and opening a new one. If the issue persists, "
-"please file a bug report in the GNOME bugzilla."
+"please file a bug report in GNOME Gitlab."
 msgstr ""
 "WebKitWebProcess užstrigo redaguojant laišką. Jūs galite bandyti dar kartą, "
 "užverdami rašymo langą ir atverdami naują. Jei problema išlieka, praneškite "
-"apie klaidą į GNOME bugzilla."
+"apie klaidą į GNOME Gitlab."
 
 #: ../src/composer/mail-composer.error.xml.h:58
 msgid "An error occurred while creating message composer."
@@ -15027,14 +15050,18 @@ msgid "Something has gone wrong"
 msgstr "Kažkas nutiko"
 
 #: ../src/e-util/e-system.error.xml.h:24
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the content. You can try again "
+#| "by reopening the window. If the issue persists, please file a bug report "
+#| "in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the content. You can try again by "
-"reopening the window. If the issue persists, please file a bug report in the "
-"GNOME bugzilla."
+"reopening the window. If the issue persists, please file a bug report in "
+"GNOME Gitlab."
 msgstr ""
 "WebKitWebProcess užstrigo rodant turinį. Jūs galite bandyti dar kartą iš "
 "naujo atverdami langą. Jei problema išlieka, praneškite apie klaidą į GNOME "
-"bugzilla."
+"Gitlab."
 
 #: ../src/e-util/e-system.error.xml.h:25
 msgid "Are you sure you want to delete remote collection “{0}”?"
@@ -15845,7 +15872,7 @@ msgstr "Netinkamas aplanko URI „%s“"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:117
-#: ../src/mail/em-folder-properties.c:1142
+#: ../src/mail/em-folder-properties.c:1143
 #: ../src/mail/em-folder-tree-model.c:1237
 #: ../src/mail/importers/kmail-libs.c:139
 #: ../src/modules/mail/e-mail-shell-view-private.c:1003
@@ -18041,20 +18068,21 @@ msgstr "Serverio žyma"
 msgid "Label"
 msgstr "Etiketė"
 
-#: ../src/mail/em-folder-properties.c:1065
+#. Translators: "Archive" is a noun (This is a tab heading in the mail folder properties)
+#: ../src/mail/em-folder-properties.c:1066
 msgid "Archive"
 msgstr "Archyvuoti"
 
-#: ../src/mail/em-folder-properties.c:1068 ../src/mail/mail-config.ui.h:121
+#: ../src/mail/em-folder-properties.c:1069 ../src/mail/mail-config.ui.h:121
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Žymės"
 
-#: ../src/mail/em-folder-properties.c:1147
+#: ../src/mail/em-folder-properties.c:1148
 msgid "Folder Properties"
 msgstr "Aplanko savybės"
 
-#: ../src/mail/em-folder-properties.c:1386
+#: ../src/mail/em-folder-properties.c:1387
 msgid "Gathering folder properties"
 msgstr "Renkamos aplanko savybės"
 
@@ -20219,28 +20247,36 @@ msgid "Something has gone wrong when displaying the message"
 msgstr "Rodant laišką kažkas nutiko"
 
 #: ../src/mail/mail.error.xml.h:211
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the message. You can try again "
+#| "by moving to another message and back. If the issue persists, please file "
+#| "a bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the message. You can try again by "
 "moving to another message and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "WebKitWebProcess užstrigo rodant laišką. Jūs galite bandyti dar kartą, "
 "pasirinkdami kitą laišką ir vėl grįždami prie ankstesnio. Jei problema "
-"išlieka, praneškite apie klaidą į GNOME bugzilla."
+"išlieka, praneškite apie klaidą į GNOME Gitlab."
 
 #: ../src/mail/mail.error.xml.h:212
 msgid "Something has gone wrong when displaying the signature"
 msgstr "Rodant parašą kažkas nutiko"
 
 #: ../src/mail/mail.error.xml.h:213
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the signature. You can try "
+#| "again by moving to another signature and back. If the issue persists, "
+#| "please file a bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the signature. You can try again "
 "by moving to another signature and back. If the issue persists, please file "
-"a bug report in the GNOME bugzilla."
+"a bug report in GNOME Gitlab."
 msgstr ""
 "WebKitWebProcess užstrigo rodant parašą. Jūs galite bandyti dar kartą, "
 "pasirinkdami kitą parašą ir vėl grįždami prie ankstesnio. Jei problema "
-"išlieka, praneškite apie klaidą į GNOME bugzilla."
+"išlieka, praneškite apie klaidą į GNOME Gitlab."
 
 #: ../src/mail/mail.error.xml.h:214
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
@@ -21827,7 +21863,6 @@ msgid "_Hide completed tasks after"
 msgstr "_Paslėpti užbaigtas užduotis po"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:67
-#| msgid "Hide completed tasks"
 msgid "Hid_e cancelled tasks"
 msgstr "_Slėpti atšauktas užduotis"
 
@@ -22635,7 +22670,6 @@ msgid "Active Tasks"
 msgstr "Aktyvios užduotys"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:965
-#| msgid "Cancelled"
 msgid "Cancelled Tasks"
 msgstr "Atšauktos užduotys"
 
