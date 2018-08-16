@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2018-07-31 10:38+0000\n"
-"PO-Revision-Date: 2018-08-08 06:13+0200\n"
+"POT-Creation-Date: 2018-08-12 22:10+0000\n"
+"PO-Revision-Date: 2018-08-16 23:00+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -1505,7 +1505,7 @@ msgstr "Fâs deventâ la ore UTC tai credits de rispueste in ore locâl"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Whether the time in reply credits should be converted to local time when "
-"it's in UTC in the message."
+"it’s in UTC in the message."
 msgstr ""
 "Indiche se la ore tai credits de rispueste e à di jessi convertide in ore "
 "locâl cuant che tal messaç e sta in UTC."
@@ -2624,11 +2624,11 @@ msgid "Apply chosen template when using Alternative Reply"
 msgstr "Apliche il model sielt cuant che si dopre la Rispueste alternative"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
-msgid "Last chosen template's folder URI for Alternative Reply"
+msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr "URI de cartele dal ultin model sielt pe Rispueste alternative"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
-msgid "Last chosen template's message UID for Alternative Reply"
+msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr "UID dal messaç dal ultin model sielt pe Rispueste alternative"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
@@ -3697,11 +3697,11 @@ msgstr "Alc al è lât stuart tal mostrâ il contat"
 msgid ""
 "A WebKitWebProcess crashed when displaying the contact. You can try again by "
 "moving to another contact and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un WebKitWebProcess al è colassât tal mostrâ il contat. Si pues tornâ a "
 "provâ spostantsi suntun altri contat e tornant su chest. Se il probleme al "
-"persist, segnale un erôr su GNOME bugzilla."
+"persist, segnale un erôr su GNOME Gitlab."
 
 #: ../src/addressbook/addressbook.error.xml.h:48
 msgid "Failed to refresh list of account address books"
@@ -6031,11 +6031,11 @@ msgstr "Alc al è lât stuart tal mostrâ l'event"
 msgid ""
 "A WebKitWebProcess crashed when displaying the event. You can try again by "
 "moving to another event and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un WebKitWebProcess al è colassât tal mostrâ l'event. Si pues tornâ a provâ "
 "spostantsi suntun altri event e tornant su chest. Se il probleme al persist, "
-"segnale un erôr su GNOME bugzilla."
+"segnale un erôr su GNOME Gitlab."
 
 #: ../src/calendar/calendar.error.xml.h:175
 msgid "Something has gone wrong when displaying the memo"
@@ -6045,11 +6045,11 @@ msgstr "Alc al è lât stuart tal mostrâ il memorandum"
 msgid ""
 "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 "moving to another memo and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un WebKitWebProcess al è colassât tal mostrâ il memorandum. Si pues tornâ a "
 "provâ spostantsi suntun altri memorandum e tornant su chest. Se il probleme "
-"al persist, segnale un erôr su GNOME bugzilla."
+"al persist, segnale un erôr su GNOME Gitlab."
 
 #: ../src/calendar/calendar.error.xml.h:177
 msgid "Something has gone wrong when displaying the task"
@@ -6059,11 +6059,11 @@ msgstr "Alc al è lât stuart tal mostrâ la ativitât"
 msgid ""
 "A WebKitWebProcess crashed when displaying the task. You can try again by "
 "moving to another task and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un WebKitWebProcess al è colassât tal mostrâ la ativitât. Si pues tornâ a "
 "provâ spostantsi suntune altre ativitât e tornant su cheste. Se il probleme "
-"al persist, segnale un erôr su GNOME bugzilla."
+"al persist, segnale un erôr su GNOME Gitlab."
 
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
@@ -8297,7 +8297,7 @@ msgstr "Nissune sintesi"
 #: ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:131 ../src/mail/e-mail-notes.c:952
-#: ../src/mail/em-folder-properties.c:1150
+#: ../src/mail/em-folder-properties.c:1151
 #: ../src/mail/em-subscription-editor.c:1739
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
 #: ../src/shell/e-shell-window-actions.c:296
@@ -11487,11 +11487,11 @@ msgstr "Alc al è lât stuart tal scrivi il messaç"
 msgid ""
 "A WebKitWebProcess crashed when editing the message. You can try again by "
 "closing the composer window and opening a new one. If the issue persists, "
-"please file a bug report in the GNOME bugzilla."
+"please file a bug report in GNOME Gitlab."
 msgstr ""
 "Un WebKitWebProcess al è colassât intant che si scriveve il messaç. Si pues "
 "tornâ a provâ sierant il barcon dal compositôr e vierzint un gnûf. Se il "
-"probleme al persist, segnale un erôr su GNOME bugzilla."
+"probleme al persist, segnale un erôr su GNOME Gitlab."
 
 #: ../src/composer/mail-composer.error.xml.h:58
 msgid "An error occurred while creating message composer."
@@ -15138,12 +15138,12 @@ msgstr "Alc al è lât stuart"
 #: ../src/e-util/e-system.error.xml.h:24
 msgid ""
 "A WebKitWebProcess crashed when displaying the content. You can try again by "
-"reopening the window. If the issue persists, please file a bug report in the "
-"GNOME bugzilla."
+"reopening the window. If the issue persists, please file a bug report in "
+"GNOME Gitlab."
 msgstr ""
 "Un WebKitWebProcess al è colassât tal mostrâ il contignût. Si pues tornâ a "
 "provâ tornant a vierzi il barcon. Se il probleme al persist, segnale un erôr "
-"su GNOME bugzilla."
+"su GNOME Gitlab."
 
 #: ../src/e-util/e-system.error.xml.h:25
 msgid "Are you sure you want to delete remote collection “{0}”?"
@@ -15952,7 +15952,7 @@ msgstr "URI cartele “%s” no valit"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:117
-#: ../src/mail/em-folder-properties.c:1142
+#: ../src/mail/em-folder-properties.c:1143
 #: ../src/mail/em-folder-tree-model.c:1237
 #: ../src/mail/importers/kmail-libs.c:139
 #: ../src/modules/mail/e-mail-shell-view-private.c:1003
@@ -18140,20 +18140,21 @@ msgstr "Etichete servidôr"
 msgid "Label"
 msgstr "Etichete"
 
-#: ../src/mail/em-folder-properties.c:1065
+#. Translators: "Archive" is a noun (This is a tab heading in the mail folder properties)
+#: ../src/mail/em-folder-properties.c:1066
 msgid "Archive"
 msgstr "Archivie"
 
-#: ../src/mail/em-folder-properties.c:1068 ../src/mail/mail-config.ui.h:121
+#: ../src/mail/em-folder-properties.c:1069 ../src/mail/mail-config.ui.h:121
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Etichetis"
 
-#: ../src/mail/em-folder-properties.c:1147
+#: ../src/mail/em-folder-properties.c:1148
 msgid "Folder Properties"
 msgstr "Proprietâts cartele"
 
-#: ../src/mail/em-folder-properties.c:1386
+#: ../src/mail/em-folder-properties.c:1387
 msgid "Gathering folder properties"
 msgstr "Daûr a otignî lis proprietâts de cartele"
 
@@ -20332,11 +20333,11 @@ msgstr "Alc al è lât stuart tal mostrâ il messaç"
 msgid ""
 "A WebKitWebProcess crashed when displaying the message. You can try again by "
 "moving to another message and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un WebKitWebProcess al è colassât tal mostrâ il messaç. Si pues tornâ a "
 "provâ spostantsi suntun altri messaç e tornant su chest. Se il probleme al "
-"persist, segnale un erôr su GNOME bugzilla."
+"persist, segnale un erôr su GNOME Gitlab."
 
 #: ../src/mail/mail.error.xml.h:212
 msgid "Something has gone wrong when displaying the signature"
@@ -20346,11 +20347,11 @@ msgstr "Alc al è lât stuart tal mostrâ la firme"
 msgid ""
 "A WebKitWebProcess crashed when displaying the signature. You can try again "
 "by moving to another signature and back. If the issue persists, please file "
-"a bug report in the GNOME bugzilla."
+"a bug report in GNOME Gitlab."
 msgstr ""
 "Un WebKitWebProcess al è colassât tal mostrâ la firme. Si pues tornâ a provâ "
 "spostantsi suntune altre firme e tornant su cheste. Se il probleme al "
-"persist, segnale un erôr su GNOME bugzilla."
+"persist, segnale un erôr su GNOME Gitlab."
 
 #: ../src/mail/mail.error.xml.h:214
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
