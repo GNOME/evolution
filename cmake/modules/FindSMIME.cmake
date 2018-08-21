@@ -70,6 +70,8 @@ if(NOT (WITH_NSPR_INCLUDES STREQUAL ""))
 	set(CMAKE_REQUIRED_INCLUDES ${WITH_NSPR_INCLUDES})
 endif(NOT (WITH_NSPR_INCLUDES STREQUAL ""))
 
+unset(_have_headers CACHE)
+
 CHECK_INCLUDE_FILES("nspr.h;prio.h" _have_headers)
 
 unset(CMAKE_REQUIRED_INCLUDES)
@@ -79,11 +81,13 @@ if(NOT _have_headers)
 endif(NOT _have_headers)
 
 set(MANUAL_NSPR_INCLUDES "${WITH_NSPR_INCLUDES}")
+string(STRIP ${MANUAL_NSPR_INCLUDES} MANUAL_NSPR_INCLUDES)
 
 set(nsprlibs "-lplc4 -lplds4 -lnspr4")
 
 set(CMAKE_REQUIRED_INCLUDES ${MANUAL_NSPR_INCLUDES})
 set(CMAKE_REQUIRED_LIBRARIES ${nsprlibs})
+unset(_nsprlibs_okay CACHE)
 CHECK_C_SOURCE_COMPILES("#include <prinit.h>
 			int main(void) { PR_Initialized(); return 0; }" _nsprlibs_okay)
 unset(CMAKE_REQUIRED_INCLUDES)
@@ -100,6 +104,7 @@ if(NOT (WITH_NSPR_LIBS STREQUAL ""))
 endif(NOT (WITH_NSPR_LIBS STREQUAL ""))
 
 set(MANUAL_NSPR_LIBS "${MANUAL_NSPR_LIBS} ${nsprlibs}")
+string(STRIP ${MANUAL_NSPR_LIBS} MANUAL_NSPR_LIBS)
 
 # *****************
 # Check for NSS 3
@@ -123,12 +128,14 @@ if(NOT _have_headers)
 	message(FATAL_ERROR "NSS headers not found. Use -DWITH_NSS_INCLUDES=/path/to/nss to specify the include dir of NSS.")
 endif(NOT _have_headers)
 
-set(MANUAL_NSS_INCLUDES "${WITH_NSS_INCLUDES} ${MANUAL_NSPR_INCLUDES}")
+set(MANUAL_NSS_INCLUDES "${WITH_NSS_INCLUDES}")
+string(STRIP ${MANUAL_NSS_INCLUDES} MANUAL_NSS_INCLUDES)
 
 set(nsslibs "-lssl3 -lsmime3 -lnss3")
 
-set(CMAKE_REQUIRED_INCLUDES ${MANUAL_NSS_INCLUDES})
+set(CMAKE_REQUIRED_INCLUDES ${MANUAL_NSS_INCLUDES} ${MANUAL_NSPR_INCLUDES})
 set(CMAKE_REQUIRED_LIBRARIES ${nsslibs} ${nsprlibs})
+unset(_nsslibs_okay CACHE)
 CHECK_C_SOURCE_COMPILES("#include <nss.h>
 			int main(void) { NSS_Init(\"\"); return 0; }" _nsslibs_okay)
 unset(CMAKE_REQUIRED_INCLUDES)
@@ -146,6 +153,7 @@ if(NOT (WITH_NSS_LIBS STREQUAL ""))
 endif(NOT (WITH_NSS_LIBS STREQUAL ""))
 
 set(MANUAL_NSS_LIBS "${MANUAL_NSS_LIBS} ${nsslibs} ${MANUAL_NSPR_LIBS}")
+string(STRIP ${MANUAL_NSS_LIBS} MANUAL_NSS_LIBS)
 
 if(MOZILLA_NSS_LIB_DIR STREQUAL "")
 	set(MOZILLA_NSS_LIB_DIR "${LIB_INSTALL_DIR}")

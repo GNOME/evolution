@@ -568,8 +568,8 @@ unset(optupper)
 # as both gnutls and mozilla-nss have a header called "pkcs12.h" which is
 # included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 
-set(CERT_UI_INCLUDES ${MANUAL_NSPR_INCLUDES})
-set(CERT_UI_LIBS ${MANUAL_NSPR_LIBS})
+set(CERT_UI_INCLUDES ${MANUAL_NSPR_INCLUDES} ${MANUAL_NSS_INCLUDES})
+set(CERT_UI_LIBS ${MANUAL_NSPR_LIBS} ${MANUAL_NSS_LIBS})
 
 # ******************************
 # Libnotify

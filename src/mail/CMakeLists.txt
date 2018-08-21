@@ -243,7 +243,7 @@ target_include_directories(evolution-mail PUBLIC
 	${CMAKE_SOURCE_DIR}/src/shell
 	${CMAKE_SOURCE_DIR}/src/smime/lib
 	${CMAKE_SOURCE_DIR}/src/smime/gui
-	${CERT_UI_INCLUDE_DIRS}
+	${CERT_UI_INCLUDES}
 	${CANBERRA_INCLUDE_DIRS}
 	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
 	${GNOME_PLATFORM_INCLUDE_DIRS}
@@ -251,7 +251,7 @@ target_include_directories(evolution-mail PUBLIC
 
 target_link_libraries(evolution-mail
 	${DEPENDENCIES}
-	${CERT_UI_LDFLAGS}
+	${CERT_UI_LIBS}
 	${CANBERRA_LDFLAGS}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
