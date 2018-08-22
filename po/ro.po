@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2018-08-12 22:10+0000\n"
-"PO-Revision-Date: 2018-08-20 13:31+0200\n"
+"PO-Revision-Date: 2018-08-22 20:17+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
@@ -838,8 +838,8 @@ msgstr "Evidențiază sarcinile restante"
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
-"Dacă să se eviențieze sarcinile restante cu o culoare specială (task-overdue-"
-"color)"
+"Dacă să se evidențieze sarcinile restante cu o culoare specială (task-"
+"overdue-color)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Overdue tasks color"
@@ -3769,7 +3769,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:48
 msgid "Failed to refresh list of account address books"
-msgstr "Eșec la reîmprospătarea listei de conturi din agende"
+msgstr "Eșec la reîmprospătarea listei de conturi de agende"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
 #, fuzzy
@@ -4544,7 +4544,7 @@ msgstr ""
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
 #: ../src/e-util/filter.ui.h:28
 msgid "_Top"
-msgstr ""
+msgstr "_Sus"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
 #: ../src/e-util/e-source-selector.c:3474 ../src/e-util/filter.ui.h:29
@@ -4563,7 +4563,7 @@ msgstr "Mută în _jos"
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
 #: ../src/e-util/filter.ui.h:31
 msgid "_Bottom"
-msgstr ""
+msgstr "_Jos"
 
 #: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:940
 msgid "Contact List Members"
@@ -13371,35 +13371,35 @@ msgstr "Folosește fonturi personalizate"
 
 #: ../src/e-util/e-color-combo.c:79
 msgid "black"
-msgstr ""
+msgstr "negru"
 
 #: ../src/e-util/e-color-combo.c:80
 msgid "light brown"
-msgstr ""
+msgstr "maro deschs"
 
 #: ../src/e-util/e-color-combo.c:81
 msgid "brown gold"
-msgstr ""
+msgstr "maro auriu"
 
 #: ../src/e-util/e-color-combo.c:82
 msgid "dark green #2"
-msgstr ""
+msgstr "verde închis nr.2"
 
 #: ../src/e-util/e-color-combo.c:83
 msgid "navy"
-msgstr ""
+msgstr "marin"
 
 #: ../src/e-util/e-color-combo.c:84
 msgid "dark blue"
-msgstr ""
+msgstr "albastru închis"
 
 #: ../src/e-util/e-color-combo.c:85
 msgid "purple #2"
-msgstr ""
+msgstr "mov nr.2"
 
 #: ../src/e-util/e-color-combo.c:86
 msgid "very dark gray"
-msgstr ""
+msgstr "gri foarte închis"
 
 #: ../src/e-util/e-color-combo.c:88
 #, fuzzy
@@ -13409,31 +13409,31 @@ msgstr "Marchează ca _necitit"
 
 #: ../src/e-util/e-color-combo.c:89
 msgid "red-orange"
-msgstr ""
+msgstr "roșu portocaliu"
 
 #: ../src/e-util/e-color-combo.c:90
 msgid "gold"
-msgstr ""
+msgstr "auriu"
 
 #: ../src/e-util/e-color-combo.c:91
 msgid "dark green"
-msgstr ""
+msgstr "verde închis"
 
 #: ../src/e-util/e-color-combo.c:92
 msgid "dull blue"
-msgstr ""
+msgstr "albastru opac"
 
 #: ../src/e-util/e-color-combo.c:93
 msgid "blue"
-msgstr ""
+msgstr "albastru"
 
 #: ../src/e-util/e-color-combo.c:94
 msgid "dull purple"
-msgstr ""
+msgstr "mov opac"
 
 #: ../src/e-util/e-color-combo.c:95
 msgid "dark grey"
-msgstr ""
+msgstr "gri închis"
 
 #: ../src/e-util/e-color-combo.c:97
 #, fuzzy
@@ -13443,31 +13443,31 @@ msgstr "3"
 
 #: ../src/e-util/e-color-combo.c:98
 msgid "orange"
-msgstr ""
+msgstr "portocaliu"
 
 #: ../src/e-util/e-color-combo.c:99
 msgid "lime"
-msgstr ""
+msgstr "verde lime"
 
 #: ../src/e-util/e-color-combo.c:100
 msgid "dull green"
-msgstr ""
+msgstr "verde opac"
 
 #: ../src/e-util/e-color-combo.c:101
 msgid "dull blue #2"
-msgstr ""
+msgstr "albastru opac nr.2"
 
 #: ../src/e-util/e-color-combo.c:102
 msgid "sky blue #2"
-msgstr ""
+msgstr "albastru cer nr.2"
 
 #: ../src/e-util/e-color-combo.c:103
 msgid "purple"
-msgstr ""
+msgstr "mov"
 
 #: ../src/e-util/e-color-combo.c:104
 msgid "gray"
-msgstr ""
+msgstr "gri"
 
 #: ../src/e-util/e-color-combo.c:106
 #, fuzzy
@@ -13477,23 +13477,23 @@ msgstr "Imagine"
 
 #: ../src/e-util/e-color-combo.c:107
 msgid "bright orange"
-msgstr ""
+msgstr "portocaliu aprins"
 
 #: ../src/e-util/e-color-combo.c:108
 msgid "yellow"
-msgstr ""
+msgstr "galben"
 
 #: ../src/e-util/e-color-combo.c:109
 msgid "green"
-msgstr ""
+msgstr "verde"
 
 #: ../src/e-util/e-color-combo.c:110
 msgid "cyan"
-msgstr ""
+msgstr "bleu"
 
 #: ../src/e-util/e-color-combo.c:111
 msgid "bright blue"
-msgstr ""
+msgstr "albastru aprins"
 
 #: ../src/e-util/e-color-combo.c:112
 #, fuzzy
@@ -13503,39 +13503,39 @@ msgstr "Pe_rsoanele necesare"
 
 #: ../src/e-util/e-color-combo.c:113
 msgid "light grey"
-msgstr ""
+msgstr "gri deschis"
 
 #: ../src/e-util/e-color-combo.c:115
 msgid "pink"
-msgstr ""
+msgstr "roz"
 
 #: ../src/e-util/e-color-combo.c:116
 msgid "light orange"
-msgstr ""
+msgstr "portocaliu deschis"
 
 #: ../src/e-util/e-color-combo.c:117
 msgid "light yellow"
-msgstr ""
+msgstr "galben deschis"
 
 #: ../src/e-util/e-color-combo.c:118
 msgid "light green"
-msgstr ""
+msgstr "verde deschis"
 
 #: ../src/e-util/e-color-combo.c:119
 msgid "light cyan"
-msgstr ""
+msgstr "bleu deschis"
 
 #: ../src/e-util/e-color-combo.c:120
 msgid "light blue"
-msgstr ""
+msgstr "albastru deschis"
 
 #: ../src/e-util/e-color-combo.c:121
 msgid "light purple"
-msgstr ""
+msgstr "mov deschis"
 
 #: ../src/e-util/e-color-combo.c:122
 msgid "white"
-msgstr ""
+msgstr "alb"
 
 #: ../src/e-util/e-color-combo.c:641 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:544
@@ -13546,7 +13546,7 @@ msgstr "Implicit"
 
 #: ../src/e-util/e-config-lookup.c:817
 msgid "Running…"
-msgstr ""
+msgstr "Rulează…"
 
 #: ../src/e-util/e-dateedit.c:524
 msgid "Date and Time"
@@ -13694,17 +13694,17 @@ msgstr "ani"
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
 #: ../src/e-util/e-dialog-widgets.c:245
 msgid "Do not synchronize locally mails older than"
-msgstr ""
+msgstr "Nu sincroniza local email-uri mai vechi de"
 
 #. Translators: :-)
 #: ../src/e-util/e-emoticon-chooser.c:38
 msgid "_Smile"
-msgstr ""
+msgstr "_Zâmbet"
 
 #. Translators: :-(
 #: ../src/e-util/e-emoticon-chooser.c:40
 msgid "S_ad"
-msgstr ""
+msgstr "_Trist"
 
 #. Translators: ;-)
 #: ../src/e-util/e-emoticon-chooser.c:42
@@ -13716,87 +13716,87 @@ msgstr "_Fereastră"
 #. Translators: :-P
 #: ../src/e-util/e-emoticon-chooser.c:44
 msgid "Ton_gue"
-msgstr ""
+msgstr "Lim_bă"
 
 #. Translators: :-))
 #: ../src/e-util/e-emoticon-chooser.c:46
 msgid "Laug_h"
-msgstr ""
+msgstr "Râ_s"
 
 #. Translators: :-|
 #: ../src/e-util/e-emoticon-chooser.c:48
 msgid "_Plain"
-msgstr ""
+msgstr "Sim_plu"
 
 #. Translators: :-!
 #: ../src/e-util/e-emoticon-chooser.c:50
 msgid "Smi_rk"
-msgstr ""
+msgstr "Zâmbet _rânjit"
 
 #. Translators: :"-)
 #: ../src/e-util/e-emoticon-chooser.c:52
 msgid "_Embarrassed"
-msgstr ""
+msgstr "J_enat"
 
 #. Translators: :-D
 #: ../src/e-util/e-emoticon-chooser.c:54
 msgid "_Big Smile"
-msgstr ""
+msgstr "Zâmbet _mare"
 
 #. Translators: :-/
 #: ../src/e-util/e-emoticon-chooser.c:56
 msgid "Uncer_tain"
-msgstr ""
+msgstr "Ne_sigur"
 
 #. Translators: :-O
 #: ../src/e-util/e-emoticon-chooser.c:58
 msgid "S_urprise"
-msgstr ""
+msgstr "S_urprins"
 
 #. Translators: :-S
 #: ../src/e-util/e-emoticon-chooser.c:60
 msgid "W_orried"
-msgstr ""
+msgstr "Îngrij_orat"
 
 #. Translators: :-*
 #: ../src/e-util/e-emoticon-chooser.c:62
 msgid "_Kiss"
-msgstr ""
+msgstr "Săru_t"
 
 #. Translators: X-(
 #: ../src/e-util/e-emoticon-chooser.c:64
 msgid "A_ngry"
-msgstr ""
+msgstr "F_urios"
 
 #. Translators: B-)
 #: ../src/e-util/e-emoticon-chooser.c:66
 msgid "_Cool"
-msgstr ""
+msgstr "_Cool"
 
 #. Translators: O:-)
 #: ../src/e-util/e-emoticon-chooser.c:68
 msgid "Ange_l"
-msgstr ""
+msgstr "În_ger"
 
 #. Translators: :'(
 #: ../src/e-util/e-emoticon-chooser.c:70
 msgid "Cr_ying"
-msgstr ""
+msgstr "Plâ_ngând"
 
 #. Translators: :-Q
 #: ../src/e-util/e-emoticon-chooser.c:72
 msgid "S_ick"
-msgstr ""
+msgstr "Bolna_v"
 
 #. Translators: |-)
 #: ../src/e-util/e-emoticon-chooser.c:74
 msgid "Tire_d"
-msgstr ""
+msgstr "O_bosit"
 
 #. Translators: >:-)
 #: ../src/e-util/e-emoticon-chooser.c:76
 msgid "De_vilish"
-msgstr ""
+msgstr "Dră_cușor"
 
 #. Translators: :-(|)
 #: ../src/e-util/e-emoticon-chooser.c:78
@@ -14049,13 +14049,11 @@ msgstr "Nu s-a putut importa certificatul "
 
 #: ../src/e-util/e-html-editor-actions.c:319
 msgid "Insert HTML File"
-msgstr ""
+msgstr "Introdu fișier HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:325
-#, fuzzy
-#| msgid "HTML _Mode"
 msgid "HTML file"
-msgstr "_Mode HTML"
+msgstr "Fișier HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:355
 #, fuzzy
@@ -14065,16 +14063,12 @@ msgid "Insert Image"
 msgstr "Imagine inclusă"
 
 #: ../src/e-util/e-html-editor-actions.c:413
-#, fuzzy
-#| msgid "Increase the text size"
 msgid "Insert text file"
-msgstr "Mărește dimensiunea textului"
+msgstr "Introdu fișier text"
 
 #: ../src/e-util/e-html-editor-actions.c:419
-#, fuzzy
-#| msgid "Select a file"
 msgid "Text file"
-msgstr "Selectează un fișier"
+msgstr "Fișier text"
 
 #: ../src/e-util/e-html-editor-actions.c:880
 #, fuzzy
@@ -14105,7 +14099,7 @@ msgstr "Anulează ultima acțiune"
 
 #: ../src/e-util/e-html-editor-actions.c:936
 msgid "For_mat"
-msgstr ""
+msgstr "For_matează"
 
 #: ../src/e-util/e-html-editor-actions.c:943
 #, fuzzy
@@ -14128,23 +14122,23 @@ msgstr "_Limbi"
 
 #: ../src/e-util/e-html-editor-actions.c:981
 msgid "_Increase Indent"
-msgstr ""
+msgstr "Mărește _identarea"
 
 #: ../src/e-util/e-html-editor-actions.c:983
 msgid "Increase Indent"
-msgstr ""
+msgstr "Mărește identarea"
 
 #: ../src/e-util/e-html-editor-actions.c:988
 msgid "_HTML File..."
-msgstr ""
+msgstr "Fișier _HTML..."
 
 #: ../src/e-util/e-html-editor-actions.c:995
 msgid "Te_xt File..."
-msgstr ""
+msgstr "Fișier te_xt..."
 
 #: ../src/e-util/e-html-editor-actions.c:1002
 msgid "Paste _Quotation"
-msgstr ""
+msgstr "Lipește _citatul"
 
 #: ../src/e-util/e-html-editor-actions.c:1009
 #, fuzzy
@@ -14158,7 +14152,7 @@ msgstr "Caută text"
 
 #: ../src/e-util/e-html-editor-actions.c:1016
 msgid "Find A_gain"
-msgstr ""
+msgstr "Caută din _nou"
 
 #: ../src/e-util/e-html-editor-actions.c:1023
 #, fuzzy
@@ -14178,21 +14172,21 @@ msgstr "Se anulează..."
 
 #: ../src/e-util/e-html-editor-actions.c:1037
 msgid "_Decrease Indent"
-msgstr ""
+msgstr "_Micșorează identarea"
 
 #: ../src/e-util/e-html-editor-actions.c:1039
 msgid "Decrease Indent"
-msgstr ""
+msgstr "Micșorează identarea"
 
 #: ../src/e-util/e-html-editor-actions.c:1044
 msgid "_Wrap Lines"
-msgstr ""
+msgstr "Încadrea_ză liniile"
 
 #. Center
 #: ../src/e-util/e-html-editor-actions.c:1054
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:108
 msgid "_Center"
-msgstr ""
+msgstr "_Centrat"
 
 #: ../src/e-util/e-html-editor-actions.c:1056
 #, fuzzy
@@ -14204,7 +14198,7 @@ msgstr "A_liniere"
 #: ../src/e-util/e-html-editor-actions.c:1061
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:99
 msgid "_Left"
-msgstr ""
+msgstr "_La stânga"
 
 #: ../src/e-util/e-html-editor-actions.c:1063
 #, fuzzy
@@ -14216,7 +14210,7 @@ msgstr "A_liniere"
 #: ../src/e-util/e-html-editor-actions.c:1068
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:117
 msgid "_Right"
-msgstr ""
+msgstr "La d_reapta"
 
 #: ../src/e-util/e-html-editor-actions.c:1070
 #, fuzzy
@@ -14231,7 +14225,7 @@ msgstr "_HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1080
 msgid "HTML editing mode"
-msgstr ""
+msgstr "Modul de editare HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1085
 #, fuzzy
@@ -14253,27 +14247,27 @@ msgstr "Normal"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
 msgid "Heading _1"
-msgstr ""
+msgstr "Titlu de rubrică _1"
 
 #: ../src/e-util/e-html-editor-actions.c:1109
 msgid "Heading _2"
-msgstr ""
+msgstr "Titlu de rubrică _2"
 
 #: ../src/e-util/e-html-editor-actions.c:1116
 msgid "Heading _3"
-msgstr ""
+msgstr "Titlu de rubrică _3"
 
 #: ../src/e-util/e-html-editor-actions.c:1123
 msgid "Heading _4"
-msgstr ""
+msgstr "Titlu de rubrică _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1130
 msgid "Heading _5"
-msgstr ""
+msgstr "Titlu de rubrică _4"
 
 #: ../src/e-util/e-html-editor-actions.c:1137
 msgid "Heading _6"
-msgstr ""
+msgstr "Titlu de rubrică _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1144
 #, fuzzy
@@ -14289,11 +14283,11 @@ msgstr "Adresă"
 
 #: ../src/e-util/e-html-editor-actions.c:1158
 msgid "_Bulleted List"
-msgstr ""
+msgstr "Listă _punctată"
 
 #: ../src/e-util/e-html-editor-actions.c:1165
 msgid "_Roman Numeral List"
-msgstr ""
+msgstr "Listă de numerale _romane"
 
 #: ../src/e-util/e-html-editor-actions.c:1172
 #, fuzzy
@@ -14303,7 +14297,7 @@ msgstr "Obține _listă"
 
 #: ../src/e-util/e-html-editor-actions.c:1179
 msgid "_Alphabetical List"
-msgstr ""
+msgstr "Listă _alfabetică"
 
 #: ../src/e-util/e-html-editor-actions.c:1195
 #: ../src/e-util/e-html-editor-actions.c:1233
@@ -14322,7 +14316,7 @@ msgstr "Imagine inclusă"
 #: ../src/e-util/e-html-editor-actions.c:1203
 #: ../src/e-util/e-html-editor-actions.c:1240
 msgid "_Link..."
-msgstr ""
+msgstr "_Legătură..."
 
 #: ../src/e-util/e-html-editor-actions.c:1205
 #, fuzzy
@@ -14360,7 +14354,7 @@ msgstr "_Inserează"
 
 #: ../src/e-util/e-html-editor-actions.c:1226
 msgid "_Cell..."
-msgstr ""
+msgstr "_Celulă..."
 
 #: ../src/e-util/e-html-editor-actions.c:1247
 #, fuzzy
@@ -14370,7 +14364,7 @@ msgstr "Salvează _imaginea..."
 
 #: ../src/e-util/e-html-editor-actions.c:1271
 msgid "Font _Size"
-msgstr ""
+msgstr "Dimen_siune font"
 
 #: ../src/e-util/e-html-editor-actions.c:1278
 #, fuzzy
@@ -14380,25 +14374,25 @@ msgstr "Stilul pentru î_naintare:"
 
 #: ../src/e-util/e-html-editor-actions.c:1285
 msgid "Paste As _Text"
-msgstr ""
+msgstr "Lipește ca _text"
 
 #: ../src/e-util/e-html-editor-actions.c:1296
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
-msgstr ""
+msgstr "_Aldin"
 
 #: ../src/e-util/e-html-editor-actions.c:1298
 msgid "Bold"
-msgstr ""
+msgstr "Aldin"
 
 #: ../src/e-util/e-html-editor-actions.c:1304
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
-msgstr ""
+msgstr "Curs_iv"
 
 #: ../src/e-util/e-html-editor-actions.c:1306
 msgid "Italic"
-msgstr ""
+msgstr "Cursiv"
 
 #: ../src/e-util/e-html-editor-actions.c:1312
 #, fuzzy
@@ -14409,11 +14403,11 @@ msgstr "Mod text simplu"
 #: ../src/e-util/e-html-editor-actions.c:1320
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
-msgstr ""
+msgstr "_Tăiat"
 
 #: ../src/e-util/e-html-editor-actions.c:1322
 msgid "Strikethrough"
-msgstr ""
+msgstr "Tăiat"
 
 #: ../src/e-util/e-html-editor-actions.c:1328
 #: ../src/e-util/e-html-editor-text-dialog.c:223
@@ -14431,7 +14425,7 @@ msgstr "Nedefinit"
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1340
 msgid "-2"
-msgstr ""
+msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1348
@@ -14443,7 +14437,7 @@ msgstr "1"
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1356
 msgid "+0"
-msgstr ""
+msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1364
@@ -14455,17 +14449,17 @@ msgstr "1"
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1372
 msgid "+2"
-msgstr ""
+msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1380
 msgid "+3"
-msgstr ""
+msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1388
 msgid "+4"
-msgstr ""
+msgstr "+4"
 
 #: ../src/e-util/e-html-editor-actions.c:1407
 #, fuzzy
@@ -14511,11 +14505,11 @@ msgstr "_Proprietăți"
 
 #: ../src/e-util/e-html-editor-actions.c:1471
 msgid "Column After"
-msgstr ""
+msgstr "Coloană după"
 
 #: ../src/e-util/e-html-editor-actions.c:1478
 msgid "Column Before"
-msgstr ""
+msgstr "Coloană înainte"
 
 #: ../src/e-util/e-html-editor-actions.c:1485
 #, fuzzy
@@ -14525,15 +14519,15 @@ msgstr "_Inserează"
 
 #: ../src/e-util/e-html-editor-actions.c:1492
 msgid "Row Above"
-msgstr ""
+msgstr "Rând deasupra"
 
 #: ../src/e-util/e-html-editor-actions.c:1499
 msgid "Row Below"
-msgstr ""
+msgstr "Rând dedesupt"
 
 #: ../src/e-util/e-html-editor-actions.c:1506
 msgid "Cell..."
-msgstr ""
+msgstr "Celulă..."
 
 #: ../src/e-util/e-html-editor-actions.c:1513
 #, fuzzy
@@ -14543,7 +14537,7 @@ msgstr "Imagine"
 
 #: ../src/e-util/e-html-editor-actions.c:1520
 msgid "Link..."
-msgstr ""
+msgstr "Legătură..."
 
 #: ../src/e-util/e-html-editor-actions.c:1527
 #, fuzzy
@@ -14553,7 +14547,7 @@ msgstr "Pager"
 
 #: ../src/e-util/e-html-editor-actions.c:1534
 msgid "Paragraph..."
-msgstr ""
+msgstr "Paragraf..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1542
@@ -14592,7 +14586,7 @@ msgstr "Culoarea pentru cuvintele scrise _greșit:"
 
 #: ../src/e-util/e-html-editor-actions.c:1594
 msgid "Add Word To"
-msgstr ""
+msgstr "Adaugă cuvântul la"
 
 #: ../src/e-util/e-html-editor-actions.c:1603
 #, fuzzy
@@ -14606,11 +14600,11 @@ msgstr "Abonamente dosare"
 #: ../src/e-util/e-html-editor-actions.c:1727
 #, c-format
 msgid "%s Dictionary"
-msgstr ""
+msgstr "%s dicționar"
 
 #: ../src/e-util/e-html-editor-actions.c:1806
 msgid "_Emoticon"
-msgstr ""
+msgstr "_Emoticon"
 
 #: ../src/e-util/e-html-editor-actions.c:1807
 #, fuzzy
@@ -14620,7 +14614,7 @@ msgstr "Restartați Evolution"
 
 #: ../src/e-util/e-html-editor-actions.c:1875
 msgid "Re_place"
-msgstr ""
+msgstr "În_locuiește"
 
 #: ../src/e-util/e-html-editor-actions.c:1878
 #, fuzzy
@@ -14630,7 +14624,7 @@ msgstr "Imagine"
 
 #: ../src/e-util/e-html-editor-actions.c:1881
 msgid "_Link"
-msgstr ""
+msgstr "_Legătură"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1885
@@ -14648,7 +14642,7 @@ msgstr "Tabel"
 
 #: ../src/e-util/e-html-editor.c:742
 msgid "Paragraph Style"
-msgstr ""
+msgstr "Stil paragraf"
 
 #: ../src/e-util/e-html-editor.c:756
 #, fuzzy
@@ -14670,45 +14664,45 @@ msgstr "Dimensiune"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:408
 msgid "<b>Scope</b>"
-msgstr ""
+msgstr "<b>Scop</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:422
 msgid "C_ell"
-msgstr ""
+msgstr "C_elulă"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:435
 msgid "_Row"
-msgstr ""
+msgstr "_Rând"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:461
 msgid "Col_umn"
-msgstr ""
+msgstr "Col_oană"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:471
 msgid "<b>Alignment &amp; Behavior</b>"
-msgstr ""
+msgstr "<b>Aliniament și comportament</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:484
 #: ../src/e-util/e-html-editor-hrule-dialog.c:328
 #: ../src/e-util/e-html-editor-table-dialog.c:649
 msgid "Left"
-msgstr ""
+msgstr "La stânga"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:485
 #: ../src/e-util/e-html-editor-hrule-dialog.c:330
 #: ../src/e-util/e-html-editor-table-dialog.c:650
 msgid "Center"
-msgstr ""
+msgstr "Centrat"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:486
 #: ../src/e-util/e-html-editor-hrule-dialog.c:332
 #: ../src/e-util/e-html-editor-table-dialog.c:651
 msgid "Right"
-msgstr ""
+msgstr "La dreapta"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:494
 msgid "_Horizontal:"
-msgstr ""
+msgstr "_Orizontal:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:502
 #: ../src/e-util/e-html-editor-image-dialog.c:575
@@ -14727,7 +14721,7 @@ msgstr "Inițiala _tatălui:"
 #: ../src/e-util/e-html-editor-cell-dialog.c:504
 #: ../src/e-util/e-html-editor-image-dialog.c:577
 msgid "Bottom"
-msgstr ""
+msgstr "Jos"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:512
 #, fuzzy
@@ -14738,7 +14732,7 @@ msgstr "Vizualizare _verticală"
 #. Wrap Text
 #: ../src/e-util/e-html-editor-cell-dialog.c:518
 msgid "_Wrap Text"
-msgstr ""
+msgstr "Încadrea_ză textul"
 
 #. Header Style
 #: ../src/e-util/e-html-editor-cell-dialog.c:526
@@ -14751,30 +14745,30 @@ msgstr "Conținut antet"
 #: ../src/e-util/e-html-editor-image-dialog.c:515
 #: ../src/e-util/e-html-editor-table-dialog.c:561
 msgid "<b>Layout</b>"
-msgstr ""
+msgstr "<b>Aranjament</b>"
 
 #. Width
 #: ../src/e-util/e-html-editor-cell-dialog.c:551
 msgid "_Width"
-msgstr ""
+msgstr "Lăți_me"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:591
 msgid "Row S_pan:"
-msgstr ""
+msgstr "Anver_gura rândului:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:605
 msgid "Co_lumn Span:"
-msgstr ""
+msgstr "Anvengura coloanei:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:612
 #: ../src/e-util/e-html-editor-table-dialog.c:665
 msgid "<b>Background</b>"
-msgstr ""
+msgstr "<b>Fundal</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:625
 #: ../src/e-util/e-html-editor-table-dialog.c:678
 msgid "Transparent"
-msgstr ""
+msgstr "Transparent"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:633
 #, fuzzy
@@ -14819,7 +14813,7 @@ msgstr "_Proprietăți"
 #: ../src/e-util/e-html-editor-find-dialog.c:92
 #: ../src/e-util/e-html-editor-replace-dialog.c:68
 msgid "No match found"
-msgstr ""
+msgstr "Nicio potrivire găsită"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:215
 #: ../src/e-util/e-html-editor-replace-dialog.c:295
@@ -14830,7 +14824,7 @@ msgstr "Domeniu _căutare:"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:222
 msgid "Case _Sensitive"
-msgstr ""
+msgstr "_Sensibil la majuscule"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:229
 #, fuzzy
@@ -14846,14 +14840,14 @@ msgstr "_Caută acum"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:263
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "<b>Dimensiune</b>"
 
 #. Width
 #: ../src/e-util/e-html-editor-hrule-dialog.c:283
 #: ../src/e-util/e-html-editor-image-dialog.c:533
 #: ../src/e-util/e-html-editor-table-dialog.c:572
 msgid "_Width:"
-msgstr ""
+msgstr "_Lățime:"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:308
 #, fuzzy
@@ -14863,7 +14857,7 @@ msgstr "Dimensiune"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:315
 msgid "<b>Style</b>"
-msgstr ""
+msgstr "<b>Stil</b>"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:340
 #: ../src/e-util/e-html-editor-table-dialog.c:658
@@ -14875,7 +14869,7 @@ msgstr "A_liniere"
 #. Shaded
 #: ../src/e-util/e-html-editor-hrule-dialog.c:346
 msgid "S_haded"
-msgstr ""
+msgstr "_Umbrit"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:363
 #, fuzzy
@@ -14899,24 +14893,24 @@ msgstr "Surse"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:557
 msgid "_Height:"
-msgstr ""
+msgstr "Înălți_me:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:598
 msgid "_X-Padding:"
-msgstr ""
+msgstr "_X-Padding:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:614
 msgid "_Y-Padding:"
-msgstr ""
+msgstr "_Y-Padding:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:630
 #: ../src/e-util/e-html-editor-table-dialog.c:639
 msgid "_Border:"
-msgstr ""
+msgstr "_Bordură:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:640
 msgid "<b>Link</b>"
-msgstr ""
+msgstr "<b>Legătură</b>"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:658
 #: ../src/e-util/e-html-editor-link-dialog.c:219
@@ -14926,7 +14920,7 @@ msgstr "_URL:"
 #: ../src/e-util/e-html-editor-image-dialog.c:663
 #: ../src/e-util/e-html-editor-link-dialog.c:224
 msgid "_Test URL..."
-msgstr ""
+msgstr "URL de _test..."
 
 #: ../src/e-util/e-html-editor-image-dialog.c:680
 #, fuzzy
@@ -15065,7 +15059,7 @@ msgstr "_Deschide cu"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:299
 msgid "_Case sensitive"
-msgstr ""
+msgstr "Sensibil la majus_cule"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:303
 #, fuzzy
@@ -15075,7 +15069,7 @@ msgstr "_Căutare"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:313
 msgid "_Skip"
-msgstr ""
+msgstr "_Omite"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:321
 #: ../src/e-util/e-system.error.xml.h:3
@@ -15104,7 +15098,7 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:388
 msgid "<b>Suggestions</b>"
-msgstr ""
+msgstr "<b>Sugestii</b>"
 
 #. Replace
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:423
@@ -15129,7 +15123,7 @@ msgstr "Ignoră"
 #. Skip
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:450
 msgid "Skip"
-msgstr ""
+msgstr "Omite"
 
 #. Back
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:459
@@ -15140,7 +15134,7 @@ msgstr "Mergi înapoi"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:468
 msgid "<b>Dictionary</b>"
-msgstr ""
+msgstr "<b>Dicționar</b>"
 
 #. Add Word button
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:488
@@ -15156,7 +15150,7 @@ msgstr "Verificare ortografică"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:537
 msgid "_Rows:"
-msgstr ""
+msgstr "_Rânduri:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:554
 #, fuzzy
@@ -15166,7 +15160,7 @@ msgstr "Coloană _tabel:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:605
 msgid "_Spacing:"
-msgstr ""
+msgstr "_Spațiere:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:622
 #, fuzzy
@@ -15196,7 +15190,7 @@ msgstr "Proprietăți calendar"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:268
 msgid "Si_ze:"
-msgstr ""
+msgstr "Dimen_siune:"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:283
 #, fuzzy
@@ -15554,13 +15548,13 @@ msgstr "E_xtinde toate"
 #: ../src/e-util/e-name-selector-entry.c:3268
 #, c-format
 msgid "Cop_y %s"
-msgstr ""
+msgstr "Copia_ză %s"
 
 #. Cut Contact Item
 #: ../src/e-util/e-name-selector-entry.c:3279
 #, c-format
 msgid "C_ut %s"
-msgstr ""
+msgstr "_Taie %s"
 
 #. Edit Contact item
 #: ../src/e-util/e-name-selector-entry.c:3297
@@ -16198,7 +16192,7 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:29
 msgid "Failed to refresh list of account sources"
-msgstr ""
+msgstr "Eșec la reîmprospătarea listei surselor de conturi"
 
 #: ../src/e-util/e-table-click-to-add.c:687
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
@@ -21917,12 +21911,12 @@ msgstr "Completat în"
 #. Translators: This constructs a string like "Follow-up by Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:200
 msgid "{0} by {1}"
-msgstr ""
+msgstr "{0} până {1}"
 
 #. Translators: This constructs a string like "Overdue: Follow-up by Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:202
 msgid "Overdue: {0} by {1}"
-msgstr ""
+msgstr "Restant: {0} până {1}"
 
 #: ../src/mail/mail.error.xml.h:204
 #, fuzzy
@@ -22314,7 +22308,7 @@ msgstr "Finalizare"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:195
 msgid "_Browse"
-msgstr ""
+msgstr "_Răsfoiește"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:197
 msgid ""
@@ -23013,7 +23007,7 @@ msgstr "_Evită IfMatch (necesar pentru Apache < 2.2.8)"
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:425
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:185
 msgid "URL is not a valid http:// nor https:// URL"
-msgstr ""
+msgstr "URL-ul nu este un URL valid http:// nici https://"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:93
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1069
@@ -23039,15 +23033,15 @@ msgstr "Font s_tandard:"
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:500
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:687
 msgid "LDAP over SSL/TLS (deprecated)"
-msgstr ""
+msgstr "LDAP peste SSL/TLS (învechit)"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:506
 msgid "Microsoft Global Catalog"
-msgstr ""
+msgstr "Microsoft Global Catalog"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:512
 msgid "Microsoft Global Catalog over SSL/TLS"
-msgstr ""
+msgstr "Microsoft Global Catalog peste SSL/TLS"
 
 #. Page 1
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:623
@@ -23068,11 +23062,11 @@ msgstr "Port:"
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:246
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:201
 msgid "Port number is not valid"
-msgstr ""
+msgstr "Numărul de port nu este valid"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:690
 msgid "StartTLS (recommended)"
-msgstr ""
+msgstr "StartTLS (recomandat)"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:692
 msgid "Encryption:"
@@ -23102,7 +23096,7 @@ msgstr "Folosind adresa email"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:756
 msgid "requires anonymous access to your LDAP server"
-msgstr ""
+msgstr "necesită acces anonim la serverul dumneavoastră LDAP"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
 msgid "Using distinguished name (DN)"
@@ -23110,7 +23104,7 @@ msgstr "Folosind nume distinctiv (DN)"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:763
 msgid "for example: uid=user,dc=example,dc=com"
-msgstr ""
+msgstr "de exemplu: uid=utilizator,dc=exemplu,dc=com"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:771
 #, fuzzy
@@ -23121,11 +23115,12 @@ msgstr "Metode de introducere"
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:775
 msgid "This is the method Evolution will use to authenticate you."
 msgstr ""
+"Aceasta este metoda pe care Evolution o va folosi pentru a vă autentifica."
 
 #. Page 2
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:787
 msgid "Using LDAP"
-msgstr ""
+msgstr "Se folosește LDAP"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:804
 #: ../src/modules/mail/e-mail-shell-view.c:118
@@ -23147,11 +23142,11 @@ msgstr "_Caută domeniile posibile de căutare"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:852
 msgid "One Level"
-msgstr ""
+msgstr "Un nivel"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:854
 msgid "Subtree"
-msgstr ""
+msgstr "Subarbore"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:856
 #, fuzzy
@@ -23189,7 +23184,7 @@ msgstr "Se descarcă"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:903
 msgid "Limit:"
-msgstr ""
+msgstr "Limită:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:914
 #, fuzzy
@@ -23272,7 +23267,7 @@ msgstr "Folosit în calendarul _Zile de naștere & aniversări"
 
 #: ../src/modules/cal-config-google/e-cal-config-google.c:101
 msgid "Enable Calendars to synchronize"
-msgstr ""
+msgstr "Activează calendare pentru sincronizare"
 
 #: ../src/modules/cal-config-google/e-google-chooser-button.c:145
 #, fuzzy
@@ -23282,7 +23277,7 @@ msgstr "Șt_erge calendar"
 
 #: ../src/modules/cal-config-local/evolution-cal-config-local.c:159
 msgid "Use an existing iCalendar (ics) file"
-msgstr ""
+msgstr "Folosește un fișier existent iCalendar (ics)"
 
 #: ../src/modules/cal-config-local/evolution-cal-config-local.c:184
 #, fuzzy
@@ -23331,18 +23326,18 @@ msgstr "Locație:"
 #. * Fahrenheit. (\302\260 is U+00B0 DEGREE SIGN)
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:259
 msgid "Fahrenheit (°F)"
-msgstr ""
+msgstr "Fahrenheit (°F)"
 
 #. Translators: This is the temperature in degrees
 #. * Celsius. (\302\260 is U+00B0 DEGREE SIGN)
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:264
 msgid "Centigrade (°C)"
-msgstr ""
+msgstr "Celsius (°C)"
 
 #. Translators: This is the temperature in kelvin.
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:268
 msgid "Kelvin (K)"
-msgstr ""
+msgstr "Kelvin (K)"
 
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:270
 #, fuzzy
@@ -23352,7 +23347,7 @@ msgstr "_Unități:"
 
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:322
 msgid "Location cannot be empty"
-msgstr ""
+msgstr "Locația nu poate fi goală"
 
 #: ../src/modules/calendar/e-cal-attachment-handler.c:285
 #: ../src/smime/gui/smime-ui.ui.h:7
@@ -23707,10 +23702,8 @@ msgid "Highlight t_asks due today"
 msgstr "S_arcini scadente azi:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:65
-#, fuzzy
-#| msgid "_Overdue tasks:"
 msgid "Highlight _overdue tasks"
-msgstr "Sarcini re_stante:"
+msgstr "Evidențiază sarcini re_stante"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:66
 msgid "_Hide completed tasks after"
