@@ -277,6 +277,11 @@ config_lookup_dispose (GObject *object)
 
 	e_config_lookup_cancel_all (config_lookup);
 
+	if (config_lookup->priv->pool) {
+		g_thread_pool_free (config_lookup->priv->pool, TRUE, TRUE);
+		config_lookup->priv->pool = NULL;
+	}
+
 	g_mutex_lock (&config_lookup->priv->property_lock);
 
 	g_clear_object (&config_lookup->priv->run_cancellable);
@@ -305,7 +310,6 @@ config_lookup_finalize (GObject *object)
 	EConfigLookup *config_lookup = E_CONFIG_LOOKUP (object);
 
 	g_slist_free_full (config_lookup->priv->results, g_object_unref);
-	g_thread_pool_free (config_lookup->priv->pool, TRUE, FALSE);
 	g_mutex_clear (&config_lookup->priv->property_lock);
 
 	/* Chain up to parent's method. */

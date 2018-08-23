@@ -1858,8 +1858,6 @@ collection_account_wizard_dispose (GObject *object)
 		wizard->priv->store_passwords = NULL;
 	}
 
-	g_warn_if_fail (wizard->priv->running_result == NULL);
-
 	if (wizard->priv->running_result) {
 		e_simple_async_result_complete_idle (wizard->priv->running_result);
 		g_clear_object (&wizard->priv->running_result);
