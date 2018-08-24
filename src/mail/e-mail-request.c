@@ -135,20 +135,20 @@ mail_request_process_mail_sync (EContentRequest *request,
 		return FALSE;
 	}
 
-	val = g_hash_table_lookup (uri_query, "headers_collapsed");
+	val = uri_query ? g_hash_table_lookup (uri_query, "headers_collapsed") : NULL;
 	if (val != NULL && atoi (val) == 1)
 		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED;
 
-	val = g_hash_table_lookup (uri_query, "headers_collapsable");
+	val = uri_query ? g_hash_table_lookup (uri_query, "headers_collapsable") : NULL;
 	if (val != NULL && atoi (val) == 1)
 		context.flags |= E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSABLE;
 
-	val = g_hash_table_lookup (uri_query, "mode");
+	val = uri_query ? g_hash_table_lookup (uri_query, "mode") : NULL;
 	if (val != NULL)
 		context.mode = atoi (val);
 
-	default_charset = g_hash_table_lookup (uri_query, "formatter_default_charset");
-	charset = g_hash_table_lookup (uri_query, "formatter_charset");
+	default_charset = uri_query ? g_hash_table_lookup (uri_query, "formatter_default_charset") : NULL;
+	charset = uri_query ? g_hash_table_lookup (uri_query, "formatter_charset") : NULL;
 
 	context.part_list = g_object_ref (part_list);
 
@@ -166,7 +166,7 @@ mail_request_process_mail_sync (EContentRequest *request,
 
 	output_stream = g_memory_output_stream_new_resizable ();
 
-	val = g_hash_table_lookup (uri_query, "attachment_icon");
+	val = uri_query ? g_hash_table_lookup (uri_query, "attachment_icon") : NULL;
 	if (val) {
 		gchar *attachment_id;
 
@@ -197,7 +197,7 @@ mail_request_process_mail_sync (EContentRequest *request,
 							-1);
 
 						if (icon) {
-							const gchar *size = g_hash_table_lookup (uri_query, "size");
+							const gchar *size = uri_query ? g_hash_table_lookup (uri_query, "size") : NULL;
 							if (!size)
 								size = "16";
 
@@ -217,7 +217,7 @@ mail_request_process_mail_sync (EContentRequest *request,
 		goto no_part;
 	}
 
-	val = g_hash_table_lookup (uri_query, "part_id");
+	val = uri_query ? g_hash_table_lookup (uri_query, "part_id") : NULL;
 	if (val != NULL) {
 		EMailPart *part;
 		const gchar *mime_type;
@@ -236,7 +236,7 @@ mail_request_process_mail_sync (EContentRequest *request,
 		}
 		g_free (part_id);
 
-		mime_type = g_hash_table_lookup (uri_query, "mime_type");
+		mime_type = uri_query ? g_hash_table_lookup (uri_query, "mime_type") : NULL;
 
 		if (context.mode == E_MAIL_FORMATTER_MODE_SOURCE)
 			mime_type = "application/vnd.evolution.source";
@@ -331,7 +331,7 @@ mail_request_process_contact_photo_sync (EContentRequest *request,
 
 	photo_cache = e_mail_ui_session_get_photo_cache (E_MAIL_UI_SESSION (mail_session));
 
-	escaped_string = g_hash_table_lookup (uri_query, "mailaddr");
+	escaped_string = uri_query ? g_hash_table_lookup (uri_query, "mailaddr") : NULL;
 	if (escaped_string && *escaped_string) {
 		cia = camel_internet_address_new ();
 
