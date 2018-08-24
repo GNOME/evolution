@@ -1,5 +1,5 @@
 # French translation of evolution.
-# Copyright (C) 2000-2016 Free Software Foundation, Inc.
+# Copyright (C) 2000-2018 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 #
 # Vincent Renardias <vincent@debian.org>, 2000.
@@ -20,7 +20,7 @@
 # Myriam Malga <mmalga@redhat.com>, 2007.
 # Yannick Tailliez <ytdispatch-libre@yahoo.com>, 2008.
 # Rémi Peixoto <remi.peixoto@gmail.com>, 2009.
-# Claude Paroz <claude@2xlibre.net>, 2007-2011, 2015-2016.
+# Claude Paroz <claude@2xlibre.net>, 2007-2011, 2015-2018.
 # Laurent Coudeur <laurentc@iol.ie>, 2010.
 # Bruno Brouard <annoa.b@gmail.com>, 2008-2012, 2012.
 # Alain Lojewski <allomervan@gmail.com>, 2012-2018.
@@ -33,16 +33,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2018-07-30 11:51+0000\n"
-"PO-Revision-Date: 2018-03-13 18:33+0100\n"
-"Last-Translator: Guillaume Bernard <associations@guillaume-bernard.fr>\n"
+"POT-Creation-Date: 2018-08-16 21:04+0000\n"
+"PO-Revision-Date: 2018-08-24 09:06+0200\n"
+"Last-Translator: Claude Paroz <claude@2xlibre.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.0.6\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -1002,6 +1001,8 @@ msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
 msgstr ""
+"Autoriser la modification directe des résumés d’évènements après un clic sur "
+"l’évènement dans les vues par jour, jour de semaine, semaine, mois."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1549,13 +1550,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Convert UTC time in reply credits to local time"
-msgstr ""
+msgstr "Convertir l’heure UTC en heure locale dans les citations de réponse"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Whether the time in reply credits should be converted to local time when "
-"it's in UTC in the message."
+"it’s in UTC in the message."
 msgstr ""
+"Indique si l’heure dans la ligne initiale de citation de réponse est "
+"convertie en heure locale lorsque le message utilise l’heure UTC."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Whether to obey Content-Disposition:inline message header hint"
@@ -1910,15 +1913,11 @@ msgstr ""
 "messages par défaut, au-delà duquel « … » est affiché."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
-#, fuzzy
-#| msgid ""
-#| "Show Attachment Bar below the message preview pane when the message has "
-#| "attachments"
 msgid ""
 "Show mails in headers part of the message preview when name is available"
 msgstr ""
-"Affiche la barre des pièces jointes au-dessous du panneau d’aperçu des "
-"messages lorsqu’un message possède des pièces jointes"
+"Afficher les adresses dans les en-têtes d’aperçu de message même quand le "
+"nom est disponible"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid ""
@@ -1926,6 +1925,10 @@ msgid ""
 "email parts in headers like To/Cc/Bcc will be shown only with the name part, "
 "without the actual email, with the name made clickable."
 msgstr ""
+"Si défini à faux, les adresses qui contiennent à la fois un nom et une "
+"adresse de courriel dans les en-têtes comme À/Cc/Bcc sont uniquement "
+"affichées avec la partie du nom, sans l’adresse de courriel, mais avec le "
+"nom cliquable."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Thread the message-list based on Subject"
@@ -2698,12 +2701,12 @@ msgid "Apply chosen template when using Alternative Reply"
 msgstr "Appliquez le modèle choisi pour les réponses alternatives"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
-msgid "Last chosen template's folder URI for Alternative Reply"
+msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr "Dernière URI de modèle choisie pour la réponse alternative"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
-msgid "Last chosen template's message UID for Alternative Reply"
-msgstr ""
+msgid "Last chosen template’s message UID for Alternative Reply"
+msgstr "Dernière URI de modèle choisie pour la réponse alternative"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid ""
@@ -2718,24 +2721,33 @@ msgid ""
 "Whether set “body” in mailto: URI as Preformatted paragraph style. If set to "
 "“false”, then Normal paragraph style will be used."
 msgstr ""
+"Indique si « body » dans les URI mailto: doit utiliser le style de "
+"paragraphe Préformaté. Si défini à faux, c’est le style de paragraphe Normal "
+"qui est utilisé."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 msgid ""
 "Close the message browser window when the selected message is deleted or "
 "marked as Junk."
 msgstr ""
+"Fermer la fenêtre du navigateur de messages lorsque le message sélectionné "
+"est supprimé ou marqué comme pourriel."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid ""
 "Collapse archive folders in Move/Copy message to Folder and Go to Folder "
 "selectors."
 msgstr ""
+"Condenser les dossiers d’archives dans les sélecteurs « Déplacer/copier "
+"message vers dossier» et « Aller au dossier »."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
 msgid ""
 "Where to lookup recipient S/MIME certificates or PGP keys when encrypting "
 "messages."
 msgstr ""
+"Endroit de recherche des destinataires de certificats S/MIME ou de clés PGP "
+"lors du chiffrement des messages."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
 msgid ""
@@ -2744,6 +2756,11 @@ msgid ""
 "value uses certificates from auto-completed contacts and searches in books "
 "marked for auto-completion."
 msgstr ""
+"La valeur « off » désactive complètement la recherche de certificat ; la "
+"valeur « autocompleted » ne fournit des certificats que pour les contacts "
+"avec autocomplétion ; la valeur « books » utilise des certificats pour les "
+"contacts avec autocomplétion et recherche dans les carnets qui sont marqués "
+"comme candidats à l’autocomplétion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
 msgid "(Deprecated) Default forward style"
@@ -2866,11 +2883,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "Whether to set “File under” field as “First Last”"
-msgstr ""
+msgstr "Indique si le champ « Classer sous » apparaît comme « Prénom Nom »"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Set File under as “First Last”, instead of “Last, First”."
 msgstr ""
+"Définir « Classer sous » comme « Prénom Nom » au lieu de « Nom, Prénom »"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin address book source"
@@ -3060,12 +3078,14 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:19
 msgid "Do not notify for these accounts"
-msgstr ""
+msgstr "Ne pas envoyer de notifications à ces comptes"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:20
 msgid ""
 "Contains UIDs of accounts for which the notifications should be avoided."
 msgstr ""
+"Contient les UID des comptes pour lesquels les notifications ne sont pas "
+"émises."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:1
 msgid "Mode to use when displaying mails"
@@ -3329,7 +3349,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
 msgid "Whether the text-highlight module is enabled"
-msgstr ""
+msgstr "Indique si le module de surlignage de texte est activé"
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:2
 msgid "Theme name to use, defaults to “bclear”"
@@ -3777,18 +3797,16 @@ msgstr "Quelque chose s’est mal passé lors de l’affichage du contact"
 msgid ""
 "A WebKitWebProcess crashed when displaying the contact. You can try again by "
 "moving to another contact and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un processus WebKitWebProcess s’est arrêté brutalement lors de l’affichage "
 "du contact. Vous pouvez réessayer d’afficher un autre contact puis de "
 "revenir à celui-ci. Si le problème persiste, veuillez envoyer un rapport "
-"d’anomalie au bugzilla de GNOME."
+"d’anomalie au Gitlab de GNOME."
 
 #: ../src/addressbook/addressbook.error.xml.h:48
-#, fuzzy
-#| msgid "Failed to refresh address book “{0}”"
 msgid "Failed to refresh list of account address books"
-msgstr "Impossible d’actualiser le carnet d’adresses « {0} »"
+msgstr "Impossible d’actualiser la liste des carnets d’adresses du compte"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
 msgid "Show Telephone"
@@ -6123,12 +6141,12 @@ msgstr "Quelque chose s’est mal passé lors de l’affichage de l’événemen
 msgid ""
 "A WebKitWebProcess crashed when displaying the event. You can try again by "
 "moving to another event and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un processus WebKitWebProcess s’est arrêté brutalement lors de l’affichage "
 "de l’événement. Vous pouvez réessayer d’afficher un autre événement puis de "
 "revenir à celui-ci. Si le problème persiste, veuillez envoyer un rapport "
-"d’anomalie au bugzilla de GNOME."
+"d’anomalie au Gitlab de GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:175
 msgid "Something has gone wrong when displaying the memo"
@@ -6138,12 +6156,12 @@ msgstr "Quelque chose s’est mal passé lors de l’affichage du mémo"
 msgid ""
 "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 "moving to another memo and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un processus WebKitWebProcess s’est arrêté brutalement lors de l’affichage "
 "du mémo. Vous pouvez réessayer d’afficher un autre mémo puis de revenir à "
 "celui-ci. Si le problème persiste, veuillez envoyer un rapport d’anomalie au "
-"bugzilla de GNOME."
+"Gitlab de GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:177
 msgid "Something has gone wrong when displaying the task"
@@ -6153,12 +6171,12 @@ msgstr "Quelque chose s’est mal passé lors de l’affichage de la tâche"
 msgid ""
 "A WebKitWebProcess crashed when displaying the task. You can try again by "
 "moving to another task and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un processus WebKitWebProcess s’est arrêté brutalement lors de l’affichage "
 "de la tâche. Vous pouvez réessayer d’afficher une autre tâche puis de "
 "revenir à celle-ci. Si le problème persiste, veuillez envoyer un rapport "
-"d’anomalie au bugzilla de GNOME."
+"d’anomalie au Gitlab de GNOME."
 
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
@@ -6627,10 +6645,8 @@ msgid "Due Date:"
 msgstr "Date d’échéance :"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:300
-#, fuzzy
-#| msgid "Recurring"
 msgid "Recurs:"
-msgstr "Récurrent"
+msgstr "Répétition :"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:312
 #: ../src/modules/itip-formatter/itip-view.c:1685
@@ -7694,17 +7710,23 @@ msgstr "Or_ganisateur :"
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
+"Couleur surchargée de l’évènement. Si non définie, la couleur du calendrier "
+"est utilisée."
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1350
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
+"Couleur surchargée du mémo. Si non définie, la couleur de la liste de mémos "
+"est utilisée."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1352
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
+"Couleur surchargée de la tâche. Si non définie, la couleur de la liste de "
+"tâches est utilisée."
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1364
 msgctxt "ECompEditor"
@@ -8340,7 +8362,7 @@ msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-task.c:555
 msgid "Start date is required for recurring tasks"
-msgstr ""
+msgstr "La date de début est obligatoire pour les tâches répétitives"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:567
 msgid "Due date is not a valid date"
@@ -8399,7 +8421,7 @@ msgstr "Aucun résumé"
 #: ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:131 ../src/mail/e-mail-notes.c:952
-#: ../src/mail/em-folder-properties.c:1150
+#: ../src/mail/em-folder-properties.c:1151
 #: ../src/mail/em-subscription-editor.c:1739
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
 #: ../src/shell/e-shell-window-actions.c:296
@@ -11601,12 +11623,12 @@ msgstr "Quelque chose s’est mal passé pendant la modification du message"
 msgid ""
 "A WebKitWebProcess crashed when editing the message. You can try again by "
 "closing the composer window and opening a new one. If the issue persists, "
-"please file a bug report in the GNOME bugzilla."
+"please file a bug report in GNOME Gitlab."
 msgstr ""
 "Un processus WebKitWebProcess s’est arrêté brusquement lors de la "
 "modification du message. Vous pouvez réessayer en fermant la fenêtre de "
 "dialogue et en en ouvrant une nouvelle. Si le problème persiste, veuillez "
-"envoyer un rapport d’anomalie au bugzilal de GNOME."
+"envoyer un rapport d’anomalie au Gitlab de GNOME."
 
 #: ../src/composer/mail-composer.error.xml.h:58
 msgid "An error occurred while creating message composer."
@@ -11882,40 +11904,32 @@ msgid "GPG signed"
 msgstr "signé avec GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:562
-#, fuzzy
-#| msgid "GPG signed"
 msgid "partially GPG signed"
-msgstr "signé avec GPG"
+msgstr "partiellement signé avec GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:563
 msgid "GPG encrypted"
 msgstr "chiffré avec GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:563
-#, fuzzy
-#| msgid "GPG encrypted"
 msgid "partially GPG encrypted"
-msgstr "chiffré avec GPG"
+msgstr "partiellement chiffré avec GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:564
 msgid "S/MIME signed"
 msgstr "signé avec S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:564
-#, fuzzy
-#| msgid "S/MIME signed"
 msgid "partially S/MIME signed"
-msgstr "signé avec S/MIME"
+msgstr "partiellement signé avec S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:565
 msgid "S/MIME encrypted"
 msgstr "chiffré avec S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:565
-#, fuzzy
-#| msgid "S/MIME encrypted"
 msgid "partially S/MIME encrypted"
-msgstr "chiffré avec S/MIME"
+msgstr "partiellement chiffré avec S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:678
 #: ../src/mail/e-mail-config-security-page.c:856
@@ -12136,7 +12150,7 @@ msgstr "_Actualiser"
 
 #: ../src/e-util/e-accounts-window.c:1759
 msgid "Initiates refresh of account sources"
-msgstr ""
+msgstr "Démarre l’actualisation des sources de comptes"
 
 #. Translators: This is a cancelled activity.
 #: ../src/e-util/e-activity.c:256
@@ -15273,13 +15287,12 @@ msgstr "Quelque chose s’est mal passé"
 #: ../src/e-util/e-system.error.xml.h:24
 msgid ""
 "A WebKitWebProcess crashed when displaying the content. You can try again by "
-"reopening the window. If the issue persists, please file a bug report in the "
-"GNOME bugzilla."
+"reopening the window. If the issue persists, please file a bug report in "
+"GNOME Gitlab."
 msgstr ""
 "Un processus WebKitWebProcess s’est arrêté brusquement lors de l’affichage "
 "de ce contenu. Vous pouvez réessayer en ré-ouvrant la fenêtre. Si le "
-"problème persiste, veuillez envoyer un rapport d’anomalie au bugzilla de "
-"GNOME."
+"problème persiste, veuillez envoyer un rapport d’anomalie au Gitlab de GNOME."
 
 #: ../src/e-util/e-system.error.xml.h:25
 msgid "Are you sure you want to delete remote collection “{0}”?"
@@ -15291,11 +15304,11 @@ msgid ""
 "sure you want to proceed?"
 msgstr ""
 "Cette action supprimera définitivement la collection « {0} » du serveur. "
-"Êtes-vous sûr de vouloir continuer ?"
+"Voulez-vous vraiment continuer ?"
 
 #: ../src/e-util/e-system.error.xml.h:29
 msgid "Failed to refresh list of account sources"
-msgstr ""
+msgstr "Impossible d’actualiser la liste des sources de comptes"
 
 #: ../src/e-util/e-table-click-to-add.c:687
 #: ../src/e-util/gal-a11y-e-table-click-to-add.c:59
@@ -16091,7 +16104,7 @@ msgstr "URI de dossier non valide « %s »"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:117
-#: ../src/mail/em-folder-properties.c:1142
+#: ../src/mail/em-folder-properties.c:1143
 #: ../src/mail/em-folder-tree-model.c:1237
 #: ../src/mail/importers/kmail-libs.c:139
 #: ../src/modules/mail/e-mail-shell-view-private.c:1003
@@ -16161,10 +16174,11 @@ msgstr ""
 #: ../src/libemail-engine/e-mail-session.c:1636
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr ""
+"Recherche des certificats S/MIME du destinataire dans les carnets d’adresses…"
 
 #: ../src/libemail-engine/e-mail-session.c:1638
 msgid "Looking up recipient PGP keys in address books…"
-msgstr ""
+msgstr "Recherche des clés PGP du destinataire dans les carnets d’adresses…"
 
 #: ../src/libemail-engine/e-mail-session.c:2641
 #, c-format
@@ -18027,7 +18041,7 @@ msgstr "Marquer pour donner suite"
 
 #: ../src/mail/e-mail-tag-editor.c:161
 msgid "Cl_ear"
-msgstr ""
+msgstr "_Effacer"
 
 #: ../src/mail/e-mail-templates-store.c:115
 msgid "No Title"
@@ -18251,12 +18265,9 @@ msgstr "Archiver ce dossier en utilisant ces paramètres :"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:617
-#, fuzzy
-#| msgctxt "autoarchive"
-#| msgid "_Cleanup messages older than"
 msgctxt "autoarchive"
 msgid "Auto-_cleanup messages older than"
-msgstr "_Nettoyer les messages plus ancien que"
+msgstr "_Nettoyer automatiquement les messages plus ancien que"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:630
@@ -18277,10 +18288,8 @@ msgid "months"
 msgstr "mois"
 
 #: ../src/mail/em-folder-properties.c:640
-#, fuzzy
-#| msgid "Move old messages to the default archive _folder"
 msgid "Move messages to the default archive _folder"
-msgstr "Déplacer les anciens messages vers le _dossier d’archivage par défaut"
+msgstr "Déplacer les messages vers le _dossier d’archivage par défaut"
 
 #: ../src/mail/em-folder-properties.c:647
 msgid "_Move messages to:"
@@ -18291,10 +18300,8 @@ msgid "Archive folder"
 msgstr "Dossier d’archivage"
 
 #: ../src/mail/em-folder-properties.c:651
-#, fuzzy
-#| msgid "Select folder to use for AutoArchive"
 msgid "Select folder to use for Archive"
-msgstr "Sélectionnez un dossier à utiliser pour l’Archivage Automatique"
+msgstr "Sélectionnez le dossier à utiliser pour l’archivage"
 
 #: ../src/mail/em-folder-properties.c:655
 msgid "_Delete messages"
@@ -18309,22 +18316,21 @@ msgstr "Étiquette du serveur"
 msgid "Label"
 msgstr "Étiquette"
 
-#: ../src/mail/em-folder-properties.c:1065
-#, fuzzy
-#| msgid "_Archive..."
+#. Translators: "Archive" is a noun (This is a tab heading in the mail folder properties)
+#: ../src/mail/em-folder-properties.c:1066
 msgid "Archive"
-msgstr "_Archiver…"
+msgstr "Archivage"
 
-#: ../src/mail/em-folder-properties.c:1068 ../src/mail/mail-config.ui.h:121
+#: ../src/mail/em-folder-properties.c:1069 ../src/mail/mail-config.ui.h:121
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Étiquettes"
 
-#: ../src/mail/em-folder-properties.c:1147
+#: ../src/mail/em-folder-properties.c:1148
 msgid "Folder Properties"
 msgstr "Propriétés du dossier"
 
-#: ../src/mail/em-folder-properties.c:1386
+#: ../src/mail/em-folder-properties.c:1387
 msgid "Gathering folder properties"
 msgstr "Collecte des propriétés du dossier"
 
@@ -19462,10 +19468,8 @@ msgid "Displayed Message Headers"
 msgstr "Afficher les en-têtes des messages"
 
 #: ../src/mail/mail-config.ui.h:126
-#, fuzzy
-#| msgid "Show junk messages in the message-list"
 msgid "Show _full mail addresses in message preview"
-msgstr "Afficher les messages pourriels dans la liste des messages"
+msgstr "Afficher les adresses de courriel complètes dans l’aperçu des messages"
 
 #: ../src/mail/mail-config.ui.h:127
 msgid "Mail Headers Table"
@@ -19473,7 +19477,7 @@ msgstr "En-têtes des messages"
 
 #: ../src/mail/mail-config.ui.h:128
 msgid "Re_set"
-msgstr ""
+msgstr "Réinitiali_ser"
 
 #: ../src/mail/mail-config.ui.h:129
 #: ../src/modules/addressbook/autocompletion-config.c:118
@@ -20540,12 +20544,12 @@ msgstr "Quelque chose s’est mal passé lors de l’affichage du message"
 msgid ""
 "A WebKitWebProcess crashed when displaying the message. You can try again by "
 "moving to another message and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Un processus WebKitWebProcess s’est arrêté brutalement lors de l’affichage "
 "du message. Vous pouvez réessayer d’afficher un autre message puis de "
 "revenir à celui-ci. Si le problème persiste, veuillez envoyer un rapport "
-"d’anomalie au bugzilla de GNOME."
+"d’anomalie au Gitlab de GNOME."
 
 #: ../src/mail/mail.error.xml.h:212
 msgid "Something has gone wrong when displaying the signature"
@@ -20555,12 +20559,12 @@ msgstr "Quelque chose s’est mal passé lors de l’affichage de la signature"
 msgid ""
 "A WebKitWebProcess crashed when displaying the signature. You can try again "
 "by moving to another signature and back. If the issue persists, please file "
-"a bug report in the GNOME bugzilla."
+"a bug report in GNOME Gitlab."
 msgstr ""
 "Un processus WebKitWebProcess s’est arrêté brutalement lors de l’affichage "
 "de la signature. Vous pouvez réessayer d’afficher une autre signature puis "
 "de revenir à celle-ci. Si le problème persiste, veuillez envoyer un rapport "
-"d’anomalie au bugzilla de GNOME."
+"d’anomalie au Gitlab de GNOME."
 
 #: ../src/mail/mail.error.xml.h:214
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
@@ -21041,10 +21045,8 @@ msgid "Refresh the selected address book"
 msgstr "Actualise le carnet d’adresses sélectionné"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
-#, fuzzy
-#| msgid "Refresh the selected address book"
 msgid "Re_fresh list of account address books"
-msgstr "Actualise le carnet d’adresses sélectionné"
+msgstr "Ac_tualiser la liste des carnets d’adresses du compte"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1071
 msgid "Address Book _Map"
@@ -21260,10 +21262,9 @@ msgid "_Send Message to Contact"
 msgstr "Envoyer un _message au contact"
 
 #: ../src/modules/alarm-notify/alarm-notify.c:169
-#, fuzzy, c-format
-#| msgid "Failed to open calendar “{0}”"
+#, c-format
 msgid "Failed to launch command “%s”:"
-msgstr "Impossible d’ouvrir l’agenda « {0} »"
+msgstr "Impossible de lancer la commande « %s » :"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:162
 msgid ""
@@ -21620,10 +21621,8 @@ msgid "Anonymous"
 msgstr "Anonyme"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:749
-#, fuzzy
-#| msgid "User name cannot be empty"
 msgid "Username can be left empty"
-msgstr "Le champ nom d’utilisateur ne peut pas être vide"
+msgstr "Le nom d’utilisateur peut être vide"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:755
 msgid "Using email address"
@@ -21631,7 +21630,7 @@ msgstr "En utilisant l’adresse électronique"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:756
 msgid "requires anonymous access to your LDAP server"
-msgstr ""
+msgstr "nécessite l’accès anonyme au serveur LDAP"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
 msgid "Using distinguished name (DN)"
@@ -21639,7 +21638,7 @@ msgstr "En utilisant le nom distinctif (DN)"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:763
 msgid "for example: uid=user,dc=example,dc=com"
-msgstr ""
+msgstr "par exemple : uid=utilisateur,dc=exemple,dc=com"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:771
 msgid "Method:"
@@ -21647,7 +21646,7 @@ msgstr "Méthode :"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:775
 msgid "This is the method Evolution will use to authenticate you."
-msgstr ""
+msgstr "Il s’agit de la méthode qu’Evolution utilise pour vous authentifier."
 
 #. Page 2
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:787
@@ -22144,7 +22143,7 @@ msgstr "Ordonner les jours de g_auche à droite dans la vue hebdomadaire"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Allo_w direct edit of event Summary"
-msgstr ""
+msgstr "Autoriser la modification d_irecte du résumé d’évènement"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:59
 msgid "Alerts"
@@ -22171,10 +22170,8 @@ msgid "_Hide completed tasks after"
 msgstr "_Masquer les tâches achevées après"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:67
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Hid_e cancelled tasks"
-msgstr "Masquer les tâches terminées"
+msgstr "Masqu_er les tâches annulées"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "To Do bar"
@@ -22381,10 +22378,8 @@ msgid "Refresh the selected calendar"
 msgstr "Actualise l’agenda sélectionné"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1353
-#, fuzzy
-#| msgid "Refresh the selected calendar"
 msgid "Re_fresh list of account calendars"
-msgstr "Actualise l’agenda sélectionné"
+msgstr "Ac_tualiser la liste des agendas du compte"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 msgid "Rename the selected calendar"
@@ -22805,10 +22800,8 @@ msgid "Refresh the selected memo list"
 msgstr "Actualise la liste de mémos sélectionnée"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:635
-#, fuzzy
-#| msgid "Refresh the selected memo list"
 msgid "Re_fresh list of account memo lists"
-msgstr "Actualise la liste de mémos sélectionnée"
+msgstr "Ac_tualiser la liste des listes de mémos du compte"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:644
 msgid "Rename the selected memo list"
@@ -22945,10 +22938,8 @@ msgid "Refresh the selected task list"
 msgstr "Actualise la liste de tâches sélectionnée"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:761
-#, fuzzy
-#| msgid "Refresh the selected task list"
 msgid "Re_fresh list of account task lists"
-msgstr "Actualise la liste de tâches sélectionnée"
+msgstr "Ac_tualiser la liste des listes de tâches du compte"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:770
 msgid "Rename the selected task list"
@@ -23051,7 +23042,7 @@ msgstr "Transformer en nouveau courriel"
 
 #: ../src/modules/config-lookup/e-gnome-config-lookup.c:67
 msgid "Look up configuration with e-mail domain"
-msgstr ""
+msgstr "Rechercher une configuration avec le domaine de messagerie"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
@@ -24478,10 +24469,8 @@ msgid "Current Folder and Subfolders"
 msgstr "Dossier actuel et sous-dossiers"
 
 #: ../src/modules/mail/e-mail-shell-view.c:893
-#, fuzzy
-#| msgid "In Current Folder and _Subfolders"
 msgid "Current Folder and Subfolders Search"
-msgstr "Dans le dossier actuel et les _sous-dossiers"
+msgstr "Rechercher dans dossier actuel et sous-dossiers"
 
 #: ../src/modules/mail/e-mail-shell-view.c:1013
 msgid "All Account Search"
@@ -25185,6 +25174,7 @@ msgstr ""
 #: ../src/plugins/bbdb/bbdb.c:782
 msgid "Set File _under as “First Last”, instead of “Last, First”"
 msgstr ""
+"Afficher « Classer so_us » comme « Prénom Nom » au lieu de « Nom, Prénom »"
 
 #: ../src/plugins/bbdb/bbdb.c:793
 msgid "Select Address book for Automatic Contacts"
@@ -25643,8 +25633,8 @@ msgstr "Objet : %s"
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(et %d de plus)"
+msgstr[1] "(et %d de plus)"
 
 #: ../src/plugins/mail-notification/mail-notification.c:513
 msgid "New email in Evolution"
@@ -25678,10 +25668,8 @@ msgid "Select sound file"
 msgstr "Sélection d’un fichier sonore"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1014
-#, fuzzy
-#| msgid "Select the sources for reminder notification:"
 msgid "Select _accounts for which enable notifications:"
-msgstr "Sélectionnez les sources pour les notifications de rappel :"
+msgstr "Sélectionnez les _comptes pour lesquels activer les notifications :"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1176
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
@@ -25882,10 +25870,8 @@ msgid "Create a new meeting from the selected message"
 msgstr "Crée une nouvelle réunion à partir du message sélectionné"
 
 #: ../src/plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
-#, fuzzy
-#| msgid "Mail to %s"
 msgid "Mail-to-Task"
-msgstr "Courriel à %s"
+msgstr "Courriel vers tâche"
 
 #: ../src/plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 msgid "Convert a mail message to a task."
@@ -26881,6 +26867,7 @@ msgstr "La barre de menus est cachée"
 #: ../src/shell/shell.error.xml.h:35
 msgid "Press the “Alt” key to access the Menu Bar again."
 msgstr ""
+"Appuyez sur la touche « Alt » pour acccéder de nouveau à la barre des menus."
 
 #: ../src/shell/shell.error.xml.h:36
 msgid "_Show Menu Bar"
