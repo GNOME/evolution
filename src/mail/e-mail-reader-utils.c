@@ -2387,6 +2387,55 @@ html_contains_nonwhitespace (const gchar *html,
 	return cp - html < len - 1 && uc != 0;
 }
 
+static gboolean
+plaintext_contains_nonwhitespace (const gchar *text,
+				  gint len)
+{
+	const gchar *cp;
+	gunichar uc = 0;
+
+	if (!text || len <= 0)
+		return FALSE;
+
+	cp = text;
+
+	while (cp != NULL && cp - text < len) {
+		uc = g_utf8_get_char (cp);
+		if (uc == 0)
+			break;
+
+		if (!g_unichar_isspace (uc))
+			break;
+
+		cp = g_utf8_next_char (cp);
+	}
+
+	return cp - text < len - 1 && uc != 0;
+}
+
+static void
+maybe_mangle_plaintext_signature_delimiter (gchar **inout_text)
+{
+	GString *text;
+
+	g_return_if_fail (inout_text != NULL);
+
+	if (!*inout_text || (!strstr (*inout_text, "\n-- \n") && g_ascii_strncasecmp (*inout_text, "-- \n", 4)  != 0))
+		return;
+
+	text = e_str_replace_string (*inout_text, "\n-- \n", "\n--\n");
+	if (!text)
+		return;
+
+	if (text->len >= 4 && g_ascii_strncasecmp (text->str, "-- \n", 4)  == 0) {
+		/* Remove the space at the third byte */
+		g_string_erase (text, 2, 1);
+	}
+
+	g_free (*inout_text);
+	*inout_text = g_string_free (text, FALSE);
+}
+
 static void
 mail_reader_reply_composer_created_cb (GObject *object,
 				       GAsyncResult *result,
@@ -2697,8 +2746,14 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		goto whole_message;
 
 	length = strlen (selection);
-	if (!html_contains_nonwhitespace (selection, length))
+	if ((src_is_text_html && !html_contains_nonwhitespace (selection, length)) ||
+	    (!src_is_text_html && !plaintext_contains_nonwhitespace (selection, length)))
 		goto whole_message;
+
+	if (!src_is_text_html) {
+		maybe_mangle_plaintext_signature_delimiter (&selection);
+		length = strlen (selection);
+	}
 
 	new_message = camel_mime_message_new ();
 
