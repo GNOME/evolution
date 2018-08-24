@@ -733,6 +733,19 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 		g_return_if_reached ();
 	}
 
+	if (view_kind != E_CAL_VIEW_KIND_LIST) {
+		EShellView *shell_view;
+		EShellWindow *shell_window;
+
+		shell_view = e_shell_content_get_shell_view (E_SHELL_CONTENT (cal_shell_content));
+		shell_window = e_shell_view_get_shell_window (shell_view);
+
+		/* Reset these two filters, because they force the List View */
+		if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (CALENDAR_FILTER_ACTIVE_APPOINTMENTS))) ||
+		    gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS))))
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (ACTION (CALENDAR_FILTER_ANY_CATEGORY)), TRUE);
+	}
+
 	e_cal_shell_content_set_current_view_id (cal_shell_content, view_kind);
 }
 
