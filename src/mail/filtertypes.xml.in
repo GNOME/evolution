@@ -772,13 +772,13 @@
    <option value="is completed">
     <_title>is Completed</_title>
     <code>
-       (match-all (not (= (user-tag "completed-on") "")))
+       (match-all (and (not (= (user-tag "follow-up") "")) (not (= (user-tag "completed-on") ""))))
     </code>
    </option>
    <option value="is not completed">
     <_title>is not Completed</_title>
     <code>
-       (match-all (= (user-tag "completed-on") ""))
+       (match-all (and (not (= (user-tag "follow-up") "")) (= (user-tag "completed-on") "")))
     </code>
    </option>
   </input>
