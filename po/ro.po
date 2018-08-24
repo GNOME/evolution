@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2018-08-12 22:10+0000\n"
-"PO-Revision-Date: 2018-08-22 20:17+0200\n"
+"PO-Revision-Date: 2018-08-24 11:03+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
@@ -532,16 +532,12 @@ msgid "Number of units for determining when to hide tasks"
 msgstr "Numărul de unități pentru a determina când să se ascundă sarcinile"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Hide cancelled tasks"
-msgstr "Ascunde sarcinile terminate"
+msgstr "Ascunde sarcinile anulate"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
-#, fuzzy
-#| msgid "Whether to hide completed tasks in the tasks view"
 msgid "Whether to hide cancelled tasks in the tasks view"
-msgstr "Dacă să ascundă sarcinile completate în vizualizarea sarcinilor"
+msgstr "Dacă să se ascundă sarcinile anulate în vizualizarea sarcinilor"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid "Horizontal pane position"
@@ -674,8 +670,8 @@ msgid ""
 "The UID of the selected (or “primary”) memo list in the sidebar of the "
 "“Memos” view"
 msgstr ""
-"UID-ul notiței selectate (sau „primary”) în bara laterală a vizualizării "
-"„Memo-uri”"
+"UID-ul listei de memo-uri selectate (sau „primary”) în bara laterală a "
+"vizualizării „Memo-uri”"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 msgid "Primary task list"
@@ -963,6 +959,8 @@ msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
 msgstr ""
+"Permite editarea directă a rezumatului evenimentului când se apasă clic pe "
+"el în vizualizările Zi, Săptămână lucrătoare, Săptămână sau Lună."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1418,7 +1416,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:61
 msgid "List of localized “Re”"
-msgstr "Listă de „Re” localizat"
+msgstr "Lista cu „Re” localizat"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid ""
@@ -1432,7 +1430,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid "List of localized “Re” separators"
-msgstr "Listă de separatori localizați pentru „Re”"
+msgstr "Lista cu separatori localizați pentru „Re”"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:64
 msgid ""
@@ -1507,13 +1505,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
 msgid "Convert UTC time in reply credits to local time"
-msgstr ""
+msgstr "Convertește timpul UTC din creditele răspunsului în timpul local"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid ""
 "Whether the time in reply credits should be converted to local time when "
 "it’s in UTC in the message."
 msgstr ""
+"Dacă timpul din creditele răspunsului ar trebui convertit în timpul local "
+"când este în UTC în mesaj."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Whether to obey Content-Disposition:inline message header hint"
@@ -1862,15 +1862,11 @@ msgstr ""
 "listei de mesaje, după care se va arăta un „...”"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
-#, fuzzy
-#| msgid ""
-#| "Show Attachment Bar below the message preview pane when the message has "
-#| "attachments"
 msgid ""
 "Show mails in headers part of the message preview when name is available"
 msgstr ""
-"Arată bara de atașamente sub panoul de previzualizare al mesajelor când "
-"mesajul are fișiere atașate"
+"Arată emailuri în partea antetelor a previzualizării mesajului când numele "
+"este disponibil"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid ""
@@ -1878,6 +1874,9 @@ msgid ""
 "email parts in headers like To/Cc/Bcc will be shown only with the name part, "
 "without the actual email, with the name made clickable."
 msgstr ""
+"Când este stabilit la fals, adresele de email care conțin și partea de nume "
+"și partea de email în antete ca Către/Cc/Bcc vor fi afișate numai cu partea "
+"de nume, fără adresa de email, cu numele clicabil."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Thread the message-list based on Subject"
@@ -2052,9 +2051,9 @@ msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr ""
-"Activează/dezactivează notificările repetate pentru a vă avertiza că "
-"trimiteți un mesaj către destinatari ce nu au fost introduși ca adrese de "
-"email "
+"Activează/dezactivează solicitările repetate pentru a vă avertiza că "
+"încercați să trimiteți un mesaj către destinatari ce nu au fost introduși ca "
+"adrese de email"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:177
 msgid "Prompt when user only fills Bcc"
@@ -2448,7 +2447,7 @@ msgstr "Director salvare"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid "Directory for saving mail component files."
-msgstr "Director în care să fie salvate fișierele componente ale unui email"
+msgstr "Director în care să fie salvate fișierele componente ale unui email."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:236
 msgid "Composer load/attach directory"
@@ -2605,10 +2604,8 @@ msgid "Stores whether the To Do bar should show also tasks without Due date."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:262
-#, fuzzy
-#| msgid "Show the status bar"
 msgid "Show start up wizard"
-msgstr "Arată bara de stare"
+msgstr "Arată asistentul la pornire"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
 msgid "Whether show start up wizard when there is no mail account configured."
@@ -3772,70 +3769,48 @@ msgid "Failed to refresh list of account address books"
 msgstr "Eșec la reîmprospătarea listei de conturi de agende"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
-#, fuzzy
-#| msgid "Telephone"
 msgid "Show Telephone"
-msgstr "Telefon"
+msgstr "Arată telefon"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:2
-#, fuzzy
-#| msgid "_To This Address"
 msgid "Show SIP Address"
-msgstr "Că_tre această adresă"
+msgstr "Arată adresa SIP"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:3
-#, fuzzy
-#| msgid "Instant Messaging"
 msgid "Show Instant Messaging"
-msgstr "Mesagerie instant"
+msgstr "Arată mesageria instantă"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:4
-#, fuzzy
-#| msgid "Web Addresses"
 msgid "Show Web Addresses"
-msgstr "Adrese web"
+msgstr "Arată adresele web"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:5
-#, fuzzy
-#| msgid "Show the second time zone"
 msgid "Show Job section"
-msgstr "Arată fusul orar secundar"
+msgstr "Arată secțiunea job"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:6
-#, fuzzy
-#| msgid "Miscellaneous"
 msgid "Show Miscellaneous"
-msgstr "Diverse"
+msgstr "Arată diverse"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:7
-#, fuzzy
-#| msgid "Mailing Address"
 msgid "Show Home Mailing Address"
-msgstr "Adresă pentru expedieri"
+msgstr "Arată adresa poștală de acasă"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:8
-#, fuzzy
-#| msgid "Mailing Address"
 msgid "Show Work Mailing Address"
-msgstr "Adresă pentru expedieri"
+msgstr "Arată adresa poștală de la servici"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:9
-#, fuzzy
-#| msgid "Mailing Address"
 msgid "Show Other Mailing Address"
-msgstr "Adresă pentru expedieri"
+msgstr "Arată alte adrese poștale"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:10
-#, fuzzy
-#| msgid "Show %s"
 msgid "Show Notes"
-msgstr "Afișează %s"
+msgstr "Arată note"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
-#, fuzzy
-#| msgid "Certificates"
 msgid "Show Certificates"
-msgstr "Certificate"
+msgstr "Arată certificate"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:725
@@ -3911,10 +3886,8 @@ msgstr "Opțiuni"
 #: ../src/smime/gui/certificate-manager.c:966
 #: ../src/smime/gui/certificate-manager.c:1348
 #: ../src/smime/gui/e-cert-selector.c:235 ../src/smime/gui/smime-ui.ui.h:17
-#, fuzzy
-#| msgid "Cancel"
 msgid "_Cancel"
-msgstr "Renunță"
+msgstr "_Anulează"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3505
@@ -3986,10 +3959,8 @@ msgid "Telephone"
 msgstr "Telefon"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:26
-#, fuzzy
-#| msgid "Address"
 msgid "SIP Address"
-msgstr "Adresă"
+msgstr "Adresă SIP"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:27
 msgid "Instant Messaging"
@@ -4053,8 +4024,6 @@ msgid "_Profession:"
 msgstr "_Profesie:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:42
-#, fuzzy
-#| msgid "_Title:"
 msgctxt "Job"
 msgid "_Title:"
 msgstr "_Titlu:"
@@ -4129,7 +4098,7 @@ msgstr "_Zip/Cod poștal:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:58
 msgid "_State/Province:"
-msgstr "_Stat/Provincie"
+msgstr "_Stat/Provincie:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:59
 msgid "_Country:"
@@ -4252,16 +4221,13 @@ msgstr "Eroare la ștergerea contactului"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:741
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3102
-#, fuzzy, c-format
-#| msgid "Contact Editor - %s"
+#, c-format
 msgid "Contact Editor — %s"
-msgstr "Editor de contacte - %s"
+msgstr "Editor de contacte — %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3238
-#, fuzzy
-#| msgid "Certificates"
 msgid "X.509 certificates"
-msgstr "Certificate"
+msgstr "Certificate X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3243
 msgid "PGP keys"
@@ -4278,10 +4244,8 @@ msgid "Open PGP key"
 msgstr "Deschide cheia PGP"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3269
-#, fuzzy
-#| msgid "Select certificate"
 msgid "Open X.509 certificate"
-msgstr "Selectați certificatul"
+msgstr "Deschide certificatul X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4322
@@ -4290,23 +4254,18 @@ msgstr "Selectați certificatul"
 #: ../src/e-util/e-html-editor-actions.c:416
 #: ../src/e-util/e-image-chooser-dialog.c:172 ../src/plugins/face/face.c:296
 #: ../src/shell/e-shell-utils.c:71 ../src/smime/gui/certificate-manager.c:967
-#, fuzzy
-#| msgid "Open"
 msgid "_Open"
-msgstr "Deschide"
+msgstr "_Deschide"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3289
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3520
-#, fuzzy
-#| msgid "File is not a valid .desktop file"
 msgid "Chosen file is not a local file."
-msgstr "Fișierul nu este un fișier .desktop valid"
+msgstr "Fișierul ales nu este unul local."
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3302
-#, fuzzy, c-format
-#| msgid "Failed to import certificate"
+#, c-format
 msgid "Failed to load certificate: %s"
-msgstr "Nu s-a putut importa certificatul "
+msgstr "Eșec la încărcarea certificatului: %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3331
 msgctxt "cert-kind"
@@ -4323,16 +4282,13 @@ msgid "Save PGP key"
 msgstr "Salvează cheia PGP"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3502
-#, fuzzy
-#| msgid "Select certificate"
 msgid "Save X.509 certificate"
-msgstr "Selectați certificatul"
+msgstr "Salvează certificatul X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3532
-#, fuzzy, c-format
-#| msgid "Failed to import certificate"
+#, c-format
 msgid "Failed to save certificate: %s"
-msgstr "Nu s-a putut importa certificatul "
+msgstr "Eșec la salvarea certificatului: %s"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4318
 msgid "Please select an image for this contact"
@@ -4351,26 +4307,23 @@ msgstr ""
 "\n"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4678
-#, fuzzy, c-format
-#| msgid "'%s' has an invalid format"
+#, c-format
 msgid "“%s” has an invalid format"
 msgstr "„%s” nu are un format valid"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4686
 #, c-format
 msgid "“%s” cannot be a future date"
-msgstr ""
+msgstr "„%s” nu poate fi o dată din viitor"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4694
-#, fuzzy, c-format
-#| msgid "%s'%s' has an invalid format"
+#, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s„%s” nu are un format valid"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4707
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4721
-#, fuzzy, c-format
-#| msgid "%s'%s' is empty"
+#, c-format
 msgid "%s“%s” is empty"
 msgstr "%s„%s” este necompletat"
 
@@ -4406,10 +4359,8 @@ msgstr "Contact nevalid."
 #: ../src/shell/e-shell-content.c:643 ../src/shell/e-shell-content.c:749
 #: ../src/shell/main.c:177 ../src/smime/gui/certificate-manager.c:1349
 #: ../src/smime/gui/e-cert-selector.c:236 ../src/smime/gui/smime-ui.ui.h:18
-#, fuzzy
-#| msgid "OK"
 msgid "_OK"
-msgstr "OK"
+msgstr "_OK"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:449
 msgid "Contact Quick-Add"
@@ -4445,7 +4396,7 @@ msgstr "Dna."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:4
 msgid "Miss"
-msgstr "D-ra."
+msgstr "D-ra"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:5
 msgid "Dr."
@@ -4485,8 +4436,6 @@ msgid "_First:"
 msgstr "P_renume:"
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:16
-#, fuzzy
-#| msgid "_Title:"
 msgctxt "FullName"
 msgid "_Title:"
 msgstr "_Titlu:"
@@ -4527,7 +4476,7 @@ msgstr "_Ascunde adresele când se trimit email-uri către această listă"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
 msgid "Add an email to the List"
-msgstr ""
+msgstr "Adaugă un email la listă"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:12
 msgid "Remove an email address from the List"
@@ -4535,35 +4484,31 @@ msgstr "Elimină o adresă de email din listă"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:13
 msgid "_Select..."
-msgstr "_Alege..."
+msgstr "_Selectează..."
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
 msgid "Insert email addresses from Address Book"
-msgstr ""
+msgstr "Introdu adrese de email din Agendă"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:15
 #: ../src/e-util/filter.ui.h:28
 msgid "_Top"
-msgstr "_Sus"
+msgstr "_Top"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
 #: ../src/e-util/e-source-selector.c:3474 ../src/e-util/filter.ui.h:29
-#, fuzzy
-#| msgid "_Update"
 msgid "_Up"
-msgstr "_Actualizare"
+msgstr "S_us"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
 #: ../src/e-util/e-source-selector.c:3475 ../src/e-util/filter.ui.h:30
-#, fuzzy
-#| msgid "Move _Down"
 msgid "_Down"
-msgstr "Mută în _jos"
+msgstr "_Jos"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:18
 #: ../src/e-util/filter.ui.h:31
 msgid "_Bottom"
-msgstr "_Jos"
+msgstr "_Bază"
 
 #: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:940
 msgid "Contact List Members"
@@ -4638,10 +4583,9 @@ msgid "Click to mail %s"
 msgstr "Clic pentru a trimite email către %s"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:335
-#, fuzzy, c-format
-#| msgid "Click to open %s"
+#, c-format
 msgid "Click to open map for %s"
-msgstr "Clic pentru a deschide %s"
+msgstr "Clic pentru a deschide harta pentru %s"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:154
 msgid "Open map"
@@ -4820,28 +4764,20 @@ msgid "Duplicate Contact Detected"
 msgstr "Contact duplicat detectat"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:769
-#, fuzzy
-#| msgid ""
-#| "The name or email of this contact already exists in this folder. Would "
-#| "you like to save the changes anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
 msgstr ""
-"Numele sau adresa de email a acestui contact există deja în acest dosar. "
-"Doriți să salvați modificările oricum?"
+"Numele sau adresa de email a acestui contact există deja\n"
+"în acest dosar. Doriți să salvați modificările oricum?"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:772
-#, fuzzy
-#| msgid ""
-#| "The name or email address of this contact already exists\n"
-#| "in this folder.  Would you like to add it anyway?"
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
 msgstr ""
 "Numele sau adresa de email a acestui contact există deja\n"
-"în acest dosar. Doriți să continuați în acest caz?"
+"în acest dosar. Doriți să îl adăugați oricum?"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:787
 msgid "Changed Contact:"
@@ -4856,10 +4792,8 @@ msgid "Conflicting Contact:"
 msgstr "Contact în conflict:"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:830
-#, fuzzy
-#| msgid "Contact: "
 msgid "Old Contact:"
-msgstr "Contact: "
+msgstr "Contact vechi:"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:119
 msgid ""
@@ -5081,8 +5015,6 @@ msgstr[2] ""
 "Doriți să afișați aceste contacte?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1516
-#, fuzzy
-#| msgid "_Don't Display"
 msgid "_Don’t Display"
 msgstr "_Nu afișa"
 
@@ -5256,8 +5188,6 @@ msgstr "Hartă contacte"
 
 #. Zoom-in button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:409
-#, fuzzy
-#| msgid "_Zoom In"
 msgid "Zoom _In"
 msgstr "_Mărește"
 
@@ -5272,10 +5202,8 @@ msgstr "Mi_cșorează"
 #: ../src/e-util/e-html-editor-actions.c:1872
 #: ../src/e-util/e-html-editor-find-dialog.c:250
 #: ../src/shell/e-shell-window-actions.c:906
-#, fuzzy
-#| msgid "_Find Now"
 msgid "_Find"
-msgstr "_Caută acum"
+msgstr "_Caută"
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:186
 msgid ""
@@ -5346,52 +5274,36 @@ msgid "Importing..."
 msgstr "Se importă..."
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:931
-#, fuzzy
-#| msgid "Can not open file"
 msgid "Can’t open .csv file"
-msgstr "Nu se poate deschide fișierul"
+msgstr "Nu s-a putut deschide fișierul .csv"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1100
-#, fuzzy
-#| msgid "Outlook CSV or Tab (.csv, .tab)"
 msgid "Outlook Contacts CSV or Tab (.csv, .tab)"
-msgstr "CSV sau Tab Outlook (.csv, .tab)"
+msgstr "Contacte Outlook CSV sau Tab (.csv, .tab)"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1101
-#, fuzzy
-#| msgid "Outlook CSV and Tab Importer"
 msgid "Outlook Contacts CSV and Tab Importer"
-msgstr "Importator CSV și Tab Outlook"
+msgstr "Importator de contacte Outlook CSV și Tab"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1109
-#, fuzzy
-#| msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgid "Mozilla Contacts CSV or Tab (.csv, .tab)"
-msgstr "CVS sau Tab Mozilla (.csv, .tab)"
+msgstr "Contacte Mozilla CVS sau Tab (.csv, .tab)"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1110
-#, fuzzy
-#| msgid "Mozilla CSV and Tab Importer"
 msgid "Mozilla Contacts CSV and Tab Importer"
-msgstr "Importator CSV și Tab Mozilla"
+msgstr "Importator de contacte Mozilla CSV și Tab"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1118
-#, fuzzy
-#| msgid "Evolution CSV or Tab (.csv, .tab)"
 msgid "Evolution Contacts CSV or Tab (.csv, .tab)"
-msgstr "CSV sau Tab Evolution (.csv, .tab)"
+msgstr "Contacte Evolution CSV sau Tab (.csv, .tab)"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:1119
-#, fuzzy
-#| msgid "Evolution CSV and Tab Importer"
 msgid "Evolution Contacts CSV and Tab Importer"
-msgstr "Importator CSV și Tab Evolution"
+msgstr "Importator de contacte Evolution CSV și Tab"
 
 #: ../src/addressbook/importers/evolution-ldif-importer.c:717
-#, fuzzy
-#| msgid "Can not open file"
 msgid "Can’t open .ldif file"
-msgstr "Nu se poate deschide fișierul"
+msgstr "Nu s-a putut deschide fișierul .ldif"
 
 #: ../src/addressbook/importers/evolution-ldif-importer.c:819
 msgid "LDAP Data Interchange Format (.ldif)"
@@ -5612,14 +5524,10 @@ msgstr ""
 "recuperate."
 
 #: ../src/calendar/calendar.error.xml.h:15
-#, fuzzy
-#| msgid "Are you sure you want to delete the meeting titled '{0}'?"
 msgid "Are you sure you want to delete the meeting titled “{0}”?"
 msgstr "Sigur doriți să ștergeți întâlnirea numită „{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:16
-#, fuzzy
-#| msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgid "Are you sure you want to delete the appointment titled “{0}”?"
 msgstr "Sigur doriți să ștergeți programarea numită „{0}”?"
 
@@ -5635,8 +5543,6 @@ msgid "Are you sure you want to delete this appointment?"
 msgstr "Sigur doriți să ștergeți această programare?"
 
 #: ../src/calendar/calendar.error.xml.h:19
-#, fuzzy
-#| msgid "Are you sure you want to delete the '{0}' task?"
 msgid "Are you sure you want to delete the “{0}” task?"
 msgstr "Sigur doriți să ștergeți sarcina „{0}”?"
 
@@ -5803,51 +5709,37 @@ msgstr ""
 "aibă lista de sarcini actualizată."
 
 #: ../src/calendar/calendar.error.xml.h:52
-#, fuzzy
-#| msgid "Would you like to send this task to participants?"
 msgid "Would you like to send this memo to participants?"
-msgstr "Doriți să trimiteți această sarcină participanților?"
+msgstr "Doriți să trimiteți acest memo participanților?"
 
 #: ../src/calendar/calendar.error.xml.h:53
-#, fuzzy
-#| msgid ""
-#| "Email invitations will be sent to all participants and allow them to "
-#| "accept this task."
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this memo."
 msgstr ""
 "Invitațiile vor fi trimise prin email tuturor participanților și li se va "
-"permite să accepte această sarcină."
+"permite să accepte acest memo."
 
 #: ../src/calendar/calendar.error.xml.h:54
-#, fuzzy
-#| msgid "Would you like to send updated meeting information to participants?"
 msgid "Would you like to send updated memo information to participants?"
 msgstr ""
-"Doriți să trimiteți participanților informații actualizate despre întâlnire?"
+"Doriți să trimiteți participanților informații actualizate despre memo?"
 
 #: ../src/calendar/calendar.error.xml.h:55
-#, fuzzy
-#| msgid ""
-#| "Sending updated information allows other participants to keep their task "
-#| "lists up to date."
 msgid ""
 "Sending updated information allows other participants to keep their memo "
 "lists up to date."
 msgstr ""
 "Trimiterea informațiilor actualizate va permite celorlalți participanți să "
-"aibă lista de sarcini actualizată."
+"aibă lista de memo-uri actualizată."
 
 #: ../src/calendar/calendar.error.xml.h:56
 msgid "Editor could not be loaded."
 msgstr "Editorul nu a putut fi încărcat."
 
 #: ../src/calendar/calendar.error.xml.h:57
-#, fuzzy
-#| msgid "Are you sure you want to delete the '{0}' task?"
 msgid "Are you sure you want to delete calendar “{0}”?"
-msgstr "Sigur doriți să ștergeți sarcina „{0}”?"
+msgstr "Sigur doriți să ștergeți calendarul „{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:58
 msgid "This calendar will be removed permanently."
@@ -5881,10 +5773,8 @@ msgstr ""
 "Aceasta va elimina permanent calendarul „{0}” de pe server. Sigur continuați?"
 
 #: ../src/calendar/calendar.error.xml.h:66
-#, fuzzy
-#| msgid "Are you sure you want to delete these contact lists?"
 msgid "Are you sure you want to delete remote task list “{0}”?"
-msgstr "Sigur doriți să ștergeți aceste liste de contacte?"
+msgstr "Sigur doriți să ștergeți lista de sarcini la distanță „{0}”?"
 
 #: ../src/calendar/calendar.error.xml.h:67
 msgid ""
@@ -5936,10 +5826,8 @@ msgstr "Sigur doriți să salvați memo-ul fără un rezumat?"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:76
-#, fuzzy
-#| msgid "Error loading calendar"
 msgid "Error loading calendar “{0}”"
-msgstr "Eroare la încărcarea caledarului"
+msgstr "Eroare la încărcarea calendarului „{0}”"
 
 #: ../src/calendar/calendar.error.xml.h:77
 msgid "The calendar is not marked for offline usage."
@@ -5951,10 +5839,6 @@ msgstr "Nu s-a putut salva evenimentul"
 
 #. Translators: {0} is the name of the calendar source
 #: ../src/calendar/calendar.error.xml.h:80
-#, fuzzy
-#| msgid ""
-#| "'{0}' is a read-only calendar and cannot be modified. Please select a "
-#| "different calendar that can accept appointments."
 msgid ""
 "“{0}” is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
@@ -5968,10 +5852,6 @@ msgstr "Nu se poate salva sarcina"
 
 #. Translators: {0} is the name of the calendar source
 #: ../src/calendar/calendar.error.xml.h:83
-#, fuzzy
-#| msgid ""
-#| "'{0}' does not support assigned tasks, please select a different task "
-#| "list."
 msgid ""
 "“{0}” does not support assigned tasks, please select a different task list."
 msgstr ""
@@ -5979,10 +5859,8 @@ msgstr ""
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:85
-#, fuzzy
-#| msgid "Error loading task list"
 msgid "Error loading task list “{0}”"
-msgstr "Eroare la încărcarea listei de sarcini"
+msgstr "Eroare la încărcarea listei de sarcini „{0}”"
 
 #: ../src/calendar/calendar.error.xml.h:86
 msgid "The task list is not marked for offline usage."
@@ -6001,7 +5879,7 @@ msgstr ""
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../src/calendar/calendar.error.xml.h:91
 msgid "Failed to add timezone to “{0}”"
-msgstr ""
+msgstr "Eșec la adăugarea fusului orar la „{0}”"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../src/calendar/calendar.error.xml.h:93
@@ -6010,10 +5888,8 @@ msgstr "Nu s-au putut salva fișierele atașate"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:95
-#, fuzzy
-#| msgid "Failed to open folder."
 msgid "Failed to open calendar “{0}”"
-msgstr "Nu s-a putut deschide dosarul"
+msgstr "Eșec la deschiderea calendarului „{0}”"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:97
@@ -6022,10 +5898,8 @@ msgstr "Eșec la deschiderea listei de memo-uri „{0}”"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:99
-#, fuzzy
-#| msgid "Delete task list '{0}'?"
 msgid "Failed to open task list “{0}”"
-msgstr "Ștergeți lista de sarcini „{0}”?"
+msgstr "Eșec la deschiderea listei de sarcini „{0}”"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:101
@@ -6044,10 +5918,8 @@ msgstr "Eșec la crearea unei sarcini în lista cu sarcini „{0}”"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:107
-#, fuzzy
-#| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to modify an event in the calendar “{0}”"
-msgstr "Am găsit programarea în calendarul „%s”"
+msgstr "Eșec la modificarea unui eveniment în calendarul „%s”"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:109
@@ -6056,17 +5928,13 @@ msgstr "Eșec la modificarea unui memo din lista de memo-uri „{0}”"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:111
-#, fuzzy
-#| msgid "Unable to find this task in any task list"
 msgid "Failed to modify a task in the task list “{0}”"
-msgstr "Nu s-a putut găsi această sarcină în nicio listă de sarcini"
+msgstr "Eșec la modificarea sarcinii din lista de sarcini „{0}”"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:113
-#, fuzzy
-#| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to delete an event in the calendar “{0}”"
-msgstr "Am găsit programarea în calendarul „%s”"
+msgstr "Eșec la ștergerea unui eveniment din calendarul „%s”"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:115
@@ -6075,10 +5943,8 @@ msgstr "Eșec la ștergerea unui memo din lista de memo-uri „{0}”"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:117
-#, fuzzy
-#| msgid "Unable to find this task in any task list"
 msgid "Failed to delete a task in the task list “{0}”"
-msgstr "Nu s-a putut găsi această sarcină în nicio listă de sarcini"
+msgstr "Eșec la ștergerea unei sarcini din lista cu sarcini „{0}”"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:119
@@ -6603,8 +6469,6 @@ msgstr[2] "%d de secunde"
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:419
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1820
-#, fuzzy
-#| msgid "Play a sound"
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Redă un sunet"
@@ -6612,26 +6476,20 @@ msgstr "Redă un sunet"
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:423
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1818
-#, fuzzy
-#| msgid "Pop up an alert"
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
-msgstr "Afișează un mesaj de alertă"
+msgstr "Alertă pop-up"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:427
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1824
-#, fuzzy
-#| msgid "Send an email"
 msgctxt "cal-reminders"
 msgid "Send an email"
-msgstr "Trimite un email"
+msgstr "Trimite un emai"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:431
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1822
-#, fuzzy
-#| msgid "Run a program"
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Rulează un program"
@@ -6644,62 +6502,55 @@ msgstr "Acțiune necunoscută de îndeplinit"
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../src/calendar/gui/e-alarm-list.c:452
-#, fuzzy, c-format
-#| msgid "%s %s before the start of the appointment"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the start"
-msgstr "%s %s înainte de începerea acestei programări"
+msgstr "%s %s înainte de începere"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../src/calendar/gui/e-alarm-list.c:458
-#, fuzzy, c-format
-#| msgid "%s %s after the start of the appointment"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the start"
-msgstr "%s %s după începerea acestei programări"
+msgstr "%s %s după începere"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../src/calendar/gui/e-alarm-list.c:465
-#, fuzzy, c-format
-#| msgid "%s attachment"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s at the start"
-msgstr "atașament %s"
+msgstr "%s la început"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../src/calendar/gui/e-alarm-list.c:477
-#, fuzzy, c-format
-#| msgid "%s %s before the end of the appointment"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the end"
-msgstr "%s %s înainte de terminarea programării"
+msgstr "%s %s înainte de sfârșit"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
 #: ../src/calendar/gui/e-alarm-list.c:483
-#, fuzzy, c-format
-#| msgid "%s %s after the end of the appointment"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the end"
-msgstr "%s %s după terminarea programării"
+msgstr "%s %s după sfârșit"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
 #: ../src/calendar/gui/e-alarm-list.c:490
-#, fuzzy, c-format
-#| msgid "%s attachment"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s at the end"
-msgstr "atașament %s"
+msgstr "%s la sfârșit"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
 #: ../src/calendar/gui/e-alarm-list.c:514
-#, fuzzy, c-format
-#| msgid "%s at %s"
+#, c-format
 msgctxt "cal-reminders"
 msgid "%s at %s"
 msgstr "%s la %s"
@@ -7653,22 +7504,16 @@ msgid "Classify as confidential"
 msgstr "Clasifică ca confidențial"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:742
-#, fuzzy
-#| msgid "_Start time:"
 msgctxt "ECompEditor"
 msgid "_Start time:"
-msgstr "Tim_pul de început:"
+msgstr "Tim_p de început:"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:747
-#, fuzzy
-#| msgid "_End time:"
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "Timpul d_e sfârșit:"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:757
-#, fuzzy
-#| msgid "All _Day Event"
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "Eveniment pentru toată _ziua"
@@ -7676,24 +7521,18 @@ msgstr "Eveniment pentru toată _ziua"
 #: ../src/calendar/gui/e-comp-editor-event.c:811
 #: ../src/calendar/gui/e-comp-editor-memo.c:222
 #: ../src/calendar/gui/e-comp-editor-task.c:821
-#, fuzzy
-#| msgid "General"
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Generale"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:814
 #: ../src/calendar/gui/e-comp-editor-task.c:838
-#, fuzzy
-#| msgid "Reminders"
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Mementouri"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:817
 #: ../src/calendar/gui/e-comp-editor-task.c:842
-#, fuzzy
-#| msgid "Recurrence"
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Recurență"
@@ -7708,7 +7547,7 @@ msgstr "Fișiere atașate"
 #: ../src/calendar/gui/e-comp-editor-event.c:830
 msgctxt "ECompEditorPage"
 msgid "Schedule"
-msgstr ""
+msgstr "Program"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:862
 #, fuzzy, c-format
@@ -7747,8 +7586,6 @@ msgstr "_Listă:"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:203
 #: ../src/calendar/gui/e-comp-editor-task.c:762
-#, fuzzy
-#| msgid "Sta_rt date:"
 msgctxt "ECompEditor"
 msgid "Sta_rt date:"
 msgstr "Data de î_nceput:"
@@ -7934,8 +7771,6 @@ msgid ""
 msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1364
-#, fuzzy
-#| msgid "Atte_ndees..."
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Participa_nți..."
@@ -7977,8 +7812,6 @@ msgstr "în ziua de"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:569
-#, fuzzy
-#| msgid "first"
 msgctxt "ECompEditorPageRecur"
 msgid "first"
 msgstr "prima"
@@ -7989,8 +7822,6 @@ msgstr "prima"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:575
-#, fuzzy
-#| msgid "second"
 msgctxt "ECompEditorPageRecur"
 msgid "second"
 msgstr "a doua"
@@ -8000,8 +7831,6 @@ msgstr "a doua"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:580
-#, fuzzy
-#| msgid "third"
 msgctxt "ECompEditorPageRecur"
 msgid "third"
 msgstr "a treia"
@@ -8011,8 +7840,6 @@ msgstr "a treia"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:585
-#, fuzzy
-#| msgid "fourth"
 msgctxt "ECompEditorPageRecur"
 msgid "fourth"
 msgstr "a patra"
@@ -8022,8 +7849,6 @@ msgstr "a patra"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:590
-#, fuzzy
-#| msgid "fifth"
 msgctxt "ECompEditorPageRecur"
 msgid "fifth"
 msgstr "a cincea"
@@ -8033,8 +7858,6 @@ msgstr "a cincea"
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:595
-#, fuzzy
-#| msgid "last"
 msgctxt "ECompEditorPageRecur"
 msgid "last"
 msgstr "ultima"
@@ -8042,8 +7865,6 @@ msgstr "ultima"
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:622
-#, fuzzy
-#| msgid "Other Date"
 msgctxt "ECompEditorPageRecur"
 msgid "Other Date"
 msgstr "Altă dată"
@@ -8053,8 +7874,6 @@ msgstr "Altă dată"
 #. * on the [Other date] [1st to 10th] [7th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:628
-#, fuzzy
-#| msgid "1st to 10th"
 msgctxt "ECompEditorPageRecur"
 msgid "1st to 10th"
 msgstr "De pe 1 până pe 10"
@@ -8064,8 +7883,6 @@ msgstr "De pe 1 până pe 10"
 #. * on the [Other date] [11th to 20th] [17th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:634
-#, fuzzy
-#| msgid "11th to 20th"
 msgctxt "ECompEditorPageRecur"
 msgid "11th to 20th"
 msgstr "De pe 11 până pe 20"
@@ -8075,8 +7892,6 @@ msgstr "De pe 11 până pe 20"
 #. * on the [Other date] [21th to 31th] [27th] [forever]' (dropdown menu options are in [square brackets]).
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:640
-#, fuzzy
-#| msgid "21st to 31st"
 msgctxt "ECompEditorPageRecur"
 msgid "21st to 31st"
 msgstr "De pe 21 până pe 31"
@@ -8085,58 +7900,41 @@ msgstr "De pe 21 până pe 31"
 #. * (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:666
-#, fuzzy
-#| msgid "day"
-#| msgid_plural "days"
 msgctxt "ECompEditorPageRecur"
 msgid "day"
 msgstr "zi"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:667
-#, fuzzy
-#| msgid "Monday"
 msgctxt "ECompEditorPageRecur"
 msgid "Monday"
 msgstr "Luni"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:668
-#, fuzzy
-#| msgid "Tuesday"
 msgctxt "ECompEditorPageRecur"
 msgid "Tuesday"
 msgstr "Marți"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:669
-#, fuzzy
-#| msgid "Wednesday"
 msgctxt "ECompEditorPageRecur"
 msgid "Wednesday"
 msgstr "Miercuri"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:670
-#, fuzzy
-#| msgid "Thursday"
 msgctxt "ECompEditorPageRecur"
 msgid "Thursday"
 msgstr "Joi"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:671
-#, fuzzy
-#| msgid "Friday"
 msgctxt "ECompEditorPageRecur"
 msgid "Friday"
 msgstr "Vineri"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:672
-#, fuzzy
-#| msgid "Saturday"
 msgctxt "ECompEditorPageRecur"
 msgid "Saturday"
 msgstr "Sâmbătă"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:673
-#, fuzzy
-#| msgid "Sunday"
 msgctxt "ECompEditorPageRecur"
 msgid "Sunday"
 msgstr "Duminică"
@@ -8145,15 +7943,11 @@ msgstr "Duminică"
 #. * (dropdown menu options are in [square brackets])."
 #.
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:802
-#, fuzzy
-#| msgid "on the"
 msgctxt "ECompEditorPageRecur"
 msgid "on the"
 msgstr "în"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:992
-#, fuzzy
-#| msgid "occurrences"
 msgctxt "ECompEditorPageRecur"
 msgid "occurrences"
 msgstr "apariții"
@@ -8161,35 +7955,27 @@ msgstr "apariții"
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1484
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2023
-#, fuzzy
-#| msgid "This appointment rec_urs"
 msgctxt "ECompEditorPageRecur"
 msgid "This appointment rec_urs"
-msgstr "Programarea este _recurentă"
+msgstr "Programarea este rec_urentă"
 
 #. Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1489
-#, fuzzy
-#| msgid "This task recurs"
 msgctxt "ECompEditorPageRecur"
 msgid "This task rec_urs"
-msgstr "Această sarcină este recurentă"
+msgstr "Această sarcină este rec_urentă"
 
 #. Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1494
-#, fuzzy
-#| msgid "This memo recurs"
 msgctxt "ECompEditorPageRecur"
 msgid "This memo rec_urs"
-msgstr "Acest memo este recurent"
+msgstr "Acest memo este rec_urent"
 
 #. Translators: Entire string is for example:     'This component recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1499
-#, fuzzy
-#| msgid "This appointment rec_urs"
 msgctxt "ECompEditorPageRecur"
 msgid "This component rec_urs"
-msgstr "Programarea este _recurentă"
+msgstr "Componentul este _recurent"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1860
 #, fuzzy
@@ -8217,70 +8003,48 @@ msgstr "Are recurențe."
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2055
-#, fuzzy
-#| msgid "Every"
 msgctxt "ECompEditorPageRecur"
 msgid "Every"
-msgstr "Fiecare"
+msgstr "La fiecare"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2090
-#, fuzzy
-#| msgid "day(s)"
 msgctxt "ECompEditorPageRecur"
 msgid "day(s)"
 msgstr "zi(le)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2092
-#, fuzzy
-#| msgctxt "recurrpage"
-#| msgid "week(s)"
 msgctxt "ECompEditorPageRecur"
 msgid "week(s)"
 msgstr "săptămână(i)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2094
-#, fuzzy
-#| msgctxt "recurrpage"
-#| msgid "month(s)"
 msgctxt "ECompEditorPageRecur"
 msgid "month(s)"
 msgstr "lună(i)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2096
-#, fuzzy
-#| msgctxt "recurrpage"
-#| msgid "year(s)"
 msgctxt "ECompEditorPageRecur"
 msgid "year(s)"
 msgstr "an(i)"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2125
-#, fuzzy
-#| msgctxt "eventpage"
-#| msgid "for"
 msgctxt "ECompEditorPageRecur"
 msgid "for"
 msgstr "pentru"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2127
-#, fuzzy
-#| msgctxt "eventpage"
-#| msgid "until"
 msgctxt "ECompEditorPageRecur"
 msgid "until"
 msgstr "până la"
 
 #. Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2129
-#, fuzzy
-#| msgctxt "recurrpage"
-#| msgid "forever"
 msgctxt "ECompEditorPageRecur"
 msgid "forever"
 msgstr "pentru totdeauna"
@@ -8374,92 +8138,69 @@ msgstr "Fără"
 
 #. Translators: Predefined reminder's description
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1696
-#, fuzzy
-#| msgid "15 minutes"
 msgctxt "cal-reminders"
 msgid "15 minutes before"
-msgstr "15 minute"
+msgstr "cu 15 minute înainte"
 
 #. Translators: Predefined reminder's description
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1698
-#, fuzzy
-#| msgid "1 hour ago"
-#| msgid_plural "%d hours ago"
 msgctxt "cal-reminders"
 msgid "1 hour before"
-msgstr "acum o oră"
+msgstr "cu o oră înainte"
 
 #. Translators: Predefined reminder's description
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1700
-#, fuzzy
-#| msgid "is before"
 msgctxt "cal-reminders"
 msgid "1 day before"
-msgstr "este înainte"
+msgstr "cu o zi înainte"
 
 #. Translators: "Custom" for "Custom reminder set"
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1712
-#, fuzzy
-#| msgid "_Custom"
 msgctxt "cal-reminders"
 msgid "Custom"
-msgstr "_Personalizat"
+msgstr "Personalizat"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1855
-#, fuzzy
-#| msgid "minute(s)"
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "minut(e)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1857
-#, fuzzy
-#| msgid "hour(s)"
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "oră(e)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1859
-#, fuzzy
-#| msgid "day(s)"
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "zi(le)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1876
-#, fuzzy
-#| msgid "before"
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "înainte"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1878
-#, fuzzy
-#| msgid "after"
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "după"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1894
-#, fuzzy
-#| msgid "Start"
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "Început"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1896
-#, fuzzy
-#| msgid "_Send"
 msgctxt "cal-reminders"
 msgid "end"
-msgstr "_Trimite"
+msgstr "sfârșit"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1915
@@ -8470,32 +8211,24 @@ msgstr "_Repetă mementoul"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1940
-#, fuzzy
-#| msgid "extra times every"
 msgctxt "cal-reminders"
 msgid "extra times every"
-msgstr "timp în plus la fiecare"
+msgstr "ori la fiecare"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1977
-#, fuzzy
-#| msgid "minutes"
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "minute"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1979
-#, fuzzy
-#| msgid "hours"
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "ore"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1981
-#, fuzzy
-#| msgid "days"
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "zile"
@@ -8503,18 +8236,14 @@ msgstr "zile"
 #. page_reminders->priv->custom_email_entry is initialized on demand
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2018
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2175
-#, fuzzy
-#| msgid "Custom _message"
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "_Mesaj personalizat"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2062
-#, fuzzy
-#| msgid "Custom reminder sound"
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
-msgstr "Sunet personalizat pentru memento"
+msgstr "_Sunet personalizat pentru memento"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2073
 #, fuzzy
@@ -8547,177 +8276,127 @@ msgid "Query free / busy information for the attendees"
 msgstr "Interoghează informația disponibil/ocupat pentru participanți"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:79
-#, fuzzy
-#| msgid "_Summary:"
 msgctxt "ECompEditor"
 msgid "_Summary:"
 msgstr "Re_zumat:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:323
-#, fuzzy
-#| msgid "_Location:"
 msgctxt "ECompEditor"
 msgid "_Location:"
 msgstr "_Locație:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:456
-#, fuzzy
-#| msgid "Ca_tegories..."
 msgctxt "ECompEditor"
 msgid "_Categories..."
 msgstr "Ca_tegorii..."
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:555
-#, fuzzy
-#| msgid "_Description:"
 msgctxt "ECompEditor"
 msgid "_Description:"
 msgstr "_Descriere:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:687
-#, fuzzy
-#| msgid "_Web Page:"
 msgctxt "ECompEditor"
 msgid "_Web page:"
-msgstr "Pagina _web:"
+msgstr "Pagină _web:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1058
-#, fuzzy
-#| msgid "D_ue date:"
 msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "D_ată scadentă:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1148
-#, fuzzy
-#| msgid "_Date completed:"
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr "_Data terminării:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1164
-#, fuzzy
-#| msgid "Public"
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "Public"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1165
-#, fuzzy
-#| msgid "Private"
 msgctxt "ECompEditor"
 msgid "Private"
-msgstr "Personal"
+msgstr "Privat"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1166
-#, fuzzy
-#| msgid "Confidential"
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "Confidențial"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1182
-#, fuzzy
-#| msgid "_Classification:"
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr "_Clasificare:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1201
-#, fuzzy
-#| msgid "Not Started"
 msgctxt "ECompEditor"
 msgid "Not Started"
 msgstr "Nepornit"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1202
-#, fuzzy
-#| msgid "In Progress"
 msgctxt "ECompEditor"
 msgid "In Progress"
 msgstr "În derulare"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1203
-#, fuzzy
-#| msgid "Completed"
 msgctxt "ECompEditor"
 msgid "Completed"
 msgstr "Terminat"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1204
-#, fuzzy
-#| msgid "Cancelled"
 msgctxt "ECompEditor"
 msgid "Cancelled"
-msgstr "Anulată"
+msgstr "Anulat"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1213
-#, fuzzy
-#| msgid "Status:"
 msgctxt "ECompEditor"
 msgid "_Status:"
-msgstr "Stare:"
+msgstr "_Stare:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1243
-#, fuzzy
-#| msgid "Undefined"
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "Nedefinit"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1244
-#, fuzzy
-#| msgid "High"
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "Ridicat"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1245
-#, fuzzy
-#| msgid "Normal"
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "Normal"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1246
-#, fuzzy
-#| msgid "Low"
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "Scăzut"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1255
-#, fuzzy
-#| msgid "Priority:"
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
-msgstr "Prioritate:"
+msgstr "Priorita_te:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1309
-#, fuzzy
-#| msgid "P_ercent complete:"
 msgctxt "ECompEditor"
 msgid "Percent complete:"
-msgstr "Proc_ent completat:"
+msgstr "Procent completat:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1390
-#, fuzzy
-#| msgid "Time _zone:"
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "_Fus orar:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1515
-#, fuzzy
-#| msgid "Show Time as _Busy"
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Arată timpul ca _ocupat"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1642
-#, fuzzy
-#| msgid "None"
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Fără"
@@ -9031,7 +8710,7 @@ msgstr "Fără"
 #: ../src/calendar/gui/e-timezone-entry.c:333
 #: ../src/modules/calendar/e-calendar-preferences.c:396
 msgid "Select..."
-msgstr "Alege..."
+msgstr "Selectează..."
 
 #: ../src/calendar/gui/e-meeting-list-view.c:62
 msgid "Chair Persons"
@@ -9851,7 +9530,7 @@ msgstr "Memo"
 #: ../src/calendar/importers/icalendar-importer.c:1232
 msgctxt "iCalImp"
 msgid "has recurrences"
-msgstr "are recurențe."
+msgstr "are recurențe"
 
 #: ../src/calendar/importers/icalendar-importer.c:1237
 msgctxt "iCalImp"
@@ -12978,8 +12657,6 @@ msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../src/e-util/e-calendar-item.c:1372
-#, fuzzy
-#| msgid "%B %Y"
 msgctxt "CalItem"
 msgid "%B %Y"
 msgstr "%B %Y"
@@ -13034,22 +12711,16 @@ msgid "_Available Categories:"
 msgstr "C_ategorii disponibile:"
 
 #: ../src/e-util/e-categories-editor.c:297
-#, fuzzy
-#| msgid "_New"
 msgctxt "category"
 msgid "_New"
 msgstr "_Nou"
 
 #: ../src/e-util/e-categories-editor.c:301
-#, fuzzy
-#| msgid "_Edit"
 msgctxt "category"
 msgid "_Edit"
 msgstr "_Editare"
 
 #: ../src/e-util/e-categories-editor.c:305
-#, fuzzy
-#| msgid "_Delete"
 msgctxt "category"
 msgid "_Delete"
 msgstr "Șt_erge"
@@ -14056,11 +13727,9 @@ msgid "HTML file"
 msgstr "Fișier HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:355
-#, fuzzy
-#| msgid "Inline Image"
 msgctxt "dialog-title"
 msgid "Insert Image"
-msgstr "Imagine inclusă"
+msgstr "Introducere imagine"
 
 #: ../src/e-util/e-html-editor-actions.c:413
 msgid "Insert text file"
@@ -14563,10 +14232,8 @@ msgid "Table..."
 msgstr "Tabel"
 
 #: ../src/e-util/e-html-editor-actions.c:1556
-#, fuzzy
-#| msgid "Select..."
 msgid "Text..."
-msgstr "Alege..."
+msgstr "Text..."
 
 #: ../src/e-util/e-html-editor-actions.c:1563
 msgid "Remove Link"
@@ -15085,11 +14752,9 @@ msgid "Replace _All"
 msgstr "Răspunde _tuturor"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:349
-#, fuzzy
-#| msgid "Replies"
 msgctxt "dialog-title"
 msgid "Replace"
-msgstr "Răspunsuri"
+msgstr "Înlocuire"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:83
 #, c-format
@@ -15847,7 +15512,7 @@ msgstr "Î_ntârzie livrarea mesajului"
 #: ../src/e-util/e-send-options.ui.h:28
 msgctxt "ESendOptionsAfter"
 msgid "_After"
-msgstr "_După:"
+msgstr "_După"
 
 #. Translators: This is part of
 #: ../src/e-util/e-send-options.ui.h:30
@@ -15863,7 +15528,7 @@ msgstr "_Definește data expirării"
 #: ../src/e-util/e-send-options.ui.h:33
 msgctxt "ESendOptions"
 msgid "_Until"
-msgstr "_Până la:"
+msgstr "_Până la"
 
 #: ../src/e-util/e-send-options.ui.h:34
 msgid "Delivery Options"
@@ -16025,12 +15690,10 @@ msgstr "Necunoscută (%s)"
 #. * second is the country name. Example: "French (France)"
 #: ../src/e-util/e-spell-dictionary.c:280
 #: ../src/e-util/e-spell-dictionary.c:285
-#, fuzzy, c-format
-#| msgctxt "folder-display"
-#| msgid "%s (%u%s)"
+#, c-format
 msgctxt "language"
 msgid "%s (%s)"
-msgstr "%s (%u%s)"
+msgstr "%s (%s)"
 
 #. no suggestions. Put something in the menu anyway...
 #: ../src/e-util/e-spell-entry.c:479
@@ -17569,11 +17232,9 @@ msgid "Check for Supported Types"
 msgstr "V_erifică tipurile suportate"
 
 #: ../src/mail/e-mail-config-composing-page.c:116
-#, fuzzy
-#| msgid "Use locale default"
 msgctxt "ReplyForward"
 msgid "Use global setting"
-msgstr "Folosește valorile implicite ale limbii."
+msgstr "Utilizează configurarea globală"
 
 #: ../src/mail/e-mail-config-composing-page.c:118
 #: ../src/mail/mail-config.ui.h:27
@@ -17583,24 +17244,18 @@ msgstr "Fișier atașat"
 
 #: ../src/mail/e-mail-config-composing-page.c:120
 #: ../src/mail/mail-config.ui.h:28
-#, fuzzy
-#| msgid "Inline (Outlook style)"
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
-msgstr "Inclus (Style Outlook)"
+msgstr "Inline (ca în Outlook)"
 
 #: ../src/mail/e-mail-config-composing-page.c:122
 #: ../src/mail/mail-config.ui.h:29
-#, fuzzy
-#| msgid "Quoted"
 msgctxt "ReplyForward"
 msgid "Quoted"
 msgstr "Citat"
 
 #: ../src/mail/e-mail-config-composing-page.c:124
 #: ../src/mail/mail-config.ui.h:30
-#, fuzzy
-#| msgid "Do not quote"
 msgctxt "ReplyForward"
 msgid "Do Not Quote"
 msgstr "Nu cita"
@@ -17996,10 +17651,8 @@ msgstr "Certificat pentru sem_nare:"
 
 #: ../src/mail/e-mail-config-security-page.c:677
 #: ../src/mail/e-mail-config-security-page.c:775
-#, fuzzy
-#| msgid "Select..."
 msgid "Select"
-msgstr "Alege..."
+msgstr "Selectează"
 
 #: ../src/mail/e-mail-config-security-page.c:686
 #: ../src/mail/e-mail-config-security-page.c:784
@@ -18211,36 +17864,26 @@ msgstr "_Nume dosar:"
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
 #: ../src/mail/e-mail-free-form-exp.c:231
-#, fuzzy
-#| msgid "Answered"
 msgctxt "ffe"
 msgid "Answered"
 msgstr "Răspuns"
 
 #: ../src/mail/e-mail-free-form-exp.c:232
-#, fuzzy
-#| msgid "Deleted"
 msgctxt "ffe"
 msgid "Deleted"
 msgstr "Șterse"
 
 #: ../src/mail/e-mail-free-form-exp.c:233
-#, fuzzy
-#| msgid "Draft"
 msgctxt "ffe"
 msgid "Draft"
 msgstr "Ciornă"
 
 #: ../src/mail/e-mail-free-form-exp.c:234
-#, fuzzy
-#| msgid "Flagged"
 msgctxt "ffe"
 msgid "Flagged"
 msgstr "Marcat"
 
 #: ../src/mail/e-mail-free-form-exp.c:235
-#, fuzzy
-#| msgid "Seen"
 msgctxt "ffe"
 msgid "Seen"
 msgstr "Văzut"
@@ -18251,11 +17894,9 @@ msgid "Attachment"
 msgstr "Fișier atașat"
 
 #: ../src/mail/e-mail-free-form-exp.c:484
-#, fuzzy
-#| msgid "now"
 msgctxt "ffe"
 msgid "no"
-msgstr "acum"
+msgstr "nu"
 
 #: ../src/mail/e-mail-free-form-exp.c:485
 msgctxt "ffe"
@@ -19343,11 +18984,10 @@ msgstr "-----Mesaj Original-----"
 
 #. Translators: This is a reply attribution in the message reply subject. The %s is replaced with the subject of the original message. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string, the same as the ':' separator.
 #: ../src/mail/em-composer-utils.c:2714
-#, fuzzy, c-format
-#| msgid "URL: %s"
+#, c-format
 msgctxt "reply-attribution"
 msgid "Re: %s"
-msgstr "URL: %s"
+msgstr "Rs: %s"
 
 #: ../src/mail/em-composer-utils.c:3324
 msgid "an unknown sender"
@@ -19514,11 +19154,9 @@ msgstr ""
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:617
-#, fuzzy
-#| msgid "Sent _Messages Folder:"
 msgctxt "autoarchive"
 msgid "Auto-_cleanup messages older than"
-msgstr "Dosar _mesaje trimise:"
+msgstr "_Curăță automat mesajele mai vechi decât"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:630
@@ -19844,11 +19482,9 @@ msgstr "Mesaje de la %s"
 
 #. Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string.
 #: ../src/mail/em-utils.c:1575
-#, fuzzy
-#| msgid "Role"
 msgctxt "reply-attribution"
 msgid "Re"
-msgstr "Rol"
+msgstr "Rs"
 
 #. Translators: This is a reply attribution separator in the message reply subject. This should match the ':' in 'Re: %s' in the 'reply-attribution' translation context.
 #: ../src/mail/em-utils.c:1578
@@ -20486,11 +20122,9 @@ msgid "_Wrap quoted text in replies"
 msgstr "Î_ncadrează textul citat în răspunsuri"
 
 #: ../src/mail/mail-config.ui.h:31
-#, fuzzy
-#| msgid "Inline"
 msgctxt "ReplyForward"
 msgid "Inline"
-msgstr "Inclus"
+msgstr "Inline"
 
 #: ../src/mail/mail-config.ui.h:33
 msgid "Sig_natures"
@@ -23310,11 +22944,9 @@ msgstr "Copie de siguranță Evolution nevalidă"
 #. * This string is just a fallback mechanism for systems on
 #. * which _NL_MEASUREMENT_MEASUREMENT is not available.
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:187
-#, fuzzy
-#| msgid "Default"
 msgctxt "locale-metric"
 msgid "default:mm"
-msgstr "Implicit"
+msgstr "implicit:mm"
 
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249
 #: ../src/modules/itip-formatter/itip-view.c:1682
@@ -25473,29 +25105,24 @@ msgstr "Adaugă calendare Google în Evolution."
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:330
-#, fuzzy
-#| msgid "IMAP Headers"
 msgctxt "GoggleSummary"
 msgid "IMAP access"
-msgstr "Access IMAP"
+msgstr "Acces IMAP"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:333
-#, fuzzy
-#| msgid "Calendars to run reminders for"
 msgctxt "GoggleSummary"
 msgid "Calendars to synchronize"
-msgstr "Calendarele pentru care se vor rula memoratori"
+msgstr "Calendarele de sincronizat"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:336
-#, fuzzy, c-format
-#| msgid "You may need to enable IMAP access."
+#, c-format
 msgctxt "GoggleSummary"
 msgid "You may need to enable %s and %s"
-msgstr "Poate necesita activarea accesului IMAP."
+msgstr "Poate că ar trebui să activați %s și %s"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:268
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:316
@@ -25765,8 +25392,6 @@ msgstr "Preferințe rețea"
 #. Translators: The first item in the list, to be
 #. * able to set rule: [Label] [is/is-not] [None]
 #: ../src/modules/mail/e-mail-shell-backend.c:1241
-#, fuzzy
-#| msgid "None"
 msgctxt "label"
 msgid "None"
 msgstr "Fără"
@@ -25780,10 +25405,8 @@ msgid "Go to Folder"
 msgstr "Navighează la dosar"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1144
-#, fuzzy
-#| msgid "_Select..."
 msgid "_Select"
-msgstr "_Alege..."
+msgstr "_Selectează"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1447
 msgid "_Disable Account"
@@ -26591,10 +26214,8 @@ msgstr ""
 "conturile dumneavoastră de email, și să importe fișiere din alte aplicații."
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:165
-#, fuzzy
-#| msgid "_Do not show this message again"
 msgid "Do not _show this wizard again"
-msgstr "_Nu mai arăta acest mesaj din nou"
+msgstr "Nu mai arăta ace_st asistent din nou"
 
 #: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
 msgid "Loading accounts..."
@@ -26826,23 +26447,17 @@ msgstr "_VHDL"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:129
 #: ../src/modules/vcard-inline/e-mail-part-vcard.c:188
-#, fuzzy
-#| msgid "Show Full vCard"
 msgid "Show F_ull vCard"
-msgstr "Arată tot vCard"
+msgstr "Arată întreg_ul vCard"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:132
 #: ../src/modules/vcard-inline/e-mail-part-vcard.c:193
-#, fuzzy
-#| msgid "Show Compact vCard"
 msgid "Show Com_pact vCard"
-msgstr "Arată compact vCard"
+msgstr "Arată vCard com_pact"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:163
-#, fuzzy
-#| msgid "Save in Address Book"
 msgid "Save _To Addressbook"
-msgstr "Salvează în agendă"
+msgstr "Salvează î_n agendă"
 
 #: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:187
 msgid "There is one other contact."
@@ -27454,24 +27069,18 @@ msgstr "Creată dintr-un mesaj de la %s"
 
 #. Translators: Dialog button to Cancel edit of an existing event/memo/task
 #: ../src/plugins/mail-to-task/mail-to-task.c:605
-#, fuzzy
-#| msgid "Cancel"
 msgctxt "mail-to-task"
 msgid "_Cancel"
-msgstr "Renunță"
+msgstr "_Anulează"
 
 #. Translators: Dialog button to Edit an existing event/memo/task
 #: ../src/plugins/mail-to-task/mail-to-task.c:607
-#, fuzzy
-#| msgid "_Edit"
 msgctxt "mail-to-task"
 msgid "_Edit"
 msgstr "_Editare"
 
 #. Translators: Dialog button to create a New event/memo/task
 #: ../src/plugins/mail-to-task/mail-to-task.c:609
-#, fuzzy
-#| msgid "_New"
 msgctxt "mail-to-task"
 msgid "_New"
 msgstr "_Nou"
@@ -28856,8 +28465,6 @@ msgid "Ask when used"
 msgstr "Întreabă când să se utilizeze"
 
 #: ../src/smime/gui/certificate-manager.c:1132
-#, fuzzy
-#| msgid "Never"
 msgctxt "CamelTrust"
 msgid "Never"
 msgstr "Niciodată"
@@ -28899,11 +28506,9 @@ msgid "_Ask when used"
 msgstr "Între_abă când să se utilizeze"
 
 #: ../src/smime/gui/certificate-manager.c:1383
-#, fuzzy
-#| msgid "Select certificate"
 msgctxt "CamelTrust"
 msgid "_Never trust this certificate"
-msgstr "Selectați certificatul"
+msgstr "Nu te încrede _niciodată în certificat"
 
 #: ../src/smime/gui/certificate-manager.c:1384
 msgctxt "CamelTrust"
@@ -28916,18 +28521,14 @@ msgid "_Marginally trusted"
 msgstr "_Marginal de încredere"
 
 #: ../src/smime/gui/certificate-manager.c:1386
-#, fuzzy
-#| msgid "R_eply requested"
 msgctxt "CamelTrust"
 msgid "_Fully trusted"
-msgstr "Răs_puns solicitat"
+msgstr "_Total de încredere"
 
 #: ../src/smime/gui/certificate-manager.c:1387
-#, fuzzy
-#| msgid "R_eply requested"
 msgctxt "CamelTrust"
 msgid "_Ultimately trusted"
-msgstr "Răs_puns solicitat"
+msgstr "_Ultimat de încredere"
 
 #: ../src/smime/gui/certificate-manager.c:1391
 #, fuzzy
@@ -29119,10 +28720,8 @@ msgid "Do not trust the authenticity of this certificate"
 msgstr "Nu avea încredere în autenticitatea acestui certificat"
 
 #: ../src/smime/gui/smime-ui.ui.h:29
-#, fuzzy
-#| msgid "Certificate"
 msgid "C_ertificate:"
-msgstr "Certificat"
+msgstr "C_ertificat:"
 
 #: ../src/smime/lib/e-cert.c:235 ../src/smime/lib/e-cert.c:247
 msgid "%d/%m/%Y"
