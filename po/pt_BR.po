@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2018-08-24 07:14+0000\n"
-"PO-Revision-Date: 2018-08-26 19:03-0200\n"
+"POT-Creation-Date: 2018-08-26 22:42+0000\n"
+"PO-Revision-Date: 2018-08-26 20:29-0200\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -1029,19 +1029,19 @@ msgstr "Se a janela está maximizada"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:1
 msgid "GNOME Calendar’s calendar import done"
-msgstr "Importação de agenda do GNOME Agenda concluída"
+msgstr "Importação de agenda do GNOME Calendário concluída"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:2
 msgid "Whether calendar from GNOME Calendar has been imported or not"
-msgstr "Se a agenda do GNOME Agenda foi importada"
+msgstr "Se a agenda do GNOME Calendário foi importada"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:3
 msgid "GNOME Calendar’s tasks import done"
-msgstr "Importação de tarefas do GNOME Agenda concluída"
+msgstr "Importação de tarefas do GNOME Calendário concluída"
 
 #: ../data/org.gnome.evolution.importer.gschema.xml.in.h:4
 msgid "Whether tasks from GNOME Calendar have been imported or not"
-msgstr "Se as tarefas da agenda do GNOME Agenda foram importadas"
+msgstr "Se as tarefas da agenda do GNOME Calendário foram importadas"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -2813,7 +2813,8 @@ msgstr "Se deve-se definir o campo “Arquivar em” como “Nome sobrenome”"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Set File under as “First Last”, instead of “Last, First”."
-msgstr "Define “Arquivar em” como “Nome Sobrenome”, em vez de “Sobrenome, Nome”."
+msgstr ""
+"Define “Arquivar em” como “Nome Sobrenome”, em vez de “Sobrenome, Nome”."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin address book source"
@@ -3359,7 +3360,7 @@ msgstr "Correio"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:368 ../src/e-util/e-webdav-browser.c:459
-#: ../src/modules/calendar/e-cal-shell-content.c:1719
+#: ../src/modules/calendar/e-cal-shell-content.c:1732
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
 #: ../src/modules/calendar/e-memo-shell-view.c:335
@@ -3372,7 +3373,7 @@ msgstr "Memorandos"
 #: ../src/calendar/importers/icalendar-importer.c:1109
 #: ../src/e-util/e-webdav-browser.c:460
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
-#: ../src/modules/calendar/e-cal-shell-content.c:1679
+#: ../src/modules/calendar/e-cal-shell-content.c:1692
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
 #: ../src/modules/calendar/e-task-shell-view.c:507
@@ -9266,7 +9267,7 @@ msgstr "Eventos de agenda"
 
 #: ../src/calendar/importers/icalendar-importer.c:1145
 msgid "GNOME Calendar"
-msgstr "GNOME Agenda"
+msgstr "GNOME Calendário"
 
 #: ../src/calendar/importers/icalendar-importer.c:1146
 msgid "Evolution Calendar intelligent importer"
@@ -17861,7 +17862,7 @@ msgstr[1] ""
 "Pasta “%s” contém %u mensagens duplicadas. Você tem certeza que deseja apagá-"
 "las?"
 
-#: ../src/mail/e-mail-reader-utils.c:2859
+#: ../src/mail/e-mail-reader-utils.c:2914
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Salvar mensagem"
@@ -17872,13 +17873,13 @@ msgstr[1] "Salvar mensagens"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:2880
+#: ../src/mail/e-mail-reader-utils.c:2935
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Mensagem"
 msgstr[1] "Mensagens"
 
-#: ../src/mail/e-mail-reader-utils.c:3294
+#: ../src/mail/e-mail-reader-utils.c:3349
 msgid "Parsing message"
 msgstr "Analisando mensagem"
 
@@ -24959,7 +24960,8 @@ msgstr "Cri_ar entradas no catálogo de endereços ao enviar mensagens"
 #. File Under setting
 #: ../src/plugins/bbdb/bbdb.c:782
 msgid "Set File _under as “First Last”, instead of “Last, First”"
-msgstr "Define ”Arquivar _em” como “Nome Sobrenome”, em vez de “Sobrenome, Nome”"
+msgstr ""
+"Define ”Arquivar _em” como “Nome Sobrenome”, em vez de “Sobrenome, Nome”"
 
 #: ../src/plugins/bbdb/bbdb.c:793
 msgid "Select Address book for Automatic Contacts"
