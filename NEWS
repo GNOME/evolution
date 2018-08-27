@@ -1,3 +1,34 @@
+Evolution 3.29.92 2018-08-27
+----------------------------
+
+Bug Fixes:
+	I#83 - Follow Up "is not Completed" search condition does not work (Milan Crha)
+	I#82 - Text selection with signature not used in Reply (Milan Crha)
+	I#47 - Unset calendar filters which force the List View on view change (Milan Crha)
+
+Miscellaneous:
+	Correct build when nss/nspr do not provide pkg-config files (Milan Crha)
+	Crash under config_lookup_thread() at e-config-lookup.c:179 (Milan Crha)
+	[EMailRequest] mail:// URI can be without additional arguments (Milan Crha)
+	Help: Link to Evolution project on GNOME Gitlab instead of frontpage (Andre Klapper)
+
+Translations:
+	Yi-Jyun Pan (zh_TW)
+	Aurimas Černius (lt)
+	Fabio Tomat (fur)
+	Jiri Grönroos (fi)
+	Efstathios Iosifidis (el)
+	Bruce Cowan (en_GB)
+	Daniel Șerbănescu (ro)
+	Baurzhan Muftakhidinov (kk)
+	Cheng-Chia Tseng (zh_TW)
+	Claude Paroz (fr)
+	Kukuh Syafaat (id)
+	Emin Tufan Çetin (tr)
+	Rafael Fontenelle (pt_BR)
+	Tim Sabsch (de)
+	Christian Kirbach (de)
+
 Evolution 3.29.91 2018-08-13
 ----------------------------
 
