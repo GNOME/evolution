@@ -27,7 +27,7 @@
 
 <p>It is recommended to set up Gmail as an online account in GNOME. Please <link xref="help:gnome-help/accounts" href="https://help.gnome.org/users/gnome-help/stable/accounts">refer to the GNOME Desktop Help</link> for more information. After doing so, the Gmail account will be listed in Evolution.</p>
 
-<p>For configuring the account in Evolution, refer to the <link xref="mail-account-manage-imap-plus">IMAP+ mail account settings</link>.</p>
+<p>For configuring the account in Evolution, refer to the <link xref="mail-account-manage-imap-plus">IMAP+ mail account settings</link>. Note that not all options of such accounts can be edited in <app>Evolution</app> and such accounts can only be removed in <app>Online accounts</app> itself.</p>
 
 <!-- Evolution does not support Google's proprietary SASL XOAUTH2 implementation which makes Evolution a "less secure app" for Google. -->
 <p>As an alternative to setting up an online account in GNOME, allow <link href="https://www.google.com/settings/security/lesssecureapps">access for less secure apps in your Gmail account settings</link>.</p>
