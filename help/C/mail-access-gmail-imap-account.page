@@ -8,7 +8,7 @@
     <link type="guide" xref="google-services"/>
     <link type="seealso" xref="mail-account-manage-imap-plus"/>
 
-    <revision pkgversion="3.13.90" version="0.3" date="2015-03-09" status="final"/>
+    <revision pkgversion="3.29.91" version="0.4" date="2018-08-28" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -23,11 +23,16 @@
 
 <title>Access a Gmail IMAP Account via <app>Evolution</app></title>
 
-<p>Please refer to the <link xref="mail-account-manage-imap-plus">IMAP+ mail account settings</link>.</p>
+<p>To access Gmail via IMAP you must turn on IMAP in your Google account. See the <link href="https://mail.google.com/support/bin/answer.py?answer=77695">Gmail Help</link> for more information.</p>
 
-<p>For performance reasons it is recommended to <gui>Use a Real Folder for Trash</gui> by setting it to <gui>[GMail]/Trash</gui> and to <gui>Use a Real Folder for Junk</gui> by setting it to <gui>[GMail]/Spam</gui> under the account's <link xref="mail-default-folder-locations"><gui>Defaults</gui></link>.</p>
+<p>It is recommended to set up Gmail as an online account in GNOME. Please <link xref="help:gnome-help/accounts" href="https://help.gnome.org/users/gnome-help/stable/accounts">refer to the GNOME Desktop Help</link> for more information. After doing so, the Gmail account will be listed in Evolution.</p>
 
-<note style="important"><p>To access Gmail via IMAP you must turn on IMAP in your Google account. See the <link href="https://mail.google.com/support/bin/answer.py?answer=77695">Gmail Help</link> for more information.</p></note>
+<p>For configuring the account in Evolution, refer to the <link xref="mail-account-manage-imap-plus">IMAP+ mail account settings</link>.</p>
+
+<!-- Evolution does not support Google's proprietary SASL XOAUTH2 implementation which makes Evolution a "less secure app" for Google. -->
+<p>As an alternative to setting up an online account in GNOME, allow <link href="https://www.google.com/settings/security/lesssecureapps">access for less secure apps in your Gmail account settings</link>.</p>
+
+<note style="tip"><p>For performance reasons it is recommended to <gui>Use a Real Folder for Trash</gui> by setting it to <gui>[GMail]/Trash</gui> and to <gui>Use a Real Folder for Junk</gui> by setting it to <gui>[GMail]/Spam</gui> under the account's <link xref="mail-default-folder-locations"><gui>Defaults</gui></link>.</p></note>
 
 </page>
 
