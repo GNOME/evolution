@@ -42,6 +42,9 @@
 <item><p>To know the Gmail Account settings, click on <gui>Configuration instructions</gui>. Choose <gui>I want to enable POP</gui> and select <gui>Other</gui> from the list of clients.</p></item>
 <item><p>On your <app>Evolution</app> client, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui></guiseq>. Click <gui style="button">Add</gui>. </p></item>
 <item><p>Provide the required information. For the account settings, refer to Step 5.</p></item>
+<!-- Evolution does not support Google's proprietary SASL XOAUTH2 implementation which makes Evolution a "less secure app" for Google. -->
+<item><p>Allow <link href="https://www.google.com/settings/security/lesssecureapps">access for less secure apps in your Gmail account settings</link>.</p></item>
+
 </steps>
 </page>
 
