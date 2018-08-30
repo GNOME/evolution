@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2018-08-24 07:14+0000\n"
-"PO-Revision-Date: 2018-08-30 19:50+0200\n"
+"PO-Revision-Date: 2018-08-30 22:53+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: Proxecto Trasno <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -1531,7 +1531,7 @@ msgid ""
 "it’s in UTC in the message."
 msgstr ""
 "Indica se a hora nos créditos das respostas se debería convertar á hora "
-"local cando está en UTC no mensaxe."
+"local cando está en UTC na mensaxe."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Whether to obey Content-Disposition:inline message header hint"
@@ -1893,6 +1893,9 @@ msgid ""
 "email parts in headers like To/Cc/Bcc will be shown only with the name part, "
 "without the actual email, with the name made clickable."
 msgstr ""
+"Cando está configurado a «false», os enderezos de correo que conteñen tanto "
+"o nome como a parte de email nas cabeceiras como Para/Co/Cco só mostrarán a "
+"parte do nome, sen o correo actual, co nome clicábel."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Thread the message-list based on Subject"
@@ -2642,7 +2645,7 @@ msgid ""
 "This determines whether the cursor is placed at the top of the message or "
 "the bottom when using Alternative Reply."
 msgstr ""
-"Isto determina se o cursor está posicionado na parte superior do mensaxe ou "
+"Isto determina se o cursor está posicionado na parte superior da mensaxe ou "
 "ao final ao usar a resposta alternativa."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
@@ -2652,40 +2655,54 @@ msgstr "Aplicar a plantilla seleccionada ao usar a Resposta alternativa"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr ""
+"A URI do último cartafol de plantillas seleccionado para a resposta "
+"alternativa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr ""
+"O último UID de plantilla de mensaxe seleccionado para a resposta "
+"alternativa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 msgid ""
 "Whether preserve original message subject when applying template for "
 "Alternative Reply"
 msgstr ""
+"Indica se se preserva o asunto da mensaxe orixinal ao aplicar unha plantilla "
+"para a resposta alternativa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid ""
 "Whether set “body” in mailto: URI as Preformatted paragraph style. If set to "
 "“false”, then Normal paragraph style will be used."
 msgstr ""
+"Indica se o «body» no URI de mailto: como estilo de párrafo Preformateado. "
+"Se está a «false», o estilo de parágrafo Normal usarase."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
 msgid ""
 "Close the message browser window when the selected message is deleted or "
 "marked as Junk."
 msgstr ""
+"Pechar a xanela do navegador de mensaxes cando a mensaxe seleccionado se "
+"elimina ou se marca como Lixo."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid ""
 "Collapse archive folders in Move/Copy message to Folder and Go to Folder "
 "selectors."
 msgstr ""
+"Contraer os cartafoles de arquivo ao realizar Mover/copiar a mensaxe ao "
+"cartafol e Ir aos selectores de cartafol."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:281
 msgid ""
 "Where to lookup recipient S/MIME certificates or PGP keys when encrypting "
 "messages."
 msgstr ""
+"Onde buscar por certificados de destinatarios S/MIME ou chaves PGP ao cifrar "
+"mensaxes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
 msgid ""
@@ -2694,6 +2711,10 @@ msgid ""
 "value uses certificates from auto-completed contacts and searches in books "
 "marked for auto-completion."
 msgstr ""
+"O valor «off» desactiva a busca de certificados por completo; o valor "
+"«autocompleted» fornece certificados só para os contactos autocompletados; o "
+"valor «books» usa certificados para os contactos autocompletados e buscas "
+"nos cadernos de enderezos marcados como autocompletado."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
 msgid "(Deprecated) Default forward style"
@@ -2814,7 +2835,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:7
 msgid "Whether to set “File under” field as “First Last”"
-msgstr ""
+msgstr "Indica se estabelecer o campo «Arquivar baixo» como «Primeiro Último»"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Set File under as “First Last”, instead of “Last, First”."
@@ -7634,17 +7655,23 @@ msgstr "Or_ganizador:"
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
+"Sobrescribir a cor do evento. Se non está estabelecido, entón usarase a cor "
+"do calendario."
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1350
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
+"Sobrescribir a cor do recordatorio. Se non está estabelecido, entón usarase "
+"a lista de recordatorios."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1352
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
+"Sobrescribir a cor da tarefa. Se non está estabelecida, entón usarase a cor "
+"da lista de tarefas."
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1364
 msgctxt "ECompEditor"
@@ -17194,22 +17221,19 @@ msgid "Assign C_olor…"
 msgstr "Asignar c_or…"
 
 #: ../src/mail/e-mail-reader.c:2375
-#, fuzzy
 #| msgid "Add a note for the selected message"
 msgid "Assign color for the selected messages"
-msgstr "Engadir unha nota para a mensaxe seleccionado"
+msgstr "Asignar unha cor para as mensaxes seleccionadas"
 
 #: ../src/mail/e-mail-reader.c:2380
-#, fuzzy
 #| msgid "Unset Color"
 msgid "Unse_t Color"
-msgstr "Quitar cor"
+msgstr "Quita_r cor"
 
 #: ../src/mail/e-mail-reader.c:2382
-#, fuzzy
 #| msgid "Undelete the selected messages"
 msgid "Unset color for the selected messages"
-msgstr "Recuperar as mensaxes seleccionadas"
+msgstr "Quitar a cor dos mensaxes seleccionados"
 
 #: ../src/mail/e-mail-reader.c:2387
 msgid "_Copy to Folder..."
@@ -17611,13 +17635,12 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2746
 msgid "Al_ternative Reply…"
-msgstr ""
+msgstr "Resposta al_ternativa…"
 
 #: ../src/mail/e-mail-reader.c:2748
-#, fuzzy
 #| msgid "Compose a reply to the sender of the selected message"
 msgid "Choose reply options for the selected message"
-msgstr "Redactar unha resposta para o remitente da mensaxe seleccionada"
+msgstr "Seleccionar as opcións de resposta para a mensaxe seleccionada"
 
 #: ../src/mail/e-mail-reader.c:2753 ../src/mail/em-composer-utils.c:4007
 #: ../src/mail/mail.error.xml.h:26
@@ -17946,7 +17969,7 @@ msgstr "Marcar para facer seguimento"
 
 #: ../src/mail/e-mail-tag-editor.c:161
 msgid "Cl_ear"
-msgstr ""
+msgstr "Lim_par"
 
 #: ../src/mail/e-mail-templates-store.c:115
 msgid "No Title"
@@ -18040,7 +18063,7 @@ msgstr "un remitente descoñecido"
 
 #: ../src/mail/em-composer-utils.c:3958
 msgid "Alternative Reply"
-msgstr ""
+msgstr "Resposta alternativa"
 
 #: ../src/mail/em-composer-utils.c:3961
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1493
@@ -18048,81 +18071,70 @@ msgid "_Reply"
 msgstr "_Responder"
 
 #: ../src/mail/em-composer-utils.c:3974
-#, fuzzy
 #| msgid "Recipients"
 msgid "Recipients:"
-msgstr "Destinatarios"
+msgstr "Destinatarios:"
 
 #: ../src/mail/em-composer-utils.c:4002
-#, fuzzy
 #| msgid "_Reply to Sender"
 msgid "Reply to _Sender"
-msgstr "_Responder ao remitente"
+msgstr "Responder ao _remitente"
 
 #: ../src/mail/em-composer-utils.c:4024
-#, fuzzy
 #| msgid "_Reply style:"
 msgid "Reply style:"
-msgstr "Estilo da _resposta:"
+msgstr "Estilo da resposta:"
 
 #: ../src/mail/em-composer-utils.c:4032
-#, fuzzy
 #| msgid "Default"
 msgid "_Default"
-msgstr "predeterminado"
+msgstr "_Predeterminado"
 
 #: ../src/mail/em-composer-utils.c:4036
-#, fuzzy
 #| msgid "Attachment"
 #| msgid_plural "Attachments"
 msgid "Attach_ment"
-msgstr "Anexo"
+msgstr "_Anexo"
 
 #: ../src/mail/em-composer-utils.c:4040
-#, fuzzy
 #| msgctxt "ReplyForward"
 #| msgid "Inline (Outlook style)"
 msgid "Inline (_Outlook style)"
-msgstr "En liña (estilo Outlook)"
+msgstr "En liña (estilo _Outlook)"
 
 #: ../src/mail/em-composer-utils.c:4044
-#, fuzzy
 #| msgid "_Quoted"
 msgid "_Quote"
-msgstr "_Citada"
+msgstr "_Citar"
 
 #: ../src/mail/em-composer-utils.c:4048
-#, fuzzy
 #| msgctxt "ReplyForward"
 #| msgid "Do Not Quote"
 msgid "Do _Not Quote"
-msgstr "Non citar"
+msgstr "Non _citar"
 
 #: ../src/mail/em-composer-utils.c:4055
-#, fuzzy
 #| msgid "For_mat messages in HTML"
 msgid "_Format message in HTML"
 msgstr "For_matar as mensaxes en HTML"
 
 #: ../src/mail/em-composer-utils.c:4065
-#, fuzzy
 #| msgid "_Template:"
 msgid "Apply t_emplate"
-msgstr "_Modelo:"
+msgstr "Aplicar plantill_a"
 
 #: ../src/mail/em-composer-utils.c:4077
-#, fuzzy
 #| msgid "Original message"
 msgid "Preserve original message S_ubject"
-msgstr "Mensaxe orixinal"
+msgstr "Preservar o As_unto orixinal da mensaxe"
 
 #: ../src/mail/em-composer-utils.c:4143
-#, fuzzy, c-format
+#, c-format
 #| msgid "Sender or Recipients"
 msgid "one recipient"
 msgid_plural "%d recipients"
-msgstr[0] "Remitente ou destinatarios"
-msgstr[1] "Remitente ou destinatarios"
+msgstr[0] "un destinatario"
+msgstr[1] "%d destinatarios"
 
 #. FIXME GTK_WINDOW (composer)
 #: ../src/mail/em-composer-utils.c:4564
@@ -18189,19 +18201,17 @@ msgid "_Send Account Override:"
 msgstr "_Enviar sobrescritura de conta:"
 
 #: ../src/mail/em-folder-properties.c:605
-#, fuzzy
 #| msgid "_Archive this folder using these settings:"
 msgid "Archive this folder using these settings:"
-msgstr "_Arquivar este cartafol usando estas preferencias:"
+msgstr "Arquivar este cartafol usando estas preferencias:"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:617
-#, fuzzy
 #| msgctxt "autoarchive"
 #| msgid "_Cleanup messages older than"
 msgctxt "autoarchive"
 msgid "Auto-_cleanup messages older than"
-msgstr "_Limpar as mensaxes máis antigas que"
+msgstr "Auto-_limpar as mensaxes máis antigas que"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:630
@@ -18222,34 +18232,29 @@ msgid "months"
 msgstr "meses"
 
 #: ../src/mail/em-folder-properties.c:640
-#, fuzzy
 #| msgid "Move old messages to the default archive _folder"
 msgid "Move messages to the default archive _folder"
 msgstr "Mover as mensaxes antigas ao _cartafol de arquivado por omisión"
 
 #: ../src/mail/em-folder-properties.c:647
-#, fuzzy
 #| msgid "_Move old messages to:"
 msgid "_Move messages to:"
 msgstr "_Mover as mensaxes antigas a:"
 
 #: ../src/mail/em-folder-properties.c:651
-#, fuzzy
 #| msgid "AutoArchive folder"
 msgid "Archive folder"
-msgstr "Cartafol de autoarquivado"
+msgstr "Cartafol de arquivado"
 
 #: ../src/mail/em-folder-properties.c:651
-#, fuzzy
 #| msgid "Select folder to use for AutoArchive"
 msgid "Select folder to use for Archive"
-msgstr "Seleccionar o cartafol a usar para o autoarquivado"
+msgstr "Seleccionar o cartafol a usar para o Arquivado"
 
 #: ../src/mail/em-folder-properties.c:655
-#, fuzzy
 #| msgid "_Delete Message"
 msgid "_Delete messages"
-msgstr "E_liminar a mensaxe"
+msgstr "E_liminar mensaxes"
 
 #: ../src/mail/em-folder-properties.c:1010
 msgid "Server Tag"
@@ -18262,10 +18267,9 @@ msgstr "Etiqueta"
 
 #. Translators: "Archive" is a noun (This is a tab heading in the mail folder properties)
 #: ../src/mail/em-folder-properties.c:1066
-#, fuzzy
 #| msgid "_Archive..."
 msgid "Archive"
-msgstr "_Arquivo…"
+msgstr "Arquivar"
 
 #: ../src/mail/em-folder-properties.c:1069 ../src/mail/mail-config.ui.h:121
 #: ../src/mail/message-list.etspec.h:19
@@ -19405,10 +19409,9 @@ msgid "Displayed Message Headers"
 msgstr "Mostrar as cabeceiras da mensaxe"
 
 #: ../src/mail/mail-config.ui.h:126
-#, fuzzy
 #| msgid "Show junk messages in the message-list"
 msgid "Show _full mail addresses in message preview"
-msgstr "Mostrar o correo lixo na lista de mensaxes"
+msgstr "Mostrar o correo lixo _completo na vista previa de mensaxes"
 
 #: ../src/mail/mail-config.ui.h:127
 msgid "Mail Headers Table"
@@ -19416,7 +19419,7 @@ msgstr "Táboa de cabeceiras de correo"
 
 #: ../src/mail/mail-config.ui.h:128
 msgid "Re_set"
-msgstr ""
+msgstr "Re_stabelecer"
 
 #: ../src/mail/mail-config.ui.h:129
 #: ../src/modules/addressbook/autocompletion-config.c:118
@@ -20459,7 +20462,6 @@ msgid "Something has gone wrong when displaying the message"
 msgstr "Buscar un texto no corpo da mensaxe mostrada"
 
 #: ../src/mail/mail.error.xml.h:211
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when displaying the message. You can try again "
 #| "by moving to another message and back. If the issue persists, please file "
@@ -20470,15 +20472,14 @@ msgid ""
 "report in GNOME Gitlab."
 msgstr ""
 "O WebKitWebProcess terminou de forma inesperada ao mostrar a mensaxe. Ténteo "
-"de novo movéndose a outra mensaxe e volvendo. Se este problema persiste, por "
-"favor remita un informe de erro ao bugzilla de GNOME."
+"de novo movéndose a outra mensaxe e volvendo. Se este problema persiste, "
+"por favor remita un informe de erro ao Gitlab de GNOME."
 
 #: ../src/mail/mail.error.xml.h:212
 msgid "Something has gone wrong when displaying the signature"
 msgstr "Algo foi mal ao mostrar a firma"
 
 #: ../src/mail/mail.error.xml.h:213
-#, fuzzy
 #| msgid ""
 #| "A WebKitWebProcess crashed when displaying the signature. You can try "
 #| "again by moving to another signature and back. If the issue persists, "
@@ -20490,7 +20491,7 @@ msgid ""
 msgstr ""
 "O WebKitWebProcess terminou de forma ao mostrar a sinatura. Ténteo de novo "
 "movéndose a outra sinatura e volva. Se este problema persiste, por favor "
-"remita un informe de erro ao bugzilla de GNOME."
+"remita un informe de erro ao Gitlab de GNOME."
 
 #: ../src/mail/mail.error.xml.h:214
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
@@ -20971,10 +20972,9 @@ msgid "Refresh the selected address book"
 msgstr "Actualizar o caderno de enderezos seleccionado"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
-#, fuzzy
 #| msgid "Refresh the selected address book"
 msgid "Re_fresh list of account address books"
-msgstr "Actualizar o caderno de enderezos seleccionado"
+msgstr "Ac_tualizar a lista de contas de cadernos de enderezos"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1071
 msgid "Address Book _Map"
@@ -21191,10 +21191,10 @@ msgid "_Send Message to Contact"
 msgstr "Enviar unha _mensaxe ao contacto"
 
 #: ../src/modules/alarm-notify/alarm-notify.c:169
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to open calendar “{0}”"
 msgid "Failed to launch command “%s”:"
-msgstr "Produciuse un fallo ao abrir o calendario «{0}»"
+msgstr "Produciuse un fallo ao lanzar a orde «%s»:"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:162
 msgid ""
@@ -21544,7 +21544,6 @@ msgid "Anonymous"
 msgstr "Anonimamente"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:749
-#, fuzzy
 #| msgid "User name cannot be empty"
 msgid "Username can be left empty"
 msgstr "O nome de usuario non pode estar baleiro"
@@ -21555,7 +21554,7 @@ msgstr "Usando enderezo de correo"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:756
 msgid "requires anonymous access to your LDAP server"
-msgstr ""
+msgstr "require acceso anónimo ao seu servidor LDAP"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:762
 msgid "Using distinguished name (DN)"
@@ -21563,7 +21562,7 @@ msgstr "Empregar o nome distintivo (DN)"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:763
 msgid "for example: uid=user,dc=example,dc=com"
-msgstr ""
+msgstr "por exemplo: uid=user,dc=exemplo,dc=com"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:771
 msgid "Method:"
@@ -21571,7 +21570,7 @@ msgstr "Método:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:775
 msgid "This is the method Evolution will use to authenticate you."
-msgstr ""
+msgstr "Este é o método que Evolution usará para autenticalo."
 
 #. Page 2
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:787
@@ -22066,7 +22065,7 @@ msgstr "Ordenar días na Vista semanal de _esquerda a dereita"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Allo_w direct edit of event Summary"
-msgstr ""
+msgstr "Per_mitir a edición directa do evento Resumo"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:59
 msgid "Alerts"
@@ -22093,10 +22092,9 @@ msgid "_Hide completed tasks after"
 msgstr "_Ocultar as tarefas terminadas despois de"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:67
-#, fuzzy
 #| msgid "Hide completed tasks"
 msgid "Hid_e cancelled tasks"
-msgstr "Ocultar as tarefas rematadas"
+msgstr "Ocultar as tar_efas canceladas"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "To Do bar"
@@ -22301,10 +22299,9 @@ msgid "Refresh the selected calendar"
 msgstr "Actualizar o calendario seleccionado"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1353
-#, fuzzy
 #| msgid "Refresh the selected calendar"
 msgid "Re_fresh list of account calendars"
-msgstr "Actualizar o calendario seleccionado"
+msgstr "Ac_tualizar a lista de calendarios da conta"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1362
 msgid "Rename the selected calendar"
@@ -22720,10 +22717,9 @@ msgid "Refresh the selected memo list"
 msgstr "Actualizar a lista de notas seleccionada"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:635
-#, fuzzy
 #| msgid "Refresh the selected memo list"
 msgid "Re_fresh list of account memo lists"
-msgstr "Actualizar a lista de notas seleccionada"
+msgstr "Ac_tualizar a lista de recordatorios da conta"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:644
 msgid "Rename the selected memo list"
@@ -22860,10 +22856,9 @@ msgid "Refresh the selected task list"
 msgstr "Actualizar a lista de tarefas seleccionada"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:761
-#, fuzzy
 #| msgid "Refresh the selected task list"
 msgid "Re_fresh list of account task lists"
-msgstr "Actualizar a lista de tarefas seleccionada"
+msgstr "Ac_tualizar a lista de listas de tarefas da conta"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:770
 msgid "Rename the selected task list"
@@ -22906,10 +22901,9 @@ msgid "Active Tasks"
 msgstr "Tarefas activas"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:965
-#, fuzzy
 #| msgid "Cancelled"
 msgid "Cancelled Tasks"
-msgstr "Cancelado"
+msgstr "Tarefas canceladas"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:972
 msgid "Completed Tasks"
@@ -22968,7 +22962,7 @@ msgstr "Converter a unha mensaxe de correo"
 
 #: ../src/modules/config-lookup/e-gnome-config-lookup.c:67
 msgid "Look up configuration with e-mail domain"
-msgstr ""
+msgstr "Buscar a configuración co dominio do correo electrónico"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
@@ -24374,16 +24368,14 @@ msgid "Current Folder"
 msgstr "Cartafol actual"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2031
-#, fuzzy
 #| msgid "In Current Folder and _Subfolders"
 msgid "Current Folder and Subfolders"
-msgstr "No cartafol actual e nos _subcartafoles"
+msgstr "Cartafol actual e subcartafoles"
 
 #: ../src/modules/mail/e-mail-shell-view.c:893
-#, fuzzy
 #| msgid "In Current Folder and _Subfolders"
 msgid "Current Folder and Subfolders Search"
-msgstr "No cartafol actual e nos _subcartafoles"
+msgstr "Busca de cartafol actual e nos subcartafoles"
 
 #: ../src/modules/mail/e-mail-shell-view.c:1013
 msgid "All Account Search"
@@ -25538,8 +25530,8 @@ msgstr "Asunto: %s"
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(e %d máis)"
+msgstr[1] "(e %d máis)"
 
 #: ../src/plugins/mail-notification/mail-notification.c:513
 msgid "New email in Evolution"
@@ -25573,10 +25565,9 @@ msgid "Select sound file"
 msgstr "Seleccionar un ficheiro de son"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1014
-#, fuzzy
 #| msgid "Select the sources for reminder notification:"
 msgid "Select _accounts for which enable notifications:"
-msgstr "Seleccione as orixes para a notificación de recordatorios:"
+msgstr "Seleccione as _contas para as que activar as notificacións:"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1176
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
@@ -25592,10 +25583,9 @@ msgid "Show _notification when a new message arrives"
 msgstr "Mostrar _notificacións cando chegue correo novo"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1224
-#, fuzzy
 #| msgid "_Accounts"
 msgid "Accounts"
-msgstr "_Contas"
+msgstr "Contas"
 
 #: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 msgid "Notifies you when new mail messages arrive."
@@ -25775,10 +25765,9 @@ msgid "Create a new meeting from the selected message"
 msgstr "Crear unha reunión nova a partir da mensaxe seleccionada"
 
 #: ../src/plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
-#, fuzzy
 #| msgid "Mail to %s"
 msgid "Mail-to-Task"
-msgstr "Enviar a %s"
+msgstr "Correo-a-Tarefa"
 
 #: ../src/plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 msgid "Convert a mail message to a task."
@@ -26756,17 +26745,15 @@ msgid "SSL certificate for task list “{0}” is not trusted."
 msgstr "O certificado SSL para a lista de tarefas «{0}» non é confiábel."
 
 #: ../src/shell/shell.error.xml.h:34
-#, fuzzy
 #| msgid "Menubar is visible"
 msgid "Menu Bar is hidden"
-msgstr "A barra de menú está visíbel"
+msgstr "A barra de menú está oculta"
 
 #: ../src/shell/shell.error.xml.h:35
 msgid "Press the “Alt” key to access the Menu Bar again."
-msgstr ""
+msgstr "Prema a tecla «Alt» para acceder á Barra de menú de novo. "
 
 #: ../src/shell/shell.error.xml.h:36
-#, fuzzy
 #| msgid "Show _Menu Bar"
 msgid "_Show Menu Bar"
 msgstr "Mostrar a _barra de menú"
