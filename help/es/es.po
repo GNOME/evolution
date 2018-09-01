@@ -4143,7 +4143,7 @@ msgid ""
 "<app>Evolution</app> Mail and Calendar"
 msgstr ""
 "<media type=\"image\" its:translate=\"no\" src=\"figures/evolutionlogo.png"
-"\"> <span its:translate=\"yes\">Logotipo de Evolution</span> Correo y "
+"\"> <span its:translate=\"yes\">Logotipo de Evolution</span> </media> Correo y "
 "calendario de <app>Evolution</app>"
 
 #. (itstool) path: section/title
