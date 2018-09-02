@@ -32,9 +32,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-21 08:25+0000\n"
-"PO-Revision-Date: 2018-08-21 11:04+0200\n"
-"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
+"POT-Creation-Date: 2018-08-28 19:16+0000\n"
+"PO-Revision-Date: 2018-09-02 12:12+0200\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr ""
 "Christian Kirbach <Christian.Kirbach@gmail.com>, 2009-2013, 2015-2018\n"
 "Gabor Karsay <gabor.karsay@gmx.at>, 2011-2012\n"
 "Bernd Homuth <dev@hmt.im>, 2015\n"
-"Tim Sabsch <tim@sabsch.com>, 2018."
+"Tim Sabsch <tim@sabsch.com>, 2018"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -5300,14 +5300,55 @@ msgstr "Zugriff auf ein GMail-IMAP-Konto mit <app>Evolution</app>"
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:26
 msgid ""
-"Please refer to the <link xref=\"mail-account-manage-imap-plus\">IMAP+ mail "
-"account settings</link>."
+"To access Gmail via IMAP you must turn on IMAP in your Google account. See "
+"the <link href=\"https://mail.google.com/support/bin/answer.py?"
+"answer=77695\">Gmail Help</link> for more information."
 msgstr ""
-"Informieren Sie sich bitte über <link xref=\"mail-account-manage-imap-plus"
-"\">E-Mail-Konteneinstellungen für IMAP+</link>."
+"Um auf Gmail via IMAP zuzugreifen, müssen Sie IMAP für Ihr Google-Konto "
+"einschalten. Lesen Sie die <link href=\"https://mail.google.com/support/bin/"
+"answer.py?answer=77695\">Gmail-Hilfe</link> für weitere Informationen."
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:28
+msgid ""
+"It is recommended to set up Gmail as an online account in GNOME. Please "
+"<link xref=\"help:gnome-help/accounts\" href=\"https://help.gnome.org/users/"
+"gnome-help/stable/accounts\">refer to the GNOME Desktop Help</link> for more "
+"information. After doing so, the Gmail account will be listed in Evolution."
+msgstr ""
+"Es wird empfohlen, Gmail als Online-Konto in GNOME einzurichten. Weitere "
+"Informationen finden Sie in der <link xref=\"help:gnome-help/accounts\" href="
+"\"https://help.gnome.org/users/gnome-help/stable/accounts\">GNOME-"
+"Benutzerhandbuch</link>. Nachdem Sie dies getan haben, wird das Gmail-Konto "
+"in <app>Evolution</app> aufgelistet."
+
+#. (itstool) path: page/p
+#: C/mail-access-gmail-imap-account.page:30
+msgid ""
+"For configuring the account in Evolution, refer to the <link xref=\"mail-"
+"account-manage-imap-plus\">IMAP+ mail account settings</link>. Note that not "
+"all options of such accounts can be edited in <app>Evolution</app> and such "
+"accounts can only be removed in <app>Online accounts</app> itself."
+msgstr ""
+"Um ein Konto in <app>Evolution</app> einzurichten, schauen Sie in die <link "
+"xref=\"mail-account-manage-imap-plus\">IMAP+ Mail-Kontoeinstellungen</link>. "
+"Beachten Sie, dass nicht alle Optionen solcher Konten in <app>Evolution</"
+"app> bearbeitet werden und nur in den <app>Online-Konten</app> selbst "
+"entfernt werden können."
+
+#. (itstool) path: page/p
+#: C/mail-access-gmail-imap-account.page:33
+msgid ""
+"As an alternative to setting up an online account in GNOME, allow <link href="
+"\"https://www.google.com/settings/security/lesssecureapps\">access for less "
+"secure apps in your Gmail account settings</link>."
+msgstr ""
+"Als Alternative zur Einrichtung eines Online-Kontos in GNOME können Sie in "
+"Ihren Gmail-Einstellungen <link href=\"https://www.google.com/settings/"
+"security/lesssecureapps\">weniger sichere Apps zulassen</link>."
+
+#. (itstool) path: note/p
+#: C/mail-access-gmail-imap-account.page:35
 msgid ""
 "For performance reasons it is recommended to <gui>Use a Real Folder for "
 "Trash</gui> by setting it to <gui>[GMail]/Trash</gui> and to <gui>Use a Real "
@@ -5321,17 +5362,6 @@ msgstr ""
 "indem er unter den <link xref=\"mail-default-folder-locations"
 "\"><gui>Vorgaben</gui></link> des Kontos auf <gui>[GMail]/Spam</gui> "
 "eingestellt wird."
-
-#. (itstool) path: note/p
-#: C/mail-access-gmail-imap-account.page:30
-msgid ""
-"To access Gmail via IMAP you must turn on IMAP in your Google account. See "
-"the <link href=\"https://mail.google.com/support/bin/answer.py?"
-"answer=77695\">Gmail Help</link> for more information."
-msgstr ""
-"Um auf Gmail via IMAP zuzugreifen, müssen Sie IMAP für Ihr Google-Konto "
-"einschalten. Lesen Sie die <link href=\"https://mail.google.com/support/bin/"
-"answer.py?answer=77695\">Gmail-Hilfe</link> für weitere Informationen."
 
 #. (itstool) path: info/desc
 #: C/mail-access-gmail-pop-account.page:5
@@ -5421,6 +5451,16 @@ msgid ""
 msgstr ""
 "Geben Sie die erforderlichen Informationen an. Folgen Sie Schritt 5 für die "
 "Konten-Einstellungen."
+
+#. (itstool) path: item/p
+#: C/mail-access-gmail-pop-account.page:46
+msgid ""
+"Allow <link href=\"https://www.google.com/settings/security/lesssecureapps"
+"\">access for less secure apps in your Gmail account settings</link>."
+msgstr ""
+"Erlauben Sie den <link href=\"https://www.google.com/settings/security/"
+"lesssecureapps\">Zugriff für weniger sichere Apps</link> in Ihren Gmail-"
+"Kontoeinstellungen."
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-imap-plus.page:5
@@ -8699,7 +8739,7 @@ msgstr ""
 "markierte Nachrichten anzuzeigen, wählen Sie <guiseq><gui>Ansicht</"
 "gui><gui>Gelöschte Nachrichten anzeigen</gui></guiseq>. Nun werden E-Mails, "
 "die als gelöscht markiert sind, in der E-Mail-Liste als durchgestrichen "
-"dargestellt. "
+"dargestellt."
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:34
@@ -10846,7 +10886,7 @@ msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
 "md5='be4dbdb5f6e3dcbd5111b87169cae268'"
-msgstr "lokalisiert"
+msgstr "lokalisiert'"
 
 #. (itstool) path: media/p
 #. Translators: Please make sure that the screenshot does have the small
@@ -10880,7 +10920,7 @@ msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
 "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
-msgstr "lokalisiert"
+msgstr "lokalisiert'"
 
 #. (itstool) path: media/p
 #: C/mail-received-notification.page:31
