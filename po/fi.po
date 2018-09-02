@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2018-08-12 22:10+0000\n"
-"PO-Revision-Date: 2018-08-17 21:37+0300\n"
+"POT-Creation-Date: 2018-08-24 07:14+0000\n"
+"PO-Revision-Date: 2018-09-02 20:45+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -547,10 +547,8 @@ msgid "Number of units for determining when to hide tasks"
 msgstr "Kuinka monta yksikköä tarvitaan, jotta tehtävät piilotetaan."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Hide cancelled tasks"
-msgstr "Piilota valmistuneet tehtävät"
+msgstr "Piilota perutut tehtävät"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
 #, fuzzy
@@ -3512,15 +3510,11 @@ msgstr "Uutta yhteystietoa ei voi lisätä"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:42
-#, fuzzy
-#| msgid ""
-#| "'{0}' is a read-only address book and cannot be modified. Please select a "
-#| "different address book from the side bar in the Contacts view."
 msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
-"\"{0}\" on vain luettavissa oleva osoitekirja eikä sitä voi muokata. Valitse "
+"“{0}” on vain luettavissa oleva osoitekirja eikä sitä voi muokata. Valitse "
 "yhteystietonäkymän sivupalkista toinen osoitekirja."
 
 #: ../src/addressbook/addressbook.error.xml.h:43
@@ -5620,15 +5614,11 @@ msgstr "Tapahtumaa ei voi tallentaa"
 
 #. Translators: {0} is the name of the calendar source
 #: ../src/calendar/calendar.error.xml.h:80
-#, fuzzy
-#| msgid ""
-#| "'{0}' is a read-only calendar and cannot be modified. Please select a different "
-#| "calendar that can accept appointments."
 msgid ""
 "“{0}” is a read-only calendar and cannot be modified. Please select a different "
 "calendar that can accept appointments."
 msgstr ""
-"\"{0}\" on vain luettavissa oleva kalenteri eikä sitä voi muokata. Valitse toinen "
+"“{0}” on vain luettavissa oleva kalenteri eikä sitä voi muokata. Valitse toinen "
 "kalenteri, johon tapaamisia voidaan lisätä."
 
 #: ../src/calendar/calendar.error.xml.h:81
@@ -5669,10 +5659,8 @@ msgstr "Aikavyöhykkeen “{0}” lisääminen epäonnistui"
 
 #. The {0} is a calendar/memo list/task list name, which is useless here
 #: ../src/calendar/calendar.error.xml.h:93
-#, fuzzy
-#| msgid "Could not save attachments"
 msgid "Failed to save attachments"
-msgstr "Liitteitä ei voitu tallentaa"
+msgstr "Liitteiden tallentaminen epäonnistui"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:95
@@ -5695,10 +5683,9 @@ msgstr "Tätä tehtävää ei löydy mistään tehtävälistasta"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:101
-#, fuzzy
 #| msgid "Failed to load the calendar '%s' (%s)"
 msgid "Failed to create an event in the calendar “{0}”"
-msgstr "Kalenterin ”%s” lataus epäonnistui (%s)"
+msgstr "Tapahtuman luominen kalenteriin “{0}” epäonnistui"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:103
@@ -5716,10 +5703,9 @@ msgstr "Tätä tehtävää ei löydy mistään tehtävälistasta"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:107
-#, fuzzy
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to modify an event in the calendar “{0}”"
-msgstr "Tapaaminen löytyi kalenterista \"%s\""
+msgstr "Tapahtuman muokkaaminen kalenterissa “{0}” epäonnistui"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:109
@@ -5737,10 +5723,9 @@ msgstr "Tätä tehtävää ei löydy mistään tehtävälistasta"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:113
-#, fuzzy
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to delete an event in the calendar “{0}”"
-msgstr "Tapaaminen löytyi kalenterista \"%s\""
+msgstr "Tapahtuman poistaminen kalenterista “{0}” epäonnistui"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:115
@@ -5758,10 +5743,9 @@ msgstr "Tätä tehtävää ei löydy mistään tehtävälistasta"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:119
-#, fuzzy
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to update an event in the calendar “{0}”"
-msgstr "Tapaaminen löytyi kalenterista \"%s\""
+msgstr "Tapahtuman päivittäminen kalenterissa “{0}” epäonnistui"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:121
@@ -5779,10 +5763,9 @@ msgstr "Tätä tehtävää ei löydy mistään tehtävälistasta"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:125
-#, fuzzy
 #| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to send an event to the calendar “{0}”"
-msgstr "Tapaaminen löytyi kalenterista \"%s\""
+msgstr "Tapahtuman lähettäminen kalenteriin “{0}” epäonnistui"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:127
@@ -6984,12 +6967,11 @@ msgstr[0] "Poista muistilappu"
 msgstr[1] "Poista muistilappu"
 
 #: ../src/calendar/gui/e-cal-ops.c:519
-#, fuzzy, c-format
-#| msgid "Delete Task"
+#, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
-msgstr[0] "Poista tehtävä"
-msgstr[1] "Poista tehtävä"
+msgstr[0] "Poistetaan tehtävä"
+msgstr[1] "Poistetaan %d tehtävää"
 
 #: ../src/calendar/gui/e-cal-ops.c:722
 #, fuzzy, c-format
@@ -7016,10 +6998,8 @@ msgstr[0] "Tulosta tämä tehtävä"
 msgstr[1] "Tulosta tämä tehtävä"
 
 #: ../src/calendar/gui/e-cal-ops.c:851
-#, fuzzy
-#| msgid "Updating objects"
 msgid "Updating an event"
-msgstr "Päivitetään olioita"
+msgstr "Päivitetään tapahtuma"
 
 #: ../src/calendar/gui/e-cal-ops.c:855
 #, fuzzy
@@ -8822,14 +8802,12 @@ msgstr "Valitse aikavyöhyke"
 #. Translators: It will display "Start: StartDateAndTime"
 #: ../src/calendar/gui/e-to-do-pane.c:370
 #, c-format
-#| msgid "Start: "
 msgid "Start: %s"
 msgstr "Alkaa: %s"
 
 #. Translators: It will display "Due: DueDateAndTime"
 #: ../src/calendar/gui/e-to-do-pane.c:390
 #, c-format
-#| msgid "Due: "
 msgid "Due: %s"
 msgstr "Erääntyy: %s"
 
@@ -11106,7 +11084,7 @@ msgstr "Määrittää näytetäänkö Vastausosoite-kenttä"
 
 #: ../src/composer/e-composer-actions.c:550
 msgid "Visually _Wrap Long Lines"
-msgstr ""
+msgstr "_Rivitä visuaalisesti pitkät rivit"
 
 #: ../src/composer/e-composer-actions.c:607
 msgid "Attach"
@@ -11313,10 +11291,8 @@ msgstr ""
 "Tarkka virhe: {0}"
 
 #: ../src/composer/mail-composer.error.xml.h:24
-#, fuzzy
-#| msgid "Could not read signature file &quot;{0}&quot;."
 msgid "Could not read signature file “{0}”."
-msgstr "Allekirjoitustiedostoa &quot;{0}&quot; ei voi lukea."
+msgstr "Allekirjoitustiedostoa “{0}” ei voi lukea."
 
 #: ../src/composer/mail-composer.error.xml.h:25
 msgid "All accounts have been removed."
@@ -11332,10 +11308,8 @@ msgid "An error occurred while saving to your Outbox folder."
 msgstr "Tapahtui virhe tulostettaessa"
 
 #: ../src/composer/mail-composer.error.xml.h:28
-#, fuzzy
-#| msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgid "The reported error was “{0}”. The message has not been sent."
-msgstr "Ilmoitettu virhe oli &quot;{0}&quot;. Viestiä ei lähetetty."
+msgstr "Ilmoitettu virhe oli “{0}”. Viestiä ei lähetetty."
 
 #: ../src/composer/mail-composer.error.xml.h:29
 #, fuzzy
@@ -11343,13 +11317,8 @@ msgid "An error occurred while saving to your Drafts folder."
 msgstr "Tapahtui virhe käynnistettäessä %s: %s."
 
 #: ../src/composer/mail-composer.error.xml.h:30
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has most likely not been "
-#| "saved."
 msgid "The reported error was “{0}”. The message has most likely not been saved."
-msgstr ""
-"Ilmoitettu virhe oli &quot;{0}&quot;. Viestiä ei mitä luultavimmin ole tallennettu."
+msgstr "Ilmoitettu virhe oli “{0}”. Viestiä ei mitä luultavimmin ole tallennettu."
 
 #: ../src/composer/mail-composer.error.xml.h:31
 msgid "An error occurred while sending. How do you want to proceed?"
@@ -12522,7 +12491,6 @@ msgstr "Etsitään tietoja, odota hetki…"
 #. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
 #: ../src/e-util/e-collection-account-wizard.c:271
 #, c-format
-#| msgid "Enter Google password for user '%s'."
 msgid "Requires password to continue. %s."
 msgstr "Salasana vaaditaan jatkamiseksi. %s."
 
@@ -12819,7 +12787,7 @@ msgstr "valkoinen"
 msgid "Default"
 msgstr "Oletukset"
 
-#: ../src/e-util/e-config-lookup.c:817
+#: ../src/e-util/e-config-lookup.c:821
 #, fuzzy
 #| msgid "Loading…"
 msgid "Running…"
@@ -13412,7 +13380,7 @@ msgstr "Vähennä sisennystä"
 
 #: ../src/e-util/e-html-editor-actions.c:1044
 msgid "_Wrap Lines"
-msgstr ""
+msgstr "_Rivitä teksti"
 
 #. Center
 #: ../src/e-util/e-html-editor-actions.c:1054
@@ -13878,10 +13846,8 @@ msgstr "_Pystysuuntainen näkymä"
 
 #. Wrap Text
 #: ../src/e-util/e-html-editor-cell-dialog.c:518
-#, fuzzy
-#| msgid "Plain Text"
 msgid "_Wrap Text"
-msgstr "Raakateksti"
+msgstr "_Rivitä teksti"
 
 #. Header Style
 #: ../src/e-util/e-html-editor-cell-dialog.c:526
@@ -14974,7 +14940,7 @@ msgstr "Päivitysväli"
 
 #: ../src/e-util/e-source-config.c:1446 ../src/e-util/e-source-config.c:1516
 msgid "Use a secure connection"
-msgstr "Käytä salattua yhteyttä:"
+msgstr "Käytä salattua yhteyttä"
 
 #: ../src/e-util/e-source-config.c:1542
 #, fuzzy
@@ -16366,9 +16332,9 @@ msgid "De_fault"
 msgstr "_Oletustili"
 
 #: ../src/mail/e-mail-autoconfig.c:436
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid URI: “%s”"
-msgstr "Virheellinen kansio: ”%s”"
+msgstr "Virheellinen URI: “%s”"
 
 #: ../src/mail/e-mail-autoconfig.c:731
 #, c-format
@@ -16396,7 +16362,6 @@ msgstr "STARTTLS"
 
 #: ../src/mail/e-mail-autoconfig.c:745
 #, c-format
-#| msgid "Authentication"
 msgid "Authentication mechanism: %s"
 msgstr "Tunnistautumismekanismi: %s"
 
@@ -16454,7 +16419,6 @@ msgid "_Revise Details"
 msgstr "_Tarkista tiedot"
 
 #: ../src/mail/e-mail-config-auth-check.c:217
-#| msgid "%s authentication failed"
 msgid "Querying authentication types..."
 msgstr "Kysellään tunnistautumistyyppejä..."
 
@@ -18238,10 +18202,8 @@ msgid "_Send Account Override:"
 msgstr "_Lähetystilin ohitus:"
 
 #: ../src/mail/em-folder-properties.c:605
-#, fuzzy
-#| msgid "_Archive this folder using these settings:"
 msgid "Archive this folder using these settings:"
-msgstr "_Arkistoi tämä kansio käyttäen seuraavia asetuksia:"
+msgstr "Arkistoi tämä kansio käyttäen seuraavia asetuksia:"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:617
@@ -19103,7 +19065,7 @@ msgstr "Lisää _hymiöt automaattisesti"
 
 #: ../src/mail/mail-config.ui.h:11
 msgid "Use Un_icode characters for emoticons"
-msgstr "Käytä _Unicode-merkkejä hymiöitä varten."
+msgstr "Käytä _Unicode-merkkejä hymiöitä varten"
 
 #: ../src/mail/mail-config.ui.h:12
 msgid "Always request rea_d receipt"
@@ -19111,7 +19073,7 @@ msgstr "Pyydä aina vastaanoton _kuittausta"
 
 #: ../src/mail/mail-config.ui.h:13
 msgid "Encode filenames in an _Outlook/GMail way"
-msgstr "Muotoile tiedostonimet Outlookin ja _GMailin tapaan."
+msgstr "Muotoile tiedostonimet Outlookin ja _GMailin tapaan"
 
 #: ../src/mail/mail-config.ui.h:14
 msgid "Send messages through Outbo_x folder"
@@ -20300,10 +20262,8 @@ msgid "Please enable the account or send using another account."
 msgstr "Ota tili käyttöön tai lähetä käyttäen toista tiliä."
 
 #: ../src/mail/mail.error.xml.h:158
-#, fuzzy
-#| msgid "This message cannot be sent because you have not specified any recipients"
 msgid "This message cannot be sent because there is no mail account configured"
-msgstr "Viestiä ei voi lähettää, koska et ole määritellyt vastaanottajia"
+msgstr "Tätä viestiä ei voi lähettää, koska et ole määritellyt sähköpostitiliä"
 
 #: ../src/mail/mail.error.xml.h:159
 msgid ""
@@ -20878,10 +20838,8 @@ msgid "_Back"
 msgstr "_Takaisin"
 
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:78
-#, fuzzy
-#| msgid "_Find"
 msgid "_Finish"
-msgstr "_Etsi"
+msgstr "_Valmis"
 
 #: ../src/modules/accounts-window/e-webdav-browser-page.c:195
 msgid "_Browse"
@@ -21607,10 +21565,8 @@ msgid "Anonymous"
 msgstr "Anonyymisti"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:749
-#, fuzzy
-#| msgid "User name cannot be empty"
 msgid "Username can be left empty"
-msgstr "Käyttäjätunnus ei voi olla tyhjä"
+msgstr "Käyttäjätunnus voi olla tyhjä"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:755
 msgid "Using email address"
@@ -21745,7 +21701,7 @@ msgstr "Tehtävälista"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:350
 msgid "Email:"
-msgstr "Sähköposti_"
+msgstr "Sähköposti:"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:355
 msgid "Server handles meeting invitations"
@@ -23684,28 +23640,24 @@ msgid "Unable to send item to calendar “%s”.  %s"
 msgstr "Kohtaa ei voi lähettää kalenteriin \"%s\". %s"
 
 #: ../src/modules/itip-formatter/itip-view.c:4826
-#, fuzzy, c-format
-#| msgid "Sent to calendar '%s' as accepted"
+#, c-format
 msgid "Sent to calendar “%s” as accepted"
-msgstr "Lähetetty kalenteriin \"%s\" hyväksyttynä"
+msgstr "Lähetetty kalenteriin “%s” hyväksyttynä"
 
 #: ../src/modules/itip-formatter/itip-view.c:4831
-#, fuzzy, c-format
-#| msgid "Sent to calendar '%s' as tentative"
+#, c-format
 msgid "Sent to calendar “%s” as tentative"
-msgstr "Lähetetty kalenteriin \"%s\" alustavana"
+msgstr "Lähetetty kalenteriin “%s”alustavana"
 
 #: ../src/modules/itip-formatter/itip-view.c:4837
-#, fuzzy, c-format
-#| msgid "Sent to calendar '%s' as declined"
+#, c-format
 msgid "Sent to calendar “%s” as declined"
-msgstr "Lähetetty kalenteriin \"%s\" hylättynä"
+msgstr "Lähetetty kalenteriin “%s” hylättynä"
 
 #: ../src/modules/itip-formatter/itip-view.c:4843
-#, fuzzy, c-format
-#| msgid "Sent to calendar '%s' as canceled"
+#, c-format
 msgid "Sent to calendar “%s” as cancelled"
-msgstr "Lähetetty kalenteriin \"%s\" peruttuna"
+msgstr "Lähetetty kalenteriin “%s” peruttuna"
 
 #: ../src/modules/itip-formatter/itip-view.c:4879
 #: ../src/modules/itip-formatter/itip-view.c:5336
@@ -26345,7 +26297,7 @@ msgstr "Kaikki tiedostot (*)"
 #: ../src/shell/e-shell-utils.c:353
 msgid "translator-credits"
 msgstr ""
-"Jiri Grönroos, 2012-2017\n"
+"Jiri Grönroos, 2012-2018\n"
 "Ilkka Tuohela, 2002-2009\n"
 "Timo Jyrinki, 2008\n"
 "Sami Pesonen, 2001-2003\n"
@@ -26834,6 +26786,9 @@ msgid ""
 "issues. Would you like to cancel all pending operations and close immediately, or "
 "keep waiting?"
 msgstr ""
+"Evolutionin sulkeminen kestää kauan, syynä on mitä luultavimmin "
+"verkkoyhteysongelmat. Haluatko perua kaikki odottavat toimenpiteet ja sulkea "
+"välittömästi, vai jatkaa odottamista?"
 
 #: ../src/shell/shell.error.xml.h:13
 msgid "_Close Immediately"
@@ -26932,24 +26887,20 @@ msgstr "Valikkopalkki on piilotettu"
 
 #: ../src/shell/shell.error.xml.h:35
 msgid "Press the “Alt” key to access the Menu Bar again."
-msgstr ""
+msgstr "Paina “Alt”-näppäintä tuodaksesi valikkopalkin jälleen esiin."
 
 #: ../src/shell/shell.error.xml.h:36
 msgid "_Show Menu Bar"
 msgstr "Näytä _valikkopalkki"
 
 #: ../src/smime/gui/ca-trust-dialog.c:104
-#, fuzzy, c-format
-#| msgid ""
-#| "Certificate '%s' is a CA certificate.\n"
-#| "\n"
-#| "Edit trust settings:"
+#, c-format
 msgid ""
 "Certificate “%s” is a CA certificate.\n"
 "\n"
 "Edit trust settings:"
 msgstr ""
-"Varmenne '%s' on varmentajan varmenne (CA).\n"
+"Varmenne “%s” on varmentajan varmenne (CA).\n"
 "\n"
 "Muokkaa luotettavuusasetuksia:"
 
@@ -27132,10 +27083,8 @@ msgid "Temporarily"
 msgstr "Väliaikaisesti"
 
 #: ../src/smime/gui/certificate-manager.c:1346
-#, fuzzy
-#| msgid "Certificate Authority Trust"
 msgid "Change certificate trust"
-msgstr "Varmentajan luottamus"
+msgstr "Muuta varmenteen luotettavuutta"
 
 #: ../src/smime/gui/certificate-manager.c:1358
 #, c-format
@@ -27316,19 +27265,16 @@ msgid "Certificate Authority Trust"
 msgstr "Varmentajan luottamus"
 
 #: ../src/smime/gui/smime-ui.ui.h:19
-#, fuzzy
 msgid "Trust this CA to identify _websites."
-msgstr "Luota tähän CA:han www-sivustojen tunnistamisessa."
+msgstr "Luota tähän CA:han _www-sivustojen tunnistamisessa."
 
 #: ../src/smime/gui/smime-ui.ui.h:20
-#, fuzzy
 msgid "Trust this CA to identify _email users."
-msgstr "Luota tähän CA:han sähköpostikäyttäjien tunnistamisessa."
+msgstr "Luota tähän CA:han _sähköpostikäyttäjien tunnistamisessa."
 
 #: ../src/smime/gui/smime-ui.ui.h:21
-#, fuzzy
 msgid "Trust this CA to identify _software developers."
-msgstr "Luota tähän CA:han ohjelmistokehittäjien tunnistamisessa."
+msgstr "Luota tähän CA:han _ohjelmistokehittäjien tunnistamisessa."
 
 #: ../src/smime/gui/smime-ui.ui.h:22
 msgid ""
