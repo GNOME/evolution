@@ -1322,6 +1322,44 @@ test_issue_86 (TestFixture *fixture)
 	g_free (converted);
 }
 
+static void
+test_issue_103 (TestFixture *fixture)
+{
+	#define LONG_URL "https://www.example.com/123456789012345678901234567890123456789012345678901234567890"
+	#define SHORTER_URL "https://www.example.com/1234567890123456789012345678901234567890"
+	#define SHORT_URL "https://www.example.com/"
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:before\\n"
+		LONG_URL "\\n"
+		"after\\n"
+		"prefix text " SHORTER_URL " suffix\\n"
+		"prefix " SHORT_URL " suffix\\n"
+		"end\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">before</div>"
+		"<div style=\"width: 71ch;\"><a href=\"" LONG_URL "\">" LONG_URL "</a></div>"
+		"<div style=\"width: 71ch;\">after</div>"
+		"<div style=\"width: 71ch;\">prefix text <a href=\"" SHORTER_URL "\">" SHORTER_URL "</a> suffix</div>"
+		"<div style=\"width: 71ch;\">prefix <a href=\"" SHORT_URL "\">" SHORT_URL "</a> suffix</div>"
+		"<div style=\"width: 71ch;\">end</div>"
+		HTML_SUFFIX,
+		"before\n"
+		LONG_URL "\n"
+		"after\n"
+		"prefix text \n"
+		SHORTER_URL " suffix\n"
+		"prefix " SHORT_URL " suffix\n"
+		"end")) {
+		g_test_fail ();
+		return;
+	}
+
+	#undef SHORT_URL
+	#undef SHORTER_URL
+	#undef LONG_URL
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -1352,4 +1390,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/788829", test_bug_788829);
 	test_utils_add_test ("/bug/750636", test_bug_750636);
 	test_utils_add_test ("/issue/86", test_issue_86);
+	test_utils_add_test ("/issue/103", test_issue_103);
 }
