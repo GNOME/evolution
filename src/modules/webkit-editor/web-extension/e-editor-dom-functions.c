@@ -6230,7 +6230,6 @@ e_editor_dom_convert_content (EEditorPage *editor_page,
 			WEBKIT_DOM_NODE (content_wrapper),
 			WEBKIT_DOM_NODE (e_editor_dom_prepare_paragraph (editor_page, FALSE)),
 			NULL);
-
 	if (!cite_body) {
 		if (!empty) {
 			WebKitDOMNode *child;
@@ -8804,6 +8803,133 @@ e_editor_dom_adapt_to_editor_dom_changes (EEditorPage *editor_page)
 	g_clear_object (&collection);
 }
 
+static void
+traverse_nodes_to_split_pre (WebKitDOMDocument *document,
+			     WebKitDOMNode *node,
+			     WebKitDOMNode *new_parent, /* can be NULL, then prepend to out_new_nodes */
+			     gboolean is_in_pre,
+			     GSList **out_new_nodes) /* WebKitDOMNode * */
+{
+	if (is_in_pre && WEBKIT_DOM_IS_TEXT (node)) {
+		gchar *text;
+
+		text = webkit_dom_text_get_whole_text (WEBKIT_DOM_TEXT (node));
+		if (text) {
+			WebKitDOMElement *pre;
+			gint ii;
+			gchar **strv;
+
+			strv = g_strsplit (text, "\n", -1);
+
+			for (ii = 0; strv && strv[ii]; ii++) {
+				if (*(strv[ii])) {
+					gint len = strlen (strv[ii]);
+
+					if (strv[ii][len - 1] == '\r') {
+						strv[ii][len - 1] = '\0';
+					}
+				}
+
+				/* <pre> is shown as a block, thus adding a new line at the end behaves like two <br>-s */
+				if (!*(strv[ii]) && !strv[ii + 1])
+					break;
+
+				pre = webkit_dom_document_create_element (document, "pre", NULL);
+
+				if (*(strv[ii])) {
+					webkit_dom_html_element_set_inner_text (WEBKIT_DOM_HTML_ELEMENT (pre), strv[ii], NULL);
+				} else {
+					WebKitDOMElement *br;
+
+					br = webkit_dom_document_create_element (document, "br", NULL);
+					webkit_dom_node_append_child (WEBKIT_DOM_NODE (pre), WEBKIT_DOM_NODE (br), NULL);
+				}
+
+				if (new_parent)
+					webkit_dom_node_append_child (new_parent, WEBKIT_DOM_NODE (pre), NULL);
+				else
+					*out_new_nodes = g_slist_prepend (*out_new_nodes, pre);
+			}
+
+			g_strfreev (strv);
+		}
+
+		g_free (text);
+	} else if (WEBKIT_DOM_IS_HTML_PRE_ELEMENT (node)) {
+		is_in_pre = TRUE;
+	} else {
+		WebKitDOMNode *nd;
+		GError *error = NULL;
+
+		nd = webkit_dom_node_clone_node_with_error (node, FALSE, &error);
+		if (nd) {
+			if (new_parent)
+				webkit_dom_node_append_child (new_parent, nd, NULL);
+			else
+				*out_new_nodes = g_slist_prepend (*out_new_nodes, nd);
+
+			new_parent = nd;
+		} else {
+			g_warning ("%s: Failed to clone node %s: %s\n", G_STRFUNC, G_OBJECT_TYPE_NAME (node), error ? error->message : "Unknown error");
+		}
+	}
+
+	for (node = webkit_dom_node_get_first_child (node);
+	     node;
+	     node = webkit_dom_node_get_next_sibling (node)) {
+		traverse_nodes_to_split_pre (document, node, new_parent, is_in_pre, out_new_nodes);
+	}
+}
+
+static void
+maybe_split_pre_paragraphs (WebKitDOMDocument *document)
+{
+	WebKitDOMHTMLElement *body;
+	WebKitDOMNodeList *list;
+
+	body = webkit_dom_document_get_body (document);
+	if (!body)
+		return;
+
+	list = webkit_dom_document_query_selector_all (document, "pre", NULL);
+	if (webkit_dom_node_list_get_length (list)) {
+		WebKitDOMNode *body_node, *node, *current;
+		GSList *new_nodes = NULL, *to_remove = NULL, *link;
+
+		g_clear_object (&list);
+
+		body_node = WEBKIT_DOM_NODE (body);
+		webkit_dom_node_normalize (body_node);
+
+		for (current = webkit_dom_node_get_first_child (body_node);
+		     current;
+		     current = webkit_dom_node_get_next_sibling (current)) {
+			traverse_nodes_to_split_pre (document, current, NULL, FALSE, &new_nodes);
+			to_remove = g_slist_prepend (to_remove, current);
+		}
+
+		for (link = to_remove; link; link = g_slist_next (link)) {
+			node = link->data;
+
+			webkit_dom_node_remove_child (body_node, node, NULL);
+		}
+
+		/* They are in reverse order, thus reverse it */
+		new_nodes = g_slist_reverse (new_nodes);
+
+		for (link = new_nodes; link; link = g_slist_next (link)) {
+			node = link->data;
+
+			webkit_dom_node_append_child (body_node, node, NULL);
+		}
+
+		g_slist_free (to_remove);
+		g_slist_free (new_nodes);
+	}
+
+	g_clear_object (&list);
+}
+
 void
 e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 {
@@ -8853,60 +8979,8 @@ e_editor_dom_process_content_after_load (EEditorPage *editor_page)
 		}
 
 		goto out;
-	} else {
-		WebKitDOMNodeList *list;
-		gulong ii;
-
-		list = webkit_dom_document_query_selector_all (document, "pre", NULL);
-		for (ii = webkit_dom_node_list_get_length (list); ii--;) {
-			WebKitDOMNode *node = webkit_dom_node_list_item (list, ii), *parent;
-			WebKitDOMElement *element;
-			gchar *inner_html;
-
-			element = WEBKIT_DOM_ELEMENT (node);
-			parent = webkit_dom_node_get_parent_node (node);
-			inner_html = webkit_dom_element_get_inner_html (element);
-
-			if (inner_html && *inner_html) {
-				gchar **strv;
-
-				strv = g_strsplit (inner_html, "\n", -1);
-				if (strv && strv[0] && strv[1]) {
-					WebKitDOMElement *pre;
-					gint jj;
-
-					for (jj = 0; strv[jj]; jj++) {
-						pre = webkit_dom_document_create_element (document, "pre", NULL);
-						if (*(strv[jj])) {
-							gint len = strlen (strv[jj]);
-
-							if (strv[jj][len - 1] == '\r') {
-								strv[jj][len - 1] = '\0';
-							}
-						}
-
-						if (*(strv[jj])) {
-							webkit_dom_html_element_set_inner_html (WEBKIT_DOM_HTML_ELEMENT (pre), strv[jj], NULL);
-						} else {
-							WebKitDOMElement *br;
-
-							br = webkit_dom_document_create_element (document, "br", NULL);
-							webkit_dom_node_append_child (WEBKIT_DOM_NODE (pre), WEBKIT_DOM_NODE (br), NULL);
-						}
-
-						webkit_dom_node_insert_before (parent, WEBKIT_DOM_NODE (pre), node, NULL);
-					}
-
-					remove_node (node);
-				}
-
-				g_strfreev (strv);
-			}
-
-			g_free (inner_html);
-		}
-
-		g_clear_object (&list);
+	} else if (!webkit_dom_element_has_attribute (WEBKIT_DOM_ELEMENT (body), "data-evo-draft")) {
+		maybe_split_pre_paragraphs (document);
 	}
 
 	e_editor_dom_adapt_to_editor_dom_changes (editor_page);
