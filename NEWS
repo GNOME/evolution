@@ -1,3 +1,20 @@
+Evolution 3.30.0 2018-09-03
+---------------------------
+
+Miscellaneous:
+	Help: Cover required 'Less secure apps' for Gmail POP (Andre Klapper)
+	Help: Cover GOA and 'Less secure apps' for Gmail IMAP (Andre Klapper)
+	Help: Add same info about GOA accounts as in 82692a82e5 (Andre Klapper)
+	Spanish help translation: Fix broken markup (Andre Klapper)
+
+Translations:
+	Changwoo Ryu (ko)
+	Fran Dieguez (gl)
+	Mario Blättermann (de)
+	Alan Mortensen (da)
+	Jiri Grönroos (fi)
+	Anders Jonsson (sv)
+
 Evolution 3.29.92 2018-08-27
 ----------------------------
 

@@ -2,6 +2,6 @@
 
 	The ChangeLog is no longer auto-generated when releasing.
 	Get a clone of git repository and list changes with 'git log' there,
-	   $ git clone git://git.gnome.org/evolution
+	   $ git clone https://gitlab.gnome.org/GNOME/evolution.git
 	or browse changes online at
-	   http://git.gnome.org/browse/evolution/log/?h=master
+	   https://gitlab.gnome.org/GNOME/evolution/commits/gnome-3-30
