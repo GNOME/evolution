@@ -26,7 +26,10 @@
 		"--share=network",
 		"--socket=x11",
 		"--socket=wayland",
-		"--socket=pulseaudio"
+		"--socket=pulseaudio",
+                "--talk-name=org.freedesktop.Notifications",
+                "--talk-name=org.freedesktop.portal.Desktop",
+                "--talk-name=org.gnome.OnlineAccounts"
 	],
 	"modules": [
 		{
@@ -56,6 +59,19 @@
 					"type": "archive",
 					"url": "https://downloads.sourceforge.net/project/liboauth/liboauth-1.0.3.tar.gz",
 					"sha256": "0df60157b052f0e774ade8a8bac59d6e8d4b464058cc55f9208d72e41156811f"
+				}
+			]
+		},
+
+		{
+			"name": "gnome-online-accounts",
+			"config-opts": [ "--disable-Werror", "--disable-telepathy", "--disable-documentation", "--disable-backend" ],
+			"cleanup": [ "/bin", "/share/GConf" ],
+			"sources": [
+				{
+					"type": "archive",
+					"url": "https://download.gnome.org/sources/gnome-online-accounts/3.28/gnome-online-accounts-3.28.0.tar.xz",
+					"sha256": "87bc4ef307604f1ce4f09f6e5c9996ef8d37ca5e0a3bf76f6b27d71844adb40c"
 				}
 			]
 		},
@@ -227,15 +243,16 @@
 			"config-opts": [
 				"-DENABLE_FILE_LOCKING=fcntl",
 				"-DENABLE_DOT_LOCKING=OFF",
-				"-DENABLE_GOOGLE_AUTH=ON",
+				"-DENABLE_OAUTH2=ON",
 				"-DENABLE_GTK=ON",
 				"-DENABLE_UOA=OFF",
-				"-DENABLE_GOA=OFF",
+				"-DENABLE_GOA=ON",
 				"-DENABLE_EXAMPLES=OFF",
 				"-DENABLE_INTROSPECTION=OFF",
 				"-DENABLE_VALA_BINDINGS=OFF",
 				"-DENABLE_INSTALLED_TESTS=OFF",
 				"-DENABLE_GTK_DOC=OFF",
+				"-DENABLE_DBUS_SESSION_TOOL=ON",
 				"-DWITH_PRIVATE_DOCS=OFF",
 				"-DWITH_PHONENUMBER=OFF",
 				"-DWITH_SYSTEMDUSERUNITDIR=OFF"
@@ -303,9 +320,11 @@
 				{
 					"type": "script",
 					"commands": [
+						"export GIO_USE_NETWORK_MONITOR=base",
 						"echo evolution-flatpak | /app/bin/gnome-keyring-daemon --daemonize --unlock &",
 						"/app/libexec/dconf-service &",
 						"sleep 1",
+						"gsettings reset org.gnome.evolution-data-server network-monitor-gio-name",
 						"/app/libexec/evolution-source-registry &",
 						"sleep 1",
 						"/app/libexec/evolution-addressbook-factory -r &",
@@ -319,7 +338,14 @@
 
 				{
 					"type": "script",
-					"commands": [ "dbus-run-session /app/bin/evolution-wrapper" ],
+					"commands": [
+						"/app/libexec/evolution-data-server/evolution-dbus-session \\",
+						"	--exec /app/bin/evolution-wrapper \\",
+						"	--service-dir /app/share/dbus-1/services/ \\",
+						"	--iface org.freedesktop.Notifications:/org/freedesktop/Notifications \\",
+						"	--iface org.freedesktop.portal.Desktop:/org/freedesktop/portal/desktop \\",
+						"	--iface org.gnome.OnlineAccounts:/org/gnome/OnlineAccounts"
+					],
 					"dest-filename": "flatpak-evolution-run.sh"
 				}
 			],
