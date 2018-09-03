@@ -1208,6 +1208,120 @@ test_bug_750636 (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_issue_86 (TestFixture *fixture)
+{
+	const gchar *source_text =
+		"normal text\n"
+		"\n"
+		"> level 1\n"
+		"> level 1\n"
+		"> > level 2\n"
+		"> > level 2\n"
+		"> >\n"
+		"> > level 2\n"
+		">\n"
+		"> level 1\n"
+		"> level 1\n"
+		">\n"
+		"> > > level 3\n"
+		"> > > level 3\n"
+		">\n"
+		"> > level 2\n"
+		"> > level 2\n"
+		">\n"
+		"> level 1\n"
+		"\n"
+		"back normal text\n";
+	gchar *converted, *to_insert;
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	converted = camel_text_to_html (source_text,
+		CAMEL_MIME_FILTER_TOHTML_PRE |
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES |
+		CAMEL_MIME_FILTER_TOHTML_QUOTE_CITATION,
+		0xDDDDDD);
+
+	g_return_if_fail (converted != NULL);
+
+	to_insert = g_strconcat (converted,
+		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		NULL);
+
+	test_utils_insert_content (fixture, to_insert,
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<div>On Today, User wrote:</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<pre>normal text</pre>"
+			"<pre><br></pre>"
+			"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+				"<pre>level 1</pre>"
+				"<pre>level 1</pre>"
+				"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+					"<pre>level 2</pre>"
+					"<pre>level 2</pre>"
+					"<pre><br></pre>"
+					"<pre>level 2</pre>"
+				"</blockquote>"
+				"<pre><br></pre>"
+				"<pre>level 1</pre>"
+				"<pre>level 1</pre>"
+				"<pre><br></pre>"
+				"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+					"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+						"<pre>level 3</pre>"
+						"<pre>level 3</pre>"
+					"</blockquote>"
+				"</blockquote>"
+				"<pre><br></pre>"
+				"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+					"<pre>level 2</pre>"
+					"<pre>level 2</pre>"
+				"</blockquote>"
+				"<pre><br></pre>"
+				"<pre>level 1</pre>"
+			"</blockquote>"
+			"<pre><br></pre>"
+			"<pre>back normal text</pre>"
+		"</blockquote>" HTML_SUFFIX,
+		"On Today, User wrote:\n"
+		"> normal text\n"
+		"> \n"
+		"> > level 1\n"
+		"> > level 1\n"
+		"> > > level 2\n"
+		"> > > level 2\n"
+		"> > > \n"
+		"> > > level 2\n"
+		"> > \n"
+		"> > level 1\n"
+		"> > level 1\n"
+		"> > \n"
+		"> > > > level 3\n"
+		"> > > > level 3\n"
+		"> > \n"
+		"> > > level 2\n"
+		"> > > level 2\n"
+		"> > \n"
+		"> > level 1\n"
+		"> \n"
+		"> back normal text"))
+		g_test_fail ();
+
+	g_free (to_insert);
+	g_free (converted);
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -1237,4 +1351,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/780088", test_bug_780088);
 	test_utils_add_test ("/bug/788829", test_bug_788829);
 	test_utils_add_test ("/bug/750636", test_bug_750636);
+	test_utils_add_test ("/issue/86", test_issue_86);
 }
