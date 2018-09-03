@@ -12,7 +12,7 @@ set(PROJECT_URL "http://wiki.gnome.org/Apps/Evolution/")
 # Base Version: This is for API/version tracking for things like
 # D-Bus server files. This should always be the major/minor of
 # the stable version or stable version to be.
-set(BASE_VERSION 3.30)
+set(BASE_VERSION 3.32)
 
 # Used for pkg-config files
 set(INTERFACE_VERSION 3.0)
