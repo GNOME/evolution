@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2018-08-12 22:10+0000\n"
-"PO-Revision-Date: 2018-09-03 00:45+0200\n"
+"PO-Revision-Date: 2018-09-03 10:31+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -1539,18 +1539,16 @@ msgid "If set to “true” quoted text in replies will be wrapped."
 msgstr "Om satt till ”true” (sant) kommer citerad text i svar att radbrytas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:75
-#, fuzzy
 msgid "Convert UTC time in reply credits to local time"
-msgstr "Konvertera UTC-tid i svar till lokal tid"
+msgstr "Konvertera UTC-tid i svarsrubriker till lokal tid"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
-#, fuzzy
 msgid ""
 "Whether the time in reply credits should be converted to local time when "
 "it’s in UTC in the message."
 msgstr ""
-"Huruvida tiden i svar ska konverteras till lokal tid då den är i UTC i "
-"meddelandet."
+"Huruvida tiden i svarsrubriker ska konverteras till lokal tid då den är i "
+"UTC i meddelandet."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "Whether to obey Content-Disposition:inline message header hint"
@@ -1892,24 +1890,20 @@ msgstr ""
 "utanför gränsen visas en ”…”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
-#, fuzzy
-#| msgid ""
-#| "Show Attachment Bar below the message preview pane when the message has "
-#| "attachments"
 msgid ""
 "Show mails in headers part of the message preview when name is available"
 msgstr ""
-"Visa bilageraden under förhandsgranskningspanelen då meddelandet har bilagor"
+"Visa e-post i rubrikdelen av meddelandeförhandsgranskningen då namnet är "
+"tillgängligt"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
-#, fuzzy
 msgid ""
 "When set to false, the mail addresses which contain both the name and the "
 "email parts in headers like To/Cc/Bcc will be shown only with the name part, "
 "without the actual email, with the name made clickable."
 msgstr ""
-"När inställt till false (falskt), kommer e-postadresserna som innehåller "
-"både namnet och e-postdelarna i rubriker som To/Cc/Bcc att visas endast med "
+"När inställd till false (falskt) kommer e-postadresserna som innehåller både "
+"namnet och e-postdelarna i rubriker som To/Cc/Bcc att visas endast med "
 "namndelen, utan det faktiska e-postmeddelandet, med namnet klickbart."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
@@ -2629,56 +2623,48 @@ msgstr ""
 "rullning"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:270
-#, fuzzy
 msgid "Alternative reply style"
-msgstr "Alternativ svarsstil"
+msgstr "Stil för alternativt svars"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:271
 msgid "Format message in HTML"
 msgstr "Formatera meddelande i HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:272
-#, fuzzy
 msgid "Put the cursor at the bottom of alternative replies"
 msgstr "Placera markören längst ner vid alternativa svar"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:273
-#, fuzzy
 msgid ""
 "This determines whether the cursor is placed at the top of the message or "
 "the bottom when using Alternative Reply."
 msgstr ""
 "Detta avgör huruvida markören placeras högst upp i meddelandet eller längst "
-"ner vid alternativt svar."
+"ner vid Alternativt svar."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
-#, fuzzy
 msgid "Apply chosen template when using Alternative Reply"
-msgstr "Tillämpa vald mall då alternativt svar används"
+msgstr "Tillämpa vald mall då Alternativt svar används"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
-#, fuzzy
 msgid "Last chosen template’s folder URI for Alternative Reply"
-msgstr "Mapp-URI för senast vald mall för alternativt svar"
+msgstr "Mapp-URI för senast vald mall för Alternativt svar"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
-#, fuzzy
 msgid "Last chosen template’s message UID for Alternative Reply"
-msgstr "Meddelande-UID för senast vald mall för alternativt svar"
+msgstr "Meddelande-UID för senast vald mall för Alternativt svar"
 
 # TODO: Whether TO preserve
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
-#, fuzzy
 msgid ""
 "Whether preserve original message subject when applying template for "
 "Alternative Reply"
 msgstr ""
 "Huruvida det ursprungliga meddelandeämnet ska bevaras då mall för "
-"alternativt svar tillämpas"
+"Alternativt svar tillämpas"
 
 # TODO: Whether TO set
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
-#, fuzzy
 msgid ""
 "Whether set “body” in mailto: URI as Preformatted paragraph style. If set to "
 "“false”, then Normal paragraph style will be used."
@@ -2687,7 +2673,6 @@ msgstr ""
 "Om inställd till ”false” kommer paragrafstilen Normal att användas."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
-#, fuzzy
 msgid ""
 "Close the message browser window when the selected message is deleted or "
 "marked as Junk."
@@ -2696,7 +2681,6 @@ msgstr ""
 "markeras som skräp."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
-#, fuzzy
 msgid ""
 "Collapse archive folders in Move/Copy message to Folder and Go to Folder "
 "selectors."
@@ -17547,7 +17531,6 @@ msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Skriv ett svar till alla mottagare i det markerade meddelandet"
 
 #: ../src/mail/e-mail-reader.c:2746
-#, fuzzy
 msgid "Al_ternative Reply…"
 msgstr "Al_ternativt svar…"
 
@@ -17977,7 +17960,6 @@ msgid "an unknown sender"
 msgstr "en okänd avsändare"
 
 #: ../src/mail/em-composer-utils.c:3958
-#, fuzzy
 msgid "Alternative Reply"
 msgstr "Alternativt svar"
 
@@ -22826,7 +22808,6 @@ msgid "Convert to the mail message"
 msgstr "Konvertera till e-postmeddelandet"
 
 #: ../src/modules/config-lookup/e-gnome-config-lookup.c:67
-#, fuzzy
 msgid "Look up configuration with e-mail domain"
 msgstr "Slå upp konfiguration med e-postdomän"
 
