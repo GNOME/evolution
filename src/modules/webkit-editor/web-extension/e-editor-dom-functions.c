@@ -14139,7 +14139,7 @@ wrap_lines (EEditorPage *editor_page,
 
 				next_sibling = webkit_dom_node_get_next_sibling (node);
 				/* If the anchor doesn't fit on the line, add it to a separate line. */
-				if ((line_length + anchor_length) > length_to_wrap) {
+				if (line_length > 0 && (line_length + anchor_length) > length_to_wrap) {
 					/* Put <BR> before the anchor, thus it starts on a new line */
 					element = webkit_dom_document_create_element (document, "BR", NULL);
 					element_add_class (element, "-x-evo-wrap-br");
