@@ -14169,6 +14169,33 @@ wrap_lines (EEditorPage *editor_page,
 				}
 
 				node = next_sibling;
+
+				if (!line_length && WEBKIT_DOM_IS_TEXT (node)) {
+					gchar *nd_content;
+
+					while (nd_content = webkit_dom_node_get_text_content (node), nd_content) {
+						gboolean changed = FALSE;
+
+						if (*nd_content) {
+							if (*nd_content == ' ') {
+								mark_and_remove_leading_space (document, node);
+								changed = TRUE;
+							}
+
+							if (!webkit_dom_node_get_next_sibling (node) &&
+							    g_str_has_suffix (nd_content, " ")) {
+								mark_and_remove_trailing_space (document, node);
+								changed = TRUE;
+							}
+						}
+
+						g_free (nd_content);
+
+						if (!changed)
+							break;
+					}
+				}
+
 				continue;
 			}
 
