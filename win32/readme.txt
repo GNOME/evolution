@@ -1,3 +1,10 @@
+**************************************************
+* Note the build itself is outdated also due to  *
+* no WebKit2 of WebKitGTK+ for Windows.          *
+* It is waiting for:                             *
+* https://bugs.webkit.org/show_bug.cgi?id=137488 *
+**************************************************
+
 ************************************************
 *** Caution - this work is still in progress ***
 ************************************************
