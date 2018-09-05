@@ -1388,6 +1388,73 @@ test_issue_103 (TestFixture *fixture)
 	#undef LONG_URL
 }
 
+static void
+test_issue_107 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>text\n"
+		"<a href=\"https://www.01.org/\">https://www.01.org/</a>&#160;?\n"
+		"<a href=\"https://www.02.org/\">https://www.02.org/</a>&#160;A\n"
+		"<a href=\"https://www.03.org/\">https://www.03.org/</a>&#160;ěšč\n"
+		"<a href=\"https://www.04.org/\">https://www.04.org/</a> ?\n"
+		"<a href=\"https://www.05.org/\">https://www.05.org/</a>\n"
+		"<a href=\"https://www.06.org/\">https://www.06.org/</a>&#160;\n"
+		"<a href=\"https://www.07.org/\">https://www.07.org/</a>&#160;&#160;\n"
+		"<a href=\"https://www.08.org/\">https://www.08.org/</a>&#160;&gt;&#160;&lt;&#160;\n"
+		"&lt;<a href=\"https://www.09.org/\">https://www.09.org/</a>&gt;\n"
+		"&lt;<a href=\"https://www.10.org/\">https://www.10.org/</a>&#160;?&gt;\n"
+		"&#160;<a href=\"https://www.11.org/\">https://www.11.org/</a>&#160;\n"
+		"&lt;&#160;<a href=\"https://www.12.org/\">https://www.12.org/</a>&#160;&gt;\n"
+		"&#160;&lt;<a href=\"https://www.13.org/\">https://www.13.org/</a>&gt;&#160;\n</pre>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">On Today, User wrote:</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+		"<div style=\"width: 71ch;\">&gt; text</div>"
+		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.01.org/\">https://www.01.org/</a>&nbsp;?</div>"
+		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.02.org/\">https://www.02.org/</a>&nbsp;A</div>"
+		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.03.org/\">https://www.03.org/</a>&nbsp;ěšč</div>"
+		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.04.org/\">https://www.04.org/</a> ?</div>"
+		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.05.org/\">https://www.05.org/</a></div>"
+		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.06.org/\">https://www.06.org/</a>&nbsp;</div>"
+		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.07.org/\">https://www.07.org/</a>&nbsp;&nbsp;</div>"
+		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.08.org/\">https://www.08.org/</a>&nbsp;&gt;&nbsp;&lt;&nbsp;</div>"
+		"<div style=\"width: 71ch;\">&gt; &lt;<a href=\"https://www.09.org/\">https://www.09.org/</a>&gt;</div>"
+		"<div style=\"width: 71ch;\">&gt; &lt;<a href=\"https://www.10.org/\">https://www.10.org/</a>&nbsp;?&gt;</div>"
+		"<div style=\"width: 71ch;\">&gt; &nbsp;<a href=\"https://www.11.org/\">https://www.11.org/</a>&nbsp;</div>"
+		"<div style=\"width: 71ch;\">&gt; &lt;&nbsp;<a href=\"https://www.12.org/\">https://www.12.org/</a>&nbsp;&gt;</div>"
+		"<div style=\"width: 71ch;\">&gt; &nbsp;&lt;<a href=\"https://www.13.org/\">https://www.13.org/</a>&gt;&nbsp;</div>"
+		"</blockquote>" HTML_SUFFIX,
+		"On Today, User wrote:\n"
+		"> text\n"
+		"> https://www.01.org/ ?\n"
+		"> https://www.02.org/ A\n"
+		"> https://www.03.org/ ěšč\n"
+		"> https://www.04.org/ ?\n"
+		"> https://www.05.org/\n"
+		"> https://www.06.org/ \n"
+		"> https://www.07.org/  \n"
+		"> https://www.08.org/ > < \n"
+		"> <https://www.09.org/>\n"
+		"> <https://www.10.org/ ?>\n"
+		">  https://www.11.org/ \n"
+		"> < https://www.12.org/ >\n"
+		">  <https://www.13.org/> ")) {
+		g_test_fail ();
+	}
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -1419,4 +1486,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/750636", test_bug_750636);
 	test_utils_add_test ("/issue/86", test_issue_86);
 	test_utils_add_test ("/issue/103", test_issue_103);
+	test_utils_add_test ("/issue/107", test_issue_107);
 }
