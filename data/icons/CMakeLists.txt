@@ -56,6 +56,7 @@ set(private_icons
 	hicolor_apps_24x24_im-yahoo.png
 	hicolor_apps_32x32_contact-editor.png
 	hicolor_apps_48x48_contact-editor.png
+	hicolor_apps_128x128_contact-editor.png
 	hicolor_apps_scalable_im-aim.svg
 	hicolor_apps_scalable_im-icq.svg
 	hicolor_apps_scalable_im-jabber.svg
