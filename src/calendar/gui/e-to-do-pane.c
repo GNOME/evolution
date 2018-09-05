@@ -316,7 +316,8 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	ECalComponentId *id;
 	struct icaltimetype itt = icaltime_null_time ();
 	const gchar *prefix, *location, *description;
-	gboolean task_has_due_date = TRUE; /* ignored for events, thus like being set */
+	gboolean task_has_due_date = TRUE, is_cancelled = FALSE; /* ignored for events, thus like being set */
+	icalproperty_status status = ICAL_STATUS_NONE;
 	GString *tooltip;
 
 	g_return_val_if_fail (E_IS_TO_DO_PANE (to_do_pane), FALSE);
@@ -348,6 +349,9 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 	*out_is_task = e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO;
 	*out_is_completed = FALSE;
+
+	e_cal_component_get_status (comp, &status);
+	is_cancelled = status == ICAL_STATUS_CANCELLED;
 
 	if (*out_is_task) {
 		ECalComponentDateTime dtstart = { 0 };
@@ -408,9 +412,6 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			*out_is_completed = TRUE;
 			e_cal_component_free_icaltimetype (completed);
 		} else {
-			icalproperty_status status = ICAL_STATUS_NONE;
-
-			e_cal_component_get_status (comp, &status);
 			*out_is_completed = *out_is_completed || status == ICAL_STATUS_COMPLETED;
 		}
 	} else {
@@ -471,7 +472,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			location ? " (" : "", location ? location : "", location ? ")" : "");
 	}
 
-	if (*out_is_completed) {
+	if (*out_is_completed || is_cancelled) {
 		gchar *tmp = *out_summary;
 
 		/* With leading space, to have proper row height in GtkTreeView */
@@ -2504,6 +2505,11 @@ e_to_do_pane_constructed (GObject *object)
 		etdp_settings_map_string_to_icaltimezone,
 		NULL, /* one-way binding */
 		NULL, NULL);
+
+	g_settings_bind (
+		settings, "hide-cancelled-events",
+		to_do_pane->priv->events_data_model, "skip-cancelled",
+		G_SETTINGS_BIND_GET);
 
 	g_settings_bind (
 		settings, "task-overdue-highlight",

@@ -1002,6 +1002,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "hide_cancelled_events");
+	g_settings_bind (
+		settings, "hide-cancelled-events",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "tasks_due_today_highlight");
 	g_settings_bind (
 		settings, "task-due-today-highlight",

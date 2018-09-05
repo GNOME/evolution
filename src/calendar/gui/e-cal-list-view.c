@@ -175,6 +175,7 @@ setup_e_table (ECalListView *cal_list_view)
 	g_object_set (
 		cell,
 		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 
 	e_table_extras_add_cell (extras, "calstring", cell);
@@ -186,6 +187,7 @@ setup_e_table (ECalListView *cal_list_view)
 	g_object_set (
 		cell,
 		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 
 	e_binding_bind_property (
@@ -227,6 +229,7 @@ setup_e_table (ECalListView *cal_list_view)
 	g_object_set (
 		cell,
 		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
 		"editable", FALSE,
 		NULL);
 

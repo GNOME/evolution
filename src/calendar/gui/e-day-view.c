@@ -3337,6 +3337,9 @@ set_style_from_attendee (EDayViewEvent *event,
 		}
 	}
 
+	if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+		gnome_canvas_item_set (event->canvas_item, "strikeout", TRUE, NULL);
+
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	 * If the attendee is not present, it might have come through a mailing list.
 	 * In that case, we never show the meeting as bold even if it is unaccepted. */
@@ -3435,6 +3438,8 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if (e_cal_util_component_has_attendee (event->comp_data->icalcomp))
 		set_style_from_attendee (event, registry);
+	else if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+		gnome_canvas_item_set (event->canvas_item, "strikeout", TRUE, NULL);
 
 	if (free_text)
 		g_free (text);
@@ -3478,6 +3483,8 @@ e_day_view_update_long_event_label (EDayView *day_view,
 
 	if (e_cal_util_component_has_attendee (event->comp_data->icalcomp))
 		set_style_from_attendee (event, registry);
+	else if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+		gnome_canvas_item_set (event->canvas_item, "strikeout", TRUE, NULL);
 }
 
 /* Finds the day and index of the event with the given canvas item.

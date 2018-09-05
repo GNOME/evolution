@@ -219,6 +219,11 @@
       <_summary>Hide task value</_summary>
       <_description>Number of units for determining when to hide tasks</_description>
     </key>
+    <key name="hide-cancelled-events" type="b">
+      <default>false</default>
+      <_summary>Hide cancelled events</_summary>
+      <_description>Whether to hide cancelled events in the calendar view</_description>
+    </key>
     <key name="hide-cancelled-tasks" type="b">
       <default>false</default>
       <_summary>Hide cancelled tasks</_summary>

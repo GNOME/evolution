@@ -102,6 +102,11 @@ gboolean	e_cal_data_model_get_expand_recurrences
 void		e_cal_data_model_set_expand_recurrences
 						(ECalDataModel *data_model,
 						 gboolean expand_recurrences);
+gboolean	e_cal_data_model_get_skip_cancelled
+						(ECalDataModel *data_model);
+void		e_cal_data_model_set_skip_cancelled
+						(ECalDataModel *data_model,
+						 gboolean expand_recurrences);
 icaltimezone *	e_cal_data_model_get_timezone	(ECalDataModel *data_model);
 void		e_cal_data_model_set_timezone	(ECalDataModel *data_model,
 						 icaltimezone *zone);

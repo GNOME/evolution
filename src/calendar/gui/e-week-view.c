@@ -2701,6 +2701,9 @@ set_style_from_attendee (EWeekViewEvent *event,
 		}
 	}
 
+	if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+		gnome_canvas_item_set (span->text_item, "strikeout", TRUE, NULL);
+
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	 * If the attendee is not present, it might have come through a mailing list.
 	 * In that case, we never show the meeting as bold even if it is unaccepted. */
@@ -3858,6 +3861,8 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 		if (e_cal_util_component_has_attendee (event->comp_data->icalcomp))
 			set_style_from_attendee (event, span, registry);
+		else if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+			gnome_canvas_item_set (span->text_item, "strikeout", TRUE, NULL);
 
 		g_signal_connect (
 			span->text_item, "event",

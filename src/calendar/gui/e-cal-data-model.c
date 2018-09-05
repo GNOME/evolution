@@ -37,6 +37,7 @@ struct _ECalDataModelPrivate {
 
 	gboolean disposing;
 	gboolean expand_recurrences;
+	gboolean skip_cancelled;
 	gchar *filter;
 	gchar *full_filter;	/* to be used with views */
 	icaltimezone *zone;
@@ -54,7 +55,8 @@ struct _ECalDataModelPrivate {
 enum {
 	PROP_0,
 	PROP_EXPAND_RECURRENCES,
-	PROP_TIMEZONE
+	PROP_TIMEZONE,
+	PROP_SKIP_CANCELLED
 };
 
 enum {
@@ -1071,6 +1073,7 @@ typedef struct
 	ECalClient *client;
 	icaltimezone *zone;
 	GSList **pexpanded_recurrences;
+	gboolean skip_cancelled;
 } GenerateInstancesData;
 
 static gboolean
@@ -1082,9 +1085,14 @@ cal_data_model_instance_generated (ECalComponent *comp,
 	GenerateInstancesData *gid = data;
 	ComponentData *comp_data;
 	ECalComponent *comp_copy;
+	icalproperty_status status = ICAL_STATUS_NONE;
 	icaltimetype tt, tt2;
 
 	g_return_val_if_fail (gid != NULL, FALSE);
+
+	e_cal_component_get_status (comp, &status);
+	if (gid->skip_cancelled && status == ICAL_STATUS_CANCELLED)
+		return TRUE;
 
 	comp_copy = e_cal_component_clone (comp);
 	g_return_val_if_fail (comp_copy != NULL, FALSE);
@@ -1173,6 +1181,7 @@ cal_data_model_expand_recurrences_thread (ECalDataModel *data_model,
 		gid.client = client;
 		gid.pexpanded_recurrences = &expanded_recurrences;
 		gid.zone = data_model->priv->zone;
+		gid.skip_cancelled = data_model->priv->skip_cancelled;
 
 		e_cal_client_generate_instances_for_object_sync (client, icomp, range_start, range_end,
 			cal_data_model_instance_generated, &gid);
@@ -1267,6 +1276,10 @@ cal_data_model_process_modified_or_added_objects (ECalClientView *view,
 				ECalComponent *comp;
 				ComponentData *comp_data;
 				time_t instance_start, instance_end;
+
+				if (data_model->priv->skip_cancelled &&
+				    icalcomponent_get_status (icomp) == ICAL_STATUS_CANCELLED)
+					continue;
 
 				comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (icomp));
 				if (!comp)
@@ -1929,6 +1942,12 @@ cal_data_model_set_property (GObject *object,
 				E_CAL_DATA_MODEL (object),
 				g_value_get_pointer (value));
 			return;
+
+		case PROP_SKIP_CANCELLED:
+			e_cal_data_model_set_skip_cancelled (
+				E_CAL_DATA_MODEL (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1952,6 +1971,13 @@ cal_data_model_get_property (GObject *object,
 			g_value_set_pointer (
 				value,
 				e_cal_data_model_get_timezone (
+				E_CAL_DATA_MODEL (object)));
+			return;
+
+		case PROP_SKIP_CANCELLED:
+			g_value_set_boolean (
+				value,
+				e_cal_data_model_get_skip_cancelled (
 				E_CAL_DATA_MODEL (object)));
 			return;
 	}
@@ -2021,6 +2047,16 @@ e_cal_data_model_class_init (ECalDataModelClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_SKIP_CANCELLED,
+		g_param_spec_boolean (
+			"skip-cancelled",
+			"Skip Cancelled",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
 	signals[VIEW_STATE_CHANGED] = g_signal_new (
 		"view-state-changed",
 		G_TYPE_FROM_CLASS (class),
@@ -2047,6 +2083,7 @@ e_cal_data_model_init (ECalDataModel *data_model)
 
 	data_model->priv->disposing = FALSE;
 	data_model->priv->expand_recurrences = FALSE;
+	data_model->priv->skip_cancelled = FALSE;
 	data_model->priv->zone = icaltimezone_get_utc_timezone ();
 
 	data_model->priv->views_update_freeze = 0;
@@ -2112,6 +2149,7 @@ e_cal_data_model_new_clone (ECalDataModel *src_data_model)
 	g_clear_object (&func_responder);
 
 	e_cal_data_model_set_expand_recurrences (clone, e_cal_data_model_get_expand_recurrences (src_data_model));
+	e_cal_data_model_set_skip_cancelled (clone, e_cal_data_model_get_skip_cancelled (src_data_model));
 	e_cal_data_model_set_timezone (clone, e_cal_data_model_get_timezone (src_data_model));
 	e_cal_data_model_set_filter (clone, src_data_model->priv->filter);
 
@@ -2235,6 +2273,62 @@ e_cal_data_model_set_expand_recurrences (ECalDataModel *data_model,
 	}
 
 	data_model->priv->expand_recurrences = expand_recurrences;
+
+	cal_data_model_rebuild_everything (data_model, TRUE);
+
+	UNLOCK_PROPS ();
+}
+
+/**
+ * e_cal_data_model_get_skip_cancelled:
+ * @data_model: an #EDataModel instance
+ *
+ * Obtains whether the @data_model skips cancelled components.
+ * The default value is #FALSE, to not skip cancelled components.
+ *
+ * Returns: Whether the @data_model skips cancelled components.
+ *
+ * Since: 3.32
+ **/
+gboolean
+e_cal_data_model_get_skip_cancelled (ECalDataModel *data_model)
+{
+	gboolean skip_cancelled;
+
+	g_return_val_if_fail (E_IS_CAL_DATA_MODEL (data_model), FALSE);
+
+	LOCK_PROPS ();
+
+	skip_cancelled = data_model->priv->skip_cancelled;
+
+	UNLOCK_PROPS ();
+
+	return skip_cancelled;
+}
+
+/**
+ * e_cal_data_model_set_skip_cancelled:
+ * @data_model: an #EDataModel instance
+ * @skip_cancelled: whether to skip cancelled components
+ *
+ * Sets whether the @data_model should skip cancelled components.
+ *
+ * Since: 3.32
+ **/
+void
+e_cal_data_model_set_skip_cancelled (ECalDataModel *data_model,
+				     gboolean skip_cancelled)
+{
+	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
+
+	LOCK_PROPS ();
+
+	if ((data_model->priv->skip_cancelled ? 1 : 0) == (skip_cancelled ? 1 : 0)) {
+		UNLOCK_PROPS ();
+		return;
+	}
+
+	data_model->priv->skip_cancelled = skip_cancelled;
 
 	cal_data_model_rebuild_everything (data_model, TRUE);
 

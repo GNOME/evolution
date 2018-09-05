@@ -89,6 +89,7 @@ typedef enum {
 	E_CAL_MODEL_FIELD_CREATED,
 	E_CAL_MODEL_FIELD_LASTMODIFIED,
 	E_CAL_MODEL_FIELD_SOURCE,           /* not a real field */
+	E_CAL_MODEL_FIELD_CANCELLED,        /* not a real field */
 	E_CAL_MODEL_FIELD_LAST
 } ECalModelField;
 

@@ -302,6 +302,7 @@ cal_base_shell_content_constructed (GObject *object)
 	ECalBaseShellContentClass *klass;
 	ESourceRegistry *registry;
 	ESource *default_source = NULL;
+	GSettings *settings;
 	const gchar *created_signal_name = NULL;
 
 	/* Chain up to parent's method. */
@@ -332,6 +333,13 @@ cal_base_shell_content_constructed (GObject *object)
 			e_cal_data_model_set_expand_recurrences (cal_base_shell_content->priv->data_model, TRUE);
 			default_source = e_source_registry_ref_default_calendar (registry);
 			created_signal_name = "shell-view-created::calendar";
+
+			settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+			g_settings_bind (
+				settings, "hide-cancelled-events",
+				cal_base_shell_content->priv->data_model, "skip-cancelled",
+				G_SETTINGS_BIND_GET);
+			g_object_unref (settings);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			default_source = e_source_registry_ref_default_memo_list (registry);

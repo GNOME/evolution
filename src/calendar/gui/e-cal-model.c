@@ -1663,6 +1663,8 @@ cal_model_value_at (ETableModel *etm,
 		return get_uid (comp_data);
 	case E_CAL_MODEL_FIELD_SOURCE:
 		return get_source_description (registry, comp_data);
+	case E_CAL_MODEL_FIELD_CANCELLED:
+		return GINT_TO_POINTER (icalcomponent_get_status (comp_data->icalcomp) == ICAL_STATUS_CANCELLED ? 1 : 0);
 	}
 
 	return (gpointer) "";
@@ -1760,6 +1762,7 @@ cal_model_duplicate_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 	case E_CAL_MODEL_FIELD_ICON :
 	case E_CAL_MODEL_FIELD_COLOR :
+	case E_CAL_MODEL_FIELD_CANCELLED:
 		return (gpointer) value;
 	case E_CAL_MODEL_FIELD_COMPONENT :
 		return icalcomponent_new_clone ((icalcomponent *) value);
@@ -1791,6 +1794,7 @@ cal_model_free_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 	case E_CAL_MODEL_FIELD_ICON :
 	case E_CAL_MODEL_FIELD_COLOR :
+	case E_CAL_MODEL_FIELD_CANCELLED:
 		break;
 	case E_CAL_MODEL_FIELD_DTSTART:
 	case E_CAL_MODEL_FIELD_CREATED :
@@ -1832,6 +1836,7 @@ cal_model_initialize_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_ICON :
 	case E_CAL_MODEL_FIELD_COLOR :
 	case E_CAL_MODEL_FIELD_COMPONENT :
+	case E_CAL_MODEL_FIELD_CANCELLED:
 		return NULL;
 	}
 
@@ -1876,6 +1881,7 @@ cal_model_value_is_empty (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_ICON :
 	case E_CAL_MODEL_FIELD_COLOR :
 	case E_CAL_MODEL_FIELD_COMPONENT :
+	case E_CAL_MODEL_FIELD_CANCELLED:
 		return TRUE;
 	}
 
@@ -1908,6 +1914,7 @@ cal_model_value_to_string (ETableModel *etm,
 		else
 			return g_strdup (_("Assigned"));
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
+	case E_CAL_MODEL_FIELD_CANCELLED:
 		return g_strdup (value ? _("Yes") : _("No"));
 	case E_CAL_MODEL_FIELD_COLOR :
 	case E_CAL_MODEL_FIELD_COMPONENT :
