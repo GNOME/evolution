@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2018-07-30 11:29+0000\n"
-"PO-Revision-Date: 2018-07-31 11:21+0200\n"
+"POT-Creation-Date: 2018-09-03 15:26+0000\n"
+"PO-Revision-Date: 2018-09-05 11:06+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -555,12 +555,10 @@ msgid "Number of units for determining when to hide tasks"
 msgstr "Número de unidades para determinar cuándo ocultar tareas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#| msgid "Hide completed tasks"
 msgid "Hide cancelled tasks"
 msgstr "Ocultar tareas canceladas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
-#| msgid "Whether to hide completed tasks in the tasks view"
 msgid "Whether to hide cancelled tasks in the tasks view"
 msgstr "Indica si deben ocultar las tareas canceladas en la vista de tareas"
 
@@ -1544,9 +1542,13 @@ msgid "Convert UTC time in reply credits to local time"
 msgstr "Convertir hora UTC en los créditos de la respuesta a hora local"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
+#, fuzzy
+#| msgid ""
+#| "Whether the time in reply credits should be converted to local time when "
+#| "it's in UTC in the message."
 msgid ""
 "Whether the time in reply credits should be converted to local time when "
-"it's in UTC in the message."
+"it’s in UTC in the message."
 msgstr ""
 "Indica si la hora en los créditos de la respuesta se debe convertir a hora "
 "local cuando en el mensaje está en UTC."
@@ -2671,13 +2673,17 @@ msgid "Apply chosen template when using Alternative Reply"
 msgstr "Aplicar la plantilla elegida al usar la respuesta alternativa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
-msgid "Last chosen template's folder URI for Alternative Reply"
+#, fuzzy
+#| msgid "Last chosen template's folder URI for Alternative Reply"
+msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr ""
 "URI de la carpeta de la última plantilla elegida para la respuesta "
 "alternativa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
-msgid "Last chosen template's message UID for Alternative Reply"
+#, fuzzy
+#| msgid "Last chosen template's message UID for Alternative Reply"
+msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr ""
 "UID del mensaje de la última plantilla elegida para la respuesta alternativa"
 
@@ -3031,7 +3037,6 @@ msgstr ""
 "el modo pitido."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:19
-#| msgid "Edit properties of this account"
 msgid "Do not notify for these accounts"
 msgstr "No notificar para estas cuentas"
 
@@ -3298,7 +3303,6 @@ msgstr ""
 "debe contener otros argumentos."
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
-#| msgid "Whether the toolbar should be visible."
 msgid "Whether the text-highlight module is enabled"
 msgstr "Indica si el módulo de resaltado de texto está activado."
 
@@ -3400,7 +3404,7 @@ msgstr "Correo"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:368 ../src/e-util/e-webdav-browser.c:459
-#: ../src/modules/calendar/e-cal-shell-content.c:1719
+#: ../src/modules/calendar/e-cal-shell-content.c:1732
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
 #: ../src/modules/calendar/e-memo-shell-view.c:335
@@ -3413,7 +3417,7 @@ msgstr "Notas"
 #: ../src/calendar/importers/icalendar-importer.c:1109
 #: ../src/e-util/e-webdav-browser.c:460
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
-#: ../src/modules/calendar/e-cal-shell-content.c:1679
+#: ../src/modules/calendar/e-cal-shell-content.c:1692
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
 #: ../src/modules/calendar/e-task-shell-view.c:507
@@ -3737,17 +3741,20 @@ msgid "Something has gone wrong when displaying the contact"
 msgstr "Algo ha fallado al mostrar el contacto"
 
 #: ../src/addressbook/addressbook.error.xml.h:47
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the contact. You can try again "
+#| "by moving to another contact and back. If the issue persists, please file "
+#| "a bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the contact. You can try again by "
 "moving to another contact and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Ha fallado un WebKitWebProcess al mostrar el contacto. Puede intentarlo de "
 "nuevo moviéndose a otro contacto y volviendo a éste. Si el problema "
-"persiste, envíe un informe de error al bugzilla de GNOME."
+"persiste, envíe un informe de error al Gitlab de GNOME."
 
 #: ../src/addressbook/addressbook.error.xml.h:48
-#| msgid "Failed to refresh address book “{0}”"
 msgid "Failed to refresh list of account address books"
 msgstr "Falló al actualizar la lista de libretas de direcciones de la cuenta"
 
@@ -6065,42 +6072,54 @@ msgid "Something has gone wrong when displaying the event"
 msgstr "Algo ha fallado al mostrar el evento"
 
 #: ../src/calendar/calendar.error.xml.h:174
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the event. You can try again "
+#| "by moving to another event and back. If the issue persists, please file a "
+#| "bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the event. You can try again by "
 "moving to another event and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Ha fallado un WebKitWebProcess al mostrar el evento. Puede intentarlo de "
 "nuevo moviéndose a otro evento y volviendo a éste. Si el problema persiste, "
-"envíe un informe de error al bugzilla de GNOME."
+"envíe un informe de error al Gitlab de GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:175
 msgid "Something has gone wrong when displaying the memo"
 msgstr "Algo ha fallado al mostrar el recordatorio"
 
 #: ../src/calendar/calendar.error.xml.h:176
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the memo. You can try again by "
+#| "moving to another memo and back. If the issue persists, please file a bug "
+#| "report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the memo. You can try again by "
 "moving to another memo and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Ha fallado un WebKitWebProcess al mostrar el recordatorio. Puede intentarlo "
 "de nuevo moviéndose a otro recordatorio y volviendo a éste. Si el problema "
-"persiste, envíe un informe de error al bugzilla de GNOME."
+"persiste, envíe un informe de error al Gitlab de GNOME."
 
 #: ../src/calendar/calendar.error.xml.h:177
 msgid "Something has gone wrong when displaying the task"
 msgstr "Algo ha fallado al mostrar la tarea"
 
 #: ../src/calendar/calendar.error.xml.h:178
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the task. You can try again by "
+#| "moving to another task and back. If the issue persists, please file a bug "
+#| "report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the task. You can try again by "
 "moving to another task and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Ha fallado un WebKitWebProcess al mostrar la tarea. Puede intentarlo de "
 "nuevo moviéndose a otra tarea y volviendo a ésta. Si el problema persiste, "
-"envíe un informe de error al bugzilla de GNOME."
+"envíe un informe de error al Gitlab de GNOME"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:1
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:3
@@ -8231,7 +8250,6 @@ msgstr "Mostrar hora como _ocupada"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1642
-#| msgid "None"
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Ninguno"
@@ -8319,7 +8337,7 @@ msgstr "Sin resumen"
 #: ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:131 ../src/mail/e-mail-notes.c:952
-#: ../src/mail/em-folder-properties.c:1150
+#: ../src/mail/em-folder-properties.c:1151
 #: ../src/mail/em-subscription-editor.c:1739
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
 #: ../src/shell/e-shell-window-actions.c:296
@@ -11499,14 +11517,18 @@ msgid "Something has gone wrong when editing the message"
 msgstr "Algo ha fallado al editar el mensaje"
 
 #: ../src/composer/mail-composer.error.xml.h:57
+#| msgid ""
+#| "A WebKitWebProcess crashed when editing the message. You can try again by "
+#| "closing the composer window and opening a new one. If the issue persists, "
+#| "please file a bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when editing the message. You can try again by "
 "closing the composer window and opening a new one. If the issue persists, "
-"please file a bug report in the GNOME bugzilla."
+"please file a bug report in GNOME Gitlab."
 msgstr ""
 "Ha fallado un WebKitWebProcess al editar el mensaje. Puede intentarlo de "
 "nuevo cerrando la ventana del editor y abriendo una nueva. Si el problema "
-"persiste, envíe un informe de error al bugzilla de GNOME."
+"persiste, envíe un informe de error al Gitlab de GNOME."
 
 #: ../src/composer/mail-composer.error.xml.h:58
 msgid "An error occurred while creating message composer."
@@ -12829,11 +12851,11 @@ msgstr "blanco"
 #: ../src/e-util/e-color-combo.c:641 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:708
-#: ../src/mail/e-mail-reader.c:4707 ../src/mail/mail-config.ui.h:76
+#: ../src/mail/e-mail-reader.c:4735 ../src/mail/mail-config.ui.h:76
 msgid "Default"
 msgstr "Predeterminado"
 
-#: ../src/e-util/e-config-lookup.c:817
+#: ../src/e-util/e-config-lookup.c:821
 msgid "Running…"
 msgstr "Ejecutándose…"
 
@@ -15163,14 +15185,18 @@ msgid "Something has gone wrong"
 msgstr "Algo ha fallado"
 
 #: ../src/e-util/e-system.error.xml.h:24
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the content. You can try again "
+#| "by reopening the window. If the issue persists, please file a bug report "
+#| "in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the content. You can try again by "
-"reopening the window. If the issue persists, please file a bug report in the "
-"GNOME bugzilla."
+"reopening the window. If the issue persists, please file a bug report in "
+"GNOME Gitlab."
 msgstr ""
 "Ha fallado un WebKitWebProcess al mostrar el contenido. Puede intentarlo de "
 "nuevo abriendo de nuevo la ventana. Si el problema persiste, envíe un "
-"informe de error al bugzilla de GNOME."
+"informe de error al Gitlab de GNOME."
 
 #: ../src/e-util/e-system.error.xml.h:25
 msgid "Are you sure you want to delete remote collection “{0}”?"
@@ -15980,7 +16006,7 @@ msgstr "URI « %s» de la carpeta no válida"
 
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:117
-#: ../src/mail/em-folder-properties.c:1142
+#: ../src/mail/em-folder-properties.c:1143
 #: ../src/mail/em-folder-tree-model.c:1237
 #: ../src/mail/importers/kmail-libs.c:139
 #: ../src/modules/mail/e-mail-shell-view-private.c:1003
@@ -17124,7 +17150,7 @@ msgstr "_Ignorar siempre «Responder a:» para las listas de correo."
 msgid "Failed to retrieve message:"
 msgstr "Falló al obtener el mensaje:"
 
-#: ../src/mail/e-mail-reader.c:2164 ../src/mail/e-mail-reader.c:3596
+#: ../src/mail/e-mail-reader.c:2164 ../src/mail/e-mail-reader.c:3624
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Obteniendo mensaje «%s»"
@@ -17154,22 +17180,18 @@ msgid "Filter the selected messages for junk status"
 msgstr "Filtra los mensajes seleccionados por el estado de SPAM"
 
 #: ../src/mail/e-mail-reader.c:2373
-#| msgid "Assign Color"
 msgid "Assign C_olor…"
 msgstr "Asignar c_olor…"
 
 #: ../src/mail/e-mail-reader.c:2375
-#| msgid "Add a note for the selected message"
 msgid "Assign color for the selected messages"
 msgstr "Asignar un color a los mensajes seleccionados"
 
 #: ../src/mail/e-mail-reader.c:2380
-#| msgid "Unset Color"
 msgid "Unse_t Color"
 msgstr "Qui_tar color"
 
 #: ../src/mail/e-mail-reader.c:2382
-#| msgid "Undelete the selected messages"
 msgid "Unset color for the selected messages"
 msgstr "Quitar color de los mensajes seleccionados"
 
@@ -17762,16 +17784,16 @@ msgstr "_Todas las cabeceras del mensaje"
 msgid "Show messages with all email headers"
 msgstr "Mostrar los mensajes con todas las cabeceras de correo-e"
 
-#: ../src/mail/e-mail-reader.c:3602
+#: ../src/mail/e-mail-reader.c:3630
 msgid "Retrieving message"
 msgstr "Descargando mensaje"
 
-#: ../src/mail/e-mail-reader.c:4898
+#: ../src/mail/e-mail-reader.c:4927
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "Reen_viar"
 
-#: ../src/mail/e-mail-reader.c:4899
+#: ../src/mail/e-mail-reader.c:4928
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Reenvía a alguien el mensaje seleccionado"
@@ -17780,52 +17802,52 @@ msgstr "Reenvía a alguien el mensaje seleccionado"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:4918
+#: ../src/mail/e-mail-reader.c:4947
 msgid "Group Reply"
 msgstr "Responder al grupo"
 
-#: ../src/mail/e-mail-reader.c:4919
+#: ../src/mail/e-mail-reader.c:4948
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Responder a la lista de correo o a todos los destinatarios"
 
-#: ../src/mail/e-mail-reader.c:4985 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:5014 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../src/mail/e-mail-reader.c:4997
+#: ../src/mail/e-mail-reader.c:5026
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../src/mail/e-mail-reader.c:5001
+#: ../src/mail/e-mail-reader.c:5030
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1290
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../src/mail/e-mail-reader.c:5010 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:5039 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Responder"
 
-#: ../src/mail/e-mail-reader.c:6165
+#: ../src/mail/e-mail-reader.c:6194
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Permitir contenido remoto para cualquiera de %s"
 
-#: ../src/mail/e-mail-reader.c:6167
+#: ../src/mail/e-mail-reader.c:6196
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Permitir contenido remoto para %s"
 
-#: ../src/mail/e-mail-reader.c:6184
+#: ../src/mail/e-mail-reader.c:6213
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Permitir contenido remoto de %s"
 
-#: ../src/mail/e-mail-reader.c:6201
+#: ../src/mail/e-mail-reader.c:6230
 msgid "Do not show this message again"
 msgstr "No mostrar otra vez este mensaje"
 
-#: ../src/mail/e-mail-reader.c:6253
+#: ../src/mail/e-mail-reader.c:6282
 msgid "Load remote content"
 msgstr "Cargar contenido remoto"
 
@@ -17880,7 +17902,7 @@ msgstr[1] ""
 "La carpeta «%s» contiene %u correos duplicados. ¿Está seguro de que quiere "
 "eliminarlos?"
 
-#: ../src/mail/e-mail-reader-utils.c:2859
+#: ../src/mail/e-mail-reader-utils.c:2914
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Guardar mensaje"
@@ -17891,13 +17913,13 @@ msgstr[1] "Guardar mensajes"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:2880
+#: ../src/mail/e-mail-reader-utils.c:2935
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Mensaje"
 msgstr[1] "Mensajes"
 
-#: ../src/mail/e-mail-reader-utils.c:3294
+#: ../src/mail/e-mail-reader-utils.c:3349
 msgid "Parsing message"
 msgstr "Analizando mensaje"
 
@@ -18128,7 +18150,6 @@ msgid "_Send Account Override:"
 msgstr "_Enviar anulación de cuenta:"
 
 #: ../src/mail/em-folder-properties.c:605
-#| msgid "_Archive this folder using these settings:"
 msgid "Archive this folder using these settings:"
 msgstr "Archivar esta carpeta usando esta configuración:"
 
@@ -18174,7 +18195,6 @@ msgid "Archive folder"
 msgstr "Carpeta de archivado"
 
 #: ../src/mail/em-folder-properties.c:651
-#| msgid "Select folder to use for AutoArchive"
 msgid "Select folder to use for Archive"
 msgstr "Carpeta seleccionada para usar como archivador"
 
@@ -18191,20 +18211,21 @@ msgstr "Etiqueta del servidor"
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../src/mail/em-folder-properties.c:1065
+#. Translators: "Archive" is a noun (This is a tab heading in the mail folder properties)
+#: ../src/mail/em-folder-properties.c:1066
 msgid "Archive"
 msgstr "Archivador"
 
-#: ../src/mail/em-folder-properties.c:1068 ../src/mail/mail-config.ui.h:121
+#: ../src/mail/em-folder-properties.c:1069 ../src/mail/mail-config.ui.h:121
 #: ../src/mail/message-list.etspec.h:19
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: ../src/mail/em-folder-properties.c:1147
+#: ../src/mail/em-folder-properties.c:1148
 msgid "Folder Properties"
 msgstr "Propiedades de la carpeta"
 
-#: ../src/mail/em-folder-properties.c:1386
+#: ../src/mail/em-folder-properties.c:1387
 msgid "Gathering folder properties"
 msgstr "Recopilando propiedades de la carepta"
 
@@ -20379,28 +20400,36 @@ msgid "Something has gone wrong when displaying the message"
 msgstr "Algo ha fallado al mostrar el mensaje"
 
 #: ../src/mail/mail.error.xml.h:211
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the message. You can try again "
+#| "by moving to another message and back. If the issue persists, please file "
+#| "a bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the message. You can try again by "
 "moving to another message and back. If the issue persists, please file a bug "
-"report in the GNOME bugzilla."
+"report in GNOME Gitlab."
 msgstr ""
 "Ha fallado un WebKitWebProcess al mostrar el mensaje. Puede intentarlo de "
 "nuevo moviéndose a otro mensaje y volviendo a éste. Si el problema persiste, "
-"envíe un informe de error al bugzilla de GNOME."
+"envíe un informe de error al Gitlab de GNOME."
 
 #: ../src/mail/mail.error.xml.h:212
 msgid "Something has gone wrong when displaying the signature"
 msgstr "Algo ha fallado al mostrar la firma"
 
 #: ../src/mail/mail.error.xml.h:213
+#| msgid ""
+#| "A WebKitWebProcess crashed when displaying the signature. You can try "
+#| "again by moving to another signature and back. If the issue persists, "
+#| "please file a bug report in the GNOME bugzilla."
 msgid ""
 "A WebKitWebProcess crashed when displaying the signature. You can try again "
 "by moving to another signature and back. If the issue persists, please file "
-"a bug report in the GNOME bugzilla."
+"a bug report in GNOME Gitlab."
 msgstr ""
 "Ha fallado un WebKitWebProcess al mostrar la firma. Puede intentarlo de "
 "nuevo moviéndose a otra firma y volviendo a ésta. Si el problema persiste, "
-"envíe un informe de error al bugzilla de GNOME."
+"envíe un informe de error al Gitlab de GNOME."
 
 #: ../src/mail/mail.error.xml.h:214
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
@@ -20878,7 +20907,6 @@ msgid "Refresh the selected address book"
 msgstr "Actualizar la libreta de direcciones seleccionada"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1064
-#| msgid "Refresh the selected address book"
 msgid "Re_fresh list of account address books"
 msgstr "Ac_tualizar la lista de libretas de direcciones de la cuenta"
 
@@ -21998,7 +22026,6 @@ msgid "_Hide completed tasks after"
 msgstr "_Ocultar tareas terminadas tras"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:67
-#| msgid "Hide completed tasks"
 msgid "Hid_e cancelled tasks"
 msgstr "Ocu_ltar las tareas canceladas"
 
@@ -22207,7 +22234,6 @@ msgid "Refresh the selected calendar"
 msgstr "Actualizar el calendario seleccionado"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1353
-#| msgid "Refresh the selected calendar"
 msgid "Re_fresh list of account calendars"
 msgstr "Ac_tualizar la lista de calendarios de la cuenta"
 
@@ -22625,7 +22651,6 @@ msgid "Refresh the selected memo list"
 msgstr "Actualizar la lista de notas seleccionada"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:635
-#| msgid "Refresh the selected memo list"
 msgid "Re_fresh list of account memo lists"
 msgstr "Ac_tualizar la lista de listas de notas de la cuenta"
 
@@ -22764,7 +22789,6 @@ msgid "Refresh the selected task list"
 msgstr "Actualizar la lista de tareas seleccionada"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:761
-#| msgid "Refresh the selected task list"
 msgid "Re_fresh list of account task lists"
 msgstr "Ac_tualizar la lista de tareas de la cuenta"
 
@@ -22809,7 +22833,6 @@ msgid "Active Tasks"
 msgstr "Tareas activas"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:965
-#| msgid "Cancelled"
 msgid "Cancelled Tasks"
 msgstr "Tareas canceladas"
 
@@ -25474,7 +25497,6 @@ msgid "Select sound file"
 msgstr "Seleccione un arhivo de sonido"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1014
-#| msgid "Select the sources for reminder notification:"
 msgid "Select _accounts for which enable notifications:"
 msgstr "Seleccionar las cuent_as para las que usar notificaciones:"
 
@@ -25492,7 +25514,6 @@ msgid "Show _notification when a new message arrives"
 msgstr "Mostrar _notificaciones cuando llegue correo nuevo"
 
 #: ../src/plugins/mail-notification/mail-notification.c:1224
-#| msgid "_Accounts"
 msgid "Accounts"
 msgstr "Cuentas"
 
@@ -26650,7 +26671,6 @@ msgid "SSL certificate for task list “{0}” is not trusted."
 msgstr "El certificado SSL para la lista de tareas «{0}» no es de confianza."
 
 #: ../src/shell/shell.error.xml.h:34
-#| msgid "Menubar is visible"
 msgid "Menu Bar is hidden"
 msgstr "La barra de menú está oculta"
 
@@ -26659,7 +26679,6 @@ msgid "Press the “Alt” key to access the Menu Bar again."
 msgstr ""
 
 #: ../src/shell/shell.error.xml.h:36
-#| msgid "Show _Menu Bar"
 msgid "_Show Menu Bar"
 msgstr "Mostrar barra de _menú"
 
