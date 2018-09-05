@@ -1674,6 +1674,7 @@ undo_redo_replace (EEditorPage *editor_page,
                    gboolean undo)
 {
 	WebKitDOMDocument *document;
+	const gchar *text;
 
 	document = e_editor_page_get_document (editor_page);
 
@@ -1694,9 +1695,12 @@ undo_redo_replace (EEditorPage *editor_page,
 		g_clear_object (&dom_selection);
 	}
 
-	e_editor_dom_exec_command (editor_page,
-		E_CONTENT_EDITOR_COMMAND_INSERT_TEXT,
-		undo ? event->data.string.from : event->data.string.to);
+	text = undo ? event->data.string.from : event->data.string.to;
+
+	if (text && *text)
+		e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_INSERT_TEXT, text);
+	else
+		e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 
 	e_editor_dom_force_spell_check_for_current_paragraph (editor_page);
 

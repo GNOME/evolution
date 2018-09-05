@@ -2816,9 +2816,6 @@ webkit_editor_replace_all (EContentEditor *editor,
 
 	wk_options |= WEBKIT_FIND_OPTIONS_WRAP_AROUND;
 
-	if (wk_editor->priv->current_text_not_found)
-		return;
-
 	if (!wk_editor->priv->find_controller)
 		webkit_editor_prepare_find_controller (wk_editor);
 
