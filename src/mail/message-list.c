@@ -4212,7 +4212,8 @@ message_list_get_hide_deleted (MessageList *message_list,
  * which depends on the type of the folder (normal, junk, trash). */
 static gboolean
 is_node_selectable (MessageList *message_list,
-                    CamelMessageInfo *info)
+		    CamelMessageInfo *info,
+		    GHashTable *removed_uids)
 {
 	CamelFolder *folder;
 	gboolean is_junk_folder;
@@ -4226,6 +4227,9 @@ is_node_selectable (MessageList *message_list,
 	gboolean selectable = FALSE;
 
 	g_return_val_if_fail (info != NULL, FALSE);
+
+	if (removed_uids && g_hash_table_contains (removed_uids, camel_message_info_get_uid (info)))
+		return FALSE;
 
 	folder = message_list_ref_folder (message_list);
 	g_return_val_if_fail (folder != NULL, FALSE);
@@ -4275,7 +4279,8 @@ is_node_selectable (MessageList *message_list,
  * actually no assurance that we'll find something that will still be
  * there next time, but its probably going to work most of the time. */
 static gchar *
-find_next_selectable (MessageList *message_list)
+find_next_selectable (MessageList *message_list,
+		      GHashTable *removed_uids)
 {
 	ETreeTableAdapter *adapter;
 	GNode *node;
@@ -4291,7 +4296,7 @@ find_next_selectable (MessageList *message_list)
 		return NULL;
 
 	info = get_message_info (message_list, node);
-	if (info && is_node_selectable (message_list, info))
+	if (info && is_node_selectable (message_list, info, removed_uids))
 		return NULL;
 
 	adapter = e_tree_get_table_adapter (E_TREE (message_list));
@@ -4306,7 +4311,7 @@ find_next_selectable (MessageList *message_list)
 	while (vrow < row_count) {
 		node = e_tree_table_adapter_node_at_row (adapter, vrow);
 		info = get_message_info (message_list, node);
-		if (info && is_node_selectable (message_list, info))
+		if (info && is_node_selectable (message_list, info, removed_uids))
 			return g_strdup (camel_message_info_get_uid (info));
 		vrow++;
 	}
@@ -4318,7 +4323,7 @@ find_next_selectable (MessageList *message_list)
 	while (vrow >= 0) {
 		node = e_tree_table_adapter_node_at_row (adapter, vrow);
 		info = get_message_info (message_list, node);
-		if (info && is_node_selectable (message_list, info))
+		if (info && is_node_selectable (message_list, info, removed_uids))
 			return g_strdup (camel_message_info_get_uid (info));
 		vrow--;
 	}
@@ -4682,7 +4687,8 @@ build_subtree_diff (MessageList *message_list,
 static void
 build_flat (MessageList *message_list,
             GPtrArray *summary,
-            gboolean folder_changed)
+            gboolean folder_changed,
+	    GHashTable *removed_uids)
 {
 	gchar *saveuid = NULL;
 	gint i;
@@ -4696,7 +4702,7 @@ build_flat (MessageList *message_list,
 #endif
 
 	if (message_list->cursor_uid != NULL)
-		saveuid = find_next_selectable (message_list);
+		saveuid = find_next_selectable (message_list, removed_uids);
 
 	selected = message_list_get_selected (message_list);
 
@@ -6448,7 +6454,7 @@ message_list_regen_done_cb (GObject *source_object,
 		}
 
 		if (message_list->cursor_uid != NULL)
-			saveuid = find_next_selectable (message_list);
+			saveuid = find_next_selectable (message_list, regen_data->removed_uids);
 
 		selected = message_list_get_selected (message_list);
 
@@ -6554,7 +6560,8 @@ message_list_regen_done_cb (GObject *source_object,
 		build_flat (
 			message_list,
 			regen_data->summary,
-			regen_data->folder_changed);
+			regen_data->folder_changed,
+			regen_data->removed_uids);
 	}
 
 	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
