@@ -17822,7 +17822,11 @@ e_editor_dom_selection_replace (EEditorPage *editor_page,
 
 	g_clear_object (&range);
 
-	e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_INSERT_TEXT, replacement);
+	if (replacement && *replacement) {
+		e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_INSERT_TEXT, replacement);
+	} else {
+		e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
+	}
 
 	if (ev) {
 		e_editor_dom_selection_get_coordinates (editor_page,

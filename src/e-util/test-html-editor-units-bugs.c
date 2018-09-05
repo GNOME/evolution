@@ -1389,6 +1389,27 @@ test_issue_103 (TestFixture *fixture)
 }
 
 static void
+test_issue_104 (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"type:text to replace\n"
+		"undo:save\n"	/* 1 */
+		"seq:h\n"
+		"action:show-replace\n"
+		"type:e\t\n"
+		"type:\t\t\t\t\t\t\t\n" /* Jump to 'Replace All' */
+		"seq:n\n" /* Press it */
+		"seq:^\n" /* Close the dialog */
+		"undo:undo\n"
+		"undo:test:1\n"
+		"undo:redo\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">txt to rplac</div>" HTML_SUFFIX,
+		"txt to rplac"))
+		g_test_fail ();
+}
+
+static void
 test_issue_107 (TestFixture *fixture)
 {
 	if (!test_utils_process_commands (fixture,
@@ -1486,5 +1507,6 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/750636", test_bug_750636);
 	test_utils_add_test ("/issue/86", test_issue_86);
 	test_utils_add_test ("/issue/103", test_issue_103);
+	test_utils_add_test ("/issue/104", test_issue_104);
 	test_utils_add_test ("/issue/107", test_issue_107);
 }
