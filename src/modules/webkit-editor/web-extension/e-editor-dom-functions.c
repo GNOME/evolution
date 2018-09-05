@@ -4952,8 +4952,7 @@ create_anchor_for_link (const GMatchInfo *info,
                         GString *res,
                         gpointer data)
 {
-	gboolean link_surrounded, ending_with_nbsp = FALSE;
-	gint offset = 0, truncate_from_end = 0;
+	gint offset = 0, truncate_from_end = 0, match_len;
 	gint match_start, match_end;
 	gchar *match;
 	const gchar *end_of_match = NULL;
@@ -4962,15 +4961,21 @@ create_anchor_for_link (const GMatchInfo *info,
 	match = g_match_info_fetch (info, 0);
 	g_match_info_fetch_pos (info, 0, &match_start, &match_end);
 
-	if (g_str_has_suffix (match, "&nbsp;")) {
-		ending_with_nbsp = TRUE;
-		truncate_from_end = 6;
+	match_len = strlen (match);
+	end_of_match = match + match_end - match_start - 1;
+	while (truncate_from_end + 4 < match_len) {
+		if (truncate_from_end + 6 < match_len && g_ascii_strncasecmp (match + match_end - match_start - truncate_from_end - 6, "&nbsp;", 6) == 0) {
+			truncate_from_end += 6;
+			end_of_match -= 6;
+		} else if (g_ascii_strncasecmp (match + match_end - match_start - truncate_from_end - 4, "&lt;", 4) == 0 ||
+			   g_ascii_strncasecmp (match + match_end - match_start - truncate_from_end - 4, "&gt;", 4) == 0) {
+			truncate_from_end += 4;
+			end_of_match -= 4;
+		} else {
+			break;
+		}
 	}
 
-	if (g_str_has_prefix (match, "&nbsp;"))
-		offset += 6;
-
-	end_of_match = match + match_end - match_start - 1;
 	/* Taken from camel-url-scanner.c */
 	/* URLs are extremely unlikely to end with any punctuation, so
 	 * strip any trailing punctuation off from link and put it after
@@ -4981,35 +4986,13 @@ create_anchor_for_link (const GMatchInfo *info,
 	}
 	end_of_match++;
 
-	link_surrounded =
-		g_str_has_suffix (res->str, "&lt;");
-
-	if (link_surrounded) {
-		if (end_of_match && *end_of_match && strlen (match) > strlen (end_of_match) + 3)
-			link_surrounded = link_surrounded && g_str_has_prefix (end_of_match - 3, "&gt;");
-		else
-			link_surrounded = link_surrounded && g_str_has_suffix (match, "&gt;");
-
-		if (link_surrounded) {
-			truncate_from_end += 4;
-			end_of_match -= 4;
-		}
-	}
-
-	/* The ending ';' was counted when looking for the invalid trailing characters, substract it. */
-	if (link_surrounded || ending_with_nbsp) {
-		truncate_from_end -= 1;
-		end_of_match += 1;
-	}
-
 	/* If there is non-breaking space in the match, remove it and everything
 	 * after it from the match */
-	if (!g_str_has_prefix (match, "&nbsp;") && !g_str_has_suffix (match, "&nbsp;") && (nbsp_match = strstr (match, "&nbsp;"))) {
-		glong after_nbsp_length = g_utf8_strlen (nbsp_match, -1);
+	if (!g_str_has_prefix (match, "&nbsp;") && !g_str_has_suffix (match, "&nbsp;") &&
+	    (nbsp_match = strstr (match, "&nbsp;")) && nbsp_match < end_of_match) {
+		glong after_nbsp_length = strlen (nbsp_match);
 		truncate_from_end = after_nbsp_length;
-		end_of_match -= after_nbsp_length;
-		if (link_surrounded)
-			end_of_match += 4;
+		end_of_match = match + match_end - match_start - after_nbsp_length;
 	}
 
 	g_string_append (res, "<a href=\"");
@@ -5020,17 +5003,11 @@ create_anchor_for_link (const GMatchInfo *info,
 		g_string_truncate (res, res->len - truncate_from_end);
 
 	g_string_append (res, "\">");
-	g_string_append (res, match + offset);
-	if (truncate_from_end > 0)
-		g_string_truncate (res, res->len - truncate_from_end);
-
+	g_string_append_len (res, match + offset, match_len - offset - (truncate_from_end > 0 ? truncate_from_end : 0));
 	g_string_append (res, "</a>");
 
 	if (truncate_from_end > 0)
 		g_string_append (res, end_of_match);
-
-	if (ending_with_nbsp)
-		g_string_append (res, "&nbsp;");
 
 	g_free (match);
 
