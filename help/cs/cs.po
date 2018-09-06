@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-3.28\n"
-"POT-Creation-Date: 2018-03-28 13:01+0000\n"
-"PO-Revision-Date: 2018-04-05 23:14+0200\n"
+"POT-Creation-Date: 2018-08-20 11:52+0000\n"
+"PO-Revision-Date: 2018-09-06 10:00+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -337,11 +337,11 @@ msgid ""
 "denotes one level of security, and <gui>Confidential</gui> an even higher "
 "level."
 msgstr ""
-"Když chcete nastavit klasifikaci pro událost, klikněte na <guiseq><gui>Volby"
-"</gui> <gui>Klasifikace</gui></guiseq> a v editoru vyberte klasifikaci. <gui>"
-"Veřejné</gui> je výchozí kategorie a veřejná událost může být prohlížena "
-"kýmkoliv na síti, kde se kalendář sdílí. <gui>Soukromé</gui> znamená jednu "
-"úroveň zabezpečení a <gui>Důvěrné</gui> o něco vyšší úroveň."
+"Když chcete nastavit klasifikaci pro událost, klikněte na "
+"<guiseq><gui>Volby</gui> <gui>Klasifikace</gui></guiseq> a v editoru vyberte "
+"klasifikaci. <gui>Veřejné</gui> je výchozí kategorie a veřejná událost může "
+"být prohlížena kýmkoliv na síti, kde se kalendář sdílí. <gui>Soukromé</gui> "
+"znamená jednu úroveň zabezpečení a <gui>Důvěrné</gui> o něco vyšší úroveň."
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:39
@@ -419,11 +419,11 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:56
 msgid ""
-"Click the <gui>Free/Busy</gui> button on the toolbar, or click "
-"<guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
+"Click the <gui style=\"button\">Free/Busy</gui> button on the toolbar, or "
+"the <gui>Schedule</gui> tab."
 msgstr ""
-"Klikněte na tlačítko <gui>Volno/obsazeno</gui> na nástrojové liště nebo na "
-"<guiseq><gui>Volby</gui> <gui>Volno/obsazeno</gui></guiseq>. "
+"Klikněte na tlačítko <gui style=\"button\">Volno/obsazeno</gui> na "
+"nástrojové liště nebo na kartu <gui>Rozvrh</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:60
@@ -1187,13 +1187,12 @@ msgstr "(Volitelně) napište popis do pole <gui>Popis</gui>."
 #: C/calendar-meetings-sending-invitation.page:87
 msgid ""
 "To query <link xref=\"calendar-free-busy\">free/busy</link> information for "
-"the attendees, click the <gui>Free/Busy</gui> button on the toolbar, or "
-"click <guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
+"the attendees, click the <gui style=\"button\">Free/Busy</gui> button on the "
+"toolbar, or the <gui>Schedule</gui> tab."
 msgstr ""
 "Chcete-li se zeptat na informace o <link xref=\"calendar-free-busy\">volnu/"
-"obsazení</link> účastníků, klikněte na nástrojové liště na tlačítko "
-"<gui>Volno/obsazeno</gui> nebo klikněte na <guiseq><gui>Volby</gui> "
-"<gui>Volno/obsazeno</gui></guiseq>."
+"obsazení</link> účastníků, klikněte na tlačítko <gui style=\"button\">Volno/"
+"obsazeno</gui> na nástrojové liště nebo na kartu <gui>Rozvrh</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:92
@@ -1500,12 +1499,13 @@ msgid ""
 "per-appointment basis helps avoid that potential confusion."
 msgstr ""
 "Můžete také nastavit časové pásmo u jednotlivé události. Začněte <link xref="
-"\"calendar-usage\">přidáním nové události nebo úpravou některé stávající"
-"</link>. Časové pásmo pak změníte kliknutím na tlačítko <gui style=\"button\">"
-"Vybrat…</gui> pod <gui>Časovým pásmem</gui>. Například pokud žijete v Brně, "
-"ale budete mít telefonát domluvený na poledne s někým ze Sydney, musíte si "
-"být jistí, že jsou vaše rozvrhy zkoordinovány. Nastavení časových pásem pro "
-"každou událost samostatně pomáhá vyhnout se případným nedorozuměním."
+"\"calendar-usage\">přidáním nové události nebo úpravou některé stávající</"
+"link>. Časové pásmo pak změníte kliknutím na tlačítko <gui style=\"button"
+"\">Vybrat…</gui> pod <gui>Časovým pásmem</gui>. Například pokud žijete v "
+"Brně, ale budete mít telefonát domluvený na poledne s někým ze Sydney, "
+"musíte si být jistí, že jsou vaše rozvrhy zkoordinovány. Nastavení časových "
+"pásem pro každou událost samostatně pomáhá vyhnout se případným "
+"nedorozuměním."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-add-appointment.page:17
@@ -2100,9 +2100,9 @@ msgid ""
 "Writer</app> as a data source. The following steps refer to LibreOffice "
 "version 5.4."
 msgstr ""
-"Adresář <app>Evolution</app> můžete použít jako zdroj dat v aplikaci <app>"
-"LibreOffice Writer</app>. Následující kroky se vztahují k LibreOffice verze "
-"5.4."
+"Adresář <app>Evolution</app> můžete použít jako zdroj dat v aplikaci "
+"<app>LibreOffice Writer</app>. Následující kroky se vztahují k LibreOffice "
+"verze 5.4."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
@@ -2111,8 +2111,7 @@ msgid ""
 "menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
 "V nabídkové liště klikněte na <guiseq><gui>Upravit</gui> <gui>Vyměnit "
-"databázi…</gui></guiseq> Objeví se dialogové okno <gui>Výměna databází</"
-"gui>."
+"databázi…</gui></guiseq> Objeví se dialogové okno <gui>Výměna databází</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:33
