@@ -1504,43 +1504,48 @@ e_source_config_add_secure_connection_for_webdav (ESourceConfig *config,
 	GtkWidget *widget;
 	ESourceExtension *extension;
 	ESourceAuthentication *authentication_extension;
+	ESource *collection_source;
 	const gchar *extension_name;
 	const gchar *label;
 
 	g_return_if_fail (E_IS_SOURCE_CONFIG (config));
 	g_return_if_fail (E_IS_SOURCE (scratch_source));
 
-	extension_name = E_SOURCE_EXTENSION_SECURITY;
-	extension = e_source_get_extension (scratch_source, extension_name);
+	collection_source = e_source_config_get_collection_source (config);
 
-	label = _("Use a secure connection");
-	widget = gtk_check_button_new_with_label (label);
-	e_source_config_insert_widget (config, scratch_source, NULL, widget);
-	gtk_widget_show (widget);
+	if (!collection_source) {
+		extension_name = E_SOURCE_EXTENSION_SECURITY;
+		extension = e_source_get_extension (scratch_source, extension_name);
 
-	e_binding_bind_property (
-		extension, "secure",
-		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+		label = _("Use a secure connection");
+		widget = gtk_check_button_new_with_label (label);
+		e_source_config_insert_widget (config, scratch_source, NULL, widget);
+		gtk_widget_show (widget);
 
-	extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
-	authentication_extension =
-		e_source_get_extension (scratch_source, extension_name);
+		e_binding_bind_property (
+			extension, "secure",
+			widget, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 
-	e_binding_bind_property_full (
-		extension, "secure",
-		authentication_extension, "port",
-		G_BINDING_DEFAULT,
-		secure_to_port_cb,
-		NULL, NULL, NULL);
+		extension_name = E_SOURCE_EXTENSION_AUTHENTICATION;
+		authentication_extension =
+			e_source_get_extension (scratch_source, extension_name);
+
+		e_binding_bind_property_full (
+			extension, "secure",
+			authentication_extension, "port",
+			G_BINDING_DEFAULT,
+			secure_to_port_cb,
+			NULL, NULL, NULL);
+	}
 
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
 	widget = gtk_button_new_with_mnemonic (
 		_("Unset _trust for SSL/TLS certificate"));
-	gtk_widget_set_margin_left (widget, 24);
+	gtk_widget_set_margin_left (widget, collection_source ? 0 : 24);
 	e_source_config_insert_widget (config, scratch_source, NULL, widget);
 	gtk_widget_show (widget);
 
