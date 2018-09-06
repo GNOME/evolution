@@ -1030,30 +1030,79 @@ action_mail_folder_select_subthread_cb (GtkAction *action,
 
 static gboolean
 ask_can_unsubscribe_folder (GtkWindow *parent,
-			    EMailSession *session,
-			    CamelStore *store,
-			    const gchar *folder_name)
+			    CamelFolder *folder)
 {
-	CamelFolder *folder;
 	gchar *full_display_name;
 	gboolean res;
 
-	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
-	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
-	g_return_val_if_fail (folder_name != NULL, FALSE);
-
-	folder = mail_folder_cache_ref_folder (e_mail_session_get_folder_cache (session), store, folder_name);
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	full_display_name = e_mail_folder_to_full_display_name (folder, NULL);
 
 	res = GTK_RESPONSE_YES == e_alert_run_dialog_for_args (parent,
-		"mail:ask-unsubscribe-folder", full_display_name ? full_display_name : folder_name, NULL);
+		"mail:ask-unsubscribe-folder", full_display_name ? full_display_name : camel_folder_get_full_name (folder), NULL);
 
-	g_clear_object (&folder);
 	g_free (full_display_name);
 
 	return res;
+}
+
+typedef struct _GetFolderData {
+	EMailShellView *mail_shell_view;
+	EActivity *activity;
+	CamelStore *store;
+	gchar *folder_name;
+} GetFolderData;
+
+static void
+get_folder_data_free (GetFolderData *gfd)
+{
+	if (gfd) {
+		g_clear_object (&gfd->mail_shell_view);
+		g_clear_object (&gfd->activity);
+		g_clear_object (&gfd->store);
+		g_free (gfd->folder_name);
+		g_free (gfd);
+	}
+}
+
+static void
+mail_folder_unsubscribe_got_folder_cb (GObject *source_object,
+				       GAsyncResult *result,
+				       gpointer user_data)
+{
+	GetFolderData *gfd = user_data;
+	CamelFolder *folder;
+	GError *local_error = NULL;
+
+	g_return_if_fail (gfd != NULL);
+
+	folder = camel_store_get_folder_finish (CAMEL_STORE (source_object), result, &local_error);
+
+	if (e_activity_handle_cancellation (gfd->activity, local_error)) {
+		g_error_free (local_error);
+
+	} else if (local_error != NULL) {
+		e_alert_submit (
+			e_activity_get_alert_sink (gfd->activity), "mail:folder-open",
+			local_error->message, NULL);
+		g_error_free (local_error);
+
+	} else {
+		EShellWindow *shell_window;
+		EMailView *mail_view;
+
+		e_activity_set_state (gfd->activity, E_ACTIVITY_COMPLETED);
+
+		shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (gfd->mail_shell_view));
+		mail_view = e_mail_shell_content_get_mail_view (gfd->mail_shell_view->priv->mail_shell_content);
+
+		if (ask_can_unsubscribe_folder (GTK_WINDOW (shell_window), folder))
+			e_mail_reader_unsubscribe_folder_name (E_MAIL_READER (mail_view), gfd->store, gfd->folder_name);
+	}
+
+	get_folder_data_free (gfd);
+	g_clear_object (&folder);
 }
 
 static void
@@ -1064,10 +1113,9 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 	EMailShellSidebar *mail_shell_sidebar;
 	EMailView *mail_view;
 	EMFolderTree *folder_tree;
-	EShellWindow *shell_window;
-	EMailSession *session;
 	CamelStore *selected_store = NULL;
 	gchar *selected_folder_name = NULL;
+	GetFolderData *gfd;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -1075,21 +1123,19 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
-	em_folder_tree_get_selected (
-		folder_tree, &selected_store, &selected_folder_name);
+	em_folder_tree_get_selected (folder_tree, &selected_store, &selected_folder_name);
 	g_return_if_fail (CAMEL_IS_STORE (selected_store));
 	g_return_if_fail (selected_folder_name != NULL);
 
-	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (mail_shell_view));
-	session = em_folder_tree_get_session (folder_tree);
+	gfd = g_new0 (GetFolderData, 1);
+	gfd->mail_shell_view = g_object_ref (mail_shell_view);
+	gfd->activity = e_mail_reader_new_activity (E_MAIL_READER (mail_view));
+	gfd->store = selected_store;
+	gfd->folder_name = selected_folder_name;
 
-	if (ask_can_unsubscribe_folder (GTK_WINDOW (shell_window), session, selected_store, selected_folder_name))
-		e_mail_reader_unsubscribe_folder_name (
-			E_MAIL_READER (mail_view),
-			selected_store, selected_folder_name);
-
-	g_object_unref (selected_store);
-	g_free (selected_folder_name);
+	camel_store_get_folder (gfd->store, gfd->folder_name, 0, G_PRIORITY_DEFAULT,
+		e_activity_get_cancellable (gfd->activity),
+		mail_folder_unsubscribe_got_folder_cb, gfd);
 }
 
 static void
