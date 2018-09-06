@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-01 16:13+0000\n"
-"PO-Revision-Date: 2018-09-05 10:21+0200\n"
+"PO-Revision-Date: 2018-09-06 11:45+0200\n"
 "Last-Translator: Rodrigo <rodhos92@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -28,6 +28,7 @@ msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2018\n"
+"Rodrigo Lledó <rodhos92@gmail.com>, 2018\n"
 "Yolanda Álvarez Pérez <yolandaa.alvarez.perez@gmail.com>, 2016\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
@@ -3939,7 +3940,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/intro-application.page:27
-#, fuzzy
 #| msgid ""
 #| "By default <app>Evolution</app> opens the mail view. This is were you can "
 #| "view all your mail. You can change to other views of the application by "
@@ -3956,9 +3956,9 @@ msgstr ""
 "De manera predeterminada, <app>Evolution</app> abre la vista de cliente de "
 "correo. Aquí es donde puede ver su correo. Puede cambiar a otras vistas del "
 "programa yendo a la parte inferior del panel izquierdo de la ventana (el "
-"denominado «selector») y seleccionando la vista que quiere. <link type="
-"\"topic\" xref=\"intro-main-window\">Obtener más información sobre los "
-"elementos de la ventana</link>."
+"denominado «selector») y seleccionando la vista que quiere. <link xref="
+"\"intro-main-window\">Obtener más información sobre los elementos de la "
+"ventana principal</link>."
 
 #. (itstool) path: note/p
 #: C/intro-application.page:29
@@ -3988,7 +3988,6 @@ msgstr "Iniciar <app>Evolution</app> por primera vez"
 
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
-#, fuzzy
 #| msgid ""
 #| "The first time you run <app>Evolution</app>, it opens the First-Run "
 #| "Assistant to help you set up email accounts and <link xref=\"import-data"
@@ -3999,7 +3998,7 @@ msgid ""
 "\">import data from other applications.</link>"
 msgstr ""
 "La primera vez que ejecuta <app>Evolution</app> se abre el Asistente de "
-"primera ejecución que le ayuda a configurar sus cuentas de correo "
+"primera ejecución. Este le ayuda a configurar sus cuentas de correo "
 "electrónico e <link xref=\"import-data\">importar datos de otras "
 "aplicaciones</link>."
 
@@ -4012,6 +4011,12 @@ msgid ""
 "options of such accounts can be edited in <app>Evolution</app> and such "
 "accounts can only be removed in <app>Online accounts</app> itself."
 msgstr ""
+"Este asistente no se muestra si ya hay una cuenta de correo electrónico "
+"configurada en <link xref=\"help:gnome-help/accounts\"><app>Cuentas en "
+"línea</app></link> ya que esa cuenta se selecciona automáticamente en "
+"<app>Evolution</app>. No todas las opciones de esas cuentas se pueden editar "
+"en <app>Evolution</app> y esas cuentas solo se pueden eliminar en "
+"<app>Cuentas en línea</app>."
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:33
@@ -4426,6 +4431,8 @@ msgid ""
 "This page provides an overview of keyboard shortcuts that can help you use "
 "<app>Evolution</app> more efficiently."
 msgstr ""
+"Esta página proporciona un resumen de atajos de teclado que le pueden ayudar "
+"a usar <app>Evolution</app> de manera más eficiente."
 
 #. (itstool) path: section/title
 #: C/intro-keyboard-shortcuts.page:31
@@ -4639,9 +4646,8 @@ msgstr "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:163
-#, fuzzy
 msgid "Forward selection."
-msgstr "_Estilo de reenvío:"
+msgstr "Selección de reenvío."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:166 C/intro-keyboard-shortcuts.page:295
@@ -4756,10 +4762,11 @@ msgstr "Desplazar hacia abajo."
 
 #. (itstool) path: section/p
 #: C/intro-keyboard-shortcuts.page:233
-#, fuzzy
 #| msgid "Navigating in unread mail across folders"
 msgid "<key>Space</key> also allows navigating in unread mail across folders:"
-msgstr "Navegar por el correo sin leer en las carpetas"
+msgstr ""
+"<key>Espacio</key> también le permite navegar por correos sin leer a través "
+"de distintas carpetas:"
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:235
@@ -5123,10 +5130,11 @@ msgid ""
 "The to do bar displays calendar appointments and tasks with due dates within "
 "the next seven days."
 msgstr ""
+"La barra de tareas pendientes muestra las citas y tareas del calendario con "
+"fechas programadas entre los siguientes siete días."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:91
-#, fuzzy
 #| msgid ""
 #| "You can disable the preview pane by toggling <guiseq><gui>View</"
 #| "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
@@ -5134,13 +5142,11 @@ msgid ""
 "You can disable the to do bar by toggling <guiseq><gui>View</"
 "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
 msgstr ""
-"Puede desactivar el panel de vista previa cambiando <guiseq><gui>Ver</"
-"gui><gui>Vista previa</gui><gui>Mostrar vista previa del correo</gui></"
-"guiseq>."
+"Puede desactivar la barra de tareas pendientes cambiando <guiseq><gui>Ver</"
+"gui><gui>Distribución</gui><gui>Mostrar la barra Por hacer</gui></guiseq>."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:94
-#, fuzzy
 #| msgid ""
 #| "You can disable the preview pane by toggling <guiseq><gui>View</"
 #| "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
@@ -5149,9 +5155,9 @@ msgid ""
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
 "Bar</gui></guiseq>."
 msgstr ""
-"Puede desactivar el panel de vista previa cambiando <guiseq><gui>Ver</"
-"gui><gui>Vista previa</gui><gui>Mostrar vista previa del correo</gui></"
-"guiseq>."
+"Si alguna vez oculta la barra de menú por accidente, pulse <key>Alt</key> y "
+"reactívela cambiando <guiseq><gui>Ver</gui><gui>Distribución</"
+"gui><gui>Mostrar barra de menú</gui></guiseq>."
 
 #. (itstool) path: section/p
 #: C/intro-main-window.page:99
@@ -5300,6 +5306,11 @@ msgid ""
 "gnome-help/stable/accounts\">refer to the GNOME Desktop Help</link> for more "
 "information. After doing so, the Gmail account will be listed in Evolution."
 msgstr ""
+"Se recomienda configurar Gmail como una cuenta en línea en GNOME. Para más "
+"información <link xref=\"help:gnome-help/accounts\" href=\"https://help."
+"gnome.org/users/gnome-help/stable/accounts\">consulte la ayuda del "
+"escritorio de GNOME</link>. Después de hacer esto, la cuenta de Gmail se "
+"listará en Evolution."
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:30
@@ -5427,6 +5438,9 @@ msgid ""
 "Allow <link href=\"https://www.google.com/settings/security/lesssecureapps"
 "\">access for less secure apps in your Gmail account settings</link>."
 msgstr ""
+"Permitir el <link href=\"https://www.google.com/settings/security/"
+"lesssecureapps\">acceso de aplicaciones menos seguras en la configuración de "
+"su cuenta de Gmail</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-imap-plus.page:5
@@ -5863,6 +5877,8 @@ msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
 msgstr ""
+"Definir la respuesta del correo para enviar automáticamente a personas "
+"internas o externas en un cierto periodo de tiempo."
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:68
@@ -6493,7 +6509,6 @@ msgstr "No puedo ver algunos correos, ¿dónde están?"
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:24
-#, fuzzy
 #| msgid ""
 #| "Check whether you are using filters on incoming (or outgoing) messages. "
 #| "These could be automatically moving your messages to another destination."
@@ -6502,8 +6517,9 @@ msgid ""
 "link> on incoming (or outgoing) messages. These could be automatically "
 "moving your messages to another destination."
 msgstr ""
-"Compruebe si está usando filtros en los correos entrantes (o salientes). "
-"Esto podría estar moviendo automáticamente sus correos a otro destino."
+"Compruebe si está <link xref=\"mail-filters-not-working\">usando filtros</"
+"link> en los correos entrantes (o salientes). Esto podría estar moviendo "
+"automáticamente sus correos a otro destino."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:27
@@ -6560,6 +6576,9 @@ msgid ""
 "link> Perhaps they are set to some other folder than the folder you thought "
 "of."
 msgstr ""
+"<link xref=\"mail-default-folder-locations\">Compruebe la configuración de "
+"la carpeta.</link> Quizás están asignados a otra carpeta diferente a la que "
+"creía."
 
 #. (itstool) path: info/desc
 #: C/mail-change-columns-in-message-list.page:5
@@ -6732,10 +6751,9 @@ msgstr "<_:code-1/> (formato: 01-12)"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:66
-#, fuzzy
 #| msgid "<_:code-1/> (format: 01-31)"
 msgid "<_:code-1/> (e.g. 15 for the year 2015)"
-msgstr "<_:code-1/> (formato: 01-31)"
+msgstr "<_:code-1/> (p. ej. 15 para el año 2015)"
 
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
@@ -8848,7 +8866,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:27
-#, fuzzy
 #| msgid ""
 #| "To see all recipients, click the <_:media-1/> icon next to the <gui>To:</"
 #| "gui> or <gui>Cc:</gui> line, or click the ellipsis (…) at the end of the "
@@ -8859,12 +8876,11 @@ msgid ""
 "five displayed addresses."
 msgstr ""
 "Para ver todos los destinatarios pulse el icono <_:media-1/> junto a las "
-"líneas <gui>Para:</gui> o <gui>CC:</gui> o pulse la elipsis (…) al final de "
+"líneas <gui>Para:</gui> o <gui>Cc:</gui> o pulse la elipsis (…) al final de "
 "las cinco direcciones de correo mostradas."
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:29
-#, fuzzy
 #| msgid ""
 #| "To collapse all of the message headers and just display the subject and "
 #| "sender in one line, click the icon <_:media-1/> next to the <gui>From:</"
@@ -8874,9 +8890,9 @@ msgid ""
 "sender in one line, click the icon <_:media-1/> next to the <gui>From:</gui> "
 "line. This is helpful on small screens."
 msgstr ""
-"Para contraer todos las cabeceras de correo y mostrar solo el asunto y el "
+"Para contraer todas las cabeceras de correo y mostrar solo el asunto y el "
 "remitente en una línea pulse el icono <_:media-1/> junto a la línea <gui>De:"
-"</gui>. Es útil en pantallas pequeñas."
+"</gui>. Esto es útil en pantallas pequeñas."
 
 #. (itstool) path: info/desc
 #: C/mail-displaying-images-in-html.page:5
