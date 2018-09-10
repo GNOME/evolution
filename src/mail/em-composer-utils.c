@@ -1174,6 +1174,26 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 }
 
 static void
+emcu_manage_flush_outbox (EMailSession *session)
+{
+	GSettings *settings;
+
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	if (g_settings_get_boolean (settings, "composer-use-outbox")) {
+		gint delay_flush = g_settings_get_int (settings, "composer-delay-outbox-flush");
+
+		if (delay_flush == 0) {
+			e_mail_session_flush_outbox (session);
+		} else if (delay_flush > 0) {
+			e_mail_session_schedule_outbox_flush (session, delay_flush);
+		}
+	}
+	g_object_unref (settings);
+}
+
+static void
 composer_save_to_outbox_completed (GObject *source_object,
                                    GAsyncResult *result,
                                    gpointer user_data)
@@ -1183,7 +1203,6 @@ composer_save_to_outbox_completed (GObject *source_object,
 	EAlertSink *alert_sink;
 	GCancellable *cancellable;
 	AsyncContext *async_context;
-	GSettings *settings;
 	GError *local_error = NULL;
 
 	session = E_MAIL_SESSION (source_object);
@@ -1224,17 +1243,7 @@ composer_save_to_outbox_completed (GObject *source_object,
 		G_OBJECT (activity), (GWeakNotify)
 		gtk_widget_destroy, async_context->composer);
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-	if (g_settings_get_boolean (settings, "composer-use-outbox")) {
-		gint delay_flush = g_settings_get_int (settings, "composer-delay-outbox-flush");
-
-		if (delay_flush == 0) {
-			e_mail_session_flush_outbox (session);
-		} else if (delay_flush > 0) {
-			e_mail_session_schedule_outbox_flush (session, delay_flush);
-		}
-	}
-	g_object_unref (settings);
+	emcu_manage_flush_outbox (session);
 
 exit:
 	async_context_free (async_context);
@@ -2108,6 +2117,31 @@ emcu_message_references_existing_account (CamelMimeMessage *message,
 	return res;
 }
 
+typedef struct _OutboxData {
+	CamelSession *session;
+	CamelMessageInfo *info;
+} OutboxData;
+
+static void
+outbox_data_free (gpointer ptr)
+{
+	OutboxData *od = ptr;
+
+	if (od) {
+		if (od->info) {
+			g_object_set_data (G_OBJECT (od->info), MAIL_USER_KEY_EDITING, NULL);
+
+			if (od->session && !(camel_message_info_get_flags (od->info) & CAMEL_MESSAGE_DELETED)) {
+				emcu_manage_flush_outbox (E_MAIL_SESSION (od->session));
+			}
+		}
+
+		g_clear_object (&od->session);
+		g_clear_object (&od->info);
+		g_free (od);
+	}
+}
+
 /**
  * em_utils_edit_message:
  * @composer: an #EMsgComposer
@@ -2237,9 +2271,25 @@ em_utils_edit_message (EMsgComposer *composer,
 		g_free (folder_uri);
 
 	} else if (message_uid != NULL && folder_is_outbox) {
+		CamelMessageInfo *info;
+
 		e_msg_composer_set_header (
 			composer, "X-Evolution-Replace-Outbox-UID",
 			message_uid);
+
+		info = camel_folder_get_message_info (folder, message_uid);
+		if (info) {
+			OutboxData *od;
+
+			/* This makes the message not to send it while it's being edited */
+			g_object_set_data (G_OBJECT (info), MAIL_USER_KEY_EDITING, GINT_TO_POINTER (1));
+
+			od = g_new0 (OutboxData, 1);
+			od->session = e_msg_composer_ref_session (composer);
+			od->info = info; /* takes ownership of it */
+
+			g_object_set_data_full (G_OBJECT (composer), MAIL_USER_KEY_EDITING, od, outbox_data_free);
+		}
 	}
 
 	composer_set_no_change (composer);
