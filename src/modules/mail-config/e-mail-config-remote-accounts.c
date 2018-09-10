@@ -172,7 +172,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	EMailConfigRemoteBackend *remote_backend;
 	CamelProvider *provider;
 	CamelSettings *settings;
-	ESource *source;
+	ESource *source, *existing_source;
 	ESourceBackend *extension;
 	EMailConfigServicePage *page;
 	EMailConfigServicePageClass *class;
@@ -189,6 +189,7 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 	page = e_mail_config_service_backend_get_page (backend);
 	source = e_mail_config_service_backend_get_source (backend);
 	settings = e_mail_config_service_backend_get_settings (backend);
+	existing_source = e_source_registry_ref_source (e_mail_config_service_page_get_registry (page), e_source_get_uid (source));
 
 	class = E_MAIL_CONFIG_SERVICE_PAGE_GET_CLASS (page);
 	extension_name = class->extension_name;
@@ -378,6 +379,15 @@ mail_config_remote_backend_insert_widgets (EMailConfigServiceBackend *backend,
 		settings, "auth-mechanism",
 		remote_backend->auth_check, "active-mechanism",
 		G_BINDING_BIDIRECTIONAL);
+
+	if (!existing_source) {
+		/* Default to TLS for new accounts */
+		g_object_set (G_OBJECT (settings),
+			"security-method", CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT,
+			NULL);
+	}
+
+	g_clear_object (&existing_source);
 
 	e_source_lookup_password (source, remote_backend->cancellable, source_lookup_password_done, remote_backend);
 }
