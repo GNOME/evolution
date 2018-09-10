@@ -5,17 +5,17 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011, 2012.
 #
 # Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>, 2016.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2016, 2017, 2018.
 # Rodrigo <rodhos92@gmail.com>, 2018.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2016, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-01 16:13+0000\n"
-"PO-Revision-Date: 2018-09-06 11:45+0200\n"
-"Last-Translator: Rodrigo <rodhos92@gmail.com>\n"
-"Language-Team: Español <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2018-09-06 21:05+0000\n"
+"PO-Revision-Date: 2018-09-10 10:26+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -200,10 +200,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:61
-#| msgid ""
-#| "From the dropdown menu, choose either one of the available default "
-#| "options when to show a notification reminder, or choose <gui>Customize</"
-#| "gui>."
 msgid ""
 "From the dropdown menu, choose either one of the available default options "
 "when to show a notification reminder, or choose <gui>Custom</gui>."
@@ -213,10 +209,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:66
-#| msgid ""
-#| "In case of <gui>Customize</gui>, the reminder can be a popup, a sound "
-#| "played, or a program ran. You can also define whether the reminder should "
-#| "be repeated."
 msgid ""
 "In case of <gui>Custom</gui>, the reminder can be a popup, a sound played, a "
 "program ran, or an email sent. You can also define whether the reminder "
@@ -335,7 +327,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
-#| msgid "Classifying appointments and tasks on remote servers."
 msgid "Restricting visibility of appointments on remote servers."
 msgstr "Restricción de visibilidad de citas en servidores remotos."
 
@@ -357,13 +348,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:32
-#| msgid ""
-#| "To set a classification for an appointment or a task, click "
-#| "<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
-#| "classification in the editor. <gui>Public</gui> is the default category, "
-#| "and a public appointment can be viewed by anyone on the calendar-sharing "
-#| "network. <gui>Private</gui> denotes one level of security, and "
-#| "<gui>Confidential</gui> an even higher level."
 msgid ""
 "To set a classification for an appointment, click <guiseq><gui>Options</"
 "gui><gui>Classification</gui></guiseq> and select a classification in the "
@@ -391,10 +375,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:42
-#| msgid ""
-#| "The following options are available under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</"
-#| "gui></guiseq>."
 msgid ""
 "If you want events, memos and tasks to be classified as private by default, "
 "enable the preference under <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -472,9 +452,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:56
-#| msgid ""
-#| "Click the <gui>Free/Busy</gui> button on the toolbar, or click "
-#| "<guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
 msgid ""
 "Click the <gui style=\"button\">Free/Busy</gui> button on the toolbar, or "
 "the <gui>Schedule</gui> tab."
@@ -680,7 +657,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:52
-#| msgid "Show appointment end times in week and month views:"
 msgid "Show appointment icons in the month view"
 msgstr "Mostrar iconos de las citas en las vistas mensuales"
 
@@ -1270,10 +1246,6 @@ msgstr "(Opcional) Escriba una descripción en el campo <gui>Descripción</gui>.
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:87
-#| msgid ""
-#| "To query <link xref=\"calendar-free-busy\">free/busy</link> information "
-#| "for the attendees, click the <gui>Free/Busy</gui> button on the toolbar, "
-#| "or click <guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
 msgid ""
 "To query <link xref=\"calendar-free-busy\">free/busy</link> information for "
 "the attendees, click the <gui style=\"button\">Free/Busy</gui> button on the "
@@ -1453,7 +1425,6 @@ msgstr "Buscar por resumen:"
 #. (itstool) path: item/p
 #: C/calendar-searching.page:42 C/contacts-searching.page:50
 #: C/memos-searching.page:43 C/tasks-searching.page:43
-#| msgid "Select the search condition from the list."
 msgid "Click the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
 "Pulse el icono de búsqueda <_:media-1/> para expandir la lista desplegable."
@@ -1586,15 +1557,6 @@ msgstr "Configurar una zona horaria para una cita"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:48
-#| msgid ""
-#| "You can also configure time zone information specific to each "
-#| "appointment. To do that, <link xref=\"calendar-usage\">add a new or edit "
-#| "an existing appointment</link> and click the globe button to customize "
-#| "the time zone that the time exists in. For example, if you live in New "
-#| "York but have a telephone meeting set for noon with someone in "
-#| "California, you need to make sure that your schedules are coordinated. "
-#| "Setting time zones on a per-appointment basis helps avoid that potential "
-#| "confusion."
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
@@ -2215,9 +2177,6 @@ msgstr "Contactos en LibreOffice"
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
-#| msgid ""
-#| "You can use your <app>Evolution</app> address books in LibreOffice as a "
-#| "data source. The following steps refer to LibreOffice version 3.3.3."
 msgid ""
 "You can use your <app>Evolution</app> address books in <app>LibreOffice "
 "Writer</app> as a data source. The following steps refer to LibreOffice "
@@ -2229,10 +2188,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
-#| msgid ""
-#| "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in "
-#| "the menu bar. This will bring up the <gui>Exchange databases</gui> dialog "
-#| "box."
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
@@ -2262,11 +2217,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:42
-#| msgid ""
-#| "This makes the <app>Evolution</app> address book the default data source "
-#| "for LibreOffice. You can now select a field to insert into a LibreOffice "
-#| "document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
-#| "guiseq>."
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
@@ -2823,10 +2773,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/data-storage.page:26
-#| msgid ""
-#| "<app>Evolution</app> 3.6 and later stores its data according to the <link "
-#| "href=\"http://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG "
-#| "Base Directory Specification</link>. By default this means:"
 msgid ""
 "<app>Evolution</app> 3.6 and later stores its data according to the <link "
 "href=\"https://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG "
@@ -3940,12 +3886,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/intro-application.page:27
-#| msgid ""
-#| "By default <app>Evolution</app> opens the mail view. This is were you can "
-#| "view all your mail. You can change to other views of the application by "
-#| "going to the bottom of the left pane in the window (the so-called "
-#| "\"switcher\") and selecting the desired view. <link xref=\"intro-main-"
-#| "window\">Learn more about the elements of the main window</link>."
 msgid ""
 "By default <app>Evolution</app> opens the mail view. This is where you can "
 "view all your mail. You can change to other views of the application by "
@@ -3988,10 +3928,6 @@ msgstr "Iniciar <app>Evolution</app> por primera vez"
 
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
-#| msgid ""
-#| "The first time you run <app>Evolution</app>, it opens the First-Run "
-#| "Assistant to help you set up email accounts and <link xref=\"import-data"
-#| "\">import data from other applications.</link>"
 msgid ""
 "The first time you run <app>Evolution</app>, it opens the First-Run "
 "Assistant. It helps you set up email accounts and <link xref=\"import-data"
@@ -4762,7 +4698,6 @@ msgstr "Desplazar hacia abajo."
 
 #. (itstool) path: section/p
 #: C/intro-keyboard-shortcuts.page:233
-#| msgid "Navigating in unread mail across folders"
 msgid "<key>Space</key> also allows navigating in unread mail across folders:"
 msgstr ""
 "<key>Espacio</key> también le permite navegar por correos sin leer a través "
@@ -5135,9 +5070,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:91
-#| msgid ""
-#| "You can disable the preview pane by toggling <guiseq><gui>View</"
-#| "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
 msgid ""
 "You can disable the to do bar by toggling <guiseq><gui>View</"
 "gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>."
@@ -5147,9 +5079,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:94
-#| msgid ""
-#| "You can disable the preview pane by toggling <guiseq><gui>View</"
-#| "gui><gui>Preview</gui><gui>Show Message Preview</gui></guiseq>."
 msgid ""
 "If you ever accidentially hide the menu bar, press <key>Alt</key> and re-"
 "enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu "
@@ -5320,6 +5249,11 @@ msgid ""
 "all options of such accounts can be edited in <app>Evolution</app> and such "
 "accounts can only be removed in <app>Online accounts</app> itself."
 msgstr ""
+"Para configurar la cuenta en Evolution, consulte la <link xref=\"mail-"
+"account-manage-imap-plus\">configuración de la cuenta de correo IMAP+</"
+"link>. Tenga en cuenta que no todas las opciones de esas cuentas se pueden "
+"editar en <app>Evolution</app> y esas cuentas solo se pueden eliminar en "
+"<app>Cuentas en línea</app>."
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:33
@@ -5328,6 +5262,9 @@ msgid ""
 "\"https://www.google.com/settings/security/lesssecureapps\">access for less "
 "secure apps in your Gmail account settings</link>."
 msgstr ""
+"Como alternativa a configurar una cuenta en línea en GNOME, permita el <link "
+"href=\"https://www.google.com/settings/security/lesssecureapps\">acceso a "
+"aplicaciones menos seguras en la configuración de su cuenta de Gmail</link>."
 
 #. (itstool) path: note/p
 #: C/mail-access-gmail-imap-account.page:35
@@ -6269,12 +6206,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:33
-#, fuzzy
-#| msgid ""
-#| "The options available for an attachment vary depending on the type of "
-#| "attachment and the applications that are installed on your system. For "
-#| "example, image files can be opened in the <gui>Image Viewer</gui> "
-#| "application or in the <gui>GIMP</gui> graphics editor."
 msgid ""
 "The options available for an attachment vary depending on the type of "
 "attachment and the applications that are installed on your system. Your "
@@ -6282,9 +6213,9 @@ msgid ""
 "to open a specific file format."
 msgstr ""
 "Las opciones disponibles para los adjuntos varían dependiendo del tipo de "
-"adjunto y de las aplicaciones instaladas en su sistema. Por ejemplo, los "
-"archivos de imágenes se pueden abrir con el <gui>Visor de imágenes</gui> o "
-"en el editor de gráficos <gui>GIMP</gui>."
+"adjunto y de las aplicaciones instaladas en su sistema. La base de datos "
+"MIME de su entorno de escritorio define qué aplicaciones se pueden usar para "
+"abrir un formato de archivo específico."
 
 #. (itstool) path: info/desc
 #: C/mail-attachments-sending.page:5
@@ -6509,9 +6440,6 @@ msgstr "No puedo ver algunos correos, ¿dónde están?"
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:24
-#| msgid ""
-#| "Check whether you are using filters on incoming (or outgoing) messages. "
-#| "These could be automatically moving your messages to another destination."
 msgid ""
 "Check whether you are <link xref=\"mail-filters-not-working\">using filters</"
 "link> on incoming (or outgoing) messages. These could be automatically "
@@ -6751,7 +6679,6 @@ msgstr "<_:code-1/> (formato: 01-12)"
 
 #. (itstool) path: item/p
 #: C/mail-composer-change-quotation-string.page:66
-#| msgid "<_:code-1/> (format: 01-31)"
 msgid "<_:code-1/> (e.g. 15 for the year 2015)"
 msgstr "<_:code-1/> (p. ej. 15 para el año 2015)"
 
@@ -7182,21 +7109,14 @@ msgstr "Pulse <gui>Abrir</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-image.page:30
-#, fuzzy
-#| msgid ""
-#| "Alternately, you can also use the <media type=\"image\" its:translate=\"no"
-#| "\" src=\"./figures/html-composer-insert-image.png\"/> icon in the second "
-#| "bar below the <gui>Subject</gui> line, or drag an image into the text "
-#| "area of the message composer."
 msgid ""
 "Alternately, you can also use the <_:media-1/> icon in the second bar below "
 "the <gui>Subject</gui> line, or drag an image into the text area of the "
 "message composer."
 msgstr ""
-"Alternativamente, puede usar el icono <media type=\"image\" its:translate="
-"\"no\" src=\"./figures/html-composer-insert-image.png\"/> en la segunda "
-"barra, debajo de la línea del <gui>Asunto</gui>, o arrastrar una imagen en "
-"el área de texto del editor de mensajes."
+"Alternativamente, puede usar el icono <_:media-1/> en la segunda barra, "
+"debajo de la línea del <gui>Asunto</gui>, o arrastrar una imagen en el área "
+"de texto del editor de mensajes."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-link.page:5
@@ -7575,21 +7495,15 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-composer-mail-signatures-manage.page:25
 #: C/mail-composer-mail-signatures.page:26
-#, fuzzy
-#| msgid ""
-#| "Per <link href=\"http://tools.ietf.org/html/rfc3676#section-4.3\">long-"
-#| "standing convention</link>, signatures always start with two dashes and a "
-#| "space in a separate line. This allows many email clients to automatically "
-#| "strip signatures from quotes when replying."
 msgid ""
 "Per <link href=\"https://tools.ietf.org/html/rfc3676#section-4.3\">long-"
 "standing convention</link>, signatures always start with two dashes and a "
 "space in a separate line. This allows many email clients to automatically "
 "strip signatures from quotes when replying."
 msgstr ""
-"Siguiendo un <link href=\"http://tools.ietf.org/html/"
+"Siguiendo un <link href=\"https://tools.ietf.org/html/"
 "rfc3676#section-4.3\">convenio de hace mucho tiempo</link>, las firmas "
-"siempre empiezan con dos guiones y un espacio, en un enlace separado. Esto "
+"siempre empiezan con dos guiones y un espacio, en una línea separada. Esto "
 "permite a muchos clientes de correo recortar automáticamente las firmas del "
 "texto citado al responder."
 
@@ -8611,14 +8525,6 @@ msgstr "Cc y Cco predeterminadas"
 
 #. (itstool) path: page/p
 #: C/mail-default-CC-and-BCC.page:31
-#, fuzzy
-#| msgid ""
-#| "You can set email addresses that should always receive copies of your "
-#| "sent mail (either as CC visible for all recipients, or BCC not visible "
-#| "for other recipients) in the <gui>Defaults</gui> section of the mail "
-#| "account editor (<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail "
-#| "Accounts</gui><gui style=\"button\">Edit</gui><gui>Defaults</gui></"
-#| "guiseq>)."
 msgid ""
 "You can set email addresses that should always receive copies of your sent "
 "mail (either as CC visible for all recipients, or BCC not visible for other "
@@ -8629,9 +8535,9 @@ msgstr ""
 "Puede configurar que ciertas direcciones de correo electrónico siempre "
 "reciban copias del correo que envía (ya sea como Cc visible para todos los "
 "destinatarios o como Cco no visible para el resto de destinatarios) en la "
-"sección <gui>Predeterminados</gui> del editor de cuentas "
+"sección <gui>Redactar mensajes</gui> del editor de cuentas "
 "(<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Cuentas de correo</"
-"gui><gui style=\"button\">Editar</gui><gui>Predeterminados</gui></guiseq>)."
+"gui><gui style=\"button\">Editar</gui><gui>Redactar mensajes</gui></guiseq>)."
 
 #. (itstool) path: info/desc
 #: C/mail-default-folder-locations.page:5
@@ -8866,10 +8772,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:27
-#| msgid ""
-#| "To see all recipients, click the <_:media-1/> icon next to the <gui>To:</"
-#| "gui> or <gui>Cc:</gui> line, or click the ellipsis (…) at the end of the "
-#| "five displayed addresses."
 msgid ""
 "To see all recipients, click the <_:media-1/> icon next to the <gui>To:</"
 "gui> or <gui>Cc:</gui> line, or click the ellipsis (…) at the end of the "
@@ -8881,10 +8783,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-displaying-collapsible-headers.page:29
-#| msgid ""
-#| "To collapse all of the message headers and just display the subject and "
-#| "sender in one line, click the icon <_:media-1/> next to the <gui>From:</"
-#| "gui> line. This is helpful on small screens."
 msgid ""
 "To collapse all of the message headers and just display the subject and "
 "sender in one line, click the icon <_:media-1/> next to the <gui>From:</gui> "
@@ -10579,19 +10477,16 @@ msgstr "Añadir una etiqueta a un correo"
 
 #. (itstool) path: section/p
 #: C/mail-labels.page:29
-#, fuzzy
-#| msgid ""
-#| "To assign a label to a message, right-click the message, click "
-#| "<gui>Label</gui>, and choose the label to apply."
 msgid ""
 "To assign a label to a message, either choose <guiseq><gui>Message</"
 "gui><gui>Mark As</gui><gui>Label</gui></guiseq> and choose the label to "
 "apply, or right-click the message, click <gui>Label</gui>, and choose the "
 "label to apply."
 msgstr ""
-"Para asignar una etiqueta a un mensaje, pulse con el botón derecho del ratón "
-"sobre el mensaje, seleccione <gui>Etiqueta</gui> y elija la etiqueta que "
-"quiere aplicar."
+"Para asignar una etiqueta a un mensaje, seleccione <guiseq><gui>Mensaje</"
+"gui><gui>Marcar como</gui><gui>Etiqueta</gui></guiseq> y elija la etiqueta "
+"que quiere aplicar, o bien pulse con el botón derecho del ratón sobre el "
+"mensaje, pulse <gui>Etiqueta</gui> y elija la etiqueta que aplicar."
 
 #. (itstool) path: section/p
 #: C/mail-labels.page:30
@@ -10678,14 +10573,6 @@ msgstr "Los correos movidos aún se muestran en la carpeta original"
 
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:26
-#, fuzzy
-#| msgid ""
-#| "If your IMAP mail server does not yet support <link href=\"http://tools."
-#| "ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was "
-#| "introduced in January 2013, <app>Evolution</app> \"moves\" messages by "
-#| "copying and deleting emails. Deleting means \"marking messages for "
-#| "deletion\" so all the original messages are retained until you expunge "
-#| "the emails marked for deletion."
 msgid ""
 "If your IMAP mail server does not yet support <link href=\"https://tools."
 "ietf.org/html/rfc6851\">IMAP's \"move\" feature</link> which was introduced "
@@ -10694,12 +10581,12 @@ msgid ""
 "original messages are retained until you expunge the emails marked for "
 "deletion."
 msgstr ""
-"Si su servidor todavía no soporta la<link href=\"http://tools.ietf.org/html/"
-"rfc6851\">característica «mover» de IMAP</link>, que se introdujo en enero "
-"de 2013, <app>Evolution</app> «mueve» los mensajes copiando y eliminando "
-"correos. Eliminar significa «marcar correos para eliminar» de tal forma que "
-"los correos originales se mantienen hasta que purgue los correos marcados "
-"para eliminar."
+"Si su servidor todavía no soporta la <link href=\"https://tools.ietf.org/"
+"html/rfc6851\">característica «mover» de IMAP</link>, que se introdujo en "
+"enero de 2013, <app>Evolution</app> «mueve» los mensajes copiando y "
+"eliminando correos. Eliminar significa «marcar correos para eliminar» de tal "
+"forma que los correos originales se mantienen hasta que purgue los correos "
+"marcados para eliminar."
 
 #. (itstool) path: page/p
 #: C/mail-moving-emails.page:28
@@ -10828,11 +10715,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-read-receipts.page:40
-#, fuzzy
-#| msgid ""
-#| "For read receipts that you receive you can define <app>Evolution</app>'s "
-#| "behavior under <gui>Message Receipts</gui> under the account's <link xref="
-#| "\"mail-default-folder-locations\"><gui>Defaults</gui></link>."
 msgid ""
 "For read receipts that you receive you can define <app>Evolution</app>'s "
 "behavior under <gui>Message Receipts</gui> in the <gui>Composing Messages</"
@@ -10841,8 +10723,8 @@ msgid ""
 msgstr ""
 "Para las confirmaciones de lectura que reciba puede definir el "
 "comportamiento de <app>Evolution</app> en <gui>Destinatarios del mensaje</"
-"gui> en las opciones <link xref=\"mail-default-folder-locations"
-"\"><gui>Predeterminadas</gui></link> de la cuenta."
+"gui> en la sección <gui>Redactar mensajes</gui> de las <link xref=\"mail-"
+"account-management\">preferencias de la cuenta</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-received-notification.page:5
@@ -11157,19 +11039,14 @@ msgstr "Marque si quiere que <app>Evolution</app> recuerde su contraseña."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:47
-#, fuzzy
-#| msgid ""
-#| "Select <gui>Use Quick Resync</gui> if the IMAP server supports <link href="
-#| "\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
-#| "Resynchronization</link>."
 msgid ""
 "Select <gui>Use Quick Resync</gui> if the IMAP server supports <link href="
 "\"https://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick Mailbox "
 "Resynchronization</link>."
 msgstr ""
-"Seleccione <gui>Usar resincronización rápida</gui> si el servidor soporta "
-"<link href=\"http://tools.ietf.org/html/rfc5162\">Extensiones de IMAP4 para "
-"resincronización rápida de buzón de correo</link>."
+"Seleccione <gui>Usar resincronización rápida</gui> si el servidor IMAP "
+"soporta <link href=\"https://tools.ietf.org/html/rfc5162\">Extensiones de "
+"IMAP4 para resincronización rápida de buzón de correo</link>."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-imap-plus.page:49
@@ -11667,13 +11544,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:30
-#, fuzzy
-#| msgid ""
-#| "<app>Evolution</app> automatically updates the search folder contents "
-#| "when new messages are received or message are deleted. You can get also "
-#| "manually update the search folder either by switching to another folder "
-#| "and then back again, or by right-clicking on the search folder and "
-#| "choosing <gui>Refresh</gui>."
 msgid ""
 "<app>Evolution</app> automatically updates the search folder contents when "
 "new messages are received or messages are deleted. You can also manually "
@@ -11681,11 +11551,11 @@ msgid ""
 "again, or by right-clicking on the search folder and choosing <gui>Refresh</"
 "gui>."
 msgstr ""
-"<app>Evolution</app> actualiza automáticamente las carpeta de búsqueda "
-"cuando se reciben o eliminan mensajes. También las puede actualizar "
-"manualmente cambiando a otra carpeta y volviendo a la misma o pulsando con "
-"el botón derecho del ratón sobre la carpeta de búsqueda y eligiendo "
-"<gui>Actualizar</gui>."
+"<app>Evolution</app> actualiza automáticamente el contenido de las carpetas "
+"de búsqueda cuando se reciben o eliminan mensajes. También puede actualizar "
+"la carpeta de búsqueda manualmente ya sea cambiando a otra carpeta y "
+"volviendo a la misma o pulsando con el botón derecho del ratón sobre la "
+"carpeta de búsqueda y eligiendo <gui>Actualizar</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:32
@@ -11719,6 +11589,10 @@ msgid ""
 "Search Folder is located in, <link xref=\"mail-change-columns-in-message-list"
 "\">add the <gui>Location</gui> column</link> to the message list."
 msgstr ""
+"Si necesita averiguar en qué carpeta física está ubicado un mensaje que se "
+"muestra en una carpeta de búsqueda, <link xref=\"mail-change-columns-in-"
+"message-list\">añada la columna de <gui>Ubicación</gui></link> a la lista de "
+"mensajes."
 
 #. (itstool) path: info/desc
 #: C/mail-searching-attachment-type.page:5
@@ -11778,11 +11652,9 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-searching.page:42
-#, fuzzy
-#| msgid "Click on the search icon <_:media-1/> to expand the drop-down list."
 msgid "Click on the search icon <_:media-1/> to expand the drop-down list."
 msgstr ""
-"Pulse el icono de búsqueda <_:media-1/> para expandir la dista desplegable."
+"Pulse el icono de búsqueda <_:media-1/> para expandir la lista desplegable."
 
 #. (itstool) path: note/p
 #: C/mail-searching.page:44
@@ -11864,21 +11736,15 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-send-and-receive-automatically.page:23
-#, fuzzy
-#| msgid ""
-#| "<app>Evolution</app> supports <link href=\"https://en.wikipedia.org/wiki/"
-#| "IMAP_IDLE\">IMAP IDLE</link> on the currently selected folder and "
-#| "partially supports the <link href=\"http://tools.ietf.org/search/"
-#| "rfc5465\">IMAP NOTIFY</link> extension."
 msgid ""
 "<app>Evolution</app> supports <link href=\"https://en.wikipedia.org/wiki/"
 "IMAP_IDLE\">IMAP IDLE</link> on the currently selected folder and partially "
 "supports the <link href=\"https://tools.ietf.org/search/rfc5465\">IMAP "
 "NOTIFY</link> extension."
 msgstr ""
-"<app>Evolution</app> soporta <link href=\"http://es.wikipedia.org/wiki/"
+"<app>Evolution</app> soporta <link href=\"https://es.wikipedia.org/wiki/"
 "IMAP_IDLE\">IMAP IDLE</link> en la carpeta actualmente seleccionada y "
-"soporta parcialmente la extensión <link href=\"http://tools.ietf.org/search/"
+"soporta parcialmente la extensión <link href=\"https://tools.ietf.org/search/"
 "rfc5465\">IMAP NOTIFY</link>."
 
 #. (itstool) path: info/desc
