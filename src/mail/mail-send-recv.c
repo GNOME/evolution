@@ -462,6 +462,35 @@ mail_send_receive_get_mail_shell_view (void)
 			EShellWindow *shell_window = E_SHELL_WINDOW (active_window);
 
 			shell_view = e_shell_window_get_shell_view (shell_window, "mail");
+		} else {
+			GList *windows, *link;
+			EShellView *adept_mail_view = NULL;
+			EShellWindow *first_shell_window = NULL;
+
+			windows = gtk_application_get_windows (GTK_APPLICATION (shell));
+			for (link = windows; link; link = g_list_next (link)) {
+				GtkWindow *window = link->data;
+
+				if (E_IS_SHELL_WINDOW (window)) {
+					EShellWindow *shell_window = E_SHELL_WINDOW (window);
+
+					if (!first_shell_window)
+						first_shell_window = shell_window;
+
+					if (g_strcmp0 (e_shell_window_get_active_view (shell_window), "mail") == 0) {
+						shell_view = e_shell_window_get_shell_view (shell_window, "mail");
+						break;
+					} else if (!adept_mail_view) {
+						adept_mail_view = e_shell_window_peek_shell_view (shell_window, "mail");
+					}
+				}
+			}
+
+			if (!shell_view)
+				shell_view = adept_mail_view;
+
+			if (!shell_view && first_shell_window)
+				shell_view = e_shell_window_get_shell_view (first_shell_window, "mail");
 		}
 	}
 
