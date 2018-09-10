@@ -909,6 +909,27 @@ exit:
 /* ** SEND MAIL QUEUE ***************************************************** */
 
 static void
+maybe_schedule_next_flush (EMailSession *session,
+			   time_t nearest_next_flush)
+{
+	gint delay_seconds, delay_minutes;
+
+	if (!session || nearest_next_flush <= 0)
+		return;
+
+	delay_seconds = nearest_next_flush - time (NULL);
+	if (delay_seconds <= 0)
+		delay_seconds = 1;
+
+	delay_minutes = delay_seconds / 60 + ((delay_seconds % 60) > 0 ? 1 : 0);
+
+	if (!delay_minutes)
+		delay_minutes = 1;
+
+	e_mail_session_schedule_outbox_flush (session, delay_minutes);
+}
+
+static void
 report_status (struct _send_queue_msg *m,
                enum camel_filter_status_t status,
                gint pc,
@@ -934,8 +955,8 @@ send_queue_exec (struct _send_queue_msg *m,
 {
 	CamelFolder *sent_folder;
 	GPtrArray *uids, *send_uids = NULL;
-	gint i, j;
-	time_t delay_send = 0;
+	gint i, j, delay_flush = 0;
+	time_t delay_send = 0, nearest_next_flush = 0;
 	GError *local_error = NULL;
 
 	d (printf ("sending queue\n"));
@@ -945,7 +966,7 @@ send_queue_exec (struct _send_queue_msg *m,
 
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		if (g_settings_get_boolean (settings, "composer-use-outbox")) {
-			gint delay_flush = g_settings_get_int (settings, "composer-delay-outbox-flush");
+			delay_flush = g_settings_get_int (settings, "composer-delay-outbox-flush");
 
 			if (delay_flush > 0)
 				delay_send = time (NULL) - (60 * delay_flush);
@@ -966,15 +987,27 @@ send_queue_exec (struct _send_queue_msg *m,
 
 		info = camel_folder_get_message_info (m->queue, uids->pdata[i]);
 		if (info) {
-			if ((camel_message_info_get_flags (info) & CAMEL_MESSAGE_DELETED) == 0 &&
-			    (!delay_send || camel_message_info_get_date_sent (info) <= delay_send))
-				send_uids->pdata[j++] = uids->pdata[i];
+			if (!(camel_message_info_get_flags (info) & CAMEL_MESSAGE_DELETED)) {
+				gboolean is_editing = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (info), MAIL_USER_KEY_EDITING)) != 0;
+
+				if (!delay_send || (!is_editing && camel_message_info_get_date_sent (info) <= delay_send)) {
+					send_uids->pdata[j++] = uids->pdata[i];
+				} else if (!is_editing && (!nearest_next_flush || nearest_next_flush > camel_message_info_get_date_sent (info))) {
+					nearest_next_flush = camel_message_info_get_date_sent (info);
+				}
+			}
+
 			g_clear_object (&info);
 		}
 	}
 
+	if (nearest_next_flush > 0)
+		nearest_next_flush += (delay_flush * 60);
+
 	send_uids->len = j;
 	if (send_uids->len == 0) {
+		maybe_schedule_next_flush (m->session, nearest_next_flush);
+
 		/* nothing to send */
 		camel_folder_free_uids (m->queue, uids);
 		g_ptr_array_free (send_uids, TRUE);
@@ -1077,6 +1110,8 @@ send_queue_exec (struct _send_queue_msg *m,
 		camel_folder_synchronize_sync (sent_folder, FALSE, NULL, NULL);
 
 	camel_operation_pop_message (cancellable);
+
+	maybe_schedule_next_flush (m->session, nearest_next_flush);
 }
 
 static void

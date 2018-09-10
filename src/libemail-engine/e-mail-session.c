@@ -2568,13 +2568,11 @@ e_mail_session_schedule_outbox_flush (EMailSession *session,
 	}
 
 	g_mutex_lock (&session->priv->preparing_flush_lock);
-	if (session->priv->outbox_flush_id > 0) {
-		g_source_remove (session->priv->outbox_flush_id);
-		session->priv->outbox_flush_id = 0;
+	if (!session->priv->outbox_flush_id) {
+		/* Do not reschedule the timer, it will be rescheduled
+		   when needed after the flush attempt */
+		session->priv->outbox_flush_id = e_named_timeout_add_seconds (60 * delay_minutes, mail_session_flush_outbox_timeout_cb, session);
 	}
-
-	session->priv->outbox_flush_id = e_named_timeout_add_seconds (60 * delay_minutes, mail_session_flush_outbox_timeout_cb, session);
-
 	g_mutex_unlock (&session->priv->preparing_flush_lock);
 }
 

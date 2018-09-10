@@ -33,6 +33,9 @@ G_BEGIN_DECLS
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/mail-mt.h>
 
+/* Used to "tag" messages as being edited */
+#define MAIL_USER_KEY_EDITING	"mail-user-key-editing"
+
 void		mail_transfer_messages		(EMailSession *session,
 						 CamelFolder *source,
 						 GPtrArray *uids,
