@@ -2303,22 +2303,17 @@ emu_update_composers_security (EMsgComposer *composer,
 {
 	GtkAction *action;
 	GSettings *settings;
-	gboolean sign_by_default;
+	gboolean sign_reply;
 
 	g_return_if_fail (composer != NULL);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-
-	sign_by_default =
-		(validity_found & E_MAIL_PART_VALIDITY_SIGNED) != 0 &&
-		/* FIXME This should be an EMsgComposer property. */
-		g_settings_get_boolean (
-			settings, "composer-sign-reply-if-signed");
-
+	sign_reply = (validity_found & E_MAIL_PART_VALIDITY_SIGNED) != 0 &&
+		     g_settings_get_boolean (settings, "composer-sign-reply-if-signed");
 	g_object_unref (settings);
 
 	/* Pre-set only for encrypted messages, not for signed */
-	if (sign_by_default) {
+	if (sign_reply) {
 		action = NULL;
 
 		if (validity_found & E_MAIL_PART_VALIDITY_SMIME) {

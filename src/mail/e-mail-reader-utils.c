@@ -2576,9 +2576,15 @@ mail_reader_reply_to_message_composer_created_cb (GObject *source_object,
 
 		if (ccd->validity_pgp_sum != 0 || ccd->validity_smime_sum != 0) {
 			GtkToggleAction *action;
+			GSettings *settings;
+			gboolean sign_reply;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+			sign_reply = g_settings_get_boolean (settings, "composer-sign-reply-if-signed");
+			g_object_unref (settings);
 
 			if ((ccd->validity_pgp_sum & E_MAIL_PART_VALIDITY_PGP) != 0) {
-				if ((ccd->validity_pgp_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
+				if (sign_reply && (ccd->validity_pgp_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
 					action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_PGP_SIGN (composer));
 					gtk_toggle_action_set_active (action, TRUE);
 				}
@@ -2590,7 +2596,7 @@ mail_reader_reply_to_message_composer_created_cb (GObject *source_object,
 			}
 
 			if ((ccd->validity_smime_sum & E_MAIL_PART_VALIDITY_SMIME) != 0) {
-				if ((ccd->validity_smime_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
+				if (sign_reply && (ccd->validity_smime_sum & E_MAIL_PART_VALIDITY_SIGNED) != 0) {
 					action = GTK_TOGGLE_ACTION (E_COMPOSER_ACTION_SMIME_SIGN (composer));
 					gtk_toggle_action_set_active (action, TRUE);
 				}
@@ -2738,7 +2744,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	} else if (camel_content_type_is (content_type, "text", "html")) {
 		selection = e_web_view_get_selection_content_html_sync (E_WEB_VIEW (display), NULL, NULL);
 		src_is_text_html = TRUE;
-	} else if (camel_content_type_is (content_type, "multipart", "*")) {
+	} else {
 		selection = e_mail_display_get_selection_content_multipart_sync (display, &src_is_text_html, NULL, NULL);
 	}
 
@@ -2792,6 +2798,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	ccd->reply_type = reply_type;
 	ccd->reply_style = reply_style;
 	ccd->address = address ? g_object_ref (address) : NULL;
+	ccd->validity_pgp_sum = validity_pgp_sum;
+	ccd->validity_smime_sum = validity_smime_sum;
 
 	e_msg_composer_new (shell, mail_reader_reply_to_message_composer_created_cb, ccd);
 
@@ -2837,6 +2845,8 @@ whole_message:
 		ccd->reply_style = reply_style;
 		ccd->part_list = part_list ? g_object_ref (part_list) : NULL;
 		ccd->address = address ? g_object_ref (address) : NULL;
+		ccd->validity_pgp_sum = validity_pgp_sum;
+		ccd->validity_smime_sum = validity_smime_sum;
 
 		e_msg_composer_new (shell, mail_reader_reply_to_message_composer_created_cb, ccd);
 	}
