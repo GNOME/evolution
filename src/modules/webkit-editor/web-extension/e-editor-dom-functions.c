@@ -5359,25 +5359,18 @@ parse_html_into_blocks (EEditorPage *editor_page,
 		}
 
 		if ((to_insert = g_utf8_substring (to_process, to_insert_start, to_insert_end)) && *to_insert) {
-			gboolean empty = FALSE;
 			gchar *truncated = g_strdup (to_insert);
 			gchar *rest_to_insert;
 
 			if (camel_debug ("webkit:editor"))
 				printf ("\tto_insert: '%s'\n", to_insert);
 
-			empty = !*truncated && strlen (to_insert) > 0;
-
-			rest_to_insert = g_regex_replace_eval (
-				regex_nbsp,
-				empty ? rest : truncated,
-				-1,
-				0,
-				0,
-				(GRegexEvalCallback) replace_to_nbsp,
-				NULL,
-				NULL);
-			g_free (truncated);
+			if (!*truncated && strlen (to_insert) > 0) {
+				rest_to_insert = g_strdup (rest);
+				g_free (truncated);
+			} else {
+				rest_to_insert = truncated;
+			}
 
 			replace_selection_markers (&rest_to_insert);
 
@@ -5404,6 +5397,19 @@ parse_html_into_blocks (EEditorPage *editor_page,
 				g_free (rest_to_insert);
 				rest_to_insert = truncated;
 			}
+
+			/* Do it after the anchor change */
+			truncated = g_regex_replace_eval (
+				regex_nbsp,
+				rest_to_insert,
+				-1,
+				0,
+				0,
+				(GRegexEvalCallback) replace_to_nbsp,
+				NULL,
+				NULL);
+			g_free (rest_to_insert);
+			rest_to_insert = truncated;
 
 			create_and_append_new_block (
 				editor_page, parent, block_template, rest_to_insert);

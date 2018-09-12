@@ -1432,7 +1432,9 @@ test_issue_107 (TestFixture *fixture)
 		"&lt;<a href=\"https://www.10.org/\">https://www.10.org/</a>&#160;?&gt;\n"
 		"&#160;<a href=\"https://www.11.org/\">https://www.11.org/</a>&#160;\n"
 		"&lt;&#160;<a href=\"https://www.12.org/\">https://www.12.org/</a>&#160;&gt;\n"
-		"&#160;&lt;<a href=\"https://www.13.org/\">https://www.13.org/</a>&gt;&#160;\n</pre>"
+		"&#160;&lt;<a href=\"https://www.13.org/\">https://www.13.org/</a>&gt;&#160;\n"
+		"Text https://www.14.org/\temail: user@no.where\n"
+		"</pre>"
 		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
 		"<span class=\"-x-evo-cite-body\"></span>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
@@ -1456,6 +1458,7 @@ test_issue_107 (TestFixture *fixture)
 		"<div style=\"width: 71ch;\">&gt; &nbsp;<a href=\"https://www.11.org/\">https://www.11.org/</a>&nbsp;</div>"
 		"<div style=\"width: 71ch;\">&gt; &lt;&nbsp;<a href=\"https://www.12.org/\">https://www.12.org/</a>&nbsp;&gt;</div>"
 		"<div style=\"width: 71ch;\">&gt; &nbsp;&lt;<a href=\"https://www.13.org/\">https://www.13.org/</a>&gt;&nbsp;</div>"
+		"<div style=\"width: 71ch;\">&gt; Text <a href=\"https://www.14.org/\">https://www.14.org/</a>\temail: user@no.where</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> text\n"
@@ -1471,7 +1474,8 @@ test_issue_107 (TestFixture *fixture)
 		"> <https://www.10.org/ ?>\n"
 		">  https://www.11.org/ \n"
 		"> < https://www.12.org/ >\n"
-		">  <https://www.13.org/> ")) {
+		">  <https://www.13.org/> \n"
+		"> Text https://www.14.org/\temail: user@no.where")) {
 		g_test_fail ();
 	}
 }
