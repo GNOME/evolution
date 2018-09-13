@@ -100,15 +100,19 @@ composer_autosave_timeout_cb (gpointer user_data)
 
 	autosave = E_COMPOSER_AUTOSAVE (user_data);
 
-	if (autosave->priv->editor_is_malfunction)
+	if (autosave->priv->editor_is_malfunction) {
+		autosave->priv->timeout_id = 0;
 		return FALSE;
+	}
 
 	extensible = e_extension_get_extensible (E_EXTENSION (autosave));
 	composer = E_MSG_COMPOSER (extensible);
 
 	/* Do not do anything when it's busy */
-	if (e_msg_composer_is_soft_busy (composer))
+	if (e_msg_composer_is_soft_busy (composer)) {
+		autosave->priv->timeout_id = 0;
 		return FALSE;
+	}
 
 	/* Cancel the previous snapshot if it's still in
 	 * progress and start a new snapshot operation. */
