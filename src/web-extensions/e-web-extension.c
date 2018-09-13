@@ -509,6 +509,119 @@ e_web_extension_bind_focus_on_elements (EWebExtension *extension,
 		page_id);
 }
 
+typedef struct _MailPartAppearedData {
+	GWeakRef *dbus_connection;
+	GWeakRef *web_page;
+	gchar *element_id;
+	GVariant *params;
+} MailPartAppearedData;
+
+static void
+mail_part_appeared_data_free (gpointer ptr)
+{
+	MailPartAppearedData *mpad = ptr;
+
+	if (mpad) {
+		e_weak_ref_free (mpad->dbus_connection);
+		e_weak_ref_free (mpad->web_page);
+		g_free (mpad->element_id);
+		if (mpad->params)
+			g_variant_unref (mpad->params);
+		g_free (mpad);
+	}
+}
+
+static gboolean
+web_extension_can_emit_mail_part_appeared (WebKitWebPage *web_page,
+					   const gchar *element_id,
+					   gboolean *out_abort_wait)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMElement *element;
+	WebKitDOMElement *iframe;
+	WebKitDOMDocument *iframe_document;
+	WebKitDOMHTMLElement *iframe_body;
+
+	g_return_val_if_fail (out_abort_wait != NULL, FALSE);
+
+	*out_abort_wait = TRUE;
+
+	if (!web_page)
+		return FALSE;
+
+	if (!element_id || !*element_id)
+		return FALSE;
+
+	document = webkit_web_page_get_dom_document (web_page);
+	if (!document)
+		return FALSE;
+
+	element = e_dom_utils_find_element_by_id (document, element_id);
+
+	if (!WEBKIT_DOM_IS_HTML_ELEMENT (element))
+		return FALSE;
+
+	iframe = webkit_dom_element_query_selector (element, "iframe", NULL);
+	if (!iframe)
+		return FALSE;
+
+	iframe_document = webkit_dom_html_iframe_element_get_content_document (WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
+	if (!iframe_document)
+		return FALSE;
+
+	iframe_body = webkit_dom_document_get_body (iframe_document);
+	if (!iframe_body)
+		return FALSE;
+
+	*out_abort_wait = FALSE;
+
+	return webkit_dom_element_get_first_element_child (WEBKIT_DOM_ELEMENT (iframe_body)) != NULL;
+}
+
+static gboolean
+web_extension_emit_mail_part_appeared_cb (gpointer user_data)
+{
+	MailPartAppearedData *mpad = user_data;
+	GDBusConnection *dbus_connection;
+	WebKitWebPage *web_page;
+	gboolean abort_wait = TRUE;
+
+	g_return_val_if_fail (mpad != NULL, FALSE);
+
+	dbus_connection = g_weak_ref_get (mpad->dbus_connection);
+	web_page = g_weak_ref_get (mpad->web_page);
+
+	if (dbus_connection && web_page &&
+	    web_extension_can_emit_mail_part_appeared (web_page, mpad->element_id, &abort_wait)) {
+		GError *error = NULL;
+
+		g_dbus_connection_emit_signal (
+			dbus_connection,
+			NULL,
+			E_WEB_EXTENSION_OBJECT_PATH,
+			E_WEB_EXTENSION_INTERFACE,
+			"MailPartAppeared",
+			mpad->params,
+			&error);
+
+		if (error) {
+			g_warning ("Error emitting signal MailPartAppeared: %s", error->message);
+			g_error_free (error);
+		}
+
+		abort_wait = TRUE;
+		mpad->params = NULL;
+	}
+
+	if (abort_wait)
+		mail_part_appeared_data_free (mpad);
+
+	g_clear_object (&dbus_connection);
+	g_clear_object (&web_page);
+
+	return !abort_wait;
+}
+
 static void
 handle_method_call (GDBusConnection *connection,
                     const char *sender,
@@ -587,20 +700,54 @@ handle_method_call (GDBusConnection *connection,
 						webkit_dom_element_remove_attribute (element, "related-part-id");
 
 						if (related_part_id && *related_part_id) {
-							GError *error = NULL;
+							GVariant *params = g_variant_new ("(ts)", page_id, related_part_id);
+							WebKitDOMElement *iframe;
 
-							g_dbus_connection_emit_signal (
-								extension->priv->dbus_connection,
-								NULL,
-								E_WEB_EXTENSION_OBJECT_PATH,
-								E_WEB_EXTENSION_INTERFACE,
-								"MailPartAppeared",
-								g_variant_new ("(ts)", page_id, related_part_id),
-								&error);
+							iframe = webkit_dom_element_query_selector (element, "iframe", NULL);
+							if (iframe) {
+								WebKitDOMDocument *iframe_document;
 
-							if (error) {
-								g_warning ("Error emitting signal MailPartAppeared: %s", error->message);
-								g_error_free (error);
+								iframe_document = webkit_dom_html_iframe_element_get_content_document (WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
+								if (iframe_document) {
+									WebKitDOMHTMLElement *iframe_body;
+
+									iframe_body = webkit_dom_document_get_body (iframe_document);
+									if (iframe_body && !webkit_dom_element_get_first_element_child (WEBKIT_DOM_ELEMENT (iframe_body))) {
+										/* The iframe document is still empty, wait until it's loaded;
+										   wish being there something better than this busy-wait... */
+										MailPartAppearedData *mpad;
+
+										mpad = g_new0 (MailPartAppearedData, 1);
+										mpad->dbus_connection = e_weak_ref_new (extension->priv->dbus_connection);
+										mpad->web_page = e_weak_ref_new (web_page);
+										mpad->element_id = g_strdup (element_id);
+										mpad->params = params;
+
+										/* Try 10 times per second */
+										g_timeout_add (100, web_extension_emit_mail_part_appeared_cb, mpad);
+
+										/* To not emit the signal below */
+										params = NULL;
+									}
+								}
+							}
+
+							if (params) {
+								GError *error = NULL;
+
+								g_dbus_connection_emit_signal (
+									extension->priv->dbus_connection,
+									NULL,
+									E_WEB_EXTENSION_OBJECT_PATH,
+									E_WEB_EXTENSION_INTERFACE,
+									"MailPartAppeared",
+									params,
+									&error);
+
+								if (error) {
+									g_warning ("Error emitting signal MailPartAppeared: %s", error->message);
+									g_error_free (error);
+								}
 							}
 						}
 

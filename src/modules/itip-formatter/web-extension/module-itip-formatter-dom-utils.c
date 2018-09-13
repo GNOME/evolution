@@ -270,6 +270,10 @@ module_itip_formatter_dom_utils_show_checkbox (WebKitDOMDocument *document,
 	gchar *row_id;
 
 	el = webkit_dom_document_get_element_by_id (document, id);
+	if (!el) {
+		g_warning ("%s: Failed to find element '%s'\n", G_STRFUNC, id);
+		return;
+	}
 	webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (el), !show);
 
 	label = webkit_dom_element_get_next_element_sibling (el);
