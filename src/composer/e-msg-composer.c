@@ -72,6 +72,7 @@ struct _AsyncContext {
 	guint pgp_encrypt : 1;
 	guint smime_sign : 1;
 	guint smime_encrypt : 1;
+	guint is_draft : 1;
 };
 
 /* Flags for building a message. */
@@ -846,7 +847,7 @@ composer_build_message_pgp (AsyncContext *context,
 	extension = e_source_get_extension (context->source, extension_name);
 
 	always_trust = e_source_openpgp_get_always_trust (extension);
-	encrypt_to_self = e_source_openpgp_get_encrypt_to_self (extension);
+	encrypt_to_self = context->is_draft || e_source_openpgp_get_encrypt_to_self (extension);
 	prefer_inline = e_source_openpgp_get_prefer_inline (extension);
 	pgp_key_id = e_source_openpgp_get_key_id (extension);
 	signing_algorithm = e_source_openpgp_get_signing_algorithm (extension);
@@ -972,7 +973,7 @@ composer_build_message_smime (AsyncContext *context,
 	extension_name = E_SOURCE_EXTENSION_SMIME;
 	extension = e_source_get_extension (context->source, extension_name);
 
-	encrypt_to_self =
+	encrypt_to_self = context->is_draft ||
 		e_source_smime_get_encrypt_to_self (extension);
 
 	signing_algorithm =
@@ -1138,9 +1139,8 @@ composer_build_message_thread (GSimpleAsyncResult *simple,
 			CAMEL_RECIPIENT_TYPE_BCC
 		};
 
-		context->recipients = g_ptr_array_new_with_free_func (
-			(GDestroyNotify) g_free);
-		for (ii = 0; ii < G_N_ELEMENTS (types); ii++) {
+		context->recipients = g_ptr_array_new_with_free_func ((GDestroyNotify) g_free);
+		for (ii = 0; ii < G_N_ELEMENTS (types) && !context->is_draft; ii++) {
 			CamelInternetAddress *addr;
 			const gchar *address;
 
@@ -1268,21 +1268,11 @@ composer_build_message (EMsgComposer *composer,
 	context->source = source;  /* takes the reference */
 	context->session = e_msg_composer_ref_session (composer);
 	context->from = e_msg_composer_get_from (composer);
-
-	if (!(flags & COMPOSER_FLAG_SAVE_DRAFT)) {
-		if (flags & COMPOSER_FLAG_PGP_SIGN)
-			context->pgp_sign = TRUE;
-
-		if (flags & COMPOSER_FLAG_PGP_ENCRYPT)
-			context->pgp_encrypt = TRUE;
-
-		if (flags & COMPOSER_FLAG_SMIME_SIGN)
-			context->smime_sign = TRUE;
-
-		if (flags & COMPOSER_FLAG_SMIME_ENCRYPT)
-			context->smime_encrypt = TRUE;
-	}
-
+	context->is_draft = (flags & COMPOSER_FLAG_SAVE_DRAFT) != 0;
+	context->pgp_sign = !context->is_draft && (flags & COMPOSER_FLAG_PGP_SIGN) != 0;
+	context->pgp_encrypt = (flags & COMPOSER_FLAG_PGP_ENCRYPT) != 0;
+	context->smime_sign = !context->is_draft && (flags & COMPOSER_FLAG_SMIME_SIGN) != 0;
+	context->smime_encrypt = (flags & COMPOSER_FLAG_SMIME_ENCRYPT) != 0;
 	context->need_thread =
 		context->pgp_sign || context->pgp_encrypt ||
 		context->smime_sign || context->smime_encrypt;
@@ -1654,7 +1644,8 @@ composer_build_message (EMsgComposer *composer,
 
 	/* Run any blocking operations in a separate thread. */
 	if (context->need_thread) {
-		context->recipients_with_certificate = composer_get_completed_recipients_with_certificate (composer);
+		if (!context->is_draft)
+			context->recipients_with_certificate = composer_get_completed_recipients_with_certificate (composer);
 
 		g_simple_async_result_run_in_thread (
 			simple, (GSimpleAsyncThreadFunc)
@@ -3656,6 +3647,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	const gchar *format, *subject, *composer_mode;
 	EDestination **Tov, **Ccv, **Bccv;
 	GHashTable *auto_cc, *auto_bcc;
+	CamelMimePart *mime_part;
 	CamelContentType *content_type;
 	const CamelNameValueArray *headers;
 	CamelDataWrapper *content;
@@ -3669,6 +3661,9 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	gint len, i;
 	guint jj, jjlen;
 	gboolean is_message_from_draft = FALSE;
+	#ifdef ENABLE_SMIME
+	CamelMimePart *decrypted_part = NULL;
+	#endif
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -3946,11 +3941,11 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	/* Restore the attachments and body text */
 	content = camel_medium_get_content (CAMEL_MEDIUM (message));
 	if (CAMEL_IS_MULTIPART (content)) {
-		CamelMimePart *mime_part;
 		CamelMultipart *multipart;
 
-		multipart = CAMEL_MULTIPART (content);
 		mime_part = CAMEL_MIME_PART (message);
+ multipart_content:
+		multipart = CAMEL_MULTIPART (content);
 		content_type = camel_mime_part_get_content_type (mime_part);
 
 		if (CAMEL_IS_MULTIPART_SIGNED (content)) {
@@ -3965,8 +3960,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 			handle_multipart_encrypted (
 				composer, mime_part, keep_signature, cancellable, 0);
 
-		} else if (camel_content_type_is (
-			content_type, "multipart", "alternative")) {
+		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* This contains the text/plain and text/html
 			 * versions of the message body. */
 			handle_multipart_alternative (
@@ -3978,8 +3972,10 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 				composer, multipart, keep_signature, cancellable, 0);
 		}
 	} else {
-		CamelMimePart *mime_part;
 		gboolean is_html = FALSE;
+		#ifdef ENABLE_SMIME
+		gboolean is_smime_encrypted = FALSE;
+		#endif
 		gchar *html = NULL;
 		gssize length = 0;
 
@@ -3988,20 +3984,47 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		is_html = camel_content_type_is (content_type, "text", "html");
 
 		if (content_type != NULL && (
-			camel_content_type_is (
-				content_type, "application", "x-pkcs7-mime") ||
-			camel_content_type_is (
-				content_type, "application", "pkcs7-mime"))) {
-
+		    camel_content_type_is (content_type, "application", "x-pkcs7-mime") ||
+		    camel_content_type_is (content_type, "application", "pkcs7-mime"))) {
+			#ifdef ENABLE_SMIME
 			gtk_toggle_action_set_active (
 				GTK_TOGGLE_ACTION (
 				ACTION (SMIME_ENCRYPT)), TRUE);
+			is_smime_encrypted = TRUE;
+			#endif
 		}
 
 		/* If we are opening message from Drafts */
 		if (is_message_from_draft) {
 			/* Extract the body */
 			CamelDataWrapper *dw;
+
+			#ifdef ENABLE_SMIME
+			if (is_smime_encrypted) {
+				CamelSession *session;
+				CamelCipherContext *cipher;
+				CamelCipherValidity *validity;
+
+				session = e_msg_composer_ref_session (composer);
+				cipher = camel_smime_context_new (session);
+				decrypted_part = camel_mime_part_new ();
+				validity = camel_cipher_context_decrypt_sync (cipher, mime_part, decrypted_part, cancellable, NULL);
+				g_object_unref (cipher);
+				g_object_unref (session);
+
+				if (validity) {
+					camel_cipher_validity_free (validity);
+
+					mime_part = decrypted_part;
+					content = camel_medium_get_content (CAMEL_MEDIUM (decrypted_part));
+
+					if (CAMEL_IS_MULTIPART (content))
+						goto multipart_content;
+				} else {
+					g_clear_object (&decrypted_part);
+				}
+			}
+			#endif
 
 			dw = camel_medium_get_content ((CamelMedium *) mime_part);
 			if (dw) {
@@ -4012,10 +4035,18 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 				camel_stream_close (mem, cancellable, NULL);
 
 				bytes = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem));
-				if (bytes && bytes->len)
+				if (bytes && bytes->len) {
 					html = g_strndup ((const gchar *) bytes->data, bytes->len);
+					length = bytes->len;
+				} else {
+					html = g_strdup ("");
+					length = 0;
+				}
 
 				g_object_unref (mem);
+			} else {
+				html = g_strdup ("");
+				length = 0;
 			}
 		} else {
 			is_html = TRUE;
@@ -4034,6 +4065,10 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	e_msg_composer_flush_pending_body (composer);
 
 	set_signature_gui (composer);
+
+	#ifdef ENABLE_SMIME
+	g_clear_object (&decrypted_part);
+	#endif
 }
 
 /**
@@ -4330,6 +4365,7 @@ e_msg_composer_save_to_drafts (EMsgComposer *composer)
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_html_editor_new_activity (editor);
+	context->is_draft = TRUE;
 
 	cancellable = e_activity_get_cancellable (context->activity);
 
