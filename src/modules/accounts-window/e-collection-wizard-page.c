@@ -228,6 +228,7 @@ collection_wizard_page_constructed (GObject *object)
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
 		"visible", TRUE,
+		"can-default", TRUE,
 		NULL);
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
 
@@ -242,6 +243,8 @@ collection_wizard_page_constructed (GObject *object)
 		G_CALLBACK (collection_wizard_next_button_clicked_cb), page);
 
 	page->page_index = e_accounts_window_add_page (accounts_window, vbox);
+
+	gtk_widget_grab_default (GTK_WIDGET (page->next_button));
 }
 
 static void
