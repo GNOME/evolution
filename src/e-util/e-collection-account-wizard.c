@@ -427,6 +427,7 @@ collection_account_wizard_show_password_prompt (ECollectionAccountWizard *wizard
 
 	widget = gtk_entry_new ();
 	gtk_entry_set_visibility (GTK_ENTRY (widget), FALSE);
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	entry = widget;
@@ -1386,6 +1387,7 @@ collection_account_wizard_constructed (GObject *object)
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_CENTER,
 		"visible", TRUE,
+		"activates-default", TRUE,
 		NULL);
 	wizard->priv->email_entry = widget;
 
@@ -1421,6 +1423,7 @@ collection_account_wizard_constructed (GObject *object)
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_CENTER,
 		"visible", FALSE,
+		"activates-default", TRUE,
 		NULL);
 	wizard->priv->servers_entry = widget;
 	gtk_widget_set_tooltip_text (widget, _("Semicolon (“;”) separated list of servers to look up information for, in addition to the domain of the e-mail address."));
@@ -1756,6 +1759,7 @@ collection_account_wizard_constructed (GObject *object)
 
 	widget = gtk_entry_new ();
 	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
 	gtk_widget_show (widget);
