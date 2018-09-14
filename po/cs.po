@@ -17470,7 +17470,7 @@ msgstr "Uložit vybrané zprávy jako soubor mbox"
 
 #: ../src/mail/e-mail-reader.c:2774
 msgid "_Message Source"
-msgstr "_Zdroj zprávy"
+msgstr "_Zdrojový kód zprávy"
 
 #: ../src/mail/e-mail-reader.c:2776
 msgid "Show the raw email source of the message"
@@ -17535,7 +17535,7 @@ msgstr "O_značit jako"
 
 #: ../src/mail/e-mail-reader.c:2867
 msgid "_Message"
-msgstr "_Zpráva"
+msgstr "Zp_ráva"
 
 #: ../src/mail/e-mail-reader.c:2874
 msgid "_Zoom"
@@ -23658,7 +23658,7 @@ msgstr[2] "%d přiložených zpráv"
 #: ../src/modules/mail/e-mail-shell-backend.c:399
 msgctxt "New"
 msgid "_Mail Message"
-msgstr "_Zpráva"
+msgstr "Zp_ráva"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:401
 msgid "Compose a new mail message"
