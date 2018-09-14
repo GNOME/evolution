@@ -5,17 +5,17 @@
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2009, 2010, 2011, 2012.
 #
 # Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>, 2016.
-# Rodrigo <rodhos92@gmail.com>, 2018.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2011, 2012, 2016, 2017, 2018.
+# Rodrigo <rodhos92@gmail.com>, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-06 21:05+0000\n"
-"PO-Revision-Date: 2018-09-10 10:26+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
-"Language-Team: es <gnome-es-list@gnome.org>\n"
+"POT-Creation-Date: 2018-09-13 15:40+0000\n"
+"PO-Revision-Date: 2018-09-13 19:54+0200\n"
+"Last-Translator: Rodrigo <rodhos92@gmail.com>\n"
+"Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -7065,9 +7065,9 @@ msgid ""
 "DomainKeys_Identified_Mail\">DomainKeys Identified Mail</link> restrictions."
 msgstr ""
 "Enviar una dirección aleatoria puede colisionar con su el <link href="
-"\"https://en.wikipedia.org/wiki/Sender_Policy_Framework\">Entorno de trabajo "
+"\"https://es.wikipedia.org/wiki/Sender_Policy_Framework\">Entorno de trabajo "
 "de la política de envío</link> de su proveedor de correo y/o con las "
-"restricciones de las <link href=\"https://en.wikipedia.org/wiki/"
+"restricciones de las <link href=\"https://es.wikipedia.org/wiki/"
 "DomainKeys_Identified_Mail\">Claves de dominio de correo identificado</link>."
 
 #. (itstool) path: info/desc
@@ -8211,8 +8211,8 @@ msgid ""
 "expressions</link> for searching."
 msgstr ""
 "Si tiene conocimientos técnicos, puede usar la opción <link href=\"https://"
-"en.wikipedia.org/wiki/Regular_expression\">Expresiones regulares</link> para "
-"buscar."
+"es.wikipedia.org/wiki/Expresi%C3%B3n_regular\">Expresiones regulares</link> "
+"para buscar."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-send-account-overrides.page:5
@@ -11947,7 +11947,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:36
-#, fuzzy
 #| msgid ""
 #| "To make this the default setting, go to <guiseq><gui>Edit</"
 #| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
@@ -11959,10 +11958,10 @@ msgid ""
 "gui><gui>Mail Preferences</gui><gui>General</gui><gui>Message Display</"
 "gui><gui>Fall back to threading messages by subject</gui></guiseq>."
 msgstr ""
-"Para convertir este ajuste en predeterminado, vaya a <guiseq><gui>Editar</"
-"gui><gui>Preferencias</gui><gui>Opciones de correo</gui><gui>General</"
-"gui><gui>Mostrado de mensajes</gui><gui>Codificación de caracteres "
-"predeterminada</gui></guiseq>."
+"<app>Evolution</app> reconoce los encabezados de correo <_:code-1/> y <_:"
+"code-2/>. Además, puede activar <guiseq><gui>Editar</gui><gui>Preferencias</"
+"gui><gui>Opciones de correo</gui><gui>General</gui><gui>Mostrado de "
+"mensajes</gui><gui>Agrupar los mensajes por asunto</gui></guiseq>."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:37
@@ -12054,6 +12053,8 @@ msgid ""
 "You can apply a secondary sort criterion by clicking a column label while "
 "pressing <key>Ctrl</key>."
 msgstr ""
+"Puede aplicar un criterio de clasificación secundario pulsando en la "
+"etiqueta de una columna mientras presiona <key>Ctrl</key>."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:59
@@ -12413,15 +12414,14 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-spam-settings.page:58
-#, fuzzy
 #| msgid ""
 #| "For more information see <link xref=\"mail-folders\">Using Folders</link>."
 msgid ""
 "The exact location depends on <link xref=\"mail-default-folder-locations"
 "\">your junk folder setting</link>."
 msgstr ""
-"Para obtener información adicional consulte <link xref=\"mail-folders\">Usar "
-"carpetas</link>."
+"La ubicación exacta depende de <link xref=\"mail-default-folder-locations"
+"\">la configuración de carpeta de spam</link>."
 
 #. (itstool) path: section/title
 #: C/mail-spam-settings.page:62
@@ -12513,7 +12513,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/mail-spam-settings.page:78
-#, fuzzy
 #| msgid ""
 #| "For more information and specific Bogofilter or SpamAssassin "
 #| "configuration questions it is recommended to check out the Frequently "
@@ -12527,11 +12526,11 @@ msgid ""
 "resp. <link href=\"https://wiki.apache.org/spamassassin/"
 "FrequentlyAskedQuestions\">SpamAssassin</link>."
 msgstr ""
-"Para obtener más información y configuraciones específicas de Bogofilter o "
-"SpamAssassin,  se recomienda leer las preguntas frecuentes <link href="
-"\"http://bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> y de <link "
-"href=\"http://wiki.apache.org/spamassassin/FrequentlyAskedQuestions"
-"\">SpamAssassin</link>."
+"Para obtener más información y preguntas relacionadas con la configuración "
+"de Bogofilter o SpamAssassin, se recomienda leer las preguntas frecuentes de "
+"<link href=\"http://bogofilter.sourceforge.net/faq.shtml\">Bogofilter</link> "
+"y de <link href=\"https://wiki.apache.org/spamassassin/"
+"FrequentlyAskedQuestions\">SpamAssassin</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-two-trash-folders.page:5
@@ -12769,6 +12768,10 @@ msgid ""
 "accounts offer an option to <gui>Synchronize remote mail locally in all "
 "folders</gui> which is applied to all folders of that account."
 msgstr ""
+"Las <link xref=\"mail-receiving-options\">Opciones de recepción</link> de "
+"cuentas remotas ofrecen una opción para <gui>Sincronizar correo remoto "
+"localmente en todas las carpetas</gui> que se aplica a todas las carpetas de "
+"esa cuenta."
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:34
@@ -12776,6 +12779,9 @@ msgid ""
 "To avoid downloading large amounts of data, you can also disable "
 "synchronizing messages which are older than a certain time period."
 msgstr ""
+"Para evitar la descarga de grandes cantidades de datos, también puede "
+"desactivar la sincronización de mensajes que son anteriores a un determinado "
+"período de tiempo."
 
 #. (itstool) path: section/title
 #: C/mail-working-offline.page:38
@@ -12788,6 +12794,8 @@ msgid ""
 "If you do not have <gui>Synchronize remote mail locally in all folders</gui> "
 "for the account enabled, you can synchronize individual folders."
 msgstr ""
+"Si no tiene <gui>Sincronizar correo remoto localmente en todas las carpetas</"
+"gui> activado para la cuenta, puede sincronizar carpetas individuales."
 
 #. (itstool) path: section/p
 #: C/mail-working-offline.page:40
@@ -13248,7 +13256,6 @@ msgstr "Cómo informar de un error"
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
-#, fuzzy
 #| msgid ""
 #| "If you do not need help for configuration but you are sure that you have "
 #| "found a mistake or wrong behavior in the <app>Evolution</app> software, "
@@ -13269,11 +13276,11 @@ msgstr ""
 "Si no necesita ayuda para la configuración, pero está seguro de que ha "
 "encontrado un problema o un comportamiento erróneo en <app>Evolution</app>, "
 "o si quiere solicitar una característica, puede rellenar un informe en el "
-"<link href=\"http://bugzilla.gnome.org\">sistema de seguimiento de errores "
-"de GNOME</link>. Tenga en cuenta que esto requiere que primero se registre. "
-"Trate de no enviar duplicados y revise primero la <link href=\"https://"
-"bugzilla.gnome.org/page.cgi?id=bug-writing.html\">guía para informar de un "
-"error</link>."
+"<link href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\">sistema de "
+"seguimiento de errores de GNOME</link>. Tenga en cuenta que esto requiere "
+"que primero se registre. Trate de no enviar duplicados y revise primero la "
+"<link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">guía "
+"para informar de un error</link>."
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
@@ -13343,7 +13350,6 @@ msgstr "Actualmente no hay unas «instrucciones recomendadas» para usuarios."
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:23
-#, fuzzy
 #| msgid ""
 #| "Many distributions provide the application <app><link href=\"http://"
 #| "syncevolution.org/\">SyncEvolution</link></app> that can be used in "
@@ -13355,9 +13361,9 @@ msgid ""
 "combination with devices that support <link href=\"https://en.wikipedia.org/"
 "wiki/SyncML\">SyncML</link>."
 msgstr ""
-"Muchas distribuciones proporcionan la aplicación <link href=\"http://"
-"syncevolution.org/\">SyncEvolution</link>, que se puede usar con "
-"dispositivos que soporten <link href=\"https://en.wikipedia.org/wiki/SyncML"
+"Muchas distribuciones proporcionan la aplicación <app><link href=\"https://"
+"syncevolution.org/\">SyncEvolution</link></app>, que se puede usar junto con "
+"dispositivos que soporten <link href=\"https://es.wikipedia.org/wiki/SyncML"
 "\">SyncML</link>."
 
 #. (itstool) path: page/p
@@ -13370,14 +13376,13 @@ msgid ""
 "of collaborative software</link> is available on Wikipedia."
 msgstr ""
 "En general, se recomienda usar aplicaciones y dispositivos que soporten el "
-"<link href=\"https://en.wikipedia.org/wiki/ActiveSync\">protocolo "
+"<link href=\"https://es.wikipedia.org/wiki/ActiveSync\">protocolo "
 "ActiveSync</link> (como <app>SyncEvolution</app>). Hay disponible una <link "
 "href=\"https://en.wikipedia.org/wiki/List_of_collaborative_software\">lista "
 "de software colaborativo</link> en la Wikipedia."
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:27
-#, fuzzy
 #| msgid ""
 #| "If you can provide good practices or more information on this topic feel "
 #| "free to file a bug report in <link href=\"https://bugzilla.gnome.org/"
@@ -13389,9 +13394,9 @@ msgid ""
 "evolution/issues/new\">GNOME's bug tracking system</link>."
 msgstr ""
 "Si puede proporcionar buenas prácticas o más información acerca de este "
-"tema, rellene un informe de error en <link href=\"https://bugzilla.gnome.org/"
-"enter_bug.cgi?product=evolution&amp;component=User%20Documentation\">el "
-"sistema de seguimiento de errores de GNOME</link>."
+"tema, rellene un informe de error en <link href=\"https://gitlab.gnome.org/"
+"GNOME/evolution/issues/new\">el sistema de seguimiento de errores de GNOME</"
+"link>."
 
 #. (itstool) path: info/desc
 #: C/tasks-caldav.page:5
@@ -13600,7 +13605,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-usage-add-task.page:34
-#, fuzzy
 #| msgid ""
 #| "You can also define a <link xref=\"calendar-timezones\">time zone</link>, "
 #| "a <link xref=\"using-categories\">category</link>, or a <link xref="
@@ -13615,8 +13619,10 @@ msgid ""
 msgstr ""
 "También puede definir una <link xref=\"calendar-timezones\">zona horaria</"
 "link>, una <link xref=\"using-categories\">categoría</link> o una <link xref="
-"\"calendar-classifications\">clasificación</link> para la tarea, o añadir un "
-"adjunto."
+"\"calendar-classifications\">clasificación</link> (mediante el menú "
+"desplegable) para la tarea o añadir un adjunto o definir un <link xref="
+"\"calendar-alarms-and-reminders\">recordatorio</link> (mediante las pestañas "
+"correspondientes)."
 
 #. (itstool) path: section/title
 #: C/tasks-usage-add-task.page:37
@@ -14187,12 +14193,13 @@ msgstr "marcado para seguimiento"
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:53
-#, fuzzy
 #| msgid "Checks whether the message is <_:link-1/>."
 msgid ""
 "Checks whether the message is <_:link-1/> or completed (after a certain "
 "date)."
-msgstr "Comprueba si el mensaje está <_:link-1/>."
+msgstr ""
+"Comprueba si el mensaje está <_:link-1/> o completado (después de una fecha "
+"determinada)."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:55
@@ -14280,11 +14287,10 @@ msgstr "firma"
 #. (itstool) path: p/link
 #: C/xinclude-mail-account-identity.xml:6
 msgid "email aliases"
-msgstr ""
+msgstr "aliases de correo electrónico"
 
 #. (itstool) path: section/p
 #: C/xinclude-mail-account-identity.xml:6
-#, fuzzy
 #| msgid ""
 #| "Optionally you can make this account your default account (e.g. when "
 #| "writing emails), set a Reply-To email address (if you want replies to "
@@ -14297,11 +14303,11 @@ msgid ""
 "organization you represent when you send email from this account), your "
 "default <_:link-1/> for this account, and <_:link-2/>."
 msgstr ""
-"Opcionalmente puede hacer que esta cuenta sea su cuenta predeterminada (ej. "
-"al escribir correos), establezca una dirección para «Responder a» (si quiere "
-"que se envíen los correos de respuestas a una dirección diferente) y escriba "
-"una organización (el nombre de la empresa para la que trabaja, o la "
-"organización a la que representa cuando envía correo desde esta cuenta)."
+"Opcionalmente, puede configurar una dirección de correo electrónico de "
+"respuesta (si quiere respuestas a mensajes enviados a una dirección "
+"diferente), configurar una organización (una empresa u organización que "
+"usted representa cuando envía correos electrónicos desde esta cuenta), su <_:"
+"link-1/> predeterminado para esta cuenta, y <_:link-2/>."
 
 #. (itstool) path: section/title
 #. (itstool) path: guiseq/gui
