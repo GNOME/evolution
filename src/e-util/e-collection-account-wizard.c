@@ -1114,6 +1114,7 @@ collection_account_wizard_save_sources (ECollectionAccountWizard *wizard)
 	ESimpleAsyncResult *simple_result;
 	ESource *source;
 	const gchar *display_name;
+	const gchar *user;
 	gint ii;
 
 	g_return_if_fail (E_IS_COLLECTION_ACCOUNT_WIZARD (wizard));
@@ -1186,18 +1187,19 @@ collection_account_wizard_save_sources (ECollectionAccountWizard *wizard)
 		g_clear_object (&wizard->priv->sources[FAKE_E_CONFIG_LOOKUP_RESULT_MAIL_IDENTITY]);
 	}
 
+	user = gtk_entry_get_text (GTK_ENTRY (wizard->priv->email_entry));
+
 	for (ii = 0; ii <= E_CONFIG_LOOKUP_RESULT_LAST_KIND; ii++) {
 		source = wizard->priv->sources[ii];
 
 		if (source) {
+			ESourceAuthentication *authentication_extension;
+
 			if (ii == E_CONFIG_LOOKUP_RESULT_COLLECTION) {
-				ESourceAuthentication *authentication_extension;
 				ESourceCollection *collection_extension;
-				const gchar *user;
 
 				authentication_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
 				collection_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_COLLECTION);
-				user = gtk_entry_get_text (GTK_ENTRY (wizard->priv->email_entry));
 
 				if (!e_source_authentication_get_user (authentication_extension))
 					e_source_authentication_set_user (authentication_extension, user);
@@ -1206,6 +1208,14 @@ collection_account_wizard_save_sources (ECollectionAccountWizard *wizard)
 					e_source_collection_set_identity (collection_extension, user);
 			} else {
 				e_source_set_parent (source, e_source_get_uid (wizard->priv->sources[E_CONFIG_LOOKUP_RESULT_COLLECTION]));
+
+				if (ii == E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE ||
+				    ii == E_CONFIG_LOOKUP_RESULT_MAIL_SEND) {
+					authentication_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_AUTHENTICATION);
+
+					if (!e_source_authentication_get_user (authentication_extension))
+						e_source_authentication_set_user (authentication_extension, user);
+				}
 			}
 
 			e_source_set_display_name (source, display_name);
