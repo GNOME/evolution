@@ -76,6 +76,8 @@ struct _ECollectionAccountWizardClass {
 
 GType		e_collection_account_wizard_get_type		(void) G_GNUC_CONST;
 GtkWidget *	e_collection_account_wizard_new			(ESourceRegistry *registry);
+GtkWindow *	e_collection_account_wizard_new_window		(GtkWindow *parent,
+								 ESourceRegistry *registry);
 ESourceRegistry *
 		e_collection_account_wizard_get_registry	(ECollectionAccountWizard *wizard);
 gboolean	e_collection_account_wizard_get_can_run		(ECollectionAccountWizard *wizard);

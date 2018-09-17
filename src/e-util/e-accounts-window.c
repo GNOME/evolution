@@ -1680,6 +1680,7 @@ accounts_window_constructed (GObject *object)
 
 	gtk_window_set_default_size (GTK_WINDOW (accounts_window), 480, 410);
 	gtk_window_set_title (GTK_WINDOW (accounts_window), _("Evolution Accounts"));
+	gtk_window_set_type_hint (GTK_WINDOW (accounts_window), GDK_WINDOW_TYPE_HINT_DIALOG);
 	gtk_container_set_border_width (GTK_CONTAINER (accounts_window), 12);
 
 	widget = gtk_notebook_new ();

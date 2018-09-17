@@ -743,6 +743,19 @@ action_work_online_cb (GtkAction *action,
 	g_object_unref (settings);
 }
 
+static void
+action_new_collection_account_cb (GtkAction *action,
+				  EShellWindow *shell_window)
+{
+	EShell *shell;
+	GtkWindow *window;
+
+	shell = e_shell_window_get_shell (shell_window);
+	window = e_collection_account_wizard_new_window (GTK_WINDOW (shell_window), e_shell_get_registry (shell));
+
+	gtk_window_present (window);
+}
+
 /**
  * E_SHELL_WINDOW_ACTION_GROUP_CUSTOM_RULES:
  * @window: an #EShellWindow
@@ -772,6 +785,16 @@ action_work_online_cb (GtkAction *action,
  * E_SHELL_WINDOW_ACTION_GROUP_SWITCHER:
  * @window: an #EShellWindow
  **/
+
+static GtkActionEntry new_source_entries[] = {
+
+	{ "new-collection-account",
+	  "evolution",
+	  N_("Collect_ion Account"),
+	  NULL,
+	  N_("Create a new collection account"),
+	  G_CALLBACK (action_new_collection_account_cb) }
+};
 
 static GtkActionEntry shell_entries[] = {
 
@@ -1201,7 +1224,7 @@ shell_window_extract_actions (EShellWindow *shell_window,
 		backend_name = g_object_get_data (
 			G_OBJECT (action), "backend-name");
 
-		if (strcmp (backend_name, current_view) != 0)
+		if (g_strcmp0 (backend_name, current_view) != 0)
 			continue;
 
 		if (g_object_get_data (G_OBJECT (action), "primary"))
@@ -1235,6 +1258,9 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
 	e_load_ui_manager_definition (ui_manager, "evolution-shell.ui");
+
+	e_shell_window_register_new_source_actions (shell_window, "shell",
+		new_source_entries, G_N_ELEMENTS (new_source_entries));
 
 	/* Shell Actions */
 	action_group = ACTION_GROUP (SHELL);

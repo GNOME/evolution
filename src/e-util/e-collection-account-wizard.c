@@ -88,6 +88,207 @@ static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (ECollectionAccountWizard, e_collection_account_wizard, GTK_TYPE_NOTEBOOK)
 
+typedef struct _WizardWindowData {
+	GtkWidget *window;
+	GtkWidget *close_button;
+	GtkWidget *prev_button;
+	GtkButton *next_button;
+	ECollectionAccountWizard *collection_wizard;
+} WizardWindowData;
+
+static void
+collection_wizard_window_update_button_captions (WizardWindowData *wwd)
+{
+	g_return_if_fail (wwd != NULL);
+
+	if (gtk_notebook_get_current_page (GTK_NOTEBOOK (wwd->collection_wizard))) {
+		gtk_widget_hide (wwd->close_button);
+		gtk_widget_show (wwd->prev_button);
+	} else {
+		gtk_widget_hide (wwd->prev_button);
+		gtk_widget_show (wwd->close_button);
+	}
+
+	if (e_collection_account_wizard_is_finish_page (wwd->collection_wizard))
+		gtk_button_set_label (wwd->next_button, _("_Finish"));
+	else
+		gtk_button_set_label (wwd->next_button, _("_Next"));
+}
+
+static void
+collection_wizard_window_back_button_clicked_cb (GtkButton *button,
+						 gpointer user_data)
+{
+	WizardWindowData *wwd = user_data;
+
+	g_return_if_fail (wwd != NULL);
+
+	if (!e_collection_account_wizard_prev (wwd->collection_wizard)) {
+		e_collection_account_wizard_abort (wwd->collection_wizard);
+		gtk_widget_destroy (wwd->window);
+	} else {
+		collection_wizard_window_update_button_captions (wwd);
+	}
+}
+
+static void
+collection_wizard_window_next_button_clicked_cb (GtkButton *button,
+						 gpointer user_data)
+{
+	WizardWindowData *wwd = user_data;
+	gboolean is_finish_page;
+
+	g_return_if_fail (wwd != NULL);
+
+	is_finish_page = e_collection_account_wizard_is_finish_page (wwd->collection_wizard);
+
+	if (e_collection_account_wizard_next (wwd->collection_wizard)) {
+		if (is_finish_page) {
+			gtk_widget_destroy (wwd->window);
+		} else {
+			collection_wizard_window_update_button_captions (wwd);
+		}
+	}
+}
+
+static void
+collection_wizard_window_done (WizardWindowData *wwd,
+			       const gchar *uid)
+{
+	g_return_if_fail (wwd != NULL);
+
+	e_collection_account_wizard_abort (wwd->collection_wizard);
+	gtk_widget_destroy (wwd->window);
+}
+
+static GtkWindow *
+collection_account_wizard_create_window (GtkWindow *parent,
+					 GtkWidget *wizard)
+{
+	GtkWidget *widget, *vbox, *hbox;
+	GtkWindow *window;
+	GtkAccelGroup *accel_group;
+	WizardWindowData *wwd;
+
+	window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
+	gtk_window_set_default_size (window, 480, 410);
+	gtk_window_set_title (window, _("New Collection Account"));
+	gtk_window_set_position (window, parent ? GTK_WIN_POS_CENTER_ON_PARENT : GTK_WIN_POS_CENTER);
+	gtk_window_set_type_hint (window, GDK_WINDOW_TYPE_HINT_DIALOG);
+	gtk_container_set_border_width (GTK_CONTAINER (window), 12);
+
+	if (parent) {
+		gtk_window_set_transient_for (window, parent);
+		gtk_window_set_destroy_with_parent (window, TRUE);
+	}
+
+	wwd = g_new0 (WizardWindowData, 1);
+	wwd->window = GTK_WIDGET (window);
+
+	g_object_weak_ref (G_OBJECT (window), (GWeakNotify) g_free, wwd);
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_NONE);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_widget_set_vexpand (widget, TRUE);
+	gtk_container_add (GTK_CONTAINER (window), widget);
+	gtk_widget_show (widget);
+
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_container_add (GTK_CONTAINER (widget), vbox);
+	gtk_widget_show (vbox);
+
+	widget = wizard;
+	g_object_set (G_OBJECT (widget),
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"visible", TRUE,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
+	wwd->collection_wizard = E_COLLECTION_ACCOUNT_WIZARD (widget);
+
+	g_signal_connect_swapped (wwd->collection_wizard, "done",
+		G_CALLBACK (collection_wizard_window_done), wwd);
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	g_object_set (G_OBJECT (hbox),
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_END,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_START,
+		"visible", TRUE,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+
+	widget = e_dialog_button_new_with_icon ("window-close", _("_Close"));
+	g_object_set (G_OBJECT (widget),
+		"hexpand", FALSE,
+		"halign", GTK_ALIGN_END,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_START,
+		"visible", TRUE,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+	accel_group = gtk_accel_group_new ();
+	gtk_widget_add_accelerator (
+		widget, "activate", accel_group,
+		GDK_KEY_Escape, (GdkModifierType) 0,
+		GTK_ACCEL_VISIBLE);
+	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
+
+	wwd->close_button = widget;
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (collection_wizard_window_back_button_clicked_cb), wwd);
+
+	widget = e_dialog_button_new_with_icon ("go-previous", _("_Previous"));
+	g_object_set (G_OBJECT (widget),
+		"hexpand", FALSE,
+		"halign", GTK_ALIGN_END,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_START,
+		"visible", FALSE,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+	wwd->prev_button = widget;
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (collection_wizard_window_back_button_clicked_cb), wwd);
+
+	widget = e_dialog_button_new_with_icon ("go-next", _("_Next"));
+	g_object_set (G_OBJECT (widget),
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_END,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_START,
+		"visible", TRUE,
+		"can-default", TRUE,
+		NULL);
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+	wwd->next_button = GTK_BUTTON (widget);
+
+	e_binding_bind_property (
+		wwd->collection_wizard, "can-run",
+		widget, "sensitive",
+		G_BINDING_DEFAULT);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (collection_wizard_window_next_button_clicked_cb), wwd);
+
+	gtk_widget_grab_default (GTK_WIDGET (wwd->next_button));
+
+	e_collection_account_wizard_reset (wwd->collection_wizard);
+	collection_wizard_window_update_button_captions (wwd);
+
+	return window;
+}
+
 enum {
 	PART_COLUMN_BOOL_ENABLED,		/* G_TYPE_BOOLEAN */
 	PART_COLUMN_BOOL_ENABLED_VISIBLE,	/* G_TYPE_BOOLEAN */
@@ -1987,6 +2188,34 @@ e_collection_account_wizard_new (ESourceRegistry *registry)
 	return g_object_new (E_TYPE_COLLECTION_ACCOUNT_WIZARD,
 		"registry", registry,
 		NULL);
+}
+
+/**
+ * e_collection_account_wizard_new_window:
+ * @parent: (nullable): an optional #GtkWindow parent of the new window
+ * @registry: an #ESourceRegistry
+ *
+ * Creates a new #ECollectionAccountWizard instance as part of a #GtkWindow.
+ * This window takes care of all the #ECollectionAccountWizard functionality.
+ *
+ * Returns: (transfer full): a new #GtkWindow containing an #ECollectionAccountWizard
+ *
+ * Since: 3.32
+ **/
+GtkWindow *
+e_collection_account_wizard_new_window (GtkWindow *parent,
+					ESourceRegistry *registry)
+{
+	GtkWidget *wizard;
+
+	if (parent)
+		g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
+	wizard = e_collection_account_wizard_new (registry);
+	g_return_val_if_fail (wizard != NULL, NULL);
+
+	return collection_account_wizard_create_window (parent, wizard);
 }
 
 /**
