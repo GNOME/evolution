@@ -5645,7 +5645,27 @@ extract_itip_data (ItipView *view,
 
 	prop = icalcomponent_get_first_property (view->priv->main_comp, ICAL_METHOD_PROPERTY);
 	if (prop == NULL) {
+		icalcomponent *subcomp;
+
 		view->priv->method = ICAL_METHOD_PUBLISH;
+
+		/* Search in sub-components for the METHOD property when not found in the VCALENDAR */
+		for (subcomp = icalcomponent_get_first_component (view->priv->main_comp, ICAL_ANY_COMPONENT);
+		     subcomp;
+		     subcomp = icalcomponent_get_next_component (view->priv->main_comp, ICAL_ANY_COMPONENT)) {
+			kind = icalcomponent_isa (subcomp);
+
+			if (kind == ICAL_VEVENT_COMPONENT ||
+			    kind == ICAL_VTODO_COMPONENT ||
+			    kind == ICAL_VJOURNAL_COMPONENT ||
+			    kind == ICAL_VFREEBUSY_COMPONENT) {
+				prop = icalcomponent_get_first_property (subcomp, ICAL_METHOD_PROPERTY);
+				if (prop) {
+					view->priv->method = icalproperty_get_method (prop);
+					break;
+				}
+			}
+		}
 	} else {
 		view->priv->method = icalproperty_get_method (prop);
 	}
