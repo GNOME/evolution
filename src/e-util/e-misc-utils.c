@@ -319,14 +319,15 @@ e_display_help (GtkWindow *parent,
 		uri = g_string_new ("help:" PACKAGE);
 	} else {
 		uri = g_string_new ("https://help.gnome.org/users/" PACKAGE "/");
-		g_string_append_printf (uri, "%d.%d", EDS_MAJOR_VERSION, EDS_MINOR_VERSION);
+		/*  Use '/stable/' until https://bugzilla.gnome.org/show_bug.cgi?id=785522 is fixed */
+		g_string_append (uri, "stable/");
+		/* g_string_append_printf (uri, "%d.%d", EDS_MAJOR_VERSION, EDS_MINOR_VERSION); */
 	}
 
 	timestamp = gtk_get_current_event_time ();
 
 	if (parent != NULL)
 		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
-
 
 	if (link_id != NULL) {
 		g_string_append (uri, "/");
