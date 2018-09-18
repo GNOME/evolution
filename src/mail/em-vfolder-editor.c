@@ -73,7 +73,7 @@ em_vfolder_editor_init (EMVFolderEditor *vfolder_editor)
 
 	e_restore_window (
 		GTK_WINDOW (vfolder_editor),
-		"/org/gnome/evolution/mail/vfolder-window",
+		"/org/gnome/evolution/mail/vfolder-window/",
 		E_RESTORE_WINDOW_SIZE);
 }
 
