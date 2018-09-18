@@ -49,15 +49,16 @@ Začínáme
 
 Hlášení chyb
 
-	Chyby by měly být hlášeny na http://bugzilla.gnome.org.
+	Chyby by měly být hlášeny na
+	https://gitlab.gnome.org/GNOME/evolution/issues
 
 Více informací
 
-	Můžete se přihlásit do poštovní konference uživatelů Evolutionu
-	na adrese http://mail.gnome.org/mailman/listinfo/evolution-list.
+	Můžete se přihlásit do poštovní konference uživatelů Evolutionu na
+	https://mail.gnome.org/mailman/listinfo/evolution-list.
 
-	Informace o projektu Evolution jsou dostupné na adrese
-	http://projects.gnome.org/evolution.
+	Informace o projektu Evolution jsou dostupné na
+	https://wiki.gnome.org/Apps/Evolution
 
 
 S pozdravem
@@ -114,7 +115,7 @@ Začínáme
 <br><br>
 
 	Kompletního průvodce Evolutionem naleznete pod volbou
-	<b>Obsah</b> v nabídce <b>Nápověda</b>, nebo stisknutím klávesy <b>F1</b>.	
+	<b>Obsah</b> v nabídce <b>Nápověda</b>, nebo zmáčknutím klávesy <b>F1</b>.
 
 <br><br>
 </blockquote>
@@ -123,7 +124,9 @@ Začínáme
 Hlášení chyb
 </h2>
 <blockquote>
-	Chyby by měly být hlášeny na <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	Chyby by měly být hlášeny na
+	<a href="https://gitlab.gnome.org/GNOME/evolution/issues">
+	https://gitlab.gnome.org/GNOME/evolution/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -132,15 +135,13 @@ Více informací
 </h2>
 
 <blockquote>	
-	Můžete se přihlásit do poštovní konference uživatelů Evolutionu
-	na adrese <a href="http://lists.gnome.org/mailman/listinfo/evolution-list">http://mail.gnome.org/mailman/listinfo/evolution-list</a>.
+	Můžete se přihlásit do poštovní konference uživatelů Evolutionu na
+	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list">
+	https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
 
-	Informace o projektu Evolution jsou dostupné na adrese
-	<a href="http://projects.gnome.org/evolution">http://projects.gnome.org/evolution</a>.	
-	<!--
-	Seznam často kladených otázek (FAQ) naleznete na adrese
-	<a href="http://live.gnome.org/Evolution/FAQ">http://live.gnome.org/Evolution/FAQ</a>.
-	-->
+	Informace o projektu Evolution jsou dostupné na
+	<a href="https://wiki.gnome.org/Apps/Evolution">
+	https://wiki.gnome.org/Apps/Evolution</a>.
 <br><br>	
 </blockquote>
 
