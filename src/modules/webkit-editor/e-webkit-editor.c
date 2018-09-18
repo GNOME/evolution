@@ -1655,19 +1655,33 @@ webkit_editor_style_updated_cb (EWebKitEditor *wk_editor)
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (wk_editor));
 	backdrop = (state_flags & GTK_STATE_FLAG_BACKDROP) != 0;
 
-	if (!gtk_style_context_lookup_color (
+	if (wk_editor->priv->html_mode && !g_settings_get_boolean (wk_editor->priv->mail_settings, "composer-inherit-theme-colors")) {
+		/* Default to white background when not inheriting theme colors */
+		rgba.red = 1.0;
+		rgba.green = 1.0;
+		rgba.blue = 1.0;
+		rgba.alpha = 1.0;
+	} else if (!gtk_style_context_lookup_color (
 			style_context,
 			backdrop ? "theme_unfocused_base_color" : "theme_base_color",
-			&rgba))
+			&rgba)) {
 		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_BASE_COLOR);
+	}
 
 	webkit_editor_page_set_background_color (E_CONTENT_EDITOR (wk_editor), &rgba);
 
-	if (!gtk_style_context_lookup_color (
+	if (wk_editor->priv->html_mode && !g_settings_get_boolean (wk_editor->priv->mail_settings, "composer-inherit-theme-colors")) {
+		/* Default to black text color when not inheriting theme colors */
+		rgba.red = 0.0;
+		rgba.green = 0.0;
+		rgba.blue = 0.0;
+		rgba.alpha = 1.0;
+	} else if (!gtk_style_context_lookup_color (
 			style_context,
 			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
-			&rgba))
+			&rgba)) {
 		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_FG_COLOR);
+	}
 
 	webkit_editor_page_set_text_color (E_CONTENT_EDITOR (wk_editor), &rgba);
 
@@ -5812,6 +5826,28 @@ webkit_editor_settings_changed_cb (GSettings *settings,
 }
 
 static void
+webkit_editor_style_settings_changed_cb (GSettings *settings,
+					 const gchar *key,
+					 EWebKitEditor *wk_editor)
+{
+	GVariant *new_value, *old_value;
+
+	new_value = g_settings_get_value (settings, key);
+	old_value = g_hash_table_lookup (wk_editor->priv->old_settings, key);
+
+	if (!new_value || !old_value || !g_variant_equal (new_value, old_value)) {
+		if (new_value)
+			g_hash_table_insert (wk_editor->priv->old_settings, g_strdup (key), new_value);
+		else
+			g_hash_table_remove (wk_editor->priv->old_settings, key);
+
+		webkit_editor_style_updated_cb (wk_editor);
+	} else if (new_value) {
+		g_variant_unref (new_value);
+	}
+}
+
+static void
 webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
                                WebKitLoadEvent load_event)
 {
@@ -6547,6 +6583,10 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 
 	g_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	wk_editor->priv->mail_settings = g_settings;
+
+	g_signal_connect (
+		g_settings, "changed::composer-inherit-theme-colors",
+		G_CALLBACK (webkit_editor_style_settings_changed_cb), wk_editor);
 
 	/* This schema is optional.  Use if available. */
 	settings_schema = g_settings_schema_source_lookup (
