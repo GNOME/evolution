@@ -46,19 +46,20 @@ Getting Started
 
 	For a complete guide to Evolution, either select "Contents" 
         from the "Help" menu, or visit the online version at
-        http://library.gnome.org/users/evolution/stable/.
+        https://help.gnome.org/users/evolution/stable/.
 
 Bug Reporting
 
-	Bugs should be reported to http://bugzilla.gnome.org.
+	Bugs should be reported to
+	https://gitlab.gnome.org/GNOME/evolution/issues.
 
 More Information
 
 	You can subscribe to the Evolution users mailing list at
-	http://mail.gnome.org/mailman/listinfo/evolution-list.
+	https://mail.gnome.org/mailman/listinfo/evolution-list.
 
 	Information on the Evolution project is available at
-	http://projects.gnome.org/evolution.
+	https://wiki.gnome.org/Apps/Evolution.
 
 
 Yours Sincerely,
@@ -115,7 +116,7 @@ Getting Started
 
 	For a complete guide to Evolution, either select "Contents" 
         from the "Help" menu, or visit the online version at
-        <a href="http://library.gnome.org/users/evolution/stable/">http://library.gnome.org/users/evolution/stable/</a>.
+        <a href="https://help.gnome.org/users/evolution/stable/">https://help.gnome.org/users/evolution/stable/</a>.
 
 <br><br>
 </blockquote>
@@ -124,7 +125,8 @@ Getting Started
 Bug Reporting
 </h2>
 <blockquote>
-	Bugs should be reported to <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	Bugs should be reported to
+	<a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
 <br><br>
 </blockquote> 
 
@@ -134,10 +136,10 @@ More Information
 
 <blockquote>
 	You can subscribe to the Evolution users mailing list at
-	<a href="http://lists.gnome.org/mailman/listinfo/evolution-list">http://lists.gnome.org/mailman/listinfo/evolution-list</a>.
+	<a href="https://lists.gnome.org/mailman/listinfo/evolution-list">https://lists.gnome.org/mailman/listinfo/evolution-list</a>.
 
 	Information on the Evolution project is available at
-	<a href="http://projects.gnome.org/evolution">http://projects.gnome.org/evolution</a>.
+	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a>.
 <br><br>	
 </blockquote>
 
