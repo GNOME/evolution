@@ -353,6 +353,25 @@ e_filter_part_get_widget (EFilterPart *part)
 	return hbox;
 }
 
+void
+e_filter_part_describe (EFilterPart *part,
+			GString *out)
+{
+	GList *link;
+
+	g_return_if_fail (E_IS_FILTER_PART (part));
+	g_return_if_fail (out != NULL);
+
+	g_string_append (out, _(part->title));
+
+	for (link = part->elements; link != NULL; link = g_list_next (link)) {
+		EFilterElement *element = link->data;
+
+		g_string_append_c (out, ' ');
+		e_filter_element_describe (element, out);
+	}
+}
+
 /**
  * e_filter_part_build_code:
  * @part:

@@ -404,6 +404,34 @@ filter_source_element_format_sexp (EFilterElement *fe,
 }
 
 static void
+filter_source_element_describe (EFilterElement *fe,
+				GString *out)
+{
+	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
+	EMailSession *mail_session;
+	ESourceRegistry *registry;
+	ESource *source;
+
+	if (!fs->priv->active_id)
+		return;
+
+	mail_session = em_filter_source_element_get_session (fs);
+	registry = e_mail_session_get_registry (mail_session);
+	source = e_source_registry_ref_source (registry, fs->priv->active_id);
+
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+
+	if (source) {
+		g_string_append (out, e_source_get_display_name (source));
+		g_object_unref (source);
+	} else {
+		g_string_append (out, fs->priv->active_id);
+	}
+
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+}
+
+static void
 em_filter_source_element_class_init (EMFilterSourceElementClass *class)
 {
 	GObjectClass *object_class;
@@ -425,6 +453,7 @@ em_filter_source_element_class_init (EMFilterSourceElementClass *class)
 	filter_element_class->get_widget = filter_source_element_get_widget;
 	filter_element_class->build_code = filter_source_element_build_code;
 	filter_element_class->format_sexp = filter_source_element_format_sexp;
+	filter_element_class->describe = filter_source_element_describe;
 
 	g_object_class_install_property (
 		object_class,

@@ -23,12 +23,13 @@
 
 #include "evolution-config.h"
 
-#include "em-filter-folder-element.h"
-
 #include <string.h>
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+
+#include "e-mail-folder-utils.h"
+#include "em-filter-folder-element.h"
 
 #define EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -167,6 +168,21 @@ filter_folder_element_copy_value (EFilterElement *de,
 		em_filter_folder_element_parent_class)->copy_value (de, se);
 	}
 }
+
+static void
+filter_folder_element_describe (EFilterElement *fe,
+				GString *out)
+{
+	EMFilterFolderElement *ff = (EMFilterFolderElement *) fe;
+
+	if (!ff->priv->uri)
+		return;
+
+	/* This might not be usually used, do some special processing
+	   for it and call em_filter_folder_element_describe() instead */
+	g_string_append (out, ff->priv->uri);
+}
+
 static void
 em_filter_folder_element_class_init (EMFilterFolderElementClass *class)
 {
@@ -187,6 +203,7 @@ em_filter_folder_element_class_init (EMFilterFolderElementClass *class)
 	filter_element_class->build_code = filter_folder_element_build_code;
 	filter_element_class->format_sexp = filter_folder_element_format_sexp;
 	filter_element_class->copy_value = filter_folder_element_copy_value;
+	filter_element_class->describe = filter_folder_element_describe;
 }
 
 static void
@@ -221,3 +238,55 @@ em_filter_folder_element_set_uri (EMFilterFolderElement *element,
 	element->priv->uri = g_strdup (uri);
 }
 
+void
+em_filter_folder_element_describe (EMFilterFolderElement *element,
+				   CamelSession *session,
+				   GString *out)
+{
+	g_return_if_fail (EM_IS_FILTER_FOLDER_ELEMENT (element));
+	g_return_if_fail (CAMEL_IS_SESSION (session));
+	g_return_if_fail (out != NULL);
+
+	if (element->priv->uri) {
+		gchar *full_name = NULL;
+		const gchar *use_name = element->priv->uri;
+		CamelStore *store = NULL;
+		gchar *folder_name = NULL;
+
+		if (e_mail_folder_uri_parse (session, element->priv->uri, &store, &folder_name, NULL)) {
+			CamelFolder *folder;
+
+			folder = camel_store_get_folder_sync (store, folder_name, 0, NULL, NULL);
+			if (folder) {
+				const gchar *service_display_name;
+
+				service_display_name = camel_service_get_display_name (CAMEL_SERVICE (store));
+
+				if (CAMEL_IS_VEE_FOLDER (folder) && (
+				    g_strcmp0 (folder_name, CAMEL_VTRASH_NAME) == 0 ||
+				    g_strcmp0 (folder_name, CAMEL_VJUNK_NAME) == 0)) {
+					full_name = g_strdup_printf ("%s/%s", service_display_name, camel_folder_get_display_name (folder));
+				} else {
+					full_name = g_strdup_printf ("%s/%s", service_display_name, folder_name);
+				}
+
+				g_clear_object (&folder);
+			}
+
+			if (!full_name)
+				full_name = g_strdup_printf ("%s/%s", camel_service_get_display_name (CAMEL_SERVICE (store)), folder_name);
+
+			if (full_name)
+				use_name = full_name;
+
+			g_clear_object (&store);
+			g_free (folder_name);
+		}
+
+		g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+		g_string_append (out, use_name);
+		g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+
+		g_free (full_name);
+	}
+}

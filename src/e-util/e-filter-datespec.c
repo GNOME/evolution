@@ -115,52 +115,63 @@ get_best_span (time_t val)
 	return 0;
 }
 
-/* sets button label */
 static void
-set_button (EFilterDatespec *fds)
+describe_to_buffer (EFilterDatespec *fds,
+		    gchar *buf,
+		    gint buf_size,
+		    gboolean with_fallback)
 {
-	gchar buf[128];
-	gchar *label = buf;
-
 	switch (fds->type) {
 	case FDST_UNKNOWN:
-		label = _("<click here to select a date>");
+		if (with_fallback)
+			g_snprintf (buf, buf_size, _("<click here to select a date>"));
+		else
+			g_snprintf (buf, buf_size, "%s", "");
 		break;
 	case FDST_NOW:
-		label = _("now");
+		g_snprintf (buf, buf_size, _("now"));
 		break;
 	case FDST_SPECIFIED: {
 		struct tm tm;
 
 		localtime_r (&fds->value, &tm);
 		/* strftime for date filter display, only needs to show a day date (i.e. no time) */
-		strftime (buf, sizeof (buf), _("%d-%b-%Y"), &tm);
+		strftime (buf, buf_size, _("%d-%b-%Y"), &tm);
 		break; }
 	case FDST_X_AGO:
 		if (fds->value == 0)
-			label = _("now");
+			g_snprintf (buf, buf_size, _("now"));
 		else {
 			gint span, count;
 
 			span = get_best_span (fds->value);
 			count = fds->value / timespans[span].seconds;
-			sprintf (buf, ngettext (timespans[span].past_singular, timespans[span].past_plural, count), count);
+			g_snprintf (buf, buf_size, ngettext (timespans[span].past_singular, timespans[span].past_plural, count), count);
 		}
 		break;
 	case FDST_X_FUTURE:
 		if (fds->value == 0)
-			label = _("now");
+			g_snprintf (buf, buf_size, _("now"));
 		else {
 			gint span, count;
 
 			span = get_best_span (fds->value);
 			count = fds->value / timespans[span].seconds;
-			sprintf (buf, ngettext (timespans[span].future_singular, timespans[span].future_plural, count), count);
+			g_snprintf (buf, buf_size, ngettext (timespans[span].future_singular, timespans[span].future_plural, count), count);
 		}
 		break;
 	}
+}
 
-	gtk_label_set_text ((GtkLabel *) fds->priv->label_button, label);
+/* sets button label */
+static void
+set_button (EFilterDatespec *fds)
+{
+	gchar buf[128];
+
+	describe_to_buffer (fds, buf, sizeof (buf), TRUE);
+
+	gtk_label_set_text ((GtkLabel *) fds->priv->label_button, buf);
 }
 
 static void
@@ -474,6 +485,18 @@ filter_datespec_format_sexp (EFilterElement *element,
 }
 
 static void
+filter_datespec_describe (EFilterElement *element,
+			  GString *out)
+{
+	EFilterDatespec *fds = E_FILTER_DATESPEC (element);
+	gchar buf[128];
+
+	describe_to_buffer (fds, buf, sizeof (buf), FALSE);
+
+	g_string_append (out, buf);
+}
+
+static void
 e_filter_datespec_class_init (EFilterDatespecClass *class)
 {
 	EFilterElementClass *filter_element_class;
@@ -487,6 +510,7 @@ e_filter_datespec_class_init (EFilterDatespecClass *class)
 	filter_element_class->xml_decode = filter_datespec_xml_decode;
 	filter_element_class->get_widget = filter_datespec_get_widget;
 	filter_element_class->format_sexp = filter_datespec_format_sexp;
+	filter_element_class->describe = filter_datespec_describe;
 }
 
 static void

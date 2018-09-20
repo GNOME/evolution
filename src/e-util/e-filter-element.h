@@ -52,6 +52,12 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_FILTER_ELEMENT, EFilterElementClass))
 
+/* Keep the values in sync with their escaped values ("&#1;" and so on) in em-filter-editor.c  */
+#define E_FILTER_ELEMENT_DESCIPTION_VALUE_START	'\1'
+#define E_FILTER_ELEMENT_DESCIPTION_VALUE_END	'\2'
+#define E_FILTER_ELEMENT_DESCIPTION_COLOR_START	'\3'
+#define E_FILTER_ELEMENT_DESCIPTION_COLOR_END	'\4'
+
 G_BEGIN_DECLS
 
 struct _EFilterPart;
@@ -92,6 +98,8 @@ struct _EFilterElementClass {
 						 struct _EFilterPart *part);
 	void		(*format_sexp)		(EFilterElement *element,
 						 GString *out);
+	void		(*describe)		(EFilterElement *element,
+						 GString *out);
 };
 
 GType		e_filter_element_get_type	(void) G_GNUC_CONST;
@@ -115,6 +123,8 @@ void		e_filter_element_build_code	(EFilterElement *element,
 						 GString *out,
 						 struct _EFilterPart *part);
 void		e_filter_element_format_sexp	(EFilterElement *element,
+						 GString *out);
+void		e_filter_element_describe	(EFilterElement *element,
 						 GString *out);
 
 G_END_DECLS

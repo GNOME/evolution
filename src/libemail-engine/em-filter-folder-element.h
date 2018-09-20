@@ -71,6 +71,10 @@ const gchar *	em_filter_folder_element_get_uri
 void		em_filter_folder_element_set_uri
 						(EMFilterFolderElement *element,
 						 const gchar *uri);
+void		em_filter_folder_element_describe
+						(EMFilterFolderElement *element,
+						 CamelSession *session,
+						 GString *out);
 
 G_END_DECLS
 

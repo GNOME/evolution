@@ -164,6 +164,17 @@ filter_editor_folder_element_get_widget (EFilterElement *fe)
 }
 
 static void
+filter_editor_folder_element_describe (EFilterElement *fe,
+				       GString *out)
+{
+	EMFilterEditorFolderElement *ff = (EMFilterEditorFolderElement *) fe;
+	EMailSession *mail_session;
+
+	mail_session = em_filter_editor_folder_element_get_session (ff);
+	em_filter_folder_element_describe (EM_FILTER_FOLDER_ELEMENT (ff), CAMEL_SESSION (mail_session), out);
+}
+
+static void
 em_filter_editor_folder_element_class_init (EMFilterEditorFolderElementClass *class)
 {
 	GObjectClass *object_class;
@@ -178,6 +189,7 @@ em_filter_editor_folder_element_class_init (EMFilterEditorFolderElementClass *cl
 
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
 	filter_element_class->get_widget = filter_editor_folder_element_get_widget;
+	filter_element_class->describe = filter_editor_folder_element_describe;
 
 	g_object_class_install_property (
 		object_class,

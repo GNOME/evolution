@@ -171,6 +171,18 @@ filter_int_format_sexp (EFilterElement *element,
 }
 
 static void
+filter_int_describe (EFilterElement *element,
+		     GString *out)
+{
+	EFilterInt *filter_int = E_FILTER_INT (element);
+
+	g_string_append_printf (out, "%c%d%c",
+		E_FILTER_ELEMENT_DESCIPTION_VALUE_START,
+		filter_int->val,
+		E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+}
+
+static void
 e_filter_int_class_init (EFilterIntClass *class)
 {
 	GObjectClass *object_class;
@@ -186,6 +198,7 @@ e_filter_int_class_init (EFilterIntClass *class)
 	filter_element_class->xml_decode = filter_int_xml_decode;
 	filter_element_class->get_widget = filter_int_get_widget;
 	filter_element_class->format_sexp = filter_int_format_sexp;
+	filter_element_class->describe = filter_int_describe;
 }
 
 static void

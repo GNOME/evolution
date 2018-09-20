@@ -61,6 +61,20 @@ filter_code_format_sexp (EFilterElement *element,
 }
 
 static void
+filter_code_describe (EFilterElement *element,
+		      GString *out)
+{
+	EFilterInput *fi = (EFilterInput *) element;
+	GList *link;
+
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+	for (link = fi->values; link; link = g_list_next (link)) {
+		g_string_append (out, (const gchar *) link->data);
+	}
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+}
+
+static void
 e_filter_code_class_init (EFilterCodeClass *class)
 {
 	EFilterElementClass *filter_element_class;
@@ -68,6 +82,7 @@ e_filter_code_class_init (EFilterCodeClass *class)
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
 	filter_element_class->build_code = filter_code_build_code;
 	filter_element_class->format_sexp = filter_code_format_sexp;
+	filter_element_class->describe = filter_code_describe;
 }
 
 static void

@@ -355,13 +355,12 @@ e_filter_element_clone (EFilterElement *element)
 }
 
 /**
- * filter_element_get_widget:
+ * e_filter_element_get_widget:
  * @fe: filter element
- * @node: xml node
  *
  * Create a widget to represent this element.
  *
- * Return value:
+ * Returns: (transfer full): a new GtkWidget
  **/
 GtkWidget *
 e_filter_element_get_widget (EFilterElement *element)
@@ -452,4 +451,27 @@ e_filter_element_copy_value (EFilterElement *dst_element,
 	g_return_if_fail (class->copy_value != NULL);
 
 	class->copy_value (dst_element, src_element);
+}
+
+/**
+ * e_filter_element_describe:
+ * @fe: filter element
+ * @out: a #GString to add the description to
+ *
+ * Describes the @element in a human-readable way.
+ **/
+void
+e_filter_element_describe (EFilterElement *element,
+			   GString *out)
+{
+	EFilterElementClass *klass;
+
+	g_return_if_fail (E_IS_FILTER_ELEMENT (element));
+	g_return_if_fail (out != NULL);
+
+	klass = E_FILTER_ELEMENT_GET_CLASS (element);
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (klass->describe != NULL);
+
+	klass->describe (element, out);
 }

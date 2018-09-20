@@ -368,6 +368,32 @@ filter_input_build_code (EFilterElement *element,
 }
 
 static void
+filter_input_describe (EFilterElement *element,
+		       GString *out)
+{
+	EFilterInput *input = E_FILTER_INPUT (element);
+	GList *link;
+	gboolean added = FALSE;
+
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+
+	for (link = input->values; link; link = g_list_next (link)) {
+		const gchar *value = link->data;
+
+		if (value && *value) {
+			if (added)
+				g_string_append_c (out, ' ');
+			else
+				added = TRUE;
+
+			g_string_append (out, value);
+		}
+	}
+
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+}
+
+static void
 e_filter_input_class_init (EFilterInputClass *class)
 {
 	GObjectClass *object_class;
@@ -386,6 +412,7 @@ e_filter_input_class_init (EFilterInputClass *class)
 	filter_element_class->get_widget = filter_input_get_widget;
 	filter_element_class->format_sexp = filter_input_format_sexp;
 	filter_element_class->build_code = filter_input_build_code;
+	filter_element_class->describe = filter_input_describe;
 }
 
 static void

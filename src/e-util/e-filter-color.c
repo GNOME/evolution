@@ -130,6 +130,29 @@ filter_color_format_sexp (EFilterElement *element,
 }
 
 static void
+filter_color_describe (EFilterElement *element,
+		       GString *out)
+{
+	EFilterColor *fc = E_FILTER_COLOR (element);
+	gchar spec[16];
+
+	#define cnvrt(x) ((255 * (x) / 65535) & 0xFF)
+
+	g_snprintf (
+		spec, sizeof (spec), "#%02x%02x%02x",
+		cnvrt (fc->color.red), cnvrt (fc->color.green), cnvrt (fc->color.blue));
+
+	#undef cnvrt
+
+	g_string_append_c (out, '[');
+	g_string_append (out, spec);
+	g_string_append (out, "] ");
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_COLOR_START);
+	g_string_append (out, spec);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_COLOR_END);
+}
+
+static void
 e_filter_color_class_init (EFilterColorClass *class)
 {
 	EFilterElementClass *filter_element_class;
@@ -140,6 +163,7 @@ e_filter_color_class_init (EFilterColorClass *class)
 	filter_element_class->xml_decode = filter_color_xml_decode;
 	filter_element_class->get_widget = filter_color_get_widget;
 	filter_element_class->format_sexp = filter_color_format_sexp;
+	filter_element_class->describe = filter_color_describe;
 }
 
 static void

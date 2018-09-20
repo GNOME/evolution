@@ -93,6 +93,8 @@ void		e_filter_part_copy_values	(EFilterPart *dst_part,
 EFilterElement *e_filter_part_find_element	(EFilterPart *part,
 						 const gchar *name);
 GtkWidget *	e_filter_part_get_widget	(EFilterPart *part);
+void		e_filter_part_describe		(EFilterPart *part,
+						 GString *out);
 void		e_filter_part_build_code	(EFilterPart *part,
 						 GString *out);
 void		e_filter_part_expand_code	(EFilterPart *part,

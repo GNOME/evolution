@@ -201,6 +201,17 @@ filter_file_format_sexp (EFilterElement *element,
 }
 
 static void
+filter_file_describe (EFilterElement *element,
+		      GString *out)
+{
+	EFilterFile *file = E_FILTER_FILE (element);
+
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+	g_string_append (out, file->path);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+}
+
+static void
 e_filter_file_class_init (EFilterFileClass *class)
 {
 	GObjectClass *object_class;
@@ -216,6 +227,7 @@ e_filter_file_class_init (EFilterFileClass *class)
 	filter_element_class->xml_decode = filter_file_xml_decode;
 	filter_element_class->get_widget = filter_file_get_widget;
 	filter_element_class->format_sexp = filter_file_format_sexp;
+	filter_element_class->describe = filter_file_describe;
 }
 
 static void

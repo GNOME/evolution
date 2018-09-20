@@ -466,6 +466,16 @@ filter_option_format_sexp (EFilterElement *element,
 }
 
 static void
+filter_option_describe (EFilterElement *element,
+			GString *out)
+{
+	EFilterOption *option = E_FILTER_OPTION (element);
+
+	if (option->current)
+		g_string_append (out, _(option->current->title));
+}
+
+static void
 e_filter_option_class_init (EFilterOptionClass *class)
 {
 	GObjectClass *object_class;
@@ -483,6 +493,7 @@ e_filter_option_class_init (EFilterOptionClass *class)
 	filter_element_class->get_widget = filter_option_get_widget;
 	filter_element_class->build_code = filter_option_build_code;
 	filter_element_class->format_sexp = filter_option_format_sexp;
+	filter_element_class->describe = filter_option_describe;
 }
 
 static void
