@@ -1114,7 +1114,11 @@ update_adjustment (ECalShellContent *cal_shell_content,
 	/* Determine the first date shown. */
 	start_date = week_view->base_date;
 	week_offset = floor (value + 0.5);
-	g_date_add_days (&start_date, week_offset * 7);
+
+	if (week_offset > 0)
+		g_date_add_days (&start_date, week_offset * 7);
+	else
+		g_date_subtract_days (&start_date, week_offset * (-7));
 
 	/* Convert the old & new first days shown to julian values. */
 	old_first_day_julian = g_date_get_julian (&first_day_shown);
