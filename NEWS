@@ -1,3 +1,45 @@
+Evolution 3.30.1 2018-09-24
+---------------------------
+
+Bug Fixes:
+	Bug 750636 - Wrapped line should not start with a space ][ (Milan Crha)
+	Bug 548656 - Emails using cancelled ical event not displayed correctly (Milan Crha)
+	I#86 - Quoting of plain text mail into HTML mode mangles deeper levels (Milan Crha)
+	I#103 - Extra new line added in front of long URLs (Milan Crha)
+	I#107 - Reply with selection and URL can produce extra letters (Milan Crha)
+	I#108 - Expunge in virtual Trash folder shows runtime warnings (Milan Crha)
+	I#101 - Correct icon sizes for contact-editor.png (Milan Crha)
+	I#104 - Replacing a string with nothing does not work in composer (Milan Crha)
+	I#118 - Unsubscribing requires selecting the folder first (Milan Crha)
+	I#119 - Default to TLS encryption for new Mail accounts (Milan Crha)
+	I#122 - Avoid delayed message send when editing the Outbox message (Milan Crha)
+	I#123 - Reply to part of encrypted mail is unencrypted by default (Milan Crha)
+	I#110 - Attached meeting invitation can misbehave (Milan Crha)
+	I#127 - Make Collection Account Wizard “Next” button default (Milan Crha)
+	I#129 - Use unversioned URL to help.gnome.org (Milan Crha)
+	I#66 - "Inherit theme colors in HTML format" is always visually enabled in composer (Milan Crha)
+
+Miscellaneous:
+	Update Flatpak build scripts to better integrate with the host desktop (Milan Crha)
+	[mail-send-receive] Try harder when searching for mail shell view (Milan Crha)
+	Improve Flatpak manifests (Milan Crha)
+	Composer autosave can stop working (Milan Crha)
+	[ECollectionAccountWizard] Preset user name to mail sources (Milan Crha)
+	[EMVFolderEditor] Correct path used to e_restore_window() (Milan Crha)
+	Updated Czech default mail translation (Marek Cernocky)
+	Fixed links in default mail (Marek Cernocky)
+
+Translations:
+	Rūdolfs Mazurs (lv)
+	Anders Jonsson (sv)
+	Gábor Kelemen (hu)
+	Marek Cernocky (cs)
+	Daniel Mustieles (es)
+	Christian Kirbach (de)
+	Gianvito Cavasoli (it)
+	Peter Vágner (sk)
+	Rodrigo Lledó (es)
+
 Evolution 3.30.0 2018-09-03
 ---------------------------
 
