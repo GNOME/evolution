@@ -376,11 +376,11 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PRINT);
-	sensitive = clicked_source_is_primary;
+	sensitive = TRUE;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PRINT_PREVIEW);
-	sensitive = clicked_source_is_primary;
+	sensitive = TRUE;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PROPERTIES);
