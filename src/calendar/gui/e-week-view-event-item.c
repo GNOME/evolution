@@ -305,19 +305,9 @@ week_view_draw_time (EWeekView *week_view,
 	PangoLayout *layout;
 	PangoFontDescription *small_font_desc;
 	PangoContext *pango_context;
-	GdkColor color;
+	GdkRGBA fg_rgba;
 
-	color.pixel = 0;
-
-	if ((bg_rgba.red > 0.7) || (bg_rgba.green > 0.7) || (bg_rgba.blue > 0.7)) {
-		color.red = 0.0;
-		color.green = 0.0;
-		color.blue = 0.0;
-	} else {
-		color.red = 65535.0f;
-		color.green = 65535.0f;
-		color.blue = 65535.0f;
-	}
+	fg_rgba = e_utils_get_text_color_for_background (&bg_rgba);
 
 	cairo_save (cr);
 
@@ -325,7 +315,7 @@ week_view_draw_time (EWeekView *week_view,
 
 	small_font_desc = week_view->small_font_desc;
 
-	gdk_cairo_set_source_color (cr, &color);
+	gdk_cairo_set_source_rgba (cr, &fg_rgba);
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
 	pango_context = gtk_widget_create_pango_context (GTK_WIDGET (week_view));

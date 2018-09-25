@@ -1632,6 +1632,34 @@ e_utils_shade_color (const GdkRGBA *a,
 	b->alpha = a->alpha;
 }
 
+GdkRGBA
+e_utils_get_text_color_for_background (const GdkRGBA *bg_rgba)
+{
+	GdkRGBA text_rgba = { 0.0, 0.0, 0.0, 1.0 };
+	gdouble brightness;
+
+	g_return_val_if_fail (bg_rgba != NULL, text_rgba);
+
+	brightness =
+		(0.2109 * 255.0 * bg_rgba->red) +
+		(0.5870 * 255.0 * bg_rgba->green) +
+		(0.1021 * 255.0 * bg_rgba->blue);
+
+	if (brightness <= 140.0) {
+		text_rgba.red = 1.0;
+		text_rgba.green = 1.0;
+		text_rgba.blue = 1.0;
+	} else {
+		text_rgba.red = 0.0;
+		text_rgba.green = 0.0;
+		text_rgba.blue = 0.0;
+	}
+
+	text_rgba.alpha = 1.0;
+
+	return text_rgba;
+}
+
 static gint
 epow10 (gint number)
 {

@@ -782,18 +782,7 @@ ect_draw (ECellView *ecell_view,
 				ect->bg_color_column, row);
 
 			if (color_spec && gdk_rgba_parse (&bg_rgba, color_spec)) {
-				bg_rgba.alpha = 1.0;
-
-				if ((bg_rgba.red > 0.7) || (bg_rgba.green > 0.7) || (bg_rgba.blue > 0.7)) {
-					bg_rgba.red = 0.0;
-					bg_rgba.green = 0.0;
-					bg_rgba.blue = 0.0;
-				} else {
-					bg_rgba.red = 1.0;
-					bg_rgba.green = 1.0;
-					bg_rgba.blue = 1.0;
-				}
-
+				bg_rgba = e_utils_get_text_color_for_background (&bg_rgba);
 				gdk_cairo_set_source_rgba (cr, &bg_rgba);
 			}
 
