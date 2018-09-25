@@ -965,31 +965,22 @@ e_week_view_get_text_color (EWeekView *week_view,
                             EWeekViewEvent *event)
 {
 	GdkColor color;
-	GdkRGBA bg_rgba;
+	GdkRGBA rgba;
 
 	if (is_comp_data_valid (event) &&
-	    e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data, &bg_rgba)) {
+	    e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data, &rgba)) {
 	} else {
 		gdouble	cc = 65535.0;
 
-		bg_rgba.red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red / cc;
-		bg_rgba.green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green / cc;
-		bg_rgba.blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue / cc;
-		bg_rgba.alpha = 1.0;
+		rgba.red = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red / cc;
+		rgba.green = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green / cc;
+		rgba.blue = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue / cc;
+		rgba.alpha = 1.0;
 
 	}
 
-	color.pixel = 0;
-
-	if ((bg_rgba.red > 0.7) || (bg_rgba.green > 0.7) || (bg_rgba.blue > 0.7)) {
-		color.red = 0.0;
-		color.green = 0.0;
-		color.blue = 0.0;
-	} else {
-		color.red = 65535.0f;
-		color.green = 65535.0f;
-		color.blue = 65535.0f;
-	}
+	rgba = e_utils_get_text_color_for_background (&rgba);
+	e_rgba_to_color (&rgba, &color);
 
 	return color;
 }

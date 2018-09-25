@@ -311,7 +311,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	time_width = e_day_view_get_time_string_width (day_view);
 
-	e_utils_get_theme_color (GTK_WIDGET (day_view), "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &rgba);
+	rgba = e_utils_get_text_color_for_background (&bg_rgba);
 	gdk_cairo_set_source_rgba (cr, &rgba);
 
 	if (event->start > day_view->day_starts[start_day]) {

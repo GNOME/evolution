@@ -142,6 +142,9 @@ void		e_utils_shade_color		(const GdkRGBA *a,
 						 GdkRGBA *b,
 						 gdouble mult);
 
+GdkRGBA		e_utils_get_text_color_for_background
+						(const GdkRGBA *bg_rgba);
+
 /* This only makes a filename safe for usage as a filename.
  * It still may have shell meta-characters in it. */
 gchar *		e_format_number			(gint number);

@@ -679,17 +679,8 @@ e_day_view_get_text_color (EDayView *day_view,
 		rgba.alpha = 1.0;
 	}
 
-	if ((rgba.red > 0.7) || (rgba.green > 0.7) || (rgba.blue > 0.7)) {
-		color.red = 0.0;
-		color.green = 0.0;
-		color.blue = 0.0;
-	} else {
-		color.red = 65535.0f;
-		color.green = 65535.0f;
-		color.blue = 65535.0f;
-	}
-
-	color.pixel = 0;
+	rgba = e_utils_get_text_color_for_background (&rgba);
+	e_rgba_to_color (&rgba, &color);
 
 	return color;
 }

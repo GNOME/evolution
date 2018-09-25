@@ -546,17 +546,8 @@ etdp_get_fgcolor_for_bgcolor (const GdkRGBA *bgcolor)
 {
 	GdkRGBA fgcolor = { 1.0, 1.0, 1.0, 1.0 };
 
-	if (bgcolor) {
-		if ((bgcolor->red > 0.7) || (bgcolor->green > 0.7) || (bgcolor->blue > 0.7)) {
-			fgcolor.red = 0.0;
-			fgcolor.green = 0.0;
-			fgcolor.blue = 0.0;
-		} else {
-			fgcolor.red = 1.0;
-			fgcolor.green = 1.0;
-			fgcolor.blue = 1.0;
-		}
-	}
+	if (bgcolor)
+		fgcolor = e_utils_get_text_color_for_background (bgcolor);
 
 	return fgcolor;
 }

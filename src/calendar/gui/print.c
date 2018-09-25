@@ -493,6 +493,21 @@ shrink_text_to_line (PangoLayout *layout,
 	return layout;
 }
 
+static void
+print_set_fg_for_bg (cairo_t *cr,
+		     const GdkRGBA *bg_rgba)
+{
+	GdkRGBA fg_rgba;
+
+	if (!bg_rgba) {
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+		return;
+	}
+
+	fg_rgba = e_utils_get_text_color_for_background (bg_rgba);
+	gdk_cairo_set_source_rgba (cr, &fg_rgba);
+}
+
 /* Prints 1 line of aligned text in a box. It is centered vertically, and
  * the horizontal alignment can be either PANGO_ALIGN_LEFT, PANGO_ALIGN_RIGHT,
  * or PANGO_ALIGN_CENTER. Text is truncated if too long for cell. */
@@ -538,10 +553,7 @@ print_text_line (GtkPrintContext *context,
 	cairo_clip (cr);
 
 	cairo_new_path (cr);
-	if (!bg_rgba || (bg_rgba->red > 0.7) || (bg_rgba->green > 0.7) || (bg_rgba->blue > 0.7))
-		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-	else
-		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	print_set_fg_for_bg (cr, bg_rgba);
 
 	cairo_move_to (cr, x1, y1);
 	pango_cairo_show_layout (cr, layout);
@@ -993,10 +1005,7 @@ bound_text (GtkPrintContext *context,
 		cairo_clip (cr);
 		cairo_new_path (cr);
 
-		if (!bg_rgba || (bg_rgba->red > 0.7) || (bg_rgba->green > 0.7) || (bg_rgba->blue > 0.7))
-			cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-		else
-			cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+		print_set_fg_for_bg (cr, bg_rgba);
 
 		cairo_move_to (cr, x1, y1);
 		pango_cairo_show_layout (cr, layout);

@@ -546,6 +546,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			bar_y1 = item_y + 1;
 
 		else if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_BOTTOM_EDGE) {
+			GdkRGBA fg_rgba;
+
 			bar_y2 = item_y + item_h - 1;
 
 			end_minute = event->end_minute;
@@ -583,10 +585,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (main_item)->canvas), end_regsizeime);
 			cairo_set_font_size (cr, 13);
-			if ((bg_rgba.red > 0.7) || (bg_rgba.green > 0.7) || (bg_rgba.blue > 0.7))
-				cairo_set_source_rgb (cr, 0, 0, 0);
-			else
-				cairo_set_source_rgb (cr, 1, 1, 1);
+			fg_rgba = e_utils_get_text_color_for_background (&bg_rgba);
+			gdk_cairo_set_source_rgba (cr, &fg_rgba);
 			pango_cairo_update_layout (cr, layout);
 			pango_cairo_show_layout (cr, layout);
 			g_object_unref (layout);
@@ -743,8 +743,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		g_slist_free (categories_pixbufs);
 	}
 
-	if (!short_event)
-	{
+	if (!short_event) {
+		GdkRGBA fg_rgba;
+
 		if (event->start_minute % time_divisions != 0
 			|| (day_view->show_event_end_times
 			&& event->end_minute % time_divisions != 0)) {
@@ -820,10 +821,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		if (icon_x_inc == 0)
 			icon_x += 14;
 
-		if ((bg_rgba.red > 0.7) || (bg_rgba.green > 0.7) || (bg_rgba.blue > 0.7))
-			cairo_set_source_rgb (cr, 0, 0, 0);
-		else
-			cairo_set_source_rgb (cr, 1, 1, 1);
+		fg_rgba = e_utils_get_text_color_for_background (&bg_rgba);
+		gdk_cairo_set_source_rgba (cr, &fg_rgba);
 
 		layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (main_item)->canvas), text);
 		if (resize_flag)
