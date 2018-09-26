@@ -346,6 +346,36 @@ e_shell_window_event_after_cb (EShellWindow *shell_window,
 }
 
 static gboolean
+e_shell_window_key_press_event_cb (GtkWidget *widget,
+				   GdkEventKey *event)
+{
+	GtkWindow *window;
+	GtkWidget *focused;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (widget), FALSE);
+
+	window = GTK_WINDOW (widget);
+	focused = gtk_window_get_focus (window);
+
+	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0 ||
+	    event->keyval == GDK_KEY_Tab ||
+	    event->keyval == GDK_KEY_Return ||
+	    event->keyval == GDK_KEY_Escape ||
+	    event->keyval == GDK_KEY_KP_Tab ||
+	    event->keyval == GDK_KEY_KP_Enter)
+		return FALSE;
+
+	if (GTK_IS_ENTRY (focused) ||
+	    GTK_IS_EDITABLE (focused) ||
+	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0)) {
+		gtk_widget_event (focused, (GdkEvent *) event);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
 shell_window_check_is_main_instance (GtkApplication *application,
 				     GtkWindow *window)
 {
@@ -634,6 +664,9 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	g_signal_connect (shell_window, "event-after",
 		G_CALLBACK (e_shell_window_event_after_cb), NULL);
+
+	g_signal_connect (shell_window, "key-press-event",
+		G_CALLBACK (e_shell_window_key_press_event_cb), NULL);
 }
 
 void
