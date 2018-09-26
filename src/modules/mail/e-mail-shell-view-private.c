@@ -248,8 +248,9 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 }
 
 static gboolean
-mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
-                                    GdkEventKey *event)
+mail_shell_view_process_key_press_event (EMailShellView *mail_shell_view,
+					 GdkEventKey *event,
+					 gboolean pass_event)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -270,6 +271,14 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 	reader = E_MAIL_READER (mail_view);
 	mail_display = e_mail_reader_get_mail_display (reader);
 
+	if (e_web_view_get_need_input (E_WEB_VIEW (mail_display)) &&
+	    gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
+		if (pass_event)
+			gtk_widget_event (GTK_WIDGET (mail_display), (GdkEvent *) event);
+
+		return pass_event;
+	}
+
 	switch (event->keyval) {
 		case GDK_KEY_space:
 			action = ACTION (MAIL_SMART_FORWARD);
@@ -283,13 +292,24 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 			return FALSE;
 	}
 
-	if (e_web_view_get_need_input (E_WEB_VIEW (mail_display)) &&
-	    gtk_widget_has_focus (GTK_WIDGET (mail_display)))
-		return FALSE;
-
 	gtk_action_activate (action);
 
 	return TRUE;
+}
+
+static gboolean
+mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
+                                    GdkEventKey *event)
+{
+	return mail_shell_view_process_key_press_event (mail_shell_view, event, FALSE);
+}
+
+static gboolean
+mail_shell_window_key_press_event_cb (EMailShellView *mail_shell_view,
+				      GdkEventKey *event,
+				      EShellWindow *shell_window)
+{
+	return mail_shell_view_process_key_press_event (mail_shell_view, event, TRUE);
 }
 
 static gboolean
@@ -654,6 +674,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view, "toggled",
 		G_CALLBACK (e_mail_shell_view_update_send_receive_menus),
 		mail_shell_view, G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+
+	g_signal_connect_object (
+		shell_window, "key-press-event",
+		G_CALLBACK (mail_shell_window_key_press_event_cb),
+		mail_shell_view, G_CONNECT_SWAPPED);
 
 	/* Need to keep the handler ID so we can disconnect it in
 	 * dispose().  The shell outlives us and we don't want it
