@@ -6279,9 +6279,37 @@ itip_view_init_view (ItipView *view)
 				org = organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value);
 
 				itip_view_set_organizer (view, org);
-				if (organizer.sentby)
-					itip_view_set_organizer_sentby (
-						view, itip_strip_mailto (organizer.sentby));
+				if (organizer.sentby) {
+					const gchar *sentby = itip_strip_mailto (organizer.sentby);
+
+					if (sentby && *sentby) {
+						gchar *tmp = NULL;
+
+						if (view->priv->message) {
+							const gchar *sender = camel_medium_get_header (CAMEL_MEDIUM (view->priv->message), "Sender");
+
+							if (sender && *sender) {
+								CamelInternetAddress *addr;
+								const gchar *name = NULL, *email = NULL;
+
+								addr = camel_internet_address_new ();
+								if (camel_address_decode (CAMEL_ADDRESS (addr), sender) == 1 &&
+								    camel_internet_address_get (addr, 0, &name, &email) &&
+								    name && *name && email && *email &&
+								    g_ascii_strcasecmp (sentby, email) == 0) {
+									tmp = camel_internet_address_format_address (name, sentby);
+									sentby = tmp;
+								}
+
+								g_object_unref (addr);
+							}
+						}
+
+						itip_view_set_organizer_sentby (view, sentby);
+
+						g_free (tmp);
+					}
+				}
 
 				if (view->priv->my_address) {
 					if (!(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), view->priv->my_address))
