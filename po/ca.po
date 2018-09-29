@@ -1675,7 +1675,7 @@ msgstr "Cerca una fotografia del remitent a gravatar.com"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Allow searching also at gravatar.com for photo of the sender."
-msgstr "Permet cercar també una fotografia del remitent a gravatar.com"
+msgstr "Permet cercar també una fotografia del remitent a gravatar.com."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:110
 msgid "Mark as Seen after specified timeout"
@@ -2792,7 +2792,7 @@ msgstr "Si definir el camp «Format del fitxer» com «Primer Últim»"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:8
 msgid "Set File under as “First Last”, instead of “Last, First”."
-msgstr "Formata el fitxer en «Primer Últim», enlloc de «Últim, Primer»"
+msgstr "Formata el fitxer en «Primer Últim», en lloc de «Últim, Primer»."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
 msgid "Pidgin address book source"
@@ -6813,7 +6813,7 @@ msgstr "%a %d %b"
 #: ../src/calendar/gui/e-calendar-view.c:2327
 #: ../src/calendar/gui/e-calendar-view.c:2328
 msgid "%a %d %b %Y"
-msgstr "%a %d %b %Y"
+msgstr "%a %d %b del %Y"
 
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:1
 #: ../src/calendar/gui/e-memo-table.etspec.h:5
@@ -11819,7 +11819,7 @@ msgstr "fitxer adjunt %s"
 
 #: ../src/e-util/ea-calendar-item.c:312 ../src/e-util/ea-calendar-item.c:321
 msgid "%d %B %Y"
-msgstr "%d %B %Y"
+msgstr "%d %B del %Y"
 
 #: ../src/e-util/ea-calendar-item.c:324
 #, c-format
@@ -12419,7 +12419,7 @@ msgstr "No s'ha pogut crear un objecte client a partir del nom de l'extensió «
 
 #: ../src/e-util/e-collection-account-wizard.c:214
 msgid "Looking up details, please wait…"
-msgstr "S'està cercant els detalls, espereu..."
+msgstr "S'estan cercant els detalls, espereu..."
 
 #. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
 #: ../src/e-util/e-collection-account-wizard.c:271
@@ -24820,7 +24820,7 @@ msgstr "Crea _entrades a la llibreta d'adreces en enviar correus"
 #. File Under setting
 #: ../src/plugins/bbdb/bbdb.c:782
 msgid "Set File _under as “First Last”, instead of “Last, First”"
-msgstr "_Formata el fitxer en «Primer Últim», enlloc de «Últim, Primer»"
+msgstr "_Formata el fitxer en «Primer Últim», en lloc de «Últim, Primer»"
 
 #: ../src/plugins/bbdb/bbdb.c:793
 msgid "Select Address book for Automatic Contacts"
