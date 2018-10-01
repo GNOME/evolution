@@ -301,6 +301,7 @@ typedef struct _OpenClientData {
 	ECalBaseShellSidebar *sidebar;
 	ESource *source;
 	EClient *client;
+	gboolean was_cancelled;
 } OpenClientData;
 
 static void
@@ -309,9 +310,14 @@ open_client_data_free (gpointer pdata)
 	OpenClientData *data = pdata;
 
 	if (data) {
+		/* To free the cancellable in the 'value' pair, which is useless now */
+		g_hash_table_insert (data->sidebar->priv->selected_uids,
+			g_strdup (e_source_get_uid (data->source)),
+			NULL);
+
 		if (data->client) {
 			g_signal_emit (data->sidebar, signals[CLIENT_OPENED], 0, data->client);
-		} else {
+		} else if (!data->was_cancelled) {
 			ESourceSelector *selector = e_cal_base_shell_sidebar_get_selector (data->sidebar);
 			e_source_selector_unselect_source (selector, data->source);
 		}
@@ -338,6 +344,7 @@ e_cal_base_shell_sidebar_open_client_thread (EAlertSinkThreadJobData *job_data,
 	selector = E_CLIENT_SELECTOR (e_cal_base_shell_sidebar_get_selector (data->sidebar));
 	data->client = e_client_selector_get_client_sync (
 		selector, data->source, TRUE, (guint32) -1, cancellable, &local_error);
+	data->was_cancelled = g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED);
 
 	e_util_propagate_open_source_job_error (job_data, data->extension_name, local_error, error);
 }
@@ -354,6 +361,10 @@ e_cal_base_shell_sidebar_ensure_source_opened (ECalBaseShellSidebar *sidebar,
 
 	g_return_if_fail (E_IS_CAL_BASE_SHELL_SIDEBAR (sidebar));
 	g_return_if_fail (E_IS_SOURCE (source));
+
+	/* Skip it when it's already opening or opened */
+	if (g_hash_table_contains (sidebar->priv->selected_uids, e_source_get_uid (source)))
+		return;
 
 	shell_view = e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (sidebar));
 
