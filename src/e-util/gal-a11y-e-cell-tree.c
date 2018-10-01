@@ -55,7 +55,7 @@ ectr_model_row_changed_cb (ETableModel *etm,
 	tree_model = e_table_model_value_at (etm, -2, a11y->row);
 	tree_table_adapter = e_table_model_value_at (etm, -3, a11y->row);
 
-	if (e_tree_model_node_is_expandable (tree_model, node)) {
+	if (node && e_tree_model_node_is_expandable (tree_model, node)) {
 		gboolean is_exp = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 		if (is_exp)
 			gal_a11y_e_cell_add_state (a11y, ATK_STATE_EXPANDED, TRUE);
@@ -114,7 +114,7 @@ ectr_do_action_expand (AtkAction *action)
 	tree_model = e_table_model_value_at (table_model, -2, a11y->row);
 	tree_table_adapter = e_table_model_value_at (table_model, -3, a11y->row);
 
-	if (e_tree_model_node_is_expandable (tree_model, node)) {
+	if (node && e_tree_model_node_is_expandable (tree_model, node)) {
 		e_tree_table_adapter_node_set_expanded (
 			tree_table_adapter, node, TRUE);
 		gal_a11y_e_cell_add_state (a11y, ATK_STATE_EXPANDED, TRUE);
@@ -136,7 +136,7 @@ ectr_do_action_collapse (AtkAction *action)
 	tree_model = e_table_model_value_at (table_model, -2, a11y->row);
 	tree_table_adapter = e_table_model_value_at (table_model, -3, a11y->row);
 
-	if (e_tree_model_node_is_expandable (tree_model, node)) {
+	if (node && e_tree_model_node_is_expandable (tree_model, node)) {
 		e_tree_table_adapter_node_set_expanded (
 			tree_table_adapter, node, FALSE);
 		gal_a11y_e_cell_remove_state (a11y, ATK_STATE_EXPANDED, TRUE);
@@ -226,7 +226,7 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 		node = e_table_model_value_at (item->table_model, -1, row);
 		tree_model = e_table_model_value_at (item->table_model, -2, row);
 		tree_table_adapter = e_table_model_value_at (item->table_model, -3, row);
-		if (e_tree_model_node_is_expandable (tree_model, node)) {
+		if (node && e_tree_model_node_is_expandable (tree_model, node)) {
 			gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (subcell_a11y), ATK_STATE_EXPANDABLE, FALSE);
 			if (e_tree_table_adapter_node_is_expanded (tree_table_adapter, node))
 				gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (subcell_a11y), ATK_STATE_EXPANDED, FALSE);
