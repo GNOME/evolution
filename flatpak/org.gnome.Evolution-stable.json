@@ -27,7 +27,6 @@
 		"--socket=wayland",
 		"--socket=pulseaudio",
 		"--talk-name=org.freedesktop.Notifications",
-		"--talk-name=org.freedesktop.portal.Desktop",
 		"--talk-name=org.gnome.OnlineAccounts"
 	],
 	"modules": [
@@ -36,7 +35,6 @@
 			"cleanup": [ "/lib/cmake" ],
 			"buildsystem": "cmake-ninja",
 			"config-opts": [
-				"-DCMAKE_INSTALL_LIBDIR:PATH=/app/lib",
 				"-DBUILD_SHARED_LIBS:BOOL=ON",
 				"-DGOBJECT_INTROSPECTION:BOOL=OFF"
 			],
@@ -64,7 +62,12 @@
 
 		{
 			"name": "gnome-online-accounts",
-			"config-opts": [ "--disable-Werror", "--disable-telepathy", "--disable-documentation", "--disable-backend" ],
+			"config-opts": [
+				"--disable-Werror",
+				"--disable-telepathy",
+				"--disable-documentation",
+				"--disable-backend"
+			],
 			"cleanup": [ "/bin", "/share/GConf" ],
 			"sources": [
 				{
@@ -109,27 +112,23 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/geocode-glib/3.24/geocode-glib-3.24.0.tar.xz",
-					"sha256": "19c1fef4fd89eb4bfe6decca45ac45a2eca9bb7933be560ce6c172194840c35e"
+					"url": "https://download.gnome.org/sources/geocode-glib/3.26/geocode-glib-3.26.0.tar.xz",
+					"sha256": "ea4086b127050250c158beff28dbcdf81a797b3938bb79bbaaecc75e746fbeee"
 				}
 			]
 		},
 
 		{
 			"name": "libgweather",
-			"config-opts": [
-				"--disable-glade-catalog",
-				"--disable-introspection",
-				"--disable-vala"
-			],
+			"buildsystem": "meson",
 			"cleanup": [
 				"/share/gtk-doc"
 			],
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/libgweather/3.24/libgweather-3.24.1.tar.xz",
-					"sha256": "1227316037b63dac4153031a22abccb3d2ac679a7409e29cd303eec499eb653c"
+					"url": "https://download.gnome.org/sources/libgweather/3.28/libgweather-3.28.2.tar.xz",
+					"sha256": "081ce81653afc614e12641c97a8dd9577c524528c63772407ae2dbcde12bde75"
 				}
 			]
 		},
