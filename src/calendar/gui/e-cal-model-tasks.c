@@ -290,6 +290,18 @@ get_url (ECalModelComponent *comp_data)
 	return (gpointer) "";
 }
 
+static gpointer
+get_location (ECalModelComponent *comp_data)
+{
+	icalproperty *prop;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_LOCATION_PROPERTY);
+	if (prop)
+		return (gpointer) icalproperty_get_location (prop);
+
+	return (gpointer) "";
+}
+
 static gboolean
 is_complete (ECalModelComponent *comp_data)
 {
@@ -641,6 +653,29 @@ set_url (ECalModelComponent *comp_data,
 }
 
 static void
+set_location (ECalModelComponent *comp_data,
+              gconstpointer value)
+{
+	icalproperty *prop;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_LOCATION_PROPERTY);
+
+	if (string_is_empty (value)) {
+		if (prop) {
+			icalcomponent_remove_property (comp_data->icalcomp, prop);
+			icalproperty_free (prop);
+		}
+	} else {
+		if (prop)
+			icalproperty_set_location (prop, (const gchar *) value);
+		else {
+			prop = icalproperty_new_location ((const gchar *) value);
+			icalcomponent_add_property (comp_data->icalcomp, prop);
+		}
+	}
+}
+
+static void
 cal_model_tasks_set_property (GObject *object,
                               guint property_id,
                               const GValue *value,
@@ -778,6 +813,7 @@ cal_model_tasks_store_values_from_model (ECalModel *model,
 	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_TASKS_FIELD_GEO, row);
 	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_TASKS_FIELD_PRIORITY, row);
 	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_TASKS_FIELD_URL, row);
+	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_TASKS_FIELD_LOCATION, row);
 }
 
 static void
@@ -807,6 +843,7 @@ cal_model_tasks_fill_component_from_values (ECalModel *model,
 	set_geo (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_TASKS_FIELD_GEO));
 	set_priority (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_TASKS_FIELD_PRIORITY));
 	set_url (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_TASKS_FIELD_URL));
+	set_location (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_TASKS_FIELD_LOCATION));
 }
 
 static gint
@@ -856,6 +893,8 @@ cal_model_tasks_value_at (ETableModel *etm,
 		return get_status (comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_URL :
 		return get_url (comp_data);
+	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
+		return get_location (comp_data);
 	}
 
 	return (gpointer) "";
@@ -909,6 +948,9 @@ cal_model_tasks_set_value_at (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_URL :
 		set_url (comp_data, value);
 		break;
+	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
+		set_location (comp_data, value);
+		break;
 	}
 
 	e_cal_model_modify_component (E_CAL_MODEL (model), comp_data, E_CAL_OBJ_MOD_ALL);
@@ -941,6 +983,7 @@ cal_model_tasks_is_cell_editable (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
 	case E_CAL_MODEL_TASKS_FIELD_URL :
+	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
 		return TRUE;
 	}
 
@@ -970,6 +1013,9 @@ cal_model_tasks_duplicate_value (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
 		return (gpointer) value;
+
+	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
+		return g_strdup (value);
 	}
 
 	return NULL;
@@ -997,6 +1043,7 @@ cal_model_tasks_free_value (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
 	case E_CAL_MODEL_TASKS_FIELD_URL :
+	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
@@ -1022,6 +1069,7 @@ cal_model_tasks_initialize_value (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
 	case E_CAL_MODEL_TASKS_FIELD_URL :
+	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
 		return (gpointer) "";
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
@@ -1053,6 +1101,7 @@ cal_model_tasks_value_is_empty (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
 	case E_CAL_MODEL_TASKS_FIELD_URL :
+	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
 		return string_is_empty (value);
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
@@ -1085,6 +1134,7 @@ cal_model_tasks_value_to_string (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
 	case E_CAL_MODEL_TASKS_FIELD_URL :
+	case E_CAL_MODEL_TASKS_FIELD_LOCATION:
 		return g_strdup (value);
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :

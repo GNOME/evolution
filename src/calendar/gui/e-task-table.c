@@ -832,6 +832,21 @@ task_table_query_tooltip (GtkWidget *widget,
 		gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &norm_text);
 	}
 
+	e_cal_component_get_location (new_comp, &str);
+
+	if (str) {
+		/* Translators: It will display "Location: PlaceOfTheMeeting" */
+		tmp = g_markup_printf_escaped (_("Location: %s"), str);
+		l = gtk_label_new (NULL);
+		gtk_widget_set_halign (l, GTK_ALIGN_START);
+		gtk_misc_set_alignment ((GtkMisc *) l, 0.0, 0.0);
+		gtk_label_set_markup ((GtkLabel *) l, tmp);
+		gtk_label_set_line_wrap ((GtkLabel *) l, TRUE);
+		gtk_label_set_max_width_chars ((GtkLabel *) l, 80);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+		g_free (tmp);
+	}
+
 	e_cal_component_get_dtstart (new_comp, &dtstart);
 	e_cal_component_get_due (new_comp, &dtdue);
 

@@ -759,63 +759,66 @@ e_comp_editor_task_constructed (GObject *object)
 	e_comp_editor_page_add_property_part (page, part, 0, 2, 4, 1);
 	summary = part;
 
+	part = e_comp_editor_property_part_location_new (focus_tracker);
+	e_comp_editor_page_add_property_part (page, part, 0, 3, 4, 1);
+
 	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "Sta_rt date:"), TRUE, TRUE);
-	e_comp_editor_page_add_property_part (page, part, 0, 3, 2, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 4, 2, 1);
 	task_editor->priv->dtstart = part;
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
 	g_signal_connect (edit_widget, "changed", G_CALLBACK (ece_task_dtstart_changed_cb), task_editor);
 
 	part = e_comp_editor_property_part_status_new ();
-	e_comp_editor_page_add_property_part (page, part, 2, 3, 2, 1);
+	e_comp_editor_page_add_property_part (page, part, 2, 4, 2, 1);
 	task_editor->priv->status = part;
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
 	g_signal_connect (edit_widget, "changed", G_CALLBACK (ece_task_status_changed_cb), task_editor);
 
 	part = e_comp_editor_property_part_due_new (TRUE, TRUE);
-	e_comp_editor_page_add_property_part (page, part, 0, 4, 2, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 5, 2, 1);
 	task_editor->priv->due_date = part;
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
 	g_signal_connect (edit_widget, "changed", G_CALLBACK (ece_task_due_date_changed_cb), task_editor);
 
 	part = e_comp_editor_property_part_priority_new ();
-	e_comp_editor_page_add_property_part (page, part, 2, 4, 2, 1);
+	e_comp_editor_page_add_property_part (page, part, 2, 5, 2, 1);
 
 	part = e_comp_editor_property_part_completed_new (TRUE, TRUE);
-	e_comp_editor_page_add_property_part (page, part, 0, 5, 2, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 6, 2, 1);
 	task_editor->priv->completed_date = part;
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
 	g_signal_connect (edit_widget, "changed", G_CALLBACK (ece_task_completed_date_changed_cb), task_editor);
 
 	part = e_comp_editor_property_part_percentcomplete_new ();
-	e_comp_editor_page_add_property_part (page, part, 2, 5, 2, 1);
+	e_comp_editor_page_add_property_part (page, part, 2, 6, 2, 1);
 	task_editor->priv->percentcomplete = part;
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
 	g_signal_connect (edit_widget, "value-changed", G_CALLBACK (ece_task_percentcomplete_value_changed_cb), task_editor);
 
 	part = e_comp_editor_property_part_url_new (focus_tracker);
-	e_comp_editor_page_add_property_part (page, part, 0, 6, 2, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 7, 2, 1);
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
 	gtk_widget_set_hexpand (edit_widget, TRUE);
 
 	part = e_comp_editor_property_part_classification_new ();
-	e_comp_editor_page_add_property_part (page, part, 2, 6, 2, 1);
+	e_comp_editor_page_add_property_part (page, part, 2, 7, 2, 1);
 
 	part = e_comp_editor_property_part_timezone_new ();
-	e_comp_editor_page_add_property_part (page, part, 0, 7, 4, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 8, 4, 1);
 	task_editor->priv->timezone = part;
 
 	part = e_comp_editor_property_part_categories_new (focus_tracker);
-	e_comp_editor_page_add_property_part (page, part, 0, 8, 4, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 9, 4, 1);
 	task_editor->priv->categories = part;
 
 	part = e_comp_editor_property_part_description_new (focus_tracker);
-	e_comp_editor_page_add_property_part (page, part, 0, 9, 4, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 10, 4, 1);
 	task_editor->priv->description = part;
 
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "General"), page);

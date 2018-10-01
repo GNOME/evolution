@@ -1870,7 +1870,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	e_cal_component_get_location (newcomp, &str);
 
 	if (str) {
-		/* To Translators: It will display "Location: PlaceOfTheMeeting" */
+		/* Translators: It will display "Location: PlaceOfTheMeeting" */
 		tmp = g_markup_printf_escaped (_("Location: %s"), str);
 		label = gtk_label_new (NULL);
 		gtk_widget_set_halign (label, GTK_ALIGN_START);
