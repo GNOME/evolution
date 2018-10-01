@@ -252,10 +252,10 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 	/* write location */
 	e_cal_component_get_location (comp, &location);
-	if (location)
+	if (location && *location)
 		g_string_append_printf (
 			buffer, "<tr><th>%s</th><td>%s</td></tr>",
-			_("Summary:"), text.value);
+			_("Location:"), location);
 
 	/* write start date */
 	e_cal_component_get_dtstart (comp, &dt);
