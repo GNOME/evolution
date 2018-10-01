@@ -789,6 +789,21 @@ e_dom_utils_bind_dom (WebKitDOMDocument *document,
 			G_CALLBACK (callback), FALSE, user_data);
 	}
 	g_clear_object (&nodes);
+
+	/* Traverse in inner frames as well */
+	nodes = webkit_dom_document_query_selector_all (document, "iframe", NULL);
+	length = webkit_dom_node_list_get_length (nodes);
+	for (ii = 0; ii < length; ii++) {
+		WebKitDOMDocument *iframe_document;
+		WebKitDOMNode *node;
+
+		node = webkit_dom_node_list_item (nodes, ii);
+		iframe_document = webkit_dom_html_iframe_element_get_content_document (WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
+		if (iframe_document)
+			e_dom_utils_bind_dom (iframe_document, selector, event, callback, user_data);
+	}
+
+	g_clear_object (&nodes);
 }
 
 static gboolean

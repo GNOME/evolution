@@ -542,6 +542,7 @@ mail_display_mail_part_appeared_signal_cb (GDBusConnection *connection,
 					   gpointer user_data)
 {
 	EMailDisplay *display = user_data;
+	GDBusProxy *web_extension;
 	const gchar *part_id = NULL;
 	guint64 page_id = 0;
 	EMailPart *part;
@@ -565,6 +566,17 @@ mail_display_mail_part_appeared_signal_cb (GDBusConnection *connection,
 	}
 
 	g_clear_object (&part);
+
+	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
+	if (web_extension) {
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
+			web_extension,
+			"EMailDisplayBindDOM",
+			g_variant_new (
+				"(t)",
+				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (display))),
+			NULL);
+	}
 }
 
 static void
