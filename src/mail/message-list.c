@@ -2001,7 +2001,43 @@ ml_tree_value_at_ex (ETreeModel *etm,
 					colour = g_intern_string (colour_alloced);
 					g_free (colour_alloced);
 				}
-			} else if (camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_FLAGGED) {
+			} else if (g_hash_table_size (ld.labels_tag2iter) > 1) {
+				/* When there is more than one label set, then pick the color of the first
+				   found, in order of the EMailLabelListStore */
+				GtkTreeIter titer;
+				GtkTreeModel *model = GTK_TREE_MODEL (ld.store);
+
+				if (gtk_tree_model_get_iter_first (model, &titer)) {
+					do {
+						gchar *tag;
+
+						tag = e_mail_label_list_store_get_tag (ld.store, &titer);
+						if (tag && g_hash_table_contains (ld.labels_tag2iter, tag)) {
+							GdkColor colour_val;
+
+							g_free (tag);
+
+							if (e_mail_label_list_store_get_color (ld.store, &titer, &colour_val)) {
+								gchar *colour_alloced;
+
+								/* XXX Hack to avoid returning an allocated string. */
+								colour_alloced = gdk_color_to_string (&colour_val);
+								colour = g_intern_string (colour_alloced);
+								g_free (colour_alloced);
+							}
+							break;
+						}
+
+						g_free (tag);
+					} while (gtk_tree_model_iter_next (model, &titer));
+				}
+			}
+
+			g_hash_table_destroy (ld.labels_tag2iter);
+		}
+
+		if (!colour) {
+			if (camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
 			} else if (((followup && *followup) || (due_by && *due_by)) && !(completed && *completed)) {
@@ -2010,8 +2046,6 @@ ml_tree_value_at_ex (ETreeModel *etm,
 				if ((followup && *followup) || now >= camel_header_decode_date (due_by, NULL))
 					colour = "#A7453E";
 			}
-
-			g_hash_table_destroy (ld.labels_tag2iter);
 		}
 
 		if (!colour)
@@ -2852,32 +2886,72 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter,
 	return FALSE;
 }
 
-static void
+static gboolean
+ml_get_new_mail_bg_color (ETableItem *item,
+			  gint row,
+			  gint col,
+			  GdkRGBA *inout_background,
+			  MessageList *message_list)
+{
+	CamelMessageInfo *msg_info;
+	ETreePath path;
+
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (inout_background != NULL, FALSE);
+
+	if (!message_list->priv->new_mail_bg_color || row < 0)
+		return FALSE;
+
+	path = e_tree_table_adapter_node_at_row (e_tree_get_table_adapter (E_TREE (message_list)), row);
+	if (!path || G_NODE_IS_ROOT ((GNode *) path))
+		return FALSE;
+
+	/* retrieve the message information array */
+	msg_info = ((GNode *) path)->data;
+	g_return_val_if_fail (msg_info != NULL, FALSE);
+
+	if (!(camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_SEEN)) {
+		*inout_background = *(message_list->priv->new_mail_bg_color);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gboolean
 ml_get_bg_color_cb (ETableItem *item,
 		    gint row,
 		    gint col,
 		    GdkRGBA *inout_background,
 		    MessageList *message_list)
 {
-	CamelMessageInfo *msg_info;
-	ETreePath path;
+	gboolean was_set = FALSE;
 
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
-	g_return_if_fail (inout_background != NULL);
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (inout_background != NULL, FALSE);
 
-	if (!message_list->priv->new_mail_bg_color || row < 0)
-		return;
+	if (row < 0)
+		return FALSE;
 
-	path = e_tree_table_adapter_node_at_row (e_tree_get_table_adapter (E_TREE (message_list)), row);
-	if (!path || G_NODE_IS_ROOT ((GNode *) path))
-		return;
+	if (e_selection_model_is_row_selected (e_tree_get_selection_model (E_TREE (message_list)), row)) {
+		ETableModel *table_model;
+		gchar *color_spec;
 
-	/* retrieve the message information array */
-	msg_info = ((GNode *) path)->data;
-	g_return_if_fail (msg_info != NULL);
+		table_model = E_TABLE_MODEL (e_tree_get_table_adapter (E_TREE (message_list)));
 
-	if (!(camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_SEEN))
-		*inout_background = *(message_list->priv->new_mail_bg_color);
+		color_spec = e_table_model_value_at (table_model, COL_COLOUR, row);
+		if (color_spec && gdk_rgba_parse (inout_background, color_spec)) {
+			was_set = TRUE;
+		}
+
+		if (color_spec)
+			e_table_model_free_value (table_model, COL_COLOUR, color_spec);
+	}
+
+	if (!was_set)
+		was_set = ml_get_new_mail_bg_color (item, row, col, inout_background, message_list);
+
+	return was_set;
 }
 
 static void

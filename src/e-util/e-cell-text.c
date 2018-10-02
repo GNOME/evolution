@@ -733,62 +733,65 @@ ect_draw (ECellView *ecell_view,
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	CellEdit *edit = text_view->edit;
+	gboolean color_overwritten = FALSE;
 	gboolean selected;
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
-	GdkRGBA fg_rgba, bg_rgba;
+	GdkRGBA fg_rgba, bg_rgba, overwritten_rgba;
 	gint x_origin, y_origin, vspacing;
 
 	cairo_save (cr);
 
 	selected = flags & E_CELL_SELECTED;
 
-	if (selected) {
+	e_utils_get_theme_color (canvas, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &fg_rgba);
+	gdk_cairo_set_source_rgba (cr, &fg_rgba);
+
+	if (ect->color_column != -1) {
+		gchar *color_spec;
+
+		color_spec = e_table_model_value_at (
+			ecell_view->e_table_model,
+			ect->color_column, row);
+		if (color_spec && gdk_rgba_parse (&overwritten_rgba, color_spec)) {
+			if (selected) {
+				fg_rgba = e_utils_get_text_color_for_background (&overwritten_rgba);
+				gdk_cairo_set_source_rgba (cr, &fg_rgba);
+			} else {
+				gdk_cairo_set_source_rgba (cr, &overwritten_rgba);
+			}
+			color_overwritten = TRUE;
+		}
+
+		if (color_spec)
+			e_table_model_free_value (ecell_view->e_table_model, ect->color_column, color_spec);
+	}
+
+	if (!color_overwritten && !selected && ect->bg_color_column != -1) {
+		gchar *color_spec;
+
+		/* if the background color is overwritten and the text color is not, then
+		   pick either black or white text color, because the theme text color might
+		   be hard to read on the overwritten background */
+		color_spec = e_table_model_value_at (
+			ecell_view->e_table_model,
+			ect->bg_color_column, row);
+
+		if (color_spec && gdk_rgba_parse (&bg_rgba, color_spec)) {
+			color_overwritten = TRUE;
+			bg_rgba = e_utils_get_text_color_for_background (&bg_rgba);
+			gdk_cairo_set_source_rgba (cr, &bg_rgba);
+		}
+
+		if (color_spec)
+			e_table_model_free_value (ecell_view->e_table_model, ect->bg_color_column, color_spec);
+	}
+
+	if (!color_overwritten && selected) {
 		if (gtk_widget_has_focus (canvas))
 			e_utils_get_theme_color (canvas, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &fg_rgba);
 		else
 			e_utils_get_theme_color (canvas, "theme_unfocused_selected_fg_color,theme_selected_fg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_FG_COLOR, &fg_rgba);
 		gdk_cairo_set_source_rgba (cr, &fg_rgba);
-	} else {
-		gboolean color_overwritten = FALSE;
-
-		e_utils_get_theme_color (canvas, "theme_text_color,theme_fg_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, &fg_rgba);
-		gdk_cairo_set_source_rgba (cr, &fg_rgba);
-
-		if (ect->color_column != -1) {
-			gchar *color_spec;
-			GdkColor color;
-
-			color_spec = e_table_model_value_at (
-				ecell_view->e_table_model,
-				ect->color_column, row);
-			if (color_spec && gdk_color_parse (color_spec, &color)) {
-				gdk_cairo_set_source_color (cr, &color);
-				color_overwritten = TRUE;
-			}
-
-			if (color_spec)
-				e_table_model_free_value (ecell_view->e_table_model, ect->color_column, color_spec);
-		}
-
-		if (!color_overwritten && ect->bg_color_column != -1) {
-			GdkRGBA bg_rgba;
-			gchar *color_spec;
-
-			/* if the background color is overwritten and the text color is not, then
-			   pick either black or white text color, because the theme text color might
-			   be hard to read on the overwritten background */
-			color_spec = e_table_model_value_at (
-				ecell_view->e_table_model,
-				ect->bg_color_column, row);
-
-			if (color_spec && gdk_rgba_parse (&bg_rgba, color_spec)) {
-				bg_rgba = e_utils_get_text_color_for_background (&bg_rgba);
-				gdk_cairo_set_source_rgba (cr, &bg_rgba);
-			}
-
-			if (color_spec)
-				e_table_model_free_value (ecell_view->e_table_model, ect->bg_color_column, color_spec);
-		}
 	}
 
 	vspacing = get_vertical_spacing (canvas);
@@ -873,7 +876,7 @@ ect_get_bg_color (ECellView *ecell_view,
                   gint row)
 {
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
-	gchar *color_spec;
+	gchar *color_spec, *bg_color;
 
 	if (ect->bg_color_column == -1)
 		return NULL;
@@ -882,7 +885,12 @@ ect_get_bg_color (ECellView *ecell_view,
 		ecell_view->e_table_model,
 		ect->bg_color_column, row);
 
-	return color_spec;
+	bg_color = g_strdup (color_spec);
+
+	if (color_spec)
+		e_table_model_free_value (ecell_view->e_table_model, ect->bg_color_column, color_spec);
+
+	return bg_color;
 }
 
 /*

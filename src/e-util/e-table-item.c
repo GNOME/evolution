@@ -42,6 +42,7 @@
 #include "e-canvas-utils.h"
 #include "e-canvas.h"
 #include "e-cell.h"
+#include "e-cell-text.h"
 #include "e-marshal.h"
 #include "e-table-subset.h"
 #include "gal-a11y-e-table-item-factory.h"
@@ -333,28 +334,37 @@ eti_get_cell_background_color (ETableItem *eti,
 {
 	ECellView *ecell_view = eti->cell_views[col];
 	GtkWidget *canvas;
+	gboolean was_set = FALSE;
 	gchar *color_spec = NULL;
 
 	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
 
-	if (selected) {
-		if (gtk_widget_has_focus (canvas))
-			e_utils_get_theme_color (canvas, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, background);
-		else
-			e_utils_get_theme_color (canvas, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, background);
-	} else {
-		e_utils_get_theme_color (canvas, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, background);
+	g_signal_emit (eti, eti_signals[GET_BG_COLOR], 0, row, col, background, &was_set);
 
-		g_signal_emit (eti, eti_signals[GET_BG_COLOR], 0, row, col, background);
+	if (!was_set) {
+		color_spec = e_cell_get_bg_color (ecell_view, row);
+
+		if (color_spec != NULL) {
+			GdkRGBA bg;
+
+			if (gdk_rgba_parse (&bg, color_spec)) {
+				*background = bg;
+				was_set = TRUE;
+			}
+		}
+
+		g_free (color_spec);
 	}
 
-	color_spec = e_cell_get_bg_color (ecell_view, row);
-
-	if (color_spec != NULL) {
-		GdkRGBA bg;
-
-		if (gdk_rgba_parse (&bg, color_spec))
-			*background = bg;
+	if (!was_set) {
+		if (selected) {
+			if (gtk_widget_has_focus (canvas))
+				e_utils_get_theme_color (canvas, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, background);
+			else
+				e_utils_get_theme_color (canvas, "theme_unfocused_selected_bg_color,theme_selected_bg_color", E_UTILS_DEFAULT_THEME_UNFOCUSED_SELECTED_BG_COLOR, background);
+		} else {
+			e_utils_get_theme_color (canvas, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, background);
+		}
 	}
 
 	if (eti->alternating_row_colors) {
@@ -3414,7 +3424,7 @@ e_table_item_class_init (ETableItemClass *class)
 		G_STRUCT_OFFSET (ETableItemClass, get_bg_color),
 		NULL, NULL,
 		NULL,
-		G_TYPE_NONE, 3,
+		G_TYPE_BOOLEAN, 3, /* return TRUE when set */
 		G_TYPE_INT, /* row */
 		G_TYPE_INT, /* col */
 		G_TYPE_POINTER /* GdkRGBA *background, but cannot be passed as
