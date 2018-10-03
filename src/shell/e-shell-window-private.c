@@ -362,7 +362,8 @@ e_shell_window_key_press_event_cb (GtkWidget *widget,
 	    event->keyval == GDK_KEY_Return ||
 	    event->keyval == GDK_KEY_Escape ||
 	    event->keyval == GDK_KEY_KP_Tab ||
-	    event->keyval == GDK_KEY_KP_Enter)
+	    event->keyval == GDK_KEY_KP_Enter ||
+	    event->keyval == GDK_KEY_BackSpace)
 		return FALSE;
 
 	if (GTK_IS_ENTRY (focused) ||
