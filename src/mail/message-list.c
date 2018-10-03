@@ -4898,8 +4898,8 @@ mail_folder_hide_by_flag (CamelFolder *folder,
 
 static void
 message_list_folder_changed (CamelFolder *folder,
-                             CamelFolderChangeInfo *changes,
-                             MessageList *message_list)
+			     CamelFolderChangeInfo *changes,
+			     MessageList *message_list)
 {
 	CamelFolderChangeInfo *altered_changes = NULL;
 	ETreeModel *tree_model;
@@ -4907,6 +4907,10 @@ message_list_folder_changed (CamelFolder *folder,
 	gboolean hide_junk;
 	gboolean hide_deleted;
 	gint i;
+
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (changes != NULL);
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
 	if (message_list->priv->destroyed)
 		return;
@@ -4974,6 +4978,71 @@ message_list_folder_changed (CamelFolder *folder,
 
 	if (altered_changes != NULL)
 		camel_folder_change_info_free (altered_changes);
+}
+
+typedef struct _FolderChangedData {
+	GWeakRef *folder; /* CamelFolder * */
+	CamelFolderChangeInfo *changes;
+	GWeakRef *message_list; /* MessageList * */
+} FolderChangedData;
+
+static void
+folder_changed_data_free (gpointer ptr)
+{
+	FolderChangedData *fcd = ptr;
+
+	if (fcd) {
+		e_weak_ref_free (fcd->folder);
+		e_weak_ref_free (fcd->message_list);
+		camel_folder_change_info_free (fcd->changes);
+		g_free (fcd);
+	}
+}
+
+static gboolean
+message_list_folder_changed_timeout_cb (gpointer user_data)
+{
+	FolderChangedData *fcd = user_data;
+	CamelFolder *folder;
+	MessageList *message_list;
+
+	g_return_val_if_fail (fcd != NULL, FALSE);
+
+	folder = g_weak_ref_get (fcd->folder);
+	message_list = g_weak_ref_get (fcd->message_list);
+
+	if (folder && message_list)
+		message_list_folder_changed (folder, fcd->changes, message_list);
+
+	g_clear_object (&message_list);
+	g_clear_object (&folder);
+
+	return FALSE;
+}
+
+static void
+message_list_folder_changed_cb (CamelFolder *folder,
+				CamelFolderChangeInfo *changes,
+				MessageList *message_list)
+{
+	if (message_list->priv->destroyed)
+		return;
+
+	if (e_util_is_main_thread (g_thread_self ())) {
+		message_list_folder_changed (folder, changes, message_list);
+	} else {
+		FolderChangedData *fcd;
+
+		fcd = g_new0 (FolderChangedData, 1);
+		fcd->folder = e_weak_ref_new (folder);
+		fcd->changes = camel_folder_change_info_copy (changes);
+		fcd->message_list = e_weak_ref_new (message_list);
+
+		/* Just to have it called in the main/UI thread */
+		g_timeout_add_full (G_PRIORITY_DEFAULT, 1,
+			message_list_folder_changed_timeout_cb,
+			fcd, folder_changed_data_free);
+	}
 }
 
 CamelFolder *
@@ -5115,7 +5184,7 @@ message_list_set_folder (MessageList *message_list,
 
 		handler_id = g_signal_connect (
 			folder, "changed",
-			G_CALLBACK (message_list_folder_changed),
+			G_CALLBACK (message_list_folder_changed_cb),
 			message_list);
 		message_list->priv->folder_changed_handler_id = handler_id;
 
