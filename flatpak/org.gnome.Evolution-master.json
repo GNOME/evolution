@@ -27,6 +27,10 @@
 		"--socket=x11",
 		"--socket=wayland",
 		"--socket=pulseaudio",
+		"--filesystem=xdg-run/dconf",
+		"--filesystem=~/.config/dconf:ro",
+		"--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+		"--talk-name=ca.desrt.dconf",
 		"--talk-name=org.freedesktop.Notifications",
 		"--talk-name=org.gnome.OnlineAccounts"
 	],
@@ -168,26 +172,6 @@
 		},
 
 		{
-			"name": "dconf",
-			"config-opts": [
-				"--disable-gtk-doc",
-				"--disable-man"
-			],
-			"cleanup": [
-				"/share/bash-completion",
-				"/share/gtk-doc",
-				"/share/vala"
-			],
-			"sources": [
-				{
-					"type": "archive",
-					"url": "https://download.gnome.org/sources/dconf/0.26/dconf-0.26.0.tar.xz",
-					"sha256": "8683292eb31a3fae31e561f0a4220d8569b0f6d882e9958b68373f9043d658c9"
-				}
-			]
-		},
-
-		{
 			"name": "gnome-keyring",
 			"rm-configure": true,
 			"config-opts": [
@@ -305,7 +289,6 @@
 					"commands": [
 						"export GIO_USE_NETWORK_MONITOR=base",
 						"echo evolution-flatpak | /app/bin/gnome-keyring-daemon --daemonize --unlock &",
-						"/app/libexec/dconf-service &",
 						"sleep 1",
 						"gsettings reset org.gnome.evolution-data-server network-monitor-gio-name",
 						"/app/libexec/evolution-source-registry &",
@@ -325,6 +308,7 @@
 						"/app/libexec/evolution-data-server/evolution-dbus-session \\",
 						"	--exec /app/bin/evolution-wrapper \\",
 						"	--service-dir /app/share/dbus-1/services/ \\",
+						"	--iface ca.desrt.dconf:/ca/desrt/dconf \\",
 						"	--iface org.freedesktop.Notifications:/org/freedesktop/Notifications \\",
 						"	--iface org.freedesktop.portal.Desktop:/org/freedesktop/portal/desktop \\",
 						"	--iface org.gnome.OnlineAccounts:/org/gnome/OnlineAccounts"
