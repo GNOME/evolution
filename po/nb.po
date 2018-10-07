@@ -1,17 +1,16 @@
 # Norwegian bokmål translation of evolution.
 # Copyright (C) 1998-2004, 2005 Free Software Foundation, Inc.
-# Kjartan Maraas <kmaraas@gnome.org>, 1998-2017.
+# Kjartan Maraas <kmaraas@gnome.org>, 1998-2018.
 # Terance Edward Sola <terance@lyse.net>, 2005.
 # Torstein Adolf Winterseth <kvikende@fsfe.org>, 2010.
 # Alexander Strand <godsetalex@gmail.com>
 #: ../src/shell/main.c:521
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 3.27.x\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?"
-"product=evolution&keywords=I18N+L10N&component=general\n"
+"Project-Id-Version: evolution 3.30.x\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-11-17 20:41+0000\n"
-"PO-Revision-Date: 2017-11-20 12:13+0100\n"
+"PO-Revision-Date: 2018-10-07 11:28+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: nb\n"
@@ -437,12 +436,10 @@ msgid "Default reminder snooze interval, in minutes"
 msgstr "Forvalgt verdi for utsettelse av påminnelse i minutter"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
-#, fuzzy
-#| msgid "Default reminder snooze interval, in minutes"
 msgid ""
 "Default reminder snooze interval, in minutes, to be filled in the reminder "
 "notification dialog"
-msgstr "Forvalgt verdi for utsettelse av påminnelse i minutter"
+msgstr "Forvalgt verdi for utsettelse av påminnelse i minutter. Fylles ut i dialogen for påminnelse."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Show categories field in the event/meeting/task editor"
