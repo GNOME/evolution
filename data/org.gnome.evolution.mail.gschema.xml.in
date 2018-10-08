@@ -476,6 +476,10 @@
       <default>'quoted'</default>
       <_summary>Default reply style</_summary>
     </key>
+    <key name="composer-attribution-language" type="s">
+      <default>''</default>
+      <_summary>Forward and reply attribution language tag, like en_US. Empty string means to use the same language as the user interface.</_summary>
+    </key>
     <key name="prompt-on-accel-send" type="b">
       <default>true</default>
       <_summary>Prompt on send when using key accelerator (Ctrl+Enter)</_summary>

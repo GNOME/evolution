@@ -23,6 +23,7 @@
 
 #include "evolution-config.h"
 
+#include <locale.h>
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
@@ -2007,6 +2008,129 @@ traverse_parts (GSList *clues,
 	}
 }
 
+static void
+emcu_change_locale (const gchar *lc_messages,
+		    const gchar *lc_time,
+		    gchar **out_lc_messages,
+		    gchar **out_lc_time)
+{
+	gboolean success;
+	gchar *previous;
+
+	if (lc_messages) {
+		#if defined(LC_MESSAGES)
+		previous = g_strdup (setlocale (LC_MESSAGES, NULL));
+		success = setlocale (LC_MESSAGES, lc_messages) != NULL;
+		#else
+		previous = g_strdup (setlocale (LC_ALL, NULL));
+		success = setlocale (LC_ALL, lc_messages) != NULL;
+		#endif
+
+		if (out_lc_messages)
+			*out_lc_messages = success ? g_strdup (previous) : NULL;
+
+		g_free (previous);
+	}
+
+	if (lc_time) {
+		#if defined(LC_TIME)
+		previous = g_strdup (setlocale (LC_TIME, NULL));
+		success = setlocale (LC_ALL, lc_time) != NULL;
+		#elif defined(LC_MESSAGES)
+		previous = g_strdup (setlocale (LC_ALL, NULL));
+		success = setlocale (LC_ALL, lc_time) != NULL;
+		#else
+		previous = NULL;
+		success = FALSE;
+		#endif
+
+		if (out_lc_time)
+			*out_lc_time = success ? g_strdup (previous) : NULL;
+
+		g_free (previous);
+	}
+}
+
+static void
+emcu_prepare_attribution_locale (EMsgComposer *composer,
+				 gchar **out_lc_messages,
+				 gchar **out_lc_time)
+{
+	EComposerHeaderTable *table;
+	ESource *source = NULL;
+	gchar *uid, *lang = NULL;
+
+	g_return_if_fail (out_lc_messages != NULL);
+	g_return_if_fail (out_lc_time != NULL);
+
+	if (!composer)
+		return;
+
+	table = e_msg_composer_get_header_table (composer);
+	uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
+	if (uid)
+		source = e_composer_header_table_ref_source (table, uid);
+	g_free (uid);
+
+	if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
+		ESourceMailComposition *extension;
+
+		extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
+		lang = e_source_mail_composition_dup_language (extension);
+	}
+
+	g_clear_object (&source);
+
+	if (!lang || !*lang) {
+		GSettings *settings;
+
+		g_free (lang);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		lang = g_settings_get_string (settings, "composer-attribution-language");
+		g_object_unref (settings);
+
+		if (!lang || !*lang)
+			g_clear_pointer (&lang, g_free);
+	}
+
+	if (!lang) {
+		/* Set the locale always, even when using the user interface
+		   language, because gettext() can return wrong text (in the previously
+		   used language) */
+		#if defined(LC_MESSAGES)
+		lang = g_strdup (setlocale (LC_MESSAGES, NULL));
+		#else
+		lang = g_strdup (setlocale (LC_ALL, NULL));
+		#endif
+	}
+
+	if (lang) {
+		if (!strchr (lang, '.')) {
+			gchar *tmp;
+
+			tmp = g_strconcat (lang, ".utf8", NULL);
+			g_free (lang);
+			lang = tmp;
+		}
+
+		emcu_change_locale (lang, lang, out_lc_messages, out_lc_time);
+
+		g_free (lang);
+	}
+}
+
+/* Takes ownership (frees) the 'restore_locale' */
+static void
+emcu_restore_locale_after_attribution (gchar *restore_lc_messages,
+				       gchar *restore_lc_time)
+{
+	emcu_change_locale (restore_lc_messages, restore_lc_time, NULL, NULL);
+
+	g_free (restore_lc_messages);
+	g_free (restore_lc_time);
+}
+
 /* Editing messages... */
 
 typedef enum {
@@ -2041,9 +2165,11 @@ static struct {
 };
 
 static gchar *
-quoting_text (QuotingTextEnum type)
+quoting_text (QuotingTextEnum type,
+	      EMsgComposer *composer)
 {
 	GSettings *settings;
+	gchar *restore_lc_messages = NULL, *restore_lc_time = NULL;
 	gchar *text;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
@@ -2055,11 +2181,19 @@ quoting_text (QuotingTextEnum type)
 
 	g_free (text);
 
-	return g_strdup (_(conf_messages[type].message));
+	if (composer)
+		emcu_prepare_attribution_locale (composer, &restore_lc_messages, &restore_lc_time);
+
+	text = g_strdup (_(conf_messages[type].message));
+
+	emcu_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
+
+	return text;
 }
 
 /**
  * em_composer_utils_get_forward_marker:
+ * @composer: an #EMsgComposer from which to get the identity information
  *
  * Returns: (transfer full): a text marker which is used for inline forwarded messages.
  *   Free returned pointer with g_free(), when no longer needed.
@@ -2067,13 +2201,14 @@ quoting_text (QuotingTextEnum type)
  * Since: 3.24
  **/
 gchar *
-em_composer_utils_get_forward_marker (void)
+em_composer_utils_get_forward_marker (EMsgComposer *composer)
 {
-	return quoting_text (QUOTING_FORWARD);
+	return quoting_text (QUOTING_FORWARD, composer);
 }
 
 /**
  * em_composer_utils_get_original_marker:
+ * @composer: an #EMsgComposer from which to get the identity information
  *
  * Returns: (transfer full): a text marker which is used for inline message replies.
  *   Free returned pointer with g_free(), when no longer needed.
@@ -2081,9 +2216,9 @@ em_composer_utils_get_forward_marker (void)
  * Since: 3.24
  **/
 gchar *
-em_composer_utils_get_original_marker (void)
+em_composer_utils_get_original_marker (EMsgComposer *composer)
 {
-	return quoting_text (QUOTING_ORIGINAL);
+	return quoting_text (QUOTING_ORIGINAL, composer);
 }
 
 static gboolean
@@ -2461,7 +2596,7 @@ forward_non_attached (EMsgComposer *composer,
                       EMailForwardStyle style)
 {
 	CamelSession *session;
-	gchar *text, *forward;
+	gchar *text, *forward, *subject;
 	guint32 validity_found = 0;
 	guint32 flags;
 
@@ -2474,16 +2609,17 @@ forward_non_attached (EMsgComposer *composer,
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
 		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_CITE;
 
-	forward = quoting_text (QUOTING_FORWARD);
+	/* Setup composer's From account before calling quoting_text(),
+	   because quoting_text() relies on that account. */
+	subject = mail_tool_generate_forward_subject (message);
+	set_up_new_composer (composer, subject, folder, message, uid);
+	g_free (subject);
+
+	forward = quoting_text (QUOTING_FORWARD, composer);
 	text = em_utils_message_to_html (session, message, forward, flags, NULL, NULL, NULL, &validity_found);
 
 	if (text != NULL) {
 		CamelDataWrapper *content;
-		gchar *subject;
-
-		subject = mail_tool_generate_forward_subject (message);
-		set_up_new_composer (composer, subject, folder, message, uid);
-		g_free (subject);
 
 		content = camel_medium_get_content (CAMEL_MEDIUM (message));
 
@@ -3413,7 +3549,8 @@ static struct {
 };
 
 static gchar *
-attribution_format (CamelMimeMessage *message)
+attribution_format (EMsgComposer *composer,
+		    CamelMimeMessage *message)
 {
 	register const gchar *inptr;
 	const gchar *start;
@@ -3423,8 +3560,11 @@ attribution_format (CamelMimeMessage *message)
 	struct tm tm;
 	time_t date;
 	gint type;
-	gchar *format = quoting_text (QUOTING_ATTRIBUTION);
+	gchar *format, *restore_lc_messages = NULL, *restore_lc_time = NULL;
 
+	emcu_prepare_attribution_locale (composer, &restore_lc_messages, &restore_lc_time);
+
+	format = quoting_text (QUOTING_ATTRIBUTION, NULL);
 	str = g_string_new ("");
 
 	date = camel_mime_message_get_date (message, &tzone);
@@ -3559,6 +3699,8 @@ attribution_format (CamelMimeMessage *message)
 		}
 	}
 
+	emcu_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
+
 	s = str->str;
 	g_string_free (str, FALSE);
 	g_free (format);
@@ -3596,7 +3738,7 @@ composer_set_body (EMsgComposer *composer,
 		g_object_unref (part);
 		break;
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
-		original = quoting_text (QUOTING_ORIGINAL);
+		original = quoting_text (QUOTING_ORIGINAL, composer);
 		text = em_utils_message_to_html (
 			session, message, original, E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS | keep_sig_flag,
 			parts_list, NULL, NULL, &validity_found);
@@ -3609,7 +3751,7 @@ composer_set_body (EMsgComposer *composer,
 	case E_MAIL_REPLY_STYLE_QUOTED:
 	default:
 		/* do what any sane user would want when replying... */
-		credits = attribution_format (message);
+		credits = attribution_format (composer, message);
 		text = em_utils_message_to_html (
 			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE | keep_sig_flag,
 			parts_list, NULL, NULL, &validity_found);
@@ -3621,24 +3763,6 @@ composer_set_body (EMsgComposer *composer,
 	}
 
 	g_object_unref (session);
-}
-
-gchar *
-em_utils_construct_composer_text (CamelSession *session,
-                                  CamelMimeMessage *message,
-                                  EMailPartList *parts_list)
-{
-	gchar *text, *credits;
-
-	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
-
-	credits = attribution_format (message);
-	text = em_utils_message_to_html (
-		session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE,
-		parts_list, NULL, NULL, NULL);
-	g_free (credits);
-
-	return text;
 }
 
 static gboolean
@@ -4815,4 +4939,127 @@ em_utils_apply_send_account_override_to_composer (EMsgComposer *composer,
 	g_object_unref (source);
 	g_free (alias_name);
 	g_free (alias_address);
+}
+
+static GHashTable * /* gchar *lcmessages ~> gchar *localeID */
+em_enum_system_locales (void)
+{
+	GHashTable *locales;
+
+#ifdef G_OS_WIN32
+	/* Do not know how to test it right now (2018), the build
+	   on Windows is blocked by WebKitGTK+ anyway. */
+	#warning See gtk/gtkmain.c and its usage of EnumSystemLocales()
+#else
+	GDir *dir;
+	const gchar *dirname;
+
+	locales = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+	dir = g_dir_open ("/usr/lib/locale", 0, NULL);
+	if (dir) {
+		while (dirname = g_dir_read_name (dir), dirname) {
+			gchar *fullname, *ident = NULL, *ptr;
+
+			if (g_str_equal (dirname, ".") || g_str_equal (dirname, "..") || !strchr (dirname, '_'))
+				continue;
+
+			fullname = g_strdup (dirname);
+			ptr = strrchr (fullname, '.');
+			if (ptr)
+				*ptr = '\0';
+
+			if (!g_hash_table_contains (locales, fullname)) {
+				gchar *at;
+
+				g_hash_table_insert (locales, g_strdup (fullname), g_strdup (fullname));
+
+				ident = g_strdup (fullname);
+				at = strchr (ident, '@');
+				if (at) {
+					*at = 0;
+					g_hash_table_insert (locales, g_strdup (ident), g_strdup (fullname));
+				}
+
+				ptr = strchr (ident, '_');
+				if (ptr) {
+					*ptr = '\0';
+
+					g_hash_table_insert (locales, g_strdup (ident), g_strdup (fullname));
+
+					if (at)
+						g_hash_table_insert (locales, g_strconcat (ident, "@", at + 1, NULL), g_strdup (fullname));
+				}
+			}
+
+			g_free (fullname);
+			g_free (ident);
+		}
+	}
+
+	g_dir_close (dir);
+#endif
+
+	return locales;
+}
+
+void
+em_utils_add_installed_languages (GtkComboBoxText *combo)
+{
+	GDir *dir;
+	GSList *langs = NULL, *link;
+	const gchar *dirname;
+	gint n_langs = 0;
+	GHashTable *system_locales;
+
+	g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (combo));
+
+	dir = g_dir_open (EVOLUTION_LOCALEDIR, 0, NULL);
+	if (!dir)
+		return;
+
+	system_locales = em_enum_system_locales ();
+
+	while (dirname = g_dir_read_name (dir), dirname) {
+		gchar *filename;
+
+		if (g_str_equal (dirname, ".") || g_str_equal (dirname, ".."))
+			continue;
+
+		filename = g_build_filename (EVOLUTION_LOCALEDIR, dirname, "LC_MESSAGES", GETTEXT_PACKAGE ".mo", NULL);
+		if (filename && g_file_test (filename, G_FILE_TEST_EXISTS)) {
+			gchar *locale_name;
+
+			locale_name = g_hash_table_lookup (system_locales, dirname);
+			if (locale_name)
+				langs = g_slist_prepend (langs, g_strdup (locale_name));
+		}
+
+		g_free (filename);
+	}
+
+	g_hash_table_destroy (system_locales);
+	g_dir_close (dir);
+
+	langs = g_slist_sort (langs, (GCompareFunc) g_strcmp0);
+
+	for (link = langs; link; link = g_slist_next (link)) {
+		const gchar *lang = link->data;
+
+		if (lang) {
+			gchar *lang_name;
+
+			lang_name = e_util_get_language_name (lang);
+
+			gtk_combo_box_text_append (combo, lang, lang_name && *lang_name ? lang_name : lang);
+			n_langs++;
+
+			g_free (lang_name);
+		}
+	}
+
+	g_slist_free_full (langs, g_free);
+
+	if (n_langs > 10)
+		gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (combo), 5);
 }

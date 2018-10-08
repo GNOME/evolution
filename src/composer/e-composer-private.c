@@ -83,6 +83,105 @@ composer_update_gallery_visibility (EMsgComposer *composer)
 	}
 }
 
+static gchar *
+e_composer_extract_lang_from_source (ESourceRegistry *registry,
+				     const gchar *uid)
+{
+	ESource *source;
+	gchar *lang = NULL;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	source = e_source_registry_ref_source (registry, uid);
+	if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
+		ESourceMailComposition *mail_composition;
+
+		mail_composition = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
+		lang = e_source_mail_composition_dup_language (mail_composition);
+
+		if (lang && !*lang) {
+			g_free (lang);
+			lang = NULL;
+		}
+	}
+
+	g_clear_object (&source);
+
+	return lang;
+}
+
+static void
+e_composer_from_changed_cb (EComposerFromHeader *header,
+			    EMsgComposer *composer)
+{
+	gchar *current_uid;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	current_uid = e_composer_from_header_dup_active_id (header, NULL, NULL);
+
+	if (current_uid && g_strcmp0 (composer->priv->previous_identity_uid, current_uid) != 0) {
+		gchar *previous_lang = NULL, *current_lang = NULL;
+		ESourceRegistry *registry;
+
+		registry = e_composer_header_get_registry (E_COMPOSER_HEADER (header));
+
+		if (composer->priv->previous_identity_uid)
+			previous_lang = e_composer_extract_lang_from_source (registry, composer->priv->previous_identity_uid);
+
+		current_lang = e_composer_extract_lang_from_source (registry, current_uid);
+
+		if (g_strcmp0 (previous_lang, current_lang) != 0) {
+			GSettings *settings;
+			gchar **strv;
+			gboolean have_previous, have_current;
+			gint ii;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+			strv = g_settings_get_strv (settings, "composer-spell-languages");
+			g_object_unref (settings);
+
+			have_previous = !previous_lang;
+			have_current = !current_lang;
+
+			for (ii = 0; strv && strv[ii] && (!have_previous || !have_current); ii++) {
+				have_previous = have_previous || g_strcmp0 (previous_lang, strv[ii]) == 0;
+				have_current = have_current || g_strcmp0 (current_lang, strv[ii]) == 0;
+			}
+
+			g_strfreev (strv);
+
+			if (!have_previous || !have_current) {
+				ESpellChecker *spell_checker;
+				EHTMLEditor *editor;
+
+				editor = e_msg_composer_get_editor (composer);
+				spell_checker = e_content_editor_ref_spell_checker (e_html_editor_get_content_editor (editor));
+
+				if (!have_previous)
+					e_spell_checker_set_language_active (spell_checker, previous_lang, FALSE);
+
+				if (!have_current)
+					e_spell_checker_set_language_active (spell_checker, current_lang, TRUE);
+
+				g_clear_object (&spell_checker);
+
+				e_html_editor_update_spell_actions (editor);
+				g_signal_emit_by_name (editor, "spell-languages-changed");
+			}
+		}
+
+		g_free (previous_lang);
+		g_free (current_lang);
+
+		g_free (composer->priv->previous_identity_uid);
+		composer->priv->previous_identity_uid = current_uid;
+	} else {
+		g_free (current_uid);
+	}
+}
+
 void
 e_composer_private_constructed (EMsgComposer *composer)
 {
@@ -307,6 +406,9 @@ e_composer_private_constructed (EMsgComposer *composer)
 					action, "active",
 					G_BINDING_BIDIRECTIONAL |
 					G_BINDING_SYNC_CREATE);
+
+				g_signal_connect (header, "changed",
+					G_CALLBACK (e_composer_from_changed_cb), composer);
 				continue;
 
 			case E_COMPOSER_HEADER_BCC:
@@ -449,6 +551,7 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_free (composer->priv->charset);
 	g_free (composer->priv->mime_type);
 	g_free (composer->priv->mime_body);
+	g_free (composer->priv->previous_identity_uid);
 }
 
 gchar *

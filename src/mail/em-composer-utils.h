@@ -65,10 +65,6 @@ void		em_utils_forward_attachment	(EMsgComposer *composer,
 						 GPtrArray *uids);
 void		em_utils_redirect_message	(EMsgComposer *composer,
 						 CamelMimeMessage *message);
-gchar *		em_utils_construct_composer_text
-						(CamelSession *session,
-						 CamelMimeMessage *message,
-						 EMailPartList *source_formatter);
 gboolean	em_utils_is_munged_list_message	(CamelMimeMessage *message);
 void		em_utils_get_reply_sender	(CamelMimeMessage *message,
 						 CamelInternetAddress *to,
@@ -114,9 +110,10 @@ void		em_utils_apply_send_account_override_to_composer
 						(EMsgComposer *composer,
 						 CamelFolder *folder);
 gchar *		em_composer_utils_get_forward_marker
-						(void);
+						(EMsgComposer *composer);
 gchar *		em_composer_utils_get_original_marker
-						(void);
+						(EMsgComposer *composer);
+void		em_utils_add_installed_languages(GtkComboBoxText *combo);
 
 G_END_DECLS
 

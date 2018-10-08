@@ -70,7 +70,7 @@ main (gint argc,
 	g_object_unref (registry);
 
 	g_list_free_full (modules, (GDestroyNotify) g_type_module_unuse);
-	e_util_cleanup_settings ();
+	e_misc_util_free_global_memory ();
 
 	return 0;
 }

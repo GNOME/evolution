@@ -219,6 +219,7 @@ target_compile_definitions(evolution-mail PRIVATE
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"
 	-DEVOLUTION_ETSPECDIR=\"${etspecdir}\"
+	-DEVOLUTION_LOCALEDIR=\"${LOCALE_INSTALL_DIR}\"
 )
 
 target_compile_options(evolution-mail PUBLIC

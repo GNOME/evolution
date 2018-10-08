@@ -429,7 +429,8 @@ e_spell_checker_get_language_active (ESpellChecker *checker,
 	g_return_val_if_fail (language_code != NULL, FALSE);
 
 	dictionary = e_spell_checker_ref_dictionary (checker, language_code);
-	g_return_val_if_fail (dictionary != NULL, FALSE);
+	if (!dictionary)
+		return FALSE;
 
 	active_dictionaries = checker->priv->active_dictionaries;
 	active = g_hash_table_contains (active_dictionaries, dictionary);
@@ -452,7 +453,8 @@ e_spell_checker_set_language_active (ESpellChecker *checker,
 	g_return_if_fail (language_code != NULL);
 
 	dictionary = e_spell_checker_ref_dictionary (checker, language_code);
-	g_return_if_fail (dictionary != NULL);
+	if (!dictionary)
+		return;
 
 	active_dictionaries = checker->priv->active_dictionaries;
 	is_active = g_hash_table_contains (active_dictionaries, dictionary);

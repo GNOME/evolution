@@ -41,6 +41,7 @@
 #include <mail/em-folder-selector.h>
 #include <mail/em-folder-tree.h>
 #include <mail/em-folder-tree-model.h>
+#include <mail/em-composer-utils.h>
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-junk-options.h>
 #include <mail/e-mail-ui-session.h>
@@ -1334,6 +1335,18 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		settings, "reply-style-name",
 		widget, "active-id",
 		G_SETTINGS_BIND_DEFAULT);
+
+	widget = e_builder_get_widget (prefs->builder, "comboboxForwardReplyAttribLanguage");
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), NULL, _("Same as user interface"));
+	em_utils_add_installed_languages (GTK_COMBO_BOX_TEXT (widget));
+
+	g_settings_bind (
+		settings, "composer-attribution-language",
+		widget, "active-id",
+		G_SETTINGS_BIND_DEFAULT);
+
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (widget)) == -1)
+		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
 
 	/* Signatures */
 	container = e_builder_get_widget (

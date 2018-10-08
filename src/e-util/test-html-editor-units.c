@@ -2906,8 +2906,7 @@ main (gint argc,
 
 	res = g_test_run ();
 
-	e_util_cleanup_settings ();
-	e_spell_checker_free_global_memory ();
+	e_misc_util_free_global_memory ();
 	test_utils_free_global_memory ();
 
 	g_unlink (test_keyfile_filename);

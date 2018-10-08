@@ -696,9 +696,7 @@ exit:
 
 	gtk_accel_map_save (e_get_accels_filename ());
 
-	e_util_cleanup_settings ();
-	e_spell_checker_free_global_memory ();
-	e_simple_async_result_free_global_memory ();
+	e_misc_util_free_global_memory ();
 
 	return 0;
 }

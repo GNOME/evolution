@@ -102,7 +102,7 @@ main (gint argc,
 
 	gtk_main ();
 
-	e_util_cleanup_settings ();
+	e_misc_util_free_global_memory ();
 
 	return 0;
 }

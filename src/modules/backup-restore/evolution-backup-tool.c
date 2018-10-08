@@ -1072,7 +1072,7 @@ main (gint argc,
 	gtk_main ();
 
 	g_object_unref (cancellable);
-	e_util_cleanup_settings ();
+	e_misc_util_free_global_memory ();
 
 	return result;
 }

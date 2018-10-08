@@ -1999,3 +1999,41 @@ editor_actions_bind (EHTMLEditor *editor)
 		editor->priv->suggestion_actions, "sensitive",
 		G_BINDING_SYNC_CREATE);
 }
+
+void
+editor_actions_update_spellcheck_languages_menu (EHTMLEditor *editor,
+						 const gchar * const *languages)
+{
+	GHashTable *active;
+	GList *actions, *link;
+	gint ii;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	active = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	for (ii = 0; languages && languages[ii]; ii++) {
+		g_hash_table_insert (active, g_strdup (languages[ii]), NULL);
+	}
+
+	actions = gtk_action_group_list_actions (editor->priv->language_actions);
+	for (link = actions; link; link = g_list_next (link)) {
+		GtkToggleAction *toggle_action;
+		gboolean is_active;
+
+		if (!GTK_IS_TOGGLE_ACTION (link->data))
+			continue;
+
+		is_active = g_hash_table_contains (active, gtk_action_get_name (link->data));
+		toggle_action = GTK_TOGGLE_ACTION (link->data);
+
+		if ((gtk_toggle_action_get_active (toggle_action) ? 1 : 0) != (is_active ? 1 : 0)) {
+			g_signal_handlers_block_by_func (toggle_action, action_language_cb, editor);
+			gtk_toggle_action_set_active (toggle_action, is_active);
+			g_signal_handlers_unblock_by_func (toggle_action, action_language_cb, editor);
+		}
+	}
+
+	g_hash_table_destroy (active);
+	g_list_free (actions);
+}

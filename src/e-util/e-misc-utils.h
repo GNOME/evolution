@@ -347,6 +347,8 @@ gboolean	e_util_query_ldap_root_dse_sync	(const gchar *host,
 						 gchar ***out_root_dse,
 						 GCancellable *cancellable,
 						 GError **error);
+gchar *		e_util_get_language_name	(const gchar *language_tag);
+void		e_misc_util_free_global_memory	(void);
 
 G_END_DECLS
 

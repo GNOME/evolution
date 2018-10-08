@@ -97,6 +97,9 @@ struct _EHTMLEditorPrivate {
 
 void		editor_actions_init		(EHTMLEditor *editor);
 void		editor_actions_bind		(EHTMLEditor *editor);
+void		editor_actions_update_spellcheck_languages_menu
+						(EHTMLEditor *editor,
+						 const gchar * const *languages);
 const gchar *	e_html_editor_get_content_editor_name
 						(EHTMLEditor *editor);
 

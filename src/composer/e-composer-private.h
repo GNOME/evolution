@@ -119,6 +119,8 @@ struct _EMsgComposerPrivate {
 	gulong notify_subject_changed_handler;
 
 	gulong drag_data_received_handler_id;
+
+	gchar *previous_identity_uid;
 };
 
 void		e_composer_private_constructed	(EMsgComposer *composer);

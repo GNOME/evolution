@@ -73,7 +73,7 @@ GtkWidget *	org_gnome_attachment_reminder_config_option
 					 EConfigHookItemFactoryData *data);
 
 static gboolean ask_for_missing_attachment (EPlugin *ep, GtkWindow *widget);
-static gboolean check_for_attachment_clues (GByteArray *msg_text, guint32 ar_flags);
+static gboolean check_for_attachment_clues (EMsgComposer *composer, GByteArray *msg_text, guint32 ar_flags);
 static gboolean check_for_attachment (EMsgComposer *composer);
 static guint32 get_flags_from_composer (EMsgComposer *composer);
 static void commit_changes (UIData *ui);
@@ -101,7 +101,7 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep,
 		return;
 
 	/* Set presend_check_status for the composer*/
-	if (check_for_attachment_clues (raw_msg_barray, get_flags_from_composer (t->composer))) {
+	if (check_for_attachment_clues (t->composer, raw_msg_barray, get_flags_from_composer (t->composer))) {
 		if (!ask_for_missing_attachment (ep, (GtkWindow *) t->composer))
 			g_object_set_data (
 				G_OBJECT (t->composer),
@@ -239,7 +239,8 @@ censor_quoted_lines (GByteArray *msg_text,
 
 /* check for the clues */
 static gboolean
-check_for_attachment_clues (GByteArray *msg_text,
+check_for_attachment_clues (EMsgComposer *composer,
+			    GByteArray *msg_text,
 			    guint32 ar_flags)
 {
 	GSettings *settings;
@@ -248,9 +249,9 @@ check_for_attachment_clues (GByteArray *msg_text,
 	gboolean found = FALSE;
 
 	if (ar_flags == AR_IS_FORWARD)
-		marker = em_composer_utils_get_forward_marker ();
+		marker = em_composer_utils_get_forward_marker (composer);
 	else if (ar_flags == AR_IS_REPLY)
-		marker = em_composer_utils_get_original_marker ();
+		marker = em_composer_utils_get_original_marker (composer);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.plugin.attachment-reminder");
 

@@ -21,6 +21,7 @@
 
 #include "e-mail-config-page.h"
 #include "e-mail-config-activity-page.h"
+#include "em-composer-utils.h"
 
 #include "e-mail-config-composing-page.h"
 
@@ -146,6 +147,16 @@ mail_config_composing_fill_reply_style_combox (GtkComboBoxText *combo)
 	}
 
 	g_type_class_unref (enum_class);
+}
+
+static void
+mail_config_composing_fill_language_combox (GtkComboBoxText *combo)
+{
+	g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (combo));
+
+	gtk_combo_box_text_append (combo, NULL, _("Use global setting"));
+
+	em_utils_add_installed_languages (combo);
 }
 
 static gboolean
@@ -399,7 +410,7 @@ mail_config_composing_page_constructed (GObject *object)
 	widget = gtk_label_new (markup);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 0, 2, 1);
 	gtk_widget_show (widget);
 	g_free (markup);
 
@@ -407,7 +418,7 @@ mail_config_composing_page_constructed (GObject *object)
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 2, 1);
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -416,7 +427,7 @@ mail_config_composing_page_constructed (GObject *object)
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 2, 2, 1);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property_full (
@@ -432,7 +443,7 @@ mail_config_composing_page_constructed (GObject *object)
 	widget = gtk_label_new_with_mnemonic (text);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 3, 2, 1);
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
@@ -441,7 +452,7 @@ mail_config_composing_page_constructed (GObject *object)
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 1, 1);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 4, 2, 1);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property_full (
@@ -453,25 +464,21 @@ mail_config_composing_page_constructed (GObject *object)
 		mail_config_composing_page_string_to_addrs,
 		NULL, (GDestroyNotify) NULL);
 
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
-	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 1, 1);
-	gtk_widget_show (widget);
-
-	container = widget;
-
 	text = _("Re_ply style:");
 	widget = gtk_label_new_with_mnemonic (text);
+	gtk_widget_set_hexpand (widget, FALSE);
 	gtk_widget_set_margin_left (widget, 12);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 5, 1, 1);
 	gtk_widget_show (widget);
 
 	label = GTK_LABEL (widget);
 
 	widget = gtk_combo_box_text_new ();
-	gtk_widget_set_hexpand (widget, FALSE);
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 5, 1, 1);
 	gtk_widget_show (widget);
 
 	mail_config_composing_fill_reply_style_combox (GTK_COMBO_BOX_TEXT (widget));
@@ -484,6 +491,35 @@ mail_config_composing_page_constructed (GObject *object)
 		mail_config_composing_page_reply_style_to_string,
 		mail_config_composing_page_string_to_reply_style,
 		NULL, (GDestroyNotify) NULL);
+
+	widget = gtk_label_new_with_mnemonic (_("Lang_uage:"));
+	gtk_widget_set_hexpand (widget, FALSE);
+	gtk_widget_set_margin_left (widget, 12);
+	gtk_widget_set_tooltip_text (widget, _("Language for Reply and Forward attribution text"));
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 6, 1, 1);
+	gtk_widget_show (widget);
+
+	label = GTK_LABEL (widget);
+
+	widget = gtk_combo_box_text_new ();
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_widget_set_tooltip_text (widget, _("Language for Reply and Forward attribution text"));
+	gtk_label_set_mnemonic_widget (label, widget);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 6, 1, 1);
+	gtk_widget_show (widget);
+
+	mail_config_composing_fill_language_combox (GTK_COMBO_BOX_TEXT (widget));
+
+	e_binding_bind_property (
+		composition_ext, "language",
+		widget, "active-id",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (widget)) == -1)
+		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
 
 	widget = gtk_check_button_new_with_mnemonic (_("Start _typing at the bottom"));
 	gtk_widget_set_margin_left (widget, 12);

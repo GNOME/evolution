@@ -485,6 +485,7 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 			E_HTML_EDITOR_SPELL_CHECK_DIALOG (
 			editor->priv->spell_check_dialog));
 
+	editor_actions_update_spellcheck_languages_menu (editor, (const gchar * const *) languages);
 	g_clear_object (&spell_checker);
 	g_strfreev (languages);
 }
