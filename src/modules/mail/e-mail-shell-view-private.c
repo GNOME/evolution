@@ -263,7 +263,8 @@ mail_shell_view_process_key_press_event (EMailShellView *mail_shell_view,
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
+	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0 ||
+	    e_shell_window_get_need_input (shell_window, event))
 		return FALSE;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);

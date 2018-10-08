@@ -2146,3 +2146,33 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 			"backend-name", (gpointer) backend_name);
 	}
 }
+
+/**
+ * e_shell_window_get_need_input:
+ * @shell_window: an #EShellWindow
+ * @event: a #GdkEventKey
+ *
+ * Returns: Whether the key @event should be processed by currently
+ *    focused widget in the @window, instead of being processed
+ *    bu usual means including accelerators.
+ *
+ * Since: 3.32
+ **/
+gboolean
+e_shell_window_get_need_input (EShellWindow *shell_window,
+			       GdkEventKey *event)
+{
+	GtkWidget *focused;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
+		return FALSE;
+
+	focused = gtk_window_get_focus (GTK_WINDOW (shell_window));
+
+	return focused && (GTK_IS_ENTRY (focused) ||
+		GTK_IS_EDITABLE (focused) ||
+		(GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0));
+}

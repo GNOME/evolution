@@ -155,6 +155,9 @@ void		e_shell_window_connect_client	(EShellWindow *shell_window,
 						 gpointer user_data,
 						 GDestroyNotify destroy_user_data);
 
+gboolean	e_shell_window_get_need_input	(EShellWindow *shell_window,
+						 GdkEventKey *event);
+
 /* These should be called from the shell backend's window_created() handler. */
 
 void		e_shell_window_register_new_item_actions

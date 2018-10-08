@@ -349,13 +349,7 @@ static gboolean
 e_shell_window_key_press_event_cb (GtkWidget *widget,
 				   GdkEventKey *event)
 {
-	GtkWindow *window;
-	GtkWidget *focused;
-
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (widget), FALSE);
-
-	window = GTK_WINDOW (widget);
-	focused = gtk_window_get_focus (window);
 
 	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0 ||
 	    event->keyval == GDK_KEY_Tab ||
@@ -366,10 +360,13 @@ e_shell_window_key_press_event_cb (GtkWidget *widget,
 	    event->keyval == GDK_KEY_BackSpace)
 		return FALSE;
 
-	if (GTK_IS_ENTRY (focused) ||
-	    GTK_IS_EDITABLE (focused) ||
-	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0)) {
-		gtk_widget_event (focused, (GdkEvent *) event);
+	if (e_shell_window_get_need_input (E_SHELL_WINDOW (widget), event)) {
+		GtkWidget *focused;
+
+		focused = gtk_window_get_focus (GTK_WINDOW (widget));
+		if (focused)
+			gtk_widget_event (focused, (GdkEvent *) event);
+
 		return TRUE;
 	}
 
