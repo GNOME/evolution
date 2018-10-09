@@ -19,17 +19,19 @@
     </_p>
   </description>
   <url type="homepage">https://wiki.gnome.org/Apps/Evolution</url>
-  <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=evolution</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/evolution/issues/new</url>
   <url type="donation">http://www.gnome.org/friends/</url>
   <url type="help">https://help.gnome.org/users/evolution/stable/</url>
+  <launchable type="desktop-id">org.gnome.Evolution.desktop</launchable>
   <provides>
-    <id>evolution.desktop</id>
+    <id>org.gnome.Evolution.desktop</id>
   </provides>
   <screenshots>
     <screenshot type="default">
       <image>https://wiki.gnome.org/Apps/Evolution/Screenshots?action=AttachFile&amp;do=get&amp;target=evolution_mail.png</image>
     </screenshot>
   </screenshots>
+  <_developer_name>The Evolution Team</_developer_name>
   <update_contact>evolution-hackers_at_gnome.org</update_contact>
   <kudos>
     <kudo>HiDpiIcon</kudo>
