@@ -2039,7 +2039,8 @@ start_async_read (const gchar *uri,
 
 	istream = G_INPUT_STREAM (g_file_read (file, NULL, &error));
 
-	if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_UNAUTHORIZED)) {
+	if (g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_UNAUTHORIZED) ||
+	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_PERMISSION_DENIED)) {
 		download_with_libsoup (uri, qdata);
 		g_object_unref (file);
 		g_error_free (error);
