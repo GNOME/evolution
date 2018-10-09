@@ -996,10 +996,8 @@ task_table_query_tooltip (GtkWidget *widget,
 }
 
 static void
-task_table_double_click (ETable *table,
-                         gint row,
-                         gint col,
-                         GdkEvent *event)
+task_table_open_at_row (ETable *table,
+			gint row)
 {
 	ETaskTable *task_table;
 	ECalModel *model;
@@ -1009,6 +1007,15 @@ task_table_double_click (ETable *table,
 	model = e_task_table_get_model (task_table);
 	comp_data = e_cal_model_get_component_at (model, row);
 	task_table_emit_open_component (task_table, comp_data);
+}
+
+static void
+task_table_double_click (ETable *table,
+                         gint row,
+                         gint col,
+                         GdkEvent *event)
+{
+	task_table_open_at_row (table, row);
 }
 
 static gint
@@ -1023,6 +1030,23 @@ task_table_right_click (ETable *table,
 	task_table_emit_popup_event (task_table, event);
 
 	return TRUE;
+}
+
+static gboolean
+task_table_key_press (ETable *table,
+		      gint row,
+		      gint col,
+		      GdkEvent *event)
+{
+	if (event && event->type == GDK_KEY_PRESS &&
+	    (event->key.keyval == GDK_KEY_Return || event->key.keyval == GDK_KEY_KP_Enter) &&
+	    (event->key.state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) == 0 &&
+	    !e_table_is_editing (table)) {
+		task_table_open_at_row (table, row);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 static gboolean
@@ -1417,6 +1441,7 @@ e_task_table_class_init (ETaskTableClass *class)
 	table_class = E_TABLE_CLASS (class);
 	table_class->double_click = task_table_double_click;
 	table_class->right_click = task_table_right_click;
+	table_class->key_press = task_table_key_press;
 	table_class->white_space_event = task_table_white_space_event;
 
 	/* Inherited from ESelectableInterface */
