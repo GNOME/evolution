@@ -57,6 +57,8 @@ static gboolean  e_cal_list_view_on_table_double_click   (GtkWidget *table, gint
 							 GdkEvent *event, gpointer data);
 static gboolean  e_cal_list_view_on_table_right_click   (GtkWidget *table, gint row, gint col,
 							 GdkEvent *event, gpointer data);
+static gboolean e_cal_list_view_on_table_key_press	(ETable *table, gint row, gint col,
+							 GdkEvent *event, gpointer data);
 static gboolean  e_cal_list_view_on_table_white_space_event (ETable *table, GdkEvent *event, gpointer data);
 static void e_cal_list_view_cursor_change_cb (ETable *etable, gint row, gpointer data);
 
@@ -307,6 +309,10 @@ setup_e_table (ECalListView *cal_list_view)
 		G_CALLBACK (e_cal_list_view_on_table_right_click),
 		cal_list_view);
 	g_signal_connect (
+		cal_list_view->table, "key-press",
+		G_CALLBACK (e_cal_list_view_on_table_key_press),
+		cal_list_view);
+	g_signal_connect (
 		cal_list_view->table, "white-space-event",
 		G_CALLBACK (e_cal_list_view_on_table_white_space_event),
 		cal_list_view);
@@ -380,6 +386,22 @@ e_cal_list_view_popup_menu (GtkWidget *widget)
 	return TRUE;
 }
 
+static void
+e_cal_list_view_open_at_row (ECalListView *cal_list_view,
+			     gint row)
+{
+	ECalModelComponent *comp_data;
+
+	g_return_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view));
+
+	comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view)), row);
+	g_warn_if_fail (comp_data != NULL);
+	if (!comp_data)
+		return;
+
+	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (cal_list_view), comp_data->client, comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
+}
+
 static gboolean
 e_cal_list_view_on_table_double_click (GtkWidget *table,
                                        gint row,
@@ -387,11 +409,7 @@ e_cal_list_view_on_table_double_click (GtkWidget *table,
                                        GdkEvent *event,
                                        gpointer data)
 {
-	ECalListView *cal_list_view = E_CAL_LIST_VIEW (data);
-	ECalModelComponent *comp_data;
-
-	comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view)), row);
-	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (cal_list_view), comp_data->client, comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
+	e_cal_list_view_open_at_row (data, row);
 
 	return TRUE;
 }
@@ -408,6 +426,24 @@ e_cal_list_view_on_table_right_click (GtkWidget *table,
 	e_cal_list_view_show_popup_menu (cal_list_view, event);
 
 	return TRUE;
+}
+
+static gboolean
+e_cal_list_view_on_table_key_press (ETable *table,
+				    gint row,
+				    gint col,
+				    GdkEvent *event,
+				    gpointer data)
+{
+	if (event && event->type == GDK_KEY_PRESS &&
+	    (event->key.keyval == GDK_KEY_Return || event->key.keyval == GDK_KEY_KP_Enter) &&
+	    (event->key.state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) == 0 &&
+	    !e_table_is_editing (table)) {
+		e_cal_list_view_open_at_row (data, row);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 static gboolean
