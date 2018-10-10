@@ -757,10 +757,14 @@ cleanup:
 	 * or replied to. */
 	e_mail_session_handle_source_headers_sync (
 		session, context->message, cancellable, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
+	if (error &&
+	    !g_error_matches (error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID_UID) &&
+	    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warning (
+			"%s: Failed to handle source headers: %s",
+			G_STRFUNC, error->message);
 	}
+	g_clear_error (&error);
 
 exit:
 

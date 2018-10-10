@@ -845,12 +845,14 @@ mail_send_message (struct _send_queue_msg *m,
 		 * or replied to. */
 		e_mail_session_handle_source_headers_sync (
 			m->session, message, cancellable, &local_error);
-		if (local_error != NULL) {
+		if (local_error &&
+		    !g_error_matches (local_error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID_UID) &&
+		    !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 			g_warning (
 				"%s: Failed to handle source headers: %s",
 				G_STRFUNC, local_error->message);
-			g_clear_error (&local_error);
 		}
+		g_clear_error (&local_error);
 	}
 
 	if (local_error == NULL) {
