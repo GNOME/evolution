@@ -158,6 +158,7 @@ cal_config_caldav_run_dialog (GtkButton *button,
 
 				e_source_webdav_set_display_name (webdav_extension, display_name);
 				e_source_webdav_set_soup_uri (webdav_extension, uri);
+				e_source_webdav_set_calendar_auto_schedule (webdav_extension, (supports & E_WEBDAV_DISCOVER_SUPPORTS_CALENDAR_AUTO_SCHEDULE) != 0);
 
 				if (color && *color) {
 					ESourceSelectable *selectable_extension;
