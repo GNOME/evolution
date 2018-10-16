@@ -785,6 +785,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 			   icalcomponent *component)
 {
 	ECompEditorPageGeneral *page_general;
+	EMeetingListView *attendees_list_view;
 	icalproperty *prop;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page));
@@ -882,7 +883,10 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 		}
 	}
 
+	attendees_list_view = E_MEETING_LIST_VIEW (page_general->priv->attendees_list_view);
+
 	e_meeting_store_remove_all_attendees (page_general->priv->meeting_store);
+	e_meeting_list_view_remove_all_attendees_from_name_selector (attendees_list_view);
 
 	for (prop = icalcomponent_get_first_property (component, ICAL_ATTENDEE_PROPERTY);
 	     prop;
@@ -896,7 +900,8 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 
 			attendee = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
 
-			e_meeting_attendee_set_address (attendee, g_strdup (address));
+			/* It is supposed to be together with the MAILTO: protocol */
+			e_meeting_attendee_set_address (attendee, g_strdup (icalproperty_get_attendee (prop)));
 
 			param = icalproperty_get_first_parameter (prop, ICAL_MEMBER_PARAMETER);
 			if (param)
@@ -939,6 +944,7 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 				e_meeting_attendee_set_language (attendee, g_strdup (icalparameter_get_language (param)));
 
 			e_meeting_store_add_attendee (page_general->priv->meeting_store, attendee);
+			e_meeting_list_view_add_attendee_to_name_selector (attendees_list_view, attendee);
 
 			g_object_unref (attendee);
 		}
