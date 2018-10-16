@@ -514,17 +514,30 @@ eab_parse_qp_email (const gchar *string,
 
 	address = camel_header_address_decode (string, "UTF-8");
 
-	if (!address)
-		return FALSE;
+	if (address) {
+		/* report success only when we have filled both name and email address */
+		if (address->type == CAMEL_HEADER_ADDRESS_NAME && address->name && *address->name && address->v.addr && *address->v.addr) {
+			*name = g_strdup (address->name);
+			*email = g_strdup (address->v.addr);
+			res = TRUE;
+		}
 
-	/* report success only when we have filled both name and email address */
-	if (address->type == CAMEL_HEADER_ADDRESS_NAME && address->name && *address->name && address->v.addr && *address->v.addr) {
-		*name = g_strdup (address->name);
-		*email = g_strdup (address->v.addr);
-		res = TRUE;
+		camel_header_address_unref (address);
 	}
 
-	camel_header_address_unref (address);
+	if (!res) {
+		CamelInternetAddress *addr = camel_internet_address_new ();
+		const gchar *const_name = NULL, *const_email = NULL;
+
+		if (camel_address_unformat (CAMEL_ADDRESS (addr), string) == 1 &&
+		    camel_internet_address_get (addr, 0, &const_name, &const_email)) {
+			*name = (const_name && *const_name) ? g_strdup (const_name) : NULL;
+			*email = (const_email && *const_email) ? g_strdup (const_email) : NULL;
+			res = TRUE;
+		}
+
+		g_clear_object (&addr);
+	}
 
 	return res;
 }

@@ -945,12 +945,25 @@ process_section (EMeetingListView *view,
 		for (l = list_dests; l; l = l->next) {
 			EDestination *dest = l->data;
 			EContact *contact;
-			const gchar *textrep;
 			gchar *fburi = NULL, *name = NULL, *email_addr = NULL;
 
-			textrep = e_destination_get_textrep (dest, TRUE);
-			if (!eab_parse_qp_email (textrep, &name, &email_addr))
-				email_addr = g_strdup (textrep);
+			email_addr = g_strdup (e_destination_get_email (dest));
+			if (email_addr && *email_addr) {
+				name = g_strdup (e_destination_get_name (dest));
+				if (name && !*name) {
+					g_free (name);
+					name = NULL;
+				}
+			} else {
+				const gchar *textrep;
+
+				g_free (email_addr);
+				email_addr = NULL;
+
+				textrep = e_destination_get_textrep (dest, TRUE);
+				if (!eab_parse_qp_email (textrep, &name, &email_addr))
+					email_addr = g_strdup (textrep);
+			}
 
 			if (!email_addr || !*email_addr) {
 				g_free (name);
