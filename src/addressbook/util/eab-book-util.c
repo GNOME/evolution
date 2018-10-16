@@ -530,7 +530,8 @@ eab_parse_qp_email (const gchar *string,
 		const gchar *const_name = NULL, *const_email = NULL;
 
 		if (camel_address_unformat (CAMEL_ADDRESS (addr), string) == 1 &&
-		    camel_internet_address_get (addr, 0, &const_name, &const_email)) {
+		    camel_internet_address_get (addr, 0, &const_name, &const_email) &&
+		    const_name && *const_name && const_email && *const_email) {
 			*name = (const_name && *const_name) ? g_strdup (const_name) : NULL;
 			*email = (const_email && *const_email) ? g_strdup (const_email) : NULL;
 			res = TRUE;
