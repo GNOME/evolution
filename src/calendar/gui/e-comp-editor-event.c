@@ -512,11 +512,17 @@ ece_event_fill_component (ECompEditor *comp_editor,
 		}
 
 		if (set_dtstart) {
+			/* Remove the VALUE parameter, to correspond to the actual value being set */
+			icalproperty_remove_parameter_by_kind (dtstart_prop, ICAL_VALUE_PARAMETER);
+
 			icalproperty_set_dtstart (dtstart_prop, dtstart);
 			cal_comp_util_update_tzid_parameter (dtstart_prop, dtstart);
 		}
 
 		if (set_dtend) {
+			/* Remove the VALUE parameter, to correspond to the actual value being set */
+			icalproperty_remove_parameter_by_kind (dtend_prop, ICAL_VALUE_PARAMETER);
+
 			icalproperty_set_dtend (dtend_prop, dtend);
 			cal_comp_util_update_tzid_parameter (dtend_prop, dtend);
 		}
