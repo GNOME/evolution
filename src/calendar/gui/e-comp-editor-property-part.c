@@ -692,6 +692,9 @@ ecepp_datetime_fill_component (ECompEditorPropertyPart *property_part,
 		value = e_comp_editor_property_part_datetime_get_value (part_datetime);
 
 		if (prop) {
+			/* Remove the VALUE parameter, to correspond to the actual value being set */
+			icalproperty_remove_parameter_by_kind (prop, ICAL_VALUE_PARAMETER);
+
 			klass->ical_set_func (prop, value);
 			cal_comp_util_update_tzid_parameter (prop, value);
 		} else {
