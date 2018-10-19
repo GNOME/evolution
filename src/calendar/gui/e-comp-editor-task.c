@@ -135,12 +135,17 @@ ece_task_update_timezone (ECompEditorTask *task_editor,
 
 	if (zone) {
 		GtkWidget *edit_widget;
+		icaltimezone *cfg_zone;
 
 		edit_widget = e_comp_editor_property_part_get_edit_widget (task_editor->priv->timezone);
 
 		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), zone);
 
-		if (zone != calendar_config_get_icaltimezone ()) {
+		cfg_zone = calendar_config_get_icaltimezone ();
+
+		if (zone && cfg_zone && zone != cfg_zone &&
+		    (g_strcmp0 (icaltimezone_get_location (zone), icaltimezone_get_location (cfg_zone)) != 0 ||
+		     g_strcmp0 (icaltimezone_get_tzid (zone), icaltimezone_get_tzid (cfg_zone)) != 0)) {
 			/* Show timezone part */
 			GtkAction *action;
 
