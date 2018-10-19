@@ -180,10 +180,11 @@ set_format_internal (const gchar *key,
 static gchar *
 format_relative_date (time_t tvalue,
                       time_t ttoday,
+		      const gchar *prefer_date_fmt,
                       const struct tm *value,
                       const struct tm *today)
 {
-	gchar *res = g_strdup (get_default_format (DTFormatKindDate, NULL));
+	gchar *res = g_strdup (prefer_date_fmt ? prefer_date_fmt : get_default_format (DTFormatKindDate, NULL));
 	GDate now, val;
 	gint diff;
 
@@ -303,9 +304,10 @@ format_internal (const gchar *key,
 			if (fmt[i + 1] == '%') {
 				i++;
 			} else if (fmt[i + 1] == 'a' && fmt[i + 2] == 'd' && (fmt[i + 3] == 0 || !g_ascii_isalpha (fmt[i + 3]))) {
-				gchar *ad;
+				gchar *ad, *prefer_date_fmt = NULL;
 
-				/* "%ad" for abbreviated date */
+				/* "%ad" for abbreviated date; it can be optionally extended
+				   with preferred date format in [], like this: "%ad[%Y-%m-%d]" */
 				if (!use_fmt) {
 					use_fmt = g_string_new ("");
 
@@ -317,12 +319,28 @@ format_internal (const gchar *key,
 				last = i + 3;
 				i += 2;
 
-				ad = format_relative_date (tvalue, ttoday, &value, &today);
+				if (fmt[i + 1] == '[' && fmt[i + 2] != ']') {
+					const gchar *end;
+
+					end = strchr (fmt + i + 1, ']');
+					if (end) {
+						gint len = end - fmt - i - 1;
+
+						prefer_date_fmt = g_strndup (fmt + i + 2, len - 1);
+
+						/* Include the ending ']' */
+						last += len + 1;
+						i += len + 1;
+					}
+				}
+
+				ad = format_relative_date (tvalue, ttoday, prefer_date_fmt, &value, &today);
 				if (ad)
 					g_string_append (use_fmt, ad);
-				else if (g_ascii_isspace (fmt[i + 3]))
+				else if (g_ascii_isspace (fmt[i + 1]))
 					i++;
 
+				g_free (prefer_date_fmt);
 				g_free (ad);
 			}
 		}
