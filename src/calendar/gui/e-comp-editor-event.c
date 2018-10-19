@@ -422,6 +422,18 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 }
 
 static gboolean
+ece_event_client_needs_all_day_as_time (ECompEditor *comp_editor)
+{
+	ECalClient *client;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
+
+	client = e_comp_editor_get_target_client (comp_editor);
+
+	return client && e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_ALL_DAY_EVENT_AS_TIME);
+}
+
+static gboolean
 ece_event_fill_component (ECompEditor *comp_editor,
 			  icalcomponent *component)
 {
@@ -482,14 +494,11 @@ ece_event_fill_component (ECompEditor *comp_editor,
 		dtend = icalproperty_get_dtend (dtend_prop);
 
 		if (dtstart.is_date && dtend.is_date) {
-			ECalClient *client;
-
 			/* Add 1 day to DTEND, as it is not inclusive. */
 			icaltime_adjust (&dtend, 1, 0, 0, 0);
 			set_dtend = TRUE;
 
-			client = e_comp_editor_get_target_client (comp_editor);
-			if (client && e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_ALL_DAY_EVENT_AS_TIME)) {
+			if (ece_event_client_needs_all_day_as_time (comp_editor)) {
 				ECompEditorEvent *event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 				GtkWidget *timezone_entry;
 
@@ -561,6 +570,72 @@ ece_event_notify_source_client_cb (GObject *object,
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (object));
 
 	ece_event_update_timezone (E_COMP_EDITOR_EVENT (object), NULL, NULL);
+}
+
+static void
+ece_event_notify_target_client_cb (GObject *object,
+				   GParamSpec *param,
+				   gpointer user_data)
+{
+	ECompEditorEvent *event_editor;
+	GtkAction *action;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (object));
+
+	event_editor = E_COMP_EDITOR_EVENT (object);
+	action = e_comp_editor_get_action (E_COMP_EDITOR (event_editor), "view-timezone");
+
+	/* These influence whether the timezone part is visible and they
+	   depend on the target's client ece_event_client_needs_all_day_as_time() */
+	g_object_notify (G_OBJECT (action), "active");
+	g_object_notify (G_OBJECT (event_editor->priv->all_day_check), "active");
+}
+
+static gboolean
+transform_action_to_timezone_visible_cb (GBinding *binding,
+					 const GValue *from_value,
+					 GValue *to_value,
+					 gpointer user_data)
+{
+	ECompEditorEvent *event_editor = user_data;
+	GtkToggleButton *all_day_check = GTK_TOGGLE_BUTTON (event_editor->priv->all_day_check);
+
+	g_value_set_boolean (to_value,
+		g_value_get_boolean (from_value) &&
+		(!gtk_toggle_button_get_active (all_day_check) || ece_event_client_needs_all_day_as_time (E_COMP_EDITOR (event_editor))));
+
+	return TRUE;
+}
+
+static gboolean
+transform_toggle_to_timezone_visible_cb (GBinding *binding,
+					 const GValue *from_value,
+					 GValue *to_value,
+					 gpointer user_data)
+{
+	ECompEditor *comp_editor = user_data;
+	GtkToggleAction *action = GTK_TOGGLE_ACTION (e_comp_editor_get_action (comp_editor, "view-timezone"));
+
+	g_value_set_boolean (to_value,
+		gtk_toggle_action_get_active (action) &&
+		(!g_value_get_boolean (from_value) || ece_event_client_needs_all_day_as_time (comp_editor)));
+
+	return TRUE;
+}
+
+static gboolean
+transform_all_day_check_to_action_sensitive_cb (GBinding *binding,
+						const GValue *from_value,
+						GValue *to_value,
+						gpointer user_data)
+{
+	ECompEditor *comp_editor = user_data;
+
+	g_value_set_boolean (to_value,
+		!g_value_get_boolean (from_value) ||
+		ece_event_client_needs_all_day_as_time (comp_editor));
+
+	return TRUE;
 }
 
 static void
@@ -698,10 +773,27 @@ ece_event_setup_ui (ECompEditorEvent *event_editor)
 		G_SETTINGS_BIND_DEFAULT);
 
 	action = e_comp_editor_get_action (comp_editor, "view-timezone");
-	e_binding_bind_property (
-		event_editor->priv->timezone, "visible",
+	e_binding_bind_property_full (
 		action, "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+		event_editor->priv->timezone, "visible",
+		G_BINDING_DEFAULT,
+		transform_action_to_timezone_visible_cb,
+		NULL, /* not used */
+		event_editor, NULL);
+	e_binding_bind_property_full (
+		event_editor->priv->all_day_check, "active",
+		event_editor->priv->timezone, "visible",
+		G_BINDING_DEFAULT,
+		transform_toggle_to_timezone_visible_cb,
+		NULL, /* not used */
+		event_editor, NULL);
+	e_binding_bind_property_full (
+		event_editor->priv->all_day_check, "active",
+		action, "sensitive",
+		G_BINDING_SYNC_CREATE,
+		transform_all_day_check_to_action_sensitive_cb,
+		NULL, /* not used */
+		event_editor, NULL);
 	g_settings_bind (
 		settings, "editor-show-timezone",
 		action, "active",
@@ -849,6 +941,9 @@ e_comp_editor_event_constructed (GObject *object)
 
 	g_signal_connect (comp_editor, "notify::source-client",
 		G_CALLBACK (ece_event_notify_source_client_cb), NULL);
+
+	g_signal_connect (comp_editor, "notify::target-client",
+		G_CALLBACK (ece_event_notify_target_client_cb), NULL);
 }
 
 static void
