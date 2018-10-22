@@ -51,6 +51,7 @@ struct _EMeetingAttendeePrivate {
 
 	EMeetingAttendeeEditLevel edit_level;
 
+	gboolean show_address;
 	gboolean has_calendar_info;
 
 	GArray *busy_periods;
@@ -176,6 +177,7 @@ e_meeting_attendee_init (EMeetingAttendee *ia)
 	ia->priv->language = string_test (NULL);
 
 	ia->priv->edit_level = E_MEETING_ATTENDEE_EDIT_FULL;
+	ia->priv->show_address = FALSE;
 	ia->priv->has_calendar_info = FALSE;
 
 	ia->priv->busy_periods = g_array_new (FALSE, FALSE, sizeof (EMeetingFreeBusyPeriod));
@@ -718,6 +720,28 @@ ensure_periods_sorted (EMeetingAttendee *ia)
 		compare_period_starts);
 
 	priv->busy_periods_sorted = TRUE;
+}
+
+gboolean
+e_meeting_attendee_get_show_address (EMeetingAttendee *ia)
+{
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
+
+	return ia->priv->show_address;
+}
+
+void
+e_meeting_attendee_set_show_address (EMeetingAttendee *ia,
+				     gboolean show_address)
+{
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
+
+	if ((ia->priv->show_address ? 1 : 0) == (show_address ? 1 : 0))
+		return;
+
+	ia->priv->show_address = show_address;
+
+	notify_changed (ia);
 }
 
 gboolean

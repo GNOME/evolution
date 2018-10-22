@@ -100,6 +100,15 @@ settings_meeting_store_constructed (GObject *object)
 
 	g_object_unref (settings);
 
+	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
+
+	g_settings_bind (
+		settings, "completion-show-address",
+		extensible, "show-address",
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
+
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_meeting_store_parent_class)->constructed (object);
 }

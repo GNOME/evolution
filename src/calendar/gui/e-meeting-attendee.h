@@ -122,6 +122,9 @@ EMeetingAttendeeType e_meeting_attendee_get_atype (EMeetingAttendee *ia);
 EMeetingAttendeeEditLevel e_meeting_attendee_get_edit_level (EMeetingAttendee *ia);
 void e_meeting_attendee_set_edit_level (EMeetingAttendee *ia, EMeetingAttendeeEditLevel level);
 
+gboolean e_meeting_attendee_get_show_address (EMeetingAttendee *ia);
+void e_meeting_attendee_set_show_address (EMeetingAttendee *ia, gboolean show_address);
+
 gboolean e_meeting_attendee_get_has_calendar_info (EMeetingAttendee *ia);
 void e_meeting_attendee_set_has_calendar_info (EMeetingAttendee *ia, gboolean has_calendar_info);
 

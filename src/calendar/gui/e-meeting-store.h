@@ -108,6 +108,9 @@ void		e_meeting_store_set_free_busy_template
 icaltimezone *	e_meeting_store_get_timezone	(EMeetingStore *meeting_store);
 void		e_meeting_store_set_timezone	(EMeetingStore *meeting_store,
 						 icaltimezone *timezone);
+gboolean	e_meeting_store_get_show_address(EMeetingStore *store);
+void		e_meeting_store_set_show_address(EMeetingStore *store,
+						 gboolean show_address);
 void		e_meeting_store_add_attendee	(EMeetingStore *meeting_store,
 						 EMeetingAttendee *attendee);
 EMeetingAttendee *

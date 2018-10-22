@@ -63,6 +63,8 @@ struct _EMeetingStorePrivate {
 
 	guint num_threads;
 	guint num_queries;
+
+	gboolean show_address;
 };
 
 #define BUF_SIZE 1024
@@ -90,6 +92,7 @@ enum {
 	PROP_DEFAULT_REMINDER_INTERVAL,
 	PROP_DEFAULT_REMINDER_UNITS,
 	PROP_FREE_BUSY_TEMPLATE,
+	PROP_SHOW_ADDRESS,
 	PROP_TIMEZONE
 };
 
@@ -396,18 +399,30 @@ get_value (GtkTreeModel *model,
 	case E_MEETING_STORE_ATTENDEE_COL:
 		g_value_init (value, G_TYPE_STRING);
 		cn = e_meeting_attendee_get_cn (attendee);
-		if (strcmp (cn, ""))
-			g_value_set_string (value, cn);
-		else
+		if (cn && *cn) {
+			if (e_meeting_store_get_show_address (store) ||
+			    e_meeting_attendee_get_show_address (attendee)) {
+				const gchar *email = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
+
+				if (email && *email) {
+					g_value_take_string (value, camel_internet_address_format_address (cn, email));
+				} else {
+					g_value_set_string (value, cn);
+				}
+			} else {
+				g_value_set_string (value, cn);
+			}
+		} else {
 			g_value_set_string (
 				value, itip_strip_mailto (
 				e_meeting_attendee_get_address (attendee)));
+		}
 		break;
 	case E_MEETING_STORE_ATTENDEE_UNDERLINE_COL:
 		cn = e_meeting_attendee_get_cn (attendee);
 		g_value_init (value, PANGO_TYPE_UNDERLINE);
 		g_value_set_enum (
-			value, strcmp ("", cn) == 0 ?
+			value, (!cn || !*cn) ?
 			PANGO_UNDERLINE_NONE : PANGO_UNDERLINE_SINGLE);
 	}
 }
@@ -656,6 +671,12 @@ meeting_store_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
+		case PROP_SHOW_ADDRESS:
+			e_meeting_store_set_show_address (
+				E_MEETING_STORE (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_TIMEZONE:
 			e_meeting_store_set_timezone (
 				E_MEETING_STORE (object),
@@ -698,6 +719,13 @@ meeting_store_get_property (GObject *object,
 			g_value_set_string (
 				value,
 				e_meeting_store_get_free_busy_template (
+				E_MEETING_STORE (object)));
+			return;
+
+		case PROP_SHOW_ADDRESS:
+			g_value_set_boolean (
+				value,
+				e_meeting_store_get_show_address (
 				E_MEETING_STORE (object)));
 			return;
 
@@ -799,6 +827,17 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 			NULL,
 			NULL,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_ADDRESS,
+		g_param_spec_boolean (
+			"show-address",
+			"Show email addresses",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -950,6 +989,44 @@ e_meeting_store_set_timezone (EMeetingStore *store,
 	store->priv->zone = timezone;
 
 	g_object_notify (G_OBJECT (store), "timezone");
+}
+
+gboolean
+e_meeting_store_get_show_address (EMeetingStore *store)
+{
+	g_return_val_if_fail (E_IS_MEETING_STORE (store), FALSE);
+
+	return store->priv->show_address;
+}
+
+void
+e_meeting_store_set_show_address (EMeetingStore *store,
+				  gboolean show_address)
+{
+	GtkTreeModel *model;
+	guint ii;
+
+	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	if ((store->priv->show_address ? 1 : 0) == (show_address ? 1 : 0))
+		return;
+
+	store->priv->show_address = show_address;
+
+	model = GTK_TREE_MODEL (store);
+
+	for (ii = 0; ii < store->priv->attendees->len; ii++) {
+		GtkTreePath *path;
+		GtkTreeIter iter;
+
+		path = gtk_tree_path_new ();
+		gtk_tree_path_append_index (path, ii);
+		get_iter (model, &iter, path);
+		gtk_tree_model_row_changed (model, path, &iter);
+		gtk_tree_path_free (path);
+	}
+
+	g_object_notify (G_OBJECT (store), "show-address");
 }
 
 static void

@@ -390,6 +390,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 				e_meeting_attendee_set_status (attendee, ICAL_PARTSTAT_NEEDSACTION);
 				e_meeting_attendee_set_delfrom (attendee, g_strdup (e_meeting_attendee_get_delfrom (existing_attendee)));
 				e_meeting_attendee_set_fburi (attendee, g_strdup (e_meeting_attendee_get_fburi (existing_attendee)));
+				e_meeting_attendee_set_show_address (attendee, e_meeting_attendee_get_show_address (existing_attendee));
 			}
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
 			g_signal_emit_by_name (view, "attendee_added", (gpointer) attendee);
@@ -946,6 +947,7 @@ process_section (EMeetingListView *view,
 			EDestination *dest = l->data;
 			EContact *contact;
 			gchar *fburi = NULL, *name = NULL, *email_addr = NULL;
+			gboolean show_address = FALSE;
 
 			email_addr = g_strdup (e_destination_get_email (dest));
 			if (email_addr && *email_addr) {
@@ -972,8 +974,17 @@ process_section (EMeetingListView *view,
 			}
 
 			contact = e_destination_get_contact (dest);
-			if (contact)
+			if (contact) {
 				fburi = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
+
+				if (!e_contact_get (contact, E_CONTACT_IS_LIST)) {
+					GList *email_list;
+
+					email_list = e_contact_get (contact, E_CONTACT_EMAIL);
+					show_address = email_list && email_list->next;
+					g_list_free_full (email_list, g_free);
+				}
+			}
 
 			if (e_meeting_store_find_attendee (priv->store, email_addr, NULL) == NULL) {
 				EMeetingAttendee *ia = e_meeting_store_add_attendee_with_defaults (priv->store);
@@ -983,6 +994,7 @@ process_section (EMeetingListView *view,
 				if (role == ICAL_ROLE_NONPARTICIPANT)
 					e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);
 				e_meeting_attendee_set_cn (ia, g_strdup (name));
+				e_meeting_attendee_set_show_address (ia, show_address);
 
 				if (fburi) {
 					e_meeting_attendee_set_fburi (ia, fburi);
