@@ -1,3 +1,45 @@
+Evolution 3.30.2 2018-10-22
+---------------------------
+
+Bug Fixes:
+	I#135 - Cannot scroll up to previous date in Calendar's Week/Month View (Milan Crha)
+	I#136 - Choose contrasting font color for the calendar data (Milan Crha)
+	I#139 - Deselects task/memo list when started in Calendar view (Milan Crha)
+	I#140 - Single key accelerator triggered in search box (Milan Crha)
+	I#155 - Cannot expand list of recipients of an attached email (Milan Crha)
+	I#159 - [gal-a11y-e-cell-tree] Call e_tree_model_node_is_expandable() with non-NULL 'node' (Milan Crha)
+	I#162 - Replied to message marked as seen after message send (Milan Crha)
+	I#163 - Open selected event/memo/task on “Enter” (Milan Crha)
+	I#164 - Mute "Failed to handle source headers" runtime warning (Milan Crha)
+	I#166 - Improve the appdata file (Milan Crha)
+	I#176 - [Calendar] Incorrectly splits attendee name and email address (Milan Crha)
+	I#183 - Set of DATE/DATE-TIME doesn't reset VALUE parameter (Milan Crha)
+	M!4 - Add X-Flatpak-RenamedFrom to the desktop file (Bilal Elmoussaoui)
+
+Miscellaneous:
+	Print actions disabled in Calendar view (Milan Crha)
+	Task Location shown as Summary in preview pane (Milan Crha)
+	Make sure message_list_folder_changed() is called from the main/UI thread (Milan Crha)
+	[Flatpak] Use host system DConf to store user settings (Milan Crha)
+	Free/Busy lookup for authenticated URLs not re-tried (Milan Crha)
+	[Calendar] Fix issues with attendees editing of an existing meeting (Milan Crha)
+	A little code clean-up related to the previous commit (Milan Crha)
+	[Event/Task editor] Force timezone part show only if really needed (Milan Crha)
+
+Translations:
+	Kjartan Maraas (nb)
+	Piotr Drąg (pl)
+	Rafael Fontenelle (pt_BR)
+	Marek Cernocky (cs)
+	Kukuh Syafaat (id)
+	Christian Kirbach (de)
+	Anders Jonsson (sv)
+	Yi-Jyun Pan (zh_TW)
+	Kristjan SCHMIDT (eo)
+	Rūdolfs Mazurs (lv)
+	Emin Tufan Çetin (tr)
+	Balázs Meskó (hu)
+
 Evolution 3.30.1 2018-09-24
 ---------------------------
 
