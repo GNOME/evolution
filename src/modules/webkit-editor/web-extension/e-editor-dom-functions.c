@@ -626,6 +626,8 @@ e_editor_dom_exec_command (EEditorPage *editor_page,
 		e_editor_page_get_document (editor_page), cmd_str, FALSE, has_value ? value : "" );
 }
 
+/* FIXME WK2: this doesn't work, the cursor is moved, but the spellcheck is not updated */
+#if 0
 static void
 perform_spell_check (WebKitDOMDOMSelection *dom_selection,
                      WebKitDOMRange *start_range,
@@ -633,7 +635,6 @@ perform_spell_check (WebKitDOMDOMSelection *dom_selection,
 {
 	WebKitDOMRange *actual = start_range;
 
-	/* FIXME WK2: this doesn't work, the cursor is moved, but the spellcheck is not updated */
 	/* Go through all words to spellcheck them. To avoid this we have to wait for
 	 * http://www.w3.org/html/wg/drafts/html/master/editing.html#dom-forcespellcheck */
 	/* We are moving forward word by word until we hit the text on the end. */
@@ -647,10 +648,13 @@ perform_spell_check (WebKitDOMDOMSelection *dom_selection,
 	}
 	g_clear_object (&actual);
 }
+#endif
 
 void
 e_editor_dom_force_spell_check_for_current_paragraph (EEditorPage *editor_page)
 {
+/* FIXME WK2: this doesn't work, the cursor is moved, but the spellcheck is not updated */
+#if 0
 	WebKitDOMDocument *document;
 	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMDOMWindow *dom_window = NULL;
@@ -738,12 +742,15 @@ e_editor_dom_force_spell_check_for_current_paragraph (EEditorPage *editor_page)
 	e_editor_dom_selection_restore (editor_page);
 	/* Unblock the callbacks */
 	e_editor_page_unblock_selection_changed (editor_page);
+#endif
 }
 
 static void
 refresh_spell_check (EEditorPage *editor_page,
                      gboolean enable_spell_check)
 {
+/* FIXME WK2: this doesn't work, the cursor is moved, but the spellcheck is not updated */
+#if 0
 	WebKitDOMDocument *document;
 	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMDOMWindow *dom_window = NULL;
@@ -827,6 +834,7 @@ refresh_spell_check (EEditorPage *editor_page,
 	e_editor_dom_selection_restore (editor_page);
 	/* Unblock the callbacks */
 	e_editor_page_unblock_selection_changed (editor_page);
+#endif
 }
 
 void
@@ -840,6 +848,8 @@ e_editor_dom_turn_spell_check_off (EEditorPage *editor_page)
 void
 e_editor_dom_force_spell_check_in_viewport (EEditorPage *editor_page)
 {
+/* FIXME WK2: this doesn't work, the cursor is moved, but the spellcheck is not updated */
+#if 0
 	WebKitDOMDocument *document;
 	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMDOMWindow *dom_window = NULL;
@@ -914,6 +924,7 @@ e_editor_dom_force_spell_check_in_viewport (EEditorPage *editor_page)
 	e_editor_dom_selection_restore (editor_page);
 	/* Unblock the callbacks */
 	e_editor_page_unblock_selection_changed (editor_page);
+#endif
 }
 
 void
