@@ -494,13 +494,17 @@ ecep_general_target_client_notify_cb (ECompEditor *comp_editor,
 				      GParamSpec *param,
 				      ECompEditorPageGeneral *page_general)
 {
-	const gchar *cal_email_address;
-
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page_general));
 
-	cal_email_address = e_comp_editor_get_cal_email_address (comp_editor);
-	ecep_general_pick_organizer_for_email_address (page_general, cal_email_address);
+	if ((e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) != 0 ||
+	    (e_comp_editor_get_source_client (comp_editor) != NULL &&
+	     e_comp_editor_get_target_client (comp_editor) != e_comp_editor_get_source_client (comp_editor))) {
+		const gchar *cal_email_address;
+
+		cal_email_address = e_comp_editor_get_cal_email_address (comp_editor);
+		ecep_general_pick_organizer_for_email_address (page_general, cal_email_address);
+	}
 
 	if (page_general->priv->comp_color) {
 		ECalClient *target_client;
