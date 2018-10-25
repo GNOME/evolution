@@ -128,6 +128,7 @@ static gboolean	send_done (gpointer data, const GError *error, const GPtrArray *
 
 static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
+static GSList *glob_ongoing_downsyncs = NULL; /* CamelService *, those where downsync for offline is ongoing */
 
 static void
 free_folder_info (struct _folder_info *info)
@@ -1046,6 +1047,60 @@ receive_status (CamelFilterDriver *driver,
 	}
 }
 
+static void
+free_downsync_for_store_data (gpointer ptr)
+{
+	CamelService *service = ptr;
+
+	if (!service)
+		return;
+
+	glob_ongoing_downsyncs = g_slist_remove (glob_ongoing_downsyncs, service);
+
+	g_clear_object (&service);
+}
+
+static void
+downsync_for_store_thread (EAlertSinkThreadJobData *job_data,
+			   gpointer user_data,
+			   GCancellable *cancellable,
+			   GError **error)
+{
+	CamelOfflineStore *offline_store = user_data;
+
+	g_return_if_fail (CAMEL_IS_OFFLINE_STORE (offline_store));
+
+	camel_offline_store_prepare_for_offline_sync (offline_store, cancellable, error);
+}
+
+static void
+run_downsync_for_store (CamelService *service)
+{
+	EShellView *shell_view;
+	EActivity *activity;
+	gchar *description;
+
+	shell_view = mail_send_receive_get_mail_shell_view ();
+	if (!shell_view)
+		return;
+
+	glob_ongoing_downsyncs = g_slist_prepend (glob_ongoing_downsyncs, service);
+
+	description = g_strdup_printf (_("Preparing account “%s” for offline"), camel_service_get_display_name (service));
+
+	activity = e_shell_view_submit_thread_job (shell_view, description,
+		"mail:prepare-for-offline",
+		camel_service_get_display_name (service),
+		downsync_for_store_thread, g_object_ref (service),
+		free_downsync_for_store_data);
+
+	if (!activity)
+		glob_ongoing_downsyncs = g_slist_remove (glob_ongoing_downsyncs, service);
+
+	g_clear_object (&activity);
+	g_free (description);
+}
+
 /* when receive/send is complete */
 static void
 receive_done (gpointer data)
@@ -1124,6 +1179,20 @@ receive_done (gpointer data)
 		if (info->data->gd)
 			gtk_widget_destroy ((GtkWidget *) info->data->gd);
 		free_send_data ();
+	}
+
+	if (info->state != SEND_CANCELLED &&
+	    CAMEL_IS_OFFLINE_STORE (info->service) &&
+	    camel_offline_store_get_online (CAMEL_OFFLINE_STORE (info->service)) &&
+	    !g_slist_find (glob_ongoing_downsyncs, info->service)) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		if (g_settings_get_boolean (settings, "send-receive-downloads-for-offline") &&
+		    camel_offline_store_requires_downsync (CAMEL_OFFLINE_STORE (info->service))) {
+			run_downsync_for_store (info->service);
+		}
+		g_object_unref (settings);
 	}
 
 	free_send_info (info);

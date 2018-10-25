@@ -536,8 +536,8 @@ in the folder will be available in offline mode.</_secondary>
   </error>
 
   <error id="prepare-for-offline" type="warning">
-    <_primary>Failed to download messages for offline viewing.</_primary>
-    <_secondary>The reported error was “{0}”.</_secondary>
+    <_primary>Failed to download messages for offline viewing for account “{0}”.</_primary>
+    <_secondary>The reported error was “{1}”.</_secondary>
   </error>
 
   <error id="save-messages" type="error">

@@ -309,6 +309,7 @@ action_mail_download_finished_cb (CamelStore *store,
 	} else if (error != NULL) {
 		e_alert_submit (
 			alert_sink, "mail:prepare-for-offline",
+			camel_service_get_display_name (CAMEL_SERVICE (store)),
 			error->message, NULL);
 		g_error_free (error);
 	}

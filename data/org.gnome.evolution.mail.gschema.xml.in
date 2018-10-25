@@ -803,6 +803,11 @@
       <_summary>Where to lookup recipient S/MIME certificates or PGP keys when encrypting messages.</_summary>
       <_description>The “off” value completely disables certificate lookup; the “autocompleted” value provides certificates only for auto-completed contacts; the “books” value uses certificates from auto-completed contacts and searches in books marked for auto-completion.</_description>
     </key>
+    <key name="send-receive-downloads-for-offline" type="b">
+      <default>false</default>
+      <_summary>Whether Send/Receive should also download of messages for offline.</_summary>
+      <_description>If enabled, whenever Send/Receive is run it also runs synchronization of messages for offline use. The option is disabled by default.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 
