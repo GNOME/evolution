@@ -73,6 +73,78 @@ enum {
 
 G_DEFINE_TYPE (ECompEditorPageGeneral, e_comp_editor_page_general, E_TYPE_COMP_EDITOR_PAGE)
 
+/* Begin of customized GtkComboBoxText, which doesn't use width as the longest text in it */
+
+typedef struct _ECEPGeneralOrganizerComboBox {
+	GtkComboBoxText parent;
+} ECEPGeneralOrganizerComboBox;
+
+typedef struct _ECEPGeneralOrganizerComboBoxClass {
+	GtkComboBoxTextClass parent_class;
+} ECEPGeneralOrganizerComboBoxClass;
+
+GType ecep_general_organizer_combo_box_get_type (void) G_GNUC_CONST;
+
+G_DEFINE_TYPE (ECEPGeneralOrganizerComboBox, ecep_general_organizer_combo_box, GTK_TYPE_COMBO_BOX_TEXT)
+
+static void
+ecep_general_organizer_combo_box_get_preferred_width (GtkWidget *widget,
+						      gint *minimum_width,
+						      gint *natural_width)
+{
+	GTK_WIDGET_CLASS (ecep_general_organizer_combo_box_parent_class)->get_preferred_width (widget, minimum_width, natural_width);
+
+	if (*natural_width > 250)
+		*natural_width = 225;
+}
+
+static void
+ecep_general_organizer_combo_box_constructed (GObject *object)
+{
+	GList *cells, *link;
+
+	G_OBJECT_CLASS (ecep_general_organizer_combo_box_parent_class)->constructed (object);
+
+	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (object));
+	for (link = cells; link; link = g_list_next (link)) {
+		if (GTK_IS_CELL_RENDERER_TEXT (link->data)) {
+			g_object_set (link->data,
+				"ellipsize", PANGO_ELLIPSIZE_END,
+				NULL);
+		}
+	}
+
+	g_list_free (cells);
+}
+
+static void
+ecep_general_organizer_combo_box_class_init (ECEPGeneralOrganizerComboBoxClass *klass)
+{
+	GtkWidgetClass *widget_class;
+	GObjectClass *object_class;
+
+	widget_class = GTK_WIDGET_CLASS (klass);
+	widget_class->get_preferred_width = ecep_general_organizer_combo_box_get_preferred_width;
+
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->constructed = ecep_general_organizer_combo_box_constructed;
+}
+
+static void
+ecep_general_organizer_combo_box_init (ECEPGeneralOrganizerComboBox *object)
+{
+}
+
+static GtkWidget *
+ecep_general_organizer_combo_box_new (void)
+{
+	return g_object_new (ecep_general_organizer_combo_box_get_type (),
+		"has-entry", FALSE,
+		NULL);
+}
+
+/* End of customized GtkComboBoxText, which doesn't use width as the longest text in it */
+
 static void ecep_general_sensitize_widgets (ECompEditorPage *page,
 					    gboolean force_insensitive);
 
@@ -827,7 +899,6 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 		if (organizer && *organizer) {
 			ECompEditor *comp_editor;
 			ESourceRegistry *registry;
-			GtkEntry *combo_box_entry;
 			guint32 flags;
 			gchar *value = NULL;
 
@@ -866,18 +937,14 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 			if (!value)
 				value = g_strdup (itip_strip_mailto (organizer));
 
-			combo_box_entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (page_general->priv->organizer_combo_box)));
-
-			if (!(flags & E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) {
+			if (!(flags & E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER) ||
+			    !ecep_general_pick_organizer_for_email_address (page_general, organizer)) {
 				GtkComboBoxText *combo_box_text;
 
 				combo_box_text = GTK_COMBO_BOX_TEXT (page_general->priv->organizer_combo_box);
 				gtk_combo_box_text_remove_all (combo_box_text);
 				gtk_combo_box_text_append_text (combo_box_text, value);
 				gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box_text), 0);
-				gtk_editable_set_editable (GTK_EDITABLE (combo_box_entry), FALSE);
-			} else if (!ecep_general_pick_organizer_for_email_address (page_general, organizer)) {
-				gtk_entry_set_text (combo_box_entry, value);
 			}
 
 			e_comp_editor_set_flags (comp_editor, flags);
@@ -1277,7 +1344,7 @@ ecep_general_constructed (GObject *object)
 
 	page_general->priv->organizer_hbox = widget;
 
-	widget = gtk_combo_box_text_new_with_entry ();
+	widget = ecep_general_organizer_combo_box_new ();
 	g_object_set (G_OBJECT (widget),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
@@ -1288,11 +1355,6 @@ ecep_general_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	page_general->priv->organizer_combo_box = widget;
-
-	/* The list of organizers is set to be non-editable. Otherwise any
-	 * change in the displayed list causes an 'Account not found' error.
-	 */
-	gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (widget))), FALSE);
 
 	ecep_general_fill_organizer_combo_box (page_general);
 
