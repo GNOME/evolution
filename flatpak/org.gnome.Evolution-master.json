@@ -27,6 +27,8 @@
 		"--socket=x11",
 		"--socket=wayland",
 		"--socket=pulseaudio",
+		"--device=dri",
+		"--filesystem=home",
 		"--filesystem=xdg-run/dconf",
 		"--filesystem=~/.config/dconf:ro",
 		"--env=DCONF_USER_CONFIG_DIR=.config/dconf",
@@ -40,14 +42,15 @@
 			"cleanup": [ "/lib/cmake" ],
 			"buildsystem": "cmake-ninja",
 			"config-opts": [
+				"-DCMAKE_INSTALL_LIBDIR:PATH=/app/lib",
 				"-DBUILD_SHARED_LIBS:BOOL=ON",
 				"-DGOBJECT_INTROSPECTION:BOOL=OFF"
 			],
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://github.com/libical/libical/releases/download/v3.0.3/libical-3.0.3.tar.gz",
-					"sha256": "5b91eb8ad2d2dcada39d2f81d5e3ac15895823611dc7df91df39a35586f39241"
+					"url": "https://github.com/libical/libical/releases/download/v3.0.4/libical-3.0.4.tar.gz",
+					"sha256": "72b216e10233c3f60cb06062facf41f3b0f70615e5a60b47f9853341a0d5d145"
 				}
 			]
 		},
@@ -220,6 +223,7 @@
 				"-DENABLE_INSTALLED_TESTS=OFF",
 				"-DENABLE_GTK_DOC=OFF",
 				"-DENABLE_DBUS_SESSION_TOOL=ON",
+				"-DWITH_LIBDB=OFF",
 				"-DWITH_PRIVATE_DOCS=OFF",
 				"-DWITH_PHONENUMBER=OFF",
 				"-DWITH_SYSTEMDUSERUNITDIR=OFF"
@@ -329,8 +333,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://www.cabextract.org.uk/libmspack/libmspack-0.6alpha.tar.gz",
-					"sha256": "1edbee82accb28e679ab538f803aab7a5a569e4102ccf1715b462b1bd915f921"
+					"url": "https://www.cabextract.org.uk/libmspack/libmspack-0.8alpha.tar.gz",
+					"sha256": "0533792e9561375a5fce1bc96bbc65ec778af486e0daa3803b226da9244addaf"
 				}
 			]
 		},
