@@ -2943,13 +2943,13 @@ e_comp_editor_set_target_client (ECompEditor *comp_editor,
 	g_clear_object (&comp_editor->priv->target_client);
 	comp_editor->priv->target_client = client;
 
-	g_object_notify (G_OBJECT (comp_editor), "target-client");
-
 	if (client && !comp_editor->priv->source_client && comp_editor->priv->origin_source &&
 	    e_source_equal (e_client_get_source (E_CLIENT (client)), comp_editor->priv->origin_source))
 		e_comp_editor_set_source_client (comp_editor, client);
 
 	e_comp_editor_sensitize_widgets (comp_editor);
+
+	g_object_notify (G_OBJECT (comp_editor), "target-client");
 }
 
 const gchar *
