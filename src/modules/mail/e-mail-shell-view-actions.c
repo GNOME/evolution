@@ -648,15 +648,37 @@ mark_all_read_prompt_user (EMailShellView *mail_shell_view,
 	parent = GTK_WINDOW (shell_window);
 
 	if (with_subfolders) {
+		GSettings *settings;
+		GdkDisplay *display;
+		GdkKeymap *keymap;
+
+		display = gtk_widget_get_display (GTK_WIDGET (e_shell_view_get_shell_window (E_SHELL_VIEW (mail_shell_view))));
+		keymap = gdk_keymap_get_for_display (display);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		if ((gdk_keymap_get_modifier_state (keymap) & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != GDK_SHIFT_MASK &&
+		    !g_settings_get_boolean (settings, "prompt-on-mark-all-read")) {
+			g_object_unref (settings);
+			return MARK_ALL_READ_CURRENT_ONLY;
+		}
+
 		switch (e_alert_run_dialog_for_args (parent,
 			"mail:ask-mark-all-read-sub", NULL)) {
 			case GTK_RESPONSE_YES:
+				g_object_unref (settings);
 				return MARK_ALL_READ_WITH_SUBFOLDERS;
 			case GTK_RESPONSE_NO:
+				g_object_unref (settings);
+				return MARK_ALL_READ_CURRENT_ONLY;
+			case GTK_RESPONSE_ACCEPT:
+				g_settings_set_boolean (settings, "prompt-on-mark-all-read", FALSE);
+				g_object_unref (settings);
 				return MARK_ALL_READ_CURRENT_ONLY;
 			default:
 				break;
 		}
+
+		g_object_unref (settings);
 	} else if (e_util_prompt_user (parent,
 			"org.gnome.evolution.mail",
 			"prompt-on-mark-all-read",
@@ -664,6 +686,23 @@ mark_all_read_prompt_user (EMailShellView *mail_shell_view,
 		return MARK_ALL_READ_CURRENT_ONLY;
 
 	return MARK_ALL_READ_CANCEL;
+}
+
+static gboolean
+mark_all_read_child_has_unread (CamelFolderInfo *folder_info)
+{
+	gboolean any_has = FALSE;
+
+	if (!folder_info)
+		return FALSE;
+
+	while (!any_has && folder_info) {
+		any_has = folder_info->unread > 0 || mark_all_read_child_has_unread (folder_info->child);
+
+		folder_info = folder_info->next;
+	}
+
+	return any_has;
 }
 
 static void
@@ -712,7 +751,7 @@ mark_all_read_got_folder_info (GObject *source,
 
 	response = mark_all_read_prompt_user (
 		context->mail_shell_view,
-		context->can_subfolders && folder_info->child != NULL);
+		context->can_subfolders && mark_all_read_child_has_unread (folder_info->child));
 
 	if (response == MARK_ALL_READ_CURRENT_ONLY)
 		g_queue_push_tail (

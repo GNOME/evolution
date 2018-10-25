@@ -412,6 +412,7 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
     <button _label="In Current Folder and _Subfolders" response="GTK_RESPONSE_YES"/>
     <button _label="In Current _Folder Only" response="GTK_RESPONSE_NO"/>
+    <button _label="_Always In Current Folder Only" response="GTK_RESPONSE_ACCEPT"/>
   </error>
 
   <error id="browser-close-on-reply" type="question" default="GTK_RESPONSE_NO">
