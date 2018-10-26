@@ -5832,226 +5832,6 @@ message_list_set_search (MessageList *message_list,
 	}
 }
 
-struct sort_column_data {
-	ETableCol *col;
-	GtkSortType sort_type;
-};
-
-struct sort_message_info_data {
-	CamelMessageInfo *mi;
-	GPtrArray *values; /* read values so far, in order of sort_array_data::sort_columns */
-};
-
-struct sort_array_data {
-	MessageList *message_list;
-	CamelFolder *folder;
-	GPtrArray *sort_columns; /* struct sort_column_data in order of sorting */
-	GHashTable *message_infos; /* uid -> struct sort_message_info_data */
-	gpointer cmp_cache;
-	GCancellable *cancellable;
-};
-
-static gint
-cmp_array_uids (gconstpointer a,
-                gconstpointer b,
-                gpointer user_data)
-{
-	const gchar *uid1 = *(const gchar **) a;
-	const gchar *uid2 = *(const gchar **) b;
-	struct sort_array_data *sort_data = user_data;
-	gint i, res = 0;
-	struct sort_message_info_data *md1, *md2;
-
-	g_return_val_if_fail (sort_data != NULL, 0);
-
-	md1 = g_hash_table_lookup (sort_data->message_infos, uid1);
-	md2 = g_hash_table_lookup (sort_data->message_infos, uid2);
-
-	g_return_val_if_fail (md1 != NULL, 0);
-	g_return_val_if_fail (md1->mi != NULL, 0);
-	g_return_val_if_fail (md2 != NULL, 0);
-	g_return_val_if_fail (md2->mi != NULL, 0);
-
-	if (g_cancellable_is_cancelled (sort_data->cancellable))
-		return 0;
-
-	for (i = 0;
-	     res == 0
-	     && i < sort_data->sort_columns->len
-	     && !g_cancellable_is_cancelled (sort_data->cancellable);
-	     i++) {
-		gpointer v1, v2;
-		struct sort_column_data *scol = g_ptr_array_index (sort_data->sort_columns, i);
-
-		if (md1->values->len <= i) {
-			camel_message_info_property_lock (md1->mi);
-			v1 = ml_tree_value_at_ex (
-				NULL, NULL,
-				scol->col->spec->compare_col,
-				md1->mi, sort_data->message_list);
-			camel_message_info_property_unlock (md1->mi);
-			g_ptr_array_add (md1->values, v1);
-		} else {
-			v1 = g_ptr_array_index (md1->values, i);
-		}
-
-		if (md2->values->len <= i) {
-			camel_message_info_property_lock (md2->mi);
-			v2 = ml_tree_value_at_ex (
-				NULL, NULL,
-				scol->col->spec->compare_col,
-				md2->mi, sort_data->message_list);
-			camel_message_info_property_unlock (md2->mi);
-
-			g_ptr_array_add (md2->values, v2);
-		} else {
-			v2 = g_ptr_array_index (md2->values, i);
-		}
-
-		if (v1 != NULL && v2 != NULL) {
-			res = (*scol->col->compare) (v1, v2, sort_data->cmp_cache);
-		} else if (v1 != NULL || v2 != NULL) {
-			res = v1 == NULL ? -1 : 1;
-		}
-
-		if (scol->sort_type == GTK_SORT_DESCENDING)
-			res = res * (-1);
-	}
-
-	if (res == 0)
-		res = camel_folder_cmp_uids (sort_data->folder, uid1, uid2);
-
-	return res;
-}
-
-static void
-free_message_info_data (gpointer uid,
-                        struct sort_message_info_data *data,
-                        struct sort_array_data *sort_data)
-{
-	if (data->values) {
-		gint ii;
-
-		for (ii = 0; ii < sort_data->sort_columns->len && ii < data->values->len; ii++) {
-			struct sort_column_data *scol = g_ptr_array_index (sort_data->sort_columns, ii);
-
-			message_list_free_value ((ETreeModel *) sort_data->message_list,
-				scol->col->spec->compare_col,
-				g_ptr_array_index (data->values, ii));
-		}
-
-		g_ptr_array_free (data->values, TRUE);
-	}
-
-	g_clear_object (&data->mi);
-	g_free (data);
-}
-
-static void
-ml_sort_uids_by_tree (MessageList *message_list,
-		      ETableSortInfo *sort_info,
-		      ETableHeader *full_header,
-                      GPtrArray *uids,
-                      GCancellable *cancellable)
-{
-	CamelFolder *folder;
-	struct sort_array_data sort_data;
-	guint i, len;
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return;
-
-	g_return_if_fail (uids != NULL);
-
-	folder = message_list_ref_folder (message_list);
-	g_return_if_fail (folder != NULL);
-
-	if (!sort_info || uids->len == 0 || !full_header || e_table_sort_info_sorting_get_count (sort_info) == 0) {
-		camel_folder_sort_uids (folder, uids);
-		g_object_unref (folder);
-		return;
-	}
-
-	len = e_table_sort_info_sorting_get_count (sort_info);
-
-	sort_data.message_list = message_list;
-	sort_data.folder = folder;
-	sort_data.sort_columns = g_ptr_array_sized_new (len);
-	sort_data.message_infos = g_hash_table_new (g_str_hash, g_str_equal);
-	sort_data.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
-	sort_data.cancellable = cancellable;
-
-	for (i = 0;
-	     i < len
-	     && !g_cancellable_is_cancelled (cancellable);
-	     i++) {
-		ETableColumnSpecification *spec;
-		struct sort_column_data *data;
-
-		data = g_new0 (struct sort_column_data, 1);
-
-		spec = e_table_sort_info_sorting_get_nth (
-			sort_info, i, &data->sort_type);
-
-		data->col = e_table_header_get_column_by_spec (full_header, spec);
-		if (data->col == NULL) {
-			gint last = e_table_header_count (full_header) - 1;
-			data->col = e_table_header_get_column (full_header, last);
-		}
-
-		g_ptr_array_add (sort_data.sort_columns, data);
-	}
-
-	camel_folder_summary_prepare_fetch_all (camel_folder_get_folder_summary (folder), NULL);
-
-	for (i = 0;
-	     i < uids->len
-	     && !g_cancellable_is_cancelled (cancellable);
-	     i++) {
-		gchar *uid;
-		CamelMessageInfo *mi;
-		struct sort_message_info_data *md;
-
-		uid = g_ptr_array_index (uids, i);
-		mi = camel_folder_get_message_info (folder, uid);
-
-		/* This can happen when the folder is updated and messages moved
-		   elsewhere or deleted while the message list regeneration is running. */
-		if (!mi)
-			continue;
-
-		md = g_new0 (struct sort_message_info_data, 1);
-		md->mi = mi;
-		md->values = g_ptr_array_sized_new (len);
-
-		g_hash_table_insert (sort_data.message_infos, uid, md);
-	}
-
-	if (!g_cancellable_is_cancelled (cancellable))
-		g_qsort_with_data (
-			uids->pdata,
-			uids->len,
-			sizeof (gpointer),
-			cmp_array_uids,
-			&sort_data);
-
-	camel_folder_summary_unlock (camel_folder_get_folder_summary (folder));
-
-	/* FIXME Teach the hash table to destroy its own data. */
-	g_hash_table_foreach (
-		sort_data.message_infos,
-		(GHFunc) free_message_info_data,
-		&sort_data);
-	g_hash_table_destroy (sort_data.message_infos);
-
-	g_ptr_array_foreach (sort_data.sort_columns, (GFunc) g_free, NULL);
-	g_ptr_array_free (sort_data.sort_columns, TRUE);
-
-	e_table_sorting_utils_free_cmp_cache (sort_data.cmp_cache);
-
-	g_object_unref (folder);
-}
-
 static void
 message_list_regen_tweak_search_results (MessageList *message_list,
                                          GPtrArray *search_results,
@@ -6236,11 +6016,11 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	if (uids == NULL)
 		goto exit;
 
+	camel_folder_sort_uids (folder, uids);
+
 	/* update/build a new tree */
 	if (regen_data->group_by_threads) {
 		CamelFolderThread *thread_tree;
-
-		ml_sort_uids_by_tree (message_list, regen_data->sort_info, regen_data->full_header, uids, cancellable);
 
 		thread_tree = message_list_ref_thread_tree (message_list);
 
@@ -6265,7 +6045,6 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	} else {
 		guint ii;
 
-		camel_folder_sort_uids (folder, uids);
 		regen_data->summary = g_ptr_array_new ();
 
 		camel_folder_summary_prepare_fetch_all (camel_folder_get_folder_summary (folder), NULL);

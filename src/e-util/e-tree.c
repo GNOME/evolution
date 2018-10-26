@@ -1600,7 +1600,7 @@ et_connect_to_etta (ETree *tree)
 
 	g_object_bind_property (tree, "sort-children-ascending",
 		tree->priv->etta, "sort-children-ascending",
-		G_BINDING_DEFAULT);
+		G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 }
 
 static gboolean
