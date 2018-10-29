@@ -411,6 +411,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			}
 		} else {
 			gboolean address_changed = FALSE;
+			gboolean show_address = FALSE;
 			EMeetingAttendee *attendee;
 			EDestination *destination;
 
@@ -448,8 +449,19 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 						e_meeting_attendee_set_fburi (attendee, fburi);
 					else
 						g_free (fburi);
+
+					if (!e_contact_get (contact, E_CONTACT_IS_LIST)) {
+						GList *email_list;
+
+						email_list = e_contact_get (contact, E_CONTACT_EMAIL);
+						show_address = email_list && email_list->next;
+						g_list_free_full (email_list, g_free);
+					}
 				}
 			}
+
+			e_meeting_attendee_set_show_address (attendee, show_address ||
+				e_meeting_attendee_get_show_address (attendee));
 
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
 
