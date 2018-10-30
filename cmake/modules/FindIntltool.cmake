@@ -176,9 +176,18 @@ macro(intltool_merge _in_filename _out_filename)
 			DEPENDS ${_in}
 		)
 	else(_has_no_translations)
+		if(NOT TARGET intltool-merge-cache)
+			add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/po/.intltool-merge-cache
+				COMMAND ${INTLTOOL_MERGE} ${_args} --quiet --cache="${CMAKE_BINARY_DIR}/po/.intltool-merge-cache" "${GETTEXT_PO_DIR}" "${_in}" "${_out}"
+				DEPENDS ${_in}
+			)
+			add_custom_target(intltool-merge-cache ALL
+				DEPENDS ${CMAKE_BINARY_DIR}/po/.intltool-merge-cache)
+		endif(NOT TARGET intltool-merge-cache)
+
 		add_custom_command(OUTPUT ${_out}
 			COMMAND ${INTLTOOL_MERGE} ${_args} --quiet --cache="${CMAKE_BINARY_DIR}/po/.intltool-merge-cache" "${GETTEXT_PO_DIR}" "${_in}" "${_out}"
-			DEPENDS ${_in}
+			DEPENDS ${_in} intltool-merge-cache
 		)
 	endif(_has_no_translations)
 endmacro(intltool_merge)
