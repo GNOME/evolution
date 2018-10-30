@@ -89,6 +89,7 @@ struct _EHTMLEditorPrivate {
 	gchar *filename;
 
 	guint spell_suggestions_merge_id;
+	guint recent_spell_languages_merge_id;
 
 	gint editor_layout_row;
 

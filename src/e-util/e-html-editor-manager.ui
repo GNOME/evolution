@@ -22,7 +22,11 @@
       <separator/>
       <placeholder name='pre-spell-check'/>
       <menuitem action='spell-check'/>
-      <menu action='language-menu'/>
+      <menu action='language-menu'>
+        <placeholder name='recent-languages'/>
+        <separator/>
+        <placeholder name='all-languages'/>
+      </menu>
     </menu>
     <placeholder name='pre-insert-menu'>
       <menu action='view-menu'>

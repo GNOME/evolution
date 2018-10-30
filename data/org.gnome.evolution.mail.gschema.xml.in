@@ -125,6 +125,15 @@
       <_summary>Spell checking languages</_summary>
       <_description>List of dictionary language codes used for spell checking.</_description>
     </key>
+    <key name="composer-spell-languages-recently-used" type="as">
+      <default>[]</default>
+      <_summary>List of recently used spell checking languages</_summary>
+      <_description>List of dictionary language codes used for spell checking, which had been used recently.</_description>
+    </key>
+    <key name="composer-spell-languages-max-recently-used" type="i">
+      <default>5</default>
+      <_summary>How many recently used spell checking languages to remember</_summary>
+    </key>
     <key name="composer-show-bcc" type="b">
       <default>false</default>
       <_summary>Show “Bcc” field when sending a mail message</_summary>

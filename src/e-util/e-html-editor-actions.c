@@ -440,6 +440,10 @@ action_insert_text_file_cb (GtkAction *action,
 	gtk_widget_destroy (dialog);
 }
 
+static gboolean
+editor_actions_add_to_recent_languages (EHTMLEditor *editor,
+					const gchar *language_code);
+
 static void
 action_language_cb (GtkToggleAction *toggle_action,
                     EHTMLEditor *editor)
@@ -468,6 +472,41 @@ action_language_cb (GtkToggleAction *toggle_action,
 	e_html_editor_update_spell_actions (editor);
 
 	g_signal_emit_by_name (editor, "spell-languages-changed");
+
+	if (active) {
+		GSettings *settings;
+		GPtrArray *array;
+		gchar **strv;
+		gint ii, max_items;
+
+		gtk_ui_manager_remove_ui (editor->priv->manager, editor->priv->recent_spell_languages_merge_id);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		strv = g_settings_get_strv (settings, "composer-spell-languages-recently-used");
+		max_items = g_settings_get_int (settings, "composer-spell-languages-max-recently-used");
+		if (max_items < 5)
+			max_items = 5;
+
+		array = g_ptr_array_sized_new (max_items + 1);
+		g_ptr_array_add (array, (gpointer) language_code);
+
+		editor_actions_add_to_recent_languages (editor, language_code);
+
+		for (ii = 0; strv && strv[ii] && array->len < max_items; ii++) {
+			if (g_strcmp0 (language_code, strv[ii]) != 0) {
+				g_ptr_array_add (array, strv[ii]);
+				editor_actions_add_to_recent_languages (editor, strv[ii]);
+			}
+		}
+
+		g_ptr_array_add (array, NULL);
+
+		g_settings_set_strv (settings, "composer-spell-languages-recently-used", (const gchar * const *) array->pdata);
+
+		g_object_unref (settings);
+		g_ptr_array_free (array, TRUE);
+		g_strfreev (strv);
+	}
 }
 
 static gboolean
@@ -1606,6 +1645,49 @@ static GtkActionEntry spell_context_entries[] = {
 	  NULL }
 };
 
+static gboolean
+editor_actions_add_to_recent_languages (EHTMLEditor *editor,
+					const gchar *language_code)
+{
+	GtkAction *language_action;
+	gchar *name;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), FALSE);
+	g_return_val_if_fail (language_code != NULL, FALSE);
+
+	language_action = gtk_action_group_get_action (editor->priv->language_actions, language_code);
+	if (!language_action)
+		return FALSE;
+
+	name = g_strconcat ("recent-spell-language-", language_code, NULL);
+
+	if (!gtk_action_group_get_action (editor->priv->language_actions, name)) {
+		GtkToggleAction *toggle_action;
+
+		toggle_action = gtk_toggle_action_new (name,
+			gtk_action_get_label (language_action),
+			gtk_action_get_tooltip (language_action),
+			NULL);
+
+		e_binding_bind_property (language_action, "active",
+			toggle_action, "active",
+			G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+		gtk_action_group_add_action (editor->priv->language_actions, GTK_ACTION (toggle_action));
+
+		g_object_unref (toggle_action);
+	}
+
+	gtk_ui_manager_add_ui (
+		editor->priv->manager, editor->priv->recent_spell_languages_merge_id,
+		"/main-menu/edit-menu/language-menu/recent-languages",
+		name, name, GTK_UI_MANAGER_AUTO, FALSE);
+
+	g_free (name);
+
+	return TRUE;
+}
+
 static void
 editor_actions_setup_languages_menu (EHTMLEditor *editor)
 {
@@ -1613,31 +1695,52 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 	EContentEditor *cnt_editor;
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
+	GHashTable *lang_parents; /* gchar *name ~> GtkAction * */
 	GList *list = NULL, *link;
+	GSettings *settings;
+	gchar **strv;
+	gint ii, added = 0, max_items;
 	guint merge_id;
 
+	lang_parents = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	manager = editor->priv->manager;
 	action_group = editor->priv->language_actions;
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 	merge_id = gtk_ui_manager_new_merge_id (manager);
+	editor->priv->recent_spell_languages_merge_id = gtk_ui_manager_new_merge_id (manager);
 
 	list = e_spell_checker_list_available_dicts (spell_checker);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESpellDictionary *dictionary = link->data;
+		GtkAction *parent_action;
 		GtkToggleAction *action;
-		const gchar *language_name;
+		const gchar *dictionay_name;
+		gchar *language_name, *path;
 		GString *escaped_name = NULL;
 		gboolean active = FALSE;
 
-		language_name = e_spell_dictionary_get_name (dictionary);
-		if (language_name && strchr (language_name, '_') != NULL)
-			escaped_name = e_str_replace_string (language_name, "_", "__");
+		if (!e_util_get_language_info (e_spell_dictionary_get_code (dictionary), &language_name, NULL)) {
+			language_name = g_strdup (e_spell_dictionary_get_code (dictionary));
+			if (language_name) {
+				gchar *ptr;
+
+				ptr = strchr (language_name, '_');
+				if (ptr)
+					*ptr = '\0';
+			} else {
+				language_name = g_strdup ("");
+			}
+		}
+
+		dictionay_name = e_spell_dictionary_get_name (dictionary);
+		if (dictionay_name && strchr (dictionay_name, '_') != NULL)
+			escaped_name = e_str_replace_string (dictionay_name, "_", "__");
 
 		action = gtk_toggle_action_new (
 			e_spell_dictionary_get_code (dictionary),
-			escaped_name ? escaped_name->str : language_name,
+			escaped_name ? escaped_name->str : dictionay_name,
 			NULL, NULL);
 
 		if (escaped_name)
@@ -1659,16 +1762,63 @@ editor_actions_setup_languages_menu (EHTMLEditor *editor)
 
 		g_object_unref (action);
 
+		parent_action = g_hash_table_lookup (lang_parents, language_name);
+		if (!parent_action) {
+			gchar *name, *tmp;
+
+			name = g_strdup (e_spell_dictionary_get_code (dictionary));
+			tmp = strchr (name, '_');
+			if (tmp)
+				*tmp = '\0';
+
+			tmp = g_strconcat ("language-parent-", name, NULL);
+			g_free (name);
+			name = tmp;
+
+			parent_action = gtk_action_new (name, language_name, NULL, NULL);
+
+			gtk_action_group_add_action (action_group, parent_action);
+
+			g_hash_table_insert (lang_parents, g_strdup (language_name), parent_action);
+
+			gtk_ui_manager_add_ui (
+				manager, merge_id,
+				"/main-menu/edit-menu/language-menu/all-languages",
+				name, name, GTK_UI_MANAGER_MENU, FALSE);
+
+			g_free (name);
+		}
+
+		path = g_strconcat ("/main-menu/edit-menu/language-menu/all-languages/", gtk_action_get_name (parent_action), NULL);
+
 		gtk_ui_manager_add_ui (
 			manager, merge_id,
-			"/main-menu/edit-menu/language-menu",
+			path,
 			e_spell_dictionary_get_code (dictionary),
 			e_spell_dictionary_get_code (dictionary),
 			GTK_UI_MANAGER_AUTO, FALSE);
+
+		g_free (language_name);
+		g_free (path);
 	}
 
 	g_list_free (list);
 	g_clear_object (&spell_checker);
+	g_hash_table_destroy (lang_parents);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	strv = g_settings_get_strv (settings, "composer-spell-languages-recently-used");
+	max_items = g_settings_get_int (settings, "composer-spell-languages-max-recently-used");
+	if (max_items < 5)
+		max_items = 5;
+	g_object_unref (settings);
+
+	for (ii = 0; strv && strv[ii] && added < max_items; ii++) {
+		if (editor_actions_add_to_recent_languages (editor, strv[ii]))
+			added++;
+	}
+
+	g_strfreev (strv);
 }
 
 static void
@@ -2022,6 +2172,10 @@ editor_actions_update_spellcheck_languages_menu (EHTMLEditor *editor,
 		gboolean is_active;
 
 		if (!GTK_IS_TOGGLE_ACTION (link->data))
+			continue;
+
+		if (gtk_action_get_name (link->data) &&
+		    g_str_has_prefix (gtk_action_get_name (link->data), "recent-spell-language-"))
 			continue;
 
 		is_active = g_hash_table_contains (active, gtk_action_get_name (link->data));

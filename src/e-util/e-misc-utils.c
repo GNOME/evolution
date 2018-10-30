@@ -4416,30 +4416,49 @@ iso_codes_parse (const GMarkupParser *parser,
 #endif /* HAVE_ISO_CODES */
 
 /**
- * e_util_get_language_name:
- * @language_tag: Language tag to get its name for
+ * e_util_get_language_info:
+ * @language_tag: Language tag to get its name for, like "en_US"
+ * @out_language_name: (out) (nullable) (transfer full): Return location for the language name, or %NULL
+ * @out_country_name: (out) (nullable) (transfer full): Return location for the country name, or %NULL
  *
- * Returns: (transfer full): Newly allocated string with localized language name
+ * Splits language tag into a localized language name and country name (the variant).
+ * The @out_language_name is always filled when the function returns %TRUE, but
+ * the @out_countr_name can be %NULL. That's for cases when the @language_tag
+ * contains only the country part, like "en".
+ *
+ * The function returns %FALSE when it could not decode language name from
+ * the given @language_tag. When either of the @out_language_name and @out_country_name
+ * is non-NULL and the function returns %TRUE, then their respective values
+ * should be freed with g_free(), when no longer needed.
+ *
+ * Returns: %TRUE, when could get at least language name from the @language_tag,
+ *    %FALSE otherwise.
  *
  * Since: 3.32
  **/
-gchar *
-e_util_get_language_name (const gchar *language_tag)
+gboolean
+e_util_get_language_info (const gchar *language_tag,
+			  gchar **out_language_name,
+			  gchar **out_country_name)
 {
 	const gchar *iso_639_name;
 	const gchar *iso_3166_name;
-	gchar *language_name;
 	gchar *lowercase;
 	gchar **tokens;
 
-	g_return_val_if_fail (language_tag != NULL, NULL);
+	g_return_val_if_fail (language_tag != NULL, FALSE);
+
+	if (out_language_name)
+		*out_language_name = NULL;
+	if (out_country_name)
+		*out_country_name = NULL;
 
 	/* Split language code into lowercase tokens. */
 	lowercase = g_ascii_strdown (language_tag, -1);
 	tokens = g_strsplit (lowercase, "_", -1);
 	g_free (lowercase);
 
-	g_return_val_if_fail (tokens != NULL, NULL);
+	g_return_val_if_fail (tokens != NULL, FALSE);
 
 	if (!iso_639_table && !iso_3166_table) {
 #if defined (ENABLE_NLS) && defined (HAVE_ISO_CODES)
@@ -4472,46 +4491,77 @@ e_util_get_language_name (const gchar *language_tag)
 
 	iso_639_name = g_hash_table_lookup (iso_639_table, tokens[0]);
 
-	if (iso_639_name == NULL) {
-		language_name = g_strdup_printf (
-		/* Translators: %s is the language ISO code. */
-			C_("language", "Unknown (%s)"), language_tag);
-		goto exit;
+	if (!iso_639_name) {
+		g_strfreev (tokens);
+		return FALSE;
 	}
 
-	if (g_strv_length (tokens) < 2) {
-		language_name = g_strdup (iso_639_name);
+	if (out_language_name)
+		*out_language_name = g_strdup (iso_639_name);
+
+	if (g_strv_length (tokens) < 2)
 		goto exit;
+
+	if (out_country_name) {
+		iso_3166_name = g_hash_table_lookup (iso_3166_table, tokens[1]);
+
+		if (iso_3166_name)
+			*out_country_name = g_strdup (iso_3166_name);
+		else
+			*out_country_name = g_strdup (tokens[1]);
 	}
-
-	iso_3166_name = g_hash_table_lookup (iso_3166_table, tokens[1]);
-
-	if (iso_3166_name != NULL)
-		language_name = g_strdup_printf (
-		 /* Translators: The first %s is the language name, and the
-		 * second is the country name. Example: "French (France)" */
-			C_("language", "%s (%s)"), iso_639_name, iso_3166_name);
-	else
-		language_name = g_strdup_printf (
-		 /* Translators: The first %s is the language name, and the
-		 * second is the country name. Example: "French (France)" */
-			C_("language", "%s (%s)"), iso_639_name, tokens[1]);
 
  exit:
-	g_strfreev (tokens);
-
-	if (language_name) {
+	if (out_country_name && *out_country_name) {
 		gchar *ptr;
 
-		/* When the name has two or more ';' then strip the string at the second of them */
-		ptr = strchr (language_name, ';');
+		/* When the country name has two or more ';' then strip the string at the second of them */
+		ptr = strchr (*out_country_name, ';');
 		if (ptr)
 			ptr = strchr (ptr + 1, ';');
 		if (ptr)
 			*ptr = '\0';
 	}
 
-	return language_name;
+	g_strfreev (tokens);
+
+	return TRUE;
+}
+
+/**
+ * e_util_get_language_name:
+ * @language_tag: Language tag to get its name for, like "en_US"
+ *
+ * Returns: (transfer full): Newly allocated string with localized language name
+ *
+ * Since: 3.32
+ **/
+gchar *
+e_util_get_language_name (const gchar *language_tag)
+{
+	gchar *language_name = NULL, *country_name = NULL;
+	gchar *res;
+
+	g_return_val_if_fail (language_tag != NULL, NULL);
+
+	if (!e_util_get_language_info (language_tag, &language_name, &country_name)) {
+		return g_strdup_printf (
+			/* Translators: %s is the language ISO code. */
+			C_("language", "Unknown (%s)"), language_tag);
+	}
+
+	if (!country_name)
+		return language_name;
+
+	res = g_strdup_printf (
+		/* Translators: The first %s is the language name, and the
+		 * second is the country name. Example: "French (France)" */
+		C_("language", "%s (%s)"), language_name, country_name);
+
+	g_free (language_name);
+	g_free (country_name);
+
+	return res;
 }
 
 /**
