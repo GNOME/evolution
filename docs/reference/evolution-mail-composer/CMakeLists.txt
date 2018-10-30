@@ -4,6 +4,10 @@ set(SOURCEDIRS
 
 set(DEPENDENCIES
 	evolution-mail-composer
+	gtkdoc-evolution-mail-engine
+	gtkdoc-evolution-mail-formatter
+	gtkdoc-evolution-shell
+	gtkdoc-evolution-util
 )
 
 set(IGNORE_HEADERS

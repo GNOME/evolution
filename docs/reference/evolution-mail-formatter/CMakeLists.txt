@@ -4,6 +4,7 @@ set(SOURCEDIRS
 
 set(DEPENDENCIES
 	evolution-mail-formatter
+	gtkdoc-evolution-shell
 )
 
 set(IGNORE_HEADERS

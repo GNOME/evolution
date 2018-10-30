@@ -4,6 +4,7 @@ set(SOURCEDIRS
 
 set(DEPENDENCIES
 	email-engine
+	gtkdoc-evolution-util
 )
 
 set(IGNORE_HEADERS

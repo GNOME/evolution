@@ -6,6 +6,8 @@ set(DEPENDENCIES
 	email-engine
 	evolution-util
 	evolution-shell
+	gtkdoc-evolution-mail-engine
+	gtkdoc-evolution-util
 )
 
 set(IGNORE_HEADERS
