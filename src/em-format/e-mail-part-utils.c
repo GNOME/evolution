@@ -699,7 +699,7 @@ message_find_parent_part_rec (CamelMimePart *part,
  * Searches for the parent of the @child in the @message, The @child is
  * supposed to be in the @message.
  *
- * Returns: (nullable) (transfer none): Parent of the @child, or %NULL.
+ * Returns: (transfer none) (nullable): Parent of the @child, or %NULL.
  *
  * Since: 3.30
  **/
