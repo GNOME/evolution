@@ -245,6 +245,7 @@ enum {
 	SELECTION_CHANGED,
 	SELECTION_PREVIEW_CHANGED,
 	MONTH_WIDTH_CHANGED,
+	CALC_MIN_COLUMN_WIDTH,
 	LAST_SIGNAL
 };
 
@@ -577,6 +578,15 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
+	e_calendar_item_signals[CALC_MIN_COLUMN_WIDTH] = g_signal_new (
+		"calc-min-column-width",
+		G_TYPE_FROM_CLASS (object_class),
+		G_SIGNAL_ACTION | G_SIGNAL_RUN_LAST,
+		0 /* G_STRUCT_OFFSET (ECalendarItemClass, calc_min_column_width) */,
+		NULL, NULL,
+		NULL,
+		G_TYPE_INT, 0);
+
 	e_calendar_item_a11y_init ();
 }
 
@@ -679,6 +689,7 @@ e_calendar_item_get_property (GObject *object,
                               GParamSpec *pspec)
 {
 	ECalendarItem *calitem;
+	gint min_column_width;
 
 	calitem = E_CALENDAR_ITEM (object);
 
@@ -713,7 +724,14 @@ e_calendar_item_get_property (GObject *object,
 		return;
 	case PROP_COLUMN_WIDTH:
 		e_calendar_item_recalc_sizes (calitem);
-		g_value_set_int (value, calitem->min_month_width);
+
+		min_column_width = 0;
+		g_signal_emit (calitem, e_calendar_item_signals[CALC_MIN_COLUMN_WIDTH], 0, &min_column_width);
+
+		if (min_column_width < calitem->min_month_width)
+			min_column_width = calitem->min_month_width;
+
+		g_value_set_int (value, min_column_width);
 		return;
 	case PROP_MINIMUM_ROWS:
 		g_value_set_int (value, calitem->min_rows);
@@ -936,7 +954,7 @@ e_calendar_item_update (GnomeCanvasItem *item,
 	GnomeCanvasItemClass *item_class;
 	ECalendarItem *calitem;
 	gint char_height, width, height, space, space_per_cal, space_per_cell;
-	gint rows, cols, xthickness, ythickness, old_month_width;
+	gint rows, cols, xthickness, ythickness, old_month_width, min_column_width;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	GtkStyleContext *style_context;
@@ -986,10 +1004,16 @@ e_calendar_item_update (GnomeCanvasItem *item,
 	if (calitem->max_rows > 0)
 		rows = MIN (rows, calitem->max_rows);
 
-	if (calitem->min_month_width == 0)
+	min_column_width = 0;
+	g_signal_emit (calitem, e_calendar_item_signals[CALC_MIN_COLUMN_WIDTH], 0, &min_column_width);
+
+	if (min_column_width < calitem->min_month_width)
+		min_column_width = calitem->min_month_width;
+
+	if (min_column_width == 0)
 		cols = 1;
 	else
-		cols = width / calitem->min_month_width;
+		cols = width / min_column_width;
 	cols = MAX (cols, calitem->min_cols);
 	if (calitem->max_cols > 0)
 		cols = MIN (cols, calitem->max_cols);
