@@ -200,6 +200,7 @@ emfqe_format_header (EMailFormatter *formatter,
 	} else if (g_str_equal (canon_name, "Date") ||
 		   g_str_equal (canon_name, "Resent-Date")) {
 		CamelMedium *medium;
+		GSettings *settings;
 
 		medium = CAMEL_MEDIUM (mime_part);
 		txt = camel_medium_get_header (medium, canon_name);
@@ -208,6 +209,31 @@ emfqe_format_header (EMailFormatter *formatter,
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		if (g_settings_get_boolean (settings, "composer-reply-credits-utc-to-localtime")) {
+			time_t date;
+			gint offset = 0;
+
+			date = camel_header_decode_date (txt, &offset);
+			if (date > 0 && !offset) {
+				struct tm gmtm, lctm;
+				time_t gmtt, lctt;
+
+				gmtime_r (&date, &gmtm);
+				localtime_r (&date, &lctm);
+
+				gmtt = mktime (&gmtm);
+				lctt = mktime (&lctm);
+
+				offset = (lctt - gmtt) * 100 / 3600;
+
+				value = camel_header_format_date (date, offset);
+
+				if (value && *value)
+					txt = value;
+			}
+		}
+		g_object_unref (settings);
 	} else {
 		CamelMedium *medium;
 
