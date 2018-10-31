@@ -187,6 +187,46 @@ e_calendar_create_button (GtkArrowType arrow_type)
 	return button;
 }
 
+static gint
+e_calendar_calc_min_column_width (ECalendar *cal)
+{
+	GtkWidget *widget;
+	GtkStyleContext *style_context;
+	GtkBorder padding;
+	PangoContext *pango_context;
+	PangoFontMetrics *font_metrics;
+	gdouble xthickness, arrow_button_size;
+
+	g_return_val_if_fail (E_IS_CALENDAR (cal), 0);
+
+	widget = GTK_WIDGET (cal);
+	style_context = gtk_widget_get_style_context (widget);
+	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
+	xthickness = padding.left;
+
+	pango_context = gtk_widget_get_pango_context (widget);
+	font_metrics = pango_context_get_metrics (
+		pango_context, NULL,
+		pango_context_get_language (pango_context));
+
+	arrow_button_size =
+		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics))
+		+ PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics))
+		+ E_CALENDAR_ITEM_YPAD_ABOVE_MONTH_NAME
+		+ E_CALENDAR_ITEM_YPAD_BELOW_MONTH_NAME
+		- E_CALENDAR_ARROW_BUTTON_Y_PAD * 2 - 2;
+
+	pango_font_metrics_unref (font_metrics);
+
+	return E_CALENDAR_ITEM_MIN_CELL_XPAD +
+		E_CALENDAR_ARROW_BUTTON_X_PAD +
+		(5 * E_CALENDAR_XPAD_BUTTONS) +
+		(4 * arrow_button_size) +
+		(4 * xthickness) +
+		(5 * cal->priv->calitem->max_digit_width) +
+		cal->priv->calitem->max_month_name_width;
+}
+
 static void
 e_calendar_class_init (ECalendarClass *class)
 {
@@ -245,6 +285,9 @@ e_calendar_init (ECalendar *cal)
 
 	g_signal_connect (cal->priv->calitem, "month-width-changed",
 		G_CALLBACK (calitem_month_width_changed_cb), cal);
+
+	g_signal_connect_swapped (cal->priv->calitem, "calc-min-column-width",
+		G_CALLBACK (e_calendar_calc_min_column_width), cal);
 
 	/* Create the arrow buttons to move to the previous/next month. */
 	button = e_calendar_create_button (GTK_ARROW_LEFT);
