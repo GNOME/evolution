@@ -565,8 +565,9 @@ e_mail_config_auth_check_set_active_mechanism (EMailConfigAuthCheck *auth_check,
 		return;
 
 	g_free (auth_check->priv->active_mechanism);
-	auth_check->priv->active_mechanism = g_strdup (active_mechanism);
+	/* Do not allow NULL here, thus Password auth, which uses
+	   empty string as ID, will match in the combo */
+	auth_check->priv->active_mechanism = g_strdup (active_mechanism ? active_mechanism : "");
 
 	g_object_notify (G_OBJECT (auth_check), "active-mechanism");
 }
-

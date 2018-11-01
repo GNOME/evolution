@@ -538,9 +538,10 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 }
 
 static gboolean
-mail_autoconfig_set_details (EMailAutoconfigResult *result,
-                             ESource *source,
-                             const gchar *extension_name,
+mail_autoconfig_set_details (ESourceRegistry *registry,
+			     EMailAutoconfigResult *result,
+			     ESource *source,
+			     const gchar *extension_name,
 			     const gchar *default_backend_name)
 {
 	ESourceCamel *camel_ext;
@@ -572,14 +573,32 @@ mail_autoconfig_set_details (EMailAutoconfigResult *result,
 	settings = e_source_camel_get_settings (camel_ext);
 	g_return_val_if_fail (CAMEL_IS_NETWORK_SETTINGS (settings), FALSE);
 
-	g_object_set (
-		settings,
+	g_object_set (settings,
 		"user", result->user,
 		"host", result->host,
 		"port", result->port,
 		"auth-mechanism", result->auth_mechanism,
 		"security-method", result->security_method,
 		NULL);
+
+	if (result->host && registry) {
+		EOAuth2Service *oauth2_service;
+
+		/* Prefer OAuth2, if available */
+		oauth2_service = e_oauth2_services_find (e_source_registry_get_oauth2_services (registry), source);
+		if (!oauth2_service) {
+			oauth2_service = e_oauth2_services_guess (e_source_registry_get_oauth2_services (registry),
+				backend_name, result->host);
+		}
+
+		if (oauth2_service) {
+			g_object_set (settings,
+				"auth-mechanism", e_oauth2_service_get_name (oauth2_service),
+				NULL);
+		}
+
+		g_clear_object (&oauth2_service);
+	}
 
 	return TRUE;
 }
@@ -625,7 +644,10 @@ mail_config_lookup_result_configure_source (EConfigLookupResult *lookup_result,
 	mail_result = E_MAIL_CONFIG_LOOKUP_RESULT (lookup_result);
 
 	/* No chain up to parent method, not needed here, because not used */
-	return mail_autoconfig_set_details (&mail_result->result, source, mail_result->extension_name,
+	return mail_autoconfig_set_details (
+		e_config_lookup_get_registry (config_lookup),
+		&mail_result->result, source,
+		mail_result->extension_name,
 		e_config_lookup_result_get_protocol (lookup_result));
 }
 
@@ -1149,6 +1171,7 @@ e_mail_autoconfig_set_imap_details (EMailAutoconfig *autoconfig,
 	g_return_val_if_fail (E_IS_SOURCE (imap_source), FALSE);
 
 	return mail_autoconfig_set_details (
+		autoconfig->priv->registry,
 		&autoconfig->priv->imap_result,
 		imap_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT, "imapx");
 }
@@ -1161,6 +1184,7 @@ e_mail_autoconfig_set_pop3_details (EMailAutoconfig *autoconfig,
 	g_return_val_if_fail (E_IS_SOURCE (pop3_source), FALSE);
 
 	return mail_autoconfig_set_details (
+		autoconfig->priv->registry,
 		&autoconfig->priv->pop3_result,
 		pop3_source, E_SOURCE_EXTENSION_MAIL_ACCOUNT, "pop3");
 }
@@ -1173,6 +1197,7 @@ e_mail_autoconfig_set_smtp_details (EMailAutoconfig *autoconfig,
 	g_return_val_if_fail (E_IS_SOURCE (smtp_source), FALSE);
 
 	return mail_autoconfig_set_details (
+		autoconfig->priv->registry,
 		&autoconfig->priv->smtp_result,
 		smtp_source, E_SOURCE_EXTENSION_MAIL_TRANSPORT, "smtp");
 }
