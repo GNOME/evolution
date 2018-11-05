@@ -366,15 +366,16 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (comp_editor));
 	g_return_if_fail (component != NULL);
 
-	E_COMP_EDITOR_CLASS (e_comp_editor_event_parent_class)->fill_widgets (comp_editor, component);
-
 	event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 
 	flags = e_comp_editor_get_flags (comp_editor);
 	dtstart = icaltime_null_time ();
 	dtend = icaltime_null_time ();
 
+	/* Set timezone before the times, because they are converted into this timezone */
 	ece_event_update_timezone (event_editor, &dtstart, &dtend);
+
+	E_COMP_EDITOR_CLASS (e_comp_editor_event_parent_class)->fill_widgets (comp_editor, component);
 
 	if (icaltime_is_valid_time (dtstart) && !icaltime_is_null_time (dtstart) &&
 	    (!icaltime_is_valid_time (dtend) || icaltime_is_null_time (dtend))) {
@@ -888,9 +889,13 @@ e_comp_editor_event_constructed (GObject *object)
 	e_comp_editor_property_part_datetime_attach_timezone_entry (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME (event_editor->priv->dtstart),
 		E_TIMEZONE_ENTRY (widget));
+	g_signal_connect_swapped (event_editor->priv->dtstart, "lookup-timezone",
+		G_CALLBACK (e_comp_editor_lookup_timezone), event_editor);
 	e_comp_editor_property_part_datetime_attach_timezone_entry (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME (event_editor->priv->dtend),
 		E_TIMEZONE_ENTRY (widget));
+	g_signal_connect_swapped (event_editor->priv->dtend, "lookup-timezone",
+		G_CALLBACK (e_comp_editor_lookup_timezone), event_editor);
 
 	e_comp_editor_set_time_parts (comp_editor, event_editor->priv->dtstart, event_editor->priv->dtend);
 

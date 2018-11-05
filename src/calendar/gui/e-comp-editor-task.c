@@ -514,9 +514,9 @@ ece_task_fill_widgets (ECompEditor *comp_editor,
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (comp_editor));
 	g_return_if_fail (component != NULL);
 
-	E_COMP_EDITOR_CLASS (e_comp_editor_task_parent_class)->fill_widgets (comp_editor, component);
-
 	ece_task_update_timezone (E_COMP_EDITOR_TASK (comp_editor), &force_allday);
+
+	E_COMP_EDITOR_CLASS (e_comp_editor_task_parent_class)->fill_widgets (comp_editor, component);
 
 	if (force_allday) {
 		GtkAction *action;
@@ -833,12 +833,18 @@ e_comp_editor_task_constructed (GObject *object)
 	e_comp_editor_property_part_datetime_attach_timezone_entry (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart),
 		E_TIMEZONE_ENTRY (edit_widget));
+	g_signal_connect_swapped (task_editor->priv->dtstart, "lookup-timezone",
+		G_CALLBACK (e_comp_editor_lookup_timezone), task_editor);
 	e_comp_editor_property_part_datetime_attach_timezone_entry (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->due_date),
 		E_TIMEZONE_ENTRY (edit_widget));
+	g_signal_connect_swapped (task_editor->priv->due_date, "lookup-timezone",
+		G_CALLBACK (e_comp_editor_lookup_timezone), task_editor);
 	e_comp_editor_property_part_datetime_attach_timezone_entry (
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->completed_date),
 		E_TIMEZONE_ENTRY (edit_widget));
+	g_signal_connect_swapped (task_editor->priv->completed_date, "lookup-timezone",
+		G_CALLBACK (e_comp_editor_lookup_timezone), task_editor);
 
 	e_comp_editor_set_time_parts (comp_editor, task_editor->priv->dtstart, task_editor->priv->due_date);
 

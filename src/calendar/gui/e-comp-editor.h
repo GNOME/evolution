@@ -180,6 +180,8 @@ ECompEditor *	e_comp_editor_open_for_component
 						 guint32 flags /* bit-or of ECompEditorFlags */);
 ECompEditor *	e_comp_editor_find_existing_for	(ESource *origin_source,
 						 const icalcomponent *component);
+icaltimezone *	e_comp_editor_lookup_timezone	(ECompEditor *comp_editor,
+						 const gchar *tzid);
 
 G_END_DECLS
 

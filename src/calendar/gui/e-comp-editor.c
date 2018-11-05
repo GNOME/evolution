@@ -3427,3 +3427,33 @@ e_comp_editor_find_existing_for (ESource *origin_source,
 
 	return NULL;
 }
+
+/* Returned pointer is owned by libical or ECalClient; can return NULL */
+icaltimezone *
+e_comp_editor_lookup_timezone (ECompEditor *comp_editor,
+			       const gchar *tzid)
+{
+	icaltimezone *zone;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
+
+	if (!tzid || !*tzid)
+		return NULL;
+
+	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+
+	if (!zone)
+		zone = icaltimezone_get_builtin_timezone (tzid);
+
+	if (!zone && comp_editor->priv->source_client) {
+		if (!e_cal_client_get_timezone_sync (comp_editor->priv->source_client, tzid, &zone, NULL, NULL))
+			zone = NULL;
+	}
+
+	if (!zone && comp_editor->priv->target_client && comp_editor->priv->source_client != comp_editor->priv->target_client) {
+		if (!e_cal_client_get_timezone_sync (comp_editor->priv->target_client, tzid, &zone, NULL, NULL))
+			zone = NULL;
+	}
+
+	return zone;
+}
