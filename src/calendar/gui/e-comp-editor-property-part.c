@@ -586,7 +586,28 @@ struct _ECompEditorPropertyPartDatetimePrivate {
 	GWeakRef timezone_entry;
 };
 
+enum {
+	ECEPP_DATETIME_LOOKUP_TIMEZONE,
+	ECEPP_DATETIME_LAST_SIGNAL
+};
+
+static guint ecepp_datetime_signals[ECEPP_DATETIME_LAST_SIGNAL];
+
 G_DEFINE_ABSTRACT_TYPE (ECompEditorPropertyPartDatetime, e_comp_editor_property_part_datetime, E_TYPE_COMP_EDITOR_PROPERTY_PART)
+
+static icaltimezone *
+ecepp_datetime_lookup_timezone (ECompEditorPropertyPartDatetime *part_datetime,
+				const gchar *tzid)
+{
+	icaltimezone *zone = NULL;
+
+	if (!tzid || !*tzid)
+		return NULL;
+
+	g_signal_emit (part_datetime, ecepp_datetime_signals[ECEPP_DATETIME_LOOKUP_TIMEZONE], 0, tzid, &zone);
+
+	return zone;
+}
 
 static void
 ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
@@ -645,10 +666,41 @@ ecepp_datetime_fill_widget (ECompEditorPropertyPart *property_part,
 	part_datetime = E_COMP_EDITOR_PROPERTY_PART_DATETIME (property_part);
 
 	prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
-	if (prop)
+	if (prop) {
+		ETimezoneEntry *timezone_entry = g_weak_ref_get (&part_datetime->priv->timezone_entry);
+
 		value = klass->ical_get_func (prop);
-	else
+
+		if (timezone_entry && !value.is_date) {
+			icaltimezone *editor_zone = e_timezone_entry_get_timezone (timezone_entry);
+
+			/* Attempt to convert time to the zone used in the editor */
+			if (editor_zone && !value.zone && !icaltime_is_utc (value)) {
+				icalparameter *param;
+
+				param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+				if (param) {
+					const gchar *tzid;
+
+					tzid = icalparameter_get_tzid (param);
+
+					if (tzid && *tzid) {
+						if (editor_zone &&
+						    (g_strcmp0 (icaltimezone_get_tzid (editor_zone), tzid) == 0 ||
+						    g_strcmp0 (icaltimezone_get_location (editor_zone), tzid) == 0)) {
+							value.zone = editor_zone;
+						} else {
+							value.zone = ecepp_datetime_lookup_timezone (part_datetime, tzid);
+						}
+					}
+				}
+			}
+		}
+
+		g_clear_object (&timezone_entry);
+	} else {
 		value = icaltime_null_time ();
+	}
 
 	e_comp_editor_property_part_datetime_set_value (part_datetime, value);
 }
@@ -675,6 +727,7 @@ ecepp_datetime_fill_component (ECompEditorPropertyPart *property_part,
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (klass->ical_prop_kind != ICAL_NO_PROPERTY);
 	g_return_if_fail (klass->ical_new_func != NULL);
+	g_return_if_fail (klass->ical_get_func != NULL);
 	g_return_if_fail (klass->ical_set_func != NULL);
 
 	part_datetime = E_COMP_EDITOR_PROPERTY_PART_DATETIME (property_part);
@@ -696,9 +749,17 @@ ecepp_datetime_fill_component (ECompEditorPropertyPart *property_part,
 			icalproperty_remove_parameter_by_kind (prop, ICAL_VALUE_PARAMETER);
 
 			klass->ical_set_func (prop, value);
+
+			/* Re-read the value, because it could be changed by the descendant */
+			value = klass->ical_get_func (prop);
+
 			cal_comp_util_update_tzid_parameter (prop, value);
 		} else {
 			prop = klass->ical_new_func (value);
+
+			/* Re-read the value, because it could be changed by the descendant */
+			value = klass->ical_get_func (prop);
+
 			cal_comp_util_update_tzid_parameter (prop, value);
 			icalcomponent_add_property (component, prop);
 		}
@@ -745,6 +806,16 @@ e_comp_editor_property_part_datetime_class_init (ECompEditorPropertyPartDatetime
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = ecepp_datetime_finalize;
+
+	/* icaltimezone *lookup_timezone (datetime, const gchar *tzid); */
+	ecepp_datetime_signals[ECEPP_DATETIME_LOOKUP_TIMEZONE] = g_signal_new (
+		"lookup-timezone",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_ACTION,
+		0,
+		NULL, NULL, NULL,
+		G_TYPE_POINTER, 1,
+		G_TYPE_STRING);
 }
 
 void
@@ -838,6 +909,24 @@ e_comp_editor_property_part_datetime_set_value (ECompEditorPropertyPartDatetime 
 	    !icaltime_is_valid_time (value)) {
 		e_date_edit_set_time (date_edit, (time_t) -1);
 	} else {
+		/* Convert to the same time zone as the editor uses, if different */
+		if (!value.is_date && value.zone) {
+			ETimezoneEntry *timezone_entry = g_weak_ref_get (&part_datetime->priv->timezone_entry);
+
+			if (timezone_entry) {
+				icaltimezone *editor_zone = e_timezone_entry_get_timezone (timezone_entry);
+
+				if (editor_zone && value.zone != editor_zone &&
+				    g_strcmp0 (icaltimezone_get_tzid (editor_zone), icaltimezone_get_tzid ((icaltimezone *) value.zone)) != 0 &&
+				    g_strcmp0 (icaltimezone_get_location (editor_zone), icaltimezone_get_location ((icaltimezone *) value.zone)) != 0) {
+					icaltimezone_convert_time (&value, (icaltimezone *) value.zone, editor_zone);
+					value.zone = editor_zone;
+				}
+			}
+
+			g_clear_object (&timezone_entry);
+		}
+
 		e_date_edit_set_date (date_edit, value.year, value.month, value.day);
 
 		if (!value.is_date)

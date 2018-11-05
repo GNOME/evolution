@@ -1094,14 +1094,20 @@ G_DEFINE_TYPE (ECompEditorPropertyPartCompleted, e_comp_editor_property_part_com
 static void
 e_comp_editor_property_part_completed_ensure_date_time (struct icaltimetype *pvalue)
 {
-	if (!pvalue || !pvalue->is_date)
+	if (!pvalue)
 		return;
 
-	pvalue->is_date = 0;
-	pvalue->hour = 0;
-	pvalue->minute = 0;
-	pvalue->second = 0;
-	pvalue->zone = icaltimezone_get_utc_timezone ();
+	if (pvalue->is_date) {
+		pvalue->is_date = 0;
+		pvalue->hour = 0;
+		pvalue->minute = 0;
+		pvalue->second = 0;
+		pvalue->zone = icaltimezone_get_utc_timezone ();
+	} else if (!icaltime_is_utc (*pvalue)) {
+		/* Make sure the time is in UTC */
+		icaltimezone_convert_time (pvalue, (icaltimezone *) pvalue->zone, icaltimezone_get_utc_timezone ());
+		pvalue->zone = icaltimezone_get_utc_timezone ();
+	}
 }
 
 static icalproperty *
