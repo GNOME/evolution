@@ -16,4 +16,4 @@ set(IGNORE_HEADERS
 	e-shell-enumtypes.h
 )
 
-add_gtkdoc(evolution-shell shell "" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)
+add_gtkdoc(evolution-shell shell "EVO_DISABLE_DEPRECATED" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)

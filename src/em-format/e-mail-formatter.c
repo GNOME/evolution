@@ -577,7 +577,9 @@ e_mail_formatter_base_init (EMailFormatterClass *class)
 		CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 
 	shell = e_shell_get_default ();
-	g_object_weak_ref (G_OBJECT (shell), shell_gone_cb, class);
+	/* It can be NULL when creating developer documentation */
+	if (shell)
+		g_object_weak_ref (G_OBJECT (shell), shell_gone_cb, class);
 }
 
 static void

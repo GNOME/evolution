@@ -11,4 +11,4 @@ set(IGNORE_HEADERS
 	e-mail-formatter-enumtypes.h
 )
 
-add_gtkdoc(evolution-mail-formatter em-format "" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)
+add_gtkdoc(evolution-mail-formatter em-format "EVO_DISABLE_DEPRECATED" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)

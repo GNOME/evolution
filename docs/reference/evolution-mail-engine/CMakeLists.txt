@@ -11,4 +11,4 @@ set(IGNORE_HEADERS
 	e-mail-engine-enumtypes.h
 )
 
-add_gtkdoc(evolution-mail-engine email-engine "" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)
+add_gtkdoc(evolution-mail-engine email-engine "EVO_DISABLE_DEPRECATED" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)

@@ -46,4 +46,4 @@ set(IGNORE_HEADERS
 	test-keyfile-settings-backend.h
 )
 
-add_gtkdoc(evolution-util e-util "" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)
+add_gtkdoc(evolution-util e-util "EVO_DISABLE_DEPRECATED" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)

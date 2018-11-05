@@ -15,4 +15,4 @@ set(IGNORE_HEADERS
 	e-composer-private.h
 )
 
-add_gtkdoc(evolution-mail-composer composer "" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)
+add_gtkdoc(evolution-mail-composer composer "EVO_DISABLE_DEPRECATED" SOURCEDIRS DEPENDENCIES IGNORE_HEADERS)

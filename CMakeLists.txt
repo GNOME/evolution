@@ -759,7 +759,6 @@ add_pkgconfig_file(evolution-mail.pc.in evolution-mail-${INTERFACE_VERSION}.pc)
 add_pkgconfig_file(evolution-shell.pc.in evolution-shell-${INTERFACE_VERSION}.pc)
 
 add_subdirectory(data)
-add_subdirectory(docs)
 add_subdirectory(po)
 add_subdirectory(src)
 add_subdirectory(tests)
@@ -767,3 +766,6 @@ add_subdirectory(tests)
 if(WITH_HELP)
 	add_subdirectory(help)
 endif(WITH_HELP)
+
+# Add it as the last, because it looks for targets defined above
+add_subdirectory(docs)

@@ -2,6 +2,9 @@
 #
 # Macros to support develper documentation build from sources with gtk-doc.
 #
+# Note that every target and dependency should be defined before the macro is
+# called, because it uses information from those targets.
+#
 # add_gtkdoc(_module _namespace _deprecated_guards _srcdirsvar _depsvar _ignoreheadersvar)
 #    Adds rules to build developer documentation using gtk-doc for some part.
 #    Arguments:
@@ -24,6 +27,7 @@ if(NOT ENABLE_GTK_DOC)
 endif(NOT ENABLE_GTK_DOC)
 
 find_program(GTKDOC_SCAN gtkdoc-scan)
+find_program(GTKDOC_SCANGOBJ gtkdoc-scangobj)
 find_program(GTKDOC_MKDB gtkdoc-mkdb)
 find_program(GTKDOC_MKHTML gtkdoc-mkhtml)
 find_program(GTKDOC_FIXXREF gtkdoc-fixxref)
@@ -63,6 +67,82 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 		set(_mkhtml_prefix "${CMAKE_COMMAND} -E env XML_CATALOG_FILES=\"/usr/local/etc/xml/catalog\"")
 	endif(APPLE)
 
+	set(_scangobj_deps)
+	set(_scangobj_cflags_list)
+	set(_scangobj_cflags "")
+	set(_scangobj_ldflags "")
+	set(_scangobj_ld_lib_dirs "")
+
+	list(APPEND _scangobj_cflags_list -I${INCLUDE_INSTALL_DIR})
+	list(APPEND _scangobj_ldflags -L${LIB_INSTALL_DIR})
+
+	foreach(opt IN LISTS ${_depsvar})
+		if(TARGET ${opt})
+			set(_target_type)
+			get_target_property(_target_type ${opt} TYPE)
+			if((_target_type STREQUAL "STATIC_LIBRARY") OR (_target_type STREQUAL "SHARED_LIBRARY") OR (_target_type STREQUAL "MODULE_LIBRARY"))
+				set(_compile_options)
+				set(_link_libraries)
+
+				get_target_property(_compile_options ${opt} COMPILE_OPTIONS)
+				get_target_property(_link_libraries ${opt} LINK_LIBRARIES)
+
+				list(APPEND _scangobj_cflags_list ${_compile_options})
+				list(APPEND _scangobj_deps ${_link_libraries})
+
+				unset(_compile_options)
+				unset(_link_libraries)
+			endif((_target_type STREQUAL "STATIC_LIBRARY") OR (_target_type STREQUAL "SHARED_LIBRARY") OR (_target_type STREQUAL "MODULE_LIBRARY"))
+			unset(_target_type)
+		endif(TARGET ${opt})
+
+		list(APPEND _scangobj_deps ${opt})
+	endforeach(opt)
+
+	if(_scangobj_deps)
+		list(REMOVE_DUPLICATES _scangobj_deps)
+	endif(_scangobj_deps)
+	if(_scangobj_cflags_list)
+		list(REMOVE_DUPLICATES _scangobj_cflags_list)
+	endif(_scangobj_cflags_list)
+
+	foreach(opt IN LISTS _scangobj_cflags_list)
+		set(_scangobj_cflags "${_scangobj_cflags} ${opt}")
+	endforeach(opt)
+
+	foreach(opt IN LISTS _scangobj_deps)
+		if(TARGET ${opt})
+			set(_target_type)
+			get_target_property(_target_type ${opt} TYPE)
+			if((_target_type STREQUAL "STATIC_LIBRARY") OR (_target_type STREQUAL "SHARED_LIBRARY") OR (_target_type STREQUAL "MODULE_LIBRARY"))
+				set(_output_name "")
+				get_target_property(_output_name ${opt} OUTPUT_NAME)
+				if(NOT _output_name)
+					set(_output_name ${opt})
+				endif(NOT _output_name)
+				set(_scangobj_ldflags "${_scangobj_ldflags} -L$<TARGET_FILE_DIR:${opt}> -l${_output_name}")
+
+				if(_target_type STREQUAL "SHARED_LIBRARY" OR (_target_type STREQUAL "MODULE_LIBRARY"))
+					set(_scangobj_ld_lib_dirs "${_scangobj_ld_lib_dirs}:$<TARGET_FILE_DIR:${opt}>")
+				endif(_target_type STREQUAL "SHARED_LIBRARY" OR (_target_type STREQUAL "MODULE_LIBRARY"))
+				unset(_output_name)
+			endif((_target_type STREQUAL "STATIC_LIBRARY") OR (_target_type STREQUAL "SHARED_LIBRARY") OR (_target_type STREQUAL "MODULE_LIBRARY"))
+			unset(_target_type)
+		else(TARGET ${opt})
+			set(_scangobj_ldflags "${_scangobj_ldflags} ${opt}")
+		endif(TARGET ${opt})
+	endforeach(opt)
+
+	set(_scangobj_prefix ${CMAKE_COMMAND} -E env LD_LIBRARY_PATH="${_scangobj_ld_lib_dirs}:${LIB_INSTALL_DIR}")
+
+	if(NOT (_scangobj_cflags STREQUAL ""))
+		set(_scangobj_cflags --cflags "${_scangobj_cflags}")
+	endif(NOT (_scangobj_cflags STREQUAL ""))
+
+	if(NOT (_scangobj_ldflags STREQUAL ""))
+		set(_scangobj_ldflags --ldflags "${_scangobj_ldflags}")
+	endif(NOT (_scangobj_ldflags STREQUAL ""))
+
 	add_custom_command(OUTPUT html/index.html
 		COMMAND ${GTKDOC_SCAN}
 			--module=${_module}
@@ -71,6 +151,11 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 			--rebuild-sections
 			--rebuild-types
 			${_srcdirs}
+
+		COMMAND ${CMAKE_COMMAND} -E chdir "${CMAKE_CURRENT_BINARY_DIR}" ${_scangobj_prefix} ${GTKDOC_SCANGOBJ}
+			--module=${_module}
+			${_scangobj_cflags}
+			${_scangobj_ldflags}
 
 		COMMAND ${GTKDOC_MKDB}
 			--module=${_module}
@@ -126,6 +211,11 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 			--rebuild-types
 			${_srcdirs}
 
+		COMMAND ${CMAKE_COMMAND} -E chdir "${CMAKE_CURRENT_BINARY_DIR}" ${_scangobj_prefix} ${GTKDOC_SCANGOBJ}
+			--module=${_module}
+			${_scangobj_cflags}
+			${_scangobj_ldflags}
+
 		COMMAND ${CMAKE_COMMAND} -E chdir "${CMAKE_CURRENT_BINARY_DIR}/tmp"
 			${GTKDOC_MKDB}
 			--module=${_module}
@@ -142,4 +232,10 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 
 	add_dependencies(gtkdoc-rebuild-sgmls gtkdoc-rebuild-${_module}-sgml)
 
+	unset(_scangobj_prefix)
+	unset(_scangobj_deps)
+	unset(_scangobj_cflags_list)
+	unset(_scangobj_cflags)
+	unset(_scangobj_ldflags)
+	unset(_scangobj_ld_lib_dirs)
 endmacro(add_gtkdoc)

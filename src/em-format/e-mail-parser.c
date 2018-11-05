@@ -332,7 +332,9 @@ e_mail_parser_base_init (EMailParserClass *class)
 	e_extensible_load_extensions (E_EXTENSIBLE (class->extension_registry));
 
 	shell = e_shell_get_default ();
-	g_object_weak_ref (G_OBJECT (shell), shell_gone_cb, class);
+	/* It can be NULL when creating developer documentation */
+	if (shell)
+		g_object_weak_ref (G_OBJECT (shell), shell_gone_cb, class);
 }
 
 static void
