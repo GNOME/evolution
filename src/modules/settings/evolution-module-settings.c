@@ -22,7 +22,6 @@
 #include "e-settings-content-editor.h"
 #include "e-settings-date-edit.h"
 #include "e-settings-deprecated.h"
-#include "e-settings-content-editor.h"
 #include "e-settings-mail-browser.h"
 #include "e-settings-mail-formatter.h"
 #include "e-settings-mail-part-headers.h"

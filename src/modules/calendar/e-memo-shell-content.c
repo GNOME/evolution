@@ -20,8 +20,6 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include <calendar/gui/e-cal-model-memos.h>
-
 #include <calendar/gui/comp-util.h>
 #include <calendar/gui/e-cal-component-preview.h>
 #include <calendar/gui/e-cal-model-memos.h>
