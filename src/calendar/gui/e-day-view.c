@@ -5925,6 +5925,25 @@ e_day_view_check_layout (EDayView *day_view)
 }
 
 static void
+e_day_view_on_text_item_notify_text_width (GObject *etext,
+					   GParamSpec *param,
+					   gpointer user_data)
+{
+	EDayView *day_view = user_data;
+	gint event_num, day;
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	event_num = GPOINTER_TO_INT (g_object_get_data (etext, "event-num"));
+	day = GPOINTER_TO_INT (g_object_get_data (etext, "event-day"));
+
+	if (day == E_DAY_VIEW_LONG_EVENT)
+		e_day_view_reshape_long_event (day_view, event_num);
+	else
+		e_day_view_reshape_day_event (day_view, day, event_num);
+}
+
+static void
 e_day_view_reshape_long_events (EDayView *day_view)
 {
 	EDayViewEvent *event;
@@ -6043,6 +6062,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		g_signal_connect (
 			event->canvas_item, "event",
 			G_CALLBACK (e_day_view_on_text_item_event), day_view);
+		g_signal_connect (
+			event->canvas_item, "notify::text-width",
+			G_CALLBACK (e_day_view_on_text_item_notify_text_width), day_view);
 		g_signal_emit_by_name (day_view, "event_added", event);
 
 		e_day_view_update_long_event_label (day_view, event_num);
@@ -6062,18 +6084,26 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		text_x = item_x;
 		text_w = item_w;
 	} else {
+		gdouble item_text_width = 0;
+
 		/* Get the requested size of the label. */
-		g_object_get (event->canvas_item, "text", &text, NULL);
-		text_width = 0;
-		if (text) {
-			end_of_line = strchr (text, '\n');
-			if (end_of_line)
-				line_len = end_of_line - text;
-			else
-				line_len = strlen (text);
-			pango_layout_set_text (layout, text, line_len);
-			pango_layout_get_pixel_size (layout, &text_width, NULL);
-			g_free (text);
+		g_object_get (event->canvas_item, "text-width", &item_text_width, NULL);
+
+		text_width = (gint) item_text_width;
+
+		if (text_width <= 0) {
+			g_object_get (event->canvas_item, "text", &text, NULL);
+			text_width = 0;
+			if (text) {
+				end_of_line = strchr (text, '\n');
+				if (end_of_line)
+					line_len = end_of_line - text;
+				else
+					line_len = strlen (text);
+				pango_layout_set_text (layout, text, line_len);
+				pango_layout_get_pixel_size (layout, &text_width, NULL);
+				g_free (text);
+			}
 		}
 
 		width = text_width + icons_width;

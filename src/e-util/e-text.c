@@ -558,6 +558,11 @@ calc_height (EText *text)
 	text->height = height;
 	text->width = width;
 
+	if (old_width != text->width)
+		g_object_notify (G_OBJECT (text), "text-width");
+	if (old_height != text->height)
+		g_object_notify (G_OBJECT (text), "text-height");
+
 	if (old_height != text->height || old_width != text->width)
 		e_canvas_item_request_parent_reflow (item);
 }

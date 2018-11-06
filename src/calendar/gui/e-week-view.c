@@ -3710,6 +3710,22 @@ get_comp_summary (ECalClient *client,
 }
 
 static void
+e_week_view_on_text_item_notify_text_width (GObject *etext,
+					    GParamSpec *param,
+					    gpointer user_data)
+{
+	EWeekView *week_view = user_data;
+	gint event_num = 0, span_num;
+
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (!e_week_view_find_event_from_item (week_view, GNOME_CANVAS_ITEM (etext), &event_num, &span_num))
+		return;
+
+	e_week_view_reshape_event_span (week_view, event_num, span_num);
+}
+
+static void
 e_week_view_reshape_event_span (EWeekView *week_view,
                                 gint event_num,
                                 gint span_num)
@@ -3853,6 +3869,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		g_signal_connect (
 			span->text_item, "event",
 			G_CALLBACK (e_week_view_on_text_item_event), week_view);
+		g_signal_connect (
+			span->text_item, "notify::text-width",
+			G_CALLBACK (e_week_view_on_text_item_notify_text_width), week_view);
 		g_signal_emit_by_name (
 			G_OBJECT (week_view),
 			"event_added", event);
@@ -3936,24 +3955,31 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 				- E_WEEK_VIEW_EVENT_BORDER_WIDTH
 				- E_WEEK_VIEW_EVENT_EDGE_X_PAD - text_x;
 		} else {
-			text = NULL;
-			/* Get the width of the text of the event. This is a
-			 * bit of a hack. It would be better if EText could
-			 * tell us this. */
-			g_object_get (span->text_item, "text", &text, NULL);
-			text_width = 0;
-			if (text) {
-				/* It should only have one line of text in it.
-				 * I'm not sure we need this any more. */
-				end_of_line = strchr (text, '\n');
-				if (end_of_line)
-					line_len = end_of_line - text;
-				else
-					line_len = strlen (text);
+			gdouble item_text_width = 0.0;
 
-				pango_layout_set_text (layout, text, line_len);
-				pango_layout_get_pixel_size (layout, &text_width, NULL);
-				g_free (text);
+			g_object_get (span->text_item, "text-width", &item_text_width, NULL);
+			text_width = (gint) item_text_width;
+
+			if (text_width <= 0) {
+				text = NULL;
+				/* Get the width of the text of the event. This is a
+				 * bit of a hack. It would be better if EText could
+				 * tell us this. */
+				g_object_get (span->text_item, "text", &text, NULL);
+				text_width = 0;
+				if (text) {
+					/* It should only have one line of text in it.
+					 * I'm not sure we need this any more. */
+					end_of_line = strchr (text, '\n');
+					if (end_of_line)
+						line_len = end_of_line - text;
+					else
+						line_len = strlen (text);
+
+					pango_layout_set_text (layout, text, line_len);
+					pango_layout_get_pixel_size (layout, &text_width, NULL);
+					g_free (text);
+				}
 			}
 
 			/* Add on the width of the icons and find the default
