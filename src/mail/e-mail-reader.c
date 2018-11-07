@@ -3292,9 +3292,8 @@ maybe_schedule_timeout_mark_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
 	MessageList *message_list;
-	GSettings *settings;
 	gboolean schedule_timeout;
-	gint timeout_interval;
+	gint timeout_interval = -1;
 	const gchar *message_uid;
 
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
@@ -3304,15 +3303,9 @@ maybe_schedule_timeout_mark_seen (EMailReader *reader)
 	    e_tree_is_dragging (E_TREE (message_list)))
 		return;
 
-	settings = e_util_ref_settings ("org.gnome.evolution.mail");
-
-	/* FIXME These should be EMailReader properties. */
 	schedule_timeout =
 		(message_uid != NULL) &&
-		g_settings_get_boolean (settings, "mark-seen");
-	timeout_interval = g_settings_get_int (settings, "mark-seen-timeout");
-
-	g_object_unref (settings);
+		e_mail_reader_utils_get_mark_seen_setting (reader, &timeout_interval);
 
 	if (message_list->seen_id > 0) {
 		g_source_remove (message_list->seen_id);

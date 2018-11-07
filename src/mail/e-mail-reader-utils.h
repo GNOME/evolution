@@ -112,6 +112,9 @@ EMailPartList *	e_mail_reader_parse_message_finish
 						(EMailReader *reader,
 						 GAsyncResult *result,
 						 GError **error);
+gboolean	e_mail_reader_utils_get_mark_seen_setting
+						(EMailReader *reader,
+						 gint *out_timeout_interval);
 
 G_END_DECLS
 

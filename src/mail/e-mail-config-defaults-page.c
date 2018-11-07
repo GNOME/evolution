@@ -883,6 +883,20 @@ mail_config_defaults_page_constructed (GObject *object)
 
 	g_object_unref (size_group);
 
+	/* Other options */
+	markup = g_markup_printf_escaped ("<b>%s</b>", _("Miscellaneous"));
+	widget = gtk_label_new (markup);
+	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 9, 2, 1);
+	gtk_widget_show (widget);
+	g_free (markup);
+
+	widget = e_dialog_new_mark_seen_box (account_ext);
+	gtk_widget_set_margin_start (widget, 12);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 10, 2, 1);
+	gtk_widget_show (widget);
+
 	e_mail_config_page_set_content (E_MAIL_CONFIG_PAGE (page), main_box);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (page));

@@ -40,4 +40,6 @@ GtkWidget *	e_dialog_button_new_with_icon	(const gchar *icon_name,
 GtkWidget *	e_dialog_offline_settings_new_limit_box
 						(CamelOfflineSettings *offline_settings);
 
+GtkWidget *	e_dialog_new_mark_seen_box	(gpointer object);
+
 #endif

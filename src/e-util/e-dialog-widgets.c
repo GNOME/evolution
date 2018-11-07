@@ -289,3 +289,228 @@ e_dialog_offline_settings_new_limit_box (CamelOfflineSettings *offline_settings)
 
 	return hbox;
 }
+
+static CamelThreeState
+edw_three_state_source_to_camel (EThreeState value)
+{
+	switch (value) {
+	case E_THREE_STATE_OFF:
+		return CAMEL_THREE_STATE_OFF;
+	case E_THREE_STATE_ON:
+		return CAMEL_THREE_STATE_ON;
+	case E_THREE_STATE_INCONSISTENT:
+		return CAMEL_THREE_STATE_INCONSISTENT;
+	}
+
+	return CAMEL_THREE_STATE_INCONSISTENT;
+}
+
+static EThreeState
+edw_three_state_camel_to_source (CamelThreeState value)
+{
+	switch (value) {
+	case CAMEL_THREE_STATE_OFF:
+		return E_THREE_STATE_OFF;
+	case CAMEL_THREE_STATE_ON:
+		return E_THREE_STATE_ON;
+	case CAMEL_THREE_STATE_INCONSISTENT:
+		return E_THREE_STATE_INCONSISTENT;
+	}
+
+	return E_THREE_STATE_INCONSISTENT;
+}
+
+static gboolean
+edw_three_state_to_sensitive_cb (GBinding *binding,
+				 const GValue *from_value,
+				 GValue *to_value,
+				 gpointer user_data)
+{
+	CamelThreeState value;
+
+	if (CAMEL_IS_FOLDER (g_binding_get_source (binding))) {
+		value = g_value_get_enum (from_value);
+	} else {
+		value = edw_three_state_source_to_camel (g_value_get_enum (from_value));
+	}
+
+	g_value_set_boolean (to_value, value == CAMEL_THREE_STATE_ON);
+
+	return TRUE;
+}
+
+static gboolean
+edw_mark_seen_timeout_to_double_cb (GBinding *binding,
+				    const GValue *from_value,
+				    GValue *to_value,
+				    gpointer user_data)
+{
+	gint value;
+
+	value = g_value_get_int (from_value);
+	g_value_set_double (to_value, ((gdouble) value) / 1000.0);
+
+	return TRUE;
+}
+
+static gboolean
+edw_double_to_mark_seen_timeout_cb (GBinding *binding,
+				    const GValue *from_value,
+				    GValue *to_value,
+				    gpointer user_data)
+{
+	gdouble value;
+
+	value = g_value_get_double (from_value);
+	g_value_set_int (to_value, value * 1000);
+
+	return TRUE;
+}
+
+typedef struct _ThreeStateData {
+	GObject *object;
+	gulong handler_id;
+} ThreeStateData;
+
+static void
+three_state_data_free (gpointer data,
+		       GClosure *closure)
+{
+	ThreeStateData *tsd = data;
+
+	if (tsd) {
+		g_clear_object (&tsd->object);
+		g_free (tsd);
+	}
+}
+
+static void
+edw_three_state_toggled_cb (GtkToggleButton *widget,
+			    gpointer user_data)
+{
+	ThreeStateData *tsd = user_data;
+	CamelThreeState set_to;
+
+	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (widget));
+	g_return_if_fail (tsd != NULL);
+
+	g_signal_handler_block (widget, tsd->handler_id);
+
+	if (gtk_toggle_button_get_inconsistent (widget) &&
+	    gtk_toggle_button_get_active (widget)) {
+		gtk_toggle_button_set_active (widget, FALSE);
+		gtk_toggle_button_set_inconsistent (widget, FALSE);
+		set_to = CAMEL_THREE_STATE_OFF;
+	} else if (!gtk_toggle_button_get_active (widget)) {
+		gtk_toggle_button_set_inconsistent (widget, TRUE);
+		gtk_toggle_button_set_active (widget, FALSE);
+		set_to = CAMEL_THREE_STATE_INCONSISTENT;
+	} else {
+		set_to = CAMEL_THREE_STATE_ON;
+	}
+
+	if (CAMEL_IS_FOLDER (tsd->object)) {
+		g_object_set (G_OBJECT (tsd->object), "mark-seen", set_to, NULL);
+	} else {
+		g_object_set (G_OBJECT (tsd->object),
+			"mark-seen", edw_three_state_camel_to_source (set_to),
+			NULL);
+	}
+
+	g_signal_handler_unblock (widget, tsd->handler_id);
+}
+
+/**
+ * e_dialog_new_mark_seen_box:
+ * @object: either #CamelFolder or #ESourceMailAccount
+ *
+ * Returns: (transfer full): a new #GtkBox containing widgets to
+ *   setup "[x] Mark messages as read after [spin button] seconds"
+ *   option using @object properties "mark-seen" and "mark-seen-timeout".
+ *
+ * Since: 3.32
+ **/
+GtkWidget *
+e_dialog_new_mark_seen_box (gpointer object)
+{
+	/* Translators: The %s is replaced with a spin button; always keep it in the string at the right position */
+	const gchar *blurb = _("Mark messages as read after %s seconds");
+	GtkWidget *hbox, *widget;
+	CamelThreeState three_state = CAMEL_THREE_STATE_INCONSISTENT;
+	ThreeStateData *tsd;
+	gboolean set_inconsistent = FALSE, set_active = FALSE;
+	gchar **strv;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (object) || E_IS_SOURCE_MAIL_ACCOUNT (object), NULL);
+
+	if (CAMEL_IS_FOLDER (object)) {
+		three_state = camel_folder_get_mark_seen (object);
+	} else {
+		three_state = edw_three_state_source_to_camel (e_source_mail_account_get_mark_seen (object));
+	}
+
+	switch (three_state) {
+		case CAMEL_THREE_STATE_ON:
+			set_inconsistent = FALSE;
+			set_active = TRUE;
+			break;
+		case CAMEL_THREE_STATE_OFF:
+			set_inconsistent = FALSE;
+			set_active = FALSE;
+			break;
+		case CAMEL_THREE_STATE_INCONSISTENT:
+			set_inconsistent = TRUE;
+			set_active = FALSE;
+			break;
+	}
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2);
+	gtk_widget_show (hbox);
+
+	strv = g_strsplit (blurb, "%s", -1);
+	g_warn_if_fail (strv && strv[0] && strv[1] && !strv[2]);
+
+	widget = gtk_check_button_new_with_mnemonic (strv && strv[0] ? strv[0] : "Mark messages as read after ");
+
+	g_object_set (G_OBJECT (widget),
+		"inconsistent", set_inconsistent,
+		"active", set_active,
+		NULL);
+
+	tsd = g_new0 (ThreeStateData, 1);
+	tsd->object = g_object_ref (object);
+	tsd->handler_id = g_signal_connect_data (widget, "toggled",
+		G_CALLBACK (edw_three_state_toggled_cb),
+		tsd, three_state_data_free, 0);
+
+	gtk_widget_show (widget);
+
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+	widget = gtk_spin_button_new_with_range (0.0, 10.0, 1.0);
+	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (widget), TRUE);
+	gtk_spin_button_set_digits (GTK_SPIN_BUTTON (widget), 1);
+	e_binding_bind_property_full (object, "mark-seen",
+		widget, "sensitive",
+		G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE,
+		edw_three_state_to_sensitive_cb,
+		NULL, NULL, NULL);
+	e_binding_bind_property_full (object, "mark-seen-timeout",
+		widget, "value",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE,
+		edw_mark_seen_timeout_to_double_cb,
+		edw_double_to_mark_seen_timeout_cb,
+		NULL, NULL);
+	gtk_widget_show (widget);
+
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+	widget = gtk_label_new (strv && strv[0] && strv[1] ? strv[1] : " seconds");
+	gtk_widget_show (widget);
+
+	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
+
+	g_strfreev (strv);
+
+	return hbox;
+}

@@ -222,6 +222,7 @@ emfp_get_folder_item (EConfig *ec,
 	EMailSendAccountOverride *account_override;
 	gchar *folder_uri, *account_uid, *alias_name = NULL, *alias_address = NULL;
 	GtkWidget *label;
+	gboolean has_mark_seen = FALSE, has_mark_seen_timeout = FALSE;
 
 	if (old)
 		return old;
@@ -315,6 +316,16 @@ emfp_get_folder_item (EConfig *ec,
 		    g_strcmp0 (properties[ii]->name, "apply-filters") == 0)
 			continue;
 
+		if (!has_mark_seen && g_strcmp0 (properties[ii]->name, "mark-seen") == 0) {
+			has_mark_seen = TRUE;
+			continue;
+		}
+
+		if (!has_mark_seen_timeout && g_strcmp0 (properties[ii]->name, "mark-seen-timeout") == 0) {
+			has_mark_seen_timeout = TRUE;
+			continue;
+		}
+
 		blurb = g_param_spec_get_blurb (properties[ii]);
 
 		switch (properties[ii]->value_type) {
@@ -386,6 +397,16 @@ emfp_get_folder_item (EConfig *ec,
 				}
 				break;
 		}
+	}
+
+	if (has_mark_seen && has_mark_seen_timeout) {
+		widget = e_dialog_new_mark_seen_box (context->folder);
+
+		gtk_table_attach (
+			GTK_TABLE (table), widget,
+			0, 2, row, row + 1,
+			GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		row++;
 	}
 
 	g_free (properties);

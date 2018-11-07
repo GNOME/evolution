@@ -280,7 +280,6 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	info = camel_folder_get_message_info (folder, uid);
 
 	if (info != NULL) {
-		GSettings *settings;
 		EMailDisplay *display;
 		const gchar *title;
 
@@ -293,10 +292,9 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 		gtk_window_set_title (GTK_WINDOW (browser), title);
 		gtk_widget_grab_focus (GTK_WIDGET (display));
 
-		settings = e_util_ref_settings ("org.gnome.evolution.mail");
-		if (g_settings_get_boolean (settings, "mark-seen"))
+		if (e_mail_reader_utils_get_mark_seen_setting (reader, NULL))
 			camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-		g_clear_object (&settings);
+
 		g_clear_object (&info);
 	}
 

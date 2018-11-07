@@ -3406,3 +3406,72 @@ e_mail_reader_parse_message_finish (EMailReader *reader,
 
 	return async_context->part_list;
 }
+
+gboolean
+e_mail_reader_utils_get_mark_seen_setting (EMailReader *reader,
+					   gint *out_timeout_interval)
+{
+	CamelFolder *folder;
+	GSettings *settings;
+	gboolean mark_seen = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
+
+	folder = e_mail_reader_ref_folder (reader);
+
+	if (folder) {
+		CamelStore *store;
+		CamelThreeState cts_value;
+
+		cts_value = camel_folder_get_mark_seen (folder);
+		if (cts_value == CAMEL_THREE_STATE_OFF || cts_value == CAMEL_THREE_STATE_ON) {
+			if (out_timeout_interval)
+				*out_timeout_interval = camel_folder_get_mark_seen_timeout (folder);
+
+			g_clear_object (&folder);
+
+			return cts_value == CAMEL_THREE_STATE_ON;
+		}
+
+		store = camel_folder_get_parent_store (folder);
+		if (store) {
+			ESourceRegistry *registry;
+			ESource *source;
+			EThreeState ets_value = E_THREE_STATE_INCONSISTENT;
+
+			registry = e_mail_session_get_registry (e_mail_backend_get_session (e_mail_reader_get_backend (reader)));
+			source = e_source_registry_ref_source (registry, camel_service_get_uid (CAMEL_SERVICE (store)));
+
+			if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+				ESourceMailAccount *account_ext;
+
+				account_ext = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+				ets_value = e_source_mail_account_get_mark_seen (account_ext);
+
+				if (out_timeout_interval && ets_value != E_THREE_STATE_INCONSISTENT)
+					*out_timeout_interval = e_source_mail_account_get_mark_seen_timeout (account_ext);
+			}
+
+			g_clear_object (&source);
+
+			if (ets_value == E_THREE_STATE_OFF || ets_value == E_THREE_STATE_ON) {
+				g_clear_object (&folder);
+
+				return ets_value == E_THREE_STATE_ON;
+			}
+		}
+
+		g_clear_object (&folder);
+	}
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	mark_seen = g_settings_get_boolean (settings, "mark-seen");
+
+	if (out_timeout_interval)
+		*out_timeout_interval = g_settings_get_int (settings, "mark-seen-timeout");
+
+	g_object_unref (settings);
+
+	return mark_seen;
+}
