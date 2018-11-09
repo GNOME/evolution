@@ -29,11 +29,15 @@ G_BEGIN_DECLS
 
 CamelMimeMessage *
 		e_mail_templates_apply_sync	(CamelMimeMessage *source_message,
+						 CamelFolder *source_folder,
+						 const gchar *source_message_uid,
 						 CamelFolder *templates_folder,
 						 const gchar *templates_message_uid,
 						 GCancellable *cancellable,
 						 GError **error);
 void		e_mail_templates_apply		(CamelMimeMessage *source_message,
+						 CamelFolder *source_folder,
+						 const gchar *source_message_uid,
 						 CamelFolder *templates_folder,
 						 const gchar *templates_message_uid,
 						 GCancellable *cancellable,

@@ -1438,6 +1438,44 @@ sort_sources_by_ui (GList **psources,
 	g_hash_table_destroy (uids_order);
 }
 
+/* (trasfer full) */
+ESource *
+em_composer_utils_guess_identity_source (EShell *shell,
+					 CamelMimeMessage *message,
+					 CamelFolder *folder,
+					 const gchar *message_uid,
+					 gchar **out_identity_name,
+					 gchar **out_identity_address)
+{
+	ESource *source;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	/* Check send account override for the passed-in folder */
+	source = em_utils_check_send_account_override (shell, message, folder, out_identity_name, out_identity_address);
+
+	/* If not set and it's a search folder, then check the original folder */
+	if (!source && message_uid && CAMEL_IS_VEE_FOLDER (folder)) {
+		CamelMessageInfo *mi = camel_folder_get_message_info (folder, message_uid);
+		if (mi) {
+			CamelFolder *location;
+
+			location = camel_vee_folder_get_location (CAMEL_VEE_FOLDER (folder), (CamelVeeMessageInfo *) mi, NULL);
+			if (location)
+				source = em_utils_check_send_account_override (shell, message, location, out_identity_name, out_identity_address);
+			g_clear_object (&mi);
+		}
+	}
+
+	/* If no send account override, then guess */
+	if (!source) {
+		source = em_utils_guess_mail_identity_with_recipients_and_sort (e_shell_get_registry (shell),
+			message, folder, message_uid, out_identity_name, out_identity_address, sort_sources_by_ui, shell);
+	}
+
+	return source;
+}
+
 /* Composing messages... */
 
 static CamelMimeMessage *em_utils_get_composer_recipients_as_message (EMsgComposer *composer);
@@ -1475,27 +1513,7 @@ set_up_new_composer (EMsgComposer *composer,
 
 			shell = e_msg_composer_get_shell (composer);
 
-			/* Check send account override for the passed-in folder */
-			source = em_utils_check_send_account_override (shell, message, folder, &identity_name, &identity_address);
-
-			/* If not set and it's a search folder, then check the original folder */
-			if (!source && message_uid && CAMEL_IS_VEE_FOLDER (folder)) {
-				CamelMessageInfo *mi = camel_folder_get_message_info (folder, message_uid);
-				if (mi) {
-					CamelFolder *location;
-
-					location = camel_vee_folder_get_location (CAMEL_VEE_FOLDER (folder), (CamelVeeMessageInfo *) mi, NULL);
-					if (location)
-						source = em_utils_check_send_account_override (shell, message, location, &identity_name, &identity_address);
-					g_clear_object (&mi);
-				}
-			}
-
-			/* If no send account override, then guess */
-			if (!source) {
-				source = em_utils_guess_mail_identity_with_recipients_and_sort (
-					registry, message, folder, message_uid, &identity_name, &identity_address, sort_sources_by_ui, shell);
-			}
+			source = em_composer_utils_guess_identity_source (shell, message, folder, message_uid, &identity_name, &identity_address);
 		}
 
 		/* In case of search folder, try to guess the store from
@@ -2008,6 +2026,25 @@ traverse_parts (GSList *clues,
 	}
 }
 
+static ESource *
+emcu_ref_identity_source_from_composer (EMsgComposer *composer)
+{
+	EComposerHeaderTable *table;
+	ESource *source = NULL;
+	gchar *identity_uid;
+
+	if (!composer)
+		return NULL;
+
+	table = e_msg_composer_get_header_table (composer);
+	identity_uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
+	if (identity_uid)
+		source = e_composer_header_table_ref_source (table, identity_uid);
+	g_free (identity_uid);
+
+	return source;
+}
+
 static void
 emcu_change_locale (const gchar *lc_messages,
 		    const gchar *lc_time,
@@ -2052,34 +2089,21 @@ emcu_change_locale (const gchar *lc_messages,
 }
 
 static void
-emcu_prepare_attribution_locale (EMsgComposer *composer,
+emcu_prepare_attribution_locale (ESource *identity_source,
 				 gchar **out_lc_messages,
 				 gchar **out_lc_time)
 {
-	EComposerHeaderTable *table;
-	ESource *source = NULL;
-	gchar *uid, *lang = NULL;
+	gchar *lang = NULL;
 
 	g_return_if_fail (out_lc_messages != NULL);
 	g_return_if_fail (out_lc_time != NULL);
 
-	if (!composer)
-		return;
-
-	table = e_msg_composer_get_header_table (composer);
-	uid = e_composer_header_table_dup_identity_uid (table, NULL, NULL);
-	if (uid)
-		source = e_composer_header_table_ref_source (table, uid);
-	g_free (uid);
-
-	if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
+	if (identity_source && e_source_has_extension (identity_source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {
 		ESourceMailComposition *extension;
 
-		extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
+		extension = e_source_get_extension (identity_source, E_SOURCE_EXTENSION_MAIL_COMPOSITION);
 		lang = e_source_mail_composition_dup_language (extension);
 	}
-
-	g_clear_object (&source);
 
 	if (!lang || !*lang) {
 		GSettings *settings;
@@ -2181,8 +2205,15 @@ quoting_text (QuotingTextEnum type,
 
 	g_free (text);
 
-	if (composer)
-		emcu_prepare_attribution_locale (composer, &restore_lc_messages, &restore_lc_time);
+	if (composer) {
+		ESource *identity_source;
+
+		identity_source = emcu_ref_identity_source_from_composer (composer);
+
+		emcu_prepare_attribution_locale (identity_source, &restore_lc_messages, &restore_lc_time);
+
+		g_clear_object (&identity_source);
+	}
 
 	text = g_strdup (_(conf_messages[type].message));
 
@@ -2792,7 +2823,6 @@ void
 em_utils_redirect_message (EMsgComposer *composer,
                            CamelMimeMessage *message)
 {
-	ESourceRegistry *registry;
 	ESource *source;
 	EShell *shell;
 	CamelMedium *medium;
@@ -2816,13 +2846,7 @@ em_utils_redirect_message (EMsgComposer *composer,
 	while (camel_medium_get_header (medium, "Resent-Bcc"))
 		camel_medium_remove_header (medium, "Resent-Bcc");
 
-	registry = e_shell_get_registry (shell);
-
-	/* This returns a new ESource reference. */
-	source = em_utils_check_send_account_override (shell, message, NULL, &alias_name, &alias_address);
-	if (!source)
-		source = em_utils_guess_mail_identity_with_recipients_and_sort (
-			registry, message, NULL, NULL, &alias_name, &alias_address, sort_sources_by_ui, shell);
+	source = em_composer_utils_guess_identity_source (shell, message, NULL, NULL, &alias_name, &alias_address);
 
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
@@ -3548,9 +3572,9 @@ static struct {
 	{ "{TimeZone}", ATTRIB_TIMEZONE, { "%+05d", NULL } }
 };
 
-static gchar *
-attribution_format (EMsgComposer *composer,
-		    CamelMimeMessage *message)
+gchar *
+em_composer_utils_get_reply_credits (ESource *identity_source,
+				     CamelMimeMessage *message)
 {
 	register const gchar *inptr;
 	const gchar *start;
@@ -3562,7 +3586,7 @@ attribution_format (EMsgComposer *composer,
 	gint type;
 	gchar *format, *restore_lc_messages = NULL, *restore_lc_time = NULL;
 
-	emcu_prepare_attribution_locale (composer, &restore_lc_messages, &restore_lc_time);
+	emcu_prepare_attribution_locale (identity_source, &restore_lc_messages, &restore_lc_time);
 
 	format = quoting_text (QUOTING_ATTRIBUTION, NULL);
 	str = g_string_new ("");
@@ -3715,6 +3739,7 @@ composer_set_body (EMsgComposer *composer,
                    EMailPartList *parts_list)
 {
 	gchar *text, *credits, *original;
+	ESource *identity_source;
 	CamelMimePart *part;
 	CamelSession *session;
 	GSettings *settings;
@@ -3750,8 +3775,13 @@ composer_set_body (EMsgComposer *composer,
 
 	case E_MAIL_REPLY_STYLE_QUOTED:
 	default:
+		identity_source = emcu_ref_identity_source_from_composer (composer);
+
 		/* do what any sane user would want when replying... */
-		credits = attribution_format (composer, message);
+		credits = em_composer_utils_get_reply_credits (identity_source, message);
+
+		g_clear_object (&identity_source);
+
 		text = em_utils_message_to_html (
 			session, message, credits, E_MAIL_FORMATTER_QUOTE_FLAG_CITE | keep_sig_flag,
 			parts_list, NULL, NULL, &validity_found);
@@ -4496,7 +4526,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 		context->template_preserve_subject = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (preserve_message_subject));
 
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (apply_template))) {
-			e_mail_templates_apply (context->source_message, template_folder, template_message_uid,
+			e_mail_templates_apply (context->source_message, context->folder, message_uid, template_folder, template_message_uid,
 				NULL, alt_reply_template_applied_cb, context);
 
 		} else {
@@ -4570,11 +4600,8 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	shell = e_msg_composer_get_shell (composer);
 	registry = e_shell_get_registry (shell);
 
-	/* This returns a new ESource reference. */
-	source = em_utils_check_send_account_override (shell, message, folder, &identity_name, &identity_address);
-	if (!source)
-		source = em_utils_guess_mail_identity_with_recipients_and_sort (
-			registry, message, folder, message_uid, &identity_name, &identity_address, sort_sources_by_ui, shell);
+	source = em_composer_utils_guess_identity_source (shell, message, folder, message_uid, &identity_name, &identity_address);
+
 	if (source != NULL) {
 		identity_uid = e_source_dup_uid (source);
 		if (!(reply_flags & E_MAIL_REPLY_FLAG_FORCE_STYLE) &&
@@ -4644,7 +4671,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 		used_identity_uid = e_composer_header_table_dup_identity_uid (header_table, NULL, NULL);
 
 		if (used_identity_uid) {
-			source = e_source_registry_ref_source (e_shell_get_registry (shell), used_identity_uid);
+			source = e_source_registry_ref_source (registry, used_identity_uid);
 			if (source) {
 				if (!(reply_flags & E_MAIL_REPLY_FLAG_FORCE_STYLE) &&
 				    e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_COMPOSITION)) {

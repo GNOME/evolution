@@ -52,6 +52,7 @@ struct _AsyncContext {
 	CamelFolder *template_folder;
 	gchar *source_folder_uri;
 	gchar *source_message_uid;
+	gchar *orig_source_message_uid;
 	gchar *template_message_uid;
 };
 
@@ -129,6 +130,7 @@ async_context_free (AsyncContext *context)
 
 	g_free (context->source_folder_uri);
 	g_free (context->source_message_uid);
+	g_free (context->orig_source_message_uid);
 	g_free (context->template_message_uid);
 
 	g_slice_free (AsyncContext, context);
@@ -669,7 +671,8 @@ template_got_source_message (CamelFolder *folder,
 
 	context->source_message = message;
 
-	e_mail_templates_apply (context->source_message, context->template_folder, context->template_message_uid,
+	e_mail_templates_apply (context->source_message, folder, context->orig_source_message_uid,
+		context->template_folder, context->template_message_uid,
 		e_activity_get_cancellable (context->activity), templates_template_applied_cb, context);
 }
 
@@ -702,6 +705,7 @@ action_reply_with_template_cb (EMailTemplatesStore *templates_store,
 	context = g_slice_new0 (AsyncContext);
 	context->activity = activity;
 	context->reader = g_object_ref (reader);
+	context->orig_source_message_uid = g_strdup (message_uid);
 	context->template_folder = g_object_ref (template_folder);
 	context->template_message_uid = g_strdup (template_message_uid);
 

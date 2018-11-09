@@ -1862,7 +1862,8 @@ webkit_editor_insert_content (EContentEditor *editor,
 
 		/* Only convert messages that are in HTML */
 		if (!(wk_editor->priv->html_mode)) {
-			if (strstr (content, "<!-- text/html -->")) {
+			if (strstr (content, "<!-- text/html -->") &&
+			    !strstr (content, "<!-- disable-format-prompt -->")) {
 				if (!show_lose_formatting_dialog (wk_editor)) {
 					set_convert_in_situ (wk_editor, FALSE);
 					wk_editor->priv->reload_in_progress = TRUE;

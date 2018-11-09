@@ -26,6 +26,9 @@
 
 #include "e-util/e-util.h"
 
+#include "em-composer-utils.h"
+#include "em-utils.h"
+
 #include "e-mail-templates.h"
 
 /* Replaces $ORIG[variable] in given template by given replacement from the original message */
@@ -91,8 +94,27 @@ replace_email_addresses (GString *template,
 	g_string_free (emails, TRUE);
 }
 
+static ESource *
+ref_identity_source_from_message_and_folder (CamelMimeMessage *message,
+					     CamelFolder *folder,
+					     const gchar *message_uid)
+{
+	EShell *shell;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	shell = e_shell_get_default ();
+	if (!shell)
+		return NULL;
+
+	return em_composer_utils_guess_identity_source (shell, message, folder, message_uid, NULL, NULL);
+}
+
 static CamelMimePart *
 fill_template (CamelMimeMessage *message,
+	       CamelFolder *source_folder,
+	       const gchar *source_message_uid,
+	       CamelFolder *templates_folder,
                CamelMimePart *template)
 {
 	const CamelNameValueArray *headers;
@@ -107,6 +129,7 @@ fill_template (CamelMimeMessage *message,
 	gint i;
 	guint jj, len;
 	gboolean message_html, template_html;
+	gboolean has_quoted_body;
 
 	ct = camel_mime_part_get_content_type (template);
 	template_html = ct && camel_content_type_is (ct, "text", "html");
@@ -179,8 +202,27 @@ fill_template (CamelMimeMessage *message,
 	internet_address = camel_mime_message_get_from (message);
 	replace_email_addresses (template_body, internet_address, "from");
 
+	has_quoted_body = e_util_strstrcase (template_body->str, "$ORIG[quoted-body]") != NULL;
+	if (has_quoted_body && !template_html) {
+		gchar *html;
+
+		template_html = TRUE;
+
+		html = camel_text_to_html (
+			template_body->str,
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+		g_string_assign (template_body, html);
+		g_free (html);
+
+		g_string_append (template_body, "<!-- disable-format-prompt -->");
+	}
+
 	/* Now extract body of the original message and replace the $ORIG[body] modifier in template */
-	if (message_part && e_util_strstrcase (template_body->str, "$ORIG[body]")) {
+	if (message_part && (has_quoted_body || e_util_strstrcase (template_body->str, "$ORIG[body]"))) {
 		GString *message_body;
 		CamelStream *mem_stream;
 
@@ -220,17 +262,77 @@ fill_template (CamelMimeMessage *message,
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 				CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
-			g_string_assign (message_body, html);
+			replace_template_variable (template_body, "body", html);
 			g_free (html);
 		} else if (!template_html && message_html) {
+			gchar *html;
+
 			g_string_prepend (message_body, "<pre>");
 			g_string_append (message_body, "</pre>");
-		} /* Other cases should not occur. And even if they happen to do, there's nothing we can really do about it */
 
-		replace_template_variable (template_body, "body", message_body->str);
+			template_html = TRUE;
+
+			html = camel_text_to_html (
+				template_body->str,
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+				CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+			g_string_assign (template_body, html);
+			g_free (html);
+
+			replace_template_variable (template_body, "body", message_body->str);
+		} else { /* Other cases should not occur. And even if they happen to do, there's nothing we can really do about it */
+			replace_template_variable (template_body, "body", message_body->str);
+		}
+
+		if (has_quoted_body) {
+			if (!message_html) {
+				gchar *html = camel_text_to_html (
+					message_body->str,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+					CAMEL_MIME_FILTER_TOHTML_QUOTE_CITATION |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				g_string_assign (message_body, html);
+				g_free (html);
+			}
+
+			g_string_prepend (message_body, "<blockquote type=\"cite\">");
+			g_string_append (message_body, "</blockquote>");
+
+			replace_template_variable (template_body, "quoted-body", message_body->str);
+		}
+
 		g_string_free (message_body, TRUE);
 	} else {
 		replace_template_variable (template_body, "body", "");
+		replace_template_variable (template_body, "quoted-body", "");
+	}
+
+	if (e_util_strstrcase (template_body->str, "$ORIG[reply-credits]")) {
+		ESource *identity_source;
+		gchar *reply_credits;
+
+		identity_source = ref_identity_source_from_message_and_folder (message, source_folder, source_message_uid);
+
+		reply_credits = em_composer_utils_get_reply_credits (identity_source, message);
+
+		if (reply_credits && template_html) {
+			gchar *html = camel_text_to_html (
+				reply_credits,
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+			g_free (reply_credits);
+			reply_credits = html;
+		}
+
+		replace_template_variable (template_body, "reply-credits", reply_credits ? reply_credits : "");
+
+		g_clear_object (&identity_source);
+		g_free (reply_credits);
 	}
 
 	return_part = camel_mime_part_new ();
@@ -284,6 +386,8 @@ find_template_part_in_multipart (CamelMultipart *multipart,
 
 CamelMimeMessage *
 e_mail_templates_apply_sync (CamelMimeMessage *source_message,
+			     CamelFolder *source_folder,
+			     const gchar *source_message_uid,
 			     CamelFolder *templates_folder,
 			     const gchar *templates_message_uid,
 			     GCancellable *cancellable,
@@ -333,7 +437,7 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 
 		/* Here replace all the modifiers in template body by values
 		   from message and return the newly created part */
-		out_part = fill_template (source_message, template_part);
+		out_part = fill_template (source_message, source_folder, source_message_uid, templates_folder, template_part);
 
 		/* Assigning part directly to mime_message causes problem with
 		   "Content-type" header displaying in the HTML message (camel parsing bug?) */
@@ -408,7 +512,9 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 
 typedef struct _AsyncContext {
 	CamelMimeMessage *source_message;
+	CamelFolder *source_folder;
 	CamelFolder *templates_folder;
+	gchar *source_message_uid;
 	gchar *templates_message_uid;
 	CamelMimeMessage *result_message;
 } AsyncContext;
@@ -420,8 +526,10 @@ async_context_free (gpointer ptr)
 
 	if (context) {
 		g_clear_object (&context->source_message);
+		g_clear_object (&context->source_folder);
 		g_clear_object (&context->templates_folder);
 		g_clear_object (&context->result_message);
+		g_free (context->source_message_uid);
 		g_free (context->templates_message_uid);
 		g_free (context);
 	}
@@ -438,8 +546,10 @@ e_mail_templates_apply_thread (ESimpleAsyncResult *simple,
 	context = e_simple_async_result_get_op_pointer (simple);
 	g_return_if_fail (context != NULL);
 
-	context->result_message = e_mail_templates_apply_sync (context->source_message,
-		context->templates_folder, context->templates_message_uid, cancellable, &local_error);
+	context->result_message = e_mail_templates_apply_sync (
+		context->source_message, context->source_folder, context->source_message_uid,
+		context->templates_folder, context->templates_message_uid,
+		cancellable, &local_error);
 
 	if (local_error)
 		e_simple_async_result_take_error (simple, local_error);
@@ -447,6 +557,8 @@ e_mail_templates_apply_thread (ESimpleAsyncResult *simple,
 
 void
 e_mail_templates_apply (CamelMimeMessage *source_message,
+			CamelFolder *source_folder,
+			const gchar *source_message_uid,
 			CamelFolder *templates_folder,
 			const gchar *templates_message_uid,
 			GCancellable *cancellable,
@@ -463,6 +575,8 @@ e_mail_templates_apply (CamelMimeMessage *source_message,
 
 	context = g_new0 (AsyncContext, 1);
 	context->source_message = g_object_ref (source_message);
+	context->source_folder = source_folder ? g_object_ref (source_folder) : NULL;
+	context->source_message_uid = g_strdup (source_message_uid);
 	context->templates_folder = g_object_ref (templates_folder);
 	context->templates_message_uid = g_strdup (templates_message_uid);
 	context->result_message = NULL;

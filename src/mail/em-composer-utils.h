@@ -113,7 +113,17 @@ gchar *		em_composer_utils_get_forward_marker
 						(EMsgComposer *composer);
 gchar *		em_composer_utils_get_original_marker
 						(EMsgComposer *composer);
+gchar *		em_composer_utils_get_reply_credits
+						(ESource *identity_source,
+						 CamelMimeMessage *message);
 void		em_utils_add_installed_languages(GtkComboBoxText *combo);
+ESource *	em_composer_utils_guess_identity_source
+						(EShell *shell,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder,
+						 const gchar *message_uid,
+						 gchar **out_identity_name,
+						 gchar **out_identity_address);
 
 G_END_DECLS
 
