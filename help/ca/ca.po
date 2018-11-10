@@ -18,7 +18,8 @@ msgstr ""
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Jordi Mas i Hernàndez <jmas@softcatala.org>, 2014"
+msgstr "Jordi Mas i Hernàndez <jmas@softcatala.org>, 2014, 2018\n"
+"Jaume Jorba <jaume.jorba@gmail.com>, 2018"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -73,7 +74,7 @@ msgid ""
 "style=\"button\">Yes</gui>."
 msgstr ""
 "Se us demanarà que tanqueu<app>Evolution</app>. Responeu <gui "
-"style=\"button\">Si</gui>."
+"style=\"button\">Sí</gui>."
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:47
@@ -238,7 +239,7 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>."
 msgstr ""
 "Feu clic "
-"a<guiseq><gui>Arxiu</gui><gui>Nou</gui><gui>Calendari</gui></guiseq>."
+"a <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Calendari</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:36
@@ -744,7 +745,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:46
 msgid "<link xref=\"calendar-timezones\">Time zone</link> and Second zone:"
-msgstr "<link xref=\"calendar-timezones\">Zona horària</link> i Segona zona:"
+msgstr "<link xref=\"calendar-timezones\">Zona horària</link> i segona zona:"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:47
@@ -1763,7 +1764,7 @@ msgstr "Mostrar el Temps al calendari"
 #. (itstool) path: page/title
 #: C/calendar-weather.page:20
 msgid "Using a weather calendar"
-msgstr "Us d'un calendari metereològic"
+msgstr "Us d'un calendari meteorològic"
 
 #. (itstool) path: page/p
 #: C/calendar-weather.page:22 C/calendar-webdav.page:21
@@ -1773,7 +1774,7 @@ msgstr "Els calendaris d'aquest tipus són de només lectura"
 #. (itstool) path: item/p
 #: C/calendar-weather.page:33
 msgid "Select the type <gui>Weather</gui>."
-msgstr "Seleccioneu el tipus <gui>Metereològic</gui>."
+msgstr "Seleccioneu el tipus <gui>Meteorològic</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-weather.page:46
@@ -5679,7 +5680,7 @@ msgstr "Tipus de comptes locals"
 #. (itstool) path: section/title
 #: C/mail-account-management.page:31
 msgid "Corporate Account Types"
-msgstr "Tipus de comptes coorporatius"
+msgstr "Tipus de comptes corporatius"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-mh-format-directories.page:5
@@ -6361,7 +6362,7 @@ msgid ""
 "tentative."
 msgstr ""
 "Indica que probablement assistireu a la reunió. Quan feu clic al botó "
-"Acceptar, la reunió s'ànotarà al calendari, però es marca com a provisional."
+"Acceptar, la reunió s'anotarà al calendari, però es marca com a provisional."
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:36
@@ -8745,7 +8746,7 @@ msgid ""
 msgstr ""
 "En el cas improbable que vulgueu canviar la codificació de caràcters "
 "predeterminada dels missatges que envieu, aneu a "
-"<guiseq><gui>Editar</gui><gui>Preferèencies</gui><gui>Preferències de "
+"<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Preferències de "
 "l'editor</gui><gui>Comportament predeterminat</gui><gui>Codificació de "
 "caràcters</gui></guiseq>."
 
@@ -9091,7 +9092,7 @@ msgid ""
 "The cache files located at "
 "<file>$HOME/.local/share/evolution/mail/local/</file> are not writable."
 msgstr ""
-"La caché de fitxers localitzada a "
+"La memòria cau de fitxers localitzada a "
 "<file>$HOME/.local/share/evolution/mail/local/</file> no es pot escriure."
 
 #. (itstool) path: info/desc
@@ -10363,7 +10364,7 @@ msgid ""
 msgstr ""
 "Les banderes us poden ajudar a organitzar el treball de diverses maneres. "
 "Per exemple, és possible <link xref=\"mail-change-columns-in-message-"
-"list\">afegir una columna estat de la bandera</link>a la vostra llista de "
+"list\">afegir una columna estat de la bandera</link> a la vostra llista de "
 "missatges i permetre ordenar per aquesta. Alternativament, podeu crear una "
 "<link xref=\"mail-search-folders\">carpeta cerca</link> que mostri tots els "
 "missatges marcats i, a continuació, esborrar les banderes quan hagueu "
@@ -11596,7 +11597,7 @@ msgid ""
 "folders: it displays all messages that do not appear in other search "
 "folders."
 msgstr ""
-"La carpeta de cerca <gui>sense concordància</gui> és el contrari d'altres "
+"La carpeta de cerca <gui>sense coincidència</gui> és el contrari d'altres "
 "carpetes de cerca: mostra tots els missatges que no apareixen en altres "
 "carpetes de cerca."
 
@@ -11610,10 +11611,10 @@ msgid ""
 "in them either."
 msgstr ""
 "Si utilitzeu un emmagatzematge remot de correu electrònic com IMAP, i heu "
-"creat carpetes de cerca, la carpeta de cerca <gui>sense concordància</gui> "
+"creat carpetes de cerca, la carpeta de cerca <gui>sense coincidència</gui> "
 "també cerca les carpetes remotes. Si no creeu cap carpeta de cerca que "
-"cerqui a les carpetes de correu remot, la carpeta de cerca<gui>sense "
-"concordància</gui> tampoc hi cerca."
+"cerqui a les carpetes de correu remot, la carpeta de cerca <gui>sense "
+"coincidència</gui> tampoc hi cerca."
 
 #. (itstool) path: note/p
 #: C/mail-search-folders.page:36
@@ -11721,7 +11722,7 @@ msgid ""
 "top-level nodes in the <link xref=\"intro-main-window#e-mail\"> mail folder "
 "list</link>, like \"On this computer\" and remote mail accounts."
 msgstr ""
-"En l'àmbit del <gui>Ccompte actual</gui>, el terme \"compte\" fa referència "
+"En l'àmbit del <gui>Compte actual</gui>, el terme \"compte\" fa referència "
 "als nodes del nivell superior a la<link xref=\"intro-main-window#e-mail\"> "
 "llista de carpetes de correu</link>, com \"En aquest ordinador\" i comptes "
 "de correu remots."
@@ -12909,7 +12910,7 @@ msgid ""
 "To find text in the displayed memo, select <guiseq><gui>Edit</gui><gui>Find "
 "in Memo…</gui></guiseq> from the main menu."
 msgstr ""
-"Per cercar text a la nosta que s'està mostrant, seleccioneu "
+"Per cercar text a la mosta que s'està mostrant, seleccioneu "
 "<guiseq><gui>Editar</gui><gui>Cercar en una nota…</gui></guiseq> des del "
 "menú principal."
 
@@ -13770,7 +13771,7 @@ msgstr ""
 "Per exemple, podeu tenir tasques pel treball, tasques per a la llar, i "
 "tasques pel club de cant del que formeu part. La barra lateral mostra les "
 "llistes, i es poden mostrar o ocultar les corresponents tasques o notes "
-"seleccionant o deseleccionant les caselles del costat de la vista.."
+"seleccionant o desseleccionant les caselles del costat de la vista.."
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
@@ -14189,7 +14190,7 @@ msgid ""
 "Filters according to the status of a message. The status can be Replied To, "
 "Draft, Important, Read, or Junk."
 msgstr ""
-"Filtres segons l'estat d'un missatge. L'estat pot ser Respòs a, Esborrany, "
+"Filtres segons l'estat d'un missatge. L'estat pot ser Respost a, Esborrany, "
 "Important, Llegit, o No desitjat."
 
 #. (itstool) path: item/p
