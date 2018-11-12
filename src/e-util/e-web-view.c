@@ -483,7 +483,7 @@ web_view_update_document_highlights (EWebView *web_view)
 		webkit_find_controller_search (
 			web_view->priv->find_controller,
 			link->data,
-			WEBKIT_FIND_OPTIONS_NONE,
+			WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE,
 			G_MAXUINT);
 	}
 }
@@ -3083,7 +3083,7 @@ e_web_view_add_highlight (EWebView *web_view,
 	webkit_find_controller_search (
 		web_view->priv->find_controller,
 		highlight,
-		WEBKIT_FIND_OPTIONS_NONE,
+		WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE,
 		G_MAXUINT);
 }
 
