@@ -1,3 +1,56 @@
+Evolution 3.31.2 2018-11-12
+---------------------------
+
+Bug Fixes:
+	Bug 228772 - Allow to specify a default language for a given identity (Milan Crha)
+	Bug 795202 - Disable time zone selection for all-day events (Milan Crha)
+	Bug 610741 - Allow changing the abbreviated date (%ad) date format (Milan Crha)
+	Bug 781122 - Option to Download messages for offline on each Send/Receive (Milan Crha)
+	Bug 741363 - Add 'Always in Current Folder' button to Mark All Read question (Milan Crha)
+	Bug 652821 - [MessageList] Sort thread children ascending (Milan Crha)
+	Bug 561799 - Simplify language selection in message composer (Milan Crha)
+	Bug 769396 - Quoted Reply with Template (Milan Crha)
+	I#113 - Make 'Mark messages as read' a folder/account option (Milan Crha)
+	I#120 - Show security bar above message headers (Milan Crha)
+	I#140 - Single key accelerator triggered in search box ]I[ (Milan Crha)
+	I#163 - Open selected event/memo/task on “Enter” (Milan Crha)
+	I#164 - Mute "Failed to handle source headers" runtime warning (Milan Crha)
+	I#166 - Improve the appdata file (Milan Crha)
+	I#176 - [Calendar] Incorrectly splits attendee name and email address (Milan Crha)
+	I#180 - [ECompEditor] Organizer changed when editing existing component (Milan Crha)
+	I#181 - [CompEditor] Make Organizer combo as drop-down, without entry (Milan Crha)
+	I#182 - Calendar month/year forward/backward arrows overlap (Milan Crha)
+	I#183 - Set of DATE/DATE-TIME doesn't reset VALUE parameter (Milan Crha)
+	I#187 - [Composer] Disable useless spell check update (Milan Crha)
+	I#190 - [Meeting editor] Show email addresses when needed (Milan Crha)
+	I#196 - Build developer documentation in a fix order (Milan Crha)
+	I#198 - Convert UTC date in Inline (Outlook style) reply when set to (Milan Crha)
+	I#208 - Task Completed time should be in UTC (Milan Crha)
+	I#211 - Remove duplicated includes in the source files (Milan Crha)
+	I#214 - Bold meeting summary text cut in Calendar view (Milan Crha)
+	M!4 - Add X-Flatpak-RenamedFrom to the desktop file (Bilal Elmoussaoui)
+	eds-I#41 - Documentation doesn't go through gtkdoc-scangobj (Milan Crha)
+	eds-I#42 - [CalDAV] Populate calendar-auto-schedule for discovered sources (Milan Crha)
+	eds-I#51 - [Gmail] Change from OAuth2 to other authentication doesn't stick (Milan Crha)
+
+Miscellaneous:
+	Free/Busy lookup for authenticated URLs not re-tried (Milan Crha)
+	[Calendar] Fix issues with attendees editing of an existing meeting (Milan Crha)
+	A little code clean-up related to the previous commit (Milan Crha)
+	[Event/Task editor] Force timezone part show only if really needed (Milan Crha)
+	[Flatpak] Update some of the dependencies (Milan Crha)
+	Make sure intltool-merge cache is created only once (Milan Crha)
+	Correct evolution-mail-formatter user documentation build warning (Milan Crha)
+	Include also environment LD_LIBRARY_PATH in gtk-doc-scangobj call (Milan Crha)
+
+Translations:
+	Piotr Drąg (pl)
+	Marek Cernocky (cs)
+	Yi-Jyun Pan (zh_TW)
+	Kristjan SCHMIDT (eo)
+	Matej Urbančič (sl)
+	Jordi Mas (ca)
+
 Evolution 3.31.1 2018-10-08
 ---------------------------
 
