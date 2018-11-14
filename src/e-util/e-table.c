@@ -1418,13 +1418,14 @@ canvas_vbox_event (ECanvasVbox *vbox,
 		case GDK_KEY_ISO_Left_Tab:
 			if ((key->state & GDK_CONTROL_MASK) && etable->click_to_add) {
 				gnome_canvas_item_grab_focus (etable->click_to_add);
-				break;
+				return TRUE;
 			}
+			break;
 		default:
-			return FALSE;
+			break;
 	}
 
-	return TRUE;
+	return FALSE;
 }
 
 static void
@@ -1459,11 +1460,11 @@ click_to_add_event (ETableClickToAdd *etcta,
 							gtk_widget_get_toplevel (
 							GTK_WIDGET (etable->table_canvas)),
 							GTK_DIR_TAB_FORWARD);
-					break;
 				}
 			}
+			break;
 		default:
-			return FALSE;
+			break;
 	}
 
 	return FALSE;

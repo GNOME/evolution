@@ -444,7 +444,7 @@ e_text_to_html_full (const gchar *input,
 				} while (col % 8);
 				break;
 			}
-			/* otherwise, FALL THROUGH */
+			/* falls through */
 
 		case ' ':
 			if (flags & E_TEXT_TO_HTML_CONVERT_SPACES) {
@@ -457,7 +457,7 @@ e_text_to_html_full (const gchar *input,
 					break;
 				}
 			}
-			/* otherwise, FALL THROUGH */
+			/* falls through */
 
 		default:
 			if ((u >= 0x20 && u < 0x80) ||

@@ -20,22 +20,23 @@ macro(setup_build_flags _maintainer_mode)
 		-Wredundant-decls
 		-Wundef
 		-Wwrite-strings
+		-Wno-cast-function-type
 		-no-undefined
 		-fno-strict-aliasing
 	)
 
-	if(_maintainer_mode)
+	if(${_maintainer_mode})
 		list(APPEND proposed_flags
 			-Wall
 			-Wextra
 			-Wdeprecated-declarations
 			-Wmissing-include-dirs
 		)
-	else(_maintainer_mode)
+	else(${_maintainer_mode})
 		list(APPEND proposed_flags
 			-Wno-deprecated-declarations
 			-Wno-missing-include-dir)
-	endif(_maintainer_mode)
+	endif(${_maintainer_mode})
 
 	list(APPEND proposed_c_flags
 		${proposed_flags}
@@ -62,7 +63,7 @@ macro(setup_build_flags _maintainer_mode)
 	foreach(flag IN LISTS proposed_c_flags)
 		check_c_compiler_flag(${flag} c_flag_${flag}_supported)
 		if(c_flag_${flag}_supported)
-			set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${flag}")
+			set(CMAKE_C_FLAGS "${flag} ${CMAKE_C_FLAGS}")
 		endif(c_flag_${flag}_supported)
 		unset(c_flag_${flag}_supported)
 	endforeach()
@@ -71,7 +72,7 @@ macro(setup_build_flags _maintainer_mode)
 		foreach(flag IN LISTS proposed_cxx_flags)
 			check_cxx_compiler_flag(${flag} cxx_flag_${flag}_supported)
 			if(cxx_flag_${flag}_supported)
-				set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${flag}")
+				set(CMAKE_CXX_FLAGS "${flag} ${CMAKE_CXX_FLAGS}")
 			endif(cxx_flag_${flag}_supported)
 			unset(cxx_flag_${flag}_supported)
 		endforeach()

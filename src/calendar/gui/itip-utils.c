@@ -773,6 +773,7 @@ comp_from (ECalComponentItipMethod method,
 		if (!e_cal_component_has_attendees (comp))
 			return NULL;
 		/* coverity[fallthrough] */
+		/* falls through */
 
 	case E_CAL_COMPONENT_METHOD_CANCEL:
 

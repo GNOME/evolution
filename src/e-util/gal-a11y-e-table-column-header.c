@@ -136,6 +136,7 @@ gal_a11y_e_table_column_header_do_action (AtkAction *action,
 			else
 				break;
 			ethi_change_sort_state (ethi, col, E_TABLE_HEADER_ITEM_SORT_FLAG_NONE);
+			break;
 		default:
 			return_value = FALSE;
 			break;

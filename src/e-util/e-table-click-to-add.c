@@ -445,6 +445,7 @@ etcta_event (GnomeCanvasItem *item,
 		if (!e->focus_change.in)
 			return TRUE;
 		/* coverity[fallthrough] */
+		/* falls through */
 
 	case GDK_BUTTON_PRESS:
 		if (etcta->text) {

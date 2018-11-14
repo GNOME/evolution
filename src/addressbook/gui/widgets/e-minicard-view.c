@@ -416,6 +416,7 @@ e_minicard_view_event (GnomeCanvasItem *item,
 				e_minicard_view_create_contact (view);
 			return TRUE;
 		}
+		break;
 	case GDK_BUTTON_PRESS:
 		gdk_event_get_button (event, &event_button);
 		if (event_button == 3)

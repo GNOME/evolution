@@ -3679,6 +3679,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 		case GDK_KEY_PRESS:
 		case GDK_BUTTON_PRESS:
 			tooltip_destroy (view, item);
+			return FALSE;
 		default:
 			return FALSE;
 	}

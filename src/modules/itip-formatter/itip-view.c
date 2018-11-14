@@ -6268,6 +6268,7 @@ itip_view_init_view (ItipView *view)
                                 /* FIXME What about the name? */
 				itip_view_set_delegator (view, view->priv->delegator_name ? view->priv->delegator_name : view->priv->delegator_address);
 				/* coverity[fallthrough] */
+				/* falls through */
 			case ICAL_METHOD_PUBLISH:
 			case ICAL_METHOD_ADD:
 			case ICAL_METHOD_CANCEL:
