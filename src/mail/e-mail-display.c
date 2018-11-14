@@ -932,7 +932,7 @@ mail_display_attachment_expander_clicked_cb (EWebView *web_view,
 
 			/* Either open in the default application... */
 			default_app = e_attachment_ref_default_app (attachment);
-			if (default_app) {
+			if (default_app || e_util_is_running_flatpak ()) {
 				e_attachment_open_async (
 					attachment, default_app, (GAsyncReadyCallback)
 					e_attachment_open_handle_error, parent);
