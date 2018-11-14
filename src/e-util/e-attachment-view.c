@@ -164,7 +164,6 @@ action_open_with_app_info_cb (GtkAction *action,
 	path = list->data;
 
 	app_info = g_object_get_data (G_OBJECT (action), "app-info");
-	g_return_if_fail (G_IS_APP_INFO (app_info));
 
 	e_attachment_view_open_path (view, path, app_info);
 
@@ -727,7 +726,7 @@ attachment_view_update_actions (EAttachmentView *view)
 	gtk_action_set_visible (action, busy);
 
 	action = e_attachment_view_get_action (view, "open-with");
-	gtk_action_set_visible (action, !busy && n_selected == 1);
+	gtk_action_set_visible (action, !busy && n_selected == 1 && !e_util_is_running_flatpak ());
 
 	action = e_attachment_view_get_action (view, "properties");
 	gtk_action_set_visible (action, !busy && n_selected == 1);
@@ -751,6 +750,9 @@ attachment_view_update_actions (EAttachmentView *view)
 
 	list = e_attachment_list_apps (attachment);
 
+	if (!list && e_util_is_running_flatpak ())
+		list = g_list_prepend (list, NULL);
+
 	for (iter = list; iter != NULL; iter = iter->next) {
 		GAppInfo *app_info = iter->data;
 		GtkAction *action;
@@ -761,9 +763,15 @@ attachment_view_update_actions (EAttachmentView *view)
 		gchar *action_label;
 		gchar *action_name;
 
-		app_id = g_app_info_get_id (app_info);
-		app_icon = g_app_info_get_icon (app_info);
-		app_name = g_app_info_get_name (app_info);
+		if (app_info) {
+			app_id = g_app_info_get_id (app_info);
+			app_icon = g_app_info_get_icon (app_info);
+			app_name = g_app_info_get_name (app_info);
+		} else {
+			app_id = "org.gnome.evolution.flatpak.default-app";
+			app_icon = NULL;
+			app_name = NULL;
+		}
 
 		if (app_id == NULL)
 			continue;
@@ -774,21 +782,25 @@ attachment_view_update_actions (EAttachmentView *view)
 
 		action_name = g_strdup_printf ("open-with-%s", app_id);
 
-		action_label = g_strdup_printf (
-			_("Open With “%s”"), app_name);
-
-		action_tooltip = g_strdup_printf (
-			_("Open this attachment in %s"), app_name);
+		if (app_info) {
+			action_label = g_strdup_printf (_("Open With “%s”"), app_name);
+			action_tooltip = g_strdup_printf (_("Open this attachment in %s"), app_name);
+		} else {
+			action_label = g_strdup (_("Open With Default Application"));
+			action_tooltip = g_strdup (_("Open this attachment in default application"));
+		}
 
 		action = gtk_action_new (
 			action_name, action_label, action_tooltip, NULL);
 
 		gtk_action_set_gicon (action, app_icon);
 
-		g_object_set_data_full (
-			G_OBJECT (action),
-			"app-info", g_object_ref (app_info),
-			(GDestroyNotify) g_object_unref);
+		if (app_info) {
+			g_object_set_data_full (
+				G_OBJECT (action),
+				"app-info", g_object_ref (app_info),
+				(GDestroyNotify) g_object_unref);
+		}
 
 		g_object_set_data_full (
 			G_OBJECT (action),
@@ -809,6 +821,11 @@ attachment_view_update_actions (EAttachmentView *view)
 		g_free (action_name);
 		g_free (action_label);
 		g_free (action_tooltip);
+
+		if (!app_info) {
+			list = g_list_remove (list, app_info);
+			break;
+		}
 	}
 
 	g_list_free_full (list, g_object_unref);

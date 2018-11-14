@@ -3454,6 +3454,33 @@ e_util_is_running_gnome (void)
 }
 
 /**
+ * e_util_is_running_flatpak:
+ *
+ * Returns: Whether running in Flatpak.
+ *
+ * Since: 3.32
+ **/
+gboolean
+e_util_is_running_flatpak (void)
+{
+#ifdef G_OS_UNIX
+	static gint is_flatpak = -1;
+
+	if (is_flatpak == -1) {
+		if (g_file_test ("/.flatpak-info", G_FILE_TEST_EXISTS) ||
+		    g_getenv ("EVOLUTION_FLATPAK") != NULL) /* Only for debugging purposes */
+			is_flatpak = 1;
+		else
+			is_flatpak = 0;
+	}
+
+	return is_flatpak == 1;
+#else
+	return FALSE;
+#endif
+}
+
+/**
  * e_util_set_entry_issue_hint:
  * @entry: a #GtkEntry
  * @hint: (allow none): a hint to set, or %NULL to unset
