@@ -145,7 +145,7 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 				gchar *real, *mailaddr;
 
 				if (show_mails || no_links) {
-					if (strchr (a->name, ',') || strchr (a->name, ';'))
+					if (strchr (a->name, ',') || strchr (a->name, ';') || strchr (a->name, '\"') || strchr (a->name, '<') || strchr (a->name, '>'))
 						g_string_append_printf (out, "&quot;%s&quot;", name);
 					else
 						g_string_append (out, name);
