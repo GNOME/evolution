@@ -56,7 +56,7 @@ struct _EAccountsWindowPrivate {
 	GtkWidget *notebook;		/* not referenced */
 	GtkWidget *button_box;		/* not referenced */
 	GtkWidget *tree_view;		/* not referenced */
-	GtkWidget *add_box;		/* not referenced */
+	GtkWidget *add_button;		/* not referenced */
 	GtkWidget *edit_button;		/* not referenced */
 	GtkWidget *delete_button;	/* not referenced */
 	GtkWidget *refresh_backend_button;	/* not referenced */
@@ -1472,7 +1472,7 @@ accounts_window_add_menu_activate_cb (GObject *item,
 
 static void
 accounts_window_show_add_popup (EAccountsWindow *accounts_window,
-				GdkEventButton *event)
+				const GdkEvent *event)
 {
 	struct _add_items {
 		const gchar *kind;
@@ -1505,7 +1505,7 @@ accounts_window_show_add_popup (EAccountsWindow *accounts_window,
 
 	gtk_widget_show_all (popup_menu);
 
-	gtk_menu_attach_to_widget (GTK_MENU (popup_menu), accounts_window->priv->add_box, NULL);
+	gtk_menu_attach_to_widget (GTK_MENU (popup_menu), accounts_window->priv->add_button, NULL);
 
 	g_object_set (popup_menu,
 	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
@@ -1514,10 +1514,10 @@ accounts_window_show_add_popup (EAccountsWindow *accounts_window,
 	              NULL);
 
 	gtk_menu_popup_at_widget (GTK_MENU (popup_menu),
-	                          accounts_window->priv->add_box,
+	                          accounts_window->priv->add_button,
 	                          GDK_GRAVITY_SOUTH_WEST,
 	                          GDK_GRAVITY_NORTH_WEST,
-	                          (const GdkEvent *) event);
+	                          event);
 }
 
 static void
@@ -1525,58 +1525,60 @@ accounts_window_add_clicked_cb (GtkButton *button,
 				gpointer user_data)
 {
 	EAccountsWindow *accounts_window = user_data;
+	GdkEvent *event;
 
 	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
 
-	accounts_window_show_add_popup (accounts_window, NULL);
-}
+	event = gtk_get_current_event ();
 
-static gboolean
-accounts_window_add_arrow_button_press_cb (GtkToggleButton *toggle_button,
-					   GdkEventButton *event,
-					   gpointer user_data)
-{
-	EAccountsWindow *accounts_window = user_data;
+	accounts_window_show_add_popup (accounts_window, event);
 
-	g_return_val_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window), FALSE);
-
-	if (event && event->button == 1) {
-		accounts_window_show_add_popup (accounts_window, event);
-		return TRUE;
-	}
-
-	return FALSE;
+	if (event)
+		gdk_event_free (event);
 }
 
 static GtkWidget *
-accounts_window_create_add_box (EAccountsWindow *accounts_window)
+accounts_window_create_add_button (EAccountsWindow *accounts_window)
 {
-	GtkWidget *box, *button, *arrow;
+	GtkWidget *box, *button, *arrow, *label;
+	gboolean button_images = FALSE;
 
 	g_return_val_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window), NULL);
 
+	g_object_get (gtk_settings_get_default (),
+		"gtk-button-images", &button_images, NULL);
+
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
-	gtk_style_context_add_class (gtk_widget_get_style_context (box), "linked");
+	button = gtk_button_new ();
+	gtk_container_add (GTK_CONTAINER (button), box);
 
-	button = e_dialog_button_new_with_icon ("list-add", _("_Add"));
-	gtk_box_pack_start (GTK_BOX (box), button, TRUE, TRUE, 0);
+	if (button_images) {
+		GtkWidget *image;
+
+		image = gtk_image_new_from_icon_name ("list-add", GTK_ICON_SIZE_BUTTON);
+		gtk_box_pack_start (GTK_BOX (box), image, FALSE, FALSE, 2);
+	}
+
+	label = gtk_label_new_with_mnemonic (_("_Add"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), button);
+	g_object_set (G_OBJECT (label),
+		"halign", GTK_ALIGN_START,
+		"hexpand", FALSE,
+		"xalign", 0.0,
+		NULL);
+
+	gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 2);
+
+	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
+	gtk_box_pack_start (GTK_BOX (box), arrow, FALSE, FALSE, 2);
 
 	g_signal_connect (button, "clicked",
 		G_CALLBACK (accounts_window_add_clicked_cb), accounts_window);
 
-	button = gtk_toggle_button_new ();
-	gtk_box_pack_start (GTK_BOX (box), button, FALSE, FALSE, 0);
+	gtk_widget_show_all (button);
 
-	g_signal_connect (button, "button-press-event",
-		G_CALLBACK (accounts_window_add_arrow_button_press_cb), accounts_window);
-
-	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
-	gtk_container_add (GTK_CONTAINER (button), arrow);
-
-	gtk_widget_show_all (box);
-
-	return box;
+	return button;
 }
 
 static void
@@ -1736,9 +1738,9 @@ accounts_window_constructed (GObject *object)
 
 	container = widget;
 
-	widget = accounts_window_create_add_box (accounts_window);
+	widget = accounts_window_create_add_button (accounts_window);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	accounts_window->priv->add_box = widget;
+	accounts_window->priv->add_button = widget;
 
 	widget = gtk_button_new_with_mnemonic (_("_Edit"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
