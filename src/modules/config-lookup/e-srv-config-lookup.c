@@ -174,6 +174,12 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 
 					e_config_lookup_result_simple_add_string (lookup_result, extension_name,
 						"backend-name", known_services[ii].evo_protocol);
+
+					if (known_services[ii].kind == E_CONFIG_LOOKUP_RESULT_MAIL_SEND) {
+						/* Preset authentication method for SMTP, thus it authenticates by default */
+						e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_AUTHENTICATION,
+							"method", "PLAIN");
+					}
 				} else if (known_services[ii].kind == E_CONFIG_LOOKUP_RESULT_COLLECTION) {
 					gboolean is_calendar = g_str_equal (known_services[ii].evo_protocol, "caldav");
 					gchar *url;
