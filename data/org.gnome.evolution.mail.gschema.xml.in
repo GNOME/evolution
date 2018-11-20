@@ -249,6 +249,11 @@
       <_summary>Convert UTC time in reply credits to local time</_summary>
       <_description>Whether the time in reply credits should be converted to local time when it’s in UTC in the message.</_description>
     </key>
+    <key name="composer-mark-read-on-reply" type="b">
+      <default>true</default>
+      <_summary>Mark replied to messages as read</_summary>
+      <_description>When replying to a message and marking it as being replied to, then whether also mark it as read.</_description>
+    </key>
     <key name="display-content-disposition-inline" type="b">
       <default>true</default>
       <_summary>Whether to obey Content-Disposition:inline message header hint</_summary>

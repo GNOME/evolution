@@ -3859,6 +3859,22 @@ alt_reply_context_free (gpointer ptr)
 	}
 }
 
+static guint32
+get_composer_mark_read_on_reply_flag (void)
+{
+	GSettings *settings;
+	guint32 res = 0;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (g_settings_get_boolean (settings, "composer-mark-read-on-reply"))
+		res = CAMEL_MESSAGE_SEEN;
+
+	g_object_unref (settings);
+
+	return res;
+}
+
 static void
 alt_reply_composer_created_cb (GObject *source_object,
 			       GAsyncResult *result,
@@ -3937,7 +3953,7 @@ alt_reply_composer_created_cb (GObject *source_object,
 
 				if (source_folder_uri) {
 					e_msg_composer_set_source_headers (composer, source_folder_uri,
-						source_message_uid, CAMEL_MESSAGE_ANSWERED);
+						source_message_uid, CAMEL_MESSAGE_ANSWERED | get_composer_mark_read_on_reply_flag ());
 				}
 
 				g_free (source_folder_uri);
@@ -4615,7 +4631,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 		g_object_unref (source);
 	}
 
-	flags = CAMEL_MESSAGE_ANSWERED;
+	flags = CAMEL_MESSAGE_ANSWERED | get_composer_mark_read_on_reply_flag ();
 
 	if (!address && (type == E_MAIL_REPLY_TO_FROM || type == E_MAIL_REPLY_TO_SENDER) &&
 	    folder && !emcu_folder_is_inbox (folder) && em_utils_folder_is_sent (registry, folder))
