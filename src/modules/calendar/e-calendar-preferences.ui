@@ -1812,10 +1812,11 @@
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>
-                  <object class="GtkHBox" id="hbox18">
+                  <object class="GtkGrid" id="default-freebusy-grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">6</property>
+                    <property name="column-spacing">6</property>
+                    <property name="row-spacing">6</property>
                     <child>
                       <object class="GtkLabel" id="label33">
                         <property name="visible">True</property>
@@ -1825,9 +1826,8 @@
                         <property name="mnemonic_widget">template_url</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">0</property>
                       </packing>
                     </child>
                     <child>
@@ -1835,11 +1835,38 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="invisible_char">●</property>
+                        <property name="halign">GTK_ALIGN_FILL</property>
+                        <property name="hexpand">True</property>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label32">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">%u and %d will be replaced by user and domain from the email address.</property>
+                        <property name="wrap">True</property>
+                        <property name="xalign">0.0</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label-publish-auth-info">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Specify login user name as part of the URL in case the server requires authentication, like: https://USER@example.com/</property>
+                        <property name="wrap">True</property>
+                        <property name="xalign">0.0</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">2</property>
                       </packing>
                     </child>
                   </object>
@@ -1847,22 +1874,6 @@
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label32">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">%u and %d will be replaced by user and domain from the email address.</property>
-                    <property name="wrap">True</property>
-                    <attributes>
-                      <attribute name="style" value="italic"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>
