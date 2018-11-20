@@ -3783,7 +3783,7 @@ alt_reply_composer_created_cb (GObject *source_object,
 
 				if (source_folder_uri) {
 					e_msg_composer_set_source_headers (composer, source_folder_uri,
-						source_message_uid, CAMEL_MESSAGE_ANSWERED);
+						source_message_uid, CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN);
 				}
 
 				g_free (source_folder_uri);
@@ -4464,7 +4464,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 		g_object_unref (source);
 	}
 
-	flags = CAMEL_MESSAGE_ANSWERED;
+	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 
 	if (!address && (type == E_MAIL_REPLY_TO_FROM || type == E_MAIL_REPLY_TO_SENDER) &&
 	    folder && !emcu_folder_is_inbox (folder) && em_utils_folder_is_sent (registry, folder))
