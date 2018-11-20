@@ -90,7 +90,6 @@ G_DEFINE_TYPE (ECollectionAccountWizard, e_collection_account_wizard, GTK_TYPE_N
 
 typedef struct _WizardWindowData {
 	GtkWidget *window;
-	GtkWidget *close_button;
 	GtkWidget *prev_button;
 	GtkButton *next_button;
 	ECollectionAccountWizard *collection_wizard;
@@ -101,18 +100,24 @@ collection_wizard_window_update_button_captions (WizardWindowData *wwd)
 {
 	g_return_if_fail (wwd != NULL);
 
-	if (gtk_notebook_get_current_page (GTK_NOTEBOOK (wwd->collection_wizard))) {
-		gtk_widget_hide (wwd->close_button);
-		gtk_widget_show (wwd->prev_button);
-	} else {
-		gtk_widget_hide (wwd->prev_button);
-		gtk_widget_show (wwd->close_button);
-	}
+	gtk_widget_set_sensitive (wwd->prev_button, gtk_notebook_get_current_page (GTK_NOTEBOOK (wwd->collection_wizard)) > 0);
 
 	if (e_collection_account_wizard_is_finish_page (wwd->collection_wizard))
 		gtk_button_set_label (wwd->next_button, _("_Finish"));
 	else
 		gtk_button_set_label (wwd->next_button, _("_Next"));
+}
+
+static void
+collection_wizard_window_cancel_button_clicked_cb (GtkButton *button,
+						 gpointer user_data)
+{
+	WizardWindowData *wwd = user_data;
+
+	g_return_if_fail (wwd != NULL);
+
+	e_collection_account_wizard_abort (wwd->collection_wizard);
+	gtk_widget_destroy (wwd->window);
 }
 
 static void
@@ -223,7 +228,7 @@ collection_account_wizard_create_window (GtkWindow *parent,
 		NULL);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 
-	widget = e_dialog_button_new_with_icon ("window-close", _("_Close"));
+	widget = e_dialog_button_new_with_icon ("window-close", _("_Cancel"));
 	g_object_set (G_OBJECT (widget),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_END,
@@ -240,10 +245,8 @@ collection_account_wizard_create_window (GtkWindow *parent,
 		GTK_ACCEL_VISIBLE);
 	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
 
-	wwd->close_button = widget;
-
 	g_signal_connect (widget, "clicked",
-		G_CALLBACK (collection_wizard_window_back_button_clicked_cb), wwd);
+		G_CALLBACK (collection_wizard_window_cancel_button_clicked_cb), wwd);
 
 	widget = e_dialog_button_new_with_icon ("go-previous", _("_Previous"));
 	g_object_set (G_OBJECT (widget),
@@ -251,7 +254,7 @@ collection_account_wizard_create_window (GtkWindow *parent,
 		"halign", GTK_ALIGN_END,
 		"vexpand", FALSE,
 		"valign", GTK_ALIGN_START,
-		"visible", FALSE,
+		"visible", TRUE,
 		NULL);
 	gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE, 0);
 

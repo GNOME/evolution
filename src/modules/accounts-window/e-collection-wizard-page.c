@@ -24,6 +24,8 @@
 
 #include "e-collection-wizard-page.h"
 
+/* #define RUN_INSIDE_ACCOUNTS_WINDOW 1 */
+
 /* Standard GObject macros */
 #define E_TYPE_COLLECTION_WIZARD_PAGE \
 	(e_collection_wizard_page_get_type ())
@@ -49,11 +51,13 @@ typedef struct _ECollectionWizardPageClass ECollectionWizardPageClass;
 struct _ECollectionWizardPage {
 	EExtension parent;
 
+#ifdef RUN_INSIDE_ACCOUNTS_WINDOW
 	ECollectionAccountWizard *collection_wizard;
 	gint page_index;
 
 	GtkButton *prev_button; /* not referenced */
 	GtkButton *next_button; /* not referenced */
+#endif
 };
 
 struct _ECollectionWizardPageClass {
@@ -64,6 +68,7 @@ GType e_collection_wizard_page_get_type (void) G_GNUC_CONST;
 
 G_DEFINE_DYNAMIC_TYPE (ECollectionWizardPage, e_collection_wizard_page, E_TYPE_EXTENSION)
 
+#ifdef RUN_INSIDE_ACCOUNTS_WINDOW
 static void
 collection_wizard_page_update_button_captions (ECollectionWizardPage *page)
 {
@@ -79,6 +84,7 @@ collection_wizard_page_update_button_captions (ECollectionWizardPage *page)
 	else
 		gtk_button_set_label (page->next_button, _("_Next"));
 }
+#endif
 
 static gboolean
 collection_wizard_page_add_source_cb (EAccountsWindow *accounts_window,
@@ -86,6 +92,9 @@ collection_wizard_page_add_source_cb (EAccountsWindow *accounts_window,
 				      gpointer user_data)
 {
 	ECollectionWizardPage *page = user_data;
+#ifndef RUN_INSIDE_ACCOUNTS_WINDOW
+	GtkWindow *window;
+#endif
 
 	g_return_val_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window), FALSE);
 	g_return_val_if_fail (E_IS_COLLECTION_WIZARD_PAGE (page), FALSE);
@@ -93,14 +102,21 @@ collection_wizard_page_add_source_cb (EAccountsWindow *accounts_window,
 	if (g_strcmp0 (kind, "collection") != 0)
 		return FALSE;
 
+#ifdef RUN_INSIDE_ACCOUNTS_WINDOW
 	e_collection_account_wizard_reset (page->collection_wizard);
 	collection_wizard_page_update_button_captions (page);
 
 	e_accounts_window_activate_page (accounts_window, page->page_index);
+#else
+	window = e_collection_account_wizard_new_window (GTK_WINDOW (accounts_window), e_accounts_window_get_registry (accounts_window));
+
+	gtk_window_present (window);
+#endif
 
 	return TRUE;
 }
 
+#ifdef RUN_INSIDE_ACCOUNTS_WINDOW
 static void
 collection_wizard_page_wizard_done (ECollectionWizardPage *page,
 				    const gchar *uid)
@@ -161,14 +177,17 @@ collection_wizard_next_button_clicked_cb (GtkButton *button,
 		}
 	}
 }
+#endif
 
 static void
 collection_wizard_page_constructed (GObject *object)
 {
 	EAccountsWindow *accounts_window;
 	ECollectionWizardPage *page;
+#ifdef RUN_INSIDE_ACCOUNTS_WINDOW
 	GtkWidget *widget;
 	GtkWidget *vbox, *hbox;
+#endif
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_collection_wizard_page_parent_class)->constructed (object);
@@ -179,6 +198,7 @@ collection_wizard_page_constructed (GObject *object)
 	g_signal_connect (accounts_window, "add-source",
 		G_CALLBACK (collection_wizard_page_add_source_cb), object);
 
+#ifdef RUN_INSIDE_ACCOUNTS_WINDOW
 	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	gtk_widget_show (vbox);
 
@@ -245,6 +265,7 @@ collection_wizard_page_constructed (GObject *object)
 	page->page_index = e_accounts_window_add_page (accounts_window, vbox);
 
 	gtk_widget_grab_default (GTK_WIDGET (page->next_button));
+#endif
 }
 
 static void
