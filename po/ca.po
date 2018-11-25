@@ -12184,9 +12184,11 @@ msgstr "Calendari mensual"
 
 #. This is a strftime() format. %B = Month name.
 #: ../src/e-util/e-calendar-item.c:1333 ../src/e-util/e-calendar-item.c:2216
+# N.T.: Si usem %B es mostra 'de novembre' al calendari. Cal usar
+# %OB perquè no s'inclogui la preposició 'de'
 msgctxt "CalItem"
 msgid "%B"
-msgstr "%B"
+msgstr "%OB"
 
 #. This is a strftime() format. %Y = Year.
 #: ../src/e-util/e-calendar-item.c:1335
@@ -12196,9 +12198,11 @@ msgstr "%Y"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../src/e-util/e-calendar-item.c:1372
+# N.T.: Si usem %B es mostra 'de novembre' al calendari. Cal usar
+# %OB perquè no s'inclogui la preposició 'de'
 msgctxt "CalItem"
 msgid "%B %Y"
-msgstr "%B %Y"
+msgstr "%OB del %Y"
 
 #: ../src/e-util/e-cal-source-config.c:169
 msgid "Mark as default calendar"
