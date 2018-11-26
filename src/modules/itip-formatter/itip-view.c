@@ -4870,13 +4870,16 @@ update_item (ItipView *view,
              ItipViewResponse response)
 {
 	struct icaltimetype stamp;
-	icalproperty *prop;
 	icalcomponent *toplevel_clone, *clone;
 	gboolean remove_alarms;
 	ECalComponent *clone_comp;
 	gchar *str;
 
 	update_item_progress_info (view, _("Saving changes to the calendar. Please wait..."));
+
+	while (e_cal_util_remove_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME")) {
+		/* Delete all existing X-MICROSOFT-CDO-REPLYTIME properties first */
+	}
 
 	/* Set X-MICROSOFT-CDO-REPLYTIME to record the time at which
 	 * the user accepted/declined the request. (Outlook ignores
@@ -4889,10 +4892,8 @@ update_item (ItipView *view,
 	 */
 	stamp = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ());
 	str = icaltime_as_ical_string_r (stamp);
-	prop = icalproperty_new_x (str);
+	e_cal_util_set_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME", str);
 	g_free (str);
-	icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
-	icalcomponent_add_property (view->priv->ical_comp, prop);
 
 	toplevel_clone = icalcomponent_new_clone (view->priv->top_level);
 	clone = icalcomponent_new_clone (view->priv->ical_comp);
