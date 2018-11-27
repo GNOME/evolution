@@ -808,8 +808,26 @@ composer_load_signature_cb (EMailSignatureComboBox *combo_box,
 		&composer->priv->check_if_signature_is_changed,
 		&composer->priv->ignore_next_signature_change);
 
-	if (new_signature_id && *new_signature_id)
-		gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), new_signature_id);
+	if (new_signature_id && *new_signature_id) {
+		gboolean been_ignore = composer->priv->ignore_next_signature_change;
+		gboolean signature_changed = g_strcmp0 (gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box)), new_signature_id) != 0;
+
+		composer->priv->ignore_next_signature_change = been_ignore && signature_changed;
+
+		if (!gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), new_signature_id)) {
+			signature_changed = g_strcmp0 (gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box)), "none") != 0;
+
+			composer->priv->ignore_next_signature_change = been_ignore && signature_changed;
+
+			gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), "none");
+		}
+
+		if (!signature_changed && composer->priv->check_if_signature_is_changed) {
+			composer->priv->set_signature_from_message = FALSE;
+			composer->priv->check_if_signature_is_changed = FALSE;
+			composer->priv->ignore_next_signature_change = FALSE;
+		}
+	}
 
 	g_free (new_signature_id);
 	g_free (contents);
