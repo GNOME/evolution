@@ -3669,6 +3669,7 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 	gint len, i;
 	guint jj, jjlen;
 	gboolean is_message_from_draft = FALSE;
+	gboolean is_editor_ready;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -4028,12 +4029,20 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 
 	priv->set_signature_from_message = TRUE;
 
+	is_editor_ready = e_content_editor_is_ready (cnt_editor);
+
 	/* We wait until now to set the body text because we need to
 	 * ensure that the attachment bar has all the attachments before
 	 * we request them. */
 	e_msg_composer_flush_pending_body (composer);
 
 	set_signature_gui (composer);
+
+	/* This makes sure the signature is used from the real message body,
+	   not from the empty body when the composer is in the HTML mode */
+	if (!is_editor_ready)
+		priv->set_signature_from_message = TRUE;
+
 }
 
 /**
