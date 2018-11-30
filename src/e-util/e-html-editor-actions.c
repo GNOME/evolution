@@ -312,27 +312,29 @@ static void
 action_insert_html_file_cb (GtkToggleAction *action,
                             EHTMLEditor *editor)
 {
-	GtkWidget *dialog;
+	GtkFileChooserNative *native;
 	GtkFileFilter *filter;
+	GtkWidget *toplevel;
 
-	dialog = gtk_file_chooser_dialog_new (
-		_("Insert HTML File"), NULL,
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (editor));
+
+	native = gtk_file_chooser_native_new (
+		_("Insert HTML File"), GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Open"), GTK_RESPONSE_ACCEPT, NULL);
+		_("_Open"), _("_Cancel"));
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("HTML file"));
 	gtk_file_filter_add_mime_type (filter, "text/html");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), filter);
 
-	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
+	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (native));
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
 		GFile *file;
 
-		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
-		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
+		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (native));
+		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (native));
 
 		/* XXX Need a way to cancel this. */
 		g_file_load_contents_async (
@@ -343,22 +345,49 @@ action_insert_html_file_cb (GtkToggleAction *action,
 		g_object_unref (file);
 	}
 
-	gtk_widget_destroy (dialog);
+	g_object_unref (native);
 }
 
 static void
 action_insert_image_cb (GtkAction *action,
                         EHTMLEditor *editor)
 {
-	GtkWidget *dialog;
+	GtkWidget *dialog = NULL;
+	GtkFileChooserNative *native = NULL;
+	GtkWidget *toplevel;
+	gint response;
 
-	dialog = e_image_chooser_dialog_new (C_("dialog-title", "Insert Image"), NULL);
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (editor));
+	if (e_util_is_running_flatpak ()) {
+		GtkFileFilter *file_filter;
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		native = gtk_file_chooser_native_new (
+			C_("dialog-title", "Insert Image"),
+			GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL,
+			GTK_FILE_CHOOSER_ACTION_OPEN,
+			_("_Open"), _("_Cancel"));
+
+		file_filter = gtk_file_filter_new ();
+		gtk_file_filter_add_pixbuf_formats (file_filter);
+		gtk_file_filter_set_name (file_filter, _("Image file"));
+		gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), file_filter);
+	} else {
+		dialog = e_image_chooser_dialog_new (C_("dialog-title", "Insert Image"), GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL);
+	}
+
+	if (dialog)
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+	else
+		response = gtk_native_dialog_run (GTK_NATIVE_DIALOG (native));
+
+	if (response == GTK_RESPONSE_ACCEPT) {
 		EContentEditor *cnt_editor;
 		gchar *uri;
 
-		uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+		if (dialog)
+			uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+		else
+			uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (native));
 
 		cnt_editor = e_html_editor_get_content_editor (editor);
 		e_content_editor_insert_image (cnt_editor, uri);
@@ -366,7 +395,10 @@ action_insert_image_cb (GtkAction *action,
 		g_free (uri);
 	}
 
-	gtk_widget_destroy (dialog);
+	if (dialog)
+		gtk_widget_destroy (dialog);
+	else
+		g_object_unref (native);
 }
 
 static void
@@ -406,27 +438,29 @@ static void
 action_insert_text_file_cb (GtkAction *action,
                             EHTMLEditor *editor)
 {
-	GtkWidget *dialog;
+	GtkFileChooserNative *native;
+	GtkWidget *toplevel;
 	GtkFileFilter *filter;
 
-	dialog = gtk_file_chooser_dialog_new (
-		_("Insert text file"), NULL,
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (editor));
+
+	native = gtk_file_chooser_native_new (
+		_("Insert text file"), GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Open"), GTK_RESPONSE_ACCEPT, NULL);
+		_("_Open"), _("_Cancel"));
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("Text file"));
 	gtk_file_filter_add_mime_type (filter, "text/plain");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), filter);
 
-	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
+	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (native));
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
 		GFile *file;
 
-		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
-		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (dialog));
+		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (native));
+		file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (native));
 
 		/* XXX Need a way to cancel this. */
 		g_file_load_contents_async (
@@ -437,7 +471,7 @@ action_insert_text_file_cb (GtkAction *action,
 		g_object_unref (file);
 	}
 
-	gtk_widget_destroy (dialog);
+	g_object_unref (native);
 }
 
 static gboolean

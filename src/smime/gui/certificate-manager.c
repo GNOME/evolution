@@ -635,76 +635,55 @@ cert_backup_dialog_maybe_correct_extension (GtkFileChooser *file_chooser)
 }
 
 static void
-cert_backup_dialog_file_chooser_save_activate_cb (GtkWidget *button,
-						  GtkFileChooser *file_chooser)
-{
-	cert_backup_dialog_maybe_correct_extension (file_chooser);
-}
-
-static gboolean
-cert_backup_dialog_file_chooser_save_event_cb (GtkWidget *button,
-					       GdkEvent *event,
-					       GtkFileChooser *file_chooser)
-{
-	cert_backup_dialog_maybe_correct_extension (file_chooser);
-
-	return FALSE;
-}
-
-static void
 run_cert_backup_dialog_file_chooser (GtkButton *file_button,
                                      BackupData *data)
 {
-	GtkWidget *filesel, *button;
+	GtkFileChooserNative *native;
 	GtkFileFilter *filter;
+	GtkWidget *toplevel;
 	gchar *filename;
 
-	filesel = gtk_file_chooser_dialog_new (
-		_("Select a file to backup your key and certificate..."), NULL,
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (file_button));
+	native = gtk_file_chooser_native_new (
+		_("Select a file to backup your key and certificate..."),
+		GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Save"), GTK_RESPONSE_OK,
-		NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
-	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (filesel), TRUE);
+		_("_Save"), _("_Cancel"));
+	gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (native), TRUE);
 	/* To Translators:
 	 * %s-backup.p12 is the default file name suggested by the file selection dialog,
 	 * when a user wants to backup one of her/his private keys/certificates.
 	 * For example: gnomedev-backup.p12
 	 */
 	filename = g_strdup_printf (_("%s-backup.p12"), e_cert_get_nickname (data->cert));
-	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), filename);
+	gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (native), filename);
 	g_free (filename);
 
 	if (*data->file) {
-		gtk_file_chooser_set_file (GTK_FILE_CHOOSER (filesel), *data->file, NULL);
+		gtk_file_chooser_set_file (GTK_FILE_CHOOSER (native), *data->file, NULL);
 	}
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, data->cp->cert_filter_name);
 	gtk_file_filter_add_mime_type (filter, "application/x-pkcs12");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), filter);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("All files"));
 	gtk_file_filter_add_pattern (filter, "*");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), filter);
 
-	button = gtk_dialog_get_widget_for_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
-	g_signal_connect (button, "activate",
-		G_CALLBACK (cert_backup_dialog_file_chooser_save_activate_cb), filesel);
-	g_signal_connect (button, "enter-notify-event",
-		G_CALLBACK (cert_backup_dialog_file_chooser_save_event_cb), filesel);
-
-	if (gtk_dialog_run (GTK_DIALOG (filesel)) == GTK_RESPONSE_OK) {
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
 		gchar *basename;
+
+		cert_backup_dialog_maybe_correct_extension (GTK_FILE_CHOOSER (native));
 
 		if (*data->file) {
 			g_object_unref (*data->file);
 			*data->file = NULL;
 		}
 
-		*data->file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (filesel));
+		*data->file = gtk_file_chooser_get_file (GTK_FILE_CHOOSER (native));
 
 		basename = g_file_get_basename (*data->file);
 		gtk_button_set_label (file_button, basename);
@@ -712,7 +691,7 @@ run_cert_backup_dialog_file_chooser (GtkButton *file_button,
 	}
 
 	/* destroy dialog to get rid of it in the GUI */
-	gtk_widget_destroy (filesel);
+	g_object_unref (native);
 
 	cert_backup_dialog_sensitize (GTK_WIDGET (file_button), NULL, data);
 	gtk_widget_grab_focus (GTK_WIDGET (data->entry1));
@@ -720,6 +699,7 @@ run_cert_backup_dialog_file_chooser (GtkButton *file_button,
 
 static gint
 run_cert_backup_dialog (CertPage *cp,
+			GtkWidget *parent,
                         ECert *cert,
                         GFile **file,
                         gchar **password,
@@ -738,7 +718,8 @@ run_cert_backup_dialog (CertPage *cp,
 	data.file = file;
 
 	dialog = gtk_dialog_new_with_buttons (
-		_("Backup Certificate"), NULL, flags,
+		_("Backup Certificate"),
+		GTK_IS_WINDOW (parent) ? GTK_WINDOW (parent) : NULL, flags,
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
 		_("_Save"), GTK_RESPONSE_OK,
 		NULL);
@@ -864,7 +845,7 @@ backup_cert (GtkWidget *button,
 			gchar *password = NULL;
 			gboolean save_chain = FALSE;
 
-			if (run_cert_backup_dialog (cp, cert, &file, &password, &save_chain) == GTK_RESPONSE_OK) {
+			if (run_cert_backup_dialog (cp, gtk_widget_get_toplevel (button), cert, &file, &password, &save_chain) == GTK_RESPONSE_OK) {
 				if (!file) {
 					e_notice (
 						gtk_widget_get_toplevel (GTK_WIDGET (cp->treeview)),
@@ -956,37 +937,39 @@ static void
 import_cert (GtkWidget *button,
              CertPage *cp)
 {
-	GtkWidget *filesel;
+	GtkFileChooserNative *native;
 	GtkFileFilter *filter;
+	GtkWidget *toplevel;
 	gint i;
 
-	filesel = gtk_file_chooser_dialog_new (
-		_("Select a certificate to import..."), NULL,
+	toplevel = gtk_widget_get_toplevel (button);
+
+	native = gtk_file_chooser_native_new (
+		_("Select a certificate to import..."),
+		GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Open"), GTK_RESPONSE_OK, NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+		_("_Open"), _("_Cancel"));
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, cp->cert_filter_name);
 	for (i = 0; cp->cert_mime_types[i] != NULL; i++) {
 		gtk_file_filter_add_mime_type (filter, cp->cert_mime_types[i]);
 	}
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), filter);
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("All files"));
 	gtk_file_filter_add_pattern (filter, "*");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), filter);
 
-	if (gtk_dialog_run (GTK_DIALOG (filesel)) == GTK_RESPONSE_OK) {
-		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
+		gchar *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (native));
 		GSList *imported_certs = NULL;
 		GError *error = NULL;
 		gboolean import;
 
 		/* destroy dialog to get rid of it in the GUI */
-		gtk_widget_destroy (filesel);
+		g_object_unref (native);
 
 		switch (cp->cert_type) {
 			case E_CERT_USER:
@@ -1017,8 +1000,9 @@ import_cert (GtkWidget *button,
 		g_slist_foreach (imported_certs, (GFunc) g_object_unref, NULL);
 		g_slist_free (imported_certs);
 		g_free (filename);
-	} else
-		gtk_widget_destroy (filesel);
+	} else {
+		g_object_unref (native);
+	}
 }
 
 static void

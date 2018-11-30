@@ -25,16 +25,19 @@
 
 G_BEGIN_DECLS
 
+typedef void (* EShellOepnSaveCustomizeFunc)	(GtkFileChooserNative *file_chooser_native,
+						 gpointer user_data);
+
 GFile *		e_shell_run_open_dialog		(EShell *shell,
 						 const gchar *title,
-						 GtkCallback customize_func,
+						 EShellOepnSaveCustomizeFunc customize_func,
 						 gpointer customize_data);
 
 GFile *		e_shell_run_save_dialog		(EShell *shell,
 						 const gchar *title,
 						 const gchar *suggestion,
 						 const gchar *filters,
-						 GtkCallback customize_func,
+						 EShellOepnSaveCustomizeFunc customize_func,
 						 gpointer customize_data);
 
 guint		e_shell_utils_import_uris	(EShell *shell,

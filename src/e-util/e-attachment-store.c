@@ -624,30 +624,24 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
                                     GtkWindow *parent)
 {
 	GtkFileChooser *file_chooser;
-	GtkWidget *dialog;
-
+	GtkWidget *dialog = NULL;
+	GtkFileChooserNative *native = NULL;
 	GtkBox *extra_box;
 	GtkWidget *extra_box_widget;
-	GtkWidget *option_display;
-
+	GtkWidget *option_display = NULL;
+	GtkImage *preview;
+	GSList *files, *iter;
+	const gchar *disposition;
+	gboolean active;
+	gint response;
 #ifdef HAVE_AUTOAR
 	GtkBox *option_format_box;
 	GtkWidget *option_format_box_widget;
 	GtkWidget *option_format_label;
 	GtkWidget *option_format_combo;
-#endif
-
-	GtkImage *preview;
-
-	GSList *files, *iter;
-	const gchar *disposition;
-	gboolean active;
-	gint response;
-
-#ifdef HAVE_AUTOAR
-	GSettings *settings;
-	char *format_string;
-	char *filter_string;
+	GSettings *settings = NULL;
+	gchar *format_string = NULL;
+	gchar *filter_string = NULL;
 	gint format;
 	gint filter;
 #endif
@@ -655,110 +649,126 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
 	g_return_if_fail (GTK_IS_WINDOW (parent));
 
-	dialog = gtk_file_chooser_dialog_new (
-		_("Add Attachment"), parent,
-		GTK_FILE_CHOOSER_ACTION_OPEN,
-#ifdef HAVE_AUTOAR
-		_("_Open"), GTK_RESPONSE_OK,
-#endif
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-#ifdef HAVE_AUTOAR
-		_("A_ttach"), GTK_RESPONSE_CLOSE,
-#else
-		_("A_ttach"), GTK_RESPONSE_OK,
-#endif
-		NULL);
+	if (e_util_is_running_flatpak ()) {
+		native = gtk_file_chooser_native_new (
+			_("Add Attachment"), parent,
+			GTK_FILE_CHOOSER_ACTION_OPEN,
+			_("A_ttach"), _("_Cancel"));
 
-	file_chooser = GTK_FILE_CHOOSER (dialog);
+		file_chooser = GTK_FILE_CHOOSER (native);
+	} else {
+		dialog = gtk_file_chooser_dialog_new (
+			_("Add Attachment"), parent,
+			GTK_FILE_CHOOSER_ACTION_OPEN,
+#ifdef HAVE_AUTOAR
+			_("_Open"), GTK_RESPONSE_ACCEPT,
+#endif
+			_("_Cancel"), GTK_RESPONSE_CANCEL,
+#ifdef HAVE_AUTOAR
+			_("A_ttach"), GTK_RESPONSE_CLOSE,
+#else
+			_("A_ttach"), GTK_RESPONSE_ACCEPT,
+#endif
+			NULL);
+
+		file_chooser = GTK_FILE_CHOOSER (dialog);
+	}
+
 	gtk_file_chooser_set_local_only (file_chooser, FALSE);
 	gtk_file_chooser_set_select_multiple (file_chooser, TRUE);
+
+	if (dialog) {
 #ifdef HAVE_AUTOAR
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
+		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
 #else
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
+		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 #endif
-	gtk_window_set_icon_name (GTK_WINDOW (dialog), "mail-attachment");
+		gtk_window_set_icon_name (GTK_WINDOW (dialog), "mail-attachment");
 
-	preview = GTK_IMAGE (gtk_image_new ());
-	gtk_file_chooser_set_preview_widget (
-		GTK_FILE_CHOOSER (file_chooser),
-		GTK_WIDGET (preview));
-	g_signal_connect (
-		file_chooser, "update-preview",
-		G_CALLBACK (update_preview_cb), preview);
+		preview = GTK_IMAGE (gtk_image_new ());
+		gtk_file_chooser_set_preview_widget (file_chooser, GTK_WIDGET (preview));
+		g_signal_connect (
+			file_chooser, "update-preview",
+			G_CALLBACK (update_preview_cb), preview);
 
-	extra_box_widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	extra_box = GTK_BOX (extra_box_widget);
+		extra_box_widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		extra_box = GTK_BOX (extra_box_widget);
 
-	option_display = gtk_check_button_new_with_mnemonic (
-		_("_Suggest automatic display of attachment"));
-	gtk_box_pack_start (extra_box, option_display, FALSE, FALSE, 0);
+		option_display = gtk_check_button_new_with_mnemonic (
+			_("_Suggest automatic display of attachment"));
+		gtk_box_pack_start (extra_box, option_display, FALSE, FALSE, 0);
 
 #ifdef HAVE_AUTOAR
-	option_format_box_widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-	option_format_box = GTK_BOX (option_format_box_widget);
-	gtk_box_pack_start (extra_box, option_format_box_widget, FALSE, FALSE, 0);
+		option_format_box_widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+		option_format_box = GTK_BOX (option_format_box_widget);
+		gtk_box_pack_start (extra_box, option_format_box_widget, FALSE, FALSE, 0);
 
-	settings = e_util_ref_settings ("org.gnome.evolution.shell");
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
 
-	format_string = g_settings_get_string (settings, "autoar-format");
-	filter_string = g_settings_get_string (settings, "autoar-filter");
+		format_string = g_settings_get_string (settings, "autoar-format");
+		filter_string = g_settings_get_string (settings, "autoar-filter");
 
-	if (!e_enum_from_string (AUTOAR_TYPE_FORMAT, format_string, &format)) {
-		format = AUTOAR_FORMAT_ZIP;
-	}
-	if (!e_enum_from_string (AUTOAR_TYPE_FILTER, filter_string, &filter)) {
-		filter = AUTOAR_FILTER_NONE;
-	}
+		if (!e_enum_from_string (AUTOAR_TYPE_FORMAT, format_string, &format)) {
+			format = AUTOAR_FORMAT_ZIP;
+		}
+		if (!e_enum_from_string (AUTOAR_TYPE_FILTER, filter_string, &filter)) {
+			filter = AUTOAR_FILTER_NONE;
+		}
 
-	option_format_label = gtk_label_new (
-		_("Archive selected directories using this format:"));
-	option_format_combo = autoar_gtk_chooser_simple_new (
-		format,
-		filter);
-	gtk_box_pack_start (option_format_box, option_format_label, FALSE, FALSE, 0);
-	gtk_box_pack_start (option_format_box, option_format_combo, FALSE, FALSE, 0);
+		option_format_label = gtk_label_new (
+			_("Archive selected directories using this format:"));
+		option_format_combo = autoar_gtk_chooser_simple_new (
+			format,
+			filter);
+		gtk_box_pack_start (option_format_box, option_format_label, FALSE, FALSE, 0);
+		gtk_box_pack_start (option_format_box, option_format_combo, FALSE, FALSE, 0);
 #endif
 
-	gtk_file_chooser_set_extra_widget (file_chooser, extra_box_widget);
-	gtk_widget_show_all (extra_box_widget);
+		gtk_file_chooser_set_extra_widget (file_chooser, extra_box_widget);
+		gtk_widget_show_all (extra_box_widget);
+	}
 
 	e_util_load_file_chooser_folder (file_chooser);
 
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (dialog)
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+	else
+		response = gtk_native_dialog_run (GTK_NATIVE_DIALOG (native));
 
 #ifdef HAVE_AUTOAR
-	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_CLOSE)
+	if (response != GTK_RESPONSE_ACCEPT && response != GTK_RESPONSE_CLOSE)
 #else
-	if (response != GTK_RESPONSE_OK)
+	if (response != GTK_RESPONSE_ACCEPT)
 #endif
 		goto exit;
 
 	e_util_save_file_chooser_folder (file_chooser);
 
 	files = gtk_file_chooser_get_files (file_chooser);
-	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (option_display));
+	active = option_display ? gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (option_display)) : FALSE;
 	disposition = active ? "inline" : "attachment";
 
 #ifdef HAVE_AUTOAR
-	autoar_gtk_chooser_simple_get (option_format_combo, &format, &filter);
+	if (dialog) {
+		autoar_gtk_chooser_simple_get (option_format_combo, &format, &filter);
 
-	if (!e_enum_to_string (AUTOAR_TYPE_FORMAT, format)) {
-		format = AUTOAR_FORMAT_ZIP;
+		if (!e_enum_to_string (AUTOAR_TYPE_FORMAT, format)) {
+			format = AUTOAR_FORMAT_ZIP;
+		}
+
+		if (!e_enum_to_string (AUTOAR_TYPE_FORMAT, filter)) {
+			filter = AUTOAR_FILTER_NONE;
+		}
+
+		g_settings_set_string (
+			settings,
+			"autoar-format",
+			e_enum_to_string (AUTOAR_TYPE_FORMAT, format));
+		g_settings_set_string (
+			settings,
+			"autoar-filter",
+			e_enum_to_string (AUTOAR_TYPE_FILTER, filter));
 	}
-
-	if (!e_enum_to_string (AUTOAR_TYPE_FORMAT, filter)) {
-		filter = AUTOAR_FILTER_NONE;
-	}
-
-	g_settings_set_string (
-		settings,
-		"autoar-format",
-		e_enum_to_string (AUTOAR_TYPE_FORMAT, format));
-	g_settings_set_string (
-		settings,
-		"autoar-filter",
-		e_enum_to_string (AUTOAR_TYPE_FILTER, filter));
 #endif
 
 	for (iter = files; iter != NULL; iter = g_slist_next (iter)) {
@@ -779,10 +789,14 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	g_slist_foreach (files, (GFunc) g_object_unref, NULL);
 	g_slist_free (files);
 
-exit:
-	gtk_widget_destroy (dialog);
+ exit:
+	if (dialog)
+		gtk_widget_destroy (dialog);
+	else
+		g_clear_object (&native);
+
 #ifdef HAVE_AUTOAR
-	g_object_unref (settings);
+	g_clear_object (&settings);
 	g_free (format_string);
 	g_free (filter_string);
 #endif
@@ -795,11 +809,15 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 {
 	GtkFileChooser *file_chooser;
 	GtkFileChooserAction action;
-	GtkWidget *dialog;
-
+	GtkWidget *dialog = NULL;
+	GtkFileChooserNative *native = NULL;
+	GFile *destination;
+	const gchar *title;
+	gint response;
+	guint length;
 #ifdef HAVE_AUTOAR
 	GtkBox *extra_box;
-	GtkWidget *extra_box_widget;
+	GtkWidget *extra_box_widget = NULL;
 
 	GtkBox *extract_box;
 	GtkWidget *extract_box_widget;
@@ -807,11 +825,6 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	GSList *extract_group;
 	GtkWidget *extract_dont, *extract_only, *extract_org;
 #endif
-
-	GFile *destination;
-	const gchar *title;
-	gint response;
-	guint length;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), NULL);
 
@@ -827,44 +840,56 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	else
 		action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
 
-	dialog = gtk_file_chooser_dialog_new (
-		title, parent, action,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Save"), GTK_RESPONSE_OK, NULL);
+	if (e_util_is_running_flatpak ()) {
+		native = gtk_file_chooser_native_new (
+			title, GTK_WINDOW (parent), action,
+			_("_Save"), _("_Cancel"));
 
-	file_chooser = GTK_FILE_CHOOSER (dialog);
+		file_chooser = GTK_FILE_CHOOSER (native);
+	} else {
+		dialog = gtk_file_chooser_dialog_new (
+			title, parent, action,
+			_("_Cancel"), GTK_RESPONSE_CANCEL,
+			_("_Save"), GTK_RESPONSE_ACCEPT, NULL);
+
+		file_chooser = GTK_FILE_CHOOSER (dialog);
+	}
+
 	gtk_file_chooser_set_local_only (file_chooser, FALSE);
 	gtk_file_chooser_set_do_overwrite_confirmation (file_chooser, TRUE);
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
-	gtk_window_set_icon_name (GTK_WINDOW (dialog), "mail-attachment");
+
+	if (dialog) {
+		gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+		gtk_window_set_icon_name (GTK_WINDOW (dialog), "mail-attachment");
 
 #ifdef HAVE_AUTOAR
-	extra_box_widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	extra_box = GTK_BOX (extra_box_widget);
+		extra_box_widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		extra_box = GTK_BOX (extra_box_widget);
 
-	extract_box_widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-	extract_box = GTK_BOX (extract_box_widget);
-	gtk_box_pack_start (extra_box, extract_box_widget, FALSE, FALSE, 5);
+		extract_box_widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+		extract_box = GTK_BOX (extract_box_widget);
+		gtk_box_pack_start (extra_box, extract_box_widget, FALSE, FALSE, 5);
 
-	extract_dont = gtk_radio_button_new_with_mnemonic (NULL,
-		_("Do _not extract files from the attachment"));
-	gtk_box_pack_start (extract_box, extract_dont, FALSE, FALSE, 0);
+		extract_dont = gtk_radio_button_new_with_mnemonic (NULL,
+			_("Do _not extract files from the attachment"));
+		gtk_box_pack_start (extract_box, extract_dont, FALSE, FALSE, 0);
 
-	extract_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (extract_dont));
-	extract_only = gtk_radio_button_new_with_mnemonic (extract_group,
-		_("Save extracted files _only"));
-	gtk_box_pack_start (extract_box, extract_only, FALSE, FALSE, 0);
+		extract_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (extract_dont));
+		extract_only = gtk_radio_button_new_with_mnemonic (extract_group,
+			_("Save extracted files _only"));
+		gtk_box_pack_start (extract_box, extract_only, FALSE, FALSE, 0);
 
-	extract_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (extract_only));
-	extract_org = gtk_radio_button_new_with_mnemonic (extract_group,
-		_("Save extracted files and the original _archive"));
-	gtk_box_pack_start (extract_box, extract_org, FALSE, FALSE, 0);
+		extract_group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (extract_only));
+		extract_org = gtk_radio_button_new_with_mnemonic (extract_group,
+			_("Save extracted files and the original _archive"));
+		gtk_box_pack_start (extract_box, extract_org, FALSE, FALSE, 0);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (extract_dont), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (extract_dont), TRUE);
 
-	gtk_widget_show_all (extra_box_widget);
-	gtk_file_chooser_set_extra_widget (file_chooser, extra_box_widget);
+		gtk_widget_show_all (extra_box_widget);
+		gtk_file_chooser_set_extra_widget (file_chooser, extra_box_widget);
 #endif
+	}
 
 	if (action == GTK_FILE_CHOOSER_ACTION_SAVE) {
 		EAttachment *attachment;
@@ -895,7 +920,7 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 
 #ifdef HAVE_AUTOAR
 		mime_type = e_attachment_dup_mime_type (attachment);
-		if (!autoar_check_mime_type_supported (mime_type)) {
+		if (dialog && !autoar_check_mime_type_supported (mime_type)) {
 			gtk_widget_hide (extra_box_widget);
 		}
 
@@ -904,7 +929,7 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 
 		g_clear_object (&file_info);
 #ifdef HAVE_AUTOAR
-	} else {
+	} else if (dialog) {
 		GList *iter;
 		gboolean any_supported = FALSE;
 
@@ -925,9 +950,12 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 
 	e_util_load_file_chooser_folder (file_chooser);
 
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	if (dialog)
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+	else
+		response = gtk_native_dialog_run (GTK_NATIVE_DIALOG (native));
 
-	if (response == GTK_RESPONSE_OK) {
+	if (response == GTK_RESPONSE_ACCEPT) {
 #ifdef HAVE_AUTOAR
 		gboolean save_self, save_extracted;
 #endif
@@ -935,44 +963,49 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 		e_util_save_file_chooser_folder (file_chooser);
 		destination = gtk_file_chooser_get_file (file_chooser);
 
+		if (dialog) {
 #ifdef HAVE_AUTOAR
-		save_self =
-			gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (extract_dont)) ||
-			gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (extract_org));
-		save_extracted =
-			gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (extract_only)) ||
-			gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (extract_org));
+			save_self =
+				gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (extract_dont)) ||
+				gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (extract_org));
+			save_extracted =
+				gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (extract_only)) ||
+				gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (extract_org));
 
-		if (action == GTK_FILE_CHOOSER_ACTION_SAVE) {
-			e_attachment_set_save_self (attachment_list->data, save_self);
-			e_attachment_set_save_extracted (attachment_list->data, save_extracted);
-		} else {
-			GList *iter;
+			if (action == GTK_FILE_CHOOSER_ACTION_SAVE) {
+				e_attachment_set_save_self (attachment_list->data, save_self);
+				e_attachment_set_save_extracted (attachment_list->data, save_extracted);
+			} else {
+				GList *iter;
 
-			for (iter = attachment_list; iter != NULL; iter = iter->next) {
-				EAttachment *attachment;
-				gchar *mime_type;
+				for (iter = attachment_list; iter != NULL; iter = iter->next) {
+					EAttachment *attachment;
+					gchar *mime_type;
 
-				attachment = iter->data;
-				mime_type = e_attachment_dup_mime_type (attachment);
+					attachment = iter->data;
+					mime_type = e_attachment_dup_mime_type (attachment);
 
-				if (autoar_check_mime_type_supported (mime_type)) {
-					e_attachment_set_save_self (attachment, save_self);
-					e_attachment_set_save_extracted (attachment, save_extracted);
-				} else {
-					e_attachment_set_save_self (attachment, TRUE);
-					e_attachment_set_save_extracted (attachment, FALSE);
+					if (autoar_check_mime_type_supported (mime_type)) {
+						e_attachment_set_save_self (attachment, save_self);
+						e_attachment_set_save_extracted (attachment, save_extracted);
+					} else {
+						e_attachment_set_save_self (attachment, TRUE);
+						e_attachment_set_save_extracted (attachment, FALSE);
+					}
+
+					g_free (mime_type);
 				}
-
-				g_free (mime_type);
 			}
-		}
 #endif
+		}
 	} else {
 		destination = NULL;
 	}
 
-	gtk_widget_destroy (dialog);
+	if (dialog)
+		gtk_widget_destroy (dialog);
+	else
+		g_clear_object (&native);
 
 	return destination;
 }

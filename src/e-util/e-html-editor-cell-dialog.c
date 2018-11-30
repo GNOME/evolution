@@ -636,18 +636,21 @@ e_html_editor_cell_dialog_init (EHTMLEditorCellDialog *dialog)
 		GTK_LABEL (widget), dialog->priv->background_color_picker);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 
-	/* Image */
-	widget = e_image_chooser_dialog_new (
-			_("Choose Background Image"),
-			GTK_WINDOW (dialog));
-	dialog->priv->background_image_chooser = widget;
-
 	file_filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (file_filter, _("Images"));
 	gtk_file_filter_add_mime_type (file_filter, "image/*");
 
-	widget = gtk_file_chooser_button_new_with_dialog (
-			dialog->priv->background_image_chooser);
+	/* Image */
+	if (e_util_is_running_flatpak ()) {
+		widget = gtk_file_chooser_button_new (_("Choose Background Image"), GTK_FILE_CHOOSER_ACTION_OPEN);
+	} else {
+		widget = e_image_chooser_dialog_new (
+				_("Choose Background Image"),
+				GTK_WINDOW (dialog));
+
+		widget = gtk_file_chooser_button_new_with_dialog (widget);
+	}
+
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (widget), file_filter);
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_grid_attach (grid, widget, 1, 1, 1, 1);

@@ -224,9 +224,11 @@ file_chooser_filter_changed_cb (GtkFileChooser *file_chooser,
 }
 
 static void
-set_local_only (GtkFileChooser *file_chooser,
+set_local_only (GtkFileChooserNative *file_chooser_native,
 		gpointer user_data)
 {
+	GtkFileChooser *file_chooser = GTK_FILE_CHOOSER (file_chooser_native);
+
 	/* XXX Has to be a local file, since the backup utility
 	 *     takes a filename argument, not a URI. */
 	gtk_file_chooser_set_local_only (file_chooser, TRUE);
@@ -302,7 +304,7 @@ action_settings_backup_cb (GtkAction *action,
 	file = e_shell_run_save_dialog (
 		e_shell_window_get_shell (shell_window),
 		_("Select name of the Evolution backup file"),
-		suggest, has_xz ? "*.tar.xz;*.tar.gz" : "*.tar.gz", (GtkCallback)
+		suggest, has_xz ? "*.tar.xz;*.tar.gz" : "*.tar.gz",
 		set_local_only, has_xz ? suggest : NULL);
 
 	g_free (suggest);
@@ -424,7 +426,7 @@ action_settings_restore_cb (GtkAction *action,
 	file = e_shell_run_open_dialog (
 		e_shell_window_get_shell (shell_window),
 		_("Select name of the Evolution backup file to restore"),
-		(GtkCallback) set_local_only, NULL);
+		set_local_only, NULL);
 
 	if (file == NULL)
 		return;

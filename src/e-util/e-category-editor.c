@@ -25,6 +25,7 @@
 
 #include "e-category-editor.h"
 #include "e-dialog-widgets.h"
+#include "e-misc-utils.h"
 
 #define E_CATEGORY_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -47,7 +48,8 @@ update_preview (GtkFileChooser *chooser,
 	g_return_if_fail (chooser != NULL);
 
 	image = GTK_IMAGE (gtk_file_chooser_get_preview_widget (chooser));
-	g_return_if_fail (image != NULL);
+	if (!image)
+		return;
 
 	filename = gtk_file_chooser_get_preview_filename (chooser);
 
@@ -66,6 +68,34 @@ file_chooser_response (GtkDialog *dialog,
 
 	if (response_id == GTK_RESPONSE_NO)
 		gtk_file_chooser_unselect_all (button);
+}
+
+static void
+unset_icon_clicked_cb (GtkWidget *button,
+		       gpointer user_data)
+{
+	GtkFileChooser *file_chooser = user_data;
+
+	g_return_if_fail (GTK_IS_FILE_CHOOSER (file_chooser));
+
+	gtk_file_chooser_unselect_all (file_chooser);
+	gtk_widget_set_sensitive (button, FALSE);
+}
+
+static void
+chooser_button_file_set_cb (GtkFileChooser *chooser_button,
+			    gpointer user_data)
+{
+	GtkWidget *unset_button = user_data;
+	GSList *uris;
+
+	g_return_if_fail (GTK_IS_WIDGET (unset_button));
+
+	uris = gtk_file_chooser_get_uris (chooser_button);
+
+	gtk_widget_set_sensitive (unset_button, uris != NULL);
+
+	g_slist_free_full (uris, g_free);
 }
 
 static void
@@ -126,7 +156,7 @@ e_category_editor_init (ECategoryEditor *editor)
 	GtkWidget *category_name;
 	GtkWidget *chooser_button;
 	GtkWidget *no_image_button;
-	GtkWidget *chooser_dialog;
+	GtkWidget *chooser_dialog = NULL;
 	GtkWidget *preview;
 
 	editor->priv = E_CATEGORY_EDITOR_GET_PRIVATE (editor);
@@ -134,32 +164,34 @@ e_category_editor_init (ECategoryEditor *editor)
 	gtk_window_set_resizable (GTK_WINDOW (editor), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (editor), 6);
 
-	chooser_dialog = gtk_file_chooser_dialog_new (
-		_("Category Icon"),
-		NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
-		_("_Cancel"), GTK_RESPONSE_CANCEL, NULL);
+	if (!e_util_is_running_flatpak ()) {
+		chooser_dialog = gtk_file_chooser_dialog_new (
+			_("Category Icon"),
+			NULL, GTK_FILE_CHOOSER_ACTION_OPEN,
+			_("_Cancel"), GTK_RESPONSE_CANCEL, NULL);
 
-	no_image_button = e_dialog_button_new_with_icon ("window-close", _("_No Image"));
-	gtk_dialog_add_action_widget (
-		GTK_DIALOG (chooser_dialog),
-		no_image_button, GTK_RESPONSE_NO);
-	gtk_dialog_add_button (
-		GTK_DIALOG (chooser_dialog),
-		_("_Open"), GTK_RESPONSE_ACCEPT);
-	gtk_file_chooser_set_local_only (
-		GTK_FILE_CHOOSER (chooser_dialog), TRUE);
-	gtk_widget_show (no_image_button);
+		no_image_button = e_dialog_button_new_with_icon ("window-close", _("_No Image"));
+		gtk_dialog_add_action_widget (
+			GTK_DIALOG (chooser_dialog),
+			no_image_button, GTK_RESPONSE_NO);
+		gtk_dialog_add_button (
+			GTK_DIALOG (chooser_dialog),
+			_("_Open"), GTK_RESPONSE_ACCEPT);
+		gtk_file_chooser_set_local_only (
+			GTK_FILE_CHOOSER (chooser_dialog), TRUE);
+		gtk_widget_show (no_image_button);
 
-	g_signal_connect (
-		chooser_dialog, "update-preview",
-		G_CALLBACK (update_preview), NULL);
+		g_signal_connect (
+			chooser_dialog, "update-preview",
+			G_CALLBACK (update_preview), NULL);
 
-	preview = gtk_image_new ();
-	gtk_file_chooser_set_preview_widget (
-		GTK_FILE_CHOOSER (chooser_dialog), preview);
-	gtk_file_chooser_set_preview_widget_active (
-		GTK_FILE_CHOOSER (chooser_dialog), TRUE);
-	gtk_widget_show_all (preview);
+		preview = gtk_image_new ();
+		gtk_file_chooser_set_preview_widget (
+			GTK_FILE_CHOOSER (chooser_dialog), preview);
+		gtk_file_chooser_set_preview_widget_active (
+			GTK_FILE_CHOOSER (chooser_dialog), TRUE);
+		gtk_widget_show_all (preview);
+	}
 
 	dialog_content = gtk_dialog_get_content_area (GTK_DIALOG (editor));
 
@@ -190,17 +222,33 @@ e_category_editor_init (ECategoryEditor *editor)
 	gtk_misc_set_alignment (GTK_MISC (label_icon), 0, 0.5);
 	gtk_grid_attach (grid_category_properties, label_icon, 0, 1, 1, 1);
 
-	chooser_button = GTK_WIDGET (
-		gtk_file_chooser_button_new_with_dialog (chooser_dialog));
+	if (chooser_dialog) {
+		chooser_button = gtk_file_chooser_button_new_with_dialog (chooser_dialog);
+
+		g_signal_connect (
+			chooser_dialog, "response",
+			G_CALLBACK (file_chooser_response), chooser_button);
+	} else {
+		GtkWidget *unset_button;
+
+		chooser_button = gtk_file_chooser_button_new (_("Category Icon"), GTK_FILE_CHOOSER_ACTION_OPEN);
+
+		unset_button = gtk_button_new_with_mnemonic (_("_Unset icon"));
+		gtk_widget_set_sensitive (unset_button, FALSE);
+		gtk_grid_attach (grid_category_properties, unset_button, 1, 2, 1, 1);
+
+		g_signal_connect (unset_button, "clicked",
+			G_CALLBACK (unset_icon_clicked_cb), chooser_button);
+
+		g_signal_connect (chooser_button, "file-set",
+			G_CALLBACK (chooser_button_file_set_cb), unset_button);
+	}
+
 	gtk_widget_set_hexpand (chooser_button, TRUE);
 	gtk_widget_set_halign (chooser_button, GTK_ALIGN_FILL);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label_icon), chooser_button);
 	gtk_grid_attach (grid_category_properties, chooser_button, 1, 1, 1, 1);
 	editor->priv->category_icon = chooser_button;
-
-	g_signal_connect (
-		chooser_dialog, "response",
-		G_CALLBACK (file_chooser_response), chooser_button);
 
 	dialog_action_area = gtk_dialog_get_action_area (GTK_DIALOG (editor));
 	gtk_button_box_set_layout (
@@ -321,6 +369,9 @@ e_category_editor_edit_category (ECategoryEditor *editor,
 	if (icon_file) {
 		gtk_file_chooser_set_filename (file_chooser, icon_file);
 		update_preview (file_chooser, NULL);
+
+		if (e_util_is_running_flatpak ())
+			g_signal_emit_by_name (file_chooser, "file-set", NULL);
 	}
 	g_free (icon_file);
 

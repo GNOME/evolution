@@ -472,18 +472,23 @@ e_html_editor_image_dialog_init (EHTMLEditorImageDialog *dialog)
 	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 1, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
-	/* Source */
-	widget = e_image_chooser_dialog_new (
-			_("Choose Background Image"),
-			GTK_WINDOW (dialog));
-	gtk_file_chooser_set_action (
-		GTK_FILE_CHOOSER (widget), GTK_FILE_CHOOSER_ACTION_OPEN);
-
 	file_filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (file_filter, _("Images"));
 	gtk_file_filter_add_mime_type (file_filter, "image/*");
 
-	widget = gtk_file_chooser_button_new_with_dialog (widget);
+	/* Source */
+	if (e_util_is_running_flatpak ()) {
+		widget = gtk_file_chooser_button_new (_("Choose Background Image"), GTK_FILE_CHOOSER_ACTION_OPEN);
+	} else {
+		widget = e_image_chooser_dialog_new (
+				_("Choose Background Image"),
+				GTK_WINDOW (dialog));
+		gtk_file_chooser_set_action (
+			GTK_FILE_CHOOSER (widget), GTK_FILE_CHOOSER_ACTION_OPEN);
+
+		widget = gtk_file_chooser_button_new_with_dialog (widget);
+	}
+
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (

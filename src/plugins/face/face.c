@@ -282,39 +282,37 @@ update_preview_cb (GtkFileChooser *file_chooser,
 }
 
 static GdkPixbuf *
-choose_new_face (gsize *image_data_length)
+choose_new_face (GtkWidget *parent,
+		 gsize *image_data_length)
 {
+	GtkFileChooserNative *native;
 	GdkPixbuf *res = NULL;
-	GtkWidget *filesel, *preview;
+	GtkWidget *preview;
 	GtkFileFilter *filter;
 
-	filesel = gtk_file_chooser_dialog_new (
+	native = gtk_file_chooser_native_new (
 		_("Select a Face Picture"),
-		NULL,
+		GTK_IS_WINDOW (parent) ? GTK_WINDOW (parent) : NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Open"), GTK_RESPONSE_OK,
-		NULL);
-
-	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+		_("_Open"), _("_Cancel"));
 
 	filter = gtk_file_filter_new ();
 	gtk_file_filter_set_name (filter, _("Image files"));
 	gtk_file_filter_add_mime_type (filter, "image/*");
-	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), filter);
 
 	preview = gtk_image_new ();
-	gtk_file_chooser_set_preview_widget (GTK_FILE_CHOOSER (filesel), preview);
+	gtk_file_chooser_set_preview_widget (GTK_FILE_CHOOSER (native), preview);
 	g_signal_connect (
-		filesel, "update-preview",
+		native, "update-preview",
 		G_CALLBACK (update_preview_cb), preview);
 
-	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
+	if (GTK_RESPONSE_ACCEPT == gtk_native_dialog_run (GTK_NATIVE_DIALOG (native))) {
 		gchar *image_filename, *file_contents = NULL;
 		gsize length = 0;
 
-		image_filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
-		gtk_widget_destroy (filesel);
+		image_filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (native));
+		g_object_unref (native);
 
 		if (prepare_image (image_filename, &file_contents, &length, &res, TRUE)) {
 			set_face_raw (file_contents, length);
@@ -325,7 +323,7 @@ choose_new_face (gsize *image_data_length)
 		g_free (file_contents);
 		g_free (image_filename);
 	} else {
-		gtk_widget_destroy (filesel);
+		g_object_unref (native);
 	}
 
 	return res;
@@ -362,7 +360,7 @@ click_load_face_cb (GtkButton *butt,
 	alert_bar = g_object_get_data (G_OBJECT (butt), "alert-bar");
 	e_alert_bar_clear (alert_bar);
 
-	face = choose_new_face (&image_data_length);
+	face = choose_new_face (gtk_widget_get_toplevel (GTK_WIDGET (butt)), &image_data_length);
 
 	if (face) {
 		gtk_image_set_from_pixbuf (image, face);
@@ -470,7 +468,7 @@ face_change_image_in_composer_cb (GtkButton *button,
 	/* Hide any previous alerts first */
 	face_manage_composer_alert (composer, 0);
 
-	pixbuf = choose_new_face (&image_data_length);
+	pixbuf = choose_new_face (GTK_WIDGET (composer), &image_data_length);
 
 	if (pixbuf) {
 		g_object_unref (pixbuf);
@@ -488,7 +486,7 @@ action_toggle_face_cb (GtkToggleAction *action,
 		gchar *face = get_face_base64 ();
 
 		if (!face) {
-			GdkPixbuf *pixbuf = choose_new_face (&image_data_length);
+			GdkPixbuf *pixbuf = choose_new_face (GTK_WIDGET (composer), &image_data_length);
 
 			if (pixbuf) {
 				g_object_unref (pixbuf);

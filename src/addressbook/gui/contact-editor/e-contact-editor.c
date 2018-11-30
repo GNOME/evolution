@@ -200,7 +200,8 @@ struct _EContactEditorPrivate
 	GtkBuilder *builder;
 	GtkWidget *app;
 
-	GtkWidget *file_selector;
+	GtkWidget *image_selector;
+	GtkFileChooserNative *image_selector_native;
 
 	EContactName *name;
 
@@ -3257,7 +3258,7 @@ cert_load_for_kind (EContactEditor *editor,
 {
 	EContactCert *cert = NULL;
 	GtkWindow *parent;
-	GtkWidget *dialog;
+	GtkFileChooserNative *native;
 	GtkFileChooser *file_chooser;
 	GError *error = NULL;
 
@@ -3265,21 +3266,18 @@ cert_load_for_kind (EContactEditor *editor,
 	g_return_val_if_fail (kind == CERT_KIND_PGP || kind == CERT_KIND_X509, NULL);
 
 	parent = eab_editor_get_window (EAB_EDITOR (editor));
-	dialog = gtk_file_chooser_dialog_new (
+	native = gtk_file_chooser_native_new (
 		kind == CERT_KIND_PGP ? _("Open PGP key") : _("Open X.509 certificate"), parent,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Open"), GTK_RESPONSE_OK,
-		NULL);
+		_("_Open"), _("_Cancel"));
 
-	file_chooser = GTK_FILE_CHOOSER (dialog);
+	file_chooser = GTK_FILE_CHOOSER (native);
 	gtk_file_chooser_set_local_only (file_chooser, TRUE);
 	gtk_file_chooser_set_select_multiple (file_chooser, FALSE);
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	cert_add_filters_for_kind (file_chooser, kind);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
 		gchar *filename;
 		gchar *content = NULL;
 		gsize length = 0;
@@ -3296,7 +3294,7 @@ cert_load_for_kind (EContactEditor *editor,
 		g_free (filename);
 	}
 
-	gtk_widget_destroy (dialog);
+	g_object_unref (native);
 
 	if (error) {
 		e_notice (parent, GTK_MESSAGE_ERROR, _("Failed to load certificate: %s"), error->message);
@@ -3477,7 +3475,7 @@ cert_save_btn_clicked_cb (GtkWidget *button,
 	EContactCert *cert = NULL;
 	gint kind = -1;
 	GtkWindow *parent;
-	GtkWidget *dialog;
+	GtkFileChooserNative *native;
 	GtkFileChooser *file_chooser;
 	GError *error = NULL;
 
@@ -3498,21 +3496,18 @@ cert_save_btn_clicked_cb (GtkWidget *button,
 	g_return_if_fail (cert != NULL);
 
 	parent = eab_editor_get_window (EAB_EDITOR (editor));
-	dialog = gtk_file_chooser_dialog_new (
+	native = gtk_file_chooser_native_new (
 		kind == CERT_KIND_PGP ? _("Save PGP key") : _("Save X.509 certificate"), parent,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Save"), GTK_RESPONSE_OK,
-		NULL);
+		_("_Save"), _("_Cancel"));
 
-	file_chooser = GTK_FILE_CHOOSER (dialog);
+	file_chooser = GTK_FILE_CHOOSER (native);
 	gtk_file_chooser_set_local_only (file_chooser, TRUE);
 	gtk_file_chooser_set_select_multiple (file_chooser, FALSE);
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	cert_add_filters_for_kind (file_chooser, kind);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
 		gchar *filename;
 
 		filename = gtk_file_chooser_get_filename (file_chooser);
@@ -3525,7 +3520,7 @@ cert_save_btn_clicked_cb (GtkWidget *button,
 		g_free (filename);
 	}
 
-	gtk_widget_destroy (dialog);
+	g_object_unref (native);
 	e_contact_cert_free (cert);
 
 	if (error) {
@@ -4208,8 +4203,10 @@ image_selected (EContactEditor *editor)
 	gchar     *file_name;
 	GtkWidget *image_chooser;
 
-	file_name = gtk_file_chooser_get_filename (
-		GTK_FILE_CHOOSER (editor->priv->file_selector));
+	if (editor->priv->image_selector)
+		file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (editor->priv->image_selector));
+	else
+		file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (editor->priv->image_selector_native));
 
 	if (!file_name)
 		return;
@@ -4263,8 +4260,18 @@ file_chooser_response (GtkWidget *widget,
 		image_selected (editor);
 	else if (response == GTK_RESPONSE_NO)
 		image_cleared (editor);
+	else if (editor->priv->image_selector_native &&
+		 editor->priv->image_set) {
+		/* It doesn't support custom buttons, thus ask separately, which is a pita */
+		if (e_alert_run_dialog_for_args (GTK_WINDOW (editor->priv->app),
+			"addressbook:ask-unset-image", NULL) == GTK_RESPONSE_ACCEPT)
+			image_cleared (editor);
+	}
 
-	gtk_widget_hide (editor->priv->file_selector);
+	if (editor->priv->image_selector)
+		gtk_widget_hide (editor->priv->image_selector);
+	else
+		g_clear_object (&editor->priv->image_selector_native);
 }
 
 static gboolean
@@ -4310,51 +4317,69 @@ static void
 image_clicked (GtkWidget *button,
                EContactEditor *editor)
 {
-	if (!editor->priv->file_selector) {
+	if (!editor->priv->image_selector && !editor->priv->image_selector_native) {
 		GtkImage *preview;
 		GtkFileFilter *filter;
 
-		editor->priv->file_selector = gtk_file_chooser_dialog_new (
-			_("Please select an image for this contact"),
-			GTK_WINDOW (editor->priv->app),
-			GTK_FILE_CHOOSER_ACTION_OPEN,
-			_("_Cancel"), GTK_RESPONSE_CANCEL,
-			_("_Open"), GTK_RESPONSE_ACCEPT,
-			_("_No image"), GTK_RESPONSE_NO,
-			NULL);
+		if (e_util_is_running_flatpak ()) {
+			editor->priv->image_selector_native = gtk_file_chooser_native_new (
+				_("Please select an image for this contact"),
+				GTK_WINDOW (editor->priv->app),
+				GTK_FILE_CHOOSER_ACTION_OPEN,
+				_("_Open"), _("_Cancel"));
+		} else {
+			editor->priv->image_selector = gtk_file_chooser_dialog_new (
+				_("Please select an image for this contact"),
+				GTK_WINDOW (editor->priv->app),
+				GTK_FILE_CHOOSER_ACTION_OPEN,
+				_("_Cancel"), GTK_RESPONSE_CANCEL,
+				_("_Open"), GTK_RESPONSE_ACCEPT,
+				_("_No image"), GTK_RESPONSE_NO,
+				NULL);
+		}
 
 		filter = gtk_file_filter_new ();
 		gtk_file_filter_add_mime_type (filter, "image/*");
 		gtk_file_chooser_set_filter (
-			GTK_FILE_CHOOSER (editor->priv->file_selector),
+			editor->priv->image_selector ? GTK_FILE_CHOOSER (editor->priv->image_selector) : GTK_FILE_CHOOSER (editor->priv->image_selector_native),
 			filter);
 
-		preview = GTK_IMAGE (gtk_image_new ());
-		gtk_file_chooser_set_preview_widget (
-			GTK_FILE_CHOOSER (editor->priv->file_selector),
-			GTK_WIDGET (preview));
-		g_signal_connect (
-			editor->priv->file_selector, "update-preview",
-			G_CALLBACK (update_preview_cb), preview);
+		if (editor->priv->image_selector) {
+			preview = GTK_IMAGE (gtk_image_new ());
+			gtk_file_chooser_set_preview_widget (
+				GTK_FILE_CHOOSER (editor->priv->image_selector),
+				GTK_WIDGET (preview));
+			g_signal_connect (
+				editor->priv->image_selector, "update-preview",
+				G_CALLBACK (update_preview_cb), preview);
 
-		gtk_dialog_set_default_response (
-			GTK_DIALOG (editor->priv->file_selector),
-			GTK_RESPONSE_ACCEPT);
+			gtk_dialog_set_default_response (
+				GTK_DIALOG (editor->priv->image_selector),
+				GTK_RESPONSE_ACCEPT);
 
-		g_signal_connect (
-			editor->priv->file_selector, "response",
-			G_CALLBACK (file_chooser_response), editor);
+			g_signal_connect (
+				editor->priv->image_selector, "response",
+				G_CALLBACK (file_chooser_response), editor);
 
-		g_signal_connect_after (
-			editor->priv->file_selector, "delete-event",
-			G_CALLBACK (file_selector_deleted),
-			editor->priv->file_selector);
+			g_signal_connect_after (
+				editor->priv->image_selector, "delete-event",
+				G_CALLBACK (file_selector_deleted),
+				editor->priv->image_selector);
+		} else {
+			g_signal_connect (
+				editor->priv->image_selector_native, "response",
+				G_CALLBACK (file_chooser_response), editor);
+		}
 	}
 
 	/* Display the dialog */
-
-	gtk_window_set_modal (GTK_WINDOW (editor->priv->file_selector), TRUE);
-	gtk_window_present (GTK_WINDOW (editor->priv->file_selector));
+	if (editor->priv->image_selector) {
+		gtk_window_set_modal (GTK_WINDOW (editor->priv->image_selector), TRUE);
+		gtk_window_present (GTK_WINDOW (editor->priv->image_selector));
+	} else {
+		gtk_native_dialog_set_modal (GTK_NATIVE_DIALOG (editor->priv->image_selector_native), TRUE);
+		gtk_native_dialog_show (GTK_NATIVE_DIALOG (editor->priv->image_selector_native));
+	}
 }
 
 typedef struct {
@@ -5173,10 +5198,12 @@ e_contact_editor_dispose (GObject *object)
 {
 	EContactEditor *e_contact_editor = E_CONTACT_EDITOR (object);
 
-	if (e_contact_editor->priv->file_selector != NULL) {
-		gtk_widget_destroy (e_contact_editor->priv->file_selector);
-		e_contact_editor->priv->file_selector = NULL;
+	if (e_contact_editor->priv->image_selector) {
+		gtk_widget_destroy (e_contact_editor->priv->image_selector);
+		e_contact_editor->priv->image_selector = NULL;
 	}
+
+	g_clear_object (&e_contact_editor->priv->image_selector_native);
 
 	g_slist_free_full (
 		e_contact_editor->priv->writable_fields,

@@ -41,10 +41,9 @@
  * @customize_func: optional dialog customization function
  * @customize_data: optional data to pass to @customize_func
  *
- * Runs a #GtkFileChooserDialog in open mode with the given title and
+ * Runs a #GtkFileChooserNative in open mode with the given title and
  * returns the selected #GFile.  If @customize_func is provided, the
- * function is called just prior to running the dialog (the file chooser
- * is the first argument, @customize data is the second).  If the user
+ * function is called just prior to running the dialog.  If the user
  * cancels the dialog the function will return %NULL.
  *
  * Returns: the #GFile to open, or %NULL
@@ -52,28 +51,24 @@
 GFile *
 e_shell_run_open_dialog (EShell *shell,
                          const gchar *title,
-                         GtkCallback customize_func,
+                         EShellOepnSaveCustomizeFunc customize_func,
                          gpointer customize_data)
 {
 	GtkFileChooser *file_chooser;
 	GFile *chosen_file = NULL;
-	GtkWidget *dialog;
+	GtkFileChooserNative *native;
 	GtkWindow *parent;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	parent = e_shell_get_active_window (shell);
 
-	dialog = gtk_file_chooser_dialog_new (
+	native = gtk_file_chooser_native_new (
 		title, parent,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Open"), GTK_RESPONSE_ACCEPT, NULL);
+		_("_Open"), _("_Cancel"));
 
-	file_chooser = GTK_FILE_CHOOSER (dialog);
-
-	gtk_dialog_set_default_response (
-		GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+	file_chooser = GTK_FILE_CHOOSER (native);
 
 	gtk_file_chooser_set_local_only (file_chooser, FALSE);
 
@@ -81,15 +76,15 @@ e_shell_run_open_dialog (EShell *shell,
 
 	/* Allow further customizations before running the dialog. */
 	if (customize_func != NULL)
-		customize_func (dialog, customize_data);
+		customize_func (native, customize_data);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
 		e_util_save_file_chooser_folder (file_chooser);
 
 		chosen_file = gtk_file_chooser_get_file (file_chooser);
 	}
 
-	gtk_widget_destroy (dialog);
+	g_object_unref (native);
 
 	return chosen_file;
 }
@@ -103,10 +98,9 @@ e_shell_run_open_dialog (EShell *shell,
  * @customize_func: optional dialog customization function
  * @customize_data: optional data to pass to @customize_func
  *
- * Runs a #GtkFileChooserDialog in save mode with the given title and
+ * Runs a #GtkFileChooserNative in save mode with the given title and
  * returns the selected #GFile.  If @customize_func is provided, the
- * function is called just prior to running the dialog (the file chooser
- * is the first argument, @customize_data is the second).  If the user
+ * function is called just prior to running the dialog.  If the user
  * cancels the dialog the function will return %NULL.
  *
  * With non-%NULL @filters will be added also file filters to the dialog.
@@ -121,28 +115,24 @@ e_shell_run_save_dialog (EShell *shell,
                          const gchar *title,
                          const gchar *suggestion,
                          const gchar *filters,
-                         GtkCallback customize_func,
+                         EShellOepnSaveCustomizeFunc customize_func,
                          gpointer customize_data)
 {
 	GtkFileChooser *file_chooser;
 	GFile *chosen_file = NULL;
-	GtkWidget *dialog;
+	GtkFileChooserNative *native;
 	GtkWindow *parent;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	parent = e_shell_get_active_window (shell);
 
-	dialog = gtk_file_chooser_dialog_new (
+	native = gtk_file_chooser_native_new (
 		title, parent,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Save"), GTK_RESPONSE_ACCEPT, NULL);
+		_("_Save"), _("_Cancel"));
 
-	file_chooser = GTK_FILE_CHOOSER (dialog);
-
-	gtk_dialog_set_default_response (
-		GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+	file_chooser = GTK_FILE_CHOOSER (native);
 
 	gtk_file_chooser_set_local_only (file_chooser, FALSE);
 	gtk_file_chooser_set_do_overwrite_confirmation (file_chooser, TRUE);
@@ -213,15 +203,15 @@ e_shell_run_save_dialog (EShell *shell,
 
 	/* Allow further customizations before running the dialog. */
 	if (customize_func != NULL)
-		customize_func (dialog, customize_data);
+		customize_func (native, customize_data);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
 		e_util_save_file_chooser_folder (file_chooser);
 
 		chosen_file = gtk_file_chooser_get_file (file_chooser);
 	}
 
-	gtk_widget_destroy (dialog);
+	g_object_unref (native);
 
 	return chosen_file;
 }

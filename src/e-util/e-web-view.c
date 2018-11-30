@@ -4124,8 +4124,8 @@ void
 e_web_view_cursor_image_save (EWebView *web_view)
 {
 	GtkFileChooser *file_chooser;
+	GtkFileChooserNative *native;
 	GFile *destination = NULL;
-	GtkWidget *dialog;
 	gchar *suggestion;
 	gpointer toplevel;
 
@@ -4137,16 +4137,12 @@ e_web_view_cursor_image_save (EWebView *web_view)
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
 	toplevel = gtk_widget_is_toplevel (toplevel) ? toplevel : NULL;
 
-	dialog = gtk_file_chooser_dialog_new (
+	native = gtk_file_chooser_native_new (
 		_("Save Image"), toplevel,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Save"), GTK_RESPONSE_ACCEPT, NULL);
+		_("_Save"), _("_Cancel"));
 
-	gtk_dialog_set_default_response (
-		GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-
-	file_chooser = GTK_FILE_CHOOSER (dialog);
+	file_chooser = GTK_FILE_CHOOSER (native);
 	gtk_file_chooser_set_local_only (file_chooser, FALSE);
 	gtk_file_chooser_set_do_overwrite_confirmation (file_chooser, TRUE);
 
@@ -4160,13 +4156,13 @@ e_web_view_cursor_image_save (EWebView *web_view)
 
 	e_util_load_file_chooser_folder (file_chooser);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
 		e_util_save_file_chooser_folder (file_chooser);
 
 		destination = gtk_file_chooser_get_file (file_chooser);
 	}
 
-	gtk_widget_destroy (dialog);
+	g_object_unref (native);
 
 	if (destination != NULL) {
 		EActivity *activity;

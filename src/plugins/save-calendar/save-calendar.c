@@ -111,7 +111,6 @@ ask_destination_and_save (ESourceSelector *selector,
 			  EClientCache *client_cache)
 {
 	FormatHandler *handler = NULL;
-
 	GtkWidget *extra_widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 	GtkLabel *label = GTK_LABEL (gtk_label_new_with_mnemonic (_("_Format:")));
@@ -121,9 +120,9 @@ ask_destination_and_save (ESourceSelector *selector,
 	GtkCellRenderer *renderer = NULL;
 	GtkListStore *store = GTK_LIST_STORE (model);
 	GtkTreeIter iter;
-	GtkWidget *dialog = NULL;
+	GtkFileChooserNative *native;
+	GtkWidget *toplevel;
 	gchar *dest_uri = NULL;
-
 	GList *format_handlers = NULL, *link;
 
 	/* The available formathandlers */
@@ -178,28 +177,27 @@ ask_destination_and_save (ESourceSelector *selector,
 		G_CALLBACK (on_type_combobox_changed), extra_widget);
 	g_object_set_data (G_OBJECT (combo), "format-box", hbox);
 
-	dialog = gtk_file_chooser_dialog_new (
-		_("Select destination file"),
-		NULL,
-		GTK_FILE_CHOOSER_ACTION_SAVE,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Save As"), GTK_RESPONSE_OK,
-		NULL);
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (selector));
 
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
-	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (dialog), extra_widget);
-	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (dialog), FALSE);
+	native = gtk_file_chooser_native_new (
+		_("Select destination file"),
+		GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL,
+		GTK_FILE_CHOOSER_ACTION_SAVE,
+		_("_Save As"), _("_Cancel"));
+
+	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (native), extra_widget);
+	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (native), FALSE);
 	gtk_widget_show (hbox);
 	gtk_widget_show (GTK_WIDGET (label));
 	gtk_widget_show (GTK_WIDGET (combo));
 	gtk_widget_show (extra_widget);
 
-	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
+	e_util_load_file_chooser_folder (GTK_FILE_CHOOSER (native));
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+	if (gtk_native_dialog_run (GTK_NATIVE_DIALOG (native)) == GTK_RESPONSE_ACCEPT) {
 		gchar *tmp = NULL;
 
-		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (dialog));
+		e_util_save_file_chooser_folder (GTK_FILE_CHOOSER (native));
 
 		if (gtk_combo_box_get_active_iter (combo, &iter))
 			gtk_tree_model_get (
@@ -208,7 +206,7 @@ ask_destination_and_save (ESourceSelector *selector,
 		else
 			handler = NULL;
 
-		dest_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (dialog));
+		dest_uri = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (native));
 
 		if (handler) {
 			tmp = strstr (dest_uri, handler->filename_ext);
@@ -231,9 +229,8 @@ ask_destination_and_save (ESourceSelector *selector,
 	g_list_free_full (format_handlers, format_handlers_foreach_free);
 
 	/* Now we can destroy it */
-	gtk_widget_destroy (dialog);
+	g_object_unref (native);
 	g_free (dest_uri);
-
 }
 
 /* Returns output stream for the uri, or NULL on any error.

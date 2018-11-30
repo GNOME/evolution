@@ -100,42 +100,40 @@ print (EHTMLEditor *editor,
 static gint
 save_dialog (EHTMLEditor *editor)
 {
-	GtkWidget *dialog;
+	GtkFileChooserNative *native;
 	const gchar *filename;
 	gint response;
 
-	dialog = gtk_file_chooser_dialog_new (
+	native = gtk_file_chooser_native_new (
 		_("Save As"),
 		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (editor))),
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		_("_Cancel"), GTK_RESPONSE_CANCEL,
-		_("_Save"), GTK_RESPONSE_ACCEPT,
-		NULL);
+		_("_Save"), _("_Cancel"));
 
 	gtk_file_chooser_set_do_overwrite_confirmation (
-		GTK_FILE_CHOOSER (dialog), TRUE);
+		GTK_FILE_CHOOSER (native), TRUE);
 
 	filename = e_html_editor_get_filename (editor);
 
 	if (filename != NULL)
 		gtk_file_chooser_set_filename (
-			GTK_FILE_CHOOSER (dialog), filename);
+			GTK_FILE_CHOOSER (native), filename);
 	else
 		gtk_file_chooser_set_current_name (
-			GTK_FILE_CHOOSER (dialog), _("Untitled document"));
+			GTK_FILE_CHOOSER (native), _("Untitled document"));
 
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	response = gtk_native_dialog_run (GTK_NATIVE_DIALOG (native));
 
 	if (response == GTK_RESPONSE_ACCEPT) {
 		gchar *new_filename;
 
 		new_filename = gtk_file_chooser_get_filename (
-			GTK_FILE_CHOOSER (dialog));
+			GTK_FILE_CHOOSER (native));
 		e_html_editor_set_filename (editor, new_filename);
 		g_free (new_filename);
 	}
 
-	gtk_widget_destroy (dialog);
+	g_object_unref (native);
 
 	return response;
 }

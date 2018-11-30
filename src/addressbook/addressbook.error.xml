@@ -146,4 +146,9 @@
     <secondary>{0}</secondary>
   </error>
 
+  <error id="ask-unset-image" type="question" default="GTK_RESPONSE_CANCEL">
+    <_primary>Do you want to unset contact image?</_primary>
+    <button _label="Do _Not Unset" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Unset" response="GTK_RESPONSE_ACCEPT"/>
+  </error>
 </error-list>
