@@ -31,7 +31,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/backup-restore.page:22
 msgid "Back up and restore"
-msgstr "Copia de seguretat i restaurar"
+msgstr "Còpia de seguretat i restaurar"
 
 #. (itstool) path: page/p
 #: C/backup-restore.page:24
@@ -40,7 +40,7 @@ msgid ""
 "settings, mail, contacts, tasks, memos and calendars. It will be stored in a"
 " gzip-compressed tar archive file."
 msgstr ""
-"Pot fer una copia de seguretat de les dades d'<app>Evolution</app>. La còpia"
+"Pot fer una còpia de seguretat de les dades d'<app>Evolution</app>. La còpia"
 " de seguretat desa la configuració, el correu, els contactes, les tasques, "
 "les notes i els calendaris. S'emmagatzemarà en un arxiu tar de compressió "
 "gzip."
@@ -55,7 +55,7 @@ msgstr "Copiant"
 msgid ""
 "Select <guiseq><gui>File</gui> <gui>Back up Evolution Data…</gui></guiseq>."
 msgstr ""
-"Seleccioneu <guiseq><gui>Arxiu</gui> <gui>Copia de seguretat de les dades "
+"Seleccioneu <guiseq><gui>Arxiu</gui> <gui>Còpia de seguretat de les dades "
 "d'Evolution…</gui></guiseq>."
 
 #. (itstool) path: item/p
@@ -119,9 +119,9 @@ msgid ""
 "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
 "restore <app>Evolution</app> data from a backup file."
 msgstr ""
-"a l'<link xref=\"intro-first-run\">assistent per a la perimera "
-"execució</link>,podeu restaurar les dades d'<app>Evolution</app> des d'un "
-"fitxer de copia de seguretat."
+"a l'<link xref=\"intro-first-run\">assistent per a la primera "
+"execució</link>, podeu restaurar les dades d'<app>Evolution</app> des d'un "
+"fitxer de còpia de seguretat."
 
 #. (itstool) path: info/desc
 #: C/calendar-alarms-and-reminders.page:23
@@ -215,12 +215,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-caldav.page:23
 msgid "Using an online CalDAV calendar."
-msgstr "Utilitzar un calendari en línia CalDAV "
+msgstr "Utilitzar un calendari en línia CalDAV."
 
 #. (itstool) path: page/title
 #: C/calendar-caldav.page:26
 msgid "Using a CalDAV calendar"
-msgstr "Utilitzar un calendari CalDAV "
+msgstr "Utilitzar un calendari CalDAV"
 
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:28 C/calendar-google.page:29
@@ -467,7 +467,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:70
 msgid "Attendee List:"
-msgstr "Llista de participants"
+msgstr "Llista de participants:"
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:71
@@ -574,7 +574,7 @@ msgstr "Utilitzeu el calendari en línia del vostre compte de Google."
 #. (itstool) path: page/title
 #: C/calendar-google.page:27
 msgid "Using a Google calendar"
-msgstr "Us d'un calendari Google"
+msgstr "Ús d'un calendari Google"
 
 #. (itstool) path: item/p
 #: C/calendar-google.page:37 C/contacts-google.page:32
@@ -785,7 +785,7 @@ msgstr "El dia comença a les:"
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:66
 msgid "Define at which time your work day begins."
-msgstr "Definiu a quina hora comença la seva jornada laboral"
+msgstr "Definiu a quina hora comença la seva jornada laboral."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:69
@@ -795,7 +795,7 @@ msgstr "El dia s'acaba a les:"
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:70
 msgid "Define at which time your work day ends."
-msgstr "Definiu a quina hora acaba la seva jornada laboral"
+msgstr "Definiu a quina hora acaba la seva jornada laboral."
 
 #. (itstool) path: section/title
 #: C/calendar-layout-general-formatting.page:77
@@ -919,12 +919,12 @@ msgid ""
 "specific date</gui> button in the toolbar."
 msgstr ""
 "Per visitar les entrades del calendari per a una data específica, feu clic "
-"al botó <gui>Seleccionar una data específica</gui>a la barra d'eines."
+"al botó <gui>Seleccionar una data específica</gui> a la barra d'eines."
 
 #. (itstool) path: info/desc
 #: C/calendar-local.page:17
 msgid "Adding another local calendar."
-msgstr "S'està afegint un nou calendari local"
+msgstr "S'està afegint un nou calendari local."
 
 #. (itstool) path: page/title
 #: C/calendar-local.page:20
@@ -1377,7 +1377,7 @@ msgid ""
 "month on the first Friday for 12 occurrences.\""
 msgstr ""
 "Si teniu una cita que es fa amb regularitat, podeu definir la seva "
-"recurrència fent clic al botó <gui>Rpetir</gui> al <gui>editor de "
+"recurrència fent clic al botó <gui>Repetir</gui> a l'<gui>editor de "
 "cites</gui> o fent clic a "
 "<guiseq><gui>Opcions</gui><gui>Repetir</gui></guiseq>. A continuació, podeu "
 "triar una hora i una data per deixar-la de repetir i, a "
@@ -1535,7 +1535,7 @@ msgstr ""
 "Per defecte <app>Evolution</app> utilitza la zona horària de tot el sistema."
 " Es pot canviar a <guiseq><gui>Editar</gui><gui>Preferències</gui> "
 "<gui>Calendari i Tasques</gui><gui>General</gui><gui>Hora</gui> <gui>Zona "
-"Horaria</gui></guiseq>."
+"horària</gui></guiseq>."
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:37
@@ -1759,17 +1759,17 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-weather.page:17
 msgid "Display the weather in the calendar."
-msgstr "Mostrar el Temps al calendari"
+msgstr "Mostrar el Temps al calendari."
 
 #. (itstool) path: page/title
 #: C/calendar-weather.page:20
 msgid "Using a weather calendar"
-msgstr "Us d'un calendari meteorològic"
+msgstr "Ús d'un calendari meteorològic"
 
 #. (itstool) path: page/p
 #: C/calendar-weather.page:22 C/calendar-webdav.page:21
 msgid "Calendars of this type are read-only."
-msgstr "Els calendaris d'aquest tipus són de només lectura"
+msgstr "Els calendaris d'aquest tipus són de només lectura."
 
 #. (itstool) path: item/p
 #: C/calendar-weather.page:33
@@ -1789,12 +1789,12 @@ msgstr "Trieu la unitat de temperatura."
 #. (itstool) path: info/desc
 #: C/calendar-webdav.page:16
 msgid "Using an online Webcal/WebDAV calendar."
-msgstr "Us d'un calendari Webcal/WebDAV en línia."
+msgstr "Ús d'un calendari Webcal/WebDAV en línia."
 
 #. (itstool) path: page/title
 #: C/calendar-webdav.page:19
 msgid "Using a WebDAV calendar"
-msgstr "Us d'un calendari WebDAV"
+msgstr "Ús d'un calendari WebDAV"
 
 #. (itstool) path: item/p
 #: C/calendar-webdav.page:32 C/tasks-caldav.page:25 C/tasks-webdav.page:27
@@ -1805,7 +1805,7 @@ msgstr "Seleccionar el tipus<gui>A la Web</gui>."
 #: C/calendar-webdav.page:52 C/mail-sending-options-smtp.page:35
 #: C/tasks-webdav.page:33
 msgid "Enter your username."
-msgstr "Entreu el vostre nom d'usuari"
+msgstr "Entreu el vostre nom d'usuari."
 
 #. (itstool) path: info/desc
 #: C/contacts-add-automatically.page:21
@@ -1851,7 +1851,7 @@ msgid ""
 "mail when you reply to that mail."
 msgstr ""
 "Des d'ara, els contactes es crearan automàticament per als remitents de "
-"correu electrònic rebuts quan respongui al correu electrònic"
+"correu electrònic rebuts quan respongui al correu electrònic."
 
 #. (itstool) path: info/desc
 #: C/contacts-autocompletion.page:27
@@ -1897,7 +1897,7 @@ msgid ""
 "show the email address along with the name. This can be helpful to "
 "distinguish if a contact has several email addresses."
 msgstr ""
-"Seleccioneu <gui>Mostrar sempre l'adreça del contacte complert "
+"Seleccioneu <gui>Mostrar sempre l'adreça del contacte complet "
 "automàticament</gui> per mostrar també l'adreça de correu electrònic "
 "juntament amb el nom. Això pot ser útil per distingir si un contacte té "
 "diverses adreces de correu."
@@ -2173,7 +2173,7 @@ msgstr ""
 msgid ""
 "Using data from <app>Evolution</app> address books in LibreOffice documents."
 msgstr ""
-"Us de dades de la llibreta d'adreces d'<app>Evolution</app> a documents "
+"Ús de dades de la llibreta d'adreces d'<app>Evolution</app> a documents "
 "LibreOffice."
 
 #. (itstool) path: page/title
@@ -2270,7 +2270,7 @@ msgid ""
 msgstr ""
 "Hi ha diverses maneres d'organitzar els vostres contactes. Podeu utilitzar "
 "múltiples llibretes d'adreces i categories, i enviar missatges fàcilment a "
-"grups de persones de les llistes de contactes disponibles"
+"grups de persones de les llistes de contactes disponibles."
 
 #. (itstool) path: info/desc
 #: C/contacts-searching.page:25
@@ -2320,7 +2320,7 @@ msgstr "Cerca per informació del contacte:"
 #. (itstool) path: info/desc
 #: C/contacts-usage-add-contact.page:17
 msgid "Adding a contact to your address book."
-msgstr "Afegir un contacte a la llibreta d'adreces"
+msgstr "Afegir un contacte a la llibreta d'adreces."
 
 #. (itstool) path: page/title
 #: C/contacts-usage-add-contact.page:20
@@ -2361,7 +2361,7 @@ msgid ""
 " a stylized person) next to <gui>Full Name</gui> and <gui>Categories</gui>."
 msgstr ""
 "Podeu afegir una fotografia al contacte fent clic al camp (que mostra la "
-"silueta d'una persona) al costat de <gui>Nom complert</gui> i "
+"silueta d'una persona) al costat de <gui>Nom complet</gui> i "
 "<gui>Categories</gui>."
 
 #. (itstool) path: section/title
@@ -2427,7 +2427,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/contacts-usage-edit-contact.page:17
 msgid "Editing a contact in your address book."
-msgstr "Editar un contacte a la llibreta d'adreces"
+msgstr "Editar un contacte a la llibreta d'adreces."
 
 #. (itstool) path: page/title
 #: C/contacts-usage-edit-contact.page:20
@@ -2439,7 +2439,7 @@ msgstr "Editar un contacte"
 msgid ""
 "If you want to change a contact that already exists in your address books,"
 msgstr ""
-"Si voleu canviar un contacte que ja existeix a la llibretes d'adreces,"
+"Si voleu canviar un contacte que ja existeix a les llibretes d'adreces,"
 
 #. (itstool) path: item/p
 #: C/contacts-usage-edit-contact.page:27
@@ -2473,7 +2473,7 @@ msgstr "Ús de llistes de contactes per agrupar contactes."
 #. (itstool) path: page/title
 #: C/contacts-using-contact-lists.page:26
 msgid "Using Contact Lists"
-msgstr "Us de llistes de contactes"
+msgstr "Ús de llistes de contactes"
 
 #. (itstool) path: page/p
 #: C/contacts-using-contact-lists.page:28
@@ -3066,7 +3066,7 @@ msgid ""
 msgstr ""
 "<app>Evolution</app> esborra els correus als servidors IMAP <em>marcant</em>"
 " els missatges com per a esborrar; l'espai no s'allibera fins que els "
-"correus seleccionats no siguin<em>suprimits definitivament</em>."
+"correus seleccionats no siguin <em>suprimits definitivament</em>."
 
 #. (itstool) path: section/p
 #: C/deleting-emails.page:32
@@ -3244,12 +3244,12 @@ msgstr "Exportar les dades des d'<app>Evolution</app>"
 #. (itstool) path: info/desc
 #: C/google-services.page:5
 msgid "Using Google services."
-msgstr "Us dels serveis Google."
+msgstr "Ús dels serveis Google."
 
 #. (itstool) path: page/title
 #: C/google-services.page:18
 msgid "Using Google services"
-msgstr "Us dels serveis Google."
+msgstr "Ús dels serveis Google."
 
 #. (itstool) path: info/desc
 #: C/import-apps-mozilla.page:5
@@ -3344,7 +3344,7 @@ msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>)"
 " for the imported data."
 msgstr ""
-"Seleccioneu el destí (p.e. la carpeta o calendari a <app>Evolution</app>) "
+"Seleccioneu el destí (p. ex. la carpeta o calendari a <app>Evolution</app>) "
 "per importar les dades."
 
 #. (itstool) path: item/p
@@ -3546,7 +3546,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/import-data.page:5
 msgid "Importing data from another application."
-msgstr "Importar dades des d'una altra aplicació"
+msgstr "Importar dades des d'una altra aplicació."
 
 #. (itstool) path: page/title
 #: C/import-data.page:20
@@ -3927,7 +3927,7 @@ msgid ""
 "--component=calendar</cmd> in the <app>Terminal</app> application. Other "
 "available options are \"mail\", \"contacts\", \"tasks\", and \"memos\"."
 msgstr ""
-"Quan s'inicia <app>Evolution</app>,recorda l'última vista que s'ha "
+"Quan s'inicia <app>Evolution</app>, recorda l'última vista que s'ha "
 "utilitzat. Tanmateix, també podeu començar explícitament "
 "<app>Evolution</app> en una vista concreta. Per a la vista del calendari, "
 "utilitzeu l'ordre <cmd>evolution --component=calendar</cmd> a "
@@ -4064,7 +4064,7 @@ msgstr "POP"
 #. (itstool) path: section/p
 #: C/intro-first-run.page:71
 msgid "Downloads your email to your hard disk."
-msgstr "Descarrega el vostre correu al vostre disc dur"
+msgstr "Descarrega el vostre correu al vostre disc dur."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -4468,7 +4468,7 @@ msgstr "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:85
 msgid "Close window."
-msgstr "Tancar la finestra"
+msgstr "Tancar la finestra."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:88
@@ -4498,7 +4498,7 @@ msgstr "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:103
 msgid "Print selection."
-msgstr "Imprimir la selecció"
+msgstr "Imprimir la selecció."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:106
@@ -4518,7 +4518,7 @@ msgstr "<key>Esborrar</key> o <key>Tornar</key>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:115
 msgid "Delete selection."
-msgstr "Esborrar la selecció"
+msgstr "Esborrar la selecció."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:118
@@ -4558,7 +4558,7 @@ msgstr "<key>F12</key>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:145
 msgid "Send and receive messages."
-msgstr "Envieu i rebeu missatges"
+msgstr "Envieu i rebeu missatges."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:148
@@ -4598,7 +4598,7 @@ msgstr "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:169
 msgid "Mark the selection as read."
-msgstr "Marcar la selecció com a llegida"
+msgstr "Marcar la selecció com a llegida."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:172
@@ -4648,7 +4648,7 @@ msgstr "<key>,</key> or <key>[</key>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:199
 msgid "Jump to previous unread message."
-msgstr "Saltar al missatge previ no llegit"
+msgstr "Saltar al missatge previ no llegit."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:202 C/mail-composer-reply.page:43
@@ -4658,7 +4658,7 @@ msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:205
 msgid "Reply to sender."
-msgstr "Respon al remitent"
+msgstr "Respon al remitent."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:208 C/mail-composer-reply.page:45
@@ -4683,7 +4683,7 @@ msgstr "Respon a tots els destinataris."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:220
 msgid "<key>Backspace</key>"
-msgstr "<key>Retrocedir</key>"
+msgstr "<key>Retrocés</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:223
@@ -4972,7 +4972,7 @@ msgid ""
 msgstr ""
 "La llista de carpetes proporciona la llista de les carpetes disponibles per "
 "a cada compte. Per veure el contingut d'una carpeta, feu clic al nom de la "
-"carpeta i els seu contingut es mostrarà a la llista de missatges."
+"carpeta i el seu contingut es mostrarà a la llista de missatges."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:72
@@ -5070,7 +5070,7 @@ msgid ""
 msgstr ""
 "Podeu desactivar la barra de tasques pendents commutant "
 "<guiseq><gui>Vista</gui><gui>Disseny</gui><gui>Mostrar la barra de tasques "
-"pendents </gui></guiseq>."
+"pendents</gui></guiseq>."
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:94
@@ -5278,7 +5278,7 @@ msgid ""
 "Go to <guiseq><gui>Settings</gui><gui>Forwarding and "
 "POP/IMAP</gui></guiseq>. Refer to the POP Download section."
 msgstr ""
-"Anar a<guiseq><gui>Configuració</gui><gui>Reenviament i "
+"Anar a <guiseq><gui>Configuració</gui><gui>Reenviament i "
 "POP/IMAP</gui></guiseq>. Consulteu la secció de descàrrega POP."
 
 #. (itstool) path: item/p
@@ -5836,7 +5836,7 @@ msgstr "Configuració d'Exchange"
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:58
 msgid "In this section you can view the size of all Exchange folders."
 msgstr ""
-"En aquesta secció podeu veure la mida de totes les carpetes d'Exchange"
+"En aquesta secció podeu veure la mida de totes les carpetes d'Exchange."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:63
@@ -6114,7 +6114,7 @@ msgstr "Gestió dels fitxers adjunts"
 #. (itstool) path: info/desc
 #: C/mail-attachments-received.page:5
 msgid "Saving and opening files that are attached to received emails."
-msgstr "Desar i obrir arxius adjunts al correu electrònic rebut"
+msgstr "Desar i obrir arxius adjunts al correu electrònic rebut."
 
 #. (itstool) path: page/title
 #: C/mail-attachments-received.page:24
@@ -6453,7 +6453,7 @@ msgid ""
 " that are marked as Junk disappear from the original folder and are moved to"
 " the <gui>Junk</gui> folder."
 msgstr ""
-"Mireu a la <link xref=\"mail-spam\"> carpeta<gui>brossa</gui></link>. Els "
+"Mireu a la <link xref=\"mail-spam\"> carpeta <gui>brossa</gui></link>. Els "
 "missatges marcats com a brossa desapareixen de la carpeta original i es "
 "desplacen a la carpeta <gui>brossa</gui>."
 
@@ -6698,9 +6698,9 @@ msgid ""
 "the Custom Header. You can enter multiple values for the keys. You must use "
 "a semicolon to separate every value you enter."
 msgstr ""
-"Podeu afegir, editar o eliminar els camps del encapçalament. Per cada camp "
+"Podeu afegir, editar o eliminar els camps de l'encapçalament. Per cada camp "
 "de capçalera que afegiu, podeu especificar les claus i els valors. La clau "
-"s'utilitza com a títol del encapçalament personalitzat. Podeu introduir "
+"s'utilitza com a títol de l'encapçalament personalitzat. Podeu introduir "
 "diversos valors per a les claus. Heu d'utilitzar un punt i coma per separar "
 "tots els valors que introduïu."
 
@@ -6805,7 +6805,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-external-editor.page:20
 msgid "Using an external editor"
-msgstr "Us d'un editor extern"
+msgstr "Ús d'un editor extern"
 
 #. (itstool) path: page/p
 #: C/mail-composer-external-editor.page:22
@@ -7605,7 +7605,7 @@ msgstr "Utilitzeu una de les vostres plantilles per respondre a un missatge"
 #. (itstool) path: page/title
 #: C/mail-composer-message-templates-reply.page:23
 msgid "Using a Template as a Reply"
-msgstr "Us d'una plantilla com a Resposta"
+msgstr "Ús d'una plantilla com a Resposta"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-reply.page:27
@@ -7862,7 +7862,7 @@ msgstr ""
 "Per fer-ho, utilitzeu el format <code>$ORIG[header_name]</code> i reemplaceu"
 " la variable <code>header_name</code> pel encapçalament actual. Per exemple,"
 " si voleu inserir la línia d'assumpte del missatge al qual responeu, "
-"utilitzeu <code>$ORIG[subject]</code>. Per inserir el cos complert, "
+"utilitzeu <code>$ORIG[subject]</code>. Per inserir el cos complet, "
 "utilitzeu <code>$ORIG[body]</code>."
 
 #. (itstool) path: section/p
@@ -10156,7 +10156,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-folders.page:34
 msgid "Creating A Folder"
-msgstr "S'està creant la carpeta A"
+msgstr "Creant una carpeta"
 
 #. (itstool) path: section/p
 #: C/mail-folders.page:35
@@ -11207,7 +11207,7 @@ msgid ""
 msgstr ""
 "Si voleu que els missatges es mantinguin al servidor durant un període de "
 "temps, feu clic a l'opció <gui>Deixar els missatges al servidor</gui> i "
-"l'opció <gui>Esborrar desprès de ... dies</gui> i seleccioneu el nombre de "
+"l'opció <gui>Esborrar després de ... dies</gui> i seleccioneu el nombre de "
 "dies que es permet que els missatges es mantinguin al servidor. Establiu 0 "
 "dies per mantenir els missatges al servidor per sempre."
 
@@ -11498,8 +11498,8 @@ msgid ""
 "folders\"><gui>Search</gui> folders</link> so they cannot be selected here."
 msgstr ""
 "Tingueu en compte que de forma predeterminada, les carpetes "
-"d'<app>Evolution</app><gui>Escombraries</gui> i <gui>No desitjat</gui> són "
-"carpetes de<link xref=\"mail-search-folders\"><gui>Cerca</gui></link> de "
+"d'<app>Evolution</app> <gui>Escombraries</gui> i <gui>No desitjat</gui> són "
+"carpetes de <link xref=\"mail-search-folders\"><gui>Cerca</gui></link> de "
 "manera que no es poden seleccionar aquí."
 
 #. (itstool) path: item/p
@@ -12601,8 +12601,8 @@ msgid ""
 "icon whereas the other physical <gui>Trash</gui> folder looks like any other"
 " folder."
 msgstr ""
-"Podeu distingir fàcilment les dues papereres<gui>brossa</gui> mirant les "
-"seves icones. A <app>Evolution</app>la carpeta d'<gui>escombraries</gui>té "
+"Podeu distingir fàcilment les dues papereres <gui>brossa</gui> mirant les "
+"seves icones. A <app>Evolution</app>la carpeta d'<gui>escombraries</gui> té "
 "una icona especial mentre que l'altra carpeta física "
 "d'<gui>escombraries</gui> es mostra com qualsevol altra carpeta."
 
@@ -13178,8 +13178,8 @@ msgstr ""
 "Si el problema persisteix i esteu segur de no haver fet clic a la icona, "
 "però encara podeu accedir a la xarxa des d'altres aplicacions del vostre "
 "sistema (navegadors, FTP, SSH, ping, etc.) pot ser que la vostra connexió de"
-" xarxa no estigui ben configurada . Per obtenir més informació, consulteu la"
-" <link xref=\"help:gnome-help/net-problem\" "
+" xarxa no estigui ben configurada. Per obtenir més informació, consulteu l'"
+"<link xref=\"help:gnome-help/net-problem\" "
 "href=\"https://help.gnome.org/users/gnome-help/stable/net-problem\">Ajuda "
 "d'escriptori</link> o busqueu ajuda als fòrums de suport a la distribució, "
 "llistes de correu, etc."
