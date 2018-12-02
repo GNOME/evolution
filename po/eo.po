@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2018-11-30 11:26+0000\n"
-"PO-Revision-Date: 2018-12-02 12:51+0200\n"
+"PO-Revision-Date: 2018-12-02 12:53+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <gnome-eo-list@gnome.org>\n"
 "Language: eo\n"
@@ -3293,7 +3293,7 @@ msgstr "Gadu-Gadu"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:774
 msgid "Skype"
-msgstr "Skype"
+msgstr "Skajpo"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:775
 msgid "Twitter"
@@ -4053,7 +4053,7 @@ msgstr "GroupWise"
 #: ../src/addressbook/util/eab-book-util.c:79
 msgctxt "addressbook-label"
 msgid "Skype"
-msgstr "Skype"
+msgstr "Skajpo"
 
 #: ../src/addressbook/util/eab-book-util.c:80
 msgctxt "addressbook-label"
