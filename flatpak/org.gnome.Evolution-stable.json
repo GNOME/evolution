@@ -1,7 +1,7 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "3.28",
+	"runtime-version": "3.30",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
@@ -27,12 +27,12 @@
 		"--socket=wayland",
 		"--socket=pulseaudio",
 		"--device=dri",
-		"--filesystem=home",
 		"--filesystem=xdg-run/dconf",
 		"--filesystem=~/.config/dconf:ro",
 		"--env=DCONF_USER_CONFIG_DIR=.config/dconf",
 		"--talk-name=ca.desrt.dconf",
 		"--talk-name=org.freedesktop.Notifications",
+		"--talk-name=org.freedesktop.secrets",
 		"--talk-name=org.gnome.OnlineAccounts"
 	],
 	"modules": [
@@ -174,43 +174,11 @@
 		},
 
 		{
-			"name": "gnome-keyring",
-			"rm-configure": true,
-			"config-opts": [
-				"--with-pkcs11-config=/app/share/gk-to-remove",
-				"--with-pkcs11-modules=/app/share/gk-to-remove",
-				"--disable-doc",
-				"--disable-pam",
-				"--disable-p11-tests",
-				"--disable-ssh-agent"
-			],
-			"cleanup": [
-				"/etc/xdg",
-				"/share/gk-to-remove",
-				"/share/GConf"
-			],
-			"sources": [
-				{
-					"type": "archive",
-					"url": "https://download.gnome.org/sources/gnome-keyring/3.28/gnome-keyring-3.28.2.tar.xz",
-					"sha256": "81171b7d07211b216b4c9bb79bf2deb3deca18fe8d56d46dda1c4549b4a2646a"
-				},
-
-				{
-					"type": "script",
-					"dest-filename": "autogen.sh",
-					"commands": [
-						"AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
-					]
-				}
-			]
-		},
-
-		{
 			"name": "evolution-data-server",
 			"buildsystem": "cmake-ninja",
 			"cleanup": [ "/share/GConf" ],
 			"config-opts": [
+				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution",
 				"-DENABLE_FILE_LOCKING=fcntl",
 				"-DENABLE_DOT_LOCKING=OFF",
 				"-DENABLE_OAUTH2=ON",
@@ -222,7 +190,6 @@
 				"-DENABLE_VALA_BINDINGS=OFF",
 				"-DENABLE_INSTALLED_TESTS=OFF",
 				"-DENABLE_GTK_DOC=OFF",
-				"-DENABLE_DBUS_SESSION_TOOL=ON",
 				"-DWITH_LIBDB=OFF",
 				"-DWITH_PRIVATE_DOCS=OFF",
 				"-DWITH_PHONENUMBER=OFF",
@@ -248,8 +215,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://downloads.sourceforge.net/project/gtkspell/3.0.9/gtkspell3-3.0.9.tar.xz",
-					"sha256": "a4f4a4a2789f7499563e26d96b22d8085222ebe278da47d026b2de782b8b4d26"
+					"url": "https://downloads.sourceforge.net/project/gtkspell/3.0.10/gtkspell3-3.0.10.tar.xz",
+					"sha256": "b040f63836b347eb344f5542443dc254621805072f7141d49c067ecb5a375732"
 				}
 			]
 		},
@@ -287,43 +254,28 @@
 						"cat config.h.in.orig | sed -e \"s|\\@VERSION_SUBSTRING\\@| \\(flatpak git$(git log --pretty=format:%h --max-count=1)\\)|\" >config.h.in"
 					]
 				},
-
 				{
 					"type": "script",
 					"commands": [
-						"export GIO_USE_NETWORK_MONITOR=base",
-						"echo evolution-flatpak | /app/bin/gnome-keyring-daemon --daemonize --unlock &",
-						"sleep 1",
-						"gsettings reset org.gnome.evolution-data-server network-monitor-gio-name",
-						"/app/libexec/evolution-source-registry &",
-						"sleep 1",
-						"/app/libexec/evolution-addressbook-factory -r &",
-						"/app/libexec/evolution-calendar-factory -r &",
-						"sleep 1",
-						"/app/bin/evolution.bin",
-						"sleep 3"
+						"if [ \"$1\" = \"--quit\" -o \"$1\" = \"--force-shutdown\" ]; then",
+						"	/app/bin/evolution.bin \"$@\"",
+						"else",
+						"	export GIO_USE_NETWORK_MONITOR=base",
+						"	gsettings reset org.gnome.evolution-data-server network-monitor-gio-name",
+						"	/app/libexec/evolution-source-registry &",
+						"	sleep 1",
+						"	/app/libexec/evolution-addressbook-factory -r &",
+						"	/app/libexec/evolution-calendar-factory -r &",
+						"	sleep 1",
+						"	/app/bin/evolution.bin \"$@\"",
+						"fi"
 					],
 					"dest-filename": "flatpak-evolution-wrapper.sh"
-				},
-
-				{
-					"type": "script",
-					"commands": [
-						"/app/libexec/evolution-data-server/evolution-dbus-session \\",
-						"	--exec /app/bin/evolution-wrapper \\",
-						"	--service-dir /app/share/dbus-1/services/ \\",
-						"	--iface ca.desrt.dconf:/ca/desrt/dconf \\",
-						"	--iface org.freedesktop.Notifications:/org/freedesktop/Notifications \\",
-						"	--iface org.freedesktop.portal.Desktop:/org/freedesktop/portal/desktop \\",
-						"	--iface org.gnome.OnlineAccounts:/org/gnome/OnlineAccounts"
-					],
-					"dest-filename": "flatpak-evolution-run.sh"
 				}
 			],
 			"post-install": [
 				"mv /app/bin/evolution /app/bin/evolution.bin",
-				"cp flatpak-evolution-run.sh /app/bin/evolution",
-				"cp flatpak-evolution-wrapper.sh /app/bin/evolution-wrapper"
+				"cp flatpak-evolution-wrapper.sh /app/bin/evolution"
 			]
 		},
 
