@@ -3697,7 +3697,7 @@ get_comp_summary (ECalClient *client,
 	location = icalcomponent_get_location (icalcomp);
 	if (location && *location) {
 		*free_text = TRUE;
-		summary = g_strdup_printf ("%s (%s)", my_summary, location);
+		summary = g_strdup_printf ("%s (%s)", my_summary ? my_summary : "", location);
 
 		if (my_free_text)
 			g_free ((gchar *) my_summary);
@@ -4048,6 +4048,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
 	ECalModelComponent *comp_data;
+	const gchar *summary;
 
 	/* If we are already editing the event, just return. */
 	if (event_num == week_view->editing_event_num
@@ -4089,9 +4090,13 @@ e_week_view_start_editing_event (EWeekView *week_view,
 			return FALSE;
 	}
 
+	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	if (!summary)
+		summary = "";
+
 	gnome_canvas_item_set (
 		span->text_item,
-		"text", initial_text ? initial_text : icalcomponent_get_summary (event->comp_data->icalcomp),
+		"text", initial_text ? initial_text : summary,
 		NULL);
 
 	/* Save the comp_data value because we use that as our invariant */
@@ -4650,12 +4655,16 @@ e_week_view_on_editing_started (EWeekView *week_view,
 
 			if (is_comp_data_valid (event) &&
 			    is_array_index_in_bounds (week_view->spans, event->spans_index + span_num)) {
+				const gchar *summary;
+
 				span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 						       event->spans_index + span_num);
 
+				summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+
 				gnome_canvas_item_set (
 					span->text_item,
-					"text", icalcomponent_get_summary (event->comp_data->icalcomp),
+					"text", summary ? summary : "",
 					NULL);
 			}
 		}
