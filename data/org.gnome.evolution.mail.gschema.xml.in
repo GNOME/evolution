@@ -254,6 +254,11 @@
       <_summary>Mark replied to messages as read</_summary>
       <_description>When replying to a message and marking it as being replied to, then whether also mark it as read.</_description>
     </key>
+    <key name="composer-plain-text-starts-preformatted" type="b">
+      <default>false</default>
+      <_summary>Whether start Plain Text composer with Preformatted paragraph mode</_summary>
+      <_description>When set to true, new Plain Text messages will have preselected Preformatted paragraph mode. The Normal paragraph mode will be used when set to false.</_description>
+    </key>
     <key name="display-content-disposition-inline" type="b">
       <default>true</default>
       <_summary>Whether to obey Content-Disposition:inline message header hint</_summary>

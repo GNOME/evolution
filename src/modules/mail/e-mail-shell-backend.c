@@ -518,6 +518,18 @@ mail_shell_backend_window_weak_notify_cb (EShell *shell,
 		where_the_object_was);
 }
 
+static gboolean
+set_preformatted_block_format_on_idle_cb (gpointer user_data)
+{
+	EContentEditor *cnt_editor = user_data;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (cnt_editor), FALSE);
+
+	e_content_editor_set_block_format (cnt_editor, E_CONTENT_EDITOR_BLOCK_FORMAT_PRE);
+
+	return FALSE;
+}
+
 static void
 mail_shell_backend_window_added_cb (GtkApplication *application,
                                     GtkWindow *window,
@@ -543,18 +555,23 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 	if (editor != NULL) {
 		EContentEditor *cnt_editor;
 		GSettings *settings;
-		gboolean active = TRUE;
+		gboolean use_html, use_preformatted;
 
 		cnt_editor = e_html_editor_get_content_editor (editor);
 
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
-		active = g_settings_get_boolean (
-			settings, "composer-send-html");
+		use_html = g_settings_get_boolean (settings, "composer-send-html");
+		use_preformatted = g_settings_get_boolean (settings, "composer-plain-text-starts-preformatted");
 
 		g_object_unref (settings);
 
-		e_content_editor_set_html_mode (cnt_editor, active);
+		e_content_editor_set_html_mode (cnt_editor, use_html);
+
+		if (!use_html && use_preformatted) {
+			g_idle_add_full (G_PRIORITY_LOW, set_preformatted_block_format_on_idle_cb,
+				g_object_ref (cnt_editor), g_object_unref);
+		}
 	}
 
 	if (E_IS_MSG_COMPOSER (window)) {
