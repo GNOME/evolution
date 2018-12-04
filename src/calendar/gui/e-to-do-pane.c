@@ -298,6 +298,22 @@ etdp_format_date_time (ECalClient *client,
 	return e_datetime_format_format_tm ("calendar", "table", itt.is_date ? DTFormatKindDate : DTFormatKindDateTime, &tm);
 }
 
+static const gchar *
+etdp_get_component_summary (icalcomponent *icalcomp)
+{
+	const gchar *summary;
+
+	if (!icalcomp)
+		return "";
+
+	summary = icalcomponent_get_summary (icalcomp);
+
+	if (!summary || !*summary)
+		summary = "";
+
+	return summary;
+}
+
 static gboolean
 etdp_get_component_data (EToDoPane *to_do_pane,
 			 ECalClient *client,
@@ -339,7 +355,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 	tooltip = g_string_sized_new (512);
 
-	etdp_append_to_string_escaped (tooltip, "<b>%s</b>", icalcomponent_get_summary (icalcomp), NULL);
+	etdp_append_to_string_escaped (tooltip, "<b>%s</b>", etdp_get_component_summary (icalcomp), NULL);
 
 	if (location) {
 		g_string_append (tooltip, "\n");
@@ -460,7 +476,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 		if (time_str) {
 			*out_summary = g_markup_printf_escaped ("<span size=\"xx-small\">%s</span> %s%s%s%s",
-				time_str, icalcomponent_get_summary (icalcomp), location ? " (" : "",
+				time_str, etdp_get_component_summary (icalcomp), location ? " (" : "",
 				location ? location : "", location ? ")" : "");
 		}
 
@@ -468,7 +484,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	}
 
 	if (!*out_summary) {
-		*out_summary = g_markup_printf_escaped ("%s%s%s%s", icalcomponent_get_summary (icalcomp),
+		*out_summary = g_markup_printf_escaped ("%s%s%s%s", etdp_get_component_summary (icalcomp),
 			location ? " (" : "", location ? location : "", location ? ")" : "");
 	}
 
@@ -496,12 +512,12 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 		if (icaltime_is_null_time (itt)) {
 			/* Sort those without Start date after those with it */
 			*out_sort_key = g_strdup_printf ("%s-Z-%s-%s-%s",
-				prefix, icalcomponent_get_summary (icalcomp),
+				prefix, etdp_get_component_summary (icalcomp),
 				(id && id->uid) ? id->uid : "", (id && id->rid) ? id->rid : "");
 		} else {
 			*out_sort_key = g_strdup_printf ("%s-%04d%02d%02d%02d%02d%02d-%s-%s-%s",
 				prefix, itt.year, itt.month, itt.day, itt.hour, itt.minute, itt.second,
-				icalcomponent_get_summary (icalcomp),
+				etdp_get_component_summary (icalcomp),
 				(id && id->uid) ? id->uid : "", (id && id->rid) ? id->rid : "");
 		}
 	} else {
