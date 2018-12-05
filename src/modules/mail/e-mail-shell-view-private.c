@@ -310,6 +310,9 @@ mail_shell_window_key_press_event_cb (EMailShellView *mail_shell_view,
 				      GdkEventKey *event,
 				      EShellWindow *shell_window)
 {
+	if (!e_shell_view_is_active (E_SHELL_VIEW (mail_shell_view)))
+		return FALSE;
+
 	return mail_shell_view_process_key_press_event (mail_shell_view, event, TRUE);
 }
 
