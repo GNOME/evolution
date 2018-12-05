@@ -188,33 +188,6 @@ startup_assistant_constructed (GObject *object)
 			"and to import files from other applications."));
 
 		main_box = e_mail_config_welcome_page_get_main_box (E_MAIL_CONFIG_WELCOME_PAGE (nth_page));
-
-		linkified = g_markup_printf_escaped ("<a href=\"" NEW_COLLECTION_ACCOUNT_URI "\">%s</a>",
-			/* Translators: This is part of "Create Collection Account." sentence from the same translation context. */
-			C_("wizard-ca-note", "Collection Account"));
-		/* Translators: The '%s' is replaced with "Collection Account" from the same translation context. */
-		text = g_strdup_printf (C_("wizard-ca-note", "Create %s. Collection accounts allow configuring groupware accounts"
-			" which can provide more than just Mail account. This wizard will be shown again in case the collection account"
-			" doesn't contain a Mail account, unless the above option is checked."), linkified);
-		g_free (linkified);
-
-		label = gtk_label_new (text);
-		g_object_set (G_OBJECT (label),
-			"hexpand", TRUE,
-			"halign", GTK_ALIGN_FILL,
-			"use-markup", TRUE,
-			"visible", TRUE,
-			"wrap", TRUE,
-			"wrap-mode", PANGO_WRAP_WORD_CHAR,
-			NULL);
-
-		gtk_box_pack_end (main_box, label, FALSE, FALSE, 4);
-
-		g_signal_connect (label, "activate-link",
-			G_CALLBACK (activate_collection_account_link_cb), assistant);
-
-		g_free (text);
-
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 		checkbox = gtk_check_button_new_with_mnemonic (_("Do not _show this wizard again"));
@@ -227,6 +200,31 @@ startup_assistant_constructed (GObject *object)
 		gtk_box_pack_end (main_box, checkbox, FALSE, FALSE, 4);
 
 		g_object_unref (settings);
+
+		linkified = g_markup_printf_escaped ("<a href=\"" NEW_COLLECTION_ACCOUNT_URI "\">%s</a>",
+			/* Translators: This is part of "Alternatively, you can %s (email, contacts and calendaring) instead." sentence from the same translation context. */
+			C_("wizard-ca-note", "create a collection account"));
+		/* Translators: The '%s' is replaced with "create a collection account" from the same translation context. */
+		text = g_strdup_printf (C_("wizard-ca-note", "Alternatively, you can %s (email, contacts and calendaring) instead."), linkified);
+		g_free (linkified);
+
+		label = gtk_label_new (text);
+		g_object_set (G_OBJECT (label),
+			"hexpand", TRUE,
+			"halign", GTK_ALIGN_START,
+			"use-markup", TRUE,
+			"visible", TRUE,
+			"wrap", TRUE,
+			"wrap-mode", PANGO_WRAP_WORD_CHAR,
+			"xalign", 0.0,
+			NULL);
+
+		gtk_box_pack_end (main_box, label, FALSE, FALSE, 4);
+
+		g_signal_connect (label, "activate-link",
+			G_CALLBACK (activate_collection_account_link_cb), assistant);
+
+		g_free (text);
 
 		break;
 	}
