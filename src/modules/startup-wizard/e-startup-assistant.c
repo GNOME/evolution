@@ -28,6 +28,8 @@
 
 #include "e-startup-assistant.h"
 
+#define NEW_COLLECTION_ACCOUNT_URI "evolution://new-collection-account"
+
 #define E_STARTUP_ASSISTANT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_STARTUP_ASSISTANT, EStartupAssistantPrivate))
@@ -42,6 +44,31 @@ G_DEFINE_DYNAMIC_TYPE (
 	EStartupAssistant,
 	e_startup_assistant,
 	E_TYPE_MAIL_CONFIG_ASSISTANT)
+
+static gboolean
+activate_collection_account_link_cb (GtkLabel *label,
+				     const gchar *uri,
+				     gpointer user_data)
+{
+	EStartupAssistant *assistant = user_data;
+	EMailSession *session;
+	GtkWindow *window;
+
+	if (g_strcmp0 (uri, NEW_COLLECTION_ACCOUNT_URI) != 0)
+		return FALSE;
+
+	session = e_mail_config_assistant_get_session (E_MAIL_CONFIG_ASSISTANT (assistant));
+
+	window = e_collection_account_wizard_new_window (
+		gtk_window_get_transient_for (GTK_WINDOW (assistant)),
+		e_mail_session_get_registry (session));
+
+	gtk_widget_destroy (GTK_WIDGET (assistant));
+
+	gtk_window_present (window);
+
+	return TRUE;
+}
 
 static void
 startup_assistant_import_done (GObject *source_object,
@@ -140,9 +167,10 @@ startup_assistant_constructed (GObject *object)
 
 	n_pages = gtk_assistant_get_n_pages (GTK_ASSISTANT (assistant));
 	for (ii = 0; ii < n_pages; ii++) {
-		GtkWidget *nth_page, *checkbox;
+		GtkWidget *nth_page, *checkbox, *label;
 		GtkBox *main_box;
 		GSettings *settings;
+		gchar *text, *linkified;
 
 		nth_page = gtk_assistant_get_nth_page (
 			GTK_ASSISTANT (assistant), ii);
@@ -159,8 +187,35 @@ startup_assistant_constructed (GObject *object)
 			"allow Evolution to connect to your email accounts, "
 			"and to import files from other applications."));
 
-		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		main_box = e_mail_config_welcome_page_get_main_box (E_MAIL_CONFIG_WELCOME_PAGE (nth_page));
+
+		linkified = g_markup_printf_escaped ("<a href=\"" NEW_COLLECTION_ACCOUNT_URI "\">%s</a>",
+			/* Translators: This is part of "Create Collection Account." sentence from the same translation context. */
+			C_("wizard-ca-note", "Collection Account"));
+		/* Translators: The '%s' is replaced with "Collection Account" from the same translation context. */
+		text = g_strdup_printf (C_("wizard-ca-note", "Create %s. Collection accounts allow configuring groupware accounts"
+			" which can provide more than just Mail account. This wizard will be shown again in case the collection account"
+			" doesn't contain a Mail account, unless the above option is checked."), linkified);
+		g_free (linkified);
+
+		label = gtk_label_new (text);
+		g_object_set (G_OBJECT (label),
+			"hexpand", TRUE,
+			"halign", GTK_ALIGN_FILL,
+			"use-markup", TRUE,
+			"visible", TRUE,
+			"wrap", TRUE,
+			"wrap-mode", PANGO_WRAP_WORD_CHAR,
+			NULL);
+
+		gtk_box_pack_end (main_box, label, FALSE, FALSE, 4);
+
+		g_signal_connect (label, "activate-link",
+			G_CALLBACK (activate_collection_account_link_cb), assistant);
+
+		g_free (text);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 		checkbox = gtk_check_button_new_with_mnemonic (_("Do not _show this wizard again"));
 		gtk_widget_show (checkbox);
@@ -172,6 +227,8 @@ startup_assistant_constructed (GObject *object)
 		gtk_box_pack_end (main_box, checkbox, FALSE, FALSE, 4);
 
 		g_object_unref (settings);
+
+		break;
 	}
 }
 
