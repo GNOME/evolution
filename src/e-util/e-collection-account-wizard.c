@@ -399,10 +399,8 @@ collection_account_wizard_worker_started_cb (EConfigLookup *config_lookup,
 	wd = g_hash_table_lookup (wizard->priv->workers, worker);
 	g_return_if_fail (wd != NULL);
 
-	if (wizard->priv->changed) {
+	if (wizard->priv->changed)
 		wizard->priv->changed = FALSE;
-		e_config_lookup_clear_results (wizard->priv->config_lookup);
-	}
 
 	wizard->priv->running_workers++;
 
@@ -2530,6 +2528,8 @@ e_collection_account_wizard_run (ECollectionAccountWizard *wizard,
 
 	g_return_if_fail (E_IS_COLLECTION_ACCOUNT_WIZARD (wizard));
 	g_return_if_fail (e_collection_account_wizard_get_can_run (wizard));
+
+	e_config_lookup_clear_results (wizard->priv->config_lookup);
 
 	wizard->priv->running_result = e_simple_async_result_new (G_OBJECT (wizard), callback, user_data, e_collection_account_wizard_run);
 
