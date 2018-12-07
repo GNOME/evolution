@@ -110,9 +110,10 @@
 
 		{
 			"name": "geocode-glib",
+			"buildsystem": "meson",
 			"config-opts": [
-				"--disable-introspection",
-				"--disable-gtk-doc"
+				"-Denable-introspection=false",
+				"-Denable-gtk-doc=false"
 			],
 			"cleanup": [
 				"/share/gtk-doc"
