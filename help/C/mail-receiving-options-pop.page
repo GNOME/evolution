@@ -33,7 +33,7 @@
 
 <list>
 <item><p>Enter the address of the email server in the <gui>Server</gui> field and enter your username for that server.</p></item>
-<item><p>Select if you want to use a secure connection (SSL or TLS).</p><p>You should enable this option if your server supports it.</p>
+<item><p>Select if you want to use a secure connection (TLS or its deprecated predecessor SSL).</p><p>You should enable this option if your server supports it.</p>
 <note style="tip"><p>Free webmail providers often supply information about which of these options can be used. If you are in an organizational environment, you may want to contact your system administrator for more information.</p></note></item>
 <item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have <app>Evolution</app> check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
 <item><p>Select if you want <app>Evolution</app> to remember your password.</p></item>

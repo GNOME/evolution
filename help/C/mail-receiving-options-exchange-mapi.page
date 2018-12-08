@@ -29,7 +29,7 @@
 <item><p>Enter the Domain name for that server.</p>
 <note style="tip"><p>If you are in an organizational environment, you may want to contact your system administrator for more information.</p></note></item>
 <item><p>Select your authentication type in the Authentication list, or click <gui style="button">Check for Supported Types</gui> to have <app>Evolution</app> check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</p></item>
-<item><p>Select if you want to use a secure connection (SSL or TLS).</p></item>
+<item><p>Select if you want to use a secure connection (TLS or its deprecated predecessor SSL).</p></item>
 <item><p>Click <gui style="button">Authenticate</gui> and enter your password.</p></item>
 </list>
 
