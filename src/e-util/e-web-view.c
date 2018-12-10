@@ -4247,6 +4247,7 @@ e_web_view_request (EWebView *web_view,
 	AsyncContext *async_context;
 	GSList *link;
 	GTask *task;
+	gboolean is_processed = FALSE;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (uri != NULL);
@@ -4272,9 +4273,63 @@ e_web_view_request (EWebView *web_view,
 	if (content_request) {
 		async_context->content_request = g_object_ref (content_request);
 		g_task_run_in_thread (task, web_view_request_process_thread);
-	} else {
+		is_processed = TRUE;
+
+	/* Handle base64-encoded "data:" URIs manually */
+	} else if (g_ascii_strncasecmp (uri, "data:", 5) == 0) {
+		/* data:[<mime type>][;charset=<charset>][;base64],<encoded data> */
+		const gchar *ptr, *from;
+		gboolean is_base64 = FALSE;
+
+		ptr = uri + 5;
+		from = ptr;
+		while (*ptr && *ptr != ',') {
+			ptr++;
+
+			if (*ptr == ',' || *ptr == ';') {
+				if (g_ascii_strncasecmp (from, "base64", ptr - from) == 0)
+					is_base64 = TRUE;
+
+				from = ptr + 1;
+			}
+		}
+
+		if (is_base64 && *ptr == ',') {
+			guchar *data;
+			gsize len = 0;
+
+			data = g_base64_decode (ptr + 1, &len);
+
+			if (data && len > 0) {
+				async_context->input_stream = g_memory_input_stream_new_from_data (data, len, g_free);
+				g_task_return_boolean (task, TRUE);
+				is_processed = TRUE;
+			} else {
+				g_free (data);
+			}
+		}
+	}
+
+	if (!is_processed) {
+		GString *shorten_uri = NULL;
+		gint len;
+
+		len = g_utf8_strlen (uri, -1);
+
+		/* The "data:" URIs can be quite long */
+		if (len > 512) {
+			const gchar *ptr = g_utf8_offset_to_pointer (uri, 512);
+
+			shorten_uri = g_string_sized_new (ptr - uri + 16);
+			g_string_append_len (shorten_uri, uri, ptr - uri);
+			g_string_append (shorten_uri, "…");
+		}
+
 		g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_FAILED,
-			_("Cannot get URI “%s”, do not know how to download it."), uri);
+			_("Cannot get URI “%s”, do not know how to download it."), shorten_uri ? shorten_uri->str : uri);
+
+		if (shorten_uri)
+			g_string_free (shorten_uri, TRUE);
 	}
 
 	g_object_unref (task);
