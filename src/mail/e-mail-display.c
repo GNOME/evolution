@@ -1837,6 +1837,7 @@ mail_display_suggest_filename (EWebView *web_view,
 {
 	EMailDisplay *display;
 	CamelMimePart *mime_part;
+	SoupURI *suri;
 
 	/* Note, this assumes the URI comes
 	 * from the currently loaded message. */
@@ -1846,6 +1847,29 @@ mail_display_suggest_filename (EWebView *web_view,
 
 	if (mime_part)
 		return g_strdup (camel_mime_part_get_filename (mime_part));
+
+	suri = soup_uri_new (uri);
+	if (suri) {
+		gchar *filename = NULL;
+
+		if (suri->query) {
+			GHashTable *uri_query;
+
+			uri_query = soup_form_decode (suri->query);
+			if (uri_query && g_hash_table_contains (uri_query, "filename"))
+				filename = g_strdup (g_hash_table_lookup (uri_query, "filename"));
+
+			if (uri_query)
+				g_hash_table_destroy (uri_query);
+		}
+
+		soup_uri_free (suri);
+
+		if (filename && *filename)
+			return filename;
+
+		g_free (filename);
+	}
 
 	/* Chain up to parent's suggest_filename() method. */
 	return E_WEB_VIEW_CLASS (e_mail_display_parent_class)->

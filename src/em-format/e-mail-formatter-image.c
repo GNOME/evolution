@@ -65,12 +65,8 @@ emfe_image_format (EMailFormatterExtension *extension,
                    GOutputStream *stream,
                    GCancellable *cancellable)
 {
-	gchar *content;
 	CamelMimePart *mime_part;
 	CamelContentType *content_type;
-	CamelDataWrapper *dw;
-	GBytes *bytes;
-	GOutputStream *raw_content;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
@@ -82,24 +78,28 @@ emfe_image_format (EMailFormatterExtension *extension,
 	/* Skip TIFF images, which cannot be shown inline */
 	if (content_type && (
 	    camel_content_type_is (content_type, "image", "tiff") ||
-	    camel_content_type_is (content_type, "image", "tif")))
+	    camel_content_type_is (content_type, "image", "tif"))) {
+		g_clear_object (&mime_part);
 		return FALSE;
-
-	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-	g_return_val_if_fail (dw, FALSE);
-
-	raw_content = g_memory_output_stream_new_resizable ();
-	camel_data_wrapper_decode_to_output_stream_sync (
-		dw, raw_content, cancellable, NULL);
-	g_output_stream_close (raw_content, NULL, NULL);
-
-	bytes = g_memory_output_stream_steal_as_bytes (
-		G_MEMORY_OUTPUT_STREAM (raw_content));
+	}
 
 	if (context->mode == E_MAIL_FORMATTER_MODE_RAW) {
+		CamelDataWrapper *dw;
+		GBytes *bytes;
+		GOutputStream *raw_content;
+
+		dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+		g_return_val_if_fail (dw, FALSE);
+
+		raw_content = g_memory_output_stream_new_resizable ();
+		camel_data_wrapper_decode_to_output_stream_sync (
+			dw, raw_content, cancellable, NULL);
+		g_output_stream_close (raw_content, NULL, NULL);
+
+		bytes = g_memory_output_stream_steal_as_bytes (
+			G_MEMORY_OUTPUT_STREAM (raw_content));
 
 		if (!e_mail_formatter_get_animate_images (formatter)) {
-
 			gchar *buff;
 			gsize len;
 
@@ -121,51 +121,31 @@ emfe_image_format (EMailFormatterExtension *extension,
 				stream, data, size, NULL, cancellable, NULL);
 		}
 
+		g_bytes_unref (bytes);
+		g_object_unref (raw_content);
 	} else {
-		gchar *buffer;
-		const gchar *mime_type;
+		gchar *buffer, *uri;
+		const gchar *filename;
 
-		if (!e_mail_formatter_get_animate_images (formatter)) {
+		filename = camel_mime_part_get_filename (mime_part);
 
-			gchar *buff;
-			gsize len;
+		uri = e_mail_part_build_uri (
+			e_mail_part_list_get_folder (context->part_list),
+			e_mail_part_list_get_message_uid (context->part_list),
+			"part_id", G_TYPE_STRING, e_mail_part_get_id (part),
+			"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW,
+			"filename", G_TYPE_STRING, filename ? filename : "",
+			NULL);
 
-			e_mail_part_animation_extract_frame (
-				bytes, &buff, &len);
-
-			content = g_base64_encode ((guchar *) buff, len);
-			g_free (buff);
-
-		} else {
-			gconstpointer data;
-			gsize size;
-
-			data = g_bytes_get_data (bytes, &size);
-			content = g_base64_encode (data, size);
-		}
-
-		mime_type = e_mail_part_get_mime_type (part);
-		if (mime_type == NULL)
-			mime_type = "image/*";
-
-		/* The image is already base64-encrypted so we can directly
-		 * paste it to the output */
-		buffer = g_strdup_printf (
-			"<img src=\"data:%s;base64,%s\" "
-			"     style=\"max-width: 100%%;\" />",
-			mime_type, content);
+		buffer = g_strdup_printf ("<img src=\"%s\" style=\"max-width:100%%;\" />", uri);
 
 		g_output_stream_write_all (
 			stream, buffer, strlen (buffer),
 			NULL, cancellable, NULL);
 
 		g_free (buffer);
-		g_free (content);
+		g_free (uri);
 	}
-
-	g_bytes_unref (bytes);
-
-	g_object_unref (raw_content);
 
 	g_object_unref (mime_part);
 
