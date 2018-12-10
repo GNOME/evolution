@@ -397,37 +397,44 @@ e_restore_window (GtkWindow *window,
 	data->flags = flags;
 
 	if (flags & E_RESTORE_WINDOW_SIZE) {
-		gint width, height;
+		GdkScreen *screen;
+		GdkRectangle monitor_area;
+		gint x, y, width, height, monitor;
+
+		x = g_settings_get_int (settings, "x");
+		y = g_settings_get_int (settings, "y");
+
+		screen = gtk_window_get_screen (window);
+		monitor = gdk_screen_get_monitor_at_point (screen, x, y);
+		if (monitor < 0)
+			monitor = 0;
+
+		if (monitor >= gdk_screen_get_n_monitors (screen))
+			monitor = 0;
+
+		gdk_screen_get_monitor_workarea (
+			screen, monitor, &monitor_area);
 
 		width = g_settings_get_int (settings, "width");
 		height = g_settings_get_int (settings, "height");
+
+		/* Clamp the GSettings value to actual monitor area before restoring the size */
+		if (width > 0 && height > 0) {
+			if (width > 1.5 * monitor_area.width)
+				width = 1.5 * monitor_area.width;
+
+			if (height > 1.5 * monitor_area.height)
+				height = 1.5 * monitor_area.height;
+		}
 
 		if (width > 0 && height > 0)
 			gtk_window_resize (window, width, height);
 
 		if (g_settings_get_boolean (settings, "maximized")) {
-			GdkScreen *screen;
-			GdkRectangle monitor_area;
-			gint x, y, monitor;
-
-			x = g_settings_get_int (settings, "x");
-			y = g_settings_get_int (settings, "y");
-
-			screen = gtk_window_get_screen (window);
 			gtk_window_get_size (window, &width, &height);
 
 			data->premax_width = width;
 			data->premax_height = height;
-
-			monitor = gdk_screen_get_monitor_at_point (screen, x, y);
-			if (monitor < 0)
-				monitor = 0;
-
-			if (monitor >= gdk_screen_get_n_monitors (screen))
-				monitor = 0;
-
-			gdk_screen_get_monitor_workarea (
-				screen, monitor, &monitor_area);
 
 			gtk_window_resize (
 				window,
