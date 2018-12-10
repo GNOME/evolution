@@ -1,3 +1,42 @@
+Evolution 3.30.3 2018-12-10
+---------------------------
+
+Bug Fixes:
+	Bug 652821 - [MessageList] Sort thread children ascending (Milan Crha)
+	eds-I#51 - [Gmail] Change from OAuth2 to other authentication doesn't stick (Milan Crha)
+	I#154 - Mail signature is changed when reopening an email in the Drafts/Outbox (Milan Crha)
+	I#169 - [Flatpak] Cannot open attachment directly from the attachments bar (Milan Crha)
+	I#180 - [ECompEditor] Organizer changed when editing existing component (Milan Crha)
+	I#182 - Calendar month/year forward/backward arrows overlap (Milan Crha)
+	I#187 - [Composer] Disable useless spell check update (Milan Crha)
+	I#196 - Build developer documentation in a fix order (Milan Crha)
+	I#198 - Convert UTC date in Inline (Outlook style) reply when set to (Milan Crha)
+	I#208 - Task Completed time should be in UTC (Milan Crha)
+	I#214 - Bold meeting summary text cut in Calendar view (Milan Crha)
+	I#238 - [ECollectionAccountWizard] Clear old results before starting any worker (Milan Crha)
+	I#252 - Mail view's magic spacebar executed even when the view is inactive (Milan Crha)
+	I#254 - Handle components with no Summary in the To Do bar and Week view (Milan Crha)
+	Revert "I#162 - Replied to message marked as seen after message send" (Milan Crha)
+
+Miscellaneous:
+	Make sure intltool-merge cache is created only once (Milan Crha)
+	Correct evolution-mail-formatter user documentation build warning (Milan Crha)
+	[EWebView] Use case insensitive search when highlighting words in the body (Milan Crha)
+	e_mail_formatter_format_address: Quote name part when it contains special letters (Milan Crha)
+	[SRV config lookup] Preset authentication method for SMTP (Milan Crha)
+	[Flatpak manifests] Build geocode-glib directly with meson (Milan Crha)
+
+Translations:
+	Matej Urbančič (sl)
+	Fabio Tomat (fur)
+	Charles Monzat (fr)
+	Athul R T (ml)
+	Dušan Kazik (sk)
+	Aurimas Černius (lt)
+	Carmen Bianca BAKKER (eo)
+	Iñaki Larrañaga Murgoitio (eu)
+	Jordi Mas (ca)
+
 Evolution 3.30.2 2018-10-22
 ---------------------------
 
