@@ -1,3 +1,38 @@
+Evolution 3.31.3 2018-12-10
+---------------------------
+
+Bug Fixes:
+	I#154 - Mail signature is changed when reopening an email in the Drafts/Outbox (Milan Crha)
+	I#162 - Replied to message marked as seen after message send ][ (Milan Crha)
+	I#165 - [Flatpak] Use GtkFileChooserNative for Flatpak portals support (Milan Crha)
+	I#168 - Unclear how to specify login name for a free/busy server (Milan Crha)
+	I#169 - [Flatpak] Cannot open attachment directly from the attachments bar (Milan Crha)
+	I#236 - Make Accounts' window 'Add' button a single widget (Milan Crha)
+	I#237 - Run New Collection Account wizard in its own window (Milan Crha)
+	I#238 - [ECollectionAccountWizard] Clear old results before starting any worker (Milan Crha)
+	I#239 - First run wizard doesn't provide a "collection account" option (Milan Crha)
+	I#248 - Option to open Plain Text composer in Preformatted (Milan Crha)
+	I#252 - Mail view's magic spacebar executed even when the view is inactive (Milan Crha)
+	I#254 - Handle components with no Summary in the To Do bar and Week view (Milan Crha)
+
+Miscellaneous:
+	[EWebView] Use case insensitive search when highlighting words in the body (Milan Crha)
+	Correct how extra compiler warnings are used in the maintainer mode (Milan Crha)
+	e_mail_formatter_format_address: Quote name part when it contains special letters (Milan Crha)
+	[SRV config lookup] Preset authentication method for SMTP (Milan Crha)
+	[itip-view] Do not duplicate X-MICROSOFT-CDO-REPLYTIME in replies (Milan Crha)
+	[Flatpak] Update manifests to reflect recent evolution-data-server changes (Milan Crha)
+	[Flatpak manifests] Build geocode-glib directly with meson (Milan Crha)
+	help: Make clearer that SSL is dead and TLS is its successor (Andre Klapper)
+
+Translations:
+	Jordi Mas (ca)
+	Carmen Bianca BAKKER (eo)
+	Kristjan SCHMIDT (eo)
+	Matej Urbančič (sl)
+	Daniel Mustieles (es)
+	Jordi Mas (ca)
+
 Evolution 3.31.2 2018-11-12
 ---------------------------
 
