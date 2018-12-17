@@ -5,7 +5,7 @@
     <desc>Keyboard shortcuts that can save you some time.</desc>
 
     <link type="guide" xref="index#getting-started" />
-    <revision pkgversion="3.26.2" version="0.5" date="2017-11-04" status="final"/>
+    <revision pkgversion="3.26.2" version="0.6" date="2017-12-17" status="final"/>
     <credit type="author">
       <name its:translate="no">Raniere Silva</name>
       <email its:translate="no">raniere@rgaiacs.com</email>
@@ -26,6 +26,15 @@
 
 <p>This page provides an overview of keyboard shortcuts that can help you
 use <app>Evolution</app> more efficiently.</p>
+
+<note style="tip">
+<p>In addition to the shortcuts listed below, you can also use accelerators to navigate with the keyboard.</p> 
+<p>Hold down the <key>Alt</key> key to reveal <em>accelerators</em>:
+underlined letters on menu items, buttons, and other controls. Press
+<key>Alt</key> plus the underlined letter to activate a control, just
+as if you had clicked on it.</p>
+</note>
+
 
 <section id="global">
 <title>Global</title>
