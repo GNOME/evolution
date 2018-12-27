@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2018-12-17 09:03+0000\n"
-"PO-Revision-Date: 2018-12-26 17:13+0100\n"
+"PO-Revision-Date: 2018-12-27 18:43+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -1238,7 +1238,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "How many recently used spell checking languages to remember"
-msgstr ""
+msgstr "Tropis lenghis pal control ortografic dopradis di resint di visâsi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
 msgid "Show “Bcc” field when sending a mail message"
@@ -1535,10 +1535,8 @@ msgstr ""
 "locâl cuant che tal messaç e sta in UTC."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
-#, fuzzy
-#| msgid "Failed to mark messages as read."
 msgid "Mark replied to messages as read"
-msgstr "No si è rivâts a segnâ i messaçs come lets."
+msgstr "Segne i messaçs che si à rispuindût come lets"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid ""
@@ -1549,12 +1547,17 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Whether start Plain Text composer with Preformatted paragraph mode"
 msgstr ""
+"Indiche se fâ partî il composidôr di Test sempliç cun la modalitât di "
+"paragraf pre-formatât"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid ""
 "When set to true, new Plain Text messages will have preselected Preformatted "
 "paragraph mode. The Normal paragraph mode will be used when set to false."
 msgstr ""
+"Cuant che al è metût a vêr, i gnûfs messaçs a test sempliç a varan une "
+"modalitât di paragraf pre-formatât za selezionade prime. La modalitât "
+"paragraf normâl e vignarà doprade cuant che al è metût a fals."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Whether to obey Content-Disposition:inline message header hint"
@@ -16576,7 +16579,7 @@ msgstr "Len_ghe:"
 #: ../src/mail/e-mail-config-composing-page.c:508
 #: ../src/mail/mail-config.ui.h:21
 msgid "Language for Reply and Forward attribution text"
-msgstr ""
+msgstr "Lenghe pal test di atribuzion di Rispuint e Mande indenant"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
 #: ../src/mail/em-composer-utils.c:4273 ../src/mail/mail-config.ui.h:22
@@ -18202,7 +18205,7 @@ msgstr "Descrizion dai filtris"
 #: ../src/mail/em-filter-editor.c:167
 #, c-format
 msgid "%s (%s, for account %s)"
-msgstr ""
+msgstr "%s (%s, pal account %s)"
 
 #: ../src/mail/em-filter-editor.c:167 ../src/mail/em-filter-editor.c:171
 msgid "enabled"
@@ -18217,7 +18220,7 @@ msgstr "disabilitât"
 #: ../src/mail/em-filter-editor.c:171
 #, c-format
 msgid "%s (%s, for any account)"
-msgstr ""
+msgstr "%s (%s, par ducj i account)"
 
 #: ../src/mail/em-filter-editor.c:183
 msgid "If all the following conditions are met"
@@ -22215,6 +22218,8 @@ msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
 msgstr ""
+"Specifiche il non utent pal login come part dal URL tal câs che il servidôr "
+"al domandi autenticazion, par esempli: https://UTENT@esempli.com/"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "Publishing Information"
@@ -24849,7 +24854,7 @@ msgstr "_Account di colezion"
 #, c-format
 msgctxt "wizard-ca-note"
 msgid "Alternatively, you can %s (email, contacts and calendaring) instead."
-msgstr ""
+msgstr "In alternative se no si pues %s (e-mail, contats e calendari)."
 
 #: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
 msgid "Loading accounts..."
