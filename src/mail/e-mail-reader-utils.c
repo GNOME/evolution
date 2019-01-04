@@ -582,7 +582,7 @@ mail_reader_empty_junk_thread (EAlertSinkThreadJobData *job_data,
 
 			nfo = camel_folder_get_message_info (folder, uids->pdata[ii]);
 			if (nfo) {
-				camel_message_info_set_flags (nfo, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+				camel_message_info_set_flags (nfo, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN);
 				g_object_unref (nfo);
 			}
 		}
