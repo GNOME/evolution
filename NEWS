@@ -1,3 +1,21 @@
+Evolution 3.31.4 2019-01-07
+---------------------------
+
+Bug Fixes:
+	I#273 - Set messages also seen in 'Empty Junk' (Milan Crha)
+
+Miscellaneous:
+	Clamp GSettings values before restoring window size (Milan Crha)
+	"Save Image..." fails on shown attached image in message preview (Milan Crha)
+	Bump copyright year - the future is now! (Andre Klapper)
+	Help: Mention the existence of mnemonics / accelerators (Andre Klapper)
+
+Translations:
+	Fabio Tomat (fur)
+	Aurimas Černius (lt)
+	Jordi Mas (ca)
+	Anders Jonsson (sv)
+
 Evolution 3.31.3 2018-12-10
 ---------------------------
 
