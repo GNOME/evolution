@@ -307,7 +307,7 @@ ect_stop_editing (ECellTextView *text_view,
 		ECellView *ecell_view = (ECellView *) text_view;
 		ECellText *ect = (ECellText *) ecell_view->ecell;
 
-		if (strcmp (old_text, text)) {
+		if (g_strcmp0 (old_text, text)) {
 			e_cell_text_set_value (
 				ect, ecell_view->e_table_model,
 				model_col, row, text);
@@ -628,7 +628,7 @@ generate_layout (ECellTextView *text_view,
 
 	if (row >= 0) {
 		gchar *temp = e_cell_text_get_text (ect, ecell_view->e_table_model, model_col, row);
-		layout = build_layout (text_view, row, temp ? temp : "?", width);
+		layout = build_layout (text_view, row, temp ? temp : "", width);
 		e_cell_text_free_text (ect, ecell_view->e_table_model, model_col, temp);
 	} else
 		layout = build_layout (text_view, row, "Mumbo Jumbo", width);
@@ -810,7 +810,7 @@ ect_draw (ECellView *ecell_view,
 	layout = generate_layout (text_view, model_col, view_col, row, x2 - x1);
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
-		layout = layout_with_preedit  (text_view, row, edit->text ? edit->text : "?",  x2 - x1);
+		layout = layout_with_preedit  (text_view, row, edit->text ? edit->text : "",  x2 - x1);
 	}
 
 	cairo_move_to (cr, x_origin, y_origin);
@@ -1218,7 +1218,7 @@ ect_enter_edit (ECellView *ecell_view,
 	edit->default_cursor_shown = TRUE;
 
 	temp = e_cell_text_get_text (ect, ecell_view->e_table_model, model_col, row);
-	edit->old_text = g_strdup (temp);
+	edit->old_text = g_strdup (temp ? temp : "");
 	e_cell_text_free_text (ect, ecell_view->e_table_model, model_col, temp);
 	edit->text = g_strdup (edit->old_text);
 
