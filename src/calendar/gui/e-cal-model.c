@@ -436,7 +436,7 @@ get_summary (ECalModelComponent *comp_data)
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
-	if (prop)
+	if (prop && icalproperty_get_summary (prop))
 		return g_strdup (icalproperty_get_summary (prop));
 
 	return g_strdup ("");
