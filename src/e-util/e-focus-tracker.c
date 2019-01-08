@@ -1126,6 +1126,9 @@ e_focus_tracker_cut_clipboard (EFocusTracker *focus_tracker)
 		is_editable = gtk_text_view_get_editable (text_view);
 
 		gtk_text_buffer_cut_clipboard (buffer, clipboard, is_editable);
+
+	} else if (E_IS_CONTENT_EDITOR (focus)) {
+		e_content_editor_cut (E_CONTENT_EDITOR (focus));
 	}
 }
 
@@ -1156,6 +1159,9 @@ e_focus_tracker_copy_clipboard (EFocusTracker *focus_tracker)
 		buffer = gtk_text_view_get_buffer (text_view);
 
 		gtk_text_buffer_copy_clipboard (buffer, clipboard);
+
+	} else if (E_IS_CONTENT_EDITOR (focus)) {
+		e_content_editor_copy (E_CONTENT_EDITOR (focus));
 	}
 }
 
@@ -1189,6 +1195,9 @@ e_focus_tracker_paste_clipboard (EFocusTracker *focus_tracker)
 
 		gtk_text_buffer_paste_clipboard (
 			buffer, clipboard, NULL, is_editable);
+
+	} else if (E_IS_CONTENT_EDITOR (focus)) {
+		e_content_editor_paste (E_CONTENT_EDITOR (focus));
 	}
 }
 
@@ -1245,6 +1254,9 @@ e_focus_tracker_select_all (EFocusTracker *focus_tracker)
 
 		gtk_text_buffer_get_bounds (buffer, &start, &end);
 		gtk_text_buffer_select_range (buffer, &start, &end);
+
+	} else if (E_IS_CONTENT_EDITOR (focus)) {
+		e_content_editor_select_all (E_CONTENT_EDITOR (focus));
 	}
 }
 

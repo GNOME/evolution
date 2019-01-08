@@ -264,26 +264,6 @@ action_context_spell_ignore_cb (GtkAction *action,
 }
 
 static void
-action_copy_cb (GtkAction *action,
-                EHTMLEditor *editor)
-{
-	EContentEditor *cnt_editor;
-
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	e_content_editor_copy (cnt_editor);
-}
-
-static void
-action_cut_cb (GtkAction *action,
-               EHTMLEditor *editor)
-{
-	EContentEditor *cnt_editor;
-
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	e_content_editor_cut (cnt_editor);
-}
-
-static void
 action_indent_cb (GtkAction *action,
                   EHTMLEditor *editor)
 {
@@ -618,16 +598,6 @@ action_mode_cb (GtkRadioAction *action,
 }
 
 static void
-action_paste_cb (GtkAction *action,
-                 EHTMLEditor *editor)
-{
-	EContentEditor *cnt_editor;
-
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	e_content_editor_paste (cnt_editor);
-}
-
-static void
 clipboard_text_received_for_paste_as_text (GtkClipboard *clipboard,
                                            const gchar *text,
                                            EHTMLEditor *editor)
@@ -847,17 +817,6 @@ action_redo_cb (GtkAction *action,
 }
 
 static void
-action_select_all_cb (GtkAction *action,
-                      EHTMLEditor *editor)
-{
-	EContentEditor *cnt_editor;
-
-	cnt_editor = e_html_editor_get_content_editor (editor);
-	if (e_html_editor_action_can_run (GTK_WIDGET (cnt_editor)))
-		e_content_editor_select_all (cnt_editor);
-}
-
-static void
 action_show_find_cb (GtkAction *action,
                      EHTMLEditor *editor)
 {
@@ -951,21 +910,21 @@ static GtkActionEntry core_entries[] = {
 	  N_("_Copy"),
 	  "<Control>c",
 	  N_("Copy selected text to the clipboard"),
-	  G_CALLBACK (action_copy_cb) },
+	  NULL }, /* Handled by focus tracker */
 
 	{ "cut",
 	  "edit-cut",
 	  N_("Cu_t"),
 	  "<Control>x",
 	  N_("Cut selected text to the clipboard"),
-	  G_CALLBACK (action_cut_cb) },
+	  NULL }, /* Handled by focus tracker */
 
 	{ "paste",
 	  "edit-paste",
 	  N_("_Paste"),
 	  NULL, /* Widgets are treating Ctrl + v shortcut themselves */
 	  N_("Paste text from the clipboard"),
-	  G_CALLBACK (action_paste_cb) },
+	  NULL }, /* Handled by focus tracker */
 
 	{ "redo",
 	  "edit-redo",
@@ -979,7 +938,7 @@ static GtkActionEntry core_entries[] = {
 	  N_("Select _All"),
 	  "<Control>a",
 	  NULL,
-	  G_CALLBACK (action_select_all_cb) },
+	  NULL }, /* Handled by focus tracker */
 
 	{ "undo",
 	  "edit-undo",
