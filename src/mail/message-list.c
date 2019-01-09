@@ -4828,11 +4828,8 @@ message_list_folder_changed (CamelFolder *folder,
 			     MessageList *message_list)
 {
 	CamelFolderChangeInfo *altered_changes = NULL;
-	ETreeModel *tree_model;
+	RegenData *regen_data;
 	gboolean need_list_regen = TRUE;
-	gboolean hide_junk;
-	gboolean hide_deleted;
-	gint i;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (changes != NULL);
@@ -4841,19 +4838,29 @@ message_list_folder_changed (CamelFolder *folder,
 	if (message_list->priv->destroyed)
 		return;
 
-	tree_model = E_TREE_MODEL (message_list);
-
-	hide_junk = message_list_get_hide_junk (message_list, folder);
-	hide_deleted = message_list_get_hide_deleted (message_list, folder);
+	regen_data = message_list_ref_regen_data (message_list);
 
 	d (
-		printf ("%s: changes:%p added:%d removed:%d changed:%d recent:%d for '%s'\n", G_STRFUNC, changes,
+		printf ("%s: regen_data:%p changes:%p added:%d removed:%d changed:%d recent:%d for '%s'\n",
+		G_STRFUNC, regen_data, changes,
 		changes ? changes->uid_added->len : -1,
 		changes ? changes->uid_removed->len : -1,
 		changes ? changes->uid_changed->len : -1,
 		changes ? changes->uid_recent->len : -1,
 		camel_folder_get_full_name (folder)));
-	if (changes != NULL) {
+
+	/* Skip the quick update when the message list is being regenerated */
+	if (changes && !regen_data) {
+		ETreeModel *tree_model;
+		gboolean hide_junk;
+		gboolean hide_deleted;
+		gint i;
+
+		tree_model = E_TREE_MODEL (message_list);
+
+		hide_junk = message_list_get_hide_junk (message_list, folder);
+		hide_deleted = message_list_get_hide_deleted (message_list, folder);
+
 		for (i = 0; i < changes->uid_removed->len; i++)
 			g_hash_table_remove (
 				message_list->normalised_hash,
@@ -4904,6 +4911,9 @@ message_list_folder_changed (CamelFolder *folder,
 
 	if (altered_changes != NULL)
 		camel_folder_change_info_free (altered_changes);
+
+	if (regen_data)
+		regen_data_unref (regen_data);
 }
 
 typedef struct _FolderChangedData {
