@@ -595,13 +595,13 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		else if (g_ascii_strcasecmp (header, "enddate") == 0)
 			populate_g_date (&end_date, convert_time_from_isodate (content, zone) - 1, zone);
 		else if (g_ascii_strcasecmp (header, "source-uid") == 0)
-			source_uid = g_strdup (content);
+			source_uid = g_uri_unescape_string (content, NULL);
 		else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
-			comp_uid = g_strdup (content);
+			comp_uid = g_uri_unescape_string (content, NULL);
 		else if (g_ascii_strcasecmp (header, "comp-rid") == 0)
-			comp_rid = g_strdup (content);
+			comp_rid = g_uri_unescape_string (content, NULL);
 		else if (g_ascii_strcasecmp (header, "new-ics") == 0)
-			new_ics = g_strdup (content);
+			new_ics = g_uri_unescape_string (content, NULL);
 		else if (g_ascii_strcasecmp (header, "attendees") == 0)
 			attendees = g_strcmp0 (content, "true") == 0 || g_strcmp0 (content, "1") == 0;
 		g_free (content);
