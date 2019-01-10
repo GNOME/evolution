@@ -2954,7 +2954,7 @@ body_keydown_event_cb (WebKitDOMElement *element,
 	}
 
 	if (delete_key || backspace_key) {
-		if (e_editor_dom_key_press_event_process_delete_or_backspace_key (editor_page, key_code, control_key, delete_key))
+		if (e_editor_dom_key_press_event_process_delete_or_backspace_key (editor_page, key_code, control_key, shift_key, delete_key))
 			webkit_dom_event_prevent_default (WEBKIT_DOM_EVENT (event));
 		goto out;
 	}
@@ -9410,7 +9410,8 @@ e_editor_dom_insert_html (EEditorPage *editor_page,
 static void
 save_history_for_delete_or_backspace (EEditorPage *editor_page,
                                       gboolean delete_key,
-                                      gboolean control_key)
+                                      gboolean control_key,
+				      gboolean shift_key)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMDocumentFragment *fragment = NULL;
@@ -9484,7 +9485,7 @@ save_history_for_delete_or_backspace (EEditorPage *editor_page,
 
 			/* Control + Delete/Backspace deletes previous/next word. */
 			webkit_dom_dom_selection_modify (
-				dom_selection, "move", delete_key ? "right" : "left", "word");
+				dom_selection, "move", delete_key ? "right" : "left", (!delete_key && shift_key) ? "paragraphboundary" : "word");
 			tmp_range = webkit_dom_dom_selection_get_range_at (dom_selection, 0, NULL);
 			if (delete_key)
 				webkit_dom_range_set_end (
@@ -9886,6 +9887,7 @@ gboolean
 e_editor_dom_fix_structure_after_delete_before_quoted_content (EEditorPage *editor_page,
                                                                glong key_code,
                                                                gboolean control_key,
+							       gboolean shift_key,
                                                                gboolean delete_key)
 {
 	WebKitDOMDocument *document;
@@ -9937,7 +9939,7 @@ e_editor_dom_fix_structure_after_delete_before_quoted_content (EEditorPage *edit
 			if (key_code != ~0) {
 				e_editor_dom_selection_restore (editor_page);
 				save_history_for_delete_or_backspace (
-					editor_page, key_code == HTML_KEY_CODE_DELETE, control_key);
+					editor_page, key_code == HTML_KEY_CODE_DELETE, control_key, shift_key);
 			} else
 				e_editor_dom_selection_restore (editor_page);
 
@@ -10184,7 +10186,8 @@ delete_last_character_from_previous_line_in_quoted_block (EEditorPage *editor_pa
 gboolean
 e_editor_dom_delete_last_character_on_line_in_quoted_block (EEditorPage *editor_page,
                                                             glong key_code,
-                                                            gboolean control_key)
+                                                            gboolean control_key,
+							    gboolean shift_key)
 {
 	WebKitDOMDocument *document;
 	WebKitDOMElement *element;
@@ -10241,7 +10244,7 @@ e_editor_dom_delete_last_character_on_line_in_quoted_block (EEditorPage *editor_
 	if (key_code != ~0) {
 		e_editor_dom_selection_restore (editor_page);
 		save_history_for_delete_or_backspace (
-			editor_page, key_code == HTML_KEY_CODE_DELETE, control_key);
+			editor_page, key_code == HTML_KEY_CODE_DELETE, control_key, shift_key);
 		e_editor_dom_selection_save (editor_page);
 	}
 
@@ -10883,7 +10886,8 @@ e_editor_dom_key_press_event_process_backspace_key (EEditorPage *editor_page)
 static gboolean
 deleting_block_starting_in_quoted_content (EEditorPage *editor_page,
                                            glong key_code,
-                                           gboolean control_key)
+                                           gboolean control_key,
+					   gboolean shift_key)
 {
 	gint citation_level;
 	WebKitDOMDocument *document;
@@ -10920,7 +10924,7 @@ deleting_block_starting_in_quoted_content (EEditorPage *editor_page,
 
 	if (key_code != ~0)
 		save_history_for_delete_or_backspace (
-			editor_page, key_code == HTML_KEY_CODE_DELETE, control_key);
+			editor_page, key_code == HTML_KEY_CODE_DELETE, control_key, shift_key);
 
 	e_editor_dom_exec_command (editor_page, E_CONTENT_EDITOR_COMMAND_DELETE, NULL);
 
@@ -10971,6 +10975,7 @@ gboolean
 e_editor_dom_key_press_event_process_delete_or_backspace_key (EEditorPage *editor_page,
                                                               glong key_code,
                                                               gboolean control_key,
+							      gboolean shift_key,
                                                               gboolean delete)
 {
 	WebKitDOMDocument *document;
@@ -10994,19 +10999,19 @@ e_editor_dom_key_press_event_process_delete_or_backspace_key (EEditorPage *edito
 	}
 
 	if (!local_delete && !html_mode &&
-	    e_editor_dom_delete_last_character_on_line_in_quoted_block (editor_page, key_code, control_key))
+	    e_editor_dom_delete_last_character_on_line_in_quoted_block (editor_page, key_code, control_key, shift_key))
 		goto out;
 
 	if (!local_delete && !html_mode &&
 	    delete_last_character_from_previous_line_in_quoted_block (editor_page, key_code, control_key))
 		goto out;
 
-	if (!html_mode && e_editor_dom_fix_structure_after_delete_before_quoted_content (editor_page, key_code, control_key, delete))
+	if (!html_mode && e_editor_dom_fix_structure_after_delete_before_quoted_content (editor_page, key_code, control_key, shift_key, delete))
 		goto out;
 
 	collapsed = e_editor_dom_selection_is_collapsed (editor_page);
 
-	if (!html_mode && !collapsed && deleting_block_starting_in_quoted_content (editor_page, key_code, control_key))
+	if (!html_mode && !collapsed && deleting_block_starting_in_quoted_content (editor_page, key_code, control_key, shift_key))
 		goto out;
 
 	if (!collapsed) {
@@ -11017,7 +11022,7 @@ e_editor_dom_key_press_event_process_delete_or_backspace_key (EEditorPage *edito
 
 	if (key_code != ~0)
 		save_history_for_delete_or_backspace (
-			editor_page, key_code == HTML_KEY_CODE_DELETE, control_key);
+			editor_page, key_code == HTML_KEY_CODE_DELETE, control_key, shift_key);
 
 	if (local_delete) {
 		WebKitDOMElement *selection_start_marker;

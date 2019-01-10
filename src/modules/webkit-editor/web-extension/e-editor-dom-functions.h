@@ -169,11 +169,13 @@ gboolean	e_editor_dom_move_quoted_block_level_up
 gboolean	e_editor_dom_delete_last_character_on_line_in_quoted_block
 						(EEditorPage *editor_page,
 						 glong key_code,
-						 gboolean control_key);
+						 gboolean control_key,
+						 gboolean shift_key);
 gboolean	e_editor_dom_fix_structure_after_delete_before_quoted_content
 						(EEditorPage *editor_page,
 						 glong key_code,
 						 gboolean control_key,
+						 gboolean shift_key,
 						 gboolean delete_key);
 void		e_editor_dom_disable_quote_marks_select
 						(EEditorPage *editor_page);
@@ -192,6 +194,7 @@ gboolean	e_editor_dom_key_press_event_process_delete_or_backspace_key
 						(EEditorPage *editor_page,
 						 glong key_code,
 						 gboolean control_key,
+						 gboolean shift_key,
 						 gboolean delete);
 void		e_editor_dom_body_input_event_process
 						(EEditorPage *editor_page,
