@@ -923,7 +923,7 @@ redo_delete (EEditorPage *editor_page,
 	if (!delete_key && e_editor_dom_key_press_event_process_backspace_key (editor_page))
 		goto out;
 
-	if (e_editor_dom_key_press_event_process_delete_or_backspace_key (editor_page, ~0, 0, delete_key))
+	if (e_editor_dom_key_press_event_process_delete_or_backspace_key (editor_page, ~0, FALSE, FALSE, delete_key))
 		goto out;
 
 	if (control_key) {
