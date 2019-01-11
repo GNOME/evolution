@@ -1045,11 +1045,13 @@ item_key_press (ETableItem *eti,
 		}
 
 		if (row != -1) {
-			path = e_tree_table_adapter_node_at_row (
-				tree->priv->etta, row);
-			if (path)
-				e_tree_table_adapter_node_set_expanded (
-					tree->priv->etta, path, TRUE);
+			path = e_tree_table_adapter_node_at_row (tree->priv->etta, row);
+			if (path) {
+				if ((key->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) == (GDK_CONTROL_MASK | GDK_SHIFT_MASK))
+					e_tree_table_adapter_node_set_expanded_recurse (tree->priv->etta, path, TRUE);
+				else
+					e_tree_table_adapter_node_set_expanded (tree->priv->etta, path, TRUE);
+			}
 		}
 		return_val = 1;
 		break;
@@ -1068,11 +1070,13 @@ item_key_press (ETableItem *eti,
 		}
 
 		if (row != -1) {
-			path = e_tree_table_adapter_node_at_row (
-				tree->priv->etta, row);
-			if (path)
-				e_tree_table_adapter_node_set_expanded (
-					tree->priv->etta, path, FALSE);
+			path = e_tree_table_adapter_node_at_row (tree->priv->etta, row);
+			if (path) {
+				if ((key->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK)) == (GDK_CONTROL_MASK | GDK_SHIFT_MASK))
+					e_tree_table_adapter_node_set_expanded_recurse (tree->priv->etta, path, FALSE);
+				else
+					e_tree_table_adapter_node_set_expanded (tree->priv->etta, path, FALSE);
+			}
 		}
 		return_val = 1;
 		break;
