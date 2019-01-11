@@ -5,7 +5,7 @@
     <desc>Keyboard shortcuts that can save you some time.</desc>
 
     <link type="guide" xref="index#getting-started" />
-    <revision pkgversion="3.26.2" version="0.6" date="2017-12-17" status="final"/>
+    <revision pkgversion="3.30.4" version="0.7" date="2019-01-11" status="final"/>
     <credit type="author">
       <name its:translate="no">Raniere Silva</name>
       <email its:translate="no">raniere@rgaiacs.com</email>
@@ -239,13 +239,14 @@ as if you had clicked on it.</p>
   </tr>
 </table>
 
-<p><key>Space</key> also allows navigating in unread mail across folders:</p>
+<p><key>Space</key> and <key>Backspace</key> also allow navigating in unread mail across folders:</p>
 <list>
 <item><p>When you press the Spacebar for the first time, it takes you to the next unread message.</p></item>
 <item><p>If the message is more than one screen long, <key>Space</key> works as <key>Page Down</key>.</p></item>
 <item><p>If you press <key>Space</key> after you reach the bottom of the page, it takes you to the next unread message.</p></item>
 <item><p>If there are no more unread messages in the mailbox, pressing <key>Space</key> takes you to the next unread message in the next folder.</p></item>
 <item><p>If new messages arrive in a number of folders, <key>Space</key> toggles between those folders. This feature allows you to switch to the next unread message in a different folder without clicking the folder.</p></item>
+<item><p><key>Backspace</key> has the same behavior but reverted: It scrolls up in a message and can jump to the next unread message in the previous folder.</p></item>
 </list>
 </section>
 
