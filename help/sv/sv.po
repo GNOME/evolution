@@ -1,15 +1,15 @@
 # Swedish messages for Evolution manual.
-# Copyright © 2007-2018 Free Software Foundation, Inc.
+# Copyright © 2007-2019 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2018-12-17 09:04+0000\n"
-"PO-Revision-Date: 2018-12-23 21:37+0100\n"
+"POT-Creation-Date: 2019-01-11 14:24+0000\n"
+"PO-Revision-Date: 2019-01-13 23:03+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -847,31 +847,31 @@ msgstr "<app>Evolution</app> erbjuder fem olika vyer för dina kalenderdata:"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:33 C/intro-keyboard-shortcuts.page:295
+#: C/calendar-layout-views.page:33 C/intro-keyboard-shortcuts.page:296
 msgid "Day View"
 msgstr "Dagsvy"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:36 C/intro-keyboard-shortcuts.page:301
+#: C/calendar-layout-views.page:36 C/intro-keyboard-shortcuts.page:302
 msgid "Work Week View"
 msgstr "Arbetsveckovy"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:39 C/intro-keyboard-shortcuts.page:307
+#: C/calendar-layout-views.page:39 C/intro-keyboard-shortcuts.page:308
 msgid "Week View"
 msgstr "Veckovy"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:42 C/intro-keyboard-shortcuts.page:313
+#: C/calendar-layout-views.page:42 C/intro-keyboard-shortcuts.page:314
 msgid "Month View"
 msgstr "Månadsvy"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:45 C/intro-keyboard-shortcuts.page:319
+#: C/calendar-layout-views.page:45 C/intro-keyboard-shortcuts.page:320
 msgid "List View"
 msgstr "Listvy"
 
@@ -3610,7 +3610,7 @@ msgstr ""
 "För nyare versioner rekommenderas PST-import."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:253
+#: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:254
 #: C/intro-main-window.page:98
 msgid "Calendar"
 msgstr "Kalender"
@@ -3647,7 +3647,7 @@ msgstr ""
 "andra."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:325
+#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:326
 #: C/intro-main-window.page:144
 msgid "Contacts"
 msgstr "Kontakter"
@@ -4510,7 +4510,7 @@ msgid "Send and receive messages."
 msgstr "Skicka och ta emot meddelanden."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:157 C/intro-keyboard-shortcuts.page:292
+#: C/intro-keyboard-shortcuts.page:157 C/intro-keyboard-shortcuts.page:293
 msgid "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 
@@ -4540,7 +4540,7 @@ msgid "Forward selection."
 msgstr "Vidarebefordra markering."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:175 C/intro-keyboard-shortcuts.page:304
+#: C/intro-keyboard-shortcuts.page:175 C/intro-keyboard-shortcuts.page:305
 msgid "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 
@@ -4610,7 +4610,7 @@ msgid "Reply to sender."
 msgstr "Svara till avsändare."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:217 C/intro-keyboard-shortcuts.page:316
+#: C/intro-keyboard-shortcuts.page:217 C/intro-keyboard-shortcuts.page:317
 #: C/mail-composer-reply.page:45
 msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
@@ -4652,10 +4652,12 @@ msgstr "Rulla nedåt."
 
 #. (itstool) path: section/p
 #: C/intro-keyboard-shortcuts.page:242
-msgid "<key>Space</key> also allows navigating in unread mail across folders:"
+msgid ""
+"<key>Space</key> and <key>Backspace</key> also allow navigating in unread "
+"mail across folders:"
 msgstr ""
-"<key>Blanksteg</key> tillåter också navigering bland olästa meddelanden i "
-"alla mappar:"
+"<key>Blanksteg</key> och <key>Backsteg</key> tillåter också navigering bland "
+"olästa meddelanden i alla mappar:"
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:244
@@ -4704,103 +4706,112 @@ msgstr ""
 "att växla mellan dessa mappar. Denna funktion låter dig växla till nästa "
 "olästa meddelande i en annan mapp utan att klicka på mappen."
 
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:249
+msgid ""
+"<key>Backspace</key> has the same behavior but reverted: It scrolls up in a "
+"message and can jump to the next unread message in the previous folder."
+msgstr ""
+"<key>Backsteg</key> har samma beteende men omvänt: det rullar uppåt i ett "
+"meddelande och kan hoppa till nästa olästa meddelande i föregående mapp."
+
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:256
+#: C/intro-keyboard-shortcuts.page:257
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
 msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>A</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:259
+#: C/intro-keyboard-shortcuts.page:260
 msgid "Create a new appointment."
 msgstr "Skapa ett nytt möte."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:262
+#: C/intro-keyboard-shortcuts.page:263
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
 msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>E</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:265
+#: C/intro-keyboard-shortcuts.page:266
 msgid "Create a new meeting."
 msgstr "Skapa ett nytt sammanträde."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:268
+#: C/intro-keyboard-shortcuts.page:269
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>T</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:271
+#: C/intro-keyboard-shortcuts.page:272
 msgid "Create a new task."
 msgstr "Skapa en ny uppgift."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:274
+#: C/intro-keyboard-shortcuts.page:275
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
 msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>O</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:277
+#: C/intro-keyboard-shortcuts.page:278
 msgid "Create a new memo."
 msgstr "Skapa ett nytt memo."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:280
+#: C/intro-keyboard-shortcuts.page:281
 msgid "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:283
+#: C/intro-keyboard-shortcuts.page:284
 msgid "Go to today."
 msgstr "Gå till idag."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:286
+#: C/intro-keyboard-shortcuts.page:287
 msgid "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:289
+#: C/intro-keyboard-shortcuts.page:290
 msgid "Go to date."
 msgstr "Gå till datum."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:298
+#: C/intro-keyboard-shortcuts.page:299
 msgid "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:310
+#: C/intro-keyboard-shortcuts.page:311
 msgid "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:328
+#: C/intro-keyboard-shortcuts.page:329
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
 msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>C</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:331
+#: C/intro-keyboard-shortcuts.page:332
 msgid "Create a new contact."
 msgstr "Skapa en ny kontakt."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:334
+#: C/intro-keyboard-shortcuts.page:335
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Skift</key><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:337
+#: C/intro-keyboard-shortcuts.page:338
 msgid "Create a new contact list."
 msgstr "Skapa en ny kontaktlista."
 
 #. (itstool) path: section/title
-#: C/intro-keyboard-shortcuts.page:343
+#: C/intro-keyboard-shortcuts.page:344
 msgid "Changing keyboard shortcuts"
 msgstr "Ändra tangentbordsgenvägar"
 
 #. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:344
+#: C/intro-keyboard-shortcuts.page:345
 msgid ""
 "Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
 "config/evolution/accels</file>."
@@ -4809,7 +4820,7 @@ msgstr ""
 "<file>$HOME/.config/evolution/accels</file>."
 
 #. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:344
+#: C/intro-keyboard-shortcuts.page:345
 msgid ""
 "See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
 "evolution-in-gnome/\">this blog post</link> for more information."
