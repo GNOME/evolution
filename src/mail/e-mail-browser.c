@@ -392,6 +392,34 @@ mail_browser_close_on_reply_response_cb (EAlert *alert,
 	}
 }
 
+static gboolean
+mail_browser_key_press_event_cb (GtkWindow *mail_browser,
+				 GdkEventKey *event)
+{
+	GtkWidget *focused;
+	EMailDisplay *mail_display;
+
+	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0 ||
+	    (event->keyval != GDK_KEY_space && event->keyval != GDK_KEY_BackSpace))
+		return FALSE;
+
+	focused = gtk_window_get_focus (mail_browser);
+
+	if (focused && (GTK_IS_ENTRY (focused) || GTK_IS_EDITABLE (focused) ||
+	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0)))
+		return FALSE;
+
+	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_browser));
+
+	if (e_web_view_get_need_input (E_WEB_VIEW (mail_display)) &&
+	    gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
+		gtk_widget_event (GTK_WIDGET (mail_display), (GdkEvent *) event);
+		return TRUE;
+	}
+
+	return e_mail_display_process_magic_spacebar (mail_display, event->keyval == GDK_KEY_space);
+}
+
 static void
 mail_browser_set_backend (EMailBrowser *browser,
                           EMailBackend *backend)
@@ -817,6 +845,10 @@ mail_browser_constructed (GObject *object)
 		display, "need-input",
 		action, "sensitive",
 		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	g_signal_connect (
+		browser, "key-press-event",
+		G_CALLBACK (mail_browser_key_press_event_cb), NULL);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
