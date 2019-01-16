@@ -606,8 +606,10 @@ update_preview_cb (GtkFileChooser *file_chooser,
 	gtk_image_clear (GTK_IMAGE (data));
 	preview = GTK_WIDGET (data);
 	filename = gtk_file_chooser_get_preview_filename (file_chooser);
-	if (filename == NULL)
+	if (!e_util_can_preview_filename (filename)) {
+		g_free (filename);
 		return;
+	}
 
 	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
 	g_free (filename);

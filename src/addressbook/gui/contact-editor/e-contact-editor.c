@@ -4279,16 +4279,21 @@ update_preview_cb (GtkFileChooser *file_chooser,
                    gpointer data)
 {
 	GtkWidget *preview;
-	gchar *filename = NULL;
+	gchar *filename;
 	GdkPixbuf *pixbuf;
 
-	gtk_file_chooser_set_preview_widget_active (file_chooser, TRUE);
 	preview = GTK_WIDGET (data);
 	filename = gtk_file_chooser_get_preview_filename (file_chooser);
-	if (filename == NULL)
+	if (!e_util_can_preview_filename (filename)) {
+		gtk_file_chooser_set_preview_widget_active (file_chooser, FALSE);
+		g_free (filename);
 		return;
+	}
+
+	gtk_file_chooser_set_preview_widget_active (file_chooser, TRUE);
 
 	pixbuf = gdk_pixbuf_new_from_file_at_size (filename, 128, 128, NULL);
+
 	if (!pixbuf) {
 		gchar *alternate_file;
 		alternate_file = e_icon_factory_get_icon_filename (

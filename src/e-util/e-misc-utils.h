@@ -348,6 +348,7 @@ gboolean	e_util_query_ldap_root_dse_sync	(const gchar *host,
 						 gchar ***out_root_dse,
 						 GCancellable *cancellable,
 						 GError **error);
+gboolean       e_util_can_preview_filename     (const gchar *filename);
 
 G_END_DECLS
 
