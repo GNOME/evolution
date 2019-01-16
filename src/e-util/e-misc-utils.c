@@ -4624,3 +4624,32 @@ e_misc_util_free_global_memory (void)
 	e_spell_checker_free_global_memory ();
 	e_simple_async_result_free_global_memory ();
 }
+
+/**
+ * e_util_can_preview_filename:
+ * @filename: (nullable): a file name to test
+ *
+ * Returns: Whether the @filename can be used to create a preview
+ *   in GtkFileChooser and such widgets. For example directories,
+ *   pipes and sockets cannot by used.
+ *
+ * Since: 3.32
+ **/
+gboolean
+e_util_can_preview_filename (const gchar *filename)
+{
+	GStatBuf st;
+
+	if (!filename || !*filename)
+		return FALSE;
+
+	return g_stat (filename, &st) == 0
+		&& !S_ISDIR (st.st_mode)
+		#ifdef S_ISFIFO
+		&& !S_ISFIFO (st.st_mode)
+		#endif
+		#ifdef S_ISSOCK
+		&& !S_ISSOCK (st.st_mode)
+		#endif
+		;
+}

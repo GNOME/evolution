@@ -22,6 +22,7 @@
 
 #include <glib/gi18n-lib.h>
 
+#include "e-misc-utils.h"
 #include "e-image-chooser-dialog.h"
 
 #define E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE(obj) \
@@ -104,6 +105,7 @@ image_chooser_dialog_update_preview (GtkFileChooser *file_chooser)
 	GtkWidget *preview_widget;
 	GFile *preview_file;
 	Context *context;
+	gchar *filename;
 
 	priv = E_IMAGE_CHOOSER_DIALOG_GET_PRIVATE (file_chooser);
 	preview_file = gtk_file_chooser_get_preview_file (file_chooser);
@@ -118,8 +120,16 @@ image_chooser_dialog_update_preview (GtkFileChooser *file_chooser)
 	gtk_image_clear (GTK_IMAGE (preview_widget));
 	gtk_file_chooser_set_preview_widget_active (file_chooser, FALSE);
 
-	if (preview_file == NULL)
+	if (!preview_file)
 		return;
+
+	filename = gtk_file_chooser_get_preview_filename (file_chooser);
+	if (!e_util_can_preview_filename (filename)) {
+		g_free (filename);
+		g_object_unref (preview_file);
+		return;
+	}
+	g_free (filename);
 
 	priv->cancellable = g_cancellable_new ();
 

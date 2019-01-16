@@ -353,6 +353,7 @@ gboolean	e_util_get_language_info	(const gchar *language_tag,
 						 gchar **out_language_name,
 						 gchar **out_country_name);
 void		e_misc_util_free_global_memory	(void);
+gboolean	e_util_can_preview_filename	(const gchar *filename);
 
 G_END_DECLS
 

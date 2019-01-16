@@ -163,7 +163,8 @@ prepare_image (const gchar *image_filename,
 	g_return_val_if_fail (file_contents != NULL, FALSE);
 	g_return_val_if_fail (length != NULL, FALSE);
 
-	if (g_file_get_contents (image_filename, file_contents, length, NULL)) {
+	if (e_util_can_preview_filename (image_filename) &&
+	    g_file_get_contents (image_filename, file_contents, length, NULL)) {
 		GError *error = NULL;
 		GdkPixbuf *pixbuf;
 		GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
