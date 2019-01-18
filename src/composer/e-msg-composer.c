@@ -130,21 +130,25 @@ static void	add_attachments_from_multipart	(EMsgComposer *composer,
 /* used by e_msg_composer_setup_with_message () */
 static void	handle_multipart		(EMsgComposer *composer,
 						 CamelMultipart *multipart,
+						 CamelMimePart *parent_part,
 						 gboolean keep_signature,
 						 GCancellable *cancellable,
 						 gint depth);
 static void	handle_multipart_alternative	(EMsgComposer *composer,
 						 CamelMultipart *multipart,
+						 CamelMimePart *parent_part,
 						 gboolean keep_signature,
 						 GCancellable *cancellable,
 						 gint depth);
 static void	handle_multipart_encrypted	(EMsgComposer *composer,
 						 CamelMimePart *multipart,
+						 CamelMimePart *parent_part,
 						 gboolean keep_signature,
 						 GCancellable *cancellable,
 						 gint depth);
 static void	handle_multipart_signed		(EMsgComposer *composer,
 						 CamelMultipart *multipart,
+						 CamelMimePart *parent_part,
 						 gboolean keep_signature,
 						 GCancellable *cancellable,
 						 gint depth);
@@ -3096,6 +3100,31 @@ e_msg_composer_flush_pending_body (EMsgComposer *composer)
 	g_object_set_data (G_OBJECT (composer), "body:text", NULL);
 }
 
+static gboolean
+emc_is_attachment_part (CamelMimePart *mime_part,
+			CamelMimePart *parent_part)
+{
+	const CamelContentDisposition *cd;
+	CamelContentType *ct, *parent_ct = NULL;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), FALSE);
+
+	ct = camel_mime_part_get_content_type (mime_part);
+	cd = camel_mime_part_get_content_disposition (mime_part);
+
+	if (parent_part)
+		parent_ct = camel_mime_part_get_content_type (parent_part);
+
+	if (!camel_content_disposition_is_attachment_ex (cd, ct, parent_ct))
+		return FALSE;
+
+	/* It looks like an attachment now. Make it an attachment for all but images
+	   under multipart/related, to avoid this group of false positives. */
+	return !(parent_ct && ct &&
+		camel_content_type_is (parent_ct, "multipart", "related") &&
+		camel_content_type_is (ct, "image", "*"));
+}
+
 static void
 add_attachments_handle_mime_part (EMsgComposer *composer,
                                   CamelMimePart *mime_part,
@@ -3122,8 +3151,9 @@ add_attachments_handle_mime_part (EMsgComposer *composer,
 			composer, (CamelMultipart *) wrapper,
 			just_inlines, depth + 1);
 	} else if (just_inlines) {
-		if (camel_mime_part_get_content_id (mime_part) ||
-		    camel_mime_part_get_content_location (mime_part))
+		if (camel_content_type_is (content_type, "image", "*") && (
+		    camel_mime_part_get_content_id (mime_part) ||
+		    camel_mime_part_get_content_location (mime_part)))
 			e_content_editor_insert_image_from_mime_part (
 				cnt_editor, mime_part);
 	} else if (related && camel_content_type_is (content_type, "image", "*")) {
@@ -3199,6 +3229,7 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer,
 static void
 handle_multipart_signed (EMsgComposer *composer,
                          CamelMultipart *multipart,
+			 CamelMimePart *parent_part,
                          gboolean keep_signature,
                          GCancellable *cancellable,
                          gint depth)
@@ -3249,24 +3280,24 @@ handle_multipart_signed (EMsgComposer *composer,
 			/* Handle the signed content and configure
 			 * the composer to sign outgoing messages. */
 			handle_multipart_signed (
-				composer, multipart, keep_signature, cancellable, depth);
+				composer, multipart, parent_part, keep_signature, cancellable, depth);
 
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* Decrypt the encrypted content and configure
 			 * the composer to encrypt outgoing messages. */
 			handle_multipart_encrypted (
-				composer, mime_part, keep_signature, cancellable, depth);
+				composer, mime_part, parent_part, keep_signature, cancellable, depth);
 
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* This contains the text/plain and text/html
 			 * versions of the message body. */
 			handle_multipart_alternative (
-				composer, multipart, keep_signature, cancellable, depth);
+				composer, multipart, parent_part, keep_signature, cancellable, depth);
 
 		} else {
 			/* There must be attachments... */
 			handle_multipart (
-				composer, multipart, keep_signature, cancellable, depth);
+				composer, multipart, parent_part, keep_signature, cancellable, depth);
 		}
 
 	} else if (camel_content_type_is (content_type, "text", "*")) {
@@ -3286,6 +3317,7 @@ handle_multipart_signed (EMsgComposer *composer,
 static void
 handle_multipart_encrypted (EMsgComposer *composer,
                             CamelMimePart *multipart,
+			    CamelMimePart *parent_part,
                             gboolean keep_signature,
                             GCancellable *cancellable,
                             gint depth)
@@ -3348,24 +3380,24 @@ handle_multipart_encrypted (EMsgComposer *composer,
 			/* Handle the signed content and configure the
 			 * composer to sign outgoing messages. */
 			handle_multipart_signed (
-				composer, content_multipart, keep_signature, cancellable, depth);
+				composer, content_multipart, multipart, keep_signature, cancellable, depth);
 
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* Decrypt the encrypted content and configure the
 			 * composer to encrypt outgoing messages. */
 			handle_multipart_encrypted (
-				composer, mime_part, keep_signature, cancellable, depth);
+				composer, mime_part, multipart, keep_signature, cancellable, depth);
 
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* This contains the text/plain and text/html
 			 * versions of the message body. */
 			handle_multipart_alternative (
-				composer, content_multipart, keep_signature, cancellable, depth);
+				composer, content_multipart, multipart, keep_signature, cancellable, depth);
 
 		} else {
 			/* There must be attachments... */
 			handle_multipart (
-				composer, content_multipart, keep_signature, cancellable, depth);
+				composer, content_multipart, multipart, keep_signature, cancellable, depth);
 		}
 
 	} else if (camel_content_type_is (content_type, "text", "*")) {
@@ -3387,6 +3419,7 @@ handle_multipart_encrypted (EMsgComposer *composer,
 static void
 handle_multipart_alternative (EMsgComposer *composer,
                               CamelMultipart *multipart,
+			      CamelMimePart *parent_part,
                               gboolean keep_signature,
                               GCancellable *cancellable,
                               gint depth)
@@ -3419,20 +3452,20 @@ handle_multipart_alternative (EMsgComposer *composer,
 				/* Handle the signed content and configure
 				 * the composer to sign outgoing messages. */
 				handle_multipart_signed (
-					composer, mp, keep_signature, cancellable, depth + 1);
+					composer, mp, parent_part, keep_signature, cancellable, depth + 1);
 
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* Decrypt the encrypted content and configure
 				 * the composer to encrypt outgoing messages. */
 				handle_multipart_encrypted (
-					composer, mime_part, keep_signature,
+					composer, mime_part, parent_part, keep_signature,
 					cancellable, depth + 1);
 
 			} else {
 				/* Depth doesn't matter so long as we
 				 * don't pass 0. */
 				handle_multipart (
-					composer, mp, keep_signature, cancellable, depth + 1);
+					composer, mp, parent_part, keep_signature, cancellable, depth + 1);
 			}
 
 		} else if (camel_content_type_is (content_type, "text", "html")) {
@@ -3471,6 +3504,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 static void
 handle_multipart (EMsgComposer *composer,
                   CamelMultipart *multipart,
+		  CamelMimePart *parent_part,
                   gboolean keep_signature,
                   GCancellable *cancellable,
                   gint depth)
@@ -3501,25 +3535,25 @@ handle_multipart (EMsgComposer *composer,
 				/* Handle the signed content and configure
 				 * the composer to sign outgoing messages. */
 				handle_multipart_signed (
-					composer, mp, keep_signature, cancellable, depth + 1);
+					composer, mp, parent_part, keep_signature, cancellable, depth + 1);
 
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* Decrypt the encrypted content and configure
 				 * the composer to encrypt outgoing messages. */
 				handle_multipart_encrypted (
-					composer, mime_part, keep_signature,
+					composer, mime_part, parent_part, keep_signature,
 					cancellable, depth + 1);
 
 			} else if (camel_content_type_is (
 				content_type, "multipart", "alternative")) {
 				handle_multipart_alternative (
-					composer, mp, keep_signature, cancellable, depth + 1);
+					composer, mp, parent_part, keep_signature, cancellable, depth + 1);
 
 			} else {
 				/* Depth doesn't matter so long as we
 				 * don't pass 0. */
 				handle_multipart (
-					composer, mp, keep_signature, cancellable, depth + 1);
+					composer, mp, parent_part, keep_signature, cancellable, depth + 1);
 			}
 
 		} else if (depth == 0 && i == 0) {
@@ -3533,8 +3567,9 @@ handle_multipart (EMsgComposer *composer,
 
 			e_msg_composer_set_pending_body (composer, html, length, TRUE);
 
-		} else if (camel_mime_part_get_content_id (mime_part) ||
-			   camel_mime_part_get_content_location (mime_part)) {
+		} else if (camel_content_type_is (content_type, "image", "*") && (
+			   camel_mime_part_get_content_id (mime_part) ||
+			   camel_mime_part_get_content_location (mime_part))) {
 			/* special in-line attachment */
 			EHTMLEditor *editor;
 			EContentEditor *cnt_editor;
@@ -3543,6 +3578,11 @@ handle_multipart (EMsgComposer *composer,
 			cnt_editor = e_html_editor_get_content_editor (editor);
 
 			e_content_editor_insert_image_from_mime_part (cnt_editor, mime_part);
+
+			/* Add it to both, to not lose attachments not referenced in HTML body.
+			   The inserted images are not included in the message when not referenced. */
+			if (emc_is_attachment_part (mime_part, parent_part))
+				e_msg_composer_attach (composer, mime_part);
 		} else {
 			/* normal attachment */
 			e_msg_composer_attach (composer, mime_part);
@@ -3953,24 +3993,24 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 			/* Handle the signed content and configure the
 			 * composer to sign outgoing messages. */
 			handle_multipart_signed (
-				composer, multipart, keep_signature, cancellable, 0);
+				composer, multipart, mime_part, keep_signature, cancellable, 0);
 
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* Decrypt the encrypted content and configure the
 			 * composer to encrypt outgoing messages. */
 			handle_multipart_encrypted (
-				composer, mime_part, keep_signature, cancellable, 0);
+				composer, mime_part, mime_part, keep_signature, cancellable, 0);
 
 		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
 			/* This contains the text/plain and text/html
 			 * versions of the message body. */
 			handle_multipart_alternative (
-				composer, multipart, keep_signature, cancellable, 0);
+				composer, multipart, mime_part, keep_signature, cancellable, 0);
 
 		} else {
 			/* There must be attachments... */
 			handle_multipart (
-				composer, multipart, keep_signature, cancellable, 0);
+				composer, multipart, mime_part, keep_signature, cancellable, 0);
 		}
 	} else {
 		gboolean is_html = FALSE;
