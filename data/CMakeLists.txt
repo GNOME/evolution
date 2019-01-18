@@ -15,7 +15,20 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.desktop
 	DESTINATION ${desktopdir}
 )
 
-add_appdata_file(org.gnome.Evolution.appdata.xml.in org.gnome.Evolution.appdata.xml)
+if("${VERSION_SUBSTRING}" STREQUAL "")
+	set(APPDATA_RELEASE_VERSION "${PROJECT_VERSION}")
+else("${VERSION_SUBSTRING}" STREQUAL "")
+	set(APPDATA_RELEASE_VERSION "${PROJECT_VERSION} ${VERSION_SUBSTRING}")
+endif("${VERSION_SUBSTRING}" STREQUAL "")
+
+string(TIMESTAMP APPDATA_RELEASE_BUILD_DATE "%Y-%m-%d")
+
+configure_file(org.gnome.Evolution.appdata.xml.in.in
+	org.gnome.Evolution.appdata.xml.in
+	@ONLY
+)
+
+add_appdata_file(${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.appdata.xml.in org.gnome.Evolution.appdata.xml)
 
 install(FILES webview.css
 		webview-print.css

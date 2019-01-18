@@ -19,7 +19,7 @@ data/org.gnome.evolution.plugin.templates.gschema.xml.in
 data/org.gnome.evolution.shell.gschema.xml.in
 data/org.gnome.evolution.spamassassin.gschema.xml.in
 data/org.gnome.evolution.text-highlight.gschema.xml.in
-data/org.gnome.Evolution.appdata.xml.in
+data/org.gnome.Evolution.appdata.xml.in.in
 data/org.gnome.Evolution.desktop.in.in
 data/views/addressbook/galview.xml
 data/views/calendar/galview.xml
