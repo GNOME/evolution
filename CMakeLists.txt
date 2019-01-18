@@ -28,8 +28,10 @@ if(_is_devel_version EQUAL 1)
 	endif(_minor EQUAL -1)
 
 	set(STABLE_VERSION "${_major}.${_minor}")
+	set(APPDATA_RELEASE_TYPE "development")
 else(_is_devel_version EQUAL 1)
 	unset(STABLE_VERSION)
+	set(APPDATA_RELEASE_TYPE "stable")
 endif(_is_devel_version EQUAL 1)
 
 # Required for FindIntltool module

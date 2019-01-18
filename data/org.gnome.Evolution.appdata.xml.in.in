@@ -42,4 +42,7 @@
   </kudos>
   <project_group>GNOME</project_group>
   <translation type="gettext">evolution</translation>
+  <releases>
+    <release version="@APPDATA_RELEASE_VERSION@" type="@APPDATA_RELEASE_TYPE@" date="@APPDATA_RELEASE_BUILD_DATE@"/>
+  </releases>
 </component>
