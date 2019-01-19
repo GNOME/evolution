@@ -6,7 +6,7 @@
 
     <link type="guide" xref="mail-displaying-message" />
 
-    <revision pkgversion="3.1.5" version="0.4" date="2011-08-09" status="final"/>
+    <revision pkgversion="3.30.4" version="0.5" date="2019-01-19" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -34,7 +34,7 @@
 
 <p>To load the images for one message, click <guiseq><gui>View</gui><gui>Load Images</gui></guiseq> or press <keyseq><key>Ctrl</key><key>I</key></keyseq>.</p>
 
-<p>To set the default action for loading images, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</gui><gui>Loading Images</gui></guiseq>.</p>
+<p>To set the default action for loading images, go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</gui><gui>Loading Remote Content</gui></guiseq>.</p>
 </section>
 
 <section id="automatically-download">
