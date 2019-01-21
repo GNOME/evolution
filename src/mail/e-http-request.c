@@ -268,10 +268,12 @@ e_http_request_process_sync (EContentRequest *request,
 
 	*out_stream_length = -1;
 
-	/* Use MD5 hash of the URI as a filname of the resourec cache file.
+	/* Use MD5 hash of the URI as a filname of the resource cache file.
 	 * We were previously using the URI as a filename but the URI is
 	 * sometimes too long for a filename. */
-	uri_md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, use_uri, -1);
+	uri_md5 = e_http_request_util_compute_uri_checksum (use_uri);
+	if (!uri_md5)
+		goto cleanup;
 
 	/* Open Evolution's cache */
 	user_cache_dir = e_get_user_cache_dir ();
@@ -544,4 +546,60 @@ EContentRequest *
 e_http_request_new (void)
 {
 	return g_object_new (E_TYPE_HTTP_REQUEST, NULL);
+}
+
+/* Computes MD5 checksum of the URI with normalized URI query */
+gchar *
+e_http_request_util_compute_uri_checksum (const gchar *in_uri)
+{
+	GString *string;
+	SoupURI *soup_uri;
+	const gchar *soup_query;
+	gchar *md5, *uri;
+
+	g_return_val_if_fail (in_uri != NULL, NULL);
+
+	soup_uri = soup_uri_new (in_uri);
+	g_return_val_if_fail (soup_uri != NULL, NULL);
+
+	string = g_string_new ("");
+
+	soup_query = soup_uri_get_query (soup_uri);
+	if (soup_query) {
+		GHashTable *query;
+		GList *keys, *link;
+
+		query = soup_form_decode (soup_query);
+		keys = g_hash_table_get_keys (query);
+		keys = g_list_sort (keys, (GCompareFunc) g_strcmp0);
+		for (link = keys; link; link = g_list_next (link)) {
+			const gchar *key, *value;
+
+			key = link->data;
+			if (key && *key) {
+				value = g_hash_table_lookup (query, key);
+				g_string_append_printf (string, "%s=%s;", key, value ? value : "");
+			}
+		}
+		g_list_free (keys);
+		g_hash_table_unref (query);
+
+		soup_uri_set_query (soup_uri, NULL);
+	}
+
+	uri = soup_uri_to_string (soup_uri, FALSE);
+	g_string_append (string, uri ? uri : "");
+	g_free (uri);
+
+	/* This is not constructing real URI, only its query parameters in sorted
+	   order with the URI part. */
+	if (string->len)
+		md5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, string->str, -1);
+	else
+		md5 = NULL;
+
+	g_string_free (string, TRUE);
+	soup_uri_free (soup_uri);
+
+	return md5;
 }

@@ -1,4 +1,6 @@
-set(extra_deps)
+set(extra_deps
+	evolution-mail
+)
 set(sources
 	e-composer-dom-functions.c
 	e-composer-dom-functions.h

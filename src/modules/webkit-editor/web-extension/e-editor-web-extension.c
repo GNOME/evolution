@@ -28,6 +28,10 @@
 
 #include <webkitdom/webkitdom.h>
 
+#define E_UTIL_INCLUDE_WITHOUT_WEBKIT
+#include "mail/e-http-request.h"
+#undef E_UTIL_INCLUDE_WITHOUT_WEBKIT
+
 #include "web-extensions/e-dom-utils.h"
 
 #include "e-editor-page.h"
@@ -2350,7 +2354,7 @@ image_exists_in_cache (const gchar *image_uri)
 	if (!emd_global_http_cache)
 		return FALSE;
 
-	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
+	hash = e_http_request_util_compute_uri_checksum (image_uri);
 	filename = camel_data_cache_get_filename (
 		emd_global_http_cache, "http", hash);
 

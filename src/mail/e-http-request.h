@@ -58,6 +58,9 @@ GType		e_http_request_get_type		(void) G_GNUC_CONST;
 EContentRequest *
 		e_http_request_new		(void);
 
+gchar *		e_http_request_util_compute_uri_checksum
+						(const gchar *in_uri);
+
 
 G_END_DECLS
 
