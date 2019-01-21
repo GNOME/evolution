@@ -225,6 +225,7 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 				gunichar c = g_utf8_get_char (tag);
 				if (!g_unichar_isspace (c))
 					break;
+				pos = tag;
 			}
 
 			if (g_ascii_strncasecmp (tag, "style", 5) == 0) {
