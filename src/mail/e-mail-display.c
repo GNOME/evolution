@@ -1668,7 +1668,7 @@ mail_display_image_exists_in_cache (const gchar *image_uri)
 	if (!emd_global_http_cache)
 		return FALSE;
 
-	hash = g_compute_checksum_for_string (G_CHECKSUM_MD5, image_uri, -1);
+	hash = e_http_request_util_compute_uri_checksum (image_uri);
 	filename = camel_data_cache_get_filename (
 		emd_global_http_cache, "http", hash);
 
