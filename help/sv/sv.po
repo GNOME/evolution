@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2019-01-11 14:24+0000\n"
-"PO-Revision-Date: 2019-01-13 23:03+0100\n"
+"POT-Creation-Date: 2019-01-22 08:46+0000\n"
+"PO-Revision-Date: 2019-01-24 01:14+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -6424,25 +6424,16 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
 msgid ""
-"Look in the <link xref=\"mail-spam\"><gui>Junk</gui> folder</link>. Messages "
-"that are marked as Junk disappear from the original folder and are moved to "
-"the <gui>Junk</gui> folder."
+"Select both <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> "
+"and <guiseq><gui>View</gui><gui>Show Junk Messages</gui></guiseq> to make "
+"sure all messages are visible."
 msgstr ""
-"Titta i <link xref=\"mail-spam\">mappen <gui>Skräppost</gui></link>. "
-"Meddelanden som är markerade som Skräppost försvinner från originalmappen "
-"och flyttas till mappen <gui>Skräppost</gui>."
+"Välj både <guiseq><gui>Visa</gui><gui>Visa borttagna meddelanden</gui></"
+"guiseq> och <guiseq><gui>Visa</gui><gui>Visa skräppost</gui></guiseq> för "
+"att säkerställa att alla meddelanden syns."
 
 #. (itstool) path: item/p
-#: C/mail-cannot-see.page:37
-msgid ""
-"Click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> to "
-"make sure all messages are visible."
-msgstr ""
-"Klicka på <guiseq><gui>Visa</gui><gui>Visa borttagna meddelanden</gui></"
-"guiseq> för att säkerställa att alla meddelanden syns."
-
-#. (itstool) path: item/p
-#: C/mail-cannot-see.page:40
+#: C/mail-cannot-see.page:36
 msgid ""
 "<link xref=\"mail-default-folder-locations\">Check your folder settings.</"
 "link> Perhaps they are set to some other folder than the folder you thought "
@@ -8760,11 +8751,12 @@ msgstr ""
 msgid ""
 "To set the default action for loading images, go to <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</"
-"gui><gui>Loading Images</gui></guiseq>."
+"gui><gui>Loading Remote Content</gui></guiseq>."
 msgstr ""
 "För att ställa in standardåtgärden för att läsa in bilder, gå till "
 "<guiseq><gui>Redigera</gui><gui>Inställningar</gui><gui>E-postinställningar</"
-"gui><gui>HTML-meddelanden</gui><gui>Inläsning av bilder</gui></guiseq>."
+"gui><gui>HTML-meddelanden</gui><gui>Inläsning av fjärrinnehåll</gui></"
+"guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:41
@@ -14281,6 +14273,15 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
+
+#~ msgid ""
+#~ "Look in the <link xref=\"mail-spam\"><gui>Junk</gui> folder</link>. "
+#~ "Messages that are marked as Junk disappear from the original folder and "
+#~ "are moved to the <gui>Junk</gui> folder."
+#~ msgstr ""
+#~ "Titta i <link xref=\"mail-spam\">mappen <gui>Skräppost</gui></link>. "
+#~ "Meddelanden som är markerade som Skräppost försvinner från originalmappen "
+#~ "och flyttas till mappen <gui>Skräppost</gui>."
 
 #~ msgid ""
 #~ "Please refer to the <link xref=\"mail-account-manage-imap-plus\">IMAP+ "
