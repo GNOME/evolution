@@ -1,25 +1,24 @@
-# translation of evolution-help.master.po to
-# Hungarian translation of evolution_help
-# Copyright (C) 2011, 2012, 2013, 2017. Free Software Foundation, Inc.
+# Hungarian translation for evolution_help.
+# Copyright (C) 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution help.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
-# Balázs Úr <urbalazs at gmail dot com>, 2014.
+# Balázs Úr <urbalazs at gmail dot com>, 2014, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2018-03-28 13:01+0000\n"
-"PO-Revision-Date: 2018-04-12 20:55+0100\n"
-"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
-"Language-Team: Hungarian <openscope at googlegroups dot com>\n"
+"POT-Creation-Date: 2018-07-09 13:53+0000\n"
+"PO-Revision-Date: 2019-01-27 18:10+0100\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 1.2\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
@@ -317,7 +316,6 @@ msgstr "A naptár hozzáadásra kerül az <app>Evolution</app> naptárlistájáh
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
-#| msgid "Classifying appointments and tasks on remote servers."
 msgid "Restricting visibility of appointments on remote servers."
 msgstr "Értekezletek láthatóságának korlátozása távoli kiszolgálókon."
 
@@ -339,13 +337,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:32
-#| msgid ""
-#| "To set a classification for an appointment or a task, click "
-#| "<guiseq><gui>Options</gui><gui>Classification</gui></guiseq> and select a "
-#| "classification in the editor. <gui>Public</gui> is the default category, "
-#| "and a public appointment can be viewed by anyone on the calendar-sharing "
-#| "network. <gui>Private</gui> denotes one level of security, and "
-#| "<gui>Confidential</gui> an even higher level."
 msgid ""
 "To set a classification for an appointment, click <guiseq><gui>Options</"
 "gui><gui>Classification</gui></guiseq> and select a classification in the "
@@ -354,12 +345,12 @@ msgid ""
 "denotes one level of security, and <gui>Confidential</gui> an even higher "
 "level."
 msgstr ""
-"Értekezlet besorolásának megadásához kattintson a "
-"<guiseq><gui>Beállítások</gui><gui>Besorolás</gui></guiseq> menüpontra, és a "
-"szerkesztőben válasszon egy besorolást. Az alapértelmezett kategória a "
-"<gui>Nyilvános</gui>, ebben az esetben egy nyilvános értekezletet bárki "
-"láthat a naptármegosztó hálózaton. A <gui>Személyes</gui> egy biztonságosabb "
-"szintet jelöl, a <gui>Bizalmas</gui> pedig egy még biztonságosabbat."
+"Értekezlet besorolásának megadásához kattintson a <guiseq><gui>Beállítások</"
+"gui><gui>Besorolás</gui></guiseq> menüpontra, és a szerkesztőben válasszon "
+"egy besorolást. Az alapértelmezett kategória a <gui>Nyilvános</gui>, ebben "
+"az esetben egy nyilvános értekezletet bárki láthat a naptármegosztó "
+"hálózaton. A <gui>Személyes</gui> egy biztonságosabb szintet jelöl, a "
+"<gui>Bizalmas</gui> pedig egy még biztonságosabbat."
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:39
@@ -438,11 +429,11 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:56
 msgid ""
-"Click the <gui>Free/Busy</gui> button on the toolbar, or click "
-"<guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
+"Click the <gui style=\"button\">Free/Busy</gui> button on the toolbar, or "
+"the <gui>Schedule</gui> tab."
 msgstr ""
-"Nyomja meg az eszköztáron az <gui>Időbeosztás</gui> gombot, vagy válassza a "
-"<guiseq><gui>Beállítások</gui><gui>Időbeosztás</gui></guiseq> menüpontot."
+"Nyomja meg az eszköztáron az <gui style=\"button\">Időbeosztás</gui> gombot, "
+"vagy válassza az <gui>Ütemezés</gui> lapot."
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:60
@@ -1209,12 +1200,12 @@ msgstr "(Opcionális) A <gui>Leírás</gui> mezőbe írja be az esemény leírá
 #: C/calendar-meetings-sending-invitation.page:87
 msgid ""
 "To query <link xref=\"calendar-free-busy\">free/busy</link> information for "
-"the attendees, click the <gui>Free/Busy</gui> button on the toolbar, or "
-"click <guiseq><gui>Options</gui><gui>Free/Busy</gui></guiseq>."
+"the attendees, click the <gui style=\"button\">Free/Busy</gui> button on the "
+"toolbar, or the <gui>Schedule</gui> tab."
 msgstr ""
-"A résztvevők időbeosztás-információinak lekéréséhez nyomja meg az "
-"eszköztáron az <gui>Időbeosztás</gui> gombot, vagy válassza a "
-"<guiseq><gui>Beállítások</gui><gui>Időbeosztás</gui></guiseq> menüpontot."
+"A résztvevők <link xref=\"calendar-free-busy\">időbeosztás-információinak<"
+"/link> lekéréséhez nyomja meg az eszköztáron az <gui style=\"button\">"
+"Időbeosztás</gui> gombot, vagy válassza az <gui>Ütemezés</gui> lapot."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:92
@@ -1514,15 +1505,6 @@ msgstr "Értekezlet időzónájának beállítása"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:48
-#| msgid ""
-#| "You can also configure time zone information specific to each "
-#| "appointment. To do that, <link xref=\"calendar-usage\">add a new or edit "
-#| "an existing appointment</link> and click the globe button to customize "
-#| "the time zone that the time exists in. For example, if you live in New "
-#| "York but have a telephone meeting set for noon with someone in "
-#| "California, you need to make sure that your schedules are coordinated. "
-#| "Setting time zones on a per-appointment basis helps avoid that potential "
-#| "confusion."
 msgid ""
 "You can also configure time zone information specific to each appointment. "
 "To do that, <link xref=\"calendar-usage\">add a new or edit an existing "
@@ -1534,12 +1516,11 @@ msgid ""
 msgstr ""
 "Megadhatja az egyes értekezletek időzóna-információit is. Ehhez <link xref="
 "\"calendar-usage\">vegyen fel egy új, vagy szerkesszen egy meglévő "
-"értekezletet</link>. Az <gui>Időzóna</gui> alatt kattintson a "
-"<gui style=\"button\">Kiválasztás</gui> ikonra az időzóna "
-"megadásához. Ha például Budapesten él, de fel "
-"kell hívnia valakit délben Londonban, akkor meg kell győződnie róla, hogy az "
-"időbeosztások össze vannak hangolva. Az időzóna értekezletenkénti "
-"megadásával elkerülheti az esetleges tévedéseket."
+"értekezletet</link>. Az <gui>Időzóna</gui> alatt kattintson a <gui style="
+"\"button\">Kiválasztás</gui> ikonra az időzóna megadásához. Ha például "
+"Budapesten él, de fel kell hívnia valakit délben Londonban, akkor meg kell "
+"győződnie róla, hogy az időbeosztások össze vannak hangolva. Az időzóna "
+"értekezletenkénti megadásával elkerülheti az esetleges tévedéseket."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-add-appointment.page:17
@@ -2139,32 +2120,24 @@ msgstr "Névjegyek a LibreOfficeban"
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
-#| msgid ""
-#| "You can use your <app>Evolution</app> address books in LibreOffice as a "
-#| "data source. The following steps refer to LibreOffice version 3.3.3."
 msgid ""
 "You can use your <app>Evolution</app> address books in <app>LibreOffice "
 "Writer</app> as a data source. The following steps refer to LibreOffice "
 "version 5.4."
 msgstr ""
 "Az <app>Evolution</app> címjegyzékeit felhasználhatja adatforrásként a "
-"<app>LibreOffice Writerben</app>. A következő lépések a LibreOffice 5.4-es"
-" verziójára "
-"vonatkoznak."
+"<app>LibreOffice Writerben</app>. A következő lépések a LibreOffice 5.4-es "
+"verziójára vonatkoznak."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
-#| msgid ""
-#| "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in "
-#| "the menu bar. This will bring up the <gui>Exchange databases</gui> dialog "
-#| "box."
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
-"Válassza a menüsáv <guiseq><gui>Szerkesztés</gui><gui>Adatbázis kicserélése<"
-"/gui></guiseq> menüpontját. Ezután megjelenik az "
-"<gui>Adatbázisok kicserélése</gui> ablak."
+"Válassza a menüsáv <guiseq><gui>Szerkesztés</gui><gui>Adatbázis kicserélése</"
+"gui></guiseq> menüpontját. Ezután megjelenik az <gui>Adatbázisok "
+"kicserélése</gui> ablak."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:33
@@ -2186,11 +2159,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:42
-#| msgid ""
-#| "This makes the <app>Evolution</app> address book the default data source "
-#| "for LibreOffice. You can now select a field to insert into a LibreOffice "
-#| "document via <guiseq><gui>Insert</gui><gui>Fields</gui><gui>Other</gui></"
-#| "guiseq>."
 msgid ""
 "This makes the <app>Evolution</app> address book the default data source for "
 "LibreOffice. You can now select a field to insert into a LibreOffice "
@@ -2198,8 +2166,8 @@ msgid ""
 msgstr ""
 "Ez az <app>Evolution</app> címjegyzéket a LibreOffice alapértelmezett "
 "adatforrásává teszi. Ezután egy LibreOffice dokumentumba szúrandó mezőt a "
-"<guiseq><gui>Beszúrás</gui><gui>Mező</gui></guiseq> "
-"menüpont használatával választhat ki."
+"<guiseq><gui>Beszúrás</gui><gui>Mező</gui></guiseq> menüpont használatával "
+"választhat ki."
 
 #. (itstool) path: info/desc
 #: C/contacts-local.page:17
@@ -13344,11 +13312,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/tasks-usage-add-task.page:34
-#| msgid ""
-#| "You can also define a <link xref=\"calendar-timezones\">time zone</link>, "
-#| "a <link xref=\"using-categories\">category</link>, or a <link xref="
-#| "\"calendar-classifications\">classification</link> for the task, or add "
-#| "an attachment."
 msgid ""
 "You can also define a <link xref=\"calendar-timezones\">time zone</link>, a "
 "<link xref=\"using-categories\">category</link>, or a <link xref=\"calendar-"
@@ -13358,10 +13321,9 @@ msgid ""
 msgstr ""
 "Emellett beállíthat a feladathoz <link xref=\"calendar-timezones\">időzónát</"
 "link>, <link xref=\"using-categories\">kategóriát</link> vagy <link xref="
-"\"calendar-classifications\">besorolást</link> a legördülő menüből, valamint"
-" mellékletet is "
-"csatolhat és beállíthat <link xref=\"calendar-alarms-and-reminders\""
-">emlékeztetőt</link> a megfelelő lapokon."
+"\"calendar-classifications\">besorolást</link> a legördülő menüből, valamint "
+"mellékletet is csatolhat és beállíthat <link xref=\"calendar-alarms-and-"
+"reminders\">emlékeztetőt</link> a megfelelő lapokon."
 
 #. (itstool) path: section/title
 #: C/tasks-usage-add-task.page:37
@@ -14184,137 +14146,3 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
 
-#~ msgid ""
-#~ "In case it is not listed already, click <gui style=\"button\">Browse…</"
-#~ "gui>. A file chooser dialog opens."
-#~ msgstr ""
-#~ "Ha még nincs felsorolva, akkor kattintson a <gui style=\"button"
-#~ "\">Tallózás</gui> gombra. Megnyílik egy fájlválasztó ablak."
-
-#~ msgid ""
-#~ "As <app>Evolution</app> stores its data in a hidden directory, press "
-#~ "<keyseq><key>Ctrl</key><key>L</key></keyseq> to get the location bar "
-#~ "displayed."
-#~ msgstr ""
-#~ "Mivel az <app>Evolution</app> az adatait egy rejtett könyvtárban tárolja, "
-#~ "nyomja meg a <keyseq><key>Ctrl</key><key>L</key></keyseq> kombinációt a "
-#~ "címsáv megjelenítéséhez."
-
-#~ msgid ""
-#~ "Go to <file>~/.local/share/evolution/addressbook/system/addressbook.db</"
-#~ "file> and click <gui style=\"button\">Open</gui>."
-#~ msgstr ""
-#~ "Válassza ki a <file>~/.local/share/evolution/addressbook/system/"
-#~ "addressbook.db</file> fájlt, és nyomja meg a <gui style=\"button"
-#~ "\">Megnyitás</gui> gombot."
-
-#~ msgid "Using shortcut keys to read mail"
-#~ msgstr "Gyorsbillentyűk használata levelek olvasásakor"
-
-#~ msgid "Viewing an email"
-#~ msgstr "E-mail megjelenítése"
-
-#~ msgid ""
-#~ "In the Mail window you read a message by selecting it in the message "
-#~ "list. If you would like to see the message in its own window, either "
-#~ "double-click it, press <key>Enter</key>, or press <keyseq><key>Ctrl</"
-#~ "key><key>O</key></keyseq>."
-#~ msgstr ""
-#~ "A levelező ablakban a leveleket az üzenetlistában kiválasztva olvashatja. "
-#~ "Ha a levelet saját ablakban szeretné látni, akkor kattintson rá duplán, "
-#~ "nyomja meg az <key>Enter</key> billentyűt, vagy nyomja meg a "
-#~ "<keyseq><key>Ctrl</key><key>O</key></keyseq> kombinációt."
-
-#~ msgid "Marking a message as read or unread"
-#~ msgstr "Üzenet megjelölése olvasottként vagy olvasatlanként"
-
-#~ msgid ""
-#~ "To mark the currently selected message as read, press <keyseq><key>Ctrl</"
-#~ "key><key>K</key></keyseq>."
-#~ msgstr ""
-#~ "Az éppen kijelölt üzenet olvasottként való megjelöléséhez nyomja meg a "
-#~ "<keyseq><key>Ctrl</key><key>K</key></keyseq> kombinációt."
-
-#~ msgid ""
-#~ "To mark the currently selected message as unread, press "
-#~ "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>."
-#~ msgstr ""
-#~ "Az éppen kijelölt üzenet olvasatlanként való megjelöléséhez nyomja meg a "
-#~ "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq> kombinációt."
-
-#~ msgid "Navigating in a message"
-#~ msgstr "Navigáció egy üzenetben"
-
-#~ msgid ""
-#~ "To read mail with the keyboard, you can press the <key>Spacebar</key> to "
-#~ "page down and press <key>Backspace</key> to page up while reading an "
-#~ "email. Ensure that you use the keys when the message list is focused."
-#~ msgstr ""
-#~ "A levelek olvasásakor megnyomhatja a <key>szóközt</key> a következő "
-#~ "oldal, vagy a <key>Backspace</key> az előző oldal megjelenítéséhez. "
-#~ "Győződjön meg róla, hogy a billentyűket akkor nyomja meg, amikor az "
-#~ "üzenetlista van fókuszban."
-
-#~ msgid "Navigating in a folder in the message list"
-#~ msgstr "Navigáció az üzenetlistán lévő mappában"
-
-#~ msgid ""
-#~ "Navigate in the message list by using the arrow keys on the keyboard."
-#~ msgstr "Az üzenetlistában a nyílbillentyűk használatával navigálhat."
-
-#~ msgid "Navigating in a folder's unread mail in the message list"
-#~ msgstr "Navigáció a mappa olvasatlan levelei közt az üzenetlistában"
-
-#~ msgid ""
-#~ "To go to the next or previous unread messages, press the period (<key>.</"
-#~ "key>) or comma (<key>,</key>) keys. On some keyboards, these keys are "
-#~ "also marked with the <key>&gt;</key> and <key>&lt;</key> symbols, which "
-#~ "is a convenient way to remember that they move you forward and backward "
-#~ "in your message list. You can also use the right square bracket (<key>]</"
-#~ "key>) for the next unread message, and the left square bracket (<key>[</"
-#~ "key>) for the previous unread message."
-#~ msgstr ""
-#~ "A következő vagy előző olvasatlan üzenetre lépéshez nyomja meg a pont "
-#~ "(<key>.</key>) vagy vessző (<key>,</key>) billentyűt. Egyes "
-#~ "billentyűzeteken ezeket a <key>&gt;</key> és <key>&lt;</key> szimbólumok "
-#~ "is jelölik, így egyszerűen megjegyezhető, hogy ezekkel előre és hátra "
-#~ "lépkedhet az üzenetlistában. Használhatja a jobb szögletes zárójelet "
-#~ "(<key>]</key>) a következő olvasatlan üzenet, és a bal szögletes "
-#~ "zárójelet (<key>[</key>) a következő olvasatlan üzenet elérésére is."
-
-#~ msgid ""
-#~ "You can easily read the unread messages in all the mail folders by using "
-#~ "the <key>Spacebar</key>."
-#~ msgstr ""
-#~ "Az összes mappa olvasatlan üzenetein egyszerűen végiglépkedhet a "
-#~ "<key>szóköz</key> használatával."
-
-#~ msgid ""
-#~ "When you are in the Mail window, the Spacebar has the following behavior:"
-#~ msgstr ""
-#~ "Ha a levelezőablakban van, akkor a szóköz billentyű a következőképpen "
-#~ "viselkedik:"
-
-#~ msgid "Which thread-related headers are recognized by <app>Evolution</app>."
-#~ msgstr ""
-#~ "Az <app>Evolution</app> milyen szálakkal kapcsolatos fejléceket ismer."
-
-#~ msgid "Thread related headers recognized by <app>Evolution</app>"
-#~ msgstr ""
-#~ "Az <app>Evolution</app> által felismert, szálakkal kapcsolatos fejlécek"
-
-#~ msgid "<app>Evolution</app> supports the following headers:"
-#~ msgstr "Az <app>Evolution</app> a következő fejléceket támogatja:"
-
-#~ msgid "References"
-#~ msgstr "References"
-
-#~ msgid "In-Reply-To"
-#~ msgstr "In-Reply-To"
-
-#~ msgid ""
-#~ "<gui>Thread-*</gui> headers are Microsoft's proprietary headers and not "
-#~ "supported."
-#~ msgstr ""
-#~ "A <gui>Thread-*</gui> fejlécek a Microsoft által védettek, és nem "
-#~ "támogatottak."
