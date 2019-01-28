@@ -221,7 +221,6 @@ e_cert_populate (ECert *cert)
 		c, &cert->priv->issued_on, &cert->priv->expires_on)) {
 		PRExplodedTime explodedTime;
 		struct tm exploded_tm;
-		gchar buf[32];
 
 		PR_ExplodeTime (
 			cert->priv->issued_on,
@@ -232,8 +231,7 @@ e_cert_populate (ECert *cert)
 		exploded_tm.tm_mday = explodedTime.tm_mday;
 		exploded_tm.tm_mon = explodedTime.tm_month;
 		exploded_tm.tm_year = explodedTime.tm_year - 1900;
-		e_utf8_strftime (buf, sizeof (buf), _("%d/%m/%Y"), &exploded_tm);
-		cert->priv->issued_on_string = g_strdup (buf);
+		cert->priv->issued_on_string = e_datetime_format_format_tm ("mail", "table", DTFormatKindDate, &exploded_tm);
 
 		PR_ExplodeTime (
 			cert->priv->expires_on,
@@ -244,8 +242,7 @@ e_cert_populate (ECert *cert)
 		exploded_tm.tm_mday = explodedTime.tm_mday;
 		exploded_tm.tm_mon = explodedTime.tm_month;
 		exploded_tm.tm_year = explodedTime.tm_year - 1900;
-		e_utf8_strftime (buf, sizeof (buf), _("%d/%m/%Y"), &exploded_tm);
-		cert->priv->expires_on_string = g_strdup (buf);
+		cert->priv->expires_on_string = e_datetime_format_format_tm ("mail", "table", DTFormatKindDate, &exploded_tm);
 	}
 
 	cert->priv->serial_number = CERT_Hexify (&cert->priv->cert->serialNumber, TRUE);
