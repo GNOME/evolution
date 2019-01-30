@@ -144,6 +144,7 @@ static const gchar *ui =
 "<ui>"
 "  <popup name='context'>"
 "    <menuitem action='copy-clipboard'/>"
+"    <menuitem action='search-web'/>"
 "    <separator/>"
 "    <placeholder name='custom-actions-1'>"
 "      <menuitem action='open'/>"
@@ -205,6 +206,63 @@ action_copy_clipboard_cb (GtkAction *action,
                           EWebView *web_view)
 {
 	e_web_view_copy_clipboard (web_view);
+}
+
+static void
+e_web_view_search_web_get_selection_cb (GObject *source,
+					GAsyncResult *result,
+					gpointer user_data)
+{
+	gchar *text;
+	GError *local_error = NULL;
+
+	g_return_if_fail (E_IS_WEB_VIEW (source));
+
+	text = e_web_view_get_selection_content_text_finish (E_WEB_VIEW (source), result, &local_error);
+
+	if (local_error &&
+	    !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		e_alert_submit (E_ALERT_SINK (source), "widgets:get-selected-text-failed", local_error->message, NULL);
+	} else if (!local_error) {
+		GSettings *settings;
+		gchar *uri_prefix;
+		gchar *escaped;
+		gchar *uri;
+
+		g_strstrip (text);
+
+		settings = e_util_ref_settings ("org.gnome.evolution.shell");
+		uri_prefix = g_settings_get_string (settings, "search-web-uri-prefix");
+		g_object_unref (settings);
+
+		escaped = camel_url_encode (text, "& ?#:;,/\\");
+
+		uri = g_strconcat (uri_prefix, escaped, NULL);
+		if (uri && g_ascii_strncasecmp (uri, "https://", 8) == 0) {
+			GtkWidget *toplevel;
+
+			toplevel = gtk_widget_get_toplevel (GTK_WIDGET (source));
+
+			e_show_uri (GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL, uri);
+		} else {
+			g_printerr ("Incorrect URI provided, expects https:// prefix, but has got: '%s'\n", uri ? uri : "null");
+		}
+
+		g_free (uri_prefix);
+		g_free (escaped);
+		g_free (uri);
+	}
+
+	g_clear_error (&local_error);
+	g_free (text);
+}
+
+static void
+action_search_web_cb (GtkAction *action,
+		      EWebView *web_view)
+{
+	e_web_view_get_selection_content_text (web_view, web_view->priv->load_cancellable,
+		e_web_view_search_web_get_selection_cb, NULL);
 }
 
 static void
@@ -410,6 +468,13 @@ static GtkActionEntry selection_entries[] = {
 	  "<Control>c",
 	  N_("Copy the selection"),
 	  G_CALLBACK (action_copy_clipboard_cb) },
+
+	{ "search-web",
+	  NULL,
+	  N_("Search _Web…"),
+	  NULL,
+	  N_("Search the Web with the selected text"),
+	  G_CALLBACK (action_search_web_cb) }
 };
 
 static GtkActionEntry standard_entries[] = {
@@ -3495,6 +3560,116 @@ e_web_view_get_selection_content_html_sync (EWebView *web_view,
 			g_variant_get (result, "(s)", &html_content);
 			g_variant_unref (result);
 			return html_content;
+		}
+	}
+
+	return NULL;
+}
+
+static void
+get_selection_content_text_cb (GObject *source_object,
+			       GAsyncResult *result,
+			       gpointer user_data)
+{
+	GDBusProxy *web_extension;
+	GTask *task = user_data;
+	GVariant *result_variant;
+	gchar *text_content = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (G_IS_DBUS_PROXY (source_object));
+	g_return_if_fail (G_IS_TASK (task));
+
+	web_extension = G_DBUS_PROXY (source_object);
+
+	result_variant = g_dbus_proxy_call_finish (web_extension, result, &error);
+	if (result_variant)
+		g_variant_get (result_variant, "(s)", &text_content);
+	g_variant_unref (result_variant);
+
+	g_task_return_pointer (task, text_content, g_free);
+	g_object_unref (task);
+
+	if (error)
+		g_dbus_error_strip_remote_error (error);
+
+	e_util_claim_dbus_proxy_call_error (web_extension, "GetSelectionContentText", error);
+	g_clear_error (&error);
+}
+
+void
+e_web_view_get_selection_content_text (EWebView *web_view,
+				       GCancellable *cancellable,
+				       GAsyncReadyCallback callback,
+				       gpointer user_data)
+{
+	GDBusProxy *web_extension;
+	GTask *task;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	task = g_task_new (web_view, cancellable, callback, user_data);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		g_dbus_proxy_call (
+			web_extension,
+			"GetSelectionContentText",
+			g_variant_new (
+				"(t)",
+				webkit_web_view_get_page_id (
+					WEBKIT_WEB_VIEW (web_view))),
+			G_DBUS_CALL_FLAGS_NONE,
+			-1,
+			cancellable,
+			get_selection_content_text_cb,
+			g_object_ref (task));
+	} else
+		g_task_return_pointer (task, NULL, NULL);
+}
+
+gchar *
+e_web_view_get_selection_content_text_finish (EWebView *web_view,
+					      GAsyncResult *result,
+					      GError **error)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+	g_return_val_if_fail (g_task_is_valid (result, web_view), FALSE);
+
+	return g_task_propagate_pointer (G_TASK (result), error);
+}
+
+gchar *
+e_web_view_get_selection_content_text_sync (EWebView *web_view,
+					    GCancellable *cancellable,
+					    GError **error)
+{
+	GDBusProxy *web_extension;
+
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	web_extension = e_web_view_get_web_extension_proxy (web_view);
+	if (web_extension) {
+		GVariant *result;
+
+		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
+				web_extension,
+				"GetSelectionContentText",
+				g_variant_new (
+					"(t)",
+					webkit_web_view_get_page_id (
+						WEBKIT_WEB_VIEW (web_view))),
+				G_DBUS_CALL_FLAGS_NONE,
+				-1,
+				cancellable,
+				error);
+
+		if (result) {
+			gchar *text_content = NULL;
+
+			g_variant_get (result, "(s)", &text_content);
+			g_variant_unref (result);
+			return text_content;
 		}
 	}
 

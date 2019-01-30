@@ -238,6 +238,19 @@ gchar *		e_web_view_get_selection_content_html_sync
 						(EWebView *web_view,
 						 GCancellable *cancellable,
 						 GError **error);
+void		e_web_view_get_selection_content_text
+						(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gchar *		e_web_view_get_selection_content_text_finish
+						(EWebView *web_view,
+						 GAsyncResult *result,
+						 GError **error);
+gchar *		e_web_view_get_selection_content_text_sync
+						(EWebView *web_view,
+						 GCancellable *cancellable,
+						 GError **error);
 void		e_web_view_update_fonts		(EWebView *web_view);
 void		e_web_view_cursor_image_copy	(EWebView *web_view);
 void		e_web_view_cursor_image_save	(EWebView *web_view);

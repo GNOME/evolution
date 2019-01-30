@@ -278,17 +278,13 @@ dom_selection_get_content_text (WebKitDOMDOMSelection *dom_selection)
 	return text;
 }
 
-static gchar *
-get_frame_selection_content_text (WebKitDOMElement *iframe)
+gchar *
+e_dom_utils_get_selection_content_text (WebKitDOMDocument *content_document)
 {
-	WebKitDOMDocument *content_document;
 	WebKitDOMDOMWindow *dom_window = NULL;
 	WebKitDOMDOMSelection *dom_selection = NULL;
 	WebKitDOMHTMLCollection *frames = NULL;
 	gulong ii, length;
-
-	content_document = webkit_dom_html_iframe_element_get_content_document (
-		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
 
 	if (!content_document)
 		return NULL;
@@ -298,8 +294,11 @@ get_frame_selection_content_text (WebKitDOMElement *iframe)
 	g_clear_object (&dom_window);
 	if (dom_selection && (webkit_dom_dom_selection_get_range_count (dom_selection) > 0)) {
 		gchar *text = dom_selection_get_content_text (dom_selection);
-		g_clear_object (&dom_selection);
-		return text;
+		if (text && *text) {
+			g_clear_object (&dom_selection);
+			return text;
+		}
+		g_free (text);
 	}
 	g_clear_object (&dom_selection);
 
@@ -311,41 +310,15 @@ get_frame_selection_content_text (WebKitDOMElement *iframe)
 
 		node = webkit_dom_html_collection_item (frames, ii);
 
-		text = get_frame_selection_content_text (
-			WEBKIT_DOM_ELEMENT (node));
+		text = e_dom_utils_get_selection_content_text (
+			webkit_dom_html_iframe_element_get_content_document (WEBKIT_DOM_HTML_IFRAME_ELEMENT (node)));
 
-		if (text != NULL) {
+		if (text && *text) {
 			g_clear_object (&frames);
 			return text;
 		}
-	}
 
-	g_clear_object (&frames);
-	return NULL;
-}
-
-gchar *
-e_dom_utils_get_selection_content_text (WebKitDOMDocument *document)
-{
-	WebKitDOMHTMLCollection *frames = NULL;
-	gulong ii, length;
-
-	frames = webkit_dom_document_get_elements_by_tag_name_as_html_collection (document, "iframe");
-	length = webkit_dom_html_collection_get_length (frames);
-
-	for (ii = 0; ii < length; ii++) {
-		gchar *text;
-		WebKitDOMNode *node;
-
-		node = webkit_dom_html_collection_item (frames, ii);
-
-		text = get_frame_selection_content_text (
-			WEBKIT_DOM_ELEMENT (node));
-
-		if (text != NULL) {
-			g_clear_object (&frames);
-			return text;
-		}
+		g_free (text);
 	}
 
 	g_clear_object (&frames);

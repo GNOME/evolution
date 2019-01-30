@@ -34,5 +34,10 @@
     <secondary xml:space="preserve">{0}</secondary>
   </error>
 
+  <error id="get-selected-text-failed" type="error">
+    <_primary>Could not get selected text.</_primary>
+    <secondary xml:space="preserve">{0}</secondary>
+  </error>
+
 </error-list>
 

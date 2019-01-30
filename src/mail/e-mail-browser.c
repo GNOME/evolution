@@ -189,7 +189,11 @@ static EPopupActionEntry mail_browser_popup_entries[] = {
 
 	{ "popup-copy-clipboard",
 	  NULL,
-	  "copy-clipboard" }
+	  "copy-clipboard" },
+
+	{ "popup-search-web",
+	  NULL,
+	  "search-web" }
 };
 
 static void

@@ -125,6 +125,11 @@
       <_summary>The last extension being used when backing up Evolution data.</_summary>
       <_description>It can be either “.gz” or “.xz” and it influences what extension will be preselected in the file chooser.</_description>
     </key>
+    <key name="search-web-uri-prefix" type="s">
+      <default>'https://duckduckgo.com/?q='</default>
+      <_summary>Prefix of the URI to use to search the web with selected text.</_summary>
+      <_description>The prefix of a URL to be used for searches on the web. The actual text selection is escaped and appended to this string. The URI should start with https://.</_description>
+    </key>
     <child name="window" schema="org.gnome.evolution.window"/>
   </schema>
 </schemalist>

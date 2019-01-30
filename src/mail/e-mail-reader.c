@@ -2264,6 +2264,19 @@ action_mail_zoom_out_cb (GtkAction *action,
 }
 
 static void
+action_mail_search_web_cb (GtkAction *action,
+			   EMailReader *reader)
+{
+	EMailDisplay *display;
+	GtkAction *wv_action;
+
+	display = e_mail_reader_get_mail_display (reader);
+	wv_action = e_web_view_get_action (E_WEB_VIEW (display), "search-web");
+
+	gtk_action_activate (wv_action);
+}
+
+static void
 action_search_folder_recipient_cb (GtkAction *action,
                                    EMailReader *reader)
 {
@@ -2769,6 +2782,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Save selected messages as an mbox file"),
 	  G_CALLBACK (action_mail_save_as_cb) },
 
+	{ "mail-search-web",
+	  NULL,
+	  N_("Search _Web…"),
+	  NULL,
+	  N_("Search the Web with the selected text"),
+	  G_CALLBACK (action_mail_search_web_cb) },
+
 	{ "mail-show-source",
 	  NULL,
 	  N_("_Message Source"),
@@ -3029,6 +3049,10 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	{ "mail-popup-save-as",
 	  NULL,
 	  "mail-save-as" },
+
+	{ "mail-popup-search-web",
+	  NULL,
+	  "mail-search-web" },
 
 	{ "mail-popup-undelete",
 	  NULL,
@@ -4263,6 +4287,7 @@ mail_reader_update_actions (EMailReader *reader,
 	GtkAction *action;
 	const gchar *action_name;
 	gboolean sensitive;
+	EMailDisplay *mail_display;
 
 	/* Be descriptive. */
 	gboolean any_messages_selected;
@@ -4330,6 +4355,8 @@ mail_reader_update_actions (EMailReader *reader,
 
 	any_messages_selected =
 		(single_message_selected || multiple_messages_selected);
+
+	mail_display = e_mail_reader_get_mail_display (reader);
 
 	if (any_messages_selected) {
 		MessageList *message_list;
@@ -4702,6 +4729,10 @@ mail_reader_update_actions (EMailReader *reader,
 	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
+
+	action = e_mail_reader_get_action (reader, "mail-search-web");
+	gtk_action_set_sensitive (action, single_message_selected &&
+		mail_display && e_web_view_is_selection_active (E_WEB_VIEW (mail_display)));
 
 	mail_reader_update_labels_menu (reader);
 }
