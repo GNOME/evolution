@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2018-12-17 09:03+0000\n"
-"PO-Revision-Date: 2018-12-27 18:43+0100\n"
+"POT-Creation-Date: 2019-01-30 13:46+0000\n"
+"PO-Revision-Date: 2019-02-01 08:26+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -1543,6 +1543,8 @@ msgid ""
 "When replying to a message and marking it as being replied to, then whether "
 "also mark it as read."
 msgstr ""
+"Cuant che si rispuint a un messaç e si lu segne come rispuindût, alore "
+"indiche ancje se segnâlu come let."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Whether start Plain Text composer with Preformatted paragraph mode"
@@ -2041,6 +2043,9 @@ msgid ""
 "Forward and reply attribution language tag, like en_US. Empty string means "
 "to use the same language as the user interface."
 msgstr ""
+"La etichete de lenghe di atribuzion par rispuindi o mandâ indenant, come p."
+"e. en_US. Une stringhe vueide e significhe che si dopre la stesse lenghe de "
+"interface utent."
 
 # ctrl+enter e in furlan?
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
@@ -2740,16 +2745,18 @@ msgstr ""
 "intes rubrichis segnadis pal completament automatic."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
-#, fuzzy
-#| msgid "Failed to download messages for offline viewing."
 msgid "Whether Send/Receive should also download of messages for offline."
-msgstr "No si è rivâts a discjariâ i messaçs par viodiju fûr rêt."
+msgstr ""
+"Indiche se Invie/Ricêf al à ancje di discjariâ i messaçs par viodiju fûr rêt."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
 msgid ""
 "If enabled, whenever Send/Receive is run it also runs synchronization of "
 "messages for offline use. The option is disabled by default."
 msgstr ""
+"Se abilitât, ogni volte che Invie/Ricêf al è in esecuzion al eseguìs ancje "
+"la sincronizazion dai messaçs pal ûs fûr rêt. La opzion e je disabilitade in "
+"maniere predefinide."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "(Deprecated) Default forward style"
@@ -3289,6 +3296,20 @@ msgstr ""
 "Al pues jessi o “.gz” o “.xz” e al influìs su cuale estension e vignarà "
 "preselezionade tal seletôr di file."
 
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:38
+msgid "Prefix of the URI to use to search the web with selected text."
+msgstr "Prefìs dal URI di doprâ par cirî sul web cul test selezionât."
+
+#: ../data/org.gnome.evolution.shell.gschema.xml.in.h:39
+msgid ""
+"The prefix of a URL to be used for searches on the web. The actual text "
+"selection is escaped and appended to this string. The URI should start with "
+"https://."
+msgstr ""
+"Il prefìs di un URL di vignî doprât pes ricercjis sul web. La selezion dal "
+"test atuâl e ven tirade fûr e zontade a cheste stringhe. Il URI al à di tacâ "
+"cun https://."
+
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
 msgstr "Dopre nome provis di spam locâl."
@@ -3344,20 +3365,20 @@ msgstr ""
 "formatâ part dal messaç par podê vê efiet, come doprant clic-diestri→Formate "
 "come→...."
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:1
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1188
+#: ../src/mail/e-mail-browser.c:1224
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:240
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:2
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:2
 #: ../data/org.gnome.Evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
 msgstr "Gjestìs lis propriis e-mail, i contats e lis planificazions"
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:3
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:3
 msgid ""
 "Evolution is a personal information management application that provides "
 "integrated mail, calendaring and address book functionality."
@@ -3365,7 +3386,7 @@ msgstr ""
 "Evolution al è une aplicazion pe gjestion des informazions personâi che e "
 "furnìs funzionalitâts integradis di pueste, calendari e rubriche."
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:4
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:4
 msgid ""
 "Evolution supports a wide range of industry standard data formats and "
 "network protocols for information exchange, with an emphasis on standards "
@@ -3378,7 +3399,7 @@ msgstr ""
 "cence fastidis cun Microsoft Exchange par mieç de estension “Servizis web di "
 "Exchange” (EWS)."
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:5
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
 msgid "The Evolution Team"
 msgstr "Il grup di Evolution"
 
@@ -3780,21 +3801,18 @@ msgstr "No si è rivâts a inzornâ la liste des rubrichis dal account"
 
 #: ../src/addressbook/addressbook.error.xml.h:49
 #, fuzzy
-#| msgid "Do you want to recover unfinished messages?"
 msgid "Do you want to unset contact image?"
-msgstr "Recuperâ i messaçs no finîts?"
+msgstr "Anulâ la imagjin dal contat?"
 
 #: ../src/addressbook/addressbook.error.xml.h:50
 #, fuzzy
-#| msgid "Do _Not Unsubscribe"
 msgid "Do _Not Unset"
-msgstr "No sta anulâ sotscrizion"
+msgstr "_No sta anulâ"
 
 #: ../src/addressbook/addressbook.error.xml.h:51
 #, fuzzy
-#| msgid "Unseen"
 msgid "_Unset"
-msgstr "No viodût"
+msgstr "_Anule"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
 msgid "Show Telephone"
@@ -3859,8 +3877,8 @@ msgstr "Opzions"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3502
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4329
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4335
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4334
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4340
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:220
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -3873,10 +3891,10 @@ msgstr "Opzions"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:301
 #: ../src/composer/e-composer-actions.c:228 ../src/e-util/e-activity-bar.c:357
 #: ../src/e-util/e-attachment-dialog.c:309
-#: ../src/e-util/e-attachment-store.c:656
-#: ../src/e-util/e-attachment-store.c:666
-#: ../src/e-util/e-attachment-store.c:846
-#: ../src/e-util/e-attachment-store.c:852 ../src/e-util/e-attachment-view.c:301
+#: ../src/e-util/e-attachment-store.c:658
+#: ../src/e-util/e-attachment-store.c:668
+#: ../src/e-util/e-attachment-store.c:848
+#: ../src/e-util/e-attachment-store.c:854 ../src/e-util/e-attachment-view.c:301
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:171
 #: ../src/e-util/e-category-editor.c:259 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:231
@@ -3884,10 +3902,10 @@ msgstr "Opzions"
 #: ../src/e-util/e-collection-account-wizard.c:2037
 #: ../src/e-util/e-color-chooser-widget.c:125
 #: ../src/e-util/e-filter-datespec.c:300
-#: ../src/e-util/e-html-editor-actions.c:324
-#: ../src/e-util/e-html-editor-actions.c:368
-#: ../src/e-util/e-html-editor-actions.c:450
-#: ../src/e-util/e-image-chooser-dialog.c:169
+#: ../src/e-util/e-html-editor-actions.c:304
+#: ../src/e-util/e-html-editor-actions.c:348
+#: ../src/e-util/e-html-editor-actions.c:430
+#: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:366
 #: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:816
 #: ../src/e-util/e-rule-editor.c:187 ../src/e-util/e-rule-editor.c:298
@@ -3896,7 +3914,7 @@ msgstr "Opzions"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4143
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:4318
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4175
@@ -3909,7 +3927,7 @@ msgstr "Opzions"
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
-#: ../src/plugins/face/face.c:297
+#: ../src/plugins/face/face.c:298
 #: ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:419
 #: ../src/plugins/save-calendar/save-calendar.c:186
@@ -3931,10 +3949,10 @@ msgstr "_Anule"
 #: ../src/calendar/gui/e-comp-editor.c:2115
 #: ../src/composer/e-composer-actions.c:228
 #: ../src/composer/e-composer-actions.c:340
-#: ../src/e-util/e-attachment-store.c:846
-#: ../src/e-util/e-attachment-store.c:853
+#: ../src/e-util/e-attachment-store.c:848
+#: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2467 ../src/e-util/e-web-view.c:4143
+#: ../src/e-util/e-webdav-browser.c:2467 ../src/e-util/e-web-view.c:4318
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651
@@ -4223,7 +4241,7 @@ msgstr "Certificâts"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
 #: ../src/calendar/gui/e-comp-editor.c:2047
-#: ../src/e-util/e-html-editor-actions.c:986
+#: ../src/e-util/e-html-editor-actions.c:945
 msgid "_Undo"
 msgstr "_Disfe"
 
@@ -4234,7 +4252,7 @@ msgstr "Disfe"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
 #: ../src/calendar/gui/e-comp-editor.c:2054
-#: ../src/e-util/e-html-editor-actions.c:972
+#: ../src/e-util/e-html-editor-actions.c:931
 msgid "_Redo"
 msgstr "_Torne fâs"
 
@@ -4285,13 +4303,13 @@ msgid "Open X.509 certificate"
 msgstr "Vierç certificât X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4329
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4336
-#: ../src/e-util/e-attachment-store.c:664 ../src/e-util/e-category-editor.c:179
-#: ../src/e-util/e-html-editor-actions.c:324
-#: ../src/e-util/e-html-editor-actions.c:368
-#: ../src/e-util/e-html-editor-actions.c:450
-#: ../src/e-util/e-image-chooser-dialog.c:172 ../src/plugins/face/face.c:297
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4334
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4341
+#: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:179
+#: ../src/e-util/e-html-editor-actions.c:304
+#: ../src/e-util/e-html-editor-actions.c:348
+#: ../src/e-util/e-html-editor-actions.c:430
+#: ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
 #: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:951
 msgid "_Open"
 msgstr "_Vierç"
@@ -4329,16 +4347,16 @@ msgstr "Salve certificât X.509"
 msgid "Failed to save certificate: %s"
 msgstr "No si è rivâts a salvâ il certificât: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4326
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4331
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4337
 msgid "Please select an image for this contact"
 msgstr "Selezione une imagjin par chest contat"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4337
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
 msgid "_No image"
 msgstr "_Nissune imagjin"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4697
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4702
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -4346,28 +4364,28 @@ msgstr ""
 "I dâts dal contat no son valits:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4703
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4708
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "“%s” nol à un formât valit"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4711
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4716
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "“%s” no pues jessi une date future"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4719
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4724
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s“%s” al à un formât no valit"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4732
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4746
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4737
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4751
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s“%s” al è vueit"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4761
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4766
 msgid "Invalid contact."
 msgstr "Contat no valit."
 
@@ -4601,22 +4619,22 @@ msgid "Copy _Email Address"
 msgstr "Copie direzion _e-mail"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:187
-#: ../src/e-util/e-web-view.c:370
+#: ../src/e-util/e-web-view.c:428
 msgid "Copy the email address to the clipboard"
 msgstr "Al copie la direzion e-mail intes notis"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:192
-#: ../src/e-util/e-web-view.c:382
+#: ../src/e-util/e-web-view.c:440
 msgid "_Send New Message To..."
 msgstr "Invie gnûf _messaç a..."
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:194
-#: ../src/e-util/e-web-view.c:384
+#: ../src/e-util/e-web-view.c:442
 msgid "Send a mail message to this address"
 msgstr "Al invie un messaç di pueste a cheste direzion"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:321
-#: ../src/e-util/e-web-view.c:1376
+#: ../src/e-util/e-web-view.c:1441
 #, c-format
 msgid "Click to mail %s"
 msgstr "Fâs clic par inviâ e-mail a %s"
@@ -5229,13 +5247,13 @@ msgstr "_Ingrandìs"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:417
-#: ../src/mail/e-mail-reader.c:2809
+#: ../src/mail/e-mail-reader.c:2829
 msgid "Zoom _Out"
 msgstr "Im_piçulìs"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:2056
+#: ../src/e-util/e-html-editor-actions.c:2015
 #: ../src/e-util/e-html-editor-find-dialog.c:250
 #: ../src/shell/e-shell-window-actions.c:929
 msgid "_Find"
@@ -7376,7 +7394,7 @@ msgstr "La ore di inizi no je valide"
 #: ../src/mail/em-composer-utils.c:3969 ../src/mail/em-composer-utils.c:4000
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1496
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
-#: ../src/plugins/face/face.c:174 ../src/shell/e-shell.c:1221
+#: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1221
 #: ../src/shell/e-shell.c:1245 ../src/smime/gui/certificate-manager.c:357
 #, c-format
 msgid "Unknown error"
@@ -7722,7 +7740,7 @@ msgstr "Partecipa_nts..."
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
 #: ../src/calendar/gui/e-comp-editor.c:2070
 #: ../src/e-util/e-accounts-window.c:1745
-#: ../src/e-util/e-html-editor-actions.c:995
+#: ../src/e-util/e-html-editor-actions.c:954
 #: ../src/e-util/e-mail-signature-manager.c:358
 #: ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:175
@@ -8417,30 +8435,30 @@ msgstr "Siere il barcon atuâl"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:1991 ../src/e-util/e-focus-tracker.c:773
-#: ../src/e-util/e-html-editor-actions.c:951 ../src/e-util/e-text.c:2080
-#: ../src/e-util/e-web-view.c:409 ../src/mail/e-mail-browser.c:138
+#: ../src/e-util/e-html-editor-actions.c:910 ../src/e-util/e-text.c:2080
+#: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:138
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:845
 msgid "_Copy"
 msgstr "_Copie"
 
 #: ../src/calendar/gui/e-comp-editor.c:1993 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
-#: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:411
-#: ../src/e-util/e-web-view.c:2010 ../src/mail/e-mail-browser.c:140
+#: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:469
+#: ../src/e-util/e-web-view.c:2075 ../src/mail/e-mail-browser.c:140
 #: ../src/shell/e-shell-window-actions.c:847
 msgid "Copy the selection"
 msgstr "Copie la selezion"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:1998 ../src/e-util/e-focus-tracker.c:768
-#: ../src/e-util/e-html-editor-actions.c:958 ../src/e-util/e-text.c:2066
+#: ../src/e-util/e-html-editor-actions.c:917 ../src/e-util/e-text.c:2066
 #: ../src/mail/e-mail-browser.c:145 ../src/shell/e-shell-window-actions.c:852
 msgid "Cu_t"
 msgstr "Ta_ie"
 
 #: ../src/calendar/gui/e-comp-editor.c:2000 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
-#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:2019
+#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:2084
 #: ../src/mail/e-mail-browser.c:147 ../src/shell/e-shell-window-actions.c:854
 msgid "Cut the selection"
 msgstr "Taie la selezion"
@@ -8457,26 +8475,26 @@ msgstr "Viôt il jutori"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2019 ../src/e-util/e-focus-tracker.c:778
-#: ../src/e-util/e-html-editor-actions.c:965 ../src/e-util/e-text.c:2092
+#: ../src/e-util/e-html-editor-actions.c:924 ../src/e-util/e-text.c:2092
 #: ../src/mail/e-mail-browser.c:152 ../src/shell/e-shell-window-actions.c:880
 msgid "_Paste"
 msgstr "_Tache"
 
 #: ../src/calendar/gui/e-comp-editor.c:2021 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
-#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:2028
+#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:2093
 #: ../src/mail/e-mail-browser.c:154 ../src/shell/e-shell-window-actions.c:882
 msgid "Paste the clipboard"
 msgstr "Tache intes notis"
 
 #: ../src/calendar/gui/e-comp-editor.c:2026
-#: ../src/composer/e-composer-actions.c:373 ../src/mail/e-mail-reader.c:2704
+#: ../src/composer/e-composer-actions.c:373 ../src/mail/e-mail-reader.c:2717
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print..."
 msgstr "_Stampe..."
 
-#: ../src/calendar/gui/e-comp-editor.c:2033 ../src/mail/e-mail-reader.c:2711
+#: ../src/calendar/gui/e-comp-editor.c:2033 ../src/mail/e-mail-reader.c:2724
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1771
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:840
@@ -8485,7 +8503,7 @@ msgid "Pre_view..."
 msgstr "Ante_prime..."
 
 #: ../src/calendar/gui/e-comp-editor.c:2040 ../src/e-util/e-focus-tracker.c:788
-#: ../src/e-util/e-html-editor-actions.c:979 ../src/e-util/e-web-view.c:419
+#: ../src/e-util/e-html-editor-actions.c:938 ../src/e-util/e-web-view.c:484
 #: ../src/mail/e-mail-browser.c:159 ../src/shell/e-shell-window-actions.c:950
 msgid "Select _All"
 msgstr "Selezione _dut"
@@ -8501,14 +8519,14 @@ msgid "_Classification"
 msgstr "_Classificazion"
 
 #: ../src/calendar/gui/e-comp-editor.c:2077
-#: ../src/e-util/e-html-editor-actions.c:1002
+#: ../src/e-util/e-html-editor-actions.c:961
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:168
 #: ../src/mail/e-mail-notes.c:978 ../src/shell/e-shell-window-actions.c:987
 msgid "_File"
 msgstr "_File"
 
 #: ../src/calendar/gui/e-comp-editor.c:2091
-#: ../src/e-util/e-html-editor-actions.c:1023
+#: ../src/e-util/e-html-editor-actions.c:982
 msgid "_Insert"
 msgstr "_Inserìs"
 
@@ -8518,7 +8536,7 @@ msgid "_Options"
 msgstr "_Opzions"
 
 #: ../src/calendar/gui/e-comp-editor.c:2105
-#: ../src/e-util/e-html-editor-actions.c:1044 ../src/mail/e-mail-browser.c:182
+#: ../src/e-util/e-html-editor-actions.c:1003 ../src/mail/e-mail-browser.c:182
 #: ../src/shell/e-shell-window-actions.c:1030
 #: ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -11297,7 +11315,7 @@ msgstr "Fâs clic achì pe rubriche"
 msgid "Click here to select folders to post to"
 msgstr "Fâs clic achì par selezionâ la cartele dulà publicâ"
 
-#: ../src/composer/e-msg-composer.c:999
+#: ../src/composer/e-msg-composer.c:1003
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -11305,7 +11323,7 @@ msgstr ""
 "Impussibil firmâ il messaç in jessude: nol è impostât nissun certificât di "
 "firme par chest account"
 
-#: ../src/composer/e-msg-composer.c:1008
+#: ../src/composer/e-msg-composer.c:1012
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -11314,11 +11332,11 @@ msgstr ""
 "Impussibil cifrâ il messaç in jessude: nol è impostât nissun certificât di "
 "cifradure par chest account"
 
-#: ../src/composer/e-msg-composer.c:1788 ../src/composer/e-msg-composer.c:2462
+#: ../src/composer/e-msg-composer.c:1792 ../src/composer/e-msg-composer.c:2466
 msgid "Compose Message"
 msgstr "Scrîf messaç"
 
-#: ../src/composer/e-msg-composer.c:4947
+#: ../src/composer/e-msg-composer.c:4987
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Il compositôr al à un cuarp messaç no di test, che nol è pussibil modificâ."
@@ -11693,18 +11711,18 @@ msgid "Display part as enriched text"
 msgstr "Mostre part come test inricjît"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
-#: ../src/em-format/e-mail-formatter-text-html.c:385
+#: ../src/em-format/e-mail-formatter-text-html.c:386
 msgid "HTML"
 msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
-#: ../src/em-format/e-mail-formatter-text-html.c:386
+#: ../src/em-format/e-mail-formatter-text-html.c:387
 msgid "Format part as HTML"
 msgstr "Formate part come HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:121
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
-#: ../src/e-util/e-html-editor-actions.c:1387
+#: ../src/e-util/e-html-editor-actions.c:1346
 msgid "Plain Text"
 msgstr "Test sempliç"
 
@@ -12189,7 +12207,7 @@ msgstr "La operazion e je stade anulade"
 
 #. Translators: Default attachment filename.
 #: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:2990
-#: ../src/e-util/e-attachment.c:3442 ../src/e-util/e-attachment-store.c:912
+#: ../src/e-util/e-attachment.c:3442 ../src/e-util/e-attachment-store.c:914
 msgid "attachment.dat"
 msgstr "zonte.dat"
 
@@ -12246,7 +12264,7 @@ msgid "MIME Type:"
 msgstr "Gjenar MIME:"
 
 #: ../src/e-util/e-attachment-dialog.c:380
-#: ../src/e-util/e-attachment-store.c:698
+#: ../src/e-util/e-attachment-store.c:700
 msgid "_Suggest automatic display of attachment"
 msgstr "_Sugjerìs la visualizazion automatiche de zonte"
 
@@ -12277,36 +12295,36 @@ msgstr "Plate s_bare zontis"
 msgid "Show Attachment _Bar"
 msgstr "Mostre s_bare zontis"
 
-#: ../src/e-util/e-attachment-store.c:654
-#: ../src/e-util/e-attachment-store.c:661
+#: ../src/e-util/e-attachment-store.c:656
+#: ../src/e-util/e-attachment-store.c:663
 msgid "Add Attachment"
 msgstr "Zonte zonte"
 
-#: ../src/e-util/e-attachment-store.c:656
-#: ../src/e-util/e-attachment-store.c:668
+#: ../src/e-util/e-attachment-store.c:658
 #: ../src/e-util/e-attachment-store.c:670
+#: ../src/e-util/e-attachment-store.c:672
 msgid "A_ttach"
 msgstr "A_leghe"
 
-#: ../src/e-util/e-attachment-store.c:719
+#: ../src/e-util/e-attachment-store.c:721
 msgid "Archive selected directories using this format:"
 msgstr "Archivie lis cartelis selezionadis doprant chest formât:"
 
-#: ../src/e-util/e-attachment-store.c:836
+#: ../src/e-util/e-attachment-store.c:838
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "Salve zonte"
 msgstr[1] "Salve zontis"
 
-#: ../src/e-util/e-attachment-store.c:874
+#: ../src/e-util/e-attachment-store.c:876
 msgid "Do _not extract files from the attachment"
 msgstr "No sta tirâ fûr i file de zonte"
 
-#: ../src/e-util/e-attachment-store.c:879
+#: ../src/e-util/e-attachment-store.c:881
 msgid "Save extracted files _only"
 msgstr "Salvâ _nome i file tirâts fûr"
 
-#: ../src/e-util/e-attachment-store.c:884
+#: ../src/e-util/e-attachment-store.c:886
 msgid "Save extracted files and the original _archive"
 msgstr "Salvâ i file tirâts fûr e l'_archivi origjinâl"
 
@@ -12358,10 +12376,8 @@ msgid "Open With Default Application"
 msgstr "Vierç cu la aplicazion predefinide"
 
 #: ../src/e-util/e-attachment-view.c:790
-#, fuzzy
-#| msgid "Open this attachment in %s"
 msgid "Open this attachment in default application"
-msgstr "Vierç cheste zonte in %s"
+msgstr "Vierç cheste zonte inte aplicazion predefinide"
 
 #: ../src/e-util/e-book-source-config.c:98
 msgid "Mark as default address book"
@@ -12498,9 +12514,8 @@ msgstr "_Icone categorie"
 
 #: ../src/e-util/e-category-editor.c:236
 #, fuzzy
-#| msgid "Insert Emoticon"
 msgid "_Unset icon"
-msgstr "Inserìs musutis"
+msgstr "_Anule icone"
 
 #: ../src/e-util/e-category-editor.c:262
 msgid "Category Properties"
@@ -12655,10 +12670,8 @@ msgid "_Next"
 msgstr "P_rossim"
 
 #: ../src/e-util/e-collection-account-wizard.c:180
-#, fuzzy
-#| msgid "Collection _Account"
 msgid "New Collection Account"
-msgstr "_Account di colezion"
+msgstr "Gnûf account di colezion"
 
 #: ../src/e-util/e-collection-account-wizard.c:251
 #: ../src/e-util/e-search-bar.c:655
@@ -12957,7 +12970,7 @@ msgstr "blanc"
 #: ../src/e-util/e-color-combo.c:641 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:708
-#: ../src/mail/e-mail-reader.c:4728 ../src/mail/mail-config.ui.h:78
+#: ../src/mail/e-mail-reader.c:4759 ../src/mail/mail-config.ui.h:78
 msgid "Default"
 msgstr "Predefinît"
 
@@ -13442,496 +13455,496 @@ msgstr "No si è rivâts a inserî il file HTML."
 msgid "Failed to insert text file."
 msgstr "No si è rivâts a inserî il file di test."
 
-#: ../src/e-util/e-html-editor-actions.c:322
+#: ../src/e-util/e-html-editor-actions.c:302
 msgid "Insert HTML File"
 msgstr "Inserìs file HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:327
+#: ../src/e-util/e-html-editor-actions.c:307
 msgid "HTML file"
 msgstr "File HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:365
-#: ../src/e-util/e-html-editor-actions.c:375
+#: ../src/e-util/e-html-editor-actions.c:345
+#: ../src/e-util/e-html-editor-actions.c:355
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Inseris imagjin"
 
-#: ../src/e-util/e-html-editor-actions.c:372
+#: ../src/e-util/e-html-editor-actions.c:352
 msgid "Image file"
 msgstr "File di imagjin"
 
-#: ../src/e-util/e-html-editor-actions.c:448
+#: ../src/e-util/e-html-editor-actions.c:428
 msgid "Insert text file"
 msgstr "Inserìs file di test"
 
-#: ../src/e-util/e-html-editor-actions.c:453
+#: ../src/e-util/e-html-editor-actions.c:433
 msgid "Text file"
 msgstr "File di test"
 
-#: ../src/e-util/e-html-editor-actions.c:953
+#: ../src/e-util/e-html-editor-actions.c:912
 msgid "Copy selected text to the clipboard"
 msgstr "Copie il test selezionât intes notis"
 
-#: ../src/e-util/e-html-editor-actions.c:960
+#: ../src/e-util/e-html-editor-actions.c:919
 msgid "Cut selected text to the clipboard"
 msgstr "Taie il test selezionât intes notis"
 
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../src/e-util/e-html-editor-actions.c:967
+#: ../src/e-util/e-html-editor-actions.c:926
 msgid "Paste text from the clipboard"
 msgstr "Tache il test des notis"
 
-#: ../src/e-util/e-html-editor-actions.c:974
+#: ../src/e-util/e-html-editor-actions.c:933
 msgid "Redo the last undone action"
 msgstr "Torne fâs l'ultime azion anulade"
 
-#: ../src/e-util/e-html-editor-actions.c:988
+#: ../src/e-util/e-html-editor-actions.c:947
 msgid "Undo the last action"
 msgstr "Anule l'ultime azion"
 
-#: ../src/e-util/e-html-editor-actions.c:1009
+#: ../src/e-util/e-html-editor-actions.c:968
 msgid "For_mat"
 msgstr "For_mât"
 
-#: ../src/e-util/e-html-editor-actions.c:1016
+#: ../src/e-util/e-html-editor-actions.c:975
 msgid "_Paragraph Style"
 msgstr "Stîl _paragraf"
 
-#: ../src/e-util/e-html-editor-actions.c:1030
+#: ../src/e-util/e-html-editor-actions.c:989
 #: ../src/e-util/e-html-editor-image-dialog.c:590
 msgid "_Alignment"
 msgstr "Inline_ament"
 
-#: ../src/e-util/e-html-editor-actions.c:1037
+#: ../src/e-util/e-html-editor-actions.c:996
 msgid "Current _Languages"
 msgstr "_Lenghis atuâi"
 
-#: ../src/e-util/e-html-editor-actions.c:1054
+#: ../src/e-util/e-html-editor-actions.c:1013
 msgid "_Increase Indent"
 msgstr "_Aumente tornade"
 
-#: ../src/e-util/e-html-editor-actions.c:1056
+#: ../src/e-util/e-html-editor-actions.c:1015
 msgid "Increase Indent"
 msgstr "Aumente tornade"
 
-#: ../src/e-util/e-html-editor-actions.c:1061
+#: ../src/e-util/e-html-editor-actions.c:1020
 msgid "_HTML File..."
 msgstr "File _HTML..."
 
-#: ../src/e-util/e-html-editor-actions.c:1068
+#: ../src/e-util/e-html-editor-actions.c:1027
 msgid "Te_xt File..."
 msgstr "File di te_st..."
 
-#: ../src/e-util/e-html-editor-actions.c:1075
+#: ../src/e-util/e-html-editor-actions.c:1034
 msgid "Paste _Quotation"
 msgstr "Tache _Citazion"
 
-#: ../src/e-util/e-html-editor-actions.c:1082
+#: ../src/e-util/e-html-editor-actions.c:1041
 msgid "_Find..."
 msgstr "_Cjate..."
 
-#: ../src/e-util/e-html-editor-actions.c:1084
+#: ../src/e-util/e-html-editor-actions.c:1043
 msgid "Search for text"
 msgstr "Cîr test"
 
-#: ../src/e-util/e-html-editor-actions.c:1089
+#: ../src/e-util/e-html-editor-actions.c:1048
 msgid "Find A_gain"
 msgstr "Cjate di _gnûf"
 
-#: ../src/e-util/e-html-editor-actions.c:1096
+#: ../src/e-util/e-html-editor-actions.c:1055
 msgid "Re_place..."
 msgstr "_Sostituìs..."
 
-#: ../src/e-util/e-html-editor-actions.c:1098
+#: ../src/e-util/e-html-editor-actions.c:1057
 msgid "Search for and replace text"
 msgstr "Cîr e sostituìs test"
 
-#: ../src/e-util/e-html-editor-actions.c:1103
+#: ../src/e-util/e-html-editor-actions.c:1062
 msgid "Check _Spelling..."
 msgstr "Controle _ortografie..."
 
-#: ../src/e-util/e-html-editor-actions.c:1110
+#: ../src/e-util/e-html-editor-actions.c:1069
 msgid "_Decrease Indent"
 msgstr "_Diminuìs tornade"
 
-#: ../src/e-util/e-html-editor-actions.c:1112
+#: ../src/e-util/e-html-editor-actions.c:1071
 msgid "Decrease Indent"
 msgstr "Diminuìs tornade"
 
-#: ../src/e-util/e-html-editor-actions.c:1117
+#: ../src/e-util/e-html-editor-actions.c:1076
 msgid "_Wrap Lines"
 msgstr "_Riis a gnove rie"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1127
+#: ../src/e-util/e-html-editor-actions.c:1086
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:108
 msgid "_Center"
 msgstr "_Centri"
 
-#: ../src/e-util/e-html-editor-actions.c:1129
+#: ../src/e-util/e-html-editor-actions.c:1088
 msgid "Center Alignment"
 msgstr "Inlineament centrât"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1134
+#: ../src/e-util/e-html-editor-actions.c:1093
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:99
 msgid "_Left"
 msgstr "_Çampe"
 
-#: ../src/e-util/e-html-editor-actions.c:1136
+#: ../src/e-util/e-html-editor-actions.c:1095
 msgid "Left Alignment"
 msgstr "Inlineament a çampe"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1141
+#: ../src/e-util/e-html-editor-actions.c:1100
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:117
 msgid "_Right"
 msgstr "_Diestre"
 
-#: ../src/e-util/e-html-editor-actions.c:1143
+#: ../src/e-util/e-html-editor-actions.c:1102
 msgid "Right Alignment"
 msgstr "Inlineament a drete"
 
-#: ../src/e-util/e-html-editor-actions.c:1151
+#: ../src/e-util/e-html-editor-actions.c:1110
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1153
+#: ../src/e-util/e-html-editor-actions.c:1112
 msgid "HTML editing mode"
 msgstr "Modalitât di modifiche HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1158
+#: ../src/e-util/e-html-editor-actions.c:1117
 msgid "Plain _Text"
 msgstr "_Test sempliç"
 
-#: ../src/e-util/e-html-editor-actions.c:1160
+#: ../src/e-util/e-html-editor-actions.c:1119
 msgid "Plain text editing mode"
 msgstr "Modalitât di modifiche test sempliç"
 
-#: ../src/e-util/e-html-editor-actions.c:1168
+#: ../src/e-util/e-html-editor-actions.c:1127
 msgid "_Normal"
 msgstr "_Normâl"
 
-#: ../src/e-util/e-html-editor-actions.c:1175
+#: ../src/e-util/e-html-editor-actions.c:1134
 msgid "Heading _1"
 msgstr "Intestazion _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1182
+#: ../src/e-util/e-html-editor-actions.c:1141
 msgid "Heading _2"
 msgstr "Intestazion _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1189
+#: ../src/e-util/e-html-editor-actions.c:1148
 msgid "Heading _3"
 msgstr "Intestazion _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1196
+#: ../src/e-util/e-html-editor-actions.c:1155
 msgid "Heading _4"
 msgstr "Intestazion _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1203
+#: ../src/e-util/e-html-editor-actions.c:1162
 msgid "Heading _5"
 msgstr "Intestazion _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1210
+#: ../src/e-util/e-html-editor-actions.c:1169
 msgid "Heading _6"
 msgstr "Intestazion _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1217
+#: ../src/e-util/e-html-editor-actions.c:1176
 msgid "_Preformatted"
 msgstr "_Preformatât"
 
-#: ../src/e-util/e-html-editor-actions.c:1224
+#: ../src/e-util/e-html-editor-actions.c:1183
 msgid "A_ddress"
 msgstr "_Direzion"
 
-#: ../src/e-util/e-html-editor-actions.c:1231
+#: ../src/e-util/e-html-editor-actions.c:1190
 msgid "_Bulleted List"
 msgstr "Liste _pontade"
 
-#: ../src/e-util/e-html-editor-actions.c:1238
+#: ../src/e-util/e-html-editor-actions.c:1197
 msgid "_Roman Numeral List"
 msgstr "Liste in numars _romans"
 
-#: ../src/e-util/e-html-editor-actions.c:1245
+#: ../src/e-util/e-html-editor-actions.c:1204
 msgid "Numbered _List"
 msgstr "_Liste numerade"
 
-#: ../src/e-util/e-html-editor-actions.c:1252
+#: ../src/e-util/e-html-editor-actions.c:1211
 msgid "_Alphabetical List"
 msgstr "Liste _alfabetiche"
 
-#: ../src/e-util/e-html-editor-actions.c:1268
-#: ../src/e-util/e-html-editor-actions.c:1306
+#: ../src/e-util/e-html-editor-actions.c:1227
+#: ../src/e-util/e-html-editor-actions.c:1265
 msgid "_Image..."
 msgstr "_Imagjin..."
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1271
+#: ../src/e-util/e-html-editor-actions.c:1230
 msgid "Insert Image"
 msgstr "Inseris imagjin"
 
-#: ../src/e-util/e-html-editor-actions.c:1276
-#: ../src/e-util/e-html-editor-actions.c:1313
+#: ../src/e-util/e-html-editor-actions.c:1235
+#: ../src/e-util/e-html-editor-actions.c:1272
 msgid "_Link..."
 msgstr "Co_legament..."
 
-#: ../src/e-util/e-html-editor-actions.c:1278
+#: ../src/e-util/e-html-editor-actions.c:1237
 msgid "Insert Link"
 msgstr "Inserìs colegament"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1284
-#: ../src/e-util/e-html-editor-actions.c:1328
+#: ../src/e-util/e-html-editor-actions.c:1243
+#: ../src/e-util/e-html-editor-actions.c:1287
 msgid "_Rule..."
 msgstr "_Regule..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1287
+#: ../src/e-util/e-html-editor-actions.c:1246
 msgid "Insert Rule"
 msgstr "Inserìs regule"
 
-#: ../src/e-util/e-html-editor-actions.c:1292
-#: ../src/e-util/e-html-editor-actions.c:1335
+#: ../src/e-util/e-html-editor-actions.c:1251
+#: ../src/e-util/e-html-editor-actions.c:1294
 msgid "_Table..."
 msgstr "_Tabele..."
 
-#: ../src/e-util/e-html-editor-actions.c:1294
+#: ../src/e-util/e-html-editor-actions.c:1253
 msgid "Insert Table"
 msgstr "Inserìs tabele"
 
-#: ../src/e-util/e-html-editor-actions.c:1299
+#: ../src/e-util/e-html-editor-actions.c:1258
 msgid "_Cell..."
 msgstr "_Cele..."
 
-#: ../src/e-util/e-html-editor-actions.c:1320
+#: ../src/e-util/e-html-editor-actions.c:1279
 msgid "Pa_ge..."
 msgstr "Pa_gjine..."
 
-#: ../src/e-util/e-html-editor-actions.c:1344
+#: ../src/e-util/e-html-editor-actions.c:1303
 msgid "Font _Size"
 msgstr "Dimen_sion caratar"
 
-#: ../src/e-util/e-html-editor-actions.c:1351
+#: ../src/e-util/e-html-editor-actions.c:1310
 msgid "_Font Style"
 msgstr "Stîl _caratar"
 
-#: ../src/e-util/e-html-editor-actions.c:1358
+#: ../src/e-util/e-html-editor-actions.c:1317
 msgid "Paste As _Text"
 msgstr "Tache come _test"
 
-#: ../src/e-util/e-html-editor-actions.c:1369
+#: ../src/e-util/e-html-editor-actions.c:1328
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Neret"
 
-#: ../src/e-util/e-html-editor-actions.c:1371
+#: ../src/e-util/e-html-editor-actions.c:1330
 msgid "Bold"
 msgstr "Neret"
 
-#: ../src/e-util/e-html-editor-actions.c:1377
+#: ../src/e-util/e-html-editor-actions.c:1336
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "Cors_îf"
 
-#: ../src/e-util/e-html-editor-actions.c:1379
+#: ../src/e-util/e-html-editor-actions.c:1338
 msgid "Italic"
 msgstr "Corsîf"
 
-#: ../src/e-util/e-html-editor-actions.c:1385
+#: ../src/e-util/e-html-editor-actions.c:1344
 msgid "_Plain Text"
 msgstr "_Test sempliç"
 
-#: ../src/e-util/e-html-editor-actions.c:1393
+#: ../src/e-util/e-html-editor-actions.c:1352
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "_Stricât"
 
-#: ../src/e-util/e-html-editor-actions.c:1395
+#: ../src/e-util/e-html-editor-actions.c:1354
 msgid "Strikethrough"
 msgstr "Stricât"
 
-#: ../src/e-util/e-html-editor-actions.c:1401
+#: ../src/e-util/e-html-editor-actions.c:1360
 #: ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "_Sotlineât"
 
-#: ../src/e-util/e-html-editor-actions.c:1403
+#: ../src/e-util/e-html-editor-actions.c:1362
 msgid "Underline"
 msgstr "Sotlineât"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1413
+#: ../src/e-util/e-html-editor-actions.c:1372
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1421
+#: ../src/e-util/e-html-editor-actions.c:1380
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1429
+#: ../src/e-util/e-html-editor-actions.c:1388
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1437
+#: ../src/e-util/e-html-editor-actions.c:1396
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1445
+#: ../src/e-util/e-html-editor-actions.c:1404
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1453
+#: ../src/e-util/e-html-editor-actions.c:1412
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1461
+#: ../src/e-util/e-html-editor-actions.c:1420
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1480
+#: ../src/e-util/e-html-editor-actions.c:1439
 msgid "Cell Contents"
 msgstr "Contignûts celle"
 
-#: ../src/e-util/e-html-editor-actions.c:1487
+#: ../src/e-util/e-html-editor-actions.c:1446
 msgid "Column"
 msgstr "Colone"
 
-#: ../src/e-util/e-html-editor-actions.c:1494
+#: ../src/e-util/e-html-editor-actions.c:1453
 msgid "Row"
 msgstr "Rie"
 
-#: ../src/e-util/e-html-editor-actions.c:1501
+#: ../src/e-util/e-html-editor-actions.c:1460
 msgid "Table"
 msgstr "Tabele"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1511
+#: ../src/e-util/e-html-editor-actions.c:1470
 msgid "Table Delete"
 msgstr "Elimine tabele"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1519
+#: ../src/e-util/e-html-editor-actions.c:1478
 msgid "Table Insert"
 msgstr "Inserìs tabele"
 
-#: ../src/e-util/e-html-editor-actions.c:1526
+#: ../src/e-util/e-html-editor-actions.c:1485
 msgid "Properties"
 msgstr "Propietâts"
 
-#: ../src/e-util/e-html-editor-actions.c:1544
+#: ../src/e-util/e-html-editor-actions.c:1503
 msgid "Column After"
 msgstr "Colone dopo"
 
-#: ../src/e-util/e-html-editor-actions.c:1551
+#: ../src/e-util/e-html-editor-actions.c:1510
 msgid "Column Before"
 msgstr "Colone prime"
 
-#: ../src/e-util/e-html-editor-actions.c:1558
+#: ../src/e-util/e-html-editor-actions.c:1517
 msgid "Insert _Link"
 msgstr "Inserìs co_legament"
 
-#: ../src/e-util/e-html-editor-actions.c:1565
+#: ../src/e-util/e-html-editor-actions.c:1524
 msgid "Row Above"
 msgstr "Rie parsore"
 
-#: ../src/e-util/e-html-editor-actions.c:1572
+#: ../src/e-util/e-html-editor-actions.c:1531
 msgid "Row Below"
 msgstr "Rie sot"
 
-#: ../src/e-util/e-html-editor-actions.c:1579
+#: ../src/e-util/e-html-editor-actions.c:1538
 msgid "Cell..."
 msgstr "Cele..."
 
-#: ../src/e-util/e-html-editor-actions.c:1586
+#: ../src/e-util/e-html-editor-actions.c:1545
 msgid "Image..."
 msgstr "Imagjin..."
 
-#: ../src/e-util/e-html-editor-actions.c:1593
+#: ../src/e-util/e-html-editor-actions.c:1552
 msgid "Link..."
 msgstr "Colegament..."
 
-#: ../src/e-util/e-html-editor-actions.c:1600
+#: ../src/e-util/e-html-editor-actions.c:1559
 msgid "Page..."
 msgstr "Pagjine..."
 
-#: ../src/e-util/e-html-editor-actions.c:1607
+#: ../src/e-util/e-html-editor-actions.c:1566
 msgid "Paragraph..."
 msgstr "Paragraf..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1615
+#: ../src/e-util/e-html-editor-actions.c:1574
 msgid "Rule..."
 msgstr "Regule..."
 
-#: ../src/e-util/e-html-editor-actions.c:1622
+#: ../src/e-util/e-html-editor-actions.c:1581
 msgid "Table..."
 msgstr "Tabele..."
 
-#: ../src/e-util/e-html-editor-actions.c:1629
+#: ../src/e-util/e-html-editor-actions.c:1588
 msgid "Text..."
 msgstr "Test..."
 
-#: ../src/e-util/e-html-editor-actions.c:1636
+#: ../src/e-util/e-html-editor-actions.c:1595
 msgid "Remove Link"
 msgstr "Gjave colegament"
 
-#: ../src/e-util/e-html-editor-actions.c:1653
+#: ../src/e-util/e-html-editor-actions.c:1612
 msgid "Add Word to Dictionary"
 msgstr "Zonte peraule tal dizionari"
 
-#: ../src/e-util/e-html-editor-actions.c:1660
+#: ../src/e-util/e-html-editor-actions.c:1619
 msgid "Ignore Misspelled Word"
 msgstr "Ignore peraule scrite mâl"
 
-#: ../src/e-util/e-html-editor-actions.c:1667
+#: ../src/e-util/e-html-editor-actions.c:1626
 msgid "Add Word To"
 msgstr "Zonte peraule a"
 
-#: ../src/e-util/e-html-editor-actions.c:1676
+#: ../src/e-util/e-html-editor-actions.c:1635
 msgid "More Suggestions"
 msgstr "Plui sugjeriments"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:1911
+#: ../src/e-util/e-html-editor-actions.c:1870
 #, c-format
 msgid "%s Dictionary"
 msgstr "dizionari %s"
 
-#: ../src/e-util/e-html-editor-actions.c:1990
+#: ../src/e-util/e-html-editor-actions.c:1949
 msgid "_Emoticon"
 msgstr "_Musutis"
 
-#: ../src/e-util/e-html-editor-actions.c:1991
+#: ../src/e-util/e-html-editor-actions.c:1950
 msgid "Insert Emoticon"
 msgstr "Inserìs musutis"
 
-#: ../src/e-util/e-html-editor-actions.c:2059
+#: ../src/e-util/e-html-editor-actions.c:2018
 msgid "Re_place"
 msgstr "_Sostituìs"
 
-#: ../src/e-util/e-html-editor-actions.c:2062
+#: ../src/e-util/e-html-editor-actions.c:2021
 msgid "_Image"
 msgstr "_Imagjin"
 
-#: ../src/e-util/e-html-editor-actions.c:2065
+#: ../src/e-util/e-html-editor-actions.c:2024
 msgid "_Link"
 msgstr "Co_legament"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2069
+#: ../src/e-util/e-html-editor-actions.c:2028
 msgid "_Rule"
 msgstr "_Regule"
 
-#: ../src/e-util/e-html-editor-actions.c:2072
+#: ../src/e-util/e-html-editor-actions.c:2031
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Tabele"
@@ -15715,91 +15728,100 @@ msgstr "Cree _calendari"
 msgid "Create Collectio_n"
 msgstr "Cree colezio_n"
 
-#: ../src/e-util/e-web-view.c:348
+#: ../src/e-util/e-web-view.c:406
 msgid "_Copy Link Location"
 msgstr "_Copie posizion colegament"
 
-#: ../src/e-util/e-web-view.c:350
+#: ../src/e-util/e-web-view.c:408
 msgid "Copy the link to the clipboard"
 msgstr "Copie il colegament intes notis"
 
-#: ../src/e-util/e-web-view.c:358
+#: ../src/e-util/e-web-view.c:416
 msgid "_Open Link in Browser"
 msgstr "_Vierç colegament tal navigadôr"
 
-#: ../src/e-util/e-web-view.c:360
+#: ../src/e-util/e-web-view.c:418
 msgid "Open the link in a web browser"
 msgstr "Vierç il colegament intun navigadôr web"
 
-#: ../src/e-util/e-web-view.c:368
+#: ../src/e-util/e-web-view.c:426
 msgid "_Copy Email Address"
 msgstr "_Copie direzion e-mail"
 
-#: ../src/e-util/e-web-view.c:375
+#: ../src/e-util/e-web-view.c:433
 msgid "Copy _Raw Email Address"
 msgstr "Copie direzion e-mail _rude"
 
-#: ../src/e-util/e-web-view.c:377
+#: ../src/e-util/e-web-view.c:435
 msgid "Copy the raw email address to the clipboard"
 msgstr "Copie la rude direzion de e-mail intes notis"
 
-#: ../src/e-util/e-web-view.c:392
+#: ../src/e-util/e-web-view.c:450
 msgid "_Copy Image"
 msgstr "_Copie imagjin"
 
-#: ../src/e-util/e-web-view.c:394
+#: ../src/e-util/e-web-view.c:452
 msgid "Copy the image to the clipboard"
 msgstr "Copie la imagjin intes notis"
 
-#: ../src/e-util/e-web-view.c:399
+#: ../src/e-util/e-web-view.c:457
 msgid "Save _Image..."
 msgstr "Salve _imagjin..."
 
-#: ../src/e-util/e-web-view.c:401
+#: ../src/e-util/e-web-view.c:459
 msgid "Save the image to a file"
 msgstr "Salve la imagjin suntun file"
 
-#: ../src/e-util/e-web-view.c:421 ../src/e-util/e-web-view.c:2032
+# Bute un voli cun altris lenghis voltadis
+#: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-reader.c:2787
+msgid "Search _Web…"
+msgstr "Cîr tal _Web…"
+
+#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-reader.c:2789
+msgid "Search the Web with the selected text"
+msgstr "Cîr tal web cul test selezionât"
+
+#: ../src/e-util/e-web-view.c:486 ../src/e-util/e-web-view.c:2097
 msgid "Select all text and images"
 msgstr "Selezione dut il test e lis imagjins"
 
-#: ../src/e-util/e-web-view.c:1381
+#: ../src/e-util/e-web-view.c:1446
 #, c-format
 msgid "Click to call %s"
 msgstr "Fâs clic par clamâ %s"
 
-#: ../src/e-util/e-web-view.c:1383
+#: ../src/e-util/e-web-view.c:1448
 msgid "Click to hide/unhide addresses"
 msgstr "Fâs clic par platâ/mostrâ lis direzions"
 
-#: ../src/e-util/e-web-view.c:1394
+#: ../src/e-util/e-web-view.c:1459
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Va ae sezion %s dal messaç"
 
-#: ../src/e-util/e-web-view.c:1396
+#: ../src/e-util/e-web-view.c:1461
 msgid "Go to the beginning of the message"
 msgstr "Va al inizi dal messaç"
 
-#: ../src/e-util/e-web-view.c:1400
+#: ../src/e-util/e-web-view.c:1465
 #, c-format
 msgid "Click to open %s"
 msgstr "Fâs clic par vierzi %s"
 
-#: ../src/e-util/e-web-view.c:3953
+#: ../src/e-util/e-web-view.c:4128
 msgid "Copying image to clipboard"
 msgstr "Copie imagjin intes notis"
 
-#: ../src/e-util/e-web-view.c:4141
+#: ../src/e-util/e-web-view.c:4316
 msgid "Save Image"
 msgstr "Salve imagjin"
 
-#: ../src/e-util/e-web-view.c:4178
+#: ../src/e-util/e-web-view.c:4353
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Daûr a salvâ la imagjin su “%s”"
 
-#: ../src/e-util/e-web-view.c:4325
+#: ../src/e-util/e-web-view.c:4500
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Impussibil otignî il URI “%s”, no si sa ce mût discjariâlu."
@@ -16050,6 +16072,10 @@ msgstr "Impussibil cjariâ la firme."
 #: ../src/e-util/widgets.error.xml.h:9
 msgid "Could not save signature."
 msgstr "Impussibil salvâ la firme."
+
+#: ../src/e-util/widgets.error.xml.h:10
+msgid "Could not get selected text."
+msgstr "Impussibil otignî il test selezionât."
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:106
 #, c-format
@@ -16491,7 +16517,7 @@ msgstr "Servidôr SMTP"
 msgid "Close this window"
 msgstr "Siere chest barcon"
 
-#: ../src/mail/e-mail-browser.c:290
+#: ../src/mail/e-mail-browser.c:294
 msgid "(No Subject)"
 msgstr "(Nissun ogjet)"
 
@@ -17262,645 +17288,645 @@ msgstr "Ignore _simpri Rispuint-A: pes mailing list."
 msgid "Failed to retrieve message:"
 msgstr "No si è rivâts a recuperâ il messaç:"
 
-#: ../src/mail/e-mail-reader.c:2164 ../src/mail/e-mail-reader.c:3617
+#: ../src/mail/e-mail-reader.c:2164 ../src/mail/e-mail-reader.c:3641
 #, c-format
 msgid "Retrieving message “%s”"
 msgstr "Daûr a recuperâ il messaç “%s”"
 
-#: ../src/mail/e-mail-reader.c:2352
+#: ../src/mail/e-mail-reader.c:2365
 msgid "A_dd Sender to Address Book"
 msgstr "_Zonte mitent ae rubriche"
 
-#: ../src/mail/e-mail-reader.c:2354
+#: ../src/mail/e-mail-reader.c:2367
 msgid "Add sender to address book"
 msgstr "Zonte il mitent ae rubriche"
 
-#: ../src/mail/e-mail-reader.c:2359
+#: ../src/mail/e-mail-reader.c:2372
 msgid "_Archive..."
 msgstr "_Archivie..."
 
-#: ../src/mail/e-mail-reader.c:2361
+#: ../src/mail/e-mail-reader.c:2374
 msgid "Move selected messages to the Archive folder for the account"
 msgstr "Sposte i messaçs selezionâts te cartele Archivi pal account"
 
-#: ../src/mail/e-mail-reader.c:2366
+#: ../src/mail/e-mail-reader.c:2379
 msgid "Check for _Junk"
 msgstr "Controle _pueste malvolude"
 
-#: ../src/mail/e-mail-reader.c:2368
+#: ../src/mail/e-mail-reader.c:2381
 msgid "Filter the selected messages for junk status"
 msgstr "Filtre i messaçs selezionâts pal stât di malvolût"
 
-#: ../src/mail/e-mail-reader.c:2373
+#: ../src/mail/e-mail-reader.c:2386
 msgid "Assign C_olor…"
 msgstr "Dâ c_olôr…"
 
-#: ../src/mail/e-mail-reader.c:2375
+#: ../src/mail/e-mail-reader.c:2388
 msgid "Assign color for the selected messages"
 msgstr "Dâ un colôr pai messaçs selezionâts"
 
-#: ../src/mail/e-mail-reader.c:2380
+#: ../src/mail/e-mail-reader.c:2393
 msgid "Unse_t Color"
 msgstr "Gja_ve colôr"
 
-#: ../src/mail/e-mail-reader.c:2382
+#: ../src/mail/e-mail-reader.c:2395
 msgid "Unset color for the selected messages"
 msgstr "Gjave il colôr pai messaçs selezionâts"
 
-#: ../src/mail/e-mail-reader.c:2387
+#: ../src/mail/e-mail-reader.c:2400
 msgid "_Copy to Folder..."
 msgstr "_Copie te cartele..."
 
-#: ../src/mail/e-mail-reader.c:2389
+#: ../src/mail/e-mail-reader.c:2402
 msgid "Copy selected messages to another folder"
 msgstr "Copie i messaçs selezionâts suntune altre cartele"
 
-#: ../src/mail/e-mail-reader.c:2394
+#: ../src/mail/e-mail-reader.c:2407
 msgid "_Delete Message"
 msgstr "Eli_mine messaç"
 
-#: ../src/mail/e-mail-reader.c:2396
+#: ../src/mail/e-mail-reader.c:2409
 msgid "Mark the selected messages for deletion"
 msgstr "Segne i messaçs selezionâts pe eliminazion"
 
-#: ../src/mail/e-mail-reader.c:2401
+#: ../src/mail/e-mail-reader.c:2414
 msgid "_Add note..."
 msgstr "_Zonte note..."
 
-#: ../src/mail/e-mail-reader.c:2403
+#: ../src/mail/e-mail-reader.c:2416
 msgid "Add a note for the selected message"
 msgstr "Zonte une note pal messaç selezionât"
 
-#: ../src/mail/e-mail-reader.c:2408
+#: ../src/mail/e-mail-reader.c:2421
 msgid "Delete no_te"
 msgstr "Elimine no_te"
 
-#: ../src/mail/e-mail-reader.c:2410
+#: ../src/mail/e-mail-reader.c:2423
 msgid "Delete the note for the selected message"
 msgstr "Elimine la note dal messaç selezionât"
 
-#: ../src/mail/e-mail-reader.c:2415
+#: ../src/mail/e-mail-reader.c:2428
 msgid "_Edit note..."
 msgstr "_Modifiche note..."
 
-#: ../src/mail/e-mail-reader.c:2417
+#: ../src/mail/e-mail-reader.c:2430
 msgid "Edit a note for the selected message"
 msgstr "Modifiche une note pal messaç selezionât"
 
-#: ../src/mail/e-mail-reader.c:2422
+#: ../src/mail/e-mail-reader.c:2435
 msgid "Create a Filter Rule for Mailing _List..."
 msgstr "Cree une regule di filtri pe mailing _list..."
 
-#: ../src/mail/e-mail-reader.c:2424
+#: ../src/mail/e-mail-reader.c:2437
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Cree une regule par filtrâ i messaçs su cheste mailing list"
 
-#: ../src/mail/e-mail-reader.c:2429
+#: ../src/mail/e-mail-reader.c:2442
 msgid "Create a Filter Rule for _Recipients..."
 msgstr "Cree une regule di filtri pai _destinataris..."
 
-#: ../src/mail/e-mail-reader.c:2431
+#: ../src/mail/e-mail-reader.c:2444
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Cree une regule par filtrâ i messaçs viers chescj destinataris"
 
-#: ../src/mail/e-mail-reader.c:2436
+#: ../src/mail/e-mail-reader.c:2449
 msgid "Create a Filter Rule for Se_nder..."
 msgstr "Cree une regule di filtri pal _mitent..."
 
-#: ../src/mail/e-mail-reader.c:2438
+#: ../src/mail/e-mail-reader.c:2451
 msgid "Create a rule to filter messages from this sender"
 msgstr "Cree une regule par filtrâ i messaçs che a rivin di chest mitent"
 
-#: ../src/mail/e-mail-reader.c:2443
+#: ../src/mail/e-mail-reader.c:2456
 msgid "Create a Filter Rule for _Subject..."
 msgstr "Cree une regule di filtri pal _Ogjet..."
 
-#: ../src/mail/e-mail-reader.c:2445
+#: ../src/mail/e-mail-reader.c:2458
 msgid "Create a rule to filter messages with this subject"
 msgstr "Cree une regule par filtrâ i messaçs cun chest ogjet"
 
-#: ../src/mail/e-mail-reader.c:2450
+#: ../src/mail/e-mail-reader.c:2463
 msgid "A_pply Filters"
 msgstr "Apliche _filtris"
 
-#: ../src/mail/e-mail-reader.c:2452
+#: ../src/mail/e-mail-reader.c:2465
 msgid "Apply filter rules to the selected messages"
 msgstr "Apliche lis regulis dal filtri ai messaçs selezionâts"
 
-#: ../src/mail/e-mail-reader.c:2457
+#: ../src/mail/e-mail-reader.c:2470
 msgid "_Find in Message..."
 msgstr "Cj_ate tal messaç..."
 
-#: ../src/mail/e-mail-reader.c:2459
+#: ../src/mail/e-mail-reader.c:2472
 msgid "Search for text in the body of the displayed message"
 msgstr "Cîr test intal cuarp dal messaç mostrât"
 
-#: ../src/mail/e-mail-reader.c:2464
+#: ../src/mail/e-mail-reader.c:2477
 msgid "_Clear Flag"
 msgstr "_Nete segn"
 
-#: ../src/mail/e-mail-reader.c:2466
+#: ../src/mail/e-mail-reader.c:2479
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "Gjave il segn di completament dai messaçs selezionâts"
 
-#: ../src/mail/e-mail-reader.c:2471
+#: ../src/mail/e-mail-reader.c:2484
 msgid "_Flag Completed"
 msgstr "Segne come co_mpletât"
 
-#: ../src/mail/e-mail-reader.c:2473
+#: ../src/mail/e-mail-reader.c:2486
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Met il segn di completament a completât sui messaçs selezionâts"
 
-#: ../src/mail/e-mail-reader.c:2478
+#: ../src/mail/e-mail-reader.c:2491
 msgid "Follow _Up..."
 msgstr "Com_pletament..."
 
-#: ../src/mail/e-mail-reader.c:2480
+#: ../src/mail/e-mail-reader.c:2493
 msgid "Flag the selected messages for follow-up"
 msgstr "Segne i messaçs selezionâts pal completament"
 
-#: ../src/mail/e-mail-reader.c:2485
+#: ../src/mail/e-mail-reader.c:2498
 #: ../src/modules/mail/e-mail-attachment-handler.c:431
 msgid "_Attached"
 msgstr "_Alegât"
 
-#: ../src/mail/e-mail-reader.c:2487 ../src/mail/e-mail-reader.c:2494
+#: ../src/mail/e-mail-reader.c:2500 ../src/mail/e-mail-reader.c:2507
 #: ../src/modules/mail/e-mail-attachment-handler.c:433
 msgid "Forward the selected message to someone as an attachment"
 msgstr "Mande indenant come zonte a cualchidun, il messaç selezionât"
 
-#: ../src/mail/e-mail-reader.c:2492
+#: ../src/mail/e-mail-reader.c:2505
 msgid "Forward As _Attached"
 msgstr "Mande indenant come _zonte"
 
-#: ../src/mail/e-mail-reader.c:2499
+#: ../src/mail/e-mail-reader.c:2512
 #: ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
 msgstr "_Incorporât"
 
-#: ../src/mail/e-mail-reader.c:2501 ../src/mail/e-mail-reader.c:2508
+#: ../src/mail/e-mail-reader.c:2514 ../src/mail/e-mail-reader.c:2521
 #: ../src/modules/mail/e-mail-attachment-handler.c:440
 msgid "Forward the selected message in the body of a new message"
 msgstr "Mande indenant il messaç selezionât tal cuarp di un gnûf messaç"
 
-#: ../src/mail/e-mail-reader.c:2506
+#: ../src/mail/e-mail-reader.c:2519
 msgid "Forward As _Inline"
 msgstr "Mande indenant come _Incorporât"
 
-#: ../src/mail/e-mail-reader.c:2513
+#: ../src/mail/e-mail-reader.c:2526
 #: ../src/modules/mail/e-mail-attachment-handler.c:445
 msgid "_Quoted"
 msgstr "_Citât"
 
-#: ../src/mail/e-mail-reader.c:2515 ../src/mail/e-mail-reader.c:2522
+#: ../src/mail/e-mail-reader.c:2528 ../src/mail/e-mail-reader.c:2535
 #: ../src/modules/mail/e-mail-attachment-handler.c:447
 msgid "Forward the selected message quoted like a reply"
 msgstr "Mande indenant il messaç selezionât citât come intune rispueste"
 
-#: ../src/mail/e-mail-reader.c:2520
+#: ../src/mail/e-mail-reader.c:2533
 msgid "Forward As _Quoted"
 msgstr "Mande indenant come _citât"
 
-#: ../src/mail/e-mail-reader.c:2527
+#: ../src/mail/e-mail-reader.c:2540
 msgid "_New Label"
 msgstr "_Gnove etichete"
 
 #. Translators: "None" is used in the message label context menu.
 #. *              It removes all labels from the selected messages.
-#: ../src/mail/e-mail-reader.c:2536
+#: ../src/mail/e-mail-reader.c:2549
 msgid "N_one"
 msgstr "Niss_un"
 
-#: ../src/mail/e-mail-reader.c:2543
+#: ../src/mail/e-mail-reader.c:2556
 msgid "_Load Images"
 msgstr "Cjarie _imagjins"
 
-#: ../src/mail/e-mail-reader.c:2545
+#: ../src/mail/e-mail-reader.c:2558
 msgid "Force images in HTML mail to be loaded"
 msgstr "Sfuarce il cjariament des imagjins de pueste in HTML"
 
-#: ../src/mail/e-mail-reader.c:2550 ../src/mail/e-mail-reader.c:2962
+#: ../src/mail/e-mail-reader.c:2563 ../src/mail/e-mail-reader.c:2982
 msgid "_Ignore Subthread"
 msgstr "_Ignore sot-discussion"
 
-#: ../src/mail/e-mail-reader.c:2552
+#: ../src/mail/e-mail-reader.c:2565
 msgid "Mark new mails in a subthread as read automatically"
 msgstr "Segne la gnove pueste intune sot-discussion come lete in automatic"
 
-#: ../src/mail/e-mail-reader.c:2557 ../src/mail/e-mail-reader.c:2966
+#: ../src/mail/e-mail-reader.c:2570 ../src/mail/e-mail-reader.c:2986
 msgid "_Ignore Thread"
 msgstr "_Ignore discussion"
 
-#: ../src/mail/e-mail-reader.c:2559
+#: ../src/mail/e-mail-reader.c:2572
 msgid "Mark new mails in this thread as read automatically"
 msgstr "Segne la gnove pueste in cheste discussion come lete in automatic"
 
-#: ../src/mail/e-mail-reader.c:2564
+#: ../src/mail/e-mail-reader.c:2577
 msgid "_Important"
 msgstr "_Impuartant"
 
-#: ../src/mail/e-mail-reader.c:2566
+#: ../src/mail/e-mail-reader.c:2579
 msgid "Mark the selected messages as important"
 msgstr "Segne i messaçs selezionâts come impuartants"
 
-#: ../src/mail/e-mail-reader.c:2571
+#: ../src/mail/e-mail-reader.c:2584
 msgid "_Junk"
 msgstr "Mal_volût"
 
-#: ../src/mail/e-mail-reader.c:2573
+#: ../src/mail/e-mail-reader.c:2586
 msgid "Mark the selected messages as junk"
 msgstr "Segne i messaçs selezionâts come malvolûts"
 
-#: ../src/mail/e-mail-reader.c:2578
+#: ../src/mail/e-mail-reader.c:2591
 msgid "_Not Junk"
 msgstr "_No malvolût"
 
-#: ../src/mail/e-mail-reader.c:2580
+#: ../src/mail/e-mail-reader.c:2593
 msgid "Mark the selected messages as not being junk"
 msgstr "Segne i messaçs selezionâts come no malvolûts"
 
-#: ../src/mail/e-mail-reader.c:2585
+#: ../src/mail/e-mail-reader.c:2598
 msgid "_Read"
 msgstr "_Let"
 
-#: ../src/mail/e-mail-reader.c:2587
+#: ../src/mail/e-mail-reader.c:2600
 msgid "Mark the selected messages as having been read"
 msgstr "Segne i messaçs selezionâts come se fossin stâts lets"
 
-#: ../src/mail/e-mail-reader.c:2592 ../src/mail/e-mail-reader.c:2986
+#: ../src/mail/e-mail-reader.c:2605 ../src/mail/e-mail-reader.c:3006
 msgid "Do not _Ignore Subthread"
 msgstr "No sta _ignorâ sot-discussion"
 
-#: ../src/mail/e-mail-reader.c:2594
+#: ../src/mail/e-mail-reader.c:2607
 msgid "Do not mark new mails in a subthread as read automatically"
 msgstr ""
 "No sta segnâ la gnove pueste intune sot-discussion come lete in automatic"
 
-#: ../src/mail/e-mail-reader.c:2599 ../src/mail/e-mail-reader.c:2990
+#: ../src/mail/e-mail-reader.c:2612 ../src/mail/e-mail-reader.c:3010
 msgid "Do not _Ignore Thread"
 msgstr "No sta _ignorâ discussion"
 
-#: ../src/mail/e-mail-reader.c:2601
+#: ../src/mail/e-mail-reader.c:2614
 msgid "Do not mark new mails in this thread as read automatically"
 msgstr ""
 "No sta segnâ la gnove pueste in cheste discussion come lete in automatic"
 
-#: ../src/mail/e-mail-reader.c:2606
+#: ../src/mail/e-mail-reader.c:2619
 msgid "Uni_mportant"
 msgstr "No _impuartant"
 
-#: ../src/mail/e-mail-reader.c:2608
+#: ../src/mail/e-mail-reader.c:2621
 msgid "Mark the selected messages as unimportant"
 msgstr "Segne i messaçs selezionâts come no impuartants"
 
-#: ../src/mail/e-mail-reader.c:2613
+#: ../src/mail/e-mail-reader.c:2626
 msgid "_Unread"
 msgstr "N_o let"
 
-#: ../src/mail/e-mail-reader.c:2615
+#: ../src/mail/e-mail-reader.c:2628
 msgid "Mark the selected messages as not having been read"
 msgstr "Segne i messaçs selezionâts come se no fossin stâts lets"
 
-#: ../src/mail/e-mail-reader.c:2620
+#: ../src/mail/e-mail-reader.c:2633
 #: ../src/modules/mail/e-mail-attachment-handler.c:417
 msgid "_Edit as New Message..."
 msgstr "_Modifiche come gnûf messaç..."
 
-#: ../src/mail/e-mail-reader.c:2622
+#: ../src/mail/e-mail-reader.c:2635
 #: ../src/modules/mail/e-mail-attachment-handler.c:419
 msgid "Open the selected messages in the composer for editing"
 msgstr "Vierç i messaçs selezionâts tal compositôr pe modifiche"
 
-#: ../src/mail/e-mail-reader.c:2627
+#: ../src/mail/e-mail-reader.c:2640
 msgid "Compose _New Message"
 msgstr "Scrîf _gnûf messaç"
 
-#: ../src/mail/e-mail-reader.c:2629
+#: ../src/mail/e-mail-reader.c:2642
 msgid "Open a window for composing a mail message"
 msgstr "Vierç un barcon par componi un messaç di pueste"
 
-#: ../src/mail/e-mail-reader.c:2634
+#: ../src/mail/e-mail-reader.c:2647
 msgid "_Open in New Window"
 msgstr "_Vierç intun gnûf barcon"
 
-#: ../src/mail/e-mail-reader.c:2636
+#: ../src/mail/e-mail-reader.c:2649
 msgid "Open the selected messages in a new window"
 msgstr "Vierç i messaç selezionâts intun gnûf barcon"
 
-#: ../src/mail/e-mail-reader.c:2641
+#: ../src/mail/e-mail-reader.c:2654
 msgid "_Move to Folder..."
 msgstr "_Sposte te cartele..."
 
-#: ../src/mail/e-mail-reader.c:2643
+#: ../src/mail/e-mail-reader.c:2656
 msgid "Move selected messages to another folder"
 msgstr "Sposte i messaçs selezionâts intune altre cartele"
 
-#: ../src/mail/e-mail-reader.c:2648
+#: ../src/mail/e-mail-reader.c:2661
 msgid "_Next Message"
 msgstr "Messaç s_ucessîf"
 
-#: ../src/mail/e-mail-reader.c:2650
+#: ../src/mail/e-mail-reader.c:2663
 msgid "Display the next message"
 msgstr "Mostre il prossim messaç"
 
-#: ../src/mail/e-mail-reader.c:2655
+#: ../src/mail/e-mail-reader.c:2668
 msgid "Next _Important Message"
 msgstr "Messaç _impuartant sucessîf"
 
-#: ../src/mail/e-mail-reader.c:2657
+#: ../src/mail/e-mail-reader.c:2670
 msgid "Display the next important message"
 msgstr "Mostre il prossim messaç impuartant"
 
-#: ../src/mail/e-mail-reader.c:2662
+#: ../src/mail/e-mail-reader.c:2675
 msgid "Next _Thread"
 msgstr "_Discussion sucessive"
 
-#: ../src/mail/e-mail-reader.c:2664
+#: ../src/mail/e-mail-reader.c:2677
 msgid "Display the next thread"
 msgstr "Mostre la prossime discussion"
 
-#: ../src/mail/e-mail-reader.c:2669
+#: ../src/mail/e-mail-reader.c:2682
 msgid "Next _Unread Message"
 msgstr "Messaç _no let sucessîf"
 
-#: ../src/mail/e-mail-reader.c:2671
+#: ../src/mail/e-mail-reader.c:2684
 msgid "Display the next unread message"
 msgstr "Mostre il prossim messaç no let"
 
-#: ../src/mail/e-mail-reader.c:2676
+#: ../src/mail/e-mail-reader.c:2689
 msgid "_Previous Message"
 msgstr "Messaç _precedent"
 
-#: ../src/mail/e-mail-reader.c:2678
+#: ../src/mail/e-mail-reader.c:2691
 msgid "Display the previous message"
 msgstr "Mostre il precedent messaç"
 
-#: ../src/mail/e-mail-reader.c:2683
+#: ../src/mail/e-mail-reader.c:2696
 msgid "Pr_evious Important Message"
 msgstr "Messaç impuartant pr_ecedent"
 
-#: ../src/mail/e-mail-reader.c:2685
+#: ../src/mail/e-mail-reader.c:2698
 msgid "Display the previous important message"
 msgstr "Mostre il precedent messaç impuartant"
 
-#: ../src/mail/e-mail-reader.c:2690
+#: ../src/mail/e-mail-reader.c:2703
 msgid "Previous T_hread"
 msgstr "D_iscussion precedente"
 
-#: ../src/mail/e-mail-reader.c:2692
+#: ../src/mail/e-mail-reader.c:2705
 msgid "Display the previous thread"
 msgstr "Mostre la discussion precedente"
 
-#: ../src/mail/e-mail-reader.c:2697
+#: ../src/mail/e-mail-reader.c:2710
 msgid "P_revious Unread Message"
 msgstr "Messaç no let p_recedent"
 
-#: ../src/mail/e-mail-reader.c:2699
+#: ../src/mail/e-mail-reader.c:2712
 msgid "Display the previous unread message"
 msgstr "Mostre il precedent messaç no let"
 
-#: ../src/mail/e-mail-reader.c:2706
+#: ../src/mail/e-mail-reader.c:2719
 msgid "Print this message"
 msgstr "Stampe chest messaç"
 
-#: ../src/mail/e-mail-reader.c:2713
+#: ../src/mail/e-mail-reader.c:2726
 msgid "Preview the message to be printed"
 msgstr "Anteprime di stampe dal messaç"
 
-#: ../src/mail/e-mail-reader.c:2718
+#: ../src/mail/e-mail-reader.c:2731
 #: ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
 msgstr "In_drece"
 
-#: ../src/mail/e-mail-reader.c:2720
+#: ../src/mail/e-mail-reader.c:2733
 #: ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Indrece (sbalce) il messaç selezionât a cualchidun"
 
-#: ../src/mail/e-mail-reader.c:2725
+#: ../src/mail/e-mail-reader.c:2738
 msgid "Remo_ve Attachments"
 msgstr "Gja_ve zontis"
 
-#: ../src/mail/e-mail-reader.c:2727
+#: ../src/mail/e-mail-reader.c:2740
 msgid "Remove attachments"
 msgstr "Gjave lis zontis"
 
-#: ../src/mail/e-mail-reader.c:2732
+#: ../src/mail/e-mail-reader.c:2745
 msgid "Remove Du_plicate Messages"
 msgstr "Gjave messaçs do_plis"
 
-#: ../src/mail/e-mail-reader.c:2734
+#: ../src/mail/e-mail-reader.c:2747
 msgid "Checks selected messages for duplicates"
 msgstr "Verifiche la presince di doplis tai messaçs selezionâts"
 
-#: ../src/mail/e-mail-reader.c:2739 ../src/mail/em-composer-utils.c:4227
+#: ../src/mail/e-mail-reader.c:2752 ../src/mail/em-composer-utils.c:4227
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1500
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
 msgid "Reply to _All"
 msgstr "Rispuint a _ducj"
 
-#: ../src/mail/e-mail-reader.c:2741
+#: ../src/mail/e-mail-reader.c:2754
 #: ../src/modules/mail/e-mail-attachment-handler.c:398
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "Scrîf une rispueste a ducj i destinataris dal messaç selezionât"
 
-#: ../src/mail/e-mail-reader.c:2746
+#: ../src/mail/e-mail-reader.c:2759
 msgid "Al_ternative Reply…"
 msgstr "Rispueste al_ternative…"
 
-#: ../src/mail/e-mail-reader.c:2748
+#: ../src/mail/e-mail-reader.c:2761
 msgid "Choose reply options for the selected message"
 msgstr "Sielç lis opzions de rispueste pal messaç selezionât"
 
-#: ../src/mail/e-mail-reader.c:2753 ../src/mail/em-composer-utils.c:4222
+#: ../src/mail/e-mail-reader.c:2766 ../src/mail/em-composer-utils.c:4222
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
 msgstr "Rispuint ae _liste"
 
-#: ../src/mail/e-mail-reader.c:2755
+#: ../src/mail/e-mail-reader.c:2768
 #: ../src/modules/mail/e-mail-attachment-handler.c:405
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "Scrîf une rispueste ae mailing list dal messaç selezionât"
 
-#: ../src/mail/e-mail-reader.c:2760
+#: ../src/mail/e-mail-reader.c:2773
 #: ../src/modules/mail/e-mail-attachment-handler.c:410
 msgid "_Reply to Sender"
 msgstr "_Rispuint al mitent"
 
-#: ../src/mail/e-mail-reader.c:2762
+#: ../src/mail/e-mail-reader.c:2775
 #: ../src/modules/mail/e-mail-attachment-handler.c:412
 msgid "Compose a reply to the sender of the selected message"
 msgstr "Scrîf une rispueste al mitent dal messaç selezionât"
 
-#: ../src/mail/e-mail-reader.c:2767
+#: ../src/mail/e-mail-reader.c:2780
 msgid "_Save as mbox..."
 msgstr "_Salve come mbox..."
 
-#: ../src/mail/e-mail-reader.c:2769
+#: ../src/mail/e-mail-reader.c:2782
 msgid "Save selected messages as an mbox file"
 msgstr "Salve i messaçs selezionâts come un file mbox"
 
-#: ../src/mail/e-mail-reader.c:2774
+#: ../src/mail/e-mail-reader.c:2794
 msgid "_Message Source"
 msgstr "Sorzint _messaç"
 
-#: ../src/mail/e-mail-reader.c:2776
+#: ../src/mail/e-mail-reader.c:2796
 msgid "Show the raw email source of the message"
 msgstr "Mostrâ il sorzint e-mail grês dal messaç"
 
-#: ../src/mail/e-mail-reader.c:2788
+#: ../src/mail/e-mail-reader.c:2808
 msgid "_Undelete Message"
 msgstr "_Recupere messaç"
 
-#: ../src/mail/e-mail-reader.c:2790
+#: ../src/mail/e-mail-reader.c:2810
 msgid "Undelete the selected messages"
 msgstr "Recupere i messaçs selezionâts"
 
-#: ../src/mail/e-mail-reader.c:2795
+#: ../src/mail/e-mail-reader.c:2815
 msgid "_Normal Size"
 msgstr "Dimension _normâl"
 
-#: ../src/mail/e-mail-reader.c:2797
+#: ../src/mail/e-mail-reader.c:2817
 msgid "Reset the text to its original size"
 msgstr "Torne met il test ae sô dimension origjinâl"
 
-#: ../src/mail/e-mail-reader.c:2802
+#: ../src/mail/e-mail-reader.c:2822
 msgid "_Zoom In"
 msgstr "Aum_ente ingrandiment"
 
-#: ../src/mail/e-mail-reader.c:2804
+#: ../src/mail/e-mail-reader.c:2824
 msgid "Increase the text size"
 msgstr "Aumente la dimension dal test"
 
-#: ../src/mail/e-mail-reader.c:2811
+#: ../src/mail/e-mail-reader.c:2831
 msgid "Decrease the text size"
 msgstr "Diminuìs la dimension dal test"
 
-#: ../src/mail/e-mail-reader.c:2818
+#: ../src/mail/e-mail-reader.c:2838
 msgid "Cre_ate"
 msgstr "Cre_e"
 
-#: ../src/mail/e-mail-reader.c:2825
+#: ../src/mail/e-mail-reader.c:2845
 msgid "Ch_aracter Encoding"
 msgstr "Codifiche dai c_aratars"
 
-#: ../src/mail/e-mail-reader.c:2832
+#: ../src/mail/e-mail-reader.c:2852
 #: ../src/modules/mail/e-mail-attachment-handler.c:424
 msgid "F_orward As"
 msgstr "Ma_nde indenant come"
 
-#: ../src/mail/e-mail-reader.c:2839
+#: ../src/mail/e-mail-reader.c:2859
 msgid "_Label"
 msgstr "_Etichetis"
 
-#: ../src/mail/e-mail-reader.c:2846
+#: ../src/mail/e-mail-reader.c:2866
 msgid "_Group Reply"
 msgstr "Rispueste di _grup"
 
-#: ../src/mail/e-mail-reader.c:2853
+#: ../src/mail/e-mail-reader.c:2873
 msgid "_Go To"
 msgstr "_Va a"
 
-#: ../src/mail/e-mail-reader.c:2860
+#: ../src/mail/e-mail-reader.c:2880
 msgid "Mar_k As"
 msgstr "Segne _come"
 
-#: ../src/mail/e-mail-reader.c:2867
+#: ../src/mail/e-mail-reader.c:2887
 msgid "_Message"
 msgstr "_Messaç"
 
-#: ../src/mail/e-mail-reader.c:2874
+#: ../src/mail/e-mail-reader.c:2894
 msgid "_Zoom"
 msgstr "In_grandiment"
 
-#: ../src/mail/e-mail-reader.c:2884
+#: ../src/mail/e-mail-reader.c:2904
 msgid "Create a Search Folder from Mailing _List..."
 msgstr "Cree une cartele di ricercje pe mailing _list..."
 
-#: ../src/mail/e-mail-reader.c:2886
+#: ../src/mail/e-mail-reader.c:2906
 msgid "Create a search folder for this mailing list"
 msgstr "Cree une cartele di ricercje par cheste mailing list"
 
-#: ../src/mail/e-mail-reader.c:2891
+#: ../src/mail/e-mail-reader.c:2911
 msgid "Create a Search Folder from Recipien_ts..."
 msgstr "Cree une cartele di ricercje dai destina_taris..."
 
-#: ../src/mail/e-mail-reader.c:2893
+#: ../src/mail/e-mail-reader.c:2913
 msgid "Create a search folder for these recipients"
 msgstr "Cree une cartele di ricercje par chescj destinataris"
 
-#: ../src/mail/e-mail-reader.c:2898
+#: ../src/mail/e-mail-reader.c:2918
 msgid "Create a Search Folder from Sen_der..."
 msgstr "Cree une cartele di ricercje dal m_itent..."
 
-#: ../src/mail/e-mail-reader.c:2900
+#: ../src/mail/e-mail-reader.c:2920
 msgid "Create a search folder for this sender"
 msgstr "Cree une cartele di ricercje par chest mitent"
 
-#: ../src/mail/e-mail-reader.c:2905
+#: ../src/mail/e-mail-reader.c:2925
 msgid "Create a Search Folder from S_ubject..."
 msgstr "Cree une cartele di ricercje dal _ogjet..."
 
-#: ../src/mail/e-mail-reader.c:2907
+#: ../src/mail/e-mail-reader.c:2927
 msgid "Create a search folder for this subject"
 msgstr "Cree une cartele di ricercje par chest ogjet"
 
-#: ../src/mail/e-mail-reader.c:2954
+#: ../src/mail/e-mail-reader.c:2974
 msgid "Mark for Follo_w Up..."
 msgstr "Segne pal com_pletament..."
 
-#: ../src/mail/e-mail-reader.c:2970
+#: ../src/mail/e-mail-reader.c:2990
 msgid "Mark as _Important"
 msgstr "Segne come _impuartante"
 
-#: ../src/mail/e-mail-reader.c:2974
+#: ../src/mail/e-mail-reader.c:2994
 msgid "Mark as _Junk"
 msgstr "Segne come _malvolude"
 
-#: ../src/mail/e-mail-reader.c:2978
+#: ../src/mail/e-mail-reader.c:2998
 msgid "Mark as _Not Junk"
 msgstr "Segne come _no malvolût"
 
-#: ../src/mail/e-mail-reader.c:2982
+#: ../src/mail/e-mail-reader.c:3002
 msgid "Mar_k as Read"
 msgstr "Segne come _lete"
 
-#: ../src/mail/e-mail-reader.c:2994
+#: ../src/mail/e-mail-reader.c:3014
 msgid "Mark as Uni_mportant"
 msgstr "Segne come no i_mpuartante"
 
-#: ../src/mail/e-mail-reader.c:2998
+#: ../src/mail/e-mail-reader.c:3018
 msgid "Mark as _Unread"
 msgstr "Segne come _no lete"
 
-#: ../src/mail/e-mail-reader.c:3042
+#: ../src/mail/e-mail-reader.c:3066
 msgid "_Caret Mode"
 msgstr "M_odalitât cun cursôr"
 
-#: ../src/mail/e-mail-reader.c:3044
+#: ../src/mail/e-mail-reader.c:3068
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "Mostre un cursôr che al lampe tal cuarp dai messaçs mostrâts"
 
-#: ../src/mail/e-mail-reader.c:3050
+#: ../src/mail/e-mail-reader.c:3074
 msgid "All Message _Headers"
 msgstr "Dutis lis intestazions dal _messaç"
 
-#: ../src/mail/e-mail-reader.c:3052
+#: ../src/mail/e-mail-reader.c:3076
 msgid "Show messages with all email headers"
 msgstr "Mostre i messaçs cun dutis lis intestazions e-mail"
 
-#: ../src/mail/e-mail-reader.c:3623
+#: ../src/mail/e-mail-reader.c:3647
 msgid "Retrieving message"
 msgstr "Daûr a ricevi il messaç"
 
-#: ../src/mail/e-mail-reader.c:4920
+#: ../src/mail/e-mail-reader.c:4951
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "_Mande indenant"
 
-#: ../src/mail/e-mail-reader.c:4921
+#: ../src/mail/e-mail-reader.c:4952
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Mande indenant a cualchidun il messaç selezionât"
@@ -17909,52 +17935,52 @@ msgstr "Mande indenant a cualchidun il messaç selezionât"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:4940
+#: ../src/mail/e-mail-reader.c:4971
 msgid "Group Reply"
 msgstr "Rispueste di grup"
 
-#: ../src/mail/e-mail-reader.c:4941
+#: ../src/mail/e-mail-reader.c:4972
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Rispuint ae mailing list o a ducj i destinataris"
 
-#: ../src/mail/e-mail-reader.c:5007 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:5038 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Elimine"
 
-#: ../src/mail/e-mail-reader.c:5019
+#: ../src/mail/e-mail-reader.c:5050
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
 msgid "Next"
 msgstr "Sucessîf"
 
-#: ../src/mail/e-mail-reader.c:5023
+#: ../src/mail/e-mail-reader.c:5054
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1290
 msgid "Previous"
 msgstr "Precedent"
 
-#: ../src/mail/e-mail-reader.c:5032 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:5063 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Rispuint"
 
-#: ../src/mail/e-mail-reader.c:6187
+#: ../src/mail/e-mail-reader.c:6218
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Permet il contignût rimot di %s par ducj"
 
-#: ../src/mail/e-mail-reader.c:6189
+#: ../src/mail/e-mail-reader.c:6220
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Permet il contignût rimot par %s"
 
-#: ../src/mail/e-mail-reader.c:6206
+#: ../src/mail/e-mail-reader.c:6237
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Permet contignût rimot di %s"
 
-#: ../src/mail/e-mail-reader.c:6223
+#: ../src/mail/e-mail-reader.c:6254
 msgid "Do not show this message again"
 msgstr "No sta mostrâ plui chest messaç"
 
-#: ../src/mail/e-mail-reader.c:6275
+#: ../src/mail/e-mail-reader.c:6306
 msgid "Load remote content"
 msgstr "Cjarie contignût rimot"
 
@@ -20438,10 +20464,9 @@ msgid "Failed to remove attachments from messages."
 msgstr "No si è rivâts a gjavâ lis zontis dai messaçs."
 
 #: ../src/mail/mail.error.xml.h:183
-#, fuzzy
-#| msgid "Failed to download messages for offline viewing."
 msgid "Failed to download messages for offline viewing for account “{0}”."
-msgstr "No si è rivâts a discjariâ i messaçs par viodiju fûr rêt."
+msgstr ""
+"No si è rivâts a discjariâ i messaçs par viodiju fûr rêt pal account “{0}”."
 
 #: ../src/mail/mail.error.xml.h:184
 msgid "Failed to save messages to disk."
@@ -20689,7 +20714,7 @@ msgstr "Plui alte"
 msgid "Highest"
 msgstr "La plui alte"
 
-#: ../src/mail/message-list.c:479 ../src/mail/message-list.c:6680
+#: ../src/mail/message-list.c:479 ../src/mail/message-list.c:6690
 msgid "Generating message list"
 msgstr "Daûr a gjenerâ liste messaçs"
 
@@ -20725,11 +20750,11 @@ msgid "Messages"
 msgstr "Messaçs"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5549
+#: ../src/mail/message-list.c:5559
 msgid "Follow-up"
 msgstr "Di completâ"
 
-#: ../src/mail/message-list.c:6619
+#: ../src/mail/message-list.c:6629
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20741,7 +20766,7 @@ msgstr ""
 "eseguint une gnove ricercje netant cu la vôs tal menù Cîr→Nete o modificant "
 "la interogazion precedente."
 
-#: ../src/mail/message-list.c:6627
+#: ../src/mail/message-list.c:6637
 msgid "There are no messages in this folder."
 msgstr "In cheste cartele no'ndi son messaçs."
 
@@ -24629,7 +24654,7 @@ msgstr "Il mitent al è stât visât che si è let chest messaç."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:1
 msgid "Evolution is currently offline."
-msgstr "Par cumò Evolution al è fûr rêt."
+msgstr "Pal moment Evolution al è fûr rêt."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:2
 msgid "Click “Work Online” to return to online mode."
@@ -24637,7 +24662,7 @@ msgstr "Fâs clic su “Lavore in rêt” par tornâ ae modalitât in rêt."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:3
 msgid "Evolution is currently offline due to a network outage."
-msgstr "Evolution al è cumò fûr rêt par vie de indisponibilitât de rêt."
+msgstr "Evolution, pal moment, al è fûr rêt par vie che e mancje rêt."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:4
 msgid ""
@@ -24843,11 +24868,9 @@ msgstr "No sta _mostrâ plui chest wizard"
 
 #. Translators: This is part of "Alternatively, you can %s (email, contacts and calendaring) instead." sentence from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:206
-#, fuzzy
-#| msgid "Collection _Account"
 msgctxt "wizard-ca-note"
 msgid "create a collection account"
-msgstr "_Account di colezion"
+msgstr "creâ un account di colezion"
 
 #. Translators: The '%s' is replaced with "create a collection account" from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:208
@@ -25371,27 +25394,27 @@ msgstr ""
 "L'editôr esterni al è ancjemò in esecuzion. Il barcon dal compositôr di "
 "pueste nol pues jessi sierât fintremai che l'editôr al è atîf."
 
-#: ../src/plugins/face/face.c:294
+#: ../src/plugins/face/face.c:295
 msgid "Select a Face Picture"
 msgstr "Selezione une figure “muse”"
 
-#: ../src/plugins/face/face.c:300
+#: ../src/plugins/face/face.c:301
 msgid "Image files"
 msgstr "File di imagjin"
 
-#: ../src/plugins/face/face.c:388
+#: ../src/plugins/face/face.c:389
 msgid "_Insert Face picture by default"
 msgstr "_Inserî la imagjin \"muse\" in mût predefinît"
 
-#: ../src/plugins/face/face.c:401
+#: ../src/plugins/face/face.c:402
 msgid "Load new _Face picture"
 msgstr "Cjarie gnove imagjin _muse"
 
-#: ../src/plugins/face/face.c:445
+#: ../src/plugins/face/face.c:446
 msgid "Change Face Image"
 msgstr "Cambie imagjin de muse"
 
-#: ../src/plugins/face/face.c:533
+#: ../src/plugins/face/face.c:534
 msgid "Include _Face"
 msgstr "Inclût _muse"
 
@@ -26171,19 +26194,15 @@ msgid "Save the selected task list to disk"
 msgstr "Salve la liste di ativitâts selezionade sul disc"
 
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:2
-#, fuzzy
-#| msgid ""
-#| "Drafts based template plugin. You can use variables like $ORIG[subject], "
-#| "$ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values "
-#| "from an email you are replying to."
 msgid ""
 "Drafts based template plugin. You can use variables like $ORIG[subject], "
 "$ORIG[from], $ORIG[to], $ORIG[body], $ORIG[quoted-body] or $ORIG[reply-"
 "credits], which will be replaced by values from an email you are replying to."
 msgstr ""
 "Plugin dai modei basâts sui stampons. Al è pussibil doprâ variabilis come "
-"$ORIG[subject], $ORIG[from], $ORIG[to] o $ORIG[body], che a vignaran "
-"sostituîts dai valôrs de e-mail che tu stâs rispuindint."
+"$ORIG[subject], $ORIG[from], $ORIG[to], $ORIG[body], $ORIG[quoted-body] o "
+"$ORIG[reply-credits], che a vignaran sostituîts dai valôrs de e-mail che si "
+"sta rispuindint."
 
 #: ../src/plugins/templates/templates.c:878
 msgid "Saving message template"
@@ -26297,16 +26316,12 @@ msgid "Bug Buddy could not be run."
 msgstr "Impussibil eseguî Bug Buddy."
 
 #: ../src/shell/e-shell-window-actions.c:793
-#, fuzzy
-#| msgid "Collection _Account"
 msgid "Collect_ion Account"
-msgstr "_Account di colezion"
+msgstr "Account di colez_ion"
 
 #: ../src/shell/e-shell-window-actions.c:795
-#, fuzzy
-#| msgid "Create a new mail account"
 msgid "Create a new collection account"
-msgstr "Cree un gnûf account di pueste"
+msgstr "Cree un gnûf account di colezion"
 
 #: ../src/shell/e-shell-window-actions.c:805
 msgid "Show information about Evolution"
@@ -26580,27 +26595,9 @@ msgstr "Gnûf"
 msgid "%s — Evolution"
 msgstr "%s — Evolution"
 
-# penç lavôr, fis, ecc...
-# valutâ ce doprâ e controlâ dute la traduzion
 #. Preview/Alpha/Beta version warning message
 #: ../src/shell/main.c:192
-#, fuzzy, no-c-format
-#| msgid ""
-#| "Hi.  Thanks for taking the time to download this preview release\n"
-#| "of the Evolution groupware suite.\n"
-#| "\n"
-#| "This version of Evolution is not yet complete. It is getting close,\n"
-#| "but some features are either unfinished or do not work properly.\n"
-#| "\n"
-#| "If you want a stable version of Evolution, we urge you to uninstall\n"
-#| "this version, and install version %s instead.\n"
-#| "\n"
-#| "If you find bugs, please report them to us at bugzilla.gnome.org.\n"
-#| "This product comes with no warranty and is not intended for\n"
-#| "individuals prone to violent fits of anger.\n"
-#| "\n"
-#| "We hope that you enjoy the results of our hard work, and we\n"
-#| "eagerly await your contributions!\n"
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -26623,17 +26620,17 @@ msgstr ""
 "de suite di lavôr di grup Evolution.\n"
 "\n"
 "Cheste version di Evolution no je finide. Si sta lant dongje a finîle,\n"
-"ma cualchi funzionalitât no je finide o no lavore ben.\n"
+"ma cualchi funzionalitât no je completade o no lavore ben.\n"
 "\n"
-"Se tu desideris une version stabil di Evolution, si consee di disinstalâ\n"
-"cheste version e di instalâ invezit la version %s.\n"
+"Se si desidere une version stabile di Evolution, si consee di disinstalâ\n"
+"cheste version e di instalâ impen la version %s.\n"
 "\n"
-"Se tu cjatis erôrs, segnaliju ae direzion bugzilla.gnome.org.\n"
+"Se o cjatait erôrs, ju podês segnalâ ae direzion bugzilla.gnome.org.\n"
 "Chest prodot al ven furnît cence nissune garanzie e nol è destinât a\n"
 "personis puartadis ae violence.\n"
 "\n"
-"O sperin che tu gjoldedis dal risultât dal nestri dûr lavôr che\n"
-"al podarà jessi miorât gracie al to contribût.\n"
+"O sperin che o gjoldededis dai risultâts dal nestri dûr lavôr che\n"
+"al podarà jessi miorât ancje in gracie al vuestri contribût.\n"
 
 #: ../src/shell/main.c:217
 msgid ""
@@ -27276,16 +27273,12 @@ msgstr "No sta fidâti de autenticitât di chest certificât"
 msgid "C_ertificate:"
 msgstr "C_ertificât:"
 
-#: ../src/smime/lib/e-cert.c:235 ../src/smime/lib/e-cert.c:247
-msgid "%d/%m/%Y"
-msgstr "%e/%m/%Y"
-
 #. x509 certificate usage types
-#: ../src/smime/lib/e-cert.c:403
+#: ../src/smime/lib/e-cert.c:400
 msgid "Sign"
 msgstr "Firme"
 
-#: ../src/smime/lib/e-cert.c:404
+#: ../src/smime/lib/e-cert.c:401
 msgid "Encrypt"
 msgstr "Cifre"
 
@@ -27329,6 +27322,9 @@ msgstr "Impussibil scrivi il salvament sul disc, codiç di erôr: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificât impuartât"
+
+#~ msgid "%d/%m/%Y"
+#~ msgstr "%e/%m/%Y"
 
 #~ msgid "Summary:"
 #~ msgstr "Sintesi:"
