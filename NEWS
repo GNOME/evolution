@@ -1,3 +1,25 @@
+Evolution 3.30.5 2019-02-04
+---------------------------
+
+Bug Fixes:
+	I#76 - Message Source window can close immediately (Milan Crha)
+	I#250 - [Composer] Edit->Paste always pastes into the message body (Milan Crha)
+	I#275 - [Composer] Ctrl+Shift+Backspace deletion cannot be undone (Milan Crha)
+	I#277 - Unescape values in calendars' handle-uri signal handler (Milan Crha)
+	I#278 - Ctrl+Shift+Arrow to expand/collapse whole subthread (Milan Crha)
+	I#282 - Do not preview pipe-s in GtkFileChooser (Milan Crha)
+	I#283 - Include release information in org.gnome.Evolution.appdata.xml (Milan Crha)
+	I#284 - Busy loop on print of an HTML message with javascript code (Milan Crha)
+	I#288 - Fails to extract downloaded remote images from message preview (Milan Crha)
+
+Miscellaneous:
+	Event with empty summary can cause crash (Milan Crha)
+	[Composer] Draft email can lose attachments when opened (Milan Crha)
+	Initialize 'cache' variable in e_http_request_process_sync() (Milan Crha)
+
+Translations:
+	Balázs Meskó (hu)
+
 Evolution 3.30.4 2019-01-07
 ---------------------------
 
