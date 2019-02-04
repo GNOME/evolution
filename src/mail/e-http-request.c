@@ -193,7 +193,7 @@ e_http_request_process_sync (EContentRequest *request,
 	EShell *shell;
 	GSettings *settings;
 	const gchar *user_cache_dir, *soup_query;
-	CamelDataCache *cache;
+	CamelDataCache *cache = NULL;
 	GIOStream *cache_stream;
 	gint uri_len;
 	gboolean success = FALSE;
