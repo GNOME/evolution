@@ -13753,7 +13753,7 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 				last_break_position = pos;
 		}
 
-		if ((pos == max_length)) {
+		if (pos == max_length) {
 			/* Look one character after the limit to check if there
 			 * is a space (skip dash) that we are allowed to break at, if so
 			 * break it there. */
@@ -13761,8 +13761,8 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 				str = g_utf8_next_char (str);
 				uc = g_utf8_get_char (str);
 
-				if ((g_unichar_isspace (uc) &&
-				    !(g_unichar_break_type (uc) == G_UNICODE_BREAK_NON_BREAKING_GLUE)))
+				if (g_unichar_isspace (uc) &&
+				    !(g_unichar_break_type (uc) == G_UNICODE_BREAK_NON_BREAKING_GLUE))
 					last_break_position = ++pos;
 			}
 			break;
