@@ -7149,7 +7149,7 @@ msgstr[1] "S'estan copiant %d tasques"
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:163
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
+msgstr "%a %d/%m/%Y %-H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:166
@@ -20374,11 +20374,11 @@ msgstr "%a a les %k:%M"
 
 #: ../src/mail/message-list.c:2149
 msgid "%b %d %l:%M %p"
-msgstr "el %d %b a les %k:%M"
+msgstr "el %-d %b a les %k:%M"
 
 #: ../src/mail/message-list.c:2151
 msgid "%b %d %Y"
-msgstr "%d %b del %Y"
+msgstr "%-d %b del %Y"
 
 #: ../src/mail/message-list.c:3191
 msgid "Select all visible messages"
@@ -22776,13 +22776,13 @@ msgstr "Mostra la part com una invitació"
 #. * in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:260
 msgid "Today %H:%M"
-msgstr "Avui a les %H:%M"
+msgstr "Avui a les %-H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:264
 msgid "Today %H:%M:%S"
-msgstr "Avui a les %H:%M:%S"
+msgstr "Avui a les %-H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format.
@@ -22794,13 +22794,13 @@ msgstr "Avui a les %l:%M:%S %p"
 #. * in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:288
 msgid "Tomorrow %H:%M"
-msgstr "Demà a les %H:%M"
+msgstr "Demà a les %-H:%M"
 
 #. strftime format of a time,
 #. * in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:292
 msgid "Tomorrow %H:%M:%S"
-msgstr "Demà a les %H:%M:%S"
+msgstr "Demà a les %-H:%M:%S"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
@@ -22824,13 +22824,13 @@ msgstr "%A"
 #. * time, in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:325
 msgid "%A %H:%M"
-msgstr "%A a les %H:%M"
+msgstr "%A a les %-H:%M"
 
 #. strftime format of a weekday and a
 #. * time, in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:329
 msgid "%A %H:%M:%S"
-msgstr "%A a les %H:%M:%S"
+msgstr "%A a les %-H:%M:%S"
 
 #. strftime format of a weekday and a
 #. * time, in 12-hour format, without seconds.
@@ -22855,13 +22855,13 @@ msgstr "%A, %e %B"
 #. * in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:353
 msgid "%A, %B %e %H:%M"
-msgstr "%A, %e %B a les %H:%M"
+msgstr "%A, %e %B a les %-H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:357
 msgid "%A, %B %e %H:%M:%S"
-msgstr "%A, %e %B a les %H:%M:%S"
+msgstr "%A, %e %B a les %-H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. * and a time, in 12-hour format, without seconds.
@@ -22884,13 +22884,13 @@ msgstr "%A, %e %B del %Y"
 #. * time, in 24-hour format, without seconds.
 #: ../src/modules/itip-formatter/itip-view.c:377
 msgid "%A, %B %e, %Y %H:%M"
-msgstr "%A, %e %B del %Y a les %H:%M"
+msgstr "%A, %e %B del %Y a les %-H:%M"
 
 #. strftime format of a weekday, a date and a
 #. * time, in 24-hour format.
 #: ../src/modules/itip-formatter/itip-view.c:381
 msgid "%A, %B %e, %Y %H:%M:%S"
-msgstr "%A, %e %B del %Y a les %H:%M:%S"
+msgstr "%A, %e %B del %Y a les %-H:%M:%S"
 
 # consulteu man 3 strftime per comprendre aquest format
 #. strftime format of a weekday, a date and a
