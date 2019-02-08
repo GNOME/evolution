@@ -57,6 +57,10 @@ struct _EMailPanedViewPrivate {
 
 	/* Signal handler IDs */
 	guint message_list_built_id;
+
+	/* TRUE when folder had been just set */
+	gboolean folder_just_set;
+	gchar *last_selected_uid;
 };
 
 enum {
@@ -118,6 +122,25 @@ mail_paned_view_save_boolean (EMailView *view,
 	}
 }
 
+static gboolean
+mail_paned_view_message_list_is_empty (MessageList *message_list)
+{
+	ETreeModel *model;
+	ETreePath root;
+
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), TRUE);
+
+	model = e_tree_get_model (E_TREE (message_list));
+	if (!model)
+		return TRUE;
+
+	root = e_tree_model_get_root (model);
+	if (!root)
+		return TRUE;
+
+	return !e_tree_model_node_get_first_child (model, root);
+}
+
 static void
 mail_paned_view_message_list_built_cb (EMailView *view,
                                        MessageList *message_list)
@@ -127,14 +150,14 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 	EShellWindow *shell_window;
 	CamelFolder *folder;
 	GKeyFile *key_file;
+	gboolean ensure_message_selected;
 
 	priv = E_MAIL_PANED_VIEW_GET_PRIVATE (view);
 
-	folder = message_list_ref_folder (message_list);
+	ensure_message_selected = priv->folder_just_set;
+	priv->folder_just_set = FALSE;
 
-	g_signal_handler_disconnect (
-		message_list, priv->message_list_built_id);
-	priv->message_list_built_id = 0;
+	folder = message_list_ref_folder (message_list);
 
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -151,26 +174,52 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 		e_shell_window_set_safe_mode (shell_window, FALSE);
 
 	else {
-		const gchar *key;
-		gchar *folder_uri;
-		gchar *group_name;
-		gchar *uid;
+		gchar *uid = NULL;
 
-		folder_uri = e_mail_folder_uri_from_folder (folder);
+		/* This is for regen when setting filter, or when folder changed or such */
+		if (!ensure_message_selected &&
+		    !message_list_selected_count (message_list) &&
+		    !mail_paned_view_message_list_is_empty (message_list)) {
+			ensure_message_selected = TRUE;
 
-		key = STATE_KEY_SELECTED_MESSAGE;
-		group_name = g_strdup_printf ("Folder %s", folder_uri);
-		uid = g_key_file_get_string (key_file, group_name, key, NULL);
-		g_free (group_name);
+			if (priv->last_selected_uid &&
+			    message_list_contains_uid (message_list, priv->last_selected_uid)) {
+				g_free (uid);
+				uid = g_strdup (priv->last_selected_uid);
+			}
+		}
 
-		g_free (folder_uri);
+		/* This is to prefer last selected message from the previous search folder
+		   over the stored message. The _set_folder() makes sure to unset
+		   priv->last_selected_uid, when it's not from this folder. */
+		if (ensure_message_selected && !uid && priv->last_selected_uid &&
+		    message_list_contains_uid (message_list, priv->last_selected_uid)) {
+			uid = g_strdup (priv->last_selected_uid);
+		}
 
-		if (!message_list_contains_uid (message_list, uid) &&
+		if (ensure_message_selected && !uid) {
+			const gchar *key;
+			gchar *folder_uri;
+			gchar *group_name;
+
+			folder_uri = e_mail_folder_uri_from_folder (folder);
+
+			key = STATE_KEY_SELECTED_MESSAGE;
+			group_name = g_strdup_printf ("Folder %s", folder_uri);
+			uid = g_key_file_get_string (key_file, group_name, key, NULL);
+			g_free (group_name);
+
+			g_free (folder_uri);
+		}
+
+		if (ensure_message_selected && !message_list_contains_uid (message_list, uid) &&
 		    e_mail_reader_get_mark_seen_always (E_MAIL_READER (view)))
 			e_mail_reader_unset_folder_just_selected (E_MAIL_READER (view));
 
-		/* Use selection fallbacks if UID is not found. */
-		message_list_select_uid (message_list, uid, TRUE);
+		if (ensure_message_selected) {
+			/* Use selection fallbacks if UID is not found. */
+			message_list_select_uid (message_list, uid, TRUE);
+		}
 
 		g_free (uid);
 	}
@@ -206,10 +255,17 @@ mail_paned_view_message_selected_cb (EMailView *view,
 	key = STATE_KEY_SELECTED_MESSAGE;
 	group_name = g_strdup_printf ("Folder %s", folder_uri);
 
-	if (message_uid != NULL)
+	/* Only overwrite changes, do not delete the stored selected message,
+	   when the current view has nothing (or multiple messages) selected. */
+	if (message_uid != NULL) {
+		EMailPanedView *paned_view = E_MAIL_PANED_VIEW (view);
+
 		g_key_file_set_string (key_file, group_name, key, message_uid);
-	else
-		g_key_file_remove_key (key_file, group_name, key, NULL);
+
+		g_clear_pointer (&paned_view->priv->last_selected_uid, g_free);
+		paned_view->priv->last_selected_uid = g_strdup (message_uid);
+	}
+
 	e_shell_view_set_state_dirty (shell_view);
 
 	g_free (group_name);
@@ -446,6 +502,14 @@ mail_paned_view_dispose (GObject *object)
 	}
 
 	if (priv->message_list != NULL) {
+		/* It can be disconnected by EMailReader in e_mail_reader_dispose() */
+		if (priv->message_list_built_id &&
+		    g_signal_handler_is_connected (priv->message_list, priv->message_list_built_id)) {
+			g_signal_handler_disconnect (priv->message_list, priv->message_list_built_id);
+		}
+
+		priv->message_list_built_id = 0;
+
 		g_object_unref (priv->message_list);
 		priv->message_list = NULL;
 	}
@@ -459,6 +523,8 @@ mail_paned_view_dispose (GObject *object)
 		g_object_unref (priv->view_instance);
 		priv->view_instance = NULL;
 	}
+
+	g_clear_pointer (&priv->last_selected_uid, g_free);
 
 	priv->display = NULL;
 
@@ -628,6 +694,26 @@ mail_paned_view_set_folder (EMailReader *reader,
 		return;
 	}
 
+	if (priv->last_selected_uid && previous_folder && folder &&
+	    CAMEL_IS_VEE_FOLDER (previous_folder)) {
+		CamelFolder *real_folder = NULL;
+		gchar *message_uid = NULL;
+
+		em_utils_get_real_folder_and_message_uid (previous_folder, priv->last_selected_uid, &real_folder, NULL, &message_uid);
+
+		g_clear_pointer (&priv->last_selected_uid, g_free);
+
+		if (real_folder == folder && message_uid) {
+			priv->last_selected_uid = message_uid;
+			message_uid = NULL;
+		}
+
+		g_free (message_uid);
+		g_clear_object (&real_folder);
+	} else {
+		g_clear_pointer (&priv->last_selected_uid, g_free);
+	}
+
 	g_clear_object (&previous_folder);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -655,13 +741,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 	if (e_shell_get_online (shell))
 		e_mail_reader_refresh_folder (reader, folder);
 
-	/* This is a one-time-only callback. */
-	if (MESSAGE_LIST (message_list)->cursor_uid == NULL &&
-		priv->message_list_built_id == 0)
-		priv->message_list_built_id = g_signal_connect_swapped (
-			message_list, "message-list-built",
-			G_CALLBACK (mail_paned_view_message_list_built_cb),
-			reader);
+	priv->folder_just_set = TRUE;
 
 	/* Restore the folder's preview and threaded state. */
 
@@ -806,6 +886,11 @@ mail_paned_view_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	priv->message_list_built_id = g_signal_connect_swapped (
+		priv->message_list, "message-list-built",
+		G_CALLBACK (mail_paned_view_message_list_built_cb),
+		object);
 
 	container = priv->paned;
 
