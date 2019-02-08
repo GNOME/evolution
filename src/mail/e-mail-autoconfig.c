@@ -481,6 +481,7 @@ mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
 static gboolean
 mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
                         const gchar *domain,
+			const gchar *emailmd5,
                         GCancellable *cancellable,
                         GError **error)
 {
@@ -510,14 +511,14 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 
 	/* First try user configuration in autoconfig.$DOMAIN URL and ignore error */
 	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
-		uri = g_strconcat ("http://autoconfig.", domain, "/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, NULL);
+		uri = g_strconcat ("http://autoconfig.", domain, "/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
 		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
 		g_free (uri);
 	}
 
 	/* Then with $DOMAIN/.well-known/autoconfig/ and ignore error */
 	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
-		uri = g_strconcat ("http://", domain, "/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, NULL);
+		uri = g_strconcat ("http://", domain, "/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
 		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
 		g_free (uri);
 	}
@@ -773,6 +774,27 @@ mail_autoconfig_result_to_config_lookup (EMailAutoconfig *mail_autoconfig,
 	g_string_free (description, TRUE);
 }
 
+static gchar *
+mail_autoconfig_calc_emailmd5 (const gchar *email_address)
+{
+	gchar *lowercase, *emailmd5;
+
+	if (!email_address)
+		return NULL;
+
+	lowercase = g_ascii_strdown (email_address, -1);
+	if (!lowercase || !*lowercase) {
+		g_free (lowercase);
+		return NULL;
+	}
+
+	emailmd5 = g_compute_checksum_for_string (G_CHECKSUM_MD5, lowercase, -1);
+
+	g_free (lowercase);
+
+	return emailmd5;
+}
+
 static void
 mail_autoconfig_set_email_address (EMailAutoconfig *autoconfig,
                                    const gchar *email_address)
@@ -912,7 +934,7 @@ mail_autoconfig_initable_init (GInitable *initable,
 	const gchar *email_address;
 	const gchar *domain;
 	const gchar *cp;
-	gchar *name_server;
+	gchar *name_server, *emailmd5;
 	gboolean success = FALSE;
 	GError *local_error = NULL;
 
@@ -945,22 +967,27 @@ mail_autoconfig_initable_init (GInitable *initable,
 	if (autoconfig->priv->use_domain && *autoconfig->priv->use_domain)
 		domain = autoconfig->priv->use_domain;
 
+	emailmd5 = mail_autoconfig_calc_emailmd5 (email_address);
+
 	/* First try the email address domain verbatim. */
 	success = mail_autoconfig_lookup (
-		autoconfig, domain, cancellable, &local_error);
+		autoconfig, domain, emailmd5, cancellable, &local_error);
 
 	g_warn_if_fail (
 		(success && local_error == NULL) ||
 		(!success && local_error != NULL));
 
-	if (success)
+	if (success) {
+		g_free (emailmd5);
 		return TRUE;
+	}
 
 	/* "404 Not Found" errors are non-fatal this time around. */
 	if (ERROR_IS_NOT_FOUND (local_error)) {
 		g_clear_error (&local_error);
 	} else {
 		g_propagate_error (error, local_error);
+		g_free (emailmd5);
 		return FALSE;
 	}
 
@@ -969,8 +996,10 @@ mail_autoconfig_initable_init (GInitable *initable,
 	name_server = mail_autoconfig_resolve_name_server (
 		domain, cancellable, error);
 
-	if (name_server == NULL)
+	if (!name_server) {
+		g_free (emailmd5);
 		return FALSE;
+	}
 
 	/* Widdle away segments of the name server domain until
 	 * we find a match, or until we widdle down to nothing. */
@@ -980,7 +1009,7 @@ mail_autoconfig_initable_init (GInitable *initable,
 		g_clear_error (&local_error);
 
 		success = mail_autoconfig_lookup (
-			autoconfig, cp, cancellable, &local_error);
+			autoconfig, cp, emailmd5, cancellable, &local_error);
 
 		g_warn_if_fail (
 			(success && local_error == NULL) ||
@@ -1000,6 +1029,7 @@ mail_autoconfig_initable_init (GInitable *initable,
 		g_propagate_error (error, local_error);
 
 	g_free (name_server);
+	g_free (emailmd5);
 
 	return success;
 }
