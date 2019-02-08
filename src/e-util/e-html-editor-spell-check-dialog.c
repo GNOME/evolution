@@ -204,10 +204,7 @@ html_editor_spell_check_dialog_replace (EHTMLEditorSpellCheckDialog *dialog)
 		return;
 	gtk_tree_model_get (model, &iter, 0, &replacement, -1);
 
-	e_content_editor_insert_content (
-		cnt_editor,
-		replacement,
-		E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+	e_content_editor_replace (cnt_editor, replacement);
 
 	g_free (replacement);
 
@@ -239,6 +236,8 @@ html_editor_spell_check_dialog_replace_all (EHTMLEditorSpellCheckDialog *dialog)
 		E_CONTENT_EDITOR_FIND_WRAP_AROUND,
 		dialog->priv->word,
 		replacement);
+
+	g_free (replacement);
 
 	g_idle_add (html_editor_spell_check_dialog_next_idle_cb, g_object_ref (dialog));
 }
