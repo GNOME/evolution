@@ -12885,12 +12885,12 @@ msgstr "_Ullet"
 #. Translators: :-P
 #: ../src/e-util/e-emoticon-chooser.c:44
 msgid "Ton_gue"
-msgstr "Llengua"
+msgstr "_Llengua"
 
 #. Translators: :-))
 #: ../src/e-util/e-emoticon-chooser.c:46
 msgid "Laug_h"
-msgstr "Rialla"
+msgstr "_Rialla"
 
 #. Translators: :-|
 #: ../src/e-util/e-emoticon-chooser.c:48
@@ -13281,7 +13281,7 @@ msgstr "Torn_a a trobar"
 
 #: ../src/e-util/e-html-editor-actions.c:1023
 msgid "Re_place..."
-msgstr "Reemplaça..."
+msgstr "_Reemplaça..."
 
 #: ../src/e-util/e-html-editor-actions.c:1025
 msgid "Search for and replace text"
@@ -13289,7 +13289,7 @@ msgstr "Cerca i reemplaça text"
 
 #: ../src/e-util/e-html-editor-actions.c:1030
 msgid "Check _Spelling..."
-msgstr "Comprova'n l'ortografia..."
+msgstr "_Comprova'n l'ortografia..."
 
 #: ../src/e-util/e-html-editor-actions.c:1037
 msgid "_Decrease Indent"
@@ -13454,7 +13454,7 @@ msgstr "Pà_gina..."
 
 #: ../src/e-util/e-html-editor-actions.c:1271
 msgid "Font _Size"
-msgstr "Mida de la lletra"
+msgstr "_Mida de la lletra"
 
 #: ../src/e-util/e-html-editor-actions.c:1278
 msgid "_Font Style"
@@ -13835,11 +13835,11 @@ msgstr "No s'ha trobat cap coincidència"
 #: ../src/e-util/e-html-editor-find-dialog.c:215
 #: ../src/e-util/e-html-editor-replace-dialog.c:295
 msgid "Search _backwards"
-msgstr "Cerca enrere"
+msgstr "C_erca enrere"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:222
 msgid "Case _Sensitive"
-msgstr "Distingeix majúscules i minúscules"
+msgstr "_Distingeix majúscules i minúscules"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:229
 msgid "_Wrap Search"
@@ -13877,7 +13877,7 @@ msgstr "_Alineació:"
 #. Shaded
 #: ../src/e-util/e-html-editor-hrule-dialog.c:346
 msgid "S_haded"
-msgstr "Ombrejat"
+msgstr "_Ombrejat"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:363
 msgid "Rule properties"
@@ -14030,7 +14030,7 @@ msgstr[1] "%d coincidències reemplaçades"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:278
 msgid "R_eplace:"
-msgstr "Reemplaça'l:"
+msgstr "_Reemplaça'l:"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:287
 msgid "_With:"
@@ -14042,7 +14042,7 @@ msgstr "_Distingeix majúscules i minúscules"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:303
 msgid "Wra_p search"
-msgstr "Ajusta la cerca"
+msgstr "Aj_usta la cerca"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:313
 msgid "_Skip"
@@ -14143,7 +14143,7 @@ msgstr "Propietats de la taula"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:268
 msgid "Si_ze:"
-msgstr "Mida:"
+msgstr "_Mida:"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:283
 msgid "Text Properties"
@@ -18812,7 +18812,7 @@ msgstr "Insereix _emoticones automàticament"
 
 #: ../src/mail/mail-config.ui.h:11
 msgid "Use Un_icode characters for emoticons"
-msgstr "Usa caràcters Unicode per a les emoticones"
+msgstr "_Usa caràcters Unicode per a les emoticones"
 
 #: ../src/mail/mail-config.ui.h:12
 msgid "Always request rea_d receipt"
@@ -18828,7 +18828,7 @@ msgstr "Envia els missatges a través de la carpeta de _Sortida"
 
 #: ../src/mail/mail-config.ui.h:15
 msgid "Number of characters for word w_rapping:"
-msgstr "Nombre de caràcter per a l'ajust de text:"
+msgstr "_Nombre de caràcter per a l'ajust de text:"
 
 #: ../src/mail/mail-config.ui.h:16
 msgid "Ch_aracter encoding:"
@@ -19106,7 +19106,7 @@ msgstr "Carpeta d'arxiu per usar per als missatges locals"
 
 #: ../src/mail/mail-config.ui.h:107
 msgid "On This Computer A_rchive folder:"
-msgstr "A la carpeta d'arxiu d'aquest ordinador:"
+msgstr "A la ca_rpeta d'arxiu d'aquest ordinador:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../src/mail/mail-config.ui.h:109
@@ -19135,7 +19135,7 @@ msgstr "C_arrega sempre contingut remot d'Internet"
 
 #: ../src/mail/mail-config.ui.h:115
 msgid "Notify about _missing remote content in the message preview"
-msgstr "Notifica si falta contingut remot a la previsualització del correu"
+msgstr "_Notifica si falta contingut remot a la previsualització del correu"
 
 #: ../src/mail/mail-config.ui.h:116
 msgid "Add"
@@ -21784,7 +21784,7 @@ msgstr ""
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:52
 msgid "Show appointment _icons in the month view"
-msgstr "Mostra les icones de les cites a la visualització mensual"
+msgstr "_Mostra les icones de les cites a la visualització mensual"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:53
 msgid "_Compress weekends in month view"
@@ -21855,7 +21855,7 @@ msgstr "Mante les _finestres de notificacions de recordatoris sempre per damunt"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Display reminders for completed _tasks"
-msgstr "Mostra recordatoris per a les tasques acabades"
+msgstr "Most_ra recordatoris per a les tasques acabades"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Display reminders for _past events"
@@ -25106,7 +25106,7 @@ msgstr "Obté un arxiu de la llista a la qual pertany aquest missatge"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:424
 msgid "Copy _Message Archive URL"
-msgstr "Copia l'URL de l'arxiu del missatge"
+msgstr "C_opia l'URL de l'arxiu del missatge"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:426
 msgid "Copy direct URL for the selected message in its archive"
@@ -26942,29 +26942,29 @@ msgstr "Introduïu la contrasenya per al fitxer PKCS12:"
 #: ../src/smime/lib/e-pkcs12.c:327
 #, c-format
 msgid "Unable to create export context, err_code: %i"
-msgstr "No s'ha pogut crear el context d'exportació. Codi de l'error: %i"
+msgstr "_No s'ha pogut crear el context d'exportació. Codi de l'error: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:334
 #, c-format
 msgid "Unable to setup password integrity, err_code: %i"
 msgstr ""
-"No s'ha pogut establir la integritat de la contrasenya. Codi de l'error: %i"
+"_No s'ha pogut establir la integritat de la contrasenya. Codi de l'error: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:344
 #, c-format
 msgid "Unable to create safe bag, err_code: %i"
-msgstr "No s'ha pogut crear la bossa de seguretat. Codi de l'error: %i"
+msgstr "_No s'ha pogut crear la bossa de seguretat. Codi de l'error: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:362
 #, c-format
 msgid "Unable to add key/cert to the store, err_code: %i"
 msgstr ""
-"No s'ha pogut afegir la clau o certificat al magatzem. Codi de l'error: %i"
+"_No s'ha pogut afegir la clau o certificat al magatzem. Codi de l'error: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:380
 #, c-format
 msgid "Unable to write store to disk, err_code: %i"
-msgstr "No s'ha pogut escriure el desament al disc. Codi de l'error: %i"
+msgstr "_No s'ha pogut escriure el desament al disc. Codi de l'error: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
