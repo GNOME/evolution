@@ -1,9 +1,9 @@
-# Hungarian translation of evolution_help.
+# Hungarian translation for evolution_help.
 # Copyright (C) 2011, 2012, 2013, 2017, 2018, 2019. Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution help.
 #
 # Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
 # Nagy Zoltán <dzodzie at gmail dot com>, 2011.
 # Balázs Meskó <mesko.balazs at fsf dot hu>, 2018.
 # Balázs Úr <ur.balazs at fsf dot hu>, 2014, 2019.
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-02-06 10:39+0000\n"
-"PO-Revision-Date: 2019-02-10 23:16+0100\n"
-"Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
+"POT-Creation-Date: 2019-02-10 22:23+0000\n"
+"PO-Revision-Date: 2019-02-12 23:28+0100\n"
+"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -382,7 +382,8 @@ msgstr ""
 "Ha azt szeretné, hogy az események, feljegyzések és feladatok "
 "alapértelmezetten magánjellegűként legyenek létrehozva, akkor engedélyezze a "
 "beállítást a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Naptár "
-"és feladatok</gui><gui>Általános</gui></guiseq> menüpont alatt."
+"és feladatok</gui><gui>Általános</gui><gui>Egyebek</gui></guiseq> menüpont "
+"alatt."
 
 #. (itstool) path: info/desc
 #: C/calendar-free-busy.page:24
@@ -1810,12 +1811,12 @@ msgstr ""
 "Automatikusan felveheti partnereit a címjegyzékébe amikor a fogadott "
 "levelekre válaszol. Engedélyezze az <gui>Automatikus névjegyek</gui> "
 "bővítményt a <guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui></guiseq> "
-"alatt a megfelelő jelölőnégyzet bejelölésével. Ezután a "
-"<guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Névjegyek</gui> "
-"<gui>Automatikus névjegyek</gui></guiseq> lapon jelölje be a <gui>Levelek "
-"küldésekor címjegyzék-bejegyzések létrehozása</gui> jelölőnégyzetet, és "
-"válassza ki a legördülő mezőben azt a címjegyzéket, amelybe az új névjegyek "
-"kerülnek."
+"alatt az <gui>Automatikus névjegyek</gui> jelölőnégyzet "
+"bejelölésével. Ezután a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</"
+"gui><gui>Névjegyek</gui> <gui>Automatikus névjegyek</gui></guiseq> lapon "
+"jelölje be a <gui>Levelek küldésekor címjegyzék-bejegyzések létrehozása</"
+"gui> jelölőnégyzetet, és válassza ki a legördülő mezőben azt a címjegyzéket, "
+"amelybe az új névjegyek kerülnek."
 
 #. (itstool) path: page/p
 #: C/contacts-add-automatically.page:37
@@ -2746,7 +2747,7 @@ msgid ""
 "Base Directory Specification</link>. By default this means:"
 msgstr ""
 "Az <app>Evolution</app> 3.6 vagy újabb verziói az adatokat az <link href="
-"\"http://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base "
+"\"https://www.freedesktop.org/wiki/Specifications/basedir-spec\">XDG Base "
 "Directory Specification</link> szerinti megfelelő helyen tárolják. "
 "Alapesetben ez a következőket jelenti:"
 
@@ -3871,9 +3872,9 @@ msgid ""
 "available options are \"mail\", \"contacts\", \"tasks\", and \"memos\"."
 msgstr ""
 "Az <app>Evolution</app> induláskor az utoljára használt nézetet jeleníti "
-"meg. Azonban az Evolutiont egy adott nézetben is elindíthatja.  A naptár "
-"nézethez használja az <cmd>evolution --component=calendar</cmd> parancsot a "
-"<app>Terminál</app> alkalmazásban. A további lehetőségek a "
+"meg. Azonban az <app>Evolutiont</app> egy adott nézetben is elindíthatja.  A "
+"naptár nézethez használja az <cmd>evolution --component=calendar</cmd> "
+"parancsot a <app>Terminál</app> alkalmazásban. A további lehetőségek a "
 "„mail” (levelező), „contacts” (névjegyek), „tasks” (feladatok) és "
 "„memos” (feljegyzések)."
 
@@ -4333,6 +4334,8 @@ msgid ""
 "In addition to the shortcuts listed below, you can also use accelerators to "
 "navigate with the keyboard."
 msgstr ""
+"Az alább felsorolt gyorsbillentyűk mellett használhatja a hívóbetűket is a "
+"billentyűzettel történő navigációhoz."
 
 #. (itstool) path: note/p
 #: C/intro-keyboard-shortcuts.page:32
@@ -4342,6 +4345,10 @@ msgid ""
 "plus the underlined letter to activate a control, just as if you had clicked "
 "on it."
 msgstr ""
+"Tartsa lenyomva az <key>Alt</key> billentyűt a <em>hívóbetűk</em> "
+"megjelenítéséhez: a menüpontokban, a gombokon és egyéb vezérlőelemeken lévő "
+"aláhúzott betűkhöz. Nyomja meg az <key>Alt</key> billentyűt és az aláhúzott "
+"betűt a vezérlő aktiválásához, mintha csak rákattintott volna."
 
 #. (itstool) path: section/title
 #: C/intro-keyboard-shortcuts.page:40
@@ -4729,6 +4736,8 @@ msgid ""
 "<key>Backspace</key> has the same behavior but reverted: It scrolls up in a "
 "message and can jump to the next unread message in the previous folder."
 msgstr ""
+"A <key>Backspace</key> ugyanilyen működéssel bír, csak fordítva: felgörget "
+"egy üzenetben, és a következő olvasatlan üzenetre ugorhat az előző mappában."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:257
@@ -6419,18 +6428,14 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
-#, fuzzy
-#| msgid ""
-#| "Click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> to "
-#| "make sure all messages are visible."
 msgid ""
 "Select both <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> "
 "and <guiseq><gui>View</gui><gui>Show Junk Messages</gui></guiseq> to make "
 "sure all messages are visible."
 msgstr ""
 "Válassza a <guiseq><gui>Nézet</gui><gui>Törölt üzenetek megjelenítése</gui></"
-"guiseq> menüpontot az összes üzenet megjelenítéséhez, beleértve a törölteket "
-"is."
+"guiseq> és a <guiseq><gui>Nézet</gui><gui>Levélszemét megjelenítése</gui></"
+"guiseq> menüpontot, hogy meggyőződjön az összes üzenet láthatóságáról."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:36
@@ -11250,11 +11255,11 @@ msgid ""
 "guiseq>."
 msgstr ""
 "Válassza a <guiseq><gui>Szerkesztés</gui><gui>Keresőmappák</gui></guiseq> "
-"menüpontot, vagy kattintson a jobb egérgombbal a levélre, és válassza a "
-"<gui>Szabály létrehozása</gui> menüpontot. Ezután válassza ki a keresőmappa "
-"alapjául szolgáló feltételeket, vagy ha keresést végzett, akkor válassza a "
-"<guiseq><gui>Keresés</gui><gui>Keresőmappa létrehozása a keresésből…</gui></"
-"guiseq> menüpontot."
+"menüpontot, vagy kattintson a jobb egérgombbal a levélre, és válassza az "
+"<guiseq><gui>Üzenet</gui><gui>Szabály létrehozása</gui></guiseq> menüpontot. "
+"Ezután válassza ki a keresőmappa alapjául szolgáló feltételeket, vagy ha "
+"keresést végzett, akkor válassza a <guiseq><gui>Keresés</"
+"gui><gui>Keresőmappa létrehozása a keresésből…</gui></guiseq> menüpontot."
 
 #. (itstool) path: item/p
 #: C/mail-search-folders-add.page:29
@@ -12185,10 +12190,11 @@ msgid ""
 "mark the message and click the <gui>Not Junk</gui> button."
 msgstr ""
 "Ha egy valódi levél tévedésből kerül megjelölésre, akkor távolítsa el a "
-"Levélszemét mappából a levélen való jobb kattintással, és a <gui>Megjelölés "
-"nem szemétként</gui> menüpont kiválasztásával, vagy a <keyseq><key>Shift</"
-"key><key>Ctrl</key><key>J</key></keyseq> kombináció megnyomásával, vagy az "
-"eszköztár <gui>Nem levélszemét</gui> gombjának megnyomásával."
+"<gui>Levélszemét mappából</gui> a levélen való jobb kattintással, és a "
+"<gui>Megjelölés nem szemétként</gui> menüpont kiválasztásával, vagy a "
+"<keyseq><key>Shift</key><key>Ctrl</key><key>J</key></keyseq> kombináció "
+"megnyomásával, vagy az eszköztár <gui>Nem levélszemét</gui> gombjának "
+"megnyomásával."
 
 #. (itstool) path: info/desc
 #: C/mail-spam.page:5
@@ -12628,7 +12634,7 @@ msgid ""
 "accounts offer an option to <gui>Synchronize remote mail locally in all "
 "folders</gui> which is applied to all folders of that account."
 msgstr ""
-"A távoli fiókmappák esetén a <link href=\"mail-receiving-options\">Fogadási "
+"A távoli fiókmappák esetén a <link xref=\"mail-receiving-options\">Fogadási "
 "beállítások</link> ablak lehetősége a <gui>Távoli levelek szinkronizálása a "
 "helyiekkel minden mappában</gui>, amely az a fiók összes mappájára "
 "vonatkozik."
@@ -14299,3 +14305,4 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
+
