@@ -4,14 +4,14 @@
 #
 # Andraž Tori <andraz.tori1@guest.arnes.si>, 2002.
 # Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009–2010.
-# Matej Urbančič <mateju@svn.gnome.org>, 2006–2018.
+# Matej Urbančič <mateju@svn.gnome.org>, 2006–2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2018-12-08 20:03+0000\n"
-"PO-Revision-Date: 2018-12-09 22:01+0100\n"
+"POT-Creation-Date: 2019-01-24 00:17+0000\n"
+"PO-Revision-Date: 2019-01-26 15:18+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : "
 "0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.1.1\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3001,17 +3001,19 @@ msgstr ""
 "sporočila za uveljavitev učinka, kot je uporaba možnosti menija desnega klika → Oblikuj kot "
 "→ ...."
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:1 ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1188 ../src/modules/mailto-handler/evolution-mailto-handler.c:208
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
+#: ../data/org.gnome.Evolution.desktop.in.in.h:1 ../src/mail/e-mail-browser.c:1220
+#: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:240
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:2 ../data/org.gnome.Evolution.desktop.in.in.h:4
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:2
+#: ../data/org.gnome.Evolution.desktop.in.in.h:4
 msgid "Manage your email, contacts and schedule"
 msgstr "Enostavno upravljanje s pošto, stiki, urniki in razporedi"
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:3
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:3
 msgid ""
 "Evolution is a personal information management application that provides integrated mail, "
 "calendaring and address book functionality."
@@ -3019,7 +3021,7 @@ msgstr ""
 "Program Evolution je osebni upravljalnik podatkov, povezanih z elektronsko pošto, koledarjem "
 "in imenikom."
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:4
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:4
 msgid ""
 "Evolution supports a wide range of industry standard data formats and network protocols for "
 "information exchange, with an emphasis on standards compliance and security. Evolution can "
@@ -3031,7 +3033,7 @@ msgstr ""
 "varnosti. Program podpira tudi povezavo s sistemom Microsoft Exchange prek razširitve EWS – "
 "»Exchange Web Services»."
 
-#: ../data/org.gnome.Evolution.appdata.xml.in.h:5
+#: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
 msgid "The Evolution Team"
 msgstr "Skupina Evolution"
 
@@ -3479,8 +3481,8 @@ msgstr "Možnosti"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:14
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3502
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4329
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4335
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4334
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4340
 #: ../src/addressbook/gui/contact-editor/e-contact-editor-fullname.c:220
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
@@ -3492,17 +3494,17 @@ msgstr "Možnosti"
 #: ../src/calendar/gui/e-cal-dialogs.c:694
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:301
 #: ../src/composer/e-composer-actions.c:228 ../src/e-util/e-activity-bar.c:357
-#: ../src/e-util/e-attachment-dialog.c:309 ../src/e-util/e-attachment-store.c:656
-#: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-attachment-store.c:846
-#: ../src/e-util/e-attachment-store.c:852 ../src/e-util/e-attachment-view.c:301
+#: ../src/e-util/e-attachment-dialog.c:309 ../src/e-util/e-attachment-store.c:658
+#: ../src/e-util/e-attachment-store.c:668 ../src/e-util/e-attachment-store.c:848
+#: ../src/e-util/e-attachment-store.c:854 ../src/e-util/e-attachment-view.c:301
 #: ../src/e-util/e-categories-dialog.c:80 ../src/e-util/e-category-editor.c:171
 #: ../src/e-util/e-category-editor.c:259 ../src/e-util/e-charset-combo-box.c:99
 #: ../src/e-util/e-collection-account-wizard.c:231
 #: ../src/e-util/e-collection-account-wizard.c:1801
 #: ../src/e-util/e-collection-account-wizard.c:2037 ../src/e-util/e-color-chooser-widget.c:125
-#: ../src/e-util/e-filter-datespec.c:300 ../src/e-util/e-html-editor-actions.c:324
-#: ../src/e-util/e-html-editor-actions.c:368 ../src/e-util/e-html-editor-actions.c:450
-#: ../src/e-util/e-image-chooser-dialog.c:169 ../src/e-util/e-mail-signature-script-dialog.c:366
+#: ../src/e-util/e-filter-datespec.c:300 ../src/e-util/e-html-editor-actions.c:304
+#: ../src/e-util/e-html-editor-actions.c:348 ../src/e-util/e-html-editor-actions.c:430
+#: ../src/e-util/e-image-chooser-dialog.c:179 ../src/e-util/e-mail-signature-script-dialog.c:366
 #: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:816
 #: ../src/e-util/e-rule-editor.c:187 ../src/e-util/e-rule-editor.c:298
 #: ../src/e-util/e-rule-editor.c:933 ../src/e-util/e-send-options.ui.h:16
@@ -3521,7 +3523,7 @@ msgstr "Možnosti"
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:409
 #: ../src/modules/calendar/e-cal-attachment-handler.c:283
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
-#: ../src/plugins/face/face.c:297 ../src/plugins/publish-calendar/publish-calendar.c:789
+#: ../src/plugins/face/face.c:298 ../src/plugins/publish-calendar/publish-calendar.c:789
 #: ../src/plugins/publish-calendar/url-editor-dialog.c:419
 #: ../src/plugins/save-calendar/save-calendar.c:186 ../src/shell/e-shell-content.c:641
 #: ../src/shell/e-shell-content.c:748 ../src/shell/e-shell-utils.c:69
@@ -3538,7 +3540,7 @@ msgstr "_Prekliči"
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:719
 #: ../src/calendar/calendar.error.xml.h:47 ../src/calendar/gui/e-comp-editor.c:2115
 #: ../src/composer/e-composer-actions.c:228 ../src/composer/e-composer-actions.c:340
-#: ../src/e-util/e-attachment-store.c:846 ../src/e-util/e-attachment-store.c:853
+#: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370 ../src/e-util/e-webdav-browser.c:2467
 #: ../src/e-util/e-web-view.c:4143 ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -3554,7 +3556,7 @@ msgstr "_Shrani"
 msgid "_Help"
 msgstr "Pomo_č"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17 ../src/e-util/e-misc-utils.c:3552
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:17 ../src/e-util/e-misc-utils.c:3559
 msgid "Image"
 msgstr "Slika"
 
@@ -3819,7 +3821,7 @@ msgid "Certificates"
 msgstr "Potrdila"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
-#: ../src/calendar/gui/e-comp-editor.c:2047 ../src/e-util/e-html-editor-actions.c:986
+#: ../src/calendar/gui/e-comp-editor.c:2047 ../src/e-util/e-html-editor-actions.c:945
 msgid "_Undo"
 msgstr "_Razveljavi"
 
@@ -3829,7 +3831,7 @@ msgid "Undo"
 msgstr "Razveljavi"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
-#: ../src/calendar/gui/e-comp-editor.c:2054 ../src/e-util/e-html-editor-actions.c:972
+#: ../src/calendar/gui/e-comp-editor.c:2054 ../src/e-util/e-html-editor-actions.c:931
 msgid "_Redo"
 msgstr "_Ponovno uveljavi"
 
@@ -3879,12 +3881,12 @@ msgid "Open X.509 certificate"
 msgstr "Potrdilo Open X.509"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3272
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4329
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4336
-#: ../src/e-util/e-attachment-store.c:664 ../src/e-util/e-category-editor.c:179
-#: ../src/e-util/e-html-editor-actions.c:324 ../src/e-util/e-html-editor-actions.c:368
-#: ../src/e-util/e-html-editor-actions.c:450 ../src/e-util/e-image-chooser-dialog.c:172
-#: ../src/plugins/face/face.c:297 ../src/shell/e-shell-utils.c:69
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4334
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4341
+#: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:179
+#: ../src/e-util/e-html-editor-actions.c:304 ../src/e-util/e-html-editor-actions.c:348
+#: ../src/e-util/e-html-editor-actions.c:430 ../src/e-util/e-image-chooser-dialog.c:182
+#: ../src/plugins/face/face.c:298 ../src/shell/e-shell-utils.c:69
 #: ../src/smime/gui/certificate-manager.c:951
 msgid "_Open"
 msgstr "_Odpri"
@@ -3922,16 +3924,16 @@ msgstr "Shrani potrdilo X.509"
 msgid "Failed to save certificate: %s"
 msgstr "Shranjevanje potrdila je spodletelo: %s"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4326
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4332
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4331
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4337
 msgid "Please select an image for this contact"
 msgstr "Izberite sliko za ta stik"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4337
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4342
 msgid "_No image"
 msgstr "_Brez slike"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4697
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4702
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -3939,28 +3941,28 @@ msgstr ""
 "Podatki o stiku niso veljavni:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4703
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4708
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "»%s« ima neveljaven zapis"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4711
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4716
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "»%s« mora biti datum v preteklosti"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4719
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4724
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s'%s' ima neveljaven zapis"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4732
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4746
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4737
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4751
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s'%s' je prazen"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4761
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4766
 msgid "Invalid contact."
 msgstr "Neveljaven stik."
 
@@ -4818,7 +4820,7 @@ msgstr "_Oddalji"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:2056 ../src/e-util/e-html-editor-find-dialog.c:250
+#: ../src/e-util/e-html-editor-actions.c:2015 ../src/e-util/e-html-editor-find-dialog.c:250
 #: ../src/shell/e-shell-window-actions.c:929
 msgid "_Find"
 msgstr "_Najdi"
@@ -6826,12 +6828,12 @@ msgstr "Čas začetka ni veljaven čas"
 #: ../src/calendar/gui/e-comp-editor-event.c:466 ../src/calendar/gui/e-comp-editor-event.c:482
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:337 ../src/em-format/e-mail-part-secure-button.c:93
-#: ../src/e-util/e-misc-utils.c:4195 ../src/e-util/e-misc-utils.c:4207
-#: ../src/e-util/e-misc-utils.c:4221 ../src/mail/e-mail-autoconfig.c:998
-#: ../src/mail/e-mail-display.c:2268 ../src/mail/e-mail-reader-utils.c:805
+#: ../src/e-util/e-misc-utils.c:4202 ../src/e-util/e-misc-utils.c:4214
+#: ../src/e-util/e-misc-utils.c:4228 ../src/mail/e-mail-autoconfig.c:998
+#: ../src/mail/e-mail-display.c:2292 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3969 ../src/mail/em-composer-utils.c:4000
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1496
-#: ../src/modules/accounts-window/e-accounts-window-editors.c:172 ../src/plugins/face/face.c:174
+#: ../src/modules/accounts-window/e-accounts-window-editors.c:172 ../src/plugins/face/face.c:175
 #: ../src/shell/e-shell.c:1221 ../src/shell/e-shell.c:1245
 #: ../src/smime/gui/certificate-manager.c:357
 #, c-format
@@ -7149,7 +7151,7 @@ msgstr "Udeleže_nci ..."
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1513
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
 #: ../src/calendar/gui/e-comp-editor.c:2070 ../src/e-util/e-accounts-window.c:1745
-#: ../src/e-util/e-html-editor-actions.c:995 ../src/e-util/e-mail-signature-manager.c:358
+#: ../src/e-util/e-html-editor-actions.c:954 ../src/e-util/e-mail-signature-manager.c:358
 #: ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:175
 #: ../src/mail/e-mail-label-manager.c:380 ../src/mail/em-folder-properties.c:1047
@@ -7834,7 +7836,7 @@ msgstr "Zapri trenutno okno"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:1991 ../src/e-util/e-focus-tracker.c:773
-#: ../src/e-util/e-html-editor-actions.c:951 ../src/e-util/e-text.c:2080
+#: ../src/e-util/e-html-editor-actions.c:910 ../src/e-util/e-text.c:2080
 #: ../src/e-util/e-web-view.c:409 ../src/mail/e-mail-browser.c:138
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:845
 msgid "_Copy"
@@ -7850,7 +7852,7 @@ msgstr "Kopira izbor"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:1998 ../src/e-util/e-focus-tracker.c:768
-#: ../src/e-util/e-html-editor-actions.c:958 ../src/e-util/e-text.c:2066
+#: ../src/e-util/e-html-editor-actions.c:917 ../src/e-util/e-text.c:2066
 #: ../src/mail/e-mail-browser.c:145 ../src/shell/e-shell-window-actions.c:852
 msgid "Cu_t"
 msgstr "_Izreži"
@@ -7874,7 +7876,7 @@ msgstr "Poglejte pomoč"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2019 ../src/e-util/e-focus-tracker.c:778
-#: ../src/e-util/e-html-editor-actions.c:965 ../src/e-util/e-text.c:2092
+#: ../src/e-util/e-html-editor-actions.c:924 ../src/e-util/e-text.c:2092
 #: ../src/mail/e-mail-browser.c:152 ../src/shell/e-shell-window-actions.c:880
 msgid "_Paste"
 msgstr "_Prilepi"
@@ -7901,7 +7903,7 @@ msgid "Pre_view..."
 msgstr "_Predogled ..."
 
 #: ../src/calendar/gui/e-comp-editor.c:2040 ../src/e-util/e-focus-tracker.c:788
-#: ../src/e-util/e-html-editor-actions.c:979 ../src/e-util/e-web-view.c:419
+#: ../src/e-util/e-html-editor-actions.c:938 ../src/e-util/e-web-view.c:419
 #: ../src/mail/e-mail-browser.c:159 ../src/shell/e-shell-window-actions.c:950
 msgid "Select _All"
 msgstr "Izberi _vse"
@@ -7916,13 +7918,13 @@ msgstr "Izberi vse besedilo"
 msgid "_Classification"
 msgstr "_Razvrstitev"
 
-#: ../src/calendar/gui/e-comp-editor.c:2077 ../src/e-util/e-html-editor-actions.c:1002
+#: ../src/calendar/gui/e-comp-editor.c:2077 ../src/e-util/e-html-editor-actions.c:961
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:168
 #: ../src/mail/e-mail-notes.c:978 ../src/shell/e-shell-window-actions.c:987
 msgid "_File"
 msgstr "_Datoteka"
 
-#: ../src/calendar/gui/e-comp-editor.c:2091 ../src/e-util/e-html-editor-actions.c:1023
+#: ../src/calendar/gui/e-comp-editor.c:2091 ../src/e-util/e-html-editor-actions.c:982
 msgid "_Insert"
 msgstr "_Vstavi"
 
@@ -7930,7 +7932,7 @@ msgstr "_Vstavi"
 msgid "_Options"
 msgstr "M_ožnosti"
 
-#: ../src/calendar/gui/e-comp-editor.c:2105 ../src/e-util/e-html-editor-actions.c:1044
+#: ../src/calendar/gui/e-comp-editor.c:2105 ../src/e-util/e-html-editor-actions.c:1003
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:1030
 #: ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -10660,25 +10662,25 @@ msgstr "Kliknite tukaj za imenik"
 msgid "Click here to select folders to post to"
 msgstr "Kliknite tukaj za izbiro map za objavljanje"
 
-#: ../src/composer/e-msg-composer.c:999
+#: ../src/composer/e-msg-composer.c:1003
 #, c-format
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Odhodnega sporočila ni mogoče podpisati: za ta račun ni nastavljeno nobeno potrdilo za "
 "podpisovanje"
 
-#: ../src/composer/e-msg-composer.c:1008
+#: ../src/composer/e-msg-composer.c:1012
 #, c-format
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
 msgstr ""
 "Odhodnega sporočila ni mogoče šifrirati: za ta račun ni nastavljeno nobeno potrdilo za "
 "šifriranje"
 
-#: ../src/composer/e-msg-composer.c:1788 ../src/composer/e-msg-composer.c:2462
+#: ../src/composer/e-msg-composer.c:1792 ../src/composer/e-msg-composer.c:2466
 msgid "Compose Message"
 msgstr "Sestavi sporočilo"
 
-#: ../src/composer/e-msg-composer.c:4947
+#: ../src/composer/e-msg-composer.c:4987
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Sestavljalnik vsebuje ne-besedilno telo sporočila, ki ga ni mogoče urejati."
 
@@ -10965,11 +10967,11 @@ msgstr "(brez zadeve)"
 msgid "This message was sent by %s on behalf of %s"
 msgstr "To sporočilo je poslano z računa %s v imenu %s"
 
-#: ../src/em-format/e-mail-formatter-image.c:178
+#: ../src/em-format/e-mail-formatter-image.c:158
 msgid "Regular Image"
 msgstr "Običajna slika"
 
-#: ../src/em-format/e-mail-formatter-image.c:179
+#: ../src/em-format/e-mail-formatter-image.c:159
 msgid "Display part as an image"
 msgstr "Prikaži del kot sliko"
 
@@ -11018,17 +11020,17 @@ msgid "Display part as enriched text"
 msgstr "Prikaži del kot obogateno besedilo"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
-#: ../src/em-format/e-mail-formatter-text-html.c:385
+#: ../src/em-format/e-mail-formatter-text-html.c:386
 msgid "HTML"
 msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
-#: ../src/em-format/e-mail-formatter-text-html.c:386
+#: ../src/em-format/e-mail-formatter-text-html.c:387
 msgid "Format part as HTML"
 msgstr "Oblikuj del kot HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:121
-#: ../src/em-format/e-mail-formatter-text-plain.c:196 ../src/e-util/e-html-editor-actions.c:1387
+#: ../src/em-format/e-mail-formatter-text-plain.c:196 ../src/e-util/e-html-editor-actions.c:1346
 msgid "Plain Text"
 msgstr "Običajno besedilo"
 
@@ -11467,7 +11469,7 @@ msgstr "Opravilo je preklicano"
 
 #. Translators: Default attachment filename.
 #: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:2990
-#: ../src/e-util/e-attachment.c:3442 ../src/e-util/e-attachment-store.c:912
+#: ../src/e-util/e-attachment.c:3442 ../src/e-util/e-attachment-store.c:914
 msgid "attachment.dat"
 msgstr "priloga.dat"
 
@@ -11520,7 +11522,7 @@ msgstr "_Opis:"
 msgid "MIME Type:"
 msgstr "Vrsta MIME:"
 
-#: ../src/e-util/e-attachment-dialog.c:380 ../src/e-util/e-attachment-store.c:698
+#: ../src/e-util/e-attachment-dialog.c:380 ../src/e-util/e-attachment-store.c:700
 msgid "_Suggest automatic display of attachment"
 msgstr "Predlagaj _samodejen prikaz prilog"
 
@@ -11548,20 +11550,20 @@ msgstr "Skrij _vrstico prilog"
 msgid "Show Attachment _Bar"
 msgstr "Pokaži _vrstico prilog"
 
-#: ../src/e-util/e-attachment-store.c:654 ../src/e-util/e-attachment-store.c:661
+#: ../src/e-util/e-attachment-store.c:656 ../src/e-util/e-attachment-store.c:663
 msgid "Add Attachment"
 msgstr "Doda prilogo"
 
-#: ../src/e-util/e-attachment-store.c:656 ../src/e-util/e-attachment-store.c:668
-#: ../src/e-util/e-attachment-store.c:670
+#: ../src/e-util/e-attachment-store.c:658 ../src/e-util/e-attachment-store.c:670
+#: ../src/e-util/e-attachment-store.c:672
 msgid "A_ttach"
 msgstr "_Priloži"
 
-#: ../src/e-util/e-attachment-store.c:719
+#: ../src/e-util/e-attachment-store.c:721
 msgid "Archive selected directories using this format:"
 msgstr "Arhiviraj izbrane mape v tem zapisu:"
 
-#: ../src/e-util/e-attachment-store.c:836
+#: ../src/e-util/e-attachment-store.c:838
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "Shrani priloge"
@@ -11569,15 +11571,15 @@ msgstr[1] "Shrani prilogo"
 msgstr[2] "Shrani prilogi"
 msgstr[3] "Shrani priloge"
 
-#: ../src/e-util/e-attachment-store.c:874
+#: ../src/e-util/e-attachment-store.c:876
 msgid "Do _not extract files from the attachment"
 msgstr "_Ne odpakiraj datotek iz priloge"
 
-#: ../src/e-util/e-attachment-store.c:879
+#: ../src/e-util/e-attachment-store.c:881
 msgid "Save extracted files _only"
 msgstr "_Shrani le odpakirane datoteke"
 
-#: ../src/e-util/e-attachment-store.c:884
+#: ../src/e-util/e-attachment-store.c:886
 msgid "Save extracted files and the original _archive"
 msgstr "Shrani odpakirane datoteke v izvorni _arhiv"
 
@@ -12724,482 +12726,482 @@ msgstr "Napaka med vstavljanjem datoteke HTML."
 msgid "Failed to insert text file."
 msgstr "Napaka med vstavljanjem besedilne datoteke."
 
-#: ../src/e-util/e-html-editor-actions.c:322
+#: ../src/e-util/e-html-editor-actions.c:302
 msgid "Insert HTML File"
 msgstr "Vstavi datoteko HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:327
+#: ../src/e-util/e-html-editor-actions.c:307
 msgid "HTML file"
 msgstr "Datoteka HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:365 ../src/e-util/e-html-editor-actions.c:375
+#: ../src/e-util/e-html-editor-actions.c:345 ../src/e-util/e-html-editor-actions.c:355
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Vstavi sliko"
 
-#: ../src/e-util/e-html-editor-actions.c:372
+#: ../src/e-util/e-html-editor-actions.c:352
 msgid "Image file"
 msgstr "Slikovna datoteka"
 
-#: ../src/e-util/e-html-editor-actions.c:448
+#: ../src/e-util/e-html-editor-actions.c:428
 msgid "Insert text file"
 msgstr "Vstavi besedilno datoteko"
 
-#: ../src/e-util/e-html-editor-actions.c:453
+#: ../src/e-util/e-html-editor-actions.c:433
 msgid "Text file"
 msgstr "Besedilna datoteka"
 
-#: ../src/e-util/e-html-editor-actions.c:953
+#: ../src/e-util/e-html-editor-actions.c:912
 msgid "Copy selected text to the clipboard"
 msgstr "Kopiraj izbrano besedilo na odložišče"
 
-#: ../src/e-util/e-html-editor-actions.c:960
+#: ../src/e-util/e-html-editor-actions.c:919
 msgid "Cut selected text to the clipboard"
 msgstr "Izreži izbrano besedilo v odložišče"
 
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../src/e-util/e-html-editor-actions.c:967
+#: ../src/e-util/e-html-editor-actions.c:926
 msgid "Paste text from the clipboard"
 msgstr "Prilepi besedilo iz odložišča"
 
-#: ../src/e-util/e-html-editor-actions.c:974
+#: ../src/e-util/e-html-editor-actions.c:933
 msgid "Redo the last undone action"
 msgstr "Ponovno uveljavi zadnje razveljavljeno dejanje"
 
-#: ../src/e-util/e-html-editor-actions.c:988
+#: ../src/e-util/e-html-editor-actions.c:947
 msgid "Undo the last action"
 msgstr "Razveljavi zadnje dejanje"
 
-#: ../src/e-util/e-html-editor-actions.c:1009
+#: ../src/e-util/e-html-editor-actions.c:968
 msgid "For_mat"
 msgstr "_Oblikuj"
 
-#: ../src/e-util/e-html-editor-actions.c:1016
+#: ../src/e-util/e-html-editor-actions.c:975
 msgid "_Paragraph Style"
 msgstr "Slog _odstavkov"
 
-#: ../src/e-util/e-html-editor-actions.c:1030 ../src/e-util/e-html-editor-image-dialog.c:590
+#: ../src/e-util/e-html-editor-actions.c:989 ../src/e-util/e-html-editor-image-dialog.c:590
 msgid "_Alignment"
 msgstr "_Poravnava"
 
-#: ../src/e-util/e-html-editor-actions.c:1037
+#: ../src/e-util/e-html-editor-actions.c:996
 msgid "Current _Languages"
 msgstr "Trenutni _jeziki"
 
-#: ../src/e-util/e-html-editor-actions.c:1054
+#: ../src/e-util/e-html-editor-actions.c:1013
 msgid "_Increase Indent"
 msgstr "_Povečaj zamik"
 
-#: ../src/e-util/e-html-editor-actions.c:1056
+#: ../src/e-util/e-html-editor-actions.c:1015
 msgid "Increase Indent"
 msgstr "Povečaj zamik"
 
-#: ../src/e-util/e-html-editor-actions.c:1061
+#: ../src/e-util/e-html-editor-actions.c:1020
 msgid "_HTML File..."
 msgstr "Datoteka _HTML ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1068
+#: ../src/e-util/e-html-editor-actions.c:1027
 msgid "Te_xt File..."
 msgstr "_Besedilna datoteka ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1075
+#: ../src/e-util/e-html-editor-actions.c:1034
 msgid "Paste _Quotation"
 msgstr "Prilepi _navedek"
 
-#: ../src/e-util/e-html-editor-actions.c:1082
+#: ../src/e-util/e-html-editor-actions.c:1041
 msgid "_Find..."
 msgstr "_Najdi ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1084
+#: ../src/e-util/e-html-editor-actions.c:1043
 msgid "Search for text"
 msgstr "Odpre polje za iskanje besedila"
 
-#: ../src/e-util/e-html-editor-actions.c:1089
+#: ../src/e-util/e-html-editor-actions.c:1048
 msgid "Find A_gain"
 msgstr "Poišči znov_a"
 
-#: ../src/e-util/e-html-editor-actions.c:1096
+#: ../src/e-util/e-html-editor-actions.c:1055
 msgid "Re_place..."
 msgstr "_Zamenjaj ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1098
+#: ../src/e-util/e-html-editor-actions.c:1057
 msgid "Search for and replace text"
 msgstr "Odpre okno za iskanje in zamenjavo besedila"
 
-#: ../src/e-util/e-html-editor-actions.c:1103
+#: ../src/e-util/e-html-editor-actions.c:1062
 msgid "Check _Spelling..."
 msgstr "Preveri _črkovanje ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1110
+#: ../src/e-util/e-html-editor-actions.c:1069
 msgid "_Decrease Indent"
 msgstr "_Zmanjšaj zamik"
 
-#: ../src/e-util/e-html-editor-actions.c:1112
+#: ../src/e-util/e-html-editor-actions.c:1071
 msgid "Decrease Indent"
 msgstr "Zmanjšaj zamik"
 
-#: ../src/e-util/e-html-editor-actions.c:1117
+#: ../src/e-util/e-html-editor-actions.c:1076
 msgid "_Wrap Lines"
 msgstr "_Prelomi vrstice"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1127 ../src/e-util/e-html-editor-paragraph-dialog.c:108
+#: ../src/e-util/e-html-editor-actions.c:1086 ../src/e-util/e-html-editor-paragraph-dialog.c:108
 msgid "_Center"
 msgstr "Na _sredini"
 
-#: ../src/e-util/e-html-editor-actions.c:1129
+#: ../src/e-util/e-html-editor-actions.c:1088
 msgid "Center Alignment"
 msgstr "Sredinska poravnava"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1134 ../src/e-util/e-html-editor-paragraph-dialog.c:99
+#: ../src/e-util/e-html-editor-actions.c:1093 ../src/e-util/e-html-editor-paragraph-dialog.c:99
 msgid "_Left"
 msgstr "_Levo"
 
-#: ../src/e-util/e-html-editor-actions.c:1136
+#: ../src/e-util/e-html-editor-actions.c:1095
 msgid "Left Alignment"
 msgstr "Leva poravnava"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1141 ../src/e-util/e-html-editor-paragraph-dialog.c:117
+#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-html-editor-paragraph-dialog.c:117
 msgid "_Right"
 msgstr "_Desno"
 
-#: ../src/e-util/e-html-editor-actions.c:1143
+#: ../src/e-util/e-html-editor-actions.c:1102
 msgid "Right Alignment"
 msgstr "Desna poravnava"
 
-#: ../src/e-util/e-html-editor-actions.c:1151 ../src/modules/text-highlight/languages.c:70
+#: ../src/e-util/e-html-editor-actions.c:1110 ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1153
+#: ../src/e-util/e-html-editor-actions.c:1112
 msgid "HTML editing mode"
 msgstr "Urejevalni način HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1158
+#: ../src/e-util/e-html-editor-actions.c:1117
 msgid "Plain _Text"
 msgstr "_Običajno besedilo"
 
-#: ../src/e-util/e-html-editor-actions.c:1160
+#: ../src/e-util/e-html-editor-actions.c:1119
 msgid "Plain text editing mode"
 msgstr "Besedilni urejevalni način"
 
-#: ../src/e-util/e-html-editor-actions.c:1168
+#: ../src/e-util/e-html-editor-actions.c:1127
 msgid "_Normal"
 msgstr "_Običajno"
 
-#: ../src/e-util/e-html-editor-actions.c:1175
+#: ../src/e-util/e-html-editor-actions.c:1134
 msgid "Heading _1"
 msgstr "Glava _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1182
+#: ../src/e-util/e-html-editor-actions.c:1141
 msgid "Heading _2"
 msgstr "Glava _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1189
+#: ../src/e-util/e-html-editor-actions.c:1148
 msgid "Heading _3"
 msgstr "Glava _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1196
+#: ../src/e-util/e-html-editor-actions.c:1155
 msgid "Heading _4"
 msgstr "Glava _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1203
+#: ../src/e-util/e-html-editor-actions.c:1162
 msgid "Heading _5"
 msgstr "Glava _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1210
+#: ../src/e-util/e-html-editor-actions.c:1169
 msgid "Heading _6"
 msgstr "Glava _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1217
+#: ../src/e-util/e-html-editor-actions.c:1176
 msgid "_Preformatted"
 msgstr "_Predoblikovano"
 
-#: ../src/e-util/e-html-editor-actions.c:1224
+#: ../src/e-util/e-html-editor-actions.c:1183
 msgid "A_ddress"
 msgstr "_Naslov"
 
-#: ../src/e-util/e-html-editor-actions.c:1231
+#: ../src/e-util/e-html-editor-actions.c:1190
 msgid "_Bulleted List"
 msgstr "_Označen seznam"
 
-#: ../src/e-util/e-html-editor-actions.c:1238
+#: ../src/e-util/e-html-editor-actions.c:1197
 msgid "_Roman Numeral List"
 msgstr "_Rimske oznake"
 
-#: ../src/e-util/e-html-editor-actions.c:1245
+#: ../src/e-util/e-html-editor-actions.c:1204
 msgid "Numbered _List"
 msgstr "_Številčne oznake"
 
-#: ../src/e-util/e-html-editor-actions.c:1252
+#: ../src/e-util/e-html-editor-actions.c:1211
 msgid "_Alphabetical List"
 msgstr "_Abecedne oznake"
 
-#: ../src/e-util/e-html-editor-actions.c:1268 ../src/e-util/e-html-editor-actions.c:1306
+#: ../src/e-util/e-html-editor-actions.c:1227 ../src/e-util/e-html-editor-actions.c:1265
 msgid "_Image..."
 msgstr "_ Slika ..."
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1271
+#: ../src/e-util/e-html-editor-actions.c:1230
 msgid "Insert Image"
 msgstr "Vstavi sliko"
 
-#: ../src/e-util/e-html-editor-actions.c:1276 ../src/e-util/e-html-editor-actions.c:1313
+#: ../src/e-util/e-html-editor-actions.c:1235 ../src/e-util/e-html-editor-actions.c:1272
 msgid "_Link..."
 msgstr "_Povezava ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1278
+#: ../src/e-util/e-html-editor-actions.c:1237
 msgid "Insert Link"
 msgstr "Vstavi povezavo"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1284 ../src/e-util/e-html-editor-actions.c:1328
+#: ../src/e-util/e-html-editor-actions.c:1243 ../src/e-util/e-html-editor-actions.c:1287
 msgid "_Rule..."
 msgstr "_Pravilo ..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1287
+#: ../src/e-util/e-html-editor-actions.c:1246
 msgid "Insert Rule"
 msgstr "Vstavi pravilo"
 
-#: ../src/e-util/e-html-editor-actions.c:1292 ../src/e-util/e-html-editor-actions.c:1335
+#: ../src/e-util/e-html-editor-actions.c:1251 ../src/e-util/e-html-editor-actions.c:1294
 msgid "_Table..."
 msgstr "_Razpredelnica ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1294
+#: ../src/e-util/e-html-editor-actions.c:1253
 msgid "Insert Table"
 msgstr "Vstavi razpredelnico"
 
-#: ../src/e-util/e-html-editor-actions.c:1299
+#: ../src/e-util/e-html-editor-actions.c:1258
 msgid "_Cell..."
 msgstr "_Celica ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1320
+#: ../src/e-util/e-html-editor-actions.c:1279
 msgid "Pa_ge..."
 msgstr "S_tran ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1344
+#: ../src/e-util/e-html-editor-actions.c:1303
 msgid "Font _Size"
 msgstr "Velikost _pisave"
 
-#: ../src/e-util/e-html-editor-actions.c:1351
+#: ../src/e-util/e-html-editor-actions.c:1310
 msgid "_Font Style"
 msgstr "_Slog pisave"
 
-#: ../src/e-util/e-html-editor-actions.c:1358
+#: ../src/e-util/e-html-editor-actions.c:1317
 msgid "Paste As _Text"
 msgstr "Prilepi kot _besedilo"
 
-#: ../src/e-util/e-html-editor-actions.c:1369 ../src/e-util/e-html-editor-text-dialog.c:201
+#: ../src/e-util/e-html-editor-actions.c:1328 ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Krepko"
 
-#: ../src/e-util/e-html-editor-actions.c:1371
+#: ../src/e-util/e-html-editor-actions.c:1330
 msgid "Bold"
 msgstr "Krepko"
 
-#: ../src/e-util/e-html-editor-actions.c:1377 ../src/e-util/e-html-editor-text-dialog.c:212
+#: ../src/e-util/e-html-editor-actions.c:1336 ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "_Ležeče"
 
-#: ../src/e-util/e-html-editor-actions.c:1379
+#: ../src/e-util/e-html-editor-actions.c:1338
 msgid "Italic"
 msgstr "Ležeče"
 
-#: ../src/e-util/e-html-editor-actions.c:1385
+#: ../src/e-util/e-html-editor-actions.c:1344
 msgid "_Plain Text"
 msgstr "_Običajno besedilo"
 
-#: ../src/e-util/e-html-editor-actions.c:1393 ../src/e-util/e-html-editor-text-dialog.c:233
+#: ../src/e-util/e-html-editor-actions.c:1352 ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "_Prečrtano"
 
-#: ../src/e-util/e-html-editor-actions.c:1395
+#: ../src/e-util/e-html-editor-actions.c:1354
 msgid "Strikethrough"
 msgstr "Prečrtano"
 
-#: ../src/e-util/e-html-editor-actions.c:1401 ../src/e-util/e-html-editor-text-dialog.c:223
+#: ../src/e-util/e-html-editor-actions.c:1360 ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "_Podpisano"
 
-#: ../src/e-util/e-html-editor-actions.c:1403
+#: ../src/e-util/e-html-editor-actions.c:1362
 msgid "Underline"
 msgstr "Podpisano"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1413
+#: ../src/e-util/e-html-editor-actions.c:1372
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1421
+#: ../src/e-util/e-html-editor-actions.c:1380
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1429
+#: ../src/e-util/e-html-editor-actions.c:1388
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1437
+#: ../src/e-util/e-html-editor-actions.c:1396
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1445
+#: ../src/e-util/e-html-editor-actions.c:1404
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1453
+#: ../src/e-util/e-html-editor-actions.c:1412
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1461
+#: ../src/e-util/e-html-editor-actions.c:1420
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1480
+#: ../src/e-util/e-html-editor-actions.c:1439
 msgid "Cell Contents"
 msgstr "Vsebina celice"
 
-#: ../src/e-util/e-html-editor-actions.c:1487
+#: ../src/e-util/e-html-editor-actions.c:1446
 msgid "Column"
 msgstr "Stolpec"
 
-#: ../src/e-util/e-html-editor-actions.c:1494
+#: ../src/e-util/e-html-editor-actions.c:1453
 msgid "Row"
 msgstr "Vrstica"
 
-#: ../src/e-util/e-html-editor-actions.c:1501
+#: ../src/e-util/e-html-editor-actions.c:1460
 msgid "Table"
 msgstr "Razpredelnica"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1511
+#: ../src/e-util/e-html-editor-actions.c:1470
 msgid "Table Delete"
 msgstr "Izbriši razpredelnico"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1519
+#: ../src/e-util/e-html-editor-actions.c:1478
 msgid "Table Insert"
 msgstr "Vstavi razpredelnico"
 
-#: ../src/e-util/e-html-editor-actions.c:1526
+#: ../src/e-util/e-html-editor-actions.c:1485
 msgid "Properties"
 msgstr "Lastnosti"
 
-#: ../src/e-util/e-html-editor-actions.c:1544
+#: ../src/e-util/e-html-editor-actions.c:1503
 msgid "Column After"
 msgstr "Stolpec po"
 
-#: ../src/e-util/e-html-editor-actions.c:1551
+#: ../src/e-util/e-html-editor-actions.c:1510
 msgid "Column Before"
 msgstr "Stolpec pred"
 
-#: ../src/e-util/e-html-editor-actions.c:1558
+#: ../src/e-util/e-html-editor-actions.c:1517
 msgid "Insert _Link"
 msgstr "Vstavi _povezavo"
 
-#: ../src/e-util/e-html-editor-actions.c:1565
+#: ../src/e-util/e-html-editor-actions.c:1524
 msgid "Row Above"
 msgstr "Vrstica nad"
 
-#: ../src/e-util/e-html-editor-actions.c:1572
+#: ../src/e-util/e-html-editor-actions.c:1531
 msgid "Row Below"
 msgstr "Vrstica pod"
 
-#: ../src/e-util/e-html-editor-actions.c:1579
+#: ../src/e-util/e-html-editor-actions.c:1538
 msgid "Cell..."
 msgstr "Celica ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1586
+#: ../src/e-util/e-html-editor-actions.c:1545
 msgid "Image..."
 msgstr "Slika ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1593
+#: ../src/e-util/e-html-editor-actions.c:1552
 msgid "Link..."
 msgstr "Povezava ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1600
+#: ../src/e-util/e-html-editor-actions.c:1559
 msgid "Page..."
 msgstr "Stran ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1607
+#: ../src/e-util/e-html-editor-actions.c:1566
 msgid "Paragraph..."
 msgstr "Odstavek ..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1615
+#: ../src/e-util/e-html-editor-actions.c:1574
 msgid "Rule..."
 msgstr "Pravilo ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1622
+#: ../src/e-util/e-html-editor-actions.c:1581
 msgid "Table..."
 msgstr "Razpredelnica ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1629
+#: ../src/e-util/e-html-editor-actions.c:1588
 msgid "Text..."
 msgstr "Besedilo ..."
 
-#: ../src/e-util/e-html-editor-actions.c:1636
+#: ../src/e-util/e-html-editor-actions.c:1595
 msgid "Remove Link"
 msgstr "Odstrani povezavo"
 
-#: ../src/e-util/e-html-editor-actions.c:1653
+#: ../src/e-util/e-html-editor-actions.c:1612
 msgid "Add Word to Dictionary"
 msgstr "Dodaj besedo v slovar"
 
-#: ../src/e-util/e-html-editor-actions.c:1660
+#: ../src/e-util/e-html-editor-actions.c:1619
 msgid "Ignore Misspelled Word"
 msgstr "Prezri napačno črkovano besedo"
 
-#: ../src/e-util/e-html-editor-actions.c:1667
+#: ../src/e-util/e-html-editor-actions.c:1626
 msgid "Add Word To"
 msgstr "Dodaj besedo v"
 
-#: ../src/e-util/e-html-editor-actions.c:1676
+#: ../src/e-util/e-html-editor-actions.c:1635
 msgid "More Suggestions"
 msgstr "Več predlogov"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:1911
+#: ../src/e-util/e-html-editor-actions.c:1870
 #, c-format
 msgid "%s Dictionary"
 msgstr "Slovar %s"
 
-#: ../src/e-util/e-html-editor-actions.c:1990
+#: ../src/e-util/e-html-editor-actions.c:1949
 msgid "_Emoticon"
 msgstr "_Izrazne ikone"
 
-#: ../src/e-util/e-html-editor-actions.c:1991
+#: ../src/e-util/e-html-editor-actions.c:1950
 msgid "Insert Emoticon"
 msgstr "Vstavi izrazne ikone"
 
-#: ../src/e-util/e-html-editor-actions.c:2059
+#: ../src/e-util/e-html-editor-actions.c:2018
 msgid "Re_place"
 msgstr "_Zamenjaj"
 
-#: ../src/e-util/e-html-editor-actions.c:2062
+#: ../src/e-util/e-html-editor-actions.c:2021
 msgid "_Image"
 msgstr "_Slika"
 
-#: ../src/e-util/e-html-editor-actions.c:2065
+#: ../src/e-util/e-html-editor-actions.c:2024
 msgid "_Link"
 msgstr "_Povezava"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2069
+#: ../src/e-util/e-html-editor-actions.c:2028
 msgid "_Rule"
 msgstr "_Pravilo"
 
-#: ../src/e-util/e-html-editor-actions.c:2072 ../src/e-util/e-html-editor-cell-dialog.c:448
+#: ../src/e-util/e-html-editor-actions.c:2031 ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Razpredelnica"
 
@@ -13837,31 +13839,31 @@ msgstr "Ni mogoče odpreti povezave."
 msgid "Could not display help for Evolution."
 msgstr "Ni mogoče prikazati pomoči."
 
-#: ../src/e-util/e-misc-utils.c:2540
+#: ../src/e-util/e-misc-utils.c:2547
 #, c-format
 msgid "Opening calendar “%s”"
 msgstr "Poteka odpiranje koledarja »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2543
+#: ../src/e-util/e-misc-utils.c:2550
 #, c-format
 msgid "Opening memo list “%s”"
 msgstr "Poteka odpiranje seznama opomnikov »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2546
+#: ../src/e-util/e-misc-utils.c:2553
 #, c-format
 msgid "Opening task list “%s”"
 msgstr "Poteka odpiranje seznama nalog »%s«"
 
-#: ../src/e-util/e-misc-utils.c:2549
+#: ../src/e-util/e-misc-utils.c:2556
 #, c-format
 msgid "Opening address book “%s”"
 msgstr "Poteka odpiranje imenika »%s«"
 
-#: ../src/e-util/e-misc-utils.c:3329 ../src/modules/mailto-handler/evolution-mailto-handler.c:146
+#: ../src/e-util/e-misc-utils.c:3336 ../src/modules/mailto-handler/evolution-mailto-handler.c:146
 msgid "_Do not show this message again"
 msgstr "_Ne pokaži več tega sporočila"
 
-#: ../src/e-util/e-misc-utils.c:4182
+#: ../src/e-util/e-misc-utils.c:4189
 msgid ""
 "This address book server might be unreachable or the server name may be misspelled or your "
 "network connection could be down."
@@ -13869,17 +13871,17 @@ msgstr ""
 "Strežnik imenika morda ni dosegljiv, morda je ime strežnika napačno črkovano ali pa je "
 "povezava z omrežjem prekinjena."
 
-#: ../src/e-util/e-misc-utils.c:4194
+#: ../src/e-util/e-misc-utils.c:4201
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Nastavljanje različice protokola na LDAPv3 je spodletelo (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4206
+#: ../src/e-util/e-misc-utils.c:4213
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Overitev na strežniku LDAP (%d) je spodletela: %s"
 
-#: ../src/e-util/e-misc-utils.c:4220
+#: ../src/e-util/e-misc-utils.c:4227
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this functionality "
@@ -13892,7 +13894,7 @@ msgstr ""
 "\n"
 "Napaka (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4231
+#: ../src/e-util/e-misc-utils.c:4238
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support this functionality "
 "or it may be misconfigured. Ask your administrator for supported search bases."
@@ -13900,12 +13902,12 @@ msgstr ""
 "Strežnik LDAP morda uporablja starejšo različico LDAP, ki ne podpira te zmožnosti ali pa je "
 "napačno nastavljen. Za podprto iskalno zbirko se obrnite na sistemskega skrbnika."
 
-#: ../src/e-util/e-misc-utils.c:4264
+#: ../src/e-util/e-misc-utils.c:4271
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Program ni kodno pretvorjen s podporo za LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4578
+#: ../src/e-util/e-misc-utils.c:4585
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -13913,7 +13915,7 @@ msgstr "Neznan nabor (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4587
+#: ../src/e-util/e-misc-utils.c:4594
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
@@ -14990,7 +14992,7 @@ msgstr "Shrani sliko"
 msgid "Saving image to “%s”"
 msgstr "Poteka shranjevanje slike v »%s«"
 
-#: ../src/e-util/e-web-view.c:4273
+#: ../src/e-util/e-web-view.c:4325
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Ni mogoče pridobiti naslova URI »%s«, zato datoteke ni mogoče prejeti."
@@ -19739,7 +19741,7 @@ msgstr "visoka"
 msgid "Highest"
 msgstr "najvišja"
 
-#: ../src/mail/message-list.c:479 ../src/mail/message-list.c:6680
+#: ../src/mail/message-list.c:479 ../src/mail/message-list.c:6690
 msgid "Generating message list"
 msgstr "Ustvarjanje seznama sporočil"
 
@@ -19774,11 +19776,11 @@ msgid "Messages"
 msgstr "Sporočila"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5549
+#: ../src/mail/message-list.c:5559
 msgid "Follow-up"
 msgstr "Navezava"
 
-#: ../src/mail/message-list.c:6619
+#: ../src/mail/message-list.c:6629
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a new Show "
 "message filter from the drop down list above or by running a new search either by clearing it "
@@ -19787,7 +19789,7 @@ msgstr ""
 "Ni sporočil, ki ustrezajo iskalnemu nizu. Spremenite kriterije z izbiro možnosti prikaza "
 "filtrov sporočil iz spustnega seznama, ali pa z zagonom novega iskanja."
 
-#: ../src/mail/message-list.c:6627
+#: ../src/mail/message-list.c:6637
 msgid "There are no messages in this folder."
 msgstr "V tej mapi ni sporočil ..."
 
@@ -24322,27 +24324,27 @@ msgstr ""
 "Zunanji urejevalnik je še vedno zagnan. Okno sestavljalnika pošte ne more biti zaprto dokler "
 "je urejevalnik dejaven."
 
-#: ../src/plugins/face/face.c:294
+#: ../src/plugins/face/face.c:295
 msgid "Select a Face Picture"
 msgstr "Izbor sličice obraza"
 
-#: ../src/plugins/face/face.c:300
+#: ../src/plugins/face/face.c:301
 msgid "Image files"
 msgstr "Slikovne datoteke"
 
-#: ../src/plugins/face/face.c:388
+#: ../src/plugins/face/face.c:389
 msgid "_Insert Face picture by default"
 msgstr "Privzeto _vstavi sličico obraza"
 
-#: ../src/plugins/face/face.c:401
+#: ../src/plugins/face/face.c:402
 msgid "Load new _Face picture"
 msgstr "Naloži novo _sličico obraza"
 
-#: ../src/plugins/face/face.c:445
+#: ../src/plugins/face/face.c:446
 msgid "Change Face Image"
 msgstr "Spremeni sliko obraza"
 
-#: ../src/plugins/face/face.c:533
+#: ../src/plugins/face/face.c:534
 msgid "Include _Face"
 msgstr "Vstavi _sličico obraza"
 
@@ -25503,23 +25505,7 @@ msgstr "%s – Evolution"
 
 #. Preview/Alpha/Beta version warning message
 #: ../src/shell/main.c:192
-#, fuzzy, no-c-format
-#| msgid ""
-#| "Hi.  Thanks for taking the time to download this preview release\n"
-#| "of the Evolution groupware suite.\n"
-#| "\n"
-#| "This version of Evolution is not yet complete. It is getting close,\n"
-#| "but some features are either unfinished or do not work properly.\n"
-#| "\n"
-#| "If you want a stable version of Evolution, we urge you to uninstall\n"
-#| "this version, and install version %s instead.\n"
-#| "\n"
-#| "If you find bugs, please report them to us at bugzilla.gnome.org.\n"
-#| "This product comes with no warranty and is not intended for\n"
-#| "individuals prone to violent fits of anger.\n"
-#| "\n"
-#| "We hope that you enjoy the results of our hard work, and we\n"
-#| "eagerly await your contributions!\n"
+#, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -25538,8 +25524,8 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Pozdravljeni! Hvala, ker ste si vzeli čas za preizkus\n"
-"predstavitvene različice programskega paketa Evolution.\n"
+"Pozdravljeni! Zahvaljujemo se vam za čas, ki ste si ga vzeli\n"
+"za preizkus predstavitvene različice paketa Evolution.\n"
 "\n"
 "Ta različica programa še ni povsem stabilna, zato nekatere\n"
 "zmogljivosti niso dokončane, ali pa ne delujejo pravilno.\n"
@@ -25547,9 +25533,10 @@ msgstr ""
 "Če želite stabilno različico, predlagamo, da preizkusno\n"
 "odstranite in namesto nje namestite različico %s.\n"
 "\n"
-"Če naletite na hrošča, ga sporočite na bugzilla.gnome.org.\n"
-"Ta program je objavljen brez kakršnegakoli jamstva in ni\n"
-" primeren za osebe, ki doživljajo nasilne napade jeze.\n"
+"Če naletite na hrošča, oddajte poročilo na naslovu\n"
+"https://gitlab.gnome.org/GNOME/evolution/issues/.\n"
+"Ta program je objavljen brez kakršnegakoli jamstva in\n"
+"ni primeren za osebe, ki doživljajo nasilne napade jeze.\n"
 "\n"
 "Upamo, da boste uživali v programskih rešitvah, mi pa\n"
 "z nestrpnostjo pričakujemo vaše prispevke!\n"
