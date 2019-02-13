@@ -344,7 +344,9 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 	} else if (g_str_equal (canon_name, "X-Evolution-Mailer")) {
 		/* pseudo-header */
 		label = _("Mailer");
-		txt = value = camel_header_format_ctext (header_value, charset);
+		buf = camel_header_unfold (header_value);
+		txt = value = camel_header_format_ctext (buf, charset);
+		g_free (buf);
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
 	} else if (g_str_equal (canon_name, "Date") ||
