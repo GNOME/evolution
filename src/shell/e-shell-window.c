@@ -198,21 +198,6 @@ shell_window_update_close_action_cb (EShellWindow *shell_window)
 }
 
 static void
-shell_window_tweak_for_small_screen (EShellWindow *shell_window)
-{
-	EShellView *shell_view;
-	GtkWidget *shell_searchbar;
-	const gchar *active_view;
-
-	active_view = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, active_view);
-	shell_searchbar = e_shell_view_get_searchbar (shell_view);
-
-	e_shell_searchbar_set_filter_visible (
-		E_SHELL_SEARCHBAR (shell_searchbar), FALSE);
-}
-
-static void
 shell_window_set_geometry (EShellWindow *shell_window,
                            const gchar *geometry)
 {
@@ -427,40 +412,6 @@ shell_window_constructed (GObject *object)
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_shell_window_parent_class)->constructed (object);
-}
-
-static void
-shell_window_get_preferred_width (GtkWidget *widget,
-                                  gint *out_minimum_width,
-                                  gint *out_natural_width)
-{
-	GdkScreen *screen;
-	gint screen_width;
-	gint minimum_width = 0;
-	gint natural_width = 0;
-	gboolean tweaked = FALSE;
-
-	screen = gtk_widget_get_screen (widget);
-	screen_width = gdk_screen_get_width (screen);
-
-try_again:
-	/* Chain up to parent's get_preferred_width() method. */
-	GTK_WIDGET_CLASS (e_shell_window_parent_class)->
-		get_preferred_width (widget, &minimum_width, &natural_width);
-
-	if (!tweaked && minimum_width > screen_width) {
-		EShellWindow *shell_window;
-
-		shell_window = E_SHELL_WINDOW (widget);
-		shell_window_tweak_for_small_screen (shell_window);
-
-		tweaked = TRUE;  /* prevents looping */
-
-		goto try_again;
-	}
-
-	*out_minimum_width = minimum_width;
-	*out_natural_width = natural_width;
 }
 
 static void
@@ -931,7 +882,6 @@ e_shell_window_class_init (EShellWindowClass *class)
 	object_class->constructed = shell_window_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->get_preferred_width = shell_window_get_preferred_width;
 	widget_class->map_event = shell_window_map_event;
 
 	class->close_alert = shell_window_close_alert;

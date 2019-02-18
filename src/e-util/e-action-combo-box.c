@@ -299,6 +299,17 @@ action_combo_box_update_model (EActionComboBox *combo_box)
 }
 
 static void
+e_action_combo_box_get_preferred_width (GtkWidget *widget,
+					gint *minimum_width,
+					gint *natural_width)
+{
+	GTK_WIDGET_CLASS (e_action_combo_box_parent_class)->get_preferred_width (widget, minimum_width, natural_width);
+
+	if (*natural_width > 250)
+		*natural_width = 225;
+}
+
+static void
 action_combo_box_set_property (GObject *object,
                                guint property_id,
                                const GValue *value,
@@ -387,6 +398,9 @@ action_combo_box_constructed (GObject *object)
 		combo_box, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer,
+		"ellipsize", PANGO_ELLIPSIZE_END,
+		NULL);
 	gtk_cell_layout_pack_start (
 		GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
 	gtk_cell_layout_set_cell_data_func (
@@ -423,6 +437,7 @@ static void
 e_action_combo_box_class_init (EActionComboBoxClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 	GtkComboBoxClass *combo_box_class;
 
 	g_type_class_add_private (class, sizeof (EActionComboBoxPrivate));
@@ -433,6 +448,9 @@ e_action_combo_box_class_init (EActionComboBoxClass *class)
 	object_class->dispose = action_combo_box_dispose;
 	object_class->finalize = action_combo_box_finalize;
 	object_class->constructed = action_combo_box_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->get_preferred_width = e_action_combo_box_get_preferred_width;
 
 	combo_box_class = GTK_COMBO_BOX_CLASS (class);
 	combo_box_class->changed = action_combo_box_changed;
