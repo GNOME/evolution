@@ -750,20 +750,21 @@ shell_extract_ssl_trust (ESource *source)
 	return ssl_trust;
 }
 
-static void
+static gboolean
 shell_maybe_propagate_ssl_trust (EShell *shell,
 				 ESource *source,
 				 const gchar *original_ssl_trust)
 {
 	gchar *new_ssl_trust;
+	gboolean changed;
 
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (E_IS_SOURCE (source));
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
 	new_ssl_trust = shell_extract_ssl_trust (source);
+	changed = g_strcmp0 (original_ssl_trust, new_ssl_trust) != 0;
 
-	if (g_strcmp0 (original_ssl_trust, new_ssl_trust) != 0 &&
-	    new_ssl_trust && *new_ssl_trust) {
+	if (changed && new_ssl_trust && *new_ssl_trust) {
 		g_object_ref (source);
 
 		while (source && !e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION)) {
@@ -828,6 +829,19 @@ shell_maybe_propagate_ssl_trust (EShell *shell,
 	}
 
 	g_free (new_ssl_trust);
+
+	return changed;
+}
+
+static ETrustPromptResponse
+shell_get_source_last_trust_response (ESource *source)
+{
+	g_return_val_if_fail (E_IS_SOURCE (source), E_TRUST_PROMPT_RESPONSE_UNKNOWN);
+
+	if (!e_source_has_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND))
+		return E_TRUST_PROMPT_RESPONSE_UNKNOWN;
+
+	return e_source_webdav_get_ssl_trust_response (e_source_get_extension (source, E_SOURCE_EXTENSION_WEBDAV_BACKEND));
 }
 
 #define SOURCE_ALERT_KEY_SOURCE			"source-alert-key-source"
@@ -897,14 +911,14 @@ shell_trust_prompt_done_cb (GObject *source_object,
 		return;
 	}
 
-	shell_maybe_propagate_ssl_trust (tpd->shell, source, tpd->original_ssl_trust);
-
 	/* If a credentials prompt is required, then it'll be shown immediately. */
 	e_credentials_prompter_set_auto_prompt_disabled_for (tpd->shell->priv->credentials_prompter, source, FALSE);
 
-	/* NULL credentials to retry with those used the last time */
-	e_source_invoke_authenticate (source, NULL, tpd->shell->priv->cancellable,
-		shell_source_invoke_authenticate_cb, tpd->shell);
+	if (!shell_maybe_propagate_ssl_trust (tpd->shell, source, tpd->original_ssl_trust)) {
+		/* NULL credentials to retry with those used the last time */
+		e_source_invoke_authenticate (source, NULL, tpd->shell->priv->cancellable,
+			shell_source_invoke_authenticate_cb, tpd->shell);
+	}
 
 	trust_prompt_data_free (tpd);
 }
@@ -1230,45 +1244,47 @@ shell_process_credentials_required_errors (EShell *shell,
 		shell_submit_source_connection_alert (shell, source, alert);
 		g_object_unref (alert);
 	} else if (reason == E_SOURCE_CREDENTIALS_REASON_SSL_FAILED) {
-		if (e_credentials_prompter_get_auto_prompt_disabled_for (shell->priv->credentials_prompter, source)) {
-			/* Only show an alert */
-			EAlert *alert;
-			gchar *cert_errors_str;
-			gchar *display_name;
+		if (shell_get_source_last_trust_response (source) != E_TRUST_PROMPT_RESPONSE_REJECT) {
+			if (e_credentials_prompter_get_auto_prompt_disabled_for (shell->priv->credentials_prompter, source)) {
+				/* Only show an alert */
+				EAlert *alert;
+				gchar *cert_errors_str;
+				gchar *display_name;
 
-			cert_errors_str = e_trust_prompt_describe_certificate_errors (certificate_errors);
+				cert_errors_str = e_trust_prompt_describe_certificate_errors (certificate_errors);
 
-			display_name = e_util_get_source_full_name (shell->priv->registry, source);
-			alert = e_alert_new (shell_get_connection_trust_error_tag_for_source (source),
-					display_name,
-					(cert_errors_str && *cert_errors_str) ? cert_errors_str :
-					op_error && *(op_error->message) ? op_error->message : _("Unknown error"),
-					NULL);
-			g_free (display_name);
+				display_name = e_util_get_source_full_name (shell->priv->registry, source);
+				alert = e_alert_new (shell_get_connection_trust_error_tag_for_source (source),
+						display_name,
+						(cert_errors_str && *cert_errors_str) ? cert_errors_str :
+						op_error && *(op_error->message) ? op_error->message : _("Unknown error"),
+						NULL);
+				g_free (display_name);
 
-			g_signal_connect (alert, "response", G_CALLBACK (shell_connect_trust_error_alert_response_cb), shell);
+				g_signal_connect (alert, "response", G_CALLBACK (shell_connect_trust_error_alert_response_cb), shell);
 
-			g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE, g_object_ref (source), g_object_unref);
-			g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
-			g_object_set_data (G_OBJECT (alert), SOURCE_ALERT_KEY_CERTIFICATE_ERRORS, GUINT_TO_POINTER (certificate_errors));
-			g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_ERROR_TEXT, op_error ? g_strdup (op_error->message) : NULL, g_free);
+				g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_SOURCE, g_object_ref (source), g_object_unref);
+				g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
+				g_object_set_data (G_OBJECT (alert), SOURCE_ALERT_KEY_CERTIFICATE_ERRORS, GUINT_TO_POINTER (certificate_errors));
+				g_object_set_data_full (G_OBJECT (alert), SOURCE_ALERT_KEY_ERROR_TEXT, op_error ? g_strdup (op_error->message) : NULL, g_free);
 
-			shell_submit_source_connection_alert (shell, source, alert);
+				shell_submit_source_connection_alert (shell, source, alert);
 
-			g_free (cert_errors_str);
-			g_object_unref (alert);
-		} else {
-			TrustPromptData *tpd;
+				g_free (cert_errors_str);
+				g_object_unref (alert);
+			} else {
+				TrustPromptData *tpd;
 
-			g_object_set_data_full (G_OBJECT (source), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
+				g_object_set_data_full (G_OBJECT (source), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
 
-			tpd = g_new0 (TrustPromptData, 1);
-			tpd->shell = shell;
-			tpd->original_ssl_trust = shell_extract_ssl_trust (source);
+				tpd = g_new0 (TrustPromptData, 1);
+				tpd->shell = shell;
+				tpd->original_ssl_trust = shell_extract_ssl_trust (source);
 
-			e_trust_prompt_run_for_source (gtk_application_get_active_window (GTK_APPLICATION (shell)),
-				source, certificate_pem, certificate_errors, op_error ? op_error->message : NULL, TRUE,
-				shell->priv->cancellable, shell_trust_prompt_done_cb, tpd);
+				e_trust_prompt_run_for_source (gtk_application_get_active_window (GTK_APPLICATION (shell)),
+					source, certificate_pem, certificate_errors, op_error ? op_error->message : NULL, TRUE,
+					shell->priv->cancellable, shell_trust_prompt_done_cb, tpd);
+			}
 		}
 	} else if (reason == E_SOURCE_CREDENTIALS_REASON_REQUIRED ||
 		   reason == E_SOURCE_CREDENTIALS_REASON_REJECTED) {
