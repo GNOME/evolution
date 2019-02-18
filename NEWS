@@ -1,3 +1,30 @@
+Evolution 3.31.91 2019-02-18
+----------------------------
+
+Bug Fixes:
+	I#302 - Improve restore of selected message in the message list after search (Milan Crha)
+	I#306 - Add emailmd5 to mail autoconfig request (Milan Crha)
+	I#307 - [Composer] Style lost after spellcheck correction (Milan Crha)
+
+Miscellaneous:
+	Change parentheses in an if() to avoid clang warning (Milan Crha)
+	[em-format] Unfold Mailer header value before using it (Milan Crha)
+
+Translations:
+	Daniel Mustieles (es)
+	Jordi Mas (ca)
+	Jiri Grönroos (fi)
+	Aurimas Černius (lt)
+	Fran Dieguez (gl)
+	Piotr Drąg (pl)
+	Matej Urbančič (sl)
+	Marek Cernocky (cs)
+	Kukuh Syafaat (id)
+	Baurzhan Muftakhidinov (kk)
+	Daniel Șerbănescu (ro)
+	Alan Mortensen (da)
+	Balázs Úr (hu)
+
 Evolution 3.31.90 2019-02-04
 ----------------------------
 
