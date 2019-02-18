@@ -25,8 +25,8 @@ msgstr "Jordi Mas i Hernàndez <jmas@softcatala.org>, 2014, 2018\n"
 #: C/backup-restore.page:18
 msgid "Back up and restore your <app>Evolution</app> data and settings."
 msgstr ""
-"Feu una còpia de seguretat i restaurar les dades i la configuració de "
-"<app>Evolution</app>."
+"Feu una còpia de seguretat i restaureu les dades i la configuració "
+"d'<app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/backup-restore.page:22
@@ -276,7 +276,7 @@ msgstr "Trieu si també voleu veure el contingut quan esteu fora de línia."
 #: C/mail-composer-html-link.page:28 C/tasks-caldav.page:29
 #: C/tasks-webdav.page:31
 msgid "Enter the address in the <gui>URL</gui> field."
-msgstr "Entreu l'adreça al camp <gui>URL</gui>."
+msgstr "Introduïu l'adreça al camp <gui>URL</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:52 C/calendar-weather.page:49
@@ -316,7 +316,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
 msgid "Restricting visibility of appointments on remote servers."
-msgstr "Restringiu la visibilitat de les cites en servidors remots"
+msgstr "Restringiu la visibilitat de les cites en servidors remots."
 
 #. (itstool) path: page/title
 #: C/calendar-classifications.page:26
@@ -707,7 +707,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-layout-general-formatting.page:27
 msgid "General formatting options for the calendar."
-msgstr "Opcions generals per formatar el calendari"
+msgstr "Opcions generals per formatar el calendari."
 
 #. (itstool) path: page/title
 #: C/calendar-layout-general-formatting.page:30
@@ -956,7 +956,7 @@ msgstr ""
 "Si decidiu utilitzar un fitxer de calendari existent que ja està ubicat al "
 "vostre ordinador, haureu de proporcionar la seva ubicació i "
 "si <app>Evolution</app> tan sols pot llegir del fitxer o si "
-"<app>Evolution</app> pot afegir i modificar els elements del fitxer"
+"<app>Evolution</app> pot afegir i modificar els elements del fitxer."
 
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:17
@@ -4372,7 +4372,7 @@ msgid ""
 "This page provides an overview of keyboard shortcuts that can help you use "
 "<app>Evolution</app> more efficiently."
 msgstr ""
-"Aquesta pàgina ofereix una visió general de les dreceres de teclat de teclat"
+"Aquesta pàgina ofereix una visió general de les dreceres de teclat"
 " que us poden ajudar a utilitzar<app>Evolution</app> de forma més eficient."
 
 #. (itstool) path: section/title
@@ -6661,7 +6661,7 @@ msgstr "<_:code-1/> (e.g. 15 per l'any 2015)"
 #. (itstool) path: info/desc
 #: C/mail-composer-custom-header-lines.page:5
 msgid "Using custom fields in the header of composed messages."
-msgstr "Ús de camps personalitzats a la capçalera de l'editor de missatges"
+msgstr "Ús de camps personalitzats a la capçalera de l'editor de missatges."
 
 #. (itstool) path: page/title
 #: C/mail-composer-custom-header-lines.page:23
@@ -6862,7 +6862,7 @@ msgid ""
 "each line), or quoted (with &gt; character before each line)."
 msgstr ""
 "Podeu reenviar un missatge com a fitxer adjunt a un nou missatge (aquesta és"
-" la configuració predeterminada, consulteu<link xref=\"#default-"
+" la configuració predeterminada, consulteu <link xref=\"#default-"
 "settings\">Configuració predeterminada</link>), en línia (al missatge sense "
 "el caràcter &gt; abans de cada línia), o citat (amb el caràcter &gt; abans "
 "de cada línia)."
@@ -7332,7 +7332,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-html-text.page:27
 msgid "Text Styles:"
-msgstr "Estils de text"
+msgstr "Estils de text:"
 
 #. (itstool) path: section/p
 #: C/mail-composer-html-text.page:28
@@ -7382,7 +7382,7 @@ msgstr ""
 "seleccionat, el color s'aplica al que escriviu a continuació. Podeu "
 "seleccionar un color o una imatge de fons fent clic amb el botó dret del "
 "ratolí en el fons del missatge i, a continuació, "
-"seleccionant<guiseq><gui>Estil</gui><gui>Estil de Pagina</gui></guiseq>."
+"seleccionant<guiseq><gui>Estil</gui><gui>Estil de pàgina</gui></guiseq>."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:44
@@ -7860,7 +7860,7 @@ msgid ""
 "use <code>$ORIG[body]</code>."
 msgstr ""
 "Per fer-ho, utilitzeu el format <code>$ORIG[header_name]</code> i reemplaceu"
-" la variable <code>header_name</code> pel encapçalament actual. Per exemple,"
+" la variable <code>header_name</code> per l'encapçalament actual. Per exemple,"
 " si voleu inserir la línia d'assumpte del missatge al qual responeu, "
 "utilitzeu <code>$ORIG[subject]</code>. Per inserir el cos complet, "
 "utilitzeu <code>$ORIG[body]</code>."
@@ -7908,7 +7908,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-plain-text.page:27
 msgid "Headers and Lists:"
-msgstr "Capçaleres i Llistes"
+msgstr "Capçaleres i llistes:"
 
 #. (itstool) path: section/p
 #: C/mail-composer-plain-text.page:28
@@ -8224,7 +8224,7 @@ msgid ""
 "If you use more than one email account, you can define which account should "
 "always be used as your sender address:"
 msgstr ""
-"Si utilitzeu més d'un compte de correu electrònic, podeu definir quina "
+"Si utilitzeu més d'un compte de correu electrònic, podeu definir quin "
 "compte s'ha d'utilitzar com a adreça de remitent:"
 
 #. (itstool) path: item/p
@@ -10404,7 +10404,7 @@ msgid ""
 msgstr ""
 "Com l'obertura de moltes carpetes IMAP al servidor triga temps, podeu "
 "definir quines carpetes IMAP comprovar i mostrar a <app>Evolution</app>, i "
-"quins ignorar pel moment, a través del <gui>Gestor de subscripcions "
+"quins ignorar de moment, a través del <gui>Gestor de subscripcions "
 "IMAP</gui>."
 
 #. (itstool) path: item/p
@@ -11570,7 +11570,7 @@ msgid ""
 "Accounts</gui><gui>Search Folders</gui></guiseq>."
 msgstr ""
 "En el cas improbable que no existeixi una <gui>Carpeta de cerca</gui> node "
-"de nivell superior que es mostra a la part inferior de la <link xref"
+"de nivell superior que es mostra a la part inferior <link xref"
 "=\"intro-main-window#e-mail\">de la llista de correus</link> heu d'activar "
 "<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Comptes de "
 "correu</gui><gui>Carpetes de cerca</gui></guiseq>."
@@ -12463,7 +12463,7 @@ msgid ""
 "The exact location depends on <link xref=\"mail-default-folder-"
 "locations\">your junk folder setting</link>."
 msgstr ""
-"La localització exacta depèn de la<link xref=\"mail-default-folder-"
+"La localització exacta depèn de la <link xref=\"mail-default-folder-"
 "locations\">configuració de la carpeta de brossa</link>."
 
 #. (itstool) path: section/title
@@ -12512,7 +12512,7 @@ msgid ""
 msgstr ""
 "S'estan comprovant els missatges entrants per correu escombraries. És una "
 "configuració global: si no està habilitada, habilitar les opcions de correu "
-"brossa per a un compte específic (veure a sota) no tindrà cap efecte."
+"brossa per a un compte específic (vegeu a sota) no tindrà cap efecte."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:70
@@ -12754,7 +12754,7 @@ msgid ""
 msgstr ""
 "Per evitar salts de línia dins d'un paràgraf, marqueu el paràgraf i "
 "trieu<guiseq><gui>Format</gui><gui>Estil de "
-"paràgraf</gui><gui>Preformatejat</gui></guiseq>a l'editor de correu"
+"paràgraf</gui><gui>Preformatejat</gui></guiseq>a l'editor de correu."
 
 #. (itstool) path: info/desc
 #: C/mail-working-offline.page:5
@@ -13141,12 +13141,13 @@ msgid ""
 "You may have started <app>Evolution</app> with the <cmd>--offline</cmd> "
 "commandline option to enforce offline mode."
 msgstr ""
-"Podeu haver iniciat <app>Evolution</app> amb l'opció de la línia de "
-"comandes<cmd>--offline</cmd> per forçar el mode fora de línia."
+"Podeu haver iniciat <app>Evolution</app> amb l'opció de la línia "
+"d'ordres <cmd>--offline</cmd> per forçar el mode fora de línia."
 
 #. (itstool) path: page/p
 #: C/offline.page:30
 msgid ""
+
 "If this is not the case and <app>Evolution</app> normally works but has "
 "suddenly stopped connecting to your mail accounts, you may have "
 "unintentionally clicked on the connection icon in the lower left corner. "
@@ -13155,8 +13156,8 @@ msgid ""
 "<gui style=\"button\">Send/Receive</gui> button is grayed out). Click on the"
 " icon to change its state."
 msgstr ""
-"Si aquest no és el cas i<app>Evolution</app> normalment funciona, però de "
-"sobte ha deixar de connectar-se als vostres comptes de correu electrònic, és"
+"Si aquest no és el cas i <app>Evolution</app> normalment funciona, però de "
+"sobte ha deixat de connectar-se als vostres comptes de correu electrònic, és"
 " possible que hagueu fet clic a la icona de connexió que hi ha a la "
 "cantonada inferior esquerra. Quan s'està connectat, la icona s'assembla a un"
 " parell d'endolls connectats. Si els endolls estan separats, no hi ha cap "
@@ -13338,7 +13339,7 @@ msgstr ""
 "problema. Si és possible, incloeu informació com ara la versió "
 "d'<app>Evolution</app> (a "
 "<guiseq><gui>Ajuda</gui><gui>Sobre</gui></guiseq>), la vostra distribució, i"
-" els passos exactes per reproduir el problema, clic per clic. Vegeu la<link "
+" els passos exactes per reproduir el problema, clic per clic. Vegeu la <link "
 "href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">guia per "
 "escriure errors</link> per a més informació."
 
@@ -13769,7 +13770,7 @@ msgid ""
 msgstr ""
 "Podeu tenir diverses llistes de tasques o notes i decidir quina es mostra. "
 "Per exemple, podeu tenir tasques pel treball, tasques per a la llar, i "
-"tasques pel club de cant del que formeu part. La barra lateral mostra les "
+"tasques pel club de cant del qual formeu part. La barra lateral mostra les "
 "llistes, i es poden mostrar o ocultar les corresponents tasques o notes "
 "seleccionant o desseleccionant les caselles del costat de la vista.."
 
@@ -14111,7 +14112,7 @@ msgstr ""
 "o després d'una data. A continuació, trieu el temps. El filtre compara la "
 "marca de temps del missatge amb el rellotge del sistema quan s'executa el "
 "filtre, o l'hora i data específica que hagueu triat d'un calendari. També "
-"podeu haver que cercar un missatge en un interval de temps relatiu al "
+"podeu cercar un missatge en un interval de temps relatiu al "
 "filtre, com ara fa dos a quatre dies."
 
 #. (itstool) path: item/p
