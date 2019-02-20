@@ -929,6 +929,7 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	label = GTK_LABEL (widget);
 
 	widget = e_action_combo_box_new ();
+	e_action_combo_box_set_ellipsize_enabled (E_ACTION_COMBO_BOX (widget), TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	searchbar->priv->filter_combo_box = widget;
@@ -1022,6 +1023,7 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	label = GTK_LABEL (widget);
 
 	widget = e_action_combo_box_new ();
+	e_action_combo_box_set_ellipsize_enabled (E_ACTION_COMBO_BOX (widget), TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	searchbar->priv->scope_combo_box = widget;

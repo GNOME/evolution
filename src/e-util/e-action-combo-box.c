@@ -45,6 +45,7 @@ struct _EActionComboBoxPrivate {
 	guint group_sensitive_handler_id;	/* action-group::sensitive */
 	guint group_visible_handler_id;		/* action-group::visible */
 	gboolean group_has_icons;
+	gboolean ellipsize_enabled;
 };
 
 G_DEFINE_TYPE (
@@ -305,7 +306,8 @@ e_action_combo_box_get_preferred_width (GtkWidget *widget,
 {
 	GTK_WIDGET_CLASS (e_action_combo_box_parent_class)->get_preferred_width (widget, minimum_width, natural_width);
 
-	if (*natural_width > 250)
+	if (e_action_combo_box_get_ellipsize_enabled (E_ACTION_COMBO_BOX (widget)) &&
+	    natural_width && *natural_width > 250)
 		*natural_width = 225;
 }
 
@@ -398,9 +400,6 @@ action_combo_box_constructed (GObject *object)
 		combo_box, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
-	g_object_set (renderer,
-		"ellipsize", PANGO_ELLIPSIZE_END,
-		NULL);
 	gtk_cell_layout_pack_start (
 		GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
 	gtk_cell_layout_set_cell_data_func (
@@ -618,4 +617,37 @@ e_action_combo_box_update_model (EActionComboBox *combo_box)
 	g_return_if_fail (E_IS_ACTION_COMBO_BOX (combo_box));
 
 	action_combo_box_update_model (combo_box);
+}
+
+gboolean
+e_action_combo_box_get_ellipsize_enabled (EActionComboBox *combo_box)
+{
+	g_return_val_if_fail (E_IS_ACTION_COMBO_BOX (combo_box), FALSE);
+
+	return combo_box->priv->ellipsize_enabled;
+}
+
+void
+e_action_combo_box_set_ellipsize_enabled (EActionComboBox *combo_box,
+					  gboolean enabled)
+{
+	g_return_if_fail (E_IS_ACTION_COMBO_BOX (combo_box));
+
+	if ((enabled ? 1 : 0) != (combo_box->priv->ellipsize_enabled ? 1 : 0)) {
+		GList *cells, *link;
+
+		combo_box->priv->ellipsize_enabled = enabled;
+
+		cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (combo_box));
+
+		for (link = cells; link; link = g_list_next (link)) {
+			if (GTK_IS_CELL_RENDERER_TEXT (link->data)) {
+				g_object_set (link->data,
+					"ellipsize", enabled ? PANGO_ELLIPSIZE_END : PANGO_ELLIPSIZE_NONE,
+					NULL);
+			}
+		}
+
+		g_list_free (cells);
+	}
 }

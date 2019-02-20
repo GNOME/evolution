@@ -82,6 +82,11 @@ void		e_action_combo_box_add_separator_after
 						(EActionComboBox *combo_box,
 						 gint action_value);
 void		e_action_combo_box_update_model	(EActionComboBox *combo_box);
+gboolean	e_action_combo_box_get_ellipsize_enabled
+						(EActionComboBox *combo_box);
+void		e_action_combo_box_set_ellipsize_enabled
+						(EActionComboBox *combo_box,
+						 gboolean enabled);
 
 G_END_DECLS
 
