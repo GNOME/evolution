@@ -4107,19 +4107,100 @@ action_mail_label_cb (GtkToggleAction *action,
 	g_ptr_array_unref (uids);
 }
 
+#define LABEL_UNKNOWN	0
+#define LABEL_EXISTS	(1 << 0)
+#define LABEL_NOTEXIST	(1 << 1)
+
+static GHashTable *
+mail_reader_gather_labels_info (EMailReader *reader,
+				EMailLabelListStore *label_store,
+				GPtrArray *uids)
+{
+	GHashTable *labels_info;
+	CamelFolder *folder;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+	gboolean valid;
+	guint ii;
+
+	labels_info = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	model = GTK_TREE_MODEL (label_store);
+	folder = e_mail_reader_ref_folder (reader);
+
+	if (!folder)
+		return labels_info;
+
+	for (ii = 0; ii < uids->len; ii++) {
+		CamelMessageInfo *info;
+
+		info = camel_folder_get_message_info (folder, uids->pdata[ii]);
+		if (!info)
+			continue;
+
+		for (valid = gtk_tree_model_get_iter_first (model, &iter);
+		     valid;
+		     valid = gtk_tree_model_iter_next (model, &iter)) {
+			gchar *tag;
+			guint value;
+
+			tag = e_mail_label_list_store_get_tag (label_store, &iter);
+			value = GPOINTER_TO_UINT (g_hash_table_lookup (labels_info, tag));
+			if ((!(value & LABEL_EXISTS)) || (!(value & LABEL_NOTEXIST))) {
+				gboolean exists = FALSE, notexist = FALSE;
+
+				/* Check for new-style labels. */
+				if (camel_message_info_get_user_flag (info, tag)) {
+					exists = TRUE;
+				} else {
+					/* Check for old-style labels. */
+					const gchar *old_label = camel_message_info_get_user_tag (info, "label");
+					if (old_label) {
+						gchar *new_label;
+
+						/* Convert old-style labels ("<name>") to "$Label<name>". */
+						new_label = g_alloca (strlen (old_label) + 10);
+						g_stpcpy (g_stpcpy (new_label, "$Label"), old_label);
+
+						if (g_strcmp0 (new_label, tag) == 0)
+							exists = TRUE;
+						else
+							notexist = TRUE;
+					} else {
+						notexist = TRUE;
+					}
+				}
+
+				value = value |
+					(exists ? LABEL_EXISTS : LABEL_UNKNOWN) |
+					(notexist ? LABEL_NOTEXIST : LABEL_UNKNOWN);
+
+				g_hash_table_insert (labels_info, tag, GUINT_TO_POINTER (value));
+
+				/* the hash table took the 'tag' */
+				tag = NULL;
+			}
+
+			g_free (tag);
+		}
+
+		g_clear_object (&info);
+	}
+
+	g_clear_object (&folder);
+
+	return labels_info;
+}
+
 static void
 mail_reader_update_label_action (GtkToggleAction *action,
-				 EMailReader *reader,
-				 GPtrArray *uids,
+				 GHashTable *labels_info, /* gchar * ~> guint */
 				 const gchar *label_tag)
 {
-	CamelFolder *folder;
 	gboolean exists = FALSE;
 	gboolean not_exists = FALSE;
 	gboolean sensitive;
-	guint ii;
-
-	folder = e_mail_reader_ref_folder (reader);
+	guint value;
 
 	/* Figure out the proper label action state for the selected
 	 * messages.  If all the selected messages have the given label,
@@ -4127,40 +4208,13 @@ mail_reader_update_label_action (GtkToggleAction *action,
 	 * DO NOT have the given label, make the toggle action inactive.
 	 * If some do and some don't, make the action insensitive. */
 
-	for (ii = 0; ii < uids->len && (!exists || !not_exists); ii++) {
-		const gchar *old_label;
-		gchar *new_label;
-
-		/* Check for new-style labels. */
-		if (camel_folder_get_message_user_flag (
-			folder, uids->pdata[ii], label_tag)) {
-			exists = TRUE;
-			continue;
-		}
-
-		/* Check for old-style labels. */
-		old_label = camel_folder_get_message_user_tag (
-			folder, uids->pdata[ii], "label");
-		if (old_label == NULL) {
-			not_exists = TRUE;
-			continue;
-		}
-
-		/* Convert old-style labels ("<name>") to "$Label<name>". */
-		new_label = g_alloca (strlen (old_label) + 10);
-		g_stpcpy (g_stpcpy (new_label, "$Label"), old_label);
-
-		if (strcmp (new_label, label_tag) == 0)
-			exists = TRUE;
-		else
-			not_exists = TRUE;
-	}
+	value = GPOINTER_TO_UINT (g_hash_table_lookup (labels_info, label_tag));
+	exists = (value & LABEL_EXISTS) != 0;
+	not_exists = (value & LABEL_NOTEXIST) != 0;
 
 	sensitive = !(exists && not_exists);
 	gtk_toggle_action_set_active (action, exists);
 	gtk_action_set_sensitive (GTK_ACTION (action), sensitive);
-
-	g_clear_object (&folder);
 }
 
 static void
@@ -4174,6 +4228,7 @@ mail_reader_update_labels_menu (EMailReader *reader)
 	GtkUIManager *ui_manager = NULL;
 	GtkActionGroup *action_group;
 	GtkTreeIter iter;
+	GHashTable *labels_info; /* gchar * ~> guint { LABEL_EXISTS | LABEL_NOTEXIST | LABEL_UNKNOWN } */
 	GPtrArray *uids;
 	const gchar *main_menu_path, *popup_menu_path;
 	gboolean valid;
@@ -4215,6 +4270,7 @@ mail_reader_update_labels_menu (EMailReader *reader)
 	gtk_ui_manager_ensure_update (ui_manager);
 
 	uids = e_mail_reader_get_selected_uids (reader);
+	labels_info = mail_reader_gather_labels_info (reader, label_store, uids);
 
 	valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (label_store), &iter);
 
@@ -4239,7 +4295,7 @@ mail_reader_update_labels_menu (EMailReader *reader)
 			tag, (GDestroyNotify) g_free);
 
 		/* Configure the action before we connect to signals. */
-		mail_reader_update_label_action (GTK_TOGGLE_ACTION (label_action), reader, uids, tag);
+		mail_reader_update_label_action (GTK_TOGGLE_ACTION (label_action), labels_info, tag);
 
 		g_signal_connect (
 			label_action, "toggled",
@@ -4277,6 +4333,7 @@ mail_reader_update_labels_menu (EMailReader *reader)
 		ii++;
 	}
 
+	g_hash_table_destroy (labels_info);
 	g_ptr_array_unref (uids);
 }
 
