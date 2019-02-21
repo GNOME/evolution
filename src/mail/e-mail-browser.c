@@ -124,6 +124,19 @@ action_close_cb (GtkAction *action,
 	e_mail_browser_close (browser);
 }
 
+static void
+action_search_web_cb (GtkAction *action,
+		      EMailReader *reader)
+{
+	EMailDisplay *display;
+	GtkAction *wv_action;
+
+	display = e_mail_reader_get_mail_display (reader);
+	wv_action = e_web_view_get_action (E_WEB_VIEW (display), "search-web");
+
+	gtk_action_activate (wv_action);
+}
+
 static GtkActionEntry mail_browser_entries[] = {
 
 	{ "close",
@@ -160,6 +173,13 @@ static GtkActionEntry mail_browser_entries[] = {
 	  NULL,
 	  N_("Select all text"),
 	  NULL },  /* Handled by EFocusTracker */
+
+	{ "search-web",
+	  NULL,
+	  N_("Search _Web…"),
+	  NULL,
+	  N_("Search the Web with the selected text"),
+	  G_CALLBACK (action_search_web_cb) },
 
 	/*** Menus ***/
 
@@ -668,7 +688,7 @@ mail_browser_constructed (GObject *object)
 	EAttachmentStore *attachment_store;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
-	GtkAction *action;
+	GtkAction *action, *mail_action;
 	GtkUIManager *ui_manager;
 	GtkWidget *container;
 	GtkWidget *display;
@@ -737,6 +757,14 @@ mail_browser_constructed (GObject *object)
 		action_group, mail_browser_popup_entries,
 		G_N_ELEMENTS (mail_browser_popup_entries));
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	mail_action = e_web_view_get_action (E_WEB_VIEW (display), "search-web");
+	action = gtk_action_group_get_action (action_group, "search-web");
+
+	e_binding_bind_property (
+		mail_action, "sensitive",
+		action, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	/* For easy access.  Takes ownership of the reference. */
 	g_object_set_data_full (
