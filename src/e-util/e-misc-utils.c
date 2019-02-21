@@ -3804,7 +3804,7 @@ e_util_invoke_g_dbus_proxy_call_with_error_check_full (GDBusProxy *dbus_proxy,
  * after the call is finished it calls e_util_claim_dbus_proxy_call_error()
  * with the returned error, if any.
  *
- * Returns: The result of the method call, or %NULL on error. Free with g_variant_unref().
+ * Returns: (transfer full): The result of the method call, or %NULL on error. Free with g_variant_unref().
  *
  * Since: 3.22
  **/
@@ -3862,7 +3862,7 @@ sync_wrapper_result_callback (GObject *source_object,
  *
  * This function should be called only from the main thread.
  *
- * Returns: The result of the method call, or %NULL on error. Free with g_variant_unref().
+ * Returns: (transfer full): The result of the method call, or %NULL on error. Free with g_variant_unref().
  *
  * Since: 3.22
  **/

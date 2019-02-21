@@ -1808,13 +1808,18 @@ static void
 set_convert_in_situ (EWebKitEditor *wk_editor,
                      gboolean value)
 {
-	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
+	GVariant *result;
+
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"SetConvertInSitu",
 		g_variant_new ("(tbnn)", current_page_id (wk_editor), value,
 			e_webkit_editor_three_state_to_int16 (e_content_editor_get_start_bottom (E_CONTENT_EDITOR (wk_editor))),
 			e_webkit_editor_three_state_to_int16 (e_content_editor_get_top_signature (E_CONTENT_EDITOR (wk_editor)))),
 		NULL);
+
+	if (result)
+		g_variant_unref (result);
 }
 
 static void
@@ -2643,6 +2648,7 @@ webkit_editor_replace_caret_word (EContentEditor *editor,
                                   const gchar *replacement)
 {
 	EWebKitEditor *wk_editor;
+	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 	if (!wk_editor->priv->web_extension) {
@@ -2650,11 +2656,14 @@ webkit_editor_replace_caret_word (EContentEditor *editor,
 		return;
 	}
 
-	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMReplaceCaretWord",
 		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
 		wk_editor->priv->cancellable);
+
+	if (result)
+		g_variant_unref (result);
 }
 
 static void
@@ -2707,6 +2716,7 @@ webkit_editor_replace (EContentEditor *editor,
                        const gchar *replacement)
 {
 	EWebKitEditor *wk_editor;
+	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 	if (!wk_editor->priv->web_extension) {
@@ -2714,11 +2724,14 @@ webkit_editor_replace (EContentEditor *editor,
 		return;
 	}
 
-	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 		wk_editor->priv->web_extension,
 		"DOMSelectionReplace",
 		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
 		wk_editor->priv->cancellable);
+
+	if (result)
+		g_variant_unref (result);
 }
 
 static gboolean
@@ -2768,7 +2781,9 @@ webkit_find_controller_failed_to_find_text_cb (WebKitFindController *find_contro
 			if (!wk_editor->priv->web_extension) {
 				g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 			} else {
-				e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
+				GVariant *result;
+
+				result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
 					wk_editor->priv->web_extension,
 					"DOMInsertReplaceAllHistoryEvent",
 					g_variant_new ("(tss)",
@@ -2776,6 +2791,9 @@ webkit_find_controller_failed_to_find_text_cb (WebKitFindController *find_contro
 						webkit_find_controller_get_search_text (find_controller),
 						wk_editor->priv->replace_with),
 					NULL);
+
+				if (result)
+					g_variant_unref (result);
 			}
 		}
 
