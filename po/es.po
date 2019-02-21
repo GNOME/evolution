@@ -10,6 +10,7 @@
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
 # Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008, 2009, 2010, 2011.
+# Rodrigo <rodhos92@gmail.com>, 2019.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010-2019.
 #
 #: ../src/shell/main.c:527
@@ -17,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-02-04 09:14+0000\n"
-"PO-Revision-Date: 2019-02-05 17:29+0100\n"
+"POT-Creation-Date: 2019-02-21 10:51+0000\n"
+"PO-Revision-Date: 2019-02-21 12:21+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -559,10 +560,8 @@ msgid "Hide cancelled events"
 msgstr "Ocultar eventos cancelados"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
-#, fuzzy
-#| msgid "Whether to hide cancelled tasks in the tasks view"
 msgid "Whether to hide cancelled events in the calendar view"
-msgstr "Indica si deben ocultar las tareas canceladas en la vista de tareas"
+msgstr "Indica si deben ocultar los eventos cancelados en la vista de tareas"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid "Hide cancelled tasks"
@@ -1005,6 +1004,8 @@ msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
 msgstr ""
+"Permitir editar directamente el Resumen de evento al pulsar en él en la "
+"vista de Día, Semana laboral, Semana o Mes."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -1265,31 +1266,33 @@ msgstr "Enviar el correo en HTML de forma predeterminada."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:31
 msgid "Spell checking languages"
-msgstr "Comprobación ortográfica de idiomas"
+msgstr "Idiomas para la corrección ortográfica"
 
+# https://es.wikipedia.org/wiki/C%C3%B3digo_de_idioma
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:32
 msgid "List of dictionary language codes used for spell checking."
 msgstr ""
-"Lista de los códigos de diccionario usados para la corrección ortográfica."
+"Lista de los códigos de idioma del diccionario usados para la corrección "
+"ortográfica."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:33
-#, fuzzy
-#| msgid "Spell checking languages"
 msgid "List of recently used spell checking languages"
-msgstr "Comprobación ortográfica de idiomas"
+msgstr "Lista de idiomas utilizados recientemente en la corrección ortográfica"
 
+# https://es.wikipedia.org/wiki/C%C3%B3digo_de_idioma
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
-#, fuzzy
-#| msgid "List of dictionary language codes used for spell checking."
 msgid ""
 "List of dictionary language codes used for spell checking, which had been "
 "used recently."
 msgstr ""
-"Lista de los códigos de diccionario usados para la corrección ortográfica."
+"Lista de los códigos de idioma del diccionario usados para la corrección "
+"ortográfica, que se han utilizado recientemente."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "How many recently used spell checking languages to remember"
 msgstr ""
+"Cuantos idiomas usados recientemente en la corrección ortográfica que "
+"recordar"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
 msgid "Show “Bcc” field when sending a mail message"
@@ -1571,10 +1574,6 @@ msgid "Convert UTC time in reply credits to local time"
 msgstr "Convertir hora UTC en los créditos de la respuesta a hora local"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:79
-#, fuzzy
-#| msgid ""
-#| "Whether the time in reply credits should be converted to local time when "
-#| "it's in UTC in the message."
 msgid ""
 "Whether the time in reply credits should be converted to local time when "
 "it’s in UTC in the message."
@@ -1582,21 +1581,24 @@ msgstr ""
 "Indica si la hora en los créditos de la respuesta se debe convertir a hora "
 "local cuando en el mensaje está en UTC."
 
+# Mark ««replied to» messages» as read
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:80
-#, fuzzy
-#| msgid "Failed to mark messages as read."
 msgid "Mark replied to messages as read"
-msgstr "Falló al marcar los mensajes como leídos."
+msgstr "Marcar los mensajes respondidos como leídos."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:81
 msgid ""
 "When replying to a message and marking it as being replied to, then whether "
 "also mark it as read."
 msgstr ""
+"Al responder a un mensaje y marcarlo como «respondió a», indica si marcarlo "
+"también como leído."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Whether start Plain Text composer with Preformatted paragraph mode"
 msgstr ""
+"Indica si iniciar el compositor de texto sin formato con el modo de párrafo "
+"preformateado."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid ""
@@ -3129,7 +3131,7 @@ msgstr ""
 "mejor parte que mostrar, «prefer_plain» hace que se use la parte de texto, "
 "si existe, «prefer_source» usa la parte de texto, si existe, o si no usa la "
 "fuente HTML y «only_plain» fuerza a Evolution a mostrar sólo la parte de "
-"texto plano."
+"texto sin formato."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -3403,7 +3405,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1224
+#: ../src/mail/e-mail-browser.c:1252
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:240
 msgid "Evolution"
@@ -3481,7 +3483,7 @@ msgstr "Calendario"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:251
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1483
+#: ../src/modules/mail/e-mail-shell-view.c:1489
 #: ../src/smime/gui/certificate-manager.c:1666
 msgid "Mail"
 msgstr "Correo"
@@ -4012,7 +4014,7 @@ msgstr "_Guardar"
 #: ../src/e-util/e-preferences-window.c:390
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell.c:1458 ../src/shell/e-shell-window-actions.c:994
+#: ../src/shell/e-shell.c:1474 ../src/shell/e-shell-window-actions.c:994
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -7426,13 +7428,13 @@ msgstr "La hora de inicio no es una hora válida"
 #: ../src/calendar/gui/e-comp-editor.c:337
 #: ../src/em-format/e-mail-part-secure-button.c:93
 #: ../src/e-util/e-misc-utils.c:4202 ../src/e-util/e-misc-utils.c:4214
-#: ../src/e-util/e-misc-utils.c:4228 ../src/mail/e-mail-autoconfig.c:998
+#: ../src/e-util/e-misc-utils.c:4228 ../src/mail/e-mail-autoconfig.c:1027
 #: ../src/mail/e-mail-display.c:2292 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3969 ../src/mail/em-composer-utils.c:4000
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1496
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
-#: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1221
-#: ../src/shell/e-shell.c:1245 ../src/smime/gui/certificate-manager.c:357
+#: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235
+#: ../src/shell/e-shell.c:1260 ../src/smime/gui/certificate-manager.c:357
 #, c-format
 msgid "Unknown error"
 msgstr "Error desconocido"
@@ -7772,7 +7774,7 @@ msgstr "_Participa_ntes…"
 #: ../src/e-util/e-html-editor-actions.c:954
 #: ../src/e-util/e-mail-signature-manager.c:358
 #: ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:26
-#: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:175
+#: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:195
 #: ../src/mail/e-mail-label-manager.c:380
 #: ../src/mail/em-folder-properties.c:1047 ../src/mail/mail-config.ui.h:68
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:549
@@ -8443,7 +8445,7 @@ msgstr "Sin resumen"
 #: ../src/e-util/e-name-selector-dialog.c:548
 #: ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
-#: ../src/mail/e-mail-browser.c:131 ../src/mail/e-mail-notes.c:964
+#: ../src/mail/e-mail-browser.c:144 ../src/mail/e-mail-notes.c:964
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1172
 #: ../src/mail/em-subscription-editor.c:1739
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
@@ -8460,7 +8462,7 @@ msgstr "Cerrar la ventana actual"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:1991 ../src/e-util/e-focus-tracker.c:773
 #: ../src/e-util/e-html-editor-actions.c:910 ../src/e-util/e-text.c:2080
-#: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:138
+#: ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:151
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:845
 msgid "_Copy"
 msgstr "_Copiar"
@@ -8468,7 +8470,7 @@ msgstr "_Copiar"
 #: ../src/calendar/gui/e-comp-editor.c:1993 ../src/e-util/e-focus-tracker.c:173
 #: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
 #: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:469
-#: ../src/e-util/e-web-view.c:2075 ../src/mail/e-mail-browser.c:140
+#: ../src/e-util/e-web-view.c:2075 ../src/mail/e-mail-browser.c:153
 #: ../src/shell/e-shell-window-actions.c:847
 msgid "Copy the selection"
 msgstr "Copiar la selección"
@@ -8476,14 +8478,14 @@ msgstr "Copiar la selección"
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:1998 ../src/e-util/e-focus-tracker.c:768
 #: ../src/e-util/e-html-editor-actions.c:917 ../src/e-util/e-text.c:2066
-#: ../src/mail/e-mail-browser.c:145 ../src/shell/e-shell-window-actions.c:852
+#: ../src/mail/e-mail-browser.c:158 ../src/shell/e-shell-window-actions.c:852
 msgid "Cu_t"
 msgstr "Cor_tar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2000 ../src/e-util/e-focus-tracker.c:166
 #: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
 #: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:2084
-#: ../src/mail/e-mail-browser.c:147 ../src/shell/e-shell-window-actions.c:854
+#: ../src/mail/e-mail-browser.c:160 ../src/shell/e-shell-window-actions.c:854
 msgid "Cut the selection"
 msgstr "Cortar la selección"
 
@@ -8500,14 +8502,14 @@ msgstr "Ver la ayuda"
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2019 ../src/e-util/e-focus-tracker.c:778
 #: ../src/e-util/e-html-editor-actions.c:924 ../src/e-util/e-text.c:2092
-#: ../src/mail/e-mail-browser.c:152 ../src/shell/e-shell-window-actions.c:880
+#: ../src/mail/e-mail-browser.c:165 ../src/shell/e-shell-window-actions.c:880
 msgid "_Paste"
 msgstr "_Pegar"
 
 #: ../src/calendar/gui/e-comp-editor.c:2021 ../src/e-util/e-focus-tracker.c:180
 #: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
 #: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:2093
-#: ../src/mail/e-mail-browser.c:154 ../src/shell/e-shell-window-actions.c:882
+#: ../src/mail/e-mail-browser.c:167 ../src/shell/e-shell-window-actions.c:882
 msgid "Paste the clipboard"
 msgstr "Pega el contenido del porta papeles"
 
@@ -8528,13 +8530,13 @@ msgstr "_Vista previa…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2040 ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:938 ../src/e-util/e-web-view.c:484
-#: ../src/mail/e-mail-browser.c:159 ../src/shell/e-shell-window-actions.c:950
+#: ../src/mail/e-mail-browser.c:172 ../src/shell/e-shell-window-actions.c:950
 msgid "Select _All"
 msgstr "Seleccionar _todo"
 
 #: ../src/calendar/gui/e-comp-editor.c:2042 ../src/e-util/e-focus-tracker.c:194
 #: ../src/e-util/e-focus-tracker.c:250 ../src/e-util/e-focus-tracker.c:789
-#: ../src/mail/e-mail-browser.c:161 ../src/shell/e-shell-window-actions.c:952
+#: ../src/mail/e-mail-browser.c:174 ../src/shell/e-shell-window-actions.c:952
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
 
@@ -8544,7 +8546,7 @@ msgstr "_Clasificación"
 
 #: ../src/calendar/gui/e-comp-editor.c:2077
 #: ../src/e-util/e-html-editor-actions.c:961
-#: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:168
+#: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:188
 #: ../src/mail/e-mail-notes.c:978 ../src/shell/e-shell-window-actions.c:987
 msgid "_File"
 msgstr "_Archivo"
@@ -8560,7 +8562,7 @@ msgid "_Options"
 msgstr "_Opciones"
 
 #: ../src/calendar/gui/e-comp-editor.c:2105
-#: ../src/e-util/e-html-editor-actions.c:1003 ../src/mail/e-mail-browser.c:182
+#: ../src/e-util/e-html-editor-actions.c:1003 ../src/mail/e-mail-browser.c:202
 #: ../src/shell/e-shell-window-actions.c:1030
 #: ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -11117,7 +11119,7 @@ msgstr "_Mensaje nuevo"
 msgid "Open New Message window"
 msgstr "Abrir la ventana de mensaje nuevo"
 
-#: ../src/composer/e-composer-actions.c:333 ../src/shell/e-shell.c:1453
+#: ../src/composer/e-composer-actions.c:333 ../src/shell/e-shell.c:1469
 #: ../src/shell/e-shell-window-actions.c:894
 msgid "_Preferences"
 msgstr "_Preferencias"
@@ -11548,8 +11550,8 @@ msgid ""
 "Switching to Plain Text format will cause the text to lose all the HTML "
 "formatting. Do you want to continue?"
 msgstr ""
-"Cambiar a texto plano hará que el texto pierda su formato HTML. ¿Quiere "
-"continuar?"
+"Cambiar a texto sin formato hará que el texto pierda su formato HTML. "
+"¿Quiere continuar?"
 
 #: ../src/composer/mail-composer.error.xml.h:43
 msgid "_Don’t lose formatting"
@@ -11741,12 +11743,12 @@ msgstr "Formatear parte como HTML"
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/e-util/e-html-editor-actions.c:1346
 msgid "Plain Text"
-msgstr "Texto plano"
+msgstr "Texto sin formato"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:122
 #: ../src/em-format/e-mail-formatter-text-plain.c:197
 msgid "Format part as plain text"
-msgstr "Formatear parte como texto plano"
+msgstr "Formatear parte como texto sin formato"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:45
 msgid "Unsigned"
@@ -11901,39 +11903,39 @@ msgstr "Cc"
 msgid "Bcc"
 msgstr "Cco"
 
-#: ../src/em-format/e-mail-formatter-utils.c:562
+#: ../src/em-format/e-mail-formatter-utils.c:564
 msgid "GPG signed"
 msgstr "Firmado con GPG"
 
-#: ../src/em-format/e-mail-formatter-utils.c:562
+#: ../src/em-format/e-mail-formatter-utils.c:564
 msgid "partially GPG signed"
 msgstr "firmado con GPG parcialmente"
 
-#: ../src/em-format/e-mail-formatter-utils.c:563
+#: ../src/em-format/e-mail-formatter-utils.c:565
 msgid "GPG encrypted"
 msgstr "Cifrado con GPG"
 
-#: ../src/em-format/e-mail-formatter-utils.c:563
+#: ../src/em-format/e-mail-formatter-utils.c:565
 msgid "partially GPG encrypted"
 msgstr "cifrado con GPG parcialmente"
 
-#: ../src/em-format/e-mail-formatter-utils.c:564
+#: ../src/em-format/e-mail-formatter-utils.c:566
 msgid "S/MIME signed"
 msgstr "Cifrado S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:564
+#: ../src/em-format/e-mail-formatter-utils.c:566
 msgid "partially S/MIME signed"
 msgstr "firmado con S/MIME parcialmente"
 
-#: ../src/em-format/e-mail-formatter-utils.c:565
+#: ../src/em-format/e-mail-formatter-utils.c:567
 msgid "S/MIME encrypted"
 msgstr "Cifrado con S/MIME"
 
-#: ../src/em-format/e-mail-formatter-utils.c:565
+#: ../src/em-format/e-mail-formatter-utils.c:567
 msgid "partially S/MIME encrypted"
 msgstr "cifrado con S/MIME parcialmente"
 
-#: ../src/em-format/e-mail-formatter-utils.c:678
+#: ../src/em-format/e-mail-formatter-utils.c:680
 #: ../src/mail/e-mail-config-security-page.c:856
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:273
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:216
@@ -13000,7 +13002,7 @@ msgstr "blanco"
 #: ../src/e-util/e-color-combo.c:641 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:708
-#: ../src/mail/e-mail-reader.c:4759 ../src/mail/mail-config.ui.h:78
+#: ../src/mail/e-mail-reader.c:4816 ../src/mail/mail-config.ui.h:78
 msgid "Default"
 msgstr "Predeterminado"
 
@@ -13439,7 +13441,7 @@ msgstr "Buscar elementos que cumplen con estos criterios"
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
-#: ../src/mail/e-mail-autoconfig.c:763
+#: ../src/mail/e-mail-autoconfig.c:764
 #: ../src/mail/e-mail-config-summary-page.c:141
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
@@ -13649,11 +13651,11 @@ msgstr "Modo de edición en HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1117
 msgid "Plain _Text"
-msgstr "_Texto plano"
+msgstr "_Texto sin formato"
 
 #: ../src/e-util/e-html-editor-actions.c:1119
 msgid "Plain text editing mode"
-msgstr "Modo de edición en texto plano"
+msgstr "Modo de edición en texto sin formato"
 
 #: ../src/e-util/e-html-editor-actions.c:1127
 msgid "_Normal"
@@ -13786,7 +13788,7 @@ msgstr "Cursiva"
 
 #: ../src/e-util/e-html-editor-actions.c:1344
 msgid "_Plain Text"
-msgstr "Texto _plano"
+msgstr "Texto _sin formato"
 
 #: ../src/e-util/e-html-editor-actions.c:1352
 #: ../src/e-util/e-html-editor-text-dialog.c:233
@@ -14370,46 +14372,46 @@ msgstr "Reemplazar"
 msgid "<b>Suggestions for “%s”</b>"
 msgstr "<b>Sugerencias para «%s»</b>"
 
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:388
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:387
 msgid "<b>Suggestions</b>"
 msgstr "<b>Sugerencias</b>"
 
 #. Replace
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:423
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:422
 msgid "Replace"
 msgstr "Reemplazar"
 
 #. Replace All
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:432
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:431
 msgid "Replace All"
 msgstr "Reemplazar todo"
 
 #. Ignore
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:441
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:440
 #: ../src/mail/mail.error.xml.h:116
 msgid "Ignore"
 msgstr "Ignorar"
 
 #. Skip
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:450
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:449
 msgid "Skip"
 msgstr "Omitir"
 
 #. Back
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:459
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:458
 msgid "Back"
 msgstr "Atrás"
 
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:468
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:467
 msgid "<b>Dictionary</b>"
 msgstr "<b>Diccionario</b>"
 
 #. Add Word button
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:488
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:487
 msgid "Add word"
 msgstr "Añadir palabra"
 
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:505
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:504
 #: ../src/mail/mail-config.ui.h:42
 msgid "Spell Checking"
 msgstr "Ortografía"
@@ -15816,12 +15818,13 @@ msgstr "Guardar _imagen…"
 msgid "Save the image to a file"
 msgstr "Guardar la imagen en un archivo"
 
-#: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-reader.c:2787
-#| msgid "Searches"
+#: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-browser.c:179
+#: ../src/mail/e-mail-reader.c:2787
 msgid "Search _Web…"
 msgstr "Buscar en la _web…"
 
-#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-reader.c:2789
+#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:181
+#: ../src/mail/e-mail-reader.c:2789
 #, fuzzy
 #| msgid "Send a message to the selected contacts"
 msgid "Search the Web with the selected text"
@@ -16120,7 +16123,6 @@ msgid "Could not save signature."
 msgstr "No se pudo guardar la firma."
 
 #: ../src/e-util/widgets.error.xml.h:10
-#| msgid "Could not open the attachment"
 msgid "Could not get selected text."
 msgstr "No se pudo obtener el texto seleccionado."
 
@@ -16503,68 +16505,68 @@ msgstr "_Predeterminada"
 msgid "Invalid URI: “%s”"
 msgstr "URI no válido: «%s»"
 
-#: ../src/mail/e-mail-autoconfig.c:753
+#: ../src/mail/e-mail-autoconfig.c:754
 #, c-format
 msgid "Host: %s:%d"
 msgstr "Equipo: %s:%d"
 
-#: ../src/mail/e-mail-autoconfig.c:757
+#: ../src/mail/e-mail-autoconfig.c:758
 #, c-format
 msgid "User: %s"
 msgstr "Usuario: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:761
+#: ../src/mail/e-mail-autoconfig.c:762
 #, c-format
 msgid "Security method: %s"
 msgstr "Método de seguridad: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:762
+#: ../src/mail/e-mail-autoconfig.c:763
 #: ../src/mail/e-mail-config-summary-page.c:144
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-autoconfig.c:763
+#: ../src/mail/e-mail-autoconfig.c:764
 #: ../src/mail/e-mail-config-summary-page.c:147
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-autoconfig.c:767
+#: ../src/mail/e-mail-autoconfig.c:768
 #, c-format
 msgid "Authentication mechanism: %s"
 msgstr "Mecanismo de autenticación: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:926
+#: ../src/mail/e-mail-autoconfig.c:948
 msgid "No email address provided"
 msgstr "No se ha proporcionado ninguna dirección de correo-e"
 
-#: ../src/mail/e-mail-autoconfig.c:935
+#: ../src/mail/e-mail-autoconfig.c:957
 msgid "Missing domain in email address"
 msgstr "Falta el dominio en la dirección de correo-e"
 
-#: ../src/mail/e-mail-autoconfig.c:1277
+#: ../src/mail/e-mail-autoconfig.c:1307
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
 msgid "IMAP server"
 msgstr "Servidor IMAP"
 
-#: ../src/mail/e-mail-autoconfig.c:1284
+#: ../src/mail/e-mail-autoconfig.c:1314
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
 msgid "POP3 server"
 msgstr "Servidor POP3"
 
-#: ../src/mail/e-mail-autoconfig.c:1291
+#: ../src/mail/e-mail-autoconfig.c:1321
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
 msgid "SMTP server"
 msgstr "Servidor SMTP"
 
-#: ../src/mail/e-mail-browser.c:133 ../src/shell/e-shell-window-actions.c:819
+#: ../src/mail/e-mail-browser.c:146 ../src/shell/e-shell-window-actions.c:819
 #: ../src/shell/e-shell-window-actions.c:826
 #: ../src/shell/e-shell-window-actions.c:833
 msgid "Close this window"
 msgstr "Cierra esta ventana"
 
-#: ../src/mail/e-mail-browser.c:294
+#: ../src/mail/e-mail-browser.c:314
 msgid "(No Subject)"
 msgstr "(Sin asunto)"
 
@@ -16624,8 +16626,6 @@ msgid "Do Not Quote"
 msgstr "No entrecomillar"
 
 #: ../src/mail/e-mail-config-composing-page.c:157
-#| msgctxt "ReplyForward"
-#| msgid "Use global setting"
 msgid "Use global setting"
 msgstr "Usar configuración global"
 
@@ -16960,7 +16960,7 @@ msgstr "Siempre _confiar en las claves de mi almacén al cifrar"
 
 #: ../src/mail/e-mail-config-security-page.c:620
 msgid "Prefer _inline sign/encrypt for plain text messages"
-msgstr "Preferir firma/cifrado _en línea para mensajes de texto plano"
+msgstr "Preferir firma/cifrado _en línea para mensajes de texto sin formato"
 
 #: ../src/mail/e-mail-config-security-page.c:644
 msgid "Secure MIME (S/MIME)"
@@ -17976,12 +17976,12 @@ msgstr "Mostrar los mensajes con todas las cabeceras de correo-e"
 msgid "Retrieving message"
 msgstr "Descargando mensaje"
 
-#: ../src/mail/e-mail-reader.c:4951
+#: ../src/mail/e-mail-reader.c:5008
 #: ../src/modules/mail/e-mail-attachment-handler.c:389
 msgid "_Forward"
 msgstr "Reen_viar"
 
-#: ../src/mail/e-mail-reader.c:4952
+#: ../src/mail/e-mail-reader.c:5009
 #: ../src/modules/mail/e-mail-attachment-handler.c:391
 msgid "Forward the selected message to someone"
 msgstr "Reenvía a alguien el mensaje seleccionado"
@@ -17990,52 +17990,52 @@ msgstr "Reenvía a alguien el mensaje seleccionado"
 #. * (if possible and if that configuration option is enabled), or else
 #. * it will reply to all. The word "Group" was chosen because it covers
 #. * either of those, without too strongly implying one or the other.
-#: ../src/mail/e-mail-reader.c:4971
+#: ../src/mail/e-mail-reader.c:5028
 msgid "Group Reply"
 msgstr "Responder al grupo"
 
-#: ../src/mail/e-mail-reader.c:4972
+#: ../src/mail/e-mail-reader.c:5029
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Responder a la lista de correo o a todos los destinatarios"
 
-#: ../src/mail/e-mail-reader.c:5038 ../src/mail/filtertypes.xml.in.h:67
+#: ../src/mail/e-mail-reader.c:5095 ../src/mail/filtertypes.xml.in.h:67
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../src/mail/e-mail-reader.c:5050
+#: ../src/mail/e-mail-reader.c:5107
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1297
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../src/mail/e-mail-reader.c:5054
+#: ../src/mail/e-mail-reader.c:5111
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1290
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../src/mail/e-mail-reader.c:5063 ../src/mail/mail-dialogs.ui.h:9
+#: ../src/mail/e-mail-reader.c:5120 ../src/mail/mail-dialogs.ui.h:9
 msgid "Reply"
 msgstr "Responder"
 
-#: ../src/mail/e-mail-reader.c:6218
+#: ../src/mail/e-mail-reader.c:6275
 #, c-format
 msgid "Allow remote content for anyone from %s"
 msgstr "Permitir contenido remoto para cualquiera de %s"
 
-#: ../src/mail/e-mail-reader.c:6220
+#: ../src/mail/e-mail-reader.c:6277
 #, c-format
 msgid "Allow remote content for %s"
 msgstr "Permitir contenido remoto para %s"
 
-#: ../src/mail/e-mail-reader.c:6237
+#: ../src/mail/e-mail-reader.c:6294
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "Permitir contenido remoto de %s"
 
-#: ../src/mail/e-mail-reader.c:6254
+#: ../src/mail/e-mail-reader.c:6311
 msgid "Do not show this message again"
 msgstr "No mostrar otra vez este mensaje"
 
-#: ../src/mail/e-mail-reader.c:6306
+#: ../src/mail/e-mail-reader.c:6363
 msgid "Load remote content"
 msgstr "Cargar contenido remoto"
 
@@ -18283,7 +18283,6 @@ msgid "Choose folders to post the message to."
 msgstr "Elija las carpetas en las que publicar el mensaje."
 
 #: ../src/mail/em-filter-editor.c:43
-#| msgid "Description List"
 msgid "Description of Filters"
 msgstr "Descripción de los filtros"
 
@@ -18328,7 +18327,6 @@ msgid "Then"
 msgstr "Luego"
 
 #: ../src/mail/em-filter-editor.c:408
-#| msgid "Message Filters"
 msgid "De_scribe Filters…"
 msgstr "De_scribir filtros…"
 
@@ -19117,15 +19115,15 @@ msgid "Importing mail and contacts from KMail"
 msgstr "Importando correo y contactos de KMail"
 
 #. Destination folder, was set in our widget
-#: ../src/mail/importers/mail-importer.c:187
-#: ../src/mail/importers/mail-importer.c:312
+#: ../src/mail/importers/mail-importer.c:190
+#: ../src/mail/importers/mail-importer.c:315
 #: ../src/plugins/dbx-import/dbx-importer.c:612
 #: ../src/plugins/pst-import/pst-importer.c:756
 #, c-format
 msgid "Importing “%s”"
 msgstr "Importando «%s»"
 
-#: ../src/mail/importers/mail-importer.c:556
+#: ../src/mail/importers/mail-importer.c:559
 #, c-format
 msgid "Scanning %s"
 msgstr "Analizando %s"
@@ -19374,7 +19372,8 @@ msgstr "Enviando un correo usando una _tecla aceleradora (Ctrl+Intro)"
 #. Translators:
 #: ../src/mail/mail-config.ui.h:61
 msgid "Before composer _format changes from HTML to Plain Text"
-msgstr "Antes de que el editor _formatee los cambios de HTML a texto plano"
+msgstr ""
+"Antes de que el editor _formatee los cambios de HTML a texto sin formato"
 
 #: ../src/mail/mail-config.ui.h:62
 msgid "Confirmations"
@@ -22228,7 +22227,6 @@ msgid "Allo_w direct edit of event Summary"
 msgstr "Permi_tir editar directamente el resumen del evento"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:59
-#| msgid "Hide cancelled tasks"
 msgid "Hi_de cancelled events"
 msgstr "Ocu_ltar eventos canceladas"
 
@@ -24539,15 +24537,15 @@ msgstr "Carpeta actual"
 msgid "Current Folder and Subfolders"
 msgstr "Carpeta actual y subcarpetas"
 
-#: ../src/modules/mail/e-mail-shell-view.c:893
+#: ../src/modules/mail/e-mail-shell-view.c:895
 msgid "Current Folder and Subfolders Search"
 msgstr "Búsqueda en la carpeta actual y subcarpetas"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1013
+#: ../src/modules/mail/e-mail-shell-view.c:1017
 msgid "All Account Search"
 msgstr "Búsqueda en todas las cuentas"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1121
+#: ../src/modules/mail/e-mail-shell-view.c:1127
 msgid "Account Search"
 msgstr "Búsqueda en la cuenta"
 
@@ -24635,7 +24633,6 @@ msgid "Language(s)"
 msgstr "Idioma(s)"
 
 #: ../src/modules/mail/em-composer-prefs.c:1340
-#| msgid "Saving user interface state"
 msgid "Same as user interface"
 msgstr "Igual que la interfaz de usuario"
 
@@ -24772,11 +24769,12 @@ msgstr "Activar y desactivar complementos"
 
 #: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:137
 msgid "Display plain text version"
-msgstr "Mostrar versión en texto plano"
+msgstr "Mostrar versión en texto sin formato"
 
 #: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:139
 msgid "Display plain text version of multipart/alternative message"
-msgstr "Mostrar la versión en texto plano del mensaje multiparte/alternativo"
+msgstr ""
+"Mostrar la versión en texto sin formato del mensaje multiparte/alternativo"
 
 #: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:145
 msgid "Display HTML version"
@@ -24799,7 +24797,7 @@ msgstr "Permitir que Evolution elija la mejor parte para mostrar."
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:81
 #: ../src/modules/prefer-plain/plugin/config-ui.c:39
 msgid "Show plain text if present"
-msgstr "Mostrar texto plano si está presente"
+msgstr "Mostrar texto sin formato si está presente"
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:82
 #: ../src/modules/prefer-plain/plugin/config-ui.c:40
@@ -24807,25 +24805,25 @@ msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
 "part to show."
 msgstr ""
-"Mostrar la parte en texto plano si está presente, de otra forma dejar que "
-"Evolution elija la mejor parte para mostrar."
+"Mostrar la parte en texto sin formato si está presente, de otra forma dejar "
+"que Evolution elija la mejor parte para mostrar."
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:86
 #: ../src/modules/prefer-plain/plugin/config-ui.c:44
 msgid "Show plain text if present, or HTML source"
-msgstr "Mostrar texto plano si está presente, o la fuente HTML"
+msgstr "Mostrar texto sin formato si está presente, o la fuente HTML"
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:87
 #: ../src/modules/prefer-plain/plugin/config-ui.c:45
 msgid "Show plain text part, if present, otherwise the HTML part source."
 msgstr ""
-"Mostrar la parte en texto plano si está presente, si no mostrar la parte de "
-"la fuente HTML."
+"Mostrar la parte en texto sin formato si está presente, si no mostrar la "
+"parte de la fuente HTML."
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:91
 #: ../src/modules/prefer-plain/plugin/config-ui.c:49
 msgid "Only ever show plain text"
-msgstr "Sólo mostrar texto plano"
+msgstr "Sólo mostrar texto sin formato"
 
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:92
 #: ../src/modules/prefer-plain/plugin/config-ui.c:50
@@ -24833,8 +24831,8 @@ msgid ""
 "Always show plain text part and make attachments from other parts, if "
 "requested."
 msgstr ""
-"Mostrar siempre parte en texto plano y, si se solicita, crear adjuntos de "
-"otras partes."
+"Mostrar siempre la parte en texto sin formato y, si se solicita, crear "
+"adjuntos de otras partes."
 
 #: ../src/modules/prefer-plain/plugin/config-ui.c:101
 msgid "Show s_uppressed HTML parts as attachments"
@@ -24846,7 +24844,7 @@ msgstr "_Modo HTML"
 
 #: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:1
 msgid "Prefer Plain Text"
-msgstr "Preferir texto plano"
+msgstr "Preferir texto sin formato"
 
 #. but then we also need to create our own section frame
 #: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:3
@@ -24855,7 +24853,8 @@ msgstr "Modo de texto sin formato"
 
 #: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:4
 msgid "View mail messages as plain text, even if they contain HTML content."
-msgstr "Ver los mensajes de correo en texto plano, incluso si contienen HTML."
+msgstr ""
+"Ver los mensajes de correo en texto sin formato, incluso si contienen HTML."
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:188
 #, c-format
@@ -24933,7 +24932,6 @@ msgstr "No _mostrar otra vez este asistente"
 
 #. Translators: This is part of "Alternatively, you can %s (email, contacts and calendaring) instead." sentence from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:206
-#| msgid "Create a new mail account"
 msgctxt "wizard-ca-note"
 msgid "create a collection account"
 msgstr "crear una colección de cuentas"
@@ -24967,7 +24965,7 @@ msgstr "Resaltado de sintaxis de las partes del correo"
 
 #: ../src/modules/text-highlight/languages.c:29
 msgid "_Plain text"
-msgstr "_Texto plano"
+msgstr "_Texto sin formato"
 
 #: ../src/modules/text-highlight/languages.c:35
 msgid "_Assembler"
@@ -26312,23 +26310,23 @@ msgstr "Preparándose para salir"
 msgid "Preparing to quit..."
 msgstr "Preparándose para salir…"
 
-#: ../src/shell/e-shell.c:1074
+#: ../src/shell/e-shell.c:1088
 msgid "Open _Settings"
 msgstr "_Abrir la configuración"
 
-#: ../src/shell/e-shell.c:1281
+#: ../src/shell/e-shell.c:1297
 msgid "Credentials are required to connect to the destination host."
 msgstr "Se necesitan credenciales para conectarse al equipo de destino."
 
-#: ../src/shell/e-shell.c:1448 ../src/shell/e-shell-window-actions.c:873
+#: ../src/shell/e-shell.c:1464 ../src/shell/e-shell-window-actions.c:873
 msgid "New _Window"
 msgstr "_Ventana nueva"
 
-#: ../src/shell/e-shell.c:1459 ../src/shell/e-shell-window-actions.c:803
+#: ../src/shell/e-shell.c:1475 ../src/shell/e-shell-window-actions.c:803
 msgid "_About"
 msgstr "Acerca _de"
 
-#: ../src/shell/e-shell.c:1460 ../src/shell/e-shell-window-actions.c:901
+#: ../src/shell/e-shell.c:1476 ../src/shell/e-shell-window-actions.c:901
 msgid "_Quit"
 msgstr "_Salir"
 
@@ -26351,13 +26349,13 @@ msgstr "M_ostrar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:950
+#: ../src/shell/e-shell-searchbar.c:951
 msgid "Sear_ch:"
 msgstr "B_uscar:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
-#: ../src/shell/e-shell-searchbar.c:1018
+#: ../src/shell/e-shell-searchbar.c:1019
 msgid "i_n"
 msgstr "e_n"
 
@@ -26405,7 +26403,6 @@ msgid "Bug Buddy could not be run."
 msgstr "No se pudo ejecutar Bug Buddy."
 
 #: ../src/shell/e-shell-window-actions.c:793
-#| msgid "Collection _Account"
 msgid "Collect_ion Account"
 msgstr "Colección de _cuentas"
 
@@ -26677,7 +26674,7 @@ msgstr "Ejecutar estos parámetros de búsqueda"
 
 #. Translators: a 'New' toolbar button caption which is context sensitive and
 #. runs one of the actions under File->New menu
-#: ../src/shell/e-shell-window.c:563
+#: ../src/shell/e-shell-window.c:514
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Nuevo"
