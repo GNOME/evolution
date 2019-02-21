@@ -1821,57 +1821,75 @@ itip_view_write_for_printing (ItipView *view,
 static void
 web_extension_proxy_created_cb (GDBusProxy *proxy,
                                 GAsyncResult *result,
-                                ItipView *view)
+                                GWeakRef *view_wr)
 {
+	ItipView *view;
 	GError *error = NULL;
+
+	view = g_weak_ref_get (view_wr);
+
+	if (!view) {
+		e_weak_ref_free (view_wr);
+		return;
+	}
 
 	view->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
 	if (!view->priv->web_extension) {
-		g_warning ("Error creating web extension proxy: %s\n", error->message);
-		g_error_free (error);
+		g_warning ("Error creating web extension proxy: %s\n", error ? error->message : "Unknown error");
+		g_clear_error (&error);
+	} else {
+		view->priv->web_extension_source_changed_cb_signal_id =
+			g_dbus_connection_signal_subscribe (
+				g_dbus_proxy_get_connection (view->priv->web_extension),
+				g_dbus_proxy_get_name (view->priv->web_extension),
+				MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
+				"SourceChanged",
+				MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				source_changed_cb_signal_cb,
+				view,
+				NULL);
+
+		view->priv->web_extension_recur_toggled_signal_id =
+			g_dbus_connection_signal_subscribe (
+				g_dbus_proxy_get_connection (view->priv->web_extension),
+				g_dbus_proxy_get_name (view->priv->web_extension),
+				MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
+				"RecurToggled",
+				MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				(GDBusSignalCallback) recur_toggled_signal_cb,
+				view,
+				NULL);
+
+		e_util_invoke_g_dbus_proxy_call_with_error_check (
+			view->priv->web_extension,
+			"CreateDOMBindings",
+			g_variant_new ("(ts)", view->priv->page_id, view->priv->part_id),
+			NULL);
 	}
 
-	view->priv->web_extension_source_changed_cb_signal_id =
-		g_dbus_connection_signal_subscribe (
-			g_dbus_proxy_get_connection (view->priv->web_extension),
-			g_dbus_proxy_get_name (view->priv->web_extension),
-			MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
-			"SourceChanged",
-			MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
-			NULL,
-			G_DBUS_SIGNAL_FLAGS_NONE,
-			source_changed_cb_signal_cb,
-			view,
-			NULL);
-
-	view->priv->web_extension_recur_toggled_signal_id =
-		g_dbus_connection_signal_subscribe (
-			g_dbus_proxy_get_connection (view->priv->web_extension),
-			g_dbus_proxy_get_name (view->priv->web_extension),
-			MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
-			"RecurToggled",
-			MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
-			NULL,
-			G_DBUS_SIGNAL_FLAGS_NONE,
-			(GDBusSignalCallback) recur_toggled_signal_cb,
-			view,
-			NULL);
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"CreateDOMBindings",
-		g_variant_new ("(ts)", view->priv->page_id, view->priv->part_id),
-		NULL);
-
 	itip_view_init_view (view);
+
+	e_weak_ref_free (view_wr);
+	g_object_unref (view);
 }
 
 static void
 web_extension_appeared_cb (GDBusConnection *connection,
                            const gchar *name,
                            const gchar *name_owner,
-                           ItipView *view)
+                           GWeakRef *view_wr)
 {
+	ItipView *view;
+
+	view = g_weak_ref_get (view_wr);
+
+	if (!view)
+		return;
+
 	g_dbus_proxy_new (
 		connection,
 		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
@@ -1883,15 +1901,24 @@ web_extension_appeared_cb (GDBusConnection *connection,
 		MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
 		NULL,
 		(GAsyncReadyCallback)web_extension_proxy_created_cb,
-		view);
+		e_weak_ref_new (view));
+
+	g_object_unref (view);
 }
 
 static void
 web_extension_vanished_cb (GDBusConnection *connection,
                            const gchar *name,
-                           ItipView *view)
+                           GWeakRef *view_wr)
 {
-	g_clear_object (&view->priv->web_extension);
+	ItipView *view;
+
+	view = g_weak_ref_get (view_wr);
+
+	if (view) {
+		g_clear_object (&view->priv->web_extension);
+		g_object_unref (view);
+	}
 }
 
 static void
@@ -1904,7 +1931,7 @@ itip_view_watch_web_extension (ItipView *view)
 			G_BUS_NAME_WATCHER_FLAGS_NONE,
 			(GBusNameAppearedCallback) web_extension_appeared_cb,
 			(GBusNameVanishedCallback) web_extension_vanished_cb,
-			view, NULL);
+			e_weak_ref_new (view), (GDestroyNotify) e_weak_ref_free);
 }
 
 GDBusProxy *

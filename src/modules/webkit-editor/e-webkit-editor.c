@@ -530,14 +530,22 @@ dispatch_pending_operations (EWebKitEditor *wk_editor)
 static void
 web_extension_proxy_created_cb (GDBusProxy *proxy,
                                 GAsyncResult *result,
-                                EWebKitEditor *wk_editor)
+                                GWeakRef *wk_editor_rf)
 {
+	EWebKitEditor *wk_editor;
 	GError *error = NULL;
+
+	wk_editor = g_weak_ref_get (wk_editor_rf);
+
+	if (!wk_editor) {
+		e_weak_ref_free (wk_editor_rf);
+		return;
+	}
 
 	wk_editor->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
 	if (!wk_editor->priv->web_extension) {
-		g_warning ("Error creating web extension proxy: %s\n", error->message);
-		g_error_free (error);
+		g_warning ("Error creating web extension proxy: %s\n", error ? error->message : "Unknown error");
+		g_clear_error (&error);
 
 		if (wk_editor->priv->initialized_callback) {
 			wk_editor->priv->initialized_callback (E_CONTENT_EDITOR (wk_editor), wk_editor->priv->initialized_user_data);
@@ -545,6 +553,9 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 			wk_editor->priv->initialized_callback = NULL;
 			wk_editor->priv->initialized_user_data = NULL;
 		}
+
+		e_weak_ref_free (wk_editor_rf);
+		g_object_unref (wk_editor);
 
 		return;
 	}
@@ -628,14 +639,24 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 		wk_editor->priv->initialized_callback = NULL;
 		wk_editor->priv->initialized_user_data = NULL;
 	}
+
+	e_weak_ref_free (wk_editor_rf);
+	g_object_unref (wk_editor);
 }
 
 static void
 web_extension_appeared_cb (GDBusConnection *connection,
                            const gchar *name,
                            const gchar *name_owner,
-                           EWebKitEditor *wk_editor)
+                           GWeakRef *wk_editor_wr)
 {
+	EWebKitEditor *wk_editor;
+
+	wk_editor = g_weak_ref_get (wk_editor_wr);
+
+	if (!wk_editor)
+		return;
+
 	g_dbus_proxy_new (
 		connection,
 		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
@@ -646,15 +667,22 @@ web_extension_appeared_cb (GDBusConnection *connection,
 		E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 		NULL,
 		(GAsyncReadyCallback) web_extension_proxy_created_cb,
-		wk_editor);
+		e_weak_ref_new (wk_editor));
+
+	g_object_unref (wk_editor);
 }
 
 static void
 web_extension_vanished_cb (GDBusConnection *connection,
                            const gchar *name,
-                           EWebKitEditor *wk_editor)
+                           GWeakRef *wk_editor_wr)
 {
-	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+	EWebKitEditor *wk_editor;
+
+	wk_editor = g_weak_ref_get (wk_editor_wr);
+
+	if (!wk_editor)
+		return;
 
 	/* The vanished callback can be sometimes called before the appeared
 	   callback, in which case it doesn't make sense to unwatch the name. */
@@ -666,6 +694,8 @@ web_extension_vanished_cb (GDBusConnection *connection,
 			wk_editor->priv->web_extension_watch_name_id = 0;
 		}
 	}
+
+	g_object_unref (wk_editor);
 }
 
 static void
@@ -682,8 +712,7 @@ webkit_editor_watch_web_extension (EWebKitEditor *wk_editor)
 			G_BUS_NAME_WATCHER_FLAGS_NONE,
 			(GBusNameAppearedCallback) web_extension_appeared_cb,
 			(GBusNameVanishedCallback) web_extension_vanished_cb,
-			wk_editor,
-			NULL);
+			e_weak_ref_new (wk_editor), (GDestroyNotify) e_weak_ref_free);
 
 	g_free (service_name);
 }
