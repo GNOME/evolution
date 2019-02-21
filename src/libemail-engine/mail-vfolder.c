@@ -839,6 +839,7 @@ rule_changed (EFilterRule *rule,
 		G_LOCK (vfolder);
 		if (g_hash_table_lookup_extended (
 				vfolder_hash, full_name, &key, &oldfolder)) {
+			g_warn_if_fail (oldfolder == folder);
 			g_hash_table_remove (vfolder_hash, key);
 			g_free (key);
 			g_hash_table_insert (

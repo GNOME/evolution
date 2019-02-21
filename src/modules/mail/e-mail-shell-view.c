@@ -840,11 +840,13 @@ filter:
 		em_folder_tree_get_selected (
 			folder_tree, &selected_store, &selected_folder_name);
 		if (selected_store != NULL && selected_folder_name != NULL) {
-			folder = camel_store_get_folder_sync (
+			CamelFolder *sel_folder;
+
+			sel_folder = camel_store_get_folder_sync (
 				selected_store, selected_folder_name,
 				0, NULL, NULL);
-			e_mail_reader_set_folder (reader, folder);
-			g_object_unref (folder);
+			e_mail_reader_set_folder (reader, sel_folder);
+			g_object_unref (sel_folder);
 		}
 
 		g_clear_object (&selected_store);
@@ -959,11 +961,13 @@ all_accounts:
 		em_folder_tree_get_selected (
 			folder_tree, &selected_store, &selected_folder_name);
 		if (selected_store != NULL && selected_folder_name != NULL) {
-			folder = camel_store_get_folder_sync (
+			CamelFolder *sel_folder;
+
+			sel_folder = camel_store_get_folder_sync (
 				selected_store, selected_folder_name,
 				0, NULL, NULL);
-			e_mail_reader_set_folder (reader, folder);
-			g_object_unref (folder);
+			e_mail_reader_set_folder (reader, sel_folder);
+			g_object_unref (sel_folder);
 		}
 
 		g_clear_object (&selected_store);
@@ -1067,11 +1071,13 @@ current_account:
 		em_folder_tree_get_selected (
 			folder_tree, &selected_store, &selected_folder_name);
 		if (selected_store != NULL && selected_folder_name != NULL) {
-			folder = camel_store_get_folder_sync (
+			CamelFolder *sel_folder;
+
+			sel_folder = camel_store_get_folder_sync (
 				selected_store, selected_folder_name,
 				0, NULL, NULL);
-			e_mail_reader_set_folder (reader, folder);
-			g_object_unref (folder);
+			e_mail_reader_set_folder (reader, sel_folder);
+			g_object_unref (sel_folder);
 		}
 
 		g_clear_object (&selected_store);

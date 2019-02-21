@@ -923,10 +923,10 @@ em_utils_get_real_folder_and_message_uid (CamelFolder *folder,
 				else
 					g_free (real_uid);
 
-				g_clear_object (&mi);
-
 				if (out_real_folder)
 					*out_real_folder = g_object_ref (real_folder);
+
+				g_clear_object (&mi);
 
 				return;
 			}

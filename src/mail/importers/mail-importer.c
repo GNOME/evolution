@@ -154,13 +154,16 @@ import_mbox_exec (struct _import_mbox_msg *m,
 		return;
 	}
 
-	if (m->uri == NULL || m->uri[0] == 0)
+	if (m->uri == NULL || m->uri[0] == 0) {
 		folder = e_mail_session_get_local_folder (
 			m->session, E_MAIL_LOCAL_FOLDER_INBOX);
-	else
+		if (folder)
+			g_object_ref (folder);
+	} else {
 		folder = e_mail_session_uri_to_folder_sync (
 			m->session, m->uri, CAMEL_STORE_FOLDER_CREATE,
 			cancellable, error);
+	}
 
 	if (folder == NULL)
 		return;
