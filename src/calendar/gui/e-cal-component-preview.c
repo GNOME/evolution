@@ -197,7 +197,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 	icalproperty_status status;
-	const gchar *location;
+	const gchar *location, *url;
 	gint *priority_value;
 
 	client = preview->priv->client;
@@ -388,11 +388,26 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	}
 
 	/* URL */
-	e_cal_component_get_url (comp, (const gchar **) &str);
-	if (str) {
+	e_cal_component_get_url (comp, &url);
+	if (url) {
+		gchar *scheme;
+		const gchar *href = url;
+
+		str = NULL;
+
+		scheme = g_uri_parse_scheme (url);
+		if (!scheme || !*scheme) {
+			str = g_strconcat ("http://", url, NULL);
+			href = str;
+		}
+
+		g_free (scheme);
+
 		g_string_append_printf (
 			buffer, "<tr><th>%s</th><td><a href=\"%s\">%s</a></td></tr>",
-			_("Web Page:"), str, str);
+			_("Web Page:"), href, url);
+
+		g_free (str);
 	}
 
 	g_string_append (buffer, "</table>");

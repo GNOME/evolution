@@ -47,15 +47,11 @@ url_entry_text_to_sensitive (GBinding *binding,
 	text = g_value_get_string (source_value);
 
 	if (text != NULL) {
-		gchar *scheme;
-
 		/* Skip leading whitespace. */
 		while (g_ascii_isspace (*text))
 			text++;
 
-		scheme = g_uri_parse_scheme (text);
-		sensitive = (scheme != NULL);
-		g_free (scheme);
+		sensitive = *text != '\0';
 	}
 
 	g_value_set_boolean (target_value, sensitive);

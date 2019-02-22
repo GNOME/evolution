@@ -242,8 +242,10 @@ e_show_uri (GtkWindow *parent,
 {
 	GtkWidget *dialog;
 	GdkScreen *screen = NULL;
+	gchar *scheme;
 	GError *error = NULL;
 	guint32 timestamp;
+	gboolean success;
 
 	g_return_if_fail (uri != NULL);
 
@@ -252,7 +254,21 @@ e_show_uri (GtkWindow *parent,
 	if (parent != NULL)
 		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
 
-	if (gtk_show_uri (screen, uri, timestamp, &error))
+	scheme = g_uri_parse_scheme (uri);
+
+	if (!scheme || !*scheme) {
+		gchar *schemed_uri;
+
+		schemed_uri = g_strconcat ("http://", uri, NULL);
+		success = gtk_show_uri (screen, schemed_uri, timestamp, &error);
+		g_free (schemed_uri);
+	} else {
+		success = gtk_show_uri (screen, uri, timestamp, &error);
+	}
+
+	g_free (scheme);
+
+	if (success)
 		return;
 
 	dialog = gtk_message_dialog_new_with_markup (
