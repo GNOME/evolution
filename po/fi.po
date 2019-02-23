@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-01-30 13:46+0000\n"
-"PO-Revision-Date: 2019-02-08 20:37+0200\n"
+"POT-Creation-Date: 2019-02-08 18:38+0000\n"
+"PO-Revision-Date: 2019-02-23 21:12+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -1481,7 +1481,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:76
 msgid "Wrap quoted text in replies"
-msgstr ""
+msgstr "Rivitä lainattu teksti vastauksissa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:77
 msgid "If set to “true” quoted text in replies will be wrapped."
@@ -1624,7 +1624,7 @@ msgstr "Lataa HTML-viestien kuvat HTTP:n yli"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:105
 msgid "Show notification about missing remote content"
-msgstr ""
+msgstr "Näytä ilmoitus puuttuvasta etäsisällöstä"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:106
 msgid ""
@@ -1674,7 +1674,7 @@ msgstr "Näytä lähettäjän valokuvaa gravatar.comista"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 msgid "Allow searching also at gravatar.com for photo of the sender."
-msgstr ""
+msgstr "Salli lähettäjän kuvan etsiminen myös gravatar.com-palvelusta."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Mark as Seen after specified timeout"
@@ -2561,7 +2561,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "Visually wrap long lines in composer"
-msgstr ""
+msgstr "Rivitä visuaalisesti pitkät rivit lähetysikkunassa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 #: ../src/composer/e-composer-actions.c:542
@@ -6791,10 +6791,8 @@ msgid "No suitable component found"
 msgstr "Soveltuvaa komponenttia ei löytynyt"
 
 #: ../src/calendar/gui/e-calendar-view.c:1046
-#, fuzzy
-#| msgid "Save as iCalendar"
 msgid "Pasting iCalendar data"
-msgstr "Tallenna iCalendar-muodossa"
+msgstr "Liitetään iCalendar-tietoja"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. Translators: It will display
@@ -7284,7 +7282,7 @@ msgstr "Alkamisaika on virheellinen"
 #: ../src/calendar/gui/e-comp-editor.c:337
 #: ../src/em-format/e-mail-part-secure-button.c:93 ../src/e-util/e-misc-utils.c:4202
 #: ../src/e-util/e-misc-utils.c:4214 ../src/e-util/e-misc-utils.c:4228
-#: ../src/mail/e-mail-autoconfig.c:998 ../src/mail/e-mail-display.c:2292
+#: ../src/mail/e-mail-autoconfig.c:1027 ../src/mail/e-mail-display.c:2292
 #: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3969
 #: ../src/mail/em-composer-utils.c:4000 ../src/mail/mail-send-recv.c:598
 #: ../src/mail/mail-send-recv.c:1496
@@ -8316,7 +8314,7 @@ msgstr "Tehtävää ei voi muokata kokonaan, koska et ole tehtävän järjestäj
 
 #: ../src/calendar/gui/e-comp-editor-task.c:560
 msgid "Start date is required for recurring tasks"
-msgstr ""
+msgstr "Aloituspäivä vaaditaan toistuviin tehtäviin"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:572
 #, fuzzy
@@ -8964,10 +8962,8 @@ msgid "New _Meeting..."
 msgstr "Uusi _kokous..."
 
 #: ../src/calendar/gui/e-to-do-pane.c:2061
-#, fuzzy
-#| msgid "New _Task"
 msgid "New _Task..."
-msgstr "Uusi _tehtävä"
+msgstr "Uusi _tehtävä..."
 
 #: ../src/calendar/gui/e-to-do-pane.c:2069
 #, fuzzy
@@ -12322,16 +12318,12 @@ msgid "Open this attachment in %s"
 msgstr "Avaa tämä liite ohjelmalla %s"
 
 #: ../src/e-util/e-attachment-view.c:789
-#, fuzzy
-#| msgid "Open With Other Application..."
 msgid "Open With Default Application"
-msgstr "Avaa tois_ella sovelluksella..."
+msgstr "Avaa oletussovelluksella"
 
 #: ../src/e-util/e-attachment-view.c:790
-#, fuzzy
-#| msgid "Open this attachment in %s"
 msgid "Open this attachment in default application"
-msgstr "Avaa tämä liite ohjelmalla %s"
+msgstr "Avaa tämä liite oletussovelluksella"
 
 #: ../src/e-util/e-book-source-config.c:98
 msgid "Mark as default address book"
@@ -13380,7 +13372,7 @@ msgstr "Etsi kohdat, jotka vastaavat seuraavia ehtoja"
 #: ../src/e-util/e-filter-rule.c:1080 ../src/e-util/e-html-editor-page-dialog.c:59
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
-#: ../src/libemail-engine/camel-null-store.c:29 ../src/mail/e-mail-autoconfig.c:763
+#: ../src/libemail-engine/camel-null-store.c:29 ../src/mail/e-mail-autoconfig.c:764
 #: ../src/mail/e-mail-config-summary-page.c:141
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
@@ -13444,10 +13436,8 @@ msgid "Insert Image"
 msgstr "Sisällytä kuva"
 
 #: ../src/e-util/e-html-editor-actions.c:352
-#, fuzzy
-#| msgid "Image files"
 msgid "Image file"
-msgstr "Kuvatiedostot"
+msgstr "Kuvatiedosto"
 
 #: ../src/e-util/e-html-editor-actions.c:428
 msgid "Insert text file"
@@ -14329,48 +14319,48 @@ msgstr "Korvaa"
 msgid "<b>Suggestions for “%s”</b>"
 msgstr "<b>Ehdotukset</b>"
 
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:388
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:387
 msgid "<b>Suggestions</b>"
 msgstr "<b>Ehdotukset</b>"
 
 #. Replace
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:423
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:422
 msgid "Replace"
 msgstr "Korvaa"
 
 #. Replace All
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:432
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:431
 msgid "Replace All"
 msgstr "Korvaa kaikki"
 
 #. Ignore
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:441
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:440
 #: ../src/mail/mail.error.xml.h:116
 msgid "Ignore"
 msgstr "Älä välitä"
 
 #. Skip
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:450
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:449
 msgid "Skip"
 msgstr "Ohita"
 
 #. Back
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:459
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:458
 #, fuzzy
 #| msgid "Go Back"
 msgid "Back"
 msgstr "Siirry takaisin"
 
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:468
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:467
 msgid "<b>Dictionary</b>"
 msgstr "<b>Sanasto</b>"
 
 #. Add Word button
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:488
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:487
 msgid "Add word"
 msgstr "Lisää sana"
 
-#: ../src/e-util/e-html-editor-spell-check-dialog.c:505
+#: ../src/e-util/e-html-editor-spell-check-dialog.c:504
 #: ../src/mail/mail-config.ui.h:42
 msgid "Spell Checking"
 msgstr "Oikoluku"
@@ -14649,7 +14639,7 @@ msgstr ""
 #: ../src/e-util/e-misc-utils.c:4201
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
-msgstr ""
+msgstr "Yhteyskäytännön asettaminen versioon LDAPv3 (%d) epäonnistui: %s"
 
 #: ../src/e-util/e-misc-utils.c:4213
 #, fuzzy, c-format
@@ -15799,7 +15789,6 @@ msgid "Save the image to a file"
 msgstr "Tallenna kuva tiedostoon"
 
 #: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-reader.c:2787
-#| msgid "Searches"
 msgid "Search _Web…"
 msgstr "Etsi _verkosta…"
 
@@ -16514,56 +16503,55 @@ msgstr "_Oletustili"
 msgid "Invalid URI: “%s”"
 msgstr "Virheellinen URI: “%s”"
 
-#: ../src/mail/e-mail-autoconfig.c:753
+#: ../src/mail/e-mail-autoconfig.c:754
 #, c-format
 msgid "Host: %s:%d"
 msgstr ""
 
-#: ../src/mail/e-mail-autoconfig.c:757
+#: ../src/mail/e-mail-autoconfig.c:758
 #, c-format
 msgid "User: %s"
 msgstr "Käyttäjä: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:761
-#, fuzzy, c-format
-#| msgid "Security:"
+#: ../src/mail/e-mail-autoconfig.c:762
+#, c-format
 msgid "Security method: %s"
-msgstr "Salaus:"
+msgstr "Salaustapa: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:762 ../src/mail/e-mail-config-summary-page.c:144
+#: ../src/mail/e-mail-autoconfig.c:763 ../src/mail/e-mail-config-summary-page.c:144
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-autoconfig.c:763 ../src/mail/e-mail-config-summary-page.c:147
+#: ../src/mail/e-mail-autoconfig.c:764 ../src/mail/e-mail-config-summary-page.c:147
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-autoconfig.c:767
+#: ../src/mail/e-mail-autoconfig.c:768
 #, c-format
 msgid "Authentication mechanism: %s"
 msgstr "Tunnistautumismekanismi: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:926
+#: ../src/mail/e-mail-autoconfig.c:948
 msgid "No email address provided"
 msgstr "Sähköpostiosoitetta ei annettu."
 
-#: ../src/mail/e-mail-autoconfig.c:935
+#: ../src/mail/e-mail-autoconfig.c:957
 msgid "Missing domain in email address"
 msgstr "Verkkonimi puuttuu sähköpostiosoitteesta"
 
-#: ../src/mail/e-mail-autoconfig.c:1277
+#: ../src/mail/e-mail-autoconfig.c:1307
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
 msgid "IMAP server"
 msgstr "IMAP-palvelin"
 
-#: ../src/mail/e-mail-autoconfig.c:1284
+#: ../src/mail/e-mail-autoconfig.c:1314
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
 msgid "POP3 server"
 msgstr "POP3-palvelin"
 
-#: ../src/mail/e-mail-autoconfig.c:1291
+#: ../src/mail/e-mail-autoconfig.c:1321
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
 msgid "SMTP server"
 msgstr "SMTP-palvelin"
@@ -16754,10 +16742,8 @@ msgid "Choose a folder to archive messages to."
 msgstr "Valitse kansio johon viesti arkistoidaan."
 
 #: ../src/mail/e-mail-config-defaults-page.c:799
-#, fuzzy
-#| msgid "Template:"
 msgid "_Templates Folder:"
-msgstr "Pohja:"
+msgstr "_Mallipohjakansio:"
 
 #: ../src/mail/e-mail-config-defaults-page.c:809
 #, fuzzy
