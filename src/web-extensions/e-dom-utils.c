@@ -620,7 +620,7 @@ toggle_headers_visibility (WebKitDOMElement *button,
                            WebKitDOMEvent *event,
                            WebKitDOMDocument *document)
 {
-	WebKitDOMElement *short_headers = NULL, *full_headers = NULL;
+	WebKitDOMElement *short_headers = NULL, *full_headers = NULL, *button_image = NULL;
 	WebKitDOMCSSStyleDeclaration *css_short = NULL, *css_full = NULL;
 	GSettings *settings;
 	gboolean expanded;
@@ -652,13 +652,15 @@ toggle_headers_visibility (WebKitDOMElement *button,
 		css_short, "display",
 		expanded ? "table" : "none", "", NULL);
 
+	button_image = webkit_dom_element_get_first_element_child (button);
+
 	if (expanded)
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
+		path = "gtk-stock://pan-end-symbolic";
 	else
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
+		path = "gtk-stock://pan-down-symbolic";
 
 	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button_image), path);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	g_settings_set_boolean (settings, "headers-collapsed", expanded);
@@ -669,6 +671,7 @@ toggle_headers_visibility (WebKitDOMElement *button,
 	g_clear_object (&css_short);
 	g_clear_object (&full_headers);
 	g_clear_object (&css_full);
+	g_clear_object (&button_image);
 }
 
 static void
