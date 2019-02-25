@@ -542,12 +542,13 @@ emfe_headers_format (EMailFormatterExtension *extension,
 	if (is_collapsable)
 		g_string_append_printf (
 			buffer,
-			"<td valign=\"top\" width=\"16\" style=\"padding-left: 0px\">"
-			"<img src=\"evo-file://%s/%s\" class=\"navigable\" "
-			"     id=\"__evo-collapse-headers-img\" />"
+			"<td valign=\"top\" width=\"18\" style=\"padding-left: 0px\">"
+			"<button type=\"button\" class=\"header-collapse\" id=\"__evo-collapse-headers-img\">"
+			"<img src=\"gtk-stock://%s\" />"
+			"</button>"
 			"</td>",
-			EVOLUTION_IMAGESDIR,
-			is_collapsed ? "plus.png" : "minus.png");
+			is_collapsed ? "pan-end-symbolic" : "pan-down-symbolic"
+		);
 
 	g_string_append (buffer, "<td>");
 
