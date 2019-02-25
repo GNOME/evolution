@@ -598,21 +598,15 @@ collapse_contacts_list (WebKitDOMEventTarget *event_target,
 	if (list == NULL)
 		return;
 
-	imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 	hidden = webkit_dom_html_element_get_hidden (WEBKIT_DOM_HTML_ELEMENT (list));
-
-	if (hidden)
-		src = g_strdup_printf ("evo-file://%s/minus.png", imagesdir);
-	else
-		src = g_strdup_printf ("evo-file://%s/plus.png", imagesdir);
 
 	webkit_dom_html_element_set_hidden (
 		WEBKIT_DOM_HTML_ELEMENT (list), !hidden);
 	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (event_target), src);
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (event_target),
+		(hidden ? "gtk-stock://pan-down-symbolic" : "gtk-stock://pan-end-symbolic"));
 
 	g_free (src);
-	g_free (imagesdir);
 }
 
 static void
@@ -620,8 +614,8 @@ toggle_headers_visibility (WebKitDOMElement *button,
                            WebKitDOMEvent *event,
                            WebKitDOMDocument *document)
 {
-	WebKitDOMElement *short_headers = NULL, *full_headers = NULL;
-	WebKitDOMCSSStyleDeclaration *css_short = NULL, *css_full = NULL;
+	WebKitDOMElement *short_headers, *full_headers, *button_image;
+	WebKitDOMCSSStyleDeclaration *css_short, *css_full;
 	GSettings *settings;
 	gboolean expanded;
 	const gchar *path;
@@ -652,13 +646,15 @@ toggle_headers_visibility (WebKitDOMElement *button,
 		css_short, "display",
 		expanded ? "table" : "none", "", NULL);
 
+	button_image = webkit_dom_element_get_first_element_child (button);
+
 	if (expanded)
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
+		path = "gtk-stock://pan-end-symbolic";
 	else
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
+		path = "gtk-stock://pan-down-symbolic";
 
 	webkit_dom_html_image_element_set_src (
-		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
+		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button_image), path);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	g_settings_set_boolean (settings, "headers-collapsed", expanded);
@@ -669,24 +665,34 @@ toggle_headers_visibility (WebKitDOMElement *button,
 	g_clear_object (&css_short);
 	g_clear_object (&full_headers);
 	g_clear_object (&css_full);
+	g_clear_object (&button_image);
 }
 
 static void
-toggle_address_visibility (WebKitDOMElement *button,
+toggle_address_visibility (WebKitDOMElement *element,
                            WebKitDOMEvent *event,
                            gpointer user_data)
 {
-	WebKitDOMElement *full_addr = NULL, *ellipsis = NULL;
-	WebKitDOMElement *parent = NULL, *bold = NULL;
-	WebKitDOMCSSStyleDeclaration *css_full = NULL, *css_ellipsis = NULL;
-	const gchar *path;
+	WebKitDOMElement *full_addr, *ellipsis, *parent, *img, *tmp;
+	WebKitDOMCSSStyleDeclaration *css_full, *css_ellipsis;
 	gchar *property_value;
 	gboolean expanded;
 
-	/* <b> element */
-	bold = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (button));
-	/* <td> element */
-	parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (bold));
+	/* get img and parent depending on which element the click came from (button/ellipsis) */
+	if (WEBKIT_DOM_IS_HTML_BUTTON_ELEMENT (element)) {
+		tmp = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
+		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (tmp));
+		img = webkit_dom_element_get_first_element_child (element);
+	} else {
+		WebKitDOMElement *button;
+
+		parent = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (element));
+		tmp = webkit_dom_node_get_parent_element (WEBKIT_DOM_NODE (parent));
+		button = webkit_dom_element_query_selector (tmp, "#__evo-moreaddr-button", NULL);
+		img = webkit_dom_element_get_first_element_child (button);
+
+		g_clear_object (&button);
+	}
 
 	full_addr = webkit_dom_element_query_selector (parent, "#__evo-moreaddr", NULL);
 
@@ -711,21 +717,8 @@ toggle_address_visibility (WebKitDOMElement *button,
 	webkit_dom_css_style_declaration_set_property (
 		css_ellipsis, "display", (expanded ? "inline" : "none"), "", NULL);
 
-	if (expanded)
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
-	else
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
-
-	if (!WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (button)) {
-		WebKitDOMElement *element;
-
-		element = webkit_dom_element_query_selector (parent, "#__evo-moreaddr-img", NULL);
-		if (!element)
-			goto clean;
-
-		webkit_dom_html_image_element_set_src (WEBKIT_DOM_HTML_IMAGE_ELEMENT (element), path);
-	} else
-		webkit_dom_html_image_element_set_src (WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
+	webkit_dom_html_image_element_set_src (WEBKIT_DOM_HTML_IMAGE_ELEMENT (img),
+		(expanded ? "gtk-stock://pan-end-symbolic" : "gtk-stock://pan-down-symbolic"));
 
  clean:
 	g_clear_object (&css_full);
@@ -733,6 +726,8 @@ toggle_address_visibility (WebKitDOMElement *button,
 	g_clear_object (&full_addr);
 	g_clear_object (&ellipsis);
 	g_clear_object (&parent);
+	g_clear_object (&img);
+	g_clear_object (&tmp);
 }
 
 static void
@@ -1068,7 +1063,14 @@ e_dom_utils_e_mail_display_bind_dom (WebKitDOMDocument *document,
 
 	e_dom_utils_bind_dom (
 		document,
-		"*[id^=__evo-moreaddr-]",
+		"#__evo-moreaddr-ellipsis",
+		"click",
+		toggle_address_visibility,
+		NULL);
+
+	e_dom_utils_bind_dom (
+		document,
+		"#__evo-moreaddr-button",
 		"click",
 		toggle_address_visibility,
 		NULL);
