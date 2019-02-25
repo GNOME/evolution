@@ -185,7 +185,7 @@ contact_map_window_contact_added_cb (EContactMap *map,
 
 	window->priv->tasks_cnt--;
 	if (window->priv->tasks_cnt == 0) {
-		e_spinner_stop (E_SPINNER (window->priv->spinner));
+		gtk_spinner_stop (GTK_SPINNER (window->priv->spinner));
 		gtk_widget_hide (window->priv->spinner);
 	}
 }
@@ -229,7 +229,7 @@ contact_map_window_geocoding_started_cb (EContactMap *map,
                                          ClutterActor *marker,
                                          EContactMapWindow *window)
 {
-	e_spinner_start (E_SPINNER (window->priv->spinner));
+	gtk_spinner_start (GTK_SPINNER (window->priv->spinner));
 	gtk_widget_show (window->priv->spinner);
 
 	window->priv->tasks_cnt++;
@@ -243,7 +243,7 @@ contact_map_window_geocoding_failed_cb (EContactMap *map,
 	window->priv->tasks_cnt--;
 
 	if (window->priv->tasks_cnt == 0) {
-		e_spinner_stop (E_SPINNER (window->priv->spinner));
+		gtk_spinner_stop (GTK_SPINNER (window->priv->spinner));
 		gtk_widget_hide (window->priv->spinner);
 	}
 }
@@ -400,7 +400,7 @@ e_contact_map_window_init (EContactMapWindow *window)
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 7);
 
 	/* Spinner */
-	button = e_spinner_new ();
+	button = gtk_spinner_new ();
 	gtk_container_add (GTK_CONTAINER (hbox), button);
 	gtk_widget_hide (button);
 	priv->spinner = button;

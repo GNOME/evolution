@@ -411,8 +411,8 @@ book_config_ldap_search_base_button_clicked_cb (GtkButton *button,
 
 	box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 
-	spinner = e_spinner_new ();
-	e_spinner_start (E_SPINNER (spinner));
+	spinner = gtk_spinner_new ();
+	gtk_spinner_start (GTK_SPINNER (spinner));
 	gtk_box_pack_start (GTK_BOX (box), spinner, FALSE, FALSE, 0);
 
 	label = gtk_label_new (_("Looking up server search bases, please wait…"));

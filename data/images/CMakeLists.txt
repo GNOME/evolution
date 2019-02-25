@@ -9,7 +9,6 @@ set(images
 	rect.png
 	ribbon.jpg
 	texture.png
-	working.png
 	world_map-960.png
 )
 

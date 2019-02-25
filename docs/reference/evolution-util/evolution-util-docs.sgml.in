@@ -308,7 +308,6 @@
     <xi:include href="xml/e-sorter.xml"/>
     <xi:include href="xml/e-spell-entry.xml"/>
     <xi:include href="xml/e-spell-text-view.xml"/>
-    <xi:include href="xml/e-spinner.xml"/>
     <xi:include href="xml/e-text-event-processor-types.xml"/>
     <xi:include href="xml/e-text-model-repos.xml"/>
     <xi:include href="xml/e-timezone-dialog.xml"/>

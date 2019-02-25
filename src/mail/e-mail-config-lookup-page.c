@@ -57,8 +57,8 @@ mail_config_lookup_page_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_spinner_new ();
-	e_spinner_start (E_SPINNER (widget));
+	widget = gtk_spinner_new ();
+	gtk_spinner_start (GTK_SPINNER (widget));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 

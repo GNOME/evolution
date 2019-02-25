@@ -36,7 +36,6 @@
 #include "e-config-lookup.h"
 #include "e-dialog-widgets.h"
 #include "e-misc-utils.h"
-#include "e-spinner.h"
 #include "e-simple-async-result.h"
 
 #include "e-collection-account-wizard.h"
@@ -414,7 +413,7 @@ collection_account_wizard_worker_started_cb (EConfigLookup *config_lookup,
 	}
 
 	gtk_label_set_label (GTK_LABEL (wd->running_label), _("Looking up details, please wait…"));
-	e_spinner_start (E_SPINNER (wd->spinner));
+	gtk_spinner_start (GTK_SPINNER (wd->spinner));
 	gtk_widget_show (wd->spinner);
 	gtk_widget_show (wd->cancel_button);
 	gtk_widget_show (wd->running_box);
@@ -460,7 +459,7 @@ collection_account_wizard_worker_finished_cb (EConfigLookup *config_lookup,
 	g_clear_object (&wd->cancellable);
 	g_clear_pointer (&wd->certificate_error, g_free);
 
-	e_spinner_stop (E_SPINNER (wd->spinner));
+	gtk_spinner_stop (GTK_SPINNER (wd->spinner));
 	gtk_widget_hide (wd->spinner);
 	gtk_widget_hide (wd->cancel_button);
 
@@ -1290,7 +1289,7 @@ collection_account_wizard_write_changes_done (GObject *source_object,
 		gtk_label_set_text (GTK_LABEL (wizard->priv->finish_label), error->message);
 	}
 
-	e_spinner_stop (E_SPINNER (wizard->priv->finish_spinner));
+	gtk_spinner_stop (GTK_SPINNER (wizard->priv->finish_spinner));
 
 	gtk_widget_set_visible (wizard->priv->finish_running_box, error && !is_cancelled);
 	gtk_widget_set_visible (wizard->priv->finish_spinner, FALSE);
@@ -1432,7 +1431,7 @@ collection_account_wizard_save_sources (ECollectionAccountWizard *wizard)
 	gtk_widget_show (wizard->priv->finish_cancel_button);
 	gtk_widget_show (wizard->priv->finish_running_box);
 
-	e_spinner_start (E_SPINNER (wizard->priv->finish_spinner));
+	gtk_spinner_start (GTK_SPINNER (wizard->priv->finish_spinner));
 
 	wizard->priv->finish_cancellable = camel_operation_new ();
 
@@ -1768,7 +1767,7 @@ collection_account_wizard_constructed (GObject *object)
 
 		hbox = GTK_BOX (widget);
 
-		widget = e_spinner_new ();
+		widget = gtk_spinner_new ();
 		g_object_set (G_OBJECT (widget),
 			"hexpand", FALSE,
 			"halign", GTK_ALIGN_START,
@@ -2008,7 +2007,7 @@ collection_account_wizard_constructed (GObject *object)
 		NULL);
 	wizard->priv->finish_running_box = GTK_WIDGET (hbox);
 
-	widget = e_spinner_new ();
+	widget = gtk_spinner_new ();
 	g_object_set (G_OBJECT (widget),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_START,
