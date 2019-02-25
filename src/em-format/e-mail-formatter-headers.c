@@ -543,11 +543,10 @@ emfe_headers_format (EMailFormatterExtension *extension,
 		g_string_append_printf (
 			buffer,
 			"<td valign=\"top\" width=\"16\" style=\"padding-left: 0px\">"
-			"<img src=\"evo-file://%s/%s\" class=\"navigable\" "
-			"     id=\"__evo-collapse-headers-img\" />"
+			"<img id=\"__evo-collapse-headers-img\" src=\"gtk-stock://%s\" class=\"navigable\" />"
 			"</td>",
-			EVOLUTION_IMAGESDIR,
-			is_collapsed ? "plus.png" : "minus.png");
+			is_collapsed ? "pan-end-symbolic" : "pan-down-symbolic"
+		);
 
 	g_string_append (buffer, "<td>");
 

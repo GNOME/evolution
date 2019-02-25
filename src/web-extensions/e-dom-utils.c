@@ -653,9 +653,9 @@ toggle_headers_visibility (WebKitDOMElement *button,
 		expanded ? "table" : "none", "", NULL);
 
 	if (expanded)
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
+		path = "gtk-stock://pan-end-symbolic";
 	else
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
+		path = "gtk-stock://pan-down-symbolic";
 
 	webkit_dom_html_image_element_set_src (
 		WEBKIT_DOM_HTML_IMAGE_ELEMENT (button), path);
