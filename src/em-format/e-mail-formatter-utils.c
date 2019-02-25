@@ -211,9 +211,8 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 					"<span id=\"__evo-moreaddr\" "
 					"style=\"display: none;\">");
 				str = g_strdup_printf (
-					"<img src=\"evo-file://%s/plus.png\" "
-					"id=\"__evo-moreaddr-img\" class=\"navigable\">",
-					EVOLUTION_IMAGESDIR);
+					"<img src=\"gtk-stock://list-add\" "
+					"id=\"__evo-moreaddr-img\" class=\"navigable\">");
 			}
 		}
 	}

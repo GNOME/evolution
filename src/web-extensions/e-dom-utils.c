@@ -712,9 +712,9 @@ toggle_address_visibility (WebKitDOMElement *button,
 		css_ellipsis, "display", (expanded ? "inline" : "none"), "", NULL);
 
 	if (expanded)
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/plus.png";
+		path = "gtk-stock://list-add";
 	else
-		path = "evo-file://" EVOLUTION_IMAGESDIR "/minus.png";
+		path = "gtk-stock://list-remove";
 
 	if (!WEBKIT_DOM_IS_HTML_IMAGE_ELEMENT (button)) {
 		WebKitDOMElement *element;
