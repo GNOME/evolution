@@ -2504,7 +2504,7 @@ msgstr "სახელი"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:63
 msgid "AOL Instant Messenger"
-msgstr "AOL·Instant·Messenger"
+msgstr "AOL Instant Messenger"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:65
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:185
@@ -2514,11 +2514,11 @@ msgstr "Jabber"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:66
 msgid "Yahoo Messenger"
-msgstr "Yahoo·Messenger"
+msgstr "Yahoo Messenger"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:67
 msgid "Gadu-Gadu Messenger"
-msgstr "Gadu-Gadu·Messenger"
+msgstr "Gadu-Gadu Messenger"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:69
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:189
@@ -3122,11 +3122,11 @@ msgstr "კომპანიის ტელეფონი"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:12
 msgid "Email 2"
-msgstr "Email·2"
+msgstr "Email 2"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 3"
-msgstr "Email·3"
+msgstr "Email 3"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Family Name"
@@ -3713,7 +3713,7 @@ msgid ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 msgstr ""
-"%s·უკვე არსებობს\n"
+"%s უკვე არსებობს\n"
 "გნებავთ მისი ჩანაცვლება?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:336
@@ -3820,15 +3820,16 @@ msgstr "მიმდინარეობს იმპორტირება..
 
 #: ../addressbook/importers/evolution-csv-importer.c:826
 msgid "Outlook CSV or Tab (.csv, .tab)"
-msgstr "Outlook·CSV·ან·Tab·(.csv,·.tab)"
+msgstr "Outlook CSV ან Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:827
+#, fuzzy
 msgid "Outlook CSV and Tab Importer"
-msgstr "Outlook·CSV·და·Tab·Importer"
+msgstr "Outlook CSV და Tab Importer"
 
 #: ../addressbook/importers/evolution-csv-importer.c:835
 msgid "Mozilla CSV or Tab (.csv, .tab)"
-msgstr "Mozilla·CSV·ან·Tab·(.csv,·.tab)"
+msgstr "Mozilla CSV ან Tab (.csv, .tab)"
 
 #: ../addressbook/importers/evolution-csv-importer.c:836
 #, fuzzy
@@ -4058,7 +4059,7 @@ msgstr "კონტაქტი ბეჭდვა სტილი რედა
 #: ../addressbook/printing/test-contact-print-style-editor.c:54
 #: ../addressbook/printing/test-print.c:44
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr "საავტორო უფლებები (C)·2000, Ximian, Inc."
+msgstr "საავტორო უფლებები (C) 2000, Ximian, Inc."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:56
 #, fuzzy
@@ -5764,11 +5765,11 @@ msgid ""
 "10 minutes\n"
 "05 minutes"
 msgstr ""
-"60·წუთი\n"
-"30·წუთი\n"
-"15·წუთი\n"
-"10·წუთი\n"
-"05·წუთი"
+"60 წუთი\n"
+"30 წუთი\n"
+"15 წუთი\n"
+"10 წუთი\n"
+"05 წუთი"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, fuzzy, no-c-format
@@ -7549,17 +7550,17 @@ msgstr "ადგილმდებარეობა: %s"
 #: ../calendar/gui/e-calendar-view.c:2262
 #, c-format
 msgid "Time: %s %s"
-msgstr "დრო: %s·%s"
+msgstr "დრო: %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:116
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%a·%m/%d/%Y·%H:%M:%S"
+msgstr "%a %m/%d/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:119
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a·%m/%d/%Y·%I:%M:%S·%p"
+msgstr "%a %m/%d/%Y %I:%M:%S %p"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:127
 #, fuzzy, c-format
@@ -8207,7 +8208,7 @@ msgstr "მიმდინარეობს"
 #: ../calendar/gui/e-meeting-time-sel-item.c:464
 #: ../calendar/gui/e-meeting-time-sel.c:2137
 msgid "%A, %B %d, %Y"
-msgstr "%A,·%B·%d,·%Y"
+msgstr "%A, %B %d, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -8216,7 +8217,7 @@ msgstr "%A,·%B·%d,·%Y"
 #: ../calendar/gui/e-meeting-time-sel-item.c:468
 #: ../calendar/gui/e-meeting-time-sel.c:2168
 msgid "%a %m/%d/%Y"
-msgstr "%a·%m/%d/%Y"
+msgstr "%a %m/%d/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
@@ -16253,7 +16254,7 @@ msgstr "%b %d %l:%M %p"
 #: ../mail/message-list.c:1651 ../widgets/table/e-cell-date.c:102
 #, fuzzy
 msgid "%b %d %Y"
-msgstr "%b·%d·%Y"
+msgstr "%b %d %Y"
 
 #: ../mail/message-list.c:3837
 #, fuzzy
