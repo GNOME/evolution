@@ -104,6 +104,7 @@ button.header-collapse img {
   height: 16px;
   padding: 0;
   margin: 0;
+  margin-left: -1px;
 }
 
 table.header {
