@@ -6,7 +6,7 @@
     
     <link type="guide" xref="mail-layout-changing" />
 
-    <revision pkgversion="3.5.92" version="0.4" date="2012-09-14" status="final"/>
+    <revision pkgversion="3.30.5" version="0.5" date="2019-02-26" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -23,4 +23,7 @@
 <note style="tip"><p>If you have a small display, you can replace the <gui>Subject</gui> column by the <gui>Subject - Trimmed</gui> which will remove prefixes such as "Re:", or you can replace the <gui>From</gui> column which displays the sender's name and email address by the <gui>Sender</gui> column which will only display the sender's name.</p></note>
 
 <note style="tip"><p>If you would like to have the same column layout in all mail folders except for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</gui><gui>Apply the same view settings to all folders</gui></guiseq>. Note that this setting also influences <link xref="mail-sorting-message-list#email-threads"><gui>Group by Threads</gui></link> and the <gui>Message Preview</gui> visibility in all folders.</p></note>
+
+<note style="tip"><p>If you would like to have a different sort order and/or columns for specific mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</gui><gui>Apply the same view settings to all folders</gui></guiseq> is disabled. You can then change the view and save your changes under <guiseq><gui>View</gui><gui>Current View</gui><gui>Save Custom View…</gui></guiseq> and apply the view also to other folders.</p></note>
+
 </page>

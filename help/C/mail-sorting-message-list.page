@@ -53,6 +53,9 @@
 </list>
 
 <p><app>Evolution</app> allows you to sort your messages using these columns. Just click on the column label to sort the emails. The direction of the arrow next to the label indicates the direction of the sort.</p><p>You can apply a secondary sort criterion by clicking a column label while pressing <key>Ctrl</key>.</p>
+
+<note style="tip"><p>If you would like to have a different sort order and/or columns for specific mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</gui><gui>Apply the same view settings to all folders</gui></guiseq> is disabled. You can then change the view and save your changes under <guiseq><gui>View</gui><gui>Current View</gui><gui>Save Custom View…</gui></guiseq> and apply the view also to other folders.</p></note>
+
 </section>
 
 <section id="sort-options">
