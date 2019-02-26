@@ -191,12 +191,22 @@ search_bar_find (ESearchBar *search_bar,
 		return;
 	}
 
-	webkit_find_controller_search_finish (find_controller);
-	webkit_find_controller_search (
-		find_controller,
-		text,
-		case_sensitive ? WEBKIT_FIND_OPTIONS_NONE : WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE,
-		G_MAXUINT);
+	if (g_strcmp0 (webkit_find_controller_get_search_text (find_controller), text) == 0 &&
+	    ((webkit_find_controller_get_options (find_controller) & WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE) != 0 ? 1 : 0) ==
+	    (case_sensitive ? 1 : 0)) {
+		if (search_forward)
+			webkit_find_controller_search_next (find_controller);
+		else
+			webkit_find_controller_search_previous (find_controller);
+	} else {
+		webkit_find_controller_search_finish (find_controller);
+		webkit_find_controller_search (
+			find_controller,
+			text,
+			(case_sensitive ? WEBKIT_FIND_OPTIONS_NONE : WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE) |
+			(search_forward ? 0 : WEBKIT_FIND_OPTIONS_BACKWARDS),
+			G_MAXUINT);
+	}
 
 	g_free (text);
 }
