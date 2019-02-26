@@ -66,6 +66,80 @@ e_mail_part_get_frame_security_style (EMailPart *part)
 	flags = e_mail_part_get_validity_flags (part);
 
 	if (flags == E_MAIL_PART_VALIDITY_NONE) {
+		EMailPartList *part_list;
+
+		part_list = e_mail_part_ref_part_list (part);
+
+		if (part_list) {
+			GQueue queue = G_QUEUE_INIT;
+			GList *link;
+			GSList *stack = NULL;
+			gchar *end_partid = NULL;
+			gboolean any_secure = FALSE;
+
+			e_mail_part_list_queue_parts (part_list, NULL, &queue);
+
+			for (link = g_queue_peek_head_link (&queue); link; link = g_list_next (link)) {
+				EMailPart *lpart = link->data;
+
+				if (lpart == part) {
+					GList *start = link;
+
+					/* Find which message this part belongs to */
+					while (start = g_list_previous (start), start) {
+						lpart = start->data;
+						if (e_mail_part_id_has_suffix (lpart, ".rfc822") ||
+						    e_mail_part_id_has_suffix (lpart, ".headers")) {
+							end_partid = g_strconcat (e_mail_part_get_id (lpart), ".end", NULL);
+							break;
+						}
+					}
+
+					link = start ? start : link;
+					break;
+				}
+			}
+
+			for (; link && !any_secure && end_partid; link = g_list_next (link)) {
+				EMailPart *lpart = link->data;
+
+				if (!lpart)
+					continue;
+
+				if (g_strcmp0 (end_partid, e_mail_part_get_id (lpart)) == 0) {
+					g_free (end_partid);
+					end_partid = NULL;
+
+					if (stack) {
+						end_partid = stack->data;
+						stack = g_slist_remove (stack, end_partid);
+					}
+
+					continue;
+				}
+
+				if (e_mail_part_id_has_suffix (lpart, ".rfc822")) {
+					stack = g_slist_prepend (stack, end_partid);
+					end_partid = g_strconcat (e_mail_part_get_id (lpart), ".end", NULL);
+				}
+
+				if (!stack)
+					any_secure = e_mail_part_get_validity_flags (lpart) != E_MAIL_PART_VALIDITY_NONE;
+			}
+
+			while (!g_queue_is_empty (&queue))
+				g_object_unref (g_queue_pop_head (&queue));
+
+			g_slist_free_full (stack, g_free);
+			g_object_unref (part_list);
+			g_free (end_partid);
+
+			/* This part is neither signed, nor encrypted, but other parts
+			   are signed or encrypted, thus mark this one as with bad security. */
+			if (any_secure)
+				return "-e-mail-formatter-frame-security-bad";
+		}
+
 		return "-e-mail-formatter-frame-security-none";
 	} else {
 		GList *head, *link;
