@@ -100,6 +100,19 @@ enum {
 };
 
 static void
+mark_parts_not_printable (GQueue *parts)
+{
+	GList *link;
+
+	for (link = g_queue_peek_head_link (parts); link; link = g_list_next (link)) {
+		EMailPart *part = link->data;
+
+		if (part)
+			e_mail_part_set_is_printable (part, FALSE);
+	}
+}
+
+static void
 make_part_attachment (EMailParser *parser,
                       CamelMimePart *part,
                       GString *part_id,
@@ -114,7 +127,10 @@ make_part_attachment (EMailParser *parser,
 	if (camel_content_type_is (ct, "text", "html")) {
 		GQueue work_queue = G_QUEUE_INIT;
 		EMailPart *mail_part;
+		gboolean was_attachment;
 		gint len;
+
+		was_attachment = e_mail_part_is_attachment (part);
 
 		/* always show HTML as attachments and not inline */
 		camel_mime_part_set_disposition (part, "attachment");
@@ -137,6 +153,9 @@ make_part_attachment (EMailParser *parser,
 
 		e_mail_parser_wrap_as_attachment (
 			parser, part, part_id, &work_queue);
+
+		if (!was_attachment && !force_html)
+			mark_parts_not_printable (&work_queue);
 
 		e_queue_transfer (&work_queue, out_mail_parts);
 
@@ -234,7 +253,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 		 * as attachment to not show empty message preview, which
 		 * is confusing. */
 		make_part_attachment (
-			parser, part, part_id, FALSE,
+			parser, part, part_id, TRUE,
 			cancellable, out_mail_parts);
 
 		return TRUE;
@@ -315,9 +334,15 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 			if (multipart_has_html && !prefer_html) {
 				if (emp_pp->show_suppressed) {
+					GQueue suppressed_queue = G_QUEUE_INIT;
+
 					e_mail_parser_wrap_as_attachment (
 						parser, sp, part_id,
-						&inner_queue);
+						&suppressed_queue);
+
+					mark_parts_not_printable (&suppressed_queue);
+
+					e_queue_transfer (&suppressed_queue, &inner_queue);
 				} else {
 					hide_parts (&inner_queue);
 				}
@@ -358,6 +383,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 			if (mpart && mpart->is_hidden && g_strcmp0 (mime_type, "text/html") == 0) {
 				e_mail_part_set_is_attachment (mpart, TRUE);
+				e_mail_part_set_is_printable (mpart, FALSE);
 			}
 		}
 	}

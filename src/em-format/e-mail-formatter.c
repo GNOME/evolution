@@ -421,6 +421,10 @@ mail_formatter_run (EMailFormatter *formatter,
 			continue;
 		}
 
+		if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING &&
+		    !e_mail_part_get_is_printable (part))
+			continue;
+
 		/* Force formatting as source if needed */
 		if (context->mode != E_MAIL_FORMATTER_MODE_SOURCE) {
 			const gchar *mime_type;

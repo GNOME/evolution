@@ -137,7 +137,8 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 		if (!e_mail_part_get_is_attachment (mail_part))
 			continue;
 
-		if (mail_part->is_hidden)
+		if (mail_part->is_hidden ||
+		    !e_mail_part_get_is_printable (mail_part))
 			continue;
 
 		if (e_mail_part_get_cid (mail_part) != NULL)

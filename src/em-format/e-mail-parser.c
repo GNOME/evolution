@@ -456,12 +456,13 @@ e_mail_parser_parse_sync (EMailParser *parser,
 
 			printf (
 				"	id: %s | cid: %s | mime_type: %s | "
-				"is_hidden: %d | is_attachment: %d\n",
+				"is_hidden: %d | is_attachment: %d | is_printable: %d\n",
 				e_mail_part_get_id (part),
 				e_mail_part_get_cid (part),
 				e_mail_part_get_mime_type (part),
 				part->is_hidden ? 1 : 0,
-				e_mail_part_get_is_attachment (part) ? 1 : 0);
+				e_mail_part_get_is_attachment (part) ? 1 : 0,
+				e_mail_part_get_is_printable (part) ? 1 : 0);
 
 			g_object_unref (part);
 		}
@@ -560,12 +561,13 @@ e_mail_parser_parse_finish (EMailParser *parser,
 
 			printf (
 				"	id: %s | cid: %s | mime_type: %s | "
-				"is_hidden: %d | is_attachment: %d\n",
+				"is_hidden: %d | is_attachment: %d | is_printable: %d\n",
 				e_mail_part_get_id (part),
 				e_mail_part_get_cid (part),
 				e_mail_part_get_mime_type (part),
 				part->is_hidden ? 1 : 0,
-				e_mail_part_get_is_attachment (part) ? 1 : 0);
+				e_mail_part_get_is_attachment (part) ? 1 : 0,
+				e_mail_part_get_is_printable (part) ? 1 : 0);
 
 			g_object_unref (part);
 		}

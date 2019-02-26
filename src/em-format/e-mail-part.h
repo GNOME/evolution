@@ -123,6 +123,9 @@ void		e_mail_part_set_part_list	(EMailPart *part,
 gboolean	e_mail_part_get_is_attachment	(EMailPart *part);
 void		e_mail_part_set_is_attachment	(EMailPart *part,
 						 gboolean is_attachment);
+gboolean	e_mail_part_get_is_printable	(EMailPart *part);
+void		e_mail_part_set_is_printable	(EMailPart *part,
+						 gboolean is_printable);
 void		e_mail_part_bind_dom_element	(EMailPart *part,
 						 EWebView *web_view,
 						 guint64 page_id,

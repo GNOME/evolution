@@ -48,6 +48,7 @@ struct _EMailPartPrivate {
 	gchar *mime_type;
 
 	gboolean is_attachment;
+	gboolean is_printable;
 	gboolean converted_to_utf8;
 };
 
@@ -57,6 +58,7 @@ enum {
 	PROP_CONVERTED_TO_UTF8,
 	PROP_ID,
 	PROP_IS_ATTACHMENT,
+	PROP_IS_PRINTABLE,
 	PROP_MIME_PART,
 	PROP_MIME_TYPE,
 	PROP_PART_LIST
@@ -132,6 +134,12 @@ mail_part_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_IS_PRINTABLE:
+			e_mail_part_set_is_printable (
+				E_MAIL_PART (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_MIME_PART:
 			mail_part_set_mime_part (
 				E_MAIL_PART (object),
@@ -186,6 +194,13 @@ mail_part_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_mail_part_get_is_attachment (
+				E_MAIL_PART (object)));
+			return;
+
+		case PROP_IS_PRINTABLE:
+			g_value_set_boolean (
+				value,
+				e_mail_part_get_is_printable (
 				E_MAIL_PART (object)));
 			return;
 
@@ -311,6 +326,18 @@ e_mail_part_class_init (EMailPartClass *class)
 			"Is Attachment",
 			"Format the part as an attachment",
 			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_IS_PRINTABLE,
+		g_param_spec_boolean (
+			"is-printable",
+			"Is Printable",
+			"Whether this part can be printed",
+			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
@@ -579,6 +606,28 @@ e_mail_part_set_is_attachment (EMailPart *part,
 	part->priv->is_attachment = is_attachment;
 
 	g_object_notify (G_OBJECT (part), "is-attachment");
+}
+
+gboolean
+e_mail_part_get_is_printable (EMailPart *part)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
+
+	return part->priv->is_printable;
+}
+
+void
+e_mail_part_set_is_printable (EMailPart *part,
+			      gboolean is_printable)
+{
+	g_return_if_fail (E_IS_MAIL_PART (part));
+
+	if ((is_printable ? 1 : 0) == (part->priv->is_printable ? 1 : 0))
+		return;
+
+	part->priv->is_printable = is_printable;
+
+	g_object_notify (G_OBJECT (part), "is-printable");
 }
 
 void
