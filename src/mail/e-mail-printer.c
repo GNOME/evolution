@@ -283,6 +283,7 @@ mail_printer_print_timeout_cb (GTask *task)
 	if (response == WEBKIT_PRINT_OPERATION_RESPONSE_CANCEL) {
 		async_context->print_result = GTK_PRINT_OPERATION_RESULT_CANCEL;
 		g_task_return_boolean (task, TRUE);
+		g_object_unref (task);
 	}
 
 	return G_SOURCE_REMOVE;
@@ -313,6 +314,7 @@ mail_printer_load_changed_cb (WebKitWebView *web_view,
 
 	/* Check if we've been cancelled. */
 	if (g_task_return_error_if_cancelled (task)) {
+		g_object_unref (task);
 		return;
 	} else {
 		GSource *timeout_source;

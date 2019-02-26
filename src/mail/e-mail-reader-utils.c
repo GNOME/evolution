@@ -1597,6 +1597,7 @@ mail_reader_print_parse_message_cb (GObject *source_object,
 		e_mail_printer_set_mode (printer, E_MAIL_FORMATTER_MODE_SOURCE);
 
 	g_clear_object (&remote_content);
+	g_clear_object (&part_list);
 
 	e_activity_set_text (activity, _("Printing"));
 
