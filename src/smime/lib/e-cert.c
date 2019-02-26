@@ -222,6 +222,8 @@ e_cert_populate (ECert *cert)
 		PRExplodedTime explodedTime;
 		struct tm exploded_tm;
 
+		memset (&exploded_tm, 0, sizeof (struct tm));
+
 		PR_ExplodeTime (
 			cert->priv->issued_on,
 			PR_LocalTimeParameters, &explodedTime);
