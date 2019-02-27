@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2019-01-22 08:46+0000\n"
-"PO-Revision-Date: 2019-01-24 01:14+0100\n"
+"POT-Creation-Date: 2019-02-26 09:43+0000\n"
+"PO-Revision-Date: 2019-02-27 14:55+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -6498,6 +6498,26 @@ msgstr ""
 "sorting-message-list#email-threads\"><gui>gruppering av trådar</gui></link> "
 "och synlighet för <gui>Förhandsgranskning av meddelande</gui> i alla mappar."
 
+#. (itstool) path: note/p
+#: C/mail-change-columns-in-message-list.page:27
+#: C/mail-sorting-message-list.page:57
+msgid ""
+"If you would like to have a different sort order and/or columns for specific "
+"mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Preferences</gui><gui>General</gui><gui>Apply the same view "
+"settings to all folders</gui></guiseq> is disabled. You can then change the "
+"view and save your changes under <guiseq><gui>View</gui><gui>Current View</"
+"gui><gui>Save Custom View…</gui></guiseq> and apply the view also to other "
+"folders."
+msgstr ""
+"Om du vill ha annan sorteringsordning och/eller kolumner för specifika e-"
+"postmappar, säkerställ att <guiseq><gui>Redigera</gui><gui>Inställningar</"
+"gui><gui>E-postinställningar</gui><gui>Allmänt</gui><gui>Tillämpa samma "
+"visningsinställningar för alla mappar</gui></guiseq> är inaktiverat. Du kan "
+"sedan ändra vyn och spara dina inställningar under <guiseq><gui>Visa</"
+"gui><gui>Aktuell vy</gui><gui>Spara anpassad vy…</gui></guiseq> och tillämpa "
+"vyn även till andra mappar."
+
 #. (itstool) path: info/desc
 #: C/mail-change-time-format.page:5
 msgid "Changing the date and time format in the message list."
@@ -11848,26 +11868,20 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
 msgid ""
-"For Advanced Users: There is a GSettings key that allows you to toggle "
-"between the collapsed and expanded state of the email threads. The collapsed "
-"state is enabled by default. It can be changed by starting the "
-"<app>Terminal</app> application and running the command <cmd>gsettings set "
-"org.gnome.evolution.mail thread-expand true</cmd>"
+"For Advanced Users: By default, all email threads are expanded. If you want "
+"all threads to be collapsed by default:"
 msgstr ""
-"För avancerade användare: Det finns en GSettings-nyckel som låter dig växla "
-"mellan ihopfällt och expanderat tillstånd för e-posttrådar. Det ihopfällda "
-"tillståndet är aktiverat som standard. Det kan ändras genom att starta "
-"<app>Terminal</app>-programmet och köra kommando <cmd>gsettings set org."
-"gnome.evolution.mail thread-expand true</cmd>"
+"För avancerade användare: Som standard expanderas alla e-posttrådar. Om du "
+"vill att alla trådar ska fällas ihop som standard:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
 msgid ""
-"Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
-"accels true</cmd>"
+"Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+"false</cmd>"
 msgstr ""
-"Kör kommandot <cmd>gsettings set org.gnome.desktop.interface can-change-"
-"accels true</cmd>"
+"Kör kommandot <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+"false</cmd>"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:47
@@ -11926,12 +11940,12 @@ msgstr ""
 "kolumnetikett medan du trycker <key>Ctrl</key>."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:59
+#: C/mail-sorting-message-list.page:62
 msgid "Using Other Sorting Options"
 msgstr "Användning av andra sorteringsalternativ"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:60
+#: C/mail-sorting-message-list.page:63
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
@@ -11941,171 +11955,171 @@ msgstr ""
 "fallande, eller Återställ sortering."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:62
+#: C/mail-sorting-message-list.page:65
 msgid "Sort By"
 msgstr "Sortera efter"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:63
+#: C/mail-sorting-message-list.page:66
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
 "Du kan också sortera e-postmeddelanden via listan <gui>Sortera efter</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:65 C/mail-sorting-message-list.page:95
-#: C/mail-sorting-message-list.page:104 C/mail-sorting-message-list.page:113
+#: C/mail-sorting-message-list.page:68 C/mail-sorting-message-list.page:98
+#: C/mail-sorting-message-list.page:107 C/mail-sorting-message-list.page:116
 msgid "Right-click on the message list column headers."
 msgstr "Högerklicka på kolumnrubriken i meddelandelistan."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:69
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Välj alternativet <gui>Sortera efter</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:69
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr "Detta visar listan av kriterier för att sortera e-postmeddelanden:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:68
+#: C/mail-sorting-message-list.page:71
 msgid "Subject - Trimmed"
 msgstr "Ämne - Nedkortat"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:72
 msgid "Labels"
 msgstr "Etiketter"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:70
+#: C/mail-sorting-message-list.page:73
 msgid "Recipients"
 msgstr "Mottagare"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:71
+#: C/mail-sorting-message-list.page:74
 msgid "Sender"
 msgstr "Avsändare"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:72
+#: C/mail-sorting-message-list.page:75
 msgid "Location"
 msgstr "Plats"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:73
+#: C/mail-sorting-message-list.page:76
 msgid "Due By"
 msgstr "Ska utföras den"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:74
+#: C/mail-sorting-message-list.page:77
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Uppföljningsflagga</link>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:75
+#: C/mail-sorting-message-list.page:78
 msgid "Flag Status"
 msgstr "Flaggstatus"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:76
+#: C/mail-sorting-message-list.page:79
 msgid "Size"
 msgstr "Storlek"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:77
+#: C/mail-sorting-message-list.page:80
 msgid "To"
 msgstr "Till"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:78
+#: C/mail-sorting-message-list.page:81
 msgid "Received"
 msgstr "Mottaget"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:79
+#: C/mail-sorting-message-list.page:82
 msgid "Date"
 msgstr "Datum"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:80
+#: C/mail-sorting-message-list.page:83
 msgid "Subject"
 msgstr "Ämne"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:81
+#: C/mail-sorting-message-list.page:84
 msgid "From"
 msgstr "Från"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:82
+#: C/mail-sorting-message-list.page:85
 msgid "Attachment"
 msgstr "Bilaga"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:83
+#: C/mail-sorting-message-list.page:86
 msgid "Flagged"
 msgstr "Flaggad"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:84
+#: C/mail-sorting-message-list.page:87
 msgid "Status"
 msgstr "Status"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:85
+#: C/mail-sorting-message-list.page:88
 msgid "Custom"
 msgstr "Anpassad"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:88
+#: C/mail-sorting-message-list.page:91
 msgid "Select the option you wish to use in sorting email messages."
 msgstr ""
 "Välj det alternativ du önskar använda vid sortering av e-postmeddelanden."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:93
+#: C/mail-sorting-message-list.page:96
 msgid "Sort Ascending"
 msgstr "Sortera stigande"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:96
+#: C/mail-sorting-message-list.page:99
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Välj alternativet <gui>Sortera stigande</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:98
+#: C/mail-sorting-message-list.page:101
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr "Meddelandena kommer att visas med det senaste längst ner."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:102
+#: C/mail-sorting-message-list.page:105
 msgid "Sort Descending"
 msgstr "Sortera fallande"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:105
+#: C/mail-sorting-message-list.page:108
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Välj alternativet <gui>Sortera fallande</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:107
+#: C/mail-sorting-message-list.page:110
 msgid "The messages will be displayed with the most recent at the top."
 msgstr "Meddelandena kommer att visas med det senaste längst upp."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:111
+#: C/mail-sorting-message-list.page:114
 msgid "Reset sort"
 msgstr "Återställ sortering"
 
 # sebras: Unsorted?
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:114
+#: C/mail-sorting-message-list.page:117
 msgid "Select the <gui>Reset sort</gui> option."
 msgstr "Välj alternativet <gui>Återställ sortering</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:116
+#: C/mail-sorting-message-list.page:119
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
@@ -14273,6 +14287,26 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
+
+#~ msgid ""
+#~ "For Advanced Users: There is a GSettings key that allows you to toggle "
+#~ "between the collapsed and expanded state of the email threads. The "
+#~ "collapsed state is enabled by default. It can be changed by starting the "
+#~ "<app>Terminal</app> application and running the command <cmd>gsettings "
+#~ "set org.gnome.evolution.mail thread-expand true</cmd>"
+#~ msgstr ""
+#~ "För avancerade användare: Det finns en GSettings-nyckel som låter dig "
+#~ "växla mellan ihopfällt och expanderat tillstånd för e-posttrådar. Det "
+#~ "ihopfällda tillståndet är aktiverat som standard. Det kan ändras genom "
+#~ "att starta <app>Terminal</app>-programmet och köra kommando "
+#~ "<cmd>gsettings set org.gnome.evolution.mail thread-expand true</cmd>"
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
+#~ "accels true</cmd>"
+#~ msgstr ""
+#~ "Kör kommandot <cmd>gsettings set org.gnome.desktop.interface can-change-"
+#~ "accels true</cmd>"
 
 #~ msgid ""
 #~ "Look in the <link xref=\"mail-spam\"><gui>Junk</gui> folder</link>. "
