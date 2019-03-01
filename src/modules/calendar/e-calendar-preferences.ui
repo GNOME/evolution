@@ -1458,7 +1458,7 @@
                 <property name="spacing">4</property>
                 <child>
                   <object class="GtkCheckButton" id="notify_with_tray">
-                    <property name="label" translatable="yes">Display reminders in _notification area only</property>
+                    <property name="label" translatable="yes">Show notifications</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
