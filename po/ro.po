@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2019-03-01 16:28+0000\n"
-"PO-Revision-Date: 2019-03-03 09:20+0100\n"
+"PO-Revision-Date: 2019-03-04 18:40+0100\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
 "sourceforge.net>\n"
@@ -535,16 +535,12 @@ msgid "Number of units for determining when to hide tasks"
 msgstr "Numărul de unități pentru a determina când să se ascundă sarcinile"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#, fuzzy
-#| msgid "Hide cancelled tasks"
 msgid "Hide cancelled events"
-msgstr "Ascunde sarcinile anulate"
+msgstr "Ascunde evenimentele anulate"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
-#, fuzzy
-#| msgid "Whether to hide cancelled tasks in the tasks view"
 msgid "Whether to hide cancelled events in the calendar view"
-msgstr "Dacă să se ascundă sarcinile anulate în vizualizarea sarcinilor"
+msgstr "Dacă să se ascundă evenimentele anulate în vizualizarea calendar"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
 msgid "Hide cancelled tasks"
@@ -1255,10 +1251,10 @@ msgstr ""
 "ortografică, care au fost folosite recent."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
-#, fuzzy
-#| msgid "List of recently used spell checking languages"
 msgid "How many recently used spell checking languages to remember"
-msgstr "Lista limbilor recent utilizate pentru corectarea ortografică"
+msgstr ""
+"Cât de multe limbi folosite recent pentru verificarea ortografică să se țină "
+"minte"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
 msgid "Show “Bcc” field when sending a mail message"
@@ -1919,7 +1915,7 @@ msgid ""
 "beyond which a “...” is shown."
 msgstr ""
 "Aceasta definește numărul adreselor arătate în vizualizarea implicită a "
-"listei de mesaje, după care se va arăta un „...”"
+"listei de mesaje, după care se va arăta un „...”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid ""
@@ -2278,10 +2274,9 @@ msgstr ""
 "formatarea."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
-#, fuzzy
-#| msgid "Prompt when replying to many recipients"
 msgid "Prompt when sending to many To and CC recipients"
-msgstr "Avertizează la trimiterea mesajelor cu mai mulți destinatari"
+msgstr ""
+"Anunță când se trimite la mulți destinatari în câmpurile „Către” și „CC”"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:208
 msgid ""
@@ -2334,39 +2329,28 @@ msgstr "Numărul de secunde pentru care eroare va fi arătată în bara de stare
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:217
 msgid "Level beyond which the message should be logged."
-msgstr "Nivelul la care mesajul trebuie înregistrat"
+msgstr "Nivelul la care mesajul trebuie înregistrat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:218
-#, fuzzy
-#| msgid ""
-#| "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
-#| "debug messages."
 msgid ""
 "This can have three possible values. “0” for errors. “1” for warnings. “2” "
 "for debug messages."
 msgstr ""
-"Aceasta poate avea trei valori. 0 pentru erori. 1 pentru avertizări. 2 "
+"Aceasta poate avea trei valori. „0” pentru erori. „1” pentru avertizări. „2” "
 "pentru mesaje de depanare."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:219
-#, fuzzy
-#| msgid "Show original \"Date\" header value."
 msgid "Show original “Date” header value."
-msgstr "Arată valoarea originală a antetului „Date”."
+msgstr "Arată valoarea originală a antetului „Dată”"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:220
-#, fuzzy
-#| msgid ""
-#| "Show the original \"Date\" header (with a local time only if the time "
-#| "zone differs). Otherwise always show \"Date\" header value in a user "
-#| "preferred format and local time zone."
 msgid ""
 "Show the original “Date” header (with a local time only if the time zone "
 "differs). Otherwise always show “Date” header value in a user preferred "
 "format and local time zone."
 msgstr ""
-"Arată antetul „Date” original (cu ora locală, doar dacă fusurile orare "
-"diferă). Altfel arată tot timpul valoarea antetului „Date” într-un format și "
+"Arată antetul „Dată” original (cu ora locală, doar dacă fusurile orare "
+"diferă). Altfel arată tot timpul valoarea antetului „Dată” într-un format și "
 "fus orar definit de utilizator."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:221
@@ -2396,7 +2380,7 @@ msgstr "La ieșire golește dosarele Spam"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:226
 msgid "Empty all Junk folders when exiting Evolution."
-msgstr "La ieșire din Evolution golește toate dosarele Spam"
+msgstr "La ieșire din Evolution golește toate dosarele Spam."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:227
 msgid "Minimum days between emptying the junk on exit"
@@ -2422,17 +2406,12 @@ msgid "The default plugin for Junk hook"
 msgstr "Modulul implicit pentru prinderea Spamului"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:232
-#, fuzzy
-#| msgid ""
-#| "This is the default junk plugin, even though there are multiple plugins "
-#| "enabled. If the default listed plugin is disabled, then it won't fall "
-#| "back to the other available plugins."
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won’t fall back "
 "to the other available plugins."
 msgstr ""
-"Aceste este modulul implicit pentru spam, chiar dacă sunt mai multe module "
+"Acesta este modulul implicit pentru spam, chiar dacă sunt mai multe module "
 "activate. Dacă modulul implicit este dezactivat, nu se vor folosi restul de "
 "module disponibile."
 
@@ -2442,22 +2421,16 @@ msgstr ""
 "Determină dacă să se verifice în agendă pentru adresa email a expeditorului"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:234
-#, fuzzy
-#| msgid ""
-#| "Determines whether to lookup the sender email in address book. If found, "
-#| "it shouldn't be a spam. It looks up in the books marked for "
-#| "autocompletion. It can be slow, if remote address books (like LDAP) are "
-#| "marked for autocompletion."
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn’t be a spam. It looks up in the books marked for autocompletion. It "
 "can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
 msgstr ""
-"Determină dacă să se verifice în agendă pentru adresa email a expeditorului. "
-"Dacă este găsită, n-ar trebui să fie spam. Va căuta în cărțile marcate "
-"pentru autocompletare. Poate fi încet, dacă cărțile de adrese (cum ar fi "
-"LDAP) sunt marcate pentru autocompletare."
+"Determină dacă să se verifice în agendă pentru adresa de email a "
+"expeditorului. Dacă este găsită, n-ar trebui să fie spam. Va căuta în "
+"agendele marcate pentru autocompletare. Poate fi încet, dacă agendele (cum "
+"ar fi LDAP) sunt marcate pentru autocompletare."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:235
 msgid ""
@@ -2523,43 +2496,33 @@ msgstr "Director pentru atașare fișiere la compunere"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:245
 msgid "Directory for loading/attaching files to composer."
-msgstr "Director de unde să fie atașate fișiere la compunere"
+msgstr "Director de unde să fie încărcate/atașate fișiere la compunere."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:246
 msgid "Check for new messages on start"
 msgstr "Verifică mesajele noi la pornire"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:247
-#, fuzzy
-#| msgid ""
-#| "Whether check for new messages when Evolution is started. This includes "
-#| "also sending messages from Outbox."
 msgid ""
 "Whether to check for new messages when Evolution is started. This includes "
 "also sending messages from Outbox."
 msgstr ""
-"Dacă verificați pentru mesaje noi, la pornirea Evolution. Aceasta include, "
-"de asemenea, trimiterea de mesaje din Netrimise."
+"Dacă să se verifice pentru mesaje noi, la pornirea Evolution. Aceasta "
+"include, de asemenea, trimiterea de mesaje din Netrimise."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Check for new messages in all active accounts"
 msgstr "Verifică mesajele noi în toate conturile active"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
-#, fuzzy
-#| msgid ""
-#| "Whether check for new messages in all active accounts regardless of the "
-#| "account \"Check for new messages every X minutes\" option when Evolution "
-#| "is started. This option is used only together with 'send_recv_on_start' "
-#| "option."
 msgid ""
 "Whether to check for new messages in all active accounts regardless of the "
 "account “Check for new messages every X minutes” option when Evolution is "
 "started. This option is used only together with “send_recv_on_start” option."
 msgstr ""
 "Dacă să se verifice mesajele noi în toate conturile active fără a ține cont "
-"de opțiunea „Verifică pentru mesaje noi la fiecare X minute” a fiecărui cont "
-"când se pornește Evolution. Această opțiune este utilizată numai împreună cu "
+"de opțiunea „Verifică pentru mesaje noi la fiecare X minute” când se "
+"pornește Evolution. Această opțiune este utilizată numai împreună cu "
 "opțiunea „send_recv_on_start”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
@@ -2575,10 +2538,8 @@ msgstr ""
 "serverul de email. Acest interval trebuie să fie de cel puțin 30 de secunde."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
-#, fuzzy
-#| msgid "Confirm _when expunging a folder"
 msgid "Allow expunge in virtual folders"
-msgstr "Confirmare la ș_tergerea definitivă a mesajelor dintr-un dosar"
+msgstr "Permite ștergerea definitivă în dosarele virtuale"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid ""
@@ -2587,6 +2548,10 @@ msgid ""
 "folders for all deleted messages within the virtual folder, not only for "
 "deleted messages belonging to the virtual folder."
 msgstr ""
+"Activează Ștergerea definitivă în dosarele virtuale, ceea ce înseamnă că "
+"„Dosar→Șterge definitiv” va putea fi apelat în dosarele virtuale, în timp ce "
+"ștergerea definitivă va putea fi efectuată pentru toate mesajele șterse din "
+"dosarul virtual, nu numai pentru mesajele ce aparțin dosarului virtual."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:254
 #: ../src/mail/mail-config.ui.h:9
@@ -2598,6 +2563,8 @@ msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
 msgstr ""
+"Când este activ, culorile temei pentru fundal, text și legături sunt trimise "
+"în mesajul formatat HTML."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "An Archive folder for On This Computer folders."
@@ -2633,11 +2600,9 @@ msgid "Whether the To Do bar is visible in a sub-window"
 msgstr "Dacă bara „De făcut” este vizibilă într-o sub-fereastră"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:263
-#, fuzzy
-#| msgid "Stores whether the To Do bar is visible in the main window."
 msgid "Stores whether the To Do bar is visible in a sub-window."
 msgstr ""
-"Stochează dacă sau nu bara „De făcut” este vizibilă în fereastra principală."
+"Stochează dacă sau nu bara „De făcut” este vizibilă într-o subfereastră."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
 #, fuzzy
@@ -2766,7 +2731,7 @@ msgid ""
 "selectors."
 msgstr ""
 "Pliază dosarele arhivă în selectorii „Mută/Copiază mesajul în dosar” și "
-"„Navighează la dosar”"
+"„Navighează la dosar”."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid ""
@@ -3054,11 +3019,11 @@ msgstr "Dacă să se șteargă obiectele procesate iTip"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
-msgstr "Înștiințează sosirea mesajelor noi în Inbox"
+msgstr "Notifică despre sosirea mesajelor noi în Inbox."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:2
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr "Dacă să se anuțe sosirea mesajelor numai pentru dosarul Inbox"
+msgstr "Dacă să se notifice sosirea mesajelor numai pentru dosarul Inbox."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:3
 msgid "Enable D-Bus messages."
@@ -3214,7 +3179,7 @@ msgid ""
 "Initial view for attachment bar widgets. “0” is Icon View, “1” is List View."
 msgstr ""
 "Vizualizarea inițială pentru widget-urile de pe bara de atașamente. „0” este "
-"vizualizare iconițe, „1” este vizualizare listă"
+"vizualizare iconițe, „1” este vizualizare listă."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:5
 msgid "Initial file chooser folder"
@@ -3849,7 +3814,7 @@ msgstr "Nu aveți permisiunea de a șterge contacte din această agendă."
 
 #: ../src/addressbook/addressbook.error.xml.h:40
 msgid "Cannot add new contact"
-msgstr "Nu se poate adăuga un contact nou."
+msgstr "Nu se poate adăuga un contact nou"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:42
@@ -8343,7 +8308,7 @@ msgstr "după"
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1894
 msgctxt "cal-reminders"
 msgid "start"
-msgstr "Început"
+msgstr "început"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1896
@@ -9388,7 +9353,7 @@ msgstr "Informație disponibil/ocupat (%s către %s)"
 
 #: ../src/calendar/gui/itip-utils.c:1260
 msgid "iCalendar information"
-msgstr "Informație iCalendar"
+msgstr "informație iCalendar"
 
 #: ../src/calendar/gui/itip-utils.c:1289
 #, c-format
@@ -9398,7 +9363,7 @@ msgstr ""
 
 #: ../src/calendar/gui/itip-utils.c:1294
 msgid "Unable to book a resource, error: "
-msgstr "Nu s-a putut rezerva o resursă, eroare:"
+msgstr "Nu s-a putut rezerva o resursă, eroare: "
 
 #: ../src/calendar/gui/itip-utils.c:1465
 msgid "You must be an attendee of the event."
@@ -11509,8 +11474,8 @@ msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
 msgstr ""
-"Întroduceți adresele ce vor primi o copia a mesajului fără ca acestea să "
-"apară în lista de destinatari a mesajului."
+"Introduceți adresele ce vor primi o copia a mesajului fără ca acestea să "
+"apară în lista de destinatari a mesajului"
 
 #: ../src/composer/e-composer-header-table.c:840
 msgid "Fr_om:"
@@ -12663,7 +12628,7 @@ msgstr "S_alvează toate"
 #: ../src/plugins/save-calendar/save-calendar.c:387
 #: ../src/plugins/save-calendar/save-calendar.c:426
 msgid "Save _As"
-msgstr "Salvează c_a..."
+msgstr "Salvează c_a"
 
 #: ../src/e-util/e-attachment-view.c:341
 msgid "A_dd Attachment..."
@@ -13166,10 +13131,8 @@ msgid ""
 msgstr ""
 
 #: ../src/e-util/e-collection-account-wizard.c:1833
-#, fuzzy
-#| msgid "Level beyond which the message should be logged."
 msgid "Select which parts should be configured:"
-msgstr "Nivelul la care mesajul trebuie înregistrat"
+msgstr "Selectați ce părți ar trebui configurate:"
 
 #: ../src/e-util/e-collection-account-wizard.c:1957
 #: ../src/mail/e-mail-config-identity-page.c:541
@@ -13216,10 +13179,8 @@ msgid "very dark gray"
 msgstr "gri foarte închis"
 
 #: ../src/e-util/e-color-combo.c:88
-#, fuzzy
-#| msgid "Mark as _Unread"
 msgid "dark red"
-msgstr "Marchează ca _necitit"
+msgstr "roșu închis"
 
 #: ../src/e-util/e-color-combo.c:89
 msgid "red-orange"
@@ -13284,10 +13245,8 @@ msgid "gray"
 msgstr "gri"
 
 #: ../src/e-util/e-color-combo.c:106
-#, fuzzy
-#| msgid "Image"
 msgid "magenta"
-msgstr "Imagine"
+msgstr "magenta"
 
 #: ../src/e-util/e-color-combo.c:107
 msgid "bright orange"
@@ -13310,10 +13269,8 @@ msgid "bright blue"
 msgstr "albastru aprins"
 
 #: ../src/e-util/e-color-combo.c:112
-#, fuzzy
-#| msgid "_Required people"
 msgid "red purple"
-msgstr "Pe_rsoanele necesare"
+msgstr "mov roșiatic"
 
 #: ../src/e-util/e-color-combo.c:113
 msgid "light grey"
@@ -13788,16 +13745,12 @@ msgid "R_ule name:"
 msgstr "N_ume regulă:"
 
 #: ../src/e-util/e-filter-rule.c:1035
-#, fuzzy
-#| msgid "Find items that meet the following conditions"
 msgid "all the following conditions"
-msgstr "Caută elemente ce întrunesc următoarele condiții"
+msgstr "toate condițiile următoare"
 
 #: ../src/e-util/e-filter-rule.c:1036
-#, fuzzy
-#| msgid "Find items that meet the following conditions"
 msgid "any of the following conditions"
-msgstr "Caută elemente ce întrunesc următoarele condiții"
+msgstr "oricare dintre condițiile următoare"
 
 #: ../src/e-util/e-filter-rule.c:1042
 #, fuzzy
@@ -13859,16 +13812,12 @@ msgid "Outgoing"
 msgstr "Trimitere"
 
 #: ../src/e-util/e-html-editor-actions.c:80
-#, fuzzy
-#| msgid "Failed to open folder."
 msgid "Failed to insert HTML file."
-msgstr "Nu s-a putut deschide dosarul"
+msgstr "Nu s-a putut introduce fișierul HTML."
 
 #: ../src/e-util/e-html-editor-actions.c:118
-#, fuzzy
-#| msgid "Failed to import certificate"
 msgid "Failed to insert text file."
-msgstr "Nu s-a putut importa certificatul "
+msgstr "Nu s-a putut introduce fișierul text."
 
 #: ../src/e-util/e-html-editor-actions.c:302
 msgid "Insert HTML File"
@@ -14169,10 +14118,8 @@ msgstr "_Inserează"
 
 #: ../src/e-util/e-html-editor-actions.c:1251
 #: ../src/e-util/e-html-editor-actions.c:1294
-#, fuzzy
-#| msgid "Table"
 msgid "_Table..."
-msgstr "Tabel"
+msgstr "_Tabel..."
 
 #: ../src/e-util/e-html-editor-actions.c:1253
 #, fuzzy
@@ -14195,10 +14142,8 @@ msgid "Font _Size"
 msgstr "Dimen_siune font"
 
 #: ../src/e-util/e-html-editor-actions.c:1310
-#, fuzzy
-#| msgid "_Forward style:"
 msgid "_Font Style"
-msgstr "Stilul pentru î_naintare:"
+msgstr "Stilul _fonturi"
 
 #: ../src/e-util/e-html-editor-actions.c:1317
 msgid "Paste As _Text"
@@ -14358,20 +14303,16 @@ msgid "Cell..."
 msgstr "Celulă..."
 
 #: ../src/e-util/e-html-editor-actions.c:1545
-#, fuzzy
-#| msgid "Image"
 msgid "Image..."
-msgstr "Imagine"
+msgstr "Imagine..."
 
 #: ../src/e-util/e-html-editor-actions.c:1552
 msgid "Link..."
 msgstr "Legătură..."
 
 #: ../src/e-util/e-html-editor-actions.c:1559
-#, fuzzy
-#| msgid "Pager"
 msgid "Page..."
-msgstr "Pager"
+msgstr "Pagină..."
 
 #: ../src/e-util/e-html-editor-actions.c:1566
 msgid "Paragraph..."
@@ -14385,10 +14326,8 @@ msgid "Rule..."
 msgstr "_Nume complet..."
 
 #: ../src/e-util/e-html-editor-actions.c:1581
-#, fuzzy
-#| msgid "Table"
 msgid "Table..."
-msgstr "Tabel"
+msgstr "Tabel..."
 
 #: ../src/e-util/e-html-editor-actions.c:1588
 msgid "Text..."
@@ -14405,10 +14344,8 @@ msgid "Add Word to Dictionary"
 msgstr "A_daugă condiție"
 
 #: ../src/e-util/e-html-editor-actions.c:1619
-#, fuzzy
-#| msgid "Color for _misspelled words:"
 msgid "Ignore Misspelled Word"
-msgstr "Culoarea pentru cuvintele scrise _greșit:"
+msgstr "Ignoră cuvântul ortografiat greșit"
 
 #: ../src/e-util/e-html-editor-actions.c:1626
 msgid "Add Word To"
@@ -14539,10 +14476,8 @@ msgstr "Către"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:503
 #: ../src/e-util/e-html-editor-image-dialog.c:581
-#, fuzzy
-#| msgid "_Middle:"
 msgid "Middle"
-msgstr "Inițiala _tatălui:"
+msgstr "Mijlociu"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:504
 #: ../src/e-util/e-html-editor-image-dialog.c:582
@@ -14550,10 +14485,8 @@ msgid "Bottom"
 msgstr "Jos"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:512
-#, fuzzy
-#| msgid "_Vertical View"
 msgid "_Vertical:"
-msgstr "Vizualizare _verticală"
+msgstr "_Vertical:"
 
 #. Wrap Text
 #: ../src/e-util/e-html-editor-cell-dialog.c:518
@@ -14597,10 +14530,8 @@ msgid "Transparent"
 msgstr "Transparent"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:633
-#, fuzzy
-#| msgid "Color"
 msgid "C_olor:"
-msgstr "Culoare"
+msgstr "Cul_oare:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:640
 #: ../src/e-util/e-html-editor-image-dialog.c:476
@@ -14622,10 +14553,8 @@ msgid "Choose Background Image"
 msgstr "Nu s-a putut defini fundalul"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:662
-#, fuzzy
-#| msgid "Image"
 msgid "_Image:"
-msgstr "Imagine"
+msgstr "_Imagine:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:669
 #: ../src/e-util/e-html-editor-page-dialog.c:495
@@ -14646,10 +14575,8 @@ msgstr "Nicio potrivire găsită"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:215
 #: ../src/e-util/e-html-editor-replace-dialog.c:295
-#, fuzzy
-#| msgid "Search _base:"
 msgid "Search _backwards"
-msgstr "Domeniu _căutare:"
+msgstr "Caută îna_poi"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:222
 msgid "Case _Sensitive"
@@ -14679,10 +14606,8 @@ msgid "_Width:"
 msgstr "_Lățime:"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:308
-#, fuzzy
-#| msgid "Size"
 msgid "_Size:"
-msgstr "Dimensiune"
+msgstr "Dimen_siune:"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:315
 msgid "<b>Style</b>"
@@ -14690,10 +14615,8 @@ msgstr "<b>Stil</b>"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:340
 #: ../src/e-util/e-html-editor-table-dialog.c:657
-#, fuzzy
-#| msgid "A_lignment"
 msgid "_Alignment:"
-msgstr "A_liniere"
+msgstr "_Aliniere:"
 
 #. Shaded
 #: ../src/e-util/e-html-editor-hrule-dialog.c:346
@@ -14715,10 +14638,8 @@ msgid "<b>General</b>"
 msgstr "Generale"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:499
-#, fuzzy
-#| msgid "Sources"
 msgid "_Source:"
-msgstr "Surse"
+msgstr "_Sursă:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:562
 msgid "_Height:"
@@ -14802,10 +14723,8 @@ msgid "<b>Colors</b>"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-page-dialog.c:398
-#, fuzzy
-#| msgid "_Text Only"
 msgid "_Text:"
-msgstr "Doar _text"
+msgstr "_Text:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:413
 msgid "_Link:"
@@ -14816,10 +14735,8 @@ msgid "_Visited Link:"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-page-dialog.c:443
-#, fuzzy
-#| msgid "Set as _Background"
 msgid "_Background:"
-msgstr "Definește ca _fundal"
+msgstr "_Fundal:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:451
 msgid "<b>Background Image</b>"
@@ -14838,10 +14755,8 @@ msgid "Select a file"
 msgstr "Selectează un fișier"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:488
-#, fuzzy
-#| msgid "_Custom"
 msgid "_Custom:"
-msgstr "_Personalizat"
+msgstr "_Personalizat:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:515
 #, fuzzy
@@ -14881,10 +14796,8 @@ msgid "R_eplace:"
 msgstr ""
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:287
-#, fuzzy
-#| msgid "O_pen With"
 msgid "_With:"
-msgstr "_Deschide cu"
+msgstr "_Lățime:"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:299
 msgid "_Case sensitive"
@@ -14990,10 +14903,8 @@ msgid "_Spacing:"
 msgstr "_Spațiere:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:621
-#, fuzzy
-#| msgid "Loading"
 msgid "_Padding:"
-msgstr "Se încarcă"
+msgstr "Com_pletare:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:685
 #: ../src/e-util/e-html-editor-text-dialog.c:248
@@ -15004,10 +14915,8 @@ msgid "_Color:"
 msgstr "Culoa_re:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:716
-#, fuzzy
-#| msgid "Image"
 msgid "Image:"
-msgstr "Imagine"
+msgstr "Imagine:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:743
 #, fuzzy
@@ -15136,10 +15045,8 @@ msgid "Select a File"
 msgstr "Alegeți un fișier"
 
 #: ../src/e-util/e-import-assistant.c:1398
-#, fuzzy
-#| msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgid "Click “Apply” to begin importing the file into Evolution."
-msgstr "Clic pe „Aplică” pentru a începe importul fișierului în Evolution. "
+msgstr "Clic pe „Aplică” pentru a începe importarea fișierului în Evolution."
 
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
 #: ../src/mail/e-mail-config-provider-page.c:580
@@ -15252,10 +15159,9 @@ msgid "Opening task list “%s”"
 msgstr "Deschid sarcinile la %s"
 
 #: ../src/e-util/e-misc-utils.c:2572
-#, fuzzy, c-format
-#| msgid "evolution address book"
+#, c-format
 msgid "Opening address book “%s”"
-msgstr "agenda evolution"
+msgstr "Se deschide agenda „%s”"
 
 #: ../src/e-util/e-misc-utils.c:3352
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:146
@@ -15276,17 +15182,12 @@ msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr ""
 
 #: ../src/e-util/e-misc-utils.c:4229
-#, fuzzy, c-format
-#| msgid "Failed to authenticate with LDAP server."
+#, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
-msgstr "Autentificare la serverul LDAP eșuată."
+msgstr "Autentificare la serverul LDAP a eșuat (%d): %s"
 
 #: ../src/e-util/e-misc-utils.c:4243
-#, fuzzy, c-format
-#| msgid ""
-#| "This LDAP server may use an older version of LDAP, which does not support "
-#| "this functionality or it may be misconfigured. Ask your administrator for "
-#| "supported search bases."
+#, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -15296,7 +15197,9 @@ msgid ""
 msgstr ""
 "Acest server poate folosi o versiune mai veche de LDAP, ce nu suportă "
 "această funcționalitate, sau a fost configurat greșit. Consultați "
-"administratorul de sistem pentru căutările de bază suportate."
+"administratorul de sistem pentru căutările de bază suportate.\n"
+"\n"
+"Eroare detaliată (%d): %s"
 
 #: ../src/e-util/e-misc-utils.c:4254
 msgid ""
@@ -15334,22 +15237,16 @@ msgid "Show Contacts"
 msgstr "Contacte"
 
 #: ../src/e-util/e-name-selector-dialog.c:306
-#, fuzzy
-#| msgid "Address Book"
 msgid "Address B_ook:"
-msgstr "Agendă"
+msgstr "A_gendă:"
 
 #: ../src/e-util/e-name-selector-dialog.c:313
-#, fuzzy
-#| msgid "Category"
 msgid "Cat_egory:"
-msgstr "Categorie"
+msgstr "Cat_egorie:"
 
 #: ../src/e-util/e-name-selector-dialog.c:337
-#, fuzzy
-#| msgid "_Search"
 msgid "_Search:"
-msgstr "_Căutare"
+msgstr "_Caută:"
 
 #: ../src/e-util/e-name-selector-dialog.c:363
 #: ../src/e-util/e-name-selector-dialog.c:1330
@@ -15508,10 +15405,8 @@ msgid "_Socks Proxy:"
 msgstr "SOC_KS Proxy:"
 
 #: ../src/e-util/e-proxy-editor.c:490
-#, fuzzy
-#| msgid "Ignore"
 msgid "_Ignore Hosts:"
-msgstr "Ignoră"
+msgstr "_Ignoră gazdele:"
 
 #: ../src/e-util/e-proxy-editor.c:516
 #, fuzzy
@@ -15520,10 +15415,8 @@ msgid "Automatic"
 msgstr "Contacte automate"
 
 #: ../src/e-util/e-proxy-editor.c:535
-#, fuzzy
-#| msgid "Configuration"
 msgid "Configuration _URL:"
-msgstr "Configurare"
+msgstr "_URL de configurare:"
 
 #: ../src/e-util/e-proxy-editor.c:561
 msgid "No proxy"
@@ -15783,10 +15676,8 @@ msgid "Refresh every"
 msgstr "Actualizează dosarul"
 
 #: ../src/e-util/e-source-config.c:1446 ../src/e-util/e-source-config.c:1520
-#, fuzzy
-#| msgid "Use _secure connection"
 msgid "Use a secure connection"
-msgstr "Folosiți conectare _securizată:"
+msgstr "Folosește o conexiune _securizată"
 
 #: ../src/e-util/e-source-config.c:1547
 msgid "Unset _trust for SSL/TLS certificate"
@@ -15834,10 +15725,8 @@ msgid "Available Groups:"
 msgstr "Câmpuri _disponibile:"
 
 #: ../src/e-util/e-source-selector-dialog.c:234
-#, fuzzy
-#| msgid "_Destination folder:"
 msgid "_Destination"
-msgstr "_Dosarul destinație:"
+msgstr "_Destinație"
 
 #: ../src/e-util/e-source-selector-dialog.c:362
 #, fuzzy
@@ -15874,10 +15763,8 @@ msgid "Spelling Suggestions"
 msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:1
-#, fuzzy
-#| msgid "A folder named \"{0}\" already exists. Please use a different name."
 msgid "A file named “{0}” already exists. Do you want to replace it?"
-msgstr "Există deja un dosar numit „{0}. Alegeți alt nume."
+msgstr "Există deja un fișier numit „{0}. Doriți să îl înlocuiți?"
 
 #: ../src/e-util/e-system.error.xml.h:2
 msgid ""
@@ -15911,10 +15798,8 @@ msgid "Failed to update data source “{0}”."
 msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:10
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to delete resource “{0}”."
-msgstr "Nu s-a putut șterge contactul"
+msgstr "Eșec la ștergerea resursei „{0}”."
 
 #: ../src/e-util/e-system.error.xml.h:11
 msgid "The address book backend servicing “{0}” has quit unexpectedly."
@@ -16298,10 +16183,8 @@ msgid "Display Name"
 msgstr "Afișare"
 
 #: ../src/e-util/evolution-source-viewer.c:677
-#, fuzzy
-#| msgid "_Flag:"
 msgid "Flags"
-msgstr "_Fanion:"
+msgstr "Fanioane"
 
 #: ../src/e-util/evolution-source-viewer.c:729
 #: ../src/mail/e-mail-config-identity-page.c:1230
@@ -16319,32 +16202,24 @@ msgid "Events"
 msgstr "Evenimente"
 
 #: ../src/e-util/e-webdav-browser.c:514
-#, fuzzy
-#| msgid "Loading"
 msgid "Loading…"
-msgstr "Se încarcă"
+msgstr "Se încarcă…"
 
 #: ../src/e-util/e-webdav-browser.c:1383
-#, fuzzy
-#| msgid "Searching folder content..."
 msgid "Searching collection children…"
-msgstr "Se caută conținutul dosarului..."
+msgstr "Se caută descendenții colecției…"
 
 #: ../src/e-util/e-webdav-browser.c:1385
 msgid "Failed to search for collection children"
 msgstr ""
 
 #: ../src/e-util/e-webdav-browser.c:1419
-#, fuzzy
-#| msgid "Searching for user's calendars..."
 msgid "Searching for user home, please wait…"
-msgstr "Se caută calendarele utilizatorului..."
+msgstr "Se caută dosarul personal al utilizatorului, așteptați…"
 
 #: ../src/e-util/e-webdav-browser.c:1421
-#, fuzzy
-#| msgid "Unable to perform search."
 msgid "Failed to search for user home"
-msgstr "Nu s-a putut realiza căutarea."
+msgstr "Nu s-a putut căuta dosarul personal al utilizatorului"
 
 #: ../src/e-util/e-webdav-browser.c:1763
 msgid "At least one component type should be set"
@@ -16357,10 +16232,8 @@ msgid "Failed to get selected collection HREF"
 msgstr "Nu s-a putut șterge contactul"
 
 #: ../src/e-util/e-webdav-browser.c:1812
-#, fuzzy
-#| msgid "_Save Changes"
 msgid "Saving changes…"
-msgstr "_Salvează modificările"
+msgstr "_Se salvează modificările…"
 
 #: ../src/e-util/e-webdav-browser.c:1813
 #, fuzzy
@@ -16369,30 +16242,24 @@ msgid "Failed to save changes"
 msgstr "Eroare la salvarea mesajelor pe disc"
 
 #: ../src/e-util/e-webdav-browser.c:1815
-#, fuzzy
-#| msgid "Create a new address book"
 msgid "Creating new book…"
-msgstr "Creează o agendă nouă"
+msgstr "Se creează o agendă nouă…"
 
 #: ../src/e-util/e-webdav-browser.c:1816
 msgid "Failed to create new book"
 msgstr "Eșec la crearea unei noi cărți"
 
 #: ../src/e-util/e-webdav-browser.c:1818
-#, fuzzy
-#| msgid "Create a new calendar"
 msgid "Creating new calendar…"
-msgstr "Creează un calendar nou"
+msgstr "Se creează un calendar nou…"
 
 #: ../src/e-util/e-webdav-browser.c:1819
 msgid "Failed to create new calendar"
 msgstr "Eșec la crearea unui nou calendar"
 
 #: ../src/e-util/e-webdav-browser.c:1821
-#, fuzzy
-#| msgid "Create a new contact"
 msgid "Creating new collection…"
-msgstr "Creează un contact nou"
+msgstr "Creează o colecție nouă…"
 
 #: ../src/e-util/e-webdav-browser.c:1822
 msgid "Failed to create new collection"
@@ -16419,10 +16286,8 @@ msgid "Failed to delete book"
 msgstr "Nu s-a putut șterge contactul"
 
 #: ../src/e-util/e-webdav-browser.c:2193
-#, fuzzy
-#| msgid "Opening calendar"
 msgid "Deleting calendar…"
-msgstr "Se deschide calendarul"
+msgstr "Se șterge calendarul…"
 
 #: ../src/e-util/e-webdav-browser.c:2194
 #, fuzzy
@@ -16431,10 +16296,8 @@ msgid "Failed to delete calendar"
 msgstr "Nu s-a putut șterge contactul"
 
 #: ../src/e-util/e-webdav-browser.c:2197
-#, fuzzy
-#| msgid "Delete the selection"
 msgid "Deleting collection…"
-msgstr "Șterge această selecție"
+msgstr "Se șterge colecția…"
 
 #: ../src/e-util/e-webdav-browser.c:2198
 #, fuzzy
@@ -16453,10 +16316,8 @@ msgid "_Events"
 msgstr "Evenimente"
 
 #: ../src/e-util/e-webdav-browser.c:2625
-#, fuzzy
-#| msgid "WebDAV"
 msgid "WebDAV server:"
-msgstr "WebDAV"
+msgstr "Server WebDAV:"
 
 #: ../src/e-util/e-webdav-browser.c:2660
 msgid "Create _Book"
@@ -16520,10 +16381,8 @@ msgstr "Salvează imaginea într-un fișier"
 
 #: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-browser.c:179
 #: ../src/mail/e-mail-reader.c:2787
-#, fuzzy
-#| msgid "Searches"
 msgid "Search _Web…"
-msgstr "Căutări"
+msgstr "Caută pe _web…"
 
 #: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:181
 #: ../src/mail/e-mail-reader.c:2789
@@ -16770,10 +16629,8 @@ msgid "_Filter Rules"
 msgstr "Reguli de _filtrare"
 
 #: ../src/e-util/filter.ui.h:24
-#, fuzzy
-#| msgid "R_ule name:"
 msgid "Rule Name"
-msgstr "N_ume regulă:"
+msgstr "Numele regulei"
 
 #: ../src/e-util/gal-a11y-e-cell.c:128
 msgid "Table Cell"
@@ -16845,10 +16702,8 @@ msgid "Please provide an unique name to identify this signature."
 msgstr "Introduceți un nume unic pentru această semnătură."
 
 #: ../src/e-util/widgets.error.xml.h:6
-#, fuzzy
-#| msgid "Copy the image to the clipboard"
 msgid "Unable to copy image to clipboard."
-msgstr "Copiază imaginea în clipboard"
+msgstr "Nu s-a putut copia imaginea în clipboard."
 
 #: ../src/e-util/widgets.error.xml.h:7
 #, fuzzy
@@ -16975,10 +16830,9 @@ msgid "Templates"
 msgstr "Șabloane"
 
 #: ../src/libemail-engine/e-mail-session.c:1294
-#, fuzzy, c-format
-#| msgid "User canceled operation."
+#, c-format
 msgid "User cancelled operation"
-msgstr "Operație anulată de utilizator."
+msgstr "Operație anulată de utilizator"
 
 #: ../src/libemail-engine/e-mail-session.c:1351
 #, fuzzy, c-format
@@ -17137,14 +16991,12 @@ msgstr[1] "Eroare la trimiterea a %d din %d mesaje"
 msgstr[2] "Eroare la trimiterea a %d din %d mesaje"
 
 #: ../src/libemail-engine/mail-ops.c:1094
-#, fuzzy
-#| msgid "Cancelled"
 msgid "Cancelled."
-msgstr "Anulată"
+msgstr "Anulată."
 
 #: ../src/libemail-engine/mail-ops.c:1096
 msgid "Complete."
-msgstr "Terminat"
+msgstr "Finalizat."
 
 #: ../src/libemail-engine/mail-ops.c:1220
 #, fuzzy, c-format
@@ -17301,11 +17153,9 @@ msgid "User: %s"
 msgstr "URL: %s"
 
 #: ../src/mail/e-mail-autoconfig.c:762
-#, fuzzy, c-format
-#| msgctxt "email-custom-header-Security"
-#| msgid "Security:"
+#, c-format
 msgid "Security method: %s"
-msgstr "Securitate:"
+msgstr "Metodă de securitate: %s"
 
 #: ../src/mail/e-mail-autoconfig.c:763
 #: ../src/mail/e-mail-config-summary-page.c:144
@@ -17391,10 +17241,8 @@ msgid "_Revise Details"
 msgstr "Detalii _stare"
 
 #: ../src/mail/e-mail-config-auth-check.c:217
-#, fuzzy
-#| msgid "_Authentication Type"
 msgid "Querying authentication types..."
-msgstr "Tip _autentificare"
+msgstr "Se interoghează tipurile de _autentificare…"
 
 #: ../src/mail/e-mail-config-auth-check.c:430
 #, fuzzy
@@ -17458,10 +17306,8 @@ msgid "Re_ply style:"
 msgstr "Stilul de _răspuns:"
 
 #: ../src/mail/e-mail-config-composing-page.c:495
-#, fuzzy
-#| msgid "Language"
 msgid "Lang_uage:"
-msgstr "Limbaj"
+msgstr "Limbă:"
 
 #: ../src/mail/e-mail-config-composing-page.c:498
 #: ../src/mail/e-mail-config-composing-page.c:508
@@ -17619,7 +17465,7 @@ msgid ""
 "Use for example, “Work” or “Personal”."
 msgstr ""
 "Numele de deasupra va fi folosit pentru a identifica acest cont.\n"
-"De exemplu: „Lucru” sau „Personal”"
+"De exemplu: „Lucru” sau „Personal”."
 
 #: ../src/mail/e-mail-config-identity-page.c:596
 msgid "Required Information"
@@ -17845,7 +17691,7 @@ msgstr "Trimitere mesaje"
 
 #: ../src/mail/e-mail-config-service-page.c:501
 msgid "Server _Type:"
-msgstr "_Tip server: "
+msgstr "_Tip server:"
 
 #: ../src/mail/e-mail-config-summary-page.c:306
 msgid ""
@@ -17877,10 +17723,8 @@ msgid "Sending"
 msgstr "Trimitere mesaje"
 
 #: ../src/mail/e-mail-config-summary-page.c:431
-#, fuzzy
-#| msgid "Server _Type:"
 msgid "Server Type:"
-msgstr "_Tip server: "
+msgstr "_Tip server:"
 
 #: ../src/mail/e-mail-config-summary-page.c:452
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:661
@@ -18241,10 +18085,8 @@ msgid "Filter the selected messages for junk status"
 msgstr "Filtrează mesajele selectate după starea de spam"
 
 #: ../src/mail/e-mail-reader.c:2386
-#, fuzzy
-#| msgid "Assign Color"
 msgid "Assign C_olor…"
-msgstr "Atribuie culoare"
+msgstr "Atribuie cul_oare…"
 
 #: ../src/mail/e-mail-reader.c:2388
 #, fuzzy
@@ -18931,10 +18773,9 @@ msgid "Do not warn me again"
 msgstr "Nu mă avertiza din nou"
 
 #: ../src/mail/e-mail-reader-utils.c:632
-#, fuzzy, c-format
-#| msgid "Moving messages into folder %s"
+#, c-format
 msgid "Deleting messages in Junk folder “%s”…"
-msgstr "Se mută mesajele în dosarul %s"
+msgstr "Se șterg mesajele din dosarul Junk „%s”…"
 
 #: ../src/mail/e-mail-reader-utils.c:727
 #, fuzzy, c-format
@@ -19123,10 +18964,8 @@ msgid "_Reply"
 msgstr "_Răspunde"
 
 #: ../src/mail/em-composer-utils.c:4189
-#, fuzzy
-#| msgid "Recipients"
 msgid "Recipients:"
-msgstr "Destinatari"
+msgstr "Destinatari:"
 
 #: ../src/mail/em-composer-utils.c:4217
 #, fuzzy
@@ -19178,10 +19017,8 @@ msgid "_Format message in HTML"
 msgstr "Formatează mesajele în _HTML"
 
 #: ../src/mail/em-composer-utils.c:4280
-#, fuzzy
-#| msgid "Template:"
 msgid "Apply t_emplate"
-msgstr "Șablon:"
+msgstr "Aplică ș_ablon"
 
 #: ../src/mail/em-composer-utils.c:4292
 #, fuzzy
@@ -19190,13 +19027,12 @@ msgid "Preserve original message S_ubject"
 msgstr "Mesaj original"
 
 #: ../src/mail/em-composer-utils.c:4358
-#, fuzzy, c-format
-#| msgid "Sender or Recipients"
+#, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
-msgstr[0] "Expeditor sau destinatari"
-msgstr[1] "Expeditor sau destinatari"
-msgstr[2] "Expeditor sau destinatari"
+msgstr[0] "un destinatar"
+msgstr[1] "%d destinatari"
+msgstr[2] "%d de destinatari"
 
 #. FIXME GTK_WINDOW (composer)
 #: ../src/mail/em-composer-utils.c:4776
@@ -19221,10 +19057,8 @@ msgid "%s (%s, for account %s)"
 msgstr "Lista conturilor"
 
 #: ../src/mail/em-filter-editor.c:167 ../src/mail/em-filter-editor.c:171
-#, fuzzy
-#| msgid "Enabled"
 msgid "enabled"
-msgstr "Activat"
+msgstr "activat"
 
 #: ../src/mail/em-filter-editor.c:167 ../src/mail/em-filter-editor.c:171
 #, fuzzy
@@ -19351,16 +19185,12 @@ msgid "Move messages to the default archive _folder"
 msgstr "Mută mesajele selectate în alt dosar"
 
 #: ../src/mail/em-folder-properties.c:668
-#, fuzzy
-#| msgid "Moving messages to '%s'"
 msgid "_Move messages to:"
-msgstr "Se mută mesajul în „%s”"
+msgstr "_Mută mesajele la:"
 
 #: ../src/mail/em-folder-properties.c:672
-#, fuzzy
-#| msgid "_Trash Folder:"
 msgid "Archive folder"
-msgstr "_Dosar coș de gunoi:"
+msgstr "Dosarul arhivă"
 
 #: ../src/mail/em-folder-properties.c:672
 #, fuzzy
@@ -19689,10 +19519,8 @@ msgid "Specific folders"
 msgstr "Dosare specifice"
 
 #: ../src/mail/em-vfolder-editor-rule.c:618
-#, fuzzy
-#| msgid "Enable search folders"
 msgid "include subfolders"
-msgstr "Activează dosare de căutare"
+msgstr "include subdosarele"
 
 #: ../src/mail/filtertypes.xml.in.h:1 ../src/mail/message-list.etspec.h:15
 #: ../src/mail/searchtypes.xml.in.h:1 ../src/mail/vfoldertypes.xml.in.h:1
@@ -19751,10 +19579,8 @@ msgstr "Expeditor sau destinatari"
 
 #: ../src/mail/filtertypes.xml.in.h:17 ../src/mail/searchtypes.xml.in.h:18
 #: ../src/mail/vfoldertypes.xml.in.h:18
-#, fuzzy
-#| msgid "Password:"
 msgid "has words"
-msgstr "Parolă:"
+msgstr "include cuvintele"
 
 #: ../src/mail/filtertypes.xml.in.h:18 ../src/mail/searchtypes.xml.in.h:19
 #: ../src/mail/vfoldertypes.xml.in.h:19
@@ -20088,10 +19914,8 @@ msgid "Importing mailbox"
 msgstr "Importare căsuță de email"
 
 #: ../src/mail/importers/mail-importer.c:61
-#, fuzzy
-#| msgid "Import mail from Elm."
 msgid "Importing mail and contacts from KMail"
-msgstr "Importă emailuri din Elm."
+msgstr "Se importă emailuri și contacte din KMail"
 
 #. Destination folder, was set in our widget
 #: ../src/mail/importers/mail-importer.c:190
@@ -20236,10 +20060,8 @@ msgid "Number of characters for word w_rapping:"
 msgstr "Numărul de caractere pentru încad_rarea cuvintelor:"
 
 #: ../src/mail/mail-config.ui.h:16
-#, fuzzy
-#| msgid "Ch_aracter Encoding"
 msgid "Ch_aracter encoding:"
-msgstr "Codare c_aractere"
+msgstr "Codare c_aractere:"
 
 #: ../src/mail/mail-config.ui.h:17
 msgid "Replies and Forwards"
@@ -20254,20 +20076,16 @@ msgid "_Forward style:"
 msgstr "Stilul pentru î_naintare:"
 
 #: ../src/mail/mail-config.ui.h:20
-#, fuzzy
-#| msgid "_Languages"
 msgid "_Language:"
-msgstr "_Limbi"
+msgstr "_Limbă:"
 
 #: ../src/mail/mail-config.ui.h:24
 msgid "Include si_gnature in new messages only"
 msgstr "Include sem_nătura numai în mesajele noi"
 
 #: ../src/mail/mail-config.ui.h:25
-#, fuzzy
-#| msgid "Ignore Reply-To: for mailing lists"
 msgid "Ig_nore Reply-To: for mailing lists"
-msgstr "Ignoră dialogul „Răspunde-la”: pentru listele de discuții."
+msgstr "Ignoră dialogul „Răspunde-la”: pentru listele de discuții"
 
 #: ../src/mail/mail-config.ui.h:26
 #, fuzzy
@@ -20900,10 +20718,6 @@ msgid "Use default drafts folder?"
 msgstr "Folosește dosarul implicit de ciorne?"
 
 #: ../src/mail/mail.error.xml.h:34
-#, fuzzy
-#| msgid ""
-#| "Unable to open the drafts folder for this account. Use the system drafts "
-#| "folder instead?"
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?\n"
@@ -20911,7 +20725,9 @@ msgid ""
 "The reported error was “{0}”."
 msgstr ""
 "Nu se poate deschide dosarul cu ciorne pentru acest cont. Doriți să folosiți "
-"dosarul sistem implicit pentru ciorne?"
+"dosarul de sistem implicit pentru ciorne?\n"
+"\n"
+"Eroarea raportată a fost „{0}”."
 
 #: ../src/mail/mail.error.xml.h:37
 msgid "Use _Default"
@@ -21032,10 +20848,8 @@ msgstr ""
 "corect și nu pot fi redenumite, mutate sau șterse."
 
 #: ../src/mail/mail.error.xml.h:63
-#, fuzzy
-#| msgid "Failed to open folder."
 msgid "Failed to expunge folder “{0}”."
-msgstr "Nu s-a putut deschide dosarul"
+msgstr "Eșec la ștergerea definitivă a dosarului „{0}”."
 
 #: ../src/mail/mail.error.xml.h:65
 msgid "Failed to refresh folder “{0}”."
@@ -21447,10 +21261,8 @@ msgid "_No, Never"
 msgstr "Niciodată"
 
 #: ../src/mail/mail.error.xml.h:145
-#, fuzzy
-#| msgid "Copying folder %s"
 msgid "Copy folder in folder tree."
-msgstr "Se copiază dosarul %s"
+msgstr "Copiază dosarul în arborele de dosare."
 
 #: ../src/mail/mail.error.xml.h:146
 #, fuzzy
@@ -21474,10 +21286,8 @@ msgid "N_ever copy"
 msgstr "_Nu copia niciodată"
 
 #: ../src/mail/mail.error.xml.h:151
-#, fuzzy
-#| msgid "Moving folder %s"
 msgid "Move folder in folder tree."
-msgstr "Se mută dosarul %s"
+msgstr "Mută dosarul în arborele de dosare."
 
 #: ../src/mail/mail.error.xml.h:152
 msgid "Are you sure you want to to move folder “{0}” to folder “{1}”?"
@@ -21599,7 +21409,7 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:177
 msgid "Failed to open folder."
-msgstr "Nu s-a putut deschide dosarul"
+msgstr "Nu s-a putut deschide dosarul."
 
 #: ../src/mail/mail.error.xml.h:179
 msgid "Failed to find duplicate messages."
@@ -21625,7 +21435,7 @@ msgstr "Nu se pot descărca mesaje pentru vizualizarea în modul deconectat."
 
 #: ../src/mail/mail.error.xml.h:184
 msgid "Failed to save messages to disk."
-msgstr "Eroare la salvarea mesajelor pe disc"
+msgstr "Eșec la salvarea mesajelor pe disc."
 
 #: ../src/mail/mail.error.xml.h:185
 msgid "Hidden file is attached."
@@ -21648,10 +21458,8 @@ msgid "The printer replied “{0}”."
 msgstr ""
 
 #: ../src/mail/mail.error.xml.h:189
-#, fuzzy
-#| msgid "Could not open destination"
 msgid "Could not perform this operation on {0}."
-msgstr "Nu s-a putut deschide destinația"
+msgstr "Nu s-a putut efectua această operațiune pe {0}."
 
 #: ../src/mail/mail.error.xml.h:190
 msgid "You must be working online to complete this operation."
@@ -22358,10 +22166,8 @@ msgstr "_Previzualizare"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1559
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:703
 #: ../src/modules/calendar/e-task-shell-view-actions.c:857
-#, fuzzy
-#| msgid "_Manager:"
 msgid "_Manage groups..."
-msgstr "_Manager:"
+msgstr "Ad_ministrează grupuri..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1193
 msgid "Address Book Map"
@@ -22472,10 +22278,9 @@ msgid "_Send Message to Contact"
 msgstr "Trimite me_saj la contact"
 
 #: ../src/modules/alarm-notify/alarm-notify.c:169
-#, fuzzy, c-format
-#| msgid "Failed to open folder."
+#, c-format
 msgid "Failed to launch command “%s”:"
-msgstr "Nu s-a putut deschide dosarul"
+msgstr "Eșec la lansarea comenzii „%s”:"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:162
 #, fuzzy
@@ -22493,10 +22298,8 @@ msgstr ""
 "sunt restaurate toate configurările, filtrele de mesaje etc."
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:177
-#, fuzzy
-#| msgid "Restore from backup"
 msgid "_Restore from a backup file:"
-msgstr "Restaurează dintr-o cópie de siguranță"
+msgstr "_Restaurează dintr-o cópie de siguranță:"
 
 #: ../src/modules/backup-restore/e-mail-config-restore-page.c:188
 #, fuzzy
@@ -22670,10 +22473,9 @@ msgid "Invalid Evolution backup file"
 msgstr "Copie de siguranță Evolution nevalidă"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
-#| msgid "Invalid Evolution backup file"
 msgid "File “{0}” is not a valid Evolution backup file."
-msgstr "Copie de siguranță Evolution nevalidă"
+msgstr ""
+"Fișierul „{0}” nu este un fișier valid de copie de siguranță Evolution."
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -22737,8 +22539,8 @@ msgstr "Nu s-a putut transmite conținutul mesajului către Bogofilter: "
 #: ../src/modules/bogofilter/evolution-bogofilter.c:225
 msgid "Bogofilter either crashed or failed to process a mail message"
 msgstr ""
-"Bogofiltrul fie s-a terminat cu o eroare, fie nu a reușit să proceseze "
-"mesajul email."
+"Bogofilter fie s-a terminat cu o eroare, fie nu a reușit să proceseze "
+"mesajul email"
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:370
 msgid "Bogofilter Options"
@@ -22754,10 +22556,8 @@ msgid "Bogofilter"
 msgstr "Bogofiltru"
 
 #: ../src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in.h:2
-#, fuzzy
-#| msgid "Junk filtering software:"
 msgid "Junk filter using Bogofilter"
-msgstr "Software de filtrare a spamurilor:"
+msgstr "Filtrează spamuri folosind Bogofilter"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:93
 #, fuzzy
@@ -22807,10 +22607,8 @@ msgid "Looking up server search bases, please wait…"
 msgstr ""
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
-#, fuzzy
-#| msgid "S_tandard Font:"
 msgid "Standard LDAP Port"
-msgstr "Font s_tandard:"
+msgstr "Port LDAP standard"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:500
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:687
@@ -22889,10 +22687,8 @@ msgid "for example: uid=user,dc=example,dc=com"
 msgstr "de exemplu: uid=utilizator,dc=exemplu,dc=com"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:771
-#, fuzzy
-#| msgid "Input Methods"
 msgid "Method:"
-msgstr "Metode de introducere"
+msgstr "Metodă:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:775
 msgid "This is the method Evolution will use to authenticate you."
@@ -22955,10 +22751,8 @@ msgstr ""
 "un nivel mai jos de domeniul dumneavoastră."
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:870
-#, fuzzy
-#| msgid "Search Filter"
 msgid "Search Filter:"
-msgstr "Filtru de căutare"
+msgstr "Filtru de căutare:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:882
 msgid "Downloading"
@@ -22969,10 +22763,8 @@ msgid "Limit:"
 msgstr "Limită:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:914
-#, fuzzy
-#| msgid "Contacts"
 msgid "contacts"
-msgstr "Contacte"
+msgstr "contacte"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:919
 #, fuzzy
@@ -22983,10 +22775,8 @@ msgstr "_Navighează agenda până la atingerea limitei"
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1054
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:425
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:461
-#, fuzzy
-#| msgid "Server address:"
 msgid "Server address cannot be empty"
-msgstr "Adresă server:"
+msgstr "Adresa serverului nu poate fi goală"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:110
 #: ../src/modules/cal-config-google/e-google-chooser-button.c:226
@@ -23024,10 +22814,8 @@ msgid "Find Task Lists"
 msgstr "Listă de sarcini"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:351
-#, fuzzy
-#| msgid "Email"
 msgid "Email:"
-msgstr "Email"
+msgstr "Email:"
 
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:356
 #, fuzzy
@@ -23476,10 +23264,8 @@ msgid "Display"
 msgstr "Afișare"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:64
-#, fuzzy
-#| msgid "T_asks due today:"
 msgid "Highlight t_asks due today"
-msgstr "S_arcini scadente azi:"
+msgstr "Evidențiază s_arcinile scadente azi"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:66
 msgid "Highlight _overdue tasks"
@@ -23509,7 +23295,7 @@ msgstr "Afișează mementourile doar în zona de _notificare"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Keep reminder notification _window always on top"
-msgstr "Păstrează _fereastra notificării mementoului întotdeauna deasupra "
+msgstr "Păstrează _fereastra notificării mementoului întotdeauna deasupra"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:75
 #, fuzzy
@@ -24467,10 +24253,8 @@ msgstr "Pe servere LDAP"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
-#, fuzzy
-#| msgid "On LDAP Servers"
 msgid "Looking up LDAP server…"
-msgstr "Pe servere LDAP"
+msgstr "Se caută serverul LDAP…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:240
 msgid "Look up in SRV records"
@@ -24483,10 +24267,9 @@ msgid "CalDAV: %s"
 msgstr "CalDAV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:111
-#, fuzzy, c-format
-#| msgid "vCard for %s"
+#, c-format
 msgid "CardDAV: %s"
-msgstr "vCard pentru %s"
+msgstr "CardDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:117
 msgid "CalDAV and CardDAV server"
@@ -25026,10 +24809,8 @@ msgid "Found the appointment in the calendar “%s”"
 msgstr "Am găsit programarea în calendarul „%s”"
 
 #: ../src/modules/itip-formatter/itip-view.c:3924
-#, fuzzy
-#| msgid "The meeting is invalid and cannot be updated"
 msgid "This meeting invitation is obsolete. It had been updated."
-msgstr "Ședința nu este validă și nu poate fi actualizată"
+msgstr "Acestă invitație la ședință este învechită. A fost actualizată."
 
 #: ../src/modules/itip-formatter/itip-view.c:4066
 msgid "Unable to find any calendars"
@@ -25239,16 +25020,12 @@ msgid "Google Features"
 msgstr "Calendare Google"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:310
-#, fuzzy
-#| msgid "Add Google Calendars to Evolution."
 msgid "Add Google Ca_lendar to this account"
-msgstr "Adaugă calendare Google în Evolution."
+msgstr "Adaugă Ca_lendar Google la acest cont"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:319
-#, fuzzy
-#| msgid "Add Google Calendars to Evolution."
 msgid "Add Google Con_tacts to this account"
-msgstr "Adaugă calendare Google în Evolution."
+msgstr "Adaugă Con_tacte Google la acest cont"
 
 #. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
 #. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
@@ -25274,10 +25051,8 @@ msgstr "Poate că ar trebui să activați %s și %s"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:268
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:316
-#, fuzzy
-#| msgid "Save directory"
 msgid "Mail _Directory:"
-msgstr "Director salvare"
+msgstr "_Director de mail:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:269
 #, fuzzy
@@ -25334,10 +25109,8 @@ msgid "Mbox spool file cannot be empty"
 msgstr "Fișierul nu poate fi citit"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:364
-#, fuzzy
-#| msgid "Save directory"
 msgid "Spool _Directory:"
-msgstr "Director salvare"
+msgstr "_Director spool:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:365
 #, fuzzy
@@ -25434,7 +25207,7 @@ msgstr "Ser_verul necesită autentificare"
 
 #: ../src/modules/mail-config/e-mail-config-smtp-backend.c:296
 msgid "T_ype:"
-msgstr "T_ip: "
+msgstr "T_ip:"
 
 #: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:252
 #, fuzzy
@@ -25443,10 +25216,8 @@ msgid "Yahoo! Features"
 msgstr "Opțiuni IMAP"
 
 #: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:261
-#, fuzzy
-#| msgid "Add Google Calendars to Evolution."
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
-msgstr "Adaugă calendare Google în Evolution."
+msgstr "Adaugă Ca_lendar și sarcini Yahoo! la acest cont"
 
 #: ../src/modules/mail/e-mail-attachment-handler.c:644
 #, c-format
@@ -25809,7 +25580,7 @@ msgstr "Arată mesa_jele șterse"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1896
 msgid "Show deleted messages with a line through them"
-msgstr "Arată mesajele șterse cu o tăietură în lista de mesaje."
+msgstr "Arată mesajele șterse cu o tăietură în lista de mesaje"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1902
 msgid "Show _Junk Messages"
@@ -25984,14 +25755,12 @@ msgstr[1] "%d trimise"
 msgstr[2] "%d trimise"
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:1014
-#, fuzzy, c-format
-#| msgid "%d unread, "
-#| msgid_plural "%d unread, "
+#, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
-msgstr[0] "%d necitit, "
-msgstr[1] "%d necitite, "
-msgstr[2] "%d necitite, "
+msgstr[0] "un necitit"
+msgstr[1] "%d necitite"
+msgstr[2] "%d necitite"
 
 #: ../src/modules/mail/e-mail-shell-view-private.c:1532
 msgid "Send / Receive"
@@ -26022,10 +25791,8 @@ msgid "Keep in Outbox"
 msgstr "_Salvează în Netrimise"
 
 #: ../src/modules/mail/em-composer-prefs.c:1224
-#, fuzzy
-#| msgid "Send private reply?"
 msgid "Send immediately"
-msgstr "Trimiteți răspuns personal?"
+msgstr "Trimite imediat"
 
 #: ../src/modules/mail/em-composer-prefs.c:1225
 #, fuzzy
@@ -26083,10 +25850,8 @@ msgid "Show _original header value"
 msgstr "Arată valoarea _originală din antet"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:112
-#, fuzzy
-#| msgid "Yahoo account settings:"
 msgid "Do _not change settings"
-msgstr "Configurările contului Yahoo:"
+msgstr "_Nu schimba configurările"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
 #, fuzzy
@@ -26126,7 +25891,7 @@ msgstr "_Notifică expeditorul"
 
 #: ../src/modules/mdn/evolution-mdn.error.xml.h:1
 msgid "Sender wants to be notified when you have read this message."
-msgstr "Expeditorul vrea să fie anunțat când ați citit acest mesaj"
+msgstr "Expeditorul vrea să fie anunțat când ați citit acest mesaj."
 
 #: ../src/modules/mdn/evolution-mdn.error.xml.h:2
 msgid "Sender has been notified that you have read this message."
@@ -26297,12 +26062,11 @@ msgstr "Eroare la scrierea „%s” către SpamAssassin: "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:258
 msgid "Failed to read output from SpamAssassin: "
-msgstr "Nu a reușit să citească randamentul de la SpamAssassin:"
+msgstr "Nu a reușit să citească rezultatul de la SpamAssassin: "
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:313
 msgid "SpamAssassin either crashed or failed to process a mail message"
-msgstr ""
-"SpamAssassin fie s-a prăbușit fie nu a reușit să proceseze mesajul email."
+msgstr "SpamAssassin fie a crăpat fie nu a reușit să proceseze mesajul email"
 
 #: ../src/modules/spamassassin/evolution-spamassassin.c:536
 msgid "SpamAssassin Options"
@@ -26322,10 +26086,8 @@ msgid "SpamAssassin"
 msgstr "SpamAssasin"
 
 #: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:2
-#, fuzzy
-#| msgid "Junk filtering software:"
 msgid "Junk filter using SpamAssassin"
-msgstr "Software de filtrare a spamurilor:"
+msgstr "Filtrare a spamurilor folosind SpamAssassin"
 
 #. Keep the title identical to EMailConfigImportPage
 #. * so it's only shown once in the assistant sidebar.
@@ -26341,10 +26103,8 @@ msgid "Import cancelled."
 msgstr "%s (anulată)"
 
 #: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:274
-#, fuzzy
-#| msgid "P_ercent complete:"
 msgid "Import complete."
-msgstr "Proc_ent completat:"
+msgstr "Importare completă."
 
 #: ../src/modules/startup-wizard/e-startup-assistant.c:186
 msgid ""
@@ -27575,7 +27335,7 @@ msgstr "_Publicare ca:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:19
 msgid "Publishing _Frequency:"
-msgstr "_Frecvență publicare"
+msgstr "_Frecvență publicare:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:20
 msgid "Time _duration:"
@@ -27719,11 +27479,11 @@ msgstr "%FT%T"
 
 #: ../src/plugins/save-calendar/rdf-format.c:383
 msgid "RDF (.rdf)"
-msgstr " RDF (.rdf)"
+msgstr "RDF (.rdf)"
 
 #: ../src/plugins/save-calendar/save-calendar.c:116
 msgid "_Format:"
-msgstr "_Format"
+msgstr "_Format:"
 
 #: ../src/plugins/save-calendar/save-calendar.c:183
 msgid "Select destination file"
@@ -27763,10 +27523,8 @@ msgstr ""
 "înlocuite cu valori din emailul la care răspundeți."
 
 #: ../src/plugins/templates/templates.c:878
-#, fuzzy
-#| msgid "Saving message to Outbox."
 msgid "Saving message template"
-msgstr "Se salvează mesajul în dosarul Netrimise."
+msgstr "Se salvează șablonul de mesaj"
 
 #: ../src/plugins/templates/templates.c:899
 msgid "Save as _Template"
@@ -27785,10 +27543,8 @@ msgid "Preparing to go online..."
 msgstr "Se pregătește conectarea..."
 
 #: ../src/shell/e-shell.c:519
-#, fuzzy
-#| msgid "Preparing to quit..."
 msgid "Preparing to quit"
-msgstr "Se pregătește ieșirea..."
+msgstr "Se pregătește de ieșire"
 
 #: ../src/shell/e-shell.c:525
 msgid "Preparing to quit..."
@@ -27830,19 +27586,19 @@ msgstr "Salvează căutarea"
 #. * "Important Messages", or "Active Appointments".
 #: ../src/shell/e-shell-searchbar.c:925
 msgid "Sho_w:"
-msgstr "Ara_tă: "
+msgstr "Ara_tă:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../src/shell/e-shell-searchbar.c:951
 msgid "Sear_ch:"
-msgstr "_Caută: "
+msgstr "_Caută:"
 
 #. Translators: This is part of the quick search interface.
 #. * example: Search: [_______________] in [ Current Folder ]
 #: ../src/shell/e-shell-searchbar.c:1019
 msgid "i_n"
-msgstr "î_n "
+msgstr "î_n"
 
 #: ../src/shell/e-shell-utils.c:169
 msgid "vCard (.vcf)"
@@ -27860,7 +27616,7 @@ msgid "translator-credits"
 msgstr ""
 "Tiberiu Micu <tibimicu@gmx.net>\n"
 "Mugurel Tudor <mugurelu@gnome.ro>\n"
-"Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2018\n"
+"Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2018-2019\n"
 "\n"
 "Launchpad Contributions:\n"
 "  Adi Roiban https://launchpad.net/~adiroiban\n"
@@ -28257,7 +28013,7 @@ msgstr ""
 
 #: ../src/shell/main.c:316
 msgid "Apply the given geometry to the main window"
-msgstr "Aplică ferestrei principale geometria specificată."
+msgstr "Aplică ferestrei principale geometria specificată"
 
 #: ../src/shell/main.c:320
 msgid "Start in online mode"
@@ -28371,10 +28127,8 @@ msgid "_Close Immediately"
 msgstr ""
 
 #: ../src/shell/shell.error.xml.h:14
-#, fuzzy
-#| msgid "Waiting..."
 msgid "Keep _Waiting"
-msgstr "Se așteaptă..."
+msgstr "Continuă _așteptarea"
 
 #: ../src/shell/shell.error.xml.h:15
 #, fuzzy
@@ -28529,7 +28283,7 @@ msgstr "Emis de Organizație"
 #: ../src/smime/gui/certificate-manager.c:109
 #: ../src/smime/gui/certificate-manager.c:127
 msgid "Issued By Organizational Unit"
-msgstr "Emis de Unitatea Organizațională "
+msgstr "Emis de Unitatea Organizațională"
 
 #: ../src/smime/gui/certificate-manager.c:90
 #: ../src/smime/gui/certificate-manager.c:110
@@ -28589,10 +28343,8 @@ msgstr "Nume f_ișier:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../src/smime/gui/certificate-manager.c:741
-#, fuzzy
-#| msgid "Please select a folder"
 msgid "Please select a file..."
-msgstr "Alegeți un dosar"
+msgstr "Selectați un fișier..."
 
 #: ../src/smime/gui/certificate-manager.c:755
 msgid "_Include certificate chain in the backup"
@@ -28632,10 +28384,8 @@ msgid "No file name provided"
 msgstr "Nicio parolă nu a fost furnizată"
 
 #: ../src/smime/gui/certificate-manager.c:856
-#, fuzzy
-#| msgid "Failed to import certificate"
 msgid "Failed to backup key and certificate"
-msgstr "Nu s-a putut importa certificatul "
+msgstr "Eșec la copierea de siguranță a cheii și certificatului"
 
 #: ../src/smime/gui/certificate-manager.c:948
 msgid "Select a certificate to import..."
@@ -28643,7 +28393,7 @@ msgstr "Selectați un certificat pentru import..."
 
 #: ../src/smime/gui/certificate-manager.c:997
 msgid "Failed to import certificate"
-msgstr "Nu s-a putut importa certificatul "
+msgstr "Nu s-a putut importa certificatul"
 
 #: ../src/smime/gui/certificate-manager.c:1114
 msgctxt "CamelTrust"
@@ -28742,10 +28492,8 @@ msgid "You have certificates on file that identify these mail servers:"
 msgstr "Aveți certificate în fișier care identifică acești oameni:"
 
 #: ../src/smime/gui/certificate-manager.c:1626
-#, fuzzy
-#| msgid "_List name:"
 msgid "Host name"
-msgstr "Nume _listă:"
+msgstr "Nume de gazdă"
 
 #: ../src/smime/gui/certificate-manager.c:1628
 msgid "Issuer"
@@ -28931,10 +28679,9 @@ msgid "Enter password for PKCS12 file:"
 msgstr "Introduceți parola pentru fișierul PKCS12:"
 
 #: ../src/smime/lib/e-pkcs12.c:327
-#, fuzzy, c-format
-#| msgid "Unable to book a resource, error: "
+#, c-format
 msgid "Unable to create export context, err_code: %i"
-msgstr "Nu s-a putut rezerva o resursă, eroare:"
+msgstr "Nu s-a putut crea contextul de export, err_code: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:334
 #, c-format
@@ -28948,16 +28695,14 @@ msgid "Unable to create safe bag, err_code: %i"
 msgstr "Nu s-au putut crea dosarele locale de email la „%s”: %s"
 
 #: ../src/smime/lib/e-pkcs12.c:362
-#, fuzzy, c-format
-#| msgid "Unable to book a resource, error: "
+#, c-format
 msgid "Unable to add key/cert to the store, err_code: %i"
-msgstr "Nu s-a putut rezerva o resursă, eroare:"
+msgstr "Nu s-a putut adăuga cheia/certificatul în depozit, err_code: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:380
-#, fuzzy, c-format
-#| msgid "Unable to book a resource, error: "
+#, c-format
 msgid "Unable to write store to disk, err_code: %i"
-msgstr "Nu s-a putut rezerva o resursă, eroare:"
+msgstr "Nu s-a putut scrie depozitul pe disc, err_code: %i"
 
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
