@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-03-01 16:28+0000\n"
-"PO-Revision-Date: 2019-03-04 18:40+0100\n"
+"POT-Creation-Date: 2019-03-04 17:41+0000\n"
+"PO-Revision-Date: 2019-03-04 22:29+0100\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
 "sourceforge.net>\n"
@@ -2605,10 +2605,8 @@ msgstr ""
 "Stochează dacă sau nu bara „De făcut” este vizibilă într-o subfereastră."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:264
-#, fuzzy
-#| msgid "Width of the To Do bar in the main window"
 msgid "Width of the To Do bar in a sub-window"
-msgstr "Lățimea barei „De făcut” în fereastra principală"
+msgstr "Lățimea barei „De făcut” între-o subfereastră"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:265
 msgid "Holds the width of the To Do bar for a sub-window."
@@ -2624,10 +2622,8 @@ msgstr ""
 "Stochează dacă bara „De făcut” ar trebui să arate și sarcini completate."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:268
-#, fuzzy
-#| msgid "Whether the To Do bar should show also completed tasks"
 msgid "Whether the To Do bar should show also tasks without Due date"
-msgstr "Dacă bara „De făcut” ar trebui să arate sarcini completate"
+msgstr "Dacă bara „De făcut” ar trebui să arate sarcini fără dată scadentă"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:269
 msgid "Stores whether the To Do bar should show also tasks without Due date."
@@ -2680,10 +2676,8 @@ msgid "Alternative reply style"
 msgstr "Stilul pentru răspuns alternativ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:279
-#, fuzzy
-#| msgid "Format messages in _HTML"
 msgid "Format message in HTML"
-msgstr "Formatează mesajele în _HTML"
+msgstr "Formatează mesajele în HTML"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:280
 msgid "Put the cursor at the bottom of alternative replies"
@@ -2748,10 +2742,10 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
-#, fuzzy
-#| msgid "Failed to download messages for offline viewing."
 msgid "Whether Send/Receive should also download of messages for offline."
-msgstr "Nu se pot descărca mesaje pentru vizualizarea în modul deconectat."
+msgstr ""
+"Dacă Trimite/Primește ar trebui să descărce mesaje pentru vizualizarea în "
+"modul deconectat."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
 msgid ""
@@ -2760,100 +2754,69 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
-#, fuzzy
-#| msgid "Default forward style"
 msgid "(Deprecated) Default forward style"
-msgstr "Stilul implicit pentru înaintare"
+msgstr "(Învechită) Stilul implicit pentru înaintare"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "“week-start-day-name” instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui "
-"să mai fie folosită. Utilizați „week-start-day-name” în locul acesteia."
+"să mai fie folosită. Utilizați „forward-style-name” în locul acesteia."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
-#, fuzzy
-#| msgid "Default reply style"
 msgid "(Deprecated) Default reply style"
-msgstr "Stilul implicit pentru răspuns"
+msgstr "(Învechită) Stilul implicit pentru răspuns"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "“week-start-day-name” instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui "
-"să mai fie folosită. Utilizați „week-start-day-name” în locul acesteia."
+"să mai fie folosită. Utilizați „reply-style-name” în locul acesteia."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
-#, fuzzy
-#| msgid "List of custom headers and whether they are enabled."
 msgid "(Deprecated) List of custom headers and whether they are enabled."
-msgstr "Lista anteturilor personalizate și afișarea lor."
+msgstr "(Învechită) Lista anteturilor personalizate și afișarea lor."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "“week-start-day-name” instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui "
-"să mai fie folosită. Utilizați „week-start-day-name” în locul acesteia."
+"să mai fie folosită. Utilizați „show-headers” în locul acesteia."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
-#, fuzzy
-#| msgid "Load images for HTML messages over HTTP"
 msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr "Încarcă imaginile pentru mesajele HTML via HTTP"
+msgstr "(Învechită) Încarcă imaginile pentru mesajele HTML prin HTTP"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "“week-start-day-name” instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui "
-"să mai fie folosită. Utilizați „week-start-day-name” în locul acesteia."
+"să mai fie folosită. Utilizați „image-loading-policy” în locul acesteia."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
-#, fuzzy
-#| msgid ""
-#| "Asks whether to close the message window when the user forwards or "
-#| "replies to the message shown in the window"
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 msgstr ""
-"Întreabă dacă să închidă fereastra de mesaje când utilizatorul înaintează "
-"sau răspunde la mesajul arătat în fereastră"
+"(Învechită) Întreabă dacă să închidă fereastra de mesaje când utilizatorul "
+"înaintează sau răspunde la mesajul arătat în fereastră"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
-#, fuzzy
-#| msgid ""
-#| "This key was deprecated in version 3.10 and should no longer be used. Use "
-#| "“week-start-day-name” instead."
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
 msgstr ""
 "Această cheie a fost marcată ca învechită în versiunea 3.10 și nu ar trebui "
-"să mai fie folosită. Utilizați „week-start-day-name” în locul acesteia."
+"să mai fie folosită. Utilizați „browser-close-on-reply-policy” în locul "
+"acesteia."
 
 #. Translators: This is a list of words for the attach reminder plugin to look
 #. for in a message body. Please use any number of words here in your language that might
@@ -2888,10 +2851,8 @@ msgstr ""
 "Agenda de utilizat pentru stocarea automată a contactelor sincronizate."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Auto sync GAIM contacts"
 msgid "Auto sync Pidgin contacts"
-msgstr "Sincronizează automat contactele GAIM"
+msgstr "Sincronizează automat contactele Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:4
 msgid "Whether Pidgin contacts should be automatically synced."
@@ -2916,10 +2877,8 @@ msgid "Set File under as “First Last”, instead of “Last, First”."
 msgstr ""
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:9
-#, fuzzy
-#| msgid "GAIM address book source"
 msgid "Pidgin address book source"
-msgstr "Sursa agendei GAIM"
+msgstr "Sursa agendei Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid ""
@@ -2929,30 +2888,24 @@ msgstr ""
 "Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
-#, fuzzy
-#| msgid "GAIM check interval"
 msgid "Pidgin check interval"
-msgstr "Interval de verificare GAIM"
+msgstr "Interval de verificare Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:12
 msgid "Check interval for Pidgin syncing of contacts."
 msgstr "Verifică intervalul pentru sincronizarea contactelor Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:13
-#, fuzzy
-#| msgid "GAIM last sync MD5"
 msgid "Pidgin last sync MD5"
-msgstr "MD5 pentru ultima sincronizare GAIM"
+msgstr "MD5 pentru ultima sincronizare Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:14
 msgid "Pidgin last sync MD5."
 msgstr "MD5 pentru ultima sincronizare Pidgin."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:15
-#, fuzzy
-#| msgid "GAIM last sync time"
 msgid "Pidgin last sync time"
-msgstr "Ora ultimei sincronizări GAIM"
+msgstr "Ora ultimei sincronizări Pidgin"
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:16
 msgid "Pidgin last sync time."
@@ -2963,12 +2916,6 @@ msgid "List of Custom Headers"
 msgstr "Lista anteturilor personalizate"
 
 #: ../data/org.gnome.evolution.plugin.email-custom-header.gschema.xml.in.h:2
-#, fuzzy
-#| msgid ""
-#| "The key specifies the list of custom headers that you can add to an "
-#| "outgoing message. The format for specifying a Header and Header value is: "
-#| "Name of the custom header followed by \"=\" and the values separated by "
-#| "\";\""
 msgid ""
 "The key specifies the list of custom headers that you can add to an outgoing "
 "message. The format for specifying a Header and Header value is: Name of the "
@@ -3053,12 +3000,8 @@ msgstr ""
 "Dacă să se arate mesajul peste iconiță atunci se primește un mesaj nou."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:9
-#, fuzzy
-#| msgid "Show new mail icon in notification area when new messages arrive."
 msgid "Enable audible notifications when new messages arrive."
-msgstr ""
-"Afișează o pictograma de mesaje noi în zona de notificare la primirea de noi "
-"mesaje."
+msgstr "Activează notificări audio când noi mesaje sosesc."
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:10
 msgid ""
@@ -3121,11 +3064,6 @@ msgid "Mode to use when displaying mails"
 msgstr "Mod de utilizat la afișarea emailurilor"
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:2
-#, fuzzy
-#| msgid ""
-#| "The mode to use for displaying mails. \"normal\" makes Evolution choose "
-#| "the best part to show, \"prefer_plain\" makes it use the text part, if "
-#| "present, and \"only_plain\" forces Evolution to only show plain text"
 msgid ""
 "The mode to use for displaying mails. “normal” makes Evolution choose the "
 "best part to show, “prefer_plain” makes it use the text part, if present, "
@@ -3133,9 +3071,10 @@ msgid ""
 "source, and “only_plain” forces Evolution to only show plain text"
 msgstr ""
 "Modul de utilizat pentru afișarea emailurilor. „normal” face Evolution să "
-"aleagă cea mai bună parte pentru a arăta, „preferă_simplu” îl face să "
-"utilizeze partea textului, dacă este prezent, și „doar_simplu” forțează "
-"Evolution să arate doar text simplu"
+"aleagă cea mai bună parte de arătat, „prefer_plain” îl face să utilizeze "
+"partea textului, dacă este prezent, și „prefer_source” face să arate textul "
+"simplu, dacă este prezent, altfel va arăta sursa HTML, și „only_plain” "
+"forțează Evolution să afișeze doar text simplu."
 
 #: ../data/org.gnome.evolution.plugin.prefer-plain.gschema.xml.in.h:3
 msgid "Whether to show suppressed HTML output"
@@ -3258,31 +3197,22 @@ msgid "Window button style"
 msgstr "Stil de butoane pentru ferestre"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:22
-#, fuzzy
-#| msgid ""
-#| "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
-#| "\"toolbar\". If \"toolbar\" is set, the style of the buttons is "
-#| "determined by the GNOME toolbar setting."
 msgid ""
 "The style of the window buttons. Can be “text”, “icons”, “both”, “toolbar”. "
 "If “toolbar” is set, the style of the buttons is determined by the GNOME "
 "toolbar setting."
 msgstr ""
 "Stilul butoanelor ferestrei. Poate fi „text”, „icons”, „both”, „toolbar”. "
-"Dacă este setat ca „toolbar”, stilul butoanelor este determinat din "
+"Dacă este stabilit la „toolbar”, stilul butoanelor este determinat de "
 "opțiunile barei de instrumente GNOME."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:23
-#, fuzzy
-#| msgid "Sidebar is visible"
 msgid "Menubar is visible"
-msgstr "Bara laterală este vizibilă"
+msgstr "Bara de meniu este vizibilă"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:24
-#, fuzzy
-#| msgid "Whether the sidebar should be visible."
 msgid "Whether the menubar should be visible."
-msgstr "Dacă bara laterală să fie vizibilă."
+msgstr "Dacă bara de meniu ar trebui să fie vizibilă."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:25
 msgid "Toolbar is visible"
@@ -3359,46 +3289,32 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "Folosește doar teste locale pentru spam (fără DNS)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
-#, fuzzy
-#| msgid "Full path command to run Bogofilter"
 msgid "Full path command to run spamassassin"
-msgstr "Calea completă a comenzii de rulat Bogofilter"
+msgstr "Calea completă a comenzii pentru a rula spamassassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
-#, fuzzy
-#| msgid ""
-#| "Full path to a Bogofilter command. If not set, then a compile-time path "
-#| "is used, usually /usr/bin/bogofilter. The command should not contain any "
-#| "other arguments."
 msgid ""
 "Full path to a spamassassin command. If not set, then a compile-time path is "
 "used, usually /usr/bin/spamassassin. The command should not contain any "
 "other arguments."
 msgstr ""
-"Calea completă către comanda Bogofilter. Dacă nu este stabilită, atunci "
-"calea folosită la compilare va fi folosită, de obicei /usr/bin/bogofilter. "
+"Calea completă către comanda spamassassin. Dacă nu este stabilită, atunci "
+"calea folosită la compilare va fi folosită, de obicei /usr/bin/spamassassin. "
 "Comanda nu ar trebui să conțină alte argumente."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
-#, fuzzy
-#| msgid "Full path command to run Bogofilter"
 msgid "Full path command to run sa-learn"
-msgstr "Calea completă a comenzii de rulat Bogofilter"
+msgstr "Calea completă a comenzii de rulat sa-learn"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
-#, fuzzy
-#| msgid ""
-#| "Full path to a Bogofilter command. If not set, then a compile-time path "
-#| "is used, usually /usr/bin/bogofilter. The command should not contain any "
-#| "other arguments."
 msgid ""
 "Full path to a sa-learn command. If not set, then a compile-time path is "
 "used, usually /usr/bin/sa-learn. The command should not contain any other "
 "arguments."
 msgstr ""
-"Calea completă către comanda Bogofilter. Dacă nu este stabilită, atunci "
-"calea folosită la compilare va fi folosită, de obicei /usr/bin/bogofilter. "
-"Comanda nu ar trebui să conțină alte argumente."
+"Calea completă către comanda sa-learn. Dacă nu este stabilită, atunci calea "
+"folosită la compilare va fi folosită, de obicei /usr/bin/sa-learn. Comanda "
+"nu ar trebui să conțină alte argumente."
 
 #: ../data/org.gnome.evolution.text-highlight.gschema.xml.in.h:1
 msgid "Whether the text-highlight module is enabled"
@@ -3460,14 +3376,10 @@ msgid "email;calendar;contact;addressbook;task;"
 msgstr ""
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:6
-#, fuzzy
-#| msgid "New _Window"
 msgid "New Window"
-msgstr "_Fereastră nouă"
+msgstr "Fereastră nouă"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:7
-#, fuzzy
-#| msgid "Compose Message"
 msgid "Compose a Message"
 msgstr "Compune un mesaj"
 
@@ -3602,10 +3514,8 @@ msgid "This address book could not be opened."
 msgstr "Această agendă nu poate fi deschisă."
 
 #: ../src/addressbook/addressbook.error.xml.h:2
-#, fuzzy
-#| msgid "Failed to authenticate with LDAP server."
 msgid "Failed to communicate with LDAP server."
-msgstr "Autentificare la serverul LDAP eșuată."
+msgstr "Comunicarea cu serverul LDAP a eșuat."
 
 #: ../src/addressbook/addressbook.error.xml.h:3
 msgid "This address book server does not have any suggested search bases."
@@ -3642,10 +3552,8 @@ msgid "Do _Not Delete"
 msgstr "_Nu șterge"
 
 #: ../src/addressbook/addressbook.error.xml.h:11
-#, fuzzy
-#| msgid "Delete address book '{0}'?"
 msgid "Delete remote address book “{0}”?"
-msgstr "Ștergeți agenda „{0}”?"
+msgstr "Ștergeți agenda de la distanță „{0}”?"
 
 #: ../src/addressbook/addressbook.error.xml.h:12
 msgid ""
@@ -3657,20 +3565,16 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:13
 #: ../src/calendar/calendar.error.xml.h:65
 #: ../src/e-util/e-system.error.xml.h:28
-#, fuzzy
-#| msgid "Delegated From"
 msgid "_Delete From Server"
-msgstr "Delegat de la"
+msgstr "Șterge _de pe server"
 
 #: ../src/addressbook/addressbook.error.xml.h:14
 msgid "Category editor not available."
 msgstr "Editorul de categorii nu este disponibil."
 
 #: ../src/addressbook/addressbook.error.xml.h:15
-#, fuzzy
-#| msgid "Unable to open address book"
 msgid "Unable to open address book “{0}”"
-msgstr "Nu se poate deschide agenda"
+msgstr "Nu se poate deschide agenda „{0}”"
 
 #: ../src/addressbook/addressbook.error.xml.h:16
 msgid "Unable to perform search."
@@ -3732,10 +3636,8 @@ msgid "Error saving {0} to {1}: {2}"
 msgstr "Eroare la salvarea {0} către {1}: {2}"
 
 #: ../src/addressbook/addressbook.error.xml.h:29
-#, fuzzy
-#| msgid "Address '{0}' already exists."
 msgid "Address “{0}” already exists."
-msgstr "Adresa „{0}” deja există."
+msgstr "Adresa „{0}” există deja."
 
 #: ../src/addressbook/addressbook.error.xml.h:30
 msgid ""
@@ -3786,22 +3688,16 @@ msgid "Add with duplicates"
 msgstr "Adaugă cu duplicate"
 
 #: ../src/addressbook/addressbook.error.xml.h:36
-#, fuzzy
-#| msgid "List '{0}' is already in this contact list."
 msgid "List “{0}” is already in this contact list."
 msgstr "Lista „{0}” este deja în această listă de contacte."
 
 #: ../src/addressbook/addressbook.error.xml.h:37
-#, fuzzy
-#| msgid ""
-#| "A contact list named '{0}' is already in this contact list. Would you "
-#| "like to add it anyway?"
 msgid ""
 "A contact list named “{0}” is already in this contact list. Would you like "
 "to add it anyway?"
 msgstr ""
-"Contactul cu numele „{0}” este deja în lista de contacte. Doriți să-l "
-"adăugați oricum?"
+"Lista de contacte cu numele „{0}” este deja în lista de contacte. Doriți să "
+"o adăugați oricum?"
 
 #: ../src/addressbook/addressbook.error.xml.h:38
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1280
@@ -3818,10 +3714,6 @@ msgstr "Nu se poate adăuga un contact nou"
 
 #. For Translators: {0} is the name of the address book source
 #: ../src/addressbook/addressbook.error.xml.h:42
-#, fuzzy
-#| msgid ""
-#| "'{0}' is a read-only address book and cannot be modified. Please select a "
-#| "different address book from the side bar in the Contacts view."
 msgid ""
 "“{0}” is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
@@ -3841,10 +3733,8 @@ msgid ""
 msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:46
-#, fuzzy
-#| msgid "Search for text in the displayed contact"
 msgid "Something has gone wrong when displaying the contact"
-msgstr "Caută textul în contactele afișate"
+msgstr "Ceva nu a funcționat cum trebuie la afișarea contactului"
 
 #: ../src/addressbook/addressbook.error.xml.h:47
 msgid ""
@@ -3858,22 +3748,16 @@ msgid "Failed to refresh list of account address books"
 msgstr "Eșec la reîmprospătarea listei de conturi de agende"
 
 #: ../src/addressbook/addressbook.error.xml.h:49
-#, fuzzy
-#| msgid "Do you want to recover unfinished messages?"
 msgid "Do you want to unset contact image?"
-msgstr "Doriți să recuperați mesajele neterminate?"
+msgstr "Doriți să destabiliți imaginea de contact?"
 
 #: ../src/addressbook/addressbook.error.xml.h:50
-#, fuzzy
-#| msgid "Do _Not Unsubscribe"
 msgid "Do _Not Unset"
-msgstr "_Nu dezabona"
+msgstr "_Nu destabili"
 
 #: ../src/addressbook/addressbook.error.xml.h:51
-#, fuzzy
-#| msgid "_Unsort"
 msgid "_Unset"
-msgstr "N_u sorta"
+msgstr "_Destabilește"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:1
 msgid "Show Telephone"
@@ -6066,10 +5950,8 @@ msgstr "Eșec la ștergerea unei sarcini din lista cu sarcini „{0}”"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:119
-#, fuzzy
-#| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to update an event in the calendar “{0}”"
-msgstr "Am găsit programarea în calendarul „%s”"
+msgstr "Eșec la actualizarea unui eveniment în calendarul „{0}”"
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:121
@@ -7535,7 +7417,7 @@ msgstr "Fișierul nu este un fișier .desktop valid"
 #: ../src/calendar/gui/e-comp-editor.c:337
 #: ../src/em-format/e-mail-part-secure-button.c:93
 #: ../src/e-util/e-misc-utils.c:4218 ../src/e-util/e-misc-utils.c:4230
-#: ../src/e-util/e-misc-utils.c:4244 ../src/mail/e-mail-autoconfig.c:1027
+#: ../src/e-util/e-misc-utils.c:4244 ../src/mail/e-mail-autoconfig.c:1029
 #: ../src/mail/e-mail-display.c:2292 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3969 ../src/mail/em-composer-utils.c:4000
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1496
@@ -13771,7 +13653,7 @@ msgstr "Caută elemente ce întrunesc următoarele condiții"
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
-#: ../src/mail/e-mail-autoconfig.c:764
+#: ../src/mail/e-mail-autoconfig.c:766
 #: ../src/mail/e-mail-config-summary-page.c:141
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
@@ -17141,51 +17023,51 @@ msgstr "_Implicit"
 msgid "Invalid URI: “%s”"
 msgstr "URI-ul pentru dosar „%s” nu este valid"
 
-#: ../src/mail/e-mail-autoconfig.c:754
+#: ../src/mail/e-mail-autoconfig.c:756
 #, c-format
 msgid "Host: %s:%d"
 msgstr ""
 
-#: ../src/mail/e-mail-autoconfig.c:758
+#: ../src/mail/e-mail-autoconfig.c:760
 #, fuzzy, c-format
 #| msgid "URL: %s"
 msgid "User: %s"
 msgstr "URL: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:762
+#: ../src/mail/e-mail-autoconfig.c:764
 #, c-format
 msgid "Security method: %s"
 msgstr "Metodă de securitate: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:763
+#: ../src/mail/e-mail-autoconfig.c:765
 #: ../src/mail/e-mail-config-summary-page.c:144
 msgid "TLS"
 msgstr "TLS"
 
-#: ../src/mail/e-mail-autoconfig.c:764
+#: ../src/mail/e-mail-autoconfig.c:766
 #: ../src/mail/e-mail-config-summary-page.c:147
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: ../src/mail/e-mail-autoconfig.c:768
+#: ../src/mail/e-mail-autoconfig.c:770
 #, fuzzy, c-format
 #| msgid "_Authentication Type"
 msgid "Authentication mechanism: %s"
 msgstr "Tip _autentificare"
 
-#: ../src/mail/e-mail-autoconfig.c:948
+#: ../src/mail/e-mail-autoconfig.c:950
 #, fuzzy
 #| msgid "No password was provided"
 msgid "No email address provided"
 msgstr "Nicio parolă nu a fost furnizată"
 
-#: ../src/mail/e-mail-autoconfig.c:957
+#: ../src/mail/e-mail-autoconfig.c:959
 #, fuzzy
 #| msgid "Using email address"
 msgid "Missing domain in email address"
 msgstr "Folosind adresa email"
 
-#: ../src/mail/e-mail-autoconfig.c:1307
+#: ../src/mail/e-mail-autoconfig.c:1309
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
 #, fuzzy
@@ -17193,7 +17075,7 @@ msgstr "Folosind adresa email"
 msgid "IMAP server"
 msgstr "Server IMAP"
 
-#: ../src/mail/e-mail-autoconfig.c:1314
+#: ../src/mail/e-mail-autoconfig.c:1316
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
 #, fuzzy
@@ -17201,7 +17083,7 @@ msgstr "Server IMAP"
 msgid "POP3 server"
 msgstr "Pe servere LDAP"
 
-#: ../src/mail/e-mail-autoconfig.c:1321
+#: ../src/mail/e-mail-autoconfig.c:1323
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
 #, fuzzy
 #| msgid "Server"
@@ -24256,7 +24138,7 @@ msgstr "Pe servere LDAP"
 msgid "Looking up LDAP server…"
 msgstr "Se caută serverul LDAP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:240
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:242
 msgid "Look up in SRV records"
 msgstr "Se verifică înregistrările SRV"
 
