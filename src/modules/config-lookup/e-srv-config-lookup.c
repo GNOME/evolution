@@ -155,10 +155,6 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 
 					extension_name = e_source_camel_get_extension_name (known_services[ii].evo_protocol);
 
-					e_config_lookup_result_simple_add_string (lookup_result, extension_name, "host", hostname);
-					e_config_lookup_result_simple_add_uint (lookup_result, extension_name, "port", g_srv_target_get_port (target));
-					e_config_lookup_result_simple_add_string (lookup_result, extension_name, "user", email_address);
-
 					if (g_str_has_suffix (known_services[ii].gio_protocol, "s"))
 						security_method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
 					else
@@ -180,6 +176,12 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 						e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_AUTHENTICATION,
 							"method", "PLAIN");
 					}
+
+					/* Set the security method before the port, to not have it overwritten
+					   in New Mail Account wizard (binding callback). */
+					e_config_lookup_result_simple_add_string (lookup_result, extension_name, "host", hostname);
+					e_config_lookup_result_simple_add_uint (lookup_result, extension_name, "port", g_srv_target_get_port (target));
+					e_config_lookup_result_simple_add_string (lookup_result, extension_name, "user", email_address);
 				} else if (known_services[ii].kind == E_CONFIG_LOOKUP_RESULT_COLLECTION) {
 					gboolean is_calendar = g_str_equal (known_services[ii].evo_protocol, "caldav");
 					gchar *url;

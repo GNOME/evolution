@@ -574,12 +574,14 @@ mail_autoconfig_set_details (ESourceRegistry *registry,
 	settings = e_source_camel_get_settings (camel_ext);
 	g_return_val_if_fail (CAMEL_IS_NETWORK_SETTINGS (settings), FALSE);
 
+	/* Set the security method before the port, to not have it overwritten
+	   in New Mail Account wizard (binding callback). */
 	g_object_set (settings,
+		"auth-mechanism", result->auth_mechanism,
+		"security-method", result->security_method,
 		"user", result->user,
 		"host", result->host,
 		"port", result->port,
-		"auth-mechanism", result->auth_mechanism,
-		"security-method", result->security_method,
 		NULL);
 
 	if (result->host && registry) {
