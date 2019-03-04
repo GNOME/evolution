@@ -1,3 +1,45 @@
+Evolution 3.31.92 2019-03-04
+----------------------------
+
+Bug Fixes:
+	Bug 791044 - Do not print HTML attachments created by Prefer Plain plugin (Milan Crha)
+	eds-I#86 - Rejecting connection certificate causes constant connection retries (Milan Crha)
+	I#289 - 'Search web' context menu option for selection in EWebView ][ (Milan Crha)
+	I#313 - Allow enter URL without scheme in component editor (Milan Crha)
+	I#318 - Search for 'previous' word in message preview behaves like 'next' (Milan Crha)
+	I#324 - Mail account auto-config port overwritten with encryption change (Milan Crha)
+
+Miscellaneous:
+	The 'Show' combo box hidden for small screens in the search bar (Milan Crha)
+	Ref/unref imbalance on a CamelFolder instance (Milan Crha)
+	Change how label actions are updated in EMailReader (Milan Crha)
+	Use GWeakRef when watching D-Bus bus names (Milan Crha)
+	[EWebKitEditor] Fix few memory leaks (Milan Crha)
+	Initialize all members of 'struct tm' in e_cert_populate() (Milan Crha)
+	Fix few memory leaks around mail print (Milan Crha)
+	Colorize insecure parts as 'bad' in otherwise secure mail (Milan Crha)
+	Change order of CFLAGS/LDFLAGS passed to gtk-doc (Milan Crha)
+	help: Fix wrong docs about email thread collapsing by default (Andre Klapper)
+	help: Cover saving and applying Custom Views for mail folders (Andre Klapper)
+	help: Replace git.gnome.org by gitlab.gnome.org (Andre Klapper)
+
+Translations:
+	Kjartan Maraas (nb)
+	Emin Tufan Çetin (tr)
+	Rafael Fontenelle (pt_BR)
+	Rodrigo Lledó (es)
+	Jiri Grönroos (fi)
+	Andre Klapper (ka)
+	Daniel Mustieles (es)
+	A S Alam (pa)
+	Stas Solovey (ru)
+	Марко Костић (sr)
+	Fabio Tomat (fur)
+	Changwoo Ryu (ko)
+	Daniel Șerbănescu (ro)
+	Nathan Follens (nl)
+	Anders Jonsson (sv)
+
 Evolution 3.31.91 2019-02-18
 ----------------------------
 
