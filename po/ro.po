@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2019-03-04 17:41+0000\n"
-"PO-Revision-Date: 2019-03-04 22:29+0100\n"
+"PO-Revision-Date: 2019-03-05 08:32+0100\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
 "sourceforge.net>\n"
@@ -5960,10 +5960,8 @@ msgstr "Eșec la actualizarea unui memo din lista de memo-uri „{0}”"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:123
-#, fuzzy
-#| msgid "Unable to find this task in any task list"
 msgid "Failed to update a task in the task list “{0}”"
-msgstr "Nu s-a putut găsi această sarcină în nicio listă de sarcini"
+msgstr "Eșec la actualizarea sarcinii în lista de sarcini „{0}”"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:125
@@ -5977,10 +5975,8 @@ msgstr "Eșec la trimiterea memo-ului la lista de memo-uri „{0}”"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:129
-#, fuzzy
-#| msgid "Unable to send task information, the task does not exist"
 msgid "Failed to send a task to the task list “{0}”"
-msgstr "Nu se pot trimite informațiile pentru sarcină, sarcina nu există"
+msgstr "Eșec la trimiterea sarcinii la lista de sarcini „{0}”"
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:131
@@ -6014,10 +6010,8 @@ msgstr ""
 
 #. Translators: {0} is the name of the calendar.
 #: ../src/calendar/calendar.error.xml.h:143
-#, fuzzy
-#| msgid "Found the appointment in the calendar '%s'"
 msgid "Failed to move an event into the calendar “{0}”"
-msgstr "Am găsit programarea în calendarul „%s”"
+msgstr "Eșec la mutarea unui eveniment în calendar „{0}”"
 
 #. Translators: {0} is the name of the task list.
 #: ../src/calendar/calendar.error.xml.h:145
@@ -6094,10 +6088,8 @@ msgid "Failed to make an occurrence movable"
 msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:173
-#, fuzzy
-#| msgid "Create a new window displaying this view"
 msgid "Something has gone wrong when displaying the event"
-msgstr "Creează o nouă ferestră pentru afișarea acestei vizualizări"
+msgstr "Ceva nu a funcționat cum trebuie în timpul afișării evenimentului"
 
 #: ../src/calendar/calendar.error.xml.h:174
 msgid ""
@@ -6107,10 +6099,8 @@ msgid ""
 msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:175
-#, fuzzy
-#| msgid "Create a new window displaying this view"
 msgid "Something has gone wrong when displaying the memo"
-msgstr "Creează o nouă ferestră pentru afișarea acestei vizualizări"
+msgstr "Ceva nu a funcționat cum trebuie în timpul afișării mementoului"
 
 #: ../src/calendar/calendar.error.xml.h:176
 msgid ""
@@ -6120,10 +6110,8 @@ msgid ""
 msgstr ""
 
 #: ../src/calendar/calendar.error.xml.h:177
-#, fuzzy
-#| msgid "Mode to use when displaying mails"
 msgid "Something has gone wrong when displaying the task"
-msgstr "Mod de utilizat la afișarea emailurilor"
+msgstr "Ceva nu a funcționat cum trebuie în timpul afișării sarcinii"
 
 #: ../src/calendar/calendar.error.xml.h:178
 msgid ""
@@ -6688,16 +6676,14 @@ msgid "Web Page:"
 msgstr "Pagină web:"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1709
-#, fuzzy, c-format
-#| msgid "Creating folder '%s'"
+#, c-format
 msgid "Creating view for calendar “%s”"
-msgstr "Se creează dosarul „%s”"
+msgstr "Se creează vizualizarea pentru calendar „%s”"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1713
-#, fuzzy, c-format
-#| msgid "Create a new task list"
+#, c-format
 msgid "Creating view for task list “%s”"
-msgstr "Creează o listă nouă de sarcini"
+msgstr "Se creează vizualizarea pentru lista de sarcini „%s”"
 
 #: ../src/calendar/gui/e-cal-data-model.c:1717
 #, c-format
@@ -6709,10 +6695,9 @@ msgid "Destination is read only"
 msgstr "Destinația este protejată la scriere"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:299
-#, fuzzy, c-format
-#| msgid "Copy selected events to the clipboard"
+#, c-format
 msgid "Copying events to the calendar “%s”"
-msgstr "Copiază evenimentele selectate în clipboard"
+msgstr "Se copiază evenimente în calendar „%s”"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:305
 #, c-format
@@ -6725,11 +6710,9 @@ msgid "Copying tasks to the task list “%s”"
 msgstr ""
 
 #: ../src/calendar/gui/e-cal-dialogs.c:530
-#, fuzzy
-#| msgid "_Delete this item from all other recipient's mailboxes?"
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr ""
-"Ștergeți acest element din toate căsuțele de email ale _destinatarului?"
+"Ș_tergeți acest element din toate căsuțele de email ale _destinatarului?"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:533
 msgid "_Retract comment"
@@ -6860,34 +6843,26 @@ msgstr ""
 
 #: ../src/calendar/gui/e-calendar-view.c:877
 #: ../src/calendar/gui/e-cal-ops.c:1556
-#, fuzzy
-#| msgid "Default reminder units"
 msgid "Default calendar not found"
-msgstr "Unitățile implicite pentru memento"
+msgstr "Calendarul implicit nu a fost găsit"
 
 #: ../src/calendar/gui/e-calendar-view.c:882
 #: ../src/calendar/gui/e-cal-ops.c:1559
-#, fuzzy
-#| msgid "Default reminder units"
 msgid "Default memo list not found"
-msgstr "Unitățile implicite pentru memento"
+msgstr "Lista de mementouri implicită nu a fost găsită"
 
 #: ../src/calendar/gui/e-calendar-view.c:887
 #: ../src/calendar/gui/e-cal-ops.c:1562
-#, fuzzy
-#| msgid "Mark as _default task list"
 msgid "Default task list not found"
-msgstr "Marche_ză ca listă de sarcini implicită"
+msgstr "Lista de sarcini implicită nu a fost găsită"
 
 #: ../src/calendar/gui/e-calendar-view.c:976
 msgid "No suitable component found"
 msgstr ""
 
 #: ../src/calendar/gui/e-calendar-view.c:1046
-#, fuzzy
-#| msgid "Opening calendar at %s"
 msgid "Pasting iCalendar data"
-msgstr "Se deschide calendarul de la %s"
+msgstr "Se lipește datele din iCalendar"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. Translators: It will display
@@ -6997,10 +6972,8 @@ msgstr "Ultima modificare"
 #: ../src/calendar/gui/e-memo-table.etspec.h:8
 #: ../src/calendar/gui/e-task-table.etspec.h:16
 #: ../src/em-format/e-mail-formatter-source.c:118
-#, fuzzy
-#| msgid "Sources"
 msgid "Source"
-msgstr "Surse"
+msgstr "Sursă"
 
 #: ../src/calendar/gui/e-cal-model.c:316
 #: ../src/calendar/gui/e-meeting-list-view.c:183
@@ -7024,24 +6997,18 @@ msgstr ""
 
 #: ../src/calendar/gui/e-cal-model.c:1522 ../src/calendar/gui/e-cal-ops.c:186
 #: ../src/calendar/gui/e-cal-ops.c:1367
-#, fuzzy
-#| msgid "Create an _Event"
 msgid "Creating an event"
-msgstr "Creează un _eveniment"
+msgstr "Se creează un eveniment"
 
 #: ../src/calendar/gui/e-cal-model.c:1526 ../src/calendar/gui/e-cal-ops.c:190
 #: ../src/calendar/gui/e-cal-ops.c:1371
-#, fuzzy
-#| msgid "Create a Mem_o"
 msgid "Creating a memo"
-msgstr "Creează un mem_o"
+msgstr "Se creează un memo"
 
 #: ../src/calendar/gui/e-cal-model.c:1530 ../src/calendar/gui/e-cal-ops.c:194
 #: ../src/calendar/gui/e-cal-ops.c:1375
-#, fuzzy
-#| msgid "Create a _Task"
 msgid "Creating a task"
-msgstr "Creează o _sarcină"
+msgstr "Se creează o sarcină"
 
 #: ../src/calendar/gui/e-cal-model.c:1913
 msgid "Recurring"
@@ -7151,100 +7118,80 @@ msgid "Modifying a memo"
 msgstr "Modificarea unui memo"
 
 #: ../src/calendar/gui/e-cal-ops.c:313
-#, fuzzy
-#| msgid "Loading tasks"
 msgid "Modifying a task"
-msgstr "Se încarcă sarcinile"
+msgstr "Se modifică o sarcină"
 
 #: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1954
-#, fuzzy
-#| msgid "Removing attachments"
 msgid "Removing an event"
-msgstr "Se elimină atașamentele"
+msgstr "Se elimină un eveniment"
 
 #: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1958
-#, fuzzy
-#| msgid "Removing attachments"
 msgid "Removing a memo"
-msgstr "Se elimină atașamentele"
+msgstr "Se elimină un memo"
 
 #: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1962
-#, fuzzy
-#| msgid "Removing attachments"
 msgid "Removing a task"
-msgstr "Se elimină atașamentele"
+msgstr "Se elimină o sarcină"
 
 #: ../src/calendar/gui/e-cal-ops.c:511
-#, fuzzy, c-format
-#| msgid "Meeting information sent"
+#, c-format
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
-msgstr[0] "Informațiile despre întâlnire au fost trimise"
-msgstr[1] "Informațiile despre întâlnire au fost trimise"
-msgstr[2] "Informațiile despre întâlnire au fost trimise"
+msgstr[0] "Se șterge un eveniment"
+msgstr[1] "Se șterg %d evenimente"
+msgstr[2] "Se șterg %d de evenimente"
 
 #: ../src/calendar/gui/e-cal-ops.c:515
-#, fuzzy, c-format
-#| msgid "Delete Memo"
+#, c-format
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
-msgstr[0] "Șterge memo"
-msgstr[1] "Șterge memo"
-msgstr[2] "Șterge memo"
+msgstr[0] "Se șterge un memo"
+msgstr[1] "Se șterg %d memouri"
+msgstr[2] "Se șterg %d de memouri"
 
 #: ../src/calendar/gui/e-cal-ops.c:519
-#, fuzzy, c-format
-#| msgid "Delete Task"
+#, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
-msgstr[0] "Șterge sarcină"
-msgstr[1] "Șterge sarcină"
-msgstr[2] "Șterge sarcină"
+msgstr[0] "Se șterge o sarcină"
+msgstr[1] "Se șterg %d sarcini"
+msgstr[2] "Se șterg %d de sarcini"
 
 #: ../src/calendar/gui/e-cal-ops.c:722
-#, fuzzy, c-format
-#| msgid "Print this event"
+#, c-format
 msgid "Pasting an event"
 msgid_plural "Pasting %d events"
-msgstr[0] "Tipărește acest eveniment"
-msgstr[1] "Tipărește acest eveniment"
-msgstr[2] "Tipărește acest eveniment"
+msgstr[0] "Se lipește un eveniment"
+msgstr[1] "Se lipesc %d evenimente"
+msgstr[2] "Se lipesc %d de evenimente"
 
 #: ../src/calendar/gui/e-cal-ops.c:737
-#, fuzzy, c-format
-#| msgid "Loading memos"
+#, c-format
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
-msgstr[0] "Se încarcă memourile"
-msgstr[1] "Se încarcă memourile"
-msgstr[2] "Se încarcă memourile"
+msgstr[0] "Se lipește un memo"
+msgstr[1] "Se lipesc %d memouri"
+msgstr[2] "Se lipesc %d de memouri"
 
 #: ../src/calendar/gui/e-cal-ops.c:752
-#, fuzzy, c-format
-#| msgid "Loading tasks"
+#, c-format
 msgid "Pasting a task"
 msgid_plural "Pasting %d tasks"
-msgstr[0] "Se încarcă sarcinile"
-msgstr[1] "Se încarcă sarcinile"
-msgstr[2] "Se încarcă sarcinile"
+msgstr[0] "Se lipește o sarcină"
+msgstr[1] "Se lipesc %d sarcini"
+msgstr[2] "Se lipesc %d de sarcini"
 
 #: ../src/calendar/gui/e-cal-ops.c:851
-#, fuzzy
-#| msgid "Updating objects"
 msgid "Updating an event"
-msgstr "Se actualizează obiectele"
+msgstr "Se actualizează un eveniment"
 
 #: ../src/calendar/gui/e-cal-ops.c:855
-#, fuzzy
-#| msgid "Updating objects"
 msgid "Updating a memo"
-msgstr "Se actualizează obiectele"
+msgstr "Se actualizează un memo"
 
 #: ../src/calendar/gui/e-cal-ops.c:859
-#, fuzzy
-#| msgid "Updating objects"
 msgid "Updating a task"
-msgstr "Se actualizează obiectele"
+msgstr "Se actualizează o sarcină"
 
 #: ../src/calendar/gui/e-cal-ops.c:967
 #, c-format
@@ -7262,10 +7209,9 @@ msgid "Getting tasks to purge in the task list “%s”"
 msgstr ""
 
 #: ../src/calendar/gui/e-cal-ops.c:1001
-#, fuzzy, c-format
-#| msgid "Found the appointment in the calendar '%s'"
+#, c-format
 msgid "Purging events in the calendar “%s”"
-msgstr "Am găsit programarea în calendarul „%s”"
+msgstr "Se șterg evenimente din calendarul „%s”"
 
 #: ../src/calendar/gui/e-cal-ops.c:1005
 #, c-format
@@ -7278,26 +7224,20 @@ msgid "Purging tasks in the task list “%s”"
 msgstr ""
 
 #: ../src/calendar/gui/e-cal-ops.c:1109
-#, fuzzy
-#| msgid "Purging"
 msgid "Purging events"
-msgstr "Ștergere"
+msgstr "Se șterg evenimente"
 
 #: ../src/calendar/gui/e-cal-ops.c:1113
 msgid "Purging memos"
 msgstr ""
 
 #: ../src/calendar/gui/e-cal-ops.c:1117
-#, fuzzy
-#| msgid "Print Tasks"
 msgid "Purging tasks"
-msgstr "Tipărește sarcinile"
+msgstr "Se șterg sarcini"
 
 #: ../src/calendar/gui/e-cal-ops.c:1219
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Expunging completed tasks"
-msgstr "Ascunde sarcinile terminate"
+msgstr "Se șterg permanent sarcinile finalizate"
 
 #: ../src/calendar/gui/e-cal-ops.c:2060
 #, c-format
@@ -7308,49 +7248,44 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: ../src/calendar/gui/e-cal-ops.c:2061
-#, fuzzy, c-format
-#| msgid "Copying Items"
+#, c-format
 msgid "Copying an event"
 msgid_plural "Copying %d events"
-msgstr[0] "Se copieză elementele"
-msgstr[1] "Se copieză elementele"
-msgstr[2] "Se copieză elementele"
+msgstr[0] "Se copiază un eveniment"
+msgstr[1] "Se copiază %d evenimente"
+msgstr[2] "Se copiază %d de evenimente"
 
 #: ../src/calendar/gui/e-cal-ops.c:2067
-#, fuzzy, c-format
-#| msgid "Moving Items"
+#, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
-msgstr[0] "Se mută elementele"
-msgstr[1] "Se mută elementele"
-msgstr[2] "Se mută elementele"
+msgstr[0] "Se mută un memo"
+msgstr[1] "Se mută %d memouri"
+msgstr[2] "Se mută %d de memouri"
 
 #: ../src/calendar/gui/e-cal-ops.c:2068
-#, fuzzy, c-format
-#| msgid "Copying Items"
+#, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
-msgstr[0] "Se copieză elementele"
-msgstr[1] "Se copieză elementele"
-msgstr[2] "Se copieză elementele"
+msgstr[0] "Se copiază un memo"
+msgstr[1] "Se copiază %d memouri"
+msgstr[2] "Se copiază %d de memouri"
 
 #: ../src/calendar/gui/e-cal-ops.c:2074
-#, fuzzy, c-format
-#| msgid "Moving Items"
+#, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
-msgstr[0] "Se mută elementele"
-msgstr[1] "Se mută elementele"
-msgstr[2] "Se mută elementele"
+msgstr[0] "Se mută o sarcină"
+msgstr[1] "Se mută %d sarcini"
+msgstr[2] "Se mută %d de sarcini"
 
 #: ../src/calendar/gui/e-cal-ops.c:2075
-#, fuzzy, c-format
-#| msgid "Copying Items"
+#, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
-msgstr[0] "Se copieză elementele"
-msgstr[1] "Se copieză elementele"
-msgstr[2] "Se copieză elementele"
+msgstr[0] "Se copiază o sarcină"
+msgstr[1] "Se copiază %d sarcini"
+msgstr[2] "Se copiază %d de sarcini"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #: ../src/calendar/gui/e-cell-date-edit-text.c:163
@@ -7372,19 +7307,15 @@ msgstr ""
 "%s"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:100
-#, fuzzy
-#| msgid "Event's start time is in the past"
 msgid "Event’s time is in the past"
-msgstr "Timpul de începere al evenimentului este în trecut"
+msgstr "Timpul evenimentului este în trecut"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:206
-#, fuzzy
-#| msgid "Event cannot be edited, because the selected calendar is read only"
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
 msgstr ""
-"Evenimentul nu a putut fi modificat, deoarece calendarul ales este protejat "
-"la scriere"
+"Evenimentul nu a putut fi modificat, deoarece calendarul ales nu poate fi "
+"deschis"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:208
 msgid "Event cannot be edited, because the selected calendar is read only"
@@ -7400,10 +7331,8 @@ msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-event.c:460
 #: ../src/calendar/gui/e-comp-editor-task.c:546
-#, fuzzy
-#| msgid "File is not a valid .desktop file"
 msgid "Start date is not a valid date"
-msgstr "Fișierul nu este un fișier .desktop valid"
+msgstr "Data de început nu este o dată validă"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:462
 #, fuzzy
