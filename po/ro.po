@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2019-03-04 17:41+0000\n"
-"PO-Revision-Date: 2019-03-05 08:32+0100\n"
+"PO-Revision-Date: 2019-03-06 14:57+0100\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
 "sourceforge.net>\n"
@@ -7335,10 +7335,8 @@ msgid "Start date is not a valid date"
 msgstr "Data de început nu este o dată validă"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:462
-#, fuzzy
-#| msgid "File is not a valid .desktop file"
 msgid "Start time is not a valid time"
-msgstr "Fișierul nu este un fișier .desktop valid"
+msgstr "Ora începerii nu este validă"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:466
 #: ../src/calendar/gui/e-comp-editor-event.c:482
@@ -7358,16 +7356,12 @@ msgid "Unknown error"
 msgstr "Eroare necunoscută"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:476
-#, fuzzy
-#| msgid "File is not a valid .desktop file"
 msgid "End date is not a valid date"
-msgstr "Fișierul nu este un fișier .desktop valid"
+msgstr "Data finalizării nu este validă"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:478
-#, fuzzy
-#| msgid "File is not a valid .desktop file"
 msgid "End time is not a valid time"
-msgstr "Fișierul nu este un fișier .desktop valid"
+msgstr "Ora finalizării nu este validă"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:677
 #: ../src/calendar/gui/e-comp-editor-memo.c:134
@@ -7404,9 +7398,8 @@ msgid "Show Time as _Busy"
 msgstr "Arată timpul ca _ocupat"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:703
-#, fuzzy
 msgid "Toggles whether to show time as busy"
-msgstr "Comută afișarea timpului ca ocupat"
+msgstr "Comută dacă să se afișeze timpul ca ocupat"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:712
 msgid "Pu_blic"
@@ -7479,16 +7472,14 @@ msgid "Schedule"
 msgstr "Program"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:973
-#, fuzzy, c-format
-#| msgid "Meeting - %s"
+#, c-format
 msgid "Meeting — %s"
-msgstr "Întâlnire - %s"
+msgstr "Întâlnire — %s"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:974
-#, fuzzy, c-format
-#| msgid "Appointment - %s"
+#, c-format
 msgid "Appointment — %s"
-msgstr "Programare - %s"
+msgstr "Programare — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:96
 msgid ""
@@ -7520,16 +7511,14 @@ msgid "Sta_rt date:"
 msgstr "Data de î_nceput:"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:256
-#, fuzzy, c-format
-#| msgid "Assigned Task - %s"
+#, c-format
 msgid "Assigned Memo — %s"
-msgstr "Sarcină repartizată - %s"
+msgstr "Memo repartizat — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:257
-#, fuzzy, c-format
-#| msgid "Memo - %s"
+#, c-format
 msgid "Memo — %s"
-msgstr "Memo - %s"
+msgstr "Memo — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:123
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:128
@@ -7545,8 +7534,7 @@ msgstr[2] "Fișiere atașate"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:201
 #: ../src/e-util/e-attachment.c:2469
-#, fuzzy, c-format
-#| msgid "Could not load '%s'"
+#, c-format
 msgid "Could not load “%s”"
 msgstr "Nu s-a putut încărca „%s”"
 
@@ -7614,29 +7602,23 @@ msgid "Not enough rights to delete attendee “%s”"
 msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:424
-#, fuzzy
-#| msgid "Failed to delete contact"
 msgid "Failed to delete selected attendee"
 msgid_plural "Failed to delete selected attendees"
-msgstr[0] "Nu s-a putut șterge contactul"
-msgstr[1] "Nu s-a putut șterge contactul"
-msgstr[2] "Nu s-a putut șterge contactul"
+msgstr[0] "Nu s-a putut șterge participantul"
+msgstr[1] "Nu s-au putut șterge participanții"
+msgstr[2] "Nu s-au putut șterge participanții"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:510
 msgid "Organizer address is not a valid user mail address"
 msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:675
-#, fuzzy
-#| msgid "Attendees"
 msgid "A_ttendees"
-msgstr "Participanți"
+msgstr "Par_ticipanți"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:677
-#, fuzzy
-#| msgid "Toggles whether the Attendee Type is displayed"
 msgid "Toggles whether the Attendees are displayed"
-msgstr "Comută afișarea „Tip participant”"
+msgstr "Comută dacă Participanții sunt afișați"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:686
 msgid "R_ole Field"
@@ -7907,22 +7889,16 @@ msgid "This component rec_urs"
 msgstr "Componentul este _recurent"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1860
-#, fuzzy
-#| msgid "Recurrence date is invalid"
 msgid "Recurrence exception date is invalid"
-msgstr "Data recurentă nu este validă"
+msgstr "Data recurentă pentru excepție este nevalidă"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1908
-#, fuzzy
-#| msgid "End time of the recurrence was before event's start"
 msgid "End time of the recurrence is before the start"
-msgstr "Data de sfrârșit a recurenței este înaintea celei de început"
+msgstr "Ora de sfârșit a recurenței este înaintea celei de început"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1951
-#, fuzzy
-#| msgid "Recurrence"
 msgid "R_ecurrence"
-msgstr "Recurență"
+msgstr "R_ecurență"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:1953
 msgid "Set or unset recurrence"
@@ -8011,10 +7987,8 @@ msgid "_Reminders"
 msgstr "_Mementouri"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1552
-#, fuzzy
-#| msgid "Set or unset reminders for this event"
 msgid "Set or unset reminders"
-msgstr "Pune sau scoate mementourile pentru acest eveniment"
+msgstr "Stabilește sau destabilește mementouri"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1614
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:72
@@ -8026,34 +8000,28 @@ msgid "_Reminder"
 msgstr "_Memento"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1672
-#, fuzzy, c-format
-#| msgid "%d day before appointment"
-#| msgid_plural "%d days before appointment"
+#, c-format
 msgid "%d day before"
 msgid_plural "%d days before"
-msgstr[0] "o zi înainte de programare"
-msgstr[1] "%d zile înainte de programare"
-msgstr[2] "%d de zile înainte de programare"
+msgstr[0] "o zi înainte"
+msgstr[1] "%d zile înainte"
+msgstr[2] "%d de zile înainte"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1679
-#, fuzzy, c-format
-#| msgid "%d hour before appointment"
-#| msgid_plural "%d hours before appointment"
+#, c-format
 msgid "%d hour before"
 msgid_plural "%d hours before"
-msgstr[0] "o oră înainte de programare"
-msgstr[1] "%d ore înainte de programare"
-msgstr[2] "%d de ore înainte de programare"
+msgstr[0] "o oră înainte"
+msgstr[1] "%d ore înainte"
+msgstr[2] "%d de ore înainte"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1686
-#, fuzzy, c-format
-#| msgid "%d minute before appointment"
-#| msgid_plural "%d minutes before appointment"
+#, c-format
 msgid "%d minute before"
 msgid_plural "%d minutes before"
-msgstr[0] "un minut înainte de programare"
-msgstr[1] "%d minute înainte de programare"
-msgstr[2] "%d de minute înainte de programare"
+msgstr[0] "un minut înainte"
+msgstr[1] "%d minute înainte"
+msgstr[2] "%d de minute înainte"
 
 #. Translators: "None" for "No reminder set"
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1694
@@ -8129,10 +8097,8 @@ msgstr "sfârșit"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1915
-#, fuzzy
-#| msgid "_Repeat the reminder"
 msgid "Re_peat the reminder"
-msgstr "_Repetă mementoul"
+msgstr "Re_petă mementoul"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1940
@@ -8171,10 +8137,8 @@ msgid "Custom reminder _sound"
 msgstr "_Sunet personalizat pentru memento"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2073
-#, fuzzy
-#| msgid "Select sound file"
 msgid "Select a sound file"
-msgstr "Selectează un fișier de sunet"
+msgstr "Selectați un fișier sunet"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2101
 msgid "_Program:"
@@ -8185,10 +8149,8 @@ msgid "_Arguments:"
 msgstr "P_arametri:"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2158
-#, fuzzy
-#| msgid "Send To:"
 msgid "_Send To:"
-msgstr "Timite către:"
+msgstr "_Trimite către:"
 
 #: ../src/calendar/gui/e-comp-editor-page-schedule.c:443
 msgid "_Schedule"
@@ -8325,25 +8287,19 @@ msgid "None"
 msgstr "Fără"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:241
-#, fuzzy
-#| msgid "Task's start date is in the past"
 msgid "Task’s start date is in the past"
 msgstr "Data de începere a sarcinii este în trecut"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:249
-#, fuzzy
-#| msgid "Task's due date is in the past"
 msgid "Task’s due date is in the past"
-msgstr "Data scadenței sarcinii este în trecut"
+msgstr "Data scadentă a sarcinii este în trecut"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:485
-#, fuzzy
-#| msgid "Task cannot be edited, because the selected task list is read only"
 msgid ""
 "Task cannot be edited, because the selected task list could not be opened"
 msgstr ""
-"Sarcina nu poate fi modificată, deoarece lista de sarcini selectată este "
-"protejată la scriere"
+"Sarcina nu poate fi modificată, deoarece lista de sarcini selectată nu a "
+"putut fi deschisă"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:487
 msgid "Task cannot be edited, because the selected task list is read only"
@@ -8362,44 +8318,34 @@ msgid "Start date is required for recurring tasks"
 msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor-task.c:572
-#, fuzzy
-#| msgid "File is not a valid .desktop file"
 msgid "Due date is not a valid date"
-msgstr "Fișierul nu este un fișier .desktop valid"
+msgstr "Data scadentă nu este validă"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:583
-#, fuzzy
-#| msgid "Completed date is wrong"
 msgid "Completed date is not a valid date"
-msgstr "Data completată este greșită"
+msgstr "Data finalizării nu este validă"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:594
 msgid "Completed date cannot be in the future"
 msgstr "Data terminării nu poate fi în viitor"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:667
-#, fuzzy
-#| msgid "All _Day Event"
 msgid "All _Day Task"
-msgstr "Eveniment pentru toată _ziua"
+msgstr "Sarcină pentru toată _ziua"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:669
-#, fuzzy
-#| msgid "Toggles whether to have All Day Event"
 msgid "Toggles whether to have All Day Task"
-msgstr "Comută afișarea Evenimentului pentru toată ziua"
+msgstr "Comută dacă să fie o sarcină pentru toată ziua"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:893
-#, fuzzy, c-format
-#| msgid "Assigned Task - %s"
+#, c-format
 msgid "Assigned Task — %s"
-msgstr "Sarcină repartizată - %s"
+msgstr "Sarcină repartizată — %s"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:894
-#, fuzzy, c-format
-#| msgid "Task - %s"
+#, c-format
 msgid "Task — %s"
-msgstr "Sarcină - %s"
+msgstr "Sarcină — %s"
 
 #: ../src/calendar/gui/e-comp-editor.c:253
 #: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:141
@@ -8817,12 +8763,13 @@ msgid "_End time:"
 msgstr "Timpul d_e sfârșit:"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2576
-#, fuzzy, c-format
-#| msgid "Location: %s"
+#, c-format
 msgid ""
 "Summary: %s\n"
 "Location: %s"
-msgstr "Locație: %s"
+msgstr ""
+"Sumar: %s\n"
+"Locație: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2578
 #: ../src/calendar/gui/print.c:3534
@@ -9002,10 +8949,8 @@ msgid "Tomorrow"
 msgstr "Mâine"
 
 #: ../src/calendar/gui/e-to-do-pane.c:1472
-#, fuzzy
-#| msgid "With _Due Date"
 msgid "Tasks without Due date"
-msgstr "Cu _dată scadentă"
+msgstr "Sarcini fără dată scadentă"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2045
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1472
@@ -9181,22 +9126,16 @@ msgid "You must be an attendee of the event."
 msgstr "Trebuie să fiți un participant la acest eveniment."
 
 #: ../src/calendar/gui/itip-utils.c:2210
-#, fuzzy
-#| msgid "Sending message"
 msgid "Sending an event"
-msgstr "Trimitere mesaj"
+msgstr "Se trimite un eveniment"
 
 #: ../src/calendar/gui/itip-utils.c:2214
-#, fuzzy
-#| msgid "Sending mail"
 msgid "Sending a memo"
-msgstr "Trimitere mesaje"
+msgstr "Se trimite un memo"
 
 #: ../src/calendar/gui/itip-utils.c:2218
-#, fuzzy
-#| msgid "Sending mail"
 msgid "Sending a task"
-msgstr "Trimitere mesaje"
+msgstr "Se trimite o sarcină"
 
 #. G_DATE_BAD_WEEKDAY
 #. Translators: These are workday abbreviations,
@@ -9391,10 +9330,8 @@ msgid "Calendar Events"
 msgstr "Evenimente calendar"
 
 #: ../src/calendar/importers/icalendar-importer.c:1145
-#, fuzzy
-#| msgid "New Calendar"
 msgid "GNOME Calendar"
-msgstr "Calendar nou"
+msgstr "Calendar GNOME"
 
 #: ../src/calendar/importers/icalendar-importer.c:1146
 msgid "Evolution Calendar intelligent importer"
@@ -10438,10 +10375,8 @@ msgid "Asia/Kashgar"
 msgstr "Asia/Kashgar"
 
 #: ../src/calendar/zones.h:242
-#, fuzzy
-#| msgid "Asia/Katmandu"
 msgid "Asia/Kathmandu"
-msgstr "Asia/Katmandu"
+msgstr "Asia/Kathmandu"
 
 #: ../src/calendar/zones.h:243
 msgid "Asia/Krasnoyarsk"
@@ -11234,12 +11169,12 @@ msgid "_From Override Field"
 msgstr ""
 
 #: ../src/composer/e-composer-actions.c:526
-#, fuzzy
-#| msgid "Toggles whether the Role field is displayed"
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
-msgstr "Comută afișarea câmpului Rol"
+msgstr ""
+"Comută dacă câmpul de suprascriere „De la” să schimbe numele sau adresa de "
+"email afișată"
 
 #: ../src/composer/e-composer-actions.c:532
 msgid "_Reply-To Field"
@@ -11361,9 +11296,6 @@ msgid "You cannot attach the file “{0}” to this message."
 msgstr "Nu puteți atașa fișierul „{0}” la acest mesaj."
 
 #: ../src/composer/mail-composer.error.xml.h:2
-#, fuzzy
-#| msgid ""
-#| "The file '{0}' is not a regular file and cannot be sent in a message."
 msgid "The file “{0}” is not a regular file and cannot be sent in a message."
 msgstr ""
 "Fișierul „{0}” nu este un fișier obișnuit și nu poate fi trimis într-un "
@@ -11375,8 +11307,6 @@ msgstr "Nu se pot obține mesajele pentru atașare de la {0}."
 
 #: ../src/composer/mail-composer.error.xml.h:4
 #: ../src/e-util/e-system.error.xml.h:5
-#, fuzzy
-#| msgid "Because \"{1}\"."
 msgid "Because “{1}”."
 msgstr "Deoarece „{1}”."
 
@@ -11401,10 +11331,8 @@ msgid "_Recover"
 msgstr "_Recuperează"
 
 #: ../src/composer/mail-composer.error.xml.h:9
-#, fuzzy
-#| msgid "Do you want to recover unfinished messages?"
 msgid "Do you want to recover last saved version of the message?"
-msgstr "Doriți să recuperați mesajele neterminate?"
+msgstr "Doriți să recuperați ultima versiune salvată a mesajului?"
 
 #: ../src/composer/mail-composer.error.xml.h:10
 msgid ""
@@ -11413,22 +11341,14 @@ msgid ""
 msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:11
-#, fuzzy
-#| msgid "Could not save to autosave file &quot;{0}&quot;."
 msgid "Could not save to autosave file “{0}”."
-msgstr "Nu se poate salva către fișierul de autosalvare „{0}”."
+msgstr "Nu se poate salva automat fișierul „{0}”."
 
 #: ../src/composer/mail-composer.error.xml.h:12
-#, fuzzy
-#| msgid "Error saving to autosave because &quot;{1}&quot;."
 msgid "Error saving to autosave because “{1}”."
 msgstr "Eroare la salvarea către autosalvare datorită „{1}”."
 
 #: ../src/composer/mail-composer.error.xml.h:13
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to discard the message, titled '{0}', you are "
-#| "composing?"
 msgid ""
 "Are you sure you want to discard the message, titled “{0}”, you are "
 "composing?"
@@ -11454,31 +11374,24 @@ msgid "_Save Draft"
 msgstr "_Salvează ciornă"
 
 #: ../src/composer/mail-composer.error.xml.h:19
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to discard the message, titled '{0}', you are "
-#| "composing?"
 msgid "Are you sure you want to discard the message you are composing?"
-msgstr "Sigur doriți să anulați mesajul intitulat „{0}”, pe care îl compuneți?"
+msgstr "Sigur doriți să anulați mesajul pe care îl compuneți?"
 
 #: ../src/composer/mail-composer.error.xml.h:20
 msgid "Could not create message."
 msgstr "Nu s-a putut crea mesajul."
 
 #: ../src/composer/mail-composer.error.xml.h:21
-#, fuzzy
-#| msgid ""
-#| "Because &quot;{0}&quot;, you may need to select different mail options."
 msgid ""
 "You may need to select different mail options.\n"
 "\n"
 "Detailed error: {0}"
 msgstr ""
-"Datorită „{0}”, va trebui să selectați poate alte opțiuni pentru email."
+"Probabil că va trebui să selectați opțiuni diferite pentru email.\n"
+"\n"
+"Detalii eroare: {0}"
 
 #: ../src/composer/mail-composer.error.xml.h:24
-#, fuzzy
-#| msgid "Could not read signature file &quot;{0}&quot;."
 msgid "Could not read signature file “{0}”."
 msgstr "Nu se poate citi fișierul semnătură „{0}”."
 
@@ -11495,9 +11408,6 @@ msgid "An error occurred while saving to your Outbox folder."
 msgstr "A apărut o eroare la salvarea în dosarul Netrimise."
 
 #: ../src/composer/mail-composer.error.xml.h:28
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgid "The reported error was “{0}”. The message has not been sent."
 msgstr "Eroarea raportată a fost „{0}”. Mesajul nu a fost trimis."
 
@@ -11506,10 +11416,6 @@ msgid "An error occurred while saving to your Drafts folder."
 msgstr "A apărut o eroare la salvarea în dosarul Ciorne."
 
 #: ../src/composer/mail-composer.error.xml.h:30
-#, fuzzy
-#| msgid ""
-#| "The reported error was &quot;{0}&quot;. The message has most likely not "
-#| "been saved."
 msgid ""
 "The reported error was “{0}”. The message has most likely not been saved."
 msgstr ""
@@ -11521,8 +11427,6 @@ msgstr "A apărut o eroare la trimitere. Cum doriți să procedați?"
 
 #: ../src/composer/mail-composer.error.xml.h:32
 #: ../src/mail/mail.error.xml.h:178
-#, fuzzy
-#| msgid "The reported error was &quot;{0}&quot;."
 msgid "The reported error was “{0}”."
 msgstr "Eroarea raportată a fost „{0}”."
 
@@ -11545,26 +11449,18 @@ msgid "Saving message to Outbox."
 msgstr "Se salvează mesajul în dosarul Netrimise."
 
 #: ../src/composer/mail-composer.error.xml.h:37
-#, fuzzy
-#| msgid ""
-#| "Because you are working offline, the message will be saved to your local "
-#| "Outbox folder. When you are back online you can send the message by "
-#| "clicking the Send/Receive button in Evolution's toolbar."
 msgid ""
 "The message will be saved to your local Outbox folder, because the "
 "destination service is currently unavailable. You can send the message by "
 "clicking the Send/Receive button in Evolution’s toolbar."
 msgstr ""
-"Deoarece lucrați în modul neconectat, mesajul va fi salvat în dosarul local "
-"Netrimise. Când vă veți reconecta, puteți trimite mesajul apăsând pe butonul "
-"Trimite/Primește din bara de unelte Evolution."
+"Mesajul va fi salvat în dosarul local Netrimise, pentru că serviciul de la "
+"destinație este momentan indisponibil. Puteți trimite mesajul apăsând pe "
+"butonul Trimite/Primește din bara de unelte Evolution."
 
 #: ../src/composer/mail-composer.error.xml.h:38
-#, fuzzy
-#| msgid "Are you sure you want to open %d message at once?"
-#| msgid_plural "Are you sure you want to open %d messages at once?"
 msgid "Are you sure you want to send the message?"
-msgstr "Sigur doriți să deschideți %d mesaj concomitent?"
+msgstr "Sigur doriți să trimiteți mesajul?"
 
 #: ../src/composer/mail-composer.error.xml.h:39
 msgid ""
@@ -11573,10 +11469,8 @@ msgid ""
 msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:41
-#, fuzzy
-#| msgid "Are you sure you want to delete these contacts?"
 msgid "Are you sure you want to change the composer format?"
-msgstr "Sigur doriți să ștergeți aceste contacte?"
+msgstr "Sigur doriți să schimbați formatul compunătorului?"
 
 #: ../src/composer/mail-composer.error.xml.h:42
 msgid ""
@@ -11589,22 +11483,16 @@ msgid "_Don’t lose formatting"
 msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:44
-#, fuzzy
-#| msgid "Address formatting"
 msgid "Lose _formatting"
-msgstr "Formatarea adresei"
+msgstr "Pierde _formatarea"
 
 #: ../src/composer/mail-composer.error.xml.h:45
-#, fuzzy
-#| msgid "An error occurred while saving to your Drafts folder."
 msgid "An error occurred while saving to your Templates folder."
-msgstr "A apărut o eroare la salvarea în dosarul Ciorne."
+msgstr "A apărut o eroare la salvarea în dosarul Șabloane."
 
 #: ../src/composer/mail-composer.error.xml.h:46
-#, fuzzy
-#| msgid "Are you sure you want to send a message without a subject?"
 msgid "Are you sure you want to convert the message into a meeting?"
-msgstr "Sigur doriți să trimiteți un mesaj fără subiect?"
+msgstr "Sigur doriți să convertiți mesajul într-o întâlnire?"
 
 #: ../src/composer/mail-composer.error.xml.h:47
 msgid ""
@@ -11613,10 +11501,8 @@ msgid ""
 msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:48
-#, fuzzy
-#| msgid "Create a _Meeting"
 msgid "Convert to _Meeting"
-msgstr "Creează o întâlnir_e"
+msgstr "Convertește în î_ntâlnire"
 
 #: ../src/composer/mail-composer.error.xml.h:49
 msgid "Are you sure you want to convert the event into a message?"
@@ -11629,10 +11515,8 @@ msgid ""
 msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:51
-#, fuzzy
-#| msgid "Important Messages"
 msgid "Convert to _Message"
-msgstr "Mesaje importante"
+msgstr "Convertește în _mesaj"
 
 #: ../src/composer/mail-composer.error.xml.h:52
 msgid "Are you sure you want to convert the memo into a message?"
@@ -11645,10 +11529,8 @@ msgid ""
 msgstr ""
 
 #: ../src/composer/mail-composer.error.xml.h:54
-#, fuzzy
-#| msgid "Are you sure you want to save the task without a summary?"
 msgid "Are you sure you want to convert the task into a message?"
-msgstr "Sigur doriți să salvați sarcina fără un rezumat?"
+msgstr "Sigur doriți să convertiți sarcina într-un mesaj?"
 
 #: ../src/composer/mail-composer.error.xml.h:55
 msgid ""
@@ -11703,28 +11585,20 @@ msgid "This message was sent by %s on behalf of %s"
 msgstr "Mesajul a fost trimis de %s în numele lui %s"
 
 #: ../src/em-format/e-mail-formatter-image.c:158
-#, fuzzy
-#| msgid "Save Image"
 msgid "Regular Image"
-msgstr "Salvează imaginea"
+msgstr "Imagine normală"
 
 #: ../src/em-format/e-mail-formatter-image.c:159
-#, fuzzy
-#| msgid "Display the next message"
 msgid "Display part as an image"
-msgstr "Afișează următorul mesaj"
+msgstr "Afișează partea ca o imagine"
 
 #: ../src/em-format/e-mail-formatter-message-rfc822.c:249
-#, fuzzy
-#| msgid "Forward message"
 msgid "RFC822 message"
-msgstr "Trimite mesajul mai departe"
+msgstr "Mesaj RFC822"
 
 #: ../src/em-format/e-mail-formatter-message-rfc822.c:250
-#, fuzzy
-#| msgid "Formatting message"
 msgid "Format part as an RFC822 message"
-msgstr "Formatare mesaj"
+msgstr "Formatează partea ca un mesaj RFC822"
 
 #: ../src/em-format/e-mail-formatter-print.c:51
 #: ../src/e-util/e-webdav-browser.c:2352
@@ -11776,25 +11650,19 @@ msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
 #: ../src/em-format/e-mail-formatter-text-html.c:387
-#, fuzzy
-#| msgid "Format messages in _HTML"
 msgid "Format part as HTML"
-msgstr "Formatează mesajele în _HTML"
+msgstr "Formatează partea ca HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:121
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
 #: ../src/e-util/e-html-editor-actions.c:1346
-#, fuzzy
-#| msgid "Plain Text Mode"
 msgid "Plain Text"
-msgstr "Mod text simplu"
+msgstr "Text simplu"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:122
 #: ../src/em-format/e-mail-formatter-text-plain.c:197
-#, fuzzy
-#| msgid "Only ever show plain text"
 msgid "Format part as plain text"
-msgstr "Afișează numai text simplu"
+msgstr "Formatează partea ca text simplu"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:45
 msgid "Unsigned"
@@ -11943,40 +11811,32 @@ msgid "Bcc"
 msgstr "Bcc"
 
 #: ../src/em-format/e-mail-formatter-utils.c:564
-#, fuzzy
-#| msgid "Assigned"
 msgid "GPG signed"
-msgstr "Alocat"
+msgstr "Semnat prin GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:564
 msgid "partially GPG signed"
 msgstr "semnat parțial prin GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:565
-#, fuzzy
-#| msgid "Unencrypted"
 msgid "GPG encrypted"
-msgstr "Necriptat"
+msgstr "Criptat prin GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:565
 msgid "partially GPG encrypted"
 msgstr "criptat parțial prin GPG"
 
 #: ../src/em-format/e-mail-formatter-utils.c:566
-#, fuzzy
-#| msgid "S/MIME Sig_n"
 msgid "S/MIME signed"
-msgstr "Sem_nare S/MIME"
+msgstr "Semnat prin S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:566
 msgid "partially S/MIME signed"
 msgstr "semnat parțial prin S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:567
-#, fuzzy
-#| msgid "S/MIME En_crypt"
 msgid "S/MIME encrypted"
-msgstr "Cr_iptare S/MIME"
+msgstr "Criptat prin S/MIME"
 
 #: ../src/em-format/e-mail-formatter-utils.c:567
 msgid "partially S/MIME encrypted"
@@ -11995,10 +11855,9 @@ msgid "Error parsing MBOX part: %s"
 msgstr ""
 
 #: ../src/em-format/e-mail-parser-application-smime.c:101
-#, fuzzy, c-format
-#| msgid "Could not parse PGP/MIME message"
+#, c-format
 msgid "Could not parse S/MIME message: %s"
-msgstr "Nu s-a putut analiza mesajul PGP/MIME"
+msgstr "Nu s-a putut parsa mesajul S/MIME: %s"
 
 #: ../src/em-format/e-mail-parser-inlinepgp-encrypted.c:76
 #, c-format
@@ -12007,10 +11866,9 @@ msgstr "Nu s-a putut parsa mesajul PGP: %s"
 
 #: ../src/em-format/e-mail-parser-inlinepgp-signed.c:79
 #: ../src/em-format/e-mail-parser-multipart-signed.c:152
-#, fuzzy, c-format
-#| msgid "Error verifying signature"
+#, c-format
 msgid "Error verifying signature: %s"
-msgstr "Eroare la verificarea semnăturii"
+msgstr "Eroare la verificarea semnăturii: %s"
 
 #: ../src/em-format/e-mail-parser-message-external.c:66
 msgid "Malformed external-body part"
@@ -12022,8 +11880,7 @@ msgid "Pointer to FTP site (%s)"
 msgstr "Indicator către site-ul FTP (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:110
-#, fuzzy, c-format
-#| msgid "Pointer to local file (%s) valid at site \"%s\""
+#, c-format
 msgid "Pointer to local file (%s) valid at site “%s”"
 msgstr "Indicator către fișierul local (%s) valid pe site-ul „%s”"
 
@@ -12038,10 +11895,9 @@ msgid "Pointer to remote data (%s)"
 msgstr "Indicator către datele la distanță (%s)"
 
 #: ../src/em-format/e-mail-parser-message-external.c:149
-#, fuzzy, c-format
-#| msgid "Pointer to unknown external data (\"%s\" type)"
+#, c-format
 msgid "Pointer to unknown external data (“%s” type)"
-msgstr "Indicator către o dată externă necunoscută (tip „%s”)"
+msgstr "Indicator către date externe necunoscute (tip „%s”)"
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:65
 #: ../src/em-format/e-mail-parser-multipart-signed.c:100
@@ -12053,10 +11909,9 @@ msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Tip de criptare nesuportată pentru multipart/encrypted"
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:99
-#, fuzzy, c-format
-#| msgid "Could not parse PGP/MIME message"
+#, c-format
 msgid "Could not parse PGP/MIME message: %s"
-msgstr "Nu s-a putut analiza mesajul PGP/MIME"
+msgstr "Nu s-a putut parsa mesajul PGP/MIME: %s"
 
 #: ../src/em-format/e-mail-parser-multipart-signed.c:138
 msgid "Unsupported signature format"
@@ -12095,10 +11950,8 @@ msgid "_View Certificate"
 msgstr "_Afișează certificatul"
 
 #: ../src/em-format/e-mail-part-secure-button.c:198
-#, fuzzy
-#| msgid "Imported Certificate"
 msgid "_Import Certificate"
-msgstr "Certificat importat"
+msgstr "_Importă certificat"
 
 #: ../src/em-format/e-mail-part-secure-button.c:207
 msgid "This certificate is not viewable"
@@ -12130,18 +11983,14 @@ msgstr "Conturi de email"
 
 #: ../src/e-util/e-accounts-window.c:564 ../src/e-util/e-accounts-window.c:703
 #: ../src/e-util/e-accounts-window.c:908
-#, fuzzy
-#| msgid "Address Book"
 msgid "Address Books"
-msgstr "Agendă"
+msgstr "Agende"
 
 #: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:704
 #: ../src/e-util/e-accounts-window.c:909
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:86
-#, fuzzy
-#| msgid "Calendar"
 msgid "Calendars"
-msgstr "Calendar"
+msgstr "Calendare"
 
 #: ../src/e-util/e-accounts-window.c:576 ../src/e-util/e-accounts-window.c:705
 #: ../src/e-util/e-accounts-window.c:910
@@ -12152,10 +12001,8 @@ msgstr "Liste de memo-uri"
 #: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:706
 #: ../src/e-util/e-accounts-window.c:911
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:88
-#, fuzzy
-#| msgid "Task List"
 msgid "Task Lists"
-msgstr "Listă de sarcini"
+msgstr "Liste de sarcini"
 
 #: ../src/e-util/e-accounts-window.c:1399 ../src/e-util/filter.ui.h:23
 #: ../src/mail/e-mail-account-tree-view.c:84
@@ -12173,19 +12020,14 @@ msgid "Account Name"
 msgstr "Nume cont"
 
 #: ../src/e-util/e-accounts-window.c:1482
-#, fuzzy
-#| msgid "Current Account"
 msgid "Collection _Account"
-msgstr "Contul curent"
+msgstr "Cont colecție"
 
 #: ../src/e-util/e-accounts-window.c:1483
 msgid "_Mail Account"
 msgstr "Cont de e_mail"
 
 #: ../src/e-util/e-accounts-window.c:1484
-#, fuzzy
-#| msgctxt "New"
-#| msgid "Address _Book"
 msgid "Address _Book"
 msgstr "_Agendă"
 
@@ -12198,16 +12040,12 @@ msgid "M_emo List"
 msgstr "Listă de m_emo-uri"
 
 #: ../src/e-util/e-accounts-window.c:1487
-#, fuzzy
-#| msgid "Task List"
 msgid "_Task List"
-msgstr "Listă de sarcini"
+msgstr "Lis_tă de sarcini"
 
 #: ../src/e-util/e-accounts-window.c:1684
-#, fuzzy
-#| msgid "Evolution Account Assistant"
 msgid "Evolution Accounts"
-msgstr "Asistentul de conturi Evolution"
+msgstr "Conturi Evolution"
 
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -12289,10 +12127,8 @@ msgid "Attached message"
 msgstr "Mesaj atașat"
 
 #: ../src/e-util/e-attachment.c:2085 ../src/e-util/e-attachment.c:3146
-#, fuzzy
-#| msgid "%s (cancelled)"
 msgid "Operation was cancelled"
-msgstr "%s (anulată)"
+msgstr "Operația a fost anulată"
 
 #. Translators: Default attachment filename.
 #: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:2990
@@ -12309,10 +12145,9 @@ msgid "A save operation is already in progress"
 msgstr "Are loc deja o operație de salvare"
 
 #: ../src/e-util/e-attachment.c:2757
-#, fuzzy, c-format
-#| msgid "Could not open %s:"
+#, c-format
 msgid "Could not open “%s”"
-msgstr "Nu s-a putut deschide %s:"
+msgstr "Nu s-a putut deschide „%s”"
 
 #: ../src/e-util/e-attachment.c:2760
 #, c-format
@@ -12324,8 +12159,7 @@ msgid "Attachment contents not loaded"
 msgstr "Conținutul fișierului atașat nu a fost încărcat"
 
 #: ../src/e-util/e-attachment.c:3610
-#, fuzzy, c-format
-#| msgid "Could not save '%s'"
+#, c-format
 msgid "Could not save “%s”"
 msgstr "Nu s-a putut salva „%s”"
 
@@ -12429,10 +12263,8 @@ msgid "S_ave All"
 msgstr "S_alvează toate"
 
 #: ../src/e-util/e-attachment-view.c:322
-#, fuzzy
-#| msgid "S_ave All"
 msgid "Sa_ve As"
-msgstr "S_alvează toate"
+msgstr "Sal_vează ca"
 
 #: ../src/e-util/e-attachment-view.c:331
 #: ../src/plugins/save-calendar/save-calendar.c:348
@@ -12456,8 +12288,7 @@ msgid "_Properties"
 msgstr "_Proprietăți"
 
 #: ../src/e-util/e-attachment-view.c:786
-#, fuzzy, c-format
-#| msgid "Open With \"%s\""
+#, c-format
 msgid "Open With “%s”"
 msgstr "Deschide cu „%s”"
 
@@ -12471,30 +12302,21 @@ msgid "Open With Default Application"
 msgstr "Deschide cu aplicația implicită"
 
 #: ../src/e-util/e-attachment-view.c:790
-#, fuzzy
-#| msgid "Open this attachment in %s"
 msgid "Open this attachment in default application"
-msgstr "Deschide acest fișier atașat în %s"
+msgstr "Deschide acest fișier atașat în aplicația implicită"
 
 #: ../src/e-util/e-book-source-config.c:98
-#, fuzzy
-#| msgid "Mark as _default address book"
 msgid "Mark as default address book"
-msgstr "Marchează ca agen_dă implicită"
+msgstr "Marchează ca agendă implicită"
 
 #: ../src/e-util/e-book-source-config.c:103
-#, fuzzy
-#| msgid "A_utocomplete with this address book"
 msgid "Autocomplete with this address book"
-msgstr "Completează a_utomat folosind această agendă"
+msgstr "Completează automat folosind această agendă"
 
 #: ../src/e-util/e-book-source-config.c:277
-#, fuzzy
-#| msgid "Copy _book content locally for offline operation"
 msgid "Copy book content locally for offline operation"
 msgstr ""
-"Copiază _local conținutul agendei pentru a putea lucra cu ea și când sunteți "
-"deconectat"
+"Copiază local conținutul agendei pentru operare când sunteți deconectat"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../src/e-util/e-buffer-tagger.c:410
@@ -12502,30 +12324,20 @@ msgid "Ctrl-click to open a link"
 msgstr "Ctrl-clic pentru a deschide o legătură"
 
 #: ../src/e-util/e-calendar.c:310
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous month"
-msgstr "Înapoi"
+msgstr "Luna anterioară"
 
 #: ../src/e-util/e-calendar.c:329
-#, fuzzy
-#| msgctxt "DateFmt"
-#| msgid "Next Mon"
 msgid "Next month"
-msgstr "Lun viitoare"
+msgstr "Luna următoare"
 
 #: ../src/e-util/e-calendar.c:349
-#, fuzzy
-#| msgid "Previous"
 msgid "Previous year"
-msgstr "Înapoi"
+msgstr "Anul anterior"
 
 #: ../src/e-util/e-calendar.c:368
-#, fuzzy
-#| msgctxt "DateFmt"
-#| msgid "Next Tue"
 msgid "Next year"
-msgstr "Mar viitoare"
+msgstr "Anul viitor"
 
 #: ../src/e-util/e-calendar.c:392
 msgid "Month Calendar"
@@ -12550,16 +12362,12 @@ msgid "%B %Y"
 msgstr "%B %Y"
 
 #: ../src/e-util/e-cal-source-config.c:169
-#, fuzzy
-#| msgid "Mark as _default calendar"
 msgid "Mark as default calendar"
-msgstr "Marchează ca calen_dar implicit"
+msgstr "Marchează ca calendar implicit"
 
 #: ../src/e-util/e-cal-source-config.c:172
-#, fuzzy
-#| msgid "Mark as _default task list"
 msgid "Mark as default task list"
-msgstr "Marche_ză ca listă de sarcini implicită"
+msgstr "Marchează ca listă de sarcini implicită"
 
 #: ../src/e-util/e-cal-source-config.c:175
 msgid "Mark as default memo list"
@@ -12570,22 +12378,16 @@ msgid "Color:"
 msgstr "Culoare:"
 
 #: ../src/e-util/e-cal-source-config.c:428
-#, fuzzy
-#| msgid "Cop_y calendar contents locally for offline operation"
 msgid "Copy calendar contents locally for offline operation"
 msgstr ""
 "Co_piază local conținutul calendarului pentru modul de lucru deconectat"
 
 #: ../src/e-util/e-cal-source-config.c:432
-#, fuzzy
-#| msgid "Cop_y task list contents locally for offline operation"
 msgid "Copy task list contents locally for offline operation"
 msgstr ""
 "Co_piază local conținutul listei de sarcini pentru modul de lucru deconectat"
 
 #: ../src/e-util/e-cal-source-config.c:436
-#, fuzzy
-#| msgid "Cop_y memo list contents locally for offline operation"
 msgid "Copy memo list contents locally for offline operation"
 msgstr ""
 "Co_piază local conținutul listei de notițe pentru modul de lucru deconectat"
@@ -12623,40 +12425,28 @@ msgid "Create category “%s”"
 msgstr "Creează categoria „%s”"
 
 #: ../src/e-util/e-category-editor.c:169 ../src/e-util/e-category-editor.c:234
-#, fuzzy
-#| msgid "Category"
 msgid "Category Icon"
-msgstr "Categorie"
+msgstr "Iconița categoriei"
 
 #: ../src/e-util/e-category-editor.c:173
-#, fuzzy
-#| msgid "_No image"
 msgid "_No Image"
 msgstr "Fără imagi_ne"
 
 #: ../src/e-util/e-category-editor.c:207
-#, fuzzy
-#| msgid "Category"
 msgid "Category _Name"
-msgstr "Categorie"
+msgstr "_Numele categoriei"
 
 #: ../src/e-util/e-category-editor.c:220
-#, fuzzy
-#| msgid "Category"
 msgid "Category _Icon"
-msgstr "Categorie"
+msgstr "Iconița categoriei"
 
 #: ../src/e-util/e-category-editor.c:236
-#, fuzzy
-#| msgid "Restart Evolution"
 msgid "_Unset icon"
-msgstr "Restartați Evolution"
+msgstr "_Destabilește iconița"
 
 #: ../src/e-util/e-category-editor.c:262
-#, fuzzy
-#| msgid "Calendar Properties"
 msgid "Category Properties"
-msgstr "Proprietăți calendar"
+msgstr "Proprietăți categorie"
 
 #: ../src/e-util/e-category-editor.c:323
 #, c-format
@@ -12795,10 +12585,8 @@ msgstr "Nu s-a putut crea un obiect client din numele extensiei „%s”"
 
 #: ../src/e-util/e-collection-account-wizard.c:106
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:83
-#, fuzzy
-#| msgid "Finish"
 msgid "_Finish"
-msgstr "Finalizare"
+msgstr "_Finalizează"
 
 #: ../src/e-util/e-collection-account-wizard.c:108
 #: ../src/e-util/e-collection-account-wizard.c:266
@@ -12809,10 +12597,8 @@ msgid "_Next"
 msgstr "Î_nainte"
 
 #: ../src/e-util/e-collection-account-wizard.c:180
-#, fuzzy
-#| msgid "Current Account"
 msgid "New Collection Account"
-msgstr "Contul curent"
+msgstr "Contul colecție nou"
 
 #: ../src/e-util/e-collection-account-wizard.c:251
 #: ../src/e-util/e-search-bar.c:665
@@ -12831,10 +12617,8 @@ msgid "Requires password to continue. %s."
 msgstr ""
 
 #: ../src/e-util/e-collection-account-wizard.c:486
-#, fuzzy
-#| msgid "_View Certificate"
 msgid "View certificate"
-msgstr "_Afișează certificatul"
+msgstr "Vizualizează certificatul"
 
 #. Translators: The first %s is replaced with actual error message about site certificate invalidity,
 #. like "The signing certificate authority is not known.", the second %s is replaced with a link "View certificate".
@@ -12872,22 +12656,16 @@ msgstr "_Memorează parola"
 
 #: ../src/e-util/e-collection-account-wizard.c:780
 #: ../src/e-util/e-webdav-browser.c:473
-#, fuzzy
-#| msgid "_Selection"
 msgid "Collection"
-msgstr "_Selecție"
+msgstr "Colecție"
 
 #: ../src/e-util/e-collection-account-wizard.c:781
-#, fuzzy
-#| msgid "Mail Receipt"
 msgid "Mail Receive"
-msgstr "Confirmare primire email"
+msgstr "Primire email"
 
 #: ../src/e-util/e-collection-account-wizard.c:782
-#, fuzzy
-#| msgid "Mailer"
 msgid "Mail Send"
-msgstr "Client"
+msgstr "Trimitere email"
 
 #: ../src/e-util/e-collection-account-wizard.c:783
 #: ../src/e-util/e-name-selector-dialog.c:445
