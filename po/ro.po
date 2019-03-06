@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2019-03-04 17:41+0000\n"
-"PO-Revision-Date: 2019-03-06 14:57+0100\n"
+"PO-Revision-Date: 2019-03-06 22:43+0100\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
 "sourceforge.net>\n"
@@ -12695,16 +12695,12 @@ msgid "User details"
 msgstr "Detalii utilizator"
 
 #: ../src/e-util/e-collection-account-wizard.c:1586
-#, fuzzy
-#| msgid "Email _Address:"
 msgid "_Email Address or User name:"
-msgstr "_Adresa email:"
+msgstr "Adresă de _email sau nume de utilizator:"
 
 #: ../src/e-util/e-collection-account-wizard.c:1617
-#, fuzzy
-#| msgid "_Send Options"
 msgid "_Advanced Options"
-msgstr "Opțiuni _trimitere"
+msgstr "Opțiuni _avansate"
 
 #: ../src/e-util/e-collection-account-wizard.c:1622
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:217
@@ -12730,10 +12726,8 @@ msgid "Account Information"
 msgstr "Informații cont"
 
 #: ../src/e-util/e-color-chooser-widget.c:122
-#, fuzzy
-#| msgid "Use custom fonts"
 msgid "Choose custom color"
-msgstr "Folosește fonturi personalizate"
+msgstr "Alegeți o culoare personalizată"
 
 #: ../src/e-util/e-color-combo.c:79
 msgid "black"
@@ -12800,10 +12794,8 @@ msgid "dark grey"
 msgstr "gri închis"
 
 #: ../src/e-util/e-color-combo.c:97
-#, fuzzy
-#| msgid "3rd"
 msgid "red"
-msgstr "3"
+msgstr "roșu"
 
 #: ../src/e-util/e-color-combo.c:98
 msgid "orange"
@@ -13058,10 +13050,9 @@ msgstr "Nu sincroniza local email-uri mai vechi de"
 
 #. Translators: The %s is replaced with a spin button; always keep it in the string at the right position
 #: ../src/e-util/e-dialog-widgets.c:437
-#, fuzzy, c-format
-#| msgid "_Mark messages as read after"
+#, c-format
 msgid "Mark messages as read after %s seconds"
-msgstr "_Marchează mesajele ca citite după"
+msgstr "Marchează mesajele ca citite după %s secunde"
 
 #. Translators: :-)
 #: ../src/e-util/e-emoticon-chooser.c:38
@@ -13075,10 +13066,8 @@ msgstr "_Trist"
 
 #. Translators: ;-)
 #: ../src/e-util/e-emoticon-chooser.c:42
-#, fuzzy
-#| msgid "_Window"
 msgid "_Wink"
-msgstr "_Fereastră"
+msgstr "_Clipire"
 
 #. Translators: :-P
 #: ../src/e-util/e-emoticon-chooser.c:44
@@ -13167,10 +13156,8 @@ msgstr "Dră_cușor"
 
 #. Translators: :-(|)
 #: ../src/e-util/e-emoticon-chooser.c:78
-#, fuzzy
-#| msgid "_Mon"
 msgid "_Monkey"
-msgstr "_Lun"
+msgstr "_Maimuță"
 
 #: ../src/e-util/e-file-utils.c:121
 msgid "(Unknown Filename)"
@@ -13178,18 +13165,16 @@ msgstr "(Nume fișier necunoscut)"
 
 #. Translators: The string value is the basename of a file.
 #: ../src/e-util/e-file-utils.c:125
-#, fuzzy, c-format
-#| msgid "Writing \"%s\""
+#, c-format
 msgid "Writing “%s”"
 msgstr "Se scrie „%s”"
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
 #: ../src/e-util/e-file-utils.c:130
-#, fuzzy, c-format
-#| msgid "Writing \"%s\" to %s"
+#, c-format
 msgid "Writing “%s” to %s"
-msgstr "Se scrie „%s” către „%s”"
+msgstr "Se scrie „%s” la „%s”"
 
 #. Don't delete this code, since it is needed so that xgettext can extract the translations.
 #. * Please, keep these strings in sync with the strings in the timespans array
@@ -13342,10 +13327,8 @@ msgid "any of the following conditions"
 msgstr "oricare dintre condițiile următoare"
 
 #: ../src/e-util/e-filter-rule.c:1042
-#, fuzzy
-#| msgid "_Find items:"
 msgid "_Find items which match:"
-msgstr "_Caută elementele:"
+msgstr "_Caută elementele care se potrivesc:"
 
 #: ../src/e-util/e-filter-rule.c:1065
 msgid "Find items that meet the following conditions"
@@ -13423,10 +13406,8 @@ msgid "Insert Image"
 msgstr "Introducere imagine"
 
 #: ../src/e-util/e-html-editor-actions.c:352
-#, fuzzy
-#| msgid "Image files"
 msgid "Image file"
-msgstr "Fișiere imagine"
+msgstr "Fișier imagine"
 
 #: ../src/e-util/e-html-editor-actions.c:428
 msgid "Insert text file"
@@ -13437,23 +13418,17 @@ msgid "Text file"
 msgstr "Fișier text"
 
 #: ../src/e-util/e-html-editor-actions.c:912
-#, fuzzy
-#| msgid "Copy selected events to the clipboard"
 msgid "Copy selected text to the clipboard"
-msgstr "Copiază evenimentele selectate în clipboard"
+msgstr "Copiază textul selectat în clipboard"
 
 #: ../src/e-util/e-html-editor-actions.c:919
-#, fuzzy
-#| msgid "Cut selected events to the clipboard"
 msgid "Cut selected text to the clipboard"
-msgstr "Taie evenimentele selectate în clipboard"
+msgstr "Taie textul selectat în clipboard"
 
 #. Widgets are treating Ctrl + v shortcut themselves
 #: ../src/e-util/e-html-editor-actions.c:926
-#, fuzzy
-#| msgid "Paste events from the clipboard"
 msgid "Paste text from the clipboard"
-msgstr "Lipește evenimente din clipboard"
+msgstr "Lipește textul din clipboard"
 
 #: ../src/e-util/e-html-editor-actions.c:933
 msgid "Redo the last undone action"
@@ -13468,23 +13443,17 @@ msgid "For_mat"
 msgstr "For_matează"
 
 #: ../src/e-util/e-html-editor-actions.c:975
-#, fuzzy
-#| msgid "Tool_bar Style"
 msgid "_Paragraph Style"
-msgstr "Stil _bară de unelte"
+msgstr "Stil _paragraf"
 
 #: ../src/e-util/e-html-editor-actions.c:989
 #: ../src/e-util/e-html-editor-image-dialog.c:590
-#, fuzzy
-#| msgid "A_lignment"
 msgid "_Alignment"
-msgstr "A_liniere"
+msgstr "_Aliniere"
 
 #: ../src/e-util/e-html-editor-actions.c:996
-#, fuzzy
-#| msgid "_Languages"
 msgid "Current _Languages"
-msgstr "_Limbi"
+msgstr "_Limbi curente"
 
 #: ../src/e-util/e-html-editor-actions.c:1013
 msgid "_Increase Indent"
@@ -13507,10 +13476,8 @@ msgid "Paste _Quotation"
 msgstr "Lipește _citatul"
 
 #: ../src/e-util/e-html-editor-actions.c:1041
-#, fuzzy
-#| msgid "_Find in Memo..."
 msgid "_Find..."
-msgstr "_Caută în memo..."
+msgstr "_Caută..."
 
 #: ../src/e-util/e-html-editor-actions.c:1043
 msgid "Search for text"
@@ -13521,20 +13488,16 @@ msgid "Find A_gain"
 msgstr "Caută din _nou"
 
 #: ../src/e-util/e-html-editor-actions.c:1055
-#, fuzzy
-#| msgid "_Rename..."
 msgid "Re_place..."
-msgstr "_Redenumește..."
+msgstr "În_locuiește..."
 
 #: ../src/e-util/e-html-editor-actions.c:1057
 msgid "Search for and replace text"
 msgstr "Caută și înlocuiește text"
 
 #: ../src/e-util/e-html-editor-actions.c:1062
-#, fuzzy
-#| msgid "Canceling..."
 msgid "Check _Spelling..."
-msgstr "Se anulează..."
+msgstr "_Verifică ortografia..."
 
 #: ../src/e-util/e-html-editor-actions.c:1069
 msgid "_Decrease Indent"
@@ -13555,10 +13518,8 @@ msgid "_Center"
 msgstr "_Centrat"
 
 #: ../src/e-util/e-html-editor-actions.c:1088
-#, fuzzy
-#| msgid "A_lignment"
 msgid "Center Alignment"
-msgstr "A_liniere"
+msgstr "Centrează alinierea"
 
 #. Left
 #: ../src/e-util/e-html-editor-actions.c:1093
@@ -13567,10 +13528,8 @@ msgid "_Left"
 msgstr "_La stânga"
 
 #: ../src/e-util/e-html-editor-actions.c:1095
-#, fuzzy
-#| msgid "A_lignment"
 msgid "Left Alignment"
-msgstr "A_liniere"
+msgstr "Aliniere la stânga"
 
 #. Right
 #: ../src/e-util/e-html-editor-actions.c:1100
@@ -13579,10 +13538,8 @@ msgid "_Right"
 msgstr "La d_reapta"
 
 #: ../src/e-util/e-html-editor-actions.c:1102
-#, fuzzy
-#| msgid "A_lignment"
 msgid "Right Alignment"
-msgstr "A_liniere"
+msgstr "Aliniere la dreapta"
 
 #: ../src/e-util/e-html-editor-actions.c:1110
 #: ../src/modules/text-highlight/languages.c:70
@@ -13594,22 +13551,16 @@ msgid "HTML editing mode"
 msgstr "Modul de editare HTML"
 
 #: ../src/e-util/e-html-editor-actions.c:1117
-#, fuzzy
-#| msgid "Plain Text Mode"
 msgid "Plain _Text"
-msgstr "Mod text simplu"
+msgstr "_Text simplu"
 
 #: ../src/e-util/e-html-editor-actions.c:1119
-#, fuzzy
-#| msgid "Plain Text Mode"
 msgid "Plain text editing mode"
-msgstr "Mod text simplu"
+msgstr "Mod de editare text simplu"
 
 #: ../src/e-util/e-html-editor-actions.c:1127
-#, fuzzy
-#| msgid "Normal"
 msgid "_Normal"
-msgstr "Normal"
+msgstr "_Normal"
 
 #: ../src/e-util/e-html-editor-actions.c:1134
 msgid "Heading _1"
@@ -13636,16 +13587,12 @@ msgid "Heading _6"
 msgstr "Titlu de rubrică _6"
 
 #: ../src/e-util/e-html-editor-actions.c:1176
-#, fuzzy
-#| msgid "View _Unformatted"
 msgid "_Preformatted"
-msgstr "Vizualizează _neformatat"
+msgstr "_Preformatat"
 
 #: ../src/e-util/e-html-editor-actions.c:1183
-#, fuzzy
-#| msgid "Address"
 msgid "A_ddress"
-msgstr "Adresă"
+msgstr "A_dresă"
 
 #: ../src/e-util/e-html-editor-actions.c:1190
 msgid "_Bulleted List"
@@ -13656,10 +13603,8 @@ msgid "_Roman Numeral List"
 msgstr "Listă de numerale _romane"
 
 #: ../src/e-util/e-html-editor-actions.c:1204
-#, fuzzy
-#| msgid "Retrieve _List"
 msgid "Numbered _List"
-msgstr "Obține _listă"
+msgstr "_Listă numerotată"
 
 #: ../src/e-util/e-html-editor-actions.c:1211
 msgid "_Alphabetical List"
@@ -13667,17 +13612,13 @@ msgstr "Listă _alfabetică"
 
 #: ../src/e-util/e-html-editor-actions.c:1227
 #: ../src/e-util/e-html-editor-actions.c:1265
-#, fuzzy
-#| msgid "Save _Image..."
 msgid "_Image..."
-msgstr "Salvează _imaginea..."
+msgstr "_Imaginea..."
 
 #. Translators: This is an action tooltip
 #: ../src/e-util/e-html-editor-actions.c:1230
-#, fuzzy
-#| msgid "Inline Image"
 msgid "Insert Image"
-msgstr "Imagine inclusă"
+msgstr "Introdu imagine"
 
 #: ../src/e-util/e-html-editor-actions.c:1235
 #: ../src/e-util/e-html-editor-actions.c:1272
@@ -13685,25 +13626,19 @@ msgid "_Link..."
 msgstr "_Legătură..."
 
 #: ../src/e-util/e-html-editor-actions.c:1237
-#, fuzzy
-#| msgid "_Insert"
 msgid "Insert Link"
-msgstr "_Inserează"
+msgstr "_Introdu legătura"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1243
 #: ../src/e-util/e-html-editor-actions.c:1287
-#, fuzzy
-#| msgid "_Rename..."
 msgid "_Rule..."
-msgstr "_Redenumește..."
+msgstr "_Regulă..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1246
-#, fuzzy
-#| msgid "_Insert"
 msgid "Insert Rule"
-msgstr "_Inserează"
+msgstr "_Introdu regulă"
 
 #: ../src/e-util/e-html-editor-actions.c:1251
 #: ../src/e-util/e-html-editor-actions.c:1294
@@ -13711,20 +13646,16 @@ msgid "_Table..."
 msgstr "_Tabel..."
 
 #: ../src/e-util/e-html-editor-actions.c:1253
-#, fuzzy
-#| msgid "_Insert"
 msgid "Insert Table"
-msgstr "_Inserează"
+msgstr "_Introdu tabel"
 
 #: ../src/e-util/e-html-editor-actions.c:1258
 msgid "_Cell..."
 msgstr "_Celulă..."
 
 #: ../src/e-util/e-html-editor-actions.c:1279
-#, fuzzy
-#| msgid "Save _Image..."
 msgid "Pa_ge..."
-msgstr "Salvează _imaginea..."
+msgstr "Pa_gină..."
 
 #: ../src/e-util/e-html-editor-actions.c:1303
 msgid "Font _Size"
@@ -13757,10 +13688,8 @@ msgid "Italic"
 msgstr "Cursiv"
 
 #: ../src/e-util/e-html-editor-actions.c:1344
-#, fuzzy
-#| msgid "Plain Text Mode"
 msgid "_Plain Text"
-msgstr "Mod text simplu"
+msgstr "Text sim_plu"
 
 #: ../src/e-util/e-html-editor-actions.c:1352
 #: ../src/e-util/e-html-editor-text-dialog.c:233
@@ -13773,16 +13702,12 @@ msgstr "Tăiat"
 
 #: ../src/e-util/e-html-editor-actions.c:1360
 #: ../src/e-util/e-html-editor-text-dialog.c:223
-#, fuzzy
-#| msgid "Undefined"
 msgid "_Underline"
-msgstr "Nedefinit"
+msgstr "S_ubliniat"
 
 #: ../src/e-util/e-html-editor-actions.c:1362
-#, fuzzy
-#| msgid "Undefined"
 msgid "Underline"
-msgstr "Nedefinit"
+msgstr "Subliniat"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1372
@@ -13791,10 +13716,8 @@ msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1380
-#, fuzzy
-#| msgid "1"
 msgid "-1"
-msgstr "1"
+msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1388
@@ -13803,10 +13726,8 @@ msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1396
-#, fuzzy
-#| msgid "1"
 msgid "+1"
-msgstr "1"
+msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
 #: ../src/e-util/e-html-editor-actions.c:1404
@@ -13824,22 +13745,16 @@ msgid "+4"
 msgstr "+4"
 
 #: ../src/e-util/e-html-editor-actions.c:1439
-#, fuzzy
-#| msgid "_Contents"
 msgid "Cell Contents"
-msgstr "_Cuprins"
+msgstr "Conținutul celulelor"
 
 #: ../src/e-util/e-html-editor-actions.c:1446
-#, fuzzy
-#| msgid "Add a Column"
 msgid "Column"
-msgstr "Adaugă o coloană"
+msgstr "Coloană"
 
 #: ../src/e-util/e-html-editor-actions.c:1453
-#, fuzzy
-#| msgid "Low"
 msgid "Row"
-msgstr "Scăzut"
+msgstr "Rând"
 
 #: ../src/e-util/e-html-editor-actions.c:1460
 msgid "Table"
@@ -13847,23 +13762,17 @@ msgstr "Tabel"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
 #: ../src/e-util/e-html-editor-actions.c:1470
-#, fuzzy
-#| msgid "Table Cell"
 msgid "Table Delete"
-msgstr "Celulă tabelă"
+msgstr "Ștergere tabel"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
 #: ../src/e-util/e-html-editor-actions.c:1478
-#, fuzzy
-#| msgid "Table Cell"
 msgid "Table Insert"
-msgstr "Celulă tabelă"
+msgstr "Introducere tabel"
 
 #: ../src/e-util/e-html-editor-actions.c:1485
-#, fuzzy
-#| msgid "_Properties"
 msgid "Properties"
-msgstr "_Proprietăți"
+msgstr "Proprietăți"
 
 #: ../src/e-util/e-html-editor-actions.c:1503
 msgid "Column After"
@@ -13874,10 +13783,8 @@ msgid "Column Before"
 msgstr "Coloană înainte"
 
 #: ../src/e-util/e-html-editor-actions.c:1517
-#, fuzzy
-#| msgid "_Insert"
 msgid "Insert _Link"
-msgstr "_Inserează"
+msgstr "Introdu _legătură"
 
 #: ../src/e-util/e-html-editor-actions.c:1524
 msgid "Row Above"
@@ -13909,10 +13816,8 @@ msgstr "Paragraf..."
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1574
-#, fuzzy
-#| msgid "Full _Name..."
 msgid "Rule..."
-msgstr "_Nume complet..."
+msgstr "Regulă..."
 
 #: ../src/e-util/e-html-editor-actions.c:1581
 msgid "Table..."
@@ -13927,10 +13832,8 @@ msgid "Remove Link"
 msgstr "Elimină legătura"
 
 #: ../src/e-util/e-html-editor-actions.c:1612
-#, fuzzy
-#| msgid "A_dd Condition"
 msgid "Add Word to Dictionary"
-msgstr "A_daugă condiție"
+msgstr "Adaugă cuvântul la dicționar"
 
 #: ../src/e-util/e-html-editor-actions.c:1619
 msgid "Ignore Misspelled Word"
@@ -13941,10 +13844,8 @@ msgid "Add Word To"
 msgstr "Adaugă cuvântul la"
 
 #: ../src/e-util/e-html-editor-actions.c:1635
-#, fuzzy
-#| msgid "Folder Subscriptions"
 msgid "More Suggestions"
-msgstr "Abonamente dosare"
+msgstr "Mai multe sugestii"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
@@ -13959,20 +13860,16 @@ msgid "_Emoticon"
 msgstr "_Emoticon"
 
 #: ../src/e-util/e-html-editor-actions.c:1950
-#, fuzzy
-#| msgid "Restart Evolution"
 msgid "Insert Emoticon"
-msgstr "Restartați Evolution"
+msgstr "Introdu emoticon"
 
 #: ../src/e-util/e-html-editor-actions.c:2018
 msgid "Re_place"
 msgstr "În_locuiește"
 
 #: ../src/e-util/e-html-editor-actions.c:2021
-#, fuzzy
-#| msgid "Image"
 msgid "_Image"
-msgstr "Imagine"
+msgstr "_Imagine"
 
 #: ../src/e-util/e-html-editor-actions.c:2024
 msgid "_Link"
@@ -13980,39 +13877,29 @@ msgstr "_Legătură"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:2028
-#, fuzzy
-#| msgid "Add Rule"
 msgid "_Rule"
-msgstr "Adaugă regulă"
+msgstr "_Regulă"
 
 #: ../src/e-util/e-html-editor-actions.c:2031
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
-#, fuzzy
-#| msgid "Table"
 msgid "_Table"
-msgstr "Tabel"
+msgstr "_Tabel"
 
 #: ../src/e-util/e-html-editor.c:743
 msgid "Paragraph Style"
 msgstr "Stil paragraf"
 
 #: ../src/e-util/e-html-editor.c:757
-#, fuzzy
-#| msgid "Edit Reminder"
 msgid "Editing Mode"
-msgstr "Editare memento"
+msgstr "Mod de editare"
 
 #: ../src/e-util/e-html-editor.c:769
-#, fuzzy
-#| msgid "Color"
 msgid "Font Color"
-msgstr "Culoare"
+msgstr "Culoare font"
 
 #: ../src/e-util/e-html-editor.c:779
-#, fuzzy
-#| msgid "Size"
 msgid "Font Size"
-msgstr "Dimensiune"
+msgstr "Dimensiune font"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:408
 msgid "<b>Scope</b>"
@@ -14058,10 +13945,8 @@ msgstr "_Orizontal:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:502
 #: ../src/e-util/e-html-editor-image-dialog.c:580
-#, fuzzy
-#| msgid "To"
 msgid "Top"
-msgstr "Către"
+msgstr "Partea de sus"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:503
 #: ../src/e-util/e-html-editor-image-dialog.c:581
@@ -14084,10 +13969,8 @@ msgstr "Încadrea_ză textul"
 
 #. Header Style
 #: ../src/e-util/e-html-editor-cell-dialog.c:526
-#, fuzzy
-#| msgid "Header content"
 msgid "_Header Style"
-msgstr "Conținut antet"
+msgstr "Stil antet"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:540
 #: ../src/e-util/e-html-editor-image-dialog.c:520
@@ -14125,10 +14008,8 @@ msgstr "Cul_oare:"
 #: ../src/e-util/e-html-editor-cell-dialog.c:640
 #: ../src/e-util/e-html-editor-image-dialog.c:476
 #: ../src/e-util/e-html-editor-table-dialog.c:692
-#, fuzzy
-#| msgid "Image"
 msgid "Images"
-msgstr "Imagine"
+msgstr "Imagini"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:645
 #: ../src/e-util/e-html-editor-cell-dialog.c:648
@@ -14136,10 +14017,8 @@ msgstr "Imagine"
 #: ../src/e-util/e-html-editor-image-dialog.c:484
 #: ../src/e-util/e-html-editor-table-dialog.c:697
 #: ../src/e-util/e-html-editor-table-dialog.c:702
-#, fuzzy
-#| msgid "Could not set as background"
 msgid "Choose Background Image"
-msgstr "Nu s-a putut defini fundalul"
+msgstr "Alegeți imaginea de fundal"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:662
 msgid "_Image:"
@@ -14152,10 +14031,8 @@ msgid "_Remove image"
 msgstr "E_limină imaginea"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:689
-#, fuzzy
-#| msgid "_Properties"
 msgid "Cell Properties"
-msgstr "_Proprietăți"
+msgstr "Proprietăți celulă"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:92
 #: ../src/e-util/e-html-editor-replace-dialog.c:68
@@ -14172,16 +14049,12 @@ msgid "Case _Sensitive"
 msgstr "_Sensibil la majuscule"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:229
-#, fuzzy
-#| msgid "_Search"
 msgid "_Wrap Search"
-msgstr "_Căutare"
+msgstr "Încadrează căutarea"
 
 #: ../src/e-util/e-html-editor-find-dialog.c:268
-#, fuzzy
-#| msgid "_Find Now"
 msgid "Find"
-msgstr "_Caută acum"
+msgstr "Caută"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:263
 msgid "<b>Size</b>"
@@ -14213,18 +14086,14 @@ msgid "S_haded"
 msgstr "_Umbrit"
 
 #: ../src/e-util/e-html-editor-hrule-dialog.c:363
-#, fuzzy
-#| msgid "Folder Properties"
 msgid "Rule properties"
-msgstr "Proprietăți dosar"
+msgstr "Proprietăți regulă"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:465
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:64
 #: ../src/e-util/e-html-editor-table-dialog.c:514
-#, fuzzy
-#| msgid "General"
 msgid "<b>General</b>"
-msgstr "Generale"
+msgstr "<b>Generale</b>"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:499
 msgid "_Source:"
@@ -14262,20 +14131,16 @@ msgid "_Test URL..."
 msgstr "URL de _test..."
 
 #: ../src/e-util/e-html-editor-image-dialog.c:685
-#, fuzzy
-#| msgid "Calendar Properties"
 msgid "Image Properties"
-msgstr "Proprietăți calendar"
+msgstr "Proprietăți imagine"
 
 #: ../src/e-util/e-html-editor-link-dialog.c:248
 msgid "_Remove Link"
 msgstr "E_limină legătura"
 
 #: ../src/e-util/e-html-editor-link-dialog.c:273
-#, fuzzy
-#| msgid "_Properties"
 msgid "Link Properties"
-msgstr "_Proprietăți"
+msgstr "Proprietăți legătură"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:68
 msgid "Perforated Paper"
@@ -14333,10 +14198,8 @@ msgstr ""
 
 #: ../src/e-util/e-html-editor-page-dialog.c:473
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:90
-#, fuzzy
-#| msgid "Template:"
 msgid "_Template:"
-msgstr "Șablon:"
+msgstr "Șa_blon:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:481
 #: ../src/e-util/e-import-assistant.c:286
@@ -14348,37 +14211,28 @@ msgid "_Custom:"
 msgstr "_Personalizat:"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:515
-#, fuzzy
-#| msgid "_Properties"
 msgid "Page Properties"
-msgstr "_Proprietăți"
+msgstr "Proprietăți pagină"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:81
-#, fuzzy
-#| msgid "_Reply style:"
 msgid "_Style:"
-msgstr "Stilul de _răspuns:"
+msgstr "_Stilul:"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:88
-#, fuzzy
-#| msgid "A_lignment"
 msgid "<b>Alignment</b>"
-msgstr "A_liniere"
+msgstr "<b>Aliniere</b>"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:153
-#, fuzzy
-#| msgid "Calendar Properties"
 msgid "Paragraph Properties"
-msgstr "Proprietăți calendar"
+msgstr "Proprietăți paragraf"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:90
-#, fuzzy, c-format
-#| msgid "occurrences"
+#, c-format
 msgid "%d occurrence replaced"
 msgid_plural "%d occurrences replaced"
-msgstr[0] "apariții"
-msgstr[1] "apariții"
-msgstr[2] "apariții"
+msgstr[0] "o apariție înlocuită"
+msgstr[1] "%d apariții înlocuite"
+msgstr[2] "%d de apariții înlocuite"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:278
 msgid "R_eplace:"
@@ -14393,10 +14247,8 @@ msgid "_Case sensitive"
 msgstr "Sensibil la majus_cule"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:303
-#, fuzzy
-#| msgid "_Search"
 msgid "Wra_p search"
-msgstr "_Căutare"
+msgstr "În_cadrează căutarea"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:313
 msgid "_Skip"
@@ -14404,16 +14256,12 @@ msgstr "_Omite"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:321
 #: ../src/e-util/e-system.error.xml.h:3
-#, fuzzy
-#| msgid "_Reply"
 msgid "_Replace"
-msgstr "_Răspunde"
+msgstr "Înlo_cuiește"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:329
-#, fuzzy
-#| msgid "Reply to _All"
 msgid "Replace _All"
-msgstr "Răspunde _tuturor"
+msgstr "Înlocuiește to_ate"
 
 #: ../src/e-util/e-html-editor-replace-dialog.c:349
 msgctxt "dialog-title"
@@ -14431,17 +14279,13 @@ msgstr "<b>Sugestii</b>"
 
 #. Replace
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:422
-#, fuzzy
-#| msgid "Replies"
 msgid "Replace"
-msgstr "Răspunsuri"
+msgstr "Înlocuiește"
 
 #. Replace All
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:431
-#, fuzzy
-#| msgid "Reply to All"
 msgid "Replace All"
-msgstr "Răspunde tuturor"
+msgstr "Înlocuiește toate"
 
 #. Ignore
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:440
@@ -14456,10 +14300,8 @@ msgstr "Omite"
 
 #. Back
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:458
-#, fuzzy
-#| msgid "Go Back"
 msgid "Back"
-msgstr "Mergi înapoi"
+msgstr "Înapoi"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:467
 msgid "<b>Dictionary</b>"
@@ -14467,10 +14309,8 @@ msgstr "<b>Dicționar</b>"
 
 #. Add Word button
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:487
-#, fuzzy
-#| msgid "Add Folder"
 msgid "Add word"
-msgstr "Adaută dosar"
+msgstr "Adaugă cuvânt"
 
 #: ../src/e-util/e-html-editor-spell-check-dialog.c:504
 #: ../src/mail/mail-config.ui.h:42
@@ -14482,10 +14322,8 @@ msgid "_Rows:"
 msgstr "_Rânduri:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:553
-#, fuzzy
-#| msgid "_Table column:"
 msgid "C_olumns:"
-msgstr "Coloană _tabel:"
+msgstr "C_oloane:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:604
 msgid "_Spacing:"
@@ -14498,30 +14336,24 @@ msgstr "Com_pletare:"
 #: ../src/e-util/e-html-editor-table-dialog.c:685
 #: ../src/e-util/e-html-editor-text-dialog.c:248
 #: ../src/e-util/e-webdav-browser.c:2418
-#, fuzzy
-#| msgid "Colo_r:"
 msgid "_Color:"
-msgstr "Culoa_re:"
+msgstr "_Culoare:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:716
 msgid "Image:"
 msgstr "Imagine:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:743
-#, fuzzy
-#| msgid "Calendar Properties"
 msgid "Table Properties"
-msgstr "Proprietăți calendar"
+msgstr "Proprietăți tabel"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:268
 msgid "Si_ze:"
 msgstr "Dimen_siune:"
 
 #: ../src/e-util/e-html-editor-text-dialog.c:283
-#, fuzzy
-#| msgid "_Properties"
 msgid "Text Properties"
-msgstr "_Proprietăți"
+msgstr "Proprietăți text"
 
 #: ../src/e-util/e-import-assistant.c:259
 msgid ""
@@ -14559,20 +14391,15 @@ msgid "Please select the information that you would like to import:"
 msgstr "Alegeți informațiile pe care doriți să le importați:"
 
 #: ../src/e-util/e-import-assistant.c:536
-#, fuzzy
-#| msgid ""
-#| "Evolution checked for settings to import from the following applications: "
-#| "Pine, Netscape, Elm, iCalendar. No importable settings found. If you "
-#| "would like to try again, please click the \"Back\" button."
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar, KMail. No importable settings found. If you "
 "would like to try again, please click the “Back” button."
 msgstr ""
 "Evolution a verificat configurările pentru a importa din următoarele "
-"aplicații: Pine, Netscape, Elm, iCalendar. nicio configurare care să fie "
-"importată nu a putut fi găsită. Dacă doriți să încercați din nou, dați un "
-"clic pe butonul „Înapoi”."
+"aplicații: Pine, Netscape, Elm, iCalendar, KMail. Nicio configurare care să "
+"fie importată nu a putut fi găsită. Dacă doriți să încercați din nou, "
+"apăsați clic pe butonul „Înapoi”."
 
 #: ../src/e-util/e-import-assistant.c:562
 #: ../src/modules/startup-wizard/e-mail-config-import-page.c:238
@@ -14659,10 +14486,8 @@ msgid "Autogenerated"
 msgstr "Autogenerată"
 
 #: ../src/e-util/e-mail-signature-editor.c:311 ../src/mail/e-mail-notes.c:966
-#, fuzzy
-#| msgid "_Close"
 msgid "Close"
-msgstr "În_chide"
+msgstr "Închide"
 
 #: ../src/e-util/e-mail-signature-editor.c:316 ../src/mail/e-mail-notes.c:971
 msgid "_Save and Close"
@@ -14731,10 +14556,9 @@ msgid "Could not display help for Evolution."
 msgstr "Nu s-a putut afișa ajutorul pentru Evolution."
 
 #: ../src/e-util/e-misc-utils.c:2563
-#, fuzzy, c-format
-#| msgid "Opening calendar at %s"
+#, c-format
 msgid "Opening calendar “%s”"
-msgstr "Se deschide calendarul de la %s"
+msgstr "Se deschide calendarul „%s”"
 
 #: ../src/e-util/e-misc-utils.c:2566
 #, c-format
@@ -14742,10 +14566,9 @@ msgid "Opening memo list “%s”"
 msgstr "Se deschide lista de memo-uri „%s”"
 
 #: ../src/e-util/e-misc-utils.c:2569
-#, fuzzy, c-format
-#| msgid "Opening tasks at %s"
+#, c-format
 msgid "Opening task list “%s”"
-msgstr "Deschid sarcinile la %s"
+msgstr "Se deschide lista cu sarcini „%s”"
 
 #: ../src/e-util/e-misc-utils.c:2572
 #, c-format
@@ -14820,10 +14643,8 @@ msgid "%s (%s)"
 msgstr "%s (%s)"
 
 #: ../src/e-util/e-name-selector-dialog.c:274
-#, fuzzy
-#| msgid "Contacts"
 msgid "Show Contacts"
-msgstr "Contacte"
+msgstr "Arată contacte"
 
 #: ../src/e-util/e-name-selector-dialog.c:306
 msgid "Address B_ook:"
@@ -14848,29 +14669,22 @@ msgstr "Orice categorie"
 
 #: ../src/e-util/e-name-selector-dialog.c:365
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:338
-#, fuzzy
-#| msgid "Contacts"
 msgid "Co_ntacts"
-msgstr "Contacte"
+msgstr "Co_ntacte"
 
 #: ../src/e-util/e-name-selector-dialog.c:442
-#, fuzzy
-#| msgid "_Search"
 msgid "Search"
-msgstr "_Căutare"
+msgstr "Caută"
 
 #: ../src/e-util/e-name-selector-dialog.c:573
-#, fuzzy
-#| msgid "Select Address Book"
 msgid "Select Contacts from Address Book"
-msgstr "Selectați agenda"
+msgstr "Selectați contacte din agendă"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
 #: ../src/e-util/e-name-selector-entry.c:3252
-#, fuzzy, c-format
-#| msgid "E_xpand All"
+#, c-format
 msgid "E_xpand %s Inline"
-msgstr "E_xtinde toate"
+msgstr "E_xpandează %s pe loc"
 
 #. Copy Contact Item
 #: ../src/e-util/e-name-selector-entry.c:3268
@@ -14886,16 +14700,14 @@ msgstr "_Taie %s"
 
 #. Edit Contact item
 #: ../src/e-util/e-name-selector-entry.c:3297
-#, fuzzy, c-format
-#| msgid "_Edit"
+#, c-format
 msgid "_Edit %s"
-msgstr "_Editare"
+msgstr "_Editează %s"
 
 #: ../src/e-util/e-name-selector-list.c:585
-#, fuzzy, c-format
-#| msgid "_Delete"
+#, c-format
 msgid "_Delete %s"
-msgstr "Șt_erge"
+msgstr "Șt_erge %s"
 
 #: ../src/e-util/e-online-button.c:30
 msgid "Evolution is currently online.  Click this button to work offline."
@@ -14923,20 +14735,16 @@ msgid "You have the Caps Lock key on."
 msgstr ""
 
 #: ../src/e-util/e-passwords.c:576
-#, fuzzy
-#| msgid "_Remember password"
 msgid "_Remember this passphrase"
-msgstr "_Memorează parola"
+msgstr "Memo_rează această parolă"
 
 #: ../src/e-util/e-passwords.c:577
 msgid "_Remember this passphrase for the remainder of this session"
 msgstr ""
 
 #: ../src/e-util/e-passwords.c:582
-#, fuzzy
-#| msgid "_Remember password"
 msgid "_Remember this password"
-msgstr "_Memorează parola"
+msgstr "Memo_rează parola"
 
 #: ../src/e-util/e-passwords.c:583
 msgid "_Remember this password for the remainder of this session"
@@ -14976,10 +14784,8 @@ msgid "Manual"
 msgstr "Manual"
 
 #: ../src/e-util/e-proxy-editor.c:397
-#, fuzzy
-#| msgid "H_TTP Proxy:"
 msgid "_HTTP Proxy:"
-msgstr "Proxy H_TTP:"
+msgstr "Proxy _HTTP:"
 
 #: ../src/e-util/e-proxy-editor.c:428
 #, fuzzy
