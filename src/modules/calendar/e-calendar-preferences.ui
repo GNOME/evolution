@@ -1458,11 +1458,7 @@
                 <property name="spacing">4</property>
                 <child>
                   <object class="GtkCheckButton" id="notify_with_tray">
-<<<<<<< HEAD
                     <property name="label" translatable="yes">Display reminders in _notification area only</property>
-=======
-                    <property name="label" translatable="yes">Display Reminders window with _notifications</property>
->>>>>>> cd5a751538... src/modules/calendar/e-calendar-preferences.ui: Reword "Display reminders in _notification area only" option in Preferences
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
