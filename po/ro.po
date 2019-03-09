@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2019-03-04 17:41+0000\n"
-"PO-Revision-Date: 2019-03-09 20:46+0100\n"
+"PO-Revision-Date: 2019-03-09 22:33+0100\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
 "sourceforge.net>\n"
@@ -22515,10 +22515,8 @@ msgstr "Rezumatul conține"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:847
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1041
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1055
-#, fuzzy
-#| msgid "_Print..."
 msgid "Print..."
-msgstr "_Tipărește..."
+msgstr "Tipărește..."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1766
 msgid "Print this calendar"
@@ -22581,10 +22579,8 @@ msgid "Print the selected memo"
 msgstr "Tipărește memo-ul selectat"
 
 #: ../src/modules/calendar/e-cal-shell-view-private.c:885
-#, fuzzy
-#| msgid "Print this event"
 msgid "Searching next matching event"
-msgstr "Tipărește acest eveniment"
+msgstr "Se caută următorul eveniment ce se potrivește"
 
 #: ../src/modules/calendar/e-cal-shell-view-private.c:886
 msgid "Searching previous matching event"
@@ -22874,20 +22870,16 @@ msgid "Refresh the selected task list"
 msgstr "Reîncarcă lista de sarcini selectată"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:761
-#, fuzzy
-#| msgid "Refresh the selected task list"
 msgid "Re_fresh list of account task lists"
-msgstr "Reîncarcă lista de sarcini selectată"
+msgstr "Reîncarcă _lista de liste de sarcini ale contului"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:770
 msgid "Rename the selected task list"
 msgstr "Redenumește lista de sarcini selectată"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:775
-#, fuzzy
-#| msgid "Show _Only This Task List"
 msgid "Sho_w All Task Lists"
-msgstr "Afișează d_oar această listă de sarcini"
+msgstr "Afișea_ză toate listele de sarcini"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:782
 msgid "Show _Only This Task List"
@@ -22922,18 +22914,14 @@ msgid "Active Tasks"
 msgstr "Sarcini Active"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:965
-#, fuzzy
-#| msgid "Cancelled"
 msgid "Cancelled Tasks"
-msgstr "Anulată"
+msgstr "Sarcini anulate"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:972
 msgid "Completed Tasks"
 msgstr "Sarcini Finalizate"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:979
-#, fuzzy
-#| msgid "Next 7 Days' Tasks"
 msgid "Next 7 Days’ Tasks"
 msgstr "Sarcinile pentru următoarele 7 zile"
 
@@ -22970,34 +22958,24 @@ msgstr[1] "%d sarcini"
 msgstr[2] "%d de sarcini"
 
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:331
-#, fuzzy
-#| msgid "Create a _Meeting"
 msgid "Convert to M_eeting"
-msgstr "Creează o întâlnir_e"
+msgstr "Convertește la întâlnir_e"
 
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:333
-#, fuzzy
-#| msgid "Create a new meeting request"
 msgid "Convert the message to a meeting request"
-msgstr "Creează o nouă cerere de întâlnire"
+msgstr "Convertește mesajul la o cerere de întâlnire"
 
 #: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:357
-#, fuzzy
-#| msgid "Important Messages"
 msgid "Convert to M_essage"
-msgstr "Mesaje importante"
+msgstr "Convertește la m_esaj"
 
 #: ../src/modules/composer-to-meeting/e-meeting-to-composer.c:359
-#, fuzzy
-#| msgid "Compose a new mail message"
 msgid "Convert to the mail message"
-msgstr "Compune un email nou"
+msgstr "Convertește la mesajul email"
 
 #: ../src/modules/config-lookup/e-gnome-config-lookup.c:67
-#, fuzzy
-#| msgid "Last upgraded configuration version"
 msgid "Look up configuration with e-mail domain"
-msgstr "Versiunea ultimei configurării actualizate"
+msgstr "Verifică configurația cu domeniul de email"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
@@ -23016,10 +22994,8 @@ msgstr "Se verifică serverul SMTP…"
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:118
-#, fuzzy
-#| msgid "CalDAV"
 msgid "CalDAV server"
-msgstr "CalDAV"
+msgstr "Server CalDAV"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
@@ -23039,10 +23015,8 @@ msgstr "Se verifică serverul CardDAV…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
-#, fuzzy
-#| msgid "On LDAP Servers"
 msgid "LDAP server"
-msgstr "Pe servere LDAP"
+msgstr "Server LDAP"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
@@ -23054,10 +23028,9 @@ msgid "Look up in SRV records"
 msgstr "Se verifică înregistrările SRV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:104
-#, fuzzy, c-format
-#| msgid "CalDAV"
+#, c-format
 msgid "CalDAV: %s"
-msgstr "CalDAV"
+msgstr "CalDAV: %s"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:111
 #, c-format
@@ -23294,14 +23267,12 @@ msgid "%s has sent back the following meeting response:"
 msgstr "%s a trimis înapoi următorul răspuns la ședință:"
 
 #: ../src/modules/itip-formatter/itip-view.c:476
-#, fuzzy, c-format
-#| msgid "%s through %s has canceled the following meeting:"
+#, c-format
 msgid "%s through %s has cancelled the following meeting:"
 msgstr "%s prin %s a anulat următoarea ședință:"
 
 #: ../src/modules/itip-formatter/itip-view.c:478
-#, fuzzy, c-format
-#| msgid "%s has canceled the following meeting:"
+#, c-format
 msgid "%s has cancelled the following meeting:"
 msgstr "%s a anulat următoarea ședință:"
 
@@ -23389,14 +23360,12 @@ msgid "%s has sent back the following assigned task response:"
 msgstr "%s a trimis înapoi următorul răspuns la sarcina desemnată:"
 
 #: ../src/modules/itip-formatter/itip-view.c:566
-#, fuzzy, c-format
-#| msgid "%s through %s has canceled the following assigned task:"
+#, c-format
 msgid "%s through %s has cancelled the following assigned task:"
 msgstr "%s prin %s a anulat următoarea sarcină desemnată:"
 
 #: ../src/modules/itip-formatter/itip-view.c:568
-#, fuzzy, c-format
-#| msgid "%s has canceled the following assigned task:"
+#, c-format
 msgid "%s has cancelled the following assigned task:"
 msgstr "%s a anulat următoarea sarcină desemnată:"
 
@@ -23441,14 +23410,12 @@ msgid "%s wishes to add to an existing memo:"
 msgstr "%s dorește să adauge la un memo existent:"
 
 #: ../src/modules/itip-formatter/itip-view.c:632
-#, fuzzy, c-format
-#| msgid "%s through %s has canceled the following shared memo:"
+#, c-format
 msgid "%s through %s has cancelled the following shared memo:"
 msgstr "%s prin %s a anulat următorul memo partajat:"
 
 #: ../src/modules/itip-formatter/itip-view.c:634
-#, fuzzy, c-format
-#| msgid "%s has canceled the following shared memo:"
+#, c-format
 msgid "%s has cancelled the following shared memo:"
 msgstr "%s a anulat următorul memo partajat:"
 
@@ -23475,8 +23442,6 @@ msgid "End time:"
 msgstr "Timp terminare:"
 
 #: ../src/modules/itip-formatter/itip-view.c:1214
-#, fuzzy
-#| msgid "_Open Calendar"
 msgid "Ope_n Calendar"
 msgstr "_Deschide calendar"
 
@@ -23497,22 +23462,16 @@ msgid "_Tentative"
 msgstr "Accep_tă provizoriu"
 
 #: ../src/modules/itip-formatter/itip-view.c:1229
-#, fuzzy
-#| msgid "A_ccept all"
 msgid "Acce_pt all"
-msgstr "A_cceptă tot"
+msgstr "Accep_tă toate"
 
 #: ../src/modules/itip-formatter/itip-view.c:1232
-#, fuzzy
-#| msgid "Accepted"
 msgid "Acce_pt"
-msgstr "Acceptată"
+msgstr "Accep_tă"
 
 #: ../src/modules/itip-formatter/itip-view.c:1235
-#, fuzzy
-#| msgid "_Send Information"
 msgid "Send _Information"
-msgstr "_Trimite informația"
+msgstr "Trimite _informații"
 
 #: ../src/modules/itip-formatter/itip-view.c:1238
 msgid "_Update Attendee Status"
@@ -23531,10 +23490,8 @@ msgstr "Comentariu:"
 
 #. RSVP area
 #: ../src/modules/itip-formatter/itip-view.c:1722
-#, fuzzy
-#| msgid "Send _reply to sender"
 msgid "Send reply to sender"
-msgstr "Trimite _răspunsul către expeditor"
+msgstr "Trimite răspunsul către expeditor"
 
 #. Updates
 #: ../src/modules/itip-formatter/itip-view.c:1737
@@ -23576,30 +23533,30 @@ msgid "Attendee status updated"
 msgstr "Starea participantului actualizată"
 
 #: ../src/modules/itip-formatter/itip-view.c:3876
-#, fuzzy, c-format
-#| msgid "An appointment in the calendar '%s' conflicts with this meeting"
+#, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
-msgstr "Programarea din calendarul „%s” este în conflict cu această întâlnire"
+msgstr ""
+"O programare „%s” din calendarul „%s” este în conflict cu această ședință"
 
 #: ../src/modules/itip-formatter/itip-view.c:3882
-#, fuzzy, c-format
-#| msgid "An appointment in the calendar '%s' conflicts with this meeting"
+#, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] ""
-"Programarea din calendarul „%s” este în conflict cu această întâlnire"
+"Calendarul „%s” conține o programare care este în conflict cu această ședință"
 msgstr[1] ""
-"Programarea din calendarul „%s” este în conflict cu această întâlnire"
+"Calendarul „%s” conține %d programări care sunt în conflict cu această "
+"ședință"
 msgstr[2] ""
-"Programarea din calendarul „%s” este în conflict cu această întâlnire"
+"Calendarul „%s” conține %d de programări care sunt în conflict cu această "
+"ședință"
 
 #: ../src/modules/itip-formatter/itip-view.c:3915
-#, fuzzy, c-format
-#| msgid "Found the appointment in the calendar '%s'"
+#, c-format
 msgid "Found the appointment in the calendar “%s”"
-msgstr "Am găsit programarea în calendarul „%s”"
+msgstr "S-a găsit programarea în calendarul „%s”"
 
 #: ../src/modules/itip-formatter/itip-view.c:3924
 msgid "This meeting invitation is obsolete. It had been updated."
@@ -23630,32 +23587,27 @@ msgid "Searching for an existing version of this appointment"
 msgstr "Se caută o versiune existentă a acestei programări"
 
 #: ../src/modules/itip-formatter/itip-view.c:4838
-#, fuzzy, c-format
-#| msgid "Unable to send item to calendar '%s'.  %s"
+#, c-format
 msgid "Unable to send item to calendar “%s”.  %s"
 msgstr "Nu s-a putut trimite elementul către calendarul „%s”.  %s"
 
 #: ../src/modules/itip-formatter/itip-view.c:4853
-#, fuzzy, c-format
-#| msgid "Sent to calendar '%s' as accepted"
+#, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Trimis către calendarul „%s” ca acceptat"
 
 #: ../src/modules/itip-formatter/itip-view.c:4858
-#, fuzzy, c-format
-#| msgid "Sent to calendar '%s' as tentative"
+#, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Trimis către calendarul „%s” ca acceptată provizoriu"
 
 #: ../src/modules/itip-formatter/itip-view.c:4864
-#, fuzzy, c-format
-#| msgid "Sent to calendar '%s' as declined"
+#, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Trimis către calendarul „%s” ca declinat"
 
 #: ../src/modules/itip-formatter/itip-view.c:4870
-#, fuzzy, c-format
-#| msgid "Sent to calendar '%s' as canceled"
+#, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Trimis către calendarul „%s” ca anulat"
 
@@ -23800,17 +23752,12 @@ msgid "This meeting has been delegated"
 msgstr "Ședința a fost delegată"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
-#| msgid ""
-#| "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
 msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
 msgstr "„{0}” a delegat ședința. Doriți să adăugați delegatul „{1}”?"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:301
-#, fuzzy
-#| msgid "Google Calendars"
 msgid "Google Features"
-msgstr "Calendare Google"
+msgstr "Funcționalități Google"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:310
 msgid "Add Google Ca_lendar to this account"
@@ -23848,10 +23795,8 @@ msgid "Mail _Directory:"
 msgstr "_Director de mail:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:269
-#, fuzzy
-#| msgid "Choose a file to restore"
 msgid "Choose a MH mail directory"
-msgstr "Alegeți un fișier pentru restaurare"
+msgstr "Alegeți un director de email MH"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:271
 msgid "MH mail directory cannot be empty"
@@ -23862,54 +23807,40 @@ msgid "Local Delivery _File:"
 msgstr ""
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:293
-#, fuzzy
-#| msgid "Choose calendar file"
 msgid "Choose a local delivery file"
-msgstr "Alegeți fișier calendar"
+msgstr "Alegeți fișier de livrare local"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:295
-#, fuzzy
-#| msgid "The file cannot be read"
 msgid "Local delivery file cannot be empty"
-msgstr "Fișierul nu poate fi citit"
+msgstr "Fișierul de livrare local nu poate fi gol"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:317
-#, fuzzy
-#| msgid "Choose a file to restore"
 msgid "Choose a Maildir mail directory"
-msgstr "Alegeți un fișier pentru restaurare"
+msgstr "Alegeți un director de email Maildir"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:319
 msgid "Maildir mail directory cannot be empty"
 msgstr "Directorul de email Maildir nu poate fi gol"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:340
-#, fuzzy
-#| msgid "_File:"
 msgid "Spool _File:"
-msgstr "_Fișier:"
+msgstr "_Fișier spool:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:341
-#, fuzzy
-#| msgid "Choose a File"
 msgid "Choose a mbox spool file"
-msgstr "Alegeți un fișier"
+msgstr "Alegeți un fișier spool mbox"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:343
-#, fuzzy
-#| msgid "The file cannot be read"
 msgid "Mbox spool file cannot be empty"
-msgstr "Fișierul nu poate fi citit"
+msgstr "Fișierul mbox spool nu poate fi gol"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:364
 msgid "Spool _Directory:"
 msgstr "_Director spool:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:365
-#, fuzzy
-#| msgid "Choose a file to restore"
 msgid "Choose a mbox spool directory"
-msgstr "Alegeți un fișier pentru restaurare"
+msgstr "Alegeți un dosar spool mbox"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:367
 msgid "Mbox spool directory cannot be empty"
@@ -23959,22 +23890,16 @@ msgid "_Use custom binary, instead of “sendmail”"
 msgstr ""
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:79
-#, fuzzy
-#| msgid "Custom Alarm:"
 msgid "_Custom binary:"
-msgstr "Alarmă personalizată:"
+msgstr "_Binar personalizat:"
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:98
-#, fuzzy
-#| msgid "Use custom fonts"
 msgid "U_se custom arguments"
-msgstr "Folosește fonturi personalizate"
+msgstr "Folos_ește argumente personalizate"
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:102
-#, fuzzy
-#| msgid "Custom Alarm:"
 msgid "Cus_tom arguments:"
-msgstr "Alarmă personalizată:"
+msgstr "Argumen_te personalizate:"
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:120
 msgid ""
@@ -23984,10 +23909,8 @@ msgid ""
 msgstr ""
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:135
-#, fuzzy
-#| msgid "Start in offline mode"
 msgid "Send mail also when in offline _mode"
-msgstr "Pornește în mod deconectat"
+msgstr "Trimite emailuri și în _modul offline"
 
 #: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:208
 msgid "Custom binary cannot be empty"
@@ -24003,10 +23926,8 @@ msgid "T_ype:"
 msgstr "T_ip:"
 
 #: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:252
-#, fuzzy
-#| msgid "IMAP Features"
 msgid "Yahoo! Features"
-msgstr "Opțiuni IMAP"
+msgstr "Funcționalități Yahoo!"
 
 #: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:261
 msgid "Add Yahoo! Ca_lendar and Tasks to this account"
@@ -24129,28 +24050,20 @@ msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Elimină permanent toate mesajele șterse din toate dosarele"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1547
-#, fuzzy
-#| msgid "_Junk"
 msgid "Empty _Junk"
-msgstr "_Spam"
+msgstr "Golește _Spam"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1549
-#, fuzzy
-#| msgid "Permanently remove all the deleted messages from all folders"
 msgid "Delete all Junk messages from all folders"
-msgstr "Elimină permanent toate mesajele șterse din toate dosarele"
+msgstr "Golește toate mesajele Spam din toate dosarele"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1556
-#, fuzzy
-#| msgid "Change the properties of this folder"
 msgid "Edit properties of this account"
-msgstr "Schimbă proprietățile acestui dosar"
+msgstr "Editează proprietățile acestui cont"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1563
-#, fuzzy
-#| msgid "Refresh the folder list"
 msgid "Refresh list of folders of this account"
-msgstr "Actualizează lista de dosare"
+msgstr "Reîmprospătează lista dosarelor ale acestui cont"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1568
 msgid "_Download Messages for Offline Usage"
@@ -24256,10 +24169,8 @@ msgid "Go to _Folder"
 msgstr "Navighează la _dosar"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1676
-#, fuzzy
-#| msgid "Click here to select folders to post to"
 msgid "Opens a dialog to select a folder to go to"
-msgstr "Clic aici pentru alegerea dosarelor pentru postare"
+msgstr "Deschide un dialog pentru a selecta dosarul ca fiind gata"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1688
 msgid "_Manage Subscriptions"
@@ -24404,10 +24315,8 @@ msgid "_Unmatched Folder Enabled"
 msgstr ""
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1928
-#, fuzzy
-#| msgid "Toggles whether the Role field is displayed"
 msgid "Toggles whether Unmatched search folder is enabled"
-msgstr "Comută afișarea câmpului Rol"
+msgstr "Comută dacă dosarul de căutări nepotrivite este activat"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1948
 msgid "Show message preview below the message list"
@@ -24426,8 +24335,6 @@ msgid "Important Messages"
 msgstr "Mesaje importante"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1977
-#, fuzzy
-#| msgid "Last 5 Days' Messages"
 msgid "Last 5 Days’ Messages"
 msgstr "Mesaje din ultimele 5 zile"
 
@@ -24456,10 +24363,8 @@ msgid "Unread Messages"
 msgstr "Mesaje necitite"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2026
-#, fuzzy
-#| msgid "Message Header"
 msgid "Message Thread"
-msgstr "Antet mesaj"
+msgstr "Grup de mesaje"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2086
 msgid "Subject or Addresses contain"
@@ -24478,16 +24383,12 @@ msgid "Current Folder"
 msgstr "Dosarul curent"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2117
-#, fuzzy
-#| msgid "In Current Folder and _Subfolders"
 msgid "Current Folder and Subfolders"
-msgstr "În dosar curent și _subdosare"
+msgstr "Dosarul curent și subdosarele"
 
 #: ../src/modules/mail/e-mail-shell-view.c:895
-#, fuzzy
-#| msgid "In Current Folder and _Subfolders"
 msgid "Current Folder and Subfolders Search"
-msgstr "În dosar curent și _subdosare"
+msgstr "Căutare în dosarul curent și subdosarele lui"
 
 #: ../src/modules/mail/e-mail-shell-view.c:1017
 msgid "All Account Search"
@@ -24560,54 +24461,40 @@ msgid "Send / Receive"
 msgstr "Trimite / Primește"
 
 #: ../src/modules/mail/em-composer-prefs.c:420
-#, fuzzy
-#| msgid "Select Folder"
 msgid "Select Folder to Add"
-msgstr "Alege dosar"
+msgstr "Alegeți un dosar de adăugat"
 
 #: ../src/modules/mail/em-composer-prefs.c:896
-#, fuzzy
-#| msgid "F_older"
 msgid "Folder"
-msgstr "_Dosar"
+msgstr "Dosar"
 
 #: ../src/modules/mail/em-composer-prefs.c:932
-#, fuzzy
-#| msgid "Recipients"
 msgid "Recipient"
-msgstr "Destinatari"
+msgstr "Destinatar"
 
 #: ../src/modules/mail/em-composer-prefs.c:1223
-#, fuzzy
-#| msgid "_Save to Outbox"
 msgid "Keep in Outbox"
-msgstr "_Salvează în Netrimise"
+msgstr "Păstrează în Netrimise"
 
 #: ../src/modules/mail/em-composer-prefs.c:1224
 msgid "Send immediately"
 msgstr "Trimite imediat"
 
 #: ../src/modules/mail/em-composer-prefs.c:1225
-#, fuzzy
-#| msgid "05 minutes"
 msgid "Send after 5 minutes"
-msgstr "05 minute"
+msgstr "Trimite după 5 minute"
 
 #: ../src/modules/mail/em-composer-prefs.c:1310
 msgid "Language(s)"
 msgstr "Limbaj(e)"
 
 #: ../src/modules/mail/em-composer-prefs.c:1340
-#, fuzzy
-#| msgid "Saving user interface state"
 msgid "Same as user interface"
-msgstr "Se salvează starea interfeței cu utilizatorul"
+msgstr "La fel ca interfața pentru utilizator"
 
 #: ../src/modules/mail/em-mailer-prefs.c:77
-#, fuzzy
-#| msgid "Every time"
 msgid "On exit, every time"
-msgstr "De fiecare dată"
+msgstr "La ieșire, de fiecare dată"
 
 #: ../src/modules/mail/em-mailer-prefs.c:78
 msgid "Once per day"
@@ -24647,10 +24534,8 @@ msgid "Do _not change settings"
 msgstr "_Nu schimba configurările"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
-#, fuzzy
-#| msgid "Make Anjal the default email client"
 msgid "_Set as default email client"
-msgstr "Fă Anjal clientul de email implicit"
+msgstr "_Stabilește ca clientul de email implicit"
 
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:138
 msgid "Do you want to make Evolution your default email client?"
@@ -24659,23 +24544,20 @@ msgstr "Doriți să faceți Evolution clientul implicit pentru email?"
 #. Translators: First %s is an email address, second %s
 #. * is the subject of the email, third %s is the date.
 #: ../src/modules/mdn/evolution-mdn.c:308
-#, fuzzy, c-format
-#| msgid "Your message to %s about \"%s\" on %s has been read."
+#, c-format
 msgid "Your message to %s about “%s” on %s has been read."
-msgstr "Mesajul pentru %s despre „%s” din %s a fost citit."
+msgstr "Mesajul către %s despre „%s” din %s a fost citit."
 
 #. Translators: %s is the subject of the email message.
 #: ../src/modules/mdn/evolution-mdn.c:374
-#, fuzzy, c-format
-#| msgid "Delivery Notification for \"%s\""
+#, c-format
 msgid "Delivery Notification for “%s”"
-msgstr "Trimite notificare pentru „%s”"
+msgstr "Notificare de livrare pentru „%s”"
 
 #: ../src/modules/mdn/evolution-mdn.c:540
-#, fuzzy, c-format
-#| msgid "Send a read receipt to '%s'"
+#, c-format
 msgid "Send a read receipt to “%s”"
-msgstr "Trimite confirmare de primire către „%s”"
+msgstr "Trimite confirmare de citire către „%s”"
 
 #. name doesn't matter
 #: ../src/modules/mdn/evolution-mdn.c:545
