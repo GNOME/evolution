@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-02-10 22:23+0000\n"
-"PO-Revision-Date: 2019-02-12 23:28+0100\n"
+"POT-Creation-Date: 2019-03-01 16:30+0000\n"
+"PO-Revision-Date: 2019-03-06 07:44+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -1811,11 +1811,11 @@ msgstr ""
 "Automatikusan felveheti partnereit a címjegyzékébe amikor a fogadott "
 "levelekre válaszol. Engedélyezze az <gui>Automatikus névjegyek</gui> "
 "bővítményt a <guiseq><gui>Szerkesztés</gui><gui>Bővítmények</gui></guiseq> "
-"alatt az <gui>Automatikus névjegyek</gui> jelölőnégyzet "
-"bejelölésével. Ezután a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</"
-"gui><gui>Névjegyek</gui> <gui>Automatikus névjegyek</gui></guiseq> lapon "
-"jelölje be a <gui>Levelek küldésekor címjegyzék-bejegyzések létrehozása</"
-"gui> jelölőnégyzetet, és válassza ki a legördülő mezőben azt a címjegyzéket, "
+"alatt az <gui>Automatikus névjegyek</gui> jelölőnégyzet bejelölésével. "
+"Ezután a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Névjegyek</"
+"gui> <gui>Automatikus névjegyek</gui></guiseq> lapon jelölje be a "
+"<gui>Levelek küldésekor címjegyzék-bejegyzések létrehozása</gui> "
+"jelölőnégyzetet, és válassza ki a legördülő mezőben azt a címjegyzéket, "
 "amelybe az új névjegyek kerülnek."
 
 #. (itstool) path: page/p
@@ -3544,32 +3544,44 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/import-single-files.page:32
+#| msgid ""
+#| "When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the "
+#| "column headers must correspond to the first entry in each item in English "
+#| "in the importer code for <link href=\"https://git.gnome.org/browse/"
+#| "evolution/tree/src/addressbook/importers/evolution-csv-importer.c?"
+#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
+#| "link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
+#| "addressbook/importers/evolution-csv-importer.c?"
+#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></"
+#| "link> and <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
+#| "addressbook/importers/evolution-csv-importer.c?"
+#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></"
+#| "link>."
 msgid ""
 "When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the "
 "column headers must correspond to the first entry in each item in English in "
-"the importer code for <link href=\"https://git.gnome.org/browse/evolution/"
-"tree/src/addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
-"link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-"addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></link> "
-"and <link href=\"https://git.gnome.org/browse/evolution/tree/src/addressbook/"
-"importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></link>."
+"the importer code for <link href=\"https://gitlab.gnome.org/GNOME/evolution/"
+"blob/bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/"
+"evolution-csv-importer.c#L228\"><app>Evolution</app></link>, <link href="
+"\"https://gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L188\"><app>Mozilla</app></link> and <link href=\"https://"
+"gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L93\"><app>Outlook</app></link>."
 msgstr ""
 "A <gui>Fájltípus</gui> <gui>Névjegyek CSV vagy Tab</gui> formátumra "
 "állításakor az oszlopfejléceknek meg kell felelniük minden elemben az első "
-"bejegyzés angol nevének az importáló kódban az <link href=\"https://git."
-"gnome.org/browse/evolution/tree/src/addressbook/importers/evolution-csv-"
-"importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
-"link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-"addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></link> "
-"és <link href=\"https://git.gnome.org/browse/evolution/tree/src/addressbook/"
-"importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></link> "
-"esetén is."
+"bejegyzés angol nevének az importáló kódban az <link"
+" href=\"https://gitlab.gnome.org/GNOME/evolution/blob/bc5f32786d09823247d8188c"
+"5f211dcd354097de/src/addressbook/importers/evolution-csv-importer.c#L228\"><"
+"app>Evolution</app></"
+"link>, <link href=\"https://gitlab.gnome.org/GNOME/evolution/blob/bc5f32786d09"
+"823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-csv-importer."
+"c#L188\"><app>Mozilla</app></link> és <link"
+" href=\"https://gitlab.gnome.org/GNOME/evolution/blob/bc5f32786d09823247d8188c"
+"5f211dcd354097de/src/addressbook/importers/evolution-csv-importer.c#L93\"><"
+"app>Outlook</app></link> esetén is."
 
 #. (itstool) path: info/desc
 #: C/import-supported-file-formats.page:5
@@ -6503,6 +6515,35 @@ msgstr ""
 "ez a beállítás befolyásolja a <link xref=\"mail-sorting-message-list#email-"
 "threads\"><gui>Csoportosítás szálak szerint</gui></link> és az <gui>Üzenet "
 "előnézetének</gui> láthatóságát minden mappában."
+
+#. (itstool) path: note/p
+#: C/mail-change-columns-in-message-list.page:27
+#: C/mail-sorting-message-list.page:57
+#| msgid ""
+#| "If you would like to have the same column layout in all mail folders "
+#| "except for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
+#| "gui><gui>Apply the same view settings to all folders</gui></guiseq>. Note "
+#| "that this setting also influences <link xref=\"mail-sorting-message-"
+#| "list#email-threads\"><gui>Group by Threads</gui></link> and the "
+#| "<gui>Message Preview</gui> visibility in all folders."
+msgid ""
+"If you would like to have a different sort order and/or columns for specific "
+"mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Preferences</gui><gui>General</gui><gui>Apply the same view "
+"settings to all folders</gui></guiseq> is disabled. You can then change the "
+"view and save your changes under <guiseq><gui>View</gui><gui>Current View</"
+"gui><gui>Save Custom View…</gui></guiseq> and apply the view also to other "
+"folders."
+msgstr ""
+"Ha eltérő sorrendet és/vagy oszlopokat szeretne látni az egyes"
+" levélmappákban, akkor kapcsolja ki a "
+"<guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Levelezés "
+"beállításai</gui><gui>Általános</gui><gui>Ugyanazon nézetbeállítások "
+"használata minden mappára</gui></guiseq> jelölőnégyzetet. Ezután módosíthatja"
+" nézetet és mentheti módosításait a <guiseq><gui>Nézet</gui><gui>Jelenlegi"
+" nézet</gui><gui>Egyéni nézet mentése</gui></guiseq> alatt, és ezt a nézetet"
+" más mappákra is alkalmazhatja."
 
 #. (itstool) path: info/desc
 #: C/mail-change-time-format.page:5
@@ -11866,26 +11907,24 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
 msgid ""
-"For Advanced Users: There is a GSettings key that allows you to toggle "
-"between the collapsed and expanded state of the email threads. The collapsed "
-"state is enabled by default. It can be changed by starting the "
-"<app>Terminal</app> application and running the command <cmd>gsettings set "
-"org.gnome.evolution.mail thread-expand true</cmd>"
+"For Advanced Users: By default, all email threads are expanded. If you want "
+"all threads to be collapsed by default:"
 msgstr ""
-"Gyakorlott felhasználóknak: az e-mail szálak összecsukott és kibontott "
-"állapota között egy GSettings kulcs használatával válthat. Alapesetben az "
-"összecsukott állapot van engedélyezve, ez módosítható a <app>Terminálban</"
-"app> kiadott <cmd>gsettings set org.gnome.evolution.mail thread-expand true</"
-"cmd> parancs használatával."
+"Tapasztalt felhasználóknak: alapesetben minden e-mail szál ki van bontva. Ha"
+" alapesetben összecsukva szeretné ezeket látni:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
+#| msgid ""
+#| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+#| "actions true</cmd>"
 msgid ""
-"Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
-"accels true</cmd>"
+"Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+"false</cmd>"
 msgstr ""
-"Futtassa a következő parancsot: <cmd>gsettings set org.gnome.desktop."
-"interface can-change-accels true</cmd>"
+"Futtassa a következő parancsot: <cmd>gsettings set org.gnome.evolution.mail"
+" thread-expand "
+"false</cmd>"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:47
@@ -11944,12 +11983,12 @@ msgstr ""
 "közben egy oszlopcímkére kattint."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:59
+#: C/mail-sorting-message-list.page:62
 msgid "Using Other Sorting Options"
 msgstr "Más rendezési beállítások használata"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:60
+#: C/mail-sorting-message-list.page:63
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
@@ -11959,169 +11998,169 @@ msgstr ""
 "visszaállítása menüpontokat is."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:62
+#: C/mail-sorting-message-list.page:65
 msgid "Sort By"
 msgstr "Rendezés"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:63
+#: C/mail-sorting-message-list.page:66
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr "Az e-maileket a <gui>Rendezés</gui> lista segítségével is rendezheti."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:65 C/mail-sorting-message-list.page:95
-#: C/mail-sorting-message-list.page:104 C/mail-sorting-message-list.page:113
+#: C/mail-sorting-message-list.page:68 C/mail-sorting-message-list.page:98
+#: C/mail-sorting-message-list.page:107 C/mail-sorting-message-list.page:116
 msgid "Right-click on the message list column headers."
 msgstr "Kattintson a levéllista egyik oszlopfejlécére a jobb egérgombbal."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:69
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Válassza a <gui>Rendezés</gui> menüpontot."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:69
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr ""
 "Ez megjeleníti az e-mailek rendezésére használható feltételek listáját:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:68
+#: C/mail-sorting-message-list.page:71
 msgid "Subject - Trimmed"
 msgstr "Tárgy - Csonkítva"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:72
 msgid "Labels"
 msgstr "Címkék"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:70
+#: C/mail-sorting-message-list.page:73
 msgid "Recipients"
 msgstr "Címzettek"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:71
+#: C/mail-sorting-message-list.page:74
 msgid "Sender"
 msgstr "Feladó"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:72
+#: C/mail-sorting-message-list.page:75
 msgid "Location"
 msgstr "Hely"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:73
+#: C/mail-sorting-message-list.page:76
 msgid "Due By"
 msgstr "Esedékes"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:74
+#: C/mail-sorting-message-list.page:77
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Nyomonkövetés-jelölő</link>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:75
+#: C/mail-sorting-message-list.page:78
 msgid "Flag Status"
 msgstr "Jelölő állapota"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:76
+#: C/mail-sorting-message-list.page:79
 msgid "Size"
 msgstr "Méret"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:77
+#: C/mail-sorting-message-list.page:80
 msgid "To"
 msgstr "Címzett"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:78
+#: C/mail-sorting-message-list.page:81
 msgid "Received"
 msgstr "Érkezett"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:79
+#: C/mail-sorting-message-list.page:82
 msgid "Date"
 msgstr "Dátum"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:80
+#: C/mail-sorting-message-list.page:83
 msgid "Subject"
 msgstr "Tárgy"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:81
+#: C/mail-sorting-message-list.page:84
 msgid "From"
 msgstr "Feladó"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:82
+#: C/mail-sorting-message-list.page:85
 msgid "Attachment"
 msgstr "Melléklet"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:83
+#: C/mail-sorting-message-list.page:86
 msgid "Flagged"
 msgstr "Megjelölve"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:84
+#: C/mail-sorting-message-list.page:87
 msgid "Status"
 msgstr "Állapot"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:85
+#: C/mail-sorting-message-list.page:88
 msgid "Custom"
 msgstr "Egyéni"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:88
+#: C/mail-sorting-message-list.page:91
 msgid "Select the option you wish to use in sorting email messages."
 msgstr "Válassza ki az e-mailek rendezésére használni kívánt feltételt."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:93
+#: C/mail-sorting-message-list.page:96
 msgid "Sort Ascending"
 msgstr "Növekvő sorrend"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:96
+#: C/mail-sorting-message-list.page:99
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Válassza a <gui>Növekvő sorrend</gui> menüpontot."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:98
+#: C/mail-sorting-message-list.page:101
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr "Az üzenetek megjelenítésekor a legújabb kerül alulra."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:102
+#: C/mail-sorting-message-list.page:105
 msgid "Sort Descending"
 msgstr "Csökkenő sorrend"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:105
+#: C/mail-sorting-message-list.page:108
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Válassza a <gui>Csökkenő sorrend</gui> menüpontot."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:107
+#: C/mail-sorting-message-list.page:110
 msgid "The messages will be displayed with the most recent at the top."
 msgstr "Az üzenetek megjelenítésekor a legújabb kerül felülre."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:111
+#: C/mail-sorting-message-list.page:114
 msgid "Reset sort"
 msgstr "Sorrend visszaállítása"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:114
+#: C/mail-sorting-message-list.page:117
 msgid "Select the <gui>Reset sort</gui> option."
 msgstr "Válassza a <gui>Sorrend visszaállítása</gui> menüpontot."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:116
+#: C/mail-sorting-message-list.page:119
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
@@ -14306,3 +14345,22 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
 
+#~ msgid ""
+#~ "For Advanced Users: There is a GSettings key that allows you to toggle "
+#~ "between the collapsed and expanded state of the email threads. The "
+#~ "collapsed state is enabled by default. It can be changed by starting the "
+#~ "<app>Terminal</app> application and running the command <cmd>gsettings "
+#~ "set org.gnome.evolution.mail thread-expand true</cmd>"
+#~ msgstr ""
+#~ "Gyakorlott felhasználóknak: az e-mail szálak összecsukott és kibontott "
+#~ "állapota között egy GSettings kulcs használatával válthat. Alapesetben az "
+#~ "összecsukott állapot van engedélyezve, ez módosítható a <app>Terminálban</"
+#~ "app> kiadott <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+#~ "true</cmd> parancs használatával."
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
+#~ "accels true</cmd>"
+#~ msgstr ""
+#~ "Futtassa a következő parancsot: <cmd>gsettings set org.gnome.desktop."
+#~ "interface can-change-accels true</cmd>"
