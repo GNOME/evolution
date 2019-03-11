@@ -2122,7 +2122,8 @@ e_shell_window_get_need_input (EShellWindow *shell_window,
 
 	focused = gtk_window_get_focus (GTK_WINDOW (shell_window));
 
+	/* The F2 is used as a shortcut to rename folder in the Mail view */
 	return focused && (GTK_IS_ENTRY (focused) ||
 		GTK_IS_EDITABLE (focused) ||
-		(GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0));
+		(GTK_IS_TREE_VIEW (focused) && event->keyval != GDK_KEY_F2 && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0));
 }
