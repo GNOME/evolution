@@ -1332,21 +1332,65 @@ action_mail_next_thread_cb (GtkAction *action,
 }
 
 static void
-action_mail_next_unread_cb (GtkAction *action,
-                            EMailReader *reader)
+mail_reader_select_unread (EMailReader *reader,
+			   gboolean move_forward)
 {
 	GtkWidget *message_list;
 	MessageListSelectDirection direction;
 	guint32 flags, mask;
 
-	direction = MESSAGE_LIST_SELECT_NEXT | MESSAGE_LIST_SELECT_WRAP;
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	direction = (move_forward ? MESSAGE_LIST_SELECT_NEXT : MESSAGE_LIST_SELECT_PREVIOUS) |
+		    MESSAGE_LIST_SELECT_WRAP | MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED;
 	flags = 0;
 	mask = CAMEL_MESSAGE_SEEN;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	if (!message_list_select (MESSAGE_LIST (message_list), direction, flags, mask)) {
+		GtkWindow *window;
+
+		window = e_mail_reader_get_window (reader);
+		if (E_IS_SHELL_WINDOW (window)) {
+			EShellWindow *shell_window;
+			EMFolderTree *folder_tree = NULL;
+			const gchar *active_view;
+
+			shell_window = E_SHELL_WINDOW (window);
+			active_view = e_shell_window_get_active_view (shell_window);
+
+			if (g_strcmp0 (active_view, "mail") == 0) {
+				EShellView *shell_view;
+				EShellSidebar *shell_sidebar;
+
+				shell_view = e_shell_window_get_shell_view (shell_window, "mail");
+				shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+				g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+
+				if (folder_tree) {
+					gboolean selected;
+
+					if (move_forward)
+						selected = em_folder_tree_select_next_path (folder_tree, TRUE);
+					else
+						selected = em_folder_tree_select_prev_path (folder_tree, TRUE);
+
+					if (selected)
+						message_list_set_regen_selects_unread (MESSAGE_LIST (message_list), TRUE);
+				}
+
+				g_clear_object (&folder_tree);
+			}
+		}
+	}
+}
+
+static void
+action_mail_next_unread_cb (GtkAction *action,
+                            EMailReader *reader)
+{
+	mail_reader_select_unread (reader, TRUE);
 }
 
 static void
@@ -1400,18 +1444,7 @@ static void
 action_mail_previous_unread_cb (GtkAction *action,
                                 EMailReader *reader)
 {
-	GtkWidget *message_list;
-	MessageListSelectDirection direction;
-	guint32 flags, mask;
-
-	direction = MESSAGE_LIST_SELECT_PREVIOUS | MESSAGE_LIST_SELECT_WRAP;
-	flags = 0;
-	mask = CAMEL_MESSAGE_SEEN;
-
-	message_list = e_mail_reader_get_message_list (reader);
-
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	mail_reader_select_unread (reader, FALSE);
 }
 
 static void

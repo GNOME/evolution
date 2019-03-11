@@ -1347,6 +1347,7 @@ mail_shell_view_magic_spacebar (EMailShellView *mail_shell_view,
 
 	if (!e_mail_display_process_magic_spacebar (display, move_forward)) {
 		guint32 direction = move_forward ? MESSAGE_LIST_SELECT_NEXT : MESSAGE_LIST_SELECT_PREVIOUS;
+		gboolean selected;
 
 		if (!magic_spacebar)
 			return;
@@ -1357,7 +1358,13 @@ mail_shell_view_magic_spacebar (EMailShellView *mail_shell_view,
 		    0, CAMEL_MESSAGE_SEEN))
 			return;
 
-		em_folder_tree_select_next_path (folder_tree, TRUE);
+		if (move_forward)
+			selected = em_folder_tree_select_next_path (folder_tree, TRUE);
+		else
+			selected = em_folder_tree_select_prev_path (folder_tree, TRUE);
+
+		if (selected)
+			message_list_set_regen_selects_unread (MESSAGE_LIST (message_list), TRUE);
 
 		gtk_widget_grab_focus (message_list);
 	}
