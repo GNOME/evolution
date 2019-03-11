@@ -893,15 +893,13 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
                          GtkTreeIter *iter)
 {
 	GtkTreeSelection *selection;
-	GtkTreePath *drag_dest_row;
 	GtkWidget *tree_view;
-	GIcon *icon;
+	GIcon *icon, *custom_icon = NULL;
 	guint unread;
 	guint old_unread;
 	gchar *icon_name;
 	gboolean is_selected;
 	gboolean is_drafts = FALSE;
-	gboolean is_drag_dest = FALSE;
 	gboolean show_new_mail_emblem;
 	guint32 fi_flags = 0;
 
@@ -912,29 +910,32 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 		COL_UINT_UNREAD, &unread,
 		COL_BOOL_IS_DRAFT, &is_drafts,
 		COL_UINT_FLAGS, &fi_flags,
+		COL_GICON_CUSTOM_ICON, &custom_icon,
 		-1);
 
-	if (icon_name == NULL)
+	if (!icon_name && !custom_icon)
 		return;
 
 	tree_view = gtk_tree_view_column_get_tree_view (column);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
 	is_selected = gtk_tree_selection_iter_is_selected (selection, iter);
 
-	gtk_tree_view_get_drag_dest_row (
-		GTK_TREE_VIEW (tree_view), &drag_dest_row, NULL);
-	if (drag_dest_row != NULL) {
-		GtkTreePath *path;
+	if (!custom_icon && g_strcmp0 (icon_name, "folder") == 0) {
+		GtkTreePath *drag_dest_row;
+		gboolean is_drag_dest = FALSE;
 
-		path = gtk_tree_model_get_path (model, iter);
-		if (gtk_tree_path_compare (path, drag_dest_row) == 0)
-			is_drag_dest = TRUE;
-		gtk_tree_path_free (path);
+		gtk_tree_view_get_drag_dest_row (GTK_TREE_VIEW (tree_view), &drag_dest_row, NULL);
+		if (drag_dest_row != NULL) {
+			GtkTreePath *path;
 
-		gtk_tree_path_free (drag_dest_row);
-	}
+			path = gtk_tree_model_get_path (model, iter);
+			if (gtk_tree_path_compare (path, drag_dest_row) == 0)
+				is_drag_dest = TRUE;
+			gtk_tree_path_free (path);
 
-	if (g_strcmp0 (icon_name, "folder") == 0) {
+			gtk_tree_path_free (drag_dest_row);
+		}
+
 		if (is_selected) {
 			g_free (icon_name);
 			icon_name = g_strdup ("folder-open");
@@ -944,7 +945,10 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 		}
 	}
 
-	icon = g_themed_icon_new (icon_name);
+	if (custom_icon)
+		icon = g_object_ref (custom_icon);
+	else
+		icon = g_themed_icon_new (icon_name);
 
 	show_new_mail_emblem =
 		(unread > old_unread) &&
@@ -969,6 +973,7 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 
 	g_object_set (renderer, "gicon", icon, NULL);
 
+	g_clear_object (&custom_icon);
 	g_object_unref (icon);
 	g_free (icon_name);
 }
@@ -1333,6 +1338,8 @@ folder_tree_constructed (GObject *object)
 	renderer = priv->text_renderer;
 	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "foreground-rgba", COL_RGBA_FOREGROUND_RGBA);
 	gtk_tree_view_column_set_cell_data_func (
 		column, renderer, (GtkTreeCellDataFunc)
 		folder_tree_render_display_name, NULL, NULL);

@@ -64,6 +64,8 @@ struct _EMFolderTreeModelPrivate {
 	/* CamelStore -> StoreInfo */
 	GHashTable *store_index;
 	GMutex store_index_lock;
+
+	EMailFolderTweaks *folder_tweaks;
 };
 
 typedef struct _FolderUnreadInfo {
@@ -523,8 +525,18 @@ folder_tree_model_service_removed (EMailAccountStore *account_store,
                                    CamelService *service,
                                    EMFolderTreeModel *folder_tree_model)
 {
+	EMailFolderTweaks *tweaks;
+	gchar *top_folder_uri;
+
 	em_folder_tree_model_remove_store (
 		folder_tree_model, CAMEL_STORE (service));
+
+	top_folder_uri = e_mail_folder_uri_build (CAMEL_STORE (service), "");
+	tweaks = em_folder_tree_model_get_folder_tweaks (folder_tree_model);
+
+	e_mail_folder_tweaks_remove_for_folders (tweaks, top_folder_uri);
+
+	g_free (top_folder_uri);
 }
 
 static void
@@ -584,6 +596,44 @@ folder_tree_model_spinner_pulse_cb (gpointer user_data)
 		si->spinner_pulse_value = 0;
 
 	return G_SOURCE_CONTINUE;
+}
+
+static gboolean
+em_folder_tree_model_update_tweaks_foreach_cb (GtkTreeModel *model,
+					       GtkTreePath *path,
+					       GtkTreeIter *iter,
+					       gpointer user_data)
+{
+	const gchar *given_folder_uri = user_data;
+	gchar *stored_folder_uri = NULL;
+
+	gtk_tree_model_get (model, iter, COL_STRING_FOLDER_URI, &stored_folder_uri, -1);
+
+	if (!stored_folder_uri ||
+	    g_strcmp0 (stored_folder_uri, given_folder_uri) != 0) {
+		g_free (stored_folder_uri);
+		return FALSE;
+	}
+
+	g_free (stored_folder_uri);
+
+	em_folder_tree_model_update_row_tweaks (EM_FOLDER_TREE_MODEL (model), iter);
+
+	return TRUE;
+}
+
+static void
+em_folder_tree_model_folder_tweaks_changed_cb (EMailFolderTweaks *tweaks,
+					       const gchar *folder_uri,
+					       gpointer user_data)
+{
+	EMFolderTreeModel *model = user_data;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (folder_uri != NULL);
+
+	gtk_tree_model_foreach (GTK_TREE_MODEL (model),
+		em_folder_tree_model_update_tweaks_foreach_cb, (gpointer) folder_uri);
 }
 
 static void
@@ -676,6 +726,9 @@ folder_tree_model_dispose (GObject *object)
 		priv->account_store = NULL;
 	}
 
+	g_signal_handlers_disconnect_by_func (priv->folder_tweaks,
+		em_folder_tree_model_folder_tweaks_changed_cb, object);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_tree_model_parent_class)->dispose (object);
 }
@@ -689,6 +742,7 @@ folder_tree_model_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->store_index);
 	g_mutex_clear (&priv->store_index_lock);
+	g_clear_object (&priv->folder_tweaks);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_tree_model_parent_class)->finalize (object);
@@ -713,7 +767,12 @@ folder_tree_model_constructed (GObject *object)
 		G_TYPE_BOOLEAN,   /* status icon visible */
 		G_TYPE_UINT,      /* status spinner pulse */
 		G_TYPE_BOOLEAN,   /* status spinner visible */
+		G_TYPE_STRING,    /* COL_STRING_FOLDER_URI */
+		G_TYPE_ICON,      /* COL_GICON_CUSTOM_ICON */
+		GDK_TYPE_RGBA     /* COL_RGBA_FOREGROUND_RGBA */
 	};
+
+	g_warn_if_fail (G_N_ELEMENTS (col_types) == NUM_COLUMNS);
 
 	gtk_tree_store_set_column_types (
 		GTK_TREE_STORE (object), NUM_COLUMNS, col_types);
@@ -917,8 +976,12 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 
 	model->priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (model);
 	model->priv->store_index = store_index;
+	model->priv->folder_tweaks = e_mail_folder_tweaks_new ();
 
 	g_mutex_init (&model->priv->store_index_lock);
+
+	g_signal_connect (model->priv->folder_tweaks, "changed",
+		G_CALLBACK (em_folder_tree_model_folder_tweaks_changed_cb), model);
 }
 
 EMFolderTreeModel *
@@ -958,6 +1021,14 @@ void
 em_folder_tree_model_free_default (void)
 {
 	em_folder_tree_manage_default (FALSE);
+}
+
+EMailFolderTweaks *
+em_folder_tree_model_get_folder_tweaks (EMFolderTreeModel *model)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
+
+	return model->priv->folder_tweaks;
 }
 
 GtkTreeSelection *
@@ -1301,7 +1372,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		COL_BOOL_LOAD_SUBDIRS, load,
 		COL_UINT_UNREAD_LAST_SEL, 0,
 		COL_BOOL_IS_DRAFT, folder_is_drafts,
+		COL_STRING_FOLDER_URI, uri,
 		-1);
+
+	em_folder_tree_model_update_row_tweaks (model, iter);
 
 	g_free (uri);
 	uri = NULL;
@@ -1947,4 +2021,46 @@ em_folder_tree_model_user_marked_unread (EMFolderTreeModel *model,
 		GTK_TREE_STORE (model), &iter,
 		COL_UINT_UNREAD_LAST_SEL, unread,
 		COL_UINT_UNREAD, unread, -1);
+}
+
+void
+em_folder_tree_model_update_row_tweaks (EMFolderTreeModel *model,
+					GtkTreeIter *iter)
+{
+	GIcon *custom_icon = NULL;
+	GdkRGBA *foreground = NULL, rgba;
+	gchar *folder_uri = NULL, *icon_filename;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (iter != NULL);
+
+	gtk_tree_model_get (GTK_TREE_MODEL (model), iter,
+		COL_STRING_FOLDER_URI, &folder_uri,
+		-1);
+
+	if (!folder_uri)
+		return;
+
+	if (e_mail_folder_tweaks_get_color (model->priv->folder_tweaks, folder_uri, &rgba))
+		foreground = &rgba;
+
+	icon_filename = e_mail_folder_tweaks_dup_icon_filename (model->priv->folder_tweaks, folder_uri);
+	if (icon_filename &&
+	    g_file_test (icon_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
+		GFile *file;
+
+		file = g_file_new_for_path (icon_filename);
+		custom_icon = g_file_icon_new (file);
+
+		g_clear_object (&file);
+	}
+
+	gtk_tree_store_set (GTK_TREE_STORE (model), iter,
+		COL_GICON_CUSTOM_ICON, custom_icon,
+		COL_RGBA_FOREGROUND_RGBA, foreground,
+		-1);
+
+	g_clear_object (&custom_icon);
+	g_free (icon_filename);
+	g_free (folder_uri);
 }

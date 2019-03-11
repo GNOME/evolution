@@ -27,6 +27,8 @@
 
 #include <libemail-engine/libemail-engine.h>
 
+#include <mail/e-mail-folder-tweaks.h>
+
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_TREE_MODEL \
 	(em_folder_tree_model_get_type ())
@@ -57,7 +59,7 @@ enum {
 	COL_OBJECT_CAMEL_STORE,		/* CamelStore object */
 	COL_STRING_FULL_NAME,		/* if node is a folder, the full path
 					 * name of the folder, no leading / */
-	COL_STRING_ICON_NAME,		/* icon name for the folder */
+	COL_STRING_ICON_NAME,		/* icon name for the folder, see COL_GICON_CUSTOM_ICON */
 	COL_UINT_UNREAD,		/* unread count */
 	COL_UINT_FLAGS,			/* FolderInfo.flags */
 
@@ -74,6 +76,10 @@ enum {
 	COL_STATUS_ICON_VISIBLE,
 	COL_STATUS_SPINNER_PULSE,
 	COL_STATUS_SPINNER_VISIBLE,
+
+	COL_STRING_FOLDER_URI,		/* folder URI */
+	COL_GICON_CUSTOM_ICON,		/* a custom icon to use for the folder; NULL to use COL_STRING_ICON_NAME */
+	COL_RGBA_FOREGROUND_RGBA,	/* GdkRGBA for the foreground color; can be NULL */
 
 	NUM_COLUMNS
 };
@@ -102,6 +108,9 @@ EMFolderTreeModel *
 EMFolderTreeModel *
 		em_folder_tree_model_get_default (void);
 void		em_folder_tree_model_free_default (void);
+EMailFolderTweaks *
+		em_folder_tree_model_get_folder_tweaks
+						(EMFolderTreeModel *model);
 GtkTreeSelection *
 		em_folder_tree_model_get_selection
 					(EMFolderTreeModel *model);
@@ -146,6 +155,9 @@ void		em_folder_tree_model_user_marked_unread
 					(EMFolderTreeModel *model,
 					 CamelFolder *folder,
 					 guint n_marked);
+void		em_folder_tree_model_update_row_tweaks
+					(EMFolderTreeModel *model,
+					 GtkTreeIter *iter);
 
 G_END_DECLS
 

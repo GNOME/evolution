@@ -35,6 +35,7 @@
 #include <e-util/e-util.h>
 
 #include "e-mail-backend.h"
+#include "e-mail-folder-tweaks.h"
 #include "e-mail-label-dialog.h"
 #include "e-mail-notes.h"
 #include "e-mail-ui-session.h"
@@ -83,6 +84,258 @@ emfp_free (EConfig *ec,
            gpointer data)
 {
 	g_slist_free (items);
+}
+
+typedef struct _FolderTweaksData {
+	gchar *folder_uri;
+	EMailFolderTweaks *tweaks; /* referenced */
+	GtkWidget *widget; /* not referenced */
+} FolderTweaksData;
+
+static FolderTweaksData *
+folder_tweaks_data_new (const gchar *folder_uri,
+			EMailFolderTweaks *tweaks,
+			GtkWidget *widget)
+{
+	FolderTweaksData *ftd;
+
+	ftd = g_new0 (FolderTweaksData, 1);
+	ftd->folder_uri = g_strdup (folder_uri);
+	ftd->tweaks = g_object_ref (tweaks);
+	ftd->widget = widget;
+
+	return ftd;
+}
+
+static void
+folder_tweaks_data_free (gpointer ptr,
+			 GClosure *closure)
+{
+	FolderTweaksData *ftd = ptr;
+
+	if (ftd) {
+		g_free (ftd->folder_uri);
+		g_object_unref (ftd->tweaks);
+		g_free (ftd);
+	}
+}
+
+static void
+tweaks_custom_icon_check_toggled_cb (GtkToggleButton *toggle_button,
+				     FolderTweaksData *ftd)
+{
+	GtkWidget *image;
+
+	g_return_if_fail (ftd != NULL);
+
+	if (!gtk_toggle_button_get_active (toggle_button)) {
+		e_mail_folder_tweaks_set_icon_filename (ftd->tweaks, ftd->folder_uri, NULL);
+		return;
+	}
+
+	image = gtk_button_get_image (GTK_BUTTON (ftd->widget));
+
+	if (image && gtk_image_get_storage_type (GTK_IMAGE (image))) {
+		GIcon *icon = NULL;
+
+		gtk_image_get_gicon (GTK_IMAGE (image), &icon, NULL);
+
+		if (G_IS_FILE_ICON (icon)) {
+			GFile *file;
+
+			file = g_file_icon_get_file (G_FILE_ICON (icon));
+			if (file) {
+				gchar *filename;
+
+				filename = g_file_get_path (file);
+				if (filename) {
+					e_mail_folder_tweaks_set_icon_filename (ftd->tweaks, ftd->folder_uri, filename);
+
+					g_free (filename);
+				}
+			}
+		}
+	}
+}
+
+static void
+tweaks_custom_icon_button_clicked_cb (GtkWidget *button,
+				      FolderTweaksData *ftd)
+{
+	GtkWidget *dialog;
+	GtkWidget *toplevel;
+	GFile *file;
+
+	toplevel = gtk_widget_get_toplevel (button);
+	dialog = e_image_chooser_dialog_new (_("Select Custom Icon"),
+		GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL);
+
+	file = e_image_chooser_dialog_run (E_IMAGE_CHOOSER_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
+
+	if (file) {
+		gchar *filename;
+
+		filename = g_file_get_path (file);
+		if (filename) {
+			GtkWidget *image;
+			GIcon *custom_icon;
+
+			image = gtk_button_get_image (GTK_BUTTON (button));
+			custom_icon = g_file_icon_new (file);
+
+			gtk_image_set_from_gicon (GTK_IMAGE (image), custom_icon, GTK_ICON_SIZE_BUTTON);
+
+			g_clear_object (&custom_icon);
+
+			e_mail_folder_tweaks_set_icon_filename (ftd->tweaks, ftd->folder_uri, filename);
+
+			g_free (filename);
+		}
+
+		g_object_unref (file);
+	}
+}
+
+static void
+emfp_add_tweaks_custom_icon_row (GtkBox *vbox,
+				 const gchar *folder_uri,
+				 EMailFolderTweaks *tweaks)
+{
+	GtkWidget *checkbox;
+	GtkWidget *button;
+	GtkWidget *image;
+	GtkWidget *hbox;
+	gchar *icon_filename;
+
+	g_return_if_fail (GTK_IS_BOX (vbox));
+	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks));
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
+	gtk_box_pack_start (vbox, hbox, FALSE, FALSE, 0);
+
+	checkbox = gtk_check_button_new_with_mnemonic (_("_Use custom icon"));
+	gtk_box_pack_start (GTK_BOX (hbox), checkbox, FALSE, FALSE, 0);
+
+	button = gtk_button_new ();
+	image = gtk_image_new_from_icon_name (NULL, GTK_ICON_SIZE_BUTTON);
+	gtk_button_set_image (GTK_BUTTON (button), image);
+	gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+
+	icon_filename = e_mail_folder_tweaks_dup_icon_filename (tweaks, folder_uri);
+	if (icon_filename &&
+	    g_file_test (icon_filename, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR)) {
+		GFile *file;
+		GIcon *custom_icon;
+
+		file = g_file_new_for_path (icon_filename);
+		custom_icon = g_file_icon_new (file);
+
+		g_clear_object (&file);
+
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), TRUE);
+		gtk_image_set_from_gicon (GTK_IMAGE (image), custom_icon, GTK_ICON_SIZE_BUTTON);
+
+		g_clear_object (&custom_icon);
+	}
+
+	g_free (icon_filename);
+
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+
+	e_binding_bind_property (
+		checkbox, "active",
+		button, "sensitive",
+		G_BINDING_DEFAULT |
+		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect_data (checkbox, "toggled",
+		G_CALLBACK (tweaks_custom_icon_check_toggled_cb),
+		folder_tweaks_data_new (folder_uri, tweaks, button), folder_tweaks_data_free, 0);
+
+	g_signal_connect_data (button, "clicked",
+		G_CALLBACK (tweaks_custom_icon_button_clicked_cb),
+		folder_tweaks_data_new (folder_uri, tweaks, NULL), folder_tweaks_data_free, 0);
+
+	gtk_widget_show_all (hbox);
+}
+
+static void
+tweaks_text_color_check_toggled_cb (GtkToggleButton *toggle_button,
+				    FolderTweaksData *ftd)
+{
+	g_return_if_fail (ftd != NULL);
+
+	if (gtk_toggle_button_get_active (toggle_button)) {
+		GdkRGBA rgba;
+
+		gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (ftd->widget), &rgba);
+
+		e_mail_folder_tweaks_set_color (ftd->tweaks, ftd->folder_uri, &rgba);
+	} else {
+		e_mail_folder_tweaks_set_color (ftd->tweaks, ftd->folder_uri, NULL);
+	}
+}
+
+static void
+tweaks_text_color_button_color_set_cb (GtkColorButton *col_button,
+				       FolderTweaksData *ftd)
+{
+	GdkRGBA rgba;
+
+	g_return_if_fail (ftd != NULL);
+
+	gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (col_button), &rgba);
+
+	e_mail_folder_tweaks_set_color (ftd->tweaks, ftd->folder_uri, &rgba);
+}
+
+static void
+emfp_add_tweaks_text_color_row (GtkBox *vbox,
+				const gchar *folder_uri,
+				EMailFolderTweaks *tweaks)
+{
+	GtkWidget *checkbox;
+	GtkWidget *button;
+	GtkWidget *hbox;
+	GdkRGBA rgba;
+
+	g_return_if_fail (GTK_IS_BOX (vbox));
+	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks));
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 4);
+	gtk_box_pack_start (vbox, hbox, FALSE, FALSE, 0);
+
+	checkbox = gtk_check_button_new_with_mnemonic (_("Use te_xt color"));
+	gtk_box_pack_start (GTK_BOX (hbox), checkbox, FALSE, FALSE, 0);
+
+	button = gtk_color_button_new ();
+
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+
+	if (e_mail_folder_tweaks_get_color (tweaks, folder_uri, &rgba)) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), TRUE);
+		gtk_color_chooser_set_rgba (GTK_COLOR_CHOOSER (button), &rgba);
+	}
+
+	e_binding_bind_property (
+		checkbox, "active",
+		button, "sensitive",
+		G_BINDING_DEFAULT |
+		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect_data (checkbox, "toggled",
+		G_CALLBACK (tweaks_text_color_check_toggled_cb),
+		folder_tweaks_data_new (folder_uri, tweaks, button), folder_tweaks_data_free, 0);
+
+	g_signal_connect_data (button, "color-set",
+		G_CALLBACK (tweaks_text_color_button_color_set_cb),
+		folder_tweaks_data_new (folder_uri, tweaks, NULL), folder_tweaks_data_free, 0);
+
+	gtk_widget_show_all (hbox);
 }
 
 static void
@@ -460,6 +713,39 @@ emfp_get_folder_item (EConfig *ec,
 	g_free (account_uid);
 
 	return table;
+}
+
+static GtkWidget *
+emfp_get_appearance_item (EConfig *ec,
+			  EConfigItem *item,
+			  GtkWidget *parent,
+			  GtkWidget *old,
+			  gint position,
+			  gpointer user_data)
+{
+	AsyncContext *context = user_data;
+	GtkBox *vbox;
+	EMailFolderTweaks *tweaks;
+	gchar *folder_uri;
+
+	if (old)
+		return old;
+
+	vbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 6));
+	gtk_widget_show (GTK_WIDGET (vbox));
+
+	gtk_box_pack_start (GTK_BOX (parent), GTK_WIDGET (vbox), TRUE, TRUE, 0);
+
+	tweaks = e_mail_folder_tweaks_new ();
+	folder_uri = e_mail_folder_uri_from_folder (context->folder);
+
+	emfp_add_tweaks_custom_icon_row (vbox, folder_uri, tweaks);
+	emfp_add_tweaks_text_color_row (vbox, folder_uri, tweaks);
+
+	g_clear_object (&tweaks);
+	g_free (folder_uri);
+
+	return GTK_WIDGET (vbox);
 }
 
 static const gchar *
@@ -1076,22 +1362,22 @@ emfp_get_labels_item (EConfig *ec,
 	return GTK_WIDGET (grid);
 }
 
-#define EMFP_FOLDER_SECTION (2)
-
 static EMConfigItem emfp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", NULL },
 	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) N_("General") },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/00.folder", NULL /* set by code */ },
 	{ E_CONFIG_ITEM, (gchar *) "00.general/00.folder/00.info", NULL, emfp_get_folder_item },
+	{ E_CONFIG_PAGE, (gchar *) "10.appearance", (gchar *) N_("Appearance") },
+	{ E_CONFIG_SECTION, (gchar *) "10.appearance/00.folder", NULL },
+	{ E_CONFIG_ITEM, (gchar *) "10.appearance/00.folder/00.appearance", NULL, emfp_get_appearance_item },
 	/* Translators: "Archive" is a noun (This is a tab heading in the mail folder properties) */
-	{ E_CONFIG_PAGE, (gchar *) "10.autoarchive", (gchar *) N_("Archive") },
-	{ E_CONFIG_SECTION, (gchar *) "10.autoarchive/00.folder", NULL },
-	{ E_CONFIG_ITEM, (gchar *) "10.autoarchive/00.folder/00.info", NULL, emfp_get_autoarchive_item },
-	{ E_CONFIG_PAGE, (gchar *) "20.labels", (gchar *) N_("Labels") },
-	{ E_CONFIG_SECTION, (gchar *) "20.labels/00.folder", NULL },
-	{ E_CONFIG_ITEM, (gchar *) "20.labels/00.folder/00.labels", NULL, emfp_get_labels_item }
+	{ E_CONFIG_PAGE, (gchar *) "20.autoarchive", (gchar *) N_("Archive") },
+	{ E_CONFIG_SECTION, (gchar *) "20.autoarchive/00.folder", NULL },
+	{ E_CONFIG_ITEM, (gchar *) "20.autoarchive/00.folder/00.info", NULL, emfp_get_autoarchive_item },
+	{ E_CONFIG_PAGE, (gchar *) "30.labels", (gchar *) N_("Labels") },
+	{ E_CONFIG_SECTION, (gchar *) "30.labels/00.folder", NULL },
+	{ E_CONFIG_ITEM, (gchar *) "30.labels/00.folder/00.labels", NULL, emfp_get_labels_item }
 };
-static gboolean emfp_items_translated = FALSE;
 
 static void
 emfp_dialog_run (AsyncContext *context)
@@ -1107,6 +1393,7 @@ emfp_dialog_run (AsyncContext *context)
 	gboolean store_is_local;
 	gboolean hide_deleted;
 	GSettings *settings;
+	const gchar *folder_label;
 	const gchar *name;
 	const gchar *uid;
 
@@ -1152,18 +1439,17 @@ emfp_dialog_run (AsyncContext *context)
 		|| !strcmp (name, "Inbox")
 		|| !strcmp (name, "Outbox")
 		|| !strcmp (name, "Sent"))) {
-		emfp_items[EMFP_FOLDER_SECTION].label = gettext (name);
-		if (!emfp_items_translated) {
-			for (i = 0; i < G_N_ELEMENTS (emfp_items); i++) {
-				if (emfp_items[i].label)
-					emfp_items[i].label = _(emfp_items[i].label);
-			}
-			emfp_items_translated = TRUE;
-		}
+		folder_label = _(name);
 	} else if (!strcmp (name, "INBOX"))
-		emfp_items[EMFP_FOLDER_SECTION].label = _("Inbox");
+		folder_label = _("Inbox");
 	else
-		emfp_items[EMFP_FOLDER_SECTION].label = (gchar *) name;
+		folder_label = name;
+
+	for (i = 0; i < G_N_ELEMENTS (emfp_items); i++) {
+		if (emfp_items[i].type == E_CONFIG_SECTION &&
+		    g_str_has_suffix (emfp_items[i].path, "/00.folder"))
+			emfp_items[i].label = (gchar *) folder_label;
+	}
 
 	dialog = gtk_dialog_new_with_buttons (
 		_("Folder Properties"),
