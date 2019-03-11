@@ -190,6 +190,11 @@ void		message_list_set_thread_latest	(MessageList *message_list,
 gboolean	message_list_get_thread_subject	(MessageList *message_list);
 void		message_list_set_thread_subject	(MessageList *message_list,
 						 gboolean thread_subject);
+gboolean	message_list_get_regen_selects_unread
+						(MessageList *message_list);
+void		message_list_set_regen_selects_unread
+						(MessageList *message_list,
+						 gboolean regen_selects_unread);
 void		message_list_freeze		(MessageList *message_list);
 void		message_list_thaw		(MessageList *message_list);
 GPtrArray *	message_list_get_selected	(MessageList *message_list);

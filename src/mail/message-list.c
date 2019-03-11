@@ -108,6 +108,7 @@ struct _MessageListPrivate {
 	gboolean thread_subject;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
 	gboolean show_subject_above_sender;
+	gboolean regen_selects_unread;
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
@@ -152,6 +153,7 @@ struct _RegenData {
 
 	gboolean group_by_threads;
 	gboolean thread_subject;
+	gboolean select_unread;
 
 	CamelFolderThread *thread_tree;
 
@@ -5404,6 +5406,26 @@ message_list_set_thread_subject (MessageList *message_list,
 	g_object_notify (G_OBJECT (message_list), "thread-subject");
 }
 
+gboolean
+message_list_get_regen_selects_unread (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->regen_selects_unread;
+}
+
+void
+message_list_set_regen_selects_unread (MessageList *message_list,
+				       gboolean regen_selects_unread)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if ((regen_selects_unread ? 1 : 0) == (message_list->priv->regen_selects_unread ? 1 : 0))
+		return;
+
+	message_list->priv->regen_selects_unread = regen_selects_unread;
+}
+
 static gboolean
 on_cursor_activated_idle (gpointer data)
 {
@@ -6649,6 +6671,27 @@ message_list_regen_done_cb (GObject *source_object,
 
 	message_list->priv->any_row_changed = FALSE;
 	message_list->just_set_folder = FALSE;
+
+	if (!regen_data->select_all && regen_data->select_unread) {
+		ETreePath cursor_path;
+		gboolean call_select = TRUE;
+
+		cursor_path = e_tree_get_cursor (E_TREE (message_list));
+
+		if (cursor_path) {
+			CamelMessageInfo *info;
+
+			info = get_message_info (message_list, cursor_path);
+			if (info && !(camel_message_info_get_flags (info) & CAMEL_MESSAGE_SEEN))
+				call_select = FALSE;
+		}
+
+		if (call_select) {
+			message_list_select (MESSAGE_LIST (message_list), MESSAGE_LIST_SELECT_NEXT |
+				MESSAGE_LIST_SELECT_WRAP | MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
+				0, CAMEL_MESSAGE_SEEN);
+		}
+	}
 }
 
 static gboolean
@@ -6676,6 +6719,11 @@ message_list_regen_idle_cb (gpointer user_data)
 		message_list_get_group_by_threads (message_list);
 	regen_data->thread_subject =
 		message_list_get_thread_subject (message_list);
+	regen_data->select_unread =
+		message_list_get_regen_selects_unread (message_list);
+
+	if (regen_data->select_unread)
+		message_list_set_regen_selects_unread (message_list, FALSE);
 
 	searching = message_list_is_searching (message_list);
 
