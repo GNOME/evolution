@@ -481,6 +481,22 @@ ecep_general_attendee_added_cb (EMeetingListView *meeting_list_view,
 	g_clear_object (&comp_editor);
 }
 
+static void
+ecep_general_attendee_row_changed_cb (GtkTreeModel *model,
+				      GtkTreePath *path,
+				      GtkTreeIter *iter,
+				      ECompEditorPageGeneral *page_general)
+{
+	ECompEditor *comp_editor;
+
+	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_general));
+
+	if (comp_editor)
+		e_comp_editor_set_changed (comp_editor, TRUE);
+
+	g_clear_object (&comp_editor);
+}
+
 static gboolean
 ecep_general_get_organizer (ECompEditorPageGeneral *page_general,
 			    gchar **out_name,
@@ -1480,6 +1496,9 @@ ecep_general_constructed (GObject *object)
 
 	g_signal_connect (page_general->priv->attendees_list_view, "attendee-added",
 		G_CALLBACK (ecep_general_attendee_added_cb), page_general);
+
+	g_signal_connect (page_general->priv->meeting_store, "row-changed",
+		G_CALLBACK (ecep_general_attendee_row_changed_cb), page_general);
 
 	g_signal_connect (page_general->priv->attendees_list_view, "event",
 		G_CALLBACK (ecep_general_list_view_event_cb), page_general);
