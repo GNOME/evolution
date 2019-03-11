@@ -8,11 +8,12 @@
 # Мирослав Николић <miroslavnikolic@rocketmail.com>, 2011—2017.
 # Марко М. Костић <marko.m.kostic@gmail.com>, 2015—2016.
 # Борисав Живановић <borisavzivanovic@gmail.com>, 2017.
+#: ../src/shell/main.c:527
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-03-01 15:46+0000\n"
+"POT-Creation-Date: 2019-03-06 16:23+0000\n"
 "PO-Revision-Date: 2019-03-06 18:38+0100\n"
 "Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
@@ -7378,7 +7379,7 @@ msgstr "Време почетка није исправно време"
 #: ../src/calendar/gui/e-comp-editor.c:337
 #: ../src/em-format/e-mail-part-secure-button.c:93
 #: ../src/e-util/e-misc-utils.c:4218 ../src/e-util/e-misc-utils.c:4230
-#: ../src/e-util/e-misc-utils.c:4244 ../src/mail/e-mail-autoconfig.c:1027
+#: ../src/e-util/e-misc-utils.c:4244 ../src/mail/e-mail-autoconfig.c:1029
 #: ../src/mail/e-mail-display.c:2292 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3969 ../src/mail/em-composer-utils.c:4000
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1496
@@ -13468,7 +13469,7 @@ msgstr "Пронађите ставке које задовољавају сле
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
-#: ../src/mail/e-mail-autoconfig.c:764
+#: ../src/mail/e-mail-autoconfig.c:766
 #: ../src/mail/e-mail-config-summary-page.c:141
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
@@ -16536,57 +16537,57 @@ msgstr "Под_разумевано"
 msgid "Invalid URI: “%s”"
 msgstr "Неисправан УРИ: „%s“"
 
-#: ../src/mail/e-mail-autoconfig.c:754
+#: ../src/mail/e-mail-autoconfig.c:756
 #, c-format
 msgid "Host: %s:%d"
 msgstr "Домаћин: %s:%d"
 
-#: ../src/mail/e-mail-autoconfig.c:758
+#: ../src/mail/e-mail-autoconfig.c:760
 #, c-format
 msgid "User: %s"
 msgstr "Корисник: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:762
+#: ../src/mail/e-mail-autoconfig.c:764
 #, c-format
 msgid "Security method: %s"
 msgstr "Метода безбедности: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:763
+#: ../src/mail/e-mail-autoconfig.c:765
 #: ../src/mail/e-mail-config-summary-page.c:144
 msgid "TLS"
 msgstr "ТЛС"
 
-#: ../src/mail/e-mail-autoconfig.c:764
+#: ../src/mail/e-mail-autoconfig.c:766
 #: ../src/mail/e-mail-config-summary-page.c:147
 msgid "STARTTLS"
 msgstr "СТАРТТЛС"
 
-#: ../src/mail/e-mail-autoconfig.c:768
+#: ../src/mail/e-mail-autoconfig.c:770
 #, c-format
 msgid "Authentication mechanism: %s"
 msgstr "Механизам за идентификовање: %s"
 
-#: ../src/mail/e-mail-autoconfig.c:948
+#: ../src/mail/e-mail-autoconfig.c:950
 msgid "No email address provided"
 msgstr "Није достављена адреса е-поште"
 
-#: ../src/mail/e-mail-autoconfig.c:957
+#: ../src/mail/e-mail-autoconfig.c:959
 msgid "Missing domain in email address"
 msgstr "Недостаје домен у адреси е-поште"
 
-#: ../src/mail/e-mail-autoconfig.c:1307
+#: ../src/mail/e-mail-autoconfig.c:1309
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
 msgid "IMAP server"
 msgstr "IMAP сервер"
 
-#: ../src/mail/e-mail-autoconfig.c:1314
+#: ../src/mail/e-mail-autoconfig.c:1316
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
 msgid "POP3 server"
 msgstr "POP3 сервер"
 
-#: ../src/mail/e-mail-autoconfig.c:1321
+#: ../src/mail/e-mail-autoconfig.c:1323
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
 msgid "SMTP server"
 msgstr "SMTP сервер:"
@@ -23274,7 +23275,7 @@ msgstr "LDAP сервер"
 msgid "Looking up LDAP server…"
 msgstr "Потражујем LDAP сервер…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:240
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:242
 msgid "Look up in SRV records"
 msgstr "Потражи унутар SRV записа"
 
