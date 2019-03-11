@@ -1086,7 +1086,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	g_settings_bind (
 		eds_calendar_settings, "notify-with-tray",
 		widget, "active",
-		G_SETTINGS_BIND_DEFAULT);
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_INVERT_BOOLEAN);
 
 	widget = e_builder_get_widget (prefs->priv->builder, "notify_window_on_top");
 	g_settings_bind (
