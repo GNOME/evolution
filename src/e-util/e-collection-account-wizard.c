@@ -76,6 +76,7 @@ struct _ECollectionAccountWizardPrivate {
 enum {
 	PROP_0,
 	PROP_REGISTRY,
+	PROP_CHANGED,
 	PROP_CAN_RUN
 };
 
@@ -104,6 +105,9 @@ collection_wizard_window_update_button_captions (WizardWindowData *wwd)
 
 	if (e_collection_account_wizard_is_finish_page (wwd->collection_wizard))
 		gtk_button_set_label (wwd->next_button, _("_Finish"));
+	else if (wwd->collection_wizard->priv->changed ||
+		 !e_config_lookup_count_results (wwd->collection_wizard->priv->config_lookup))
+		gtk_button_set_label (wwd->next_button, _("_Look Up"));
 	else
 		gtk_button_set_label (wwd->next_button, _("_Next"));
 }
@@ -218,7 +222,10 @@ collection_account_wizard_create_window (GtkWindow *parent,
 	g_signal_connect_swapped (wwd->collection_wizard, "done",
 		G_CALLBACK (collection_wizard_window_done), wwd);
 
-	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+	g_signal_connect_swapped (wwd->collection_wizard, "notify::changed",
+		G_CALLBACK (collection_wizard_window_update_button_captions), wwd);
+
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
 	g_object_set (G_OBJECT (hbox),
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_END,
@@ -365,12 +372,28 @@ collection_account_wizard_notify_can_run (GObject *wizard)
 	g_object_notify (wizard, "can-run");
 }
 
+static gboolean
+collection_account_wizard_get_changed (ECollectionAccountWizard *wizard)
+{
+	return wizard->priv->changed;
+}
+
+static void
+collection_account_wizard_set_changed (ECollectionAccountWizard *wizard,
+				       gboolean changed)
+{
+	if ((wizard->priv->changed ? 1 : 0) != (changed ? 1 : 0)) {
+		wizard->priv->changed = changed;
+		g_object_notify (G_OBJECT (wizard), "changed");
+	}
+}
+
 static void
 collection_account_wizard_mark_changed (ECollectionAccountWizard *wizard)
 {
 	g_return_if_fail (E_IS_COLLECTION_ACCOUNT_WIZARD (wizard));
 
-	wizard->priv->changed = TRUE;
+	collection_account_wizard_set_changed (wizard, TRUE);
 }
 
 static void
@@ -400,7 +423,7 @@ collection_account_wizard_worker_started_cb (EConfigLookup *config_lookup,
 	g_return_if_fail (wd != NULL);
 
 	if (wizard->priv->changed)
-		wizard->priv->changed = FALSE;
+		collection_account_wizard_set_changed (wizard, FALSE);
 
 	wizard->priv->running_workers++;
 
@@ -531,6 +554,15 @@ collection_account_wizard_worker_finished_cb (EConfigLookup *config_lookup,
 			gtk_label_set_text (GTK_LABEL (wizard->priv->results_label), str);
 			g_free (str);
 		}
+
+		/* When there are results, the wizard can continue, otherwise it will Look Up again. */
+		collection_account_wizard_set_changed (wizard, !n_results);
+
+		/* This is to ensure invoke of collection_wizard_window_update_button_captions()
+		   in the "notify::changed" callback, because the above set_changed() can change
+		   only from FALSE to TRUE, but not vice versa, due to the 'changed' being FALSE
+		   already. */
+		g_object_notify (G_OBJECT (wizard), "changed");
 	}
 }
 
@@ -1504,6 +1536,13 @@ collection_account_wizard_get_property (GObject *object,
 				E_COLLECTION_ACCOUNT_WIZARD (object)));
 			return;
 
+		case PROP_CHANGED:
+			g_value_set_boolean (
+				value,
+				collection_account_wizard_get_changed (
+				E_COLLECTION_ACCOUNT_WIZARD (object)));
+			return;
+
 		case PROP_REGISTRY:
 			g_value_set_object (
 				value,
@@ -1736,8 +1775,6 @@ collection_account_wizard_constructed (GObject *object)
 			"visible", TRUE,
 			NULL);
 		gtk_box_pack_start (vbox, widget, TRUE, TRUE, 0);
-
-		e_binding_bind_property (wd->enabled_check, "active", widget, "visible", G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 
 		hbox = GTK_BOX (widget);
 
@@ -2139,6 +2176,25 @@ e_collection_account_wizard_class_init (ECollectionAccountWizardClass *klass)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
+	 * ECollectionAccountWizard:changed:
+	 *
+	 * Whether the settings of the wizard changed. When it did,
+	 * a lookup will be run instead of moving to the next step.
+	 *
+	 * Since: 3.34
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_CHANGED,
+		g_param_spec_boolean (
+			"changed",
+			"Whether changed",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
 	 * ECollectionAccountWizard::done:
 	 * @uid: an #ESource UID which had been created
 	 *
@@ -2381,7 +2437,7 @@ e_collection_account_wizard_reset (ECollectionAccountWizard *wizard)
 	model = gtk_tree_view_get_model (wizard->priv->parts_tree_view);
 	gtk_tree_store_clear (GTK_TREE_STORE (model));
 
-	wizard->priv->changed = FALSE;
+	collection_account_wizard_set_changed (wizard, FALSE);
 
 	for (ii = 0; ii <= E_CONFIG_LOOKUP_RESULT_LAST_KIND; ii++) {
 		g_clear_object (&wizard->priv->sources[ii]);
