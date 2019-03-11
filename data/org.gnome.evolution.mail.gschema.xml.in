@@ -827,6 +827,11 @@
       <_summary>Whether Send/Receive should also download of messages for offline.</_summary>
       <_description>If enabled, whenever Send/Receive is run it also runs synchronization of messages for offline use. The option is disabled by default.</_description>
     </key>
+    <key name="display-delivery-notification-inline" type="b">
+      <default>false</default>
+      <_summary>Whether display delivery notification parts inline.</_summary>
+      <_description>If enabled, the message/delivery-status and message/disposition-notification parts are shown automatically inline.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

@@ -52,6 +52,7 @@ empe_msg_deliverystatus_parse (EMailParserExtension *extension,
 	GQueue work_queue = G_QUEUE_INIT;
 	CamelContentType *ct;
 	EMailPart *mail_part;
+	gboolean show_inline;
 	gsize len;
 
 	len = part_id->len;
@@ -68,7 +69,17 @@ empe_msg_deliverystatus_parse (EMailParserExtension *extension,
 	e_mail_parser_wrap_as_attachment (parser, part, part_id, &work_queue);
 
 	ct = camel_mime_part_get_content_type (part);
-	if (ct && camel_content_type_is (ct, "message", "feedback-report")) {
+	show_inline = ct && camel_content_type_is (ct, "message", "feedback-report");
+
+	if (!show_inline) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		show_inline = g_settings_get_boolean (settings, "display-delivery-notification-inline");
+		g_object_unref (settings);
+	}
+
+	if (show_inline) {
 		EMailPart *attachment_part;
 
 		attachment_part = g_queue_peek_head (&work_queue);
