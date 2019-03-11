@@ -1455,6 +1455,7 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 	     valid_iter;
 	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
 		ECalComponentAlarm *alarm, *alarm_copy;
+		ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
 		icalcomponent *icalcomp;
 		icalproperty *prop;
 
@@ -1484,6 +1485,40 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 				icalproperty_free (prop);
 				break;
 			}
+		}
+
+		e_cal_component_alarm_get_action (alarm, &action);
+
+		prop = icalcomponent_get_first_property (icalcomp, ICAL_SUMMARY_PROPERTY);
+		if (action == E_CAL_COMPONENT_ALARM_EMAIL) {
+			ECalComponentText summary = { NULL, NULL };
+
+			e_cal_component_get_summary (comp, &summary);
+
+			if (prop) {
+				icalproperty_set_summary (prop, summary.value ? summary.value : "");
+			} else {
+				prop = icalproperty_new_summary (summary.value ? summary.value : "");
+				icalcomponent_add_property (icalcomp, prop);
+			}
+		} else if (prop) {
+			icalcomponent_remove_property (icalcomp, prop);
+			icalproperty_free (prop);
+		}
+
+		prop = icalcomponent_get_first_property (icalcomp, ICAL_DESCRIPTION_PROPERTY);
+		if (action == E_CAL_COMPONENT_ALARM_EMAIL || action == E_CAL_COMPONENT_ALARM_DISPLAY) {
+			if (!prop) {
+				const gchar *description;
+
+				description = icalcomponent_get_description (e_cal_component_get_icalcomponent (comp));
+
+				prop = icalproperty_new_description (description ? description : "");
+				icalcomponent_add_property (icalcomp, prop);
+			}
+		} else if (prop) {
+			icalcomponent_remove_property (icalcomp, prop);
+			icalproperty_free (prop);
 		}
 
 		/* We clone the alarm to maintain the invariant that the alarm
