@@ -704,16 +704,88 @@ render_contact_list (EABContactFormatter *formatter,
 	g_object_unref (destination);
 }
 
+static const gchar *
+get_phone_location (EVCardAttribute *attr)
+{
+	struct _locations {
+		EContactField field_id;
+		const gchar *attr_type;
+	} locations[] = {
+		{ E_CONTACT_PHONE_ASSISTANT, EVC_X_ASSISTANT },
+		{ E_CONTACT_PHONE_CALLBACK, EVC_X_CALLBACK },
+		{ E_CONTACT_PHONE_CAR, "CAR" },
+		{ E_CONTACT_PHONE_COMPANY, EVC_X_COMPANY },
+		{ E_CONTACT_PHONE_ISDN, "ISDN" },
+		{ E_CONTACT_PHONE_MOBILE, "CELL" },
+		{ E_CONTACT_PHONE_OTHER_FAX, "FAX" },
+		{ E_CONTACT_PHONE_PAGER, "PAGER" },
+		{ E_CONTACT_PHONE_PRIMARY, "PREF" },
+		{ E_CONTACT_PHONE_RADIO, EVC_X_RADIO },
+		{ E_CONTACT_PHONE_TELEX, EVC_X_TELEX },
+		{ E_CONTACT_PHONE_TTYTDD, EVC_X_TTYTDD }
+	};
+	GList *params, *plink;
+	GList *values = NULL, *vlink;
+	gboolean done = FALSE;
+	const gchar *location = NULL;
+	gint ii;
+
+	params = e_vcard_attribute_get_params (attr);
+
+	for (plink = params; plink; plink = g_list_next (plink)) {
+		EVCardAttributeParam *param = plink->data;
+
+		if (!g_ascii_strcasecmp (e_vcard_attribute_param_get_name (param), EVC_TYPE)) {
+			values = e_vcard_attribute_param_get_values (param);
+			break;
+		}
+	}
+
+	for (vlink = values; vlink && !done; vlink = g_list_next (vlink)) {
+		const gchar *value = vlink->data;
+
+		if (!value)
+			continue;
+
+		for (ii = 0; ii < G_N_ELEMENTS (locations); ii++) {
+			if (!g_ascii_strcasecmp (value, locations[ii].attr_type)) {
+				if (location) {
+					/* if more than one is set, then fallback to the "Other Phone" */
+					location = NULL;
+					done = TRUE;
+					break;
+				}
+
+				location = e_contact_pretty_name (locations[ii].field_id);
+			}
+		}
+	}
+
+	if (!location)
+		location = e_contact_pretty_name (E_CONTACT_PHONE_OTHER);
+
+	if (!location)
+		location = _("Phone");
+
+	return location;
+}
+
 static void
 render_contact_column (EABContactFormatter *formatter,
                        EContact *contact,
                        GString *buffer)
 {
 	GString *accum, *email;
-	GList *email_list, *l, *email_attr_list, *al;
+	GList *email_list, *l, *email_attr_list, *al, *phone_attr_list;
 	gint email_num = 0;
 	const gchar *nl;
-	guint32 sip_flags = 0;
+	guint32 phone_flags = 0, sip_flags = 0;
+
+	if (formatter->priv->supports_tel)
+		phone_flags = E_TEXT_TO_HTML_CONVERT_URLS |
+			      E_TEXT_TO_HTML_HIDE_URL_SCHEME |
+			      E_TEXT_TO_HTML_URL_IS_WHOLE_TEXT |
+			      E_CREATE_TEL_URL;
 
 	if (formatter->priv->supports_sip)
 		sip_flags = E_TEXT_TO_HTML_CONVERT_URLS |
@@ -760,6 +832,42 @@ render_contact_column (EABContactFormatter *formatter,
 
 	if (email->len)
 		render_table_row (accum, _("Email"), email->str, NULL, 0);
+
+	phone_attr_list = e_contact_get_attributes (contact, E_CONTACT_TEL);
+
+	for (l = phone_attr_list; l; l = g_list_next (l)) {
+		EVCardAttribute *attr = l->data;
+
+		if (!e_vcard_attribute_has_type (attr, "WORK") &&
+		    !e_vcard_attribute_has_type (attr, "HOME")) {
+			guint32 html_flags = phone_flags;
+			const gchar *attr_str, *str;
+			gchar *phone, *tmp_value, *label;
+
+			phone = e_vcard_attribute_get_value (attr);
+			if (!phone || !*phone) {
+				g_free (phone);
+				continue;
+			}
+
+			attr_str = get_phone_location (attr);
+			label = e_text_to_html (attr_str, E_TEXT_TO_HTML_CONVERT_ALL_SPACES);
+
+			tmp_value = maybe_create_url (phone, html_flags);
+			if (tmp_value)
+				str = tmp_value;
+			else
+				str = phone;
+
+			render_table_row (accum, label, str, NULL, html_flags);
+
+			g_free (tmp_value);
+			g_free (phone);
+			g_free (label);
+		}
+	}
+
+	g_list_free_full (phone_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 
 	accum_sip (accum, contact, EAB_CONTACT_FORMATTER_SIP_TYPE_OTHER, NULL, sip_flags);
 

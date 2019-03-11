@@ -210,6 +210,9 @@ is_citation (const guchar *c,
  *     If E_TEXT_TO_HTML_CONVERT_NL and E_TEXT_TO_HTML_CONVERT_SPACES
  *     are both defined, then TABs will also be converted to spaces.
  *
+ *   - E_TEXT_TO_HTML_CONVERT_ALL_SPACES: similar to E_TEXT_TO_HTML_CONVERT_SPACES,
+ *     but converts all spaces to non-breaking spaces.
+ *
  *   - E_TEXT_TO_HTML_CONVERT_URLS: wrap &lt;a href="..."&gt; &lt;/a&gt;
  *     around strings that look like URLs.
  *
@@ -447,8 +450,9 @@ e_text_to_html_full (const gchar *input,
 			/* falls through */
 
 		case ' ':
-			if (flags & E_TEXT_TO_HTML_CONVERT_SPACES) {
-				if (cur == (const guchar *) input ||
+			if ((flags & (E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_CONVERT_ALL_SPACES)) != 0) {
+				if ((flags & E_TEXT_TO_HTML_CONVERT_ALL_SPACES) != 0 ||
+				    cur == (const guchar *) input ||
 				    *(cur + 1) == ' ' || *(cur + 1) == '\t' ||
 				    *(cur - 1) == '\n') {
 					strcpy (out, "&nbsp;");
