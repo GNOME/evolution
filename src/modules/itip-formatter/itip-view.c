@@ -3090,6 +3090,17 @@ itip_view_set_show_keep_alarm_check (ItipView *view,
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
 	show_checkbox (view, CHECKBOX_KEEP_ALARM, show, TRUE);
+
+	if (show) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
+
+		if (g_settings_get_boolean (settings, "preserve-reminder"))
+			input_set_checked (view, CHECKBOX_KEEP_ALARM, TRUE);
+
+		g_object_unref (settings);
+	}
 }
 
 gboolean

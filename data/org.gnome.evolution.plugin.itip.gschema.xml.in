@@ -1,9 +1,14 @@
 <schemalist>
   <schema gettext-domain="evolution" id="org.gnome.evolution.plugin.itip" path="/org/gnome/evolution/plugin/itip/">
-     <key name="delete-processed" type="b">
+    <key name="delete-processed" type="b">
       <default>false</default>
       <_summary>Delete processed</_summary>
       <_description>Whether to delete processed iTip objects</_description>
+    </key>
+    <key name="preserve-reminder" type="b">
+      <default>true</default>
+      <_summary>Preserve exiting reminder by default</_summary>
+      <_description>Whether to preset option to preserve existing reminder by default</_description>
     </key>
   </schema>
 </schemalist>

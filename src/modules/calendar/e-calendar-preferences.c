@@ -33,8 +33,6 @@
 #include "calendar/gui/calendar-config.h"
 #include "shell/e-shell-utils.h"
 
-#define ITIP_FORMATTER_CONF_KEY_DELETE "delete-processed"
-
 struct _ECalendarPreferencesPrivate {
 	GtkBuilder *builder;
 	ESourceRegistry *registry;
@@ -594,18 +592,6 @@ eccp_free (EConfig *ec,
 }
 
 static void
-itip_formatter_delete_toggled_cb (GtkWidget *widget)
-{
-	GSettings *settings;
-	gboolean active;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
-	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-	g_settings_set_boolean (settings, ITIP_FORMATTER_CONF_KEY_DELETE, active);
-	g_object_unref (settings);
-}
-
-static void
 calendar_preferences_add_itip_formatter_page (EShell *shell,
 					      GtkWidget *notebook)
 {
@@ -658,11 +644,18 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 	settings = e_util_ref_settings ("org.gnome.evolution.plugin.itip");
 
 	check = gtk_check_button_new_with_mnemonic (_("_Delete message after acting"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), g_settings_get_boolean (settings, ITIP_FORMATTER_CONF_KEY_DELETE));
-	g_signal_connect (
-		check, "toggled",
-		G_CALLBACK (itip_formatter_delete_toggled_cb), NULL);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
+
+	g_settings_bind (settings, "delete-processed",
+		check, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
+	check = gtk_check_button_new_with_mnemonic (_("_Preserve exiting reminder by default"));
+	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
+
+	g_settings_bind (settings, "preserve-reminder",
+		check, "active",
+		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
 
