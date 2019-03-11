@@ -1,3 +1,20 @@
+Evolution 3.32.0 2019-03-11
+---------------------------
+
+Miscellaneous:
+	help: Update cs screenshot of mal switcher (Andre Klapper)
+	help: Remove ancient outdated Spanish screenshot (Andre Klapper)
+	help: Set an image to non-executable mode (Andre Klapper)
+
+Translations:
+	Daniel Șerbănescu (ro)
+	Anders Jonsson (sv)
+	Марко Костић (sr)
+	Kristjan SCHMIDT (eo)
+	Tim Sabsch (de)
+	Alexandre Franke (fr)
+	Gábor Kelemen (hu)
+
 Evolution 3.31.92 2019-03-04
 ----------------------------
 

@@ -6,8 +6,8 @@
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "gnome-3-30",
-	"desktop-file-name-suffix": " (3.30)",
+	"branch": "gnome-3-32",
+	"desktop-file-name-suffix": " (3.32)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
@@ -200,7 +200,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "gnome-3-30"
+					"branch": "gnome-3-32"
 				}
 			]
 		},
@@ -245,7 +245,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "gnome-3-30"
+					"branch": "gnome-3-32"
 				},
 
 				{
@@ -299,7 +299,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
-					"branch": "gnome-3-30"
+					"branch": "gnome-3-32"
 				}
 			]
 		}
