@@ -599,7 +599,14 @@ cal_shell_content_datepicker_button_press_cb (ECalendar *calendar,
 
 	if (event->type == GDK_2BUTTON_PRESS) {
 		ECalendarItem *calitem = e_calendar_get_item (calendar);
+		gdouble xwin = 0.0, ywin = 0.0;
 		GDate sel_start, sel_end;
+
+		/* Do that only if the double-click was above a day cell */
+		if (!gdk_event_get_coords (event, &xwin, &ywin) ||
+		    !e_calendar_item_convert_position_to_date (calitem, xwin, ywin, &sel_start)) {
+			return FALSE;
+		}
 
 		g_date_clear (&sel_start, 1);
 		g_date_clear (&sel_end, 1);
