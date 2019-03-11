@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2019-03-04 17:41+0000\n"
-"PO-Revision-Date: 2019-03-10 19:00+0100\n"
+"PO-Revision-Date: 2019-03-10 22:09+0100\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
 "sourceforge.net>\n"
@@ -2650,26 +2650,33 @@ msgid ""
 "If set to true, goes to the previous message when the selected is deleted; "
 "or to the next message, when it’s set to false."
 msgstr ""
+"Dacă este stabilită la adevărat, navighează la mesajul anterior când cel "
+"selectat este șters; sau la următorul mesaj, când este stabilit la fals"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:274
 msgid "Show Subject above Sender in Messages column"
-msgstr ""
+msgstr "Arată subiectul deasupra expeditorului în coloana cu mesaje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:275
 msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list"
 msgstr ""
+"Dacă să se arate Subiectul deasupra Expeditorului (De la/Către) în coloana "
+"cu mesaje, de obicei afișată în vizualizarea verticală/lată a listei de "
+"mesaje"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
 msgid "Visually wrap long lines in composer"
-msgstr ""
+msgstr "Încadrează vizual linii lungi în compunător"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
 #: ../src/composer/e-composer-actions.c:542
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
 msgstr ""
+"Dacă să se încadreze vizual liniile lungi de text pentru a evita derulare "
+"orizontală"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:278
 msgid "Alternative reply style"
@@ -2688,36 +2695,46 @@ msgid ""
 "This determines whether the cursor is placed at the top of the message or "
 "the bottom when using Alternative Reply."
 msgstr ""
+"Aceasta determină dacă cursorul este plasat la vârful mesajului sau la baza "
+"lui când se folosește Răspuns alternativ."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:282
 msgid "Apply chosen template when using Alternative Reply"
-msgstr ""
+msgstr "Aplică șablonul ales când se folosește Răspuns alternativ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:283
 msgid "Last chosen template’s folder URI for Alternative Reply"
 msgstr ""
+"URI-ul dosarului pentru șablonul ales ultima dată pentru Răspuns alternativ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:284
 msgid "Last chosen template’s message UID for Alternative Reply"
 msgstr ""
+"UID-ul mesajului pentru șablonul ales ultima dată pentru Răspuns alternativ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:285
 msgid ""
 "Whether preserve original message subject when applying template for "
 "Alternative Reply"
 msgstr ""
+"Dacă să se păstreze subiectul mesajului original când se aplică șablonul "
+"pentru Răspuns alternativ"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:286
 msgid ""
 "Whether set “body” in mailto: URI as Preformatted paragraph style. If set to "
 "“false”, then Normal paragraph style will be used."
 msgstr ""
+"Dacă este stabilit la „body” în mailto: URI ca stil de paragraf neformatat. "
+"Dacă este stabilit la „fals”, atunci stilul de paragraf normal va fi folosit."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
 msgid ""
 "Close the message browser window when the selected message is deleted or "
 "marked as Junk."
 msgstr ""
+"Închide fereastra navigatorului de mesaje când mesajul selectat este șters "
+"sau marcat ca Spam."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
 msgid ""
@@ -2732,6 +2749,8 @@ msgid ""
 "Where to lookup recipient S/MIME certificates or PGP keys when encrypting "
 "messages."
 msgstr ""
+"Dacă să se verifice certificatele S/MIME ale destinatarului sau cheile PGP "
+"când se criptează mesajele."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:290
 msgid ""
@@ -2740,6 +2759,10 @@ msgid ""
 "value uses certificates from auto-completed contacts and searches in books "
 "marked for auto-completion."
 msgstr ""
+"Valoarea „off” dezactivează complet verificarea certificatului; valoarea "
+"„autocompleted” oferă certificate numai pentru contactele autocompletate; "
+"valoarea „books” folosește certificate de la contactele autocompletate și "
+"căutări în cărți marcate pentru autocompletare."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
 msgid "Whether Send/Receive should also download of messages for offline."
@@ -2752,6 +2775,9 @@ msgid ""
 "If enabled, whenever Send/Receive is run it also runs synchronization of "
 "messages for offline use. The option is disabled by default."
 msgstr ""
+"Dacă este activat, de oricâte ori Trimite/Primește este rulat va rula de "
+"asemenea o sincronizare a mesajelor pentru utilizare în modul deconectat. "
+"Această opțiune este dezactivată în mod implicit."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "(Deprecated) Default forward style"
@@ -2823,7 +2849,7 @@ msgstr ""
 #. indicate that an attachment should have been attached to the message.
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
-msgstr ""
+msgstr "['attachment','attaching','attached','enclosed','atașament”,'atașat','atasat','atașare','atasare','fișier','fisier']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
