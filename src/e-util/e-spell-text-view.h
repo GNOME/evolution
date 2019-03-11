@@ -27,8 +27,7 @@
 G_BEGIN_DECLS
 
 gboolean	e_spell_text_view_is_supported	(void);
-gboolean	e_spell_text_view_attach	(GtkTextView *text_view);
-void		e_spell_text_view_recheck_all	(GtkTextView *text_view);
+void		e_spell_text_view_attach	(GtkTextView *text_view);
 
 G_END_DECLS
 

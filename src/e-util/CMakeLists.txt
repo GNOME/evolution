@@ -622,7 +622,7 @@ target_compile_options(evolution-util PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GEO_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
-	${GTKSPELL_CFLAGS}
+	${GSPELL_CFLAGS}
 )
 
 target_include_directories(evolution-util PUBLIC
@@ -636,7 +636,7 @@ target_include_directories(evolution-util PUBLIC
 	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
 	${GEO_INCLUDE_DIRS}
 	${GNOME_PLATFORM_INCLUDE_DIRS}
-	${GTKSPELL_INCLUDE_DIRS}
+	${GSPELL_INCLUDE_DIRS}
 )
 
 target_link_libraries(evolution-util
@@ -646,7 +646,7 @@ target_link_libraries(evolution-util
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GEO_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
-	${GTKSPELL_LDFLAGS}
+	${GSPELL_LDFLAGS}
 	${ICONV_LIBS}
 	${MATH_LDFLAGS}
 )
@@ -755,7 +755,7 @@ macro(add_private_program _name _sources)
 		${EVOLUTION_DATA_SERVER_CFLAGS}
 		${GEO_CFLAGS}
 		${GNOME_PLATFORM_CFLAGS}
-		${GTKSPELL_CFLAGS}
+		${GSPELL_CFLAGS}
 	)
 
 	target_include_directories(${_name} PUBLIC
@@ -768,7 +768,7 @@ macro(add_private_program _name _sources)
 		${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
 		${GEO_INCLUDE_DIRS}
 		${GNOME_PLATFORM_INCLUDE_DIRS}
-		${GTKSPELL_INCLUDE_DIRS}
+		${GSPELL_INCLUDE_DIRS}
 	)
 
 	target_link_libraries(${_name}
@@ -778,7 +778,7 @@ macro(add_private_program _name _sources)
 		${EVOLUTION_DATA_SERVER_LDFLAGS}
 		${GEO_LDFLAGS}
 		${GNOME_PLATFORM_LDFLAGS}
-		${GTKSPELL_LDFLAGS}
+		${GSPELL_LDFLAGS}
 		${ICONV_LIBS}
 		${MATH_LDFLAGS}
 	)

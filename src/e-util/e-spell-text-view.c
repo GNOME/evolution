@@ -21,8 +21,8 @@
 
 #include <gtk/gtk.h>
 
-#ifdef HAVE_GTKSPELL
-#include <gtkspell/gtkspell.h>
+#ifdef HAVE_GSPELL
+#include <gspell/gspell.h>
 #endif
 
 #include "e-misc-utils.h"
@@ -41,11 +41,11 @@
 gboolean
 e_spell_text_view_is_supported (void)
 {
-#ifdef HAVE_GTKSPELL
+#ifdef HAVE_GSPELL
 	return TRUE;
-#else /* HAVE_GTKSPELL */
+#else /* HAVE_GSPELL */
 	return FALSE;
-#endif /* HAVE_GTKSPELL */
+#endif /* HAVE_GSPELL */
 }
 
 /**
@@ -55,62 +55,51 @@ e_spell_text_view_is_supported (void)
  * Attaches a spell checker into the @text_view, if spell-checking is
  * enabled in Evolution.
  *
- * Returns: Whether successfully attached the spell checker
- *
  * Since: 3.12
  **/
-gboolean
+void
 e_spell_text_view_attach (GtkTextView *text_view)
 {
-#ifdef HAVE_GTKSPELL
-	GtkSpellChecker *spell;
+#ifdef HAVE_GSPELL
+	GspellTextView *spell_view;
+	GspellTextBuffer *spell_buffer;
+	GspellChecker *checker;
+	const GspellLanguage *language = NULL;
+	GtkTextBuffer *text_buffer;
 	GSettings *settings;
 	gchar **strv;
-	gboolean success;
+
+	g_return_if_fail (GTK_IS_TEXT_VIEW (text_view));
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 	/* do nothing, if spell-checking is disabled */
 	if (!g_settings_get_boolean (settings, "composer-inline-spelling")) {
 		g_object_unref (settings);
-		return FALSE;
+		return;
 	}
 
 	strv = g_settings_get_strv (settings, "composer-spell-languages");
 	g_object_unref (settings);
 
-	spell = gtk_spell_checker_new ();
-	g_object_set (G_OBJECT (spell), "decode-language-codes", TRUE, NULL);
-	if (strv)
-		gtk_spell_checker_set_language (spell, strv[0], NULL);
-	success = gtk_spell_checker_attach (spell, text_view);
+	if (strv) {
+		gint ii;
+
+		for (ii = 0; strv[ii] && !language; ii++) {
+			language = gspell_language_lookup (strv[ii]);
+		}
+	}
 
 	g_strfreev (strv);
 
-	return success;
-#else /* HAVE_GTKSPELL */
-	return FALSE;
-#endif /* HAVE_GTKSPELL */
-}
+	checker = gspell_checker_new (language);
+	text_buffer = gtk_text_view_get_buffer (text_view);
+	spell_buffer = gspell_text_buffer_get_from_gtk_text_buffer (text_buffer);
+	gspell_text_buffer_set_spell_checker (spell_buffer, checker);
+	g_object_unref (checker);
 
-/**
- * e_spell_text_view_recheck_all:
- * @text_view: a #GtkTextView with attached spell checker
- *
- * Checks whole content of the @text_view for spell-errors,
- * if it has previously attached spell-checker with
- * e_spell_text_view_attach().
- *
- * Since: 3.12
- **/
-void
-e_spell_text_view_recheck_all (GtkTextView *text_view)
-{
-#ifdef HAVE_GTKSPELL
-	GtkSpellChecker *spell;
-
-	spell = gtk_spell_checker_get_from_text_view (text_view);
-	if (spell)
-		gtk_spell_checker_recheck_all (spell);
-#endif /* HAVE_GTKSPELL */
+	spell_view = gspell_text_view_get_from_gtk_text_view (text_view);
+	gspell_text_view_set_inline_spell_checking (spell_view, TRUE);
+	gspell_text_view_set_enable_language_menu (spell_view, TRUE);
+#endif /* HAVE_GSPELL */
 }

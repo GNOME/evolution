@@ -297,7 +297,7 @@ pkg_check_modules(LIBSOUP REQUIRED libsoup-2.4>=${soup_minimum_version})
 pkg_check_modules(WEB_EXTENSION REQUIRED webkit2gtk-4.0>=${webkit2gtk_minimum_version})
 
 # ******************************
-# Enchant - support both, but better to use the same as the dependencies (gtkspell3, webkitgtk+,...)
+# Enchant - support both, but better to use the same as the dependencies (gspell, webkitgtk+,...)
 # ******************************
 
 add_printable_option(WITH_ENCHANT_VERSION "Set Enchant version to use, values are: 'auto' (default), 1 or 2" "auto")
@@ -633,15 +633,15 @@ unset(CMAKE_REQUIRED_INCLUDES)
 unset(CMAKE_REQUIRED_LIBRARIES)
 
 # ******************************
-# gtkspell
+# gspell
 # ******************************
 
-add_printable_option(ENABLE_GTKSPELL "Enable gtkspell usage" ON)
+add_printable_option(ENABLE_GSPELL "Enable gspell usage" ON)
 
-if(ENABLE_GTKSPELL)
-	pkg_check_modules_for_option(ENABLE_GTKSPELL "gtkspell usage" GTKSPELL gtkspell3-3.0)
-	set(HAVE_GTKSPELL ON)
-endif(ENABLE_GTKSPELL)
+if(ENABLE_GSPELL)
+	pkg_check_modules_for_option(ENABLE_GSPELL "gspell usage" GSPELL gspell-1)
+	set(HAVE_GSPELL ON)
+endif(ENABLE_GSPELL)
 
 # ******************************
 # gnu_get_libc_version()
