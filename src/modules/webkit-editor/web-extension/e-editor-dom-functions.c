@@ -13653,8 +13653,20 @@ e_editor_dom_selection_restore (EEditorPage *editor_page)
 	if (!marker) {
 		marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-end-marker");
-		if (marker)
+		if (marker) {
+			webkit_dom_range_set_start_after (range, WEBKIT_DOM_NODE (marker), NULL);
+			webkit_dom_range_set_end_before (range, WEBKIT_DOM_NODE (marker), NULL);
+
 			remove_node (WEBKIT_DOM_NODE (marker));
+
+			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+			anchor = webkit_dom_range_get_end_container (range, NULL);
+			offset = webkit_dom_range_get_end_offset (range, NULL);
+
+			webkit_dom_range_collapse (range, TRUE, NULL);
+			webkit_dom_dom_selection_add_range (dom_selection, range);
+			webkit_dom_dom_selection_extend (dom_selection, anchor, offset, NULL);
+		}
 		g_clear_object (&dom_selection);
 		g_clear_object (&range);
 		return;
@@ -13664,15 +13676,26 @@ e_editor_dom_selection_restore (EEditorPage *editor_page)
 	parent_start = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (marker));
 
 	webkit_dom_range_set_start_after (range, WEBKIT_DOM_NODE (marker), NULL);
-	remove_node (WEBKIT_DOM_NODE (marker));
 
 	marker = webkit_dom_document_get_element_by_id (
 		document, "-x-evo-selection-end-marker");
 	if (!marker) {
 		marker = webkit_dom_document_get_element_by_id (
 			document, "-x-evo-selection-start-marker");
-		if (marker)
+		if (marker) {
+			webkit_dom_range_set_start_after (range, WEBKIT_DOM_NODE (marker), NULL);
+			webkit_dom_range_set_end_before (range, WEBKIT_DOM_NODE (marker), NULL);
+
 			remove_node (WEBKIT_DOM_NODE (marker));
+
+			webkit_dom_dom_selection_remove_all_ranges (dom_selection);
+			anchor = webkit_dom_range_get_end_container (range, NULL);
+			offset = webkit_dom_range_get_end_offset (range, NULL);
+
+			webkit_dom_range_collapse (range, TRUE, NULL);
+			webkit_dom_dom_selection_add_range (dom_selection, range);
+			webkit_dom_dom_selection_extend (dom_selection, anchor, offset, NULL);
+		}
 		g_clear_object (&dom_selection);
 		g_clear_object (&range);
 		return;
@@ -13682,6 +13705,10 @@ e_editor_dom_selection_restore (EEditorPage *editor_page)
 
 	webkit_dom_range_set_end_before (range, WEBKIT_DOM_NODE (marker), NULL);
 	remove_node (WEBKIT_DOM_NODE (marker));
+
+	marker = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
+	if (marker)
+		remove_node (WEBKIT_DOM_NODE (marker));
 
 	webkit_dom_dom_selection_remove_all_ranges (dom_selection);
 	if (webkit_dom_node_is_same_node (parent_start, parent_end))
@@ -14616,6 +14643,57 @@ e_editor_dom_remove_wrapping_from_element (WebKitDOMElement *element)
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
 }
 
+static void
+remove_node_but_preserve_selection_markers (WebKitDOMNode *node)
+{
+	WebKitDOMDocument *document;
+	WebKitDOMNode *parent, *marker;
+	gboolean has_selection_start = FALSE, has_selection_end = FALSE;
+
+	document = webkit_dom_node_get_owner_document (node);
+	if (document) {
+		WebKitDOMElement *marker_element;
+
+		marker_element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-start-marker");
+		marker = marker_element ? WEBKIT_DOM_NODE (marker_element) : NULL;
+		while (marker && marker != node) {
+			marker = webkit_dom_node_get_parent_node (marker);
+		}
+
+		has_selection_start = marker != NULL;
+
+		marker_element = webkit_dom_document_get_element_by_id (document, "-x-evo-selection-end-marker");
+		marker = marker_element ? WEBKIT_DOM_NODE (marker_element) : NULL;
+		while (marker && marker != node) {
+			marker = webkit_dom_node_get_parent_node (marker);
+		}
+
+		has_selection_end = marker != NULL;
+	}
+
+	parent = webkit_dom_node_get_parent_node (node);
+
+	if (has_selection_start && document && parent) {
+		WebKitDOMNode *next;
+
+		marker = WEBKIT_DOM_NODE (dom_create_selection_marker (document, TRUE));
+
+		next = webkit_dom_node_get_next_sibling (node);
+		if (next)
+			webkit_dom_node_insert_before (parent, marker, next, NULL);
+		else
+			webkit_dom_node_append_child (parent, marker, NULL);
+	}
+
+	if (has_selection_end && document && parent) {
+		marker = WEBKIT_DOM_NODE (dom_create_selection_marker (document, FALSE));
+
+		webkit_dom_node_insert_before (parent, marker, node, NULL);
+	}
+
+	remove_node (node);
+}
+
 void
 e_editor_dom_remove_quoting_from_element (WebKitDOMElement *element)
 {
@@ -14627,13 +14705,13 @@ e_editor_dom_remove_quoting_from_element (WebKitDOMElement *element)
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		element, "-x-evo-quoted");
 	for (ii = webkit_dom_html_collection_get_length (collection); ii--;)
-		remove_node (webkit_dom_html_collection_item (collection, ii));
+		remove_node_but_preserve_selection_markers (webkit_dom_html_collection_item (collection, ii));
 	g_clear_object (&collection);
 
 	collection = webkit_dom_element_get_elements_by_class_name_as_html_collection (
 		element, "-x-evo-temp-br");
 	for (ii = webkit_dom_html_collection_get_length (collection); ii--;)
-		remove_node (webkit_dom_html_collection_item (collection, ii));
+		remove_node_but_preserve_selection_markers (webkit_dom_html_collection_item (collection, ii));
 	g_clear_object (&collection);
 
 	webkit_dom_node_normalize (WEBKIT_DOM_NODE (element));
