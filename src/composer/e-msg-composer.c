@@ -1249,6 +1249,7 @@ composer_build_message (EMsgComposer *composer,
 	gchar *charset, *message_uid;
 	const gchar *from_domain;
 	gint i;
+	GError *last_error = NULL;
 
 	e_msg_composer_inc_soft_busy (composer);
 
@@ -1420,6 +1421,8 @@ composer_build_message (EMsgComposer *composer,
 		if (!text) {
 			g_warning ("%s: Failed to retrieve text/plain processed content", G_STRFUNC);
 			text = g_strdup ("");
+
+			last_error = e_content_editor_dup_last_error (cnt_editor);
 		}
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
@@ -1528,6 +1531,9 @@ composer_build_message (EMsgComposer *composer,
 				text = g_strdup ("");
 			}
 		}
+
+		if (!last_error)
+			last_error = e_content_editor_dup_last_error (cnt_editor);
 
 		length = strlen (text);
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
@@ -1646,8 +1652,12 @@ composer_build_message (EMsgComposer *composer,
 		context->top_level_part = CAMEL_DATA_WRAPPER (multipart);
 	}
 
+	if (last_error) {
+		g_simple_async_result_take_error (simple, last_error);
+		g_simple_async_result_complete (simple);
+
 	/* Run any blocking operations in a separate thread. */
-	if (context->need_thread) {
+	} else if (context->need_thread) {
 		if (!context->is_draft)
 			context->recipients_with_certificate = composer_get_completed_recipients_with_certificate (composer);
 

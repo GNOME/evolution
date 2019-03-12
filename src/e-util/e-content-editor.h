@@ -637,6 +637,9 @@ gchar *		e_content_editor_get_current_signature_uid
 						(EContentEditor *editor);
 
 gboolean	e_content_editor_is_ready	(EContentEditor *editor);
+GError *	e_content_editor_dup_last_error	(EContentEditor *editor);
+void		e_content_editor_take_last_error(EContentEditor *editor,
+						 GError *error);
 
 gchar *		e_content_editor_insert_signature
 						(EContentEditor *editor,

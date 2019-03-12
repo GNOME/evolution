@@ -3848,6 +3848,38 @@ e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (GDBusProxy *dbus_
 	return result;
 }
 
+/**
+ * e_util_invoke_g_dbus_proxy_call_sync_wrapper:
+ * @dbus_proxy: a #GDBusProxy instance
+ * @method_name: a method name to invoke
+ * @parameters: (allow-none): parameters of the method, or %NULL
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: (allow-none): Return location for error, or %NULL
+ *
+ * Wraps GDBusProxy synchronous call into an asynchronous without blocking
+ * the main context. This can be useful when doing calls on a WebExtension,
+ * because it can avoid freeze when this is called in the UI process and
+ * the WebProcess also does its own IPC call.
+ *
+ * This function should be called only from the main thread.
+ *
+ * See e_util_invoke_g_dbus_proxy_call_sync_wrapper_full().
+ *
+ * Returns: (transfer full): The result of the method call, or %NULL on error. Free with g_variant_unref().
+ *
+ * Since: 3.34
+ **/
+GVariant *
+e_util_invoke_g_dbus_proxy_call_sync_wrapper (GDBusProxy *dbus_proxy,
+					      const gchar *method_name,
+					      GVariant *parameters,
+					      GCancellable *cancellable,
+					      GError **error)
+{
+	return e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (dbus_proxy, method_name, parameters,
+		G_DBUS_CALL_FLAGS_NONE, -1, cancellable, error);
+}
+
 static void
 sync_wrapper_result_callback (GObject *source_object,
 			      GAsyncResult *result,

@@ -33,9 +33,6 @@ struct _EComposerAutosavePrivate {
 	GCancellable *cancellable;
 	guint timeout_id;
 
-	/* Prevent error dialogs from piling up. */
-	gboolean error_shown;
-
 	GFile *malfunction_snapshot_file;
 	gboolean editor_is_malfunction;
 };
@@ -44,6 +41,8 @@ G_DEFINE_DYNAMIC_TYPE (
 	EComposerAutosave,
 	e_composer_autosave,
 	E_TYPE_EXTENSION)
+
+static void composer_autosave_changed_cb (EComposerAutosave *autosave);
 
 static void
 composer_autosave_finished_cb (GObject *source_object,
@@ -66,6 +65,7 @@ composer_autosave_finished_cb (GObject *source_object,
 		g_error_free (local_error);
 
 	else if (local_error != NULL) {
+		EHTMLEditor *editor;
 		gchar *basename;
 
 		if (G_IS_FILE (snapshot_file))
@@ -73,19 +73,21 @@ composer_autosave_finished_cb (GObject *source_object,
 		else
 			basename = g_strdup (" ");
 
-		/* Only show one error dialog at a time. */
-		if (!autosave->priv->error_shown) {
-			autosave->priv->error_shown = TRUE;
-			e_alert_run_dialog_for_args (
-				GTK_WINDOW (composer),
+		editor = e_msg_composer_get_editor (composer);
+
+		if (editor) {
+			e_alert_submit (
+				E_ALERT_SINK (editor),
 				"mail-composer:no-autosave",
 				basename, local_error->message, NULL);
-			autosave->priv->error_shown = FALSE;
 		} else
 			g_warning ("%s: %s", basename, local_error->message);
 
 		g_free (basename);
 		g_error_free (local_error);
+
+		/* Re-schedule on error, maybe it'll work a bit later */
+		composer_autosave_changed_cb (autosave);
 	}
 
 	g_object_unref (autosave);
@@ -109,10 +111,8 @@ composer_autosave_timeout_cb (gpointer user_data)
 	composer = E_MSG_COMPOSER (extensible);
 
 	/* Do not do anything when it's busy */
-	if (e_msg_composer_is_soft_busy (composer)) {
-		autosave->priv->timeout_id = 0;
-		return FALSE;
-	}
+	if (e_msg_composer_is_soft_busy (composer))
+		return TRUE;
 
 	/* Cancel the previous snapshot if it's still in
 	 * progress and start a new snapshot operation. */
@@ -120,13 +120,13 @@ composer_autosave_timeout_cb (gpointer user_data)
 	g_object_unref (autosave->priv->cancellable);
 	autosave->priv->cancellable = g_cancellable_new ();
 
+	autosave->priv->timeout_id = 0;
+
 	e_composer_save_snapshot (
 		composer,
 		autosave->priv->cancellable,
 		composer_autosave_finished_cb,
 		g_object_ref (autosave));
-
-	autosave->priv->timeout_id = 0;
 
 	return FALSE;
 }
