@@ -38,7 +38,7 @@ struct _LoadContext {
 
 struct _SaveContext {
 	GCancellable *cancellable;
-	GOutputStream *output_stream;
+	GFile *snapshot_file;
 };
 
 static void
@@ -53,11 +53,8 @@ load_context_free (LoadContext *context)
 static void
 save_context_free (SaveContext *context)
 {
-	if (context->cancellable != NULL)
-		g_object_unref (context->cancellable);
-
-	if (context->output_stream != NULL)
-		g_object_unref (context->output_stream);
+	g_clear_object (&context->cancellable);
+	g_clear_object (&context->snapshot_file);
 
 	g_slice_free (SaveContext, context);
 }
@@ -241,17 +238,35 @@ write_message_to_stream_thread (GTask *task,
 				gpointer task_data,
 				GCancellable *cancellable)
 {
+	GFileOutputStream *file_output_stream;
 	GOutputStream *output_stream;
+	GFile *snapshot_file;
 	gssize bytes_written;
 	GError *local_error = NULL;
 
-	output_stream = task_data;
+	snapshot_file = task_data;
+
+	file_output_stream = g_file_replace (snapshot_file, NULL, FALSE,
+		G_FILE_CREATE_PRIVATE, cancellable, &local_error);
+
+	if (!file_output_stream) {
+		if (local_error)
+			g_task_return_error (task, local_error);
+		else
+			g_task_return_int (task, 0);
+
+		return;
+	}
+
+	output_stream = G_OUTPUT_STREAM (file_output_stream);
 
 	bytes_written = camel_data_wrapper_decode_to_output_stream_sync (
 		CAMEL_DATA_WRAPPER (source_object),
 		output_stream, cancellable, &local_error);
 
 	g_output_stream_close (output_stream, cancellable, local_error ? NULL : &local_error);
+
+	g_object_unref (file_output_stream);
 
 	if (local_error != NULL) {
 		g_task_return_error (task, local_error);
@@ -287,51 +302,12 @@ save_snapshot_get_message_cb (EMsgComposer *composer,
 
 	task = g_task_new (message, context->cancellable, (GAsyncReadyCallback) save_snapshot_splice_cb, simple);
 
-	g_task_set_task_data (task, g_object_ref (context->output_stream), g_object_unref);
+	g_task_set_task_data (task, g_object_ref (context->snapshot_file), g_object_unref);
 
 	g_task_run_in_thread (task, write_message_to_stream_thread);
 
 	g_object_unref (task);
 	g_object_unref (message);
-}
-
-static void
-save_snapshot_replace_cb (GFile *snapshot_file,
-                          GAsyncResult *result,
-                          GSimpleAsyncResult *simple)
-{
-	GObject *object;
-	SaveContext *context;
-	GFileOutputStream *output_stream;
-	GError *local_error = NULL;
-
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	/* Output stream might be NULL, so don't use cast macro. */
-	output_stream = g_file_replace_finish (
-		snapshot_file, result, &local_error);
-	context->output_stream = (GOutputStream *) output_stream;
-
-	if (local_error != NULL) {
-		g_warn_if_fail (output_stream == NULL);
-		g_simple_async_result_take_error (simple, local_error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
-		return;
-	}
-
-	g_return_if_fail (G_IS_OUTPUT_STREAM (output_stream));
-
-	/* g_async_result_get_source_object() returns a new reference. */
-	object = g_async_result_get_source_object (G_ASYNC_RESULT (simple));
-
-	/* Extract a MIME message from the composer. */
-	e_msg_composer_get_message_draft (
-		E_MSG_COMPOSER (object), G_PRIORITY_DEFAULT,
-		context->cancellable, (GAsyncReadyCallback)
-		save_snapshot_get_message_cb, simple);
-
-	g_object_unref (object);
 }
 
 static EMsgComposer *
@@ -524,11 +500,12 @@ e_composer_save_snapshot (EMsgComposer *composer,
 
 	g_return_if_fail (G_IS_FILE (snapshot_file));
 
-	g_file_replace_async (
-		snapshot_file, NULL, FALSE,
-		G_FILE_CREATE_PRIVATE, G_PRIORITY_DEFAULT,
+	context->snapshot_file = g_object_ref (snapshot_file);
+
+	e_msg_composer_get_message_draft (
+		composer, G_PRIORITY_DEFAULT,
 		context->cancellable, (GAsyncReadyCallback)
-		save_snapshot_replace_cb, simple);
+		save_snapshot_get_message_cb, simple);
 }
 
 gboolean

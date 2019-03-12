@@ -494,6 +494,23 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
+	 * EContentEditor:last-error:
+	 *
+	 * GError of the last operation; can be %NULL.
+	 *
+	 * Since: 3.32.1
+	 */
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boxed (
+			"last-error",
+			NULL,
+			NULL,
+			G_TYPE_ERROR,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	/**
 	 * EContentEditor:paste-clipboard
 	 *
 	 * Emitted when user presses middle button on EContentEditor.
@@ -2156,6 +2173,29 @@ e_content_editor_is_ready (EContentEditor *editor)
 	g_return_val_if_fail (iface->is_ready != NULL, FALSE);
 
 	return iface->is_ready (editor);
+}
+
+GError *
+e_content_editor_dup_last_error (EContentEditor *editor)
+{
+	GError *last_error = NULL;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
+
+	g_object_get (G_OBJECT (editor), "last-error", &last_error, NULL);
+
+	return last_error;
+}
+
+void
+e_content_editor_take_last_error (EContentEditor *editor,
+				  GError *error)
+{
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	g_object_set (G_OBJECT (editor), "last-error", error, NULL);
+
+	g_clear_error (&error);
 }
 
 gchar *

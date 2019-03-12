@@ -195,11 +195,11 @@ view_source_dialog (EHTMLEditor *editor,
 
 		content = gtk_text_view_new ();
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (content));
-		gtk_text_buffer_set_text (buffer, html, -1);
+		gtk_text_buffer_set_text (buffer, html ? html : "", -1);
 		gtk_text_view_set_editable (GTK_TEXT_VIEW (content), FALSE);
 	} else {
 		content = webkit_web_view_new ();
-		webkit_web_view_load_html (WEBKIT_WEB_VIEW (content), html, "evo-file://");
+		webkit_web_view_load_html (WEBKIT_WEB_VIEW (content), html ? html : "", "evo-file://");
 	}
 	g_free (html);
 

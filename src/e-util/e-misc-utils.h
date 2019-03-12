@@ -324,6 +324,12 @@ GVariant *	e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check
 						 const gchar *method_name,
 						 GVariant *parameters,
 						 GCancellable *cancellable);
+GVariant *	e_util_invoke_g_dbus_proxy_call_sync_wrapper
+						(GDBusProxy *dbus_proxy,
+						 const gchar *method_name,
+						 GVariant *parameters,
+						 GCancellable *cancellable,
+						 GError **error);
 GVariant *	e_util_invoke_g_dbus_proxy_call_sync_wrapper_full
 						(GDBusProxy *dbus_proxy,
 						 const gchar *method_name,

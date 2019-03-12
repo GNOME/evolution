@@ -52,6 +52,7 @@ enum {
 	PROP_START_BOTTOM,
 	PROP_TOP_SIGNATURE,
 	PROP_VISUALLY_WRAP_LONG_LINES,
+	PROP_LAST_ERROR,
 
 	PROP_ALIGNMENT,
 	PROP_BACKGROUND_COLOR,
@@ -148,6 +149,8 @@ struct _EWebKitEditorPrivate {
 	EThreeState start_bottom;
 	EThreeState top_signature;
 	gboolean is_malfunction;
+
+	GError *last_error;
 };
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
@@ -189,6 +192,26 @@ EWebKitEditor *
 e_webkit_editor_new (void)
 {
 	return g_object_new (E_TYPE_WEBKIT_EDITOR, NULL);
+}
+
+static void
+webkit_editor_set_last_error (EWebKitEditor *wk_editor,
+			      const GError *error)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	g_clear_error (&wk_editor->priv->last_error);
+
+	if (error)
+		wk_editor->priv->last_error = g_error_copy (error);
+}
+
+static const GError *
+webkit_editor_get_last_error (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
+
+	return wk_editor->priv->last_error;
 }
 
 static void
@@ -2038,10 +2061,11 @@ webkit_editor_get_content (EContentEditor *editor,
 {
 	EWebKitEditor *wk_editor;
 	GVariant *result;
+	GError *local_error = NULL;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 	if (!wk_editor->priv->web_extension)
-		return g_strdup ("");
+		return NULL;
 
 	if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
 	    !(flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
@@ -2055,7 +2079,7 @@ webkit_editor_get_content (EContentEditor *editor,
 				wk_editor->priv->current_user_stylesheet),
 			wk_editor->priv->cancellable);
 
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
+	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper (
 		wk_editor->priv->web_extension,
 		"DOMGetContent",
 		g_variant_new (
@@ -2063,7 +2087,11 @@ webkit_editor_get_content (EContentEditor *editor,
 			current_page_id (wk_editor),
 			inline_images_from_domain ? inline_images_from_domain : "",
 			(gint32) flags),
-		NULL);
+		wk_editor->priv->cancellable,
+		&local_error);
+
+	webkit_editor_set_last_error (wk_editor, local_error);
+	g_clear_error (&local_error);
 
 	if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
 	    !(flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
@@ -2087,7 +2115,7 @@ webkit_editor_get_content (EContentEditor *editor,
 		return value;
 	}
 
-	return g_strdup ("");
+	return NULL;
 }
 
 static gboolean
@@ -5473,6 +5501,7 @@ webkit_editor_finalize (GObject *object)
 
 	g_clear_object (&priv->spell_checker);
 	g_clear_object (&priv->cancellable);
+	g_clear_error (&priv->last_error);
 
 	g_free (priv->font_name);
 
@@ -5619,6 +5648,12 @@ webkit_editor_set_property (GObject *object,
 			webkit_editor_set_visually_wrap_long_lines (
 				E_WEBKIT_EDITOR (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_LAST_ERROR:
+			webkit_editor_set_last_error (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_boxed (value));
 			return;
 	}
 
@@ -5829,6 +5864,13 @@ webkit_editor_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				webkit_editor_get_visually_wrap_long_lines (
+					E_WEBKIT_EDITOR (object)));
+			return;
+
+		case PROP_LAST_ERROR:
+			g_value_set_boxed (
+				value,
+				webkit_editor_get_last_error (
 					E_WEBKIT_EDITOR (object)));
 			return;
 	}
@@ -6548,6 +6590,8 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 		object_class, PROP_SPELL_CHECK_ENABLED, "spell-check-enabled");
 	g_object_class_override_property (
 		object_class, PROP_VISUALLY_WRAP_LONG_LINES, "visually-wrap-long-lines");
+	g_object_class_override_property (
+		object_class, PROP_LAST_ERROR, "last-error");
 	g_object_class_override_property (
 		object_class, PROP_SPELL_CHECKER, "spell-checker");
 }
