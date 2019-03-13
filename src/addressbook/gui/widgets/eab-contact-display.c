@@ -534,8 +534,8 @@ eab_contact_display_init (EABContactDisplay *display)
 		display, "web-process-crashed",
 		G_CALLBACK (contact_display_web_process_crashed_cb), NULL);
 
-	e_signal_connect_notify (
-		web_view, "notify::load-changed",
+	g_signal_connect (
+		web_view, "load-changed",
 		G_CALLBACK (contact_display_load_changed), NULL);
 	g_signal_connect (
 		web_view, "style-updated",
