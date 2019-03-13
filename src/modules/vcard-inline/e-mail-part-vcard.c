@@ -264,6 +264,7 @@ mail_part_vcard_finalize (GObject *object)
 {
 	EMailPartVCard *part = E_MAIL_PART_VCARD (object);
 
+	g_slist_free_full (part->contact_list, g_object_unref);
 	g_free (part->message_uid);
 
 	/* Chain up to parent's finalize() method. */
