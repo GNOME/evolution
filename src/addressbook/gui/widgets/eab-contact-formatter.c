@@ -607,12 +607,9 @@ render_contact_list_row (EABContactFormatter *formatter,
                          EDestination *destination,
                          GString *buffer)
 {
-	gchar *evolution_imagesdir;
 	gboolean list_collapsed = FALSE;
 	const gchar *textrep;
 	gchar *name = NULL, *email_addr = NULL;
-
-	evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
 
 	textrep = e_destination_get_textrep (destination, TRUE);
 	if (!eab_parse_qp_email (textrep, &name, &email_addr))
@@ -623,11 +620,10 @@ render_contact_list_row (EABContactFormatter *formatter,
 		g_string_append_printf (
 			buffer,
 			"<td width=" IMAGE_COL_WIDTH " valign=\"top\" align=\"left\">"
-			"<img src=\"evo-file://%s/minus.png\" width=\"16px\" height=\"16px\" "
-			"id=\"%s\" "
-			"class=\"navigable _evo_collapse_button\">"
+			"<button type=\"button\" id=\"%s\" class=\"header-collapse _evo_collapse_button\" style=\"display: inline-block;\">"
+			"<img src=\"gtk-stock://pan-down-symbolic\" />"
+			"</button>"
 			"</td><td width=\"100%%\" align=\"left\">%s",
-			evolution_imagesdir,
 			e_destination_get_contact_uid (destination),
 			name ? name : email_addr);
 
@@ -669,7 +665,6 @@ render_contact_list_row (EABContactFormatter *formatter,
 
 	g_string_append (buffer, "</tr>");
 
-	g_free (evolution_imagesdir);
 	g_free (name);
 	g_free (email_addr);
 }
