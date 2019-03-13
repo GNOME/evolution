@@ -1613,12 +1613,27 @@ e_dom_utils_module_vcard_inline_update_button (WebKitDOMDocument *document,
 	}
 }
 
+static void
+iframe_inner_doc_gone (gpointer iframe,
+		       GObject *inner_doc)
+{
+	WebKitDOMDocument *inner_document;
+
+	inner_document = webkit_dom_html_iframe_element_get_content_document (iframe);
+
+	if (inner_document)
+		e_dom_utils_eab_contact_formatter_bind_dom (inner_document);
+
+	g_object_unref (iframe);
+}
+
 void
 e_dom_utils_module_vcard_inline_set_iframe_src (WebKitDOMDocument *document,
                                                 const gchar *button_id,
                                                 const gchar *src)
 {
 	WebKitDOMElement *element, *parent, *iframe;
+	WebKitDOMDocument *inner_document;
 	gchar *selector;
 
 	selector = g_strconcat ("button[id='", button_id, "']", NULL);
@@ -1632,6 +1647,12 @@ e_dom_utils_module_vcard_inline_set_iframe_src (WebKitDOMDocument *document,
 	iframe = webkit_dom_element_query_selector (parent, "iframe", NULL);
 	if (!iframe)
 		return;
+
+	inner_document = webkit_dom_html_iframe_element_get_content_document (WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe));
+
+	/* This is an ugly hack, relying on the WebKitGTK+ behavior to
+	   free the inner document GObject when the new source is loaded. */
+	g_object_weak_ref (G_OBJECT (inner_document), iframe_inner_doc_gone, g_object_ref (iframe));
 
 	webkit_dom_html_iframe_element_set_src (
 		WEBKIT_DOM_HTML_IFRAME_ELEMENT (iframe), src);
