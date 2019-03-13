@@ -1154,6 +1154,8 @@ render_compact (EABContactFormatter *formatter,
 			}
 		}
 
+		g_list_free_full (email_list, g_free);
+
 		g_string_append (buffer, "</td></tr></table>");
 
 	} else {
