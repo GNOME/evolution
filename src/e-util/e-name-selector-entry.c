@@ -1691,7 +1691,7 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 	gunichar     str_context[2], str_b_context[2];
 	gint         len;
 	gint         i;
-	gboolean     del_space = FALSE, del_comma = FALSE;
+	gboolean     del_comma = FALSE;
 
 	if (start_pos == end_pos)
 		return;
@@ -1772,26 +1772,14 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 
 	/* Do the actual deletion */
 
-	if (end_pos == start_pos +1 && index_end == index_start) {
+	if (end_pos == start_pos +1 && index_end == index_start + 1) {
 		/* We could be just deleting the empty text */
 		gchar *c;
 
 		/* Get the actual deleted text */
 		c = gtk_editable_get_chars (GTK_EDITABLE (name_selector_entry), start_pos, start_pos + 1);
 
-		if ( c[0] == ' ') {
-			/* If we are at the beginning or removing junk space, let us ignore it */
-			del_space = TRUE;
-		}
-		g_free (c);
-	} else	if (end_pos == start_pos +1 && index_end == index_start + 1) {
-		/* We could be just deleting the empty text */
-		gchar *c;
-
-		/* Get the actual deleted text */
-		c = gtk_editable_get_chars (GTK_EDITABLE (name_selector_entry), start_pos, start_pos + 1);
-
-		if ( c[0] == ',' && !is_quoted_at (text, start_pos)) {
+		if (c && c[0] == ',' && !is_quoted_at (text, start_pos)) {
 			/* If we are at the beginning or removing junk space, let us ignore it */
 			del_comma = TRUE;
 		}
@@ -1868,7 +1856,7 @@ user_delete_text (ENameSelectorEntry *name_selector_entry,
 		/* If the entry was completely cleared, remove the initial destination too */
 		remove_destination_by_index (name_selector_entry, 0);
 		generate_attribute_list (name_selector_entry);
-	} else  if (!del_space) {
+	} else {
 		modify_destination_at_position (name_selector_entry, start_pos);
 	}
 
