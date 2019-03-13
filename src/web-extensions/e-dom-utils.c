@@ -619,8 +619,8 @@ toggle_headers_visibility (WebKitDOMElement *button,
                            WebKitDOMEvent *event,
                            WebKitDOMDocument *document)
 {
-	WebKitDOMElement *short_headers, *full_headers, *button_image;
-	WebKitDOMCSSStyleDeclaration *css_short, *css_full;
+	WebKitDOMElement *short_headers, *full_headers = NULL, *button_image = NULL;
+	WebKitDOMCSSStyleDeclaration *css_short, *css_full = NULL;
 	GSettings *settings;
 	gboolean expanded;
 	const gchar *path;
@@ -678,8 +678,8 @@ toggle_address_visibility (WebKitDOMElement *element,
                            WebKitDOMEvent *event,
                            gpointer user_data)
 {
-	WebKitDOMElement *full_addr, *ellipsis, *parent, *img, *tmp;
-	WebKitDOMCSSStyleDeclaration *css_full, *css_ellipsis;
+	WebKitDOMElement *full_addr = NULL, *ellipsis = NULL, *parent, *img, *tmp;
+	WebKitDOMCSSStyleDeclaration *css_full = NULL, *css_ellipsis = NULL;
 	gchar *property_value;
 	gboolean expanded;
 
