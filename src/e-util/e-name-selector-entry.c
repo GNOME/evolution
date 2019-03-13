@@ -1549,7 +1549,8 @@ insert_unichar (ENameSelectorEntry *name_selector_entry,
 
 		/* We do this so we can avoid disturbing destinations with completed contacts
 		 * either before or after the destination being inserted. */
-		get_range_at_position (text, *pos, &start_pos, &end_pos);
+		if (!get_range_at_position (text, *pos, &start_pos, &end_pos))
+			return 0;
 		if (*pos <= start_pos)
 			at_start = TRUE;
 		if (*pos >= end_pos)
@@ -2937,8 +2938,8 @@ popup_activate_inline_expand (ENameSelectorEntry *name_selector_entry,
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (name_selector_entry));
-	get_range_at_position (text, position, &start, &end);
-	gtk_editable_delete_text (GTK_EDITABLE (name_selector_entry), start, end);
+	if (get_range_at_position (text, position, &start, &end))
+		gtk_editable_delete_text (GTK_EDITABLE (name_selector_entry), start, end);
 	gtk_editable_insert_text (GTK_EDITABLE (name_selector_entry), sanitized_text->str, -1, &start);
 	g_string_free (sanitized_text, TRUE);
 
