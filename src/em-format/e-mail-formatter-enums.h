@@ -41,7 +41,8 @@ typedef enum { /*< flags >*/
 	E_MAIL_FORMATTER_HEADER_FLAG_NODEC = 1 << 5,
 	E_MAIL_FORMATTER_HEADER_FLAG_HIDDEN = 1 << 6,
 	E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS = 1 << 7,
-	E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE = 1 << 8
+	E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE = 1 << 8,
+	E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING = 1 << 9
 } EMailFormatterHeaderFlags;
 
 typedef enum {
@@ -56,7 +57,8 @@ typedef enum {
 typedef enum { /*< flags >*/
 	E_MAIL_FORMATTER_QUOTE_FLAG_CITE = 1 << 0,
 	E_MAIL_FORMATTER_QUOTE_FLAG_HEADERS = 1 << 1,
-	E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG	= 1 << 2  /* do not strip signature */
+	E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG	= 1 << 2,  /* do not strip signature */
+	E_MAIL_FORMATTER_QUOTE_FLAG_NO_FORMATTING = 1 << 3
 } EMailFormatterQuoteFlags;
 
 /**

@@ -72,7 +72,8 @@ emfqe_format_text_header (EMailFormatter *emf,
 
 	g_string_append_printf (buffer, HEADER_PREFIX);
 
-	if (flags & E_MAIL_FORMATTER_HEADER_FLAG_BOLD)
+	if ((flags & E_MAIL_FORMATTER_HEADER_FLAG_BOLD) &&
+	    !(flags & E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING))
 		g_string_append_printf (
 			buffer, "<b>%s</b>: %s", label, html);
 	else
@@ -113,6 +114,9 @@ emfqe_format_header (EMailFormatter *formatter,
 		return;
 
 	flags = E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE;
+
+	if ((context->flags & E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING) != 0)
+		flags |= E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING;
 
 	canon_name = g_alloca (strlen (header_name) + 1);
 	strcpy (canon_name, header_name);

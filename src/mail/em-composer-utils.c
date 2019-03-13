@@ -2639,6 +2639,8 @@ forward_non_attached (EMsgComposer *composer,
 		E_MAIL_FORMATTER_QUOTE_FLAG_KEEP_SIG;
 	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
 		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_CITE;
+	if (!e_content_editor_get_html_mode (e_html_editor_get_content_editor (e_msg_composer_get_editor (composer))))
+		flags |= E_MAIL_FORMATTER_QUOTE_FLAG_NO_FORMATTING;
 
 	/* Setup composer's From account before calling quoting_text(),
 	   because quoting_text() relies on that account. */

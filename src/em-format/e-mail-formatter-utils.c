@@ -71,7 +71,8 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 	direction = gtk_widget_get_default_direction ();
 
 	if (flags & E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS) {
-		if (flags & E_MAIL_FORMATTER_HEADER_FLAG_BOLD) {
+		if ((flags & E_MAIL_FORMATTER_HEADER_FLAG_BOLD) &&
+		    !(flags & E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING)) {
 			fmt = "<tr style=\"display: %s\">"
 				"<td><b>%s:</b> %s</td></tr>";
 		} else {

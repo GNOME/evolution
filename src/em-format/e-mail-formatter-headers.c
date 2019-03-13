@@ -226,6 +226,7 @@ format_full_headers (EMailFormatter *formatter,
 	gchar *evolution_imagesdir;
 	const gchar *direction;
 	guint ii, len;
+	guint32 formatting_flag = 0;
 
 	g_return_if_fail (E_IS_MAIL_PART_HEADERS (part));
 
@@ -245,6 +246,9 @@ format_full_headers (EMailFormatter *formatter,
 			direction = "inherit";
 			break;
 	}
+
+	if ((context->flags & E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING) != 0)
+		formatting_flag |= E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING;
 
 	ct = camel_mime_part_get_content_type (mime_part);
 	charset = camel_content_type_param (ct, "charset");
@@ -360,7 +364,7 @@ format_full_headers (EMailFormatter *formatter,
 
 			if (camel_name_value_array_get (headers, ii, &header_name, &header_value) && header_name) {
 				e_mail_formatter_format_header (formatter, buffer, header_name, header_value,
-					E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS, charset);
+					E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS | formatting_flag, charset);
 			}
 		}
 		e_mail_formatter_format_security_header (formatter, context, buffer, part, E_MAIL_FORMATTER_HEADER_FLAG_NOCOLUMNS);
@@ -434,7 +438,7 @@ format_full_headers (EMailFormatter *formatter,
 				formatter, buffer,
 				header_name,
 				header_value,
-				0, charset);
+				formatting_flag, charset);
 		}
 
 		g_strfreev (default_headers);

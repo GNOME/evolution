@@ -66,6 +66,9 @@ mail_formatter_quote_run (EMailFormatter *formatter,
 	qf_context = (EMailFormatterQuoteContext *) context;
 	qf_context->qf_flags = qf->priv->flags;
 
+	if ((qf_context->qf_flags & E_MAIL_FORMATTER_QUOTE_FLAG_NO_FORMATTING) != 0)
+		context->flags |= E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING;
+
 	g_seekable_seek (
 		G_SEEKABLE (stream),
 		0, G_SEEK_SET, NULL, NULL);
