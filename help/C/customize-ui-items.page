@@ -6,7 +6,7 @@
     <link type="seealso" xref="mail-layout-changing"/>
     <link type="seealso" xref="calendar-layout"/>
 
-    <revision pkgversion="3.25.90" version="0.1" date="2017-07-28" status="final"/>
+    <revision pkgversion="3.32.0" version="0.2" date="2019-03-14" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -15,7 +15,7 @@
 
     <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
 
-    <desc>Moving and changing tool bar buttons and entries in the main menu.</desc>
+    <desc>Moving and changing tool bar buttons, menu entries, and keyboard shortcuts.</desc>
   </info>
 
   <title>Customizing tool bar and menu items</title>
@@ -32,5 +32,7 @@
 Modify the files in your personal configuration folder so the next <app>Evolution</app> software update will not overwrite your changes.</p>
 
 <p>The modified files will be used if the <code>evolution-ui-version</code> attribute of the root <code>ui</code> element matches the version of the default files provided by <app>Evolution</app>.</p>
+
+<p>To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> while <app>Evolution</app> is not running. Commented lines start with a comma character. Not all shortcuts can be changed though.</p>
 
 </page>
