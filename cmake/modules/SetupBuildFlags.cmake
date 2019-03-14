@@ -56,7 +56,6 @@ macro(setup_build_flags _maintainer_mode)
 
 	list(APPEND proposed_cxx_flags
 		${proposed_flags}
-		-Wabi
 		-Wnoexcept
 	)
 
