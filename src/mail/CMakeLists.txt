@@ -66,6 +66,7 @@ set(SOURCES
 	e-mail-display-popup-extension.c
 	e-mail-folder-create-dialog.c
 	e-mail-folder-pane.c
+	e-mail-folder-sort-order-dialog.c
 	e-mail-folder-tweaks.c
 	e-mail-free-form-exp.c
 	e-mail-junk-options.c
@@ -155,6 +156,7 @@ set(HEADERS
 	e-mail-enums.h
 	e-mail-folder-create-dialog.h
 	e-mail-folder-pane.h
+	e-mail-folder-sort-order-dialog.h
 	e-mail-folder-tweaks.h
 	e-mail-free-form-exp.h
 	e-mail-junk-options.h

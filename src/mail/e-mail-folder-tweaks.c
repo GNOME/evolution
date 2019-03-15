@@ -26,6 +26,7 @@
 
 #define KEY_TEXT_COLOR		"Color"
 #define KEY_ICON_FILENAME	"Icon"
+#define KEY_SORT_ORDER		"Sort"
 
 struct _EMailFolderTweaksPrivate {
 	gchar *config_filename;
@@ -73,6 +74,31 @@ mail_folder_tweaks_schedule_save (EMailFolderTweaks *tweaks)
 	}
 }
 
+static gboolean
+mail_folder_tweaks_remove_key (EMailFolderTweaks *tweaks,
+			       const gchar *folder_uri,
+			       const gchar *key)
+{
+	gboolean changed;
+
+	changed = g_key_file_remove_key (tweaks->priv->config, folder_uri, key, NULL);
+
+	if (changed) {
+		gchar **keys;
+
+		keys = g_key_file_get_keys (tweaks->priv->config, folder_uri, NULL, NULL);
+
+		/* Remove the whole group, if it's the last key in it */
+		if (!keys || !keys[0]) {
+			g_key_file_remove_group (tweaks->priv->config, folder_uri, NULL);
+		}
+
+		g_strfreev (keys);
+	}
+
+	return changed;
+}
+
 static gchar *
 mail_folder_tweaks_dup_string (EMailFolderTweaks *tweaks,
 			       const gchar *folder_uri,
@@ -98,19 +124,7 @@ mail_folder_tweaks_set_string (EMailFolderTweaks *tweaks,
 	g_return_if_fail (key != NULL);
 
 	if (!value || !*value) {
-		changed = g_key_file_remove_key (tweaks->priv->config, folder_uri, key, NULL);
-		if (changed) {
-			gchar **keys;
-
-			keys = g_key_file_get_keys (tweaks->priv->config, folder_uri, NULL, NULL);
-
-			/* Remove the whole group, if it's the last key in it */
-			if (!keys || !keys[0]) {
-				g_key_file_remove_group (tweaks->priv->config, folder_uri, NULL);
-			}
-
-			g_strfreev (keys);
-		}
+		changed = mail_folder_tweaks_remove_key (tweaks, folder_uri, key);
 	} else {
 		gchar *stored;
 
@@ -120,6 +134,49 @@ mail_folder_tweaks_set_string (EMailFolderTweaks *tweaks,
 
 		if (changed)
 			g_key_file_set_string (tweaks->priv->config, folder_uri, key, value);
+	}
+
+	if (changed) {
+		mail_folder_tweaks_schedule_save (tweaks);
+
+		g_signal_emit (tweaks, signals[CHANGED], 0, folder_uri, NULL);
+	}
+}
+
+static guint
+mail_folder_tweaks_get_uint (EMailFolderTweaks *tweaks,
+			     const gchar *folder_uri,
+			     const gchar *key)
+{
+	g_return_val_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks), 0);
+	g_return_val_if_fail (folder_uri != NULL, 0);
+	g_return_val_if_fail (key != NULL, 0);
+
+	return (guint) g_key_file_get_uint64 (tweaks->priv->config, folder_uri, key, NULL);
+}
+
+static void
+mail_folder_tweaks_set_uint (EMailFolderTweaks *tweaks,
+			     const gchar *folder_uri,
+			     const gchar *key,
+			     guint value)
+{
+	gboolean changed;
+
+	g_return_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks));
+	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (key != NULL);
+
+	if (!value) {
+		changed = mail_folder_tweaks_remove_key (tweaks, folder_uri, key);
+	} else {
+		guint stored;
+
+		stored = mail_folder_tweaks_get_uint (tweaks, folder_uri, key);
+		changed = stored != value;
+
+		if (changed)
+			g_key_file_set_uint64 (tweaks->priv->config, folder_uri, key, (guint64) value);
 	}
 
 	if (changed) {
@@ -217,7 +274,7 @@ e_mail_folder_tweaks_remove_for_folders (EMailFolderTweaks *tweaks,
 
 	for (ii = 0; groups[ii]; ii++) {
 		if (g_str_has_prefix (groups[ii], top_folder_uri)) {
-			changed = g_key_file_remove_group (tweaks->priv->config, groups[ii], NULL);
+			changed = g_key_file_remove_group (tweaks->priv->config, groups[ii], NULL) || changed;
 		}
 	}
 
@@ -274,8 +331,8 @@ gchar *
 e_mail_folder_tweaks_dup_icon_filename (EMailFolderTweaks *tweaks,
 					const gchar *folder_uri)
 {
-	g_return_val_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks), FALSE);
-	g_return_val_if_fail (folder_uri != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks), NULL);
+	g_return_val_if_fail (folder_uri != NULL, NULL);
 
 	return mail_folder_tweaks_dup_string (tweaks, folder_uri, KEY_ICON_FILENAME);
 }
@@ -289,4 +346,52 @@ e_mail_folder_tweaks_set_icon_filename (EMailFolderTweaks *tweaks,
 	g_return_if_fail (folder_uri != NULL);
 
 	mail_folder_tweaks_set_string (tweaks, folder_uri, KEY_ICON_FILENAME, icon_filename);
+}
+
+/* returns 0 as not set/do not know */
+guint
+e_mail_folder_tweaks_get_sort_order (EMailFolderTweaks *tweaks,
+					const gchar *folder_uri)
+{
+	g_return_val_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks), 0);
+	g_return_val_if_fail (folder_uri != NULL, 0);
+
+	return mail_folder_tweaks_get_uint (tweaks, folder_uri, KEY_SORT_ORDER);
+}
+
+/* Use 0 as 'sort_order' to unset the value */
+void
+e_mail_folder_tweaks_set_sort_order (EMailFolderTweaks *tweaks,
+				     const gchar *folder_uri,
+				     guint sort_order)
+{
+	g_return_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks));
+	g_return_if_fail (folder_uri != NULL);
+
+	mail_folder_tweaks_set_uint (tweaks, folder_uri, KEY_SORT_ORDER, sort_order);
+}
+
+void
+e_mail_folder_tweaks_remove_sort_order_for_folders (EMailFolderTweaks *tweaks,
+						    const gchar *top_folder_uri)
+{
+	gchar **groups;
+	gint ii;
+
+	g_return_if_fail (E_IS_MAIL_FOLDER_TWEAKS (tweaks));
+	g_return_if_fail (top_folder_uri != NULL);
+
+	groups = g_key_file_get_groups (tweaks->priv->config, NULL);
+
+	if (!groups)
+		return;
+
+	for (ii = 0; groups[ii]; ii++) {
+		if (g_str_has_prefix (groups[ii], top_folder_uri) &&
+		    g_key_file_has_key (tweaks->priv->config, groups[ii], KEY_SORT_ORDER, NULL)) {
+			e_mail_folder_tweaks_set_sort_order (tweaks, groups[ii], 0);
+		}
+	}
+
+	g_strfreev (groups);
 }

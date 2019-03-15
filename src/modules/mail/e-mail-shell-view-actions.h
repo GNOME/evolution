@@ -76,6 +76,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-copy")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_DELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-delete")
+#define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_EDIT_SORT_ORDER(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-folder-edit-sort-order")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_EXPUNGE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-expunge")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_MARK_ALL_AS_READ(window) \

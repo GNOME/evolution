@@ -333,6 +333,7 @@ src/mail/e-mail-config-welcome-page.c
 src/mail/e-mail-config-window.c
 src/mail/e-mail-display.c
 src/mail/e-mail-folder-create-dialog.c
+src/mail/e-mail-folder-sort-order-dialog.c
 src/mail/e-mail-free-form-exp.c
 src/mail/e-mail-junk-options.c
 src/mail/e-mail-label-dialog.c

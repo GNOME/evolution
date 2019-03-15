@@ -80,6 +80,16 @@ void		e_mail_folder_tweaks_set_icon_filename
 						(EMailFolderTweaks *tweaks,
 						 const gchar *folder_uri,
 						 const gchar *icon_filename);
+guint		e_mail_folder_tweaks_get_sort_order
+						(EMailFolderTweaks *tweaks,
+						 const gchar *folder_uri);
+void		e_mail_folder_tweaks_set_sort_order
+						(EMailFolderTweaks *tweaks,
+						 const gchar *folder_uri,
+						 guint sort_order);
+void		e_mail_folder_tweaks_remove_sort_order_for_folders
+						(EMailFolderTweaks *tweaks,
+						 const gchar *top_folder_uri);
 
 G_END_DECLS
 

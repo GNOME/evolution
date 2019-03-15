@@ -1405,6 +1405,10 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	sensitive = folder_is_selected && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (MAIL_FOLDER_EDIT_SORT_ORDER);
+	sensitive = folder_is_selected || folder_is_store;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (MAIL_FOLDER_EXPUNGE);
 	sensitive = folder_is_selected && (!folder_is_virtual || mail_shell_view->priv->vfolder_allow_expunge);
 	gtk_action_set_sensitive (action, sensitive);

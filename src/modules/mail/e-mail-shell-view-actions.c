@@ -20,6 +20,8 @@
 
 #include "evolution-config.h"
 
+#include "mail/e-mail-folder-sort-order-dialog.h"
+
 #include "e-mail-shell-view-private.h"
 
 static void
@@ -436,6 +438,36 @@ action_mail_folder_delete_cb (GtkAction *action,
 
 	g_object_unref (selected_store);
 	g_free (selected_folder_name);
+}
+
+static void
+action_mail_folder_edit_sort_order_cb (GtkAction *action,
+				       EMailShellView *mail_shell_view)
+{
+	EMailView *mail_view;
+	EMFolderTree *folder_tree;
+	CamelStore *store;
+	GtkWidget *dialog;
+	GtkWindow *window;
+	gchar *selected_uri;
+
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_view->priv->mail_shell_sidebar);
+	store = em_folder_tree_ref_selected_store (folder_tree);
+
+	g_return_if_fail (store != NULL);
+
+	selected_uri = em_folder_tree_get_selected_uri (folder_tree);
+
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content);
+	window = e_mail_reader_get_window (E_MAIL_READER (mail_view));
+
+	dialog = e_mail_folder_sort_order_dialog_new (window, store, selected_uri);
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
+	g_object_unref (store);
+	g_free (selected_uri);
 }
 
 static void
@@ -1597,6 +1629,13 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  N_("Permanently remove this folder"),
 	  G_CALLBACK (action_mail_folder_delete_cb) },
+
+	{ "mail-folder-edit-sort-order",
+	  NULL,
+	  N_("Edit Sort _Order…"),
+	  NULL,
+	  N_("Change sort order of the folders in the folder tree"),
+	  G_CALLBACK (action_mail_folder_edit_sort_order_cb) },
 
 	{ "mail-folder-expunge",
 	  NULL,

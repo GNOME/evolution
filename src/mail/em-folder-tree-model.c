@@ -414,6 +414,7 @@ folder_tree_model_sort (GtkTreeModel *model,
 	gboolean b_is_store;
 	const gchar *store_uid = NULL;
 	guint32 flags_a, flags_b;
+	guint sort_order_a = 0, sort_order_b = 0;
 	gint rv = -2;
 
 	folder_tree_model = EM_FOLDER_TREE_MODEL (model);
@@ -424,6 +425,7 @@ folder_tree_model_sort (GtkTreeModel *model,
 		COL_OBJECT_CAMEL_STORE, &service_a,
 		COL_STRING_DISPLAY_NAME, &aname,
 		COL_UINT_FLAGS, &flags_a,
+		COL_UINT_SORT_ORDER, &sort_order_a,
 		-1);
 
 	gtk_tree_model_get (
@@ -432,12 +434,20 @@ folder_tree_model_sort (GtkTreeModel *model,
 		COL_OBJECT_CAMEL_STORE, &service_b,
 		COL_STRING_DISPLAY_NAME, &bname,
 		COL_UINT_FLAGS, &flags_b,
+		COL_UINT_SORT_ORDER, &sort_order_b,
 		-1);
 
 	if (CAMEL_IS_SERVICE (service_a))
 		store_uid = camel_service_get_uid (service_a);
 
-	if (a_is_store && b_is_store) {
+	if (!a_is_store && !b_is_store && (sort_order_a || sort_order_b)) {
+		if (sort_order_a && sort_order_b)
+			rv = sort_order_a < sort_order_b ? -1 : (sort_order_a > sort_order_b ? 1 : 0);
+		else if (sort_order_a)
+			rv = -1;
+		else
+			rv = 1;
+	} else if (a_is_store && b_is_store) {
 		rv = e_mail_account_store_compare_services (
 			folder_tree_model->priv->account_store,
 			service_a, service_b);
@@ -769,7 +779,8 @@ folder_tree_model_constructed (GObject *object)
 		G_TYPE_BOOLEAN,   /* status spinner visible */
 		G_TYPE_STRING,    /* COL_STRING_FOLDER_URI */
 		G_TYPE_ICON,      /* COL_GICON_CUSTOM_ICON */
-		GDK_TYPE_RGBA     /* COL_RGBA_FOREGROUND_RGBA */
+		GDK_TYPE_RGBA,    /* COL_RGBA_FOREGROUND_RGBA */
+		G_TYPE_UINT       /* COL_UINT_SORT_ORDER */
 	};
 
 	g_warn_if_fail (G_N_ELEMENTS (col_types) == NUM_COLUMNS);
@@ -2030,6 +2041,7 @@ em_folder_tree_model_update_row_tweaks (EMFolderTreeModel *model,
 	GIcon *custom_icon = NULL;
 	GdkRGBA *foreground = NULL, rgba;
 	gchar *folder_uri = NULL, *icon_filename;
+	guint sort_order;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (iter != NULL);
@@ -2055,9 +2067,12 @@ em_folder_tree_model_update_row_tweaks (EMFolderTreeModel *model,
 		g_clear_object (&file);
 	}
 
+	sort_order = e_mail_folder_tweaks_get_sort_order (model->priv->folder_tweaks, folder_uri);
+
 	gtk_tree_store_set (GTK_TREE_STORE (model), iter,
 		COL_GICON_CUSTOM_ICON, custom_icon,
 		COL_RGBA_FOREGROUND_RGBA, foreground,
+		COL_UINT_SORT_ORDER, sort_order,
 		-1);
 
 	g_clear_object (&custom_icon);

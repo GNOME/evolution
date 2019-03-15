@@ -48,6 +48,8 @@
         <menuitem action='mail-tools-subscriptions'/>
         <menuitem action='mail-folder-unsubscribe'/>
         <separator/>
+        <menuitem action='mail-folder-edit-sort-order'/>
+        <separator/>
         <menuitem action='mail-folder-copy'/>
         <menuitem action='mail-folder-move'/>
         <separator/>

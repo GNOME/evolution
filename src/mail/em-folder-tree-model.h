@@ -80,6 +80,7 @@ enum {
 	COL_STRING_FOLDER_URI,		/* folder URI */
 	COL_GICON_CUSTOM_ICON,		/* a custom icon to use for the folder; NULL to use COL_STRING_ICON_NAME */
 	COL_RGBA_FOREGROUND_RGBA,	/* GdkRGBA for the foreground color; can be NULL */
+	COL_UINT_SORT_ORDER,		/* 0 - use default; non-zero - define sort order on its level */
 
 	NUM_COLUMNS
 };
