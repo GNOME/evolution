@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-send-and-receive" />
     <link type="seealso" xref="calendar-alarms-and-reminders" />
 
-    <revision pkgversion="3.0.2" version="0.6" date="2017-07-28" status="final"/>
+    <revision pkgversion="3.32.0" version="0.7" date="2019-03-15" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -20,7 +20,7 @@
 
 <title>Getting notified of new mail</title>
 
-<p><app>Evolution</app> always notifies you of new messages by adding a yellow star to the mailer icon in the window <link xref="intro-main-window">switcher</link>.</p>
+<p><app>Evolution</app> always notifies you of new messages by adding a small emblem to the mailer icon in the window <link xref="intro-main-window">switcher</link>.</p>
 <media type="image" src="./figures/new-mail-switcher.png" width="256" xmlns:its="http://www.w3.org/2005/11/its" its:locNote="Translators: Please make sure that the screenshot does have the small yellow star in the Mail icon">
   <p>Switcher layout when a new message has arrived</p>
 </media>
