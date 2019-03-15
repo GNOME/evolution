@@ -21,27 +21,27 @@
 # ##
 #
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
-# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2018.
 # Gabor Karsay <gabor.karsay@gmx.at>, 2011, 2012.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2009, 2010, 2011, 2012, 2013.
 # Benjamin Steinwender <b@stbe.at>, 2013.
 # Bernd Homuth <dev@hmt.im>, 2015.
 # Tim Sabsch <tim@sabsch.com>, 2018.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2009-2013, 2016-2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-28 19:16+0000\n"
-"PO-Revision-Date: 2018-09-02 12:12+0200\n"
-"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
+"POT-Creation-Date: 2019-03-15 17:01+0000\n"
+"PO-Revision-Date: 2019-03-15 20:16+0100\n"
+"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
-"Language: de_DE\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -889,31 +889,31 @@ msgstr ""
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:33 C/intro-keyboard-shortcuts.page:286
+#: C/calendar-layout-views.page:33 C/intro-keyboard-shortcuts.page:296
 msgid "Day View"
 msgstr "Tagesansicht"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:36 C/intro-keyboard-shortcuts.page:292
+#: C/calendar-layout-views.page:36 C/intro-keyboard-shortcuts.page:302
 msgid "Work Week View"
 msgstr "Arbeitswochenansicht"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:39 C/intro-keyboard-shortcuts.page:298
+#: C/calendar-layout-views.page:39 C/intro-keyboard-shortcuts.page:308
 msgid "Week View"
 msgstr "Wochenansicht"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:42 C/intro-keyboard-shortcuts.page:304
+#: C/calendar-layout-views.page:42 C/intro-keyboard-shortcuts.page:314
 msgid "Month View"
 msgstr "Monatsansicht"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:45 C/intro-keyboard-shortcuts.page:310
+#: C/calendar-layout-views.page:45 C/intro-keyboard-shortcuts.page:320
 msgid "List View"
 msgstr "Listenansicht"
 
@@ -2725,7 +2725,7 @@ msgstr "Die Übersetzer des Benutzerhandbuchs von <app>Evolution</app>"
 #. andre
 #: C/credits.page:42
 msgid "(Not applicable to the English version)"
-msgstr "Christian Kirbach, Gabor Karsay, Mario Blättermann"
+msgstr "Christian Kirbach, Gabor Karsay, Mario Blättermann, Tim Sabsch"
 
 #. (itstool) path: section/title
 #: C/credits.page:46
@@ -2761,10 +2761,11 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/customize-ui-items.page:18
-msgid "Moving and changing tool bar buttons and entries in the main menu."
+msgid ""
+"Moving and changing tool bar buttons, menu entries, and keyboard shortcuts."
 msgstr ""
-"Verschieben und Ändern der Knöpfe in der Werkzeugleiste und der Einträge im "
-"Hauptmenü."
+"Verschieben und Ändern der Knöpfe in der Werkzeugleiste, der Einträge im "
+"Hauptmenü und der Tastenkombinationen."
 
 #. (itstool) path: page/title
 #: C/customize-ui-items.page:21
@@ -2824,6 +2825,18 @@ msgstr ""
 "Die bearbeiteten Dateien werden benutzt, wenn das Attribut <code>evolution-"
 "ui-version</code> des <code>ui</code>-Wurzelelements zur Version der von "
 "<app>Evolution</app> bereitgestellten Standarddateien passt."
+
+#. (itstool) path: page/p
+#: C/customize-ui-items.page:36
+msgid ""
+"To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
+"while <app>Evolution</app> is not running. Commented lines start with a "
+"comma character. Not all shortcuts can be changed though."
+msgstr ""
+"Um die Tastenkombinationen zu ändern, bearbeiten Sie die Datei <file>~/."
+"config/evolution/accels</file>, wenn <app>Evolution</app> nicht läuft. "
+"Kommentarzeilen beginnen mit einem Komma. Allerdings können nicht alle "
+"Tastenkombinationen geändert werden."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -3119,7 +3132,7 @@ msgstr "Nachrichten oder Anhänge dauerhaft löschen"
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
-#: C/intro-keyboard-shortcuts.page:133 C/intro-main-window.page:35
+#: C/intro-keyboard-shortcuts.page:142 C/intro-main-window.page:35
 msgid "Mail"
 msgstr "E-Mail"
 
@@ -3664,28 +3677,27 @@ msgstr ""
 msgid ""
 "When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the "
 "column headers must correspond to the first entry in each item in English in "
-"the importer code for <link href=\"https://git.gnome.org/browse/evolution/"
-"tree/src/addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
-"link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-"addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></link> "
-"and <link href=\"https://git.gnome.org/browse/evolution/tree/src/addressbook/"
-"importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></link>."
+"the importer code for <link href=\"https://gitlab.gnome.org/GNOME/evolution/"
+"blob/bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/"
+"evolution-csv-importer.c#L228\"><app>Evolution</app></link>, <link href="
+"\"https://gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L188\"><app>Mozilla</app></link> and <link href=\"https://"
+"gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L93\"><app>Outlook</app></link>."
 msgstr ""
 "Wenn Sie den <gui>Dateityp</gui> auf <gui>Kontakte CSV oder Tab</gui> "
 "setzen, müssen die Spaltenüberschriften dem ersten Eintrag (in Englisch) in "
-"jedem Objekt im Importer-Code für <link href=\"https://git.gnome.org/browse/"
-"evolution/tree/src/addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
-"link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-"addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></link> "
-"und <link href=\"https://git.gnome.org/browse/evolution/tree/src/addressbook/"
-"importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></link> "
-"entsprechen."
+"jedem Objekt im Importer-Code für <link href=\"https://gitlab.gnome.org/"
+"GNOME/evolution/blob/bc5f32786d09823247d8188c5f211dcd354097de/src/"
+"addressbook/importers/evolution-csv-importer.c#L228\"><app>Evolution</app></"
+"link>, <link href=\"https://gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L188\"><app>Mozilla</app></link> und <link href=\"https://"
+"gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L93\"><app>Outlook</app></link> entsprechen."
 
 #. (itstool) path: info/desc
 #: C/import-supported-file-formats.page:5
@@ -3753,7 +3765,7 @@ msgstr ""
 "Dateiformat. Für neuere Versionen wird der PST-Import empfohlen."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:244
+#: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:254
 #: C/intro-main-window.page:98
 msgid "Calendar"
 msgstr "Kalender"
@@ -3790,7 +3802,7 @@ msgstr ""
 "weiteren verwendet."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:316
+#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:326
 #: C/intro-main-window.page:144
 msgid "Contacts"
 msgstr "Kontakte"
@@ -4454,342 +4466,366 @@ msgstr ""
 "Hier finden Sie einen Überblick über Tastenkombinationen, mit deren Hilfe "
 "Sie mit <app>Evolution</app> effizienter arbeiten können."
 
-#. (itstool) path: section/title
+#. (itstool) path: note/p
 #: C/intro-keyboard-shortcuts.page:31
+msgid ""
+"In addition to the shortcuts listed below, you can also use accelerators to "
+"navigate with the keyboard."
+msgstr ""
+"Zusätzlich zu den unten aufgeführten Tastenkürzeln können Sie auch Mnemonics "
+"verwenden, um mit der Tastatur zu navigieren."
+
+#. (itstool) path: note/p
+#: C/intro-keyboard-shortcuts.page:32
+msgid ""
+"Hold down the <key>Alt</key> key to reveal <em>accelerators</em>: underlined "
+"letters on menu items, buttons, and other controls. Press <key>Alt</key> "
+"plus the underlined letter to activate a control, just as if you had clicked "
+"on it."
+msgstr ""
+"Halten Sie die <key>Alt</key>-Taste gedrückt, damit sich <em>Mnemonics</em> "
+"zeigen: Unterstrichene Buchstaben in Menüeinträgen, Knöpfen und anderen "
+"Kontrollelementen. Drücken Sie <key>Alt</key> und den unterstrichenen "
+"Buchstaben, um den dazugehörigen Befehl zu aktivieren."
+
+#. (itstool) path: section/title
+#: C/intro-keyboard-shortcuts.page:40
 msgid "Global"
 msgstr "Global"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:34
+#: C/intro-keyboard-shortcuts.page:43
 msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>1</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:37
+#: C/intro-keyboard-shortcuts.page:46
 msgid "Select Mail component."
 msgstr "Nachrichten-Komponente auswählen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:40
+#: C/intro-keyboard-shortcuts.page:49
 msgid "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>2</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:43
+#: C/intro-keyboard-shortcuts.page:52
 msgid "Select Contacts component."
 msgstr "Kontakte-Komponente auswählen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:46
+#: C/intro-keyboard-shortcuts.page:55
 msgid "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>3</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:49
+#: C/intro-keyboard-shortcuts.page:58
 msgid "Select Calendars component."
 msgstr "Kalender-Komponente auswählen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:52
+#: C/intro-keyboard-shortcuts.page:61
 msgid "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>4</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:55
+#: C/intro-keyboard-shortcuts.page:64
 msgid "Select Tasks component."
 msgstr "Aufgaben-Komponente auswählen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:58
+#: C/intro-keyboard-shortcuts.page:67
 msgid "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>5</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:61
+#: C/intro-keyboard-shortcuts.page:70
 msgid "Select Memos component."
 msgstr "Notizen-Komponente auswählen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:64
+#: C/intro-keyboard-shortcuts.page:73
 msgid "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>N</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:67
+#: C/intro-keyboard-shortcuts.page:76
 msgid "Create a new item in current component."
 msgstr "Einen neuen Eintrag in der aktuellen Komponente anlegen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:70
+#: C/intro-keyboard-shortcuts.page:79
 msgid "<key>F6</key>"
 msgstr "<key>F6</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:73
+#: C/intro-keyboard-shortcuts.page:82
 msgid "Cycle focus between panes."
 msgstr "Zwischen Teilfenstern wechseln."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:76
+#: C/intro-keyboard-shortcuts.page:85
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>Q</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:79
+#: C/intro-keyboard-shortcuts.page:88
 msgid "Clear search bar."
 msgstr "Suchleiste leeren."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:82
+#: C/intro-keyboard-shortcuts.page:91
 msgid "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>W</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:85
+#: C/intro-keyboard-shortcuts.page:94
 msgid "Close window."
 msgstr "Fenster schließen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:88
+#: C/intro-keyboard-shortcuts.page:97
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>W</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:91
+#: C/intro-keyboard-shortcuts.page:100
 msgid "Open new window."
 msgstr "Ein neues Fenster öffnen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:94
+#: C/intro-keyboard-shortcuts.page:103
 msgid "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>Q</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:97
+#: C/intro-keyboard-shortcuts.page:106
 msgid "Quit <app>Evolution</app>."
 msgstr "<app>Evolution</app> beenden."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:100
+#: C/intro-keyboard-shortcuts.page:109
 msgid "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>P</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:103
+#: C/intro-keyboard-shortcuts.page:112
 msgid "Print selection."
 msgstr "Auswahl drucken."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:106
+#: C/intro-keyboard-shortcuts.page:115
 msgid "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>S</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:109
+#: C/intro-keyboard-shortcuts.page:118
 msgid "Save selection."
 msgstr "Auswahl speichern."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:112
+#: C/intro-keyboard-shortcuts.page:121
 msgid "<key>Del</key> or <key>Backspace</key>"
 msgstr "<key>Entfernen</key> oder <key>Rücktaste</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:115
+#: C/intro-keyboard-shortcuts.page:124
 msgid "Delete selection."
 msgstr "Auswahl löschen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:118
+#: C/intro-keyboard-shortcuts.page:127
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>V</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:121
+#: C/intro-keyboard-shortcuts.page:130
 msgid "Move mails or contacts to folder."
 msgstr "Nachrichten oder Kontakte in einen Ordner verschieben."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:124
+#: C/intro-keyboard-shortcuts.page:133
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>Y</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:127
+#: C/intro-keyboard-shortcuts.page:136
 msgid "Copy mails or contacts to folder."
 msgstr "Nachrichten oder Kontakte in einen Ordner kopieren."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:136
+#: C/intro-keyboard-shortcuts.page:145
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:139
+#: C/intro-keyboard-shortcuts.page:148
 msgid "Create a new message."
 msgstr "Eine neue E-Mail-Nachricht verfassen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:142
+#: C/intro-keyboard-shortcuts.page:151
 msgid "<key>F12</key>"
 msgstr "<key>F12</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:145
+#: C/intro-keyboard-shortcuts.page:154
 msgid "Send and receive messages."
 msgstr "Nachrichten senden und abrufen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:148 C/intro-keyboard-shortcuts.page:283
+#: C/intro-keyboard-shortcuts.page:157 C/intro-keyboard-shortcuts.page:293
 msgid "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>Y</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:151
+#: C/intro-keyboard-shortcuts.page:160
 msgid "Apply filters to selection."
 msgstr "Filter auf die Auswahl anwenden."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:154
+#: C/intro-keyboard-shortcuts.page:163
 msgid "<keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>"
 msgstr ""
 "<keyseq><key>Strg</key><key>O</key></keyseq> oder <key>Eingabetaste</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:157
+#: C/intro-keyboard-shortcuts.page:166
 msgid "Open selection in new window."
 msgstr "Die Auswahl in einem neuen Fenster öffnen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:160
+#: C/intro-keyboard-shortcuts.page:169
 msgid "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>F</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:163
+#: C/intro-keyboard-shortcuts.page:172
 msgid "Forward selection."
 msgstr "Auswahl weiterleiten."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:166 C/intro-keyboard-shortcuts.page:295
+#: C/intro-keyboard-shortcuts.page:175 C/intro-keyboard-shortcuts.page:305
 msgid "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>K</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:169
+#: C/intro-keyboard-shortcuts.page:178
 msgid "Mark the selection as read."
 msgstr "Die Auswahl als gelesen markieren."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:172
+#: C/intro-keyboard-shortcuts.page:181
 msgid "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>Umschalttaste</key><key>K</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:175
+#: C/intro-keyboard-shortcuts.page:184
 msgid "Mark the selection as unread."
 msgstr "Die Auswahl als ungelesen markieren."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:178
+#: C/intro-keyboard-shortcuts.page:187
 msgid "<key>↓</key>"
 msgstr "<key>↓</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:181
+#: C/intro-keyboard-shortcuts.page:190
 msgid "Jump to next message."
 msgstr "Zur nächsten Nachricht wechseln."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:184
+#: C/intro-keyboard-shortcuts.page:193
 msgid "<key>↑</key>"
 msgstr "<key>↑</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:187
+#: C/intro-keyboard-shortcuts.page:196
 msgid "Jump to previous message."
 msgstr "Zur vorherigen Nachricht wechseln."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:190
+#: C/intro-keyboard-shortcuts.page:199
 msgid "<key>.</key> or <key>]</key>"
 msgstr "<key>.</key> oder <key>]</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:193
+#: C/intro-keyboard-shortcuts.page:202
 msgid "Jump to next unread message."
 msgstr "Zur nächsten ungelesenen Nachricht wechseln."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:196
+#: C/intro-keyboard-shortcuts.page:205
 msgid "<key>,</key> or <key>[</key>"
 msgstr "<key>,</key> oder <key>[</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:199
+#: C/intro-keyboard-shortcuts.page:208
 msgid "Jump to previous unread message."
 msgstr "Zur vorhergehenden ungelesenen Nachricht wechseln."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:202 C/mail-composer-reply.page:43
+#: C/intro-keyboard-shortcuts.page:211 C/mail-composer-reply.page:43
 msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:205
+#: C/intro-keyboard-shortcuts.page:214
 msgid "Reply to sender."
 msgstr "Antwort an Absender."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:208 C/intro-keyboard-shortcuts.page:307
+#: C/intro-keyboard-shortcuts.page:217 C/intro-keyboard-shortcuts.page:317
 #: C/mail-composer-reply.page:45
 msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:211
+#: C/intro-keyboard-shortcuts.page:220
 msgid "Reply to list."
 msgstr "Antwort an Liste."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:214 C/mail-composer-reply.page:47
+#: C/intro-keyboard-shortcuts.page:223 C/mail-composer-reply.page:47
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:217
+#: C/intro-keyboard-shortcuts.page:226
 msgid "Reply to all recipients."
 msgstr "Antwort an alle Empfänger senden."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:220
+#: C/intro-keyboard-shortcuts.page:229
 msgid "<key>Backspace</key>"
 msgstr "<key>Rücktaste</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:223
+#: C/intro-keyboard-shortcuts.page:232
 msgid "Scroll up."
 msgstr "Hinauf rollen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:226
+#: C/intro-keyboard-shortcuts.page:235
 msgid "<key>Space</key>"
 msgstr "<key>Leertaste</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:229
+#: C/intro-keyboard-shortcuts.page:238
 msgid "Scroll down."
 msgstr "Hinunter rollen."
 
 #. (itstool) path: section/p
-#: C/intro-keyboard-shortcuts.page:233
-msgid "<key>Space</key> also allows navigating in unread mail across folders:"
+#: C/intro-keyboard-shortcuts.page:242
+msgid ""
+"<key>Space</key> and <key>Backspace</key> also allow navigating in unread "
+"mail across folders:"
 msgstr ""
-"Die <key>Leertaste</key> ermöglicht auch das Navigieren in ungelesenen "
-"Nachrichten über Ordnergrenzen hinweg:"
+"Die <key>Leertaste</key> und <key>Rücktaste</key> ermöglichen auch das "
+"Navigieren in ungelesenen Nachrichten über Ordnergrenzen hinweg:"
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:235
+#: C/intro-keyboard-shortcuts.page:244
 msgid ""
 "When you press the Spacebar for the first time, it takes you to the next "
 "unread message."
@@ -4798,7 +4834,7 @@ msgstr ""
 "Nachricht angezeigt."
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:236
+#: C/intro-keyboard-shortcuts.page:245
 msgid ""
 "If the message is more than one screen long, <key>Space</key> works as "
 "<key>Page Down</key>."
@@ -4807,7 +4843,7 @@ msgstr ""
 "<key>Leertaste</key> wie die Taste <key>Bild ↓</key>."
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:237
+#: C/intro-keyboard-shortcuts.page:246
 msgid ""
 "If you press <key>Space</key> after you reach the bottom of the page, it "
 "takes you to the next unread message."
@@ -4816,7 +4852,7 @@ msgstr ""
 "die nächste ungelesene Nachricht angezeigt."
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:238
+#: C/intro-keyboard-shortcuts.page:247
 msgid ""
 "If there are no more unread messages in the mailbox, pressing <key>Space</"
 "key> takes you to the next unread message in the next folder."
@@ -4826,7 +4862,7 @@ msgstr ""
 "Nachricht im nächsten Ordner angezeigt."
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:239
+#: C/intro-keyboard-shortcuts.page:248
 msgid ""
 "If new messages arrive in a number of folders, <key>Space</key> toggles "
 "between those folders. This feature allows you to switch to the next unread "
@@ -4836,103 +4872,113 @@ msgstr ""
 "die <key>Leertaste</key> das Springen zu den Ordnern. Es ist hiermit nicht "
 "mehr nötig, erst den nächsten Ordner auszuwählen."
 
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:249
+msgid ""
+"<key>Backspace</key> has the same behavior but reverted: It scrolls up in a "
+"message and can jump to the next unread message in the previous folder."
+msgstr ""
+"Die <key>Rücktaste</key> verhält sich genauso, nur umgekehrt: Sie blättert "
+"innerhalb einer Nachricht nach oben und kann zur nächsten ungelesenen "
+"Nachricht im vorherigen Ordner springen."
+
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:247
+#: C/intro-keyboard-shortcuts.page:257
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>A</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:250
+#: C/intro-keyboard-shortcuts.page:260
 msgid "Create a new appointment."
 msgstr "Einen neuen Termin anlegen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:253
+#: C/intro-keyboard-shortcuts.page:263
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>E</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:256
+#: C/intro-keyboard-shortcuts.page:266
 msgid "Create a new meeting."
 msgstr "Eine neue Besprechung anlegen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:259
+#: C/intro-keyboard-shortcuts.page:269
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>T</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:262
+#: C/intro-keyboard-shortcuts.page:272
 msgid "Create a new task."
 msgstr "Eine neue Aufgabe anlegen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:265
+#: C/intro-keyboard-shortcuts.page:275
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>O</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:268
+#: C/intro-keyboard-shortcuts.page:278
 msgid "Create a new memo."
 msgstr "Eine neue Notiz anlegen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:271
+#: C/intro-keyboard-shortcuts.page:281
 msgid "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>T</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:274
+#: C/intro-keyboard-shortcuts.page:284
 msgid "Go to today."
 msgstr "Zum heutigen Tag wechseln."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:277
+#: C/intro-keyboard-shortcuts.page:287
 msgid "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>G</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:280
+#: C/intro-keyboard-shortcuts.page:290
 msgid "Go to date."
 msgstr "Zu Datum wechseln."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:289
+#: C/intro-keyboard-shortcuts.page:299
 msgid "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>J</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:301
+#: C/intro-keyboard-shortcuts.page:311
 msgid "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
 msgstr "<keyseq><key>Strg</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:319
+#: C/intro-keyboard-shortcuts.page:329
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>C</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:322
+#: C/intro-keyboard-shortcuts.page:332
 msgid "Create a new contact."
 msgstr "Eine Kontaktliste erstellen."
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:325
+#: C/intro-keyboard-shortcuts.page:335
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Umschalttaste</key><key>Strg</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:328
+#: C/intro-keyboard-shortcuts.page:338
 msgid "Create a new contact list."
 msgstr "Eine Kontaktliste erstellen."
 
 #. (itstool) path: section/title
-#: C/intro-keyboard-shortcuts.page:334
+#: C/intro-keyboard-shortcuts.page:344
 msgid "Changing keyboard shortcuts"
 msgstr "Tastenkombinationen ändern"
 
 #. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:335
+#: C/intro-keyboard-shortcuts.page:345
 msgid ""
 "Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
 "config/evolution/accels</file>."
@@ -4941,7 +4987,7 @@ msgstr ""
 "von <file>$HOME/.config/evolution/accels</file> anpassen."
 
 #. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:335
+#: C/intro-keyboard-shortcuts.page:345
 msgid ""
 "See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
 "evolution-in-gnome/\">this blog post</link> for more information."
@@ -6558,26 +6604,17 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
 msgid ""
-"Look in the <link xref=\"mail-spam\"><gui>Junk</gui> folder</link>. Messages "
-"that are marked as Junk disappear from the original folder and are moved to "
-"the <gui>Junk</gui> folder."
+"Select both <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> "
+"and <guiseq><gui>View</gui><gui>Show Junk Messages</gui></guiseq> to make "
+"sure all messages are visible."
 msgstr ""
-"Schauen Sie in den <link xref=\"mail-spam\"><gui>Unerwünscht</gui>-Ordner</"
-"link>. Als unerwünscht markierte Nachrichten verschwinden aus dem "
-"Originalordner und werden in den <gui>Unerwünscht</gui>-Ordner verschoben."
-
-#. (itstool) path: item/p
-#: C/mail-cannot-see.page:37
-msgid ""
-"Click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> to "
-"make sure all messages are visible."
-msgstr ""
-"Klicken Sie auf <guiseq><gui>Ansicht</gui><gui>Gelöschte Nachrichten "
+"Wählen Sie <guiseq><gui>Ansicht</gui><gui>Gelöschte Nachrichten anzeigen</"
+"gui></guiseq> und <guiseq><gui>Ansicht</gui><gui>Unerwünschte Nachrichten "
 "anzeigen</gui></guiseq>, um sicherzugehen, dass alle Nachrichten sichtbar "
 "sind."
 
 #. (itstool) path: item/p
-#: C/mail-cannot-see.page:40
+#: C/mail-cannot-see.page:36
 msgid ""
 "<link xref=\"mail-default-folder-locations\">Check your folder settings.</"
 "link> Perhaps they are set to some other folder than the folder you thought "
@@ -6645,6 +6682,27 @@ msgstr ""
 "ebenfalls die Sichtbarkeit von <link xref=\"mail-sorting-message-list#email-"
 "threads\"><gui>Nach Threads gruppieren</gui></link> und der "
 "<gui>Nachrichtenvorschau</gui> in allen Ordnern betrifft."
+
+#. (itstool) path: note/p
+#: C/mail-change-columns-in-message-list.page:27
+#: C/mail-sorting-message-list.page:57
+msgid ""
+"If you would like to have a different sort order and/or columns for specific "
+"mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Preferences</gui><gui>General</gui><gui>Apply the same view "
+"settings to all folders</gui></guiseq> is disabled. You can then change the "
+"view and save your changes under <guiseq><gui>View</gui><gui>Current View</"
+"gui><gui>Save Custom View…</gui></guiseq> and apply the view also to other "
+"folders."
+msgstr ""
+"Wenn Sie eine unterschiedliche Reihenfolge oder Spalten zum Sortieren für "
+"bestimmte E-Mail-Ordner wünschen, stellen Sie sicher, dass "
+"<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-"
+"Einstellungen</gui><gui>Allgemein</gui><gui>Ansichtseinstellungen auf alle "
+"Ordner anwenden</gui></guiseq> deaktiviert ist. Sie können dann die Ansicht "
+"ändern und Ihre Änderungen unter <guiseq><gui>Ansicht</gui><gui>Aktuelle "
+"Ansicht</gui><gui>Benutzerdefinierte Ansicht speichern …</gui></guiseq> "
+"speichern, sowie die Ansicht auf andere Ordner anwenden."
 
 #. (itstool) path: info/desc
 #: C/mail-change-time-format.page:5
@@ -8669,13 +8727,18 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:32
 msgid ""
-"You can define an <gui>Archive Folder</gui>, for example to move older "
-"messages there. Selecting <guiseq><gui>Message</gui><gui>Archive</gui></"
-"guiseq> in the main window moves the selected message to the specified "
-"folder."
+"You can define an <gui>Archive Folder</gui> for this account to move older "
+"messages there. This requires to first set a fallback folder under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
+"gui><gui>General</gui><gui>Archive Mail</gui></guiseq>. Selecting "
+"<guiseq><gui>Message</gui><gui>Archive</gui></guiseq> in the main window "
+"moves the selected message to the specified folder."
 msgstr ""
-"Legen Sie einen <gui>Archivordner</gui> fest, um zum Beispiel alte E-Mails "
-"dorthin zu verschieben. Wählen Sie <guiseq><gui>Nachricht</"
+"Sie können einen <gui>Archivordner</gui> für dieses Konto festlegen, um alte "
+"E-Mails dorthin zu verschieben. Hierfür müssen Sie zunächst einen "
+"Ausweichordner unter <guiseq><gui>Bearbeiten</gui><gui>Einstellungen</"
+"gui><gui>E-Mail-Einstellungen</gui><gui>Allgemein</gui><gui>E-Mail "
+"archivieren</gui></guiseq> setzen. Wählen Sie <guiseq><gui>Nachricht</"
 "gui><gui>Archivieren</gui></guiseq> im Hauptfenster und die gewählte "
 "Nachricht wird in den festgelegten Ordner verschoben."
 
@@ -8954,12 +9017,12 @@ msgstr ""
 msgid ""
 "To set the default action for loading images, go to <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</"
-"gui><gui>Loading Images</gui></guiseq>."
+"gui><gui>Loading Remote Content</gui></guiseq>."
 msgstr ""
 "Um per Voreinstellung immer Bilder laden zu lassen, öffnen Sie "
 "<guiseq><gui>Bearbeiten</gui><gui>Einstellungen</gui><gui>E-Mail-"
-"Einstellungen</gui><gui>HTML-Nachrichten</gui><gui>Bilder laden</gui></"
-"guiseq>."
+"Einstellungen</gui><gui>HTML-Nachrichten</gui><gui>Entfernte Inhalte laden</"
+"gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:41
@@ -10868,12 +10931,12 @@ msgstr "Benachrichtigungen bei neuen E-Mails"
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:23
 msgid ""
-"<app>Evolution</app> always notifies you of new messages by adding a yellow "
-"star to the mailer icon in the window <link xref=\"intro-main-window"
+"<app>Evolution</app> always notifies you of new messages by adding a small "
+"emblem to the mailer icon in the window <link xref=\"intro-main-window"
 "\">switcher</link>."
 msgstr ""
-"<gui>Evolution</gui> benachrichtigt Sie immer über neue Nachrichten mit "
-"einem gelben Sternchen, das dem Symbol des E-Mail-Programms im <link xref="
+"<app>Evolution</app> benachrichtigt Sie immer über neue Nachrichten mit "
+"einem kleinen Zeichen, das dem Symbol des E-Mail-Programms im <link xref="
 "\"intro-main-window\">Umschalter</link> vorangestellt wird."
 
 #. (itstool) path: page/media
@@ -11121,10 +11184,12 @@ msgstr "Geben Sie Ihren Domänennamen für den Server ein."
 #: C/mail-receiving-options-imap-plus.page:32
 #: C/mail-receiving-options-pop.page:36
 #: C/mail-receiving-options-usenet-news.page:32
-msgid "Select if you want to use a secure connection (SSL or TLS)."
+msgid ""
+"Select if you want to use a secure connection (TLS or its deprecated "
+"predecessor SSL)."
 msgstr ""
-"Wählen Sie aus, ob Sie eine sichere Verbindung (SSL oder TLS) verwenden "
-"möchten."
+"Wählen Sie aus, ob Sie eine sichere Verbindung (TLS oder den veralteten "
+"Vorgänger SSL) verwenden möchten."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-mapi.page:33
@@ -12108,26 +12173,20 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
 msgid ""
-"For Advanced Users: There is a GSettings key that allows you to toggle "
-"between the collapsed and expanded state of the email threads. The collapsed "
-"state is enabled by default. It can be changed by starting the "
-"<app>Terminal</app> application and running the command <cmd>gsettings set "
-"org.gnome.evolution.mail thread-expand true</cmd>"
+"For Advanced Users: By default, all email threads are expanded. If you want "
+"all threads to be collapsed by default:"
 msgstr ""
-"Für fortgeschrittene Anwender: Es gibt einen GSettings-Schlüssel, der das "
-"Umschalten zwischen eingeklapptem und ausgeklapptem Zustand der E-Mail-"
-"Threads ermöglicht. Der eingeklappte Zustand ist voreingestellt und kann im "
-"<app>Terminal</app> mit dem Befehl <cmd>gsettings set org.gnome.evolution."
-"mail thread-expand true</cmd> angepasst werden."
+"Für fortgeschrittene Benutzer: Standardmäßig sind alle E-Mail-Threads "
+"ausgeklappt. Wenn Sie alle Threads standardmäßig eingeklappt lassen möchten:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
 msgid ""
-"Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
-"accels true</cmd>"
+"Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+"false</cmd>"
 msgstr ""
-"Führen Sie folgenden Befehl aus: <cmd>gsettings set org.gnome.desktop."
-"interface can-change-accels true</cmd>"
+"Führen Sie folgenden Befehl aus: <cmd>gsettings set org.gnome.evolution.mail "
+"thread-expand false</cmd>"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:47
@@ -12187,12 +12246,12 @@ msgstr ""
 "Taste gedrückt halten und auf eine Spaltenbeschriftung klicken."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:59
+#: C/mail-sorting-message-list.page:62
 msgid "Using Other Sorting Options"
 msgstr "Weitere Sortieroptionen anwenden"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:60
+#: C/mail-sorting-message-list.page:63
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
@@ -12202,173 +12261,173 @@ msgstr ""
 "gui>, <gui>Absteigend sortieren</gui> und <gui>Unsortiert</gui>."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:62
+#: C/mail-sorting-message-list.page:65
 msgid "Sort By"
 msgstr "Sortieren nach"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:63
+#: C/mail-sorting-message-list.page:66
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
 "Nachrichten können ebenso mit Hilfe der Liste <gui>Sortieren nach</gui> "
 "sortiert werden."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:65 C/mail-sorting-message-list.page:95
-#: C/mail-sorting-message-list.page:104 C/mail-sorting-message-list.page:113
+#: C/mail-sorting-message-list.page:68 C/mail-sorting-message-list.page:98
+#: C/mail-sorting-message-list.page:107 C/mail-sorting-message-list.page:116
 msgid "Right-click on the message list column headers."
 msgstr ""
 "Klicken Sie mit der rechten Maustaste auf die Spaltenbezeichnung in der E-"
 "Mail-Liste."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:69
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Wählen Sie die Optionen <gui>Sortieren nach</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:69
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr "Die Liste der Sortierkriterien für E-Mails wird daraufhin angezeigt:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:68
+#: C/mail-sorting-message-list.page:71
 msgid "Subject - Trimmed"
 msgstr "Betreff - Gekürzt"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:72
 msgid "Labels"
 msgstr "Beschriftungen"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:70
+#: C/mail-sorting-message-list.page:73
 msgid "Recipients"
 msgstr "Empfänger"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:71
+#: C/mail-sorting-message-list.page:74
 msgid "Sender"
 msgstr "Absender"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:72
+#: C/mail-sorting-message-list.page:75
 msgid "Location"
 msgstr "Ort"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:73
+#: C/mail-sorting-message-list.page:76
 msgid "Due By"
 msgstr "Fällig am"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:74
+#: C/mail-sorting-message-list.page:77
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Zur Nachverfolgung markiert</link>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:75
+#: C/mail-sorting-message-list.page:78
 msgid "Flag Status"
 msgstr "Markierungsstatus"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:76
+#: C/mail-sorting-message-list.page:79
 msgid "Size"
 msgstr "Größe"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:77
+#: C/mail-sorting-message-list.page:80
 msgid "To"
 msgstr "An"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:78
+#: C/mail-sorting-message-list.page:81
 msgid "Received"
 msgstr "Erhalten"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:79
+#: C/mail-sorting-message-list.page:82
 msgid "Date"
 msgstr "Datum"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:80
+#: C/mail-sorting-message-list.page:83
 msgid "Subject"
 msgstr "Betreff"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:81
+#: C/mail-sorting-message-list.page:84
 msgid "From"
 msgstr "Von"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:82
+#: C/mail-sorting-message-list.page:85
 msgid "Attachment"
 msgstr "Anlage"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:83
+#: C/mail-sorting-message-list.page:86
 msgid "Flagged"
 msgstr "Markiert"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:84
+#: C/mail-sorting-message-list.page:87
 msgid "Status"
 msgstr "Status"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:85
+#: C/mail-sorting-message-list.page:88
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:88
+#: C/mail-sorting-message-list.page:91
 msgid "Select the option you wish to use in sorting email messages."
 msgstr ""
 "Wählen Sie die Sortierreihenfolge zum Sortieren der E-Mail-Nachrichten."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:93
+#: C/mail-sorting-message-list.page:96
 msgid "Sort Ascending"
 msgstr "Aufsteigend sortieren"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:96
+#: C/mail-sorting-message-list.page:99
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Wählen Sie die Option <gui>Aufsteigend sortieren</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:98
+#: C/mail-sorting-message-list.page:101
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr "Die jüngsten Nachrichten werden unten angezeigt."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:102
+#: C/mail-sorting-message-list.page:105
 msgid "Sort Descending"
 msgstr "Absteigend sortieren"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:105
+#: C/mail-sorting-message-list.page:108
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Wählen Sie die Option <gui>Absteigend sortieren</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:107
+#: C/mail-sorting-message-list.page:110
 msgid "The messages will be displayed with the most recent at the top."
 msgstr "Die jüngsten Nachrichten werden oben angezeigt."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:111
+#: C/mail-sorting-message-list.page:114
 msgid "Reset sort"
 msgstr "Sortierung zurücksetzen"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:114
+#: C/mail-sorting-message-list.page:117
 msgid "Select the <gui>Reset sort</gui> option."
 msgstr "Wählen Sie die Option <gui>Sortierung zurücksetzen</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:116
+#: C/mail-sorting-message-list.page:119
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
