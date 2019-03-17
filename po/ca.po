@@ -3459,7 +3459,7 @@ msgstr "No s'ha pogut suprimir la llibreta d'adreces."
 
 #: ../src/addressbook/addressbook.error.xml.h:8
 msgid "Are you sure you want to delete address book “{0}”?"
-msgstr "Segur que voleu suprimir el llibre d'adreces “{0}”?"
+msgstr "Segur que voleu suprimir el llibre d'adreces «{0}»?"
 
 #: ../src/addressbook/addressbook.error.xml.h:9
 msgid "This address book will be removed permanently."
@@ -12002,7 +12002,7 @@ msgstr "Ja s'està efectuant una operació de desament"
 #: ../src/e-util/e-attachment.c:2757
 #, c-format
 msgid "Could not open “%s”"
-msgstr "No s'ha pogut obrir %s:"
+msgstr "No s'ha pogut obrir «%s»"
 
 #: ../src/e-util/e-attachment.c:2760
 #, c-format
@@ -12501,7 +12501,7 @@ msgstr "Llista de tasques"
 
 #: ../src/e-util/e-collection-account-wizard.c:919
 msgid "Looking up LDAP server’s search base…"
-msgstr "S'està cercant la base de servidors LDAP"
+msgstr "S'està cercant la base de servidors LDAP…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1216
 msgid "Saving account settings, please wait…"
@@ -15011,23 +15011,23 @@ msgstr ""
 #: ../src/e-util/e-system.error.xml.h:19
 msgid "The address book backend servicing “{0}” encountered an error."
 msgstr ""
-"El rerefons de llibreta d'adreces que serveix &quot;{0}&quot; ha trobat un "
+"El rerefons de llibreta d'adreces que serveix «{0}» ha trobat un "
 "error."
 
 #: ../src/e-util/e-system.error.xml.h:20
 msgid "The calendar backend servicing “{0}” encountered an error."
-msgstr "El rerefons de calendari que serveix &quot;{0}&quot; ha trobat un error."
+msgstr "El rerefons de calendari que serveix «{0}» ha trobat un error."
 
 #: ../src/e-util/e-system.error.xml.h:21
 msgid "The memo list backend servicing “{0}” encountered an error."
 msgstr ""
-"El rerefons de llista d'anotacions que serveix &quot;{0}&quot; ha trobat un "
+"El rerefons de llista d'anotacions que serveix «{0}» ha trobat un "
 "error."
 
 #: ../src/e-util/e-system.error.xml.h:22
 msgid "The task list backend servicing “{0}” encountered an error."
 msgstr ""
-"El rerefons de llista de tasques que serveix &quot;{0}&quot; ha trobat un error."
+"El rerefons de llista de tasques que serveix «{0}» ha trobat un error."
 
 #: ../src/e-util/e-system.error.xml.h:23
 msgid "Something has gone wrong"
@@ -17689,7 +17689,7 @@ msgstr "No em tornis a avisar"
 #: ../src/mail/e-mail-reader-utils.c:633
 #, c-format
 msgid "Deleting messages in Junk folder “%s”…"
-msgstr "S'estan suprimint els missatges de la carpeta de correu brossa “%s”…"
+msgstr "S'estan suprimint els missatges de la carpeta de correu brossa «%s»…"
 
 #: ../src/mail/e-mail-reader-utils.c:728
 #, c-format
