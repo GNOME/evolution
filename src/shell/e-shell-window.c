@@ -2120,6 +2120,22 @@ e_shell_window_get_need_input (EShellWindow *shell_window,
 	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
 		return FALSE;
 
+	if (event->keyval == GDK_KEY_F1 ||
+	    event->keyval == GDK_KEY_F2 ||
+	    event->keyval == GDK_KEY_F3 ||
+	    event->keyval == GDK_KEY_F4 ||
+	    event->keyval == GDK_KEY_F5 ||
+	    event->keyval == GDK_KEY_F6 ||
+	    event->keyval == GDK_KEY_F7 ||
+	    event->keyval == GDK_KEY_F8 ||
+	    event->keyval == GDK_KEY_F9 ||
+	    event->keyval == GDK_KEY_F10 ||
+	    event->keyval == GDK_KEY_F11 ||
+	    event->keyval == GDK_KEY_F12 ||
+	    event->keyval == GDK_KEY_Tab ||
+	    event->keyval == GDK_KEY_KP_Tab)
+		return FALSE;
+
 	focused = gtk_window_get_focus (GTK_WINDOW (shell_window));
 
 	/* The F2 is used as a shortcut to rename folder in the Mail view */
