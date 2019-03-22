@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-03-12 13:08+0000\n"
-"PO-Revision-Date: 2019-03-12 21:12+0100\n"
+"POT-Creation-Date: 2019-03-18 16:16+0000\n"
+"PO-Revision-Date: 2019-03-22 21:20+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -1127,7 +1127,7 @@ msgstr "Seznam nedavno uporabljenih jezikovnih kod slovarjev uporabljenih za čr
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
 msgid "How many recently used spell checking languages to remember"
-msgstr ""
+msgstr "Koliko nedavno uporabljenih črkovalnikov različnih jezikov naj si sistem zapomni"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:36
 msgid "Show “Bcc” field when sending a mail message"
@@ -1398,16 +1398,20 @@ msgid ""
 "When replying to a message and marking it as being replied to, then whether also mark it as "
 "read."
 msgstr ""
+"Med odgovarjanjem na sporočilo, ki je označeno kot odgovorjeno, naj bo označeno tudi kot "
+"prebrano."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Whether start Plain Text composer with Preformatted paragraph mode"
-msgstr ""
+msgstr "Ali naj se stavljalnik besedila zažene v načinu oblikovanega odstavka"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid ""
 "When set to true, new Plain Text messages will have preselected Preformatted paragraph mode. "
 "The Normal paragraph mode will be used when set to false."
 msgstr ""
+"Izbrana možnost omogoči, da so nova sporočila vnaprej izbrana v oblikovalnem načinu. V "
+"obratnem primeru je izbran običajni način odstavka."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Whether to obey Content-Disposition:inline message header hint"
@@ -3585,7 +3589,7 @@ msgstr "_Polno ime ..."
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:762
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1181
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1183
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Elektronska pošta"
@@ -4354,15 +4358,15 @@ msgstr "Opomba"
 msgid "List Members"
 msgstr "Člani seznama"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1166
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1168
 msgid "Job Title"
 msgstr "Službeni naziv"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1207
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1209
 msgid "Home page"
 msgstr "Domača stran"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1217
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1219
 msgid "Blog"
 msgstr "Blog"
 
@@ -13957,25 +13961,25 @@ msgid "Select Contacts from Address Book"
 msgstr "Izbor stikov iz imenika"
 
 #. To Translators: This would be similiar to "Expand MyList Inline" where MyList is a Contact List
-#: ../src/e-util/e-name-selector-entry.c:3252
+#: ../src/e-util/e-name-selector-entry.c:3241
 #, c-format
 msgid "E_xpand %s Inline"
 msgstr "_Razširi %s"
 
 #. Copy Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3268
+#: ../src/e-util/e-name-selector-entry.c:3257
 #, c-format
 msgid "Cop_y %s"
 msgstr "Kop_raj %s"
 
 #. Cut Contact Item
-#: ../src/e-util/e-name-selector-entry.c:3279
+#: ../src/e-util/e-name-selector-entry.c:3268
 #, c-format
 msgid "C_ut %s"
 msgstr "Iz_reži %s"
 
 #. Edit Contact item
-#: ../src/e-util/e-name-selector-entry.c:3297
+#: ../src/e-util/e-name-selector-entry.c:3286
 #, c-format
 msgid "_Edit %s"
 msgstr "_Uredi %s"
@@ -25104,11 +25108,6 @@ msgid "Save the selected task list to disk"
 msgstr "Shrani seznam nalog na disk"
 
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:2
-#, fuzzy
-#| msgid ""
-#| "Drafts based template plugin. You can use variables like $ORIG[subject], $ORIG[from], "
-#| "$ORIG[to] or $ORIG[body], which will be replaced by values from an email you are replying "
-#| "to."
 msgid ""
 "Drafts based template plugin. You can use variables like $ORIG[subject], $ORIG[from], "
 "$ORIG[to], $ORIG[body], $ORIG[quoted-body] or $ORIG[reply-credits], which will be replaced by "
