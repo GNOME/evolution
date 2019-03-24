@@ -184,10 +184,12 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 				} else if (known_services[ii].kind == E_CONFIG_LOOKUP_RESULT_COLLECTION) {
 					gboolean is_calendar = g_str_equal (known_services[ii].evo_protocol, "caldav");
 					gchar *url;
-
-					url = g_strdup_printf ("%s://%s:%d",
-						g_str_has_suffix (known_services[ii].gio_protocol, "s") ? "https" : "http",
-						hostname, g_srv_target_get_port (target));
+					gboolean is_suffix_s = g_str_has_suffix (known_services[ii].gio_protocol, "s");
+					guint16 port = g_srv_target_get_port (target);
+					if ((!is_suffix_s && port == 80) || (is_suffix_s && port == 443))
+						url = g_strdup_printf ("http%s://%s", is_suffix_s ? "s" : "", hostname);
+					else
+						url = g_strdup_printf ("http%s://%s:%d", is_suffix_s ? "s" : "", hostname, port);
 
 					e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_COLLECTION,
 						"backend-name", "webdav");
