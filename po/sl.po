@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-03-18 16:16+0000\n"
-"PO-Revision-Date: 2019-03-22 21:20+0100\n"
+"POT-Creation-Date: 2019-03-22 20:34+0000\n"
+"PO-Revision-Date: 2019-03-23 20:18+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -159,7 +159,7 @@ msgstr "Ali naj se v urejevalniku prikažejo opombe"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:32
 msgid "Whether to show Certificates tab in the editor"
-msgstr "Ali naj bo v urejevalniku pokazan tudi  zavihek potrdil"
+msgstr "Ali naj bo v urejevalniku pokazan tudi zavihek potrdil"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:33
 msgid "Where to open contact locations"
@@ -808,7 +808,7 @@ msgstr "Opomnik rojstnih dni in obletnic"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid "Whether to set a reminder for birthdays and anniversaries"
-msgstr "Ali naj se nastavi  opomnik za rojstne dneve in obletnice."
+msgstr "Ali naj se nastavi opomnik za rojstne dneve in obletnice."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Default appointment reminder"
@@ -844,7 +844,7 @@ msgstr "Sreda je delovni dan"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
 msgid "Thursday is a work day"
-msgstr "Četrtek je delovni dan"
+msgstr "Četrtek je delovni dan "
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
 msgid "Friday is a work day"
@@ -1845,6 +1845,8 @@ msgid ""
 "Forward and reply attribution language tag, like en_US. Empty string means to use the same "
 "language as the user interface."
 msgstr ""
+"Posredovanje in odziv na oznako določila jezika, kot je na primer sl_SI. Prazen niz pomeni "
+"uporabo jezika, enakega jeziku uporabniškega vmesnika."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
@@ -2469,6 +2471,8 @@ msgid ""
 "If enabled, whenever Send/Receive is run it also runs synchronization of messages for offline "
 "use. The option is disabled by default."
 msgstr ""
+"Izbrana možnost omogoča, dase ob vsakem zagonu zahteve za Pošiljanje / Prejemanje izvede tudi "
+"usklajevanje sporočil za uporabo brez povezave. Možnost je privzeto onemogočena."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "(Deprecated) Default forward style"
@@ -2954,13 +2958,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:38
 msgid "Prefix of the URI to use to search the web with selected text."
-msgstr ""
+msgstr "Predpona naslova URI za iskanje po spletu z izbranim besedilom."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:39
 msgid ""
 "The prefix of a URL to be used for searches on the web. The actual text selection is escaped "
 "and appended to this string. The URI should start with https://."
 msgstr ""
+"Predpona naslova URL, ki se uporablja za iskanja v spletu. Niz izbira besedila se označi z "
+"ubežnim znakom in pripne k nizu. Naslov URI se mora začeti s https: //."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
 msgid "Use only local spam tests."
@@ -21252,6 +21258,8 @@ msgid ""
 "Specify login user name as part of the URL in case the server requires authentication, like: "
 "https://USER@example.com/"
 msgstr ""
+"Navedite uporabniško ime za prijavo kot del naslova URL, če strežnik zahteva overitev, na "
+"primer: https: //UPORABNIŠKOIME@splet.si/"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "Publishing Information"
@@ -25626,7 +25634,7 @@ msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run “%s --help” for more information.\n"
 msgstr ""
-"%s: možnosti --force-online in --offline ni mogoče uporabiti sočano.\n"
+"%s: možnosti --force-online in --offline ni mogoče uporabiti sočasno.\n"
 " Za več podrobnosti zaženite ukaz »%s --help«.\n"
 
 #: ../src/shell/shell.error.xml.h:2
