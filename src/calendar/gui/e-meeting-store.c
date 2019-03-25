@@ -741,6 +741,15 @@ meeting_store_get_property (GObject *object,
 }
 
 static void
+meeting_store_constructed (GObject *object)
+{
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_meeting_store_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
+static void
 meeting_store_finalize (GObject *object)
 {
 	EMeetingStorePrivate *priv;
@@ -783,6 +792,7 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = meeting_store_set_property;
 	object_class->get_property = meeting_store_get_property;
+	object_class->constructed = meeting_store_constructed;
 	object_class->finalize = meeting_store_finalize;
 
 	g_object_class_install_property (
@@ -862,8 +872,6 @@ e_meeting_store_init (EMeetingStore *store)
 	g_mutex_init (&store->priv->mutex);
 
 	store->priv->num_queries = 0;
-
-	e_extensible_load_extensions (E_EXTENSIBLE (store));
 }
 
 GObject *
@@ -1003,28 +1011,12 @@ void
 e_meeting_store_set_show_address (EMeetingStore *store,
 				  gboolean show_address)
 {
-	GtkTreeModel *model;
-	guint ii;
-
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
 	if ((store->priv->show_address ? 1 : 0) == (show_address ? 1 : 0))
 		return;
 
 	store->priv->show_address = show_address;
-
-	model = GTK_TREE_MODEL (store);
-
-	for (ii = 0; ii < store->priv->attendees->len; ii++) {
-		GtkTreePath *path;
-		GtkTreeIter iter;
-
-		path = gtk_tree_path_new ();
-		gtk_tree_path_append_index (path, ii);
-		get_iter (model, &iter, path);
-		gtk_tree_model_row_changed (model, path, &iter);
-		gtk_tree_path_free (path);
-	}
 
 	g_object_notify (G_OBJECT (store), "show-address");
 }

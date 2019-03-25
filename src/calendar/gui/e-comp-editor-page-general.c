@@ -497,6 +497,16 @@ ecep_general_attendee_row_changed_cb (GtkTreeModel *model,
 	g_clear_object (&comp_editor);
 }
 
+static void
+ecep_general_attendee_show_address_notify_cb (GObject *store,
+					      GParamSpec *param,
+					      ECompEditorPageGeneral *page_general)
+{
+	if (gtk_widget_get_realized (GTK_WIDGET (page_general)) &&
+	    gtk_widget_get_realized (page_general->priv->attendees_list_view))
+		gtk_widget_queue_draw (page_general->priv->attendees_list_view);
+}
+
 static gboolean
 ecep_general_get_organizer (ECompEditorPageGeneral *page_general,
 			    gchar **out_name,
@@ -1499,6 +1509,9 @@ ecep_general_constructed (GObject *object)
 
 	g_signal_connect (page_general->priv->meeting_store, "row-changed",
 		G_CALLBACK (ecep_general_attendee_row_changed_cb), page_general);
+
+	e_signal_connect_notify (page_general->priv->meeting_store, "notify::show-address",
+		G_CALLBACK (ecep_general_attendee_show_address_notify_cb), page_general);
 
 	g_signal_connect (page_general->priv->attendees_list_view, "event",
 		G_CALLBACK (ecep_general_list_view_event_cb), page_general);
