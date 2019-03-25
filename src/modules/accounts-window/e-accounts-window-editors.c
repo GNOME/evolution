@@ -589,6 +589,7 @@ accounts_window_editors_enabled_toggled_cb (EAccountsWindow *accounts_window,
 					    gpointer user_data)
 {
 	EShell *shell;
+	ESource *mail_account_source = NULL;
 
 	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
 	g_return_if_fail (E_IS_SOURCE (source));
@@ -597,7 +598,24 @@ accounts_window_editors_enabled_toggled_cb (EAccountsWindow *accounts_window,
 	if (!shell)
 		return;
 
-	if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION)) {
+		GList *sources, *link;
+		const gchar *uid = e_source_get_uid (source);
+
+		sources = e_source_registry_list_sources (e_accounts_window_get_registry (accounts_window), E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+		for (link = sources; link; link = g_list_next (link)) {
+			ESource *adept = link->data;
+
+			if (g_strcmp0 (uid, e_source_get_parent (adept)) == 0) {
+				mail_account_source = g_object_ref (adept);
+				break;
+			}
+		}
+
+		g_list_free_full (sources, g_object_unref);
+	}
+
+	if (mail_account_source || e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
 		EShellBackend *shell_backend;
 		EMailSession *session = NULL;
 
@@ -607,7 +625,7 @@ accounts_window_editors_enabled_toggled_cb (EAccountsWindow *accounts_window,
 		if (session) {
 			CamelService *service;
 
-			service = camel_session_ref_service (CAMEL_SESSION (session), e_source_get_uid (source));
+			service = camel_session_ref_service (CAMEL_SESSION (session), e_source_get_uid (mail_account_source ? mail_account_source : source));
 
 			if (service) {
 				EMailAccountStore *account_store;
@@ -629,6 +647,8 @@ accounts_window_editors_enabled_toggled_cb (EAccountsWindow *accounts_window,
 
 	if (!e_source_get_enabled (source))
 		e_shell_allow_auth_prompt_for (shell, source);
+
+	g_clear_object (&mail_account_source);
 }
 
 static void
