@@ -97,8 +97,8 @@ enum {
 
 enum {
 	COL_CASEFOLDED,		/* G_TYPE_STRING  */
-	COL_FOLDER_NAME,	/* G_TYPE_STRING  */
 	COL_FOLDER_ICON,	/* G_TYPE_STRING  */
+	COL_FOLDER_NAME,	/* G_TYPE_STRING  */
 	COL_FOLDER_INFO,	/* G_TYPE_POINTER */
 	N_COLUMNS
 };
@@ -290,6 +290,7 @@ subscription_editor_get_folder_info_done (CamelStore *store,
 	gtk_tree_view_set_model (tree_view, NULL);
 	subscription_editor_populate (editor, folder_info, NULL, &expand_paths);
 	gtk_tree_view_set_model (tree_view, model);
+	gtk_tree_view_set_search_column (tree_view, COL_FOLDER_NAME);
 
 	g_list_foreach (expand_paths, expand_paths_cb, tree_view);
 	g_list_foreach (expand_paths, (GFunc) gtk_tree_path_free, NULL);
@@ -1101,6 +1102,7 @@ subscription_editor_update_view (EMSubscriptionEditor *editor)
 				subscription_editor_filter_cb, editor,
 				(GDestroyNotify) NULL);
 			gtk_tree_view_set_model (tree_view, tree_model);
+			gtk_tree_view_set_search_column (tree_view, COL_FOLDER_NAME);
 			g_object_unref (tree_model);
 
 			path = gtk_tree_path_new_first ();
@@ -1131,6 +1133,7 @@ subscription_editor_update_view (EMSubscriptionEditor *editor)
 
 			tree_model = editor->priv->active->tree_store;
 			gtk_tree_view_set_model (tree_view, tree_model);
+			gtk_tree_view_set_search_column (tree_view, COL_FOLDER_NAME);
 
 			path = gtk_tree_path_new_first ();
 			selection = gtk_tree_view_get_selection (tree_view);
