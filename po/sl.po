@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-03-22 20:34+0000\n"
-"PO-Revision-Date: 2019-03-23 20:18+0100\n"
+"POT-Creation-Date: 2019-03-27 14:58+0000\n"
+"PO-Revision-Date: 2019-03-28 21:18+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -3328,7 +3328,7 @@ msgstr "Stik s tem naslovom že obstaja. Ali želite vseeno dodati novo vizitko 
 #: ../src/addressbook/addressbook.error.xml.h:31
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:721
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1524 ../src/e-util/e-accounts-window.c:1563
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1537 ../src/e-util/e-accounts-window.c:1563
 #: ../src/e-util/e-mail-signature-manager.c:328 ../src/e-util/e-name-selector-dialog.c:1033
 #: ../src/e-util/filter.ui.h:25 ../src/mail/e-mail-account-manager.c:719
 #: ../src/mail/e-mail-label-manager.c:371 ../src/mail/em-folder-properties.c:1044
@@ -3805,7 +3805,7 @@ msgstr "Dodaj _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1540 ../src/e-util/e-attachment-view.c:355
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1553 ../src/e-util/e-attachment-view.c:355
 #: ../src/e-util/e-filter-rule.c:409 ../src/e-util/e-mail-signature-manager.c:368
 #: ../src/e-util/e-name-selector-dialog.c:1037 ../src/e-util/filter.error.xml.h:18
 #: ../src/e-util/filter.ui.h:27 ../src/mail/e-mail-config-identity-page.c:871
@@ -6532,7 +6532,7 @@ msgstr "Dodeljeno"
 
 #: ../src/calendar/gui/e-cal-model.c:1918 ../src/calendar/gui/e-cal-model-tasks.c:1144
 #: ../src/calendar/gui/e-meeting-list-view.c:207 ../src/calendar/gui/e-meeting-store.c:177
-#: ../src/calendar/gui/e-meeting-store.c:187 ../src/calendar/gui/e-meeting-store.c:1098
+#: ../src/calendar/gui/e-meeting-store.c:187 ../src/calendar/gui/e-meeting-store.c:1090
 msgid "Yes"
 msgstr "Da"
 
@@ -7084,83 +7084,83 @@ msgstr[1] "Izbris izbranega udeleženca je spodletel"
 msgstr[2] "Izbris izbranih udeležencev je spodletel"
 msgstr[3] "Izbris izbranih udeležencev je spodletel"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:526
+#: ../src/calendar/gui/e-comp-editor-page-general.c:536
 msgid "Organizer address is not a valid user mail address"
 msgstr "Naslov ni veljaven uporabniški elektronski naslov"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:691
+#: ../src/calendar/gui/e-comp-editor-page-general.c:701
 msgid "A_ttendees"
 msgstr "_Udeleženci"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:693
+#: ../src/calendar/gui/e-comp-editor-page-general.c:703
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Preklopi prikaz udeležencev"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:702
+#: ../src/calendar/gui/e-comp-editor-page-general.c:712
 msgid "R_ole Field"
 msgstr "Polje Vl_oga"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:704
+#: ../src/calendar/gui/e-comp-editor-page-general.c:714
 msgid "Toggles whether the Role field is displayed"
 msgstr "Preklopi prikaz polja Vloga"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:710
+#: ../src/calendar/gui/e-comp-editor-page-general.c:720
 msgid "_RSVP"
 msgstr "_RSVP"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:712
+#: ../src/calendar/gui/e-comp-editor-page-general.c:722
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Preklopi prikaz polja RSVP"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:718
+#: ../src/calendar/gui/e-comp-editor-page-general.c:728
 msgid "_Status Field"
 msgstr "Polje _Stanje"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:720
+#: ../src/calendar/gui/e-comp-editor-page-general.c:730
 msgid "Toggles whether the Status field is displayed"
 msgstr "Preklopi prikaz polja Stanje"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:726
+#: ../src/calendar/gui/e-comp-editor-page-general.c:736
 msgid "_Type Field"
 msgstr "Polje _Vrsta"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:728
+#: ../src/calendar/gui/e-comp-editor-page-general.c:738
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Preklopi prikaz polja vrste udeleženca"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1074
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1084
 msgid "An organizer is required."
 msgstr "Zahtevan je organizator."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1084
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1215
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1094
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1225
 msgid "At least one attendee is required."
 msgstr "Treba je dodati vsaj enega udeleženca."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1339
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1349
 msgid "Or_ganizer:"
 msgstr "Or_ganizator:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1436
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1446
 msgid "Override color of the event. If not set, then color of the calendar is used."
 msgstr "Prepiše barvo dogodka. Če ta ni določena, je uporabljena privzeta barva koledarja."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1438
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1448
 msgid "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
 "Prepiše barvo opomnika. Če ta ni določena, je uporabljena privzeta barva seznama opomnikov."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1440
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1450
 msgid "Override color of the task. If not set, then color of the task list is used."
 msgstr "Prepiše barvo naloge. Če ta ni določena, je uporabljena privzeta barva seznama nalog."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1452
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1462
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Udeleže_nci ..."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1532
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1545
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
 #: ../src/calendar/gui/e-comp-editor.c:2070 ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:954 ../src/e-util/e-mail-signature-manager.c:358
@@ -7835,7 +7835,7 @@ msgstr "Brez povzetka"
 #: ../src/e-util/e-preferences-window.c:399 ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:144 ../src/mail/e-mail-notes.c:964
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1172
-#: ../src/mail/em-subscription-editor.c:1739
+#: ../src/mail/em-subscription-editor.c:1742
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
 #: ../src/shell/e-shell-window-actions.c:296 ../src/shell/e-shell-window-actions.c:824
 #: ../src/smime/gui/certificate-manager.c:2196
@@ -8046,7 +8046,7 @@ msgid "Attendees"
 msgstr "Udeleženci"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:179 ../src/calendar/gui/e-meeting-store.c:110
-#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/e-meeting-store.c:1092
+#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/e-meeting-store.c:1084
 #: ../src/calendar/gui/print.c:1252
 msgid "Individual"
 msgstr "Individualno"
@@ -8073,7 +8073,7 @@ msgid "Chair"
 msgstr "Predsedujoči"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:194 ../src/calendar/gui/e-meeting-store.c:147
-#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/e-meeting-store.c:1095
+#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/e-meeting-store.c:1087
 #: ../src/calendar/gui/print.c:1270
 msgid "Required Participant"
 msgstr "Zahtevani udeleženci"
@@ -8089,7 +8089,7 @@ msgid "Non-Participant"
 msgstr "Ne-sodelujoči"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:218 ../src/calendar/gui/e-meeting-store.c:195
-#: ../src/calendar/gui/e-meeting-store.c:218 ../src/calendar/gui/e-meeting-store.c:1105
+#: ../src/calendar/gui/e-meeting-store.c:218 ../src/calendar/gui/e-meeting-store.c:1097
 msgid "Needs Action"
 msgstr "Zahteva dejanje"
 
@@ -8115,18 +8115,18 @@ msgstr "Povratnica"
 msgid "In Process"
 msgstr "V obdelavi"
 
-#: ../src/calendar/gui/e-meeting-store.c:1976
+#: ../src/calendar/gui/e-meeting-store.c:1968
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
 "Vnesite geslo za dostop do podatkov prostosti/zasedenosti na strežniku %s kot uporabnik %s"
 
-#: ../src/calendar/gui/e-meeting-store.c:1986
+#: ../src/calendar/gui/e-meeting-store.c:1978
 #, c-format
 msgid "Failure reason: %s"
 msgstr "Vzrok napake: %s"
 
-#: ../src/calendar/gui/e-meeting-store.c:1991 ../src/e-util/e-collection-account-wizard.c:470
+#: ../src/calendar/gui/e-meeting-store.c:1983 ../src/e-util/e-collection-account-wizard.c:470
 #: ../src/plugins/publish-calendar/publish-calendar.c:350 ../src/smime/gui/component.c:61
 msgid "Enter password"
 msgstr "Vnesite geslo"
@@ -11403,7 +11403,7 @@ msgstr "Računi Evolution"
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
 #: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2699
-#: ../src/mail/em-subscription-editor.c:1950 ../src/modules/mail/e-mail-shell-view-actions.c:1568
+#: ../src/mail/em-subscription-editor.c:1953 ../src/modules/mail/e-mail-shell-view-actions.c:1568
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1639
 msgid "_Refresh"
 msgstr "_Osveži"
@@ -17626,32 +17626,32 @@ msgstr "Premakni mapo v"
 msgid "Copy Folder To"
 msgstr "Kopiraj mapo v"
 
-#: ../src/mail/em-subscription-editor.c:813
+#: ../src/mail/em-subscription-editor.c:814
 msgid "_Subscribe"
 msgstr "_Naroči se"
 
-#: ../src/mail/em-subscription-editor.c:822
+#: ../src/mail/em-subscription-editor.c:823
 msgid "Su_bscribe To Shown"
 msgstr "Naroči se na _prikazano"
 
-#: ../src/mail/em-subscription-editor.c:830
+#: ../src/mail/em-subscription-editor.c:831
 msgid "Subscribe To _All"
 msgstr "Naroči se na _vse"
 
-#: ../src/mail/em-subscription-editor.c:936 ../src/mail/em-subscription-editor.c:1888
+#: ../src/mail/em-subscription-editor.c:937 ../src/mail/em-subscription-editor.c:1891
 #: ../src/mail/mail.error.xml.h:73 ../src/modules/mail/e-mail-shell-view-actions.c:1667
 msgid "_Unsubscribe"
 msgstr "_Prekliči naročnino"
 
-#: ../src/mail/em-subscription-editor.c:945
+#: ../src/mail/em-subscription-editor.c:946
 msgid "Unsu_bscribe From Hidden"
 msgstr "Prekliči naročnino na _skrito"
 
-#: ../src/mail/em-subscription-editor.c:953
+#: ../src/mail/em-subscription-editor.c:954
 msgid "Unsubscribe From _All"
 msgstr "Prekliči naročnino na _vse"
 
-#: ../src/mail/em-subscription-editor.c:1313 ../src/modules/mail/e-mail-shell-view-private.c:933
+#: ../src/mail/em-subscription-editor.c:1316 ../src/modules/mail/e-mail-shell-view-private.c:933
 #: ../src/modules/mail/e-mail-shell-view-private.c:965
 #: ../src/modules/mail/e-mail-shell-view-private.c:1009
 #, c-format
@@ -17662,7 +17662,7 @@ msgstr[1] "%d neprebrano, "
 msgstr[2] "%d neprebrani, "
 msgstr[3] "%d neprebrana, "
 
-#: ../src/mail/em-subscription-editor.c:1317 ../src/modules/mail/e-mail-shell-view-private.c:1019
+#: ../src/mail/em-subscription-editor.c:1320 ../src/modules/mail/e-mail-shell-view-private.c:1019
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -17671,59 +17671,59 @@ msgstr[1] "skupaj: %d"
 msgstr[2] "skupaj: %d"
 msgstr[3] "skupaj: %d"
 
-#: ../src/mail/em-subscription-editor.c:1729
+#: ../src/mail/em-subscription-editor.c:1732
 msgid "Folder Subscriptions"
 msgstr "Naročnine na mape"
 
-#: ../src/mail/em-subscription-editor.c:1764
+#: ../src/mail/em-subscription-editor.c:1767
 msgid "_Account:"
 msgstr "R_ačun:"
 
-#: ../src/mail/em-subscription-editor.c:1777
+#: ../src/mail/em-subscription-editor.c:1780
 msgid "Clear Search"
 msgstr "Počisti iskanje"
 
-#: ../src/mail/em-subscription-editor.c:1794
+#: ../src/mail/em-subscription-editor.c:1797
 msgid "Sho_w items that contain:"
 msgstr "Pok_aži predmete, ki vsebujejo:"
 
-#: ../src/mail/em-subscription-editor.c:1841
+#: ../src/mail/em-subscription-editor.c:1844
 msgid "Subscribe to the selected folder"
 msgstr "Naroči se na izbrano mapo"
 
-#: ../src/mail/em-subscription-editor.c:1842
+#: ../src/mail/em-subscription-editor.c:1845
 msgid "Su_bscribe"
 msgstr "_Naroči"
 
-#: ../src/mail/em-subscription-editor.c:1887 ../src/modules/mail/e-mail-shell-view-actions.c:1669
+#: ../src/mail/em-subscription-editor.c:1890 ../src/modules/mail/e-mail-shell-view-actions.c:1669
 msgid "Unsubscribe from the selected folder"
 msgstr "Prekliče naročnino na izbrano mapo"
 
-#: ../src/mail/em-subscription-editor.c:1927
+#: ../src/mail/em-subscription-editor.c:1930
 msgid "Collapse all folders"
 msgstr "Skrči vse mape"
 
-#: ../src/mail/em-subscription-editor.c:1928
+#: ../src/mail/em-subscription-editor.c:1931
 msgid "C_ollapse All"
 msgstr "_Skrči vse"
 
-#: ../src/mail/em-subscription-editor.c:1938
+#: ../src/mail/em-subscription-editor.c:1941
 msgid "Expand all folders"
 msgstr "Razširi vse mape"
 
-#: ../src/mail/em-subscription-editor.c:1939
+#: ../src/mail/em-subscription-editor.c:1942
 msgid "E_xpand All"
 msgstr "_Razširi vse"
 
-#: ../src/mail/em-subscription-editor.c:1949
+#: ../src/mail/em-subscription-editor.c:1952
 msgid "Refresh the folder list"
 msgstr "Osveži seznam map"
 
-#: ../src/mail/em-subscription-editor.c:1961
+#: ../src/mail/em-subscription-editor.c:1964
 msgid "Stop the current operation"
 msgstr "Zaustavi trenutno opravilo"
 
-#: ../src/mail/em-subscription-editor.c:1962
+#: ../src/mail/em-subscription-editor.c:1965
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1085
 msgid "_Stop"
 msgstr "_Zaustavi"
