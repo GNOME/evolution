@@ -28,6 +28,7 @@
 #include "e-cal-data-model-subscriber.h"
 #include "e-cal-dialogs.h"
 #include "e-cal-ops.h"
+#include "itip-utils.h"
 #include "misc.h"
 
 #include "e-to-do-pane.h"
@@ -902,10 +903,36 @@ etdp_add_component (EToDoPane *to_do_pane,
 
 	g_slist_free_full (new_root_paths, (GDestroyNotify) gtk_tree_path_free);
 
-	if (e_cal_component_has_attendees (comp)) {
-		if (is_task)
+	if (is_task && e_cal_component_has_recurrences (comp)) {
+		icon_name = "stock_task-recurring";
+	} else if (e_cal_component_has_attendees (comp)) {
+		if (is_task) {
+			ESourceRegistry *registry;
+
 			icon_name = "stock_task-assigned";
-		else
+			registry = e_source_registry_watcher_get_registry (to_do_pane->priv->watcher);
+
+			if (itip_organizer_is_user (registry, comp, client)) {
+				icon_name = "stock_task-assigned-to";
+			} else {
+				GSList *attendees = NULL, *link;
+
+				e_cal_component_get_attendee_list (comp, &attendees);
+				for (link = attendees; link; link = g_slist_next (link)) {
+					ECalComponentAttendee *ca = link->data;
+					const gchar *text;
+
+					text = itip_strip_mailto (ca->value);
+					if (itip_address_is_user (registry, text)) {
+						if (ca->delto != NULL)
+							icon_name = "stock_task-assigned-to";
+						break;
+					}
+				}
+
+				e_cal_component_free_attendee_list (attendees);
+			}
+		} else
 			icon_name = "stock_people";
 	} else {
 		if (is_task)
