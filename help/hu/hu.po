@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-03-01 16:30+0000\n"
-"PO-Revision-Date: 2019-03-06 07:44+0100\n"
-"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
+"POT-Creation-Date: 2019-03-15 17:01+0000\n"
+"PO-Revision-Date: 2019-03-29 22:24+0100\n"
+"Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -26,8 +26,8 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Bence Lukács <lukacs.bence1 at gmail dot com>, 2011.\n"
-"Gabor Kelemen <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2015, 2017, "
+"Lukács Bence <lukacs.bence1 at gmail dot com>, 2011.\n"
+"Kelemen Gábor <kelemeng at gnome dot hu>, 2011, 2012, 2013, 2015, 2017, "
 "2018.\n"
 "Nagy Zoltán <dzodzie at gmail dot com>, 2011.\n"
 "Úr Balázs <ur.balazs at fsf dot hu>, 2014, 2019."
@@ -2664,8 +2664,10 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/customize-ui-items.page:18
-msgid "Moving and changing tool bar buttons and entries in the main menu."
-msgstr "Eszköztárgombok és főmenü-bejegyzések mozgatása és módosítása."
+msgid ""
+"Moving and changing tool bar buttons, menu entries, and keyboard shortcuts."
+msgstr ""
+"Eszköztárgombok, menübejegyzések és gyorsbillentyűk mozgatása és módosítása."
 
 #. (itstool) path: page/title
 #: C/customize-ui-items.page:21
@@ -2722,6 +2724,18 @@ msgstr ""
 "A módosított fájlok akkor lesznek felhasználva, ha a gyökér <code>ui</code> "
 "elem <code>evolution-ui-version</code> attribútuma megegyezik az "
 "<app>Evolution</app> által biztosított alapértelmezett fájlokéval."
+
+#. (itstool) path: page/p
+#: C/customize-ui-items.page:36
+msgid ""
+"To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
+"while <app>Evolution</app> is not running. Commented lines start with a "
+"comma character. Not all shortcuts can be changed though."
+msgstr ""
+"A gyorsbillentyűk megváltoztatásához szerkessze a <file"
+">~/.config/evolution/accels</file> fájlt, miközben az <app>Evolution</app> "
+"nem fut. A megjegyzésre állított sorok vessző karakterrel kezdődnek. Habár "
+"nem minden gyorsbillentyűt lehet megváltoztatni."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -3544,19 +3558,6 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/import-single-files.page:32
-#| msgid ""
-#| "When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the "
-#| "column headers must correspond to the first entry in each item in English "
-#| "in the importer code for <link href=\"https://git.gnome.org/browse/"
-#| "evolution/tree/src/addressbook/importers/evolution-csv-importer.c?"
-#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
-#| "link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-#| "addressbook/importers/evolution-csv-importer.c?"
-#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></"
-#| "link> and <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-#| "addressbook/importers/evolution-csv-importer.c?"
-#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></"
-#| "link>."
 msgid ""
 "When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the "
 "column headers must correspond to the first entry in each item in English in "
@@ -3572,16 +3573,15 @@ msgid ""
 msgstr ""
 "A <gui>Fájltípus</gui> <gui>Névjegyek CSV vagy Tab</gui> formátumra "
 "állításakor az oszlopfejléceknek meg kell felelniük minden elemben az első "
-"bejegyzés angol nevének az importáló kódban az <link"
-" href=\"https://gitlab.gnome.org/GNOME/evolution/blob/bc5f32786d09823247d8188c"
-"5f211dcd354097de/src/addressbook/importers/evolution-csv-importer.c#L228\"><"
-"app>Evolution</app></"
-"link>, <link href=\"https://gitlab.gnome.org/GNOME/evolution/blob/bc5f32786d09"
-"823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-csv-importer."
-"c#L188\"><app>Mozilla</app></link> és <link"
-" href=\"https://gitlab.gnome.org/GNOME/evolution/blob/bc5f32786d09823247d8188c"
-"5f211dcd354097de/src/addressbook/importers/evolution-csv-importer.c#L93\"><"
-"app>Outlook</app></link> esetén is."
+"bejegyzés angol nevének az importáló kódban az <link href=\"https://gitlab."
+"gnome.org/GNOME/evolution/blob/bc5f32786d09823247d8188c5f211dcd354097de/src/"
+"addressbook/importers/evolution-csv-importer.c#L228\"><app>Evolution</app></"
+"link>, <link href=\"https://gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L188\"><app>Mozilla</app></link> és <link href=\"https://"
+"gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L93\"><app>Outlook</app></link> esetén is."
 
 #. (itstool) path: info/desc
 #: C/import-supported-file-formats.page:5
@@ -5379,7 +5379,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-account-manage-imap-plus.page:5
 msgid "Add and edit an IMAP+ mail account in <app>Evolution</app>."
-msgstr "IMAP+ levelezőfiók hozzáadása és szerkesztése."
+msgstr ""
+"IMAP+ levelezőfiók hozzáadása és szerkesztése az <app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-imap-plus.page:20
@@ -5580,7 +5581,9 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-account-manage-local-delivery.page:5
 msgid "Add and edit a Local Delivery account in <app>Evolution</app>."
-msgstr "Helyi kézbesítésű levelezőfiók hozzáadása és szerkesztése."
+msgstr ""
+"Helyi kézbesítésű levelezőfiók hozzáadása és szerkesztése az <app"
+">Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-local-delivery.page:20
@@ -5637,7 +5640,9 @@ msgstr "Biztonság (helyi kézbesítésű fiókok)"
 msgid ""
 "Add and edit a Maildir Format Mail Directories account in <app>Evolution</"
 "app>."
-msgstr "Maildir formátumú levélkönyvtárak hozzáadása és szerkesztése."
+msgstr ""
+"Maildir formátumú levélkönyvtárak hozzáadása és szerkesztése az <app"
+">Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-maildir-format-directories.page:20
@@ -5712,7 +5717,9 @@ msgstr "Vállalati fióktípusok"
 #: C/mail-account-manage-mh-format-directories.page:5
 msgid ""
 "Add and edit a MH Format Mail Directories account in <app>Evolution</app>."
-msgstr "MH formátumú levélkönyvtárak hozzáadása és szerkesztése."
+msgstr ""
+"MH formátumú levélkönyvtárak hozzáadása és szerkesztése az <app>Evolutionben<"
+"/app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-mh-format-directories.page:20
@@ -5756,7 +5763,9 @@ msgstr "Biztonság (MH-formátumú levélkönyvtár fiókok)"
 msgid ""
 "Add and edit a Microsoft Exchange 2007 or 2010 account in <app>Evolution</"
 "app>."
-msgstr "Microsoft Exchange 2007 vagy 2010 fiók hozzáadása és szerkesztése."
+msgstr ""
+"Microsoft Exchange 2007 vagy 2010 fiók hozzáadása és szerkesztése az <app"
+">Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:20
@@ -5819,7 +5828,9 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
 msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
-msgstr "Microsoft Exchange MAPI fiók hozzáadása és szerkesztése."
+msgstr ""
+"Microsoft Exchange MAPI fiók hozzáadása és szerkesztése az <app>Evolutionben<"
+"/app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
@@ -5863,7 +5874,8 @@ msgstr "Biztonság (Exchange MAPI fiókok)"
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange.page:7
 msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
-msgstr "Microsoft Exchange fiók hozzáadása és szerkesztése."
+msgstr ""
+"Microsoft Exchange fiók hozzáadása és szerkesztése az <app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange.page:22
@@ -5928,7 +5940,8 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-account-manage-pop.page:5
 msgid "Add and edit a POP mail account in <app>Evolution</app>."
-msgstr "POP levelezőfiók hozzáadása és szerkesztése."
+msgstr ""
+"POP levelezőfiók hozzáadása és szerkesztése az <app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-pop.page:20
@@ -5970,7 +5983,9 @@ msgstr "Biztonság (POP fiókok)"
 msgid ""
 "Add and edit a Standard Unix mbox Spool Directory account in <app>Evolution</"
 "app>."
-msgstr "Szabványos Unix mbox tárolókönyvtár fiók hozzáadása és szerkesztése."
+msgstr ""
+"Szabványos Unix mbox tárolókönyvtár fiók hozzáadása és szerkesztése az <app"
+">Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-directory.page:20
@@ -6015,7 +6030,9 @@ msgstr "Biztonság (szabványos Unix mbox tárolókönyvtár fiókok)"
 #: C/mail-account-manage-unix-mbox-spool-file.page:5
 msgid ""
 "Add and edit a Standard Unix mbox Spool File account in <app>Evolution</app>."
-msgstr "Szabványos Unix mbox tárolófájl fiók hozzáadása és szerkesztése."
+msgstr ""
+"Szabványos Unix mbox tárolófájl fiók hozzáadása és szerkesztése az <app"
+">Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-unix-mbox-spool-file.page:20
@@ -6059,7 +6076,7 @@ msgstr "Biztonság (szabványos Unix mbox tárolófájl fiókok)"
 #. (itstool) path: info/desc
 #: C/mail-account-manage-usenet-news.page:5
 msgid "Add and edit a Usenet news account in <app>Evolution</app>."
-msgstr "Usenet hírfiók hozzáadása és szerkesztése."
+msgstr "Usenet hírfiók hozzáadása és szerkesztése az <app>Evolutionben</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-usenet-news.page:20
@@ -6519,14 +6536,6 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:27
 #: C/mail-sorting-message-list.page:57
-#| msgid ""
-#| "If you would like to have the same column layout in all mail folders "
-#| "except for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
-#| "gui><gui>Apply the same view settings to all folders</gui></guiseq>. Note "
-#| "that this setting also influences <link xref=\"mail-sorting-message-"
-#| "list#email-threads\"><gui>Group by Threads</gui></link> and the "
-#| "<gui>Message Preview</gui> visibility in all folders."
 msgid ""
 "If you would like to have a different sort order and/or columns for specific "
 "mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</"
@@ -6536,14 +6545,13 @@ msgid ""
 "gui><gui>Save Custom View…</gui></guiseq> and apply the view also to other "
 "folders."
 msgstr ""
-"Ha eltérő sorrendet és/vagy oszlopokat szeretne látni az egyes"
-" levélmappákban, akkor kapcsolja ki a "
-"<guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Levelezés "
-"beállításai</gui><gui>Általános</gui><gui>Ugyanazon nézetbeállítások "
-"használata minden mappára</gui></guiseq> jelölőnégyzetet. Ezután módosíthatja"
-" nézetet és mentheti módosításait a <guiseq><gui>Nézet</gui><gui>Jelenlegi"
-" nézet</gui><gui>Egyéni nézet mentése</gui></guiseq> alatt, és ezt a nézetet"
-" más mappákra is alkalmazhatja."
+"Ha eltérő sorrendet és/vagy oszlopokat szeretne látni az egyes "
+"levélmappákban, akkor kapcsolja ki a <guiseq><gui>Szerkesztés</"
+"gui><gui>Beállítások</gui><gui>Levelezés beállításai</gui><gui>Általános</"
+"gui><gui>Ugyanazon nézetbeállítások használata minden mappára</gui></guiseq> "
+"jelölőnégyzetet. Ezután módosíthatja nézetet és mentheti módosításait a "
+"<guiseq><gui>Nézet</gui><gui>Jelenlegi nézet</gui><gui>Egyéni nézet mentése</"
+"gui></guiseq> alatt, és ezt a nézetet más mappákra is alkalmazhatja."
 
 #. (itstool) path: info/desc
 #: C/mail-change-time-format.page:5
@@ -8531,15 +8539,20 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:32
 msgid ""
-"You can define an <gui>Archive Folder</gui>, for example to move older "
-"messages there. Selecting <guiseq><gui>Message</gui><gui>Archive</gui></"
-"guiseq> in the main window moves the selected message to the specified "
-"folder."
+"You can define an <gui>Archive Folder</gui> for this account to move older "
+"messages there. This requires to first set a fallback folder under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
+"gui><gui>General</gui><gui>Archive Mail</gui></guiseq>. Selecting "
+"<guiseq><gui>Message</gui><gui>Archive</gui></guiseq> in the main window "
+"moves the selected message to the specified folder."
 msgstr ""
-"Megadhat egy <gui>Archívum mappát</gui>, például a régebbi üzenetek "
-"áthelyezéséhez. A főablakban az <guiseq><gui>Üzenet</gui><gui>Archiválás</"
-"gui></guiseq> menüpont kiválasztásakor a kijelölt üzenet áthelyezésre kerül "
-"a megadott mappába."
+"Megadhat egy <gui>Archívum mappát</gui> ehhez a fiókhoz a régebbi üzenetek "
+"áthelyezéséhez. Ehhez az szükséges, hogy először beállítson egy tartalék "
+"mappát a <guiseq><gui>Szerkesztés</gui><gui>Beállítások</gui><gui>Levelezés "
+"beállításai</gui><gui>Általános</gui><gui>Levél archiválása</gui></guiseq> "
+"alatt. A főablakban az <guiseq><gui>Üzenet</gui><gui>Archiválás</gui><"
+"/guiseq> menüpont kiválasztásakor a kijelölt üzenet áthelyezésre kerül a "
+"megadott mappába."
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:33
@@ -10687,11 +10700,11 @@ msgstr "Értesítés új levelekről"
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:23
 msgid ""
-"<app>Evolution</app> always notifies you of new messages by adding a yellow "
-"star to the mailer icon in the window <link xref=\"intro-main-window"
+"<app>Evolution</app> always notifies you of new messages by adding a small "
+"emblem to the mailer icon in the window <link xref=\"intro-main-window"
 "\">switcher</link>."
 msgstr ""
-"Az <app>Evolution</app> mindig értesíti az új levelekről egy sárga csillag "
+"Az <app>Evolution</app> mindig értesíti az új levelekről egy kis embléma "
 "hozzáadásával a levelezőikonhoz az <link xref=\"intro-main-window"
 "\">ablakváltóban</link>."
 
@@ -11910,21 +11923,17 @@ msgid ""
 "For Advanced Users: By default, all email threads are expanded. If you want "
 "all threads to be collapsed by default:"
 msgstr ""
-"Tapasztalt felhasználóknak: alapesetben minden e-mail szál ki van bontva. Ha"
-" alapesetben összecsukva szeretné ezeket látni:"
+"Tapasztalt felhasználóknak: alapesetben minden e-mail szál ki van bontva. Ha "
+"alapesetben összecsukva szeretné ezeket látni:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
-#| msgid ""
-#| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
-#| "actions true</cmd>"
 msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
 "false</cmd>"
 msgstr ""
-"Futtassa a következő parancsot: <cmd>gsettings set org.gnome.evolution.mail"
-" thread-expand "
-"false</cmd>"
+"Futtassa a következő parancsot: <cmd>gsettings set org.gnome.evolution.mail "
+"thread-expand false</cmd>"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:47
@@ -14344,23 +14353,3 @@ msgstr "Szerkessze a címet vagy a keresési feltételeket az ablakban."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Kattintson az <_:gui-1/> gombra."
-
-#~ msgid ""
-#~ "For Advanced Users: There is a GSettings key that allows you to toggle "
-#~ "between the collapsed and expanded state of the email threads. The "
-#~ "collapsed state is enabled by default. It can be changed by starting the "
-#~ "<app>Terminal</app> application and running the command <cmd>gsettings "
-#~ "set org.gnome.evolution.mail thread-expand true</cmd>"
-#~ msgstr ""
-#~ "Gyakorlott felhasználóknak: az e-mail szálak összecsukott és kibontott "
-#~ "állapota között egy GSettings kulcs használatával válthat. Alapesetben az "
-#~ "összecsukott állapot van engedélyezve, ez módosítható a <app>Terminálban</"
-#~ "app> kiadott <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-#~ "true</cmd> parancs használatával."
-
-#~ msgid ""
-#~ "Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
-#~ "accels true</cmd>"
-#~ msgstr ""
-#~ "Futtassa a következő parancsot: <cmd>gsettings set org.gnome.desktop."
-#~ "interface can-change-accels true</cmd>"
