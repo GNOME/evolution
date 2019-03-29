@@ -31,6 +31,7 @@
 #include "shell/e-shell-utils.h"
 
 #include "calendar-config.h"
+#include "itip-utils.h"
 
 #include "e-cal-component-preview.h"
 
@@ -351,6 +352,94 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 	if (priority_value)
 		e_cal_component_free_priority (priority_value);
+
+	if (e_cal_component_has_organizer (comp)) {
+		ECalComponentOrganizer organizer = { 0 };
+
+		e_cal_component_get_organizer (comp, &organizer);
+
+		if (organizer.value && *organizer.value) {
+			const gchar *email = itip_strip_mailto (organizer.value);
+			if (!email)
+				email = "";
+			g_string_append_printf (
+				buffer, "<tr><th>%s</th>",
+				_("Organizer:"));
+			if (organizer.cn && *organizer.cn) {
+				gchar *html;
+
+				str = g_strconcat (organizer.cn, " <", email, ">", NULL);
+				html = camel_text_to_html (str,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				g_string_append_printf (buffer, "<td>%s</td></tr>", html);
+				g_free (html);
+				g_free (str);
+			} else {
+				str = camel_text_to_html (email,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				g_string_append_printf (buffer, "<td>%s</td></tr>", str);
+				g_free (str);
+			}
+		}
+	}
+
+	if (e_cal_component_has_attendees (comp)) {
+		GSList *attendees = NULL, *a;
+		gboolean have = FALSE;
+
+		e_cal_component_get_attendee_list (comp, &attendees);
+
+		for (a = attendees; a; a = a->next) {
+			ECalComponentAttendee *attnd = a->data;
+			const gchar *email;
+
+			if (!attnd || !attnd->value || !*attnd->value)
+				continue;
+
+			if (!have) {
+				g_string_append_printf (
+					buffer, "<tr><th>%s</th><td>",
+					_("Attendees:"));
+			} else {
+				g_string_append (buffer, "<br>");
+			}
+
+			email = itip_strip_mailto (attnd->value);
+			if (!email)
+				email = "";
+
+			if (attnd->cn && *attnd->cn) {
+				gchar *html;
+
+				str = g_strconcat (attnd->cn, " <", email, ">", NULL);
+				html = camel_text_to_html (str,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				g_string_append (buffer, html);
+				g_free (html);
+				g_free (str);
+			} else {
+				str = camel_text_to_html (email,
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+				g_string_append (buffer, str);
+				g_free (str);
+			}
+
+			have = TRUE;
+		}
+
+		if (have)
+			g_string_append (buffer, "</td></tr>");
+
+		e_cal_component_free_attendee_list (attendees);
+	}
 
 	/* write description and URL */
 	g_string_append (buffer, "<tr><td colspan=\"2\"><hr></td></tr>");
