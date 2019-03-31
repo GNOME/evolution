@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-03-18 16:16+0000\n"
-"PO-Revision-Date: 2019-03-30 20:42+0100\n"
+"POT-Creation-Date: 2019-03-30 19:45+0000\n"
+"PO-Revision-Date: 2019-03-31 16:18+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -3139,7 +3139,7 @@ msgid "A contact already exists with this address. Would you like to add a new c
 msgstr "Un contact cu această adresă există deja. Doriți să adăugați totuși un nou card cu aceeași adresă?"
 
 #: ../src/addressbook/addressbook.error.xml.h:31 ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:721 ../src/calendar/gui/e-comp-editor-page-general.c:1524
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:721 ../src/calendar/gui/e-comp-editor-page-general.c:1537
 #: ../src/e-util/e-accounts-window.c:1563 ../src/e-util/e-mail-signature-manager.c:328
 #: ../src/e-util/e-name-selector-dialog.c:1033 ../src/e-util/filter.ui.h:25 ../src/mail/e-mail-account-manager.c:719
 #: ../src/mail/e-mail-label-manager.c:371 ../src/mail/em-folder-properties.c:1044 ../src/mail/em-vfolder-editor-rule.c:408
@@ -3568,7 +3568,7 @@ msgstr "Adaugă _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1540 ../src/e-util/e-attachment-view.c:355
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1553 ../src/e-util/e-attachment-view.c:355
 #: ../src/e-util/e-filter-rule.c:409 ../src/e-util/e-mail-signature-manager.c:368 ../src/e-util/e-name-selector-dialog.c:1037
 #: ../src/e-util/filter.error.xml.h:18 ../src/e-util/filter.ui.h:27 ../src/mail/e-mail-config-identity-page.c:871
 #: ../src/mail/e-mail-label-manager.c:389 ../src/mail/em-filter-rule.c:678 ../src/mail/em-folder-properties.c:1050
@@ -6043,14 +6043,14 @@ msgstr "Organizator: %s"
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:1874 ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-task-table.c:839 ../src/calendar/gui/e-to-do-pane.c:363 ../src/calendar/gui/print.c:3545
+#: ../src/calendar/gui/e-task-table.c:839 ../src/calendar/gui/e-to-do-pane.c:364 ../src/calendar/gui/print.c:3545
 #, c-format
 msgid "Location: %s"
 msgstr "Locație: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-calendar-view.c:1914 ../src/calendar/gui/e-to-do-pane.c:460
+#: ../src/calendar/gui/e-calendar-view.c:1914 ../src/calendar/gui/e-to-do-pane.c:461
 #, c-format
 msgid "Time: %s %s"
 msgstr "Data: %s %s"
@@ -6149,7 +6149,7 @@ msgstr "Alocat"
 
 #: ../src/calendar/gui/e-cal-model.c:1918 ../src/calendar/gui/e-cal-model-tasks.c:1144
 #: ../src/calendar/gui/e-meeting-list-view.c:207 ../src/calendar/gui/e-meeting-store.c:177
-#: ../src/calendar/gui/e-meeting-store.c:187 ../src/calendar/gui/e-meeting-store.c:1098
+#: ../src/calendar/gui/e-meeting-store.c:187 ../src/calendar/gui/e-meeting-store.c:1090
 msgid "Yes"
 msgstr "Da"
 
@@ -6232,15 +6232,15 @@ msgstr "Modificarea unui memo"
 msgid "Modifying a task"
 msgstr "Se modifică o sarcină"
 
-#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1954
+#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1981
 msgid "Removing an event"
 msgstr "Se elimină un eveniment"
 
-#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1958
+#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1985
 msgid "Removing a memo"
 msgstr "Se elimină un memo"
 
-#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1962
+#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1989
 msgid "Removing a task"
 msgstr "Se elimină o sarcină"
 
@@ -6680,81 +6680,81 @@ msgstr[0] "Nu s-a putut șterge participantul"
 msgstr[1] "Nu s-au putut șterge participanții"
 msgstr[2] "Nu s-au putut șterge participanții"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:526
+#: ../src/calendar/gui/e-comp-editor-page-general.c:536
 msgid "Organizer address is not a valid user mail address"
 msgstr "Adresa organizatorului nu este o adresă de email validă pentru un utilizator"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:691
+#: ../src/calendar/gui/e-comp-editor-page-general.c:701
 msgid "A_ttendees"
 msgstr "Par_ticipanți"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:693
+#: ../src/calendar/gui/e-comp-editor-page-general.c:703
 msgid "Toggles whether the Attendees are displayed"
 msgstr "Comută dacă Participanții sunt afișați"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:702
+#: ../src/calendar/gui/e-comp-editor-page-general.c:712
 msgid "R_ole Field"
 msgstr "Câmpul R_ol"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:704
+#: ../src/calendar/gui/e-comp-editor-page-general.c:714
 msgid "Toggles whether the Role field is displayed"
 msgstr "Comută afișarea câmpului Rol"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:710
+#: ../src/calendar/gui/e-comp-editor-page-general.c:720
 msgid "_RSVP"
 msgstr "_RSVP"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:712
+#: ../src/calendar/gui/e-comp-editor-page-general.c:722
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Comută afișarea câmpului RSVP"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:718
+#: ../src/calendar/gui/e-comp-editor-page-general.c:728
 msgid "_Status Field"
 msgstr "Câmpul _Stare"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:720
+#: ../src/calendar/gui/e-comp-editor-page-general.c:730
 msgid "Toggles whether the Status field is displayed"
 msgstr "Comută afișarea câmpului Stare"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:726
+#: ../src/calendar/gui/e-comp-editor-page-general.c:736
 msgid "_Type Field"
 msgstr "Câmpul _Tip"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:728
+#: ../src/calendar/gui/e-comp-editor-page-general.c:738
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Comută afișarea „Tip participant”"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1074
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1084
 msgid "An organizer is required."
 msgstr "Este necesar un organizator."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1084 ../src/calendar/gui/e-comp-editor-page-general.c:1215
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1094 ../src/calendar/gui/e-comp-editor-page-general.c:1225
 msgid "At least one attendee is required."
 msgstr "Este nevoie de cel puțin un participant."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1339
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1349
 msgid "Or_ganizer:"
 msgstr "Or_ganizator:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1436
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1446
 msgid "Override color of the event. If not set, then color of the calendar is used."
 msgstr "Suprascrie culoarea evenimentului. Dacă nu este stabilit, culoarea calendarului este folosită."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1438
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1448
 msgid "Override color of the memo. If not set, then color of the memo list is used."
 msgstr "Suprascrie culoarea memoului. Dacă nu este stabilit, culoarea listei de memouri este folosită."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1440
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1450
 msgid "Override color of the task. If not set, then color of the task list is used."
 msgstr "Suprascrie culoarea sarcinii. Dacă nu este stabilit, culoarea listei de sarcini este folosită."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1452
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1462
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Participa_nți..."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1532 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1545 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2231
 #: ../src/calendar/gui/e-comp-editor.c:2070 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:954
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:195 ../src/mail/e-mail-label-manager.c:380
@@ -7415,7 +7415,7 @@ msgstr "Fără rezumat"
 #: ../src/e-util/e-html-editor-dialog.c:194 ../src/e-util/e-mail-signature-editor.c:309
 #: ../src/e-util/e-name-selector-dialog.c:548 ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205 ../src/mail/e-mail-browser.c:144 ../src/mail/e-mail-notes.c:964
-#: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1172 ../src/mail/em-subscription-editor.c:1739
+#: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1172 ../src/mail/em-subscription-editor.c:1742
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306 ../src/shell/e-shell-window-actions.c:296
 #: ../src/shell/e-shell-window-actions.c:824 ../src/smime/gui/certificate-manager.c:2196
 msgid "_Close"
@@ -7528,14 +7528,14 @@ msgid "Save current changes and close editor"
 msgstr "Salvează modificările curente și închide editorul"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../src/calendar/gui/e-day-view.c:2147 ../src/calendar/gui/e-to-do-pane.c:241 ../src/calendar/gui/e-week-view.c:1772
+#: ../src/calendar/gui/e-day-view.c:2147 ../src/calendar/gui/e-to-do-pane.c:242 ../src/calendar/gui/e-week-view.c:1772
 #: ../src/calendar/gui/print.c:1079 ../src/calendar/gui/print.c:1098 ../src/calendar/gui/print.c:2635
 #: ../src/calendar/gui/print.c:2655
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../src/calendar/gui/e-day-view.c:2150 ../src/calendar/gui/e-to-do-pane.c:245 ../src/calendar/gui/e-week-view.c:1775
+#: ../src/calendar/gui/e-day-view.c:2150 ../src/calendar/gui/e-to-do-pane.c:246 ../src/calendar/gui/e-week-view.c:1775
 #: ../src/calendar/gui/print.c:1084 ../src/calendar/gui/print.c:1100 ../src/calendar/gui/print.c:2640
 #: ../src/calendar/gui/print.c:2657
 msgid "pm"
@@ -7606,7 +7606,7 @@ msgid "Attendees"
 msgstr "Participanți"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:179 ../src/calendar/gui/e-meeting-store.c:110
-#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/e-meeting-store.c:1092 ../src/calendar/gui/print.c:1252
+#: ../src/calendar/gui/e-meeting-store.c:127 ../src/calendar/gui/e-meeting-store.c:1084 ../src/calendar/gui/print.c:1252
 msgid "Individual"
 msgstr "Individual"
 
@@ -7631,7 +7631,7 @@ msgid "Chair"
 msgstr "Președinte"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:194 ../src/calendar/gui/e-meeting-store.c:147
-#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/e-meeting-store.c:1095 ../src/calendar/gui/print.c:1270
+#: ../src/calendar/gui/e-meeting-store.c:164 ../src/calendar/gui/e-meeting-store.c:1087 ../src/calendar/gui/print.c:1270
 msgid "Required Participant"
 msgstr "Participant necesar"
 
@@ -7646,7 +7646,7 @@ msgid "Non-Participant"
 msgstr "Neparticipant"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:218 ../src/calendar/gui/e-meeting-store.c:195
-#: ../src/calendar/gui/e-meeting-store.c:218 ../src/calendar/gui/e-meeting-store.c:1105
+#: ../src/calendar/gui/e-meeting-store.c:218 ../src/calendar/gui/e-meeting-store.c:1097
 msgid "Needs Action"
 msgstr "Necesită acțiune"
 
@@ -7671,17 +7671,17 @@ msgstr "RSVP"
 msgid "In Process"
 msgstr "În derulare"
 
-#: ../src/calendar/gui/e-meeting-store.c:1976
+#: ../src/calendar/gui/e-meeting-store.c:1968
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr "Introduceți parola pentru a accesa informațiile liber/ocupat de pe serverul %s ca utilizatorul %s"
 
-#: ../src/calendar/gui/e-meeting-store.c:1986
+#: ../src/calendar/gui/e-meeting-store.c:1978
 #, c-format
 msgid "Failure reason: %s"
 msgstr "Motivul eșuării: %s"
 
-#: ../src/calendar/gui/e-meeting-store.c:1991 ../src/e-util/e-collection-account-wizard.c:470
+#: ../src/calendar/gui/e-meeting-store.c:1983 ../src/e-util/e-collection-account-wizard.c:470
 #: ../src/plugins/publish-calendar/publish-calendar.c:350 ../src/smime/gui/component.c:61
 msgid "Enter password"
 msgstr "Introduceți parola"
@@ -7894,76 +7894,76 @@ msgid "Select Timezone"
 msgstr "Alegeți fusul orar"
 
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/e-to-do-pane.c:390
+#: ../src/calendar/gui/e-to-do-pane.c:391
 #, c-format
 msgid "Start: %s"
 msgstr "Start: %s"
 
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/e-to-do-pane.c:410
+#: ../src/calendar/gui/e-to-do-pane.c:411
 #, c-format
 msgid "Due: %s"
 msgstr "Scadență: %s"
 
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/e-to-do-pane.c:424
+#: ../src/calendar/gui/e-to-do-pane.c:425
 #, c-format
 msgid "Completed: %s"
 msgstr "Terminat: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1460 ../src/e-util/e-cell-date-edit.c:328 ../src/e-util/e-datetime-format.c:207
+#: ../src/calendar/gui/e-to-do-pane.c:1487 ../src/e-util/e-cell-date-edit.c:328 ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1869 ../src/modules/itip-formatter/itip-view.c:255
 msgid "Today"
 msgstr "Astăzi"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1462 ../src/e-util/e-datetime-format.c:218
+#: ../src/calendar/gui/e-to-do-pane.c:1489 ../src/e-util/e-datetime-format.c:218
 #: ../src/modules/itip-formatter/itip-view.c:283
 msgid "Tomorrow"
 msgstr "Mâine"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1472
+#: ../src/calendar/gui/e-to-do-pane.c:1499
 msgid "Tasks without Due date"
 msgstr "Sarcini fără dată scadentă"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2045 ../src/modules/calendar/e-cal-shell-view-actions.c:1472
+#: ../src/calendar/gui/e-to-do-pane.c:2072 ../src/modules/calendar/e-cal-shell-view-actions.c:1472
 msgid "New _Appointment..."
 msgstr "_Programare nouă..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2053 ../src/modules/calendar/e-cal-shell-view-actions.c:1458
+#: ../src/calendar/gui/e-to-do-pane.c:2080 ../src/modules/calendar/e-cal-shell-view-actions.c:1458
 msgid "New _Meeting..."
 msgstr "Întâ_lnire nouă..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2061
+#: ../src/calendar/gui/e-to-do-pane.c:2088
 msgid "New _Task..."
 msgstr "_Sarcină nouă..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2069
+#: ../src/calendar/gui/e-to-do-pane.c:2096
 msgid "_New Assigned Task..."
 msgstr "Sarcină repartizată _nouă..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2082
+#: ../src/calendar/gui/e-to-do-pane.c:2109
 msgid "_Open..."
 msgstr "_Deschide..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2096
+#: ../src/calendar/gui/e-to-do-pane.c:2123
 msgid "_Delete This Instance..."
 msgstr "Șterge această _instanță..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2104
+#: ../src/calendar/gui/e-to-do-pane.c:2131
 msgid "D_elete All Instances..."
 msgstr "Șt_erge toate instanțele..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2112
+#: ../src/calendar/gui/e-to-do-pane.c:2139
 msgid "_Delete..."
 msgstr "Șt_erge..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2129
+#: ../src/calendar/gui/e-to-do-pane.c:2156
 msgid "_Show Tasks without Due date"
 msgstr "_Arată sarcini fără o dată scadentă"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2395
+#: ../src/calendar/gui/e-to-do-pane.c:2422
 msgid "To Do"
 msgstr "De făcut"
 
@@ -10891,7 +10891,7 @@ msgstr "Conturi Evolution"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2699 ../src/mail/em-subscription-editor.c:1950
+#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2699 ../src/mail/em-subscription-editor.c:1953
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1568 ../src/modules/mail/e-mail-shell-view-actions.c:1639
 msgid "_Refresh"
 msgstr "_Reîmprospătează"
@@ -11424,7 +11424,7 @@ msgstr "Se caută detalii, așteptați…"
 #: ../src/e-util/e-collection-account-wizard.c:473
 #, c-format
 msgid "Requires password to continue. %s."
-msgstr ""
+msgstr "Necesită parolă pentru a continua. %s."
 
 #: ../src/e-util/e-collection-account-wizard.c:486
 msgid "View certificate"
@@ -11443,14 +11443,16 @@ msgid ""
 "Found no candidates. It can also mean that the server doesn’t provide any information about its configuration using the "
 "selected lookup methods. Enter the account manually instead or change above settings."
 msgstr ""
+"Nu s-a găsit niciun candidat. Poate însemna de asemenea că serverul nu oferă nicio informație despre configurația sa "
+"folosind metodele de căutare selectate. Introduceți contul manual în loc sau modificați configurările de mai sus."
 
 #: ../src/e-util/e-collection-account-wizard.c:530
 #, c-format
 msgid "Found one candidate"
 msgid_plural "Found %d candidates"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "S-a găsit un candidat"
+msgstr[1] "S-au găsit %d candidați"
+msgstr[2] "S-au găsit %d de candidați"
 
 #: ../src/e-util/e-collection-account-wizard.c:625 ../src/plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../src/smime/gui/certificate-manager.c:766
@@ -11488,11 +11490,11 @@ msgstr "Listă de sarcini"
 
 #: ../src/e-util/e-collection-account-wizard.c:1122
 msgid "Looking up LDAP server’s search base…"
-msgstr ""
+msgstr "Se caută baza de căutare a serverului LDAP…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1429
 msgid "Saving account settings, please wait…"
-msgstr ""
+msgstr "Se salvează configurările contului, așteptați…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1573
 msgid "User details"
@@ -11515,6 +11517,8 @@ msgstr "_Server:"
 msgid ""
 "Semicolon (“;”) separated list of servers to look up information for, in addition to the domain of the e-mail address."
 msgstr ""
+"Listă separată prin punct și virgulă („;”) de servere pentru a căuta după informații, în plus față de domeniul adresei de "
+"email."
 
 #: ../src/e-util/e-collection-account-wizard.c:1833
 msgid "Select which parts should be configured:"
@@ -12897,23 +12901,23 @@ msgstr "Proprietăți legătură"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:68
 msgid "Perforated Paper"
-msgstr ""
+msgstr "Hârtie perforată"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:77
 msgid "Blue Ink"
-msgstr ""
+msgstr "Cerneală albastră"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:86
 msgid "Paper"
-msgstr ""
+msgstr "Hârtie"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:95
 msgid "Ribbon"
-msgstr ""
+msgstr "Bandă"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:104
 msgid "Midnight"
-msgstr ""
+msgstr "Miezul nopții"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:122 ../src/mail/filtertypes.xml.in.h:38 ../src/mail/searchtypes.xml.in.h:41
 #: ../src/mail/vfoldertypes.xml.in.h:41
@@ -12922,7 +12926,7 @@ msgstr "Ciornă"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:131
 msgid "Graph Paper"
-msgstr ""
+msgstr "Hârtie de grafic"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:379
 msgid "<b>Colors</b>"
@@ -13484,7 +13488,7 @@ msgstr "_Metodă:"
 
 #: ../src/e-util/e-proxy-editor.c:348
 msgid "Defer to Desktop Settings"
-msgstr ""
+msgstr "Recurge la configurările desktopului"
 
 #: ../src/e-util/e-proxy-editor.c:352
 msgid "_Open Desktop Settings"
@@ -13773,7 +13777,7 @@ msgstr "Folosește o conexiune _securizată"
 
 #: ../src/e-util/e-source-config.c:1547
 msgid "Unset _trust for SSL/TLS certificate"
-msgstr ""
+msgstr "Destabilește încrederea pentru cer_tificatul SSL/TLS"
 
 #: ../src/e-util/e-source-config.c:1583
 msgid "User:"
@@ -13924,6 +13928,8 @@ msgid ""
 "A WebKitWebProcess crashed when displaying the content. You can try again by reopening the window. If the issue persists, "
 "please file a bug report in GNOME Gitlab."
 msgstr ""
+"Un WebKitWebProcess a crăpat în timpul afișării conținutului. Puteți încerca din nou redeschizând fereastra. Dacă problema "
+"persistă, completați un raport de eroare în Gitlab GNOME."
 
 #: ../src/e-util/e-system.error.xml.h:25
 msgid "Are you sure you want to delete remote collection “{0}”?"
@@ -14784,15 +14790,15 @@ msgstr "Nu s-a găsit o identitate de folosit, înaintarea mesajului a fost anul
 #: ../src/libemail-engine/e-mail-session.c:1516
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
-msgstr ""
+msgstr "Sursa corespunzătoare serviciului cu UID-ul „%s” nu a fost găsită"
 
 #: ../src/libemail-engine/e-mail-session.c:1636
 msgid "Looking up recipient S/MIME certificates in address books…"
-msgstr ""
+msgstr "Se caută certificatele S/MIME ale expeditorului în agende…"
 
 #: ../src/libemail-engine/e-mail-session.c:1638
 msgid "Looking up recipient PGP keys in address books…"
-msgstr ""
+msgstr "Se caută cheile PGP ale expeditorului în agende…"
 
 #: ../src/libemail-engine/e-mail-session.c:2639
 #, c-format
@@ -14864,6 +14870,9 @@ msgid ""
 "check your filters in Edit→Message Filters.\n"
 "Original error was: %s"
 msgstr ""
+"Eșec la filtrarea mesajelor selectate. Un motiv poate fi că locația dosarului stabilită în una sau mai multe filtre este "
+"nevalidă. Verificați filtrele în Editare→Filtre Mesaje.\n"
+"Eroarea originală a fost: %s"
 
 #: ../src/libemail-engine/mail-ops.c:225
 #, c-format
@@ -14877,6 +14886,9 @@ msgid ""
 "check your filters in Edit→Message Filters.\n"
 "Original error was: %s"
 msgstr ""
+"Eșec la aplicarea filtrelor de trimitere. Un motiv poate fi că locația dosarului stabilită într-unul sau mai multe filtre "
+"este nevalidă. Verificați filtrele în Editare→Filtre Mesaje.\n"
+"Eroarea originală a fost: %s"
 
 #: ../src/libemail-engine/mail-ops.c:1030
 #, c-format
@@ -14935,7 +14947,7 @@ msgstr "Se golește coșul de gunoi în „%s”"
 #: ../src/libemail-engine/mail-ops.c:1636
 #, c-format
 msgid "Processing folder changes in “%s”"
-msgstr ""
+msgstr "Se procesează modificările dosarului în „%s”"
 
 #: ../src/libemail-engine/mail-tools.c:69
 #, c-format
@@ -15241,7 +15253,7 @@ msgstr "Alegeți un dosar pentru a salva mesajele trimise."
 
 #: ../src/mail/e-mail-config-defaults-page.c:752
 msgid "S_ave replies in the folder of the message being replied to"
-msgstr ""
+msgstr "S_alvează răspunsurile în dosarul mesajelor la care se răspund"
 
 #: ../src/mail/e-mail-config-defaults-page.c:775
 msgid "Archi_ve Folder:"
@@ -15341,7 +15353,7 @@ msgstr "Edi_tare"
 
 #: ../src/mail/e-mail-config-identity-page.c:885
 msgid "_Look up mail server details based on the entered e-mail address"
-msgstr ""
+msgstr "_Caută detaliile serverului de email ce are la bază adresa de email introdusă"
 
 #. This is only a warning, not a blocker
 #. complete = complete && correct;
@@ -15454,7 +15466,7 @@ msgstr "Întotdeauna consideră de î_ncredere cheile din keyring-ul meu la crip
 
 #: ../src/mail/e-mail-config-security-page.c:620
 msgid "Prefer _inline sign/encrypt for plain text messages"
-msgstr ""
+msgstr "Preferă semnarea/criptarea _inline pentru mesaje în text simplu"
 
 #: ../src/mail/e-mail-config-security-page.c:644
 msgid "Secure MIME (S/MIME)"
@@ -15543,7 +15555,7 @@ msgstr "Securitate:"
 
 #: ../src/mail/e-mail-config-summary-page.c:651
 msgid "Cannot have both receiving and sending parts set to None"
-msgstr ""
+msgstr "Nu se poate avea ambele părți de primire și trimitere stabilite la Niciuna"
 
 #: ../src/mail/e-mail-config-summary-page.c:807
 msgid "Account Summary"
@@ -16475,12 +16487,12 @@ msgstr "Permite conținut de la distanță de la oricine din %s"
 #: ../src/mail/e-mail-reader.c:6310
 #, c-format
 msgid "Allow remote content for %s"
-msgstr ""
+msgstr "Permite conținut la distanță pentru %s"
 
 #: ../src/mail/e-mail-reader.c:6327
 #, c-format
 msgid "Allow remote content from %s"
-msgstr ""
+msgstr "Permite conținut de la distanță de la %s"
 
 #: ../src/mail/e-mail-reader.c:6344
 msgid "Do not show this message again"
@@ -16510,15 +16522,15 @@ msgstr "Se marchează grupul de mesaje pentru a fi ignorat"
 
 #: ../src/mail/e-mail-reader-utils.c:1338
 msgid "Unmarking thread from being ignored"
-msgstr ""
+msgstr "Se demarchează firul de discuție de la a fi ignorat"
 
 #: ../src/mail/e-mail-reader-utils.c:1342
 msgid "Marking subthread to be ignored"
-msgstr ""
+msgstr "Se marchează subfirul de discuție pentru a fi ignorat"
 
 #: ../src/mail/e-mail-reader-utils.c:1346
 msgid "Unmarking subthread from being ignored"
-msgstr ""
+msgstr "Se demarchează subfirul de discuție de la a fi ignorat"
 
 #: ../src/mail/e-mail-reader-utils.c:1602
 msgid "Printing"
@@ -16581,7 +16593,7 @@ msgstr "%s autentificare eșuată"
 #: ../src/mail/e-mail-ui-session.c:870
 #, c-format
 msgid "No data source found for UID “%s”"
-msgstr ""
+msgstr "Nicio sursă de date găsită pentru UID-ul „%s”"
 
 #. Translators: The %d is replaced with the actual count of recipients, which is always more than one.
 #: ../src/mail/em-composer-utils.c:395
@@ -16604,14 +16616,23 @@ msgid_plural ""
 "email addresses of each other. In some cases this behaviour is undesired, especially if they do not know each other or if "
 "privacy is a concern. Consider adding recipients to the BCC field instead."
 msgstr[0] ""
+"Încercați să trimiteți mesajul la un destinatar în câmpurile „Către” și „CC”. Asta ar rezulta în posibilitatea de a vede "
+"adresele de email între toți destinatarii. În unele cazuri acest comportament este de nedorit, în special dacă nu se "
+"cunosc între ei sau dacă viața privată este semnificativă. Considerați să adăugați destinatarii în câmpul „BCC” în loc."
 msgstr[1] ""
+"Încercați să trimiteți mesajul la %d destinatari în câmpurile „Către” și „CC”. Asta ar rezulta în posibilitatea de a vede "
+"adresele de email între toți destinatarii. În unele cazuri acest comportament este de nedorit, în special dacă nu se "
+"cunosc între ei sau dacă viața privată este semnificativă. Considerați să adăugați destinatarii în câmpul „BCC” în loc."
 msgstr[2] ""
+"Încercați să trimiteți mesajul la %d de destinatari în câmpurile „Către” și „CC”. Asta ar rezulta în posibilitatea de a "
+"vede adresele de email între toți destinatarii. În unele cazuri acest comportament este de nedorit, în special dacă nu se "
+"cunosc între ei sau dacă viața privată este semnificativă. Considerați să adăugați destinatarii în câmpul „BCC” în loc."
 
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
 #: ../src/mail/em-composer-utils.c:829
 msgid "Waiting for attachments to load..."
-msgstr ""
+msgstr "Se așteaptă după încărcarea fișierelor atașate..."
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -16734,7 +16755,7 @@ msgstr "dezactivat"
 #: ../src/mail/em-filter-editor.c:171
 #, c-format
 msgid "%s (%s, for any account)"
-msgstr ""
+msgstr "%s (%s, pentru orice cont)"
 
 #: ../src/mail/em-filter-editor.c:183
 msgid "If all the following conditions are met"
@@ -16803,11 +16824,11 @@ msgstr "Utilizare cotă"
 #. choose which account to use as the sender when composing a message in this folder
 #: ../src/mail/em-folder-properties.c:419
 msgid "_Send Account Override:"
-msgstr ""
+msgstr "_Trimite suprascrierea contului:"
 
 #: ../src/mail/em-folder-properties.c:626
 msgid "Archive this folder using these settings:"
-msgstr ""
+msgstr "Arhivează acest dosar folosind aceste configurări:"
 
 #. Translators: This text is part of "Auto-cleanup messages older than [X] [days/weeks/months]"
 #: ../src/mail/em-folder-properties.c:638
@@ -16981,32 +17002,32 @@ msgstr "Mută dosarul în"
 msgid "Copy Folder To"
 msgstr "Copiază dosarul în"
 
-#: ../src/mail/em-subscription-editor.c:813
+#: ../src/mail/em-subscription-editor.c:814
 msgid "_Subscribe"
 msgstr "_Abonează-mă"
 
-#: ../src/mail/em-subscription-editor.c:822
+#: ../src/mail/em-subscription-editor.c:823
 msgid "Su_bscribe To Shown"
 msgstr "A_bonează-mă la afișate"
 
-#: ../src/mail/em-subscription-editor.c:830
+#: ../src/mail/em-subscription-editor.c:831
 msgid "Subscribe To _All"
 msgstr "Abonează-mă la _toate"
 
-#: ../src/mail/em-subscription-editor.c:936 ../src/mail/em-subscription-editor.c:1888 ../src/mail/mail.error.xml.h:73
+#: ../src/mail/em-subscription-editor.c:937 ../src/mail/em-subscription-editor.c:1891 ../src/mail/mail.error.xml.h:73
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1667
 msgid "_Unsubscribe"
 msgstr "_Dezabonează-mă"
 
-#: ../src/mail/em-subscription-editor.c:945
+#: ../src/mail/em-subscription-editor.c:946
 msgid "Unsu_bscribe From Hidden"
 msgstr "Deza_bonează-mă de la ascunse"
 
-#: ../src/mail/em-subscription-editor.c:953
+#: ../src/mail/em-subscription-editor.c:954
 msgid "Unsubscribe From _All"
 msgstr "Dezabonează-mă de la _toate"
 
-#: ../src/mail/em-subscription-editor.c:1313 ../src/modules/mail/e-mail-shell-view-private.c:933
+#: ../src/mail/em-subscription-editor.c:1316 ../src/modules/mail/e-mail-shell-view-private.c:933
 #: ../src/modules/mail/e-mail-shell-view-private.c:965 ../src/modules/mail/e-mail-shell-view-private.c:1009
 #, c-format
 msgid "%d unread, "
@@ -17015,7 +17036,7 @@ msgstr[0] "%d necitit, "
 msgstr[1] "%d necitite, "
 msgstr[2] "%d necitite, "
 
-#: ../src/mail/em-subscription-editor.c:1317 ../src/modules/mail/e-mail-shell-view-private.c:1019
+#: ../src/mail/em-subscription-editor.c:1320 ../src/modules/mail/e-mail-shell-view-private.c:1019
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -17023,61 +17044,61 @@ msgstr[0] "%d în total"
 msgstr[1] "%d în total"
 msgstr[2] "%d în total"
 
-#: ../src/mail/em-subscription-editor.c:1729
+#: ../src/mail/em-subscription-editor.c:1732
 msgid "Folder Subscriptions"
 msgstr "Abonamente dosare"
 
-#: ../src/mail/em-subscription-editor.c:1764
+#: ../src/mail/em-subscription-editor.c:1767
 msgid "_Account:"
 msgstr "Con_t:"
 
-#: ../src/mail/em-subscription-editor.c:1777
+#: ../src/mail/em-subscription-editor.c:1780
 msgid "Clear Search"
 msgstr "Curăță căutarea"
 
-#: ../src/mail/em-subscription-editor.c:1794
+#: ../src/mail/em-subscription-editor.c:1797
 msgid "Sho_w items that contain:"
 msgstr "Ara_tă elementele care conțin:"
 
-#: ../src/mail/em-subscription-editor.c:1841
+#: ../src/mail/em-subscription-editor.c:1844
 msgid "Subscribe to the selected folder"
 msgstr "Abonează-mă la dosarul selectat"
 
-#: ../src/mail/em-subscription-editor.c:1842
+#: ../src/mail/em-subscription-editor.c:1845
 msgid "Su_bscribe"
 msgstr "A_bonează-mă"
 
-#: ../src/mail/em-subscription-editor.c:1887 ../src/modules/mail/e-mail-shell-view-actions.c:1669
+#: ../src/mail/em-subscription-editor.c:1890 ../src/modules/mail/e-mail-shell-view-actions.c:1669
 msgid "Unsubscribe from the selected folder"
 msgstr "Dezabonează-mă de la dosarul selectat"
 
-#: ../src/mail/em-subscription-editor.c:1927
+#: ../src/mail/em-subscription-editor.c:1930
 msgid "Collapse all folders"
 msgstr "Pliază toate dosarele"
 
-#: ../src/mail/em-subscription-editor.c:1928
+#: ../src/mail/em-subscription-editor.c:1931
 msgid "C_ollapse All"
 msgstr "Pliază t_oate"
 
-#: ../src/mail/em-subscription-editor.c:1938
+#: ../src/mail/em-subscription-editor.c:1941
 msgid "Expand all folders"
 msgstr "Extinde toate dosarele"
 
-#: ../src/mail/em-subscription-editor.c:1939
+#: ../src/mail/em-subscription-editor.c:1942
 msgid "E_xpand All"
 msgstr "E_xtinde toate"
 
-#: ../src/mail/em-subscription-editor.c:1949
+#: ../src/mail/em-subscription-editor.c:1952
 msgid "Refresh the folder list"
 msgstr "Actualizează lista de dosare"
 
-#: ../src/mail/em-subscription-editor.c:1961
+#: ../src/mail/em-subscription-editor.c:1964
 msgid "Stop the current operation"
 msgstr "Oprește operația curentă"
 
-#: ../src/mail/em-subscription-editor.c:1962 ../src/modules/addressbook/e-book-shell-view-actions.c:1085
+#: ../src/mail/em-subscription-editor.c:1965 ../src/modules/addressbook/e-book-shell-view-actions.c:1085
 msgid "_Stop"
-msgstr ""
+msgstr "_Stop"
 
 #. Translators: This message is shown only for ten or more
 #. * messages to be opened.  The %d is replaced with the actual
@@ -17130,7 +17151,7 @@ msgstr "Surse dosare de căutare"
 
 #: ../src/mail/em-vfolder-editor-rule.c:565
 msgid "Automatically update on any _source folder change"
-msgstr ""
+msgstr "Actualizează automat la orice modificare a dosarului _sursă"
 
 #: ../src/mail/em-vfolder-editor-rule.c:577
 msgid "All local folders"
@@ -17728,7 +17749,7 @@ msgstr "Trimiterea unui mesaj utilizând un accelerator de _tastatură (Ctrl+Ent
 #. Translators:
 #: ../src/mail/mail-config.ui.h:61
 msgid "Before composer _format changes from HTML to Plain Text"
-msgstr ""
+msgstr "Înaintea compunătorului _formatează modificările din HTML în text simplu"
 
 #: ../src/mail/mail-config.ui.h:62
 msgid "Confirmations"
@@ -17751,7 +17772,7 @@ msgstr "Cont"
 
 #: ../src/mail/mail-config.ui.h:74
 msgid "Send account overrides"
-msgstr ""
+msgstr "Trimite suprascrierile contului"
 
 #: ../src/mail/mail-config.ui.h:75
 msgid ""
@@ -17759,10 +17780,13 @@ msgid ""
 "account detection. List of recipients can contain partial addresses or names. The name and the address parts are compared "
 "separately."
 msgstr ""
+"Decide care cont ar trebui folosit ca cont de expediere pentru dosarele sau destinatarii respectivi, o suprascriere pentru "
+"detectarea uzuală a contului. Lista de destinatari poate conține nume sau adrese parțiale. Părțile pentru nume și adresă "
+"sunt separate complet."
 
 #: ../src/mail/mail-config.ui.h:76
 msgid "_Folder override has precedence over Recipient override"
-msgstr ""
+msgstr "Suprascrierea _dosarului are precedență înaintea suprascrierii destinatarului"
 
 #: ../src/mail/mail-config.ui.h:77
 msgid "Send Account"
@@ -18631,7 +18655,7 @@ msgstr "Întotdeaun_a numai în dosarul curent"
 
 #: ../src/mail/mail.error.xml.h:142
 msgid "Should Evolution close this window when replying or forwarding?"
-msgstr ""
+msgstr "Ar trebui ca Evolution să închidă această fereastră când se răspunde sau înaintează?"
 
 #: ../src/mail/mail.error.xml.h:143
 msgid "_Yes, Always"
@@ -18732,11 +18756,11 @@ msgstr "Dosarul „{0}” nu conține niciun mesaj duplicat."
 
 #: ../src/mail/mail.error.xml.h:170
 msgid "Failed to connect account “{0}”."
-msgstr ""
+msgstr "Eroare la conectarea contului „{0}”."
 
 #: ../src/mail/mail.error.xml.h:171
 msgid "Failed to disconnect account “{0}”."
-msgstr ""
+msgstr "Eroare la deconectarea contului „{0}”"
 
 #: ../src/mail/mail.error.xml.h:172
 msgid "Failed to unsubscribe from folder “{0}”."
@@ -18752,7 +18776,7 @@ msgstr "{0}"
 
 #: ../src/mail/mail.error.xml.h:175
 msgid "Message is not available in offline mode."
-msgstr ""
+msgstr "Mesajul nu este disponibil în modul deconectat."
 
 #: ../src/mail/mail.error.xml.h:176
 msgid ""
@@ -18760,6 +18784,10 @@ msgid ""
 "synchronization. Then, once the account is online again, use File→Download Messages for Offline Usage, when this folder is "
 "selected, to make sure that all the messages in the folder will be available in offline mode."
 msgstr ""
+"Aceasta poate fi din cauză că mesajul nu este descărcat încă. Dosarul, sau contul, pot fi marcate pentru sincronizare în "
+"modul deconectat. Apoi, odată ce contul este conectat din nou, utilizați Fișier→Descarcă mesajul pentru utilizare în modul "
+"deconectat, când acest dosar este selectat, pentru a vă asigura că toate mesajele din acest dosar vor fi disponibile în "
+"modul deconectat."
 
 #: ../src/mail/mail.error.xml.h:177
 msgid "Failed to open folder."
@@ -18803,7 +18831,7 @@ msgstr "Tipărirea a eșuat."
 
 #: ../src/mail/mail.error.xml.h:188
 msgid "The printer replied “{0}”."
-msgstr ""
+msgstr "Imprimanta a răspuns „{0}”."
 
 #: ../src/mail/mail.error.xml.h:189
 msgid "Could not perform this operation on {0}."
@@ -18811,27 +18839,27 @@ msgstr "Nu s-a putut efectua această operațiune pe {0}."
 
 #: ../src/mail/mail.error.xml.h:190
 msgid "You must be working online to complete this operation."
-msgstr ""
+msgstr "Trebuie să lucrați în modul conectat pentru a completa această operațiune."
 
 #: ../src/mail/mail.error.xml.h:191
 msgid "Message from “{0}” account:"
-msgstr ""
+msgstr "Mesaj de la contul „{0}”:"
 
 #: ../src/mail/mail.error.xml.h:192
 msgid "Failed to mark thread to be ignored in folder “{0}”"
-msgstr ""
+msgstr "Eșec la marcarea firului de discuție pentru ignorare în dosarul „{0}”"
 
 #: ../src/mail/mail.error.xml.h:193
 msgid "Failed to unmark thread from being ignored in folder “{0}”"
-msgstr ""
+msgstr "Eșec la demarcarea firului de discuție de la ignorare în dosarul „{0}”"
 
 #: ../src/mail/mail.error.xml.h:194
 msgid "Failed to mark subthread to be ignored in folder “{0}”"
-msgstr ""
+msgstr "Eșec la marcarea subfirului de discuție pentru ignorare în dosarul „{0}”"
 
 #: ../src/mail/mail.error.xml.h:195
 msgid "Failed to unmark subthread from being ignored in folder “{0}”"
-msgstr ""
+msgstr "Eșec la demarcarea subfirului de discuție de la ignorare în dosarul „{0}”"
 
 #: ../src/mail/mail.error.xml.h:196
 msgid "Remote content download had been blocked for this message."
@@ -18882,16 +18910,20 @@ msgid ""
 "A WebKitWebProcess crashed when displaying the message. You can try again by moving to another message and back. If the "
 "issue persists, please file a bug report in GNOME Gitlab."
 msgstr ""
+"Un WebKitWebProcess a crăpat la afișarea mesajului. Puteți încerca din nou mutând la un alt mesaj și înapoi. Dacă problema "
+"persistă, completați un raport de defect în Gitlab GNOME."
 
 #: ../src/mail/mail.error.xml.h:213
 msgid "Something has gone wrong when displaying the signature"
-msgstr ""
+msgstr "Ceva a mers prost la afișarea semnăturii"
 
 #: ../src/mail/mail.error.xml.h:214
 msgid ""
 "A WebKitWebProcess crashed when displaying the signature. You can try again by moving to another signature and back. If "
 "the issue persists, please file a bug report in GNOME Gitlab."
 msgstr ""
+"Un WebKitWebProcess a crăpat la afișarea semnăturii. Puteți încerca din nou mutând la altă semnătură și înapoi. Dacă "
+"problema persistă, completați un raport de defect în Gitlab GNOME."
 
 #: ../src/mail/mail.error.xml.h:215
 msgid "Are you sure you want to delete all the messages in the Junk folder?"
@@ -18899,7 +18931,7 @@ msgstr "Sigur doriți să ștergeți toate mesajele din dosarul Spam?"
 
 #: ../src/mail/mail.error.xml.h:216
 msgid "These messages will be shown in the Trash folder, where they can be permanently deleted later."
-msgstr ""
+msgstr "Aceste mesaje vor fi afișate în dosarul Gunoi, de unde pot fi șterse permanent mai târziu."
 
 #: ../src/mail/mail.error.xml.h:217
 msgid "_Empty Junk"
@@ -18945,12 +18977,12 @@ msgstr "Se verifică dacă sunt emailuri noi la „%s”"
 #: ../src/mail/mail-send-recv.c:1663
 #, c-format
 msgid "Deleting junk and expunging trash at “%s”"
-msgstr ""
+msgstr "Se șterge spamurile și se golește gunoiul la „%s”"
 
 #: ../src/mail/mail-send-recv.c:1665
 #, c-format
 msgid "Deleting junk at “%s”"
-msgstr ""
+msgstr "Se șterge spamurile de la „%s”"
 
 #: ../src/mail/mail-send-recv.c:1667
 #, c-format
@@ -19140,7 +19172,7 @@ msgstr "Editare colecție"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:312
 msgid "Use for"
-msgstr ""
+msgstr "Utilizează pentru"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:316 ../src/plugins/pst-import/pst-importer.c:522
 msgid "_Mail"
@@ -19190,6 +19222,8 @@ msgid ""
 "Browse a WebDAV (CalDAV or CardDAV) server and create, edit or delete address books, calendars, memo lists or task lists "
 "there"
 msgstr ""
+"Navighează un server WebDAV (CalDAV sau CardDAV) și creează, editează sau șterge agende, calendare, liste de memouri sau "
+"liste de sarcini de acolo"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../src/modules/addressbook/autocompletion-config.c:124 ../src/modules/mail/em-mailer-prefs.c:1696
@@ -19299,7 +19333,7 @@ msgstr "Ad_ministrează grupurile din agendă..."
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1031 ../src/modules/calendar/e-task-shell-view-actions.c:735
 msgid "Manage task list groups order and visibility"
-msgstr ""
+msgstr "Administrează ordinea grupurilor de liste de sarcini și vizibilitatea lor"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1036
 msgid "Mo_ve All Contacts To..."
@@ -19655,7 +19689,7 @@ msgstr "Se șterg fișierele-cópii de siguranță temporare"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:690
 msgid "Reloading registry service"
-msgstr ""
+msgstr "Se reîncarcă serviciul de regiștri"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:903
 msgid "Evolution Back Up"
@@ -19809,7 +19843,7 @@ msgstr "Numele de utilizator nu poate fi gol"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:418
 msgid "Looking up server search bases, please wait…"
-msgstr ""
+msgstr "Se caută bazele de căutare ale serverului, așteptați…"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
 msgid "Standard LDAP Port"
@@ -20116,22 +20150,22 @@ msgstr "Se mută un eveniment în calendarul „%s”"
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:575
 #, c-format
 msgid "Copying a memo into the memo list “%s”"
-msgstr ""
+msgstr "Se copiază un memo în lista de memouri „%s”"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:576
 #, c-format
 msgid "Moving a memo into the memo list “%s”"
-msgstr ""
+msgstr "Se mută un memo în lista de memouri „%s”"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:581
 #, c-format
 msgid "Copying a task into the task list “%s”"
-msgstr ""
+msgstr "Se copiază o sarcină în lista de sarcini „%s”"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:582
 #, c-format
 msgid "Moving a task into the task list “%s”"
-msgstr ""
+msgstr "Se mută o sarcină în lista de sarcini „%s”"
 
 #: ../src/modules/calendar/e-cal-base-shell-sidebar.c:699
 msgid "Calendar Selector"
@@ -20328,7 +20362,7 @@ msgstr "Ziua se t_ermină:"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:47
 msgid "Create events, memos and tasks as _Private by default"
-msgstr ""
+msgstr "Creează evenimente, memouri și sarcini ca Implicit _private"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:49
 msgid "View Options"
@@ -20364,11 +20398,11 @@ msgstr "De_rulează Vizualizarea lunii după săptămână"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:57
 msgid "Order days in Week View from _left to right"
-msgstr ""
+msgstr "Ordonează zilele în Vizualizarea săptămânală de la _stânga la dreapta"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Allo_w direct edit of event Summary"
-msgstr ""
+msgstr "Per_mite editarea directă a sumarului evenimentului"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:59
 msgid "Hi_de cancelled events"
@@ -20408,7 +20442,7 @@ msgstr "Bara De făcut"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "Show Tasks without _Due date"
-msgstr ""
+msgstr "Arată sarcini fără _dată scadentă"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Display reminders in _notification area only"
@@ -20463,6 +20497,8 @@ msgstr "%u și %d vor fi înlocuite cu un utilizator și un domeniu din adresa d
 msgid ""
 "Specify login user name as part of the URL in case the server requires authentication, like: https://USER@example.com/"
 msgstr ""
+"Specificați numele de utilizator pentru autentificare ca partea a URL-ului în cazul în care serverul necesită "
+"autentificare, cum ar fi: https://utilizator@exemplu.ro/"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "Publishing Information"
@@ -20581,7 +20617,7 @@ msgstr "Ad_ministrează grupuri pentru calendare..."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1320
 msgid "Manage Calendar groups order and visibility"
-msgstr ""
+msgstr "Administrează ordinea grupurilor de calendar și vizibilitatea lor"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1325
 msgid "_New Calendar"
@@ -20974,11 +21010,11 @@ msgstr "Șterge lista de memo-uri selectată"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:607
 msgid "_Manage Memo List groups..."
-msgstr ""
+msgstr "Ad_ministrează grupurile de liste de memouri..."
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:609
 msgid "Manage Memo List groups order and visibility"
-msgstr ""
+msgstr "Administrează ordinea grupurilor de liste de memouri și vizibilitatea lor"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:614
 msgid "_New Memo List"
@@ -21114,7 +21150,7 @@ msgstr "Șterge lista de sarcini selectată"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:733
 msgid "_Manage Task List groups..."
-msgstr ""
+msgstr "Ad_ministrează grupurile de liste de sarcini..."
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:740
 msgid "_New Task List"
@@ -23251,7 +23287,7 @@ msgstr "Creează _automat intrări în agendă la trimiterea mesajelor"
 #. File Under setting
 #: ../src/plugins/bbdb/bbdb.c:782
 msgid "Set File _under as “First Last”, instead of “Last, First”"
-msgstr ""
+msgstr "Stabilește fișierul s_ub ca „Primul Ultimul”, în loc de „Ultimul, Primul”"
 
 #: ../src/plugins/bbdb/bbdb.c:793
 msgid "Select Address book for Automatic Contacts"
@@ -23488,6 +23524,8 @@ msgid ""
 "The Face image size is {0} bytes, while it should not be more than 723 bytes. Please select a PNG image of size 48 × 48 "
 "pixels, whose file size doesn’t exceed 723 bytes."
 msgstr ""
+"Dimensiunea imaginii feței este {0} bytes, în timp ce nu ar trebui să fie mai mare de 723 bytes. Selectați o imagine PNG "
+"de dimensiune 48 × 48 pixeli, a cărei dimensiune de fișier nu depășește 723 bytes."
 
 #: ../src/plugins/face/org-gnome-face.error.xml.h:7
 msgid "Not an image"
@@ -24675,7 +24713,7 @@ msgstr "Cere unui proces Evolution care rulează să se închidă"
 #: ../src/shell/main.c:418
 #, c-format
 msgid "Cannot start Evolution.  Another Evolution instance may be unresponsive. System error: %s"
-msgstr ""
+msgstr "Nu s-a putut porni Evolution.  O altă instanță a Evolution poate fi neresponsivă. Eroare de sistem: %s"
 
 #: ../src/shell/main.c:474 ../src/shell/main.c:479
 msgid "— The Evolution PIM and Email Client"
@@ -24735,13 +24773,15 @@ msgstr ""
 
 #: ../src/shell/shell.error.xml.h:11
 msgid "Close Evolution with pending background operations?"
-msgstr ""
+msgstr "Închideți Evolution cu operațiuni în fundal ce sunt în desfășurare?"
 
 #: ../src/shell/shell.error.xml.h:12
 msgid ""
 "Evolution is taking a long time to shut down, possibly due to network connectivity issues. Would you like to cancel all "
 "pending operations and close immediately, or keep waiting?"
 msgstr ""
+"Evolution își asumă un timp lung pentru închidere, posibil din cauza unor probleme de conexiune la rețea. Doriți să "
+"anulați toate operațiunile în desfășurare și să închideți imediat, sau să continuați așteptarea?"
 
 #: ../src/shell/shell.error.xml.h:13
 msgid "_Close Immediately"
@@ -24757,11 +24797,11 @@ msgstr "Eșec la obținerea valorilor de la „{0}”"
 
 #: ../src/shell/shell.error.xml.h:16
 msgid "Failed to invoke authenticate for “{0}”"
-msgstr ""
+msgstr "Eșec la invocarea autentificării pentru „{0}”"
 
 #: ../src/shell/shell.error.xml.h:17
 msgid "Failed to connect “{0}”"
-msgstr ""
+msgstr "Eșec la conectarea „{0}”"
 
 #: ../src/shell/shell.error.xml.h:18
 msgid "_Reconnect"
@@ -24789,27 +24829,27 @@ msgstr "Eșec la conectarea listei de sarcini „{0}”"
 
 #: ../src/shell/shell.error.xml.h:24
 msgid "Failed to prompt for credentials for “{0}”"
-msgstr ""
+msgstr "Eșec la solicitarea de credențiale pentru „{0}”"
 
 #: ../src/shell/shell.error.xml.h:25
 msgid "Failed to finish trust prompt for “{0}”"
-msgstr ""
+msgstr "Eșec la finalizarea solicitării pentru „{0}”"
 
 #: ../src/shell/shell.error.xml.h:26
 msgid "SSL certificate for “{0}” is not trusted."
-msgstr ""
+msgstr "Certificatul SSL pentru „{0}” nu este de încredere."
 
 #: ../src/shell/shell.error.xml.h:27
 msgid "Reason: {1}"
-msgstr ""
+msgstr "Motiv: {1}"
 
 #: ../src/shell/shell.error.xml.h:29
 msgid "SSL certificate for address book “{0}” is not trusted."
-msgstr ""
+msgstr "Certificatul SSL pentru agenda „{0}” nu este de încredere."
 
 #: ../src/shell/shell.error.xml.h:30
 msgid "SSL certificate for calendar “{0}” is not trusted."
-msgstr ""
+msgstr "Certificatul SSL pentru calendarul „{0}” nu este de încredere."
 
 #: ../src/shell/shell.error.xml.h:31
 msgid "SSL certificate for mail account “{0}” is not trusted."
@@ -24817,11 +24857,11 @@ msgstr "Certificatul SSL pentru contul de email „{0}” nu este de încredere.
 
 #: ../src/shell/shell.error.xml.h:32
 msgid "SSL certificate for memo list “{0}” is not trusted."
-msgstr ""
+msgstr "Certificatul SSL pentru lista de memouri „{0}” nu este de încredere."
 
 #: ../src/shell/shell.error.xml.h:33
 msgid "SSL certificate for task list “{0}” is not trusted."
-msgstr ""
+msgstr "Certificatul SSL pentru lista de sarcini „{0}” nu este de încredere."
 
 #: ../src/shell/shell.error.xml.h:34
 msgid "Menu Bar is hidden"
@@ -24829,7 +24869,7 @@ msgstr "Bara de meniu este ascunsă"
 
 #: ../src/shell/shell.error.xml.h:35
 msgid "Press the “Alt” key to access the Menu Bar again."
-msgstr ""
+msgstr "Apăsați tasta „Alt” pentru a accesa Bara de meniu din nou."
 
 #: ../src/shell/shell.error.xml.h:36
 msgid "_Show Menu Bar"
@@ -24910,7 +24950,7 @@ msgstr "Adresa de email"
 
 #: ../src/smime/gui/certificate-manager.c:648
 msgid "Select a file to backup your key and certificate..."
-msgstr ""
+msgstr "Selectați un fișier pentru salvarea unei copii de siguranță a cheii și certificatului..."
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
@@ -24920,7 +24960,7 @@ msgstr ""
 #: ../src/smime/gui/certificate-manager.c:658
 #, c-format
 msgid "%s-backup.p12"
-msgstr ""
+msgstr "%s-copie-de-siguranta.p12"
 
 #: ../src/smime/gui/certificate-manager.c:721
 msgid "Backup Certificate"
@@ -24938,7 +24978,7 @@ msgstr "Selectați un fișier..."
 
 #: ../src/smime/gui/certificate-manager.c:755
 msgid "_Include certificate chain in the backup"
-msgstr ""
+msgstr "_Include lanțul de certificate în copia de siguranță"
 
 #. To Translators: this text was copied from Firefox
 #: ../src/smime/gui/certificate-manager.c:761
@@ -24946,6 +24986,9 @@ msgid ""
 "The certificate backup password you set here protects the backup file that you are about to create.\n"
 "You must set this password to proceed with the backup."
 msgstr ""
+"Parola copiei de siguranță a certificatului pe care o stabiliți aici protejează fișierul copiei de siguranță pe care îl "
+"veți crea.\n"
+"Trebuie să stabiliți această parolă pentru a continua cu copia de siguranță."
 
 #: ../src/smime/gui/certificate-manager.c:780
 msgid "_Repeat Password:"
@@ -24953,7 +24996,7 @@ msgstr "_Repetați parola:"
 
 #: ../src/smime/gui/certificate-manager.c:799
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Parolele nu se potrivesc"
 
 #. To Translators: this text was copied from Firefox
 #: ../src/smime/gui/certificate-manager.c:807
@@ -24962,6 +25005,10 @@ msgid ""
 "If you forget your certificate backup password, you will not be able to restore this backup later.\n"
 "Please record it in a safe location."
 msgstr ""
+"Important:\n"
+"Dacă uitați parola copiei de siguranță a certificatului, nu veți mai putea fi capabil să restaurați din această copie mai "
+"târziu.\n"
+"Păstrați-o într-o locație sigură."
 
 #: ../src/smime/gui/certificate-manager.c:852
 msgid "No file name provided"
