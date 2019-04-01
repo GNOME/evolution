@@ -2072,7 +2072,7 @@ emcu_change_locale (const gchar *lc_messages,
 	if (lc_time) {
 		#if defined(LC_TIME)
 		previous = g_strdup (setlocale (LC_TIME, NULL));
-		success = setlocale (LC_ALL, lc_time) != NULL;
+		success = setlocale (LC_TIME, lc_time) != NULL;
 		#elif defined(LC_MESSAGES)
 		previous = g_strdup (setlocale (LC_ALL, NULL));
 		success = setlocale (LC_ALL, lc_time) != NULL;
