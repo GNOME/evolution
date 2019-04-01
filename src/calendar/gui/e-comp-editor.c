@@ -2120,7 +2120,7 @@ e_comp_editor_constructed (GObject *object)
 		{ "save-and-close",
 		  NULL,
 		  N_("Save and Close"),
-		  NULL,
+		  "<Control>Return",
 		  N_("Save current changes and close editor"),
 		  G_CALLBACK (action_save_and_close_cb) }
 	};
