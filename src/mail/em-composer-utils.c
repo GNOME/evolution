@@ -2584,11 +2584,41 @@ real_update_forwarded_flag (gpointer uid,
 
 static void
 update_forwarded_flags_cb (EMsgComposer *composer,
+			   CamelMimeMessage *message,
+			   EActivity *activity,
                            ForwardData *data)
 {
 	if (data && data->uids && data->folder)
 		g_ptr_array_foreach (
 			data->uids, real_update_forwarded_flag, data->folder);
+}
+
+static void
+emu_set_source_headers (EMsgComposer *composer,
+			CamelFolder *folder,
+			const gchar *message_uid,
+			guint32 flags)
+{
+	gchar *source_folder_uri = NULL;
+	gchar *source_message_uid = NULL;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if (!folder || !message_uid)
+		return;
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
+	em_utils_get_real_folder_uri_and_message_uid (folder, message_uid,
+		&source_folder_uri, &source_message_uid);
+
+	if (!source_message_uid)
+		source_message_uid = g_strdup (message_uid);
+
+	if (source_folder_uri && source_message_uid)
+		e_msg_composer_set_source_headers (composer, source_folder_uri, source_message_uid, flags);
+
+	g_free (source_folder_uri);
+	g_free (source_message_uid);
 }
 
 static void
@@ -2601,7 +2631,10 @@ setup_forward_attached_callbacks (EMsgComposer *composer,
 	if (!composer || !folder || !uids || !uids->len)
 		return;
 
-	g_object_ref (folder);
+	if (uids->len == 1) {
+		emu_set_source_headers (composer, folder, uids->pdata[0], CAMEL_MESSAGE_FORWARDED);
+		return;
+	}
 
 	data = g_slice_new0 (ForwardData);
 	data->folder = g_object_ref (folder);
@@ -2662,19 +2695,7 @@ forward_non_attached (EMsgComposer *composer,
 
 		emu_add_composer_references_from_message (composer, message);
 
-		if (uid != NULL) {
-			gchar *folder_uri = NULL, *tmp_message_uid = NULL;
-
-			em_utils_get_real_folder_uri_and_message_uid (
-				folder, uid, &folder_uri, &tmp_message_uid);
-
-			e_msg_composer_set_source_headers (
-				composer, folder_uri, tmp_message_uid,
-				CAMEL_MESSAGE_FORWARDED);
-
-			g_free (folder_uri);
-			g_free (tmp_message_uid);
-		}
+		emu_set_source_headers (composer, folder, uid, CAMEL_MESSAGE_FORWARDED);
 
 		emu_update_composers_security (composer, validity_found);
 		composer_set_no_change (composer);
@@ -2719,6 +2740,7 @@ em_utils_forward_message (EMsgComposer *composer,
                           const gchar *uid)
 {
 	CamelMimePart *part;
+	GPtrArray *uids = NULL;
 	gchar *subject;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -2732,7 +2754,12 @@ em_utils_forward_message (EMsgComposer *composer,
 			part = mail_tool_make_message_attachment (message);
 			subject = mail_tool_generate_forward_subject (message);
 
-			em_utils_forward_attachment (composer, part, subject, NULL, NULL);
+			if (folder && uid) {
+				uids = g_ptr_array_new ();
+				g_ptr_array_add (uids, (gpointer) uid);
+			}
+
+			em_utils_forward_attachment (composer, part, subject, uids ? folder : NULL, uids);
 
 			g_object_unref (part);
 			g_free (subject);
@@ -2743,6 +2770,9 @@ em_utils_forward_message (EMsgComposer *composer,
 			forward_non_attached (composer, folder, uid, message, style);
 			break;
 	}
+
+	if (uids)
+		g_ptr_array_unref (uids);
 }
 
 void
@@ -3942,22 +3972,8 @@ alt_reply_composer_created_cb (GObject *source_object,
 			g_clear_object (&postto);
 
 			if (context->folder && context->message_uid) {
-				gchar *source_folder_uri = NULL;
-				gchar *source_message_uid = NULL;
-
-				em_utils_get_real_folder_uri_and_message_uid (context->folder, context->message_uid,
-					&source_folder_uri, &source_message_uid);
-
-				if (!source_message_uid)
-					source_message_uid = g_strdup (context->message_uid);
-
-				if (source_folder_uri) {
-					e_msg_composer_set_source_headers (composer, source_folder_uri,
-						source_message_uid, CAMEL_MESSAGE_ANSWERED | get_composer_mark_read_on_reply_flag ());
-				}
-
-				g_free (source_folder_uri);
-				g_free (source_message_uid);
+				emu_set_source_headers (composer, context->folder, context->message_uid,
+					CAMEL_MESSAGE_ANSWERED | get_composer_mark_read_on_reply_flag ());
 			}
 		} else {
 			em_utils_reply_to_message (composer, context->source_message,
@@ -4724,17 +4740,8 @@ em_utils_reply_to_message (EMsgComposer *composer,
 
 	composer_set_body (composer, message, style, parts_list);
 
-	if (folder != NULL) {
-		gchar *folder_uri = NULL, *tmp_message_uid = NULL;
-
-		em_utils_get_real_folder_uri_and_message_uid (folder, message_uid, &folder_uri, &tmp_message_uid);
-
-		e_msg_composer_set_source_headers (
-			composer, folder_uri, tmp_message_uid, flags);
-
-		g_free (folder_uri);
-		g_free (tmp_message_uid);
-	}
+	if (folder)
+		emu_set_source_headers (composer, folder, message_uid, flags);
 
 	/* because some reply types can change recipients after the composer is populated */
 	em_utils_apply_send_account_override_to_composer (composer, folder);
