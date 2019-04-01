@@ -3882,19 +3882,61 @@ find_cal_update_ui (FormatItipFindData *fd,
 		if (ncomps == 1 && icalcomps->data) {
 			icalcomponent *icalcomp = icalcomps->data;
 
-			itip_view_add_upper_info_item_printf (
-				view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-				_("An appointment “%s” in the calendar “%s” conflicts with this meeting"),
-				icalcomponent_get_summary (icalcomp),
-				e_source_get_display_name (source));
+			switch (e_cal_client_get_source_type (cal_client)) {
+			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			default:
+				itip_view_add_upper_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+					_("An appointment “%s” in the calendar “%s” conflicts with this meeting"),
+					icalcomponent_get_summary (icalcomp),
+					e_source_get_display_name (source));
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+				itip_view_add_upper_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+					_("A task “%s” in the task list “%s” conflicts with this task"),
+					icalcomponent_get_summary (icalcomp),
+					e_source_get_display_name (source));
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+				itip_view_add_upper_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+					_("A memo “%s” in the memo list “%s” conflicts with this memo"),
+					icalcomponent_get_summary (icalcomp),
+					e_source_get_display_name (source));
+				break;
+			}
 		} else {
-			itip_view_add_upper_info_item_printf (
-				view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
-				ngettext ("The calendar “%s” contains an appointment which conflicts with this meeting",
-					  "The calendar “%s” contains %d appointments which conflict with this meeting",
-					  ncomps),
-				e_source_get_display_name (source),
-				ncomps);
+			switch (e_cal_client_get_source_type (cal_client)) {
+			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			default:
+				itip_view_add_upper_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+					ngettext ("The calendar “%s” contains an appointment which conflicts with this meeting",
+						  "The calendar “%s” contains %d appointments which conflict with this meeting",
+						  ncomps),
+					e_source_get_display_name (source),
+					ncomps);
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+				itip_view_add_upper_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+					ngettext ("The task list “%s” contains a task which conflicts with this task",
+						  "The task list “%s” contains %d tasks which conflict with this task",
+						  ncomps),
+					e_source_get_display_name (source),
+					ncomps);
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+				itip_view_add_upper_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
+					ngettext ("The memo list “%s” contains a memo which conflicts with this memo",
+						  "The memo list “%s” contains %d memos which conflict with this memo",
+						  ncomps),
+					e_source_get_display_name (source),
+					ncomps);
+				break;
+			}
 		}
 	}
 
@@ -3921,9 +3963,24 @@ find_cal_update_ui (FormatItipFindData *fd,
 		view->priv->progress_info_id = 0;
 
 		/* FIXME Check read only state of calendar? */
-		itip_view_add_lower_info_item_printf (
-			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Found the appointment in the calendar “%s”"), e_source_get_display_name (source));
+		switch (e_cal_client_get_source_type (cal_client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+		default:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Found the appointment in the calendar “%s”"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Found the task in the task list “%s”"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Found the memo in the memo list “%s”"), e_source_get_display_name (source));
+			break;
+		}
 
 		g_cancellable_cancel (fd->cancellable);
 
@@ -4361,6 +4418,7 @@ find_server (ItipView *view,
 	ESource *current_source = NULL;
 	GList *list, *link;
 	GList *conflict_list = NULL;
+	const gchar *searching_text = NULL;
 	const gchar *extension_name;
 	const gchar *store_uid;
 
@@ -4370,12 +4428,15 @@ find_server (ItipView *view,
 	switch (view->priv->type) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			extension_name = E_SOURCE_EXTENSION_CALENDAR;
+			searching_text = _("Searching for an existing version of this appointment");
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+			searching_text = _("Searching for an existing version of this task");
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+			searching_text = _("Searching for an existing version of this memo");
 			break;
 		default:
 			g_return_if_reached ();
@@ -4438,7 +4499,7 @@ find_server (ItipView *view,
 		link = list;
 		view->priv->progress_info_id = itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
-			_("Searching for an existing version of this appointment"));
+			searching_text);
 	}
 
 	for (; link != NULL; link = g_list_next (link)) {
@@ -4843,12 +4904,33 @@ receive_objects_ready_cb (GObject *ecalclient,
 
 	} else if (error != NULL) {
 		update_item_progress_info (view, NULL);
-		view->priv->update_item_error_info_id =
-			itip_view_add_lower_info_item_printf (
-				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-				_("Unable to send item to calendar “%s”.  %s"),
-				e_source_get_display_name (source),
-				error->message);
+		switch (e_cal_client_get_source_type (client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+		default:
+			view->priv->update_item_error_info_id =
+				itip_view_add_lower_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					_("Unable to send item to calendar “%s”. %s"),
+					e_source_get_display_name (source),
+					error->message);
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			view->priv->update_item_error_info_id =
+				itip_view_add_lower_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					_("Unable to send item to task list “%s”. %s"),
+					e_source_get_display_name (source),
+					error->message);
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			view->priv->update_item_error_info_id =
+				itip_view_add_lower_info_item_printf (
+					view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+					_("Unable to send item to memo list “%s”. %s"),
+					e_source_get_display_name (source),
+					error->message);
+			break;
+		}
 		g_error_free (error);
 		return;
 	}
@@ -4859,26 +4941,84 @@ receive_objects_ready_cb (GObject *ecalclient,
 
 	switch (view->priv->update_item_response) {
 	case ITIP_VIEW_RESPONSE_ACCEPT:
-		itip_view_add_lower_info_item_printf (
-			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar “%s” as accepted"), e_source_get_display_name (source));
+		switch (e_cal_client_get_source_type (client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+		default:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to calendar “%s” as accepted"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to task list “%s” as accepted"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to memo list “%s” as accepted"), e_source_get_display_name (source));
+			break;
+		}
 		break;
 	case ITIP_VIEW_RESPONSE_TENTATIVE:
-		itip_view_add_lower_info_item_printf (
-			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar “%s” as tentative"), e_source_get_display_name (source));
+		switch (e_cal_client_get_source_type (client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+		default:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to calendar “%s” as tentative"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to task list “%s” as tentative"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to memo list “%s” as tentative"), e_source_get_display_name (source));
+			break;
+		}
 		break;
 	case ITIP_VIEW_RESPONSE_DECLINE:
-		/* FIXME some calendars just might not save it at all, is this accurate? */
-		itip_view_add_lower_info_item_printf (
-			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar “%s” as declined"), e_source_get_display_name (source));
+		switch (e_cal_client_get_source_type (client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+		default:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to calendar “%s” as declined"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to task list “%s” as declined"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to memo list “%s” as declined"), e_source_get_display_name (source));
+			break;
+		}
 		break;
 	case ITIP_VIEW_RESPONSE_CANCEL:
-		/* FIXME some calendars just might not save it at all, is this accurate? */
-		itip_view_add_lower_info_item_printf (
-			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent to calendar “%s” as cancelled"), e_source_get_display_name (source));
+		switch (e_cal_client_get_source_type (client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+		default:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to calendar “%s” as cancelled"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to task list “%s” as cancelled"), e_source_get_display_name (source));
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			itip_view_add_lower_info_item_printf (
+				view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
+				_("Sent to memo list “%s” as cancelled"), e_source_get_display_name (source));
+			break;
+		}
 		break;
 	default:
 		g_warn_if_reached ();
@@ -4904,6 +5044,23 @@ remove_alarms_in_component (icalcomponent *clone)
 }
 
 static void
+claim_progress_saving_changes (ItipView *view)
+{
+	switch (e_cal_client_get_source_type (view->priv->current_client)) {
+	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+	default:
+		update_item_progress_info (view, _("Saving changes to the calendar. Please wait…"));
+		break;
+	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+		update_item_progress_info (view, _("Saving changes to the task list. Please wait…"));
+		break;
+	case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+		update_item_progress_info (view, _("Saving changes to the memo list. Please wait…"));
+		break;
+	}
+}
+
+static void
 update_item (ItipView *view,
              ItipViewResponse response)
 {
@@ -4913,7 +5070,7 @@ update_item (ItipView *view,
 	ECalComponent *clone_comp;
 	gchar *str;
 
-	update_item_progress_info (view, _("Saving changes to the calendar. Please wait..."));
+	claim_progress_saving_changes (view);
 
 	while (e_cal_util_remove_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME")) {
 		/* Delete all existing X-MICROSOFT-CDO-REPLYTIME properties first */
@@ -5372,7 +5529,7 @@ update_attendee_status_icalcomp (ItipView *view,
 			NULL, NULL, NULL, TRUE, FALSE, NULL, NULL);
 	}
 
-	update_item_progress_info (view, _("Saving changes to the calendar. Please wait..."));
+	claim_progress_saving_changes (view);
 
 	e_cal_client_modify_object (
 		view->priv->current_client,
@@ -5475,7 +5632,7 @@ update_attendee_status (ItipView *view)
 	e_cal_component_get_uid (view->priv->comp, &uid);
 	rid = e_cal_component_get_recurid_as_string (view->priv->comp);
 
-	update_item_progress_info (view, _("Saving changes to the calendar. Please wait..."));
+	claim_progress_saving_changes (view);
 
 	/* search for a master object if the detached object doesn't exist in the calendar */
 	e_cal_client_get_object (
