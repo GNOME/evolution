@@ -133,6 +133,14 @@ typedef enum {
 	E_CALENDAR_VIEW_MOVE_TO_EXACT_DAY
 } ECalendarViewMoveType;
 
+typedef enum {
+	E_NEW_APPOINTMENT_FLAG_NONE		  = 0,
+	E_NEW_APPOINTMENT_FLAG_ALL_DAY		  = 1 << 0,
+	E_NEW_APPOINTMENT_FLAG_MEETING		  = 1 << 1,
+	E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE	  = 1 << 2,
+	E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME = 1 << 3
+} ENewAppointmentFlags;
+
 struct _ECalendarViewClass {
 	GtkGridClass parent_class;
 
@@ -231,12 +239,8 @@ void		e_calendar_view_add_event	(ECalendarView *cal_view,
 						 icaltimezone *default_zone,
 						 icalcomponent *icalcomp,
 						 gboolean in_top_canvas);
-void		e_calendar_view_new_appointment_full
-						(ECalendarView *cal_view,
-						 gboolean all_day,
-						 gboolean meeting,
-						 gboolean no_past_date);
-void		e_calendar_view_new_appointment	(ECalendarView *cal_view);
+void		e_calendar_view_new_appointment	(ECalendarView *cal_view,
+						 guint32 flags); /* bit-or of ENewAppointmentFlags */
 void		e_calendar_view_edit_appointment
 						(ECalendarView *cal_view,
 						 ECalClient *client,

@@ -320,7 +320,7 @@ action_interface_do_action (AtkAction *action,
 	switch (index) {
 	case 0:
 		/* New Appointment */
-		e_calendar_view_new_appointment (cal_view);
+		e_calendar_view_new_appointment (cal_view, E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE);
 		break;
 	case 1:
 		/* New All Day Event */

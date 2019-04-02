@@ -1482,30 +1482,29 @@ e_calendar_view_open_event (ECalendarView *cal_view)
 }
 
 /**
- * e_calendar_view_new_appointment_full
+ * e_calendar_view_new_appointment
  * @cal_view: an #ECalendarView
- * @all_day: Whether create all day event or not.
- * @meeting: This is a meeting or an appointment.
- * @no_past_date: Don't create event in past date, use actual date instead
- * (if %TRUE).
+ * @flags: bit-or of ENewAppointmentFlags
  *
  * Opens an event editor dialog for a new appointment. The appointment's
  * start and end times are set to the currently selected time range in
- * the calendar view.
+ * the calendar view, unless the flags contain E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME,
+ * in which case the current time is used.
  *
- * When the selection is for all day and we don't need @all_day event,
- * then this do a rounding to the actual hour for actual day (today) and
+ * When the selection is for all day and we don't need all day event,
+ * then this does a rounding to the actual hour for actual day (today) and
  * to the 'day begins' from preferences in other selected day.
  */
 void
-e_calendar_view_new_appointment_full (ECalendarView *cal_view,
-                                      gboolean all_day,
-                                      gboolean meeting,
-                                      gboolean no_past_date)
+e_calendar_view_new_appointment (ECalendarView *cal_view,
+				 guint32 flags)
 {
 	ECalModel *model;
 	time_t dtstart, dtend, now;
 	gboolean do_rounding = FALSE;
+	gboolean all_day = (flags & E_NEW_APPOINTMENT_FLAG_ALL_DAY) != 0;
+	gboolean meeting = (flags & E_NEW_APPOINTMENT_FLAG_MEETING) != 0;
+	gboolean no_past_date = (flags & E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE) != 0;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
@@ -1513,12 +1512,13 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view,
 
 	now = time (NULL);
 
-	if (!e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend)) {
+	if ((flags & E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME) != 0 ||
+	    !e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend)) {
 		dtstart = now;
 		dtend = dtstart + 3600;
 	}
 
-	if (no_past_date && dtstart < now) {
+	if (no_past_date && dtstart <= now) {
 		dtend = time_day_begin (now) + (dtend - dtstart);
 		dtstart = time_day_begin (now);
 		do_rounding = TRUE;
@@ -1550,20 +1550,14 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view,
 		}
 
 		dtstart = dtstart + (60 * 60 * hours) + (mins * 60);
+		if (no_past_date && dtstart <= now)
+			dtstart += ((((now - dtstart) / 60 / time_div)) + time_div) * 60;
 		dtend = dtstart + (time_div * 60);
 	}
 
 	e_cal_ops_new_component_editor_from_model (
 		e_calendar_view_get_model (cal_view), NULL,
 		dtstart, dtend, meeting, all_day);
-}
-
-void
-e_calendar_view_new_appointment (ECalendarView *cal_view)
-{
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	e_calendar_view_new_appointment_full (cal_view, FALSE, FALSE, FALSE);
 }
 
 /* Ensures the calendar is selected */

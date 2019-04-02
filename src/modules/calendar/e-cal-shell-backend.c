@@ -82,7 +82,10 @@ action_event_new_cb (GtkAction *action,
 
 		view = e_cal_shell_content_get_current_calendar_view (E_CAL_SHELL_CONTENT (shell_content));
 		if (view != NULL) {
-			e_calendar_view_new_appointment_full (view, is_all_day, is_meeting, TRUE);
+			e_calendar_view_new_appointment (view, E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE |
+				(is_all_day ? E_NEW_APPOINTMENT_FLAG_ALL_DAY : 0) |
+				(is_meeting ? E_NEW_APPOINTMENT_FLAG_MEETING : 0) |
+				(e_shell_view_is_active (shell_view) ? 0 : E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME));
 			return;
 		}
 	}

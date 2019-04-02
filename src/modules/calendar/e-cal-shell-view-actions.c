@@ -516,16 +516,11 @@ action_event_all_day_new_cb (GtkAction *action,
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 
-	/* These are just for readability. */
-	gboolean all_day = TRUE;
-	gboolean meeting = FALSE;
-	gboolean no_past_date = FALSE;
-
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 
-	e_calendar_view_new_appointment_full (
-		calendar_view, all_day, meeting, no_past_date);
+	e_calendar_view_new_appointment (calendar_view, E_NEW_APPOINTMENT_FLAG_ALL_DAY | E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE |
+		(e_shell_view_is_active (E_SHELL_VIEW (cal_shell_view)) ? 0 : E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME));
 }
 
 static void
@@ -793,16 +788,11 @@ action_event_meeting_new_cb (GtkAction *action,
 	ECalShellContent *cal_shell_content;
 	ECalendarView *calendar_view;
 
-	/* These are just for readability. */
-	gboolean all_day = FALSE;
-	gboolean meeting = TRUE;
-	gboolean no_past_date = FALSE;
-
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 
-	e_calendar_view_new_appointment_full (
-		calendar_view, all_day, meeting, no_past_date);
+	e_calendar_view_new_appointment (calendar_view, E_NEW_APPOINTMENT_FLAG_MEETING | E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE |
+		(e_shell_view_is_active (E_SHELL_VIEW (cal_shell_view)) ? 0 : E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME));
 }
 
 static void
@@ -815,7 +805,8 @@ action_event_new_cb (GtkAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	calendar_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 
-	e_calendar_view_new_appointment (calendar_view);
+	e_calendar_view_new_appointment (calendar_view, E_NEW_APPOINTMENT_FLAG_NO_PAST_DATE |
+		(e_shell_view_is_active (E_SHELL_VIEW (cal_shell_view)) ? 0 : E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME));
 }
 
 typedef struct
