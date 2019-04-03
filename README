@@ -147,3 +147,9 @@ After the Evolution is properly configured, run:
                 make -j install
 
 to build it.
+
+ONLINE BUILD MANUAL
+-------------------
+
+An online build manual can be found here:
+https://wiki.gnome.org/Apps/Evolution/Building
