@@ -1,3 +1,54 @@
+Evolution 3.32.1 2019-04-08
+---------------------------
+
+Bug Fixes:
+	I#190 - Meeting editor doesn't show addresses after open when set to (Milan Crha)
+	I#286 - Double click on month/year in minicalendar switches view to Day View (Milan Crha)
+	I#325 - F2 shortcut to Rename Folder stopped working (Milan Crha)
+	I#327 - Paragraph format change in quotation can break stored selection (Milan Crha)
+	I#336 - Change on an existing attendee not recognized by a meeting editor (Milan Crha)
+	I#339 - Include SUMMARY property in email reminders (Milan Crha)
+	I#343 - Composer autosave can overwrite backup with empty content (Milan Crha)
+	I#344 - Make 'next unread mail' shortcut jump to next folder (Milan Crha)
+	I#348 - Email addresses in composer reset after space deletion (Milan Crha)
+	I#359 - F6 key to switch between panes does not work (Milan Crha)
+	I#370 - A collection enable/disable in Accounts not reflected in the Mail view (Milan Crha)
+	I#373 - [Flatpak] Do not restart already running D-Bus services (Milan Crha)
+	I#376 - Interactive search in the “Folder Subscriptions” does nothing (Milan Crha)
+	I#378 - Inconsistent Icons for Tasks with Attendees in To-Do bar (Milan Crha)
+	I#386 - Forward as Attachment doesn't remember source message reference (Milan Crha)
+	I#390 - Free form expression search for Attachment doesn't work (Milan Crha)
+	I#392 - Template user variables not replaced with Alternative Reply (Milan Crha)
+	I#395 - Escape values in the task/memo preview (Milan Crha)
+
+Miscellaneous:
+	Update flatpak 'master' version manifest (Milan Crha)
+	Expand/collapse buttons in vCard preview do nothing (Milan Crha)
+	Fix few memory leaks around vCard preview and mail attachment parsing (Milan Crha)
+	Fix some maybe uninitialized variable usages (Milan Crha)
+	Fix a copy&paste error with LC_TIME in emcu_change_locale() (Milan Crha)
+	[CompEditor] Use CSS3 color name in the iCalendar COLOR property (Milan Crha)
+	Update flatpak README (Milan Crha)
+	Fix two memory leaks (Milan Crha)
+	help: Cover customizing keyboard shortcuts (Andre Klapper)
+	help: A custom Archive mail folder requires to first set a general one (Andre Klapper)
+	help: New mail notification in mail icon is not a star anymore (Andre Klapper)
+	help: Update application icon for 3.32 (Andre Klapper)
+
+Translations:
+	Марко Костић (sr)
+	Gianvito Cavasoli (it)
+	Daniel Șerbănescu (ro)
+	Tim Sabsch (de)
+	Matej Urbančič (sl)
+	Asier Sarasua Garmendia (eu)
+	Bruce Cowan (en_GB)
+	Daniel Șerbănescu (ro)
+	Jordi Mas (ca)
+	Ask Hjorth Larsen (da)
+	Anders Jonsson (sv)
+	Balázs Úr (hu)
+
 Evolution 3.32.0 2019-03-11
 ---------------------------
 
