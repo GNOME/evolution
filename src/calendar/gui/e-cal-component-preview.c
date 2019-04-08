@@ -184,6 +184,30 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 }
 
 static void
+cal_component_preview_add_table_line (GString *buffer,
+				      const gchar *header,
+				      const gchar *value)
+{
+	gchar *markup_header, *markup_value;
+
+	g_return_if_fail (buffer != NULL);
+
+	if (!value || !*value)
+		return;
+
+	markup_header = header ? g_markup_escape_text (header, -1) : NULL;
+	markup_value = g_markup_escape_text (value, -1);
+
+	g_string_append_printf (buffer,
+		"<tr><th>%s</th><td>%s</td></tr>",
+		markup_header ? markup_header : "",
+		markup_value);
+
+	g_free (markup_header);
+	g_free (markup_value);
+}
+
+static void
 cal_component_preview_write_html (ECalComponentPreview *preview,
                                   GString *buffer)
 {
@@ -198,8 +222,9 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	icalcomponent *icalcomp;
 	icalproperty *icalprop;
 	icalproperty_status status;
-	const gchar *location, *url;
+	const gchar *location, *url, *tmp;
 	gint *priority_value;
+	gchar *markup;
 
 	client = preview->priv->client;
 	comp = preview->priv->comp;
@@ -211,18 +236,23 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	g_string_append (buffer, HTML_HEADER);
 	g_string_append (buffer, "<body class=\"-e-web-view-background-color -e-web-view-text-color\">");
 
+	markup = g_markup_escape_text (text.value ? text.value : _("Untitled"), -1);
 	if (text.value)
-		g_string_append_printf (buffer, "<h2>%s</h2>", text.value);
+		g_string_append_printf (buffer, "<h2>%s</h2>", markup);
 	else
-		g_string_append_printf (buffer, "<h2><i>%s</i></h2>",_("Untitled"));
+		g_string_append_printf (buffer, "<h2><i>%s</i></h2>", markup);
+	g_free (markup);
 
 	g_string_append (buffer, "<table border=\"0\" cellspacing=\"5\">");
 
 	/* write icons for the categories */
 	string = g_string_new (NULL);
 	e_cal_component_get_categories_list (comp, &list);
-	if (list != NULL)
-		g_string_append_printf (buffer, "<tr><th>%s</th><td>", _("Categories:"));
+	if (list != NULL) {
+		markup = g_markup_escape_text (_("Categories:"), -1);
+		g_string_append_printf (buffer, "<tr><th>%s</th><td>", markup);
+		g_free (markup);
+	}
 	for (iter = list; iter != NULL; iter = iter->next) {
 		const gchar *category = iter->data;
 		gchar *icon_file;
@@ -239,7 +269,10 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		} else {
 			if (iter != list)
 				g_string_append_len (string, ", ", 2);
-			g_string_append (string, category);
+
+			markup = g_markup_escape_text (category, -1);
+			g_string_append (string, markup);
+			g_free (markup);
 		}
 
 		g_free (icon_file);
@@ -253,18 +286,13 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 	/* write location */
 	e_cal_component_get_location (comp, &location);
-	if (location && *location)
-		g_string_append_printf (
-			buffer, "<tr><th>%s</th><td>%s</td></tr>",
-			_("Location:"), location);
+	cal_component_preview_add_table_line (buffer, _("Location:"), location);
 
 	/* write start date */
 	e_cal_component_get_dtstart (comp, &dt);
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (&dt, client, default_zone);
-		g_string_append_printf (
-			buffer, "<tr><th>%s</th><td>%s</td></tr>",
-			_("Start Date:"), str);
+		cal_component_preview_add_table_line (buffer, _("Start Date:"), str);
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&dt);
@@ -273,9 +301,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	e_cal_component_get_dtend (comp, &dt);
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (&dt, client, default_zone);
-		g_string_append_printf (
-			buffer,"<tr><th>%s</th><td>%s</td></tr>",
-			_("End Date:"), str);
+		cal_component_preview_add_table_line (buffer, _("End Date:"), str);
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&dt);
@@ -284,9 +310,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	e_cal_component_get_due (comp, &dt);
 	if (dt.value != NULL) {
 		str = timet_to_str_with_zone (&dt, client, default_zone);
-		g_string_append_printf (
-			buffer, "<tr><th>%s</th><td>%s</td></tr>",
-			_("Due Date:"), str);
+		cal_component_preview_add_table_line (buffer, _("Due Date:"), str);
 		g_free (str);
 	}
 	e_cal_component_free_datetime (&dt);
@@ -296,9 +320,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 			calendar_config_get_week_start_day (), E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_NONE);
 
 		if (str) {
-			g_string_append_printf (
-				buffer, "<tr><th>%s</th><td>%s</td></tr>",
-				_("Recurs:"), str);
+			cal_component_preview_add_table_line (buffer, _("Recurs:"), str);
 			g_free (str);
 		}
 	}
@@ -308,46 +330,37 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	icalprop = icalcomponent_get_first_property (
 		icalcomp, ICAL_STATUS_PROPERTY);
 	if (icalprop != NULL) {
-		g_string_append_printf (
-			buffer, "<tr><th>%s</th>",
-			_("Status:"));
 		e_cal_component_get_status (comp, &status);
 		switch (status) {
 		case ICAL_STATUS_INPROCESS :
-			str = g_strdup (_("In Progress"));
+			tmp = _("In Progress");
 			break;
 		case ICAL_STATUS_COMPLETED :
-			str = g_strdup (_("Completed"));
+			tmp = _("Completed");
 			break;
 		case ICAL_STATUS_CANCELLED :
-			str = g_strdup (_("Cancelled"));
+			tmp = _("Cancelled");
 			break;
 		case ICAL_STATUS_NONE :
 		default :
-			str = g_strdup (_("Not Started"));
+			tmp = _("Not Started");
 			break;
 		}
 
-		g_string_append_printf (buffer, "<td>%s</td></tr>", str);
-		g_free (str);
+		cal_component_preview_add_table_line (buffer, _("Status:"), tmp);
 	}
 
 	/* write priority */
 	e_cal_component_get_priority (comp, &priority_value);
 	if (priority_value && *priority_value != 0) {
-		g_string_append_printf (
-			buffer, "<tr><th>%s</th>",
-			_("Priority:"));
 		if (*priority_value <= 4)
-			str = g_strdup (_("High"));
+			tmp = _("High");
 		else if (*priority_value == 5)
-			str = g_strdup (_("Normal"));
+			tmp = _("Normal");
 		else
-			str = g_strdup (_("Low"));
+			tmp = _("Low");
 
-		g_string_append_printf (buffer, "<td>%s</td></tr>", str);
-
-		g_free (str);
+		cal_component_preview_add_table_line (buffer, _("Priority:"), tmp);
 	}
 
 	if (priority_value)
@@ -362,9 +375,9 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 			const gchar *email = itip_strip_mailto (organizer.value);
 			if (!email)
 				email = "";
-			g_string_append_printf (
-				buffer, "<tr><th>%s</th>",
-				_("Organizer:"));
+			markup = g_markup_escape_text (_("Organizer:"), -1);
+			g_string_append_printf (buffer, "<tr><th>%s</th>", markup);
+			g_free (markup);
 			if (organizer.cn && *organizer.cn) {
 				gchar *html;
 
@@ -401,9 +414,9 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 				continue;
 
 			if (!have) {
-				g_string_append_printf (
-					buffer, "<tr><th>%s</th><td>",
-					_("Attendees:"));
+				markup = g_markup_escape_text (_("Attendees:"), -1);
+				g_string_append_printf (buffer, "<tr><th>%s</th><td>", markup);
+				g_free (markup);
 			} else {
 				g_string_append (buffer, "<br>");
 			}
@@ -448,9 +461,9 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	if (list) {
 		GSList *node;
 
-		g_string_append_printf (
-			buffer, "<tr><th>%s</th>",
-			_("Description:"));
+		markup = g_markup_escape_text (_("Description:"), -1);
+		g_string_append_printf (buffer, "<tr><th>%s</th>", markup);
+		g_free (markup);
 
 		g_string_append (buffer, "<td class=\"description\">");
 
@@ -479,7 +492,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	/* URL */
 	e_cal_component_get_url (comp, &url);
 	if (url) {
-		gchar *scheme;
+		gchar *scheme, *header_markup;
 		const gchar *href = url;
 
 		str = NULL;
@@ -492,10 +505,22 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 		g_free (scheme);
 
+		if (strchr (href, '\"')) {
+			markup = g_markup_escape_text (href, -1);
+			g_free (str);
+			str = markup;
+			href = str;
+		}
+
+		header_markup = g_markup_escape_text (_("Web Page:"), -1);
+		markup = g_markup_escape_text (url, -1);
+
 		g_string_append_printf (
 			buffer, "<tr><th>%s</th><td><a href=\"%s\">%s</a></td></tr>",
-			_("Web Page:"), href, url);
+			header_markup, href, markup);
 
+		g_free (header_markup);
+		g_free (markup);
 		g_free (str);
 	}
 
