@@ -512,7 +512,7 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 	/* Add the headers from the message we are replying to, so CC and that
 	 * stuff is preserved. Also replace any $ORIG[header-name] modifiers ignoring
 	 * 'content-*' headers */
-	headers = camel_medium_dup_headers (CAMEL_MEDIUM (source_message));
+	headers = camel_medium_get_headers (CAMEL_MEDIUM (source_message));
 	len = camel_name_value_array_get_length (headers);
 	for (ii = 0; ii < len; ii++) {
 		const gchar *header_name = NULL, *header_value = NULL;

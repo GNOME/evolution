@@ -3607,7 +3607,7 @@ set_signature_gui (EMsgComposer *composer)
 	EContentEditor *cnt_editor;
 	EComposerHeaderTable *table;
 	EMailSignatureComboBox *combo_box;
-	gchar *uid = NULL;
+	gchar *uid;
 
 	table = e_msg_composer_get_header_table (composer);
 	combo_box = e_composer_header_table_get_signature_combo_box (table);
@@ -3615,9 +3615,11 @@ set_signature_gui (EMsgComposer *composer)
 	editor = e_msg_composer_get_editor (composer);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if ((uid = e_content_editor_get_current_signature_uid (cnt_editor))) {
+	uid = e_content_editor_get_current_signature_uid (cnt_editor);
+	if (uid) {
 		/* The combo box active ID is the signature's ESource UID. */
 		gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
+		g_free (uid);
 	}
 }
 
