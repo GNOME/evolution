@@ -246,9 +246,14 @@ mail_ffe_flag (const gchar *word,
 	camel_sexp_encode_string (encoded_word, word);
 
 	for (ii = 0; ii < G_N_ELEMENTS (system_flags); ii++) {
-		if (g_ascii_strcasecmp (word, system_flags[ii]) == 0 ||
-		    g_ascii_strcasecmp (word, g_dpgettext2 (NULL, "ffe", system_flags[ii])) == 0) {
-			sexp = g_strdup_printf ("(match-all (system-flag \"%s\"))", system_flags[ii]);
+		const gchar *flag = system_flags[ii];
+
+		if (g_ascii_strcasecmp (word, flag) == 0 ||
+		    g_ascii_strcasecmp (word, g_dpgettext2 (NULL, "ffe", flag)) == 0) {
+			if (g_ascii_strcasecmp (flag, "Attachment") == 0)
+				flag = "Attachments";
+
+			sexp = g_strdup_printf ("(match-all (system-flag \"%s\"))", flag);
 			break;
 		}
 	}
@@ -487,7 +492,7 @@ mail_ffe_attachment (const gchar *word,
 		is_neg = TRUE;
 	}
 
-	return g_strdup_printf ("(match-all %s(system-flag \"Attachment\")%s)", is_neg ? "(not " : "", is_neg ? ")" : "");
+	return g_strdup_printf ("(match-all %s(system-flag \"Attachments\")%s)", is_neg ? "(not " : "", is_neg ? ")" : "");
 }
 
 static const EFreeFormExpSymbol mail_ffe_symbols[] = {
