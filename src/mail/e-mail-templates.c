@@ -31,22 +31,17 @@
 
 #include "e-mail-templates.h"
 
-/* Replaces $ORIG[variable] in given template by given replacement from the original message */
 static void
-replace_template_variable (GString *text,
-                           const gchar *variable,
-                           const gchar *replacement)
+replace_in_string (GString *text,
+		   const gchar *find,
+		   const gchar *replacement)
 {
 	const gchar *p, *next;
 	GString *str;
 	gint find_len;
-	gchar *find;
 
 	g_return_if_fail (text != NULL);
-	g_return_if_fail (variable != NULL);
-	g_return_if_fail (*variable);
-
-	find = g_strconcat ("$ORIG[", variable, "]", NULL);
+	g_return_if_fail (find != NULL);
 
 	find_len = strlen (find);
 	str = g_string_new ("");
@@ -58,12 +53,77 @@ replace_template_variable (GString *text,
 			g_string_append (str, replacement);
 		p = next + find_len;
 	}
-	g_string_append (str, p);
 
-	g_string_assign (text, str->str);
+	/* Avoid unnecessary allocation when the 'text' doesn't contain the variable */
+	if (p != text->str) {
+		g_string_append (str, p);
+		g_string_assign (text, str->str);
+	}
 
 	g_string_free (str, TRUE);
+}
+
+/* Replaces $ORIG[variable] in given template by given replacement from the original message */
+static void
+replace_template_variable (GString *text,
+                           const gchar *variable,
+                           const gchar *replacement)
+{
+	gchar *find;
+
+	g_return_if_fail (text != NULL);
+	g_return_if_fail (variable != NULL);
+	g_return_if_fail (*variable);
+
+	find = g_strconcat ("$ORIG[", variable, "]", NULL);
+
+	replace_in_string (text, find, replacement);
+
 	g_free (find);
+}
+
+static void
+replace_user_variables (GString *text,
+			CamelMimeMessage *source_message)
+{
+	CamelInternetAddress *to;
+	const gchar *name, *addr;
+	GSettings *settings;
+	gchar **strv;
+	gint ii;
+
+	g_return_if_fail (text);
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (source_message));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.templates");
+	strv = g_settings_get_strv (settings, "template-placeholders");
+	g_object_unref (settings);
+
+	for (ii = 0; strv && strv[ii]; ii++) {
+		gchar *equal_sign, *find, *var_name = strv[ii];
+		const gchar *var_value;
+
+		equal_sign = strchr (var_name, '=');
+		if (!equal_sign)
+			continue;
+
+		*equal_sign = '\0';
+		var_value = equal_sign + 1;
+
+		find = g_strconcat ("$", var_name, NULL);
+		replace_in_string (text, find, var_value);
+		g_free (find);
+
+		*equal_sign = '=';
+	}
+
+	g_strfreev (strv);
+
+	to = camel_mime_message_get_recipients (source_message, CAMEL_RECIPIENT_TYPE_TO);
+	if (to && camel_internet_address_get (to, 0, &name, &addr)) {
+		replace_in_string (text, "$sender_name", name);
+		replace_in_string (text, "$sender_email", addr);
+	}
 }
 
 static void
@@ -335,6 +395,8 @@ fill_template (CamelMimeMessage *message,
 		g_free (reply_credits);
 	}
 
+	replace_user_variables (template_body, message);
+
 	return_part = camel_mime_part_new ();
 
 	if (template_html)
@@ -478,10 +540,14 @@ e_mail_templates_apply_sync (CamelMimeMessage *source_message,
 					    g_ascii_strcasecmp (m_header_name, "subject") != 0)
 						replace_template_variable (subject, m_header_name, m_header_value);
 				}
+
 				/* Now replace $ORIG[subject] variable, handling possible base64 encryption */
 				replace_template_variable (
 					subject, "subject",
 					camel_mime_message_get_subject (source_message));
+
+				replace_user_variables (subject, source_message);
+
 				new_header_value = g_string_free (subject, FALSE);
 			}
 
