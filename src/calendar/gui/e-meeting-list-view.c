@@ -381,7 +381,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			}
 
 			attendee = e_meeting_store_add_attendee_with_defaults (model);
-			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", (gchar *) l->data));
+			e_meeting_attendee_set_address (attendee, g_strdup_printf ("mailto:%s", (gchar *) l->data));
 			e_meeting_attendee_set_cn (attendee, g_strdup (m->data));
 			if (existing_attendee) {
 				e_meeting_attendee_set_cutype (attendee, e_meeting_attendee_get_cutype (existing_attendee));
@@ -418,7 +418,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			if (existing_attendee) {
 				const gchar *addr = e_meeting_attendee_get_address (existing_attendee);
 
-				if (addr && g_ascii_strncasecmp (addr, "MAILTO:", 7) == 0)
+				if (addr && g_ascii_strncasecmp (addr, "mailto:", 7) == 0)
 					addr += 7;
 
 				address_changed = addr && g_ascii_strcasecmp (addr, email) != 0;
@@ -432,7 +432,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			value_edited (view, E_MEETING_STORE_ADDRESS_COL, path, email);
 			value_edited (view, E_MEETING_STORE_CN_COL, path, name);
 
-			e_meeting_attendee_set_address (attendee, g_strdup_printf ("MAILTO:%s", email));
+			e_meeting_attendee_set_address (attendee, g_strdup_printf ("mailto:%s", email));
 			e_meeting_attendee_set_cn (attendee, g_strdup (name));
 			e_meeting_attendee_set_role (attendee, ICAL_ROLE_REQPARTICIPANT);
 
@@ -1001,7 +1001,7 @@ process_section (EMeetingListView *view,
 			if (e_meeting_store_find_attendee (priv->store, email_addr, NULL) == NULL) {
 				EMeetingAttendee *ia = e_meeting_store_add_attendee_with_defaults (priv->store);
 
-				e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", email_addr));
+				e_meeting_attendee_set_address (ia, g_strdup_printf ("mailto:%s", email_addr));
 				e_meeting_attendee_set_role (ia, role);
 				if (role == ICAL_ROLE_NONPARTICIPANT)
 					e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);

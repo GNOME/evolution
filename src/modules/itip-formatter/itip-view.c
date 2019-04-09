@@ -5080,7 +5080,7 @@ set_attendee (ECalComponent *comp,
 
 	if (!found) {
 		icalparameter *param;
-		gchar *temp = g_strdup_printf ("MAILTO:%s", address);
+		gchar *temp = g_strdup_printf ("mailto:%s", address);
 
 		prop = icalproperty_new_attendee ((const gchar *) temp);
 		icalcomponent_add_property (icalcomp, prop);

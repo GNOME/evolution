@@ -269,7 +269,7 @@ ecep_general_attendees_add_clicked_cb (GtkButton *button,
 	attendee = e_meeting_store_add_attendee_with_defaults (page_general->priv->meeting_store);
 
 	if ((flags & E_COMP_EDITOR_FLAG_DELEGATE) != 0)
-		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s",
+		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("mailto:%s",
 			page_general->priv->user_delegator ? page_general->priv->user_delegator : ""));
 
 	e_meeting_list_view_edit (E_MEETING_LIST_VIEW (page_general->priv->attendees_list_view), attendee);
@@ -463,7 +463,7 @@ ecep_general_attendee_added_cb (EMeetingListView *meeting_list_view,
 	client = e_comp_editor_get_target_client (comp_editor);
 
 	/* do not remove here, it did EMeetingListView already */
-	e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s",
+	e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("mailto:%s",
 		page_general->priv->user_delegator ? page_general->priv->user_delegator : ""));
 
 	if (client && !e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
@@ -531,7 +531,7 @@ ecep_general_get_organizer (ECompEditorPageGeneral *page_general,
 			if (out_name)
 				*out_name = g_strdup (str_name);
 			if (out_mailto)
-				*out_mailto = g_strconcat ("MAILTO:", itip_strip_mailto (str_address), NULL);
+				*out_mailto = g_strconcat ("mailto:", itip_strip_mailto (str_address), NULL);
 		} else if (out_error_message) {
 			*out_error_message = _("Organizer address is not a valid user mail address");
 		}
@@ -637,7 +637,7 @@ ecep_general_list_view_event_cb (EMeetingListView *list_view,
 		flags = e_comp_editor_get_flags (comp_editor);
 
 		if ((flags & E_COMP_EDITOR_FLAG_DELEGATE) != 0) {
-			e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", page_general->priv->user_delegator));
+			e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("mailto:%s", page_general->priv->user_delegator));
 		}
 
 		g_clear_object (&comp_editor);
@@ -1130,7 +1130,7 @@ ecep_general_fill_component (ECompEditorPage *page,
 				gchar *sentby;
 				gboolean differs;
 
-				sentby = g_strconcat ("MAILTO:", cal_email_address, NULL);
+				sentby = g_strconcat ("mailto:", cal_email_address, NULL);
 				differs = !organizer_mailto || g_ascii_strcasecmp (sentby, organizer_mailto) != 0;
 
 				if (differs) {
