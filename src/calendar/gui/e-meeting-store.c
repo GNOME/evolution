@@ -543,7 +543,7 @@ e_meeting_store_set_value (EMeetingStore *store,
 		if (val != NULL && *((gchar *) val))
 			e_meeting_attendee_set_address (
 				attendee, g_strdup_printf (
-				"MAILTO:%s", (gchar *) val));
+				"mailto:%s", (gchar *) val));
 		break;
 	case E_MEETING_STORE_MEMBER_COL:
 		e_meeting_attendee_set_member (attendee, g_strdup (val));

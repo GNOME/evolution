@@ -689,7 +689,7 @@ action_event_delegate_cb (GtkAction *action,
 		icalparameter *parameter;
 		gchar *address;
 
-		address = g_strdup_printf ("MAILTO:%s", attendee);
+		address = g_strdup_printf ("mailto:%s", attendee);
 
 		property = icalproperty_new_attendee (address);
 		icalcomponent_add_property (clone, property);

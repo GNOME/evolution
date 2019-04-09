@@ -1386,7 +1386,7 @@ comp_sentby (ECalComponent *comp,
 
 	e_cal_component_get_organizer (comp, &organizer);
 	if (!organizer.value && name != NULL && address != NULL) {
-		organizer.value = g_strdup_printf ("MAILTO:%s", address);
+		organizer.value = g_strdup_printf ("mailto:%s", address);
 		organizer.sentby = NULL;
 		organizer.cn = name;
 		organizer.language = NULL;
@@ -1420,7 +1420,7 @@ comp_sentby (ECalComponent *comp,
 	    !itip_sentby_is_user (registry, comp, cal_client) &&
 	    address != NULL) {
 		organizer.value = g_strdup (organizer.value);
-		organizer.sentby = g_strdup_printf ("MAILTO:%s", address);
+		organizer.sentby = g_strdup_printf ("mailto:%s", address);
 		organizer.cn = g_strdup (organizer.cn);
 		organizer.language = g_strdup (organizer.language);
 
