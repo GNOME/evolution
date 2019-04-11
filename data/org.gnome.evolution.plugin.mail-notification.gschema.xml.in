@@ -26,7 +26,7 @@
       <_description>Whether to make a sound of any kind when new messages arrive.  If “false”, the “notify-sound-beep”, “notify-sound-file”, “notify-sound-play-file” and “notify-sound-use-theme” keys are disregarded.</_description>
     </key>
     <key name="notify-sound-beep" type="b">
-      <default>true</default>
+      <default>false</default>
       <_summary>Whether to emit a beep.</_summary>
       <_description>Whether to emit a beep when new messages arrive.</_description>
     </key>
@@ -41,7 +41,7 @@
       <_description>Whether to play a sound file when new messages arrive. The name of the sound file is given by the “notify-sound-file” key.</_description>
     </key>
     <key name="notify-sound-use-theme" type="b">
-      <default>false</default>
+      <default>true</default>
       <_summary>Use sound theme</_summary>
       <_description>Play themed sound when new messages arrive, if not in beep mode.</_description>
     </key>
