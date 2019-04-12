@@ -111,6 +111,7 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 		set(_scangobj_cflags "${_scangobj_cflags} ${opt}")
 	endforeach(opt)
 
+	# first add target dependencies, to have built libraries first, then add those non-target dependencies
 	foreach(opt IN LISTS _scangobj_deps)
 		if(TARGET ${opt})
 			set(_target_type)
@@ -129,9 +130,13 @@ macro(add_gtkdoc _module _namespace _deprecated_guards _srcdirsvar _depsvar _ign
 				unset(_output_name)
 			endif((_target_type STREQUAL "STATIC_LIBRARY") OR (_target_type STREQUAL "SHARED_LIBRARY") OR (_target_type STREQUAL "MODULE_LIBRARY"))
 			unset(_target_type)
-		else(TARGET ${opt})
-			set(_scangobj_ldflags "${opt} ${_scangobj_ldflags}")
 		endif(TARGET ${opt})
+	endforeach(opt)
+
+	foreach(opt IN LISTS _scangobj_deps)
+		if(NOT TARGET ${opt})
+			set(_scangobj_ldflags "${_scangobj_ldflags} ${opt}")
+		endif(NOT TARGET ${opt})
 	endforeach(opt)
 
 	set(_scangobj_prefix ${CMAKE_COMMAND} -E env LD_LIBRARY_PATH="${_scangobj_ld_lib_dirs}:${LIB_INSTALL_DIR}:$ENV{LD_LIBRARY_PATH}")
