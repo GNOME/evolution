@@ -86,7 +86,8 @@ set(CMAKE_REQUIRED_LIBRARIES "${LDAP_LIBS}")
 if(WITH_OPENLDAP)
 	CHECK_C_SOURCE_COMPILES("#include \"ldap.h\"
 				int main(void) {
-					#if !defined(LDAP_VENDOR_VERSION) || LDAP_VENDOR_VERSION < 20000
+					/* LDAP_VENDOR_VERSION is 0 if OpenLDAP is built from git/master */
+					#if !defined(LDAP_VENDOR_VERSION) || (LDAP_VENDOR_VERSION != 0 && LDAP_VENDOR_VERSION < 20000)
 					#error OpenLDAP version not at least 2.0
 					#endif
 					return 0; }" openldap_2_x)
