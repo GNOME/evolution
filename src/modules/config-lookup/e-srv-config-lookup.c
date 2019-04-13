@@ -119,11 +119,10 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 			g_clear_error (&local_error);
 		} else {
 			GList *link;
-			gint index = 0;
 
 			targets = g_srv_target_list_sort (targets);
 
-			for (link = targets; link; index++, link = g_list_next (link)) {
+			for (link = targets; link; link = g_list_next (link)) {
 				EConfigLookupResult *lookup_result;
 				GSrvTarget *target = link->data;
 				const gchar *hostname;
