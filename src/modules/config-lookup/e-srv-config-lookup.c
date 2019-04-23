@@ -120,8 +120,6 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 		} else {
 			GList *link;
 
-			targets = g_srv_target_list_sort (targets);
-
 			for (link = targets; link; link = g_list_next (link)) {
 				EConfigLookupResult *lookup_result;
 				GSrvTarget *target = link->data;
