@@ -38,7 +38,7 @@ endif(_is_devel_version EQUAL 1)
 set(GETTEXT_PACKAGE ${PROJECT_NAME})
 set(GETTEXT_PO_DIR ${CMAKE_SOURCE_DIR}/po)
 
-# Required for 'disttest' and 'ditcheck' of DistTarget module
+# Required for 'disttest' and 'distcheck' of DistTarget module
 set(PROJECT_DISTCONFIGURE_PARAMS
 	-DENABLE_GTK_DOC=ON
 	-DENABLE_CONTACT_MAPS=ON
