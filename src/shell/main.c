@@ -311,7 +311,7 @@ static GOptionEntry entries[] = {
 	 * names, they MUST remain in English! */
 	  N_("Start Evolution showing the specified component. "
 	     "Available options are “mail”, “calendar”, “contacts”, "
-	     "“tasks”, and “memos”"), NULL },
+	     "“tasks”, and “memos”"), "COMPONENT" },
 	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,
 	  N_("Apply the given geometry to the main window"), "GEOMETRY" },
 	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,
