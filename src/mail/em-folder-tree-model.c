@@ -647,6 +647,223 @@ em_folder_tree_model_folder_tweaks_changed_cb (EMailFolderTweaks *tweaks,
 }
 
 static void
+folder_tree_model_get_special_folders_uri (ESourceRegistry *registry,
+					   CamelStore *store,
+					   gchar **drafts_folder_uri,
+					   gchar **templates_folder_uri,
+					   gchar **sent_folder_uri)
+{
+	ESource *source;
+	const gchar *extension_name;
+
+	/* In case we fail... */
+	*drafts_folder_uri = NULL;
+	*templates_folder_uri = NULL;
+	*sent_folder_uri = NULL;
+
+	source = em_utils_ref_mail_identity_for_store (registry, store);
+	if (source == NULL)
+		return;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+	if (e_source_has_extension (source, extension_name)) {
+		ESourceMailComposition *extension;
+
+		extension = e_source_get_extension (source, extension_name);
+
+		*drafts_folder_uri = e_source_mail_composition_dup_drafts_folder (extension);
+		*templates_folder_uri = e_source_mail_composition_dup_templates_folder (extension);
+	}
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+	if (e_source_has_extension (source, extension_name)) {
+		ESourceMailSubmission *extension;
+
+		extension = e_source_get_extension (source, extension_name);
+
+		if (e_source_mail_submission_get_use_sent_folder (extension))
+			*sent_folder_uri = e_source_mail_submission_dup_sent_folder (extension);
+	}
+
+	g_object_unref (source);
+}
+
+static const gchar *
+em_folder_tree_model_get_icon_name_for_folder_uri (EMFolderTreeModel *model,
+						   const gchar *folder_uri,
+						   CamelStore *store,
+						   const gchar *full_name,
+						   guint32 folder_flags)
+{
+	const gchar *icon_name = "folder";
+	CamelFolder *folder;
+	EMailSession *session;
+	MailFolderCache *folder_cache;
+	guint32 add_flags = 0;
+	gboolean folder_is_drafts = FALSE;
+	gboolean folder_is_templates = FALSE;
+	gboolean folder_is_archive = FALSE;
+
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), icon_name);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), icon_name);
+	g_return_val_if_fail (folder_uri != NULL, icon_name);
+
+	session = em_folder_tree_model_get_session (model);
+	if (!session)
+		return icon_name;
+
+	folder_cache = e_mail_session_get_folder_cache (session);
+
+	folder_is_archive = e_mail_session_is_archive_folder (session, folder_uri);
+
+	folder = mail_folder_cache_ref_folder (folder_cache, store, full_name);
+	if (folder) {
+		folder_is_drafts = em_utils_folder_is_drafts (e_mail_session_get_registry (session), folder);
+
+		g_object_unref (folder);
+	}
+
+	if (g_strcmp0 (camel_service_get_uid (CAMEL_SERVICE (store)), E_MAIL_SESSION_LOCAL_UID) == 0) {
+		if (strcmp (full_name, "Drafts") == 0) {
+			folder_is_drafts = TRUE;
+		} else if (strcmp (full_name, "Templates") == 0) {
+			folder_is_templates = TRUE;
+		} else if (strcmp (full_name, "Inbox") == 0) {
+			folder_flags = (folder_flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_INBOX;
+		} else if (strcmp (full_name, "Outbox") == 0) {
+			folder_flags = (folder_flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_OUTBOX;
+		} else if (strcmp (full_name, "Sent") == 0) {
+			folder_flags = (folder_flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_SENT;
+		}
+	}
+
+	if ((folder_flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
+		gchar *drafts_folder_uri;
+		gchar *templates_folder_uri;
+		gchar *sent_folder_uri;
+
+		folder_tree_model_get_special_folders_uri (e_mail_session_get_registry (session), store,
+			&drafts_folder_uri, &templates_folder_uri, &sent_folder_uri);
+
+		if (!folder_is_drafts && drafts_folder_uri != NULL) {
+			folder_is_drafts = e_mail_folder_uri_equal (
+				CAMEL_SESSION (session),
+				folder_uri, drafts_folder_uri);
+		}
+
+		if (!folder_is_templates && templates_folder_uri != NULL) {
+			folder_is_templates = e_mail_folder_uri_equal (
+				CAMEL_SESSION (session),
+				folder_uri, templates_folder_uri);
+		}
+
+		if (sent_folder_uri != NULL) {
+			if (e_mail_folder_uri_equal (
+				CAMEL_SESSION (session),
+				folder_uri, sent_folder_uri)) {
+				add_flags = CAMEL_FOLDER_TYPE_SENT;
+			}
+		}
+
+		g_free (drafts_folder_uri);
+		g_free (templates_folder_uri);
+		g_free (sent_folder_uri);
+	}
+
+	/* Choose an icon name for the folder. */
+	icon_name = em_folder_utils_get_icon_name (folder_flags | add_flags);
+
+	if (g_str_equal (icon_name, "folder")) {
+		if (folder_is_drafts)
+			icon_name = "accessories-text-editor";
+		else if (folder_is_templates)
+			icon_name = "text-x-generic-template";
+		else if (folder_is_archive)
+			icon_name = "mail-archive";
+	}
+
+	return icon_name;
+}
+
+static void
+em_folder_tree_model_update_folder_icon (EMFolderTreeModel *model,
+					 const gchar *folder_uri)
+{
+	EMailSession *session;
+	CamelStore *store = NULL;
+	gchar *full_name = NULL;
+	GtkTreeRowReference *row;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (folder_uri != NULL);
+
+	session = em_folder_tree_model_get_session (model);
+	if (!session)
+		return;
+
+	if (!e_mail_folder_uri_parse (CAMEL_SESSION (session), folder_uri, &store, &full_name, NULL))
+		return;
+
+	row = em_folder_tree_model_get_row_reference (model, store, full_name);
+	if (row) {
+		EMEventTargetCustomIcon *target;
+		GtkTreeModel *tree_model;
+		GtkTreePath *path;
+		GtkTreeIter iter;
+		gchar *old_icon_name = NULL;
+		const gchar *new_icon_name;
+		guint32 folder_flags = 0;
+
+		tree_model = GTK_TREE_MODEL (model);
+
+		path = gtk_tree_row_reference_get_path (row);
+		gtk_tree_model_get_iter (tree_model, &iter, path);
+		gtk_tree_path_free (path);
+
+		gtk_tree_model_get (tree_model, &iter,
+			COL_UINT_FLAGS, &folder_flags,
+			COL_STRING_ICON_NAME, &old_icon_name,
+			-1);
+
+		new_icon_name = em_folder_tree_model_get_icon_name_for_folder_uri (model, folder_uri, store, full_name, folder_flags);
+
+		if (g_strcmp0 (old_icon_name, new_icon_name) != 0) {
+			gtk_tree_store_set (
+				GTK_TREE_STORE (model), &iter,
+				COL_STRING_ICON_NAME, new_icon_name, -1);
+		}
+
+		g_free (old_icon_name);
+
+		target = em_event_target_new_custom_icon (
+			em_event_peek (), GTK_TREE_STORE (model), &iter,
+			full_name, EM_EVENT_CUSTOM_ICON);
+		e_event_emit (
+			(EEvent *) em_event_peek (), "folder.customicon",
+			(EEventTarget *) target);
+	}
+
+	g_clear_object (&store);
+	g_clear_pointer (&full_name, g_free);
+}
+
+static void
+em_folder_tree_model_archive_folder_changed_cb (EMailSession *session,
+						const gchar *service_uid,
+						const gchar *old_folder_uri,
+						const gchar *new_folder_uri,
+						EMFolderTreeModel *model)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+
+	if (old_folder_uri && *old_folder_uri)
+		em_folder_tree_model_update_folder_icon (model, old_folder_uri);
+
+	if (new_folder_uri && *new_folder_uri)
+		em_folder_tree_model_update_folder_icon (model, new_folder_uri);
+}
+
+static void
 folder_tree_model_selection_finalized_cb (EMFolderTreeModel *model)
 {
 	model->priv->selection = NULL;
@@ -1105,9 +1322,9 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 		MailFolderCache *folder_cache;
 
 		folder_cache = e_mail_session_get_folder_cache (model->priv->session);
-		g_signal_handlers_disconnect_matched (
-			folder_cache, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, model);
+		g_signal_handlers_disconnect_by_data (folder_cache, model);
+
+		g_signal_handlers_disconnect_by_data (model->priv->session, model);
 
 		g_object_unref (model->priv->session);
 	}
@@ -1120,6 +1337,9 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 	if (session != NULL) {
 		EMailAccountStore *account_store;
 		MailFolderCache *folder_cache;
+
+		g_signal_connect (model->priv->session, "archive-folder-changed",
+			G_CALLBACK (em_folder_tree_model_archive_folder_changed_cb), model);
 
 		folder_cache = e_mail_session_get_folder_cache (session);
 		account_store = e_mail_ui_session_get_account_store (
@@ -1162,48 +1382,6 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 	g_object_notify (G_OBJECT (model), "session");
 }
 
-static void
-folder_tree_model_get_special_folders_uri (ESourceRegistry *registry,
-					   CamelStore *store,
-					   gchar **drafts_folder_uri,
-					   gchar **templates_folder_uri,
-					   gchar **sent_folder_uri)
-{
-	ESource *source;
-	const gchar *extension_name;
-
-	/* In case we fail... */
-	*drafts_folder_uri = NULL;
-	*templates_folder_uri = NULL;
-	*sent_folder_uri = NULL;
-
-	source = em_utils_ref_mail_identity_for_store (registry, store);
-	if (source == NULL)
-		return;
-
-	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
-	if (e_source_has_extension (source, extension_name)) {
-		ESourceMailComposition *extension;
-
-		extension = e_source_get_extension (source, extension_name);
-
-		*drafts_folder_uri = e_source_mail_composition_dup_drafts_folder (extension);
-		*templates_folder_uri = e_source_mail_composition_dup_templates_folder (extension);
-	}
-
-	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
-	if (e_source_has_extension (source, extension_name)) {
-		ESourceMailSubmission *extension;
-
-		extension = e_source_get_extension (source, extension_name);
-
-		if (e_source_mail_submission_get_use_sent_folder (extension))
-			*sent_folder_uri = e_source_mail_submission_dup_sent_folder (extension);
-	}
-
-	g_object_unref (source);
-}
-
 void
 em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
                                       GtkTreeIter *iter,
@@ -1225,13 +1403,12 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	const gchar *uid;
 	const gchar *icon_name;
 	const gchar *display_name;
-	guint32 flags, add_flags = 0;
+	guint32 flags;
 	EMEventTargetCustomIcon *target;
+	gboolean store_is_local;
 	gboolean load = FALSE;
 	gboolean folder_is_drafts = FALSE;
 	gboolean folder_is_outbox = FALSE;
-	gboolean folder_is_templates = FALSE;
-	gboolean store_is_local;
 	gchar *uri;
 
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
@@ -1311,7 +1488,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			folder_is_drafts = TRUE;
 			display_name = _("Drafts");
 		} else if (strcmp (fi->full_name, "Templates") == 0) {
-			folder_is_templates = TRUE;
 			display_name = _("Templates");
 		} else if (strcmp (fi->full_name, "Inbox") == 0) {
 			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) |
@@ -1328,48 +1504,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		}
 	}
 
-	if ((flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
-		gchar *drafts_folder_uri;
-		gchar *templates_folder_uri;
-		gchar *sent_folder_uri;
-
-		folder_tree_model_get_special_folders_uri (registry, store,
-			&drafts_folder_uri, &templates_folder_uri, &sent_folder_uri);
-
-		if (!folder_is_drafts && drafts_folder_uri != NULL) {
-			folder_is_drafts = e_mail_folder_uri_equal (
-				CAMEL_SESSION (session),
-				uri, drafts_folder_uri);
-		}
-
-		if (!folder_is_templates && templates_folder_uri != NULL) {
-			folder_is_templates = e_mail_folder_uri_equal (
-				CAMEL_SESSION (session),
-				uri, templates_folder_uri);
-		}
-
-		if (sent_folder_uri != NULL) {
-			if (e_mail_folder_uri_equal (
-				CAMEL_SESSION (session),
-				uri, sent_folder_uri)) {
-				add_flags = CAMEL_FOLDER_TYPE_SENT;
-			}
-		}
-
-		g_free (drafts_folder_uri);
-		g_free (templates_folder_uri);
-		g_free (sent_folder_uri);
-	}
-
 	/* Choose an icon name for the folder. */
-	icon_name = em_folder_utils_get_icon_name (flags | add_flags);
-
-	if (g_str_equal (icon_name, "folder")) {
-		if (folder_is_drafts)
-			icon_name = "accessories-text-editor";
-		else if (folder_is_templates)
-			icon_name = "text-x-generic-template";
-	}
+	icon_name = em_folder_tree_model_get_icon_name_for_folder_uri (model, uri, store, fi->full_name, flags);
 
 	gtk_tree_store_set (
 		tree_store, iter,

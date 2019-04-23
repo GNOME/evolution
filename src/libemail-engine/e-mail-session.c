@@ -88,6 +88,9 @@ struct _EMailSessionPrivate {
 	GMutex used_services_lock;
 	GCond used_services_cond;
 	GHashTable *used_services;
+
+	GMutex archive_folders_hash_lock;
+	GHashTable *archive_folders_hash; /* ESource::uid ~> archive folder URI */
 };
 
 struct _AsyncContext {
@@ -129,6 +132,7 @@ enum {
 	STORE_REMOVED,
 	ALLOW_AUTH_PROMPT,
 	GET_RECIPIENT_CERTIFICATE,
+	ARCHIVE_FOLDER_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -350,6 +354,152 @@ mail_session_resolve_popb4smtp (ESourceRegistry *registry,
 	return pop_uid;
 }
 
+typedef struct _ArchiveFolderChangedData {
+	GWeakRef *session;
+	gchar *service_uid;
+	gchar *old_folder_uri;
+	gchar *new_folder_uri;
+} ArchiveFolderChangedData;
+
+static void
+archived_folder_changed_data_free (gpointer ptr)
+{
+	ArchiveFolderChangedData *data = ptr;
+
+	if (data) {
+		e_weak_ref_free (data->session);
+		g_free (data->service_uid);
+		g_free (data->old_folder_uri);
+		g_free (data->new_folder_uri);
+		g_free (data);
+	}
+}
+
+static gboolean
+mail_session_emit_archive_folder_changed_idle (gpointer user_data)
+{
+	ArchiveFolderChangedData *data = user_data;
+	EMailSession *session;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+
+	session = g_weak_ref_get (data->session);
+	if (session) {
+		g_signal_emit (session, signals[ARCHIVE_FOLDER_CHANGED], 0,
+			data->service_uid, data->old_folder_uri, data->new_folder_uri);
+
+		g_object_unref (session);
+	}
+
+	return FALSE;
+}
+
+static void
+mail_session_schedule_archive_folder_changed_locked (EMailSession *session,
+						     const gchar *service_uid,
+						     const gchar *old_folder_uri,
+						     const gchar *new_folder_uri)
+{
+	ArchiveFolderChangedData *data;
+
+	data = g_new0 (ArchiveFolderChangedData, 1);
+	data->session = e_weak_ref_new (session);
+	data->service_uid = g_strdup (service_uid);
+	data->old_folder_uri = g_strdup (old_folder_uri);
+	data->new_folder_uri = g_strdup (new_folder_uri);
+
+	g_idle_add_full (G_PRIORITY_LOW, mail_session_emit_archive_folder_changed_idle,
+		data, archived_folder_changed_data_free);
+}
+
+static void
+mail_session_remember_archive_folder (EMailSession *session,
+				      const gchar *uid,
+				      const gchar *folder_uri)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (uid != NULL);
+
+	g_mutex_lock (&session->priv->archive_folders_hash_lock);
+
+	if (session->priv->archive_folders_hash) {
+		gchar *old_folder_uri;
+
+		old_folder_uri = g_strdup (g_hash_table_lookup (session->priv->archive_folders_hash, uid));
+
+		if (g_strcmp0 (old_folder_uri, folder_uri) != 0) {
+			g_hash_table_insert (session->priv->archive_folders_hash, g_strdup (uid), g_strdup (folder_uri));
+
+			mail_session_schedule_archive_folder_changed_locked (session, uid, old_folder_uri, folder_uri);
+		}
+
+		g_free (old_folder_uri);
+	}
+
+	g_mutex_unlock (&session->priv->archive_folders_hash_lock);
+}
+
+static void
+mail_session_forget_archive_folder (EMailSession *session,
+				    const gchar *uid)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (uid != NULL);
+
+	g_mutex_lock (&session->priv->archive_folders_hash_lock);
+
+	if (session->priv->archive_folders_hash) {
+		gchar *old_folder_uri;
+
+		old_folder_uri = g_strdup (g_hash_table_lookup (session->priv->archive_folders_hash, uid));
+
+		g_hash_table_remove (session->priv->archive_folders_hash, uid);
+
+		if (old_folder_uri && *old_folder_uri)
+			mail_session_schedule_archive_folder_changed_locked (session, uid, old_folder_uri, NULL);
+
+		g_free (old_folder_uri);
+	}
+
+	g_mutex_unlock (&session->priv->archive_folders_hash_lock);
+}
+
+static void
+mail_session_archive_folder_notify_cb (ESourceExtension *extension,
+				       GParamSpec *param,
+				       EMailSession *session)
+{
+	ESource *source;
+
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+
+	source = e_source_extension_ref_source (extension);
+	if (source) {
+		gchar *archive_folder;
+
+		archive_folder = e_source_mail_account_dup_archive_folder (E_SOURCE_MAIL_ACCOUNT (extension));
+
+		mail_session_remember_archive_folder (session, e_source_get_uid (source), archive_folder);
+
+		g_free (archive_folder);
+		g_object_unref (source);
+	}
+}
+
+static void
+mail_session_local_archive_folder_changed_cb (GSettings *settings,
+					      const gchar *key,
+					      EMailSession *session)
+{
+	gchar *local_archive_folder;
+
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+
+	local_archive_folder = g_settings_get_string (settings, "local-archive-folder");
+	mail_session_remember_archive_folder (session, E_MAIL_SESSION_LOCAL_UID, local_archive_folder);
+	g_free (local_archive_folder);
+}
+
 static void
 mail_session_refresh_cb (ESource *source,
                          EMailSession *session)
@@ -465,6 +615,20 @@ mail_session_add_from_source (EMailSession *session,
 		CAMEL_SESSION (session), uid,
 		backend_name, type, &error);
 
+	if (type == CAMEL_PROVIDER_STORE &&
+	    e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+		ESourceMailAccount *extension;
+		gchar *archive_folder_uri;
+
+		extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+		archive_folder_uri = e_source_mail_account_dup_archive_folder (extension);
+		mail_session_remember_archive_folder (session, e_source_get_uid (source), archive_folder_uri);
+		g_free (archive_folder_uri);
+
+		g_signal_connect (extension, "notify::archive-folder",
+			G_CALLBACK (mail_session_archive_folder_notify_cb), session);
+	}
+
 	/* Our own CamelSession.add_service() method will handle the
 	 * new CamelService, so we only need to unreference it here. */
 	if (service != NULL)
@@ -531,6 +695,17 @@ mail_session_source_removed_cb (ESourceRegistry *registry,
 
 	uid = e_source_get_uid (source);
 	service = camel_session_ref_service (camel_session, uid);
+
+	if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+		ESourceMailAccount *extension;
+
+		extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+
+		g_signal_handlers_disconnect_by_func (extension,
+			G_CALLBACK (mail_session_archive_folder_notify_cb), session);
+
+		mail_session_forget_archive_folder (session, e_source_get_uid (source));
+	}
 
 	if (service != NULL) {
 		camel_session_remove_service (camel_session, service);
@@ -920,6 +1095,7 @@ static void
 mail_session_dispose (GObject *object)
 {
 	EMailSessionPrivate *priv;
+	GSettings *settings;
 
 	priv = E_MAIL_SESSION_GET_PRIVATE (object);
 
@@ -965,6 +1141,38 @@ mail_session_dispose (GObject *object)
 		priv->vfolder_store = NULL;
 	}
 
+	g_mutex_lock (&priv->archive_folders_hash_lock);
+
+	if (priv->archive_folders_hash) {
+		if (priv->registry) {
+			GHashTableIter iter;
+			gpointer key;
+
+			g_hash_table_iter_init (&iter, priv->archive_folders_hash);
+			while (g_hash_table_iter_next (&iter, &key, NULL)) {
+				ESource *source;
+
+				source = e_source_registry_ref_source (priv->registry, key);
+				if (source) {
+					if (e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
+						ESourceExtension *extension;
+
+						extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+
+						g_signal_handlers_disconnect_by_func (extension,
+							G_CALLBACK (mail_session_archive_folder_notify_cb), object);
+					}
+					g_object_unref (source);
+				}
+			}
+		}
+
+		g_hash_table_destroy (priv->archive_folders_hash);
+		priv->archive_folders_hash = NULL;
+	}
+
+	g_mutex_unlock (&priv->archive_folders_hash_lock);
+
 	if (priv->registry != NULL) {
 		g_signal_handler_disconnect (
 			priv->registry,
@@ -989,6 +1197,13 @@ mail_session_dispose (GObject *object)
 		priv->registry = NULL;
 	}
 
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	g_signal_handlers_disconnect_by_func (settings,
+		G_CALLBACK (mail_session_local_archive_folder_changed_cb), object);
+
+	g_object_unref (settings);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->dispose (object);
 }
@@ -1009,6 +1224,7 @@ mail_session_finalize (GObject *object)
 
 	g_mutex_clear (&priv->preparing_flush_lock);
 	g_mutex_clear (&priv->used_services_lock);
+	g_mutex_clear (&priv->archive_folders_hash_lock);
 	g_cond_clear (&priv->used_services_cond);
 
 	g_free (mail_data_dir);
@@ -1029,6 +1245,7 @@ mail_session_constructed (GObject *object)
 	GSettings *settings;
 	CamelProviderType provider_type;
 	const gchar *extension_name;
+	gchar *local_archive_folder;
 	gulong handler_id;
 
 	session = E_MAIL_SESSION (object);
@@ -1164,6 +1381,13 @@ mail_session_constructed (GObject *object)
 			(GSourceFunc) mail_session_idle_refresh_cb,
 			g_object_ref (session),
 			(GDestroyNotify) g_object_unref);
+
+	g_signal_connect (settings, "changed::local-archive-folder",
+		G_CALLBACK (mail_session_local_archive_folder_changed_cb), session);
+
+	local_archive_folder = g_settings_get_string (settings, "local-archive-folder");
+	mail_session_remember_archive_folder (session, E_MAIL_SESSION_LOCAL_UID, local_archive_folder);
+	g_free (local_archive_folder);
 
 	g_object_unref (settings);
 }
@@ -1890,6 +2114,29 @@ e_mail_session_class_init (EMailSessionClass *class)
 		G_TYPE_STRING, 2,
 		G_TYPE_UINT,
 		G_TYPE_STRING);
+
+	/**
+	 * EMailSession::archive-folder-changed
+	 * @session: the #EMailSession that emitted the signal
+	 * @service_uid: UID of a #CamelService, whose archive folder setting changed
+	 * @old_folder_uri: (nullable): an old archive folder URI, or %NULL, when none had been set already
+	 * @new_folder_uri: (nullable): a new archive folder URI, or %NULL, when none had been set
+	 *
+	 * Notifies about changes in archive folders setup.
+	 *
+	 * Since: 3.34
+	 **/
+	signals[ARCHIVE_FOLDER_CHANGED] = g_signal_new (
+		"archive-folder-changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMailSessionClass, archive_folder_changed),
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 3,
+		G_TYPE_STRING,
+		G_TYPE_STRING,
+		G_TYPE_STRING);
 }
 
 static void
@@ -1924,9 +2171,12 @@ e_mail_session_init (EMailSession *session)
 	session->priv->local_folder_uris =
 		g_ptr_array_new_with_free_func (
 		(GDestroyNotify) g_free);
+	session->priv->archive_folders_hash =
+		g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	g_mutex_init (&session->priv->preparing_flush_lock);
 	g_mutex_init (&session->priv->used_services_lock);
+	g_mutex_init (&session->priv->archive_folders_hash_lock);
 	g_cond_init (&session->priv->used_services_cond);
 
 	session->priv->used_services = g_hash_table_new (g_direct_hash, g_direct_equal);
@@ -2701,4 +2951,44 @@ e_mail_session_emit_allow_auth_prompt (EMailSession *session,
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	g_signal_emit (session, signals[ALLOW_AUTH_PROMPT], 0, source);
+}
+
+/**
+ * e_mail_session_is_archive_folder:
+ * @session: an #EMailSession
+ * @folder_uri: a folder URI
+ *
+ * Returns: whether the @folder_uri is one of configured archive folders
+ *
+ * Since: 3.34
+ **/
+gboolean
+e_mail_session_is_archive_folder (EMailSession *session,
+				  const gchar *folder_uri)
+{
+	CamelSession *camel_session;
+	GHashTableIter iter;
+	gpointer value;
+	gboolean is_archive_folder = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+
+	if (!folder_uri || !*folder_uri)
+		return FALSE;
+
+	camel_session = CAMEL_SESSION (session);
+
+	g_mutex_lock (&session->priv->archive_folders_hash_lock);
+
+	g_hash_table_iter_init (&iter, session->priv->archive_folders_hash);
+	while (!is_archive_folder && g_hash_table_iter_next (&iter, NULL, &value)) {
+		const gchar *uri = value;
+
+		if (uri && *uri)
+			is_archive_folder = e_mail_folder_uri_equal (camel_session, folder_uri, uri);
+	}
+
+	g_mutex_unlock (&session->priv->archive_folders_hash_lock);
+
+	return is_archive_folder;
 }

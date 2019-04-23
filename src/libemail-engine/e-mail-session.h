@@ -88,8 +88,13 @@ struct _EMailSessionClass {
 						(EMailSession *session,
 						 guint flags, /* bit-or of CamelRecipientCertificateFlags */
 						 const gchar *email_address);
+	void		(*archive_folder_changed)
+						(EMailSession *session,
+						 const gchar *service_uid,
+						 const gchar *old_folder_uri,
+						 const gchar *new_folder_uri);
 	/* Padding for future expansion */
-	gpointer reserved[10];
+	gpointer reserved[9];
 };
 
 GType		e_mail_session_get_type		(void);
@@ -175,6 +180,9 @@ void		e_mail_session_unmark_service_used
 void		e_mail_session_emit_allow_auth_prompt
 						(EMailSession *session,
 						 ESource *source);
+gboolean	e_mail_session_is_archive_folder
+						(EMailSession *session,
+						 const gchar *folder_uri);
 
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_service_to_source
