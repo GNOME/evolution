@@ -650,7 +650,7 @@ calendar_preferences_add_itip_formatter_page (EShell *shell,
 		check, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	check = gtk_check_button_new_with_mnemonic (_("_Preserve exiting reminder by default"));
+	check = gtk_check_button_new_with_mnemonic (_("_Preserve existing reminder by default"));
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
 
 	g_settings_bind (settings, "preserve-reminder",
