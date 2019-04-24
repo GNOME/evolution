@@ -261,18 +261,18 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 		"<tr valign=\"middle\">"
 		"<td align=\"left\" width=\"1px\" style=\"white-space:pre;\">"
 		"<button type=\"button\" class=\"attachment-expander\" id=\"%s\" value=\"%p\" data=\"%s\" style=\"vertical-align:middle; margin:0px;\">"
-		"<img id=\"attachment-expander-img-%p\" src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
+		"<img id=\"attachment-expander-img-%p\" src=\"gtk-stock://%s\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
 		"<img src=\"%s\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
 		"</button>"
 		"<button type=\"button\" class=\"attachment-menu\" id=\"%s\" value=\"%p\" style=\"vertical-align:middle; margin:0px;\">"
-		"<img src=\"gtk-stock://x-evolution-arrow-down?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
+		"<img src=\"gtk-stock://pan-down-symbolic\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\">"
 		"</button>"
 		"</td><td align=\"left\">%s</td></tr>",
 		part_id, attachment_ptr, html, attachment_ptr,
-		e_mail_part_should_show_inline (part) ? "go-down" : e_mail_part_attachment_get_expandable (empa) ? "go-next" : "go-top",
-		GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
+		e_mail_part_should_show_inline (part) ? "pan-down-symbolic" : e_mail_part_attachment_get_expandable (empa) ? "pan-end-symbolic" : "pan-up-symbolic",
+		icon_width, icon_height,
 		icon_uri, icon_width, icon_height,
-		part_id, attachment_ptr, GTK_ICON_SIZE_BUTTON, icon_width, icon_height,
+		part_id, attachment_ptr, icon_width, icon_height,
 		html);
 
 	g_free (icon_uri);
