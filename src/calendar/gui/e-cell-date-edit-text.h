@@ -23,7 +23,7 @@
 #ifndef _E_CELL_DATE_EDIT_TEXT_H_
 #define _E_CELL_DATE_EDIT_TEXT_H_
 
-#include <libical/ical.h>
+#include <libecal/libecal.h>
 #include <e-util/e-util.h>
 
 /* Standard GObject macros */
@@ -47,15 +47,31 @@
 
 G_BEGIN_DECLS
 
+typedef struct _ECellDateEditValue ECellDateEditValue;
+
+ECellDateEditValue *
+		e_cell_date_edit_value_new	(const ICalTime *tt,
+						 const ICalTimezone *zone);
+ECellDateEditValue *
+		e_cell_date_edit_value_new_take	(ICalTime *tt,
+						 ICalTimezone *zone);
+ECellDateEditValue *
+		e_cell_date_edit_value_copy	(const ECellDateEditValue *src);
+void		e_cell_date_edit_value_free	(ECellDateEditValue *value);
+ICalTime *	e_cell_date_edit_value_get_time	(const ECellDateEditValue *value);
+void		e_cell_date_edit_value_set_time	(ECellDateEditValue *value,
+						 const ICalTime *tt);
+void		e_cell_date_edit_value_take_time(ECellDateEditValue *value,
+						 ICalTime *tt);
+ICalTimezone *	e_cell_date_edit_value_get_zone	(const ECellDateEditValue *value);
+void		e_cell_date_edit_value_set_zone	(ECellDateEditValue *value,
+						 const ICalTimezone *zone);
+void		e_cell_date_edit_value_take_zone(ECellDateEditValue *value,
+						 ICalTimezone *zone);
+
 typedef struct _ECellDateEditText ECellDateEditText;
 typedef struct _ECellDateEditTextClass ECellDateEditTextClass;
 typedef struct _ECellDateEditTextPrivate ECellDateEditTextPrivate;
-typedef struct _ECellDateEditValue ECellDateEditValue;
-
-struct _ECellDateEditValue {
-	struct icaltimetype tt;
-	icaltimezone *zone;
-};
 
 struct _ECellDateEditText {
 	ECellText parent;
@@ -69,11 +85,11 @@ struct _ECellDateEditTextClass {
 GType		e_cell_date_edit_text_get_type	(void);
 ECell *		e_cell_date_edit_text_new	(const gchar *fontname,
 						 GtkJustification justify);
-icaltimezone *	e_cell_date_edit_text_get_timezone
+ICalTimezone *	e_cell_date_edit_text_get_timezone
 						(ECellDateEditText *ecd);
 void		e_cell_date_edit_text_set_timezone
 						(ECellDateEditText *ecd,
-						 icaltimezone *timezone);
+						 const ICalTimezone *timezone);
 gboolean	e_cell_date_edit_text_get_use_24_hour_format
 						(ECellDateEditText *ecd);
 void		e_cell_date_edit_text_set_use_24_hour_format

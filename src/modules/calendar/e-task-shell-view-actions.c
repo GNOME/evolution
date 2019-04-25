@@ -95,7 +95,7 @@ action_task_forward_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only forward the first selected task. */
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
 	g_return_if_fail (comp != NULL);
 
 	itip_send_component_with_model (e_task_table_get_model (task_table),
@@ -475,7 +475,7 @@ action_task_open_url_cb (GtkAction *action,
 	ETaskShellContent *task_shell_content;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
-	icalproperty *prop;
+	ICalProperty *prop;
 	const gchar *uri;
 	GSList *list;
 
@@ -490,12 +490,13 @@ action_task_open_url_cb (GtkAction *action,
 	comp_data = list->data;
 
 	/* XXX We only open the URI of the first selected task. */
-	prop = icalcomponent_get_first_property (
-		comp_data->icalcomp, ICAL_URL_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
 	g_return_if_fail (prop != NULL);
 
-	uri = icalproperty_get_url (prop);
+	uri = i_cal_property_get_url (prop);
 	e_show_uri (GTK_WINDOW (shell_window), uri);
+
+	g_object_unref (prop);
 }
 
 static void
@@ -519,7 +520,6 @@ action_task_print_cb (GtkAction *action,
 	ECalComponent *comp;
 	ECalModel *model;
 	ETaskTable *task_table;
-	icalcomponent *clone;
 	GSList *list;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
@@ -532,9 +532,7 @@ action_task_print_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only print the first selected task. */
-	comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	e_cal_component_set_icalcomponent (comp, clone);
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
 
 	print_comp (
 		comp, comp_data->client,
@@ -626,7 +624,7 @@ action_task_save_as_cb (GtkAction *action,
 
 	/* Translators: Default filename part saving a task to a file when
 	 * no summary is filed, the '.ics' extension is concatenated to it */
-	string = icalcomp_suggest_filename (comp_data->icalcomp, _("task"));
+	string = comp_util_suggest_filename (comp_data->icalcomp, _("task"));
 	file = e_shell_run_save_dialog (
 		shell, _("Save as iCalendar"), string,
 		"*.ics:text/calendar", NULL, NULL);

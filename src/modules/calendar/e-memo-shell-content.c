@@ -73,8 +73,8 @@ memo_shell_content_table_foreach_cb (gint model_row,
                                      gpointer user_data)
 {
 	ECalModelComponent *comp_data;
-	icalcomponent *clone;
-	icalcomponent *vcal;
+	ICalComponent *clone;
+	ICalComponent *vcal;
 	gchar *string;
 
 	struct {
@@ -86,12 +86,11 @@ memo_shell_content_table_foreach_cb (gint model_row,
 		foreach_data->model, model_row);
 
 	vcal = e_cal_util_new_top_level ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	clone = i_cal_component_new_clone (comp_data->icalcomp);
 	e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
-	icalcomponent_add_component (vcal, clone);
+	i_cal_component_take_component (vcal, clone);
 
-	/* String is owned by libical; do not free. */
-	string = icalcomponent_as_ical_string (vcal);
+	string = i_cal_component_as_ical_string_r (vcal);
 	if (string != NULL) {
 		ESource *source;
 		const gchar *source_uid;
@@ -102,9 +101,11 @@ memo_shell_content_table_foreach_cb (gint model_row,
 		foreach_data->list = g_slist_prepend (
 			foreach_data->list,
 			g_strdup_printf ("%s\n%s", source_uid, string));
+
+		g_free (string);
 	}
 
-	icalcomponent_free (vcal);
+	g_object_unref (vcal);
 }
 
 static void
@@ -190,7 +191,7 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 		ECalComponent *comp;
 
 		comp = e_cal_component_new_from_icalcomponent (
-			icalcomponent_new_clone (comp_data->icalcomp));
+			i_cal_component_new_clone (comp_data->icalcomp));
 
 		e_cal_component_preview_display (
 			memo_preview, comp_data->client, comp,
@@ -200,7 +201,7 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 		g_object_unref (comp);
 	}
 
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	uid = i_cal_component_get_uid (comp_data->icalcomp);
 	g_free (memo_shell_content->priv->current_uid);
 	memo_shell_content->priv->current_uid = g_strdup (uid);
 }
@@ -242,7 +243,7 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 	if (comp_data == NULL)
 		return;
 
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	uid = i_cal_component_get_uid (comp_data->icalcomp);
 	if (g_strcmp0 (uid, current_uid) != 0)
 		return;
 
@@ -281,7 +282,6 @@ memo_shell_content_check_state (EShellContent *shell_content)
 	list = e_memo_table_get_selected (memo_table);
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		icalproperty *prop;
 		gboolean read_only;
 
 		if (!comp_data)
@@ -290,8 +290,7 @@ memo_shell_content_check_state (EShellContent *shell_content)
 		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
 		editable &= !read_only;
 
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY);
-		has_url |= (prop != NULL);
+		has_url |= e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
 	}
 	g_slist_free (list);
 

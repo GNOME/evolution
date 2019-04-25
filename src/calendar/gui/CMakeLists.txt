@@ -35,8 +35,8 @@ set(SOURCES
 	e-cal-dialogs.c
 	e-cal-event.c
 	e-cal-list-view.c
-	e-cal-model-calendar.c
 	e-cal-model.c
+	e-cal-model-calendar.c
 	e-cal-model-memos.c
 	e-cal-model-tasks.c
 	e-cal-ops.c
@@ -55,11 +55,11 @@ set(SOURCES
 	e-comp-editor-property-parts.c
 	e-comp-editor-task.c
 	e-date-time-list.c
+	e-day-view.c
 	e-day-view-layout.c
 	e-day-view-main-item.c
 	e-day-view-time-item.c
 	e-day-view-top-item.c
-	e-day-view.c
 	e-meeting-attendee.c
 	e-meeting-list-view.c
 	e-meeting-store.c
@@ -73,11 +73,11 @@ set(SOURCES
 	e-send-options-utils.c
 	e-task-table.c
 	e-to-do-pane.c
+	e-week-view.c
 	e-week-view-event-item.c
 	e-week-view-layout.c
 	e-week-view-main-item.c
 	e-week-view-titles-item.c
-	e-week-view.c
 	e-weekday-chooser.c
 	e-timezone-entry.c
 	itip-utils.c

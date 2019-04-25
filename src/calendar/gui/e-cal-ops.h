@@ -26,12 +26,12 @@
 
 typedef void (* ECalOpsCreateComponentFunc)	(ECalModel *model,
 						 ECalClient *client,
-						 icalcomponent *original_icalcomp,
+						 ICalComponent *original_icomp,
 						 const gchar *new_uid,
 						 gpointer user_data);
 typedef void (* ECalOpsGetDefaultComponentFunc)	(ECalModel *model,
 						 ECalClient *client,
-						 icalcomponent *default_component,
+						 ICalComponent *default_component,
 						 gpointer user_data);
 
 typedef enum {
@@ -45,13 +45,13 @@ typedef enum {
 
 void	e_cal_ops_create_component		(ECalModel *model,
 						 ECalClient *client,
-						 icalcomponent *icalcomp,
+						 ICalComponent *icomp,
 						 ECalOpsCreateComponentFunc callback,
 						 gpointer user_data,
 						 GDestroyNotify user_data_free);
 void	e_cal_ops_modify_component		(ECalModel *model,
 						 ECalClient *client,
-						 icalcomponent *icalcomp,
+						 ICalComponent *icomp,
 						 ECalObjModType mod,
 						 ECalOpsSendFlags send_flags);
 void	e_cal_ops_remove_component		(ECalModel *model,
@@ -63,10 +63,10 @@ void	e_cal_ops_remove_component		(ECalModel *model,
 void	e_cal_ops_delete_ecalmodel_components	(ECalModel *model,
 						 const GSList *objects); /* data is 'ECalModelComponent *' */
 void	e_cal_ops_paste_components		(ECalModel *model,
-						 const gchar *icalcompstr);
+						 const gchar *icompstr);
 void	e_cal_ops_send_component		(ECalModel *model,
 						 ECalClient *client,
-						 icalcomponent *icalcomp);
+						 ICalComponent *icomp);
 void	e_cal_ops_purge_components		(ECalModel *model,
 						 time_t older_than);
 void	e_cal_ops_delete_completed_tasks	(ECalModel *model);
@@ -99,13 +99,13 @@ void	e_cal_ops_new_component_editor_from_model
 						 gboolean all_day);
 void	e_cal_ops_open_component_in_editor_sync	(ECalModel *model,
 						 ECalClient *client,
-						 icalcomponent *icalcomp,
+						 ICalComponent *icomp,
 						 gboolean force_attendees);
 
 void	e_cal_ops_transfer_components		(EShellView *shell_view,
 						 ECalModel *model,
 						 ECalClientSourceType source_type,
-						 GHashTable *icalcomps_by_source, /* ESource ~> GSList{icalcomponent} */
+						 GHashTable *icomps_by_source, /* ESource ~> GSList{ICalComponent} */
 						 ESource *destination,
 						 gboolean is_move);
 

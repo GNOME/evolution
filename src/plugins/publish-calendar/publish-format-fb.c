@@ -42,14 +42,14 @@ write_calendar (const gchar *uid,
 	ESourceRegistry *registry;
 	EClient *client = NULL;
 	GSList *objects = NULL;
-	icaltimezone *utc;
+	ICalTimezone *utc;
 	time_t start = time (NULL), end;
-	icalcomponent *top_level;
+	ICalComponent *top_level;
 	gchar *email = NULL;
 	GSList *users = NULL;
 	gboolean success = FALSE;
 
-	utc = icaltimezone_get_utc_timezone ();
+	utc = i_cal_timezone_get_utc_timezone ();
 	start = time_day_begin_with_zone (start, utc);
 
 	switch (dur_type) {
@@ -86,7 +86,7 @@ write_calendar (const gchar *uid,
 	if (client == NULL)
 		return FALSE;
 
-	if (e_client_get_backend_property_sync (client, CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL)) {
+	if (e_client_get_backend_property_sync (client, E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &email, NULL, NULL)) {
 		if (email && *email)
 			users = g_slist_append (users, email);
 	}
@@ -102,33 +102,33 @@ write_calendar (const gchar *uid,
 
 		for (iter = objects; iter; iter = iter->next) {
 			ECalComponent *comp = iter->data;
-			icalcomponent *icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
+			ICalComponent *icomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
 
-			if (!icalcomp)
+			if (!icomp)
 				continue;
 
 			if (!with_details) {
-				icalproperty *prop;
+				ICalProperty *prop;
 
-				for (prop = icalcomponent_get_first_property (icalcomp, ICAL_FREEBUSY_PROPERTY);
+				for (prop = i_cal_component_get_first_property (icomp, I_CAL_FREEBUSY_PROPERTY);
 				     prop;
-				     prop = icalcomponent_get_next_property (icalcomp, ICAL_FREEBUSY_PROPERTY)) {
-					icalproperty_remove_parameter_by_name (prop, "X-SUMMARY");
-					icalproperty_remove_parameter_by_name (prop, "X-LOCATION");
+				     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_FREEBUSY_PROPERTY)) {
+					i_cal_property_remove_parameter_by_name (prop, "X-SUMMARY");
+					i_cal_property_remove_parameter_by_name (prop, "X-LOCATION");
 				}
 			}
 
-			icalcomponent_add_component (top_level, icalcomp);
+			i_cal_component_take_component (top_level, icomp);
 		}
 
-		ical_string = icalcomponent_as_ical_string_r (top_level);
+		ical_string = i_cal_component_as_ical_string_r (top_level);
 
 		success = g_output_stream_write_all (
 			stream, ical_string,
 			strlen (ical_string),
 			NULL, NULL, error);
 
-		e_cal_client_free_ecalcomp_slist (objects);
+		e_util_free_nullable_object_slist (objects);
 		g_free (ical_string);
 	}
 
@@ -137,7 +137,7 @@ write_calendar (const gchar *uid,
 
 	g_free (email);
 	g_object_unref (client);
-	icalcomponent_free (top_level);
+	g_object_unref (top_level);
 
 	return success;
 }

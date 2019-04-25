@@ -102,10 +102,10 @@ e_comp_editor_property_part_summary_class_init (ECompEditorPropertyPartSummaryCl
 
 	part_string_class = E_COMP_EDITOR_PROPERTY_PART_STRING_CLASS (klass);
 	part_string_class->entry_type = E_TYPE_SPELL_ENTRY;
-	part_string_class->ical_prop_kind = ICAL_SUMMARY_PROPERTY;
-	part_string_class->ical_new_func = icalproperty_new_summary;
-	part_string_class->ical_set_func = icalproperty_set_summary;
-	part_string_class->ical_get_func = icalproperty_get_summary;
+	part_string_class->prop_kind = I_CAL_SUMMARY_PROPERTY;
+	part_string_class->i_cal_new_func = i_cal_property_new_summary;
+	part_string_class->i_cal_set_func = i_cal_property_set_summary;
+	part_string_class->i_cal_get_func = i_cal_property_get_summary;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_summary_create_widgets;
@@ -337,7 +337,7 @@ ecepp_location_create_widgets (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_location_fill_component (ECompEditorPropertyPart *property_part,
-			       icalcomponent *component)
+			       ICalComponent *component)
 {
 	ECompEditorPropertyPartClass *part_class;
 	GtkWidget *edit_widget;
@@ -368,10 +368,10 @@ e_comp_editor_property_part_location_class_init (ECompEditorPropertyPartLocation
 	ECompEditorPropertyPartClass *part_class;
 
 	part_string_class = E_COMP_EDITOR_PROPERTY_PART_STRING_CLASS (klass);
-	part_string_class->ical_prop_kind = ICAL_LOCATION_PROPERTY;
-	part_string_class->ical_new_func = icalproperty_new_location;
-	part_string_class->ical_set_func = icalproperty_set_location;
-	part_string_class->ical_get_func = icalproperty_get_location;
+	part_string_class->prop_kind = I_CAL_LOCATION_PROPERTY;
+	part_string_class->i_cal_new_func = i_cal_property_new_location;
+	part_string_class->i_cal_set_func = i_cal_property_set_location;
+	part_string_class->i_cal_get_func = i_cal_property_get_location;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_location_create_widgets;
@@ -482,10 +482,10 @@ e_comp_editor_property_part_categories_class_init (ECompEditorPropertyPartCatego
 	ECompEditorPropertyPartClass *part_class;
 
 	part_string_class = E_COMP_EDITOR_PROPERTY_PART_STRING_CLASS (klass);
-	part_string_class->ical_prop_kind = ICAL_CATEGORIES_PROPERTY;
-	part_string_class->ical_new_func = icalproperty_new_categories;
-	part_string_class->ical_set_func = icalproperty_set_categories;
-	part_string_class->ical_get_func = icalproperty_get_categories;
+	part_string_class->prop_kind = I_CAL_CATEGORIES_PROPERTY;
+	part_string_class->i_cal_new_func = i_cal_property_new_categories;
+	part_string_class->i_cal_set_func = i_cal_property_set_categories;
+	part_string_class->i_cal_get_func = i_cal_property_get_categories;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_categories_create_widgets;
@@ -581,13 +581,13 @@ ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_description_fill_widget (ECompEditorPropertyPart *property_part,
-			       icalcomponent *component)
+			       ICalComponent *component)
 {
 	ECompEditorPropertyPartClass *part_class;
 	GtkWidget *edit_widget;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (e_comp_editor_property_part_description_parent_class);
 	g_return_if_fail (part_class != NULL);
@@ -614,10 +614,10 @@ e_comp_editor_property_part_description_class_init (ECompEditorPropertyPartDescr
 
 	part_string_class = E_COMP_EDITOR_PROPERTY_PART_STRING_CLASS (klass);
 	part_string_class->entry_type = GTK_TYPE_TEXT_VIEW;
-	part_string_class->ical_prop_kind = ICAL_DESCRIPTION_PROPERTY;
-	part_string_class->ical_new_func = icalproperty_new_description;
-	part_string_class->ical_set_func = icalproperty_set_description;
-	part_string_class->ical_get_func = icalproperty_get_description;
+	part_string_class->prop_kind = I_CAL_DESCRIPTION_PROPERTY;
+	part_string_class->i_cal_new_func = i_cal_property_new_description;
+	part_string_class->i_cal_set_func = i_cal_property_set_description;
+	part_string_class->i_cal_get_func = i_cal_property_get_description;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_description_create_widgets;
@@ -710,10 +710,10 @@ e_comp_editor_property_part_url_class_init (ECompEditorPropertyPartUrlClass *kla
 
 	part_string_class = E_COMP_EDITOR_PROPERTY_PART_STRING_CLASS (klass);
 	part_string_class->entry_type = E_TYPE_URL_ENTRY;
-	part_string_class->ical_prop_kind = ICAL_URL_PROPERTY;
-	part_string_class->ical_new_func = icalproperty_new_url;
-	part_string_class->ical_set_func = icalproperty_set_url;
-	part_string_class->ical_get_func = icalproperty_get_url;
+	part_string_class->prop_kind = I_CAL_URL_PROPERTY;
+	part_string_class->i_cal_new_func = i_cal_property_new_url;
+	part_string_class->i_cal_set_func = i_cal_property_set_url;
+	part_string_class->i_cal_get_func = i_cal_property_get_url;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_url_create_widgets;
@@ -920,10 +920,10 @@ e_comp_editor_property_part_dtstart_class_init (ECompEditorPropertyPartDtstartCl
 	ECompEditorPropertyPartDatetimeClass *part_datetime_class;
 
 	part_datetime_class = E_COMP_EDITOR_PROPERTY_PART_DATETIME_CLASS (klass);
-	part_datetime_class->ical_prop_kind = ICAL_DTSTART_PROPERTY;
-	part_datetime_class->ical_new_func = icalproperty_new_dtstart;
-	part_datetime_class->ical_set_func = icalproperty_set_dtstart;
-	part_datetime_class->ical_get_func = icalproperty_get_dtstart;
+	part_datetime_class->prop_kind = I_CAL_DTSTART_PROPERTY;
+	part_datetime_class->i_cal_new_func = i_cal_property_new_dtstart;
+	part_datetime_class->i_cal_set_func = i_cal_property_set_dtstart;
+	part_datetime_class->i_cal_get_func = i_cal_property_get_dtstart;
 }
 
 ECompEditorPropertyPart *
@@ -981,10 +981,10 @@ e_comp_editor_property_part_dtend_class_init (ECompEditorPropertyPartDtendClass 
 	ECompEditorPropertyPartDatetimeClass *part_datetime_class;
 
 	part_datetime_class = E_COMP_EDITOR_PROPERTY_PART_DATETIME_CLASS (klass);
-	part_datetime_class->ical_prop_kind = ICAL_DTEND_PROPERTY;
-	part_datetime_class->ical_new_func = icalproperty_new_dtend;
-	part_datetime_class->ical_set_func = icalproperty_set_dtend;
-	part_datetime_class->ical_get_func = icalproperty_get_dtend;
+	part_datetime_class->prop_kind = I_CAL_DTEND_PROPERTY;
+	part_datetime_class->i_cal_new_func = i_cal_property_new_dtend;
+	part_datetime_class->i_cal_set_func = i_cal_property_set_dtend;
+	part_datetime_class->i_cal_get_func = i_cal_property_get_dtend;
 }
 
 ECompEditorPropertyPart *
@@ -1042,10 +1042,10 @@ e_comp_editor_property_part_due_class_init (ECompEditorPropertyPartDueClass *kla
 	ECompEditorPropertyPartDatetimeClass *part_datetime_class;
 
 	part_datetime_class = E_COMP_EDITOR_PROPERTY_PART_DATETIME_CLASS (klass);
-	part_datetime_class->ical_prop_kind = ICAL_DUE_PROPERTY;
-	part_datetime_class->ical_new_func = icalproperty_new_due;
-	part_datetime_class->ical_set_func = icalproperty_set_due;
-	part_datetime_class->ical_get_func = icalproperty_get_due;
+	part_datetime_class->prop_kind = I_CAL_DUE_PROPERTY;
+	part_datetime_class->i_cal_new_func = i_cal_property_new_due;
+	part_datetime_class->i_cal_set_func = i_cal_property_set_due;
+	part_datetime_class->i_cal_get_func = i_cal_property_get_due;
 }
 
 ECompEditorPropertyPart *
@@ -1092,39 +1092,37 @@ GType e_comp_editor_property_part_completed_get_type (void) G_GNUC_CONST;
 G_DEFINE_TYPE (ECompEditorPropertyPartCompleted, e_comp_editor_property_part_completed, E_TYPE_COMP_EDITOR_PROPERTY_PART_DATETIME_LABELED)
 
 static void
-e_comp_editor_property_part_completed_ensure_date_time (struct icaltimetype *pvalue)
+e_comp_editor_property_part_completed_ensure_date_time (ICalTime *pvalue)
 {
 	if (!pvalue)
 		return;
 
-	if (pvalue->is_date) {
-		pvalue->is_date = 0;
-		pvalue->hour = 0;
-		pvalue->minute = 0;
-		pvalue->second = 0;
-		pvalue->zone = icaltimezone_get_utc_timezone ();
-	} else if (!icaltime_is_utc (*pvalue)) {
+	if (i_cal_time_is_date (pvalue)) {
+		i_cal_time_set_is_date (pvalue, FALSE);
+		i_cal_time_set_time (pvalue, 0, 0, 0);
+		i_cal_time_set_timezone (pvalue, i_cal_timezone_get_utc_timezone ());
+	} else if (!i_cal_time_is_utc (pvalue)) {
 		/* Make sure the time is in UTC */
-		icaltimezone_convert_time (pvalue, (icaltimezone *) pvalue->zone, icaltimezone_get_utc_timezone ());
-		pvalue->zone = icaltimezone_get_utc_timezone ();
+		i_cal_timezone_convert_time (pvalue, i_cal_time_get_timezone (pvalue), i_cal_timezone_get_utc_timezone ());
+		i_cal_time_set_timezone (pvalue, i_cal_timezone_get_utc_timezone ());
 	}
 }
 
-static icalproperty *
-e_comp_editor_property_part_completed_new_func_wrapper (struct icaltimetype value)
+static ICalProperty *
+e_comp_editor_property_part_completed_new_func_wrapper (ICalTime *value)
 {
-	e_comp_editor_property_part_completed_ensure_date_time (&value);
+	e_comp_editor_property_part_completed_ensure_date_time (value);
 
-	return icalproperty_new_completed (value);
+	return i_cal_property_new_completed (value);
 }
 
 static void
-e_comp_editor_property_part_completed_set_func_wrapper (icalproperty *prop,
-							struct icaltimetype value)
+e_comp_editor_property_part_completed_set_func_wrapper (ICalProperty *prop,
+							ICalTime *value)
 {
-	e_comp_editor_property_part_completed_ensure_date_time (&value);
+	e_comp_editor_property_part_completed_ensure_date_time (value);
 
-	return icalproperty_set_completed (prop, value);
+	i_cal_property_set_completed (prop, value);
 }
 
 static void
@@ -1138,10 +1136,10 @@ e_comp_editor_property_part_completed_class_init (ECompEditorPropertyPartComplet
 	ECompEditorPropertyPartDatetimeClass *part_datetime_class;
 
 	part_datetime_class = E_COMP_EDITOR_PROPERTY_PART_DATETIME_CLASS (klass);
-	part_datetime_class->ical_prop_kind = ICAL_COMPLETED_PROPERTY;
-	part_datetime_class->ical_new_func = e_comp_editor_property_part_completed_new_func_wrapper;
-	part_datetime_class->ical_set_func = e_comp_editor_property_part_completed_set_func_wrapper;
-	part_datetime_class->ical_get_func = icalproperty_get_completed;
+	part_datetime_class->prop_kind = I_CAL_COMPLETED_PROPERTY;
+	part_datetime_class->i_cal_new_func = e_comp_editor_property_part_completed_new_func_wrapper;
+	part_datetime_class->i_cal_set_func = e_comp_editor_property_part_completed_set_func_wrapper;
+	part_datetime_class->i_cal_get_func = i_cal_property_get_completed;
 }
 
 ECompEditorPropertyPart *
@@ -1167,9 +1165,9 @@ ECompEditorPropertyPart *
 e_comp_editor_property_part_classification_new (void)
 {
 	ECompEditorPropertyPartPickerMap map[] = {
-		{ ICAL_CLASS_PUBLIC,       NC_("ECompEditor", "Public"),       FALSE, NULL },
-		{ ICAL_CLASS_PRIVATE,      NC_("ECompEditor", "Private"),      FALSE, NULL },
-		{ ICAL_CLASS_CONFIDENTIAL, NC_("ECompEditor", "Confidential"), FALSE, NULL }
+		{ I_CAL_CLASS_PUBLIC,       NC_("ECompEditor", "Public"),       FALSE, NULL },
+		{ I_CAL_CLASS_PRIVATE,      NC_("ECompEditor", "Private"),      FALSE, NULL },
+		{ I_CAL_CLASS_CONFIDENTIAL, NC_("ECompEditor", "Confidential"), FALSE, NULL }
 	};
 	GSettings *settings;
 	ECompEditorPropertyPart *part;
@@ -1186,10 +1184,10 @@ e_comp_editor_property_part_classification_new (void)
 
 	part = e_comp_editor_property_part_picker_with_map_new (map, n_elems,
 		C_("ECompEditor", "C_lassification:"),
-		ICAL_CLASS_PROPERTY,
-		(ECompEditorPropertyPartPickerMapICalNewFunc) icalproperty_new_class,
-		(ECompEditorPropertyPartPickerMapICalSetFunc) icalproperty_set_class,
-		(ECompEditorPropertyPartPickerMapICalGetFunc) icalproperty_get_class);
+		I_CAL_CLASS_PROPERTY,
+		(ECompEditorPropertyPartPickerMapICalNewFunc) i_cal_property_new_class,
+		(ECompEditorPropertyPartPickerMapICalSetFunc) i_cal_property_set_class,
+		(ECompEditorPropertyPartPickerMapICalGetFunc) i_cal_property_get_class);
 
 	e_comp_editor_property_part_picker_with_map_set_selected (
 		E_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (part),
@@ -1204,10 +1202,10 @@ ECompEditorPropertyPart *
 e_comp_editor_property_part_status_new (void)
 {
 	ECompEditorPropertyPartPickerMap map[] = {
-		{ ICAL_STATUS_NONE,      NC_("ECompEditor", "Not Started"), TRUE,  NULL },
-		{ ICAL_STATUS_INPROCESS, NC_("ECompEditor", "In Progress"), FALSE, NULL },
-		{ ICAL_STATUS_COMPLETED, NC_("ECompEditor", "Completed"),   FALSE, NULL },
-		{ ICAL_STATUS_CANCELLED, NC_("ECompEditor", "Cancelled"),    FALSE, NULL }
+		{ I_CAL_STATUS_NONE,      NC_("ECompEditor", "Not Started"), TRUE,  NULL },
+		{ I_CAL_STATUS_INPROCESS, NC_("ECompEditor", "In Progress"), FALSE, NULL },
+		{ I_CAL_STATUS_COMPLETED, NC_("ECompEditor", "Completed"),   FALSE, NULL },
+		{ I_CAL_STATUS_CANCELLED, NC_("ECompEditor", "Cancelled"),    FALSE, NULL }
 	};
 	gint ii, n_elems = G_N_ELEMENTS (map);
 
@@ -1217,10 +1215,10 @@ e_comp_editor_property_part_status_new (void)
 
 	return e_comp_editor_property_part_picker_with_map_new (map, n_elems,
 		C_("ECompEditor", "_Status:"),
-		ICAL_STATUS_PROPERTY,
-		(ECompEditorPropertyPartPickerMapICalNewFunc) icalproperty_new_status,
-		(ECompEditorPropertyPartPickerMapICalSetFunc) icalproperty_set_status,
-		(ECompEditorPropertyPartPickerMapICalGetFunc) icalproperty_get_status);
+		I_CAL_STATUS_PROPERTY,
+		(ECompEditorPropertyPartPickerMapICalNewFunc) i_cal_property_new_status,
+		(ECompEditorPropertyPartPickerMapICalSetFunc) i_cal_property_set_status,
+		(ECompEditorPropertyPartPickerMapICalGetFunc) i_cal_property_get_status);
 }
 
 /* ************************************************************************* */
@@ -1259,10 +1257,10 @@ e_comp_editor_property_part_priority_new (void)
 
 	return e_comp_editor_property_part_picker_with_map_new (map, n_elems,
 		C_("ECompEditor", "Priorit_y:"),
-		ICAL_PRIORITY_PROPERTY,
-		icalproperty_new_priority,
-		icalproperty_set_priority,
-		icalproperty_get_priority);
+		I_CAL_PRIORITY_PROPERTY,
+		i_cal_property_new_priority,
+		i_cal_property_set_priority,
+		i_cal_property_get_priority);
 }
 
 /* ************************************************************************* */
@@ -1337,10 +1335,10 @@ e_comp_editor_property_part_percentcomplete_class_init (ECompEditorPropertyPartP
 	ECompEditorPropertyPartClass *part_class;
 
 	part_spin_class = E_COMP_EDITOR_PROPERTY_PART_SPIN_CLASS (klass);
-	part_spin_class->ical_prop_kind = ICAL_PERCENTCOMPLETE_PROPERTY;
-	part_spin_class->ical_new_func = icalproperty_new_percentcomplete;
-	part_spin_class->ical_set_func = icalproperty_set_percentcomplete;
-	part_spin_class->ical_get_func = icalproperty_get_percentcomplete;
+	part_spin_class->prop_kind = I_CAL_PERCENTCOMPLETE_PROPERTY;
+	part_spin_class->i_cal_new_func = i_cal_property_new_percentcomplete;
+	part_spin_class->i_cal_set_func = i_cal_property_set_percentcomplete;
+	part_spin_class->i_cal_get_func = i_cal_property_get_percentcomplete;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_percentcomplete_create_widgets;
@@ -1417,44 +1415,47 @@ ecepp_timezone_create_widgets (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_timezone_fill_widget (ECompEditorPropertyPart *property_part,
-			    icalcomponent *component)
+			    ICalComponent *component)
 {
-	struct icaltimetype (* get_func) (const icalproperty *prop);
-	icalproperty *prop;
+	ICalTime * (* get_func) (ICalProperty *prop);
+	ICalProperty *prop;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_TIMEZONE (property_part));
 
-	get_func = icalproperty_get_dtstart;
-	prop = icalcomponent_get_first_property (component, ICAL_DTSTART_PROPERTY);
+	get_func = i_cal_property_get_dtstart;
+	prop = i_cal_component_get_first_property (component, I_CAL_DTSTART_PROPERTY);
 
 	if (!prop) {
-		get_func = icalproperty_get_dtend;
-		prop = icalcomponent_get_first_property (component, ICAL_DTEND_PROPERTY);
+		get_func = i_cal_property_get_dtend;
+		prop = i_cal_component_get_first_property (component, I_CAL_DTEND_PROPERTY);
 	}
 
 	if (!prop) {
-		get_func = icalproperty_get_due;
-		prop = icalcomponent_get_first_property (component, ICAL_DUE_PROPERTY);
+		get_func = i_cal_property_get_due;
+		prop = i_cal_component_get_first_property (component, I_CAL_DUE_PROPERTY);
 	}
 
 	if (prop) {
-		struct icaltimetype itt;
+		ICalTime *itt;
 
 		itt = get_func (prop);
-		if (itt.zone) {
+		if (itt && i_cal_time_get_timezone (itt)) {
 			GtkWidget *edit_widget;
 
 			edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 			g_return_if_fail (E_IS_TIMEZONE_ENTRY (edit_widget));
 
-			e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), (icaltimezone *) itt.zone);
+			e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), i_cal_time_get_timezone (itt));
 		}
+
+		g_clear_object (&itt);
+		g_object_unref (prop);
 	}
 }
 
 static void
 ecepp_timezone_fill_component (ECompEditorPropertyPart *property_part,
-			       icalcomponent *component)
+			       ICalComponent *component)
 {
 	/* Nothing to do here, this is sort-of virtual property part */
 }
@@ -1535,20 +1536,22 @@ ecepp_transparency_create_widgets (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_transparency_fill_widget (ECompEditorPropertyPart *property_part,
-				icalcomponent *component)
+				ICalComponent *component)
 {
 	GtkWidget *edit_widget;
-	icalproperty *prop;
+	ICalProperty *prop;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_TRANSPARENCY (property_part));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (GTK_IS_CHECK_BUTTON (edit_widget));
 
-	prop = icalcomponent_get_first_property (component, ICAL_TRANSP_PROPERTY);
+	prop = i_cal_component_get_first_property (component, I_CAL_TRANSP_PROPERTY);
 	if (prop) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (edit_widget),
-			icalproperty_get_transp (prop) == ICAL_TRANSP_OPAQUE);
+			i_cal_property_get_transp (prop) == I_CAL_TRANSP_OPAQUE);
+
+		g_object_unref (prop);
 	} else {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (edit_widget), TRUE);
 	}
@@ -1556,26 +1559,28 @@ ecepp_transparency_fill_widget (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_transparency_fill_component (ECompEditorPropertyPart *property_part,
-				   icalcomponent *component)
+				   ICalComponent *component)
 {
 	GtkWidget *edit_widget;
-	icalproperty *prop;
-	icalproperty_transp value;
+	ICalProperty *prop;
+	ICalPropertyTransp value;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_TRANSPARENCY (property_part));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (GTK_IS_CHECK_BUTTON (edit_widget));
 
-	value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (edit_widget)) ? ICAL_TRANSP_OPAQUE : ICAL_TRANSP_TRANSPARENT;
+	value = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (edit_widget)) ? I_CAL_TRANSP_OPAQUE : I_CAL_TRANSP_TRANSPARENT;
 
-	prop = icalcomponent_get_first_property (component, ICAL_TRANSP_PROPERTY);
+	prop = i_cal_component_get_first_property (component, I_CAL_TRANSP_PROPERTY);
 	if (prop) {
-		icalproperty_set_transp (prop, value);
+		i_cal_property_set_transp (prop, value);
 	} else {
-		prop = icalproperty_new_transp (value);
-		icalcomponent_add_property (component, prop);
+		prop = i_cal_property_new_transp (value);
+		i_cal_component_add_property (component, prop);
 	}
+
+	g_clear_object (&prop);
 }
 
 static void
@@ -1628,7 +1633,6 @@ GType e_comp_editor_property_part_color_get_type (void) G_GNUC_CONST;
 
 G_DEFINE_TYPE (ECompEditorPropertyPartColor, e_comp_editor_property_part_color, E_TYPE_COMP_EDITOR_PROPERTY_PART)
 
-#ifdef HAVE_ICAL_COLOR_PROPERTY
 static const gchar *
 ecepp_color_rgba_to_string (const GdkRGBA *rgba)
 {
@@ -1847,7 +1851,6 @@ ecepp_color_notify_current_color_cb (EColorCombo *color_combo,
 		g_signal_handler_unblock (color_combo, color_part->notify_current_color_id);
 	}
 }
-#endif /* HAVE_ICAL_COLOR_PROPERTY */
 
 static void
 ecepp_color_set_palette (GtkWidget *color_combo)
@@ -1923,9 +1926,7 @@ ecepp_color_create_widgets (ECompEditorPropertyPart *property_part,
 			    GtkWidget **out_label_widget,
 			    GtkWidget **out_edit_widget)
 {
-	#ifdef HAVE_ICAL_COLOR_PROPERTY
 	ECompEditorPropertyPartColor *color_part;
-	#endif
 	GdkRGBA rgba;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_COLOR (property_part));
@@ -1956,21 +1957,18 @@ ecepp_color_create_widgets (ECompEditorPropertyPart *property_part,
 
 	ecepp_color_set_palette (*out_edit_widget);
 
-	#ifdef HAVE_ICAL_COLOR_PROPERTY
 	color_part = E_COMP_EDITOR_PROPERTY_PART_COLOR (property_part);
 	color_part->notify_current_color_id =
 		g_signal_connect (*out_edit_widget, "notify::current-color",
 		G_CALLBACK (ecepp_color_notify_current_color_cb), property_part);
-	#endif
 }
 
 static void
 ecepp_color_fill_widget (ECompEditorPropertyPart *property_part,
-			 icalcomponent *component)
+			 ICalComponent *component)
 {
-	#ifdef HAVE_ICAL_COLOR_PROPERTY
 	GtkWidget *edit_widget;
-	icalproperty *prop;
+	ICalProperty *prop;
 	gboolean color_set = FALSE;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_COLOR (property_part));
@@ -1978,15 +1976,17 @@ ecepp_color_fill_widget (ECompEditorPropertyPart *property_part,
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (E_IS_COLOR_COMBO (edit_widget));
 
-	prop = icalcomponent_get_first_property (component, ICAL_COLOR_PROPERTY);
+	prop = i_cal_component_get_first_property (component, I_CAL_COLOR_PROPERTY);
 	if (prop) {
-		const gchar *color = icalproperty_get_color (prop);
+		const gchar *color = i_cal_property_get_color (prop);
 		GdkRGBA rgba;
 
 		if (color && gdk_rgba_parse (&rgba, color)) {
 			e_color_combo_set_current_color (E_COLOR_COMBO (edit_widget), &rgba);
 			color_set = TRUE;
 		}
+
+		g_clear_object (&prop);
 	}
 
 	if (!color_set) {
@@ -1999,16 +1999,14 @@ ecepp_color_fill_widget (ECompEditorPropertyPart *property_part,
 
 		e_color_combo_set_current_color (E_COLOR_COMBO (edit_widget), &rgba);
 	}
-	#endif
 }
 
 static void
 ecepp_color_fill_component (ECompEditorPropertyPart *property_part,
-			    icalcomponent *component)
+			    ICalComponent *component)
 {
-	#ifdef HAVE_ICAL_COLOR_PROPERTY
 	GtkWidget *edit_widget;
-	icalproperty *prop;
+	ICalProperty *prop;
 	GdkRGBA rgba;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_COLOR (property_part));
@@ -2023,29 +2021,28 @@ ecepp_color_fill_component (ECompEditorPropertyPart *property_part,
 
 	e_color_combo_get_current_color (E_COLOR_COMBO (edit_widget), &rgba);
 
-	prop = icalcomponent_get_first_property (component, ICAL_COLOR_PROPERTY);
+	prop = i_cal_component_get_first_property (component, I_CAL_COLOR_PROPERTY);
 
 	if (rgba.alpha <= 1.0 - 1e-9) {
-		if (prop) {
-			icalcomponent_remove_property (component, prop);
-			icalproperty_free (prop);
-		}
+		if (prop)
+			i_cal_component_remove_property (component, prop);
 	} else {
 		const gchar *str;
 
 		str = ecepp_color_rgba_to_string (&rgba);
 		if (str) {
 			if (prop) {
-				icalproperty_set_color (prop, str);
+				i_cal_property_set_color (prop, str);
 			} else {
-				prop = icalproperty_new_color (str);
-				icalcomponent_add_property (component, prop);
+				prop = i_cal_property_new_color (str);
+				i_cal_component_add_property (component, prop);
 			}
 		} else {
 			g_warning ("%s: Failed to convert RGBA (%f,%f,%f,%f) to string", G_STRFUNC, rgba.red, rgba.green, rgba.blue, rgba.alpha);
 		}
 	}
-	#endif
+
+	g_clear_object (&prop);
 }
 
 static void
@@ -2067,9 +2064,5 @@ e_comp_editor_property_part_color_class_init (ECompEditorPropertyPartColorClass 
 ECompEditorPropertyPart *
 e_comp_editor_property_part_color_new (void)
 {
-	#ifdef HAVE_ICAL_COLOR_PROPERTY
 	return g_object_new (E_TYPE_COMP_EDITOR_PROPERTY_PART_COLOR, NULL);
-	#else
-	return NULL;
-	#endif
 }

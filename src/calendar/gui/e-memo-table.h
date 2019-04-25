@@ -64,12 +64,6 @@ typedef struct _EMemoTablePrivate EMemoTablePrivate;
 struct _EMemoTable {
 	ETable parent;
 
-	/* The ECell used to view & edit dates. */
-	ECellDateEdit *dates_cell;
-
-	/* Fields used for cut/copy/paste */
-	icalcomponent *tmp_vcal;
-
 	EMemoTablePrivate *priv;
 };
 
@@ -88,9 +82,9 @@ GtkWidget *	e_memo_table_new		(EShellView *shell_view,
 						 ECalModel *model);
 ECalModel *	e_memo_table_get_model		(EMemoTable *memo_table);
 EShellView *	e_memo_table_get_shell_view	(EMemoTable *memo_table);
-icaltimezone *	e_memo_table_get_timezone	(EMemoTable *memo_table);
+ICalTimezone *	e_memo_table_get_timezone	(EMemoTable *memo_table);
 void		e_memo_table_set_timezone	(EMemoTable *memo_table,
-						 icaltimezone *timezone);
+						 const ICalTimezone *timezone);
 gboolean	e_memo_table_get_use_24_hour_format
 						(EMemoTable *memo_table);
 void		e_memo_table_set_use_24_hour_format

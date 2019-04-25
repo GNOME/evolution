@@ -49,102 +49,119 @@ static ECellDateEditValue *
 get_dtend (ECalModelCalendar *model,
            ECalModelComponent *comp_data)
 {
-	struct icaltimetype tt_end;
+	ICalTime *tt_end;
 
 	if (!comp_data->dtend) {
-		icalproperty *prop;
-		icaltimezone *zone = NULL, *model_zone = NULL;
-		gboolean got_zone = FALSE;
+		ICalProperty *prop;
+		ICalTimezone *zone = NULL, *model_zone = NULL;
+		gboolean got_zone = FALSE, is_date;
 
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTEND_PROPERTY);
+		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTEND_PROPERTY);
 		if (!prop)
 			return NULL;
 
-		tt_end = icalproperty_get_dtend (prop);
+		tt_end = i_cal_property_get_dtend (prop);
 
-		if (icaltime_get_tzid (tt_end)
-		    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_end), &zone, NULL, NULL))
+		if (i_cal_time_get_tzid (tt_end) &&
+		    e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_end), &zone, NULL, NULL))
 			got_zone = TRUE;
 
 		model_zone = e_cal_model_get_timezone (E_CAL_MODEL (model));
 
+		is_date = i_cal_time_is_date (tt_end);
+
+		g_clear_object (&tt_end);
+		g_clear_object (&prop);
+
 		if (got_zone) {
-			tt_end = icaltime_from_timet_with_zone (comp_data->instance_end, tt_end.is_date, zone);
+			tt_end = i_cal_time_from_timet_with_zone (comp_data->instance_end, is_date, zone);
 		} else {
-			tt_end = icaltime_from_timet_with_zone (
-				comp_data->instance_end,
-				tt_end.is_date, model_zone);
+			tt_end = i_cal_time_from_timet_with_zone (comp_data->instance_end, is_date, model_zone);
 		}
 
-		if (!icaltime_is_valid_time (tt_end) || icaltime_is_null_time (tt_end))
+		if (!i_cal_time_is_valid_time (tt_end) || i_cal_time_is_null_time (tt_end)) {
+			g_clear_object (&tt_end);
 			return NULL;
+		}
 
-		if (tt_end.is_date && icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY)) {
-			struct icaltimetype tt_start;
-			icaltimezone *start_zone = NULL;
+		if (i_cal_time_is_date (tt_end) &&
+		    (prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTSTART_PROPERTY)) != NULL) {
+			ICalTime *tt_start;
+			ICalTimezone *start_zone = NULL;
 			gboolean got_start_zone = FALSE;
 
-			tt_start = icalproperty_get_dtstart (prop);
+			tt_start = i_cal_property_get_dtstart (prop);
 
-			if (icaltime_get_tzid (tt_start)
-			    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_start), &start_zone, NULL, NULL))
+			if (i_cal_time_get_tzid (tt_start) &&
+			    e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_start), &start_zone, NULL, NULL))
 				got_start_zone = TRUE;
 
+			is_date = i_cal_time_is_date (tt_end);
+
+			g_clear_object (&tt_start);
+
 			if (got_start_zone) {
-				tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, start_zone);
+				tt_start = i_cal_time_from_timet_with_zone (comp_data->instance_start, is_date, start_zone);
 			} else {
-				tt_start = icaltime_from_timet_with_zone (
-					comp_data->instance_start,
-					tt_start.is_date, model_zone);
+				tt_start = i_cal_time_from_timet_with_zone (comp_data->instance_start, is_date, model_zone);
 			}
 
-			icaltime_adjust (&tt_start, 1, 0, 0, 0);
+			i_cal_time_adjust (tt_start, 1, 0, 0, 0);
 
 			/* Decrease by a day only if the DTSTART will still be before, or the same as, DTEND */
-			if (icaltime_compare (tt_start, tt_end) <= 0)
-				icaltime_adjust (&tt_end, -1, 0, 0, 0);
+			if (i_cal_time_compare (tt_start, tt_end) <= 0)
+				i_cal_time_adjust (tt_end, -1, 0, 0, 0);
+
+			g_clear_object (&tt_start);
 		}
 
-		comp_data->dtend = g_new0 (ECellDateEditValue, 1);
-		comp_data->dtend->tt = tt_end;
+		g_clear_object (&prop);
 
-		if (got_zone)
-			comp_data->dtend->zone = zone;
-		else
-			comp_data->dtend->zone = NULL;
+		comp_data->dtend = e_cell_date_edit_value_new_take (tt_end, (got_zone && zone) ? e_cal_util_copy_timezone (zone) : NULL);
 	}
 
-	return e_cal_model_copy_cell_date_value (comp_data->dtend);
+	return e_cell_date_edit_value_copy (comp_data->dtend);
 }
 
 static gpointer
 get_location (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
+	const gchar *res = NULL;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_LOCATION_PROPERTY);
-	if (prop)
-		return (gpointer) icalproperty_get_location (prop);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_LOCATION_PROPERTY);
+	if (prop) {
+		res = i_cal_property_get_location (prop);
+		g_clear_object (&prop);
+	}
 
-	return (gpointer) "";
+	if (!res)
+		res = "";
+
+	return (gpointer) res;
 }
 
 static gpointer
 get_transparency (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_TRANSP_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_TRANSP_PROPERTY);
 	if (prop) {
-		icalproperty_transp transp;
+		ICalPropertyTransp transp;
+		const gchar *res = NULL;
 
-		transp = icalproperty_get_transp (prop);
-		if (transp == ICAL_TRANSP_TRANSPARENT ||
-		    transp == ICAL_TRANSP_TRANSPARENTNOCONFLICT)
-			return _("Free");
-		else if (transp == ICAL_TRANSP_OPAQUE ||
-			 transp == ICAL_TRANSP_OPAQUENOCONFLICT)
-			return _("Busy");
+		transp = i_cal_property_get_transp (prop);
+		if (transp == I_CAL_TRANSP_TRANSPARENT ||
+		    transp == I_CAL_TRANSP_TRANSPARENTNOCONFLICT)
+			res = _("Free");
+		else if (transp == I_CAL_TRANSP_OPAQUE ||
+			 transp == I_CAL_TRANSP_OPAQUENOCONFLICT)
+			res = _("Busy");
+
+		g_clear_object (&prop);
+
+		return (gpointer) res;
 	}
 
 	return NULL;
@@ -155,28 +172,29 @@ set_dtend (ECalModel *model,
            ECalModelComponent *comp_data,
            gconstpointer value)
 {
-	e_cal_model_update_comp_time (model, comp_data, value, ICAL_DTEND_PROPERTY, icalproperty_set_dtend, icalproperty_new_dtend);
+	e_cal_model_update_comp_time (model, comp_data, value, I_CAL_DTEND_PROPERTY, i_cal_property_set_dtend, i_cal_property_new_dtend);
 }
 
 static void
 set_location (ECalModelComponent *comp_data,
               gconstpointer value)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_LOCATION_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_LOCATION_PROPERTY);
 
 	if (string_is_empty (value)) {
 		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
+			i_cal_component_remove_property (comp_data->icalcomp, prop);
+			g_object_unref (prop);
 		}
 	} else {
-		if (prop)
-			icalproperty_set_location (prop, (const gchar *) value);
-		else {
-			prop = icalproperty_new_location ((const gchar *) value);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
+		if (prop) {
+			i_cal_property_set_location (prop, (const gchar *) value);
+			g_object_unref (prop);
+		} else {
+			prop = i_cal_property_new_location ((const gchar *) value);
+			i_cal_component_take_property (comp_data->icalcomp, prop);
 		}
 	}
 }
@@ -185,36 +203,37 @@ static void
 set_transparency (ECalModelComponent *comp_data,
                   gconstpointer value)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_TRANSP_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_TRANSP_PROPERTY);
 
 	if (string_is_empty (value)) {
 		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
+			i_cal_component_remove_property (comp_data->icalcomp, prop);
+			g_object_unref (prop);
 		}
 	} else {
-		icalproperty_transp transp;
+		ICalPropertyTransp transp;
 
 		if (!g_ascii_strcasecmp (value, "FREE"))
-			transp = ICAL_TRANSP_TRANSPARENT;
+			transp = I_CAL_TRANSP_TRANSPARENT;
 		else if (!g_ascii_strcasecmp (value, "OPAQUE"))
-			transp = ICAL_TRANSP_OPAQUE;
+			transp = I_CAL_TRANSP_OPAQUE;
 		else {
 			if (prop) {
-				icalcomponent_remove_property (comp_data->icalcomp, prop);
-				icalproperty_free (prop);
+				i_cal_component_remove_property (comp_data->icalcomp, prop);
+				g_object_unref (prop);
 			}
 
 			return;
 		}
 
-		if (prop)
-			icalproperty_set_transp (prop, transp);
-		else {
-			prop = icalproperty_new_transp (transp);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
+		if (prop) {
+			i_cal_property_set_transp (prop, transp);
+			g_object_unref (prop);
+		} else {
+			prop = i_cal_property_new_transp (transp);
+			i_cal_component_take_property (comp_data->icalcomp, prop);
 		}
 	}
 }
@@ -310,7 +329,7 @@ cal_model_calendar_set_value_at (ETableModel *etm,
 	if (!comp_data)
 		return;
 
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
 	if (!comp) {
 		return;
 	}
@@ -379,7 +398,7 @@ cal_model_calendar_duplicate_value (ETableModel *etm,
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
-		return e_cal_model_copy_cell_date_value (value);
+		return e_cell_date_edit_value_copy (value);
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
 		return g_strdup (value);

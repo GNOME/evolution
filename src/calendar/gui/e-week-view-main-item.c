@@ -94,18 +94,18 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 
 	if (!today) {
 		ECalendarView *view;
-		struct icaltimetype tt;
-		const icaltimezone *zone;
+		ICalTime *tt;
+		ICalTimezone *zone;
 
 		view = E_CALENDAR_VIEW (week_view);
 		zone = e_calendar_view_get_timezone (view);
 
 		/* Check if we are drawing today */
-		tt = icaltime_from_timet_with_zone (
-			time (NULL), FALSE, zone);
-		today = g_date_get_year (date) == tt.year
-			&& g_date_get_month (date) == tt.month
-			&& g_date_get_day (date) == tt.day;
+		tt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, zone);
+		today = g_date_get_year (date) == i_cal_time_get_year (tt) &&
+			g_date_get_month (date) == i_cal_time_get_month (tt) &&
+			g_date_get_day (date) == i_cal_time_get_day (tt);
+		g_clear_object (&tt);
 	}
 
 	/* Draw the background of the day. In the month view odd months are

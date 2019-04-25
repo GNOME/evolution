@@ -33,26 +33,6 @@
 #include "e-cal-base-shell-view.h"
 #include "e-cal-base-shell-backend.h"
 
-/*
- * FIXME: Remove this when there's a build time dependency on libical
- * 3.0.4 (where this is fixed). See
- * https://github.com/libical/libical/pull/335 and the implementation in
- * https://github.com/libical/libical/blob/master/src/libical/icalversion.h.cmake.
- */
-#if defined(ICAL_CHECK_VERSION) && defined(ICAL_MAJOR_VERSION) && defined(ICAL_MINOR_VERSION) && defined(ICAL_MICRO_VERSION)
-#undef ICAL_CHECK_VERSION
-#define ICAL_CHECK_VERSION(major,minor,micro)                          \
-    (ICAL_MAJOR_VERSION > (major) ||                                   \
-    (ICAL_MAJOR_VERSION == (major) && ICAL_MINOR_VERSION > (minor)) || \
-    (ICAL_MAJOR_VERSION == (major) && ICAL_MINOR_VERSION == (minor) && \
-    ICAL_MICRO_VERSION >= (micro)))
-#else
-#if defined(ICAL_CHECK_VERSION)
-#undef ICAL_CHECK_VERSION
-#endif
-#define ICAL_CHECK_VERSION(major,minor,micro) (0)
-#endif
-
 #define E_CAL_BASE_SHELL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_BASE_SHELL_BACKEND, ECalBaseShellBackendPrivate))
@@ -264,42 +244,7 @@ e_cal_base_shell_backend_class_init (ECalBaseShellBackendClass *class)
 static void
 e_cal_base_shell_backend_init (ECalBaseShellBackend *cal_base_shell_backend)
 {
-#if !ICAL_CHECK_VERSION(3, 0, 2)
-	icalarray *builtin_timezones;
-	gint ii;
-#endif
-
 	cal_base_shell_backend->priv = E_CAL_BASE_SHELL_BACKEND_GET_PRIVATE (cal_base_shell_backend);
-
-#if !ICAL_CHECK_VERSION(3, 0, 2)
-	/* XXX Pre-load all built-in timezones in libical.
-	 *
-	 *     Built-in time zones in libical 0.43 are loaded on demand,
-	 *     but not in a thread-safe manner, resulting in a race when
-	 *     multiple threads call icaltimezone_load_builtin_timezone()
-	 *     on the same time zone.  Until built-in time zone loading
-	 *     in libical is made thread-safe, work around the issue by
-	 *     loading all built-in time zones now, so libical's internal
-	 *     time zone array will be fully populated before any threads
-	 *     are spawned.
-	 *
-	 *     This is apparently fixed with additional locking in
-	 *     libical 3.0.1 and 3.0.2:
-	 *     https://github.com/libical/libical/releases/tag/v3.0.1
-	 *     https://github.com/libical/libical/releases/tag/v3.0.2
-	 */
-	builtin_timezones = icaltimezone_get_builtin_timezones ();
-	for (ii = 0; ii < builtin_timezones->num_elements; ii++) {
-		icaltimezone *zone;
-
-		zone = icalarray_element_at (builtin_timezones, ii);
-
-		/* We don't care about the component right now,
-		 * we just need some function that will trigger
-		 * icaltimezone_load_builtin_timezone(). */
-		icaltimezone_get_component (zone);
-	}
-#endif
 }
 
 void
@@ -363,7 +308,7 @@ typedef struct {
 	gchar *comp_rid;
 
 	ECalClient *cal_client;
-	icalcomponent *existing_icalcomp;
+	ICalComponent *existing_icomp;
 } HandleUriData;
 
 static void
@@ -380,15 +325,13 @@ handle_uri_data_free (gpointer ptr)
 		comp_editor = e_comp_editor_open_for_component (NULL,
 			e_shell_backend_get_shell (hud->shell_backend),
 			e_client_get_source (E_CLIENT (hud->cal_client)),
-			hud->existing_icalcomp, 0);
+			hud->existing_icomp, 0);
 
 		if (comp_editor)
 			gtk_window_present (GTK_WINDOW (comp_editor));
 	}
 
-	if (hud->existing_icalcomp)
-		icalcomponent_free (hud->existing_icalcomp);
-
+	g_clear_object (&hud->existing_icomp);
 	g_clear_object (&hud->cal_client);
 	g_clear_object (&hud->shell_backend);
 	g_free (hud->source_uid);
@@ -444,7 +387,7 @@ cal_base_shell_backend_handle_uri_thread (EAlertSinkThreadJobData *job_data,
 			hud->cal_client = E_CAL_CLIENT (client);
 
 			if (!e_cal_client_get_object_sync (hud->cal_client, hud->comp_uid,
-				hud->comp_rid, &hud->existing_icalcomp, cancellable, &local_error))
+				hud->comp_rid, &hud->existing_icomp, cancellable, &local_error))
 				g_clear_object (&hud->cal_client);
 		}
 	}
@@ -457,27 +400,28 @@ cal_base_shell_backend_handle_uri_thread (EAlertSinkThreadJobData *job_data,
 static void
 populate_g_date (GDate *date,
                  time_t utc_time,
-                 icaltimezone *zone)
+                 ICalTimezone *zone)
 {
-	struct icaltimetype icaltm;
+	ICalTime *itt;
 
 	g_return_if_fail (date != NULL);
 
 	if ((gint) utc_time == -1)
 		return;
 
-	icaltm = icaltime_from_timet_with_zone (utc_time, FALSE, zone);
+	itt = i_cal_time_from_timet_with_zone (utc_time, FALSE, zone);
 
-	if (icaltime_is_null_time (icaltm) ||
-	    !icaltime_is_valid_time (icaltm))
-		return;
+	if (itt && !i_cal_time_is_null_time (itt) &&
+	    i_cal_time_is_valid_time (itt)) {
+		g_date_set_dmy (date, i_cal_time_get_day (itt), i_cal_time_get_month (itt), i_cal_time_get_year (itt));
+	}
 
-	g_date_set_dmy (date, icaltm.day, icaltm.month, icaltm.year);
+	g_clear_object (&itt);
 }
 
 static time_t
 convert_time_from_isodate (const gchar *text,
-			   icaltimezone *use_date_zone)
+			   ICalTimezone *use_date_zone)
 {
 	time_t res;
 
@@ -487,10 +431,11 @@ convert_time_from_isodate (const gchar *text,
 
 	/* Is it date only? Then use the date zone to match the right day */
 	if (use_date_zone && strlen (text) == 8) {
-		struct icaltimetype itt;
+		ICalTime *itt;
 
-		itt = icaltime_from_timet_with_zone (res, TRUE, NULL);
-		res = icaltime_as_timet_with_zone (itt, use_date_zone);
+		itt = i_cal_time_from_timet_with_zone (res, TRUE, NULL);
+		res = i_cal_time_as_timet_with_zone (itt, use_date_zone);
+		g_clear_object (&itt);
 	}
 
 	return res;
@@ -516,7 +461,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 	GList *windows, *link;
 	GDate start_date;
 	GDate end_date;
-	icaltimezone *zone = NULL;
+	ICalTimezone *zone = NULL;
 	const gchar *extension_name;
 
 	g_return_val_if_fail (E_IS_CAL_BASE_SHELL_BACKEND (shell_backend), FALSE);
@@ -557,13 +502,13 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		location = g_settings_get_string (settings, "timezone");
 
 		if (location != NULL) {
-			zone = icaltimezone_get_builtin_timezone (location);
+			zone = i_cal_timezone_get_builtin_timezone (location);
 			g_free (location);
 		}
 	}
 
 	if (zone == NULL)
-		zone = icaltimezone_get_utc_timezone ();
+		zone = i_cal_timezone_get_utc_timezone ();
 
 	g_object_unref (settings);
 
@@ -645,7 +590,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 
 	if (new_ics) {
 		gchar *content = NULL;
-		icalcomponent *icalcomp;
+		ICalComponent *icomp;
 		GError *error = NULL;
 
 		if (!g_file_get_contents (new_ics, &content, NULL, &error)) {
@@ -657,26 +602,26 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 			goto exit;
 		}
 
-		icalcomp = content ? icalcomponent_new_from_string (content) : NULL;
-		if (!icalcomp) {
+		icomp = content ? i_cal_component_new_from_string (content) : NULL;
+		if (!icomp) {
 			g_warning ("Cannot create new ics: File '%s' doesn't contain valid iCalendar component", new_ics);
 			g_free (content);
 			goto exit;
 		}
 
-		if (icalcomponent_isa (icalcomp) == ICAL_VEVENT_COMPONENT &&
+		if (i_cal_component_isa (icomp) == I_CAL_VEVENT_COMPONENT &&
 		    source_type != E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
 			g_warning ("Cannot create new ics: Expected %s, but got VEVENT", source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? "VTODO" : "VJOURNAL");
-		} else if (icalcomponent_isa (icalcomp) == ICAL_VJOURNAL_COMPONENT &&
+		} else if (i_cal_component_isa (icomp) == I_CAL_VJOURNAL_COMPONENT &&
 			   source_type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
 			g_warning ("Cannot create new ics: Expected %s, but got VJOURNAL", source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ? "VTODO" : "VEVENT");
-		} else if (icalcomponent_isa (icalcomp) == ICAL_VTODO_COMPONENT &&
+		} else if (i_cal_component_isa (icomp) == I_CAL_VTODO_COMPONENT &&
 			   source_type != E_CAL_CLIENT_SOURCE_TYPE_TASKS) {
 			g_warning ("Cannot create new ics: Expected %s, but got VTODO", source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? "VJOURNAL" : "VEVENT");
-		} else if (icalcomponent_isa (icalcomp) != ICAL_VEVENT_COMPONENT &&
-			   icalcomponent_isa (icalcomp) != ICAL_VJOURNAL_COMPONENT &&
-			   icalcomponent_isa (icalcomp) != ICAL_VTODO_COMPONENT) {
-			g_warning ("Cannot create new ics: Received unexpected component type '%s'", icalcomponent_kind_to_string (icalcomponent_isa (icalcomp)));
+		} else if (i_cal_component_isa (icomp) != I_CAL_VEVENT_COMPONENT &&
+			   i_cal_component_isa (icomp) != I_CAL_VJOURNAL_COMPONENT &&
+			   i_cal_component_isa (icomp) != I_CAL_VTODO_COMPONENT) {
+			g_warning ("Cannot create new ics: Received unexpected component type '%s'", i_cal_component_kind_to_string (i_cal_component_isa (icomp)));
 		} else {
 			ECompEditor *comp_editor;
 			ESource *source = NULL;
@@ -692,7 +637,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 			flags = E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER |
 				(attendees ? E_COMP_EDITOR_FLAG_WITH_ATTENDEES : 0);
 
-			comp_editor = e_comp_editor_open_for_component (NULL, shell, source, icalcomp, flags);
+			comp_editor = e_comp_editor_open_for_component (NULL, shell, source, icomp, flags);
 
 			if (comp_editor)
 				gtk_window_present (GTK_WINDOW (comp_editor));
@@ -700,7 +645,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 			g_clear_object (&source);
 		}
 
-		icalcomponent_free (icalcomp);
+		g_object_unref (icomp);
 		g_free (content);
 	} else if (shell_window) {
 		HandleUriData *hud;
@@ -718,7 +663,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		hud->comp_uid = g_strdup (comp_uid);
 		hud->comp_rid = g_strdup (comp_rid);
 		hud->cal_client = NULL;
-		hud->existing_icalcomp = NULL;
+		hud->existing_icomp = NULL;
 
 		registry = e_shell_get_registry (shell);
 		source = e_source_registry_ref_source (registry, source_uid);

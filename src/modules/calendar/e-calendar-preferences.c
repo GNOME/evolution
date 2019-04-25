@@ -99,7 +99,7 @@ calendar_preferences_map_string_to_icaltimezone (GValue *value,
 {
 	GSettings *settings;
 	const gchar *location = NULL;
-	icaltimezone *timezone = NULL;
+	ICalTimezone *timezone = NULL;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
@@ -109,12 +109,12 @@ calendar_preferences_map_string_to_icaltimezone (GValue *value,
 		location = g_variant_get_string (variant, NULL);
 
 	if (location != NULL && *location != '\0')
-		timezone = icaltimezone_get_builtin_timezone (location);
+		timezone = i_cal_timezone_get_builtin_timezone (location);
 
 	if (timezone == NULL)
-		timezone = icaltimezone_get_utc_timezone ();
+		timezone = i_cal_timezone_get_utc_timezone ();
 
-	g_value_set_pointer (value, timezone);
+	g_value_set_object (value, timezone);
 
 	g_object_unref (settings);
 
@@ -130,7 +130,7 @@ calendar_preferences_map_icaltimezone_to_string (const GValue *value,
 	GSettings *settings;
 	const gchar *location = NULL;
 	gchar *location_str = NULL;
-	icaltimezone *timezone;
+	ICalTimezone *timezone;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
@@ -138,10 +138,10 @@ calendar_preferences_map_icaltimezone_to_string (const GValue *value,
 		location_str = g_settings_get_string (settings, "timezone");
 		location = location_str;
 	} else {
-		timezone = g_value_get_pointer (value);
+		timezone = g_value_get_object (value);
 
 		if (timezone != NULL)
-			location = icaltimezone_get_location (timezone);
+			location = i_cal_timezone_get_location (timezone);
 	}
 
 	if (location == NULL)
@@ -303,7 +303,7 @@ update_day_second_zone_caption (ECalendarPreferences *prefs)
 {
 	gchar *location;
 	const gchar *caption;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	g_return_if_fail (prefs != NULL);
 
@@ -312,9 +312,9 @@ update_day_second_zone_caption (ECalendarPreferences *prefs)
 
 	location = calendar_config_get_day_second_zone ();
 	if (location && *location) {
-		zone = icaltimezone_get_builtin_timezone (location);
-		if (zone && icaltimezone_get_display_name (zone)) {
-			caption = icaltimezone_get_display_name (zone);
+		zone = i_cal_timezone_get_builtin_timezone (location);
+		if (zone && i_cal_timezone_get_display_name (zone)) {
+			caption = i_cal_timezone_get_display_name (zone);
 		}
 	}
 	g_free (location);
@@ -350,13 +350,13 @@ day_second_zone_clicked (GtkWidget *widget,
 	GtkWidget *menu, *item;
 	GSList *group = NULL, *recent_zones, *s;
 	gchar *location;
-	icaltimezone *zone, *second_zone = NULL;
+	ICalTimezone *zone, *second_zone = NULL;
 
 	menu = gtk_menu_new ();
 
 	location = calendar_config_get_day_second_zone ();
 	if (location && *location)
-		second_zone = icaltimezone_get_builtin_timezone (location);
+		second_zone = i_cal_timezone_get_builtin_timezone (location);
 	g_free (location);
 
 	group = NULL;
@@ -371,11 +371,11 @@ day_second_zone_clicked (GtkWidget *widget,
 
 	recent_zones = calendar_config_get_day_second_zones ();
 	for (s = recent_zones; s != NULL; s = s->next) {
-		zone = icaltimezone_get_builtin_timezone (s->data);
+		zone = i_cal_timezone_get_builtin_timezone (s->data);
 		if (!zone)
 			continue;
 
-		item = gtk_radio_menu_item_new_with_label (group, icaltimezone_get_display_name (zone));
+		item = gtk_radio_menu_item_new_with_label (group, i_cal_timezone_get_display_name (zone));
 		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 		/* both comes from builtin, thus no problem to compare pointers */
 		if (zone == second_zone)
@@ -477,7 +477,7 @@ update_system_tz_widgets (GtkCheckButton *button,
                           ECalendarPreferences *prefs)
 {
 	GtkWidget *widget;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	const gchar *display_name;
 	gchar *text;
 
@@ -486,7 +486,7 @@ update_system_tz_widgets (GtkCheckButton *button,
 
 	zone = e_cal_util_get_system_timezone ();
 	if (zone != NULL)
-		display_name = gettext (icaltimezone_get_display_name (zone));
+		display_name = gettext (i_cal_timezone_get_display_name (zone));
 	else
 		display_name = "UTC";
 

@@ -270,12 +270,15 @@ cal_view_objects_added_cb (ECalClientView *client_view,
 		g_slist_length ((GSList *) objects));
 
 	for (link = (GSList *) objects; link; link = g_slist_next (link)) {
-		icalcomponent *icalcomp = link->data;
+		ICalComponent *icomp = link->data;
 
-		if (icalcomp)
-			g_print ("%s\n    -----------------------------\n", icalcomponent_as_ical_string (icalcomp));
-		else
+		if (icomp) {
+			gchar *str = i_cal_component_as_ical_string_r (icomp);
+			g_print ("%s\n    -----------------------------\n", str);
+			g_free (str);
+		} else {
 			g_print ("\tnull\n");
+		}
 	}
 }
 
@@ -290,11 +293,13 @@ cal_view_objects_modified_cb (ECalClientView *client_view,
 		g_slist_length ((GSList *) objects));
 
 	for (link = (GSList *) objects; link; link = g_slist_next (link)) {
-		icalcomponent *icalcomp = link->data;
+		ICalComponent *icomp = link->data;
 
-		if (icalcomp)
-			g_print ("%s\n    -----------------------------\n", icalcomponent_as_ical_string (icalcomp));
-		else
+		if (icomp) {
+			gchar *str = i_cal_component_as_ical_string_r (icomp);
+			g_print ("%s\n    -----------------------------\n", str);
+			g_free (str);
+		} else
 			g_print ("\tnull\n");
 	}
 }
@@ -311,9 +316,13 @@ cal_view_objects_removed_cb (ECalClientView *client_view,
 
 	for (link = (GSList *) uids; link; link = g_slist_next (link)) {
 		ECalComponentId *id = link->data;
+		const gchar *uid, *rid;
+
+		uid = id ? e_cal_component_id_get_uid (id) : NULL;
+		rid = id ? e_cal_component_id_get_uid (id) : NULL;
 
 		if (id)
-			g_print ("\tuid:%s%s%s\n", id->uid, id->rid ? " rid:" : "", id->rid ? id->rid : "");
+			g_print ("\tuid:%s%s%s\n", uid, rid ? " rid:" : "", rid ? rid : "");
 		else
 			g_print ("\tnull\n");
 	}
@@ -454,18 +463,19 @@ create_view_clicked_cb (GtkWidget *button,
 		gchar *expr = NULL;
 
 		if (e_cal_client_get_source_type (E_CAL_CLIENT (client)) == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
-			struct icaltimetype tt;
+			ICalTime *tt;
 			gchar *start, *end;
 
-			tt = icaltime_today ();
-			start = isodate_from_time_t (icaltime_as_timet (tt));
-			icaltime_adjust (&tt, 14, 0, 0, 0);
-			end = isodate_from_time_t (icaltime_as_timet (tt));
+			tt = i_cal_time_today ();
+			start = isodate_from_time_t (i_cal_time_as_timet (tt));
+			i_cal_time_adjust (tt, 14, 0, 0, 0);
+			end = isodate_from_time_t (i_cal_time_as_timet (tt));
 
 			expr = g_strdup_printf (
 				"(occur-in-time-range? (make-time \"%s\") (make-time \"%s\") \"UTC\")",
 				start, end);
 
+			g_clear_object (&tt);
 			g_free (start);
 			g_free (end);
 		}

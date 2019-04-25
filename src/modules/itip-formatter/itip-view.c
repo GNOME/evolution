@@ -131,11 +131,10 @@ struct _ItipViewPrivate {
 
 	gchar *vcalendar;
 	ECalComponent *comp;
-	icalcomponent *main_comp;
-	icalcomponent *ical_comp;
-	icalcomponent *top_level;
-	icalcompiter iter;
-	icalproperty_method method;
+	ICalComponent *main_comp;
+	ICalComponent *ical_comp;
+	ICalComponent *top_level;
+	ICalPropertyMethod method;
 	time_t start_time;
 	time_t end_time;
 
@@ -1505,12 +1504,8 @@ itip_view_finalize (GObject *object)
 	g_clear_object (&priv->folder);
 	g_clear_object (&priv->message);
 	g_clear_object (&priv->itip_mime_part);
-
-	if (priv->top_level != NULL)
-		icalcomponent_free (priv->top_level);
-
-	if (priv->main_comp != NULL)
-		icalcomponent_free (priv->main_comp);
+	g_clear_object (&priv->top_level);
+	g_clear_object (&priv->main_comp);
 
 	g_hash_table_destroy (priv->real_comps);
 
@@ -2351,8 +2346,8 @@ itip_plain_text_to_html (const gchar *plain)
 static void
 itip_view_extract_attendee_info (ItipView *view)
 {
-	icalproperty *prop;
-	icalcomponent *ical_comp;
+	ICalProperty *prop;
+	ICalComponent *icomp;
 	gint num_attendees;
 	const gchar *top_comment;
 	GString *new_comment = NULL;
@@ -2362,28 +2357,31 @@ itip_view_extract_attendee_info (ItipView *view)
 	if (!view->priv->comp)
 		return;
 
-	ical_comp = e_cal_component_get_icalcomponent (view->priv->comp);
-	if (!ical_comp)
+	icomp = e_cal_component_get_icalcomponent (view->priv->comp);
+	if (!icomp)
 		return;
 
-	num_attendees = icalcomponent_count_properties (ical_comp, ICAL_ATTENDEE_PROPERTY);
+	num_attendees = i_cal_component_count_properties (icomp, I_CAL_ATTENDEE_PROPERTY);
 	if (num_attendees <= 0)
 		return;
 
-	top_comment = icalcomponent_get_comment (ical_comp);
+	top_comment = i_cal_component_get_comment (icomp);
 
-	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
-	     prop != NULL;
-	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
 		gchar *guests_str = NULL;
 		guint32 num_guests = 0;
 		const gchar *value;
+		gchar *prop_value;
 
-		value = cal_comp_util_find_parameter_xvalue (prop, "X-NUM-GUESTS");
-		if (value && *value)
-			num_guests = atoi (value);
+		prop_value = cal_comp_util_dup_parameter_xvalue (prop, "X-NUM-GUESTS");
+		if (prop_value && *prop_value)
+			num_guests = atoi (prop_value);
+		g_free (prop_value);
 
-		value = cal_comp_util_find_parameter_xvalue (prop, "X-RESPONSE-COMMENT");
+		prop_value = cal_comp_util_dup_parameter_xvalue (prop, "X-RESPONSE-COMMENT");
+		value = prop_value;
 
 		if (value && *value && num_attendees == 1 &&
 		    g_strcmp0 (value, top_comment) == 0)
@@ -2420,13 +2418,13 @@ itip_view_extract_attendee_info (ItipView *view)
 				g_free (html);
 			}
 		} else if (guests_str || (value && *value)) {
-			const gchar *email = icalproperty_get_attendee (prop);
+			const gchar *email = i_cal_property_get_attendee (prop);
 			const gchar *cn = NULL;
-			icalparameter *cnparam;
+			ICalParameter *cnparam;
 
-			cnparam = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+			cnparam = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
 			if (cnparam) {
-				cn = icalparameter_get_cn (cnparam);
+				cn = i_cal_parameter_get_cn (cnparam);
 				if (!cn || !*cn)
 					cn = NULL;
 			}
@@ -2465,8 +2463,11 @@ itip_view_extract_attendee_info (ItipView *view)
 				if (value && *value)
 					g_string_append (new_comment, value);
 			}
+
+			g_clear_object (&cnparam);
 		}
 
+		g_free (prop_value);
 		g_free (guests_str);
 	}
 
@@ -3189,24 +3190,24 @@ typedef struct {
 	gint count;
 } FormatItipFindData;
 
-static gboolean check_is_instance (icalcomponent *icalcomp);
+static gboolean check_is_instance (ICalComponent *icomp);
 
-static icalproperty *
-find_attendee (icalcomponent *ical_comp,
+static ICalProperty *
+find_attendee (ICalComponent *icomp,
                const gchar *address)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	if (address == NULL)
+	if (!address)
 		return NULL;
 
-	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
-	     prop != NULL;
-	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
 		gchar *attendee;
 		gchar *text;
 
-		attendee = icalproperty_get_value_as_string_r (prop);
+		attendee = i_cal_property_get_value_as_string_r (prop);
 
 		 if (!attendee)
 			continue;
@@ -3225,37 +3226,41 @@ find_attendee (icalcomponent *ical_comp,
 	return prop;
 }
 
-static icalproperty *
-find_attendee_if_sentby (icalcomponent *ical_comp,
+static ICalProperty *
+find_attendee_if_sentby (ICalComponent *icomp,
                          const gchar *address)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	if (address == NULL)
+	if (!address)
 		return NULL;
 
-	for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
-	     prop != NULL;
-	     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
-		icalparameter *param;
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
+		ICalParameter *param;
 		const gchar *attendee_sentby;
 		gchar *text;
 
-		param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+		param = i_cal_property_get_first_parameter (prop, I_CAL_SENTBY_PARAMETER);
 		if (!param)
 			continue;
 
-		attendee_sentby = icalparameter_get_sentby (param);
+		attendee_sentby = i_cal_parameter_get_sentby (param);
 
-		if (!attendee_sentby)
+		if (!attendee_sentby) {
+			g_object_unref (param);
 			continue;
+		}
 
 		text = g_strdup (itip_strip_mailto (attendee_sentby));
 		text = g_strstrip (text);
 		if (text && !g_ascii_strcasecmp (address, text)) {
+			g_object_unref (param);
 			g_free (text);
 			break;
 		}
+		g_object_unref (param);
 		g_free (text);
 	}
 
@@ -3264,8 +3269,8 @@ find_attendee_if_sentby (icalcomponent *ical_comp,
 
 static void
 find_to_address (ItipView *view,
-                 icalcomponent *ical_comp,
-                 icalparameter_partstat *status)
+		 ICalComponent *icomp,
+		 ICalParameterPartstat *partstat)
 {
 	ESourceRegistry *registry;
 	ESourceMailIdentity *extension;
@@ -3302,15 +3307,15 @@ find_to_address (ItipView *view,
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
-		icalproperty *prop = NULL;
-		icalparameter *param;
+		ICalProperty *prop;
+		ICalParameter *param;
 		gchar *address;
 		gchar *text;
 
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_dup_address (extension);
 
-		prop = find_attendee (ical_comp, address);
+		prop = find_attendee (icomp, address);
 		if (!prop) {
 			GHashTable *aliases;
 
@@ -3324,7 +3329,7 @@ find_to_address (ItipView *view,
 					const gchar *alias_address = key;
 
 					if (alias_address && *alias_address) {
-						prop = find_attendee (ical_comp, alias_address);
+						prop = find_attendee (icomp, alias_address);
 						if (prop) {
 							g_free (address);
 							address = g_strdup (alias_address);
@@ -3342,11 +3347,12 @@ find_to_address (ItipView *view,
 			continue;
 		}
 
-		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
-		if (param != NULL)
-			view->priv->to_name = g_strdup (icalparameter_get_cn (param));
+		param = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
+		if (param)
+			view->priv->to_name = g_strdup (i_cal_parameter_get_cn (param));
+		g_clear_object (&param);
 
-		text = icalproperty_get_value_as_string_r (prop);
+		text = i_cal_property_get_value_as_string_r (prop);
 
 		view->priv->to_address = g_strdup (itip_strip_mailto (text));
 		g_free (text);
@@ -3354,16 +3360,19 @@ find_to_address (ItipView *view,
 
 		view->priv->my_address = address;
 
-		param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
+		param = i_cal_property_get_first_parameter (prop, I_CAL_RSVP_PARAMETER);
 		if (param != NULL &&
-		    icalparameter_get_rsvp (param) == ICAL_RSVP_FALSE)
+		    i_cal_parameter_get_rsvp (param) == I_CAL_RSVP_FALSE)
 			view->priv->no_reply_wanted = TRUE;
+		g_clear_object (&param);
 
-		if (status) {
-			param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-			*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
+		if (partstat) {
+			param = i_cal_property_get_first_parameter (prop, I_CAL_PARTSTAT_PARAMETER);
+			*partstat = param ? i_cal_parameter_get_partstat (param) : I_CAL_PARTSTAT_NEEDSACTION;
+			g_clear_object (&param);
 		}
 
+		g_object_unref (prop);
 		break;
 	}
 
@@ -3377,7 +3386,6 @@ find_to_address (ItipView *view,
 	 * In this case, we would want to go through the SENT-BY fields of
 	 * the attendees to find the user's address.
  	 *
- *
 	 * Note: This functionality could have been (easily) implemented
 	 * in the previous loop, but it would hurt the performance for all
 	 * providers in general. Hence, we choose to iterate through the
@@ -3388,15 +3396,15 @@ find_to_address (ItipView *view,
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
-		icalproperty *prop = NULL;
-		icalparameter *param;
+		ICalProperty *prop;
+		ICalParameter *param;
 		gchar *address;
 		gchar *text;
 
 		extension = e_source_get_extension (source, extension_name);
 		address = e_source_mail_identity_dup_address (extension);
 
-		prop = find_attendee_if_sentby (ical_comp, address);
+		prop = find_attendee_if_sentby (icomp, address);
 		if (!prop) {
 			GHashTable *aliases;
 
@@ -3410,7 +3418,7 @@ find_to_address (ItipView *view,
 					const gchar *alias_address = key;
 
 					if (alias_address && *alias_address) {
-						prop = find_attendee_if_sentby (ical_comp, alias_address);
+						prop = find_attendee_if_sentby (icomp, alias_address);
 						if (prop) {
 							g_free (address);
 							address = g_strdup (alias_address);
@@ -3428,11 +3436,12 @@ find_to_address (ItipView *view,
 			continue;
 		}
 
-		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
-		if (param != NULL)
-			view->priv->to_name = g_strdup (icalparameter_get_cn (param));
+		param = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
+		if (param)
+			view->priv->to_name = g_strdup (i_cal_parameter_get_cn (param));
+		g_clear_object (&param);
 
-		text = icalproperty_get_value_as_string_r (prop);
+		text = i_cal_property_get_value_as_string_r (prop);
 
 		view->priv->to_address = g_strdup (itip_strip_mailto (text));
 		g_free (text);
@@ -3440,16 +3449,19 @@ find_to_address (ItipView *view,
 
 		view->priv->my_address = address;
 
-		param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
+		param = i_cal_property_get_first_parameter (prop, I_CAL_RSVP_PARAMETER);
 		if (param != NULL &&
-		    ICAL_RSVP_FALSE == icalparameter_get_rsvp (param))
+		    i_cal_parameter_get_rsvp (param) == I_CAL_RSVP_FALSE)
 			view->priv->no_reply_wanted = TRUE;
+		g_clear_object (&param);
 
-		if (status) {
-			param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-			*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
+		if (partstat) {
+			param = i_cal_property_get_first_parameter (prop, I_CAL_PARTSTAT_PARAMETER);
+			*partstat = param ? i_cal_parameter_get_partstat (param) : I_CAL_PARTSTAT_NEEDSACTION;
+			g_clear_object (&param);
 		}
 
+		g_object_unref (prop);
 		break;
 	}
 
@@ -3458,13 +3470,13 @@ find_to_address (ItipView *view,
 
 static void
 find_from_address (ItipView *view,
-                   icalcomponent *ical_comp)
+		   ICalComponent *icomp)
 {
 	ESourceRegistry *registry;
 	GList *list, *link;
-	icalproperty *prop;
+	ICalProperty *prop;
+	ICalParameter *param;
 	gchar *organizer;
-	icalparameter *param;
 	const gchar *extension_name;
 	const gchar *organizer_sentby;
 	gchar *organizer_clean = NULL;
@@ -3472,35 +3484,39 @@ find_from_address (ItipView *view,
 
 	registry = view->priv->registry;
 
-	prop = icalcomponent_get_first_property (ical_comp, ICAL_ORGANIZER_PROPERTY);
+	prop = i_cal_component_get_first_property (icomp, I_CAL_ORGANIZER_PROPERTY);
 
 	if (!prop)
 		return;
 
-	organizer = icalproperty_get_value_as_string_r (prop);
+	organizer = i_cal_property_get_value_as_string_r (prop);
 	if (organizer) {
 		organizer_clean = g_strdup (itip_strip_mailto (organizer));
 		organizer_clean = g_strstrip (organizer_clean);
 		g_free (organizer);
 	}
 
-	param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+	param = i_cal_property_get_first_parameter (prop, I_CAL_SENTBY_PARAMETER);
 	if (param) {
-		organizer_sentby = icalparameter_get_sentby (param);
+		organizer_sentby = i_cal_parameter_get_sentby (param);
 		if (organizer_sentby) {
 			organizer_sentby_clean = g_strdup (itip_strip_mailto (organizer_sentby));
 			organizer_sentby_clean = g_strstrip (organizer_sentby_clean);
 		}
+		g_clear_object (&param);
 	}
 
-	if (!(organizer_sentby_clean || organizer_clean))
+	if (!(organizer_sentby_clean || organizer_clean)) {
+		g_object_unref (prop);
 		return;
+	}
 
 	view->priv->from_address = g_strdup (organizer_clean);
 
-	param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+	param = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
 	if (param)
-		view->priv->from_name = g_strdup (icalparameter_get_cn (param));
+		view->priv->from_name = g_strdup (i_cal_parameter_get_cn (param));
+	g_clear_object (&param);
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 	list = e_source_registry_list_enabled (registry, extension_name);
@@ -3554,6 +3570,7 @@ find_from_address (ItipView *view,
 
 	g_free (organizer_sentby_clean);
 	g_free (organizer_clean);
+	g_object_unref (prop);
 }
 
 static ECalComponent *
@@ -3581,23 +3598,29 @@ adjust_item (ItipView *view,
 
 	real_comp = get_real_item (view);
 	if (real_comp != NULL) {
-		ECalComponentText text;
-		const gchar *string;
-		GSList *l;
+		ECalComponentText *text;
+		gchar *string;
+		GSList *lst;
 
-		e_cal_component_get_summary (real_comp, &text);
-		e_cal_component_set_summary (comp, &text);
-		e_cal_component_get_location (real_comp, &string);
+		text = e_cal_component_get_summary (real_comp);
+		e_cal_component_set_summary (comp, text);
+		e_cal_component_text_free (text);
+
+		string = e_cal_component_get_location (real_comp);
 		e_cal_component_set_location (comp, string);
-		e_cal_component_get_description_list (real_comp, &l);
-		e_cal_component_set_description_list (comp, l);
-		e_cal_component_free_text_list (l);
+		g_free (string);
+
+		lst = e_cal_component_get_descriptions (real_comp);
+		e_cal_component_set_descriptions (comp, lst);
+		g_slist_free_full (lst, e_cal_component_text_free);
 
 		g_object_unref (real_comp);
 	} else {
-		ECalComponentText text = {_("Unknown"), NULL};
+		ECalComponentText *text;
 
-		e_cal_component_set_summary (comp, &text);
+		text = e_cal_component_text_new (_("Unknown"), NULL);
+		e_cal_component_set_summary (comp, text);
+		e_cal_component_text_free (text);
 	}
 }
 
@@ -3615,8 +3638,8 @@ same_attendee_status (ItipView *view,
 	if (!saved_comp)
 		return FALSE;
 
-	e_cal_component_get_attendee_list (received_comp, &received_attendees);
-	e_cal_component_get_attendee_list (saved_comp, &saved_attendees);
+	received_attendees = e_cal_component_get_attendees (received_comp);
+	saved_attendees = e_cal_component_get_attendees (saved_comp);
 
 	same = received_attendees && saved_attendees;
 
@@ -3636,9 +3659,10 @@ same_attendee_status (ItipView *view,
 			if (!sattendee)
 				continue;
 
-			if (rattendee->value && sattendee->value &&
-			    g_ascii_strcasecmp (rattendee->value, sattendee->value) == 0) {
-				same = rattendee->status == sattendee->status;
+			if (e_cal_component_attendee_get_value (rattendee) &&
+			    e_cal_component_attendee_get_value (sattendee) &&
+			    g_ascii_strcasecmp (e_cal_component_attendee_get_value (rattendee), e_cal_component_attendee_get_value (sattendee)) == 0) {
+				same = e_cal_component_attendee_get_partstat (rattendee) == e_cal_component_attendee_get_partstat (sattendee);
 				break;
 			}
 		}
@@ -3648,8 +3672,8 @@ same_attendee_status (ItipView *view,
 			same = FALSE;
 	}
 
-	e_cal_component_free_attendee_list (received_attendees);
-	e_cal_component_free_attendee_list (saved_attendees);
+	g_slist_free_full (received_attendees, e_cal_component_attendee_free);
+	g_slist_free_full (saved_attendees, e_cal_component_attendee_free);
 	g_object_unref (saved_comp);
 
 	return same;
@@ -3717,12 +3741,12 @@ itip_view_cal_opened_cb (GObject *source_object,
 	}
 
 	if (e_cal_client_check_recurrences_no_master (E_CAL_CLIENT (client))) {
-		icalcomponent *icalcomp;
+		ICalComponent *icomp;
 		gboolean show_recur_check;
 
-		icalcomp = e_cal_component_get_icalcomponent (view->priv->comp);
+		icomp = e_cal_component_get_icalcomponent (view->priv->comp);
 
-		show_recur_check = check_is_instance (icalcomp);
+		show_recur_check = check_is_instance (icomp);
 		itip_view_set_show_recur_check (view, show_recur_check);
 	}
 
@@ -3731,7 +3755,7 @@ itip_view_cal_opened_cb (GObject *source_object,
 
 		needs_decline = e_client_check_capability (
 			client,
-			CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING);
+			E_CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING);
 		itip_view_set_needs_decline (view, needs_decline);
 		itip_view_set_mode (view, ITIP_VIEW_MODE_PUBLISH);
 	}
@@ -3819,40 +3843,32 @@ itip_comp_older_than_stored (ItipView *view,
 			     ECalComponent *real_comp)
 {
 	gboolean is_older = FALSE;
-	gint *psequence = NULL;
+	gint sequence;
 	ECalComponentId *mail_id, *real_id;
 
 	if (!real_comp || !view->priv->comp ||
 	    e_cal_component_get_vtype (view->priv->comp) != E_CAL_COMPONENT_EVENT)
 		return FALSE;
 
-	e_cal_component_get_sequence (view->priv->comp, &psequence);
-	if (!psequence)
+	sequence = e_cal_component_get_sequence (view->priv->comp);
+	if (sequence < 0)
 		return FALSE;
 
 	mail_id = e_cal_component_get_id (view->priv->comp);
-	if (!mail_id) {
-		e_cal_component_free_sequence (psequence);
+	if (!mail_id)
 		return FALSE;
-	}
 
 	real_id = e_cal_component_get_id (real_comp);
-	if (real_id && g_strcmp0 (real_id->uid, mail_id->uid) == 0 && g_strcmp0 (real_id->rid, mail_id->rid) == 0) {
-		gint *pint = NULL;
+	if (real_id && e_cal_component_id_equal (real_id, mail_id)) {
+		gint real_sequence;
 
-		e_cal_component_get_sequence (real_comp, &pint);
-		if (pint) {
-			is_older = *psequence < *pint;
-
-			e_cal_component_free_sequence (pint);
-		}
+		real_sequence = e_cal_component_get_sequence (real_comp);
+		if (real_sequence >= 0)
+			is_older = sequence < real_sequence;
 	}
 
-	if (real_id)
-		e_cal_component_free_id (real_id);
-
-	e_cal_component_free_sequence (psequence);
-	e_cal_component_free_id (mail_id);
+	e_cal_component_id_free (real_id);
+	e_cal_component_id_free (mail_id);
 
 	return is_older;
 }
@@ -3875,12 +3891,12 @@ find_cal_update_ui (FormatItipFindData *fd,
 	source = cal_client ? e_client_get_source (E_CLIENT (cal_client)) : NULL;
 
 	if (cal_client && g_hash_table_lookup (fd->conflicts, cal_client)) {
-		GSList *icalcomps = g_hash_table_lookup (fd->conflicts, cal_client);
+		GSList *icomps = g_hash_table_lookup (fd->conflicts, cal_client);
 		guint ncomps;
 
-		ncomps = g_slist_length (icalcomps);
-		if (ncomps == 1 && icalcomps->data) {
-			icalcomponent *icalcomp = icalcomps->data;
+		ncomps = g_slist_length (icomps);
+		if (ncomps == 1 && icomps->data) {
+			ICalComponent *icomp = icomps->data;
 
 			switch (e_cal_client_get_source_type (cal_client)) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -3888,21 +3904,21 @@ find_cal_update_ui (FormatItipFindData *fd,
 				itip_view_add_upper_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 					_("An appointment “%s” in the calendar “%s” conflicts with this meeting"),
-					icalcomponent_get_summary (icalcomp),
+					i_cal_component_get_summary (icomp),
 					e_source_get_display_name (source));
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 				itip_view_add_upper_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 					_("A task “%s” in the task list “%s” conflicts with this task"),
-					icalcomponent_get_summary (icalcomp),
+					i_cal_component_get_summary (icomp),
 					e_source_get_display_name (source));
 				break;
 			case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 				itip_view_add_upper_info_item_printf (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_WARNING,
 					_("A memo “%s” in the memo list “%s” conflicts with this memo"),
-					icalcomponent_get_summary (icalcomp),
+					i_cal_component_get_summary (icomp),
 					e_source_get_display_name (source));
 				break;
 			}
@@ -3953,7 +3969,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 		/* FIXME Check sequence number of meeting? */
 		/* FIXME Do we need to adjust elsewhere for the delegated calendar item? */
 		/* FIXME Need to update the fields in the view now */
-		if (view->priv->method == ICAL_METHOD_REPLY || view->priv->method == ICAL_METHOD_REFRESH)
+		if (view->priv->method == I_CAL_METHOD_REPLY || view->priv->method == I_CAL_METHOD_REFRESH)
 			adjust_item (view, view->priv->comp);
 
 		/* We clear everything because we don't really care
@@ -3984,7 +4000,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 
 		g_cancellable_cancel (fd->cancellable);
 
-		if (view->priv->method == ICAL_METHOD_REQUEST &&
+		if (view->priv->method == I_CAL_METHOD_REQUEST &&
 		    itip_comp_older_than_stored (view, g_hash_table_lookup (view->priv->real_comps, e_source_get_uid (source)))) {
 			itip_view_set_mode (view, ITIP_VIEW_MODE_HIDE_ALL);
 			itip_view_add_lower_info_item (
@@ -4006,7 +4022,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 			 * Replies only make sense for events with an organizer.
 			 */
 			if ((!view->priv->current_client || !e_cal_client_check_save_schedules (view->priv->current_client)) &&
-			    (view->priv->method == ICAL_METHOD_PUBLISH || view->priv->method == ICAL_METHOD_REQUEST) &&
+			    (view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST) &&
 			    view->priv->has_organizer) {
 				rsvp_enabled = TRUE;
 			}
@@ -4045,9 +4061,9 @@ find_cal_update_ui (FormatItipFindData *fd,
 	if (view->priv->current_client && view->priv->current_client == cal_client &&
 	    itip_view_get_mode (view) != ITIP_VIEW_MODE_HIDE_ALL) {
 		if (e_cal_client_check_recurrences_no_master (view->priv->current_client)) {
-			icalcomponent *icalcomp = e_cal_component_get_icalcomponent (view->priv->comp);
+			ICalComponent *icomp = e_cal_component_get_icalcomponent (view->priv->comp);
 
-			if (check_is_instance (icalcomp))
+			if (check_is_instance (icomp))
 				itip_view_set_show_recur_check (view, TRUE);
 			else
 				itip_view_set_show_recur_check (view, FALSE);
@@ -4055,7 +4071,7 @@ find_cal_update_ui (FormatItipFindData *fd,
 
 		if (view->priv->type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
 			/* TODO The static capability should be made generic to convey that the calendar contains unaccepted items */
-			if (e_client_check_capability (E_CLIENT (view->priv->current_client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING))
+			if (e_client_check_capability (E_CLIENT (view->priv->current_client), E_CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING))
 				itip_view_set_needs_decline (view, TRUE);
 			else
 				itip_view_set_needs_decline (view, FALSE);
@@ -4087,7 +4103,7 @@ decrease_find_data (FormatItipFindData *fd)
 		 * Replies only make sense for events with an organizer.
 		 */
 		if ((!view->priv->current_client || !e_cal_client_check_save_schedules (view->priv->current_client)) &&
-		    (view->priv->method == ICAL_METHOD_PUBLISH || view->priv->method == ICAL_METHOD_REQUEST) &&
+		    (view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST) &&
 		    view->priv->has_organizer) {
 			rsvp_enabled = TRUE;
 		}
@@ -4096,7 +4112,7 @@ decrease_find_data (FormatItipFindData *fd)
 		/* default is chosen in extract_itip_data() based on content of the VEVENT */
 		itip_view_set_rsvp (view, !view->priv->no_reply_wanted);
 
-		if ((view->priv->method == ICAL_METHOD_PUBLISH || view->priv->method == ICAL_METHOD_REQUEST)
+		if ((view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST)
 		    && !view->priv->current_client) {
 			/* Reuse already declared one or rename? */
 			ESource *source = NULL;
@@ -4172,6 +4188,21 @@ decrease_find_data (FormatItipFindData *fd)
 	}
 }
 
+static gboolean
+comp_has_subcomponent (ICalComponent *icomp,
+		       ICalComponentKind kind)
+{
+	ICalComponent *subcomp;
+
+	subcomp = i_cal_component_get_first_component (icomp, kind);
+	if (subcomp) {
+		g_object_unref (subcomp);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 get_object_without_rid_ready_cb (GObject *source_object,
                                  GAsyncResult *result,
@@ -4179,10 +4210,10 @@ get_object_without_rid_ready_cb (GObject *source_object,
 {
 	ECalClient *cal_client = E_CAL_CLIENT (source_object);
 	FormatItipFindData *fd = user_data;
-	icalcomponent *icalcomp = NULL;
+	ICalComponent *icomp = NULL;
 	GError *error = NULL;
 
-	e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error);
+	e_cal_client_get_object_finish (cal_client, result, &icomp, &error);
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
 	    g_cancellable_is_cancelled (fd->cancellable)) {
@@ -4194,18 +4225,18 @@ get_object_without_rid_ready_cb (GObject *source_object,
 
 	g_clear_error (&error);
 
-	if (icalcomp) {
+	if (icomp) {
 		ECalComponent *comp;
 
 		fd->view->priv->current_client = cal_client;
-		fd->keep_alarm_check = (fd->view->priv->method == ICAL_METHOD_PUBLISH || fd->view->priv->method == ICAL_METHOD_REQUEST) &&
-			(icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT) ||
-			icalcomponent_get_first_component (icalcomp, ICAL_XAUDIOALARM_COMPONENT) ||
-			icalcomponent_get_first_component (icalcomp, ICAL_XDISPLAYALARM_COMPONENT) ||
-			icalcomponent_get_first_component (icalcomp, ICAL_XPROCEDUREALARM_COMPONENT) ||
-			icalcomponent_get_first_component (icalcomp, ICAL_XEMAILALARM_COMPONENT));
+		fd->keep_alarm_check = (fd->view->priv->method == I_CAL_METHOD_PUBLISH || fd->view->priv->method == I_CAL_METHOD_REQUEST) &&
+			(comp_has_subcomponent (icomp, I_CAL_VALARM_COMPONENT) ||
+			comp_has_subcomponent (icomp, I_CAL_XAUDIOALARM_COMPONENT) ||
+			comp_has_subcomponent (icomp, I_CAL_XDISPLAYALARM_COMPONENT) ||
+			comp_has_subcomponent (icomp, I_CAL_XPROCEDUREALARM_COMPONENT) ||
+			comp_has_subcomponent (icomp, I_CAL_XEMAILALARM_COMPONENT));
 
-		comp = e_cal_component_new_from_icalcomponent (icalcomp);
+		comp = e_cal_component_new_from_icalcomponent (icomp);
 		if (comp) {
 			ESource *source = e_client_get_source (E_CLIENT (cal_client));
 
@@ -4228,10 +4259,10 @@ get_object_with_rid_ready_cb (GObject *source_object,
 {
 	ECalClient *cal_client = E_CAL_CLIENT (source_object);
 	FormatItipFindData *fd = user_data;
-	icalcomponent *icalcomp = NULL;
+	ICalComponent *icomp = NULL;
 	GError *error = NULL;
 
-	e_cal_client_get_object_finish (cal_client, result, &icalcomp, &error);
+	e_cal_client_get_object_finish (cal_client, result, &icomp, &error);
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) ||
 	    g_cancellable_is_cancelled (fd->cancellable)) {
@@ -4243,18 +4274,18 @@ get_object_with_rid_ready_cb (GObject *source_object,
 
 	g_clear_error (&error);
 
-	if (icalcomp) {
+	if (icomp) {
 		ECalComponent *comp;
 
 		fd->view->priv->current_client = cal_client;
-		fd->keep_alarm_check = (fd->view->priv->method == ICAL_METHOD_PUBLISH || fd->view->priv->method == ICAL_METHOD_REQUEST) &&
-			(icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT) ||
-			icalcomponent_get_first_component (icalcomp, ICAL_XAUDIOALARM_COMPONENT) ||
-			icalcomponent_get_first_component (icalcomp, ICAL_XDISPLAYALARM_COMPONENT) ||
-			icalcomponent_get_first_component (icalcomp, ICAL_XPROCEDUREALARM_COMPONENT) ||
-			icalcomponent_get_first_component (icalcomp, ICAL_XEMAILALARM_COMPONENT));
+		fd->keep_alarm_check = (fd->view->priv->method == I_CAL_METHOD_PUBLISH || fd->view->priv->method == I_CAL_METHOD_REQUEST) &&
+			(comp_has_subcomponent (icomp, I_CAL_VALARM_COMPONENT) ||
+			comp_has_subcomponent (icomp, I_CAL_XAUDIOALARM_COMPONENT) ||
+			comp_has_subcomponent (icomp, I_CAL_XDISPLAYALARM_COMPONENT) ||
+			comp_has_subcomponent (icomp, I_CAL_XPROCEDUREALARM_COMPONENT) ||
+			comp_has_subcomponent (icomp, I_CAL_XEMAILALARM_COMPONENT));
 
-		comp = e_cal_component_new_from_icalcomponent (icalcomp);
+		comp = e_cal_component_new_from_icalcomponent (icomp);
 		if (comp) {
 			ESource *source = e_client_get_source (E_CLIENT (cal_client));
 
@@ -4445,7 +4476,7 @@ find_server (ItipView *view,
 	list = e_source_registry_list_enabled (
 		view->priv->registry, extension_name);
 
-	e_cal_component_get_uid (comp, &uid);
+	uid = e_cal_component_get_uid (comp);
 	rid = e_cal_component_get_recurid_as_string (comp);
 
 	/* XXX Not sure what this was trying to do,
@@ -4515,7 +4546,7 @@ find_server (ItipView *view,
 			fd->cancelled_id = g_cancellable_connect (
 				fd->itip_cancellable,
 				G_CALLBACK (itip_cancellable_cancelled), fd->cancellable, NULL);
-			fd->conflicts = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) e_cal_client_free_icalcomp_slist);
+			fd->conflicts = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, (GDestroyNotify) e_util_free_nullable_object_slist);
 			fd->uid = g_strdup (uid);
 			fd->rid = rid;
 			/* avoid free this at the end */
@@ -4531,7 +4562,7 @@ find_server (ItipView *view,
 					"(make-time \"%s\")) "
 					"(not (uid? \"%s\")))",
 					start, end,
-					icalcomponent_get_uid (view->priv->ical_comp));
+					i_cal_component_get_uid (view->priv->ical_comp));
 			}
 
 			g_free (start);
@@ -4553,35 +4584,38 @@ find_server (ItipView *view,
 
 static gboolean
 change_status (ESourceRegistry *registry,
-               icalcomponent *ical_comp,
-               const gchar *address,
-               icalparameter_partstat status)
+	       ICalComponent *icomp,
+	       const gchar *address,
+	       ICalParameterPartstat partstat)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	prop = find_attendee (ical_comp, address);
+	prop = find_attendee (icomp, address);
 	if (prop) {
-		icalparameter *param;
+		ICalParameter *param;
 
-		icalproperty_remove_parameter_by_kind (prop, ICAL_PARTSTAT_PARAMETER);
-		param = icalparameter_new_partstat (status);
-		icalproperty_add_parameter (prop, param);
+		i_cal_property_remove_parameter_by_kind (prop, I_CAL_PARTSTAT_PARAMETER);
+		param = i_cal_parameter_new_partstat (partstat);
+		i_cal_property_take_parameter (prop, param);
+
+		g_object_unref (prop);
 	} else {
-		icalparameter *param;
+		ICalParameter *param;
 
 		if (address && *address) {
 			gchar *mailto_uri;
 
 			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (address), NULL);
-			prop = icalproperty_new_attendee (mailto_uri);
-			icalcomponent_add_property (ical_comp, prop);
+			prop = i_cal_property_new_attendee (mailto_uri);
 			g_free (mailto_uri);
 
-			param = icalparameter_new_role (ICAL_ROLE_OPTPARTICIPANT);
-			icalproperty_add_parameter (prop, param);
+			param = i_cal_parameter_new_role (I_CAL_ROLE_OPTPARTICIPANT);
+			i_cal_property_take_parameter (prop, param);
 
-			param = icalparameter_new_partstat (status);
-			icalproperty_add_parameter (prop, param);
+			param = i_cal_parameter_new_partstat (partstat);
+			i_cal_property_take_parameter (prop, param);
+
+			i_cal_component_take_property (icomp, prop);
 		} else {
 			gchar *default_name = NULL;
 			gchar *default_address = NULL;
@@ -4591,20 +4625,21 @@ change_status (ESourceRegistry *registry,
 				registry, &default_name, &default_address);
 
 			mailto_uri = g_strconcat ("mailto:", itip_strip_mailto (default_address), NULL);
-			prop = icalproperty_new_attendee (mailto_uri);
-			icalcomponent_add_property (ical_comp, prop);
+			prop = i_cal_property_new_attendee (mailto_uri);
 			g_free (mailto_uri);
 
 			if (default_name && *default_name && g_strcmp0 (default_name, default_address) != 0) {
-				param = icalparameter_new_cn (default_name);
-				icalproperty_add_parameter (prop, param);
+				param = i_cal_parameter_new_cn (default_name);
+				i_cal_property_take_parameter (prop, param);
 			}
 
-			param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
-			icalproperty_add_parameter (prop, param);
+			param = i_cal_parameter_new_role (I_CAL_ROLE_REQPARTICIPANT);
+			i_cal_property_take_parameter (prop, param);
 
-			param = icalparameter_new_partstat (status);
-			icalproperty_add_parameter (prop, param);
+			param = i_cal_parameter_new_partstat (partstat);
+			i_cal_property_take_parameter (prop, param);
+
+			i_cal_component_take_property (icomp, prop);
 
 			g_free (default_name);
 			g_free (default_address);
@@ -4799,9 +4834,8 @@ finish_message_delete_with_rsvp (ItipView *view,
 
 	if (itip_view_get_rsvp (view)) {
 		ECalComponent *comp = NULL;
-		icalcomponent *ical_comp;
-		icalproperty *prop;
-		icalvalue *value;
+		ICalComponent *icomp;
+		ICalProperty *prop;
 		const gchar *attendee;
 		gchar *comment;
 		GSList *l, *list = NULL;
@@ -4815,20 +4849,18 @@ finish_message_delete_with_rsvp (ItipView *view,
 			find_to_address (view, view->priv->ical_comp, NULL);
 		g_return_if_fail (view->priv->to_address != NULL);
 
-		ical_comp = e_cal_component_get_icalcomponent (comp);
+		icomp = e_cal_component_get_icalcomponent (comp);
 
 		/* Remove all attendees except the one we are responding as */
 		found = FALSE;
-		for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
-		     prop != NULL;
-		     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY)) {
+		for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
+		     prop;
+		     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
 			gchar *text;
 
-			value = icalproperty_get_value (prop);
-			if (!value)
+			attendee = i_cal_property_get_attendee (prop);
+			if (!attendee)
 				continue;
-
-			attendee = icalvalue_get_string (value);
 
 			text = g_strdup (itip_strip_mailto (attendee));
 			text = g_strstrip (text);
@@ -4836,7 +4868,7 @@ finish_message_delete_with_rsvp (ItipView *view,
 			/* We do this to ensure there is at most one
 			 * attendee in the response */
 			if (found || g_ascii_strcasecmp (view->priv->to_address, text))
-				list = g_slist_prepend (list, prop);
+				list = g_slist_prepend (list, g_object_ref (prop));
 			else if (!g_ascii_strcasecmp (view->priv->to_address, text))
 				found = TRUE;
 			g_free (text);
@@ -4844,29 +4876,26 @@ finish_message_delete_with_rsvp (ItipView *view,
 
 		for (l = list; l; l = l->next) {
 			prop = l->data;
-			icalcomponent_remove_property (ical_comp, prop);
-			icalproperty_free (prop);
+			i_cal_component_remove_property (icomp, prop);
 		}
-		g_slist_free (list);
+		g_slist_free_full (list, g_object_unref);
 
 		/* Add a comment if there user set one */
 		comment = itip_view_get_rsvp_comment (view);
 		if (comment) {
 			GSList comments;
-			ECalComponentText text;
+			ECalComponentText *text;
 
-			text.value = comment;
-			text.altrep = NULL;
+			text = e_cal_component_text_new (comment, NULL);
 
-			comments.data = &text;
+			comments.data = text;
 			comments.next = NULL;
 
-			e_cal_component_set_comment_list (comp, &comments);
+			e_cal_component_set_comments (comp, &comments);
 
+			e_cal_component_text_free (text);
 			g_free (comment);
 		}
-
-		e_cal_component_rescan (comp);
 
 		if (itip_send_comp_sync (
 				view->priv->registry,
@@ -5029,21 +5058,6 @@ receive_objects_ready_cb (GObject *ecalclient,
 }
 
 static void
-remove_alarms_in_component (icalcomponent *clone)
-{
-	icalcomponent *alarm_comp;
-	icalcompiter alarm_iter;
-
-	alarm_iter = icalcomponent_begin_component (clone, ICAL_VALARM_COMPONENT);
-	while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
-		icalcompiter_next (&alarm_iter);
-
-		icalcomponent_remove_component (clone, alarm_comp);
-		icalcomponent_free (alarm_comp);
-	}
-}
-
-static void
 claim_progress_saving_changes (ItipView *view)
 {
 	switch (e_cal_client_get_source_type (view->priv->current_client)) {
@@ -5061,18 +5075,39 @@ claim_progress_saving_changes (ItipView *view)
 }
 
 static void
+remove_alarms_in_component (ICalComponent *clone)
+{
+	ICalComponent *alarm_comp;
+	ICalCompIter *iter;
+
+	iter = i_cal_component_begin_component (clone, I_CAL_VALARM_COMPONENT);
+	alarm_comp = i_cal_comp_iter_deref (iter);
+	while (alarm_comp) {
+		ICalComponent *next_subcomp;
+
+		next_subcomp = i_cal_comp_iter_next (iter);
+
+		i_cal_component_remove_component (clone, alarm_comp);
+		g_object_unref (alarm_comp);
+		alarm_comp = next_subcomp;
+	}
+
+	g_object_unref (iter);
+}
+
+static void
 update_item (ItipView *view,
              ItipViewResponse response)
 {
-	struct icaltimetype stamp;
-	icalcomponent *toplevel_clone, *clone;
+	ICalTime *stamp;
+	ICalComponent *toplevel_clone, *clone;
 	gboolean remove_alarms;
 	ECalComponent *clone_comp;
 	gchar *str;
 
 	claim_progress_saving_changes (view);
 
-	while (e_cal_util_remove_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME")) {
+	while (e_cal_util_component_remove_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME")) {
 		/* Delete all existing X-MICROSOFT-CDO-REPLYTIME properties first */
 	}
 
@@ -5085,15 +5120,16 @@ update_item (ItipView *view,
 	 * information (unless it's being saved to an Exchange folder
 	 * and you then look at it in Outlook).
 	 */
-	stamp = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ());
-	str = icaltime_as_ical_string_r (stamp);
-	e_cal_util_set_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME", str);
+	stamp = i_cal_time_current_time_with_zone (i_cal_timezone_get_utc_timezone ());
+	str = i_cal_time_as_ical_string_r (stamp);
+	e_cal_util_component_set_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME", str);
+	g_clear_object (&stamp);
 	g_free (str);
 
-	toplevel_clone = icalcomponent_new_clone (view->priv->top_level);
-	clone = icalcomponent_new_clone (view->priv->ical_comp);
-	icalcomponent_add_component (toplevel_clone, clone);
-	icalcomponent_set_method (toplevel_clone, view->priv->method);
+	toplevel_clone = i_cal_component_new_clone (view->priv->top_level);
+	clone = i_cal_component_new_clone (view->priv->ical_comp);
+	i_cal_component_add_component (toplevel_clone, clone);
+	i_cal_component_set_method (toplevel_clone, view->priv->method);
 
 	remove_alarms = !itip_view_get_inherit_alarm_check_state (view);
 
@@ -5101,19 +5137,19 @@ update_item (ItipView *view,
 		remove_alarms_in_component (clone);
 
 	if (view->priv->with_detached_instances) {
-		icalcomponent *icomp;
-		icalcomponent_kind use_kind = icalcomponent_isa (view->priv->ical_comp);
+		ICalComponent *icomp;
+		ICalComponentKind use_kind = i_cal_component_isa (view->priv->ical_comp);
 
-		for (icomp = icalcomponent_get_first_component (view->priv->main_comp, use_kind);
+		for (icomp = i_cal_component_get_first_component (view->priv->main_comp, use_kind);
 		     icomp;
-		     icomp = icalcomponent_get_next_component (view->priv->main_comp, use_kind)) {
-			if (icomp != view->priv->ical_comp) {
-				icalcomponent *di_clone = icalcomponent_new_clone (icomp);
+		     g_object_unref (icomp), icomp = i_cal_component_get_next_component (view->priv->main_comp, use_kind)) {
+			if (i_cal_object_get_native (I_CAL_OBJECT (icomp)) != i_cal_object_get_native (I_CAL_OBJECT (view->priv->ical_comp))) {
+				ICalComponent *di_clone = i_cal_component_new_clone (icomp);
 
 				if (remove_alarms)
 					remove_alarms_in_component (di_clone);
 
-				icalcomponent_add_component (toplevel_clone, di_clone);
+				i_cal_component_take_component (toplevel_clone, di_clone);
 			}
 		}
 	}
@@ -5130,19 +5166,20 @@ update_item (ItipView *view,
 
 	if (itip_view_get_keep_alarm_check_state (view)) {
 		ECalComponent *real_comp;
-		GList *alarms, *l;
-		ECalComponentAlarm *alarm;
 
 		real_comp = get_real_item (view);
 		if (real_comp != NULL) {
+			GSList *alarms, *link;
+
 			alarms = e_cal_component_get_alarm_uids (real_comp);
 
-			for (l = alarms; l; l = l->next) {
-				alarm = e_cal_component_get_alarm (
-					real_comp, (const gchar *) l->data);
+			for (link = alarms; link; link = g_slist_next (link)) {
+				ECalComponentAlarm *alarm;
+
+				alarm = e_cal_component_get_alarm (real_comp, link->data);
 
 				if (alarm) {
-					ECalComponentAlarm *aclone = e_cal_component_alarm_clone (alarm);
+					ECalComponentAlarm *aclone = e_cal_component_alarm_copy (alarm);
 
 					if (aclone) {
 						e_cal_component_add_alarm (clone_comp, aclone);
@@ -5153,24 +5190,35 @@ update_item (ItipView *view,
 				}
 			}
 
-			cal_obj_uid_list_free (alarms);
+			g_slist_free_full (alarms, g_free);
 			g_object_unref (real_comp);
 		}
 	}
 
-	if ((response != ITIP_VIEW_RESPONSE_CANCEL)
-		&& (response != ITIP_VIEW_RESPONSE_DECLINE)) {
-		GSList *attachments = NULL, *new_attachments = NULL, *l;
+	if (response != ITIP_VIEW_RESPONSE_CANCEL &&
+	    response != ITIP_VIEW_RESPONSE_DECLINE) {
+		GSList *attachments = NULL, *new_attachments = NULL, *link;
 		CamelMimeMessage *msg = view->priv->message;
 
-		e_cal_component_get_attachment_list (clone_comp, &attachments);
+		attachments = e_cal_component_get_attachments (clone_comp);
 
-		for (l = attachments; l; l = l->next) {
+		for (link = attachments; link; link = g_slist_next (link)) {
 			GSList *parts = NULL, *m;
-			gchar *uri, *new_uri;
+			const gchar *uri;
+			gchar *new_uri;
 			CamelMimePart *part;
+			ICalAttach *attach = link->data;
 
-			uri = l->data;
+			if (!attach)
+				continue;
+
+			if (!i_cal_attach_get_is_url (attach)) {
+				/* Preserve existing non-URL attachments */
+				new_attachments = g_slist_prepend (new_attachments, g_object_ref (attach));
+				continue;
+			}
+
+			uri = i_cal_attach_get_url (attach);
 
 			if (!g_ascii_strncasecmp (uri, "cid:...", 7)) {
 				message_foreach_part ((CamelMimePart *) msg, &parts);
@@ -5185,7 +5233,8 @@ update_item (ItipView *view,
 
 					new_uri = get_uri_for_part (part);
 					if (new_uri != NULL)
-						new_attachments = g_slist_append (new_attachments, new_uri);
+						new_attachments = g_slist_prepend (new_attachments, i_cal_attach_new_from_url (new_uri));
+					g_free (new_uri);
 				}
 
 				g_slist_free (parts);
@@ -5195,19 +5244,20 @@ update_item (ItipView *view,
 				if (part) {
 					new_uri = get_uri_for_part (part);
 					if (new_uri != NULL)
-						new_attachments = g_slist_append (new_attachments, new_uri);
+						new_attachments = g_slist_prepend (new_attachments, i_cal_attach_new_from_url (new_uri));
+					g_free (new_uri);
 				}
-
 			} else {
 				/* Preserve existing non-cid ones */
-				new_attachments = g_slist_append (new_attachments, g_strdup (uri));
+				new_attachments = g_slist_prepend (new_attachments, g_object_ref (attach));
 			}
 		}
 
-		g_slist_foreach (attachments, (GFunc) g_free, NULL);
-		g_slist_free (attachments);
+		g_slist_free_full (attachments, g_object_unref);
 
-		e_cal_component_set_attachment_list (clone_comp, new_attachments);
+		e_cal_component_set_attachments (clone_comp, new_attachments);
+
+		g_slist_free_full (new_attachments, g_object_unref);
 	}
 
 	view->priv->update_item_response = response;
@@ -5215,13 +5265,14 @@ update_item (ItipView *view,
 	e_cal_client_receive_objects (
 		view->priv->current_client,
 		toplevel_clone,
+		E_CAL_OPERATION_FLAG_NONE,
 		view->priv->cancellable,
 		receive_objects_ready_cb,
 		view);
 
  cleanup:
 	g_object_unref (clone_comp);
-	icalcomponent_free (toplevel_clone);
+	g_object_unref (toplevel_clone);
 }
 
 /* TODO These operations should be available in e-cal-component.c */
@@ -5229,41 +5280,42 @@ static void
 set_attendee (ECalComponent *comp,
               const gchar *address)
 {
-	icalproperty *prop;
-	icalcomponent *icalcomp;
+	ICalProperty *prop;
+	ICalComponent *icomp;
 	gboolean found = FALSE;
 
-	icalcomp = e_cal_component_get_icalcomponent (comp);
+	icomp = e_cal_component_get_icalcomponent (comp);
 
-	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
-			prop;
-			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
-		const gchar *attendee = icalproperty_get_attendee (prop);
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
+		const gchar *attendee = i_cal_property_get_attendee (prop);
 
 		if (!(g_str_equal (itip_strip_mailto (attendee), address)))
-			icalcomponent_remove_property (icalcomp, prop);
+			i_cal_component_remove_property (icomp, prop);
 		else
 			found = TRUE;
 	}
 
 	if (!found) {
-		icalparameter *param;
+		ICalParameter *param;
 		gchar *temp = g_strdup_printf ("mailto:%s", address);
 
-		prop = icalproperty_new_attendee ((const gchar *) temp);
-		icalcomponent_add_property (icalcomp, prop);
+		prop = i_cal_property_new_attendee ((const gchar *) temp);
 
-		param = icalparameter_new_partstat (ICAL_PARTSTAT_NEEDSACTION);
-		icalproperty_add_parameter (prop, param);
+		param = i_cal_parameter_new_partstat (I_CAL_PARTSTAT_NEEDSACTION);
+		i_cal_property_take_parameter (prop, param);
 
-		param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
-		icalproperty_add_parameter (prop, param);
+		param = i_cal_parameter_new_role (I_CAL_ROLE_REQPARTICIPANT);
+		i_cal_property_take_parameter (prop, param);
 
-		param = icalparameter_new_cutype (ICAL_CUTYPE_INDIVIDUAL);
-		icalproperty_add_parameter (prop, param);
+		param = i_cal_parameter_new_cutype (I_CAL_CUTYPE_INDIVIDUAL);
+		i_cal_property_take_parameter (prop, param);
 
-		param = icalparameter_new_rsvp (ICAL_RSVP_TRUE);
-		icalproperty_add_parameter (prop, param);
+		param = i_cal_parameter_new_rsvp (I_CAL_RSVP_TRUE);
+		i_cal_property_take_parameter (prop, param);
+
+		i_cal_component_take_property (icomp, prop);
 
 		g_free (temp);
 	}
@@ -5285,15 +5337,15 @@ send_comp_to_attendee (ESourceRegistry *registry,
 
 	if (comment) {
 		GSList comments;
-		ECalComponentText text;
+		ECalComponentText *text;
 
-		text.value = comment;
-		text.altrep = NULL;
+		text = e_cal_component_text_new (comment, NULL);
 
-		comments.data = &text;
+		comments.data = text;
 		comments.next = NULL;
 
-		e_cal_component_set_comment_list (send_comp, &comments);
+		e_cal_component_set_comments (send_comp, &comments);
+		e_cal_component_text_free (text);
 	}
 
 	/* FIXME send the attachments in the request */
@@ -5341,28 +5393,27 @@ remove_delegate (ItipView *view,
 	}
 
 	g_free (comment);
-
 }
 
 static void
 update_x (ECalComponent *view_comp,
           ECalComponent *comp)
 {
-	icalcomponent *itip_icalcomp = e_cal_component_get_icalcomponent (view_comp);
-	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (comp);
+	ICalComponent *itip_icomp = e_cal_component_get_icalcomponent (view_comp);
+	ICalComponent *icomp = e_cal_component_get_icalcomponent (comp);
+	ICalProperty *prop;
 
-	icalproperty *prop = icalcomponent_get_first_property (itip_icalcomp, ICAL_X_PROPERTY);
-	while (prop) {
-		const gchar *name = icalproperty_get_x_name (prop);
-		if (!g_ascii_strcasecmp (name, "X-EVOLUTION-IS-REPLY")) {
-			icalproperty *new_prop = icalproperty_new_x (icalproperty_get_x (prop));
-			icalproperty_set_x_name (new_prop, "X-EVOLUTION-IS-REPLY");
-			icalcomponent_add_property (icalcomp, new_prop);
+	for (prop = i_cal_component_get_first_property (itip_icomp, I_CAL_X_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (itip_icomp, I_CAL_X_PROPERTY)) {
+		const gchar *name = i_cal_property_get_x_name (prop);
+
+		if (name && !g_ascii_strcasecmp (name, "X-EVOLUTION-IS-REPLY")) {
+			ICalProperty *new_prop = i_cal_property_new_x (i_cal_property_get_x (prop));
+			i_cal_property_set_x_name (new_prop, "X-EVOLUTION-IS-REPLY");
+			i_cal_component_take_property (icomp, new_prop);
 		}
-		prop = icalcomponent_get_next_property (itip_icalcomp, ICAL_X_PROPERTY);
 	}
-
-	e_cal_component_set_icalcomponent (comp, icalcomp);
 }
 
 static void
@@ -5402,75 +5453,83 @@ modify_object_cb (GObject *ecalclient,
 }
 
 static void
-update_attendee_status_icalcomp (ItipView *view,
-                                 icalcomponent *icalcomp)
+update_attendee_status_icomp (ItipView *view,
+			      ICalComponent *icomp)
 {
 	ECalComponent *comp;
-	const gchar *uid = NULL;
-	gchar *rid;
 	GSList *attendees;
+	gboolean is_instance;
 
-	e_cal_component_get_uid (view->priv->comp, &uid);
-	rid = e_cal_component_get_recurid_as_string (view->priv->comp);
+	is_instance = e_cal_component_is_instance (view->priv->comp);
 
 	comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
-		icalcomponent_free (icalcomp);
+	if (!e_cal_component_set_icalcomponent (comp, icomp)) {
+		g_object_unref (icomp);
 
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
 			_("The meeting is invalid and cannot be updated"));
 	} else {
-		icalcomponent *org_icalcomp;
+		ICalComponent *org_icomp;
 		const gchar *delegate;
 
-		org_icalcomp = e_cal_component_get_icalcomponent (view->priv->comp);
+		org_icomp = e_cal_component_get_icalcomponent (view->priv->comp);
 
-		e_cal_component_get_attendee_list (view->priv->comp, &attendees);
+		attendees = e_cal_component_get_attendees (view->priv->comp);
 		if (attendees != NULL) {
 			ECalComponentAttendee *a = attendees->data;
-			icalproperty *prop, *del_prop;
+			ICalProperty *prop, *del_prop = NULL, *delto = NULL;
 			EShell *shell = e_shell_get_default ();
 
-			prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
-			if ((a->status == ICAL_PARTSTAT_DELEGATED) && (del_prop = find_attendee (org_icalcomp, itip_strip_mailto (a->delto))) && !(find_attendee (icalcomp, itip_strip_mailto (a->delto)))) {
+			prop = find_attendee (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
+			if ((e_cal_component_attendee_get_partstat (a) == I_CAL_PARTSTAT_DELEGATED) &&
+			    (del_prop = find_attendee (org_icomp, itip_strip_mailto (e_cal_component_attendee_get_delegatedto (a)))) &&
+			    !(delto = find_attendee (icomp, itip_strip_mailto (e_cal_component_attendee_get_delegatedto (a))))) {
 				gint response;
-				delegate = icalproperty_get_attendee (del_prop);
+				delegate = i_cal_property_get_attendee (del_prop);
 				response = e_alert_run_dialog_for_args (
 					e_shell_get_active_window (shell),
 					"org.gnome.itip-formatter:add-delegate",
-					itip_strip_mailto (a->value),
+					itip_strip_mailto (e_cal_component_attendee_get_value (a)),
 					itip_strip_mailto (delegate), NULL);
 				if (response == GTK_RESPONSE_YES) {
-					icalcomponent_add_property (icalcomp, icalproperty_new_clone (del_prop));
-					e_cal_component_rescan (comp);
+					i_cal_component_take_property (icomp, i_cal_property_new_clone (del_prop));
 				} else if (response == GTK_RESPONSE_NO) {
-					remove_delegate (view, delegate, itip_strip_mailto (a->value), comp);
+					remove_delegate (view, delegate, itip_strip_mailto (e_cal_component_attendee_get_value (a)), comp);
+					g_clear_object (&del_prop);
+					g_clear_object (&delto);
 					goto cleanup;
 				} else {
+					g_clear_object (&del_prop);
+					g_clear_object (&delto);
 					goto cleanup;
 				}
 			}
 
+			g_clear_object (&del_prop);
+			g_clear_object (&delto);
+
 			if (prop == NULL) {
+				const gchar *delfrom;
 				gint response;
 
-				if (a->delfrom && *a->delfrom) {
+				delfrom = e_cal_component_attendee_get_delegatedfrom (a);
+
+				if (delfrom && *delfrom) {
 					response = e_alert_run_dialog_for_args (
 						e_shell_get_active_window (shell),
 						"org.gnome.itip-formatter:add-delegate",
-						itip_strip_mailto (a->delfrom),
-						itip_strip_mailto (a->value), NULL);
+						itip_strip_mailto (delfrom),
+						itip_strip_mailto (e_cal_component_attendee_get_value (a)), NULL);
 					if (response == GTK_RESPONSE_YES) {
 						/* Already declared in this function */
-						icalproperty *prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
-						icalcomponent_add_property (icalcomp,icalproperty_new_clone (prop));
-						e_cal_component_rescan (comp);
+						ICalProperty *prop = find_attendee (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
+						i_cal_component_take_property (icomp, i_cal_property_new_clone (prop));
 					} else if (response == GTK_RESPONSE_NO) {
 						remove_delegate (
 							view,
-							itip_strip_mailto (a->value),
-							itip_strip_mailto (a->delfrom),
+							itip_strip_mailto (e_cal_component_attendee_get_value (a)),
+							itip_strip_mailto (delfrom),
 							comp);
 						goto cleanup;
 					} else {
@@ -5484,36 +5543,39 @@ update_attendee_status_icalcomp (ItipView *view,
 
 				if (response == GTK_RESPONSE_YES) {
 					change_status (
-						view->priv->registry, icalcomp,
-						itip_strip_mailto (a->value),
-						a->status);
-					e_cal_component_rescan (comp);
+						view->priv->registry, icomp,
+						itip_strip_mailto (e_cal_component_attendee_get_value (a)),
+						e_cal_component_attendee_get_partstat (a));
 				} else {
 					goto cleanup;
 				}
-			} else if (a->status == ICAL_PARTSTAT_NONE || a->status == ICAL_PARTSTAT_X) {
+			} else if (e_cal_component_attendee_get_partstat (a) == I_CAL_PARTSTAT_NONE ||
+				   e_cal_component_attendee_get_partstat (a) == I_CAL_PARTSTAT_X) {
 				itip_view_add_lower_info_item (
 					view, ITIP_VIEW_INFO_ITEM_TYPE_ERROR,
 					_("Attendee status could not be updated because the status is invalid"));
+				g_clear_object (&prop);
 				goto cleanup;
 			} else {
-				if (a->status == ICAL_PARTSTAT_DELEGATED) {
+				if (e_cal_component_attendee_get_partstat (a) == I_CAL_PARTSTAT_DELEGATED) {
 					/* *prop already declared in this function */
-					icalproperty *prop, *new_prop;
+					ICalProperty *subprop, *new_prop;
 
-					prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
-					icalcomponent_remove_property (icalcomp, prop);
+					subprop = find_attendee (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
+					i_cal_component_remove_property (icomp, subprop);
+					g_clear_object (&subprop);
 
-					new_prop = find_attendee (org_icalcomp, itip_strip_mailto (a->value));
-					icalcomponent_add_property (icalcomp, icalproperty_new_clone (new_prop));
+					new_prop = find_attendee (org_icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
+					i_cal_component_take_property (icomp, i_cal_property_new_clone (new_prop));
+					g_clear_object (&new_prop);
 				} else {
 					change_status (
-						view->priv->registry,icalcomp,
-						itip_strip_mailto (a->value),
-						a->status);
+						view->priv->registry, icomp,
+						itip_strip_mailto (e_cal_component_attendee_get_value (a)),
+						e_cal_component_attendee_get_partstat (a));
 				}
 
-				e_cal_component_rescan (comp);
+				g_clear_object (&prop);
 			}
 		}
 	}
@@ -5533,7 +5595,8 @@ update_attendee_status_icalcomp (ItipView *view,
 
 	e_cal_client_modify_object (
 		view->priv->current_client,
-		icalcomp, rid ? E_CAL_OBJ_MOD_THIS : E_CAL_OBJ_MOD_ALL,
+		icomp, is_instance ? E_CAL_OBJ_MOD_THIS : E_CAL_OBJ_MOD_ALL,
+		E_CAL_OPERATION_FLAG_NONE,
 		view->priv->cancellable,
 		modify_object_cb,
 		view);
@@ -5549,10 +5612,10 @@ update_attendee_status_get_object_without_rid_cb (GObject *ecalclient,
 {
 	ECalClient *client = E_CAL_CLIENT (ecalclient);
 	ItipView *view = user_data;
-	icalcomponent *icalcomp = NULL;
+	ICalComponent *icomp = NULL;
 	GError *error = NULL;
 
-	e_cal_client_get_object_finish (client, result, &icalcomp, &error);
+	e_cal_client_get_object_finish (client, result, &icomp, &error);
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
@@ -5569,7 +5632,7 @@ update_attendee_status_get_object_without_rid_cb (GObject *ecalclient,
 				"because the item no longer exists"));
 
 	} else {
-		update_attendee_status_icalcomp (view, icalcomp);
+		update_attendee_status_icomp (view, icomp);
 	}
 }
 
@@ -5580,10 +5643,10 @@ update_attendee_status_get_object_with_rid_cb (GObject *ecalclient,
 {
 	ECalClient *client = E_CAL_CLIENT (ecalclient);
 	ItipView *view = user_data;
-	icalcomponent *icalcomp = NULL;
+	ICalComponent *icomp = NULL;
 	GError *error = NULL;
 
-	e_cal_client_get_object_finish (client, result, &icalcomp, &error);
+	e_cal_client_get_object_finish (client, result, &icomp, &error);
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		g_error_free (error);
@@ -5594,7 +5657,7 @@ update_attendee_status_get_object_with_rid_cb (GObject *ecalclient,
 
 		g_error_free (error);
 
-		e_cal_component_get_uid (view->priv->comp, &uid);
+		uid = e_cal_component_get_uid (view->priv->comp);
 		rid = e_cal_component_get_recurid_as_string (view->priv->comp);
 
 		if (rid == NULL || *rid == '\0') {
@@ -5618,18 +5681,18 @@ update_attendee_status_get_object_with_rid_cb (GObject *ecalclient,
 		g_free (rid);
 
 	} else {
-		update_attendee_status_icalcomp (view, icalcomp);
+		update_attendee_status_icomp (view, icomp);
 	}
 }
 
 static void
 update_attendee_status (ItipView *view)
 {
-	const gchar *uid = NULL;
+	const gchar *uid;
 	gchar *rid;
 
 	/* Obtain our version */
-	e_cal_component_get_uid (view->priv->comp, &uid);
+	uid = e_cal_component_get_uid (view->priv->comp);
 	rid = e_cal_component_get_recurid_as_string (view->priv->comp);
 
 	claim_progress_saving_changes (view);
@@ -5702,26 +5765,6 @@ send_item (ItipView *view)
 			break;
 		}
 	}
-}
-
-static icalcomponent *
-get_next (icalcompiter *iter)
-{
-	icalcomponent *ret = NULL;
-	icalcomponent_kind kind;
-
-	do {
-		icalcompiter_next (iter);
-		ret = icalcompiter_deref (iter);
-		if (ret == NULL)
-			break;
-		kind = icalcomponent_isa (ret);
-	} while (ret != NULL
-		 && kind != ICAL_VEVENT_COMPONENT
-		 && kind != ICAL_VTODO_COMPONENT
-		 && kind != ICAL_VFREEBUSY_COMPONENT);
-
-	return ret;
 }
 
 static void
@@ -5801,12 +5844,11 @@ extract_itip_data (ItipView *view,
                    gboolean *have_alarms)
 {
 	GSettings *settings;
-	icalproperty *prop;
-	icalcomponent_kind kind = ICAL_NO_COMPONENT;
-	icalcomponent *tz_comp;
-	icalcompiter tz_iter;
-	icalcomponent *alarm_comp;
-	icalcompiter alarm_iter;
+	ICalProperty *prop;
+	ICalComponentKind kind = I_CAL_NO_COMPONENT;
+	ICalComponent *tz_comp;
+	ICalComponent *alarm_comp;
+	ICalCompIter *iter;
 	ECalComponent *comp;
 	gboolean use_default_reminder;
 	gint total;
@@ -5823,69 +5865,89 @@ extract_itip_data (ItipView *view,
 
 	view->priv->top_level = e_cal_util_new_top_level ();
 
-	view->priv->main_comp = icalparser_parse_string (view->priv->vcalendar);
-	if (view->priv->main_comp == NULL || !is_icalcomp_valid (view->priv->main_comp)) {
+	view->priv->main_comp = i_cal_parser_parse_string (view->priv->vcalendar);
+	if (view->priv->main_comp == NULL || !itip_is_component_valid (view->priv->main_comp)) {
 		set_itip_error (
 			view,
 			_("The calendar attached is not valid"),
 			_("The message claims to contain a calendar, but the calendar is not a valid iCalendar."),
 			FALSE);
 
-		if (view->priv->main_comp) {
-			icalcomponent_free (view->priv->main_comp);
-			view->priv->main_comp = NULL;
-		}
+		g_clear_object (&view->priv->main_comp);
 
 		return FALSE;
 	}
 
-	prop = icalcomponent_get_first_property (view->priv->main_comp, ICAL_METHOD_PROPERTY);
+	prop = i_cal_component_get_first_property (view->priv->main_comp, I_CAL_METHOD_PROPERTY);
 	if (prop == NULL) {
-		icalcomponent *subcomp;
+		ICalComponent *subcomp;
 
-		view->priv->method = ICAL_METHOD_PUBLISH;
+		view->priv->method = I_CAL_METHOD_PUBLISH;
 
 		/* Search in sub-components for the METHOD property when not found in the VCALENDAR */
-		for (subcomp = icalcomponent_get_first_component (view->priv->main_comp, ICAL_ANY_COMPONENT);
+		for (subcomp = i_cal_component_get_first_component (view->priv->main_comp, I_CAL_ANY_COMPONENT);
 		     subcomp;
-		     subcomp = icalcomponent_get_next_component (view->priv->main_comp, ICAL_ANY_COMPONENT)) {
-			kind = icalcomponent_isa (subcomp);
+		     g_object_unref (subcomp), subcomp = i_cal_component_get_next_component (view->priv->main_comp, I_CAL_ANY_COMPONENT)) {
+			kind = i_cal_component_isa (subcomp);
 
-			if (kind == ICAL_VEVENT_COMPONENT ||
-			    kind == ICAL_VTODO_COMPONENT ||
-			    kind == ICAL_VJOURNAL_COMPONENT ||
-			    kind == ICAL_VFREEBUSY_COMPONENT) {
-				prop = icalcomponent_get_first_property (subcomp, ICAL_METHOD_PROPERTY);
+			if (kind == I_CAL_VEVENT_COMPONENT ||
+			    kind == I_CAL_VTODO_COMPONENT ||
+			    kind == I_CAL_VJOURNAL_COMPONENT ||
+			    kind == I_CAL_VFREEBUSY_COMPONENT) {
+				prop = i_cal_component_get_first_property (subcomp, I_CAL_METHOD_PROPERTY);
 				if (prop) {
-					view->priv->method = icalproperty_get_method (prop);
+					view->priv->method = i_cal_property_get_method (prop);
+					g_object_unref (subcomp);
+					g_clear_object (&prop);
 					break;
 				}
 			}
 		}
 	} else {
-		view->priv->method = icalproperty_get_method (prop);
+		view->priv->method = i_cal_property_get_method (prop);
+		g_clear_object (&prop);
 	}
 
-	tz_iter = icalcomponent_begin_component (view->priv->main_comp, ICAL_VTIMEZONE_COMPONENT);
-	while ((tz_comp = icalcompiter_deref (&tz_iter)) != NULL) {
-		icalcomponent *clone;
+	iter = i_cal_component_begin_component (view->priv->main_comp, I_CAL_VTIMEZONE_COMPONENT);
+	tz_comp = i_cal_comp_iter_deref (iter);
+	while (tz_comp) {
+		ICalComponent *next_subcomp;
+		ICalComponent *clone;
 
-		clone = icalcomponent_new_clone (tz_comp);
-		icalcomponent_add_component (view->priv->top_level, clone);
+		next_subcomp = i_cal_comp_iter_next (iter);
 
-		icalcompiter_next (&tz_iter);
+		clone = i_cal_component_new_clone (tz_comp);
+		i_cal_component_take_component (view->priv->top_level, clone);
+
+		g_object_unref (tz_comp);
+		tz_comp = next_subcomp;
 	}
 
-	view->priv->iter = icalcomponent_begin_component (view->priv->main_comp, ICAL_ANY_COMPONENT);
-	view->priv->ical_comp = icalcompiter_deref (&view->priv->iter);
+	g_clear_object (&iter);
+
+	iter = i_cal_component_begin_component (view->priv->main_comp, I_CAL_ANY_COMPONENT);
+	view->priv->ical_comp = i_cal_comp_iter_deref (iter);
 	if (view->priv->ical_comp != NULL) {
-		kind = icalcomponent_isa (view->priv->ical_comp);
-		if (kind != ICAL_VEVENT_COMPONENT
-		    && kind != ICAL_VTODO_COMPONENT
-		    && kind != ICAL_VFREEBUSY_COMPONENT
-		    && kind != ICAL_VJOURNAL_COMPONENT)
-			view->priv->ical_comp = get_next (&view->priv->iter);
+		kind = i_cal_component_isa (view->priv->ical_comp);
+		if (kind != I_CAL_VEVENT_COMPONENT &&
+		    kind != I_CAL_VTODO_COMPONENT &&
+		    kind != I_CAL_VFREEBUSY_COMPONENT &&
+		    kind != I_CAL_VJOURNAL_COMPONENT) {
+			do {
+				g_clear_object (&view->priv->ical_comp);
+				view->priv->ical_comp = i_cal_comp_iter_next (iter);
+				if (!view->priv->ical_comp)
+					break;
+				kind = i_cal_component_isa (view->priv->ical_comp);
+			} while (view->priv->ical_comp != NULL &&
+				 kind != I_CAL_VEVENT_COMPONENT &&
+				 kind != I_CAL_VTODO_COMPONENT &&
+				 kind != I_CAL_VFREEBUSY_COMPONENT &&
+				 kind != I_CAL_VJOURNAL_COMPONENT);
+		}
 	}
+
+	g_clear_object (&iter);
 
 	if (view->priv->ical_comp == NULL) {
 		set_itip_error (
@@ -5899,37 +5961,34 @@ extract_itip_data (ItipView *view,
 
 	view->priv->with_detached_instances = FALSE;
 
-	total = icalcomponent_count_components (view->priv->main_comp, ICAL_VEVENT_COMPONENT);
-	total += icalcomponent_count_components (view->priv->main_comp, ICAL_VTODO_COMPONENT);
-	total += icalcomponent_count_components (view->priv->main_comp, ICAL_VFREEBUSY_COMPONENT);
-	total += icalcomponent_count_components (view->priv->main_comp, ICAL_VJOURNAL_COMPONENT);
+	total = i_cal_component_count_components (view->priv->main_comp, I_CAL_VEVENT_COMPONENT);
+	total += i_cal_component_count_components (view->priv->main_comp, I_CAL_VTODO_COMPONENT);
+	total += i_cal_component_count_components (view->priv->main_comp, I_CAL_VFREEBUSY_COMPONENT);
+	total += i_cal_component_count_components (view->priv->main_comp, I_CAL_VJOURNAL_COMPONENT);
 
 	if (total > 1) {
-		icalcomponent *icomp, *master_comp = NULL;
+		ICalComponent *icomp, *master_comp = NULL;
 		gint orig_total = total;
 		const gchar *expected_uid = NULL;
 
-		for (icomp = icalcomponent_get_first_component (view->priv->main_comp, ICAL_ANY_COMPONENT);
+		for (icomp = i_cal_component_get_first_component (view->priv->main_comp, I_CAL_ANY_COMPONENT);
 		     icomp;
-		     icomp = icalcomponent_get_next_component (view->priv->main_comp, ICAL_ANY_COMPONENT)) {
-			icalcomponent_kind icomp_kind;
+		     g_object_unref (icomp), icomp = i_cal_component_get_next_component (view->priv->main_comp, I_CAL_ANY_COMPONENT)) {
+			ICalComponentKind icomp_kind;
 			const gchar *uid;
 
-			icomp_kind = icalcomponent_isa (icomp);
+			icomp_kind = i_cal_component_isa (icomp);
 
-			if (icomp_kind != ICAL_VEVENT_COMPONENT &&
-			    icomp_kind != ICAL_VJOURNAL_COMPONENT &&
-			    icomp_kind != ICAL_VTODO_COMPONENT)
+			if (icomp_kind != I_CAL_VEVENT_COMPONENT &&
+			    icomp_kind != I_CAL_VJOURNAL_COMPONENT &&
+			    icomp_kind != I_CAL_VTODO_COMPONENT)
 				continue;
 
-			uid = icalcomponent_get_uid (icomp);
+			uid = i_cal_component_get_uid (icomp);
 
-			if (!master_comp) {
-				struct icaltimetype rid;
-
-				rid = icalcomponent_get_recurrenceid (icomp);
-				if (!icaltime_is_valid_time (rid) || icaltime_is_null_time (rid))
-					master_comp = icomp;
+			if (!master_comp &&
+			    !e_cal_util_component_has_property (icomp, I_CAL_RECURRENCEID_PROPERTY)) {
+				master_comp = g_object_ref (icomp);
 			}
 
 			/* Maybe it's an event with detached instances */
@@ -5939,21 +5998,27 @@ extract_itip_data (ItipView *view,
 				total--;
 			} else {
 				total = orig_total;
+				g_object_unref (icomp);
 				break;
 			}
 		}
 
 		view->priv->with_detached_instances = orig_total != total;
-		if (view->priv->with_detached_instances && master_comp && master_comp != view->priv->ical_comp)
-			view->priv->ical_comp = master_comp;
+		if (view->priv->with_detached_instances && master_comp &&
+		    i_cal_object_get_native (I_CAL_OBJECT (master_comp)) != i_cal_object_get_native (I_CAL_OBJECT (view->priv->ical_comp))) {
+			g_clear_object (&view->priv->ical_comp);
+			view->priv->ical_comp = g_object_ref (master_comp);
+		}
+
+		g_clear_object (&master_comp);
 	}
 
-	switch (icalcomponent_isa (view->priv->ical_comp)) {
-	case ICAL_VEVENT_COMPONENT:
+	switch (i_cal_component_isa (view->priv->ical_comp)) {
+	case I_CAL_VEVENT_COMPONENT:
 		view->priv->type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
-		view->priv->has_organizer = icalcomponent_get_first_property (view->priv->ical_comp, ICAL_ORGANIZER_PROPERTY) != NULL;
-		if (icalcomponent_get_first_property (view->priv->ical_comp, ICAL_ATTENDEE_PROPERTY) == NULL) {
-			/* no attendees: assume that that this is not a meeting and organizer doesn't want a reply */
+		view->priv->has_organizer = e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ORGANIZER_PROPERTY);
+		if (!e_cal_util_component_has_property (view->priv->ical_comp, I_CAL_ATTENDEE_PROPERTY)) {
+			/* no attendees: assume that this is not a meeting and organizer doesn't want a reply */
 			view->priv->no_reply_wanted = TRUE;
 		} else {
 			/*
@@ -5962,10 +6027,10 @@ extract_itip_data (ItipView *view,
 			 */
 		}
 		break;
-	case ICAL_VTODO_COMPONENT:
+	case I_CAL_VTODO_COMPONENT:
 		view->priv->type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 		break;
-	case ICAL_VJOURNAL_COMPONENT:
+	case I_CAL_VJOURNAL_COMPONENT:
 		view->priv->type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 		break;
 	default:
@@ -5992,41 +6057,41 @@ extract_itip_data (ItipView *view,
 		view->priv->current = 0;
 	}
 
-	if (icalcomponent_isa (view->priv->ical_comp) != ICAL_VJOURNAL_COMPONENT) {
+	if (i_cal_component_isa (view->priv->ical_comp) != I_CAL_VJOURNAL_COMPONENT) {
 		gchar *my_address;
 
 		prop = NULL;
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (view->priv->ical_comp));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (view->priv->ical_comp));
 		my_address = itip_get_comp_attendee (
 			view->priv->registry, comp, NULL);
-		g_object_unref (comp);
-		comp = NULL;
+		g_clear_object (&comp);
 
-		if (!prop)
-			prop = find_attendee (view->priv->ical_comp, my_address);
+		prop = find_attendee (view->priv->ical_comp, my_address);
 		if (!prop)
 			prop = find_attendee_if_sentby (view->priv->ical_comp, my_address);
 		if (prop) {
-			icalparameter *param;
-			const gchar * delfrom;
+			ICalParameter *param;
+			const gchar *delfrom;
 
-			if ((param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER))) {
-				delfrom = icalparameter_get_delegatedfrom (param);
+			if ((param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER))) {
+				delfrom = i_cal_parameter_get_delegatedfrom (param);
 
 				view->priv->delegator_address = g_strdup (itip_strip_mailto (delfrom));
+
+				g_object_unref (param);
 			}
 		}
 		g_free (my_address);
-		prop = NULL;
+		g_clear_object (&prop);
 
 		/* Determine any delegate sections */
-		prop = icalcomponent_get_first_property (view->priv->ical_comp, ICAL_X_PROPERTY);
-		while (prop) {
+		for (prop = i_cal_component_get_first_property (view->priv->ical_comp, I_CAL_X_PROPERTY);
+		     prop;
+		     g_object_unref (prop), i_cal_component_get_next_property (view->priv->ical_comp, I_CAL_X_PROPERTY)) {
 			const gchar *x_name, *x_val;
 
-			x_name = icalproperty_get_x_name (prop);
-			x_val = icalproperty_get_x (prop);
+			x_name = i_cal_property_get_x_name (prop);
+			x_val = i_cal_property_get_x (prop);
 
 			if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-CALENDAR-UID"))
 				view->priv->calendar_uid = g_strdup (x_val);
@@ -6036,27 +6101,35 @@ extract_itip_data (ItipView *view,
 				view->priv->delegator_address = g_strdup (x_val);
 			else if (!strcmp (x_name, "X-EVOLUTION-DELEGATOR-NAME"))
 				view->priv->delegator_name = g_strdup (x_val);
-
-			prop = icalcomponent_get_next_property (view->priv->ical_comp, ICAL_X_PROPERTY);
 		}
 
 		/* Strip out procedural alarms for security purposes */
-		alarm_iter = icalcomponent_begin_component (view->priv->ical_comp, ICAL_VALARM_COMPONENT);
-		while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
-			icalproperty *p;
+		iter = i_cal_component_begin_component (view->priv->ical_comp, I_CAL_VALARM_COMPONENT);
+		alarm_comp = i_cal_comp_iter_deref (iter);
+		while (alarm_comp) {
+			ICalComponent *next_subcomp;
+			ICalProperty *pp;
 
-			icalcompiter_next (&alarm_iter);
+			next_subcomp = i_cal_comp_iter_next (iter);
 
-			p = icalcomponent_get_first_property (alarm_comp, ICAL_ACTION_PROPERTY);
-			if (!p || icalproperty_get_action (p) == ICAL_ACTION_PROCEDURE)
-				icalcomponent_remove_component (view->priv->ical_comp, alarm_comp);
+			pp = i_cal_component_get_first_property (alarm_comp, I_CAL_ACTION_PROPERTY);
+			if (!pp || i_cal_property_get_action (pp) == I_CAL_ACTION_PROCEDURE)
+				i_cal_component_remove_component (view->priv->ical_comp, alarm_comp);
 
-			icalcomponent_free (alarm_comp);
+			g_clear_object (&pp);
+
+			g_object_unref (alarm_comp);
+			alarm_comp = next_subcomp;
 		}
 
+		g_clear_object (&iter);
+
 		if (have_alarms) {
-			alarm_iter = icalcomponent_begin_component (view->priv->ical_comp, ICAL_VALARM_COMPONENT);
-			*have_alarms = icalcompiter_deref (&alarm_iter) != NULL;
+			iter = i_cal_component_begin_component (view->priv->ical_comp, I_CAL_VALARM_COMPONENT);
+			alarm_comp = i_cal_comp_iter_deref (iter);
+			*have_alarms = alarm_comp != NULL;
+			g_clear_object (&alarm_comp);
+			g_clear_object (&iter);
 		}
 	}
 
@@ -6085,7 +6158,8 @@ extract_itip_data (ItipView *view,
 		ECalComponentAlarm *acomp;
 		gint interval;
 		EDurationType units;
-		ECalComponentAlarmTrigger trigger;
+		ICalDuration *duration;
+		ECalComponentAlarmTrigger *trigger;
 
 		interval = g_settings_get_int (
 			settings, "default-reminder-interval");
@@ -6096,30 +6170,31 @@ extract_itip_data (ItipView *view,
 
 		e_cal_component_alarm_set_action (acomp, E_CAL_COMPONENT_ALARM_DISPLAY);
 
-		trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
-		memset (&trigger.u.rel_duration, 0, sizeof (trigger.u.rel_duration));
-
-		trigger.u.rel_duration.is_neg = TRUE;
+		duration = i_cal_duration_null_duration ();
+		i_cal_duration_set_is_neg (duration, TRUE);
 
 		switch (units) {
 			case E_DURATION_MINUTES:
-				trigger.u.rel_duration.minutes = interval;
+				i_cal_duration_set_minutes (duration, interval);
 				break;
 			case E_DURATION_HOURS:
-				trigger.u.rel_duration.hours = interval;
+				i_cal_duration_set_hours (duration, interval);
 				break;
 			case E_DURATION_DAYS:
-				trigger.u.rel_duration.days = interval;
+				i_cal_duration_set_days (duration, interval);
 				break;
 			default:
 				g_warn_if_reached ();
 				break;
 		}
 
-		e_cal_component_alarm_set_trigger (acomp, trigger);
+		trigger = e_cal_component_alarm_trigger_new_relative (E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, duration);
+
+		e_cal_component_alarm_take_trigger (acomp, trigger);
 		e_cal_component_add_alarm (view->priv->comp, acomp);
 
 		e_cal_component_alarm_free (acomp);
+		g_clear_object (&duration);
 	}
 
 	g_object_unref (settings);
@@ -6161,7 +6236,7 @@ view_response_cb (ItipView *view,
                   gpointer user_data)
 {
 	gboolean status = FALSE;
-	icalproperty *prop;
+	ICalProperty *prop;
 	ECalComponentTransparency trans;
 
 	if (response == ITIP_VIEW_RESPONSE_SAVE) {
@@ -6169,20 +6244,20 @@ view_response_cb (ItipView *view,
 		return;
 	}
 
-	if (view->priv->method == ICAL_METHOD_PUBLISH || view->priv->method == ICAL_METHOD_REQUEST) {
+	if (view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST) {
 		if (itip_view_get_free_time_check_state (view))
 			e_cal_component_set_transparency (view->priv->comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
 		else
 			e_cal_component_set_transparency (view->priv->comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
 	} else {
-		e_cal_component_get_transparency (view->priv->comp, &trans);
+		trans = e_cal_component_get_transparency (view->priv->comp);
 
 		if (trans == E_CAL_COMPONENT_TRANSP_NONE)
 			e_cal_component_set_transparency (view->priv->comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
 	}
 
 	if (!view->priv->to_address && view->priv->current_client != NULL) {
-		e_client_get_backend_property_sync (E_CLIENT (view->priv->current_client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &view->priv->to_address, NULL, NULL);
+		e_client_get_backend_property_sync (E_CLIENT (view->priv->current_client), E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &view->priv->to_address, NULL, NULL);
 
 		if (view->priv->to_address && !*view->priv->to_address) {
 			g_free (view->priv->to_address);
@@ -6193,9 +6268,9 @@ view_response_cb (ItipView *view,
 	/* check if it is a  recur instance (no master object) and
 	 * add a property */
 	if (itip_view_get_recur_check_state (view)) {
-		prop = icalproperty_new_x ("All");
-		icalproperty_set_x_name (prop, "X-GW-RECUR-INSTANCES-MOD-TYPE");
-		icalcomponent_add_property (view->priv->ical_comp, prop);
+		prop = i_cal_property_new_x ("All");
+		i_cal_property_set_x_name (prop, "X-GW-RECUR-INSTANCES-MOD-TYPE");
+		i_cal_component_take_property (view->priv->ical_comp, prop);
 	}
 
 	switch (response) {
@@ -6209,7 +6284,6 @@ view_response_cb (ItipView *view,
 			else
 				status = TRUE;
 			if (status) {
-				e_cal_component_rescan (view->priv->comp);
 				update_item (view, response);
 			}
 			break;
@@ -6220,7 +6294,6 @@ view_response_cb (ItipView *view,
 					view->priv->to_address,
 					ICAL_PARTSTAT_TENTATIVE);
 			if (status) {
-				e_cal_component_rescan (view->priv->comp);
 				update_item (view, response);
 			}
 			break;
@@ -6232,14 +6305,13 @@ view_response_cb (ItipView *view,
 					view->priv->to_address,
 					ICAL_PARTSTAT_DECLINED);
 			else {
-				prop = icalproperty_new_x ("1");
-				icalproperty_set_x_name (prop, "X-GW-DECLINED");
-				icalcomponent_add_property (view->priv->ical_comp, prop);
+				prop = i_cal_property_new_x ("1");
+				i_cal_property_set_x_name (prop, "X-GW-DECLINED");
+				i_cal_component_take_property (view->priv->ical_comp, prop);
 				status = TRUE;
 			}
 
 			if (status) {
-				e_cal_component_rescan (view->priv->comp);
 				update_item (view, response);
 			}
 			break;
@@ -6264,19 +6336,20 @@ view_response_cb (ItipView *view,
 }
 
 static gboolean
-check_is_instance (icalcomponent *icalcomp)
+check_is_instance (ICalComponent *icomp)
 {
-	icalproperty *icalprop;
+	ICalProperty *prop;
 
-	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
-	while (icalprop) {
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_X_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_X_PROPERTY)) {
 		const gchar *x_name;
 
-		x_name = icalproperty_get_x_name (icalprop);
-		if (!strcmp (x_name, "X-GW-RECURRENCE-KEY")) {
+		x_name = i_cal_property_get_x_name (prop);
+		if (!g_strcmp0 (x_name, "X-GW-RECURRENCE-KEY")) {
+			g_object_unref (prop);
 			return TRUE;
 		}
-		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
 	}
 
 	return FALSE;
@@ -6338,25 +6411,25 @@ in_proper_folder (CamelFolder *folder)
 	return res;
 }
 
-static icaltimezone *
+static ICalTimezone *
 itip_view_guess_timezone (const gchar *tzid)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	if (!tzid || !*tzid)
 		return NULL;
 
-	zone = icaltimezone_get_builtin_timezone (tzid);
+	zone = i_cal_timezone_get_builtin_timezone (tzid);
 	if (zone)
 		return zone;
 
-	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	zone = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 	if (zone)
 		return zone;
 
 	tzid = e_cal_match_tzid (tzid);
 	if (tzid)
-		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+		zone = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 
 	return zone;
 }
@@ -6379,16 +6452,17 @@ itip_view_add_recurring_info (ItipView *view)
 void
 itip_view_init_view (ItipView *view)
 {
-	ECalComponentText text;
-	ECalComponentOrganizer organizer;
-	ECalComponentDateTime datetime;
-	icaltimezone *from_zone;
-	icaltimezone *to_zone = NULL;
+	ECalComponentText *text;
+	ECalComponentOrganizer *organizer;
+	ECalComponentDateTime *datetime;
+	ICalTimezone *from_zone;
+	ICalTimezone *to_zone = NULL;
 	GSettings *settings;
 	GString *gstring = NULL;
 	GSList *list, *l;
-	icalcomponent *icalcomp;
-	const gchar *string, *org;
+	ICalComponent *icomp;
+	const gchar *org;
+	gchar *string;
 	gboolean response_enabled;
 	gboolean have_alarms = FALSE;
 
@@ -6408,11 +6482,11 @@ itip_view_init_view (ItipView *view)
 	} else {
 		itip_view_set_show_inherit_alarm_check (
 			view,
-			have_alarms && (view->priv->method == ICAL_METHOD_PUBLISH || view->priv->method == ICAL_METHOD_REQUEST));
+			have_alarms && (view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST));
 
 		switch (view->priv->method) {
-			case ICAL_METHOD_PUBLISH:
-			case ICAL_METHOD_REQUEST:
+			case I_CAL_METHOD_PUBLISH:
+			case I_CAL_METHOD_REQUEST:
                                 /*
                                  * Treat meeting request (sent by organizer directly) and
                                  * published evend (forwarded by organizer or attendee) alike:
@@ -6426,29 +6500,29 @@ itip_view_init_view (ItipView *view)
 					ITIP_VIEW_MODE_REQUEST :
 					ITIP_VIEW_MODE_PUBLISH);
 				break;
-			case ICAL_METHOD_REPLY:
+			case I_CAL_METHOD_REPLY:
 				itip_view_set_mode (view, ITIP_VIEW_MODE_REPLY);
 				break;
-			case ICAL_METHOD_ADD:
+			case I_CAL_METHOD_ADD:
 				itip_view_set_mode (view, ITIP_VIEW_MODE_ADD);
 				break;
-			case ICAL_METHOD_CANCEL:
+			case I_CAL_METHOD_CANCEL:
 				itip_view_set_mode (view, ITIP_VIEW_MODE_CANCEL);
 				break;
-			case ICAL_METHOD_REFRESH:
+			case I_CAL_METHOD_REFRESH:
 				itip_view_set_mode (view, ITIP_VIEW_MODE_REFRESH);
 				break;
-			case ICAL_METHOD_COUNTER:
+			case I_CAL_METHOD_COUNTER:
 				itip_view_set_mode (view, ITIP_VIEW_MODE_COUNTER);
 				break;
-			case ICAL_METHOD_DECLINECOUNTER:
+			case I_CAL_METHOD_DECLINECOUNTER:
 				itip_view_set_mode (view, ITIP_VIEW_MODE_DECLINECOUNTER);
 				break;
-			case ICAL_METHOD_X :
+			case I_CAL_METHOD_X :
                                 /* Handle appointment requests from Microsoft Live. This is
                                  * a best-at-hand-now handling. Must be revisited when we have
                                  * better access to the source of such meetings */
-				view->priv->method = ICAL_METHOD_REQUEST;
+				view->priv->method = I_CAL_METHOD_REQUEST;
 				itip_view_set_mode (view, ITIP_VIEW_MODE_REQUEST);
 				break;
 			default:
@@ -6460,24 +6534,28 @@ itip_view_init_view (ItipView *view)
 
 	if (response_enabled) {
 		switch (view->priv->method) {
-			case ICAL_METHOD_REQUEST:
+			case I_CAL_METHOD_REQUEST:
                                 /* FIXME What about the name? */
 				itip_view_set_delegator (view, view->priv->delegator_name ? view->priv->delegator_name : view->priv->delegator_address);
 				/* coverity[fallthrough] */
 				/* falls through */
-			case ICAL_METHOD_PUBLISH:
-			case ICAL_METHOD_ADD:
-			case ICAL_METHOD_CANCEL:
-			case ICAL_METHOD_DECLINECOUNTER:
+			case I_CAL_METHOD_PUBLISH:
+			case I_CAL_METHOD_ADD:
+			case I_CAL_METHOD_CANCEL:
+			case I_CAL_METHOD_DECLINECOUNTER:
 				itip_view_set_show_update_check (view, FALSE);
 
                                 /* An organizer sent this */
-				e_cal_component_get_organizer (view->priv->comp, &organizer);
-				org = organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value);
+				organizer = e_cal_component_get_organizer (view->priv->comp);
+				if (!organizer)
+					break;
+
+				org = e_cal_component_organizer_get_cn (organizer) ? e_cal_component_organizer_get_cn (organizer) :
+					itip_strip_mailto (e_cal_component_organizer_get_value (organizer));
 
 				itip_view_set_organizer (view, org);
-				if (organizer.sentby) {
-					const gchar *sentby = itip_strip_mailto (organizer.sentby);
+				if (e_cal_component_organizer_get_sentby (organizer)) {
+					const gchar *sentby = itip_strip_mailto (e_cal_component_organizer_get_sentby (organizer));
 
 					if (sentby && *sentby) {
 						gchar *tmp = NULL;
@@ -6509,37 +6587,44 @@ itip_view_init_view (ItipView *view)
 				}
 
 				if (view->priv->my_address) {
-					if (!(organizer.value && !g_ascii_strcasecmp (itip_strip_mailto (organizer.value), view->priv->my_address))
-						&& !(organizer.sentby && !g_ascii_strcasecmp (itip_strip_mailto (organizer.sentby), view->priv->my_address))
-						&& (view->priv->to_address && g_ascii_strcasecmp (view->priv->to_address, view->priv->my_address)))
+					if (!(e_cal_component_organizer_get_value (organizer) &&
+					      !g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_organizer_get_value (organizer)), view->priv->my_address)) &&
+					    !(e_cal_component_organizer_get_sentby (organizer) &&
+					      !g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_organizer_get_sentby (organizer)), view->priv->my_address)) &&
+					    (view->priv->to_address && g_ascii_strcasecmp (view->priv->to_address, view->priv->my_address)))
 						itip_view_set_proxy (view, view->priv->to_name ? view->priv->to_name : view->priv->to_address);
 				}
+
+				e_cal_component_organizer_free (organizer);
 				break;
-			case ICAL_METHOD_REPLY:
-			case ICAL_METHOD_REFRESH:
-			case ICAL_METHOD_COUNTER:
+			case I_CAL_METHOD_REPLY:
+			case I_CAL_METHOD_REFRESH:
+			case I_CAL_METHOD_COUNTER:
 				itip_view_set_show_update_check (view, TRUE);
 
                                 /* An attendee sent this */
-				e_cal_component_get_attendee_list (view->priv->comp, &list);
+				list = e_cal_component_get_attendees (view->priv->comp);
 				if (list != NULL) {
 					ECalComponentAttendee *attendee;
 
 					attendee = list->data;
 
-					itip_view_set_attendee (view, attendee->cn ? attendee->cn : itip_strip_mailto (attendee->value));
+					itip_view_set_attendee (view, e_cal_component_attendee_get_cn (attendee) ?
+						e_cal_component_attendee_get_cn (attendee) : itip_strip_mailto (e_cal_component_attendee_get_value (attendee)));
 
-					if (attendee->sentby)
-						itip_view_set_attendee_sentby (view, itip_strip_mailto (attendee->sentby));
+					if (e_cal_component_attendee_get_sentby (attendee))
+						itip_view_set_attendee_sentby (view, itip_strip_mailto (e_cal_component_attendee_get_sentby (attendee)));
 
 					if (view->priv->my_address) {
-						if (!(attendee->value && !g_ascii_strcasecmp (itip_strip_mailto (attendee->value), view->priv->my_address))
-							&& !(attendee->sentby && !g_ascii_strcasecmp (itip_strip_mailto (attendee->sentby), view->priv->my_address))
-							&& (view->priv->from_address && g_ascii_strcasecmp (view->priv->from_address, view->priv->my_address)))
+						if (!(e_cal_component_attendee_get_value (attendee) &&
+						      !g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_attendee_get_value (attendee)), view->priv->my_address)) &&
+						    !(e_cal_component_attendee_get_sentby (attendee) &&
+						      !g_ascii_strcasecmp (itip_strip_mailto (e_cal_component_attendee_get_sentby (attendee)), view->priv->my_address)) &&
+						    (view->priv->from_address && g_ascii_strcasecmp (view->priv->from_address, view->priv->my_address)))
 							itip_view_set_proxy (view, view->priv->from_name ? view->priv->from_name : view->priv->from_address);
 					}
 
-					e_cal_component_free_attendee_list (list);
+					g_slist_free_full (list, e_cal_component_attendee_free);
 				}
 				break;
 			default:
@@ -6548,52 +6633,54 @@ itip_view_init_view (ItipView *view)
 		}
 	}
 
-	e_cal_component_get_summary (view->priv->comp, &text);
-	itip_view_set_summary (view, text.value ? text.value : C_("cal-itip", "None"));
+	text = e_cal_component_get_summary (view->priv->comp);
+	itip_view_set_summary (view, text && e_cal_component_text_get_value (text) ? e_cal_component_text_get_value (text) : C_("cal-itip", "None"));
+	e_cal_component_text_free (text);
 
-	e_cal_component_get_location (view->priv->comp, &string);
+	string = e_cal_component_get_location (view->priv->comp);
 	itip_view_set_location (view, string);
+	g_free (string);
 
         /* Status really only applies for REPLY */
-	if (response_enabled && view->priv->method == ICAL_METHOD_REPLY) {
-		e_cal_component_get_attendee_list (view->priv->comp, &list);
+	if (response_enabled && view->priv->method == I_CAL_METHOD_REPLY) {
+		list = e_cal_component_get_attendees (view->priv->comp);
 		if (list != NULL) {
 			ECalComponentAttendee *a = list->data;
 
-			switch (a->status) {
-				case ICAL_PARTSTAT_ACCEPTED:
+			switch (e_cal_component_attendee_get_partstat (a)) {
+				case I_CAL_PARTSTAT_ACCEPTED:
 					itip_view_set_status (view, _("Accepted"));
 					break;
-				case ICAL_PARTSTAT_TENTATIVE:
+				case I_CAL_PARTSTAT_TENTATIVE:
 					itip_view_set_status (view, _("Tentatively Accepted"));
 					break;
-				case ICAL_PARTSTAT_DECLINED:
+				case I_CAL_PARTSTAT_DECLINED:
 					itip_view_set_status (view, _("Declined"));
 					break;
-				case ICAL_PARTSTAT_DELEGATED:
+				case I_CAL_PARTSTAT_DELEGATED:
 					itip_view_set_status (view, _("Delegated"));
 					break;
 				default:
 					itip_view_set_status (view, _("Unknown"));
 			}
 		}
-		e_cal_component_free_attendee_list (list);
+		g_slist_free_full (list, e_cal_component_attendee_free);
 	}
 
-	if (view->priv->method == ICAL_METHOD_REPLY
-		|| view->priv->method == ICAL_METHOD_COUNTER
-		|| view->priv->method == ICAL_METHOD_DECLINECOUNTER) {
+	if (view->priv->method == I_CAL_METHOD_REPLY ||
+	    view->priv->method == I_CAL_METHOD_COUNTER ||
+	    view->priv->method == I_CAL_METHOD_DECLINECOUNTER) {
                 /* FIXME Check spec to see if multiple comments are actually valid */
                 /* Comments for iTIP are limited to one per object */
-		e_cal_component_get_comment_list (view->priv->comp, &list);
+		list = e_cal_component_get_comments (view->priv->comp);
 		if (list) {
-			ECalComponentText *text = list->data;
+			text = list->data;
 
-			if (text->value) {
+			if (text && e_cal_component_text_get_value (text)) {
 				gchar *html;
 
 				html = camel_text_to_html (
-					text->value,
+					e_cal_component_text_get_value (text),
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES,
@@ -6604,22 +6691,26 @@ itip_view_init_view (ItipView *view)
 				g_free (html);
 			}
 		}
-		e_cal_component_free_text_list (list);
+
+		g_slist_free_full (list, e_cal_component_text_free);
 	}
 
 	itip_view_extract_attendee_info (view);
 
-	e_cal_component_get_description_list (view->priv->comp, &list);
+	list = e_cal_component_get_descriptions (view->priv->comp);
 	for (l = list; l; l = l->next) {
-		ECalComponentText *text = l->data;
+		text = l->data;
 
-		if (!gstring && text->value)
-			gstring = g_string_new (text->value);
-		else if (text->value)
-			g_string_append_printf (gstring, "\n\n%s", text->value);
+		if (!text)
+			continue;
+
+		if (!gstring && e_cal_component_text_get_value (text))
+			gstring = g_string_new (e_cal_component_text_get_value (text));
+		else if (e_cal_component_text_get_value (text))
+			g_string_append_printf (gstring, "\n\n%s", e_cal_component_text_get_value (text));
 	}
 
-	e_cal_component_free_text_list (list);
+	g_slist_free_full (list, e_cal_component_text_free);
 
 	if (gstring) {
 		gchar *html;
@@ -6647,85 +6738,94 @@ itip_view_init_view (ItipView *view)
 
 		location = g_settings_get_string (settings, "timezone");
 		if (location != NULL) {
-			to_zone = icaltimezone_get_builtin_timezone (location);
+			to_zone = i_cal_timezone_get_builtin_timezone (location);
 			g_free (location);
 		}
 	}
 
 	if (to_zone == NULL)
-		to_zone = icaltimezone_get_utc_timezone ();
+		to_zone = i_cal_timezone_get_utc_timezone ();
 
 	g_object_unref (settings);
 
-	e_cal_component_get_dtstart (view->priv->comp, &datetime);
+	datetime = e_cal_component_get_dtstart (view->priv->comp);
 	view->priv->start_time = 0;
-	if (datetime.value) {
+	if (datetime && e_cal_component_datetime_get_value (datetime)) {
+		ICalTime *itt = e_cal_component_datetime_get_value (datetime);
 		struct tm start_tm;
 
                 /* If the timezone is not in the component, guess the local time */
                 /* Should we guess if the timezone is an olsen name somehow? */
-		if (icaltime_is_utc (*datetime.value))
-			from_zone = icaltimezone_get_utc_timezone ();
-		else if (!icaltime_is_utc (*datetime.value) && datetime.tzid) {
-			from_zone = icalcomponent_get_timezone (view->priv->top_level, datetime.tzid);
+		if (i_cal_time_is_utc (itt))
+			from_zone = g_object_ref (i_cal_timezone_get_utc_timezone ());
+		else if (e_cal_component_datetime_get_tzid (datetime)) {
+			from_zone = i_cal_component_get_timezone (view->priv->top_level, e_cal_component_datetime_get_tzid (datetime));
 
-			if (!from_zone)
-				from_zone = itip_view_guess_timezone (datetime.tzid);
+			if (!from_zone) {
+				from_zone = itip_view_guess_timezone (e_cal_component_datetime_get_tzid (datetime));
+				if (from_zone)
+					g_object_ref (from_zone);
+			}
 		} else
 			from_zone = NULL;
 
-		start_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
+		start_tm = e_cal_util_icaltime_to_tm_with_zone (itt, from_zone, to_zone);
 
-		itip_view_set_start (view, &start_tm, datetime.value->is_date);
-		view->priv->start_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
+		itip_view_set_start (view, &start_tm, i_cal_time_is_date (itt));
+		view->priv->start_time = i_cal_time_as_timet_with_zone (itt, from_zone);
+
+		g_clear_object (&from_zone);
 	}
 
-	icalcomp = e_cal_component_get_icalcomponent (view->priv->comp);
+	icomp = e_cal_component_get_icalcomponent (view->priv->comp);
 
         /* Set the recurrence id */
-	if (check_is_instance (icalcomp) && datetime.value) {
+	if (check_is_instance (icomp) && datetime && e_cal_component_datetime_get_value (datetime)) {
 		ECalComponentRange *recur_id;
-		struct icaltimetype icaltime = icaltime_convert_to_zone (*datetime.value, to_zone);
+		ICalTime *itt = i_cal_time_convert_to_zone (e_cal_component_datetime_get_value (datetime), to_zone);
 
-		recur_id = g_new0 (ECalComponentRange, 1);
-		recur_id->type = E_CAL_COMPONENT_RANGE_SINGLE;
-		recur_id->datetime.value = &icaltime;
-		recur_id->datetime.tzid = icaltimezone_get_tzid (to_zone);
+		recur_id = e_cal_component_range_new_take (E_CAL_COMPONENT_RANGE_SINGLE,
+			e_cal_component_datetime_new_take (itt, g_strdup (i_cal_timezone_get_tzid (to_zone))));
 		e_cal_component_set_recurid (view->priv->comp, recur_id);
-		g_free (recur_id); /* it's ok to call g_free here */
+		e_cal_component_range_free (recur_id);
 	}
-	e_cal_component_free_datetime (&datetime);
+	e_cal_component_datetime_free (datetime);
 
-	e_cal_component_get_dtend (view->priv->comp, &datetime);
+	datetime = e_cal_component_get_dtend (view->priv->comp);
 	view->priv->end_time = 0;
-	if (datetime.value) {
+	if (datetime && e_cal_component_datetime_get_value (datetime)) {
+		ICalTime *itt = e_cal_component_datetime_get_value (datetime);
 		struct tm end_tm;
 
                 /* If the timezone is not in the component, guess the local time */
                 /* Should we guess if the timezone is an olsen name somehow? */
-		if (icaltime_is_utc (*datetime.value))
-			from_zone = icaltimezone_get_utc_timezone ();
-		else if (!icaltime_is_utc (*datetime.value) && datetime.tzid) {
-			from_zone = icalcomponent_get_timezone (view->priv->top_level, datetime.tzid);
+		if (i_cal_time_is_utc (itt))
+			from_zone = g_object_ref (i_cal_timezone_get_utc_timezone ());
+		else if (e_cal_component_datetime_get_tzid (datetime)) {
+			from_zone = i_cal_component_get_timezone (view->priv->top_level, e_cal_component_datetime_get_tzid (datetime));
 
-			if (!from_zone)
-				from_zone = itip_view_guess_timezone (datetime.tzid);
+			if (!from_zone) {
+				from_zone = itip_view_guess_timezone (e_cal_component_datetime_get_tzid (datetime));
+				if (from_zone)
+					g_object_ref (from_zone);
+			}
 		} else
 			from_zone = NULL;
 
-		if (datetime.value->is_date) {
+		if (i_cal_time_is_date (itt)) {
                         /* RFC says the DTEND is not inclusive, thus subtract one day
                          * if we have a date */
 
-			icaltime_adjust (datetime.value, -1, 0, 0, 0);
+			i_cal_time_adjust (itt, -1, 0, 0, 0);
 		}
 
-		end_tm = icaltimetype_to_tm_with_zone (datetime.value, from_zone, to_zone);
+		end_tm = e_cal_util_icaltime_to_tm_with_zone (itt, from_zone, to_zone);
 
-		itip_view_set_end (view, &end_tm, datetime.value->is_date);
-		view->priv->end_time = icaltime_as_timet_with_zone (*datetime.value, from_zone);
+		itip_view_set_end (view, &end_tm, i_cal_time_is_date (itt));
+		view->priv->end_time = i_cal_time_as_timet_with_zone (itt, from_zone);
+		g_clear_object (&from_zone);
 	}
-	e_cal_component_free_datetime (&datetime);
+	e_cal_component_datetime_free (datetime);
 
         /* Recurrence info */
 	itip_view_add_recurring_info (view);
@@ -6735,7 +6835,8 @@ itip_view_init_view (ItipView *view)
 		G_CALLBACK (view_response_cb), NULL);
 
 	if (response_enabled) {
-		itip_view_set_show_free_time_check (view, view->priv->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS && (view->priv->method == ICAL_METHOD_PUBLISH || view->priv->method == ICAL_METHOD_REQUEST));
+		itip_view_set_show_free_time_check (view, view->priv->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS &&
+			(view->priv->method == I_CAL_METHOD_PUBLISH || view->priv->method == I_CAL_METHOD_REQUEST));
 
 		if (view->priv->calendar_uid) {
 			start_calendar_server_by_uid (view, view->priv->calendar_uid, view->priv->type);

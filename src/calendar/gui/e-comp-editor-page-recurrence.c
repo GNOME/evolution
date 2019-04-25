@@ -92,10 +92,10 @@ enum recur_type {
 };
 
 static const gint freq_map[] = {
-	ICAL_DAILY_RECURRENCE,
-	ICAL_WEEKLY_RECURRENCE,
-	ICAL_MONTHLY_RECURRENCE,
-	ICAL_YEARLY_RECURRENCE,
+	I_CAL_DAILY_RECURRENCE,
+	I_CAL_WEEKLY_RECURRENCE,
+	I_CAL_MONTHLY_RECURRENCE,
+	I_CAL_YEARLY_RECURRENCE,
 	-1
 };
 
@@ -148,7 +148,7 @@ struct _ECompEditorPageRecurrencePrivate {
 
 	/* For ending date, created by hand */
 	GtkWidget *ending_date_edit;
-	struct icaltimetype ending_date_tt;
+	ICalTime *ending_date_tt;
 
 	/* For ending count of occurrences, created by hand */
 	GtkWidget *ending_count_spin;
@@ -163,8 +163,8 @@ ecep_recurrence_update_preview (ECompEditorPageRecurrence *page_recurrence)
 	ECompEditor *comp_editor;
 	ECalClient *client;
 	ECalComponent *comp;
-	icalcomponent *icalcomp;
-	const icalcomponent *editing_comp;
+	ICalComponent *icomp;
+	const ICalComponent *editing_comp;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 	g_return_if_fail (E_IS_CALENDAR (page_recurrence->priv->preview));
@@ -177,32 +177,30 @@ ecep_recurrence_update_preview (ECompEditorPageRecurrence *page_recurrence)
 	e_calendar_item_clear_marks (e_calendar_get_item (E_CALENDAR (page_recurrence->priv->preview)));
 
 	editing_comp = e_comp_editor_get_component (comp_editor);
-	if (!editing_comp || e_cal_util_component_is_instance ((icalcomponent *) editing_comp)) {
+	if (!editing_comp || e_cal_util_component_is_instance ((ICalComponent *) editing_comp)) {
 		g_clear_object (&comp_editor);
 		return;
 	}
 
-	icalcomp = icalcomponent_new_clone ((icalcomponent *) editing_comp);
+	icomp = i_cal_component_new_clone ((ICalComponent *) editing_comp);
 
 	e_comp_editor_set_updating (comp_editor, TRUE);
-	e_comp_editor_fill_component (comp_editor, icalcomp);
+	e_comp_editor_fill_component (comp_editor, icomp);
 	e_comp_editor_set_updating (comp_editor, FALSE);
 
-	comp = e_cal_component_new_from_icalcomponent (icalcomp);
+	comp = e_cal_component_new_from_icalcomponent (icomp);
 
 	if (comp) {
-		icaltimezone *zone = NULL;
+		ICalTimezone *zone = NULL;
 
-		icalcomp = e_cal_component_get_icalcomponent (comp);
+		icomp = e_cal_component_get_icalcomponent (comp);
 
-		if (icalcomponent_get_first_property (icalcomp, ICAL_DTSTART_PROPERTY)) {
-			struct icaltimetype dt;
+		if (e_cal_util_component_has_property (icomp, I_CAL_DTSTART_PROPERTY)) {
+			ICalTime *dt;
 
-			dt = icalcomponent_get_dtstart (icalcomp);
-			zone = (icaltimezone *) dt.zone;
+			dt = i_cal_component_get_dtstart (icomp);
+			zone = i_cal_time_get_timezone (dt);
 		}
-
-		e_cal_component_rescan (comp);
 
 		if (!zone)
 			zone = calendar_config_get_icaltimezone ();
@@ -210,6 +208,7 @@ ecep_recurrence_update_preview (ECompEditorPageRecurrence *page_recurrence)
 		tag_calendar_by_comp (
 			E_CALENDAR (page_recurrence->priv->preview), comp,
 			client, zone, TRUE, FALSE, FALSE, page_recurrence->priv->cancellable);
+
 		g_object_unref (comp);
 	}
 
@@ -234,7 +233,7 @@ ecep_recurrence_changed (ECompEditorPageRecurrence *page_recurrence)
 
 static void
 ecep_recurrence_append_exception (ECompEditorPageRecurrence *page_recurrence,
-				  const struct icaltimetype itt)
+				  const ICalTime *itt)
 {
 	GtkTreeView *view;
 	GtkTreeIter  iter;
@@ -247,23 +246,27 @@ ecep_recurrence_append_exception (ECompEditorPageRecurrence *page_recurrence,
 
 static void
 ecep_recurrence_fill_exception_widgets (ECompEditorPageRecurrence *page_recurrence,
-					icalcomponent *component)
+					ICalComponent *component)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
 	e_date_time_list_clear (page_recurrence->priv->exceptions_store);
 
-	for (prop = icalcomponent_get_first_property (component, ICAL_EXDATE_PROPERTY);
+	for (prop = i_cal_component_get_first_property (component, I_CAL_EXDATE_PROPERTY);
 	     prop;
-	     prop = icalcomponent_get_next_property (component, ICAL_EXDATE_PROPERTY)) {
-		struct icaltimetype itt;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_EXDATE_PROPERTY)) {
+		ICalTime *itt;
 
-		itt = icalproperty_get_exdate (prop);
-		if (!icaltime_is_valid_time (itt) ||
-		    icaltime_is_null_time (itt))
+		itt = i_cal_property_get_exdate (prop);
+		if (!itt || !i_cal_time_is_valid_time (itt) ||
+		    i_cal_time_is_null_time (itt)) {
+			g_clear_object (&itt);
 			continue;
+		}
 
 		ecep_recurrence_append_exception (page_recurrence, itt);
+
+		g_clear_object (&itt);
 	}
 }
 
@@ -325,18 +328,21 @@ ecep_recurrence_exceptions_add_clicked_cb (GtkButton *button,
 	dialog = ecep_recurrence_create_exception_dialog (page_recurrence, _("Add exception"), &date_edit);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		struct icaltimetype itt = icaltime_null_time ();
+		gint year, month, day;
 
-		/* We use DATE values for exceptions, so we don't need a TZID. */
-		itt.zone = NULL;
-		itt.hour = 0;
-		itt.minute = 0;
-		itt.second = 0;
-		itt.is_date = 1;
+		if (e_date_edit_get_date (E_DATE_EDIT (date_edit), &year, &month, &day)) {
+			ICalTime *itt = i_cal_time_null_time ();
 
-		if (e_date_edit_get_date (E_DATE_EDIT (date_edit), &itt.year, &itt.month, &itt.day)) {
+			/* We use DATE values for exceptions, so we don't need a TZID. */
+			i_cal_time_set_timezone (itt, NULL);
+			i_cal_time_set_date (itt, year, month, day);
+			i_cal_time_set_time (itt, 0,  0,  0);
+			i_cal_time_set_is_date (itt, TRUE);
+
 			ecep_recurrence_append_exception (page_recurrence, itt);
 			ecep_recurrence_changed (page_recurrence);
+
+			g_clear_object (&itt);
 		}
 	}
 
@@ -348,7 +354,7 @@ ecep_recurrence_exceptions_edit_clicked_cb (GtkButton *button,
 					    ECompEditorPageRecurrence *page_recurrence)
 {
 	GtkWidget *dialog, *date_edit;
-	const struct icaltimetype *current_itt;
+	const ICalTime *current_itt;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 
@@ -362,21 +368,24 @@ ecep_recurrence_exceptions_edit_clicked_cb (GtkButton *button,
 
 	dialog = ecep_recurrence_create_exception_dialog (page_recurrence, _("Modify exception"), &date_edit);
 	e_date_edit_set_date (E_DATE_EDIT (date_edit),
-		current_itt->year, current_itt->month, current_itt->day);
+		i_cal_time_get_year (current_itt), i_cal_time_get_month (current_itt), i_cal_time_get_day (current_itt));
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		struct icaltimetype itt = icaltime_null_time ();
+		gint year, month, day;
 
-		/* We use DATE values for exceptions, so we don't need a TZID. */
-		itt.zone = NULL;
-		itt.hour = 0;
-		itt.minute = 0;
-		itt.second = 0;
-		itt.is_date = 1;
+		if (e_date_edit_get_date (E_DATE_EDIT (date_edit), &year, &month, &day)) {
+			ICalTime *itt = i_cal_time_null_time ();
 
-		if (e_date_edit_get_date (E_DATE_EDIT (date_edit), &itt.year, &itt.month, &itt.day)) {
+			/* We use DATE values for exceptions, so we don't need a TZID. */
+			i_cal_time_set_timezone (itt, NULL);
+			i_cal_time_set_date (itt, year, month, day);
+			i_cal_time_set_time (itt, 0,  0,  0);
+			i_cal_time_set_is_date (itt, TRUE);
+
 			e_date_time_list_set_date_time (page_recurrence->priv->exceptions_store, &iter, itt);
 			ecep_recurrence_changed (page_recurrence);
+
+			g_clear_object (&itt);
 		}
 	}
 
@@ -436,11 +445,16 @@ static struct tm
 ecep_recurrence_get_current_time_cb (ECalendarItem *calitem,
 				     gpointer user_data)
 {
-	struct icaltimetype today;
+	ICalTime *today;
+	struct tm tm;
 
-	today = icaltime_today ();
+	today = i_cal_time_today ();
 
-	return icaltimetype_to_tm (&today);
+	tm = e_cal_util_icaltime_to_tm (today);
+
+	g_clear_object (&today);
+
+	return tm;
 }
 
 static GtkWidget *
@@ -849,7 +863,7 @@ ecep_recurrence_make_monthly_special (ECompEditorPageRecurrence *page_recurrence
 static void
 ecep_recurrence_make_recurrence_special (ECompEditorPageRecurrence *page_recurrence)
 {
-	icalrecurrencetype_frequency frequency;
+	ICalRecurrenceFrequency frequency;
 	GtkWidget *child;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
@@ -870,21 +884,21 @@ ecep_recurrence_make_recurrence_special (ECompEditorPageRecurrence *page_recurre
 	frequency = e_dialog_combo_box_get (page_recurrence->priv->recr_interval_unit_combo, freq_map);
 
 	switch (frequency) {
-	case ICAL_DAILY_RECURRENCE:
+	case I_CAL_DAILY_RECURRENCE:
 		gtk_widget_hide (page_recurrence->priv->recr_interval_special_box);
 		break;
 
-	case ICAL_WEEKLY_RECURRENCE:
+	case I_CAL_WEEKLY_RECURRENCE:
 		ecep_recurrence_make_weekly_special (page_recurrence);
 		gtk_widget_show (page_recurrence->priv->recr_interval_special_box);
 		break;
 
-	case ICAL_MONTHLY_RECURRENCE:
+	case I_CAL_MONTHLY_RECURRENCE:
 		ecep_recurrence_make_monthly_special (page_recurrence);
 		gtk_widget_show (page_recurrence->priv->recr_interval_special_box);
 		break;
 
-	case ICAL_YEARLY_RECURRENCE:
+	case I_CAL_YEARLY_RECURRENCE:
 		gtk_widget_hide (page_recurrence->priv->recr_interval_special_box);
 		break;
 
@@ -893,16 +907,21 @@ ecep_recurrence_make_recurrence_special (ECompEditorPageRecurrence *page_recurre
 	}
 }
 
-/* Counts the elements in the by_xxx fields of an icalrecurrencetype */
+/* Counts the elements in the by_xxx fields of an ICalRecurrence */
 static gint
-ecep_recurrence_count_by_xxx (gshort *field,
-			      gint max_elements)
+ecep_recurrence_count_by_xxx_and_free (GArray *array) /* gshort */
 {
 	gint ii;
 
-	for (ii = 0; ii < max_elements; ii++)
-		if (field[ii] == ICAL_RECURRENCE_ARRAY_MAX)
+	if (!array)
+		return 0;
+
+	for (ii = 0; ii < array->len; ii++) {
+		if (g_array_index (array, gshort, ii) == I_CAL_RECURRENCE_ARRAY_MAX)
 			break;
+	}
+
+	g_array_unref (array);
 
 	return ii;
 }
@@ -913,7 +932,7 @@ ecep_recurrence_make_ending_until_special (ECompEditorPageRecurrence *page_recur
 {
 	ECompEditor *comp_editor;
 	guint32 flags;
-	const icalcomponent *icomp;
+	const ICalComponent *icomp;
 	EDateEdit *date_edit;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
@@ -939,18 +958,18 @@ ecep_recurrence_make_ending_until_special (ECompEditorPageRecurrence *page_recur
 
 	icomp = e_comp_editor_get_component (comp_editor);
 	if ((flags & E_COMP_EDITOR_FLAG_IS_NEW) != 0 && icomp) {
-		struct icaltimetype itt;
+		ICalTime *itt;
 
-		itt = icalcomponent_get_dtstart ((icalcomponent *) icomp);
+		itt = i_cal_component_get_dtstart ((ICalComponent *) icomp);
 		/* Setting the default until time to 2 weeks */
-		icaltime_adjust (&itt, 14, 0, 0, 0);
+		i_cal_time_adjust (itt, 14, 0, 0, 0);
 
-		e_date_edit_set_date (date_edit, itt.year, itt.month, itt.day);
+		e_date_edit_set_date (date_edit, i_cal_time_get_year (itt), i_cal_time_get_month (itt), i_cal_time_get_day (itt));
 	} else {
 		e_date_edit_set_date (date_edit,
-			page_recurrence->priv->ending_date_tt.year,
-			page_recurrence->priv->ending_date_tt.month,
-			page_recurrence->priv->ending_date_tt.day);
+			i_cal_time_get_year (page_recurrence->priv->ending_date_tt),
+			i_cal_time_get_month (page_recurrence->priv->ending_date_tt),
+			i_cal_time_get_day (page_recurrence->priv->ending_date_tt));
 	}
 
 	g_signal_connect_swapped (
@@ -1054,15 +1073,19 @@ ecep_recurrence_make_ending_special (ECompEditorPageRecurrence *page_recurrence)
  */
 static void
 ecep_recurrence_fill_ending_date (ECompEditorPageRecurrence *page_recurrence,
-				  struct icalrecurrencetype *rrule,
-				  icalcomponent *component)
+				  ICalRecurrence *rrule,
+				  ICalComponent *component)
 {
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 
 	g_signal_handlers_block_matched (page_recurrence->priv->recr_ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 
-	if (rrule->count == 0) {
-		if (rrule->until.year == 0) {
+	if (i_cal_recurrence_get_count (rrule) == 0) {
+		ICalTime *until;
+
+		until = i_cal_recurrence_get_until (rrule);
+
+		if (!until || i_cal_time_get_year (until) == 0) {
 			/* Forever */
 
 			e_dialog_combo_box_set (
@@ -1072,34 +1095,36 @@ ecep_recurrence_fill_ending_date (ECompEditorPageRecurrence *page_recurrence,
 		} else {
 			/* Ending date */
 
-			if (!rrule->until.is_date) {
-				icaltimezone *from_zone, *to_zone;
-				struct icaltimetype dtstart;
+			if (!i_cal_time_is_date (until)) {
+				ICalTimezone *from_zone, *to_zone = NULL;
+				ICalTime *dtstart;
 
-				dtstart = icalcomponent_get_dtstart (component);
+				dtstart = i_cal_component_get_dtstart (component);
 
-				from_zone = icaltimezone_get_utc_timezone ();
-				to_zone = (icaltimezone *) dtstart.zone;
+				from_zone = i_cal_timezone_get_utc_timezone ();
+				to_zone = dtstart ? i_cal_time_get_timezone (dtstart) : NULL;
 
 				if (to_zone)
-					icaltimezone_convert_time (&rrule->until, from_zone, to_zone);
+					i_cal_timezone_convert_time (until, from_zone, to_zone);
 
-				rrule->until.hour = 0;
-				rrule->until.minute = 0;
-				rrule->until.second = 0;
-				rrule->until.is_date = TRUE;
+				i_cal_time_set_time (until, 0, 0, 0);
+				i_cal_time_set_is_date (until, TRUE);
+				i_cal_recurrence_set_until (rrule, until);
 			}
 
-			page_recurrence->priv->ending_date_tt = rrule->until;
+			g_clear_object (&page_recurrence->priv->ending_date_tt);
+			page_recurrence->priv->ending_date_tt = i_cal_recurrence_get_until (rrule);
 			e_dialog_combo_box_set (
 				page_recurrence->priv->recr_ending_combo,
 				ENDING_UNTIL,
 				ending_types_map);
 		}
+
+		g_clear_object (&until);
 	} else {
 		/* Count of occurrences */
 
-		page_recurrence->priv->ending_count = rrule->count;
+		page_recurrence->priv->ending_count = i_cal_recurrence_get_count (rrule);
 		e_dialog_combo_box_set (
 			page_recurrence->priv->recr_ending_combo,
 			ENDING_FOR,
@@ -1115,23 +1140,25 @@ ecep_recurrence_fill_ending_date (ECompEditorPageRecurrence *page_recurrence,
  * for use in a WeekdayPicker widget.
  */
 static guint8
-ecep_recurrence_get_start_weekday_mask (icalcomponent *component)
+ecep_recurrence_get_start_weekday_mask (ICalComponent *component)
 {
-	struct icaltimetype dtstart;
+	ICalTime *dtstart;
 	guint8 retval;
 
 	if (!component)
 		return 0;
 
-	dtstart = icalcomponent_get_dtstart (component);
+	dtstart = i_cal_component_get_dtstart (component);
 
-	if (icaltime_is_valid_time (dtstart)) {
+	if (dtstart && i_cal_time_is_valid_time (dtstart)) {
 		gshort weekday;
 
-		weekday = icaltime_day_of_week (dtstart);
+		weekday = i_cal_time_day_of_week (dtstart);
 		retval = 0x1 << (weekday - 1);
 	} else
 		retval = 0;
+
+	g_clear_object (&dtstart);
 
 	return retval;
 }
@@ -1141,7 +1168,7 @@ ecep_recurrence_get_start_weekday_mask (icalcomponent *component)
  */
 static void
 ecep_recurrence_set_special_defaults (ECompEditorPageRecurrence *page_recurrence,
-				      icalcomponent *component)
+				      ICalComponent *component)
 {
 	guint8 mask;
 
@@ -1181,7 +1208,8 @@ ecep_recurrence_clear_widgets (ECompEditorPageRecurrence *page_recurrence)
 	e_dialog_combo_box_set (page_recurrence->priv->recr_interval_unit_combo, ICAL_DAILY_RECURRENCE, freq_map);
 	g_signal_handlers_unblock_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 
-	page_recurrence->priv->ending_date_tt = icaltime_today ();
+	g_clear_object (&page_recurrence->priv->ending_date_tt);
+	page_recurrence->priv->ending_date_tt = i_cal_time_today ();
 	page_recurrence->priv->ending_count = 2;
 
 	g_signal_handlers_block_matched (page_recurrence->priv->recr_ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
@@ -1199,43 +1227,45 @@ ecep_recurrence_clear_widgets (ECompEditorPageRecurrence *page_recurrence)
 
 static void
 ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence,
-				      icalcomponent *component)
+				      ICalComponent *component)
 {
-	struct icalrecurrencetype r;
 	enum ending_type ending_type;
-	icalproperty *prop;
+	ICalProperty *prop;
+	ICalRecurrence *recur;
+	ICalTime *until;
 	gboolean date_set;
+	gint year, month, day;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 
-	icalrecurrencetype_clear (&r);
+	recur = i_cal_recurrence_new ();
 
 	/* Frequency, interval, week start */
 
-	r.freq = e_dialog_combo_box_get (page_recurrence->priv->recr_interval_unit_combo, freq_map);
-	r.interval = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (page_recurrence->priv->recr_interval_value_spin));
+	i_cal_recurrence_set_freq (recur, e_dialog_combo_box_get (page_recurrence->priv->recr_interval_unit_combo, freq_map));
+	i_cal_recurrence_set_interval (recur, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (page_recurrence->priv->recr_interval_value_spin)));
 
 	switch (calendar_config_get_week_start_day ()) {
 		case G_DATE_MONDAY:
-			r.week_start = ICAL_MONDAY_WEEKDAY;
+			i_cal_recurrence_set_week_start (recur, I_CAL_MONDAY_WEEKDAY);
 			break;
 		case G_DATE_TUESDAY:
-			r.week_start = ICAL_TUESDAY_WEEKDAY;
+			i_cal_recurrence_set_week_start (recur, I_CAL_TUESDAY_WEEKDAY);
 			break;
 		case G_DATE_WEDNESDAY:
-			r.week_start = ICAL_WEDNESDAY_WEEKDAY;
+			i_cal_recurrence_set_week_start (recur, I_CAL_WEDNESDAY_WEEKDAY);
 			break;
 		case G_DATE_THURSDAY:
-			r.week_start = ICAL_THURSDAY_WEEKDAY;
+			i_cal_recurrence_set_week_start (recur, I_CAL_THURSDAY_WEEKDAY);
 			break;
 		case G_DATE_FRIDAY:
-			r.week_start = ICAL_FRIDAY_WEEKDAY;
+			i_cal_recurrence_set_week_start (recur, I_CAL_FRIDAY_WEEKDAY);
 			break;
 		case G_DATE_SATURDAY:
-			r.week_start = ICAL_SATURDAY_WEEKDAY;
+			i_cal_recurrence_set_week_start (recur, I_CAL_SATURDAY_WEEKDAY);
 			break;
 		case G_DATE_SUNDAY:
-			r.week_start = ICAL_SUNDAY_WEEKDAY;
+			i_cal_recurrence_set_week_start (recur, I_CAL_SUNDAY_WEEKDAY);
 			break;
 		default:
 			g_warn_if_reached ();
@@ -1244,12 +1274,12 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 
 	/* Frequency-specific data */
 
-	switch (r.freq) {
-	case ICAL_DAILY_RECURRENCE:
+	switch (i_cal_recurrence_get_freq (recur)) {
+	case I_CAL_DAILY_RECURRENCE:
 		/* Nothing else is required */
 		break;
 
-	case ICAL_WEEKLY_RECURRENCE: {
+	case I_CAL_WEEKLY_RECURRENCE: {
 		EWeekdayChooser *chooser;
 		gint ii;
 
@@ -1261,25 +1291,27 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		ii = 0;
 
 		if (e_weekday_chooser_get_selected (chooser, G_DATE_SUNDAY))
-			r.by_day[ii++] = ICAL_SUNDAY_WEEKDAY;
+			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_SUNDAY_WEEKDAY);
 
 		if (e_weekday_chooser_get_selected (chooser, G_DATE_MONDAY))
-			r.by_day[ii++] = ICAL_MONDAY_WEEKDAY;
+			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_MONDAY_WEEKDAY);
 
 		if (e_weekday_chooser_get_selected (chooser, G_DATE_TUESDAY))
-			r.by_day[ii++] = ICAL_TUESDAY_WEEKDAY;
+			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_TUESDAY_WEEKDAY);
 
 		if (e_weekday_chooser_get_selected (chooser, G_DATE_WEDNESDAY))
-			r.by_day[ii++] = ICAL_WEDNESDAY_WEEKDAY;
+			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_WEDNESDAY_WEEKDAY);
 
 		if (e_weekday_chooser_get_selected (chooser, G_DATE_THURSDAY))
-			r.by_day[ii++] = ICAL_THURSDAY_WEEKDAY;
+			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_THURSDAY_WEEKDAY);
 
 		if (e_weekday_chooser_get_selected (chooser, G_DATE_FRIDAY))
-			r.by_day[ii++] = ICAL_FRIDAY_WEEKDAY;
+			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_FRIDAY_WEEKDAY);
 
 		if (e_weekday_chooser_get_selected (chooser, G_DATE_SATURDAY))
-			r.by_day[ii] = ICAL_SATURDAY_WEEKDAY;
+			i_cal_recurrence_set_by_day (recur, ii++, I_CAL_SATURDAY_WEEKDAY);
+
+		i_cal_recurrence_set_by_day (recur, ii, I_CAL_RECURRENCE_ARRAY_MAX);
 
 		break;
 	}
@@ -1307,47 +1339,47 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		switch (month_day) {
 		case MONTH_DAY_NTH:
 			if (month_num == MONTH_NUM_INVALID)
-				r.by_month_day[0] = -1;
+				i_cal_recurrence_set_by_month_day (recur, 0, -1);
 			else
-				r.by_month_day[0] = page_recurrence->priv->month_index;
+				i_cal_recurrence_set_by_month_day (recur, 0, page_recurrence->priv->month_index);
 			break;
 
 		/* Outlook 2000 uses BYDAY=TU;BYSETPOS=2, and will not
 		 * accept BYDAY=2TU. So we now use the same as Outlook
 		 * by default. */
 		case MONTH_DAY_MON:
-			r.by_day[0] = ICAL_MONDAY_WEEKDAY;
-			r.by_set_pos[0] = month_num;
+			i_cal_recurrence_set_by_day (recur, 0, I_CAL_MONDAY_WEEKDAY);
+			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
 			break;
 
 		case MONTH_DAY_TUE:
-			r.by_day[0] = ICAL_TUESDAY_WEEKDAY;
-			r.by_set_pos[0] = month_num;
+			i_cal_recurrence_set_by_day (recur, 0, I_CAL_TUESDAY_WEEKDAY);
+			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
 			break;
 
 		case MONTH_DAY_WED:
-			r.by_day[0] = ICAL_WEDNESDAY_WEEKDAY;
-			r.by_set_pos[0] = month_num;
+			i_cal_recurrence_set_by_day (recur, 0, I_CAL_WEDNESDAY_WEEKDAY);
+			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
 			break;
 
 		case MONTH_DAY_THU:
-			r.by_day[0] = ICAL_THURSDAY_WEEKDAY;
-			r.by_set_pos[0] = month_num;
+			i_cal_recurrence_set_by_day (recur, 0, I_CAL_THURSDAY_WEEKDAY);
+			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
 			break;
 
 		case MONTH_DAY_FRI:
-			r.by_day[0] = ICAL_FRIDAY_WEEKDAY;
-			r.by_set_pos[0] = month_num;
+			i_cal_recurrence_set_by_day (recur, 0, I_CAL_FRIDAY_WEEKDAY);
+			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
 			break;
 
 		case MONTH_DAY_SAT:
-			r.by_day[0] = ICAL_SATURDAY_WEEKDAY;
-			r.by_set_pos[0] = month_num;
+			i_cal_recurrence_set_by_day (recur, 0, I_CAL_SATURDAY_WEEKDAY);
+			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
 			break;
 
 		case MONTH_DAY_SUN:
-			r.by_day[0] = ICAL_SUNDAY_WEEKDAY;
-			r.by_set_pos[0] = month_num;
+			i_cal_recurrence_set_by_day (recur, 0, I_CAL_SUNDAY_WEEKDAY);
+			i_cal_recurrence_set_by_set_pos (recur, 0, month_num);
 			break;
 
 		default:
@@ -1357,7 +1389,7 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		break;
 	}
 
-	case ICAL_YEARLY_RECURRENCE:
+	case I_CAL_YEARLY_RECURRENCE:
 		/* Nothing else is required */
 		break;
 
@@ -1374,8 +1406,8 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		g_return_if_fail (page_recurrence->priv->ending_count_spin != NULL);
 		g_return_if_fail (GTK_IS_SPIN_BUTTON (page_recurrence->priv->ending_count_spin));
 
-		r.count = gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (page_recurrence->priv->ending_count_spin));
+		i_cal_recurrence_set_count (recur, gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (page_recurrence->priv->ending_count_spin)));
 		break;
 
 	case ENDING_UNTIL:
@@ -1386,12 +1418,14 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		 * since we don't support sub-day recurrences. */
 		date_set = e_date_edit_get_date (
 			E_DATE_EDIT (page_recurrence->priv->ending_date_edit),
-			&r.until.year,
-			&r.until.month,
-			&r.until.day);
+			&year, &month, &day);
 		g_return_if_fail (date_set);
 
-		r.until.is_date = 1;
+		until = i_cal_time_null_time ();
+		i_cal_time_set_date (until, year, month, day);
+		i_cal_time_set_is_date (until, 1);
+		i_cal_recurrence_set_until (recur, until);
+		g_clear_object (&until);
 
 		break;
 
@@ -1403,11 +1437,13 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		g_return_if_reached ();
 	}
 
-	cal_comp_util_remove_all_properties (component, ICAL_RRULE_PROPERTY);
+	e_cal_util_component_remove_property_by_kind (component, I_CAL_RRULE_PROPERTY, TRUE);
 
 	/* Set the recurrence */
-	prop = icalproperty_new_rrule (r);
-	icalcomponent_add_property (component, prop);
+	prop = i_cal_property_new_rrule (recur);
+	i_cal_component_take_property (component, prop);
+
+	g_clear_object (&recur);
 }
 
 static void
@@ -1460,35 +1496,35 @@ ecep_recurrence_sensitize_widgets (ECompEditorPage *page,
 
 static void
 ecep_recurrence_fill_widgets (ECompEditorPage *page,
-			      icalcomponent *component)
+			      ICalComponent *component)
 {
 	ECompEditorPageRecurrence *page_recurrence;
-	struct icalrecurrencetype rrule;
-	icalproperty *prop;
+	ICalRecurrence *rrule = NULL;
+	ICalProperty *prop;
 	GtkAdjustment *adj;
 	gint n_by_second, n_by_minute, n_by_hour;
 	gint n_by_day, n_by_month_day, n_by_year_day;
 	gint n_by_week_no, n_by_month, n_by_set_pos;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_recurrence_parent_class)->fill_widgets (page, component);
 
 	page_recurrence = E_COMP_EDITOR_PAGE_RECURRENCE (page);
 
-	switch (icalcomponent_isa (component)) {
-		case ICAL_VEVENT_COMPONENT:
+	switch (i_cal_component_isa (component)) {
+		case I_CAL_VEVENT_COMPONENT:
 			gtk_button_set_label (GTK_BUTTON (page_recurrence->priv->recr_check_box),
 				/* Translators: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets]) */
 				C_("ECompEditorPageRecur", "This appointment rec_urs"));
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			gtk_button_set_label (GTK_BUTTON (page_recurrence->priv->recr_check_box),
 				/* Translators: Entire string is for example:     'This task recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets]) */
 				C_("ECompEditorPageRecur", "This task rec_urs"));
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			gtk_button_set_label (GTK_BUTTON (page_recurrence->priv->recr_check_box),
 				/* Translators: Entire string is for example:     'This memo recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets]) */
 				C_("ECompEditorPageRecur", "This memo rec_urs"));
@@ -1511,9 +1547,9 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 	ecep_recurrence_set_special_defaults (page_recurrence, component);
 
 	/* No recurrences? */
-	if (!icalcomponent_get_first_property (component, ICAL_RDATE_PROPERTY)
-	    && !icalcomponent_get_first_property (component, ICAL_RRULE_PROPERTY)
-	    && !icalcomponent_get_first_property (component, ICAL_EXRULE_PROPERTY)) {
+	if (!e_cal_util_component_has_property (component, I_CAL_RDATE_PROPERTY) &&
+	    !e_cal_util_component_has_property (component, I_CAL_RRULE_PROPERTY) &&
+	    !e_cal_util_component_has_property (component, I_CAL_EXRULE_PROPERTY)) {
 		g_signal_handlers_block_matched (page_recurrence->priv->recr_check_box, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_recurrence->priv->recr_check_box), FALSE);
 		g_signal_handlers_unblock_matched (page_recurrence->priv->recr_check_box, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
@@ -1525,51 +1561,55 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 
 	/* See if it is a custom set we don't support */
 
-	if ((icalcomponent_get_first_property (component, ICAL_RRULE_PROPERTY) &&
-	     icalcomponent_get_next_property (component, ICAL_RRULE_PROPERTY)) ||
-	    icalcomponent_get_first_property (component, ICAL_RDATE_PROPERTY) ||
-	    icalcomponent_get_first_property (component, ICAL_EXRULE_PROPERTY))
+	if (i_cal_component_count_properties (component, I_CAL_RRULE_PROPERTY) > 1 ||
+	    e_cal_util_component_has_property (component, I_CAL_RDATE_PROPERTY) ||
+	    e_cal_util_component_has_property (component, I_CAL_EXRULE_PROPERTY))
 		goto custom;
 
 	/* Down to one rule, so test that one */
 
-	prop = icalcomponent_get_first_property (component, ICAL_RRULE_PROPERTY);
+	prop = i_cal_component_get_first_property (component, I_CAL_RRULE_PROPERTY);
 	g_return_if_fail (prop != NULL);
 
-	rrule = icalproperty_get_rrule (prop);
+	rrule = i_cal_property_get_rrule (prop);
+	if (!rrule) {
+		g_clear_object (&prop);
+
+		g_return_if_reached ();
+	}
+
+	g_clear_object (&prop);
 
 	/* Any lower frequency? */
 
-	if (rrule.freq == ICAL_SECONDLY_RECURRENCE
-	    || rrule.freq == ICAL_MINUTELY_RECURRENCE
-	    || rrule.freq == ICAL_HOURLY_RECURRENCE)
+	if (i_cal_recurrence_get_freq (rrule) == I_CAL_SECONDLY_RECURRENCE ||
+	    i_cal_recurrence_get_freq (rrule) == I_CAL_MINUTELY_RECURRENCE ||
+	    i_cal_recurrence_get_freq (rrule) == I_CAL_HOURLY_RECURRENCE)
 		goto custom;
 
 	/* Any unusual values? */
 
-#define N_HAS_BY(field) (ecep_recurrence_count_by_xxx (field, G_N_ELEMENTS (field)))
+	n_by_second = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_second_array (rrule));
+	n_by_minute = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_minute_array (rrule));
+	n_by_hour = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_hour_array (rrule));
+	n_by_day = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_day_array (rrule));
+	n_by_month_day = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_month_day_array (rrule));
+	n_by_year_day = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_year_day_array (rrule));
+	n_by_week_no = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_week_no_array (rrule));
+	n_by_month = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_month_array (rrule));
+	n_by_set_pos = ecep_recurrence_count_by_xxx_and_free (i_cal_recurrence_get_by_set_pos_array (rrule));
 
-	n_by_second = N_HAS_BY (rrule.by_second);
-	n_by_minute = N_HAS_BY (rrule.by_minute);
-	n_by_hour = N_HAS_BY (rrule.by_hour);
-	n_by_day = N_HAS_BY (rrule.by_day);
-	n_by_month_day = N_HAS_BY (rrule.by_month_day);
-	n_by_year_day = N_HAS_BY (rrule.by_year_day);
-	n_by_week_no = N_HAS_BY (rrule.by_week_no);
-	n_by_month = N_HAS_BY (rrule.by_month);
-	n_by_set_pos = N_HAS_BY (rrule.by_set_pos);
-
-	if (n_by_second != 0
-	    || n_by_minute != 0
-	    || n_by_hour != 0)
+	if (n_by_second != 0 ||
+	    n_by_minute != 0 ||
+	    n_by_hour != 0)
 		goto custom;
 
 	/* Filter the funky shit based on the frequency; if there is nothing
 	 * weird we can actually set the widgets.
 	 */
 
-	switch (rrule.freq) {
-	case ICAL_DAILY_RECURRENCE:
+	switch (i_cal_recurrence_get_freq (rrule)) {
+	case I_CAL_DAILY_RECURRENCE:
 		if (n_by_day != 0
 		    || n_by_month_day != 0
 		    || n_by_year_day != 0
@@ -1581,12 +1621,12 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 		g_signal_handlers_block_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		e_dialog_combo_box_set (
 			page_recurrence->priv->recr_interval_unit_combo,
-			ICAL_DAILY_RECURRENCE,
+			I_CAL_DAILY_RECURRENCE,
 			freq_map);
 		g_signal_handlers_unblock_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		break;
 
-	case ICAL_WEEKLY_RECURRENCE: {
+	case I_CAL_WEEKLY_RECURRENCE: {
 		gint ii;
 		guint8 day_mask;
 
@@ -1599,42 +1639,42 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 
 		day_mask = 0;
 
-		for (ii = 0; ii < 8 && rrule.by_day[ii] != ICAL_RECURRENCE_ARRAY_MAX; ii++) {
-			enum icalrecurrencetype_weekday weekday;
+		for (ii = 0; ii < 8 && i_cal_recurrence_get_by_day (rrule, ii) != I_CAL_RECURRENCE_ARRAY_MAX; ii++) {
+			ICalRecurrenceWeekday weekday;
 			gint pos;
 
-			weekday = icalrecurrencetype_day_day_of_week (rrule.by_day[ii]);
-			pos = icalrecurrencetype_day_position (rrule.by_day[ii]);
+			weekday = i_cal_recurrence_day_day_of_week (i_cal_recurrence_get_by_day (rrule, ii));
+			pos = i_cal_recurrence_day_position (i_cal_recurrence_get_by_day (rrule, ii));
 
 			if (pos != 0)
 				goto custom;
 
 			switch (weekday) {
-			case ICAL_SUNDAY_WEEKDAY:
+			case I_CAL_SUNDAY_WEEKDAY:
 				day_mask |= 1 << 0;
 				break;
 
-			case ICAL_MONDAY_WEEKDAY:
+			case I_CAL_MONDAY_WEEKDAY:
 				day_mask |= 1 << 1;
 				break;
 
-			case ICAL_TUESDAY_WEEKDAY:
+			case I_CAL_TUESDAY_WEEKDAY:
 				day_mask |= 1 << 2;
 				break;
 
-			case ICAL_WEDNESDAY_WEEKDAY:
+			case I_CAL_WEDNESDAY_WEEKDAY:
 				day_mask |= 1 << 3;
 				break;
 
-			case ICAL_THURSDAY_WEEKDAY:
+			case I_CAL_THURSDAY_WEEKDAY:
 				day_mask |= 1 << 4;
 				break;
 
-			case ICAL_FRIDAY_WEEKDAY:
+			case I_CAL_FRIDAY_WEEKDAY:
 				day_mask |= 1 << 5;
 				break;
 
-			case ICAL_SATURDAY_WEEKDAY:
+			case I_CAL_SATURDAY_WEEKDAY:
 				day_mask |= 1 << 6;
 				break;
 
@@ -1648,13 +1688,13 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 		g_signal_handlers_block_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		e_dialog_combo_box_set (
 			page_recurrence->priv->recr_interval_unit_combo,
-			ICAL_WEEKLY_RECURRENCE,
+			I_CAL_WEEKLY_RECURRENCE,
 			freq_map);
 		g_signal_handlers_unblock_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		break;
 	}
 
-	case ICAL_MONTHLY_RECURRENCE:
+	case I_CAL_MONTHLY_RECURRENCE:
 		if (n_by_year_day != 0
 		    || n_by_week_no != 0
 		    || n_by_month != 0
@@ -1667,17 +1707,19 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 			if (n_by_set_pos != 0)
 				goto custom;
 
-			nth = rrule.by_month_day[0];
+			nth = i_cal_recurrence_get_by_month_day (rrule, 0);
 			if (nth < 1 && nth != -1)
 				goto custom;
 
 			if (nth == -1) {
-				struct icaltimetype dtstart;
+				ICalTime *dtstart;
 
-				dtstart = icalcomponent_get_dtstart (component);
+				dtstart = i_cal_component_get_dtstart (component);
 
-				page_recurrence->priv->month_index = dtstart.day;
+				page_recurrence->priv->month_index = dtstart ? i_cal_time_get_day (dtstart) : 0;
 				page_recurrence->priv->month_num = MONTH_NUM_LAST;
+
+				g_clear_object (&dtstart);
 			} else {
 				page_recurrence->priv->month_index = nth;
 				page_recurrence->priv->month_num = MONTH_NUM_DAY;
@@ -1685,7 +1727,7 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 			page_recurrence->priv->month_day = MONTH_DAY_NTH;
 
 		} else if (n_by_day == 1) {
-			enum icalrecurrencetype_weekday weekday;
+			ICalRecurrenceWeekday weekday;
 			gint pos;
 			enum month_day_options month_day;
 
@@ -1693,43 +1735,43 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 			 * accept BYDAY=2TU. So we now use the same as Outlook
 			 * by default. */
 
-			weekday = icalrecurrencetype_day_day_of_week (rrule.by_day[0]);
-			pos = icalrecurrencetype_day_position (rrule.by_day[0]);
+			weekday = i_cal_recurrence_day_day_of_week (i_cal_recurrence_get_by_day (rrule, 0));
+			pos = i_cal_recurrence_day_position (i_cal_recurrence_get_by_day (rrule, 0));
 
 			if (pos == 0) {
 				if (n_by_set_pos != 1)
 					goto custom;
-				pos = rrule.by_set_pos[0];
+				pos = i_cal_recurrence_get_by_set_pos (rrule, 0);
 			} else if (pos < 0) {
 				goto custom;
 			}
 
 			switch (weekday) {
-			case ICAL_MONDAY_WEEKDAY:
+			case I_CAL_MONDAY_WEEKDAY:
 				month_day = MONTH_DAY_MON;
 				break;
 
-			case ICAL_TUESDAY_WEEKDAY:
+			case I_CAL_TUESDAY_WEEKDAY:
 				month_day = MONTH_DAY_TUE;
 				break;
 
-			case ICAL_WEDNESDAY_WEEKDAY:
+			case I_CAL_WEDNESDAY_WEEKDAY:
 				month_day = MONTH_DAY_WED;
 				break;
 
-			case ICAL_THURSDAY_WEEKDAY:
+			case I_CAL_THURSDAY_WEEKDAY:
 				month_day = MONTH_DAY_THU;
 				break;
 
-			case ICAL_FRIDAY_WEEKDAY:
+			case I_CAL_FRIDAY_WEEKDAY:
 				month_day = MONTH_DAY_FRI;
 				break;
 
-			case ICAL_SATURDAY_WEEKDAY:
+			case I_CAL_SATURDAY_WEEKDAY:
 				month_day = MONTH_DAY_SAT;
 				break;
 
-			case ICAL_SUNDAY_WEEKDAY:
+			case I_CAL_SUNDAY_WEEKDAY:
 				month_day = MONTH_DAY_SUN;
 				break;
 
@@ -1748,7 +1790,7 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 		g_signal_handlers_block_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		e_dialog_combo_box_set (
 			page_recurrence->priv->recr_interval_unit_combo,
-			ICAL_MONTHLY_RECURRENCE,
+			I_CAL_MONTHLY_RECURRENCE,
 			freq_map);
 		g_signal_handlers_unblock_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		break;
@@ -1765,7 +1807,7 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 		g_signal_handlers_block_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		e_dialog_combo_box_set (
 			page_recurrence->priv->recr_interval_unit_combo,
-			ICAL_YEARLY_RECURRENCE,
+			I_CAL_YEARLY_RECURRENCE,
 			freq_map);
 		g_signal_handlers_unblock_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		break;
@@ -1784,10 +1826,12 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (page_recurrence->priv->recr_interval_value_spin));
 	g_signal_handlers_block_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_recurrence->priv->recr_interval_value_spin), rrule.interval);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_recurrence->priv->recr_interval_value_spin), i_cal_recurrence_get_interval (rrule));
 	g_signal_handlers_unblock_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 
-	ecep_recurrence_fill_ending_date (page_recurrence, &rrule, component);
+	ecep_recurrence_fill_ending_date (page_recurrence, rrule, component);
+
+	g_clear_object (&rrule);
 
 	return;
 
@@ -1797,22 +1841,24 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 	page_recurrence->priv->is_custom = TRUE;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_recurrence->priv->recr_check_box), TRUE);
 	g_signal_handlers_unblock_matched (page_recurrence->priv->recr_check_box, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
+
+	g_clear_object (&rrule);
 }
 
 static gboolean
 ecep_recurrence_fill_component (ECompEditorPage *page,
-				icalcomponent *component)
+				ICalComponent *component)
 {
 	ECompEditorPageRecurrence *page_recurrence;
 	ECompEditor *comp_editor;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	icalproperty *prop;
+	ICalProperty *prop;
 	gboolean recurs;
 	gboolean valid_iter;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	page_recurrence = E_COMP_EDITOR_PAGE_RECURRENCE (page);
 
@@ -1822,21 +1868,21 @@ ecep_recurrence_fill_component (ECompEditorPage *page,
 		/* We just keep whatever the component has currently */
 		return TRUE;
 	} else if (recurs) {
-		cal_comp_util_remove_all_properties (component, ICAL_RRULE_PROPERTY);
-		cal_comp_util_remove_all_properties (component, ICAL_RDATE_PROPERTY);
-		cal_comp_util_remove_all_properties (component, ICAL_EXRULE_PROPERTY);
-		cal_comp_util_remove_all_properties (component, ICAL_EXDATE_PROPERTY);
+		e_cal_util_component_remove_property_by_kind (component, I_CAL_RRULE_PROPERTY, TRUE);
+		e_cal_util_component_remove_property_by_kind (component, I_CAL_RDATE_PROPERTY, TRUE);
+		e_cal_util_component_remove_property_by_kind (component, I_CAL_EXRULE_PROPERTY, TRUE);
+		e_cal_util_component_remove_property_by_kind (component, I_CAL_EXDATE_PROPERTY, TRUE);
 		ecep_recurrence_simple_recur_to_comp (page_recurrence, component);
 	} else {
 		gboolean had_recurrences = e_cal_util_component_has_recurrences (component);
 
-		cal_comp_util_remove_all_properties (component, ICAL_RRULE_PROPERTY);
-		cal_comp_util_remove_all_properties (component, ICAL_RDATE_PROPERTY);
-		cal_comp_util_remove_all_properties (component, ICAL_EXRULE_PROPERTY);
-		cal_comp_util_remove_all_properties (component, ICAL_EXDATE_PROPERTY);
+		e_cal_util_component_remove_property_by_kind (component, I_CAL_RRULE_PROPERTY, TRUE);
+		e_cal_util_component_remove_property_by_kind (component, I_CAL_RDATE_PROPERTY, TRUE);
+		e_cal_util_component_remove_property_by_kind (component, I_CAL_EXRULE_PROPERTY, TRUE);
+		e_cal_util_component_remove_property_by_kind (component, I_CAL_EXDATE_PROPERTY, TRUE);
 
 		if (had_recurrences)
-			cal_comp_util_remove_all_properties (component, ICAL_RECURRENCEID_PROPERTY);
+			e_cal_util_component_remove_property_by_kind (component, I_CAL_RECURRENCEID_PROPERTY, TRUE);
 
 		return TRUE;
 	}
@@ -1849,12 +1895,12 @@ ecep_recurrence_fill_component (ECompEditorPage *page,
 
 	for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
 	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
-		const icaltimetype *dt;
+		ICalTime *dt;
 
 		dt = e_date_time_list_get_date_time (E_DATE_TIME_LIST (model), &iter);
 		g_return_val_if_fail (dt != NULL, FALSE);
 
-		if (!icaltime_is_valid_time (*dt)) {
+		if (!i_cal_time_is_valid_time (dt)) {
 			e_comp_editor_set_validation_error (comp_editor,
 				page, page_recurrence->priv->exceptions_tree_view,
 				_("Recurrence exception date is invalid"));
@@ -1862,22 +1908,22 @@ ecep_recurrence_fill_component (ECompEditorPage *page,
 			return FALSE;
 		}
 
-		prop = icalproperty_new_exdate (*dt);
-		cal_comp_util_update_tzid_parameter (prop, *dt);
+		prop = i_cal_property_new_exdate (dt);
+		cal_comp_util_update_tzid_parameter (prop, dt);
 
-		icalcomponent_add_property (component, prop);
+		i_cal_component_take_property (component, prop);
 	}
 
 	if (gtk_widget_get_visible (page_recurrence->priv->recr_ending_combo) &&
 	    gtk_widget_get_sensitive (page_recurrence->priv->recr_ending_combo) &&
 	    e_dialog_combo_box_get (page_recurrence->priv->recr_ending_combo, ending_types_map) == ENDING_UNTIL) {
 		/* check whether the "until" date is in the future */
-		struct icaltimetype tt = icaltime_null_time ();
+		gint year, month, day;
 		gboolean ok = TRUE;
 
-		if (e_date_edit_get_date (E_DATE_EDIT (page_recurrence->priv->ending_date_edit), &tt.year, &tt.month, &tt.day)) {
+		if (e_date_edit_get_date (E_DATE_EDIT (page_recurrence->priv->ending_date_edit), &year, &month, &day)) {
 			ECompEditorPropertyPart *dtstart_part = NULL;
-			struct icaltimetype dtstart = icaltime_null_time ();
+			ICalTime *dtstart = NULL;
 
 			e_comp_editor_get_time_parts (comp_editor, &dtstart_part, NULL);
 			if (dtstart_part) {
@@ -1885,21 +1931,29 @@ ecep_recurrence_fill_component (ECompEditorPage *page,
 					E_COMP_EDITOR_PROPERTY_PART_DATETIME (dtstart_part));
 			}
 
-			tt.is_date = 1;
-			tt.zone = NULL;
+			if (dtstart && i_cal_time_is_valid_time (dtstart)) {
+				ICalTime *tt;
 
-			if (icaltime_is_valid_time (dtstart)) {
-				ok = icaltime_compare_date_only (dtstart, tt) <= 0;
+				tt = i_cal_time_null_time ();
+				i_cal_time_set_timezone (tt, NULL);
+				i_cal_time_set_is_date (tt, TRUE);
+				i_cal_time_set_date (tt, year, month, day);
+
+				ok = i_cal_time_compare_date_only (dtstart, tt) <= 0;
 
 				if (!ok) {
 					e_date_edit_set_date (E_DATE_EDIT (page_recurrence->priv->ending_date_edit),
-						dtstart.year, dtstart.month, dtstart.day);
+						i_cal_time_get_year (dtstart), i_cal_time_get_month (dtstart), i_cal_time_get_day (dtstart));
 				} else {
 					/* to have the date shown in "normalized" format */
 					e_date_edit_set_date (E_DATE_EDIT (page_recurrence->priv->ending_date_edit),
-						tt.year, tt.month, tt.day);
+						i_cal_time_get_year (tt), i_cal_time_get_month (tt), i_cal_time_get_day (tt));
 				}
+
+				g_clear_object (&tt);
 			}
+
+			g_clear_object (&dtstart);
 		}
 
 		if (!ok) {
@@ -2307,6 +2361,7 @@ ecep_recurrence_dispose (GObject *object)
 	}
 
 	g_clear_object (&page_recurrence->priv->exceptions_store);
+	g_clear_object (&page_recurrence->priv->ending_date_tt);
 
 	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_recurrence));
 	if (comp_editor) {

@@ -246,7 +246,7 @@ free_alarm (ECalComponentAlarm *alarm)
 static ECalComponentAlarm *
 copy_alarm (const ECalComponentAlarm *alarm)
 {
-	return e_cal_component_alarm_clone ((ECalComponentAlarm *) alarm);
+	return e_cal_component_alarm_copy ((ECalComponentAlarm *) alarm);
 }
 
 void
@@ -355,64 +355,63 @@ e_alarm_list_get_path (GtkTreeModel *tree_model,
 
 /* Builds a string for the duration of the alarm.  If the duration is zero, returns NULL. */
 static gchar *
-get_alarm_duration_string (struct icaldurationtype *duration)
+get_alarm_duration_string (ICalDuration *duration)
 {
 	GString *string = g_string_new (NULL);
-	gchar *ret;
 	gboolean have_something;
+	guint value;
 
 	have_something = FALSE;
 
-	if (duration->days >= 1) {
+	value = i_cal_duration_get_days (duration);
+	if (value >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d days before start" */
-		g_string_printf (string, ngettext ("%d day", "%d days", duration->days), duration->days);
+		g_string_printf (string, ngettext ("%d day", "%d days", value), value);
 		have_something = TRUE;
 	}
 
-	if (duration->weeks >= 1) {
+	value = i_cal_duration_get_weeks (duration);
+	if (value >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d weeks before start" */
-		g_string_printf (string, ngettext ("%d week","%d weeks", duration->weeks), duration->weeks);
+		g_string_printf (string, ngettext ("%d week","%d weeks", value), value);
 		have_something = TRUE;
 	}
 
-	if (duration->hours >= 1) {
+	value = i_cal_duration_get_hours (duration);
+	if (value >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d hours before start" */
-		g_string_printf (string, ngettext ("%d hour", "%d hours", duration->hours), duration->hours);
+		g_string_printf (string, ngettext ("%d hour", "%d hours", value), value);
 		have_something = TRUE;
 	}
 
-	if (duration->minutes >= 1) {
+	value = i_cal_duration_get_minutes (duration);
+	if (value >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d minutes before start" */
-		g_string_printf (string, ngettext ("%d minute", "%d minutes", duration->minutes), duration->minutes);
+		g_string_printf (string, ngettext ("%d minute", "%d minutes", value), value);
 		have_something = TRUE;
 	}
 
-	if (duration->seconds >= 1) {
+	value = i_cal_duration_get_seconds (duration);
+	if (value >= 1) {
 		/* Translator: Entire string is like "Pop up an alert %d seconds before start" */
-		g_string_printf (string, ngettext ("%d second", "%d seconds", duration->seconds), duration->seconds);
+		g_string_printf (string, ngettext ("%d second", "%d seconds", value), value);
 		have_something = TRUE;
 	}
 
-	if (have_something) {
-		ret = string->str;
-		g_string_free (string, FALSE);
-		return ret;
-	} else {
-		g_string_free (string, TRUE);
-		return NULL;
-	}
+	return g_string_free (string, !have_something);
 }
 
 static gchar *
 get_alarm_string (ECalComponentAlarm *alarm)
 {
 	ECalComponentAlarmAction action;
-	ECalComponentAlarmTrigger trigger;
+	ECalComponentAlarmTrigger *trigger;
+	ICalDuration *duration;
 	const gchar *base;
 	gchar *str = NULL, *dur;
 
-	e_cal_component_alarm_get_action (alarm, &action);
-	e_cal_component_alarm_get_trigger (alarm, &trigger);
+	action = e_cal_component_alarm_get_action (alarm);
+	trigger = e_cal_component_alarm_get_trigger (alarm);
 
 	switch (action) {
 	case E_CAL_COMPONENT_ALARM_AUDIO:
@@ -440,12 +439,13 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 	/* FIXME: This does not look like it will localize correctly. */
 
-	switch (trigger.type) {
+	switch (trigger ? e_cal_component_alarm_trigger_get_kind (trigger) : E_CAL_COMPONENT_ALARM_TRIGGER_NONE) {
 	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START:
-		dur = get_alarm_duration_string (&trigger.u.rel_duration);
+		duration = e_cal_component_alarm_trigger_get_duration (trigger);
+		dur = get_alarm_duration_string (duration);
 
 		if (dur) {
-			if (trigger.u.rel_duration.is_neg)
+			if (i_cal_duration_is_neg (duration))
 				str = g_strdup_printf (
 					/*Translator: The first %s refers to the base, which would be actions like
 					 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
@@ -467,10 +467,11 @@ get_alarm_string (ECalComponentAlarm *alarm)
 		break;
 
 	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END:
-		dur = get_alarm_duration_string (&trigger.u.rel_duration);
+		duration = e_cal_component_alarm_trigger_get_duration (trigger);
+		dur = get_alarm_duration_string (duration);
 
 		if (dur) {
-			if (trigger.u.rel_duration.is_neg)
+			if (i_cal_duration_is_neg (duration))
 				str = g_strdup_printf (
 					/* Translator: The first %s refers to the base, which would be actions like
 					 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes" */
@@ -492,19 +493,19 @@ get_alarm_string (ECalComponentAlarm *alarm)
 		break;
 
 	case E_CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE: {
-		struct icaltimetype itt;
-		icaltimezone *utc_zone, *current_zone;
+		ICalTime *itt;
+		ICalTimezone *utc_zone, *current_zone;
 		struct tm tm;
 		gchar buf[256];
 
 		/* Absolute triggers come in UTC, so convert them to the local timezone */
 
-		itt = trigger.u.abs_time;
+		itt = e_cal_component_alarm_trigger_get_absolute_time (trigger);
 
-		utc_zone = icaltimezone_get_utc_timezone ();
+		utc_zone = i_cal_timezone_get_utc_timezone ();
 		current_zone = calendar_config_get_icaltimezone ();
 
-		tm = icaltimetype_to_tm_with_zone (&itt, utc_zone, current_zone);
+		tm = e_cal_util_icaltime_to_tm_with_zone (itt, utc_zone, current_zone);
 
 		e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
 					     FALSE, FALSE, buf, sizeof (buf));

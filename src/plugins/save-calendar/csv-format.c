@@ -90,10 +90,10 @@ add_list_to_csv (GString *line,
 				needquotes = TRUE;
 			switch (type) {
 			case ECALCOMPONENTATTENDEE:
-				str = ((ECalComponentAttendee *) list->data)->value;
+				str = itip_strip_mailto (e_cal_component_attendee_get_value (((ECalComponentAttendee *) list->data)));
 				break;
 			case ECALCOMPONENTTEXT:
-				str = ((ECalComponentText *) list->data)->value;
+				str = e_cal_component_text_get_value (((ECalComponentText *) list->data));
 				break;
 			case CONSTCHAR:
 			default:
@@ -123,7 +123,7 @@ add_list_to_csv (GString *line,
 
 static GString *
 add_nummeric_to_csv (GString *line,
-                     gint *nummeric,
+                     gint nummeric,
                      CsvConfig *config)
 {
 
@@ -132,24 +132,21 @@ add_nummeric_to_csv (GString *line,
 	 * it prepends a 0 if it's < 10 and > -1
 	 */
 
-	if (nummeric)
-		g_string_append_printf (
-			line, "%s%d",
-			(*nummeric < 10 && *nummeric > -1) ? "0" : "",
-			*nummeric);
+	if (nummeric >= 0)
+		g_string_append_printf (line, "%02d", nummeric);
 
 	return g_string_append (line, config->delimiter);
 }
 
 static GString *
 add_time_to_csv (GString *line,
-                 icaltimetype *time,
+                 ICalTime *time,
                  CsvConfig *config)
 {
 
 	if (time) {
 		gboolean needquotes = FALSE;
-		struct tm mytm = icaltimetype_to_tm (time);
+		struct tm mytm = e_cal_util_icaltime_to_tm (time);
 		gchar *str = (gchar *) g_malloc (sizeof (gchar) * 200);
 
 		/* Translators: the %F %T is the third argument for a
@@ -407,121 +404,108 @@ do_save_calendar_csv (FormatHandler *handler,
 			ECalComponent *comp = iter->data;
 			gchar *delimiter_temp = NULL;
 			const gchar *temp_constchar;
+			gchar *temp_char;
 			GSList *temp_list;
-			ECalComponentDateTime temp_dt;
-			struct icaltimetype *temp_time;
-			gint *temp_int;
-			ECalComponentText temp_comptext;
+			ECalComponentDateTime* temp_dt;
+			ICalTime *temp_time;
+			gint temp_int;
+			ECalComponentText* temp_comptext;
 
 			line = g_string_new ("");
 
 			/* Getting the stuff */
-			e_cal_component_get_uid (comp, &temp_constchar);
+			temp_constchar = e_cal_component_get_uid (comp);
 			line = add_string_to_csv (line, temp_constchar, config);
 
-			e_cal_component_get_summary (comp, &temp_comptext);
+			temp_comptext = e_cal_component_get_summary (comp);
 			line = add_string_to_csv (
-				line, temp_comptext.value, config);
+				line, temp_comptext ? e_cal_component_text_get_value (temp_comptext) : NULL, config);
+			e_cal_component_text_free (temp_comptext);
 
-			e_cal_component_get_description_list (comp, &temp_list);
+			temp_list = e_cal_component_get_descriptions (comp);
 			line = add_list_to_csv (
 				line, temp_list, config, ECALCOMPONENTTEXT);
-			if (temp_list)
-				e_cal_component_free_text_list (temp_list);
+			g_slist_free_full (temp_list, e_cal_component_text_free);
 
-			e_cal_component_get_categories_list (comp, &temp_list);
+			temp_list = e_cal_component_get_categories_list (comp);
 			line = add_list_to_csv (
 				line, temp_list, config, CONSTCHAR);
-			if (temp_list)
-				e_cal_component_free_categories_list (temp_list);
+			g_slist_free_full (temp_list, g_free);
 
-			e_cal_component_get_comment_list (comp, &temp_list);
+			temp_list = e_cal_component_get_comments (comp);
 			line = add_list_to_csv (
 				line, temp_list, config, ECALCOMPONENTTEXT);
-			if (temp_list)
-				e_cal_component_free_text_list (temp_list);
+			g_slist_free_full (temp_list, e_cal_component_text_free);
 
-			e_cal_component_get_completed (comp, &temp_time);
+			temp_time = e_cal_component_get_completed (comp);
 			line = add_time_to_csv (line, temp_time, config);
-			if (temp_time)
-				e_cal_component_free_icaltimetype (temp_time);
+			g_clear_object (&temp_time);
 
-			e_cal_component_get_created (comp, &temp_time);
+			temp_time = e_cal_component_get_created (comp);
 			line = add_time_to_csv (line, temp_time, config);
-			if (temp_time)
-				e_cal_component_free_icaltimetype (temp_time);
+			g_clear_object (&temp_time);
 
-			e_cal_component_get_contact_list (comp, &temp_list);
+			temp_list = e_cal_component_get_contacts (comp);
 			line = add_list_to_csv (
 				line, temp_list, config, ECALCOMPONENTTEXT);
-			if (temp_list)
-				e_cal_component_free_text_list (temp_list);
+			g_slist_free_full (temp_list, e_cal_component_text_free);
 
-			e_cal_component_get_dtstart (comp, &temp_dt);
+			temp_dt = e_cal_component_get_dtstart (comp);
 			line = add_time_to_csv (
-				line, temp_dt.value ?
-				temp_dt.value : NULL, config);
-			e_cal_component_free_datetime (&temp_dt);
+				line, temp_dt && e_cal_component_datetime_get_value (temp_dt) ?
+				e_cal_component_datetime_get_value (temp_dt) : NULL, config);
+			e_cal_component_datetime_free (temp_dt);
 
-			e_cal_component_get_dtend (comp, &temp_dt);
+			temp_dt = e_cal_component_get_dtend (comp);
 			line = add_time_to_csv (
-				line, temp_dt.value ?
-				temp_dt.value : NULL, config);
-			e_cal_component_free_datetime (&temp_dt);
+				line, temp_dt && e_cal_component_datetime_get_value (temp_dt) ?
+				e_cal_component_datetime_get_value (temp_dt) : NULL, config);
+			e_cal_component_datetime_free (temp_dt);
 
-			e_cal_component_get_due (comp, &temp_dt);
+			temp_dt = e_cal_component_get_due (comp);
 			line = add_time_to_csv (
-				line, temp_dt.value ?
-				temp_dt.value : NULL, config);
-			e_cal_component_free_datetime (&temp_dt);
+				line, temp_dt && e_cal_component_datetime_get_value (temp_dt) ?
+				e_cal_component_datetime_get_value (temp_dt) : NULL, config);
+			e_cal_component_datetime_free (temp_dt);
 
-			e_cal_component_get_percent (comp, &temp_int);
+			temp_int = e_cal_component_get_percent_complete (comp);
 			line = add_nummeric_to_csv (line, temp_int, config);
 
-			e_cal_component_get_priority (comp, &temp_int);
+			temp_int = e_cal_component_get_priority (comp);
 			line = add_nummeric_to_csv (line, temp_int, config);
 
-			e_cal_component_get_url (comp, &temp_constchar);
-			line = add_string_to_csv (line, temp_constchar, config);
+			temp_char = e_cal_component_get_url (comp);
+			line = add_string_to_csv (line, temp_char, config);
+			g_free (temp_char);
 
 			if (e_cal_component_has_attendees (comp)) {
-				e_cal_component_get_attendee_list (comp, &temp_list);
+				temp_list = e_cal_component_get_attendees (comp);
 				line = add_list_to_csv (
 					line, temp_list, config,
 					ECALCOMPONENTATTENDEE);
-				if (temp_list)
-					e_cal_component_free_attendee_list (temp_list);
+				g_slist_free_full (temp_list, e_cal_component_attendee_free);
 			} else {
 				line = add_list_to_csv (
 					line, NULL, config,
 					ECALCOMPONENTATTENDEE);
 			}
 
-			e_cal_component_get_location (comp, &temp_constchar);
-			line = add_string_to_csv (line, temp_constchar, config);
+			temp_char = e_cal_component_get_location (comp);
+			line = add_string_to_csv (line, temp_char, config);
+			g_free (temp_char);
 
-			e_cal_component_get_last_modified (comp, &temp_time);
+			temp_time = e_cal_component_get_last_modified (comp);
 
 			/* Append a newline (record delimiter) */
 			delimiter_temp = config->delimiter;
 			config->delimiter = config->newline;
 
 			line = add_time_to_csv (line, temp_time, config);
+			g_clear_object (&temp_time);
 
 			/* And restore for the next record */
 			config->delimiter = delimiter_temp;
 
-			/* Important note!
-			 * The documentation is not requiring this!
-			 *
-			 * if (temp_time)
-			 *     e_cal_component_free_icaltimetype (temp_time);
-			 *
-			 * Please uncomment and fix documentation if untrue
-			 * http://www.gnome.org/projects/evolution/
-			 *	developer-doc/libecal/ECalComponent.html
-			 *	#e-cal-component-get-last-modified
-			 */
 			g_output_stream_write_all (
 				stream, line->str, line->len,
 				NULL, NULL, &error);
@@ -532,7 +516,7 @@ do_save_calendar_csv (FormatHandler *handler,
 
 		g_output_stream_close (stream, NULL, NULL);
 
-		e_cal_client_free_ecalcomp_slist (objects);
+		e_util_free_nullable_object_slist (objects);
 	}
 
 	if (stream)

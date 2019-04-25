@@ -165,9 +165,9 @@ struct _ECompEditorPropertyPartClass {
 						 GtkWidget **out_label_widget,
 						 GtkWidget **out_edit_widget);
 	void		(* fill_widget)		(ECompEditorPropertyPart *property_part,
-						 icalcomponent *component);
+						 ICalComponent *component);
 	void		(* fill_component)	(ECompEditorPropertyPart *property_part,
-						 icalcomponent *component);
+						 ICalComponent *component);
 
 	/* Signals */
 	void		(* changed)		(ECompEditorPropertyPart *property_part);
@@ -188,9 +188,9 @@ void		e_comp_editor_property_part_create_widgets	(ECompEditorPropertyPart *prope
 GtkWidget *	e_comp_editor_property_part_get_label_widget	(ECompEditorPropertyPart *property_part);
 GtkWidget *	e_comp_editor_property_part_get_edit_widget	(ECompEditorPropertyPart *property_part);
 void		e_comp_editor_property_part_fill_widget		(ECompEditorPropertyPart *property_part,
-								 icalcomponent *component);
+								 ICalComponent *component);
 void		e_comp_editor_property_part_fill_component	(ECompEditorPropertyPart *property_part,
-								 icalcomponent *component);
+								 ICalComponent *component);
 void		e_comp_editor_property_part_emit_changed	(ECompEditorPropertyPart *property_part);
 
 /* ************************************************************************* */
@@ -212,12 +212,12 @@ struct _ECompEditorPropertyPartStringClass {
 	   the default is the GtkEntry */
 	GType entry_type;
 
-	/* ical property kind and its manipulation functions */
-	icalproperty_kind ical_prop_kind;
-	icalproperty *	(* ical_new_func)	(const gchar *value);
-	void		(* ical_set_func)	(icalproperty *prop,
+	/* ICal property kind and its manipulation functions */
+	ICalPropertyKind prop_kind;
+	ICalProperty *	(* i_cal_new_func)	(const gchar *value);
+	void		(* i_cal_set_func)	(ICalProperty *prop,
 						 const gchar *value);
-	const gchar *	(* ical_get_func)	(const icalproperty *prop);
+	const gchar *	(* i_cal_get_func)	(ICalProperty *prop);
 };
 
 GType		e_comp_editor_property_part_string_get_type	(void) G_GNUC_CONST;
@@ -245,13 +245,12 @@ struct _ECompEditorPropertyPartDatetime {
 struct _ECompEditorPropertyPartDatetimeClass {
 	ECompEditorPropertyPartClass parent_class;
 
-	/* ical property kind and its manipulation functions */
-	icalproperty_kind ical_prop_kind;
-	icalproperty *	(* ical_new_func)	(struct icaltimetype value);
-	void		(* ical_set_func)	(icalproperty *prop,
-						 struct icaltimetype value);
-	struct icaltimetype
-			(* ical_get_func)	(const icalproperty *prop);
+	/* ICal property kind and its manipulation functions */
+	ICalPropertyKind prop_kind;
+	ICalProperty *	(* i_cal_new_func)	(ICalTime *value);
+	void		(* i_cal_set_func)	(ICalProperty *prop,
+						 ICalTime *value);
+	ICalTime *	(* i_cal_get_func)	(ICalProperty *prop);
 };
 
 GType		e_comp_editor_property_part_datetime_get_type	(void) G_GNUC_CONST;
@@ -269,9 +268,8 @@ void		e_comp_editor_property_part_datetime_set_allow_no_date_set
 gboolean	e_comp_editor_property_part_datetime_get_allow_no_date_set
 								(ECompEditorPropertyPartDatetime *part_datetime);
 void		e_comp_editor_property_part_datetime_set_value	(ECompEditorPropertyPartDatetime *part_datetime,
-								 struct icaltimetype value);
-struct icaltimetype
-		e_comp_editor_property_part_datetime_get_value	(ECompEditorPropertyPartDatetime *part_datetime);
+								 const ICalTime *value);
+ICalTime *	e_comp_editor_property_part_datetime_get_value	(ECompEditorPropertyPartDatetime *part_datetime);
 gboolean	e_comp_editor_property_part_datetime_check_validity
 								(ECompEditorPropertyPartDatetime *part_datetime,
 								 gboolean *out_date_is_valid,
@@ -292,12 +290,12 @@ struct _ECompEditorPropertyPartSpin {
 struct _ECompEditorPropertyPartSpinClass {
 	ECompEditorPropertyPartClass parent_class;
 
-	/* ical property kind and its manipulation functions */
-	icalproperty_kind ical_prop_kind;
-	icalproperty *	(* ical_new_func)	(gint value);
-	void		(* ical_set_func)	(icalproperty *prop,
+	/* ICal property kind and its manipulation functions */
+	ICalPropertyKind prop_kind;
+	ICalProperty *	(* i_cal_new_func)	(gint value);
+	void		(* i_cal_set_func)	(ICalProperty *prop,
 						 gint value);
-	gint		(* ical_get_func)	(const icalproperty *prop);
+	gint		(* i_cal_get_func)	(ICalProperty *prop);
 };
 
 GType		e_comp_editor_property_part_spin_get_type	(void) G_GNUC_CONST;
@@ -327,11 +325,11 @@ struct _ECompEditorPropertyPartPickerClass {
 						 GSList **out_ids,
 						 GSList **out_display_names);
 	gboolean	(* get_from_component)	(ECompEditorPropertyPartPicker *part_picker,
-						 icalcomponent *component,
+						 ICalComponent *component,
 						 gchar **out_id);
 	void		(* set_to_component)	(ECompEditorPropertyPartPicker *part_picker,
 						 const gchar *id,
-						 icalcomponent *component);
+						 ICalComponent *component);
 };
 
 GType		e_comp_editor_property_part_picker_get_type	(void) G_GNUC_CONST;
@@ -340,12 +338,12 @@ void		e_comp_editor_property_part_picker_get_values	(ECompEditorPropertyPartPick
 								 GSList **out_display_names);
 gboolean	e_comp_editor_property_part_picker_get_from_component
 								(ECompEditorPropertyPartPicker *part_picker,
-								 icalcomponent *component,
+								 ICalComponent *component,
 								 gchar **out_id);
 void		e_comp_editor_property_part_picker_set_to_component
 								(ECompEditorPropertyPartPicker *part_picker,
 								 const gchar *id,
-								 icalcomponent *component);
+								 ICalComponent *component);
 const gchar *	e_comp_editor_property_part_picker_get_selected_id
 								(ECompEditorPropertyPartPicker *part_picker);
 void		e_comp_editor_property_part_picker_set_selected_id
@@ -359,16 +357,16 @@ typedef struct _ECompEditorPropertyPartPickerWithMapClass ECompEditorPropertyPar
 typedef struct _ECompEditorPropertyPartPickerWithMapPrivate ECompEditorPropertyPartPickerWithMapPrivate;
 
 typedef struct _ECompEditorPropertyPartPickerMap {
-	gint value; 		  /* libical enum value */
+	gint value; 		  /* ICal enum value */
 	const gchar *description; /* user visible description of the value */
 	gboolean delete_prop;	  /* whether to delete property from the component when this one is selected */
 	gboolean (*matches_func) (gint map_value, gint component_value); /* can be NULL, then 'equal' compare is done */
 } ECompEditorPropertyPartPickerMap;
 
-typedef icalproperty *	(* ECompEditorPropertyPartPickerMapICalNewFunc)	(gint value);
-typedef void		(* ECompEditorPropertyPartPickerMapICalSetFunc)	(icalproperty *prop,
+typedef ICalProperty *	(* ECompEditorPropertyPartPickerMapICalNewFunc)	(gint value);
+typedef void		(* ECompEditorPropertyPartPickerMapICalSetFunc)	(ICalProperty *prop,
 									 gint value);
-typedef gint		(* ECompEditorPropertyPartPickerMapICalGetFunc)	(const icalproperty *prop);
+typedef gint		(* ECompEditorPropertyPartPickerMapICalGetFunc)	(ICalProperty *prop);
 
 struct _ECompEditorPropertyPartPickerWithMap {
 	ECompEditorPropertyPartPicker parent;
@@ -386,10 +384,10 @@ ECompEditorPropertyPart *
 		e_comp_editor_property_part_picker_with_map_new	(const ECompEditorPropertyPartPickerMap map[],
 								 gint n_map_elements,
 								 const gchar *label,
-								 icalproperty_kind ical_prop_kind,
-								 ECompEditorPropertyPartPickerMapICalNewFunc ical_new_func,
-								 ECompEditorPropertyPartPickerMapICalSetFunc ical_set_func,
-								 ECompEditorPropertyPartPickerMapICalGetFunc ical_get_func);
+								 ICalPropertyKind prop_kind,
+								 ECompEditorPropertyPartPickerMapICalNewFunc i_cal_new_func,
+								 ECompEditorPropertyPartPickerMapICalSetFunc i_cal_set_func,
+								 ECompEditorPropertyPartPickerMapICalGetFunc i_cal_get_func);
 gint		e_comp_editor_property_part_picker_with_map_get_selected
 								(ECompEditorPropertyPartPickerWithMap *part_picker_with_map);
 void		e_comp_editor_property_part_picker_with_map_set_selected

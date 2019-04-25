@@ -39,6 +39,7 @@
 #include "e-cal-ops.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
+#include "itip-utils.h"
 #include "print.h"
 #include "misc.h"
 
@@ -49,6 +50,9 @@
 struct _EMemoTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
+
+	/* Fields used for cut/copy/paste */
+	ICalComponent *tmp_vcal;
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
@@ -115,24 +119,20 @@ memo_table_get_current_time (ECellDateEdit *ecde,
 {
 	EMemoTable *memo_table = user_data;
 	ECalModel *model;
-	icaltimezone *zone;
-	struct tm tmp_tm = { 0 };
-	struct icaltimetype tt;
+	ICalTimezone *zone;
+	ICalTime *tt;
+	struct tm tmp_tm;
 
 	/* Get the current timezone. */
 	model = e_memo_table_get_model (memo_table);
 	zone = e_cal_model_get_timezone (model);
 
-	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+	tt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, zone);
 
 	/* Now copy it to the struct tm and return it. */
-	tmp_tm.tm_year = tt.year - 1900;
-	tmp_tm.tm_mon = tt.month - 1;
-	tmp_tm.tm_mday = tt.day;
-	tmp_tm.tm_hour = tt.hour;
-	tmp_tm.tm_min = tt.minute;
-	tmp_tm.tm_sec = tt.second;
-	tmp_tm.tm_isdst = -1;
+	tmp_tm = e_cal_util_icaltime_to_tm (tt);
+
+	g_clear_object (&tt);
 
 	return tmp_tm;
 }
@@ -323,7 +323,6 @@ memo_table_constructed (GObject *object)
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	g_object_unref (popup_cell);
-	memo_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
 	e_cell_date_edit_set_get_time_callback (
 		E_CELL_DATE_EDIT (popup_cell),
@@ -401,15 +400,12 @@ memo_table_query_tooltip (GtkWidget *widget,
 	gint row = -1, col = -1, row_y = -1, row_height = -1;
 	GtkWidget *box, *l, *w;
 	GdkRGBA sel_bg, sel_fg, norm_bg, norm_text;
-	gchar *tmp;
-	const gchar *str;
+	gchar *tmp, *summary;
 	GString *tmp2;
-	gboolean free_text = FALSE;
 	ECalComponent *new_comp;
-	ECalComponentOrganizer organizer;
-	ECalComponentDateTime dtstart, dtdue;
-	icalcomponent *clone;
-	icaltimezone *zone, *default_zone;
+	ECalComponentOrganizer *organizer;
+	ECalComponentDateTime *dtstart, *dtdue;
+	ICalTimezone *zone, *default_zone;
 	GSList *desc, *p;
 	gint len;
 	ESelectionModel *esm;
@@ -438,12 +434,9 @@ memo_table_query_tooltip (GtkWidget *widget,
 	if (!comp_data || !comp_data->icalcomp)
 		return FALSE;
 
-	new_comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	if (!e_cal_component_set_icalcomponent (new_comp, clone)) {
-		g_object_unref (new_comp);
+	new_comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	if (!new_comp)
 		return FALSE;
-	}
 
 	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &sel_bg);
 	e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &sel_fg);
@@ -452,17 +445,14 @@ memo_table_query_tooltip (GtkWidget *widget,
 
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
-	str = e_calendar_view_get_icalcomponent_summary (
-		comp_data->client, comp_data->icalcomp, &free_text);
-	if (!(str && *str)) {
-		if (free_text)
-			g_free ((gchar *) str);
-		free_text = FALSE;
-		str = _("* No Summary *");
+	summary = e_calendar_view_dup_component_summary (comp_data->icalcomp);
+	if (!(summary && *summary)) {
+		g_free (summary);
+		summary = g_strdup (_("* No Summary *"));
 	}
 
 	l = gtk_label_new (NULL);
-	tmp = g_markup_printf_escaped ("<b>%s</b>", str);
+	tmp = g_markup_printf_escaped ("<b>%s</b>", summary);
 	gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
 	gtk_label_set_markup (GTK_LABEL (l), tmp);
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
@@ -474,9 +464,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 	g_free (tmp);
 
-	if (free_text)
-		g_free ((gchar *) str);
-	free_text = FALSE;
+	g_free (summary);
 
 	w = gtk_event_box_new ();
 	gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, &norm_bg);
@@ -486,22 +474,22 @@ memo_table_query_tooltip (GtkWidget *widget,
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 	w = l;
 
-	e_cal_component_get_organizer (new_comp, &organizer);
-	if (organizer.cn) {
-		gchar *ptr;
-		ptr = strchr (organizer.value, ':');
+	organizer = e_cal_component_get_organizer (new_comp);
+	if (organizer && e_cal_component_organizer_get_cn (organizer)) {
+		const gchar *email;
 
-		if (ptr) {
-			ptr++;
+		email = itip_strip_mailto (e_cal_component_organizer_get_value (organizer));
+
+		if (email) {
 			tmp = g_strdup_printf (
 				/* Translators: It will display
 				 * "Organizer: NameOfTheUser <email@ofuser.com>" */
-				_("Organizer: %s <%s>"), organizer.cn, ptr);
+				_("Organizer: %s <%s>"), e_cal_component_organizer_get_cn (organizer), email);
 		} else {
 			/* With SunOne accounts, there may be no ':' in
 			 * organizer.value */
 			tmp = g_strdup_printf (
-				_("Organizer: %s"), organizer.cn);
+				_("Organizer: %s"), e_cal_component_organizer_get_cn (organizer));
 		}
 
 		l = gtk_label_new (tmp);
@@ -513,18 +501,20 @@ memo_table_query_tooltip (GtkWidget *widget,
 		gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &norm_text);
 	}
 
-	e_cal_component_get_dtstart (new_comp, &dtstart);
-	e_cal_component_get_due (new_comp, &dtdue);
+	e_cal_component_organizer_free (organizer);
+
+	dtstart = e_cal_component_get_dtstart (new_comp);
+	dtdue = e_cal_component_get_due (new_comp);
 
 	default_zone = e_cal_model_get_timezone (model);
 
-	if (dtstart.tzid) {
-		zone = icalcomponent_get_timezone (
+	if (dtstart && e_cal_component_datetime_get_tzid (dtstart)) {
+		zone = i_cal_component_get_timezone (
 			e_cal_component_get_icalcomponent (new_comp),
-			dtstart.tzid);
+			e_cal_component_datetime_get_tzid (dtstart));
 		if (!zone)
 			e_cal_client_get_timezone_sync (
-				comp_data->client, dtstart.tzid, &zone, NULL, NULL);
+				comp_data->client, e_cal_component_datetime_get_tzid (dtstart), &zone, NULL, NULL);
 		if (!zone)
 			zone = default_zone;
 	} else {
@@ -533,12 +523,12 @@ memo_table_query_tooltip (GtkWidget *widget,
 
 	tmp2 = g_string_new ("");
 
-	if (dtstart.value) {
+	if (dtstart && e_cal_component_datetime_get_value (dtstart)) {
 		gchar *str;
 
-		tmp_tm = icaltimetype_to_tm_with_zone (dtstart.value, zone, default_zone);
+		tmp_tm = e_cal_util_icaltime_to_tm_with_zone (e_cal_component_datetime_get_value (dtstart), zone, default_zone);
 		str = e_datetime_format_format_tm ("calendar", "table",
-			dtstart.value->is_date ? DTFormatKindDate : DTFormatKindDateTime,
+			i_cal_time_is_date (e_cal_component_datetime_get_value (dtstart)) ? DTFormatKindDate : DTFormatKindDateTime,
 			&tmp_tm);
 
 		if (str && *str) {
@@ -550,12 +540,12 @@ memo_table_query_tooltip (GtkWidget *widget,
 		g_free (str);
 	}
 
-	if (dtdue.value) {
+	if (dtdue && e_cal_component_datetime_get_value (dtdue)) {
 		gchar *str;
 
-		tmp_tm = icaltimetype_to_tm_with_zone (dtdue.value, zone, default_zone);
+		tmp_tm = e_cal_util_icaltime_to_tm_with_zone (e_cal_component_datetime_get_value (dtdue), zone, default_zone);
 		str = e_datetime_format_format_tm ("calendar", "table",
-			dtdue.value->is_date ? DTFormatKindDate : DTFormatKindDateTime,
+			i_cal_time_is_date (e_cal_component_datetime_get_value (dtdue)) ? DTFormatKindDate : DTFormatKindDateTime,
 			&tmp_tm);
 
 		if (str && *str) {
@@ -580,25 +570,26 @@ memo_table_query_tooltip (GtkWidget *widget,
 
 	g_string_free (tmp2, TRUE);
 
-	e_cal_component_free_datetime (&dtstart);
-	e_cal_component_free_datetime (&dtdue);
+	e_cal_component_datetime_free (dtstart);
+	e_cal_component_datetime_free (dtdue);
 
 	tmp2 = g_string_new ("");
-	e_cal_component_get_description_list (new_comp, &desc);
+	desc = e_cal_component_get_descriptions (new_comp);
 	for (len = 0, p = desc; p != NULL; p = p->next) {
 		ECalComponentText *text = p->data;
 
-		if (text->value != NULL) {
-			len += strlen (text->value);
-			g_string_append (tmp2, text->value);
+		if (text && e_cal_component_text_get_value (text)) {
+			const gchar *value = e_cal_component_text_get_value (text);
+			len += strlen (value);
+			g_string_append (tmp2, value);
 			if (len > 1024) {
 				g_string_set_size (tmp2, 1020);
-				g_string_append (tmp2, "...");
+				g_string_append (tmp2, "…");
 				break;
 			}
 		}
 	}
-	e_cal_component_free_text_list (desc);
+	g_slist_free_full (desc, e_cal_component_text_free);
 
 	if (tmp2->len) {
 		l = gtk_label_new (tmp2->str);
@@ -820,12 +811,11 @@ copy_row_cb (gint model_row,
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
 	ECalModel *model;
-	gchar *comp_str;
-	icalcomponent *child;
+	ICalComponent *child;
 
 	memo_table = E_MEMO_TABLE (data);
 
-	g_return_if_fail (memo_table->tmp_vcal != NULL);
+	g_return_if_fail (memo_table->priv->tmp_vcal != NULL);
 
 	model = e_memo_table_get_model (memo_table);
 	comp_data = e_cal_model_get_component_at (model, model_row);
@@ -834,18 +824,12 @@ copy_row_cb (gint model_row,
 
 	/* Add timezones to the VCALENDAR component. */
 	e_cal_util_add_timezones_from_component (
-		memo_table->tmp_vcal, comp_data->icalcomp);
+		memo_table->priv->tmp_vcal, comp_data->icalcomp);
 
 	/* Add the new component to the VCALENDAR component. */
-	comp_str = icalcomponent_as_ical_string_r (comp_data->icalcomp);
-	child = icalparser_parse_string (comp_str);
-	if (child) {
-		icalcomponent_add_component (
-			memo_table->tmp_vcal,
-			icalcomponent_new_clone (child));
-		icalcomponent_free (child);
-	}
-	g_free (comp_str);
+	child = i_cal_component_new_clone (comp_data->icalcomp);
+	if (child)
+		i_cal_component_take_component (memo_table->priv->tmp_vcal, child);
 }
 
 static void
@@ -858,11 +842,11 @@ memo_table_copy_clipboard (ESelectable *selectable)
 	memo_table = E_MEMO_TABLE (selectable);
 
 	/* Create a temporary VCALENDAR object. */
-	memo_table->tmp_vcal = e_cal_util_new_top_level ();
+	memo_table->priv->tmp_vcal = e_cal_util_new_top_level ();
 
 	e_table_selected_row_foreach (
 		E_TABLE (memo_table), copy_row_cb, memo_table);
-	comp_str = icalcomponent_as_ical_string_r (memo_table->tmp_vcal);
+	comp_str = i_cal_component_as_ical_string_r (memo_table->priv->tmp_vcal);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	e_clipboard_set_calendar (clipboard, comp_str, -1);
@@ -870,8 +854,7 @@ memo_table_copy_clipboard (ESelectable *selectable)
 
 	g_free (comp_str);
 
-	icalcomponent_free (memo_table->tmp_vcal);
-	memo_table->tmp_vcal = NULL;
+	g_clear_object (&memo_table->priv->tmp_vcal);
 }
 
 static void
@@ -978,9 +961,8 @@ memo_table_delete_selection (ESelectable *selectable)
 	/* FIXME: this may be something other than a TODO component */
 
 	if (comp_data) {
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (
-			comp, icalcomponent_new_clone (comp_data->icalcomp));
+		comp = e_cal_component_new_from_icalcomponent (
+			i_cal_component_new_clone (comp_data->icalcomp));
 	}
 
 	if (e_cal_model_get_confirm_delete (model))
@@ -992,9 +974,7 @@ memo_table_delete_selection (ESelectable *selectable)
 	if (delete)
 		delete_selected_components (memo_table);
 
-	/* free memory */
-	if (comp)
-		g_object_unref (comp);
+	g_clear_object (&comp);
 }
 
 static void

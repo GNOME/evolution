@@ -47,22 +47,22 @@ typedef struct {
 } CompTzData;
 
 static void
-insert_tz_comps (icalparameter *param,
+insert_tz_comps (ICalParameter *param,
                  gpointer cb_data)
 {
 	const gchar *tzid;
 	CompTzData *tdata = cb_data;
-	icaltimezone *zone = NULL;
-	icalcomponent *tzcomp;
+	ICalTimezone *zone = NULL;
+	ICalComponent *tzcomp;
 	GError *error = NULL;
 
-	tzid = icalparameter_get_tzid (param);
+	tzid = i_cal_parameter_get_tzid (param);
 
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
 
-	e_cal_client_get_timezone_sync (
-		tdata->client, tzid, &zone, NULL, &error);
+	if (!e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error))
+		zone = NULL;
 
 	if (error != NULL) {
 		g_warning (
@@ -72,16 +72,16 @@ insert_tz_comps (icalparameter *param,
 		return;
 	}
 
-	tzcomp = icalcomponent_new_clone (icaltimezone_get_component (zone));
+	tzcomp = i_cal_component_new_clone (i_cal_timezone_get_component (zone));
 	g_hash_table_insert (tdata->zones, (gpointer) tzid, (gpointer) tzcomp);
 }
 
 static void
 append_tz_to_comp (gpointer key,
-                   gpointer value,
-                   icalcomponent *toplevel)
+		   gpointer value,
+		   ICalComponent *toplevel)
 {
-	icalcomponent_add_component (toplevel, (icalcomponent *) value);
+	i_cal_component_add_component (toplevel, (ICalComponent *) value);
 }
 
 static void
@@ -94,7 +94,7 @@ do_save_calendar_ical (FormatHandler *handler,
 	EClient *source_client;
 	GError *error = NULL;
 	GSList *objects = NULL;
-	icalcomponent *top_level = NULL;
+	ICalComponent *top_level = NULL;
 
 	if (!dest_uri)
 		return;
@@ -133,10 +133,10 @@ do_save_calendar_ical (FormatHandler *handler,
 		tdata.client = E_CAL_CLIENT (source_client);
 
 		for (iter = objects; iter; iter = iter->next) {
-			icalcomponent *icalcomp = icalcomponent_new_clone (iter->data);
+			ICalComponent *icomp = i_cal_component_new_clone (iter->data);
 
-			icalcomponent_foreach_tzid (icalcomp, insert_tz_comps, &tdata);
-			icalcomponent_add_component (top_level, icalcomp);
+			i_cal_component_foreach_tzid (icomp, insert_tz_comps, &tdata);
+			i_cal_component_take_component (top_level, icomp);
 		}
 
 		g_hash_table_foreach (tdata.zones, (GHFunc) append_tz_to_comp, top_level);
@@ -148,7 +148,7 @@ do_save_calendar_ical (FormatHandler *handler,
 		stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (selector))), dest_uri, &error);
 
 		if (stream) {
-			gchar *ical_str = icalcomponent_as_ical_string_r (top_level);
+			gchar *ical_str = i_cal_component_as_ical_string_r (top_level);
 
 			g_output_stream_write_all (stream, ical_str, strlen (ical_str), NULL, NULL, &error);
 			g_output_stream_close (stream, NULL, NULL);
@@ -157,7 +157,7 @@ do_save_calendar_ical (FormatHandler *handler,
 			g_free (ical_str);
 		}
 
-		e_cal_client_free_icalcomp_slist (objects);
+		e_util_free_nullable_object_slist (objects);
 	}
 
 	if (error != NULL) {
@@ -169,7 +169,7 @@ do_save_calendar_ical (FormatHandler *handler,
 
 	/* terminate */
 	g_object_unref (source_client);
-	icalcomponent_free (top_level);
+	g_object_unref (top_level);
 }
 
 FormatHandler *

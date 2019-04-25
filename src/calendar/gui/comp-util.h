@@ -32,24 +32,28 @@
 
 struct _EShell;
 
-void cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone);
+void		cal_comp_util_add_exdate	(ECalComponent *comp,
+						 time_t t,
+						 ICalTimezone *zone);
 
 /* Returns TRUE if the component uses the given timezone for both DTSTART
  * and DTEND, or if the UTC offsets of the start and end times are the same
  * as in the given zone. */
-gboolean cal_comp_util_compare_event_timezones (ECalComponent *comp,
-						ECalClient *client,
-						icaltimezone *zone);
+gboolean	cal_comp_util_compare_event_timezones
+						(ECalComponent *comp,
+						 ECalClient *client,
+						 ICalTimezone *zone);
 
 /* Returns the number of icons owned by the ECalComponent */
-gint     cal_comp_util_get_n_icons (ECalComponent *comp, GSList **pixbufs);
+gint     	cal_comp_util_get_n_icons	(ECalComponent *comp,
+						 GSList **pixbufs);
 
 gboolean	cal_comp_is_on_server_sync	(ECalComponent *comp,
 						 ECalClient *client,
 						 GCancellable *cancellable,
 						 GError **error);
 gboolean	cal_comp_is_icalcomp_on_server_sync
-						(icalcomponent *icalcomp,
+						(ICalComponent *icomp,
 						 ECalClient *client,
 						 GCancellable *cancellable,
 						 GError **error);
@@ -79,13 +83,23 @@ ECalComponent *	cal_comp_memo_new_with_defaults_sync
 						 GCancellable *cancellable,
 						 GError **error);
 
-void cal_comp_update_time_by_active_window (ECalComponent *comp, struct _EShell *shell);
+void		cal_comp_update_time_by_active_window
+						(ECalComponent *comp,
+						 struct _EShell *shell);
 
-void    cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list);
-GSList *cal_comp_selection_get_string_list (GtkSelectionData *data);
+void    	cal_comp_selection_set_string_list
+						(GtkSelectionData *data,
+						 GSList *str_list);
+GSList *	cal_comp_selection_get_string_list
+						(GtkSelectionData *data);
 
-void cal_comp_set_dtstart_with_oldzone (ECalClient *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
-void cal_comp_set_dtend_with_oldzone (ECalClient *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
+void		cal_comp_set_dtstart_with_oldzone
+						(ECalClient *client,
+						 ECalComponent *comp,
+						 const ECalComponentDateTime *pdate);
+void		cal_comp_set_dtend_with_oldzone	(ECalClient *client,
+						 ECalComponent *comp,
+						 const ECalComponentDateTime *pdate);
 
 gboolean	comp_util_sanitize_recurrence_master_sync
 						(ECalComponent *comp,
@@ -93,43 +107,39 @@ gboolean	comp_util_sanitize_recurrence_master_sync
 						 GCancellable *cancellable,
 						 GError **error);
 
-gchar *icalcomp_suggest_filename (icalcomponent *icalcomp, const gchar *default_name);
+gchar *		comp_util_suggest_filename	(ICalComponent *icomp,
+						 const gchar *default_name);
 
 void		cal_comp_get_instance_times	(ECalClient *client,
-						 icalcomponent *icalcomp,
-						 const icaltimezone *default_zone,
-						 time_t *instance_start,
-						 gboolean *start_is_date,
-						 time_t *instance_end,
-						 gboolean *end_is_date,
+						 ICalComponent *icomp,
+						 const ICalTimezone *default_zone,
+						 ICalTime **out_instance_start,
+						 ICalTime **out_instance_end,
 						 GCancellable *cancellable);
 time_t		cal_comp_gdate_to_timet		(const GDate *date,
-						 const icaltimezone *with_zone);
+						 const ICalTimezone *with_zone);
 
-void cal_comp_transfer_item_to			(ECalClient *src_client,
+void		cal_comp_transfer_item_to	(ECalClient *src_client,
 						 ECalClient *dest_client,
-						 icalcomponent *icalcomp_vcal,
+						 ICalComponent *icomp_vcal,
 						 gboolean do_copy,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
-gboolean cal_comp_transfer_item_to_finish	(ECalClient *client,
+gboolean	cal_comp_transfer_item_to_finish(ECalClient *client,
 						 GAsyncResult *result,
 						 GError **error);
-gboolean cal_comp_transfer_item_to_sync		(ECalClient *src_client,
+gboolean	cal_comp_transfer_item_to_sync	(ECalClient *src_client,
 						 ECalClient *dest_client,
-						 icalcomponent *icalcomp_event,
+						 ICalComponent *icomp_event,
 						 gboolean do_copy,
 						 GCancellable *cancellable,
 						 GError **error);
 void		cal_comp_util_update_tzid_parameter
-						(icalproperty *prop,
-						 const struct icaltimetype tt);
+						(ICalProperty *prop,
+						 const ICalTime *tt);
 gint		cal_comp_util_compare_time_with_today
-						(const struct icaltimetype time_tt);
-gboolean	cal_comp_util_remove_all_properties
-						(icalcomponent *component,
-						 icalproperty_kind kind);
+						(const ICalTime *time_tt);
 gboolean	cal_comp_util_have_in_new_attendees
 						(const GSList *new_attendees_mails,
 						 const gchar *eml);
@@ -139,9 +149,9 @@ void		cal_comp_util_copy_new_attendees
 void		cal_comp_util_set_added_attendees_mails
 						(ECalComponent *comp,
 						 GSList *emails);
-const gchar *	cal_comp_util_find_parameter_xvalue
-						(icalproperty *prop,
+gchar *		cal_comp_util_dup_parameter_xvalue
+						(ICalProperty *prop,
 						 const gchar *name);
 gchar *		cal_comp_util_get_attendee_comments
-						(icalcomponent *icalcomp);
+						(ICalComponent *icomp);
 #endif

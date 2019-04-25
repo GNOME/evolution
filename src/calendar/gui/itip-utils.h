@@ -19,7 +19,6 @@
 #ifndef ITIP_UTILS_H
 #define ITIP_UTILS_H
 
-#include <libical/ical.h>
 #include <string.h>
 #include <libecal/libecal.h>
 #include <calendar/gui/e-cal-model.h>
@@ -77,7 +76,7 @@ gboolean	itip_send_comp_sync		(ESourceRegistry *registry,
 						 ECalComponentItipMethod method,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
-						 icalcomponent *zones,
+						 ICalComponent *zones,
 						 GSList *attachments_list,
 						 GSList *users,
 						 gboolean strip_alarms,
@@ -88,7 +87,7 @@ void		itip_send_component_with_model	(ECalModel *model,
 						 ECalComponentItipMethod method,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
-						 icalcomponent *zones,
+						 ICalComponent *zones,
 						 GSList *attachments_list,
 						 GSList *users,
 						 gboolean strip_alarms,
@@ -98,7 +97,7 @@ void		itip_send_component		(ESourceRegistry *registry,
 						 ECalComponentItipMethod method,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
-						 icalcomponent *zones,
+						 ICalComponent *zones,
 						 GSList *attachments_list,
 						 GSList *users,
 						 gboolean strip_alarms,
@@ -118,9 +117,9 @@ gboolean	reply_to_calendar_comp		(ESourceRegistry *registry,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
 						 gboolean reply_all,
-						 icalcomponent *zones,
+						 ICalComponent *zones,
 						 GSList *attachments_list);
-gboolean	is_icalcomp_valid		(icalcomponent *icalcomp);
+gboolean	itip_is_component_valid		(ICalComponent *icomp);
 gboolean	itip_component_has_recipients	(ECalComponent *comp);
 
 G_END_DECLS

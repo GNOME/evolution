@@ -47,7 +47,7 @@ void calendar_config_remove_notification (CalendarConfigChangedFunc func, gpoint
  */
 
 /* The current timezone, e.g. "Europe/London". */
-icaltimezone *calendar_config_get_icaltimezone (void);
+ICalTimezone *calendar_config_get_icaltimezone (void);
 
 /* Whether we use 24-hour format or 12-hour format (AM/PM). */
 gboolean  calendar_config_get_24_hour_format	(void);

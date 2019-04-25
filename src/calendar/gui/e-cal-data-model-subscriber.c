@@ -31,7 +31,7 @@ e_cal_data_model_subscriber_default_init (ECalDataModelSubscriberInterface *ifac
  * e_cal_data_model_subscriber_component_added:
  * @subscriber: an #ECalDataModelSubscriber
  * @client: an #ECalClient, which notifies about the component addition
- * @icalcomp: an #ECalComponent which was added
+ * @comp: an #ECalComponent which was added
  *
  * Notifies the @subscriber about an added component which belongs
  * to the time range used by the @subscriber.

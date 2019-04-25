@@ -995,7 +995,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
                 charptr2 = charptr;
             else
                 charptr2++;
-            fprintf (fptr, "ORGANIZER;CN=\"%s\":MAILTO:%s\n",
+            fprintf (fptr, "ORGANIZER;CN=\"%s\":mailto:%s\n",
                     charptr2, charptr2);
         }
 
@@ -1016,7 +1016,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
                         charptr++;
                     fprintf (fptr, "ATTENDEE;PARTSTAT=NEEDS-ACTION;");
                     fprintf (fptr, "ROLE=REQ-PARTICIPANT;RSVP=TRUE;");
-                    fprintf (fptr, "CN=\"%s\":MAILTO:%s\n",
+                    fprintf (fptr, "CN=\"%s\":mailto:%s\n",
                                 charptr, charptr);
                     charptr = charptr2;
                 }
@@ -1037,7 +1037,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
                             charptr++;
                         fprintf (fptr, "ATTENDEE;PARTSTAT=NEEDS-ACTION;");
                         fprintf (fptr, "ROLE=OPT-PARTICIPANT;RSVP=TRUE;");
-                        fprintf (fptr, "CN=\"%s\":MAILTO:%s\n",
+                        fprintf (fptr, "CN=\"%s\":mailto:%s\n",
                                 charptr, charptr);
                         charptr = charptr2;
                     }
@@ -1057,7 +1057,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
                         charptr++;
                     fprintf (fptr, "ATTENDEE;PARTSTAT=NEEDS-ACTION;");
                     fprintf (fptr, "ROLE=REQ-PARTICIPANT;RSVP=TRUE;");
-                    fprintf (fptr, "CN=\"%s\":MAILTO:%s\n",
+                    fprintf (fptr, "CN=\"%s\":mailto:%s\n",
                                 charptr, charptr);
                     charptr = charptr2;
                 }

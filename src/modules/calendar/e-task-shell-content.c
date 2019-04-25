@@ -72,8 +72,8 @@ task_shell_content_table_foreach_cb (gint model_row,
                                      gpointer user_data)
 {
 	ECalModelComponent *comp_data;
-	icalcomponent *clone;
-	icalcomponent *vcal;
+	ICalComponent *clone;
+	ICalComponent *vcal;
 	gchar *string;
 
 	struct {
@@ -85,12 +85,11 @@ task_shell_content_table_foreach_cb (gint model_row,
 		foreach_data->model, model_row);
 
 	vcal = e_cal_util_new_top_level ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	clone = i_cal_component_new_clone (comp_data->icalcomp);
 	e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
-	icalcomponent_add_component (vcal, clone);
+	i_cal_component_take_component (vcal, clone);
 
-	/* String is owned by libical; do not free. */
-	string = icalcomponent_as_ical_string (vcal);
+	string = i_cal_component_as_ical_string_r (vcal);
 	if (string != NULL) {
 		ESource *source;
 		const gchar *source_uid;
@@ -101,9 +100,11 @@ task_shell_content_table_foreach_cb (gint model_row,
 		foreach_data->list = g_slist_prepend (
 			foreach_data->list,
 			g_strdup_printf ("%s\n%s", source_uid, string));
+
+		g_free (string);
 	}
 
-	icalcomponent_free (vcal);
+	g_object_unref (vcal);
 }
 
 static void
@@ -189,7 +190,7 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 		ECalComponent *comp;
 
 		comp = e_cal_component_new_from_icalcomponent (
-				icalcomponent_new_clone (comp_data->icalcomp));
+			i_cal_component_new_clone (comp_data->icalcomp));
 
 		e_cal_component_preview_display (
 			task_preview, comp_data->client, comp,
@@ -199,7 +200,7 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 		g_object_unref (comp);
 	}
 
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	uid = i_cal_component_get_uid (comp_data->icalcomp);
 	g_free (task_shell_content->priv->current_uid);
 	task_shell_content->priv->current_uid = g_strdup (uid);
 }
@@ -239,7 +240,7 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
 	if (comp_data == NULL)
 		return;
 
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	uid = i_cal_component_get_uid (comp_data->icalcomp);
 	if (g_strcmp0 (uid, current_uid) != 0)
 		return;
 
@@ -281,7 +282,6 @@ task_shell_content_check_state (EShellContent *shell_content)
 	list = e_task_table_get_selected (task_table);
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		icalproperty *prop;
 		const gchar *cap;
 		gboolean read_only;
 
@@ -291,21 +291,17 @@ task_shell_content_check_state (EShellContent *shell_content)
 		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
 		editable &= !read_only;
 
-		cap = CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT;
+		cap = E_CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT;
 		if (e_client_check_capability (E_CLIENT (comp_data->client), cap))
 			assignable = FALSE;
 
-		cap = CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
+		cap = E_CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
 		if (e_client_check_capability (E_CLIENT (comp_data->client), cap))
 			assignable = FALSE;
 
-		prop = icalcomponent_get_first_property (
-			comp_data->icalcomp, ICAL_URL_PROPERTY);
-		has_url |= (prop != NULL);
+		has_url |= e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
 
-		prop = icalcomponent_get_first_property (
-			comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
-		if (prop != NULL)
+		if (e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_COMPLETED_PROPERTY))
 			n_complete++;
 		else
 			n_incomplete++;

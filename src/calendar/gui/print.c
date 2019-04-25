@@ -39,6 +39,7 @@
 #include "e-cal-model.h"
 #include "e-day-view.h"
 #include "e-day-view-layout.h"
+#include "itip-utils.h"
 #include "e-week-view.h"
 #include "e-week-view-layout.h"
 #include "e-task-table.h"
@@ -51,7 +52,7 @@ typedef struct PrintCalItem PrintCalItem;
 struct PrintCompItem {
 	ECalClient *client;
 	ECalComponent *comp;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	gboolean use_24_hour_format;
 };
 
@@ -206,7 +207,7 @@ struct pdinfo
 	gint mins_per_row;
 	guint8 cols_per_row[CALC_DAY_VIEW_ROWS (1)];
 	gboolean use_24_hour_format;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 };
 
 struct psinfo {
@@ -225,31 +226,24 @@ struct psinfo {
 	gboolean use_24_hour_format;
 	gdouble row_height;
 	gdouble header_row_height;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 };
 
 /* Convenience function to help the transition to timezone functions.
  * It converts a time_t to a struct tm. */
 static void
 convert_timet_to_struct_tm (time_t time,
-                            icaltimezone *zone,
+                            ICalTimezone *zone,
                             struct tm *tm)
 {
-	struct icaltimetype tt;
+	ICalTime *tt;
 
-	/* Convert it to an icaltimetype. */
-	tt = icaltime_from_timet_with_zone (time, FALSE, zone);
+	/* Convert it to an ICalTime. */
+	tt = i_cal_time_from_timet_with_zone (time, FALSE, zone);
 
-	/* Fill in the struct tm. */
-	tm->tm_year = tt.year - 1900;
-	tm->tm_mon = tt.month - 1;
-	tm->tm_mday = tt.day;
-	tm->tm_hour = tt.hour;
-	tm->tm_min = tt.minute;
-	tm->tm_sec = tt.second;
-	tm->tm_isdst = tt.is_daylight;
+	*tm = e_cal_util_icaltime_to_tm (tt);
 
-	tm->tm_wday = time_day_of_week (tt.day, tt.month - 1, tt.year);
+	g_clear_object (&tt);
 }
 
 /* Fills the 42-element days array with the day numbers for the specified
@@ -713,13 +707,15 @@ format_date (struct tm *tm,
 }
 
 static gboolean
-instance_cb (ECalComponent *comp,
-             time_t instance_start,
-             time_t instance_end,
-             gpointer data)
+instance_cb (ICalComponent *comp,
+	     ICalTime *instance_start,
+	     ICalTime *instance_end,
+	     gpointer user_data,
+	     GCancellable *cancellable,
+	     GError **error)
 {
 
-	gboolean *found = ((ECalModelGenerateInstancesData *) data)->cb_data;
+	gboolean *found = ((ECalModelGenerateInstancesData *) user_data)->cb_data;
 
 	*found = TRUE;
 
@@ -784,7 +780,7 @@ print_month_small (GtkPrintContext *context,
                    time_t greyend,
                    gint bordertitle)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	PangoFontDescription *font, *font_bold, *font_normal;
 	time_t now, next;
 	gint x, y;
@@ -928,7 +924,7 @@ print_month_small (GtkPrintContext *context,
 				e_cal_model_generate_instances_sync (
 					model, now,
 					time_day_end_with_zone (now, zone),
-					instance_cb, &found);
+					NULL, instance_cb, &found);
 
 				font = found ? font_bold : font_normal;
 
@@ -1141,7 +1137,7 @@ static gint
 print_day_add_event (ECalModelComponent *comp_data,
                      time_t start,
                      time_t end,
-                     icaltimezone *zone,
+                     ICalTimezone *zone,
                      gint days_shown,
                      time_t *day_starts,
                      GArray *long_events,
@@ -1150,7 +1146,7 @@ print_day_add_event (ECalModelComponent *comp_data,
 {
 	EDayViewEvent event;
 	gint day, offset;
-	struct icaltimetype start_tt, end_tt;
+	ICalTime *start_tt, *end_tt;
 
 #if 0
 	g_print ("Day view lower: %s", ctime (&day_starts[0]));
@@ -1164,8 +1160,8 @@ print_day_add_event (ECalModelComponent *comp_data,
 	g_return_val_if_fail (start < day_starts[days_shown], -1);
 	g_return_val_if_fail (end > day_starts[0], -1);
 
-	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
-	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
+	start_tt = i_cal_time_from_timet_with_zone (start, FALSE, zone);
+	end_tt = i_cal_time_from_timet_with_zone (end, FALSE, zone);
 
 	event.comp_data = comp_data;
 	event.start = start;
@@ -1177,8 +1173,8 @@ print_day_add_event (ECalModelComponent *comp_data,
 	/*offset = day_view->first_hour_shown * 60
 	  + day_view->first_minute_shown;*/
 	offset = 0;
-	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset;
-	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset;
+	event.start_minute = i_cal_time_get_hour (start_tt) * 60 + i_cal_time_get_minute (start_tt) - offset;
+	event.end_minute = i_cal_time_get_hour (end_tt) * 60 + i_cal_time_get_minute (end_tt) - offset;
 
 	event.start_row_or_col = 0;
 	event.num_columns = 0;
@@ -1211,16 +1207,20 @@ print_day_add_event (ECalModelComponent *comp_data,
 }
 
 static gboolean
-print_day_details_cb (ECalComponent *comp,
-                      time_t istart,
-                      time_t iend,
-                      gpointer data)
+print_day_details_cb (ICalComponent *comp,
+		      ICalTime *istart,
+		      ICalTime *iend,
+		      gpointer user_data,
+		      GCancellable *cancellable,
+		      GError **error)
 {
-	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) data;
+	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) user_data;
 	struct pdinfo *pdi = (struct pdinfo *) mdata->cb_data;
 
 	print_day_add_event (
-		mdata->comp_data, istart, iend,
+		mdata->comp_data,
+		i_cal_time_as_timet_with_zone (istart, pdi->zone),
+		i_cal_time_as_timet_with_zone (iend, pdi->zone),
 		pdi->zone, pdi->days_shown, pdi->day_starts,
 		pdi->long_events, pdi->events);
 
@@ -1243,34 +1243,34 @@ free_event_array (GArray *array)
 }
 
 static const gchar *
-get_type_as_string (icalparameter_cutype cutype)
+get_type_as_string (ICalParameterCutype cutype)
 {
 	const gchar *res;
 
 	switch (cutype) {
-		case ICAL_CUTYPE_NONE:       res = NULL;            break;
-		case ICAL_CUTYPE_INDIVIDUAL: res = _("Individual"); break;
-		case ICAL_CUTYPE_GROUP:      res = _("Group");      break;
-		case ICAL_CUTYPE_RESOURCE:   res = _("Resource");   break;
-		case ICAL_CUTYPE_ROOM:       res = _("Room");       break;
-		default:                     res = _("Unknown");    break;
+		case I_CAL_CUTYPE_NONE:       res = NULL;            break;
+		case I_CAL_CUTYPE_INDIVIDUAL: res = _("Individual"); break;
+		case I_CAL_CUTYPE_GROUP:      res = _("Group");      break;
+		case I_CAL_CUTYPE_RESOURCE:   res = _("Resource");   break;
+		case I_CAL_CUTYPE_ROOM:       res = _("Room");       break;
+		default:                      res = _("Unknown");    break;
 	}
 
 	return res;
 }
 
 static const gchar *
-get_role_as_string (icalparameter_role role)
+get_role_as_string (ICalParameterRole role)
 {
 	const gchar *res;
 
 	switch (role) {
-		case ICAL_ROLE_NONE:           res = NULL;                      break;
-		case ICAL_ROLE_CHAIR:          res = _("Chair");                break;
-		case ICAL_ROLE_REQPARTICIPANT: res = _("Required Participant"); break;
-		case ICAL_ROLE_OPTPARTICIPANT: res = _("Optional Participant"); break;
-		case ICAL_ROLE_NONPARTICIPANT: res = _("Non-Participant");      break;
-		default:                       res = _("Unknown");              break;
+		case I_CAL_ROLE_NONE:           res = NULL;                      break;
+		case I_CAL_ROLE_CHAIR:          res = _("Chair");                break;
+		case I_CAL_ROLE_REQPARTICIPANT: res = _("Required Participant"); break;
+		case I_CAL_ROLE_OPTPARTICIPANT: res = _("Optional Participant"); break;
+		case I_CAL_ROLE_NONPARTICIPANT: res = _("Non-Participant");      break;
+		default:                        res = _("Unknown");              break;
 	}
 
 	return res;
@@ -1294,30 +1294,33 @@ print_attendees (GtkPrintContext *context,
 	g_return_val_if_fail (font != NULL, top);
 	g_return_val_if_fail (cr != NULL, top);
 
-	e_cal_component_get_attendee_list (comp, &attendees);
+	attendees = e_cal_component_get_attendees (comp);
 
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
+		const gchar *value;
 
-		if (attendee && attendee->value && *attendee->value) {
+		if (!attendee)
+			continue;
+
+		value = e_cal_component_attendee_get_value (attendee);
+		if (value && *value) {
 			GString *text;
 			const gchar *tmp;
 
-			tmp = get_type_as_string (attendee->cutype);
+			tmp = get_type_as_string (e_cal_component_attendee_get_cutype (attendee));
 			text = g_string_new (tmp ? tmp : "");
 
 			if (tmp)
 				g_string_append (text, " ");
 
-			if (attendee->cn && *attendee->cn)
-				g_string_append (text, attendee->cn);
+			if (e_cal_component_attendee_get_cn (attendee) && e_cal_component_attendee_get_cn (attendee)[0])
+				g_string_append (text, e_cal_component_attendee_get_cn (attendee));
 			else {
-				/* it's usually in form of "mailto:email@domain" */
-				tmp = strchr (attendee->value, ':');
-				g_string_append (text, tmp ? tmp + 1 : attendee->value);
+				g_string_append (text, itip_strip_mailto (value));
 			}
 
-			tmp = get_role_as_string (attendee->role);
+			tmp = get_role_as_string (e_cal_component_attendee_get_role (attendee));
 			if (tmp) {
 				g_string_append (text, " (");
 				g_string_append (text, tmp);
@@ -1337,28 +1340,27 @@ print_attendees (GtkPrintContext *context,
 		}
 	}
 
-	e_cal_component_free_attendee_list (attendees);
+	g_slist_free_full (attendees, e_cal_component_attendee_free);
 
 	return top;
 }
 
 static gchar *
-get_summary_with_location (icalcomponent *icalcomp)
+get_summary_with_location (ICalComponent *icomp)
 {
-	const gchar *summary, *location;
-	gchar *text;
+	const gchar *location;
+	gchar *text, *summary;
 
-	g_return_val_if_fail (icalcomp != NULL, NULL);
+	g_return_val_if_fail (icomp != NULL, NULL);
 
-	summary = icalcomponent_get_summary (icalcomp);
-	if (summary == NULL)
-		summary = "";
+	summary = e_calendar_view_dup_component_summary (icomp);
 
-	location = icalcomponent_get_location (icalcomp);
+	location = i_cal_component_get_location (icomp);
 	if (location && *location) {
-		text = g_strdup_printf ("%s (%s)", summary, location);
+		text = g_strdup_printf ("%s (%s)", summary ? summary : "", location);
+		g_free (summary);
 	} else {
-		text = g_strdup (summary);
+		text = summary ? summary : g_strdup ("");
 	}
 
 	return text;
@@ -1564,7 +1566,7 @@ print_day_details (GtkPrintContext *context,
                    gdouble top,
                    gdouble bottom)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	EDayViewEvent *event;
 	PangoFontDescription *font;
 	time_t start, end;
@@ -1598,7 +1600,7 @@ print_day_details (GtkPrintContext *context,
 	pdi.zone = e_cal_model_get_timezone (model);
 
 	/* Get the events from the server. */
-	e_cal_model_generate_instances_sync (model, start, end, print_day_details_cb, &pdi);
+	e_cal_model_generate_instances_sync (model, start, end, NULL, print_day_details_cb, &pdi);
 	qsort (
 		pdi.long_events->data, pdi.long_events->len,
 		sizeof (EDayViewEvent), e_day_view_event_sort_func);
@@ -1608,22 +1610,24 @@ print_day_details (GtkPrintContext *context,
 
 	/* Also print events outside of work hours */
 	if (pdi.events[0]->len > 0) {
-		struct icaltimetype tt;
+		ICalTime *tt;
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, 0);
-		tt = icaltime_from_timet_with_zone (event->start, FALSE, zone);
-		if (tt.hour < pdi.start_hour)
-			pdi.start_hour = tt.hour;
+		tt = i_cal_time_from_timet_with_zone (event->start, FALSE, zone);
+		if (i_cal_time_get_hour (tt) < pdi.start_hour)
+			pdi.start_hour = i_cal_time_get_hour (tt);
 		pdi.start_minute_offset = pdi.start_hour * 60;
+		g_clear_object (&tt);
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, pdi.events[0]->len - 1);
-		tt = icaltime_from_timet_with_zone (event->end, FALSE, zone);
-		if (tt.hour > pdi.end_hour || tt.hour == 0) {
-			pdi.end_hour = tt.hour ? tt.hour : 24;
-			if (tt.minute > 0)
+		tt = i_cal_time_from_timet_with_zone (event->end, FALSE, zone);
+		if (i_cal_time_get_hour (tt) > pdi.end_hour || i_cal_time_get_hour (tt) == 0) {
+			pdi.end_hour = i_cal_time_get_hour (tt) ? i_cal_time_get_hour (tt) : 24;
+			if (i_cal_time_get_minute (tt) > 0)
 				pdi.end_hour++;
 		}
 		pdi.end_minute_offset = pdi.end_hour * 60;
+		g_clear_object (&tt);
 
 		pdi.rows = (pdi.end_hour - pdi.start_hour) * (60 / pdi.mins_per_row);
 	}
@@ -2113,18 +2117,22 @@ print_week_view_background (GtkPrintContext *context,
 
 /* This adds one event to the view, adding it to the appropriate array. */
 static gboolean
-print_week_summary_cb (ECalComponent *comp,
-                       time_t start,
-                       time_t end,
-                       gpointer data)
-
+print_week_summary_cb (ICalComponent *comp,
+		       ICalTime *istart,
+		       ICalTime *iend,
+		       gpointer user_data,
+		       GCancellable *cancellable,
+		       GError **error)
 {
 	EWeekViewEvent event;
-	struct icaltimetype start_tt, end_tt;
-	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) data;
+	time_t start, end;
+	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) user_data;
 	struct psinfo *psi = (struct psinfo *) mdata->cb_data;
 
 	/* Check that the event times are valid. */
+
+	start = i_cal_time_as_timet_with_zone (istart, psi->zone);
+	end = i_cal_time_as_timet_with_zone (iend, psi->zone);
 
 #if 0
 	g_print (
@@ -2137,9 +2145,6 @@ print_week_summary_cb (ECalComponent *comp,
 	g_return_val_if_fail (start < psi->day_starts[psi->days_shown], TRUE);
 	g_return_val_if_fail (end > psi->day_starts[0], TRUE);
 
-	start_tt = icaltime_from_timet_with_zone (start, FALSE, psi->zone);
-	end_tt = icaltime_from_timet_with_zone (end, FALSE, psi->zone);
-
 	event.comp_data = g_object_ref (mdata->comp_data);
 
 	event.start = start;
@@ -2147,8 +2152,8 @@ print_week_summary_cb (ECalComponent *comp,
 	event.spans_index = 0;
 	event.num_spans = 0;
 
-	event.start_minute = start_tt.hour * 60 + start_tt.minute;
-	event.end_minute = end_tt.hour * 60 + end_tt.minute;
+	event.start_minute = i_cal_time_get_hour (istart) * 60 + i_cal_time_get_minute (istart);
+	event.end_minute = i_cal_time_get_hour (iend) * 60 + i_cal_time_get_minute (iend);
 	if (event.end_minute == 0 && start != end)
 		event.end_minute = 24 * 60;
 
@@ -2171,7 +2176,7 @@ print_week_summary (GtkPrintContext *context,
                     gdouble top,
                     gdouble bottom)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	EWeekViewEvent *event;
 	struct psinfo psi = { 0 };
 	time_t day_start;
@@ -2212,7 +2217,7 @@ print_week_summary (GtkPrintContext *context,
 	e_cal_model_generate_instances_sync (
 		model,
 		psi.day_starts[0], psi.day_starts[psi.days_shown],
-		print_week_summary_cb, &psi);
+		NULL, print_week_summary_cb, &psi);
 	qsort (
 		psi.events->data, psi.events->len,
 		sizeof (EWeekViewEvent), e_week_view_event_sort_func);
@@ -2284,10 +2289,10 @@ print_month_summary (GtkPrintContext *context,
                      gdouble top,
                      gdouble bottom)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	time_t date;
 	struct tm tm;
-	struct icaltimetype tt;
+	ICalTime *tt;
 	gchar buffer[100];
 	PangoFontDescription *font;
 	gboolean compress_weekend;
@@ -2321,8 +2326,9 @@ print_month_summary (GtkPrintContext *context,
 	}
 
 	/* Remember which month we want. */
-	tt = icaltime_from_timet_with_zone (whence, FALSE, zone);
-	month = tt.month - 1;
+	tt = i_cal_time_from_timet_with_zone (whence, FALSE, zone);
+	month = i_cal_time_get_month (tt) - 1;
+	g_clear_object (&tt);
 
 	/* Find the start of the month, and then the start of the week on
 	 * or before that day. */
@@ -2395,7 +2401,7 @@ print_todo_details (GtkPrintContext *context,
 {
 	PangoFontDescription *font_summary;
 	gdouble y, yend, x, xend;
-	struct icaltimetype *tt;
+	ICalTime *tt;
 	ECalModel *model;
 	gint rows, row;
 	cairo_t *cr;
@@ -2424,7 +2430,7 @@ print_todo_details (GtkPrintContext *context,
 	for (row = 0; row < rows; row++) {
 		ECalModelComponent *comp_data;
 		ECalComponent *comp;
-		ECalComponentText summary;
+		ECalComponentText *summary;
 		gint model_row;
 
 		model_row = e_table_view_to_model_row (tasks_table, row);
@@ -2432,12 +2438,13 @@ print_todo_details (GtkPrintContext *context,
 		if (!comp_data)
 			continue;
 
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (
-			comp, icalcomponent_new_clone (comp_data->icalcomp));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+		if (!comp)
+			continue;
 
-		e_cal_component_get_summary (comp, &summary);
-		if (!summary.value) {
+		summary = e_cal_component_get_summary (comp);
+		if (!summary || !e_cal_component_text_get_value (summary)) {
+			e_cal_component_text_free (summary);
 			g_object_unref (comp);
 			continue;
 		}
@@ -2445,6 +2452,7 @@ print_todo_details (GtkPrintContext *context,
 		x = left;
 		xend = right - 2;
 		if (y > bottom) {
+			e_cal_component_text_free (summary);
 			g_object_unref (comp);
 			break;
 		}
@@ -2453,9 +2461,9 @@ print_todo_details (GtkPrintContext *context,
 		print_border (context, x + 2, x + 8, y + 6, y + 15, 0.1, -1.0);
 
 		/* If the task is complete, print a tick in the box. */
-		e_cal_component_get_completed (comp, &tt);
+		tt = e_cal_component_get_completed (comp);
 		if (tt) {
-			e_cal_component_free_icaltimetype (tt);
+			g_clear_object (&tt);
 
 			cr = gtk_print_context_get_cairo_context (context);
 			cairo_set_source_rgb (cr, 0, 0, 0);
@@ -2467,7 +2475,7 @@ print_todo_details (GtkPrintContext *context,
 		}
 
 		y = bound_text (
-			context, font_summary, summary.value, -1,
+			context, font_summary, e_cal_component_text_get_value (summary), -1,
 			x + 14, y + 4, xend, yend, FALSE, NULL, NULL, NULL);
 
 		y += get_font_size (font_summary) - 5;
@@ -2477,6 +2485,7 @@ print_todo_details (GtkPrintContext *context,
 		cairo_set_line_width (cr, 1);
 		cairo_stroke (cr);
 
+		e_cal_component_text_free (summary);
 		g_object_unref (comp);
 	}
 
@@ -2491,7 +2500,7 @@ print_day_view (GtkPrintContext *context,
 {
 	ECalModel *model;
 	GtkPageSetup *setup;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	gint i, days = 1;
 	gdouble todo, l, week_numbers_inc, small_month_width;
 	gchar buf[100];
@@ -2732,7 +2741,7 @@ print_work_week_day_details (GtkPrintContext *context,
                              gdouble bottom,
                              struct pdinfo *_pdi)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	EDayViewEvent *event;
 	PangoFontDescription *font;
 	time_t start, end;
@@ -2766,7 +2775,7 @@ print_work_week_day_details (GtkPrintContext *context,
 	pdi.zone = e_cal_model_get_timezone (model);
 
 	/* Get the events from the server. */
-	e_cal_model_generate_instances_sync (model, start, end, print_day_details_cb, &pdi);
+	e_cal_model_generate_instances_sync (model, start, end, NULL, print_day_details_cb, &pdi);
 	qsort (
 		pdi.long_events->data, pdi.long_events->len,
 		sizeof (EDayViewEvent), e_day_view_event_sort_func);
@@ -2780,22 +2789,24 @@ print_work_week_day_details (GtkPrintContext *context,
 	/* TODO: This should be redundant */
 	/* Also print events outside of work hours */
 	if (pdi.events[0]->len > 0) {
-		struct icaltimetype tt;
+		ICalTime *tt;
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, 0);
-		tt = icaltime_from_timet_with_zone (event->start, FALSE, zone);
-		if (tt.hour < pdi.start_hour)
-			pdi.start_hour = tt.hour;
+		tt = i_cal_time_from_timet_with_zone (event->start, FALSE, zone);
+		if (i_cal_time_get_hour (tt) < pdi.start_hour)
+			pdi.start_hour = i_cal_time_get_hour (tt);
 		pdi.start_minute_offset = pdi.start_hour * 60;
+		g_clear_object (&tt);
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, pdi.events[0]->len - 1);
-		tt = icaltime_from_timet_with_zone (event->end, FALSE, zone);
-		if (tt.hour > pdi.end_hour || tt.hour == 0) {
-			pdi.end_hour = tt.hour ? tt.hour : 24;
-			if (tt.minute > 0)
+		tt = i_cal_time_from_timet_with_zone (event->end, FALSE, zone);
+		if (i_cal_time_get_hour (tt) > pdi.end_hour || i_cal_time_get_hour (tt) == 0) {
+			pdi.end_hour = i_cal_time_get_hour (tt) ? i_cal_time_get_hour (tt) : 24;
+			if (i_cal_time_get_minute (tt) > 0)
 				pdi.end_hour++;
 		}
 		pdi.end_minute_offset = pdi.end_hour * 60;
+		g_clear_object (&tt);
 
 		pdi.rows = (pdi.end_hour - pdi.start_hour) * (60 / pdi.mins_per_row);
 	}
@@ -2909,21 +2920,20 @@ print_work_week_day_details (GtkPrintContext *context,
 
 /* Figure out what the overal hour limits are */
 static gboolean
-print_work_week_view_cb (ECalComponent *comp,
-                         time_t istart,
-                         time_t iend,
-                         gpointer data)
+print_work_week_view_cb (ICalComponent *comp,
+			 ICalTime *istart,
+			 ICalTime *iend,
+			 gpointer user_data,
+			 GCancellable *cancellable,
+			 GError **error)
 {
-	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) data;
+	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) user_data;
 	struct pdinfo *pdi = (struct pdinfo *) mdata->cb_data;
-	struct icaltimetype tt;
 
-	tt = icaltime_from_timet_with_zone (istart, FALSE, pdi->zone);
-	pdi->start_hour = MIN (pdi->start_hour, tt.hour);
+	pdi->start_hour = MIN (pdi->start_hour, i_cal_time_get_hour (istart));
 
-	tt = icaltime_from_timet_with_zone (iend, FALSE, pdi->zone);
 	/* If we're past the hour, use the next one */
-	pdi->end_hour = MAX (pdi->end_hour, tt.minute ? tt.hour + 1 : tt.hour);
+	pdi->end_hour = MAX (pdi->end_hour, i_cal_time_get_minute (iend) ? i_cal_time_get_hour (iend) + 1 : i_cal_time_get_hour (iend));
 
 	return TRUE;
 }
@@ -2934,7 +2944,7 @@ print_work_week_view (GtkPrintContext *context,
                       time_t date)
 {
 	GtkPageSetup *setup;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	time_t when, start, end;
 	gdouble width, height, l;
 	gdouble small_month_width;
@@ -2967,7 +2977,7 @@ print_work_week_view (GtkPrintContext *context,
 	pdi.end_hour = e_cal_model_get_work_day_end_hour (model);
 	pdi.zone = zone;
 
-	e_cal_model_generate_instances_sync (model, start, end, print_work_week_view_cb, &pdi);
+	e_cal_model_generate_instances_sync (model, start, end, NULL, print_work_week_view_cb, &pdi);
 
 	print_work_week_background (
 		context, model, date, &pdi, 0.0, width,
@@ -3040,7 +3050,7 @@ print_week_view (GtkPrintContext *context,
 {
 	GtkPageSetup *setup;
 	ECalModel *model;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	gdouble l, week_numbers_inc, small_month_width;
 	gchar buf[100];
 	time_t when;
@@ -3132,7 +3142,7 @@ print_month_view (GtkPrintContext *context,
 {
 	ECalModel *model;
 	GtkPageSetup *setup;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	gchar buf[100];
 	gdouble width, height;
 	gdouble l, week_numbers_inc, small_month_width;
@@ -3181,8 +3191,8 @@ print_month_view (GtkPrintContext *context,
 
 static gboolean
 same_date (struct tm tm1,
-           time_t t2,
-           icaltimezone *zone)
+	   time_t t2,
+	   ICalTimezone *zone)
 {
 	struct tm tm2;
 
@@ -3197,7 +3207,7 @@ same_date (struct tm tm1,
 static void
 write_label_piece (time_t t,
                    time_t *start_cmp,
-                   icaltimezone *zone,
+                   ICalTimezone *zone,
                    gboolean use_24_hour_format,
                    gchar *buffer,
                    gint size,
@@ -3230,20 +3240,23 @@ write_label_piece (time_t t,
 	}
 }
 
-static icaltimezone *
+static ICalTimezone *
 get_zone_from_tzid (ECalClient *client,
                     const gchar *tzid)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
+
+	if (!tzid)
+		return NULL;
 
 	/* Note that the timezones may not be on the server, so we try to get
 	 * the builtin timezone with the TZID first. */
-	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	zone = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 	if (!zone && tzid) {
 		GError *error = NULL;
 
-		e_cal_client_get_timezone_sync (
-			client, tzid, &zone, NULL, &error);
+		if (!e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, &error))
+			zone = NULL;
 
 		if (error != NULL) {
 			g_warning (
@@ -3260,56 +3273,57 @@ static void
 print_date_label (GtkPrintContext *context,
                   ECalComponent *comp,
                   ECalClient *client,
-                  icaltimezone *zone,
+                  ICalTimezone *zone,
                   gboolean use_24_hour_format,
                   gdouble left,
                   gdouble right,
                   gdouble top,
                   gdouble bottom)
 {
-	icaltimezone *start_zone, *end_zone, *due_zone, *completed_zone;
-	ECalComponentDateTime datetime;
+	ICalTimezone *start_zone, *end_zone, *due_zone, *completed_zone;
+	ICalTime *completed_tt;
+	ECalComponentDateTime *datetime;
 	time_t start = 0, end = 0, complete = 0, due = 0;
 	static gchar buffer[1024];
 
-	e_cal_component_get_dtstart (comp, &datetime);
-	if (datetime.value) {
-		start_zone = get_zone_from_tzid (client, datetime.tzid);
-		if (!start_zone || datetime.value->is_date)
+	datetime = e_cal_component_get_dtstart (comp);
+	if (datetime && e_cal_component_datetime_get_value (datetime)) {
+		ICalTime *value = e_cal_component_datetime_get_value (datetime);
+
+		start_zone = get_zone_from_tzid (client, e_cal_component_datetime_get_tzid (datetime));
+		if (!start_zone || i_cal_time_is_date (value))
 			start_zone = zone;
-		start = icaltime_as_timet_with_zone (
-			*datetime.value,
-			start_zone);
+		start = i_cal_time_as_timet_with_zone (value, start_zone);
 	}
-	e_cal_component_free_datetime (&datetime);
+	e_cal_component_datetime_free (datetime);
 
-	e_cal_component_get_dtend (comp, &datetime);
-	if (datetime.value) {
-		end_zone = get_zone_from_tzid (client, datetime.tzid);
-		if (!end_zone || datetime.value->is_date)
+	datetime = e_cal_component_get_dtend (comp);
+	if (datetime && e_cal_component_datetime_get_value (datetime)) {
+		ICalTime *value = e_cal_component_datetime_get_value (datetime);
+
+		end_zone = get_zone_from_tzid (client, e_cal_component_datetime_get_tzid (datetime));
+		if (!end_zone || i_cal_time_is_date (value))
 			end_zone = zone;
-		end = icaltime_as_timet_with_zone (
-			*datetime.value,
-			end_zone);
+		end = i_cal_time_as_timet_with_zone (value, end_zone);
 	}
-	e_cal_component_free_datetime (&datetime);
+	e_cal_component_datetime_free (datetime);
 
-	e_cal_component_get_due (comp, &datetime);
-	if (datetime.value) {
-		due_zone = get_zone_from_tzid (client, datetime.tzid);
-		if (!due_zone || datetime.value->is_date)
+	datetime = e_cal_component_get_due (comp);
+	if (datetime && e_cal_component_datetime_get_value (datetime)) {
+		ICalTime *value = e_cal_component_datetime_get_value (datetime);
+
+		due_zone = get_zone_from_tzid (client, e_cal_component_datetime_get_tzid (datetime));
+		if (!due_zone || i_cal_time_is_date (value))
 			due_zone = zone;
-		due = icaltime_as_timet_with_zone (
-			*datetime.value, due_zone);
+		due = i_cal_time_as_timet_with_zone (value, due_zone);
 	}
-	e_cal_component_free_datetime (&datetime);
+	e_cal_component_datetime_free (datetime);
 
-	e_cal_component_get_completed (comp, &datetime.value);
-	if (datetime.value) {
-		completed_zone = icaltimezone_get_utc_timezone ();
-		complete = icaltime_as_timet_with_zone (
-			*datetime.value, completed_zone);
-		e_cal_component_free_icaltimetype (datetime.value);
+	completed_tt = e_cal_component_get_completed (comp);
+	if (completed_tt) {
+		completed_zone = i_cal_timezone_get_utc_timezone ();
+		complete = i_cal_time_as_timet_with_zone (completed_tt, completed_zone);
+		g_clear_object (&completed_tt);
 	}
 
 	buffer[0] = '\0';
@@ -3417,18 +3431,20 @@ print_calendar (ECalendarView *cal_view,
 		if (multi_week_view &&
 		    weeks_shown >= 4 &&
 		    g_date_valid (&date)) {
-
-			struct icaltimetype start_tt;
+			ICalTime *start_tt;
 
 			g_date_add_days (&date, 7);
 
-			start_tt = icaltime_null_time ();
-			start_tt.is_date = TRUE;
-			start_tt.year = g_date_get_year (&date);
-			start_tt.month = g_date_get_month (&date);
-			start_tt.day = g_date_get_day (&date);
+			start_tt = i_cal_time_null_time ();
+			i_cal_time_set_is_date (start_tt, TRUE);
+			i_cal_time_set_date (start_tt,
+				g_date_get_year (&date),
+				g_date_get_month (&date),
+				g_date_get_day (&date));
 
-			start = icaltime_as_timet (start_tt);
+			start = i_cal_time_as_timet (start_tt);
+
+			g_clear_object (&start_tt);
 		} else if (multi_week_view) {
 			start = week_view->day_starts[0];
 		}
@@ -3463,11 +3479,10 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	ECalClient *client;
 	ECalComponent *comp;
 	ECalComponentVType vtype;
-	ECalComponentText text;
-	GSList *desc, *l;
-	GSList *contact_list, *elem;
-
-	const gchar *title, *categories, *location;
+	ECalComponentText *text;
+	GSList *desc, *contact_list, *elem;
+	const gchar *title;
+	gchar *categories, *location;
 	gchar *categories_string, *location_string, *summary_string;
 	gdouble header_size;
 	cairo_t *cr;
@@ -3530,16 +3545,16 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 	/* Summary */
 	font = get_font_for_size (18, PANGO_WEIGHT_BOLD);
-	e_cal_component_get_summary (comp, &text);
-	summary_string = g_strdup_printf (_("Summary: %s"), text.value ? text.value : "");
+	text = e_cal_component_get_summary (comp);
+	summary_string = g_strdup_printf (_("Summary: %s"), (text && e_cal_component_text_get_value (text)) ? e_cal_component_text_get_value (text) : "");
 	top = bound_text (
 		context, font, summary_string, -1, 0.0, top, width,
 		height, FALSE, NULL, &page_start, &pages);
-
+	e_cal_component_text_free (text);
 	g_free (summary_string);
 
 	/* Location */
-	e_cal_component_get_location (comp, &location);
+	location = e_cal_component_get_location (comp);
 	if (location && location[0]) {
 		location_string = g_strdup_printf (
 			_("Location: %s"),
@@ -3549,6 +3564,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			top + 3, width, height, FALSE, NULL, &page_start, &pages);
 		g_free (location_string);
 	}
+	g_free (location);
 
 	/* Date information */
 	if (page_nr == 0)
@@ -3577,26 +3593,26 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 	/* For a VTODO we print the Status, Priority, % Complete and URL. */
 	if (vtype == E_CAL_COMPONENT_TODO) {
-		icalproperty_status status;
+		ICalPropertyStatus status;
 		const gchar *status_string = NULL;
-		gint *percent;
-		gint *priority;
-		const gchar *url;
+		gint percent;
+		gint priority;
+		gchar *url;
 
 		/* Status */
-		e_cal_component_get_status (comp, &status);
-		if (status != ICAL_STATUS_NONE) {
+		status = e_cal_component_get_status (comp);
+		if (status != I_CAL_STATUS_NONE) {
 			switch (status) {
-			case ICAL_STATUS_NEEDSACTION:
+			case I_CAL_STATUS_NEEDSACTION:
 				status_string = _("Not Started");
 				break;
-			case ICAL_STATUS_INPROCESS:
+			case I_CAL_STATUS_INPROCESS:
 				status_string = _("In Progress");
 				break;
-			case ICAL_STATUS_COMPLETED:
+			case I_CAL_STATUS_COMPLETED:
 				status_string = _("Completed");
 				break;
-			case ICAL_STATUS_CANCELLED:
+			case I_CAL_STATUS_CANCELLED:
 				status_string = _("Cancelled");
 				break;
 			default:
@@ -3616,13 +3632,13 @@ print_comp_draw_real (GtkPrintOperation *operation,
 		}
 
 		/* Priority */
-		e_cal_component_get_priority (comp, &priority);
-		if (priority && *priority >= 0) {
+		priority = e_cal_component_get_priority (comp);
+		if (priority >= 0) {
 			gchar *pri_text;
 
 			pri_text = g_strdup_printf (
 				_("Priority: %s"),
-				e_cal_util_priority_to_string (*priority));
+				e_cal_util_priority_to_string (priority));
 			top = bound_text (
 				context, font, pri_text, -1,
 				0.0, top, width, height, FALSE, NULL,
@@ -3631,25 +3647,23 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			g_free (pri_text);
 		}
 
-		if (priority)
-			e_cal_component_free_priority (priority);
-
 		/* Percent Complete */
-		e_cal_component_get_percent (comp, &percent);
-		if (percent) {
+		percent = e_cal_component_get_percent_complete (comp);
+		if (percent >= 0) {
 			gchar *percent_string;
 
-			percent_string = g_strdup_printf (_("Percent Complete: %i"), *percent);
-			e_cal_component_free_percent (percent);
+			percent_string = g_strdup_printf (_("Percent Complete: %i"), percent);
 
 			top = bound_text (
 				context, font, percent_string, -1,
 				0.0, top, width, height, FALSE, NULL, &page_start, &pages);
 			top += get_font_size (font) - 6;
+
+			g_free (percent_string);
 		}
 
 		/* URL */
-		e_cal_component_get_url (comp, &url);
+		url = e_cal_component_get_url (comp);
 		if (url && url[0]) {
 			gchar *url_string;
 
@@ -3661,10 +3675,12 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			top += get_font_size (font) - 6;
 			g_free (url_string);
 		}
+
+		g_free (url);
 	}
 
 	/* Categories */
-	e_cal_component_get_categories (comp, &categories);
+	categories = e_cal_component_get_categories (comp);
 	if (categories && categories[0]) {
 		categories_string = g_strdup_printf (
 			_("Categories: %s"), categories);
@@ -3674,9 +3690,10 @@ print_comp_draw_real (GtkPrintOperation *operation,
 		top += get_font_size (font) - 6;
 		g_free (categories_string);
 	}
+	g_free (categories);
 
 	/* Contacts */
-	e_cal_component_get_contact_list (comp, &contact_list);
+	contact_list = e_cal_component_get_contacts (comp);
 	if (contact_list) {
 		GString *contacts = g_string_new (_("Contacts: "));
 		for (elem = contact_list; elem; elem = elem->next) {
@@ -3684,9 +3701,9 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			/* Put a comma between contacts. */
 			if (elem != contact_list)
 				g_string_append (contacts, ", ");
-			g_string_append (contacts, t->value);
+			g_string_append (contacts, e_cal_component_text_get_value (t));
 		}
-		e_cal_component_free_text_list (contact_list);
+		g_slist_free_full (contact_list, e_cal_component_text_free);
 
 		top = bound_text (
 			context, font, contacts->str, -1,
@@ -3697,12 +3714,12 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	top += 16;
 
 	/* Description */
-	e_cal_component_get_description_list (comp, &desc);
-	for (l = desc; l != NULL; l = l->next) {
-		ECalComponentText *ptext = l->data;
+	desc = e_cal_component_get_descriptions (comp);
+	for (elem = desc; elem; elem = g_slist_next (elem)) {
+		ECalComponentText *ptext = elem->data;
 		const gchar *line, *next_line;
 
-		for (line = ptext->value; line != NULL; line = next_line) {
+		for (line = e_cal_component_text_get_value (ptext); line != NULL; line = next_line) {
 			next_line = strchr (line, '\n');
 
 			top = bound_text (
@@ -3720,7 +3737,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 	}
 
-	e_cal_component_free_text_list (desc);
+	g_slist_free_full (desc, e_cal_component_text_free);
 	pango_font_description_free (font);
 
 	return pages;
@@ -3750,7 +3767,7 @@ print_comp_begin_print (GtkPrintOperation *operation,
 void
 print_comp (ECalComponent *comp,
             ECalClient *cal_client,
-            icaltimezone *zone,
+            ICalTimezone *zone,
             gboolean use_24_hour_format,
             GtkPrintOperationAction action)
 {

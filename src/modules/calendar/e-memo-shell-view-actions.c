@@ -72,7 +72,7 @@ action_memo_forward_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only forward the first selected memo. */
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
 	g_return_if_fail (comp != NULL);
 
 	itip_send_component_with_model (e_memo_table_get_model (memo_table),
@@ -405,7 +405,7 @@ action_memo_open_url_cb (GtkAction *action,
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
-	icalproperty *prop;
+	ICalProperty *prop;
 	const gchar *uri;
 	GSList *list;
 
@@ -421,12 +421,13 @@ action_memo_open_url_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only open the URI of the first selected memo. */
-	prop = icalcomponent_get_first_property (
-		comp_data->icalcomp, ICAL_URL_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
 	g_return_if_fail (prop != NULL);
 
-	uri = icalproperty_get_url (prop);
+	uri = i_cal_property_get_url (prop);
 	e_show_uri (GTK_WINDOW (shell_window), uri);
+
+	g_object_unref (prop);
 }
 
 static void
@@ -450,7 +451,6 @@ action_memo_print_cb (GtkAction *action,
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	ECalModel *model;
-	icalcomponent *clone;
 	GSList *list;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
@@ -463,9 +463,7 @@ action_memo_print_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only print the first selected memo. */
-	comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	e_cal_component_set_icalcomponent (comp, clone);
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
 
 	print_comp (
 		comp, comp_data->client,
@@ -507,7 +505,7 @@ action_memo_save_as_cb (GtkAction *action,
 
 	/* Translators: Default filename part saving a memo to a file when
 	 * no summary is filed, the '.ics' extension is concatenated to it. */
-	string = icalcomp_suggest_filename (comp_data->icalcomp, _("memo"));
+	string = comp_util_suggest_filename (comp_data->icalcomp, _("memo"));
 	file = e_shell_run_save_dialog (
 		shell, _("Save as iCalendar"), string,
 		"*.ics:text/calendar", NULL, NULL);

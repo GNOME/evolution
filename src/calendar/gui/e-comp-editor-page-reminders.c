@@ -90,10 +90,10 @@ static const gint action_map[] = {
 };
 
 static const gchar *action_map_cap[] = {
-	CAL_STATIC_CAPABILITY_NO_DISPLAY_ALARMS,
-	CAL_STATIC_CAPABILITY_NO_AUDIO_ALARMS,
-	CAL_STATIC_CAPABILITY_NO_PROCEDURE_ALARMS,
-	CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS
+	E_CAL_STATIC_CAPABILITY_NO_DISPLAY_ALARMS,
+	E_CAL_STATIC_CAPABILITY_NO_AUDIO_ALARMS,
+	E_CAL_STATIC_CAPABILITY_NO_PROCEDURE_ALARMS,
+	E_CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS
 };
 
 static const gint value_map[] = {
@@ -239,51 +239,59 @@ ecep_reminders_get_text_view_text (GtkWidget *text_view)
 	return gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
 }
 
-static void
+static gboolean
 ecep_reminders_remove_needs_description_property (ECalComponentAlarm *alarm)
 {
-	icalcomponent *component;
-	icalproperty *prop;
+	ECalComponentPropertyBag *bag;
+	guint ii, sz;
 
-	g_return_if_fail (alarm != NULL);
+	g_return_val_if_fail (alarm != NULL, FALSE);
 
-	component = e_cal_component_alarm_get_icalcomponent (alarm);
-	g_return_if_fail (component != NULL);
+	bag = e_cal_component_alarm_get_property_bag (alarm);
+	g_return_val_if_fail (bag != NULL, FALSE);
 
-	for (prop = icalcomponent_get_first_property (component, ICAL_X_PROPERTY);
-	     prop;
-	     prop = icalcomponent_get_next_property (component, ICAL_X_PROPERTY)) {
+	sz = e_cal_component_property_bag_get_count (bag);
+	for (ii = 0; ii < sz; ii++) {
+		ICalProperty *prop;
 		const gchar *x_name;
 
-		x_name = icalproperty_get_x_name (prop);
+		prop = e_cal_component_property_bag_get (bag, ii);
+		if (!prop || i_cal_property_isa (prop) != I_CAL_X_PROPERTY)
+			continue;
+
+		x_name = i_cal_property_get_x_name (prop);
 		if (g_str_equal (x_name, X_EVOLUTION_NEEDS_DESCRIPTION)) {
-			icalcomponent_remove_property (component, prop);
-			icalproperty_free (prop);
-			break;
+			e_cal_component_property_bag_remove (bag, ii);
+			return TRUE;
 		}
 	}
+
+	return FALSE;
 }
 
 static gboolean
 ecep_reminders_has_needs_description_property (ECalComponentAlarm *alarm)
 {
-	icalcomponent *component;
-	icalproperty *prop;
+	ECalComponentPropertyBag *bag;
+	guint ii, sz;
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
-	component = e_cal_component_alarm_get_icalcomponent (alarm);
-	g_return_val_if_fail (component != NULL, FALSE);
+	bag = e_cal_component_alarm_get_property_bag (alarm);
+	g_return_val_if_fail (bag != NULL, FALSE);
 
-	for (prop = icalcomponent_get_first_property (component, ICAL_X_PROPERTY);
-	     prop;
-	     prop = icalcomponent_get_next_property (component, ICAL_X_PROPERTY)) {
+	sz = e_cal_component_property_bag_get_count (bag);
+	for (ii = 0; ii < sz; ii++) {
+		ICalProperty *prop;
 		const gchar *x_name;
 
-		x_name = icalproperty_get_x_name (prop);
-		if (g_str_equal (x_name, X_EVOLUTION_NEEDS_DESCRIPTION)) {
+		prop = e_cal_component_property_bag_get (bag, ii);
+		if (!prop || i_cal_property_isa (prop) != I_CAL_X_PROPERTY)
+			continue;
+
+		x_name = i_cal_property_get_x_name (prop);
+		if (g_str_equal (x_name, X_EVOLUTION_NEEDS_DESCRIPTION))
 			return TRUE;
-		}
 	}
 
 	return FALSE;
@@ -292,20 +300,20 @@ ecep_reminders_has_needs_description_property (ECalComponentAlarm *alarm)
 static void
 ecep_reminders_add_needs_description_property (ECalComponentAlarm *alarm)
 {
-	icalcomponent *component;
-	icalproperty *prop;
+	ECalComponentPropertyBag *bag;
+	ICalProperty *prop;
 
 	g_return_if_fail (alarm != NULL);
 
 	if (ecep_reminders_has_needs_description_property (alarm))
 		return;
 
-	component = e_cal_component_alarm_get_icalcomponent (alarm);
-	g_return_if_fail (component != NULL);
+	bag = e_cal_component_alarm_get_property_bag (alarm);
+	g_return_if_fail (bag != NULL);
 
-	prop = icalproperty_new_x ("1");
-	icalproperty_set_x_name (prop, X_EVOLUTION_NEEDS_DESCRIPTION);
-	icalcomponent_add_property (component, prop);
+	prop = i_cal_property_new_x ("1");
+	i_cal_property_set_x_name (prop, X_EVOLUTION_NEEDS_DESCRIPTION);
+	e_cal_component_property_bag_take (bag, prop);
 }
 
 static void
@@ -345,10 +353,11 @@ ecep_reminders_reset_alarm_widget (ECompEditorPageReminders *page_reminders)
 static void
 ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 {
-	ECalComponentAlarmTrigger trigger;
+	ECalComponentAlarmTrigger *trigger;
 	ECalComponentAlarmAction action;
-	ECalComponentAlarmRepeat repeat;
+	ECalComponentAlarmRepeat *repeat;
 	ECalComponentAlarm *alarm;
+	ICalDuration *duration;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 
@@ -360,8 +369,8 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 	alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (page_reminders->priv->alarm_list, &iter);
 	g_return_if_fail (alarm != NULL);
 
-	e_cal_component_alarm_get_action (alarm, &action);
-	e_cal_component_alarm_get_trigger (alarm, &trigger);
+	action = e_cal_component_alarm_get_action (alarm);
+	trigger = e_cal_component_alarm_get_trigger (alarm);
 
 	e_comp_editor_page_set_updating (E_COMP_EDITOR_PAGE (page_reminders), TRUE);
 
@@ -373,7 +382,7 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 	}
 
 	/* Alarm Types */
-	switch (trigger.type) {
+	switch (e_cal_component_alarm_trigger_get_kind (trigger)) {
 	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START:
 		e_dialog_combo_box_set (page_reminders->priv->relative_to_combo, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
 		break;
@@ -382,10 +391,11 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 		e_dialog_combo_box_set (page_reminders->priv->relative_to_combo, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END, time_map);
 		break;
 	default:
-		g_warning ("%s: Unexpected alarm trigger type (%d)", G_STRLOC, trigger.type);
+		g_warning ("%s: Unexpected alarm trigger type (%d)", G_STRLOC, e_cal_component_alarm_trigger_get_kind (trigger));
 	}
 
-	switch (trigger.u.rel_duration.is_neg) {
+	duration = e_cal_component_alarm_trigger_get_duration (trigger);
+	switch (i_cal_duration_is_neg (duration)) {
 	case 1:
 		e_dialog_combo_box_set (page_reminders->priv->relative_time_combo, BEFORE, relative_map);
 		break;
@@ -395,47 +405,49 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 		break;
 	}
 
-	if (trigger.u.rel_duration.days) {
+	if (i_cal_duration_get_days (duration)) {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, DAYS, value_map);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin),
-			trigger.u.rel_duration.days);
-	} else if (trigger.u.rel_duration.hours) {
+			i_cal_duration_get_days (duration));
+	} else if (i_cal_duration_get_hours (duration)) {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, HOURS, value_map);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin),
-			trigger.u.rel_duration.hours);
-	} else if (trigger.u.rel_duration.minutes) {
+			i_cal_duration_get_hours (duration));
+	} else if (i_cal_duration_get_minutes (duration)) {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, MINUTES, value_map);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin),
-			trigger.u.rel_duration.minutes);
+			i_cal_duration_get_minutes (duration));
 	} else {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, MINUTES, value_map);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin), 0);
 	}
 
 	/* Repeat options */
-	e_cal_component_alarm_get_repeat (alarm, &repeat);
+	repeat = e_cal_component_alarm_get_repeat (alarm);
 
-	if (repeat.repetitions) {
+	if (e_cal_component_alarm_repeat_get_repetitions (repeat)) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->repeat_check), TRUE);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->repeat_times_spin),
-			repeat.repetitions);
+			e_cal_component_alarm_repeat_get_repetitions (repeat));
 
-		if (repeat.duration.minutes) {
+		duration = e_cal_component_alarm_repeat_get_interval (repeat);
+
+		if (i_cal_duration_get_minutes (duration)) {
 			e_dialog_combo_box_set (page_reminders->priv->repeat_unit_combo, DUR_MINUTES, duration_units_map);
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin),
-				repeat.duration.minutes);
+				i_cal_duration_get_minutes (duration));
 		}
 
-		if (repeat.duration.hours) {
+		if (i_cal_duration_get_hours (duration)) {
 			e_dialog_combo_box_set (page_reminders->priv->repeat_unit_combo, DUR_HOURS, duration_units_map);
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin),
-				repeat.duration.hours);
+				i_cal_duration_get_hours (duration));
 		}
 
-		if (repeat.duration.days) {
+		if (i_cal_duration_get_days (duration)) {
 			e_dialog_combo_box_set (page_reminders->priv->repeat_unit_combo, DUR_DAYS, duration_units_map);
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin),
-				repeat.duration.days);
+				i_cal_duration_get_days (duration));
 		}
 	} else {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->repeat_check), FALSE);
@@ -448,11 +460,17 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 
 	switch (action) {
 	case E_CAL_COMPONENT_ALARM_AUDIO: {
-		const gchar *url;
-		icalattach *attach = NULL;
+		GSList *attachments;
+		const gchar *url = NULL;
 
-		e_cal_component_alarm_get_attach (alarm, &attach);
-		url = attach ? icalattach_get_url (attach) : NULL;
+		attachments = e_cal_component_alarm_get_attachments (alarm);
+		/* Audio alarm can have only one attachment, the file to play */
+		if (attachments && !attachments->next) {
+			ICalAttach *attach = attachments->data;
+
+			url = attach ? i_cal_attach_get_url (attach) : NULL;
+		}
+
 		if (url && *url) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_sound_check), TRUE);
 			gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (page_reminders->priv->custom_sound_chooser), url);
@@ -460,19 +478,16 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_sound_check), FALSE);
 			gtk_file_chooser_unselect_all (GTK_FILE_CHOOSER (page_reminders->priv->custom_sound_chooser));
 		}
-
-		if (attach)
-			icalattach_unref (attach);
 		} break;
 
 	case E_CAL_COMPONENT_ALARM_DISPLAY: {
-		ECalComponentText description;
+		ECalComponentText* description;
 
-		e_cal_component_alarm_get_description (alarm, &description);
+		description = e_cal_component_alarm_get_description (alarm);
 
-		if (description.value && *description.value) {
+		if (description && e_cal_component_text_get_value (description) && e_cal_component_text_get_value (description)[0]) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_message_check), TRUE);
-			ecep_reminders_set_text_view_text (page_reminders->priv->custom_message_text_view, description.value);
+			ecep_reminders_set_text_view_text (page_reminders->priv->custom_message_text_view, e_cal_component_text_get_value (description));
 		} else {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_message_check), FALSE);
 			ecep_reminders_set_text_view_text (page_reminders->priv->custom_message_text_view, NULL);
@@ -482,38 +497,36 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 	case E_CAL_COMPONENT_ALARM_EMAIL: {
 		ENameSelectorModel *name_selector_model;
 		EDestinationStore *destination_store;
-		ECalComponentText description;
-		GSList *attendee_list, *link;
+		ECalComponentText *description;
+		GSList *attendees, *link;
 
 		/* Attendees */
 		name_selector_model = e_name_selector_peek_model (page_reminders->priv->name_selector);
 		e_name_selector_model_peek_section (name_selector_model, SECTION_NAME, NULL, &destination_store);
 
-		e_cal_component_alarm_get_attendee_list (alarm, &attendee_list);
-		for (link = attendee_list; link; link = g_slist_next (link)) {
-			ECalComponentAttendee *a = link->data;
+		attendees = e_cal_component_alarm_get_attendees (alarm);
+		for (link = attendees; link; link = g_slist_next (link)) {
+			ECalComponentAttendee *att = link->data;
 			EDestination *dest;
 
 			dest = e_destination_new ();
 
-			if (a->cn && *a->cn)
-				e_destination_set_name (dest, a->cn);
+			if (att && e_cal_component_attendee_get_cn (att) && e_cal_component_attendee_get_cn (att)[0])
+				e_destination_set_name (dest, e_cal_component_attendee_get_cn (att));
 
-			if (a->value && *a->value)
-				e_destination_set_email (dest, itip_strip_mailto (a->value));
+			if (att && e_cal_component_attendee_get_value (att) && e_cal_component_attendee_get_value (att)[0])
+				e_destination_set_email (dest, itip_strip_mailto (e_cal_component_attendee_get_value (att)));
 
 			e_destination_store_append_destination (destination_store, dest);
 
 			g_object_unref (dest);
 		}
 
-		e_cal_component_free_attendee_list (attendee_list);
-
 		/* Description */
-		e_cal_component_alarm_get_description (alarm, &description);
-		if (description.value && *description.value) {
+		description = e_cal_component_alarm_get_description (alarm);
+		if (description && e_cal_component_text_get_value (description) && e_cal_component_text_get_value (description)[0]) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_email_message_check), TRUE);
-			ecep_reminders_set_text_view_text (page_reminders->priv->custom_email_message_text_view, description.value);
+			ecep_reminders_set_text_view_text (page_reminders->priv->custom_email_message_text_view, e_cal_component_text_get_value (description));
 		} else {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_email_message_check), FALSE);
 			ecep_reminders_set_text_view_text (page_reminders->priv->custom_email_message_text_view, NULL);
@@ -521,26 +534,27 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 		} break;
 
 	case E_CAL_COMPONENT_ALARM_PROCEDURE: {
-		const gchar *url;
-		icalattach *attach = NULL;
+		const gchar *url = NULL;
+		GSList *attachments;
 
-		e_cal_component_alarm_get_attach (alarm, (&attach));
-		url = attach ? icalattach_get_url (attach) : NULL;
+		attachments = e_cal_component_alarm_get_attachments (alarm);
+		if (attachments && !attachments->next) {
+			ICalAttach *attach = attachments->data;
+			url = attach ? i_cal_attach_get_url (attach) : NULL;
+		}
 
 		if (url && *url) {
-			ECalComponentText description;
+			ECalComponentText *description;
 
-			e_cal_component_alarm_get_description (alarm, &description);
+			description = e_cal_component_alarm_get_description (alarm);
 
 			gtk_entry_set_text (GTK_ENTRY (page_reminders->priv->custom_app_path_entry), url);
-			gtk_entry_set_text (GTK_ENTRY (page_reminders->priv->custom_app_args_entry), description.value ? description.value : "");
+			gtk_entry_set_text (GTK_ENTRY (page_reminders->priv->custom_app_args_entry),
+				(description && e_cal_component_text_get_value (description)) ? e_cal_component_text_get_value (description) : "");
 		} else {
 			gtk_entry_set_text (GTK_ENTRY (page_reminders->priv->custom_app_path_entry), "");
 			gtk_entry_set_text (GTK_ENTRY (page_reminders->priv->custom_app_args_entry), "");
 		}
-
-		if (attach)
-			icalattach_unref (attach);
 		} break;
 	default:
 		g_warning ("%s: Unexpected alarm action (%d)", G_STRLOC, action);
@@ -552,10 +566,11 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 static void
 ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 {
-	ECalComponentAlarmTrigger trigger;
+	ECalComponentAlarmTrigger *trigger;
 	ECalComponentAlarmAction action;
-	ECalComponentAlarmRepeat repeat;
+	ECalComponentAlarmRepeat *repeat = NULL;
 	ECalComponentAlarm *alarm;
+	ICalDuration *duration;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 
@@ -570,71 +585,75 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 
 	alarm = e_cal_component_alarm_new ();
 
-	/* Fill out the alarm */
-	memset (&trigger, 0, sizeof (ECalComponentAlarmTrigger));
+	duration = i_cal_duration_null_duration ();
 
-	trigger.type = e_dialog_combo_box_get (page_reminders->priv->relative_to_combo, time_map);
 	if (e_dialog_combo_box_get (page_reminders->priv->relative_time_combo, relative_map) == BEFORE)
-		trigger.u.rel_duration.is_neg = 1;
+		i_cal_duration_set_is_neg (duration, TRUE);
 	else
-		trigger.u.rel_duration.is_neg = 0;
+		i_cal_duration_set_is_neg (duration, FALSE);
 
 	switch (e_dialog_combo_box_get (page_reminders->priv->unit_combo, value_map)) {
 	case MINUTES:
-		trigger.u.rel_duration.minutes = gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (page_reminders->priv->time_spin));
+		i_cal_duration_set_minutes (duration, gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (page_reminders->priv->time_spin)));
 		break;
 
 	case HOURS:
-		trigger.u.rel_duration.hours = gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (page_reminders->priv->time_spin));
+		i_cal_duration_set_hours (duration, gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (page_reminders->priv->time_spin)));
 		break;
 
 	case DAYS:
-		trigger.u.rel_duration.days = gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (page_reminders->priv->time_spin));
+		i_cal_duration_set_days (duration, gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (page_reminders->priv->time_spin)));
 		break;
 
 	default:
 		g_return_if_reached ();
 	}
-	e_cal_component_alarm_set_trigger (alarm, trigger);
+
+	trigger = e_cal_component_alarm_trigger_new_relative (
+		e_dialog_combo_box_get (page_reminders->priv->relative_to_combo, time_map),
+		duration);
+
+	g_object_unref (duration);
+
+	e_cal_component_alarm_take_trigger (alarm, trigger);
 
 	action = e_dialog_combo_box_get (page_reminders->priv->kind_combo, action_map);
 	e_cal_component_alarm_set_action (alarm, action);
 
 	/* Repeat stuff */
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (page_reminders->priv->repeat_check))) {
-		repeat.repetitions = gtk_spin_button_get_value_as_int (
-			GTK_SPIN_BUTTON (page_reminders->priv->repeat_times_spin));
-
-		memset (&repeat.duration, 0, sizeof (repeat.duration));
+		duration = i_cal_duration_null_duration ();
 
 		switch (e_dialog_combo_box_get (page_reminders->priv->repeat_unit_combo, duration_units_map)) {
 		case DUR_MINUTES:
-			repeat.duration.minutes = gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin));
+			i_cal_duration_set_minutes (duration, gtk_spin_button_get_value_as_int (
+				GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin)));
 			break;
 
 		case DUR_HOURS:
-			repeat.duration.hours = gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin));
+			i_cal_duration_set_hours (duration, gtk_spin_button_get_value_as_int (
+				GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin)));
 			break;
 
 		case DUR_DAYS:
-			repeat.duration.days = gtk_spin_button_get_value_as_int (
-				GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin));
+			i_cal_duration_set_days (duration, gtk_spin_button_get_value_as_int (
+				GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin)));
 			break;
 
 		default:
 			g_return_if_reached ();
 		}
-	} else {
-		memset (&repeat, 0, sizeof (repeat));
-		repeat.repetitions = 0;
+
+		repeat = e_cal_component_alarm_repeat_new (gtk_spin_button_get_value_as_int (
+			GTK_SPIN_BUTTON (page_reminders->priv->repeat_times_spin)), duration);
+
+		g_object_unref (duration);
 	}
 
-	e_cal_component_alarm_set_repeat (alarm, repeat);
+	e_cal_component_alarm_take_repeat (alarm, repeat);
 
 	/* Options */
 	switch (action) {
@@ -649,11 +668,12 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 			url = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (page_reminders->priv->custom_sound_chooser));
 
 			if (url && *url) {
-				icalattach *attach;
+				ICalAttach *attach;
+				GSList *attachments;
 
-				attach = icalattach_new_from_url (url);
-				e_cal_component_alarm_set_attach (alarm, attach);
-				icalattach_unref (attach);
+				attach = i_cal_attach_new_from_url (url);
+				attachments = g_slist_prepend (NULL, attach);
+				e_cal_component_alarm_take_attachments (alarm, attachments);
 			}
 
 			g_free (url);
@@ -676,15 +696,15 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 
 	case E_CAL_COMPONENT_ALARM_DISPLAY:
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_message_check))) {
-			ECalComponentText description;
 			gchar *text;
 
 			text = ecep_reminders_get_text_view_text (page_reminders->priv->custom_message_text_view);
 			if (text && *text) {
-				description.value = text;
-				description.altrep = NULL;
+				ECalComponentText *description;
 
-				e_cal_component_alarm_set_description (alarm, &description);
+				description = e_cal_component_text_new (text, NULL);
+
+				e_cal_component_alarm_take_description (alarm, description);
 
 				ecep_reminders_remove_needs_description_property (alarm);
 			}
@@ -694,7 +714,7 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 		break;
 
 	case E_CAL_COMPONENT_ALARM_EMAIL: {
-		GSList *attendee_list = NULL;
+		GSList *attendees = NULL;
 		ENameSelectorModel *name_selector_model;
 		EDestinationStore *destination_store;
 		GList *destinations, *link;
@@ -706,33 +726,35 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 
 		for (link = destinations; link; link = g_list_next (link)) {
 			EDestination *dest = link->data;
-			ECalComponentAttendee *a;
+			ECalComponentAttendee *att;
+			gchar *mailto;
 
-			a = g_new0 (ECalComponentAttendee, 1);
-			a->value = e_destination_get_email (dest);
-			a->cn = e_destination_get_name (dest);
-			a->cutype = ICAL_CUTYPE_INDIVIDUAL;
-			a->status = ICAL_PARTSTAT_NEEDSACTION;
-			a->role = ICAL_ROLE_REQPARTICIPANT;
+			mailto = g_strconcat ("mailto:", e_destination_get_email (dest), NULL);
+			att = e_cal_component_attendee_new ();
+			e_cal_component_attendee_set_value (att, mailto);
+			e_cal_component_attendee_set_cn (att, e_destination_get_name (dest));
+			e_cal_component_attendee_set_cutype (att, I_CAL_CUTYPE_INDIVIDUAL);
+			e_cal_component_attendee_set_partstat (att, I_CAL_PARTSTAT_NEEDSACTION);
+			e_cal_component_attendee_set_role (att, I_CAL_ROLE_REQPARTICIPANT);
 
-			attendee_list = g_slist_append (attendee_list, a);
+			attendees = g_slist_prepend (attendees, att);
+
+			g_free (mailto);
 		}
 
-		e_cal_component_alarm_set_attendee_list (alarm, attendee_list);
+		e_cal_component_alarm_take_attendees (alarm, g_slist_reverse (attendees));
 
-		e_cal_component_free_attendee_list (attendee_list);
 		g_list_free (destinations);
 
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_email_message_check))) {
-			ECalComponentText description;
 			gchar *text;
 
 			text = ecep_reminders_get_text_view_text (page_reminders->priv->custom_email_message_text_view);
 			if (text && *text) {
-				description.value = text;
-				description.altrep = NULL;
+				ECalComponentText *description;
 
-				e_cal_component_alarm_set_description (alarm, &description);
+				description = e_cal_component_text_new (text, NULL);
+				e_cal_component_alarm_take_description (alarm, description);
 
 				ecep_reminders_remove_needs_description_property (alarm);
 			}
@@ -742,22 +764,20 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 		} break;
 
 	case E_CAL_COMPONENT_ALARM_PROCEDURE: {
-		ECalComponentText description;
-		icalattach *attach;
+		ECalComponentText *description;
+		GSList *attachments;
 		const gchar *text;
 
 		text = gtk_entry_get_text (GTK_ENTRY (page_reminders->priv->custom_app_path_entry));
 
-		attach = icalattach_new_from_url (text ? text : "");
-		e_cal_component_alarm_set_attach (alarm, attach);
-		icalattach_unref (attach);
+		attachments = g_slist_prepend (NULL, i_cal_attach_new_from_url (text ? text : ""));
+		e_cal_component_alarm_take_attachments (alarm, attachments);
 
 		text = gtk_entry_get_text (GTK_ENTRY (page_reminders->priv->custom_app_args_entry));
 
-		description.value = text;
-		description.altrep = NULL;
+		description = e_cal_component_text_new (text, NULL);
 
-		e_cal_component_alarm_set_description (alarm, &description);
+		e_cal_component_alarm_take_description (alarm, description);
 		ecep_reminders_remove_needs_description_property (alarm);
 		} break;
 
@@ -793,7 +813,7 @@ ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 					ECompEditorPageReminders *page_reminders)
 {
 	ECalComponentAlarm *alarm;
-	ECalComponentAlarmTrigger trigger;
+	ICalDuration *duration;
 	gint alarm_type;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
@@ -830,35 +850,35 @@ ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 
 	e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_DISPLAY);
 
-	memset (&trigger, 0, sizeof (ECalComponentAlarmTrigger));
-	trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
-	trigger.u.rel_duration.is_neg = 1;
+	duration = i_cal_duration_null_duration ();
+
+	i_cal_duration_set_is_neg (duration, TRUE);
 
 	switch (alarm_type) {
 	case ALARM_15_MINUTES:
-		trigger.u.rel_duration.minutes = 15;
+		i_cal_duration_set_minutes (duration, 15);
 		break;
 
 	case ALARM_1_HOUR:
-		trigger.u.rel_duration.hours = 1;
+		i_cal_duration_set_hours (duration, 1);
 		break;
 
 	case ALARM_1_DAY:
-		trigger.u.rel_duration.days = 1;
+		i_cal_duration_set_days (duration, 1);
 		break;
 
 	case ALARM_USER_TIME:
 		switch (page_reminders->priv->alarm_units) {
 		case E_DURATION_DAYS:
-			trigger.u.rel_duration.days = page_reminders->priv->alarm_interval;
+			i_cal_duration_set_days (duration, page_reminders->priv->alarm_interval);
 			break;
 
 		case E_DURATION_HOURS:
-			trigger.u.rel_duration.hours = page_reminders->priv->alarm_interval;
+			i_cal_duration_set_hours (duration, page_reminders->priv->alarm_interval);
 			break;
 
 		case E_DURATION_MINUTES:
-			trigger.u.rel_duration.minutes = page_reminders->priv->alarm_interval;
+			i_cal_duration_set_minutes (duration, page_reminders->priv->alarm_interval);
 			break;
 		}
 		break;
@@ -867,10 +887,12 @@ ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 		break;
 	}
 
-	e_cal_component_alarm_set_trigger (alarm, trigger);
+	e_cal_component_alarm_take_trigger (alarm,
+		e_cal_component_alarm_trigger_new_relative (E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, duration));
 	ecep_reminders_add_needs_description_property (alarm);
 	e_alarm_list_append (page_reminders->priv->alarm_list, NULL, alarm);
 	e_cal_component_alarm_free (alarm);
+	g_object_unref (duration);
 }
 
 static void
@@ -880,7 +902,7 @@ ecep_reminders_alarms_add_clicked_cb (GtkButton *button,
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	ECalComponentAlarm *alarm;
-	ECalComponentAlarmTrigger trigger;
+	ICalDuration *duration;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
 
@@ -888,13 +910,14 @@ ecep_reminders_alarms_add_clicked_cb (GtkButton *button,
 
 	ecep_reminders_add_needs_description_property (alarm);
 
-	memset (&trigger, 0, sizeof (ECalComponentAlarmTrigger));
-	trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
-	trigger.u.rel_duration.is_neg = 1;
-	trigger.u.rel_duration.minutes = 15;
+	duration = i_cal_duration_null_duration ();
+	i_cal_duration_set_is_neg (duration, TRUE);
+	i_cal_duration_set_minutes (duration, 15);
 
 	e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_DISPLAY);
-	e_cal_component_alarm_set_trigger (alarm, trigger);
+	e_cal_component_alarm_take_trigger (alarm,
+		e_cal_component_alarm_trigger_new_relative (E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, duration));
+	g_object_unref (duration);
 
 	e_alarm_list_append (page_reminders->priv->alarm_list, &iter, alarm);
 
@@ -963,7 +986,7 @@ ecep_reminders_set_alarm_email (ECompEditorPageReminders *page_reminders)
 	target_client = e_comp_editor_get_target_client (comp_editor);
 
 	if (target_client &&
-	    !e_client_check_capability (E_CLIENT (target_client), CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)) {
+	    !e_client_check_capability (E_CLIENT (target_client), E_CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS)) {
 		ENameSelectorModel *selector_model;
 		EDestinationStore *destination_store = NULL;
 		const gchar *alarm_email;
@@ -1082,65 +1105,68 @@ ecep_reminders_is_custom_alarm (ECalComponentAlarm *ca,
 				gint user_interval,
 				gint *alarm_type)
 {
-	ECalComponentAlarmTrigger trigger;
-	ECalComponentAlarmRepeat repeat;
+	ECalComponentAlarmTrigger *trigger;
+	ECalComponentAlarmRepeat *repeat;
 	ECalComponentAlarmAction action;
-	ECalComponentText desc;
-	icalattach *attach;
+	ECalComponentText *desc;
+	ICalDuration *duration;
+	GSList *attachments;
 
-	e_cal_component_alarm_get_action (ca, &action);
+	action = e_cal_component_alarm_get_action (ca);
 	if (action != E_CAL_COMPONENT_ALARM_DISPLAY)
 		return TRUE;
 
-	e_cal_component_alarm_get_attach (ca, &attach);
-	if (attach)
+	attachments = e_cal_component_alarm_get_attachments (ca);
+	if (attachments)
 		return TRUE;
 
 	if (!ecep_reminders_has_needs_description_property (ca)) {
-		e_cal_component_alarm_get_description (ca, &desc);
-		if (!desc.value || !old_summary || strcmp (desc.value, old_summary))
+		desc = e_cal_component_alarm_get_description (ca);
+		if (!desc || !e_cal_component_text_get_value (desc) ||
+		    !old_summary || strcmp (e_cal_component_text_get_value (desc), old_summary))
 			return TRUE;
 	}
 
-	e_cal_component_alarm_get_repeat (ca, &repeat);
-	if (repeat.repetitions != 0)
+	repeat = e_cal_component_alarm_get_repeat (ca);
+	if (repeat && e_cal_component_alarm_repeat_get_repetitions (repeat) != 0)
 		return TRUE;
 
 	if (e_cal_component_alarm_has_attendees (ca))
 		return TRUE;
 
-	e_cal_component_alarm_get_trigger (ca, &trigger);
-	if (trigger.type != E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START)
+	trigger = e_cal_component_alarm_get_trigger (ca);
+	if (!trigger || e_cal_component_alarm_trigger_get_kind (trigger) != E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START)
 		return TRUE;
 
-	if (trigger.u.rel_duration.is_neg != 1)
+	duration = e_cal_component_alarm_trigger_get_duration (trigger);
+	if (!duration || i_cal_duration_is_neg (duration) != 1)
 		return TRUE;
 
-	if (trigger.u.rel_duration.weeks != 0)
+	if (i_cal_duration_get_weeks (duration) != 0)
 		return TRUE;
 
-	if (trigger.u.rel_duration.seconds != 0)
+	if (i_cal_duration_get_seconds (duration) != 0)
 		return TRUE;
 
-	if (trigger.u.rel_duration.days == 1
-	    && trigger.u.rel_duration.hours == 0
-	    && trigger.u.rel_duration.minutes == 0) {
+	if (i_cal_duration_get_days (duration) == 1 &&
+	    i_cal_duration_get_hours (duration) == 0 &&
+	    i_cal_duration_get_minutes (duration) == 0) {
 		if (alarm_type)
 			*alarm_type = ALARM_1_DAY;
 		return FALSE;
 	}
 
-	if (trigger.u.rel_duration.days == 0
-	    && trigger.u.rel_duration.hours == 1
-	    && trigger.u.rel_duration.minutes == 0) {
+	if (i_cal_duration_get_days (duration) == 0 &&
+	    i_cal_duration_get_hours (duration) == 1 &&
+	    i_cal_duration_get_minutes (duration) == 0) {
 		if (alarm_type)
 			*alarm_type = ALARM_1_HOUR;
 		return FALSE;
 	}
 
-	if (trigger.u.rel_duration.days == 0
-	    && trigger.u.rel_duration.hours == 0
-	    && trigger.u.rel_duration.minutes == 15) {
+	if (i_cal_duration_get_days (duration) == 0 &&
+	    i_cal_duration_get_hours (duration) == 0 &&
+	    i_cal_duration_get_minutes (duration) == 15) {
 		if (alarm_type)
 			*alarm_type = ALARM_15_MINUTES;
 		return FALSE;
@@ -1149,9 +1175,9 @@ ecep_reminders_is_custom_alarm (ECalComponentAlarm *ca,
 	if (user_interval != -1) {
 		switch (user_units) {
 		case E_DURATION_DAYS:
-			if (trigger.u.rel_duration.days == user_interval
-			    && trigger.u.rel_duration.hours == 0
-			    && trigger.u.rel_duration.minutes == 0) {
+			if (i_cal_duration_get_days (duration) == user_interval &&
+			    i_cal_duration_get_hours (duration) == 0 &&
+			    i_cal_duration_get_minutes (duration) == 0) {
 				if (alarm_type)
 					*alarm_type = ALARM_USER_TIME;
 				return FALSE;
@@ -1159,9 +1185,9 @@ ecep_reminders_is_custom_alarm (ECalComponentAlarm *ca,
 			break;
 
 		case E_DURATION_HOURS:
-			if (trigger.u.rel_duration.days == 0
-			    && trigger.u.rel_duration.hours == user_interval
-			    && trigger.u.rel_duration.minutes == 0) {
+			if (i_cal_duration_get_days (duration) == 0 &&
+			    i_cal_duration_get_hours (duration) == user_interval &&
+			    i_cal_duration_get_minutes (duration) == 0) {
 				if (alarm_type)
 					*alarm_type = ALARM_USER_TIME;
 				return FALSE;
@@ -1169,9 +1195,9 @@ ecep_reminders_is_custom_alarm (ECalComponentAlarm *ca,
 			break;
 
 		case E_DURATION_MINUTES:
-			if (trigger.u.rel_duration.days == 0
-			    && trigger.u.rel_duration.hours == 0
-			    && trigger.u.rel_duration.minutes == user_interval) {
+			if (i_cal_duration_get_days (duration) == 0 &&
+			    i_cal_duration_get_hours (duration) == 0 &&
+			    i_cal_duration_get_minutes (duration) == user_interval) {
 				if (alarm_type)
 					*alarm_type = ALARM_USER_TIME;
 				return FALSE;
@@ -1185,7 +1211,7 @@ ecep_reminders_is_custom_alarm (ECalComponentAlarm *ca,
 
 static gboolean
 ecep_reminders_is_custom_alarm_uid_list (ECalComponent *comp,
-					 GList *alarms,
+					 GSList *alarm_uids,
 					 const gchar *old_summary,
 					 EDurationType user_units,
 					 gint user_interval,
@@ -1194,10 +1220,13 @@ ecep_reminders_is_custom_alarm_uid_list (ECalComponent *comp,
 	ECalComponentAlarm *ca;
 	gboolean result;
 
-	if (g_list_length (alarms) > 1)
+	if (!alarm_uids)
+		return FALSE;
+
+	if (alarm_uids->next)
 		return TRUE;
 
-	ca = e_cal_component_get_alarm (comp, alarms->data);
+	ca = e_cal_component_get_alarm (comp, alarm_uids->data);
 	result = ecep_reminders_is_custom_alarm (ca, old_summary, user_units, user_interval, alarm_type);
 	e_cal_component_alarm_free (ca);
 
@@ -1269,7 +1298,7 @@ ecep_reminders_sensitize_relative_time_combo_items (GtkWidget *combobox,
 	gboolean alarm_after_start;
 	gint ii;
 
-	alarm_after_start = !e_client_check_capability (client, CAL_STATIC_CAPABILITY_NO_ALARM_AFTER_START);
+	alarm_after_start = !e_client_check_capability (client, E_CAL_STATIC_CAPABILITY_NO_ALARM_AFTER_START);
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 
@@ -1312,7 +1341,7 @@ ecep_reminders_sensitize_widgets_by_client (ECompEditorPageReminders *page_remin
 		target_client, time_map, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END);
 
 	/* If the client doesn't support set alarm description, disable the related widgets */
-	if (e_client_check_capability (target_client, CAL_STATIC_CAPABILITY_ALARM_DESCRIPTION)) {
+	if (e_client_check_capability (target_client, E_CAL_STATIC_CAPABILITY_ALARM_DESCRIPTION)) {
 		gtk_widget_show (page_reminders->priv->custom_message_check);
 		gtk_widget_show (page_reminders->priv->custom_message_text_view);
 	} else {
@@ -1325,7 +1354,7 @@ ecep_reminders_sensitize_widgets_by_client (ECompEditorPageReminders *page_remin
 
 	/* If we can repeat */
 	gtk_widget_set_sensitive (page_reminders->priv->repeat_check,
-		!e_client_check_capability (target_client, CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT));
+		!e_client_check_capability (target_client, E_CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT));
 }
 
 static void
@@ -1365,13 +1394,14 @@ ecep_reminders_sensitize_widgets (ECompEditorPage *page,
 
 static void
 ecep_reminders_fill_widgets (ECompEditorPage *page,
-			     icalcomponent *component)
+			     ICalComponent *component)
 {
 	ECompEditorPageReminders *page_reminders;
 	ECalComponent *comp;
+	ICalComponent *valarm;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_reminders_parent_class)->fill_widgets (page, component);
 
@@ -1379,19 +1409,22 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 
 	e_alarm_list_clear (page_reminders->priv->alarm_list);
 
-	if (!icalcomponent_get_first_component (component, ICAL_VALARM_COMPONENT)) {
+	valarm = i_cal_component_get_first_component (component, I_CAL_VALARM_COMPONENT);
+	if (!valarm) {
 		e_dialog_combo_box_set (page_reminders->priv->alarms_combo, ALARM_NONE, page_reminders->priv->alarm_map);
 		return;
 	}
 
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (component));
+	g_object_unref (valarm);
+
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (component));
 	if (comp && e_cal_component_has_alarms (comp)) {
-		GList *alarms, *link;
-		gint alarm_type;
+		GSList *alarms, *link;
+		gint alarm_type = ALARM_NONE;
 
 		alarms = e_cal_component_get_alarm_uids (comp);
 
-		if (ecep_reminders_is_custom_alarm_uid_list (comp, alarms, icalcomponent_get_summary (component),
+		if (ecep_reminders_is_custom_alarm_uid_list (comp, alarms, i_cal_component_get_summary (component),
 			page_reminders->priv->alarm_units, page_reminders->priv->alarm_interval, &alarm_type))
 			alarm_type = ALARM_CUSTOM;
 
@@ -1399,7 +1432,7 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 
 		e_alarm_list_clear (page_reminders->priv->alarm_list);
 
-		for (link = alarms; link; link = g_list_next (link)) {
+		for (link = alarms; link; link = g_slist_next (link)) {
 			ECalComponentAlarm *ca;
 			const gchar *uid = link->data;
 
@@ -1408,7 +1441,7 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 			e_cal_component_alarm_free (ca);
 		}
 
-		cal_obj_uid_list_free (alarms);
+		g_slist_free_full (alarms, g_free);
 
 		if (e_dialog_combo_box_get (page_reminders->priv->alarms_combo, page_reminders->priv->alarm_map) == ALARM_CUSTOM) {
 			GtkTreeSelection *selection;
@@ -1427,22 +1460,22 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 
 static gboolean
 ecep_reminders_fill_component (ECompEditorPage *page,
-			       icalcomponent *component)
+			       ICalComponent *component)
 {
 	ECompEditorPageReminders *page_reminders;
 	ECalComponent *comp;
-	icalcomponent *changed_comp, *alarm;
+	ICalComponent *changed_comp, *alarm;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gboolean valid_iter;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	if (!E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_reminders_parent_class)->fill_component (page, component))
 		return TRUE;
 
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (component));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (component));
 	g_return_val_if_fail (comp != NULL, FALSE);
 
 	page_reminders = E_COMP_EDITOR_PAGE_REMINDERS (page);
@@ -1456,8 +1489,7 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
 		ECalComponentAlarm *alarm, *alarm_copy;
 		ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
-		icalcomponent *icalcomp;
-		icalproperty *prop;
+		ECalComponentPropertyBag *bag;
 
 		alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (page_reminders->priv->alarm_list, &iter);
 		if (!alarm) {
@@ -1468,79 +1500,73 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 		/* We set the description of the alarm if it's got
 		 * the X-EVOLUTION-NEEDS-DESCRIPTION property.
 		 */
-		icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
-		for (prop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
-		     prop;
-		     prop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
-			const gchar *x_name;
+		if (ecep_reminders_remove_needs_description_property (alarm)) {
+			ECalComponentText *summary;
 
-			x_name = icalproperty_get_x_name (prop);
-			if (g_str_equal (x_name, X_EVOLUTION_NEEDS_DESCRIPTION)) {
-				ECalComponentText summary;
-
-				e_cal_component_get_summary (comp, &summary);
-				e_cal_component_alarm_set_description (alarm, &summary);
-
-				icalcomponent_remove_property (icalcomp, prop);
-				icalproperty_free (prop);
-				break;
-			}
+			summary = e_cal_component_get_summary (comp);
+			e_cal_component_alarm_take_description (alarm, summary);
 		}
 
-		e_cal_component_alarm_get_action (alarm, &action);
+		action = e_cal_component_alarm_get_action (alarm);
 
-		prop = icalcomponent_get_first_property (icalcomp, ICAL_SUMMARY_PROPERTY);
+		bag = e_cal_component_alarm_get_property_bag (alarm);
 		if (action == E_CAL_COMPONENT_ALARM_EMAIL) {
-			ECalComponentText summary = { NULL, NULL };
+			ECalComponentText *summary;
+			const gchar *text;
+			guint idx;
 
-			e_cal_component_get_summary (comp, &summary);
+			summary = e_cal_component_get_summary (comp);
+			text = (summary && e_cal_component_text_get_value (summary)) ? e_cal_component_text_get_value (summary) : "";
 
-			if (prop) {
-				icalproperty_set_summary (prop, summary.value ? summary.value : "");
+			idx = e_cal_component_property_bag_get_first_by_kind (bag, I_CAL_SUMMARY_PROPERTY);
+			if (idx < e_cal_component_property_bag_get_count (bag)) {
+				ICalProperty *prop;
+
+				prop = e_cal_component_property_bag_get (bag, idx);
+				i_cal_property_set_summary (prop, text);
 			} else {
-				prop = icalproperty_new_summary (summary.value ? summary.value : "");
-				icalcomponent_add_property (icalcomp, prop);
+				e_cal_component_property_bag_take (bag, i_cal_property_new_summary (text));
 			}
-		} else if (prop) {
-			icalcomponent_remove_property (icalcomp, prop);
-			icalproperty_free (prop);
+
+			e_cal_component_text_free (summary);
+		} else {
+			e_cal_component_property_bag_remove_by_kind (bag, I_CAL_SUMMARY_PROPERTY, TRUE);
 		}
 
-		prop = icalcomponent_get_first_property (icalcomp, ICAL_DESCRIPTION_PROPERTY);
 		if (action == E_CAL_COMPONENT_ALARM_EMAIL || action == E_CAL_COMPONENT_ALARM_DISPLAY) {
-			if (!prop) {
+			if (e_cal_component_property_bag_get_first_by_kind (bag, I_CAL_DESCRIPTION_PROPERTY) >=
+			    e_cal_component_property_bag_get_count (bag)) {
 				const gchar *description;
 
-				description = icalcomponent_get_description (e_cal_component_get_icalcomponent (comp));
+				description = i_cal_component_get_description (e_cal_component_get_icalcomponent (comp));
 
-				prop = icalproperty_new_description (description ? description : "");
-				icalcomponent_add_property (icalcomp, prop);
+				e_cal_component_property_bag_take (bag, i_cal_property_new_description (description ? description : ""));
 			}
-		} else if (prop) {
-			icalcomponent_remove_property (icalcomp, prop);
-			icalproperty_free (prop);
+		} else {
+			e_cal_component_property_bag_remove_by_kind (bag, I_CAL_DESCRIPTION_PROPERTY, TRUE);
 		}
 
 		/* We clone the alarm to maintain the invariant that the alarm
 		 * structures in the list did *not* come from the component.
 		 */
 
-		alarm_copy = e_cal_component_alarm_clone (alarm);
+		alarm_copy = e_cal_component_alarm_copy (alarm);
 		e_cal_component_add_alarm (comp, alarm_copy);
 		e_cal_component_alarm_free (alarm_copy);
 	}
 
-	while (alarm = icalcomponent_get_first_component (component, ICAL_VALARM_COMPONENT), alarm) {
-		icalcomponent_remove_component (component, alarm);
-		icalcomponent_free (alarm);
+	while (alarm = i_cal_component_get_first_component (component, I_CAL_VALARM_COMPONENT), alarm) {
+		i_cal_component_remove_component (component, alarm);
+		g_object_unref (alarm);
 	}
 
 	changed_comp = e_cal_component_get_icalcomponent (comp);
 	if (changed_comp) {
 		/* Move all VALARM components into the right 'component' */
-		while (alarm = icalcomponent_get_first_component (changed_comp, ICAL_VALARM_COMPONENT), alarm) {
-			icalcomponent_remove_component (changed_comp, alarm);
-			icalcomponent_add_component (component, alarm);
+		while (alarm = i_cal_component_get_first_component (changed_comp, I_CAL_VALARM_COMPONENT), alarm) {
+			i_cal_component_remove_component (changed_comp, alarm);
+			i_cal_component_add_component (component, alarm);
+			g_object_unref (alarm);
 		}
 	} else {
 		g_warn_if_reached ();

@@ -40,7 +40,7 @@
 static void
 cal_ops_manage_send_component (ECalModel *model,
 			       ECalClient *client,
-			       icalcomponent *icalcomp,
+			       ICalComponent *icomp,
 			       ECalObjModType mod,
 			       ECalOpsSendFlags send_flags)
 {
@@ -49,12 +49,12 @@ cal_ops_manage_send_component (ECalModel *model,
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
-	g_return_if_fail (icalcomp != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
 
 	if ((send_flags & E_CAL_OPS_SEND_FLAG_DONT_SEND) != 0)
 		return;
 
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
 	if (!comp)
 		return;
 
@@ -81,7 +81,7 @@ cal_ops_manage_send_component (ECalModel *model,
 typedef struct {
 	ECalModel *model;
 	ECalClient *client;
-	icalcomponent *icalcomp;
+	ICalComponent *icomp;
 	ECalObjModType mod;
 	gchar *uid;
 	gchar *rid;
@@ -104,18 +104,18 @@ basic_operation_data_free (gpointer ptr)
 
 	if (bod) {
 		if (bod->success) {
-			if (bod->create_cb && bod->uid && bod->icalcomp) {
-				bod->create_cb (bod->model, bod->client, bod->icalcomp, bod->uid, bod->user_data);
+			if (bod->create_cb && bod->uid && bod->icomp) {
+				bod->create_cb (bod->model, bod->client, bod->icomp, bod->uid, bod->user_data);
 				if (bod->user_data_free)
 					bod->user_data_free (bod->user_data);
 			}
 
-			if (bod->is_modify && bod->icalcomp && (bod->send_flags & E_CAL_OPS_SEND_FLAG_DONT_SEND) == 0) {
-				cal_ops_manage_send_component (bod->model, bod->client, bod->icalcomp, bod->mod, bod->send_flags);
+			if (bod->is_modify && bod->icomp && (bod->send_flags & E_CAL_OPS_SEND_FLAG_DONT_SEND) == 0) {
+				cal_ops_manage_send_component (bod->model, bod->client, bod->icomp, bod->mod, bod->send_flags);
 			}
 
-			if (bod->get_default_comp_cb && bod->icalcomp) {
-				bod->get_default_comp_cb (bod->model, bod->client, bod->icalcomp, bod->user_data);
+			if (bod->get_default_comp_cb && bod->icomp) {
+				bod->get_default_comp_cb (bod->model, bod->client, bod->icomp, bod->user_data);
 				if (bod->user_data_free)
 					bod->user_data_free (bod->user_data);
 			}
@@ -123,8 +123,7 @@ basic_operation_data_free (gpointer ptr)
 
 		g_clear_object (&bod->model);
 		g_clear_object (&bod->client);
-		if (bod->icalcomp)
-			icalcomponent_free (bod->icalcomp);
+		g_clear_object (&bod->icomp);
 		g_free (bod->for_client_uid);
 		g_free (bod->uid);
 		g_free (bod->rid);
@@ -142,20 +141,20 @@ cal_ops_create_component_thread (EAlertSinkThreadJobData *job_data,
 
 	g_return_if_fail (bod != NULL);
 
-	bod->success = e_cal_client_create_object_sync (bod->client, bod->icalcomp, &bod->uid, cancellable, error);
+	bod->success = e_cal_client_create_object_sync (bod->client, bod->icomp, E_CAL_OPERATION_FLAG_NONE, &bod->uid, cancellable, error);
 }
 
 /**
  * e_cal_ops_create_component:
  * @model: an #ECalModel
  * @client: an #ECalClient
- * @icalcomp: an #icalcomponent
+ * @icomp: an #ICalComponent
  * @callback: (allow none): a callback to be called on success
  * @user_data: user data to be passed to @callback; ignored when @callback is #NULL
  * @user_data_free: a function to free @user_data; ignored when @callback is #NULL
  *
- * Creates a new @icalcomp in the @client. The @callback, if not #NULL,
- * is called with a new uid of the @icalcomp on sucessful component save.
+ * Creates a new @icomp in the @client. The @callback, if not #NULL,
+ * is called with a new uid of the @icomp on sucessful component save.
  * The @callback is called in the main thread.
  *
  * Since: 3.16
@@ -163,14 +162,14 @@ cal_ops_create_component_thread (EAlertSinkThreadJobData *job_data,
 void
 e_cal_ops_create_component (ECalModel *model,
 			    ECalClient *client,
-			    icalcomponent *icalcomp,
+			    ICalComponent *icomp,
 			    ECalOpsCreateComponentFunc callback,
 			    gpointer user_data,
 			    GDestroyNotify user_data_free)
 {
 	ECalDataModel *data_model;
 	ESource *source;
-	icalproperty *prop;
+	ICalProperty *prop;
 	const gchar *description;
 	const gchar *alert_ident;
 	gchar *display_name;
@@ -179,7 +178,7 @@ e_cal_ops_create_component (ECalModel *model,
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
-	g_return_if_fail (icalcomp != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
 
 	switch (e_cal_client_get_source_type (client)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -205,27 +204,28 @@ e_cal_ops_create_component (ECalModel *model,
 	bod = g_new0 (BasicOperationData, 1);
 	bod->model = g_object_ref (model);
 	bod->client = g_object_ref (client);
-	bod->icalcomp = icalcomponent_new_clone (icalcomp);
+	bod->icomp = i_cal_component_new_clone (icomp);
 	bod->create_cb = callback;
 	bod->user_data = user_data;
 	bod->user_data_free = user_data_free;
 
-	prop = icalcomponent_get_first_property (bod->icalcomp, ICAL_CLASS_PROPERTY);
-	if (!prop || icalproperty_get_class (prop) == ICAL_CLASS_NONE) {
-		icalproperty_class ical_class = ICAL_CLASS_PUBLIC;
+	prop = i_cal_component_get_first_property (bod->icomp, I_CAL_CLASS_PROPERTY);
+	if (!prop || i_cal_property_get_class (prop) == I_CAL_CLASS_NONE) {
+		ICalProperty_Class ical_class = I_CAL_CLASS_PUBLIC;
 		GSettings *settings;
 
 		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 		if (g_settings_get_boolean (settings, "classify-private"))
-			ical_class = ICAL_CLASS_PRIVATE;
+			ical_class = I_CAL_CLASS_PRIVATE;
 		g_object_unref (settings);
 
 		if (!prop) {
-			prop = icalproperty_new_class (ical_class);
-			icalcomponent_add_property (bod->icalcomp, prop);
+			prop = i_cal_property_new_class (ical_class);
+			i_cal_component_add_property (bod->icomp, prop);
 		} else
-			icalproperty_set_class (prop, ical_class);
+			i_cal_property_set_class (prop, ical_class);
 	}
+	g_clear_object (&prop);
 
 	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
@@ -249,33 +249,33 @@ cal_ops_modify_component_thread (EAlertSinkThreadJobData *job_data,
 	if (bod->mod == E_CAL_OBJ_MOD_ALL) {
 		ECalComponent *comp;
 
-		comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (bod->icalcomp));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (bod->icomp));
 		if (comp && e_cal_component_has_recurrences (comp)) {
 			if (!comp_util_sanitize_recurrence_master_sync (comp, bod->client, cancellable, error)) {
 				g_object_unref (comp);
 				return;
 			}
 
-			icalcomponent_free (bod->icalcomp);
-			bod->icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
+			g_clear_object (&bod->icomp);
+			bod->icomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
 		}
 
 		g_clear_object (&comp);
 	}
 
-	bod->success = e_cal_client_modify_object_sync (bod->client, bod->icalcomp, bod->mod, cancellable, error);
+	bod->success = e_cal_client_modify_object_sync (bod->client, bod->icomp, bod->mod, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
 }
 
 /**
  * e_cal_ops_modify_component:
  * @model: an #ECalModel
  * @client: an #ECalClient
- * @icalcomp: an #icalcomponent
+ * @icomp: an #ICalComponent
  * @mod: a mode to use for modification of the component
  * @send_flags: what to do when the modify succeeded and the component has attendees
  *
- * Saves changes of the @icalcomp into the @client using the @mod. The @send_flags influences
- * what to do when the @icalcomp has attendees and the organizer is user. Only one of
+ * Saves changes of the @icomp into the @client using the @mod. The @send_flags influences
+ * what to do when the @icomp has attendees and the organizer is user. Only one of
  * #E_CAL_OPS_SEND_FLAG_ASK, #E_CAL_OPS_SEND_FLAG_SEND, #E_CAL_OPS_SEND_FLAG_DONT_SEND
  * can be used, while the ASK flag is the default.
  *
@@ -284,7 +284,7 @@ cal_ops_modify_component_thread (EAlertSinkThreadJobData *job_data,
 void
 e_cal_ops_modify_component (ECalModel *model,
 			    ECalClient *client,
-			    icalcomponent *icalcomp,
+			    ICalComponent *icomp,
 			    ECalObjModType mod,
 			    ECalOpsSendFlags send_flags)
 {
@@ -298,7 +298,7 @@ e_cal_ops_modify_component (ECalModel *model,
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
-	g_return_if_fail (icalcomp != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
 
 	switch (e_cal_client_get_source_type (client)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -324,7 +324,7 @@ e_cal_ops_modify_component (ECalModel *model,
 	bod = g_new0 (BasicOperationData, 1);
 	bod->model = g_object_ref (model);
 	bod->client = g_object_ref (client);
-	bod->icalcomp = icalcomponent_new_clone (icalcomp);
+	bod->icomp = i_cal_component_new_clone (icomp);
 	bod->mod = mod;
 	bod->send_flags = send_flags;
 	bod->is_modify = TRUE;
@@ -351,10 +351,10 @@ cal_ops_remove_component_thread (EAlertSinkThreadJobData *job_data,
 	/* The check_detached_instance means to test whether the event is a detached instance,
 	   then only that one is deleted, otherwise the master object is deleted */
 	if (bod->check_detached_instance && bod->mod == E_CAL_OBJ_MOD_THIS && bod->rid && *bod->rid) {
-		icalcomponent *icalcomp = NULL;
+		ICalComponent *icomp = NULL;
 		GError *local_error = NULL;
 
-		if (!e_cal_client_get_object_sync (bod->client, bod->uid, bod->rid, &icalcomp, cancellable, &local_error) &&
+		if (!e_cal_client_get_object_sync (bod->client, bod->uid, bod->rid, &icomp, cancellable, &local_error) &&
 		    g_error_matches (local_error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND)) {
 			g_free (bod->rid);
 			bod->rid = NULL;
@@ -362,11 +362,10 @@ cal_ops_remove_component_thread (EAlertSinkThreadJobData *job_data,
 		}
 
 		g_clear_error (&local_error);
-		if (icalcomp)
-			icalcomponent_free (icalcomp);
+		g_clear_object (&icomp);
 	}
 
-	bod->success = e_cal_client_remove_object_sync (bod->client, bod->uid, bod->rid, bod->mod, cancellable, error);
+	bod->success = e_cal_client_remove_object_sync (bod->client, bod->uid, bod->rid, bod->mod, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
 }
 
 /**
@@ -455,16 +454,13 @@ cal_ops_delete_components_thread (EAlertSinkThreadJobData *job_data,
 
 	for (link = objects; link && !g_cancellable_is_cancelled (cancellable); link = g_slist_next (link)) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) link->data;
-		struct icaltimetype tt;
-		gchar *rid = NULL;
+		gchar *rid;
 
-		tt = icalcomponent_get_recurrenceid (comp_data->icalcomp);
-		if (icaltime_is_valid_time (tt) && !icaltime_is_null_time (tt))
-			rid = icaltime_as_ical_string_r (tt);
+		rid = e_cal_util_component_get_recurid_as_string (comp_data->icalcomp);
 
 		if (!e_cal_client_remove_object_sync (
-			comp_data->client, icalcomponent_get_uid (comp_data->icalcomp),
-			rid, E_CAL_OBJ_MOD_THIS, cancellable, error)) {
+			comp_data->client, i_cal_component_get_uid (comp_data->icalcomp),
+			rid, E_CAL_OBJ_MOD_THIS, E_CAL_OPERATION_FLAG_NONE, cancellable, error)) {
 			ESource *source = e_client_get_source (E_CLIENT (comp_data->client));
 			e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
 			/* Stop on the first error */
@@ -507,15 +503,15 @@ e_cal_ops_delete_ecalmodel_components (ECalModel *model,
 	nobjects = g_slist_length (objects_copy);
 
 	switch (e_cal_model_get_component_kind (model)) {
-		case ICAL_VEVENT_COMPONENT:
+		case I_CAL_VEVENT_COMPONENT:
 			description = g_strdup_printf (ngettext ("Deleting an event", "Deleting %d events", nobjects), nobjects);
 			alert_ident = "calendar:failed-remove-event";
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			description = g_strdup_printf (ngettext ("Deleting a memo", "Deleting %d memos", nobjects), nobjects);
 			alert_ident = "calendar:failed-remove-memo";
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			description = g_strdup_printf (ngettext ("Deleting a task", "Deleting %d tasks", nobjects), nobjects);
 			alert_ident = "calendar:failed-remove-task";
 			break;
@@ -535,35 +531,34 @@ e_cal_ops_delete_ecalmodel_components (ECalModel *model,
 
 static gboolean
 cal_ops_create_comp_with_new_uid_sync (ECalClient *cal_client,
-				       icalcomponent *icalcomp,
+				       ICalComponent *icomp,
 				       GCancellable *cancellable,
 				       GError **error)
 {
-	icalcomponent *clone;
+	ICalComponent *clone;
 	gchar *uid;
 	gboolean success;
 
 	g_return_val_if_fail (E_IS_CAL_CLIENT (cal_client), FALSE);
-	g_return_val_if_fail (icalcomp != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (icomp), FALSE);
 
-
-	clone = icalcomponent_new_clone (icalcomp);
+	clone = i_cal_component_new_clone (icomp);
 
 	uid = e_util_generate_uid ();
-	icalcomponent_set_uid (clone, uid);
+	i_cal_component_set_uid (clone, uid);
 	g_free (uid);
 
-	success = e_cal_client_create_object_sync (cal_client, clone, NULL, cancellable, error);
+	success = e_cal_client_create_object_sync (cal_client, clone, E_CAL_OPERATION_FLAG_NONE, NULL, cancellable, error);
 
-	icalcomponent_free (clone);
+	g_clear_object (&clone);
 
 	return success;
 }
 
 typedef struct {
 	ECalModel *model;
-	icalcomponent *icalcomp;
-	icalcomponent_kind kind;
+	ICalComponent *icomp;
+	ICalComponentKind kind;
 	const gchar *extension_name;
 	gboolean success;
 } PasteComponentsData;
@@ -578,7 +573,7 @@ paste_components_data_free (gpointer ptr)
 			g_signal_emit_by_name (pcd->model, "row-appended", 0);
 
 		g_clear_object (&pcd->model);
-		icalcomponent_free (pcd->icalcomp);
+		g_clear_object (&pcd->icomp);
 		g_free (pcd);
 	}
 }
@@ -630,29 +625,31 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
 
 	cal_client = E_CAL_CLIENT (client);
 
-	if (icalcomponent_isa (pcd->icalcomp) == ICAL_VCALENDAR_COMPONENT &&
-	    icalcomponent_get_first_component (pcd->icalcomp, pcd->kind) != NULL) {
-		icalcomponent *subcomp;
+	if (i_cal_component_isa (pcd->icomp) == I_CAL_VCALENDAR_COMPONENT &&
+	    i_cal_component_count_components (pcd->icomp, pcd->kind) > 0) {
+		ICalComponent *subcomp;
 
-		for (subcomp = icalcomponent_get_first_component (pcd->icalcomp, ICAL_VTIMEZONE_COMPONENT);
+		for (subcomp = i_cal_component_get_first_component (pcd->icomp, I_CAL_VTIMEZONE_COMPONENT);
 		     subcomp && !g_cancellable_is_cancelled (cancellable);
-		     subcomp = icalcomponent_get_next_component (pcd->icalcomp, ICAL_VTIMEZONE_COMPONENT)) {
-			icaltimezone *zone;
+		     g_object_unref (subcomp), subcomp = i_cal_component_get_next_component (pcd->icomp, I_CAL_VTIMEZONE_COMPONENT)) {
+			ICalTimezone *zone;
 
-			zone = icaltimezone_new ();
-			icaltimezone_set_component (zone, subcomp);
+			zone = i_cal_timezone_new ();
+			i_cal_timezone_set_component (zone, subcomp);
 			if (!e_cal_client_add_timezone_sync (cal_client, zone, cancellable, error)) {
-				icaltimezone_free (zone, 1);
+				g_clear_object (&zone);
 				success = FALSE;
 				break;
 			}
 
-			icaltimezone_free (zone, 1);
+			g_clear_object (&zone);
 		}
 
-		for (subcomp = icalcomponent_get_first_component (pcd->icalcomp, pcd->kind);
+		g_clear_object (&subcomp);
+
+		for (subcomp = i_cal_component_get_first_component (pcd->icomp, pcd->kind);
 		     subcomp && !g_cancellable_is_cancelled (cancellable) && success;
-		     subcomp = icalcomponent_get_next_component (pcd->icalcomp, pcd->kind)) {
+		     g_object_unref (subcomp), subcomp = i_cal_component_get_next_component (pcd->icomp, pcd->kind)) {
 			if (!cal_ops_create_comp_with_new_uid_sync (cal_client, subcomp, cancellable, error)) {
 				success = FALSE;
 				break;
@@ -660,8 +657,10 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
 
 			any_copied = TRUE;
 		}
-	} else if (icalcomponent_isa (pcd->icalcomp) == pcd->kind) {
-		success = cal_ops_create_comp_with_new_uid_sync (cal_client, pcd->icalcomp, cancellable, error);
+
+		g_clear_object (&subcomp);
+	} else if (i_cal_component_isa (pcd->icomp) == pcd->kind) {
+		success = cal_ops_create_comp_with_new_uid_sync (cal_client, pcd->icomp, cancellable, error);
 		any_copied = success;
 	}
 
@@ -673,7 +672,7 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
 /**
  * e_cal_ops_paste_components:
  * @model: an #ECalModel
- * @icalcompstr: a string representation of an iCalendar component
+ * @icompstr: a string representation of an iCalendar component
  *
  * Pastes components into the default source of the @model.
  *
@@ -681,11 +680,11 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
  **/
 void
 e_cal_ops_paste_components (ECalModel *model,
-			    const gchar *icalcompstr)
+			    const gchar *icompstr)
 {
 	ECalDataModel *data_model;
-	icalcomponent *icalcomp;
-	icalcomponent_kind kind;
+	ICalComponent *icomp;
+	ICalComponentKind kind;
 	gint ncomponents = 0;
 	GCancellable *cancellable;
 	const gchar *alert_ident;
@@ -694,25 +693,25 @@ e_cal_ops_paste_components (ECalModel *model,
 	PasteComponentsData *pcd;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
-	g_return_if_fail (icalcompstr != NULL);
+	g_return_if_fail (icompstr != NULL);
 
-	icalcomp = icalparser_parse_string (icalcompstr);
-	if (!icalcomp)
+	icomp = i_cal_parser_parse_string (icompstr);
+	if (!icomp)
 		return;
 
-	kind = icalcomponent_isa (icalcomp);
-	if (kind != ICAL_VCALENDAR_COMPONENT &&
+	kind = i_cal_component_isa (icomp);
+	if (kind != I_CAL_VCALENDAR_COMPONENT &&
 	    kind != e_cal_model_get_component_kind (model)) {
-		icalcomponent_free (icalcomp);
+		g_clear_object (&icomp);
 		return;
 	}
 
 	switch (e_cal_model_get_component_kind (model)) {
-		case ICAL_VEVENT_COMPONENT:
-			if (kind == ICAL_VCALENDAR_COMPONENT) {
-				kind = ICAL_VEVENT_COMPONENT;
-				ncomponents = icalcomponent_count_components (icalcomp, kind);
-			} else if (kind == ICAL_VEVENT_COMPONENT) {
+		case I_CAL_VEVENT_COMPONENT:
+			if (kind == I_CAL_VCALENDAR_COMPONENT) {
+				kind = I_CAL_VEVENT_COMPONENT;
+				ncomponents = i_cal_component_count_components (icomp, kind);
+			} else if (kind == I_CAL_VEVENT_COMPONENT) {
 				ncomponents = 1;
 			}
 
@@ -723,11 +722,11 @@ e_cal_ops_paste_components (ECalModel *model,
 			alert_ident = "calendar:failed-create-event";
 			extension_name = E_SOURCE_EXTENSION_CALENDAR;
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
-			if (kind == ICAL_VCALENDAR_COMPONENT) {
-				kind = ICAL_VJOURNAL_COMPONENT;
-				ncomponents = icalcomponent_count_components (icalcomp, kind);
-			} else if (kind == ICAL_VJOURNAL_COMPONENT) {
+		case I_CAL_VJOURNAL_COMPONENT:
+			if (kind == I_CAL_VCALENDAR_COMPONENT) {
+				kind = I_CAL_VJOURNAL_COMPONENT;
+				ncomponents = i_cal_component_count_components (icomp, kind);
+			} else if (kind == I_CAL_VJOURNAL_COMPONENT) {
 				ncomponents = 1;
 			}
 
@@ -738,11 +737,11 @@ e_cal_ops_paste_components (ECalModel *model,
 			alert_ident = "calendar:failed-create-memo";
 			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
 			break;
-		case ICAL_VTODO_COMPONENT:
-			if (kind == ICAL_VCALENDAR_COMPONENT) {
-				kind = ICAL_VTODO_COMPONENT;
-				ncomponents = icalcomponent_count_components (icalcomp, kind);
-			} else if (kind == ICAL_VTODO_COMPONENT) {
+		case I_CAL_VTODO_COMPONENT:
+			if (kind == I_CAL_VCALENDAR_COMPONENT) {
+				kind = I_CAL_VTODO_COMPONENT;
+				ncomponents = i_cal_component_count_components (icomp, kind);
+			} else if (kind == I_CAL_VTODO_COMPONENT) {
 				ncomponents = 1;
 			}
 
@@ -759,13 +758,13 @@ e_cal_ops_paste_components (ECalModel *model,
 	}
 
 	if (ncomponents == 0) {
-		icalcomponent_free (icalcomp);
+		g_object_unref (icomp);
 		return;
 	}
 
 	pcd = g_new0 (PasteComponentsData, 1);
 	pcd->model = g_object_ref (model);
-	pcd->icalcomp = icalcomp;
+	pcd->icomp = icomp;
 	pcd->kind = kind;
 	pcd->extension_name = extension_name;
 	pcd->success = FALSE;
@@ -779,10 +778,9 @@ e_cal_ops_paste_components (ECalModel *model,
 	g_free (description);
 }
 
-typedef struct
-{
+typedef struct {
 	ECalClient *client;
-	icalcomponent *icalcomp;
+	ICalComponent *icomp;
 } SendComponentData;
 
 static void
@@ -792,7 +790,7 @@ send_component_data_free (gpointer ptr)
 
 	if (scd) {
 		g_clear_object (&scd->client);
-		icalcomponent_free (scd->icalcomp);
+		g_clear_object (&scd->icomp);
 		g_free (scd);
 	}
 }
@@ -804,17 +802,15 @@ cal_ops_send_component_thread (EAlertSinkThreadJobData *job_data,
 			       GError **error)
 {
 	SendComponentData *scd = user_data;
-	icalcomponent *mod_comp = NULL;
+	ICalComponent *mod_comp = NULL;
 	GSList *users = NULL;
 
 	g_return_if_fail (scd != NULL);
 
-	e_cal_client_send_objects_sync (scd->client, scd->icalcomp,
+	e_cal_client_send_objects_sync (scd->client, scd->icomp, E_CAL_OPERATION_FLAG_NONE,
 		&users, &mod_comp, cancellable, error);
 
-	if (mod_comp)
-		icalcomponent_free (mod_comp);
-
+	g_clear_object (&mod_comp);
 	g_slist_free_full (users, g_free);
 }
 
@@ -822,17 +818,17 @@ cal_ops_send_component_thread (EAlertSinkThreadJobData *job_data,
  * e_cal_ops_send_component:
  * @model: an #ECalModel
  * @client: an #ECalClient
- * @icalcomp: an #icalcomponent
+ * @icomp: an #ICalComponent
  *
  * Sends (calls e_cal_client_send_objects_sync()) on the given @client
- * with the given @icalcomp in a dedicated thread.
+ * with the given @icomp in a dedicated thread.
  *
  * Since: 3.16
  **/
 void
 e_cal_ops_send_component (ECalModel *model,
 			  ECalClient *client,
-			  icalcomponent *icalcomp)
+			  ICalComponent *icomp)
 {
 	ECalDataModel *data_model;
 	ESource *source;
@@ -844,7 +840,7 @@ e_cal_ops_send_component (ECalModel *model,
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
-	g_return_if_fail (icalcomp != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
 
 	switch (e_cal_client_get_source_type (client)) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -866,7 +862,7 @@ e_cal_ops_send_component (ECalModel *model,
 
 	scd = g_new0 (SendComponentData, 1);
 	scd->client = g_object_ref (client);
-	scd->icalcomp = icalcomponent_new_clone (icalcomp);
+	scd->icomp = i_cal_component_new_clone (icomp);
 
 	source = e_client_get_source (E_CLIENT (client));
 	data_model = e_cal_model_get_data_model (model);
@@ -883,7 +879,7 @@ e_cal_ops_send_component (ECalModel *model,
 typedef struct {
 	ECalModel *model;
 	GList *clients;
-	icalcomponent_kind kind;
+	ICalComponentKind kind;
 	time_t older_than;
 } PurgeComponentsData;
 
@@ -906,14 +902,16 @@ struct purge_data {
 };
 
 static gboolean
-ca_ops_purge_check_instance_cb (ECalComponent *comp,
-				time_t instance_start,
-				time_t instance_end,
-				gpointer data)
+ca_ops_purge_check_instance_cb (ICalComponent *comp,
+				ICalTime *instance_start,
+				ICalTime *instance_end,
+				gpointer user_data,
+				GCancellable *cancellable,
+				GError **error)
 {
-	struct purge_data *pd = data;
+	struct purge_data *pd = user_data;
 
-	if (instance_end >= pd->older_than)
+	if (i_cal_time_as_timet (instance_end) >= pd->older_than)
 		pd->remove = FALSE;
 
 	return pd->remove;
@@ -930,15 +928,18 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 	gchar *sexp, *start, *end;
 	gboolean pushed_message = FALSE;
 	const gchar *tzloc = NULL;
-	icaltimezone *zone;
-	icalcomponent_kind model_kind;
+	ICalTimezone *zone;
+	ICalComponentKind model_kind;
 
 	g_return_if_fail (pcd != NULL);
 
 	model_kind = e_cal_model_get_component_kind (pcd->model);
 	zone = e_cal_model_get_timezone (pcd->model);
-	if (zone && zone != icaltimezone_get_utc_timezone ())
-		tzloc = icaltimezone_get_location (zone);
+	if (zone && zone != i_cal_timezone_get_utc_timezone ()) {
+		tzloc = i_cal_timezone_get_location (zone);
+		if (tzloc && g_ascii_strcasecmp (tzloc, "UTC") == 0)
+			tzloc = NULL;
+	}
 
 	start = isodate_from_time_t (0);
 	end = isodate_from_time_t (pcd->older_than);
@@ -962,15 +963,15 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 		e_alert_sink_thread_job_set_alert_arg_0 (job_data, display_name);
 
 		switch (model_kind) {
-			case ICAL_VEVENT_COMPONENT:
+			case I_CAL_VEVENT_COMPONENT:
 				camel_operation_push_message (cancellable,
 					_("Getting events to purge in the calendar “%s”"), display_name);
 				break;
-			case ICAL_VJOURNAL_COMPONENT:
+			case I_CAL_VJOURNAL_COMPONENT:
 				camel_operation_push_message (cancellable,
 					_("Getting memos to purge in the memo list “%s”"), display_name);
 				break;
-			case ICAL_VTODO_COMPONENT:
+			case I_CAL_VTODO_COMPONENT:
 				camel_operation_push_message (cancellable,
 					_("Getting tasks to purge in the task list “%s”"), display_name);
 				break;
@@ -996,15 +997,15 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 		}
 
 		switch (model_kind) {
-			case ICAL_VEVENT_COMPONENT:
+			case I_CAL_VEVENT_COMPONENT:
 				camel_operation_push_message (cancellable,
 					_("Purging events in the calendar “%s”"), display_name);
 				break;
-			case ICAL_VJOURNAL_COMPONENT:
+			case I_CAL_VJOURNAL_COMPONENT:
 				camel_operation_push_message (cancellable,
 					_("Purging memos in the memo list “%s”"), display_name);
 				break;
-			case ICAL_VTODO_COMPONENT:
+			case I_CAL_VTODO_COMPONENT:
 				camel_operation_push_message (cancellable,
 					_("Purging tasks in the task list “%s”"), display_name);
 				break;
@@ -1019,7 +1020,7 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 		nobjects = g_slist_length (objects);
 
 		for (olink = objects, ii = 0; olink; olink = g_slist_next (olink), ii++) {
-			icalcomponent *icalcomp = olink->data;
+			ICalComponent *icomp = olink->data;
 			gboolean remove = TRUE;
 			gint percent = 100 * (ii + 1) / nobjects;
 
@@ -1029,30 +1030,26 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 				pd.remove = TRUE;
 				pd.older_than = pcd->older_than;
 
-				e_cal_client_generate_instances_for_object_sync (client, icalcomp,
-					pcd->older_than, G_MAXINT32, ca_ops_purge_check_instance_cb, &pd);
+				e_cal_client_generate_instances_for_object_sync (client, icomp,
+					pcd->older_than, G_MAXINT32, cancellable, ca_ops_purge_check_instance_cb, &pd);
 
 				remove = pd.remove;
 			}
 
 			if (remove) {
-				const gchar *uid = icalcomponent_get_uid (icalcomp);
+				const gchar *uid = i_cal_component_get_uid (icomp);
 
-				if (e_cal_util_component_is_instance (icalcomp) ||
-				    e_cal_util_component_has_recurrences (icalcomp)) {
-					gchar *rid = NULL;
-					struct icaltimetype recur_id;
+				if (e_cal_util_component_is_instance (icomp) ||
+				    e_cal_util_component_has_recurrences (icomp)) {
+					gchar *rid;
 
-					recur_id = icalcomponent_get_recurrenceid (icalcomp);
+					rid = e_cal_util_component_get_recurid_as_string (icomp);
 
-					if (!icaltime_is_null_time (recur_id))
-						rid = icaltime_as_ical_string_r (recur_id);
-
-					success = e_cal_client_remove_object_sync (client, uid, rid, E_CAL_OBJ_MOD_ALL, cancellable, error);
+					success = e_cal_client_remove_object_sync (client, uid, rid, E_CAL_OBJ_MOD_ALL, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
 
 					g_free (rid);
 				} else {
-					success = e_cal_client_remove_object_sync (client, uid, NULL, E_CAL_OBJ_MOD_THIS, cancellable, error);
+					success = e_cal_client_remove_object_sync (client, uid, NULL, E_CAL_OBJ_MOD_THIS, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
 				}
 
 				if (!success)
@@ -1065,8 +1062,7 @@ cal_ops_purge_components_thread (EAlertSinkThreadJobData *job_data,
 			}
 		}
 
-		g_slist_foreach (objects, (GFunc) icalcomponent_free, NULL);
-		g_slist_free (objects);
+		g_slist_free_full (objects, g_object_unref);
 
 		camel_operation_progress (cancellable, 0);
 		camel_operation_pop_message (cancellable);
@@ -1105,15 +1101,15 @@ e_cal_ops_purge_components (ECalModel *model,
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
 	switch (e_cal_model_get_component_kind (model)) {
-		case ICAL_VEVENT_COMPONENT:
+		case I_CAL_VEVENT_COMPONENT:
 			description = _("Purging events");
 			alert_ident = "calendar:failed-remove-event";
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			description = _("Purging memos");
 			alert_ident = "calendar:failed-remove-memo";
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			description = _("Purging tasks");
 			alert_ident = "calendar:failed-remove-task";
 			break;
@@ -1166,19 +1162,19 @@ cal_ops_delete_completed_thread (EAlertSinkThreadJobData *job_data,
 		}
 
 		for (olink = objects; olink != NULL; olink = g_slist_next (olink)) {
-			icalcomponent *icalcomp = olink->data;
+			ICalComponent *icomp = olink->data;
 			const gchar *uid;
 
-			uid = icalcomponent_get_uid (icalcomp);
+			uid = i_cal_component_get_uid (icomp);
 
-			if (!e_cal_client_remove_object_sync (client, uid, NULL, E_CAL_OBJ_MOD_THIS, cancellable, error)) {
+			if (!e_cal_client_remove_object_sync (client, uid, NULL, E_CAL_OBJ_MOD_THIS, E_CAL_OPERATION_FLAG_NONE, cancellable, error)) {
 				ESource *source = e_client_get_source (E_CLIENT (client));
 				e_alert_sink_thread_job_set_alert_arg_0 (job_data, e_source_get_display_name (source));
 				break;
 			}
 		}
 
-		e_cal_client_free_icalcomp_slist (objects);
+		e_util_free_nullable_object_slist (objects);
 
 		/* did not process all objects => an error occurred */
 		if (olink != NULL)
@@ -1277,13 +1273,13 @@ cal_ops_get_default_component_thread (EAlertSinkThreadJobData *job_data,
 		registry = e_cal_model_get_registry (bod->model);
 
 		switch (e_cal_model_get_component_kind (bod->model)) {
-			case ICAL_VEVENT_COMPONENT:
+			case I_CAL_VEVENT_COMPONENT:
 				default_source = e_source_registry_ref_default_calendar (registry);
 				break;
-			case ICAL_VJOURNAL_COMPONENT:
+			case I_CAL_VJOURNAL_COMPONENT:
 				default_source = e_source_registry_ref_default_memo_list (registry);
 				break;
-			case ICAL_VTODO_COMPONENT:
+			case I_CAL_VTODO_COMPONENT:
 				default_source = e_source_registry_ref_default_task_list (registry);
 				break;
 			default:
@@ -1301,13 +1297,13 @@ cal_ops_get_default_component_thread (EAlertSinkThreadJobData *job_data,
 		const gchar *extension_name = NULL;
 
 		switch (e_cal_model_get_component_kind (bod->model)) {
-			case ICAL_VEVENT_COMPONENT:
+			case I_CAL_VEVENT_COMPONENT:
 				extension_name = E_SOURCE_EXTENSION_CALENDAR;
 				break;
-			case ICAL_VJOURNAL_COMPONENT:
+			case I_CAL_VJOURNAL_COMPONENT:
 				extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
 				break;
-			case ICAL_VTODO_COMPONENT:
+			case I_CAL_VTODO_COMPONENT:
 				extension_name = E_SOURCE_EXTENSION_TASK_LIST;
 				break;
 			default:
@@ -1323,8 +1319,8 @@ cal_ops_get_default_component_thread (EAlertSinkThreadJobData *job_data,
 			error);
 	}
 
-	bod->icalcomp = e_cal_model_create_component_with_defaults_sync (bod->model, bod->client, bod->all_day_default_comp, cancellable, error);
-	bod->success = bod->icalcomp != NULL && !g_cancellable_is_cancelled (cancellable);
+	bod->icomp = e_cal_model_create_component_with_defaults_sync (bod->model, bod->client, bod->all_day_default_comp, cancellable, error);
+	bod->success = bod->icomp != NULL && !g_cancellable_is_cancelled (cancellable);
 }
 
 /**
@@ -1363,15 +1359,15 @@ e_cal_ops_get_default_component (ECalModel *model,
 	g_return_if_fail (callback != NULL);
 
 	switch (e_cal_model_get_component_kind (model)) {
-		case ICAL_VEVENT_COMPONENT:
+		case I_CAL_VEVENT_COMPONENT:
 			description = _("Creating an event");
 			alert_ident = "calendar:failed-create-event";
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			description = _("Creating a memo");
 			alert_ident = "calendar:failed-create-memo";
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			description = _("Creating a task");
 			alert_ident = "calendar:failed-create-task";
 			break;
@@ -1393,7 +1389,7 @@ e_cal_ops_get_default_component (ECalModel *model,
 	bod = g_new0 (BasicOperationData, 1);
 	bod->model = g_object_ref (model);
 	bod->client = NULL;
-	bod->icalcomp = NULL;
+	bod->icomp = NULL;
 	bod->for_client_uid = g_strdup (for_client_uid);
 	bod->all_day_default_comp = all_day;
 	bod->get_default_comp_cb = callback;
@@ -1468,39 +1464,42 @@ new_component_data_free (gpointer ptr)
 
 			if (ncd->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
 				if (ncd->is_new_component && ncd->dtstart > 0 && ncd->dtend > 0) {
-					ECalComponentDateTime dt;
-					struct icaltimetype itt;
-					icaltimezone *zone;
+					ECalComponentDateTime *dt;
+					ICalTime *itt;
+					ICalTimezone *zone;
 
 					if (ncd->model)
 						zone = e_cal_model_get_timezone (ncd->model);
 					else
 						zone = calendar_config_get_icaltimezone ();
 
-					dt.value = &itt;
-					if (ncd->all_day)
-						dt.tzid = NULL;
-					else
-						dt.tzid = icaltimezone_get_tzid (zone);
-
-					itt = icaltime_from_timet_with_zone (ncd->dtstart, FALSE, zone);
+					itt = i_cal_time_from_timet_with_zone (ncd->dtstart, FALSE, zone);
 					if (ncd->all_day) {
-						itt.hour = itt.minute = itt.second = 0;
-						itt.is_date = TRUE;
+						i_cal_time_set_time (itt, 0, 0, 0);
+						i_cal_time_set_is_date (itt, TRUE);
 					}
-					e_cal_component_set_dtstart (ncd->comp, &dt);
 
-					itt = icaltime_from_timet_with_zone (ncd->dtend, FALSE, zone);
+					dt = e_cal_component_datetime_new_take (itt,
+						(ncd->all_day || !zone) ? NULL : g_strdup (i_cal_timezone_get_tzid (zone)));
+					e_cal_component_set_dtstart (ncd->comp, dt);
+					e_cal_component_datetime_free (dt);
+
+					itt = i_cal_time_from_timet_with_zone (ncd->dtend, FALSE, zone);
 					if (ncd->all_day) {
 						/* We round it up to the end of the day, unless it is
 						 * already set to midnight */
-						if (itt.hour != 0 || itt.minute != 0 || itt.second != 0) {
-							icaltime_adjust (&itt, 1, 0, 0, 0);
+						if (i_cal_time_get_hour (itt) != 0 ||
+						    i_cal_time_get_minute (itt) != 0 ||
+						    i_cal_time_get_second (itt) != 0) {
+							i_cal_time_adjust (itt, 1, 0, 0, 0);
 						}
-						itt.hour = itt.minute = itt.second = 0;
-						itt.is_date = TRUE;
+						i_cal_time_set_time (itt, 0, 0, 0);
+						i_cal_time_set_is_date (itt, TRUE);
 					}
-					e_cal_component_set_dtend (ncd->comp, &dt);
+					dt = e_cal_component_datetime_new_take (itt,
+						(ncd->all_day || !zone) ? NULL : g_strdup (i_cal_timezone_get_tzid (zone)));
+					e_cal_component_set_dtend (ncd->comp, dt);
+					e_cal_component_datetime_free (dt);
 				}
 				e_cal_component_commit_sequence (ncd->comp);
 			}
@@ -1834,10 +1833,10 @@ e_cal_ops_new_component_editor_from_model (ECalModel *model,
  * e_cal_ops_open_component_in_editor_sync:
  * @model: (nullable): an #ECalModel instance
  * @client: an #ECalClient, to which the component belongs
- * @icalcomp: an #icalcomponent to open in an editor
+ * @icomp: an #ICalComponent to open in an editor
  * @force_attendees: set to TRUE to force to show attendees, FALSE to auto-detect
  *
- * Opens a component @icalcomp, which belongs to a @client, in
+ * Opens a component @icomp, which belongs to a @client, in
  * a component editor. This is done synchronously.
  *
  * Since: 3.16
@@ -1845,7 +1844,7 @@ e_cal_ops_new_component_editor_from_model (ECalModel *model,
 void
 e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 					 ECalClient *client,
-					 icalcomponent *icalcomp,
+					 ICalComponent *icomp,
 					 gboolean force_attendees)
 {
 	NewComponentData *ncd;
@@ -1855,15 +1854,15 @@ e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 	if (model)
 		g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
-	g_return_if_fail (icalcomp != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
 
-	comp_editor = e_comp_editor_find_existing_for (e_client_get_source (E_CLIENT (client)), icalcomp);
+	comp_editor = e_comp_editor_find_existing_for (e_client_get_source (E_CLIENT (client)), icomp);
 	if (comp_editor) {
 		gtk_window_present (GTK_WINDOW (comp_editor));
 		return;
 	}
 
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
 	g_return_if_fail (comp != NULL);
 
 	ncd = g_new0 (NewComponentData, 1);
@@ -1882,24 +1881,23 @@ e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 	new_component_data_free (ncd);
 }
 
-typedef struct
-{
+typedef struct {
 	EShell *shell;
 	ECalModel *model;
 	ESource *destination;
 	ECalClient *destination_client;
 	ECalClientSourceType source_type;
-	GHashTable *icalcomps_by_source;
+	GHashTable *icomps_by_source;
 	gboolean is_move;
 	gint nobjects;
 } TransferComponentsData;
 
 static void
-transfer_components_free_icalcomps_slist (gpointer ptr)
+transfer_components_free_icomps_slist (gpointer ptr)
 {
-	GSList *icalcomps = ptr;
+	GSList *icomps = ptr;
 
-	g_slist_free_full (icalcomps, (GDestroyNotify) icalcomponent_free);
+	g_slist_free_full (icomps, g_object_unref);
 }
 
 static void
@@ -1915,7 +1913,7 @@ transfer_components_data_free (gpointer ptr)
 		g_clear_object (&tcd->model);
 		g_clear_object (&tcd->destination);
 		g_clear_object (&tcd->destination_client);
-		g_hash_table_destroy (tcd->icalcomps_by_source);
+		g_hash_table_destroy (tcd->icomps_by_source);
 		g_free (tcd);
 	}
 }
@@ -1969,10 +1967,10 @@ transfer_components_thread (EAlertSinkThreadJobData *job_data,
 
 	nobjects = tcd->nobjects;
 
-	g_hash_table_iter_init (&iter, tcd->icalcomps_by_source);
+	g_hash_table_iter_init (&iter, tcd->icomps_by_source);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		ESource *source = key;
-		GSList *icalcomps = value;
+		GSList *icomps = value;
 
 		from_client = e_util_open_client_sync (job_data, client_cache, extension_name, source, 30, cancellable, error);
 		if (!from_client) {
@@ -1982,11 +1980,11 @@ transfer_components_thread (EAlertSinkThreadJobData *job_data,
 
 		from_cal_client = E_CAL_CLIENT (from_client);
 
-		for (link = icalcomps; link && !g_cancellable_is_cancelled (cancellable); link = g_slist_next (link), ii++) {
+		for (link = icomps; link && !g_cancellable_is_cancelled (cancellable); link = g_slist_next (link), ii++) {
 			gint percent = 100 * (ii + 1) / nobjects;
-			icalcomponent *icalcomp = link->data;
+			ICalComponent *icomp = link->data;
 
-			if (!cal_comp_transfer_item_to_sync (from_cal_client, to_cal_client, icalcomp, !tcd->is_move, cancellable, error)) {
+			if (!cal_comp_transfer_item_to_sync (from_cal_client, to_cal_client, icomp, !tcd->is_move, cancellable, error)) {
 				success = FALSE;
 				break;
 			}
@@ -2013,13 +2011,12 @@ transfer_components_thread (EAlertSinkThreadJobData *job_data,
  * @shell_view: an #EShellView
  * @model: an #ECalModel, where to notify about created objects
  * @source_type: a source type of the @destination and the sources
- * @icalcomps_by_source: a hash table of #ESource to #GSList of icalcomponent to transfer
+ * @icomps_by_source: a hash table of #ESource to #GSList of ICalComponent to transfer
  * @destination: a destination #ESource
- * @icalcomps: a #GSList of icalcomponent-s to transfer
  * @is_move: whether the transfer is move (%TRUE) or copy (%FALSE)
  *
- * Transfers (copies or moves, as set by @is_move) all @icalcomps from the @source
- * to the @destination of type @source type (calendar/memo list/task list).
+ * Transfers (copies or moves, as set by @is_move) all @icomps_by_source from their source
+ * to the @destination of type source type (calendar/memo list/task list).
  *
  * Since: 3.16
  **/
@@ -2027,7 +2024,7 @@ void
 e_cal_ops_transfer_components (EShellView *shell_view,
 			       ECalModel *model,
 			       ECalClientSourceType source_type,
-			       GHashTable *icalcomps_by_source,
+			       GHashTable *icomps_by_source,
 			       ESource *destination,
 			       gboolean is_move)
 {
@@ -2041,17 +2038,17 @@ e_cal_ops_transfer_components (EShellView *shell_view,
 
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 	g_return_if_fail (E_IS_CAL_MODEL (model));
-	g_return_if_fail (icalcomps_by_source != NULL);
+	g_return_if_fail (icomps_by_source != NULL);
 	g_return_if_fail (E_IS_SOURCE (destination));
 
 	nobjects = 0;
-	g_hash_table_iter_init (&iter, icalcomps_by_source);
+	g_hash_table_iter_init (&iter, icomps_by_source);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		ESource *source = key;
-		GSList *icalcomps = value;
+		GSList *icomps = value;
 
 		if (!is_move || !e_source_equal (source, destination))
-			nobjects += g_slist_length (icalcomps);
+			nobjects += g_slist_length (icomps);
 	}
 
 	switch (source_type) {
@@ -2084,28 +2081,28 @@ e_cal_ops_transfer_components (EShellView *shell_view,
 	tcd = g_new0 (TransferComponentsData, 1);
 	tcd->shell = g_object_ref (e_shell_window_get_shell (e_shell_view_get_shell_window (shell_view)));
 	tcd->model = g_object_ref (model);
-	tcd->icalcomps_by_source = g_hash_table_new_full ((GHashFunc) e_source_hash, (GEqualFunc) e_source_equal,
-		g_object_unref, transfer_components_free_icalcomps_slist);
+	tcd->icomps_by_source = g_hash_table_new_full ((GHashFunc) e_source_hash, (GEqualFunc) e_source_equal,
+		g_object_unref, transfer_components_free_icomps_slist);
 	tcd->destination = g_object_ref (destination);
 	tcd->source_type = source_type;
 	tcd->is_move = is_move;
 	tcd->nobjects = nobjects;
 	tcd->destination_client = NULL;
 
-	g_hash_table_iter_init (&iter, icalcomps_by_source);
+	g_hash_table_iter_init (&iter, icomps_by_source);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		ESource *source = key;
-		GSList *icalcomps = value;
+		GSList *icomps = value;
 
 		if (!is_move || !e_source_equal (source, destination)) {
 			GSList *link;
 
-			icalcomps = g_slist_copy (icalcomps);
-			for (link = icalcomps; link; link = g_slist_next (link)) {
-				link->data = icalcomponent_new_clone (link->data);
+			icomps = g_slist_copy (icomps);
+			for (link = icomps; link; link = g_slist_next (link)) {
+				link->data = i_cal_component_new_clone (link->data);
 			}
 
-			g_hash_table_insert (tcd->icalcomps_by_source, g_object_ref (source), icalcomps);
+			g_hash_table_insert (tcd->icomps_by_source, g_object_ref (source), icomps);
 		}
 	}
 

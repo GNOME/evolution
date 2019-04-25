@@ -41,7 +41,7 @@ settings_map_string_to_icaltimezone (GValue *value,
 {
 	GSettings *settings;
 	const gchar *location = NULL;
-	icaltimezone *timezone = NULL;
+	ICalTimezone *timezone = NULL;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
@@ -51,12 +51,12 @@ settings_map_string_to_icaltimezone (GValue *value,
 		location = g_variant_get_string (variant, NULL);
 
 	if (location != NULL && *location != '\0')
-		timezone = icaltimezone_get_builtin_timezone (location);
+		timezone = i_cal_timezone_get_builtin_timezone (location);
 
 	if (timezone == NULL)
-		timezone = icaltimezone_get_utc_timezone ();
+		timezone = i_cal_timezone_get_utc_timezone ();
 
-	g_value_set_pointer (value, timezone);
+	g_value_set_object (value, timezone);
 
 	g_object_unref (settings);
 

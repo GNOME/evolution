@@ -55,6 +55,9 @@ struct _ETaskTablePrivate {
 	ECalModel *model;
 	GCancellable *completed_cancellable; /* when processing completed tasks */
 
+	/* Fields used for cut/copy/paste */
+	ICalComponent *tmp_vcal;
+
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
 
@@ -270,7 +273,7 @@ task_table_dates_cell_before_popup_cb (ECellDateEdit *dates_cell,
 
 	model = e_task_table_get_model (task_table);
 	comp_data = e_cal_model_get_component_at (model, row);
-	date_only = comp_data && comp_data->client && e_client_check_capability (E_CLIENT (comp_data->client), CAL_STATIC_CAPABILITY_TASK_DATE_ONLY);
+	date_only = comp_data && comp_data->client && e_client_check_capability (E_CLIENT (comp_data->client), E_CAL_STATIC_CAPABILITY_TASK_DATE_ONLY);
 
 	g_object_set (G_OBJECT (dates_cell), "show-time", !date_only, NULL);
 }
@@ -490,12 +493,11 @@ task_table_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
-	g_object_unref (popup_cell);
 
-	task_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
-
-	g_signal_connect (task_table->dates_cell, "before-popup",
+	g_signal_connect (popup_cell, "before-popup",
 		G_CALLBACK (task_table_dates_cell_before_popup_cb), task_table);
+
+	g_object_unref (popup_cell);
 
 	e_cell_date_edit_set_get_time_callback (
 		E_CELL_DATE_EDIT (popup_cell),
@@ -713,10 +715,10 @@ task_table_popup_menu (GtkWidget *widget)
 
 static gboolean
 task_table_query_tooltip (GtkWidget *widget,
-                              gint x,
-                              gint y,
-                              gboolean keyboard_mode,
-                              GtkTooltip *tooltip)
+			  gint x,
+			  gint y,
+			  gboolean keyboard_mode,
+			  GtkTooltip *tooltip)
 {
 	ETaskTable *task_table;
 	ECalModel *model;
@@ -724,15 +726,12 @@ task_table_query_tooltip (GtkWidget *widget,
 	gint row = -1, col = -1, row_y = -1, row_height = -1;
 	GtkWidget *box, *l, *w;
 	GdkRGBA sel_bg, sel_fg, norm_bg, norm_text;
-	gchar *tmp;
-	const gchar *str;
+	gchar *tmp, *summary, *str;
 	GString *tmp2;
-	gboolean free_text = FALSE;
 	ECalComponent *new_comp;
-	ECalComponentOrganizer organizer;
-	ECalComponentDateTime dtstart, dtdue;
-	icalcomponent *clone;
-	icaltimezone *zone, *default_zone;
+	ECalComponentOrganizer *organizer;
+	ECalComponentDateTime *dtstart, *dtdue;
+	ICalTimezone *zone, *default_zone;
 	GSList *desc, *p;
 	gint len;
 	ESelectionModel *esm;
@@ -759,12 +758,9 @@ task_table_query_tooltip (GtkWidget *widget,
 	if (!comp_data || !comp_data->icalcomp)
 		return FALSE;
 
-	new_comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	if (!e_cal_component_set_icalcomponent (new_comp, clone)) {
-		g_object_unref (new_comp);
+	new_comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	if (!new_comp)
 		return FALSE;
-	}
 
 	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, &sel_bg);
 	e_utils_get_theme_color (widget, "theme_selected_fg_color", E_UTILS_DEFAULT_THEME_SELECTED_FG_COLOR, &sel_fg);
@@ -773,17 +769,14 @@ task_table_query_tooltip (GtkWidget *widget,
 
 	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 
-	str = e_calendar_view_get_icalcomponent_summary (
-		comp_data->client, comp_data->icalcomp, &free_text);
-	if (!(str && *str)) {
-		if (free_text)
-			g_free ((gchar *) str);
-		free_text = FALSE;
-		str = _("* No Summary *");
+	summary = e_calendar_view_dup_component_summary (comp_data->icalcomp);
+	if (!(summary && *summary)) {
+		g_free (summary);
+		summary = g_strdup (_("* No Summary *"));
 	}
 
 	l = gtk_label_new (NULL);
-	tmp = g_markup_printf_escaped ("<b>%s</b>", str);
+	tmp = g_markup_printf_escaped ("<b>%s</b>", summary);
 	gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
 	gtk_label_set_markup (GTK_LABEL (l), tmp);
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
@@ -795,9 +788,7 @@ task_table_query_tooltip (GtkWidget *widget,
 	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
 	g_free (tmp);
 
-	if (free_text)
-		g_free ((gchar *) str);
-	free_text = FALSE;
+	g_free (summary);
 
 	w = gtk_event_box_new ();
 	gtk_widget_override_background_color (w, GTK_STATE_FLAG_NORMAL, &norm_bg);
@@ -807,20 +798,20 @@ task_table_query_tooltip (GtkWidget *widget,
 	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
 	w = l;
 
-	e_cal_component_get_organizer (new_comp, &organizer);
-	if (organizer.cn) {
-		gchar *ptr;
-		ptr = strchr (organizer.value, ':');
+	organizer = e_cal_component_get_organizer (new_comp);
+	if (organizer && e_cal_component_organizer_get_cn (organizer)) {
+		const gchar *email;
 
-		if (ptr) {
-			ptr++;
+		email = itip_strip_mailto (e_cal_component_organizer_get_value (organizer));
+
+		if (email) {
 			/* To Translators: It will display
 			 * "Organizer: NameOfTheUser <email@ofuser.com>" */
-			tmp = g_strdup_printf (_("Organizer: %s <%s>"), organizer.cn, ptr);
+			tmp = g_strdup_printf (_("Organizer: %s <%s>"), e_cal_component_organizer_get_cn (organizer), email);
 		} else {
 			/* With SunOne accounts, there may be no ':' in
 			 * organizer.value. */
-			tmp = g_strdup_printf (_("Organizer: %s"), organizer.cn);
+			tmp = g_strdup_printf (_("Organizer: %s"), e_cal_component_organizer_get_cn (organizer));
 		}
 
 		l = gtk_label_new (tmp);
@@ -832,7 +823,9 @@ task_table_query_tooltip (GtkWidget *widget,
 		gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &norm_text);
 	}
 
-	e_cal_component_get_location (new_comp, &str);
+	e_cal_component_organizer_free (organizer);
+
+	str = e_cal_component_get_location (new_comp);
 
 	if (str) {
 		/* Translators: It will display "Location: PlaceOfTheMeeting" */
@@ -845,20 +838,21 @@ task_table_query_tooltip (GtkWidget *widget,
 		gtk_label_set_max_width_chars ((GtkLabel *) l, 80);
 		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
 		g_free (tmp);
+		g_free (str);
 	}
 
-	e_cal_component_get_dtstart (new_comp, &dtstart);
-	e_cal_component_get_due (new_comp, &dtdue);
+	dtstart = e_cal_component_get_dtstart (new_comp);
+	dtdue = e_cal_component_get_due (new_comp);
 
 	default_zone = e_cal_model_get_timezone (model);
 
-	if (dtstart.tzid) {
-		zone = icalcomponent_get_timezone (
+	if (dtstart && e_cal_component_datetime_get_tzid (dtstart)) {
+		zone = i_cal_component_get_timezone (
 			e_cal_component_get_icalcomponent (new_comp),
-			dtstart.tzid);
+			e_cal_component_datetime_get_tzid (dtstart));
 		if (!zone)
 			e_cal_client_get_timezone_sync (
-				comp_data->client, dtstart.tzid, &zone, NULL, NULL);
+				comp_data->client, e_cal_component_datetime_get_tzid (dtstart), &zone, NULL, NULL);
 		if (!zone)
 			zone = default_zone;
 	} else {
@@ -867,12 +861,12 @@ task_table_query_tooltip (GtkWidget *widget,
 
 	tmp2 = g_string_new ("");
 
-	if (dtstart.value) {
+	if (dtstart && e_cal_component_datetime_get_value (dtstart)) {
 		gchar *str;
 
-		tmp_tm = icaltimetype_to_tm_with_zone (dtstart.value, zone, default_zone);
+		tmp_tm = e_cal_util_icaltime_to_tm_with_zone (e_cal_component_datetime_get_value (dtstart), zone, default_zone);
 		str = e_datetime_format_format_tm ("calendar", "table",
-			dtstart.value->is_date ? DTFormatKindDate : DTFormatKindDateTime,
+			i_cal_time_is_date (e_cal_component_datetime_get_value (dtstart)) ? DTFormatKindDate : DTFormatKindDateTime,
 			&tmp_tm);
 
 		if (str && *str) {
@@ -883,12 +877,12 @@ task_table_query_tooltip (GtkWidget *widget,
 		g_free (str);
 	}
 
-	if (dtdue.value) {
+	if (dtdue && e_cal_component_datetime_get_value (dtdue)) {
 		gchar *str;
 
-		tmp_tm = icaltimetype_to_tm_with_zone (dtdue.value, zone, default_zone);
+		tmp_tm = e_cal_util_icaltime_to_tm_with_zone (e_cal_component_datetime_get_value (dtdue), zone, default_zone);
 		str = e_datetime_format_format_tm ("calendar", "table",
-			dtdue.value->is_date ? DTFormatKindDate : DTFormatKindDateTime,
+			i_cal_time_is_date (e_cal_component_datetime_get_value (dtdue)) ? DTFormatKindDate : DTFormatKindDateTime,
 			&tmp_tm);
 
 		if (str && *str) {
@@ -912,8 +906,8 @@ task_table_query_tooltip (GtkWidget *widget,
 
 	g_string_free (tmp2, TRUE);
 
-	e_cal_component_free_datetime (&dtstart);
-	e_cal_component_free_datetime (&dtdue);
+	e_cal_component_datetime_free (dtstart);
+	e_cal_component_datetime_free (dtdue);
 
 	tmp = e_cal_model_get_attendees_status_info (
 		model, new_comp, comp_data->client);
@@ -940,13 +934,13 @@ task_table_query_tooltip (GtkWidget *widget,
 	}
 
 	tmp2 = g_string_new ("");
-	e_cal_component_get_description_list (new_comp, &desc);
+	desc = e_cal_component_get_descriptions (new_comp);
 	for (len = 0, p = desc; p != NULL; p = p->next) {
 		ECalComponentText *text = p->data;
 
-		if (text->value != NULL) {
-			len += strlen (text->value);
-			g_string_append (tmp2, text->value);
+		if (text && e_cal_component_text_get_value (text)) {
+			len += strlen (e_cal_component_text_get_value (text));
+			g_string_append (tmp2, e_cal_component_text_get_value (text));
 			if (len > 1024) {
 				g_string_set_size (tmp2, 1020);
 				g_string_append (tmp2, "...");
@@ -954,7 +948,7 @@ task_table_query_tooltip (GtkWidget *widget,
 			}
 		}
 	}
-	e_cal_component_free_text_list (desc);
+	g_slist_free_full (desc, e_cal_component_text_free);
 
 	if (tmp2->len) {
 		l = gtk_label_new (tmp2->str);
@@ -1180,12 +1174,11 @@ copy_row_cb (gint model_row,
 	ETaskTable *task_table;
 	ECalModelComponent *comp_data;
 	ECalModel *model;
-	gchar *comp_str;
-	icalcomponent *child;
+	ICalComponent *child;
 
 	task_table = E_TASK_TABLE (data);
 
-	g_return_if_fail (task_table->tmp_vcal != NULL);
+	g_return_if_fail (task_table->priv->tmp_vcal != NULL);
 
 	model = e_task_table_get_model (task_table);
 	comp_data = e_cal_model_get_component_at (model, model_row);
@@ -1194,18 +1187,13 @@ copy_row_cb (gint model_row,
 
 	/* Add timezones to the VCALENDAR component. */
 	e_cal_util_add_timezones_from_component (
-		task_table->tmp_vcal, comp_data->icalcomp);
+		task_table->priv->tmp_vcal, comp_data->icalcomp);
 
 	/* Add the new component to the VCALENDAR component. */
-	comp_str = icalcomponent_as_ical_string_r (comp_data->icalcomp);
-	child = icalparser_parse_string (comp_str);
+	child = i_cal_component_new_clone (comp_data->icalcomp);
 	if (child) {
-		icalcomponent_add_component (
-			task_table->tmp_vcal,
-			icalcomponent_new_clone (child));
-		icalcomponent_free (child);
+		i_cal_component_take_component (task_table->priv->tmp_vcal, child);
 	}
-	g_free (comp_str);
 }
 
 static void
@@ -1218,11 +1206,11 @@ task_table_copy_clipboard (ESelectable *selectable)
 	task_table = E_TASK_TABLE (selectable);
 
 	/* Create a temporary VCALENDAR object. */
-	task_table->tmp_vcal = e_cal_util_new_top_level ();
+	task_table->priv->tmp_vcal = e_cal_util_new_top_level ();
 
 	e_table_selected_row_foreach (
 		E_TABLE (task_table), copy_row_cb, task_table);
-	comp_str = icalcomponent_as_ical_string_r (task_table->tmp_vcal);
+	comp_str = i_cal_component_as_ical_string_r (task_table->priv->tmp_vcal);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	e_clipboard_set_calendar (clipboard, comp_str, -1);
@@ -1230,8 +1218,7 @@ task_table_copy_clipboard (ESelectable *selectable)
 
 	g_free (comp_str);
 
-	icalcomponent_free (task_table->tmp_vcal);
-	task_table->tmp_vcal = NULL;
+	g_clear_object (&task_table->priv->tmp_vcal);
 }
 
 /* Helper for calenable_table_paste_clipboard() */
@@ -1327,23 +1314,23 @@ static void
 add_retract_data (ECalComponent *comp,
                   const gchar *retract_comment)
 {
-	icalcomponent *icalcomp = NULL;
-	icalproperty *icalprop = NULL;
+	ICalComponent *icomp = NULL;
+	ICalProperty *prop = NULL;
 
-	icalcomp = e_cal_component_get_icalcomponent (comp);
+	icomp = e_cal_component_get_icalcomponent (comp);
 	if (retract_comment && *retract_comment)
-		icalprop = icalproperty_new_x (retract_comment);
+		prop = i_cal_property_new_x (retract_comment);
 	else
-		icalprop = icalproperty_new_x ("0");
-	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
-	icalcomponent_add_property (icalcomp, icalprop);
+		prop = i_cal_property_new_x ("0");
+	i_cal_property_set_x_name (prop, "X-EVOLUTION-RETRACT-COMMENT");
+	i_cal_component_take_property (icomp, prop);
 }
 
 static gboolean
 check_for_retract (ECalComponent *comp,
                    ECalClient *client)
 {
-	ECalComponentOrganizer org;
+	ECalComponentOrganizer *org;
 	gchar *email = NULL;
 	const gchar *strip = NULL;
 	gboolean ret_val;
@@ -1354,15 +1341,21 @@ check_for_retract (ECalComponent *comp,
 	if (!e_cal_client_check_save_schedules (client))
 		return FALSE;
 
-	e_cal_component_get_organizer (comp, &org);
-	strip = itip_strip_mailto (org.value);
+	org = e_cal_component_get_organizer (comp);
+	strip = org ? itip_strip_mailto (e_cal_component_organizer_get_value (org)) : NULL;
+
+	if (!strip || !*strip) {
+		e_cal_component_organizer_free (org);
+		return FALSE;
+	}
 
 	ret_val = e_client_get_backend_property_sync (
 		E_CLIENT (client),
-		CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
+		E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
 		&email, NULL, NULL) && email != NULL &&
 		g_ascii_strcasecmp (email, strip) == 0;
 
+	e_cal_component_organizer_free (org);
 	g_free (email);
 
 	return ret_val;
@@ -1393,9 +1386,8 @@ task_table_delete_selection (ESelectable *selectable)
 	/* FIXME: this may be something other than a TODO component */
 
 	if (comp_data) {
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (
-			comp, icalcomponent_new_clone (comp_data->icalcomp));
+		comp = e_cal_component_new_from_icalcomponent (
+			i_cal_component_new_clone (comp_data->icalcomp));
 	}
 
 	if ((n_selected == 1) && comp && check_for_retract (comp, comp_data->client)) {
@@ -1404,13 +1396,13 @@ task_table_delete_selection (ESelectable *selectable)
 
 		delete = e_cal_dialogs_prompt_retract (GTK_WIDGET (task_table), comp, &retract_comment, &retract);
 		if (retract) {
-			icalcomponent *icalcomp = NULL;
+			ICalComponent *icomp;
 
 			add_retract_data (comp, retract_comment);
-			icalcomp = e_cal_component_get_icalcomponent (comp);
-			icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
+			icomp = e_cal_component_get_icalcomponent (comp);
+			i_cal_component_set_method (icomp, I_CAL_METHOD_CANCEL);
 
-			e_cal_ops_send_component (model, comp_data->client, icalcomp);
+			e_cal_ops_send_component (model, comp_data->client, icomp);
 		}
 
 		g_free (retract_comment);
@@ -1423,9 +1415,7 @@ task_table_delete_selection (ESelectable *selectable)
 	if (delete)
 		delete_selected_components (task_table);
 
-	/* free memory */
-	if (comp)
-		g_object_unref (comp);
+	g_clear_object (&comp);
 }
 
 static void
@@ -1710,7 +1700,7 @@ hide_completed_rows_ready (GObject *source_object,
 		ECalComponent *comp = e_cal_component_new ();
 
 		e_cal_component_set_icalcomponent (
-			comp, icalcomponent_new_clone (m->data));
+			comp, i_cal_component_new_clone (m->data));
 		id = e_cal_component_get_id (comp);
 
 		comp_data = e_cal_model_get_component_for_client_and_uid (model, cal_client, id);
@@ -1724,11 +1714,11 @@ hide_completed_rows_ready (GObject *source_object,
 				E_TABLE_MODEL (model), pos);
 			changed = TRUE;
 		}
-		e_cal_component_free_id (id);
+		e_cal_component_id_free (id);
 		g_object_unref (comp);
 	}
 
-	e_cal_client_free_icalcomp_slist (objects);
+	e_util_free_nullable_object_slist (objects);
 
 	if (changed) {
 		/* To notify about changes, because in call of
@@ -1781,7 +1771,7 @@ show_completed_rows_ready (GObject *source_object,
 		ECalComponent *comp = e_cal_component_new ();
 
 		e_cal_component_set_icalcomponent (
-			comp, icalcomponent_new_clone (m->data));
+			comp, i_cal_component_new_clone (m->data));
 		id = e_cal_component_get_id (comp);
 
 		if (!(e_cal_model_get_component_for_client_and_uid (model, cal_client, id))) {
@@ -1790,7 +1780,7 @@ show_completed_rows_ready (GObject *source_object,
 				E_TYPE_CAL_MODEL_COMPONENT, NULL);
 			comp_data->client = g_object_ref (cal_client);
 			comp_data->icalcomp =
-				icalcomponent_new_clone (m->data);
+				i_cal_component_new_clone (m->data);
 			e_cal_model_set_instance_times (
 				comp_data,
 				e_cal_model_get_timezone (model));
@@ -1805,11 +1795,11 @@ show_completed_rows_ready (GObject *source_object,
 				E_TABLE_MODEL (model),
 				comp_objects->len - 1);
 		}
-		e_cal_component_free_id (id);
+		e_cal_component_id_free (id);
 		g_object_unref (comp);
 	}
 
-	e_cal_client_free_icalcomp_slist (objects);
+	e_util_free_nullable_object_slist (objects);
 }
 
 /* Returns the current time, for the ECellDateEdit items.
@@ -1821,24 +1811,19 @@ e_task_table_get_current_time (ECellDateEdit *ecde,
 {
 	ETaskTable *task_table = data;
 	ECalModel *model;
-	icaltimezone *zone;
-	struct tm tmp_tm = { 0 };
-	struct icaltimetype tt;
+	ICalTimezone *zone;
+	ICalTime *tt;
+	struct tm tmp_tm;
 
 	/* Get the current timezone. */
 	model = e_task_table_get_model (task_table);
 	zone = e_cal_model_get_timezone (model);
 
-	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+	tt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, zone);
 
-	/* Now copy it to the struct tm and return it. */
-	tmp_tm.tm_year = tt.year - 1900;
-	tmp_tm.tm_mon = tt.month - 1;
-	tmp_tm.tm_mday = tt.day;
-	tmp_tm.tm_hour = tt.hour;
-	tmp_tm.tm_min = tt.minute;
-	tmp_tm.tm_sec = tt.second;
-	tmp_tm.tm_isdst = -1;
+	tmp_tm = e_cal_util_icaltime_to_tm (tt);
+
+	g_clear_object (&tt);
 
 	return tmp_tm;
 }

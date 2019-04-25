@@ -214,27 +214,16 @@ week_view_process_component (EWeekView *week_view,
 {
 	ECalComponent *comp = NULL;
 	AddEventData add_event_data;
-	/* rid is never used in this function? */
-	const gchar *uid;
-	gchar *rid = NULL;
 
 	/* If we don't have a valid date set yet, just return. */
 	if (!g_date_valid (&week_view->priv->first_day_shown))
 		return;
 
-	comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp))) {
-		g_object_unref (comp);
-
-		g_message (G_STRLOC ": Could not set icalcomponent on ECalComponent");
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	if (!comp) {
+		g_message (G_STRLOC ": Could not set ICalComponent on ECalComponent");
 		return;
 	}
-
-	e_cal_component_get_uid (comp, &uid);
-	if (e_cal_component_is_instance (comp))
-		rid = e_cal_component_get_recurid_as_string (comp);
-	else
-		rid = NULL;
 
 	/* Add the object */
 	add_event_data.week_view = week_view;
@@ -242,7 +231,6 @@ week_view_process_component (EWeekView *week_view,
 	e_week_view_add_event (comp_data->client, comp, comp_data->instance_start, comp_data->instance_end, FALSE, &add_event_data);
 
 	g_object_unref (comp);
-	g_free (rid);
 }
 
 static void
@@ -253,20 +241,14 @@ week_view_update_row (EWeekView *week_view,
 	ECalModel *model;
 	gint event_num;
 	const gchar *uid;
-	gchar *rid = NULL;
+	gchar *rid;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 	comp_data = e_cal_model_get_component_at (model, row);
 	g_return_if_fail (comp_data != NULL);
 
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
-	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-		icalproperty *prop;
-
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
-		if (prop)
-			rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
-	}
+	uid = i_cal_component_get_uid (comp_data->icalcomp);
+	rid = e_cal_util_component_get_recurid_as_string (comp_data->icalcomp);
 
 	if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
 		e_week_view_remove_event_cb (week_view, event_num, NULL);
@@ -309,20 +291,15 @@ week_view_model_comps_deleted_cb (EWeekView *week_view,
 	for (l = list; l != NULL; l = g_slist_next (l)) {
 		gint event_num;
 		const gchar *uid;
-		gchar *rid = NULL;
+		gchar *rid;
 		ECalModelComponent *comp_data = l->data;
 
-		uid = icalcomponent_get_uid (comp_data->icalcomp);
-		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-			icalproperty *prop;
-
-			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
-			if (prop)
-				rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
-		}
+		uid = i_cal_component_get_uid (comp_data->icalcomp);
+		rid = e_cal_util_component_get_recurid_as_string (comp_data->icalcomp);
 
 		if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
 			e_week_view_remove_event_cb (week_view, event_num, NULL);
+
 		g_free (rid);
 	}
 
@@ -387,7 +364,7 @@ e_week_view_precalc_visible_time_range (ECalendarView *cal_view,
 	GDateWeekday display_start_day;
 	guint day_offset, week_start_offset;
 	gint num_days;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (cal_view));
 	g_return_if_fail (out_start_time != NULL);
@@ -396,7 +373,7 @@ e_week_view_precalc_visible_time_range (ECalendarView *cal_view,
 	week_view = E_WEEK_VIEW (cal_view);
 	zone = e_calendar_view_get_timezone (cal_view);
 
-	time_to_gdate_with_zone (&date, in_start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+	time_to_gdate_with_zone (&date, in_start_time, zone);
 
 	weekday = g_date_get_weekday (&date);
 	display_start_day = e_week_view_get_display_start_day (week_view);
@@ -425,7 +402,7 @@ e_week_view_precalc_visible_time_range (ECalendarView *cal_view,
 		g_date_add_days (&end_date, num_days);
 		g_date_subtract_days (&end_date, day_offset);
 
-		time_to_gdate_with_zone (&in_end_date, in_end_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+		time_to_gdate_with_zone (&in_end_date, in_end_time, zone);
 
 		while (g_date_days_between (&end_date, &in_end_date) >= 6) {
 			g_date_add_days (&end_date, 7);
@@ -532,13 +509,13 @@ week_view_time_range_changed_cb (EWeekView *week_view,
 
 static void
 timezone_changed_cb (ECalModel *cal_model,
-                     icaltimezone *old_zone,
-                     icaltimezone *new_zone,
-                     gpointer user_data)
+		     ICalTimezone *old_zone,
+		     ICalTimezone *new_zone,
+		     gpointer user_data)
 {
 	ECalendarView *cal_view = (ECalendarView *) user_data;
 	GDate *first_day_shown;
-	struct icaltimetype tt = icaltime_null_time ();
+	ICalTime *tt = NULL;
 	time_t lower;
 	EWeekView *week_view = (EWeekView *) cal_view;
 
@@ -556,13 +533,18 @@ timezone_changed_cb (ECalModel *cal_model,
 	if (!g_date_valid (first_day_shown))
 		return;
 
+	tt = i_cal_time_null_time ();
+
 	/* Recalculate the new start of the first week. We just use exactly
 	 * the same time, but with the new timezone. */
-	tt.year = g_date_get_year (first_day_shown);
-	tt.month = g_date_get_month (first_day_shown);
-	tt.day = g_date_get_day (first_day_shown);
+	i_cal_time_set_date (tt,
+		g_date_get_year (first_day_shown),
+		g_date_get_month (first_day_shown),
+		g_date_get_day (first_day_shown));
 
-	lower = icaltime_as_timet_with_zone (tt, new_zone);
+	lower = i_cal_time_as_timet_with_zone (tt, new_zone);
+
+	g_clear_object (&tt);
 
 	e_week_view_recalc_day_starts (week_view, lower);
 	e_week_view_update_query (week_view);
@@ -659,43 +641,41 @@ new_event_in_rage_data_free (gpointer ptr)
 static void
 week_view_new_event_in_selected_range_cb (ECalModel *model,
 					  ECalClient *client,
-					  icalcomponent *default_component,
+					  ICalComponent *default_component,
 					  gpointer user_data)
 {
 	NewEventInRangeData *ned = user_data;
 	ECalComponent *comp = NULL;
 	gint event_num;
-	ECalComponentDateTime date;
-	struct icaltimetype itt;
+	ECalComponentDateTime *date;
 	const gchar *uid;
 	AddEventData add_event_data;
 	EWeekViewEvent *wvevent;
 	EWeekViewEventSpan *span;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	/* Check if the client is read only */
 	if (e_client_is_readonly (E_CLIENT (client)))
 		goto exit;
 
 	/* Add a new event covering the selected range. */
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (default_component));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (default_component));
 	g_return_if_fail (comp != NULL);
 
-	uid = icalcomponent_get_uid (default_component);
-
-	date.value = &itt;
-	date.tzid = NULL;
+	uid = i_cal_component_get_uid (default_component);
 
 	zone = e_cal_model_get_timezone (model);
 
 	/* We use DATE values now, so we don't need the timezone. */
 	/*date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));*/
 
-	*date.value = icaltime_from_timet_with_zone (ned->dtstart, TRUE, zone);
-	e_cal_component_set_dtstart (comp, &date);
+	date = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (ned->dtstart, TRUE, zone), NULL);
+	e_cal_component_set_dtstart (comp, date);
+	e_cal_component_datetime_free (date);
 
-	*date.value = icaltime_from_timet_with_zone (ned->dtend, TRUE, zone);
-	e_cal_component_set_dtend (comp, &date);
+	date = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (ned->dtend, TRUE, zone), NULL);
+	e_cal_component_set_dtend (comp, date);
+	e_cal_component_datetime_free (date);
 
 	/* Editor default in week/month view */
 	e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
@@ -2225,8 +2205,6 @@ e_week_view_set_first_day_shown (EWeekView *week_view,
 	gint num_days;
 	gboolean update_adjustment_value = FALSE;
 	guint32 old_selection_start_julian = 0, old_selection_end_julian = 0;
-	struct icaltimetype start_tt = icaltime_null_time ();
-	time_t start_time;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
@@ -2261,15 +2239,22 @@ e_week_view_set_first_day_shown (EWeekView *week_view,
 	/* See if we need to update the first day shown. */
 	if (!g_date_valid (&week_view->priv->first_day_shown)
 	    || g_date_compare (&week_view->priv->first_day_shown, &base_date)) {
+		ICalTime *start_tt;
+		time_t start_time;
+
 		week_view->priv->first_day_shown = base_date;
 
-		start_tt.year = g_date_get_year (&base_date);
-		start_tt.month = g_date_get_month (&base_date);
-		start_tt.day = g_date_get_day (&base_date);
+		start_tt = i_cal_time_null_time ();
+		i_cal_time_set_date (start_tt,
+			g_date_get_year (&base_date),
+			g_date_get_month (&base_date),
+			g_date_get_day (&base_date));
 
-		start_time = icaltime_as_timet_with_zone (
+		start_time = i_cal_time_as_timet_with_zone (
 			start_tt,
 			e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+
+		g_clear_object (&start_tt);
 
 		e_week_view_recalc_day_starts (week_view, start_time);
 		e_week_view_update_query (week_view);
@@ -2672,42 +2657,54 @@ set_style_from_attendee (EWeekViewEvent *event,
 	ECalComponent *comp;
 	GSList *attendees = NULL, *l;
 	gchar *address;
-	ECalComponentAttendee *at = NULL;
+	ICalParameterPartstat partstat = I_CAL_PARTSTAT_NONE;
 
 	if (!is_comp_data_valid (event))
 		return;
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	if (!comp)
+		return;
+
 	address = itip_get_comp_attendee (
 		registry, comp, event->comp_data->client);
-	e_cal_component_get_attendee_list (comp, &attendees);
-	for (l = attendees; l; l = l->next) {
+	attendees = e_cal_component_get_attendees (comp);
+	for (l = attendees; l && address; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
+		const gchar *value, *sentby;
 
-		if ((attendee->value && g_strcmp0 (itip_strip_mailto (attendee->value), address) == 0)
-		 || (attendee->sentby && g_strcmp0 (itip_strip_mailto (attendee->sentby), address) == 0)) {
-			at = attendee;
+		if (!attendee)
+			continue;
+
+		value = e_cal_component_attendee_get_value (attendee);
+		if (value)
+			value = itip_strip_mailto (value);
+		sentby = e_cal_component_attendee_get_sentby (attendee);
+		if (sentby)
+			sentby = itip_strip_mailto (sentby);
+		if ((value && g_ascii_strcasecmp (value, address) == 0) ||
+		    (sentby && g_ascii_strcasecmp (sentby, address) == 0)) {
+			partstat = e_cal_component_attendee_get_partstat (attendee);
 			break;
 		}
 	}
 
-	if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+	if (i_cal_component_get_status (event->comp_data->icalcomp) == I_CAL_STATUS_CANCELLED)
 		gnome_canvas_item_set (span->text_item, "strikeout", TRUE, NULL);
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	 * If the attendee is not present, it might have come through a mailing list.
 	 * In that case, we never show the meeting as bold even if it is unaccepted. */
-	if (at && at->status == ICAL_PARTSTAT_NEEDSACTION)
+	if (partstat == I_CAL_PARTSTAT_NEEDSACTION)
 		gnome_canvas_item_set (span->text_item, "bold", TRUE, NULL);
-	else if (at && at->status == ICAL_PARTSTAT_DECLINED)
+	else if (partstat == I_CAL_PARTSTAT_DECLINED)
 		gnome_canvas_item_set (span->text_item, "strikeout", TRUE, NULL);
-	else if (at && at->status == ICAL_PARTSTAT_TENTATIVE)
+	else if (partstat == I_CAL_PARTSTAT_TENTATIVE)
 		gnome_canvas_item_set (span->text_item, "italic", TRUE, NULL);
-	else if (at && at->status == ICAL_PARTSTAT_DELEGATED)
+	else if (partstat == I_CAL_PARTSTAT_DELEGATED)
 		gnome_canvas_item_set (span->text_item, "italic", TRUE, "strikeout", TRUE, NULL);
 
-	e_cal_component_free_attendee_list (attendees);
+	g_slist_free_full (attendees, e_cal_component_attendee_free);
 	g_free (address);
 	g_object_unref (comp);
 }
@@ -2735,7 +2732,7 @@ e_week_view_foreach_event_with_uid (EWeekView *week_view,
 		if (!is_comp_data_valid (event))
 			continue;
 
-		u = icalcomponent_get_uid (event->comp_data->icalcomp);
+		u = i_cal_component_get_uid (event->comp_data->icalcomp);
 		if (u && !strcmp (uid, u)) {
 			if (!(*callback) (week_view, event_num, data))
 				return;
@@ -3345,7 +3342,7 @@ e_week_view_add_event (ECalClient *client,
 	AddEventData *add_event_data;
 	EWeekViewEvent event;
 	gint num_days;
-	struct icaltimetype start_tt, end_tt;
+	ICalTime *start_tt, *end_tt;
 
 	add_event_data = data;
 
@@ -3358,10 +3355,10 @@ e_week_view_add_event (ECalClient *client,
 	if (end != start || end < add_event_data->week_view->day_starts[0])
 		g_return_if_fail (end > add_event_data->week_view->day_starts[0]);
 
-	start_tt = icaltime_from_timet_with_zone (
+	start_tt = i_cal_time_from_timet_with_zone (
 		start, FALSE,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->week_view)));
-	end_tt = icaltime_from_timet_with_zone (
+	end_tt = i_cal_time_from_timet_with_zone (
 		end, FALSE,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->week_view)));
 
@@ -3372,8 +3369,9 @@ e_week_view_add_event (ECalClient *client,
 		event.comp_data->is_new_component = TRUE;
 		event.comp_data->client = g_object_ref (client);
 		e_cal_component_abort_sequence (comp);
-		event.comp_data->icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
+		event.comp_data->icalcomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
 	}
+
 	event.start = start;
 	event.end = end;
 	event.tooltip = NULL;
@@ -3384,8 +3382,8 @@ e_week_view_add_event (ECalClient *client,
 	event.comp_data->instance_start = start;
 	event.comp_data->instance_end = end;
 
-	event.start_minute = start_tt.hour * 60 + start_tt.minute;
-	event.end_minute = end_tt.hour * 60 + end_tt.minute;
+	event.start_minute = i_cal_time_get_hour (start_tt) * 60 + i_cal_time_get_minute (start_tt);
+	event.end_minute = i_cal_time_get_hour (end_tt) * 60 + i_cal_time_get_minute (end_tt);
 	if (event.end_minute == 0 && start != end)
 		event.end_minute = 24 * 60;
 
@@ -3402,6 +3400,9 @@ e_week_view_add_event (ECalClient *client,
 		g_array_append_val (add_event_data->week_view->events, event);
 	add_event_data->week_view->events_sorted = FALSE;
 	add_event_data->week_view->events_need_layout = TRUE;
+
+	g_clear_object (&start_tt);
+	g_clear_object (&end_tt);
 }
 
 /* This lays out the events, or reshapes them, as necessary. */
@@ -3493,8 +3494,8 @@ e_week_view_reshape_events (EWeekView *week_view)
 				week_view, event_num, span_num);
 			if (week_view->last_edited_comp_string == NULL)
 				continue;
-			current_comp_string = icalcomponent_as_ical_string_r (event->comp_data->icalcomp);
-			if (strncmp (current_comp_string, week_view->last_edited_comp_string,50) == 0) {
+			current_comp_string = i_cal_component_as_ical_string_r (event->comp_data->icalcomp);
+			if (strncmp (current_comp_string, week_view->last_edited_comp_string, 50) == 0) {
 				EWeekViewEventSpan *span;
 
 				if (!is_array_index_in_bounds (week_view->spans, event->spans_index + span_num)) {
@@ -3686,28 +3687,27 @@ tooltip_event_cb (GnomeCanvasItem *item,
 	}
 }
 
-static const gchar *
-get_comp_summary (ECalClient *client,
-                  icalcomponent *icalcomp,
-                  gboolean *free_text)
+static gchar *
+dup_comp_summary (ECalClient *client,
+		  ICalComponent *icomp)
 {
-	const gchar *my_summary, *location;
-	const gchar *summary;
-	gboolean my_free_text = FALSE;
+	const gchar *location;
+	gchar *summary, *my_summary;
 
-	g_return_val_if_fail (icalcomp != NULL && free_text != NULL, NULL);
+	g_return_val_if_fail (icomp != NULL, NULL);
 
-	my_summary = e_calendar_view_get_icalcomponent_summary (client, icalcomp, &my_free_text);
+	my_summary = e_calendar_view_dup_component_summary (icomp);
 
-	location = icalcomponent_get_location (icalcomp);
+	location = i_cal_component_get_location (icomp);
+
 	if (location && *location) {
-		*free_text = TRUE;
-		summary = g_strdup_printf ("%s (%s)", my_summary ? my_summary : "", location);
+		/* Translators: the first '%s' is replaced with a component summary;
+		   the second '%s' is replaced with an event location.
+		   Example: "Meet John Doe (Central Park)" */
+		summary = g_strdup_printf (C_("SummaryWithLocation", "%s (%s)"), my_summary ? my_summary : "", location);
 
-		if (my_free_text)
-			g_free ((gchar *) my_summary);
+		g_free (my_summary);
 	} else {
-		*free_text = my_free_text;
 		summary = my_summary;
 	}
 
@@ -3770,8 +3770,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	if (!comp)
+		return;
 
 	one_day_event = e_week_view_is_one_day_event (week_view, event_num);
 
@@ -3845,12 +3846,11 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 	/* Create the text item if necessary. */
 	if (!span->text_item) {
-		const gchar *summary;
+		gchar *summary;
 		GdkColor color;
-		gboolean free_text = FALSE;
 
 		color = e_week_view_get_text_color (week_view, event);
-		summary = get_comp_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
+		summary = dup_comp_summary (event->comp_data->client, event->comp_data->icalcomp);
 
 		span->text_item =
 			gnome_canvas_item_new (
@@ -3865,12 +3865,11 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 				"im_context", E_CANVAS (week_view->main_canvas)->im_context,
 				NULL);
 
-		if (free_text)
-			g_free ((gchar *) summary);
+		g_free (summary);
 
 		if (e_cal_util_component_has_attendee (event->comp_data->icalcomp))
 			set_style_from_attendee (event, span, registry);
-		else if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+		else if (i_cal_component_get_status (event->comp_data->icalcomp) == I_CAL_STATUS_CANCELLED)
 			gnome_canvas_item_set (span->text_item, "strikeout", TRUE, NULL);
 
 		g_signal_connect (
@@ -4097,7 +4096,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 			return FALSE;
 	}
 
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	summary = i_cal_component_get_summary (event->comp_data->icalcomp);
 	if (!summary)
 		summary = "";
 
@@ -4193,7 +4192,7 @@ cancel_editing (EWeekView *week_view)
 
 	/* Reset the text to what was in the component */
 
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	summary = i_cal_component_get_summary (event->comp_data->icalcomp);
 	g_object_set (span->text_item, "text", summary ? summary : "", NULL);
 
 	/* Stop editing */
@@ -4427,7 +4426,7 @@ e_week_view_event_move (ECalendarView *cal_view,
 	EWeekViewEvent *event;
 	gint event_num, adjust_days, current_start_day, current_end_day;
 	time_t start_dt, end_dt;
-	struct icaltimetype start_time,end_time;
+	ICalTime *start_time, *end_time;
 	EWeekView *week_view = E_WEEK_VIEW (cal_view);
 	gboolean is_all_day = FALSE;
 
@@ -4447,10 +4446,10 @@ e_week_view_event_move (ECalendarView *cal_view,
 		return FALSE;
 
 	end_dt = event->end;
-	start_time = icalcomponent_get_dtstart (event->comp_data->icalcomp);
-	end_time = icalcomponent_get_dtend (event->comp_data->icalcomp);
+	start_time = i_cal_component_get_dtstart (event->comp_data->icalcomp);
+	end_time = i_cal_component_get_dtend (event->comp_data->icalcomp);
 
-	if (start_time.is_date && end_time.is_date)
+	if (i_cal_time_is_date (start_time) && i_cal_time_is_date (end_time))
 		is_all_day = TRUE;
 
 	current_end_day = e_week_view_get_day_offset_of_event (week_view,end_dt);
@@ -4472,14 +4471,17 @@ e_week_view_event_move (ECalendarView *cal_view,
 		break;
 	}
 
-	icaltime_adjust (&start_time ,adjust_days,0,0,0);
-	icaltime_adjust (&end_time ,adjust_days,0,0,0);
-	start_dt = icaltime_as_timet_with_zone (
+	i_cal_time_adjust (start_time, adjust_days, 0, 0, 0);
+	i_cal_time_adjust (end_time, adjust_days, 0, 0, 0);
+	start_dt = i_cal_time_as_timet_with_zone (
 		start_time,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-	end_dt = icaltime_as_timet_with_zone (
+	end_dt = i_cal_time_as_timet_with_zone (
 		end_time,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+
+	g_clear_object (&start_time);
+	g_clear_object (&end_time);
 
 	current_start_day = e_week_view_get_day_offset_of_event (week_view,start_dt);
 	current_end_day = e_week_view_get_day_offset_of_event (week_view,end_dt);
@@ -4561,10 +4563,10 @@ e_week_view_change_event_time (EWeekView *week_view,
 	EWeekViewEvent *event;
 	gint event_num;
 	ECalComponent *comp;
-	ECalComponentDateTime date;
-	struct icaltimetype itt;
+	ECalComponentDateTime *date;
 	ECalClient *client;
 	ECalObjModType mod = E_CAL_OBJ_MOD_ALL;
+	ICalTimezone *zone;
 
 	event_num = week_view->editing_event_num;
 
@@ -4585,19 +4587,19 @@ e_week_view_change_event_time (EWeekView *week_view,
 	/* We use a temporary shallow copy of the ico since we don't want to
 	 * change the original ico here. Otherwise we would not detect that
 	 * the event's time had changed in the "update_event" callback. */
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	date.value = &itt;
-	/* FIXME: Should probably keep the timezone of the original start
-	 * and end times. */
-	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
 
-	*date.value = icaltime_from_timet_with_zone (start_dt, is_all_day,
-						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-	cal_comp_set_dtstart_with_oldzone (client, comp, &date);
-	*date.value = icaltime_from_timet_with_zone (end_dt, is_all_day,
-						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-	cal_comp_set_dtend_with_oldzone (client, comp, &date);
+	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view));
+
+	date = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (start_dt, is_all_day, zone),
+		zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+	cal_comp_set_dtstart_with_oldzone (client, comp, date);
+	e_cal_component_datetime_free (date);
+
+	date = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (end_dt, is_all_day, zone),
+		zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+	cal_comp_set_dtend_with_oldzone (client, comp, date);
+	e_cal_component_datetime_free (date);
 
 	e_cal_component_commit_sequence (comp);
 
@@ -4615,10 +4617,10 @@ e_week_view_change_event_time (EWeekView *week_view,
 		}
 
 		if (mod == E_CAL_OBJ_MOD_THIS) {
-			e_cal_component_set_rdate_list (comp, NULL);
-			e_cal_component_set_rrule_list (comp, NULL);
-			e_cal_component_set_exdate_list (comp, NULL);
-			e_cal_component_set_exrule_list (comp, NULL);
+			e_cal_component_set_rdates (comp, NULL);
+			e_cal_component_set_rrules (comp, NULL);
+			e_cal_component_set_exdates (comp, NULL);
+			e_cal_component_set_exrules (comp, NULL);
 		}
 	} else if (e_cal_component_is_instance (comp))
 		mod = E_CAL_OBJ_MOD_THIS;
@@ -4667,7 +4669,7 @@ e_week_view_on_editing_started (EWeekView *week_view,
 				span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 						       event->spans_index + span_num);
 
-				summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+				summary = i_cal_component_get_summary (event->comp_data->icalcomp);
 
 				gnome_canvas_item_set (
 					span->text_item,
@@ -4691,7 +4693,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	EWeekViewEventSpan *span;
 	gchar *text = NULL;
 	ECalComponent *comp;
-	ECalComponentText summary;
+	ECalComponentText *summary = NULL;
 	ECalClient *client;
 	const gchar *uid;
 	gboolean on_server;
@@ -4724,7 +4726,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	week_view->editing_event_num = -1;
 
 	/* Check that the event is still valid. */
-	uid = icalcomponent_get_uid (event->comp_data->icalcomp);
+	uid = i_cal_component_get_uid (event->comp_data->icalcomp);
 	if (!uid) {
 		g_object_notify (G_OBJECT (week_view), "is-editing");
 		return;
@@ -4734,14 +4736,18 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	g_object_set (span->text_item, "handle_popup", FALSE, NULL);
 	g_object_get (span->text_item, "text", &text, NULL);
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	if (!comp) {
+		g_free (text);
+		g_object_notify (G_OBJECT (week_view), "is-editing");
+		return;
+	}
 
 	client = event->comp_data->client;
 	on_server = !event->comp_data->is_new_component;
 
 	if (string_is_empty (text) && !on_server) {
-		e_cal_component_get_uid (comp, &uid);
+		uid = e_cal_component_get_uid (comp);
 		g_signal_handlers_disconnect_by_func (item, e_week_view_on_text_item_event, week_view);
 		e_week_view_foreach_event_with_uid (week_view, uid,
 						    e_week_view_remove_event_cb, NULL);
@@ -4752,29 +4758,31 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	}
 
 	/* Only update the summary if necessary. */
-	e_cal_component_get_summary (comp, &summary);
-	if (summary.value && !strcmp (text, summary.value)) {
-		gboolean free_text = FALSE;
-		const gchar *summary;
+	summary = e_cal_component_get_summary (comp);
+	if (summary && !g_strcmp0 (e_cal_component_text_get_value (summary), text)) {
+		gchar *summary_txt;
 
-		summary = get_comp_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
-		g_object_set (span->text_item, "text", summary ? summary : "", NULL);
+		summary_txt = dup_comp_summary (event->comp_data->client, event->comp_data->icalcomp);
+		g_object_set (span->text_item, "text", summary_txt ? summary_txt : "", NULL);
 
-		if (free_text)
-			g_free ((gchar *) summary);
+		g_free (summary_txt);
 
 		if (!e_week_view_is_one_day_event (week_view, event_num))
 			e_week_view_reshape_event_span (week_view, event_num, span_num);
-	} else if (summary.value || !string_is_empty (text)) {
-		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (comp);
+	} else if ((summary && e_cal_component_text_get_value (summary)) || !string_is_empty (text)) {
+		ICalComponent *icomp = e_cal_component_get_icalcomponent (comp);
 
-		summary.value = text;
-		summary.altrep = NULL;
-		e_cal_component_set_summary (comp, &summary);
+		e_cal_component_text_free (summary);
+		summary = e_cal_component_text_new (text, NULL);
+
+		e_cal_component_set_summary (comp, summary);
 		e_cal_component_commit_sequence (comp);
 
+		e_cal_component_text_free (summary);
+		summary = NULL;
+
 		if (!on_server) {
-			e_cal_ops_create_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), client, icalcomp,
+			e_cal_ops_create_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), client, icomp,
 				e_calendar_view_component_created_cb, g_object_ref (week_view), g_object_unref);
 
 			/* we remove the object since we either got the update from the server or failed */
@@ -4788,52 +4796,56 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 				}
 
 				if (mod == E_CAL_OBJ_MOD_THIS) {
-					ECalComponentDateTime dt;
-					struct icaltimetype tt;
+					ECalComponentDateTime *dt;
+					ICalTime *tt = NULL;
 					gchar *tzid;
 
-					e_cal_component_get_dtstart (comp, &dt);
-					if (dt.value->zone) {
-						tt = icaltime_from_timet_with_zone (
+					dt = e_cal_component_get_dtstart (comp);
+					if (dt)
+						tt = e_cal_component_datetime_get_value (dt);
+					if (dt && tt && i_cal_time_get_timezone (tt)) {
+						tt = i_cal_time_from_timet_with_zone (
 							event->comp_data->instance_start,
-							dt.value->is_date,
-							dt.value->zone);
+							i_cal_time_is_date (tt),
+							i_cal_time_get_timezone (tt));
 					} else {
-						tt = icaltime_from_timet_with_zone (
+						tt = i_cal_time_from_timet_with_zone (
 							event->comp_data->instance_start,
-							dt.value->is_date,
+							(dt && tt) ? i_cal_time_is_date (tt) : FALSE,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 					}
-					tzid = g_strdup (dt.tzid);
-					e_cal_component_free_datetime (&dt);
-					dt.value = &tt;
-					dt.tzid = tzid;
-					e_cal_component_set_dtstart (comp, &dt);
-					g_free (tzid);
+					tzid = dt ? g_strdup (e_cal_component_datetime_get_tzid (dt)) : NULL;
+					e_cal_component_datetime_free (dt);
 
-					e_cal_component_get_dtend (comp, &dt);
-					if (dt.value->zone) {
-						tt = icaltime_from_timet_with_zone (
+					dt = e_cal_component_datetime_new_take (tt, tzid);
+					e_cal_component_set_dtstart (comp, dt);
+					e_cal_component_datetime_free (dt);
+
+					dt = e_cal_component_get_dtend (comp);
+					if (dt)
+						tt = e_cal_component_datetime_get_value (dt);
+					if (dt && tt && i_cal_time_get_timezone (tt)) {
+						tt = i_cal_time_from_timet_with_zone (
 							event->comp_data->instance_end,
-							dt.value->is_date,
-							dt.value->zone);
+							i_cal_time_is_date (tt),
+							i_cal_time_get_timezone (tt));
 					} else {
-						tt = icaltime_from_timet_with_zone (
+						tt = i_cal_time_from_timet_with_zone (
 							event->comp_data->instance_end,
-							dt.value->is_date,
+							(dt && tt) ? i_cal_time_is_date (tt) : FALSE,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 					}
-					tzid = g_strdup (dt.tzid);
-					e_cal_component_free_datetime (&dt);
-					dt.value = &tt;
-					dt.tzid = tzid;
-					e_cal_component_set_dtend (comp, &dt);
-					g_free (tzid);
+					tzid = dt ? g_strdup (e_cal_component_datetime_get_tzid (dt)) : NULL;
+					e_cal_component_datetime_free (dt);
 
-					e_cal_component_set_rdate_list (comp, NULL);
-					e_cal_component_set_rrule_list (comp, NULL);
-					e_cal_component_set_exdate_list (comp, NULL);
-					e_cal_component_set_exrule_list (comp, NULL);
+					dt = e_cal_component_datetime_new_take (tt, tzid);
+					e_cal_component_set_dtend (comp, dt);
+					e_cal_component_datetime_free (dt);
+
+					e_cal_component_set_rdates (comp, NULL);
+					e_cal_component_set_rrules (comp, NULL);
+					e_cal_component_set_exdates (comp, NULL);
+					e_cal_component_set_exrules (comp, NULL);
 				}
 			} else if (e_cal_component_is_instance (comp))
 				mod = E_CAL_OBJ_MOD_THIS;
@@ -4846,6 +4858,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
  out:
 
+	e_cal_component_text_free (summary);
 	g_free (text);
 	g_object_unref (comp);
 
@@ -4920,16 +4933,15 @@ e_week_view_find_event_from_uid (EWeekView *week_view,
 		if (event->comp_data->client != client)
 			continue;
 
-		u = icalcomponent_get_uid (event->comp_data->icalcomp);
+		u = i_cal_component_get_uid (event->comp_data->icalcomp);
 		if (u && !strcmp (uid, u)) {
 			if (rid && *rid) {
-				r = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
-				if (!r || !*r)
-					continue;
-				if (strcmp (rid, r) != 0) {
+				r = e_cal_util_component_get_recurid_as_string (event->comp_data->icalcomp);
+				if (!r || !*r || strcmp (rid, r) != 0) {
 					g_free (r);
 					continue;
 				}
+
 				g_free (r);
 			}
 

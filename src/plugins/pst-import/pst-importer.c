@@ -75,7 +75,7 @@ gchar *foldername_to_utf8 (const gchar *pstname);
 gchar *string_to_utf8 (const gchar *string);
 void contact_set_date (EContact *contact, EContactField id, FILETIME *date);
 static void fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gchar *type);
-struct icaltimetype get_ical_date (FILETIME *date, gboolean is_date);
+ICalTime *get_ical_date (FILETIME *date, gboolean is_date);
 gchar *rfc2445_datetime_format (FILETIME *ft);
 
 gboolean org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *target);
@@ -1205,10 +1205,8 @@ pst_process_email (PstImporter *m,
 
 	if (item->type == PST_TYPE_SCHEDULE && item->appointment) {
 		ECalComponent *comp;
-		icalcomponent *vcal;
-		icalproperty *prop;
-		icalvalue *value;
-		icalproperty_method method;
+		ICalComponent *vcal;
+		ICalPropertyMethod method;
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
@@ -1216,26 +1214,23 @@ pst_process_email (PstImporter *m,
 
 		vcal = e_cal_util_new_top_level ();
 
-		method = ICAL_METHOD_PUBLISH;
+		method = I_CAL_METHOD_PUBLISH;
 		if (item->ascii_type) {
 			if (g_str_has_prefix (item->ascii_type, "IPM.Schedule.Meeting.Request"))
-				method = ICAL_METHOD_REQUEST;
+				method = I_CAL_METHOD_REQUEST;
 			else if (g_str_has_prefix (item->ascii_type, "IPM.Schedule.Meeting.Canceled"))
-				method = ICAL_METHOD_CANCEL;
+				method = I_CAL_METHOD_CANCEL;
 			else if (g_str_has_prefix (item->ascii_type, "IPM.Schedule.Meeting.Resp."))
-				method = ICAL_METHOD_REPLY;
+				method = I_CAL_METHOD_REPLY;
 		}
 
-		prop = icalproperty_new (ICAL_METHOD_PROPERTY);
-		value = icalvalue_new_method (method);
-		icalproperty_set_value (prop, value);
-		icalcomponent_add_property (vcal, prop);
+		i_cal_component_set_method (vcal, method);
 
-		icalcomponent_add_component (vcal, icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp)));
+		i_cal_component_take_component (vcal, i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp)));
 
-		comp_str = icalcomponent_as_ical_string_r (vcal);
+		comp_str = i_cal_component_as_ical_string_r (vcal);
 
-		icalcomponent_free (vcal);
+		g_object_unref (vcal);
 		g_object_unref (comp);
 
 		if (comp_str && !*comp_str) {
@@ -1666,11 +1661,11 @@ pst_process_contact (PstImporter *m,
  * @date: time value from libpst
  * @is_date: treat as date only (all day event)?
  *
- * Convert pst time to icaltimetype
+ * Convert pst time to ICalTime
  *
  * Returns: converted date
  */
-struct icaltimetype
+ICalTime *
 get_ical_date (FILETIME *date,
                gboolean is_date)
 {
@@ -1678,9 +1673,9 @@ get_ical_date (FILETIME *date,
 		time_t t;
 
 		t = pst_fileTimeToUnixTime (date);
-		return icaltime_from_timet_with_zone (t, is_date, NULL);
+		return i_cal_time_from_timet_with_zone (t, is_date, NULL);
 	} else {
-		return icaltime_null_date ();
+		return NULL;
 	}
 }
 
@@ -1698,7 +1693,7 @@ set_cal_attachments (ECalClient *cal,
 		return;
 	}
 
-	e_cal_component_get_uid (ec, &uid);
+	uid = e_cal_component_get_uid (ec);
 	store_dir = g_filename_from_uri (e_cal_client_get_local_attachment_store (cal), NULL, NULL);
 
 	while (attach != NULL) {
@@ -1769,7 +1764,7 @@ set_cal_attachments (ECalClient *cal,
 		g_object_unref (stream);
 
 		uri = g_filename_to_uri (path, NULL, NULL);
-		list = g_slist_append (list, g_strdup (uri));
+		list = g_slist_append (list, i_cal_attach_new_from_url (uri));
 		g_free (uri);
 
 		g_object_unref (part);
@@ -1781,7 +1776,8 @@ set_cal_attachments (ECalClient *cal,
 
 	g_free (store_dir);
 
-	e_cal_component_set_attachment_list (ec, list);
+	e_cal_component_set_attachments (ec, list);
+	g_slist_free_full (list, g_object_unref);
 }
 
 static void
@@ -1792,10 +1788,7 @@ fill_calcomponent (PstImporter *m,
 {
 	pst_item_appointment *a;
 	pst_item_email *e;
-
-	ECalComponentText text;
-	struct icaltimetype tt_start, tt_end;
-	ECalComponentDateTime dt_start, dt_end;
+	ECalComponentText *text;
 
 	a = item->appointment;
 	e = item->email;
@@ -1803,34 +1796,37 @@ fill_calcomponent (PstImporter *m,
 	g_return_if_fail (item->appointment != NULL);
 
 	if (item->create_date) {
-		struct icaltimetype tt;
+		ICalTime *tt;
 		tt = get_ical_date (item->create_date, FALSE);
-		e_cal_component_set_created (ec, &tt);
+		e_cal_component_set_created (ec, tt);
+		g_clear_object (&tt);
 	}
 	if (item->modify_date) {
-		struct icaltimetype tt;
+		ICalTime *tt;
 		tt = get_ical_date (item->modify_date, FALSE);
-		e_cal_component_set_last_modified (ec, &tt);
+		e_cal_component_set_last_modified (ec, tt);
+		g_clear_object (&tt);
 	}
 
 	if (e) {
 		if (item->subject.str || e->processed_subject.str) {
+			text = NULL;
 			if (item->subject.str) {
-				text.value = item->subject.str;
+				text = e_cal_component_text_new (item->subject.str, NULL);
 			} else if (e->processed_subject.str) {
-				text.value = e->processed_subject.str;
+				text = e_cal_component_text_new (e->processed_subject.str, NULL);
 			}
 
-			text.altrep = NULL; /* email->proc_subject? */
-			e_cal_component_set_summary (ec, &text);
+			e_cal_component_set_summary (ec, text);
+			e_cal_component_text_free (text);
 		}
 		if (item->body.str) {
 			GSList l;
-			text.value = item->body.str;
-			text.altrep = NULL;
-			l.data = &text;
+			text = e_cal_component_text_new (item->body.str, NULL);
+			l.data = text;
 			l.next = NULL;
-			e_cal_component_set_description_list (ec, &l);
+			e_cal_component_set_descriptions (ec, &l);
+			e_cal_component_text_free (text);
 		}
 	} else {
 		g_warning ("%s without subject / body!", type);
@@ -1841,31 +1837,37 @@ fill_calcomponent (PstImporter *m,
 	}
 
 	if (a->start) {
-		tt_start = get_ical_date (a->start, a->all_day);
-		dt_start.value = &tt_start;
-		dt_start.tzid = a->timezonestring.str;
-		e_cal_component_set_dtstart (ec, &dt_start);
+		ECalComponentDateTime *dtstart;
+
+		dtstart = e_cal_component_datetime_new_take (
+			get_ical_date (a->start, a->all_day),
+			g_strdup (a->timezonestring.str));
+		e_cal_component_set_dtstart (ec, dtstart);
+		e_cal_component_datetime_free (dtstart);
 	}
 
 	if (a->end) {
-		tt_end = get_ical_date (a->end, a->all_day);
-		dt_end.value = &tt_end;
-		dt_end.tzid = a->timezonestring.str;
-		e_cal_component_set_dtend (ec, &dt_end);
+		ECalComponentDateTime *dtend;
+
+		dtend = e_cal_component_datetime_new_take (
+			get_ical_date (a->end, a->all_day),
+			g_strdup (a->timezonestring.str));
+		e_cal_component_set_dtend (ec, dtend);
+		e_cal_component_datetime_free (dtend);
 	}
 
 	switch (a->showas) {
 		case PST_FREEBUSY_TENTATIVE:
-			e_cal_component_set_status (ec, ICAL_STATUS_TENTATIVE);
+			e_cal_component_set_status (ec, I_CAL_STATUS_TENTATIVE);
 			break;
 		case PST_FREEBUSY_FREE:
 			/* mark as transparent and as confirmed */
 			e_cal_component_set_transparency (ec, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
-			e_cal_component_set_status (ec, ICAL_STATUS_CONFIRMED);
+			e_cal_component_set_status (ec, I_CAL_STATUS_CONFIRMED);
 			break;
 		case PST_FREEBUSY_BUSY:
 		case PST_FREEBUSY_OUT_OF_OFFICE:
-			e_cal_component_set_status (ec, ICAL_STATUS_CONFIRMED);
+			e_cal_component_set_status (ec, I_CAL_STATUS_CONFIRMED);
 			break;
 	}
 	switch (a->label) {
@@ -1895,14 +1897,17 @@ fill_calcomponent (PstImporter *m,
 
 	if (a->alarm || a->alarm_minutes) {
 		ECalComponentAlarm *alarm;
-		ECalComponentAlarmTrigger trigger;
 
 		alarm = e_cal_component_alarm_new ();
 
 		if (a->alarm_minutes) {
-			trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
-			trigger.u.rel_duration = icaldurationtype_from_int (- (a->alarm_minutes) * 60);
-			e_cal_component_alarm_set_trigger (alarm, trigger);
+			ECalComponentAlarmTrigger *trigger = NULL;
+			ICalDuration *duration;
+
+			duration = i_cal_duration_from_int (- (a->alarm_minutes) * 60);
+			trigger = e_cal_component_alarm_trigger_new_relative (E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, duration);
+			e_cal_component_alarm_take_trigger (alarm, trigger);
+			g_object_unref (duration);
 		}
 
 		if (a->alarm) {
@@ -1919,31 +1924,44 @@ fill_calcomponent (PstImporter *m,
 	}
 
 	if (a->recurrence_description.str != PST_APP_RECUR_NONE) {
-		struct icalrecurrencetype  r;
+		ICalRecurrence *recr;
 		GSList recur_list;
 
-		icalrecurrencetype_clear (&r);
-		r.interval = 1; /* Interval not implemented in libpst */
+		recr = i_cal_recurrence_new ();
+
+		i_cal_recurrence_set_interval (recr, 1); /* Interval not implemented in libpst */
 		if (a->recurrence_end) {
-			r.until = get_ical_date (a->recurrence_end, FALSE);
+			ICalTime *tt;
+
+			tt = get_ical_date (a->recurrence_end, FALSE);
+			if (tt) {
+				i_cal_recurrence_set_until (recr, tt);
+				g_object_unref (tt);
+			}
 		}
 
 		switch (a->recurrence_type) {
 			case PST_APP_RECUR_DAILY:
-				r.freq = ICAL_DAILY_RECURRENCE; break;
+				i_cal_recurrence_set_freq (recr, I_CAL_DAILY_RECURRENCE);
+				break;
 			case PST_APP_RECUR_WEEKLY:
-				r.freq = ICAL_WEEKLY_RECURRENCE; break;
+				i_cal_recurrence_set_freq (recr, I_CAL_WEEKLY_RECURRENCE);
+				break;
 			case PST_APP_RECUR_MONTHLY:
-				r.freq = ICAL_MONTHLY_RECURRENCE; break;
+				i_cal_recurrence_set_freq (recr, I_CAL_MONTHLY_RECURRENCE);
+				break;
 			case PST_APP_RECUR_YEARLY:
-				r.freq = ICAL_YEARLY_RECURRENCE; break;
+				i_cal_recurrence_set_freq (recr, I_CAL_YEARLY_RECURRENCE);
+				break;
 			default:
-				r.freq = ICAL_NO_RECURRENCE;
+				i_cal_recurrence_set_freq (recr, I_CAL_NO_RECURRENCE);
+				break;
 		}
 
-		recur_list.data = &r;
+		recur_list.data = recr;
 		recur_list.next = NULL;
-		e_cal_component_set_rrule_list (ec, &recur_list);
+		e_cal_component_set_rrules (ec, &recur_list);
+		g_object_unref (recr);
 	}
 
 	if (item->type == PST_TYPE_SCHEDULE && item->email && item->ascii_type) {
@@ -1962,28 +1980,31 @@ fill_calcomponent (PstImporter *m,
 		}
 
 		if (organizer || organizer_addr) {
-			ECalComponentOrganizer org = { 0 };
+			ECalComponentOrganizer *org;
 
-			org.value = organizer_addr;
-			org.cn = organizer;
+			org = e_cal_component_organizer_new ();
+			e_cal_component_organizer_set_value (org, organizer_addr);
+			e_cal_component_organizer_set_cn (org, organizer);
 
-			e_cal_component_set_organizer (ec, &org);
+			e_cal_component_set_organizer (ec, org);
+			e_cal_component_organizer_free (org);
 		}
 
 		if (attendee || attendee_addr) {
-			ECalComponentAttendee att = { 0 };
+			ECalComponentAttendee *att;
 			GSList *attendees;
 
-			att.value = attendee_addr;
-			att.cn = attendee;
-			att.cutype = ICAL_CUTYPE_INDIVIDUAL;
-			att.status = ICAL_PARTSTAT_NEEDSACTION;
-			att.role = ICAL_ROLE_REQPARTICIPANT;
-			att.rsvp = TRUE;
+			att = e_cal_component_attendee_new ();
+			e_cal_component_attendee_set_value (att, attendee_addr);
+			e_cal_component_attendee_set_cn (att, attendee);
+			e_cal_component_attendee_set_cutype (att, I_CAL_CUTYPE_INDIVIDUAL);
+			e_cal_component_attendee_set_partstat (att, I_CAL_PARTSTAT_NEEDSACTION);
+			e_cal_component_attendee_set_role (att, I_CAL_ROLE_REQPARTICIPANT);
+			e_cal_component_attendee_set_rsvp (att, TRUE);
 
-			attendees = g_slist_append (NULL, &att);
-			e_cal_component_set_attendee_list (ec, attendees);
-			g_slist_free (attendees);
+			attendees = g_slist_append (NULL, att);
+			e_cal_component_set_attendees (ec, attendees);
+			g_slist_free_full (attendees, e_cal_component_attendee_free);
 		}
 	}
 
@@ -2010,7 +2031,7 @@ pst_process_component (PstImporter *m,
 
 	e_cal_client_create_object_sync (
 		cal, e_cal_component_get_icalcomponent (ec),
-		NULL, NULL, &error);
+		E_CAL_OPERATION_FLAG_NONE, NULL, NULL, &error);
 
 	if (error != NULL) {
 		g_warning (

@@ -55,38 +55,26 @@
 
 G_BEGIN_DECLS
 
-typedef struct _ECalListView       ECalListView;
-typedef struct _ECalListViewClass  ECalListViewClass;
+typedef struct _ECalListView ECalListView;
+typedef struct _ECalListViewClass ECalListViewClass;
+typedef struct _ECalListViewPrivate ECalListViewPrivate;
 
 struct _ECalListView {
 	ECalendarView parent;
 
-	/* The main display table */
-	ETable *table;
-
-	/* The default category for new events */
-	gchar *default_category;
-
-	/* Date editing cell */
-	ECellDateEdit *dates_cell;
-
-	/* The last ECalendarViewEvent we returned from e_cal_list_view_get_selected_events(), to be freed */
-	ECalendarViewEvent *cursor_event;
-
-	/* Idle handler ID for setting a new ETableModel */
-	gint set_table_id;
+	ECalListViewPrivate *priv;
 };
 
 struct _ECalListViewClass {
 	ECalendarViewClass parent_class;
 };
 
-GType		   e_cal_list_view_get_type		(void);
-ECalendarView *e_cal_list_view_new			(ECalModel *cal_model);
-
-gboolean   e_cal_list_view_get_range_shown      (ECalListView *cal_list_view, GDate *start_date,
+GType		e_cal_list_view_get_type	(void);
+ECalendarView *	e_cal_list_view_new		(ECalModel *cal_model);
+ETable *	e_cal_list_view_get_table	(ECalListView *cal_list_view);
+gboolean	e_cal_list_view_get_range_shown	(ECalListView *cal_list_view,
+						 GDate *start_date,
 						 gint *days_shown);
-
 gboolean	e_cal_list_view_is_editing	(ECalListView *eclv);
 
 G_END_DECLS

@@ -56,7 +56,7 @@ ece_memo_notify_target_client_cb (GObject *object,
 	comp_editor = E_COMP_EDITOR (memo_editor);
 	cal_client = e_comp_editor_get_target_client (comp_editor);
 
-	supports_date = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_NO_MEMO_START_DATE);
+	supports_date = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_NO_MEMO_START_DATE);
 
 	e_comp_editor_property_part_set_visible (memo_editor->priv->dtstart, supports_date);
 }

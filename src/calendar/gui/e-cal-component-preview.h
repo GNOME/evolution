@@ -71,7 +71,7 @@ GtkWidget *	e_cal_component_preview_new	(void);
 void		e_cal_component_preview_display	(ECalComponentPreview *preview,
 						 ECalClient *client,
 						 ECalComponent *comp,
-						 icaltimezone *zone,
+						 ICalTimezone *zone,
 						 gboolean use_24_hour_format);
 void		e_cal_component_preview_clear	(ECalComponentPreview *preview);
 

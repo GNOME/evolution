@@ -65,11 +65,11 @@ static const gchar *sections[] = {N_("Chair Persons"),
 				  N_("Resources"),
 				  NULL};
 
-static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
-				     ICAL_ROLE_REQPARTICIPANT,
-				     ICAL_ROLE_OPTPARTICIPANT,
-				     ICAL_ROLE_NONPARTICIPANT,
-				     ICAL_ROLE_NONE};
+static ICalParameterRole roles[] = { I_CAL_ROLE_CHAIR,
+				     I_CAL_ROLE_REQPARTICIPANT,
+				     I_CAL_ROLE_OPTPARTICIPANT,
+				     I_CAL_ROLE_NONPARTICIPANT,
+				     I_CAL_ROLE_NONE };
 
 G_DEFINE_TYPE (EMeetingListView, e_meeting_list_view, GTK_TYPE_TREE_VIEW)
 
@@ -239,16 +239,16 @@ value_edited (GtkTreeView *view,
 }
 
 static guint
-get_index_from_role (icalparameter_role role)
+get_index_from_role (ICalParameterRole role)
 {
 	switch (role)	{
-		case ICAL_ROLE_CHAIR:
+		case I_CAL_ROLE_CHAIR:
 			return 0;
-		case ICAL_ROLE_REQPARTICIPANT:
+		case I_CAL_ROLE_REQPARTICIPANT:
 			return 1;
-		case ICAL_ROLE_OPTPARTICIPANT:
+		case I_CAL_ROLE_OPTPARTICIPANT:
 			return 2;
-		case ICAL_ROLE_NONPARTICIPANT:
+		case I_CAL_ROLE_NONPARTICIPANT:
 			return 3;
 		default:
 			return 1;
@@ -368,7 +368,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 		gboolean can_remove = TRUE;
 
 		for (l = addresses, m = names; l && m; l = l->next, m = m->next) {
-			gchar *name = m->data, *email = l->data;
+			gchar *name = m->data, *email = l->data, *mailto;
 
 			if (!((name && *name) || (email && *email)))
 					continue;
@@ -381,15 +381,17 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			}
 
 			attendee = e_meeting_store_add_attendee_with_defaults (model);
-			e_meeting_attendee_set_address (attendee, g_strdup_printf ("mailto:%s", (gchar *) l->data));
-			e_meeting_attendee_set_cn (attendee, g_strdup (m->data));
+			mailto = g_strdup_printf ("mailto:%s", (gchar *) l->data);
+			e_meeting_attendee_set_address (attendee, mailto);
+			g_free (mailto);
+			e_meeting_attendee_set_cn (attendee, m->data);
 			if (existing_attendee) {
 				e_meeting_attendee_set_cutype (attendee, e_meeting_attendee_get_cutype (existing_attendee));
 				e_meeting_attendee_set_role (attendee, e_meeting_attendee_get_role (existing_attendee));
 				e_meeting_attendee_set_rsvp (attendee, e_meeting_attendee_get_rsvp (existing_attendee));
-				e_meeting_attendee_set_status (attendee, ICAL_PARTSTAT_NEEDSACTION);
-				e_meeting_attendee_set_delfrom (attendee, g_strdup (e_meeting_attendee_get_delfrom (existing_attendee)));
-				e_meeting_attendee_set_fburi (attendee, g_strdup (e_meeting_attendee_get_fburi (existing_attendee)));
+				e_meeting_attendee_set_partstat (attendee, I_CAL_PARTSTAT_NEEDSACTION);
+				e_meeting_attendee_set_delfrom (attendee, e_meeting_attendee_get_delfrom (existing_attendee));
+				e_meeting_attendee_set_fburi (attendee, e_meeting_attendee_get_fburi (existing_attendee));
 				e_meeting_attendee_set_show_address (attendee, e_meeting_attendee_get_show_address (existing_attendee));
 			}
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
@@ -414,6 +416,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			gboolean show_address = FALSE;
 			EMeetingAttendee *attendee;
 			EDestination *destination;
+			gchar *mailto;
 
 			if (existing_attendee) {
 				const gchar *addr = e_meeting_attendee_get_address (existing_attendee);
@@ -432,9 +435,11 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			value_edited (view, E_MEETING_STORE_ADDRESS_COL, path, email);
 			value_edited (view, E_MEETING_STORE_CN_COL, path, name);
 
-			e_meeting_attendee_set_address (attendee, g_strdup_printf ("mailto:%s", email));
-			e_meeting_attendee_set_cn (attendee, g_strdup (name));
-			e_meeting_attendee_set_role (attendee, ICAL_ROLE_REQPARTICIPANT);
+			mailto = g_strdup_printf ("mailto:%s", email);
+			e_meeting_attendee_set_address (attendee, mailto);
+			g_free (mailto);
+			e_meeting_attendee_set_cn (attendee, name);
+			e_meeting_attendee_set_role (attendee, I_CAL_ROLE_REQPARTICIPANT);
 
 			destination = e_select_names_renderer_get_destination (E_SELECT_NAMES_RENDERER (renderer));
 			if (destination) {
@@ -447,8 +452,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 					fburi = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);
 					if (fburi && *fburi)
 						e_meeting_attendee_set_fburi (attendee, fburi);
-					else
-						g_free (fburi);
+					g_free (fburi);
 
 					if (!e_contact_get (contact, E_CONTACT_IS_LIST)) {
 						GList *email_list;
@@ -466,7 +470,7 @@ attendee_edited_cb (GtkCellRenderer *renderer,
 			e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (view), attendee);
 
 			if (address_changed)
-				e_meeting_attendee_set_status (attendee, ICAL_PARTSTAT_NEEDSACTION);
+				e_meeting_attendee_set_partstat (attendee, I_CAL_PARTSTAT_NEEDSACTION);
 
 			g_signal_emit_by_name (view, "attendee_added", (gpointer) attendee);
 		}
@@ -875,7 +879,7 @@ e_meeting_list_view_edit (EMeetingListView *emlv,
 static void
 process_section (EMeetingListView *view,
                  GList *destinations,
-                 icalparameter_role role,
+                 ICalParameterRole role,
                  GSList **la)
 {
 	EMeetingListViewPrivate *priv;
@@ -1000,18 +1004,19 @@ process_section (EMeetingListView *view,
 
 			if (e_meeting_store_find_attendee (priv->store, email_addr, NULL) == NULL) {
 				EMeetingAttendee *ia = e_meeting_store_add_attendee_with_defaults (priv->store);
+				gchar *mailto;
 
-				e_meeting_attendee_set_address (ia, g_strdup_printf ("mailto:%s", email_addr));
+				mailto = g_strdup_printf ("mailto:%s", email_addr);
+				e_meeting_attendee_set_address (ia, mailto);
+				g_free (mailto);
 				e_meeting_attendee_set_role (ia, role);
-				if (role == ICAL_ROLE_NONPARTICIPANT)
-					e_meeting_attendee_set_cutype (ia, ICAL_CUTYPE_RESOURCE);
-				e_meeting_attendee_set_cn (ia, g_strdup (name));
+				if (role == I_CAL_ROLE_NONPARTICIPANT)
+					e_meeting_attendee_set_cutype (ia, I_CAL_CUTYPE_RESOURCE);
+				e_meeting_attendee_set_cn (ia, name);
 				e_meeting_attendee_set_show_address (ia, show_address);
 
-				if (fburi) {
+				if (fburi)
 					e_meeting_attendee_set_fburi (ia, fburi);
-					fburi = NULL;
-				}
 			} else {
 				if (g_slist_length (*la) == 1) {
 					g_slist_free (*la);

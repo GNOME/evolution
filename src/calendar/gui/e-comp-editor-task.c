@@ -54,13 +54,13 @@ struct _ECompEditorTaskPrivate {
 
 G_DEFINE_TYPE (ECompEditorTask, e_comp_editor_task, E_TYPE_COMP_EDITOR)
 
-static icaltimezone *
+static ICalTimezone *
 ece_task_get_timezone_from_property (ECompEditor *comp_editor,
-				     icalproperty *property)
+				     ICalProperty *property)
 {
 	ECalClient *client;
-	icalparameter *param;
-	icaltimezone *zone = NULL;
+	ICalParameter *param;
+	ICalTimezone *zone = NULL;
 	const gchar *tzid;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
@@ -68,25 +68,33 @@ ece_task_get_timezone_from_property (ECompEditor *comp_editor,
 	if (!property)
 		return NULL;
 
-	param = icalproperty_get_first_parameter (property, ICAL_TZID_PARAMETER);
+	param = i_cal_property_get_first_parameter (property, I_CAL_TZID_PARAMETER);
 	if (!param)
 		return NULL;
 
-	tzid = icalparameter_get_tzid (param);
-	if (!tzid || !*tzid)
+	tzid = i_cal_parameter_get_tzid (param);
+	if (!tzid || !*tzid) {
+		g_clear_object (&param);
 		return NULL;
+	}
 
-	if (g_ascii_strcasecmp (tzid, "UTC") == 0)
-		return icaltimezone_get_utc_timezone ();
+	if (g_ascii_strcasecmp (tzid, "UTC") == 0) {
+		g_clear_object (&param);
+		return i_cal_timezone_get_utc_timezone ();
+	}
 
 	client = e_comp_editor_get_source_client (comp_editor);
 	/* It should be already fetched for the UI, thus this should be non-blocking. */
-	if (client && e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, NULL) && zone)
+	if (client && e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, NULL) && zone) {
+		g_clear_object (&param);
 		return zone;
+	}
 
-	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	zone = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 	if (!zone)
-		zone = icaltimezone_get_builtin_timezone (tzid);
+		zone = i_cal_timezone_get_builtin_timezone (tzid);
+
+	g_clear_object (&param);
 
 	return zone;
 }
@@ -96,13 +104,13 @@ ece_task_update_timezone (ECompEditorTask *task_editor,
 			  gboolean *force_allday)
 {
 	const gint properties[] = {
-		ICAL_DTSTART_PROPERTY,
-		ICAL_DUE_PROPERTY,
-		ICAL_COMPLETED_PROPERTY
+		I_CAL_DTSTART_PROPERTY,
+		I_CAL_DUE_PROPERTY,
+		I_CAL_COMPLETED_PROPERTY
 	};
 	ECompEditor *comp_editor;
-	icalcomponent *component;
-	icaltimezone *zone = NULL;
+	ICalComponent *component;
+	ICalTimezone *zone = NULL;
 	gint ii;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (task_editor));
@@ -117,25 +125,32 @@ ece_task_update_timezone (ECompEditorTask *task_editor,
 		return;
 
 	for (ii = 0; !zone && ii < G_N_ELEMENTS (properties); ii++) {
-		struct icaltimetype dt;
-		if (icalcomponent_get_first_property (component, properties[ii])) {
-			dt = icalcomponent_get_dtstart (component);
-			if (icaltime_is_valid_time (dt)) {
-				if (force_allday && dt.is_date)
+		if (e_cal_util_component_has_property (component, properties[ii])) {
+			ICalTime *dt;
+
+			dt = i_cal_component_get_dtstart (component);
+			if (dt && i_cal_time_is_valid_time (dt)) {
+				if (force_allday && i_cal_time_is_date (dt))
 					*force_allday = TRUE;
 
-				if (icaltime_is_utc (dt))
-					zone = icaltimezone_get_utc_timezone ();
-				else
-					zone = ece_task_get_timezone_from_property (comp_editor,
-						icalcomponent_get_first_property (component, properties[ii]));
+				if (i_cal_time_is_utc (dt)) {
+					zone = i_cal_timezone_get_utc_timezone ();
+				} else {
+					ICalProperty *prop;
+
+					prop = i_cal_component_get_first_property (component, properties[ii]);
+					zone = ece_task_get_timezone_from_property (comp_editor, prop);
+					g_clear_object (&prop);
+				}
 			}
+
+			g_clear_object (&dt);
 		}
 	}
 
 	if (zone) {
 		GtkWidget *edit_widget;
-		icaltimezone *cfg_zone;
+		ICalTimezone *cfg_zone;
 
 		edit_widget = e_comp_editor_property_part_get_edit_widget (task_editor->priv->timezone);
 
@@ -144,8 +159,8 @@ ece_task_update_timezone (ECompEditorTask *task_editor,
 		cfg_zone = calendar_config_get_icaltimezone ();
 
 		if (zone && cfg_zone && zone != cfg_zone &&
-		    (g_strcmp0 (icaltimezone_get_location (zone), icaltimezone_get_location (cfg_zone)) != 0 ||
-		     g_strcmp0 (icaltimezone_get_tzid (zone), icaltimezone_get_tzid (cfg_zone)) != 0)) {
+		    (g_strcmp0 (i_cal_timezone_get_location (zone), i_cal_timezone_get_location (cfg_zone)) != 0 ||
+		     g_strcmp0 (i_cal_timezone_get_tzid (zone), i_cal_timezone_get_tzid (cfg_zone)) != 0)) {
 			/* Show timezone part */
 			GtkAction *action;
 
@@ -189,7 +204,7 @@ ece_task_notify_target_client_cb (GObject *object,
 	action = e_comp_editor_get_action (comp_editor, "all-day-task");
 	was_allday = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
 
-	date_only = !cal_client || e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_TASK_DATE_ONLY);
+	date_only = !cal_client || e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_TASK_DATE_ONLY);
 
 	e_comp_editor_property_part_datetime_set_date_only (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart), date_only);
 	e_comp_editor_property_part_datetime_set_date_only (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->due_date), date_only);
@@ -209,10 +224,10 @@ ece_task_notify_target_client_cb (GObject *object,
 		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
 	}
 
-	can_reminders = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_TASK_NO_ALARM);
+	can_reminders = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_TASK_NO_ALARM);
 	gtk_widget_set_visible (GTK_WIDGET (task_editor->priv->reminders_page), can_reminders);
 
-	can_recur = !cal_client || e_client_check_capability (E_CLIENT (cal_client), CAL_STATIC_CAPABILITY_TASK_CAN_RECUR);
+	can_recur = !cal_client || e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_TASK_CAN_RECUR);
 	gtk_widget_set_visible (GTK_WIDGET (task_editor->priv->recurrence_page), can_recur);
 }
 
@@ -230,7 +245,7 @@ ece_task_check_dates_in_the_past (ECompEditorTask *task_editor)
 
 	if ((flags & E_COMP_EDITOR_FLAG_IS_NEW) != 0) {
 		GString *message = NULL;
-		struct icaltimetype dtstart_itt, due_date_itt;
+		ICalTime *dtstart_itt, *due_date_itt;
 
 		dtstart_itt = e_comp_editor_property_part_datetime_get_value (
 			E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart));
@@ -262,6 +277,9 @@ ece_task_check_dates_in_the_past (ECompEditorTask *task_editor)
 			g_string_free (message, TRUE);
 			g_clear_object (&alert);
 		}
+
+		g_clear_object (&dtstart_itt);
+		g_clear_object (&due_date_itt);
 	}
 }
 
@@ -321,7 +339,7 @@ ece_task_completed_date_changed_cb (EDateEdit *date_edit,
 {
 	GtkSpinButton *percent_spin;
 	ECompEditor *comp_editor;
-	struct icaltimetype itt;
+	ICalTime *itt;
 	gint status;
 
 	g_return_if_fail (E_IS_DATE_EDIT (date_edit));
@@ -340,25 +358,27 @@ ece_task_completed_date_changed_cb (EDateEdit *date_edit,
 		E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->completed_date));
 	percent_spin = GTK_SPIN_BUTTON (e_comp_editor_property_part_get_edit_widget (task_editor->priv->percentcomplete));
 
-	if (icaltime_is_null_time (itt)) {
-		if (status == ICAL_STATUS_COMPLETED) {
+	if (!itt || i_cal_time_is_null_time (itt)) {
+		if (status == I_CAL_STATUS_COMPLETED) {
 			e_comp_editor_property_part_picker_with_map_set_selected (
 				E_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (task_editor->priv->status),
-				ICAL_STATUS_NONE);
+				I_CAL_STATUS_NONE);
 
 			gtk_spin_button_set_value (percent_spin, 0);
 		}
 	} else {
-		if (status != ICAL_STATUS_COMPLETED) {
+		if (status != I_CAL_STATUS_COMPLETED) {
 			e_comp_editor_property_part_picker_with_map_set_selected (
 				E_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (task_editor->priv->status),
-				ICAL_STATUS_COMPLETED);
+				I_CAL_STATUS_COMPLETED);
 		}
 
 		gtk_spin_button_set_value (percent_spin, 100);
 	}
 
 	e_comp_editor_set_updating (comp_editor, FALSE);
+
+	g_clear_object (&itt);
 }
 
 static void
@@ -385,17 +405,17 @@ ece_task_status_changed_cb (GtkComboBox *combo_box,
 	status = e_comp_editor_property_part_picker_with_map_get_selected (
 		E_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (task_editor->priv->status));
 
-	if (status == ICAL_STATUS_NONE) {
+	if (status == I_CAL_STATUS_NONE) {
 		gtk_spin_button_set_value (percent_spin, 0);
 		e_date_edit_set_time (completed_date, (time_t) -1);
-	} else if (status == ICAL_STATUS_INPROCESS) {
+	} else if (status == I_CAL_STATUS_INPROCESS) {
 		gint percent_complete = gtk_spin_button_get_value_as_int (percent_spin);
 
 		if (percent_complete <= 0 || percent_complete >= 100)
 			gtk_spin_button_set_value (percent_spin, 50);
 
 		e_date_edit_set_time (completed_date, (time_t) -1);
-	} else if (status == ICAL_STATUS_COMPLETED) {
+	} else if (status == I_CAL_STATUS_COMPLETED) {
 		gtk_spin_button_set_value (percent_spin, 100);
 		e_date_edit_set_time (completed_date, time (NULL));
 	}
@@ -429,14 +449,14 @@ ece_task_percentcomplete_value_changed_cb (GtkSpinButton *spin_button,
 	percent = gtk_spin_button_get_value_as_int (percent_spin);
 	if (percent == 100) {
 		ctime = time (NULL);
-		status = ICAL_STATUS_COMPLETED;
+		status = I_CAL_STATUS_COMPLETED;
 	} else {
 		ctime = (time_t) -1;
 
 		if (percent == 0)
-			status = ICAL_STATUS_NONE;
+			status = I_CAL_STATUS_NONE;
 		else
-			status = ICAL_STATUS_INPROCESS;
+			status = I_CAL_STATUS_INPROCESS;
 	}
 
 	e_comp_editor_property_part_picker_with_map_set_selected (
@@ -507,12 +527,12 @@ ece_task_sensitize_widgets (ECompEditor *comp_editor,
 
 static void
 ece_task_fill_widgets (ECompEditor *comp_editor,
-		       icalcomponent *component)
+		       ICalComponent *component)
 {
 	gboolean force_allday = FALSE;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (comp_editor));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	ece_task_update_timezone (E_COMP_EDITOR_TASK (comp_editor), &force_allday);
 
@@ -528,10 +548,10 @@ ece_task_fill_widgets (ECompEditor *comp_editor,
 
 static gboolean
 ece_task_fill_component (ECompEditor *comp_editor,
-			 icalcomponent *component)
+			 ICalComponent *component)
 {
 	ECompEditorTask *task_editor;
-	struct icaltimetype itt;
+	ICalTime *itt;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_TASK (comp_editor), FALSE);
 
@@ -549,18 +569,22 @@ ece_task_fill_component (ECompEditor *comp_editor,
 	}
 
 	if (e_cal_util_component_has_recurrences (component)) {
-		struct icaltimetype dtstart;
+		ICalTime *dtstart;
 
 		dtstart = e_comp_editor_property_part_datetime_get_value (E_COMP_EDITOR_PROPERTY_PART_DATETIME (task_editor->priv->dtstart));
 
-		if (icaltime_is_null_time (dtstart) || !icaltime_is_valid_time (dtstart)) {
+		if (!dtstart || i_cal_time_is_null_time (dtstart) || !i_cal_time_is_valid_time (dtstart)) {
 			e_comp_editor_set_validation_error (comp_editor,
 				task_editor->priv->page_general,
 				e_comp_editor_property_part_get_edit_widget (task_editor->priv->dtstart),
 				_("Start date is required for recurring tasks"));
 
+			g_clear_object (&dtstart);
+
 			return FALSE;
 		}
+
+		g_clear_object (&dtstart);
 	}
 
 	if (!e_comp_editor_property_part_datetime_check_validity (
@@ -593,8 +617,12 @@ ece_task_fill_component (ECompEditor *comp_editor,
 			e_comp_editor_property_part_get_edit_widget (task_editor->priv->completed_date),
 			_("Completed date cannot be in the future"));
 
+		g_clear_object (&itt);
+
 		return FALSE;
 	}
+
+	g_clear_object (&itt);
 
 	if (!E_COMP_EDITOR_CLASS (e_comp_editor_task_parent_class)->fill_component (comp_editor, component))
 		return FALSE;
@@ -609,9 +637,9 @@ ece_task_fill_component (ECompEditor *comp_editor,
 		if (cal_client) {
 			if ((e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) != 0) {
 				e_cal_util_init_recur_task_sync	(component, cal_client, NULL, NULL);
-			} else if (icalcomponent_get_first_property (component, ICAL_COMPLETED_PROPERTY)) {
+			} else if (e_cal_util_component_has_property (component, I_CAL_COMPLETED_PROPERTY)) {
 				e_cal_util_mark_task_complete_sync (component, (time_t) -1, cal_client, NULL, NULL);
-			} else if (!icalcomponent_get_first_property (component, ICAL_DUE_PROPERTY)) {
+			} else if (!e_cal_util_component_has_property (component, I_CAL_DUE_PROPERTY)) {
 				e_cal_util_init_recur_task_sync	(component, cal_client, NULL, NULL);
 			}
 		}

@@ -279,7 +279,7 @@ e_comp_editor_property_part_get_edit_widget (ECompEditorPropertyPart *property_p
 
 void
 e_comp_editor_property_part_fill_widget (ECompEditorPropertyPart *property_part,
-					 icalcomponent *component)
+					 ICalComponent *component)
 {
 	ECompEditorPropertyPartClass *klass;
 
@@ -294,7 +294,7 @@ e_comp_editor_property_part_fill_widget (ECompEditorPropertyPart *property_part,
 
 void
 e_comp_editor_property_part_fill_component (ECompEditorPropertyPart *property_part,
-					    icalcomponent *component)
+					    ICalComponent *component)
 {
 	ECompEditorPropertyPartClass *klass;
 
@@ -390,30 +390,33 @@ ecepp_string_create_widgets (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_string_fill_widget (ECompEditorPropertyPart *property_part,
-			  icalcomponent *component)
+			  ICalComponent *component)
 {
 	ECompEditorPropertyPartStringClass *klass;
 	GtkWidget *edit_widget;
-	GString *multivalue = NULL;
-	icalproperty *prop;
-	const gchar *value = NULL;
+	ICalProperty *prop;
+	gchar *text = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (GTK_IS_ENTRY (edit_widget) || GTK_IS_SCROLLED_WINDOW (edit_widget));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_STRING_GET_CLASS (property_part);
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (klass->ical_prop_kind != ICAL_NO_PROPERTY);
-	g_return_if_fail (klass->ical_get_func != NULL);
+	g_return_if_fail (klass->prop_kind != I_CAL_NO_PROPERTY);
+	g_return_if_fail (klass->i_cal_get_func != NULL);
 
 	if (e_comp_editor_property_part_string_is_multivalue (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part))) {
-		for (prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+		GString *multivalue = NULL;
+
+		for (prop = i_cal_component_get_first_property (component, klass->prop_kind);
 		     prop;
-		     prop = icalcomponent_get_next_property (component, klass->ical_prop_kind)) {
-			value = klass->ical_get_func (prop);
+		     g_object_unref (prop), prop = i_cal_component_get_next_property (component, klass->prop_kind)) {
+			const gchar *value;
+
+			value = klass->i_cal_get_func (prop);
 
 			if (!value || !*value)
 				continue;
@@ -427,53 +430,49 @@ ecepp_string_fill_widget (ECompEditorPropertyPart *property_part,
 		}
 
 		if (multivalue)
-			value = multivalue->str;
-		else
-			value = NULL;
+			text = g_string_free (multivalue, FALSE);
 	} else {
-		prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
-		if (prop)
-			value = klass->ical_get_func (prop);
+		prop = i_cal_component_get_first_property (component, klass->prop_kind);
+		if (prop) {
+			text = g_strdup (klass->i_cal_get_func (prop));
+			g_object_unref (prop);
+		}
 	}
 
-	if (!value)
-		value = "";
-
 	if (GTK_IS_ENTRY (edit_widget)) {
-		gtk_entry_set_text (GTK_ENTRY (edit_widget), value);
+		gtk_entry_set_text (GTK_ENTRY (edit_widget), text ? text : "");
 	} else /* if (GTK_IS_SCROLLED_WINDOW (edit_widget)) */ {
 		GtkTextBuffer *buffer;
 
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (edit_widget))));
-		gtk_text_buffer_set_text (buffer, value, -1);
+		gtk_text_buffer_set_text (buffer, text ? text : "", -1);
 	}
 
 	e_widget_undo_reset (edit_widget);
 
-	if (multivalue)
-		g_string_free (multivalue, TRUE);
+	g_free (text);
 }
 
 static void
 ecepp_string_fill_component (ECompEditorPropertyPart *property_part,
-			     icalcomponent *component)
+			     ICalComponent *component)
 {
 	ECompEditorPropertyPartStringClass *klass;
 	GtkWidget *edit_widget;
-	icalproperty *prop;
+	ICalProperty *prop;
 	gchar *value;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (GTK_IS_ENTRY (edit_widget) || GTK_IS_SCROLLED_WINDOW (edit_widget));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_STRING_GET_CLASS (property_part);
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (klass->ical_prop_kind != ICAL_NO_PROPERTY);
-	g_return_if_fail (klass->ical_new_func != NULL);
-	g_return_if_fail (klass->ical_set_func != NULL);
+	g_return_if_fail (klass->prop_kind != I_CAL_NO_PROPERTY);
+	g_return_if_fail (klass->i_cal_new_func != NULL);
+	g_return_if_fail (klass->i_cal_set_func != NULL);
 
 	if (GTK_IS_ENTRY (edit_widget)) {
 		value = g_strdup (gtk_entry_get_text (GTK_ENTRY (edit_widget)));
@@ -489,24 +488,22 @@ ecepp_string_fill_component (ECompEditorPropertyPart *property_part,
 
 	if (e_comp_editor_property_part_string_is_multivalue (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part))) {
 		/* Clear all multivalues first */
-		while (prop = icalcomponent_get_first_property (component, klass->ical_prop_kind), prop) {
-			icalcomponent_remove_property (component, prop);
-			icalproperty_free (prop);
-		}
+		e_cal_util_component_remove_property_by_kind (component, klass->prop_kind, TRUE);
 	}
 
-	prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+	prop = i_cal_component_get_first_property (component, klass->prop_kind);
 
 	if (value && *value) {
 		if (prop) {
-			klass->ical_set_func (prop, value);
+			klass->i_cal_set_func (prop, value);
+			g_object_unref (prop);
 		} else {
-			prop = klass->ical_new_func (value);
-			icalcomponent_add_property (component, prop);
+			prop = klass->i_cal_new_func (value);
+			i_cal_component_take_property (component, prop);
 		}
 	} else if (prop) {
-		icalcomponent_remove_property (component, prop);
-		icalproperty_free (prop);
+		i_cal_component_remove_property (component, prop);
+		g_object_unref (prop);
 	}
 
 	g_free (value);
@@ -530,10 +527,10 @@ e_comp_editor_property_part_string_class_init (ECompEditorPropertyPartStringClas
 
 	klass->entry_type = GTK_TYPE_ENTRY;
 
-	klass->ical_prop_kind = ICAL_NO_PROPERTY;
-	klass->ical_new_func = NULL;
-	klass->ical_set_func = NULL;
-	klass->ical_get_func = NULL;
+	klass->prop_kind = I_CAL_NO_PROPERTY;
+	klass->i_cal_new_func = NULL;
+	klass->i_cal_set_func = NULL;
+	klass->i_cal_get_func = NULL;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_string_create_widgets;
@@ -595,11 +592,11 @@ static guint ecepp_datetime_signals[ECEPP_DATETIME_LAST_SIGNAL];
 
 G_DEFINE_ABSTRACT_TYPE (ECompEditorPropertyPartDatetime, e_comp_editor_property_part_datetime, E_TYPE_COMP_EDITOR_PROPERTY_PART)
 
-static icaltimezone *
+static ICalTimezone *
 ecepp_datetime_lookup_timezone (ECompEditorPropertyPartDatetime *part_datetime,
 				const gchar *tzid)
 {
-	icaltimezone *zone = NULL;
+	ICalTimezone *zone = NULL;
 
 	if (!tzid || !*tzid)
 		return NULL;
@@ -644,125 +641,135 @@ ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_datetime_fill_widget (ECompEditorPropertyPart *property_part,
-			    icalcomponent *component)
+			    ICalComponent *component)
 {
 	ECompEditorPropertyPartDatetime *part_datetime;
 	ECompEditorPropertyPartDatetimeClass *klass;
 	GtkWidget *edit_widget;
-	icalproperty *prop;
-	struct icaltimetype value;
+	ICalProperty *prop;
+	ICalTime *value = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (property_part));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (E_IS_DATE_EDIT (edit_widget));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_DATETIME_GET_CLASS (property_part);
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (klass->ical_prop_kind != ICAL_NO_PROPERTY);
-	g_return_if_fail (klass->ical_get_func != NULL);
+	g_return_if_fail (klass->prop_kind != I_CAL_NO_PROPERTY);
+	g_return_if_fail (klass->i_cal_get_func != NULL);
 
 	part_datetime = E_COMP_EDITOR_PROPERTY_PART_DATETIME (property_part);
 
-	prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+	prop = i_cal_component_get_first_property (component, klass->prop_kind);
 	if (prop) {
 		ETimezoneEntry *timezone_entry = g_weak_ref_get (&part_datetime->priv->timezone_entry);
 
-		value = klass->ical_get_func (prop);
+		value = klass->i_cal_get_func (prop);
 
-		if (timezone_entry && !value.is_date) {
-			icaltimezone *editor_zone = e_timezone_entry_get_timezone (timezone_entry);
+		if (timezone_entry && value && !i_cal_time_is_date (value)) {
+			ICalTimezone *editor_zone = e_timezone_entry_get_timezone (timezone_entry);
 
 			/* Attempt to convert time to the zone used in the editor */
-			if (editor_zone && !value.zone && !icaltime_is_utc (value)) {
-				icalparameter *param;
+			if (editor_zone && !i_cal_time_get_timezone (value) && !i_cal_time_is_utc (value)) {
+				ICalParameter *param;
 
-				param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+				param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER);
 				if (param) {
 					const gchar *tzid;
 
-					tzid = icalparameter_get_tzid (param);
+					tzid = i_cal_parameter_get_tzid (param);
 
 					if (tzid && *tzid) {
 						if (editor_zone &&
-						    (g_strcmp0 (icaltimezone_get_tzid (editor_zone), tzid) == 0 ||
-						    g_strcmp0 (icaltimezone_get_location (editor_zone), tzid) == 0)) {
-							value.zone = editor_zone;
+						    (g_strcmp0 (i_cal_timezone_get_tzid (editor_zone), tzid) == 0 ||
+						    g_strcmp0 (i_cal_timezone_get_location (editor_zone), tzid) == 0)) {
+							i_cal_time_set_timezone (value, editor_zone);
 						} else {
-							value.zone = ecepp_datetime_lookup_timezone (part_datetime, tzid);
+							i_cal_time_set_timezone (value, ecepp_datetime_lookup_timezone (part_datetime, tzid));
 						}
 					}
+
+					g_object_unref (param);
 				}
 			}
 		}
 
 		g_clear_object (&timezone_entry);
-	} else {
-		value = icaltime_null_time ();
 	}
 
+	if (!value)
+		value = i_cal_time_null_time ();
+
 	e_comp_editor_property_part_datetime_set_value (part_datetime, value);
+
+	g_clear_object (&value);
 }
 
 static void
 ecepp_datetime_fill_component (ECompEditorPropertyPart *property_part,
-			       icalcomponent *component)
+			       ICalComponent *component)
 {
 	ECompEditorPropertyPartDatetime *part_datetime;
 	ECompEditorPropertyPartDatetimeClass *klass;
 	GtkWidget *edit_widget;
 	EDateEdit *date_edit;
-	icalproperty *prop;
-	struct icaltimetype value;
+	ICalProperty *prop;
+	ICalTime *value;
 	time_t tt;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (property_part));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (E_IS_DATE_EDIT (edit_widget));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_DATETIME_GET_CLASS (property_part);
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (klass->ical_prop_kind != ICAL_NO_PROPERTY);
-	g_return_if_fail (klass->ical_new_func != NULL);
-	g_return_if_fail (klass->ical_get_func != NULL);
-	g_return_if_fail (klass->ical_set_func != NULL);
+	g_return_if_fail (klass->prop_kind != I_CAL_NO_PROPERTY);
+	g_return_if_fail (klass->i_cal_new_func != NULL);
+	g_return_if_fail (klass->i_cal_get_func != NULL);
+	g_return_if_fail (klass->i_cal_set_func != NULL);
 
 	part_datetime = E_COMP_EDITOR_PROPERTY_PART_DATETIME (property_part);
 	date_edit = E_DATE_EDIT (edit_widget);
 	tt = e_date_edit_get_time (date_edit);
 
-	prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+	prop = i_cal_component_get_first_property (component, klass->prop_kind);
 
 	if (e_date_edit_get_allow_no_date_set (date_edit) && tt == (time_t) -1) {
 		if (prop) {
-			icalcomponent_remove_property (component, prop);
-			icalproperty_free (prop);
+			i_cal_component_remove_property (component, prop);
+			g_object_unref (prop);
 		}
 	} else {
 		value = e_comp_editor_property_part_datetime_get_value (part_datetime);
 
 		if (prop) {
 			/* Remove the VALUE parameter, to correspond to the actual value being set */
-			icalproperty_remove_parameter_by_kind (prop, ICAL_VALUE_PARAMETER);
+			i_cal_property_remove_parameter_by_kind (prop, I_CAL_VALUE_PARAMETER);
 
-			klass->ical_set_func (prop, value);
+			klass->i_cal_set_func (prop, value);
 
 			/* Re-read the value, because it could be changed by the descendant */
-			value = klass->ical_get_func (prop);
+			g_clear_object (&value);
+			value = klass->i_cal_get_func (prop);
 
 			cal_comp_util_update_tzid_parameter (prop, value);
 		} else {
-			prop = klass->ical_new_func (value);
+			prop = klass->i_cal_new_func (value);
 
 			/* Re-read the value, because it could be changed by the descendant */
-			value = klass->ical_get_func (prop);
+			g_clear_object (&value);
+			value = klass->i_cal_get_func (prop);
 
 			cal_comp_util_update_tzid_parameter (prop, value);
-			icalcomponent_add_property (component, prop);
+			i_cal_component_add_property (component, prop);
 		}
+
+		g_clear_object (&value);
+		g_clear_object (&prop);
 	}
 }
 
@@ -794,10 +801,10 @@ e_comp_editor_property_part_datetime_class_init (ECompEditorPropertyPartDatetime
 
 	g_type_class_add_private (klass, sizeof (ECompEditorPropertyPartDatetimePrivate));
 
-	klass->ical_prop_kind = ICAL_NO_PROPERTY;
-	klass->ical_new_func = NULL;
-	klass->ical_set_func = NULL;
-	klass->ical_get_func = NULL;
+	klass->prop_kind = I_CAL_NO_PROPERTY;
+	klass->i_cal_new_func = NULL;
+	klass->i_cal_set_func = NULL;
+	klass->i_cal_get_func = NULL;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_datetime_create_widgets;
@@ -807,7 +814,7 @@ e_comp_editor_property_part_datetime_class_init (ECompEditorPropertyPartDatetime
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->finalize = ecepp_datetime_finalize;
 
-	/* icaltimezone *lookup_timezone (datetime, const gchar *tzid); */
+	/* ICalTimezone *lookup_timezone (datetime, const gchar *tzid); */
 	ecepp_datetime_signals[ECEPP_DATETIME_LOOKUP_TIMEZONE] = g_signal_new (
 		"lookup-timezone",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -888,10 +895,11 @@ e_comp_editor_property_part_datetime_get_allow_no_date_set (ECompEditorPropertyP
 
 void
 e_comp_editor_property_part_datetime_set_value (ECompEditorPropertyPartDatetime *part_datetime,
-						struct icaltimetype value)
+						const ICalTime *value)
 {
 	GtkWidget *edit_widget;
 	EDateEdit *date_edit;
+	ICalTime *tmp_value = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (part_datetime));
 
@@ -900,53 +908,66 @@ e_comp_editor_property_part_datetime_set_value (ECompEditorPropertyPartDatetime 
 
 	date_edit = E_DATE_EDIT (edit_widget);
 
-	if (!e_date_edit_get_allow_no_date_set (date_edit) && (icaltime_is_null_time (value) ||
-	    !icaltime_is_valid_time (value))) {
-		value = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ());
+	if (!e_date_edit_get_allow_no_date_set (date_edit) && (!value || i_cal_time_is_null_time (value) ||
+	    !i_cal_time_is_valid_time (value))) {
+		tmp_value = i_cal_time_current_time_with_zone (i_cal_timezone_get_utc_timezone ());
+		value = tmp_value;
 	}
 
-	if (icaltime_is_null_time (value) ||
-	    !icaltime_is_valid_time (value)) {
+	if (!value || i_cal_time_is_null_time (value) ||
+	    !i_cal_time_is_valid_time (value)) {
 		e_date_edit_set_time (date_edit, (time_t) -1);
 	} else {
+		ICalTimezone *zone;
+
+		zone = i_cal_time_get_timezone (value);
+
 		/* Convert to the same time zone as the editor uses, if different */
-		if (!value.is_date && value.zone) {
+		if (!i_cal_time_is_date (value) && zone) {
 			ETimezoneEntry *timezone_entry = g_weak_ref_get (&part_datetime->priv->timezone_entry);
 
 			if (timezone_entry) {
-				icaltimezone *editor_zone = e_timezone_entry_get_timezone (timezone_entry);
+				ICalTimezone *editor_zone = e_timezone_entry_get_timezone (timezone_entry);
 
-				if (editor_zone && value.zone != editor_zone &&
-				    g_strcmp0 (icaltimezone_get_tzid (editor_zone), icaltimezone_get_tzid ((icaltimezone *) value.zone)) != 0 &&
-				    g_strcmp0 (icaltimezone_get_location (editor_zone), icaltimezone_get_location ((icaltimezone *) value.zone)) != 0) {
-					icaltimezone_convert_time (&value, (icaltimezone *) value.zone, editor_zone);
-					value.zone = editor_zone;
+				if (editor_zone && zone != editor_zone &&
+				    g_strcmp0 (i_cal_timezone_get_tzid (editor_zone), i_cal_timezone_get_tzid (zone)) != 0 &&
+				    g_strcmp0 (i_cal_timezone_get_location (editor_zone), i_cal_timezone_get_location (zone)) != 0) {
+					if (tmp_value != value) {
+						tmp_value = i_cal_time_new_clone (value);
+						value = tmp_value;
+					}
+
+					i_cal_timezone_convert_time (tmp_value, zone, editor_zone);
+					i_cal_time_set_timezone (tmp_value, editor_zone);
 				}
 			}
 
 			g_clear_object (&timezone_entry);
 		}
 
-		e_date_edit_set_date (date_edit, value.year, value.month, value.day);
+		e_date_edit_set_date (date_edit, i_cal_time_get_year (value), i_cal_time_get_month (value), i_cal_time_get_day (value));
 
-		if (!value.is_date)
-			e_date_edit_set_time_of_day (date_edit, value.hour, value.minute);
+		if (!i_cal_time_is_date (value))
+			e_date_edit_set_time_of_day (date_edit, i_cal_time_get_hour (value), i_cal_time_get_minute (value));
 		else if (e_date_edit_get_show_time (date_edit))
 			e_date_edit_set_time_of_day (date_edit, 0, 0);
 		else if (e_date_edit_get_allow_no_date_set (date_edit))
 			e_date_edit_set_time_of_day (date_edit, -1, -1);
 
-		e_comp_editor_property_part_datetime_set_date_only (part_datetime, value.is_date);
+		e_comp_editor_property_part_datetime_set_date_only (part_datetime, i_cal_time_is_date (value));
 	}
+
+	g_clear_object (&tmp_value);
 }
 
-struct icaltimetype
+ICalTime *
 e_comp_editor_property_part_datetime_get_value (ECompEditorPropertyPartDatetime *part_datetime)
 {
 	ETimezoneEntry *timezone_entry = NULL;
 	GtkWidget *edit_widget;
 	EDateEdit *date_edit;
-	struct icaltimetype value = icaltime_null_time ();
+	ICalTime *value = i_cal_time_null_time ();
+	gint year, month, day;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (part_datetime), value);
 
@@ -955,21 +976,27 @@ e_comp_editor_property_part_datetime_get_value (ECompEditorPropertyPartDatetime 
 
 	date_edit = E_DATE_EDIT (edit_widget);
 
-	if (!e_date_edit_get_date (date_edit, &value.year, &value.month, &value.day))
-		return icaltime_null_time ();
+	if (!e_date_edit_get_date (date_edit, &year, &month, &day))
+		return value;
+
+	i_cal_time_set_date (value, year, month, day);
 
 	if (!e_date_edit_get_show_time (date_edit)) {
-		value.is_date = 1;
+		i_cal_time_set_is_date (value, TRUE);
 	} else {
-		value.zone = NULL;
-		value.is_date = !e_date_edit_get_time_of_day (date_edit, &value.hour, &value.minute);
+		gint hour, minute;
 
-		if (!value.is_date) {
+		i_cal_time_set_timezone (value, NULL);
+		i_cal_time_set_is_date (value, !e_date_edit_get_time_of_day (date_edit, &hour, &minute));
+
+		if (!i_cal_time_is_date (value)) {
+			i_cal_time_set_time (value, hour, minute, 0);
+
 			timezone_entry = g_weak_ref_get (&part_datetime->priv->timezone_entry);
 			if (timezone_entry)
-				value.zone = e_timezone_entry_get_timezone (timezone_entry);
-			if (!value.zone)
-				value.zone = icaltimezone_get_utc_timezone ();
+				i_cal_time_set_timezone (value, e_timezone_entry_get_timezone (timezone_entry));
+			if (!i_cal_time_get_timezone (value))
+				i_cal_time_set_timezone (value, i_cal_timezone_get_utc_timezone ());
 		}
 	}
 
@@ -1053,27 +1080,28 @@ ecepp_spin_create_widgets (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_spin_fill_widget (ECompEditorPropertyPart *property_part,
-			icalcomponent *component)
+			ICalComponent *component)
 {
 	ECompEditorPropertyPartSpinClass *klass;
 	GtkWidget *edit_widget;
-	icalproperty *prop;
+	ICalProperty *prop;
 	gint value;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_SPIN (property_part));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (GTK_IS_SPIN_BUTTON (edit_widget));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_SPIN_GET_CLASS (property_part);
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (klass->ical_prop_kind != ICAL_NO_PROPERTY);
-	g_return_if_fail (klass->ical_get_func != NULL);
+	g_return_if_fail (klass->prop_kind != I_CAL_NO_PROPERTY);
+	g_return_if_fail (klass->i_cal_get_func != NULL);
 
-	prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+	prop = i_cal_component_get_first_property (component, klass->prop_kind);
 	if (prop) {
-		value = klass->ical_get_func (prop);
+		value = klass->i_cal_get_func (prop);
+		g_object_unref (prop);
 	} else {
 		gdouble d_min, d_max;
 
@@ -1087,34 +1115,36 @@ ecepp_spin_fill_widget (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_spin_fill_component (ECompEditorPropertyPart *property_part,
-			   icalcomponent *component)
+			   ICalComponent *component)
 {
 	ECompEditorPropertyPartSpinClass *klass;
 	GtkWidget *edit_widget;
-	icalproperty *prop;
+	ICalProperty *prop;
 	gint value;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_SPIN (property_part));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_COMPONENT (component));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (GTK_IS_SPIN_BUTTON (edit_widget));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_SPIN_GET_CLASS (property_part);
 	g_return_if_fail (klass != NULL);
-	g_return_if_fail (klass->ical_prop_kind != ICAL_NO_PROPERTY);
-	g_return_if_fail (klass->ical_new_func != NULL);
-	g_return_if_fail (klass->ical_set_func != NULL);
+	g_return_if_fail (klass->prop_kind != I_CAL_NO_PROPERTY);
+	g_return_if_fail (klass->i_cal_new_func != NULL);
+	g_return_if_fail (klass->i_cal_set_func != NULL);
 
 	value = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (edit_widget));
-	prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+	prop = i_cal_component_get_first_property (component, klass->prop_kind);
 
 	if (prop) {
-		klass->ical_set_func (prop, value);
+		klass->i_cal_set_func (prop, value);
 	} else {
-		prop = klass->ical_new_func (value);
-		icalcomponent_add_property (component, prop);
+		prop = klass->i_cal_new_func (value);
+		i_cal_component_add_property (component, prop);
 	}
+
+	g_clear_object (&prop);
 }
 
 static void
@@ -1132,10 +1162,10 @@ e_comp_editor_property_part_spin_class_init (ECompEditorPropertyPartSpinClass *k
 
 	g_type_class_add_private (klass, sizeof (ECompEditorPropertyPartSpinPrivate));
 
-	klass->ical_prop_kind = ICAL_NO_PROPERTY;
-	klass->ical_new_func = NULL;
-	klass->ical_set_func = NULL;
-	klass->ical_get_func = NULL;
+	klass->prop_kind = I_CAL_NO_PROPERTY;
+	klass->i_cal_new_func = NULL;
+	klass->i_cal_set_func = NULL;
+	klass->i_cal_get_func = NULL;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_spin_create_widgets;
@@ -1247,13 +1277,13 @@ ecepp_picker_create_widgets (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_picker_fill_widget (ECompEditorPropertyPart *property_part,
-			  icalcomponent *component)
+			  ICalComponent *component)
 {
 	GtkWidget *edit_widget;
 	gchar *id = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_PICKER (property_part));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (edit_widget));
@@ -1270,13 +1300,13 @@ ecepp_picker_fill_widget (ECompEditorPropertyPart *property_part,
 
 static void
 ecepp_picker_fill_component (ECompEditorPropertyPart *property_part,
-			     icalcomponent *component)
+			     ICalComponent *component)
 {
 	GtkWidget *edit_widget;
 	const gchar *id;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_PICKER (property_part));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
 	g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (edit_widget));
@@ -1331,7 +1361,7 @@ e_comp_editor_property_part_picker_get_values (ECompEditorPropertyPartPicker *pa
 
 gboolean
 e_comp_editor_property_part_picker_get_from_component (ECompEditorPropertyPartPicker *part_picker,
-						       icalcomponent *component,
+						       ICalComponent *component,
 						       gchar **out_id)
 {
 	ECompEditorPropertyPartPickerClass *klass;
@@ -1348,7 +1378,7 @@ e_comp_editor_property_part_picker_get_from_component (ECompEditorPropertyPartPi
 void
 e_comp_editor_property_part_picker_set_to_component (ECompEditorPropertyPartPicker *part_picker,
 						     const gchar *id,
-						     icalcomponent *component)
+						     ICalComponent *component)
 {
 	ECompEditorPropertyPartPickerClass *klass;
 
@@ -1398,10 +1428,10 @@ struct _ECompEditorPropertyPartPickerWithMapPrivate {
 	gint n_map_elems;
 	gchar *label;
 
-	icalproperty_kind ical_prop_kind;
-	ECompEditorPropertyPartPickerMapICalNewFunc ical_new_func;
-	ECompEditorPropertyPartPickerMapICalSetFunc ical_set_func;
-	ECompEditorPropertyPartPickerMapICalGetFunc ical_get_func;
+	ICalPropertyKind prop_kind;
+	ECompEditorPropertyPartPickerMapICalNewFunc i_cal_new_func;
+	ECompEditorPropertyPartPickerMapICalSetFunc i_cal_set_func;
+	ECompEditorPropertyPartPickerMapICalGetFunc i_cal_get_func;
 };
 
 enum {
@@ -1440,28 +1470,29 @@ ecepp_picker_with_map_get_values (ECompEditorPropertyPartPicker *part_picker,
 
 static gboolean
 ecepp_picker_with_map_get_from_component (ECompEditorPropertyPartPicker *part_picker,
-					  icalcomponent *component,
+					  ICalComponent *component,
 					  gchar **out_id)
 {
 	ECompEditorPropertyPartPickerWithMap *part_picker_with_map;
-	icalproperty *prop;
+	ICalProperty *prop;
 	gint ii, value;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (part_picker), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 	g_return_val_if_fail (out_id != NULL, FALSE);
 
 	part_picker_with_map = E_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (part_picker);
 	g_return_val_if_fail (part_picker_with_map->priv->map != NULL, FALSE);
 	g_return_val_if_fail (part_picker_with_map->priv->n_map_elems > 0, FALSE);
-	g_return_val_if_fail (part_picker_with_map->priv->ical_prop_kind != ICAL_NO_PROPERTY, FALSE);
-	g_return_val_if_fail (part_picker_with_map->priv->ical_get_func != NULL, FALSE);
+	g_return_val_if_fail (part_picker_with_map->priv->prop_kind != I_CAL_NO_PROPERTY, FALSE);
+	g_return_val_if_fail (part_picker_with_map->priv->i_cal_get_func != NULL, FALSE);
 
-	prop = icalcomponent_get_first_property (component, part_picker_with_map->priv->ical_prop_kind);
+	prop = i_cal_component_get_first_property (component, part_picker_with_map->priv->prop_kind);
 	if (!prop)
 		return FALSE;
 
-	value = part_picker_with_map->priv->ical_get_func (prop);
+	value = part_picker_with_map->priv->i_cal_get_func (prop);
+	g_clear_object (&prop);
 
 	for (ii = 0; ii < part_picker_with_map->priv->n_map_elems; ii++) {
 		gboolean matches;
@@ -1484,40 +1515,40 @@ ecepp_picker_with_map_get_from_component (ECompEditorPropertyPartPicker *part_pi
 static void
 ecepp_picker_with_map_set_to_component (ECompEditorPropertyPartPicker *part_picker,
 					const gchar *id,
-					icalcomponent *component)
+					ICalComponent *component)
 {
 	ECompEditorPropertyPartPickerWithMap *part_picker_with_map;
-	icalproperty *prop;
+	ICalProperty *prop;
 	gint ii, value;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (part_picker));
 	g_return_if_fail (id != NULL);
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	part_picker_with_map = E_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (part_picker);
 	g_return_if_fail (part_picker_with_map->priv->map != NULL);
 	g_return_if_fail (part_picker_with_map->priv->n_map_elems > 0);
-	g_return_if_fail (part_picker_with_map->priv->ical_prop_kind != ICAL_NO_PROPERTY);
-	g_return_if_fail (part_picker_with_map->priv->ical_new_func != NULL);
-	g_return_if_fail (part_picker_with_map->priv->ical_set_func != NULL);
+	g_return_if_fail (part_picker_with_map->priv->prop_kind != I_CAL_NO_PROPERTY);
+	g_return_if_fail (part_picker_with_map->priv->i_cal_new_func != NULL);
+	g_return_if_fail (part_picker_with_map->priv->i_cal_set_func != NULL);
 
 	ii = (gint) g_ascii_strtoll (id, NULL, 10);
 	g_return_if_fail (ii >= 0 && ii < part_picker_with_map->priv->n_map_elems);
 
-	prop = icalcomponent_get_first_property (component, part_picker_with_map->priv->ical_prop_kind);
+	prop = i_cal_component_get_first_property (component, part_picker_with_map->priv->prop_kind);
 	value = part_picker_with_map->priv->map[ii].value;
 
 	if (part_picker_with_map->priv->map[ii].delete_prop) {
-		if (prop) {
-			icalcomponent_remove_property (component, prop);
-			icalproperty_free (prop);
-		}
+		if (prop)
+			i_cal_component_remove_property (component, prop);
 	} else if (prop) {
-		part_picker_with_map->priv->ical_set_func (prop, value);
+		part_picker_with_map->priv->i_cal_set_func (prop, value);
 	} else {
-		prop = part_picker_with_map->priv->ical_new_func (value);
-		icalcomponent_add_property (component, prop);
+		prop = part_picker_with_map->priv->i_cal_new_func (value);
+		i_cal_component_add_property (component, prop);
 	}
+
+	g_clear_object (&prop);
 }
 
 static void
@@ -1671,10 +1702,10 @@ ECompEditorPropertyPart *
 e_comp_editor_property_part_picker_with_map_new (const ECompEditorPropertyPartPickerMap map[],
 						 gint n_map_elements,
 						 const gchar *label,
-						 icalproperty_kind ical_prop_kind,
-						 ECompEditorPropertyPartPickerMapICalNewFunc ical_new_func,
-						 ECompEditorPropertyPartPickerMapICalSetFunc ical_set_func,
-						 ECompEditorPropertyPartPickerMapICalGetFunc ical_get_func)
+						 ICalPropertyKind prop_kind,
+						 ECompEditorPropertyPartPickerMapICalNewFunc i_cal_new_func,
+						 ECompEditorPropertyPartPickerMapICalSetFunc i_cal_set_func,
+						 ECompEditorPropertyPartPickerMapICalGetFunc i_cal_get_func)
 {
 	ECompEditorPropertyPartPickerWithMap *part_picker_with_map;
 	ECompEditorPropertyPartPickerMap *map_copy;
@@ -1684,10 +1715,10 @@ e_comp_editor_property_part_picker_with_map_new (const ECompEditorPropertyPartPi
 	g_return_val_if_fail (map != NULL, NULL);
 	g_return_val_if_fail (n_map_elements > 0, NULL);
 	g_return_val_if_fail (label != NULL, NULL);
-	g_return_val_if_fail (ical_prop_kind != ICAL_NO_PROPERTY, NULL);
-	g_return_val_if_fail (ical_new_func != NULL, NULL);
-	g_return_val_if_fail (ical_set_func != NULL, NULL);
-	g_return_val_if_fail (ical_get_func != NULL, NULL);
+	g_return_val_if_fail (prop_kind != I_CAL_NO_PROPERTY, NULL);
+	g_return_val_if_fail (i_cal_new_func != NULL, NULL);
+	g_return_val_if_fail (i_cal_set_func != NULL, NULL);
+	g_return_val_if_fail (i_cal_get_func != NULL, NULL);
 
 	map_copy = g_new0 (ECompEditorPropertyPartPickerMap, n_map_elements + 1);
 	for (ii = 0; ii < n_map_elements; ii++) {
@@ -1702,10 +1733,10 @@ e_comp_editor_property_part_picker_with_map_new (const ECompEditorPropertyPartPi
 
 	part_picker_with_map = E_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (property_part);
 
-	part_picker_with_map->priv->ical_prop_kind = ical_prop_kind;
-	part_picker_with_map->priv->ical_new_func = ical_new_func;
-	part_picker_with_map->priv->ical_set_func = ical_set_func;
-	part_picker_with_map->priv->ical_get_func = ical_get_func;
+	part_picker_with_map->priv->prop_kind = prop_kind;
+	part_picker_with_map->priv->i_cal_new_func = i_cal_new_func;
+	part_picker_with_map->priv->i_cal_set_func = i_cal_set_func;
+	part_picker_with_map->priv->i_cal_get_func = i_cal_get_func;
 
 	return property_part;
 }

@@ -38,7 +38,7 @@
 struct _ECellDateEditTextPrivate {
 
 	/* The timezone to display the date in. */
-	icaltimezone *timezone;
+	ICalTimezone *timezone;
 
 	/* Whether to display in 24-hour format. */
 	gboolean use_24_hour_format;
@@ -65,7 +65,7 @@ cell_date_edit_text_set_property (GObject *object,
 		case PROP_TIMEZONE:
 			e_cell_date_edit_text_set_timezone (
 				E_CELL_DATE_EDIT_TEXT (object),
-				g_value_get_pointer (value));
+				g_value_get_object (value));
 			return;
 
 		case PROP_USE_24_HOUR_FORMAT:
@@ -86,7 +86,7 @@ cell_date_edit_text_get_property (GObject *object,
 {
 	switch (property_id) {
 		case PROP_TIMEZONE:
-			g_value_set_pointer (
+			g_value_set_object (
 				value,
 				e_cell_date_edit_text_get_timezone (
 				E_CELL_DATE_EDIT_TEXT (object)));
@@ -103,6 +103,17 @@ cell_date_edit_text_get_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
+static void
+cell_date_edit_text_finalize (GObject *object)
+{
+	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (object);
+
+	g_clear_object (&ecd->priv->timezone);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_cell_date_edit_text_parent_class)->finalize (object);
+}
+
 static gchar *
 cell_date_edit_text_get_text (ECellText *cell,
                               ETableModel *model,
@@ -111,7 +122,8 @@ cell_date_edit_text_get_text (ECellText *cell,
 {
 	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (cell);
 	ECellDateEditValue *dv = e_table_model_value_at (model, col, row);
-	icaltimezone *timezone;
+	ICalTimezone *timezone;
+	ICalTime *tt;
 	struct tm tmp_tm;
 	gchar *res;
 
@@ -120,14 +132,16 @@ cell_date_edit_text_get_text (ECellText *cell,
 
 	timezone = e_cell_date_edit_text_get_timezone (ecd);
 
+	tt = e_cell_date_edit_value_get_time (dv);
+
 	/* Note that although the property may be in a different
 	 * timezone, we convert it to the current timezone to display
 	 * it in the table. If the user actually edits the value,
 	 * it will be set to the current timezone. See set_value (). */
-	tmp_tm = icaltimetype_to_tm_with_zone (&dv->tt, dv->zone, timezone);
+	tmp_tm = e_cal_util_icaltime_to_tm_with_zone (tt, e_cell_date_edit_value_get_zone (dv), timezone);
 
 	res = e_datetime_format_format_tm (
-		"calendar", "table", dv->tt.is_date ?
+		"calendar", "table", i_cal_time_is_date (tt) ?
 		DTFormatKindDate : DTFormatKindDateTime, &tmp_tm);
 
 	e_table_model_free_value (model, col, dv);
@@ -187,7 +201,7 @@ cell_date_edit_text_set_value (ECellText *cell,
 	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (cell);
 	ETimeParseStatus status;
 	struct tm tmp_tm;
-	ECellDateEditValue dv;
+	ECellDateEditValue *dv = NULL;
 	ECellDateEditValue *value;
 	gboolean is_date = TRUE;
 
@@ -207,28 +221,26 @@ cell_date_edit_text_set_value (ECellText *cell,
 	if (status == E_TIME_PARSE_NONE) {
 		value = NULL;
 	} else {
-		dv.tt = icaltime_null_time ();
+		ICalTime *tt;
+		ICalTimezone *zone;
 
-		dv.tt.year = tmp_tm.tm_year + 1900;
-		dv.tt.month = tmp_tm.tm_mon + 1;
-		dv.tt.day = tmp_tm.tm_mday;
-		dv.tt.hour = tmp_tm.tm_hour;
-		dv.tt.minute = tmp_tm.tm_min;
-		dv.tt.second = tmp_tm.tm_sec;
-		dv.tt.is_date = is_date;
+		tt = e_cal_util_tm_to_icaltime (&tmp_tm, is_date);
 
-		/* FIXME: We assume it is being set to the current timezone.
-		 * Is that OK? */
 		if (is_date) {
-			dv.zone = NULL;
+			zone = NULL;
 		} else {
-			dv.zone = e_cell_date_edit_text_get_timezone (ecd);
+			zone = e_cell_date_edit_text_get_timezone (ecd);
 		}
 
-		value = &dv;
+		dv = e_cell_date_edit_value_new (tt, zone);
+		value = dv;
+
+		g_clear_object (&tt);
 	}
 
 	e_table_model_set_value_at (model, col, row, value);
+
+	e_cell_date_edit_value_free (dv);
 }
 
 static void
@@ -242,6 +254,7 @@ e_cell_date_edit_text_class_init (ECellDateEditTextClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = cell_date_edit_text_set_property;
 	object_class->get_property = cell_date_edit_text_get_property;
+	object_class->finalize = cell_date_edit_text_finalize;
 
 	cell_text_class = E_CELL_TEXT_CLASS (class);
 	cell_text_class->get_text = cell_date_edit_text_get_text;
@@ -251,10 +264,11 @@ e_cell_date_edit_text_class_init (ECellDateEditTextClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_TIMEZONE,
-		g_param_spec_pointer (
+		g_param_spec_object (
 			"timezone",
 			"Time Zone",
 			NULL,
+			I_CAL_TYPE_TIMEZONE,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -273,7 +287,7 @@ e_cell_date_edit_text_init (ECellDateEditText *ecd)
 {
 	ecd->priv = E_CELL_DATE_EDIT_TEXT_GET_PRIVATE (ecd);
 
-	ecd->priv->timezone = icaltimezone_get_utc_timezone ();
+	ecd->priv->timezone = e_cal_util_copy_timezone (i_cal_timezone_get_utc_timezone ());
 	ecd->priv->use_24_hour_format = TRUE;
 }
 
@@ -298,7 +312,7 @@ e_cell_date_edit_text_new (const gchar *fontname,
 	return cell;
 }
 
-icaltimezone *
+ICalTimezone *
 e_cell_date_edit_text_get_timezone (ECellDateEditText *ecd)
 {
 	g_return_val_if_fail (E_IS_CELL_DATE_EDIT_TEXT (ecd), NULL);
@@ -308,14 +322,15 @@ e_cell_date_edit_text_get_timezone (ECellDateEditText *ecd)
 
 void
 e_cell_date_edit_text_set_timezone (ECellDateEditText *ecd,
-                                    icaltimezone *timezone)
+				    const ICalTimezone *timezone)
 {
 	g_return_if_fail (E_IS_CELL_DATE_EDIT_TEXT (ecd));
 
 	if (ecd->priv->timezone == timezone)
 		return;
 
-	ecd->priv->timezone = timezone;
+	g_clear_object (&ecd->priv->timezone);
+	ecd->priv->timezone = timezone ? e_cal_util_copy_timezone (timezone) : NULL;
 
 	g_object_notify (G_OBJECT (ecd), "timezone");
 }
@@ -349,7 +364,8 @@ e_cell_date_edit_compare_cb (gconstpointer a,
 {
 	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
 	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
-	struct icaltimetype tt;
+	ICalTime *tt;
+	gint res;
 
 	/* First check if either is NULL. NULL dates sort last. */
 	if (!dv1 || !dv2) {
@@ -362,10 +378,134 @@ e_cell_date_edit_compare_cb (gconstpointer a,
 	}
 
 	/* Copy the 2nd value and convert it to the same timezone as the first. */
-	tt = dv2->tt;
-
-	icaltimezone_convert_time (&tt, dv2->zone, dv1->zone);
+	tt = i_cal_time_new_clone (e_cell_date_edit_value_get_time (dv2));
+	i_cal_timezone_convert_time (tt, e_cell_date_edit_value_get_zone (dv2), e_cell_date_edit_value_get_zone (dv1));
 
 	/* Now we can compare them. */
-	return icaltime_compare (dv1->tt, tt);
+	res = i_cal_time_compare (e_cell_date_edit_value_get_time (dv1), tt);
+
+	g_clear_object (&tt);
+
+	return res;
+}
+
+struct _ECellDateEditValue {
+	ICalTime *tt;
+	ICalTimezone *zone;
+};
+
+ECellDateEditValue *
+e_cell_date_edit_value_new (const ICalTime *tt,
+			    const ICalTimezone *zone)
+{
+	g_return_val_if_fail (I_CAL_IS_TIME (tt), NULL);
+	if (zone)
+		g_return_val_if_fail (I_CAL_IS_TIMEZONE (zone), NULL);
+
+	return e_cell_date_edit_value_new_take (i_cal_time_new_clone (tt),
+		zone ? e_cal_util_copy_timezone (zone) : NULL);
+}
+
+ECellDateEditValue *
+e_cell_date_edit_value_new_take (ICalTime *tt,
+				 ICalTimezone *zone)
+{
+	ECellDateEditValue *value;
+
+	g_return_val_if_fail (I_CAL_IS_TIME (tt), NULL);
+	if (zone)
+		g_return_val_if_fail (I_CAL_IS_TIMEZONE (zone), NULL);
+
+	value = g_new0 (ECellDateEditValue, 1);
+	value->tt = tt;
+	value->zone = zone;
+
+	return value;
+}
+
+ECellDateEditValue *
+e_cell_date_edit_value_copy (const ECellDateEditValue *src)
+{
+	if (!src)
+		return NULL;
+
+	return e_cell_date_edit_value_new (src->tt, src->zone);
+}
+
+void
+e_cell_date_edit_value_free (ECellDateEditValue *value)
+{
+	if (value) {
+		g_clear_object (&value->tt);
+		g_clear_object (&value->zone);
+		g_free (value);
+	}
+}
+
+ICalTime *
+e_cell_date_edit_value_get_time (const ECellDateEditValue *value)
+{
+	g_return_val_if_fail (value != NULL, NULL);
+
+	return value->tt;
+}
+
+void
+e_cell_date_edit_value_set_time (ECellDateEditValue *value,
+				 const ICalTime *tt)
+{
+	g_return_if_fail (value != NULL);
+	g_return_if_fail (I_CAL_IS_TIME (tt));
+
+	e_cell_date_edit_value_take_time (value, i_cal_time_new_clone (tt));
+}
+
+void
+e_cell_date_edit_value_take_time (ECellDateEditValue *value,
+				  ICalTime *tt)
+{
+	g_return_if_fail (value != NULL);
+	g_return_if_fail (I_CAL_IS_TIME (tt));
+
+	if (value->tt != tt) {
+		g_clear_object (&value->tt);
+		value->tt = tt;
+	} else {
+		g_clear_object (&tt);
+	}
+}
+
+ICalTimezone *
+e_cell_date_edit_value_get_zone (const ECellDateEditValue *value)
+{
+	g_return_val_if_fail (value != NULL, NULL);
+
+	return value->zone;
+}
+
+void
+e_cell_date_edit_value_set_zone (ECellDateEditValue *value,
+				 const ICalTimezone *zone)
+{
+	g_return_if_fail (value != NULL);
+	if (zone)
+		g_return_if_fail (I_CAL_IS_TIMEZONE (zone));
+
+	e_cell_date_edit_value_take_zone (value, zone ? e_cal_util_copy_timezone (zone) : NULL);
+}
+
+void
+e_cell_date_edit_value_take_zone (ECellDateEditValue *value,
+				  ICalTimezone *zone)
+{
+	g_return_if_fail (value != NULL);
+	if (zone)
+		g_return_if_fail (I_CAL_IS_TIMEZONE (zone));
+
+	if (zone != value->zone) {
+		g_clear_object (&value->zone);
+		value->zone = zone;
+	} else {
+		g_clear_object (&zone);
+	}
 }

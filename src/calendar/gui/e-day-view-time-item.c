@@ -64,7 +64,7 @@ struct _EDayViewTimeItemPrivate {
 	gboolean dragging_selection;
 
 	/* The second timezone if shown, or else NULL. */
-	icaltimezone *second_zone;
+	ICalTimezone *second_zone;
 };
 
 static void	e_day_view_time_item_update	(GnomeCanvasItem *item,
@@ -229,7 +229,7 @@ e_day_view_time_item_init (EDayViewTimeItem *time_item)
 	if (last) {
 		if (*last)
 			time_item->priv->second_zone =
-				icaltimezone_get_builtin_timezone (last);
+				i_cal_timezone_get_builtin_timezone (last);
 		g_free (last);
 	}
 
@@ -258,13 +258,13 @@ e_day_view_time_item_update (GnomeCanvasItem *item,
  */
 static void
 edvti_draw_zone (GnomeCanvasItem *canvas_item,
-                 cairo_t *cr,
-                 gint x,
-                 gint y,
-                 gint width,
-                 gint height,
-                 gint x_offset,
-                 icaltimezone *use_zone)
+		 cairo_t *cr,
+		 gint x,
+		 gint y,
+		 gint width,
+		 gint height,
+		 gint x_offset,
+		 ICalTimezone *use_zone)
 {
 	EDayView *day_view;
 	EDayViewTimeItem *time_item;
@@ -351,31 +351,35 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 	if (use_zone) {
 		/* shift time with a difference between
 		 * local time and the other timezone */
-		icaltimezone *cal_zone;
-		struct icaltimetype tt;
+		ICalTimezone *cal_zone;
+		ICalTime *tt;
 		gint diff;
 		struct tm mn;
 
 		cal_zone = e_calendar_view_get_timezone (
 			E_CALENDAR_VIEW (day_view));
-		tt = icaltime_from_timet_with_zone (
+		tt = i_cal_time_from_timet_with_zone (
 			day_view->day_starts[0], 0, cal_zone);
 
 		/* diff is number of minutes */
-		diff =(icaltimezone_get_utc_offset (use_zone, &tt, NULL) -
-			icaltimezone_get_utc_offset (cal_zone, &tt, NULL)) / 60;
+		diff = (i_cal_timezone_get_utc_offset (use_zone, tt, NULL) -
+			i_cal_timezone_get_utc_offset (cal_zone, tt, NULL)) / 60;
 
-		tt = icaltime_from_timet_with_zone (day_view->day_starts[0], 0, cal_zone);
-		tt.is_date = FALSE;
-		icaltime_set_timezone (&tt, cal_zone);
-		tt = icaltime_convert_to_zone (tt, use_zone);
+		g_clear_object (&tt);
+
+		tt = i_cal_time_from_timet_with_zone (day_view->day_starts[0], 0, cal_zone);
+		i_cal_time_set_is_date (tt, FALSE);
+		i_cal_time_set_timezone (tt, cal_zone);
+		i_cal_time_convert_to_zone_inplace (tt, use_zone);
 
 		if (diff != 0) {
 			/* shows the next midnight */
-			icaltime_adjust (&tt, 1, 0, 0, 0);
+			i_cal_time_adjust (tt, 1, 0, 0, 0);
 		}
 
-		mn = icaltimetype_to_tm (&tt);
+		mn = e_cal_util_icaltime_to_tm (tt);
+
+		g_clear_object (&tt);
 
 		/* up to two characters/numbers */
 		e_utf8_strftime (buffer, sizeof (buffer), "%d", &mn);
@@ -412,7 +416,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 	/* Draw the Marcus Bains Line first, so it appears under other elements. */
 	if (e_day_view_marcus_bains_get_show_line (day_view)) {
-		struct icaltimetype time_now;
+		ICalTime *time_now;
 		const gchar *marcus_bains_time_bar_color;
 		gint marcus_bains_y;
 
@@ -431,11 +435,11 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 		}
 
-		time_now = icaltime_current_time_with_zone (
+		time_now = i_cal_time_current_time_with_zone (
 			e_calendar_view_get_timezone (
 			E_CALENDAR_VIEW (day_view)));
 		marcus_bains_y =
-			(time_now.hour * 60 + time_now.minute) *
+			(i_cal_time_get_hour (time_now) * 60 + i_cal_time_get_minute (time_now)) *
 			day_view->row_height / time_divisions - y;
 		cairo_set_line_width (cr, 1.5);
 		cairo_move_to (
@@ -445,6 +449,8 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 		cairo_line_to (cr, long_line_x2, marcus_bains_y);
 		cairo_stroke (cr);
 		cairo_restore (cr);
+
+		g_clear_object (&time_now);
 	} else {
 		const gchar *marcus_bains_time_bar_color;
 
@@ -724,14 +730,14 @@ edvti_second_zone_changed_cb (GSettings *settings,
 {
 	EDayViewTimeItem *time_item = user_data;
 	EDayView *day_view;
-	icaltimezone *second_zone;
+	ICalTimezone *second_zone;
 	gchar *location;
 
 	g_return_if_fail (user_data != NULL);
 	g_return_if_fail (E_IS_DAY_VIEW_TIME_ITEM (time_item));
 
 	location = calendar_config_get_day_second_zone ();
-	second_zone = location ? icaltimezone_get_builtin_timezone (location) : NULL;
+	second_zone = location ? i_cal_timezone_get_builtin_timezone (location) : NULL;
 	g_free (location);
 
 	if (second_zone == time_item->priv->second_zone)
@@ -777,7 +783,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 	gchar buffer[256];
 	GSList *group = NULL, *recent_zones, *s;
 	gint current_divisions, i;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	day_view = e_day_view_time_item_get_day_view (time_item);
 	g_return_if_fail (day_view != NULL);
@@ -833,7 +839,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 	if (zone)
-		item = gtk_menu_item_new_with_label (icaltimezone_get_display_name (zone));
+		item = gtk_menu_item_new_with_label (i_cal_timezone_get_display_name (zone));
 	else
 		item = gtk_menu_item_new_with_label ("---");
 	gtk_widget_set_sensitive (item, FALSE);
@@ -854,12 +860,12 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 
 	recent_zones = calendar_config_get_day_second_zones ();
 	for (s = recent_zones; s != NULL; s = s->next) {
-		zone = icaltimezone_get_builtin_timezone (s->data);
+		zone = i_cal_timezone_get_builtin_timezone (s->data);
 		if (!zone)
 			continue;
 
 		item = gtk_radio_menu_item_new_with_label (
-			group, icaltimezone_get_display_name (zone));
+			group, i_cal_timezone_get_display_name (zone));
 		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 		/* both comes from builtin, thus no problem to compare pointers */
 		if (zone == time_item->priv->second_zone)
@@ -1128,7 +1134,7 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *time_item)
 	return time_item->priv->column_width;
 }
 
-icaltimezone *
+ICalTimezone *
 e_day_view_time_item_get_second_zone (EDayViewTimeItem *time_item)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW_TIME_ITEM (time_item), NULL);

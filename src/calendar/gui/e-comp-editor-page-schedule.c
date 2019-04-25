@@ -118,7 +118,7 @@ ecep_schedule_editor_times_changed_cb (ECompEditor *comp_editor,
 	ECompEditorPropertyPartDatetime *dtstart, *dtend;
 	ECompEditorPropertyPart *dtstart_part = NULL, *dtend_part = NULL;
 	EDateEdit *start_date_edit, *end_date_edit;
-	struct icaltimetype start_tt, end_tt;
+	ICalTime *start_tt, *end_tt;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page_schedule));
 	g_return_if_fail (page_schedule->priv->selector != NULL);
@@ -134,23 +134,42 @@ ecep_schedule_editor_times_changed_cb (ECompEditor *comp_editor,
 	start_tt = e_comp_editor_property_part_datetime_get_value (dtstart);
 	end_tt = e_comp_editor_property_part_datetime_get_value (dtend);
 
+	if (!start_tt || !end_tt) {
+		g_clear_object (&start_tt);
+		g_clear_object (&end_tt);
+		return;
+	}
+
 	/* For All Day Events, if DTEND is after DTSTART, we subtract 1 day from it. */
-	if (start_tt.is_date && end_tt.is_date &&
-	    icaltime_compare_date_only (end_tt, start_tt) > 0)
-		icaltime_adjust (&end_tt, -1, 0, 0, 0);
+	if (i_cal_time_is_date (start_tt) && i_cal_time_is_date (end_tt) &&
+	    i_cal_time_compare_date_only (end_tt, start_tt) > 0)
+		i_cal_time_adjust (end_tt, -1, 0, 0, 0);
 
 	e_comp_editor_page_set_updating (E_COMP_EDITOR_PAGE (page_schedule), TRUE);
 
 	start_date_edit = E_DATE_EDIT (page_schedule->priv->selector->start_date_edit);
 	end_date_edit = E_DATE_EDIT (page_schedule->priv->selector->end_date_edit);
 
-	e_date_edit_set_date (start_date_edit, start_tt.year, start_tt.month, start_tt.day);
-	e_date_edit_set_time_of_day (start_date_edit, start_tt.hour, start_tt.minute);
+	e_date_edit_set_date (start_date_edit,
+		i_cal_time_get_year (start_tt),
+		i_cal_time_get_month (start_tt),
+		i_cal_time_get_day (start_tt));
+	e_date_edit_set_time_of_day (start_date_edit,
+		i_cal_time_get_hour (start_tt),
+		i_cal_time_get_minute (start_tt));
 
-	e_date_edit_set_date (end_date_edit, end_tt.year, end_tt.month, end_tt.day);
-	e_date_edit_set_time_of_day (end_date_edit, end_tt.hour, end_tt.minute);
+	e_date_edit_set_date (end_date_edit,
+		i_cal_time_get_year (end_tt),
+		i_cal_time_get_month (end_tt),
+		i_cal_time_get_day (end_tt));
+	e_date_edit_set_time_of_day (end_date_edit,
+		i_cal_time_get_hour (end_tt),
+		i_cal_time_get_minute (end_tt));
 
 	e_comp_editor_page_set_updating (E_COMP_EDITOR_PAGE (page_schedule), FALSE);
+
+	g_clear_object (&start_tt);
+	g_clear_object (&end_tt);
 }
 
 static void
@@ -178,7 +197,8 @@ ecep_schedule_set_time_to_editor (ECompEditorPageSchedule *page_schedule)
 	ECompEditorPropertyPartDatetime *dtstart, *dtend;
 	ECompEditorPropertyPart *dtstart_part = NULL, *dtend_part = NULL;
 	ECompEditor *comp_editor;
-	struct icaltimetype start_tt, end_tt;
+	ICalTime *start_tt, *end_tt;
+	gint year, month, day, hour, minute;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page_schedule));
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (page_schedule->priv->selector));
@@ -199,42 +219,41 @@ ecep_schedule_set_time_to_editor (ECompEditorPageSchedule *page_schedule)
 	start_tt = e_comp_editor_property_part_datetime_get_value (dtstart);
 	end_tt = e_comp_editor_property_part_datetime_get_value (dtend);
 
-	e_date_edit_get_date (
-		E_DATE_EDIT (selector->start_date_edit),
-		&start_tt.year,
-		&start_tt.month,
-		&start_tt.day);
-	e_date_edit_get_time_of_day (
-		E_DATE_EDIT (selector->start_date_edit),
-		&start_tt.hour,
-		&start_tt.minute);
-	e_date_edit_get_date (
-		E_DATE_EDIT (selector->end_date_edit),
-		&end_tt.year,
-		&end_tt.month,
-		&end_tt.day);
-	e_date_edit_get_time_of_day (
-		E_DATE_EDIT (selector->end_date_edit),
-		&end_tt.hour,
-		&end_tt.minute);
+	if (!start_tt || !end_tt) {
+		g_clear_object (&start_tt);
+		g_clear_object (&end_tt);
+		return;
+	}
+
+	e_date_edit_get_date (E_DATE_EDIT (selector->start_date_edit), &year, &month, &day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (selector->start_date_edit), &hour, &minute);
+	i_cal_time_set_date (start_tt, year, month, day);
+	i_cal_time_set_time (start_tt, hour, minute, 0);
+
+	e_date_edit_get_date (E_DATE_EDIT (selector->end_date_edit), &year, &month, &day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (selector->end_date_edit), &hour, &minute);
+	i_cal_time_set_date (end_tt, year, month, day);
+	i_cal_time_set_time (end_tt, hour, minute, 0);
 
 	if (!e_date_edit_get_show_time (E_DATE_EDIT (selector->start_date_edit))) {
 		/* For All-Day Events, we set the timezone to NULL, and add 1 day to DTEND. */
-		start_tt.is_date = TRUE;
-		start_tt.zone = NULL;
-		end_tt.is_date = TRUE;
-		end_tt.zone = NULL;
+		i_cal_time_set_timezone (start_tt, NULL);
+		i_cal_time_set_is_date (start_tt, TRUE);
+		i_cal_time_set_timezone (end_tt, NULL);
+		i_cal_time_set_is_date (end_tt, TRUE);
 
-		icaltime_adjust (&end_tt, 1, 0, 0, 0);
+		i_cal_time_adjust (end_tt, 1, 0, 0, 0);
 	} else {
-		start_tt.is_date = FALSE;
-		end_tt.is_date = FALSE;
+		i_cal_time_set_is_date (start_tt, FALSE);
+		i_cal_time_set_is_date (end_tt, FALSE);
 	}
 
 	e_comp_editor_property_part_datetime_set_value (dtstart, start_tt);
 	e_comp_editor_property_part_datetime_set_value (dtend, end_tt);
 
 	g_clear_object (&comp_editor);
+	g_clear_object (&start_tt);
+	g_clear_object (&end_tt);
 }
 
 static void
@@ -276,17 +295,17 @@ ecep_schedule_sensitize_widgets (ECompEditorPage *page,
 
 static void
 ecep_schedule_fill_widgets (ECompEditorPage *page,
-			    icalcomponent *component)
+			    ICalComponent *component)
 {
 	ECompEditorPageSchedule *page_schedule;
 	ECompEditorPropertyPartDatetime *dtstart, *dtend;
 	ECompEditorPropertyPart *dtstart_part = NULL, *dtend_part = NULL;
 	ECompEditor *comp_editor;
 	EMeetingTimeSelector *selector;
-	struct icaltimetype start_tt, end_tt;
+	ICalTime *start_tt, *end_tt;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_schedule_parent_class)->fill_widgets (page, component);
 
@@ -314,51 +333,60 @@ ecep_schedule_fill_widgets (ECompEditorPage *page,
 	start_tt = e_comp_editor_property_part_datetime_get_value (dtstart);
 	end_tt = e_comp_editor_property_part_datetime_get_value (dtend);
 
-	if (start_tt.is_date) {
-		/* For All-Day Events, we set the timezone to NULL, and add 1 day to DTEND. */
-		start_tt.is_date = TRUE;
-		start_tt.zone = NULL;
-		end_tt.is_date = TRUE;
-		end_tt.zone = NULL;
+	if (!start_tt || !end_tt) {
+		g_clear_object (&comp_editor);
+		g_clear_object (&start_tt);
+		g_clear_object (&end_tt);
+		return;
+	}
 
-		icaltime_adjust (&end_tt, 1, 0, 0, 0);
+	if (i_cal_time_is_date (start_tt)) {
+		/* For All-Day Events, we set the timezone to NULL, and add 1 day to DTEND. */
+		i_cal_time_set_timezone (start_tt, NULL);
+		i_cal_time_set_is_date (start_tt, TRUE);
+		i_cal_time_set_timezone (end_tt, NULL);
+		i_cal_time_set_is_date (end_tt, TRUE);
+
+		i_cal_time_adjust (end_tt, 1, 0, 0, 0);
 	} else {
-		start_tt.is_date = FALSE;
-		end_tt.is_date = FALSE;
+		i_cal_time_set_is_date (start_tt, FALSE);
+		i_cal_time_set_is_date (end_tt, FALSE);
 	}
 
 	e_comp_editor_page_set_updating (page, TRUE);
 
 	e_date_edit_set_date (
 		E_DATE_EDIT (selector->start_date_edit),
-		start_tt.year,
-		start_tt.month,
-		start_tt.day);
+		i_cal_time_get_year (start_tt),
+		i_cal_time_get_month (start_tt),
+		i_cal_time_get_day (start_tt));
 	e_date_edit_set_time_of_day (
 		E_DATE_EDIT (selector->start_date_edit),
-		start_tt.hour,
-		start_tt.minute);
+		i_cal_time_get_hour (start_tt),
+		i_cal_time_get_minute (start_tt));
 	e_date_edit_set_date (
 		E_DATE_EDIT (selector->end_date_edit),
-		end_tt.year,
-		end_tt.month,
-		end_tt.day);
+		i_cal_time_get_year (end_tt),
+		i_cal_time_get_month (end_tt),
+		i_cal_time_get_day (end_tt));
 	e_date_edit_set_time_of_day (
 		E_DATE_EDIT (selector->end_date_edit),
-		end_tt.hour,
-		end_tt.minute);
+		i_cal_time_get_hour (end_tt),
+		i_cal_time_get_minute (end_tt));
 
 	e_comp_editor_page_set_updating (page, FALSE);
 
 	g_clear_object (&comp_editor);
+	g_clear_object (&start_tt);
+	g_clear_object (&end_tt);
 }
 
 static gboolean
 ecep_schedule_fill_component (ECompEditorPage *page,
-			      icalcomponent *component)
+			      ICalComponent *component)
 {
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_SCHEDULE (page), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	return E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_schedule_parent_class)->fill_component (page, component);
 }

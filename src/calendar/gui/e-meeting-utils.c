@@ -93,7 +93,7 @@ e_meeting_xfb_data_clear (EMeetingXfbData *xfb)
 }
 
 /* Creates an XFB string from a string property of a vfreebusy
- * icalproperty. The ical string we read may be base64 encoded, but
+ * ICalProperty. The iCal string we read may be base64 encoded, but
  * we get no reliable indication whether it really is. So we
  * try to base64-decode, and failing that, assume the string
  * is plain. The result is validated for UTF-8. We try to convert
@@ -117,7 +117,7 @@ e_meeting_xfb_utf8_string_new_from_ical (const gchar *icalstring,
 	if (icalstring == NULL)
 		return NULL;
 
-	/* ical does not carry charset hints, so we
+	/* iCal does not carry charset hints, so we
 	 * try UTF-8 first, then conversion using
 	 * system locale info.
 	 */

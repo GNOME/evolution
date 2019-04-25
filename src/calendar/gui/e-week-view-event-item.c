@@ -446,9 +446,9 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	if (!is_comp_data_valid (event))
 		return;
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (
-		comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	if (!comp)
+		return;
 
 	if (e_cal_component_has_alarms (comp)) {
 		draw_reminder_icon = TRUE;
