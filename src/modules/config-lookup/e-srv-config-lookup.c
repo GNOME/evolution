@@ -183,12 +183,49 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 					gboolean is_calendar = g_str_equal (known_services[ii].evo_protocol, "caldav");
 					gboolean is_secure = g_str_has_suffix (known_services[ii].gio_protocol, "s");
 					guint16 port = g_srv_target_get_port (target);
-					gchar *url;
+					const gchar *txt_path = is_calendar ? ".well-known/caldav" : ".well-known/carddav";
+					GList *txt_records;
+					gchar *url, *tmp;
+
+					tmp = g_strconcat (is_calendar ? "_caldav" : "_carddav", is_secure ? "s" : "", "._tcp.", domain, NULL);
+					txt_records = g_resolver_lookup_records (resolver, tmp, G_RESOLVER_RECORD_TXT, cancellable, NULL);
+					g_clear_pointer (&tmp, g_free);
+
+					if (txt_records) {
+						GList *txt_record;
+
+						for (txt_record = txt_records; txt_record; txt_record = g_list_next (txt_record)) {
+							gchar **contents = NULL;
+							gint jj;
+
+							g_variant_get (txt_record->data, "(^a&s)", &contents);
+
+							for (jj = 0; contents && contents[jj]; jj++) {
+								const gchar *txt_value = contents[jj];
+
+								/* Compare case-insensitively, according to section 6.4 of RFC 6763 */
+								if (!g_ascii_strncasecmp ("path=/", txt_value, 6)) {
+									tmp = g_strdup (txt_value + 6);
+									txt_path = tmp;
+									break;
+								}
+							}
+
+							g_free (contents);
+
+							if (tmp)
+								break;
+						}
+
+						g_list_free_full (txt_records, (GDestroyNotify) g_variant_unref);
+					}
 
 					if ((!is_secure && port == 80) || (is_secure && port == 443))
-						url = g_strdup_printf ("http%s://%s", is_secure ? "s" : "", hostname);
+						url = g_strdup_printf ("http%s://%s/%s", is_secure ? "s" : "", hostname, txt_path);
 					else
-						url = g_strdup_printf ("http%s://%s:%d", is_secure ? "s" : "", hostname, port);
+						url = g_strdup_printf ("http%s://%s:%d/%s", is_secure ? "s" : "", hostname, port, txt_path);
+
+					g_free (tmp);
 
 					e_config_lookup_result_simple_add_string (lookup_result, E_SOURCE_EXTENSION_COLLECTION,
 						"backend-name", "webdav");
