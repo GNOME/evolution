@@ -1588,7 +1588,7 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:82
 msgid "Whether start Plain Text composer with Preformatted paragraph mode"
 msgstr ""
-"Si s'ha d'iniciar el editor de text pla amb el mode de paràgraf preformatat"
+"Si s'ha d'iniciar l'editor de text pla amb el mode de paràgraf preformatat"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:83
 msgid ""
@@ -3387,7 +3387,7 @@ msgid ""
 "selection is escaped and appended to this string. The URI should start with "
 "https://."
 msgstr ""
-"El prefix d’una URL a usar per a fer cerques a la web. La selecció de text "
+"El prefix d’un URL a usar per a fer cerques a la web. La selecció de text "
 "actual s'escapa i s'afegeix a aquesta cadena. La URI ha de començar amb "
 "https://."
 
@@ -9139,7 +9139,7 @@ msgstr "Per fer"
 #: ../src/calendar/gui/e-week-view-main-item.c:222
 #: ../src/calendar/gui/print.c:2081
 msgid "%d %B"
-msgstr "%d %B"
+msgstr "%-d %B"
 
 #: ../src/calendar/gui/itip-utils.c:786 ../src/calendar/gui/itip-utils.c:848
 #: ../src/calendar/gui/itip-utils.c:982
@@ -12610,7 +12610,7 @@ msgstr "_Icona de la categoria"
 
 #: ../src/e-util/e-category-editor.c:236
 msgid "_Unset icon"
-msgstr "_Desassigna  la emoticona"
+msgstr "_Desassigna l'emoticona"
 
 #: ../src/e-util/e-category-editor.c:262
 msgid "Category Properties"
@@ -13190,7 +13190,7 @@ msgstr "Següent %a"
 #: ../src/e-util/e-datetime-format.c:367 ../src/e-util/e-datetime-format.c:377
 #: ../src/e-util/e-datetime-format.c:386
 msgid "Use locale default"
-msgstr "Utilitza els valors per defecte de la localització"
+msgstr "Utilitza els valors per defecte de la configuració local"
 
 #: ../src/e-util/e-datetime-format.c:610
 msgid "Format:"
@@ -15346,8 +15346,7 @@ msgstr "No s'ha pogut suprimir el recurs «{0}»."
 #: ../src/e-util/e-system.error.xml.h:11
 msgid "The address book backend servicing “{0}” has quit unexpectedly."
 msgstr ""
-"Ha sortit inesperadament el rerefons de llibreta d'adreces que servia &quot;"
-"{0}&quot;."
+"Ha sortit inesperadament el rerefons de llibreta d'adreces que servia «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:12
 msgid ""
@@ -15359,7 +15358,7 @@ msgstr ""
 #: ../src/e-util/e-system.error.xml.h:13
 msgid "The calendar backend servicing “{0}” has quit unexpectedly."
 msgstr ""
-"Ha sortit inesperadament el rerefons de calendari que servia &quot;{0}&quot;."
+"Ha sortit inesperadament el rerefons de calendari que servia «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:14
 msgid ""
@@ -15371,8 +15370,7 @@ msgstr ""
 #: ../src/e-util/e-system.error.xml.h:15
 msgid "The memo list backend servicing “{0}” has quit unexpectedly."
 msgstr ""
-"Ha sortit inesperadament el rerefons de llista d'anotacions que servia &quot;"
-"{0}&quot;."
+"Ha sortit inesperadament el rerefons de llista d'anotacions que servia «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:16
 msgid "Some of your memos may not be available until Evolution is restarted."
@@ -15383,8 +15381,7 @@ msgstr ""
 #: ../src/e-util/e-system.error.xml.h:17
 msgid "The task list backend servicing “{0}” has quit unexpectedly."
 msgstr ""
-"Ha sortit inesperadament el rerefons de llista de tasques que servia &quot;"
-"{0}&quot;."
+"Ha sortit inesperadament el rerefons de llista de tasques que servia «{0}»."
 
 #: ../src/e-util/e-system.error.xml.h:18
 msgid "Some of your tasks may not be available until Evolution is restarted."
@@ -15919,7 +15916,7 @@ msgstr "Desa la imatge a un fitxer"
 #: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-browser.c:179
 #: ../src/mail/e-mail-reader.c:2820
 msgid "Search _Web…"
-msgstr "Cerca web…"
+msgstr "_Cerca web…"
 
 #: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:181
 #: ../src/mail/e-mail-reader.c:2822
@@ -18412,7 +18409,7 @@ msgstr "Trieu a quines carpetes s'enviarà el missatge."
 
 #: ../src/mail/em-filter-editor.c:43
 msgid "Description of Filters"
-msgstr "Descripció dels filstres"
+msgstr "Descripció dels filtres"
 
 #. Translators: The first '%s' is replaced with the rule name;
 #. the second '%s' with 'enabled' or 'disabled' word;
@@ -18424,11 +18421,11 @@ msgstr "%s (%s, per al compte %s)"
 
 #: ../src/mail/em-filter-editor.c:167 ../src/mail/em-filter-editor.c:171
 msgid "enabled"
-msgstr "Habilitat"
+msgstr "habilitat"
 
 #: ../src/mail/em-filter-editor.c:167 ../src/mail/em-filter-editor.c:171
 msgid "disabled"
-msgstr "Inhabilitat"
+msgstr "inhabilitat"
 
 #. Translators: The first '%s' is replaced with the rule name;
 #. the second '%s' with 'enabled' or 'disabled' word
@@ -18488,7 +18485,7 @@ msgstr "_Utilitza una icona personalitzada"
 
 #: ../src/mail/em-folder-properties.c:312
 msgid "Use te_xt color"
-msgstr "Useu el color del text"
+msgstr "_Useu el color del text"
 
 #: ../src/mail/em-folder-properties.c:494
 msgid "Unread messages:"
@@ -21801,7 +21798,7 @@ msgstr "Evita l'IfMatch (necessari per a l'Apache < 2.2.8)"
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:426
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:185
 msgid "URL is not a valid http:// nor https:// URL"
-msgstr "L'URL no és una URL vàlida http:// ni https://"
+msgstr "L'URL no és un URL vàlid http:// ni https://"
 
 #: ../src/modules/book-config-google/evolution-book-config-google.c:93
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:1069
@@ -22428,7 +22425,7 @@ msgstr "Amaga les tasqu_es completades després de"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "Hid_e cancelled tasks"
-msgstr "Amaga les tasques cancel·lades"
+msgstr "_Amaga les tasques cancel·lades"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:69
 msgid "To Do bar"
@@ -22494,7 +22491,7 @@ msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
 msgstr ""
-"Especifica el nom d'usuari com a part de la URL en el cas que el servidor "
+"Especifica el nom d'usuari com a part de l'URL en el cas que el servidor "
 "requereixi autenticació, semblant a: https://USUARI@exemple.com/"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:94
@@ -24423,7 +24420,7 @@ msgstr "Suprimeix permanentment la carpeta"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1635
 msgid "Edit Sort _Order…"
-msgstr "Edita el criteri d'ordenació…"
+msgstr "_Edita el criteri d'ordenació…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1637
 msgid "Change sort order of the folders in the folder tree"
@@ -26603,7 +26600,7 @@ msgstr "Col·lecció de _comptes"
 
 #: ../src/shell/e-shell-window-actions.c:795
 msgid "Create a new collection account"
-msgstr "Crea una col·leció de comptes nova"
+msgstr "Crea una col·lecció de comptes nova"
 
 #: ../src/shell/e-shell-window-actions.c:805
 msgid "Show information about Evolution"
