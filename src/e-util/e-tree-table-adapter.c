@@ -1419,10 +1419,8 @@ e_tree_table_adapter_load_expanded_state_xml (ETreeTableAdapter *etta,
 
 	/* Incase the default is changed, lets forget the changes and stick to default */
 
-	if (file_default != model_default) {
-		xmlFreeDoc (doc);
+	if (file_default != model_default)
 		return;
-	}
 
 	for (child = root->xmlChildrenNode; child; child = child->next) {
 		gchar *id;

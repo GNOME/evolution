@@ -406,14 +406,7 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 			 *
 			 * Just return FALSE here and EMailFormatter will automatically
 			 * fall back to the default text/plain formatter */
-			if (camel_content_type_is (ct, "text", "plain")) {
-				g_free (font_family);
-				g_free (font_size);
-				g_free ((gchar *) argv[3]);
-				pango_font_description_free (fd);
-				goto exit;
-
-			} else {
+			if (!camel_content_type_is (ct, "text", "plain")) {
 				/* In case of any other content, force use of
 				 * text/plain formatter, because returning FALSE
 				 * for text/x-patch or application/php would show
@@ -432,6 +425,8 @@ emfe_text_highlight_format (EMailFormatterExtension *extension,
 		g_free ((gchar *) argv[4]);
 		pango_font_description_free (fd);
 
+		if (!success)
+			goto exit;
 	} else {
 		CamelFolder *folder;
 		const gchar *message_uid;

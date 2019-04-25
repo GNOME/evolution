@@ -428,7 +428,8 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 	g_date_clear (&sel_start, 1);
 	g_date_clear (&sel_end, 1);
 
-	e_calendar_item_get_selection (calitem, &sel_start, &sel_end);
+	if (!e_calendar_item_get_selection (calitem, &sel_start, &sel_end))
+		return;
 
 	start_julian = g_date_get_julian (&sel_start);
 	end_julian = g_date_get_julian (&sel_end);
@@ -622,7 +623,8 @@ cal_shell_content_datepicker_button_press_cb (ECalendar *calendar,
 		g_date_clear (&sel_start, 1);
 		g_date_clear (&sel_end, 1);
 
-		e_calendar_item_get_selection (calitem, &sel_start, &sel_end);
+		if (!e_calendar_item_get_selection (calitem, &sel_start, &sel_end))
+			return FALSE;
 
 		/* Switch to a day view on a double-click */
 		e_cal_shell_content_change_view (cal_shell_content, E_CAL_VIEW_KIND_DAY, &sel_start, &sel_start, FALSE);

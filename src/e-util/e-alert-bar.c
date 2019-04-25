@@ -305,8 +305,6 @@ alert_bar_constructed (GObject *object)
 	priv->secondary_label = widget;
 	gtk_widget_show (widget);
 
-	container = action_area;
-
 	/* Disable animation of the revealer, until GtkInfoBar's bug #710888 is fixed */
 	revealer = gtk_widget_get_template_child (GTK_WIDGET (object), GTK_TYPE_INFO_BAR, "revealer");
 	if (revealer) {

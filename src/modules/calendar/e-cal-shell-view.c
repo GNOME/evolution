@@ -90,7 +90,6 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	ECalDataModel *data_model;
 	GtkRadioAction *action;
 	ICalTimezone *timezone;
-	const gchar *default_tzloc = NULL;
 	ICalTime *current_time;
 	time_t start_range;
 	time_t end_range;
@@ -116,11 +115,6 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	current_time = i_cal_time_current_time_with_zone (timezone);
 	now_time = time_day_begin (i_cal_time_as_timet (current_time));
 	g_clear_object (&current_time);
-
-	if (timezone && timezone != i_cal_timezone_get_utc_timezone ())
-		default_tzloc = i_cal_timezone_get_location (timezone);
-	if (!default_tzloc)
-		default_tzloc = "";
 
 	action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);

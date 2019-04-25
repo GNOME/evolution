@@ -5321,134 +5321,136 @@ parse_html_into_blocks (EEditorPage *editor_page,
 		if (camel_debug ("webkit:editor"))
 			printf ("\tto_process: '%s'\n", to_process);
 
-		if (to_process && !*to_process && processing_last) {
-			g_free (to_process);
-			to_process = g_strdup (next_token);
-			next_token = NULL;
-		}
-
-		to_insert_end = g_utf8_strlen (to_process, -1);
-
-		if ((with_br = strstr (to_process, "<br>"))) {
-			if (with_br == to_process)
-				to_insert_start += 4;
-		}
-
-		if ((citation_start = strstr (to_process, "##CITATION_START"))) {
-			if (with_br && citation_start == with_br + 4)
-				to_insert_start += 18; /* + ## */
-			else if (!with_br && citation_start == to_process)
-				to_insert_start += 18; /* + ## */
-			else
-				to_insert_end -= 18; /* + ## */
-			has_citation = TRUE;
-		}
-
-		if ((citation_end = strstr (to_process, "##CITATION_END"))) {
-			if (citation_end == to_process)
-				to_insert_start += 16;
-			else
-				to_insert_end -= 16; /* + ## */
-		}
-
-		/* First BR */
-		if (with_br && prev_token == html->str)
-			create_and_append_new_block (
-				editor_page, parent, block_template, "<br id=\"-x-evo-first-br\">");
-
-		if (with_br && citation_start && citation_start == with_br + 4) {
-			create_and_append_new_block (
-				editor_page, parent, block_template, "<br>");
-
-			append_citation_mark (document, parent, "##CITATION_START##");
-		} else if (!with_br && citation_start == to_process) {
-			append_citation_mark (document, parent, "##CITATION_START##");
-		}
-
-		if (citation_end && citation_end == to_process) {
-			append_citation_mark (document, parent, "##CITATION_END##");
-		}
-
-		if ((to_insert = g_utf8_substring (to_process, to_insert_start, to_insert_end)) && *to_insert) {
-			gchar *truncated = g_strdup (to_insert);
-			gchar *rest_to_insert;
-
-			if (camel_debug ("webkit:editor"))
-				printf ("\tto_insert: '%s'\n", to_insert);
-
-			if (!*truncated && strlen (to_insert) > 0) {
-				rest_to_insert = g_strdup (rest);
-				g_free (truncated);
-			} else {
-				rest_to_insert = truncated;
+		if (to_process) {
+			if (!*to_process && processing_last) {
+				g_free (to_process);
+				to_process = g_strdup (next_token);
+				next_token = NULL;
 			}
 
-			replace_selection_markers (&rest_to_insert);
+			to_insert_end = g_utf8_strlen (to_process, -1);
 
-			if (surround_links_with_anchor (rest_to_insert)) {
-				gboolean is_email_address =
-					strstr (rest_to_insert, "@") &&
-					!strstr (rest_to_insert, "://");
+			if ((with_br = strstr (to_process, "<br>"))) {
+				if (with_br == to_process)
+					to_insert_start += 4;
+			}
 
-				if (is_email_address && !regex_email)
-					regex_email = g_regex_new (E_MAIL_PATTERN, 0, 0, NULL);
-				if (!is_email_address && !regex_link)
-					regex_link = g_regex_new (URL_PATTERN, 0, 0, NULL);
+			if ((citation_start = strstr (to_process, "##CITATION_START"))) {
+				if (with_br && citation_start == with_br + 4)
+					to_insert_start += 18; /* + ## */
+				else if (!with_br && citation_start == to_process)
+					to_insert_start += 18; /* + ## */
+				else
+					to_insert_end -= 18; /* + ## */
+				has_citation = TRUE;
+			}
 
+			if ((citation_end = strstr (to_process, "##CITATION_END"))) {
+				if (citation_end == to_process)
+					to_insert_start += 16;
+				else
+					to_insert_end -= 16; /* + ## */
+			}
+
+			/* First BR */
+			if (with_br && prev_token == html->str)
+				create_and_append_new_block (
+					editor_page, parent, block_template, "<br id=\"-x-evo-first-br\">");
+
+			if (with_br && citation_start && citation_start == with_br + 4) {
+				create_and_append_new_block (
+					editor_page, parent, block_template, "<br>");
+
+				append_citation_mark (document, parent, "##CITATION_START##");
+			} else if (!with_br && citation_start == to_process) {
+				append_citation_mark (document, parent, "##CITATION_START##");
+			}
+
+			if (citation_end && citation_end == to_process) {
+				append_citation_mark (document, parent, "##CITATION_END##");
+			}
+
+			if ((to_insert = g_utf8_substring (to_process, to_insert_start, to_insert_end)) && *to_insert) {
+				gchar *truncated = g_strdup (to_insert);
+				gchar *rest_to_insert;
+
+				if (camel_debug ("webkit:editor"))
+					printf ("\tto_insert: '%s'\n", to_insert);
+
+				if (!*truncated && strlen (to_insert) > 0) {
+					rest_to_insert = g_strdup (rest);
+					g_free (truncated);
+				} else {
+					rest_to_insert = truncated;
+				}
+
+				replace_selection_markers (&rest_to_insert);
+
+				if (surround_links_with_anchor (rest_to_insert)) {
+					gboolean is_email_address =
+						strstr (rest_to_insert, "@") &&
+						!strstr (rest_to_insert, "://");
+
+					if (is_email_address && !regex_email)
+						regex_email = g_regex_new (E_MAIL_PATTERN, 0, 0, NULL);
+					if (!is_email_address && !regex_link)
+						regex_link = g_regex_new (URL_PATTERN, 0, 0, NULL);
+
+					truncated = g_regex_replace_eval (
+						is_email_address ? regex_email : regex_link,
+						rest_to_insert,
+						-1,
+						0,
+						G_REGEX_MATCH_NOTEMPTY,
+						create_anchor_for_link,
+						NULL,
+						NULL);
+
+					g_free (rest_to_insert);
+					rest_to_insert = truncated;
+				}
+
+				/* Do it after the anchor change */
 				truncated = g_regex_replace_eval (
-					is_email_address ? regex_email : regex_link,
+					regex_nbsp,
 					rest_to_insert,
 					-1,
 					0,
-					G_REGEX_MATCH_NOTEMPTY,
-					create_anchor_for_link,
+					0,
+					(GRegexEvalCallback) replace_to_nbsp,
 					NULL,
 					NULL);
-
 				g_free (rest_to_insert);
 				rest_to_insert = truncated;
+
+				create_and_append_new_block (
+					editor_page, parent, block_template, rest_to_insert);
+
+				g_free (rest_to_insert);
+			} else if (to_insert) {
+				if (!citation_start && (with_br || !citation_end))
+					create_and_append_new_block (
+						editor_page, parent, block_template, "<br>");
+				else if (citation_end && citation_end == to_process &&
+					 next_token && g_str_has_prefix (next_token, "<br>")) {
+					create_and_append_new_block (
+						editor_page, parent, block_template, "<br>");
+				}
 			}
 
-			/* Do it after the anchor change */
-			truncated = g_regex_replace_eval (
-				regex_nbsp,
-				rest_to_insert,
-				-1,
-				0,
-				0,
-				(GRegexEvalCallback) replace_to_nbsp,
-				NULL,
-				NULL);
-			g_free (rest_to_insert);
-			rest_to_insert = truncated;
+			g_free (to_insert);
 
-			create_and_append_new_block (
-				editor_page, parent, block_template, rest_to_insert);
+			if (with_br && citation_start && citation_start != with_br + 4)
+				append_citation_mark (document, parent, "##CITATION_START##");
 
-			g_free (rest_to_insert);
-		} else if (to_insert) {
-			if (!citation_start && (with_br || !citation_end))
-				create_and_append_new_block (
-					editor_page, parent, block_template, "<br>");
-			else if (citation_end && citation_end == to_process &&
-			         next_token && g_str_has_prefix (next_token, "<br>")) {
-				create_and_append_new_block (
-					editor_page, parent, block_template, "<br>");
-			}
+			if (!with_br && citation_start && citation_start != to_process)
+				append_citation_mark (document, parent, "##CITATION_START##");
+
+			if (citation_end && citation_end != to_process)
+				append_citation_mark (document, parent, "##CITATION_END##");
+
+			g_free (to_process);
 		}
-
-		g_free (to_insert);
-
-		if (with_br && citation_start && citation_start != with_br + 4)
-			append_citation_mark (document, parent, "##CITATION_START##");
-
-		if (!with_br && citation_start && citation_start != to_process)
-			append_citation_mark (document, parent, "##CITATION_START##");
-
-		if (citation_end && citation_end != to_process)
-			append_citation_mark (document, parent, "##CITATION_END##");
-
-		g_free (to_process);
 
 		prev_token = next_token;
 		next_br_token = (prev_token && *prev_token) ? strstr (prev_token + 1, "<br>") : NULL;

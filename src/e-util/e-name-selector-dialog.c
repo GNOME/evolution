@@ -1146,7 +1146,10 @@ model_section_removed (ENameSelectorDialog *name_selector_dialog,
 	gint section_index;
 
 	section_index = find_section_by_name (name_selector_dialog, name);
-	g_return_if_fail (section_index >= 0);
+	if (section_index < 0) {
+		g_warn_if_reached ();
+		return;
+	}
 
 	free_section (name_selector_dialog, section_index);
 	g_array_remove_index (
@@ -1272,12 +1275,8 @@ source_changed (ENameSelectorDialog *name_selector_dialog,
 {
 	GCancellable *cancellable;
 	ESource *source;
-	gpointer parent;
 
 	source = e_source_combo_box_ref_active (E_SOURCE_COMBO_BOX (combo_box));
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (name_selector_dialog));
-	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	/* Remove any previous books being shown or loaded */
 	remove_books (name_selector_dialog);
@@ -1495,6 +1494,7 @@ remove_selection (ENameSelectorDialog *name_selector_dialog,
 	Section           *section;
 	GtkTreeSelection  *selection;
 	GList		  *rows, *l;
+	gboolean res = TRUE;
 
 	section_index = find_section_by_tree_view (
 		name_selector_dialog, tree_view);
@@ -1525,21 +1525,26 @@ remove_selection (ENameSelectorDialog *name_selector_dialog,
 		GtkTreeIter iter;
 		GtkTreePath *path = l->data;
 
-		if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (destination_store), &iter, path))
-			g_return_val_if_reached (FALSE);
+		if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (destination_store), &iter, path)) {
+			g_warn_if_reached ();
+			res = FALSE;
+			break;
+		}
 
-		gtk_tree_path_free (path);
-
-		destination = e_destination_store_get_destination (
-			destination_store, &iter);
-		g_return_val_if_fail (destination, FALSE);
+		destination = e_destination_store_get_destination (destination_store, &iter);
+		if (!destination) {
+			g_warn_if_reached ();
+			res = FALSE;
+			break;
+		}
 
 		e_destination_store_remove_destination (
 			destination_store, destination);
 	}
-	g_list_free (rows);
 
-	return TRUE;
+	g_list_free_full (rows, (GDestroyNotify) gtk_tree_path_free);
+
+	return res;
 }
 
 static void
@@ -1616,21 +1621,15 @@ transfer_button_clicked (ENameSelectorDialog *name_selector_dialog,
 		GtkTreeIter iter;
 		GtkTreePath *path = l->data;
 
-		if (!gtk_tree_model_get_iter (
-			GTK_TREE_MODEL (name_selector_dialog->priv->contact_sort),
-			&iter, path)) {
-			gtk_tree_path_free (path);
-			return;
-		}
+		if (!gtk_tree_model_get_iter (GTK_TREE_MODEL (name_selector_dialog->priv->contact_sort), &iter, path))
+			break;
 
-		gtk_tree_path_free (path);
 		sort_iter_to_contact_store_iter (name_selector_dialog, &iter, &email_n);
 
 		contact = e_contact_store_get_contact (contact_store, &iter);
 		if (!contact) {
 			g_warning ("ENameSelectorDialog could not get selected contact!");
-			g_list_free (rows);
-			return;
+			break;
 		}
 
 		add_destination (
@@ -1638,7 +1637,8 @@ transfer_button_clicked (ENameSelectorDialog *name_selector_dialog,
 			destination_store, contact, email_n,
 			e_contact_store_get_client (contact_store, &iter));
 	}
-	g_list_free (rows);
+
+	g_list_free_full (rows, (GDestroyNotify) gtk_tree_path_free);
 }
 
 /* --------------------- *

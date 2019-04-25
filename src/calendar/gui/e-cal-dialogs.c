@@ -660,7 +660,7 @@ get_current_time (ECalendarItem *calitem,
 {
 	ICalTimezone *zone;
 	ICalTime *tt;
-	struct tm tmp_tm = { 0 };
+	struct tm tmp_tm;
 
 	/* Get the current timezone. */
 	zone = calendar_config_get_icaltimezone ();

@@ -2373,7 +2373,7 @@ e_mail_templates_store_build_model (EMailTemplatesStore *templates_store,
 	GSList *link;
 	gint multiple_accounts = 0;
 	gboolean found_first_message = FALSE;
-	GtkTreeIter found_first_iter;
+	GtkTreeIter found_first_iter = { 0, };
 
 	g_return_val_if_fail (E_IS_MAIL_TEMPLATES_STORE (templates_store), NULL);
 

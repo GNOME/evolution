@@ -512,9 +512,10 @@ memo_table_query_tooltip (GtkWidget *widget,
 		zone = i_cal_component_get_timezone (
 			e_cal_component_get_icalcomponent (new_comp),
 			e_cal_component_datetime_get_tzid (dtstart));
-		if (!zone)
-			e_cal_client_get_timezone_sync (
-				comp_data->client, e_cal_component_datetime_get_tzid (dtstart), &zone, NULL, NULL);
+		if (!zone) {
+			if (!e_cal_client_get_timezone_sync (comp_data->client, e_cal_component_datetime_get_tzid (dtstart), &zone, NULL, NULL))
+				zone = NULL;
+		}
 		if (!zone)
 			zone = default_zone;
 	} else {
@@ -931,7 +932,10 @@ get_selected_comp (EMemoTable *memo_table)
 	row = -1;
 	e_table_selected_row_foreach (
 		E_TABLE (memo_table), get_selected_row_cb, &row);
-	g_return_val_if_fail (row != -1, NULL);
+	if (row < 0) {
+		g_warn_if_reached ();
+		return NULL;
+	}
 
 	return e_cal_model_get_component_at (model, row);
 }

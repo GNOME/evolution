@@ -670,8 +670,8 @@ datetime_to_zone (ECalClient *client,
 	if (!from) {
 		GError *error = NULL;
 
-		e_cal_client_get_timezone_sync (
-			client, e_cal_component_datetime_get_tzid (date), &from, NULL, &error);
+		if (!e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (date), &from, NULL, &error))
+			from = NULL;
 
 		if (error != NULL) {
 			g_warning (
@@ -685,7 +685,8 @@ datetime_to_zone (ECalClient *client,
 	to = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 	if (!to) {
 		/* do not check failure here, maybe the zone is not available there */
-		e_cal_client_get_timezone_sync (client, tzid, &to, NULL, NULL);
+		if (!e_cal_client_get_timezone_sync (client, tzid, &to, NULL, NULL))
+			to = NULL;
 	}
 
 	i_cal_timezone_convert_time (e_cal_component_datetime_get_value (date), from, to);

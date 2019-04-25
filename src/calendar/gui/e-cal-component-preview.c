@@ -166,7 +166,8 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 	itt = e_cal_component_datetime_get_value (dt);
 
 	if (e_cal_component_datetime_get_tzid (dt)) {
-		e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dt), &zone, NULL, NULL);
+		if (!e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dt), &zone, NULL, NULL))
+			zone = NULL;
 	} else if (i_cal_time_is_utc (itt)) {
 		zone = i_cal_timezone_get_utc_timezone ();
 	}

@@ -2051,7 +2051,6 @@ soup_authenticate (SoupSession *session,
 
 		if (password) {
 			soup_auth_authenticate (auth, suri->user, password);
-			tried = TRUE;
 
 			memset (password, 0, strlen (password));
 			g_free (password);

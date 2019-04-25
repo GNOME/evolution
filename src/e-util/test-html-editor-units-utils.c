@@ -1101,9 +1101,9 @@ test_utils_get_content_editor (TestFixture *fixture)
 gchar *
 test_utils_get_base64_data_for_image (const gchar *path)
 {
-	gchar *image_data;
+	gchar *image_data = NULL;
 	gchar *image_data_base64;
-	gsize image_data_length;
+	gsize image_data_length = 0;
 	gboolean success;
 	GError *error = NULL;
 
