@@ -149,7 +149,7 @@ import_contact (EBookClient *book_client,
 			e_contact_set (card, E_CONTACT_NOTE, strings[4]);
 
 		e_book_client_add_contact_sync (
-			book_client, card, &new_uid, NULL, &error);
+			book_client, card, E_BOOK_OPERATION_FLAG_NONE, &new_uid, NULL, &error);
 
 		if (error != NULL) {
 			g_warning (

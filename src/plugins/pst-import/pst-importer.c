@@ -1644,7 +1644,7 @@ pst_process_contact (PstImporter *m,
 	g_string_free (notes, TRUE);
 
 	e_book_client_add_contact_sync (
-		m->addressbook, ec, NULL, NULL, &error);
+		m->addressbook, ec, E_BOOK_OPERATION_FLAG_NONE, NULL, NULL, &error);
 
 	g_object_unref (ec);
 

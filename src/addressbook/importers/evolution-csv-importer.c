@@ -730,7 +730,7 @@ csv_import_contacts (gpointer d)
 		gchar *uid = NULL;
 
 		e_book_client_add_contact_sync (
-			gci->book_client, contact, &uid, NULL, NULL);
+			gci->book_client, contact, E_BOOK_OPERATION_FLAG_NONE, &uid, NULL, NULL);
 		if (uid != NULL) {
 			e_contact_set (contact, E_CONTACT_UID, uid);
 			g_free (uid);

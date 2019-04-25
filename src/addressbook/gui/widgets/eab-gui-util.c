@@ -448,7 +448,7 @@ do_delete_from_source (gpointer data,
 	g_return_if_fail (book_client != NULL);
 
 	process->count++;
-	e_book_client_remove_contact_by_uid (book_client, id, NULL, remove_contact_ready_cb, process);
+	e_book_client_remove_contact_by_uid (book_client, id, E_BOOK_OPERATION_FLAG_NONE, NULL, remove_contact_ready_cb, process);
 }
 
 static void

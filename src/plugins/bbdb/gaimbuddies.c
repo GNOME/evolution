@@ -266,7 +266,7 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 
 			/* Write it out to the addressbook */
 			e_book_client_modify_contact_sync (
-				client, c, NULL, &error);
+				client, c, E_BOOK_OPERATION_FLAG_NONE, NULL, &error);
 
 			if (error != NULL) {
 				g_warning (
@@ -289,7 +289,7 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 			continue;
 		}
 
-		e_book_client_add_contact_sync (client, c, NULL, NULL, &error);
+		e_book_client_add_contact_sync (client, c, E_BOOK_OPERATION_FLAG_NONE, NULL, NULL, &error);
 
 		if (error != NULL) {
 			g_warning (

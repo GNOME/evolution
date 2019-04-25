@@ -152,7 +152,8 @@ addressbook_selector_merge_next_cb (EBookClient *book_client,
 		/* Remove previous contact from source. */
 		e_book_client_remove_contact (
 			merge_context->source_client,
-			merge_context->current_contact, NULL,
+			merge_context->current_contact,
+			E_BOOK_OPERATION_FLAG_NONE, NULL,
 			addressbook_selector_removed_cb, merge_context);
 		merge_context->pending_removals++;
 	}

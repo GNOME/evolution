@@ -431,7 +431,7 @@ bbdb_do_it (EBookClient *client,
 			add_email_to_contact (contact, email);
 
 			e_book_client_modify_contact_sync (
-					client_addressbook, contact, NULL, &error);
+					client_addressbook, contact, E_BOOK_OPERATION_FLAG_NONE, NULL, &error);
 
 			if (error != NULL) {
 				g_warning ("bbdb: Could not modify contact: %s\n", error->message);
@@ -477,7 +477,7 @@ bbdb_do_it (EBookClient *client,
 	add_email_to_contact (contact, email);
 	g_free (temp_name);
 
-	e_book_client_add_contact_sync (client, contact, NULL, NULL, &error);
+	e_book_client_add_contact_sync (client, contact, E_BOOK_OPERATION_FLAG_NONE, NULL, NULL, &error);
 
 	if (error != NULL) {
 		g_warning ("bbdb: Failed to add new contact: %s", error->message);
