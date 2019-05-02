@@ -282,6 +282,19 @@ handle_term_signal (gpointer data)
 }
 #endif
 
+#ifdef G_OS_WIN32
+static gboolean
+is_any_gettext_catalog_installed (void)
+{
+	gchar txt[2] = { 0, 0 };
+	gchar *text;
+
+	text = gettext (txt);
+
+	return text && strcmp (text, "") != 0;
+}
+#endif
+
 G_GNUC_NORETURN static gboolean
 option_version_cb (const gchar *option_name,
                    const gchar *option_value,
@@ -524,7 +537,7 @@ main (gint argc,
 		exit (0);
 	}
 
-	if (strcmp (gettext (""), "") == 0) {
+	if (!is_any_gettext_catalog_installed ()) {
 		/* No message catalog installed for the current locale
 		 * language, so don't bother with the localisations
 		 * provided by other things then either. Reset thread
