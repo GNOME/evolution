@@ -189,8 +189,8 @@ component_data_equal (ComponentData *comp_data1,
 
 	/* Maybe not so effective compare, but might be still more effective
 	   than updating whole UI with false notifications */
-	as_str1 = i_cal_component_as_ical_string_r (icomp1);
-	as_str2 = i_cal_component_as_ical_string_r (icomp2);
+	as_str1 = i_cal_component_as_ical_string (icomp1);
+	as_str2 = i_cal_component_as_ical_string (icomp2);
 
 	equal = g_strcmp0 (as_str1, as_str2) == 0;
 
@@ -1119,7 +1119,7 @@ cal_data_model_instance_generated (ICalComponent *icomp,
 		g_clear_object (&prop);
 	}
 
-	comp_copy = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	comp_copy = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	g_return_val_if_fail (comp_copy != NULL, FALSE);
 
 	tt = i_cal_component_get_dtstart (e_cal_component_get_icalcomponent (comp_copy));
@@ -1305,7 +1305,7 @@ cal_data_model_process_modified_or_added_objects (ECalClientView *view,
 				/* This component requires an expand of recurrences, which
 				   will be done in a dedicated thread, thus remember it */
 				to_expand_recurrences = g_slist_prepend (to_expand_recurrences,
-					i_cal_component_new_clone (icomp));
+					i_cal_component_clone (icomp));
 			} else {
 				/* Single or detached instance, the simple case */
 				ECalComponent *comp;
@@ -1317,7 +1317,7 @@ cal_data_model_process_modified_or_added_objects (ECalClientView *view,
 				    i_cal_component_get_status (icomp) == I_CAL_STATUS_CANCELLED)
 					continue;
 
-				comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+				comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 				if (!comp)
 					continue;
 

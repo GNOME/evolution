@@ -585,7 +585,7 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 
 	alarm = e_cal_component_alarm_new ();
 
-	duration = i_cal_duration_null_duration ();
+	duration = i_cal_duration_new_null_duration ();
 
 	if (e_dialog_combo_box_get (page_reminders->priv->relative_time_combo, relative_map) == BEFORE)
 		i_cal_duration_set_is_neg (duration, TRUE);
@@ -625,7 +625,7 @@ ecep_reminders_widgets_to_selected (ECompEditorPageReminders *page_reminders)
 
 	/* Repeat stuff */
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (page_reminders->priv->repeat_check))) {
-		duration = i_cal_duration_null_duration ();
+		duration = i_cal_duration_new_null_duration ();
 
 		switch (e_dialog_combo_box_get (page_reminders->priv->repeat_unit_combo, duration_units_map)) {
 		case DUR_MINUTES:
@@ -850,7 +850,7 @@ ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 
 	e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_DISPLAY);
 
-	duration = i_cal_duration_null_duration ();
+	duration = i_cal_duration_new_null_duration ();
 
 	i_cal_duration_set_is_neg (duration, TRUE);
 
@@ -910,7 +910,7 @@ ecep_reminders_alarms_add_clicked_cb (GtkButton *button,
 
 	ecep_reminders_add_needs_description_property (alarm);
 
-	duration = i_cal_duration_null_duration ();
+	duration = i_cal_duration_new_null_duration ();
 	i_cal_duration_set_is_neg (duration, TRUE);
 	i_cal_duration_set_minutes (duration, 15);
 
@@ -1417,7 +1417,7 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 
 	g_object_unref (valarm);
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (component));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (component));
 	if (comp && e_cal_component_has_alarms (comp)) {
 		GSList *alarms, *link;
 		gint alarm_type = ALARM_NONE;
@@ -1475,7 +1475,7 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 	if (!E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_reminders_parent_class)->fill_component (page, component))
 		return TRUE;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (component));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (component));
 	g_return_val_if_fail (comp != NULL, FALSE);
 
 	page_reminders = E_COMP_EDITOR_PAGE_REMINDERS (page);

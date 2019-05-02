@@ -72,7 +72,7 @@ action_memo_forward_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only forward the first selected memo. */
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	g_return_if_fail (comp != NULL);
 
 	itip_send_component_with_model (e_memo_table_get_model (memo_table),
@@ -463,7 +463,7 @@ action_memo_print_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only print the first selected memo. */
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 
 	print_comp (
 		comp, comp_data->client,

@@ -74,9 +74,9 @@ get_dtend (ECalModelCalendar *model,
 		g_clear_object (&prop);
 
 		if (got_zone) {
-			tt_end = i_cal_time_from_timet_with_zone (comp_data->instance_end, is_date, zone);
+			tt_end = i_cal_time_new_from_timet_with_zone (comp_data->instance_end, is_date, zone);
 		} else {
-			tt_end = i_cal_time_from_timet_with_zone (comp_data->instance_end, is_date, model_zone);
+			tt_end = i_cal_time_new_from_timet_with_zone (comp_data->instance_end, is_date, model_zone);
 		}
 
 		if (!i_cal_time_is_valid_time (tt_end) || i_cal_time_is_null_time (tt_end)) {
@@ -101,9 +101,9 @@ get_dtend (ECalModelCalendar *model,
 			g_clear_object (&tt_start);
 
 			if (got_start_zone) {
-				tt_start = i_cal_time_from_timet_with_zone (comp_data->instance_start, is_date, start_zone);
+				tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, start_zone);
 			} else {
-				tt_start = i_cal_time_from_timet_with_zone (comp_data->instance_start, is_date, model_zone);
+				tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, model_zone);
 			}
 
 			i_cal_time_adjust (tt_start, 1, 0, 0, 0);
@@ -329,7 +329,7 @@ cal_model_calendar_set_value_at (ETableModel *etm,
 	if (!comp_data)
 		return;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	if (!comp) {
 		return;
 	}

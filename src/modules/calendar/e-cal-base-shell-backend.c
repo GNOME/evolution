@@ -409,7 +409,7 @@ populate_g_date (GDate *date,
 	if ((gint) utc_time == -1)
 		return;
 
-	itt = i_cal_time_from_timet_with_zone (utc_time, FALSE, zone);
+	itt = i_cal_time_new_from_timet_with_zone (utc_time, FALSE, zone);
 
 	if (itt && !i_cal_time_is_null_time (itt) &&
 	    i_cal_time_is_valid_time (itt)) {
@@ -433,7 +433,7 @@ convert_time_from_isodate (const gchar *text,
 	if (use_date_zone && strlen (text) == 8) {
 		ICalTime *itt;
 
-		itt = i_cal_time_from_timet_with_zone (res, TRUE, NULL);
+		itt = i_cal_time_new_from_timet_with_zone (res, TRUE, NULL);
 		res = i_cal_time_as_timet_with_zone (itt, use_date_zone);
 		g_clear_object (&itt);
 	}

@@ -127,7 +127,7 @@ memo_table_get_current_time (ECellDateEdit *ecde,
 	model = e_memo_table_get_model (memo_table);
 	zone = e_cal_model_get_timezone (model);
 
-	tt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, zone);
+	tt = i_cal_time_new_from_timet_with_zone (time (NULL), FALSE, zone);
 
 	/* Now copy it to the struct tm and return it. */
 	tmp_tm = e_cal_util_icaltime_to_tm (tt);
@@ -434,7 +434,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 	if (!comp_data || !comp_data->icalcomp)
 		return FALSE;
 
-	new_comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	new_comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	if (!new_comp)
 		return FALSE;
 
@@ -828,7 +828,7 @@ copy_row_cb (gint model_row,
 		memo_table->priv->tmp_vcal, comp_data->icalcomp);
 
 	/* Add the new component to the VCALENDAR component. */
-	child = i_cal_component_new_clone (comp_data->icalcomp);
+	child = i_cal_component_clone (comp_data->icalcomp);
 	if (child)
 		i_cal_component_take_component (memo_table->priv->tmp_vcal, child);
 }
@@ -847,7 +847,7 @@ memo_table_copy_clipboard (ESelectable *selectable)
 
 	e_table_selected_row_foreach (
 		E_TABLE (memo_table), copy_row_cb, memo_table);
-	comp_str = i_cal_component_as_ical_string_r (memo_table->priv->tmp_vcal);
+	comp_str = i_cal_component_as_ical_string (memo_table->priv->tmp_vcal);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	e_clipboard_set_calendar (clipboard, comp_str, -1);
@@ -966,7 +966,7 @@ memo_table_delete_selection (ESelectable *selectable)
 
 	if (comp_data) {
 		comp = e_cal_component_new_from_icalcomponent (
-			i_cal_component_new_clone (comp_data->icalcomp));
+			i_cal_component_clone (comp_data->icalcomp));
 	}
 
 	if (e_cal_model_get_confirm_delete (model))

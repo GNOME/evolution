@@ -182,7 +182,7 @@ ecep_recurrence_update_preview (ECompEditorPageRecurrence *page_recurrence)
 		return;
 	}
 
-	icomp = i_cal_component_new_clone ((ICalComponent *) editing_comp);
+	icomp = i_cal_component_clone ((ICalComponent *) editing_comp);
 
 	e_comp_editor_set_updating (comp_editor, TRUE);
 	e_comp_editor_fill_component (comp_editor, icomp);
@@ -331,7 +331,7 @@ ecep_recurrence_exceptions_add_clicked_cb (GtkButton *button,
 		gint year, month, day;
 
 		if (e_date_edit_get_date (E_DATE_EDIT (date_edit), &year, &month, &day)) {
-			ICalTime *itt = i_cal_time_null_time ();
+			ICalTime *itt = i_cal_time_new_null_time ();
 
 			/* We use DATE values for exceptions, so we don't need a TZID. */
 			i_cal_time_set_timezone (itt, NULL);
@@ -374,7 +374,7 @@ ecep_recurrence_exceptions_edit_clicked_cb (GtkButton *button,
 		gint year, month, day;
 
 		if (e_date_edit_get_date (E_DATE_EDIT (date_edit), &year, &month, &day)) {
-			ICalTime *itt = i_cal_time_null_time ();
+			ICalTime *itt = i_cal_time_new_null_time ();
 
 			/* We use DATE values for exceptions, so we don't need a TZID. */
 			i_cal_time_set_timezone (itt, NULL);
@@ -448,7 +448,7 @@ ecep_recurrence_get_current_time_cb (ECalendarItem *calitem,
 	ICalTime *today;
 	struct tm tm;
 
-	today = i_cal_time_today ();
+	today = i_cal_time_new_today ();
 
 	tm = e_cal_util_icaltime_to_tm (today);
 
@@ -1105,7 +1105,7 @@ ecep_recurrence_fill_ending_date (ECompEditorPageRecurrence *page_recurrence,
 				to_zone = dtstart ? i_cal_time_get_timezone (dtstart) : NULL;
 
 				if (to_zone)
-					i_cal_timezone_convert_time (until, from_zone, to_zone);
+					i_cal_time_convert_timezone (until, from_zone, to_zone);
 
 				i_cal_time_set_time (until, 0, 0, 0);
 				i_cal_time_set_is_date (until, TRUE);
@@ -1209,7 +1209,7 @@ ecep_recurrence_clear_widgets (ECompEditorPageRecurrence *page_recurrence)
 	g_signal_handlers_unblock_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 
 	g_clear_object (&page_recurrence->priv->ending_date_tt);
-	page_recurrence->priv->ending_date_tt = i_cal_time_today ();
+	page_recurrence->priv->ending_date_tt = i_cal_time_new_today ();
 	page_recurrence->priv->ending_count = 2;
 
 	g_signal_handlers_block_matched (page_recurrence->priv->recr_ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
@@ -1421,7 +1421,7 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 			&year, &month, &day);
 		g_return_if_fail (date_set);
 
-		until = i_cal_time_null_time ();
+		until = i_cal_time_new_null_time ();
 		i_cal_time_set_date (until, year, month, day);
 		i_cal_time_set_is_date (until, 1);
 		i_cal_recurrence_set_until (recur, until);
@@ -1934,7 +1934,7 @@ ecep_recurrence_fill_component (ECompEditorPage *page,
 			if (dtstart && i_cal_time_is_valid_time (dtstart)) {
 				ICalTime *tt;
 
-				tt = i_cal_time_null_time ();
+				tt = i_cal_time_new_null_time ();
 				i_cal_time_set_timezone (tt, NULL);
 				i_cal_time_set_is_date (tt, TRUE);
 				i_cal_time_set_date (tt, year, month, day);

@@ -3207,7 +3207,7 @@ find_attendee (ICalComponent *icomp,
 		gchar *attendee;
 		gchar *text;
 
-		attendee = i_cal_property_get_value_as_string_r (prop);
+		attendee = i_cal_property_get_value_as_string (prop);
 
 		 if (!attendee)
 			continue;
@@ -3352,7 +3352,7 @@ find_to_address (ItipView *view,
 			view->priv->to_name = g_strdup (i_cal_parameter_get_cn (param));
 		g_clear_object (&param);
 
-		text = i_cal_property_get_value_as_string_r (prop);
+		text = i_cal_property_get_value_as_string (prop);
 
 		view->priv->to_address = g_strdup (itip_strip_mailto (text));
 		g_free (text);
@@ -3441,7 +3441,7 @@ find_to_address (ItipView *view,
 			view->priv->to_name = g_strdup (i_cal_parameter_get_cn (param));
 		g_clear_object (&param);
 
-		text = i_cal_property_get_value_as_string_r (prop);
+		text = i_cal_property_get_value_as_string (prop);
 
 		view->priv->to_address = g_strdup (itip_strip_mailto (text));
 		g_free (text);
@@ -3489,7 +3489,7 @@ find_from_address (ItipView *view,
 	if (!prop)
 		return;
 
-	organizer = i_cal_property_get_value_as_string_r (prop);
+	organizer = i_cal_property_get_value_as_string (prop);
 	if (organizer) {
 		organizer_clean = g_strdup (itip_strip_mailto (organizer));
 		organizer_clean = g_strstrip (organizer_clean);
@@ -5120,14 +5120,14 @@ update_item (ItipView *view,
 	 * information (unless it's being saved to an Exchange folder
 	 * and you then look at it in Outlook).
 	 */
-	stamp = i_cal_time_current_time_with_zone (i_cal_timezone_get_utc_timezone ());
-	str = i_cal_time_as_ical_string_r (stamp);
+	stamp = i_cal_time_new_current_with_zone (i_cal_timezone_get_utc_timezone ());
+	str = i_cal_time_as_ical_string (stamp);
 	e_cal_util_component_set_x_property (view->priv->ical_comp, "X-MICROSOFT-CDO-REPLYTIME", str);
 	g_clear_object (&stamp);
 	g_free (str);
 
-	toplevel_clone = i_cal_component_new_clone (view->priv->top_level);
-	clone = i_cal_component_new_clone (view->priv->ical_comp);
+	toplevel_clone = i_cal_component_clone (view->priv->top_level);
+	clone = i_cal_component_clone (view->priv->ical_comp);
 	i_cal_component_add_component (toplevel_clone, clone);
 	i_cal_component_set_method (toplevel_clone, view->priv->method);
 
@@ -5144,7 +5144,7 @@ update_item (ItipView *view,
 		     icomp;
 		     g_object_unref (icomp), icomp = i_cal_component_get_next_component (view->priv->main_comp, use_kind)) {
 			if (i_cal_object_get_native (I_CAL_OBJECT (icomp)) != i_cal_object_get_native (I_CAL_OBJECT (view->priv->ical_comp))) {
-				ICalComponent *di_clone = i_cal_component_new_clone (icomp);
+				ICalComponent *di_clone = i_cal_component_clone (icomp);
 
 				if (remove_alarms)
 					remove_alarms_in_component (di_clone);
@@ -5493,7 +5493,7 @@ update_attendee_status_icomp (ItipView *view,
 					itip_strip_mailto (e_cal_component_attendee_get_value (a)),
 					itip_strip_mailto (delegate), NULL);
 				if (response == GTK_RESPONSE_YES) {
-					i_cal_component_take_property (icomp, i_cal_property_new_clone (del_prop));
+					i_cal_component_take_property (icomp, i_cal_property_clone (del_prop));
 				} else if (response == GTK_RESPONSE_NO) {
 					remove_delegate (view, delegate, itip_strip_mailto (e_cal_component_attendee_get_value (a)), comp);
 					g_clear_object (&del_prop);
@@ -5524,7 +5524,7 @@ update_attendee_status_icomp (ItipView *view,
 					if (response == GTK_RESPONSE_YES) {
 						/* Already declared in this function */
 						ICalProperty *prop = find_attendee (icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
-						i_cal_component_take_property (icomp, i_cal_property_new_clone (prop));
+						i_cal_component_take_property (icomp, i_cal_property_clone (prop));
 					} else if (response == GTK_RESPONSE_NO) {
 						remove_delegate (
 							view,
@@ -5566,7 +5566,7 @@ update_attendee_status_icomp (ItipView *view,
 					g_clear_object (&subprop);
 
 					new_prop = find_attendee (org_icomp, itip_strip_mailto (e_cal_component_attendee_get_value (a)));
-					i_cal_component_take_property (icomp, i_cal_property_new_clone (new_prop));
+					i_cal_component_take_property (icomp, i_cal_property_clone (new_prop));
 					g_clear_object (&new_prop);
 				} else {
 					change_status (
@@ -5916,7 +5916,7 @@ extract_itip_data (ItipView *view,
 
 		next_subcomp = i_cal_comp_iter_next (iter);
 
-		clone = i_cal_component_new_clone (tz_comp);
+		clone = i_cal_component_clone (tz_comp);
 		i_cal_component_take_component (view->priv->top_level, clone);
 
 		g_object_unref (tz_comp);
@@ -6061,7 +6061,7 @@ extract_itip_data (ItipView *view,
 		gchar *my_address;
 
 		prop = NULL;
-		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (view->priv->ical_comp));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (view->priv->ical_comp));
 		my_address = itip_get_comp_attendee (
 			view->priv->registry, comp, NULL);
 		g_clear_object (&comp);
@@ -6170,7 +6170,7 @@ extract_itip_data (ItipView *view,
 
 		e_cal_component_alarm_set_action (acomp, E_CAL_COMPONENT_ALARM_DISPLAY);
 
-		duration = i_cal_duration_null_duration ();
+		duration = i_cal_duration_new_null_duration ();
 		i_cal_duration_set_is_neg (duration, TRUE);
 
 		switch (units) {

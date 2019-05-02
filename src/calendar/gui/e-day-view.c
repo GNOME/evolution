@@ -577,7 +577,7 @@ e_day_view_get_work_day_range_for_day (EDayView *day_view,
 		GDateWeekday weekday;
 		ICalTime *tt;
 
-		tt = i_cal_time_from_timet_with_zone (day_view->day_starts[day], FALSE,
+		tt = i_cal_time_new_from_timet_with_zone (day_view->day_starts[day], FALSE,
 			e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
 		switch (i_cal_time_day_of_week (tt)) {
@@ -778,11 +778,11 @@ day_view_new_event_in_selected_range_cb (ECalModel *model,
 	zone = e_cal_model_get_timezone (model);
 	uid = i_cal_component_get_uid (default_component);
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (default_component));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (default_component));
 	g_return_if_fail (comp != NULL);
 
-	start_tt = i_cal_time_from_timet_with_zone (ned->dtstart, FALSE, zone);
-	end_tt = i_cal_time_from_timet_with_zone (ned->dtend, FALSE, zone);
+	start_tt = i_cal_time_new_from_timet_with_zone (ned->dtstart, FALSE, zone);
+	end_tt = i_cal_time_new_from_timet_with_zone (ned->dtend, FALSE, zone);
 
 	if (ned->in_top_canvas) {
 		use_tzid = NULL;
@@ -2639,7 +2639,7 @@ process_component (EDayView *day_view,
 	if (day_view->lower == 0 && day_view->upper == 0)
 		return;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	if (!comp) {
 		g_message (G_STRLOC ": Could not set ICalComponent on ECalComponent");
 		return;
@@ -2820,7 +2820,7 @@ timezone_changed_cb (ECalModel *cal_model,
 
 	/* Recalculate the new start of the first day. We just use exactly
 	 * the same time, but with the new timezone. */
-	tt = i_cal_time_from_timet_with_zone (
+	tt = i_cal_time_new_from_timet_with_zone (
 		day_view->lower, FALSE,
 		old_zone);
 
@@ -3293,7 +3293,7 @@ set_style_from_attendee (EDayViewEvent *event,
 	if (!is_comp_data_valid (event))
 		return;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 	if (!comp)
 		return;
 
@@ -3743,7 +3743,7 @@ e_day_view_find_work_week_start (EDayView *day_view,
 	if (offset > 0)
 		g_date_subtract_days (&date, offset);
 
-	tt = i_cal_time_null_time ();
+	tt = i_cal_time_new_null_time ();
 
 	i_cal_time_set_date (tt,
 		g_date_get_year (&date),
@@ -3779,7 +3779,7 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 	day_view->lower = start_time;
 	day_view->upper = day_view->day_starts[days_shown];
 
-	tt = i_cal_time_from_timet_with_zone (day_view->day_starts[0], FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	tt = i_cal_time_new_from_timet_with_zone (day_view->day_starts[0], FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 	g_date_clear (&dt, 1);
 	g_date_set_dmy (&dt, i_cal_time_get_day (tt), i_cal_time_get_month (tt), i_cal_time_get_year (tt));
 	/* To Translators: the %d stands for a week number, it's value between 1 and 52/53 */
@@ -5434,7 +5434,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	/* We use a temporary copy of the comp since we don't want to
 	 * change the original comp here. Otherwise we would not detect that
 	 * the event's time had changed in the "update_event" callback. */
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 	if (!comp)
 		return;
 
@@ -5456,7 +5456,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 		dt = day_view->day_starts[day_view->resize_start_row];
 		date = e_cal_component_datetime_new_take (
-			i_cal_time_from_timet_with_zone (dt, is_date, zone),
+			i_cal_time_new_from_timet_with_zone (dt, is_date, zone),
 			(zone && !is_date) ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 		cal_comp_set_dtstart_with_oldzone (client, comp, date);
 
@@ -5473,7 +5473,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 		dt = day_view->day_starts[day_view->resize_end_row + 1];
 		date = e_cal_component_datetime_new_take (
-			i_cal_time_from_timet_with_zone (dt, is_date, zone),
+			i_cal_time_new_from_timet_with_zone (dt, is_date, zone),
 			(zone && !is_date) ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 		cal_comp_set_dtend_with_oldzone (client, comp, date);
 
@@ -5494,11 +5494,11 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 			/* set the correct DTSTART/DTEND on the individual recurrence */
 			if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
 				e_cal_component_datetime_take_value (date,
-					i_cal_time_from_timet_with_zone (event->comp_data->instance_end, FALSE, zone));
+					i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end, FALSE, zone));
 				cal_comp_set_dtend_with_oldzone (client, comp, date);
 			} else {
 				e_cal_component_datetime_take_value (date,
-					i_cal_time_from_timet_with_zone (event->comp_data->instance_start, FALSE, zone));
+					i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start, FALSE, zone));
 				cal_comp_set_dtstart_with_oldzone (client, comp, date);
 			}
 
@@ -5566,7 +5566,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	/* We use a temporary shallow copy of the ico since we don't want to
 	 * change the original ico here. Otherwise we would not detect that
 	 * the event's time had changed in the "update_event" callback. */
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 	if (!comp)
 		return;
 
@@ -5595,13 +5595,13 @@ e_day_view_finish_resize (EDayView *day_view)
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
 		date = e_cal_component_datetime_new_take (
-			i_cal_time_from_timet_with_zone (dt, FALSE, zone),
+			i_cal_time_new_from_timet_with_zone (dt, FALSE, zone),
 			zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 		cal_comp_set_dtstart_with_oldzone (client, comp, date);
 	} else {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
 		date = e_cal_component_datetime_new_take (
-			i_cal_time_from_timet_with_zone (dt, FALSE, zone),
+			i_cal_time_new_from_timet_with_zone (dt, FALSE, zone),
 			zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 		cal_comp_set_dtend_with_oldzone (client, comp, date);
 	}
@@ -5631,11 +5631,11 @@ e_day_view_finish_resize (EDayView *day_view)
 			/* set the correct DTSTART/DTEND on the individual recurrence */
 			if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
 				e_cal_component_datetime_take_value (date,
-					i_cal_time_from_timet_with_zone (event->comp_data->instance_end, FALSE, zone));
+					i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end, FALSE, zone));
 				cal_comp_set_dtend_with_oldzone (client, comp, date);
 			} else {
 				e_cal_component_datetime_take_value (date,
-					i_cal_time_from_timet_with_zone (event->comp_data->instance_start, FALSE, zone));
+					i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start, FALSE, zone));
 				cal_comp_set_dtstart_with_oldzone (client, comp, date);
 			}
 
@@ -5778,8 +5778,8 @@ e_day_view_add_event (ESourceRegistry *registry,
 		g_return_if_fail (end > add_event_data->day_view->lower);
 
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->day_view));
-	start_tt = i_cal_time_from_timet_with_zone (start, FALSE, zone);
-	end_tt = i_cal_time_from_timet_with_zone (end, FALSE, zone);
+	start_tt = i_cal_time_new_from_timet_with_zone (start, FALSE, zone);
+	end_tt = i_cal_time_new_from_timet_with_zone (end, FALSE, zone);
 
 	if (add_event_data->comp_data) {
 		event.comp_data = g_object_ref (add_event_data->comp_data);
@@ -5788,7 +5788,7 @@ e_day_view_add_event (ESourceRegistry *registry,
 		event.comp_data->is_new_component = TRUE;
 		event.comp_data->client = g_object_ref (client);
 		e_cal_component_abort_sequence (comp);
-		event.comp_data->icalcomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
+		event.comp_data->icalcomp = i_cal_component_clone (e_cal_component_get_icalcomponent (comp));
 	}
 
 	event.start = start;
@@ -6026,7 +6026,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	/* We don't show the icons while resizing, since we'd have to
 	 * draw them on top of the resize rect. Nor when editing. */
 	num_icons = 0;
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 	if (!comp)
 		return;
 
@@ -6178,7 +6178,7 @@ e_day_view_reshape_day_events (EDayView *day_view,
 		if (!is_comp_data_valid (event))
 			continue;
 
-		current_comp_string = i_cal_component_as_ical_string_r (event->comp_data->icalcomp);
+		current_comp_string = i_cal_component_as_ical_string (event->comp_data->icalcomp);
 		if (day_view->last_edited_comp_string == NULL) {
 			g_free (current_comp_string);
 			continue;
@@ -6233,7 +6233,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		    || day_view->resize_event_num != event_num)) {
 			ECalComponent *comp;
 
-			comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+			comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 			if (comp) {
 				if (e_cal_component_has_alarms (comp))
 					num_icons++;
@@ -7652,8 +7652,8 @@ e_day_view_event_move (ECalendarView *cal_view,
 			return TRUE;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
-		start_time = i_cal_time_from_timet_with_zone (start_dt, 0, NULL);
-		end_time = i_cal_time_from_timet_with_zone (end_dt, 0, NULL);
+		start_time = i_cal_time_new_from_timet_with_zone (start_dt, 0, NULL);
+		end_time = i_cal_time_new_from_timet_with_zone (end_dt, 0, NULL);
 		i_cal_time_adjust (start_time, -1, 0, 0, 0);
 		i_cal_time_adjust (end_time, -1, 0, 0, 0);
 		start_dt = i_cal_time_as_timet (start_time);
@@ -7666,8 +7666,8 @@ e_day_view_event_move (ECalendarView *cal_view,
 			return TRUE;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
-		start_time = i_cal_time_from_timet_with_zone (start_dt, 0, NULL);
-		end_time = i_cal_time_from_timet_with_zone (end_dt, 0, NULL);
+		start_time = i_cal_time_new_from_timet_with_zone (start_dt, 0, NULL);
+		end_time = i_cal_time_new_from_timet_with_zone (end_dt, 0, NULL);
 		i_cal_time_adjust (start_time ,1,0,0,0);
 		i_cal_time_adjust (end_time ,1,0,0,0);
 		start_dt = i_cal_time_as_timet (start_time);
@@ -7720,7 +7720,7 @@ e_day_view_change_event_time (EDayView *day_view,
 	/* We use a temporary shallow copy of the ico since we don't want to
 	 * change the original ico here. Otherwise we would not detect that
 	 * the event's time had changed in the "update_event" callback. */
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 
 	if (e_cal_component_has_attendees (comp) &&
 	    !itip_organizer_is_user (registry, comp, client)) {
@@ -7731,12 +7731,12 @@ e_day_view_change_event_time (EDayView *day_view,
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 
 	date = e_cal_component_datetime_new_take (
-		i_cal_time_from_timet_with_zone (start_dt, FALSE, zone),
+		i_cal_time_new_from_timet_with_zone (start_dt, FALSE, zone),
 		zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 	cal_comp_set_dtstart_with_oldzone (client, comp, date);
 
 	e_cal_component_datetime_take_value (date,
-		i_cal_time_from_timet_with_zone (end_dt, FALSE, zone));
+		i_cal_time_new_from_timet_with_zone (end_dt, FALSE, zone));
 	cal_comp_set_dtend_with_oldzone (client, comp, date);
 
 	e_cal_component_datetime_free (date);
@@ -7966,7 +7966,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		NULL);
 	g_return_if_fail (text != NULL);
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 	if (comp) {
 		g_free (text);
 		return;
@@ -8032,7 +8032,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 						itt = e_cal_component_datetime_get_value (olddt);
 
 						dt = e_cal_component_datetime_new_take (
-							i_cal_time_from_timet_with_zone (event->comp_data->instance_start,
+							i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start,
 								i_cal_time_is_date (itt), i_cal_time_get_timezone (itt)),
 							g_strdup (e_cal_component_datetime_get_tzid (olddt)));
 					} else {
@@ -8043,7 +8043,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 						itt = olddt ? e_cal_component_datetime_get_value (olddt) : NULL;
 
 						dt = e_cal_component_datetime_new_take (
-							i_cal_time_from_timet_with_zone (event->comp_data->instance_start,
+							i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start,
 								itt ? i_cal_time_is_date (itt) : FALSE, zone),
 							zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 					}
@@ -8061,7 +8061,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 						itt = e_cal_component_datetime_get_value (olddt);
 
 						dt = e_cal_component_datetime_new_take (
-							i_cal_time_from_timet_with_zone (event->comp_data->instance_end,
+							i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end,
 								i_cal_time_is_date (itt), i_cal_time_get_timezone (itt)),
 							g_strdup (e_cal_component_datetime_get_tzid (olddt)));
 					} else {
@@ -8072,7 +8072,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 						itt = olddt ? e_cal_component_datetime_get_value (olddt) : NULL;
 
 						dt = e_cal_component_datetime_new_take (
-							i_cal_time_from_timet_with_zone (event->comp_data->instance_end,
+							i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end,
 								itt ? i_cal_time_is_date (itt) : FALSE, zone),
 							zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 					}
@@ -8137,7 +8137,7 @@ e_day_view_convert_grid_position_to_time (EDayView *day_view,
 		return day_view->day_starts[col + 1];
 
 	/* Create an ICalTime and convert to a time_t. */
-	tt = i_cal_time_from_timet_with_zone (
+	tt = i_cal_time_new_from_timet_with_zone (
 		day_view->day_starts[col],
 		FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 	i_cal_time_set_hour (tt, minutes / 60);
@@ -8184,7 +8184,7 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 	/* To find the row we need to convert the time to an ICalTime,
 	 * calculate the offset in minutes from the top of the display and
 	 * divide it by the mins per row setting. */
-	tt = i_cal_time_from_timet_with_zone (time, FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	tt = i_cal_time_new_from_timet_with_zone (time, FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
 	minutes = i_cal_time_get_hour (tt) * 60 + i_cal_time_get_minute (tt);
 	minutes -= day_view->first_hour_shown * 60 + day_view->first_minute_shown;
@@ -9133,9 +9133,9 @@ e_day_view_on_drag_data_get (GtkWidget *widget,
 	e_cal_util_add_timezones_from_component (
 		vcal, event->comp_data->icalcomp);
 	i_cal_component_take_component (
-		vcal, i_cal_component_new_clone (event->comp_data->icalcomp));
+		vcal, i_cal_component_clone (event->comp_data->icalcomp));
 
-	comp_str = i_cal_component_as_ical_string_r (vcal);
+	comp_str = i_cal_component_as_ical_string (vcal);
 	if (comp_str) {
 		ESource *source;
 		const gchar *source_uid;
@@ -9266,7 +9266,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			 * Otherwise we would not detect that the event's time
 			 * had changed in the "update_event" callback. */
 
-			comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+			comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 			if (!comp)
 				return;
 
@@ -9297,7 +9297,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 
 			zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 			dt = day_view->day_starts[day] + start_offset * 60;
-			itt = i_cal_time_from_timet_with_zone (dt, FALSE, zone);
+			itt = i_cal_time_new_from_timet_with_zone (dt, FALSE, zone);
 			if (all_day_event) {
 				i_cal_time_set_is_date (itt, TRUE);
 				date = e_cal_component_datetime_new_take (itt, NULL);
@@ -9312,7 +9312,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 				dt = day_view->day_starts[day + num_days];
 			else
 				dt = day_view->day_starts[day + num_days - 1] + end_offset * 60;
-			itt = i_cal_time_from_timet_with_zone (dt, FALSE, zone);
+			itt = i_cal_time_new_from_timet_with_zone (dt, FALSE, zone);
 			if (all_day_event) {
 				i_cal_time_set_is_date (itt, TRUE);
 				date = e_cal_component_datetime_new_take (itt, NULL);
@@ -9505,7 +9505,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			 * don't want to change the original comp here.
 			 * Otherwise we would not detect that the event's time
 			 * had changed in the "update_event" callback. */
-			comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+			comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 			if (!comp)
 				return;
 
@@ -9533,14 +9533,14 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row) + start_offset * 60;
 			date = e_cal_component_datetime_new_take (
-				i_cal_time_from_timet_with_zone (dt, FALSE, zone),
+				i_cal_time_new_from_timet_with_zone (dt, FALSE, zone),
 				zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 			cal_comp_set_dtstart_with_oldzone (client, comp, date);
 			e_cal_component_datetime_free (date);
 
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows) - end_offset * 60;
 			date = e_cal_component_datetime_new_take (
-				i_cal_time_from_timet_with_zone (dt, FALSE, zone),
+				i_cal_time_new_from_timet_with_zone (dt, FALSE, zone),
 				zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 			cal_comp_set_dtend_with_oldzone (client, comp, date);
 			e_cal_component_datetime_free (date);

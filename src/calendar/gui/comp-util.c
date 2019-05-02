@@ -58,7 +58,7 @@ cal_comp_util_add_exdate (ECalComponent *comp,
 
 	exdates = e_cal_component_get_exdates (comp);
 
-	cdt = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (t, FALSE, zone),
+	cdt = e_cal_component_datetime_new_take (i_cal_time_new_from_timet_with_zone (t, FALSE, zone),
 		zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 
 	exdates = g_slist_append (exdates, cdt);
@@ -286,7 +286,7 @@ cal_comp_is_icalcomp_on_server_sync (ICalComponent *icomp,
 	if (!icomp || !client || !i_cal_component_get_uid (icomp))
 		return FALSE;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	if (!comp)
 		return FALSE;
 
@@ -349,7 +349,7 @@ cal_comp_event_new_with_defaults_sync (ECalClient *client,
 
 	e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_DISPLAY);
 
-	duration = i_cal_duration_null_duration ();
+	duration = i_cal_duration_new_null_duration ();
 	i_cal_duration_set_is_neg (duration, TRUE);
 
 	switch (default_reminder_units) {
@@ -404,14 +404,14 @@ cal_comp_event_new_with_current_time_sync (ECalClient *client,
 	zone = calendar_config_get_icaltimezone ();
 
 	if (all_day) {
-		itt = i_cal_time_from_timet_with_zone (time (NULL), 1, zone);
+		itt = i_cal_time_new_from_timet_with_zone (time (NULL), 1, zone);
 
 		dt = e_cal_component_datetime_new_take (itt, zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 
 		e_cal_component_set_dtstart (comp, dt);
 		e_cal_component_set_dtend (comp, dt);
 	} else {
-		itt = i_cal_time_current_time_with_zone (zone);
+		itt = i_cal_time_new_current_with_zone (zone);
 		i_cal_time_adjust (itt, 0, 1, -i_cal_time_get_minute (itt), -i_cal_time_get_second (itt));
 
 		dt = e_cal_component_datetime_new_take (itt, zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
@@ -511,7 +511,7 @@ cal_comp_update_time_by_active_window (ECalComponent *comp,
 			g_return_if_fail (e_calendar_view_get_visible_time_range (cal_view, &start, &end));
 
 			zone = e_cal_model_get_timezone (e_calendar_view_get_model (cal_view));
-			itt = i_cal_time_from_timet_with_zone (start, FALSE, zone);
+			itt = i_cal_time_new_from_timet_with_zone (start, FALSE, zone);
 
 			icomp = e_cal_component_get_icalcomponent (comp);
 			prop = i_cal_component_get_first_property (icomp, I_CAL_DTSTART_PROPERTY);
@@ -689,7 +689,7 @@ datetime_to_zone (ECalClient *client,
 			to = NULL;
 	}
 
-	i_cal_timezone_convert_time (e_cal_component_datetime_get_value (date), from, to);
+	i_cal_time_convert_timezone (e_cal_component_datetime_get_value (date), from, to);
 	e_cal_component_datetime_set_tzid (date, tzid);
 }
 
@@ -873,7 +873,7 @@ cal_comp_get_instance_times (ECalClient *client,
 	if (!end_time || i_cal_time_is_null_time (end_time)) {
 		g_clear_object (&end_time);
 
-		end_time = i_cal_time_new_clone (start_time);
+		end_time = i_cal_time_clone (start_time);
 	}
 
 	if (i_cal_time_get_timezone (start_time)) {
@@ -903,7 +903,7 @@ cal_comp_get_instance_times (ECalClient *client,
 		}
 	}
 
-	*out_instance_start = i_cal_time_new_clone (start_time);
+	*out_instance_start = i_cal_time_clone (start_time);
 	i_cal_time_set_timezone (*out_instance_start, zone);
 
 	if (i_cal_time_get_timezone (end_time)) {
@@ -936,7 +936,7 @@ cal_comp_get_instance_times (ECalClient *client,
 		}
 	}
 
-	*out_instance_end = i_cal_time_new_clone (end_time);
+	*out_instance_end = i_cal_time_clone (end_time);
 	i_cal_time_set_timezone (*out_instance_end, zone);
 
 	g_clear_object (&start_time);
@@ -1059,7 +1059,7 @@ cal_comp_transfer_item_to (ECalClient *src_client,
 
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->src_client = g_object_ref (src_client);
-	async_context->icomp_clone = i_cal_component_new_clone (icomp_vcal);
+	async_context->icomp_clone = i_cal_component_clone (icomp_vcal);
 	async_context->do_copy = do_copy;
 
 	simple = g_simple_async_result_new (
@@ -1206,7 +1206,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 			if (ecalcomps && !ecalcomps->next) {
 				/* only one component, no need for a vCalendar list */
 				comp = ecalcomps->data;
-				icomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
+				icomp = i_cal_component_clone (e_cal_component_get_icalcomponent (comp));
 			} else {
 				icomp = i_cal_component_new (I_CAL_VCALENDAR_COMPONENT);
 				for (eiter = ecalcomps; eiter; eiter = g_slist_next (eiter)) {
@@ -1214,13 +1214,13 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 
 					i_cal_component_take_component (
 						icomp,
-						i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp)));
+						i_cal_component_clone (e_cal_component_get_icalcomponent (comp)));
 				}
 			}
 
 			e_util_free_nullable_object_slist (ecalcomps);
 		} else {
-			icomp = i_cal_component_new_clone (icomp_event);
+			icomp = i_cal_component_clone (icomp_event);
 		}
 
 		if (do_copy) {
@@ -1386,10 +1386,10 @@ cal_comp_util_compare_time_with_today (const ICalTime *time_tt)
 		return 0;
 
 	if (i_cal_time_is_date (tt)) {
-		now_tt = i_cal_time_today ();
+		now_tt = i_cal_time_new_today ();
 		res = i_cal_time_compare_date_only (tt, now_tt);
 	} else {
-		now_tt = i_cal_time_current_time_with_zone (i_cal_time_get_timezone (tt));
+		now_tt = i_cal_time_new_current_with_zone (i_cal_time_get_timezone (tt));
 		i_cal_time_set_timezone (now_tt, i_cal_time_get_timezone (tt));
 		res = i_cal_time_compare (tt, now_tt);
 	}

@@ -1226,9 +1226,9 @@ pst_process_email (PstImporter *m,
 
 		i_cal_component_set_method (vcal, method);
 
-		i_cal_component_take_component (vcal, i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp)));
+		i_cal_component_take_component (vcal, i_cal_component_clone (e_cal_component_get_icalcomponent (comp)));
 
-		comp_str = i_cal_component_as_ical_string_r (vcal);
+		comp_str = i_cal_component_as_ical_string (vcal);
 
 		g_object_unref (vcal);
 		g_object_unref (comp);
@@ -1674,7 +1674,7 @@ get_ical_date (FILETIME *date,
 		time_t t;
 
 		t = pst_fileTimeToUnixTime (date);
-		return i_cal_time_from_timet_with_zone (t, is_date, NULL);
+		return i_cal_time_new_from_timet_with_zone (t, is_date, NULL);
 	} else {
 		return NULL;
 	}
@@ -1905,7 +1905,7 @@ fill_calcomponent (PstImporter *m,
 			ECalComponentAlarmTrigger *trigger = NULL;
 			ICalDuration *duration;
 
-			duration = i_cal_duration_from_int (- (a->alarm_minutes) * 60);
+			duration = i_cal_duration_new_from_int (- (a->alarm_minutes) * 60);
 			trigger = e_cal_component_alarm_trigger_new_relative (E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, duration);
 			e_cal_component_alarm_take_trigger (alarm, trigger);
 			g_object_unref (duration);

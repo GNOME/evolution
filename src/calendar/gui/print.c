@@ -239,7 +239,7 @@ convert_timet_to_struct_tm (time_t time,
 	ICalTime *tt;
 
 	/* Convert it to an ICalTime. */
-	tt = i_cal_time_from_timet_with_zone (time, FALSE, zone);
+	tt = i_cal_time_new_from_timet_with_zone (time, FALSE, zone);
 
 	*tm = e_cal_util_icaltime_to_tm (tt);
 
@@ -1160,8 +1160,8 @@ print_day_add_event (ECalModelComponent *comp_data,
 	g_return_val_if_fail (start < day_starts[days_shown], -1);
 	g_return_val_if_fail (end > day_starts[0], -1);
 
-	start_tt = i_cal_time_from_timet_with_zone (start, FALSE, zone);
-	end_tt = i_cal_time_from_timet_with_zone (end, FALSE, zone);
+	start_tt = i_cal_time_new_from_timet_with_zone (start, FALSE, zone);
+	end_tt = i_cal_time_new_from_timet_with_zone (end, FALSE, zone);
 
 	event.comp_data = comp_data;
 	event.start = start;
@@ -1613,14 +1613,14 @@ print_day_details (GtkPrintContext *context,
 		ICalTime *tt;
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, 0);
-		tt = i_cal_time_from_timet_with_zone (event->start, FALSE, zone);
+		tt = i_cal_time_new_from_timet_with_zone (event->start, FALSE, zone);
 		if (i_cal_time_get_hour (tt) < pdi.start_hour)
 			pdi.start_hour = i_cal_time_get_hour (tt);
 		pdi.start_minute_offset = pdi.start_hour * 60;
 		g_clear_object (&tt);
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, pdi.events[0]->len - 1);
-		tt = i_cal_time_from_timet_with_zone (event->end, FALSE, zone);
+		tt = i_cal_time_new_from_timet_with_zone (event->end, FALSE, zone);
 		if (i_cal_time_get_hour (tt) > pdi.end_hour || i_cal_time_get_hour (tt) == 0) {
 			pdi.end_hour = i_cal_time_get_hour (tt) ? i_cal_time_get_hour (tt) : 24;
 			if (i_cal_time_get_minute (tt) > 0)
@@ -2328,7 +2328,7 @@ print_month_summary (GtkPrintContext *context,
 	}
 
 	/* Remember which month we want. */
-	tt = i_cal_time_from_timet_with_zone (whence, FALSE, zone);
+	tt = i_cal_time_new_from_timet_with_zone (whence, FALSE, zone);
 	month = i_cal_time_get_month (tt) - 1;
 	g_clear_object (&tt);
 
@@ -2440,7 +2440,7 @@ print_todo_details (GtkPrintContext *context,
 		if (!comp_data)
 			continue;
 
-		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 		if (!comp)
 			continue;
 
@@ -2794,14 +2794,14 @@ print_work_week_day_details (GtkPrintContext *context,
 		ICalTime *tt;
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, 0);
-		tt = i_cal_time_from_timet_with_zone (event->start, FALSE, zone);
+		tt = i_cal_time_new_from_timet_with_zone (event->start, FALSE, zone);
 		if (i_cal_time_get_hour (tt) < pdi.start_hour)
 			pdi.start_hour = i_cal_time_get_hour (tt);
 		pdi.start_minute_offset = pdi.start_hour * 60;
 		g_clear_object (&tt);
 
 		event = &g_array_index (pdi.events[0], EDayViewEvent, pdi.events[0]->len - 1);
-		tt = i_cal_time_from_timet_with_zone (event->end, FALSE, zone);
+		tt = i_cal_time_new_from_timet_with_zone (event->end, FALSE, zone);
 		if (i_cal_time_get_hour (tt) > pdi.end_hour || i_cal_time_get_hour (tt) == 0) {
 			pdi.end_hour = i_cal_time_get_hour (tt) ? i_cal_time_get_hour (tt) : 24;
 			if (i_cal_time_get_minute (tt) > 0)
@@ -3439,7 +3439,7 @@ print_calendar (ECalendarView *cal_view,
 
 			g_date_add_days (&date, 7);
 
-			start_tt = i_cal_time_null_time ();
+			start_tt = i_cal_time_new_null_time ();
 			i_cal_time_set_is_date (start_tt, TRUE);
 			i_cal_time_set_date (start_tt,
 				g_date_get_year (&date),

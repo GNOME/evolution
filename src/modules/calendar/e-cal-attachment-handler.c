@@ -197,11 +197,11 @@ import_component_thread (EAlertSinkThreadJobData *job_data,
 				i_cal_component_set_method (vcalendar, I_CAL_METHOD_CANCEL);
 			else
 				i_cal_component_set_method (vcalendar, I_CAL_METHOD_PUBLISH);
-			i_cal_component_take_component (vcalendar, i_cal_component_new_clone (icd->icomp));
+			i_cal_component_take_component (vcalendar, i_cal_component_clone (icd->icomp));
 			break;
 
 		case I_CAL_VCALENDAR_COMPONENT:
-			vcalendar = i_cal_component_new_clone (icd->icomp);
+			vcalendar = i_cal_component_clone (icd->icomp);
 			if (!e_cal_util_component_has_property (vcalendar, I_CAL_METHOD_PROPERTY))
 				i_cal_component_set_method (vcalendar, I_CAL_METHOD_PUBLISH);
 			break;
@@ -352,7 +352,7 @@ attachment_handler_run_dialog (GtkWindow *parent,
 		icd = g_new0 (ImportComponentData, 1);
 		icd->shell = g_object_ref (shell);
 		icd->source = g_object_ref (source);
-		icd->icomp = i_cal_component_new_clone (icomp);
+		icd->icomp = i_cal_component_clone (icomp);
 		icd->extension_name = extension_name;
 
 		activity = e_shell_view_submit_thread_job (shell_view, description, alert_ident,

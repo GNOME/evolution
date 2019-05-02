@@ -703,7 +703,7 @@ foreach_tzid_callback (ICalParameter *param,
 		return;
 
 	i_cal_component_take_component (
-		tz_data->icomp, i_cal_component_new_clone (vtimezone_comp));
+		tz_data->icomp, i_cal_component_clone (vtimezone_comp));
 	g_hash_table_insert (tz_data->tzids, g_strdup (tzid), GINT_TO_POINTER (1));
 	g_object_unref (vtimezone_comp);
 }
@@ -731,7 +731,7 @@ comp_toplevel_with_zones (ECalComponentItipMethod method,
 
 	for (link = (GSList *) ecomps; link; link = g_slist_next (link)) {
 		icomp = e_cal_component_get_icalcomponent (link->data);
-		icomp = i_cal_component_new_clone (icomp);
+		icomp = i_cal_component_clone (icomp);
 
 		i_cal_component_foreach_tzid (icomp, foreach_tzid_callback, &tz_data);
 
@@ -1368,7 +1368,7 @@ comp_limit_attendees (ESourceRegistry *registry,
 			continue;
 		}
 
-		attendee = i_cal_property_get_value_as_string_r (prop);
+		attendee = i_cal_property_get_value_as_string (prop);
 		if (!attendee)
 			continue;
 
@@ -1532,7 +1532,7 @@ comp_minimal (ESourceRegistry *registry,
 		}
 	}
 
-	itt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, i_cal_timezone_get_utc_timezone ());
+	itt = i_cal_time_new_from_timet_with_zone (time (NULL), FALSE, i_cal_timezone_get_utc_timezone ());
 	e_cal_component_set_dtstamp (clone, itt);
 	g_clear_object (&itt);
 
@@ -1572,7 +1572,7 @@ comp_minimal (ESourceRegistry *registry,
 	{
 		ICalProperty *p;
 
-		p = i_cal_property_new_clone (prop);
+		p = i_cal_property_clone (prop);
 		i_cal_component_take_property (icomp_clone, p);
 	}
 
@@ -1626,7 +1626,7 @@ comp_compliant_one (ESourceRegistry *registry,
 	ICalTime *itt;
 
 	clone = e_cal_component_clone (comp);
-	itt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, i_cal_timezone_get_utc_timezone ());
+	itt = i_cal_time_new_from_timet_with_zone (time (NULL), FALSE, i_cal_timezone_get_utc_timezone ());
 	e_cal_component_set_dtstamp (clone, itt);
 	g_clear_object (&itt);
 
@@ -1671,7 +1671,7 @@ comp_compliant_one (ESourceRegistry *registry,
 				i_cal_time_get_second (dtvalue));
 			i_cal_time_set_is_date (itt, FALSE);
 
-			i_cal_timezone_convert_time (itt, from_zone, to_zone);
+			i_cal_time_convert_timezone (itt, from_zone, to_zone);
 			i_cal_time_set_timezone (itt, to_zone);
 
 			i_cal_recurrence_set_until (rt, itt);
@@ -2211,7 +2211,7 @@ itip_send_component_complete (ItipSendComponentData *isc)
 	ccd->identity_address = identity_address;
 	ccd->destinations = destinations;
 	ccd->subject = comp_subject (isc->registry, isc->method, isc->send_comps->data);
-	ccd->ical_string = i_cal_component_as_ical_string_r (top_level);
+	ccd->ical_string = i_cal_component_as_ical_string (top_level);
 	ccd->content_type = comp_content_type (isc->send_comps->data, isc->method);
 	ccd->event_body_text = NULL;
 	ccd->attachments_list = isc->attachments_list;
@@ -2305,7 +2305,7 @@ itip_send_component_with_model (ECalModel *model,
 	isc->send_comps = g_slist_prepend (NULL, g_object_ref (send_comp));
 	isc->cal_client = g_object_ref (cal_client);
 	if (zones) {
-		isc->zones = i_cal_component_new_clone (zones);
+		isc->zones = i_cal_component_clone (zones);
 	}
 	isc->attachments_list = attachments_list;
 	if (users) {
@@ -2407,7 +2407,7 @@ itip_send_component (ESourceRegistry *registry,
 	isc->send_comps = g_slist_prepend (NULL, g_object_ref (send_comp));
 	isc->cal_client = g_object_ref (cal_client);
 	if (zones)
-		isc->zones = i_cal_component_new_clone (zones);
+		isc->zones = i_cal_component_clone (zones);
 	isc->attachments_list = attachments_list;
 	if (users) {
 		GSList *link;
@@ -2496,7 +2496,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 	ccd->identity_address = identity_address;
 	ccd->destinations = comp_to_list (registry, method, ecomps->data, NULL, reply_all, NULL);
 	ccd->subject = comp_subject (registry, method, ecomps->data);
-	ccd->ical_string = i_cal_component_as_ical_string_r (top_level);
+	ccd->ical_string = i_cal_component_as_ical_string (top_level);
 	ccd->send_comps = ecomps;
 	ccd->show_only = TRUE;
 
@@ -2651,7 +2651,7 @@ itip_publish_begin (ECalComponent *pub_comp,
 			     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_FREEBUSY_PROPERTY)) {
 				ICalProperty *p;
 
-				p = i_cal_property_new_clone (prop);
+				p = i_cal_property_clone (prop);
 				i_cal_component_take_property (icomp_clone, p);
 			}
 		}

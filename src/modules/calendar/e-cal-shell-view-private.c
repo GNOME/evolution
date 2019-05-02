@@ -59,7 +59,7 @@ cal_shell_view_get_current_time (ECalendarItem *calitem,
 	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	timezone = e_cal_model_get_timezone (model);
 
-	tt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, timezone);
+	tt = i_cal_time_new_from_timet_with_zone (time (NULL), FALSE, timezone);
 	tm = e_cal_util_icaltime_to_tm (tt);
 	g_clear_object (&tt);
 
@@ -798,7 +798,7 @@ cal_searching_check_candidates (ECalShellView *cal_shell_view)
 		data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_view->priv->cal_shell_content));
 		zone = e_cal_data_model_get_timezone (data_model);
 
-		tt = i_cal_time_from_timet_with_zone (candidate, FALSE, zone);
+		tt = i_cal_time_new_from_timet_with_zone (candidate, FALSE, zone);
 
 		if (tt && i_cal_time_is_valid_time (tt) && !i_cal_time_is_null_time (tt)) {
 			ECalendarView *cal_view;

@@ -363,10 +363,10 @@ get_dtstart (ECalModel *model,
 
 			if (got_zone) {
 				g_clear_object (&tt_start);
-				tt_start = i_cal_time_from_timet_with_zone (comp_data->instance_start, is_date, zone);
+				tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, zone);
 			} else if (priv->zone) {
 				g_clear_object (&tt_start);
-				tt_start = i_cal_time_from_timet_with_zone (comp_data->instance_start, is_date, priv->zone);
+				tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, priv->zone);
 			}
 		}
 
@@ -407,7 +407,7 @@ get_datetime_from_utc (ECalModel *model,
 
 		/* these are always in UTC, thus convert to default zone, if any and done */
 		if (priv->zone)
-			i_cal_timezone_convert_time (tt_value, i_cal_timezone_get_utc_timezone (), priv->zone);
+			i_cal_time_convert_timezone (tt_value, i_cal_timezone_get_utc_timezone (), priv->zone);
 
 		g_object_unref (prop);
 
@@ -591,7 +591,7 @@ datetime_to_zone (ECalClient *client,
 			to = NULL;
 	}
 
-	i_cal_timezone_convert_time (tt, from, to);
+	i_cal_time_convert_timezone (tt, from, to);
 }
 
 static void
@@ -1440,7 +1440,7 @@ cal_model_create_component_from_values_thread (EAlertSinkThreadJobData *job_data
 
 			if (tt > 0) {
 				/* Store Memo DTSTART as date, not as date-time */
-				ICalTime *itt = i_cal_time_from_timet_with_zone (tt,
+				ICalTime *itt = i_cal_time_new_from_timet_with_zone (tt,
 					i_cal_component_isa (comp_data->icalcomp) == I_CAL_VJOURNAL_COMPONENT, e_cal_model_get_timezone (ccd->model));
 
 				prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTSTART_PROPERTY);
@@ -1604,7 +1604,7 @@ cal_model_value_at (ETableModel *etm,
 		ECalComponent *comp;
 		gint retval = 0;
 
-		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 		if (comp) {
 			if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
 				g_object_unref (comp);
@@ -1749,7 +1749,7 @@ cal_model_duplicate_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_CANCELLED:
 		return (gpointer) value;
 	case E_CAL_MODEL_FIELD_COMPONENT :
-		return i_cal_component_new_clone ((ICalComponent *) value);
+		return i_cal_component_clone ((ICalComponent *) value);
 	case E_CAL_MODEL_FIELD_DTSTART :
 	case E_CAL_MODEL_FIELD_CREATED :
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :
@@ -1971,7 +1971,7 @@ cal_model_data_subscriber_component_added_or_modified (ECalDataModelSubscriber *
 		return;
 
 	table_model = E_TABLE_MODEL (model);
-	icomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
+	icomp = i_cal_component_clone (e_cal_component_get_icalcomponent (comp));
 
 	if (index < 0) {
 		e_table_model_pre_change (table_model);
@@ -3770,7 +3770,7 @@ e_cal_model_create_component_with_defaults_sync (ECalModel *model,
 	}
 
 	if (comp) {
-		icomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
+		icomp = i_cal_component_clone (e_cal_component_get_icalcomponent (comp));
 		g_object_unref (comp);
 	} else {
 		icomp = i_cal_component_new (model->priv->kind);
@@ -4099,7 +4099,7 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data,
 			 * just make start_time = end_time so that end_time
 			 * will be a valid date
 			 */
-			end_time = i_cal_time_new_clone (start_time);
+			end_time = i_cal_time_clone (start_time);
 			i_cal_time_adjust (end_time, 1, 0, 0, 0);
 			i_cal_component_set_dtend (comp_data->icalcomp, end_time);
 		} else if (i_cal_time_is_date (start_time) && i_cal_time_is_date (end_time) &&

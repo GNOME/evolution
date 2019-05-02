@@ -1345,7 +1345,7 @@ find_zone (ICalProperty *in_prop,
 			ICalTimezone *zone;
 
 			zone = i_cal_timezone_new ();
-			clone = i_cal_component_new_clone (subcomp);
+			clone = i_cal_component_clone (subcomp);
 			i_cal_timezone_set_component (zone, clone);
 
 			g_clear_object (&next_subcomp);
@@ -1411,11 +1411,11 @@ process_free_busy_comp_get_xfb (ICalProperty *ip,
 	 * nothing will happen (*summary and/or *location will be NULL)
 	 */
 
-	tmp = i_cal_property_get_parameter_as_string_r (ip, E_MEETING_FREE_BUSY_XPROP_SUMMARY);
+	tmp = i_cal_property_get_parameter_as_string (ip, E_MEETING_FREE_BUSY_XPROP_SUMMARY);
 	*summary = e_meeting_xfb_utf8_string_new_from_ical (tmp, E_MEETING_FREE_BUSY_XPROP_MAXLEN);
 	g_free (tmp);
 
-	tmp = i_cal_property_get_parameter_as_string_r (ip, E_MEETING_FREE_BUSY_XPROP_LOCATION);
+	tmp = i_cal_property_get_parameter_as_string (ip, E_MEETING_FREE_BUSY_XPROP_LOCATION);
 	*location = e_meeting_xfb_utf8_string_new_from_ical (tmp, E_MEETING_FREE_BUSY_XPROP_MAXLEN);
 	g_free (tmp);
 }
@@ -1439,7 +1439,7 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 				ds_zone = find_zone (ip, tz_top_level);
 			else
 				ds_zone = g_object_ref (i_cal_timezone_get_utc_timezone ());
-			i_cal_timezone_convert_time (dtstart, ds_zone, zone);
+			i_cal_time_convert_timezone (dtstart, ds_zone, zone);
 
 			e_meeting_attendee_set_start_busy_range (
 				attendee,
@@ -1466,7 +1466,7 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 				de_zone = find_zone (ip, tz_top_level);
 			else
 				de_zone = g_object_ref (i_cal_timezone_get_utc_timezone ());
-			i_cal_timezone_convert_time (dtend, de_zone, zone);
+			i_cal_time_convert_timezone (dtend, de_zone, zone);
 
 			e_meeting_attendee_set_end_busy_range (
 				attendee,
@@ -1527,8 +1527,8 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 			fbstart = i_cal_period_get_start (fb);
 			fbend = i_cal_period_get_end (fb);
 
-			i_cal_timezone_convert_time (fbstart, utc_zone, zone);
-			i_cal_timezone_convert_time (fbend, utc_zone, zone);
+			i_cal_time_convert_timezone (fbstart, utc_zone, zone);
+			i_cal_time_convert_timezone (fbend, utc_zone, zone);
 
 			/* Extract extended free/busy (XFB) information from
 			 * the ICalProperty, if it carries such.
@@ -1596,7 +1596,7 @@ process_free_busy (EMeetingStoreQueueData *qdata,
 			next_subcomp = i_cal_comp_iter_next (iter);
 
 			i_cal_component_take_component (tz_top_level,
-				i_cal_component_new_clone (subcomp));
+				i_cal_component_clone (subcomp));
 
 			g_object_unref (subcomp);
 			subcomp = next_subcomp;
@@ -1802,7 +1802,7 @@ refresh_busy_periods (gpointer data)
 	if (priv->client) {
 		ICalTime *itt;
 
-		itt = i_cal_time_null_time ();
+		itt = i_cal_time_new_null_time ();
 		i_cal_time_set_date (itt,
 			g_date_get_year (&qdata->start.date),
 			g_date_get_month (&qdata->start.date),
@@ -1814,7 +1814,7 @@ refresh_busy_periods (gpointer data)
 		fbd->startt = i_cal_time_as_timet_with_zone (itt, priv->zone);
 		g_clear_object (&itt);
 
-		itt = i_cal_time_null_time ();
+		itt = i_cal_time_new_null_time ();
 		i_cal_time_set_date (itt,
 			g_date_get_year (&qdata->end.date),
 			g_date_get_month (&qdata->end.date),

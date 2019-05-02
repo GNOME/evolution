@@ -392,7 +392,7 @@ get_due_status (ECalModelTasks *model,
 		if (i_cal_time_is_date (due_tt)) {
 			gint cmp;
 
-			now_tt = i_cal_time_current_time_with_zone (e_cal_model_get_timezone (E_CAL_MODEL (model)));
+			now_tt = i_cal_time_new_current_with_zone (e_cal_model_get_timezone (E_CAL_MODEL (model)));
 			cmp = i_cal_time_compare_date_only (due_tt, now_tt);
 
 			g_object_unref (now_tt);
@@ -429,7 +429,7 @@ get_due_status (ECalModelTasks *model,
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 			}
 
-			now_tt = i_cal_time_current_time_with_zone (zone);
+			now_tt = i_cal_time_new_current_with_zone (zone);
 
 			if (i_cal_time_compare (due_tt, now_tt) <= 0)
 				res = E_CAL_MODEL_TASKS_DUE_OVERDUE;

@@ -646,11 +646,11 @@ action_event_delegate_cb (GtkAction *action,
 		return;
 
 	client = event->comp_data->client;
-	clone = i_cal_component_new_clone (event->comp_data->icalcomp);
+	clone = i_cal_component_clone (event->comp_data->icalcomp);
 
 	/* Set the attendee status for the delegate. */
 
-	component = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (clone));
+	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (clone));
 
 	attendee = itip_get_comp_attendee (registry, component, client);
 
@@ -765,7 +765,7 @@ action_event_forward_cb (GtkAction *action,
 	client = event->comp_data->client;
 	icomp = event->comp_data->icalcomp;
 
-	component = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	g_return_if_fail (component != NULL);
 
 	itip_send_component_with_model (e_calendar_view_get_model (calendar_view),
@@ -881,14 +881,14 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	/* For the recurring object, we add an exception
 	 * to get rid of the instance. */
 
-	recurring_component = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	recurring_component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	id = e_cal_component_get_id (recurring_component);
 
 	/* For the unrecurred instance, we duplicate the original object,
 	 * create a new UID for it, get rid of the recurrence rules, and
 	 * set the start and end times to the instance times. */
 
-	exception_component = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	exception_component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 
 	uid = e_util_generate_uid ();
 	e_cal_component_set_uid (exception_component, uid);
@@ -900,10 +900,10 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	e_cal_component_set_exdates (exception_component, NULL);
 	e_cal_component_set_exrules (exception_component, NULL);
 
-	date = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (event->comp_data->instance_start, FALSE, timezone),
+	date = e_cal_component_datetime_new_take (i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start, FALSE, timezone),
 		timezone ? g_strdup (i_cal_timezone_get_tzid (timezone)) : NULL);
 	cal_comp_set_dtstart_with_oldzone (client, exception_component, date);
-	e_cal_component_datetime_take_value (date, i_cal_time_from_timet_with_zone (event->comp_data->instance_end, FALSE, timezone));
+	e_cal_component_datetime_take_value (date, i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end, FALSE, timezone));
 	cal_comp_set_dtend_with_oldzone (client, exception_component, date);
 	e_cal_component_datetime_free (date);
 
@@ -913,7 +913,7 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	mmd->client = g_object_ref (client);
 	mmd->remove_uid = g_strdup (e_cal_component_id_get_uid (id));
 	mmd->remove_rid = g_strdup (e_cal_component_id_get_rid (id));
-	mmd->create_icomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (exception_component));
+	mmd->create_icomp = i_cal_component_clone (e_cal_component_get_icalcomponent (exception_component));
 
 	activity = e_shell_view_submit_thread_job (E_SHELL_VIEW (cal_shell_view),
 		_("Making an occurrence movable"), "calendar:failed-make-movable",
@@ -964,7 +964,7 @@ action_event_edit_as_new_cb (GtkAction *action,
 		return;
 	}
 
-	clone = i_cal_component_new_clone (event->comp_data->icalcomp);
+	clone = i_cal_component_clone (event->comp_data->icalcomp);
 
 	uid = e_util_generate_uid ();
 	i_cal_component_set_uid (clone, uid);
@@ -1006,7 +1006,7 @@ action_event_print_cb (GtkAction *action,
 	client = event->comp_data->client;
 	icomp = event->comp_data->icalcomp;
 
-	component = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 
 	print_comp (
 		component, client,
@@ -1046,7 +1046,7 @@ cal_shell_view_actions_reply (ECalShellView *cal_shell_view,
 	client = event->comp_data->client;
 	icomp = event->comp_data->icalcomp;
 
-	component = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 
 	reply_to_calendar_comp (
 		registry, E_CAL_COMPONENT_METHOD_REPLY,
@@ -1168,7 +1168,7 @@ edit_event_as (ECalShellView *cal_shell_view,
 	if (!as_meeting && icomp) {
 		/* remove organizer and all attendees */
 		/* do it on a copy, as user can cancel changes */
-		icomp = i_cal_component_new_clone (icomp);
+		icomp = i_cal_component_clone (icomp);
 
 		e_cal_util_component_remove_property_by_kind (icomp, I_CAL_ATTENDEE_PROPERTY, TRUE);
 		e_cal_util_component_remove_property_by_kind (icomp, I_CAL_ORGANIZER_PROPERTY, TRUE);

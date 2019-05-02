@@ -59,7 +59,7 @@ insert_tz_comps (ICalParameter *param,
 		return;
 	}
 
-	tzcomp = i_cal_component_new_clone (i_cal_timezone_get_component (zone));
+	tzcomp = i_cal_component_clone (i_cal_timezone_get_component (zone));
 	g_hash_table_insert (tdata->zones, (gpointer) tzid, (gpointer) tzcomp);
 }
 
@@ -119,7 +119,7 @@ write_calendar (const gchar *uid,
 		tdata.client = E_CAL_CLIENT (client);
 
 		for (iter = objects; iter; iter = iter->next) {
-			ICalComponent *icomp = i_cal_component_new_clone (iter->data);
+			ICalComponent *icomp = i_cal_component_clone (iter->data);
 			i_cal_component_foreach_tzid (icomp, insert_tz_comps, &tdata);
 			i_cal_component_take_component (top_level, icomp);
 		}
@@ -129,7 +129,7 @@ write_calendar (const gchar *uid,
 		g_hash_table_destroy (tdata.zones);
 		tdata.zones = NULL;
 
-		ical_string = i_cal_component_as_ical_string_r (top_level);
+		ical_string = i_cal_component_as_ical_string (top_level);
 		res = g_output_stream_write_all (stream, ical_string, strlen (ical_string), NULL, NULL, error);
 		g_free (ical_string);
 		e_util_free_nullable_object_slist (objects);

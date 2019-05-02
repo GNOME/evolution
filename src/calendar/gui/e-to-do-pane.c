@@ -199,7 +199,7 @@ etdp_itt_to_zone (ICalTime *itt,
 	}
 
 	if (zone)
-		i_cal_timezone_convert_time (itt, zone, default_zone);
+		i_cal_time_convert_timezone (itt, zone, default_zone);
 }
 
 static gchar *
@@ -218,7 +218,7 @@ etdp_date_time_to_string (const ECalComponentDateTime *dt,
 	g_return_val_if_fail (e_cal_component_datetime_get_value (dt) != NULL, NULL);
 	g_return_val_if_fail (out_itt != NULL, NULL);
 
-	*out_itt = i_cal_time_new_clone (e_cal_component_datetime_get_value (dt));
+	*out_itt = i_cal_time_clone (e_cal_component_datetime_get_value (dt));
 
 	etdp_itt_to_zone (*out_itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
 
@@ -294,7 +294,7 @@ etdp_format_date_time (ECalClient *client,
 	if (!in_itt)
 		return NULL;
 
-	itt = i_cal_time_new_clone ((ICalTime *) in_itt);
+	itt = i_cal_time_clone ((ICalTime *) in_itt);
 
 	etdp_itt_to_zone (itt, tzid, client, default_zone);
 
@@ -407,7 +407,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 			if (!dt || !e_cal_component_datetime_get_value (dt)) {
 				/* Fill the itt structure in case the task has no Due date */
-				itt = i_cal_time_new_clone (e_cal_component_datetime_get_value (dtstart));
+				itt = i_cal_time_clone (e_cal_component_datetime_get_value (dtstart));
 				etdp_itt_to_zone (itt, e_cal_component_datetime_get_tzid (dtstart), client, default_zone);
 			}
 		}
@@ -460,11 +460,11 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 			dtend = e_cal_component_get_dtend (comp);
 
-			ittstart = i_cal_time_new_clone (e_cal_component_datetime_get_value (dt));
+			ittstart = i_cal_time_clone (e_cal_component_datetime_get_value (dt));
 			if (dtend && e_cal_component_datetime_get_value (dtend))
-				ittend = i_cal_time_new_clone (e_cal_component_datetime_get_value (dtend));
+				ittend = i_cal_time_clone (e_cal_component_datetime_get_value (dtend));
 			else
-				ittend = i_cal_time_new_clone (ittstart);
+				ittend = i_cal_time_clone (ittstart);
 
 			etdp_itt_to_zone (ittstart, e_cal_component_datetime_get_tzid (dt), client, default_zone);
 			etdp_itt_to_zone (ittend, (dtend && e_cal_component_datetime_get_value (dtend)) ?
@@ -868,7 +868,7 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 			is_date = i_cal_time_is_date (itt);
 			etdp_itt_to_zone (itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
 
-			now = i_cal_time_current_time_with_zone (default_zone);
+			now = i_cal_time_new_current_with_zone (default_zone);
 
 			if ((is_date && i_cal_time_compare_date_only (itt, now) < 0) ||
 			    (!is_date && i_cal_time_compare (itt, now) <= 0)) {
@@ -1421,7 +1421,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 
 	zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
-	itt = i_cal_time_current_time_with_zone (zone);
+	itt = i_cal_time_new_current_with_zone (zone);
 	new_today = etdp_create_date_mark (itt);
 
 	if (force_update || new_today != to_do_pane->priv->last_today) {
@@ -1856,7 +1856,7 @@ etdp_new_common (EToDoPane *to_do_pane,
 
 				time_divisions_secs = g_settings_get_int (settings, "time-divisions") * 60;
 				zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
-				now = i_cal_time_current_time_with_zone (zone);
+				now = i_cal_time_new_current_with_zone (zone);
 
 				i_cal_time_set_year (now, date_mark / 10000);
 				i_cal_time_set_month (now, (date_mark / 100) % 100);

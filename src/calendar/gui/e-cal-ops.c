@@ -54,7 +54,7 @@ cal_ops_manage_send_component (ECalModel *model,
 	if ((send_flags & E_CAL_OPS_SEND_FLAG_DONT_SEND) != 0)
 		return;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	if (!comp)
 		return;
 
@@ -204,7 +204,7 @@ e_cal_ops_create_component (ECalModel *model,
 	bod = g_new0 (BasicOperationData, 1);
 	bod->model = g_object_ref (model);
 	bod->client = g_object_ref (client);
-	bod->icomp = i_cal_component_new_clone (icomp);
+	bod->icomp = i_cal_component_clone (icomp);
 	bod->create_cb = callback;
 	bod->user_data = user_data;
 	bod->user_data_free = user_data_free;
@@ -249,7 +249,7 @@ cal_ops_modify_component_thread (EAlertSinkThreadJobData *job_data,
 	if (bod->mod == E_CAL_OBJ_MOD_ALL) {
 		ECalComponent *comp;
 
-		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (bod->icomp));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (bod->icomp));
 		if (comp && e_cal_component_has_recurrences (comp)) {
 			if (!comp_util_sanitize_recurrence_master_sync (comp, bod->client, cancellable, error)) {
 				g_object_unref (comp);
@@ -257,7 +257,7 @@ cal_ops_modify_component_thread (EAlertSinkThreadJobData *job_data,
 			}
 
 			g_clear_object (&bod->icomp);
-			bod->icomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
+			bod->icomp = i_cal_component_clone (e_cal_component_get_icalcomponent (comp));
 		}
 
 		g_clear_object (&comp);
@@ -324,7 +324,7 @@ e_cal_ops_modify_component (ECalModel *model,
 	bod = g_new0 (BasicOperationData, 1);
 	bod->model = g_object_ref (model);
 	bod->client = g_object_ref (client);
-	bod->icomp = i_cal_component_new_clone (icomp);
+	bod->icomp = i_cal_component_clone (icomp);
 	bod->mod = mod;
 	bod->send_flags = send_flags;
 	bod->is_modify = TRUE;
@@ -542,7 +542,7 @@ cal_ops_create_comp_with_new_uid_sync (ECalClient *cal_client,
 	g_return_val_if_fail (E_IS_CAL_CLIENT (cal_client), FALSE);
 	g_return_val_if_fail (I_CAL_IS_COMPONENT (icomp), FALSE);
 
-	clone = i_cal_component_new_clone (icomp);
+	clone = i_cal_component_clone (icomp);
 
 	uid = e_util_generate_uid ();
 	i_cal_component_set_uid (clone, uid);
@@ -862,7 +862,7 @@ e_cal_ops_send_component (ECalModel *model,
 
 	scd = g_new0 (SendComponentData, 1);
 	scd->client = g_object_ref (client);
-	scd->icomp = i_cal_component_new_clone (icomp);
+	scd->icomp = i_cal_component_clone (icomp);
 
 	source = e_client_get_source (E_CLIENT (client));
 	data_model = e_cal_model_get_data_model (model);
@@ -1473,7 +1473,7 @@ new_component_data_free (gpointer ptr)
 					else
 						zone = calendar_config_get_icaltimezone ();
 
-					itt = i_cal_time_from_timet_with_zone (ncd->dtstart, FALSE, zone);
+					itt = i_cal_time_new_from_timet_with_zone (ncd->dtstart, FALSE, zone);
 					if (ncd->all_day) {
 						i_cal_time_set_time (itt, 0, 0, 0);
 						i_cal_time_set_is_date (itt, TRUE);
@@ -1484,7 +1484,7 @@ new_component_data_free (gpointer ptr)
 					e_cal_component_set_dtstart (ncd->comp, dt);
 					e_cal_component_datetime_free (dt);
 
-					itt = i_cal_time_from_timet_with_zone (ncd->dtend, FALSE, zone);
+					itt = i_cal_time_new_from_timet_with_zone (ncd->dtend, FALSE, zone);
 					if (ncd->all_day) {
 						/* We round it up to the end of the day, unless it is
 						 * already set to midnight */
@@ -1862,7 +1862,7 @@ e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 		return;
 	}
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	g_return_if_fail (comp != NULL);
 
 	ncd = g_new0 (NewComponentData, 1);
@@ -2099,7 +2099,7 @@ e_cal_ops_transfer_components (EShellView *shell_view,
 
 			icomps = g_slist_copy (icomps);
 			for (link = icomps; link; link = g_slist_next (link)) {
-				link->data = i_cal_component_new_clone (link->data);
+				link->data = i_cal_component_clone (link->data);
 			}
 
 			g_hash_table_insert (tcd->icomps_by_source, g_object_ref (source), icomps);

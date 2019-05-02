@@ -235,7 +235,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 			/* Get the current time, and subtract the appropriate
 			 * number of days/hours/minutes. */
 			zone = calendar_config_get_icaltimezone ();
-			tt = i_cal_time_current_time_with_zone (zone);
+			tt = i_cal_time_new_current_with_zone (zone);
 
 			switch (units) {
 			case E_DURATION_DAYS:

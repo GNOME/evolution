@@ -173,7 +173,7 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 	}
 
 	if (zone != NULL)
-		i_cal_timezone_convert_time (itt, zone, default_zone);
+		i_cal_time_convert_timezone (itt, zone, default_zone);
 	tm = e_cal_util_icaltime_to_tm (itt);
 
 	return e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (itt) ? DTFormatKindDate : DTFormatKindDateTime, &tm);

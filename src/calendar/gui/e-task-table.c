@@ -758,7 +758,7 @@ task_table_query_tooltip (GtkWidget *widget,
 	if (!comp_data || !comp_data->icalcomp)
 		return FALSE;
 
-	new_comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	new_comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	if (!new_comp)
 		return FALSE;
 
@@ -1191,7 +1191,7 @@ copy_row_cb (gint model_row,
 		task_table->priv->tmp_vcal, comp_data->icalcomp);
 
 	/* Add the new component to the VCALENDAR component. */
-	child = i_cal_component_new_clone (comp_data->icalcomp);
+	child = i_cal_component_clone (comp_data->icalcomp);
 	if (child) {
 		i_cal_component_take_component (task_table->priv->tmp_vcal, child);
 	}
@@ -1211,7 +1211,7 @@ task_table_copy_clipboard (ESelectable *selectable)
 
 	e_table_selected_row_foreach (
 		E_TABLE (task_table), copy_row_cb, task_table);
-	comp_str = i_cal_component_as_ical_string_r (task_table->priv->tmp_vcal);
+	comp_str = i_cal_component_as_ical_string (task_table->priv->tmp_vcal);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	e_clipboard_set_calendar (clipboard, comp_str, -1);
@@ -1391,7 +1391,7 @@ task_table_delete_selection (ESelectable *selectable)
 
 	if (comp_data) {
 		comp = e_cal_component_new_from_icalcomponent (
-			i_cal_component_new_clone (comp_data->icalcomp));
+			i_cal_component_clone (comp_data->icalcomp));
 	}
 
 	if ((n_selected == 1) && comp && check_for_retract (comp, comp_data->client)) {
@@ -1704,7 +1704,7 @@ hide_completed_rows_ready (GObject *source_object,
 		ECalComponent *comp = e_cal_component_new ();
 
 		e_cal_component_set_icalcomponent (
-			comp, i_cal_component_new_clone (m->data));
+			comp, i_cal_component_clone (m->data));
 		id = e_cal_component_get_id (comp);
 
 		comp_data = e_cal_model_get_component_for_client_and_uid (model, cal_client, id);
@@ -1775,7 +1775,7 @@ show_completed_rows_ready (GObject *source_object,
 		ECalComponent *comp = e_cal_component_new ();
 
 		e_cal_component_set_icalcomponent (
-			comp, i_cal_component_new_clone (m->data));
+			comp, i_cal_component_clone (m->data));
 		id = e_cal_component_get_id (comp);
 
 		if (!(e_cal_model_get_component_for_client_and_uid (model, cal_client, id))) {
@@ -1783,8 +1783,7 @@ show_completed_rows_ready (GObject *source_object,
 			comp_data = g_object_new (
 				E_TYPE_CAL_MODEL_COMPONENT, NULL);
 			comp_data->client = g_object_ref (cal_client);
-			comp_data->icalcomp =
-				i_cal_component_new_clone (m->data);
+			comp_data->icalcomp = i_cal_component_clone (m->data);
 			e_cal_model_set_instance_times (
 				comp_data,
 				e_cal_model_get_timezone (model));
@@ -1823,7 +1822,7 @@ e_task_table_get_current_time (ECellDateEdit *ecde,
 	model = e_task_table_get_model (task_table);
 	zone = e_cal_model_get_timezone (model);
 
-	tt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, zone);
+	tt = i_cal_time_new_from_timet_with_zone (time (NULL), FALSE, zone);
 
 	tmp_tm = e_cal_util_icaltime_to_tm (tt);
 

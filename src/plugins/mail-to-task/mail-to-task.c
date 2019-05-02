@@ -763,7 +763,7 @@ do_manage_comp_idle (struct _manage_comp *mc)
 
 			if (chosen == GTK_RESPONSE_YES) {
 				edit_comp = e_cal_component_new ();
-				if (!e_cal_component_set_icalcomponent (edit_comp, i_cal_component_new_clone (mc->stored_comp))) {
+				if (!e_cal_component_set_icalcomponent (edit_comp, i_cal_component_clone (mc->stored_comp))) {
 					g_object_unref (edit_comp);
 					edit_comp = NULL;
 					error = g_error_new (
@@ -898,8 +898,8 @@ do_mail_to_event (AsyncData *data)
 		#undef cache_backend_prop
 
 		/* set start day of the event as today, without time - easier than looking for a calendar's time zone */
-		tt = i_cal_time_today ();
-		tt2 = i_cal_time_new_clone (tt);
+		tt = i_cal_time_new_today ();
+		tt2 = i_cal_time_clone (tt);
 		i_cal_time_adjust (tt2, 1, 0, 0, 0);
 
 		dt = e_cal_component_datetime_new_take (tt, NULL);

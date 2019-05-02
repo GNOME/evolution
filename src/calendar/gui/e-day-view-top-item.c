@@ -178,7 +178,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	if (!is_comp_data_valid (event))
 		return;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 	if (!comp)
 		return;
 
@@ -839,7 +839,7 @@ e_day_view_top_item_get_day_label (EDayView *day_view,
 	view = E_CALENDAR_VIEW (day_view);
 	zone = e_calendar_view_get_timezone (view);
 
-	day_start_tt = i_cal_time_from_timet_with_zone (
+	day_start_tt = i_cal_time_new_from_timet_with_zone (
 		day_view->day_starts[day], FALSE, zone);
 	day_start = e_cal_util_icaltime_to_tm (day_start_tt);
 	g_clear_object (&day_start_tt);

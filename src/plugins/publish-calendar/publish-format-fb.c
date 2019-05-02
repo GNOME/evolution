@@ -102,7 +102,7 @@ write_calendar (const gchar *uid,
 
 		for (iter = objects; iter; iter = iter->next) {
 			ECalComponent *comp = iter->data;
-			ICalComponent *icomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
+			ICalComponent *icomp = i_cal_component_clone (e_cal_component_get_icalcomponent (comp));
 
 			if (!icomp)
 				continue;
@@ -121,7 +121,7 @@ write_calendar (const gchar *uid,
 			i_cal_component_take_component (top_level, icomp);
 		}
 
-		ical_string = i_cal_component_as_ical_string_r (top_level);
+		ical_string = i_cal_component_as_ical_string (top_level);
 
 		success = g_output_stream_write_all (
 			stream, ical_string,

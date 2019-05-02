@@ -72,7 +72,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 	model = e_task_table_get_model (task_table);
 	data_model = e_cal_model_get_data_model (model);
 	timezone = e_cal_model_get_timezone (model);
-	current_time = i_cal_time_current_time_with_zone (timezone);
+	current_time = i_cal_time_new_current_with_zone (timezone);
 	now_time = time_day_begin (i_cal_time_as_timet (current_time));
 	g_clear_object (&current_time);
 

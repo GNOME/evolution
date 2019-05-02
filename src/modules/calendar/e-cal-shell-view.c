@@ -112,7 +112,7 @@ cal_shell_view_execute_search (EShellView *shell_view)
 
 	data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	timezone = e_cal_data_model_get_timezone (data_model);
-	current_time = i_cal_time_current_time_with_zone (timezone);
+	current_time = i_cal_time_new_current_with_zone (timezone);
 	now_time = time_day_begin (i_cal_time_as_timet (current_time));
 	g_clear_object (&current_time);
 

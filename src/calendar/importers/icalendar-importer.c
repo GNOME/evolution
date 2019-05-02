@@ -231,9 +231,9 @@ update_objects (ECalClient *cal_client,
 			i_cal_component_set_method (vcal, I_CAL_METHOD_CANCEL);
 		else
 			i_cal_component_set_method (vcal, I_CAL_METHOD_PUBLISH);
-		i_cal_component_take_component (vcal, i_cal_component_new_clone (icomp));
+		i_cal_component_take_component (vcal, i_cal_component_clone (icomp));
 	} else if (kind == I_CAL_VCALENDAR_COMPONENT) {
-		vcal = i_cal_component_new_clone (icomp);
+		vcal = i_cal_component_clone (icomp);
 		if (!e_cal_util_component_has_property (vcal, I_CAL_METHOD_PROPERTY))
 			i_cal_component_set_method (vcal, I_CAL_METHOD_PUBLISH);
 	} else {
@@ -1537,7 +1537,7 @@ ical_get_preview (ICalComponent *icomp)
 	     subcomp;
 	     g_object_unref (subcomp), subcomp = i_cal_component_get_next_component (icomp,  I_CAL_VTIMEZONE_COMPONENT)) {
 		ICalTimezone *zone = i_cal_timezone_new ();
-		if (!i_cal_timezone_set_component (zone, i_cal_component_new_clone (subcomp)) || !i_cal_timezone_get_tzid (zone)) {
+		if (!i_cal_timezone_set_component (zone, i_cal_component_clone (subcomp)) || !i_cal_timezone_get_tzid (zone)) {
 			g_object_unref (zone);
 		} else {
 			g_hash_table_insert (timezones, (gchar *) i_cal_timezone_get_tzid (zone), zone);
@@ -1559,7 +1559,7 @@ ical_get_preview (ICalComponent *icomp)
 			gchar *formatted_dt;
 			const gchar *summary_txt = NULL;
 
-			comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (subcomp));
+			comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (subcomp));
 			if (!comp)
 				continue;
 

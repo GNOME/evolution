@@ -219,7 +219,7 @@ week_view_process_component (EWeekView *week_view,
 	if (!g_date_valid (&week_view->priv->first_day_shown))
 		return;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	if (!comp) {
 		g_message (G_STRLOC ": Could not set ICalComponent on ECalComponent");
 		return;
@@ -533,7 +533,7 @@ timezone_changed_cb (ECalModel *cal_model,
 	if (!g_date_valid (first_day_shown))
 		return;
 
-	tt = i_cal_time_null_time ();
+	tt = i_cal_time_new_null_time ();
 
 	/* Recalculate the new start of the first week. We just use exactly
 	 * the same time, but with the new timezone. */
@@ -659,7 +659,7 @@ week_view_new_event_in_selected_range_cb (ECalModel *model,
 		goto exit;
 
 	/* Add a new event covering the selected range. */
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (default_component));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (default_component));
 	g_return_if_fail (comp != NULL);
 
 	uid = i_cal_component_get_uid (default_component);
@@ -669,11 +669,11 @@ week_view_new_event_in_selected_range_cb (ECalModel *model,
 	/* We use DATE values now, so we don't need the timezone. */
 	/*date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));*/
 
-	date = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (ned->dtstart, TRUE, zone), NULL);
+	date = e_cal_component_datetime_new_take (i_cal_time_new_from_timet_with_zone (ned->dtstart, TRUE, zone), NULL);
 	e_cal_component_set_dtstart (comp, date);
 	e_cal_component_datetime_free (date);
 
-	date = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (ned->dtend, TRUE, zone), NULL);
+	date = e_cal_component_datetime_new_take (i_cal_time_new_from_timet_with_zone (ned->dtend, TRUE, zone), NULL);
 	e_cal_component_set_dtend (comp, date);
 	e_cal_component_datetime_free (date);
 
@@ -2244,7 +2244,7 @@ e_week_view_set_first_day_shown (EWeekView *week_view,
 
 		week_view->priv->first_day_shown = base_date;
 
-		start_tt = i_cal_time_null_time ();
+		start_tt = i_cal_time_new_null_time ();
 		i_cal_time_set_date (start_tt,
 			g_date_get_year (&base_date),
 			g_date_get_month (&base_date),
@@ -2662,7 +2662,7 @@ set_style_from_attendee (EWeekViewEvent *event,
 	if (!is_comp_data_valid (event))
 		return;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 	if (!comp)
 		return;
 
@@ -3353,10 +3353,10 @@ e_week_view_add_event (ECalClient *client,
 	if (end != start || end < add_event_data->week_view->day_starts[0])
 		g_return_if_fail (end > add_event_data->week_view->day_starts[0]);
 
-	start_tt = i_cal_time_from_timet_with_zone (
+	start_tt = i_cal_time_new_from_timet_with_zone (
 		start, FALSE,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->week_view)));
-	end_tt = i_cal_time_from_timet_with_zone (
+	end_tt = i_cal_time_new_from_timet_with_zone (
 		end, FALSE,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->week_view)));
 
@@ -3367,7 +3367,7 @@ e_week_view_add_event (ECalClient *client,
 		event.comp_data->is_new_component = TRUE;
 		event.comp_data->client = g_object_ref (client);
 		e_cal_component_abort_sequence (comp);
-		event.comp_data->icalcomp = i_cal_component_new_clone (e_cal_component_get_icalcomponent (comp));
+		event.comp_data->icalcomp = i_cal_component_clone (e_cal_component_get_icalcomponent (comp));
 	}
 
 	event.start = start;
@@ -3492,7 +3492,7 @@ e_week_view_reshape_events (EWeekView *week_view)
 				week_view, event_num, span_num);
 			if (week_view->last_edited_comp_string == NULL)
 				continue;
-			current_comp_string = i_cal_component_as_ical_string_r (event->comp_data->icalcomp);
+			current_comp_string = i_cal_component_as_ical_string (event->comp_data->icalcomp);
 			if (strncmp (current_comp_string, week_view->last_edited_comp_string, 50) == 0) {
 				EWeekViewEventSpan *span;
 
@@ -3768,7 +3768,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 	if (!comp)
 		return;
 
@@ -4585,16 +4585,16 @@ e_week_view_change_event_time (EWeekView *week_view,
 	/* We use a temporary shallow copy of the ico since we don't want to
 	 * change the original ico here. Otherwise we would not detect that
 	 * the event's time had changed in the "update_event" callback. */
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view));
 
-	date = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (start_dt, is_all_day, zone),
+	date = e_cal_component_datetime_new_take (i_cal_time_new_from_timet_with_zone (start_dt, is_all_day, zone),
 		zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 	cal_comp_set_dtstart_with_oldzone (client, comp, date);
 	e_cal_component_datetime_free (date);
 
-	date = e_cal_component_datetime_new_take (i_cal_time_from_timet_with_zone (end_dt, is_all_day, zone),
+	date = e_cal_component_datetime_new_take (i_cal_time_new_from_timet_with_zone (end_dt, is_all_day, zone),
 		zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 	cal_comp_set_dtend_with_oldzone (client, comp, date);
 	e_cal_component_datetime_free (date);
@@ -4734,7 +4734,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	g_object_set (span->text_item, "handle_popup", FALSE, NULL);
 	g_object_get (span->text_item, "text", &text, NULL);
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 	if (!comp) {
 		g_free (text);
 		g_object_notify (G_OBJECT (week_view), "is-editing");
@@ -4802,12 +4802,12 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 					if (dt)
 						tt = e_cal_component_datetime_get_value (dt);
 					if (dt && tt && i_cal_time_get_timezone (tt)) {
-						tt = i_cal_time_from_timet_with_zone (
+						tt = i_cal_time_new_from_timet_with_zone (
 							event->comp_data->instance_start,
 							i_cal_time_is_date (tt),
 							i_cal_time_get_timezone (tt));
 					} else {
-						tt = i_cal_time_from_timet_with_zone (
+						tt = i_cal_time_new_from_timet_with_zone (
 							event->comp_data->instance_start,
 							(dt && tt) ? i_cal_time_is_date (tt) : FALSE,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
@@ -4823,12 +4823,12 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 					if (dt)
 						tt = e_cal_component_datetime_get_value (dt);
 					if (dt && tt && i_cal_time_get_timezone (tt)) {
-						tt = i_cal_time_from_timet_with_zone (
+						tt = i_cal_time_new_from_timet_with_zone (
 							event->comp_data->instance_end,
 							i_cal_time_is_date (tt),
 							i_cal_time_get_timezone (tt));
 					} else {
-						tt = i_cal_time_from_timet_with_zone (
+						tt = i_cal_time_new_from_timet_with_zone (
 							event->comp_data->instance_end,
 							(dt && tt) ? i_cal_time_is_date (tt) : FALSE,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));

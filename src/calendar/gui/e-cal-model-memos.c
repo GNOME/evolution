@@ -74,7 +74,7 @@ cal_model_memos_fill_component_from_values (ECalModel *model,
 	if (!dtstart || i_cal_time_is_null_time (dtstart) || !i_cal_time_is_valid_time (dtstart)) {
 		g_clear_object (&dtstart);
 
-		dtstart = i_cal_time_today ();
+		dtstart = i_cal_time_new_today ();
 		i_cal_component_set_dtstart (comp_data->icalcomp, dtstart);
 	}
 

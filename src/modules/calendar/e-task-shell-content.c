@@ -85,11 +85,11 @@ task_shell_content_table_foreach_cb (gint model_row,
 		foreach_data->model, model_row);
 
 	vcal = e_cal_util_new_top_level ();
-	clone = i_cal_component_new_clone (comp_data->icalcomp);
+	clone = i_cal_component_clone (comp_data->icalcomp);
 	e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
 	i_cal_component_take_component (vcal, clone);
 
-	string = i_cal_component_as_ical_string_r (vcal);
+	string = i_cal_component_as_ical_string (vcal);
 	if (string != NULL) {
 		ESource *source;
 		const gchar *source_uid;
@@ -190,7 +190,7 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 		ECalComponent *comp;
 
 		comp = e_cal_component_new_from_icalcomponent (
-			i_cal_component_new_clone (comp_data->icalcomp));
+			i_cal_component_clone (comp_data->icalcomp));
 
 		e_cal_component_preview_display (
 			task_preview, comp_data->client, comp,

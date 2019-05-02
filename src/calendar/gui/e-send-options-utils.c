@@ -89,7 +89,7 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 		else {
 			ICalTime *itt;
 
-			itt = i_cal_time_from_string (value);
+			itt = i_cal_time_new_from_string (value);
 
 			gopts->delay_enabled = TRUE;
 			gopts->delay_until = i_cal_time_as_timet (itt);
@@ -222,9 +222,9 @@ e_send_options_utils_fill_component (ESendOptionsDialog *sod,
 			ICalTime *temp;
 			gchar *str;
 
-			temp = i_cal_time_from_timet_with_zone (gopts->delay_until, FALSE, zone);
+			temp = i_cal_time_new_from_timet_with_zone (gopts->delay_until, FALSE, zone);
 
-			str = i_cal_time_as_ical_string_r (temp);
+			str = i_cal_time_as_ical_string (temp);
 			prop = i_cal_property_new_x (str);
 			g_free (str);
 			i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-DELAY");

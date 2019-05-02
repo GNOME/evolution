@@ -530,7 +530,7 @@ e_date_time_list_set_date_time (EDateTimeList *date_time_list,
 
 	itt_old = G_LIST (iter->user_data)->data;
 	g_clear_object (&itt_old);
-	G_LIST (iter->user_data)->data = i_cal_time_new_clone (itt);
+	G_LIST (iter->user_data)->data = i_cal_time_clone (itt);
 	row_updated (date_time_list,
 		g_list_position (date_time_list->priv->list, G_LIST (iter->user_data)));
 }
@@ -590,7 +590,7 @@ e_date_time_list_append (EDateTimeList *date_time_list,
 	g_return_if_fail (i_cal_time_is_valid_time ((ICalTime *) itt));
 
 	if (g_list_find_custom (date_time_list->priv->list, itt, (GCompareFunc) compare_datetime) == NULL) {
-		date_time_list->priv->list = g_list_append (date_time_list->priv->list, i_cal_time_new_clone (itt));
+		date_time_list->priv->list = g_list_append (date_time_list->priv->list, i_cal_time_clone (itt));
 		row_added (date_time_list, g_list_length (date_time_list->priv->list) - 1);
 	}
 

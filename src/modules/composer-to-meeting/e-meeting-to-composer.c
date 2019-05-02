@@ -173,7 +173,7 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 	/* Just a trick to not show validation errors when getting the component */
 	e_comp_editor_set_updating (comp_editor, TRUE);
 
-	icomp = i_cal_component_new_clone (e_comp_editor_get_component (comp_editor));
+	icomp = i_cal_component_clone (e_comp_editor_get_component (comp_editor));
 	e_comp_editor_fill_component (comp_editor, icomp);
 
 	e_comp_editor_set_updating (comp_editor, did_updating);

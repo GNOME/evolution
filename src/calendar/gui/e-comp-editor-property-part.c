@@ -700,7 +700,7 @@ ecepp_datetime_fill_widget (ECompEditorPropertyPart *property_part,
 	}
 
 	if (!value)
-		value = i_cal_time_null_time ();
+		value = i_cal_time_new_null_time ();
 
 	e_comp_editor_property_part_datetime_set_value (part_datetime, value);
 
@@ -910,7 +910,7 @@ e_comp_editor_property_part_datetime_set_value (ECompEditorPropertyPartDatetime 
 
 	if (!e_date_edit_get_allow_no_date_set (date_edit) && (!value || i_cal_time_is_null_time (value) ||
 	    !i_cal_time_is_valid_time (value))) {
-		tmp_value = i_cal_time_current_time_with_zone (i_cal_timezone_get_utc_timezone ());
+		tmp_value = i_cal_time_new_current_with_zone (i_cal_timezone_get_utc_timezone ());
 		value = tmp_value;
 	}
 
@@ -933,11 +933,11 @@ e_comp_editor_property_part_datetime_set_value (ECompEditorPropertyPartDatetime 
 				    g_strcmp0 (i_cal_timezone_get_tzid (editor_zone), i_cal_timezone_get_tzid (zone)) != 0 &&
 				    g_strcmp0 (i_cal_timezone_get_location (editor_zone), i_cal_timezone_get_location (zone)) != 0) {
 					if (tmp_value != value) {
-						tmp_value = i_cal_time_new_clone (value);
+						tmp_value = i_cal_time_clone (value);
 						value = tmp_value;
 					}
 
-					i_cal_timezone_convert_time (tmp_value, zone, editor_zone);
+					i_cal_time_convert_timezone (tmp_value, zone, editor_zone);
 					i_cal_time_set_timezone (tmp_value, editor_zone);
 				}
 			}
@@ -966,7 +966,7 @@ e_comp_editor_property_part_datetime_get_value (ECompEditorPropertyPartDatetime 
 	ETimezoneEntry *timezone_entry = NULL;
 	GtkWidget *edit_widget;
 	EDateEdit *date_edit;
-	ICalTime *value = i_cal_time_null_time ();
+	ICalTime *value = i_cal_time_new_null_time ();
 	gint year, month, day;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (part_datetime), value);

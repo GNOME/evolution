@@ -98,7 +98,7 @@ convert_to_local_zone (time_t tm,
 	ICalTime *itt;
 	time_t tt;
 
-	itt = i_cal_time_from_timet_with_zone (tm, FALSE, from_zone);
+	itt = i_cal_time_new_from_timet_with_zone (tm, FALSE, from_zone);
 	tt = i_cal_time_as_timet (itt);
 	g_clear_object (&itt);
 
@@ -396,11 +396,11 @@ cal_shell_content_change_selection_in_current_view (ECalShellContent *cal_shell_
 			if (e_calendar_view_get_selected_time_range (view, &current_sel_start, &current_sel_end)) {
 				ICalTime *itt;
 
-				itt = i_cal_time_from_timet_with_zone (current_sel_start, 0, zone);
+				itt = i_cal_time_new_from_timet_with_zone (current_sel_start, 0, zone);
 				current_sel_start = i_cal_time_as_timet_with_zone (itt, NULL);
 				g_clear_object (&itt);
 
-				itt = i_cal_time_from_timet_with_zone (current_sel_end, 0, zone);
+				itt = i_cal_time_new_from_timet_with_zone (current_sel_end, 0, zone);
 				current_sel_end = i_cal_time_as_timet_with_zone (itt, NULL);
 				g_clear_object (&itt);
 
@@ -1019,7 +1019,7 @@ cal_shell_content_check_state (EShellContent *shell_content)
 
 		/* XXX This probably belongs in comp-util.c. */
 
-		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 		user_email = itip_get_comp_attendee (registry, comp, client);
 
 		selection_is_organizer =
@@ -1104,7 +1104,7 @@ cal_shell_content_get_default_time (ECalModel *model,
 	}
 
 	zone = e_cal_model_get_timezone (model);
-	itt = i_cal_time_current_time_with_zone (zone);
+	itt = i_cal_time_new_current_with_zone (zone);
 	tt = i_cal_time_as_timet_with_zone (itt, zone);
 	g_clear_object (&itt);
 
@@ -1153,7 +1153,7 @@ update_adjustment (ECalShellContent *cal_shell_content,
 		return;
 
 	/* Convert it to a time_t. */
-	start_tt = i_cal_time_null_time ();
+	start_tt = i_cal_time_new_null_time ();
 	i_cal_time_set_date (start_tt,
 		g_date_get_year (&start_date),
 		g_date_get_month (&start_date),
@@ -2250,7 +2250,7 @@ e_cal_shell_content_move_view_range (ECalShellContent *cal_shell_content,
 			cal_shell_content_move_view_range_relative (cal_shell_content, +1);
 			break;
 		case E_CALENDAR_VIEW_MOVE_TO_TODAY:
-			tt = i_cal_time_current_time_with_zone (zone);
+			tt = i_cal_time_new_current_with_zone (zone);
 			g_date_set_dmy (&date, i_cal_time_get_day (tt), i_cal_time_get_month (tt), i_cal_time_get_year (tt));
 			g_clear_object (&tt);
 			/* one-day selection takes care of the view range move with left view kind */

@@ -280,7 +280,7 @@ e_comp_editor_set_component (ECompEditor *comp_editor,
 
 	if (comp_editor->priv->component != component) {
 		g_clear_object (&comp_editor->priv->component);
-		comp_editor->priv->component = i_cal_component_new_clone ((ICalComponent *) component);
+		comp_editor->priv->component = i_cal_component_clone ((ICalComponent *) component);
 	}
 
 	g_warn_if_fail (comp_editor->priv->component != NULL);
@@ -560,7 +560,7 @@ ece_save_component_done (gpointer ptr)
 		if (sd->object_created)
 			g_signal_emit (sd->comp_editor, signals[OBJECT_CREATED], 0, NULL);
 
-		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (sd->component));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (sd->component));
 		if (sd->comp_editor->priv->page_general) {
 			GSList *added_attendees;
 
@@ -848,7 +848,7 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 
 		e_alert_sink_thread_job_set_alert_ident (job_data, modify_alert_ident);
 
-		comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (sd->component));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (sd->component));
 		g_return_if_fail (comp != NULL);
 
 		has_recurrences = e_cal_util_component_has_recurrences (sd->component);
@@ -970,7 +970,7 @@ ece_save_component (ECompEditor *comp_editor,
 	sd->comp_editor = g_object_ref (comp_editor);
 	sd->source_client = comp_editor->priv->source_client ? g_object_ref (comp_editor->priv->source_client) : NULL;
 	sd->target_client = g_object_ref (comp_editor->priv->target_client);
-	sd->component = i_cal_component_new_clone (component);
+	sd->component = i_cal_component_clone (component);
 	sd->with_send = with_send;
 	sd->close_after_save = close_after_save;
 	sd->recur_mod = recur_mod;
@@ -1267,7 +1267,7 @@ e_comp_editor_save_and_close (ECompEditor *comp_editor,
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 
 	if (comp_editor->priv->component) {
-		ICalComponent *component = i_cal_component_new_clone (comp_editor->priv->component);
+		ICalComponent *component = i_cal_component_clone (comp_editor->priv->component);
 		if (component && e_comp_editor_fill_component (comp_editor, component)) {
 			ece_save_component (comp_editor, component, TRUE, can_close);
 			g_clear_object (&component);
@@ -1338,7 +1338,7 @@ e_comp_editor_prompt_and_save_changes (ECompEditor *comp_editor,
 			return FALSE;
 		}
 
-		component = i_cal_component_new_clone (comp_editor->priv->component);
+		component = i_cal_component_clone (comp_editor->priv->component);
 		if (!e_comp_editor_fill_component (comp_editor, component)) {
 			g_clear_object (&component);
 			return FALSE;
@@ -1391,7 +1391,7 @@ ece_print_or_preview (ECompEditor *comp_editor,
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 	g_return_if_fail (e_comp_editor_get_component (comp_editor) != NULL);
 
-	component = i_cal_component_new_clone (e_comp_editor_get_component (comp_editor));
+	component = i_cal_component_clone (e_comp_editor_get_component (comp_editor));
 	if (!e_comp_editor_fill_component (comp_editor, component)) {
 		g_clear_object (&component);
 		return;
@@ -3197,10 +3197,10 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 	end_zone = i_cal_time_get_timezone (end_tt);
 
 	/* Convert the end time to the same timezone as the start time. */
-	end_tt_copy = i_cal_time_new_clone (end_tt);
+	end_tt_copy = i_cal_time_clone (end_tt);
 
 	if (start_zone && end_zone && start_zone != end_zone)
-		i_cal_timezone_convert_time (end_tt_copy, end_zone, start_zone);
+		i_cal_time_convert_timezone (end_tt_copy, end_zone, start_zone);
 
 	/* Now check if the start time is after the end time. If it is,
 	 * we need to modify one of the times. */
@@ -3214,16 +3214,16 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 				i_cal_time_get_day (start_tt));
 
 			g_clear_object (&end_tt_copy);
-			end_tt_copy = i_cal_time_new_clone (end_tt);
+			end_tt_copy = i_cal_time_clone (end_tt);
 			if (start_zone && end_zone && start_zone != end_zone)
-				i_cal_timezone_convert_time (end_tt_copy, end_zone, start_zone);
+				i_cal_time_convert_timezone (end_tt_copy, end_zone, start_zone);
 
 			if (duration > 0)
 				i_cal_time_adjust (end_tt_copy, 0, 0, 0, -duration);
 
 			if (i_cal_time_compare (start_tt, end_tt_copy) >= 0) {
 				g_clear_object (&end_tt);
-				end_tt = i_cal_time_new_clone (start_tt);
+				end_tt = i_cal_time_clone (start_tt);
 
 				if (duration >= 0) {
 					i_cal_time_adjust (end_tt, 0, 0, 0, duration);
@@ -3233,7 +3233,7 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 				}
 
 				if (start_zone && end_zone && start_zone != end_zone)
-					i_cal_timezone_convert_time (end_tt, start_zone, end_zone);
+					i_cal_time_convert_timezone (end_tt, start_zone, end_zone);
 			}
 		} else {
 			/* Try to switch only the date */
@@ -3244,7 +3244,7 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 
 			if (i_cal_time_compare (start_tt, end_tt_copy) >= 0) {
 				g_clear_object (&start_tt);
-				start_tt = i_cal_time_new_clone (end_tt);
+				start_tt = i_cal_time_clone (end_tt);
 
 				if (duration >= 0) {
 					i_cal_time_adjust (start_tt, 0, 0, 0, -duration);
@@ -3254,7 +3254,7 @@ ece_check_start_before_end (ECompEditor *comp_editor,
 				}
 
 				if (start_zone && end_zone && start_zone != end_zone)
-					i_cal_timezone_convert_time (start_tt, end_zone, start_zone);
+					i_cal_time_convert_timezone (start_tt, end_zone, start_zone);
 			}
 		}
 

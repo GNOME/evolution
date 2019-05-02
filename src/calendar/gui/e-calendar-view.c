@@ -173,7 +173,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	registry = e_cal_model_get_registry (model);
 
 	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, i_cal_component_new_clone (event->comp_data->icalcomp));
+	e_cal_component_set_icalcomponent (comp, i_cal_component_clone (event->comp_data->icalcomp));
 	vtype = e_cal_component_get_vtype (comp);
 
 	/*FIXME remove it once the we dont set the recurrence id for all the generated instances */
@@ -264,7 +264,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 
 				e_cal_component_datetime_free (dt);
 
-				instance_rid = i_cal_time_from_timet_with_zone (
+				instance_rid = i_cal_time_new_from_timet_with_zone (
 					event->comp_data->instance_start,
 					TRUE, zone ? zone : i_cal_timezone_get_utc_timezone ());
 				e_cal_util_remove_instances (event->comp_data->icalcomp, instance_rid, E_CAL_OBJ_MOD_THIS);
@@ -569,7 +569,7 @@ add_related_timezones (ICalComponent *des_icomp,
 
 							vtz_comp = i_cal_timezone_get_component (zone);
 							if (vtz_comp) {
-								i_cal_component_take_component (des_icomp, i_cal_component_new_clone (vtz_comp));
+								i_cal_component_take_component (des_icomp, i_cal_component_clone (vtz_comp));
 								g_object_unref (vtz_comp);
 							}
 						}
@@ -628,13 +628,13 @@ calendar_view_copy_clipboard (ESelectable *selectable)
 		if (!is_comp_data_valid (event))
 			continue;
 
-		new_icomp = i_cal_component_new_clone (event->comp_data->icalcomp);
+		new_icomp = i_cal_component_clone (event->comp_data->icalcomp);
 
 		/* do not remove RECURRENCE-IDs from copied objects */
 		i_cal_component_take_component (vcal_comp, new_icomp);
 	}
 
-	comp_str = i_cal_component_as_ical_string_r (vcal_comp);
+	comp_str = i_cal_component_as_ical_string (vcal_comp);
 
 	/* copy the VCALENDAR to the clipboard */
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
@@ -659,7 +659,7 @@ calendar_view_component_created_cb (ECalModel *model,
 	ESourceRegistry *registry;
 	GtkWidget *toplevel = user_data;
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (original_icomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (original_icomp));
 	g_return_if_fail (comp != NULL);
 
 	registry = e_cal_model_get_registry (model);
@@ -705,7 +705,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 	tt_start = i_cal_time_as_timet (old_dtstart);
 	old_dtend = i_cal_component_get_dtend (icomp);
 	tt_end = i_cal_time_as_timet (old_dtend);
-	ic_dur = i_cal_duration_from_int (tt_end - tt_start);
+	ic_dur = i_cal_duration_new_from_int (tt_end - tt_start);
 
 	if (i_cal_duration_as_int (ic_dur) > 60 * 60 * 24) {
 		/* This is a long event */
@@ -713,7 +713,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 		end_offset = i_cal_time_get_hour (old_dtstart) * 60 + i_cal_time_get_minute (old_dtend);
 	}
 
-	ic_oneday = i_cal_duration_null_duration ();
+	ic_oneday = i_cal_duration_new_null_duration ();
 	i_cal_duration_set_days (ic_oneday, 1);
 
 	old_dtstart_zone = i_cal_time_get_timezone (old_dtstart);
@@ -730,7 +730,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 		} else if (i_cal_duration_as_int (ic_dur) >= 60 * 60 * 24 && !all_day) {
 			g_clear_object (&ic_dur);
 			/* copy & paste from top canvas to main canvas */
-			ic_dur = i_cal_duration_from_int (time_division * 60);
+			ic_dur = i_cal_duration_new_from_int (time_division * 60);
 		}
 
 		if (all_day)
@@ -743,7 +743,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 			all_day_event = TRUE;
 			new_dtstart = dtstart;
 		} else {
-			ICalTime *new_time = i_cal_time_from_timet_with_zone (dtstart, FALSE, default_zone);
+			ICalTime *new_time = i_cal_time_new_from_timet_with_zone (dtstart, FALSE, default_zone);
 
 			i_cal_time_set_hour (new_time, i_cal_time_get_hour (old_dtstart));
 			i_cal_time_set_minute (new_time, i_cal_time_get_minute (old_dtstart));
@@ -755,7 +755,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 		}
 	}
 
-	itime = i_cal_time_from_timet_with_zone (new_dtstart, FALSE, old_dtstart_zone);
+	itime = i_cal_time_new_from_timet_with_zone (new_dtstart, FALSE, old_dtstart_zone);
 	/* set the timezone properly */
 	i_cal_time_set_timezone (itime, old_dtstart_zone);
 	if (all_day_event)
@@ -777,7 +777,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 
 	/* The new uid stuff can go away once we actually set it in the backend */
 	uid = e_util_generate_uid ();
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	e_cal_component_set_uid (comp, uid);
 	g_free (uid);
 
@@ -831,7 +831,7 @@ paste_clipboard_data_free (gpointer ptr)
 				g_free (found->data);
 				pcd->copied_uids = g_slist_delete_link (pcd->copied_uids, found);
 
-				comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (comp_data->icalcomp));
+				comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 
 				if (itip_has_any_attendees (comp) &&
 				    (itip_organizer_is_user (registry, comp, comp_data->client) ||
@@ -971,7 +971,7 @@ cal_view_paste_clipboard_thread (EAlertSinkThreadJobData *job_data,
 			ICalTimezone *zone;
 
 			zone = i_cal_timezone_new ();
-			i_cal_timezone_set_component (zone, i_cal_component_new_clone (subcomp));
+			i_cal_timezone_set_component (zone, i_cal_component_clone (subcomp));
 
 			if (!e_cal_client_add_timezone_sync (client, zone, cancellable, error)) {
 				g_object_unref (subcomp);
@@ -1681,7 +1681,7 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 
 	if ((mode == EDIT_EVENT_AUTODETECT && e_cal_util_component_has_attendee (icomp))
 	    || mode == EDIT_EVENT_FORCE_MEETING) {
-		ECalComponent *comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+		ECalComponent *comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 		flags |= E_COMP_EDITOR_FLAG_WITH_ATTENDEES;
 		if (itip_organizer_is_user (registry, comp, client) ||
 		    itip_sentby_is_user (registry, comp, client) ||
@@ -1849,7 +1849,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 
 	client = pevent->comp_data->client;
 
-	newcomp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (pevent->comp_data->icalcomp));
+	newcomp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (pevent->comp_data->icalcomp));
 	if (!newcomp) {
 		g_warning ("couldn't update calendar component with modified data from backend\n");
 		return FALSE;
@@ -2323,12 +2323,12 @@ e_calendar_view_get_description_text (ECalendarView *cal_view)
 
 	zone = e_cal_model_get_timezone (cal_view->priv->model);
 
-	tt = i_cal_time_from_timet_with_zone (start_time, FALSE, zone);
+	tt = i_cal_time_new_from_timet_with_zone (start_time, FALSE, zone);
 	start_tm = e_cal_util_icaltime_to_tm (tt);
 	g_clear_object (&tt);
 
 	/* Subtract one from end_time so we don't get an extra day. */
-	tt = i_cal_time_from_timet_with_zone (end_time - 1, FALSE, zone);
+	tt = i_cal_time_new_from_timet_with_zone (end_time - 1, FALSE, zone);
 	end_tm = e_cal_util_icaltime_to_tm (tt);
 	g_clear_object (&tt);
 

@@ -301,7 +301,7 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 			gchar *temporary_filename = NULL;
 			ICalParameter *encoding_par = i_cal_property_get_first_parameter (prop, I_CAL_ENCODING_PARAMETER);
 			if (encoding_par) {
-				gchar *str_value = i_cal_property_get_value_as_string_r (prop);
+				gchar *str_value = i_cal_property_get_value_as_string (prop);
 
 				if (str_value) {
 					ICalParameterEncoding encoding = i_cal_parameter_get_encoding (encoding_par);

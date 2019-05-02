@@ -139,7 +139,7 @@ get_current_time_cb (ECellDateEdit *ecde,
 	struct tm tmp_tm;
 
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (cal_list_view));
-	tt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, zone);
+	tt = i_cal_time_new_from_timet_with_zone (time (NULL), FALSE, zone);
 
 	tmp_tm = e_cal_util_icaltime_to_tm (tt);
 
@@ -502,7 +502,7 @@ e_cal_list_view_get_selected_time_range (ECalendarView *cal_view,
 			return FALSE;
 
 		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, i_cal_component_new_clone (event->comp_data->icalcomp));
+		e_cal_component_set_icalcomponent (comp, i_cal_component_clone (event->comp_data->icalcomp));
 		if (start_time) {
 			ECalComponentDateTime *dt;
 

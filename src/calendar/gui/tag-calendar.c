@@ -235,7 +235,7 @@ encode_timet_to_julian (time_t t,
 	if (!t)
 		return 0;
 
-	tt = i_cal_time_from_timet_with_zone (t, is_date, (ICalTimezone *) zone);
+	tt = i_cal_time_new_from_timet_with_zone (t, is_date, (ICalTimezone *) zone);
 
 	if (!tt || !i_cal_time_is_valid_time (tt) || i_cal_time_is_null_time (tt)) {
 		g_clear_object (&tt);
@@ -911,13 +911,13 @@ prepare_tag (ECalendar *ecal,
 		&end_year, &end_month, &end_day))
 		return FALSE;
 
-	start_tt = i_cal_time_null_time ();
+	start_tt = i_cal_time_new_null_time ();
 	i_cal_time_set_date (start_tt,
 		start_year,
 		start_month + 1,
 		start_day);
 
-	end_tt = i_cal_time_null_time ();
+	end_tt = i_cal_time_new_null_time ();
 	i_cal_time_set_date (end_tt,
 		end_year,
 		end_month + 1,
@@ -1052,8 +1052,8 @@ tag_calendar_by_comp (ECalendar *ecal,
 	} else {
 		ICalTime *start, *end;
 
-		start = i_cal_time_from_timet_with_zone (closure.start_time, FALSE, display_zone);
-		end = i_cal_time_from_timet_with_zone (closure.end_time, FALSE, display_zone);
+		start = i_cal_time_new_from_timet_with_zone (closure.start_time, FALSE, display_zone);
+		end = i_cal_time_new_from_timet_with_zone (closure.end_time, FALSE, display_zone);
 
 		e_cal_recur_generate_instances_sync (e_cal_component_get_icalcomponent (comp),
 			start, end, tag_calendar_cb, &closure,

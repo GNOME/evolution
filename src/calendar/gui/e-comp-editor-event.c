@@ -400,7 +400,7 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 	if (dtstart && i_cal_time_is_valid_time (dtstart) && !i_cal_time_is_null_time (dtstart) &&
 	    (!dtend || !i_cal_time_is_valid_time (dtend) || i_cal_time_is_null_time (dtend))) {
 		g_clear_object (&dtend);
-		dtend = i_cal_time_new_clone (dtstart);
+		dtend = i_cal_time_clone (dtstart);
 		if (i_cal_time_is_date (dtstart))
 			i_cal_time_adjust (dtend, 1, 0, 0, 0);
 	}

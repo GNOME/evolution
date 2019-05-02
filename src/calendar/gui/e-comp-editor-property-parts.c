@@ -1103,7 +1103,7 @@ e_comp_editor_property_part_completed_ensure_date_time (ICalTime *pvalue)
 		i_cal_time_set_timezone (pvalue, i_cal_timezone_get_utc_timezone ());
 	} else if (!i_cal_time_is_utc (pvalue)) {
 		/* Make sure the time is in UTC */
-		i_cal_timezone_convert_time (pvalue, i_cal_time_get_timezone (pvalue), i_cal_timezone_get_utc_timezone ());
+		i_cal_time_convert_timezone (pvalue, i_cal_time_get_timezone (pvalue), i_cal_timezone_get_utc_timezone ());
 		i_cal_time_set_timezone (pvalue, i_cal_timezone_get_utc_timezone ());
 	}
 }

@@ -378,8 +378,8 @@ e_cell_date_edit_compare_cb (gconstpointer a,
 	}
 
 	/* Copy the 2nd value and convert it to the same timezone as the first. */
-	tt = i_cal_time_new_clone (e_cell_date_edit_value_get_time (dv2));
-	i_cal_timezone_convert_time (tt, e_cell_date_edit_value_get_zone (dv2), e_cell_date_edit_value_get_zone (dv1));
+	tt = i_cal_time_clone (e_cell_date_edit_value_get_time (dv2));
+	i_cal_time_convert_timezone (tt, e_cell_date_edit_value_get_zone (dv2), e_cell_date_edit_value_get_zone (dv1));
 
 	/* Now we can compare them. */
 	res = i_cal_time_compare (e_cell_date_edit_value_get_time (dv1), tt);
@@ -402,7 +402,7 @@ e_cell_date_edit_value_new (const ICalTime *tt,
 	if (zone)
 		g_return_val_if_fail (I_CAL_IS_TIMEZONE (zone), NULL);
 
-	return e_cell_date_edit_value_new_take (i_cal_time_new_clone (tt),
+	return e_cell_date_edit_value_new_take (i_cal_time_clone (tt),
 		zone ? e_cal_util_copy_timezone (zone) : NULL);
 }
 
@@ -457,7 +457,7 @@ e_cell_date_edit_value_set_time (ECellDateEditValue *value,
 	g_return_if_fail (value != NULL);
 	g_return_if_fail (I_CAL_IS_TIME (tt));
 
-	e_cell_date_edit_value_take_time (value, i_cal_time_new_clone (tt));
+	e_cell_date_edit_value_take_time (value, i_cal_time_clone (tt));
 }
 
 void

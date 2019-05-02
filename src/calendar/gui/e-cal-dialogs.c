@@ -54,7 +54,7 @@ is_past_event (ECalComponent *comp)
 
 	res = i_cal_time_compare_date_only (
 		e_cal_component_datetime_get_value (end_date),
-		i_cal_time_current_time_with_zone (i_cal_time_get_timezone (e_cal_component_datetime_get_value (end_date)))) == -1;
+		i_cal_time_new_current_with_zone (i_cal_time_get_timezone (e_cal_component_datetime_get_value (end_date)))) == -1;
 
 	e_cal_component_datetime_free (end_date);
 
@@ -631,7 +631,7 @@ ecal_event (ECalendarItem *calitem,
 {
 	GoToDialog *dlg = user_data;
 	GDate start_date, end_date;
-	ICalTime *tt = i_cal_time_null_time ();
+	ICalTime *tt = i_cal_time_new_null_time ();
 	ICalTimezone *timezone;
 	time_t et;
 
@@ -665,7 +665,7 @@ get_current_time (ECalendarItem *calitem,
 	/* Get the current timezone. */
 	zone = calendar_config_get_icaltimezone ();
 
-	tt = i_cal_time_from_timet_with_zone (time (NULL), FALSE, zone);
+	tt = i_cal_time_new_from_timet_with_zone (time (NULL), FALSE, zone);
 
 	tmp_tm = e_cal_util_icaltime_to_tm (tt);
 
@@ -789,7 +789,7 @@ e_cal_dialogs_goto_run (GtkWindow *parent,
 		ICalTimezone *timezone;
 
 		timezone = e_cal_data_model_get_timezone (dlg->data_model);
-		tt = i_cal_time_current_time_with_zone (timezone);
+		tt = i_cal_time_new_current_with_zone (timezone);
 
 		dlg->year_val = i_cal_time_get_year (tt);
 		dlg->month_val = i_cal_time_get_month (tt) - 1;
@@ -956,7 +956,7 @@ e_cal_dialogs_recur_icalcomp (ECalClient *client,
 
 	g_return_val_if_fail (icomp != NULL, FALSE);
 
-	comp = e_cal_component_new_from_icalcomponent (i_cal_component_new_clone (icomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	if (!comp)
 		return FALSE;
 

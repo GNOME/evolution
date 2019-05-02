@@ -273,7 +273,7 @@ cal_view_objects_added_cb (ECalClientView *client_view,
 		ICalComponent *icomp = link->data;
 
 		if (icomp) {
-			gchar *str = i_cal_component_as_ical_string_r (icomp);
+			gchar *str = i_cal_component_as_ical_string (icomp);
 			g_print ("%s\n    -----------------------------\n", str);
 			g_free (str);
 		} else {
@@ -296,7 +296,7 @@ cal_view_objects_modified_cb (ECalClientView *client_view,
 		ICalComponent *icomp = link->data;
 
 		if (icomp) {
-			gchar *str = i_cal_component_as_ical_string_r (icomp);
+			gchar *str = i_cal_component_as_ical_string (icomp);
 			g_print ("%s\n    -----------------------------\n", str);
 			g_free (str);
 		} else
@@ -466,7 +466,7 @@ create_view_clicked_cb (GtkWidget *button,
 			ICalTime *tt;
 			gchar *start, *end;
 
-			tt = i_cal_time_today ();
+			tt = i_cal_time_new_today ();
 			start = isodate_from_time_t (i_cal_time_as_timet (tt));
 			i_cal_time_adjust (tt, 14, 0, 0, 0);
 			end = isodate_from_time_t (i_cal_time_as_timet (tt));

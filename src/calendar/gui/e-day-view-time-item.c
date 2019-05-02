@@ -358,7 +358,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 		cal_zone = e_calendar_view_get_timezone (
 			E_CALENDAR_VIEW (day_view));
-		tt = i_cal_time_from_timet_with_zone (
+		tt = i_cal_time_new_from_timet_with_zone (
 			day_view->day_starts[0], 0, cal_zone);
 
 		/* diff is number of minutes */
@@ -367,7 +367,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 
 		g_clear_object (&tt);
 
-		tt = i_cal_time_from_timet_with_zone (day_view->day_starts[0], 0, cal_zone);
+		tt = i_cal_time_new_from_timet_with_zone (day_view->day_starts[0], 0, cal_zone);
 		i_cal_time_set_is_date (tt, FALSE);
 		i_cal_time_set_timezone (tt, cal_zone);
 		i_cal_time_convert_to_zone_inplace (tt, use_zone);
@@ -435,7 +435,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 		}
 
-		time_now = i_cal_time_current_time_with_zone (
+		time_now = i_cal_time_new_current_with_zone (
 			e_calendar_view_get_timezone (
 			E_CALENDAR_VIEW (day_view)));
 		marcus_bains_y =
