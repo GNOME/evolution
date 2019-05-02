@@ -376,6 +376,7 @@ cal_data_model_emit_view_state_changed (ECalDataModel *data_model,
 typedef void (* InternalThreadJobFunc) (ECalDataModel *data_model, gpointer user_data);
 
 typedef struct _InternalThreadJobData {
+	ECalDataModel *data_model;
 	InternalThreadJobFunc func;
 	gpointer user_data;
 } InternalThreadJobData;
@@ -384,14 +385,14 @@ static void
 cal_data_model_internal_thread_job_func (gpointer data,
 					 gpointer user_data)
 {
-	ECalDataModel *data_model = user_data;
 	InternalThreadJobData *job_data = data;
 
 	g_return_if_fail (job_data != NULL);
 	g_return_if_fail (job_data->func != NULL);
 
-	job_data->func (data_model, job_data->user_data);
+	job_data->func (job_data->data_model, job_data->user_data);
 
+	g_object_unref (job_data->data_model);
 	g_free (job_data);
 }
 
@@ -406,6 +407,7 @@ cal_data_model_submit_internal_thread_job (ECalDataModel *data_model,
 	g_return_if_fail (func != NULL);
 
 	job_data = g_new0 (InternalThreadJobData, 1);
+	job_data->data_model = g_object_ref (data_model);
 	job_data->func = func;
 	job_data->user_data = user_data;
 
