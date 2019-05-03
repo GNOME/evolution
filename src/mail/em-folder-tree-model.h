@@ -129,6 +129,9 @@ void		em_folder_tree_model_remove_all_stores
 					(EMFolderTreeModel *model);
 GList *		em_folder_tree_model_list_stores
 					(EMFolderTreeModel *model);
+void		em_folder_tree_model_mark_store_loaded
+					(EMFolderTreeModel *model,
+					 CamelStore *store);
 gboolean	em_folder_tree_model_is_type_inbox
 					(EMFolderTreeModel *model,
 					 CamelStore *store,

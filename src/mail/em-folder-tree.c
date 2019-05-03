@@ -328,6 +328,9 @@ folder_tree_get_folder_info_cb (CamelStore *store,
 		}
 	}
 
+	if (is_store)
+		em_folder_tree_model_mark_store_loaded (EM_FOLDER_TREE_MODEL (model), store);
+
 	/* The folder being expanded has no children after all.  Remove
 	 * the "Loading..." placeholder row and collapse the parent. */
 	if (child_info == NULL) {

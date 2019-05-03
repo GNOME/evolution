@@ -79,6 +79,8 @@ struct _StoreInfo {
 	CamelStore *store;
 	GtkTreeRowReference *row;
 
+	gboolean loaded;
+
 	/* CamelFolderInfo::full_name -> GtkTreeRowReference */
 	GHashTable *full_hash;
 
@@ -200,6 +202,7 @@ store_info_new (EMFolderTreeModel *model,
 	si = g_slice_new0 (StoreInfo);
 	si->ref_count = 1;
 	si->store = g_object_ref (store);
+	si->loaded = FALSE;
 
 	si->full_hash = g_hash_table_new_full (
 		(GHashFunc) g_str_hash,
@@ -1166,6 +1169,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		return;
 	}
 
+	if (!si->loaded)
+		si->loaded = TRUE;
+
 	tree_store = GTK_TREE_STORE (model);
 
 	session = em_folder_tree_model_get_session (model);
@@ -1381,7 +1387,7 @@ folder_tree_model_folder_created_cb (CamelStore *store,
 	if (CAMEL_IS_SUBSCRIBABLE (store))
 		return;
 
-	if (g_hash_table_size (si->full_hash) > 0)
+	if (si->loaded)
 		folder_tree_model_folder_subscribed_cb (store, fi, si);
 }
 
@@ -1784,6 +1790,23 @@ em_folder_tree_model_list_stores (EMFolderTreeModel *model)
 	g_mutex_unlock (&model->priv->store_index_lock);
 
 	return list;
+}
+
+void
+em_folder_tree_model_mark_store_loaded (EMFolderTreeModel *model,
+					CamelStore *store)
+{
+	StoreInfo *si;
+
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
+	si = folder_tree_model_store_index_lookup (model, store);
+
+	if (si) {
+		si->loaded = TRUE;
+		store_info_unref (si);
+	}
 }
 
 gboolean
