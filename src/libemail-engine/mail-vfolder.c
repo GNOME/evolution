@@ -1003,7 +1003,7 @@ store_folder_deleted_cb (CamelStore *store,
 	/* Warning not thread safe, but might be enough */
 	G_LOCK (vfolder);
 
-	/* delete it from our list */
+	/* delete it from our list; can be NULL when already removed in the Search Folders edit dialog */
 	rule = e_rule_context_find_rule ((ERuleContext *) context, info->full_name, NULL);
 	if (rule) {
 		CamelSession *session;
@@ -1032,10 +1032,6 @@ store_folder_deleted_cb (CamelStore *store,
 		g_free (user);
 
 		g_object_unref (session);
-	} else {
-		g_warning (
-			"Cannot find rule for deleted vfolder '%s'",
-			info->display_name);
 	}
 
 	G_UNLOCK (vfolder);
