@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-04-24 08:00+0000\n"
-"PO-Revision-Date: 2019-05-03 20:08+0200\n"
+"POT-Creation-Date: 2019-05-03 18:10+0000\n"
+"PO-Revision-Date: 2019-05-05 17:48+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -2758,15 +2758,16 @@ msgstr ""
 "maniere predefinide."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
-#, fuzzy
 msgid "Whether display delivery notification parts inline."
-msgstr "Mostrâ i pro memoria nome inte aree di _notifiche"
+msgstr "Indiche se mostrâ in linie lis parts de notifiche di spedizion."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 msgid ""
 "If enabled, the message/delivery-status and message/disposition-notification "
 "parts are shown automatically inline."
 msgstr ""
+"Se abilitât, lis parts dal stât di messaç/spedizion e de notifiche di messaç/"
+"disposizion a vegnin mostrâts in linie in automatic."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "(Deprecated) Default forward style"
@@ -3187,7 +3188,7 @@ msgstr ""
 "archivi automatic."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/main.c:318
+#: ../src/shell/main.c:331
 msgid "Start in offline mode"
 msgstr "Invie in modalitât fûr rêt"
 
@@ -6761,17 +6762,17 @@ msgstr "Descrizion:"
 msgid "Web Page:"
 msgstr "Pagjine Web:"
 
-#: ../src/calendar/gui/e-cal-data-model.c:1709
+#: ../src/calendar/gui/e-cal-data-model.c:1711
 #, c-format
 msgid "Creating view for calendar “%s”"
 msgstr "Daûr a creâ la viodude pal calendari “%s”"
 
-#: ../src/calendar/gui/e-cal-data-model.c:1713
+#: ../src/calendar/gui/e-cal-data-model.c:1715
 #, c-format
 msgid "Creating view for task list “%s”"
 msgstr "Daûr a creâ la viodude pe liste des ativitâts “%s”"
 
-#: ../src/calendar/gui/e-cal-data-model.c:1717
+#: ../src/calendar/gui/e-cal-data-model.c:1719
 #, c-format
 msgid "Creating view for memo list “%s”"
 msgstr "Daûr a creâ la viodude pe liste dai memorandum “%s”"
@@ -16168,7 +16169,7 @@ msgstr "URI cartele “%s” no valit"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:120
 #: ../src/mail/em-folder-properties.c:1444
-#: ../src/mail/em-folder-tree-model.c:1495
+#: ../src/mail/em-folder-tree-model.c:1501
 #: ../src/mail/importers/kmail-libs.c:139
 #: ../src/modules/mail/e-mail-shell-view-private.c:1032
 #: ../src/modules/mail/e-mail-shell-view-private.c:1043
@@ -16177,7 +16178,7 @@ msgstr "In jentrade"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:121
-#: ../src/mail/em-folder-tree-model.c:1489
+#: ../src/mail/em-folder-tree-model.c:1495
 #: ../src/mail/importers/kmail-libs.c:145
 #: ../src/modules/mail/e-mail-shell-view-private.c:1030
 msgid "Drafts"
@@ -16185,7 +16186,7 @@ msgstr "Stampons"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1499
+#: ../src/mail/em-folder-tree-model.c:1505
 #: ../src/mail/importers/kmail-libs.c:141
 #: ../src/modules/mail/e-mail-shell-view-private.c:1034
 msgid "Outbox"
@@ -16193,7 +16194,7 @@ msgstr "In jessude"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1503
+#: ../src/mail/em-folder-tree-model.c:1509
 #: ../src/mail/importers/kmail-libs.c:143
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 msgid "Sent"
@@ -16202,7 +16203,7 @@ msgstr "Inviade"
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:124
 #: ../src/mail/e-mail-templates-store.c:2211
-#: ../src/mail/em-folder-tree-model.c:1491
+#: ../src/mail/em-folder-tree-model.c:1497
 #: ../src/mail/importers/kmail-libs.c:147
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
@@ -17148,7 +17149,7 @@ msgstr "Ristabilìs nivel at_uâl"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:738
 msgid "Reset sort order in the current level to the defaults"
-msgstr ""
+msgstr "Ristabilìs l'ordin intal nivel atuâl al so valôr predefinît"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:748
 msgid "Reset _all levels"
@@ -17156,7 +17157,7 @@ msgstr "Ristabilìs _ducj i nivei"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:749
 msgid "Reset sort order in all levels to their defaults"
-msgstr ""
+msgstr "Ristabilìs l'ordin su ducj i nivei ai lôr valôrs predefinîts"
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
@@ -18471,7 +18472,7 @@ msgstr "<fâs clic chi par selezionâ une cartele>"
 msgid "Create a new folder"
 msgstr "Cree une gnove cartele"
 
-#: ../src/mail/em-folder-tree.c:682
+#: ../src/mail/em-folder-tree.c:685
 msgid "Folder names cannot contain “/”"
 msgstr "I nons des cartelis no puedin vê “/”"
 
@@ -18493,49 +18494,49 @@ msgstr "I nons des cartelis no puedin vê “/”"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:876
+#: ../src/mail/em-folder-tree.c:879
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1738
+#: ../src/mail/em-folder-tree.c:1741
 msgid "Mail Folder Tree"
 msgstr "Arbul cartelis di pueste"
 
-#: ../src/mail/em-folder-tree.c:2287
+#: ../src/mail/em-folder-tree.c:2290
 #, c-format
 msgid "Moving folder %s"
 msgstr "Daûr a spostâ la cartele %s"
 
-#: ../src/mail/em-folder-tree.c:2290
+#: ../src/mail/em-folder-tree.c:2293
 #, c-format
 msgid "Copying folder %s"
 msgstr "Daûr a copiâ la cartele %s"
 
-#: ../src/mail/em-folder-tree.c:2297 ../src/mail/message-list.c:2634
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2634
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Daûr a spostâ i messaçs te cartele %s"
 
-#: ../src/mail/em-folder-tree.c:2301 ../src/mail/message-list.c:2636
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2636
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Daûr a copiâ i messaçs te cartele %s"
 
-#: ../src/mail/em-folder-tree.c:2320
+#: ../src/mail/em-folder-tree.c:2323
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Impussibil molâ il/i messaç(s) tal archivi di prin nivel"
 
 #. UNMATCHED is always last.
-#: ../src/mail/em-folder-tree-model.c:457
-#: ../src/mail/em-folder-tree-model.c:459
+#: ../src/mail/em-folder-tree-model.c:460
+#: ../src/mail/em-folder-tree-model.c:462
 msgid "UNMATCHED"
 msgstr "NISSUNE CORISPONDENCE"
 
-#: ../src/mail/em-folder-tree-model.c:1547
-#: ../src/mail/em-folder-tree-model.c:1924
+#: ../src/mail/em-folder-tree-model.c:1553
+#: ../src/mail/em-folder-tree-model.c:1930
 msgid "Loading..."
 msgstr "Daûr a cjariâ..."
 
@@ -23177,7 +23178,7 @@ msgstr "Servidôr LDAP"
 msgid "Looking up LDAP server…"
 msgstr "Daûr a cirî il Servidôr LDAP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:242
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:279
 msgid "Look up in SRV records"
 msgstr "Cîr tai regjistris SRV"
 
@@ -24398,7 +24399,7 @@ msgstr "Gjave par simpri cheste cartele"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1635
 msgid "Edit Sort _Order…"
-msgstr ""
+msgstr "Modifiche _ordenament…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1637
 msgid "Change sort order of the folders in the folder tree"
@@ -26870,7 +26871,7 @@ msgstr "No sta dimilu plui"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/main.c:312
+#: ../src/shell/main.c:325
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -26878,39 +26879,39 @@ msgstr ""
 "Invie Evolution mostrant il component specificât. Lis opzions disponibilis a "
 "son: “mail”, “calendar”, “contacts”, “tasks”, e “memos”"
 
-#: ../src/shell/main.c:316
+#: ../src/shell/main.c:329
 msgid "Apply the given geometry to the main window"
 msgstr "Apliche la gjeometrie indicade al barcon principâl"
 
-#: ../src/shell/main.c:320
+#: ../src/shell/main.c:333
 msgid "Start in online mode"
 msgstr "Invie in modalitât in rêt"
 
-#: ../src/shell/main.c:322
+#: ../src/shell/main.c:335
 msgid "Ignore network availability"
 msgstr "Ignore disponibilitât rêt"
 
-#: ../src/shell/main.c:325
+#: ../src/shell/main.c:338
 msgid "Forcibly shut down Evolution"
 msgstr "Sfuarce il distudâ di Evolution"
 
-#: ../src/shell/main.c:328
+#: ../src/shell/main.c:341
 msgid "Disable loading of any plugins."
 msgstr "Disabilite il cjariament di cualsisei plugin."
 
-#: ../src/shell/main.c:330
+#: ../src/shell/main.c:343
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Disabilite il ricuadri di anteprime di Pueste, Contats e Ativitâts."
 
-#: ../src/shell/main.c:334
+#: ../src/shell/main.c:347
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Impuarte URI o nons di file indicâts tal rest dai argoments."
 
-#: ../src/shell/main.c:336
+#: ../src/shell/main.c:349
 msgid "Request a running Evolution process to quit"
 msgstr "Domande a un procès in esecuzion di Evolution di terminâ"
 
-#: ../src/shell/main.c:418
+#: ../src/shell/main.c:431
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -26919,11 +26920,11 @@ msgstr ""
 "Impussibil inviâ Evolution. Une altre istance de aplicazion no rispuint. "
 "Erôr di sisteme: %s"
 
-#: ../src/shell/main.c:474 ../src/shell/main.c:479
+#: ../src/shell/main.c:487 ../src/shell/main.c:492
 msgid "— The Evolution PIM and Email Client"
 msgstr "— Client di pueste e calendari Evolution"
 
-#: ../src/shell/main.c:541
+#: ../src/shell/main.c:554
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -26932,7 +26933,7 @@ msgstr ""
 "%s: impussibil doprâ --online e --offline adun.\n"
 "  Eseguî “%s --help” par vê plui informazions.\n"
 
-#: ../src/shell/main.c:547
+#: ../src/shell/main.c:560
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
