@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2019-05-03 18:10+0000\n"
-"PO-Revision-Date: 2019-05-05 17:48+0200\n"
+"PO-Revision-Date: 2019-05-05 19:29+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -12692,10 +12692,8 @@ msgid "_Finish"
 msgstr "_Termine"
 
 #: ../src/e-util/e-collection-account-wizard.c:110
-#, fuzzy
-#| msgid "_Skip Lookup"
 msgid "_Look Up"
-msgstr "_Salte consult"
+msgstr "_Consulte"
 
 #: ../src/e-util/e-collection-account-wizard.c:112
 #: ../src/e-util/e-collection-account-wizard.c:273
@@ -23734,36 +23732,28 @@ msgstr[1] ""
 "Il calendari “%s” al à %d apontaments che a son in conflit cun cheste riunion"
 
 #: ../src/modules/itip-formatter/itip-view.c:3924
-#, fuzzy, c-format
-#| msgid ""
-#| "The calendar “%s” contains an appointment which conflicts with this "
-#| "meeting"
-#| msgid_plural ""
-#| "The calendar “%s” contains %d appointments which conflict with this "
-#| "meeting"
+#, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
 "The task list “%s” contains %d tasks which conflict with this task"
 msgstr[0] ""
-"Il calendari “%s” al à un apontament che al è in conflit cun cheste riunion"
+"La liste des ativitâts “%s” e conten une ativitât che e je in conflit cun "
+"cheste ativitât"
 msgstr[1] ""
-"Il calendari “%s” al à %d apontaments che a son in conflit cun cheste riunion"
+"La liste des ativitâts “%s” e conten %d ativitâts che a son in conflit cun "
+"cheste ativitât"
 
 #: ../src/modules/itip-formatter/itip-view.c:3933
-#, fuzzy, c-format
-#| msgid ""
-#| "The calendar “%s” contains an appointment which conflicts with this "
-#| "meeting"
-#| msgid_plural ""
-#| "The calendar “%s” contains %d appointments which conflict with this "
-#| "meeting"
+#, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
 "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] ""
-"Il calendari “%s” al à un apontament che al è in conflit cun cheste riunion"
+"La liste di memorandum “%s” e conten un memorandum che al è in conflit cun "
+"chest memorandum"
 msgstr[1] ""
-"Il calendari “%s” al à %d apontaments che a son in conflit cun cheste riunion"
+"La liste di memorandum “%s” e conten %d memorandum che a son in conflit cun "
+"chest memorandum"
 
 #: ../src/modules/itip-formatter/itip-view.c:3971
 #, c-format
@@ -23839,17 +23829,15 @@ msgstr "Inviât al calendari “%s” come acetât"
 
 # Inviât o inviade acetât o acedate?
 #: ../src/modules/itip-formatter/itip-view.c:4954
-#, fuzzy, c-format
-#| msgid "Sent to calendar “%s” as accepted"
+#, c-format
 msgid "Sent to task list “%s” as accepted"
-msgstr "Inviât al calendari “%s” come acetât"
+msgstr "Inviade ae liste des ativitâts “%s” come acetade"
 
 # Inviât o inviade acetât o acedate?
 #: ../src/modules/itip-formatter/itip-view.c:4959
-#, fuzzy, c-format
-#| msgid "Sent to calendar “%s” as accepted"
+#, c-format
 msgid "Sent to memo list “%s” as accepted"
-msgstr "Inviât al calendari “%s” come acetât"
+msgstr "Inviât ae liste dai memorandum “%s” come acetât"
 
 # inviât o inviade? provisori o provisorie?
 #: ../src/modules/itip-formatter/itip-view.c:4969
@@ -23859,17 +23847,15 @@ msgstr "Inviât al calendari “%s” come provisori"
 
 # inviât o inviade? provisori o provisorie?
 #: ../src/modules/itip-formatter/itip-view.c:4974
-#, fuzzy, c-format
-#| msgid "Sent to calendar “%s” as tentative"
+#, c-format
 msgid "Sent to task list “%s” as tentative"
-msgstr "Inviât al calendari “%s” come provisori"
+msgstr "Inviade ae liste des ativitâts “%s” come provisorie"
 
 # inviât o inviade? provisori o provisorie?
 #: ../src/modules/itip-formatter/itip-view.c:4979
-#, fuzzy, c-format
-#| msgid "Sent to calendar “%s” as tentative"
+#, c-format
 msgid "Sent to memo list “%s” as tentative"
-msgstr "Inviât al calendari “%s” come provisori"
+msgstr "Inviât ae liste dai memorandum “%s” come provisori"
 
 # inviât o inviade, declinât o declinade?
 #: ../src/modules/itip-formatter/itip-view.c:4989
@@ -23879,17 +23865,15 @@ msgstr "Inviât al calendari “%s” come declinât"
 
 # inviât o inviade, declinât o declinade?
 #: ../src/modules/itip-formatter/itip-view.c:4994
-#, fuzzy, c-format
-#| msgid "Sent to calendar “%s” as declined"
+#, c-format
 msgid "Sent to task list “%s” as declined"
-msgstr "Inviât al calendari “%s” come declinât"
+msgstr "Inviade ae liste des ativitâts “%s” come declinade"
 
 # inviât o inviade, declinât o declinade?
 #: ../src/modules/itip-formatter/itip-view.c:4999
-#, fuzzy, c-format
-#| msgid "Sent to calendar “%s” as declined"
+#, c-format
 msgid "Sent to memo list “%s” as declined"
-msgstr "Inviât al calendari “%s” come declinât"
+msgstr "Inviât ae liste dai memorandum “%s” come declinât"
 
 # inviât o inviade? anulât o anulade?
 #: ../src/modules/itip-formatter/itip-view.c:5009
@@ -23899,17 +23883,15 @@ msgstr "Inviât al calendari “%s” come anulât"
 
 # inviât o inviade? anulât o anulade?
 #: ../src/modules/itip-formatter/itip-view.c:5014
-#, fuzzy, c-format
-#| msgid "Sent to calendar “%s” as cancelled"
+#, c-format
 msgid "Sent to task list “%s” as cancelled"
-msgstr "Inviât al calendari “%s” come anulât"
+msgstr "Inviade ae liste des ativitâts “%s” come anulade"
 
 # inviât o inviade? anulât o anulade?
 #: ../src/modules/itip-formatter/itip-view.c:5019
-#, fuzzy, c-format
-#| msgid "Sent to calendar “%s” as cancelled"
+#, c-format
 msgid "Sent to memo list “%s” as cancelled"
-msgstr "Inviât al calendari “%s” come anulât"
+msgstr "Inviât ae liste dai memorandum “%s” come anulât"
 
 #: ../src/modules/itip-formatter/itip-view.c:5052
 msgid "Saving changes to the calendar. Please wait…"
