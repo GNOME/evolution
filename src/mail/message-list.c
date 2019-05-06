@@ -131,6 +131,7 @@ struct _MessageListPrivate {
 	GMutex re_prefixes_lock;
 
 	GdkRGBA *new_mail_bg_color;
+	gchar *new_mail_fg_color;
 };
 
 /* XXX Plain GNode suffers from O(N) tail insertions, and that won't
@@ -2053,6 +2054,19 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		if (!colour)
 			colour = camel_message_info_get_user_tag (msg_info, "color");
 
+		/*
+		 * No flags/tags/user color on mail, check for unread status and
+		 * "new-mail-fg-color" CSS attribute.
+		 */
+		if (!colour && message_list->priv->new_mail_fg_color) {
+			gboolean saw_unread = FALSE;
+
+			for_node_and_subtree_if_collapsed (message_list, node, msg_info, unread_foreach, &saw_unread);
+
+			if (saw_unread)
+				colour = message_list->priv->new_mail_fg_color;
+		}
+
 		return (gpointer) colour;
 	}
 	case COL_ITALIC: {
@@ -2959,16 +2973,23 @@ ml_get_bg_color_cb (ETableItem *item,
 static void
 ml_style_updated_cb (MessageList *message_list)
 {
+	GdkRGBA *new_mail_fg_color = NULL;
+
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
-	if (message_list->priv->new_mail_bg_color) {
-		gdk_rgba_free (message_list->priv->new_mail_bg_color);
-		message_list->priv->new_mail_bg_color = NULL;
-	}
+	g_clear_pointer (&message_list->priv->new_mail_bg_color, gdk_rgba_free);
+	g_clear_pointer (&message_list->priv->new_mail_fg_color, g_free);
 
 	gtk_widget_style_get (GTK_WIDGET (message_list),
 		"new-mail-bg-color", &message_list->priv->new_mail_bg_color,
+		"new-mail-fg-color", &new_mail_fg_color,
 		NULL);
+
+	if (new_mail_fg_color) {
+		message_list->priv->new_mail_fg_color = gdk_rgba_to_string (new_mail_fg_color);
+
+		gdk_rgba_free (new_mail_fg_color);
+	}
 }
 
 static void
@@ -3232,10 +3253,8 @@ message_list_finalize (GObject *object)
 	if (message_list->priv->tree_model_root != NULL)
 		extended_g_node_destroy (message_list->priv->tree_model_root);
 
-	if (message_list->priv->new_mail_bg_color) {
-		gdk_rgba_free (message_list->priv->new_mail_bg_color);
-		message_list->priv->new_mail_bg_color = NULL;
-	}
+	g_clear_pointer (&message_list->priv->new_mail_bg_color, gdk_rgba_free);
+	g_clear_pointer (&message_list->priv->new_mail_fg_color, g_free);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
@@ -3855,6 +3874,15 @@ message_list_class_init (MessageListClass *class)
 			GDK_TYPE_RGBA,
 			G_PARAM_READABLE));
 
+	gtk_widget_class_install_style_property (
+		GTK_WIDGET_CLASS (class),
+		g_param_spec_boxed (
+			"new-mail-fg-color",
+			"New Mail Foreground Color",
+			"Foreground color to use for new mails",
+			GDK_TYPE_RGBA,
+			G_PARAM_READABLE));
+
 	signals[MESSAGE_SELECTED] = g_signal_new (
 		"message_selected",
 		MESSAGE_LIST_TYPE,
@@ -3966,6 +3994,7 @@ message_list_init (MessageList *message_list)
 	message_list->priv->re_separators = NULL;
 	message_list->priv->group_by_threads = TRUE;
 	message_list->priv->new_mail_bg_color = NULL;
+	message_list->priv->new_mail_fg_color = NULL;
 }
 
 static void
