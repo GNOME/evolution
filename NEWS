@@ -1,3 +1,26 @@
+Evolution 3.32.2 2019-05-06
+---------------------------
+
+Bug Fixes:
+	I#240 - Make SRV config lookup check also TXT records for CalDAV/CardDAV (Дилян Палаузов)
+	I#430 - The first user's Search Folder not auto-shown in the folder tree (Milan Crha)
+	M!9 - Remove unused variable from e-srv-config-lookup.c:srv_config_lookup_domain_sync() (Дилян Палаузов)
+	M!10 - Remove unneeded g_srv_target_list_sort() call in srv_config_lookup_domain_sync() (Дилян Палаузов)
+	M!12 - [SRV config lookup] Do not write default ports in CalDAV/CardDAV URLs (Дилян Палаузов)
+	eds-I#99 - Fails to build against git master of OpenLDAP (vendor version check) (Дилян Палаузов)
+	eds-I#102 - Change order of gtkdoc-scangobj libraries (Milan Crha)
+
+Miscellaneous:
+	Use lower-case "mailto:" consistently in the code (Milan Crha)
+	Prevent crash in cal_data_model_notify_recurrences_cb() (Milan Crha)
+	[Flatpak] Cover changes in 'gdbus wait' timeout argument units (Milan Crha)
+	[Flatpak] Change how already running services are detected in the wrapper script (Milan Crha)
+	[Flatpak] Give access to filesystem's ~/.gnupg (Milan Crha)
+
+Translations:
+	Ask Hjorth Larsen (da)
+	Jordi Mas (ca)
+
 Evolution 3.32.1 2019-04-08
 ---------------------------
 
