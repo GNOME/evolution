@@ -897,6 +897,11 @@ etdp_add_component (EToDoPane *to_do_pane,
 	ident = component_ident_new (client, id->uid, id->rid);
 
 	new_root_paths = etdp_get_component_root_paths (to_do_pane, client, comp, default_zone);
+	/* This can happen with "Show Tasks without Due date", which returns
+	   basically all tasks, even with Due date in the future, out of
+	   the interval used by the To Do bar. */
+	if (!new_root_paths)
+		goto exit;
 
 	new_references = etdp_merge_with_root_paths (to_do_pane, model, new_root_paths,
 		g_hash_table_lookup (to_do_pane->priv->component_refs, ident));
@@ -972,6 +977,7 @@ etdp_add_component (EToDoPane *to_do_pane,
 
 	g_hash_table_insert (to_do_pane->priv->component_refs, component_ident_copy (ident), new_references);
 
+ exit:
 	component_ident_free (ident);
 	e_cal_component_free_id (id);
 	g_free (summary);
