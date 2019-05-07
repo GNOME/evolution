@@ -41,6 +41,7 @@ struct _EShellSidebarPrivate {
 	gpointer shell_view;  /* weak pointer */
 
 	GtkWidget *event_box;
+	GtkWidget *image_widget;
 
 	gchar *icon_name;
 	gchar *primary_text;
@@ -457,6 +458,7 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	icon_name = "evolution";
 	e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
 	widget = gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU);
+	shell_sidebar->priv->image_widget = widget;
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -558,6 +560,26 @@ e_shell_sidebar_get_shell_view (EShellSidebar *shell_sidebar)
 	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), NULL);
 
 	return E_SHELL_VIEW (shell_sidebar->priv->shell_view);
+}
+
+/**
+ * e_shell_sidebar_get_image_widget:
+ * @shell_sidebar: an #EShellSidebar
+ *
+ * Returns the #GtkImage used for the @shell_sidebar. It can be used
+ * to temporarily override the image's content, at least until
+ * the "icon-name" property of the #EShellSidebar changes.
+ *
+ * Returns: the #GtkImage used for the @shell_sidebar
+ *
+ * Since: 3.34
+ **/
+GtkWidget *
+e_shell_sidebar_get_image_widget (EShellSidebar *shell_sidebar)
+{
+	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), NULL);
+
+	return shell_sidebar->priv->image_widget;
 }
 
 /**

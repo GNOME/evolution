@@ -52,7 +52,10 @@ mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
 	EShellViewClass *shell_view_class;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	const gchar *icon_name;
+	const gchar *icon_name = NULL;
+	GtkWidget *widget;
+	GIcon *custom_icon = NULL;
+	gchar *set_icon_name = NULL;
 	gchar *display_name = NULL;
 	gboolean is_folder = FALSE;
 	guint flags = 0;
@@ -60,26 +63,66 @@ mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 
-	if (gtk_tree_selection_get_selected (selection, &model, &iter))
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (
 			model, &iter,
 			COL_STRING_DISPLAY_NAME, &display_name,
 			COL_BOOL_IS_FOLDER, &is_folder,
-			COL_UINT_FLAGS, &flags, -1);
+			COL_UINT_FLAGS, &flags,
+			COL_STRING_ICON_NAME, &set_icon_name,
+			COL_GICON_CUSTOM_ICON, &custom_icon,
+			-1);
+	}
 
-	if (is_folder)
-		icon_name = em_folder_utils_get_icon_name (flags);
-	else {
+	if (is_folder) {
+		if (!custom_icon) {
+			if (set_icon_name && *set_icon_name)
+				icon_name = set_icon_name;
+			else
+				icon_name = em_folder_utils_get_icon_name (flags);
+		}
+	} else {
 		g_free (display_name);
 
 		icon_name = shell_view_class->icon_name;
 		display_name = g_strdup (shell_view_class->label);
 	}
 
-	e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
+	widget = e_shell_sidebar_get_image_widget (shell_sidebar);
+
+	if (custom_icon) {
+		gtk_image_set_from_gicon (GTK_IMAGE (widget), custom_icon, GTK_ICON_SIZE_MENU);
+	} else if (gtk_image_get_storage_type (GTK_IMAGE (widget)) == GTK_IMAGE_GICON &&
+		   g_strcmp0 (icon_name, e_shell_sidebar_get_icon_name (shell_sidebar)) == 0) {
+		/* When the custom icon is unset and the icon name matches, emit the signal here,
+		   because it won't update the image icon in the binding handler otherwise. */
+		g_object_notify (G_OBJECT (shell_sidebar), "icon-name");
+	} else {
+		e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
+	}
+
 	e_shell_sidebar_set_primary_text (shell_sidebar, display_name);
 
+	g_clear_object (&custom_icon);
+	g_free (set_icon_name);
 	g_free (display_name);
+}
+
+static void
+mail_shell_sidebar_model_row_changed_cb (GtkTreeModel *model,
+					 GtkTreePath *path,
+					 GtkTreeIter *iter,
+					 gpointer user_data)
+{
+	EMailShellSidebar *mail_shell_sidebar = user_data;
+	GtkTreeSelection *selection;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_SIDEBAR (mail_shell_sidebar));
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (mail_shell_sidebar->priv->folder_tree));
+
+	if (gtk_tree_selection_iter_is_selected (selection, iter))
+		mail_shell_sidebar_selection_changed_cb (E_SHELL_SIDEBAR (mail_shell_sidebar), selection);
 }
 
 static void
@@ -107,6 +150,15 @@ mail_shell_sidebar_dispose (GObject *object)
 	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	if (priv->folder_tree != NULL) {
+		GtkTreeModel *model;
+
+		model = gtk_tree_view_get_model (GTK_TREE_VIEW (priv->folder_tree));
+
+		if (model) {
+			g_signal_handlers_disconnect_by_func (model,
+				mail_shell_sidebar_model_row_changed_cb, object);
+		}
+
 		g_object_unref (priv->folder_tree);
 		priv->folder_tree = NULL;
 	}
@@ -188,6 +240,9 @@ mail_shell_sidebar_constructed (GObject *object)
 		selection, "changed",
 		G_CALLBACK (mail_shell_sidebar_selection_changed_cb),
 		shell_sidebar);
+
+	g_signal_connect (gtk_tree_view_get_model (tree_view), "row-changed",
+		G_CALLBACK (mail_shell_sidebar_model_row_changed_cb), shell_sidebar);
 }
 
 static gint
