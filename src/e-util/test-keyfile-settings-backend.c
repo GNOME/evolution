@@ -104,7 +104,7 @@ test_keyfile_settings_backend_add_change_listener (TestKeyfileSettingsBackend *t
 	path = g_strconcat ("/", schema_id, "/", NULL);
 	for (ii = 0; path[ii]; ii++) {
 		if (path[ii] == '.')
-			path[ii] = '.';
+			path[ii] = '/';
 	}
 
 	settings = g_settings_new_with_backend (schema_id, tk_backend->kf_backend);
