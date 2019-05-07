@@ -958,6 +958,10 @@ week_view_constructed (GObject *object)
 	g_signal_connect_swapped (
 		model, "time-range-changed",
 		G_CALLBACK (week_view_time_range_changed_cb), object);
+
+	g_signal_connect (
+		model, "timezone-changed",
+		G_CALLBACK (timezone_changed_cb), object);
 }
 
 static GdkColor
@@ -1889,16 +1893,9 @@ e_week_view_init (EWeekView *week_view)
 ECalendarView *
 e_week_view_new (ECalModel *model)
 {
-	ECalendarView *view;
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
-	view = g_object_new (E_TYPE_WEEK_VIEW, "model", model, NULL);
-
-	g_signal_connect (
-		model, "timezone_changed",
-		G_CALLBACK (timezone_changed_cb), view);
-
-	return view;
+	return g_object_new (E_TYPE_WEEK_VIEW, "model", model, NULL);
 }
 
 static GdkColor
@@ -2137,6 +2134,7 @@ e_week_view_get_next_tab_event (EWeekView *week_view,
 static void
 e_week_view_update_query (EWeekView *week_view)
 {
+	ECalModel *cal_model;
 	gint rows, r;
 
 	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
@@ -2149,11 +2147,13 @@ e_week_view_update_query (EWeekView *week_view)
 	e_week_view_free_events (week_view);
 	e_week_view_queue_layout (week_view);
 
-	rows = e_table_model_row_count (E_TABLE_MODEL (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view))));
+	cal_model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	rows = e_table_model_row_count (E_TABLE_MODEL (cal_model));
+
 	for (r = 0; r < rows; r++) {
 		ECalModelComponent *comp_data;
 
-		comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), r);
+		comp_data = e_cal_model_get_component_at (cal_model, r);
 		if (comp_data == NULL) {
 			g_warning ("comp_data is NULL\n");
 			continue;
