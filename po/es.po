@@ -13,13 +13,12 @@
 # Rodrigo <rodhos92@gmail.com>, 2019.
 # Daniel Mustieles <daniel.mustieles@gmail.com>, 2010-2019.
 #
-#: ../src/shell/main.c:527
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-04-23 08:22+0000\n"
-"PO-Revision-Date: 2019-04-24 09:58+0200\n"
+"POT-Creation-Date: 2019-05-07 08:56+0000\n"
+"PO-Revision-Date: 2019-05-07 14:48+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -3251,7 +3250,7 @@ msgid ""
 msgstr "Filtro de compresión usado al comprimir carpetas adjuntos con autoar."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:11
-#: ../src/shell/main.c:318
+#: ../src/shell/main.c:331
 msgid "Start in offline mode"
 msgstr "Iniciar en modo desconectado"
 
@@ -6778,7 +6777,7 @@ msgstr "Estado:"
 #: ../src/calendar/gui/e-cal-component-preview.c:357
 #: ../src/calendar/gui/e-task-table.c:549
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
-#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:330
+#: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:331
 msgid "High"
 msgstr "Alta"
 
@@ -6786,14 +6785,14 @@ msgstr "Alta"
 #: ../src/calendar/gui/e-cal-model.c:1911
 #: ../src/calendar/gui/e-task-table.c:550
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
-#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:329
+#: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:330
 msgid "Normal"
 msgstr "Normal"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:361
 #: ../src/calendar/gui/e-task-table.c:551
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
-#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:328
+#: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:329
 msgid "Low"
 msgstr "Baja"
 
@@ -6818,17 +6817,17 @@ msgstr "Descripción:"
 msgid "Web Page:"
 msgstr "Página web:"
 
-#: ../src/calendar/gui/e-cal-data-model.c:1709
+#: ../src/calendar/gui/e-cal-data-model.c:1711
 #, c-format
 msgid "Creating view for calendar “%s”"
 msgstr "Creando vista para el calendario «%s»"
 
-#: ../src/calendar/gui/e-cal-data-model.c:1713
+#: ../src/calendar/gui/e-cal-data-model.c:1715
 #, c-format
 msgid "Creating view for task list “%s”"
 msgstr "Creando vista para la lista de tareas «%s»"
 
-#: ../src/calendar/gui/e-cal-data-model.c:1717
+#: ../src/calendar/gui/e-cal-data-model.c:1719
 #, c-format
 msgid "Creating view for memo list “%s”"
 msgstr "Creando vista para la lista de notas «%s»"
@@ -7264,15 +7263,15 @@ msgstr "Modificando una nota"
 msgid "Modifying a task"
 msgstr "Modificando una tarea"
 
-#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1981
+#: ../src/calendar/gui/e-cal-ops.c:412 ../src/calendar/gui/e-to-do-pane.c:1987
 msgid "Removing an event"
 msgstr "Quitando un evento"
 
-#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1985
+#: ../src/calendar/gui/e-cal-ops.c:416 ../src/calendar/gui/e-to-do-pane.c:1991
 msgid "Removing a memo"
 msgstr "Quitando una nota"
 
-#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1989
+#: ../src/calendar/gui/e-cal-ops.c:420 ../src/calendar/gui/e-to-do-pane.c:1995
 msgid "Removing a task"
 msgstr "Quitando una tarea"
 
@@ -8636,7 +8635,7 @@ msgstr "Guardar los cambios actuales y cerrar el editor"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/e-day-view.c:2147 ../src/calendar/gui/e-to-do-pane.c:242
-#: ../src/calendar/gui/e-week-view.c:1772 ../src/calendar/gui/print.c:1079
+#: ../src/calendar/gui/e-week-view.c:1776 ../src/calendar/gui/print.c:1079
 #: ../src/calendar/gui/print.c:1098 ../src/calendar/gui/print.c:2635
 #: ../src/calendar/gui/print.c:2655
 msgid "am"
@@ -8644,7 +8643,7 @@ msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/e-day-view.c:2150 ../src/calendar/gui/e-to-do-pane.c:246
-#: ../src/calendar/gui/e-week-view.c:1775 ../src/calendar/gui/print.c:1084
+#: ../src/calendar/gui/e-week-view.c:1779 ../src/calendar/gui/print.c:1084
 #: ../src/calendar/gui/print.c:1100 ../src/calendar/gui/print.c:2640
 #: ../src/calendar/gui/print.c:2657
 msgid "pm"
@@ -9059,7 +9058,7 @@ msgid "Completed: %s"
 msgstr "Completado: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1487 ../src/e-util/e-cell-date-edit.c:328
+#: ../src/calendar/gui/e-to-do-pane.c:1493 ../src/e-util/e-cell-date-edit.c:328
 #: ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1860
 #: ../src/modules/itip-formatter/itip-view.c:255
@@ -9067,55 +9066,55 @@ msgid "Today"
 msgstr "Hoy"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1489
+#: ../src/calendar/gui/e-to-do-pane.c:1495
 #: ../src/e-util/e-datetime-format.c:218
 #: ../src/modules/itip-formatter/itip-view.c:283
 msgid "Tomorrow"
 msgstr "Mañana"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1499
+#: ../src/calendar/gui/e-to-do-pane.c:1505
 msgid "Tasks without Due date"
 msgstr "Tareas sin fecha de vencimiento"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2072
+#: ../src/calendar/gui/e-to-do-pane.c:2078
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1463
 msgid "New _Appointment..."
 msgstr "_Cita nueva…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2080
+#: ../src/calendar/gui/e-to-do-pane.c:2086
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1449
 msgid "New _Meeting..."
 msgstr "_Reunión nueva…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2088
+#: ../src/calendar/gui/e-to-do-pane.c:2094
 msgid "New _Task..."
 msgstr "_Tarea nueva…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2096
+#: ../src/calendar/gui/e-to-do-pane.c:2102
 msgid "_New Assigned Task..."
 msgstr "Nueva tarea _asignada…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2109
+#: ../src/calendar/gui/e-to-do-pane.c:2115
 msgid "_Open..."
 msgstr "_Abrir..."
 
-#: ../src/calendar/gui/e-to-do-pane.c:2123
+#: ../src/calendar/gui/e-to-do-pane.c:2129
 msgid "_Delete This Instance..."
 msgstr "_Eliminar esta _instancia…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2131
+#: ../src/calendar/gui/e-to-do-pane.c:2137
 msgid "D_elete All Instances..."
 msgstr "E_liminar todas las instancias…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2139
+#: ../src/calendar/gui/e-to-do-pane.c:2145
 msgid "_Delete..."
 msgstr "_Eliminar…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2156
+#: ../src/calendar/gui/e-to-do-pane.c:2162
 msgid "_Show Tasks without Due date"
 msgstr "_Mostrar tareas sin fecha de vencimiento"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2422
+#: ../src/calendar/gui/e-to-do-pane.c:2428
 msgid "To Do"
 msgstr "Tareas pendientes"
 
@@ -12608,7 +12607,7 @@ msgid "popup list"
 msgstr "lista emergente"
 
 #: ../src/e-util/e-cell-date.c:49 ../src/e-util/e-cell-date.c:137
-#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2148
+#: ../src/e-util/e-cell-date.c:157 ../src/mail/message-list.c:2162
 msgid "?"
 msgstr "?"
 
@@ -16221,9 +16220,9 @@ msgid "Invalid folder URI “%s”"
 msgstr "URI « %s» de la carpeta no válida"
 
 #. Some local folders
-#: ../src/libemail-engine/e-mail-session.c:117
+#: ../src/libemail-engine/e-mail-session.c:120
 #: ../src/mail/em-folder-properties.c:1444
-#: ../src/mail/em-folder-tree-model.c:1319
+#: ../src/mail/em-folder-tree-model.c:1501
 #: ../src/mail/importers/kmail-libs.c:139
 #: ../src/modules/mail/e-mail-shell-view-private.c:1032
 #: ../src/modules/mail/e-mail-shell-view-private.c:1043
@@ -16231,45 +16230,45 @@ msgid "Inbox"
 msgstr "Bandeja de entrada"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
-#: ../src/libemail-engine/e-mail-session.c:118
-#: ../src/mail/em-folder-tree-model.c:1312
+#: ../src/libemail-engine/e-mail-session.c:121
+#: ../src/mail/em-folder-tree-model.c:1495
 #: ../src/mail/importers/kmail-libs.c:145
 #: ../src/modules/mail/e-mail-shell-view-private.c:1030
 msgid "Drafts"
 msgstr "Borradores"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
-#: ../src/libemail-engine/e-mail-session.c:119
-#: ../src/mail/em-folder-tree-model.c:1323
+#: ../src/libemail-engine/e-mail-session.c:122
+#: ../src/mail/em-folder-tree-model.c:1505
 #: ../src/mail/importers/kmail-libs.c:141
 #: ../src/modules/mail/e-mail-shell-view-private.c:1034
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
-#: ../src/libemail-engine/e-mail-session.c:120
-#: ../src/mail/em-folder-tree-model.c:1327
+#: ../src/libemail-engine/e-mail-session.c:123
+#: ../src/mail/em-folder-tree-model.c:1509
 #: ../src/mail/importers/kmail-libs.c:143
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 msgid "Sent"
 msgstr "Correo enviado"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
-#: ../src/libemail-engine/e-mail-session.c:121
+#: ../src/libemail-engine/e-mail-session.c:124
 #: ../src/mail/e-mail-templates-store.c:2211
-#: ../src/mail/em-folder-tree-model.c:1315
+#: ../src/mail/em-folder-tree-model.c:1497
 #: ../src/mail/importers/kmail-libs.c:147
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Plantillas"
 
-#: ../src/libemail-engine/e-mail-session.c:1294
+#: ../src/libemail-engine/e-mail-session.c:1518
 #, c-format
 msgid "User cancelled operation"
 msgstr "El usuario canceló la operación"
 
-#: ../src/libemail-engine/e-mail-session.c:1351
+#: ../src/libemail-engine/e-mail-session.c:1575
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -16278,29 +16277,29 @@ msgstr ""
 "No se proporcionó ninguna dirección de destino, se ha cancelado el reenvío "
 "del mensaje."
 
-#: ../src/libemail-engine/e-mail-session.c:1364
+#: ../src/libemail-engine/e-mail-session.c:1588
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "No se encontró ninguna identidad que usar, se canceló el reenvío del mensaje."
 
-#: ../src/libemail-engine/e-mail-session.c:1516
+#: ../src/libemail-engine/e-mail-session.c:1740
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr ""
 "No se ha encontrado la fuente correspondiente para el servicio con el UID "
 "«%s»"
 
-#: ../src/libemail-engine/e-mail-session.c:1636
+#: ../src/libemail-engine/e-mail-session.c:1860
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr ""
 "Buscando certificados S/MIME de destinatarios en libretas de direcciones…"
 
-#: ../src/libemail-engine/e-mail-session.c:1638
+#: ../src/libemail-engine/e-mail-session.c:1862
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "Buscando claves PGP de destinatarios en libretas de direcciones…"
 
-#: ../src/libemail-engine/e-mail-session.c:2639
+#: ../src/libemail-engine/e-mail-session.c:2889
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Esperando a «%s»"
@@ -17196,18 +17195,18 @@ msgid "Folder _name:"
 msgstr "_Nombre de la carpeta:"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:696
-#| msgid "Folder Properties"
 msgid "Folder Sort Order"
 msgstr "Criterio de ordenación de la carpeta"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:737
-#| msgid "Close the current file"
 msgid "Reset c_urrent level"
 msgstr "Restablecer el nivel act_ual"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:738
 msgid "Reset sort order in the current level to the defaults"
 msgstr ""
+"Restablecer el criterio de ordenación en el nivel actual al valor "
+"predeterminado"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:748
 msgid "Reset _all levels"
@@ -17216,6 +17215,8 @@ msgstr "Restablecer _todos los niveles"
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:749
 msgid "Reset sort order in all levels to their defaults"
 msgstr ""
+"Restablecer el criterio de ordenación en todos los niveles a los valores "
+"predeterminados"
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
@@ -18419,12 +18420,10 @@ msgid "Select Custom Icon"
 msgstr "Seleccione el icono personalizado"
 
 #: ../src/mail/em-folder-properties.c:219
-#| msgid "Use custom fonts"
 msgid "_Use custom icon"
 msgstr "_Usar icono personalizado"
 
 #: ../src/mail/em-folder-properties.c:312
-#| msgid "Unse_t Color"
 msgid "Use te_xt color"
 msgstr "Usar color del te_xto"
 
@@ -18543,7 +18542,7 @@ msgstr "<pulse aquí para seleccionar una carpeta>"
 msgid "Create a new folder"
 msgstr "Crea una carpeta nueva"
 
-#: ../src/mail/em-folder-tree.c:682
+#: ../src/mail/em-folder-tree.c:685
 msgid "Folder names cannot contain “/”"
 msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 
@@ -18565,49 +18564,49 @@ msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:876
+#: ../src/mail/em-folder-tree.c:879
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1738
+#: ../src/mail/em-folder-tree.c:1741
 msgid "Mail Folder Tree"
 msgstr "Árbol de carpetas de correo"
 
-#: ../src/mail/em-folder-tree.c:2287
+#: ../src/mail/em-folder-tree.c:2290
 #, c-format
 msgid "Moving folder %s"
 msgstr "Moviendo la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2290
+#: ../src/mail/em-folder-tree.c:2293
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2297 ../src/mail/message-list.c:2634
+#: ../src/mail/em-folder-tree.c:2300 ../src/mail/message-list.c:2648
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2301 ../src/mail/message-list.c:2636
+#: ../src/mail/em-folder-tree.c:2304 ../src/mail/message-list.c:2650
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
 
-#: ../src/mail/em-folder-tree.c:2320
+#: ../src/mail/em-folder-tree.c:2323
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
 
 #. UNMATCHED is always last.
-#: ../src/mail/em-folder-tree-model.c:457
-#: ../src/mail/em-folder-tree-model.c:459
+#: ../src/mail/em-folder-tree-model.c:460
+#: ../src/mail/em-folder-tree-model.c:462
 msgid "UNMATCHED"
 msgstr "NO COINCIDENTE"
 
-#: ../src/mail/em-folder-tree-model.c:1411
-#: ../src/mail/em-folder-tree-model.c:1788
+#: ../src/mail/em-folder-tree-model.c:1553
+#: ../src/mail/em-folder-tree-model.c:1930
 msgid "Loading..."
 msgstr "Cargando…"
 
@@ -20820,87 +20819,87 @@ msgstr "Editar carpeta de búsqueda"
 msgid "New Search Folder"
 msgstr "Carpeta de búsqueda nueva"
 
-#: ../src/mail/message-list.c:308
+#: ../src/mail/message-list.c:309
 msgid "Unseen"
 msgstr "Sin leer"
 
-#: ../src/mail/message-list.c:309
+#: ../src/mail/message-list.c:310
 msgid "Seen"
 msgstr "Visto"
 
-#: ../src/mail/message-list.c:310
+#: ../src/mail/message-list.c:311
 msgid "Answered"
 msgstr "Contestado"
 
-#: ../src/mail/message-list.c:311
+#: ../src/mail/message-list.c:312
 msgid "Forwarded"
 msgstr "Reenviado"
 
-#: ../src/mail/message-list.c:312
+#: ../src/mail/message-list.c:313
 msgid "Multiple Unseen Messages"
 msgstr "Múltiples mensajes sin leer"
 
-#: ../src/mail/message-list.c:313
+#: ../src/mail/message-list.c:314
 msgid "Multiple Messages"
 msgstr "Múltiples mensajes"
 
-#: ../src/mail/message-list.c:326
+#: ../src/mail/message-list.c:327
 msgid "Lowest"
 msgstr "La más baja"
 
-#: ../src/mail/message-list.c:327
+#: ../src/mail/message-list.c:328
 msgid "Lower"
 msgstr "Más baja"
 
-#: ../src/mail/message-list.c:331
+#: ../src/mail/message-list.c:332
 msgid "Higher"
 msgstr "Más alta"
 
-#: ../src/mail/message-list.c:332
+#: ../src/mail/message-list.c:333
 msgid "Highest"
 msgstr "La más alta"
 
-#: ../src/mail/message-list.c:481 ../src/mail/message-list.c:6738
+#: ../src/mail/message-list.c:482 ../src/mail/message-list.c:6767
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2156
+#: ../src/mail/message-list.c:2170
 #: ../src/modules/itip-formatter/itip-view.c:269
 msgid "Today %l:%M %p"
 msgstr "Hoy %l:%M %p"
 
-#: ../src/mail/message-list.c:2165
+#: ../src/mail/message-list.c:2179
 msgid "Yesterday %l:%M %p"
 msgstr "Ayer %l:%M %p"
 
-#: ../src/mail/message-list.c:2177
+#: ../src/mail/message-list.c:2191
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2185
+#: ../src/mail/message-list.c:2199
 msgid "%b %d %l:%M %p"
 msgstr "%e de %b %l:%M %p"
 
-#: ../src/mail/message-list.c:2187
+#: ../src/mail/message-list.c:2201
 msgid "%b %d %Y"
 msgstr "%e de %b de %Y"
 
-#: ../src/mail/message-list.c:3267
+#: ../src/mail/message-list.c:3286
 msgid "Select all visible messages"
 msgstr "Selecciona todos los mensajes visibles"
 
-#: ../src/mail/message-list.c:4012 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4041 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Mensajes"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5581
+#: ../src/mail/message-list.c:5610
 msgid "Follow-up"
 msgstr "Seguimiento"
 
-#: ../src/mail/message-list.c:6651
+#: ../src/mail/message-list.c:6680
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -20912,7 +20911,7 @@ msgstr ""
 "desplegable o ejecutando una búsqueda nueva, limpiándola con Buscar→Limpiar "
 "o cambiando la consulta anterior."
 
-#: ../src/mail/message-list.c:6659
+#: ../src/mail/message-list.c:6688
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
@@ -22088,8 +22087,9 @@ msgid "_Delete message after acting"
 msgstr "_Eliminar el mensaje después de actuar"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:653
-#| msgid "_Preserve my reminder"
-msgid "_Preserve exiting reminder by default"
+#, fuzzy
+#| msgid "_Preserve exiting reminder by default"
+msgid "_Preserve existing reminder by default"
 msgstr "Conser_var el recordatorio existente de manera predeterminada"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:667
@@ -22345,7 +22345,6 @@ msgid "Show Tasks without _Due date"
 msgstr "Mostrar tareas sin fecha de _vencimiento"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:73
-#| msgid "Display reminders in _notification area only"
 msgid "Display Reminders window with _notifications"
 msgstr "Mostrar ventana Recordatorios _notificaciones"
 
@@ -23258,7 +23257,7 @@ msgstr "Servidor LDAP"
 msgid "Looking up LDAP server…"
 msgstr "Buscando servidor LDAP…"
 
-#: ../src/modules/config-lookup/e-srv-config-lookup.c:241
+#: ../src/modules/config-lookup/e-srv-config-lookup.c:279
 msgid "Look up in SRV records"
 msgstr "Buscar en registros SRV"
 
@@ -23775,15 +23774,14 @@ msgstr ""
 "Una cita «%s» en el calendario «%s» entra en conflicto con esta reunión"
 
 #: ../src/modules/itip-formatter/itip-view.c:3897
-#, fuzzy, c-format
+#, c-format
 #| msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr ""
-"Una cita «%s» en el calendario «%s» entra en conflicto con esta reunión"
+"Una tarea «%s» en la lista de tareas «%s» entra en conflicto con esta tareas"
 
 #: ../src/modules/itip-formatter/itip-view.c:3904
 #, c-format
-#| msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr ""
 "Una nota «%s» en la lista de notas «%s» entra en conflicto con esta nota"
@@ -23800,7 +23798,7 @@ msgstr[1] ""
 "El calendario «%s» tiene %d citas que entran en conflicto con esta reunión"
 
 #: ../src/modules/itip-formatter/itip-view.c:3924
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "The calendar “%s” contains an appointment which conflicts with this "
 #| "meeting"
@@ -23811,12 +23809,13 @@ msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
 "The task list “%s” contains %d tasks which conflict with this task"
 msgstr[0] ""
-"El calendario «%s» tiene una cita que entra en conflicto con esta reunión"
+"La lista de tareas «%s» tiene una tarea que entra en conflicto con esta tarea"
 msgstr[1] ""
-"El calendario «%s» tiene %d citas que entran en conflicto con esta reunión"
+"La lista de tareas «%s» tiene %d tareas que entran en conflicto con esta "
+"tarea"
 
 #: ../src/modules/itip-formatter/itip-view.c:3933
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "The calendar “%s” contains an appointment which conflicts with this "
 #| "meeting"
@@ -23827,9 +23826,9 @@ msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
 "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] ""
-"El calendario «%s» tiene una cita que entra en conflicto con esta reunión"
+"La lista de notas «%s» tiene una nota que entra en conflicto con esta nota"
 msgstr[1] ""
-"El calendario «%s» tiene %d citas que entran en conflicto con esta reunión"
+"La lista de notas «%s» tiene %d notas que entran en conflicto con esta nota"
 
 #: ../src/modules/itip-formatter/itip-view.c:3971
 #, c-format
@@ -23838,13 +23837,11 @@ msgstr "Se encontró la cita en el calendario «%s»"
 
 #: ../src/modules/itip-formatter/itip-view.c:3976
 #, c-format
-#| msgid "Moving a task into the task list “%s”"
 msgid "Found the task in the task list “%s”"
 msgstr "Encontrada la tarea en la lista de tareas «%s»"
 
 #: ../src/modules/itip-formatter/itip-view.c:3981
 #, c-format
-#| msgid "Moving a memo into the memo list “%s”"
 msgid "Found the memo in the memo list “%s”"
 msgstr "Encontrada la nota en la lista de notas «%s»"
 
@@ -23873,12 +23870,10 @@ msgid "Searching for an existing version of this appointment"
 msgstr "Buscando una versión existente de esta cita"
 
 #: ../src/modules/itip-formatter/itip-view.c:4435
-#| msgid "Searching for an existing version of this appointment"
 msgid "Searching for an existing version of this task"
 msgstr "Buscando una versión existente de esta tarea"
 
 #: ../src/modules/itip-formatter/itip-view.c:4439
-#| msgid "Searching for an existing version of this appointment"
 msgid "Searching for an existing version of this memo"
 msgstr "Buscando una versión existente de esta nota"
 
@@ -24452,7 +24447,6 @@ msgid "Edit Sort _Order…"
 msgstr "Editar criterio de _ordenación…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1637
-#| msgid "Move folder in folder tree."
 msgid "Change sort order of the folders in the folder tree"
 msgstr "Cambiar criterio de ordenación de las carpetas en el árbol de carpetas"
 
@@ -26948,7 +26942,7 @@ msgstr "No preguntarme más veces"
 
 #. Translators: Do NOT translate the five component
 #. * names, they MUST remain in English!
-#: ../src/shell/main.c:312
+#: ../src/shell/main.c:325
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "“mail”, “calendar”, “contacts”, “tasks”, and “memos”"
@@ -26956,39 +26950,39 @@ msgstr ""
 "Iniciar Evolution mostrando el componente especificado. Las opciones "
 "disponibles son «mail», «calendar», «contacts», «tasks» y «memos»."
 
-#: ../src/shell/main.c:316
+#: ../src/shell/main.c:329
 msgid "Apply the given geometry to the main window"
 msgstr "Aplicar la geometría proporcionada a la ventana principal"
 
-#: ../src/shell/main.c:320
+#: ../src/shell/main.c:333
 msgid "Start in online mode"
 msgstr "Iniciar en modo conectado"
 
-#: ../src/shell/main.c:322
+#: ../src/shell/main.c:335
 msgid "Ignore network availability"
 msgstr "Ignorar la disponibilidad de la red"
 
-#: ../src/shell/main.c:325
+#: ../src/shell/main.c:338
 msgid "Forcibly shut down Evolution"
 msgstr "Forzar el cierre de Evolution"
 
-#: ../src/shell/main.c:328
+#: ../src/shell/main.c:341
 msgid "Disable loading of any plugins."
 msgstr "Desactivar la carga de cualquier complemento."
 
-#: ../src/shell/main.c:330
+#: ../src/shell/main.c:343
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar la vista previa del correo, contactos y tareas."
 
-#: ../src/shell/main.c:334
+#: ../src/shell/main.c:347
 msgid "Import URIs or filenames given as rest of arguments."
 msgstr "Importar URI o nombres de archivos proporcionados como argumentos."
 
-#: ../src/shell/main.c:336
+#: ../src/shell/main.c:349
 msgid "Request a running Evolution process to quit"
 msgstr "Solicitar que el proceso de ejecución de Evolution finalice"
 
-#: ../src/shell/main.c:418
+#: ../src/shell/main.c:431
 #, c-format
 msgid ""
 "Cannot start Evolution.  Another Evolution instance may be unresponsive. "
@@ -26997,11 +26991,11 @@ msgstr ""
 "No se puede iniciar Evolution. Es posible que haya otra instancia de "
 "Evolution que no responde. Error del sistema: %s"
 
-#: ../src/shell/main.c:474 ../src/shell/main.c:479
+#: ../src/shell/main.c:487 ../src/shell/main.c:492
 msgid "— The Evolution PIM and Email Client"
 msgstr "— El cliente de correo-e y MIP Evolution"
 
-#: ../src/shell/main.c:541
+#: ../src/shell/main.c:554
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -27010,7 +27004,7 @@ msgstr ""
 "%s: --online y --offline no se pueden usar a la vez.\n"
 "  Ejecute «%s --help» para obtener más información.\n"
 
-#: ../src/shell/main.c:547
+#: ../src/shell/main.c:560
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
