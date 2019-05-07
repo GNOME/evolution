@@ -2449,10 +2449,17 @@ void
 e_shell_allow_auth_prompt_for (EShell *shell,
 			       ESource *source)
 {
+	gboolean source_enabled;
+
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (E_IS_SOURCE (source));
 
-	e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, FALSE);
+	source_enabled = e_source_registry_check_enabled (shell->priv->registry, source);
+
+	e_credentials_prompter_set_auto_prompt_disabled_for (shell->priv->credentials_prompter, source, !source_enabled);
+
+	if (!source_enabled)
+		return;
 
 	if (e_source_get_connection_status (source) == E_SOURCE_CONNECTION_STATUS_AWAITING_CREDENTIALS) {
 		e_credentials_prompter_process_source (shell->priv->credentials_prompter, source);
