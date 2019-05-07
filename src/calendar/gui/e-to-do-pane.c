@@ -861,6 +861,35 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 }
 
 static void
+etdp_remove_ident (EToDoPane *to_do_pane,
+		   ComponentIdent *ident)
+{
+	GSList *link;
+
+	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
+	g_return_if_fail (ident != NULL);
+
+	for (link = g_hash_table_lookup (to_do_pane->priv->component_refs, ident); link; link = g_slist_next (link)) {
+		GtkTreeRowReference *reference = link->data;
+
+		if (reference && gtk_tree_row_reference_valid (reference)) {
+			GtkTreePath *path;
+			GtkTreeIter iter;
+
+			path = gtk_tree_row_reference_get_path (reference);
+
+			if (path && gtk_tree_model_get_iter (gtk_tree_row_reference_get_model (reference), &iter, path)) {
+				gtk_tree_store_remove (to_do_pane->priv->tree_store, &iter);
+			}
+
+			gtk_tree_path_free (path);
+		}
+	}
+
+	g_hash_table_remove (to_do_pane->priv->component_refs, ident);
+}
+
+static void
 etdp_add_component (EToDoPane *to_do_pane,
 		    ECalClient *client,
 		    ECalComponent *comp)
@@ -900,8 +929,10 @@ etdp_add_component (EToDoPane *to_do_pane,
 	/* This can happen with "Show Tasks without Due date", which returns
 	   basically all tasks, even with Due date in the future, out of
 	   the interval used by the To Do bar. */
-	if (!new_root_paths)
+	if (!new_root_paths) {
+		etdp_remove_ident (to_do_pane, ident);
 		goto exit;
+	}
 
 	new_references = etdp_merge_with_root_paths (to_do_pane, model, new_root_paths,
 		g_hash_table_lookup (to_do_pane->priv->component_refs, ident));
@@ -1133,7 +1164,6 @@ etdp_data_subscriber_component_removed (ECalDataModelSubscriber *subscriber,
 {
 	EToDoPane *to_do_pane;
 	ComponentIdent ident;
-	GSList *link;
 
 	g_return_if_fail (E_IS_TO_DO_PANE (subscriber));
 
@@ -1143,24 +1173,7 @@ etdp_data_subscriber_component_removed (ECalDataModelSubscriber *subscriber,
 	ident.uid = (gchar *) uid;
 	ident.rid = (gchar *) (rid && *rid ? rid : NULL);
 
-	for (link = g_hash_table_lookup (to_do_pane->priv->component_refs, &ident); link; link = g_slist_next (link)) {
-		GtkTreeRowReference *reference = link->data;
-
-		if (reference && gtk_tree_row_reference_valid (reference)) {
-			GtkTreePath *path;
-			GtkTreeIter iter;
-
-			path = gtk_tree_row_reference_get_path (reference);
-
-			if (path && gtk_tree_model_get_iter (gtk_tree_row_reference_get_model (reference), &iter, path)) {
-				gtk_tree_store_remove (to_do_pane->priv->tree_store, &iter);
-			}
-
-			gtk_tree_path_free (path);
-		}
-	}
-
-	g_hash_table_remove (to_do_pane->priv->component_refs, &ident);
+	etdp_remove_ident (to_do_pane, &ident);
 }
 
 static void
