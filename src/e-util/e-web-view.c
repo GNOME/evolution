@@ -1274,8 +1274,10 @@ web_view_initialize (WebKitWebView *web_view)
 	settings_schema = g_settings_schema_source_lookup (
 		g_settings_schema_source_get_default (), id, FALSE);
 
-	if (settings_schema)
+	if (settings_schema) {
 		settings = e_util_ref_settings (id);
+		g_settings_schema_unref (settings_schema);
+	}
 
 	font_settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	e_web_view_update_fonts_settings (
