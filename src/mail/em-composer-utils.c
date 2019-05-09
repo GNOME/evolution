@@ -3310,6 +3310,14 @@ em_utils_get_reply_all (ESourceRegistry *registry,
 	concat_unique_addrs (to, to_addrs, rcpt_hash);
 	concat_unique_addrs (cc, cc_addrs, rcpt_hash);
 
+	/* Set as the 'To' the first 'Reply-To' address, if such exists, when no address
+	   had been picked (like when all addresses are configured mail accounts). */
+	if (reply_to &&
+	    camel_address_length ((CamelAddress *) to) == 0 &&
+	    camel_internet_address_get (reply_to, 0, &name, &addr)) {
+		camel_internet_address_add (to, name, addr);
+	}
+
 	/* Promote the first Cc: address to To: if To: is empty. */
 	if (camel_address_length ((CamelAddress *) to) == 0 &&
 	    camel_address_length ((CamelAddress *) cc) > 0) {
