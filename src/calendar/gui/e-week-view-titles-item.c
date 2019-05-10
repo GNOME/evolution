@@ -124,7 +124,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 {
 	EWeekViewTitlesItem *titles_item;
 	EWeekView *week_view;
-	GdkRGBA bg_bg, light_bg, dark_bg;
+	GdkRGBA bg_bg, light_bg, dark_bg, fg;
 	gint col_width, col, date_width, date_x;
 	gchar buffer[128];
 	GtkAllocation allocation;
@@ -146,6 +146,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 		GTK_WIDGET (canvas_item->canvas), &allocation);
 
 	e_utils_get_theme_color (GTK_WIDGET (week_view), "theme_bg_color", E_UTILS_DEFAULT_THEME_BG_COLOR, &bg_bg);
+	e_utils_get_theme_color (GTK_WIDGET (week_view), "theme_fg_color", E_UTILS_DEFAULT_THEME_FG_COLOR, &fg);
 	e_utils_shade_color (&bg_bg, &dark_bg, E_UTILS_DARKNESS_MULT);
 	e_utils_shade_color (&bg_bg, &light_bg, E_UTILS_LIGHTNESS_MULT);
 
@@ -206,6 +207,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 			+ (week_view->col_widths[col] - date_width) / 2;
 		date_x = MAX (date_x, week_view->col_offsets[col]);
 
+		gdk_cairo_set_source_rgba (cr, &fg);
 		pango_layout_set_text (layout, buffer, -1);
 		cairo_move_to (cr, date_x - x, 3 - y);
 		pango_cairo_show_layout (cr, layout);
