@@ -3836,6 +3836,9 @@ e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (GDBusProxy *dbus_
 	g_return_val_if_fail (G_IS_DBUS_PROXY (dbus_proxy), NULL);
 	g_return_val_if_fail (method_name != NULL, NULL);
 
+	/* Reference the D-Bus proxy, to not have it disappeared under its hands */
+	g_object_ref (dbus_proxy);
+
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (dbus_proxy, method_name, parameters,
 		G_DBUS_CALL_FLAGS_NONE, -1, cancellable, &error);
 
@@ -3844,6 +3847,8 @@ e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (GDBusProxy *dbus_
 
 	e_util_claim_dbus_proxy_call_error (dbus_proxy, method_name, error);
 	g_clear_error (&error);
+
+	g_object_unref (dbus_proxy);
 
 	return result;
 }
@@ -3932,6 +3937,9 @@ e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (GDBusProxy *dbus_proxy,
 
 	g_warn_if_fail (e_util_is_main_thread (g_thread_self ()));
 
+	/* Reference the D-Bus proxy, to not have it disappeared under its hands */
+	g_object_ref (dbus_proxy);
+
 	g_dbus_proxy_call (
 		dbus_proxy, method_name, parameters, flags, timeout_msec, cancellable,
 		sync_wrapper_result_callback, &async_result);
@@ -3945,6 +3953,7 @@ e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (GDBusProxy *dbus_proxy,
 	var_result = g_dbus_proxy_call_finish (dbus_proxy, async_result, error);
 
 	g_clear_object (&async_result);
+	g_object_unref (dbus_proxy);
 
 	return var_result;
 }
