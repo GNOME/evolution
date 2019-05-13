@@ -566,25 +566,6 @@ regen_data_unref (RegenData *regen_data)
 	}
 }
 
-static CamelFolderThread *
-message_list_ref_thread_tree (MessageList *message_list)
-{
-	CamelFolderThread *thread_tree = NULL;
-
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
-
-	g_mutex_lock (&message_list->priv->thread_tree_lock);
-
-	if (message_list->priv->thread_tree != NULL) {
-		thread_tree = message_list->priv->thread_tree;
-		camel_folder_thread_messages_ref (thread_tree);
-	}
-
-	g_mutex_unlock (&message_list->priv->thread_tree_lock);
-
-	return thread_tree;
-}
-
 static void
 message_list_set_thread_tree (MessageList *message_list,
                               CamelFolderThread *thread_tree)
@@ -6157,17 +6138,10 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 	if (regen_data->group_by_threads) {
 		CamelFolderThread *thread_tree;
 
-		thread_tree = message_list_ref_thread_tree (message_list);
-
-		if (thread_tree != NULL) {
-			/* Make sure multiple threads will not access the same
-			   CamelFolderThread structure at the same time */
-			g_mutex_lock (&message_list->priv->thread_tree_lock);
-			camel_folder_thread_messages_apply (thread_tree, uids);
-			g_mutex_unlock (&message_list->priv->thread_tree_lock);
-		} else
-			thread_tree = camel_folder_thread_messages_new (
-				folder, uids, regen_data->thread_subject);
+		/* Always build a new thread_tree, to avoid race condition
+		   when accessing it here and in the build_tree() call
+		   from multiple threads. */
+		thread_tree = camel_folder_thread_messages_new (folder, uids, regen_data->thread_subject);
 
 		/* We will build the ETreeModel content from this
 		 * CamelFolderThread during regen post-processing.
