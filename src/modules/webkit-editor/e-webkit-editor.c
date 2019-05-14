@@ -963,8 +963,9 @@ webkit_editor_update_styles (EContentEditor *editor)
 	gchar *font, *aa = NULL, *citation_color;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
+	gchar fs[G_ASCII_DTOSTR_BUF_SIZE];
 	GString *stylesheet;
-	PangoFontDescription *min_size, *ms, *vw;
+	PangoFontDescription *ms, *vw;
 	WebKitSettings *settings;
 	WebKitUserContentManager *manager;
 	WebKitUserStyleSheet *style_sheet;
@@ -1004,16 +1005,20 @@ webkit_editor_update_styles (EContentEditor *editor)
 	}
 
 	stylesheet = g_string_new ("");
+	g_ascii_dtostr(fs,
+		G_ASCII_DTOSTR_BUF_SIZE,
+		((gdouble) pango_font_description_get_size (vw)) / PANGO_SCALE);
+
 	g_string_append_printf (
 		stylesheet,
 		"body {\n"
 		"  font-family: '%s';\n"
-		"  font-size: %dpt;\n"
+		"  font-size: %spt;\n"
 		"  font-weight: %d;\n"
 		"  font-style: %s;\n"
 		" -webkit-line-break: after-white-space;\n",
 		pango_font_description_get_family (vw),
-		pango_font_description_get_size (vw) / PANGO_SCALE,
+		fs,
 		pango_font_description_get_weight (vw),
 		styles[pango_font_description_get_style (vw)]);
 
@@ -1038,16 +1043,20 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append (stylesheet, "}\n");
 
+	g_ascii_dtostr(fs,
+		G_ASCII_DTOSTR_BUF_SIZE,
+		((gdouble) pango_font_description_get_size (ms)) / PANGO_SCALE);
+
 	g_string_append_printf (
 		stylesheet,
 		"pre,code,.pre {\n"
 		"  font-family: '%s';\n"
-		"  font-size: %dpt;\n"
+		"  font-size: %spt;\n"
 		"  font-weight: %d;\n"
 		"  font-style: %s;\n"
 		"}",
 		pango_font_description_get_family (ms),
-		pango_font_description_get_size (ms) / PANGO_SCALE,
+		fs,
 		pango_font_description_get_weight (ms),
 		styles[pango_font_description_get_style (ms)]);
 
@@ -1414,27 +1423,13 @@ webkit_editor_update_styles (EContentEditor *editor)
 			"}\n");
 	}
 
-	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw) || !wk_editor->priv->html_mode)
-		min_size = ms;
-	else
-		min_size = vw;
-
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (wk_editor));
 	g_object_set (
 		G_OBJECT (settings),
-		"default-font-size",
-		e_util_normalize_font_size (
-			GTK_WIDGET (wk_editor), pango_font_description_get_size (vw) / PANGO_SCALE),
 		"default-font-family",
 		pango_font_description_get_family (vw),
 		"monospace-font-family",
 		pango_font_description_get_family (ms),
-		"default-monospace-font-size",
-		e_util_normalize_font_size (
-			GTK_WIDGET (wk_editor), pango_font_description_get_size (ms) / PANGO_SCALE),
-		"minimum-font-size",
-		e_util_normalize_font_size (
-			GTK_WIDGET (wk_editor), pango_font_description_get_size (min_size) / PANGO_SCALE),
 		NULL);
 
 	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (wk_editor));
