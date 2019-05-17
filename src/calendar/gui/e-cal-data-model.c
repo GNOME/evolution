@@ -1986,7 +1986,7 @@ cal_data_model_set_property (GObject *object,
 		case PROP_TIMEZONE:
 			e_cal_data_model_set_timezone (
 				E_CAL_DATA_MODEL (object),
-				g_value_get_pointer (value));
+				g_value_get_object (value));
 			return;
 
 		case PROP_SKIP_CANCELLED:
@@ -2014,7 +2014,7 @@ cal_data_model_get_property (GObject *object,
 			return;
 
 		case PROP_TIMEZONE:
-			g_value_set_pointer (
+			g_value_set_object (
 				value,
 				e_cal_data_model_get_timezone (
 				E_CAL_DATA_MODEL (object)));
@@ -2088,10 +2088,11 @@ e_cal_data_model_class_init (ECalDataModelClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_TIMEZONE,
-		g_param_spec_pointer (
+		g_param_spec_object (
 			"timezone",
 			"Time Zone",
 			NULL,
+			I_CAL_TYPE_TIMEZONE,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
