@@ -87,7 +87,7 @@ strip_signature (CamelMimeFilter *filter,
 		}
 	}
 
-	while (inptr < inend) {
+	while (inptr && inptr < inend) {
 		if ((inend - inptr) >= 4 && !strncmp (inptr, "-- \n", 4)) {
 			start = inptr;
 			inptr += 4;

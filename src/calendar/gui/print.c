@@ -1725,6 +1725,8 @@ print_day_details (GtkPrintContext *context,
 
 	/* use font like with 30 minutes time division */
 	rows_with_30_mins = (pdi.end_hour - pdi.start_hour) * (60 / 30);
+	if (rows_with_30_mins <= 0)
+		rows_with_30_mins = 2;
 
 	pango_font_description_free (font);
 
@@ -2890,6 +2892,8 @@ print_work_week_day_details (GtkPrintContext *context,
 
 	/* use font like with 30 minutes time division */
 	rows_with_30_mins = (pdi.end_hour - pdi.start_hour) * (60 / 30);
+	if (rows_with_30_mins <= 0)
+		rows_with_30_mins = 2;
 
 	pango_font_description_free (font);
 

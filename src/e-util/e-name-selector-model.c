@@ -623,10 +623,12 @@ e_name_selector_model_get_contact_emails_without_used (ENameSelectorModel *name_
 				} else {
 					GList *nth = g_list_nth (email_list, email_num);
 
-					g_return_val_if_fail (nth != NULL, NULL);
-
-					g_free (nth->data);
-					nth->data = NULL;
+					if (nth) {
+						g_free (nth->data);
+						nth->data = NULL;
+					} else {
+						g_warn_if_reached ();
+					}
 				}
 			}
 		}

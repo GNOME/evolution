@@ -90,7 +90,8 @@ e_utf8_from_iconv_string_sized (iconv_t ic,
 		for (i = 0; i < (bytes); i++) {
 			ob += e_unichar_to_utf8 (ib[i], ob);
 		}
-		*ob = '\0';
+		if (ob)
+			*ob = '\0';
 		return new;
 	}
 

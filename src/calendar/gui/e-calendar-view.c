@@ -1384,7 +1384,7 @@ e_calendar_view_get_paste_target_list (ECalendarView *cal_view)
 gint
 e_calendar_view_get_time_divisions (ECalendarView *cal_view)
 {
-	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), 0);
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), 30);
 
 	return cal_view->priv->time_divisions;
 }
@@ -1394,6 +1394,10 @@ e_calendar_view_set_time_divisions (ECalendarView *cal_view,
                                     gint time_divisions)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	/* To avoid division-by-zero and negative values on places where this is used */
+	if (time_divisions <= 0)
+		time_divisions = 30;
 
 	if (cal_view->priv->time_divisions == time_divisions)
 		return;
@@ -2134,7 +2138,7 @@ e_calendar_view_dup_component_summary (ICalComponent *icomp)
 				   The string is used for Birthday & Anniversary events where the first year is
 				   know, constructing a summary which also shows how many years the birthday or
 				   anniversary is for. Example: "Birthday: John Doe (13)" */
-				summary = g_strdup_printf (C_("BirthdaySummary", "%s (%d)"), summary ? summary : "", i_cal_time_get_year (dtstart) - since_year);
+				res = g_strdup_printf (C_("BirthdaySummary", "%s (%d)"), summary ? summary : "", i_cal_time_get_year (dtstart) - since_year);
 			}
 
 			g_clear_object (&dtstart);

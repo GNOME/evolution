@@ -262,4 +262,5 @@ e_select_names_editable_set_address (ESelectNamesEditable *esne,
 			destination_store, destination);
 
 	g_object_unref (destination);
+	g_list_free (list);
 }

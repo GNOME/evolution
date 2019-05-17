@@ -197,7 +197,7 @@ mail_request_process_mail_sync (EContentRequest *request,
 							-1);
 
 						if (icon) {
-							const gchar *size = uri_query ? g_hash_table_lookup (uri_query, "size") : NULL;
+							const gchar *size = g_hash_table_lookup (uri_query, "size");
 							if (!size)
 								size = "16";
 
@@ -236,7 +236,7 @@ mail_request_process_mail_sync (EContentRequest *request,
 		}
 		g_free (part_id);
 
-		mime_type = uri_query ? g_hash_table_lookup (uri_query, "mime_type") : NULL;
+		mime_type = g_hash_table_lookup (uri_query, "mime_type");
 
 		if (context.mode == E_MAIL_FORMATTER_MODE_SOURCE)
 			mime_type = "application/vnd.evolution.source";

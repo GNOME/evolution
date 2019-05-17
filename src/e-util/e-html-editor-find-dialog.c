@@ -240,12 +240,6 @@ e_html_editor_find_dialog_init (EHTMLEditorFindDialog *dialog)
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	dialog->priv->result_label = widget;
 
-	widget = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
-	gtk_box_set_spacing (GTK_BOX (widget), 5);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (widget), GTK_BUTTONBOX_END);
-	gtk_box_pack_end (box, widget, TRUE, TRUE, 0);
-	box = GTK_BOX (widget);
-
 	box = e_html_editor_dialog_get_button_box (E_HTML_EDITOR_DIALOG (dialog));
 	widget = e_dialog_button_new_with_icon ("edit-find", _("_Find"));
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 5);

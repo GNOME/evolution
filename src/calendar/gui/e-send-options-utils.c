@@ -188,7 +188,6 @@ e_send_options_utils_fill_component (ESendOptionsDialog *sod,
 				     ECalComponent *comp,
 				     ICalTimezone *zone)
 {
-	gint ii;
 	ICalProperty *prop;
 	ICalComponent *icomp;
 	ESendOptionsGeneral *gopts;
@@ -196,10 +195,6 @@ e_send_options_utils_fill_component (ESendOptionsDialog *sod,
 
 	gopts = sod->data->gopts;
 	sopts = sod->data->sopts;
-
-	ii = e_cal_component_get_sequence (comp);
-	if (ii < 1)
-		ii = 1;
 
 	icomp = e_cal_component_get_icalcomponent (comp);
 

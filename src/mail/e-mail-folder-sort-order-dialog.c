@@ -67,8 +67,6 @@ sort_order_dialog_selection_changed_cb (GtkTreeSelection *selection,
 	      gtk_tree_model_iter_children (model, &iter, &parent);
 
 	if (can) {
-		can = FALSE;
-
 		do {
 			guint sort_order = 0;
 

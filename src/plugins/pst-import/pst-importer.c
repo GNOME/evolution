@@ -1444,7 +1444,7 @@ contact_set_address (EContact *contact,
 	EContactAddress *eaddress;
 
 	if (address || city || country || po_box || postal_code || state || street) {
-		eaddress = g_new0 (EContactAddress, 1);
+		eaddress = e_contact_address_new ();
 		if (po_box) {
 			eaddress->po = g_strdup (po_box);
 		}
@@ -1471,6 +1471,7 @@ contact_set_address (EContact *contact,
 		}
 
 		e_contact_set (contact, id, eaddress);
+		e_contact_address_free (eaddress);
 	}
 }
 

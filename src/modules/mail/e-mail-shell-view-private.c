@@ -1579,8 +1579,6 @@ e_mail_shell_view_update_labels_sensitivity (EShellWindow *shell_window,
 		widget = gtk_widget_get_parent (widget);
 	}
 
-	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content));
-
 	action_group = e_mail_reader_get_action_group (reader, E_MAIL_READER_ACTION_GROUP_LABELS);
 	if (action_group)
 		gtk_action_group_set_sensitive (action_group, sensitive);

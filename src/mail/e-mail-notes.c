@@ -1009,8 +1009,6 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 
 	content = widget;
 
-	widget = GTK_WIDGET (html_editor);
-
 	notes_editor->editor = html_editor;
 	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 	ui_manager = e_html_editor_get_ui_manager (notes_editor->editor);

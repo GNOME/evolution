@@ -96,6 +96,8 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 				while (link != NULL) {
 					p = link->data;
 
+					p_id = e_mail_part_get_id (p);
+
 					if (g_strcmp0 (p_id, sub_end) == 0)
 						break;
 
@@ -163,6 +165,8 @@ emfe_message_rfc822_format (EMailFormatterExtension *extension,
 
 				while (link != NULL) {
 					p = link->data;
+
+					p_id = e_mail_part_get_id (p);
 
 					if (g_strcmp0 (p_id, sub_end) == 0)
 						break;

@@ -711,7 +711,6 @@ subscription_editor_pick_shown (EMSubscriptionEditor *editor,
 		TreeRowData *tree_row_data;
 		gboolean is_expanded = FALSE;
 
-		found = FALSE;
 		tree_row_data = subscription_editor_tree_row_data_from_iter (
 			tree_view, tree_model, &iter, &is_expanded);
 
