@@ -195,7 +195,7 @@ cal_shell_view_actions_print_or_preview (ECalShellView *cal_shell_view,
 	if (E_IS_CAL_LIST_VIEW (cal_view)) {
 		ETable *table;
 
-		table = E_CAL_LIST_VIEW (cal_view)->table;
+		table = e_cal_list_view_get_table (E_CAL_LIST_VIEW (cal_view));
 		print_table (table, _("Print"), _("Calendar"), print_action);
 	} else {
 		EPrintView print_view_type;
@@ -535,7 +535,7 @@ cal_shell_view_transfer_selected (ECalShellView *cal_shell_view,
 	ESource *destination_source = NULL;
 	ESourceRegistry *registry;
 	GList *selected, *link;
-	GHashTable *by_source; /* ESource ~> GSList{icalcomponent} */
+	GHashTable *by_source; /* ESource ~> GSList{ICalComponent} */
 	GHashTableIter iter;
 	gpointer key, value;
 
@@ -571,7 +571,7 @@ cal_shell_view_transfer_selected (ECalShellView *cal_shell_view,
 	for (link = selected; link != NULL; link = g_list_next (link)) {
 		ECalendarViewEvent *event = link->data;
 		ESource *source;
-		GSList *icalcomps;
+		GSList *icomps;
 
 		if (!event || !event->comp_data)
 			continue;
@@ -580,9 +580,9 @@ cal_shell_view_transfer_selected (ECalShellView *cal_shell_view,
 		if (!source)
 			continue;
 
-		icalcomps = g_hash_table_lookup (by_source, source);
-		icalcomps = g_slist_prepend (icalcomps, event->comp_data->icalcomp);
-		g_hash_table_insert (by_source, source, icalcomps);
+		icomps = g_hash_table_lookup (by_source, source);
+		icomps = g_slist_prepend (icomps, event->comp_data->icalcomp);
+		g_hash_table_insert (by_source, source, icomps);
 	}
 
 	e_cal_ops_transfer_components (shell_view, e_calendar_view_get_model (calendar_view),
@@ -590,9 +590,9 @@ cal_shell_view_transfer_selected (ECalShellView *cal_shell_view,
 
 	g_hash_table_iter_init (&iter, by_source);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		GSList *icalcomps = value;
+		GSList *icomps = value;
 
-		g_slist_free (icalcomps);
+		g_slist_free (icomps);
 	}
 
 	g_hash_table_destroy (by_source);
@@ -626,8 +626,8 @@ action_event_delegate_cb (GtkAction *action,
 	ECalClient *client;
 	ECalModel *model;
 	GList *selected;
-	icalcomponent *clone;
-	icalproperty *property;
+	ICalComponent *clone;
+	ICalProperty *prop;
 	gboolean found = FALSE;
 	gchar *attendee;
 
@@ -646,63 +646,59 @@ action_event_delegate_cb (GtkAction *action,
 		return;
 
 	client = event->comp_data->client;
-	clone = icalcomponent_new_clone (event->comp_data->icalcomp);
+	clone = i_cal_component_clone (event->comp_data->icalcomp);
 
 	/* Set the attendee status for the delegate. */
 
-	component = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (
-		component, icalcomponent_new_clone (clone));
+	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (clone));
 
-	attendee = itip_get_comp_attendee (
-		registry, component, client);
-	property = icalcomponent_get_first_property (
-		clone, ICAL_ATTENDEE_PROPERTY);
+	attendee = itip_get_comp_attendee (registry, component, client);
 
-	while (property != NULL) {
+	for (prop = i_cal_component_get_first_property (clone, I_CAL_ATTENDEE_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (clone, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *candidate;
 
-		candidate = icalproperty_get_attendee (property);
+		candidate = i_cal_property_get_attendee (prop);
 		candidate = itip_strip_mailto (candidate);
 
-		if (g_ascii_strcasecmp (candidate, attendee) == 0) {
-			icalparameter *parameter;
+		if (candidate && g_ascii_strcasecmp (candidate, attendee) == 0) {
+			ICalParameter *param;
 
-			parameter = icalparameter_new_role (
-				ICAL_ROLE_NONPARTICIPANT);
-			icalproperty_set_parameter (property, parameter);
+			param = i_cal_parameter_new_role (I_CAL_ROLE_NONPARTICIPANT);
+			i_cal_property_set_parameter (prop, param);
+			g_clear_object (&param);
 
-			parameter = icalparameter_new_partstat (
-				ICAL_PARTSTAT_DELEGATED);
-			icalproperty_set_parameter (property, parameter);
+			param = i_cal_parameter_new_partstat (I_CAL_PARTSTAT_DELEGATED);
+			i_cal_property_set_parameter (prop, param);
+			g_clear_object (&param);
 
 			found = TRUE;
 			break;
 		}
-
-		property = icalcomponent_get_next_property (
-			clone, ICAL_ATTENDEE_PROPERTY);
 	}
+
+	g_clear_object (&prop);
 
 	/* If the attendee is not already in the component, add it. */
 	if (!found) {
-		icalparameter *parameter;
+		ICalParameter *param;
 		gchar *address;
 
 		address = g_strdup_printf ("mailto:%s", attendee);
 
-		property = icalproperty_new_attendee (address);
-		icalcomponent_add_property (clone, property);
+		prop = i_cal_property_new_attendee (address);
 
-		parameter = icalparameter_new_role (ICAL_ROLE_NONPARTICIPANT);
-		icalproperty_add_parameter (property, parameter);
+		param = i_cal_parameter_new_role (I_CAL_ROLE_NONPARTICIPANT);
+		i_cal_property_take_parameter (prop, param);
 
-		parameter = icalparameter_new_cutype (ICAL_CUTYPE_INDIVIDUAL);
-		icalproperty_add_parameter (property, parameter);
+		param = i_cal_parameter_new_cutype (I_CAL_CUTYPE_INDIVIDUAL);
+		i_cal_property_take_parameter (prop, param);
 
-		parameter = icalparameter_new_rsvp (ICAL_RSVP_TRUE);
-		icalproperty_add_parameter (property, parameter);
+		param = i_cal_parameter_new_rsvp (I_CAL_RSVP_TRUE);
+		i_cal_property_take_parameter (prop, param);
 
+		i_cal_component_take_property (clone, prop);
 		g_free (address);
 	}
 
@@ -713,7 +709,7 @@ action_event_delegate_cb (GtkAction *action,
 		calendar_view, event->comp_data->client, clone,
 		E_COMP_EDITOR_FLAG_WITH_ATTENDEES | E_COMP_EDITOR_FLAG_DELEGATE);
 
-	icalcomponent_free (clone);
+	g_object_unref (clone);
 	g_list_free (selected);
 }
 
@@ -752,7 +748,7 @@ action_event_forward_cb (GtkAction *action,
 	ECalendarViewEvent *event;
 	ECalComponent *component;
 	ECalClient *client;
-	icalcomponent *icalcomp;
+	ICalComponent *icomp;
 	GList *selected;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -767,9 +763,9 @@ action_event_forward_cb (GtkAction *action,
 		return;
 
 	client = event->comp_data->client;
-	icalcomp = event->comp_data->icalcomp;
+	icomp = event->comp_data->icalcomp;
 
-	component = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (icalcomp));
+	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	g_return_if_fail (component != NULL);
 
 	itip_send_component_with_model (e_calendar_view_get_model (calendar_view),
@@ -777,7 +773,6 @@ action_event_forward_cb (GtkAction *action,
 		NULL, NULL, NULL, TRUE, FALSE, TRUE);
 
 	g_object_unref (component);
-
 	g_list_free (selected);
 }
 
@@ -809,12 +804,11 @@ action_event_new_cb (GtkAction *action,
 		(e_shell_view_is_active (E_SHELL_VIEW (cal_shell_view)) ? 0 : E_NEW_APPOINTMENT_FLAG_FORCE_CURRENT_TIME));
 }
 
-typedef struct
-{
+typedef struct {
 	ECalClient *client;
 	gchar *remove_uid;
 	gchar *remove_rid;
-	icalcomponent *create_icalcomp;
+	ICalComponent *create_icomp;
 } MakeMovableData;
 
 static void
@@ -826,7 +820,7 @@ make_movable_data_free (gpointer ptr)
 		g_clear_object (&mmd->client);
 		g_free (mmd->remove_uid);
 		g_free (mmd->remove_rid);
-		icalcomponent_free (mmd->create_icalcomp);
+		g_clear_object (&mmd->create_icomp);
 		g_free (mmd);
 	}
 }
@@ -841,10 +835,10 @@ make_movable_thread (EAlertSinkThreadJobData *job_data,
 
 	g_return_if_fail (mmd != NULL);
 
-	if (!e_cal_client_remove_object_sync (mmd->client, mmd->remove_uid, mmd->remove_rid, E_CAL_OBJ_MOD_THIS, cancellable, error))
+	if (!e_cal_client_remove_object_sync (mmd->client, mmd->remove_uid, mmd->remove_rid, E_CAL_OBJ_MOD_THIS, E_CAL_OPERATION_FLAG_NONE, cancellable, error))
 		return;
 
-	e_cal_client_create_object_sync (mmd->client, mmd->create_icalcomp, NULL, cancellable, error);
+	e_cal_client_create_object_sync (mmd->client, mmd->create_icomp, E_CAL_OPERATION_FLAG_NONE, NULL, cancellable, error);
 }
 
 static void
@@ -857,12 +851,11 @@ action_event_occurrence_movable_cb (GtkAction *action,
 	ECalendarViewEvent *event;
 	ECalComponent *exception_component;
 	ECalComponent *recurring_component;
-	ECalComponentDateTime date;
+	ECalComponentDateTime *date;
 	ECalComponentId *id;
 	ECalClient *client;
-	icalcomponent *icalcomp;
-	icaltimetype itt;
-	icaltimezone *timezone;
+	ICalComponent *icomp;
+	ICalTimezone *timezone;
 	GList *selected;
 	gchar *uid;
 	EActivity *activity;
@@ -883,56 +876,51 @@ action_event_occurrence_movable_cb (GtkAction *action,
 		return;
 
 	client = event->comp_data->client;
-	icalcomp = event->comp_data->icalcomp;
+	icomp = event->comp_data->icalcomp;
 
 	/* For the recurring object, we add an exception
 	 * to get rid of the instance. */
 
-	recurring_component = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (
-		recurring_component, icalcomponent_new_clone (icalcomp));
+	recurring_component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	id = e_cal_component_get_id (recurring_component);
 
 	/* For the unrecurred instance, we duplicate the original object,
 	 * create a new UID for it, get rid of the recurrence rules, and
 	 * set the start and end times to the instance times. */
 
-	exception_component = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (
-		exception_component, icalcomponent_new_clone (icalcomp));
+	exception_component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 
 	uid = e_util_generate_uid ();
 	e_cal_component_set_uid (exception_component, uid);
 	g_free (uid);
 
 	e_cal_component_set_recurid (exception_component, NULL);
-	e_cal_component_set_rdate_list (exception_component, NULL);
-	e_cal_component_set_rrule_list (exception_component, NULL);
-	e_cal_component_set_exdate_list (exception_component, NULL);
-	e_cal_component_set_exrule_list (exception_component, NULL);
+	e_cal_component_set_rdates (exception_component, NULL);
+	e_cal_component_set_rrules (exception_component, NULL);
+	e_cal_component_set_exdates (exception_component, NULL);
+	e_cal_component_set_exrules (exception_component, NULL);
 
-	date.value = &itt;
-	date.tzid = icaltimezone_get_tzid (timezone);
-	*date.value = icaltime_from_timet_with_zone (
-		event->comp_data->instance_start, FALSE, timezone);
-	cal_comp_set_dtstart_with_oldzone (client, exception_component, &date);
-	*date.value = icaltime_from_timet_with_zone (
-		event->comp_data->instance_end, FALSE, timezone);
-	cal_comp_set_dtend_with_oldzone (client, exception_component, &date);
+	date = e_cal_component_datetime_new_take (i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start, FALSE, timezone),
+		timezone ? g_strdup (i_cal_timezone_get_tzid (timezone)) : NULL);
+	cal_comp_set_dtstart_with_oldzone (client, exception_component, date);
+	e_cal_component_datetime_take_value (date, i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end, FALSE, timezone));
+	cal_comp_set_dtend_with_oldzone (client, exception_component, date);
+	e_cal_component_datetime_free (date);
+
 	e_cal_component_commit_sequence (exception_component);
 
 	mmd = g_new0 (MakeMovableData, 1);
 	mmd->client = g_object_ref (client);
-	mmd->remove_uid = g_strdup (id->uid);
-	mmd->remove_rid = g_strdup (id->rid);
-	mmd->create_icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (exception_component));
+	mmd->remove_uid = g_strdup (e_cal_component_id_get_uid (id));
+	mmd->remove_rid = g_strdup (e_cal_component_id_get_rid (id));
+	mmd->create_icomp = i_cal_component_clone (e_cal_component_get_icalcomponent (exception_component));
 
 	activity = e_shell_view_submit_thread_job (E_SHELL_VIEW (cal_shell_view),
 		_("Making an occurrence movable"), "calendar:failed-make-movable",
 		NULL, make_movable_thread, mmd, make_movable_data_free);
 
 	g_clear_object (&activity);
-	e_cal_component_free_id (id);
+	e_cal_component_id_free (id);
 	g_object_unref (recurring_component);
 	g_object_unref (exception_component);
 	g_list_free (selected);
@@ -959,7 +947,7 @@ action_event_edit_as_new_cb (GtkAction *action,
 	ECalendarView *calendar_view;
 	ECalendarViewEvent *event;
 	GList *selected;
-	icalcomponent *clone;
+	ICalComponent *clone;
 	gchar *uid;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -976,18 +964,17 @@ action_event_edit_as_new_cb (GtkAction *action,
 		return;
 	}
 
-	clone = icalcomponent_new_clone (event->comp_data->icalcomp);
+	clone = i_cal_component_clone (event->comp_data->icalcomp);
 
 	uid = e_util_generate_uid ();
-	icalcomponent_set_uid (clone, uid);
-
+	i_cal_component_set_uid (clone, uid);
 	g_free (uid);
 
 	e_calendar_view_open_event_with_flags (
 		calendar_view, event->comp_data->client, clone,
 		E_COMP_EDITOR_FLAG_IS_NEW);
 
-	icalcomponent_free (clone);
+	g_clear_object (&clone);
 	g_list_free (selected);
 }
 
@@ -1001,7 +988,7 @@ action_event_print_cb (GtkAction *action,
 	ECalComponent *component;
 	ECalModel *model;
 	ECalClient *client;
-	icalcomponent *icalcomp;
+	ICalComponent *icomp;
 	GList *selected;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -1017,12 +1004,10 @@ action_event_print_cb (GtkAction *action,
 		return;
 
 	client = event->comp_data->client;
-	icalcomp = event->comp_data->icalcomp;
+	icomp = event->comp_data->icalcomp;
 
-	component = e_cal_component_new ();
+	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 
-	e_cal_component_set_icalcomponent (
-		component, icalcomponent_new_clone (icalcomp));
 	print_comp (
 		component, client,
 		e_cal_model_get_timezone (model),
@@ -1030,7 +1015,6 @@ action_event_print_cb (GtkAction *action,
 		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
 	g_object_unref (component);
-
 	g_list_free (selected);
 }
 
@@ -1044,7 +1028,7 @@ cal_shell_view_actions_reply (ECalShellView *cal_shell_view,
 	ECalComponent *component;
 	ECalClient *client;
 	ESourceRegistry *registry;
-	icalcomponent *icalcomp;
+	ICalComponent *icomp;
 	GList *selected;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -1060,18 +1044,15 @@ cal_shell_view_actions_reply (ECalShellView *cal_shell_view,
 		return;
 
 	client = event->comp_data->client;
-	icalcomp = event->comp_data->icalcomp;
+	icomp = event->comp_data->icalcomp;
 
-	component = e_cal_component_new ();
+	component = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 
-	e_cal_component_set_icalcomponent (
-		component, icalcomponent_new_clone (icalcomp));
 	reply_to_calendar_comp (
 		registry, E_CAL_COMPONENT_METHOD_REPLY,
 		component, client, reply_all, NULL, NULL);
 
 	g_object_unref (component);
-
 	g_list_free (selected);
 }
 
@@ -1101,7 +1082,7 @@ action_event_save_as_cb (GtkAction *action,
 	ECalendarView *calendar_view;
 	ECalendarViewEvent *event;
 	ECalClient *client;
-	icalcomponent *icalcomp;
+	ICalComponent *icomp;
 	EActivity *activity;
 	GList *selected;
 	GFile *file;
@@ -1124,11 +1105,11 @@ action_event_save_as_cb (GtkAction *action,
 		return;
 
 	client = event->comp_data->client;
-	icalcomp = event->comp_data->icalcomp;
+	icomp = event->comp_data->icalcomp;
 
 	/* Translators: Default filename part saving an event to a file when
 	 * no summary is filed, the '.ics' extension is concatenated to it. */
-	string = icalcomp_suggest_filename (icalcomp, _("event"));
+	string = comp_util_suggest_filename (icomp, _("event"));
 	file = e_shell_run_save_dialog (
 		shell, _("Save as iCalendar"), string,
 		"*.ics:text/calendar", NULL, NULL);
@@ -1136,7 +1117,7 @@ action_event_save_as_cb (GtkAction *action,
 	if (file == NULL)
 		return;
 
-	string = e_cal_client_get_component_as_string (client, icalcomp);
+	string = e_cal_client_get_component_as_string (client, icomp);
 	if (string == NULL) {
 		g_warning ("Could not convert item to a string");
 		goto exit;
@@ -1156,7 +1137,6 @@ action_event_save_as_cb (GtkAction *action,
 
 exit:
 	g_object_unref (file);
-
 	g_list_free (selected);
 }
 
@@ -1168,7 +1148,7 @@ edit_event_as (ECalShellView *cal_shell_view,
 	ECalendarView *calendar_view;
 	ECalendarViewEvent *event;
 	ECalClient *client;
-	icalcomponent *icalcomp;
+	ICalComponent *icomp;
 	GList *selected;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -1183,42 +1163,23 @@ edit_event_as (ECalShellView *cal_shell_view,
 		return;
 
 	client = event->comp_data->client;
-	icalcomp = event->comp_data->icalcomp;
+	icomp = event->comp_data->icalcomp;
 
-	if (!as_meeting && icalcomp) {
+	if (!as_meeting && icomp) {
 		/* remove organizer and all attendees */
-		icalproperty *prop;
-
 		/* do it on a copy, as user can cancel changes */
-		icalcomp = icalcomponent_new_clone (icalcomp);
+		icomp = i_cal_component_clone (icomp);
 
-		prop = icalcomponent_get_first_property (
-			icalcomp, ICAL_ATTENDEE_PROPERTY);
-		while (prop != NULL) {
-			icalcomponent_remove_property (icalcomp, prop);
-			icalproperty_free (prop);
-
-			prop = icalcomponent_get_first_property (
-				icalcomp, ICAL_ATTENDEE_PROPERTY);
-		}
-
-		prop = icalcomponent_get_first_property (
-			icalcomp, ICAL_ORGANIZER_PROPERTY);
-		while (prop != NULL) {
-			icalcomponent_remove_property (icalcomp, prop);
-			icalproperty_free (prop);
-
-			prop = icalcomponent_get_first_property (
-				icalcomp, ICAL_ORGANIZER_PROPERTY);
-		}
+		e_cal_util_component_remove_property_by_kind (icomp, I_CAL_ATTENDEE_PROPERTY, TRUE);
+		e_cal_util_component_remove_property_by_kind (icomp, I_CAL_ORGANIZER_PROPERTY, TRUE);
 	}
 
 	e_calendar_view_edit_appointment (
-		calendar_view, client, icalcomp, as_meeting ?
+		calendar_view, client, icomp, as_meeting ?
 		EDIT_EVENT_FORCE_MEETING : EDIT_EVENT_FORCE_APPOINTMENT);
 
-	if (!as_meeting && icalcomp) {
-		icalcomponent_free (icalcomp);
+	if (!as_meeting && icomp) {
+		g_object_unref (icomp);
 	}
 
 	g_list_free (selected);

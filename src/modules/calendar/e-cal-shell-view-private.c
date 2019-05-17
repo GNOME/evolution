@@ -50,17 +50,20 @@ cal_shell_view_get_current_time (ECalendarItem *calitem,
                                  ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	struct icaltimetype tt;
-	icaltimezone *timezone;
+	ICalTime *tt;
+	ICalTimezone *timezone;
 	ECalModel *model;
+	struct tm tm;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	timezone = e_cal_model_get_timezone (model);
 
-	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, timezone);
+	tt = i_cal_time_new_from_timet_with_zone (time (NULL), FALSE, timezone);
+	tm = e_cal_util_icaltime_to_tm (tt);
+	g_clear_object (&tt);
 
-	return icaltimetype_to_tm (&tt);
+	return tm;
 }
 
 static void
@@ -612,44 +615,65 @@ cal_searching_instances_done_cb (gpointer user_data)
 }
 
 static gboolean
-cal_searching_got_instance_cb (ECalComponent *comp,
-                               time_t instance_start,
-                               time_t instance_end,
-                               gpointer user_data)
+cal_searching_got_instance_cb (ICalComponent *icomp,
+			       ICalTime *instance_start,
+			       ICalTime *instance_end,
+			       gpointer user_data,
+			       GCancellable *cancellable,
+			       GError **error)
 {
 	struct GenerateInstancesData *gid = user_data;
 	ECalShellViewPrivate *priv;
-	ECalComponentDateTime dt;
-	time_t *value;
+	ICalTime *dtstart = NULL;
+	ICalProperty *prop;
+	time_t *value, start = (time_t) 0;
 
 	g_return_val_if_fail (gid != NULL, FALSE);
 
-	if (g_cancellable_is_cancelled (gid->cancellable))
+	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
 
 	g_return_val_if_fail (gid->cal_shell_view != NULL, FALSE);
 	g_return_val_if_fail (gid->cal_shell_view->priv != NULL, FALSE);
 
-	e_cal_component_get_dtstart (comp, &dt);
+	prop = i_cal_component_get_first_property (icomp, I_CAL_DTSTART_PROPERTY);
+	dtstart = i_cal_component_get_dtstart (icomp);
 
-	if (dt.tzid && dt.value) {
-		icaltimezone *zone = NULL;
+	if (dtstart && prop) {
+		ICalParameter *param;
+		const gchar *tzid = NULL;
 
-		e_cal_client_get_timezone_sync (
-			gid->client, dt.tzid, &zone, gid->cancellable, NULL);
+		param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER);
+		if (param)
+			tzid = i_cal_parameter_get_tzid (param);
 
-		if (g_cancellable_is_cancelled (gid->cancellable))
-			return FALSE;
+		if (tzid && *tzid) {
+			ICalTimezone *zone = NULL;
 
-		if (zone)
-			instance_start = icaltime_as_timet_with_zone (*dt.value, zone);
+			if (!e_cal_client_get_timezone_sync (gid->client, tzid, &zone, cancellable, NULL))
+				zone = NULL;
+
+			if (g_cancellable_is_cancelled (cancellable)) {
+				g_object_unref (dtstart);
+				g_clear_object (&param);
+				return FALSE;
+			}
+
+			if (zone)
+				start = i_cal_time_as_timet_with_zone (dtstart, zone);
+		}
+
+		g_clear_object (&param);
 	}
 
-	e_cal_component_free_datetime (&dt);
+	g_clear_object (&dtstart);
+
+	if (!start)
+		start = i_cal_time_as_timet (instance_start);
 
 	priv = gid->cal_shell_view->priv;
 	value = g_new (time_t, 1);
-	*value = instance_start;
+	*value = start;
 	if (!g_slist_find_custom (priv->search_hit_cache, value, cal_time_t_ptr_compare))
 		priv->search_hit_cache = g_slist_append (priv->search_hit_cache, value);
 	else
@@ -665,7 +689,7 @@ cal_search_get_object_list_cb (GObject *source,
 {
 	ECalClient *client = E_CAL_CLIENT (source);
 	ECalShellView *cal_shell_view = user_data;
-	GSList *icalcomps = NULL;
+	GSList *icomps = NULL;
 	GError *error = NULL;
 
 	g_return_if_fail (client != NULL);
@@ -673,14 +697,14 @@ cal_search_get_object_list_cb (GObject *source,
 	g_return_if_fail (cal_shell_view != NULL);
 
 	e_cal_client_get_object_list_finish (
-		client, result, &icalcomps, &error);
+		client, result, &icomps, &error);
 
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (icalcomps == NULL);
+		g_warn_if_fail (icomps == NULL);
 		g_error_free (error);
 
-	} else if (error != NULL || !icalcomps) {
-		g_warn_if_fail (icalcomps == NULL);
+	} else if (error != NULL || !icomps) {
+		g_warn_if_fail (icomps == NULL);
 		g_clear_error (&error);
 
 		cal_shell_view->priv->search_pending_count--;
@@ -702,8 +726,8 @@ cal_search_get_object_list_cb (GObject *source,
 			end = tmp;
 		}
 
-		for (iter = icalcomps; iter; iter = iter->next) {
-			icalcomponent *icalcomp = iter->data;
+		for (iter = icomps; iter; iter = iter->next) {
+			ICalComponent *icomp = iter->data;
 			struct GenerateInstancesData *gid;
 
 			gid = g_new0 (struct GenerateInstancesData, 1);
@@ -712,14 +736,14 @@ cal_search_get_object_list_cb (GObject *source,
 			gid->cancellable = g_object_ref (cancellable);
 
 			e_cal_client_generate_instances_for_object (
-				client, icalcomp, start, end, cancellable,
+				client, icomp, start, end, cancellable,
 				cal_searching_got_instance_cb, gid,
 				cal_searching_instances_done_cb);
 		}
 
-		e_cal_client_free_icalcomp_slist (icalcomps);
+		e_util_free_nullable_object_slist (icomps);
 	} else {
-		e_cal_client_free_icalcomp_slist (icalcomps);
+		e_util_free_nullable_object_slist (icomps);
 	}
 }
 
@@ -765,8 +789,8 @@ cal_searching_check_candidates (ECalShellView *cal_shell_view)
 	}
 
 	if (candidate > 0) {
-		struct icaltimetype tt;
-		icaltimezone *zone;
+		ICalTime *tt;
+		ICalTimezone *zone;
 		ECalDataModel *data_model;
 		ECalendar *calendar;
 
@@ -774,13 +798,13 @@ cal_searching_check_candidates (ECalShellView *cal_shell_view)
 		data_model = e_cal_base_shell_content_get_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_view->priv->cal_shell_content));
 		zone = e_cal_data_model_get_timezone (data_model);
 
-		tt = icaltime_from_timet_with_zone (candidate, FALSE, zone);
+		tt = i_cal_time_new_from_timet_with_zone (candidate, FALSE, zone);
 
-		if (icaltime_is_valid_time (tt) && !icaltime_is_null_time (tt)) {
+		if (tt && i_cal_time_is_valid_time (tt) && !i_cal_time_is_null_time (tt)) {
 			ECalendarView *cal_view;
 			GDate *dt;
 
-			dt = g_date_new_dmy (tt.day, tt.month, tt.year);
+			dt = g_date_new_dmy (i_cal_time_get_day (tt), i_cal_time_get_month (tt), i_cal_time_get_year (tt));
 			e_calendar_item_set_selection (e_calendar_get_item (calendar), dt, dt);
 			g_signal_emit_by_name (e_calendar_get_item (calendar), "selection-changed", 0);
 			g_date_free (dt);
@@ -788,6 +812,8 @@ cal_searching_check_candidates (ECalShellView *cal_shell_view)
 			cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_view->priv->cal_shell_content);
 			e_calendar_view_set_selected_time_range (cal_view, candidate, candidate);
 		}
+
+		g_clear_object (&tt);
 
 		return TRUE;
 	}
@@ -839,7 +865,7 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 	GList *list, *link;
 	ECalDataModel *data_model;
 	time_t new_time, range1, range2;
-	icaltimezone *timezone;
+	ICalTimezone *timezone;
 	const gchar *default_tzloc = NULL;
 	GCancellable *cancellable;
 	gchar *sexp, *start, *end, *data_filter;
@@ -949,8 +975,8 @@ cal_iterate_searching (ECalShellView *cal_shell_view)
 		end = isodate_from_time_t (time_day_end (range1));
 	}
 
-	if (timezone && timezone != icaltimezone_get_utc_timezone ())
-		default_tzloc = icaltimezone_get_location (timezone);
+	if (timezone && timezone != i_cal_timezone_get_utc_timezone ())
+		default_tzloc = i_cal_timezone_get_location (timezone);
 	if (!default_tzloc)
 		default_tzloc = "";
 

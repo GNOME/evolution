@@ -1439,7 +1439,7 @@ e_addressbook_view_delete_selection (EAddressbookView *view,
 
 		/* Remove the cards all at once. */
 		e_book_client_remove_contacts (
-			book_client, ids, NULL, remove_contacts_cb, NULL);
+			book_client, ids, E_BOOK_OPERATION_FLAG_NONE, NULL, remove_contacts_cb, NULL);
 
 		g_slist_free (ids);
 	} else {
@@ -1448,7 +1448,7 @@ e_addressbook_view_delete_selection (EAddressbookView *view,
 
 			/* Remove the card. */
 			e_book_client_remove_contact (
-				book_client, contact, NULL,
+				book_client, contact, E_BOOK_OPERATION_FLAG_NONE, NULL,
 				remove_contact_cb, NULL);
 		}
 	}

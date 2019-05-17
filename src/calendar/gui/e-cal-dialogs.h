@@ -49,7 +49,7 @@ gboolean	e_cal_dialogs_recur_component	(ECalClient *client,
 						 GtkWindow *parent,
 						 gboolean delegated);
 gboolean	e_cal_dialogs_recur_icalcomp	(ECalClient *client,
-						 icalcomponent *icalcomp,
+						 ICalComponent *icomp,
 						 ECalObjModType *mod,
 						 GtkWindow *parent,
 						 gboolean delegated);
@@ -71,6 +71,6 @@ GtkResponseType	e_cal_dialogs_send_dragged_or_resized_component
 						 gboolean *only_new_attendees);
 gboolean	e_cal_dialogs_send_component_prompt_subject
 						(GtkWindow *parent,
-						 icalcomponent *component);
+						 ICalComponent *icomp);
 
 #endif /* E_CAL_DIALOGS_H */

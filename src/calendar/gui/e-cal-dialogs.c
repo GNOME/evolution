@@ -41,24 +41,22 @@
 static gboolean
 is_past_event (ECalComponent *comp)
 {
-	ECalComponentDateTime end_date;
+	ECalComponentDateTime *end_date;
 	gboolean res;
 
 	if (!comp)
 		return TRUE;
 
-	end_date.value = NULL;
+	end_date = e_cal_component_get_dtend (comp);
 
-	e_cal_component_get_dtend (comp, &end_date);
-
-	if (!end_date.value)
+	if (!end_date)
 		return FALSE;
 
-	res = icaltime_compare_date_only (
-		*end_date.value,
-		icaltime_current_time_with_zone (
-		icaltime_get_timezone (*end_date.value))) == -1;
-	e_cal_component_free_datetime (&end_date);
+	res = i_cal_time_compare_date_only (
+		e_cal_component_datetime_get_value (end_date),
+		i_cal_time_new_current_with_zone (i_cal_time_get_timezone (e_cal_component_datetime_get_value (end_date)))) == -1;
+
+	e_cal_component_datetime_free (end_date);
 
 	return res;
 }
@@ -157,11 +155,11 @@ struct ForeachTzidData
 };
 
 static void
-add_timezone_to_cal_cb (icalparameter *param,
+add_timezone_to_cal_cb (ICalParameter *param,
                         gpointer data)
 {
 	struct ForeachTzidData *ftd = data;
-	icaltimezone *tz = NULL;
+	ICalTimezone *tz = NULL;
 	const gchar *tzid;
 
 	g_return_if_fail (ftd != NULL);
@@ -171,7 +169,7 @@ add_timezone_to_cal_cb (icalparameter *param,
 	if (!ftd->success)
 		return;
 
-	tzid = icalparameter_get_tzid (param);
+	tzid = i_cal_parameter_get_tzid (param);
 	if (!tzid || !*tzid)
 		return;
 
@@ -232,29 +230,29 @@ copy_source_thread (EAlertSinkThreadJobData *job_data,
 	n_objects = g_slist_length (objects);
 
 	for (link = objects, ii = 0; link && ftd.success && !g_cancellable_is_cancelled (cancellable); link = g_slist_next (link), ii++) {
-		icalcomponent *icalcomp = link->data;
-		icalcomponent *existing_icalcomp = NULL;
+		ICalComponent *icomp = link->data;
+		ICalComponent *existing_icomp = NULL;
 		gint percent = 100 * (ii + 1) / n_objects;
 		GError *local_error = NULL;
 
-		if (e_cal_client_get_object_sync (to_client, icalcomponent_get_uid (icalcomp), NULL, &existing_icalcomp, cancellable, &local_error) &&
-		    icalcomp != NULL) {
-			if (!e_cal_client_modify_object_sync (to_client, icalcomp, E_CAL_OBJ_MOD_ALL, cancellable, error))
+		if (e_cal_client_get_object_sync (to_client, i_cal_component_get_uid (icomp), NULL, &existing_icomp, cancellable, &local_error) &&
+		    icomp != NULL) {
+			if (!e_cal_client_modify_object_sync (to_client, icomp, E_CAL_OBJ_MOD_ALL, E_CAL_OPERATION_FLAG_NONE, cancellable, error))
 				break;
 
-			icalcomponent_free (existing_icalcomp);
+			g_object_unref (existing_icomp);
 		} else if (local_error && !g_error_matches (local_error, E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_OBJECT_NOT_FOUND)) {
 			g_propagate_error (error, local_error);
 			break;
 		} else {
-			icalcomponent_foreach_tzid (icalcomp, add_timezone_to_cal_cb, &ftd);
+			i_cal_component_foreach_tzid (icomp, add_timezone_to_cal_cb, &ftd);
 
 			g_clear_error (&local_error);
 
 			if (!ftd.success)
 				break;
 
-			if (!e_cal_client_create_object_sync (to_client, icalcomp, NULL, cancellable, error))
+			if (!e_cal_client_create_object_sync (to_client, icomp, E_CAL_OPERATION_FLAG_NONE, NULL, cancellable, error))
 				break;
 		}
 
@@ -267,7 +265,7 @@ copy_source_thread (EAlertSinkThreadJobData *job_data,
 	if (ii > 0 && ftd.success)
 		csd->to_client = g_object_ref (to_client);
  out:
-	e_cal_client_free_icalcomp_slist (objects);
+	e_util_free_nullable_object_slist (objects);
 	g_clear_object (&from_client);
 	g_clear_object (&to_client);
 }
@@ -391,13 +389,16 @@ e_cal_dialogs_delete_component (ECalComponent *comp,
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
 
 	if (comp) {
-		ECalComponentText summary;
-
 		vtype = e_cal_component_get_vtype (comp);
 
 		if (!consider_as_untitled) {
-			e_cal_component_get_summary (comp, &summary);
-			arg0 = g_strdup (summary.value);
+			ECalComponentText *summary;
+
+			summary = e_cal_component_get_summary (comp);
+			if (summary) {
+				arg0 = g_strdup (e_cal_component_text_get_value (summary));
+				e_cal_component_text_free (summary);
+			}
 		}
 
 		switch (vtype) {
@@ -431,9 +432,7 @@ e_cal_dialogs_delete_component (ECalComponent *comp,
 			break;
 
 		default:
-			g_message (
-				"delete_component_dialog(): Cannot handle object of type %d",
-				vtype);
+			g_message ("%s: Cannot handle object of type %d", G_STRFUNC, vtype);
 			g_free (arg0);
 			return FALSE;
 		}
@@ -461,9 +460,7 @@ e_cal_dialogs_delete_component (ECalComponent *comp,
 			break;
 
 		default:
-			g_message (
-				"delete_component_dialog(): Cannot handle objects of type %d",
-				vtype);
+			g_message ("%s: Cannot handle objects of type %d", G_STRFUNC, vtype);
 			return FALSE;
 		}
 
@@ -634,18 +631,21 @@ ecal_event (ECalendarItem *calitem,
 {
 	GoToDialog *dlg = user_data;
 	GDate start_date, end_date;
-	struct icaltimetype tt = icaltime_null_time ();
-	icaltimezone *timezone;
+	ICalTime *tt = i_cal_time_new_null_time ();
+	ICalTimezone *timezone;
 	time_t et;
 
 	g_warn_if_fail (e_calendar_item_get_selection (calitem, &start_date, &end_date));
 	timezone = e_cal_data_model_get_timezone (dlg->data_model);
 
-	tt.year = g_date_get_year (&start_date);
-	tt.month = g_date_get_month (&start_date);
-	tt.day = g_date_get_day (&start_date);
+	i_cal_time_set_date (tt,
+		g_date_get_year (&start_date),
+		g_date_get_month (&start_date),
+		g_date_get_day (&start_date));
 
-	et = icaltime_as_timet_with_zone (tt, timezone);
+	et = i_cal_time_as_timet_with_zone (tt, timezone);
+
+	g_clear_object (&tt);
 
 	*(dlg->out_move_type) = E_CALENDAR_VIEW_MOVE_TO_EXACT_DAY;
 	*(dlg->out_exact_date) = et;
@@ -658,23 +658,18 @@ static struct tm
 get_current_time (ECalendarItem *calitem,
                   gpointer data)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
+	ICalTime *tt;
 	struct tm tmp_tm = { 0 };
-	struct icaltimetype tt;
 
 	/* Get the current timezone. */
 	zone = calendar_config_get_icaltimezone ();
 
-	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
+	tt = i_cal_time_new_from_timet_with_zone (time (NULL), FALSE, zone);
 
-	/* Now copy it to the struct tm and return it. */
-	tmp_tm.tm_year = tt.year - 1900;
-	tmp_tm.tm_mon = tt.month - 1;
-	tmp_tm.tm_mday = tt.day;
-	tmp_tm.tm_hour = tt.hour;
-	tmp_tm.tm_min = tt.minute;
-	tmp_tm.tm_sec = tt.second;
-	tmp_tm.tm_isdst = -1;
+	tmp_tm = e_cal_util_icaltime_to_tm (tt);
+
+	g_clear_object (&tt);
 
 	return tmp_tm;
 }
@@ -790,15 +785,17 @@ e_cal_dialogs_goto_run (GtkWindow *parent,
 		dlg->month_val = g_date_get_month (from_date) - 1;
 		dlg->day_val = g_date_get_day (from_date);
 	} else {
-		struct icaltimetype tt;
-		icaltimezone *timezone;
+		ICalTime *tt;
+		ICalTimezone *timezone;
 
 		timezone = e_cal_data_model_get_timezone (dlg->data_model);
-		tt = icaltime_current_time_with_zone (timezone);
+		tt = i_cal_time_new_current_with_zone (timezone);
 
-		dlg->year_val = tt.year;
-		dlg->month_val = tt.month - 1;
-		dlg->day_val = tt.day;
+		dlg->year_val = i_cal_time_get_year (tt);
+		dlg->month_val = i_cal_time_get_month (tt) - 1;
+		dlg->day_val = i_cal_time_get_day (tt);
+
+		g_clear_object (&tt);
 	}
 
 	g_signal_connect (
@@ -909,13 +906,13 @@ e_cal_dialogs_recur_component (ECalClient *client,
 	rb_this = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
 	gtk_container_add (GTK_CONTAINER (vbox), rb_this);
 
-	if (!e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_THISANDPRIOR)) {
+	if (!e_client_check_capability (E_CLIENT (client), E_CAL_STATIC_CAPABILITY_NO_THISANDPRIOR)) {
 		rb_prior = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Prior Instances"));
 		gtk_container_add (GTK_CONTAINER (vbox), rb_prior);
 	} else
 		rb_prior = NULL;
 
-	if (!e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
+	if (!e_client_check_capability (E_CLIENT (client), E_CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
 		rb_future = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Future Instances"));
 		gtk_container_add (GTK_CONTAINER (vbox), rb_future);
 	} else
@@ -949,7 +946,7 @@ e_cal_dialogs_recur_component (ECalClient *client,
 
 gboolean
 e_cal_dialogs_recur_icalcomp (ECalClient *client,
-			      icalcomponent *icalcomp,
+			      ICalComponent *icomp,
 			      ECalObjModType *mod,
 			      GtkWindow *parent,
 			      gboolean delegated)
@@ -957,9 +954,9 @@ e_cal_dialogs_recur_icalcomp (ECalClient *client,
 	ECalComponent *comp;
 	gboolean res;
 
-	g_return_val_if_fail (icalcomp != NULL, FALSE);
+	g_return_val_if_fail (icomp != NULL, FALSE);
 
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	if (!comp)
 		return FALSE;
 
@@ -1044,31 +1041,31 @@ component_has_new_attendees (ECalComponent *comp)
 static gboolean
 have_nonprocedural_alarm (ECalComponent *comp)
 {
-	GList *uids, *l;
+	GSList *uids, *link;
 
 	g_return_val_if_fail (comp != NULL, FALSE);
 
 	uids = e_cal_component_get_alarm_uids (comp);
 
-	for (l = uids; l; l = l->next) {
+	for (link = uids; link; link = g_slist_next (link)) {
 		ECalComponentAlarm *alarm;
 		ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
 
-		alarm = e_cal_component_get_alarm (comp, (const gchar *) l->data);
+		alarm = e_cal_component_get_alarm (comp, link->data);
 		if (alarm) {
-			e_cal_component_alarm_get_action (alarm, &action);
+			action = e_cal_component_alarm_get_action (alarm);
 			e_cal_component_alarm_free (alarm);
 
 			if (action != E_CAL_COMPONENT_ALARM_NONE &&
 			    action != E_CAL_COMPONENT_ALARM_PROCEDURE &&
 			    action != E_CAL_COMPONENT_ALARM_UNKNOWN) {
-				cal_obj_uid_list_free (uids);
+				g_slist_free_full (uids, g_free);
 				return TRUE;
 			}
 		}
 	}
 
-	cal_obj_uid_list_free (uids);
+	g_slist_free_full (uids, g_free);
 
 	return FALSE;
 }
@@ -1278,22 +1275,22 @@ e_cal_dialogs_send_dragged_or_resized_component (GtkWindow *parent,
 
 gboolean
 e_cal_dialogs_send_component_prompt_subject (GtkWindow *parent,
-					     icalcomponent *component)
+					     ICalComponent *component)
 {
-	icalcomponent_kind kind;
+	ICalComponentKind kind;
 	const gchar *id;
 
-	kind = icalcomponent_isa (component);
+	kind = i_cal_component_isa (component);
 
 	switch (kind) {
-	case ICAL_VEVENT_COMPONENT:
+	case I_CAL_VEVENT_COMPONENT:
 		id = "calendar:prompt-save-no-subject-calendar";
 		break;
 
-	case ICAL_VTODO_COMPONENT:
+	case I_CAL_VTODO_COMPONENT:
 		id = "calendar:prompt-save-no-subject-task";
 		break;
-	case ICAL_VJOURNAL_COMPONENT:
+	case I_CAL_VJOURNAL_COMPONENT:
 		id = "calendar:prompt-send-no-subject-memo";
 		break;
 

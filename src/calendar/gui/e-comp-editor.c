@@ -48,7 +48,7 @@ struct _ECompEditorPrivate {
 	EShell *shell;
 	GSettings *calendar_settings;
 	ESource *origin_source;
-	icalcomponent *component;
+	ICalComponent *component;
 	guint32 flags;
 
 	EFocusTracker *focus_tracker;
@@ -155,31 +155,31 @@ static void
 ece_set_attendees_for_delegation (ECalComponent *comp,
 				  const gchar *address)
 {
-	icalproperty *prop;
-	icalparameter *param;
-	icalcomponent *icalcomp;
+	ICalProperty *prop;
+	ICalParameter *param;
+	ICalComponent *icomp;
 	gboolean again;
 
-	icalcomp = e_cal_component_get_icalcomponent (comp);
+	icomp = e_cal_component_get_icalcomponent (comp);
 
-	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
 	     prop;
-	     prop = again ? icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY) :
-	     icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
-		const gchar *attendee = icalproperty_get_attendee (prop);
+	     g_object_unref (prop), prop = again ? i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY) :
+	     i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
+		const gchar *attendee = i_cal_property_get_attendee (prop);
 		const gchar *delfrom = NULL;
 
 		again = FALSE;
-		param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER);
+		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER);
 		if (param)
-			delfrom = icalparameter_get_delegatedfrom (param);
+			delfrom = i_cal_parameter_get_delegatedfrom (param);
 		if (!(g_str_equal (itip_strip_mailto (attendee), address) ||
 		     ((delfrom && *delfrom) && g_str_equal (itip_strip_mailto (delfrom), address)))) {
-			icalcomponent_remove_property (icalcomp, prop);
-			icalproperty_free (prop);
+			i_cal_component_remove_property (icomp, prop);
 			again = TRUE;
 		}
 
+		g_clear_object (&param);
 	}
 }
 
@@ -273,14 +273,15 @@ ece_get_mime_attach_list (ECompEditor *comp_editor)
 
 static void
 e_comp_editor_set_component (ECompEditor *comp_editor,
-			     const icalcomponent *component)
+			     const ICalComponent *component)
 {
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
-	if (comp_editor->priv->component)
-		icalcomponent_free (comp_editor->priv->component);
-	comp_editor->priv->component = icalcomponent_new_clone ((icalcomponent *) component);
+	if (comp_editor->priv->component != component) {
+		g_clear_object (&comp_editor->priv->component);
+		comp_editor->priv->component = i_cal_component_clone ((ICalComponent *) component);
+	}
 
 	g_warn_if_fail (comp_editor->priv->component != NULL);
 }
@@ -289,7 +290,7 @@ typedef struct _SaveData {
 	ECompEditor *comp_editor;
 	ECalClient *source_client;
 	ECalClient *target_client;
-	icalcomponent *component;
+	ICalComponent *component;
 	gboolean with_send;
 	gboolean close_after_save;
 	ECalObjModType recur_mod;
@@ -345,9 +346,8 @@ save_data_free (SaveData *sd)
 		g_clear_object (&sd->target_client);
 		g_clear_object (&sd->send_comp);
 		g_clear_object (&sd->send_activity);
+		g_clear_object (&sd->component);
 		g_clear_error (&sd->error);
-		if (sd->component)
-			icalcomponent_free (sd->component);
 		g_slist_free_full (sd->mime_attach_list, itip_cal_mime_attach_free);
 		g_free (sd->alert_ident);
 		g_free (sd->alert_arg_0);
@@ -371,7 +371,7 @@ ece_send_process_method (SaveData *sd,
 	g_return_val_if_fail (send_method != E_CAL_COMPONENT_METHOD_NONE, FALSE);
 
 	if (e_cal_component_has_attachments (send_comp) &&
-	    e_client_check_capability (E_CLIENT (sd->target_client), CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
+	    e_client_check_capability (E_CLIENT (sd->target_client), E_CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		/* Clone the component with attachments set to CID:...  */
 		GSList *attach_list = NULL;
 		GSList *attach;
@@ -382,16 +382,19 @@ ece_send_process_method (SaveData *sd,
 
 		for (attach = mime_attach_list; attach; attach = attach->next) {
 			struct CalMimeAttach *cma = (struct CalMimeAttach *) attach->data;
+			gchar *url;
 
-			attach_list = g_slist_append (
-				attach_list, g_strconcat (
-				"cid:", cma->content_id, NULL));
+			url = g_strconcat ("cid:", cma->content_id, NULL);
+			attach_list = g_slist_prepend (attach_list, i_cal_attach_new_from_url (url));
+			g_free (url);
 		}
 
 		if (attach_list) {
-			e_cal_component_set_attachment_list (send_comp, attach_list);
+			attach_list = g_slist_reverse (attach_list);
 
-			g_slist_free_full (attach_list, g_free);
+			e_cal_component_set_attachments (send_comp, attach_list);
+
+			g_slist_free_full (attach_list, g_object_unref);
 		}
 	}
 
@@ -471,7 +474,7 @@ ece_prepare_send_component_thread (EAlertSinkThreadJobData *job_data,
 
 	g_return_if_fail (sd != NULL);
 	g_return_if_fail (E_IS_CAL_CLIENT (sd->target_client));
-	g_return_if_fail (sd->component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (sd->component));
 
 	while (!sd->send_activity) {
 		/* Give the main thread a chance to set this object
@@ -480,18 +483,18 @@ ece_prepare_send_component_thread (EAlertSinkThreadJobData *job_data,
 		g_usleep (50000);
 	}
 
-	switch (icalcomponent_isa (sd->component)) {
-		case ICAL_VEVENT_COMPONENT:
+	switch (i_cal_component_isa (sd->component)) {
+		case I_CAL_VEVENT_COMPONENT:
 			alert_ident = "calendar:failed-send-event";
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			alert_ident = "calendar:failed-send-memo";
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			alert_ident = "calendar:failed-send-task";
 			break;
 		default:
-			g_warning ("%s: Cannot send component of kind %d", G_STRFUNC, icalcomponent_isa (sd->component));
+			g_warning ("%s: Cannot send component of kind %d", G_STRFUNC, i_cal_component_isa (sd->component));
 			sd->success = FALSE;
 			sd->alert_ident = g_strdup ("calendar:failed-send-event");
 			return;
@@ -507,13 +510,13 @@ ece_prepare_send_component_thread (EAlertSinkThreadJobData *job_data,
 
 	if (sd->recur_mod == E_CAL_OBJ_MOD_ALL && e_cal_component_is_instance (sd->send_comp)) {
 		/* Ensure we send the master object, not the instance only */
-		icalcomponent *icalcomp = NULL;
+		ICalComponent *icomp = NULL;
 		const gchar *uid = NULL;
 
-		e_cal_component_get_uid (sd->send_comp, &uid);
-		if (e_cal_client_get_object_sync (sd->target_client, uid, NULL, &icalcomp, cancellable, NULL) &&
-		    icalcomp != NULL) {
-			send_comp = e_cal_component_new_from_icalcomponent (icalcomp);
+		uid = e_cal_component_get_uid (sd->send_comp);
+		if (e_cal_client_get_object_sync (sd->target_client, uid, NULL, &icomp, cancellable, NULL) &&
+		    icomp != NULL) {
+			send_comp = e_cal_component_new_from_icalcomponent (icomp);
 		}
 	}
 
@@ -557,7 +560,7 @@ ece_save_component_done (gpointer ptr)
 		if (sd->object_created)
 			g_signal_emit (sd->comp_editor, signals[OBJECT_CREATED], 0, NULL);
 
-		comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (sd->component));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (sd->component));
 		if (sd->comp_editor->priv->page_general) {
 			GSList *added_attendees;
 
@@ -624,19 +627,19 @@ ece_save_component_done (gpointer ptr)
 
 static gboolean
 ece_save_component_attachments_sync (ECalClient *cal_client,
-				     icalcomponent *component,
+				     ICalComponent *component,
 				     GCancellable *cancellable,
 				     GError **error)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 	const gchar *local_store;
 	gchar *target_filename_prefix, *filename_prefix, *tmp;
 	gboolean success = TRUE;
 
 	g_return_val_if_fail (E_IS_CAL_CLIENT (cal_client), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
-	tmp = g_strdup (icalcomponent_get_uid (component));
+	tmp = g_strdup (i_cal_component_get_uid (component));
 	e_filename_make_safe (tmp);
 	filename_prefix = g_strconcat (tmp, "-", NULL);
 	g_free (tmp);
@@ -651,25 +654,21 @@ ece_save_component_attachments_sync (ECalClient *cal_client,
 
 	g_free (filename_prefix);
 
-	for (prop = icalcomponent_get_first_property (component, ICAL_ATTACH_PROPERTY);
+	for (prop = i_cal_component_get_first_property (component, I_CAL_ATTACH_PROPERTY);
 	     prop && success;
-	     prop = icalcomponent_get_next_property (component, ICAL_ATTACH_PROPERTY)) {
-		icalattach *attach;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_ATTACH_PROPERTY)) {
+		ICalAttach *attach;
 		gchar *uri = NULL;
 
-		attach = icalproperty_get_attach (prop);
+		attach = i_cal_property_get_attach (prop);
 		if (!attach)
 			continue;
 
-		if (icalattach_get_is_url (attach)) {
+		if (i_cal_attach_get_is_url (attach)) {
 			const gchar *data;
-			gsize buf_size;
 
-			data = icalattach_get_url (attach);
-			buf_size = strlen (data);
-			uri = g_malloc0 (buf_size + 1);
-
-			icalvalue_decode_ical_string (data, uri, buf_size);
+			data = i_cal_attach_get_url (attach);
+			uri = i_cal_value_decode_ical_string (data);
 		}
 
 		if (uri) {
@@ -693,19 +692,15 @@ ece_save_component_attachments_sync (ECalClient *cal_client,
 						uri = g_file_get_uri (destination);
 
 						if (uri) {
-							icalattach *new_attach;
-							gsize buf_size;
+							ICalAttach *new_attach;
 							gchar *buf;
 
-							buf_size = 2 * strlen (uri) + 1;
-							buf = g_malloc0 (buf_size);
+							buf = i_cal_value_encode_ical_string (uri);
+							new_attach = i_cal_attach_new_from_url (buf);
 
-							icalvalue_encode_ical_string (uri, buf, buf_size);
-							new_attach = icalattach_new_from_url (buf);
+							i_cal_property_set_attach (prop, new_attach);
 
-							icalproperty_set_attach (prop, new_attach);
-
-							icalattach_unref (new_attach);
+							g_object_unref (new_attach);
 							g_free (buf);
 						}
 					}
@@ -722,13 +717,14 @@ ece_save_component_attachments_sync (ECalClient *cal_client,
 		success = success & !g_cancellable_set_error_if_cancelled (cancellable, error);
 	}
 
+	g_clear_object (&prop);
 	g_free (target_filename_prefix);
 
 	return success;
 }
 
 static void
-ece_gather_tzids_cb (icalparameter *param,
+ece_gather_tzids_cb (ICalParameter *param,
 		     gpointer user_data)
 {
 	GHashTable *tzids = user_data;
@@ -737,7 +733,7 @@ ece_gather_tzids_cb (icalparameter *param,
 	g_return_if_fail (param != NULL);
 	g_return_if_fail (tzids != NULL);
 
-	tzid = icalparameter_get_tzid (param);
+	tzid = i_cal_parameter_get_tzid (param);
 	if (tzid && *tzid && g_ascii_strcasecmp (tzid, "UTC") != 0)
 		g_hash_table_insert (tzids, g_strdup (tzid), NULL);
 }
@@ -753,7 +749,7 @@ ece_save_component_add_timezones_sync (SaveData *sd,
 	gboolean source_is_target;
 
 	g_return_val_if_fail (sd != NULL, FALSE);
-	g_return_val_if_fail (sd->component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (sd->component), FALSE);
 	g_return_val_if_fail (sd->target_client != NULL, FALSE);
 
 	sd->success = TRUE;
@@ -763,19 +759,19 @@ ece_save_component_add_timezones_sync (SaveData *sd,
 		e_source_equal (e_client_get_source (E_CLIENT (sd->target_client)),
 				e_client_get_source (E_CLIENT (sd->source_client)));
 
-	icalcomponent_foreach_tzid (sd->component, ece_gather_tzids_cb, tzids);
+	i_cal_component_foreach_tzid (sd->component, ece_gather_tzids_cb, tzids);
 
 	g_hash_table_iter_init (&iter, tzids);
 	while (sd->success && g_hash_table_iter_next (&iter, &key, &value)) {
 		const gchar *tzid = key;
-		icaltimezone *zone = NULL;
+		ICalTimezone *zone = NULL;
 		GError *local_error = NULL;
 
 		if (!e_cal_client_get_timezone_sync (source_is_target ? sd->target_client : sd->source_client,
 			tzid, &zone, cancellable, &local_error)) {
-			zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+			zone = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 			if (!zone)
-				zone = icaltimezone_get_builtin_timezone (tzid);
+				zone = i_cal_timezone_get_builtin_timezone (tzid);
 			if (!zone) {
 				g_propagate_error (error, local_error);
 				local_error = NULL;
@@ -806,29 +802,29 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 
 	g_return_if_fail (sd != NULL);
 	g_return_if_fail (E_IS_CAL_CLIENT (sd->target_client));
-	g_return_if_fail (sd->component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (sd->component));
 
-	switch (icalcomponent_isa (sd->component)) {
-		case ICAL_VEVENT_COMPONENT:
+	switch (i_cal_component_isa (sd->component)) {
+		case I_CAL_VEVENT_COMPONENT:
 			create_alert_ident = "calendar:failed-create-event";
 			modify_alert_ident = "calendar:failed-modify-event";
 			remove_alert_ident = "calendar:failed-remove-event";
 			get_alert_ident = "calendar:failed-get-event";
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			create_alert_ident = "calendar:failed-create-memo";
 			modify_alert_ident = "calendar:failed-modify-memo";
 			remove_alert_ident = "calendar:failed-remove-memo";
 			get_alert_ident = "calendar:failed-get-memo";
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			create_alert_ident = "calendar:failed-create-task";
 			modify_alert_ident = "calendar:failed-modify-task";
 			remove_alert_ident = "calendar:failed-remove-task";
 			get_alert_ident = "calendar:failed-get-task";
 			break;
 		default:
-			g_warning ("%s: Cannot save component of kind %d", G_STRFUNC, icalcomponent_isa (sd->component));
+			g_warning ("%s: Cannot save component of kind %d", G_STRFUNC, i_cal_component_isa (sd->component));
 			return;
 	}
 
@@ -844,7 +840,7 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 		return;
 	}
 
-	orig_uid = g_strdup (icalcomponent_get_uid (sd->component));
+	orig_uid = g_strdup (i_cal_component_get_uid (sd->component));
 
 	if (cal_comp_is_icalcomp_on_server_sync (sd->component, sd->target_client, cancellable, error)) {
 		ECalComponent *comp;
@@ -852,7 +848,7 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 
 		e_alert_sink_thread_job_set_alert_ident (job_data, modify_alert_ident);
 
-		comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (sd->component));
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (sd->component));
 		g_return_if_fail (comp != NULL);
 
 		has_recurrences = e_cal_util_component_has_recurrences (sd->component);
@@ -863,20 +859,20 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 			sd->success = TRUE;
 
 		if (sd->recur_mod == E_CAL_OBJ_MOD_THIS) {
-			e_cal_component_set_rdate_list (comp, NULL);
-			e_cal_component_set_rrule_list (comp, NULL);
-			e_cal_component_set_exdate_list (comp, NULL);
-			e_cal_component_set_exrule_list (comp, NULL);
+			e_cal_component_set_rdates (comp, NULL);
+			e_cal_component_set_rrules (comp, NULL);
+			e_cal_component_set_exdates (comp, NULL);
+			e_cal_component_set_exrules (comp, NULL);
 		}
 
 		sd->success = sd->success && e_cal_client_modify_object_sync (
-			sd->target_client, e_cal_component_get_icalcomponent (comp), sd->recur_mod, cancellable, error);
+			sd->target_client, e_cal_component_get_icalcomponent (comp), sd->recur_mod, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
 
 		g_clear_object (&comp);
 	} else {
 		e_alert_sink_thread_job_set_alert_ident (job_data, create_alert_ident);
 
-		sd->success = e_cal_client_create_object_sync (sd->target_client, sd->component, &new_uid, cancellable, error);
+		sd->success = e_cal_client_create_object_sync (sd->target_client, sd->component, E_CAL_OPERATION_FLAG_NONE, &new_uid, cancellable, error);
 
 		if (sd->success)
 			sd->object_created = TRUE;
@@ -894,8 +890,8 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 			recur_mod = E_CAL_OBJ_MOD_ALL;
 
 		sd->success = e_cal_client_remove_object_sync (
-			sd->source_client, orig_uid,
-			NULL, recur_mod, cancellable, error);
+			sd->source_client, orig_uid, NULL, recur_mod,
+			E_CAL_OPERATION_FLAG_NONE, cancellable, error);
 
 		if (!sd->success) {
 			gchar *source_display_name;
@@ -911,29 +907,22 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 	}
 
 	if (new_uid) {
-		icalcomponent_set_uid (sd->component, new_uid);
+		i_cal_component_set_uid (sd->component, new_uid);
 		g_free (new_uid);
 	}
 
 	g_free (orig_uid);
 
 	if (sd->success && !sd->close_after_save) {
-		icalcomponent *comp = NULL;
+		ICalComponent *comp = NULL;
 		gchar *uid, *rid = NULL;
 
-		uid = g_strdup (icalcomponent_get_uid (sd->component));
-		if (icalcomponent_get_first_property (sd->component, ICAL_RECURRENCEID_PROPERTY)) {
-			struct icaltimetype ridtt;
-
-			ridtt = icalcomponent_get_recurrenceid (sd->component);
-			if (icaltime_is_valid_time (ridtt) && !icaltime_is_null_time (ridtt)) {
-				rid = icaltime_as_ical_string_r (ridtt);
-			}
-		}
+		uid = g_strdup (i_cal_component_get_uid (sd->component));
+		rid = e_cal_util_component_get_recurid_as_string (sd->component);
 
 		sd->success = e_cal_client_get_object_sync (sd->target_client, uid, rid, &comp, cancellable, error);
 		if (sd->success && comp) {
-			icalcomponent_free (sd->component);
+			g_clear_object (&sd->component);
 			sd->component = comp;
 		} else {
 			e_alert_sink_thread_job_set_alert_ident (job_data, get_alert_ident);
@@ -946,7 +935,7 @@ ece_save_component_thread (EAlertSinkThreadJobData *job_data,
 
 static void
 ece_save_component (ECompEditor *comp_editor,
-		    icalcomponent *component,
+		    ICalComponent *component,
 		    gboolean with_send,
 		    gboolean close_after_save)
 {
@@ -957,9 +946,9 @@ ece_save_component (ECompEditor *comp_editor,
 	gchar *source_display_name;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
-	summary = icalcomponent_get_summary (component);
+	summary = i_cal_component_get_summary (component);
 	if (!summary || !*summary) {
 		if (!e_cal_dialogs_send_component_prompt_subject (GTK_WINDOW (comp_editor), component)) {
 			return;
@@ -981,7 +970,7 @@ ece_save_component (ECompEditor *comp_editor,
 	sd->comp_editor = g_object_ref (comp_editor);
 	sd->source_client = comp_editor->priv->source_client ? g_object_ref (comp_editor->priv->source_client) : NULL;
 	sd->target_client = g_object_ref (comp_editor->priv->target_client);
-	sd->component = icalcomponent_new_clone (component);
+	sd->component = i_cal_component_clone (component);
 	sd->with_send = with_send;
 	sd->close_after_save = close_after_save;
 	sd->recur_mod = recur_mod;
@@ -1098,14 +1087,14 @@ comp_editor_open_target_client_thread (EAlertSinkThreadJobData *job_data,
 
 		if (!g_cancellable_is_cancelled (cancellable)) {
 			e_client_get_backend_property_sync (otc->client,
-				CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
+				E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS,
 				&otc->cal_email_address,
 				cancellable, error);
 		}
 
 		if (!g_cancellable_is_cancelled (cancellable)) {
 			e_client_get_backend_property_sync (otc->client,
-				CAL_BACKEND_PROPERTY_ALARM_EMAIL_ADDRESS,
+				E_CAL_BACKEND_PROPERTY_ALARM_EMAIL_ADDRESS,
 				&otc->alarm_email_address,
 				cancellable, error);
 		}
@@ -1278,10 +1267,10 @@ e_comp_editor_save_and_close (ECompEditor *comp_editor,
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 
 	if (comp_editor->priv->component) {
-		icalcomponent *component = icalcomponent_new_clone (comp_editor->priv->component);
+		ICalComponent *component = i_cal_component_clone (comp_editor->priv->component);
 		if (component && e_comp_editor_fill_component (comp_editor, component)) {
 			ece_save_component (comp_editor, component, TRUE, can_close);
-			icalcomponent_free (component);
+			g_clear_object (&component);
 		}
 	}
 }
@@ -1289,7 +1278,7 @@ e_comp_editor_save_and_close (ECompEditor *comp_editor,
 static GtkResponseType
 ece_save_component_dialog (ECompEditor *comp_editor)
 {
-	const icalcomponent *component;
+	ICalComponent *component;
 	GtkWindow *parent;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), GTK_RESPONSE_NO);
@@ -1297,15 +1286,15 @@ ece_save_component_dialog (ECompEditor *comp_editor)
 
 	parent = GTK_WINDOW (comp_editor);
 	component = e_comp_editor_get_component (comp_editor);
-	switch (icalcomponent_isa (component)) {
-		case ICAL_VEVENT_COMPONENT:
+	switch (i_cal_component_isa (component)) {
+		case I_CAL_VEVENT_COMPONENT:
 			if (e_comp_editor_page_general_get_show_attendees (comp_editor->priv->page_general))
 				return e_alert_run_dialog_for_args (parent, "calendar:prompt-save-meeting", NULL);
 			else
 				return e_alert_run_dialog_for_args (parent, "calendar:prompt-save-appointment", NULL);
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			return e_alert_run_dialog_for_args (parent, "calendar:prompt-save-task", NULL);
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			return e_alert_run_dialog_for_args (parent, "calendar:prompt-save-memo", NULL);
 		default:
 			return GTK_RESPONSE_NO;
@@ -1316,7 +1305,7 @@ static gboolean
 e_comp_editor_prompt_and_save_changes (ECompEditor *comp_editor,
 				       gboolean with_send)
 {
-	icalcomponent *component;
+	ICalComponent *component;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
 
@@ -1338,8 +1327,8 @@ e_comp_editor_prompt_and_save_changes (ECompEditor *comp_editor,
 
 		if (comp_editor->priv->component &&
 		    e_comp_editor_page_general_get_show_attendees (comp_editor->priv->page_general) &&
-		    icalcomponent_isa (comp_editor->priv->component) == ICAL_VTODO_COMPONENT
-		    && e_client_check_capability (E_CLIENT (comp_editor->priv->target_client), CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)) {
+		    i_cal_component_isa (comp_editor->priv->component) == I_CAL_VTODO_COMPONENT
+		    && e_client_check_capability (E_CLIENT (comp_editor->priv->target_client), E_CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)) {
 			e_alert_submit (
 				E_ALERT_SINK (comp_editor),
 				"calendar:prompt-no-task-assignment-editor",
@@ -1349,9 +1338,9 @@ e_comp_editor_prompt_and_save_changes (ECompEditor *comp_editor,
 			return FALSE;
 		}
 
-		component = icalcomponent_new_clone (comp_editor->priv->component);
+		component = i_cal_component_clone (comp_editor->priv->component);
 		if (!e_comp_editor_fill_component (comp_editor, component)) {
-			icalcomponent_free (component);
+			g_clear_object (&component);
 			return FALSE;
 		}
 
@@ -1396,15 +1385,15 @@ static void
 ece_print_or_preview (ECompEditor *comp_editor,
 		      GtkPrintOperationAction print_action)
 {
-	icalcomponent *component;
+	ICalComponent *component;
 	ECalComponent *comp;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 	g_return_if_fail (e_comp_editor_get_component (comp_editor) != NULL);
 
-	component = icalcomponent_new_clone (e_comp_editor_get_component (comp_editor));
+	component = i_cal_component_clone (e_comp_editor_get_component (comp_editor));
 	if (!e_comp_editor_fill_component (comp_editor, component)) {
-		icalcomponent_free (component);
+		g_clear_object (&component);
 		return;
 	}
 
@@ -1471,7 +1460,7 @@ ece_organizer_email_address_is_user (ECompEditor *comp_editor,
 		return TRUE;
 	}
 
-	if (is_organizer && e_client_check_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
+	if (is_organizer && e_client_check_capability (client, E_CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 		return FALSE;
 
 	registry = e_shell_get_registry (e_comp_editor_get_shell (comp_editor));
@@ -1481,51 +1470,70 @@ ece_organizer_email_address_is_user (ECompEditor *comp_editor,
 
 static gboolean
 ece_organizer_is_user (ECompEditor *comp_editor,
-		       icalcomponent *component,
+		       ICalComponent *component,
 		       EClient *client)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 	const gchar *organizer;
+	gboolean res;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
 
-	prop = icalcomponent_get_first_property (component, ICAL_ORGANIZER_PROPERTY);
-	if (!prop || e_client_check_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
+	prop = i_cal_component_get_first_property (component, I_CAL_ORGANIZER_PROPERTY);
+	if (!prop || e_client_check_capability (client, E_CAL_STATIC_CAPABILITY_NO_ORGANIZER)) {
+		g_clear_object (&prop);
 		return FALSE;
+	}
 
-	organizer = itip_strip_mailto (icalproperty_get_organizer (prop));
-	if (!organizer || !*organizer)
+	organizer = itip_strip_mailto (i_cal_property_get_organizer (prop));
+	if (!organizer || !*organizer) {
+		g_clear_object (&prop);
 		return FALSE;
+	}
 
-	return ece_organizer_email_address_is_user (comp_editor, client, organizer, TRUE);
+	res = ece_organizer_email_address_is_user (comp_editor, client, organizer, TRUE);
+
+	g_clear_object (&prop);
+
+	return res;
 }
 
 static gboolean
 ece_sentby_is_user (ECompEditor *comp_editor,
-		    icalcomponent *component,
+		    ICalComponent *component,
 		    EClient *client)
 {
-	icalproperty *prop;
-	icalparameter *param;
+	ICalProperty *prop;
+	ICalParameter *param;
 	const gchar *sentby;
+	gboolean res;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
 
-	prop = icalcomponent_get_first_property (component, ICAL_ORGANIZER_PROPERTY);
-	if (!prop || e_client_check_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
+	prop = i_cal_component_get_first_property (component, I_CAL_ORGANIZER_PROPERTY);
+	if (!prop || e_client_check_capability (client, E_CAL_STATIC_CAPABILITY_NO_ORGANIZER)) {
+		g_clear_object (&prop);
 		return FALSE;
+	}
 
-	param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
-	if (!param)
+	param = i_cal_property_get_first_parameter (prop, I_CAL_SENTBY_PARAMETER);
+	if (!param) {
+		g_clear_object (&prop);
 		return FALSE;
+	}
 
-	sentby = icalparameter_get_sentby (param);
+	sentby = i_cal_parameter_get_sentby (param);
 
-	return ece_organizer_email_address_is_user (comp_editor, client, sentby, FALSE);
+	res = ece_organizer_email_address_is_user (comp_editor, client, sentby, FALSE);
+
+	g_clear_object (&param);
+	g_clear_object (&prop);
+
+	return res;
 }
 
 static void
@@ -1591,12 +1599,12 @@ ece_sensitize_widgets (ECompEditor *comp_editor,
 
 static void
 ece_fill_widgets (ECompEditor *comp_editor,
-		  icalcomponent *component)
+		  ICalComponent *component)
 {
 	GSList *link;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	for (link = comp_editor->priv->pages; link; link = g_slist_next (link)) {
 		ECompEditorPage *page = link->data;
@@ -1611,12 +1619,12 @@ ece_fill_widgets (ECompEditor *comp_editor,
 
 static gboolean
 ece_fill_component (ECompEditor *comp_editor,
-		    icalcomponent *component)
+		    ICalComponent *component)
 {
 	GSList *link;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	for (link = comp_editor->priv->pages; link; link = g_slist_next (link)) {
 		ECompEditorPage *page = link->data;
@@ -1798,7 +1806,7 @@ e_comp_editor_set_property (GObject *object,
 		case PROP_COMPONENT:
 			e_comp_editor_set_component (
 				E_COMP_EDITOR (object),
-				g_value_get_pointer (value));
+				g_value_get_object (value));
 			return;
 
 		case PROP_FLAGS:
@@ -1870,7 +1878,7 @@ e_comp_editor_get_property (GObject *object,
 			return;
 
 		case PROP_COMPONENT:
-			g_value_set_pointer (
+			g_value_set_object (
 				value,
 				e_comp_editor_get_component (
 				E_COMP_EDITOR (object)));
@@ -2340,10 +2348,7 @@ e_comp_editor_dispose (GObject *object)
 	g_free (comp_editor->priv->title_suffix);
 	comp_editor->priv->title_suffix = NULL;
 
-	if (comp_editor->priv->component) {
-		icalcomponent_free (comp_editor->priv->component);
-		comp_editor->priv->component = NULL;
-	}
+	g_clear_object (&comp_editor->priv->component);
 
 	ece_connect_time_parts (comp_editor, NULL, NULL);
 
@@ -2433,10 +2438,11 @@ e_comp_editor_class_init (ECompEditorClass *klass)
 	g_object_class_install_property (
 		object_class,
 		PROP_COMPONENT,
-		g_param_spec_pointer (
+		g_param_spec_object (
 			"component",
 			"Component",
-			"icalcomponent currently edited",
+			"ICalComponent currently edited",
+			I_CAL_TYPE_COMPONENT,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
@@ -2588,12 +2594,12 @@ e_comp_editor_sensitize_widgets (ECompEditor *comp_editor)
 
 void
 e_comp_editor_fill_widgets (ECompEditor *comp_editor,
-			    icalcomponent *component)
+			    ICalComponent *component)
 {
 	ECompEditorClass *comp_editor_class;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	comp_editor_class = E_COMP_EDITOR_GET_CLASS (comp_editor);
 	g_return_if_fail (comp_editor_class != NULL);
@@ -2608,13 +2614,13 @@ e_comp_editor_fill_widgets (ECompEditor *comp_editor,
 
 gboolean
 e_comp_editor_fill_component (ECompEditor *comp_editor,
-			      icalcomponent *component)
+			      ICalComponent *component)
 {
 	ECompEditorClass *comp_editor_class;
 	gboolean is_valid;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	comp_editor_class = E_COMP_EDITOR_GET_CLASS (comp_editor);
 	g_return_val_if_fail (comp_editor_class != NULL, FALSE);
@@ -2640,8 +2646,8 @@ e_comp_editor_fill_component (ECompEditor *comp_editor,
 		    ece_sentby_is_user (comp_editor, component, client)))) {
 			gint sequence;
 
-			sequence = icalcomponent_get_sequence (component);
-			icalcomponent_set_sequence (component, sequence + 1);
+			sequence = i_cal_component_get_sequence (component);
+			i_cal_component_set_sequence (component, sequence + 1);
 		}
 	}
 
@@ -2706,7 +2712,7 @@ e_comp_editor_get_origin_source (ECompEditor *comp_editor)
 	return comp_editor->priv->origin_source;
 }
 
-icalcomponent *
+ICalComponent *
 e_comp_editor_get_component (ECompEditor *comp_editor)
 {
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
@@ -3152,97 +3158,115 @@ e_comp_editor_add_error (ECompEditor *comp_editor,
 
 static gboolean
 ece_check_start_before_end (ECompEditor *comp_editor,
-			    struct icaltimetype *start_tt,
-			    struct icaltimetype *end_tt,
+			    ICalTime **pstart_tt,
+			    ICalTime **pend_tt,
 			    gboolean adjust_end_time)
 {
-	struct icaltimetype end_tt_copy;
-	icaltimezone *start_zone, *end_zone;
+	ICalTime *start_tt, *end_tt, *end_tt_copy;
+	ICalTimezone *start_zone, *end_zone;
 	gint duration = -1;
 	gint cmp;
 
+	start_tt = *pstart_tt;
+	end_tt = *pend_tt;
+
 	if ((e_comp_editor_get_flags (comp_editor) & E_COMP_EDITOR_FLAG_IS_NEW) == 0) {
-		icalcomponent *icomp;
+		ICalComponent *icomp;
 
 		icomp = e_comp_editor_get_component (comp_editor);
 		if (icomp &&
-		    icalcomponent_get_first_property (icomp, ICAL_DTSTART_PROPERTY) &&
-		    (icalcomponent_get_first_property (icomp, ICAL_DTEND_PROPERTY) ||
-		     icalcomponent_get_first_property (icomp, ICAL_DUE_PROPERTY))) {
-			struct icaltimetype orig_start, orig_end;
+		    e_cal_util_component_has_property (icomp, I_CAL_DTSTART_PROPERTY) &&
+		    (e_cal_util_component_has_property (icomp, I_CAL_DTEND_PROPERTY) ||
+		     e_cal_util_component_has_property (icomp, I_CAL_DUE_PROPERTY))) {
+			ICalTime *orig_start, *orig_end;
 
-			orig_start = icalcomponent_get_dtstart (icomp);
-			orig_end = icalcomponent_get_dtend (icomp);
+			orig_start = i_cal_component_get_dtstart (icomp);
+			orig_end = i_cal_component_get_dtend (icomp);
 
-			if (icaltime_is_valid_time (orig_start) &&
-			    icaltime_is_valid_time (orig_end)) {
-				duration = icaltime_as_timet (orig_end) - icaltime_as_timet (orig_start);
+			if (orig_start && i_cal_time_is_valid_time (orig_start) &&
+			    orig_end && i_cal_time_is_valid_time (orig_end)) {
+				duration = i_cal_time_as_timet (orig_end) - i_cal_time_as_timet (orig_start);
 			}
+
+			g_clear_object (&orig_start);
+			g_clear_object (&orig_end);
 		}
 	}
 
-	start_zone = (icaltimezone *) start_tt->zone;
-	end_zone = (icaltimezone *) end_tt->zone;
+	start_zone = i_cal_time_get_timezone (start_tt);
+	end_zone = i_cal_time_get_timezone (end_tt);
 
 	/* Convert the end time to the same timezone as the start time. */
-	end_tt_copy = *end_tt;
+	end_tt_copy = i_cal_time_clone (end_tt);
 
 	if (start_zone && end_zone && start_zone != end_zone)
-		icaltimezone_convert_time (&end_tt_copy, end_zone, start_zone);
+		i_cal_time_convert_timezone (end_tt_copy, end_zone, start_zone);
 
 	/* Now check if the start time is after the end time. If it is,
 	 * we need to modify one of the times. */
-	cmp = icaltime_compare (*start_tt, end_tt_copy);
+	cmp = i_cal_time_compare (start_tt, end_tt_copy);
 	if (cmp > 0) {
 		if (adjust_end_time) {
 			/* Try to switch only the date */
-			end_tt->year = start_tt->year;
-			end_tt->month = start_tt->month;
-			end_tt->day = start_tt->day;
+			i_cal_time_set_date (end_tt,
+				i_cal_time_get_year (start_tt),
+				i_cal_time_get_month (start_tt),
+				i_cal_time_get_day (start_tt));
 
-			end_tt_copy = *end_tt;
+			g_clear_object (&end_tt_copy);
+			end_tt_copy = i_cal_time_clone (end_tt);
 			if (start_zone && end_zone && start_zone != end_zone)
-				icaltimezone_convert_time (&end_tt_copy, end_zone, start_zone);
+				i_cal_time_convert_timezone (end_tt_copy, end_zone, start_zone);
 
 			if (duration > 0)
-				icaltime_adjust (&end_tt_copy, 0, 0, 0, -duration);
+				i_cal_time_adjust (end_tt_copy, 0, 0, 0, -duration);
 
-			if (icaltime_compare (*start_tt, end_tt_copy) >= 0) {
-				*end_tt = *start_tt;
+			if (i_cal_time_compare (start_tt, end_tt_copy) >= 0) {
+				g_clear_object (&end_tt);
+				end_tt = i_cal_time_clone (start_tt);
 
 				if (duration >= 0) {
-					icaltime_adjust (end_tt, 0, 0, 0, duration);
+					i_cal_time_adjust (end_tt, 0, 0, 0, duration);
 				} else {
 					/* Modify the end time, to be the start + 1 hour/day. */
-					icaltime_adjust (end_tt, 0, start_tt->is_date ? 24 : 1, 0, 0);
+					i_cal_time_adjust (end_tt, 0, i_cal_time_is_date (start_tt) ? 24 : 1, 0, 0);
 				}
 
 				if (start_zone && end_zone && start_zone != end_zone)
-					icaltimezone_convert_time (end_tt, start_zone, end_zone);
+					i_cal_time_convert_timezone (end_tt, start_zone, end_zone);
 			}
 		} else {
 			/* Try to switch only the date */
-			start_tt->year = end_tt->year;
-			start_tt->month = end_tt->month;
-			start_tt->day = end_tt->day;
+			i_cal_time_set_date (start_tt,
+				i_cal_time_get_year (end_tt),
+				i_cal_time_get_month (end_tt),
+				i_cal_time_get_day (end_tt));
 
-			if (icaltime_compare (*start_tt, end_tt_copy) >= 0) {
-				*start_tt = *end_tt;
+			if (i_cal_time_compare (start_tt, end_tt_copy) >= 0) {
+				g_clear_object (&start_tt);
+				start_tt = i_cal_time_clone (end_tt);
 
 				if (duration >= 0) {
-					icaltime_adjust (start_tt, 0, 0, 0, -duration);
+					i_cal_time_adjust (start_tt, 0, 0, 0, -duration);
 				} else {
 					/* Modify the start time, to be the end - 1 hour/day. */
-					icaltime_adjust (start_tt, 0, start_tt->is_date ? -24 : -1, 0, 0);
+					i_cal_time_adjust (start_tt, 0, i_cal_time_is_date (start_tt) ? -24 : -1, 0, 0);
 				}
 
 				if (start_zone && end_zone && start_zone != end_zone)
-					icaltimezone_convert_time (start_tt, end_zone, start_zone);
+					i_cal_time_convert_timezone (start_tt, end_zone, start_zone);
 			}
 		}
 
+		*pstart_tt = start_tt;
+		*pend_tt = end_tt;
+
+		g_clear_object (&end_tt_copy);
+
 		return TRUE;
 	}
+
+	g_clear_object (&end_tt_copy);
 
 	return FALSE;
 }
@@ -3254,7 +3278,7 @@ e_comp_editor_ensure_start_before_end (ECompEditor *comp_editor,
 				       gboolean change_end_datetime)
 {
 	ECompEditorPropertyPartDatetime *start_dtm, *end_dtm;
-	struct icaltimetype start_tt, end_tt;
+	ICalTime *start_tt, *end_tt;
 	gboolean set_dtstart = FALSE, set_dtend = FALSE;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
@@ -3267,28 +3291,36 @@ e_comp_editor_ensure_start_before_end (ECompEditor *comp_editor,
 	start_tt = e_comp_editor_property_part_datetime_get_value (start_dtm);
 	end_tt = e_comp_editor_property_part_datetime_get_value (end_dtm);
 
-	if (icaltime_is_null_time (start_tt) ||
-	    icaltime_is_null_time (end_tt) ||
-	    !icaltime_is_valid_time (start_tt) ||
-	    !icaltime_is_valid_time (end_tt))
+	if (!start_tt || !end_tt ||
+	    i_cal_time_is_null_time (start_tt) ||
+	    i_cal_time_is_null_time (end_tt) ||
+	    !i_cal_time_is_valid_time (start_tt) ||
+	    !i_cal_time_is_valid_time (end_tt)) {
+		g_clear_object (&start_tt);
+		g_clear_object (&end_tt);
 		return;
+	}
 
-	if (start_tt.is_date || end_tt.is_date) {
+	if (i_cal_time_is_date (start_tt) || i_cal_time_is_date (end_tt)) {
 		/* All Day Events are simple. We just compare the dates and if
 		 * start > end we copy one of them to the other. */
 		gint cmp;
 
-		start_tt.is_date = TRUE;
-		end_tt.is_date = TRUE;
+		i_cal_time_set_is_date (start_tt, TRUE);
+		i_cal_time_set_is_date (end_tt, TRUE);
 
-		cmp = icaltime_compare_date_only (start_tt, end_tt);
+		cmp = i_cal_time_compare_date_only (start_tt, end_tt);
 
 		if (cmp > 0) {
 			if (change_end_datetime) {
+				g_clear_object (&end_tt);
 				end_tt = start_tt;
+				start_tt = NULL;
 				set_dtend = TRUE;
 			} else {
+				g_clear_object (&start_tt);
 				start_tt = end_tt;
+				end_tt = NULL;
 				set_dtstart = TRUE;
 			}
 		}
@@ -3312,41 +3344,47 @@ e_comp_editor_ensure_start_before_end (ECompEditor *comp_editor,
 
 		e_comp_editor_set_updating (comp_editor, FALSE);
 	}
+
+	g_clear_object (&start_tt);
+	g_clear_object (&end_tt);
 }
 
 static gboolean
 e_comp_editor_holds_component (ECompEditor *comp_editor,
 			       ESource *origin_source,
-			       const icalcomponent *component)
+			       const ICalComponent *component)
 {
 	const gchar *component_uid, *editor_uid;
 	gboolean equal;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	if (!origin_source || !comp_editor->priv->origin_source ||
 	    !e_source_equal (origin_source, comp_editor->priv->origin_source))
 		return FALSE;
 
-	component_uid = icalcomponent_get_uid ((icalcomponent *) component);
-	editor_uid = icalcomponent_get_uid (comp_editor->priv->component);
+	component_uid = i_cal_component_get_uid ((ICalComponent *) component);
+	editor_uid = i_cal_component_get_uid (comp_editor->priv->component);
 
 	if (!component_uid || !editor_uid)
 		return FALSE;
 
 	equal = g_strcmp0 (component_uid, editor_uid) == 0;
 	if (equal) {
-		struct icaltimetype component_rid, editor_rid;
+		ICalTime *component_rid, *editor_rid;
 
-		component_rid = icalcomponent_get_recurrenceid ((icalcomponent *) component);
-		editor_rid = icalcomponent_get_recurrenceid (comp_editor->priv->component);
+		component_rid = i_cal_component_get_recurrenceid ((ICalComponent *) component);
+		editor_rid = i_cal_component_get_recurrenceid (comp_editor->priv->component);
 
-		if (icaltime_is_null_time (component_rid)) {
-			equal = icaltime_is_null_time (editor_rid);
-		} else if (!icaltime_is_null_time (editor_rid)) {
-			equal = icaltime_compare (component_rid, editor_rid) == 0;
+		if (!component_rid || i_cal_time_is_null_time (component_rid)) {
+			equal = !editor_rid || i_cal_time_is_null_time (editor_rid);
+		} else if (editor_rid && !i_cal_time_is_null_time (editor_rid)) {
+			equal = i_cal_time_compare (component_rid, editor_rid) == 0;
 		}
+
+		g_clear_object (&component_rid);
+		g_clear_object (&editor_rid);
 	}
 
 	return equal;
@@ -3356,7 +3394,7 @@ ECompEditor *
 e_comp_editor_open_for_component (GtkWindow *parent,
 				  EShell *shell,
 				  ESource *origin_source,
-				  const icalcomponent *component,
+				  const ICalComponent *component,
 				  guint32 flags /* bit-or of ECompEditorFlags */)
 {
 	ECompEditor *comp_editor;
@@ -3365,7 +3403,7 @@ e_comp_editor_open_for_component (GtkWindow *parent,
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	if (origin_source)
 		g_return_val_if_fail (E_IS_SOURCE (origin_source), NULL);
-	g_return_val_if_fail (component != NULL, NULL);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), NULL);
 
 	comp_editor = e_comp_editor_find_existing_for (origin_source, component);
 	if (comp_editor) {
@@ -3373,14 +3411,14 @@ e_comp_editor_open_for_component (GtkWindow *parent,
 		return comp_editor;
 	}
 
-	switch (icalcomponent_isa (component)) {
-		case ICAL_VEVENT_COMPONENT:
+	switch (i_cal_component_isa (component)) {
+		case I_CAL_VEVENT_COMPONENT:
 			comp_editor_type = E_TYPE_COMP_EDITOR_EVENT;
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			comp_editor_type = E_TYPE_COMP_EDITOR_TASK;
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			comp_editor_type = E_TYPE_COMP_EDITOR_MEMO;
 			break;
 		default:
@@ -3404,14 +3442,14 @@ e_comp_editor_open_for_component (GtkWindow *parent,
 
 ECompEditor *
 e_comp_editor_find_existing_for (ESource *origin_source,
-				 const icalcomponent *component)
+				 const ICalComponent *component)
 {
 	ECompEditor *comp_editor;
 	GSList *link;
 
 	if (origin_source)
 		g_return_val_if_fail (E_IS_SOURCE (origin_source), NULL);
-	g_return_val_if_fail (component != NULL, NULL);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), NULL);
 
 	for (link = opened_editors; link; link = g_slist_next (link)) {
 		comp_editor = link->data;
@@ -3429,21 +3467,21 @@ e_comp_editor_find_existing_for (ESource *origin_source,
 }
 
 /* Returned pointer is owned by libical or ECalClient; can return NULL */
-icaltimezone *
+ICalTimezone *
 e_comp_editor_lookup_timezone (ECompEditor *comp_editor,
 			       const gchar *tzid)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
 
 	if (!tzid || !*tzid)
 		return NULL;
 
-	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	zone = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 
 	if (!zone)
-		zone = icaltimezone_get_builtin_timezone (tzid);
+		zone = i_cal_timezone_get_builtin_timezone (tzid);
 
 	if (!zone && comp_editor->priv->source_client) {
 		if (!e_cal_client_get_timezone_sync (comp_editor->priv->source_client, tzid, &zone, NULL, NULL))

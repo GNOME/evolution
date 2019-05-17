@@ -66,7 +66,7 @@ alarm_notify_module_map_string_to_icaltimezone (GValue *value,
 {
 	GSettings *settings;
 	const gchar *location = NULL;
-	icaltimezone *timezone = NULL;
+	ICalTimezone *timezone = NULL;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
@@ -76,12 +76,12 @@ alarm_notify_module_map_string_to_icaltimezone (GValue *value,
 		location = g_variant_get_string (variant, NULL);
 
 	if (location && *location)
-		timezone = icaltimezone_get_builtin_timezone (location);
+		timezone = i_cal_timezone_get_builtin_timezone (location);
 
 	if (!timezone)
-		timezone = icaltimezone_get_utc_timezone ();
+		timezone = i_cal_timezone_get_utc_timezone ();
 
-	g_value_set_boxed (value, timezone);
+	g_value_set_object (value, timezone);
 
 	g_object_unref (settings);
 
@@ -91,7 +91,7 @@ alarm_notify_module_map_string_to_icaltimezone (GValue *value,
 static void
 alarm_notify_module_format_time_cb (EReminderWatcher *watcher,
 				    const EReminderData *rd,
-				    struct icaltimetype *itt,
+				    ICalTime *itt,
 				    gchar **inout_buffer,
 				    gint buffer_size)
 {
@@ -104,8 +104,8 @@ alarm_notify_module_format_time_cb (EReminderWatcher *watcher,
 	g_return_if_fail (*inout_buffer != NULL);
 	g_return_if_fail (buffer_size > 0);
 
-	tm = icaltimetype_to_tm (itt);
-	text = e_datetime_format_format_tm ("calendar", "table", itt->is_date ? DTFormatKindDate : DTFormatKindDateTime, &tm);
+	tm = e_cal_util_icaltime_to_tm (itt);
+	text = e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (itt) ? DTFormatKindDate : DTFormatKindDateTime, &tm);
 
 	if (text) {
 		g_snprintf (*inout_buffer, buffer_size, "%s", text);
@@ -118,15 +118,17 @@ alarm_notify_module_row_activated_cb (ERemindersWidget *reminders,
 				      const EReminderData *rd,
 				      gpointer user_data)
 {
+	ECalComponent *comp;
 	const gchar *scheme = NULL;
 	const gchar *comp_uid = NULL;
 
 	g_return_val_if_fail (E_IS_REMINDERS_WIDGET (reminders), FALSE);
 	g_return_val_if_fail (rd != NULL, FALSE);
 
-	e_cal_component_get_uid (rd->component, &comp_uid);
+	comp = e_reminder_data_get_component (rd);
+	comp_uid = e_cal_component_get_uid (comp);
 
-	switch (e_cal_component_get_vtype (rd->component)) {
+	switch (e_cal_component_get_vtype (comp)) {
 		case E_CAL_COMPONENT_EVENT:
 			scheme = "calendar:";
 			break;
@@ -140,7 +142,7 @@ alarm_notify_module_row_activated_cb (ERemindersWidget *reminders,
 			break;
 	}
 
-	if (scheme && comp_uid && rd->source_uid) {
+	if (scheme && comp_uid && e_reminder_data_get_source_uid (rd)) {
 		GString *cmd;
 		gchar *tmp;
 		GError *error = NULL;
@@ -152,7 +154,7 @@ alarm_notify_module_row_activated_cb (ERemindersWidget *reminders,
 		g_string_append (cmd, scheme);
 		g_string_append (cmd, "///?");
 
-		tmp = g_uri_escape_string (rd->source_uid, NULL, TRUE);
+		tmp = g_uri_escape_string (e_reminder_data_get_source_uid (rd), NULL, TRUE);
 		g_string_append (cmd, "source-uid=");
 		g_string_append (cmd, tmp);
 		g_free (tmp);

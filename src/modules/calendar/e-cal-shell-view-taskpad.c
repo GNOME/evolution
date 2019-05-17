@@ -69,7 +69,7 @@ action_calendar_taskpad_forward_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only forward the first selected task. */
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	g_return_if_fail (comp != NULL);
 
 	itip_send_component_with_model (e_task_table_get_model (task_table),
@@ -181,7 +181,7 @@ action_calendar_taskpad_open_url_cb (GtkAction *action,
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
-	icalproperty *prop;
+	ICalProperty *prop;
 	const gchar *uri;
 	GSList *list;
 
@@ -196,12 +196,12 @@ action_calendar_taskpad_open_url_cb (GtkAction *action,
 	comp_data = list->data;
 
 	/* XXX We only open the URI of the first selected task. */
-	prop = icalcomponent_get_first_property (
-		comp_data->icalcomp, ICAL_URL_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
 	g_return_if_fail (prop != NULL);
 
-	uri = icalproperty_get_url (prop);
+	uri = i_cal_property_get_url (prop);
 	e_show_uri (GTK_WINDOW (shell_window), uri);
+	g_object_unref (prop);
 }
 
 static void
@@ -213,7 +213,6 @@ action_calendar_taskpad_print_cb (GtkAction *action,
 	ETaskTable *task_table;
 	ECalComponent *comp;
 	ECalModel *model;
-	icalcomponent *clone;
 	GSList *list;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -226,9 +225,7 @@ action_calendar_taskpad_print_cb (GtkAction *action,
 	g_slist_free (list);
 
 	/* XXX We only print the first selected task. */
-	comp = e_cal_component_new ();
-	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	e_cal_component_set_icalcomponent (comp, clone);
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 
 	print_comp (
 		comp, comp_data->client,
@@ -270,7 +267,7 @@ action_calendar_taskpad_save_as_cb (GtkAction *action,
 
 	/* Translators: Default filename part saving a task to a file when
 	 * no summary is filed, the '.ics' extension is concatenated to it. */
-	string = icalcomp_suggest_filename (comp_data->icalcomp, _("task"));
+	string = comp_util_suggest_filename (comp_data->icalcomp, _("task"));
 	file = e_shell_run_save_dialog (
 		shell, _("Save as iCalendar"), string,
 		"*.ics:text/calendar", NULL, NULL);
@@ -430,28 +427,23 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 	list = e_task_table_get_selected (task_table);
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		icalproperty *prop;
 		const gchar *cap;
 		gboolean read_only;
 
 		read_only = e_client_is_readonly (E_CLIENT (comp_data->client));
 		editable &= !read_only;
 
-		cap = CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT;
+		cap = E_CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT;
 		if (e_client_check_capability (E_CLIENT (comp_data->client), cap))
 			assignable = FALSE;
 
-		cap = CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
+		cap = E_CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
 		if (e_client_check_capability (E_CLIENT (comp_data->client), cap))
 			assignable = FALSE;
 
-		prop = icalcomponent_get_first_property (
-			comp_data->icalcomp, ICAL_URL_PROPERTY);
-		has_url |= (prop != NULL);
+		has_url |= e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
 
-		prop = icalcomponent_get_first_property (
-			comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
-		if (prop != NULL)
+		if (e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_COMPLETED_PROPERTY))
 			n_complete++;
 		else
 			n_incomplete++;

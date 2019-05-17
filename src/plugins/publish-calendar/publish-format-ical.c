@@ -34,22 +34,22 @@ typedef struct {
 } CompTzData;
 
  static void
-insert_tz_comps (icalparameter *param,
+insert_tz_comps (ICalParameter *param,
                  gpointer cb_data)
 {
 	const gchar *tzid;
 	CompTzData *tdata = cb_data;
-	icaltimezone *zone = NULL;
-	icalcomponent *tzcomp;
+	ICalTimezone *zone = NULL;
+	ICalComponent *tzcomp;
 	GError *error = NULL;
 
-	tzid = icalparameter_get_tzid (param);
+	tzid = i_cal_parameter_get_tzid (param);
 
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
 
-	e_cal_client_get_timezone_sync (
-		tdata->client, tzid, &zone, NULL, &error);
+	if (!e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error))
+		zone = NULL;
 
 	if (error != NULL) {
 		g_warning (
@@ -59,16 +59,16 @@ insert_tz_comps (icalparameter *param,
 		return;
 	}
 
-	tzcomp = icalcomponent_new_clone (icaltimezone_get_component (zone));
+	tzcomp = i_cal_component_clone (i_cal_timezone_get_component (zone));
 	g_hash_table_insert (tdata->zones, (gpointer) tzid, (gpointer) tzcomp);
 }
 
 static void
 append_tz_to_comp (gpointer key,
-                   gpointer value,
-                   icalcomponent *toplevel)
+		   gpointer value,
+		   ICalComponent *toplevel)
 {
-	icalcomponent_add_component (toplevel, (icalcomponent *) value);
+	i_cal_component_take_component (toplevel, (ICalComponent *) value);
 }
 
 static gboolean
@@ -81,7 +81,7 @@ write_calendar (const gchar *uid,
 	ESourceRegistry *registry;
 	EClient *client = NULL;
 	GSList *objects = NULL;
-	icalcomponent *top_level;
+	ICalComponent *top_level;
 	gboolean res = FALSE;
 
 	shell = e_shell_get_default ();
@@ -119,9 +119,9 @@ write_calendar (const gchar *uid,
 		tdata.client = E_CAL_CLIENT (client);
 
 		for (iter = objects; iter; iter = iter->next) {
-			icalcomponent *icalcomp = icalcomponent_new_clone (iter->data);
-			icalcomponent_foreach_tzid (icalcomp, insert_tz_comps, &tdata);
-			icalcomponent_add_component (top_level, icalcomp);
+			ICalComponent *icomp = i_cal_component_clone (iter->data);
+			i_cal_component_foreach_tzid (icomp, insert_tz_comps, &tdata);
+			i_cal_component_take_component (top_level, icomp);
 		}
 
 		g_hash_table_foreach (tdata.zones, (GHFunc) append_tz_to_comp, top_level);
@@ -129,14 +129,14 @@ write_calendar (const gchar *uid,
 		g_hash_table_destroy (tdata.zones);
 		tdata.zones = NULL;
 
-		ical_string = icalcomponent_as_ical_string_r (top_level);
+		ical_string = i_cal_component_as_ical_string (top_level);
 		res = g_output_stream_write_all (stream, ical_string, strlen (ical_string), NULL, NULL, error);
 		g_free (ical_string);
-		e_cal_client_free_icalcomp_slist (objects);
+		e_util_free_nullable_object_slist (objects);
 	}
 
 	g_object_unref (client);
-	icalcomponent_free (top_level);
+	g_object_unref (top_level);
 
 	return res;
 }

@@ -87,7 +87,7 @@ ece_event_update_times (ECompEditorEvent *event_editor,
 	flags = e_comp_editor_get_flags (E_COMP_EDITOR (event_editor));
 
 	if ((flags & E_COMP_EDITOR_FLAG_IS_NEW) != 0) {
-		struct icaltimetype start_tt;
+		ICalTime *start_tt;
 
 		start_tt = e_comp_editor_property_part_datetime_get_value (
 			E_COMP_EDITOR_PROPERTY_PART_DATETIME (event_editor->priv->dtstart));
@@ -109,6 +109,8 @@ ece_event_update_times (ECompEditorEvent *event_editor,
 		} else if (event_editor->priv->in_the_past_alert) {
 			e_alert_response (event_editor->priv->in_the_past_alert, GTK_RESPONSE_OK);
 		}
+
+		g_clear_object (&start_tt);
 	}
 }
 
@@ -224,13 +226,13 @@ ece_event_sensitize_widgets (ECompEditor *comp_editor,
 	}
 }
 
-static icaltimezone *
+static ICalTimezone *
 ece_event_get_timezone_from_property (ECompEditor *comp_editor,
-				      icalproperty *property)
+				      ICalProperty *property)
 {
 	ECalClient *client;
-	icalparameter *param;
-	icaltimezone *zone = NULL;
+	ICalParameter *param;
+	ICalTimezone *zone = NULL;
 	const gchar *tzid;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), NULL);
@@ -238,95 +240,109 @@ ece_event_get_timezone_from_property (ECompEditor *comp_editor,
 	if (!property)
 		return NULL;
 
-	param = icalproperty_get_first_parameter (property, ICAL_TZID_PARAMETER);
+	param = i_cal_property_get_first_parameter (property, I_CAL_TZID_PARAMETER);
 	if (!param)
 		return NULL;
 
-	tzid = icalparameter_get_tzid (param);
-	if (!tzid || !*tzid)
+	tzid = i_cal_parameter_get_tzid (param);
+	if (!tzid || !*tzid) {
+		g_object_unref (param);
 		return NULL;
+	}
 
-	if (g_ascii_strcasecmp (tzid, "UTC") == 0)
-		return icaltimezone_get_utc_timezone ();
+	if (g_ascii_strcasecmp (tzid, "UTC") == 0) {
+		g_object_unref (param);
+		return i_cal_timezone_get_utc_timezone ();
+	}
 
 	client = e_comp_editor_get_source_client (comp_editor);
 	/* It should be already fetched for the UI, thus this should be non-blocking. */
-	if (client && e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, NULL) && zone)
+	if (client && e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, NULL) && zone) {
+		g_object_unref (param);
 		return zone;
+	}
 
-	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	zone = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 	if (!zone)
-		zone = icaltimezone_get_builtin_timezone (tzid);
+		zone = i_cal_timezone_get_builtin_timezone (tzid);
+
+	g_object_unref (param);
 
 	return zone;
 }
 
 static void
 ece_event_update_timezone (ECompEditorEvent *event_editor,
-			   struct icaltimetype *out_dtstart,
-			   struct icaltimetype *out_dtend)
+			   ICalTime **out_dtstart,
+			   ICalTime **out_dtend)
 {
 	ECompEditor *comp_editor;
-	struct icaltimetype dtstart, dtend;
-	icalcomponent *component;
-	icaltimezone *zone = NULL;
+	ICalTime *dtstart = NULL, *dtend = NULL;
+	ICalComponent *component;
+	ICalProperty *prop;
+	ICalTimezone *zone = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
 
 	comp_editor = E_COMP_EDITOR (event_editor);
 
-	dtstart = icaltime_null_time ();
-	dtend = icaltime_null_time ();
-
 	component = e_comp_editor_get_component (comp_editor);
 	if (!component) {
 		if (out_dtstart)
-			*out_dtstart = dtstart;
+			*out_dtstart = NULL;
 
 		if (out_dtend)
-			*out_dtend = dtend;
+			*out_dtend = NULL;
 
 		return;
 	}
 
-	if (icalcomponent_get_first_property (component, ICAL_DTSTART_PROPERTY)) {
-		dtstart = icalcomponent_get_dtstart (component);
-		if (icaltime_is_valid_time (dtstart)) {
-			if (icaltime_is_utc (dtstart))
-				zone = icaltimezone_get_utc_timezone ();
-			else
-				zone = ece_event_get_timezone_from_property (comp_editor,
-					icalcomponent_get_first_property (component, ICAL_DTSTART_PROPERTY));
+	if (e_cal_util_component_has_property (component, I_CAL_DTSTART_PROPERTY)) {
+		dtstart = i_cal_component_get_dtstart (component);
+		if (dtstart && i_cal_time_is_valid_time (dtstart)) {
+			if (i_cal_time_is_utc (dtstart)) {
+				zone = i_cal_timezone_get_utc_timezone ();
+			} else {
+				prop = i_cal_component_get_first_property (component, I_CAL_DTSTART_PROPERTY);
+				zone = ece_event_get_timezone_from_property (comp_editor, prop);
+				g_clear_object (&prop);
+			}
 		}
 	}
 
-	if (icalcomponent_get_first_property (component, ICAL_DTEND_PROPERTY)) {
-		dtend = icalcomponent_get_dtend (component);
-		if (!zone && icaltime_is_valid_time (dtend)) {
-			if (icaltime_is_utc (dtend))
-				zone = icaltimezone_get_utc_timezone ();
-			else
-				zone = ece_event_get_timezone_from_property (comp_editor,
-					icalcomponent_get_first_property (component, ICAL_DTEND_PROPERTY));
+	if (e_cal_util_component_has_property (component, I_CAL_DTEND_PROPERTY)) {
+		dtend = i_cal_component_get_dtend (component);
+		if (!zone && i_cal_time_is_valid_time (dtend)) {
+			if (i_cal_time_is_utc (dtend)) {
+				zone = i_cal_timezone_get_utc_timezone ();
+			} else {
+				prop = i_cal_component_get_first_property (component, I_CAL_DTEND_PROPERTY);
+				zone = ece_event_get_timezone_from_property (comp_editor, prop);
+				g_clear_object (&prop);
+			}
 		}
 	}
 
 	if (!zone) {
-		struct icaltimetype itt;
+		ICalTime *itt;
 
-		itt = icalcomponent_get_due (component);
-		if (icaltime_is_valid_time (itt)) {
-			if (icaltime_is_utc (itt))
-				zone = icaltimezone_get_utc_timezone ();
-			else
-				zone = ece_event_get_timezone_from_property (comp_editor,
-					icalcomponent_get_first_property (component, ICAL_DUE_PROPERTY));
+		itt = i_cal_component_get_due (component);
+		if (itt && i_cal_time_is_valid_time (itt)) {
+			if (i_cal_time_is_utc (itt)) {
+				zone = i_cal_timezone_get_utc_timezone ();
+			} else {
+				prop = i_cal_component_get_first_property (component, I_CAL_DUE_PROPERTY);
+				zone = ece_event_get_timezone_from_property (comp_editor, prop);
+				g_clear_object (&prop);
+			}
 		}
+
+		g_clear_object (&itt);
 	}
 
 	if (zone) {
 		GtkWidget *edit_widget;
-		icaltimezone *cfg_zone;
+		ICalTimezone *cfg_zone;
 
 		edit_widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->timezone);
 
@@ -335,8 +351,8 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 		cfg_zone = calendar_config_get_icaltimezone ();
 
 		if (zone && cfg_zone && zone != cfg_zone &&
-		    (g_strcmp0 (icaltimezone_get_location (zone), icaltimezone_get_location (cfg_zone)) != 0 ||
-		     g_strcmp0 (icaltimezone_get_tzid (zone), icaltimezone_get_tzid (cfg_zone)) != 0)) {
+		    (g_strcmp0 (i_cal_timezone_get_location (zone), i_cal_timezone_get_location (cfg_zone)) != 0 ||
+		     g_strcmp0 (i_cal_timezone_get_tzid (zone), i_cal_timezone_get_tzid (cfg_zone)) != 0)) {
 			/* Show timezone part */
 			GtkAction *action;
 
@@ -347,18 +363,22 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 
 	if (out_dtstart)
 		*out_dtstart = dtstart;
+	else
+		g_clear_object (&dtstart);
 
 	if (out_dtend)
 		*out_dtend = dtend;
+	else
+		g_clear_object (&dtend);
 }
 
 static void
 ece_event_fill_widgets (ECompEditor *comp_editor,
-			icalcomponent *component)
+			ICalComponent *component)
 {
 	ECompEditorEvent *event_editor;
-	struct icaltimetype dtstart, dtend;
-	icalproperty *prop;
+	ICalTime *dtstart, *dtend;
+	ICalProperty *prop;
 	gboolean all_day_event = FALSE;
 	GtkAction *action;
 	guint32 flags;
@@ -369,26 +389,27 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 	event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 
 	flags = e_comp_editor_get_flags (comp_editor);
-	dtstart = icaltime_null_time ();
-	dtend = icaltime_null_time ();
+	dtstart = NULL;
+	dtend = NULL;
 
 	/* Set timezone before the times, because they are converted into this timezone */
 	ece_event_update_timezone (event_editor, &dtstart, &dtend);
 
 	E_COMP_EDITOR_CLASS (e_comp_editor_event_parent_class)->fill_widgets (comp_editor, component);
 
-	if (icaltime_is_valid_time (dtstart) && !icaltime_is_null_time (dtstart) &&
-	    (!icaltime_is_valid_time (dtend) || icaltime_is_null_time (dtend))) {
-		dtend = dtstart;
-		if (dtstart.is_date)
-			icaltime_adjust (&dtend, 1, 0, 0, 0);
+	if (dtstart && i_cal_time_is_valid_time (dtstart) && !i_cal_time_is_null_time (dtstart) &&
+	    (!dtend || !i_cal_time_is_valid_time (dtend) || i_cal_time_is_null_time (dtend))) {
+		g_clear_object (&dtend);
+		dtend = i_cal_time_clone (dtstart);
+		if (i_cal_time_is_date (dtstart))
+			i_cal_time_adjust (dtend, 1, 0, 0, 0);
 	}
 
-	if (icaltime_is_valid_time (dtend) && !icaltime_is_null_time (dtend)) {
-		if (dtstart.is_date && dtend.is_date) {
+	if (dtend && i_cal_time_is_valid_time (dtend) && !i_cal_time_is_null_time (dtend)) {
+		if (i_cal_time_is_date (dtstart) && i_cal_time_is_date (dtend)) {
 			all_day_event = TRUE;
-			if (icaltime_compare_date_only (dtend, dtstart) > 0) {
-				icaltime_adjust (&dtend, -1, 0, 0, 0);
+			if (i_cal_time_compare_date_only (dtend, dtstart) > 0) {
+				i_cal_time_adjust (dtend, -1, 0, 0, 0);
 			}
 		}
 
@@ -398,10 +419,10 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (event_editor->priv->all_day_check), all_day_event);
 
-	prop = icalcomponent_get_first_property (component, ICAL_CLASS_PROPERTY);
-	if (prop && icalproperty_get_class (prop) == ICAL_CLASS_PRIVATE)
+	prop = i_cal_component_get_first_property (component, I_CAL_CLASS_PROPERTY);
+	if (prop && i_cal_property_get_class (prop) == I_CAL_CLASS_PRIVATE)
 		action = e_comp_editor_get_action (comp_editor, "classify-private");
-	else if (prop && icalproperty_get_class (prop) == ICAL_CLASS_CONFIDENTIAL)
+	else if (prop && i_cal_property_get_class (prop) == I_CAL_CLASS_CONFIDENTIAL)
 		action = e_comp_editor_get_action (comp_editor, "classify-confidential");
 	else if (!(flags & E_COMP_EDITOR_FLAG_IS_NEW))
 		action = e_comp_editor_get_action (comp_editor, "classify-public");
@@ -420,6 +441,10 @@ ece_event_fill_widgets (ECompEditor *comp_editor,
 	}
 
 	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), TRUE);
+
+	g_clear_object (&dtstart);
+	g_clear_object (&dtend);
+	g_clear_object (&prop);
 }
 
 static gboolean
@@ -431,21 +456,21 @@ ece_event_client_needs_all_day_as_time (ECompEditor *comp_editor)
 
 	client = e_comp_editor_get_target_client (comp_editor);
 
-	return client && e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_ALL_DAY_EVENT_AS_TIME);
+	return client && e_client_check_capability (E_CLIENT (client), E_CAL_STATIC_CAPABILITY_ALL_DAY_EVENT_AS_TIME);
 }
 
 static gboolean
 ece_event_fill_component (ECompEditor *comp_editor,
-			  icalcomponent *component)
+			  ICalComponent *component)
 {
 	ECompEditorEvent *event_editor;
 	gboolean date_valid, time_valid;
-	icalproperty *dtstart_prop, *dtend_prop;
-	icalproperty *prop;
-	icalproperty_class class_value;
+	ICalProperty *dtstart_prop, *dtend_prop;
+	ICalProperty *prop;
+	ICalProperty_Class class_value;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	if (!E_COMP_EDITOR_CLASS (e_comp_editor_event_parent_class)->fill_component (comp_editor, component))
 		return FALSE;
@@ -484,42 +509,39 @@ ece_event_fill_component (ECompEditor *comp_editor,
 		return FALSE;
 	}
 
-	dtstart_prop = icalcomponent_get_first_property (component, ICAL_DTSTART_PROPERTY);
-	dtend_prop = icalcomponent_get_first_property (component, ICAL_DTEND_PROPERTY);
+	dtstart_prop = i_cal_component_get_first_property (component, I_CAL_DTSTART_PROPERTY);
+	dtend_prop = i_cal_component_get_first_property (component, I_CAL_DTEND_PROPERTY);
 
 	if (dtstart_prop && dtend_prop) {
-		struct icaltimetype dtstart, dtend;
+		ICalTime *dtstart, *dtend;
 		gboolean set_dtstart = FALSE, set_dtend = FALSE;
 
-		dtstart = icalproperty_get_dtstart (dtstart_prop);
-		dtend = icalproperty_get_dtend (dtend_prop);
+		dtstart = i_cal_property_get_dtstart (dtstart_prop);
+		dtend = i_cal_property_get_dtend (dtend_prop);
 
-		if (dtstart.is_date && dtend.is_date) {
+		if (dtstart && i_cal_time_is_date (dtstart) &&
+		    dtend && i_cal_time_is_date (dtend)) {
 			/* Add 1 day to DTEND, as it is not inclusive. */
-			icaltime_adjust (&dtend, 1, 0, 0, 0);
+			i_cal_time_adjust (dtend, 1, 0, 0, 0);
 			set_dtend = TRUE;
 
 			if (ece_event_client_needs_all_day_as_time (comp_editor)) {
 				ECompEditorEvent *event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 				GtkWidget *timezone_entry;
 
-				dtstart.is_date = FALSE;
-				dtstart.hour = 0;
-				dtstart.minute = 0;
-				dtstart.second = 0;
+				i_cal_time_set_is_date (dtstart, FALSE);
+				i_cal_time_set_time (dtstart, 0, 0, 0);
 
-				dtend.is_date = FALSE;
-				dtend.hour = 0;
-				dtend.minute = 0;
-				dtend.second = 0;
+				i_cal_time_set_is_date (dtend, FALSE);
+				i_cal_time_set_time (dtend, 0, 0, 0);
 
 				timezone_entry = e_comp_editor_property_part_get_edit_widget (event_editor->priv->timezone);
 
-				dtstart.zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (timezone_entry));
-				if (!dtstart.zone)
-					dtstart.zone = icaltimezone_get_utc_timezone ();
+				i_cal_time_set_timezone (dtstart, e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (timezone_entry)));
+				if (!i_cal_time_get_timezone (dtstart))
+					i_cal_time_set_timezone (dtstart, i_cal_timezone_get_utc_timezone ());
 
-				dtend.zone = dtstart.zone;
+				i_cal_time_set_timezone (dtend, i_cal_time_get_timezone (dtstart));
 
 				set_dtstart = TRUE;
 				set_dtend = TRUE;
@@ -528,36 +550,43 @@ ece_event_fill_component (ECompEditor *comp_editor,
 
 		if (set_dtstart) {
 			/* Remove the VALUE parameter, to correspond to the actual value being set */
-			icalproperty_remove_parameter_by_kind (dtstart_prop, ICAL_VALUE_PARAMETER);
+			i_cal_property_remove_parameter_by_kind (dtstart_prop, I_CAL_VALUE_PARAMETER);
 
-			icalproperty_set_dtstart (dtstart_prop, dtstart);
+			i_cal_property_set_dtstart (dtstart_prop, dtstart);
 			cal_comp_util_update_tzid_parameter (dtstart_prop, dtstart);
 		}
 
 		if (set_dtend) {
 			/* Remove the VALUE parameter, to correspond to the actual value being set */
-			icalproperty_remove_parameter_by_kind (dtend_prop, ICAL_VALUE_PARAMETER);
+			i_cal_property_remove_parameter_by_kind (dtend_prop, I_CAL_VALUE_PARAMETER);
 
-			icalproperty_set_dtend (dtend_prop, dtend);
+			i_cal_property_set_dtend (dtend_prop, dtend);
 			cal_comp_util_update_tzid_parameter (dtend_prop, dtend);
 		}
+
+		g_clear_object (&dtstart);
+		g_clear_object (&dtend);
 	}
+
+	g_clear_object (&dtstart_prop);
+	g_clear_object (&dtend_prop);
 
 	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (
 		e_comp_editor_get_action (comp_editor, "classify-private"))))
-		class_value = ICAL_CLASS_PRIVATE;
+		class_value = I_CAL_CLASS_PRIVATE;
 	else if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (
 		e_comp_editor_get_action (comp_editor, "classify-confidential"))))
-		class_value = ICAL_CLASS_CONFIDENTIAL;
+		class_value = I_CAL_CLASS_CONFIDENTIAL;
 	else
-		class_value = ICAL_CLASS_PUBLIC;
+		class_value = I_CAL_CLASS_PUBLIC;
 
-	prop = icalcomponent_get_first_property (component, ICAL_CLASS_PROPERTY);
+	prop = i_cal_component_get_first_property (component, I_CAL_CLASS_PROPERTY);
 	if (prop) {
-		icalproperty_set_class (prop, class_value);
+		i_cal_property_set_class (prop, class_value);
+		g_object_unref (prop);
 	} else {
-		prop = icalproperty_new_class (class_value);
-		icalcomponent_add_property (component, prop);
+		prop = i_cal_property_new_class (class_value);
+		i_cal_component_take_property (component, prop);
 	}
 
 	return TRUE;

@@ -29,7 +29,10 @@
 #define E_TIMEZONE_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <libical/ical.h>
+
+#define LIBICAL_GLIB_UNSTABLE_API 1
+#include <libical-glib/libical-glib.h>
+#undef LIBICAL_GLIB_UNSTABLE_API
 
 /* Standard GObject macros */
 #define E_TYPE_TIMEZONE_DIALOG \
@@ -68,9 +71,9 @@ ETimezoneDialog *
 		e_timezone_dialog_construct	(ETimezoneDialog  *etd);
 ETimezoneDialog *
 		e_timezone_dialog_new		(void);
-icaltimezone *	e_timezone_dialog_get_timezone	(ETimezoneDialog *etd);
+ICalTimezone *	e_timezone_dialog_get_timezone	(ETimezoneDialog *etd);
 void		e_timezone_dialog_set_timezone	(ETimezoneDialog *etd,
-						 icaltimezone *zone);
+						 const ICalTimezone *zone);
 GtkWidget *	e_timezone_dialog_get_toplevel	(ETimezoneDialog *etd);
 
 #endif /* E_TIMEZONE_DIALOG_H */

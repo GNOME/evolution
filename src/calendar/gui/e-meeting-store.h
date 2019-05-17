@@ -105,9 +105,9 @@ const gchar *	e_meeting_store_get_free_busy_template
 void		e_meeting_store_set_free_busy_template
 						(EMeetingStore *meeting_store,
 						 const gchar *free_busy_template);
-icaltimezone *	e_meeting_store_get_timezone	(EMeetingStore *meeting_store);
+ICalTimezone *	e_meeting_store_get_timezone	(EMeetingStore *meeting_store);
 void		e_meeting_store_set_timezone	(EMeetingStore *meeting_store,
-						 icaltimezone *timezone);
+						 const ICalTimezone *timezone);
 gboolean	e_meeting_store_get_show_address(EMeetingStore *store);
 void		e_meeting_store_set_show_address(EMeetingStore *store,
 						 gboolean show_address);

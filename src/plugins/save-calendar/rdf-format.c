@@ -95,10 +95,10 @@ add_list_to_rdf (xmlNodePtr node,
 
 			switch (type) {
 			case ECALCOMPONENTATTENDEE:
-				str = ((ECalComponentAttendee *) list->data)->value;
+				str = itip_strip_mailto (e_cal_component_attendee_get_value ((ECalComponentAttendee *) list->data));
 				break;
 			case ECALCOMPONENTTEXT:
-				str = ((ECalComponentText *) list->data)->value;
+				str = e_cal_component_text_get_value ((ECalComponentText *) list->data);
 				break;
 			case CONSTCHAR:
 			default:
@@ -116,10 +116,10 @@ add_list_to_rdf (xmlNodePtr node,
 static void
 add_nummeric_to_rdf (xmlNodePtr node,
                      const gchar *tag,
-                     gint *nummeric)
+                     gint nummeric)
 {
-	if (nummeric) {
-		gchar *value = g_strdup_printf ("%d", *nummeric);
+	if (nummeric >= 0) {
+		gchar *value = g_strdup_printf ("%d", nummeric);
 		xmlNodePtr cur_node = xmlNewChild (node, NULL, (guchar *) tag, (guchar *) value);
 		xmlSetProp (cur_node, (const guchar *)"rdf:datatype", (const guchar *)"http://www.w3.org/2001/XMLSchema#integer");
 		g_free (value);
@@ -129,11 +129,11 @@ add_nummeric_to_rdf (xmlNodePtr node,
 static void
 add_time_to_rdf (xmlNodePtr node,
                  const gchar *tag,
-                 icaltimetype *time)
+                 ICalTime *time)
 {
 	if (time) {
 		xmlNodePtr cur_node = NULL;
-		struct tm mytm = icaltimetype_to_tm (time);
+		struct tm mytm = e_cal_util_icaltime_to_tm (time);
 		gchar *str = (gchar *) g_malloc (sizeof (gchar) * 200);
 		gchar *tmp = NULL;
 		gchar *timezone;
@@ -254,99 +254,89 @@ do_save_calendar_rdf (FormatHandler *handler,
 		for (iter = objects; iter; iter = iter->next) {
 			ECalComponent *comp = iter->data;
 			const gchar *temp_constchar;
-			gchar *tmp_str = NULL;
+			gchar *tmp_str;
 			GSList *temp_list;
-			ECalComponentDateTime temp_dt;
-			struct icaltimetype *temp_time;
-			gint *temp_int;
-			ECalComponentText temp_comptext;
+			ECalComponentDateTime *temp_dt;
+			ICalTime *temp_time;
+			gint temp_int;
+			ECalComponentText *temp_comptext;
 			xmlNodePtr c_node = xmlNewChild (fnode, NULL, (const guchar *)"component", NULL);
 			xmlNodePtr node = xmlNewChild (c_node, NULL, (const guchar *)"Vevent", NULL);
 
 			/* Getting the stuff */
-			e_cal_component_get_uid (comp, &temp_constchar);
+			temp_constchar = e_cal_component_get_uid (comp);
 			tmp_str = g_strdup_printf ("#%s", temp_constchar);
 			xmlSetProp (node, (const guchar *)"about", (guchar *) tmp_str);
 			g_free (tmp_str);
-			add_string_to_rdf (node, "uid",temp_constchar);
+			add_string_to_rdf (node, "uid", temp_constchar);
 
-			e_cal_component_get_summary (comp, &temp_comptext);
-			add_string_to_rdf (node, "summary", temp_comptext.value);
+			temp_comptext = e_cal_component_get_summary (comp);
+			if (temp_comptext)
+				add_string_to_rdf (node, "summary", e_cal_component_text_get_value (temp_comptext));
+			e_cal_component_text_free (temp_comptext);
 
-			e_cal_component_get_description_list (comp, &temp_list);
+			temp_list = e_cal_component_get_descriptions (comp);
 			add_list_to_rdf (node, "description", temp_list, ECALCOMPONENTTEXT);
-			if (temp_list)
-				e_cal_component_free_text_list (temp_list);
+			g_slist_free_full (temp_list, e_cal_component_text_free);
 
-			e_cal_component_get_categories_list (comp, &temp_list);
+			temp_list = e_cal_component_get_categories_list (comp);
 			add_list_to_rdf (node, "categories", temp_list, CONSTCHAR);
-			if (temp_list)
-				e_cal_component_free_categories_list (temp_list);
+			g_slist_free_full (temp_list, g_free);
 
-			e_cal_component_get_comment_list (comp, &temp_list);
+			temp_list = e_cal_component_get_comments (comp);
 			add_list_to_rdf (node, "comment", temp_list, ECALCOMPONENTTEXT);
+			g_slist_free_full (temp_list, e_cal_component_text_free);
 
-			if (temp_list)
-				e_cal_component_free_text_list (temp_list);
-
-			e_cal_component_get_completed (comp, &temp_time);
+			temp_time = e_cal_component_get_completed (comp);
 			add_time_to_rdf (node, "completed", temp_time);
-			if (temp_time)
-				e_cal_component_free_icaltimetype (temp_time);
+			g_clear_object (&temp_time);
 
-			e_cal_component_get_created (comp, &temp_time);
+			temp_time = e_cal_component_get_created (comp);
 			add_time_to_rdf (node, "created", temp_time);
-			if (temp_time)
-				e_cal_component_free_icaltimetype (temp_time);
+			g_clear_object (&temp_time);
 
-			e_cal_component_get_contact_list (comp, &temp_list);
+			temp_list = e_cal_component_get_contacts (comp);
 			add_list_to_rdf (node, "contact", temp_list, ECALCOMPONENTTEXT);
-			if (temp_list)
-				e_cal_component_free_text_list (temp_list);
+			g_slist_free_full (temp_list, e_cal_component_text_free);
 
-			e_cal_component_get_dtstart (comp, &temp_dt);
-			add_time_to_rdf (node, "dtstart", temp_dt.value ? temp_dt.value : NULL);
-			e_cal_component_free_datetime (&temp_dt);
+			temp_dt = e_cal_component_get_dtstart (comp);
+			add_time_to_rdf (node, "dtstart", temp_dt && e_cal_component_datetime_get_value (temp_dt) ?
+				e_cal_component_datetime_get_value (temp_dt) : NULL);
+			e_cal_component_datetime_free (temp_dt);
 
-			e_cal_component_get_dtend (comp, &temp_dt);
-			add_time_to_rdf (node, "dtend", temp_dt.value ? temp_dt.value : NULL);
-			e_cal_component_free_datetime (&temp_dt);
+			temp_dt = e_cal_component_get_dtend (comp);
+			add_time_to_rdf (node, "dtend", temp_dt && e_cal_component_datetime_get_value (temp_dt) ?
+				e_cal_component_datetime_get_value (temp_dt) : NULL);
+			e_cal_component_datetime_free (temp_dt);
 
-			e_cal_component_get_due (comp, &temp_dt);
-			add_time_to_rdf (node, "due", temp_dt.value ? temp_dt.value : NULL);
-			e_cal_component_free_datetime (&temp_dt);
+			temp_dt = e_cal_component_get_due (comp);
+			add_time_to_rdf (node, "due", temp_dt && e_cal_component_datetime_get_value (temp_dt) ?
+				e_cal_component_datetime_get_value (temp_dt) : NULL);
+			e_cal_component_datetime_free (temp_dt);
 
-			e_cal_component_get_percent (comp, &temp_int);
+			temp_int = e_cal_component_get_percent_complete (comp);
 			add_nummeric_to_rdf (node, "percentComplete", temp_int);
 
-			e_cal_component_get_priority (comp, &temp_int);
+			temp_int = e_cal_component_get_priority (comp);
 			add_nummeric_to_rdf (node, "priority", temp_int);
 
-			e_cal_component_get_url (comp, &temp_constchar);
-			add_string_to_rdf (node, "URL", temp_constchar);
+			tmp_str = e_cal_component_get_url (comp);
+			add_string_to_rdf (node, "URL", tmp_str);
+			g_free (tmp_str);
 
 			if (e_cal_component_has_attendees (comp)) {
-				e_cal_component_get_attendee_list (comp, &temp_list);
+				temp_list = e_cal_component_get_attendees (comp);
 				add_list_to_rdf (node, "attendee", temp_list, ECALCOMPONENTATTENDEE);
-				if (temp_list)
-					e_cal_component_free_attendee_list (temp_list);
+				g_slist_free_full (temp_list, e_cal_component_attendee_free);
 			}
 
-			e_cal_component_get_location (comp, &temp_constchar);
-			add_string_to_rdf (node, "location", temp_constchar);
+			tmp_str = e_cal_component_get_location (comp);
+			add_string_to_rdf (node, "location", tmp_str);
+			g_free (tmp_str);
 
-			e_cal_component_get_last_modified (comp, &temp_time);
+			temp_time = e_cal_component_get_last_modified (comp);
 			add_time_to_rdf (node, "lastModified",temp_time);
-
-			/* Important note!
-			 * The documentation is not requiring this!
-			 *
-			 * if (temp_time) e_cal_component_free_icaltimetype (temp_time);
-			 *
-			 * Please uncomment and fix documentation if untrue
-			 * http://www.gnome.org/projects/evolution/developer-doc/libecal/ECalComponent.html
-			 *	#e-cal-component-get-last-modified
-			 */
+			g_clear_object (&temp_time);
 		}
 
 		/* I used a buffer rather than xmlDocDump: I want gio support */
@@ -355,7 +345,7 @@ do_save_calendar_rdf (FormatHandler *handler,
 		g_output_stream_write_all (stream, xmlBufferContent (buffer), xmlBufferLength (buffer), NULL, NULL, &error);
 		g_output_stream_close (stream, NULL, NULL);
 
-		e_cal_client_free_ecalcomp_slist (objects);
+		e_util_free_nullable_object_slist (objects);
 
 		xmlBufferFree (buffer);
 		xmlFreeDoc (doc);

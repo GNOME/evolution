@@ -45,7 +45,7 @@ struct _EDateTimeListPrivate {
 	guint    columns_dirty : 1;
 
 	gboolean use_24_hour_format;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 };
 
 enum {
@@ -63,28 +63,11 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (
 		GTK_TYPE_TREE_MODEL, e_date_time_list_tree_model_init))
 
-static void
-free_datetime (struct icaltimetype *itt)
-{
-	g_free (itt);
-}
-
-static struct icaltimetype *
-copy_datetime (const struct icaltimetype itt)
-{
-	struct icaltimetype *itt_copy;
-
-	itt_copy = g_new0 (struct icaltimetype, 1);
-	*itt_copy = itt;
-
-	return itt_copy;
-}
-
 static gint
-compare_datetime (const struct icaltimetype *itt1,
-                  const struct icaltimetype *itt2)
+compare_datetime (const ICalTime *itt1,
+                  const ICalTime *itt2)
 {
-	return icaltime_compare (*itt1, *itt2);
+	return i_cal_time_compare ((ICalTime *) itt1, (ICalTime *) itt2);
 }
 
 static void
@@ -155,38 +138,29 @@ row_updated (EDateTimeList *date_time_list,
 /* Builds a static string out of an exception date */
 static gchar *
 get_exception_string (EDateTimeList *date_time_list,
-                      struct icaltimetype *itt)
+		      ICalTime *itt)
 {
 	static gchar buf[256];
-	struct icaltimetype tt;
 	struct tm tmp_tm;
-	icaltimezone *zone;
+	ICalTime *tt;
+	ICalTimezone *zone;
 	gboolean use_24_hour_format;
 
 	use_24_hour_format = e_date_time_list_get_use_24_hour_format (date_time_list);
 	zone = e_date_time_list_get_timezone (date_time_list);
 
-	tt = *itt;
-
 	if (zone)
-		tt = icaltime_convert_to_zone (tt, zone);
+		tt = i_cal_time_convert_to_zone (itt, zone);
+	else
+		tt = g_object_ref (itt);
 
-	tmp_tm.tm_year = tt.year - 1900;
-	tmp_tm.tm_mon = tt.month - 1;
-	tmp_tm.tm_mday = tt.day;
-	tmp_tm.tm_hour = tt.hour;
-	tmp_tm.tm_min = tt.minute;
-	tmp_tm.tm_sec = tt.second;
-	tmp_tm.tm_isdst = -1;
-
-	tmp_tm.tm_wday = time_day_of_week (
-		tt.day,
-		tt.month - 1,
-		tt.year);
+	tmp_tm = e_cal_util_icaltime_to_tm (tt);
 
 	e_time_format_date_and_time (
 		&tmp_tm, use_24_hour_format,
 		FALSE, FALSE, buf, sizeof (buf));
+
+	g_clear_object (&tt);
 
 	return buf;
 }
@@ -236,6 +210,22 @@ date_time_list_get_property (GObject *object,
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+date_time_list_finalize (GObject *object)
+{
+	EDateTimeList *date_time_list = E_DATE_TIME_LIST (object);
+
+	g_clear_object (&date_time_list->priv->zone);
+
+	g_warn_if_fail (date_time_list->priv->list == NULL);
+
+	g_list_free_full (date_time_list->priv->list, g_object_unref);
+	date_time_list->priv->list = NULL;
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_date_time_list_parent_class)->finalize (object);
 }
 
 static GtkTreeModelFlags
@@ -321,10 +311,10 @@ date_time_list_get_value (GtkTreeModel *tree_model,
                           gint column,
                           GValue *value)
 {
-	EDateTimeList        *date_time_list = E_DATE_TIME_LIST (tree_model);
-	struct icaltimetype  *itt;
-	GList                *l;
-	const gchar          *str;
+	EDateTimeList *date_time_list = E_DATE_TIME_LIST (tree_model);
+	ICalTime *itt;
+	GList *link;
+	const gchar *str;
 
 	g_return_if_fail (E_IS_DATE_TIME_LIST (tree_model));
 	g_return_if_fail (column < E_DATE_TIME_LIST_NUM_COLUMNS);
@@ -336,8 +326,8 @@ date_time_list_get_value (GtkTreeModel *tree_model,
 	if (!date_time_list->priv->list)
 		return;
 
-	l = iter->user_data;
-	itt = l->data;
+	link = iter->user_data;
+	itt = link->data;
 
 	if (!itt)
 		return;
@@ -463,6 +453,7 @@ e_date_time_list_class_init (EDateTimeListClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = date_time_list_set_property;
 	object_class->get_property = date_time_list_get_property;
+	object_class->finalize = date_time_list_finalize;
 
 	g_object_class_install_property (
 		object_class,
@@ -519,7 +510,7 @@ e_date_time_list_new (void)
 	return g_object_new (E_TYPE_DATE_TIME_LIST, NULL);
 }
 
-struct icaltimetype *
+ICalTime *
 e_date_time_list_get_date_time (EDateTimeList *date_time_list,
                                 GtkTreeIter *iter)
 {
@@ -531,15 +522,15 @@ e_date_time_list_get_date_time (EDateTimeList *date_time_list,
 void
 e_date_time_list_set_date_time (EDateTimeList *date_time_list,
                                 GtkTreeIter *iter,
-                                const struct icaltimetype itt)
+                                const ICalTime *itt)
 {
-	struct icaltimetype *itt_old;
+	ICalTime *itt_old;
 
 	g_return_if_fail (IS_VALID_ITER (date_time_list, iter));
 
 	itt_old = G_LIST (iter->user_data)->data;
-	free_datetime (itt_old);
-	G_LIST (iter->user_data)->data = copy_datetime (itt);
+	g_clear_object (&itt_old);
+	G_LIST (iter->user_data)->data = i_cal_time_clone (itt);
 	row_updated (date_time_list,
 		g_list_position (date_time_list->priv->list, G_LIST (iter->user_data)));
 }
@@ -566,7 +557,7 @@ e_date_time_list_set_use_24_hour_format (EDateTimeList *date_time_list,
 	g_object_notify (G_OBJECT (date_time_list), "use-24-hour-format");
 }
 
-icaltimezone *
+ICalTimezone *
 e_date_time_list_get_timezone (EDateTimeList *date_time_list)
 {
 	g_return_val_if_fail (E_IS_DATE_TIME_LIST (date_time_list), NULL);
@@ -576,14 +567,16 @@ e_date_time_list_get_timezone (EDateTimeList *date_time_list)
 
 void
 e_date_time_list_set_timezone (EDateTimeList *date_time_list,
-			       icaltimezone *zone)
+			       const ICalTimezone *zone)
 {
 	g_return_if_fail (E_IS_DATE_TIME_LIST (date_time_list));
 
 	if (date_time_list->priv->zone == zone)
 		return;
 
-	date_time_list->priv->zone = zone;
+	g_clear_object (&date_time_list->priv->zone);
+	if (zone)
+		date_time_list->priv->zone = g_object_ref ((ICalTimezone *) zone);
 
 	g_object_notify (G_OBJECT (date_time_list), "timezone");
 }
@@ -591,12 +584,13 @@ e_date_time_list_set_timezone (EDateTimeList *date_time_list,
 void
 e_date_time_list_append (EDateTimeList *date_time_list,
                          GtkTreeIter *iter,
-                         const struct icaltimetype itt)
+                         const ICalTime *itt)
 {
-	g_return_if_fail (icaltime_is_valid_time (itt));
+	g_return_if_fail (itt != NULL);
+	g_return_if_fail (i_cal_time_is_valid_time ((ICalTime *) itt));
 
-	if (g_list_find_custom (date_time_list->priv->list, &itt, (GCompareFunc) compare_datetime) == NULL) {
-		date_time_list->priv->list = g_list_append (date_time_list->priv->list, copy_datetime (itt));
+	if (g_list_find_custom (date_time_list->priv->list, itt, (GCompareFunc) compare_datetime) == NULL) {
+		date_time_list->priv->list = g_list_append (date_time_list->priv->list, i_cal_time_clone (itt));
 		row_added (date_time_list, g_list_length (date_time_list->priv->list) - 1);
 	}
 
@@ -610,12 +604,14 @@ void
 e_date_time_list_remove (EDateTimeList *date_time_list,
                          GtkTreeIter *iter)
 {
+	ICalTime *itt;
 	gint n;
 
 	g_return_if_fail (IS_VALID_ITER (date_time_list, iter));
 
 	n = g_list_position (date_time_list->priv->list, G_LIST (iter->user_data));
-	free_datetime (G_LIST (iter->user_data)->data);
+	itt = G_LIST (iter->user_data)->data;
+	g_clear_object (&itt);
 	date_time_list->priv->list = g_list_delete_link (
 		date_time_list->priv->list, G_LIST (iter->user_data));
 	row_deleted (date_time_list, n);
@@ -624,14 +620,8 @@ e_date_time_list_remove (EDateTimeList *date_time_list,
 void
 e_date_time_list_clear (EDateTimeList *date_time_list)
 {
-	GList *l;
-
 	all_rows_deleted (date_time_list);
 
-	for (l = date_time_list->priv->list; l; l = g_list_next (l)) {
-		free_datetime (l->data);
-	}
-
-	g_list_free (date_time_list->priv->list);
+	g_list_free_full (date_time_list->priv->list, g_object_unref);
 	date_time_list->priv->list = NULL;
 }

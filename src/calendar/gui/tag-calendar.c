@@ -147,7 +147,7 @@ object_info_free (gpointer ptr)
 	ObjectInfo *oinfo = ptr;
 
 	if (oinfo) {
-		e_cal_component_free_id (oinfo->id);
+		e_cal_component_id_free (oinfo->id);
 		g_free (oinfo);
 	}
 }
@@ -227,19 +227,28 @@ encode_ymd_to_julian (gint year,
 static guint32
 encode_timet_to_julian (time_t t,
 			gboolean is_date,
-			const icaltimezone *zone)
+			const ICalTimezone *zone)
 {
-	struct icaltimetype tt;
+	ICalTime *tt;
+	guint32 res;
 
 	if (!t)
 		return 0;
 
-	tt = icaltime_from_timet_with_zone (t, is_date, zone);
+	tt = i_cal_time_new_from_timet_with_zone (t, is_date, (ICalTimezone *) zone);
 
-	if (!icaltime_is_valid_time (tt) || icaltime_is_null_time (tt))
+	if (!tt || !i_cal_time_is_valid_time (tt) || i_cal_time_is_null_time (tt)) {
+		g_clear_object (&tt);
 		return 0;
+	}
 
-	return encode_ymd_to_julian (tt.year, tt.month, tt.day);
+	res = encode_ymd_to_julian (i_cal_time_get_year (tt),
+				    i_cal_time_get_month (tt),
+				    i_cal_time_get_day (tt));
+
+	g_clear_object (&tt);
+
+	return res;
 }
 
 static void
@@ -288,7 +297,7 @@ static time_t
 e_tag_calendar_date_to_timet (gint year,
 			      gint month,
 			      gint day,
-			      const icaltimezone *with_zone)
+			      const ICalTimezone *with_zone)
 {
 	GDate *date;
 	time_t tt;
@@ -385,9 +394,9 @@ get_component_julian_range (ECalClient *client,
 			    guint32 *start_julian,
 			    guint32 *end_julian)
 {
-	time_t instance_start = 0, instance_end = 0;
-	gboolean start_is_date = FALSE, end_is_date = FALSE;
-	const icaltimezone *zone;
+	ICalTime *instance_start = NULL, *instance_end = NULL;
+	time_t start_tt, end_tt;
+	const ICalTimezone *zone;
 
 	g_return_if_fail (client != NULL);
 	g_return_if_fail (comp != NULL);
@@ -395,10 +404,16 @@ get_component_julian_range (ECalClient *client,
 	zone = calendar_config_get_icaltimezone ();
 
 	cal_comp_get_instance_times (client, e_cal_component_get_icalcomponent (comp),
-		zone, &instance_start, &start_is_date, &instance_end, &end_is_date, NULL);
+		zone, &instance_start, &instance_end, NULL);
 
-	*start_julian = encode_timet_to_julian (instance_start, start_is_date, zone);
-	*end_julian = encode_timet_to_julian (instance_end - (instance_end == instance_start ? 0 : 1), end_is_date, zone);
+	start_tt = i_cal_time_as_timet (instance_start);
+	end_tt = i_cal_time_as_timet (instance_end);
+
+	*start_julian = encode_timet_to_julian (start_tt, i_cal_time_is_date (instance_start), zone);
+	*end_julian = encode_timet_to_julian (end_tt - (end_tt == start_tt ? 0 : 1), i_cal_time_is_date (instance_end), zone);
+
+	g_clear_object (&instance_start);
+	g_clear_object (&instance_end);
 }
 
 static void
@@ -484,7 +499,7 @@ e_tag_calendar_data_subscriber_component_added (ECalDataModelSubscriber *subscri
 	if (start_julian == 0 || end_julian == 0)
 		return;
 
-	e_cal_component_get_transparency (comp, &transparency);
+	transparency = e_cal_component_get_transparency (comp);
 
 	oinfo = object_info_new (client, e_cal_component_get_id (comp),
 		transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT,
@@ -515,7 +530,7 @@ e_tag_calendar_data_subscriber_component_modified (ECalDataModelSubscriber *subs
 	if (start_julian == 0 || end_julian == 0)
 		return;
 
-	e_cal_component_get_transparency (comp, &transparency);
+	transparency = e_cal_component_get_transparency (comp);
 
 	new_oinfo = object_info_new (client, e_cal_component_get_id (comp),
 		transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT,
@@ -547,7 +562,7 @@ e_tag_calendar_data_subscriber_component_removed (ECalDataModelSubscriber *subsc
 						  const gchar *rid)
 {
 	ETagCalendar *tag_calendar;
-	ECalComponentId id;
+	ECalComponentId *id;
 	gpointer orig_key, orig_value;
 	ObjectInfo fake_oinfo, *old_oinfo;
 
@@ -555,21 +570,24 @@ e_tag_calendar_data_subscriber_component_removed (ECalDataModelSubscriber *subsc
 
 	tag_calendar = E_TAG_CALENDAR (subscriber);
 
-	id.uid = (gchar *) uid;
-	id.rid = (gchar *) rid;
+	id = e_cal_component_id_new (uid, rid);
 
 	/* only these two values are used for GHashTable compare */
 	fake_oinfo.client = client;
-	fake_oinfo.id = &id;
+	fake_oinfo.id = id;
 
-	if (!g_hash_table_lookup_extended (tag_calendar->priv->objects, &fake_oinfo, &orig_key, &orig_value))
+	if (!g_hash_table_lookup_extended (tag_calendar->priv->objects, &fake_oinfo, &orig_key, &orig_value)) {
+		e_cal_component_id_free (id);
 		return;
+	}
 
 	old_oinfo = orig_key;
 
 	e_tag_calendar_update_component_dates (tag_calendar, old_oinfo, NULL);
 
 	g_hash_table_remove (tag_calendar->priv->objects, old_oinfo);
+
+	e_cal_component_id_free (id);
 }
 
 static void
@@ -862,7 +880,7 @@ e_tag_calendar_unsubscribe (ETagCalendar *tag_calendar,
 
 struct calendar_tag_closure {
 	ECalendarItem *calitem;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	time_t start_time;
 	time_t end_time;
 
@@ -875,14 +893,14 @@ struct calendar_tag_closure {
  * the calendar has no dates shown.  */
 static gboolean
 prepare_tag (ECalendar *ecal,
-             struct calendar_tag_closure *closure,
-             icaltimezone *zone,
-             gboolean clear_first)
+	     struct calendar_tag_closure *closure,
+	     ICalTimezone *zone,
+	     gboolean clear_first)
 {
 	gint start_year, start_month, start_day;
 	gint end_year, end_month, end_day;
-	struct icaltimetype start_tt = icaltime_null_time ();
-	struct icaltimetype end_tt = icaltime_null_time ();
+	ICalTime *start_tt = NULL;
+	ICalTime *end_tt = NULL;
 
 	if (clear_first)
 		e_calendar_item_clear_marks (e_calendar_get_item (ecal));
@@ -893,15 +911,19 @@ prepare_tag (ECalendar *ecal,
 		&end_year, &end_month, &end_day))
 		return FALSE;
 
-	start_tt.year = start_year;
-	start_tt.month = start_month + 1;
-	start_tt.day = start_day;
+	start_tt = i_cal_time_new_null_time ();
+	i_cal_time_set_date (start_tt,
+		start_year,
+		start_month + 1,
+		start_day);
 
-	end_tt.year = end_year;
-	end_tt.month = end_month + 1;
-	end_tt.day = end_day;
+	end_tt = i_cal_time_new_null_time ();
+	i_cal_time_set_date (end_tt,
+		end_year,
+		end_month + 1,
+		end_day);
 
-	icaltime_adjust (&end_tt, 1, 0, 0, 0);
+	i_cal_time_adjust (end_tt, 1, 0, 0, 0);
 
 	closure->calitem = e_calendar_get_item (ecal);
 
@@ -911,9 +933,12 @@ prepare_tag (ECalendar *ecal,
 		closure->zone = calendar_config_get_icaltimezone ();
 
 	closure->start_time =
-		icaltime_as_timet_with_zone (start_tt, closure->zone);
+		i_cal_time_as_timet_with_zone (start_tt, closure->zone);
 	closure->end_time =
-		icaltime_as_timet_with_zone (end_tt, closure->zone);
+		i_cal_time_as_timet_with_zone (end_tt, closure->zone);
+
+	g_clear_object (&start_tt);
+	g_clear_object (&end_tt);
 
 	return TRUE;
 }
@@ -921,69 +946,49 @@ prepare_tag (ECalendar *ecal,
 /* Marks the specified range in an ECalendar;
  * called from e_cal_generate_instances() */
 static gboolean
-tag_calendar_cb (ECalComponent *comp,
-                 time_t istart,
-                 time_t iend,
-                 struct calendar_tag_closure *closure)
+tag_calendar_cb (ICalComponent *comp,
+		 ICalTime *instance_start,
+		 ICalTime *instance_end,
+		 gpointer user_data,
+		 GCancellable *cancellable,
+		 GError **error)
 {
-	struct icaltimetype start_tt, end_tt;
-	ECalComponentTransparency transparency;
+	struct calendar_tag_closure *closure = user_data;
+	ICalPropertyTransp transp = I_CAL_TRANSP_NONE;
+	ICalProperty *prop;
 	guint8 style = 0;
 
 	/* If we are skipping TRANSPARENT events, return if the event is
 	 * transparent. */
-	e_cal_component_get_transparency (comp, &transparency);
-	if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
+	prop = i_cal_component_get_first_property (comp, I_CAL_TRANSP_PROPERTY);
+	if (prop) {
+		transp = i_cal_property_get_transp (prop);
+		g_object_unref (prop);
+	}
+
+	if (transp == I_CAL_TRANSP_TRANSPARENT ||
+	    transp == I_CAL_TRANSP_TRANSPARENTNOCONFLICT) {
 		if (closure->skip_transparent_events)
 			return TRUE;
 
 		style = E_CALENDAR_ITEM_MARK_ITALIC;
-	} else if (closure->recur_events_italic && e_cal_component_is_instance (comp)) {
+	} else if (closure->recur_events_italic && e_cal_util_component_is_instance (comp)) {
 		style = E_CALENDAR_ITEM_MARK_ITALIC;
 	} else {
 		style = E_CALENDAR_ITEM_MARK_BOLD;
 	}
 
-	start_tt = icaltime_from_timet_with_zone (istart, FALSE, closure->zone);
-	end_tt = icaltime_from_timet_with_zone (iend - 1, FALSE, closure->zone);
-
 	e_calendar_item_mark_days (
 		closure->calitem,
-		start_tt.year, start_tt.month - 1, start_tt.day,
-		end_tt.year, end_tt.month - 1, end_tt.day,
+		i_cal_time_get_year (instance_start),
+		i_cal_time_get_month (instance_start) - 1,
+		i_cal_time_get_day (instance_start),
+		i_cal_time_get_year (instance_end),
+		i_cal_time_get_month (instance_end) - 1,
+		i_cal_time_get_day (instance_end),
 		style, TRUE);
 
 	return TRUE;
-}
-
-/* Resolves TZIDs for the recurrence generator, for when the comp is not on
- * the server. We need to try to use builtin timezones first, as they may not
- * be added to the server yet. */
-static icaltimezone *
-resolve_tzid_cb (const gchar *tzid,
-                 ECalClient *client)
-{
-	icaltimezone *zone = NULL;
-
-	/* Try to find the builtin timezone first. */
-	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
-
-	if (!zone && tzid) {
-		/* FIXME: Handle errors. */
-		GError *error = NULL;
-
-		e_cal_client_get_timezone_sync (
-			client, tzid, &zone, NULL, &error);
-
-		if (error != NULL) {
-			g_warning (
-				"%s: Failed to get timezone '%s': %s",
-				G_STRFUNC, tzid, error->message);
-			g_error_free (error);
-		}
-	}
-
-	return zone;
 }
 
 /**
@@ -1004,7 +1009,7 @@ void
 tag_calendar_by_comp (ECalendar *ecal,
                       ECalComponent *comp,
                       ECalClient *client,
-                      icaltimezone *display_zone,
+                      ICalTimezone *display_zone,
                       gboolean clear_first,
                       gboolean comp_is_on_server,
                       gboolean can_recur_events_italic,
@@ -1042,13 +1047,20 @@ tag_calendar_by_comp (ECalendar *ecal,
 		e_cal_client_generate_instances_for_object (
 			client, e_cal_component_get_icalcomponent (comp),
 			closure.start_time, closure.end_time, cancellable,
-			(ECalRecurInstanceFn) tag_calendar_cb,
+			tag_calendar_cb,
 			alloced_closure, (GDestroyNotify) g_free);
-	} else
-		e_cal_recur_generate_instances (
-			comp, closure.start_time, closure.end_time,
-			(ECalRecurInstanceFn) tag_calendar_cb,
-			&closure,
-			(ECalRecurResolveTimezoneFn) resolve_tzid_cb,
-			client, closure.zone);
+	} else {
+		ICalTime *start, *end;
+
+		start = i_cal_time_new_from_timet_with_zone (closure.start_time, FALSE, display_zone);
+		end = i_cal_time_new_from_timet_with_zone (closure.end_time, FALSE, display_zone);
+
+		e_cal_recur_generate_instances_sync (e_cal_component_get_icalcomponent (comp),
+			start, end, tag_calendar_cb, &closure,
+			e_cal_client_tzlookup_cb, client,
+			display_zone, cancellable, NULL);
+
+		g_clear_object (&start);
+		g_clear_object (&end);
+	}
 }

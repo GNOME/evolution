@@ -72,18 +72,20 @@ can_draw_in_region (cairo_region_t *draw_region,
 }
 
 static gboolean
-icalcomp_is_transparent (icalcomponent *icalcomp)
+icomp_is_transparent (ICalComponent *icomp)
 {
-	icalproperty *transp_prop;
-	icalproperty_transp ical_transp = ICAL_TRANSP_NONE;
+	ICalProperty *transp_prop;
+	ICalPropertyTransp transp = I_CAL_TRANSP_NONE;
 
-	g_return_val_if_fail (icalcomp != NULL, TRUE);
+	g_return_val_if_fail (icomp != NULL, TRUE);
 
-	transp_prop = icalcomponent_get_first_property (icalcomp, ICAL_TRANSP_PROPERTY);
-	if (transp_prop)
-		ical_transp = icalproperty_get_transp (transp_prop);
+	transp_prop = i_cal_component_get_first_property (icomp, I_CAL_TRANSP_PROPERTY);
+	if (transp_prop) {
+		transp = i_cal_property_get_transp (transp_prop);
+		g_object_unref (transp_prop);
+	}
 
-	return transp_prop && (ical_transp == ICAL_TRANSP_TRANSPARENT || ical_transp == ICAL_TRANSP_TRANSPARENTNOCONFLICT);
+	return transp_prop && (transp == I_CAL_TRANSP_TRANSPARENT || transp == I_CAL_TRANSP_TRANSPARENTNOCONFLICT);
 }
 
 static void
@@ -114,7 +116,7 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 			continue;
 
 		/* If the event is TRANSPARENT, skip it. */
-		if (icalcomp_is_transparent (event->comp_data->icalcomp)) {
+		if (icomp_is_transparent (event->comp_data->icalcomp)) {
 			continue;
 		}
 
@@ -198,14 +200,12 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	gdouble date_fraction;
 	gboolean short_event = FALSE, resize_flag = FALSE, is_editing;
 	const gchar *end_resize_suffix;
-	gchar *end_regsizeime;
 	gint start_hour, start_display_hour, start_minute, start_suffix_width;
 	gint end_hour, end_display_hour, end_minute, end_suffix_width;
 	gboolean show_span = FALSE, format_time;
 	gint offset, interval;
 	const gchar *start_suffix;
 	const gchar *end_suffix;
-	gchar *text = NULL;
 	gint scroll_flag = 0;
 	gint row_y;
 	PangoLayout *layout;
@@ -547,6 +547,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 		else if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_BOTTOM_EDGE) {
 			GdkRGBA fg_rgba;
+			gchar *end_regsizeime;
 
 			bar_y2 = item_y + item_h - 1;
 
@@ -590,6 +591,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			pango_cairo_update_layout (cr, layout);
 			pango_cairo_show_layout (cr, layout);
 			g_object_unref (layout);
+			g_free (end_regsizeime);
 
 			cairo_close_path (cr);
 			cairo_restore (cr);
@@ -599,11 +601,12 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	else if (bar_y2 < scroll_flag)
 		event->end_minute -= time_divisions;
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+	if (!comp)
+		return;
 
 	/* Only fill it in if the event isn't TRANSPARENT. */
-	e_cal_component_get_transparency (comp, &transparency);
+	transparency = e_cal_component_get_transparency (comp);
 	if (transparency != E_CAL_COMPONENT_TRANSP_TRANSPARENT) {
 		cairo_save (cr);
 		pat = cairo_pattern_create_linear (
@@ -745,6 +748,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	if (!short_event) {
 		GdkRGBA fg_rgba;
+		gchar *text;
 
 		if (event->start_minute % time_divisions != 0
 			|| (day_view->show_event_end_times
@@ -784,13 +788,13 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 					("%2i:%02i-%2i:%02i",
 					 start_display_hour, start_minute,
 					 end_display_hour, end_minute);
-			} else {
-				if (format_time) {
+			} else if (format_time) {
 				/* 24 hour format without end time. */
 				text = g_strdup_printf
 					("%2i:%02i",
 					 start_display_hour, start_minute);
-				}
+			} else {
+				text = NULL;
 			}
 		} else {
 			if (day_view->show_event_end_times && show_span) {
@@ -833,12 +837,12 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		pango_cairo_update_layout (cr, layout);
 		pango_cairo_show_layout (cr, layout);
 		g_object_unref (layout);
+		g_free (text);
 
 		cairo_close_path (cr);
 		cairo_restore (cr);
 	}
 
-	g_free (text);
 	g_object_unref (comp);
 }
 
@@ -912,7 +916,7 @@ day_view_main_item_draw_events_in_vbars (EDayViewMainItem *main_item,
 		}
 
 		/* If the event is TRANSPARENT, skip it. */
-		if (icalcomp_is_transparent (event->comp_data->icalcomp)) {
+		if (icomp_is_transparent (event->comp_data->icalcomp)) {
 			continue;
 		}
 
@@ -1019,7 +1023,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	gint day_x, day_w;
 	gint start_row, end_row, rect_x, rect_y, rect_width, rect_height;
 	gint days_shown;
-	struct icaltimetype day_start_tt, today_tt;
+	ICalTime *day_start_tt, *today_tt;
 	gboolean today = FALSE;
 	cairo_region_t *draw_region;
 	GdkRectangle rect;
@@ -1050,18 +1054,18 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 	/* Paint the background colors. */
 
-	today_tt = icaltime_from_timet_with_zone (
+	today_tt = i_cal_time_new_from_timet_with_zone (
 		time (NULL), FALSE,
 		e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
 	for (day = 0; day < days_shown; day++) {
 		GDateWeekday weekday;
 
-		day_start_tt = icaltime_from_timet_with_zone (
+		day_start_tt = i_cal_time_new_from_timet_with_zone (
 			day_view->day_starts[day], FALSE,
 			e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
-		switch (icaltime_day_of_week (day_start_tt)) {
+		switch (i_cal_time_day_of_week (day_start_tt)) {
 			case 1:
 				weekday = G_DATE_SUNDAY;
 				break;
@@ -1118,9 +1122,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 			if (days_shown > 1) {
 				/* Check if we are drawing today */
-				today = day_start_tt.year == today_tt.year
-					&& day_start_tt.month == today_tt.month
-					&& day_start_tt.day == today_tt.day;
+				today = i_cal_time_compare_date_only (day_start_tt, today_tt) == 0;
 			} else {
 				today = FALSE;
 			}
@@ -1147,7 +1149,11 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_fill (cr);
 			cairo_restore (cr);
 		}
+
+		g_clear_object (&day_start_tt);
 	}
+
+	g_clear_object (&today_tt);
 
 	/* Paint the selection background. */
 	if (day_view->selection_start_day != -1
@@ -1257,8 +1263,8 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			width, height, day, draw_region);
 
 	if (e_day_view_marcus_bains_get_show_line (day_view)) {
-		icaltimezone *zone;
-		struct icaltimetype time_now, day_start;
+		ICalTimezone *zone;
+		ICalTime *time_now, *day_start;
 		const gchar *marcus_bains_day_view_color;
 		gint marcus_bains_y;
 		GdkColor mb_color;
@@ -1277,25 +1283,26 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			gdk_cairo_set_source_color (cr, &mb_color);
 
 		zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
-		time_now = icaltime_current_time_with_zone (zone);
+		time_now = i_cal_time_new_current_with_zone (zone);
 
 		for (day = 0; day < days_shown; day++) {
-			day_start = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE, zone);
+			day_start = i_cal_time_new_from_timet_with_zone (day_view->day_starts[day], FALSE, zone);
 
-			if ((day_start.year == time_now.year) &&
-			    (day_start.month == time_now.month) &&
-			    (day_start.day == time_now.day)) {
-
+			if (i_cal_time_compare_date_only (day_start, time_now) == 0) {
 				grid_x1 = day_view->day_offsets[day] - x + E_DAY_VIEW_BAR_WIDTH;
 				grid_x2 = day_view->day_offsets[day + 1] - x - 1;
-				marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / time_divisions - y;
+				marcus_bains_y = (i_cal_time_get_hour (time_now) * 60 + i_cal_time_get_minute (time_now)) * day_view->row_height / time_divisions - y;
 				cairo_set_line_width (cr, 1.5);
 				cairo_move_to (cr, grid_x1, marcus_bains_y);
 				cairo_line_to (cr, grid_x2, marcus_bains_y);
 				cairo_stroke (cr);
 			}
+
+			g_clear_object (&day_start);
 		}
 		cairo_restore (cr);
+
+		g_clear_object (&time_now);
 	}
 	cairo_region_destroy (draw_region);
 }

@@ -43,7 +43,7 @@ void		print_calendar			(ECalendarView *cal_view,
 						 time_t start);
 void		print_comp			(ECalComponent *comp,
 						 ECalClient *cal_client,
-						 icaltimezone *zone,
+						 ICalTimezone *zone,
 						 gboolean use_24_hour_format,
 						 GtkPrintOperationAction action);
 void		print_table			(ETable *table,

@@ -62,12 +62,6 @@ typedef struct _ETaskTablePrivate ETaskTablePrivate;
 struct _ETaskTable {
 	ETable parent;
 
-	/* The ECell used to view & edit dates. */
-	ECellDateEdit *dates_cell;
-
-	/* Fields used for cut/copy/paste */
-	icalcomponent *tmp_vcal;
-
 	ETaskTablePrivate *priv;
 };
 

@@ -83,28 +83,26 @@ ensure_task_complete (ECalModelComponent *comp_data,
 static void
 ensure_task_partially_complete (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
 	/* Date Completed. */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
-	if (prop) {
-		icalcomponent_remove_property (comp_data->icalcomp, prop);
-		icalproperty_free (prop);
-	}
+	e_cal_util_component_remove_property_by_kind (comp_data->icalcomp, I_CAL_COMPLETED_PROPERTY, TRUE);
 
 	/* Percent. */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_PERCENTCOMPLETE_PROPERTY);
 	if (!prop)
-		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_percentcomplete (50));
-	else if (icalproperty_get_percentcomplete (prop) == 0 || icalproperty_get_percentcomplete (prop) == 100)
-		icalproperty_set_percentcomplete (prop, 50);
+		i_cal_component_take_property (comp_data->icalcomp, i_cal_property_new_percentcomplete (50));
+	else if (i_cal_property_get_percentcomplete (prop) == 0 || i_cal_property_get_percentcomplete (prop) == 100)
+		i_cal_property_set_percentcomplete (prop, 50);
+	g_clear_object (&prop);
 
 	/* Status. */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
 	if (prop)
-		icalproperty_set_status (prop, ICAL_STATUS_INPROCESS);
+		i_cal_property_set_status (prop, I_CAL_STATUS_INPROCESS);
 	else
-		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_status (ICAL_STATUS_INPROCESS));
+		i_cal_component_take_property (comp_data->icalcomp, i_cal_property_new_status (I_CAL_STATUS_INPROCESS));
+	g_clear_object (&prop);
 }
 
 /* This makes sure a task is marked as incomplete. It clears the
@@ -112,108 +110,113 @@ ensure_task_partially_complete (ECalModelComponent *comp_data)
  * and if the status is "Completed" it sets it to "Needs Action".
  * Note that this doesn't update the component on the client. */
 static void
-ensure_task_not_complete (ECalModelComponent *comp_data)
+ensure_task_not_complete (ECalModelComponent *comp_data,
+			  gboolean with_status)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
 	/* Date Completed. */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
-	if (prop) {
-		icalcomponent_remove_property (comp_data->icalcomp, prop);
-		icalproperty_free (prop);
-	}
+	e_cal_util_component_remove_property_by_kind (comp_data->icalcomp, I_CAL_COMPLETED_PROPERTY, TRUE);
 
 	/* Percent. */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
-	if (prop) {
-		icalcomponent_remove_property (comp_data->icalcomp, prop);
-		icalproperty_free (prop);
-	}
+	e_cal_util_component_remove_property_by_kind (comp_data->icalcomp, I_CAL_PERCENTCOMPLETE_PROPERTY, TRUE);
 
 	/* Status. */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
-	if (prop)
-		icalproperty_set_status (prop, ICAL_STATUS_NEEDSACTION);
+	if (with_status) {
+		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
+		if (prop) {
+			i_cal_property_set_status (prop, I_CAL_STATUS_NEEDSACTION);
+			g_object_unref (prop);
+		}
+	}
 }
 
 static ECellDateEditValue *
 get_completed (ECalModelComponent *comp_data)
 {
-	struct icaltimetype tt_completed;
-
 	if (!comp_data->completed) {
-		icaltimezone *zone;
-		icalproperty *prop;
+		ICalTime *tt_completed;
+		ICalTimezone *zone = NULL;
+		ICalProperty *prop;
 
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_COMPLETED_PROPERTY);
 		if (!prop)
 			return NULL;
 
-		tt_completed = icalproperty_get_completed (prop);
-		if (!icaltime_is_valid_time (tt_completed) || icaltime_is_null_time (tt_completed))
+		tt_completed = i_cal_property_get_completed (prop);
+		g_clear_object (&prop);
+
+		if (!i_cal_time_is_valid_time (tt_completed) || i_cal_time_is_null_time (tt_completed)) {
+			g_clear_object (&tt_completed);
 			return NULL;
+		}
 
-		comp_data->completed = g_new0 (ECellDateEditValue, 1);
-		comp_data->completed->tt = tt_completed;
+		if (!i_cal_time_get_tzid (tt_completed) ||
+		    !e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_completed), &zone, NULL, NULL))
+			zone = NULL;
 
-		if (icaltime_get_tzid (tt_completed)
-		    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_completed), &zone, NULL, NULL))
-			comp_data->completed->zone = zone;
-		else
-			comp_data->completed->zone = NULL;
+		comp_data->completed = e_cell_date_edit_value_new_take (tt_completed, zone ? e_cal_util_copy_timezone (zone) : NULL);
 	}
 
-	return e_cal_model_copy_cell_date_value (comp_data->completed);
+	return e_cell_date_edit_value_copy (comp_data->completed);
 }
 
 static ECellDateEditValue *
 get_due (ECalModelComponent *comp_data)
 {
-	struct icaltimetype tt_due;
-
 	if (!comp_data->due) {
-		icaltimezone *zone;
-		icalproperty *prop;
+		ICalTime *tt_due;
+		ICalTimezone *zone = NULL;
+		ICalProperty *prop;
 
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DUE_PROPERTY);
+		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DUE_PROPERTY);
 		if (!prop)
 			return NULL;
 
-		tt_due = icalproperty_get_due (prop);
-		if (!icaltime_is_valid_time (tt_due) || icaltime_is_null_time (tt_due))
+		tt_due = i_cal_property_get_due (prop);
+
+		g_clear_object (&prop);
+
+		if (!i_cal_time_is_valid_time (tt_due) || i_cal_time_is_null_time (tt_due)) {
+			g_clear_object (&tt_due);
 			return NULL;
+		}
 
-		comp_data->due = g_new0 (ECellDateEditValue, 1);
-		comp_data->due->tt = tt_due;
+		if (!i_cal_time_get_tzid (tt_due) ||
+		    !e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_due), &zone, NULL, NULL))
+			zone = NULL;
 
-		if (icaltime_get_tzid (tt_due)
-		    && e_cal_client_get_timezone_sync (comp_data->client, icaltime_get_tzid (tt_due), &zone, NULL, NULL))
-			comp_data->due->zone = zone;
-		else
-			comp_data->due->zone = NULL;
+		comp_data->due = e_cell_date_edit_value_new_take (tt_due, zone ? e_cal_util_copy_timezone (zone) : NULL);
 	}
 
-	return e_cal_model_copy_cell_date_value (comp_data->due);
+	return e_cell_date_edit_value_copy (comp_data->due);
 }
 
 static gpointer
 get_geo (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
-	struct icalgeotype geo;
+	ICalProperty *prop;
+	ICalGeo *geo = NULL;
 	static gchar buf[32];
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_GEO_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_GEO_PROPERTY);
 	if (prop) {
-		geo = icalproperty_get_geo (prop);
-		g_snprintf (
-			buf, sizeof (buf), "%g %s, %g %s",
-			fabs (geo.lat),
-			geo.lat >= 0.0 ? "N" : "S",
-			fabs (geo.lon),
-			geo.lon >= 0.0 ? "E" : "W");
-		return buf;
+		geo = i_cal_property_get_geo (prop);
+		if (geo) {
+			g_snprintf (
+				buf, sizeof (buf), "%g %s, %g %s",
+				fabs (i_cal_geo_get_lat (geo)),
+				i_cal_geo_get_lat (geo) >= 0.0 ? "N" : "S",
+				fabs (i_cal_geo_get_lon (geo)),
+				i_cal_geo_get_lon (geo) >= 0.0 ? "E" : "W");
+			g_object_unref (prop);
+			g_object_unref (geo);
+			return buf;
+		}
 	}
+
+	g_clear_object (&prop);
+	g_clear_object (&geo);
 
 	return (gpointer) "";
 }
@@ -221,45 +224,63 @@ get_geo (ECalModelComponent *comp_data)
 static gint
 get_percent (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
+	gint percent = 0;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
-	if (prop)
-		return icalproperty_get_percentcomplete (prop);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_PERCENTCOMPLETE_PROPERTY);
+	if (prop) {
+		percent = i_cal_property_get_percentcomplete (prop);
+		g_object_unref (prop);
+	}
 
-	return 0;
+	return percent;
 }
 
 static gpointer
 get_priority (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
+	const gchar *value = NULL;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PRIORITY_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_PRIORITY_PROPERTY);
 	if (prop)
-		return (gpointer) e_cal_util_priority_to_string (icalproperty_get_priority (prop));
+		value = e_cal_util_priority_to_string (i_cal_property_get_priority (prop));
 
-	return (gpointer) "";
+	if (!value)
+		value = "";
+
+	return (gpointer) value;
 }
 
 static gboolean
 is_status_canceled (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
+	gboolean res;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
 
-	return prop && icalproperty_get_status (prop) == ICAL_STATUS_CANCELLED;
+	res = prop && i_cal_property_get_status (prop) == I_CAL_STATUS_CANCELLED;
+
+	g_clear_object (&prop);
+
+	return res;
 }
 
 static gpointer
 get_status (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
 	if (prop) {
-		switch (icalproperty_get_status (prop)) {
+		ICalPropertyStatus status;
+
+		status = i_cal_property_get_status (prop);
+
+		g_object_unref (prop);
+
+		switch (status) {
 		case ICAL_STATUS_NONE:
 			return (gpointer) "";
 		case ICAL_STATUS_NEEDSACTION:
@@ -281,43 +302,59 @@ get_status (ECalModelComponent *comp_data)
 static gpointer
 get_url (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
+	const gchar *url = NULL;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY);
-	if (prop)
-		return (gpointer) icalproperty_get_url (prop);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
+	if (prop) {
+		url = i_cal_property_get_url (prop);
+		g_object_unref (prop);
+	}
 
-	return (gpointer) "";
+	return (gpointer) (url ? url : "");
 }
 
 static gpointer
 get_location (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
+	const gchar *location = NULL;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_LOCATION_PROPERTY);
-	if (prop)
-		return (gpointer) icalproperty_get_location (prop);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_LOCATION_PROPERTY);
+	if (prop) {
+		location = i_cal_property_get_location (prop);
+		g_object_unref (prop);
+	}
 
-	return (gpointer) "";
+	return (gpointer) (location ? location : "");
 }
 
 static gboolean
 is_complete (ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
-	if (prop)
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_COMPLETED_PROPERTY);
+	if (prop) {
+		g_object_unref (prop);
 		return TRUE;
+	}
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
-	if (prop && icalproperty_get_percentcomplete (prop) == 100)
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_PERCENTCOMPLETE_PROPERTY);
+	if (prop && i_cal_property_get_percentcomplete (prop) == 100) {
+		g_object_unref (prop);
 		return TRUE;
+	}
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
-	if (prop && icalproperty_get_status (prop) == ICAL_STATUS_COMPLETED)
+	g_clear_object (&prop);
+
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
+	if (prop && i_cal_property_get_status (prop) == I_CAL_STATUS_COMPLETED) {
+		g_object_unref (prop);
 		return TRUE;
+	}
+
+	g_clear_object (&prop);
 
 	return FALSE;
 }
@@ -334,27 +371,33 @@ static ECalModelTasksDueStatus
 get_due_status (ECalModelTasks *model,
                 ECalModelComponent *comp_data)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
 	/* First, do we have a due date? */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DUE_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DUE_PROPERTY);
 	if (!prop)
 		return E_CAL_MODEL_TASKS_DUE_NEVER;
 	else {
-		struct icaltimetype now_tt, due_tt;
-		icaltimezone *zone = NULL;
+		ICalTime *now_tt, *due_tt;
+		ICalTimezone *zone = NULL;
 
 		/* Second, is it already completed? */
-		if (is_complete (comp_data))
+		if (is_complete (comp_data)) {
+			g_object_unref (prop);
 			return E_CAL_MODEL_TASKS_DUE_COMPLETE;
+		}
 
 		/* Third, are we overdue as of right now? */
-		due_tt = icalproperty_get_due (prop);
-		if (due_tt.is_date) {
+		due_tt = i_cal_property_get_due (prop);
+		if (i_cal_time_is_date (due_tt)) {
 			gint cmp;
 
-			now_tt = icaltime_current_time_with_zone (e_cal_model_get_timezone (E_CAL_MODEL (model)));
-			cmp = icaltime_compare_date_only (due_tt, now_tt);
+			now_tt = i_cal_time_new_current_with_zone (e_cal_model_get_timezone (E_CAL_MODEL (model)));
+			cmp = i_cal_time_compare_date_only (due_tt, now_tt);
+
+			g_object_unref (now_tt);
+			g_object_unref (due_tt);
+			g_object_unref (prop);
 
 			if (cmp < 0)
 				return E_CAL_MODEL_TASKS_DUE_OVERDUE;
@@ -363,28 +406,42 @@ get_due_status (ECalModelTasks *model,
 			else
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 		} else {
-			icalparameter *param;
+			ECalModelTasksDueStatus res;
+			ICalParameter *param;
 			const gchar *tzid;
 
-			if (!(param = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER)))
+			if (!(param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER))) {
+				g_object_unref (due_tt);
+				g_object_unref (prop);
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
+			}
 
 			/* Get the current time in the same timezone as the DUE date.*/
-			tzid = icalparameter_get_tzid (param);
-			e_cal_client_get_timezone_sync (
-				comp_data->client, tzid, &zone, NULL, NULL);
-			if (zone == NULL)
+			tzid = i_cal_parameter_get_tzid (param);
+			if (!e_cal_client_get_timezone_sync (comp_data->client, tzid, &zone, NULL, NULL))
+				zone = NULL;
+
+			g_object_unref (param);
+			g_object_unref (prop);
+
+			if (zone == NULL) {
+				g_object_unref (due_tt);
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
+			}
 
-			now_tt = icaltime_current_time_with_zone (zone);
+			now_tt = i_cal_time_new_current_with_zone (zone);
 
-			if (icaltime_compare (due_tt, now_tt) <= 0)
-				return E_CAL_MODEL_TASKS_DUE_OVERDUE;
+			if (i_cal_time_compare (due_tt, now_tt) <= 0)
+				res = E_CAL_MODEL_TASKS_DUE_OVERDUE;
+			else if (i_cal_time_compare_date_only (due_tt, now_tt) == 0)
+				res = E_CAL_MODEL_TASKS_DUE_TODAY;
 			else
-				if (icaltime_compare_date_only (due_tt, now_tt) == 0)
-					return E_CAL_MODEL_TASKS_DUE_TODAY;
-				else
-					return E_CAL_MODEL_TASKS_DUE_FUTURE;
+				res = E_CAL_MODEL_TASKS_DUE_FUTURE;
+
+			g_clear_object (&due_tt);
+			g_clear_object (&now_tt);
+
+			return res;
 		}
 	}
 }
@@ -414,19 +471,21 @@ set_completed (ECalModelTasks *model,
 	ECellDateEditValue *dv = (ECellDateEditValue *) value;
 
 	if (!dv)
-		ensure_task_not_complete (comp_data);
+		ensure_task_not_complete (comp_data, TRUE);
 	else {
+		ICalTime *tt;
 		time_t t;
 
-		if (dv->tt.is_date) {
+		tt = e_cell_date_edit_value_get_time (dv);
+		if (i_cal_time_is_date (tt)) {
 			/* if it's a date, it will be floating,
 			 * but completed needs a date time value */
-			dv->tt.is_date = FALSE;
-			t = icaltime_as_timet_with_zone (dv->tt, e_cal_model_get_timezone (E_CAL_MODEL (model)));
+			i_cal_time_set_is_date (tt, FALSE);
+			t = i_cal_time_as_timet_with_zone (tt, e_cal_model_get_timezone (E_CAL_MODEL (model)));
 		} else {
 			/* we assume that COMPLETED is entered in the current timezone,
 			 * even though it gets stored in UTC */
-			t = icaltime_as_timet_with_zone (dv->tt, dv->zone);
+			t = i_cal_time_as_timet_with_zone (tt, e_cell_date_edit_value_get_zone (dv));
 		}
 
 		ensure_task_complete (comp_data, t);
@@ -442,7 +501,7 @@ set_complete (ECalModelComponent *comp_data,
 	if (state)
 		ensure_task_complete (comp_data, -1);
 	else
-		ensure_task_not_complete (comp_data);
+		ensure_task_not_complete (comp_data, TRUE);
 }
 
 static void
@@ -450,7 +509,7 @@ set_due (ECalModel *model,
          ECalModelComponent *comp_data,
          gconstpointer value)
 {
-	e_cal_model_update_comp_time (model, comp_data, value, ICAL_DUE_PROPERTY, icalproperty_set_due, icalproperty_new_due);
+	e_cal_model_update_comp_time (model, comp_data, value, I_CAL_DUE_PROPERTY, i_cal_property_set_due, i_cal_property_new_due);
 }
 
 /* FIXME: We need to set the "transient_for" property for the dialog, but the
@@ -472,32 +531,32 @@ static void
 set_geo (ECalModelComponent *comp_data,
          const gchar *value)
 {
-	gdouble latitude, longitude;
+	gdouble latitude = 0.0, longitude = 0.0;
 	gint matched;
-	struct icalgeotype geo;
-	icalproperty *prop;
+	ICalGeo *geo;
+	ICalProperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_GEO_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_GEO_PROPERTY);
 
 	if (string_is_empty (value)) {
 		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
+			i_cal_component_remove_property (comp_data->icalcomp, prop);
+			g_object_unref (prop);
 		}
 	} else {
 		matched = sscanf (value, "%lg , %lg", &latitude, &longitude);
 		if (matched != 2)
 			show_geo_warning ();
 
-		geo.lat = latitude;
-		geo.lon = longitude;
-		if (prop)
-			icalproperty_set_geo (prop, geo);
-		else {
-			prop = icalproperty_new_geo (geo);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
-		}
+		geo = i_cal_geo_new (latitude, longitude);
 
+		if (prop) {
+			i_cal_property_set_geo (prop, geo);
+			g_object_unref (prop);
+		} else {
+			prop = i_cal_property_new_geo (geo);
+			i_cal_component_take_property (comp_data->icalcomp, prop);
+		}
 	}
 }
 
@@ -505,41 +564,46 @@ static void
 set_status (ECalModelComponent *comp_data,
             const gchar *value)
 {
-	icalproperty_status status;
-	icalproperty *prop;
+	ICalPropertyStatus status;
+	ICalProperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
 
 	/* an empty string is the same as 'None' */
-	if (!value[0])
+	if (!value[0]) {
+		g_clear_object (&prop);
 		return;
+	}
 
 	/* Translators: "None" for task's status */
-	if (!e_util_utf8_strcasecmp (value, C_("cal-task-status", "None")))
+	if (!e_util_utf8_strcasecmp (value, C_("cal-task-status", "None"))) {
+		g_clear_object (&prop);
 		return;
-	else if (!e_util_utf8_strcasecmp (value, _("Not Started")))
-		status = ICAL_STATUS_NEEDSACTION;
+	} else if (!e_util_utf8_strcasecmp (value, _("Not Started")))
+		status = I_CAL_STATUS_NEEDSACTION;
 	else if (!e_util_utf8_strcasecmp (value, _("In Progress")))
-		status = ICAL_STATUS_INPROCESS;
+		status = I_CAL_STATUS_INPROCESS;
 	else if (!e_util_utf8_strcasecmp (value, _("Completed")))
-		status = ICAL_STATUS_COMPLETED;
+		status = I_CAL_STATUS_COMPLETED;
 	else if (!e_util_utf8_strcasecmp (value, _("Cancelled")))
-		status = ICAL_STATUS_CANCELLED;
+		status = I_CAL_STATUS_CANCELLED;
 	else {
+		g_clear_object (&prop);
 		g_warning ("Invalid status: %s\n", value);
 		return;
 	}
 
-	if (prop)
-		icalproperty_set_status (prop, status);
-	else {
-		prop = icalproperty_new_status (status);
-		icalcomponent_add_property (comp_data->icalcomp, prop);
+	if (prop) {
+		i_cal_property_set_status (prop, status);
+		g_object_unref (prop);
+	} else {
+		prop = i_cal_property_new_status (status);
+		i_cal_component_take_property (comp_data->icalcomp, prop);
 	}
 
 	switch (status) {
 	case ICAL_STATUS_NEEDSACTION:
-		ensure_task_not_complete (comp_data);
+		ensure_task_not_complete (comp_data, TRUE);
 		break;
 
 	case ICAL_STATUS_INPROCESS:
@@ -547,9 +611,7 @@ set_status (ECalModelComponent *comp_data,
 		break;
 
 	case ICAL_STATUS_CANCELLED:
-		ensure_task_not_complete (comp_data);
-		/* do this again, because the previous function changed status to NEEDSACTION */
-		icalproperty_set_status (prop, status);
+		ensure_task_not_complete (comp_data, FALSE);
 		break;
 
 	case ICAL_STATUS_COMPLETED:
@@ -567,53 +629,53 @@ static void
 set_percent (ECalModelComponent *comp_data,
              gconstpointer value)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 	gint percent = GPOINTER_TO_INT (value);
 
 	g_return_if_fail (percent >= -1);
 	g_return_if_fail (percent <= 100);
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_PERCENTCOMPLETE_PROPERTY);
 
 	/* A value of -1 means it isn't set */
 	if (percent == -1) {
 		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
+			i_cal_component_remove_property (comp_data->icalcomp, prop);
+			g_object_unref (prop);
 		}
-		ensure_task_not_complete (comp_data);
+		ensure_task_not_complete (comp_data, TRUE);
 	} else {
-		if (prop)
-			icalproperty_set_percentcomplete (prop, percent);
-		else {
-			prop = icalproperty_new_percentcomplete (percent);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
+		if (prop) {
+			i_cal_property_set_percentcomplete (prop, percent);
+			g_object_unref (prop);
+		} else {
+			prop = i_cal_property_new_percentcomplete (percent);
+			i_cal_component_take_property (comp_data->icalcomp, prop);
 		}
 
 		if (percent == 100)
 			ensure_task_complete (comp_data, -1);
 		else {
-			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+			prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_COMPLETED_PROPERTY);
 			if (prop) {
-				icalcomponent_remove_property (comp_data->icalcomp, prop);
-				icalproperty_free (prop);
+				i_cal_component_remove_property (comp_data->icalcomp, prop);
+				g_object_unref (prop);
 			}
 
 			if (percent > 0)
 				set_status (comp_data, _("In Progress"));
 		}
 	}
-
 }
 
 static void
 set_priority (ECalModelComponent *comp_data,
               const gchar *value)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 	gint priority;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PRIORITY_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_PRIORITY_PROPERTY);
 
 	priority = e_cal_util_priority_from_string (value);
 	if (priority == -1) {
@@ -621,11 +683,12 @@ set_priority (ECalModelComponent *comp_data,
 		priority = 0;
 	}
 
-	if (prop)
-		icalproperty_set_priority (prop, priority);
-	else {
-		prop = icalproperty_new_priority (priority);
-		icalcomponent_add_property (comp_data->icalcomp, prop);
+	if (prop) {
+		i_cal_property_set_priority (prop, priority);
+		g_object_unref (prop);
+	} else {
+		prop = i_cal_property_new_priority (priority);
+		i_cal_component_take_property (comp_data->icalcomp, prop);
 	}
 }
 
@@ -633,21 +696,22 @@ static void
 set_url (ECalModelComponent *comp_data,
          const gchar *value)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_URL_PROPERTY);
 
 	if (string_is_empty (value)) {
 		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
+			i_cal_component_remove_property (comp_data->icalcomp, prop);
+			g_object_unref (prop);
 		}
 	} else {
-		if (prop)
-			icalproperty_set_url (prop, value);
-		else {
-			prop = icalproperty_new_url (value);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
+		if (prop) {
+			i_cal_property_set_url (prop, value);
+			g_object_unref (prop);
+		} else {
+			prop = i_cal_property_new_url (value);
+			i_cal_component_take_property (comp_data->icalcomp, prop);
 		}
 	}
 }
@@ -656,21 +720,22 @@ static void
 set_location (ECalModelComponent *comp_data,
               gconstpointer value)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_LOCATION_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_LOCATION_PROPERTY);
 
 	if (string_is_empty (value)) {
 		if (prop) {
-			icalcomponent_remove_property (comp_data->icalcomp, prop);
-			icalproperty_free (prop);
+			i_cal_component_remove_property (comp_data->icalcomp, prop);
+			g_object_unref (prop);
 		}
 	} else {
-		if (prop)
-			icalproperty_set_location (prop, (const gchar *) value);
-		else {
-			prop = icalproperty_new_location ((const gchar *) value);
-			icalcomponent_add_property (comp_data->icalcomp, prop);
+		if (prop) {
+			i_cal_property_set_location (prop, (const gchar *) value);
+			g_object_unref (prop);
+		} else {
+			prop = i_cal_property_new_location ((const gchar *) value);
+			i_cal_component_take_property (comp_data->icalcomp, prop);
 		}
 	}
 }
@@ -1003,7 +1068,7 @@ cal_model_tasks_duplicate_value (ETableModel *etm,
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
-		return e_cal_model_copy_cell_date_value (value);
+		return e_cell_date_edit_value_copy (value);
 
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
@@ -1386,7 +1451,7 @@ void
 e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model,
                                         ECalModelComponent *comp_data)
 {
-	icalproperty *prop,*prop1;
+	ICalProperty *prop;
 
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (comp_data != NULL);
@@ -1395,25 +1460,18 @@ e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model,
 	/*e_table_model_pre_change (E_TABLE_MODEL (model));*/
 
 	/* Status */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
 	if (prop)
-		icalproperty_set_status (prop, ICAL_STATUS_NEEDSACTION);
+		i_cal_property_set_status (prop, ICAL_STATUS_NEEDSACTION);
 	else
-		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_status (ICAL_STATUS_NEEDSACTION));
+		i_cal_component_take_property (comp_data->icalcomp, i_cal_property_new_status (I_CAL_STATUS_NEEDSACTION));
+	g_clear_object (&prop);
 
 	/*complete property*/
-	prop1 = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
-	if (prop1) {
-		icalcomponent_remove_property (comp_data->icalcomp, prop1);
-		icalproperty_free (prop1);
-	}
+	e_cal_util_component_remove_property_by_kind (comp_data->icalcomp, I_CAL_COMPLETED_PROPERTY, TRUE);
 
 	/* Percent. */
-	prop1 = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
-	if (prop1) {
-		icalcomponent_remove_property (comp_data->icalcomp, prop1);
-		icalproperty_free (prop1);
-	}
+	e_cal_util_component_remove_property_by_kind (comp_data->icalcomp, I_CAL_PERCENTCOMPLETE_PROPERTY, TRUE);
 
 	/*e_table_model_row_changed (E_TABLE_MODEL (model), model_row);*/
 

@@ -89,12 +89,12 @@ ecep_sensitize_widgets (ECompEditorPage *page,
 
 static void
 ecep_fill_widgets (ECompEditorPage *page,
-		   icalcomponent *component)
+		   ICalComponent *component)
 {
 	GSList *link;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE (page));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	for (link = page->priv->parts; link; link = g_slist_next (link)) {
 		PropertyPartData *ppd = link->data;
@@ -109,12 +109,12 @@ ecep_fill_widgets (ECompEditorPage *page,
 
 static gboolean
 ecep_fill_component (ECompEditorPage *page,
-		     icalcomponent *component)
+		     ICalComponent *component)
 {
 	GSList *link;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE (page), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	for (link = page->priv->parts; link; link = g_slist_next (link)) {
 		PropertyPartData *ppd = link->data;
@@ -311,12 +311,12 @@ e_comp_editor_page_sensitize_widgets (ECompEditorPage *page,
 
 void
 e_comp_editor_page_fill_widgets (ECompEditorPage *page,
-				 icalcomponent *component)
+				 ICalComponent *component)
 {
 	ECompEditorPageClass *klass;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE (page));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	klass = E_COMP_EDITOR_PAGE_GET_CLASS (page);
 	g_return_if_fail (klass != NULL);
@@ -331,12 +331,12 @@ e_comp_editor_page_fill_widgets (ECompEditorPage *page,
 
 gboolean
 e_comp_editor_page_fill_component (ECompEditorPage *page,
-				   icalcomponent *component)
+				   ICalComponent *component)
 {
 	ECompEditorPageClass *klass;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE (page), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	klass = E_COMP_EDITOR_PAGE_GET_CLASS (page);
 	g_return_val_if_fail (klass != NULL, FALSE);

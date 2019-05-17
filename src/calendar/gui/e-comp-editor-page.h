@@ -64,9 +64,9 @@ struct _ECompEditorPageClass {
 	void		(* sensitize_widgets)	(ECompEditorPage *page,
 						 gboolean force_insensitive);
 	void		(* fill_widgets)	(ECompEditorPage *page,
-						 icalcomponent *component);
+						 ICalComponent *component);
 	gboolean	(* fill_component)	(ECompEditorPage *page,
-						 icalcomponent *component);
+						 ICalComponent *component);
 
 	/* Signals */
 	void		(* changed)		(ECompEditorPage *page);
@@ -85,9 +85,9 @@ void		e_comp_editor_page_add_property_part	(ECompEditorPage *page,
 void		e_comp_editor_page_sensitize_widgets	(ECompEditorPage *page,
 							 gboolean force_insensitive);
 void		e_comp_editor_page_fill_widgets		(ECompEditorPage *page,
-							 icalcomponent *component);
+							 ICalComponent *component);
 gboolean	e_comp_editor_page_fill_component	(ECompEditorPage *page,
-							 icalcomponent *component);
+							 ICalComponent *component);
 void		e_comp_editor_page_emit_changed		(ECompEditorPage *page);
 gboolean	e_comp_editor_page_get_updating		(ECompEditorPage *page);
 void		e_comp_editor_page_set_updating		(ECompEditorPage *page,

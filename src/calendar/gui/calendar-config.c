@@ -113,17 +113,17 @@ calendar_config_get_timezone (void)
 	return calendar_config_get_timezone_stored ();
 }
 
-icaltimezone *
+ICalTimezone *
 calendar_config_get_icaltimezone (void)
 {
 	gchar *location;
-	icaltimezone *zone = NULL;
+	ICalTimezone *zone = NULL;
 
 	calendar_config_init ();
 
 	location = calendar_config_get_timezone ();
 	if (location) {
-		zone = icaltimezone_get_builtin_timezone (location);
+		zone = i_cal_timezone_get_builtin_timezone (location);
 
 		g_free (location);
 	}
@@ -228,30 +228,33 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 				sexp = g_strdup ("(is-completed?)");
 		} else {
 			gchar *isodate;
-			icaltimezone *zone;
-			struct icaltimetype tt;
+			ICalTimezone *zone;
+			ICalTime *tt;
 			time_t t;
 
 			/* Get the current time, and subtract the appropriate
 			 * number of days/hours/minutes. */
 			zone = calendar_config_get_icaltimezone ();
-			tt = icaltime_current_time_with_zone (zone);
+			tt = i_cal_time_new_current_with_zone (zone);
 
 			switch (units) {
 			case E_DURATION_DAYS:
-				icaltime_adjust (&tt, -value, 0, 0, 0);
+				i_cal_time_adjust (tt, -value, 0, 0, 0);
 				break;
 			case E_DURATION_HOURS:
-				icaltime_adjust (&tt, 0, -value, 0, 0);
+				i_cal_time_adjust (tt, 0, -value, 0, 0);
 				break;
 			case E_DURATION_MINUTES:
-				icaltime_adjust (&tt, 0, 0, -value, 0);
+				i_cal_time_adjust (tt, 0, 0, -value, 0);
 				break;
 			default:
+				g_clear_object (&tt);
 				g_return_val_if_reached (NULL);
 			}
 
-			t = icaltime_as_timet_with_zone (tt, zone);
+			t = i_cal_time_as_timet_with_zone (tt, zone);
+
+			g_clear_object (&tt);
 
 			/* Convert the time to an ISO date string, and build
 			 * the query sub-expression. */
@@ -399,14 +402,14 @@ calendar_config_get_day_second_zone (void)
 void
 calendar_config_select_day_second_zone (GtkWidget *parent)
 {
-	icaltimezone *zone = NULL;
+	ICalTimezone *zone = NULL;
 	ETimezoneDialog *tzdlg;
 	GtkWidget *dialog;
 	gchar *second_location;
 
 	second_location = calendar_config_get_day_second_zone ();
 	if (second_location && *second_location)
-		zone = icaltimezone_get_builtin_timezone (second_location);
+		zone = i_cal_timezone_get_builtin_timezone (second_location);
 	g_free (second_location);
 
 	if (!zone)
@@ -424,10 +427,10 @@ calendar_config_select_day_second_zone (GtkWidget *parent)
 		const gchar *location = NULL;
 
 		zone = e_timezone_dialog_get_timezone (tzdlg);
-		if (zone == icaltimezone_get_utc_timezone ()) {
+		if (zone == i_cal_timezone_get_utc_timezone ()) {
 			location = "UTC";
 		} else if (zone) {
-			location = icaltimezone_get_location (zone);
+			location = i_cal_timezone_get_location (zone);
 		}
 
 		calendar_config_set_day_second_zone (location);

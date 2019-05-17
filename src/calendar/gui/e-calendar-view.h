@@ -150,8 +150,8 @@ struct _ECalendarViewClass {
 	void		(*selection_changed)	(ECalendarView *cal_view);
 	void		(*selected_time_changed)(ECalendarView *cal_view);
 	void		(*timezone_changed)	(ECalendarView *cal_view,
-						 icaltimezone *old_zone,
-						 icaltimezone *new_zone);
+						 ICalTimezone *old_zone,
+						 ICalTimezone *new_zone);
 	void		(*event_changed)	(ECalendarView *day_view,
 						 ECalendarViewEvent *event);
 	void		(*event_added)		(ECalendarView *day_view,
@@ -187,9 +187,9 @@ struct _ECalendarViewClass {
 
 GType		e_calendar_view_get_type	(void);
 ECalModel *	e_calendar_view_get_model	(ECalendarView *cal_view);
-icaltimezone *	e_calendar_view_get_timezone	(ECalendarView *cal_view);
+ICalTimezone *	e_calendar_view_get_timezone	(ECalendarView *cal_view);
 void		e_calendar_view_set_timezone	(ECalendarView *cal_view,
-						 icaltimezone *zone);
+						 const ICalTimezone *zone);
 gint		e_calendar_view_get_time_divisions
 						(ECalendarView *cal_view);
 void		e_calendar_view_set_time_divisions
@@ -227,7 +227,7 @@ void		e_calendar_view_delete_selected_occurrence
 ECompEditor *	e_calendar_view_open_event_with_flags
 						(ECalendarView *cal_view,
 						 ECalClient *client,
-						 icalcomponent *icalcomp,
+						 ICalComponent *icomp,
 						 guint32 flags);
 
 void		e_calendar_view_popup_event	(ECalendarView *cal_view,
@@ -236,15 +236,15 @@ void		e_calendar_view_popup_event	(ECalendarView *cal_view,
 void		e_calendar_view_add_event	(ECalendarView *cal_view,
 						 ECalClient *client,
 						 time_t dtstart,
-						 icaltimezone *default_zone,
-						 icalcomponent *icalcomp,
+						 ICalTimezone *default_zone,
+						 ICalComponent *icomp,
 						 gboolean in_top_canvas);
 void		e_calendar_view_new_appointment	(ECalendarView *cal_view,
 						 guint32 flags); /* bit-or of ENewAppointmentFlags */
 void		e_calendar_view_edit_appointment
 						(ECalendarView *cal_view,
 						 ECalClient *client,
-						 icalcomponent *icalcomp,
+						 ICalComponent *icomp,
 						 EEditEventMode mode);
 void		e_calendar_view_open_event	(ECalendarView *cal_view);
 gchar *		e_calendar_view_get_description_text
@@ -258,15 +258,13 @@ void		e_calendar_view_move_tip	(GtkWidget *widget,
 						 gint x,
 						 gint y);
 
-const gchar *	e_calendar_view_get_icalcomponent_summary
-						(ECalClient *ecal,
-						 icalcomponent *icalcomp,
-						 gboolean *free_text);
+gchar *		e_calendar_view_dup_component_summary
+						(ICalComponent *icomp);
 
 void		e_calendar_view_component_created_cb
 						(ECalModel *model,
 						 ECalClient *client,
-						 icalcomponent *original_icalcomp,
+						 ICalComponent *original_icomp,
 						 const gchar *new_uid,
 						 gpointer user_data);
 

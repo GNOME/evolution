@@ -237,7 +237,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 		if (e_cal_util_component_has_organizer (event->comp_data->icalcomp))
 			meeting_string = _("It is a meeting.");
 
-		summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+		summary = i_cal_component_get_summary (event->comp_data->icalcomp);
 		if (summary)
 			summary_string = g_strdup_printf (_("Calendar Event: Summary is %s."), summary);
 	}

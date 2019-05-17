@@ -35,15 +35,15 @@ struct _EMeetingAttendeePrivate {
 	gchar *member;
 	gchar *fburi;
 
-	icalparameter_cutype cutype;
-	icalparameter_role role;
+	ICalParameterCutype cutype;
+	ICalParameterRole role;
 
 	gboolean rsvp;
 
 	gchar *delto;
 	gchar *delfrom;
 
-	icalparameter_partstat status;
+	ICalParameterPartstat partstat;
 
 	gchar *sentby;
 	gchar *cn;
@@ -76,13 +76,13 @@ static void e_meeting_attendee_finalize	(GObject *obj);
 G_DEFINE_TYPE (EMeetingAttendee, e_meeting_attendee, G_TYPE_OBJECT)
 
 static gchar *
-string_test (gchar *string)
+string_test (const gchar *string)
 {
-	return string != NULL ? string : g_strdup ("");
+	return g_strdup (string ? string : "");
 }
 
 static gboolean
-string_is_set (gchar *string)
+string_is_set (const gchar *string)
 {
 	if (string != NULL && *string != '\0')
 		return TRUE;
@@ -111,24 +111,41 @@ notify_changed (EMeetingAttendee *ia)
 }
 
 static void
+set_string_value (EMeetingAttendee *ia,
+		  gchar **member,
+		  const gchar *value)
+{
+	if (!string_is_set (*member) && !string_is_set (value))
+		return;
+
+	if (g_strcmp0 (*member, value) == 0)
+		return;
+
+	g_free (*member);
+	*member = string_test (value);
+
+	notify_changed (ia);
+}
+
+static void
 e_meeting_attendee_finalize (GObject *object)
 {
-	EMeetingAttendeePrivate *priv;
+	EMeetingAttendee *ia;
 
-	priv = E_MEETING_ATTENDEE_GET_PRIVATE (object);
+	ia = E_MEETING_ATTENDEE (object);
 
-	g_free (priv->address);
-	g_free (priv->member);
-	g_free (priv->fburi);
+	g_free (ia->priv->address);
+	g_free (ia->priv->member);
+	g_free (ia->priv->fburi);
 
-	g_free (priv->delto);
-	g_free (priv->delfrom);
+	g_free (ia->priv->delto);
+	g_free (ia->priv->delfrom);
 
-	g_free (priv->sentby);
-	g_free (priv->cn);
-	g_free (priv->language);
+	g_free (ia->priv->sentby);
+	g_free (ia->priv->cn);
+	g_free (ia->priv->language);
 
-	g_array_free (priv->busy_periods, TRUE);
+	g_array_free (ia->priv->busy_periods, TRUE);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_meeting_attendee_parent_class)->finalize (object);
@@ -162,15 +179,15 @@ e_meeting_attendee_init (EMeetingAttendee *ia)
 	ia->priv->address = string_test (NULL);
 	ia->priv->member = string_test (NULL);
 
-	ia->priv->cutype = ICAL_CUTYPE_NONE;
-	ia->priv->role = ICAL_ROLE_NONE;
+	ia->priv->cutype = I_CAL_CUTYPE_NONE;
+	ia->priv->role = I_CAL_ROLE_NONE;
 
 	ia->priv->rsvp = FALSE;
 
 	ia->priv->delto = string_test (NULL);
 	ia->priv->delfrom = string_test (NULL);
 
-	ia->priv->status = ICAL_PARTSTAT_NONE;
+	ia->priv->partstat = I_CAL_PARTSTAT_NONE;
 
 	ia->priv->sentby = string_test (NULL);
 	ia->priv->cn = string_test (NULL);
@@ -205,465 +222,351 @@ e_meeting_attendee_new (void)
 }
 
 GObject *
-e_meeting_attendee_new_from_e_cal_component_attendee (ECalComponentAttendee *ca)
+e_meeting_attendee_new_from_e_cal_component_attendee (const ECalComponentAttendee *ca)
 {
 	EMeetingAttendee *ia;
 
+	g_return_val_if_fail (ca != NULL, NULL);
+
 	ia = E_MEETING_ATTENDEE (g_object_new (E_TYPE_MEETING_ATTENDEE, NULL));
 
-	e_meeting_attendee_set_address (ia, g_strdup (ca->value));
-	e_meeting_attendee_set_member (ia, g_strdup (ca->member));
-	e_meeting_attendee_set_cutype (ia, ca->cutype);
-	e_meeting_attendee_set_role (ia, ca->role);
-	e_meeting_attendee_set_status (ia, ca->status);
-	e_meeting_attendee_set_rsvp (ia, ca->rsvp);
-	e_meeting_attendee_set_delto (ia, g_strdup (ca->delto));
-	e_meeting_attendee_set_delfrom (ia, g_strdup (ca->delfrom));
-	e_meeting_attendee_set_sentby (ia, g_strdup (ca->sentby));
-	e_meeting_attendee_set_cn (ia, g_strdup (ca->cn));
-	e_meeting_attendee_set_language (ia, g_strdup (ca->language));
+	e_meeting_attendee_set_address (ia, e_cal_component_attendee_get_value (ca));
+	e_meeting_attendee_set_member (ia, e_cal_component_attendee_get_member (ca));
+	e_meeting_attendee_set_cutype (ia, e_cal_component_attendee_get_cutype (ca));
+	e_meeting_attendee_set_role (ia, e_cal_component_attendee_get_role (ca));
+	e_meeting_attendee_set_partstat (ia, e_cal_component_attendee_get_partstat (ca));
+	e_meeting_attendee_set_rsvp (ia, e_cal_component_attendee_get_rsvp (ca));
+	e_meeting_attendee_set_delto (ia, e_cal_component_attendee_get_delegatedto (ca));
+	e_meeting_attendee_set_delfrom (ia, e_cal_component_attendee_get_delegatedfrom (ca));
+	e_meeting_attendee_set_sentby (ia, e_cal_component_attendee_get_sentby (ca));
+	e_meeting_attendee_set_cn (ia, e_cal_component_attendee_get_cn (ca));
+	e_meeting_attendee_set_language (ia, e_cal_component_attendee_get_language (ca));
 
 	return G_OBJECT (ia);
 }
 
 ECalComponentAttendee *
-e_meeting_attendee_as_e_cal_component_attendee (EMeetingAttendee *ia)
+e_meeting_attendee_as_e_cal_component_attendee (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
-	ECalComponentAttendee *ca;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	priv = ia->priv;
-
-	ca = g_new0 (ECalComponentAttendee, 1);
-
-	ca->value = priv->address;
-	ca->member = string_is_set (priv->member) ? priv->member : NULL;
-	ca->cutype= priv->cutype;
-	ca->role = priv->role;
-	ca->status = priv->status;
-	ca->rsvp = priv->rsvp;
-	ca->delto = string_is_set (priv->delto) ? priv->delto : NULL;
-	ca->delfrom = string_is_set (priv->delfrom) ? priv->delfrom : NULL;
-	ca->sentby = string_is_set (priv->sentby) ? priv->sentby : NULL;
-	ca->cn = string_is_set (priv->cn) ? priv->cn : NULL;
-	ca->language = string_is_set (priv->language) ? priv->language : NULL;
-
-	return ca;
+	return e_cal_component_attendee_new_full (
+		ia->priv->address,
+		string_is_set (ia->priv->member) ? ia->priv->member : NULL,
+		ia->priv->cutype,
+		ia->priv->role,
+		ia->priv->partstat,
+		ia->priv->rsvp,
+		string_is_set (ia->priv->delfrom) ? ia->priv->delfrom : NULL,
+		string_is_set (ia->priv->delto) ? ia->priv->delto : NULL,
+		string_is_set (ia->priv->sentby) ? ia->priv->sentby : NULL,
+		string_is_set (ia->priv->cn) ? ia->priv->cn : NULL,
+		string_is_set (ia->priv->language) ? ia->priv->language : NULL);
 }
 
 const gchar *
-e_meeting_attendee_get_fburi (EMeetingAttendee *ia)
+e_meeting_attendee_get_fburi (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	priv = ia->priv;
-
-	return priv->fburi;
+	return ia->priv->fburi;
 }
 
 void
 e_meeting_attendee_set_fburi (EMeetingAttendee *ia,
-                              gchar *fburi)
+			      const gchar *fburi)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	if (priv->fburi != NULL)
-		g_free (priv->fburi);
-
-	priv->fburi = string_test (fburi);
-
-	notify_changed (ia);
+	set_string_value (ia, &ia->priv->fburi, fburi);
 }
 
 const gchar *
-e_meeting_attendee_get_address (EMeetingAttendee *ia)
+e_meeting_attendee_get_address (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	priv = ia->priv;
-
-	return priv->address;
+	return ia->priv->address;
 }
 
 void
 e_meeting_attendee_set_address (EMeetingAttendee *ia,
-                                gchar *address)
+				const gchar *address)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	if (priv->address != NULL)
-		g_free (priv->address);
-
-	priv->address = string_test (address);
-
-	notify_changed (ia);
+	set_string_value (ia, &ia->priv->address, address);
 }
 
 gboolean
-e_meeting_attendee_is_set_address (EMeetingAttendee *ia)
+e_meeting_attendee_is_set_address (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
-	priv = ia->priv;
-
-	return string_is_set (priv->address);
+	return string_is_set (ia->priv->address);
 }
 
 const gchar *
-e_meeting_attendee_get_member (EMeetingAttendee *ia)
+e_meeting_attendee_get_member (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	priv = ia->priv;
-
-	return priv->member;
+	return ia->priv->member;
 }
 
 void
 e_meeting_attendee_set_member (EMeetingAttendee *ia,
-                               gchar *member)
+			       const gchar *member)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	if (priv->member != NULL)
-		g_free (priv->member);
-
-	priv->member = string_test (member);
-
-	notify_changed (ia);
+	set_string_value (ia, &ia->priv->member, member);
 }
 
 gboolean
-e_meeting_attendee_is_set_member (EMeetingAttendee *ia)
+e_meeting_attendee_is_set_member (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
-	priv = ia->priv;
-
-	return string_is_set (priv->member);
+	return string_is_set (ia->priv->member);
 }
 
-icalparameter_cutype
-e_meeting_attendee_get_cutype (EMeetingAttendee *ia)
+ICalParameterCutype
+e_meeting_attendee_get_cutype (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), I_CAL_CUTYPE_NONE);
 
-	priv = ia->priv;
-
-	return priv->cutype;
+	return ia->priv->cutype;
 }
 
 void
 e_meeting_attendee_set_cutype (EMeetingAttendee *ia,
-                               icalparameter_cutype cutype)
+			       ICalParameterCutype cutype)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	priv->cutype = cutype;
-
-	notify_changed (ia);
+	if (ia->priv->cutype != cutype) {
+		ia->priv->cutype = cutype;
+		notify_changed (ia);
+	}
 }
 
-icalparameter_role
-e_meeting_attendee_get_role (EMeetingAttendee *ia)
+ICalParameterRole
+e_meeting_attendee_get_role (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), I_CAL_ROLE_NONE);
 
-	priv = ia->priv;
-
-	return priv->role;
+	return ia->priv->role;
 }
 
 void
 e_meeting_attendee_set_role (EMeetingAttendee *ia,
-                             icalparameter_role role)
+			     ICalParameterRole role)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	priv->role = role;
-
-	notify_changed (ia);
+	if (ia->priv->role != role) {
+		ia->priv->role = role;
+		notify_changed (ia);
+	}
 }
 
 gboolean
-e_meeting_attendee_get_rsvp (EMeetingAttendee *ia)
+e_meeting_attendee_get_rsvp (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
-	priv = ia->priv;
-
-	return priv->rsvp;
+	return ia->priv->rsvp;
 }
 
 void
 e_meeting_attendee_set_rsvp (EMeetingAttendee *ia,
                              gboolean rsvp)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	priv->rsvp = rsvp;
-
-	notify_changed (ia);
+	if ((ia->priv->rsvp ? 1 : 0) != (rsvp ? 1 : 0)) {
+		ia->priv->rsvp = rsvp;
+		notify_changed (ia);
+	}
 }
 
 const gchar *
-e_meeting_attendee_get_delto (EMeetingAttendee *ia)
+e_meeting_attendee_get_delto (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	priv = ia->priv;
-
-	return priv->delto;
+	return ia->priv->delto;
 }
 
 void
 e_meeting_attendee_set_delto (EMeetingAttendee *ia,
-                              gchar *delto)
+			      const gchar *delto)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	if (priv->delto != NULL)
-		g_free (priv->delto);
-
-	priv->delto = string_test (delto);
-
-	notify_changed (ia);
+	set_string_value (ia, &ia->priv->delto, delto);
 }
 
 gboolean
-e_meeting_attendee_is_set_delto (EMeetingAttendee *ia)
+e_meeting_attendee_is_set_delto (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
-	priv = ia->priv;
-
-	return string_is_set (priv->delto);
+	return string_is_set (ia->priv->delto);
 }
 
 const gchar *
-e_meeting_attendee_get_delfrom (EMeetingAttendee *ia)
+e_meeting_attendee_get_delfrom (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	priv = ia->priv;
-
-	return priv->delfrom;
+	return ia->priv->delfrom;
 }
 
 void
 e_meeting_attendee_set_delfrom (EMeetingAttendee *ia,
-                                gchar *delfrom)
+				const gchar *delfrom)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	if (priv->delfrom != NULL)
-		g_free (priv->delfrom);
-
-	priv->delfrom = string_test (delfrom);
-
-	notify_changed (ia);
+	set_string_value (ia, &ia->priv->delfrom, delfrom);
 }
 
 gboolean
-e_meeting_attendee_is_set_delfrom (EMeetingAttendee *ia)
+e_meeting_attendee_is_set_delfrom (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
-	priv = ia->priv;
-
-	return string_is_set (priv->delfrom);
+	return string_is_set (ia->priv->delfrom);
 }
 
-icalparameter_partstat
-e_meeting_attendee_get_status (EMeetingAttendee *ia)
+ICalParameterPartstat
+e_meeting_attendee_get_partstat (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), I_CAL_PARTSTAT_NONE);
 
-	priv = ia->priv;
-
-	return priv->status;
+	return ia->priv->partstat;
 }
 
 void
-e_meeting_attendee_set_status (EMeetingAttendee *ia,
-                               icalparameter_partstat status)
+e_meeting_attendee_set_partstat (EMeetingAttendee *ia,
+				 ICalParameterPartstat partstat)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	priv->status = status;
-
-	notify_changed (ia);
+	if (ia->priv->partstat != partstat) {
+		ia->priv->partstat = partstat;
+		notify_changed (ia);
+	}
 }
 
 const gchar *
-e_meeting_attendee_get_sentby (EMeetingAttendee *ia)
+e_meeting_attendee_get_sentby (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	priv = ia->priv;
-
-	return priv->sentby;
+	return ia->priv->sentby;
 }
 
 void
 e_meeting_attendee_set_sentby (EMeetingAttendee *ia,
-                               gchar *sentby)
+			       const gchar *sentby)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	if (priv->sentby != NULL)
-		g_free (priv->sentby);
-
-	priv->sentby = string_test (sentby);
-
-	notify_changed (ia);
+	set_string_value (ia, &ia->priv->sentby, sentby);
 }
 
 gboolean
-e_meeting_attendee_is_set_sentby (EMeetingAttendee *ia)
+e_meeting_attendee_is_set_sentby (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
-	priv = ia->priv;
-
-	return string_is_set (priv->sentby);
+	return string_is_set (ia->priv->sentby);
 }
 
 const gchar *
-e_meeting_attendee_get_cn (EMeetingAttendee *ia)
+e_meeting_attendee_get_cn (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	priv = ia->priv;
-
-	return priv->cn;
+	return ia->priv->cn;
 }
 
 void
 e_meeting_attendee_set_cn (EMeetingAttendee *ia,
-                           gchar *cn)
+			   const gchar *cn)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	if (priv->cn != NULL)
-		g_free (priv->cn);
-
-	priv->cn = string_test (cn);
-
-	notify_changed (ia);
+	set_string_value (ia, &ia->priv->cn, cn);
 }
 
 gboolean
-e_meeting_attendee_is_set_cn (EMeetingAttendee *ia)
+e_meeting_attendee_is_set_cn (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
-	priv = ia->priv;
-
-	return string_is_set (priv->cn);
+	return string_is_set (ia->priv->cn);
 }
 
 const gchar *
-e_meeting_attendee_get_language (EMeetingAttendee *ia)
+e_meeting_attendee_get_language (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	priv = ia->priv;
-
-	return priv->language;
+	return ia->priv->language;
 }
 
 void
 e_meeting_attendee_set_language (EMeetingAttendee *ia,
-                                 gchar *language)
+				 const gchar *language)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	if (priv->language != NULL)
-		g_free (priv->language);
-
-	priv->language = string_test (language);
-
-	notify_changed (ia);
+	set_string_value (ia, &ia->priv->language, language);
 }
 
 gboolean
-e_meeting_attendee_is_set_language (EMeetingAttendee *ia)
+e_meeting_attendee_is_set_language (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
-	priv = ia->priv;
-
-	return string_is_set (priv->language);
+	return string_is_set (ia->priv->language);
 }
 
 EMeetingAttendeeType
-e_meeting_attendee_get_atype (EMeetingAttendee *ia)
+e_meeting_attendee_get_atype (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), E_MEETING_ATTENDEE_RESOURCE_UNKNOWN);
 
-	priv = ia->priv;
-
-	if (priv->cutype == ICAL_CUTYPE_ROOM
-	    || priv->cutype == ICAL_CUTYPE_RESOURCE)
+	if (ia->priv->cutype == I_CAL_CUTYPE_ROOM ||
+	    ia->priv->cutype == I_CAL_CUTYPE_RESOURCE)
 		return E_MEETING_ATTENDEE_RESOURCE;
 
-	if (priv->role == ICAL_ROLE_CHAIR
-	    || priv->role == ICAL_ROLE_REQPARTICIPANT)
+	if (ia->priv->role == I_CAL_ROLE_CHAIR ||
+	    ia->priv->role == I_CAL_ROLE_REQPARTICIPANT)
 		return E_MEETING_ATTENDEE_REQUIRED_PERSON;
 
 	return E_MEETING_ATTENDEE_OPTIONAL_PERSON;
 }
 
 EMeetingAttendeeEditLevel
-e_meeting_attendee_get_edit_level (EMeetingAttendee *ia)
+e_meeting_attendee_get_edit_level (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
-
-	g_return_val_if_fail (ia != NULL, E_MEETING_ATTENDEE_EDIT_NONE);
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), E_MEETING_ATTENDEE_EDIT_NONE);
 
-	priv = ia->priv;
-
-	return priv->edit_level;
+	return ia->priv->edit_level;
 }
 
 void
 e_meeting_attendee_set_edit_level (EMeetingAttendee *ia,
                                    EMeetingAttendeeEditLevel level)
 {
-	EMeetingAttendeePrivate *priv;
-
-	g_return_if_fail (ia != NULL);
 	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	priv->edit_level = level;
+	ia->priv->edit_level = level;
 }
 
 static gint
@@ -707,23 +610,19 @@ compare_period_starts (gconstpointer arg1,
 static void
 ensure_periods_sorted (EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
-
-	priv = ia->priv;
-
-	if (priv->busy_periods_sorted)
+	if (ia->priv->busy_periods_sorted)
 		return;
 
 	qsort (
-		priv->busy_periods->data, priv->busy_periods->len,
+		ia->priv->busy_periods->data, ia->priv->busy_periods->len,
 		sizeof (EMeetingFreeBusyPeriod),
 		compare_period_starts);
 
-	priv->busy_periods_sorted = TRUE;
+	ia->priv->busy_periods_sorted = TRUE;
 }
 
 gboolean
-e_meeting_attendee_get_show_address (EMeetingAttendee *ia)
+e_meeting_attendee_get_show_address (const EMeetingAttendee *ia)
 {
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
@@ -745,48 +644,41 @@ e_meeting_attendee_set_show_address (EMeetingAttendee *ia,
 }
 
 gboolean
-e_meeting_attendee_get_has_calendar_info (EMeetingAttendee *ia)
+e_meeting_attendee_get_has_calendar_info (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
-	priv = ia->priv;
-
-	return priv->has_calendar_info;
+	return ia->priv->has_calendar_info;
 }
 
 void
 e_meeting_attendee_set_has_calendar_info (EMeetingAttendee *ia,
                                           gboolean has_calendar_info)
 {
-	EMeetingAttendeePrivate *priv;
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
-
-	priv->has_calendar_info = has_calendar_info;
+	ia->priv->has_calendar_info = has_calendar_info;
 }
 
 const GArray *
 e_meeting_attendee_get_busy_periods (EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
-
-	priv = ia->priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
 	ensure_periods_sorted (ia);
 
-	return priv->busy_periods;
+	return ia->priv->busy_periods;
 }
 
 gint
 e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia,
-                                           GDate *date)
+					   const GDate *date)
 {
-	EMeetingAttendeePrivate *priv;
 	EMeetingFreeBusyPeriod *period;
 	gint lower, upper, middle = 0, cmp = 0;
 	GDate tmp_date;
 
-	priv = ia->priv;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), -1);
 
 	/* Make sure the busy periods have been sorted. */
 	ensure_periods_sorted (ia);
@@ -794,11 +686,11 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia,
 	/* Calculate the first day which could have a busy period which
 	 * continues onto our given date. */
 	tmp_date = *date;
-	g_date_subtract_days (&tmp_date, priv->longest_period_in_days);
+	g_date_subtract_days (&tmp_date, ia->priv->longest_period_in_days);
 
 	/* We want the first busy period which starts on tmp_date. */
 	lower = 0;
-	upper = priv->busy_periods->len;
+	upper = ia->priv->busy_periods->len;
 
 	if (upper == 0)
 		return -1;
@@ -806,7 +698,7 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia,
 	while (lower < upper) {
 		middle = (lower + upper) >> 1;
 
-		period = &g_array_index (priv->busy_periods,
+		period = &g_array_index (ia->priv->busy_periods,
 					 EMeetingFreeBusyPeriod, middle);
 
 		cmp = g_date_compare (&tmp_date, &period->start.date);
@@ -823,7 +715,7 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia,
 	 * backwards to the first one. */
 	if (cmp == 0) {
 		while (middle > 0) {
-			period = &g_array_index (priv->busy_periods,
+			period = &g_array_index (ia->priv->busy_periods,
 						 EMeetingFreeBusyPeriod, middle - 1);
 			if (g_date_compare (&tmp_date, &period->start.date) != 0)
 				break;
@@ -834,7 +726,7 @@ e_meeting_attendee_find_first_busy_period (EMeetingAttendee *ia,
 		 * the last one we looked at was before it, so if there are
 		 * any more periods after this one we return it. */
 		middle++;
-		if (priv->busy_periods->len <= middle)
+		if (ia->priv->busy_periods->len <= middle)
 			return -1;
 	}
 
@@ -857,17 +749,13 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
                                     const gchar *summary,
                                     const gchar *location)
 {
-	EMeetingAttendeePrivate *priv;
 	EMeetingFreeBusyPeriod period;
 	gint period_in_days;
 
-	g_return_val_if_fail (ia != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 	g_return_val_if_fail (busy_type < E_MEETING_FREE_BUSY_LAST, FALSE);
 	/* summary may be NULL (optional XFB data)  */
 	/* location may be NULL (optional XFB data) */
-
-	priv = ia->priv;
 
 	/* Check the dates are valid. */
 	if (!g_date_valid_dmy (start_day, start_month, start_year))
@@ -902,31 +790,31 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 		goto done;
 
 	/* If the busy range is not set elsewhere, track it as best we can */
-	if (!priv->start_busy_range_set) {
-		if (!g_date_valid (&priv->busy_periods_start.date)) {
-			priv->busy_periods_start.date = period.start.date;
-			priv->busy_periods_start.hour = period.start.hour;
-			priv->busy_periods_start.minute = period.start.minute;
+	if (!ia->priv->start_busy_range_set) {
+		if (!g_date_valid (&ia->priv->busy_periods_start.date)) {
+			ia->priv->busy_periods_start.date = period.start.date;
+			ia->priv->busy_periods_start.hour = period.start.hour;
+			ia->priv->busy_periods_start.minute = period.start.minute;
 		} else {
 			gint compare;
 
 			compare = g_date_compare (
 				&period.start.date,
-				&priv->busy_periods_start.date);
+				&ia->priv->busy_periods_start.date);
 
 			switch (compare) {
 			case -1:
-				priv->busy_periods_start.date = period.start.date;
-				priv->busy_periods_start.hour = period.start.hour;
-				priv->busy_periods_start.minute = period.start.minute;
+				ia->priv->busy_periods_start.date = period.start.date;
+				ia->priv->busy_periods_start.hour = period.start.hour;
+				ia->priv->busy_periods_start.minute = period.start.minute;
 				break;
 			case 0:
-				if (period.start.hour < priv->busy_periods_start.hour
-				    || (period.start.hour == priv->busy_periods_start.hour
-					&& period.start.minute < priv->busy_periods_start.minute)) {
-					priv->busy_periods_start.date = period.start.date;
-					priv->busy_periods_start.hour = period.start.hour;
-					priv->busy_periods_start.minute = period.start.minute;
+				if (period.start.hour < ia->priv->busy_periods_start.hour
+				    || (period.start.hour == ia->priv->busy_periods_start.hour
+					&& period.start.minute < ia->priv->busy_periods_start.minute)) {
+					ia->priv->busy_periods_start.date = period.start.date;
+					ia->priv->busy_periods_start.hour = period.start.hour;
+					ia->priv->busy_periods_start.minute = period.start.minute;
 					break;
 				}
 				break;
@@ -934,33 +822,33 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 		}
 	}
 
-	if (!priv->end_busy_range_set) {
-		if (!g_date_valid (&priv->busy_periods_end.date)) {
-			priv->busy_periods_end.date = period.end.date;
-			priv->busy_periods_end.hour = period.end.hour;
-			priv->busy_periods_end.minute = period.end.minute;
+	if (!ia->priv->end_busy_range_set) {
+		if (!g_date_valid (&ia->priv->busy_periods_end.date)) {
+			ia->priv->busy_periods_end.date = period.end.date;
+			ia->priv->busy_periods_end.hour = period.end.hour;
+			ia->priv->busy_periods_end.minute = period.end.minute;
 		} else {
 			gint compare;
 
 			compare = g_date_compare (
 				&period.end.date,
-				&priv->busy_periods_end.date);
+				&ia->priv->busy_periods_end.date);
 
 			switch (compare) {
 			case 0:
-				if (period.end.hour > priv->busy_periods_end.hour
-				    || (period.end.hour == priv->busy_periods_end.hour
-					&& period.end.minute > priv->busy_periods_end.minute)) {
-					priv->busy_periods_end.date = period.end.date;
-					priv->busy_periods_end.hour = period.end.hour;
-					priv->busy_periods_end.minute = period.end.minute;
+				if (period.end.hour > ia->priv->busy_periods_end.hour
+				    || (period.end.hour == ia->priv->busy_periods_end.hour
+					&& period.end.minute > ia->priv->busy_periods_end.minute)) {
+					ia->priv->busy_periods_end.date = period.end.date;
+					ia->priv->busy_periods_end.hour = period.end.hour;
+					ia->priv->busy_periods_end.minute = period.end.minute;
 					break;
 				}
 				break;
 			case 1:
-				priv->busy_periods_end.date = period.end.date;
-				priv->busy_periods_end.hour = period.end.hour;
-				priv->busy_periods_end.minute = period.end.minute;
+				ia->priv->busy_periods_end.date = period.end.date;
+				ia->priv->busy_periods_end.hour = period.end.hour;
+				ia->priv->busy_periods_end.minute = period.end.minute;
 				break;
 			}
 		}
@@ -970,39 +858,47 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 	e_meeting_xfb_data_init (&(period.xfb));
 	e_meeting_xfb_data_set (&(period.xfb), summary, location);
 
-	g_array_append_val (priv->busy_periods, period);
+	g_array_append_val (ia->priv->busy_periods, period);
 
 	period_in_days =
 		g_date_get_julian (&period.end.date) -
 		g_date_get_julian (&period.start.date) + 1;
-	priv->longest_period_in_days =
-		MAX (priv->longest_period_in_days, period_in_days);
+	ia->priv->longest_period_in_days =
+		MAX (ia->priv->longest_period_in_days, period_in_days);
 
 done:
-	priv->has_calendar_info = TRUE;
-	priv->busy_periods_sorted = FALSE;
+	ia->priv->has_calendar_info = TRUE;
+	ia->priv->busy_periods_sorted = FALSE;
 
 	return TRUE;
 }
 
 EMeetingTime
-e_meeting_attendee_get_start_busy_range (EMeetingAttendee *ia)
+e_meeting_attendee_get_start_busy_range (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	EMeetingTime mt;
 
-	priv = ia->priv;
+	g_date_clear (&mt.date, 1);
+	mt.hour = 0;
+	mt.minute = 0;
 
-	return priv->busy_periods_start;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), mt);
+
+	return ia->priv->busy_periods_start;
 }
 
 EMeetingTime
-e_meeting_attendee_get_end_busy_range (EMeetingAttendee *ia)
+e_meeting_attendee_get_end_busy_range (const EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
+	EMeetingTime mt;
 
-	priv = ia->priv;
+	g_date_clear (&mt.date, 1);
+	mt.hour = 0;
+	mt.minute = 0;
 
-	return priv->busy_periods_end;
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), mt);
+
+	return ia->priv->busy_periods_end;
 }
 
 gboolean
@@ -1013,11 +909,7 @@ e_meeting_attendee_set_start_busy_range (EMeetingAttendee *ia,
                                          gint start_hour,
                                          gint start_minute)
 {
-	EMeetingAttendeePrivate *priv;
-
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
-
-	priv = ia->priv;
 
 	/* Check the dates are valid. */
 	if (!g_date_valid_dmy (start_day, start_month, start_year))
@@ -1027,14 +919,14 @@ e_meeting_attendee_set_start_busy_range (EMeetingAttendee *ia,
 	if (start_minute < 0 || start_minute > 59)
 		return FALSE;
 
-	g_date_clear (&priv->busy_periods_start.date, 1);
+	g_date_clear (&ia->priv->busy_periods_start.date, 1);
 	g_date_set_dmy (
-		&priv->busy_periods_start.date,
+		&ia->priv->busy_periods_start.date,
 		start_day, start_month, start_year);
-	priv->busy_periods_start.hour = start_hour;
-	priv->busy_periods_start.minute = start_minute;
+	ia->priv->busy_periods_start.hour = start_hour;
+	ia->priv->busy_periods_start.minute = start_minute;
 
-	priv->start_busy_range_set = TRUE;
+	ia->priv->start_busy_range_set = TRUE;
 
 	return TRUE;
 }
@@ -1047,11 +939,7 @@ e_meeting_attendee_set_end_busy_range (EMeetingAttendee *ia,
                                        gint end_hour,
                                        gint end_minute)
 {
-	EMeetingAttendeePrivate *priv;
-
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
-
-	priv = ia->priv;
 
 	/* Check the dates are valid. */
 	if (!g_date_valid_dmy (end_day, end_month, end_year))
@@ -1061,14 +949,14 @@ e_meeting_attendee_set_end_busy_range (EMeetingAttendee *ia,
 	if (end_minute < 0 || end_minute > 59)
 		return FALSE;
 
-	g_date_clear (&priv->busy_periods_end.date, 1);
+	g_date_clear (&ia->priv->busy_periods_end.date, 1);
 	g_date_set_dmy (
-		&priv->busy_periods_end.date,
+		&ia->priv->busy_periods_end.date,
 		end_day, end_month, end_year);
-	priv->busy_periods_end.hour = end_hour;
-	priv->busy_periods_end.minute = end_minute;
+	ia->priv->busy_periods_end.hour = end_hour;
+	ia->priv->busy_periods_end.minute = end_minute;
 
-	priv->end_busy_range_set = TRUE;
+	ia->priv->end_busy_range_set = TRUE;
 
 	return TRUE;
 }
@@ -1077,22 +965,18 @@ e_meeting_attendee_set_end_busy_range (EMeetingAttendee *ia,
 void
 e_meeting_attendee_clear_busy_periods (EMeetingAttendee *ia)
 {
-	EMeetingAttendeePrivate *priv;
-
 	g_return_if_fail (E_IS_MEETING_ATTENDEE (ia));
 
-	priv = ia->priv;
+	g_array_set_size (ia->priv->busy_periods, 0);
+	ia->priv->busy_periods_sorted = TRUE;
 
-	g_array_set_size (priv->busy_periods, 0);
-	priv->busy_periods_sorted = TRUE;
+	g_date_clear (&ia->priv->busy_periods_start.date, 1);
+	ia->priv->busy_periods_start.hour = 0;
+	ia->priv->busy_periods_start.minute = 0;
 
-	g_date_clear (&priv->busy_periods_start.date, 1);
-	priv->busy_periods_start.hour = 0;
-	priv->busy_periods_start.minute = 0;
+	g_date_clear (&ia->priv->busy_periods_end.date, 1);
+	ia->priv->busy_periods_end.hour = 0;
+	ia->priv->busy_periods_end.minute = 0;
 
-	g_date_clear (&priv->busy_periods_end.date, 1);
-	priv->busy_periods_end.hour = 0;
-	priv->busy_periods_end.minute = 0;
-
-	priv->longest_period_in_days = 0;
+	ia->priv->longest_period_in_days = 0;
 }

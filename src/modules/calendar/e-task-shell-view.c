@@ -51,8 +51,8 @@ task_shell_view_execute_search (EShellView *shell_view)
 	EWebView *web_view;
 	ECalModel *model;
 	ECalDataModel *data_model;
-	icaltimezone *timezone;
-	struct icaltimetype current_time;
+	ICalTimezone *timezone;
+	ICalTime *current_time;
 	time_t start_range;
 	time_t end_range;
 	time_t now_time;
@@ -72,8 +72,9 @@ task_shell_view_execute_search (EShellView *shell_view)
 	model = e_task_table_get_model (task_table);
 	data_model = e_cal_model_get_data_model (model);
 	timezone = e_cal_model_get_timezone (model);
-	current_time = icaltime_current_time_with_zone (timezone);
-	now_time = time_day_begin (icaltime_as_timet (current_time));
+	current_time = i_cal_time_new_current_with_zone (timezone);
+	now_time = time_day_begin (i_cal_time_as_timet (current_time));
+	g_clear_object (&current_time);
 
 	action = GTK_RADIO_ACTION (ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);

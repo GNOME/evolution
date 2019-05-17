@@ -44,12 +44,7 @@ struct _ETimezoneEntryPrivate {
 	 * or from the timezone dialog. Note that we don't copy it or
 	 * use a ref count - we assume it is never destroyed for the
 	 * lifetime of this widget. */
-	icaltimezone *timezone;
-
-	/* This can be set to the default timezone. If the current timezone
-	 * setting in the ETimezoneEntry matches this, then the entry field
-	 * is hidden. This makes the user interface simpler. */
-	icaltimezone *default_zone;
+	ICalTimezone *timezone;
 
 	GtkWidget *entry;
 	GtkWidget *button;
@@ -80,17 +75,17 @@ timezone_entry_update_entry (ETimezoneEntry *timezone_entry)
 {
 	const gchar *display_name;
 	gchar *name_buffer;
-	icaltimezone *timezone;
+	ICalTimezone *timezone;
 
 	timezone = e_timezone_entry_get_timezone (timezone_entry);
 
 	if (timezone != NULL) {
-		display_name = icaltimezone_get_display_name (timezone);
+		display_name = i_cal_timezone_get_display_name (timezone);
 
 		/* We check if it is one of our builtin timezone
 		 * names, in which case we call gettext to translate
 		 * it. If it isn't a builtin timezone name, we don't. */
-		if (icaltimezone_get_builtin_timezone (display_name))
+		if (i_cal_timezone_get_builtin_timezone (display_name))
 			display_name = _(display_name);
 	} else
 		display_name = "";
@@ -166,7 +161,7 @@ timezone_entry_button_clicked_cb (ETimezoneEntry *timezone_entry)
 	ETimezoneDialog *timezone_dialog;
 	GtkWidget *toplevel;
 	GtkWidget *dialog;
-	icaltimezone *timezone;
+	ICalTimezone *timezone;
 
 	timezone_dialog = e_timezone_dialog_new ();
 
@@ -200,7 +195,7 @@ timezone_entry_set_property (GObject *object,
 		case PROP_TIMEZONE:
 			e_timezone_entry_set_timezone (
 				E_TIMEZONE_ENTRY (object),
-				g_value_get_pointer (value));
+				g_value_get_object (value));
 			return;
 	}
 
@@ -215,13 +210,24 @@ timezone_entry_get_property (GObject *object,
 {
 	switch (property_id) {
 		case PROP_TIMEZONE:
-			g_value_set_pointer (
+			g_value_set_object (
 				value, e_timezone_entry_get_timezone (
 				E_TIMEZONE_ENTRY (object)));
 			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+timezone_entry_get_finalize (GObject *object)
+{
+	ETimezoneEntry *tzentry = E_TIMEZONE_ENTRY (object);
+
+	g_clear_object (&tzentry->priv->timezone);
+
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_timezone_entry_parent_class)->finalize (object);
 }
 
 static gboolean
@@ -285,6 +291,7 @@ e_timezone_entry_class_init (ETimezoneEntryClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = timezone_entry_set_property;
 	object_class->get_property = timezone_entry_get_property;
+	object_class->finalize = timezone_entry_get_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->mnemonic_activate = timezone_entry_mnemonic_activate;
@@ -293,10 +300,11 @@ e_timezone_entry_class_init (ETimezoneEntryClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_TIMEZONE,
-		g_param_spec_pointer (
+		g_param_spec_object (
 			"timezone",
 			"Timezone",
 			NULL,
+			I_CAL_TYPE_TIMEZONE,
 			G_PARAM_READWRITE));
 
 	signals[CHANGED] = g_signal_new (
@@ -350,7 +358,7 @@ e_timezone_entry_new (void)
 	return g_object_new (E_TYPE_TIMEZONE_ENTRY, NULL);
 }
 
-icaltimezone *
+ICalTimezone *
 e_timezone_entry_get_timezone (ETimezoneEntry *timezone_entry)
 {
 	g_return_val_if_fail (E_IS_TIMEZONE_ENTRY (timezone_entry), NULL);
@@ -360,31 +368,19 @@ e_timezone_entry_get_timezone (ETimezoneEntry *timezone_entry)
 
 void
 e_timezone_entry_set_timezone (ETimezoneEntry *timezone_entry,
-                               icaltimezone *timezone)
+			       const ICalTimezone *timezone)
 {
 	g_return_if_fail (E_IS_TIMEZONE_ENTRY (timezone_entry));
 
 	if (timezone_entry->priv->timezone == timezone)
 		return;
 
-	timezone_entry->priv->timezone = timezone;
+	g_clear_object (&timezone_entry->priv->timezone);
+	if (timezone)
+		timezone_entry->priv->timezone = e_cal_util_copy_timezone (timezone);
 
 	timezone_entry_update_entry (timezone_entry);
 	timezone_entry_add_relation (timezone_entry);
 
 	g_object_notify (G_OBJECT (timezone_entry), "timezone");
-}
-
-/* Sets the default timezone. If the current timezone matches this,
- * then the entry field is hidden. This is useful since most people
- * do not use timezones so it makes the user interface simpler. */
-void
-e_timezone_entry_set_default_timezone (ETimezoneEntry *timezone_entry,
-                                       icaltimezone *timezone)
-{
-	g_return_if_fail (E_IS_TIMEZONE_ENTRY (timezone_entry));
-
-	timezone_entry->priv->default_zone = timezone;
-
-	timezone_entry_update_entry (timezone_entry);
 }

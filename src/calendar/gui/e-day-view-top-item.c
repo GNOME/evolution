@@ -178,9 +178,9 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	if (!is_comp_data_valid (event))
 		return;
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (
-		comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+	if (!comp)
+		return;
 
 	if (!e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data, &bg_rgba)) {
 		bg_rgba.red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red / 65535.0;
@@ -453,7 +453,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	}
 
 	/* draw categories icons */
-	e_cal_component_get_categories_list (comp, &categories_list);
+	categories_list = e_cal_component_get_categories_list (comp);
 	for (elem = categories_list; elem; elem = elem->next) {
 		gchar *category;
 		gchar *file;
@@ -483,7 +483,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		}
 	}
 
-	e_cal_component_free_categories_list (categories_list);
+	g_slist_free_full (categories_list, g_free);
 	g_object_unref (comp);
 }
 
@@ -831,25 +831,18 @@ e_day_view_top_item_get_day_label (EDayView *day_view,
                                    gint buffer_len)
 {
 	ECalendarView *view;
-	struct icaltimetype day_start_tt;
-	const icaltimezone *zone;
-	struct tm day_start = { 0 };
+	ICalTime *day_start_tt;
+	ICalTimezone *zone;
+	struct tm day_start;
 	const gchar *format;
 
 	view = E_CALENDAR_VIEW (day_view);
 	zone = e_calendar_view_get_timezone (view);
 
-	day_start_tt = icaltime_from_timet_with_zone (
+	day_start_tt = i_cal_time_new_from_timet_with_zone (
 		day_view->day_starts[day], FALSE, zone);
-	day_start.tm_year = day_start_tt.year - 1900;
-	day_start.tm_mon = day_start_tt.month - 1;
-	day_start.tm_mday = day_start_tt.day;
-	day_start.tm_isdst = -1;
-
-	day_start.tm_wday = time_day_of_week (
-		day_start_tt.day,
-		day_start_tt.month - 1,
-		day_start_tt.year);
+	day_start = e_cal_util_icaltime_to_tm (day_start_tt);
+	g_clear_object (&day_start_tt);
 
 	if (day_view->date_format == E_DAY_VIEW_DATE_FULL)
 		/* strftime format %A = full weekday name, %d = day of month,

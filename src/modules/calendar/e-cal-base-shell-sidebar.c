@@ -460,7 +460,7 @@ typedef struct {
 	ESource *source;
 	ESource *destination;
 	gboolean do_copy;
-	icalcomponent *icalcomp;
+	ICalComponent *icomp;
 	EClientSelector *selector;
 } TransferItemToData;
 
@@ -473,10 +473,7 @@ transfer_item_to_data_free (gpointer ptr)
 		g_clear_object (&titd->source);
 		g_clear_object (&titd->destination);
 		g_clear_object (&titd->selector);
-
-		if (titd->icalcomp)
-			icalcomponent_free (titd->icalcomp);
-
+		g_clear_object (&titd->icomp);
 		g_free (titd);
 	}
 }
@@ -494,7 +491,7 @@ cal_base_shell_sidebar_transfer_thread (EAlertSinkThreadJobData *job_data,
 	g_return_if_fail (E_IS_SOURCE (titd->source));
 	g_return_if_fail (E_IS_SOURCE (titd->destination));
 	g_return_if_fail (E_IS_CLIENT_SELECTOR (titd->selector));
-	g_return_if_fail (titd->icalcomp != NULL);
+	g_return_if_fail (titd->icomp != NULL);
 
 	source_client = e_client_selector_get_client_sync (
 		titd->selector, titd->source, FALSE, 30, cancellable, error);
@@ -509,7 +506,7 @@ cal_base_shell_sidebar_transfer_thread (EAlertSinkThreadJobData *job_data,
 	}
 
 	cal_comp_transfer_item_to_sync (E_CAL_CLIENT (source_client), E_CAL_CLIENT (destination_client),
-		titd->icalcomp, titd->do_copy, cancellable, error);
+		titd->icomp, titd->do_copy, cancellable, error);
 
 	g_clear_object (&source_client);
 	g_clear_object (&destination_client);
@@ -523,7 +520,7 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 						guint info,
 						ECalBaseShellSidebar *sidebar)
 {
-	icalcomponent *icalcomp = NULL;
+	ICalComponent *icomp = NULL;
 	EActivity *activity;
 	EShellView *shell_view;
 	ESource *source = NULL;
@@ -549,9 +546,9 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 		goto exit;
 
 	source_uid = g_strdup (segments[0]);
-	icalcomp = icalparser_parse_string (segments[1]);
+	icomp = i_cal_parser_parse_string (segments[1]);
 
-	if (!icalcomp)
+	if (!icomp)
 		goto exit;
 
 	registry = e_source_selector_get_registry (selector);
@@ -591,10 +588,10 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 	titd->source = g_object_ref (source);
 	titd->destination = g_object_ref (destination);
 	titd->do_copy = do_copy;
-	titd->icalcomp = icalcomp;
+	titd->icomp = icomp;
 	titd->selector = g_object_ref (selector);
 
-	icalcomp = NULL;
+	icomp = NULL;
 
 	activity = e_shell_view_submit_thread_job (shell_view, message,
 		alert_ident, display_name, cal_base_shell_sidebar_transfer_thread,
@@ -603,9 +600,7 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 	g_clear_object (&activity);
 
  exit:
-	if (icalcomp)
-		icalcomponent_free (icalcomp);
-
+	g_clear_object (&icomp);
 	g_clear_object (&source);
 	g_free (message);
 	g_free (source_uid);

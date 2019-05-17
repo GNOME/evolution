@@ -72,16 +72,9 @@ struct _ETimezoneEntryClass {
 
 GType		e_timezone_entry_get_type	(void);
 GtkWidget *	e_timezone_entry_new		(void);
-icaltimezone *	e_timezone_entry_get_timezone	(ETimezoneEntry *timezone_entry);
+ICalTimezone *	e_timezone_entry_get_timezone	(ETimezoneEntry *timezone_entry);
 void		e_timezone_entry_set_timezone	(ETimezoneEntry *timezone_entry,
-						 icaltimezone *timezone);
-
-/* Sets the default timezone. If the current timezone matches this,
- * then the entry field is hidden. This is useful since most people
- * do not use timezones so it makes the user interface simpler. */
-void		e_timezone_entry_set_default_timezone
-						(ETimezoneEntry *timezone_entry,
-						 icaltimezone *timezone);
+						 const ICalTimezone *timezone);
 
 G_END_DECLS
 

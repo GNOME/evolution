@@ -575,12 +575,12 @@ e_day_view_get_work_day_range_for_day (EDayView *day_view,
 
 	if (day >= 0 && day < e_day_view_get_days_shown (day_view)) {
 		GDateWeekday weekday;
-		struct icaltimetype tt;
+		ICalTime *tt;
 
-		tt = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE,
+		tt = i_cal_time_new_from_timet_with_zone (day_view->day_starts[day], FALSE,
 			e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
-		switch (icaltime_day_of_week (tt)) {
+		switch (i_cal_time_day_of_week (tt)) {
 			case 1:
 				weekday = G_DATE_SUNDAY;
 				break;
@@ -606,6 +606,8 @@ e_day_view_get_work_day_range_for_day (EDayView *day_view,
 				weekday = G_DATE_BAD_WEEKDAY;
 				break;
 		}
+
+		g_clear_object (&tt);
 
 		e_cal_model_get_work_day_range_for (model, weekday,
 			start_hour, start_minute,
@@ -750,18 +752,18 @@ new_event_in_rage_data_free (gpointer ptr)
 static void
 day_view_new_event_in_selected_range_cb (ECalModel *model,
 					 ECalClient *client,
-					 icalcomponent *default_component,
+					 ICalComponent *default_component,
 					 gpointer user_data)
 {
 	NewEventInRangeData *ned = user_data;
 	ECalComponent *comp = NULL;
 	gint day, event_num;
-	ECalComponentDateTime start_dt, end_dt;
-	struct icaltimetype start_tt, end_tt;
-	const gchar *uid;
+	ECalComponentDateTime *start_dt, *end_dt;
+	ICalTime *start_tt, *end_tt;
+	const gchar *uid, *use_tzid;
 	AddEventData add_event_data;
 	ESourceRegistry *registry;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	g_return_if_fail (ned != NULL);
 	g_return_if_fail (E_IS_CAL_MODEL (model));
@@ -774,33 +776,36 @@ day_view_new_event_in_selected_range_cb (ECalModel *model,
 
 	registry = e_cal_model_get_registry (model);
 	zone = e_cal_model_get_timezone (model);
-	uid = icalcomponent_get_uid (default_component);
+	uid = i_cal_component_get_uid (default_component);
 
-	comp = e_cal_component_new_from_icalcomponent (icalcomponent_new_clone (default_component));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (default_component));
 	g_return_if_fail (comp != NULL);
 
-	start_tt = icaltime_from_timet_with_zone (ned->dtstart, FALSE, zone);
-	end_tt = icaltime_from_timet_with_zone (ned->dtend, FALSE, zone);
+	start_tt = i_cal_time_new_from_timet_with_zone (ned->dtstart, FALSE, zone);
+	end_tt = i_cal_time_new_from_timet_with_zone (ned->dtend, FALSE, zone);
 
 	if (ned->in_top_canvas) {
-		start_dt.tzid = NULL;
-		start_tt.is_date = 1;
-		end_tt.is_date = 1;
+		use_tzid = NULL;
+		i_cal_time_set_is_date (start_tt, 1);
+		i_cal_time_set_is_date (end_tt, 1);
 
 		/* Editor default in day/work-week view - top canvas */
 		e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
 	} else {
-		start_dt.tzid = icaltimezone_get_tzid (zone);
+		use_tzid = i_cal_timezone_get_tzid (zone);
 
 		/* Editor default in day/work-week view - main canvas */
 		e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
 	}
 
-	start_dt.value = &start_tt;
-	end_dt.value = &end_tt;
-	end_dt.tzid = start_dt.tzid;
-	e_cal_component_set_dtstart (comp, &start_dt);
-	e_cal_component_set_dtend (comp, &end_dt);
+	start_dt = e_cal_component_datetime_new_take (start_tt, g_strdup (use_tzid));
+	end_dt = e_cal_component_datetime_new_take (end_tt, g_strdup (use_tzid));
+
+	e_cal_component_set_dtstart (comp, start_dt);
+	e_cal_component_set_dtend (comp, end_dt);
+
+	e_cal_component_datetime_free (start_dt);
+	e_cal_component_datetime_free (end_dt);
 
 	/* We add the event locally and start editing it. We don't send it
 	 * to the server until the user finishes editing it. */
@@ -2534,7 +2539,7 @@ e_day_view_precalc_visible_time_range (ECalendarView *cal_view,
 	EDayView *day_view;
 	gint days_shown;
 	time_t lower;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	g_return_if_fail (E_IS_DAY_VIEW (cal_view));
 	g_return_if_fail (out_start_time != NULL);
@@ -2622,8 +2627,6 @@ static void
 process_component (EDayView *day_view,
                    ECalModelComponent *comp_data)
 {
-	const gchar *uid;
-	gchar *rid = NULL;
 	ECalModel *model;
 	ECalComponent *comp;
 	ESourceRegistry *registry;
@@ -2636,20 +2639,11 @@ process_component (EDayView *day_view,
 	if (day_view->lower == 0 && day_view->upper == 0)
 		return;
 
-	comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp))) {
-		g_object_unref (comp);
-
-		g_message (G_STRLOC ": Could not set icalcomponent on ECalComponent");
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
+	if (!comp) {
+		g_message (G_STRLOC ": Could not set ICalComponent on ECalComponent");
 		return;
 	}
-
-	e_cal_component_get_uid (comp, &uid);
-	if (e_cal_component_is_instance (comp))
-		rid = e_cal_component_get_recurid_as_string (comp);
-	else
-		rid = NULL;
-	/* rid is never used below here, why? */
 
 	/* Add the object */
 	add_event_data.day_view = day_view;
@@ -2659,7 +2653,6 @@ process_component (EDayView *day_view,
 		comp_data->instance_end, &add_event_data);
 
 	g_object_unref (comp);
-	g_free (rid);
 }
 
 static void
@@ -2670,8 +2663,8 @@ update_row (EDayView *day_view,
 	ECalModelComponent *comp_data;
 	ECalModel *model;
 	gint day, event_num;
-	const gchar *uid = NULL;
-	gchar *rid = NULL;
+	const gchar *uid;
+	gchar *rid;
 
 	if (do_cancel_editing)
 		cancel_editing (day_view);
@@ -2682,14 +2675,8 @@ update_row (EDayView *day_view,
 	comp_data = e_cal_model_get_component_at (model, row);
 	g_return_if_fail (comp_data != NULL);
 
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
-	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-		icalproperty *prop;
-
-		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
-		if (prop)
-			rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
-	}
+	uid = i_cal_component_get_uid (comp_data->icalcomp);
+	rid = e_cal_util_component_get_recurid_as_string (comp_data->icalcomp);
 
 	if (e_day_view_find_event_from_uid (day_view, comp_data->client, uid, rid, &day, &event_num))
 		e_day_view_remove_event_cb (day_view, day, event_num, NULL);
@@ -2791,17 +2778,11 @@ model_comps_deleted_cb (ETableModel *etm,
 	for (l = list; l != NULL; l = g_slist_next (l)) {
 		ECalModelComponent *comp_data = l->data;
 		gint day, event_num;
-		const gchar *uid = NULL;
-		gchar *rid = NULL;
+		const gchar *uid;
+		gchar *rid;
 
-		uid = icalcomponent_get_uid (comp_data->icalcomp);
-		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-			icalproperty *prop;
-
-			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
-			if (prop)
-				rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
-		}
+		uid = i_cal_component_get_uid (comp_data->icalcomp);
+		rid = e_cal_util_component_get_recurid_as_string (comp_data->icalcomp);
 
 		if (e_day_view_find_event_from_uid (day_view, comp_data->client, uid, rid, &day, &event_num))
 			e_day_view_remove_event_cb (day_view, day, event_num, NULL);
@@ -2816,11 +2797,11 @@ model_comps_deleted_cb (ETableModel *etm,
 
 static void
 timezone_changed_cb (ECalModel *cal_model,
-                     icaltimezone *old_zone,
-                     icaltimezone *new_zone,
-                     gpointer user_data)
+		     ICalTimezone *old_zone,
+		     ICalTimezone *new_zone,
+		     gpointer user_data)
 {
-	struct icaltimetype tt;
+	ICalTime *tt;
 	time_t lower;
 	EDayView *day_view = (EDayView *) user_data;
 	ECalendarView *cal_view = (ECalendarView *) day_view;
@@ -2839,11 +2820,13 @@ timezone_changed_cb (ECalModel *cal_model,
 
 	/* Recalculate the new start of the first day. We just use exactly
 	 * the same time, but with the new timezone. */
-	tt = icaltime_from_timet_with_zone (
+	tt = i_cal_time_new_from_timet_with_zone (
 		day_view->lower, FALSE,
 		old_zone);
 
-	lower = icaltime_as_timet_with_zone (tt, new_zone);
+	lower = i_cal_time_as_timet_with_zone (tt, new_zone);
+
+	g_clear_object (&tt);
 
 	e_day_view_recalc_day_starts (day_view, lower);
 	e_day_view_update_query (day_view);
@@ -3167,7 +3150,7 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 			if (!is_comp_data_valid (event))
 				continue;
 
-			u = icalcomponent_get_uid (event->comp_data->icalcomp);
+			u = i_cal_component_get_uid (event->comp_data->icalcomp);
 			if (u && !strcmp (uid, u)) {
 				if (!(*callback) (day_view, day, event_num, data))
 					return;
@@ -3184,7 +3167,7 @@ e_day_view_foreach_event_with_uid (EDayView *day_view,
 		if (!is_comp_data_valid (event))
 			continue;
 
-		u = icalcomponent_get_uid (event->comp_data->icalcomp);
+		u = i_cal_component_get_uid (event->comp_data->icalcomp);
 		if (u && !strcmp (uid, u)) {
 			if (!(*callback) (day_view, E_DAY_VIEW_LONG_EVENT, event_num, data))
 				return;
@@ -3308,42 +3291,52 @@ set_style_from_attendee (EDayViewEvent *event,
 	ECalComponent *comp;
 	GSList *attendees = NULL, *l;
 	gchar *address;
-	ECalComponentAttendee *at = NULL;
+	ICalParameterPartstat partstat = I_CAL_PARTSTAT_NONE;
 
 	if (!is_comp_data_valid (event))
 		return;
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	address = itip_get_comp_attendee (
-		registry, comp, event->comp_data->client);
-	e_cal_component_get_attendee_list (comp, &attendees);
-	for (l = attendees; l; l = l->next) {
-		ECalComponentAttendee *attendee = l->data;
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+	if (!comp)
+		return;
 
-		if ((attendee->value && g_strcmp0 (itip_strip_mailto (attendee->value), address) == 0)
-		 || (attendee->sentby && g_strcmp0 (itip_strip_mailto (attendee->sentby), address) == 0)) {
-			at = attendee;
+	address = itip_get_comp_attendee (registry, comp, event->comp_data->client);
+	attendees = e_cal_component_get_attendees (comp);
+	for (l = attendees; l && address; l = l->next) {
+		ECalComponentAttendee *attendee = l->data;
+		const gchar *value, *sentby;
+
+		value = e_cal_component_attendee_get_value (attendee);
+		if (value)
+			value = itip_strip_mailto (value);
+
+		sentby = e_cal_component_attendee_get_sentby (attendee);
+		if (sentby)
+			value = itip_strip_mailto (sentby);
+
+		if ((value && g_ascii_strcasecmp (value, address) == 0) ||
+		    (sentby && g_ascii_strcasecmp (sentby, address) == 0)) {
+			partstat = e_cal_component_attendee_get_partstat (attendee);
 			break;
 		}
 	}
 
-	if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+	if (i_cal_component_get_status (event->comp_data->icalcomp) == I_CAL_STATUS_CANCELLED)
 		gnome_canvas_item_set (event->canvas_item, "strikeout", TRUE, NULL);
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	 * If the attendee is not present, it might have come through a mailing list.
 	 * In that case, we never show the meeting as bold even if it is unaccepted. */
-	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
+	if (partstat == I_CAL_PARTSTAT_NEEDSACTION)
 		gnome_canvas_item_set (event->canvas_item, "bold", TRUE, NULL);
-	else if (at && at->status == ICAL_PARTSTAT_DECLINED)
+	else if (partstat == I_CAL_PARTSTAT_DECLINED)
 		gnome_canvas_item_set (event->canvas_item, "strikeout", TRUE, NULL);
-	else if (at && at->status == ICAL_PARTSTAT_TENTATIVE)
+	else if (partstat == I_CAL_PARTSTAT_TENTATIVE)
 		gnome_canvas_item_set (event->canvas_item, "italic", TRUE, NULL);
-	else if (at && at->status == ICAL_PARTSTAT_DELEGATED)
+	else if (partstat == I_CAL_PARTSTAT_DELEGATED)
 		gnome_canvas_item_set (event->canvas_item, "italic", TRUE, "strikeout", TRUE, NULL);
 
-	e_cal_component_free_attendee_list (attendees);
+	g_slist_free_full (attendees, e_cal_component_attendee_free);
 	g_free (address);
 	g_object_unref (comp);
 }
@@ -3374,7 +3367,7 @@ e_day_view_update_event_label (EDayView *day_view,
 	if (!event->canvas_item || !is_comp_data_valid (event))
 		return;
 
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	summary = i_cal_component_get_summary (event->comp_data->icalcomp);
 	text = summary ? (gchar *) summary : (gchar *) "";
 
 	if (day_view->editing_event_day == day
@@ -3405,8 +3398,8 @@ e_day_view_update_event_label (EDayView *day_view,
 			gint days_shown;
 
 			days_shown = e_day_view_get_days_shown (day_view);
-			description = icalcomponent_get_description (event->comp_data->icalcomp);
-			location = icalcomponent_get_location (event->comp_data->icalcomp);
+			description = i_cal_component_get_description (event->comp_data->icalcomp);
+			location = i_cal_component_get_location (event->comp_data->icalcomp);
 
 			if (description && *description) {
 				if (location && *location)
@@ -3429,7 +3422,7 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if (e_cal_util_component_has_attendee (event->comp_data->icalcomp))
 		set_style_from_attendee (event, registry);
-	else if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+	else if (i_cal_component_get_status (event->comp_data->icalcomp) == I_CAL_STATUS_CANCELLED)
 		gnome_canvas_item_set (event->canvas_item, "strikeout", TRUE, NULL);
 
 	if (free_text)
@@ -3444,8 +3437,7 @@ e_day_view_update_long_event_label (EDayView *day_view,
 	ECalendarView *cal_view;
 	ECalModel *model;
 	ESourceRegistry *registry;
-	const gchar *summary;
-	gboolean free_text = FALSE;
+	gchar *summary;
 
 	cal_view = E_CALENDAR_VIEW (day_view);
 	model = e_calendar_view_get_model (cal_view);
@@ -3462,19 +3454,18 @@ e_day_view_update_long_event_label (EDayView *day_view,
 	if (!event->canvas_item || !is_comp_data_valid (event))
 		return;
 
-	summary = e_calendar_view_get_icalcomponent_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
+	summary = e_calendar_view_dup_component_summary (event->comp_data->icalcomp);
 
 	gnome_canvas_item_set (
 		event->canvas_item,
 		"text", summary ? summary : "",
 		NULL);
 
-	if (free_text)
-		g_free ((gchar *) summary);
+	g_free (summary);
 
 	if (e_cal_util_component_has_attendee (event->comp_data->icalcomp))
 		set_style_from_attendee (event, registry);
-	else if (icalcomponent_get_status (event->comp_data->icalcomp) == ICAL_STATUS_CANCELLED)
+	else if (i_cal_component_get_status (event->comp_data->icalcomp) == I_CAL_STATUS_CANCELLED)
 		gnome_canvas_item_set (event->canvas_item, "strikeout", TRUE, NULL);
 }
 
@@ -3558,16 +3549,16 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 			if (event->comp_data->client != client)
 				continue;
 
-			u = icalcomponent_get_uid (event->comp_data->icalcomp);
+			u = i_cal_component_get_uid (event->comp_data->icalcomp);
 			if (u && !strcmp (uid, u)) {
 				if (rid && *rid) {
-					r = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
-					if (!r || !*r)
-						continue;
-					if (strcmp (rid, r) != 0) {
+					r = e_cal_util_component_get_recurid_as_string (event->comp_data->icalcomp);
+
+					if (!r || !*r || strcmp (rid, r) != 0) {
 						g_free (r);
 						continue;
 					}
+
 					g_free (r);
 				}
 
@@ -3589,7 +3580,7 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 		if (event->comp_data->client != client)
 			continue;
 
-		u = icalcomponent_get_uid (event->comp_data->icalcomp);
+		u = i_cal_component_get_uid (event->comp_data->icalcomp);
 		if (u && !strcmp (uid, u)) {
 			*day_return = E_DAY_VIEW_LONG_EVENT;
 			*event_num_return = event_num;
@@ -3726,8 +3717,9 @@ e_day_view_find_work_week_start (EDayView *day_view,
 	guint offset;
 	GDateWeekday weekday;
 	GDateWeekday first_work_day;
-	struct icaltimetype tt = icaltime_null_time ();
-	icaltimezone *zone;
+	ICalTime *tt = NULL;
+	ICalTimezone *zone;
+	time_t res;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 	zone = e_cal_model_get_timezone (model);
@@ -3754,11 +3746,18 @@ e_day_view_find_work_week_start (EDayView *day_view,
 	if (offset > 0)
 		g_date_subtract_days (&date, offset);
 
-	tt.year = g_date_get_year (&date);
-	tt.month = g_date_get_month (&date);
-	tt.day = g_date_get_day (&date);
+	tt = i_cal_time_new_null_time ();
 
-	return icaltime_as_timet_with_zone (tt, zone);
+	i_cal_time_set_date (tt,
+		g_date_get_year (&date),
+		g_date_get_month (&date),
+		g_date_get_day (&date));
+
+	res = i_cal_time_as_timet_with_zone (tt, zone);
+
+	g_clear_object (&tt);
+
+	return res;
 }
 
 static void
@@ -3768,7 +3767,7 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 	gint day;
 	gchar *str;
 	gint days_shown;
-	struct icaltimetype tt;
+	ICalTime *tt;
 	GDate dt;
 
 	days_shown = e_day_view_get_days_shown (day_view);
@@ -3783,15 +3782,17 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 	day_view->lower = start_time;
 	day_view->upper = day_view->day_starts[days_shown];
 
-	tt = icaltime_from_timet_with_zone (day_view->day_starts[0], FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	tt = i_cal_time_new_from_timet_with_zone (day_view->day_starts[0], FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 	g_date_clear (&dt, 1);
-	g_date_set_dmy (&dt, tt.day, tt.month, tt.year);
+	g_date_set_dmy (&dt, i_cal_time_get_day (tt), i_cal_time_get_month (tt), i_cal_time_get_year (tt));
 	/* To Translators: the %d stands for a week number, it's value between 1 and 52/53 */
 	str = g_strdup_printf (_("Week %d"), g_date_get_iso8601_week_of_year (&dt));
 	gtk_label_set_text (GTK_LABEL (day_view->week_number_label), str);
 	g_free (str);
 
 	e_day_view_recalc_work_week (day_view);
+
+	g_clear_object (&tt);
 }
 
 /* Whether we are displaying a work-week, in which case the display always
@@ -5408,13 +5409,13 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	EDayViewEvent *event;
 	gint event_num;
 	ECalComponent *comp;
-	ECalComponentDateTime date;
-	struct icaltimetype itt;
+	ECalComponentDateTime *date = NULL;
 	time_t dt;
 	ECalModel *model;
 	ECalClient *client;
 	ESourceRegistry *registry;
 	ECalObjModType mod = E_CAL_OBJ_MOD_ALL;
+	ICalTimezone *zone;
 	gint is_date;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
@@ -5436,8 +5437,9 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	/* We use a temporary copy of the comp since we don't want to
 	 * change the original comp here. Otherwise we would not detect that
 	 * the event's time had changed in the "update_event" callback. */
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+	if (!comp)
+		return;
 
 	if (e_cal_component_has_attendees (comp) &&
 	    !itip_organizer_is_user (registry, comp, client)) {
@@ -5446,35 +5448,42 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 		return;
 	}
 
-	date.value = &itt;
-	date.tzid = NULL;
+	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_LEFT_EDGE) {
-		ECalComponentDateTime ecdt;
+		ECalComponentDateTime *ecdt;
 
-		e_cal_component_get_dtstart (comp, &ecdt);
-		is_date = ecdt.value && ecdt.value->is_date;
-		if (!is_date)
-			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		ecdt = e_cal_component_get_dtstart (comp);
+		is_date = ecdt && e_cal_component_datetime_get_value (ecdt) &&
+			  i_cal_time_is_date (e_cal_component_datetime_get_value (ecdt));
+
 		dt = day_view->day_starts[day_view->resize_start_row];
-		*date.value = icaltime_from_timet_with_zone (dt, is_date,
-							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-		cal_comp_set_dtstart_with_oldzone (client, comp, &date);
-		e_cal_component_free_datetime (&ecdt);
-		date.tzid = NULL; /* do not reuse it later */
-	} else {
-		ECalComponentDateTime ecdt;
+		date = e_cal_component_datetime_new_take (
+			i_cal_time_new_from_timet_with_zone (dt, is_date, zone),
+			(zone && !is_date) ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+		cal_comp_set_dtstart_with_oldzone (client, comp, date);
 
-		e_cal_component_get_dtend (comp, &ecdt);
-		is_date = ecdt.value && ecdt.value->is_date;
-		if (!is_date)
-			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+		e_cal_component_datetime_free (ecdt);
+
+		/* do not reuse it later */
+		e_cal_component_datetime_set_tzid (date, NULL);
+	} else {
+		ECalComponentDateTime *ecdt;
+
+		ecdt = e_cal_component_get_dtend (comp);
+		is_date = ecdt && e_cal_component_datetime_get_value (ecdt) &&
+			  i_cal_time_is_date (e_cal_component_datetime_get_value (ecdt));
+
 		dt = day_view->day_starts[day_view->resize_end_row + 1];
-		*date.value = icaltime_from_timet_with_zone (dt, is_date,
-							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-		cal_comp_set_dtend_with_oldzone (client, comp, &date);
-		e_cal_component_free_datetime (&ecdt);
-		date.tzid = NULL; /* do not reuse it later */
+		date = e_cal_component_datetime_new_take (
+			i_cal_time_new_from_timet_with_zone (dt, is_date, zone),
+			(zone && !is_date) ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+		cal_comp_set_dtend_with_oldzone (client, comp, date);
+
+		e_cal_component_datetime_free (ecdt);
+
+		/* do not reuse it later */
+		e_cal_component_datetime_set_tzid (date, NULL);
 	}
 
 	e_cal_component_commit_sequence (comp);
@@ -5487,24 +5496,23 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 		if (mod == E_CAL_OBJ_MOD_THIS) {
 			/* set the correct DTSTART/DTEND on the individual recurrence */
 			if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
-				*date.value = icaltime_from_timet_with_zone (
-					event->comp_data->instance_end, FALSE,
-					e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-				cal_comp_set_dtend_with_oldzone (client, comp, &date);
+				e_cal_component_datetime_take_value (date,
+					i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end, FALSE, zone));
+				cal_comp_set_dtend_with_oldzone (client, comp, date);
 			} else {
-				*date.value = icaltime_from_timet_with_zone (
-					event->comp_data->instance_start, FALSE,
-					e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-				cal_comp_set_dtstart_with_oldzone (client, comp, &date);
+				e_cal_component_datetime_take_value (date,
+					i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start, FALSE, zone));
+				cal_comp_set_dtstart_with_oldzone (client, comp, date);
 			}
 
-			e_cal_component_set_rdate_list (comp, NULL);
-			e_cal_component_set_rrule_list (comp, NULL);
-			e_cal_component_set_exdate_list (comp, NULL);
-			e_cal_component_set_exrule_list (comp, NULL);
+			e_cal_component_set_rdates (comp, NULL);
+			e_cal_component_set_rrules (comp, NULL);
+			e_cal_component_set_exdates (comp, NULL);
+			e_cal_component_set_exrules (comp, NULL);
 		}
-	} else if (e_cal_component_is_instance (comp))
+	} else if (e_cal_component_is_instance (comp)) {
 		mod = E_CAL_OBJ_MOD_THIS;
+	}
 
 	e_cal_component_commit_sequence (comp);
 
@@ -5514,6 +5522,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
  out:
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
+	e_cal_component_datetime_free (date);
 	g_object_unref (comp);
 }
 
@@ -5525,8 +5534,8 @@ e_day_view_finish_resize (EDayView *day_view)
 	EDayViewEvent *event;
 	gint day, event_num;
 	ECalComponent *comp;
-	ECalComponentDateTime date;
-	struct icaltimetype itt;
+	ECalComponentDateTime *date = NULL;
+	ICalTimezone *zone;
 	time_t dt;
 	ECalModel *model;
 	ECalClient *client;
@@ -5560,8 +5569,9 @@ e_day_view_finish_resize (EDayView *day_view)
 	/* We use a temporary shallow copy of the ico since we don't want to
 	 * change the original ico here. Otherwise we would not detect that
 	 * the event's time had changed in the "update_event" callback. */
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+	if (!comp)
+		return;
 
 	if (e_cal_component_has_attendees (comp) &&
 	    !itip_organizer_is_user (registry, comp, client)) {
@@ -5583,19 +5593,20 @@ e_day_view_finish_resize (EDayView *day_view)
 		goto out;
 	}
 
-	date.value = &itt;
-	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
-		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
-							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-		cal_comp_set_dtstart_with_oldzone (client, comp, &date);
+		date = e_cal_component_datetime_new_take (
+			i_cal_time_new_from_timet_with_zone (dt, FALSE, zone),
+			zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+		cal_comp_set_dtstart_with_oldzone (client, comp, date);
 	} else {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
-		*date.value = icaltime_from_timet_with_zone (dt, FALSE,
-							     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-		cal_comp_set_dtend_with_oldzone (client, comp, &date);
+		date = e_cal_component_datetime_new_take (
+			i_cal_time_new_from_timet_with_zone (dt, FALSE, zone),
+			zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+		cal_comp_set_dtend_with_oldzone (client, comp, date);
 	}
 
 	e_cal_component_commit_sequence (comp);
@@ -5622,24 +5633,23 @@ e_day_view_finish_resize (EDayView *day_view)
 		if (mod == E_CAL_OBJ_MOD_THIS) {
 			/* set the correct DTSTART/DTEND on the individual recurrence */
 			if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
-				*date.value = icaltime_from_timet_with_zone (
-					event->comp_data->instance_end, FALSE,
-					e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-				cal_comp_set_dtend_with_oldzone (client, comp, &date);
+				e_cal_component_datetime_take_value (date,
+					i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end, FALSE, zone));
+				cal_comp_set_dtend_with_oldzone (client, comp, date);
 			} else {
-				*date.value = icaltime_from_timet_with_zone (
-					event->comp_data->instance_start, FALSE,
-					e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-				cal_comp_set_dtstart_with_oldzone (client, comp, &date);
+				e_cal_component_datetime_take_value (date,
+					i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start, FALSE, zone));
+				cal_comp_set_dtstart_with_oldzone (client, comp, date);
 			}
 
-			e_cal_component_set_rdate_list (comp, NULL);
-			e_cal_component_set_rrule_list (comp, NULL);
-			e_cal_component_set_exdate_list (comp, NULL);
-			e_cal_component_set_exrule_list (comp, NULL);
+			e_cal_component_set_rdates (comp, NULL);
+			e_cal_component_set_rrules (comp, NULL);
+			e_cal_component_set_exdates (comp, NULL);
+			e_cal_component_set_exrules (comp, NULL);
 		}
-	} else if (e_cal_component_is_instance (comp))
+	} else if (e_cal_component_is_instance (comp)) {
 		mod = E_CAL_OBJ_MOD_THIS;
+	}
 
 	e_cal_component_commit_sequence (comp);
 
@@ -5650,6 +5660,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
  out:
 	g_object_unref (comp);
+	g_clear_object (&date);
 }
 
 static void
@@ -5748,9 +5759,9 @@ e_day_view_add_event (ESourceRegistry *registry,
 	EDayViewEvent event;
 	gint day, offset;
 	gint days_shown;
-	struct icaltimetype start_tt, end_tt;
+	ICalTime *start_tt, *end_tt;
+	ICalTimezone *zone;
 	AddEventData *add_event_data;
-	icaltimezone *zone;
 
 	add_event_data = data;
 
@@ -5770,8 +5781,8 @@ e_day_view_add_event (ESourceRegistry *registry,
 		g_return_if_fail (end > add_event_data->day_view->lower);
 
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->day_view));
-	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
-	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
+	start_tt = i_cal_time_new_from_timet_with_zone (start, FALSE, zone);
+	end_tt = i_cal_time_new_from_timet_with_zone (end, FALSE, zone);
 
 	if (add_event_data->comp_data) {
 		event.comp_data = g_object_ref (add_event_data->comp_data);
@@ -5780,7 +5791,7 @@ e_day_view_add_event (ESourceRegistry *registry,
 		event.comp_data->is_new_component = TRUE;
 		event.comp_data->client = g_object_ref (client);
 		e_cal_component_abort_sequence (comp);
-		event.comp_data->icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
+		event.comp_data->icalcomp = i_cal_component_clone (e_cal_component_get_icalcomponent (comp));
 	}
 
 	event.start = start;
@@ -5796,8 +5807,11 @@ e_day_view_add_event (ESourceRegistry *registry,
 	 * display. */
 	offset = add_event_data->day_view->first_hour_shown * 60
 		+ add_event_data->day_view->first_minute_shown;
-	event.start_minute = start_tt.hour * 60 + start_tt.minute - offset;
-	event.end_minute = end_tt.hour * 60 + end_tt.minute - offset;
+	event.start_minute = i_cal_time_get_hour (start_tt) * 60 + i_cal_time_get_minute (start_tt) - offset;
+	event.end_minute = i_cal_time_get_hour (end_tt) * 60 + i_cal_time_get_minute (end_tt) - offset;
+
+	g_clear_object (&start_tt);
+	g_clear_object (&end_tt);
 
 	event.start_row_or_col = 0;
 	event.num_columns = 0;
@@ -6015,8 +6029,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	/* We don't show the icons while resizing, since we'd have to
 	 * draw them on top of the resize rect. Nor when editing. */
 	num_icons = 0;
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+	if (!comp)
+		return;
 
 	/* Set up Pango prerequisites */
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (day_view));
@@ -6166,7 +6181,7 @@ e_day_view_reshape_day_events (EDayView *day_view,
 		if (!is_comp_data_valid (event))
 			continue;
 
-		current_comp_string = icalcomponent_as_ical_string_r (event->comp_data->icalcomp);
+		current_comp_string = i_cal_component_as_ical_string (event->comp_data->icalcomp);
 		if (day_view->last_edited_comp_string == NULL) {
 			g_free (current_comp_string);
 			continue;
@@ -6221,22 +6236,22 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		    || day_view->resize_event_num != event_num)) {
 			ECalComponent *comp;
 
-			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+			comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+			if (comp) {
+				if (e_cal_component_has_alarms (comp))
+					num_icons++;
+				if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))
+					num_icons++;
+				if (e_cal_component_has_attachments (comp))
+					num_icons++;
+				if (event->different_timezone)
+					num_icons++;
+				if (e_cal_component_has_attendees (comp))
+					num_icons++;
 
-			if (e_cal_component_has_alarms (comp))
-				num_icons++;
-			if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))
-				num_icons++;
-			if (e_cal_component_has_attachments (comp))
-				num_icons++;
-			if (event->different_timezone)
-				num_icons++;
-			if (e_cal_component_has_attendees (comp))
-				num_icons++;
-
-			num_icons += cal_comp_util_get_n_icons (comp, NULL);
-			g_object_unref (comp);
+				num_icons += cal_comp_util_get_n_icons (comp, NULL);
+				g_object_unref (comp);
+			}
 		}
 
 		if (num_icons > 0) {
@@ -7332,7 +7347,7 @@ cancel_editing (EDayView *day_view)
 
 	/* Reset the text to what was in the component */
 
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+	summary = i_cal_component_get_summary (event->comp_data->icalcomp);
 	g_object_set (
 		event->canvas_item,
 		"text", summary ? summary : "",
@@ -7593,7 +7608,7 @@ e_day_view_event_move (ECalendarView *cal_view,
 	gint time_divisions;
 	gint day, event_num, resize_start_row, resize_end_row;
 	time_t start_dt, end_dt;
-	struct icaltimetype start_time, end_time;
+	ICalTime *start_time, *end_time;
 
 	day_view = E_DAY_VIEW (cal_view);
 	day = day_view->editing_event_day;
@@ -7640,24 +7655,28 @@ e_day_view_event_move (ECalendarView *cal_view,
 			return TRUE;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
-		start_time = icaltime_from_timet_with_zone (start_dt, 0, NULL);
-		end_time = icaltime_from_timet_with_zone (end_dt, 0, NULL);
-		icaltime_adjust (&start_time ,-1,0,0,0);
-		icaltime_adjust (&end_time ,-1,0,0,0);
-		start_dt = icaltime_as_timet (start_time);
-		end_dt = icaltime_as_timet (end_time);
+		start_time = i_cal_time_new_from_timet_with_zone (start_dt, 0, NULL);
+		end_time = i_cal_time_new_from_timet_with_zone (end_dt, 0, NULL);
+		i_cal_time_adjust (start_time, -1, 0, 0, 0);
+		i_cal_time_adjust (end_time, -1, 0, 0, 0);
+		start_dt = i_cal_time_as_timet (start_time);
+		end_dt = i_cal_time_as_timet (end_time);
+		g_clear_object (&start_time);
+		g_clear_object (&end_time);
 		break;
 	case E_CAL_VIEW_MOVE_RIGHT:
 		if (day + 1 >= e_day_view_get_days_shown (day_view))
 			return TRUE;
 		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
 		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
-		start_time = icaltime_from_timet_with_zone (start_dt, 0, NULL);
-		end_time = icaltime_from_timet_with_zone (end_dt, 0, NULL);
-		icaltime_adjust (&start_time ,1,0,0,0);
-		icaltime_adjust (&end_time ,1,0,0,0);
-		start_dt = icaltime_as_timet (start_time);
-		end_dt = icaltime_as_timet (end_time);
+		start_time = i_cal_time_new_from_timet_with_zone (start_dt, 0, NULL);
+		end_time = i_cal_time_new_from_timet_with_zone (end_dt, 0, NULL);
+		i_cal_time_adjust (start_time ,1,0,0,0);
+		i_cal_time_adjust (end_time ,1,0,0,0);
+		start_dt = i_cal_time_as_timet (start_time);
+		end_dt = i_cal_time_as_timet (end_time);
+		g_clear_object (&start_time);
+		g_clear_object (&end_time);
 		break;
 	default:
 		return FALSE;
@@ -7677,8 +7696,8 @@ e_day_view_change_event_time (EDayView *day_view,
 	EDayViewEvent *event;
 	gint day, event_num;
 	ECalComponent *comp;
-	ECalComponentDateTime date;
-	struct icaltimetype itt;
+	ECalComponentDateTime *date;
+	ICalTimezone *zone;
 	ECalModel *model;
 	ECalClient *client;
 	ESourceRegistry *registry;
@@ -7704,8 +7723,7 @@ e_day_view_change_event_time (EDayView *day_view,
 	/* We use a temporary shallow copy of the ico since we don't want to
 	 * change the original ico here. Otherwise we would not detect that
 	 * the event's time had changed in the "update_event" callback. */
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
 
 	if (e_cal_component_has_attendees (comp) &&
 	    !itip_organizer_is_user (registry, comp, client)) {
@@ -7713,17 +7731,18 @@ e_day_view_change_event_time (EDayView *day_view,
 		return;
 	}
 
-	date.value = &itt;
-	/* FIXME: Should probably keep the timezone of the original start
-	 * and end times. */
-	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 
-	*date.value = icaltime_from_timet_with_zone (start_dt, FALSE,
-						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-	cal_comp_set_dtstart_with_oldzone (client, comp, &date);
-	*date.value = icaltime_from_timet_with_zone (end_dt, FALSE,
-						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-	cal_comp_set_dtend_with_oldzone (client, comp, &date);
+	date = e_cal_component_datetime_new_take (
+		i_cal_time_new_from_timet_with_zone (start_dt, FALSE, zone),
+		zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+	cal_comp_set_dtstart_with_oldzone (client, comp, date);
+
+	e_cal_component_datetime_take_value (date,
+		i_cal_time_new_from_timet_with_zone (end_dt, FALSE, zone));
+	cal_comp_set_dtend_with_oldzone (client, comp, date);
+
+	e_cal_component_datetime_free (date);
 
 	e_cal_component_commit_sequence (comp);
 
@@ -7743,10 +7762,10 @@ e_day_view_change_event_time (EDayView *day_view,
 		}
 
 		if (mod == E_CAL_OBJ_MOD_THIS) {
-			e_cal_component_set_rdate_list (comp, NULL);
-			e_cal_component_set_rrule_list (comp, NULL);
-			e_cal_component_set_exdate_list (comp, NULL);
-			e_cal_component_set_exrule_list (comp, NULL);
+			e_cal_component_set_rdates (comp, NULL);
+			e_cal_component_set_rrules (comp, NULL);
+			e_cal_component_set_exdates (comp, NULL);
+			e_cal_component_set_exrules (comp, NULL);
 		}
 	} else if (e_cal_component_is_instance (comp))
 		mod = E_CAL_OBJ_MOD_THIS;
@@ -7903,7 +7922,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	gint day, event_num;
 	EDayViewEvent *event;
 	gchar *text = NULL;
-	ECalComponentText summary;
+	ECalComponentText *summary = NULL;
 	ECalComponent *comp;
 	ECalClient *client;
 	gboolean on_server;
@@ -7950,8 +7969,11 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		NULL);
 	g_return_if_fail (text != NULL);
 
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+	if (comp) {
+		g_free (text);
+		return;
+	}
 
 	client = event->comp_data->client;
 	on_server = !event->comp_data->is_new_component;
@@ -7959,7 +7981,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	if (string_is_empty (text) && !on_server) {
 		const gchar *uid;
 
-		e_cal_component_get_uid (comp, &uid);
+		uid = e_cal_component_get_uid (comp);
 
 		e_day_view_foreach_event_with_uid (day_view, uid,
 						   e_day_view_remove_event_cb, NULL);
@@ -7970,24 +7992,25 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	}
 
 	/* Only update the summary if necessary. */
-	e_cal_component_get_summary (comp, &summary);
-	if (summary.value && !strcmp (text, summary.value)) {
+	summary = e_cal_component_get_summary (comp);
+	if (summary && !g_strcmp0 (text, e_cal_component_text_get_value (summary))) {
 		if (day == E_DAY_VIEW_LONG_EVENT)
 			e_day_view_reshape_long_event (day_view, event_num);
 		else
 			e_day_view_update_event_label (
 				day_view, day,
 				event_num);
-	} else if (summary.value || !string_is_empty (text)) {
-		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (comp);
+	} else if ((summary && e_cal_component_text_get_value (summary)) || !string_is_empty (text)) {
+		ICalComponent *icomp = e_cal_component_get_icalcomponent (comp);
 
-		summary.value = text;
-		summary.altrep = NULL;
-		e_cal_component_set_summary (comp, &summary);
+		if (summary)
+			e_cal_component_text_free (summary);
+		summary = e_cal_component_text_new (text, NULL);
+		e_cal_component_set_summary (comp, summary);
 		e_cal_component_commit_sequence (comp);
 
 		if (!on_server) {
-			e_cal_ops_create_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), client, icalcomp,
+			e_cal_ops_create_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), client, icomp,
 				e_calendar_view_component_created_cb, g_object_ref (day_view), g_object_unref);
 
 			/* we remove the object since we either got the update from the server or failed */
@@ -8001,49 +8024,70 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 				}
 
 				if (mod == E_CAL_OBJ_MOD_THIS) {
-					ECalComponentDateTime olddt, dt;
-					icaltimetype itt;
+					ECalComponentDateTime *olddt, *dt;
 
-					dt.value = &itt;
+					olddt = e_cal_component_get_dtstart (comp);
 
-					e_cal_component_get_dtstart (comp, &olddt);
-					if (olddt.value->zone) {
-						*dt.value = icaltime_from_timet_with_zone (
-							event->comp_data->instance_start,
-							olddt.value->is_date,
-							olddt.value->zone);
+					if (olddt && e_cal_component_datetime_get_value (olddt) &&
+					    i_cal_time_get_timezone (e_cal_component_datetime_get_value (olddt))) {
+						ICalTime *itt;
+
+						itt = e_cal_component_datetime_get_value (olddt);
+
+						dt = e_cal_component_datetime_new_take (
+							i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start,
+								i_cal_time_is_date (itt), i_cal_time_get_timezone (itt)),
+							g_strdup (e_cal_component_datetime_get_tzid (olddt)));
 					} else {
-						*dt.value = icaltime_from_timet_with_zone (
-							event->comp_data->instance_start,
-							olddt.value->is_date,
-							e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-					}
-					dt.tzid = olddt.tzid;
-					e_cal_component_set_dtstart (comp, &dt);
-					dt.tzid = NULL;
-					e_cal_component_free_datetime (&olddt);
+						ICalTime *itt;
+						ICalTimezone *zone;
 
-					e_cal_component_get_dtend (comp, &olddt);
-					if (olddt.value->zone) {
-						*dt.value = icaltime_from_timet_with_zone (
-							event->comp_data->instance_end,
-							olddt.value->is_date,
-							olddt.value->zone);
+						zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
+						itt = olddt ? e_cal_component_datetime_get_value (olddt) : NULL;
+
+						dt = e_cal_component_datetime_new_take (
+							i_cal_time_new_from_timet_with_zone (event->comp_data->instance_start,
+								itt ? i_cal_time_is_date (itt) : FALSE, zone),
+							zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+					}
+					e_cal_component_set_dtstart (comp, dt);
+
+					e_cal_component_datetime_free (olddt);
+					e_cal_component_datetime_free (dt);
+
+					olddt = e_cal_component_get_dtend (comp);
+
+					if (olddt && e_cal_component_datetime_get_value (olddt) &&
+					    i_cal_time_get_timezone (e_cal_component_datetime_get_value (olddt))) {
+						ICalTime *itt;
+
+						itt = e_cal_component_datetime_get_value (olddt);
+
+						dt = e_cal_component_datetime_new_take (
+							i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end,
+								i_cal_time_is_date (itt), i_cal_time_get_timezone (itt)),
+							g_strdup (e_cal_component_datetime_get_tzid (olddt)));
 					} else {
-						*dt.value = icaltime_from_timet_with_zone (
-							event->comp_data->instance_end,
-							olddt.value->is_date,
-							e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-					}
-					dt.tzid = olddt.tzid;
-					e_cal_component_set_dtend (comp, &dt);
-					dt.tzid = NULL;
-					e_cal_component_free_datetime (&olddt);
+						ICalTime *itt;
+						ICalTimezone *zone;
 
-					e_cal_component_set_rdate_list (comp, NULL);
-					e_cal_component_set_rrule_list (comp, NULL);
-					e_cal_component_set_exdate_list (comp, NULL);
-					e_cal_component_set_exrule_list (comp, NULL);
+						zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
+						itt = olddt ? e_cal_component_datetime_get_value (olddt) : NULL;
+
+						dt = e_cal_component_datetime_new_take (
+							i_cal_time_new_from_timet_with_zone (event->comp_data->instance_end,
+								itt ? i_cal_time_is_date (itt) : FALSE, zone),
+							zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+					}
+					e_cal_component_set_dtend (comp, dt);
+
+					e_cal_component_datetime_free (olddt);
+					e_cal_component_datetime_free (dt);
+
+					e_cal_component_set_rdates (comp, NULL);
+					e_cal_component_set_rrules (comp, NULL);
+					e_cal_component_set_exdates (comp, NULL);
+					e_cal_component_set_exrules (comp, NULL);
 
 					e_cal_component_commit_sequence (comp);
 				}
@@ -8059,6 +8103,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
  out:
 
+	e_cal_component_text_free (summary);
 	g_object_unref (comp);
 	g_free (text);
 
@@ -8077,7 +8122,7 @@ e_day_view_convert_grid_position_to_time (EDayView *day_view,
 {
 	ECalendarView *cal_view;
 	gint time_divisions;
-	struct icaltimetype tt;
+	ICalTime *tt;
 	time_t val;
 	gint minutes;
 
@@ -8094,15 +8139,18 @@ e_day_view_convert_grid_position_to_time (EDayView *day_view,
 	if (minutes == 60 * 24)
 		return day_view->day_starts[col + 1];
 
-	/* Create an icaltimetype and convert to a time_t. */
-	tt = icaltime_from_timet_with_zone (
+	/* Create an ICalTime and convert to a time_t. */
+	tt = i_cal_time_new_from_timet_with_zone (
 		day_view->day_starts[col],
 		FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-	tt.hour = minutes / 60;
-	tt.minute = minutes % 60;
-	tt.second = 0;
+	i_cal_time_set_hour (tt, minutes / 60);
+	i_cal_time_set_minute (tt, minutes % 60);
+	i_cal_time_set_second (tt, 0);
 
-	val = icaltime_as_timet_with_zone (tt, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	val = i_cal_time_as_timet_with_zone (tt, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+
+	g_clear_object (&tt);
+
 	return val;
 }
 
@@ -8113,7 +8161,7 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
                                           gint *row)
 {
 	ECalendarView *cal_view;
-	struct icaltimetype tt;
+	ICalTime *tt;
 	gint time_divisions;
 	gint day, minutes;
 	gint days_shown;
@@ -8136,13 +8184,15 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 		}
 	}
 
-	/* To find the row we need to convert the time to an icaltimetype,
+	/* To find the row we need to convert the time to an ICalTime,
 	 * calculate the offset in minutes from the top of the display and
 	 * divide it by the mins per row setting. */
-	tt = icaltime_from_timet_with_zone (time, FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	tt = i_cal_time_new_from_timet_with_zone (time, FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 
-	minutes = tt.hour * 60 + tt.minute;
+	minutes = i_cal_time_get_hour (tt) * 60 + i_cal_time_get_minute (tt);
 	minutes -= day_view->first_hour_shown * 60 + day_view->first_minute_shown;
+
+	g_clear_object (&tt);
 
 	*row = minutes / time_divisions;
 
@@ -8737,7 +8787,7 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 		const gchar *summary;
 
 		if (event && is_comp_data_valid (event)) {
-			summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+			summary = i_cal_component_get_summary (event->comp_data->icalcomp);
 			text = g_strdup (summary);
 		} else {
 			text = NULL;
@@ -8914,7 +8964,7 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 		const gchar *summary;
 
 		if (event && is_comp_data_valid (event)) {
-			summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+			summary = i_cal_component_get_summary (event->comp_data->icalcomp);
 			text = g_strdup (summary);
 		} else {
 			text = NULL;
@@ -9050,7 +9100,7 @@ e_day_view_on_drag_data_get (GtkWidget *widget,
                              EDayView *day_view)
 {
 	EDayViewEvent *event;
-	icalcomponent *vcal;
+	ICalComponent *vcal;
 	gint day, event_num;
 	gchar *comp_str;
 
@@ -9085,10 +9135,10 @@ e_day_view_on_drag_data_get (GtkWidget *widget,
 	vcal = e_cal_util_new_top_level ();
 	e_cal_util_add_timezones_from_component (
 		vcal, event->comp_data->icalcomp);
-	icalcomponent_add_component (
-		vcal, icalcomponent_new_clone (event->comp_data->icalcomp));
+	i_cal_component_take_component (
+		vcal, i_cal_component_clone (event->comp_data->icalcomp));
 
-	comp_str = icalcomponent_as_ical_string_r (vcal);
+	comp_str = i_cal_component_as_ical_string (vcal);
 	if (comp_str) {
 		ESource *source;
 		const gchar *source_uid;
@@ -9107,7 +9157,7 @@ e_day_view_on_drag_data_get (GtkWidget *widget,
 		g_free (tmp);
 	}
 
-	icalcomponent_free (vcal);
+	g_clear_object (&vcal);
 	g_free (comp_str);
 }
 
@@ -9126,9 +9176,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 	gint day, start_day, end_day, num_days;
 	gint start_offset, end_offset;
 	ECalComponent *comp;
-	ECalComponentDateTime date;
 	ESourceRegistry *registry;
-	struct icaltimetype itt;
 	time_t dt;
 	gboolean all_day_event;
 	ECalModel *model;
@@ -9166,9 +9214,12 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			x, y, &day,
 			NULL);
 		if (pos != E_CALENDAR_VIEW_POS_OUTSIDE) {
+			ECalComponentDateTime *date;
 			ECalObjModType mod = E_CAL_OBJ_MOD_ALL;
 			ECalClient *client;
 			GtkWindow *toplevel;
+			ICalTime *itt;
+			ICalTimezone *zone;
 
 			num_days = 1;
 			start_offset = 0;
@@ -9218,8 +9269,9 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			 * Otherwise we would not detect that the event's time
 			 * had changed in the "update_event" callback. */
 
-			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+			comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+			if (!comp)
+				return;
 
 			if (e_cal_component_has_attendees (comp) &&
 			    !itip_organizer_is_user (registry, comp, client)) {
@@ -9246,38 +9298,32 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			else
 				all_day_event = FALSE;
 
-			date.value = &itt;
-
+			zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 			dt = day_view->day_starts[day] + start_offset * 60;
-			itt = icaltime_from_timet_with_zone (
-				dt, FALSE,
-				e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+			itt = i_cal_time_new_from_timet_with_zone (dt, FALSE, zone);
 			if (all_day_event) {
-				itt.is_date = TRUE;
-				date.tzid = NULL;
+				i_cal_time_set_is_date (itt, TRUE);
+				date = e_cal_component_datetime_new_take (itt, NULL);
 			} else {
-				/* FIXME: Should probably keep the timezone of
-				 * the original start and end times. */
-				date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+				date = e_cal_component_datetime_new_take (itt,
+					zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 			}
-			cal_comp_set_dtstart_with_oldzone (client, comp, &date);
+			cal_comp_set_dtstart_with_oldzone (client, comp, date);
+			e_cal_component_datetime_free (date);
 
 			if (end_offset == 0)
 				dt = day_view->day_starts[day + num_days];
 			else
 				dt = day_view->day_starts[day + num_days - 1] + end_offset * 60;
-			itt = icaltime_from_timet_with_zone (
-				dt, FALSE,
-				e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+			itt = i_cal_time_new_from_timet_with_zone (dt, FALSE, zone);
 			if (all_day_event) {
-				itt.is_date = TRUE;
-				date.tzid = NULL;
+				i_cal_time_set_is_date (itt, TRUE);
+				date = e_cal_component_datetime_new_take (itt, NULL);
 			} else {
-				/* FIXME: Should probably keep the timezone of
-				 * the original start and end times. */
-				date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+				date = e_cal_component_datetime_new_take (itt,
+					zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 			}
-			cal_comp_set_dtend_with_oldzone (client, comp, &date);
+			cal_comp_set_dtend_with_oldzone (client, comp, date);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
@@ -9299,10 +9345,10 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 				}
 
 				if (mod == E_CAL_OBJ_MOD_THIS) {
-					e_cal_component_set_rdate_list (comp, NULL);
-					e_cal_component_set_rrule_list (comp, NULL);
-					e_cal_component_set_exdate_list (comp, NULL);
-					e_cal_component_set_exrule_list (comp, NULL);
+					e_cal_component_set_rdates (comp, NULL);
+					e_cal_component_set_rrules (comp, NULL);
+					e_cal_component_set_exdates (comp, NULL);
+					e_cal_component_set_exrules (comp, NULL);
 				}
 			} else if (e_cal_component_is_instance (comp))
 				mod = E_CAL_OBJ_MOD_THIS;
@@ -9322,8 +9368,8 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 
 	if (length >= 0 && format == 8 && !drag_from_same_window) {
 		/* We are dragging between different window */
-		icalcomponent *icalcomp;
-		icalcomponent_kind kind;
+		ICalComponent *icomp;
+		ICalComponentKind kind;
 
 		pos = e_day_view_convert_position_in_top_canvas (
 			day_view,
@@ -9332,15 +9378,15 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 		if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
 			goto error;
 
-		icalcomp = icalparser_parse_string ((const gchar *) data);
-		if (!icalcomp)
+		icomp = i_cal_parser_parse_string ((const gchar *) data);
+		if (!icomp)
 			goto error;
 
 		/* check the type of the component */
-		kind = icalcomponent_isa (icalcomp);
-		icalcomponent_free (icalcomp);
+		kind = i_cal_component_isa (icomp);
+		g_clear_object (&icomp);
 
-		if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
+		if (kind != I_CAL_VCALENDAR_COMPONENT && kind != I_CAL_VEVENT_COMPONENT)
 			goto error;
 
 		e_cal_ops_paste_components (model, (const gchar *) data);
@@ -9371,9 +9417,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 	gint start_offset, end_offset;
 	ECalModel *model;
 	ECalComponent *comp;
-	ECalComponentDateTime date;
 	ESourceRegistry *registry;
-	struct icaltimetype itt;
 	time_t dt;
 	gboolean drag_from_same_window;
 	const guchar *data;
@@ -9412,9 +9456,11 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			x, y, &day,
 			&row, NULL);
 		if (pos != E_CALENDAR_VIEW_POS_OUTSIDE) {
+			ECalComponentDateTime *date;
 			ECalObjModType mod = E_CAL_OBJ_MOD_ALL;
 			ECalClient *client;
 			GtkWindow *toplevel;
+			ICalTimezone *zone;
 
 			num_rows = 1;
 			start_offset = 0;
@@ -9462,8 +9508,9 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			 * don't want to change the original comp here.
 			 * Otherwise we would not detect that the event's time
 			 * had changed in the "update_event" callback. */
-			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+			comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
+			if (!comp)
+				return;
 
 			if (e_cal_component_has_attendees (comp) &&
 			    !itip_organizer_is_user (registry, comp, client)) {
@@ -9485,17 +9532,22 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 				return;
 			}
 
-			date.value = &itt;
-			date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+			zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row) + start_offset * 60;
-			*date.value = icaltime_from_timet_with_zone (dt, FALSE,
-								     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-			cal_comp_set_dtstart_with_oldzone (client, comp, &date);
+			date = e_cal_component_datetime_new_take (
+				i_cal_time_new_from_timet_with_zone (dt, FALSE, zone),
+				zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+			cal_comp_set_dtstart_with_oldzone (client, comp, date);
+			e_cal_component_datetime_free (date);
+
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows) - end_offset * 60;
-			*date.value = icaltime_from_timet_with_zone (dt, FALSE,
-								     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-			cal_comp_set_dtend_with_oldzone (client, comp, &date);
+			date = e_cal_component_datetime_new_take (
+				i_cal_time_new_from_timet_with_zone (dt, FALSE, zone),
+				zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
+			cal_comp_set_dtend_with_oldzone (client, comp, date);
+			e_cal_component_datetime_free (date);
+
 			e_cal_component_abort_sequence (comp);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
@@ -9518,10 +9570,10 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 				}
 
 				if (mod == E_CAL_OBJ_MOD_THIS) {
-					e_cal_component_set_rdate_list (comp, NULL);
-					e_cal_component_set_rrule_list (comp, NULL);
-					e_cal_component_set_exdate_list (comp, NULL);
-					e_cal_component_set_exrule_list (comp, NULL);
+					e_cal_component_set_rdates (comp, NULL);
+					e_cal_component_set_rrules (comp, NULL);
+					e_cal_component_set_exdates (comp, NULL);
+					e_cal_component_set_exrules (comp, NULL);
 				}
 			} else if (e_cal_component_is_instance (comp))
 				mod = E_CAL_OBJ_MOD_THIS;
@@ -9541,8 +9593,8 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 
 	if (length >= 0 && format == 8 && !drag_from_same_window) {
 		/* We are dragging between different window */
-		icalcomponent *icalcomp;
-		icalcomponent_kind kind;
+		ICalComponent *icomp;
+		ICalComponentKind kind;
 
 		pos = e_day_view_convert_position_in_main_canvas (
 			day_view,
@@ -9551,15 +9603,15 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 		if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
 			goto error;
 
-		icalcomp = icalparser_parse_string ((const gchar *) data);
-		if (!icalcomp)
+		icomp = i_cal_parser_parse_string ((const gchar *) data);
+		if (!icomp)
 			goto error;
 
 		/* check the type of the component */
-		kind = icalcomponent_isa (icalcomp);
-		icalcomponent_free (icalcomp);
+		kind = i_cal_component_isa (icomp);
+		g_object_unref (&icomp);
 
-		if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
+		if (kind != I_CAL_VCALENDAR_COMPONENT && kind != I_CAL_VEVENT_COMPONENT)
 			goto error;
 
 		e_cal_ops_paste_components (model, (const gchar *) data);
@@ -9677,7 +9729,7 @@ e_day_view_is_editing (EDayView *day_view)
 
 static void
 day_view_update_timezone_name_label (GtkWidget *label,
-				     icaltimezone *zone)
+				     ICalTimezone *zone)
 {
 	const gchar *location, *dash;
 	gchar *markup;
@@ -9687,11 +9739,11 @@ day_view_update_timezone_name_label (GtkWidget *label,
 	if (!zone) {
 		location = NULL;
 	} else {
-		location = icaltimezone_get_location (zone);
+		location = i_cal_timezone_get_location (zone);
 		if (location && *location)
 			location = _(location);
 		if (!location || !*location)
-			location = icaltimezone_get_tzid (zone);
+			location = i_cal_timezone_get_tzid (zone);
 	}
 
 	if (!location)
@@ -9711,7 +9763,7 @@ day_view_update_timezone_name_label (GtkWidget *label,
 void
 e_day_view_update_timezone_name_labels (EDayView *day_view)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 

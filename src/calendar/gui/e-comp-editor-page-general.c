@@ -268,9 +268,14 @@ ecep_general_attendees_add_clicked_cb (GtkButton *button,
 
 	attendee = e_meeting_store_add_attendee_with_defaults (page_general->priv->meeting_store);
 
-	if ((flags & E_COMP_EDITOR_FLAG_DELEGATE) != 0)
-		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("mailto:%s",
-			page_general->priv->user_delegator ? page_general->priv->user_delegator : ""));
+	if ((flags & E_COMP_EDITOR_FLAG_DELEGATE) != 0) {
+		gchar *mailto;
+
+		mailto = g_strdup_printf ("mailto:%s",
+			page_general->priv->user_delegator ? page_general->priv->user_delegator : "");
+		e_meeting_attendee_set_delfrom (attendee, mailto);
+		g_free (mailto);
+	}
 
 	e_meeting_list_view_edit (E_MEETING_LIST_VIEW (page_general->priv->attendees_list_view), attendee);
 
@@ -449,6 +454,7 @@ ecep_general_attendee_added_cb (EMeetingListView *meeting_list_view,
 	ECompEditor *comp_editor;
 	ECompEditorFlags flags;
 	ECalClient *client;
+	gchar *mailto;
 
 	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_general));
 	flags = e_comp_editor_get_flags (comp_editor);
@@ -463,17 +469,18 @@ ecep_general_attendee_added_cb (EMeetingListView *meeting_list_view,
 	client = e_comp_editor_get_target_client (comp_editor);
 
 	/* do not remove here, it did EMeetingListView already */
-	e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("mailto:%s",
-		page_general->priv->user_delegator ? page_general->priv->user_delegator : ""));
+	mailto = g_strdup_printf ("mailto:%s", page_general->priv->user_delegator ? page_general->priv->user_delegator : "");
+	e_meeting_attendee_set_delfrom (attendee, mailto);
+	g_free (mailto);
 
-	if (client && !e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
+	if (client && !e_client_check_capability (E_CLIENT (client), E_CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
 		EMeetingAttendee *delegator;
 
 		delegator = e_meeting_store_find_attendee (page_general->priv->meeting_store,
 			page_general->priv->user_delegator, NULL);
 		g_return_if_fail (delegator != NULL);
 
-		e_meeting_attendee_set_delto (delegator, g_strdup (e_meeting_attendee_get_address (attendee)));
+		e_meeting_attendee_set_delto (delegator, e_meeting_attendee_get_address (attendee));
 	}
 
 	ecep_general_sensitize_widgets (E_COMP_EDITOR_PAGE (page_general), FALSE);
@@ -610,7 +617,7 @@ ecep_general_target_client_notify_cb (ECompEditor *comp_editor,
 
 		target_client = e_comp_editor_get_target_client (comp_editor);
 		if (target_client)
-			supports_color = e_client_check_capability (E_CLIENT (target_client), CAL_STATIC_CAPABILITY_COMPONENT_COLOR);
+			supports_color = e_client_check_capability (E_CLIENT (target_client), E_CAL_STATIC_CAPABILITY_COMPONENT_COLOR);
 
 		e_comp_editor_property_part_set_visible (page_general->priv->comp_color, supports_color);
 	}
@@ -637,7 +644,11 @@ ecep_general_list_view_event_cb (EMeetingListView *list_view,
 		flags = e_comp_editor_get_flags (comp_editor);
 
 		if ((flags & E_COMP_EDITOR_FLAG_DELEGATE) != 0) {
-			e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("mailto:%s", page_general->priv->user_delegator));
+			gchar *mailto;
+
+			mailto = g_strdup_printf ("mailto:%s", page_general->priv->user_delegator);
+			e_meeting_attendee_set_delfrom (attendee, mailto);
+			g_free (mailto);
 		}
 
 		g_clear_object (&comp_editor);
@@ -837,7 +848,7 @@ ecep_general_sensitize_widgets (ECompEditorPage *page,
 		EClient *cl = E_CLIENT (client);
 
 		read_only = e_client_is_readonly (cl);
-		delegate_to_many = e_client_check_capability (cl, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY);
+		delegate_to_many = e_client_check_capability (cl, E_CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY);
 	} else {
 		force_insensitive = TRUE;
 	}
@@ -884,14 +895,14 @@ ecep_general_sensitize_widgets (ECompEditorPage *page,
 
 static void
 ecep_general_fill_widgets (ECompEditorPage *page,
-			   icalcomponent *component)
+			   ICalComponent *component)
 {
 	ECompEditorPageGeneral *page_general;
 	EMeetingListView *attendees_list_view;
-	icalproperty *prop;
+	ICalProperty *prop;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_general_parent_class)->fill_widgets (page, component);
 
@@ -903,24 +914,24 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 	g_slist_free_full (page_general->priv->orig_attendees, g_free);
 	page_general->priv->orig_attendees = NULL;
 
-	for (prop = icalcomponent_get_first_property (component, ICAL_ATTENDEE_PROPERTY);
+	for (prop = i_cal_component_get_first_property (component, I_CAL_ATTENDEE_PROPERTY);
 	     prop;
-	     prop = icalcomponent_get_next_property (component, ICAL_ATTENDEE_PROPERTY)) {
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *address;
 
-		address = itip_strip_mailto (icalproperty_get_attendee (prop));
+		address = itip_strip_mailto (i_cal_property_get_attendee (prop));
 		if (address)
 			page_general->priv->orig_attendees = g_slist_prepend (page_general->priv->orig_attendees, g_strdup (address));
 	}
 
 	page_general->priv->orig_attendees = g_slist_reverse (page_general->priv->orig_attendees);
 
-	prop = icalcomponent_get_first_property (component, ICAL_ORGANIZER_PROPERTY);
+	prop = i_cal_component_get_first_property (component, I_CAL_ORGANIZER_PROPERTY);
 	if (prop) {
-		icalparameter *param;
+		ICalParameter *param;
 		const gchar *organizer;
 
-		organizer = icalproperty_get_organizer (prop);
+		organizer = i_cal_property_get_organizer (prop);
 
 		if (organizer && *organizer) {
 			ECompEditor *comp_editor;
@@ -937,27 +948,31 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 			if (itip_address_is_user (registry, itip_strip_mailto (organizer))) {
 				flags = flags | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER;
 			} else {
-				param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+				param = i_cal_property_get_first_parameter (prop, I_CAL_SENTBY_PARAMETER);
 				if (param) {
-					const gchar *sentby = icalparameter_get_sentby (param);
+					const gchar *sentby = i_cal_parameter_get_sentby (param);
 
 					if (sentby && *sentby &&
 					    itip_address_is_user (registry, itip_strip_mailto (organizer))) {
 						flags = flags | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER;
 					}
+
+					g_object_unref (param);
 				}
 			}
 
 			e_comp_editor_page_general_set_show_attendees (page_general, TRUE);
 
-			param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+			param = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
 			if (param) {
 				const gchar *cn;
 
-				cn = icalparameter_get_cn (param);
+				cn = i_cal_parameter_get_cn (param);
 				if (cn && *cn) {
 					value = camel_internet_address_format_address (cn, itip_strip_mailto (organizer));
 				}
+
+				g_object_unref (param);
 			}
 
 			if (!value)
@@ -985,60 +1000,80 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 	e_meeting_store_remove_all_attendees (page_general->priv->meeting_store);
 	e_meeting_list_view_remove_all_attendees_from_name_selector (attendees_list_view);
 
-	for (prop = icalcomponent_get_first_property (component, ICAL_ATTENDEE_PROPERTY);
+	for (prop = i_cal_component_get_first_property (component, I_CAL_ATTENDEE_PROPERTY);
 	     prop;
-	     prop = icalcomponent_get_next_property (component, ICAL_ATTENDEE_PROPERTY)) {
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *address;
 
-		address = itip_strip_mailto (icalproperty_get_attendee (prop));
+		address = itip_strip_mailto (i_cal_property_get_attendee (prop));
 		if (address) {
 			EMeetingAttendee *attendee;
-			icalparameter *param;
+			ICalParameter *param;
 
 			attendee = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
 
-			/* It is supposed to be together with the MAILTO: protocol */
-			e_meeting_attendee_set_address (attendee, g_strdup (icalproperty_get_attendee (prop)));
+			/* It is supposed to be together with the "mailto:" protocol */
+			e_meeting_attendee_set_address (attendee, i_cal_property_get_attendee (prop));
 
-			param = icalproperty_get_first_parameter (prop, ICAL_MEMBER_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_member (attendee, g_strdup (icalparameter_get_member (param)));
+			param = i_cal_property_get_first_parameter (prop, I_CAL_MEMBER_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_member (attendee, i_cal_parameter_get_member (param));
+				g_object_unref (param);
+			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_CUTYPE_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_cutype (attendee, icalparameter_get_cutype (param));
+			param = i_cal_property_get_first_parameter (prop, I_CAL_CUTYPE_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_cutype (attendee, i_cal_parameter_get_cutype (param));
+				g_object_unref (param);
+			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_ROLE_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_role (attendee, icalparameter_get_role (param));
+			param = i_cal_property_get_first_parameter (prop, I_CAL_ROLE_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_role (attendee, i_cal_parameter_get_role (param));
+				g_object_unref (param);
+			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_rsvp (attendee, icalparameter_get_rsvp (param) == ICAL_RSVP_TRUE);
+			param = i_cal_property_get_first_parameter (prop, I_CAL_RSVP_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_rsvp (attendee, i_cal_parameter_get_rsvp (param) == I_CAL_RSVP_TRUE);
+				g_object_unref (param);
+			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDTO_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_delto (attendee, g_strdup (icalparameter_get_delegatedto (param)));
+			param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDTO_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_delto (attendee, i_cal_parameter_get_delegatedto (param));
+				g_object_unref (param);
+			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_delfrom (attendee, g_strdup (icalparameter_get_delegatedfrom (param)));
+			param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_delfrom (attendee, i_cal_parameter_get_delegatedfrom (param));
+				g_object_unref (param);
+			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_status (attendee, icalparameter_get_partstat (param));
+			param = i_cal_property_get_first_parameter (prop, I_CAL_PARTSTAT_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_partstat (attendee, i_cal_parameter_get_partstat (param));
+				g_object_unref (param);
+			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_sentby (attendee, g_strdup (icalparameter_get_sentby (param)));
+			param = i_cal_property_get_first_parameter (prop, I_CAL_SENTBY_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_sentby (attendee, i_cal_parameter_get_sentby (param));
+				g_object_unref (param);
+			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_cn (attendee, g_strdup (icalparameter_get_cn (param)));
+			param = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_cn (attendee, i_cal_parameter_get_cn (param));
+				g_object_unref (param);
+			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_LANGUAGE_PARAMETER);
-			if (param)
-				e_meeting_attendee_set_language (attendee, g_strdup (icalparameter_get_language (param)));
+			param = i_cal_property_get_first_parameter (prop, I_CAL_LANGUAGE_PARAMETER);
+			if (param) {
+				e_meeting_attendee_set_language (attendee, i_cal_parameter_get_language (param));
+				g_object_unref (param);
+			}
 
 			e_meeting_store_add_attendee (page_general->priv->meeting_store, attendee);
 			e_meeting_list_view_add_attendee_to_name_selector (attendees_list_view, attendee);
@@ -1050,20 +1085,20 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 
 static gboolean
 ecep_general_fill_component (ECompEditorPage *page,
-			     icalcomponent *component)
+			     ICalComponent *component)
 {
 	ECompEditorPageGeneral *page_general;
-	icalproperty *prop;
+	ICalProperty *prop;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_GENERAL (page), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	page_general = E_COMP_EDITOR_PAGE_GENERAL (page);
 
 	if (page_general->priv->comp_color)
 		e_comp_editor_property_part_fill_component (page_general->priv->comp_color, component);
 
-	cal_comp_util_remove_all_properties (component, ICAL_ATTENDEE_PROPERTY);
+	e_cal_util_component_remove_property_by_kind (component, I_CAL_ATTENDEE_PROPERTY, TRUE);
 
 	if (e_comp_editor_page_general_get_show_attendees (page_general)) {
 		const GPtrArray *attendees;
@@ -1102,29 +1137,31 @@ ecep_general_fill_component (ECompEditorPage *page,
 		if ((flags & (E_COMP_EDITOR_FLAG_IS_NEW | E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER)) != 0 &&
 		    ecep_general_get_organizer (page_general, &organizer_name, &organizer_mailto, NULL)) {
 			const gchar *cal_email_address;
-			icalparameter *param;
+			ICalParameter *param;
 
-			prop = icalcomponent_get_first_property (component, ICAL_ORGANIZER_PROPERTY);
+			prop = i_cal_component_get_first_property (component, I_CAL_ORGANIZER_PROPERTY);
 			if (!prop) {
-				prop = icalproperty_new_organizer (organizer_mailto ? organizer_mailto : organizer_name);
-				icalcomponent_add_property (component, prop);
+				prop = i_cal_property_new_organizer (organizer_mailto ? organizer_mailto : organizer_name);
+				i_cal_component_take_property (component, prop);
+				prop = i_cal_component_get_first_property (component, I_CAL_ORGANIZER_PROPERTY);
 			} else {
-				icalproperty_set_organizer (prop, organizer_mailto ? organizer_mailto : organizer_name);
+				i_cal_property_set_organizer (prop, organizer_mailto ? organizer_mailto : organizer_name);
 			}
 
-			param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+			param = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
 			if (organizer_name && *organizer_name) {
 				if (!param) {
-					param = icalparameter_new_cn (organizer_name);
-					icalproperty_add_parameter (prop, param);
+					param = i_cal_parameter_new_cn (organizer_name);
+					i_cal_property_add_parameter (prop, param);
 				} else {
-					icalparameter_set_cn (param, organizer_name);
+					i_cal_parameter_set_cn (param, organizer_name);
 				}
 			} else if (param) {
-				icalproperty_remove_parameter_by_kind (prop, ICAL_CN_PARAMETER);
+				i_cal_property_remove_parameter_by_kind (prop, I_CAL_CN_PARAMETER);
 			}
+			g_clear_object (&param);
 
-			param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+			param = i_cal_property_get_first_parameter (prop, I_CAL_SENTBY_PARAMETER);
 			cal_email_address = e_comp_editor_get_cal_email_address (comp_editor);
 			if (cal_email_address && *cal_email_address) {
 				gchar *sentby;
@@ -1135,19 +1172,22 @@ ecep_general_fill_component (ECompEditorPage *page,
 
 				if (differs) {
 					if (!param) {
-						param = icalparameter_new_sentby (sentby);
-						icalproperty_add_parameter (prop, param);
+						param = i_cal_parameter_new_sentby (sentby);
+						i_cal_property_add_parameter (prop, param);
 					} else {
-						icalparameter_set_sentby (param, sentby);
+						i_cal_parameter_set_sentby (param, sentby);
 					}
 				} else if (param) {
-					icalproperty_remove_parameter_by_kind (prop, ICAL_SENTBY_PARAMETER);
+					i_cal_property_remove_parameter_by_kind (prop, I_CAL_SENTBY_PARAMETER);
 				}
 
 				g_free (sentby);
 			} else if (param) {
-				icalproperty_remove_parameter_by_kind (prop, ICAL_SENTBY_PARAMETER);
+				i_cal_property_remove_parameter_by_kind (prop, I_CAL_SENTBY_PARAMETER);
 			}
+			g_clear_object (&param);
+
+			g_object_unref (prop);
 		}
 
 		/* Attendees */
@@ -1160,7 +1200,7 @@ ecep_general_fill_component (ECompEditorPage *page,
 
 			address = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
 			if (address) {
-				icalparameter *param;
+				ICalParameter *param;
 
 				if ((flags & E_COMP_EDITOR_FLAG_DELEGATE) != 0 &&
 				    (e_meeting_attendee_is_set_delfrom (attendee) || e_meeting_attendee_is_set_delto (attendee)) &&
@@ -1169,48 +1209,49 @@ ecep_general_fill_component (ECompEditorPage *page,
 
 				g_hash_table_insert (known_attendees, (gpointer) address, GINT_TO_POINTER (1));
 
-				prop = icalproperty_new_attendee (e_meeting_attendee_get_address (attendee));
-				icalcomponent_add_property (component, prop);
+				prop = i_cal_property_new_attendee (e_meeting_attendee_get_address (attendee));
 
 				added_attendees++;
 
 				if (e_meeting_attendee_is_set_member (attendee)) {
-					param = icalparameter_new_member (e_meeting_attendee_get_member (attendee));
-					icalproperty_add_parameter (prop, param);
+					param = i_cal_parameter_new_member (e_meeting_attendee_get_member (attendee));
+					i_cal_property_take_parameter (prop, param);
 				}
 
-				param = icalparameter_new_cutype (e_meeting_attendee_get_cutype (attendee));
-				icalproperty_add_parameter (prop, param);
+				param = i_cal_parameter_new_cutype (e_meeting_attendee_get_cutype (attendee));
+				i_cal_property_take_parameter (prop, param);
 
-				param = icalparameter_new_role (e_meeting_attendee_get_role (attendee));
-				icalproperty_add_parameter (prop, param);
+				param = i_cal_parameter_new_role (e_meeting_attendee_get_role (attendee));
+				i_cal_property_take_parameter (prop, param);
 
-				param = icalparameter_new_partstat (e_meeting_attendee_get_status (attendee));
-				icalproperty_add_parameter (prop, param);
+				param = i_cal_parameter_new_partstat (e_meeting_attendee_get_partstat (attendee));
+				i_cal_property_take_parameter (prop, param);
 
-				param = icalparameter_new_rsvp (e_meeting_attendee_get_rsvp (attendee) ? ICAL_RSVP_TRUE : ICAL_RSVP_FALSE);
-				icalproperty_add_parameter (prop, param);
+				param = i_cal_parameter_new_rsvp (e_meeting_attendee_get_rsvp (attendee) ? I_CAL_RSVP_TRUE : I_CAL_RSVP_FALSE);
+				i_cal_property_take_parameter (prop, param);
 
 				if (e_meeting_attendee_is_set_delfrom (attendee)) {
-					param = icalparameter_new_delegatedfrom (e_meeting_attendee_get_delfrom (attendee));
-					icalproperty_add_parameter (prop, param);
+					param = i_cal_parameter_new_delegatedfrom (e_meeting_attendee_get_delfrom (attendee));
+					i_cal_property_take_parameter (prop, param);
 				}
 				if (e_meeting_attendee_is_set_delto (attendee)) {
-					param = icalparameter_new_delegatedto (e_meeting_attendee_get_delto (attendee));
-					icalproperty_add_parameter (prop, param);
+					param = i_cal_parameter_new_delegatedto (e_meeting_attendee_get_delto (attendee));
+					i_cal_property_take_parameter (prop, param);
 				}
 				if (e_meeting_attendee_is_set_sentby (attendee)) {
-					param = icalparameter_new_sentby (e_meeting_attendee_get_sentby (attendee));
-					icalproperty_add_parameter (prop, param);
+					param = i_cal_parameter_new_sentby (e_meeting_attendee_get_sentby (attendee));
+					i_cal_property_take_parameter (prop, param);
 				}
 				if (e_meeting_attendee_is_set_cn (attendee)) {
-					param = icalparameter_new_cn (e_meeting_attendee_get_cn (attendee));
-					icalproperty_add_parameter (prop, param);
+					param = i_cal_parameter_new_cn (e_meeting_attendee_get_cn (attendee));
+					i_cal_property_take_parameter (prop, param);
 				}
 				if (e_meeting_attendee_is_set_language (attendee)) {
-					param = icalparameter_new_language (e_meeting_attendee_get_language (attendee));
-					icalproperty_add_parameter (prop, param);
+					param = i_cal_parameter_new_language (e_meeting_attendee_get_language (attendee));
+					i_cal_property_take_parameter (prop, param);
 				}
+
+				i_cal_component_take_property (component, prop);
 			}
 		}
 
@@ -1231,7 +1272,7 @@ ecep_general_fill_component (ECompEditorPage *page,
 
 		g_clear_object (&comp_editor);
 	} else {
-		cal_comp_util_remove_all_properties (component, ICAL_ORGANIZER_PROPERTY);
+		e_cal_util_component_remove_property_by_kind (component, I_CAL_ORGANIZER_PROPERTY, TRUE);
 	}
 
 	return E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_general_parent_class)->fill_component (page, component);
@@ -1432,32 +1473,29 @@ ecep_general_constructed (GObject *object)
 	g_signal_connect (page_general->priv->source_combo_box, "changed",
 		G_CALLBACK (ecep_general_source_combo_box_changed_cb), page_general);
 
-	/* Returns NULL when not supported by libical */
 	part = e_comp_editor_property_part_color_new ();
-	if (part) {
-		widget = e_comp_editor_property_part_get_edit_widget (part);
+	widget = e_comp_editor_property_part_get_edit_widget (part);
 
-		if (widget) {
-			const gchar *tooltip;
+	if (widget) {
+		const gchar *tooltip;
 
-			gtk_box_pack_start (GTK_BOX (page_general->priv->source_and_color_hbox), widget, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (page_general->priv->source_and_color_hbox), widget, FALSE, FALSE, 0);
 
-			if (g_strcmp0 (page_general->priv->source_extension_name, E_SOURCE_EXTENSION_CALENDAR) == 0) {
-				tooltip = _("Override color of the event. If not set, then color of the calendar is used.");
-			} else if (g_strcmp0 (page_general->priv->source_extension_name, E_SOURCE_EXTENSION_MEMO_LIST) == 0) {
-				tooltip = _("Override color of the memo. If not set, then color of the memo list is used.");
-			} else { /* E_SOURCE_EXTENSION_TASK_LIST */
-				tooltip = _("Override color of the task. If not set, then color of the task list is used.");
-			}
-
-			gtk_widget_set_tooltip_text (widget, tooltip);
+		if (g_strcmp0 (page_general->priv->source_extension_name, E_SOURCE_EXTENSION_CALENDAR) == 0) {
+			tooltip = _("Override color of the event. If not set, then color of the calendar is used.");
+		} else if (g_strcmp0 (page_general->priv->source_extension_name, E_SOURCE_EXTENSION_MEMO_LIST) == 0) {
+			tooltip = _("Override color of the memo. If not set, then color of the memo list is used.");
+		} else { /* E_SOURCE_EXTENSION_TASK_LIST */
+			tooltip = _("Override color of the task. If not set, then color of the task list is used.");
 		}
 
-		page_general->priv->comp_color_changed_handler_id = g_signal_connect_swapped (part, "changed",
-			G_CALLBACK (e_comp_editor_page_emit_changed), page_general);
-
-		page_general->priv->comp_color = part;
+		gtk_widget_set_tooltip_text (widget, tooltip);
 	}
+
+	page_general->priv->comp_color_changed_handler_id = g_signal_connect_swapped (part, "changed",
+		G_CALLBACK (e_comp_editor_page_emit_changed), page_general);
+
+	page_general->priv->comp_color = part;
 
 	widget = gtk_button_new_with_mnemonic (C_("ECompEditor", "Atte_ndees..."));
 	g_object_set (G_OBJECT (widget),

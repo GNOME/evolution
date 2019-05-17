@@ -58,10 +58,10 @@
 struct _ETimezoneDialogPrivate {
 	/* The selected timezone. May be NULL for a 'local time' (i.e. when
 	 * the displayed name is ""). */
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	/* In case a non-builtin timezone is used. */
-	GSList *custom_zones; /* icaltimezone * */
+	GSList *custom_zones; /* ICalTimezone * */
 
 	GtkBuilder *builder;
 
@@ -99,10 +99,10 @@ static gboolean on_map_button_pressed		(GtkWidget	*w,
 						 GdkEvent	*button_event,
 						 gpointer	 data);
 
-static icaltimezone * get_zone_from_point	(ETimezoneDialog *etd,
+static ICalTimezone * get_zone_from_point	(ETimezoneDialog *etd,
 						 EMapPoint	*point);
 static void	set_map_timezone		(ETimezoneDialog *etd,
-						 icaltimezone    *zone);
+						 const ICalTimezone *zone);
 static void	on_combo_changed		(GtkComboBox	*combo,
 						 ETimezoneDialog *etd);
 
@@ -165,8 +165,10 @@ e_timezone_dialog_dispose (GObject *object)
 		priv->index = NULL;
 	}
 
-	g_slist_free (priv->custom_zones);
+	g_slist_free_full (priv->custom_zones, g_object_unref);
 	priv->custom_zones = NULL;
+
+	g_clear_object (&priv->zone);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_timezone_dialog_parent_class)->dispose (object);
@@ -225,7 +227,7 @@ static void
 e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
-	icalarray *zones;
+	ICalArray *zones;
 	GtkComboBox *combo;
 	GList *l, *list_items = NULL;
 	GtkTreeStore *tree_store;
@@ -235,7 +237,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	GtkStyleContext *style_context;
 	GHashTable *parents;
 	const gchar *css;
-	gint i;
+	gint ii, sz;
 	GError *error = NULL;
 
 	priv = etd->priv;
@@ -243,23 +245,28 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	g_hash_table_remove_all (priv->index);
 
 	/* Get the array of builtin timezones. */
-	zones = icaltimezone_get_builtin_timezones ();
+	zones = i_cal_timezone_get_builtin_timezones ();
 
-	for (i = 0; i < zones->num_elements; i++) {
-		icaltimezone *zone;
+	sz = i_cal_array_size (zones);
+	for (ii = 0; ii < sz; ii++) {
+		ICalTimezone *zone;
 		gchar *location;
 
-		zone = icalarray_element_at (zones, i);
+		zone = i_cal_timezone_array_element_at (zones, ii);
+		if (!zone)
+			continue;
 
-		location = _(icaltimezone_get_location (zone));
+		location = _(i_cal_timezone_get_location (zone));
 
 		e_map_add_point (
 			priv->map, location,
-			icaltimezone_get_longitude (zone),
-			icaltimezone_get_latitude (zone),
+			i_cal_timezone_get_longitude (zone),
+			i_cal_timezone_get_latitude (zone),
 			E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
 		list_items = g_list_prepend (list_items, location);
+
+		g_clear_object (&zone);
 	}
 
 	list_items = g_list_sort (list_items, (GCompareFunc) g_utf8_collate);
@@ -286,7 +293,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	parents = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	tree_store = gtk_tree_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-	for (l = list_items, i = 0; l != NULL; l = l->next, ++i) {
+	for (l = list_items, ii = 0; l != NULL; l = l->next, ++ii) {
 		GtkTreeIter *piter, *parent = NULL;
 		const gchar *name = NULL;
 		const gchar *location = l->data;
@@ -415,19 +422,19 @@ get_local_offset (void)
 }
 #endif
 
-static icaltimezone *
+static ICalTimezone *
 get_local_timezone (void)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	gchar *location;
 
 	tzset ();
 	location = e_cal_system_timezone_get_location ();
 
 	if (location)
-		zone = icaltimezone_get_builtin_timezone (location);
+		zone = i_cal_timezone_get_builtin_timezone (location);
 	else
-		zone = icaltimezone_get_utc_timezone ();
+		zone = i_cal_timezone_get_utc_timezone ();
 
 	g_free (location);
 
@@ -517,35 +524,36 @@ format_utc_offset (gint utc_offset,
 }
 
 static gchar *
-zone_display_name_with_offset (icaltimezone *zone)
+zone_display_name_with_offset (const ICalTimezone *zone)
 {
 	const gchar *display_name;
 	struct tm local;
-	struct icaltimetype tt;
+	ICalTime *tt;
 	gint offset;
 	gchar buffer[100];
 	time_t now = time (NULL);
 
 	gmtime_r ((const time_t *) &now, &local);
-	tt = tm_to_icaltimetype (&local, TRUE);
-	offset = icaltimezone_get_utc_offset (zone, &tt, NULL);
+	tt = e_cal_util_tm_to_icaltime (&local, TRUE);
+	offset = i_cal_timezone_get_utc_offset ((ICalTimezone *) zone, tt, NULL);
+	g_clear_object (&tt);
 
 	format_utc_offset (offset, buffer);
 
-	display_name = icaltimezone_get_display_name (zone);
-	if (icaltimezone_get_builtin_timezone (display_name))
+	display_name = i_cal_timezone_get_display_name (zone);
+	if (i_cal_timezone_get_builtin_timezone (display_name))
 		display_name = _(display_name);
 
 	return g_strdup_printf ("%s (%s)", display_name, buffer);
 }
 
 static const gchar *
-zone_display_name (icaltimezone *zone)
+zone_display_name (const ICalTimezone *zone)
 {
 	const gchar *display_name;
 
-	display_name = icaltimezone_get_display_name (zone);
-	if (icaltimezone_get_builtin_timezone (display_name))
+	display_name = i_cal_timezone_get_display_name (zone);
+	if (i_cal_timezone_get_builtin_timezone (display_name))
 		display_name = _(display_name);
 
 	return display_name;
@@ -585,7 +593,7 @@ on_map_motion (GtkWidget *widget,
 	ETimezoneDialog *etd;
 	ETimezoneDialogPrivate *priv;
 	gdouble longitude, latitude;
-	icaltimezone *new_zone;
+	ICalTimezone *new_zone;
 	gchar *display = NULL;
 
 	etd = E_TIMEZONE_DIALOG (data);
@@ -614,6 +622,7 @@ on_map_motion (GtkWidget *widget,
 	display = zone_display_name_with_offset (new_zone);
 	gtk_label_set_text (GTK_LABEL (priv->preview_label), display);
 
+	g_clear_object (&new_zone);
 	g_free (display);
 
 	return TRUE;
@@ -713,6 +722,7 @@ on_map_button_pressed (GtkWidget *w,
 				E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 		priv->point_selected = priv->point_hover;
 
+		g_clear_object (&priv->zone);
 		priv->zone = get_zone_from_point (etd, priv->point_selected);
 		timezone_combo_set_active_text (etd, zone_display_name (priv->zone));
 	}
@@ -722,13 +732,13 @@ on_map_button_pressed (GtkWidget *w,
 
 /* Returns the translated timezone location of the given EMapPoint,
  * e.g. "Europe/London". */
-static icaltimezone *
+static ICalTimezone *
 get_zone_from_point (ETimezoneDialog *etd,
                      EMapPoint *point)
 {
-	icalarray *zones;
+	ICalArray *zones;
 	gdouble longitude, latitude;
-	gint i;
+	gint ii, sz;
 
 	if (point == NULL)
 		return NULL;
@@ -736,23 +746,27 @@ get_zone_from_point (ETimezoneDialog *etd,
 	e_map_point_get_location (point, &longitude, &latitude);
 
 	/* Get the array of builtin timezones. */
-	zones = icaltimezone_get_builtin_timezones ();
+	zones = i_cal_timezone_get_builtin_timezones ();
+	sz = i_cal_array_size (zones);
 
-	for (i = 0; i < zones->num_elements; i++) {
-		icaltimezone *zone;
+	for (ii = 0; ii < sz; ii++) {
+		ICalTimezone *zone;
 		gdouble zone_longitude, zone_latitude;
 
-		zone = icalarray_element_at (zones, i);
-		zone_longitude = icaltimezone_get_longitude (zone);
-		zone_latitude = icaltimezone_get_latitude (zone);
+		zone = i_cal_timezone_array_element_at (zones, ii);
+		zone_longitude = i_cal_timezone_get_longitude (zone);
+		zone_latitude = i_cal_timezone_get_latitude (zone);
 
 		if (zone_longitude - 0.005 <= longitude &&
 		    zone_longitude + 0.005 >= longitude &&
 		    zone_latitude - 0.005 <= latitude &&
 		    zone_latitude + 0.005 >= latitude)
 		{
+			/* The caller owns the reference */
 			return zone;
 		}
+
+		g_clear_object (&zone);
 	}
 
 	g_return_val_if_reached (NULL);
@@ -762,10 +776,10 @@ get_zone_from_point (ETimezoneDialog *etd,
  * e_timezone_dialog_get_timezone:
  * @etd: the timezone dialog
  *
- * Return value: the currently-selected timezone, or %NULL if no timezone
- * is selected.
+ * Returns: (transfer none): the currently-selected timezone as an #ICalTimezone obejct,
+ *    or %NULL if no timezone is selected.
  **/
-icaltimezone *
+ICalTimezone *
 e_timezone_dialog_get_timezone (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
@@ -789,7 +803,7 @@ e_timezone_dialog_get_timezone (ETimezoneDialog *etd)
 
 void
 e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
-                                icaltimezone *zone)
+				const ICalTimezone *zone)
 {
 	ETimezoneDialogPrivate *priv;
 	gchar *display = NULL;
@@ -803,13 +817,13 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 		display = zone_display_name_with_offset (zone);
 
 	/* Add any unknown/custom timezone with defined location */
-	if (zone && icaltimezone_get_location (zone) &&
-	    !g_hash_table_lookup (etd->priv->index, icaltimezone_get_location (zone))) {
+	if (zone && i_cal_timezone_get_location (zone) &&
+	    !g_hash_table_lookup (etd->priv->index, i_cal_timezone_get_location (zone))) {
 		GtkTreeStore *tree_store;
 		GtkTreeIter *piter, iter;
 		const gchar *location;
 
-		location = icaltimezone_get_location (zone);
+		location = i_cal_timezone_get_location (zone);
 		tree_store = GTK_TREE_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (etd->priv->timezone_combo)));
 
 		gtk_tree_store_prepend (tree_store, &iter, NULL);
@@ -820,12 +834,14 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 
 		g_hash_table_insert (etd->priv->index, (gchar *) location, piter);
 
-		etd->priv->custom_zones = g_slist_prepend (etd->priv->custom_zones, zone);
+		etd->priv->custom_zones = g_slist_prepend (etd->priv->custom_zones, e_cal_util_copy_timezone (zone));
 	}
 
 	priv = etd->priv;
 
-	priv->zone = zone;
+	g_clear_object (&priv->zone);
+
+	priv->zone = zone ? e_cal_util_copy_timezone (zone) : NULL;
 
 	gtk_label_set_text (
 		GTK_LABEL (priv->preview_label),
@@ -851,7 +867,7 @@ e_timezone_dialog_get_toplevel (ETimezoneDialog *etd)
 
 static void
 set_map_timezone (ETimezoneDialog *etd,
-                  icaltimezone *zone)
+		  const ICalTimezone *zone)
 {
 	ETimezoneDialogPrivate *priv;
 	EMapPoint *point;
@@ -860,8 +876,8 @@ set_map_timezone (ETimezoneDialog *etd,
 	priv = etd->priv;
 
 	if (zone) {
-		zone_longitude = icaltimezone_get_longitude (zone);
-		zone_latitude = icaltimezone_get_latitude (zone);
+		zone_longitude = i_cal_timezone_get_longitude (zone);
+		zone_latitude = i_cal_timezone_get_latitude (zone);
 		point = e_map_get_closest_point (
 			priv->map,
 			zone_longitude,
@@ -884,42 +900,48 @@ on_combo_changed (GtkComboBox *combo_box,
 {
 	ETimezoneDialogPrivate *priv;
 	gchar *new_zone_name;
-	icalarray *zones;
-	icaltimezone *map_zone = NULL;
+	ICalArray *zones;
+	ICalTimezone *map_zone = NULL;
 	gchar *location;
-	gint i;
+	gint ii, sz;
 
 	priv = etd->priv;
 
 	timezone_combo_get_active_text (
 		GTK_COMBO_BOX (priv->timezone_combo), &new_zone_name);
 
+	g_clear_object (&priv->zone);
+
 	if (!new_zone_name || !*new_zone_name)
 		priv->zone = NULL;
 	else if (!g_utf8_collate (new_zone_name, _("UTC")))
-		priv->zone = icaltimezone_get_utc_timezone ();
+		priv->zone = e_cal_util_copy_timezone (i_cal_timezone_get_utc_timezone ());
 	else {
 		priv->zone = NULL;
 
-		zones = icaltimezone_get_builtin_timezones ();
-		for (i = 0; i < zones->num_elements; i++) {
-			map_zone = icalarray_element_at (zones, i);
-			location = _(icaltimezone_get_location (map_zone));
+		zones = i_cal_timezone_get_builtin_timezones ();
+		sz = i_cal_array_size (zones);
+
+		for (ii = 0; ii < sz; ii++) {
+			map_zone = i_cal_timezone_array_element_at (zones, ii);
+			location = _(i_cal_timezone_get_location (map_zone));
 			if (!g_utf8_collate (new_zone_name, location)) {
 				priv->zone = map_zone;
 				break;
 			}
+
+			g_clear_object (&map_zone);
 		}
 
 		if (!priv->zone) {
 			GSList *link;
 
 			for (link = priv->custom_zones; link; link = g_slist_next (link)) {
-				icaltimezone *zone = link->data;
+				ICalTimezone *zone = link->data;
 
-				if (zone && g_utf8_collate (new_zone_name, _(icaltimezone_get_location (zone))) == 0) {
+				if (zone && g_utf8_collate (new_zone_name, _(i_cal_timezone_get_location (zone))) == 0) {
 					map_zone = zone;
-					priv->zone = zone;
+					priv->zone = e_cal_util_copy_timezone (zone);
 					break;
 				}
 			}

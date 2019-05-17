@@ -247,78 +247,74 @@ ecep_attachments_sensitize_widgets (ECompEditorPage *page,
 
 static void
 ecep_attachments_fill_widgets (ECompEditorPage *page,
-			       icalcomponent *component)
+			       ICalComponent *component)
 {
 	ECompEditorPageAttachments *page_attachments;
 	EAttachmentStore *store;
-	icalproperty *prop;
+	ICalProperty *prop;
 	const gchar *uid;
 	gint index;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_ATTACHMENTS (page));
-	g_return_if_fail (component != NULL);
+	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
 	E_COMP_EDITOR_PAGE_CLASS (e_comp_editor_page_attachments_parent_class)->fill_widgets (page, component);
 
 	page_attachments = E_COMP_EDITOR_PAGE_ATTACHMENTS (page);
 	store = E_ATTACHMENT_STORE (page_attachments->priv->store);
 
-	uid = icalcomponent_get_uid (component);
+	uid = i_cal_component_get_uid (component);
 
 	g_slist_free_full (page_attachments->priv->temporary_files, temporary_file_free);
 	page_attachments->priv->temporary_files = NULL;
 
 	e_attachment_store_remove_all (store);
 
-	for (prop = icalcomponent_get_first_property (component, ICAL_ATTACH_PROPERTY), index = 0;
+	for (prop = i_cal_component_get_first_property (component, I_CAL_ATTACH_PROPERTY), index = 0;
 	     prop;
-	     prop = icalcomponent_get_next_property (component, ICAL_ATTACH_PROPERTY), index++) {
-		icalparameter *param;
-		icalattach *attach;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (component, I_CAL_ATTACH_PROPERTY), index++) {
+		ICalParameter *param;
+		ICalAttach *attach;
 		gchar *uri = NULL, *filename = NULL;
 
-		attach = icalproperty_get_attach (prop);
+		attach = i_cal_property_get_attach (prop);
 		if (!attach)
 			continue;
 
-		#ifdef HAVE_ICAL_FILENAME_PARAMETER
-		param = icalproperty_get_first_parameter (prop, ICAL_FILENAME_PARAMETER);
+		param = i_cal_property_get_first_parameter (prop, I_CAL_FILENAME_PARAMETER);
 		if (param) {
-			filename = g_strdup (icalparameter_get_filename (param));
+			filename = g_strdup (i_cal_parameter_get_filename (param));
 			if (!filename || !*filename) {
 				g_free (filename);
 				filename = NULL;
 			}
+
+			g_clear_object (&param);
 		}
-		#endif
 
-		if (icalattach_get_is_url (attach)) {
+		if (i_cal_attach_get_is_url (attach)) {
 			const gchar *data;
-			gsize buf_size;
 
-			data = icalattach_get_url (attach);
-			buf_size = strlen (data);
-			uri = g_malloc0 (buf_size + 1);
-
-			icalvalue_decode_ical_string (data, uri, buf_size);
+			data = i_cal_attach_get_url (attach);
+			uri = i_cal_value_decode_ical_string (data);
 		} else {
 			gchar *temporary_filename = NULL;
-			icalparameter *encoding_par = icalproperty_get_first_parameter (prop, ICAL_ENCODING_PARAMETER);
+			ICalParameter *encoding_par = i_cal_property_get_first_parameter (prop, I_CAL_ENCODING_PARAMETER);
 			if (encoding_par) {
-				gchar *str_value = icalproperty_get_value_as_string_r (prop);
+				gchar *str_value = i_cal_property_get_value_as_string (prop);
 
 				if (str_value) {
-					icalparameter_encoding encoding = icalparameter_get_encoding (encoding_par);
+					ICalParameterEncoding encoding = i_cal_parameter_get_encoding (encoding_par);
 					guint8 *data = NULL;
 					gsize data_len = 0;
 
 					switch (encoding) {
-					case ICAL_ENCODING_8BIT:
+					case I_CAL_ENCODING_8BIT:
 						data = (guint8 *) str_value;
 						data_len = strlen (str_value);
 						str_value = NULL;
 						break;
-					case ICAL_ENCODING_BASE64:
+					case I_CAL_ENCODING_BASE64:
 						data = g_base64_decode (str_value, &data_len);
 						break;
 					default:
@@ -327,14 +323,13 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 
 					if (data) {
 						gchar *dir, *id_str;
-						struct icaltimetype rid_tt;
 						gchar *rid;
 
-						rid_tt = icalcomponent_get_recurrenceid (component);
-						if (icaltime_is_null_time (rid_tt) || !icaltime_is_valid_time (rid_tt))
+						rid = e_cal_util_component_get_recurid_as_string (component);
+						if (rid && !*rid) {
+							g_free (rid);
 							rid = NULL;
-						else
-							rid = icaltime_as_ical_string_r (rid_tt);
+						}
 
 						id_str = g_strconcat (uid, rid ? "-" : NULL, rid, NULL);
 
@@ -344,19 +339,21 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 						g_free (id_str);
 
 						if (g_mkdir_with_parents (dir, 0700) >= 0) {
-							for (param = icalproperty_get_first_parameter (prop, ICAL_X_PARAMETER);
+							for (param = i_cal_property_get_first_parameter (prop, I_CAL_X_PARAMETER);
 							     param && !filename;
-							     param = icalproperty_get_next_parameter (prop, ICAL_X_PARAMETER)) {
-								if (e_util_strstrcase (icalparameter_get_xname (param), "NAME") &&
-								    icalparameter_get_xvalue (param) &&
-								    *icalparameter_get_xvalue (param)) {
-									filename = g_strdup (icalparameter_get_xvalue (param));
+							     g_object_unref (param), param = i_cal_property_get_next_parameter (prop, I_CAL_X_PARAMETER)) {
+								if (e_util_strstrcase (i_cal_parameter_get_xname (param), "NAME") &&
+								    i_cal_parameter_get_xvalue (param) &&
+								    *i_cal_parameter_get_xvalue (param)) {
+									filename = g_strdup (i_cal_parameter_get_xvalue (param));
 									if (!filename || !*filename) {
 										g_free (filename);
 										filename = NULL;
 									}
 								}
 							}
+
+							g_clear_object (&param);
 
 							if (!filename)
 								filename = g_strdup_printf ("%d.dat", index);
@@ -374,6 +371,8 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 					g_free (str_value);
 					g_free (data);
 				}
+
+				g_object_unref (encoding_par);
 			}
 
 			if (temporary_filename) {
@@ -396,6 +395,7 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 			g_object_unref (attachment);
 		}
 
+		g_object_unref (attach);
 		g_free (filename);
 		g_free (uri);
 	}
@@ -403,16 +403,16 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 
 static gboolean
 ecep_attachments_fill_component (ECompEditorPage *page,
-				 icalcomponent *component)
+				 ICalComponent *component)
 {
 	ECompEditorPageAttachments *page_attachments;
 	ECompEditor *comp_editor;
 	GList *attachments, *link;
-	icalproperty *prop;
+	ICalProperty *prop;
 	gboolean success = TRUE;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_ATTACHMENTS (page), FALSE);
-	g_return_val_if_fail (component != NULL, FALSE);
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (component), FALSE);
 
 	comp_editor = e_comp_editor_page_ref_editor (page);
 	page_attachments = E_COMP_EDITOR_PAGE_ATTACHMENTS (page);
@@ -424,18 +424,15 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 		return FALSE;
 	}
 
-	cal_comp_util_remove_all_properties (component, ICAL_ATTACH_PROPERTY);
+	e_cal_util_component_remove_property_by_kind (component, I_CAL_ATTACH_PROPERTY, TRUE);
 
 	attachments = e_attachment_store_get_attachments (E_ATTACHMENT_STORE (page_attachments->priv->store));
 	for (link = attachments; link; link = g_list_next (link)) {
 		EAttachment *attachment = link->data;
-		icalattach *attach;
-		gsize buf_size;
+		ICalAttach *attach;
 		gchar *buf, *uri, *description;
 		GFile *file;
-		#ifdef HAVE_ICAL_FILENAME_PARAMETER
 		GFileInfo *file_info;
-		#endif
 
 		if (!attachment)
 			continue;
@@ -480,32 +477,27 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 		g_object_unref (file);
 		g_free (description);
 
-		buf_size = 2 * strlen (uri) + 1;
-		buf = g_malloc0 (buf_size);
+		buf = i_cal_value_encode_ical_string (uri);
+		attach = i_cal_attach_new_from_url (buf);
+		prop = i_cal_property_new_attach (attach);
 
-		icalvalue_encode_ical_string (uri, buf, buf_size);
-		attach = icalattach_new_from_url (buf);
-		prop = icalproperty_new_attach (attach);
-
-		#ifdef HAVE_ICAL_FILENAME_PARAMETER
 		file_info = e_attachment_ref_file_info (attachment);
 		if (file_info) {
 			const gchar *display_name = g_file_info_get_display_name (file_info);
 
 			if (display_name && *display_name) {
-				icalparameter *param;
+				ICalParameter *param;
 
-				param = icalparameter_new_filename (display_name);
-				icalproperty_add_parameter (prop, param);
+				param = i_cal_parameter_new_filename (display_name);
+				i_cal_property_take_parameter (prop, param);
 			}
 
 			g_object_unref (file_info);
 		}
-		#endif
 
-		icalcomponent_add_property (component, prop);
+		i_cal_component_take_property (component, prop);
 
-		icalattach_unref (attach);
+		g_object_unref (attach);
 		g_free (buf);
 		g_free (uri);
 	}

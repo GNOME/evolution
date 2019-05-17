@@ -171,70 +171,73 @@ etdp_free_component_refs (gpointer ptr)
 }
 
 static guint
-etdp_create_date_mark (const struct icaltimetype *itt)
+etdp_create_date_mark (/* const */ ICalTime *itt)
 {
 	if (!itt)
 		return 0;
 
-	return itt->year * 10000 + itt->month * 100  + itt->day;
+	return i_cal_time_get_year (itt) * 10000 +
+	       i_cal_time_get_month (itt) * 100 +
+	       i_cal_time_get_day (itt);
 }
 
 static void
-etdp_itt_to_zone (struct icaltimetype *itt,
+etdp_itt_to_zone (ICalTime *itt,
 		  const gchar *itt_tzid,
 		  ECalClient *client,
-		  icaltimezone *default_zone)
+		  ICalTimezone *default_zone)
 {
-	icaltimezone *zone = NULL;
+	ICalTimezone *zone = NULL;
 
 	g_return_if_fail (itt != NULL);
 
 	if (itt_tzid) {
-		e_cal_client_get_timezone_sync (client, itt_tzid, &zone, NULL, NULL);
-	} else if (icaltime_is_utc (*itt)) {
-		zone = icaltimezone_get_utc_timezone ();
+		if (!e_cal_client_get_timezone_sync (client, itt_tzid, &zone, NULL, NULL))
+			zone = NULL;
+	} else if (i_cal_time_is_utc (itt)) {
+		zone = i_cal_timezone_get_utc_timezone ();
 	}
 
 	if (zone)
-		icaltimezone_convert_time (itt, zone, default_zone);
+		i_cal_time_convert_timezone (itt, zone, default_zone);
 }
 
 static gchar *
 etdp_date_time_to_string (const ECalComponentDateTime *dt,
 			  ECalClient *client,
-			  icaltimezone *default_zone,
+			  ICalTimezone *default_zone,
 			  guint today_date_mark,
 			  gboolean is_task,
 			  gboolean use_24hour_format,
-			  struct icaltimetype *out_itt)
+			  ICalTime **out_itt)
 {
 	gboolean is_overdue;
 	gchar *res;
 
 	g_return_val_if_fail (dt != NULL, NULL);
-	g_return_val_if_fail (dt->value != NULL, NULL);
+	g_return_val_if_fail (e_cal_component_datetime_get_value (dt) != NULL, NULL);
 	g_return_val_if_fail (out_itt != NULL, NULL);
 
-	*out_itt = *dt->value;
+	*out_itt = i_cal_time_clone (e_cal_component_datetime_get_value (dt));
 
-	etdp_itt_to_zone (out_itt, dt->tzid, client, default_zone);
+	etdp_itt_to_zone (*out_itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
 
-	is_overdue = is_task && etdp_create_date_mark (out_itt) < today_date_mark;
+	is_overdue = is_task && etdp_create_date_mark (*out_itt) < today_date_mark;
 
-	if (out_itt->is_date && !is_overdue)
+	if (i_cal_time_is_date (*out_itt) && !is_overdue)
 		return NULL;
 
 	if (is_overdue) {
 		struct tm tm;
 
-		tm = icaltimetype_to_tm (out_itt);
+		tm = e_cal_util_icaltime_to_tm (*out_itt);
 
-		res = e_datetime_format_format_tm ("calendar", "table", out_itt->is_date ? DTFormatKindDate : DTFormatKindDateTime, &tm);
+		res = e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (*out_itt) ? DTFormatKindDate : DTFormatKindDateTime, &tm);
 	} else {
 		if (use_24hour_format) {
-			res = g_strdup_printf ("%d:%02d", out_itt->hour, out_itt->minute);
+			res = g_strdup_printf ("%d:%02d", i_cal_time_get_hour (*out_itt), i_cal_time_get_minute (*out_itt));
 		} else {
-			gint hour = out_itt->hour;
+			gint hour = i_cal_time_get_hour (*out_itt);
 			const gchar *suffix;
 
 			if (hour < 12) {
@@ -249,10 +252,10 @@ etdp_date_time_to_string (const ECalComponentDateTime *dt,
 			if (hour == 0)
 				hour = 12;
 
-			if (!out_itt->minute)
+			if (!i_cal_time_get_minute (*out_itt))
 				res = g_strdup_printf ("%d %s", hour, suffix);
 			else
-				res = g_strdup_printf ("%d:%02d %s", hour, out_itt->minute, suffix);
+				res = g_strdup_printf ("%d:%02d %s", hour, i_cal_time_get_minute (*out_itt), suffix);
 		}
 	}
 
@@ -280,37 +283,42 @@ etdp_append_to_string_escaped (GString *str,
 
 static gchar *
 etdp_format_date_time (ECalClient *client,
-		       icaltimezone *default_zone,
-		       const struct icaltimetype *in_itt,
+		       ICalTimezone *default_zone,
+		       const ICalTime *in_itt,
 		       const gchar *tzid)
 {
-	struct icaltimetype itt;
+	ICalTime *itt;
 	struct tm tm;
+	gchar *res;
 
 	if (!in_itt)
 		return NULL;
 
-	itt = *in_itt;
+	itt = i_cal_time_clone ((ICalTime *) in_itt);
 
-	etdp_itt_to_zone (&itt, tzid, client, default_zone);
+	etdp_itt_to_zone (itt, tzid, client, default_zone);
 
-	tm = icaltimetype_to_tm (&itt);
+	tm = e_cal_util_icaltime_to_tm (itt);
 
-	return e_datetime_format_format_tm ("calendar", "table", itt.is_date ? DTFormatKindDate : DTFormatKindDateTime, &tm);
+	res = e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (itt) ? DTFormatKindDate : DTFormatKindDateTime, &tm);
+
+	g_clear_object (&itt);
+
+	return res;
 }
 
-static const gchar *
-etdp_get_component_summary (icalcomponent *icalcomp)
+static gchar *
+etdp_dup_component_summary (ICalComponent *icomp)
 {
-	const gchar *summary;
+	gchar *summary;
 
-	if (!icalcomp)
-		return "";
+	if (!icomp)
+		return g_strdup ("");
 
-	summary = icalcomponent_get_summary (icalcomp);
+	summary = e_calendar_view_dup_component_summary (icomp);
 
-	if (!summary || !*summary)
-		summary = "";
+	if (!summary)
+		summary = g_strdup ("");
 
 	return summary;
 }
@@ -319,7 +327,7 @@ static gboolean
 etdp_get_component_data (EToDoPane *to_do_pane,
 			 ECalClient *client,
 			 ECalComponent *comp,
-			 icaltimezone *default_zone,
+			 ICalTimezone *default_zone,
 			 guint today_date_mark,
 			 gchar **out_summary,
 			 gchar **out_tooltip,
@@ -328,13 +336,14 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			 gchar **out_sort_key,
 			 guint *out_date_mark)
 {
-	icalcomponent *icalcomp;
-	ECalComponentDateTime dt = { 0 };
+	ICalComponent *icomp;
+	ECalComponentDateTime *dt;
 	ECalComponentId *id;
-	struct icaltimetype itt = icaltime_null_time ();
-	const gchar *prefix, *location, *description;
+	ICalTime *itt = NULL;
+	const gchar *prefix, *location, *description, *uid_str, *rid_str;
 	gboolean task_has_due_date = TRUE, is_cancelled = FALSE; /* ignored for events, thus like being set */
-	icalproperty_status status = ICAL_STATUS_NONE;
+	ICalPropertyStatus status;
+	gchar *comp_summary;
 	GString *tooltip;
 
 	g_return_val_if_fail (E_IS_TO_DO_PANE (to_do_pane), FALSE);
@@ -347,16 +356,18 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	g_return_val_if_fail (out_sort_key, FALSE);
 	g_return_val_if_fail (out_date_mark, FALSE);
 
-	icalcomp = e_cal_component_get_icalcomponent (comp);
-	g_return_val_if_fail (icalcomp != NULL, FALSE);
+	icomp = e_cal_component_get_icalcomponent (comp);
+	g_return_val_if_fail (icomp != NULL, FALSE);
 
-	location = icalcomponent_get_location (icalcomp);
+	location = i_cal_component_get_location (icomp);
 	if (location && !*location)
 		location = NULL;
 
 	tooltip = g_string_sized_new (512);
 
-	etdp_append_to_string_escaped (tooltip, "<b>%s</b>", etdp_get_component_summary (icalcomp), NULL);
+	comp_summary = etdp_dup_component_summary (icomp);
+
+	etdp_append_to_string_escaped (tooltip, "<b>%s</b>", comp_summary, NULL);
 
 	if (location) {
 		g_string_append (tooltip, "\n");
@@ -367,24 +378,26 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	*out_is_task = e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO;
 	*out_is_completed = FALSE;
 
-	e_cal_component_get_status (comp, &status);
-	is_cancelled = status == ICAL_STATUS_CANCELLED;
+	status = e_cal_component_get_status (comp);
+	is_cancelled = status == I_CAL_STATUS_CANCELLED;
 
 	if (*out_is_task) {
-		ECalComponentDateTime dtstart = { 0 };
-		struct icaltimetype *completed = NULL;
+		ECalComponentDateTime *dtstart;
+		ICalTime *completed;
 
 		/* Tasks after events */
 		prefix = "1";
 
-		e_cal_component_get_dtstart (comp, &dtstart);
-		e_cal_component_get_due (comp, &dt);
-		e_cal_component_get_completed (comp, &completed);
+		dtstart = e_cal_component_get_dtstart (comp);
+		dt = e_cal_component_get_due (comp);
+		completed = e_cal_component_get_completed (comp);
 
-		if (dtstart.value) {
+		if (dtstart && e_cal_component_datetime_get_value (dtstart)) {
 			gchar *tmp;
 
-			tmp = etdp_format_date_time (client, default_zone, dtstart.value, dtstart.tzid);
+			tmp = etdp_format_date_time (client, default_zone,
+				e_cal_component_datetime_get_value (dtstart),
+				e_cal_component_datetime_get_tzid (dtstart));
 
 			g_string_append (tooltip, "\n");
 			/* Translators: It will display "Start: StartDateAndTime" */
@@ -392,19 +405,21 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 			g_free (tmp);
 
-			if (!dt.value) {
+			if (!dt || !e_cal_component_datetime_get_value (dt)) {
 				/* Fill the itt structure in case the task has no Due date */
-				itt = *dtstart.value;
-				etdp_itt_to_zone (&itt, dtstart.tzid, client, default_zone);
+				itt = i_cal_time_clone (e_cal_component_datetime_get_value (dtstart));
+				etdp_itt_to_zone (itt, e_cal_component_datetime_get_tzid (dtstart), client, default_zone);
 			}
-
-			e_cal_component_free_datetime (&dtstart);
 		}
 
-		if (dt.value) {
+		e_cal_component_datetime_free (dtstart);
+
+		if (dt && e_cal_component_datetime_get_value (dt)) {
 			gchar *tmp;
 
-			tmp = etdp_format_date_time (client, default_zone, dt.value, dt.tzid);
+			tmp = etdp_format_date_time (client, default_zone,
+				e_cal_component_datetime_get_value (dt),
+				e_cal_component_datetime_get_tzid (dt));
 
 			g_string_append (tooltip, "\n");
 			/* Translators: It will display "Due: DueDateAndTime" */
@@ -427,34 +442,36 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			g_free (tmp);
 
 			*out_is_completed = TRUE;
-			e_cal_component_free_icaltimetype (completed);
 		} else {
-			*out_is_completed = *out_is_completed || status == ICAL_STATUS_COMPLETED;
+			*out_is_completed = *out_is_completed || status == I_CAL_STATUS_COMPLETED;
 		}
+
+		g_clear_object (&completed);
 	} else {
 		/* Events first */
 		prefix = "0";
 
-		e_cal_component_get_dtstart (comp, &dt);
+		dt = e_cal_component_get_dtstart (comp);
 
-		if (dt.value) {
-			ECalComponentDateTime dtend = { 0 };
-			struct icaltimetype ittstart, ittend;
+		if (dt && e_cal_component_datetime_get_value (dt)) {
+			ECalComponentDateTime *dtend;
+			ICalTime *ittstart, *ittend;
 			gchar *strstart, *strduration;
 
-			e_cal_component_get_dtend (comp, &dtend);
+			dtend = e_cal_component_get_dtend (comp);
 
-			ittstart = *dt.value;
-			if (dtend.value)
-				ittend = *dtend.value;
+			ittstart = i_cal_time_clone (e_cal_component_datetime_get_value (dt));
+			if (dtend && e_cal_component_datetime_get_value (dtend))
+				ittend = i_cal_time_clone (e_cal_component_datetime_get_value (dtend));
 			else
-				ittend = ittstart;
+				ittend = i_cal_time_clone (ittstart);
 
-			etdp_itt_to_zone (&ittstart, dt.tzid, client, default_zone);
-			etdp_itt_to_zone (&ittend, dtend.value ? dtend.tzid : dt.tzid, client, default_zone);
+			etdp_itt_to_zone (ittstart, e_cal_component_datetime_get_tzid (dt), client, default_zone);
+			etdp_itt_to_zone (ittend, (dtend && e_cal_component_datetime_get_value (dtend)) ?
+				e_cal_component_datetime_get_tzid (dtend) : e_cal_component_datetime_get_tzid (dt), client, default_zone);
 
-			strstart = etdp_format_date_time (client, default_zone, &ittstart, NULL);
-			strduration = calculate_time (icaltime_as_timet (ittstart), icaltime_as_timet (ittend));
+			strstart = etdp_format_date_time (client, default_zone, ittstart, NULL);
+			strduration = calculate_time (i_cal_time_as_timet (ittstart), i_cal_time_as_timet (ittend));
 
 			g_string_append (tooltip, "\n");
 			/* Translators: It will display "Time: StartDateAndTime (Duration)" */
@@ -463,21 +480,25 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			g_free (strduration);
 			g_free (strstart);
 
-			e_cal_component_free_datetime (&dtend);
+			e_cal_component_datetime_free (dtend);
+			g_clear_object (&ittstart);
+			g_clear_object (&ittend);
 		}
 	}
 
 	*out_summary = NULL;
 
-	if (dt.value) {
+	if (dt && e_cal_component_datetime_get_value (dt)) {
 		gchar *time_str;
 
-		time_str = etdp_date_time_to_string (&dt, client, default_zone, today_date_mark, *out_is_task,
+		g_clear_object (&itt);
+
+		time_str = etdp_date_time_to_string (dt, client, default_zone, today_date_mark, *out_is_task,
 			to_do_pane->priv->use_24hour_format, &itt);
 
 		if (time_str) {
 			*out_summary = g_markup_printf_escaped ("<span size=\"xx-small\">%s</span> %s%s%s%s",
-				time_str, etdp_get_component_summary (icalcomp), location ? " (" : "",
+				time_str, comp_summary, location ? " (" : "",
 				location ? location : "", location ? ")" : "");
 		}
 
@@ -485,7 +506,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	}
 
 	if (!*out_summary) {
-		*out_summary = g_markup_printf_escaped ("%s%s%s%s", etdp_get_component_summary (icalcomp),
+		*out_summary = g_markup_printf_escaped ("%s%s%s%s", comp_summary,
 			location ? " (" : "", location ? location : "", location ? ")" : "");
 	}
 
@@ -505,32 +526,44 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 		g_free (tmp);
 	}
 
-	e_cal_component_free_datetime (&dt);
+	e_cal_component_datetime_free (dt);
 
 	id = e_cal_component_get_id (comp);
+	uid_str = (id && e_cal_component_id_get_uid (id)) ? e_cal_component_id_get_uid (id) : "";
+	rid_str = (id && e_cal_component_id_get_rid (id)) ? e_cal_component_id_get_rid (id) : "";
 
 	if (!task_has_due_date) {
-		if (icaltime_is_null_time (itt)) {
+		if (!itt || i_cal_time_is_null_time (itt)) {
 			/* Sort those without Start date after those with it */
 			*out_sort_key = g_strdup_printf ("%s-Z-%s-%s-%s",
-				prefix, etdp_get_component_summary (icalcomp),
-				(id && id->uid) ? id->uid : "", (id && id->rid) ? id->rid : "");
+				prefix, comp_summary,
+				uid_str, rid_str);
 		} else {
 			*out_sort_key = g_strdup_printf ("%s-%04d%02d%02d%02d%02d%02d-%s-%s-%s",
-				prefix, itt.year, itt.month, itt.day, itt.hour, itt.minute, itt.second,
-				etdp_get_component_summary (icalcomp),
-				(id && id->uid) ? id->uid : "", (id && id->rid) ? id->rid : "");
+				prefix,
+				i_cal_time_get_year (itt),
+				i_cal_time_get_month (itt),
+				i_cal_time_get_day (itt),
+				i_cal_time_get_hour (itt),
+				i_cal_time_get_minute (itt),
+				i_cal_time_get_second (itt),
+				comp_summary, uid_str, rid_str);
 		}
 	} else {
 		*out_sort_key = g_strdup_printf ("%s-%04d%02d%02d%02d%02d%02d-%s-%s",
-			prefix, itt.year, itt.month, itt.day, itt.hour, itt.minute, itt.second,
-			(id && id->uid) ? id->uid : "", (id && id->rid) ? id->rid : "");
+			prefix,
+			itt ? i_cal_time_get_year (itt) : 0,
+			itt ? i_cal_time_get_month (itt) : 0,
+			itt ? i_cal_time_get_day (itt) : 0,
+			itt ? i_cal_time_get_hour (itt) : 0,
+			itt ? i_cal_time_get_minute (itt) : 0,
+			itt ? i_cal_time_get_second (itt) : 0,
+			uid_str, rid_str);
 	}
 
-	if (id)
-		e_cal_component_free_id (id);
+	e_cal_component_id_free (id);
 
-	description = icalcomponent_get_description (icalcomp);
+	description = i_cal_component_get_description (icomp);
 	if (description && *description && g_utf8_validate (description, -1, NULL)) {
 		gchar *tmp = NULL;
 		glong len;
@@ -553,8 +586,11 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 		g_free (tmp);
 	}
 
-	*out_date_mark = etdp_create_date_mark (&itt);
+	*out_date_mark = etdp_create_date_mark (itt);
 	*out_tooltip = g_string_free (tooltip, FALSE);
+
+	g_clear_object (&itt);
+	g_free (comp_summary);
 
 	return TRUE;
 }
@@ -574,10 +610,10 @@ static GSList * /* GtkTreePath * */
 etdp_get_component_root_paths (EToDoPane *to_do_pane,
 			       ECalClient *client,
 			       ECalComponent *comp,
-			       icaltimezone *default_zone)
+			       ICalTimezone *default_zone)
 {
-	ECalComponentDateTime dt;
-	struct icaltimetype itt;
+	ECalComponentDateTime *dt;
+	ICalTime *itt;
 	GtkTreePath *first_root_path = NULL;
 	GtkTreeModel *model;
 	GSList *roots = NULL;
@@ -589,46 +625,46 @@ etdp_get_component_root_paths (EToDoPane *to_do_pane,
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), NULL);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO) {
-		e_cal_component_get_due (comp, &dt);
+		dt = e_cal_component_get_due (comp);
 
-		if (dt.value) {
-			itt = *dt.value;
+		if (dt && e_cal_component_datetime_get_value (dt)) {
+			itt = e_cal_component_datetime_get_value (dt);
 
-			etdp_itt_to_zone (&itt, dt.tzid, client, default_zone);
-			start_date_mark = etdp_create_date_mark (&itt);
+			etdp_itt_to_zone (itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
+			start_date_mark = etdp_create_date_mark (itt);
 		} else {
 			start_date_mark = 0;
 		}
 
 		end_date_mark = start_date_mark;
 
-		e_cal_component_free_datetime (&dt);
+		e_cal_component_datetime_free (dt);
 	} else {
-		e_cal_component_get_dtstart (comp, &dt);
+		dt = e_cal_component_get_dtstart (comp);
 
-		if (dt.value) {
-			itt = *dt.value;
+		if (dt && e_cal_component_datetime_get_value (dt)) {
+			itt = e_cal_component_datetime_get_value (dt);
 
-			etdp_itt_to_zone (&itt, dt.tzid, client, default_zone);
-			start_date_mark = etdp_create_date_mark (&itt);
+			etdp_itt_to_zone (itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
+			start_date_mark = etdp_create_date_mark (itt);
 		} else {
 			start_date_mark = 0;
 		}
 
-		e_cal_component_free_datetime (&dt);
+		e_cal_component_datetime_free (dt);
 
-		e_cal_component_get_dtend (comp, &dt);
+		dt = e_cal_component_get_dtend (comp);
 
-		if (dt.value) {
-			itt = *dt.value;
+		if (dt && e_cal_component_datetime_get_value (dt)) {
+			itt = e_cal_component_datetime_get_value (dt);
 
-			etdp_itt_to_zone (&itt, dt.tzid, client, default_zone);
-			end_date_mark = etdp_create_date_mark (&itt);
+			etdp_itt_to_zone (itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
+			end_date_mark = etdp_create_date_mark (itt);
 		} else {
 			end_date_mark = start_date_mark;
 		}
 
-		e_cal_component_free_datetime (&dt);
+		e_cal_component_datetime_free (dt);
 	}
 
 	model = GTK_TREE_MODEL (to_do_pane->priv->tree_store);
@@ -784,10 +820,8 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 		      time_t *out_nearest_due)
 {
 	GdkRGBA *bgcolor = NULL, fgcolor;
-	#ifdef HAVE_ICAL_COLOR_PROPERTY
 	GdkRGBA stack_bgcolor;
-	icalproperty *prop;
-	#endif
+	ICalProperty *prop;
 
 	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 	g_return_if_fail (out_bgcolor);
@@ -801,17 +835,17 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	#ifdef HAVE_ICAL_COLOR_PROPERTY
-	prop = icalcomponent_get_first_property (e_cal_component_get_icalcomponent (comp), ICAL_COLOR_PROPERTY);
+	prop = i_cal_component_get_first_property (e_cal_component_get_icalcomponent (comp), I_CAL_COLOR_PROPERTY);
 	if (prop) {
 		const gchar *color_spec;
 
-		color_spec = icalproperty_get_color (prop);
+		color_spec = i_cal_property_get_color (prop);
 		if (color_spec && gdk_rgba_parse (&stack_bgcolor, color_spec)) {
 			bgcolor = &stack_bgcolor;
 		}
+
+		g_clear_object (&prop);
 	}
-	#endif
 
 	if (!bgcolor)
 		bgcolor = g_hash_table_lookup (to_do_pane->priv->client_colors, e_client_get_source (E_CLIENT (client)));
@@ -819,35 +853,39 @@ etdp_get_comp_colors (EToDoPane *to_do_pane,
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO &&
 	    to_do_pane->priv->highlight_overdue &&
 	    to_do_pane->priv->overdue_color) {
-		ECalComponentDateTime dt = { 0 };
+		ECalComponentDateTime *dt;
 
-		e_cal_component_get_due (comp, &dt);
+		dt = e_cal_component_get_due (comp);
 
-		if (dt.value) {
-			icaltimezone *default_zone;
-			struct icaltimetype itt, now;
+		if (dt && e_cal_component_datetime_get_value (dt)) {
+			ICalTimezone *default_zone;
+			ICalTime *itt, *now;
+			gboolean is_date;
 
 			default_zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
 
-			itt = *dt.value;
-			etdp_itt_to_zone (&itt, dt.tzid, client, default_zone);
+			itt = e_cal_component_datetime_get_value (dt);
+			is_date = i_cal_time_is_date (itt);
+			etdp_itt_to_zone (itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
 
-			now = icaltime_current_time_with_zone (default_zone);
+			now = i_cal_time_new_current_with_zone (default_zone);
 
-			if ((dt.value->is_date && icaltime_compare_date_only (itt, now) < 0) ||
-			    (!dt.value->is_date && icaltime_compare (itt, now) <= 0)) {
+			if ((is_date && i_cal_time_compare_date_only (itt, now) < 0) ||
+			    (!is_date && i_cal_time_compare (itt, now) <= 0)) {
 				bgcolor = to_do_pane->priv->overdue_color;
 			} else if (out_nearest_due) {
 				time_t due_tt;
 
-				due_tt = icaltime_as_timet_with_zone (itt, default_zone);
+				due_tt = i_cal_time_as_timet_with_zone (itt, default_zone);
 				if (*out_nearest_due == (time_t) -1 ||
 				    *out_nearest_due > due_tt)
 					*out_nearest_due = due_tt;
 			}
+
+			g_clear_object (&now);
 		}
 
-		e_cal_component_free_datetime (&dt);
+		e_cal_component_datetime_free (dt);
 	}
 
 	fgcolor = etdp_get_fgcolor_for_bgcolor (bgcolor);
@@ -896,7 +934,7 @@ etdp_add_component (EToDoPane *to_do_pane,
 {
 	ECalComponentId *id;
 	ComponentIdent *ident;
-	icaltimezone *default_zone;
+	ICalTimezone *default_zone;
 	GSList *new_root_paths, *new_references, *link;
 	GtkTreeModel *model;
 	GtkTreeIter iter = { 0 };
@@ -918,12 +956,12 @@ etdp_add_component (EToDoPane *to_do_pane,
 
 	if (!etdp_get_component_data (to_do_pane, client, comp, default_zone, to_do_pane->priv->last_today,
 		&summary, &tooltip, &is_task, &is_completed, &sort_key, &date_mark)) {
-		e_cal_component_free_id (id);
+		e_cal_component_id_free (id);
 		return;
 	}
 
 	model = GTK_TREE_MODEL (to_do_pane->priv->tree_store);
-	ident = component_ident_new (client, id->uid, id->rid);
+	ident = component_ident_new (client, e_cal_component_id_get_uid (id), e_cal_component_id_get_rid (id));
 
 	new_root_paths = etdp_get_component_root_paths (to_do_pane, client, comp, default_zone);
 	/* This can happen with "Show Tasks without Due date", which returns
@@ -953,20 +991,20 @@ etdp_add_component (EToDoPane *to_do_pane,
 			} else {
 				GSList *attendees = NULL, *link;
 
-				e_cal_component_get_attendee_list (comp, &attendees);
+				attendees = e_cal_component_get_attendees (comp);
 				for (link = attendees; link; link = g_slist_next (link)) {
 					ECalComponentAttendee *ca = link->data;
 					const gchar *text;
 
-					text = itip_strip_mailto (ca->value);
+					text = itip_strip_mailto (e_cal_component_attendee_get_value (ca));
 					if (itip_address_is_user (registry, text)) {
-						if (ca->delto != NULL)
+						if (e_cal_component_attendee_get_delegatedto (ca))
 							icon_name = "stock_task-assigned-to";
 						break;
 					}
 				}
 
-				e_cal_component_free_attendee_list (attendees);
+				g_slist_free_full (attendees, e_cal_component_attendee_free);
 			}
 		} else
 			icon_name = "stock_people";
@@ -1010,7 +1048,7 @@ etdp_add_component (EToDoPane *to_do_pane,
 
  exit:
 	component_ident_free (ident);
-	e_cal_component_free_id (id);
+	e_cal_component_id_free (id);
 	g_free (summary);
 	g_free (tooltip);
 	g_free (sort_key);
@@ -1395,15 +1433,15 @@ static void
 etdp_check_time_changed (EToDoPane *to_do_pane,
 			 gboolean force_update)
 {
-	icaltimetype itt;
-	icaltimezone *zone;
+	ICalTime *itt;
+	ICalTimezone *zone;
 	guint new_today;
 
 	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 
 	zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
-	itt = icaltime_current_time_with_zone (zone);
-	new_today = etdp_create_date_mark (&itt);
+	itt = i_cal_time_new_current_with_zone (zone);
+	new_today = etdp_create_date_mark (itt);
 
 	if (force_update || new_today != to_do_pane->priv->last_today) {
 		gchar *tasks_filter;
@@ -1413,7 +1451,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 
 		to_do_pane->priv->last_today = new_today;
 
-		tt_begin = icaltime_as_timet_with_zone (itt, zone);
+		tt_begin = i_cal_time_as_timet_with_zone (itt, zone);
 		tt_begin = time_day_begin_with_zone (tt_begin, zone);
 		tt_end = time_add_week_with_zone (tt_begin, 1, zone) + (3600 * 24) - 1;
 
@@ -1496,11 +1534,11 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 				gchar *markup;
 				guint date_mark;
 
-				tm = icaltimetype_to_tm (&itt);
+				tm = e_cal_util_icaltime_to_tm (itt);
 
-				icaltime_adjust (&itt, 1, 0, 0, 0);
+				i_cal_time_adjust (itt, 1, 0, 0, 0);
 
-				date_mark = etdp_create_date_mark (&itt);
+				date_mark = etdp_create_date_mark (itt);
 
 				if (ii == 0) {
 					markup = g_markup_printf_escaped ("<b>%s</b>", _("Today"));
@@ -1531,7 +1569,7 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 
 				g_free (markup);
 			} else {
-				icaltime_adjust (&itt, 1, 0, 0, 0);
+				i_cal_time_adjust (itt, 1, 0, 0, 0);
 			}
 
 			gtk_tree_path_free (path);
@@ -1553,12 +1591,14 @@ etdp_check_time_changed (EToDoPane *to_do_pane,
 
 		etdp_update_all (to_do_pane);
 	} else {
-		time_t now_tt = icaltime_as_timet_with_zone (itt, zone);
+		time_t now_tt = i_cal_time_as_timet_with_zone (itt, zone);
 
 		if (to_do_pane->priv->nearest_due != (time_t) -1 &&
 		    to_do_pane->priv->nearest_due <= now_tt)
 			etdp_update_colors (to_do_pane, TRUE);
 	}
+
+	g_clear_object (&itt);
 }
 
 static gboolean
@@ -1600,7 +1640,7 @@ etdp_settings_map_string_to_icaltimezone (GValue *value,
 {
 	GSettings *settings;
 	const gchar *location = NULL;
-	icaltimezone *timezone = NULL;
+	ICalTimezone *timezone = NULL;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
 
@@ -1610,12 +1650,12 @@ etdp_settings_map_string_to_icaltimezone (GValue *value,
 		location = g_variant_get_string (variant, NULL);
 
 	if (location != NULL && *location != '\0')
-		timezone = icaltimezone_get_builtin_timezone (location);
+		timezone = i_cal_timezone_get_builtin_timezone (location);
 
 	if (timezone == NULL)
-		timezone = icaltimezone_get_utc_timezone ();
+		timezone = i_cal_timezone_get_utc_timezone ();
 
-	g_value_set_pointer (value, timezone);
+	g_value_set_object (value, timezone);
 
 	g_object_unref (settings);
 
@@ -1829,28 +1869,30 @@ etdp_new_common (EToDoPane *to_do_pane,
 			gtk_tree_model_get (model, &iter, COLUMN_DATE_MARK, &date_mark, -1);
 
 			if (date_mark > 0) {
-				struct icaltimetype now;
+				ICalTime *now;
+				ICalTimezone *zone;
 				gint time_divisions_secs;
-				icaltimezone *zone;
 
 				time_divisions_secs = g_settings_get_int (settings, "time-divisions") * 60;
 				zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
-				now = icaltime_current_time_with_zone (zone);
+				now = i_cal_time_new_current_with_zone (zone);
 
-				now.year = date_mark / 10000;
-				now.month = (date_mark / 100) % 100;
-				now.day = date_mark % 100;
+				i_cal_time_set_year (now, date_mark / 10000);
+				i_cal_time_set_month (now, (date_mark / 100) % 100);
+				i_cal_time_set_day (now, date_mark % 100);
 
 				/* The date_mark is the next day, not the day it belongs to */
-				icaltime_adjust (&now, -1, 0, 0, 0);
+				i_cal_time_adjust (now, -1, 0, 0, 0);
 
-				dtstart = icaltime_as_timet_with_zone (now, zone);
+				dtstart = i_cal_time_as_timet_with_zone (now, zone);
 				if (dtstart > 0 && time_divisions_secs > 0) {
 					dtstart = dtstart + time_divisions_secs - (dtstart % time_divisions_secs);
 					dtend = dtstart + time_divisions_secs;
 				} else {
 					dtstart = 0;
 				}
+
+				g_clear_object (&now);
 			}
 		}
 
@@ -1964,7 +2006,7 @@ etdp_remove_component_thread (EAlertSinkThreadJobData *job_data,
 
 	g_return_if_fail (rod != NULL);
 
-	e_cal_client_remove_object_sync (rod->client, rod->uid, rod->rid, rod->mod, cancellable, error);
+	e_cal_client_remove_object_sync (rod->client, rod->uid, rod->rid, rod->mod, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
 }
 
 static void
@@ -1989,7 +2031,7 @@ etdp_delete_common (EToDoPane *to_do_pane,
 		g_return_if_fail (id != NULL);
 
 		if (!e_cal_dialogs_delete_component (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (to_do_pane))) {
-			e_cal_component_free_id (id);
+			e_cal_component_id_free (id);
 			g_clear_object (&client);
 			g_clear_object (&comp);
 			return;
@@ -2018,8 +2060,8 @@ etdp_delete_common (EToDoPane *to_do_pane,
 
 		rod = g_new0 (RemoveOperationData,1);
 		rod->client = g_object_ref (client);
-		rod->uid = g_strdup (id->uid);
-		rod->rid = g_strdup (id->rid);
+		rod->uid = g_strdup (e_cal_component_id_get_uid (id));
+		rod->rid = g_strdup (e_cal_component_id_get_rid (id));
 		rod->mod = mod;
 
 		source = e_client_get_source (E_CLIENT (client));
@@ -2030,7 +2072,7 @@ etdp_delete_common (EToDoPane *to_do_pane,
 		cancellable = e_cal_data_model_submit_thread_job (to_do_pane->priv->events_data_model, description, alert_ident,
 			display_name, etdp_remove_component_thread, rod, remove_operation_data_free);
 
-		e_cal_component_free_id (id);
+		e_cal_component_id_free (id);
 		g_clear_object (&cancellable);
 		g_free (display_name);
 	}

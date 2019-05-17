@@ -286,7 +286,7 @@ pkg_check_modules(GNOME_PLATFORM REQUIRED
 pkg_check_modules(EVOLUTION_DATA_SERVER REQUIRED
 	camel-1.2>=${eds_minimum_version}
 	libebook-1.2>=${eds_minimum_version}
-	libecal-1.2>=${eds_minimum_version}
+	libecal-2.0>=${eds_minimum_version}
 	libedataserver-1.2>=${eds_minimum_version}
 	libedataserverui-1.2>=${eds_minimum_version}
 	libebackend-1.2>=${eds_minimum_version}
@@ -588,49 +588,6 @@ set(HAVE_LIBNOTIFY ${LIBNOTIFY_FOUND})
 
 pkg_check_modules(LIBUNITY unity>=${libunity_minimum_version})
 set(HAVE_LIBUNITY ${LIBUNITY_FOUND})
-
-# ******************************
-# libical tweaks
-# ******************************
-
-set(CMAKE_REQUIRED_DEFINITIONS ${EVOLUTION_DATA_SERVER_CFLAGS_OTHER})
-set(CMAKE_REQUIRED_INCLUDES ${EVOLUTION_DATA_SERVER_INCLUDE_DIRS})
-set(CMAKE_REQUIRED_LIBRARIES ${EVOLUTION_DATA_SERVER_LDFLAGS})
-
-CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
-			int main(void) {
-				ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN);
-				return 0;
-			}" HAVE_ICAL_UNKNOWN_TOKEN_HANDLING)
-
-CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
-			int main(void) {
-				icaltzutil_set_exact_vtimezones_support (0);
-				return 0;
-			}" HAVE_ICALTZUTIL_SET_EXACT_VTIMEZONES_SUPPORT)
-
-CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
-			int main(void) {
-				icalparameter *param;
-				param = icalproperty_get_first_parameter (NULL, ICAL_FILENAME_PARAMETER);
-				icalparameter_get_filename (param);
-				icalparameter_new_filename (NULL);
-				return 0;
-			}" HAVE_ICAL_FILENAME_PARAMETER)
-
-CHECK_C_SOURCE_COMPILES("#include <libical/ical.h>
-			int main(void) {
-				icalproperty *prop;
-				prop = icalcomponent_get_first_property (NULL, ICAL_COLOR_PROPERTY);
-				icalproperty_get_color (prop);
-				icalproperty_set_color (prop, \"white\");
-				prop = icalproperty_new_color (NULL);
-				return 0;
-			}" HAVE_ICAL_COLOR_PROPERTY)
-
-unset(CMAKE_REQUIRED_DEFINITIONS)
-unset(CMAKE_REQUIRED_INCLUDES)
-unset(CMAKE_REQUIRED_LIBRARIES)
 
 # ******************************
 # gspell

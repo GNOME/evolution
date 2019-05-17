@@ -243,11 +243,11 @@ doit (EContactMergingLookup *lookup,
 {
 	if (lookup->op == E_CONTACT_MERGING_ADD) {
 		if (force_modify)
-			e_book_client_modify_contact (lookup->book_client, lookup->contact, NULL, modify_contact_ready_cb, lookup);
+			e_book_client_modify_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL, modify_contact_ready_cb, lookup);
 		else
-			e_book_client_add_contact (lookup->book_client, lookup->contact, NULL, add_contact_ready_cb, lookup);
+			e_book_client_add_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL, add_contact_ready_cb, lookup);
 	} else if (lookup->op == E_CONTACT_MERGING_COMMIT)
-		e_book_client_modify_contact (lookup->book_client, lookup->contact, NULL, modify_contact_ready_cb, lookup);
+		e_book_client_modify_contact (lookup->book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL, modify_contact_ready_cb, lookup);
 }
 
 static void
@@ -339,7 +339,7 @@ remove_contact_ready_cb (GObject *source_object,
 	}
 
 	e_book_client_add_contact (
-		book_client, lookup->contact, NULL,
+		book_client, lookup->contact, E_BOOK_OPERATION_FLAG_NONE, NULL,
 		add_contact_ready_cb, lookup);
 }
 
@@ -581,7 +581,7 @@ mergeit (EContactMergingLookup *lookup)
 		lookup->contact = g_object_ref (lookup->match);
 		e_book_client_remove_contact (
 			lookup->book_client,
-			lookup->match, NULL,
+			lookup->match, E_BOOK_OPERATION_FLAG_NONE, NULL,
 			remove_contact_ready_cb, lookup);
 		value = 1;
 		break;

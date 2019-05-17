@@ -72,7 +72,7 @@ void		e_day_view_time_item_set_day_view
 						 EDayView *day_view);
 gint		e_day_view_time_item_get_column_width
 						(EDayViewTimeItem *time_item);
-icaltimezone *	e_day_view_time_item_get_second_zone
+ICalTimezone *	e_day_view_time_item_get_second_zone
 						(EDayViewTimeItem *time_item);
 
 G_END_DECLS

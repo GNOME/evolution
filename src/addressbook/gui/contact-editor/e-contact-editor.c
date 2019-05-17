@@ -4449,7 +4449,7 @@ contact_added_cb (EBookClient *book_client,
 	    !error && ce->priv->is_new_contact == FALSE) {
 		ecs->new_id = g_strdup (id);
 		e_book_client_remove_contact (
-			ce->priv->source_client, ce->priv->contact, NULL, contact_removed_cb, ecs);
+			ce->priv->source_client, ce->priv->contact, E_BOOK_OPERATION_FLAG_NONE, NULL, contact_removed_cb, ecs);
 		return;
 	}
 
@@ -4556,7 +4556,7 @@ real_save_contact (EContactEditor *ce,
 				ce->priv->contact, contact_modified_cb, ecs);
 		else
 			e_book_client_modify_contact (
-				ce->priv->target_client, ce->priv->contact, NULL,
+				ce->priv->target_client, ce->priv->contact, E_BOOK_OPERATION_FLAG_NONE, NULL,
 				contact_modified_ready_cb, ecs);
 	}
 }
@@ -5419,12 +5419,12 @@ e_contact_editor_set_property (GObject *object,
 
 			e_client_get_backend_property (
 				E_CLIENT (editor->priv->target_client),
-				BOOK_BACKEND_PROPERTY_SUPPORTED_FIELDS,
+				E_BOOK_BACKEND_PROPERTY_SUPPORTED_FIELDS,
 				NULL, supported_fields_cb, editor);
 
 			e_client_get_backend_property (
 				E_CLIENT (editor->priv->target_client),
-				BOOK_BACKEND_PROPERTY_REQUIRED_FIELDS,
+				E_BOOK_BACKEND_PROPERTY_REQUIRED_FIELDS,
 				NULL, required_fields_cb, editor);
 		}
 
@@ -5466,12 +5466,12 @@ e_contact_editor_set_property (GObject *object,
 
 		e_client_get_backend_property (
 			E_CLIENT (editor->priv->target_client),
-			BOOK_BACKEND_PROPERTY_SUPPORTED_FIELDS,
+			E_BOOK_BACKEND_PROPERTY_SUPPORTED_FIELDS,
 			NULL, supported_fields_cb, editor);
 
 		e_client_get_backend_property (
 			E_CLIENT (editor->priv->target_client),
-			BOOK_BACKEND_PROPERTY_REQUIRED_FIELDS,
+			E_BOOK_BACKEND_PROPERTY_REQUIRED_FIELDS,
 			NULL, required_fields_cb, editor);
 
 		if (!editor->priv->is_new_contact)

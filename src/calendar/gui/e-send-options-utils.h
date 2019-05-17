@@ -35,6 +35,6 @@ void		e_send_options_utils_set_default_data
 void		e_send_options_utils_fill_component
 						(ESendOptionsDialog *sod,
 						 ECalComponent *comp,
-						 icaltimezone *zone);
+						 ICalTimezone *zone);
 
 #endif

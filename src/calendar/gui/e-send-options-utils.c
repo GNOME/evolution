@@ -87,8 +87,14 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 		if (!strcmp (value, "none"))
 			gopts->delay_enabled = FALSE;
 		else {
+			ICalTime *itt;
+
+			itt = i_cal_time_new_from_string (value);
+
 			gopts->delay_enabled = TRUE;
-			gopts->delay_until = icaltime_as_timet (icaltime_from_string (value));
+			gopts->delay_until = i_cal_time_as_timet (itt);
+
+			g_clear_object (&itt);
 		}
 	}
 	g_free (value);
@@ -165,78 +171,95 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 	g_free (value);
 }
 
+static ICalProperty *
+esnd_opts_new_property_take_value (gchar *value)
+{
+	ICalProperty *prop;
+
+	prop = i_cal_property_new_x (value);
+
+	g_free (value);
+
+	return prop;
+}
+
 void
 e_send_options_utils_fill_component (ESendOptionsDialog *sod,
-                                     ECalComponent *comp,
-                                     icaltimezone *zone)
+				     ECalComponent *comp,
+				     ICalTimezone *zone)
 {
-	gint i = 1;
-	icalproperty *prop;
-	icalcomponent *icalcomp;
+	gint ii;
+	ICalProperty *prop;
+	ICalComponent *icomp;
 	ESendOptionsGeneral *gopts;
 	ESendOptionsStatusTracking *sopts;
 
 	gopts = sod->data->gopts;
 	sopts = sod->data->sopts;
 
-	e_cal_component_set_sequence (comp, &i);
-	icalcomp = e_cal_component_get_icalcomponent (comp);
+	ii = e_cal_component_get_sequence (comp);
+	if (ii < 1)
+		ii = 1;
+
+	icomp = e_cal_component_get_icalcomponent (comp);
 
 	if (e_send_options_get_need_general_options (sod)) {
-		prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", gopts->priority));
-		icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-PRIORITY");
-		icalcomponent_add_property (icalcomp, prop);
+		prop = esnd_opts_new_property_take_value (g_strdup_printf ("%d", gopts->priority));
+		i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-PRIORITY");
+		i_cal_component_take_property (icomp, prop);
 
 		if (gopts->reply_enabled) {
 			if (gopts->reply_convenient)
-				prop = icalproperty_new_x ("convenient");
+				prop = i_cal_property_new_x ("convenient");
 			else
-				prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", gopts->reply_within));
-			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-REPLY");
-			icalcomponent_add_property (icalcomp, prop);
+				prop = esnd_opts_new_property_take_value (g_strdup_printf ("%d", gopts->reply_within));
+			i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-REPLY");
+			i_cal_component_take_property (icomp, prop);
 		}
 
 		if (gopts->expiration_enabled && gopts->expire_after) {
-			prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", gopts->expire_after));
-			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-EXPIRE");
-			icalcomponent_add_property (icalcomp, prop);
+			prop = esnd_opts_new_property_take_value (g_strdup_printf ("%d", gopts->expire_after));
+			i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-EXPIRE");
+			i_cal_component_take_property (icomp, prop);
 		}
 
 		if (gopts->delay_enabled) {
-			struct icaltimetype temp;
+			ICalTime *temp;
 			gchar *str;
 
-			temp = icaltime_from_timet_with_zone (gopts->delay_until, FALSE, zone);
+			temp = i_cal_time_new_from_timet_with_zone (gopts->delay_until, FALSE, zone);
 
-			str = icaltime_as_ical_string_r (temp);
-			prop = icalproperty_new_x (str);
+			str = i_cal_time_as_ical_string (temp);
+			prop = i_cal_property_new_x (str);
 			g_free (str);
-			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-DELAY");
-			icalcomponent_add_property (icalcomp, prop);
+			i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-DELAY");
+			i_cal_component_take_property (icomp, prop);
+
+			g_clear_object (&temp);
 		}
 	}
 
 	if (sopts->tracking_enabled)
-		prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", sopts->track_when));
+		prop = esnd_opts_new_property_take_value (g_strdup_printf ("%d", sopts->track_when));
 	else
-		prop = icalproperty_new_x ("0");
+		prop = i_cal_property_new_x ("0");
 
-	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-TRACKINFO");
-	icalcomponent_add_property (icalcomp, prop);
+	i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-TRACKINFO");
+	i_cal_component_take_property (icomp, prop);
 
-	prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", sopts->opened));
-	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-OPENED");
-	icalcomponent_add_property (icalcomp, prop);
+	prop = esnd_opts_new_property_take_value (g_strdup_printf ("%d", sopts->opened));
+	i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-OPENED");
+	i_cal_component_take_property (icomp, prop);
 
-	prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", sopts->accepted));
-	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-ACCEPTED");
-	icalcomponent_add_property (icalcomp, prop);
+	prop = esnd_opts_new_property_take_value (g_strdup_printf ("%d", sopts->accepted));
+	i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-ACCEPTED");
+	i_cal_component_take_property (icomp, prop);
 
-	prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", sopts->declined));
-	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-DECLINED");
-	icalcomponent_add_property (icalcomp, prop);
+	prop = esnd_opts_new_property_take_value (g_strdup_printf ("%d", sopts->declined));
+	i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-DECLINED");
+	i_cal_component_take_property (icomp, prop);
 
-	prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", sopts->completed));
-	icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-COMPLETED");
-	icalcomponent_add_property (icalcomp, prop);
+	prop = esnd_opts_new_property_take_value (g_strdup_printf ("%d", sopts->completed));
+	i_cal_property_set_x_name (prop, "X-EVOLUTION-OPTIONS-COMPLETED");
+	i_cal_component_take_property (icomp, prop);
 }

@@ -49,12 +49,12 @@ struct _ECalComponentPreviewPrivate {
 	 * if it didn't change then the preview is not updated */
 	gchar *cal_uid;
 	gchar *comp_uid;
-	struct icaltimetype comp_last_modified;
+	ICalTime *comp_last_modified;
 	gint comp_sequence;
 
 	ECalClient *client;
 	ECalComponent *comp;
-	icaltimezone *timezone;
+	ICalTimezone *timezone;
 	gboolean use_24_hour_format;
 };
 
@@ -79,25 +79,22 @@ clear_comp_info (ECalComponentPreview *preview)
 	priv->cal_uid = NULL;
 	g_free (priv->comp_uid);
 	priv->comp_uid = NULL;
-	priv->comp_last_modified = icaltime_null_time ();
 	priv->comp_sequence = -1;
 
+	g_clear_object (&priv->comp_last_modified);
 	g_clear_object (&priv->client);
 	g_clear_object (&priv->comp);
-	if (priv->timezone) {
-		icaltimezone_free (priv->timezone, 1);
-		priv->timezone = NULL;
-	}
+	g_clear_object (&priv->timezone);
 }
 
 /* Stores information about actually shown component and
  * returns whether component in the preview changed */
 static gboolean
 update_comp_info (ECalComponentPreview *preview,
-                  ECalClient *client,
-                  ECalComponent *comp,
-                  icaltimezone *zone,
-                  gboolean use_24_hour_format)
+		  ECalClient *client,
+		  ECalComponent *comp,
+		  ICalTimezone *zone,
+		  gboolean use_24_hour_format)
 {
 	ECalComponentPreviewPrivate *priv;
 	gboolean changed;
@@ -115,32 +112,27 @@ update_comp_info (ECalComponentPreview *preview,
 		const gchar *uid;
 		gchar *cal_uid;
 		gchar *comp_uid;
-		struct icaltimetype comp_last_modified, *itm = NULL;
-		gint *sequence = NULL;
+		ICalTime *comp_last_modified;
 		gint comp_sequence;
 
 		source = e_client_get_source (E_CLIENT (client));
 		cal_uid = g_strdup (e_source_get_uid (source));
-		e_cal_component_get_uid (comp, &uid);
+		uid = e_cal_component_get_uid (comp);
 		comp_uid = g_strdup (uid);
-		e_cal_component_get_last_modified (comp, &itm);
-		if (itm) {
-			comp_last_modified = *itm;
-			e_cal_component_free_icaltimetype (itm);
-		} else
-			comp_last_modified = icaltime_null_time ();
-		e_cal_component_get_sequence (comp, &sequence);
-		if (sequence) {
-			comp_sequence = *sequence;
-			e_cal_component_free_sequence (sequence);
-		} else
+		comp_last_modified = e_cal_component_get_last_modified (comp);
+		comp_sequence = e_cal_component_get_sequence (comp);
+		if (comp_sequence < 0)
 			comp_sequence = 0;
 
 		changed = !priv->cal_uid || !priv->comp_uid || !cal_uid || !comp_uid ||
 			  !g_str_equal (priv->cal_uid, cal_uid) ||
 			  !g_str_equal (priv->comp_uid, comp_uid) ||
-			  priv->comp_sequence != comp_sequence ||
-			  icaltime_compare (priv->comp_last_modified, comp_last_modified) != 0;
+			  priv->comp_sequence != comp_sequence;
+
+		if (comp_last_modified && priv->comp_last_modified)
+			changed = changed || i_cal_time_compare (priv->comp_last_modified, comp_last_modified) != 0;
+		else
+			changed = changed || comp_last_modified != priv->comp_last_modified;
 
 		clear_comp_info (preview);
 
@@ -151,7 +143,7 @@ update_comp_info (ECalComponentPreview *preview,
 
 		priv->comp = g_object_ref (comp);
 		priv->client = g_object_ref (client);
-		priv->timezone = icaltimezone_copy (zone);
+		priv->timezone = i_cal_timezone_copy (zone);
 		priv->use_24_hour_format = use_24_hour_format;
 	}
 
@@ -161,26 +153,29 @@ update_comp_info (ECalComponentPreview *preview,
 /* Converts a time_t to a string, relative to the specified timezone */
 static gchar *
 timet_to_str_with_zone (ECalComponentDateTime *dt,
-                        ECalClient *client,
-                        icaltimezone *default_zone)
+			ECalClient *client,
+			ICalTimezone *default_zone)
 {
-	struct icaltimetype itt;
-	icaltimezone *zone = NULL;
+	ICalTime *itt;
+	ICalTimezone *zone = NULL;
 	struct tm tm;
 
-	if (dt->tzid != NULL) {
-		e_cal_client_get_timezone_sync (
-			client, dt->tzid, &zone, NULL, NULL);
-	} else if (icaltime_is_utc (*dt->value)) {
-		zone = icaltimezone_get_utc_timezone ();
+	if (!dt)
+		return NULL;
+
+	itt = e_cal_component_datetime_get_value (dt);
+
+	if (e_cal_component_datetime_get_tzid (dt)) {
+		e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dt), &zone, NULL, NULL);
+	} else if (i_cal_time_is_utc (itt)) {
+		zone = i_cal_timezone_get_utc_timezone ();
 	}
 
-	itt = *dt->value;
 	if (zone != NULL)
-		icaltimezone_convert_time (&itt, zone, default_zone);
-	tm = icaltimetype_to_tm (&itt);
+		i_cal_time_convert_timezone (itt, zone, default_zone);
+	tm = e_cal_util_icaltime_to_tm (itt);
 
-	return e_datetime_format_format_tm ("calendar", "table", itt.is_date ? DTFormatKindDate : DTFormatKindDateTime, &tm);
+	return e_datetime_format_format_tm ("calendar", "table", i_cal_time_is_date (itt) ? DTFormatKindDate : DTFormatKindDateTime, &tm);
 }
 
 static void
@@ -213,17 +208,18 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 {
 	ECalClient *client;
 	ECalComponent *comp;
-	icaltimezone *default_zone;
-	ECalComponentText text;
-	ECalComponentDateTime dt;
+	ICalTimezone *default_zone;
+	ECalComponentText *text;
+	ECalComponentDateTime *dt;
 	gchar *str;
 	GString *string;
 	GSList *list, *iter;
-	icalcomponent *icalcomp;
-	icalproperty *icalprop;
-	icalproperty_status status;
-	const gchar *location, *url, *tmp;
-	gint *priority_value;
+	ICalComponent *icomp;
+	ICalProperty *prop;
+	ICalPropertyStatus status;
+	const gchar *tmp;
+	gchar *location, *url;
+	gint priority;
 	gchar *markup;
 
 	client = preview->priv->client;
@@ -231,23 +227,24 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	default_zone = preview->priv->timezone;
 
 	/* write document header */
-	e_cal_component_get_summary (comp, &text);
+	text = e_cal_component_get_summary (comp);
 
 	g_string_append (buffer, HTML_HEADER);
 	g_string_append (buffer, "<body class=\"-e-web-view-background-color -e-web-view-text-color\">");
 
-	markup = g_markup_escape_text (text.value ? text.value : _("Untitled"), -1);
-	if (text.value)
+	markup = g_markup_escape_text (text && e_cal_component_text_get_value (text) ? e_cal_component_text_get_value (text) : _("Untitled"), -1);
+	if (text && e_cal_component_text_get_value (text))
 		g_string_append_printf (buffer, "<h2>%s</h2>", markup);
 	else
 		g_string_append_printf (buffer, "<h2><i>%s</i></h2>", markup);
+	e_cal_component_text_free (text);
 	g_free (markup);
 
 	g_string_append (buffer, "<table border=\"0\" cellspacing=\"5\">");
 
 	/* write icons for the categories */
 	string = g_string_new (NULL);
-	e_cal_component_get_categories_list (comp, &list);
+	list = e_cal_component_get_categories_list (comp);
 	if (list != NULL) {
 		markup = g_markup_escape_text (_("Categories:"), -1);
 		g_string_append_printf (buffer, "<tr><th>%s</th><td>", markup);
@@ -281,43 +278,47 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		g_string_append_printf (buffer, "%s", string->str);
 	if (list != NULL)
 		g_string_append (buffer, "</td></tr>");
-	e_cal_component_free_categories_list (list);
+	g_slist_free_full (list, g_free);
 	g_string_free (string, TRUE);
 
 	/* write location */
-	e_cal_component_get_location (comp, &location);
+	location = e_cal_component_get_location (comp);
 	cal_component_preview_add_table_line (buffer, _("Location:"), location);
+	g_free (location);
 
 	/* write start date */
-	e_cal_component_get_dtstart (comp, &dt);
-	if (dt.value != NULL) {
-		str = timet_to_str_with_zone (&dt, client, default_zone);
+	dt = e_cal_component_get_dtstart (comp);
+	if (dt && e_cal_component_datetime_get_value (dt)) {
+		str = timet_to_str_with_zone (dt, client, default_zone);
 		cal_component_preview_add_table_line (buffer, _("Start Date:"), str);
 		g_free (str);
 	}
-	e_cal_component_free_datetime (&dt);
+	e_cal_component_datetime_free (dt);
 
 	/* write end date */
-	e_cal_component_get_dtend (comp, &dt);
-	if (dt.value != NULL) {
-		str = timet_to_str_with_zone (&dt, client, default_zone);
+	dt = e_cal_component_get_dtend (comp);
+	if (dt && e_cal_component_datetime_get_value (dt)) {
+		str = timet_to_str_with_zone (dt, client, default_zone);
 		cal_component_preview_add_table_line (buffer, _("End Date:"), str);
 		g_free (str);
 	}
-	e_cal_component_free_datetime (&dt);
+	e_cal_component_datetime_free (dt);
 
 	/* write Due Date */
-	e_cal_component_get_due (comp, &dt);
-	if (dt.value != NULL) {
-		str = timet_to_str_with_zone (&dt, client, default_zone);
+	dt = e_cal_component_get_due (comp);
+	if (dt && e_cal_component_datetime_get_value (dt)) {
+		str = timet_to_str_with_zone (dt, client, default_zone);
 		cal_component_preview_add_table_line (buffer, _("Due Date:"), str);
 		g_free (str);
 	}
-	e_cal_component_free_datetime (&dt);
+	e_cal_component_datetime_free (dt);
 
-	if (e_cal_util_component_has_recurrences (e_cal_component_get_icalcomponent (comp))) {
-		str = e_cal_recur_describe_recurrence (e_cal_component_get_icalcomponent (comp),
-			calendar_config_get_week_start_day (), E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_NONE);
+	icomp = e_cal_component_get_icalcomponent (comp);
+
+	if (e_cal_util_component_has_recurrences (icomp)) {
+		str = e_cal_recur_describe_recurrence (icomp,
+			calendar_config_get_week_start_day (),
+			E_CAL_RECUR_DESCRIBE_RECURRENCE_FLAG_NONE);
 
 		if (str) {
 			cal_component_preview_add_table_line (buffer, _("Recurs:"), str);
@@ -326,36 +327,36 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	}
 
 	/* write status */
-	icalcomp = e_cal_component_get_icalcomponent (comp);
-	icalprop = icalcomponent_get_first_property (
-		icalcomp, ICAL_STATUS_PROPERTY);
-	if (icalprop != NULL) {
-		e_cal_component_get_status (comp, &status);
+	prop = i_cal_component_get_first_property (icomp, I_CAL_STATUS_PROPERTY);
+	if (prop) {
+		status = e_cal_component_get_status (comp);
 		switch (status) {
-		case ICAL_STATUS_INPROCESS :
+		case I_CAL_STATUS_INPROCESS :
 			tmp = _("In Progress");
 			break;
-		case ICAL_STATUS_COMPLETED :
+		case I_CAL_STATUS_COMPLETED :
 			tmp = _("Completed");
 			break;
-		case ICAL_STATUS_CANCELLED :
+		case I_CAL_STATUS_CANCELLED :
 			tmp = _("Cancelled");
 			break;
-		case ICAL_STATUS_NONE :
+		case I_CAL_STATUS_NONE :
 		default :
 			tmp = _("Not Started");
 			break;
 		}
 
 		cal_component_preview_add_table_line (buffer, _("Status:"), tmp);
+
+		g_object_unref (prop);
 	}
 
 	/* write priority */
-	e_cal_component_get_priority (comp, &priority_value);
-	if (priority_value && *priority_value != 0) {
-		if (*priority_value <= 4)
+	priority = e_cal_component_get_priority (comp);
+	if (priority > 0) {
+		if (priority <= 4)
 			tmp = _("High");
-		else if (*priority_value == 5)
+		else if (priority == 5)
 			tmp = _("Normal");
 		else
 			tmp = _("Low");
@@ -363,25 +364,22 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		cal_component_preview_add_table_line (buffer, _("Priority:"), tmp);
 	}
 
-	if (priority_value)
-		e_cal_component_free_priority (priority_value);
-
 	if (e_cal_component_has_organizer (comp)) {
-		ECalComponentOrganizer organizer = { 0 };
+		ECalComponentOrganizer *organizer;
 
-		e_cal_component_get_organizer (comp, &organizer);
+		organizer = e_cal_component_get_organizer (comp);
 
-		if (organizer.value && *organizer.value) {
-			const gchar *email = itip_strip_mailto (organizer.value);
+		if (organizer && e_cal_component_organizer_get_value (organizer) && e_cal_component_organizer_get_value (organizer)[0]) {
+			const gchar *email = itip_strip_mailto (e_cal_component_organizer_get_value (organizer));
 			if (!email)
 				email = "";
 			markup = g_markup_escape_text (_("Organizer:"), -1);
 			g_string_append_printf (buffer, "<tr><th>%s</th>", markup);
 			g_free (markup);
-			if (organizer.cn && *organizer.cn) {
+			if (e_cal_component_organizer_get_cn (organizer) && e_cal_component_organizer_get_cn (organizer)[0]) {
 				gchar *html;
 
-				str = g_strconcat (organizer.cn, " <", email, ">", NULL);
+				str = g_strconcat (e_cal_component_organizer_get_cn (organizer), " <", email, ">", NULL);
 				html = camel_text_to_html (str,
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
@@ -398,19 +396,21 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 				g_free (str);
 			}
 		}
+
+		e_cal_component_organizer_free (organizer);
 	}
 
 	if (e_cal_component_has_attendees (comp)) {
 		GSList *attendees = NULL, *a;
 		gboolean have = FALSE;
 
-		e_cal_component_get_attendee_list (comp, &attendees);
+		attendees = e_cal_component_get_attendees (comp);
 
 		for (a = attendees; a; a = a->next) {
 			ECalComponentAttendee *attnd = a->data;
 			const gchar *email;
 
-			if (!attnd || !attnd->value || !*attnd->value)
+			if (!attnd || !e_cal_component_attendee_get_value (attnd) || !e_cal_component_attendee_get_value (attnd)[0])
 				continue;
 
 			if (!have) {
@@ -421,14 +421,14 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 				g_string_append (buffer, "<br>");
 			}
 
-			email = itip_strip_mailto (attnd->value);
+			email = itip_strip_mailto (e_cal_component_attendee_get_value (attnd));
 			if (!email)
 				email = "";
 
-			if (attnd->cn && *attnd->cn) {
+			if (e_cal_component_attendee_get_cn (attnd) && e_cal_component_attendee_get_cn (attnd)[0]) {
 				gchar *html;
 
-				str = g_strconcat (attnd->cn, " <", email, ">", NULL);
+				str = g_strconcat (e_cal_component_attendee_get_cn (attnd), " <", email, ">", NULL);
 				html = camel_text_to_html (str,
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 					CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
@@ -451,13 +451,13 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		if (have)
 			g_string_append (buffer, "</td></tr>");
 
-		e_cal_component_free_attendee_list (attendees);
+		g_slist_free_full (attendees, e_cal_component_attendee_free);
 	}
 
 	/* write description and URL */
 	g_string_append (buffer, "<tr><td colspan=\"2\"><hr></td></tr>");
 
-	e_cal_component_get_description_list (comp, &list);
+	list = e_cal_component_get_descriptions (comp);
 	if (list) {
 		GSList *node;
 
@@ -470,9 +470,12 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		for (node = list; node != NULL; node = node->next) {
 			gchar *html;
 
-			text = * (ECalComponentText *) node->data;
+			text = node->data;
+			if (!text || !e_cal_component_text_get_value (text))
+				continue;
+
 			html = camel_text_to_html (
-				text.value ? text.value : "",
+				e_cal_component_text_get_value (text),
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
 				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
@@ -486,11 +489,11 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 
 		g_string_append (buffer, "</td></tr>");
 
-		e_cal_component_free_text_list (list);
+		g_slist_free_full (list, e_cal_component_text_free);
 	}
 
 	/* URL */
-	e_cal_component_get_url (comp, &url);
+	url = e_cal_component_get_url (comp);
 	if (url) {
 		gchar *scheme, *header_markup;
 		const gchar *href = url;
@@ -522,6 +525,7 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 		g_free (header_markup);
 		g_free (markup);
 		g_free (str);
+		g_free (url);
 	}
 
 	g_string_append (buffer, "</table>");
@@ -614,7 +618,7 @@ void
 e_cal_component_preview_display (ECalComponentPreview *preview,
                                  ECalClient *client,
                                  ECalComponent *comp,
-                                 icaltimezone *zone,
+                                 ICalTimezone *zone,
                                  gboolean use_24_hour_format)
 {
 	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));

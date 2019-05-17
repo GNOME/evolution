@@ -379,7 +379,7 @@ kcontact_load (GSList *files)
 	}
 
 	if (contactlist) {
-		e_book_client_add_contacts_sync (book_client, contactlist, NULL, NULL, &error);
+		e_book_client_add_contacts_sync (book_client, contactlist, E_BOOK_OPERATION_FLAG_NONE, NULL, NULL, &error);
 
 		if (error) {
 			printf ("%s: Failed to add contacts: %s\n", G_STRFUNC, error->message);

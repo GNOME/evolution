@@ -499,13 +499,7 @@ main (gint argc,
 		exit (1);
 	}
 
-#ifdef HAVE_ICAL_UNKNOWN_TOKEN_HANDLING
-	ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN);
-#endif
-
-#ifdef HAVE_ICALTZUTIL_SET_EXACT_VTIMEZONES_SUPPORT
-	icaltzutil_set_exact_vtimezones_support (0);
-#endif
+	i_cal_set_unknown_token_handling_setting (I_CAL_DISCARD_TOKEN);
 
 #ifdef G_OS_WIN32
 	if (register_handlers || reinstall || show_icons) {

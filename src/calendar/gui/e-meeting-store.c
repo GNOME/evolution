@@ -49,7 +49,7 @@ struct _EMeetingStorePrivate {
 	gint stamp;
 
 	ECalClient *client;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	gint default_reminder_interval;
 	EDurationType default_reminder_units;
@@ -104,32 +104,32 @@ G_DEFINE_TYPE_WITH_CODE (
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
 	G_IMPLEMENT_INTERFACE (GTK_TYPE_TREE_MODEL, ems_tree_model_init))
 
-static icalparameter_cutype
+static ICalParameterCutype
 text_to_type (const gchar *type)
 {
 	if (!e_util_utf8_strcasecmp (type, _("Individual")))
-		return ICAL_CUTYPE_INDIVIDUAL;
+		return I_CAL_CUTYPE_INDIVIDUAL;
 	else if (!e_util_utf8_strcasecmp (type, _("Group")))
-		return ICAL_CUTYPE_GROUP;
+		return I_CAL_CUTYPE_GROUP;
 	else if (!e_util_utf8_strcasecmp (type, _("Resource")))
-		return ICAL_CUTYPE_RESOURCE;
+		return I_CAL_CUTYPE_RESOURCE;
 	else if (!e_util_utf8_strcasecmp (type, _("Room")))
-		return ICAL_CUTYPE_ROOM;
+		return I_CAL_CUTYPE_ROOM;
 	else
-		return ICAL_CUTYPE_NONE;
+		return I_CAL_CUTYPE_NONE;
 }
 
 static gchar *
-type_to_text (icalparameter_cutype type)
+type_to_text (ICalParameterCutype type)
 {
 	switch (type) {
-	case ICAL_CUTYPE_INDIVIDUAL:
+	case I_CAL_CUTYPE_INDIVIDUAL:
 		return _("Individual");
-	case ICAL_CUTYPE_GROUP:
+	case I_CAL_CUTYPE_GROUP:
 		return _("Group");
-	case ICAL_CUTYPE_RESOURCE:
+	case I_CAL_CUTYPE_RESOURCE:
 		return _("Resource");
-	case ICAL_CUTYPE_ROOM:
+	case I_CAL_CUTYPE_ROOM:
 		return _("Room");
 	default:
 		return _("Unknown");
@@ -139,32 +139,32 @@ type_to_text (icalparameter_cutype type)
 
 }
 
-static icalparameter_role
+static ICalParameterRole
 text_to_role (const gchar *role)
 {
 	if (!e_util_utf8_strcasecmp (role, _("Chair")))
-		return ICAL_ROLE_CHAIR;
+		return I_CAL_ROLE_CHAIR;
 	else if (!e_util_utf8_strcasecmp (role, _("Required Participant")))
-		return ICAL_ROLE_REQPARTICIPANT;
+		return I_CAL_ROLE_REQPARTICIPANT;
 	else if (!e_util_utf8_strcasecmp (role, _("Optional Participant")))
-		return ICAL_ROLE_OPTPARTICIPANT;
+		return I_CAL_ROLE_OPTPARTICIPANT;
 	else if (!e_util_utf8_strcasecmp (role, _("Non-Participant")))
-		return ICAL_ROLE_NONPARTICIPANT;
+		return I_CAL_ROLE_NONPARTICIPANT;
 	else
-		return ICAL_ROLE_NONE;
+		return I_CAL_ROLE_NONE;
 }
 
 static gchar *
-role_to_text (icalparameter_role role)
+role_to_text (ICalParameterRole role)
 {
 	switch (role) {
-	case ICAL_ROLE_CHAIR:
+	case I_CAL_ROLE_CHAIR:
 		return _("Chair");
-	case ICAL_ROLE_REQPARTICIPANT:
+	case I_CAL_ROLE_REQPARTICIPANT:
 		return _("Required Participant");
-	case ICAL_ROLE_OPTPARTICIPANT:
+	case I_CAL_ROLE_OPTPARTICIPANT:
 		return _("Optional Participant");
-	case ICAL_ROLE_NONPARTICIPANT:
+	case I_CAL_ROLE_NONPARTICIPANT:
 		return _("Non-Participant");
 	default:
 		return _("Unknown");
@@ -189,46 +189,46 @@ boolean_to_text (gboolean b)
 		return _("No");
 }
 
-static icalparameter_partstat
+static ICalParameterPartstat
 text_to_partstat (const gchar *partstat)
 {
 	if (!e_util_utf8_strcasecmp (partstat, _("Needs Action")))
-		return ICAL_PARTSTAT_NEEDSACTION;
+		return I_CAL_PARTSTAT_NEEDSACTION;
 	else if (!e_util_utf8_strcasecmp (partstat, _("Accepted")))
-		return ICAL_PARTSTAT_ACCEPTED;
+		return I_CAL_PARTSTAT_ACCEPTED;
 	else if (!e_util_utf8_strcasecmp (partstat, _("Declined")))
-		return ICAL_PARTSTAT_DECLINED;
+		return I_CAL_PARTSTAT_DECLINED;
 	else if (!e_util_utf8_strcasecmp (partstat, _("Tentative")))
-		return ICAL_PARTSTAT_TENTATIVE;
+		return I_CAL_PARTSTAT_TENTATIVE;
 	else if (!e_util_utf8_strcasecmp (partstat, _("Delegated")))
-		return ICAL_PARTSTAT_DELEGATED;
+		return I_CAL_PARTSTAT_DELEGATED;
 	else if (!e_util_utf8_strcasecmp (partstat, _("Completed")))
-		return ICAL_PARTSTAT_COMPLETED;
+		return I_CAL_PARTSTAT_COMPLETED;
 	else if (!e_util_utf8_strcasecmp (partstat, _("In Process")))
-		return ICAL_PARTSTAT_INPROCESS;
+		return I_CAL_PARTSTAT_INPROCESS;
 	else
-		return ICAL_PARTSTAT_NONE;
+		return I_CAL_PARTSTAT_NONE;
 }
 
 static gchar *
-partstat_to_text (icalparameter_partstat partstat)
+partstat_to_text (ICalParameterPartstat partstat)
 {
 	switch (partstat) {
-	case ICAL_PARTSTAT_NEEDSACTION:
+	case I_CAL_PARTSTAT_NEEDSACTION:
 		return _("Needs Action");
-	case ICAL_PARTSTAT_ACCEPTED:
+	case I_CAL_PARTSTAT_ACCEPTED:
 		return _("Accepted");
-	case ICAL_PARTSTAT_DECLINED:
+	case I_CAL_PARTSTAT_DECLINED:
 		return _("Declined");
-	case ICAL_PARTSTAT_TENTATIVE:
+	case I_CAL_PARTSTAT_TENTATIVE:
 		return _("Tentative");
-	case ICAL_PARTSTAT_DELEGATED:
+	case I_CAL_PARTSTAT_DELEGATED:
 		return _("Delegated");
-	case ICAL_PARTSTAT_COMPLETED:
+	case I_CAL_PARTSTAT_COMPLETED:
 		return _("Completed");
-	case ICAL_PARTSTAT_INPROCESS:
+	case I_CAL_PARTSTAT_INPROCESS:
 		return _("In Process");
-	case ICAL_PARTSTAT_NONE:
+	case I_CAL_PARTSTAT_NONE:
 	default:
 		return _("Unknown");
 	}
@@ -384,7 +384,7 @@ get_value (GtkTreeModel *model,
 		g_value_init (value, G_TYPE_STRING);
 		g_value_set_string (
 			value, partstat_to_text (
-			e_meeting_attendee_get_status (attendee)));
+			e_meeting_attendee_get_partstat (attendee)));
 		break;
 	case E_MEETING_STORE_CN_COL:
 		g_value_init (value, G_TYPE_STRING);
@@ -535,24 +535,27 @@ e_meeting_store_set_value (EMeetingStore *store,
                            gint col,
                            const gchar *val)
 {
-	icalparameter_cutype type;
+	ICalParameterCutype cutype;
 	EMeetingAttendee *attendee = g_ptr_array_index (store->priv->attendees, row);
 
 	switch (col) {
 	case E_MEETING_STORE_ADDRESS_COL:
-		if (val != NULL && *((gchar *) val))
-			e_meeting_attendee_set_address (
-				attendee, g_strdup_printf (
-				"mailto:%s", (gchar *) val));
+		if (val != NULL && *((gchar *) val)) {
+			gchar *mailto;
+
+			mailto = g_strdup_printf ("mailto:%s", (const gchar *) val);
+			e_meeting_attendee_set_address (attendee, mailto);
+			g_free (mailto);
+		}
 		break;
 	case E_MEETING_STORE_MEMBER_COL:
-		e_meeting_attendee_set_member (attendee, g_strdup (val));
+		e_meeting_attendee_set_member (attendee, val);
 		break;
 	case E_MEETING_STORE_TYPE_COL:
-		type = text_to_type (val);
-		e_meeting_attendee_set_cutype (attendee, text_to_type (val));
-		if (type == ICAL_CUTYPE_RESOURCE) {
-			e_meeting_attendee_set_role (attendee, ICAL_ROLE_NONPARTICIPANT);
+		cutype = text_to_type (val);
+		e_meeting_attendee_set_cutype (attendee, cutype);
+		if (cutype == I_CAL_CUTYPE_RESOURCE) {
+			e_meeting_attendee_set_role (attendee, I_CAL_ROLE_NONPARTICIPANT);
 		}
 		break;
 	case E_MEETING_STORE_ROLE_COL:
@@ -562,19 +565,19 @@ e_meeting_store_set_value (EMeetingStore *store,
 		e_meeting_attendee_set_rsvp (attendee, text_to_boolean (val));
 		break;
 	case E_MEETING_STORE_DELTO_COL:
-		e_meeting_attendee_set_delto (attendee, g_strdup (val));
+		e_meeting_attendee_set_delto (attendee, val);
 		break;
 	case E_MEETING_STORE_DELFROM_COL:
-		e_meeting_attendee_set_delfrom (attendee, g_strdup (val));
+		e_meeting_attendee_set_delfrom (attendee, val);
 		break;
 	case E_MEETING_STORE_STATUS_COL:
-		e_meeting_attendee_set_status (attendee, text_to_partstat (val));
+		e_meeting_attendee_set_partstat (attendee, text_to_partstat (val));
 		break;
 	case E_MEETING_STORE_CN_COL:
-		e_meeting_attendee_set_cn (attendee, g_strdup (val));
+		e_meeting_attendee_set_cn (attendee, val);
 		break;
 	case E_MEETING_STORE_LANGUAGE_COL:
-		e_meeting_attendee_set_language (attendee, g_strdup (val));
+		e_meeting_attendee_set_language (attendee, val);
 		break;
 	}
 }
@@ -775,6 +778,8 @@ meeting_store_finalize (GObject *object)
 		g_source_remove (priv->refresh_idle_id);
 
 	g_free (priv->fb_uri);
+
+	g_clear_object (&priv->zone);
 
 	g_mutex_clear (&priv->mutex);
 
@@ -977,7 +982,7 @@ e_meeting_store_set_free_busy_template (EMeetingStore *store,
 	g_object_notify (G_OBJECT (store), "free-busy-template");
 }
 
-icaltimezone *
+ICalTimezone *
 e_meeting_store_get_timezone (EMeetingStore *store)
 {
 	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
@@ -987,14 +992,15 @@ e_meeting_store_get_timezone (EMeetingStore *store)
 
 void
 e_meeting_store_set_timezone (EMeetingStore *store,
-                              icaltimezone *timezone)
+			      const ICalTimezone *timezone)
 {
 	g_return_if_fail (E_IS_MEETING_STORE (store));
 
 	if (store->priv->zone == timezone)
 		return;
 
-	store->priv->zone = timezone;
+	g_clear_object (&store->priv->zone);
+	store->priv->zone = e_cal_util_copy_timezone (timezone);
 
 	g_object_notify (G_OBJECT (store), "timezone");
 }
@@ -1078,8 +1084,8 @@ e_meeting_store_add_attendee_with_defaults (EMeetingStore *store)
 
 	attendee = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
 
-	e_meeting_attendee_set_address (attendee, g_strdup (""));
-	e_meeting_attendee_set_member (attendee, g_strdup (""));
+	e_meeting_attendee_set_address (attendee, "");
+	e_meeting_attendee_set_member (attendee, "");
 
 	str = g_strdup (_("Individual"));
 	e_meeting_attendee_set_cutype (attendee, text_to_type (str));
@@ -1091,15 +1097,15 @@ e_meeting_store_add_attendee_with_defaults (EMeetingStore *store)
 	e_meeting_attendee_set_rsvp (attendee, text_to_boolean (str));
 	g_free (str);
 
-	e_meeting_attendee_set_delto (attendee, g_strdup (""));
-	e_meeting_attendee_set_delfrom (attendee, g_strdup (""));
+	e_meeting_attendee_set_delto (attendee, "");
+	e_meeting_attendee_set_delfrom (attendee, "");
 
 	str = g_strdup (_("Needs Action"));
-	e_meeting_attendee_set_status (attendee, text_to_partstat (str));
+	e_meeting_attendee_set_partstat (attendee, text_to_partstat (str));
 	g_free (str);
 
-	e_meeting_attendee_set_cn (attendee, g_strdup (""));
-	e_meeting_attendee_set_language (attendee, g_strdup ("en"));
+	e_meeting_attendee_set_cn (attendee, "");
+	e_meeting_attendee_set_language (attendee, "en");
 
 	e_meeting_store_add_attendee (store, attendee);
 
@@ -1308,43 +1314,56 @@ e_meeting_store_get_attendees (EMeetingStore *store)
 	return store->priv->attendees;
 }
 
-static icaltimezone *
-find_zone (icalproperty *ip,
-           icalcomponent *tz_top_level)
+static ICalTimezone *
+find_zone (ICalProperty *in_prop,
+	   ICalComponent *tz_top_level)
 {
-	icalparameter *param;
-	icalcomponent *sub_comp;
+	ICalParameter *param;
+	ICalComponent *subcomp;
 	const gchar *tzid;
-	icalcompiter iter;
+	ICalCompIter *iter;
 
 	if (tz_top_level == NULL)
 		return NULL;
 
-	param = icalproperty_get_first_parameter (ip, ICAL_TZID_PARAMETER);
+	param = i_cal_property_get_first_parameter (in_prop, I_CAL_TZID_PARAMETER);
 	if (param == NULL)
 		return NULL;
-	tzid = icalparameter_get_tzid (param);
+	tzid = i_cal_parameter_get_tzid (param);
 
-	iter = icalcomponent_begin_component (tz_top_level, ICAL_VTIMEZONE_COMPONENT);
-	while ((sub_comp = icalcompiter_deref (&iter)) != NULL) {
-		icalcomponent *clone;
-		icalproperty *prop;
-		const gchar *tz_tzid;
+	iter = i_cal_component_begin_component (tz_top_level, I_CAL_VTIMEZONE_COMPONENT);
+	subcomp = i_cal_comp_iter_deref (iter);
+	while (subcomp) {
+		ICalComponent *next_subcomp;
+		ICalProperty *prop;
 
-		prop = icalcomponent_get_first_property (sub_comp, ICAL_TZID_PROPERTY);
-		tz_tzid = icalproperty_get_tzid (prop);
-		if (!strcmp (tzid, tz_tzid)) {
-			icaltimezone *zone;
+		next_subcomp = i_cal_comp_iter_next (iter);
 
-			zone = icaltimezone_new ();
-			clone = icalcomponent_new_clone (sub_comp);
-			icaltimezone_set_component (zone, clone);
+		prop = i_cal_component_get_first_property (subcomp, I_CAL_TZID_PROPERTY);
+		if (prop && !g_strcmp0 (tzid, i_cal_property_get_tzid (prop))) {
+			ICalComponent *clone;
+			ICalTimezone *zone;
+
+			zone = i_cal_timezone_new ();
+			clone = i_cal_component_clone (subcomp);
+			i_cal_timezone_set_component (zone, clone);
+
+			g_clear_object (&next_subcomp);
+			g_clear_object (&subcomp);
+			g_clear_object (&param);
+			g_clear_object (&prop);
+			g_clear_object (&iter);
 
 			return zone;
 		}
 
-		icalcompiter_next (&iter);
+		g_clear_object (&prop);
+		g_object_unref (subcomp);
+		subcomp = next_subcomp;
 	}
+
+	g_clear_object (&param);
+	g_clear_object (&iter);
 
 	return NULL;
 }
@@ -1376,106 +1395,122 @@ process_callbacks (EMeetingStoreQueueData *qdata)
 }
 
 static void
-process_free_busy_comp_get_xfb (icalproperty *ip,
+process_free_busy_comp_get_xfb (ICalProperty *ip,
                                 gchar **summary,
                                 gchar **location)
 {
-	const gchar *tmp = NULL;
+	gchar *tmp;
 
 	g_return_if_fail (ip != NULL);
 	g_return_if_fail (summary != NULL && *summary == NULL);
 	g_return_if_fail (location != NULL && *location == NULL);
 
-	/* We extract extended free/busy information from the icalproperty
+	/* We extract extended free/busy information from the ICalProperty
 	 * here (X-SUMMARY and X-LOCATION). If the property carries such,
 	 * it will be displayed as a tooltip for the busy period. Otherwise,
 	 * nothing will happen (*summary and/or *location will be NULL)
 	 */
 
-	tmp = icalproperty_get_parameter_as_string (
-		ip, E_MEETING_FREE_BUSY_XPROP_SUMMARY);
-	*summary = e_meeting_xfb_utf8_string_new_from_ical (
-		tmp, E_MEETING_FREE_BUSY_XPROP_MAXLEN);
-	tmp = icalproperty_get_parameter_as_string (
-		ip, E_MEETING_FREE_BUSY_XPROP_LOCATION);
-	*location = e_meeting_xfb_utf8_string_new_from_ical (
-		tmp, E_MEETING_FREE_BUSY_XPROP_MAXLEN);
+	tmp = i_cal_property_get_parameter_as_string (ip, E_MEETING_FREE_BUSY_XPROP_SUMMARY);
+	*summary = e_meeting_xfb_utf8_string_new_from_ical (tmp, E_MEETING_FREE_BUSY_XPROP_MAXLEN);
+	g_free (tmp);
+
+	tmp = i_cal_property_get_parameter_as_string (ip, E_MEETING_FREE_BUSY_XPROP_LOCATION);
+	*location = e_meeting_xfb_utf8_string_new_from_ical (tmp, E_MEETING_FREE_BUSY_XPROP_MAXLEN);
+	g_free (tmp);
 }
 
 static void
 process_free_busy_comp (EMeetingAttendee *attendee,
-                        icalcomponent *fb_comp,
-                        icaltimezone *zone,
-                        icalcomponent *tz_top_level)
+			ICalComponent *fb_comp,
+			ICalTimezone *zone,
+			ICalComponent *tz_top_level)
 {
-	icalproperty *ip;
+	ICalProperty *ip;
 
-	ip = icalcomponent_get_first_property (fb_comp, ICAL_DTSTART_PROPERTY);
+	ip = i_cal_component_get_first_property (fb_comp, I_CAL_DTSTART_PROPERTY);
 	if (ip != NULL) {
-		struct icaltimetype dtstart;
-		icaltimezone *ds_zone;
+		ICalTime *dtstart;
+		ICalTimezone *ds_zone;
 
-		dtstart = icalproperty_get_dtstart (ip);
-		if (!icaltime_is_utc (dtstart))
-			ds_zone = find_zone (ip, tz_top_level);
-		else
-			ds_zone = icaltimezone_get_utc_timezone ();
-		icaltimezone_convert_time (&dtstart, ds_zone, zone);
-		e_meeting_attendee_set_start_busy_range (
-			attendee,
-			dtstart.year,
-			dtstart.month,
-			dtstart.day,
-			dtstart.hour,
-			dtstart.minute);
+		dtstart = i_cal_property_get_dtstart (ip);
+		if (dtstart) {
+			if (!i_cal_time_is_utc (dtstart))
+				ds_zone = find_zone (ip, tz_top_level);
+			else
+				ds_zone = g_object_ref (i_cal_timezone_get_utc_timezone ());
+			i_cal_time_convert_timezone (dtstart, ds_zone, zone);
+
+			e_meeting_attendee_set_start_busy_range (
+				attendee,
+				i_cal_time_get_year (dtstart),
+				i_cal_time_get_month (dtstart),
+				i_cal_time_get_day (dtstart),
+				i_cal_time_get_hour (dtstart),
+				i_cal_time_get_minute (dtstart));
+
+			g_clear_object (&ds_zone);
+			g_clear_object (&dtstart);
+		}
 	}
+	g_clear_object (&ip);
 
-	ip = icalcomponent_get_first_property (fb_comp, ICAL_DTEND_PROPERTY);
+	ip = i_cal_component_get_first_property (fb_comp, I_CAL_DTEND_PROPERTY);
 	if (ip != NULL) {
-		struct icaltimetype dtend;
-		icaltimezone *de_zone;
+		ICalTime *dtend;
+		ICalTimezone *de_zone;
 
-		dtend = icalproperty_get_dtend (ip);
-		if (!icaltime_is_utc (dtend))
-			de_zone = find_zone (ip, tz_top_level);
-		else
-			de_zone = icaltimezone_get_utc_timezone ();
-		icaltimezone_convert_time (&dtend, de_zone, zone);
-		e_meeting_attendee_set_end_busy_range (
-			attendee,
-			dtend.year,
-			dtend.month,
-			dtend.day,
-			dtend.hour,
-			dtend.minute);
+		dtend = i_cal_property_get_dtend (ip);
+		if (dtend) {
+			if (!i_cal_time_is_utc (dtend))
+				de_zone = find_zone (ip, tz_top_level);
+			else
+				de_zone = g_object_ref (i_cal_timezone_get_utc_timezone ());
+			i_cal_time_convert_timezone (dtend, de_zone, zone);
+
+			e_meeting_attendee_set_end_busy_range (
+				attendee,
+				i_cal_time_get_year (dtend),
+				i_cal_time_get_month (dtend),
+				i_cal_time_get_day (dtend),
+				i_cal_time_get_hour (dtend),
+				i_cal_time_get_minute (dtend));
+
+			g_clear_object (&de_zone);
+			g_clear_object (&dtend);
+		}
 	}
+	g_clear_object (&ip);
 
-	ip = icalcomponent_get_first_property (fb_comp, ICAL_FREEBUSY_PROPERTY);
-	while (ip != NULL) {
-		icalparameter *param;
-		struct icalperiodtype fb;
+	for (ip = i_cal_component_get_first_property (fb_comp, I_CAL_FREEBUSY_PROPERTY);
+	     ip;
+	     g_object_unref (ip), ip = i_cal_component_get_next_property (fb_comp, I_CAL_FREEBUSY_PROPERTY)) {
+		ICalParameter *param;
+		ICalPeriod *fb;
 		EMeetingFreeBusyType busy_type = E_MEETING_FREE_BUSY_LAST;
-		icalparameter_fbtype fbtype = ICAL_FBTYPE_BUSY;
+		ICalParameterFbtype fbtype = I_CAL_FBTYPE_BUSY;
 
-		fb = icalproperty_get_freebusy (ip);
-		param = icalproperty_get_first_parameter (ip, ICAL_FBTYPE_PARAMETER);
-		if (param != NULL)
-			fbtype = icalparameter_get_fbtype (param);
+		fb = i_cal_property_get_freebusy (ip);
+		param = i_cal_property_get_first_parameter (ip, I_CAL_FBTYPE_PARAMETER);
+		if (param) {
+			fbtype = i_cal_parameter_get_fbtype (param);
+			g_clear_object (&param);
+		}
 
 		switch (fbtype) {
-		case ICAL_FBTYPE_BUSY:
+		case I_CAL_FBTYPE_BUSY:
 			busy_type = E_MEETING_FREE_BUSY_BUSY;
 			break;
 
-		case ICAL_FBTYPE_BUSYUNAVAILABLE:
+		case I_CAL_FBTYPE_BUSYUNAVAILABLE:
 			busy_type = E_MEETING_FREE_BUSY_OUT_OF_OFFICE;
 			break;
 
-		case ICAL_FBTYPE_BUSYTENTATIVE:
+		case I_CAL_FBTYPE_BUSYTENTATIVE:
 			busy_type = E_MEETING_FREE_BUSY_TENTATIVE;
 			break;
 
-		case ICAL_FBTYPE_FREE:
+		case I_CAL_FBTYPE_FREE:
 			busy_type = E_MEETING_FREE_BUSY_FREE;
 			break;
 
@@ -1484,15 +1519,19 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 		}
 
 		if (busy_type != E_MEETING_FREE_BUSY_LAST) {
-			icaltimezone *utc_zone = icaltimezone_get_utc_timezone ();
+			ICalTimezone *utc_zone = i_cal_timezone_get_utc_timezone ();
+			ICalTime *fbstart, *fbend;
 			gchar *summary = NULL;
 			gchar *location = NULL;
 
-			icaltimezone_convert_time (&fb.start, utc_zone, zone);
-			icaltimezone_convert_time (&fb.end, utc_zone, zone);
+			fbstart = i_cal_period_get_start (fb);
+			fbend = i_cal_period_get_end (fb);
+
+			i_cal_time_convert_timezone (fbstart, utc_zone, zone);
+			i_cal_time_convert_timezone (fbend, utc_zone, zone);
 
 			/* Extract extended free/busy (XFB) information from
-			 * the icalproperty, if it carries such.
+			 * the ICalProperty, if it carries such.
 			 * See the comment for the EMeetingXfbData structure
 			 * for a reference.
 			 */
@@ -1500,77 +1539,91 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 
 			e_meeting_attendee_add_busy_period (
 				attendee,
-				fb.start.year,
-				fb.start.month,
-				fb.start.day,
-				fb.start.hour,
-				fb.start.minute,
-				fb.end.year,
-				fb.end.month,
-				fb.end.day,
-				fb.end.hour,
-				fb.end.minute,
+				i_cal_time_get_year (fbstart),
+				i_cal_time_get_month (fbstart),
+				i_cal_time_get_day (fbstart),
+				i_cal_time_get_hour (fbstart),
+				i_cal_time_get_minute (fbstart),
+				i_cal_time_get_year (fbend),
+				i_cal_time_get_month (fbend),
+				i_cal_time_get_day (fbend),
+				i_cal_time_get_hour (fbend),
+				i_cal_time_get_minute (fbend),
 				busy_type,
 				summary,
 				location);
 
-			if (summary != NULL)
-				g_free (summary);
-			if (location != NULL)
-				g_free (location);
+			g_clear_object (&fbstart);
+			g_clear_object (&fbend);
+			g_free (summary);
+			g_free (location);
 		}
 
-		ip = icalcomponent_get_next_property (fb_comp, ICAL_FREEBUSY_PROPERTY);
+		g_clear_object (&fb);
 	}
 }
 
 static void
 process_free_busy (EMeetingStoreQueueData *qdata,
-                   gchar *text)
+		   const gchar *text)
 {
 	EMeetingStore *store = qdata->store;
 	EMeetingStorePrivate *priv;
 	EMeetingAttendee *attendee = qdata->attendee;
-	icalcomponent *main_comp;
-	icalcomponent_kind kind = ICAL_NO_COMPONENT;
+	ICalComponent *main_comp;
+	ICalComponentKind kind = I_CAL_NO_COMPONENT;
 
 	priv = store->priv;
 
-	main_comp = icalparser_parse_string (text);
+	main_comp = i_cal_parser_parse_string (text);
 	if (main_comp == NULL) {
 		process_callbacks (qdata);
 		return;
 	}
 
-	kind = icalcomponent_isa (main_comp);
-	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		icalcompiter iter;
-		icalcomponent *tz_top_level, *sub_comp;
+	kind = i_cal_component_isa (main_comp);
+	if (kind == I_CAL_VCALENDAR_COMPONENT) {
+		ICalCompIter *iter;
+		ICalComponent *tz_top_level, *subcomp;
 
 		tz_top_level = e_cal_util_new_top_level ();
 
-		iter = icalcomponent_begin_component (main_comp, ICAL_VTIMEZONE_COMPONENT);
-		while ((sub_comp = icalcompiter_deref (&iter)) != NULL) {
-			icalcomponent *clone;
+		iter = i_cal_component_begin_component (main_comp, I_CAL_VTIMEZONE_COMPONENT);
+		subcomp = i_cal_comp_iter_deref (iter);
+		while (subcomp) {
+			ICalComponent *next_subcomp;
 
-			clone = icalcomponent_new_clone (sub_comp);
-			icalcomponent_add_component (tz_top_level, clone);
+			next_subcomp = i_cal_comp_iter_next (iter);
 
-			icalcompiter_next (&iter);
+			i_cal_component_take_component (tz_top_level,
+				i_cal_component_clone (subcomp));
+
+			g_object_unref (subcomp);
+			subcomp = next_subcomp;
 		}
 
-		iter = icalcomponent_begin_component (main_comp, ICAL_VFREEBUSY_COMPONENT);
-		while ((sub_comp = icalcompiter_deref (&iter)) != NULL) {
-			process_free_busy_comp (attendee, sub_comp, priv->zone, tz_top_level);
+		g_clear_object (&iter);
 
-			icalcompiter_next (&iter);
+		iter = i_cal_component_begin_component (main_comp, I_CAL_VFREEBUSY_COMPONENT);
+		subcomp = i_cal_comp_iter_deref (iter);
+		while (subcomp) {
+			ICalComponent *next_subcomp;
+
+			next_subcomp = i_cal_comp_iter_next (iter);
+
+			process_free_busy_comp (attendee, subcomp, priv->zone, tz_top_level);
+
+			g_object_unref (subcomp);
+			subcomp = next_subcomp;
 		}
-		icalcomponent_free (tz_top_level);
-	} else if (kind == ICAL_VFREEBUSY_COMPONENT) {
+
+		g_clear_object (&iter);
+		g_clear_object (&tz_top_level);
+	} else if (kind == I_CAL_VFREEBUSY_COMPONENT) {
 		process_free_busy_comp (attendee, main_comp, priv->zone, NULL);
 	}
 
-	icalcomponent_free (main_comp);
+	g_clear_object (&main_comp);
 
 	process_callbacks (qdata);
 }
@@ -1747,25 +1800,33 @@ refresh_busy_periods (gpointer data)
 
 	/* Check the server for free busy data */
 	if (priv->client) {
-		struct icaltimetype itt;
+		ICalTime *itt;
 
-		itt = icaltime_null_time ();
-		itt.year = g_date_get_year (&qdata->start.date);
-		itt.month = g_date_get_month (&qdata->start.date);
-		itt.day = g_date_get_day (&qdata->start.date);
-		itt.hour = qdata->start.hour;
-		itt.minute = qdata->start.minute;
-		fbd->startt = icaltime_as_timet_with_zone (itt, priv->zone);
+		itt = i_cal_time_new_null_time ();
+		i_cal_time_set_date (itt,
+			g_date_get_year (&qdata->start.date),
+			g_date_get_month (&qdata->start.date),
+			g_date_get_day (&qdata->start.date));
+		i_cal_time_set_time (itt,
+			qdata->start.hour,
+			qdata->start.minute,
+			0);
+		fbd->startt = i_cal_time_as_timet_with_zone (itt, priv->zone);
+		g_clear_object (&itt);
 
-		itt = icaltime_null_time ();
-		itt.year = g_date_get_year (&qdata->end.date);
-		itt.month = g_date_get_month (&qdata->end.date);
-		itt.day = g_date_get_day (&qdata->end.date);
-		itt.hour = qdata->end.hour;
-		itt.minute = qdata->end.minute;
-		fbd->endt = icaltime_as_timet_with_zone (itt, priv->zone);
+		itt = i_cal_time_new_null_time ();
+		i_cal_time_set_date (itt,
+			g_date_get_year (&qdata->end.date),
+			g_date_get_month (&qdata->end.date),
+			g_date_get_day (&qdata->end.date));
+		i_cal_time_set_time (itt,
+			qdata->end.hour,
+			qdata->end.minute,
+			0);
+		fbd->endt = i_cal_time_as_timet_with_zone (itt, priv->zone);
+		g_clear_object (&itt);
+
 		fbd->qdata = qdata;
-
 		fbd->users = g_slist_append (fbd->users, g_strdup (fbd->email));
 
 	}

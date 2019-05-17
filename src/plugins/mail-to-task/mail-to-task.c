@@ -106,7 +106,7 @@ set_attendees (ECalComponent *comp,
                CamelMimeMessage *message,
                const gchar *organizer)
 {
-	GSList *attendees = NULL, *to_free = NULL;
+	GSList *attendees = NULL;
 	ECalComponentAttendee *ca;
 	CamelInternetAddress *from, *to, *cc, *bcc, *arr[4];
 	gint len, i, j;
@@ -139,37 +139,35 @@ set_attendees (ECalComponent *comp,
 					continue;
 				}
 
-				ca = g_new0 (ECalComponentAttendee, 1);
+				ca = e_cal_component_attendee_new ();
 
-				ca->value = temp;
-				ca->cn = name;
-				ca->cutype = ICAL_CUTYPE_INDIVIDUAL;
-				ca->status = ICAL_PARTSTAT_NEEDSACTION;
+				e_cal_component_attendee_set_value (ca, temp);
+				e_cal_component_attendee_set_cn (ca, name);
+				e_cal_component_attendee_set_cutype (ca, I_CAL_CUTYPE_INDIVIDUAL);
+				e_cal_component_attendee_set_partstat (ca, I_CAL_PARTSTAT_NEEDSACTION);
 				if (j == 0) {
 					/* From */
-					ca->role = ICAL_ROLE_CHAIR;
+					e_cal_component_attendee_set_role (ca, I_CAL_ROLE_CHAIR);
 				} else if (j == 2) {
 					/* BCC  */
-					ca->role = ICAL_ROLE_OPTPARTICIPANT;
+					e_cal_component_attendee_set_role (ca, I_CAL_ROLE_OPTPARTICIPANT);
 				} else {
 					/* all other */
-					ca->role = ICAL_ROLE_REQPARTICIPANT;
+					e_cal_component_attendee_set_role (ca, I_CAL_ROLE_REQPARTICIPANT);
 				}
 
-				to_free = g_slist_prepend (to_free, temp);
+				attendees = g_slist_prepend (attendees, ca);
 
-				attendees = g_slist_append (attendees, ca);
+				g_free (temp);
 			}
 		}
 	}
 
-	e_cal_component_set_attendee_list (comp, attendees);
+	attendees = g_slist_reverse (attendees);
 
-	g_slist_foreach (attendees, (GFunc) g_free, NULL);
-	g_slist_foreach (to_free, (GFunc) g_free, NULL);
+	e_cal_component_set_attendees (comp, attendees);
 
-	g_slist_free (to_free);
-	g_slist_free (attendees);
+	g_slist_free_full (attendees, e_cal_component_attendee_free);
 }
 
 static const gchar *
@@ -283,20 +281,18 @@ set_description (ECalComponent *comp,
 	if (!convert_str && str)
 		convert_str = e_util_utf8_make_valid (str);
 
-	text = g_new0 (ECalComponentText, 1);
 	if (convert_str)
-		text->value = prepend_from (message, &convert_str);
+		text = e_cal_component_text_new (prepend_from (message, &convert_str), NULL);
 	else
-		text->value = prepend_from (message, &str);
-	text->altrep = NULL;
+		text = e_cal_component_text_new (prepend_from (message, &str), NULL);
 	sl = g_slist_append (sl, text);
 
-	e_cal_component_set_description_list (comp, sl);
+	e_cal_component_set_descriptions (comp, sl);
 
 	g_free (str);
 	if (convert_str)
 		g_free (convert_str);
-	e_cal_component_free_text_list (sl);
+	g_slist_free_full (sl, e_cal_component_text_free);
 }
 
 static gchar *
@@ -311,7 +307,6 @@ set_organizer (ECalComponent *comp,
 	ESourceMailIdentity *extension;
 	const gchar *extension_name;
 	const gchar *address, *name;
-	ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 	gchar *mailto = NULL;
 	gchar *identity_name = NULL, *identity_address = NULL;
 
@@ -347,10 +342,15 @@ set_organizer (ECalComponent *comp,
 	}
 
 	if (address && *address) {
+		ECalComponentOrganizer *organizer;
+
 		mailto = g_strconcat ("mailto:", address, NULL);
-		organizer.value = mailto;
-		organizer.cn = name;
-		e_cal_component_set_organizer (comp, &organizer);
+
+		organizer = e_cal_component_organizer_new ();
+		e_cal_component_organizer_set_value (organizer, mailto);
+		e_cal_component_organizer_set_cn (organizer, name);
+		e_cal_component_set_organizer (comp, organizer);
+		e_cal_component_organizer_free (organizer);
 	}
 
 	g_object_unref (source);
@@ -430,7 +430,7 @@ set_attachments (ECalClient *client,
 	if (n_parts < 1)
 		return;
 
-	e_cal_component_get_uid (comp, &comp_uid);
+	comp_uid = e_cal_component_get_uid (comp);
 	g_return_if_fail (comp_uid != NULL);
 
 	tmp = g_strdup (comp_uid);
@@ -492,16 +492,15 @@ set_attachments (ECalClient *client,
 
 	/* Transfer the URI strings to the GSList. */
 	for (ii = 0; cb_data.uris[ii] != NULL; ii++) {
-		uri_list = g_slist_prepend (uri_list, cb_data.uris[ii]);
-		cb_data.uris[ii] = NULL;
+		uri_list = g_slist_prepend (uri_list, i_cal_attach_new_from_url (cb_data.uris[ii]));
 	}
 
 	e_flag_free (cb_data.flag);
-	g_free (cb_data.uris);
+	g_strfreev (cb_data.uris);
 
-	/* XXX Does this take ownership of the list? */
-	e_cal_component_set_attachment_list (comp, uri_list);
+	e_cal_component_set_attachments (comp, uri_list);
 
+	g_slist_free_full (uri_list, g_object_unref);
 	e_attachment_store_remove_all (store);
 	g_object_unref (destination);
 	g_object_unref (store);
@@ -517,11 +516,8 @@ set_priority (ECalComponent *comp,
 	g_return_if_fail (part != NULL);
 
 	prio = camel_medium_get_header (CAMEL_MEDIUM (part), "X-Priority");
-	if (prio && atoi (prio) > 0) {
-		gint priority = 1;
-
-		e_cal_component_set_priority (comp, &priority);
-	}
+	if (prio && atoi (prio) > 0)
+		e_cal_component_set_priority (comp, 1);
 }
 
 struct _report_error
@@ -560,7 +556,7 @@ struct _manage_comp
 {
 	ECalClient *client;
 	ECalComponent *comp;
-	icalcomponent *stored_comp; /* the one in client already */
+	ICalComponent *stored_comp; /* the one in client already */
 	GCond cond;
 	GMutex mutex;
 	gint mails_count;
@@ -576,8 +572,7 @@ free_manage_comp_struct (struct _manage_comp *mc)
 
 	g_object_unref (mc->comp);
 	g_object_unref (mc->client);
-	if (mc->stored_comp)
-		icalcomponent_free (mc->stored_comp);
+	g_clear_object (&mc->stored_comp);
 	g_mutex_clear (&mc->mutex);
 	g_cond_clear (&mc->cond);
 	if (mc->editor_title)
@@ -761,14 +756,14 @@ do_manage_comp_idle (struct _manage_comp *mc)
 		const gchar *ask = get_question_edit_old (source_type);
 
 		if (ask) {
-			gchar *msg = g_strdup_printf (ask, icalcomponent_get_summary (mc->stored_comp) ? icalcomponent_get_summary (mc->stored_comp) : _("[No Summary]"));
+			gchar *msg = g_strdup_printf (ask, i_cal_component_get_summary (mc->stored_comp) ? i_cal_component_get_summary (mc->stored_comp) : _("[No Summary]"));
 			gint chosen;
 
 			chosen = do_ask (msg, TRUE);
 
 			if (chosen == GTK_RESPONSE_YES) {
 				edit_comp = e_cal_component_new ();
-				if (!e_cal_component_set_icalcomponent (edit_comp, icalcomponent_new_clone (mc->stored_comp))) {
+				if (!e_cal_component_set_icalcomponent (edit_comp, i_cal_component_clone (mc->stored_comp))) {
 					g_object_unref (edit_comp);
 					edit_comp = NULL;
 					error = g_error_new (
@@ -884,8 +879,8 @@ do_mail_to_event (AsyncData *data)
 		}
 	} else {
 		gint i;
-		ECalComponentDateTime dt, dt2;
-		struct icaltimetype tt, tt2;
+		ECalComponentDateTime *dt, *dt2;
+		ICalTime *tt, *tt2;
 		struct _manage_comp *oldmc = NULL;
 
 		#define cache_backend_prop(prop) { \
@@ -895,29 +890,27 @@ do_mail_to_event (AsyncData *data)
 		}
 
 		/* precache backend properties, thus editor have them ready when needed */
-		cache_backend_prop (CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS);
-		cache_backend_prop (CAL_BACKEND_PROPERTY_ALARM_EMAIL_ADDRESS);
-		cache_backend_prop (CAL_BACKEND_PROPERTY_DEFAULT_OBJECT);
+		cache_backend_prop (E_CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS);
+		cache_backend_prop (E_CAL_BACKEND_PROPERTY_ALARM_EMAIL_ADDRESS);
+		cache_backend_prop (E_CAL_BACKEND_PROPERTY_DEFAULT_OBJECT);
 		e_client_get_capabilities (E_CLIENT (client));
 
 		#undef cache_backend_prop
 
 		/* set start day of the event as today, without time - easier than looking for a calendar's time zone */
-		tt = icaltime_today ();
-		dt.value = &tt;
-		dt.tzid = NULL;
+		tt = i_cal_time_new_today ();
+		tt2 = i_cal_time_clone (tt);
+		i_cal_time_adjust (tt2, 1, 0, 0, 0);
 
-		tt2 = tt;
-		icaltime_adjust (&tt2, 1, 0, 0, 0);
-		dt2.value = &tt2;
-		dt2.tzid = NULL;
+		dt = e_cal_component_datetime_new_take (tt, NULL);
+		dt2 = e_cal_component_datetime_new_take (tt2, NULL);
 
 		for (i = 0; i < (uids ? uids->len : 0); i++) {
 			CamelMimeMessage *message;
 			ECalComponent *comp;
-			ECalComponentText text;
-			icalproperty *icalprop;
-			icalcomponent *icalcomp;
+			ECalComponentText *text;
+			ICalProperty *prop;
+			ICalComponent *icomp;
 			struct _manage_comp *mc;
 			const gchar *message_uid = g_ptr_array_index (uids, i);
 
@@ -946,28 +939,30 @@ do_mail_to_event (AsyncData *data)
 			}
 
 			e_cal_component_set_uid (comp, camel_mime_message_get_message_id (message));
-			e_cal_component_set_dtstart (comp, &dt);
+			e_cal_component_set_dtstart (comp, dt);
 
 			if (data->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
 				/* make it an all-day event */
-				e_cal_component_set_dtend (comp, &dt2);
+				e_cal_component_set_dtend (comp, dt2);
 			}
 
 			/* set the summary */
-			text.value = camel_mime_message_get_subject (message);
-			text.altrep = NULL;
-			e_cal_component_set_summary (comp, &text);
+			text = e_cal_component_text_new (camel_mime_message_get_subject (message), NULL);
+			e_cal_component_set_summary (comp, text);
+			e_cal_component_text_free (text);
 
 			/* set all fields */
 			if (data->selected_text) {
 				GSList sl;
 
-				text.value = data->selected_text;
-				text.altrep = NULL;
-				sl.next = NULL;
-				sl.data = &text;
+				text = e_cal_component_text_new (data->selected_text, NULL);
 
-				e_cal_component_set_description_list (comp, &sl);
+				sl.next = NULL;
+				sl.data = text;
+
+				e_cal_component_set_descriptions (comp, &sl);
+
+				e_cal_component_text_free (text);
 			} else
 				set_description (comp, message, data->default_charset, data->forced_charset);
 
@@ -989,11 +984,11 @@ do_mail_to_event (AsyncData *data)
 			/* no need to increment a sequence number, this is a new component */
 			e_cal_component_abort_sequence (comp);
 
-			icalcomp = e_cal_component_get_icalcomponent (comp);
+			icomp = e_cal_component_get_icalcomponent (comp);
 
-			icalprop = icalproperty_new_x ("1");
-			icalproperty_set_x_name (icalprop, "X-EVOLUTION-MOVE-CALENDAR");
-			icalcomponent_add_property (icalcomp, icalprop);
+			prop = i_cal_property_new_x ("1");
+			i_cal_property_set_x_name (prop, "X-EVOLUTION-MOVE-CALENDAR");
+			i_cal_component_take_property (icomp, prop);
 
 			mc = g_new0 (struct _manage_comp, 1);
 			mc->client = g_object_ref (client);
@@ -1022,7 +1017,7 @@ do_mail_to_event (AsyncData *data)
 
 			e_cal_client_get_object_sync (
 				E_CAL_CLIENT (client),
-				icalcomponent_get_uid (icalcomp),
+				i_cal_component_get_uid (icomp),
 				NULL, &mc->stored_comp, NULL, NULL);
 
 			/* Prioritize ahead of GTK+ redraws. */
@@ -1044,6 +1039,9 @@ do_mail_to_event (AsyncData *data)
 			g_mutex_unlock (&oldmc->mutex);
 			free_manage_comp_struct (oldmc);
 		}
+
+		e_cal_component_datetime_free (dt);
+		e_cal_component_datetime_free (dt2);
 	}
 
 	/* free memory */

@@ -63,18 +63,6 @@ GType e_composer_to_meeting_get_type (void) G_GNUC_CONST;
 
 G_DEFINE_DYNAMIC_TYPE (EComposerToMeeting, e_composer_to_meeting, E_TYPE_EXTENSION)
 
-static void
-composer_to_meeting_attendees_free (gpointer ptr)
-{
-	ECalComponentAttendee *attendee = ptr;
-
-	if (attendee) {
-		g_free ((gpointer) attendee->value);
-		g_free ((gpointer) attendee->cn);
-		g_free (attendee);
-	}
-}
-
 static ECalComponent *
 composer_to_meeting_component (EMsgComposer *composer)
 {
@@ -91,7 +79,7 @@ composer_to_meeting_component (EMsgComposer *composer)
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
-	comp = e_cal_component_new_from_icalcomponent (e_cal_util_new_component (ICAL_VEVENT_COMPONENT));
+	comp = e_cal_component_new_from_icalcomponent (e_cal_util_new_component (I_CAL_VEVENT_COMPONENT));
 	g_return_val_if_fail (comp != NULL, NULL);
 
 	header_table = e_msg_composer_get_header_table (composer);
@@ -99,12 +87,12 @@ composer_to_meeting_component (EMsgComposer *composer)
 	/* Summary */
 	subject = e_composer_header_table_get_subject (header_table);
 	if (subject && *subject) {
-		ECalComponentText summary;
+		ECalComponentText *summary;
 
-		summary.value = subject;
-		summary.altrep = NULL;
+		summary = e_cal_component_text_new (subject, NULL);
 
-		e_cal_component_set_summary (comp, &summary);
+		e_cal_component_set_summary (comp, summary);
+		e_cal_component_text_free (summary);
 	}
 
 	/* Organizer */
@@ -148,15 +136,18 @@ composer_to_meeting_component (EMsgComposer *composer)
 		}
 
 		if (address && *address) {
-			ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
+			ECalComponentOrganizer *organizer;
 			gchar *mailto;
 
 			mailto = g_strconcat ("mailto:", address, NULL);
-			organizer.value = mailto;
-			organizer.cn = name;
 
-			e_cal_component_set_organizer (comp, &organizer);
+			organizer = e_cal_component_organizer_new ();
+			e_cal_component_organizer_set_value (organizer, mailto);
+			e_cal_component_organizer_set_cn (organizer, name);
 
+			e_cal_component_set_organizer (comp, organizer);
+
+			e_cal_component_organizer_free (organizer);
 			g_free (mailto);
 		}
 
@@ -190,15 +181,19 @@ composer_to_meeting_component (EMsgComposer *composer)
 
 				if (camel_internet_address_get (address, jj, &name, &mail)) {
 					ECalComponentAttendee *attendee;
+					gchar *mailto;
 
-					attendee = g_new0 (ECalComponentAttendee, 1);
-					attendee->value = g_strconcat ("mailto:", mail, NULL);
-					attendee->cn = g_strdup (name);
-					attendee->cutype = ICAL_CUTYPE_INDIVIDUAL;
-					attendee->status = ICAL_PARTSTAT_NEEDSACTION;
-					attendee->role = ii == 0 ? ICAL_ROLE_REQPARTICIPANT : ICAL_ROLE_OPTPARTICIPANT;
+					mailto = g_strconcat ("mailto:", mail, NULL);
+					attendee = e_cal_component_attendee_new ();
+					e_cal_component_attendee_set_value (attendee, mailto);
+					e_cal_component_attendee_set_cn (attendee,name);
+					e_cal_component_attendee_set_cutype (attendee, I_CAL_CUTYPE_INDIVIDUAL);
+					e_cal_component_attendee_set_partstat (attendee, I_CAL_PARTSTAT_NEEDSACTION);
+					e_cal_component_attendee_set_role (attendee, ii == 0 ? I_CAL_ROLE_REQPARTICIPANT : I_CAL_ROLE_OPTPARTICIPANT);
 
-					attendees = g_slist_append (attendees, attendee);
+					attendees = g_slist_prepend (attendees, attendee);
+
+					g_free (mailto);
 				}
 			}
 		}
@@ -208,9 +203,11 @@ composer_to_meeting_component (EMsgComposer *composer)
 		e_destination_freev (destinations);
 	}
 
-	e_cal_component_set_attendee_list (comp, attendees);
+	attendees = g_slist_reverse (attendees);
 
-	g_slist_free_full (attendees, composer_to_meeting_attendees_free);
+	e_cal_component_set_attendees (comp, attendees);
+
+	g_slist_free_full (attendees, e_cal_component_attendee_free);
 
 	/* Description */
 	html_editor = e_msg_composer_get_editor (composer);
@@ -227,15 +224,13 @@ composer_to_meeting_component (EMsgComposer *composer)
 			g_free (tmp);
 		}
 
-		description = g_new0 (ECalComponentText, 1);
-		description->value = text;
-		description->altrep = NULL;
+		description = e_cal_component_text_new (text, NULL);
 
 		descr_list = g_slist_append (descr_list, description);
 
-		e_cal_component_set_description_list (comp, descr_list);
+		e_cal_component_set_descriptions (comp, descr_list);
 
-		g_slist_free_full (descr_list, g_free);
+		g_slist_free_full (descr_list, e_cal_component_text_free);
 	}
 	g_free (text);
 

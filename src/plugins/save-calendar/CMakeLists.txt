@@ -1,6 +1,7 @@
 add_eplug_file(save-calendar org-gnome-save-calendar.eplug)
 
 set(DEPENDENCIES
+	evolution-calendar
 	evolution-shell
 	evolution-util
 )

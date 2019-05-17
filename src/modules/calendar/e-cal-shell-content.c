@@ -93,12 +93,16 @@ G_DEFINE_DYNAMIC_TYPE (ECalShellContent, e_cal_shell_content, E_TYPE_CAL_BASE_SH
 
 static time_t
 convert_to_local_zone (time_t tm,
-		       icaltimezone *from_zone)
+		       ICalTimezone *from_zone)
 {
-	struct icaltimetype tt;
+	ICalTime *itt;
+	time_t tt;
 
-	tt = icaltime_from_timet_with_zone (tm, FALSE, from_zone);
-	return icaltime_as_timet (tt);
+	itt = i_cal_time_new_from_timet_with_zone (tm, FALSE, from_zone);
+	tt = i_cal_time_as_timet (itt);
+	g_clear_object (&itt);
+
+	return tt;
 }
 
 static void
@@ -118,7 +122,7 @@ cal_shell_content_update_model_and_current_view_times (ECalShellContent *cal_she
 	gint syy, smm, sdd, eyy, emm, edd;
 	time_t visible_range_start, visible_range_end;
 	gboolean filters_updated = FALSE;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	gchar *cal_filter;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
@@ -229,7 +233,7 @@ e_cal_shell_content_change_view (ECalShellContent *cal_shell_content,
 	EShellView *shell_view;
 	ECalendar *calendar;
 	ECalModel *model;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	time_t view_start_tt, view_end_tt;
 	gboolean view_changed = FALSE;
 	gint selected_days;
@@ -374,7 +378,7 @@ static void
 cal_shell_content_change_selection_in_current_view (ECalShellContent *cal_shell_content,
 						    time_t sel_start_tt,
 						    time_t sel_end_tt,
-						    icaltimezone *zone)
+						    ICalTimezone *zone)
 {
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
@@ -390,8 +394,15 @@ cal_shell_content_change_selection_in_current_view (ECalShellContent *cal_shell_
 			time_t current_sel_start = (time_t) -1, current_sel_end = (time_t) -1;
 
 			if (e_calendar_view_get_selected_time_range (view, &current_sel_start, &current_sel_end)) {
-				current_sel_start = icaltime_as_timet_with_zone (icaltime_from_timet_with_zone (current_sel_start, 0, zone), NULL);
-				current_sel_end = icaltime_as_timet_with_zone (icaltime_from_timet_with_zone (current_sel_end, 0, zone), NULL);
+				ICalTime *itt;
+
+				itt = i_cal_time_new_from_timet_with_zone (current_sel_start, 0, zone);
+				current_sel_start = i_cal_time_as_timet_with_zone (itt, NULL);
+				g_clear_object (&itt);
+
+				itt = i_cal_time_new_from_timet_with_zone (current_sel_end, 0, zone);
+				current_sel_end = i_cal_time_as_timet_with_zone (itt, NULL);
+				g_clear_object (&itt);
 
 				sel_start_tt += current_sel_start % (24 * 60 * 60);
 				sel_end_tt += current_sel_end % (24 * 60 * 60);
@@ -408,7 +419,7 @@ cal_shell_content_datepicker_selection_changed_cb (ECalendarItem *calitem,
 {
 	GDate sel_start, sel_end;
 	guint32 selected_days, start_julian, end_julian;
-	icaltimezone *zone;
+	ICalTimezone *zone;
 	time_t sel_start_tt, sel_end_tt;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
@@ -636,7 +647,7 @@ cal_shell_content_current_view_id_changed_cb (ECalShellContent *cal_shell_conten
 
 	if (cal_shell_content->priv->previous_selected_start_time != -1 &&
 	    cal_shell_content->priv->previous_selected_end_time != -1) {
-		icaltimezone *zone;
+		ICalTimezone *zone;
 
 		zone = e_cal_model_get_timezone (model);
 		time_to_gdate_with_zone (&sel_start, cal_shell_content->priv->previous_selected_start_time, zone);
@@ -722,7 +733,7 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 		calendar_view = cal_shell_content->priv->views[view_kind];
 		gal_view_etable_attach_table (
 			GAL_VIEW_ETABLE (gal_view),
-			E_CAL_LIST_VIEW (calendar_view)->table);
+			e_cal_list_view_get_table (E_CAL_LIST_VIEW (calendar_view)));
 
 	} else if (gal_view_type == GAL_TYPE_VIEW_CALENDAR_DAY) {
 		view_kind = E_CAL_VIEW_KIND_DAY;
@@ -852,74 +863,78 @@ cal_shell_content_load_table_state (EShellContent *shell_content,
 	g_free (filename);
 }
 
-static icalproperty *
-cal_shell_content_get_attendee_prop (icalcomponent *icalcomp,
+static ICalProperty *
+cal_shell_content_get_attendee_prop (ICalComponent *icomp,
                                      const gchar *address)
 {
-	icalproperty *prop;
+	ICalProperty *prop;
 
 	if (address == NULL || *address == '\0')
 		return NULL;
 
-	prop = icalcomponent_get_first_property (
-		icalcomp, ICAL_ATTENDEE_PROPERTY);
-
-	while (prop != NULL) {
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
 		const gchar *attendee;
 
-		attendee = icalproperty_get_attendee (prop);
+		attendee = itip_strip_mailto (i_cal_property_get_attendee (prop));
 
-		if (g_str_equal (itip_strip_mailto (attendee), address))
+		if (attendee && g_ascii_strcasecmp (attendee, address) == 0)
 			return prop;
-
-		prop = icalcomponent_get_next_property (
-			icalcomp, ICAL_ATTENDEE_PROPERTY);
 	}
 
 	return NULL;
 }
 
 static gboolean
-cal_shell_content_icalcomp_is_delegated (icalcomponent *icalcomp,
-                                         const gchar *user_email)
+cal_shell_content_icomp_is_delegated (ICalComponent *icomp,
+				      const gchar *user_email)
 {
-	icalproperty *prop;
-	icalparameter *param;
-	const gchar *delto = NULL;
+	ICalProperty *prop;
+	ICalParameter *param;
+	gchar *delto = NULL;
 	gboolean is_delegated = FALSE;
 
-	prop = cal_shell_content_get_attendee_prop (icalcomp, user_email);
+	prop = cal_shell_content_get_attendee_prop (icomp, user_email);
 
-	if (prop != NULL) {
-		param = icalproperty_get_first_parameter (
-			prop, ICAL_DELEGATEDTO_PARAMETER);
-		if (param != NULL) {
-			delto = icalparameter_get_delegatedto (param);
-			delto = itip_strip_mailto (delto);
+	if (prop) {
+		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDTO_PARAMETER);
+		if (param) {
+			delto = g_strdup (itip_strip_mailto (i_cal_parameter_get_delegatedto (param)));
+			g_object_unref (param);
 		}
+
+		g_object_unref (prop);
 	} else
 		return FALSE;
 
-	prop = cal_shell_content_get_attendee_prop (icalcomp, delto);
+	prop = cal_shell_content_get_attendee_prop (icomp, delto);
 
-	if (prop != NULL) {
-		const gchar *delfrom = NULL;
-		icalparameter_partstat status = ICAL_PARTSTAT_NONE;
+	if (prop) {
+		gchar *delfrom = NULL;
+		ICalParameterPartstat partstat = I_CAL_PARTSTAT_NONE;
 
-		param = icalproperty_get_first_parameter (
-			prop, ICAL_DELEGATEDFROM_PARAMETER);
-		if (param != NULL) {
-			delfrom = icalparameter_get_delegatedfrom (param);
-			delfrom = itip_strip_mailto (delfrom);
+		param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER);
+		if (param) {
+			delfrom = g_strdup (itip_strip_mailto (i_cal_parameter_get_delegatedfrom (param)));
+			g_object_unref (param);
 		}
-		param = icalproperty_get_first_parameter (
-			prop, ICAL_PARTSTAT_PARAMETER);
-		if (param != NULL)
-			status = icalparameter_get_partstat (param);
-		is_delegated =
-			(status != ICAL_PARTSTAT_DECLINED) &&
-			(g_strcmp0 (delfrom, user_email) == 0);
+
+		param = i_cal_property_get_first_parameter (prop, I_CAL_PARTSTAT_PARAMETER);
+		if (param) {
+			partstat = i_cal_parameter_get_partstat (param);
+			g_object_unref (param);
+		}
+
+		is_delegated = delfrom && user_email &&
+			partstat != I_CAL_PARTSTAT_DECLINED &&
+			g_ascii_strcasecmp (delfrom, user_email) == 0;
+
+		g_object_unref (prop);
+		g_free (delfrom);
 	}
+
+	g_free (delto);
 
 	return is_delegated;
 }
@@ -966,32 +981,32 @@ cal_shell_content_check_state (EShellContent *shell_content)
 		ECalClient *client;
 		ECalComponent *comp;
 		gchar *user_email;
-		icalcomponent *icalcomp;
+		ICalComponent *icomp;
 		const gchar *capability;
 		gboolean cap_delegate_supported;
 		gboolean cap_delegate_to_many;
-		gboolean icalcomp_is_delegated;
+		gboolean icomp_is_delegated;
 		gboolean read_only;
 
 		if (!is_comp_data_valid (event))
 			continue;
 
 		client = event->comp_data->client;
-		icalcomp = event->comp_data->icalcomp;
+		icomp = event->comp_data->icalcomp;
 
 		read_only = e_client_is_readonly (E_CLIENT (client));
 		selection_is_editable &= !read_only;
 
 		selection_is_instance |=
-			e_cal_util_component_is_instance (icalcomp);
+			e_cal_util_component_is_instance (icomp);
 
 		selection_is_meeting =
 			(n_selected == 1) &&
-			e_cal_util_component_has_attendee (icalcomp);
+			e_cal_util_component_has_attendee (icomp);
 
 		selection_is_recurring |=
-			e_cal_util_component_is_instance (icalcomp) ||
-			e_cal_util_component_has_recurrences (icalcomp);
+			e_cal_util_component_is_instance (icomp) ||
+			e_cal_util_component_has_recurrences (icomp);
 
 		/* XXX The rest of this is rather expensive and
 		 *     only applies if a single event is selected,
@@ -1002,36 +1017,31 @@ cal_shell_content_check_state (EShellContent *shell_content)
 
 		/* XXX This probably belongs in comp-util.c. */
 
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (
-			comp, icalcomponent_new_clone (icalcomp));
-		user_email = itip_get_comp_attendee (
-			registry, comp, client);
+		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
+		user_email = itip_get_comp_attendee (registry, comp, client);
 
 		selection_is_organizer =
-			e_cal_util_component_has_organizer (icalcomp) &&
+			e_cal_util_component_has_organizer (icomp) &&
 			itip_organizer_is_user (registry, comp, client);
 
-		capability = CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED;
+		capability = E_CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED;
 		cap_delegate_supported =
 			e_client_check_capability (
 			E_CLIENT (client), capability);
 
-		capability = CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY;
+		capability = E_CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY;
 		cap_delegate_to_many =
 			e_client_check_capability (
 			E_CLIENT (client), capability);
 
-		icalcomp_is_delegated =
-			(user_email != NULL) &&
-			cal_shell_content_icalcomp_is_delegated (
-			icalcomp, user_email);
+		icomp_is_delegated = user_email != NULL &&
+			cal_shell_content_icomp_is_delegated (icomp, user_email);
 
 		selection_can_delegate =
 			cap_delegate_supported &&
 			(cap_delegate_to_many ||
 			(!selection_is_organizer &&
-			 !icalcomp_is_delegated));
+			 !icomp_is_delegated));
 
 		g_free (user_email);
 		g_object_unref (comp);
@@ -1074,7 +1084,9 @@ cal_shell_content_get_default_time (ECalModel *model,
 				    gpointer user_data)
 {
 	ECalShellContent *cal_shell_content = user_data;
-	icaltimezone *zone;
+	ICalTimezone *zone;
+	ICalTime *itt;
+	time_t tt;
 
 	g_return_val_if_fail (model != NULL, 0);
 	g_return_val_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content), 0);
@@ -1090,8 +1102,11 @@ cal_shell_content_get_default_time (ECalModel *model,
 	}
 
 	zone = e_cal_model_get_timezone (model);
+	itt = i_cal_time_new_current_with_zone (zone);
+	tt = i_cal_time_as_timet_with_zone (itt, zone);
+	g_clear_object (&itt);
 
-	return icaltime_as_timet_with_zone (icaltime_current_time_with_zone (zone), zone);
+	return tt;
 }
 
 static void
@@ -1104,10 +1119,10 @@ update_adjustment (ECalShellContent *cal_shell_content,
 	GDate first_day_shown;
 	ECalModel *model;
 	gint week_offset;
-	struct icaltimetype start_tt = icaltime_null_time ();
+	ICalTime *start_tt = NULL;
+	ICalTimezone *timezone;
 	time_t lower;
 	guint32 old_first_day_julian, new_first_day_julian;
-	icaltimezone *timezone;
 	gdouble value;
 
 	e_week_view_get_first_day_shown (week_view, &first_day_shown);
@@ -1136,13 +1151,16 @@ update_adjustment (ECalShellContent *cal_shell_content,
 		return;
 
 	/* Convert it to a time_t. */
-	start_tt.year = g_date_get_year (&start_date);
-	start_tt.month = g_date_get_month (&start_date);
-	start_tt.day = g_date_get_day (&start_date);
+	start_tt = i_cal_time_new_null_time ();
+	i_cal_time_set_date (start_tt,
+		g_date_get_year (&start_date),
+		g_date_get_month (&start_date),
+		g_date_get_day (&start_date));
 
 	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	timezone = e_cal_model_get_timezone (model);
-	lower = icaltime_as_timet_with_zone (start_tt, timezone);
+	lower = i_cal_time_as_timet_with_zone (start_tt, timezone);
+	g_clear_object (&start_tt);
 
 	end_date = start_date;
 	if (move_by_week) {
@@ -1975,8 +1993,8 @@ cal_shell_content_resubscribe (ECalendarView *cal_view,
 
 	data_model = e_cal_model_get_data_model (model);
 	subscriber = E_CAL_DATA_MODEL_SUBSCRIBER (model);
-	is_tasks_or_memos = e_cal_model_get_component_kind (model) == ICAL_VJOURNAL_COMPONENT ||
-		e_cal_model_get_component_kind (model) == ICAL_VTODO_COMPONENT;
+	is_tasks_or_memos = e_cal_model_get_component_kind (model) == I_CAL_VJOURNAL_COMPONENT ||
+		e_cal_model_get_component_kind (model) == I_CAL_VTODO_COMPONENT;
 
 	if ((!is_tasks_or_memos && e_calendar_view_get_visible_time_range (cal_view, &range_start, &range_end)) ||
 	    e_cal_data_model_get_subscriber_range (data_model, subscriber, &range_start, &range_end)) {
@@ -2117,7 +2135,7 @@ e_cal_shell_content_get_current_range (ECalShellContent *cal_shell_content,
 				       time_t *range_start,
 				       time_t *range_end)
 {
-	icaltimezone *zone;
+	ICalTimezone *zone;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 	g_return_if_fail (range_start != NULL);
@@ -2205,8 +2223,8 @@ e_cal_shell_content_move_view_range (ECalShellContent *cal_shell_content,
 	ECalDataModel *data_model;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
-	struct icaltimetype tt;
-	icaltimezone *zone;
+	ICalTime *tt;
+	ICalTimezone *zone;
 	GDate date;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
@@ -2230,8 +2248,9 @@ e_cal_shell_content_move_view_range (ECalShellContent *cal_shell_content,
 			cal_shell_content_move_view_range_relative (cal_shell_content, +1);
 			break;
 		case E_CALENDAR_VIEW_MOVE_TO_TODAY:
-			tt = icaltime_current_time_with_zone (zone);
-			g_date_set_dmy (&date, tt.day, tt.month, tt.year);
+			tt = i_cal_time_new_current_with_zone (zone);
+			g_date_set_dmy (&date, i_cal_time_get_day (tt), i_cal_time_get_month (tt), i_cal_time_get_year (tt));
+			g_clear_object (&tt);
 			/* one-day selection takes care of the view range move with left view kind */
 			e_calendar_item_set_selection (e_calendar_get_item (calendar), &date, &date);
 			break;
@@ -2356,7 +2375,7 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 		data_model = e_cal_model_get_data_model (model);
 
 		if (start_range != 0 && end_range != 0) {
-			icaltimezone *zone;
+			ICalTimezone *zone;
 			const gchar *default_tzloc = NULL;
 			time_t end = end_range;
 			gchar *filter;
@@ -2364,8 +2383,8 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 			gchar *iso_end;
 
 			zone = e_cal_data_model_get_timezone (data_model);
-			if (zone && zone != icaltimezone_get_utc_timezone ())
-				default_tzloc = icaltimezone_get_location (zone);
+			if (zone && zone != i_cal_timezone_get_utc_timezone ())
+				default_tzloc = i_cal_timezone_get_location (zone);
 			if (!default_tzloc)
 				default_tzloc = "";
 

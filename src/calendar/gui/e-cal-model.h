@@ -105,7 +105,7 @@ struct _ECalModelComponent {
 	GObject object;
 
 	ECalClient *client;
-	icalcomponent *icalcomp;
+	ICalComponent *icalcomp;
 	time_t instance_start;
 	time_t instance_end;
 	gboolean is_new_component;
@@ -162,8 +162,8 @@ struct _ECalModelClass {
 	void		(*comps_deleted)	(ECalModel *model,
 						 gpointer list);
 	void		(*timezone_changed)	(ECalModel *model,
-						 icaltimezone *old_zone,
-						 icaltimezone *new_zone);
+						 ICalTimezone *old_zone,
+						 ICalTimezone *new_zone);
 	void		(*object_created)	(ECalModel *model,
 						 ECalClient *where);
 };
@@ -177,16 +177,16 @@ ESourceRegistry *
 		e_cal_model_get_registry	(ECalModel *model);
 EShell *	e_cal_model_get_shell		(ECalModel *model);
 EClientCache *	e_cal_model_get_client_cache	(ECalModel *model);
-icalcomponent_kind
+ICalComponentKind
 		e_cal_model_get_component_kind	(ECalModel *model);
 void		e_cal_model_set_component_kind	(ECalModel *model,
-						 icalcomponent_kind kind);
+						 ICalComponentKind kind);
 gboolean	e_cal_model_get_confirm_delete	(ECalModel *model);
 void		e_cal_model_set_confirm_delete	(ECalModel *model,
 						 gboolean confirm_delete);
-icaltimezone *	e_cal_model_get_timezone	(ECalModel *model);
+ICalTimezone *	e_cal_model_get_timezone	(ECalModel *model);
 void		e_cal_model_set_timezone	(ECalModel *model,
-						 icaltimezone *zone);
+						 const ICalTimezone *zone);
 gboolean	e_cal_model_get_compress_weekend
 						(ECalModel *model);
 void		e_cal_model_set_compress_weekend
@@ -334,7 +334,7 @@ void		e_cal_model_get_time_range	(ECalModel *model,
 void		e_cal_model_set_time_range	(ECalModel *model,
 						 time_t start,
 						 time_t end);
-icalcomponent *	e_cal_model_create_component_with_defaults_sync
+ICalComponent *	e_cal_model_create_component_with_defaults_sync
 						(ECalModel *model,
 						 ECalClient *client,
 						 gboolean all_day,
@@ -371,11 +371,12 @@ void		e_cal_model_generate_instances_sync
 						(ECalModel *model,
 						 time_t start,
 						 time_t end,
-						 ECalRecurInstanceFn cb,
+						 GCancellable *cancellable,
+						 ECalRecurInstanceCb cb,
 						 gpointer cb_data);
 GPtrArray *	e_cal_model_get_object_array	(ECalModel *model);
 void		e_cal_model_set_instance_times	(ECalModelComponent *comp_data,
-						 const icaltimezone *zone);
+						 const ICalTimezone *zone);
 gboolean	e_cal_model_test_row_editable	(ECalModel *model,
 						 gint row);
 void		e_cal_model_set_default_time_func
@@ -386,10 +387,10 @@ void		e_cal_model_set_default_time_func
 void		e_cal_model_update_comp_time	(ECalModel *model,
 						 ECalModelComponent *comp_data,
 						 gconstpointer time_value,
-						 icalproperty_kind kind,
-						 void (*set_func) (icalproperty *prop,
-								   struct icaltimetype v),
-						 icalproperty * (*new_func) (struct icaltimetype v));
+						 ICalPropertyKind kind,
+						 void (*set_func) (ICalProperty *prop,
+								   ICalTime *v),
+						 ICalProperty * (*new_func) (ICalTime *v));
 
 void		e_cal_model_emit_object_created	(ECalModel *model,
 						 ECalClient *where);
@@ -404,10 +405,6 @@ void		e_cal_model_util_set_value	(GHashTable *values,
 						 gint row);
 gpointer	e_cal_model_util_get_value	(GHashTable *values,
 						 gint column);
-
-ECellDateEditValue *
-		e_cal_model_copy_cell_date_value
-						(const ECellDateEditValue *value);
 
 G_END_DECLS
 

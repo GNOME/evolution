@@ -64,17 +64,21 @@ cal_model_memos_fill_component_from_values (ECalModel *model,
 					    ECalModelComponent *comp_data,
 					    GHashTable *values)
 {
-	icaltimetype start;
+	ICalTime *dtstart;
 
 	g_return_if_fail (E_IS_CAL_MODEL_MEMOS (model));
 	g_return_if_fail (comp_data != NULL);
 	g_return_if_fail (values != NULL);
 
-	start = icalcomponent_get_dtstart (comp_data->icalcomp);
-	if (icaltime_compare_date_only (start, icaltime_null_time ()) == 0) {
-		start = icaltime_today ();
-		icalcomponent_set_dtstart (comp_data->icalcomp, start);
+	dtstart = i_cal_component_get_dtstart (comp_data->icalcomp);
+	if (!dtstart || i_cal_time_is_null_time (dtstart) || !i_cal_time_is_valid_time (dtstart)) {
+		g_clear_object (&dtstart);
+
+		dtstart = i_cal_time_new_today ();
+		i_cal_component_set_dtstart (comp_data->icalcomp, dtstart);
 	}
+
+	g_clear_object (&dtstart);
 }
 
 static gint

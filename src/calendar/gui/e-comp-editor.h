@@ -79,9 +79,9 @@ struct _ECompEditorClass {
 	void		(* sensitize_widgets)	(ECompEditor *comp_editor,
 						 gboolean force_insensitive);
 	void		(* fill_widgets)	(ECompEditor *comp_editor,
-						 icalcomponent *component);
+						 ICalComponent *component);
 	gboolean	(* fill_component)	(ECompEditor *comp_editor,
-						 icalcomponent *component);
+						 ICalComponent *component);
 
 	/* Signals */
 	void		(* times_changed)	(ECompEditor *comp_editor);
@@ -93,9 +93,9 @@ struct _ECompEditorClass {
 GType		e_comp_editor_get_type		(void) G_GNUC_CONST;
 void		e_comp_editor_sensitize_widgets	(ECompEditor *comp_editor);
 void		e_comp_editor_fill_widgets	(ECompEditor *comp_editor,
-						 icalcomponent *component);
+						 ICalComponent *component);
 gboolean	e_comp_editor_fill_component	(ECompEditor *comp_editor,
-						 icalcomponent *component);
+						 ICalComponent *component);
 void		e_comp_editor_set_validation_error
 						(ECompEditor *comp_editor,
 						 ECompEditorPage *error_page,
@@ -104,7 +104,7 @@ void		e_comp_editor_set_validation_error
 EShell *	e_comp_editor_get_shell		(ECompEditor *comp_editor);
 GSettings *	e_comp_editor_get_settings	(ECompEditor *comp_editor);
 ESource *	e_comp_editor_get_origin_source	(ECompEditor *comp_editor);
-icalcomponent *	e_comp_editor_get_component	(ECompEditor *comp_editor);
+ICalComponent *	e_comp_editor_get_component	(ECompEditor *comp_editor);
 guint32		e_comp_editor_get_flags		(ECompEditor *comp_editor);
 void		e_comp_editor_set_flags		(ECompEditor *comp_editor,
 						 guint32 flags);
@@ -176,11 +176,11 @@ ECompEditor *	e_comp_editor_open_for_component
 						(GtkWindow *parent,
 						 EShell *shell,
 						 ESource *origin_source,
-						 const icalcomponent *component,
+						 const ICalComponent *component,
 						 guint32 flags /* bit-or of ECompEditorFlags */);
 ECompEditor *	e_comp_editor_find_existing_for	(ESource *origin_source,
-						 const icalcomponent *component);
-icaltimezone *	e_comp_editor_lookup_timezone	(ECompEditor *comp_editor,
+						 const ICalComponent *component);
+ICalTimezone *	e_comp_editor_lookup_timezone	(ECompEditor *comp_editor,
 						 const gchar *tzid);
 
 G_END_DECLS

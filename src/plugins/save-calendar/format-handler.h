@@ -23,6 +23,7 @@
 #include <libecal/libecal.h>
 
 #include <e-util/e-util.h>
+#include <calendar/gui/itip-utils.h>
 
 typedef struct _FormatHandler FormatHandler;
 

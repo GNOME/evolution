@@ -153,8 +153,8 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 	EMsgComposer *composer;
 	EComposerHeaderTable *header_table;
 	gboolean did_updating;
-	icalcomponent *icalcomp;
-	icalproperty *prop;
+	ICalComponent *icomp;
+	ICalProperty *prop;
 	const gchar *text;
 	GPtrArray *to_recips, *cc_recips;
 	GError *error = NULL;
@@ -173,24 +173,24 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 	/* Just a trick to not show validation errors when getting the component */
 	e_comp_editor_set_updating (comp_editor, TRUE);
 
-	icalcomp = icalcomponent_new_clone (e_comp_editor_get_component (comp_editor));
-	e_comp_editor_fill_component (comp_editor, icalcomp);
+	icomp = i_cal_component_clone (e_comp_editor_get_component (comp_editor));
+	e_comp_editor_fill_component (comp_editor, icomp);
 
 	e_comp_editor_set_updating (comp_editor, did_updating);
 
 	/* Subject */
-	text = icalcomponent_get_summary (icalcomp);
+	text = i_cal_component_get_summary (icomp);
 	if (text && *text)
 		e_composer_header_table_set_subject (header_table, text);
 
 	/* From */
-	prop = icalcomponent_get_first_property (icalcomp, ICAL_ORGANIZER_PROPERTY);
+	prop = i_cal_component_get_first_property (icomp, I_CAL_ORGANIZER_PROPERTY);
 	if (prop) {
 		EComposerHeader *from_header;
 		const gchar *organizer;
 
 		from_header = e_composer_header_table_get_header (header_table, E_COMPOSER_HEADER_FROM);
-		organizer = itip_strip_mailto (icalproperty_get_organizer (prop));
+		organizer = itip_strip_mailto (i_cal_property_get_organizer (prop));
 
 		if (organizer && *organizer && from_header) {
 			GtkComboBox *identities_combo;
@@ -227,34 +227,38 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 				} while (gtk_tree_model_iter_next (model, &iter));
 			}
 		}
+
+		g_clear_object (&prop);
 	}
 
 	/* Recipients */
 	to_recips = g_ptr_array_new_with_free_func (meeting_to_composer_unref_nonull_object);
 	cc_recips = g_ptr_array_new_with_free_func (meeting_to_composer_unref_nonull_object);
 
-	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
 	     prop;
-	     prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
-		icalparameter *param;
-		icalparameter_role role = ICAL_ROLE_REQPARTICIPANT;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
+		ICalParameter *param;
+		ICalParameterRole role = I_CAL_ROLE_REQPARTICIPANT;
 		const gchar *name = NULL, *address;
 		EDestination *dest;
 
-		address = itip_strip_mailto (icalproperty_get_attendee (prop));
+		address = itip_strip_mailto (i_cal_property_get_attendee (prop));
 		if (!address || !*address)
 			continue;
 
-		param = icalproperty_get_first_parameter (prop, ICAL_ROLE_PARAMETER);
-		if (param)
-			role = icalparameter_get_role (param);
+		param = i_cal_property_get_first_parameter (prop, I_CAL_ROLE_PARAMETER);
+		if (param) {
+			role = i_cal_parameter_get_role (param);
+			g_object_unref (param);
+		}
 
-		if (role == ICAL_ROLE_NONPARTICIPANT || role == ICAL_ROLE_NONE)
+		if (role == I_CAL_ROLE_NONPARTICIPANT || role == I_CAL_ROLE_NONE)
 			continue;
 
-		param = icalproperty_get_first_parameter (prop, ICAL_CN_PARAMETER);
+		param = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
 		if (param)
-			name = icalparameter_get_cn (param);
+			name = i_cal_parameter_get_cn (param);
 
 		if (name && !*name)
 			name = NULL;
@@ -263,10 +267,12 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 		e_destination_set_name (dest, name);
 		e_destination_set_email (dest, address);
 
-		if (role == ICAL_ROLE_REQPARTICIPANT)
+		if (role == I_CAL_ROLE_REQPARTICIPANT)
 			g_ptr_array_add (to_recips, dest);
 		else
 			g_ptr_array_add (cc_recips, dest);
+
+		g_clear_object (&param);
 	}
 
 	if (to_recips->len > 0) {
@@ -285,9 +291,9 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 	g_ptr_array_free (cc_recips, TRUE);
 
 	/* Body */
-	prop = icalcomponent_get_first_property (icalcomp, ICAL_DESCRIPTION_PROPERTY);
+	prop = i_cal_component_get_first_property (icomp, I_CAL_DESCRIPTION_PROPERTY);
 	if (prop) {
-		text = icalproperty_get_description (prop);
+		text = i_cal_property_get_description (prop);
 
 		if (text && *text) {
 			EHTMLEditor *html_editor;
@@ -299,6 +305,8 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 			e_content_editor_set_html_mode (cnt_editor, FALSE);
 			e_content_editor_insert_content (cnt_editor, text, E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
 		}
+
+		g_object_unref (prop);
 	}
 
 	/* Attachments */
@@ -307,25 +315,25 @@ meeting_to_composer_composer_created_cb (GObject *source_object,
 	gtk_window_present (GTK_WINDOW (composer));
 
 	gtk_widget_destroy (GTK_WIDGET (comp_editor));
-	icalcomponent_free (icalcomp);
+	g_object_unref (icomp);
 }
 
 static void
 action_meeting_to_composer_cb (GtkAction *action,
 			       ECompEditor *comp_editor)
 {
-	icalcomponent *icalcomp;
-	icalcomponent_kind kind;
+	ICalComponent *icomp;
+	ICalComponentKind kind;
 	const gchar *prompt_key;
 
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 
-	icalcomp = e_comp_editor_get_component (comp_editor);
-	kind = icalcomp ? icalcomponent_isa (icalcomp) : ICAL_VEVENT_COMPONENT;
+	icomp = e_comp_editor_get_component (comp_editor);
+	kind = icomp ? i_cal_component_isa (icomp) : I_CAL_VEVENT_COMPONENT;
 
-	if (kind == ICAL_VTODO_COMPONENT)
+	if (kind == I_CAL_VTODO_COMPONENT)
 		prompt_key = "mail-composer:prompt-task-to-composer";
-	else if (kind == ICAL_VJOURNAL_COMPONENT)
+	else if (kind == I_CAL_VJOURNAL_COMPONENT)
 		prompt_key = "mail-composer:prompt-memo-to-composer";
 	else
 		prompt_key = "mail-composer:prompt-event-to-composer";
