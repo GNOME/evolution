@@ -1,3 +1,49 @@
+Evolution 3.33.2 2019-05-20
+---------------------------
+
+Bug Fixes:
+	I#240 - Make SRV config lookup check also TXT records for CalDAV/CardDAV (Дилян Палаузов)
+	I#400 - [To Do Bar] False runtime warning with 'Show Tasks without Due date' set (Milan Crha)
+	I#405 - Time zone change not properly propagated in the Month View (Milan Crha)
+	I#406 - Use a special icon for a configured Archive folder (Milan Crha)
+	I#407 - Inconsistent folder icons between side bar and top grey bar (Milan Crha)
+	I#417 - Add support for CSS property "-MessageList-new-mail-fg-color" (Steven Bakker)
+	I#429 - Do not mark empty string for translation (Milan Crha)
+	I#430 - The first user's Search Folder not auto-shown in the folder tree (Milan Crha)
+	I#432 - Prefer Reply-To from To/Cc in Group Reply (Milan Crha)
+	I#437 - [To Do Bar] Leftover task after DUE date change (Milan Crha)
+	I#439 - Calendar Month view weekday names unreadable in dark theme (Milan Crha)
+	M!10 - Remove unneeded g_srv_target_list_sort() call in srv_config_lookup_domain_sync() (Дилян Палаузов)
+	M!11 - shell: print equal sign after --component in --help text (Дилян Палаузов)
+	M!12 - [SRV config lookup] Do not write default ports in CalDAV/CardDAV URLs (Дилян Палаузов)
+	M!13 - Improve icons in previews with hiDPI monitors (Milan Crha)
+	M!16 - Add copyright and OASR content rating info into .appdata.xml file (Jiri Eischmann)
+	eds-I#112 - Credentials prompter re-asks for credentials of disabled accounts (Milan Crha)
+	eds-M!14 - Correct typo in a comment in the main CMakeLists.txt (Дилян Палаузов)
+
+Miscellaneous:
+	Fixed typo in string (Daniel Mustieles)
+	[Flatpak] Change how already running services are detected in the wrapper script (Milan Crha)
+	Prevent crash in cal_data_model_notify_recurrences_cb() (Milan Crha)
+	[Flatpak] Give access to filesystem's ~/.gnupg (Milan Crha)
+	Correct code typo in test-keyfile-settings-backend.c (Milan Crha)
+	Fix a possible memory leak in e-web-view.c:web_view_initialize() (Milan Crha)
+	Reference a GDBusProxy object in the synchronous call wrappers (Milan Crha)
+	Fix a crash when filling mail threaded view (Milan Crha)
+	Port to libecal-2.0 and adapt to libebook API changes (Milan Crha)
+	Address some issues reported by static analyzers (Coverity Scan, clang) (Milan Crha)
+	Correct type of ECalDataModel::timezone property (Milan Crha)
+	Miscellaneous changes for issues overlooked during port to libical-glib (Milan Crha)
+
+Translations:
+	Daniel Mustieles (es)
+	Jordi Mas (ca)
+	Kukuh Syafaat (id)
+	Asier Sarasua Garmendia (eu)
+	Carmen Bianca BAKKER (eo)
+	Fabio Tomat (fur)
+	Ask Hjorth Larsen (da)
+
 Evolution 3.33.1 2019-04-22
 ---------------------------
 
