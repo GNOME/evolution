@@ -543,16 +543,24 @@ emfe_headers_format (EMailFormatterExtension *extension,
 		e_mail_part_get_id (part),
 		direction);
 
-	if (is_collapsable)
+	if (is_collapsable) {
+		gint icon_width, icon_height;
+
+		if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
+			icon_width = 16;
+			icon_height = 16;
+		}
+
 		g_string_append_printf (
 			buffer,
 			"<td valign=\"top\" width=\"18\" style=\"padding-left: 0px\">"
 			"<button type=\"button\" class=\"header-collapse\" id=\"__evo-collapse-headers-img\">"
-			"<img src=\"gtk-stock://%s\" />"
+			"<img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\"/>"
 			"</button>"
 			"</td>",
-			is_collapsed ? "pan-end-symbolic" : "pan-down-symbolic"
-		);
+			is_collapsed ? "pan-end-symbolic" : "pan-down-symbolic",
+			GTK_ICON_SIZE_BUTTON, icon_width, icon_height);
+	}
 
 	g_string_append (buffer, "<td>");
 

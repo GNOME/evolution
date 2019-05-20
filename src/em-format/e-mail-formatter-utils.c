@@ -206,15 +206,23 @@ e_mail_formatter_format_address (EMailFormatter *formatter,
 			if (strcmp (field, _("To")) == 0 ||
 			    strcmp (field, _("Cc")) == 0 ||
 			    strcmp (field, _("Bcc")) == 0) {
+				gint icon_width, icon_height;
+
+				if (!gtk_icon_size_lookup (GTK_ICON_SIZE_BUTTON, &icon_width, &icon_height)) {
+					icon_width = 16;
+					icon_height = 16;
+				}
 
 				g_string_append (
 					out,
 					"<span id=\"__evo-moreaddr\" "
 					"style=\"display: none;\">");
+
 				str = g_strdup_printf (
 					"<button type=\"button\" id=\"__evo-moreaddr-button\" class=\"header-collapse\" style=\"display: inline-block;\">"
-					"<img src=\"gtk-stock://pan-end-symbolic\" />"
-					"</button>");
+					"<img src=\"gtk-stock://pan-end-symbolic?size=%d\" width=\"%dpx\" height=\"%dpx\"/>"
+					"</button>",
+					GTK_ICON_SIZE_BUTTON, icon_width, icon_height);
 			}
 		}
 	}

@@ -29,7 +29,12 @@
 #include "e-stock-request.h"
 
 struct _EStockRequestPrivate {
-	gint dummy;
+	gint scale_factor;
+};
+
+enum {
+	PROP_0,
+	PROP_SCALE_FACTOR
 };
 
 static void e_stock_request_content_request_init (EContentRequestInterface *iface);
@@ -72,7 +77,6 @@ process_stock_request_idle_cb (gpointer user_data)
 	GtkWidgetPath *path;
 	GtkIconSet *icon_set;
 	gssize size = GTK_ICON_SIZE_BUTTON;
-	gchar *a_size;
 	gchar *buffer = NULL, *mime_type = NULL;
 	gsize buff_len = 0;
 	GError *local_error = NULL;
@@ -96,9 +100,12 @@ process_stock_request_idle_cb (gpointer user_data)
 		query = soup_form_decode (suri->query);
 
 	if (query != NULL) {
-		a_size = g_hash_table_lookup (query, "size");
-		if (a_size != NULL)
-			size = atoi (a_size);
+		const gchar *value;
+
+		value = g_hash_table_lookup (query, "size");
+		if (value)
+			size = atoi (value);
+
 		g_hash_table_destroy (query);
 	}
 
@@ -126,14 +133,19 @@ process_stock_request_idle_cb (gpointer user_data)
 		GtkIconTheme *icon_theme;
 		GtkIconInfo *icon_info;
 		const gchar *filename;
-		gint icon_width, icon_height;
+		gint icon_width, icon_height, scale_factor;
+
+		scale_factor = e_stock_request_get_scale_factor (E_STOCK_REQUEST (sid->request));
+
+		if (scale_factor < 1)
+			scale_factor = 1;
 
 		if (!gtk_icon_size_lookup (size, &icon_width, &icon_height)) {
 			icon_width = size;
 			icon_height = size;
 		}
 
-		size = MAX (icon_width, icon_height);
+		size = MAX (icon_width, icon_height) * scale_factor;
 
 		icon_theme = gtk_icon_theme_get_default ();
 
@@ -279,6 +291,41 @@ e_stock_request_process_sync (EContentRequest *request,
 }
 
 static void
+e_stock_request_set_property (GObject *object,
+			      guint property_id,
+			      const GValue *value,
+			      GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SCALE_FACTOR:
+			e_stock_request_set_scale_factor (
+				E_STOCK_REQUEST (object),
+				g_value_get_int (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+e_stock_request_get_property (GObject *object,
+			      guint property_id,
+			      GValue *value,
+			      GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SCALE_FACTOR:
+			g_value_set_int (
+				value,
+				e_stock_request_get_scale_factor (
+				E_STOCK_REQUEST (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 e_stock_request_content_request_init (EContentRequestInterface *iface)
 {
 	iface->can_process_uri = e_stock_request_can_process_uri;
@@ -288,17 +335,57 @@ e_stock_request_content_request_init (EContentRequestInterface *iface)
 static void
 e_stock_request_class_init (EStockRequestClass *class)
 {
+	GObjectClass *object_class;
+
 	g_type_class_add_private (class, sizeof (EStockRequestPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = e_stock_request_set_property;
+	object_class->get_property = e_stock_request_get_property;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SCALE_FACTOR,
+		g_param_spec_int (
+			"scale-factor",
+			"Scale Factor",
+			NULL,
+			G_MININT, G_MAXINT, 0,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
 e_stock_request_init (EStockRequest *request)
 {
 	request->priv = G_TYPE_INSTANCE_GET_PRIVATE (request, E_TYPE_STOCK_REQUEST, EStockRequestPrivate);
+	request->priv->scale_factor = 0;
 }
 
 EContentRequest *
 e_stock_request_new (void)
 {
 	return g_object_new (E_TYPE_STOCK_REQUEST, NULL);
+}
+
+gint
+e_stock_request_get_scale_factor (EStockRequest *stock_request)
+{
+	g_return_val_if_fail (E_IS_STOCK_REQUEST (stock_request), 0);
+
+	return stock_request->priv->scale_factor;
+}
+
+void
+e_stock_request_set_scale_factor (EStockRequest *stock_request,
+				  gint scale_factor)
+{
+	g_return_if_fail (E_IS_STOCK_REQUEST (stock_request));
+
+	if (stock_request->priv->scale_factor == scale_factor)
+		return;
+
+	stock_request->priv->scale_factor = scale_factor;
+
+	g_object_notify (G_OBJECT (stock_request), "scale-factor");
 }

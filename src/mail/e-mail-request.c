@@ -37,7 +37,12 @@
 #define d(x)
 
 struct _EMailRequestPrivate {
-	gint dummy;
+	gint scale_factor;
+};
+
+enum {
+	PROP_0,
+	PROP_SCALE_FACTOR
 };
 
 static void e_mail_request_content_request_init (EContentRequestInterface *iface);
@@ -198,10 +203,17 @@ mail_request_process_mail_sync (EContentRequest *request,
 
 						if (icon) {
 							const gchar *size = g_hash_table_lookup (uri_query, "size");
+							gint scale_factor;
+
 							if (!size)
 								size = "16";
 
-							save_gicon_to_stream (icon, atoi (size), output_stream, &use_mime_type);
+							scale_factor = e_mail_request_get_scale_factor (E_MAIL_REQUEST (request));
+
+							if (scale_factor < 1)
+								scale_factor = 1;
+
+							save_gicon_to_stream (icon, atoi (size) * scale_factor, output_stream, &use_mime_type);
 						}
 					}
 
@@ -487,6 +499,41 @@ e_mail_request_process_sync (EContentRequest *request,
 }
 
 static void
+e_mail_request_set_property (GObject *object,
+			     guint property_id,
+			     const GValue *value,
+			     GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SCALE_FACTOR:
+			e_mail_request_set_scale_factor (
+				E_MAIL_REQUEST (object),
+				g_value_get_int (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+e_mail_request_get_property (GObject *object,
+			     guint property_id,
+			     GValue *value,
+			     GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SCALE_FACTOR:
+			g_value_set_int (
+				value,
+				e_mail_request_get_scale_factor (
+				E_MAIL_REQUEST (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 e_mail_request_content_request_init (EContentRequestInterface *iface)
 {
 	iface->can_process_uri = e_mail_request_can_process_uri;
@@ -496,17 +543,57 @@ e_mail_request_content_request_init (EContentRequestInterface *iface)
 static void
 e_mail_request_class_init (EMailRequestClass *class)
 {
+	GObjectClass *object_class;
+
 	g_type_class_add_private (class, sizeof (EMailRequestPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = e_mail_request_set_property;
+	object_class->get_property = e_mail_request_get_property;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SCALE_FACTOR,
+		g_param_spec_int (
+			"scale-factor",
+			"Scale Factor",
+			NULL,
+			G_MININT, G_MAXINT, 0,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
 e_mail_request_init (EMailRequest *request)
 {
 	request->priv = G_TYPE_INSTANCE_GET_PRIVATE (request, E_TYPE_MAIL_REQUEST, EMailRequestPrivate);
+	request->priv->scale_factor = 0;
 }
 
 EContentRequest *
 e_mail_request_new (void)
 {
 	return g_object_new (E_TYPE_MAIL_REQUEST, NULL);
+}
+
+gint
+e_mail_request_get_scale_factor (EMailRequest *mail_request)
+{
+	g_return_val_if_fail (E_IS_MAIL_REQUEST (mail_request), 0);
+
+	return mail_request->priv->scale_factor;
+}
+
+void
+e_mail_request_set_scale_factor (EMailRequest *mail_request,
+				 gint scale_factor)
+{
+	g_return_if_fail (E_IS_MAIL_REQUEST (mail_request));
+
+	if (mail_request->priv->scale_factor == scale_factor)
+		return;
+
+	mail_request->priv->scale_factor = scale_factor;
+
+	g_object_notify (G_OBJECT (mail_request), "scale-factor");
 }
