@@ -61,6 +61,9 @@ struct _EStockRequestClass {
 GType		e_stock_request_get_type	(void) G_GNUC_CONST;
 EContentRequest *
 		e_stock_request_new		(void);
+gint		e_stock_request_get_scale_factor(EStockRequest *stock_request);
+void		e_stock_request_set_scale_factor(EStockRequest *stock_request,
+						 gint scale_factor);
 
 G_END_DECLS
 

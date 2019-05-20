@@ -1267,6 +1267,9 @@ web_view_initialize (WebKitWebView *web_view)
 	g_object_unref (content_request);
 
 	content_request = e_stock_request_new ();
+	e_binding_bind_property (web_view, "scale-factor",
+		content_request, "scale-factor",
+		G_BINDING_DEFAULT | G_BINDING_SYNC_CREATE);
 	e_web_view_register_content_request_for_scheme (E_WEB_VIEW (web_view), "gtk-stock", content_request);
 	g_object_unref (content_request);
 

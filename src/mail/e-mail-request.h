@@ -57,6 +57,9 @@ struct _EMailRequestClass {
 GType		e_mail_request_get_type		(void) G_GNUC_CONST;
 EContentRequest *
 		e_mail_request_new		(void);
+gint		e_mail_request_get_scale_factor	(EMailRequest *mail_request);
+void		e_mail_request_set_scale_factor	(EMailRequest *mail_request,
+						 gint scale_factor);
 
 G_END_DECLS
 
