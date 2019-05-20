@@ -1,3 +1,4 @@
+<!-- Copyright 2019-05-20 The Evolution Team <evolution-hackers@gnome.org> -->
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
   <id>org.gnome.Evolution.desktop</id>
