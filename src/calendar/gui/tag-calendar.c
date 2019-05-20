@@ -406,8 +406,8 @@ get_component_julian_range (ECalClient *client,
 	cal_comp_get_instance_times (client, e_cal_component_get_icalcomponent (comp),
 		zone, &instance_start, &instance_end, NULL);
 
-	start_tt = i_cal_time_as_timet (instance_start);
-	end_tt = i_cal_time_as_timet (instance_end);
+	start_tt = i_cal_time_as_timet_with_zone (instance_start, i_cal_time_get_timezone (instance_start));
+	end_tt = i_cal_time_as_timet_with_zone (instance_end, i_cal_time_get_timezone (instance_end));
 
 	*start_julian = encode_timet_to_julian (start_tt, i_cal_time_is_date (instance_start), zone);
 	*end_julian = encode_timet_to_julian (end_tt - (end_tt == start_tt ? 0 : 1), i_cal_time_is_date (instance_end), zone);

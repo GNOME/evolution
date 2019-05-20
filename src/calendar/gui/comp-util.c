@@ -153,6 +153,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 		 * we know the timezones are the same so we return TRUE. */
 		retval = TRUE;
 	} else {
+		gint is_daylight = 0; /* Its value is ignored, but libical-glib 3.0.5 API requires it */
+
 		/* If the TZIDs differ, we have to compare the UTC offsets
 		 * of the start and end times, using their own timezones and
 		 * the given timezone. */
@@ -167,11 +169,11 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 			offset1 = i_cal_timezone_get_utc_offset (
 				start_zone,
 				e_cal_component_datetime_get_value (start_datetime),
-				NULL);
+				&is_daylight);
 			offset2 = i_cal_timezone_get_utc_offset (
 				zone,
 				e_cal_component_datetime_get_value (start_datetime),
-				NULL);
+				&is_daylight);
 			if (offset1 != offset2)
 				goto out;
 		}
@@ -187,11 +189,11 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 			offset1 = i_cal_timezone_get_utc_offset (
 				end_zone,
 				e_cal_component_datetime_get_value (end_datetime),
-				NULL);
+				&is_daylight);
 			offset2 = i_cal_timezone_get_utc_offset (
 				zone,
 				e_cal_component_datetime_get_value (end_datetime),
-				NULL);
+				&is_daylight);
 			if (offset1 != offset2)
 				goto out;
 		}
@@ -859,7 +861,7 @@ cal_comp_get_instance_times (ECalClient *client,
 			     GCancellable *cancellable)
 {
 	ICalTime *start_time, *end_time;
-	const ICalTimezone *zone = default_zone;
+	const ICalTimezone *zone;
 
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (icomp != NULL);
@@ -875,6 +877,8 @@ cal_comp_get_instance_times (ECalClient *client,
 
 		end_time = i_cal_time_clone (start_time);
 	}
+
+	zone = NULL;
 
 	if (i_cal_time_get_timezone (start_time)) {
 		zone = i_cal_time_get_timezone (start_time);
@@ -903,8 +907,19 @@ cal_comp_get_instance_times (ECalClient *client,
 		}
 	}
 
+	if (!zone)
+		zone = default_zone;
+
 	*out_instance_start = i_cal_time_clone (start_time);
-	i_cal_time_set_timezone (*out_instance_start, zone);
+	if (i_cal_time_is_date (*out_instance_start)) {
+		i_cal_time_set_is_date (*out_instance_start, FALSE);
+		i_cal_time_set_timezone (*out_instance_start, zone);
+		i_cal_time_set_is_date (*out_instance_start, TRUE);
+	} else {
+		i_cal_time_set_timezone (*out_instance_start, zone);
+	}
+
+	zone = NULL;
 
 	if (i_cal_time_get_timezone (end_time)) {
 		zone = i_cal_time_get_timezone (end_time);
@@ -936,8 +951,17 @@ cal_comp_get_instance_times (ECalClient *client,
 		}
 	}
 
+	if (!zone)
+		zone = default_zone;
+
 	*out_instance_end = i_cal_time_clone (end_time);
-	i_cal_time_set_timezone (*out_instance_end, zone);
+	if (i_cal_time_is_date (*out_instance_end)) {
+		i_cal_time_set_is_date (*out_instance_end, FALSE);
+		i_cal_time_set_timezone (*out_instance_end, zone);
+		i_cal_time_set_is_date (*out_instance_end, TRUE);
+	} else {
+		i_cal_time_set_timezone (*out_instance_end, zone);
+	}
 
 	g_clear_object (&start_time);
 	g_clear_object (&end_time);

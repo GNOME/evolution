@@ -1147,8 +1147,8 @@ cal_data_model_instance_generated (ICalComponent *icomp,
 	cal_comp_get_instance_times (gid->client, e_cal_component_get_icalcomponent (comp_copy),
 		gid->zone, &tt, &tt2, cancellable);
 
-	start_tt = i_cal_time_as_timet (tt);
-	end_tt = i_cal_time_as_timet (tt2);
+	start_tt = i_cal_time_as_timet_with_zone (tt, i_cal_time_get_timezone (tt));
+	end_tt = i_cal_time_as_timet_with_zone (tt2, i_cal_time_get_timezone (tt2));
 
 	g_clear_object (&tt);
 	g_clear_object (&tt2);
@@ -1325,8 +1325,8 @@ cal_data_model_process_modified_or_added_objects (ECalClientView *view,
 
 				cal_comp_get_instance_times (client, icomp, data_model->priv->zone, &start_tt, &end_tt, NULL);
 
-				instance_start = i_cal_time_as_timet (start_tt);
-				instance_end = i_cal_time_as_timet (end_tt);
+				instance_start = i_cal_time_as_timet_with_zone (start_tt, i_cal_time_get_timezone (start_tt));
+				instance_end = i_cal_time_as_timet_with_zone (end_tt, i_cal_time_get_timezone (end_tt));
 
 				g_clear_object (&start_tt);
 				g_clear_object (&end_tt);

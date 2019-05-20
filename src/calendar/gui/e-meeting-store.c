@@ -683,7 +683,7 @@ meeting_store_set_property (GObject *object,
 		case PROP_TIMEZONE:
 			e_meeting_store_set_timezone (
 				E_MEETING_STORE (object),
-				g_value_get_pointer (value));
+				g_value_get_object (value));
 			return;
 	}
 
@@ -733,7 +733,7 @@ meeting_store_get_property (GObject *object,
 			return;
 
 		case PROP_TIMEZONE:
-			g_value_set_pointer (
+			g_value_set_object (
 				value,
 				e_meeting_store_get_timezone (
 				E_MEETING_STORE (object)));
@@ -857,10 +857,11 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_TIMEZONE,
-		g_param_spec_pointer (
+		g_param_spec_object (
 			"timezone",
 			"Timezone",
 			NULL,
+			I_CAL_TYPE_TIMEZONE,
 			G_PARAM_READWRITE));
 }
 

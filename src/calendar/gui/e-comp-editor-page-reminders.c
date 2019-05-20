@@ -395,25 +395,20 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 	}
 
 	duration = e_cal_component_alarm_trigger_get_duration (trigger);
-	switch (i_cal_duration_is_neg (duration)) {
-	case 1:
+	if (!duration || i_cal_duration_is_neg (duration))
 		e_dialog_combo_box_set (page_reminders->priv->relative_time_combo, BEFORE, relative_map);
-		break;
-
-	case 0:
+	else
 		e_dialog_combo_box_set (page_reminders->priv->relative_time_combo, AFTER, relative_map);
-		break;
-	}
 
-	if (i_cal_duration_get_days (duration)) {
+	if (duration && i_cal_duration_get_days (duration)) {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, DAYS, value_map);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin),
 			i_cal_duration_get_days (duration));
-	} else if (i_cal_duration_get_hours (duration)) {
+	} else if (duration && i_cal_duration_get_hours (duration)) {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, HOURS, value_map);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin),
 			i_cal_duration_get_hours (duration));
-	} else if (i_cal_duration_get_minutes (duration)) {
+	} else if (duration && i_cal_duration_get_minutes (duration)) {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, MINUTES, value_map);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin),
 			i_cal_duration_get_minutes (duration));
@@ -425,7 +420,7 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 	/* Repeat options */
 	repeat = e_cal_component_alarm_get_repeat (alarm);
 
-	if (e_cal_component_alarm_repeat_get_repetitions (repeat)) {
+	if (repeat && e_cal_component_alarm_repeat_get_repetitions (repeat)) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->repeat_check), TRUE);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->repeat_times_spin),
 			e_cal_component_alarm_repeat_get_repetitions (repeat));

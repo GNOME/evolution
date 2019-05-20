@@ -529,13 +529,14 @@ zone_display_name_with_offset (const ICalTimezone *zone)
 	const gchar *display_name;
 	struct tm local;
 	ICalTime *tt;
+	gint is_daylight = 0; /* Its value is ignored, but libical-glib 3.0.5 API requires it */
 	gint offset;
 	gchar buffer[100];
 	time_t now = time (NULL);
 
 	gmtime_r ((const time_t *) &now, &local);
 	tt = e_cal_util_tm_to_icaltime (&local, TRUE);
-	offset = i_cal_timezone_get_utc_offset ((ICalTimezone *) zone, tt, NULL);
+	offset = i_cal_timezone_get_utc_offset ((ICalTimezone *) zone, tt, &is_daylight);
 	g_clear_object (&tt);
 
 	format_utc_offset (offset, buffer);

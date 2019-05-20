@@ -353,6 +353,7 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 		 * local time and the other timezone */
 		ICalTimezone *cal_zone;
 		ICalTime *tt;
+		gint is_daylight = 0; /* Its value is ignored, but libical-glib 3.0.5 API requires it */
 		gint diff;
 		struct tm mn;
 
@@ -362,8 +363,8 @@ edvti_draw_zone (GnomeCanvasItem *canvas_item,
 			day_view->day_starts[0], 0, cal_zone);
 
 		/* diff is number of minutes */
-		diff = (i_cal_timezone_get_utc_offset (use_zone, tt, NULL) -
-			i_cal_timezone_get_utc_offset (cal_zone, tt, NULL)) / 60;
+		diff = (i_cal_timezone_get_utc_offset (use_zone, tt, &is_daylight) -
+			i_cal_timezone_get_utc_offset (cal_zone, tt, &is_daylight)) / 60;
 
 		g_clear_object (&tt);
 

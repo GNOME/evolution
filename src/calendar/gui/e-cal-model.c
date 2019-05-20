@@ -4119,8 +4119,10 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data,
 	cal_comp_get_instance_times (comp_data->client, comp_data->icalcomp, zone,
 		&instance_start, &instance_end, NULL);
 
-	comp_data->instance_start = instance_start ? i_cal_time_as_timet (instance_start) : comp_data->instance_start;
-	comp_data->instance_end = instance_end ? i_cal_time_as_timet (instance_end) : comp_data->instance_end;
+	comp_data->instance_start = instance_start ? i_cal_time_as_timet_with_zone (instance_start,
+		i_cal_time_get_timezone (instance_start)) : comp_data->instance_start;
+	comp_data->instance_end = instance_end ? i_cal_time_as_timet_with_zone (instance_end,
+		i_cal_time_get_timezone (instance_end)) : comp_data->instance_end;
 
 	g_clear_object (&instance_start);
 	g_clear_object (&instance_end);
