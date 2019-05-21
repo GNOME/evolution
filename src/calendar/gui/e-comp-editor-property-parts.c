@@ -1191,7 +1191,7 @@ e_comp_editor_property_part_classification_new (void)
 
 	e_comp_editor_property_part_picker_with_map_set_selected (
 		E_COMP_EDITOR_PROPERTY_PART_PICKER_WITH_MAP (part),
-		classify_private ? ICAL_CLASS_PRIVATE : ICAL_CLASS_PUBLIC);
+		classify_private ? I_CAL_CLASS_PRIVATE : I_CAL_CLASS_PUBLIC);
 
 	return part;
 }

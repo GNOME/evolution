@@ -1803,13 +1803,13 @@ e_cal_ops_new_component_editor_from_model (ECalModel *model,
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
 	switch (e_cal_model_get_component_kind (model)) {
-		case ICAL_VEVENT_COMPONENT:
+		case I_CAL_VEVENT_COMPONENT:
 			source_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 			break;
 		default:

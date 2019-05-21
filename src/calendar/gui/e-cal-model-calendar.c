@@ -523,7 +523,7 @@ static void
 e_cal_model_calendar_init (ECalModelCalendar *model)
 {
 	e_cal_model_set_component_kind (
-		E_CAL_MODEL (model), ICAL_VEVENT_COMPONENT);
+		E_CAL_MODEL (model), I_CAL_VEVENT_COMPONENT);
 }
 
 ECalModel *

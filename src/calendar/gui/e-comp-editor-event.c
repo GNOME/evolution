@@ -741,21 +741,21 @@ ece_event_setup_ui (ECompEditorEvent *event_editor)
 		  N_("Pu_blic"),
 		  NULL,
 		  N_("Classify as public"),
-		  ICAL_CLASS_PUBLIC },
+		  I_CAL_CLASS_PUBLIC },
 
 		{ "classify-private",
 		  NULL,
 		  N_("_Private"),
 		  NULL,
 		  N_("Classify as private"),
-		  ICAL_CLASS_PRIVATE },
+		  I_CAL_CLASS_PRIVATE },
 
 		{ "classify-confidential",
 		  NULL,
 		  N_("_Confidential"),
 		  NULL,
 		  N_("Classify as confidential"),
-		  ICAL_CLASS_CONFIDENTIAL }
+		  I_CAL_CLASS_CONFIDENTIAL }
 	};
 
 	ECompEditor *comp_editor;
@@ -779,7 +779,7 @@ ece_event_setup_ui (ECompEditorEvent *event_editor)
 	gtk_action_group_add_radio_actions (
 		action_group, classification_radio_entries,
 		G_N_ELEMENTS (classification_radio_entries),
-		ICAL_CLASS_PUBLIC,
+		I_CAL_CLASS_PUBLIC,
 		G_CALLBACK (ece_event_action_classification_cb), event_editor);
 
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);

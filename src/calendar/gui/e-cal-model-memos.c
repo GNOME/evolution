@@ -255,7 +255,7 @@ static void
 e_cal_model_memos_init (ECalModelMemos *model)
 {
 	e_cal_model_set_component_kind (
-		E_CAL_MODEL (model), ICAL_VJOURNAL_COMPONENT);
+		E_CAL_MODEL (model), I_CAL_VJOURNAL_COMPONENT);
 }
 
 ECalModel *

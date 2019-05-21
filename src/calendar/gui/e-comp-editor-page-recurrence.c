@@ -1205,7 +1205,7 @@ ecep_recurrence_clear_widgets (ECompEditorPageRecurrence *page_recurrence)
 	g_signal_handlers_unblock_matched (adj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 
 	g_signal_handlers_block_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
-	e_dialog_combo_box_set (page_recurrence->priv->recr_interval_unit_combo, ICAL_DAILY_RECURRENCE, freq_map);
+	e_dialog_combo_box_set (page_recurrence->priv->recr_interval_unit_combo, I_CAL_DAILY_RECURRENCE, freq_map);
 	g_signal_handlers_unblock_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 
 	g_clear_object (&page_recurrence->priv->ending_date_tt);
@@ -1316,7 +1316,7 @@ ecep_recurrence_simple_recur_to_comp (ECompEditorPageRecurrence *page_recurrence
 		break;
 	}
 
-	case ICAL_MONTHLY_RECURRENCE: {
+	case I_CAL_MONTHLY_RECURRENCE: {
 		enum month_num_options month_num;
 		enum month_day_options month_day;
 
@@ -1795,7 +1795,7 @@ ecep_recurrence_fill_widgets (ECompEditorPage *page,
 		g_signal_handlers_unblock_matched (page_recurrence->priv->recr_interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 		break;
 
-	case ICAL_YEARLY_RECURRENCE:
+	case I_CAL_YEARLY_RECURRENCE:
 		if (n_by_day != 0
 		    || n_by_month_day != 0
 		    || n_by_year_day != 0

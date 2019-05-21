@@ -1052,13 +1052,13 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 		const gchar *alert_ident = NULL;
 
 		switch (e_cal_model_get_component_kind (model)) {
-			case ICAL_VEVENT_COMPONENT:
+			case I_CAL_VEVENT_COMPONENT:
 				alert_ident = "calendar:failed-create-event";
 				break;
-			case ICAL_VJOURNAL_COMPONENT:
+			case I_CAL_VJOURNAL_COMPONENT:
 				alert_ident = "calendar:failed-create-memo";
 				break;
-			case ICAL_VTODO_COMPONENT:
+			case I_CAL_VTODO_COMPONENT:
 				alert_ident = "calendar:failed-create-task";
 				break;
 			default:

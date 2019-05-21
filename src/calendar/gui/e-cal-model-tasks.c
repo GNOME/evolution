@@ -281,15 +281,15 @@ get_status (ECalModelComponent *comp_data)
 		g_object_unref (prop);
 
 		switch (status) {
-		case ICAL_STATUS_NONE:
+		case I_CAL_STATUS_NONE:
 			return (gpointer) "";
-		case ICAL_STATUS_NEEDSACTION:
+		case I_CAL_STATUS_NEEDSACTION:
 			return (gpointer) _("Not Started");
-		case ICAL_STATUS_INPROCESS:
+		case I_CAL_STATUS_INPROCESS:
 			return (gpointer) _("In Progress");
-		case ICAL_STATUS_COMPLETED:
+		case I_CAL_STATUS_COMPLETED:
 			return (gpointer) _("Completed");
-		case ICAL_STATUS_CANCELLED:
+		case I_CAL_STATUS_CANCELLED:
 			return (gpointer) _("Cancelled");
 		default:
 			return (gpointer) "";
@@ -602,19 +602,19 @@ set_status (ECalModelComponent *comp_data,
 	}
 
 	switch (status) {
-	case ICAL_STATUS_NEEDSACTION:
+	case I_CAL_STATUS_NEEDSACTION:
 		ensure_task_not_complete (comp_data, TRUE);
 		break;
 
-	case ICAL_STATUS_INPROCESS:
+	case I_CAL_STATUS_INPROCESS:
 		ensure_task_partially_complete (comp_data);
 		break;
 
-	case ICAL_STATUS_CANCELLED:
+	case I_CAL_STATUS_CANCELLED:
 		ensure_task_not_complete (comp_data, FALSE);
 		break;
 
-	case ICAL_STATUS_COMPLETED:
+	case I_CAL_STATUS_COMPLETED:
 		ensure_task_complete (comp_data, -1);
 		break;
 
@@ -1304,7 +1304,7 @@ e_cal_model_tasks_init (ECalModelTasks *model)
 	model->priv->highlight_overdue = TRUE;
 
 	e_cal_model_set_component_kind (
-		E_CAL_MODEL (model), ICAL_VTODO_COMPONENT);
+		E_CAL_MODEL (model), I_CAL_VTODO_COMPONENT);
 }
 
 ECalModel *
@@ -1462,7 +1462,7 @@ e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model,
 	/* Status */
 	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
 	if (prop)
-		i_cal_property_set_status (prop, ICAL_STATUS_NEEDSACTION);
+		i_cal_property_set_status (prop, I_CAL_STATUS_NEEDSACTION);
 	else
 		i_cal_component_take_property (comp_data->icalcomp, i_cal_property_new_status (I_CAL_STATUS_NEEDSACTION));
 	g_clear_object (&prop);

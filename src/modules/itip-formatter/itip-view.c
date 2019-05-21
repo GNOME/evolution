@@ -6280,7 +6280,7 @@ view_response_cb (ItipView *view,
 					view->priv->registry,
 					view->priv->ical_comp,
 					view->priv->to_address,
-					ICAL_PARTSTAT_ACCEPTED);
+					I_CAL_PARTSTAT_ACCEPTED);
 			else
 				status = TRUE;
 			if (status) {
@@ -6292,7 +6292,7 @@ view_response_cb (ItipView *view,
 					view->priv->registry,
 					view->priv->ical_comp,
 					view->priv->to_address,
-					ICAL_PARTSTAT_TENTATIVE);
+					I_CAL_PARTSTAT_TENTATIVE);
 			if (status) {
 				update_item (view, response);
 			}
@@ -6303,7 +6303,7 @@ view_response_cb (ItipView *view,
 					view->priv->registry,
 					view->priv->ical_comp,
 					view->priv->to_address,
-					ICAL_PARTSTAT_DECLINED);
+					I_CAL_PARTSTAT_DECLINED);
 			else {
 				prop = i_cal_property_new_x ("1");
 				i_cal_property_set_x_name (prop, "X-GW-DECLINED");

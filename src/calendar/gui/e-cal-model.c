@@ -1323,11 +1323,11 @@ cal_model_kind_to_extension_name (ECalModel *model)
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
 	switch (model->priv->kind) {
-		case ICAL_VEVENT_COMPONENT:
+		case I_CAL_VEVENT_COMPONENT:
 			return E_SOURCE_EXTENSION_CALENDAR;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			return E_SOURCE_EXTENSION_MEMO_LIST;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			return E_SOURCE_EXTENSION_TASK_LIST;
 		default:
 			g_warn_if_reached ();
@@ -1508,15 +1508,15 @@ cal_model_append_row (ETableModel *etm,
 	g_return_if_fail (E_IS_TABLE_MODEL (source));
 
 	switch (e_cal_model_get_component_kind (model)) {
-		case ICAL_VEVENT_COMPONENT:
+		case I_CAL_VEVENT_COMPONENT:
 			description = _("Creating an event");
 			alert_ident = "calendar:failed-create-event";
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			description = _("Creating a memo");
 			alert_ident = "calendar:failed-create-memo";
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			description = _("Creating a task");
 			alert_ident = "calendar:failed-create-task";
 			break;
@@ -1591,14 +1591,14 @@ cal_model_value_at (ETableModel *etm,
 		return (gpointer) get_dtstart (model, comp_data);
 	case E_CAL_MODEL_FIELD_CREATED :
 		return (gpointer) get_datetime_from_utc (
-			model, comp_data, ICAL_CREATED_PROPERTY,
+			model, comp_data, I_CAL_CREATED_PROPERTY,
 			i_cal_property_get_created, &comp_data->created);
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :
 		return (gpointer) get_datetime_from_utc (
 			model, comp_data, I_CAL_LASTMODIFIED_PROPERTY,
 			i_cal_property_get_lastmodified, &comp_data->lastmodified);
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
-		return GINT_TO_POINTER (e_cal_util_component_has_property (comp_data->icalcomp, I_CAL_VALARM_COMPONENT));
+		return GINT_TO_POINTER (e_cal_util_component_has_alarms (comp_data->icalcomp));
 	case E_CAL_MODEL_FIELD_ICON :
 	{
 		ECalComponent *comp;
@@ -2613,7 +2613,7 @@ e_cal_model_init (ECalModel *model)
 	model->priv->end = (time_t) -1;
 
 	model->priv->objects = g_ptr_array_new ();
-	model->priv->kind = ICAL_NO_COMPONENT;
+	model->priv->kind = I_CAL_NO_COMPONENT;
 
 	model->priv->use_24_hour_format = TRUE;
 }

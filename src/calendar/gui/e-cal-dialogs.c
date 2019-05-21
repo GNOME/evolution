@@ -291,19 +291,19 @@ e_cal_dialogs_copy_source (GtkWindow *parent,
 	g_return_if_fail (E_IS_SOURCE (from_source));
 
 	switch (e_cal_model_get_component_kind (model)) {
-		case ICAL_VEVENT_COMPONENT:
+		case I_CAL_VEVENT_COMPONENT:
 			obj_type = E_CAL_CLIENT_SOURCE_TYPE_EVENTS;
 			extension_name = E_SOURCE_EXTENSION_CALENDAR;
 			format = _("Copying events to the calendar “%s”");
 			alert_ident = "calendar:failed-copy-event";
 			break;
-		case ICAL_VJOURNAL_COMPONENT:
+		case I_CAL_VJOURNAL_COMPONENT:
 			obj_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
 			format = _("Copying memos to the memo list “%s”");
 			alert_ident = "calendar:failed-copy-memo";
 			break;
-		case ICAL_VTODO_COMPONENT:
+		case I_CAL_VTODO_COMPONENT:
 			obj_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
 			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
 			format = _("Copying tasks to the task list “%s”");
