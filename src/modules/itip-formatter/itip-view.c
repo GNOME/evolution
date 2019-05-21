@@ -6087,7 +6087,7 @@ extract_itip_data (ItipView *view,
 		/* Determine any delegate sections */
 		for (prop = i_cal_component_get_first_property (view->priv->ical_comp, I_CAL_X_PROPERTY);
 		     prop;
-		     g_object_unref (prop), i_cal_component_get_next_property (view->priv->ical_comp, I_CAL_X_PROPERTY)) {
+		     g_object_unref (prop), prop = i_cal_component_get_next_property (view->priv->ical_comp, I_CAL_X_PROPERTY)) {
 			const gchar *x_name, *x_val;
 
 			x_name = i_cal_property_get_x_name (prop);
