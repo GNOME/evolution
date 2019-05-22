@@ -122,7 +122,6 @@ empe_app_smime_parse (EMailParserExtension *extension,
 
 			e_mail_part_update_validity (
 				mail_part, valid,
-				E_MAIL_PART_VALIDITY_ENCRYPTED |
 				E_MAIL_PART_VALIDITY_SMIME);
 
 			/* Do not traverse sub-messages */
@@ -150,7 +149,6 @@ empe_app_smime_parse (EMailParserExtension *extension,
 			if (mail_part != NULL)
 				e_mail_part_update_validity (
 					mail_part, valid,
-					E_MAIL_PART_VALIDITY_ENCRYPTED |
 					E_MAIL_PART_VALIDITY_SMIME);
 
 			e_queue_transfer (&work_queue, out_mail_parts);
