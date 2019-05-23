@@ -33,8 +33,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-03-10 18:02+0000\n"
-"PO-Revision-Date: 2019-03-10 22:17+0100\n"
+"POT-Creation-Date: 2019-03-11 09:00+0000\n"
+"PO-Revision-Date: 2019-04-01 15:04+0200\n"
 "Last-Translator: Guillaume Bernard <associations@guillaume-bernard.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -2105,9 +2105,9 @@ msgid ""
 "Forward and reply attribution language tag, like en_US. Empty string means "
 "to use the same language as the user interface."
 msgstr ""
-"Étiquettes de langue pour l’attribution des réponses et "
-"transferts, comme fr_FR. Une chaîne vide indique que la langue de "
-"l’interface utilisateur sera utilisée."
+"Étiquettes de langue pour l’attribution des réponses et transferts, comme "
+"fr_FR. Une chaîne vide indique que la langue de l’interface utilisateur sera "
+"utilisée."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:173
 msgid "Prompt on send when using key accelerator (Ctrl+Enter)"
@@ -8725,7 +8725,7 @@ msgstr "Semaine %d"
 #: ../src/calendar/gui/e-day-view-time-item.c:804
 #, c-format
 msgid "%02i minute divisions"
-msgstr "%02i divisions par minute"
+msgstr "divisions de %02i minutes"
 
 #: ../src/calendar/gui/e-day-view-time-item.c:829
 msgid "Show the second time zone"
