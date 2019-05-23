@@ -666,7 +666,7 @@ ece_save_component_attachments_sync (ECalClient *cal_client,
 			gsize buf_size;
 
 			data = icalattach_get_url (attach);
-			buf_size = strlen (data);
+			buf_size = strlen (data) + 1;
 			uri = g_malloc0 (buf_size + 1);
 
 			icalvalue_decode_ical_string (data, uri, buf_size);
