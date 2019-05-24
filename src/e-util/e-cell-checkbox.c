@@ -34,8 +34,6 @@
 
 G_DEFINE_TYPE (ECellCheckbox, e_cell_checkbox, E_TYPE_CELL_TOGGLE)
 
-static GdkPixbuf *checks[2];
-
 static void
 ecc_print (ECellView *ecell_view,
            GtkPrintContext *context,
@@ -63,13 +61,86 @@ ecc_print (ECellView *ecell_view,
 }
 
 static void
+ecc_draw (ECellView *ecell_view,
+	  cairo_t *cr,
+	  gint model_col,
+	  gint view_col,
+	  gint row,
+	  ECellFlags flags,
+	  gint x1,
+	  gint y1,
+	  gint x2,
+	  gint y2)
+{
+	GtkStyleContext *style_context;
+	GtkWidgetPath *widget_path;
+	gint xx, yy, ww, hh;
+	const gint value = GPOINTER_TO_INT (e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+
+	if (value != 0 && value != 1)
+		return;
+
+	xx = x1;
+	yy = y1;
+	ww = x2 - x1;
+	hh = y2 - y1;
+
+	if (ww > 16) {
+		xx += (ww - 16) / 2;
+		ww = 16;
+	}
+
+	if (hh > 16) {
+		yy += (hh - 16) / 2;
+		hh = 16;
+	}
+
+	widget_path = gtk_widget_path_new ();
+	gtk_widget_path_append_type (widget_path, G_TYPE_NONE);
+	gtk_widget_path_iter_set_object_name (widget_path, -1, "check");
+
+	style_context = gtk_style_context_new ();
+	gtk_style_context_set_path (style_context, widget_path);
+	gtk_style_context_set_state (style_context,
+		(value ? GTK_STATE_FLAG_CHECKED : 0) |
+		((flags & E_CELL_SELECTED) != 0 ? GTK_STATE_FLAG_SELECTED : 0));
+
+	gtk_render_frame (style_context, cr, xx, yy, ww, hh);
+	gtk_render_check (style_context, cr, xx, yy, ww, hh);
+
+	gtk_widget_path_unref (widget_path);
+	g_object_unref (style_context);
+}
+
+static void
 e_cell_checkbox_class_init (ECellCheckboxClass *class)
 {
 	ECellClass *ecc = E_CELL_CLASS (class);
 
 	ecc->print = ecc_print;
-	checks[0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
-	checks[1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
+	ecc->draw = ecc_draw;
+}
+
+static GdkPixbuf *
+ecc_get_check_singleton (gboolean the_empty)
+{
+	static GdkPixbuf *check_empty = NULL;
+	static GdkPixbuf *check_filled = NULL;
+	GdkPixbuf **pcheck;
+
+	if (the_empty)
+		pcheck = &check_empty;
+	else
+		pcheck = &check_filled;
+
+	if (*pcheck)
+		return g_object_ref (*pcheck);
+
+	*pcheck = gdk_pixbuf_new_from_xpm_data (the_empty ? check_empty_xpm : check_filled_xpm);
+
+	g_object_weak_ref (G_OBJECT (*pcheck), (GWeakNotify) g_nullify_pointer, pcheck);
+
+	return *pcheck;
 }
 
 static void
@@ -79,8 +150,8 @@ e_cell_checkbox_init (ECellCheckbox *eccb)
 
 	pixbufs = e_cell_toggle_get_pixbufs (E_CELL_TOGGLE (eccb));
 
-	g_ptr_array_add (pixbufs, g_object_ref (checks[0]));
-	g_ptr_array_add (pixbufs, g_object_ref (checks[1]));
+	g_ptr_array_add (pixbufs, ecc_get_check_singleton (TRUE));
+	g_ptr_array_add (pixbufs, ecc_get_check_singleton (FALSE));
 }
 
 /**
