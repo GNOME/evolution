@@ -3709,6 +3709,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 	gchar *aa = NULL;
 	const gchar *styles[] = { "normal", "oblique", "italic" };
 	const gchar *smoothing = NULL;
+	gchar fsbuff[G_ASCII_DTOSTR_BUF_SIZE];
 	GdkColor *link = NULL;
 	GdkColor *visited = NULL;
 	GString *stylesheet;
@@ -3756,15 +3757,18 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 		min_size = vw;
 
 	stylesheet = g_string_new ("");
+	g_ascii_dtostr (fsbuff, G_ASCII_DTOSTR_BUF_SIZE,
+		((gdouble) pango_font_description_get_size (vw)) / PANGO_SCALE);
+
 	g_string_append_printf (
 		stylesheet,
 		"body {\n"
 		"  font-family: '%s';\n"
-		"  font-size: %dpt;\n"
+		"  font-size: %spt;\n"
 		"  font-weight: %d;\n"
 		"  font-style: %s;\n",
 		pango_font_description_get_family (vw),
-		pango_font_description_get_size (vw) / PANGO_SCALE,
+		fsbuff,
 		pango_font_description_get_weight (vw),
 		styles[pango_font_description_get_style (vw)]);
 
@@ -3789,17 +3793,20 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 
 	g_string_append (stylesheet, "}\n");
 
+	g_ascii_dtostr (fsbuff, G_ASCII_DTOSTR_BUF_SIZE,
+		((gdouble) pango_font_description_get_size (ms)) / PANGO_SCALE);
+
 	g_string_append_printf (
 		stylesheet,
 		"pre,code,.pre {\n"
 		"  font-family: '%s';\n"
-		"  font-size: %dpt;\n"
+		"  font-size: %spt;\n"
 		"  font-weight: %d;\n"
 		"  font-style: %s;\n"
 		"  margin: 0px;\n"
 		"}\n",
 		pango_font_description_get_family (ms),
-		pango_font_description_get_size (ms) / PANGO_SCALE,
+		fsbuff,
 		pango_font_description_get_weight (ms),
 		styles[pango_font_description_get_style (ms)]);
 
