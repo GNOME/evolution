@@ -47,10 +47,6 @@ if(NOT GETTEXT_FOUND)
 	message(FATAL_ERROR "gettext not found, please install at least 0.18.3 version")
 endif(NOT GETTEXT_FOUND)
 
-if(NOT GETTEXT_FOUND)
-	message(FATAL_ERROR "gettext not found, please install at least 0.18.3 version")
-endif(NOT GETTEXT_FOUND)
-
 if(GETTEXT_VERSION_STRING VERSION_LESS "0.18.3")
 	message(FATAL_ERROR "gettext version 0.18.3+ required, but version '${GETTEXT_VERSION_STRING}' found instead. Please update your gettext")
 endif(GETTEXT_VERSION_STRING VERSION_LESS "0.18.3")

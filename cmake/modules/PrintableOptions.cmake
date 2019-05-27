@@ -1,13 +1,13 @@
 # PrintableOptions.cmake
 #
-# Provides functions to manage printable otpions,
+# Provides functions to manage printable options,
 # which can be printed at the end of the configuration
 #
 # add_printable_variable_bare(_name)
 #    adds variable named _name to the list of prinable options
 #
 # add_printable_option(_name _description _default_value)
-#    the same as option() commnd, only also notes this option for later printing
+#    the same as option() command, only also notes this option for later printing
 #
 # add_printable_variable(_name _description _default_value)
 #    sets a new cached STRING variable and adds it to the list of printable options
