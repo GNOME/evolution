@@ -200,17 +200,6 @@ get_role_strings (void)
 }
 
 static GList *
-get_rsvp_strings (void)
-{
-	GList *strings = NULL;
-
-	strings = g_list_append (strings, (gchar *) _("Yes"));
-	strings = g_list_append (strings, (gchar *) _("No"));
-
-	return strings;
-}
-
-static GList *
 get_status_strings (void)
 {
 	GList *strings = NULL;
@@ -542,12 +531,12 @@ role_edited_cb (GtkCellRenderer *renderer,
 }
 
 static void
-rsvp_edited_cb (GtkCellRenderer *renderer,
-                const gchar *path,
-                const gchar *text,
-                GtkTreeView *view)
+rsvp_toggled_cb (GtkCellRendererToggle *renderer,
+		 const gchar *path,
+		 GtkTreeView *view)
 {
-	value_edited (view, E_MEETING_STORE_RSVP_COL, path, text);
+	value_edited (view, E_MEETING_STORE_RSVP_COL, path,
+		(!gtk_cell_renderer_toggle_get_active (renderer)) ? "1" : NULL);
 }
 
 static void
@@ -684,19 +673,19 @@ build_table (EMeetingListView *lview)
 		G_CALLBACK (role_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ROLE_COL), renderer);
 
-	renderer = create_combo_cell_renderer (get_rsvp_strings ());
+	renderer = gtk_cell_renderer_toggle_new ();
 	pos = gtk_tree_view_insert_column_with_attributes (
 		/* To translators: RSVP means "please reply" */
 		view, -1, _("RSVP"), renderer,
-		"text", E_MEETING_STORE_RSVP_COL,
+		"active", E_MEETING_STORE_RSVP_COL,
 		NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL));
 	g_signal_connect (
-		renderer, "edited",
-		G_CALLBACK (rsvp_edited_cb), view);
+		renderer, "toggled",
+		G_CALLBACK (rsvp_toggled_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL), renderer);
 
 	renderer = create_combo_cell_renderer (get_status_strings ());
@@ -737,7 +726,7 @@ change_edit_cols_for_user (gpointer key,
 			g_object_set (renderer, "editable", FALSE, NULL);
 			break;
 		case E_MEETING_STORE_RSVP_COL:
-			g_object_set (renderer, "editable", TRUE, NULL);
+			g_object_set (renderer, "activatable", TRUE, NULL);
 			break;
 		case E_MEETING_STORE_STATUS_COL:
 			g_object_set (renderer, "editable", TRUE, NULL);
@@ -753,7 +742,10 @@ change_edit_cols_for_organizer (gpointer key,
 	GtkCellRenderer *renderer = (GtkCellRenderer *) value;
 	guint edit_level = GPOINTER_TO_INT (user_data);
 
-	g_object_set (renderer, "editable", GINT_TO_POINTER (edit_level), NULL);
+	if (GTK_IS_CELL_RENDERER_TOGGLE (renderer))
+		g_object_set (renderer, "activatable", GINT_TO_POINTER (edit_level), NULL);
+	else
+		g_object_set (renderer, "editable", GINT_TO_POINTER (edit_level), NULL);
 }
 
 static void

@@ -171,24 +171,6 @@ role_to_text (ICalParameterRole role)
 	}
 }
 
-static gboolean
-text_to_boolean (const gchar *role)
-{
-	if (!e_util_utf8_strcasecmp (role, _("Yes")))
-		return TRUE;
-	else
-		return FALSE;
-}
-
-static gchar *
-boolean_to_text (gboolean b)
-{
-	if (b)
-		return _("Yes");
-	else
-		return _("No");
-}
-
 static ICalParameterPartstat
 text_to_partstat (const gchar *partstat)
 {
@@ -261,7 +243,6 @@ get_column_type (GtkTreeModel *model,
 	case E_MEETING_STORE_MEMBER_COL:
 	case E_MEETING_STORE_TYPE_COL:
 	case E_MEETING_STORE_ROLE_COL:
-	case E_MEETING_STORE_RSVP_COL:
 	case E_MEETING_STORE_DELTO_COL:
 	case E_MEETING_STORE_DELFROM_COL:
 	case E_MEETING_STORE_STATUS_COL:
@@ -269,6 +250,8 @@ get_column_type (GtkTreeModel *model,
 	case E_MEETING_STORE_LANGUAGE_COL:
 	case E_MEETING_STORE_ATTENDEE_COL:
 		return G_TYPE_STRING;
+	case E_MEETING_STORE_RSVP_COL:
+		return G_TYPE_BOOLEAN;
 	case E_MEETING_STORE_ATTENDEE_UNDERLINE_COL:
 		return PANGO_TYPE_UNDERLINE;
 	default:
@@ -363,10 +346,9 @@ get_value (GtkTreeModel *model,
 			e_meeting_attendee_get_role (attendee)));
 		break;
 	case E_MEETING_STORE_RSVP_COL:
-		g_value_init (value, G_TYPE_STRING);
-		g_value_set_string (
-			value, boolean_to_text (
-			e_meeting_attendee_get_rsvp (attendee)));
+		g_value_init (value, G_TYPE_BOOLEAN);
+		g_value_set_boolean (
+			value, e_meeting_attendee_get_rsvp (attendee));
 		break;
 	case E_MEETING_STORE_DELTO_COL:
 		g_value_init (value, G_TYPE_STRING);
@@ -562,7 +544,7 @@ e_meeting_store_set_value (EMeetingStore *store,
 		e_meeting_attendee_set_role (attendee, text_to_role (val));
 		break;
 	case E_MEETING_STORE_RSVP_COL:
-		e_meeting_attendee_set_rsvp (attendee, text_to_boolean (val));
+		e_meeting_attendee_set_rsvp (attendee, val != NULL);
 		break;
 	case E_MEETING_STORE_DELTO_COL:
 		e_meeting_attendee_set_delto (attendee, val);
@@ -1081,29 +1063,20 @@ EMeetingAttendee *
 e_meeting_store_add_attendee_with_defaults (EMeetingStore *store)
 {
 	EMeetingAttendee *attendee;
-	gchar *str;
 
 	attendee = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
 
 	e_meeting_attendee_set_address (attendee, "");
 	e_meeting_attendee_set_member (attendee, "");
 
-	str = g_strdup (_("Individual"));
-	e_meeting_attendee_set_cutype (attendee, text_to_type (str));
-	g_free (str);
-	str = g_strdup (_("Required Participant"));
-	e_meeting_attendee_set_role (attendee, text_to_role (str));
-	g_free (str);
-	str = g_strdup (_("Yes"));
-	e_meeting_attendee_set_rsvp (attendee, text_to_boolean (str));
-	g_free (str);
+	e_meeting_attendee_set_cutype (attendee, text_to_type (_("Individual")));
+	e_meeting_attendee_set_role (attendee, text_to_role (_("Required Participant")));
+	e_meeting_attendee_set_rsvp (attendee, TRUE);
 
 	e_meeting_attendee_set_delto (attendee, "");
 	e_meeting_attendee_set_delfrom (attendee, "");
 
-	str = g_strdup (_("Needs Action"));
-	e_meeting_attendee_set_partstat (attendee, text_to_partstat (str));
-	g_free (str);
+	e_meeting_attendee_set_partstat (attendee, text_to_partstat (_("Needs Action")));
 
 	e_meeting_attendee_set_cn (attendee, "");
 	e_meeting_attendee_set_language (attendee, "en");
