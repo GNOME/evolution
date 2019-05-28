@@ -1,25 +1,20 @@
 set(public_icons
-	hicolor_apps_16x16_evolution.png
 	hicolor_apps_16x16_evolution-mail.png
 	hicolor_apps_16x16_evolution-memos.png
 	hicolor_apps_16x16_evolution-tasks.png
-	hicolor_apps_22x22_evolution.png
 	hicolor_apps_22x22_evolution-mail.png
 	hicolor_apps_22x22_evolution-memos.png
 	hicolor_apps_22x22_evolution-tasks.png
-	hicolor_apps_24x24_evolution.png
 	hicolor_apps_24x24_evolution-mail.png
 	hicolor_apps_24x24_evolution-memos.png
 	hicolor_apps_24x24_evolution-tasks.png
-	hicolor_apps_32x32_evolution.png
 	hicolor_apps_32x32_evolution-mail.png
 	hicolor_apps_32x32_evolution-memos.png
 	hicolor_apps_32x32_evolution-tasks.png
-	hicolor_apps_48x48_evolution.png
 	hicolor_apps_48x48_evolution-mail.png
 	hicolor_apps_48x48_evolution-memos.png
 	hicolor_apps_48x48_evolution-tasks.png
-	hicolor_apps_256x256_evolution.png
+	hicolor_apps_scalable_evolution.svg
 	hicolor_apps_symbolic_evolution-symbolic.svg
 )
 
@@ -203,7 +198,6 @@ set(stock_private_icons
 # These are source files for future editing
 # and are not meant to be installed as icons.
 set(noinst_icons
-	hicolor_apps_scalable_evolution.svg
 	hicolor_actions_16x16_go-today.svg
 	hicolor_actions_16x16_view-calendar-day.svg
 	hicolor_actions_16x16_view-calendar-list.svg
