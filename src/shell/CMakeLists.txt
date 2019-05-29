@@ -130,6 +130,7 @@ target_compile_definitions(evolution PRIVATE
 	-DEVOLUTION_GALVIEWSDIR=\"${viewsdir}\"
 	-DEVOLUTION_HELPDIR=\"${evolutionhelpdir}\"
 	-DEVOLUTION_ICONDIR=\"${icondir}\"
+	-DEVOLUTION_ICONDIR_IN_PREFIX=\"${SHARE_INSTALL_PREFIX}/icons\"
 	-DEVOLUTION_MODULEDIR=\"${moduledir}\"
 	-DEVOLUTION_RULEDIR=\"${privdatadir}\"
 	-DEVOLUTION_TOOLSDIR=\"${privlibexecdir}\"

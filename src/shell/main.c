@@ -448,6 +448,9 @@ main (gint argc,
 {
 	EShell *shell;
 	GSettings *settings;
+#ifdef ENABLE_MAINTAINER_MODE
+	GtkIconTheme *icon_theme;
+#endif
 #ifdef DEVELOPMENT
 	gboolean skip_warning_dialog;
 #endif
@@ -589,6 +592,11 @@ main (gint argc,
 
 	if (setup_only)
 		exit (0);
+
+#ifdef ENABLE_MAINTAINER_MODE
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_prepend_search_path (icon_theme, EVOLUTION_ICONDIR_IN_PREFIX);
+#endif
 
 	categories_icon_theme_hack ();
 	gtk_accel_map_load (e_get_accels_filename ());

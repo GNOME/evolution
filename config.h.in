@@ -27,6 +27,9 @@
 /* Package name for gettext */
 #define GETTEXT_PACKAGE "@GETTEXT_PACKAGE@"
 
+/* Defined, when configured with ENABLE_MAINTAINER_MODE */
+#cmakedefine ENABLE_MAINTAINER_MODE 1
+
 /* Command to kill processes by name */
 #cmakedefine KILL_PROCESS_COMMAND "@KILL_PROCESS_COMMAND@"
 
