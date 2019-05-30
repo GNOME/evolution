@@ -3940,6 +3940,23 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			"  border-color: %s;\n"
 			"}\n",
 			e_web_view_get_citation_color_for_level (5));
+
+		g_string_append_printf (
+			stylesheet,
+			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
+			"{\n"
+			"  border-color: %s;\n"
+			"  padding: 0ch 0ch 0ch 1ch;\n"
+			"  margin: 0ch;\n"
+			"  border-width: 0px 0px 0px 2px;\n"
+			"  border-style: none none none solid;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (1));
 	}
 
 	wk_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (view_widget));
