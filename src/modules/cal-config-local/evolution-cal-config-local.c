@@ -233,6 +233,11 @@ cal_config_local_insert_widgets (ESourceConfigBackend *backend,
 		cal_config_local_custom_file_to_active,
 		cal_config_local_active_to_custom_file,
 		context, (GDestroyNotify) NULL);
+
+	e_binding_bind_property (
+		extension, "writable",
+		context->writable_checkbox, "active",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 }
 
 static gboolean
