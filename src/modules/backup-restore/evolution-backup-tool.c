@@ -295,7 +295,7 @@ backup (const gchar *filename,
 	/* FIXME Will the versioned setting always work? */
 	run_cmd (EVOLUTION " --quit");
 
-	run_cmd ("rm $DATADIR/.running");
+	run_cmd ("rm $CONFIGDIR/.running");
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return;
@@ -676,7 +676,7 @@ restore (const gchar *filename,
 	txt = _("Removing temporary back up files");
 	run_cmd ("rm -rf $DATADIR_old");
 	run_cmd ("rm -rf $CONFIGDIR_old");
-	run_cmd ("rm $DATADIR/.running");
+	run_cmd ("rm $CONFIGDIR/.running");
 
 	if (!is_new_format)
 		run_cmd ("rm -rf $HOME/.evolution_old");
