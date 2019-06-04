@@ -47,7 +47,7 @@ G_DEFINE_DYNAMIC_TYPE (
 static void
 cal_config_webcal_context_free (Context *context)
 {
-	g_object_unref (context->url_entry);
+	g_clear_object (&context->url_entry);
 
 	g_slice_free (Context, context);
 }
@@ -112,7 +112,7 @@ cal_config_webcal_insert_widgets (ESourceConfigBackend *backend,
 	const gchar *extension_name;
 	const gchar *uid;
 
-	context = g_slice_new (Context);
+	context = g_slice_new0 (Context);
 	uid = e_source_get_uid (scratch_source);
 	config = e_source_config_backend_get_config (backend);
 
@@ -123,11 +123,38 @@ cal_config_webcal_insert_widgets (ESourceConfigBackend *backend,
 	e_cal_source_config_add_offline_toggle (
 		E_CAL_SOURCE_CONFIG (config), scratch_source);
 
-	widget = gtk_entry_new ();
-	e_source_config_insert_widget (
-		config, scratch_source, _("URL:"), widget);
-	context->url_entry = g_object_ref (widget);
-	gtk_widget_show (widget);
+	if (e_source_config_get_collection_source (config)) {
+		widget = gtk_label_new ("");
+		g_object_set (G_OBJECT (widget),
+			"ellipsize", PANGO_ELLIPSIZE_MIDDLE,
+			"selectable", TRUE,
+			"xalign", 0.0f,
+			NULL);
+		e_source_config_insert_widget (config, scratch_source, _("URL:"), widget);
+		gtk_widget_show (widget);
+
+		extension = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+
+		e_binding_bind_property_full (
+			extension, "soup-uri",
+			widget, "label",
+			G_BINDING_SYNC_CREATE,
+			cal_config_webcal_uri_to_text,
+			NULL,
+			g_object_ref (scratch_source),
+			(GDestroyNotify) g_object_unref);
+
+		e_binding_bind_property (
+			widget, "label",
+			widget, "tooltip-text",
+			G_BINDING_SYNC_CREATE);
+	} else {
+		widget = gtk_entry_new ();
+		e_source_config_insert_widget (
+			config, scratch_source, _("URL:"), widget);
+		context->url_entry = g_object_ref (widget);
+		gtk_widget_show (widget);
+	}
 
 	e_source_config_add_secure_connection_for_webdav (
 		config, scratch_source);
@@ -139,15 +166,17 @@ cal_config_webcal_insert_widgets (ESourceConfigBackend *backend,
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	e_binding_bind_property_full (
-		extension, "soup-uri",
-		context->url_entry, "text",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE,
-		cal_config_webcal_uri_to_text,
-		cal_config_webcal_text_to_uri,
-		g_object_ref (scratch_source),
-		(GDestroyNotify) g_object_unref);
+	if (context->url_entry) {
+		e_binding_bind_property_full (
+			extension, "soup-uri",
+			context->url_entry, "text",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE,
+			cal_config_webcal_uri_to_text,
+			cal_config_webcal_text_to_uri,
+			g_object_ref (scratch_source),
+			(GDestroyNotify) g_object_unref);
+	}
 }
 
 static gboolean
@@ -165,6 +194,9 @@ cal_config_webcal_check_complete (ESourceConfigBackend *backend,
 	uid = e_source_get_uid (scratch_source);
 	context = g_object_get_data (G_OBJECT (backend), uid);
 	g_return_val_if_fail (context != NULL, FALSE);
+
+	if (!context->url_entry)
+		return TRUE;
 
 	entry = GTK_ENTRY (context->url_entry);
 	uri_string = gtk_entry_get_text (entry);

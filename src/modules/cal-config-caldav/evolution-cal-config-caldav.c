@@ -290,6 +290,7 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 		g_object_set (G_OBJECT (widget),
 			"ellipsize", PANGO_ELLIPSIZE_MIDDLE,
 			"selectable", TRUE,
+			"xalign", 0.0f,
 			NULL);
 		e_source_config_insert_widget (config, scratch_source, _("URL:"), widget);
 		gtk_widget_show (widget);
@@ -304,6 +305,11 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 			NULL,
 			g_object_ref (scratch_source),
 			(GDestroyNotify) g_object_unref);
+
+		e_binding_bind_property (
+			widget, "label",
+			widget, "tooltip-text",
+			G_BINDING_SYNC_CREATE);
 	} else {
 		widget = gtk_entry_new ();
 		e_source_config_insert_widget (
