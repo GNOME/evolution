@@ -3260,7 +3260,10 @@ handle_multipart_signed (EMsgComposer *composer,
 		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN))) &&
 		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT))))
 			action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	} else if (g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0) {
+	} else if (g_ascii_strcasecmp (protocol, "application/pkcs7-signature") == 0 ||
+		   g_ascii_strcasecmp (protocol, "application/xpkcs7signature") == 0 ||
+		   g_ascii_strcasecmp (protocol, "application/xpkcs7-signature") == 0 ||
+		   g_ascii_strcasecmp (protocol, "application/x-pkcs7-signature") == 0) {
 		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_SIGN))) &&
 		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT))))
 			action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
@@ -3349,8 +3352,10 @@ handle_multipart_encrypted (EMsgComposer *composer,
 		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT))))
 			action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
 	} else if (content_type && (
-		    camel_content_type_is (content_type, "application", "x-pkcs7-mime")
-		 || camel_content_type_is (content_type, "application", "pkcs7-mime"))) {
+		   camel_content_type_is (content_type, "application", "pkcs7-mime") ||
+		   camel_content_type_is (content_type, "application", "xpkcs7mime") ||
+		   camel_content_type_is (content_type, "application", "xpkcs7-mime") ||
+		   camel_content_type_is (content_type, "application", "x-pkcs7-mime"))) {
 		if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_SIGN))) &&
 		    !gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT))))
 			action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
@@ -4037,8 +4042,10 @@ e_msg_composer_setup_with_message (EMsgComposer *composer,
 		is_html = camel_content_type_is (content_type, "text", "html");
 
 		if (content_type != NULL && (
-		    camel_content_type_is (content_type, "application", "x-pkcs7-mime") ||
-		    camel_content_type_is (content_type, "application", "pkcs7-mime"))) {
+		    camel_content_type_is (content_type, "application", "pkcs7-mime") ||
+		    camel_content_type_is (content_type, "application", "xpkcs7mime") ||
+		    camel_content_type_is (content_type, "application", "xpkcs7-mime") ||
+		    camel_content_type_is (content_type, "application", "x-pkcs7-mime"))) {
 			#ifdef ENABLE_SMIME
 			gtk_toggle_action_set_active (
 				GTK_TOGGLE_ACTION (

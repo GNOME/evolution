@@ -38,9 +38,11 @@ G_DEFINE_TYPE (
 
 static const gchar *parser_mime_types[] = {
 	"application/xpkcs7mime",
+	"application/xpkcs7-mime",
 	"application/x-pkcs7-mime",
 	"application/pkcs7-mime",
 	"application/pkcs7-signature",
+	"application/xpkcs7signature",
 	"application/xpkcs7-signature",
 	"application/x-pkcs7-signature",
 	NULL
@@ -62,6 +64,7 @@ empe_app_smime_parse (EMailParserExtension *extension,
 
 	ct = camel_mime_part_get_content_type (part);
 	if (camel_content_type_is (ct, "application", "pkcs7-signature") ||
+	    camel_content_type_is (ct, "application", "xpkcs7signature") ||
 	    camel_content_type_is (ct, "application", "xpkcs7-signature") ||
 	    camel_content_type_is (ct, "application", "x-pkcs7-signature")) {
 		EMailPartList *part_list;

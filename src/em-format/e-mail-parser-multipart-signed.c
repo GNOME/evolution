@@ -117,8 +117,10 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 	/* FIXME: duplicated in em-format-html-display.c */
 	if (protocol != NULL) {
 #ifdef ENABLE_SMIME
-		if (g_ascii_strcasecmp ("application/x-pkcs7-signature", protocol) == 0
-		    || g_ascii_strcasecmp ("application/pkcs7-signature", protocol) == 0) {
+		if (g_ascii_strcasecmp ("application/pkcs7-signature", protocol) == 0 ||
+		    g_ascii_strcasecmp ("application/xpkcs7signature", protocol) == 0 ||
+		    g_ascii_strcasecmp ("application/xpkcs7-signature", protocol) == 0 ||
+		    g_ascii_strcasecmp ("application/x-pkcs7-signature", protocol) == 0) {
 			cipher = camel_smime_context_new (session);
 			validity_type = E_MAIL_PART_VALIDITY_SMIME;
 		} else {

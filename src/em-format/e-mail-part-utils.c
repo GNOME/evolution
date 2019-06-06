@@ -48,6 +48,8 @@ e_mail_part_is_secured (CamelMimePart *part)
 		camel_content_type_is (ct, "multipart", "encrypted") ||
 		camel_content_type_is (ct, "application", "x-inlinepgp-signed") ||
 		camel_content_type_is (ct, "application", "x-inlinepgp-encrypted") ||
+		camel_content_type_is (ct, "application", "xpkcs7mime") ||
+		camel_content_type_is (ct, "application", "xpkcs7-mime") ||
 		camel_content_type_is (ct, "application", "x-pkcs7-mime") ||
 		camel_content_type_is (ct, "application", "pkcs7-mime"));
 }
@@ -294,6 +296,8 @@ e_mail_part_is_attachment (CamelMimePart *part)
 
 	d (printf ("checking is attachment %s/%s\n", mime_type->type, mime_type->subtype));
 	return !(camel_content_type_is (mime_type, "multipart", "*")
+		 || camel_content_type_is (mime_type, "application", "xpkcs7mime")
+		 || camel_content_type_is (mime_type, "application", "xpkcs7-mime")
 		 || camel_content_type_is (mime_type, "application", "x-pkcs7-mime")
 		 || camel_content_type_is (mime_type, "application", "pkcs7-mime")
 		 || camel_content_type_is (mime_type, "application", "x-inlinepgp-signed")
