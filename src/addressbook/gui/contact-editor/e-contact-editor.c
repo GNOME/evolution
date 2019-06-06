@@ -1032,7 +1032,7 @@ extract_email (EContactEditor *editor)
 
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 	while (valid) {
-		gchar *address;
+		gchar *address = NULL;
 		gint   location;
 		EVCardAttribute *attr;
 
@@ -1056,6 +1056,8 @@ extract_email (EContactEditor *editor)
 		e_vcard_attribute_add_value (attr, address);
 
 		attr_list = g_list_prepend (attr_list, attr);
+
+		g_free (address);
 
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
@@ -1221,7 +1223,7 @@ extract_phone (EContactEditor *editor)
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 	while (valid) {
 		gint phone_type;
-		gchar *phone;
+		gchar *phone = NULL;
 		EVCardAttribute *attr;
 
 		gtk_tree_model_get (tree_model,&iter,
@@ -1247,6 +1249,8 @@ extract_phone (EContactEditor *editor)
 		e_vcard_attribute_add_value (attr, phone);
 
 		tel_attr_list = g_list_prepend (tel_attr_list, attr);
+
+		g_free (phone);
 
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
@@ -1451,7 +1455,7 @@ extract_sip (EContactEditor *editor)
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);
 	while (valid) {
 		gint sip_type;
-		gchar *sip;
+		gchar *sip = NULL;
 		EVCardAttribute *attr;
 
 		gtk_tree_model_get (tree_model,&iter,
@@ -1472,6 +1476,8 @@ extract_sip (EContactEditor *editor)
 		e_vcard_attribute_add_value (attr, sip);
 
 		sip_attr_list = g_list_prepend (sip_attr_list, attr);
+
+		g_free (sip);
 
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
@@ -1642,7 +1648,7 @@ check_address_for_data (EContactEditor *editor,
 	gboolean has_data = FALSE;
 	EContactAddress *address;
 
-	address = g_new0 (EContactAddress, 1);
+	address = e_contact_address_new ();
 
 	extract_address_from_gui (editor, address, record);
 	if (!STRING_IS_EMPTY (address->street)   ||
@@ -1655,7 +1661,7 @@ check_address_for_data (EContactEditor *editor,
 		has_data = TRUE;
 	}
 
-	g_free (address);
+	e_contact_address_free (address);
 
 	return has_data;
 }
@@ -2142,7 +2148,7 @@ extract_im (EContactEditor *editor)
 	while (valid) {
 		gint             service_type;
 		gint             slot;
-		gchar           *im_name;
+		gchar           *im_name = NULL;
 		EVCardAttribute *attr;
 		const EABTypeLabel *im_service = eab_get_im_type_labels (&service_type);
 
@@ -2168,6 +2174,8 @@ extract_im (EContactEditor *editor)
 		e_vcard_attribute_add_value (attr, im_name);
 
 		attr_list = g_list_prepend (attr_list, attr);
+
+		g_free (im_name);
 
 		valid = gtk_tree_model_iter_next (tree_model, &iter);
 	}
@@ -2506,7 +2514,7 @@ extract_address_record (EContactEditor *editor,
 {
 	EContactAddress *address;
 
-	address = g_new0 (EContactAddress, 1);
+	address = e_contact_address_new ();
 
 	extract_address_from_gui (editor, address, record);
 	if (!STRING_IS_EMPTY (address->street)   ||
@@ -2524,7 +2532,7 @@ extract_address_record (EContactEditor *editor,
 		set_address_label (editor->priv->contact, address_labels[record], NULL);
 	}
 
-	g_boxed_free (e_contact_address_get_type (), address);
+	e_contact_address_free (address);
 }
 
 static void

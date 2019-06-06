@@ -1481,6 +1481,7 @@ e_addressbook_view_delete_selection (EAddressbookView *view,
 		e_table_set_cursor_row (E_TABLE (etable), row);
 	}
 	g_slist_free_full (list, (GDestroyNotify) g_object_unref);
+	g_free (name);
 }
 
 void

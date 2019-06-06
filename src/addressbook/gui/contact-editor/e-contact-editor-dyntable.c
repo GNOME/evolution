@@ -480,8 +480,6 @@ e_contact_editor_dyntable_fill_in_data (EContactEditorDynTable *dyntable)
 	GtkTreeModel *store;
 	GtkWidget *w;
 	gboolean valid;
-	gchar *str_data;
-	gint int_data;
 
 	class = E_CONTACT_EDITOR_DYNTABLE_GET_CLASS (dyntable);
 	grid = GTK_GRID (dyntable);
@@ -489,6 +487,9 @@ e_contact_editor_dyntable_fill_in_data (EContactEditorDynTable *dyntable)
 
 	valid = gtk_tree_model_get_iter_first (store, &iter);
 	while (valid) {
+		gchar *str_data = NULL;
+		gint int_data;
+
 		gtk_tree_model_get (store, &iter,
 				DYNTABLE_STORE_COLUMN_ENTRY_STRING, &str_data,
 				DYNTABLE_STORE_COLUMN_SELECTED_ITEM, &int_data,
@@ -502,6 +503,8 @@ e_contact_editor_dyntable_fill_in_data (EContactEditorDynTable *dyntable)
 		set_combo_box_active (dyntable, GTK_COMBO_BOX(w), int_data);
 		w = gtk_grid_get_child_at (grid, col + 1, row);
 		class->widget_fill (dyntable, w, str_data);
+
+		g_free (str_data);
 
 		valid = gtk_tree_model_iter_next (store, &iter);
 

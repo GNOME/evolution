@@ -267,7 +267,7 @@ render_table_row (GString *buffer,
                   const gchar *icon,
                   guint html_flags)
 {
-	const gchar *icon_html;
+	gchar *icon_html = NULL;
 	gchar *value;
 
 	if (html_flags)
@@ -278,7 +278,7 @@ render_table_row (GString *buffer,
 	if (icon && icon_available (icon)) {
 		icon_html = g_strdup_printf ("<img src=\"gtk-stock://%s\" width=\"16px\" height=\"16px\" />", icon);
 	} else {
-		icon_html = "";
+		icon_html = NULL;
 	}
 
 	if (TEXT_IS_RIGHT_TO_LEFT) {
@@ -288,7 +288,7 @@ render_table_row (GString *buffer,
 			"<th align=\"right\" valign=\"top\" width=\"100\" nowrap>:%s</th>"
 			"<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">%s</td>"
 			"</tr>",
-			value, label, icon_html);
+			value, label, icon_html ? icon_html : "");
 	} else {
 		g_string_append_printf (
 			buffer, "<tr>"
@@ -296,11 +296,12 @@ render_table_row (GString *buffer,
 			"<th valign=\"top\" width=\"100\" nowrap>%s:</th>"
 			"<td valign=\"top\">%s</td>"
 			"</tr>",
-			icon_html, label, value);
+			icon_html ? icon_html : "", label, value);
 	}
 
 	if (html_flags)
 		g_free (value);
+	g_free (icon_html);
 }
 
 /* Returns NULL if no replace had been done (and
