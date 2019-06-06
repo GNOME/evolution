@@ -255,7 +255,7 @@ view_remove_contact_cb (EBookClientView *client_view,
 	}
 
 	g_signal_emit (model, signals[CONTACTS_REMOVED], 0, indices);
-	g_array_free (indices, FALSE);
+	g_array_free (indices, TRUE);
 
 	update_folder_bar_message (model);
 }
