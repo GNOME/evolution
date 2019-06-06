@@ -521,6 +521,13 @@ e_categories_selector_delete_selection (ECategoriesSelector *selector)
 			COLUMN_CATEGORY, &category, -1);
 		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 		e_categories_remove (category);
+
+		if (g_hash_table_remove (selector->priv->selected_categories, category)) {
+			g_signal_emit (
+				selector, signals[CATEGORY_CHECKED], 0,
+				category, FALSE);
+		}
+
 		g_free (category);
 	}
 

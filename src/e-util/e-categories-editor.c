@@ -90,16 +90,13 @@ categories_editor_selection_changed_cb (ECategoriesEditor *editor,
 }
 
 static void
-category_checked_cb (ECategoriesSelector *selector,
-                     const gchar *category,
-                     const gboolean checked,
-                     ECategoriesEditor *editor)
+categories_editor_update_entry (ECategoriesEditor *editor)
 {
 	GtkEntry *entry;
 	gchar *categories;
 
 	entry = GTK_ENTRY (editor->priv->categories_entry);
-	categories = e_categories_selector_get_checked (selector);
+	categories = e_categories_selector_get_checked (editor->priv->categories_list);
 
 	gtk_entry_set_text (entry, categories);
 
@@ -153,6 +150,14 @@ edit_button_clicked_cb (GtkButton *button,
 
 	gtk_widget_destroy (GTK_WIDGET (cat_editor));
 	g_free (category);
+}
+
+static void
+delete_button_clicked_cb (GtkButton *button,
+			  ECategoriesEditor *editor)
+{
+	e_categories_selector_delete_selection (editor->priv->categories_list);
+	categories_editor_update_entry (editor);
 }
 
 static void
@@ -281,9 +286,9 @@ e_categories_editor_init (ECategoriesEditor *editor)
 	gtk_tree_view_set_headers_visible (
 		GTK_TREE_VIEW (categories_list), FALSE);
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (categories_list), TRUE);
-	g_signal_connect (
+	g_signal_connect_swapped (
 		G_OBJECT (categories_list), "category-checked",
-		G_CALLBACK (category_checked_cb), editor);
+		G_CALLBACK (categories_editor_update_entry), editor);
 
 	hbuttonbox1 = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
 	g_object_set (
@@ -337,10 +342,10 @@ e_categories_editor_init (ECategoriesEditor *editor)
 		G_CALLBACK (edit_button_clicked_cb), editor);
 
 	editor->priv->delete_button = button_delete;
-	g_signal_connect_swapped (
+	g_signal_connect (
 		editor->priv->delete_button, "clicked",
-		G_CALLBACK (e_categories_selector_delete_selection),
-		editor->priv->categories_list);
+		G_CALLBACK (delete_button_clicked_cb),
+		editor);
 
 	g_signal_connect (
 		editor->priv->categories_entry, "changed",
@@ -401,14 +406,10 @@ void
 e_categories_editor_set_categories (ECategoriesEditor *editor,
                                     const gchar *categories)
 {
-	ECategoriesSelector *categories_list;
-
 	g_return_if_fail (E_IS_CATEGORIES_EDITOR (editor));
 
-	categories_list = editor->priv->categories_list;
-
-	e_categories_selector_set_checked (categories_list, categories);
-	category_checked_cb (categories_list, NULL, FALSE, editor);
+	e_categories_selector_set_checked (editor->priv->categories_list, categories);
+	categories_editor_update_entry (editor);
 }
 
 /**
