@@ -734,6 +734,36 @@ network_monitor_gio_name_to_active_id (GBinding *binding,
 	return TRUE;
 }
 
+static gchar *
+network_monitor_get_default_gio_name (void)
+{
+	GNetworkMonitor *default_monitor;
+	GIOExtensionPoint *pnt;
+	GList *extensions, *link;
+	GType default_type;
+
+	default_monitor = g_network_monitor_get_default ();
+
+	if (!default_monitor)
+		return NULL;
+
+	pnt = g_io_extension_point_lookup (G_NETWORK_MONITOR_EXTENSION_POINT_NAME);
+	if (!pnt)
+		return NULL;
+
+	default_type = G_OBJECT_TYPE (default_monitor);
+	extensions = g_io_extension_point_get_extensions (pnt);
+
+	for (link = extensions; link; link = g_list_next (link)) {
+		GIOExtension *ext = link->data;
+
+		if (default_type == g_io_extension_get_type (ext))
+			return g_strdup (g_io_extension_get_name (ext));
+	}
+
+	return NULL;
+}
+
 static GtkWidget *
 mail_shell_backend_create_network_page (EPreferencesWindow *window)
 {
@@ -744,6 +774,7 @@ mail_shell_backend_create_network_page (EPreferencesWindow *window)
 	PangoAttrList *bold;
 	ENetworkMonitor *network_monitor;
 	GSList *gio_names, *link;
+	gchar *default_gio_name, *default_caption = NULL;
 
 	const gchar *known_gio_names[] = {
 		/* Translators: One of the known implementation names of the GNetworkMonitor. Either translate
@@ -792,8 +823,17 @@ mail_shell_backend_create_network_page (EPreferencesWindow *window)
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 
+	default_gio_name = network_monitor_get_default_gio_name ();
+	if (default_gio_name && *default_gio_name) {
+		/* Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation */
+		default_caption = g_strdup_printf (C_("NetworkMonitor", "Default (%s)"), g_dpgettext2 (NULL, "NetworkMonitor", default_gio_name));
+	}
+
 	/* Always as the first */
-	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "default", C_("NetworkMonitor", "Default"));
+	gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (widget), "default", default_caption ? default_caption : C_("NetworkMonitor", "Default"));
+
+	g_free (default_gio_name);
+	g_free (default_caption);
 
 	network_monitor = E_NETWORK_MONITOR (e_network_monitor_get_default ());
 	gio_names = e_network_monitor_list_gio_names (network_monitor);
