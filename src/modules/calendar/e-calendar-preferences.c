@@ -44,7 +44,6 @@ struct _ECalendarPreferencesPrivate {
 
 	/* Reminders tab */
 	GtkWidget *reminder_calendars_scrolled_window;
-	GtkWidget *reminder_memos_scrolled_window;
 	GtkWidget *reminder_tasks_scrolled_window;
 };
 
@@ -521,13 +520,6 @@ show_alarms_config (ECalendarPreferences *prefs)
 		gtk_widget_get_accessible (widget),
 		_("Selected Calendars for Notifications of Reminders"));
 	gtk_container_add (GTK_CONTAINER (prefs->priv->reminder_calendars_scrolled_window), widget);
-	gtk_widget_show (widget);
-
-	widget = e_alarm_selector_new (prefs->priv->registry, E_SOURCE_EXTENSION_MEMO_LIST);
-	atk_object_set_name (
-		gtk_widget_get_accessible (widget),
-		_("Selected Memo Lists for Notifications of Reminders"));
-	gtk_container_add (GTK_CONTAINER (prefs->priv->reminder_memos_scrolled_window), widget);
 	gtk_widget_show (widget);
 
 	widget = e_alarm_selector_new (prefs->priv->registry, E_SOURCE_EXTENSION_TASK_LIST);
@@ -1107,7 +1099,6 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		G_SETTINGS_BIND_DEFAULT);
 
 	prefs->priv->reminder_calendars_scrolled_window = e_builder_get_widget (prefs->priv->builder, "reminder-calendars-scrolled-window");
-	prefs->priv->reminder_memos_scrolled_window = e_builder_get_widget (prefs->priv->builder, "reminder-memos-scrolled-window");
 	prefs->priv->reminder_tasks_scrolled_window = e_builder_get_widget (prefs->priv->builder, "reminder-tasks-scrolled-window");
 
 	/* Free/Busy tab */
