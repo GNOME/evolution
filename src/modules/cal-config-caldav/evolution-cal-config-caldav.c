@@ -89,6 +89,7 @@ cal_config_caldav_run_dialog (GtkButton *button,
 	ESourceConfig *config;
 	ESourceRegistry *registry;
 	ESourceWebdav *webdav_extension;
+	ECalClientSourceType source_type;
 	ECredentialsPrompter *prompter;
 	SoupURI *uri;
 	gchar *base_url;
@@ -103,8 +104,9 @@ cal_config_caldav_run_dialog (GtkButton *button,
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (config));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+	source_type = e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (config));
 
-	switch (e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (config))) {
+	switch (source_type) {
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		supports_filter = E_WEBDAV_DISCOVER_SUPPORTS_EVENTS;
 		title = _("Choose a Calendar");
@@ -158,13 +160,15 @@ cal_config_caldav_run_dialog (GtkButton *button,
 
 				e_source_webdav_set_display_name (webdav_extension, display_name);
 				e_source_webdav_set_soup_uri (webdav_extension, uri);
-				e_source_webdav_set_calendar_auto_schedule (webdav_extension, (supports & E_WEBDAV_DISCOVER_SUPPORTS_CALENDAR_AUTO_SCHEDULE) != 0);
+
+				if (source_type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
+					e_source_webdav_set_calendar_auto_schedule (webdav_extension, (supports & E_WEBDAV_DISCOVER_SUPPORTS_CALENDAR_AUTO_SCHEDULE) != 0);
 
 				if (color && *color) {
 					ESourceSelectable *selectable_extension;
 					const gchar *extension_name;
 
-					switch (e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (config))) {
+					switch (source_type) {
 						case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 							extension_name = E_SOURCE_EXTENSION_CALENDAR;
 							break;
@@ -321,11 +325,10 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	e_source_config_add_secure_connection_for_webdav (
 		config, scratch_source);
 
+	source_type = e_cal_source_config_get_source_type (E_CAL_SOURCE_CONFIG (config));
+
 	if (!collection_source) {
 		e_source_config_add_user_entry (config, scratch_source);
-
-		source_type = e_cal_source_config_get_source_type (
-			E_CAL_SOURCE_CONFIG (config));
 
 		switch (source_type) {
 			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
@@ -358,23 +361,27 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 	context->email_entry = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_check_button_new_with_label (
-		_("Server handles meeting invitations"));
-	e_source_config_insert_widget (
-		config, scratch_source, NULL, widget);
-	context->auto_schedule_toggle = g_object_ref (widget);
-	gtk_widget_show (widget);
+	if (source_type != E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
+		widget = gtk_check_button_new_with_label (
+			_("Server handles meeting invitations"));
+		e_source_config_insert_widget (
+			config, scratch_source, NULL, widget);
+		context->auto_schedule_toggle = g_object_ref (widget);
+		gtk_widget_show (widget);
+	}
 
 	e_source_config_add_refresh_interval (config, scratch_source);
 
 	extension_name = E_SOURCE_EXTENSION_WEBDAV_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	e_binding_bind_property (
-		extension, "calendar-auto-schedule",
-		context->auto_schedule_toggle, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
+	if (context->auto_schedule_toggle) {
+		e_binding_bind_property (
+			extension, "calendar-auto-schedule",
+			context->auto_schedule_toggle, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+	}
 
 	e_binding_bind_object_text_property (
 		extension, "email-address",
