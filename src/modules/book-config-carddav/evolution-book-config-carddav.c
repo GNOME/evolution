@@ -168,7 +168,21 @@ book_config_carddav_uri_to_text (GBinding *binding,
 	soup_uri = g_value_get_boxed (source_value);
 	soup_uri_set_user (soup_uri, NULL);
 
-	text = soup_uri_to_string (soup_uri, FALSE);
+	if (soup_uri_get_host (soup_uri)) {
+		text = soup_uri_to_string (soup_uri, FALSE);
+	} else {
+		GObject *target;
+
+		text = NULL;
+		target = g_binding_get_target (binding);
+		g_object_get (target, g_binding_get_target_property (binding), &text, NULL);
+
+		if (!text || !*text) {
+			g_free (text);
+			text = soup_uri_to_string (soup_uri, FALSE);
+		}
+	}
+
 	g_value_take_string (target_value, text);
 
 	return TRUE;
@@ -191,8 +205,8 @@ book_config_carddav_text_to_uri (GBinding *binding,
 	text = g_value_get_string (source_value);
 	soup_uri = soup_uri_new (text);
 
-	if (soup_uri == NULL)
-		return FALSE;
+	if (!soup_uri)
+		soup_uri = soup_uri_new ("http://");
 
 	source_binding = g_binding_get_source (binding);
 	source = e_source_extension_ref_source (
