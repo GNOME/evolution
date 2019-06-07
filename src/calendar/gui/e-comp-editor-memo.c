@@ -218,12 +218,15 @@ e_comp_editor_memo_constructed (GObject *object)
 	gtk_widget_set_halign (edit_widget, GTK_ALIGN_START);
 	gtk_widget_set_hexpand (edit_widget, FALSE);
 
-	part = e_comp_editor_property_part_categories_new (focus_tracker);
+	part = e_comp_editor_property_part_url_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 6, 2, 1);
+
+	part = e_comp_editor_property_part_categories_new (focus_tracker);
+	e_comp_editor_page_add_property_part (page, part, 0, 7, 2, 1);
 	memo_editor->priv->categories = part;
 
 	part = e_comp_editor_property_part_description_new (focus_tracker);
-	e_comp_editor_page_add_property_part (page, part, 0, 7, 2, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 8, 2, 1);
 	memo_editor->priv->description = part;
 
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "General"), page);
