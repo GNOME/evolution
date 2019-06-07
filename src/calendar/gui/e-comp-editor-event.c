@@ -906,12 +906,19 @@ e_comp_editor_event_constructed (GObject *object)
 	/* Transparency checkbox is not shown in the page, even it's packed there */
 	gtk_widget_hide (widget);
 
-	part = e_comp_editor_property_part_categories_new (focus_tracker);
+	part = e_comp_editor_property_part_status_new ();
 	e_comp_editor_page_add_property_part (page, part, 0, 7, 3, 1);
+
+	widget = e_comp_editor_property_part_get_edit_widget (part);
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_hexpand (widget, FALSE);
+
+	part = e_comp_editor_property_part_categories_new (focus_tracker);
+	e_comp_editor_page_add_property_part (page, part, 0, 8, 3, 1);
 	event_editor->priv->categories = part;
 
 	part = e_comp_editor_property_part_description_new (focus_tracker);
-	e_comp_editor_page_add_property_part (page, part, 0, 8, 3, 1);
+	e_comp_editor_page_add_property_part (page, part, 0, 9, 3, 1);
 	event_editor->priv->description = part;
 
 	widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->timezone);
