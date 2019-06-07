@@ -23,6 +23,7 @@
 #include <glib/gi18n-lib.h>
 
 #include "e-misc-utils.h"
+#include "e-url-entry.h"
 
 #include "e-html-editor-link-dialog.h"
 
@@ -38,20 +39,12 @@ G_DEFINE_TYPE (
 struct _EHTMLEditorLinkDialogPrivate {
 	GtkWidget *url_edit;
 	GtkWidget *label_edit;
-	GtkWidget *test_button;
 
 	GtkWidget *remove_link_button;
 	GtkWidget *ok_button;
 
 	gboolean label_autofill;
 };
-
-static void
-html_editor_link_dialog_test_link (EHTMLEditorLinkDialog *dialog)
-{
-	e_show_uri (GTK_WINDOW (dialog),
-		gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)));
-}
 
 static void
 html_editor_link_dialog_url_changed (EHTMLEditorLinkDialog *dialog)
@@ -206,7 +199,8 @@ e_html_editor_link_dialog_init (EHTMLEditorLinkDialog *dialog)
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
-	widget = gtk_entry_new ();
+	widget = e_url_entry_new ();
+	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_grid_attach (main_layout, widget, 1, 0, 1, 1);
 	g_signal_connect_swapped (
 		widget, "notify::text",
@@ -221,15 +215,9 @@ e_html_editor_link_dialog_init (EHTMLEditorLinkDialog *dialog)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), dialog->priv->url_edit);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
-	widget = gtk_button_new_with_mnemonic (_("_Test URL..."));
-	gtk_grid_attach (main_layout, widget, 2, 0, 1, 1);
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (html_editor_link_dialog_test_link), dialog);
-	dialog->priv->test_button = widget;
-
 	widget = gtk_entry_new ();
-	gtk_grid_attach (main_layout, widget, 1, 1, 2, 1);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_grid_attach (main_layout, widget, 1, 1, 1, 1);
 	g_signal_connect_swapped (
 		widget, "key-release-event",
 		G_CALLBACK (html_editor_link_dialog_description_changed), dialog);
