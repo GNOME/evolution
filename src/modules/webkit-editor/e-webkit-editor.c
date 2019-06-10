@@ -1061,8 +1061,8 @@ webkit_editor_update_styles (EContentEditor *editor)
 	/* See bug #689777 for details */
 	g_string_append (
 		stylesheet,
-		"p,pre,code,address {\n"
-		"  margin: 0;\n"
+		"pre,code,address {\n"
+		"  margin: 0px;\n"
 		"}\n"
 		"h1,h2,h3,h4,h5,h6 {\n"
 		"  margin-top: 0.2em;\n"
@@ -1147,13 +1147,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 		".-x-evo-plaintext-table td "
 		"{\n"
 		"  vertical-align: top;\n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		"td > * "
-		"{\n"
-		"  display : inline-block;\n"
 		"}\n");
 
 	g_string_append_printf (
