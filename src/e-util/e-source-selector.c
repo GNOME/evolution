@@ -386,6 +386,7 @@ source_selector_source_is_enabled_and_selected (ESource *source,
 
 typedef struct {
 	const gchar *extension_name;
+	gboolean show_toggles;
 	gboolean any_selected;
 } LookupSelectedData;
 
@@ -403,7 +404,7 @@ source_selector_lookup_selected_cb (GNode *node,
 	if (!E_IS_SOURCE (source))
 		return TRUE;
 
-	data->any_selected = source_selector_source_is_enabled_and_selected (source, data->extension_name);
+	data->any_selected = data->show_toggles && source_selector_source_is_enabled_and_selected (source, data->extension_name);
 
 	return data->any_selected;
 }
@@ -425,6 +426,7 @@ source_selector_node_is_hidden (ESourceSelector *selector,
 		return FALSE;
 
 	extension_name = e_source_selector_get_extension_name (selector);
+	data.show_toggles = e_source_selector_get_show_toggles (selector);
 	hidden = FALSE;
 
 	/* Check the path to the root, any is hidden, this one can be also hidden */
@@ -435,7 +437,7 @@ source_selector_node_is_hidden (ESourceSelector *selector,
 		if (!source || G_NODE_IS_ROOT (node))
 			break;
 
-		if (source_selector_source_is_enabled_and_selected (source, extension_name)) {
+		if (data.show_toggles && source_selector_source_is_enabled_and_selected (source, extension_name)) {
 			hidden = FALSE;
 			break;
 		}
@@ -3209,15 +3211,12 @@ create_tree (ESourceSelector *selector,
 	table = gtk_tree_view_new_with_model (GTK_TREE_MODEL (model));
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (table), FALSE);
 
-	/* Cannot select/unselect sources, thus also cannot hide them */
-	if (e_source_selector_get_show_toggles (selector)) {
-		renderer = gtk_cell_renderer_toggle_new ();
-		g_object_set (G_OBJECT (renderer), "activatable", TRUE, NULL);
-		gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (table), -1,
-							     _("Show"), renderer,
-							     "active", 2, NULL);
-		g_signal_connect (renderer, "toggled", G_CALLBACK (tree_show_toggled), table);
-	}
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_object_set (G_OBJECT (renderer), "activatable", TRUE, NULL);
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (table), -1,
+						     _("Show"), renderer,
+						     "active", 2, NULL);
+	g_signal_connect (renderer, "toggled", G_CALLBACK (tree_show_toggled), table);
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (table), -1,
@@ -3474,10 +3473,8 @@ e_source_selector_manage_groups (ESourceSelector *selector)
 	add_button ("go-up", _("_Up"), up_clicked, up_cursor_changed);
 	add_button ("go-down", _("_Down"), down_clicked, down_cursor_changed);
 
-	if (e_source_selector_get_show_toggles (selector)) {
-		add_button (NULL, _("_Show"), show_hide_clicked, show_hide_cursor_changed);
-		gtk_button_set_use_underline (GTK_BUTTON (w), TRUE);
-	}
+	add_button (NULL, _("_Show"), show_hide_clicked, show_hide_cursor_changed);
+	gtk_button_set_use_underline (GTK_BUTTON (w), TRUE);
 
 	#undef add_button
 
