@@ -1749,6 +1749,7 @@ webdav_browser_save_clicked (EWebDAVBrowser *webdav_browser,
 		gtk_popover_set_relative_to (GTK_POPOVER (webdav_browser->priv->create_edit_hint_popover),
 			webdav_browser->priv->create_edit_name_entry);
 
+		gtk_widget_set_sensitive (webdav_browser->priv->create_edit_hint_popover, TRUE);
 		gtk_widget_show (webdav_browser->priv->create_edit_hint_popover);
 
 		g_free (text);
@@ -1764,6 +1765,7 @@ webdav_browser_save_clicked (EWebDAVBrowser *webdav_browser,
 		gtk_popover_set_relative_to (GTK_POPOVER (webdav_browser->priv->create_edit_hint_popover),
 			webdav_browser->priv->create_edit_task_check);
 
+		gtk_widget_set_sensitive (webdav_browser->priv->create_edit_hint_popover, TRUE);
 		gtk_widget_show (webdav_browser->priv->create_edit_hint_popover);
 
 		g_free (text);
@@ -1967,6 +1969,7 @@ webdav_browser_create_clicked_cb (GtkWidget *button,
 		gtk_label_set_text (GTK_LABEL (webdav_browser->priv->create_edit_hint_label), msg);
 		gtk_popover_set_relative_to (GTK_POPOVER (webdav_browser->priv->create_edit_hint_popover), button);
 
+		gtk_widget_set_sensitive (webdav_browser->priv->create_edit_hint_popover, TRUE);
 		gtk_widget_show (webdav_browser->priv->create_edit_hint_popover);
 
 		return;
@@ -1989,6 +1992,7 @@ webdav_browser_create_clicked_cb (GtkWidget *button,
 
 	g_signal_connect (webdav_browser->priv->create_edit_save_button, "clicked", callback, webdav_browser);
 
+	gtk_widget_set_sensitive (webdav_browser->priv->create_edit_popover, TRUE);
 	gtk_widget_show (webdav_browser->priv->create_edit_popover);
 
 	gtk_widget_grab_focus (webdav_browser->priv->create_edit_name_entry);
@@ -2067,6 +2071,7 @@ webdav_browser_edit_clicked_cb (GtkWidget *button,
 
 	g_signal_connect (webdav_browser->priv->create_edit_save_button, "clicked", callback, webdav_browser);
 
+	gtk_widget_set_sensitive (webdav_browser->priv->create_edit_popover, TRUE);
 	gtk_widget_show (webdav_browser->priv->create_edit_popover);
 
 	gtk_widget_grab_focus (webdav_browser->priv->create_edit_name_entry);
