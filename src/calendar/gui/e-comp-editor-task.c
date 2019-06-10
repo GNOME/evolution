@@ -802,7 +802,7 @@ e_comp_editor_task_constructed (GObject *object)
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
 	g_signal_connect (edit_widget, "changed", G_CALLBACK (ece_task_dtstart_changed_cb), task_editor);
 
-	part = e_comp_editor_property_part_status_new ();
+	part = e_comp_editor_property_part_status_new (I_CAL_VTODO_COMPONENT);
 	e_comp_editor_page_add_property_part (page, part, 2, 4, 2, 1);
 	task_editor->priv->status = part;
 

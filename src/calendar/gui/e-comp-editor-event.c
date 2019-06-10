@@ -906,7 +906,7 @@ e_comp_editor_event_constructed (GObject *object)
 	/* Transparency checkbox is not shown in the page, even it's packed there */
 	gtk_widget_hide (widget);
 
-	part = e_comp_editor_property_part_status_new ();
+	part = e_comp_editor_property_part_status_new (I_CAL_VEVENT_COMPONENT);
 	e_comp_editor_page_add_property_part (page, part, 0, 7, 3, 1);
 
 	widget = e_comp_editor_property_part_get_edit_widget (part);

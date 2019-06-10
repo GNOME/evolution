@@ -51,7 +51,7 @@ ECompEditorPropertyPart *
 ECompEditorPropertyPart *
 		e_comp_editor_property_part_classification_new	(void);
 ECompEditorPropertyPart *
-		e_comp_editor_property_part_status_new		(void);
+		e_comp_editor_property_part_status_new		(ICalComponentKind kind);
 ECompEditorPropertyPart *
 		e_comp_editor_property_part_priority_new	(void);
 ECompEditorPropertyPart *

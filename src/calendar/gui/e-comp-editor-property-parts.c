@@ -1199,15 +1199,47 @@ e_comp_editor_property_part_classification_new (void)
 /* ************************************************************************* */
 
 ECompEditorPropertyPart *
-e_comp_editor_property_part_status_new (void)
+e_comp_editor_property_part_status_new (ICalComponentKind kind)
 {
-	ECompEditorPropertyPartPickerMap map[] = {
-		{ I_CAL_STATUS_NONE,      NC_("ECompEditor", "Not Started"), TRUE,  NULL },
-		{ I_CAL_STATUS_INPROCESS, NC_("ECompEditor", "In Progress"), FALSE, NULL },
-		{ I_CAL_STATUS_COMPLETED, NC_("ECompEditor", "Completed"),   FALSE, NULL },
-		{ I_CAL_STATUS_CANCELLED, NC_("ECompEditor", "Cancelled"),    FALSE, NULL }
+	ECompEditorPropertyPartPickerMap map_vevent[] = {
+		{ I_CAL_STATUS_NONE,      NC_("ECompEditor", "None"),      TRUE,  NULL },
+		{ I_CAL_STATUS_TENTATIVE, NC_("ECompEditor", "Tentative"), FALSE, NULL },
+		{ I_CAL_STATUS_CONFIRMED, NC_("ECompEditor", "Confirmed"), FALSE, NULL },
+		{ I_CAL_STATUS_CANCELLED, NC_("ECompEditor", "Cancelled"), FALSE, NULL }
 	};
-	gint ii, n_elems = G_N_ELEMENTS (map);
+	ECompEditorPropertyPartPickerMap map_vjournal[] = {
+		{ I_CAL_STATUS_NONE,      NC_("ECompEditor", "None"),      TRUE,  NULL },
+		{ I_CAL_STATUS_DRAFT,     NC_("ECompEditor", "Draft"),     FALSE, NULL },
+		{ I_CAL_STATUS_FINAL,     NC_("ECompEditor", "Final"),     FALSE, NULL },
+		{ I_CAL_STATUS_CANCELLED, NC_("ECompEditor", "Cancelled"), FALSE, NULL }
+	};
+	ECompEditorPropertyPartPickerMap map_vtodo[] = {
+		{ I_CAL_STATUS_NONE,        NC_("ECompEditor", "Not Started"),  TRUE,  NULL },
+		{ I_CAL_STATUS_NEEDSACTION, NC_("ECompEditor", "Needs Action"), FALSE, NULL },
+		{ I_CAL_STATUS_INPROCESS,   NC_("ECompEditor", "In Progress"),  FALSE, NULL },
+		{ I_CAL_STATUS_COMPLETED,   NC_("ECompEditor", "Completed"),    FALSE, NULL },
+		{ I_CAL_STATUS_CANCELLED,   NC_("ECompEditor", "Cancelled"),    FALSE, NULL }
+	};
+	ECompEditorPropertyPartPickerMap *map;
+	gint ii, n_elems;
+
+	switch (kind) {
+	case I_CAL_VEVENT_COMPONENT:
+		map = map_vevent;
+		n_elems = G_N_ELEMENTS (map_vevent);
+		break;
+	case I_CAL_VJOURNAL_COMPONENT:
+		map = map_vjournal;
+		n_elems = G_N_ELEMENTS (map_vjournal);
+		break;
+	default:
+		g_warn_if_reached ();
+		/* Falls through */
+	case I_CAL_VTODO_COMPONENT:
+		map = map_vtodo;
+		n_elems = G_N_ELEMENTS (map_vtodo);
+		break;
+	}
 
 	for (ii = 0; ii < n_elems; ii++) {
 		map[ii].description = g_dpgettext2 (GETTEXT_PACKAGE, "ECompEditor", map[ii].description);

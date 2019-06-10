@@ -211,7 +211,7 @@ e_comp_editor_memo_constructed (GObject *object)
 	gtk_widget_set_halign (edit_widget, GTK_ALIGN_START);
 	gtk_widget_set_hexpand (edit_widget, FALSE);
 
-	part = e_comp_editor_property_part_status_new ();
+	part = e_comp_editor_property_part_status_new (I_CAL_VJOURNAL_COMPONENT);
 	e_comp_editor_page_add_property_part (page, part, 0, 5, 2, 1);
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
