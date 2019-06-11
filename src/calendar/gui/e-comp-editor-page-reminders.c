@@ -39,33 +39,10 @@
 #define SECTION_NAME			_("Send To")
 #define X_EVOLUTION_NEEDS_DESCRIPTION	"X-EVOLUTION-NEEDS-DESCRIPTION"
 
-enum {
-	ALARM_NONE,
-	ALARM_15_MINUTES,
-	ALARM_1_HOUR,
-	ALARM_1_DAY,
-	ALARM_USER_TIME,
-	ALARM_CUSTOM
-};
-
-static const gint alarm_map_with_user_time[] = {
-	ALARM_NONE,
-	ALARM_15_MINUTES,
-	ALARM_1_HOUR,
-	ALARM_1_DAY,
-	ALARM_USER_TIME,
-	ALARM_CUSTOM,
-	-1
-};
-
-static const gint alarm_map_without_user_time[] = {
-	ALARM_NONE,
-	ALARM_15_MINUTES,
-	ALARM_1_HOUR,
-	ALARM_1_DAY,
-	ALARM_CUSTOM,
-	-1
-};
+#define N_PREDEFINED_ALARMS		3
+#define N_MAX_PREDEFINED_USER_ALARMS	10
+/* The 3 = 1 for the default alarm + 1 for None + 1 for Custom */
+#define N_MAX_PREDEFINED_ALARMS		((N_PREDEFINED_ALARMS) + (N_MAX_PREDEFINED_USER_ALARMS) + 3)
 
 /* "relative" types */
 enum {
@@ -130,6 +107,7 @@ static const gint duration_units_map[] = {
 
 struct _ECompEditorPageRemindersPrivate {
 	GtkWidget *alarms_combo;
+	GtkWidget *remove_custom_times_button;
 	GtkWidget *alarms_scrolled_window;
 	GtkWidget *alarms_tree_view;
 	GtkWidget *alarms_button_box;
@@ -161,17 +139,44 @@ struct _ECompEditorPageRemindersPrivate {
 	GtkWidget *custom_email_message_check;
 	GtkWidget *custom_email_message_text_view;
 
+	GtkWidget *add_custom_time_popover;
+	GtkWidget *add_custom_time_days_spin;
+	GtkWidget *add_custom_time_hours_spin;
+	GtkWidget *add_custom_time_minutes_spin;
+	GtkWidget *add_custom_time_add_button;
+
 	EAlarmList *alarm_list;
-	EDurationType alarm_units;
-	gint alarm_interval;
-	/* either with-user-time or without it */
-	const gint *alarm_map;
+	/* Interval in minutes. */
+	gint predefined_alarms[N_MAX_PREDEFINED_ALARMS];
 
 	/* Addressbook name selector, created on demand */
 	ENameSelector *name_selector;
 };
 
 G_DEFINE_TYPE (ECompEditorPageReminders, e_comp_editor_page_reminders, E_TYPE_COMP_EDITOR_PAGE)
+
+static gint
+ecep_reminders_get_alarm_index (GtkComboBox *combo_box)
+{
+	GtkTreeModel *model;
+	gint alarm_index;
+
+	g_return_val_if_fail (GTK_IS_COMBO_BOX (combo_box), -1);
+
+	alarm_index = gtk_combo_box_get_active (combo_box);
+	if (alarm_index == -1)
+		return alarm_index;
+
+	model = gtk_combo_box_get_model (combo_box);
+	if (!model)
+		return -1;
+
+	/* The Custom alarm is always the last item */
+	if (alarm_index == gtk_tree_model_iter_n_children (model, NULL) - 1)
+		alarm_index = -2;
+
+	return alarm_index;
+}
 
 static void
 ecep_reminders_sanitize_option_widgets (ECompEditorPageReminders *page_reminders)
@@ -184,8 +189,7 @@ ecep_reminders_sanitize_option_widgets (ECompEditorPageReminders *page_reminders
 
 	any_selected = gtk_tree_selection_count_selected_rows (gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (page_reminders->priv->alarms_tree_view))) > 0;
-	is_custom = e_dialog_combo_box_get (page_reminders->priv->alarms_combo,
-		page_reminders->priv->alarm_map) == ALARM_CUSTOM;
+	is_custom = ecep_reminders_get_alarm_index (GTK_COMBO_BOX (page_reminders->priv->alarms_combo)) == -2;
 
 	gtk_widget_set_sensitive (page_reminders->priv->alarms_tree_view, is_custom);
 	gtk_widget_set_sensitive (page_reminders->priv->alarms_add_button, is_custom);
@@ -360,6 +364,7 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 	ICalDuration *duration;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
+	gint duration_minutes = 0;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
 
@@ -400,18 +405,22 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 	else
 		e_dialog_combo_box_set (page_reminders->priv->relative_time_combo, AFTER, relative_map);
 
-	if (duration && i_cal_duration_get_days (duration)) {
+	if (duration) {
+		duration_minutes = i_cal_duration_as_int (duration) / 60;
+
+		if (duration_minutes < 0)
+			duration_minutes *= -1;
+	}
+
+	if (duration_minutes && !(duration_minutes % (24 * 60))) {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, DAYS, value_map);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin),
-			i_cal_duration_get_days (duration));
-	} else if (duration && i_cal_duration_get_hours (duration)) {
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin), duration_minutes / (24 * 60));
+	} else if (duration_minutes && !(duration_minutes % 60)) {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, HOURS, value_map);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin),
-			i_cal_duration_get_hours (duration));
-	} else if (duration && i_cal_duration_get_minutes (duration)) {
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin), duration_minutes / 60);
+	} else if (duration_minutes) {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, MINUTES, value_map);
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin),
-			i_cal_duration_get_minutes (duration));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin), duration_minutes);
 	} else {
 		e_dialog_combo_box_set (page_reminders->priv->unit_combo, MINUTES, value_map);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->time_spin), 0);
@@ -803,13 +812,32 @@ ecep_reminders_alarms_selection_changed_cb (GtkTreeSelection *selection,
 		ecep_reminders_selected_to_widgets (page_reminders);
 }
 
+static gint
+ecep_reminders_interval_to_int (gint days,
+				gint hours,
+				gint minutes)
+{
+	return (days * 24 * 60) + (hours * 60) + minutes;
+}
+
+static void
+ecep_reminders_int_to_interval (gint value,
+				gint *out_days,
+				gint *out_hours,
+				gint *out_minutes)
+{
+	*out_days = value / (24 * 60);
+	*out_hours = (value / 60) % 24;
+	*out_minutes = value % 60;
+}
+
 static void
 ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 					ECompEditorPageReminders *page_reminders)
 {
 	ECalComponentAlarm *alarm;
 	ICalDuration *duration;
-	gint alarm_type;
+	gint alarm_index;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
 
@@ -818,13 +846,13 @@ ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 	if (!e_comp_editor_page_get_updating (E_COMP_EDITOR_PAGE (page_reminders)))
 		e_comp_editor_page_emit_changed (E_COMP_EDITOR_PAGE (page_reminders));
 
-	alarm_type = e_dialog_combo_box_get (page_reminders->priv->alarms_combo, page_reminders->priv->alarm_map);
-	if (alarm_type == ALARM_NONE) {
+	alarm_index = ecep_reminders_get_alarm_index (GTK_COMBO_BOX (page_reminders->priv->alarms_combo));
+	if (alarm_index == -1 || alarm_index == 0) {
 		e_alarm_list_clear (page_reminders->priv->alarm_list);
 		return;
 	}
 
-	if (alarm_type == ALARM_CUSTOM) {
+	if (alarm_index == -2) {
 		GtkTreeSelection *selection;
 
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (page_reminders->priv->alarms_tree_view));
@@ -849,37 +877,23 @@ ecep_reminders_alarms_combo_changed_cb (GtkComboBox *combo_box,
 
 	i_cal_duration_set_is_neg (duration, TRUE);
 
-	switch (alarm_type) {
-	case ALARM_15_MINUTES:
-		i_cal_duration_set_minutes (duration, 15);
-		break;
+	if (alarm_index >= 1 && alarm_index < N_MAX_PREDEFINED_ALARMS) {
+		gint ii;
 
-	case ALARM_1_HOUR:
-		i_cal_duration_set_hours (duration, 1);
-		break;
-
-	case ALARM_1_DAY:
-		i_cal_duration_set_days (duration, 1);
-		break;
-
-	case ALARM_USER_TIME:
-		switch (page_reminders->priv->alarm_units) {
-		case E_DURATION_DAYS:
-			i_cal_duration_set_days (duration, page_reminders->priv->alarm_interval);
-			break;
-
-		case E_DURATION_HOURS:
-			i_cal_duration_set_hours (duration, page_reminders->priv->alarm_interval);
-			break;
-
-		case E_DURATION_MINUTES:
-			i_cal_duration_set_minutes (duration, page_reminders->priv->alarm_interval);
-			break;
+		for (ii = 0; ii < alarm_index - 1 && page_reminders->priv->predefined_alarms[ii] != -1; ii++) {
 		}
-		break;
 
-	default:
-		break;
+		g_warn_if_fail (ii == alarm_index - 1);
+
+		if (ii == alarm_index - 1) {
+			gint days = 0, hours = 0, minutes = 0;
+
+			ecep_reminders_int_to_interval (page_reminders->priv->predefined_alarms[alarm_index - 1], &days, &hours, &minutes);
+
+			i_cal_duration_set_days (duration, days);
+			i_cal_duration_set_hours (duration, hours);
+			i_cal_duration_set_minutes (duration, minutes);
+		}
 	}
 
 	e_cal_component_alarm_take_trigger (alarm,
@@ -1094,11 +1108,10 @@ ecep_reminders_send_to_clicked_cb (GtkWidget *button,
 }
 
 static gboolean
-ecep_reminders_is_custom_alarm (ECalComponentAlarm *ca,
+ecep_reminders_is_custom_alarm (ECompEditorPageReminders *page_reminders,
+				ECalComponentAlarm *ca,
 				const gchar *old_summary,
-				EDurationType user_units,
-				gint user_interval,
-				gint *alarm_type)
+				gint *alarm_index)
 {
 	ECalComponentAlarmTrigger *trigger;
 	ECalComponentAlarmRepeat *repeat;
@@ -1106,6 +1119,7 @@ ecep_reminders_is_custom_alarm (ECalComponentAlarm *ca,
 	ECalComponentText *desc;
 	ICalDuration *duration;
 	GSList *attachments;
+	gint ii, value;
 
 	action = e_cal_component_alarm_get_action (ca);
 	if (action != E_CAL_COMPONENT_ALARM_DISPLAY)
@@ -1134,70 +1148,23 @@ ecep_reminders_is_custom_alarm (ECalComponentAlarm *ca,
 		return TRUE;
 
 	duration = e_cal_component_alarm_trigger_get_duration (trigger);
-	if (!duration || i_cal_duration_is_neg (duration) != 1)
-		return TRUE;
-
-	if (i_cal_duration_get_weeks (duration) != 0)
+	if (!duration || (!i_cal_duration_is_neg (duration) && i_cal_duration_as_int (duration) != 0))
 		return TRUE;
 
 	if (i_cal_duration_get_seconds (duration) != 0)
 		return TRUE;
 
-	if (i_cal_duration_get_days (duration) == 1 &&
-	    i_cal_duration_get_hours (duration) == 0 &&
-	    i_cal_duration_get_minutes (duration) == 0) {
-		if (alarm_type)
-			*alarm_type = ALARM_1_DAY;
-		return FALSE;
-	}
+	value = i_cal_duration_as_int (duration) / 60;
 
-	if (i_cal_duration_get_days (duration) == 0 &&
-	    i_cal_duration_get_hours (duration) == 1 &&
-	    i_cal_duration_get_minutes (duration) == 0) {
-		if (alarm_type)
-			*alarm_type = ALARM_1_HOUR;
-		return FALSE;
-	}
+	if (value < 0)
+		value *= -1;
 
-	if (i_cal_duration_get_days (duration) == 0 &&
-	    i_cal_duration_get_hours (duration) == 0 &&
-	    i_cal_duration_get_minutes (duration) == 15) {
-		if (alarm_type)
-			*alarm_type = ALARM_15_MINUTES;
-		return FALSE;
-	}
+	for (ii = 0; ii < N_MAX_PREDEFINED_ALARMS && page_reminders->priv->predefined_alarms[ii] != -1; ii++) {
+		if (value == page_reminders->priv->predefined_alarms[ii]) {
+			if (alarm_index)
+				*alarm_index = ii + 1;
 
-	if (user_interval != -1) {
-		switch (user_units) {
-		case E_DURATION_DAYS:
-			if (i_cal_duration_get_days (duration) == user_interval &&
-			    i_cal_duration_get_hours (duration) == 0 &&
-			    i_cal_duration_get_minutes (duration) == 0) {
-				if (alarm_type)
-					*alarm_type = ALARM_USER_TIME;
-				return FALSE;
-			}
-			break;
-
-		case E_DURATION_HOURS:
-			if (i_cal_duration_get_days (duration) == 0 &&
-			    i_cal_duration_get_hours (duration) == user_interval &&
-			    i_cal_duration_get_minutes (duration) == 0) {
-				if (alarm_type)
-					*alarm_type = ALARM_USER_TIME;
-				return FALSE;
-			}
-			break;
-
-		case E_DURATION_MINUTES:
-			if (i_cal_duration_get_days (duration) == 0 &&
-			    i_cal_duration_get_hours (duration) == 0 &&
-			    i_cal_duration_get_minutes (duration) == user_interval) {
-				if (alarm_type)
-					*alarm_type = ALARM_USER_TIME;
-				return FALSE;
-			}
-			break;
+			return FALSE;
 		}
 	}
 
@@ -1205,12 +1172,11 @@ ecep_reminders_is_custom_alarm (ECalComponentAlarm *ca,
 }
 
 static gboolean
-ecep_reminders_is_custom_alarm_uid_list (ECalComponent *comp,
+ecep_reminders_is_custom_alarm_uid_list (ECompEditorPageReminders *page_reminders,
+					 ECalComponent *comp,
 					 GSList *alarm_uids,
 					 const gchar *old_summary,
-					 EDurationType user_units,
-					 gint user_interval,
-					 gint *alarm_type)
+					 gint *alarm_index)
 {
 	ECalComponentAlarm *ca;
 	gboolean result;
@@ -1222,7 +1188,7 @@ ecep_reminders_is_custom_alarm_uid_list (ECalComponent *comp,
 		return TRUE;
 
 	ca = e_cal_component_get_alarm (comp, alarm_uids->data);
-	result = ecep_reminders_is_custom_alarm (ca, old_summary, user_units, user_interval, alarm_type);
+	result = ecep_reminders_is_custom_alarm (page_reminders, ca, old_summary, alarm_index);
 	e_cal_component_alarm_free (ca);
 
 	return result;
@@ -1406,7 +1372,7 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 
 	valarm = i_cal_component_get_first_component (component, I_CAL_VALARM_COMPONENT);
 	if (!valarm) {
-		e_dialog_combo_box_set (page_reminders->priv->alarms_combo, ALARM_NONE, page_reminders->priv->alarm_map);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (page_reminders->priv->alarms_combo), 0);
 		return;
 	}
 
@@ -1415,15 +1381,21 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (component));
 	if (comp && e_cal_component_has_alarms (comp)) {
 		GSList *alarms, *link;
-		gint alarm_type = ALARM_NONE;
+		gint alarm_index = 0;
 
 		alarms = e_cal_component_get_alarm_uids (comp);
 
-		if (ecep_reminders_is_custom_alarm_uid_list (comp, alarms, i_cal_component_get_summary (component),
-			page_reminders->priv->alarm_units, page_reminders->priv->alarm_interval, &alarm_type))
-			alarm_type = ALARM_CUSTOM;
+		if (ecep_reminders_is_custom_alarm_uid_list (page_reminders, comp, alarms, i_cal_component_get_summary (component), &alarm_index)) {
+			GtkTreeModel *model;
 
-		e_dialog_combo_box_set (page_reminders->priv->alarms_combo, alarm_type, page_reminders->priv->alarm_map);
+			model = gtk_combo_box_get_model (GTK_COMBO_BOX (page_reminders->priv->alarms_combo));
+			alarm_index = gtk_tree_model_iter_n_children (model, NULL) - 1;
+		}
+
+		if (alarm_index < 0)
+			alarm_index = 0;
+
+		gtk_combo_box_set_active (GTK_COMBO_BOX (page_reminders->priv->alarms_combo), alarm_index);
 
 		e_alarm_list_clear (page_reminders->priv->alarm_list);
 
@@ -1438,7 +1410,7 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 
 		g_slist_free_full (alarms, g_free);
 
-		if (e_dialog_combo_box_get (page_reminders->priv->alarms_combo, page_reminders->priv->alarm_map) == ALARM_CUSTOM) {
+		if (ecep_reminders_get_alarm_index (GTK_COMBO_BOX (page_reminders->priv->alarms_combo)) == -2) {
 			GtkTreeSelection *selection;
 			GtkTreeIter iter;
 
@@ -1447,7 +1419,7 @@ ecep_reminders_fill_widgets (ECompEditorPage *page,
 				gtk_tree_selection_select_iter (selection, &iter);
 		}
 	} else {
-		e_dialog_combo_box_set (page_reminders->priv->alarms_combo, ALARM_NONE, page_reminders->priv->alarm_map);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (page_reminders->priv->alarms_combo), 0);
 	}
 
 	g_clear_object (&comp);
@@ -1642,6 +1614,353 @@ ecep_reminders_setup_ui (ECompEditorPageReminders *page_reminders)
 	}
 }
 
+static gboolean
+ecep_reminders_add_predefined_alarm (ECompEditorPageReminders *page_reminders,
+				     gint value_minutes)
+{
+	gint ii;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders), FALSE);
+	g_return_val_if_fail (value_minutes >= 0, FALSE);
+
+	for (ii = 0; ii < N_MAX_PREDEFINED_ALARMS && page_reminders->priv->predefined_alarms[ii] != -1; ii++) {
+		if (value_minutes == page_reminders->priv->predefined_alarms[ii])
+			return FALSE;
+	}
+
+	if (ii < N_MAX_PREDEFINED_ALARMS) {
+		page_reminders->priv->predefined_alarms[ii] = value_minutes;
+
+		if (ii + 1 < N_MAX_PREDEFINED_ALARMS)
+			page_reminders->priv->predefined_alarms[ii + 1] = -1;
+	}
+
+	return ii < N_MAX_PREDEFINED_ALARMS;
+}
+
+static gint
+ecep_reminders_compare_predefined_alarm (gconstpointer data1,
+					 gconstpointer data2,
+					 gpointer user_data)
+{
+	gint value1 = * (gint *) data1;
+	gint value2 = * (gint *) data2;
+
+	return value1 - value2;
+}
+
+static void
+ecep_reminders_sort_predefined_alarms (ECompEditorPageReminders *page_reminders)
+{
+	gint nelems;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
+
+	for (nelems = N_PREDEFINED_ALARMS; nelems < N_MAX_PREDEFINED_ALARMS && page_reminders->priv->predefined_alarms[nelems] != -1; nelems++) {
+		/* Just count those filled */
+	}
+
+	nelems -= N_PREDEFINED_ALARMS;
+
+	if (nelems > 1) {
+		g_qsort_with_data (&(page_reminders->priv->predefined_alarms[N_PREDEFINED_ALARMS]), nelems,
+			sizeof (gint), ecep_reminders_compare_predefined_alarm, NULL);
+	}
+}
+
+static gboolean
+ecep_reminders_fill_alarms_combo (ECompEditorPageReminders *page_reminders,
+				  gint select_minutes)
+{
+	GtkComboBoxText *text_combo;
+	gint ii, select_index = 0;
+	gboolean did_select = FALSE;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders), FALSE);
+	g_return_val_if_fail (GTK_IS_COMBO_BOX_TEXT (page_reminders->priv->alarms_combo), FALSE);
+
+	text_combo = GTK_COMBO_BOX_TEXT (page_reminders->priv->alarms_combo);
+
+	g_signal_handlers_block_by_func (text_combo, ecep_reminders_alarms_combo_changed_cb, page_reminders);
+
+	if (select_minutes < 0)
+		select_index = gtk_combo_box_get_active (GTK_COMBO_BOX (text_combo));
+
+	gtk_combo_box_text_remove_all (text_combo);
+
+	/* Translators: "None" for "No reminder set" */
+	gtk_combo_box_text_append_text (text_combo, C_("cal-reminders", "None"));
+
+	for (ii = 0; ii < N_MAX_PREDEFINED_ALARMS && page_reminders->priv->predefined_alarms[ii] != -1; ii++) {
+		gchar *text, *merged;
+
+		if (page_reminders->priv->predefined_alarms[ii]) {
+			text = e_cal_util_seconds_to_string (page_reminders->priv->predefined_alarms[ii] * 60);
+			/* Translators: This constructs predefined reminder's description, for example "15 minutes before",
+			   "1 hour before", "1 day before", but, if user has set, also more complicated strings like
+			   "2 days 13 hours 1 minute before". */
+			merged = g_strdup_printf (C_("cal-reminders", "%s before"), text);
+			gtk_combo_box_text_append_text (text_combo, merged);
+			g_free (merged);
+			g_free (text);
+		} else {
+			gtk_combo_box_text_append_text (text_combo, C_("cal-reminders", "at the start"));
+		}
+
+		if (select_minutes >= 0 && select_minutes == page_reminders->priv->predefined_alarms[ii])
+			select_index = ii + 1;
+	}
+
+	/* Translators: "Custom" for "Custom reminder set" */
+	gtk_combo_box_text_append_text (text_combo, C_("cal-reminders", "Custom"));
+
+	g_signal_handlers_unblock_by_func (text_combo, ecep_reminders_alarms_combo_changed_cb, page_reminders);
+
+	if (select_index >= 0 && select_index <= ii) {
+		gtk_combo_box_set_active (GTK_COMBO_BOX (text_combo), select_index);
+		did_select = select_minutes >= 0;
+	} else {
+		gtk_combo_box_set_active (GTK_COMBO_BOX (text_combo), 0);
+	}
+
+	return did_select;
+}
+
+static void
+ecep_reminders_add_default_alarm_time (ECompEditorPageReminders *page_reminders)
+{
+	EDurationType alarm_units;
+	gint alarm_interval, minutes;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
+
+	alarm_interval = calendar_config_get_default_reminder_interval ();
+	alarm_units = calendar_config_get_default_reminder_units ();
+
+	minutes = ecep_reminders_interval_to_int (
+		alarm_units == E_DURATION_DAYS ? alarm_interval : 0,
+		alarm_units == E_DURATION_HOURS ? alarm_interval : 0,
+		alarm_units == E_DURATION_MINUTES ? alarm_interval : 0);
+
+	ecep_reminders_add_predefined_alarm (page_reminders, minutes);
+}
+
+static void
+ecep_reminders_add_custom_time_add_button_clicked_cb (GtkButton *button,
+						      gpointer user_data)
+{
+	ECompEditorPageReminders *page_reminders = user_data;
+	gboolean found = FALSE;
+	gint new_minutes, ii;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
+
+	new_minutes = ecep_reminders_interval_to_int (
+		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (page_reminders->priv->add_custom_time_days_spin)),
+		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (page_reminders->priv->add_custom_time_hours_spin)),
+		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (page_reminders->priv->add_custom_time_minutes_spin)));
+	g_return_if_fail (new_minutes >= 0);
+
+	gtk_widget_hide (page_reminders->priv->add_custom_time_popover);
+
+	for (ii = 0; ii < N_MAX_PREDEFINED_ALARMS && page_reminders->priv->predefined_alarms[ii] != -1; ii++) {
+		if (new_minutes == page_reminders->priv->predefined_alarms[ii]) {
+			found = TRUE;
+			gtk_combo_box_set_active (GTK_COMBO_BOX (page_reminders->priv->alarms_combo), ii + 1);
+			break;
+		}
+	}
+
+	if (!found) {
+		GSettings *settings;
+		GVariant *variant;
+		gboolean any_user_alarm_added = FALSE;
+		gint32 array[N_MAX_PREDEFINED_USER_ALARMS + 1] = { 0 }, narray = 0, ii;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+		variant = g_settings_get_value (settings, "custom-reminders-minutes");
+		if (variant) {
+			const gint32 *stored;
+			gsize nstored = 0;
+
+			stored = g_variant_get_fixed_array (variant, &nstored, sizeof (gint32));
+			if (stored && nstored > 0) {
+				/* Skip the oldest, when too many stored */
+				for (ii = nstored >= N_MAX_PREDEFINED_USER_ALARMS ? 1 : 0; ii < N_MAX_PREDEFINED_USER_ALARMS && ii < nstored; ii++) {
+					array[narray] = stored[ii];
+					narray++;
+				}
+			}
+
+			g_variant_unref (variant);
+		}
+
+		/* Add the new at the end of the array */
+		array[narray] = new_minutes;
+		narray++;
+
+		variant = g_variant_new_fixed_array (G_VARIANT_TYPE_INT32, array, narray, sizeof (gint32));
+		g_settings_set_value (settings, "custom-reminders-minutes", variant);
+
+		g_object_unref (settings);
+
+		page_reminders->priv->predefined_alarms[N_PREDEFINED_ALARMS] = -1;
+
+		ecep_reminders_add_default_alarm_time (page_reminders);
+
+		for (ii = 0; ii < narray; ii++) {
+			if (ecep_reminders_add_predefined_alarm (page_reminders, array[ii]))
+				any_user_alarm_added = TRUE;
+		}
+
+		ecep_reminders_sort_predefined_alarms (page_reminders);
+
+		if (!ecep_reminders_fill_alarms_combo (page_reminders, new_minutes))
+			gtk_combo_box_set_active (GTK_COMBO_BOX (page_reminders->priv->alarms_combo), 0);
+
+		gtk_widget_set_sensitive (page_reminders->priv->remove_custom_times_button, any_user_alarm_added);
+	}
+}
+
+static void
+ecep_reminders_add_custom_time_clicked_cb (GtkWidget *button,
+					   gpointer user_data)
+{
+	ECompEditorPageReminders *page_reminders = user_data;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
+
+	if (!page_reminders->priv->add_custom_time_popover) {
+		GtkWidget *widget;
+		GtkBox *vbox, *box;
+
+		page_reminders->priv->add_custom_time_days_spin = gtk_spin_button_new_with_range (0.0, 366.0, 1.0);
+		page_reminders->priv->add_custom_time_hours_spin = gtk_spin_button_new_with_range (0.0, 23.0, 1.0);
+		page_reminders->priv->add_custom_time_minutes_spin = gtk_spin_button_new_with_range (0.0, 59.0, 1.0);
+
+		g_object_set (G_OBJECT (page_reminders->priv->add_custom_time_days_spin),
+			"digits", 0,
+			"numeric", TRUE,
+			"snap-to-ticks", TRUE,
+			NULL);
+
+		g_object_set (G_OBJECT (page_reminders->priv->add_custom_time_hours_spin),
+			"digits", 0,
+			"numeric", TRUE,
+			"snap-to-ticks", TRUE,
+			NULL);
+
+		g_object_set (G_OBJECT (page_reminders->priv->add_custom_time_minutes_spin),
+			"digits", 0,
+			"numeric", TRUE,
+			"snap-to-ticks", TRUE,
+			NULL);
+
+		vbox = GTK_BOX (gtk_box_new (GTK_ORIENTATION_VERTICAL, 2));
+
+		widget = gtk_label_new (_("Set a custom predefined time to"));
+		gtk_box_pack_start (vbox, widget, FALSE, FALSE, 0);
+
+		box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2));
+		g_object_set (G_OBJECT (box),
+			"halign", GTK_ALIGN_START,
+			"hexpand", FALSE,
+			"valign", GTK_ALIGN_CENTER,
+			"vexpand", FALSE,
+			NULL);
+
+		gtk_box_pack_start (box, page_reminders->priv->add_custom_time_days_spin, FALSE, FALSE, 4);
+		/* Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget */
+		widget = gtk_label_new_with_mnemonic (C_("cal-reminders", "da_ys"));
+		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), page_reminders->priv->add_custom_time_days_spin);
+		gtk_box_pack_start (box, widget, FALSE, FALSE, 4);
+
+		gtk_box_pack_start (vbox, GTK_WIDGET (box), FALSE, FALSE, 0);
+
+		box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2));
+		g_object_set (G_OBJECT (box),
+			"halign", GTK_ALIGN_START,
+			"hexpand", FALSE,
+			"valign", GTK_ALIGN_CENTER,
+			"vexpand", FALSE,
+			NULL);
+
+		gtk_box_pack_start (box, page_reminders->priv->add_custom_time_hours_spin, FALSE, FALSE, 4);
+		/* Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget */
+		widget = gtk_label_new_with_mnemonic (C_("cal-reminders", "_hours"));
+		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), page_reminders->priv->add_custom_time_hours_spin);
+		gtk_box_pack_start (box, widget, FALSE, FALSE, 4);
+
+		gtk_box_pack_start (vbox, GTK_WIDGET (box), FALSE, FALSE, 0);
+
+		box = GTK_BOX (gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 2));
+		g_object_set (G_OBJECT (box),
+			"halign", GTK_ALIGN_START,
+			"hexpand", FALSE,
+			"valign", GTK_ALIGN_CENTER,
+			"vexpand", FALSE,
+			NULL);
+
+		gtk_box_pack_start (box, page_reminders->priv->add_custom_time_minutes_spin, FALSE, FALSE, 4);
+		/* Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget */
+		widget = gtk_label_new_with_mnemonic (C_("cal-reminders", "_minutes"));
+		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), page_reminders->priv->add_custom_time_minutes_spin);
+		gtk_box_pack_start (box, widget, FALSE, FALSE, 4);
+
+		gtk_box_pack_start (vbox, GTK_WIDGET (box), FALSE, FALSE, 0);
+
+		page_reminders->priv->add_custom_time_add_button = gtk_button_new_with_mnemonic (_("_Add time"));
+		g_object_set (G_OBJECT (page_reminders->priv->add_custom_time_add_button),
+			"halign", GTK_ALIGN_CENTER,
+			NULL);
+
+		gtk_box_pack_start (vbox, page_reminders->priv->add_custom_time_add_button, FALSE, FALSE, 0);
+
+		gtk_widget_show_all (GTK_WIDGET (vbox));
+
+		page_reminders->priv->add_custom_time_popover = gtk_popover_new (GTK_WIDGET (page_reminders));
+		gtk_popover_set_position (GTK_POPOVER (page_reminders->priv->add_custom_time_popover), GTK_POS_BOTTOM);
+		gtk_container_add (GTK_CONTAINER (page_reminders->priv->add_custom_time_popover), GTK_WIDGET (vbox));
+		gtk_container_set_border_width (GTK_CONTAINER (page_reminders->priv->add_custom_time_popover), 6);
+
+		g_signal_connect (page_reminders->priv->add_custom_time_add_button, "clicked",
+			G_CALLBACK (ecep_reminders_add_custom_time_add_button_clicked_cb), page_reminders);
+	}
+
+	gtk_widget_hide (page_reminders->priv->add_custom_time_popover);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->add_custom_time_days_spin), 0.0);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->add_custom_time_hours_spin), 0.0);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->add_custom_time_minutes_spin), 0.0);
+	gtk_popover_set_relative_to (GTK_POPOVER (page_reminders->priv->add_custom_time_popover), button);
+	gtk_widget_show (page_reminders->priv->add_custom_time_popover);
+
+	gtk_widget_grab_focus (page_reminders->priv->add_custom_time_days_spin);
+}
+
+static void
+ecep_reminders_remove_custom_times_clicked_cb (GtkButton *button,
+					       gpointer user_data)
+{
+	ECompEditorPageReminders *page_reminders = user_data;
+	GSettings *settings;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_REMINDERS (page_reminders));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+	g_settings_reset (settings, "custom-reminders-minutes");
+	g_object_unref (settings);
+
+	page_reminders->priv->predefined_alarms[N_PREDEFINED_ALARMS] = -1;
+
+	ecep_reminders_add_default_alarm_time (page_reminders);
+
+	ecep_reminders_fill_alarms_combo (page_reminders, -1);
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (page_reminders->priv->alarms_combo), 0);
+
+	gtk_widget_set_sensitive (page_reminders->priv->remove_custom_times_button, FALSE);
+}
+
 static void
 ecep_reminders_constructed (GObject *object)
 {
@@ -1655,7 +1974,10 @@ ecep_reminders_constructed (GObject *object)
 	GtkGrid *grid;
 	ECompEditor *comp_editor;
 	EFocusTracker *focus_tracker;
-	gchar *combo_label, *config_dir;
+	gint ii;
+	gchar *config_dir;
+	GSettings *settings;
+	GVariant *variant;
 
 	G_OBJECT_CLASS (e_comp_editor_page_reminders_parent_class)->constructed (object);
 
@@ -1716,58 +2038,60 @@ ecep_reminders_constructed (GObject *object)
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), page_reminders->priv->alarms_combo);
 
-	/* Add the user defined time if necessary */
-	page_reminders->priv->alarm_interval = calendar_config_get_default_reminder_interval ();
-	page_reminders->priv->alarm_units = calendar_config_get_default_reminder_units ();
+	widget = e_dialog_button_new_with_icon ("list-add", NULL);
+	gtk_widget_set_tooltip_text (widget, _("Add custom predefined time"));
+	gtk_widget_show (widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
-	combo_label = NULL;
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (ecep_reminders_add_custom_time_clicked_cb), page_reminders);
 
-	switch (page_reminders->priv->alarm_units) {
-	case E_DURATION_DAYS:
-		if (page_reminders->priv->alarm_interval != 1) {
-			combo_label = g_strdup_printf (ngettext ("%d day before", "%d days before",
-				page_reminders->priv->alarm_interval), page_reminders->priv->alarm_interval);
+	widget = e_dialog_button_new_with_icon ("edit-clear", NULL);
+	gtk_widget_set_tooltip_text (widget, _("Remove custom predefined times"));
+	gtk_widget_show (widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	page_reminders->priv->remove_custom_times_button = widget;
+	gtk_widget_set_sensitive (page_reminders->priv->remove_custom_times_button, FALSE);
+
+	g_signal_connect (widget, "clicked",
+		G_CALLBACK (ecep_reminders_remove_custom_times_clicked_cb), page_reminders);
+
+	page_reminders->priv->predefined_alarms[0] = ecep_reminders_interval_to_int (0, 0, 15);
+	page_reminders->priv->predefined_alarms[1] = ecep_reminders_interval_to_int (0, 1, 0);
+	page_reminders->priv->predefined_alarms[2] = ecep_reminders_interval_to_int (1, 0, 0);
+	page_reminders->priv->predefined_alarms[3] = -1;
+
+	ecep_reminders_add_default_alarm_time (page_reminders);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+	variant = g_settings_get_value (settings, "custom-reminders-minutes");
+
+	if (variant) {
+		const gint32 *stored;
+		gsize nstored = 0;
+
+		stored = g_variant_get_fixed_array (variant, &nstored, sizeof (gint32));
+		if (stored && nstored > 0) {
+			if (nstored > N_MAX_PREDEFINED_USER_ALARMS)
+				nstored = N_MAX_PREDEFINED_USER_ALARMS;
+
+			for (ii = 0; ii < nstored; ii++) {
+				if (stored[ii] >= 0 &&
+				    ecep_reminders_add_predefined_alarm (page_reminders, stored[ii])) {
+					gtk_widget_set_sensitive (page_reminders->priv->remove_custom_times_button, TRUE);
+				}
+			}
 		}
-		break;
 
-	case E_DURATION_HOURS:
-		if (page_reminders->priv->alarm_interval != 1) {
-			combo_label = g_strdup_printf (ngettext ("%d hour before", "%d hours before",
-				page_reminders->priv->alarm_interval), page_reminders->priv->alarm_interval);
-		}
-		break;
-
-	case E_DURATION_MINUTES:
-		if (page_reminders->priv->alarm_interval != 15) {
-			combo_label = g_strdup_printf (ngettext ("%d minute before", "%d minutes before",
-				page_reminders->priv->alarm_interval), page_reminders->priv->alarm_interval);
-		}
-		break;
+		g_variant_unref (variant);
 	}
 
-	text_combo = GTK_COMBO_BOX_TEXT (widget);
-	/* Translators: "None" for "No reminder set" */
-	gtk_combo_box_text_append_text (text_combo, C_("cal-reminders", "None"));
-        /* Translators: Predefined reminder's description */
-	gtk_combo_box_text_append_text (text_combo, C_("cal-reminders", "15 minutes before"));
-        /* Translators: Predefined reminder's description */
-	gtk_combo_box_text_append_text (text_combo, C_("cal-reminders", "1 hour before"));
-        /* Translators: Predefined reminder's description */
-	gtk_combo_box_text_append_text (text_combo, C_("cal-reminders", "1 day before"));
+	g_object_unref (settings);
 
-	if (combo_label) {
-		gtk_combo_box_text_append_text (text_combo, combo_label);
-		g_free (combo_label);
+	ecep_reminders_sort_predefined_alarms (page_reminders);
+	ecep_reminders_fill_alarms_combo (page_reminders, -1);
 
-		page_reminders->priv->alarm_map = alarm_map_with_user_time;
-	} else {
-		page_reminders->priv->alarm_map = alarm_map_without_user_time;
-	}
-
-	/* Translators: "Custom" for "Custom reminder set" */
-	gtk_combo_box_text_append_text (text_combo, C_("cal-reminders", "Custom"));
-
-	gtk_combo_box_set_active (GTK_COMBO_BOX (text_combo), 0);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (page_reminders->priv->alarms_combo), 0);
 
 	g_signal_connect (page_reminders->priv->alarms_combo, "changed",
 		G_CALLBACK (ecep_reminders_alarms_combo_changed_cb), page_reminders);

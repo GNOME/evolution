@@ -457,6 +457,10 @@
       <default>false</default>
       <_summary>Allow direct edit of event Summary when clicking on it in the Day, Work Week, Week or Month view.</_summary>
     </key>
+    <key name="custom-reminders-minutes" type="ai">
+      <default>[]</default>
+      <_summary>User-defined reminder times, in minutes</_summary>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

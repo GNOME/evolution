@@ -357,48 +357,17 @@ e_alarm_list_get_path (GtkTreeModel *tree_model,
 static gchar *
 get_alarm_duration_string (ICalDuration *duration)
 {
-	GString *string = g_string_new (NULL);
-	gboolean have_something;
-	guint value;
+	gint seconds = 0;
 
-	have_something = FALSE;
+	seconds = i_cal_duration_as_int (duration);
 
-	value = i_cal_duration_get_days (duration);
-	if (value >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d days before start" */
-		g_string_printf (string, ngettext ("%d day", "%d days", value), value);
-		have_something = TRUE;
-	}
+	if (!seconds)
+		return NULL;
 
-	value = i_cal_duration_get_weeks (duration);
-	if (value >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d weeks before start" */
-		g_string_printf (string, ngettext ("%d week","%d weeks", value), value);
-		have_something = TRUE;
-	}
+	if (seconds < 0)
+		seconds *= -1;
 
-	value = i_cal_duration_get_hours (duration);
-	if (value >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d hours before start" */
-		g_string_printf (string, ngettext ("%d hour", "%d hours", value), value);
-		have_something = TRUE;
-	}
-
-	value = i_cal_duration_get_minutes (duration);
-	if (value >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d minutes before start" */
-		g_string_printf (string, ngettext ("%d minute", "%d minutes", value), value);
-		have_something = TRUE;
-	}
-
-	value = i_cal_duration_get_seconds (duration);
-	if (value >= 1) {
-		/* Translator: Entire string is like "Pop up an alert %d seconds before start" */
-		g_string_printf (string, ngettext ("%d second", "%d seconds", value), value);
-		have_something = TRUE;
-	}
-
-	return g_string_free (string, !have_something);
+	return e_cal_util_seconds_to_string (seconds);
 }
 
 static gchar *
