@@ -1456,7 +1456,6 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
 		ECalComponentAlarm *alarm, *alarm_copy;
 		ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
-		ECalComponentPropertyBag *bag;
 
 		alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (page_reminders->priv->alarm_list, &iter);
 		if (!alarm) {
@@ -1476,41 +1475,30 @@ ecep_reminders_fill_component (ECompEditorPage *page,
 
 		action = e_cal_component_alarm_get_action (alarm);
 
-		bag = e_cal_component_alarm_get_property_bag (alarm);
 		if (action == E_CAL_COMPONENT_ALARM_EMAIL) {
 			ECalComponentText *summary;
-			const gchar *text;
-			guint idx;
 
 			summary = e_cal_component_get_summary (comp);
-			text = (summary && e_cal_component_text_get_value (summary)) ? e_cal_component_text_get_value (summary) : "";
-
-			idx = e_cal_component_property_bag_get_first_by_kind (bag, I_CAL_SUMMARY_PROPERTY);
-			if (idx < e_cal_component_property_bag_get_count (bag)) {
-				ICalProperty *prop;
-
-				prop = e_cal_component_property_bag_get (bag, idx);
-				i_cal_property_set_summary (prop, text);
-			} else {
-				e_cal_component_property_bag_take (bag, i_cal_property_new_summary (text));
-			}
-
-			e_cal_component_text_free (summary);
+			e_cal_component_alarm_take_summary (alarm, summary);
 		} else {
-			e_cal_component_property_bag_remove_by_kind (bag, I_CAL_SUMMARY_PROPERTY, TRUE);
+			e_cal_component_alarm_set_summary (alarm, NULL);
 		}
 
 		if (action == E_CAL_COMPONENT_ALARM_EMAIL || action == E_CAL_COMPONENT_ALARM_DISPLAY) {
-			if (e_cal_component_property_bag_get_first_by_kind (bag, I_CAL_DESCRIPTION_PROPERTY) >=
-			    e_cal_component_property_bag_get_count (bag)) {
+			if (!e_cal_component_alarm_get_description (alarm)) {
 				const gchar *description;
 
 				description = i_cal_component_get_description (e_cal_component_get_icalcomponent (comp));
+				if (!description || !*description)
+					description = i_cal_component_get_summary (e_cal_component_get_icalcomponent (comp));
 
-				e_cal_component_property_bag_take (bag, i_cal_property_new_description (description ? description : ""));
+				if (description && *description)
+					e_cal_component_alarm_take_description (alarm, e_cal_component_text_new (description, NULL));
+				else
+					e_cal_component_alarm_set_description (alarm, NULL);
 			}
 		} else {
-			e_cal_component_property_bag_remove_by_kind (bag, I_CAL_DESCRIPTION_PROPERTY, TRUE);
+			e_cal_component_alarm_set_description (alarm, NULL);
 		}
 
 		/* We clone the alarm to maintain the invariant that the alarm
