@@ -256,11 +256,35 @@ setup_e_table (ECalListView *cal_list_view)
 	e_table_extras_add_cell (extras, "classification", popup_cell);
 	g_object_unref (popup_cell);
 
+	/* Status field. */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	g_object_set (
+		cell,
+		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		NULL);
+
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	g_object_unref (cell);
+
+	strings = cal_comp_util_get_status_list_for_kind (e_cal_model_get_component_kind (model));
+	e_cell_combo_set_popdown_strings (
+		E_CELL_COMBO (popup_cell),
+		strings);
+	g_list_free (strings);
+
+	e_table_extras_add_cell (extras, "calstatus", popup_cell);
+	g_object_unref (popup_cell);
+
 	/* Sorting */
 
 	e_table_extras_add_compare (
 		extras, "date-compare",
 		e_cell_date_edit_compare_cb);
+	e_table_extras_add_compare (
+		extras, "status-compare",
+		e_cal_model_util_status_compare_cb);
 
 	/* set proper format component for a default 'date' cell renderer */
 	cell = e_table_extras_get_cell (extras, "date");

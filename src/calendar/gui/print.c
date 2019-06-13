@@ -36,6 +36,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include "comp-util.h"
 #include "e-cal-model.h"
 #include "e-day-view.h"
 #include "e-day-view-layout.h"
@@ -3606,22 +3607,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 		/* Status */
 		status = e_cal_component_get_status (comp);
 		if (status != I_CAL_STATUS_NONE) {
-			switch (status) {
-			case I_CAL_STATUS_NEEDSACTION:
-				status_string = _("Not Started");
-				break;
-			case I_CAL_STATUS_INPROCESS:
-				status_string = _("In Progress");
-				break;
-			case I_CAL_STATUS_COMPLETED:
-				status_string = _("Completed");
-				break;
-			case I_CAL_STATUS_CANCELLED:
-				status_string = _("Cancelled");
-				break;
-			default:
-				break;
-			}
+			status_string = cal_comp_util_status_to_localized_string (I_CAL_VTODO_COMPONENT, status);
 
 			if (status_string) {
 				gchar *status_text = g_strdup_printf (

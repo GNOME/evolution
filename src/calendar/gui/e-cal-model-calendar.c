@@ -251,6 +251,7 @@ cal_model_calendar_store_values_from_model (ECalModel *model,
 	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_CALENDAR_FIELD_DTEND, row);
 	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_CALENDAR_FIELD_LOCATION, row);
 	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY, row);
+	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_CALENDAR_FIELD_STATUS, row);
 }
 
 static void
@@ -265,6 +266,7 @@ cal_model_calendar_fill_component_from_values (ECalModel *model,
 	set_dtend (model, comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_CALENDAR_FIELD_DTEND));
 	set_location (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_CALENDAR_FIELD_LOCATION));
 	set_transparency (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY));
+	e_cal_model_util_set_status (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_CALENDAR_FIELD_STATUS));
 }
 
 static gint
@@ -300,6 +302,8 @@ cal_model_calendar_value_at (ETableModel *etm,
 		return get_location (comp_data);
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
 		return get_transparency (comp_data);
+	case E_CAL_MODEL_CALENDAR_FIELD_STATUS:
+		return e_cal_model_util_get_status (comp_data);
 	}
 
 	return (gpointer) "";
@@ -352,6 +356,9 @@ cal_model_calendar_set_value_at (ETableModel *etm,
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
 		set_transparency (comp_data, value);
 		break;
+	case E_CAL_MODEL_CALENDAR_FIELD_STATUS:
+		e_cal_model_util_set_status (comp_data, value);
+		break;
 	}
 
 	e_cal_model_modify_component (E_CAL_MODEL (model), comp_data, mod);
@@ -380,6 +387,7 @@ cal_model_calendar_is_cell_editable (ETableModel *etm,
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
+	case E_CAL_MODEL_CALENDAR_FIELD_STATUS:
 		return TRUE;
 	}
 
@@ -402,6 +410,8 @@ cal_model_calendar_duplicate_value (ETableModel *etm,
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
 		return g_strdup (value);
+	case E_CAL_MODEL_CALENDAR_FIELD_STATUS:
+		return (gpointer) value;
 	}
 
 	return NULL;
@@ -426,6 +436,7 @@ cal_model_calendar_free_value (ETableModel *etm,
 		break;
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
+	case E_CAL_MODEL_CALENDAR_FIELD_STATUS:
 		break;
 	}
 }
@@ -445,6 +456,8 @@ cal_model_calendar_initialize_value (ETableModel *etm,
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
 		return g_strdup ("");
+	case E_CAL_MODEL_CALENDAR_FIELD_STATUS:
+		return (gpointer) "";
 	}
 
 	return NULL;
@@ -465,6 +478,7 @@ cal_model_calendar_value_is_empty (ETableModel *etm,
 		return value ? FALSE : TRUE;
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
+	case E_CAL_MODEL_CALENDAR_FIELD_STATUS:
 		return string_is_empty (value);
 	}
 
@@ -486,6 +500,7 @@ cal_model_calendar_value_to_string (ETableModel *etm,
 		return e_cal_model_date_value_to_string (E_CAL_MODEL (etm), value);
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
+	case E_CAL_MODEL_CALENDAR_FIELD_STATUS:
 		return g_strdup (value);
 	}
 

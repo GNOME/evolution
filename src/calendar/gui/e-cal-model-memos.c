@@ -56,7 +56,7 @@ cal_model_memos_store_values_from_model (ECalModel *model,
 	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
 	g_return_if_fail (values != NULL);
 
-	/* nothing is stored from UI currently */
+	e_cal_model_util_set_value (values, source_model, E_CAL_MODEL_MEMOS_FIELD_STATUS, row);
 }
 
 static void
@@ -79,6 +79,8 @@ cal_model_memos_fill_component_from_values (ECalModel *model,
 	}
 
 	g_clear_object (&dtstart);
+
+	e_cal_model_util_set_status (comp_data, e_cal_model_util_get_value (values, E_CAL_MODEL_MEMOS_FIELD_STATUS));
 }
 
 static gint
@@ -107,6 +109,11 @@ cal_model_memos_value_at (ETableModel *etm,
 	if (!comp_data)
 		return (gpointer) "";
 
+	switch (col) {
+	case E_CAL_MODEL_MEMOS_FIELD_STATUS:
+		return e_cal_model_util_get_status (comp_data);
+	}
+
 	return (gpointer) "";
 }
 
@@ -134,6 +141,12 @@ cal_model_memos_set_value_at (ETableModel *etm,
 		return;
 	}
 
+	switch (col) {
+	case E_CAL_MODEL_MEMOS_FIELD_STATUS:
+		e_cal_model_util_set_status (comp_data, value);
+		break;
+	}
+
 	e_cal_model_modify_component (E_CAL_MODEL (model), comp_data, E_CAL_OBJ_MOD_ALL);
 }
 
@@ -143,7 +156,6 @@ cal_model_memos_is_cell_editable (ETableModel *etm,
                                   gint row)
 {
 	ECalModelMemos *model = (ECalModelMemos *) etm;
-	gboolean retval = FALSE;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL_MEMOS (model), FALSE);
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_MEMOS_FIELD_LAST, FALSE);
@@ -153,9 +165,14 @@ cal_model_memos_is_cell_editable (ETableModel *etm,
 		return FALSE;
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		retval = table_model_parent_interface->is_cell_editable (etm, col, row);
+		return table_model_parent_interface->is_cell_editable (etm, col, row);
 
-	return retval;
+	switch (col) {
+	case E_CAL_MODEL_MEMOS_FIELD_STATUS:
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 static gpointer
@@ -167,6 +184,11 @@ cal_model_memos_duplicate_value (ETableModel *etm,
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return table_model_parent_interface->duplicate_value (etm, col, value);
+
+	switch (col) {
+	case E_CAL_MODEL_MEMOS_FIELD_STATUS:
+		return (gpointer) value;
+	}
 
 	return NULL;
 }
@@ -182,6 +204,11 @@ cal_model_memos_free_value (ETableModel *etm,
 		table_model_parent_interface->free_value (etm, col, value);
 		return;
 	}
+
+	switch (col) {
+	case E_CAL_MODEL_MEMOS_FIELD_STATUS:
+		break;
+	}
 }
 
 static gpointer
@@ -192,6 +219,11 @@ cal_model_memos_initialize_value (ETableModel *etm,
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return table_model_parent_interface->initialize_value (etm, col);
+
+	switch (col) {
+	case E_CAL_MODEL_MEMOS_FIELD_STATUS:
+		return (gpointer) "";
+	}
 
 	return NULL;
 }
@@ -206,6 +238,11 @@ cal_model_memos_value_is_empty (ETableModel *etm,
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return table_model_parent_interface->value_is_empty (etm, col, value);
 
+	switch (col) {
+	case E_CAL_MODEL_MEMOS_FIELD_STATUS:
+		return string_is_empty (value);
+	}
+
 	return TRUE;
 }
 
@@ -218,6 +255,11 @@ cal_model_memos_value_to_string (ETableModel *etm,
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
 		return table_model_parent_interface->value_to_string (etm, col, value);
+
+	switch (col) {
+	case E_CAL_MODEL_MEMOS_FIELD_STATUS:
+		return g_strdup (value);
+	}
 
 	return g_strdup ("");
 }

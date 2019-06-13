@@ -152,86 +152,6 @@ task_table_priority_compare_cb (gconstpointer a,
 	return (priority1 < priority2) ? -1 : (priority1 > priority2);
 }
 
-static const gchar *
-get_cache_str (gpointer cmp_cache,
-               const gchar *str)
-{
-	const gchar *value;
-
-	if (!cmp_cache || !str)
-		return str;
-
-	value = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, str);
-	if (!value) {
-		gchar *ckey;
-
-		ckey = g_utf8_collate_key (str, -1);
-		e_table_sorting_utils_add_to_cmp_cache (cmp_cache, (gchar *) str, ckey);
-		value = ckey;
-	}
-
-	return value;
-}
-
-static gboolean
-same_cache_string (gpointer cmp_cache,
-                   const gchar *str_a,
-                   const gchar *str_b)
-{
-	if (!cmp_cache)
-		return g_utf8_collate (str_a, str_b) == 0;
-
-	str_b = get_cache_str (cmp_cache, str_b);
-
-	g_return_val_if_fail (str_a != NULL, FALSE);
-	g_return_val_if_fail (str_b != NULL, FALSE);
-
-	return strcmp (str_a, str_b) == 0;
-}
-
-static gint
-task_table_status_compare_cb (gconstpointer a,
-                              gconstpointer b,
-                              gpointer cmp_cache)
-{
-	const gchar *string_a = a;
-	const gchar *string_b = b;
-	gint status_a = -2;
-	gint status_b = -2;
-
-	if (string_a == NULL || *string_a == '\0')
-		status_a = -1;
-	else {
-		const gchar *cache_str = get_cache_str (cmp_cache, string_a);
-
-		if (same_cache_string (cmp_cache, cache_str, _("Not Started")))
-			status_a = 0;
-		else if (same_cache_string (cmp_cache, cache_str, _("In Progress")))
-			status_a = 1;
-		else if (same_cache_string (cmp_cache, cache_str, _("Completed")))
-			status_a = 2;
-		else if (same_cache_string (cmp_cache, cache_str, _("Cancelled")))
-			status_a = 3;
-	}
-
-	if (string_b == NULL || *string_b == '\0')
-		status_b = -1;
-	else {
-		const gchar *cache_str = get_cache_str (cmp_cache, string_b);
-
-		if (same_cache_string (cmp_cache, cache_str, _("Not Started")))
-			status_b = 0;
-		else if (same_cache_string (cmp_cache, cache_str, _("In Progress")))
-			status_b = 1;
-		else if (same_cache_string (cmp_cache, cache_str, _("Completed")))
-			status_b = 2;
-		else if (same_cache_string (cmp_cache, cache_str, _("Cancelled")))
-			status_b = 3;
-	}
-
-	return (status_a < status_b) ? -1 : (status_a > status_b);
-}
-
 /* Deletes all of the selected components in the table */
 static void
 delete_selected_components (ETaskTable *task_table)
@@ -630,11 +550,7 @@ task_table_constructed (GObject *object)
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
 	g_object_unref (cell);
 
-	strings = NULL;
-	strings = g_list_append (strings, (gchar *) _("Not Started"));
-	strings = g_list_append (strings, (gchar *) _("In Progress"));
-	strings = g_list_append (strings, (gchar *) _("Completed"));
-	strings = g_list_append (strings, (gchar *) _("Cancelled"));
+	strings = cal_comp_util_get_status_list_for_kind (e_cal_model_get_component_kind (model));
 	e_cell_combo_set_popdown_strings (
 		E_CELL_COMBO (popup_cell),
 		strings);
@@ -654,7 +570,7 @@ task_table_constructed (GObject *object)
 		task_table_priority_compare_cb);
 	e_table_extras_add_compare (
 		extras, "status-compare",
-		task_table_status_compare_cb);
+		e_cal_model_util_status_compare_cb);
 
 	/* Create pixmaps */
 

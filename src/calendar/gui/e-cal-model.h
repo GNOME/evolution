@@ -405,6 +405,14 @@ void		e_cal_model_util_set_value	(GHashTable *values,
 						 gint row);
 gpointer	e_cal_model_util_get_value	(GHashTable *values,
 						 gint column);
+gpointer	e_cal_model_util_get_status	(ECalModelComponent *comp_data);
+ICalPropertyStatus
+		e_cal_model_util_set_status	(ECalModelComponent *comp_data,
+						 gconstpointer value);
+gint		e_cal_model_util_status_compare_cb
+						(gconstpointer a,
+						 gconstpointer b,
+						 gpointer cmp_cache);
 
 G_END_DECLS
 

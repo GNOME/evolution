@@ -4189,3 +4189,138 @@ e_cal_model_emit_object_created (ECalModel *model,
 
 	g_signal_emit (model, signals[OBJECT_CREATED], 0, where);
 }
+
+gpointer
+e_cal_model_util_get_status (ECalModelComponent *comp_data)
+{
+	ICalProperty *prop;
+	const gchar *res = "";
+
+	g_return_val_if_fail (comp_data != NULL, (gpointer) "");
+
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
+	if (prop) {
+		ICalPropertyStatus status;
+
+		status = i_cal_property_get_status (prop);
+
+		g_object_unref (prop);
+
+		res = cal_comp_util_status_to_localized_string (i_cal_component_isa (comp_data->icalcomp), status);
+		if (!res)
+			res = "";
+	}
+
+	return (gpointer) res;
+}
+
+ICalPropertyStatus
+e_cal_model_util_set_status (ECalModelComponent *comp_data,
+			     gconstpointer value)
+{
+	ICalProperty *prop;
+	ICalPropertyStatus status;
+	const gchar *str_value = value;
+
+	g_return_val_if_fail (comp_data != NULL, I_CAL_STATUS_NONE);
+
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
+
+	if (!str_value || !*str_value) {
+		if (prop) {
+			i_cal_component_remove_property (comp_data->icalcomp, prop);
+			g_object_unref (prop);
+		}
+
+		return I_CAL_STATUS_NONE;
+	}
+
+	status = cal_comp_util_localized_string_to_status (i_cal_component_isa (comp_data->icalcomp), str_value, NULL, NULL);
+
+	if (status == I_CAL_STATUS_NONE) {
+		if (prop) {
+			i_cal_component_remove_property (comp_data->icalcomp, prop);
+			g_object_unref (prop);
+		}
+	} else if (prop) {
+		i_cal_property_set_status (prop, status);
+		g_object_unref (prop);
+	} else {
+		prop = i_cal_property_new_status (status);
+		i_cal_component_take_property (comp_data->icalcomp, prop);
+	}
+
+	return status;
+}
+
+static const gchar *
+get_cmp_cache_str (gpointer cmp_cache,
+		   const gchar *str)
+{
+	const gchar *value;
+
+	if (!cmp_cache || !str)
+		return str;
+
+	value = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, str);
+	if (!value) {
+		gchar *ckey;
+
+		ckey = g_utf8_collate_key (str, -1);
+		e_table_sorting_utils_add_to_cmp_cache (cmp_cache, (gchar *) str, ckey);
+		value = ckey;
+	}
+
+	return value;
+}
+
+static gint
+cmp_cache_strings (gconstpointer str_a,
+		   gconstpointer str_b,
+		   gpointer cmp_cache)
+{
+	if (!cmp_cache)
+		return g_utf8_collate (str_a, str_b);
+
+	str_b = get_cmp_cache_str (cmp_cache, str_b);
+
+	g_return_val_if_fail (str_a != NULL, 0);
+	g_return_val_if_fail (str_b != NULL, 0);
+
+	return g_strcmp0 (str_a, str_b);
+}
+
+gint
+e_cal_model_util_status_compare_cb (gconstpointer a,
+				    gconstpointer b,
+				    gpointer cmp_cache)
+{
+	const gchar *string_a = a;
+	const gchar *string_b = b;
+	gint status_a = -2;
+	gint status_b = -2;
+
+	if (!string_a || !*string_a) {
+		status_a = -1;
+	} else {
+		const gchar *cache_str = get_cmp_cache_str (cmp_cache, string_a);
+
+		status_a = cal_comp_util_localized_string_to_status (I_CAL_ANY_COMPONENT, cache_str, cmp_cache_strings, cmp_cache);
+
+		if (status_a == I_CAL_STATUS_NONE)
+			status_a = -1;
+	}
+
+	if (string_b == NULL || *string_b == '\0')
+		status_b = -1;
+	else {
+		const gchar *cache_str = get_cmp_cache_str (cmp_cache, string_b);
+
+		status_b = cal_comp_util_localized_string_to_status (I_CAL_ANY_COMPONENT, cache_str, cmp_cache_strings, cmp_cache);
+
+		if (status_b == I_CAL_STATUS_NONE)
+			status_b = -1;
+	}
+
+	return status_a - status_b;
+}

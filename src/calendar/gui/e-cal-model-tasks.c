@@ -268,38 +268,6 @@ is_status_canceled (ECalModelComponent *comp_data)
 }
 
 static gpointer
-get_status (ECalModelComponent *comp_data)
-{
-	ICalProperty *prop;
-
-	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
-	if (prop) {
-		ICalPropertyStatus status;
-
-		status = i_cal_property_get_status (prop);
-
-		g_object_unref (prop);
-
-		switch (status) {
-		case I_CAL_STATUS_NONE:
-			return (gpointer) "";
-		case I_CAL_STATUS_NEEDSACTION:
-			return (gpointer) _("Not Started");
-		case I_CAL_STATUS_INPROCESS:
-			return (gpointer) _("In Progress");
-		case I_CAL_STATUS_COMPLETED:
-			return (gpointer) _("Completed");
-		case I_CAL_STATUS_CANCELLED:
-			return (gpointer) _("Cancelled");
-		default:
-			return (gpointer) "";
-		}
-	}
-
-	return (gpointer) "";
-}
-
-static gpointer
 get_url (ECalModelComponent *comp_data)
 {
 	ICalProperty *prop;
@@ -565,64 +533,20 @@ set_status (ECalModelComponent *comp_data,
             const gchar *value)
 {
 	ICalPropertyStatus status;
-	ICalProperty *prop;
 
-	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_STATUS_PROPERTY);
+	status = e_cal_model_util_set_status (comp_data, value);
 
-	/* an empty string is the same as 'None' */
-	if (!value[0]) {
-		g_clear_object (&prop);
+	if (status == I_CAL_STATUS_NONE)
 		return;
-	}
 
-	/* Translators: "None" for task's status */
-	if (!e_util_utf8_strcasecmp (value, C_("cal-task-status", "None"))) {
-		g_clear_object (&prop);
-		return;
-	} else if (!e_util_utf8_strcasecmp (value, _("Not Started")))
-		status = I_CAL_STATUS_NEEDSACTION;
-	else if (!e_util_utf8_strcasecmp (value, _("In Progress")))
-		status = I_CAL_STATUS_INPROCESS;
-	else if (!e_util_utf8_strcasecmp (value, _("Completed")))
-		status = I_CAL_STATUS_COMPLETED;
-	else if (!e_util_utf8_strcasecmp (value, _("Cancelled")))
-		status = I_CAL_STATUS_CANCELLED;
-	else {
-		g_clear_object (&prop);
-		g_warning ("Invalid status: %s\n", value);
-		return;
-	}
-
-	if (prop) {
-		i_cal_property_set_status (prop, status);
-		g_object_unref (prop);
-	} else {
-		prop = i_cal_property_new_status (status);
-		i_cal_component_take_property (comp_data->icalcomp, prop);
-	}
-
-	switch (status) {
-	case I_CAL_STATUS_NEEDSACTION:
+	if (status == I_CAL_STATUS_NEEDSACTION)
 		ensure_task_not_complete (comp_data, TRUE);
-		break;
-
-	case I_CAL_STATUS_INPROCESS:
+	else if (status == I_CAL_STATUS_INPROCESS)
 		ensure_task_partially_complete (comp_data);
-		break;
-
-	case I_CAL_STATUS_CANCELLED:
+	else if (status == I_CAL_STATUS_CANCELLED)
 		ensure_task_not_complete (comp_data, FALSE);
-		break;
-
-	case I_CAL_STATUS_COMPLETED:
+	else if (status == I_CAL_STATUS_COMPLETED)
 		ensure_task_complete (comp_data, -1);
-		break;
-
-	/* to make compiler happy */
-	/* coverity[dead_error_begin] */
-	default:
-		break;
-	}
 }
 
 static void
@@ -955,7 +879,7 @@ cal_model_tasks_value_at (ETableModel *etm,
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 		return get_priority (comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_STATUS :
-		return get_status (comp_data);
+		return e_cal_model_util_get_status (comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_URL :
 		return get_url (comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_LOCATION:

@@ -24,6 +24,7 @@
 #include <e-util/e-util.h>
 
 #include "calendar-config.h"
+#include "comp-util.h"
 #include "e-timezone-entry.h"
 
 #include "e-comp-editor-property-part.h"
@@ -1202,23 +1203,23 @@ ECompEditorPropertyPart *
 e_comp_editor_property_part_status_new (ICalComponentKind kind)
 {
 	ECompEditorPropertyPartPickerMap map_vevent[] = {
-		{ I_CAL_STATUS_NONE,      NC_("ECompEditor", "None"),      TRUE,  NULL },
-		{ I_CAL_STATUS_TENTATIVE, NC_("ECompEditor", "Tentative"), FALSE, NULL },
-		{ I_CAL_STATUS_CONFIRMED, NC_("ECompEditor", "Confirmed"), FALSE, NULL },
-		{ I_CAL_STATUS_CANCELLED, NC_("ECompEditor", "Cancelled"), FALSE, NULL }
+		{ I_CAL_STATUS_NONE,      NULL, TRUE,  NULL },
+		{ I_CAL_STATUS_TENTATIVE, NULL, FALSE, NULL },
+		{ I_CAL_STATUS_CONFIRMED, NULL, FALSE, NULL },
+		{ I_CAL_STATUS_CANCELLED, NULL, FALSE, NULL }
 	};
 	ECompEditorPropertyPartPickerMap map_vjournal[] = {
-		{ I_CAL_STATUS_NONE,      NC_("ECompEditor", "None"),      TRUE,  NULL },
-		{ I_CAL_STATUS_DRAFT,     NC_("ECompEditor", "Draft"),     FALSE, NULL },
-		{ I_CAL_STATUS_FINAL,     NC_("ECompEditor", "Final"),     FALSE, NULL },
-		{ I_CAL_STATUS_CANCELLED, NC_("ECompEditor", "Cancelled"), FALSE, NULL }
+		{ I_CAL_STATUS_NONE,      NULL, TRUE,  NULL },
+		{ I_CAL_STATUS_DRAFT,     NULL, FALSE, NULL },
+		{ I_CAL_STATUS_FINAL,     NULL, FALSE, NULL },
+		{ I_CAL_STATUS_CANCELLED, NULL, FALSE, NULL }
 	};
 	ECompEditorPropertyPartPickerMap map_vtodo[] = {
-		{ I_CAL_STATUS_NONE,        NC_("ECompEditor", "Not Started"),  TRUE,  NULL },
-		{ I_CAL_STATUS_NEEDSACTION, NC_("ECompEditor", "Needs Action"), FALSE, NULL },
-		{ I_CAL_STATUS_INPROCESS,   NC_("ECompEditor", "In Progress"),  FALSE, NULL },
-		{ I_CAL_STATUS_COMPLETED,   NC_("ECompEditor", "Completed"),    FALSE, NULL },
-		{ I_CAL_STATUS_CANCELLED,   NC_("ECompEditor", "Cancelled"),    FALSE, NULL }
+		{ I_CAL_STATUS_NONE,        NULL, TRUE,  NULL },
+		{ I_CAL_STATUS_NEEDSACTION, NULL, FALSE, NULL },
+		{ I_CAL_STATUS_INPROCESS,   NULL, FALSE, NULL },
+		{ I_CAL_STATUS_COMPLETED,   NULL, FALSE, NULL },
+		{ I_CAL_STATUS_CANCELLED,   NULL, FALSE, NULL }
 	};
 	ECompEditorPropertyPartPickerMap *map;
 	gint ii, n_elems;
@@ -1242,7 +1243,7 @@ e_comp_editor_property_part_status_new (ICalComponentKind kind)
 	}
 
 	for (ii = 0; ii < n_elems; ii++) {
-		map[ii].description = g_dpgettext2 (GETTEXT_PACKAGE, "ECompEditor", map[ii].description);
+		map[ii].description = cal_comp_util_status_to_localized_string (kind, map[ii].value);
 	}
 
 	return e_comp_editor_property_part_picker_with_map_new (map, n_elems,

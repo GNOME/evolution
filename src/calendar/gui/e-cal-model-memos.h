@@ -56,7 +56,8 @@ typedef struct _ECalModelMemosPrivate ECalModelMemosPrivate;
 typedef enum {
 	/* If you add new items here or reorder them, you have to update the
 	 * .etspec files for the tables using this model */
-	E_CAL_MODEL_MEMOS_FIELD_LAST = E_CAL_MODEL_FIELD_LAST
+	E_CAL_MODEL_MEMOS_FIELD_STATUS = E_CAL_MODEL_FIELD_LAST,
+	E_CAL_MODEL_MEMOS_FIELD_LAST
 
 } ECalModelMemoField;
 

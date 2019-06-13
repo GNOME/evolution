@@ -31,6 +31,7 @@
 #include "shell/e-shell-utils.h"
 
 #include "calendar-config.h"
+#include "comp-util.h"
 #include "itip-utils.h"
 
 #include "e-cal-component-preview.h"
@@ -331,23 +332,10 @@ cal_component_preview_write_html (ECalComponentPreview *preview,
 	prop = i_cal_component_get_first_property (icomp, I_CAL_STATUS_PROPERTY);
 	if (prop) {
 		status = e_cal_component_get_status (comp);
-		switch (status) {
-		case I_CAL_STATUS_INPROCESS :
-			tmp = _("In Progress");
-			break;
-		case I_CAL_STATUS_COMPLETED :
-			tmp = _("Completed");
-			break;
-		case I_CAL_STATUS_CANCELLED :
-			tmp = _("Cancelled");
-			break;
-		case I_CAL_STATUS_NONE :
-		default :
-			tmp = _("Not Started");
-			break;
-		}
+		tmp = cal_comp_util_status_to_localized_string (i_cal_component_isa (icomp), status);
 
-		cal_component_preview_add_table_line (buffer, _("Status:"), tmp);
+		if (tmp)
+			cal_component_preview_add_table_line (buffer, _("Status:"), tmp);
 
 		g_object_unref (prop);
 	}

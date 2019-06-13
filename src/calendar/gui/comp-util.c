@@ -1601,3 +1601,125 @@ cal_comp_util_get_attendee_comments (ICalComponent *icomp)
 
 	return NULL;
 }
+
+static struct _status_values {
+	ICalComponentKind kind;
+	ICalPropertyStatus status;
+	const gchar *text;
+} status_values[] = {
+	{ I_CAL_VEVENT_COMPONENT,   I_CAL_STATUS_NONE,        NC_("iCalendarStatus", "None") },
+	{ I_CAL_VEVENT_COMPONENT,   I_CAL_STATUS_TENTATIVE,   NC_("iCalendarStatus", "Tentative") },
+	{ I_CAL_VEVENT_COMPONENT,   I_CAL_STATUS_CONFIRMED,   NC_("iCalendarStatus", "Confirmed") },
+	{ I_CAL_VJOURNAL_COMPONENT, I_CAL_STATUS_NONE,        NC_("iCalendarStatus", "None") },
+	{ I_CAL_VJOURNAL_COMPONENT, I_CAL_STATUS_DRAFT,       NC_("iCalendarStatus", "Draft") },
+	{ I_CAL_VJOURNAL_COMPONENT, I_CAL_STATUS_FINAL,       NC_("iCalendarStatus", "Final") },
+	{ I_CAL_VTODO_COMPONENT,    I_CAL_STATUS_NONE,        NC_("iCalendarStatus", "Not Started") },
+	{ I_CAL_VTODO_COMPONENT,    I_CAL_STATUS_NEEDSACTION, NC_("iCalendarStatus", "Needs Action") },
+	{ I_CAL_VTODO_COMPONENT,    I_CAL_STATUS_INPROCESS,   NC_("iCalendarStatus", "In Progress") },
+	{ I_CAL_VTODO_COMPONENT,    I_CAL_STATUS_COMPLETED,   NC_("iCalendarStatus", "Completed") },
+	{ I_CAL_ANY_COMPONENT,      I_CAL_STATUS_CANCELLED,   NC_("iCalendarStatus", "Cancelled") }
+};
+
+/**
+ * cal_comp_util_status_to_localized_string:
+ * @kind: an #ICalComponentKind of a component the @status belongs to
+ * @status: an #ICalPropertyStatus
+ *
+ * Returns localized text, suitable for user-visible strings,
+ * corresponding to the @status value. The @kind is used to
+ * distinguish how to localize certain values.
+ *
+ * To transform the returned string back to the enum value
+ * use cal_comp_util_localized_string_to_status().
+ *
+ * Returns: (nullable): the @status as a localized string, or %NULL,
+ *    when such @status could not be found for the given @kind
+ *
+ * Since: 3.34
+ **/
+const gchar *
+cal_comp_util_status_to_localized_string (ICalComponentKind kind,
+					  ICalPropertyStatus status)
+{
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (status_values); ii++) {
+		if ((status_values[ii].kind == kind ||
+		     status_values[ii].kind == I_CAL_ANY_COMPONENT ||
+		     kind == I_CAL_ANY_COMPONENT) &&
+		     status_values[ii].status == status)
+			return g_dpgettext2 (GETTEXT_PACKAGE, "iCalendarStatus", status_values[ii].text);
+	}
+
+	return NULL;
+}
+
+/**
+ * cal_comp_util_localized_string_to_status:
+ * @kind: an #ICalComponentKind of a component the status belongs to
+ * @localized_string: (nullable): localized text for the status, or %NULL
+ * @cmp_func: (scope call) (closure user_data) (nullable): optional compare function, can be %NULL
+ * @user_data: user data for the @cmp_func
+ *
+ * Converts @localized_string returned from cal_comp_util_status_to_localized_string()
+ * back to an #ICalPropertyStatus enum. Returns %I_CAL_STATUS_NONE, when
+ * the @localized_string cannot be found for the given @kind.
+ *
+ * Returns: an #ICalPropertyStatus corresponding to given @kind and @localized_string,
+ *    or %I_CAL_STATUS_NONE, when the value cannot be found.
+ *
+ * Since: 3.34
+ **/
+ICalPropertyStatus
+cal_comp_util_localized_string_to_status (ICalComponentKind kind,
+					  const gchar *localized_string,
+					  GCompareDataFunc cmp_func,
+					  gpointer user_data)
+{
+	gint ii;
+
+	if (!localized_string || !*localized_string)
+		return I_CAL_STATUS_NONE;
+
+	if (!cmp_func) {
+		cmp_func = (GCompareDataFunc) e_util_utf8_strcasecmp;
+		user_data = NULL;
+	}
+
+	for (ii = 0; ii < G_N_ELEMENTS (status_values); ii++) {
+		if ((status_values[ii].kind == kind ||
+		     status_values[ii].kind == I_CAL_ANY_COMPONENT ||
+		     kind == I_CAL_ANY_COMPONENT) &&
+		     cmp_func (localized_string, g_dpgettext2 (GETTEXT_PACKAGE, "iCalendarStatus", status_values[ii].text), user_data) == 0)
+			return status_values[ii].status;
+	}
+
+	return I_CAL_STATUS_NONE;
+}
+
+/**
+ * cal_comp_util_get_status_list_for_kind:
+ * @kind: an #ICalComponentKind
+ *
+ * Returns: (element-type utf8) (transfer container): a #GList of localized strings
+ *    corresponding to #ICalPropertyStatus usable for the @kind. The caller owns
+ *    the returned #GList, but not the items of it. In other words, free the returned
+ *    #GList with g_list_free(), when no longer needed.
+ *
+ * Since: 3.34
+ **/
+GList *
+cal_comp_util_get_status_list_for_kind (ICalComponentKind kind)
+{
+	GList *items = NULL;
+	gint ii;
+
+	for (ii = 0; ii < G_N_ELEMENTS (status_values); ii++) {
+		if ((status_values[ii].kind == kind ||
+		     status_values[ii].kind == I_CAL_ANY_COMPONENT ||
+		     kind == I_CAL_ANY_COMPONENT))
+			items = g_list_prepend (items, (gpointer) g_dpgettext2 (GETTEXT_PACKAGE, "iCalendarStatus", status_values[ii].text));
+	}
+
+	return g_list_reverse (items);
+}

@@ -154,4 +154,15 @@ gchar *		cal_comp_util_dup_parameter_xvalue
 						 const gchar *name);
 gchar *		cal_comp_util_get_attendee_comments
 						(ICalComponent *icomp);
+const gchar *	cal_comp_util_status_to_localized_string
+						(ICalComponentKind kind,
+						 ICalPropertyStatus status);
+ICalPropertyStatus
+		cal_comp_util_localized_string_to_status
+						(ICalComponentKind kind,
+						 const gchar *localized_string,
+						 GCompareDataFunc cmp_func,
+						 gpointer user_data);
+GList *		cal_comp_util_get_status_list_for_kind /* const gchar * */
+						(ICalComponentKind kind);
 #endif
