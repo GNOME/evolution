@@ -138,6 +138,58 @@ memo_table_get_current_time (ECellDateEdit *ecde,
 	return tmp_tm;
 }
 
+static void
+memo_table_date_edit_before_popup_cb (ECellDateEdit *cell_date_edit,
+				      gint row,
+				      gint view_col,
+				      gpointer user_data)
+{
+	EMemoTable *memo_table = user_data;
+	ECellPopup *ecp;
+	ETableItem *eti;
+	ETableCol *ecol;
+	gint col;
+	gboolean date_only;
+
+	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
+
+	ecp = E_CELL_POPUP (cell_date_edit);
+	eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
+	ecol = e_table_header_get_column (eti->header, view_col);
+	col = ecol->spec->model_col;
+
+	date_only = col == E_CAL_MODEL_FIELD_DTSTART;
+
+	if (date_only && e_table_get_cursor_row (E_TABLE (memo_table)) != -1) {
+		ECalModel *model;
+		ECalModelComponent *comp_data;
+		ESelectionModel *esm;
+
+		esm = e_table_get_selection_model (E_TABLE (memo_table));
+		if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
+			row = e_sorter_sorted_to_model (esm->sorter, row);
+
+		model = e_memo_table_get_model (memo_table);
+		comp_data = e_cal_model_get_component_at (model, row);
+		if (comp_data && comp_data->icalcomp) {
+			ICalProperty *prop;
+
+			prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTSTART_PROPERTY);
+			if (prop) {
+				ICalTime *dtstart;
+
+				dtstart = i_cal_property_get_dtstart (prop);
+				date_only = !dtstart || i_cal_time_is_date (dtstart);
+				g_clear_object (&dtstart);
+			}
+
+			g_clear_object (&prop);
+		}
+	}
+
+	g_object_set (G_OBJECT (cell_date_edit), "show-time", !date_only, NULL);
+}
+
 /* Deletes all of the selected components in the table */
 static void
 delete_selected_components (EMemoTable *memo_table)
@@ -322,6 +374,9 @@ memo_table_constructed (GObject *object)
 		popup_cell, "use-24-hour-format",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (popup_cell, "before-popup",
+		G_CALLBACK (memo_table_date_edit_before_popup_cb), memo_table);
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	g_object_unref (popup_cell);
