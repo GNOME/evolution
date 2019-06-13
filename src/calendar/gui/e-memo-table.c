@@ -179,7 +179,7 @@ memo_table_date_edit_before_popup_cb (ECellDateEdit *cell_date_edit,
 				ICalTime *dtstart;
 
 				dtstart = i_cal_property_get_dtstart (prop);
-				date_only = !dtstart || i_cal_time_is_date (dtstart);
+				date_only = !dtstart || i_cal_time_is_null_time (dtstart) || i_cal_time_is_date (dtstart);
 				g_clear_object (&dtstart);
 			}
 
