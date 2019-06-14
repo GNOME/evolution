@@ -30,6 +30,9 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
+#ifdef GDK_WINDOWING_WAYLAND
+#include "gdk/gdkwayland.h"
+#endif /* GDK_WINDOWING_WAYLAND */
 
 #include "e-emoticon-chooser.h"
 
@@ -120,19 +123,50 @@ emoticon_tool_button_elide_underscores (const gchar *original)
 }
 
 static void
-emoticon_tool_button_reposition_window (EEmoticonToolButton *button)
+emoticon_tool_button_clamp_on_monitor (EEmoticonToolButton *button,
+                                       gint *x,
+                                       gint *y)
 {
-	GdkScreen *screen;
 	GdkWindow *window;
-	GdkRectangle monitor;
+	GdkScreen *screen;
 	GtkAllocation allocation;
 	gint monitor_num;
-	gint x, y, width, height;
+	GdkRectangle monitor;
+	gint width, height;
+
+#ifdef GDK_WINDOWING_WAYLAND
+	/* That code only works on backends which expose global coordinates,
+	 * but not on Wayland. On Wayland, `gdk_window_get_origin()` will
+	 * return coordinates relative to the toplevel window, not to the
+	 * monitor, so clamping the values against the monitor size and
+	 * location won't work and prevents the window from showing on
+	 * screen when on a secondary monitor.
+         */
+	if (GDK_IS_WAYLAND_DISPLAY (gtk_widget_get_display (GTK_WIDGET (button))))
+		return;
+#endif /* GDK_WINDOWING_WAYLAND */
+
+	gtk_widget_get_allocation (button->priv->window, &allocation);
+	width = allocation.width;
+	height = allocation.height;
 
 	screen = gtk_widget_get_screen (GTK_WIDGET (button));
 	window = gtk_widget_get_window (GTK_WIDGET (button));
 	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
 	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
+
+	*x = CLAMP (*x, monitor.x, monitor.x + monitor.width - width);
+	*y = CLAMP (*y, monitor.y, monitor.y + monitor.height - height);
+}
+
+static void
+emoticon_tool_button_reposition_window (EEmoticonToolButton *button)
+{
+	GdkWindow *window;
+	GtkAllocation allocation;
+	gint x, y, width, height;
+
+	window = gtk_widget_get_window (GTK_WIDGET (button));
 
 	gdk_window_get_origin (window, &x, &y);
 
@@ -142,12 +176,7 @@ emoticon_tool_button_reposition_window (EEmoticonToolButton *button)
 		y += allocation.y;
 	}
 
-	gtk_widget_get_allocation (button->priv->window, &allocation);
-	width = allocation.width;
-	height = allocation.height;
-
-	x = CLAMP (x, monitor.x, monitor.x + monitor.width - width);
-	y = CLAMP (y, monitor.y, monitor.y + monitor.height - height);
+	emoticon_tool_button_clamp_on_monitor (button, &x, &y);
 
 	gtk_window_move (GTK_WINDOW (button->priv->window), x, y);
 }
