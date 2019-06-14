@@ -380,8 +380,7 @@ emoticon_tool_button_popup (EEmoticonToolButton *button)
 		gtk_window_set_transient_for (GTK_WINDOW (button->priv->window), GTK_WINDOW (toplevel));
 
 	/* Try to grab the pointer and keyboard. */
-	gtk_widget_realize (button->priv->window);
-	window = gtk_widget_get_window (button->priv->window);
+	window = gtk_widget_get_window (toplevel);
 	grab_status = !keyboard ||
 		gdk_device_grab (
 			keyboard, window,
