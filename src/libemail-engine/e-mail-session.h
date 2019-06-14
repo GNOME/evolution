@@ -88,8 +88,11 @@ struct _EMailSessionClass {
 						(EMailSession *session,
 						 guint flags, /* bit-or of CamelRecipientCertificateFlags */
 						 const gchar *email_address);
+	void		(*connect_store)	(EMailSession *session,
+						 CamelStore *store);
+
 	/* Padding for future expansion */
-	gpointer reserved[10];
+	gpointer reserved[9];
 };
 
 GType		e_mail_session_get_type		(void);
@@ -175,6 +178,9 @@ void		e_mail_session_unmark_service_used
 void		e_mail_session_emit_allow_auth_prompt
 						(EMailSession *session,
 						 ESource *source);
+void		e_mail_session_emit_connect_store
+						(EMailSession *session,
+						 CamelStore *store);
 
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_service_to_source
