@@ -30,6 +30,9 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
+#ifdef GDK_WINDOWING_WAYLAND
+#include "gdk/gdkwayland.h"
+#endif /* GDK_WINDOWING_WAYLAND */
 
 #include "e-emoticon-chooser.h"
 
@@ -340,6 +343,17 @@ emoticon_tool_button_toggled (GtkToggleToolButton *button)
 			E_EMOTICON_TOOL_BUTTON (button));
 }
 
+static GdkWindow *
+emoticon_tool_button_get_grab_window (EEmoticonToolButton *button)
+{
+#ifdef GDK_WINDOWING_WAYLAND
+	if (GDK_IS_WAYLAND_DISPLAY (gtk_widget_get_display (GTK_WIDGET (button))))
+		return gtk_widget_get_window (button->priv->window);
+#endif /* GDK_WINDOWING_WAYLAND */
+
+	return gtk_widget_get_window (gtk_widget_get_toplevel (GTK_WIDGET (button)));
+}
+
 static void
 emoticon_tool_button_popup (EEmoticonToolButton *button)
 {
@@ -381,7 +395,7 @@ emoticon_tool_button_popup (EEmoticonToolButton *button)
 
 	/* Try to grab the pointer and keyboard. */
 	gtk_widget_realize (button->priv->window);
-	window = gtk_widget_get_window (button->priv->window);
+	window = emoticon_tool_button_get_grab_window (button);
 	grab_status = !keyboard ||
 		gdk_device_grab (
 			keyboard, window,
