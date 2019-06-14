@@ -149,6 +149,48 @@ mail_backend_store_operation_done_cb (CamelStore *store,
 }
 
 static void
+mail_backend_store_go_online_done_cb (CamelStore *store,
+				      GAsyncResult *result,
+				      EActivity *activity)
+{
+	CamelService *service;
+
+	service = CAMEL_SERVICE (store);
+
+	if (e_mail_store_go_online_finish (store, result, NULL) &&
+	    camel_service_get_connection_status (service) == CAMEL_SERVICE_CONNECTED) {
+		CamelSession *session;
+
+		session = camel_service_ref_session (service);
+
+		if (E_IS_MAIL_SESSION (session) && camel_session_get_online (session)) {
+			ESourceRegistry *registry;
+			ESource *source;
+			GSettings *settings;
+			gboolean all_on_start;
+
+			settings = e_util_ref_settings ("org.gnome.evolution.mail");
+			all_on_start = g_settings_get_boolean (settings, "send-recv-all-on-start");
+			g_object_unref (settings);
+
+			registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+			source = e_source_registry_ref_source (registry, camel_service_get_uid (service));
+
+			if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_REFRESH) &&
+			    (all_on_start || e_source_refresh_get_enabled (e_source_get_extension (source, E_SOURCE_EXTENSION_REFRESH)))) {
+				e_source_refresh_force_timeout (source);
+			}
+
+			g_clear_object (&source);
+		}
+
+		g_clear_object (&session);
+	}
+
+	g_object_unref (activity);
+}
+
+static void
 mail_backend_local_trash_expunge_done_cb (GObject *source_object,
                                           GAsyncResult *result,
                                           gpointer user_data)
@@ -267,6 +309,8 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 	EMailSession *session;
 	EMailAccountStore *account_store;
 	GQueue queue = G_QUEUE_INIT;
+	GSettings *settings;
+	gboolean with_send_recv;
 
 	if (e_shell_backend_is_started (E_SHELL_BACKEND (backend))) {
 		if (!e_activity_get_cancellable (activity)) {
@@ -279,6 +323,10 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 
 		e_shell_backend_add_activity (E_SHELL_BACKEND (backend), activity);
 	}
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	with_send_recv = g_settings_get_boolean (settings, "send-recv-on-start");
+	g_object_unref (settings);
 
 	session = e_mail_backend_get_session (backend);
 	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
@@ -297,7 +345,7 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 			e_mail_store_go_online (
 				CAMEL_STORE (service), G_PRIORITY_DEFAULT,
 				e_activity_get_cancellable (activity),
-				(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
+				(GAsyncReadyCallback) (with_send_recv ? mail_backend_store_go_online_done_cb : mail_backend_store_operation_done_cb),
 				g_object_ref (activity));
 	}
 }
@@ -977,6 +1025,46 @@ mail_backend_allow_auth_prompt_cb (EMailSession *session,
 }
 
 static void
+mail_backend_connect_store_cb (EMailSession *session,
+			       CamelStore *store,
+			       gpointer user_data)
+{
+	EMailBackend *mail_backend = user_data;
+	GCancellable *cancellable;
+	EActivity *activity;
+	GSettings *settings;
+	gboolean with_send_recv;
+	gchar *description;
+
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_MAIL_BACKEND (mail_backend));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+	with_send_recv = g_settings_get_boolean (settings, "send-recv-on-start");
+	g_object_unref (settings);
+
+	cancellable = camel_operation_new ();
+	description = g_strdup_printf (_("Reconnecting to “%s”"), camel_service_get_display_name (CAMEL_SERVICE (store)));
+
+	activity = e_activity_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	e_activity_set_text (activity, description);
+
+	if (E_IS_MAIL_UI_SESSION (session))
+		e_mail_ui_session_add_activity (E_MAIL_UI_SESSION (session), activity);
+
+	e_mail_store_go_online (
+		store, G_PRIORITY_DEFAULT,
+		e_activity_get_cancellable (activity),
+		(GAsyncReadyCallback) (with_send_recv ? mail_backend_store_go_online_done_cb : mail_backend_store_operation_done_cb),
+		activity); /* Takes ownership of 'activity' */
+
+	g_object_unref (cancellable);
+	g_free (description);
+}
+
+static void
 mail_backend_get_property (GObject *object,
                            guint property_id,
                            GValue *value,
@@ -1235,6 +1323,10 @@ mail_backend_constructed (GObject *object)
 	g_signal_connect (
 		priv->session, "flush-outbox",
 		G_CALLBACK (mail_send), priv->session);
+
+	g_signal_connect (
+		priv->session, "connect-store",
+		G_CALLBACK (mail_backend_connect_store_cb), object);
 
 	/* Propagate "activity-added" signals from
 	 * the mail session to the shell backend. */

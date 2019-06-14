@@ -93,8 +93,11 @@ struct _EMailSessionClass {
 						 const gchar *service_uid,
 						 const gchar *old_folder_uri,
 						 const gchar *new_folder_uri);
+	void		(*connect_store)	(EMailSession *session,
+						 CamelStore *store);
+
 	/* Padding for future expansion */
-	gpointer reserved[9];
+	gpointer reserved[8];
 };
 
 GType		e_mail_session_get_type		(void);
@@ -183,6 +186,9 @@ void		e_mail_session_emit_allow_auth_prompt
 gboolean	e_mail_session_is_archive_folder
 						(EMailSession *session,
 						 const gchar *folder_uri);
+void		e_mail_session_emit_connect_store
+						(EMailSession *session,
+						 CamelStore *store);
 
 /* Useful GBinding transform functions */
 gboolean	e_binding_transform_service_to_source

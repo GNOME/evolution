@@ -133,6 +133,7 @@ enum {
 	ALLOW_AUTH_PROMPT,
 	GET_RECIPIENT_CERTIFICATE,
 	ARCHIVE_FOLDER_CHANGED,
+	CONNECT_STORE,
 	LAST_SIGNAL
 };
 
@@ -2137,6 +2138,26 @@ e_mail_session_class_init (EMailSessionClass *class)
 		G_TYPE_STRING,
 		G_TYPE_STRING,
 		G_TYPE_STRING);
+
+	/**
+	 * EMailSession::connect-store
+	 * @session: the #EMailSession that emitted the signal
+	 * @store: a #CamelStore
+	 *
+	 * This signal is emitted with e_mail_session_emit_connect_store() to let
+	 * any listeners know to connect the given @store.
+	 *
+	 * Since: 3.34
+	 **/
+	signals[CONNECT_STORE] = g_signal_new (
+		"connect-store",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMailSessionClass, connect_store),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		CAMEL_TYPE_STORE);
 }
 
 static void
@@ -2991,4 +3012,24 @@ e_mail_session_is_archive_folder (EMailSession *session,
 	g_mutex_unlock (&session->priv->archive_folders_hash_lock);
 
 	return is_archive_folder;
+}
+
+/**
+ * e_mail_session_emit_connect_store:
+ * @session: an #EMailSession
+ * @store: a #CamelStore
+ *
+ * Emits 'connect-store' on @session for @store. This lets
+ * any listeners know to connect the @store.
+ *
+ * Since: 3.34
+ **/
+void
+e_mail_session_emit_connect_store (EMailSession *session,
+				   CamelStore *store)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
+	g_signal_emit (session, signals[CONNECT_STORE], 0, store);
 }

@@ -679,8 +679,18 @@ mail_folder_cache_check_connection_status_cb (CamelStore *store,
 
 		provider = camel_service_get_provider (CAMEL_SERVICE (store));
 		if (provider && (provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0) {
+			CamelSession *session;
+
+			session = camel_service_ref_session (CAMEL_SERVICE (store));
+
 			/* Connect it, when the host is reachable */
-			camel_service_connect (CAMEL_SERVICE (store), G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+			if (E_IS_MAIL_SESSION (session)) {
+				e_mail_session_emit_connect_store (E_MAIL_SESSION (session), store);
+			} else {
+				e_mail_store_go_online (store, G_PRIORITY_DEFAULT, NULL, NULL, NULL);
+			}
+
+			g_clear_object (&session);
 		}
 	}
 
