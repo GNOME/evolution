@@ -1,3 +1,38 @@
+Evolution 3.32.3 2019-06-17
+---------------------------
+
+Bug Fixes:
+	I#400 - [To Do Bar] False runtime warning with 'Show Tasks without Due date' set (Milan Crha)
+	I#405 - Time zone change not properly propagated in the Month View (Milan Crha)
+	I#432 - Prefer Reply-To from To/Cc in Group Reply (Milan Crha)
+	I#433 - Change <div>/<p> styling in composer to better match preview panel (Milan Crha)
+	I#437 - [To Do Bar] Leftover task after DUE date change (Milan Crha)
+	I#439 - Calendar Month view weekday names unreadable in dark theme (Milan Crha)
+	I#445 - Don't show blockquote indicators on both sides for 6th+ level (Milan Crha)
+	I#446 - S/MIME signed message reported as encrypted in the "Security:" header (Milan Crha)
+	I#454 - [ECellCheckbox] Draw the check state using gtk+ theme (Milan Crha)
+	I#472 - Merge Contact window shown empty in certain situations (Milan Crha)
+	I#474 - [ESource Editors] Invalid URL: field value reset on User: field change (Milan Crha)
+	I#479 - Call mail account refresh also after going online (Milan Crha)
+	I#481 - WebDAV browser: Popover widgets can be made insensitive by gtk+ (Milan Crha)
+	I#484 - Edit Memo's Start date in-table as DATE by default (Milan Crha)
+	M!13 - Improve icons in previews with hiDPI monitors (Milan Crha)
+	M!14 - Allow floating point value for webview body font size (Guillaume Castagnino)
+	M!16 - Add copyright and OASR content rating info into .appdata.xml file (Jiri Eischmann)
+	eds-I#112 - Credentials prompter re-asks for credentials of disabled accounts (Milan Crha)
+
+Miscellaneous:
+	Fix a possible memory leak in e-web-view.c:web_view_initialize() (Milan Crha)
+	Reference a GDBusProxy object in the synchronous call wrappers (Milan Crha)
+	Fix a crash when filling mail threaded view (Milan Crha)
+	Change buffer size argument value in call of icalvalue_decode_ical_string() (Milan Crha)
+	Change path where backup/restore searches for the .running file (Milan Crha)
+	Fix several memory leaks in the addressbook code (Milan Crha)
+
+Translations:
+	Alexandre Franke (fr)
+	Rodrigo Lledó (es)
+
 Evolution 3.32.2 2019-05-06
 ---------------------------
 
