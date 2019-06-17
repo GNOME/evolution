@@ -34,7 +34,7 @@ struct _EColorComboPrivate {
 	GtkWidget *color_frame;		/* not referenced */
 	GtkWidget *arrow;		/* not referenced */
 
-	GtkWidget *window;
+	GtkWidget *popover;
 	GtkWidget *default_button;	/* not referenced */
 	GtkWidget *chooser_widget;	/* not referenced */
 
@@ -46,9 +46,6 @@ struct _EColorComboPrivate {
 	GdkRGBA *default_color;
 
 	GList *palette;
-
-	GdkDevice *grab_keyboard;
-	GdkDevice *grab_mouse;
 };
 
 enum {
@@ -128,102 +125,13 @@ G_DEFINE_TYPE (
 	GTK_TYPE_BUTTON);
 
 static void
-color_combo_reposition_window (EColorCombo *combo)
-{
-	GdkScreen *screen;
-	GdkWindow *window;
-	GdkRectangle monitor;
-	GtkAllocation allocation;
-	gint monitor_num;
-	gint x, y, width, height;
-
-	screen = gtk_widget_get_screen (GTK_WIDGET (combo));
-	window = gtk_widget_get_window (GTK_WIDGET (combo));
-	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
-	gdk_window_get_origin (window, &x, &y);
-
-	if (!gtk_widget_get_has_window (GTK_WIDGET (combo))) {
-		gtk_widget_get_allocation (GTK_WIDGET (combo), &allocation);
-		x += allocation.x;
-		y += allocation.y;
-	}
-
-	gtk_widget_get_allocation (combo->priv->window, &allocation);
-	width = allocation.width;
-	height = allocation.height;
-
-	x = CLAMP (x, monitor.x, monitor.x + monitor.width - width);
-	y = CLAMP (y, monitor.y, monitor.y + monitor.height - height);
-
-	gtk_window_move (GTK_WINDOW (combo->priv->window), x, y);
-}
-
-static void
 color_combo_popup (EColorCombo *combo)
 {
-	GdkWindow *window;
-	GtkWidget *toplevel;
-	gboolean grab_status;
-	GdkDevice *device, *mouse, *keyboard;
-	guint32 activate_time;
-
-	device = gtk_get_current_event_device ();
-	g_return_if_fail (device != NULL);
-
 	if (!gtk_widget_get_realized (GTK_WIDGET (combo)))
 		return;
 
 	if (combo->priv->popup_shown)
 		return;
-
-	activate_time = gtk_get_current_event_time ();
-	if (gdk_device_get_source (device) == GDK_SOURCE_KEYBOARD) {
-		keyboard = device;
-		mouse = gdk_device_get_associated_device (device);
-	} else {
-		keyboard = gdk_device_get_associated_device (device);
-		mouse = device;
-	}
-
-	/* Position the window over the button. */
-	color_combo_reposition_window (combo);
-
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (combo));
-	if (GTK_IS_WINDOW (toplevel))
-		gtk_window_set_transient_for (GTK_WINDOW (combo->priv->window), GTK_WINDOW (toplevel));
-
-	/* Try to grab the pointer and keyboard. */
-	window = gtk_widget_get_window (toplevel);
-	grab_status =
-		(keyboard == NULL) ||
-		(gdk_device_grab (
-			keyboard, window,
-			GDK_OWNERSHIP_WINDOW, TRUE,
-			GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK,
-			NULL, activate_time) == GDK_GRAB_SUCCESS);
-	if (grab_status) {
-		grab_status =
-			(mouse == NULL) ||
-			(gdk_device_grab (
-				mouse, window,
-				GDK_OWNERSHIP_WINDOW, TRUE,
-				GDK_BUTTON_PRESS_MASK |
-				GDK_BUTTON_RELEASE_MASK |
-				GDK_POINTER_MOTION_MASK,
-				NULL, activate_time) == GDK_GRAB_SUCCESS);
-		if (!grab_status && keyboard)
-			gdk_device_ungrab (keyboard, activate_time);
-	}
-
-	if (grab_status) {
-		gtk_device_grab_add (combo->priv->window, mouse, TRUE);
-		combo->priv->grab_keyboard = keyboard;
-		combo->priv->grab_mouse = mouse;
-	} else {
-		gtk_widget_hide (combo->priv->window);
-	}
 
 	/* Always make sure the editor-mode is OFF */
 	g_object_set (
@@ -231,8 +139,8 @@ color_combo_popup (EColorCombo *combo)
 		"show-editor", FALSE, NULL);
 
 	/* Show the pop-up. */
-	gtk_widget_show_all (combo->priv->window);
-	gtk_widget_grab_focus (combo->priv->window);
+	gtk_widget_show_all (combo->priv->popover);
+	gtk_widget_grab_focus (combo->priv->chooser_widget);
 }
 
 static void
@@ -244,17 +152,7 @@ color_combo_popdown (EColorCombo *combo)
 	if (!combo->priv->popup_shown)
 		return;
 
-	/* Hide the pop-up. */
-	gtk_device_grab_remove (combo->priv->window, combo->priv->grab_mouse);
-	gtk_widget_hide (combo->priv->window);
-
-	if (combo->priv->grab_keyboard)
-		gdk_device_ungrab (combo->priv->grab_keyboard, GDK_CURRENT_TIME);
-	if (combo->priv->grab_mouse)
-		gdk_device_ungrab (combo->priv->grab_mouse, GDK_CURRENT_TIME);
-
-	combo->priv->grab_keyboard = NULL;
-	combo->priv->grab_mouse = NULL;
+	gtk_widget_hide (combo->priv->popover);
 }
 
 static gboolean
@@ -266,10 +164,10 @@ color_combo_window_button_press_event_cb (EColorCombo *combo,
 
 	event_widget = gtk_get_event_widget ((GdkEvent *) event);
 
-	if (event_widget == combo->priv->window)
+	if (event_widget == combo->priv->popover)
 		return TRUE;
 
-	if (combo->priv->popup_shown == TRUE)
+	if (combo->priv->popup_shown)
 		return FALSE;
 
 	combo->priv->popup_in_progress = TRUE;
@@ -568,9 +466,9 @@ color_combo_dispose (GObject *object)
 
 	priv = E_COLOR_COMBO_GET_PRIVATE (object);
 
-	if (priv->window != NULL) {
-		gtk_widget_destroy (priv->window);
-		priv->window = NULL;
+	if (priv->popover) {
+		gtk_widget_destroy (priv->popover);
+		priv->popover = NULL;
 	}
 
 	if (priv->current_color != NULL) {
@@ -721,7 +619,6 @@ static void
 e_color_combo_init (EColorCombo *combo)
 {
 	GtkWidget *container;
-	GtkWidget *toplevel;
 	GtkWidget *widget;
 	GList *palette;
 	guint ii;
@@ -751,21 +648,10 @@ e_color_combo_init (EColorCombo *combo)
 	gtk_widget_show_all (container);
 
 	/* Build the drop-down menu */
-	widget = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 5);
-	gtk_window_set_resizable (GTK_WINDOW (widget), FALSE);
-	gtk_window_set_type_hint (
-		GTK_WINDOW (widget), GDK_WINDOW_TYPE_HINT_COMBO);
-	combo->priv->window = g_object_ref_sink (widget);
-
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (combo));
-	if (GTK_IS_WINDOW (toplevel)) {
-		gtk_window_group_add_window (
-			gtk_window_get_group (GTK_WINDOW (toplevel)),
-			GTK_WINDOW (widget));
-		gtk_window_set_transient_for (
-			GTK_WINDOW (widget), GTK_WINDOW (toplevel));
-	}
+	widget = gtk_popover_new (GTK_WIDGET (combo));
+	gtk_popover_set_position (GTK_POPOVER (widget), GTK_POS_BOTTOM);
+	gtk_popover_set_modal (GTK_POPOVER (widget), TRUE);
+	combo->priv->popover = g_object_ref_sink (widget);
 
 	g_signal_connect_swapped (
 		widget, "show",
@@ -800,7 +686,7 @@ e_color_combo_init (EColorCombo *combo)
 		G_CALLBACK (color_combo_popdown), combo);
 
 	widget = e_color_chooser_widget_new ();
-	g_object_set_data (G_OBJECT (widget), "window", combo->priv->window);
+	g_object_set_data (G_OBJECT (widget), "window", combo->priv->popover);
 	gtk_grid_attach (GTK_GRID (container), widget, 0, 1, 1, 1);
 	combo->priv->chooser_widget = widget;  /* do not reference */
 

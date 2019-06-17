@@ -116,7 +116,7 @@ run_color_chooser_dialog (gpointer user_data)
 		G_OBJECT (parent_chooser), "show-editor", FALSE, NULL);
 
 	parent_window = g_object_get_data (G_OBJECT (parent_chooser), "window");
-	if (!parent_window)
+	if (!GTK_IS_WINDOW (parent_window))
 		parent_window = gtk_widget_get_toplevel (parent_chooser);
 	dialog = gtk_dialog_new_with_buttons (
 		N_("Choose custom color"),
