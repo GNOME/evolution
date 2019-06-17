@@ -1,3 +1,52 @@
+Evolution 3.33.3 2019-06-17
+---------------------------
+
+Bug Fixes:
+	Bug 233065 - Add "URL" field for appointments and memos (Milan Crha)
+	Bug 793795 - Use EUrlEntry in HTML editor's Link Properties dialog (Milan Crha)
+	I#399 - Allow Selection From Multiple User-Defined Reminder Times (Milan Crha)
+	I#408 - Make it possible to hide address book groups (Milan Crha)
+	I#433 - Change <div>/<p> styling in composer to better match preview panel (Milan Crha)
+	I#445 - Don't show blockquote indicators on both sides for 6th+ level (Milan Crha)
+	I#446 - S/MIME signed message reported as encrypted in the "Security:" header (Milan Crha)
+	I#448 - Meeting Editor: Use toggle for the attendees' RSVP column (Milan Crha)
+	I#454 - [ECellCheckbox] Draw the check state using gtk+ theme (Milan Crha)
+	I#463 - Deselect category when it's deleted in the Category editor (Milan Crha)
+	I#468 - Update README to markdown (Addie GS)
+	I#472 - Merge Contact window shown empty in certain situations (Milan Crha)
+	I#474 - [ESource Editors] Invalid URL: field value reset on User: field change (Milan Crha)
+	I#475 - Show what the "Default" glib network manager is (Milan Crha)
+	I#476 - Hide "Server handles meeting invitations" for VJOURNAL/CalDAV (Milan Crha)
+	I#478 - Support STATUS for Events and Memos (Milan Crha)
+	I#479 - Call mail account refresh also after going online (Milan Crha)
+	I#481 - WebDAV browser: Popover widgets can be made insensitive by gtk+ (Milan Crha)
+	I#484 - Edit Memo's Start date in-table as DATE by default (Milan Crha)
+	M!14 - Allow floating point value for webview body font size (Guillaume Castagnino)
+	M!17 - icon: update app icon (Jakub Steiner)
+	eds-I#120 - Fails to build with libasan using Clang (undefined symbols) (Milan Crha)
+	eds-I#121 - CalDAV-advertised subscribed WebCal is not imported (Milan Crha)
+	eds-M!15 - Fix typos in CMake modules (Дилян Палаузов)
+	eds-M!17 - Use Media Type from RFC 8551 for S/MIME creation (Milan Crha)
+
+Miscellaneous:
+	Fix a crash in itip-view.c:extract_itip_data() (Milan Crha)
+	Fix clang warnings (mostly [-Wenum-conversion]) (Milan Crha)
+	Add all icon directories into icon theme search path in maintainer mode (Milan Crha)
+	Local calendar config option to open for writing does nothing (Milan Crha)
+	Change path where backup/restore searches for the .running file (Milan Crha)
+	Fix several memory leaks in the addressbook code (Milan Crha)
+	Memos cannot have set reminders according to RFC 5545 (Milan Crha)
+	[Flatpak] Update libical version to 3.0.5 for the 'master' manifest (Milan Crha)
+	Use ECalComponentAlarm members instead of ICalProperty objects (Milan Crha)
+	Add 'Status' column to Memos and Calendar's List View (Milan Crha)
+
+Translations:
+	Alexandre Franke (fr)
+	Balázs Úr (hu)
+	Rodrigo Lledó (es)
+	Fabio Tomat (fur)
+	Efstathios Iosifidis (el)
+
 Evolution 3.33.2 2019-05-20
 ---------------------------
 
