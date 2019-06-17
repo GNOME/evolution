@@ -247,11 +247,40 @@ element_clicked_cb (WebKitDOMElement *element,
 	}
 
 	dom_window = webkit_dom_document_get_default_view (webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (element)));
-	if (WEBKIT_DOM_IS_DOM_WINDOW (dom_window)) {
+	while (WEBKIT_DOM_IS_DOM_WINDOW (dom_window)) {
+		WebKitDOMDOMWindow *parent_dom_window = webkit_dom_dom_window_get_parent (dom_window);
+		WebKitDOMElement *frame_element;
+		glong scrll_x = 0, scrll_y = 0;
+
+		frame_element = webkit_dom_dom_window_get_frame_element (dom_window);
+
+		if (parent_dom_window != dom_window && frame_element) {
+			with_parents_left += webkit_dom_element_get_client_left (frame_element);
+			with_parents_top += webkit_dom_element_get_client_top (frame_element);
+		}
+
+		while (frame_element) {
+			with_parents_left += webkit_dom_element_get_offset_left (frame_element);
+			with_parents_top += webkit_dom_element_get_offset_top (frame_element);
+
+			frame_element = webkit_dom_element_get_offset_parent (frame_element);
+		}
+
 		g_object_get (G_OBJECT (dom_window),
-			"scroll-x", &scroll_x,
-			"scroll-y", &scroll_y,
+			"scroll-x", &scrll_x,
+			"scroll-y", &scrll_y,
 			NULL);
+
+		scroll_x += scrll_x;
+		scroll_y += scrll_y;
+
+		if (parent_dom_window == dom_window) {
+			g_clear_object (&parent_dom_window);
+			break;
+		}
+
+		g_object_unref (dom_window);
+		dom_window = parent_dom_window;
 	}
 	g_clear_object (&dom_window);
 
