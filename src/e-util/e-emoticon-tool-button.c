@@ -29,7 +29,6 @@
 
 #include <string.h>
 #include <glib/gi18n-lib.h>
-#include <gdk/gdkkeysyms.h>
 
 #include "e-emoticon-chooser.h"
 
@@ -56,12 +55,10 @@ enum {
 struct _EEmoticonToolButtonPrivate {
 	GtkWidget *active_button;  /* not referenced */
 	GtkWidget *table;
-	GtkWidget *window;
+	GtkWidget *popover;
 
 	guint popup_shown	: 1;
 	guint popup_in_progress	: 1;
-	GdkDevice *grab_keyboard;
-	GdkDevice *grab_mouse;
 };
 
 static guint signals[LAST_SIGNAL];
@@ -117,39 +114,6 @@ emoticon_tool_button_elide_underscores (const gchar *original)
 	*q = '\0';
 
 	return result;
-}
-
-static void
-emoticon_tool_button_reposition_window (EEmoticonToolButton *button)
-{
-	GdkScreen *screen;
-	GdkWindow *window;
-	GdkRectangle monitor;
-	GtkAllocation allocation;
-	gint monitor_num;
-	gint x, y, width, height;
-
-	screen = gtk_widget_get_screen (GTK_WIDGET (button));
-	window = gtk_widget_get_window (GTK_WIDGET (button));
-	monitor_num = gdk_screen_get_monitor_at_window (screen, window);
-	gdk_screen_get_monitor_geometry (screen, monitor_num, &monitor);
-
-	gdk_window_get_origin (window, &x, &y);
-
-	if (!gtk_widget_get_has_window (GTK_WIDGET (button))) {
-		gtk_widget_get_allocation (GTK_WIDGET (button), &allocation);
-		x += allocation.x;
-		y += allocation.y;
-	}
-
-	gtk_widget_get_allocation (button->priv->window, &allocation);
-	width = allocation.width;
-	height = allocation.height;
-
-	x = CLAMP (x, monitor.x, monitor.x + monitor.width - width);
-	y = CLAMP (y, monitor.y, monitor.y + monitor.height - height);
-
-	gtk_window_move (GTK_WINDOW (button->priv->window), x, y);
 }
 
 static void
@@ -224,12 +188,10 @@ static gboolean
 emoticon_tool_button_child_key_press_event_cb (EEmoticonToolButton *button,
                                                GdkEventKey *event)
 {
-	GtkWidget *window = button->priv->window;
+	GtkWidget *popover = button->priv->popover;
 
-	if (!gtk_bindings_activate_event (G_OBJECT (window), event))
+	return gtk_bindings_activate_event (G_OBJECT (popover), event) ||
 		gtk_bindings_activate_event (G_OBJECT (button), event);
-
-	return TRUE;
 }
 
 static void
@@ -291,9 +253,9 @@ emoticon_tool_button_dispose (GObject *object)
 
 	priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (object);
 
-	if (priv->window != NULL) {
-		gtk_widget_destroy (priv->window);
-		priv->window = NULL;
+	if (priv->popover != NULL) {
+		gtk_widget_destroy (priv->popover);
+		priv->popover = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -312,7 +274,7 @@ emoticon_tool_button_press_event (GtkWidget *widget,
 
 	event_widget = gtk_get_event_widget ((GdkEvent *) event);
 
-	if (event_widget == button->priv->window)
+	if (event_widget == button->priv->popover)
 		return TRUE;
 
 	if (event_widget != widget)
@@ -344,14 +306,6 @@ static void
 emoticon_tool_button_popup (EEmoticonToolButton *button)
 {
 	GtkToggleToolButton *tool_button;
-	GdkWindow *window;
-	GtkWidget *toplevel;
-	gboolean grab_status;
-	GdkDevice *device, *mouse, *keyboard;
-	guint32 activate_time;
-
-	device = gtk_get_current_event_device ();
-	g_return_if_fail (device != NULL);
 
 	if (!gtk_widget_get_realized (GTK_WIDGET (button)))
 		return;
@@ -359,55 +313,13 @@ emoticon_tool_button_popup (EEmoticonToolButton *button)
 	if (button->priv->popup_shown)
 		return;
 
-	activate_time = gtk_get_current_event_time ();
-	if (gdk_device_get_source (device) == GDK_SOURCE_KEYBOARD) {
-		keyboard = device;
-		mouse = gdk_device_get_associated_device (device);
-	} else {
-		keyboard = gdk_device_get_associated_device (device);
-		mouse = device;
-	}
-
-	/* Position the window over the button. */
-	emoticon_tool_button_reposition_window (button);
-
 	/* Activate the tool button. */
 	tool_button = GTK_TOGGLE_TOOL_BUTTON (button);
 	gtk_toggle_tool_button_set_active (tool_button, TRUE);
 
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
-	if (GTK_IS_WINDOW (toplevel))
-		gtk_window_set_transient_for (GTK_WINDOW (button->priv->window), GTK_WINDOW (toplevel));
-
-	/* Try to grab the pointer and keyboard. */
-	window = gtk_widget_get_window (toplevel);
-	grab_status = !keyboard ||
-		gdk_device_grab (
-			keyboard, window,
-			GDK_OWNERSHIP_WINDOW, TRUE,
-			GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK,
-			NULL, activate_time) == GDK_GRAB_SUCCESS;
-	if (grab_status) {
-		grab_status = !mouse ||
-			gdk_device_grab (mouse, window,
-				GDK_OWNERSHIP_WINDOW, TRUE,
-				GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
-				NULL, activate_time) == GDK_GRAB_SUCCESS;
-		if (!grab_status && keyboard)
-			gdk_device_ungrab (keyboard, activate_time);
-	}
-
-	if (grab_status) {
-		gtk_device_grab_add (button->priv->window, mouse, TRUE);
-		button->priv->grab_keyboard = keyboard;
-		button->priv->grab_mouse = mouse;
-	} else {
-		gtk_widget_hide (button->priv->window);
-	}
-
 	/* Show the pop-up. */
-	gtk_widget_show (button->priv->window);
-	gtk_widget_grab_focus (button->priv->window);
+	gtk_widget_show (button->priv->popover);
+	gtk_widget_grab_focus (button->priv->table);
 }
 
 static void
@@ -421,21 +333,11 @@ emoticon_tool_button_popdown (EEmoticonToolButton *button)
 	if (!button->priv->popup_shown)
 		return;
 
-	/* Hide the pop-up. */
-	gtk_device_grab_remove (button->priv->window, button->priv->grab_mouse);
-	gtk_widget_hide (button->priv->window);
+	gtk_widget_hide (button->priv->popover);
 
 	/* Deactivate the tool button. */
 	tool_button = GTK_TOGGLE_TOOL_BUTTON (button);
 	gtk_toggle_tool_button_set_active (tool_button, FALSE);
-
-	if (button->priv->grab_keyboard)
-		gdk_device_ungrab (button->priv->grab_keyboard, GDK_CURRENT_TIME);
-	if (button->priv->grab_mouse)
-		gdk_device_ungrab (button->priv->grab_mouse, GDK_CURRENT_TIME);
-
-	button->priv->grab_keyboard = NULL;
-	button->priv->grab_mouse = NULL;
 }
 
 static EEmoticon *
@@ -564,55 +466,37 @@ static void
 e_emoticon_tool_button_init (EEmoticonToolButton *button)
 {
 	EEmoticonChooser *chooser;
-	GtkWidget *toplevel;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GtkWidget *window;
+	GtkWidget *popover;
 	GList *list, *iter;
 	gint ii;
 
 	button->priv = E_EMOTICON_TOOL_BUTTON_GET_PRIVATE (button);
 
-	/* Build the pop-up window. */
-
-	window = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
-	gtk_window_set_type_hint (
-		GTK_WINDOW (window), GDK_WINDOW_TYPE_HINT_COMBO);
-	button->priv->window = g_object_ref_sink (window);
-
-	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
-	if (GTK_IS_WINDOW (toplevel)) {
-		gtk_window_group_add_window (
-			gtk_window_get_group (GTK_WINDOW (toplevel)),
-			GTK_WINDOW (window));
-		gtk_window_set_transient_for (
-			GTK_WINDOW (window), GTK_WINDOW (toplevel));
-	}
+	/* Build the popover. */
+	popover = gtk_popover_new (GTK_WIDGET (button));
+	gtk_popover_set_position (GTK_POPOVER (popover), GTK_POS_BOTTOM);
+	gtk_popover_set_modal (GTK_POPOVER (popover), TRUE);
+	button->priv->popover = g_object_ref_sink (popover);
 
 	g_signal_connect_swapped (
-		window, "show",
+		popover, "show",
 		G_CALLBACK (emoticon_tool_button_child_show_cb), button);
 	g_signal_connect_swapped (
-		window, "hide",
+		popover, "hide",
 		G_CALLBACK (emoticon_tool_button_child_hide_cb), button);
 	g_signal_connect_swapped (
-		window, "button-release-event",
+		popover, "button-release-event",
 		G_CALLBACK (emoticon_tool_button_button_release_event_cb),
 		button);
 	g_signal_connect_swapped (
-		window, "key-press-event",
+		popover, "key-press-event",
 		G_CALLBACK (emoticon_tool_button_child_key_press_event_cb),
 		button);
 
-	/* Build the pop-up window contents. */
-
-	widget = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_OUT);
-	gtk_container_add (GTK_CONTAINER (window), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
+	/* Build the popover content. */
+	container = popover;
 
 	widget = gtk_table_new (NUM_ROWS, NUM_COLS, TRUE);
 	gtk_table_set_row_spacings (GTK_TABLE (widget), 0);
