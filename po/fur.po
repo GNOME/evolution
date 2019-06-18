@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-06-10 08:12+0000\n"
-"PO-Revision-Date: 2019-06-10 15:39+0200\n"
+"POT-Creation-Date: 2019-06-18 10:04+0000\n"
+"PO-Revision-Date: 2019-06-18 13:15+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -958,10 +958,16 @@ msgstr ""
 "chel, inte viodude zornaliere, setemanâl lavorative, setemanâl o mensîl."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#, fuzzy
+#| msgid "Default reminder snooze interval, in minutes"
+msgid "User-defined reminder times, in minutes"
+msgstr "Interval predefinît che al postpon il promemorie, in minûts"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Deplorât) Prin dì de setemane, di domenie (0) a sabide (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -969,11 +975,11 @@ msgstr ""
 "Cheste clâf e je stade deplorade inte version 3.10 e no si varès di doprâ "
 "plui. Doprâ invezit “week-start-day-name”."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "(Deprecated) Work days"
 msgstr "(Deplorade) Dîs di vore"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -3474,7 +3480,7 @@ msgid "Mail"
 msgstr "Pueste"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
-#: ../src/calendar/gui/e-memo-table.c:373 ../src/e-util/e-webdav-browser.c:459
+#: ../src/calendar/gui/e-memo-table.c:454 ../src/e-util/e-webdav-browser.c:459
 #: ../src/modules/calendar/e-cal-shell-content.c:1763
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
@@ -3483,7 +3489,7 @@ msgid "Memos"
 msgstr "Memorandums"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:699 ../src/calendar/gui/print.c:2425
+#: ../src/calendar/gui/e-task-table.c:615 ../src/calendar/gui/print.c:2426
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1141
 #: ../src/e-util/e-webdav-browser.c:460
@@ -3557,11 +3563,11 @@ msgstr "Pe viodude slarg_jade"
 msgid "As Sent Folder for Wi_de View"
 msgstr "Come cartele Inviâts pe viodude slar_gjade"
 
-#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2439
+#: ../data/views/memos/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2444
 msgid "_Memos"
 msgstr "_Pro memoria"
 
-#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2443
+#: ../data/views/tasks/galview.xml.h:1 ../src/e-util/e-webdav-browser.c:2448
 #: ../src/plugins/pst-import/pst-importer.c:571
 msgid "_Tasks"
 msgstr "A_tivitâts"
@@ -3720,7 +3726,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:31
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:751
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1575
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1522
 #: ../src/e-util/e-accounts-window.c:1563
 #: ../src/e-util/e-mail-signature-manager.c:328
 #: ../src/e-util/e-name-selector-dialog.c:1033 ../src/e-util/filter.ui.h:25
@@ -3890,7 +3896,7 @@ msgid "Contact Editor"
 msgstr "Editôr dai contats"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2041
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2353
 #: ../src/mail/mail-config.ui.h:40
 msgid "Options"
 msgstr "Opzions"
@@ -3975,7 +3981,7 @@ msgstr "_Anule"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2467 ../src/e-util/e-web-view.c:4347
+#: ../src/e-util/e-webdav-browser.c:2472 ../src/e-util/e-web-view.c:4347
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651
@@ -4232,7 +4238,7 @@ msgstr "Zonte _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1591
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1538
 #: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:409
 #: ../src/e-util/e-mail-signature-manager.c:368
 #: ../src/e-util/e-name-selector-dialog.c:1037
@@ -4576,12 +4582,12 @@ msgid "_Top"
 msgstr "_Insom"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3474 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3473 ../src/e-util/filter.ui.h:29
 msgid "_Up"
 msgstr "_Sù"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3475 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3474 ../src/e-util/filter.ui.h:30
 msgid "_Down"
 msgstr "_Jù"
 
@@ -4821,12 +4827,6 @@ msgid "Blog"
 msgstr "Blog"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:299
-#: ../src/calendar/gui/e-cal-component-preview.c:342
-#: ../src/calendar/gui/e-cal-model-tasks.c:293
-#: ../src/calendar/gui/e-cal-model-tasks.c:588
-#: ../src/calendar/gui/e-task-table.c:213
-#: ../src/calendar/gui/e-task-table.c:228
-#: ../src/calendar/gui/e-task-table.c:637 ../src/calendar/gui/print.c:3620
 #: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:1146
 msgid "Cancelled"
 msgstr "Anulade"
@@ -5065,7 +5065,7 @@ msgstr "Sigûrs di eliminâ chest contat (%s)?"
 #: ../src/calendar/gui/e-comp-editor.c:2013
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:783
 #: ../src/e-util/evolution-source-viewer.c:806
-#: ../src/e-util/e-webdav-browser.c:2688
+#: ../src/e-util/e-webdav-browser.c:2693
 #: ../src/mail/e-mail-account-manager.c:737
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1499
@@ -6269,21 +6269,21 @@ msgstr "nol è/no je"
 #: ../src/calendar/gui/caltypes.xml.in.h:9
 #: ../src/calendar/gui/e-cal-list-view.c:248
 #: ../src/calendar/gui/e-cal-model.c:293 ../src/calendar/gui/e-cal-model.c:301
-#: ../src/calendar/gui/e-task-table.c:525
+#: ../src/calendar/gui/e-task-table.c:445
 #: ../src/calendar/gui/memotypes.xml.in.h:10
 msgid "Public"
 msgstr "Public"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
 #: ../src/calendar/gui/e-cal-list-view.c:249
-#: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:526
+#: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:446
 #: ../src/calendar/gui/memotypes.xml.in.h:11
 msgid "Private"
 msgstr "Privât"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
 #: ../src/calendar/gui/e-cal-list-view.c:250
-#: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:527
+#: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:447
 #: ../src/calendar/gui/memotypes.xml.in.h:12
 #: ../src/e-util/e-html-editor-page-dialog.c:113
 #: ../src/e-util/e-send-options.ui.h:7
@@ -6393,6 +6393,56 @@ msgstr[1] "cun %d ospits"
 msgid "Comments: %s"
 msgstr "Coments: %s"
 
+#: ../src/calendar/gui/comp-util.c:1610 ../src/calendar/gui/comp-util.c:1613
+msgctxt "iCalendarStatus"
+msgid "None"
+msgstr "Nissun"
+
+#: ../src/calendar/gui/comp-util.c:1611
+msgctxt "iCalendarStatus"
+msgid "Tentative"
+msgstr "Provisori"
+
+#: ../src/calendar/gui/comp-util.c:1612
+msgctxt "iCalendarStatus"
+msgid "Confirmed"
+msgstr "Confermât"
+
+#: ../src/calendar/gui/comp-util.c:1614
+msgctxt "iCalendarStatus"
+msgid "Draft"
+msgstr "Stampon"
+
+#: ../src/calendar/gui/comp-util.c:1615
+msgctxt "iCalendarStatus"
+msgid "Final"
+msgstr "Definitîf"
+
+#: ../src/calendar/gui/comp-util.c:1616
+msgctxt "iCalendarStatus"
+msgid "Not Started"
+msgstr "No tacât"
+
+#: ../src/calendar/gui/comp-util.c:1617
+msgctxt "iCalendarStatus"
+msgid "Needs Action"
+msgstr "Azion necessarie"
+
+#: ../src/calendar/gui/comp-util.c:1618
+msgctxt "iCalendarStatus"
+msgid "In Progress"
+msgstr "In cors"
+
+#: ../src/calendar/gui/comp-util.c:1619
+msgctxt "iCalendarStatus"
+msgid "Completed"
+msgstr "Completât"
+
+#: ../src/calendar/gui/comp-util.c:1620
+msgctxt "iCalendarStatus"
+msgid "Cancelled"
+msgstr "Anulât"
+
 #: ../src/calendar/gui/ea-cal-view.c:281
 msgid "New Appointment"
 msgstr "Gnûf apontament"
@@ -6494,83 +6544,42 @@ msgstr "Boton di salt"
 msgid "Click here, you can find more events."
 msgstr "Fâs clic achì par cjatâ altris events."
 
-#. Translator: Entire string is like "Pop up an alert %d days before start"
-#: ../src/calendar/gui/e-alarm-list.c:369 ../src/calendar/gui/misc.c:95
-#, c-format
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] "%d dì"
-msgstr[1] "%d dîs"
-
-#. Translator: Entire string is like "Pop up an alert %d weeks before start"
-#: ../src/calendar/gui/e-alarm-list.c:376
-#, c-format
-msgid "%d week"
-msgid_plural "%d weeks"
-msgstr[0] "%d setemane"
-msgstr[1] "%d setemanis"
-
-#. Translator: Entire string is like "Pop up an alert %d hours before start"
-#: ../src/calendar/gui/e-alarm-list.c:383 ../src/calendar/gui/misc.c:101
-#, c-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] "%d ore"
-msgstr[1] "%d oris"
-
-#. Translator: Entire string is like "Pop up an alert %d minutes before start"
-#: ../src/calendar/gui/e-alarm-list.c:390 ../src/calendar/gui/misc.c:107
-#, c-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] "%d minût"
-msgstr[1] "%d minûts"
-
-#. Translator: Entire string is like "Pop up an alert %d seconds before start"
-#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../src/calendar/gui/e-alarm-list.c:397 ../src/calendar/gui/misc.c:111
-#, c-format
-msgid "%d second"
-msgid_plural "%d seconds"
-msgstr[0] "%d secont"
-msgstr[1] "%d seconts"
-
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-alarm-list.c:418
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1876
+#: ../src/calendar/gui/e-alarm-list.c:387
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2188
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Riprodûs un sun"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-alarm-list.c:422
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1874
+#: ../src/calendar/gui/e-alarm-list.c:391
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2186
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Mostre une alerte"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-alarm-list.c:426
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1880
+#: ../src/calendar/gui/e-alarm-list.c:395
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2192
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "Invie une e-mail"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-alarm-list.c:430
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1878
+#: ../src/calendar/gui/e-alarm-list.c:399
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2190
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Eseguìs un program"
 
-#: ../src/calendar/gui/e-alarm-list.c:436
+#: ../src/calendar/gui/e-alarm-list.c:405
 msgctxt "cal-reminders"
 msgid "Unknown action to be performed"
 msgstr "Azion no cognossude di eseguî"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../src/calendar/gui/e-alarm-list.c:452
+#: ../src/calendar/gui/e-alarm-list.c:421
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the start"
@@ -6578,7 +6587,7 @@ msgstr "%s %s prime dal inizi"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../src/calendar/gui/e-alarm-list.c:458
+#: ../src/calendar/gui/e-alarm-list.c:427
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the start"
@@ -6586,7 +6595,7 @@ msgstr "%s %s daspò l'inizi"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
-#: ../src/calendar/gui/e-alarm-list.c:465
+#: ../src/calendar/gui/e-alarm-list.c:434
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s at the start"
@@ -6594,7 +6603,7 @@ msgstr "%s al inizi"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../src/calendar/gui/e-alarm-list.c:478
+#: ../src/calendar/gui/e-alarm-list.c:447
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s before the end"
@@ -6602,7 +6611,7 @@ msgstr "%s %s prime de fin"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
-#: ../src/calendar/gui/e-alarm-list.c:484
+#: ../src/calendar/gui/e-alarm-list.c:453
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s %s after the end"
@@ -6610,7 +6619,7 @@ msgstr "%s %s daspò la fin"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound"
-#: ../src/calendar/gui/e-alarm-list.c:491
+#: ../src/calendar/gui/e-alarm-list.c:460
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s at the end"
@@ -6618,7 +6627,7 @@ msgstr "%s ae fin"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s is an absolute time, e.g. "10:00AM"
-#: ../src/calendar/gui/e-alarm-list.c:515
+#: ../src/calendar/gui/e-alarm-list.c:484
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s at %s"
@@ -6626,7 +6635,7 @@ msgstr "%s as %s"
 
 #. Translator: The %s refers to the base, which would be actions like
 #. * "Play a sound". "Trigger types" are absolute or relative dates
-#: ../src/calendar/gui/e-alarm-list.c:523
+#: ../src/calendar/gui/e-alarm-list.c:492
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s for an unknown trigger type"
@@ -6650,117 +6659,84 @@ msgstr "viodude calendari par un mês"
 msgid "calendar view for one or more weeks"
 msgstr "viodude calendari par une o plui setemanis"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:236
+#: ../src/calendar/gui/e-cal-component-preview.c:237
 #: ../src/e-util/e-filter-rule.c:986 ../src/mail/e-mail-config-page.c:124
 msgid "Untitled"
 msgstr "Cence titul"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:250
+#: ../src/calendar/gui/e-cal-component-preview.c:251
 msgid "Categories:"
 msgstr "Categoriis:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:287
+#: ../src/calendar/gui/e-cal-component-preview.c:288
 #: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:249
 #: ../src/modules/itip-formatter/itip-view.c:1677
 #: ../src/modules/itip-formatter/itip-view.c:1788
 msgid "Location:"
 msgstr "Ubicazion:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:294
+#: ../src/calendar/gui/e-cal-component-preview.c:295
 msgid "Start Date:"
 msgstr "Date di inizi:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:303
+#: ../src/calendar/gui/e-cal-component-preview.c:304
 msgid "End Date:"
 msgstr "Date di fin:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:312
+#: ../src/calendar/gui/e-cal-component-preview.c:313
 msgid "Due Date:"
 msgstr "Date di scjadince:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:325
+#: ../src/calendar/gui/e-cal-component-preview.c:326
 msgid "Recurs:"
 msgstr "Al ricor:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:336
-#: ../src/calendar/gui/e-cal-model-tasks.c:289
-#: ../src/calendar/gui/e-cal-model-tasks.c:584
-#: ../src/calendar/gui/e-cal-model-tasks.c:666
-#: ../src/calendar/gui/e-task-table.c:209
-#: ../src/calendar/gui/e-task-table.c:224
-#: ../src/calendar/gui/e-task-table.c:635 ../src/calendar/gui/print.c:3614
-msgid "In Progress"
-msgstr "In cors"
-
-#: ../src/calendar/gui/e-cal-component-preview.c:339
-#: ../src/calendar/gui/e-cal-model-tasks.c:291
-#: ../src/calendar/gui/e-cal-model-tasks.c:586
-#: ../src/calendar/gui/e-meeting-store.c:187
-#: ../src/calendar/gui/e-meeting-store.c:210
-#: ../src/calendar/gui/e-task-table.c:211
-#: ../src/calendar/gui/e-task-table.c:226
-#: ../src/calendar/gui/e-task-table.c:636 ../src/calendar/gui/print.c:3617
-#: ../src/calendar/gui/tasktypes.xml.in.h:13
-#: ../src/plugins/save-calendar/csv-format.c:374
-msgid "Completed"
-msgstr "Completât"
-
-#: ../src/calendar/gui/e-cal-component-preview.c:346
-#: ../src/calendar/gui/e-cal-model-tasks.c:287
-#: ../src/calendar/gui/e-cal-model-tasks.c:582
-#: ../src/calendar/gui/e-task-table.c:207
-#: ../src/calendar/gui/e-task-table.c:222
-#: ../src/calendar/gui/e-task-table.c:634 ../src/calendar/gui/print.c:3611
-#: ../src/calendar/gui/tasktypes.xml.in.h:11
-msgid "Not Started"
-msgstr "No tacât"
-
-#: ../src/calendar/gui/e-cal-component-preview.c:350
+#: ../src/calendar/gui/e-cal-component-preview.c:338
 #: ../src/modules/itip-formatter/itip-view.c:1680
 #: ../src/modules/itip-formatter/itip-view.c:1797
 msgid "Status:"
 msgstr "Stât:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:359
-#: ../src/calendar/gui/e-task-table.c:551
+#: ../src/calendar/gui/e-cal-component-preview.c:347
+#: ../src/calendar/gui/e-task-table.c:471
 #: ../src/calendar/gui/tasktypes.xml.in.h:19
 #: ../src/e-util/e-send-options.ui.h:2 ../src/mail/message-list.c:331
 msgid "High"
 msgstr "Alte"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:361
+#: ../src/calendar/gui/e-cal-component-preview.c:349
 #: ../src/calendar/gui/e-cal-model.c:1895
-#: ../src/calendar/gui/e-task-table.c:552
+#: ../src/calendar/gui/e-task-table.c:472
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:330
 msgid "Normal"
 msgstr "Normâl"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:363
-#: ../src/calendar/gui/e-task-table.c:553
+#: ../src/calendar/gui/e-cal-component-preview.c:351
+#: ../src/calendar/gui/e-task-table.c:473
 #: ../src/calendar/gui/tasktypes.xml.in.h:21
 #: ../src/e-util/e-send-options.ui.h:4 ../src/mail/message-list.c:329
 msgid "Low"
 msgstr "Basse"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:365
+#: ../src/calendar/gui/e-cal-component-preview.c:353
 msgid "Priority:"
 msgstr "Prioritât:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:377
+#: ../src/calendar/gui/e-cal-component-preview.c:365
 msgid "Organizer:"
 msgstr "Organizadôr:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:418
+#: ../src/calendar/gui/e-cal-component-preview.c:406
 msgid "Attendees:"
 msgstr "Partecipants:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:465
+#: ../src/calendar/gui/e-cal-component-preview.c:453
 #: ../src/mail/e-mail-config-service-page.c:533
 msgid "Description:"
 msgstr "Descrizion:"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:519
+#: ../src/calendar/gui/e-cal-component-preview.c:507
 msgid "Web Page:"
 msgstr "Pagjine Web:"
 
@@ -6958,8 +6934,8 @@ msgstr "Daûr a tacâ dâts iCalendar"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #: ../src/calendar/gui/e-calendar-view.c:1896
-#: ../src/calendar/gui/e-memo-table.c:487
-#: ../src/calendar/gui/e-task-table.c:810
+#: ../src/calendar/gui/e-memo-table.c:568
+#: ../src/calendar/gui/e-task-table.c:726
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizadôr: %s <%s>"
@@ -6968,8 +6944,8 @@ msgstr "Organizadôr: %s <%s>"
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
 #: ../src/calendar/gui/e-calendar-view.c:1899
-#: ../src/calendar/gui/e-memo-table.c:492
-#: ../src/calendar/gui/e-task-table.c:814
+#: ../src/calendar/gui/e-memo-table.c:573
+#: ../src/calendar/gui/e-task-table.c:730
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizadôr: %s"
@@ -6978,8 +6954,8 @@ msgstr "Organizadôr: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:1918
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-task-table.c:832
-#: ../src/calendar/gui/e-to-do-pane.c:375 ../src/calendar/gui/print.c:3564
+#: ../src/calendar/gui/e-task-table.c:748
+#: ../src/calendar/gui/e-to-do-pane.c:375 ../src/calendar/gui/print.c:3565
 #, c-format
 msgid "Location: %s"
 msgstr "Ubicazion: %s"
@@ -6998,8 +6974,6 @@ msgstr "Date e ore: %s %s"
 #. anniversary is for. Example: "Birthday: John Doe (13)"
 #: ../src/calendar/gui/e-calendar-view.c:2141
 #, c-format
-#| msgctxt "language"
-#| msgid "%s (%s)"
 msgctxt "BirthdaySummary"
 msgid "%s (%d)"
 msgstr "%s (%d)"
@@ -7075,13 +7049,27 @@ msgstr "Ultime modifiche"
 msgid "Source"
 msgstr "Sorzint"
 
+#. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
+#. * Status: Accepted: X   Declined: Y   ...
+#: ../src/calendar/gui/e-cal-list-view.etspec.h:10
+#: ../src/calendar/gui/e-cal-model.c:3869
+#: ../src/calendar/gui/e-meeting-list-view.c:693
+#: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
+#: ../src/calendar/gui/e-memo-table.etspec.h:9
+#: ../src/calendar/gui/e-task-table.etspec.h:11
+#: ../src/calendar/gui/tasktypes.xml.in.h:8 ../src/mail/filtertypes.xml.in.h:36
+#: ../src/mail/message-list.etspec.h:1 ../src/mail/searchtypes.xml.in.h:38
+#: ../src/mail/vfoldertypes.xml.in.h:38
+msgid "Status"
+msgstr "Stât"
+
 #: ../src/calendar/gui/e-cal-model.c:307
 #: ../src/calendar/gui/e-meeting-list-view.c:183
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:135
 #: ../src/calendar/gui/e-meeting-store.c:170
-#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1256
-#: ../src/calendar/gui/print.c:1273 ../src/e-util/e-charset.c:49
+#: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1257
+#: ../src/calendar/gui/print.c:1274 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3621
 #: ../src/modules/itip-formatter/itip-view.c:6664
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
@@ -7119,12 +7107,12 @@ msgid "Assigned"
 msgstr "Assegnât"
 
 #: ../src/calendar/gui/e-cal-model.c:1902
-#: ../src/calendar/gui/e-cal-model-tasks.c:1209
+#: ../src/calendar/gui/e-cal-model-tasks.c:1133
 msgid "Yes"
 msgstr "Sì"
 
 #: ../src/calendar/gui/e-cal-model.c:1902
-#: ../src/calendar/gui/e-cal-model-tasks.c:1209
+#: ../src/calendar/gui/e-cal-model-tasks.c:1133
 msgid "No"
 msgstr "No"
 
@@ -7162,32 +7150,20 @@ msgstr "Delegât"
 
 #: ../src/calendar/gui/e-cal-model.c:3814
 msgid "Needs action"
-msgstr "E covente azion"
-
-#. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
-#. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/e-cal-model.c:3869
-#: ../src/calendar/gui/e-meeting-list-view.c:693
-#: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../src/calendar/gui/e-task-table.etspec.h:11
-#: ../src/calendar/gui/tasktypes.xml.in.h:8 ../src/mail/filtertypes.xml.in.h:36
-#: ../src/mail/message-list.etspec.h:1 ../src/mail/searchtypes.xml.in.h:38
-#: ../src/mail/vfoldertypes.xml.in.h:38
-msgid "Status"
-msgstr "Stât"
+msgstr "Azion necessarie"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:157
-#: ../src/calendar/gui/e-task-table.c:609
+#: ../src/calendar/gui/e-task-table.c:529
 msgid "Free"
 msgstr "Libar"
 
 #: ../src/calendar/gui/e-cal-model-calendar.c:160
 #: ../src/calendar/gui/e-meeting-time-sel.c:524
-#: ../src/calendar/gui/e-task-table.c:610
+#: ../src/calendar/gui/e-task-table.c:530
 msgid "Busy"
 msgstr "Impegnât"
 
-#: ../src/calendar/gui/e-cal-model-tasks.c:525
+#: ../src/calendar/gui/e-cal-model-tasks.c:493
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -7197,11 +7173,9 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#. Translators: "None" for task's status
-#: ../src/calendar/gui/e-cal-model-tasks.c:579
-msgctxt "cal-task-status"
-msgid "None"
-msgstr "Nissun"
+#: ../src/calendar/gui/e-cal-model-tasks.c:590
+msgid "In Progress"
+msgstr "In cors"
 
 #: ../src/calendar/gui/e-cal-ops.c:305
 msgid "Modifying an event"
@@ -7732,27 +7706,27 @@ msgstr "Cjamp _Gjenar"
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Al comute se si mostre il cjamp “Gjenar di partecipant”"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1119
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1064
 msgid "An organizer is required."
 msgstr "Al covente un organizadôr."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1129
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1266
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1074
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1213
 msgid "At least one attendee is required."
 msgstr "Al covente almancul un partecipant."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1390
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1337
 msgid "Or_ganizer:"
 msgstr "Or_ganizadôr:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1485
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1432
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
 "Passe sore al colôr dal event. Se no stabilît, alore al ven doprât il colôr "
 "dal calendari."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1487
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1434
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
@@ -7760,25 +7734,25 @@ msgstr ""
 "colôr de liste dai memorandum."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1489
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1436
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 "Passe sore al colôr de ativitât. Se no stabilît, alore al ven doprât il "
 "colôr de liste des ativitâts."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1500
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1447
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "Partecipa_nts..."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1583
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1530
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2285
 #: ../src/calendar/gui/e-comp-editor.c:2078
 #: ../src/e-util/e-accounts-window.c:1745
 #: ../src/e-util/e-html-editor-actions.c:954
 #: ../src/e-util/e-mail-signature-manager.c:358
-#: ../src/e-util/e-webdav-browser.c:2681 ../src/e-util/filter.ui.h:26
+#: ../src/e-util/e-webdav-browser.c:2686 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:728 ../src/mail/e-mail-browser.c:195
 #: ../src/mail/e-mail-label-manager.c:380
 #: ../src/mail/em-folder-properties.c:1333 ../src/mail/mail-config.ui.h:68
@@ -8048,14 +8022,14 @@ msgid "Exceptions"
 msgstr "Ecezions"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2277
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1830
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2142
 #: ../src/mail/e-mail-config-identity-page.c:853
 #: ../src/mail/mail-config.ui.h:67
 msgid "A_dd"
 msgstr "Zon_te"
 
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2293
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1838
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2150
 #: ../src/mail/mail-config.ui.h:69
 msgid "Re_move"
 msgstr "Gja_ve"
@@ -8068,170 +8042,179 @@ msgstr "Anteprime"
 msgid "Send To"
 msgstr "Invie a"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1606
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1566
 msgid "_Reminders"
 msgstr "P_ro memoria"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1608
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1568
 msgid "Set or unset reminders"
 msgstr "Met o gjave i pro memoria"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1670
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
-msgid "Reminders"
-msgstr "Pro memoria"
-
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1695
-msgid "_Reminder"
-msgstr "P_ro memoria"
-
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1728
-#, c-format
-msgid "%d day before"
-msgid_plural "%d days before"
-msgstr[0] "%d zornade prime"
-msgstr[1] "%d dîs prime"
-
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1735
-#, c-format
-msgid "%d hour before"
-msgid_plural "%d hours before"
-msgstr[0] "%d ore prime"
-msgstr[1] "%d oris prime"
-
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1742
-#, c-format
-msgid "%d minute before"
-msgid_plural "%d minutes before"
-msgstr[0] "%d minût prime"
-msgstr[1] "%d minûts prime"
-
 #. Translators: "None" for "No reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1750
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1680
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Nissun"
 
-#. Translators: Predefined reminder's description
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1752
+#. Translators: This constructs predefined reminder's description, for example "15 minutes before",
+#. "1 hour before", "1 day before", but, if user has set, also more complicated strings like
+#. "2 days 13 hours 1 minute before".
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1690
+#, c-format
 msgctxt "cal-reminders"
-msgid "15 minutes before"
-msgstr "15 minûts prime"
+msgid "%s before"
+msgstr "%s indaûr"
 
-#. Translators: Predefined reminder's description
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1754
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1695
 msgctxt "cal-reminders"
-msgid "1 hour before"
-msgstr "1 ore prime"
-
-#. Translators: Predefined reminder's description
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1756
-msgctxt "cal-reminders"
-msgid "1 day before"
-msgstr "1 zornade prime"
+msgid "at the start"
+msgstr "al inizi"
 
 #. Translators: "Custom" for "Custom reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1768
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1703
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "Personalizât"
 
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1849
+msgid "Set a custom predefined time to"
+msgstr "Stabilìs un orari predefinît personalizât a"
+
+#. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1862
+msgctxt "cal-reminders"
+msgid "da_ys"
+msgstr "d_îs"
+
+#. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1878
+msgctxt "cal-reminders"
+msgid "_hours"
+msgstr "_oris"
+
+#. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1894
+msgctxt "cal-reminders"
+msgid "_minutes"
+msgstr "_minûts"
+
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1900
+msgid "_Add time"
+msgstr "_Zonte orari"
+
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1980
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
+msgid "Reminders"
+msgstr "Pro memoria"
+
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2005
+msgid "_Reminder"
+msgstr "P_ro memoria"
+
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2030
+msgid "Add custom predefined time"
+msgstr "Zonte un orari predefinît personalizât"
+
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2038
+msgid "Remove custom predefined times"
+msgstr "Gjave oraris predefinîts personalizâts"
+
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1911
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2223
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "minût(s)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1913
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2225
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "ore(is)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1915
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2227
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "dì(îs)"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1932
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2244
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "prime"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1934
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2246
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "dopo"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1950
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2262
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "inizi"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1952
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2264
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "fin"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1971
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2283
 msgid "Re_peat the reminder"
 msgstr "Ri_pet il pro memoria"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1996
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2308
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "plui timp ogni"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2033
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2345
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "minûts"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2035
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2347
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "oris"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2037
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2349
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "dîs"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2074
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2231
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2386
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2543
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "_Messaç personalizât"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2118
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2430
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "_Sun pro memoria personalizât"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2129
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2441
 msgid "Select a sound file"
 msgstr "Selezione un file audio"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2157
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2469
 msgid "_Program:"
 msgstr "_Program:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2182
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2494
 msgid "_Arguments:"
 msgstr "_Argoments:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2214
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2526
 msgid "_Send To:"
 msgstr "_Invie a:"
 
@@ -8243,160 +8226,111 @@ msgstr "_Planifiche"
 msgid "Query free / busy information for the attendees"
 msgstr "Interoghe lis informazions libar/impegnât pai partecipants"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:79
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:80
 msgctxt "ECompEditor"
 msgid "_Summary:"
 msgstr "_Sintesi:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:323
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:324
 msgctxt "ECompEditor"
 msgid "_Location:"
 msgstr "_Ubicazion:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:456
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:457
 msgctxt "ECompEditor"
 msgid "_Categories..."
 msgstr "_Categoriis..."
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:555
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:556
 msgctxt "ECompEditor"
 msgid "_Description:"
 msgstr "_Descrizion:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:687
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:688
 msgctxt "ECompEditor"
 msgid "_Web page:"
 msgstr "Pagjine _web:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1058
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1059
 msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "Date di sc_jadince:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1152
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1153
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr "Completât in _date:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1168
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1169
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "Public"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1169
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1170
 msgctxt "ECompEditor"
 msgid "Private"
 msgstr "Privât"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1170
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1171
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "Confidenziâl"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1186
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1187
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr "C_lassificazion:"
 
-#. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1205
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1211
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1976
-msgctxt "ECompEditor"
-msgid "None"
-msgstr "Nissun"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1206
-msgctxt "ECompEditor"
-msgid "Tentative"
-msgstr "Provisori"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1207
-msgctxt "ECompEditor"
-msgid "Confirmed"
-msgstr "Confermât"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1208
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1214
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1221
-msgctxt "ECompEditor"
-msgid "Cancelled"
-msgstr "Anulât"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1212
-msgctxt "ECompEditor"
-msgid "Draft"
-msgstr "Stampon"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1213
-msgctxt "ECompEditor"
-msgid "Final"
-msgstr "Definitîf"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1217
-msgctxt "ECompEditor"
-msgid "Not Started"
-msgstr "No scomençât"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1218
-msgctxt "ECompEditor"
-msgid "Needs Action"
-msgstr "E covente une azion"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1219
-msgctxt "ECompEditor"
-msgid "In Progress"
-msgstr "In cors"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1220
-msgctxt "ECompEditor"
-msgid "Completed"
-msgstr "Completât"
-
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1249
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1250
 msgctxt "ECompEditor"
 msgid "_Status:"
 msgstr "_Stât:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1279
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1280
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "No definide"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1280
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1281
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "Alte"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1281
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1282
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "Normâl"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1282
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1283
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "Basse"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1291
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1292
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr "Priori_tât:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1345
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1346
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr "P_ercentuâl completade:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1426
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1427
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "_Fûs orari:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1554
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1555
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Mostre ore come _impegnât"
+
+#. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1977
+msgctxt "ECompEditor"
+msgid "None"
+msgstr "Nissun"
 
 #: ../src/calendar/gui/e-comp-editor-task.c:256
 msgid "Task’s start date is in the past"
@@ -8624,17 +8558,17 @@ msgstr "Salve i cambiaments atuâi e siere l'editôr"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../src/calendar/gui/e-day-view.c:2152 ../src/calendar/gui/e-to-do-pane.c:245
-#: ../src/calendar/gui/e-week-view.c:1756 ../src/calendar/gui/print.c:1075
-#: ../src/calendar/gui/print.c:1094 ../src/calendar/gui/print.c:2646
-#: ../src/calendar/gui/print.c:2666
+#: ../src/calendar/gui/e-week-view.c:1756 ../src/calendar/gui/print.c:1076
+#: ../src/calendar/gui/print.c:1095 ../src/calendar/gui/print.c:2647
+#: ../src/calendar/gui/print.c:2667
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/e-day-view.c:2155 ../src/calendar/gui/e-to-do-pane.c:249
-#: ../src/calendar/gui/e-week-view.c:1759 ../src/calendar/gui/print.c:1080
-#: ../src/calendar/gui/print.c:1096 ../src/calendar/gui/print.c:2651
-#: ../src/calendar/gui/print.c:2668
+#: ../src/calendar/gui/e-week-view.c:1759 ../src/calendar/gui/print.c:1081
+#: ../src/calendar/gui/print.c:1097 ../src/calendar/gui/print.c:2652
+#: ../src/calendar/gui/print.c:2669
 msgid "pm"
 msgstr "pm"
 
@@ -8647,7 +8581,7 @@ msgstr "pm"
 #: ../src/calendar/gui/e-day-view.c:3045
 #: ../src/calendar/gui/e-day-view-top-item.c:850
 #: ../src/calendar/gui/e-week-view-main-item.c:205
-#: ../src/calendar/gui/print.c:2108
+#: ../src/calendar/gui/print.c:2109
 msgid "%A %d %B"
 msgstr "%A %e di %B"
 
@@ -8710,51 +8644,51 @@ msgstr "Partecipants"
 #: ../src/calendar/gui/e-meeting-list-view.c:179
 #: ../src/calendar/gui/e-meeting-store.c:110
 #: ../src/calendar/gui/e-meeting-store.c:127
-#: ../src/calendar/gui/e-meeting-store.c:1072 ../src/calendar/gui/print.c:1252
+#: ../src/calendar/gui/e-meeting-store.c:1072 ../src/calendar/gui/print.c:1253
 msgid "Individual"
 msgstr "Individuâl"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:180
 #: ../src/calendar/gui/e-meeting-store.c:112
-#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1253
+#: ../src/calendar/gui/e-meeting-store.c:129 ../src/calendar/gui/print.c:1254
 #: ../src/e-util/e-table-config.ui.h:1
 msgid "Group"
 msgstr "Grup"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:181
 #: ../src/calendar/gui/e-meeting-store.c:114
-#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1254
+#: ../src/calendar/gui/e-meeting-store.c:131 ../src/calendar/gui/print.c:1255
 msgid "Resource"
 msgstr "Risorse"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:182
 #: ../src/calendar/gui/e-meeting-store.c:116
-#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1255
+#: ../src/calendar/gui/e-meeting-store.c:133 ../src/calendar/gui/print.c:1256
 msgid "Room"
 msgstr "Stanzie"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:193
 #: ../src/calendar/gui/e-meeting-store.c:145
-#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1269
+#: ../src/calendar/gui/e-meeting-store.c:162 ../src/calendar/gui/print.c:1270
 msgid "Chair"
 msgstr "Moderadôr"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:194
 #: ../src/calendar/gui/e-meeting-store.c:147
 #: ../src/calendar/gui/e-meeting-store.c:164
-#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1270
+#: ../src/calendar/gui/e-meeting-store.c:1073 ../src/calendar/gui/print.c:1271
 msgid "Required Participant"
 msgstr "Partecipant necessari"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:195
 #: ../src/calendar/gui/e-meeting-store.c:149
-#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1271
+#: ../src/calendar/gui/e-meeting-store.c:166 ../src/calendar/gui/print.c:1272
 msgid "Optional Participant"
 msgstr "Partecipant opzionâl"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:151
-#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1272
+#: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1273
 msgid "Non-Participant"
 msgstr "No partecipin"
 
@@ -8763,7 +8697,7 @@ msgstr "No partecipin"
 #: ../src/calendar/gui/e-meeting-store.c:200
 #: ../src/calendar/gui/e-meeting-store.c:1079
 msgid "Needs Action"
-msgstr "E covente une azion"
+msgstr "Azion necessarie"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:624
 msgid "Attendee                          "
@@ -8776,7 +8710,7 @@ msgstr "Partecipant                          "
 #: ../src/e-util/e-accounts-window.c:1443
 #: ../src/e-util/e-attachment-tree-view.c:205
 #: ../src/e-util/e-collection-account-wizard.c:1971
-#: ../src/e-util/e-webdav-browser.c:2381
+#: ../src/e-util/e-webdav-browser.c:2386
 #: ../src/mail/e-mail-account-tree-view.c:158
 msgid "Type"
 msgstr "Gjenar"
@@ -8786,6 +8720,13 @@ msgstr "Gjenar"
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:6
 msgid "RSVP"
 msgstr "RSVP"
+
+#: ../src/calendar/gui/e-meeting-store.c:187
+#: ../src/calendar/gui/e-meeting-store.c:210
+#: ../src/calendar/gui/tasktypes.xml.in.h:13
+#: ../src/plugins/save-calendar/csv-format.c:374
+msgid "Completed"
+msgstr "Completât"
 
 #: ../src/calendar/gui/e-meeting-store.c:189
 #: ../src/calendar/gui/e-meeting-store.c:212
@@ -8885,7 +8826,7 @@ msgstr ""
 "Ubicazion: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2578
-#: ../src/calendar/gui/print.c:3553
+#: ../src/calendar/gui/print.c:3554
 #, c-format
 msgid "Summary: %s"
 msgstr "Sintesi: %s"
@@ -8914,41 +8855,41 @@ msgstr "Non comun"
 msgid "Language"
 msgstr "Lenghe"
 
-#: ../src/calendar/gui/e-memo-table.c:451
-#: ../src/calendar/gui/e-task-table.c:775
+#: ../src/calendar/gui/e-memo-table.c:532
+#: ../src/calendar/gui/e-task-table.c:691
 msgid "* No Summary *"
 msgstr "* Nissune sintesi *"
 
 #. Translators: This is followed by an event's start date/time
-#: ../src/calendar/gui/e-memo-table.c:537
-#: ../src/calendar/gui/e-task-table.c:874
+#: ../src/calendar/gui/e-memo-table.c:618
+#: ../src/calendar/gui/e-task-table.c:790
 msgid "Start: "
 msgstr "Inizi: "
 
 #. Translators: This is followed by an event's due date/time
-#: ../src/calendar/gui/e-memo-table.c:557
-#: ../src/calendar/gui/e-task-table.c:893
+#: ../src/calendar/gui/e-memo-table.c:638
+#: ../src/calendar/gui/e-task-table.c:809
 msgid "Due: "
 msgstr "Scjadince: "
 
-#: ../src/calendar/gui/e-memo-table.c:767
+#: ../src/calendar/gui/e-memo-table.c:848
 msgid "Cut selected memos to the clipboard"
 msgstr "Taie i memorandum selezionâts intes notis"
 
-#: ../src/calendar/gui/e-memo-table.c:773
+#: ../src/calendar/gui/e-memo-table.c:854
 msgid "Copy selected memos to the clipboard"
 msgstr "Copie i memorandum selezionâts intes notis"
 
-#: ../src/calendar/gui/e-memo-table.c:779
+#: ../src/calendar/gui/e-memo-table.c:860
 msgid "Paste memos from the clipboard"
 msgstr "Tache i memorandum des notis"
 
-#: ../src/calendar/gui/e-memo-table.c:785
+#: ../src/calendar/gui/e-memo-table.c:866
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:572
 msgid "Delete selected memos"
 msgstr "Elimine i memorandum selezionâts"
 
-#: ../src/calendar/gui/e-memo-table.c:791
+#: ../src/calendar/gui/e-memo-table.c:872
 msgid "Select all visible memos"
 msgstr "Selezione ducj i memorandum visibii"
 
@@ -8956,7 +8897,7 @@ msgstr "Selezione ducj i memorandum visibii"
 msgid "Click to add a memo"
 msgstr "Fâs clic par zontâ un memorandum"
 
-#: ../src/calendar/gui/e-task-table.c:554
+#: ../src/calendar/gui/e-task-table.c:474
 #: ../src/calendar/gui/tasktypes.xml.in.h:22
 #: ../src/e-util/e-send-options.ui.h:1
 msgid "Undefined"
@@ -8966,29 +8907,29 @@ msgstr "No definide"
 #. * %d is the actual value, %% is replaced with a percent sign.
 #. * Result values will be 0%, 10%, 20%, ... 100%
 #.
-#: ../src/calendar/gui/e-task-table.c:582
+#: ../src/calendar/gui/e-task-table.c:502
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../src/calendar/gui/e-task-table.c:1130
+#: ../src/calendar/gui/e-task-table.c:1046
 msgid "Cut selected tasks to the clipboard"
 msgstr "Taie lis ativitâts selezionadis intes notis"
 
-#: ../src/calendar/gui/e-task-table.c:1136
+#: ../src/calendar/gui/e-task-table.c:1052
 msgid "Copy selected tasks to the clipboard"
 msgstr "Copie lis ativitâts selezionadis intes notis"
 
-#: ../src/calendar/gui/e-task-table.c:1142
+#: ../src/calendar/gui/e-task-table.c:1058
 msgid "Paste tasks from the clipboard"
 msgstr "Tache lis ativitâts des notis"
 
-#: ../src/calendar/gui/e-task-table.c:1148
+#: ../src/calendar/gui/e-task-table.c:1064
 #: ../src/modules/calendar/e-task-shell-view-actions.c:698
 msgid "Delete selected tasks"
 msgstr "Elimine lis ativitâts selezionadis"
 
-#: ../src/calendar/gui/e-task-table.c:1154
+#: ../src/calendar/gui/e-task-table.c:1070
 msgid "Select all visible tasks"
 msgstr "Selezione dutis lis ativitâts visibilis"
 
@@ -9112,8 +9053,6 @@ msgstr "Di fâ"
 #. Example: "Meet John Doe (Central Park)"
 #: ../src/calendar/gui/e-week-view.c:3705
 #, c-format
-#| msgctxt "language"
-#| msgid "%s (%s)"
 msgctxt "SummaryWithLocation"
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -9122,7 +9061,7 @@ msgstr "%s (%s)"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:222
-#: ../src/calendar/gui/print.c:2087
+#: ../src/calendar/gui/print.c:2088
 msgid "%d %B"
 msgstr "%e di %B"
 
@@ -9248,138 +9187,171 @@ msgstr "Impussibil riservâ une risorse, erôr: "
 msgid "You must be an attendee of the event."
 msgstr "Al covente jessi un partecipant dal event."
 
-#: ../src/calendar/gui/itip-utils.c:2282
+#: ../src/calendar/gui/itip-utils.c:2311
 msgid "Sending an event"
 msgstr "Daûr a inviâ un event"
 
-#: ../src/calendar/gui/itip-utils.c:2286
+#: ../src/calendar/gui/itip-utils.c:2315
 msgid "Sending a memo"
 msgstr "Daûr a inviâ un memorandum"
 
-#: ../src/calendar/gui/itip-utils.c:2290
+#: ../src/calendar/gui/itip-utils.c:2319
 msgid "Sending a task"
 msgstr "Daûr a inviâ une ativitât"
 
 #. Translator: This is used as a placeholder when an event doesn't have set a location
-#: ../src/calendar/gui/itip-utils.c:2542
+#: ../src/calendar/gui/itip-utils.c:2571
 msgctxt "Location"
 msgid "Unspecified"
 msgstr "No specificât"
+
+#: ../src/calendar/gui/misc.c:95
+#, c-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d dì"
+msgstr[1] "%d dîs"
+
+#: ../src/calendar/gui/misc.c:101
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d ore"
+msgstr[1] "%d oris"
+
+#: ../src/calendar/gui/misc.c:107
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minût"
+msgstr[1] "%d minûts"
+
+#. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
+#: ../src/calendar/gui/misc.c:111
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d secont"
+msgstr[1] "%d seconts"
 
 #. G_DATE_BAD_WEEKDAY
 #. Translators: These are workday abbreviations,
 #. * e.g. Su=Sunday and Th=thursday
 #. G_DATE_MONDAY
-#: ../src/calendar/gui/print.c:729
+#: ../src/calendar/gui/print.c:730
 msgid "Mo"
 msgstr "Lu"
 
 #. G_DATE_TUESDAY
-#: ../src/calendar/gui/print.c:730
+#: ../src/calendar/gui/print.c:731
 msgid "Tu"
 msgstr "Ma"
 
 #. G_DATE_WEDNESDAY
-#: ../src/calendar/gui/print.c:731
+#: ../src/calendar/gui/print.c:732
 msgid "We"
 msgstr "Mi"
 
 #. G_DATE_THURSDAY
-#: ../src/calendar/gui/print.c:732
+#: ../src/calendar/gui/print.c:733
 msgid "Th"
 msgstr "Jo"
 
 #. G_DATE_FRIDAY
-#: ../src/calendar/gui/print.c:733
+#: ../src/calendar/gui/print.c:734
 msgid "Fr"
 msgstr "Vi"
 
 #. G_DATE_SATURDAY
-#: ../src/calendar/gui/print.c:734
+#: ../src/calendar/gui/print.c:735
 msgid "Sa"
 msgstr "Sa"
 
 #. G_DATE_SUNDAY
-#: ../src/calendar/gui/print.c:735
+#: ../src/calendar/gui/print.c:736
 msgid "Su"
 msgstr "Do"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../src/calendar/gui/print.c:3345
+#: ../src/calendar/gui/print.c:3346
 msgid " to "
 msgstr " a "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../src/calendar/gui/print.c:3355
+#: ../src/calendar/gui/print.c:3356
 msgid " (Completed "
 msgstr " (Completât "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../src/calendar/gui/print.c:3361
+#: ../src/calendar/gui/print.c:3362
 msgid "Completed "
 msgstr "Completât "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../src/calendar/gui/print.c:3371
+#: ../src/calendar/gui/print.c:3372
 msgid " (Due "
 msgstr " (Scjadince "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../src/calendar/gui/print.c:3378
+#: ../src/calendar/gui/print.c:3379
 msgid "Due "
 msgstr "Scjadince "
 
-#: ../src/calendar/gui/print.c:3523
+#: ../src/calendar/gui/print.c:3524
 msgid "Appointment"
 msgstr "Apontament"
 
-#: ../src/calendar/gui/print.c:3525 ../src/e-util/e-send-options.c:551
+#: ../src/calendar/gui/print.c:3526 ../src/e-util/e-send-options.c:551
 msgid "Task"
 msgstr "Ativitât"
 
-#: ../src/calendar/gui/print.c:3527
+#: ../src/calendar/gui/print.c:3528
 msgid "Memo"
 msgstr "Pro memoria"
 
-#: ../src/calendar/gui/print.c:3584
+#: ../src/calendar/gui/print.c:3585
 msgid "Attendees: "
 msgstr "Partecipants: "
 
-#: ../src/calendar/gui/print.c:3628
+#: ../src/calendar/gui/print.c:3614
 #, c-format
 msgid "Status: %s"
 msgstr "Stât: %s"
 
-#: ../src/calendar/gui/print.c:3644
+#: ../src/calendar/gui/print.c:3630
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritât: %s"
 
-#: ../src/calendar/gui/print.c:3659
+#: ../src/calendar/gui/print.c:3645
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Percentuâl completade: %i"
 
-#: ../src/calendar/gui/print.c:3674
+#: ../src/calendar/gui/print.c:3660
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../src/calendar/gui/print.c:3690
+#: ../src/calendar/gui/print.c:3676
 #, c-format
 msgid "Categories: %s"
 msgstr "Categoriis: %s"
 
-#: ../src/calendar/gui/print.c:3702
+#: ../src/calendar/gui/print.c:3688
 msgid "Contacts: "
 msgstr "Contats: "
+
+#: ../src/calendar/gui/tasktypes.xml.in.h:11
+msgid "Not Started"
+msgstr "No tacât"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:12
 msgid "In progress"
@@ -11334,7 +11306,7 @@ msgstr "Salve stampon"
 #: ../src/composer/e-composer-from-header.c:108
 #: ../src/e-util/e-collection-account-wizard.c:2003
 #: ../src/e-util/e-mail-signature-script-dialog.c:416
-#: ../src/e-util/e-webdav-browser.c:2408
+#: ../src/e-util/e-webdav-browser.c:2413
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:550
 #: ../src/mail/e-mail-config-summary-page.c:332
@@ -11752,7 +11724,7 @@ msgid "Format part as an RFC822 message"
 msgstr "Formate part come un messaç RFC822"
 
 #: ../src/em-format/e-mail-formatter-print.c:51
-#: ../src/e-util/e-webdav-browser.c:2352
+#: ../src/e-util/e-webdav-browser.c:2357
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:92
 #: ../src/mail/e-mail-label-tree-view.c:96
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:64
@@ -12208,7 +12180,7 @@ msgstr "Account di Evolution"
 #. widget = gtk_button_new_with_mnemonic (_("_Permissions"));
 #. gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 #. webdav_browser->priv->permissions_button = widget;
-#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2699
+#: ../src/e-util/e-accounts-window.c:1761 ../src/e-util/e-webdav-browser.c:2704
 #: ../src/mail/em-subscription-editor.c:1952
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1600
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1678
@@ -12338,7 +12310,7 @@ msgstr "Non _file:"
 #: ../src/e-util/e-attachment-dialog.c:354
 #: ../src/e-util/e-html-editor-image-dialog.c:513
 #: ../src/e-util/e-html-editor-link-dialog.c:229
-#: ../src/e-util/e-webdav-browser.c:2447
+#: ../src/e-util/e-webdav-browser.c:2452
 msgid "_Description:"
 msgstr "_Descrizion:"
 
@@ -12894,167 +12866,167 @@ msgstr "Informazions sul account"
 msgid "Choose custom color"
 msgstr "Sielç colôr personalizât"
 
-#: ../src/e-util/e-color-combo.c:79
+#: ../src/e-util/e-color-combo.c:76
 msgid "black"
 msgstr "neri"
 
-#: ../src/e-util/e-color-combo.c:80
+#: ../src/e-util/e-color-combo.c:77
 msgid "light brown"
 msgstr "maron clâr"
 
-#: ../src/e-util/e-color-combo.c:81
+#: ../src/e-util/e-color-combo.c:78
 msgid "brown gold"
 msgstr "maron aur"
 
-#: ../src/e-util/e-color-combo.c:82
+#: ../src/e-util/e-color-combo.c:79
 msgid "dark green #2"
 msgstr "vert scûr #2"
 
-#: ../src/e-util/e-color-combo.c:83
+#: ../src/e-util/e-color-combo.c:80
 msgid "navy"
 msgstr "blu scûr mâr"
 
-#: ../src/e-util/e-color-combo.c:84
+#: ../src/e-util/e-color-combo.c:81
 msgid "dark blue"
 msgstr "blu scûr"
 
-#: ../src/e-util/e-color-combo.c:85
+#: ../src/e-util/e-color-combo.c:82
 msgid "purple #2"
 msgstr "purpure #2"
 
-#: ../src/e-util/e-color-combo.c:86
+#: ../src/e-util/e-color-combo.c:83
 msgid "very dark gray"
 msgstr "grîs une vore scûr"
 
-#: ../src/e-util/e-color-combo.c:88
+#: ../src/e-util/e-color-combo.c:85
 msgid "dark red"
 msgstr "ros scûr"
 
-#: ../src/e-util/e-color-combo.c:89
+#: ../src/e-util/e-color-combo.c:86
 msgid "red-orange"
 msgstr "ros-naranç"
 
-#: ../src/e-util/e-color-combo.c:90
+#: ../src/e-util/e-color-combo.c:87
 msgid "gold"
 msgstr "aur"
 
-#: ../src/e-util/e-color-combo.c:91
+#: ../src/e-util/e-color-combo.c:88
 msgid "dark green"
 msgstr "vert scûr"
 
-#: ../src/e-util/e-color-combo.c:92
+#: ../src/e-util/e-color-combo.c:89
 msgid "dull blue"
 msgstr "blu opac"
 
-#: ../src/e-util/e-color-combo.c:93
+#: ../src/e-util/e-color-combo.c:90
 msgid "blue"
 msgstr "blu"
 
-#: ../src/e-util/e-color-combo.c:94
+#: ../src/e-util/e-color-combo.c:91
 msgid "dull purple"
 msgstr "purpure opache"
 
-#: ../src/e-util/e-color-combo.c:95
+#: ../src/e-util/e-color-combo.c:92
 msgid "dark grey"
 msgstr "grîs scûr"
 
-#: ../src/e-util/e-color-combo.c:97
+#: ../src/e-util/e-color-combo.c:94
 msgid "red"
 msgstr "ros"
 
-#: ../src/e-util/e-color-combo.c:98
+#: ../src/e-util/e-color-combo.c:95
 msgid "orange"
 msgstr "naranç"
 
-#: ../src/e-util/e-color-combo.c:99
+#: ../src/e-util/e-color-combo.c:96
 msgid "lime"
 msgstr "zâl-vert lime"
 
-#: ../src/e-util/e-color-combo.c:100
+#: ../src/e-util/e-color-combo.c:97
 msgid "dull green"
 msgstr "vert opac"
 
-#: ../src/e-util/e-color-combo.c:101
+#: ../src/e-util/e-color-combo.c:98
 msgid "dull blue #2"
 msgstr "blu opac #2"
 
-#: ../src/e-util/e-color-combo.c:102
+#: ../src/e-util/e-color-combo.c:99
 msgid "sky blue #2"
 msgstr "blu cîl opac #2"
 
-#: ../src/e-util/e-color-combo.c:103
+#: ../src/e-util/e-color-combo.c:100
 msgid "purple"
 msgstr "purpure"
 
-#: ../src/e-util/e-color-combo.c:104
+#: ../src/e-util/e-color-combo.c:101
 msgid "gray"
 msgstr "grîs"
 
-#: ../src/e-util/e-color-combo.c:106
+#: ../src/e-util/e-color-combo.c:103
 msgid "magenta"
 msgstr "magenta"
 
-#: ../src/e-util/e-color-combo.c:107
+#: ../src/e-util/e-color-combo.c:104
 msgid "bright orange"
 msgstr "naranç une vore clâr"
 
-#: ../src/e-util/e-color-combo.c:108
+#: ../src/e-util/e-color-combo.c:105
 msgid "yellow"
 msgstr "zâl"
 
-#: ../src/e-util/e-color-combo.c:109
+#: ../src/e-util/e-color-combo.c:106
 msgid "green"
 msgstr "vert"
 
-#: ../src/e-util/e-color-combo.c:110
+#: ../src/e-util/e-color-combo.c:107
 msgid "cyan"
 msgstr "turchin"
 
-#: ../src/e-util/e-color-combo.c:111
+#: ../src/e-util/e-color-combo.c:108
 msgid "bright blue"
 msgstr "blu une vore clâr"
 
-#: ../src/e-util/e-color-combo.c:112
+#: ../src/e-util/e-color-combo.c:109
 msgid "red purple"
 msgstr "ros purpure"
 
-#: ../src/e-util/e-color-combo.c:113
+#: ../src/e-util/e-color-combo.c:110
 msgid "light grey"
 msgstr "grîs clâr"
 
-#: ../src/e-util/e-color-combo.c:115
+#: ../src/e-util/e-color-combo.c:112
 msgid "pink"
 msgstr "rose"
 
-#: ../src/e-util/e-color-combo.c:116
+#: ../src/e-util/e-color-combo.c:113
 msgid "light orange"
 msgstr "naranç clâr"
 
-#: ../src/e-util/e-color-combo.c:117
+#: ../src/e-util/e-color-combo.c:114
 msgid "light yellow"
 msgstr "zâl clâr"
 
-#: ../src/e-util/e-color-combo.c:118
+#: ../src/e-util/e-color-combo.c:115
 msgid "light green"
 msgstr "vert clâr"
 
-#: ../src/e-util/e-color-combo.c:119
+#: ../src/e-util/e-color-combo.c:116
 msgid "light cyan"
 msgstr "turchin clâr"
 
-#: ../src/e-util/e-color-combo.c:120
+#: ../src/e-util/e-color-combo.c:117
 msgid "light blue"
 msgstr "blu clâr"
 
-#: ../src/e-util/e-color-combo.c:121
+#: ../src/e-util/e-color-combo.c:118
 msgid "light purple"
 msgstr "purpure clare"
 
-#: ../src/e-util/e-color-combo.c:122
+#: ../src/e-util/e-color-combo.c:119
 msgid "white"
 msgstr "blanc"
 
-#: ../src/e-util/e-color-combo.c:641 ../src/mail/e-mail-account-tree-view.c:135
+#: ../src/e-util/e-color-combo.c:539 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:708
 #: ../src/mail/e-mail-reader.c:4849 ../src/mail/mail-config.ui.h:78
@@ -14484,7 +14456,7 @@ msgstr "_Jemplament:"
 
 #: ../src/e-util/e-html-editor-table-dialog.c:685
 #: ../src/e-util/e-html-editor-text-dialog.c:248
-#: ../src/e-util/e-webdav-browser.c:2418
+#: ../src/e-util/e-webdav-browser.c:2423
 msgid "_Color:"
 msgstr "_Colôr:"
 
@@ -15226,24 +15198,24 @@ msgstr "Utent:"
 msgid "Show"
 msgstr "Mostre"
 
-#: ../src/e-util/e-source-selector.c:3224
+#: ../src/e-util/e-source-selector.c:3223
 msgid "Group name"
 msgstr "Non dal grup"
 
-#: ../src/e-util/e-source-selector.c:3379 ../src/mail/e-mail-display.c:805
+#: ../src/e-util/e-source-selector.c:3378 ../src/mail/e-mail-display.c:805
 msgid "_Hide"
 msgstr "_Plate"
 
-#: ../src/e-util/e-source-selector.c:3379
-#: ../src/e-util/e-source-selector.c:3478
+#: ../src/e-util/e-source-selector.c:3378
+#: ../src/e-util/e-source-selector.c:3476
 msgid "_Show"
 msgstr "_Mostre"
 
-#: ../src/e-util/e-source-selector.c:3431
+#: ../src/e-util/e-source-selector.c:3430
 msgid "Manage Groups"
 msgstr "Gjestìs grups"
 
-#: ../src/e-util/e-source-selector.c:3443
+#: ../src/e-util/e-source-selector.c:3442
 msgid "Available Groups:"
 msgstr "Grups disponibii:"
 
@@ -15717,100 +15689,100 @@ msgstr "Daûr a cirî la cartele home dal utent, par plasê spiete…"
 msgid "Failed to search for user home"
 msgstr "No si è rivâts a cirî la cartele home dal utent"
 
-#: ../src/e-util/e-webdav-browser.c:1763
+#: ../src/e-util/e-webdav-browser.c:1764
 msgid "At least one component type should be set"
 msgstr "Si varès di indicâ almancul un gjenar di component"
 
-#: ../src/e-util/e-webdav-browser.c:1781
+#: ../src/e-util/e-webdav-browser.c:1783
 msgid "Failed to get selected collection HREF"
 msgstr "No si è rivâts a otignî la colezion HREF"
 
-#: ../src/e-util/e-webdav-browser.c:1812
+#: ../src/e-util/e-webdav-browser.c:1814
 msgid "Saving changes…"
 msgstr "Daûr a salvâ lis modifichis…"
 
-#: ../src/e-util/e-webdav-browser.c:1813
+#: ../src/e-util/e-webdav-browser.c:1815
 msgid "Failed to save changes"
 msgstr "No si è rivâts a salvâ lis modifichis"
 
-#: ../src/e-util/e-webdav-browser.c:1815
+#: ../src/e-util/e-webdav-browser.c:1817
 msgid "Creating new book…"
 msgstr "Daûr a creâ il gnûf libri…"
 
-#: ../src/e-util/e-webdav-browser.c:1816
+#: ../src/e-util/e-webdav-browser.c:1818
 msgid "Failed to create new book"
 msgstr "No si è rivâts a creâ il gnûf libri"
 
-#: ../src/e-util/e-webdav-browser.c:1818
+#: ../src/e-util/e-webdav-browser.c:1820
 msgid "Creating new calendar…"
 msgstr "Daûr a creâ un gnûf calendari…"
 
-#: ../src/e-util/e-webdav-browser.c:1819
+#: ../src/e-util/e-webdav-browser.c:1821
 msgid "Failed to create new calendar"
 msgstr "No si è rivâts a creâ un gnûf calendari"
 
-#: ../src/e-util/e-webdav-browser.c:1821
+#: ../src/e-util/e-webdav-browser.c:1823
 msgid "Creating new collection…"
 msgstr "Daûr a creâ une gnove colezion…"
 
-#: ../src/e-util/e-webdav-browser.c:1822
+#: ../src/e-util/e-webdav-browser.c:1824
 msgid "Failed to create new collection"
 msgstr "No si è rivâts a creâ une gnove colezion"
 
-#: ../src/e-util/e-webdav-browser.c:1961
+#: ../src/e-util/e-webdav-browser.c:1963
 msgid "It is not allowed to create book under another book or calendar"
 msgstr "Nol è permetût di creâ un libri sot di un altri libri o calendari"
 
 #. if (button == webdav_browser->priv->create_calendar_button)
-#: ../src/e-util/e-webdav-browser.c:1963
+#: ../src/e-util/e-webdav-browser.c:1965
 msgid "It is not allowed to create calendar under another book or calendar"
 msgstr "Nol è permetût di creâ un calendari sot di un altri libri o calendari"
 
-#: ../src/e-util/e-webdav-browser.c:2189
+#: ../src/e-util/e-webdav-browser.c:2194
 msgid "Deleting book…"
 msgstr "Daûr a eliminâ il libri…"
 
-#: ../src/e-util/e-webdav-browser.c:2190
+#: ../src/e-util/e-webdav-browser.c:2195
 msgid "Failed to delete book"
 msgstr "No si è rivâts a eliminâ il libri"
 
-#: ../src/e-util/e-webdav-browser.c:2193
+#: ../src/e-util/e-webdav-browser.c:2198
 msgid "Deleting calendar…"
 msgstr "Daûr a eliminâ il calendari…"
 
-#: ../src/e-util/e-webdav-browser.c:2194
+#: ../src/e-util/e-webdav-browser.c:2199
 msgid "Failed to delete calendar"
 msgstr "No si è rivâts a eliminâ il calendari"
 
-#: ../src/e-util/e-webdav-browser.c:2197
+#: ../src/e-util/e-webdav-browser.c:2202
 msgid "Deleting collection…"
 msgstr "Daûr a eliminâ la colezion…"
 
-#: ../src/e-util/e-webdav-browser.c:2198
+#: ../src/e-util/e-webdav-browser.c:2203
 msgid "Failed to delete collection"
 msgstr "No si è rivâts a eliminâ la colezion"
 
-#: ../src/e-util/e-webdav-browser.c:2429
+#: ../src/e-util/e-webdav-browser.c:2434
 msgid "For Components:"
 msgstr "Par components:"
 
-#: ../src/e-util/e-webdav-browser.c:2435
+#: ../src/e-util/e-webdav-browser.c:2440
 msgid "_Events"
 msgstr "_Events"
 
-#: ../src/e-util/e-webdav-browser.c:2625
+#: ../src/e-util/e-webdav-browser.c:2630
 msgid "WebDAV server:"
 msgstr "Servidôr WebDAV:"
 
-#: ../src/e-util/e-webdav-browser.c:2660
+#: ../src/e-util/e-webdav-browser.c:2665
 msgid "Create _Book"
 msgstr "Cree un _libri"
 
-#: ../src/e-util/e-webdav-browser.c:2667
+#: ../src/e-util/e-webdav-browser.c:2672
 msgid "Create _Calendar"
 msgstr "Cree _calendari"
 
-#: ../src/e-util/e-webdav-browser.c:2674
+#: ../src/e-util/e-webdav-browser.c:2679
 msgid "Create Collectio_n"
 msgstr "Cree colezio_n"
 
@@ -16260,12 +16232,12 @@ msgstr "Inviade"
 msgid "Templates"
 msgstr "Modei"
 
-#: ../src/libemail-engine/e-mail-session.c:1518
+#: ../src/libemail-engine/e-mail-session.c:1519
 #, c-format
 msgid "User cancelled operation"
 msgstr "Operazion anulade dal utent"
 
-#: ../src/libemail-engine/e-mail-session.c:1575
+#: ../src/libemail-engine/e-mail-session.c:1576
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been "
@@ -16274,27 +16246,27 @@ msgstr ""
 "Nissune direzion di destinazion furnide, il mandâ indenant dal messaç al è "
 "stât anulât."
 
-#: ../src/libemail-engine/e-mail-session.c:1588
+#: ../src/libemail-engine/e-mail-session.c:1589
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "No si à cjatât nissune identitât di doprâ, il mandâ indenant dal messaç al è "
 "stât anulât."
 
-#: ../src/libemail-engine/e-mail-session.c:1740
+#: ../src/libemail-engine/e-mail-session.c:1741
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "Sorzint corispondente pal servizi cun UID “%s” no cjatade"
 
-#: ../src/libemail-engine/e-mail-session.c:1860
+#: ../src/libemail-engine/e-mail-session.c:1861
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr "Ricercje in vore tes rubrichis pai certificâts S/MIME dal destinatari…"
 
-#: ../src/libemail-engine/e-mail-session.c:1862
+#: ../src/libemail-engine/e-mail-session.c:1863
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "Ricercje in vore tes rubrichis pes clâfs PGP dal destinatari…"
 
-#: ../src/libemail-engine/e-mail-session.c:2889
+#: ../src/libemail-engine/e-mail-session.c:2910
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "In spiete di “%s”"
@@ -16350,6 +16322,7 @@ msgid "Disconnecting from “%s”"
 msgstr "Daûr a disconetisi di “%s”"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:264
+#: ../src/mail/e-mail-backend.c:1048
 #, c-format
 msgid "Reconnecting to “%s”"
 msgstr "Daûr a tornâ a conetisi a “%s”"
@@ -27585,6 +27558,70 @@ msgstr "Impussibil scrivi il salvament sul disc, codiç di erôr: %i"
 msgid "Imported Certificate"
 msgstr "Certificât impuartât"
 
+#~ msgid "%d week"
+#~ msgid_plural "%d weeks"
+#~ msgstr[0] "%d setemane"
+#~ msgstr[1] "%d setemanis"
+
+#~ msgctxt "cal-task-status"
+#~ msgid "None"
+#~ msgstr "Nissun"
+
+#~ msgid "%d day before"
+#~ msgid_plural "%d days before"
+#~ msgstr[0] "%d zornade prime"
+#~ msgstr[1] "%d dîs prime"
+
+#~ msgid "%d hour before"
+#~ msgid_plural "%d hours before"
+#~ msgstr[0] "%d ore prime"
+#~ msgstr[1] "%d oris prime"
+
+#~ msgid "%d minute before"
+#~ msgid_plural "%d minutes before"
+#~ msgstr[0] "%d minût prime"
+#~ msgstr[1] "%d minûts prime"
+
+#~ msgctxt "cal-reminders"
+#~ msgid "15 minutes before"
+#~ msgstr "15 minûts prime"
+
+#~ msgctxt "cal-reminders"
+#~ msgid "1 hour before"
+#~ msgstr "1 ore prime"
+
+#~ msgctxt "cal-reminders"
+#~ msgid "1 day before"
+#~ msgstr "1 zornade prime"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Tentative"
+#~ msgstr "Provisori"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Cancelled"
+#~ msgstr "Anulât"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Draft"
+#~ msgstr "Stampon"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Not Started"
+#~ msgstr "No scomençât"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Needs Action"
+#~ msgstr "E covente une azion"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "In Progress"
+#~ msgstr "In cors"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Completed"
+#~ msgstr "Completât"
+
 #~ msgid "Selected Memo Lists for Notifications of Reminders"
 #~ msgstr "Listis di memorandum selezionadis pes notifichis di pro memoria"
 
@@ -27620,9 +27657,6 @@ msgstr "Certificât impuartât"
 #~ "Chest al è il metodi doprât di Evolution par autenticâti.  Viôt che "
 #~ "metint chest a “Doprant direzion e-mail” al domande l'acès anonim al to "
 #~ "servidôr LDAP."
-
-#~ msgid "Default reminder snooze interval, in minutes"
-#~ msgstr "Interval predefinît che al postpon il promemorie, in minûts"
 
 #~ msgid ""
 #~ "Default reminder snooze interval, in minutes, to be filled in the "
