@@ -125,6 +125,9 @@ void		e_meeting_attendee_set_language	(EMeetingAttendee *ia,
 						 const gchar *language);
 gboolean	e_meeting_attendee_is_set_language
 						(const EMeetingAttendee *ia);
+ECalComponentParameterBag *
+		e_meeting_attendee_get_parameter_bag
+						(const EMeetingAttendee *ia);
 EMeetingAttendeeType
 		e_meeting_attendee_get_atype	(const EMeetingAttendee *ia);
 EMeetingAttendeeEditLevel

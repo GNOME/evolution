@@ -49,6 +49,8 @@ struct _EMeetingAttendeePrivate {
 	gchar *cn;
 	gchar *language;
 
+	ECalComponentParameterBag *parameter_bag;
+
 	EMeetingAttendeeEditLevel edit_level;
 
 	gboolean show_address;
@@ -145,6 +147,8 @@ e_meeting_attendee_finalize (GObject *object)
 	g_free (ia->priv->cn);
 	g_free (ia->priv->language);
 
+	e_cal_component_parameter_bag_free (ia->priv->parameter_bag);
+
 	g_array_free (ia->priv->busy_periods, TRUE);
 
 	/* Chain up to parent's finalize() method. */
@@ -192,6 +196,8 @@ e_meeting_attendee_init (EMeetingAttendee *ia)
 	ia->priv->sentby = string_test (NULL);
 	ia->priv->cn = string_test (NULL);
 	ia->priv->language = string_test (NULL);
+
+	ia->priv->parameter_bag = e_cal_component_parameter_bag_new ();
 
 	ia->priv->edit_level = E_MEETING_ATTENDEE_EDIT_FULL;
 	ia->priv->show_address = FALSE;
@@ -241,6 +247,8 @@ e_meeting_attendee_new_from_e_cal_component_attendee (const ECalComponentAttende
 	e_meeting_attendee_set_sentby (ia, e_cal_component_attendee_get_sentby (ca));
 	e_meeting_attendee_set_cn (ia, e_cal_component_attendee_get_cn (ca));
 	e_meeting_attendee_set_language (ia, e_cal_component_attendee_get_language (ca));
+	e_cal_component_parameter_bag_assign (ia->priv->parameter_bag,
+		e_cal_component_attendee_get_parameter_bag (ca));
 
 	return G_OBJECT (ia);
 }
@@ -248,9 +256,11 @@ e_meeting_attendee_new_from_e_cal_component_attendee (const ECalComponentAttende
 ECalComponentAttendee *
 e_meeting_attendee_as_e_cal_component_attendee (const EMeetingAttendee *ia)
 {
+	ECalComponentAttendee *attendee;
+
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
 
-	return e_cal_component_attendee_new_full (
+	attendee = e_cal_component_attendee_new_full (
 		ia->priv->address,
 		string_is_set (ia->priv->member) ? ia->priv->member : NULL,
 		ia->priv->cutype,
@@ -262,6 +272,11 @@ e_meeting_attendee_as_e_cal_component_attendee (const EMeetingAttendee *ia)
 		string_is_set (ia->priv->sentby) ? ia->priv->sentby : NULL,
 		string_is_set (ia->priv->cn) ? ia->priv->cn : NULL,
 		string_is_set (ia->priv->language) ? ia->priv->language : NULL);
+
+	e_cal_component_parameter_bag_assign (e_cal_component_attendee_get_parameter_bag (attendee),
+		ia->priv->parameter_bag);
+
+	return attendee;
 }
 
 const gchar *
@@ -534,6 +549,14 @@ e_meeting_attendee_is_set_language (const EMeetingAttendee *ia)
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
 
 	return string_is_set (ia->priv->language);
+}
+
+ECalComponentParameterBag *
+e_meeting_attendee_get_parameter_bag (const EMeetingAttendee *ia)
+{
+	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), NULL);
+
+	return ia->priv->parameter_bag;
 }
 
 EMeetingAttendeeType

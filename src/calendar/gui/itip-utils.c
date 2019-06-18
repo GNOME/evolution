@@ -1613,6 +1613,33 @@ strip_x_microsoft_props (ECalComponent *comp)
 	g_slist_free_full (lst, g_object_unref);
 }
 
+/* https://tools.ietf.org/html/rfc6638#section-7.3 */
+static void
+remove_schedule_status_parameters (ECalComponent *comp)
+{
+	ICalComponent *icomp;
+	ICalProperty *prop;
+
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
+
+	icomp = e_cal_component_get_icalcomponent (comp);
+
+	if (!icomp)
+		return;
+
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ORGANIZER_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ORGANIZER_PROPERTY)) {
+		i_cal_property_remove_parameter_by_kind (prop, I_CAL_SCHEDULESTATUS_PARAMETER);
+	}
+
+	for (prop = i_cal_component_get_first_property (icomp, I_CAL_ATTENDEE_PROPERTY);
+	     prop;
+	     g_object_unref (prop), prop = i_cal_component_get_next_property (icomp, I_CAL_ATTENDEE_PROPERTY)) {
+		i_cal_property_remove_parameter_by_kind (prop, I_CAL_SCHEDULESTATUS_PARAMETER);
+	}
+}
+
 static ECalComponent *
 comp_compliant_one (ESourceRegistry *registry,
 		    ECalComponentItipMethod method,
@@ -1750,6 +1777,8 @@ comp_compliant_one (ESourceRegistry *registry,
 	default:
 		break;
 	}
+
+	remove_schedule_status_parameters (clone);
 
 	return clone;
 }

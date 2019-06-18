@@ -1008,72 +1008,17 @@ ecep_general_fill_widgets (ECompEditorPage *page,
 		address = itip_strip_mailto (i_cal_property_get_attendee (prop));
 		if (address) {
 			EMeetingAttendee *attendee;
-			ICalParameter *param;
+			ECalComponentAttendee *comp_attendee;
 
-			attendee = E_MEETING_ATTENDEE (e_meeting_attendee_new ());
-
-			/* It is supposed to be together with the "mailto:" protocol */
-			e_meeting_attendee_set_address (attendee, i_cal_property_get_attendee (prop));
-
-			param = i_cal_property_get_first_parameter (prop, I_CAL_MEMBER_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_member (attendee, i_cal_parameter_get_member (param));
-				g_object_unref (param);
+			comp_attendee = e_cal_component_attendee_new_from_property (prop);
+			if (!comp_attendee) {
+				g_warn_if_reached ();
+				continue;
 			}
 
-			param = i_cal_property_get_first_parameter (prop, I_CAL_CUTYPE_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_cutype (attendee, i_cal_parameter_get_cutype (param));
-				g_object_unref (param);
-			}
+			attendee = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_e_cal_component_attendee (comp_attendee));
 
-			param = i_cal_property_get_first_parameter (prop, I_CAL_ROLE_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_role (attendee, i_cal_parameter_get_role (param));
-				g_object_unref (param);
-			}
-
-			param = i_cal_property_get_first_parameter (prop, I_CAL_RSVP_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_rsvp (attendee, i_cal_parameter_get_rsvp (param) == I_CAL_RSVP_TRUE);
-				g_object_unref (param);
-			}
-
-			param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDTO_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_delto (attendee, i_cal_parameter_get_delegatedto (param));
-				g_object_unref (param);
-			}
-
-			param = i_cal_property_get_first_parameter (prop, I_CAL_DELEGATEDFROM_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_delfrom (attendee, i_cal_parameter_get_delegatedfrom (param));
-				g_object_unref (param);
-			}
-
-			param = i_cal_property_get_first_parameter (prop, I_CAL_PARTSTAT_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_partstat (attendee, i_cal_parameter_get_partstat (param));
-				g_object_unref (param);
-			}
-
-			param = i_cal_property_get_first_parameter (prop, I_CAL_SENTBY_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_sentby (attendee, i_cal_parameter_get_sentby (param));
-				g_object_unref (param);
-			}
-
-			param = i_cal_property_get_first_parameter (prop, I_CAL_CN_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_cn (attendee, i_cal_parameter_get_cn (param));
-				g_object_unref (param);
-			}
-
-			param = i_cal_property_get_first_parameter (prop, I_CAL_LANGUAGE_PARAMETER);
-			if (param) {
-				e_meeting_attendee_set_language (attendee, i_cal_parameter_get_language (param));
-				g_object_unref (param);
-			}
+			e_cal_component_attendee_free (comp_attendee);
 
 			e_meeting_store_add_attendee (page_general->priv->meeting_store, attendee);
 			e_meeting_list_view_add_attendee_to_name_selector (attendees_list_view, attendee);
@@ -1250,6 +1195,8 @@ ecep_general_fill_component (ECompEditorPage *page,
 					param = i_cal_parameter_new_language (e_meeting_attendee_get_language (attendee));
 					i_cal_property_take_parameter (prop, param);
 				}
+
+				e_cal_component_parameter_bag_fill_property (e_meeting_attendee_get_parameter_bag (attendee), prop);
 
 				i_cal_component_take_property (component, prop);
 			}
