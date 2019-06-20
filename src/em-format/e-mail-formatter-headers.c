@@ -42,7 +42,8 @@ G_DEFINE_TYPE (
 	E_TYPE_MAIL_FORMATTER_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
-	"application/vnd.evolution.headers",
+	E_MAIL_PART_HEADERS_MIME_TYPE,
+	"text/rfc822-headers",
 	NULL
 };
 
@@ -208,6 +209,7 @@ format_full_headers (EMailFormatter *formatter,
                      GString *buffer,
                      EMailPart *part,
                      EMailFormatterContext *context,
+		     gboolean is_rfc822_headers,
                      GCancellable *cancellable)
 {
 	guint32 mode = context->mode;
@@ -247,7 +249,7 @@ format_full_headers (EMailFormatter *formatter,
 			break;
 	}
 
-	if ((context->flags & E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING) != 0)
+	if (is_rfc822_headers || (context->flags & E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING) != 0)
 		formatting_flag |= E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING;
 
 	ct = camel_mime_part_get_content_type (mime_part);
@@ -263,8 +265,9 @@ format_full_headers (EMailFormatter *formatter,
 		buffer,
 		"<table cellspacing=\"0\" cellpadding=\"0\" "
 		"border=\"0\" width=\"100%%\" "
-		"id=\"__evo-full-headers\" "
+		"id=\"__evo-full-%sheaders\" "
 		"style=\"display: %s; direction: %s;\">",
+		is_rfc822_headers ? "rfc822-" : "",
 		flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED ? "none" : "table",
 		direction);
 
@@ -320,7 +323,7 @@ format_full_headers (EMailFormatter *formatter,
 
 	g_free (hdr_charset);
 
-	if (header_sender && header_from && mail_from_delegate) {
+	if (!is_rfc822_headers && header_sender && header_from && mail_from_delegate) {
 		gchar *bold_sender, *bold_from;
 
 		g_string_append (
@@ -358,7 +361,7 @@ format_full_headers (EMailFormatter *formatter,
 	g_free (evolution_imagesdir);
 
 	/* dump selected headers */
-	if (mode & E_MAIL_FORMATTER_MODE_ALL_HEADERS) {
+	if ((mode & E_MAIL_FORMATTER_MODE_ALL_HEADERS) != 0) {
 		for (ii = 0; ii < len; ii++) {
 			const gchar *header_name = NULL, *header_value = NULL;
 
@@ -447,7 +450,7 @@ format_full_headers (EMailFormatter *formatter,
 
 	g_string_append (buffer, "</table></td>");
 
-	show_sender_photo =
+	show_sender_photo = !is_rfc822_headers &&
 		e_mail_formatter_get_show_sender_photo (formatter);
 
 	/* Prefer contact photos over archaic "Face" headers. */
@@ -467,7 +470,7 @@ format_full_headers (EMailFormatter *formatter,
 
 		g_free (name);
 
-	} else if (face_header_value != NULL) {
+	} else if (!is_rfc822_headers && face_header_value != NULL) {
 		CamelMimePart *image_part;
 
 		image_part = camel_mime_part_new ();
@@ -501,9 +504,10 @@ emfe_headers_format (EMailFormatterExtension *extension,
 {
 	CamelMimePart *mime_part;
 	GString *buffer;
-	const gchar *direction;
+	const gchar *direction, *mime_type;
 	gboolean is_collapsable;
 	gboolean is_collapsed;
+	gboolean is_rfc822_headers;
 
 	if (g_cancellable_is_cancelled (cancellable))
 		return FALSE;
@@ -524,24 +528,44 @@ emfe_headers_format (EMailFormatterExtension *extension,
 			break;
 	}
 
-	is_collapsable =
+	mime_type = e_mail_part_get_mime_type (part);
+	is_rfc822_headers = mime_type && g_ascii_strcasecmp (mime_type, "text/rfc822-headers") == 0;
+
+	if (is_rfc822_headers && (context->mode == E_MAIL_FORMATTER_MODE_PRINTING || !E_IS_MAIL_PART_HEADERS (part))) {
+		g_object_unref (mime_part);
+
+		return e_mail_formatter_format_as (formatter, context, part, stream, "text/plain", cancellable);
+	}
+
+	is_collapsable = !is_rfc822_headers &&
 		(context->flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSABLE);
 
-	is_collapsed =
+	is_collapsed = !is_rfc822_headers &&
 		(context->flags & E_MAIL_FORMATTER_HEADER_FLAG_COLLAPSED);
 
 	buffer = g_string_new ("");
 
-	g_string_append_printf (
-		buffer,
-		"%s id=\"%s\"><table class=\"-e-mail-formatter-header-color\" border=\"0\" width=\"100%%\" "
-		"style=\"direction: %s; border-spacing: 0px\">"
-		"<tr>",
-		(context->mode != E_MAIL_FORMATTER_MODE_PRINTING) ?
-			"<div class=\"headers -e-mail-formatter-body-color\"" :
-			"<div class=\"headers\" style=\"background-color: #ffffff;\"",
-		e_mail_part_get_id (part),
-		direction);
+	if (is_rfc822_headers) {
+		g_string_append_printf (buffer,
+			"<div class=\"headers pre -e-mail-formatter-body-color -e-mail-formatter-frame-color\""
+			" style=\"border-width: 1px; border-style: solid;\" id=\"%s\">"
+			"<table class=\"part-container -e-web-view-background-color -e-web-view-text-color\""
+			" border=\"0\" width=\"100%%\" style=\"border: none; padding: 8px; margin: 0; direction: %s; border-spacing: 0px;\">"
+			"<tr>",
+			e_mail_part_get_id (part),
+			direction);
+	} else {
+		g_string_append_printf (
+			buffer,
+			"%s id=\"%s\"><table class=\"-e-mail-formatter-header-color\" border=\"0\" width=\"100%%\" "
+			"style=\"direction: %s; border-spacing: 0px\">"
+			"<tr>",
+			(context->mode != E_MAIL_FORMATTER_MODE_PRINTING) ?
+				"<div class=\"headers -e-mail-formatter-body-color\"" :
+				"<div class=\"headers\" style=\"background-color: #ffffff;\"",
+			e_mail_part_get_id (part),
+			direction);
+	}
 
 	if (is_collapsable) {
 		gint icon_width, icon_height;
@@ -576,6 +600,7 @@ emfe_headers_format (EMailFormatterExtension *extension,
 		buffer,
 		part,
 		context,
+		is_rfc822_headers,
 		cancellable);
 
 	g_string_append (buffer, "</td>");

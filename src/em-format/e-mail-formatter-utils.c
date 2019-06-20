@@ -45,7 +45,7 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 	GtkTextDirection direction;
 	const gchar *fmt, *html;
 	const gchar *display;
-	gchar *mhtml = NULL;
+	gchar *mhtml = NULL, *mfmt = NULL;
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
 	g_return_if_fail (buffer != NULL);
@@ -79,28 +79,33 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 			fmt = "<tr style=\"display: %s\">"
 				"<td>%s: %s</td></tr>";
 		}
-	} else if (flags & E_MAIL_FORMATTER_HEADER_FLAG_NODEC) {
-		if (direction == GTK_TEXT_DIR_RTL)
-			fmt = "<tr class=\"header\" style=\"display: %s\">"
-				"<th class=\"header rtl\">%s</th>"
-				"<td class=\"header rtl\">%s</td>"
-				"</tr>";
-		else
-			fmt = "<tr class=\"header\" style=\"display: %s\">"
-				"<th class=\"header ltr\">%s</th>"
-				"<td class=\"header ltr\">%s</td>"
-				"</tr>";
 	} else {
-		if (direction == GTK_TEXT_DIR_RTL)
-			fmt = "<tr class=\"header\" style=\"display: %s\">"
-				"<th class=\"header rtl\">%s:</th>"
-				"<td class=\"header rtl\">%s</td>"
-				"</tr>";
+		const gchar *decstr;
+		const gchar *dirstr;
+		const gchar *extra_style;
+
+		if ((flags & E_MAIL_FORMATTER_HEADER_FLAG_NODEC) != 0)
+			decstr = "";
 		else
-			fmt = "<tr class=\"header\" style=\"display: %s\">"
-				"<th class=\"header ltr\">%s:</th>"
-				"<td class=\"header ltr\">%s</td>"
-				"</tr>";
+			decstr = ":";
+
+		if ((flags & E_MAIL_FORMATTER_HEADER_FLAG_NO_FORMATTING) != 0)
+			extra_style = " style=\"font-weight: normal;\"";
+		else
+			extra_style = "";
+
+		if (direction == GTK_TEXT_DIR_RTL)
+			dirstr = "rtl";
+		else
+			dirstr = "ltr";
+
+		mfmt = g_strdup_printf (
+			"<tr class=\"header\" style=\"display: %%s;\">"
+			"<th class=\"header %s\"%s>%%s%s</th>"
+			"<td class=\"header %s\">%%s</td>"
+			"</tr>",
+			dirstr, extra_style, decstr, dirstr);
+		fmt = mfmt;
 	}
 
 	if (flags & E_MAIL_FORMATTER_HEADER_FLAG_HIDDEN)
@@ -111,6 +116,7 @@ e_mail_formatter_format_text_header (EMailFormatter *formatter,
 	g_string_append_printf (buffer, fmt, display, label, html);
 
 	g_free (mhtml);
+	g_free (mfmt);
 }
 
 gchar *

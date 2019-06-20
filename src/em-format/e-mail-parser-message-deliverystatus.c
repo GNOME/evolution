@@ -22,6 +22,7 @@
 #include <e-util/e-util.h>
 
 #include "e-mail-part-attachment.h"
+#include "e-mail-part-headers.h"
 #include "e-mail-parser-extension.h"
 
 typedef EMailParserExtension EMailParserMessageDeliveryStatus;
@@ -38,6 +39,7 @@ static const gchar *parser_mime_types[] = {
 	"message/delivery-status",
 	"message/feedback-report",
 	"message/disposition-notification",
+	"text/rfc822-headers",
 	NULL
 };
 
@@ -51,14 +53,58 @@ empe_msg_deliverystatus_parse (EMailParserExtension *extension,
 {
 	GQueue work_queue = G_QUEUE_INIT;
 	CamelContentType *ct;
-	EMailPart *mail_part;
+	EMailPart *mail_part = NULL;
 	gboolean show_inline;
 	gsize len;
 
+	ct = camel_mime_part_get_content_type (part);
+	show_inline = ct && camel_content_type_is (ct, "message", "feedback-report");
+
 	len = part_id->len;
 	g_string_append (part_id, ".delivery-status");
-	mail_part = e_mail_part_new (part, part_id->str);
-	e_mail_part_set_mime_type (mail_part, "text/plain");
+
+	if (ct && camel_content_type_is (ct, "text", "rfc822-headers")) {
+		CamelMimePart *replace_part;
+		CamelMimeParser *parser;
+		CamelStream *stream;
+		gboolean success;
+
+		show_inline = TRUE;
+
+		stream = camel_stream_mem_new ();
+		parser = camel_mime_parser_new ();
+		replace_part = camel_mime_part_new ();
+
+		success = camel_data_wrapper_decode_to_stream_sync (camel_medium_get_content (CAMEL_MEDIUM (part)), stream, cancellable, NULL);
+		if (success) {
+			g_seekable_seek (G_SEEKABLE (stream), 0, G_SEEK_SET, cancellable, NULL);
+
+			success = camel_mime_parser_init_with_stream (parser, stream, NULL) != -1;
+		}
+
+		success = success && camel_mime_part_construct_from_parser_sync (replace_part, parser, cancellable, NULL);
+
+		if (success) {
+			const CamelNameValueArray *headers;
+
+			headers = camel_medium_get_headers (CAMEL_MEDIUM (replace_part));
+			success = camel_name_value_array_get_length (headers) > 0;
+		}
+
+		if (success) {
+			mail_part = e_mail_part_headers_new (replace_part, part_id->str);
+			e_mail_part_set_mime_type (mail_part, "text/rfc822-headers");
+		}
+
+		g_object_unref (replace_part);
+		g_object_unref (parser);
+		g_object_unref (stream);
+	}
+
+	if (!mail_part) {
+		mail_part = e_mail_part_new (part, part_id->str);
+		e_mail_part_set_mime_type (mail_part, "text/plain");
+	}
 
 	g_string_truncate (part_id, len);
 
@@ -67,9 +113,6 @@ empe_msg_deliverystatus_parse (EMailParserExtension *extension,
 	/* The only reason for having a separate parser for
 	 * message/delivery-status is to display the part as an attachment */
 	e_mail_parser_wrap_as_attachment (parser, part, part_id, &work_queue);
-
-	ct = camel_mime_part_get_content_type (part);
-	show_inline = ct && camel_content_type_is (ct, "message", "feedback-report");
 
 	if (!show_inline) {
 		GSettings *settings;

@@ -41,7 +41,8 @@ G_DEFINE_TYPE (
 	E_TYPE_MAIL_FORMATTER_PRINT_EXTENSION)
 
 static const gchar *formatter_mime_types[] = {
-	"application/vnd.evolution.headers",
+	E_MAIL_PART_HEADERS_MIME_TYPE,
+	"text/rfc822-headers",
 	NULL
 };
 
@@ -59,7 +60,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	gboolean iter_valid;
 	GString *str;
 	gchar *subject;
-	const gchar *buf;
+	const gchar *buf, *mime_type;
 	gint attachments_count;
 	gchar *part_id_prefix;
 	CamelMimePart *mime_part;
@@ -67,7 +68,11 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	GList *head, *link;
 	const gchar *part_id;
 
-	g_return_val_if_fail (E_IS_MAIL_PART_HEADERS (part), FALSE);
+	g_return_val_if_fail (E_IS_MAIL_PART (part), FALSE);
+
+	mime_type = e_mail_part_get_mime_type (part);
+	if ((mime_type && g_ascii_strcasecmp (mime_type, "text/rfc822-headers") == 0) || !E_IS_MAIL_PART_HEADERS (part))
+		return e_mail_formatter_format_as (formatter, context, part, stream, "text/plain", cancellable);
 
 	mime_part = e_mail_part_ref_mime_part (part);
 
