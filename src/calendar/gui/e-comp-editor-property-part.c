@@ -993,10 +993,19 @@ e_comp_editor_property_part_datetime_get_value (ECompEditorPropertyPartDatetime 
 			i_cal_time_set_time (value, hour, minute, 0);
 
 			timezone_entry = g_weak_ref_get (&part_datetime->priv->timezone_entry);
-			if (timezone_entry)
-				i_cal_time_set_timezone (value, e_timezone_entry_get_timezone (timezone_entry));
-			if (!i_cal_time_get_timezone (value))
-				i_cal_time_set_timezone (value, i_cal_timezone_get_utc_timezone ());
+			if (timezone_entry) {
+				ICalTimezone *zone, *utc_zone;
+
+				utc_zone = i_cal_timezone_get_utc_timezone ();
+				zone = e_timezone_entry_get_timezone (timezone_entry);
+
+				/* It's required to have set the built-in UTC zone, not its copy,
+				   thus libical knows that it's a UTC time, not a time with UTC TZID. */
+				if (zone && g_strcmp0 (i_cal_timezone_get_location (utc_zone), i_cal_timezone_get_location (zone)) == 0)
+					zone = utc_zone;
+
+				i_cal_time_set_timezone (value, zone);
+			}
 		}
 	}
 

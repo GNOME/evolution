@@ -1436,6 +1436,7 @@ ecepp_timezone_create_widgets (ECompEditorPropertyPart *property_part,
 	gtk_widget_show (*out_label_widget);
 
 	*out_edit_widget = e_timezone_entry_new ();
+	e_timezone_entry_set_allow_none (E_TIMEZONE_ENTRY (*out_edit_widget), TRUE);
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (*out_edit_widget), calendar_config_get_icaltimezone ());
 
 	gtk_widget_show (*out_edit_widget);
@@ -1470,15 +1471,16 @@ ecepp_timezone_fill_widget (ECompEditorPropertyPart *property_part,
 
 	if (prop) {
 		ICalTime *itt;
+		GtkWidget *edit_widget;
+
+		edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
+		g_return_if_fail (E_IS_TIMEZONE_ENTRY (edit_widget));
 
 		itt = get_func (prop);
 		if (itt && i_cal_time_get_timezone (itt)) {
-			GtkWidget *edit_widget;
-
-			edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
-			g_return_if_fail (E_IS_TIMEZONE_ENTRY (edit_widget));
-
 			e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), i_cal_time_get_timezone (itt));
+		} else {
+			e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), NULL);
 		}
 
 		g_clear_object (&itt);

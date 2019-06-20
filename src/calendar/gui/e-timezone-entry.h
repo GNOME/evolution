@@ -75,6 +75,9 @@ GtkWidget *	e_timezone_entry_new		(void);
 ICalTimezone *	e_timezone_entry_get_timezone	(ETimezoneEntry *timezone_entry);
 void		e_timezone_entry_set_timezone	(ETimezoneEntry *timezone_entry,
 						 const ICalTimezone *timezone);
+gboolean	e_timezone_entry_get_allow_none	(ETimezoneEntry *timezone_entry);
+void		e_timezone_entry_set_allow_none	(ETimezoneEntry *timezone_entry,
+						 gboolean allow_none);
 
 G_END_DECLS
 

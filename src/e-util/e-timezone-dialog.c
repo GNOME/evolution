@@ -51,6 +51,9 @@
 #define E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_1_RGBA 0xff60e0ff
 #define E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_2_RGBA 0x000000ff
 
+/* Translators: 'None' for a time zone, like 'No time zone being set' */
+#define NONE_TZ_TEXT C_("timezone", "None")
+
 #define E_TIMEZONE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TIMEZONE_DIALOG, ETimezoneDialogPrivate))
@@ -59,6 +62,7 @@ struct _ETimezoneDialogPrivate {
 	/* The selected timezone. May be NULL for a 'local time' (i.e. when
 	 * the displayed name is ""). */
 	ICalTimezone *zone;
+	gboolean allow_none;
 
 	/* In case a non-builtin timezone is used. */
 	GSList *custom_zones; /* ICalTimezone * */
@@ -134,6 +138,7 @@ e_timezone_dialog_init (ETimezoneDialog *etd)
 {
 	etd->priv = E_TIMEZONE_DIALOG_GET_PRIVATE (etd);
 	etd->priv->index = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_free);
+	etd->priv->allow_none = FALSE;
 }
 
 /* Dispose handler for the event editor */
@@ -808,10 +813,11 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 {
 	ETimezoneDialogPrivate *priv;
 	gchar *display = NULL;
+	const gchar *no_tz_text;
 
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
-	if (!zone)
+	if (!zone && !etd->priv->allow_none)
 		zone = get_local_timezone ();
 
 	if (zone)
@@ -844,13 +850,85 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 
 	priv->zone = zone ? e_cal_util_copy_timezone (zone) : NULL;
 
+	if (priv->allow_none)
+		no_tz_text = NONE_TZ_TEXT;
+	else
+		no_tz_text = "";
+
 	gtk_label_set_text (
-		GTK_LABEL (priv->preview_label),
-		zone ? display : "");
-	timezone_combo_set_active_text (etd, zone ? zone_display_name (zone) : "");
+		GTK_LABEL (priv->preview_label), zone ? display : no_tz_text);
+	timezone_combo_set_active_text (etd, zone ? zone_display_name (zone) : no_tz_text);
 
 	set_map_timezone (etd, zone);
 	g_free (display);
+}
+
+gboolean
+e_timezone_dialog_get_allow_none (ETimezoneDialog *etd)
+{
+	g_return_val_if_fail (E_IS_TIMEZONE_DIALOG (etd), FALSE);
+
+	return etd->priv->allow_none;
+}
+
+void
+e_timezone_dialog_set_allow_none (ETimezoneDialog *etd,
+				  gboolean allow_none)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
+
+	if ((etd->priv->allow_none ? 1 : 0) == (allow_none ? 1 : 0))
+		return;
+
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (etd->priv->timezone_combo));
+
+	/* Remove the 'None' item. Custom time zones can be in there, thus search for it */
+	if (etd->priv->allow_none &&
+	    gtk_tree_model_get_iter_first (model, &iter)) {
+		const gchar *none_tz_text = NONE_TZ_TEXT;
+
+		do {
+			gchar *name = NULL, *location = NULL;
+			gboolean found;
+
+			gtk_tree_model_get (model, &iter, 0, &name, 1, &location, -1);
+
+			found = g_strcmp0 (name, none_tz_text) == 0 &&
+				g_strcmp0 (location, none_tz_text) == 0;
+
+			g_free (name);
+			g_free (location);
+
+			if (found) {
+				g_hash_table_remove (etd->priv->index, "");
+
+				gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
+				break;
+			}
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	etd->priv->allow_none = allow_none;
+
+	/* Add the 'None' item */
+	if (etd->priv->allow_none) {
+		GtkTreeStore *tree_store = GTK_TREE_STORE (model);
+		GtkTreeIter *piter;
+
+		gtk_tree_store_prepend (tree_store, &iter, NULL);
+		gtk_tree_store_set (tree_store, &iter,
+			0, NONE_TZ_TEXT,
+			1, NONE_TZ_TEXT,
+			-1);
+
+		piter = g_new (GtkTreeIter, 1);
+		*piter = iter;
+
+		g_hash_table_insert (etd->priv->index, (gchar *) "", piter);
+	}
 }
 
 GtkWidget *
@@ -979,8 +1057,12 @@ timezone_combo_set_active_text (ETimezoneDialog *etd,
 
 	combo = GTK_COMBO_BOX (etd->priv->timezone_combo);
 
-	if (zone_name && *zone_name)
+	if ((zone_name && *zone_name) || etd->priv->allow_none) {
+		if (!zone_name)
+			zone_name = "";
+
 		piter = g_hash_table_lookup (etd->priv->index, zone_name);
+	}
 
 	if (piter)
 		gtk_combo_box_set_active_iter (combo, piter);

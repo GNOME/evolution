@@ -45,6 +45,7 @@ struct _ETimezoneEntryPrivate {
 	 * use a ref count - we assume it is never destroyed for the
 	 * lifetime of this widget. */
 	ICalTimezone *timezone;
+	gboolean allow_none;
 
 	GtkWidget *entry;
 	GtkWidget *button;
@@ -87,6 +88,8 @@ timezone_entry_update_entry (ETimezoneEntry *timezone_entry)
 		 * it. If it isn't a builtin timezone name, we don't. */
 		if (i_cal_timezone_get_builtin_timezone (display_name))
 			display_name = _(display_name);
+	} else if (timezone_entry->priv->allow_none) {
+		display_name = C_("timezone", "None");
 	} else
 		display_name = "";
 
@@ -164,6 +167,7 @@ timezone_entry_button_clicked_cb (ETimezoneEntry *timezone_entry)
 	ICalTimezone *timezone;
 
 	timezone_dialog = e_timezone_dialog_new ();
+	e_timezone_dialog_set_allow_none (timezone_dialog, e_timezone_entry_get_allow_none (timezone_entry));
 
 	timezone = e_timezone_entry_get_timezone (timezone_entry);
 	e_timezone_dialog_set_timezone (timezone_dialog, timezone);
@@ -324,6 +328,7 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 	GtkWidget *widget;
 
 	timezone_entry->priv = E_TIMEZONE_ENTRY_GET_PRIVATE (timezone_entry);
+	timezone_entry->priv->allow_none = FALSE;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (timezone_entry), TRUE);
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (timezone_entry), GTK_ORIENTATION_HORIZONTAL);
@@ -383,4 +388,24 @@ e_timezone_entry_set_timezone (ETimezoneEntry *timezone_entry,
 	timezone_entry_add_relation (timezone_entry);
 
 	g_object_notify (G_OBJECT (timezone_entry), "timezone");
+}
+
+gboolean
+e_timezone_entry_get_allow_none (ETimezoneEntry *timezone_entry)
+{
+	g_return_val_if_fail (E_IS_TIMEZONE_ENTRY (timezone_entry), FALSE);
+
+	return timezone_entry->priv->allow_none;
+}
+
+void
+e_timezone_entry_set_allow_none (ETimezoneEntry *timezone_entry,
+				 gboolean allow_none)
+{
+	g_return_if_fail (E_IS_TIMEZONE_ENTRY (timezone_entry));
+
+	if ((timezone_entry->priv->allow_none ? 1 : 0) == (allow_none ? 1 : 0))
+		return;
+
+	timezone_entry->priv->allow_none = allow_none;
 }

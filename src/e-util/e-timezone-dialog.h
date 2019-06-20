@@ -74,6 +74,9 @@ ETimezoneDialog *
 ICalTimezone *	e_timezone_dialog_get_timezone	(ETimezoneDialog *etd);
 void		e_timezone_dialog_set_timezone	(ETimezoneDialog *etd,
 						 const ICalTimezone *zone);
+gboolean	e_timezone_dialog_get_allow_none(ETimezoneDialog *etd);
+void		e_timezone_dialog_set_allow_none(ETimezoneDialog *etd,
+						 gboolean allow_none);
 GtkWidget *	e_timezone_dialog_get_toplevel	(ETimezoneDialog *etd);
 
 #endif /* E_TIMEZONE_DIALOG_H */
