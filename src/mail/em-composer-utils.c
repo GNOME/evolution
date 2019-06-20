@@ -2226,6 +2226,28 @@ em_utils_edit_message (EMsgComposer *composer,
 		}
 	}
 
+	/* Remember the source message headers when re-editing in Drafts or Outbox,
+	   thus Reply, Forward and such mark the source message properly. Do this
+	   before the setup_with_message(), because it modifies the message headers. */
+	if (folder_is_drafts || folder_is_outbox) {
+		CamelMedium *medium;
+		const gchar *hdr_folder;
+		const gchar *hdr_message;
+		const gchar *hdr_flags;
+
+		medium = CAMEL_MEDIUM (message);
+
+		hdr_folder = camel_medium_get_header (medium, "X-Evolution-Source-Folder");
+		hdr_message = camel_medium_get_header (medium, "X-Evolution-Source-Message");
+		hdr_flags = camel_medium_get_header (medium, "X-Evolution-Source-Flags");
+
+		if (hdr_folder && hdr_message && hdr_flags) {
+			e_msg_composer_set_header (composer, "X-Evolution-Source-Folder", hdr_folder);
+			e_msg_composer_set_header (composer, "X-Evolution-Source-Message", hdr_message);
+			e_msg_composer_set_header (composer, "X-Evolution-Source-Flags", hdr_flags);
+		}
+	}
+
 	e_msg_composer_setup_with_message (composer, message, keep_signature, override_identity_uid, override_alias_name, override_alias_address, NULL);
 
 	g_free (override_identity_uid);
