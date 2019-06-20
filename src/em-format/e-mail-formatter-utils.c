@@ -453,12 +453,12 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 
 	} else if (g_str_equal (canon_name, "Received") ||
-		   g_str_has_prefix (canon_name, "X-")) {
+		   g_str_has_prefix (canon_name, "X-") ||
+		   g_str_has_prefix (canon_name, "Dkim-") ||
+		   g_str_has_prefix (canon_name, "Arc-")) {
 		/* don't unfold Received nor extension headers */
 		txt = value = camel_header_decode_string (header_value, charset);
-
 	} else {
-		/* don't unfold Received nor extension headers */
 		buf = camel_header_unfold (header_value);
 		txt = value = camel_header_decode_string (buf, charset);
 		g_free (buf);
