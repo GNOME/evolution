@@ -195,10 +195,10 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	if (g_settings_get_boolean (settings, "composer-use-localized-fwd-re")) {
 		/* Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message. */
-		format = _("[Fwd: %s]");
+		format = _("Fwd: %s");
 	} else {
 		/* Do not localize this string */
-		format = "[Fwd: %s]";
+		format = "Fwd: %s";
 	}
 	g_clear_object (&settings);
 
