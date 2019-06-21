@@ -5,5 +5,6 @@ install(FILES	evolution-calendars.ui
 		evolution-memos.ui
 		evolution-shell.ui
 		evolution-tasks.ui
+		evolution-shortcuts.ui
 	DESTINATION ${uidir}
 )

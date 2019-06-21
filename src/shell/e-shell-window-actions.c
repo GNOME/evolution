@@ -99,6 +99,24 @@ action_contents_cb (GtkAction *action,
 }
 
 static void
+action_shortcuts_cb (GtkAction *action,
+		     EShellWindow *shell_window)
+{
+	GtkBuilder *builder;
+	GtkWidget *widget;
+
+	builder = gtk_builder_new ();
+	e_load_ui_builder_definition (builder, "evolution-shortcuts.ui");
+
+	widget = e_builder_get_widget (builder, "evolution-shortcuts");
+	gtk_window_set_transient_for (GTK_WINDOW (widget), GTK_WINDOW (shell_window));
+
+	gtk_widget_show (widget);
+
+	g_object_unref (builder);
+}
+
+static void
 action_custom_rule_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
@@ -951,6 +969,13 @@ static GtkActionEntry shell_entries[] = {
 	  "<Control>a",
 	  N_("Select all text"),
 	  NULL },  /* Handled by EFocusTracker */
+
+	{ "shortcuts",
+	  NULL,
+	  N_("_Keyboard Shortcuts"),
+	  "<Control><Shift>question",
+	  N_("Show keyboard shortcuts"),
+	  G_CALLBACK (action_shortcuts_cb) },
 
 	{ "submit-bug",
 	  NULL,

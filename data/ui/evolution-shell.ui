@@ -76,6 +76,7 @@
     </menu>
     <menu action='help-menu'>
       <menuitem action='contents'/>
+      <menuitem action='shortcuts'/>
       <separator/>
       <menuitem action='submit-bug'/>
       <separator/>
