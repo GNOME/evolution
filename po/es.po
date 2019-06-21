@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-06-18 10:04+0000\n"
-"PO-Revision-Date: 2019-06-19 09:29+0200\n"
+"POT-Creation-Date: 2019-06-20 13:43+0000\n"
+"PO-Revision-Date: 2019-06-21 09:34+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -1008,7 +1008,6 @@ msgstr ""
 "vista de Día, Semana laboral, Semana o Mes."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
-#| msgid "Default reminder snooze interval, in minutes"
 msgid "User-defined reminder times, in minutes"
 msgstr "Horas de recordatorio definidas por el usuario, en minutos"
 
@@ -6447,25 +6446,21 @@ msgid "Comments: %s"
 msgstr "Comentarios: %s"
 
 #: ../src/calendar/gui/comp-util.c:1610 ../src/calendar/gui/comp-util.c:1613
-#| msgid "None"
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "Ninguno"
 
 #: ../src/calendar/gui/comp-util.c:1611
-#| msgid "Tentative"
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "Provisional"
 
 #: ../src/calendar/gui/comp-util.c:1612
-#| msgid "Confirm expunge"
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "Confirmada"
 
 #: ../src/calendar/gui/comp-util.c:1614
-#| msgid "Draft"
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "Borrador"
@@ -6476,31 +6471,26 @@ msgid "Final"
 msgstr "Final"
 
 #: ../src/calendar/gui/comp-util.c:1616
-#| msgid "Not Started"
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "Sin comenzar"
 
 #: ../src/calendar/gui/comp-util.c:1617
-#| msgid "Needs Action"
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "Necesita acción"
 
 #: ../src/calendar/gui/comp-util.c:1618
-#| msgid "In Progress"
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "En proceso"
 
 #: ../src/calendar/gui/comp-util.c:1619
-#| msgid "Completed"
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "Completada"
 
 #: ../src/calendar/gui/comp-util.c:1620
-#| msgid "Cancelled"
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "Cancelada"
@@ -8120,14 +8110,11 @@ msgstr "Ninguno"
 #. "2 days 13 hours 1 minute before".
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1690
 #, c-format
-#| msgid "is before"
 msgctxt "cal-reminders"
 msgid "%s before"
 msgstr "%s antes"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1695
-#| msgctxt "cal-reminders"
-#| msgid "%s at the start"
 msgctxt "cal-reminders"
 msgid "at the start"
 msgstr "al principio"
@@ -8150,22 +8137,17 @@ msgstr "día_s"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1878
-#| msgctxt "cal-reminders"
-#| msgid "hours"
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "_horas"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1894
-#| msgctxt "cal-reminders"
-#| msgid "minutes"
 msgctxt "cal-reminders"
 msgid "_minutes"
 msgstr "_minutos"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1900
-#| msgid "_End time:"
 msgid "_Add time"
 msgstr "_Añadir hora"
 
@@ -8388,13 +8370,13 @@ msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "_Zona horaria:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1555
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1557
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Mostrar hora como _ocupada"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1977
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1979
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Ninguno"
@@ -8679,7 +8661,7 @@ msgid "None"
 msgstr "Ninguno"
 
 #: ../src/calendar/gui/e-day-view-time-item.c:887
-#: ../src/calendar/gui/e-timezone-entry.c:341
+#: ../src/calendar/gui/e-timezone-entry.c:346
 #: ../src/modules/calendar/e-calendar-preferences.c:393
 msgid "Select..."
 msgstr "Seleccionar…"
@@ -9028,7 +9010,15 @@ msgstr "% Terminado"
 msgid "Priority"
 msgstr "Prioridad"
 
-#: ../src/calendar/gui/e-timezone-entry.c:352
+#. Translators: 'None' for a time zone, like 'No time zone being set'
+#: ../src/calendar/gui/e-timezone-entry.c:92
+#: ../src/e-util/e-timezone-dialog.c:55
+#| msgid "None"
+msgctxt "timezone"
+msgid "None"
+msgstr "Ninguna"
+
+#: ../src/calendar/gui/e-timezone-entry.c:357
 msgid "Select Timezone"
 msgstr "Seleccione la zona horaria"
 
@@ -15672,9 +15662,9 @@ msgid "Input Methods"
 msgstr "Métodos de entrada"
 
 #. Put the "UTC" entry at the top of the combo's list.
-#: ../src/e-util/e-timezone-dialog.c:275 ../src/e-util/e-timezone-dialog.c:515
-#: ../src/e-util/e-timezone-dialog.c:519 ../src/e-util/e-timezone-dialog.c:523
-#: ../src/e-util/e-timezone-dialog.c:918
+#: ../src/e-util/e-timezone-dialog.c:280 ../src/e-util/e-timezone-dialog.c:520
+#: ../src/e-util/e-timezone-dialog.c:524 ../src/e-util/e-timezone-dialog.c:528
+#: ../src/e-util/e-timezone-dialog.c:996
 msgid "UTC"
 msgstr "UTC"
 
@@ -24369,7 +24359,6 @@ msgstr "Método para detectar el _estado en línea:"
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
 #: ../src/modules/mail/e-mail-shell-backend.c:829
 #, c-format
-#| msgid "Defaults"
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
 msgstr "Predeterminado (%s)"
