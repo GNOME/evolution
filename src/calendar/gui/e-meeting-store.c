@@ -1079,7 +1079,7 @@ e_meeting_store_add_attendee_with_defaults (EMeetingStore *store)
 	e_meeting_attendee_set_partstat (attendee, text_to_partstat (_("Needs Action")));
 
 	e_meeting_attendee_set_cn (attendee, "");
-	e_meeting_attendee_set_language (attendee, "en");
+	e_meeting_attendee_set_language (attendee, "");
 
 	e_meeting_store_add_attendee (store, attendee);
 
