@@ -82,7 +82,7 @@ static GtkActionEntry item_entries[] = {
 	{ "memo-shared-new",
 	  "stock_insert-note",
 	  NC_("New", "_Shared Memo"),
-	  "<Shift><Control>h",
+	  "<Shift><Control>u",
 	  N_("Create a new shared memo"),
 	  G_CALLBACK (action_memo_new_cb) }
 };
