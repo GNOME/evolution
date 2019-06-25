@@ -745,6 +745,11 @@ get_phone_location (EVCardAttribute *attr)
 
 		for (ii = 0; ii < G_N_ELEMENTS (locations); ii++) {
 			if (!g_ascii_strcasecmp (value, locations[ii].attr_type)) {
+				/* Skip the Work Fax, which is shown in the Work section */
+				if (locations[ii].field_id == E_CONTACT_PHONE_OTHER_FAX &&
+				    e_vcard_attribute_has_type (attr, "WORK"))
+					continue;
+
 				if (location) {
 					/* if more than one is set, then fallback to the "Other Phone" */
 					location = NULL;
@@ -990,7 +995,6 @@ render_personal_column (EABContactFormatter *formatter,
 	accum_attribute (accum, contact, _("Home Page"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
 	accum_attribute (accum, contact, _("Web Log"), E_CONTACT_BLOG_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
 	accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_HOME, NULL, phone_flags);
-	accum_attribute (accum, contact, _("Mobile Phone"), E_CONTACT_PHONE_MOBILE, NULL, phone_flags);
 	accum_sip       (accum, contact, EAB_CONTACT_FORMATTER_SIP_TYPE_HOME, NULL, sip_flags);
 	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_HOME, E_CONTACT_ADDRESS_LABEL_HOME);
 	accum_time_attribute (accum, contact, _("Birthday"), E_CONTACT_BIRTH_DATE, NULL, 0);
