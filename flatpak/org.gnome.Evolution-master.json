@@ -35,6 +35,7 @@
 		"--talk-name=ca.desrt.dconf",
 		"--talk-name=org.freedesktop.Notifications",
 		"--talk-name=org.freedesktop.secrets",
+		"--talk-name=org.gnome.keyring.SystemPrompter",
 		"--talk-name=org.gnome.OnlineAccounts"
 	],
 	"modules": [
@@ -227,6 +228,29 @@
 		},
 
 		{
+			"name": "pinentry",
+			"config-opts": [
+				"--enable-pinentry-gnome3",
+				"--disable-ncurses",
+				"--disable-fallback-curses",
+				"--disable-pinentry-curses",
+				"--disable-pinentry-emacs",
+				"--disable-pinentry-gtk2",
+				"--disable-pinentry-qt5",
+				"--disable-pinentry-tty",
+				"--disable-pinentry-tqt",
+				"--disable-pinentry-fltk"
+			],
+			"sources": [
+				{
+					"type": "archive",
+					"url": "https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.1.0.tar.bz2",
+					"sha256": "68076686fa724a290ea49cdf0d1c0c1500907d1b759a3bcbfbec0293e8f56570"
+				}
+			]
+		},
+
+		{
 			"name": "evolution",
 			"buildsystem": "cmake-ninja",
 			"config-opts": [
@@ -267,6 +291,8 @@
 						"else",
 						"	export GIO_USE_NETWORK_MONITOR=base",
 						"	gsettings reset org.gnome.evolution-data-server network-monitor-gio-name",
+						"",
+						"	gpg-agent --homedir ~/.gnupg --daemon --pinentry-program=/app/bin/pinentry",
 						"",
 						"	LINES=$(gdbus call --session --dest org.freedesktop.DBus --object-path /org/freedesktop/DBus --method org.freedesktop.DBus.ListNames | grep @SOURCES_SERVICE@ | wc -l)",
 						"	if [ \"${LINES}\" = \"0\" ]; then",
