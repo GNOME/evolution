@@ -78,7 +78,7 @@ static GtkActionEntry item_entries[] = {
 	  G_CALLBACK (action_task_new_cb) },
 
 	{ "task-assigned-new",
-	  "stock_task",
+	  "stock_task-assigned-to",
 	  NC_("New", "Assigne_d Task"),
 	  "<Shift><Control>i",
 	  N_("Create a new assigned task"),
