@@ -52,6 +52,12 @@ enum {
 	PROP_IS_EDITING
 };
 
+/* The icons to represent the event. */
+static const gchar *icon_names[] = {
+	"x-office-calendar",
+	"stock_people"
+};
+
 static void      e_cal_list_view_dispose                (GObject *object);
 
 static GList    *e_cal_list_view_get_selected_events    (ECalendarView *cal_view);
@@ -176,6 +182,12 @@ setup_e_table (ECalListView *cal_list_view)
 	/* Create the header columns */
 
 	extras = e_table_extras_new ();
+
+	cell = e_cell_toggle_new (icon_names, G_N_ELEMENTS (icon_names));
+	e_table_extras_add_cell (extras, "icon", cell);
+	g_object_unref (cell);
+
+	e_table_extras_add_icon_name (extras, "icon", "x-office-calendar");
 
 	/* Normal string fields */
 

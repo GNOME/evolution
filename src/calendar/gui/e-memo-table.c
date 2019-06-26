@@ -75,7 +75,7 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-/* The icons to represent the task. */
+/* The icons to represent the memo. */
 static const gchar *icon_names[] = {
 	"stock_notes",
 	"stock_insert-note"
