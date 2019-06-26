@@ -219,8 +219,6 @@ date_time_list_finalize (GObject *object)
 
 	g_clear_object (&date_time_list->priv->zone);
 
-	g_warn_if_fail (date_time_list->priv->list == NULL);
-
 	g_list_free_full (date_time_list->priv->list, g_object_unref);
 	date_time_list->priv->list = NULL;
 
