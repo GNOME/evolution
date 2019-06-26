@@ -184,6 +184,9 @@ setup_e_table (ECalListView *cal_list_view)
 	extras = e_table_extras_new ();
 
 	cell = e_cell_toggle_new (icon_names, G_N_ELEMENTS (icon_names));
+	g_object_set (cell,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		NULL);
 	e_table_extras_add_cell (extras, "icon", cell);
 	g_object_unref (cell);
 

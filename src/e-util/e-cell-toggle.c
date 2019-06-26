@@ -47,6 +47,13 @@ struct _ECellTogglePrivate {
 	GdkPixbuf *empty;
 	GPtrArray *pixbufs;
 	gint height;
+
+	gint bg_color_column;
+};
+
+enum {
+	PROP_0,
+	PROP_BG_COLOR_COLUMN
 };
 
 G_DEFINE_TYPE (ECellToggle, e_cell_toggle, E_TYPE_CELL)
@@ -366,6 +373,68 @@ cell_toggle_max_width (ECellView *ecell_view,
 	return max_width;
 }
 
+static gchar *
+cell_toggle_get_bg_color (ECellView *ecell_view,
+			  gint row)
+{
+	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
+	gchar *color_spec, *bg_color;
+
+	if (toggle->priv->bg_color_column == -1)
+		return NULL;
+
+	color_spec = e_table_model_value_at (
+		ecell_view->e_table_model,
+		toggle->priv->bg_color_column, row);
+
+	bg_color = g_strdup (color_spec);
+
+	if (color_spec)
+		e_table_model_free_value (ecell_view->e_table_model, toggle->priv->bg_color_column, color_spec);
+
+	return bg_color;
+}
+
+static void
+cell_toggle_set_property (GObject *object,
+			  guint property_id,
+			  const GValue *value,
+			  GParamSpec *pspec)
+{
+	ECellToggle *toggle;
+
+	toggle = E_CELL_TOGGLE (object);
+
+	switch (property_id) {
+	case PROP_BG_COLOR_COLUMN:
+		toggle->priv->bg_color_column = g_value_get_int (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+cell_toggle_get_property (GObject *object,
+			  guint property_id,
+			  GValue *value,
+			  GParamSpec *pspec)
+{
+	ECellToggle *toggle;
+
+	toggle = E_CELL_TOGGLE (object);
+
+	switch (property_id) {
+	case PROP_BG_COLOR_COLUMN:
+		g_value_set_int (value, toggle->priv->bg_color_column);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
 static void
 e_cell_toggle_class_init (ECellToggleClass *class)
 {
@@ -377,6 +446,8 @@ e_cell_toggle_class_init (ECellToggleClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = cell_toggle_dispose;
 	object_class->finalize = cell_toggle_finalize;
+	object_class->set_property = cell_toggle_set_property;
+	object_class->get_property = cell_toggle_get_property;
 
 	cell_class = E_CELL_CLASS (class);
 	cell_class->new_view = cell_toggle_new_view;
@@ -387,6 +458,17 @@ e_cell_toggle_class_init (ECellToggleClass *class)
 	cell_class->print = cell_toggle_print;
 	cell_class->print_height = cell_toggle_print_height;
 	cell_class->max_width = cell_toggle_max_width;
+	cell_class->get_bg_color = cell_toggle_get_bg_color;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_BG_COLOR_COLUMN,
+		g_param_spec_int (
+			"bg-color-column",
+			"BG Color Column",
+			NULL,
+			-1, G_MAXINT, -1,
+			G_PARAM_READWRITE));
 
 	gal_a11y_e_cell_registry_add_cell_type (
 		NULL, E_TYPE_CELL_TOGGLE, gal_a11y_e_cell_toggle_new);
@@ -402,6 +484,8 @@ e_cell_toggle_init (ECellToggle *cell_toggle)
 
 	cell_toggle->priv->pixbufs =
 		g_ptr_array_new_with_free_func (g_object_unref);
+
+	cell_toggle->priv->bg_color_column = -1;
 }
 
 /**

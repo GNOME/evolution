@@ -575,12 +575,21 @@ task_table_constructed (GObject *object)
 	/* Create pixmaps */
 
 	cell = e_cell_toggle_new (icon_names, G_N_ELEMENTS (icon_names));
+	g_object_set (cell,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		NULL);
 	e_table_extras_add_cell (extras, "icon", cell);
 	g_object_unref (cell);
 
 	e_table_extras_add_icon_name (extras, "icon", "stock_task");
 
 	e_table_extras_add_icon_name (extras, "complete", "stock_check-filled");
+
+	/* Set background column for the checkbox */
+	cell = e_table_extras_get_cell (extras, "checkbox");
+	g_object_set (cell,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		NULL);
 
 	/* set proper format component for a default 'date' cell renderer */
 	cell = e_table_extras_get_cell (extras, "date");
