@@ -42,6 +42,7 @@
 
 struct _ECalModelComponentPrivate {
 	GString *categories_str;
+	gint icon_index;
 };
 
 #define E_CAL_MODEL_GET_PRIVATE(obj) \
@@ -209,6 +210,7 @@ e_cal_model_component_set_icalcomponent (ECalModelComponent *comp_data,
 	if (comp_data->priv->categories_str)
 		g_string_free (comp_data->priv->categories_str, TRUE);
 	comp_data->priv->categories_str = NULL;
+	comp_data->priv->icon_index = -1;
 
 	g_clear_pointer (&comp_data->dtstart, e_cell_date_edit_value_free);
 	g_clear_pointer (&comp_data->dtend, e_cell_date_edit_value_free);
@@ -254,6 +256,7 @@ static void
 e_cal_model_component_init (ECalModelComponent *comp)
 {
 	comp->priv = E_CAL_MODEL_COMPONENT_GET_PRIVATE (comp);
+	comp->priv->icon_index = -1;
 	comp->is_new_component = FALSE;
 }
 
@@ -1601,46 +1604,52 @@ cal_model_value_at (ETableModel *etm,
 		return GINT_TO_POINTER (e_cal_util_component_has_alarms (comp_data->icalcomp));
 	case E_CAL_MODEL_FIELD_ICON :
 	{
-		ECalComponent *comp;
-		gint retval = 0;
+		gint retval = comp_data->priv->icon_index;
+
+		if (retval >= 0)
+			return GINT_TO_POINTER (retval);
+
+		retval = 0;
 
 		if (i_cal_component_isa (comp_data->icalcomp) == I_CAL_VEVENT_COMPONENT ||
 		    i_cal_component_isa (comp_data->icalcomp) == I_CAL_VJOURNAL_COMPONENT) {
 			if (e_cal_util_component_has_attendee (comp_data->icalcomp))
 				retval = 1;
+		} else {
+			ECalComponent *comp;
 
-			return GINT_TO_POINTER (retval);
-		}
+			comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
+			if (comp) {
+				if (e_cal_component_has_recurrences (comp))
+					retval = 1;
+				else if (itip_organizer_is_user (registry, comp, comp_data->client))
+					retval = 3;
+				else {
+					GSList *attendees = NULL, *sl;
 
-		comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
-		if (comp) {
-			if (e_cal_component_has_recurrences (comp))
-				retval = 1;
-			else if (itip_organizer_is_user (registry, comp, comp_data->client))
-				retval = 3;
-			else {
-				GSList *attendees = NULL, *sl;
+					attendees = e_cal_component_get_attendees (comp);
+					for (sl = attendees; sl != NULL; sl = sl->next) {
+						ECalComponentAttendee *ca = sl->data;
+						const gchar *text;
 
-				attendees = e_cal_component_get_attendees (comp);
-				for (sl = attendees; sl != NULL; sl = sl->next) {
-					ECalComponentAttendee *ca = sl->data;
-					const gchar *text;
-
-					text = itip_strip_mailto (e_cal_component_attendee_get_value (ca));
-					if (itip_address_is_user (registry, text)) {
-						if (e_cal_component_attendee_get_delegatedto (ca) != NULL)
-							retval = 3;
-						else
-							retval = 2;
-						break;
+						text = itip_strip_mailto (e_cal_component_attendee_get_value (ca));
+						if (itip_address_is_user (registry, text)) {
+							if (e_cal_component_attendee_get_delegatedto (ca) != NULL)
+								retval = 3;
+							else
+								retval = 2;
+							break;
+						}
 					}
+
+					g_slist_free_full (attendees, e_cal_component_attendee_free);
 				}
 
-				g_slist_free_full (attendees, e_cal_component_attendee_free);
+				g_object_unref (comp);
 			}
-
-			g_object_unref (comp);
 		}
+
+		comp_data->priv->icon_index = retval;
 
 		return GINT_TO_POINTER (retval);
 	}
