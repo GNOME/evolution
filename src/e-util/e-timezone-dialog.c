@@ -137,7 +137,7 @@ static void
 e_timezone_dialog_init (ETimezoneDialog *etd)
 {
 	etd->priv = E_TIMEZONE_DIALOG_GET_PRIVATE (etd);
-	etd->priv->index = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, g_free);
+	etd->priv->index = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	etd->priv->allow_none = FALSE;
 }
 
@@ -269,7 +269,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 			i_cal_timezone_get_latitude (zone),
 			E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
 
-		list_items = g_list_prepend (list_items, location);
+		list_items = g_list_prepend (list_items, g_strdup (location));
 
 		g_clear_object (&zone);
 	}
@@ -277,7 +277,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	list_items = g_list_sort (list_items, (GCompareFunc) g_utf8_collate);
 
 	/* Put the "UTC" entry at the top of the combo's list. */
-	list_items = g_list_prepend (list_items, _("UTC"));
+	list_items = g_list_prepend (list_items, g_strdup (_("UTC")));
 
 	combo = GTK_COMBO_BOX (priv->timezone_combo);
 
@@ -310,7 +310,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 		piter = g_new (GtkTreeIter, 1);
 		*piter = iter;
 
-		g_hash_table_insert (priv->index, (gchar *) location, piter);
+		g_hash_table_insert (priv->index, g_strdup (location), piter);
 	}
 
 	g_hash_table_destroy (parents);
@@ -332,7 +332,7 @@ e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
 	}
 	g_object_unref (css_provider);
 
-	g_list_free (list_items);
+	g_list_free_full (list_items, g_free);
 }
 
 ETimezoneDialog *
@@ -814,6 +814,7 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 	ETimezoneDialogPrivate *priv;
 	gchar *display = NULL;
 	const gchar *no_tz_text;
+	ICalTimezone *zone_copy;
 
 	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
 
@@ -839,16 +840,17 @@ e_timezone_dialog_set_timezone (ETimezoneDialog *etd,
 		piter = g_new (GtkTreeIter, 1);
 		*piter = iter;
 
-		g_hash_table_insert (etd->priv->index, (gchar *) location, piter);
+		g_hash_table_insert (etd->priv->index, g_strdup (location), piter);
 
 		etd->priv->custom_zones = g_slist_prepend (etd->priv->custom_zones, e_cal_util_copy_timezone (zone));
 	}
 
 	priv = etd->priv;
 
+	zone_copy = zone ? e_cal_util_copy_timezone (zone) : NULL;
 	g_clear_object (&priv->zone);
 
-	priv->zone = zone ? e_cal_util_copy_timezone (zone) : NULL;
+	priv->zone = zone_copy;
 
 	if (priv->allow_none)
 		no_tz_text = NONE_TZ_TEXT;
@@ -927,7 +929,7 @@ e_timezone_dialog_set_allow_none (ETimezoneDialog *etd,
 		piter = g_new (GtkTreeIter, 1);
 		*piter = iter;
 
-		g_hash_table_insert (etd->priv->index, (gchar *) "", piter);
+		g_hash_table_insert (etd->priv->index, g_strdup (""), piter);
 	}
 }
 
@@ -957,6 +959,23 @@ set_map_timezone (ETimezoneDialog *etd,
 	if (zone) {
 		zone_longitude = i_cal_timezone_get_longitude (zone);
 		zone_latitude = i_cal_timezone_get_latitude (zone);
+
+		if (zone_longitude >= -1e-9 && zone_longitude <= +1e-9 &&
+		    zone_latitude >= -1e-9 && zone_latitude <= +1e-9) {
+			ICalTimezone *builtin_zone = NULL;
+
+			if (i_cal_timezone_get_tzid (zone))
+				builtin_zone = i_cal_timezone_get_builtin_timezone_from_tzid (i_cal_timezone_get_tzid (zone));
+
+			if (!builtin_zone && i_cal_timezone_get_location (zone))
+				builtin_zone = i_cal_timezone_get_builtin_timezone (i_cal_timezone_get_location (zone));
+
+			if (builtin_zone) {
+				zone_longitude = i_cal_timezone_get_longitude (builtin_zone);
+				zone_latitude = i_cal_timezone_get_latitude (builtin_zone);
+			}
+		}
+
 		point = e_map_get_closest_point (
 			priv->map,
 			zone_longitude,
