@@ -261,7 +261,6 @@ mail_shell_content_constructed (GObject *object)
 	EAttachmentStore *attachment_store;
 	EMailDisplay *display;
 	GtkPaned *paned;
-	GtkWindow *window;
 	GtkWidget *widget;
 	GtkBox *vbox;
 	GSettings *settings;
@@ -350,12 +349,6 @@ mail_shell_content_constructed (GObject *object)
 		G_SETTINGS_BIND_DEFAULT);
 
 	g_object_unref (settings);
-
-	window = e_mail_reader_get_window (E_MAIL_READER (object));
-	widget = e_mail_reader_get_message_list (E_MAIL_READER (object));
-
-	if (window && widget)
-		gtk_window_set_focus (window, widget);
 }
 
 static guint32
@@ -380,6 +373,7 @@ static void
 mail_shell_content_focus_search_results (EShellContent *shell_content)
 {
 	EMailShellContent *mail_shell_content;
+	EShellWindow *shell_window;
 	GtkWidget *message_list;
 	EMailReader *reader;
 
@@ -391,7 +385,13 @@ mail_shell_content_focus_search_results (EShellContent *shell_content)
 	reader = E_MAIL_READER (mail_shell_content->priv->mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	if (!message_list || MESSAGE_LIST (message_list)->just_set_folder)
+	shell_window = e_shell_view_get_shell_window (e_shell_content_get_shell_view (shell_content));
+
+	/* This can be called also when the window is showing, to focus default
+	   widget, in which case do not skip the gtk_widget_grab_focus() call. */
+	if (!message_list || (MESSAGE_LIST (message_list)->just_set_folder &&
+	    gtk_widget_get_mapped (GTK_WIDGET (shell_window)) &&
+	    gtk_window_get_focus (GTK_WINDOW (shell_window))))
 		return;
 
 	gtk_widget_grab_focus (message_list);

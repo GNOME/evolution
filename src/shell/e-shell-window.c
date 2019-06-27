@@ -832,26 +832,33 @@ shell_window_submit_postponed_alerts_idle_cb (gpointer user_data)
 	return FALSE;
 }
 
-static gboolean
-shell_window_map_event (GtkWidget *widget,
-			GdkEventAny *event)
+static void
+shell_window_map (GtkWidget *widget)
 {
 	EShellWindow *shell_window;
-	gboolean res;
+	EShellView *shell_view;
 
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (widget), FALSE);
+	g_return_if_fail (E_IS_SHELL_WINDOW (widget));
 
 	shell_window = E_SHELL_WINDOW (widget);
 
+	/* Do this before the parent's map() is called, to distinguish from search and from window open */
+	shell_view = e_shell_window_peek_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
+	if (shell_view) {
+		EShellContent *shell_content;
+
+		shell_content = e_shell_view_get_shell_content (shell_view);
+		if (shell_content)
+			e_shell_content_focus_search_results (shell_content);
+	}
+
 	/* Chain up to parent's method */
-	res = GTK_WIDGET_CLASS (e_shell_window_parent_class)->map_event (widget, event);
+	GTK_WIDGET_CLASS (e_shell_window_parent_class)->map (widget);
 
 	g_idle_add_full (
 		G_PRIORITY_LOW,
 		shell_window_submit_postponed_alerts_idle_cb,
 		g_object_ref (shell_window), g_object_unref);
-
-	return res;
 }
 
 static gboolean
@@ -882,7 +889,7 @@ e_shell_window_class_init (EShellWindowClass *class)
 	object_class->constructed = shell_window_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->map_event = shell_window_map_event;
+	widget_class->map = shell_window_map;
 
 	class->close_alert = shell_window_close_alert;
 	class->construct_menubar = shell_window_construct_menubar;
