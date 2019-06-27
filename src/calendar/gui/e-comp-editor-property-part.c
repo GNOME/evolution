@@ -22,6 +22,7 @@
 
 #include <e-util/e-util.h>
 
+#include "calendar-config.h"
 #include "comp-util.h"
 #include "e-comp-editor-property-part.h"
 
@@ -606,6 +607,44 @@ ecepp_datetime_lookup_timezone (ECompEditorPropertyPartDatetime *part_datetime,
 	return zone;
 }
 
+static struct tm
+ecepp_datetime_get_current_time_cb (EDateEdit *date_edit,
+				    gpointer user_data)
+{
+	GWeakRef *weakref = user_data;
+	ECompEditorPropertyPartDatetime *part_datetime;
+	ICalTime *today = NULL;
+	struct tm tm;
+
+	memset (&tm, 0, sizeof (struct tm));
+
+	g_return_val_if_fail (weakref != NULL, tm);
+
+	part_datetime = g_weak_ref_get (weakref);
+	if (part_datetime) {
+		ETimezoneEntry *timezone_entry = g_weak_ref_get (&part_datetime->priv->timezone_entry);
+		ICalTimezone *editor_zone = NULL;
+
+		if (timezone_entry)
+			editor_zone = e_timezone_entry_get_timezone (timezone_entry);
+
+		if (editor_zone)
+			today = i_cal_time_new_current_with_zone (editor_zone);
+
+		g_clear_object (&timezone_entry);
+		g_object_unref (part_datetime);
+	}
+
+	if (!today)
+		today = i_cal_time_new_current_with_zone (calendar_config_get_icaltimezone ());
+
+	tm = e_cal_util_icaltime_to_tm (today);
+
+	g_clear_object (&today);
+
+	return tm;
+}
+
 static void
 ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 			       GtkWidget **out_label_widget,
@@ -632,6 +671,10 @@ ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 		NULL);
 
 	gtk_widget_show (*out_edit_widget);
+
+	e_date_edit_set_get_time_callback (E_DATE_EDIT (*out_edit_widget),
+		ecepp_datetime_get_current_time_cb,
+		e_weak_ref_new (property_part), (GDestroyNotify) e_weak_ref_free);
 
 	g_signal_connect_swapped (*out_edit_widget, "changed",
 		G_CALLBACK (e_comp_editor_property_part_emit_changed), property_part);

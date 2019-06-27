@@ -1415,6 +1415,8 @@ cal_comp_util_compare_time_with_today (const ICalTime *time_tt)
 	} else {
 		now_tt = i_cal_time_new_current_with_zone (i_cal_time_get_timezone (tt));
 		i_cal_time_set_timezone (now_tt, i_cal_time_get_timezone (tt));
+		if (!i_cal_time_get_second (time_tt))
+			i_cal_time_set_second (now_tt, 0);
 		res = i_cal_time_compare (tt, now_tt);
 	}
 
