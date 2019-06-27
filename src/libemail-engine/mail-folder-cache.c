@@ -2155,8 +2155,8 @@ mail_folder_cache_note_store_thread (ESimpleAsyncResult *simple,
 		gboolean store_online = TRUE;
 
 		if (CAMEL_IS_OFFLINE_STORE (service)) {
-			store_online = camel_offline_store_get_online (
-				CAMEL_OFFLINE_STORE (service));
+			store_online = camel_offline_store_get_online (CAMEL_OFFLINE_STORE (service)) &&
+				camel_service_get_connection_status (service) == CAMEL_SERVICE_CONNECTED;
 		}
 
 		if (!store_online) {
