@@ -7967,7 +7967,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	g_return_if_fail (text != NULL);
 
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
-	if (comp) {
+	if (!comp) {
 		g_free (text);
 		return;
 	}
