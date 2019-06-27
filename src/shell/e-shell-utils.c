@@ -351,7 +351,7 @@ e_shell_utils_run_help_about (EShell *shell)
 		"copyright", EVOLUTION_COPYRIGHT,
 		"comments", _("Groupware Suite"),
 		"website", PACKAGE_URL,
-		"website-label", _("Evolution Website"),
+		"website-label", _("Website"),
 		"authors", authors,
 		"documenters", documenters,
 		"translator-credits", translator_credits,
