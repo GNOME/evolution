@@ -528,9 +528,13 @@ e_table_state_load_from_node (ETableState *state,
 	for (; children; children = children->next) {
 		if (!strcmp ((gchar *) children->name, "column")) {
 			int_and_double *column_info = g_new (int_and_double, 1);
+			gint column_source;
 
-			column_info->column = e_xml_get_integer_prop_by_name (
-				children, (const guchar *)"source");
+			column_source = e_xml_get_integer_prop_by_name (children, (const guchar *) "source");
+			if (column_source < 0 || column_source >= columns->len)
+				continue;
+
+			column_info->column = column_source;
 			column_info->expansion =
 				e_xml_get_double_prop_by_name_with_default (
 					children, (const guchar *)"expansion", 1);
