@@ -1164,13 +1164,16 @@ ecep_general_fill_component (ECompEditorPage *page,
 				}
 
 				param = i_cal_parameter_new_cutype (e_meeting_attendee_get_cutype (attendee));
-				i_cal_property_take_parameter (prop, param);
+				if (param)
+					i_cal_property_take_parameter (prop, param);
 
 				param = i_cal_parameter_new_role (e_meeting_attendee_get_role (attendee));
-				i_cal_property_take_parameter (prop, param);
+				if (param)
+					i_cal_property_take_parameter (prop, param);
 
 				param = i_cal_parameter_new_partstat (e_meeting_attendee_get_partstat (attendee));
-				i_cal_property_take_parameter (prop, param);
+				if (param)
+					i_cal_property_take_parameter (prop, param);
 
 				param = i_cal_parameter_new_rsvp (e_meeting_attendee_get_rsvp (attendee) ? I_CAL_RSVP_TRUE : I_CAL_RSVP_FALSE);
 				i_cal_property_take_parameter (prop, param);

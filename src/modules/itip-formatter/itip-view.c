@@ -4596,7 +4596,8 @@ change_status (ESourceRegistry *registry,
 
 		i_cal_property_remove_parameter_by_kind (prop, I_CAL_PARTSTAT_PARAMETER);
 		param = i_cal_parameter_new_partstat (partstat);
-		i_cal_property_take_parameter (prop, param);
+		if (param)
+			i_cal_property_take_parameter (prop, param);
 
 		g_object_unref (prop);
 	} else {
@@ -4613,7 +4614,8 @@ change_status (ESourceRegistry *registry,
 			i_cal_property_take_parameter (prop, param);
 
 			param = i_cal_parameter_new_partstat (partstat);
-			i_cal_property_take_parameter (prop, param);
+			if (param)
+				i_cal_property_take_parameter (prop, param);
 
 			i_cal_component_take_property (icomp, prop);
 		} else {
@@ -4637,7 +4639,8 @@ change_status (ESourceRegistry *registry,
 			i_cal_property_take_parameter (prop, param);
 
 			param = i_cal_parameter_new_partstat (partstat);
-			i_cal_property_take_parameter (prop, param);
+			if (param)
+				i_cal_property_take_parameter (prop, param);
 
 			i_cal_component_take_property (icomp, prop);
 
