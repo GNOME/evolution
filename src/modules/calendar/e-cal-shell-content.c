@@ -867,9 +867,9 @@ cal_shell_content_get_attendee_prop (icalcomponent *icalcomp,
 	while (prop != NULL) {
 		const gchar *attendee;
 
-		attendee = icalproperty_get_attendee (prop);
+		attendee = itip_strip_mailto (icalproperty_get_attendee (prop));
 
-		if (g_str_equal (itip_strip_mailto (attendee), address))
+		if (attendee && g_ascii_strcasecmp (attendee, address) == 0)
 			return prop;
 
 		prop = icalcomponent_get_next_property (
