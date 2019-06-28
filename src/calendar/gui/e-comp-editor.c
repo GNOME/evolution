@@ -2617,6 +2617,7 @@ e_comp_editor_fill_component (ECompEditor *comp_editor,
 			      ICalComponent *component)
 {
 	ECompEditorClass *comp_editor_class;
+	GtkWidget *focused_widget;
 	gboolean is_valid;
 
 	g_return_val_if_fail (E_IS_COMP_EDITOR (comp_editor), FALSE);
@@ -2626,7 +2627,29 @@ e_comp_editor_fill_component (ECompEditor *comp_editor,
 	g_return_val_if_fail (comp_editor_class != NULL, FALSE);
 	g_return_val_if_fail (comp_editor_class->fill_component != NULL, FALSE);
 
+	focused_widget = gtk_window_get_focus (GTK_WINDOW (comp_editor));
+	if (focused_widget) {
+		GtkWidget *parent, *ce_widget = GTK_WIDGET (comp_editor);
+
+		/* When a cell-renderer is focused and editing the cell content,
+		   then unfocus it may mean to free the currently focused widget,
+		   thus get the GtkTreeView in such cases. */
+		parent = focused_widget;
+		while (parent = gtk_widget_get_parent (parent), parent && parent != ce_widget) {
+			if (GTK_IS_TREE_VIEW (parent)) {
+				focused_widget = parent;
+				break;
+			}
+		}
+
+		/* Save any pending changes */
+		gtk_window_set_focus (GTK_WINDOW (comp_editor), NULL);
+	}
+
 	is_valid = comp_editor_class->fill_component (comp_editor, component);
+
+	if (focused_widget)
+		gtk_window_set_focus (GTK_WINDOW (comp_editor), focused_widget);
 
 	if (is_valid && comp_editor->priv->validation_alert) {
 		e_alert_response (comp_editor->priv->validation_alert, GTK_RESPONSE_CLOSE);
