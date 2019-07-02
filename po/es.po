@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-06-21 15:17+0000\n"
-"PO-Revision-Date: 2019-06-24 09:55+0200\n"
+"POT-Creation-Date: 2019-06-30 15:22+0000\n"
+"PO-Revision-Date: 2019-07-02 11:55+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -3521,7 +3521,7 @@ msgid "Contacts"
 msgstr "Contactos"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:949
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:954
 #: ../src/e-util/e-collection-account-wizard.c:816
 #: ../src/e-util/e-send-options.c:544 ../src/e-util/e-webdav-browser.c:469
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:199
@@ -3540,7 +3540,7 @@ msgid "Mail"
 msgstr "Correo"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
-#: ../src/calendar/gui/e-memo-table.c:454 ../src/e-util/e-webdav-browser.c:459
+#: ../src/calendar/gui/e-memo-table.c:457 ../src/e-util/e-webdav-browser.c:459
 #: ../src/modules/calendar/e-cal-shell-content.c:1763
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
@@ -3549,7 +3549,7 @@ msgid "Memos"
 msgstr "Notas"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:615 ../src/calendar/gui/print.c:2426
+#: ../src/calendar/gui/e-task-table.c:624 ../src/calendar/gui/print.c:2426
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1141
 #: ../src/e-util/e-webdav-browser.c:460
@@ -3567,43 +3567,36 @@ msgid "Keyboard Shortcuts"
 msgstr "Atajos del teclado"
 
 #: ../data/ui/evolution-shortcuts.ui.h:2
-#| msgid "General"
 msgctxt "shortcut window"
 msgid "General"
 msgstr "General"
 
 #: ../data/ui/evolution-shortcuts.ui.h:3
-#| msgid "Select all column names"
 msgctxt "shortcut window"
 msgid "Select Mail component"
 msgstr "Seleccione el componente Correo"
 
 #: ../data/ui/evolution-shortcuts.ui.h:4
-#| msgid "Select Contacts from Address Book"
 msgctxt "shortcut window"
 msgid "Select Contacts component"
 msgstr "Seleccione el componente Contactos"
 
 #: ../data/ui/evolution-shortcuts.ui.h:5
-#| msgid "Select a Calendar"
 msgctxt "shortcut window"
 msgid "Select Calendar component"
 msgstr "Seleccione el componente Calendario"
 
 #: ../data/ui/evolution-shortcuts.ui.h:6
-#| msgid "Select a Task List"
 msgctxt "shortcut window"
 msgid "Select Tasks component"
 msgstr "Seleccione el componente Tareas"
 
 #: ../data/ui/evolution-shortcuts.ui.h:7
-#| msgid "Select a Memo List"
 msgctxt "shortcut window"
 msgid "Select Memos component"
 msgstr "Seleccione el componente Notas"
 
 #: ../data/ui/evolution-shortcuts.ui.h:8
-#| msgid "Create a new mail account"
 msgctxt "shortcut window"
 msgid "Create a new item in current component"
 msgstr "Crear un elemento nuevo en el componente actual"
@@ -3614,134 +3607,112 @@ msgid "Cycle focus between panes"
 msgstr "Cambiar el foco cíclicamente entre paneles"
 
 #: ../data/ui/evolution-shortcuts.ui.h:10
-#| msgid "Open the Evolution User Guide"
 msgctxt "shortcut window"
 msgid "Open the Evolution user guide"
 msgstr "Abrir la guía de usuario de Evolution"
 
 #: ../data/ui/evolution-shortcuts.ui.h:11
-#| msgid "Clear Search"
 msgctxt "shortcut window"
 msgid "Clear search bar"
 msgstr "Limpiar la barra de búsqueda"
 
 #: ../data/ui/evolution-shortcuts.ui.h:12
-#| msgid "Move contacts to"
 msgctxt "shortcut window"
 msgid "Move mails or contacts to folder"
 msgstr "Mover correos o contactos a una carpeta"
 
 #: ../data/ui/evolution-shortcuts.ui.h:13
-#| msgid "Copy contacts to"
 msgctxt "shortcut window"
 msgid "Copy mails or contacts to folder"
 msgstr "Copiar correos o contactos a una carpeta"
 
 #: ../data/ui/evolution-shortcuts.ui.h:14
-#| msgid "_Preferences"
 msgctxt "shortcut window"
 msgid "Preferences"
 msgstr "Preferencias"
 
 #: ../data/ui/evolution-shortcuts.ui.h:15
-#| msgid "_Open in New Window"
 msgctxt "shortcut window"
 msgid "Open new window"
 msgstr "Abrir una ventana nueva"
 
 #: ../data/ui/evolution-shortcuts.ui.h:16
-#| msgid "_Close Window"
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Cerrar ventana"
 
 #: ../data/ui/evolution-shortcuts.ui.h:17
-#| msgid "_Exit Evolution"
 msgctxt "shortcut window"
 msgid "Quit Evolution"
 msgstr "Salir de Evolution"
 
 #: ../data/ui/evolution-shortcuts.ui.h:18
-#| msgid "Mail"
 msgctxt "shortcut window"
 msgid "Mail"
 msgstr "Correo"
 
 #: ../data/ui/evolution-shortcuts.ui.h:19
-#| msgid "Create a new memo"
 msgctxt "shortcut window"
 msgid "Create a new message"
 msgstr "Redactar un mensaje de correo nuevo"
 
 #: ../data/ui/evolution-shortcuts.ui.h:20
-#| msgid "Failed to retrieve messages."
 msgctxt "shortcut window"
 msgid "Send and receive messages"
 msgstr "Enviar y recibir mensajes"
 
 #: ../data/ui/evolution-shortcuts.ui.h:21
-#| msgid "Copy the selection"
 msgctxt "shortcut window"
 msgid "Apply filters to selection"
 msgstr "Aplicar filtros a la selección"
 
 #: ../data/ui/evolution-shortcuts.ui.h:22
-#| msgid "Open the selected messages in a new window"
 msgctxt "shortcut window"
 msgid "Open selection in new window"
 msgstr "Abrir selección en una ventana nueva"
 
 #: ../data/ui/evolution-shortcuts.ui.h:23
-#| msgid "Go to Folder"
 msgctxt "shortcut window"
 msgid "Go to folder"
 msgstr "Ir a la carpeta"
 
 # Mark ««replied to» messages» as read
 #: ../data/ui/evolution-shortcuts.ui.h:24
-#| msgid "Mark replied to messages as read"
 msgctxt "shortcut window"
 msgid "Mark selected messages as read"
 msgstr "Marcar los mensajes seleccionados como leídos"
 
 #: ../data/ui/evolution-shortcuts.ui.h:25
-#| msgid "Mark the selected messages as junk"
 msgctxt "shortcut window"
 msgid "Mark selected messages as unread"
 msgstr "Marcar los mensajes seleccionados como no leídos"
 
 #: ../data/ui/evolution-shortcuts.ui.h:26
-#| msgid "Display the next unread message"
 msgctxt "shortcut window"
 msgid "Jump to the next unread message"
 msgstr "Saltar al siguiente mensaje sin leer"
 
 #: ../data/ui/evolution-shortcuts.ui.h:27
-#| msgid "Display the previous unread message"
 msgctxt "shortcut window"
 msgid "Jump to the previous unread message"
 msgstr "Saltar al anterior mensaje sin leer"
 
 #: ../data/ui/evolution-shortcuts.ui.h:28
-#| msgid "Forwarded messages"
 msgctxt "shortcut window"
 msgid "Forward selected messages"
 msgstr "Reenviar los mensajes seleccionados"
 
 #: ../data/ui/evolution-shortcuts.ui.h:29
-#| msgid "_Reply to Sender"
 msgctxt "shortcut window"
 msgid "Reply to sender"
 msgstr "Responder al remitente"
 
 #: ../data/ui/evolution-shortcuts.ui.h:30
-#| msgid "Reply to _List"
 msgctxt "shortcut window"
 msgid "Reply to list"
 msgstr "Responder a la lista"
 
 #: ../data/ui/evolution-shortcuts.ui.h:31
-#| msgid "Send reply to all recipients?"
 msgctxt "shortcut window"
 msgid "Reply to all recipients"
 msgstr "Responder a todos los destinatarios"
@@ -3757,91 +3728,76 @@ msgid "Scroll down"
 msgstr "Desplazar hacia abajo"
 
 #: ../data/ui/evolution-shortcuts.ui.h:34
-#| msgid "Calendar"
 msgctxt "shortcut window"
 msgid "Calendar"
 msgstr "Calendario"
 
 #: ../data/ui/evolution-shortcuts.ui.h:35
-#| msgid "Create a new appointment"
 msgctxt "shortcut window"
 msgid "Create a new appointment"
 msgstr "Crear una cita nueva"
 
 #: ../data/ui/evolution-shortcuts.ui.h:36
-#| msgid "Create a new meeting"
 msgctxt "shortcut window"
 msgid "Create a new meeting"
 msgstr "Crear una reunión nueva"
 
 #: ../data/ui/evolution-shortcuts.ui.h:37
-#| msgid "Create a new task"
 msgctxt "shortcut window"
 msgid "Create a new task"
 msgstr "Crear una tarea nueva"
 
 #: ../data/ui/evolution-shortcuts.ui.h:38
-#| msgid "Create a new memo"
 msgctxt "shortcut window"
 msgid "Create a new memo"
 msgstr "Crear una nota nueva"
 
 #: ../data/ui/evolution-shortcuts.ui.h:39
-#| msgid "Go to Today"
 msgctxt "shortcut window"
 msgid "Go to today"
 msgstr "Ir a hoy"
 
 #: ../data/ui/evolution-shortcuts.ui.h:40
-#| msgid "Go to Date"
 msgctxt "shortcut window"
 msgid "Go to date"
 msgstr "Ir a la fecha"
 
 #: ../data/ui/evolution-shortcuts.ui.h:41
-#| msgid "_Day View"
 msgctxt "shortcut window"
 msgid "Day View"
 msgstr "Vista diaria"
 
 #: ../data/ui/evolution-shortcuts.ui.h:42
-#| msgid "_Work Week View"
 msgctxt "shortcut window"
 msgid "Work Week View"
 msgstr "Vista de semana laboral"
 
 #: ../data/ui/evolution-shortcuts.ui.h:43
-#| msgid "W_eek View"
 msgctxt "shortcut window"
 msgid "Week View"
 msgstr "Vista semanal"
 
 #: ../data/ui/evolution-shortcuts.ui.h:44
-#| msgid "_Month View"
 msgctxt "shortcut window"
 msgid "Month View"
 msgstr "Vista mensual"
 
 #: ../data/ui/evolution-shortcuts.ui.h:45
-#| msgid "List View"
 msgctxt "shortcut window"
 msgid "List View"
 msgstr "Vista de lista"
 
 #: ../data/ui/evolution-shortcuts.ui.h:46
-#| msgid "Contacts"
 msgctxt "shortcut window"
 msgid "Contacts"
 msgstr "Contactos"
 
 #: ../data/ui/evolution-shortcuts.ui.h:47
-#| msgid "Create a new contact"
 msgctxt "shortcut window"
 msgid "Create a new contact"
 msgstr "Crear un contacto nuevo"
 
 #: ../data/ui/evolution-shortcuts.ui.h:48
-#| msgid "Create a new contact list"
 msgctxt "shortcut window"
 msgid "Create a new contact list"
 msgstr "Crear una lista de contactos nueva"
@@ -4070,7 +4026,7 @@ msgstr ""
 #: ../src/addressbook/addressbook.error.xml.h:31
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:751
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1522
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1525
 #: ../src/e-util/e-accounts-window.c:1563
 #: ../src/e-util/e-mail-signature-manager.c:328
 #: ../src/e-util/e-name-selector-dialog.c:1033 ../src/e-util/filter.ui.h:25
@@ -4370,8 +4326,8 @@ msgid "Full _Name..."
 msgstr "_Nombre completo…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:830
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1287
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:835
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1291
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Email"
 msgstr "Correo-e"
@@ -4491,14 +4447,14 @@ msgid "_Anniversary:"
 msgstr "_Aniversario:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47
 #: ../src/calendar/gui/e-calendar-view.c:2121
 msgid "Anniversary"
 msgstr "Aniversario"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46
 #: ../src/calendar/gui/e-calendar-view.c:2120
 msgid "Birthday"
@@ -4549,7 +4505,7 @@ msgstr "Domicilio"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:63
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:82
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:964
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:969
 #: ../src/addressbook/gui/widgets/e-contact-map.c:380
 msgid "Work"
 msgstr "Trabajo"
@@ -4557,8 +4513,8 @@ msgstr "Trabajo"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:526
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1031
-#: ../src/calendar/gui/e-cal-model.c:3815
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1035
+#: ../src/calendar/gui/e-cal-model.c:3827
 msgid "Other"
 msgstr "Otro"
 
@@ -4582,7 +4538,7 @@ msgstr "Añadir _X.509"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:69
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:11
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1538
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1541
 #: ../src/e-util/e-attachment-view.c:355 ../src/e-util/e-filter-rule.c:409
 #: ../src/e-util/e-mail-signature-manager.c:368
 #: ../src/e-util/e-name-selector-dialog.c:1037
@@ -5030,144 +4986,139 @@ msgstr "SIP"
 msgid "List Members:"
 msgstr "Listar miembros:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:764
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:951
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:992
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:769
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:956
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:997
 msgid "Phone"
 msgstr "Teléfono"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:870
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:875
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Nickname"
 msgstr "Apodo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:871
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:876
 msgid "AIM"
 msgstr "AIM"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:872
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:877
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:873
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:878
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:874
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:879
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:875
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:880
 msgid "MSN"
 msgstr "MSN"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:876
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:881
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:877
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:882
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:878
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:883
 msgid "Skype"
 msgstr "Skype"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:879
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:884
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:941
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:946
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:34
 msgid "Company"
 msgstr "Empresa"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:942
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:947
 msgid "Department"
 msgstr "Departamento"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:943
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:948
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Office"
 msgstr "Oficina"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:944
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:949
 msgid "Profession"
 msgstr "Profesión"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:945
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:950
 msgid "Position"
 msgstr "Posición"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:946
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:951
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Manager"
 msgstr "Jefe"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:947
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:952
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:40
 msgid "Assistant"
 msgstr "Secretario"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:948
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:953
 msgid "Video Chat"
 msgstr "Charla por vídeo"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:950
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:955
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
 msgstr "Disponibilidad"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:952
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:957
 msgid "Fax"
 msgstr "Fax"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:954
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:995
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1021
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:959
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:999
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1025
 msgid "Address"
 msgstr "Dirección"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:990
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:995
 msgid "Home Page"
 msgstr "Página personal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:991
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:996
 msgid "Web Log"
 msgstr "Diario web"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:993
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-msgid "Mobile Phone"
-msgstr "Teléfono móvil"
-
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:998
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1002
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:44
 msgid "Spouse"
 msgstr "Cónyuge"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1008
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1012
 msgid "Personal"
 msgstr "Privado"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1057
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:45
 msgid "Note"
 msgstr "Nota"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1249
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1253
 msgid "List Members"
 msgstr "Listar miembros"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1272
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1276
 msgid "Job Title"
 msgstr "Puesto"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1313
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1317
 msgid "Home page"
 msgstr "Página personal"
 
-#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1323
+#: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1327
 msgid "Blog"
 msgstr "Diario web"
 
@@ -5510,6 +5461,10 @@ msgstr "Fax de casa"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "ISDN Phone"
 msgstr "Teléfono RDSI"
+
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:20
+msgid "Mobile Phone"
+msgstr "Teléfono móvil"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "Other Phone"
@@ -6606,23 +6561,23 @@ msgid "is not"
 msgstr "no es"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:9
-#: ../src/calendar/gui/e-cal-list-view.c:248
-#: ../src/calendar/gui/e-cal-model.c:293 ../src/calendar/gui/e-cal-model.c:301
+#: ../src/calendar/gui/e-cal-list-view.c:263
+#: ../src/calendar/gui/e-cal-model.c:296 ../src/calendar/gui/e-cal-model.c:304
 #: ../src/calendar/gui/e-task-table.c:445
 #: ../src/calendar/gui/memotypes.xml.in.h:10
 msgid "Public"
 msgstr "Público"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
-#: ../src/calendar/gui/e-cal-list-view.c:249
-#: ../src/calendar/gui/e-cal-model.c:303 ../src/calendar/gui/e-task-table.c:446
+#: ../src/calendar/gui/e-cal-list-view.c:264
+#: ../src/calendar/gui/e-cal-model.c:306 ../src/calendar/gui/e-task-table.c:446
 #: ../src/calendar/gui/memotypes.xml.in.h:11
 msgid "Private"
 msgstr "Privado"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
-#: ../src/calendar/gui/e-cal-list-view.c:250
-#: ../src/calendar/gui/e-cal-model.c:305 ../src/calendar/gui/e-task-table.c:447
+#: ../src/calendar/gui/e-cal-list-view.c:265
+#: ../src/calendar/gui/e-cal-model.c:308 ../src/calendar/gui/e-task-table.c:447
 #: ../src/calendar/gui/memotypes.xml.in.h:12
 #: ../src/e-util/e-html-editor-page-dialog.c:113
 #: ../src/e-util/e-send-options.ui.h:7
@@ -6717,7 +6672,7 @@ msgstr "El resumen contiene"
 msgid "Description Contains"
 msgstr "La descripción contiene"
 
-#: ../src/calendar/gui/comp-util.c:1537
+#: ../src/calendar/gui/comp-util.c:1539
 #: ../src/modules/itip-formatter/itip-view.c:2391
 #, c-format
 msgid "with one guest"
@@ -6725,57 +6680,57 @@ msgid_plural "with %d guests"
 msgstr[0] "con un invitado"
 msgstr[1] "con %d invitados"
 
-#: ../src/calendar/gui/comp-util.c:1596
+#: ../src/calendar/gui/comp-util.c:1598
 #, c-format
 msgid "Comments: %s"
 msgstr "Comentarios: %s"
 
-#: ../src/calendar/gui/comp-util.c:1610 ../src/calendar/gui/comp-util.c:1613
+#: ../src/calendar/gui/comp-util.c:1612 ../src/calendar/gui/comp-util.c:1615
 msgctxt "iCalendarStatus"
 msgid "None"
 msgstr "Ninguno"
 
-#: ../src/calendar/gui/comp-util.c:1611
+#: ../src/calendar/gui/comp-util.c:1613
 msgctxt "iCalendarStatus"
 msgid "Tentative"
 msgstr "Provisional"
 
-#: ../src/calendar/gui/comp-util.c:1612
+#: ../src/calendar/gui/comp-util.c:1614
 msgctxt "iCalendarStatus"
 msgid "Confirmed"
 msgstr "Confirmada"
 
-#: ../src/calendar/gui/comp-util.c:1614
+#: ../src/calendar/gui/comp-util.c:1616
 msgctxt "iCalendarStatus"
 msgid "Draft"
 msgstr "Borrador"
 
-#: ../src/calendar/gui/comp-util.c:1615
+#: ../src/calendar/gui/comp-util.c:1617
 msgctxt "iCalendarStatus"
 msgid "Final"
 msgstr "Final"
 
-#: ../src/calendar/gui/comp-util.c:1616
+#: ../src/calendar/gui/comp-util.c:1618
 msgctxt "iCalendarStatus"
 msgid "Not Started"
 msgstr "Sin comenzar"
 
-#: ../src/calendar/gui/comp-util.c:1617
+#: ../src/calendar/gui/comp-util.c:1619
 msgctxt "iCalendarStatus"
 msgid "Needs Action"
 msgstr "Necesita acción"
 
-#: ../src/calendar/gui/comp-util.c:1618
+#: ../src/calendar/gui/comp-util.c:1620
 msgctxt "iCalendarStatus"
 msgid "In Progress"
 msgstr "En proceso"
 
-#: ../src/calendar/gui/comp-util.c:1619
+#: ../src/calendar/gui/comp-util.c:1621
 msgctxt "iCalendarStatus"
 msgid "Completed"
 msgstr "Completada"
 
-#: ../src/calendar/gui/comp-util.c:1620
+#: ../src/calendar/gui/comp-util.c:1622
 msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "Cancelada"
@@ -7042,7 +6997,7 @@ msgid "High"
 msgstr "Alta"
 
 #: ../src/calendar/gui/e-cal-component-preview.c:349
-#: ../src/calendar/gui/e-cal-model.c:1895
+#: ../src/calendar/gui/e-cal-model.c:1907
 #: ../src/calendar/gui/e-task-table.c:472
 #: ../src/calendar/gui/tasktypes.xml.in.h:20
 #: ../src/e-util/e-send-options.ui.h:5 ../src/mail/message-list.c:330
@@ -7272,8 +7227,8 @@ msgstr "Pegando datos de iCalendar"
 #. To Translators: It will display
 #. * "Organizer: NameOfTheUser <email@ofuser.com>"
 #: ../src/calendar/gui/e-calendar-view.c:1896
-#: ../src/calendar/gui/e-memo-table.c:568
-#: ../src/calendar/gui/e-task-table.c:726
+#: ../src/calendar/gui/e-memo-table.c:571
+#: ../src/calendar/gui/e-task-table.c:735
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "Organizador: %s <%s>"
@@ -7282,8 +7237,8 @@ msgstr "Organizador: %s <%s>"
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
 #: ../src/calendar/gui/e-calendar-view.c:1899
-#: ../src/calendar/gui/e-memo-table.c:573
-#: ../src/calendar/gui/e-task-table.c:730
+#: ../src/calendar/gui/e-memo-table.c:576
+#: ../src/calendar/gui/e-task-table.c:739
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organizador: %s"
@@ -7292,7 +7247,7 @@ msgstr "Organizador: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:1918
 #: ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-task-table.c:748
+#: ../src/calendar/gui/e-task-table.c:757
 #: ../src/calendar/gui/e-to-do-pane.c:375 ../src/calendar/gui/print.c:3565
 #, c-format
 msgid "Location: %s"
@@ -7390,7 +7345,7 @@ msgstr "Fuente"
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../src/calendar/gui/e-cal-list-view.etspec.h:10
-#: ../src/calendar/gui/e-cal-model.c:3869
+#: ../src/calendar/gui/e-cal-model.c:3881
 #: ../src/calendar/gui/e-meeting-list-view.c:693
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:9
@@ -7401,7 +7356,20 @@ msgstr "Fuente"
 msgid "Status"
 msgstr "Estado"
 
-#: ../src/calendar/gui/e-cal-model.c:307
+#: ../src/calendar/gui/e-cal-list-view.etspec.h:11
+#: ../src/calendar/gui/e-meeting-list-view.c:650
+#: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
+#: ../src/calendar/gui/e-memo-table.etspec.h:3
+#: ../src/calendar/gui/e-task-table.etspec.h:3
+#: ../src/e-util/e-accounts-window.c:1443
+#: ../src/e-util/e-attachment-tree-view.c:205
+#: ../src/e-util/e-collection-account-wizard.c:1971
+#: ../src/e-util/e-webdav-browser.c:2386
+#: ../src/mail/e-mail-account-tree-view.c:158
+msgid "Type"
+msgstr "Tipo"
+
+#: ../src/calendar/gui/e-cal-model.c:310
 #: ../src/calendar/gui/e-meeting-list-view.c:183
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:135
@@ -7409,68 +7377,68 @@ msgstr "Estado"
 #: ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1257
 #: ../src/calendar/gui/print.c:1274 ../src/e-util/e-charset.c:49
 #: ../src/modules/itip-formatter/itip-view.c:3621
-#: ../src/modules/itip-formatter/itip-view.c:6664
+#: ../src/modules/itip-formatter/itip-view.c:6667
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: ../src/calendar/gui/e-cal-model.c:1401 ../src/calendar/gui/e-cal-ops.c:609
+#: ../src/calendar/gui/e-cal-model.c:1404 ../src/calendar/gui/e-cal-ops.c:609
 #: ../src/calendar/gui/e-cal-ops.c:1246
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:378
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "No se encontró la fuente con el UID «%s»"
 
-#: ../src/calendar/gui/e-cal-model.c:1512 ../src/calendar/gui/e-cal-ops.c:185
+#: ../src/calendar/gui/e-cal-model.c:1515 ../src/calendar/gui/e-cal-ops.c:185
 #: ../src/calendar/gui/e-cal-ops.c:1363
 msgid "Creating an event"
 msgstr "Creando un evento"
 
-#: ../src/calendar/gui/e-cal-model.c:1516 ../src/calendar/gui/e-cal-ops.c:189
+#: ../src/calendar/gui/e-cal-model.c:1519 ../src/calendar/gui/e-cal-ops.c:189
 #: ../src/calendar/gui/e-cal-ops.c:1367
 msgid "Creating a memo"
 msgstr "Creando un nota"
 
-#: ../src/calendar/gui/e-cal-model.c:1520 ../src/calendar/gui/e-cal-ops.c:193
+#: ../src/calendar/gui/e-cal-model.c:1523 ../src/calendar/gui/e-cal-ops.c:193
 #: ../src/calendar/gui/e-cal-ops.c:1371
 msgid "Creating a task"
 msgstr "Creando una tarea"
 
-#: ../src/calendar/gui/e-cal-model.c:1897
+#: ../src/calendar/gui/e-cal-model.c:1909
 msgid "Recurring"
 msgstr "Repetición"
 
-#: ../src/calendar/gui/e-cal-model.c:1899
+#: ../src/calendar/gui/e-cal-model.c:1911
 msgid "Assigned"
 msgstr "Asignado"
 
-#: ../src/calendar/gui/e-cal-model.c:1902
+#: ../src/calendar/gui/e-cal-model.c:1914
 #: ../src/calendar/gui/e-cal-model-tasks.c:1133
 msgid "Yes"
 msgstr "Sí"
 
-#: ../src/calendar/gui/e-cal-model.c:1902
+#: ../src/calendar/gui/e-cal-model.c:1914
 #: ../src/calendar/gui/e-cal-model-tasks.c:1133
 msgid "No"
 msgstr "No"
 
-#: ../src/calendar/gui/e-cal-model.c:3810
+#: ../src/calendar/gui/e-cal-model.c:3822
 #: ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:179
 #: ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6652
+#: ../src/modules/itip-formatter/itip-view.c:6655
 msgid "Accepted"
 msgstr "Aceptado"
 
-#: ../src/calendar/gui/e-cal-model.c:3811
+#: ../src/calendar/gui/e-cal-model.c:3823
 #: ../src/calendar/gui/e-meeting-list-view.c:209
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6658
+#: ../src/modules/itip-formatter/itip-view.c:6661
 msgid "Declined"
 msgstr "Rehusado"
 
-#: ../src/calendar/gui/e-cal-model.c:3812
+#: ../src/calendar/gui/e-cal-model.c:3824
 #: ../src/calendar/gui/e-meeting-list-view.c:210
 #: ../src/calendar/gui/e-meeting-store.c:183
 #: ../src/calendar/gui/e-meeting-store.c:206
@@ -7478,15 +7446,15 @@ msgstr "Rehusado"
 msgid "Tentative"
 msgstr "Provisional"
 
-#: ../src/calendar/gui/e-cal-model.c:3813
+#: ../src/calendar/gui/e-cal-model.c:3825
 #: ../src/calendar/gui/e-meeting-list-view.c:211
 #: ../src/calendar/gui/e-meeting-store.c:185
 #: ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6661
+#: ../src/modules/itip-formatter/itip-view.c:6664
 msgid "Delegated"
 msgstr "Delegado"
 
-#: ../src/calendar/gui/e-cal-model.c:3814
+#: ../src/calendar/gui/e-cal-model.c:3826
 msgid "Needs action"
 msgstr "Necesita una acción"
 
@@ -8046,22 +8014,22 @@ msgid "An organizer is required."
 msgstr "Se requiere un organizador."
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1074
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1213
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1216
 msgid "At least one attendee is required."
 msgstr "Es necesario por lo menos un participante."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1337
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1340
 msgid "Or_ganizer:"
 msgstr "Or_ganizador:"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1432
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1435
 msgid ""
 "Override color of the event. If not set, then color of the calendar is used."
 msgstr ""
 "Reemplazar el color del evento. Si no está asignado, se usa el color del "
 "calendario."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1434
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1437
 msgid ""
 "Override color of the memo. If not set, then color of the memo list is used."
 msgstr ""
@@ -8069,19 +8037,19 @@ msgstr ""
 "lista de notas."
 
 #. E_SOURCE_EXTENSION_TASK_LIST
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1436
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1439
 msgid ""
 "Override color of the task. If not set, then color of the task list is used."
 msgstr ""
 "Reemplazar el color de la tarea. Si no está asignado, se usa el color de la "
 "lista de tareas."
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1447
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1450
 msgctxt "ECompEditor"
 msgid "Atte_ndees..."
 msgstr "_Participa_ntes…"
 
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1530
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1533
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2285
 #: ../src/calendar/gui/e-comp-editor.c:2078
 #: ../src/e-util/e-accounts-window.c:1745
@@ -9033,18 +9001,6 @@ msgstr "Necesita acción"
 msgid "Attendee                          "
 msgstr "Participante                          "
 
-#: ../src/calendar/gui/e-meeting-list-view.c:650
-#: ../src/calendar/gui/e-meeting-time-sel.etspec.h:4
-#: ../src/calendar/gui/e-memo-table.etspec.h:3
-#: ../src/calendar/gui/e-task-table.etspec.h:3
-#: ../src/e-util/e-accounts-window.c:1443
-#: ../src/e-util/e-attachment-tree-view.c:205
-#: ../src/e-util/e-collection-account-wizard.c:1971
-#: ../src/e-util/e-webdav-browser.c:2386
-#: ../src/mail/e-mail-account-tree-view.c:158
-msgid "Type"
-msgstr "Tipo"
-
 #. To translators: RSVP means "please reply"
 #: ../src/calendar/gui/e-meeting-list-view.c:679
 #: ../src/calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -9185,41 +9141,41 @@ msgstr "Nombre común"
 msgid "Language"
 msgstr "Idioma"
 
-#: ../src/calendar/gui/e-memo-table.c:532
-#: ../src/calendar/gui/e-task-table.c:691
+#: ../src/calendar/gui/e-memo-table.c:535
+#: ../src/calendar/gui/e-task-table.c:700
 msgid "* No Summary *"
 msgstr "* Sin resumen *"
 
 #. Translators: This is followed by an event's start date/time
-#: ../src/calendar/gui/e-memo-table.c:618
-#: ../src/calendar/gui/e-task-table.c:790
+#: ../src/calendar/gui/e-memo-table.c:621
+#: ../src/calendar/gui/e-task-table.c:799
 msgid "Start: "
 msgstr "Empieza: "
 
 #. Translators: This is followed by an event's due date/time
-#: ../src/calendar/gui/e-memo-table.c:638
-#: ../src/calendar/gui/e-task-table.c:809
+#: ../src/calendar/gui/e-memo-table.c:641
+#: ../src/calendar/gui/e-task-table.c:818
 msgid "Due: "
 msgstr "Vence: "
 
-#: ../src/calendar/gui/e-memo-table.c:848
+#: ../src/calendar/gui/e-memo-table.c:851
 msgid "Cut selected memos to the clipboard"
 msgstr "Cortar las notas seleccionadas al portapapeles"
 
-#: ../src/calendar/gui/e-memo-table.c:854
+#: ../src/calendar/gui/e-memo-table.c:857
 msgid "Copy selected memos to the clipboard"
 msgstr "Copiar las notas seleccionadas al portapapeles"
 
-#: ../src/calendar/gui/e-memo-table.c:860
+#: ../src/calendar/gui/e-memo-table.c:863
 msgid "Paste memos from the clipboard"
 msgstr "Pegar las notas desde el portapapeles"
 
-#: ../src/calendar/gui/e-memo-table.c:866
+#: ../src/calendar/gui/e-memo-table.c:869
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:572
 msgid "Delete selected memos"
 msgstr "Eliminar las notas seleccionadas"
 
-#: ../src/calendar/gui/e-memo-table.c:872
+#: ../src/calendar/gui/e-memo-table.c:875
 msgid "Select all visible memos"
 msgstr "Seleccionar todas las notas visibles"
 
@@ -9242,24 +9198,24 @@ msgstr "Sin definir"
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../src/calendar/gui/e-task-table.c:1046
+#: ../src/calendar/gui/e-task-table.c:1055
 msgid "Cut selected tasks to the clipboard"
 msgstr "Cortar las tareas seleccionadas al portapapeles"
 
-#: ../src/calendar/gui/e-task-table.c:1052
+#: ../src/calendar/gui/e-task-table.c:1061
 msgid "Copy selected tasks to the clipboard"
 msgstr "Copiar las tareas seleccionadas al portapapeles"
 
-#: ../src/calendar/gui/e-task-table.c:1058
+#: ../src/calendar/gui/e-task-table.c:1067
 msgid "Paste tasks from the clipboard"
 msgstr "Pega las tareas del portapapeles"
 
-#: ../src/calendar/gui/e-task-table.c:1064
+#: ../src/calendar/gui/e-task-table.c:1073
 #: ../src/modules/calendar/e-task-shell-view-actions.c:698
 msgid "Delete selected tasks"
 msgstr "Eliminar las tareas seleccionadas"
 
-#: ../src/calendar/gui/e-task-table.c:1070
+#: ../src/calendar/gui/e-task-table.c:1079
 msgid "Select all visible tasks"
 msgstr "Seleccionar todas las tareas visibles"
 
@@ -15948,7 +15904,7 @@ msgstr "Métodos de entrada"
 #. Put the "UTC" entry at the top of the combo's list.
 #: ../src/e-util/e-timezone-dialog.c:280 ../src/e-util/e-timezone-dialog.c:520
 #: ../src/e-util/e-timezone-dialog.c:524 ../src/e-util/e-timezone-dialog.c:528
-#: ../src/e-util/e-timezone-dialog.c:996
+#: ../src/e-util/e-timezone-dialog.c:1015
 msgid "UTC"
 msgstr "UTC"
 
@@ -16783,7 +16739,6 @@ msgstr "Intentando mover correo desde un origen que no es un buzón «%s»"
 #. Translators: This is a subject attribution for forwarded messages. The %s is replaced with subject of the original message.
 #: ../src/libemail-engine/mail-tools.c:198
 #, c-format
-#| msgid "[Fwd: %s]"
 msgid "Fwd: %s"
 msgstr "[Rv: %s]"
 
@@ -24072,7 +24027,7 @@ msgid "Sa_ve"
 msgstr "Guar_dar"
 
 #: ../src/modules/itip-formatter/itip-view.c:3696
-#: ../src/modules/itip-formatter/itip-view.c:5446
+#: ../src/modules/itip-formatter/itip-view.c:5449
 msgid "Attendee status updated"
 msgstr "Estado de asistencia actualizado"
 
@@ -24177,172 +24132,172 @@ msgstr "Buscando una versión existente de esta nota"
 msgid "Opening the calendar. Please wait..."
 msgstr "Abriendo el calendario. Espere…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4942
+#: ../src/modules/itip-formatter/itip-view.c:4945
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "No es posible enviar el elemento al calendario «%s». %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4950
+#: ../src/modules/itip-formatter/itip-view.c:4953
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "No es posible enviar el elemento a la lista de tareas «%s». %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4958
+#: ../src/modules/itip-formatter/itip-view.c:4961
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "No es posible enviar el elemento a la lista de notas «%s». %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4978
+#: ../src/modules/itip-formatter/itip-view.c:4981
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Enviado al calendario «%s» como aceptado"
 
-#: ../src/modules/itip-formatter/itip-view.c:4983
+#: ../src/modules/itip-formatter/itip-view.c:4986
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Enviada a la lista de tareas «%s» como aceptada"
 
-#: ../src/modules/itip-formatter/itip-view.c:4988
+#: ../src/modules/itip-formatter/itip-view.c:4991
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Enviada a la lista de notas «%s» como aceptada"
 
-#: ../src/modules/itip-formatter/itip-view.c:4998
+#: ../src/modules/itip-formatter/itip-view.c:5001
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Enviado al calendario «%s» como tentativa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5003
+#: ../src/modules/itip-formatter/itip-view.c:5006
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Enviada a la lista de tareas «%s» como tentativa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5008
+#: ../src/modules/itip-formatter/itip-view.c:5011
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Enviada a la lista de notas «%s» como tentativa"
 
-#: ../src/modules/itip-formatter/itip-view.c:5018
+#: ../src/modules/itip-formatter/itip-view.c:5021
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Enviado al calendario «%s» como rehusado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5023
+#: ../src/modules/itip-formatter/itip-view.c:5026
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Enviada a la lista de tareas «%s» como rehusada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5028
+#: ../src/modules/itip-formatter/itip-view.c:5031
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Enviada a la lista de notas «%s» como rehusada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5038
+#: ../src/modules/itip-formatter/itip-view.c:5041
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Enviado al calendario «%s» como cancelado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5043
+#: ../src/modules/itip-formatter/itip-view.c:5046
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Enviada a la lista de tareas «%s» como cancelada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5048
+#: ../src/modules/itip-formatter/itip-view.c:5051
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Enviada a la lista de notas «%s» como cancelada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5066
+#: ../src/modules/itip-formatter/itip-view.c:5069
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Guardando cambios en el calendario. Espere…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5069
+#: ../src/modules/itip-formatter/itip-view.c:5072
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Guardando cambios en la lista de tareas. Espere…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5072
+#: ../src/modules/itip-formatter/itip-view.c:5075
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Guardando cambios en la lista de notas. Espere…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5163
+#: ../src/modules/itip-formatter/itip-view.c:5166
 msgid "Unable to parse item"
 msgstr "No es posible interpretar el elemento"
 
-#: ../src/modules/itip-formatter/itip-view.c:5371
+#: ../src/modules/itip-formatter/itip-view.c:5374
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "El organizador ha quitado al delegado %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5388
+#: ../src/modules/itip-formatter/itip-view.c:5391
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Enviar una notificación de cancelación al delegado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5392
+#: ../src/modules/itip-formatter/itip-view.c:5395
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "No es posible enviar una notificación de cancelación al delegado"
 
-#: ../src/modules/itip-formatter/itip-view.c:5438
+#: ../src/modules/itip-formatter/itip-view.c:5441
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "No es posible actualizar la asistencia. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5471
+#: ../src/modules/itip-formatter/itip-view.c:5474
 msgid "The meeting is invalid and cannot be updated"
 msgstr "La cita no es válida y no se puede actualizar"
 
-#: ../src/modules/itip-formatter/itip-view.c:5556
+#: ../src/modules/itip-formatter/itip-view.c:5559
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "El estado de asistencia no pudo actualizarse debido a que el estado no es "
 "válido"
 
-#: ../src/modules/itip-formatter/itip-view.c:5631
-#: ../src/modules/itip-formatter/itip-view.c:5669
+#: ../src/modules/itip-formatter/itip-view.c:5634
+#: ../src/modules/itip-formatter/itip-view.c:5672
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "El estado del participante no pudo actualizarse porque ya no existe el "
 "elemento"
 
-#: ../src/modules/itip-formatter/itip-view.c:5730
+#: ../src/modules/itip-formatter/itip-view.c:5733
 msgid "Meeting information sent"
 msgstr "Información de reunión enviada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5735
+#: ../src/modules/itip-formatter/itip-view.c:5738
 msgid "Task information sent"
 msgstr "Información de la tarea enviada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5740
+#: ../src/modules/itip-formatter/itip-view.c:5743
 msgid "Memo information sent"
 msgstr "Información de la nota enviada"
 
-#: ../src/modules/itip-formatter/itip-view.c:5751
+#: ../src/modules/itip-formatter/itip-view.c:5754
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "No se puede enviar la información de la reunión, la reunión no existe"
 
-#: ../src/modules/itip-formatter/itip-view.c:5756
+#: ../src/modules/itip-formatter/itip-view.c:5759
 msgid "Unable to send task information, the task does not exist"
 msgstr "No se puede enviar la información de la tarea, la tarea no existe"
 
-#: ../src/modules/itip-formatter/itip-view.c:5761
+#: ../src/modules/itip-formatter/itip-view.c:5764
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "No se puede enviar la información de la nota, la nota no existe"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5806
+#: ../src/modules/itip-formatter/itip-view.c:5809
 msgid "calendar.ics"
 msgstr "calendario.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5811
+#: ../src/modules/itip-formatter/itip-view.c:5814
 msgid "Save Calendar"
 msgstr "Guardar calendario"
 
-#: ../src/modules/itip-formatter/itip-view.c:5859
-#: ../src/modules/itip-formatter/itip-view.c:5872
+#: ../src/modules/itip-formatter/itip-view.c:5862
+#: ../src/modules/itip-formatter/itip-view.c:5875
 msgid "The calendar attached is not valid"
 msgstr "El calendario adjunto no es válido"
 
-#: ../src/modules/itip-formatter/itip-view.c:5860
-#: ../src/modules/itip-formatter/itip-view.c:5873
+#: ../src/modules/itip-formatter/itip-view.c:5863
+#: ../src/modules/itip-formatter/itip-view.c:5876
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -24350,15 +24305,15 @@ msgstr ""
 "El mensaje dice contener un calendario, pero el calendario no es un "
 "iCalendar válido."
 
-#: ../src/modules/itip-formatter/itip-view.c:5955
-#: ../src/modules/itip-formatter/itip-view.c:6039
-#: ../src/modules/itip-formatter/itip-view.c:6143
+#: ../src/modules/itip-formatter/itip-view.c:5958
+#: ../src/modules/itip-formatter/itip-view.c:6042
+#: ../src/modules/itip-formatter/itip-view.c:6146
 msgid "The item in the calendar is not valid"
 msgstr "El elemento en el calendario no es válido"
 
-#: ../src/modules/itip-formatter/itip-view.c:5956
-#: ../src/modules/itip-formatter/itip-view.c:6040
-#: ../src/modules/itip-formatter/itip-view.c:6144
+#: ../src/modules/itip-formatter/itip-view.c:5959
+#: ../src/modules/itip-formatter/itip-view.c:6043
+#: ../src/modules/itip-formatter/itip-view.c:6147
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -24366,11 +24321,11 @@ msgstr ""
 "El mensaje contiene un calendario, pero el calendario no contiene ningún "
 "acontecimiento, tarea o información de disponibilidad"
 
-#: ../src/modules/itip-formatter/itip-view.c:6049
+#: ../src/modules/itip-formatter/itip-view.c:6052
 msgid "The calendar attached contains multiple items"
 msgstr "El calendario adjunto contiene elementos múltiples"
 
-#: ../src/modules/itip-formatter/itip-view.c:6050
+#: ../src/modules/itip-formatter/itip-view.c:6053
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -24378,12 +24333,12 @@ msgstr ""
 "Para procesar todos estos elementos, el archivo debería guardarse y el "
 "calendario importarse"
 
-#: ../src/modules/itip-formatter/itip-view.c:6637
+#: ../src/modules/itip-formatter/itip-view.c:6640
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Ninguno"
 
-#: ../src/modules/itip-formatter/itip-view.c:6655
+#: ../src/modules/itip-formatter/itip-view.c:6658
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
 
@@ -26892,8 +26847,8 @@ msgstr ""
 "Carlos Perelló Marín <carlos@gnome-db.org>, 2000-2001"
 
 #: ../src/shell/e-shell-utils.c:354
-msgid "Evolution Website"
-msgstr "Página web de Evolution"
+msgid "Website"
+msgstr "Página web"
 
 #: ../src/shell/e-shell-view.c:295
 msgid "Saving user interface state"
@@ -27010,7 +26965,6 @@ msgid "Save the current search parameters"
 msgstr "Guardar los parámetros de búsqueda actuales"
 
 #: ../src/shell/e-shell-window-actions.c:975
-#| msgid "_Forward Contacts"
 msgid "_Keyboard Shortcuts"
 msgstr "Atajos del _teclado"
 
@@ -27929,6 +27883,9 @@ msgstr "No se puede guardar el almacén en el disco, cod_err: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificado importado"
+
+#~ msgid "Evolution Website"
+#~ msgstr "Página web de Evolution"
 
 #~ msgid "%d week"
 #~ msgid_plural "%d weeks"
