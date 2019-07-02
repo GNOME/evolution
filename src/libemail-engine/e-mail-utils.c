@@ -600,7 +600,7 @@ guess_mail_account_with_recipients_and_sort (ESourceRegistry *registry,
 
 	/* Build a set of email addresses in which to test for membership.
 	 * Only the keys matter here; the values just need to be non-NULL. */
-	recipients = g_hash_table_new (g_str_hash, g_str_equal);
+	recipients = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 
 	for (ii = 0; recipt_types[ii]; ii++) {
 		addr = camel_mime_message_get_recipients (message, recipt_types[ii]);
