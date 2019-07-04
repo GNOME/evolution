@@ -23,6 +23,9 @@
 
 G_BEGIN_DECLS
 
+/* Header/parameter name for guessed MIME types; it's set to "1" when it's guessed. */
+#define E_MAIL_PART_X_EVOLUTION_GUESSED "X-Evolution-Guessed"
+
 gboolean	e_mail_part_is_secured		(CamelMimePart *part);
 
 const gchar *	e_mail_part_get_frame_security_style
