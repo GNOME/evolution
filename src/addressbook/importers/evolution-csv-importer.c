@@ -446,7 +446,7 @@ parseLine (CSVImporter *gci,
 	gint ii = 0, idx;
 	gint flags = 0;
 	gint contact_field;
-	EContactAddress *home_address = NULL, *work_address = NULL, *other_address = NULL;
+	EContactAddress *home_address, *work_address, *other_address;
 	EContactDate *bday = NULL;
 	GString *home_street, *work_street, *other_street;
 	home_street = g_string_new ("");
@@ -657,6 +657,9 @@ parseLine (CSVImporter *gci,
 		ii++;
 		g_string_free (value, TRUE);
 	}
+
+	/* This inserts FN: in the vCard. */
+	g_free (e_contact_get (contact, E_CONTACT_FULL_NAME));
 	home_address->street = g_string_free (home_street, !home_street->len);
 	work_address->street = g_string_free (work_street, !work_street->len);
 	other_address->street = g_string_free (other_street, !other_street->len);
@@ -700,6 +703,8 @@ getNextCSVEntry (CSVImporter *gci,
 			g_string_free (line, TRUE);
 			return NULL;
 		}
+		if (c == '\r')
+			c = fgetc (f);
 		if (c == '\n') {
 			g_string_append_c (line, c);
 			break;
@@ -724,6 +729,8 @@ getNextCSVEntry (CSVImporter *gci,
 				g_string_free (line, TRUE);
 				return NULL;
 			}
+			if (c == '\r')
+				c = fgetc (f);
 			if (c == '\n') {
 				g_string_append_c (line, c);
 				break;
@@ -985,6 +992,10 @@ csv_import (EImport *ei,
 	fseek (file, 0, SEEK_END);
 	gci->size = ftell (file);
 	fseek (file, 0, SEEK_SET);
+
+	/* Consume byte order mark EF BB BF, if at the beginning of the file */
+	if (fgetc (file) != 0xEF || fgetc (file) != 0xBB || fgetc (file) != 0xBF)
+		fseek (file, 0, SEEK_SET);
 
 	source = g_datalist_get_data (&target->data, "csv-source");
 
