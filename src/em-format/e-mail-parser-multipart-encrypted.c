@@ -52,11 +52,20 @@ empe_mp_encrypted_parse (EMailParserExtension *extension,
 	const gchar *protocol;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
+	CamelContentType *content_type;
 	CamelMultipartEncrypted *mpe;
 	GQueue work_queue = G_QUEUE_INIT;
 	GList *head, *link;
 	GError *local_error = NULL;
 	gint len;
+
+	content_type = camel_mime_part_get_content_type (part);
+
+	/* When it's a guessed type, then rather not interpret it as an encrypted message */
+	if (g_strcmp0 (camel_content_type_param (content_type, E_MAIL_PART_X_EVOLUTION_GUESSED), "1") == 0) {
+		e_mail_parser_wrap_as_non_expandable_attachment (parser, part, part_id, out_mail_parts);
+		return TRUE;
+	}
 
 	mpe = (CamelMultipartEncrypted *) camel_medium_get_content ((CamelMedium *) part);
 	if (!CAMEL_IS_MULTIPART_ENCRYPTED (mpe)) {

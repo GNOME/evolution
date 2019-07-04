@@ -63,22 +63,31 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 
 	/* If the part is application/pgp-signature sub-part then skip it. */
 	if (!CAMEL_IS_MULTIPART (part)) {
+		gboolean is_guessed;
+
 		content_type = camel_mime_part_get_content_type (part);
-		if (camel_content_type_is (content_type, "application", "pgp-signature")) {
-			EMailPartList *part_list;
-			gboolean add_as_attachment = FALSE;
 
-			part_list = e_mail_parser_ref_part_list_for_operation (parser, cancellable);
-			if (part_list) {
-				CamelMimePart *parent_part;
+		/* When it's a guessed type, then rather not interpret it as a signed message */
+		is_guessed = g_strcmp0 (camel_content_type_param (content_type, E_MAIL_PART_X_EVOLUTION_GUESSED), "1") == 0;
 
-				parent_part = e_mail_part_utils_find_parent_part (e_mail_part_list_get_message (part_list), part);
-				if (parent_part) {
-					content_type = camel_mime_part_get_content_type (parent_part);
-					add_as_attachment = !camel_content_type_is (content_type, "multipart", "signed");
+		if (is_guessed || camel_content_type_is (content_type, "application", "pgp-signature")) {
+			gboolean add_as_attachment = is_guessed;
+
+			if (!add_as_attachment) {
+				EMailPartList *part_list;
+
+				part_list = e_mail_parser_ref_part_list_for_operation (parser, cancellable);
+				if (part_list) {
+					CamelMimePart *parent_part;
+
+					parent_part = e_mail_part_utils_find_parent_part (e_mail_part_list_get_message (part_list), part);
+					if (parent_part) {
+						content_type = camel_mime_part_get_content_type (parent_part);
+						add_as_attachment = !camel_content_type_is (content_type, "multipart", "signed");
+					}
+
+					g_object_unref (part_list);
 				}
-
-				g_object_unref (part_list);
 			}
 
 			if (add_as_attachment)

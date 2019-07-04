@@ -248,6 +248,7 @@ empe_mp_mixed_parse (EMailParserExtension *extension,
 							}
 						}
 
+						camel_content_type_set_param (snoop_ct, E_MAIL_PART_X_EVOLUTION_GUESSED, "1");
 						camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (opart), snoop_ct);
 
 						handled = e_mail_parser_parse_part (parser, opart, part_id, cancellable, &work_queue);

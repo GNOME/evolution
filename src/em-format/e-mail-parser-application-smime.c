@@ -60,27 +60,36 @@ empe_app_smime_parse (EMailParserExtension *extension,
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
 	CamelContentType *ct;
+	gboolean is_guessed;
 	GError *local_error = NULL;
 
 	ct = camel_mime_part_get_content_type (part);
-	if (camel_content_type_is (ct, "application", "pkcs7-signature") ||
+
+	/* When it's a guessed type, then rather not interpret it as a signed/encrypted message */
+	is_guessed = g_strcmp0 (camel_content_type_param (ct, E_MAIL_PART_X_EVOLUTION_GUESSED), "1") == 0;
+
+	if (is_guessed ||
+	    camel_content_type_is (ct, "application", "pkcs7-signature") ||
 	    camel_content_type_is (ct, "application", "xpkcs7signature") ||
 	    camel_content_type_is (ct, "application", "xpkcs7-signature") ||
 	    camel_content_type_is (ct, "application", "x-pkcs7-signature")) {
-		EMailPartList *part_list;
-		gboolean add_as_attachment = FALSE;
+		gboolean add_as_attachment = is_guessed;
 
-		part_list = e_mail_parser_ref_part_list_for_operation (parser, cancellable);
-		if (part_list) {
-			CamelMimePart *parent_part;
+		if (!add_as_attachment) {
+			EMailPartList *part_list;
 
-			parent_part = e_mail_part_utils_find_parent_part (e_mail_part_list_get_message (part_list), part);
-			if (parent_part) {
-				ct = camel_mime_part_get_content_type (parent_part);
-				add_as_attachment = !camel_content_type_is (ct, "multipart", "signed");
+			part_list = e_mail_parser_ref_part_list_for_operation (parser, cancellable);
+			if (part_list) {
+				CamelMimePart *parent_part;
+
+				parent_part = e_mail_part_utils_find_parent_part (e_mail_part_list_get_message (part_list), part);
+				if (parent_part) {
+					ct = camel_mime_part_get_content_type (parent_part);
+					add_as_attachment = !camel_content_type_is (ct, "multipart", "signed");
+				}
+
+				g_object_unref (part_list);
 			}
-
-			g_object_unref (part_list);
 		}
 
 		if (add_as_attachment)
