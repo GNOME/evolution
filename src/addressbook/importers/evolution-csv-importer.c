@@ -276,14 +276,16 @@ add_to_notes (EContact *contact,
 {
 	GString *new_text;
 
-	if (!field_text || !val || !*val)
+	if (!val || !*val)
 		return;
 
 	new_text = g_string_new (e_contact_get_const (contact, E_CONTACT_NOTE));
 	if (strlen (new_text->str) != 0)
 		new_text = g_string_append_c (new_text, '\n');
-	new_text = g_string_append (new_text, field_text);
-	new_text = g_string_append_c (new_text, ':');
+	if (field_text) {
+		new_text = g_string_append (new_text, field_text);
+		new_text = g_string_append_c (new_text, ':');
+	}
 	new_text = g_string_append (new_text, val);
 
 	e_contact_set (contact, E_CONTACT_NOTE, new_text->str);
@@ -534,6 +536,9 @@ parseLine (CSVImporter *gci,
 						e_contact_name_free (n);
 						break;
 						}
+					case E_CONTACT_NOTE:
+						add_to_notes (contact, NULL, value->str);
+						break;
 					default:
 						e_contact_set (contact, contact_field, value->str);
 					}
