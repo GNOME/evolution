@@ -45,6 +45,10 @@
 #define CSV_FILE_DELIMITER ','
 #define TAB_FILE_DELIMITER '\t'
 
+#define E_CONTACT_ADDITIONAL_NAME (E_CONTACT_FIELD_LAST + 10)
+#define E_CONTACT_SUFFIXES_NAME   (E_CONTACT_FIELD_LAST + 11)
+#define E_CONTACT_PREFIXES_NAME   (E_CONTACT_FIELD_LAST + 12)
+
 typedef struct {
 	EImport *import;
 	EImportTarget *target;
@@ -91,11 +95,11 @@ typedef struct {
 }import_fields;
 
 static import_fields csv_fields_outlook[] = {
-	{"Title", NOMAP},
+	{"Title", E_CONTACT_PREFIXES_NAME},
 	{"First Name", E_CONTACT_GIVEN_NAME},
-	{"Middle Name", NOMAP},
+	{"Middle Name", E_CONTACT_ADDITIONAL_NAME},
 	{"Last Name", E_CONTACT_FAMILY_NAME},
-	{"Suffix", NOMAP},
+	{"Suffix", E_CONTACT_SUFFIXES_NAME},
 	{"Company", E_CONTACT_ORG},
 	{"Department", E_CONTACT_ORG_UNIT},
 	{"Job Title", E_CONTACT_TITLE},
@@ -168,10 +172,12 @@ static import_fields csv_fields_outlook[] = {
 	{"Location", NOMAP},
 	{"Managers Name", E_CONTACT_MANAGER},
 	{"Mileage", NOMAP},
-	{"Notes", NOMAP},
+	{"Nickname", E_CONTACT_NICKNAME},
+	{"Notes", E_CONTACT_NOTE},
 	{"Office Location", NOMAP},
 	{"Organizational ID Number", NOMAP},
 	{"Other Address PO Box", NOMAP, FLAG_OTHER_ADDRESS | FLAG_POBOX},
+	{"Personal Web Page", NOMAP},
 	{"Priority", NOMAP},
 	{"Private", NOMAP},
 	{"Profession", NOMAP},
@@ -221,7 +227,7 @@ static import_fields csv_fields_mozilla[] = {
 	{"Custom 2", NOMAP},
 	{"Custom 3", NOMAP},
 	{"Custom 4", NOMAP},
-	{"Notes", NOMAP},
+	{"Notes", E_CONTACT_NOTE},
 
 };
 
@@ -270,21 +276,27 @@ add_to_notes (EContact *contact,
 {
 	GString *new_text;
 
-	if (!field_text || !val || !*val)
+	if (!val || !*val)
 		return;
 
 	new_text = g_string_new (e_contact_get_const (contact, E_CONTACT_NOTE));
 	if (strlen (new_text->str) != 0)
 		new_text = g_string_append_c (new_text, '\n');
-	new_text = g_string_append (new_text, field_text);
-	new_text = g_string_append_c (new_text, ':');
+	if (field_text) {
+		g_string_append (new_text, field_text);
+		g_string_append_c (new_text, ':');
+	}
 	new_text = g_string_append (new_text, val);
 
 	e_contact_set (contact, E_CONTACT_NOTE, new_text->str);
 	g_string_free (new_text, TRUE);
 }
 
-/* @str: a date string in the format MM-DD-YYYY or MMDDYYYY */
+/* @str: a date string in the format MM-DD-YYYY, MMDDYYYY or YYYY-MM-DD
+ * with MM and DD in the first two cases having possibly a leading zero, or
+ * being one digit data.  Note, that e_contact_date_from_string parses
+ * YYYY-MM-DD and YYYYMMDD, followed by 'T' or '\0'.
+ */
 static EContactDate *
 date_from_string (const gchar *str)
 {
@@ -294,6 +306,16 @@ date_from_string (const gchar *str)
 	g_return_val_if_fail (str != NULL, NULL);
 
 	date = e_contact_date_new ();
+
+	if (strlen (str) == 10 && str[4] == '-') { /* YYYY-MM-DD */
+		date->year = str[0] * 1000 + str[1] * 100 + str[2] * 10 + str[3] - '0' * 1111;
+		date->month = str[5] * 10 + str[6] - '0' * 11;
+		date->day = str[8] * 10 + str[9] - '0' * 11;
+		/* If the year is not set in the web interface, outlook.com exports 1604 */
+		if (date->year == 1604)
+			date->year = 1;
+		return date;
+	}
 
 	if (g_ascii_isdigit (str[i]) && g_ascii_isdigit (str[i + 1])) {
 		date->month = str[i] * 10 + str[i + 1] - '0' * 11;
@@ -485,7 +507,40 @@ parseLine (CSVImporter *gci,
 		if (*value->str) {
 			if (contact_field != NOMAP) {
 				if (importer == OUTLOOK_IMPORTER || importer == MOZILLA_IMPORTER) {
-					e_contact_set (contact, contact_field, value->str);
+					EContactName *cname;
+
+					switch (contact_field) {
+					case E_CONTACT_ADDITIONAL_NAME:
+						cname = e_contact_get (contact, E_CONTACT_NAME);
+						g_free (cname->additional);
+						cname->additional = value->str;
+						e_contact_set (contact, E_CONTACT_NAME, cname);
+						cname->additional = NULL;
+						e_contact_name_free (cname);
+						break;
+					case E_CONTACT_PREFIXES_NAME:
+						cname = e_contact_get (contact, E_CONTACT_NAME);
+						g_free (cname->prefixes);
+						cname->prefixes = value->str;
+						e_contact_set (contact, E_CONTACT_NAME, cname);
+						cname->prefixes = NULL;
+						e_contact_name_free (cname);
+						break;
+					case E_CONTACT_SUFFIXES_NAME:
+						cname = e_contact_get (contact, E_CONTACT_NAME);
+						g_free (cname->suffixes);
+						cname->suffixes = value->str;
+						e_contact_set (contact, E_CONTACT_NAME, cname);
+						cname->suffixes = NULL;
+						e_contact_name_free (cname);
+						break;
+					case E_CONTACT_NOTE:
+						add_to_notes (contact, NULL, value->str);
+						break;
+					default:
+						e_contact_set (contact, contact_field, value->str);
+						break;
+					}
 				} else {
 					if (contact_field == E_CONTACT_WANTS_HTML)
 						e_contact_set (
