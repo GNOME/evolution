@@ -1264,9 +1264,7 @@ e_str_replace_string (const gchar *text,
 		p = next + find_len;
 	}
 
-	g_string_append (str, p);
-
-	return str;
+	return g_string_append (str, p);
 }
 
 gint

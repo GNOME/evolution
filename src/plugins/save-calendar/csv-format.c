@@ -103,22 +103,21 @@ add_list_to_csv (GString *line,
 			if (!needquotes)
 				needquotes = string_needsquotes (str, config);
 			if (str)
-				tmp = g_string_append (tmp, (const gchar *) str);
+				g_string_append (tmp, (const gchar *) str);
 			list = g_slist_next (list); cnt++;
 			if (list)
-				tmp = g_string_append (tmp, config->delimiter);
+				g_string_append (tmp, config->delimiter);
 		}
 
 		if (needquotes)
-			line = g_string_append (line, config->quote);
-		line = g_string_append_len (line, tmp->str, tmp->len);
+			g_string_append (line, config->quote);
+		g_string_append_len (line, tmp->str, tmp->len);
 		g_string_free (tmp, TRUE);
 		if (needquotes)
-			line = g_string_append (line, config->quote);
+			g_string_append (line, config->quote);
 	}
 
-	line = g_string_append (line, config->delimiter);
-	return line;
+	return g_string_append (line, config->delimiter);
 }
 
 static GString *
@@ -157,20 +156,18 @@ add_time_to_csv (GString *line,
 		needquotes = string_needsquotes (str, config);
 
 		if (needquotes)
-			line = g_string_append (line, config->quote);
+			g_string_append (line, config->quote);
 
-		line = g_string_append (line, str);
+		g_string_append (line, str);
 
 		if (needquotes)
-			line = g_string_append (line, config->quote);
+			g_string_append (line, config->quote);
 
 		g_free (str);
 
 	}
 
-	line = g_string_append (line, config->delimiter);
-
-	return line;
+	return g_string_append (line, config->delimiter);
 }
 
 static gboolean
@@ -244,13 +241,12 @@ add_string_to_csv (GString *line,
 		gboolean needquotes = string_needsquotes (value, config);
 
 		if (needquotes)
-			line = g_string_append (line, config->quote);
-		line = g_string_append (line, (const gchar *) value);
+			g_string_append (line, config->quote);
+		g_string_append (line, (const gchar *) value);
 		if (needquotes)
-			line = g_string_append (line, config->quote);
+			g_string_append (line, config->quote);
 	}
-	line = g_string_append (line, config->delimiter);
-	return line;
+	return g_string_append (line, config->delimiter);
 }
 
 /* Convert what the user types to what he probably means */
@@ -266,24 +262,24 @@ userstring_to_systemstring (const gchar *userstring)
 		if (text[i] == '\\') {
 			switch (text[i + 1]) {
 			case 'n':
-				str = g_string_append_c (str, '\n');
+				g_string_append_c (str, '\n');
 				i++;
 				break;
 			case '\\':
-				str = g_string_append_c (str, '\\');
+				g_string_append_c (str, '\\');
 				i++;
 				break;
 			case 'r':
-				str = g_string_append_c (str, '\r');
+				g_string_append_c (str, '\r');
 				i++;
 				break;
 			case 't':
-				str = g_string_append_c (str, '\t');
+				g_string_append_c (str, '\t');
 				i++;
 				break;
 			}
 		} else {
-			str = g_string_append_c (str, text[i]);
+			g_string_append_c (str, text[i]);
 		}
 
 		i++;

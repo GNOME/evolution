@@ -129,7 +129,7 @@ check_category_name (const gchar *name)
 			case ',':
 				break;
 			default:
-				str = g_string_append_c (str, *p);
+				g_string_append_c (str, *p);
 		}
 		p++;
 	}

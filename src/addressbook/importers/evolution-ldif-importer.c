@@ -132,7 +132,7 @@ getValue (gchar **src)
 
  copy_line:
 	while (*s != 0 && *s != '\n' && *s != '\r')
-		dest = g_string_append_c (dest, *s++);
+		g_string_append_c (dest, *s++);
 
 	if (*s == '\r') s++;
 	if (*s == '\n')	s++;
@@ -366,7 +366,7 @@ getNextLDIFEntry (GHashTable *dn_contact_hash,
 			break;
 		if (line[0] == '\n' || (line[0] == '\r' && line[1] == '\n'))
 			break;
-		str = g_string_append (str, line);
+		g_string_append (str, line);
 	}
 
 	if (strlen (str->str) == 0) {

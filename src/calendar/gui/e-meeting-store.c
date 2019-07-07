@@ -1937,7 +1937,7 @@ async_read (GObject *source_object,
 		process_free_busy (qdata, qdata->string->str);
 	} else {
 		qdata->buffer[read] = '\0';
-		qdata->string = g_string_append (qdata->string, qdata->buffer);
+		g_string_append (qdata->string, qdata->buffer);
 
 		g_input_stream_read_async (
 			istream, qdata->buffer, BUF_SIZE - 1,
