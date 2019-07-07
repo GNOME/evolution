@@ -613,7 +613,7 @@ file_as_get_style (EContactEditor *editor)
 		e_builder_get_widget (editor->priv->builder, "combo-file-as"))));
 	GtkEntry *company_w = GTK_ENTRY (
 		e_builder_get_widget (editor->priv->builder, "entry-company"));
-	gchar *filestring;
+	const gchar *filestring;
 	gchar *trystring;
 	EContactName *name = editor->priv->name;
 	const gchar *company;
@@ -623,18 +623,16 @@ file_as_get_style (EContactEditor *editor)
 		return -1;
 
 	company = gtk_entry_get_text (GTK_ENTRY (company_w));
-	filestring = g_strdup (gtk_entry_get_text (file_as));
+	filestring = gtk_entry_get_text (file_as);
 
 	for (i = 0; i < 6; i++) {
 		trystring = name_to_style (name, company, i);
 		if (!strcmp (trystring, filestring)) {
 			g_free (trystring);
-			g_free (filestring);
 			return i;
 		}
 		g_free (trystring);
 	}
-	g_free (filestring);
 	return -1;
 }
 
