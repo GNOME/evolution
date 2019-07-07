@@ -260,7 +260,6 @@ userstring_to_systemstring (const gchar *userstring)
 	const gchar *text = userstring;
 	gint i = 0, len = strlen (text);
 	GString *str = g_string_new ("");
-	gchar *retval = NULL;
 
 	while (i < len) {
 		if (text[i] == '\\') {
@@ -289,10 +288,7 @@ userstring_to_systemstring (const gchar *userstring)
 		i++;
 	}
 
-	retval = str->str;
-	g_string_free (str, FALSE);
-
-	return retval;
+	return g_string_free (str, FALSE);
 }
 
 static void

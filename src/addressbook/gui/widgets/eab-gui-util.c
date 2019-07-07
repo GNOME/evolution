@@ -1032,9 +1032,7 @@ parse_address_template_section (const gchar *format,
 	}
 	g_string_append (res, old_pos);
 
-	*result = g_strdup (res->str);
-
-	g_string_free (res, TRUE);
+	*result = g_string_free (res, FALSE);
 
 	return ret;
 }

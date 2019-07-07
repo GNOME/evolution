@@ -292,10 +292,9 @@ format_full_headers (EMailFormatter *formatter,
 				formatter, html, addrs, header_name, FALSE,
 				~(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
-			header_sender = html->str;
 			camel_header_address_list_clear (&addrs);
+			header_sender = g_string_free (html, FALSE);
 
-			g_string_free (html, FALSE);
 			g_free (name);
 
 		} else if (!g_ascii_strcasecmp (header_name, "From")) {
@@ -310,10 +309,9 @@ format_full_headers (EMailFormatter *formatter,
 				formatter, html, addrs, header_name, FALSE,
 				!(flags & E_MAIL_FORMATTER_HEADER_FLAG_NOELIPSIZE));
 
-			header_from = html->str;
 			camel_header_address_list_clear (&addrs);
+			header_from = g_string_free (html, FALSE);
 
-			g_string_free (html, FALSE);
 			g_free (name);
 
 		} else if (!g_ascii_strcasecmp (header_name, "X-Evolution-Mail-From-Delegate")) {

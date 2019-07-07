@@ -3154,8 +3154,7 @@ itip_view_set_error (ItipView *view,
 		g_string_append (str, "</tr></table>");
 	}
 
-	view->priv->error = str->str;
-	g_string_free (str, FALSE);
+	view->priv->error = g_string_free (str, FALSE);
 
 	if (!view->priv->web_extension)
 		return;

@@ -343,8 +343,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		}
 
 		camel_header_address_list_clear (&addrs);
-		txt = value = html->str;
-		g_string_free (html, FALSE);
+		txt = value = g_string_free (html, FALSE);
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
@@ -452,8 +451,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 
 		g_slist_free_full (ng, g_free);
 
-		txt = html->str;
-		value = g_string_free (html, FALSE);
+		txt = value = g_string_free (html, FALSE);
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;

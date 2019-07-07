@@ -3467,7 +3467,7 @@ em_composer_utils_get_reply_credits (ESource *identity_source,
 	register const gchar *inptr;
 	const gchar *start;
 	gint tzone, len, i;
-	gchar buf[64], *s;
+	gchar buf[64];
 	GString *str;
 	struct tm tm;
 	time_t date;
@@ -3613,11 +3613,9 @@ em_composer_utils_get_reply_credits (ESource *identity_source,
 
 	emcu_restore_locale_after_attribution (restore_lc_messages, restore_lc_time);
 
-	s = str->str;
-	g_string_free (str, FALSE);
 	g_free (format);
 
-	return s;
+	return g_string_free (str, FALSE);
 }
 
 static void

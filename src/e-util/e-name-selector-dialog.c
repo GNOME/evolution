@@ -685,15 +685,11 @@ static gchar *
 escape_sexp_string (const gchar *string)
 {
 	GString *gstring;
-	gchar   *encoded_string;
 
 	gstring = g_string_new ("");
 	e_sexp_encode_string (gstring, string);
 
-	encoded_string = gstring->str;
-	g_string_free (gstring, FALSE);
-
-	return encoded_string;
+	return g_string_free (gstring, FALSE);
 }
 
 static void
