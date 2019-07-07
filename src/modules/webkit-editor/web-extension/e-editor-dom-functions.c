@@ -7032,7 +7032,7 @@ process_list_to_plain_text (EEditorPage *editor_page,
 	item = webkit_dom_node_get_first_child (WEBKIT_DOM_NODE (element));
 	while (item) {
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (item))
-			g_string_append (output, "\n");
+			g_string_append_c (output, '\n');
 
 		if (WEBKIT_DOM_IS_HTML_LI_ELEMENT (item)) {
 			gchar *space = NULL, *item_str = NULL;
@@ -7055,7 +7055,7 @@ process_list_to_plain_text (EEditorPage *editor_page,
 				while (node) {
 					if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (node) &&
 					    element_has_class (WEBKIT_DOM_ELEMENT (node), "-x-evo-wrap-br")) {
-						g_string_append (line, "\n");
+						g_string_append_c (line, '\n');
 						/* put spaces before line characters -> wordwraplength - indentation */
 						for (ii = 0; ii < level; ii++)
 							g_string_append (line, indent_per_level);
@@ -7233,7 +7233,7 @@ process_list_to_plain_text (EEditorPage *editor_page,
 			counter++;
 			item = webkit_dom_node_get_next_sibling (item);
 			if (item)
-				g_string_append (output, "\n");
+				g_string_append_c (output, '\n');
 
 			g_free (item_str);
 			g_string_free (item_value, TRUE);
@@ -7247,7 +7247,7 @@ process_list_to_plain_text (EEditorPage *editor_page,
 	}
 
 	if (webkit_dom_node_get_next_sibling (WEBKIT_DOM_NODE (element)) && !empty)
-		g_string_append (output, "\n");
+		g_string_append_c (output, '\n');
 
 	g_free (indent_per_level);
 }
@@ -7657,7 +7657,7 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 		}
 
 		if (WEBKIT_DOM_IS_HTML_BR_ELEMENT (child)) {
-			g_string_append (buffer, "\n");
+			g_string_append_c (buffer, '\n');
 			goto next;
 		}
 
@@ -7679,7 +7679,7 @@ process_node_to_plain_text_for_exporting (EEditorPage *editor_page,
 	      WEBKIT_DOM_IS_HTML_PARAGRAPH_ELEMENT (source) ||
 	      WEBKIT_DOM_IS_HTML_PRE_ELEMENT (source) ||
 	      WEBKIT_DOM_IS_HTML_QUOTE_ELEMENT (source)))
-		g_string_append (buffer, "\n");
+		g_string_append_c (buffer, '\n');
 
 	if (g_str_has_suffix (buffer->str, "\n") && buffer->len > 1 &&
 	    WEBKIT_DOM_IS_HTML_BODY_ELEMENT (source))

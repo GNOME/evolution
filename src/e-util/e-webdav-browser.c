@@ -451,7 +451,7 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 			#define append_if_set(_flag, _str) \
 				if ((rd->resource->supports & (_flag)) != 0) { \
 					if (type_info->len) \
-						g_string_append (type_info, " "); \
+						g_string_append_c (type_info, ' '); \
 					g_string_append (type_info, _str); \
 				}
 
@@ -463,7 +463,7 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 
 			if (type_info->len) {
 				g_string_prepend (type_info, " (");
-				g_string_append (type_info, ")");
+				g_string_append_c (type_info, ')');
 			}
 
 			g_string_prepend (type_info, _("Calendar"));

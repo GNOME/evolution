@@ -150,7 +150,7 @@ alarm_notify_module_row_activated_cb (ERemindersWidget *reminders,
 		cmd = g_string_sized_new (128);
 
 		g_string_append (cmd, PACKAGE);
-		g_string_append (cmd, " ");
+		g_string_append_c (cmd, ' ');
 		g_string_append (cmd, scheme);
 		g_string_append (cmd, "///?");
 
@@ -159,7 +159,7 @@ alarm_notify_module_row_activated_cb (ERemindersWidget *reminders,
 		g_string_append (cmd, tmp);
 		g_free (tmp);
 
-		g_string_append (cmd, "&");
+		g_string_append_c (cmd, '&');
 
 		tmp = g_uri_escape_string (comp_uid, NULL, TRUE);
 		g_string_append (cmd, "comp-uid=");

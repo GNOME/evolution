@@ -1661,7 +1661,7 @@ sanitize_addresses (const gchar *string,
 			addr_start = gstring->len + 1;
 		} else if (c == ',' && !quoted) {
 			ml_add_name_or_email (addresses, gstring->str, addr_start, return_names);
-			g_string_append (addresses, ",");
+			g_string_append_c (addresses, ',');
 			g_string_truncate (gstring, 0);
 			addr_start = -1;
 			continue;

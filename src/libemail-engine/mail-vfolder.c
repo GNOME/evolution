@@ -634,7 +634,7 @@ mail_vfolder_delete_folder (CamelStore *store,
 				} else {
 					if (changed_count == 1) {
 						g_string_prepend (changed, "    ");
-						g_string_append (changed, "\n");
+						g_string_append_c (changed, '\n');
 					}
 					g_string_append_printf (
 						changed, "    %s\n",

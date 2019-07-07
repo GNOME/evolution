@@ -512,7 +512,7 @@ mail_shell_view_construct_filter_message_thread (EMailShellView *mail_shell_view
 	g_string_append (query, ")))");
 
 	if (with_query)
-		g_string_append (query, ")");
+		g_string_append_c (query, ')');
 
 	return g_string_free (query, FALSE);
 }

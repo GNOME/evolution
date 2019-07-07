@@ -1462,7 +1462,7 @@ e_mail_labels_get_filter_code (EFilterElement *element,
 	}
 
 	if (is_not)
-		g_string_append (out, ")");
+		g_string_append_c (out, ')');
 	g_string_append (out, " ))");
 }
 

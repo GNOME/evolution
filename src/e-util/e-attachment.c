@@ -2966,7 +2966,7 @@ get_new_name_with_count (const gchar *initial_name,
 
 	g_string_append_len (string, initial_name, length);
 	g_string_append_printf (string, " (%d)", count);
-	g_string_append (string, (ext != NULL) ? ext : "");
+	g_string_append (string, ext ? ext : "");
 
 	return g_string_free (string, FALSE);
 }

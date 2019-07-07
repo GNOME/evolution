@@ -536,7 +536,7 @@ mail_filter_delete_folder (CamelStore *store,
 			} else {
 				if (s_count == 1) {
 					g_string_prepend (s, "    ");
-					g_string_append (s, "\n");
+					g_string_append_c (s, '\n');
 				}
 				g_string_append_printf (s, "    %s\n", name);
 			}

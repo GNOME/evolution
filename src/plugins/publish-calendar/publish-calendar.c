@@ -125,7 +125,7 @@ update_publish_notification (GtkMessageType msg_type,
 	if (!actual_msg) {
 		actual_msg = g_string_new (msg_text);
 	} else {
-		g_string_append (actual_msg, "\n");
+		g_string_append_c (actual_msg, '\n');
 		g_string_append (actual_msg, msg_text);
 	}
 
@@ -1031,7 +1031,7 @@ error_queue_show_idle (gpointer user_data)
 				if (!info) {
 					info = g_string_new (data->error->message);
 				} else if (data->description) {
-					g_string_append (info, " ");
+					g_string_append_c (info, ' ');
 					g_string_append (info, data->error->message);
 				} else {
 					g_string_append (info, "\n\n");

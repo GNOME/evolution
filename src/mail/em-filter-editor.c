@@ -171,7 +171,7 @@ emfe_describe_filters_cb (GtkWidget *button,
 			g_string_append_printf (description, _("%s (%s, for any account)"), rule_name, rule->enabled ? _("enabled") : _("disabled"));
 		}
 
-		g_string_append (description, "\n");
+		g_string_append_c (description, '\n');
 
 		g_free (rule_name);
 		g_free (account);
