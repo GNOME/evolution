@@ -198,8 +198,7 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			gchar *valid_utf8;
 
 			valid_utf8 = e_util_utf8_make_valid (string->str);
-			g_string_free (string, TRUE);
-			string = g_string_new (valid_utf8);
+			g_string_assign (string, valid_utf8);
 			g_free (valid_utf8);
 		}
 
