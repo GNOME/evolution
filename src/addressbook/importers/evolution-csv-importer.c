@@ -641,16 +641,16 @@ getNextCSVEntry (CSVImporter *gci,
                  FILE *f)
 {
 	EContact *contact = NULL;
-	GString  *line;
-	GString *str;
-	gchar *buf;
+	GString *line;
 	gint c;
 
 	line = g_string_new ("");
 	while (1) {
 		c = fgetc (f);
-		if (c == EOF)
+		if (c == EOF) {
+			g_string_free (line, TRUE);
 			return NULL;
+		}
 		if (c == '\n') {
 			g_string_append_c (line, c);
 			break;
@@ -662,20 +662,19 @@ getNextCSVEntry (CSVImporter *gci,
 				g_string_append_c (line, c);
 				c = fgetc (f);
 			}
-			g_string_append_c (line, c);
 		}
-		else
-			g_string_append_c (line, c);
+		g_string_append_c (line, c);
 	}
 
 	if (gci->count == 0 && importer != MOZILLA_IMPORTER) {
 		gci->fields_map = map_fields (line->str, importer);
-		g_string_free (line, TRUE);
-		line = g_string_new ("");
+		g_string_set_size (line, 0);
 		while (1) {
 			c = fgetc (f);
-			if (c == EOF)
+			if (c == EOF) {
+				g_string_free (line, TRUE);
 				return NULL;
+			}
 			if (c == '\n') {
 				g_string_append_c (line, c);
 				break;
@@ -687,35 +686,27 @@ getNextCSVEntry (CSVImporter *gci,
 					g_string_append_c (line, c);
 					c = fgetc (f);
 				}
-				g_string_append_c (line, c);
 			}
-			else
-				g_string_append_c (line, c);
+			g_string_append_c (line, c);
 		}
 		gci->count++;
 	}
 
-	str = g_string_new ("");
-	str = g_string_append (str, line->str);
-
-	g_string_free (line, TRUE);
-
-	if (strlen (str->str) == 0) {
-		g_string_free (str, TRUE);
+	if (line->len == 0) {
+		g_string_free (line, TRUE);
 		return NULL;
 	}
 
 	contact = e_contact_new ();
 
-	buf = str->str;
-
-	if (!parseLine (gci, contact, buf)) {
+	if (!parseLine (gci, contact, line->str)) {
 		g_object_unref (contact);
+		g_string_free (line, TRUE);
 		return NULL;
 	}
 	gci->count++;
 
-	g_string_free (str, TRUE);
+	g_string_free (line, TRUE);
 
 	return contact;
 }
