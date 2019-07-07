@@ -160,7 +160,7 @@ eppm_show_plugin (Manager *m,
 				if (epa->email) {
 					g_string_append (out, " <");
 					g_string_append (out, epa->email);
-					g_string_append (out, ">");
+					g_string_append_c (out, '>');
 				}
 			}
 			gtk_label_set_label (m->items[LABEL_AUTHOR], out->str);

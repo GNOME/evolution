@@ -585,9 +585,9 @@ e_composer_dom_get_raw_body_content_without_signature (EEditorPage *editor_page)
 			g_free (text);
 
 			if (WEBKIT_DOM_IS_HTML_DIV_ELEMENT (node))
-				g_string_append (content, "\n");
+				g_string_append_c (content, '\n');
 			else
-				g_string_append (content, " ");
+				g_string_append_c (content, ' ');
 		}
 	}
 	g_clear_object (&list);

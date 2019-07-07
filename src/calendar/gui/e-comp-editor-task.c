@@ -257,7 +257,7 @@ ece_task_check_dates_in_the_past (ECompEditorTask *task_editor)
 
 		if (cal_comp_util_compare_time_with_today (due_date_itt) < 0) {
 			if (message)
-				g_string_append (message, "\n");
+				g_string_append_c (message, '\n');
 			else
 				message = g_string_new ("");
 

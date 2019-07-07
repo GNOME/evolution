@@ -4767,7 +4767,7 @@ e_contact_editor_is_valid (EABEditor *editor)
 	}
 
 	if (validation_error) {
-		g_string_append (errmsg, ".");
+		g_string_append_c (errmsg, '.');
 		e_alert_run_dialog_for_args (
 			GTK_WINDOW (ce->priv->app),
 			"addressbook:generic-error",

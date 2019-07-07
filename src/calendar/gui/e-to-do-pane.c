@@ -370,7 +370,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	etdp_append_to_string_escaped (tooltip, "<b>%s</b>", comp_summary, NULL);
 
 	if (location) {
-		g_string_append (tooltip, "\n");
+		g_string_append_c (tooltip, '\n');
 		/* Translators: It will display "Location: LocationOfTheAppointment" */
 		etdp_append_to_string_escaped (tooltip, _("Location: %s"), location, NULL);
 	}
@@ -399,7 +399,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 				e_cal_component_datetime_get_value (dtstart),
 				e_cal_component_datetime_get_tzid (dtstart));
 
-			g_string_append (tooltip, "\n");
+			g_string_append_c (tooltip, '\n');
 			/* Translators: It will display "Start: StartDateAndTime" */
 			etdp_append_to_string_escaped (tooltip, _("Start: %s"), tmp, NULL);
 
@@ -421,7 +421,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 				e_cal_component_datetime_get_value (dt),
 				e_cal_component_datetime_get_tzid (dt));
 
-			g_string_append (tooltip, "\n");
+			g_string_append_c (tooltip, '\n');
 			/* Translators: It will display "Due: DueDateAndTime" */
 			etdp_append_to_string_escaped (tooltip, _("Due: %s"), tmp, NULL);
 
@@ -435,7 +435,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 
 			tmp = etdp_format_date_time (client, default_zone, completed, NULL);
 
-			g_string_append (tooltip, "\n");
+			g_string_append_c (tooltip, '\n');
 			/* Translators: It will display "Completed: DateAndTimeWhenCompleted" */
 			etdp_append_to_string_escaped (tooltip, _("Completed: %s"), tmp, NULL);
 
@@ -473,7 +473,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			strstart = etdp_format_date_time (client, default_zone, ittstart, NULL);
 			strduration = calculate_time (i_cal_time_as_timet (ittstart), i_cal_time_as_timet (ittend));
 
-			g_string_append (tooltip, "\n");
+			g_string_append_c (tooltip, '\n');
 			/* Translators: It will display "Time: StartDateAndTime (Duration)" */
 			etdp_append_to_string_escaped (tooltip, _("Time: %s %s"), strstart, strduration);
 

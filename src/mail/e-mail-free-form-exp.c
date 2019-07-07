@@ -84,7 +84,7 @@ mail_ffe_build_header_sexp (const gchar *word,
 	}
 
 	if (header_names[1])
-		g_string_append (sexp, ")");
+		g_string_append_c (sexp, ')');
 
 	g_string_free (encoded_word, TRUE);
 

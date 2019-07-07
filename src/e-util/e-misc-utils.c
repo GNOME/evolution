@@ -348,7 +348,7 @@ e_display_help (GtkWindow *parent,
 		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
 
 	if (link_id != NULL) {
-		g_string_append (uri, "/");
+		g_string_append_c (uri, '/');
 		g_string_append (uri, link_id);
 	}
 

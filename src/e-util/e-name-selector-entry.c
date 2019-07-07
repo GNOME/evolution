@@ -411,18 +411,18 @@ describe_contact (EContact *contact)
 
 	str = e_contact_get_const (contact, E_CONTACT_FILE_AS);
 	g_string_append (description, str ? str : "");
-	g_string_append (description, "\n");
+	g_string_append_c (description, '\n');
 
 	str = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
 	g_string_append (description, str ? str : "");
-	g_string_append (description, "\n");
+	g_string_append_c (description, '\n');
 
 	emails = g_list_sort (emails, (GCompareFunc) g_ascii_strcasecmp);
 	for (link = emails; link; link = g_list_next (link)) {
 		str = link->data;
 
 		g_string_append (description, str ? str : "");
-		g_string_append (description, "\n");
+		g_string_append_c (description, '\n');
 	}
 
 	deep_free_list (emails);
@@ -744,7 +744,7 @@ name_style_query (const gchar *field,
 	g_string_append (out, " (beginswith ");
 	e_sexp_encode_string (out, field);
 	e_sexp_encode_string (out, spaced_str);
-	g_string_append (out, ")");
+	g_string_append_c (out, ')');
 
 	if (comma_str) {
 		g_string_append (out, " (beginswith ");
@@ -814,9 +814,9 @@ ens_util_populate_user_query_fields (GSList *user_query_fields,
 		} else {
 			gchar *tmp = name_style_query (field, cue_str);
 
-			g_string_append (user_fields, " ");
+			g_string_append_c (user_fields, ' ');
 			g_string_append (user_fields, tmp);
-			g_string_append (user_fields, " ");
+			g_string_append_c (user_fields, ' ');
 			g_free (tmp);
 		}
 	}

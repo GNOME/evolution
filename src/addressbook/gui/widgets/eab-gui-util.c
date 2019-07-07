@@ -950,7 +950,7 @@ parse_address_template_section (const gchar *format,
 				if (address->street && *(address->street)) {
 					string_append_upper (res, address->street);
 					if (address->ext && *(address->ext)) {
-						g_string_append (res, "\n");
+						g_string_append_c (res, '\n');
 						string_append_upper (res, address->ext);
 					}
 					ret = TRUE;
@@ -1003,7 +1003,7 @@ parse_address_template_section (const gchar *format,
 				if (ret && (pos >= format + 2) &&
 				    (g_ascii_strcasecmp (pos - 2, "\n") != 0) &&
 				    (g_ascii_strcasecmp (pos - 1, " ") != 0))
-					g_string_append (res, " ");
+					g_string_append_c (res, ' ');
 				pos += 2;
 				break;
 			case '0': {

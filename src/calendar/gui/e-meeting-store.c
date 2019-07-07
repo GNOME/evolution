@@ -2008,7 +2008,7 @@ soup_authenticate (SoupSession *session,
 		g_free (bold_user);
 
 		if (retrying && msg->reason_phrase && *msg->reason_phrase) {
-			g_string_append (description, "\n");
+			g_string_append_c (description, '\n');
 			g_string_append_printf (
 				description, _("Failure reason: %s"),
 				msg->reason_phrase);

@@ -298,7 +298,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			wrapper_element_id);
 
 		if (e_mail_part_should_show_inline (part)) {
-			g_string_append (buffer, ">");
+			g_string_append_c (buffer, '>');
 			g_string_append_len (buffer, data, size);
 		} else {
 			gchar *inner_html_data;

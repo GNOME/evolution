@@ -684,19 +684,19 @@ format_date (struct tm *tm,
 	}
 	if (flags & DATE_DAY) {
 		if (flags & DATE_DAYNAME)
-			g_string_append (fmt, " ");
+			g_string_append_c (fmt, ' ');
 		g_string_append (fmt, e_cal_recur_get_localized_nth (tm->tm_mday - 1));
 	}
 	if (flags & DATE_MONTH) {
 		if (flags & (DATE_DAY | DATE_DAYNAME))
-			g_string_append (fmt, " ");
+			g_string_append_c (fmt, ' ');
 		g_string_append (fmt, "%B");
 		if ((flags & (DATE_DAY | DATE_YEAR)) == (DATE_DAY | DATE_YEAR))
-			g_string_append (fmt, ",");
+			g_string_append_c (fmt, ',');
 	}
 	if (flags & DATE_YEAR) {
 		if (flags & (DATE_DAY | DATE_DAYNAME | DATE_MONTH))
-			g_string_append (fmt, " ");
+			g_string_append_c (fmt, ' ');
 		g_string_append (fmt, "%Y");
 	}
 	e_utf8_strftime (buffer, bufflen, fmt->str, tm);
@@ -1313,7 +1313,7 @@ print_attendees (GtkPrintContext *context,
 			text = g_string_new (tmp ? tmp : "");
 
 			if (tmp)
-				g_string_append (text, " ");
+				g_string_append_c (text, ' ');
 
 			if (e_cal_component_attendee_get_cn (attendee) && e_cal_component_attendee_get_cn (attendee)[0])
 				g_string_append (text, e_cal_component_attendee_get_cn (attendee));
@@ -1325,7 +1325,7 @@ print_attendees (GtkPrintContext *context,
 			if (tmp) {
 				g_string_append (text, " (");
 				g_string_append (text, tmp);
-				g_string_append (text, ")");
+				g_string_append_c (text, ')');
 			}
 
 			if (top > bottom) {
