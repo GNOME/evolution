@@ -281,12 +281,12 @@ add_to_notes (EContact *contact,
 
 	new_text = g_string_new (e_contact_get_const (contact, E_CONTACT_NOTE));
 	if (strlen (new_text->str) != 0)
-		new_text = g_string_append_c (new_text, '\n');
+		g_string_append_c (new_text, '\n');
 	if (field_text) {
 		g_string_append (new_text, field_text);
 		g_string_append_c (new_text, ':');
 	}
-	new_text = g_string_append (new_text, val);
+	g_string_append (new_text, val);
 
 	e_contact_set (contact, E_CONTACT_NOTE, new_text->str);
 	g_string_free (new_text, TRUE);
@@ -557,9 +557,9 @@ parseLine (CSVImporter *gci,
 
 				case FLAG_HOME_ADDRESS | FLAG_STREET:
 					if (strlen (home_street->str) != 0) {
-						home_street = g_string_append (home_street, ",\n");
+						g_string_append (home_street, ",\n");
 					}
-					home_street = g_string_append (home_street, value->str);
+					g_string_append (home_street, value->str);
 					break;
 				case FLAG_HOME_ADDRESS | FLAG_CITY:
 					home_address->locality = g_strdup (value->str);
@@ -579,9 +579,9 @@ parseLine (CSVImporter *gci,
 
 				case FLAG_WORK_ADDRESS | FLAG_STREET:
 					if (strlen (work_street->str) != 0) {
-						work_street = g_string_append (work_street, ",\n");
+						g_string_append (work_street, ",\n");
 					}
-					work_street = g_string_append (work_street, value->str);
+					g_string_append (work_street, value->str);
 					break;
 				case FLAG_WORK_ADDRESS | FLAG_CITY:
 					work_address->locality = g_strdup (value->str);
@@ -601,9 +601,9 @@ parseLine (CSVImporter *gci,
 
 				case FLAG_OTHER_ADDRESS | FLAG_STREET:
 					if (strlen (other_street->str) != 0) {
-						other_street = g_string_append (other_street, ",\n");
+						g_string_append (other_street, ",\n");
 					}
-					other_street = g_string_append (other_street, value->str);
+					g_string_append (other_street, value->str);
 					break;
 				case FLAG_OTHER_ADDRESS | FLAG_CITY:
 					other_address->locality = g_strdup (value->str);

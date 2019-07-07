@@ -397,7 +397,7 @@ bbdb_do_it (EBookClient *client,
 			gchar *p;
 
 			while (p = g_utf8_strchr (tmp->str, tmp->len, '\"'), p)
-				tmp = g_string_erase (tmp, p - tmp->str, 1);
+				g_string_erase (tmp, p - tmp->str, 1);
 
 			g_free (temp_name);
 			temp_name = g_string_free (tmp, FALSE);
