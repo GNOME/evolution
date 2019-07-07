@@ -873,7 +873,7 @@ string_append_upper (GString *str,
 		return str;
 
 	up_c = g_utf8_strup (c, -1);
-	str = g_string_append (str, up_c);
+	g_string_append (str, up_c);
 	g_free (up_c);
 
 	return str;

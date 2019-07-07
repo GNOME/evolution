@@ -5225,9 +5225,7 @@ replace_citation_marks_to_citations (const gchar *input)
 			p = next + 11;
 	}
 
-	g_string_append (str, p);
-
-	return str;
+	return g_string_append (str, p);
 }
 
 /* This parses the HTML code (that contains just text, &nbsp; and BR elements)
