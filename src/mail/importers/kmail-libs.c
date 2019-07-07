@@ -118,7 +118,6 @@ kuri_to_euri (const gchar *k_uri)
 	gchar *p;
 	gchar **folders;
 	GString *e_folder = NULL;
-	gchar *val;
 	gint i;
 	gboolean dropped = FALSE;
 
@@ -155,15 +154,8 @@ kuri_to_euri (const gchar *k_uri)
 		g_string_append_printf (e_folder, "/%s", folder);
 	}
 
-	if (dropped) {
-		val = NULL;
-		g_string_free (e_folder, TRUE);
-	} else {
-		val = e_folder->str;
-		g_string_free (e_folder, FALSE);
-	}
 	g_strfreev (folders);
-	return val;
+	return g_string_free (e_folder, dropped);
 }
 
 static GSList *
