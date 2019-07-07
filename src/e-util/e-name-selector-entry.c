@@ -727,7 +727,6 @@ name_style_query (const gchar *field,
 	gchar   *comma_str;
 	GString *out = g_string_new ("");
 	gchar  **strv;
-	gchar   *query;
 
 	spaced_str = sanitize_string (value);
 	g_strstrip (spaced_str);
@@ -755,28 +754,22 @@ name_style_query (const gchar *field,
 		g_string_append (out, "))");
 	}
 
-	query = g_string_free (out, FALSE);
-
 	g_free (spaced_str);
 	g_free (comma_str);
 	g_strfreev (strv);
 
-	return query;
+	return g_string_free (out, FALSE);
 }
 
 static gchar *
 escape_sexp_string (const gchar *string)
 {
 	GString *gstring;
-	gchar   *encoded_string;
 
 	gstring = g_string_new ("");
 	e_sexp_encode_string (gstring, string);
 
-	encoded_string = gstring->str;
-	g_string_free (gstring, FALSE);
-
-	return encoded_string;
+	return g_string_free (gstring, FALSE);
 }
 
 /**

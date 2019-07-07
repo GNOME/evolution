@@ -419,8 +419,7 @@ e_cert_get_usage (ECert *cert)
 			}
 		}
 
-		cert->priv->usage_string = str->str;
-		g_string_free (str, FALSE);
+		cert->priv->usage_string = g_string_free (str, FALSE);
 	}
 
 	return cert->priv->usage_string;

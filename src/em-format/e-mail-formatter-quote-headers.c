@@ -169,8 +169,7 @@ emfqe_format_header (EMailFormatter *formatter,
 		e_mail_formatter_format_address (formatter, html,
 			addrs, canon_name, FALSE, FALSE);
 		camel_header_address_unref (addrs);
-		txt = value = html->str;
-		g_string_free (html, FALSE);
+		txt = value = g_string_free (html, FALSE);
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
 		is_html = TRUE;
 

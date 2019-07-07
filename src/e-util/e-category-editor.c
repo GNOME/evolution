@@ -134,9 +134,7 @@ check_category_name (const gchar *name)
 		p++;
 	}
 
-	p = g_strstrip (g_string_free (str, FALSE));
-
-	return p;
+	return g_strstrip (g_string_free (str, FALSE));
 }
 
 static void
