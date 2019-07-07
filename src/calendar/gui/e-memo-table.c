@@ -653,12 +653,10 @@ memo_table_query_tooltip (GtkWidget *widget,
 		gtk_widget_override_color (l, GTK_STATE_FLAG_NORMAL, &norm_text);
 	}
 
-	g_string_free (tmp2, TRUE);
-
 	e_cal_component_datetime_free (dtstart);
 	e_cal_component_datetime_free (dtdue);
 
-	tmp2 = g_string_new ("");
+	g_string_set_size (tmp2, 0);
 	desc = e_cal_component_get_descriptions (new_comp);
 	for (len = 0, p = desc; p != NULL; p = p->next) {
 		ECalComponentText *text = p->data;
