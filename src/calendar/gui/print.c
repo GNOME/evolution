@@ -3260,8 +3260,7 @@ get_zone_from_tzid (ECalClient *client,
 	if (!zone && tzid) {
 		GError *error = NULL;
 
-		if (!e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, &error))
-			zone = NULL;
+		e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, &error);
 
 		if (error != NULL) {
 			g_warning (

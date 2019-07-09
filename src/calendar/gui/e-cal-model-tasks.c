@@ -151,10 +151,8 @@ get_completed (ECalModelComponent *comp_data)
 			return NULL;
 		}
 
-		if (!i_cal_time_get_tzid (tt_completed) ||
-		    !e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_completed), &zone, NULL, NULL))
-			zone = NULL;
-
+		if (i_cal_time_get_tzid (tt_completed))
+			e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_completed), &zone, NULL, NULL);
 		comp_data->completed = e_cell_date_edit_value_new_take (tt_completed, zone ? e_cal_util_copy_timezone (zone) : NULL);
 	}
 
@@ -182,10 +180,8 @@ get_due (ECalModelComponent *comp_data)
 			return NULL;
 		}
 
-		if (!i_cal_time_get_tzid (tt_due) ||
-		    !e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_due), &zone, NULL, NULL))
-			zone = NULL;
-
+		if (i_cal_time_get_tzid (tt_due))
+			e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_due), &zone, NULL, NULL);
 		comp_data->due = e_cell_date_edit_value_new_take (tt_due, zone ? e_cal_util_copy_timezone (zone) : NULL);
 	}
 
@@ -347,7 +343,6 @@ get_due_status (ECalModelTasks *model,
 		return E_CAL_MODEL_TASKS_DUE_NEVER;
 	else {
 		ICalTime *now_tt, *due_tt;
-		ICalTimezone *zone = NULL;
 
 		/* Second, is it already completed? */
 		if (is_complete (comp_data)) {
@@ -376,6 +371,7 @@ get_due_status (ECalModelTasks *model,
 		} else {
 			ECalModelTasksDueStatus res;
 			ICalParameter *param;
+			ICalTimezone *zone = NULL;
 			const gchar *tzid;
 
 			if (!(param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER))) {
@@ -386,8 +382,7 @@ get_due_status (ECalModelTasks *model,
 
 			/* Get the current time in the same timezone as the DUE date.*/
 			tzid = i_cal_parameter_get_tzid (param);
-			if (!e_cal_client_get_timezone_sync (comp_data->client, tzid, &zone, NULL, NULL))
-				zone = NULL;
+			e_cal_client_get_timezone_sync (comp_data->client, tzid, &zone, NULL, NULL);
 
 			g_object_unref (param);
 			g_object_unref (prop);

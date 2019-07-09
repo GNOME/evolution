@@ -191,10 +191,9 @@ etdp_itt_to_zone (ICalTime *itt,
 
 	g_return_if_fail (itt != NULL);
 
-	if (itt_tzid) {
-		if (!e_cal_client_get_timezone_sync (client, itt_tzid, &zone, NULL, NULL))
-			zone = NULL;
-	} else if (i_cal_time_is_utc (itt)) {
+	if (itt_tzid)
+		e_cal_client_get_timezone_sync (client, itt_tzid, &zone, NULL, NULL);
+	else if (i_cal_time_is_utc (itt)) {
 		zone = i_cal_timezone_get_utc_timezone ();
 	}
 

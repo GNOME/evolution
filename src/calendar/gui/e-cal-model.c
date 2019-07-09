@@ -348,8 +348,7 @@ get_dtstart (ECalModel *model,
 
 	if (!comp_data->dtstart) {
 		ICalProperty *prop;
-		ICalTimezone *zone;
-		gboolean got_zone = FALSE;
+		ICalTimezone *zone = NULL;
 
 		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTSTART_PROPERTY);
 		if (!prop)
@@ -357,14 +356,13 @@ get_dtstart (ECalModel *model,
 
 		tt_start = i_cal_property_get_dtstart (prop);
 
-		if (i_cal_time_get_tzid (tt_start)
-		    && e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_start), &zone, NULL, NULL))
-			got_zone = TRUE;
+		if (i_cal_time_get_tzid (tt_start))
+			e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_start), &zone, NULL, NULL);
 
 		if (e_cal_data_model_get_expand_recurrences (priv->data_model)) {
 			gboolean is_date = i_cal_time_is_date (tt_start);
 
-			if (got_zone) {
+			if (zone) {
 				g_clear_object (&tt_start);
 				tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, zone);
 			} else if (priv->zone) {
@@ -380,7 +378,7 @@ get_dtstart (ECalModel *model,
 			return NULL;
 		}
 
-		comp_data->dtstart = e_cell_date_edit_value_new_take (tt_start, (got_zone && zone) ? e_cal_util_copy_timezone (zone) : NULL);
+		comp_data->dtstart = e_cell_date_edit_value_new_take (tt_start, zone ? e_cal_util_copy_timezone (zone) : NULL);
 	}
 
 	return e_cell_date_edit_value_copy (comp_data->dtstart);
@@ -574,7 +572,7 @@ datetime_to_zone (ECalClient *client,
 		  ICalTimezone *tt_zone,
                   const gchar *tzid)
 {
-	ICalTimezone *from, *to;
+	ICalTimezone *to;
 	const gchar *tt_tzid = NULL;
 
 	g_return_if_fail (tt != NULL);
@@ -586,15 +584,13 @@ datetime_to_zone (ECalClient *client,
 	    tt_tzid == tzid || g_str_equal (tt_tzid, tzid))
 		return;
 
-	from = tt_zone;
 	to = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 	if (!to) {
 		/* do not abort on failure here, maybe the zone is not available there */
-		if (!e_cal_client_get_timezone_sync (client, tzid, &to, NULL, NULL))
-			to = NULL;
+		e_cal_client_get_timezone_sync (client, tzid, &to, NULL, NULL);
 	}
 
-	i_cal_time_convert_timezone (tt, from, to);
+	i_cal_time_convert_timezone (tt, tt_zone, to);
 }
 
 static void

@@ -596,10 +596,8 @@ memo_table_query_tooltip (GtkWidget *widget,
 		zone = i_cal_component_get_timezone (
 			e_cal_component_get_icalcomponent (new_comp),
 			e_cal_component_datetime_get_tzid (dtstart));
-		if (!zone) {
-			if (!e_cal_client_get_timezone_sync (comp_data->client, e_cal_component_datetime_get_tzid (dtstart), &zone, NULL, NULL))
-				zone = NULL;
-		}
+		if (!zone)
+			e_cal_client_get_timezone_sync (comp_data->client, e_cal_component_datetime_get_tzid (dtstart), &zone, NULL, NULL);
 		if (!zone)
 			zone = default_zone;
 	} else {

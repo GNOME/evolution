@@ -691,9 +691,8 @@ foreach_tzid_callback (ICalParameter *param,
 		zone = i_cal_component_get_timezone (tz_data->zones, tzid);
 	if (zone == NULL)
 		zone = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
-	if (zone == NULL && tz_data->client != NULL &&
-	    !e_cal_client_get_timezone_sync (tz_data->client, tzid, &zone, NULL, NULL))
-		zone = NULL;
+	if (zone == NULL && tz_data->client != NULL)
+		e_cal_client_get_timezone_sync (tz_data->client, tzid, &zone, NULL, NULL);
 	if (zone == NULL)
 		return;
 
@@ -1686,8 +1685,7 @@ comp_compliant_one (ESourceRegistry *registry,
 					from_zone = i_cal_timezone_get_builtin_timezone_from_tzid (e_cal_component_datetime_get_tzid (dt));
 				if (from_zone == NULL && client != NULL)
 					/* FIXME Error checking */
-					if (!e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dt), &from_zone, NULL, NULL))
-						from_zone = NULL;
+					e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dt), &from_zone, NULL, NULL);
 			}
 
 			to_zone = i_cal_timezone_get_utc_timezone ();
@@ -2582,10 +2580,9 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 			if (!start_zone && e_cal_component_datetime_get_tzid (dtstart)) {
 				GError *error = NULL;
 
-				if (!e_cal_client_get_timezone_sync (
+				e_cal_client_get_timezone_sync (
 					cal_client, e_cal_component_datetime_get_tzid (dtstart),
-					&start_zone, NULL, &error))
-					start_zone = NULL;
+					&start_zone, NULL, &error);
 
 				if (error != NULL) {
 					g_warning (

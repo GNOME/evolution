@@ -250,9 +250,8 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				if (dt && e_cal_component_datetime_get_tzid (dt)) {
 					GError *local_error = NULL;
 
-					if (!e_cal_client_get_timezone_sync (event->comp_data->client,
-						e_cal_component_datetime_get_tzid (dt), &zone, NULL, &local_error))
-						zone = NULL;
+					e_cal_client_get_timezone_sync (event->comp_data->client,
+						e_cal_component_datetime_get_tzid (dt), &zone, NULL, &local_error);
 
 					if (local_error != NULL) {
 						zone = e_calendar_view_get_timezone (cal_view);
@@ -550,14 +549,7 @@ add_related_timezones (ICalComponent *des_icomp,
 					GError *error = NULL;
 					ICalTimezone *zone = NULL;
 
-					if (!e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, &error))
-						zone = NULL;
-					if (error != NULL) {
-						g_warning (
-							"%s: Cannot get timezone for '%s'. %s",
-							G_STRFUNC, tzid, error->message);
-						g_error_free (error);
-					} else if (zone) {
+					if (e_cal_client_get_timezone_sync (client, tzid, &zone, NULL, &error)) {
 						ICalTimezone *existing_zone;
 
 						/* do not duplicate timezones in the component */
@@ -573,7 +565,13 @@ add_related_timezones (ICalComponent *des_icomp,
 								g_object_unref (vtz_comp);
 							}
 						}
+					} else if (error != NULL) {
+						g_warning (
+							"%s: Cannot get timezone for '%s'. %s",
+							G_STRFUNC, tzid, error->message);
+						g_error_free (error);
 					}
+
 				}
 
 				g_object_unref (par);
@@ -1938,9 +1936,8 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 
 	if (dtstart && e_cal_component_datetime_get_tzid (dtstart)) {
 		zone = i_cal_component_get_timezone (e_cal_component_get_icalcomponent (newcomp), e_cal_component_datetime_get_tzid (dtstart));
-		if (!zone &&
-		    !e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dtstart), &zone, NULL, NULL))
-			zone = NULL;
+		if (!zone)
+			e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dtstart), &zone, NULL, NULL);
 
 		if (!zone)
 			zone = default_zone;

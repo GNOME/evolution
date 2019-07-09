@@ -650,8 +650,7 @@ cal_searching_got_instance_cb (ICalComponent *icomp,
 		if (tzid && *tzid) {
 			ICalTimezone *zone = NULL;
 
-			if (!e_cal_client_get_timezone_sync (gid->client, tzid, &zone, cancellable, NULL))
-				zone = NULL;
+			e_cal_client_get_timezone_sync (gid->client, tzid, &zone, cancellable, NULL);
 
 			if (g_cancellable_is_cancelled (cancellable)) {
 				g_object_unref (dtstart);

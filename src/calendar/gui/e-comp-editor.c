@@ -3506,15 +3506,11 @@ e_comp_editor_lookup_timezone (ECompEditor *comp_editor,
 	if (!zone)
 		zone = i_cal_timezone_get_builtin_timezone (tzid);
 
-	if (!zone && comp_editor->priv->source_client) {
-		if (!e_cal_client_get_timezone_sync (comp_editor->priv->source_client, tzid, &zone, NULL, NULL))
-			zone = NULL;
-	}
+	if (!zone && comp_editor->priv->source_client)
+		e_cal_client_get_timezone_sync (comp_editor->priv->source_client, tzid, &zone, NULL, NULL);
 
-	if (!zone && comp_editor->priv->target_client && comp_editor->priv->source_client != comp_editor->priv->target_client) {
-		if (!e_cal_client_get_timezone_sync (comp_editor->priv->target_client, tzid, &zone, NULL, NULL))
-			zone = NULL;
-	}
+	if (!zone && comp_editor->priv->target_client && comp_editor->priv->source_client != comp_editor->priv->target_client)
+		e_cal_client_get_timezone_sync (comp_editor->priv->target_client, tzid, &zone, NULL, NULL);
 
 	return zone;
 }

@@ -158,9 +158,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 		/* If the TZIDs differ, we have to compare the UTC offsets
 		 * of the start and end times, using their own timezones and
 		 * the given timezone. */
-		if (!e_cal_component_datetime_get_tzid (start_datetime) ||
-		    !e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (start_datetime), &start_zone, NULL, NULL))
-			start_zone = NULL;
+		if (e_cal_component_datetime_get_tzid (start_datetime))
+			e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (start_datetime), &start_zone, NULL, NULL);
 
 		if (start_zone == NULL)
 			goto out;
@@ -178,9 +177,8 @@ cal_comp_util_compare_event_timezones (ECalComponent *comp,
 				goto out;
 		}
 
-		if (!e_cal_component_datetime_get_tzid (end_datetime) ||
-		    !e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (end_datetime), &end_zone, NULL, NULL))
-			end_zone = NULL;
+		if (e_cal_component_datetime_get_tzid (end_datetime))
+			e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (end_datetime), &end_zone, NULL, NULL);
 
 		if (end_zone == NULL)
 			goto out;
@@ -672,8 +670,7 @@ datetime_to_zone (ECalClient *client,
 	if (!from) {
 		GError *error = NULL;
 
-		if (!e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (date), &from, NULL, &error))
-			from = NULL;
+		e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (date), &from, NULL, &error);
 
 		if (error != NULL) {
 			g_warning (
@@ -687,10 +684,8 @@ datetime_to_zone (ECalClient *client,
 	to = i_cal_timezone_get_builtin_timezone_from_tzid (tzid);
 	if (!to) {
 		/* do not check failure here, maybe the zone is not available there */
-		if (!e_cal_client_get_timezone_sync (client, tzid, &to, NULL, NULL))
-			to = NULL;
+		e_cal_client_get_timezone_sync (client, tzid, &to, NULL, NULL);
 	}
-
 	i_cal_time_convert_timezone (e_cal_component_datetime_get_value (date), from, to);
 	e_cal_component_datetime_set_tzid (date, tzid);
 }
@@ -861,7 +856,7 @@ cal_comp_get_instance_times (ECalClient *client,
 			     GCancellable *cancellable)
 {
 	ICalTime *start_time, *end_time;
-	const ICalTimezone *zone;
+	ICalTimezone *zone = NULL;
 
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (icomp != NULL);
@@ -878,8 +873,6 @@ cal_comp_get_instance_times (ECalClient *client,
 		end_time = i_cal_time_clone (start_time);
 	}
 
-	zone = NULL;
-
 	if (i_cal_time_get_timezone (start_time)) {
 		zone = i_cal_time_get_timezone (start_time);
 	} else {
@@ -890,16 +883,10 @@ cal_comp_get_instance_times (ECalClient *client,
 			param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER);
 
 			if (param) {
-				const gchar *tzid = NULL;
-				ICalTimezone *st_zone = NULL;
+				const gchar *tzid = i_cal_parameter_get_tzid (param);
 
-				tzid = i_cal_parameter_get_tzid (param);
-				if (tzid && !e_cal_client_get_timezone_sync (client, tzid, &st_zone, cancellable, NULL))
-					st_zone = NULL;
-
-				if (st_zone)
-					zone = st_zone;
-
+				if (tzid)
+					e_cal_client_get_timezone_sync (client, tzid, &zone, cancellable, NULL);
 				g_object_unref (param);
 			}
 
@@ -908,7 +895,7 @@ cal_comp_get_instance_times (ECalClient *client,
 	}
 
 	if (!zone)
-		zone = default_zone;
+		zone = (ICalTimezone *)default_zone;
 
 	*out_instance_start = i_cal_time_clone (start_time);
 	if (i_cal_time_is_date (*out_instance_start)) {
@@ -934,16 +921,10 @@ cal_comp_get_instance_times (ECalClient *client,
 			param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER);
 
 			if (param) {
-				const gchar *tzid = NULL;
-				ICalTimezone *end_zone = NULL;
+				const gchar *tzid = i_cal_parameter_get_tzid (param);
 
-				tzid = i_cal_parameter_get_tzid (param);
-				if (tzid && !e_cal_client_get_timezone_sync (client, tzid, &end_zone, cancellable, NULL))
-					end_zone = NULL;
-
-				if (end_zone)
-					zone = end_zone;
-
+				if (tzid)
+					e_cal_client_get_timezone_sync (client, tzid, &zone, cancellable, NULL);
 				g_object_unref (param);
 			}
 
@@ -952,7 +933,7 @@ cal_comp_get_instance_times (ECalClient *client,
 	}
 
 	if (!zone)
-		zone = default_zone;
+		zone = (ICalTimezone *)default_zone;
 
 	*out_instance_end = i_cal_time_clone (end_time);
 	if (i_cal_time_is_date (*out_instance_end)) {

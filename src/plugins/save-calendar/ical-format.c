@@ -61,8 +61,7 @@ insert_tz_comps (ICalParameter *param,
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
 
-	if (!e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error))
-		zone = NULL;
+	e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error);
 
 	if (error != NULL) {
 		g_warning (

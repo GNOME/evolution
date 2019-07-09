@@ -33,7 +33,7 @@ typedef struct {
 	ECalClient *client;
 } CompTzData;
 
- static void
+static void
 insert_tz_comps (ICalParameter *param,
                  gpointer cb_data)
 {
@@ -48,8 +48,7 @@ insert_tz_comps (ICalParameter *param,
 	if (g_hash_table_lookup (tdata->zones, tzid))
 		return;
 
-	if (!e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error))
-		zone = NULL;
+	e_cal_client_get_timezone_sync (tdata->client, tzid, &zone, NULL, &error);
 
 	if (error != NULL) {
 		g_warning (
