@@ -493,20 +493,43 @@ ecepp_string_fill_component (ECompEditorPropertyPart *property_part,
 			icalcomponent_remove_property (component, prop);
 			icalproperty_free (prop);
 		}
-	}
 
-	prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+		if (value && *value) {
+			gchar **split_value;
 
-	if (value && *value) {
-		if (prop) {
-			klass->ical_set_func (prop, value);
-		} else {
-			prop = klass->ical_new_func (value);
-			icalcomponent_add_property (component, prop);
+			split_value = g_strsplit (value, ",", -1);
+			if (split_value) {
+				gint ii;
+
+				/* Store multivalue properties into multiple properties,
+				   to workaround icalcomponent_new_clone() bug, which escapes
+				   commas in such properties. */
+				for (ii = 0; split_value[ii]; ii++) {
+					const gchar *item = split_value[ii];
+
+					if (*item) {
+						prop = klass->ical_new_func (item);
+						icalcomponent_add_property (component, prop);
+					}
+				}
+
+				g_strfreev (split_value);
+			}
 		}
-	} else if (prop) {
-		icalcomponent_remove_property (component, prop);
-		icalproperty_free (prop);
+	} else {
+		prop = icalcomponent_get_first_property (component, klass->ical_prop_kind);
+
+		if (value && *value) {
+			if (prop) {
+				klass->ical_set_func (prop, value);
+			} else {
+				prop = klass->ical_new_func (value);
+				icalcomponent_add_property (component, prop);
+			}
+		} else if (prop) {
+			icalcomponent_remove_property (component, prop);
+			icalproperty_free (prop);
+		}
 	}
 
 	g_free (value);
