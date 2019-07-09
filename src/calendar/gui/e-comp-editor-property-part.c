@@ -490,21 +490,44 @@ ecepp_string_fill_component (ECompEditorPropertyPart *property_part,
 	if (e_comp_editor_property_part_string_is_multivalue (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part))) {
 		/* Clear all multivalues first */
 		e_cal_util_component_remove_property_by_kind (component, klass->prop_kind, TRUE);
-	}
 
-	prop = i_cal_component_get_first_property (component, klass->prop_kind);
+		if (value && *value) {
+			gchar **split_value;
 
-	if (value && *value) {
-		if (prop) {
-			klass->i_cal_set_func (prop, value);
-			g_object_unref (prop);
-		} else {
-			prop = klass->i_cal_new_func (value);
-			i_cal_component_take_property (component, prop);
+			split_value = g_strsplit (value, ",", -1);
+			if (split_value) {
+				gint ii;
+
+				/* Store multivalue properties into multiple properties,
+				   to workaround i_cal_component_clone() bug, which escapes
+				   commas in such properties. */
+				for (ii = 0; split_value[ii]; ii++) {
+					const gchar *item = split_value[ii];
+
+					if (*item) {
+						prop = klass->i_cal_new_func (item);
+						i_cal_component_take_property (component, prop);
+					}
+				}
+
+				g_strfreev (split_value);
+			}
 		}
-	} else if (prop) {
-		i_cal_component_remove_property (component, prop);
-		g_object_unref (prop);
+	} else {
+		prop = i_cal_component_get_first_property (component, klass->prop_kind);
+
+		if (value && *value) {
+			if (prop) {
+				klass->i_cal_set_func (prop, value);
+				g_object_unref (prop);
+			} else {
+				prop = klass->i_cal_new_func (value);
+				i_cal_component_take_property (component, prop);
+			}
+		} else if (prop) {
+			i_cal_component_remove_property (component, prop);
+			g_object_unref (prop);
+		}
 	}
 
 	g_free (value);
