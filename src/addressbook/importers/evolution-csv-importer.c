@@ -657,15 +657,9 @@ parseLine (CSVImporter *gci,
 		ii++;
 		g_string_free (value, TRUE);
 	}
-	if (strlen (home_street->str) != 0)
-		home_address->street = g_strdup (home_street->str);
-	if (strlen (work_street->str) != 0)
-		work_address->street = g_strdup (work_street->str);
-	if (strlen (other_street->str) != 0)
-		other_address->street = g_strdup (other_street->str);
-	g_string_free (home_street, TRUE);
-	g_string_free (work_street, TRUE);
-	g_string_free (other_street, TRUE);
+	home_address->street = g_string_free (home_street, !home_street->len);
+	work_address->street = g_string_free (work_street, !work_street->len);
+	other_address->street = g_string_free (other_street, !other_street->len);
 
 	if (home_address->locality || home_address->country ||
 	   home_address->code || home_address->region || home_address->street)
