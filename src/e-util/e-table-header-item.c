@@ -1251,7 +1251,7 @@ ethi_start_drag (ETableHeaderItem *ethi,
 	cairo_t *cr;
 
 	gint group_indent = 0;
-	GHashTable *arrows = g_hash_table_new (NULL, NULL);
+	GHashTable *arrows;
 
 	GtkTargetEntry  ethi_drag_types[] = {
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
@@ -1262,6 +1262,8 @@ ethi_start_drag (ETableHeaderItem *ethi,
 
 	if (ethi->drag_col == -1)
 		return;
+
+	arrows = g_hash_table_new (NULL, NULL);
 
 	if (ethi->sort_info) {
 		gint length = e_table_sort_info_grouping_get_count (ethi->sort_info);
