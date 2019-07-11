@@ -1260,8 +1260,10 @@ ethi_start_drag (ETableHeaderItem *ethi,
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
 	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
 
-	if (ethi->drag_col == -1)
+	if (ethi->drag_col == -1) {
+		g_hash_table_destroy (arrows);
 		return;
+	}
 
 	if (ethi->sort_info) {
 		gint length = e_table_sort_info_grouping_get_count (ethi->sort_info);
