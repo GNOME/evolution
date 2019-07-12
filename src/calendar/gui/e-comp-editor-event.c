@@ -544,7 +544,6 @@ ece_event_fill_component (ECompEditor *comp_editor,
 				i_cal_time_set_timezone (dtend, i_cal_time_get_timezone (dtstart));
 
 				set_dtstart = TRUE;
-				set_dtend = TRUE;
 			}
 		}
 
