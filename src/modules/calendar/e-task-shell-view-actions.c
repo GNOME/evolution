@@ -685,7 +685,7 @@ action_task_view_cb (GtkRadioAction *action,
 static GtkActionEntry task_entries[] = {
 
 	{ "task-assign",
-	  NULL,
+	  "stock_task-assigned-to",
 	  N_("_Assign Task"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
