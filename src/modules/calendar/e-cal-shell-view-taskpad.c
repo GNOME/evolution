@@ -301,7 +301,7 @@ action_calendar_taskpad_save_as_cb (GtkAction *action,
 static GtkActionEntry calendar_taskpad_entries[] = {
 
 	{ "calendar-taskpad-assign",
-	  NULL,
+	  "stock_task-assigned-to",
 	  N_("_Assign Task"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */

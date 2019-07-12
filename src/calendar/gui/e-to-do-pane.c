@@ -2156,7 +2156,7 @@ etdp_fill_popup_menu (EToDoPane *to_do_pane,
 
 	item = gtk_image_menu_item_new_with_mnemonic (_("_New Assigned Task..."));
 	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-		gtk_image_new_from_icon_name ("stock_task-assigned", GTK_ICON_SIZE_MENU));
+		gtk_image_new_from_icon_name ("stock_task-assigned-to", GTK_ICON_SIZE_MENU));
 	g_signal_connect (item, "activate",
 		G_CALLBACK (etdp_new_assigned_task_cb), to_do_pane);
 	gtk_widget_show (item);
