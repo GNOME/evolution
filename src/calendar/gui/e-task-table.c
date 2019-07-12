@@ -803,6 +803,20 @@ task_table_query_tooltip (GtkWidget *widget,
 		g_free (str);
 	}
 
+	if (dtdue && e_cal_component_datetime_get_tzid (dtdue)) {
+		zone = i_cal_component_get_timezone (
+			e_cal_component_get_icalcomponent (new_comp),
+			e_cal_component_datetime_get_tzid (dtdue));
+		if (!zone) {
+			if (!e_cal_client_get_timezone_sync (comp_data->client, e_cal_component_datetime_get_tzid (dtdue), &zone, NULL, NULL))
+				zone = NULL;
+		}
+		if (!zone)
+			zone = default_zone;
+	} else {
+		zone = NULL;
+	}
+
 	if (dtdue && e_cal_component_datetime_get_value (dtdue)) {
 		gchar *str;
 
