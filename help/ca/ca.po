@@ -2339,7 +2339,7 @@ msgstr ""
 "<guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Contacte</gui></guiseq>, o feu "
 "clic amb el botó dret a un espai en blanc de la llista de contactes i feu "
 "clic a <gui>Nou Contacte…</gui>, o premeu "
-"<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>."
+"<keyseq><key>Maj</key><key>Ctrl</key><key>C</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:31 C/contacts-using-contact-lists.page:51
@@ -2748,8 +2748,8 @@ msgstr ""
 "Copieu els fitxers de configuració amb extensió <file>.ui</file> que voleu "
 "modificar a la vostra carpeta personal "
 "<file>$HOME/.config/evolution/ui/</file>. Modifiqueu els fitxers de "
-"configuració de la carpeta personal per a que a la propera actualització "
-"del programari<app>Evolution</app> no es sobreescriguin els canvis."
+"configuració de la carpeta personal perquè a la propera actualització "
+"del programari <app>Evolution</app> no es sobreescriguin els canvis."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
@@ -2898,7 +2898,7 @@ msgid ""
 "<cmd>.desktop</cmd> files in the folder <cmd>/usr/share/applications/</cmd>."
 msgstr ""
 "Trobeu el nom del fitxer <cmd>.desktop</cmd> del vostre navegador preferit. "
-"Depenent del navegador i la distribució, es pot trucar el fitxer, per "
+"Depenent del navegador i la distribució, el fitxer es pot dir per "
 "exemple <cmd>epiphany.desktop</cmd>, <cmd>firefox.desktop</cmd>, <cmd"
 ">google-chrome.desktop</cmd>, <cmd>konqbrowser.desktop</cmd>, o <cmd>opera-"
 "browser.desktop</cmd>. Si no n'esteu segur, podeu cercar més fitxers "
@@ -2910,8 +2910,8 @@ msgid ""
 "Type this command, replace <cmd>browser.desktop</cmd> by the actual "
 "filename, and press <key>Enter</key>:"
 msgstr ""
-"Escrigui la següent ordre, reemplaci <cmd>browser.desktop</cmd> pel nom del"
-" fitxer actual, i premi <key>Retorn</key>:"
+"Escrigui la següent ordre, reemplaci <cmd>browser.desktop</cmd> pel nom real del "
+"fitxer, i premi <key>Retorn</key>:"
 
 #. (itstool) path: item/p
 #: C/default-browser.page:52
@@ -2919,7 +2919,7 @@ msgid ""
 "<app>Evolution</app> may need to be restarted for the settings to take "
 "effect."
 msgstr ""
-"Pot ser necessari reiniciar <app>Evolution</app> per a que la configuració "
+"Pot ser necessari reiniciar <app>Evolution</app> perquè la configuració "
 "tingui efecte."
 
 #. (itstool) path: note/p
@@ -4453,7 +4453,7 @@ msgstr "Canviar cíclicament el focus entre panells."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:76
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>Q</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:79
@@ -4473,7 +4473,7 @@ msgstr "Tancar la finestra."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:88
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>W</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:91
@@ -4508,7 +4508,7 @@ msgstr "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:109
 msgid "Save selection."
-msgstr "Desar la selecció"
+msgstr "Desar la selecció."
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:112
@@ -4523,7 +4523,7 @@ msgstr "Esborrar la selecció."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:118
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>V</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:121
@@ -4533,7 +4533,7 @@ msgstr "Moure correus o contactes a la carpeta."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:124
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>Y</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:127
@@ -4543,7 +4543,7 @@ msgstr "Copiar els correus o els contactes a una carpeta."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:136
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:139
@@ -4603,7 +4603,7 @@ msgstr "Marcar la selecció com a llegida."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:172
 msgid "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
+msgstr "<keyseq><key>Ctrl</key><key>Maj</key><key>K</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:175
@@ -4673,7 +4673,7 @@ msgstr "Respon a la llista."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:214 C/mail-composer-reply.page:47
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
-msgstr "<keyseq><key>Ctrl</key><key>Majúscules</key><key>G</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:217
@@ -4757,7 +4757,7 @@ msgstr ""
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:247
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>A</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:250
@@ -4777,7 +4777,7 @@ msgstr "Crear una nova reunió."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:259
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>T</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:262
@@ -4787,7 +4787,7 @@ msgstr "Crear una nova tasca."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:265
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>O</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:268
@@ -4817,7 +4817,7 @@ msgstr "Anar a la data."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:289
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>C</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:292
@@ -4827,7 +4827,7 @@ msgstr "Crear un nou contacte."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:295
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:298
@@ -6475,8 +6475,8 @@ msgid ""
 "you thought of."
 msgstr ""
 "<link xref=\"mail-default-folder-locations\">Comproveu la configuració de la"
-" vostra carpeta.</link> Potser s'hagin situat en una carpeta diferent a la "
-"que creia."
+" vostra carpeta.</link> Potser s'han situat en una carpeta diferent a la "
+"que pensàveu."
 
 #. (itstool) path: info/desc
 #: C/mail-change-columns-in-message-list.page:5
@@ -6717,7 +6717,7 @@ msgid ""
 "message composer window."
 msgstr ""
 "Feu clic a <guiseq><gui>Nou</gui><gui>Missatge de correu</gui></guiseq> o "
-"premeu <keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq> per "
+"premeu <keyseq><key>Maj</key><key>Ctrl</key><key>M</key></keyseq> per "
 "obrir la finestra d'edició de missatges."
 
 #. (itstool) path: item/p
@@ -8490,7 +8490,7 @@ msgstr ""
 "Pot començar a escriure un missatge de correu electrònic nou fent clic a "
 "<guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Missatge de "
 "correu</gui></guiseq>, prement "
-"<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>, o fent clic a "
+"<keyseq><key>Maj</key><key>Ctrl</key><key>M</key></keyseq>, o fent clic a "
 "<gui>Nou</gui> a la barra d'eines."
 
 #. (itstool) path: page/p
@@ -9625,7 +9625,7 @@ msgid ""
 "Sets the status of the message. The status can be Replied To, Draft, "
 "Important, Read, or Junk."
 msgstr ""
-"Estableix l'estat del missatge. L'estat pot ser: respòs a, esborrany, "
+"Estableix l'estat del missatge. L'estat pot ser: respost a, esborrany, "
 "important, llegit o no desitjat."
 
 #. (itstool) path: item/p
@@ -9661,7 +9661,7 @@ msgstr "Reprodueix un so:"
 #: C/mail-filters-actions.page:60
 msgid "Select a sound file for <app>Evolution</app> to play."
 msgstr ""
-"Seleccioneu un fitxer de so per a que <app>Evolution</app> el reprodueixi."
+"Seleccioneu un fitxer de so perquè <app>Evolution</app> el reprodueixi."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:62
@@ -10242,7 +10242,7 @@ msgid ""
 "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>."
 msgstr ""
 "Seleccioneu un missatge i premeu "
-"<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>."
+"<keyseq><key>Maj</key><key>Ctrl</key><key>V</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/mail-folders.page:56
@@ -10311,7 +10311,7 @@ msgstr ""
 "També podeu fer-ho seleccionant els missatges i fent clic a "
 "<guiseq><gui>Misstage</gui><gui>Marcar com a "
 "</gui><gui>Seguiment…</gui></guiseq> o prement "
-"<keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>."
+"<keyseq><key>Maj</key><key>Ctrl</key><key>G</key></keyseq>."
 
 #. (itstool) path: page/p
 #: C/mail-follow-up-flag.page:33
@@ -10326,7 +10326,7 @@ msgid ""
 "The flag itself is the action you want to remind yourself about, such as "
 "Call, Forward and Reply."
 msgstr ""
-"La pròpia bandera és l'acció que voleu recordar, tal com Crida, Reenvia i "
+"La mateixa bandera és l'acció que voleu recordar, tal com Crida, Reenvia i "
 "Respon."
 
 #. (itstool) path: page/p
@@ -10803,7 +10803,7 @@ msgid ""
 "Notification</gui></guiseq> is enabled and that you have set your preferred "
 "options in the <gui>Configuration</gui> tab."
 msgstr ""
-"Per tal que també s'ús notifiqui dels nous missatges a l'àrea Notificació"
+"Per tal que també se us notifiqui dels nous missatges a l'àrea Notificació"
 " de GNOME, a la part inferior de la pantalla, assegureu-vos que "
 "a<guiseq><gui>Editar</gui><gui>Controladors</gui> la <gui>Notificació de "
 "correu</gui></guiseq> està habilitada i que heu definit les vostres opcions "
@@ -10990,7 +10990,7 @@ msgid ""
 msgstr ""
 "Seleccioneu si voleu que els <link xref=\"mail-filters\">filtres</link> "
 "s'apliquin automàticament al correu que rebeu, si <link xref=\"mail-spam-"
-"marking\">el correu brossa</link>s'ha de filtrar automàticament, i si <link "
+"marking\">el correu brossa</link> s'ha de filtrar automàticament, i si <link "
 "xref=\"mail-working-offline\"> el correu electrònic al servidor s'ha de "
 "sincronitzar amb la vostra còpia local per tenir-hi accés fora de "
 "línia</link>."
@@ -11308,7 +11308,7 @@ msgstr ""
 "s'actualitzin, aneu a "
 "<guiseq><gui>Carpeta</gui><gui>Refescar</gui></guiseq>. Això garanteix que "
 "tots els correus electrònics s'hagin descarregat del servidor de correu al "
-"vostre ordinador per a que pugueu llegir-los, i que l'estat de llegit "
+"vostre ordinador perquè pugueu llegir-los, i que l'estat de llegit "
 "estigui sincronitzat amb el servidor de correu."
 
 #. (itstool) path: page/p
@@ -11972,7 +11972,7 @@ msgid ""
 "click on <guiseq><gui>View</gui><gui>Group By Threads</gui></guiseq> or "
 "press <keyseq><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
-"Podeu utilitzar la vista per fils de missatges per ordenar els correus.Per "
+"Podeu utilitzar la vista per fils de missatges per ordenar els correus. Per "
 "activar aquesta funcionalitat, feu clic a "
 "<guiseq><gui>Vista</gui><gui>Agrupar per fils</gui></guiseq> o premeu "
 "<keyseq><key>Ctrl</key><key>T</key></keyseq>."
@@ -12352,7 +12352,7 @@ msgstr ""
 "Si el correu desitjat està marcat incorrectament, suprimiu-lo de la carpeta "
 "<gui>Brossa</gui> fent clic a sobre amb el botó de la dreta i seleccionant "
 "<gui>Marcar com a no Brossa</gui> o prement "
-"<keyseq><key>Shift</key><key>Ctrl</key><key>J</key></keyseq>, o marcar el "
+"<keyseq><key>Maj</key><key>Ctrl</key><key>J</key></keyseq>, o marcar el "
 "missatge i fent clic al botó <gui>No brossa</gui>."
 
 #. (itstool) path: info/desc
@@ -12487,7 +12487,7 @@ msgid ""
 "<keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
 msgstr ""
 "Feu clic a <guiseq><gui>Editar</gui><gui>Preferències</gui></guiseq> o "
-"premeu <keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
+"premeu <keyseq><key>Maj</key><key>Ctrl</key><key>S</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/mail-spam-settings.page:66
@@ -12945,7 +12945,7 @@ msgid ""
 "press <keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>."
 msgstr ""
 "Feu clic a <guiseq><gui>Fitxer</gui><gui>Nova</gui><gui>Nota</gui></guiseq>,"
-" o premeu <keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>."
+" o premeu <keyseq><key>Maj</key><key>Ctrl</key><key>O</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:27
@@ -13013,7 +13013,7 @@ msgid ""
 msgstr ""
 "Feu clic <guiseq><gui>Fitxer</gui><gui>Nova</gui><gui>Nota "
 "compartida</gui></guiseq>, o premeu "
-"<keyseq><key>Shift</key><key>Ctrl</key><key>H</key></keyseq>."
+"<keyseq><key>Maj</key><key>Ctrl</key><key>H</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/memos-usage-add-memo.page:44
@@ -13192,7 +13192,7 @@ msgid ""
 "that <app>Evolution</app> is not running and open a <app>Terminal</app> "
 "window and type the following command:"
 msgstr ""
-"Si voleu forçar a <app>Evolution</app> per a que estigui en mode en línia, "
+"Si voleu forçar a <app>Evolution</app> perquè estigui en mode en línia, "
 "assegureu-vos que <app>Evolution</app> no estigui funcionant i obriu una "
 "finestra <app>Terminal</app> i escriviu l'ordre següent:"
 
@@ -13604,7 +13604,7 @@ msgid ""
 msgstr ""
 "Feu clic a "
 "<guiseq><gui>Fitxer</gui><gui>Nova</gui><gui>Tasca</gui></guiseq>, o press "
-"<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>."
+"<keyseq><key>Maj</key><key>Ctrl</key><key>T</key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/tasks-usage-add-task.page:27
@@ -13723,7 +13723,7 @@ msgstr "Editar una tasca"
 #: C/tasks-usage-edit-task.page:22
 msgid "If you want to change a task that already exists in your task lists,"
 msgstr ""
-"Si voleu canviar una tasca que ja existeix a vostra llista de tasques,"
+"Si voleu canviar una tasca que ja existeix a la vostra llista de tasques,"
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:25
@@ -13899,7 +13899,7 @@ msgstr ""
 "Si la llista de categories predeterminada no s'adapta a les vostres "
 "necessitats, podeu afegir-hi les vostres pròpies categories directament via "
 "<guiseq><gui>Editsr</gui><gui>Categories disponibles</gui></guiseq>, o "
-"indirectament quan s'editi un objecte"
+"indirectament quan s'editi un objecte:"
 
 #. (itstool) path: item/p
 #: C/using-categories.page:48
@@ -14107,7 +14107,7 @@ msgid ""
 " for a message within a range of time relative to the filter, such as two to"
 " four days ago."
 msgstr ""
-"Filtreu missatges segons la data en que s'han enviat. Primer, trieu les "
+"Filtreu missatges segons la data que s'han enviat. Primer, trieu les "
 "condicions del missatge que voleu trobar, com abans d'una data determinada, "
 "o després d'una data. A continuació, trieu el temps. El filtre compara la "
 "marca de temps del missatge amb el rellotge del sistema quan s'executa el "
@@ -14168,7 +14168,7 @@ msgstr ""
 "0. Pot establir-se un filtre o canviar una puntuació i, a continuació, "
 "configurar un altre filtre per moure els missatges marcats. Una puntuació "
 "d'un missatge no es basa en res en particular: és simplement un número que "
-"pot assignar-se als missatges per a que altres filtres puguin processar-los."
+"pot assignar-se als missatges perquè altres filtres puguin processar-los."
 
 #. (itstool) path: item/p
 #: C/xinclude-filter-vfolder-conditions.xml:46
