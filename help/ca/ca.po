@@ -111,7 +111,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/backup-restore.page:66
 msgid "Choose the file, and click <gui style=\"button\">Open</gui>."
-msgstr "Seleccioneu el fitxer, i feu clic a <gui style=\"button\">Obrir</gui>."
+msgstr "Seleccioneu el fitxer, i feu clic a <gui style=\"button\">Obre</gui>."
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:75
@@ -148,7 +148,7 @@ msgid ""
 "You can also define whether to show a reminder for every appointment and for"
 " every birthday and anniversary."
 msgstr ""
-"A <guiseq><gui>Editar</gui><gui>Preferènces</gui> <gui>Calendari i "
+"A <guiseq><gui>Edita</gui><gui>Preferènces</gui> <gui>Calendari i "
 "Tasques</gui><gui>Recordatoris</gui></guiseq> podeu seleccionar els "
 "calendaris per als quals voleu rebre notificacions de recordatoris. Si no "
 "seleccioneu un calendari, no rebreu recordatoris de cap esdeveniment "
@@ -345,7 +345,7 @@ msgid ""
 "<gui>Confidential</gui> an even higher level."
 msgstr ""
 "Per classificar una cita, feu clic a "
-"<guiseq><gui>Opcions</gui><gui>Clasificació</gui></guiseq> i seleccioneu una"
+"<guiseq><gui>Opcions</gui><gui>Classificació</gui></guiseq> i seleccioneu una"
 " classificació a l'editor. <gui>Pública</gui> és la categoria per defecte, i"
 " una cita pública la pot veure qualsevol persona a la xarxa d'intercanvi de "
 "calendaris. <gui>Privada</gui> assenyala un nivell de seguretat superior, i "
@@ -371,7 +371,7 @@ msgstr ""
 "Si voleu que els esdeveniments, les notes i les tasques es classifiquin com "
 "a privades de manera predeterminada, habiliteu la preferència a sota de les "
 "opcions "
-"següents<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Calendari i "
+"següents<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Calendari i "
 "Tasques</gui><gui>General</gui><gui>Diversos</gui></guiseq>."
 
 #. (itstool) path: info/desc
@@ -910,7 +910,7 @@ msgstr ""
 "Els botons Anterior i Següent us desplacen endavant i enrere a les pàgines "
 "del calendari. Si feu servir una vista setmanal o mensual, podeu moure-us "
 "per setmanes o per mesos. Per tornar a la fitxa d'avui, feu clic al botó "
-"<gui>Seleccionar avui</gui> entre els dos botons fletxa de la barra d'eines."
+"<gui>Selecciona avui</gui> entre els dos botons fletxa de la barra d'eines."
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:61
@@ -919,7 +919,7 @@ msgid ""
 "specific date</gui> button in the toolbar."
 msgstr ""
 "Per visitar les entrades del calendari per a una data específica, feu clic "
-"al botó <gui>Seleccionar una data específica</gui> a la barra d'eines."
+"al botó <gui>Selecciona una data específica</gui> a la barra d'eines."
 
 #. (itstool) path: info/desc
 #: C/calendar-local.page:17
@@ -1573,7 +1573,7 @@ msgstr ""
 "També podeu configurar la informació de zona horària específica de cada "
 "cita. Per fer-ho, <link xref=\"calendar-usage\">afegiu o editeu una cita "
 "existent</link>. A <gui>Zona horària</gui>, feu clic a <gui "
-"style=\"button\">Seleccionar…</gui> per personalitzar la zona horària. Per "
+"style=\"button\">Selecciona…</gui> per personalitzar la zona horària. Per "
 "exemple, si visquéssiu a Nova York però teniu una reunió telefònica amb algú"
 " a Califòrnia, hauríeu d'assegurar-vos que els horaris estiguin coordinats. "
 "L'establiment de zones horàries específiques per cita ajuda a evitar "
@@ -2530,7 +2530,7 @@ msgstr ""
 "Especifiqueu els membres de la llista introduint els noms o adreces de "
 "correu electrònic dels contactes (el camp de text admet l'autocompleció "
 "automàtica), o arrossegant els contactes des de la finestra Contactes a la "
-"llista, o utilitzant el botó <gui style=\"button\">Seleccionar…</gui>."
+"llista, o utilitzant el botó <gui style=\"button\">Selecciona…</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-using-contact-lists.page:61
@@ -3096,8 +3096,8 @@ msgid ""
 "<guiseq><gui>Message</gui><gui>Remove Attachments</gui></guiseq>."
 msgstr ""
 "Per eliminar els fitxers adjunts d'un correu electrònic, seleccioneu el "
-"missatge i feu clic a <guiseq><gui>Missatge</gui><gui>Eliminar fitxers "
-"adjunts</gui></guiseq>."
+"missatge i feu clic a <guiseq><gui>Missatge</gui><gui>Suprimeix les "
+"adjuncions</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/deleting-to-free-disk-space.page:5
@@ -3131,7 +3131,7 @@ msgid ""
 "format (ICS, recommended), comma separated values (CSV), and RDF format."
 msgstr ""
 "Per exportar un calendari complet, feu clic amb el botó dret al calendari a "
-"la llista de calendaris i feu clic a <gui>Desar com</gui>. Els formats "
+"la llista de calendaris i feu clic a <gui>Desa com</gui>. Els formats "
 "disponibles són: iCalendar (ICS, recomanat), valors separats per comes (CSV)"
 " i format RDF."
 
@@ -3144,9 +3144,9 @@ msgid ""
 "<gui>Save as iCalendar…</gui>."
 msgstr ""
 "Si voleu exportar només una cita (o tasca o nota), seleccioneu la cita i "
-"seleccioneu <guiseq><gui>Fitxer</gui><gui>Desar com a "
+"seleccioneu <guiseq><gui>Fitxer</gui><gui>Desa com a "
 "iCalendar…</gui></guiseq>, o feu clic amb el botó dret a la cita i feu clic "
-"a <gui>Desar com a iCalendar…</gui>."
+"a <gui>Desa com a iCalendar…</gui>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data-contacts.page:5
@@ -3184,8 +3184,8 @@ msgid ""
 "the contact and click <gui>Save as vCard</gui>."
 msgstr ""
 "Si voleu exportar només un contacte, feu clic "
-"a<guiseq><gui>Fitxer</gui><gui>Desar com a vCard</gui></guiseq> o feu clic "
-"al contacte i feu clic a <gui>Desar com a vCard</gui>."
+"a<guiseq><gui>Fitxer</gui><gui>Desa com a vCard</gui></guiseq> o feu clic "
+"al contacte i feu clic a <gui>Desa com a vCard</gui>."
 
 #. (itstool) path: info/desc
 #: C/exporting-data-mail.page:5
@@ -3207,9 +3207,9 @@ msgid ""
 msgstr ""
 "Per desar un correu electrònic a un fitxer en format <link "
 "href=\"https://en.wikipedia.org/wiki/Mbox\">mbox</link>, seleccioneu un "
-"correu i feu clic a <guiseq><gui>Fitxer</gui><gui>Desar com "
+"correu i feu clic a <guiseq><gui>Fitxer</gui><gui>Desa com "
 "mbox…</gui></guiseq> o feu clic amb el botó dret sobre el missatge i feu "
-"clic a <gui>Desar com mbox…</gui>."
+"clic a <gui>Desa com mbox…</gui>."
 
 #. (itstool) path: page/p
 #: C/exporting-data-mail.page:24
@@ -3228,7 +3228,7 @@ msgid ""
 "<keyseq><key>Ctrl</key><key>A</key></keyseq>."
 msgstr ""
 "Podeu seleccionar tots els missatges d'una carpeta fent clic a "
-"<guiseq><gui>Editar</gui><gui>Seleccionar tot</gui></guiseq> o prement "
+"<guiseq><gui>Editar</gui><gui>Selecciona-ho tot</gui></guiseq> o prement "
 "<keyseq><key>Ctrl</key><key>A</key></keyseq>."
 
 #. (itstool) path: info/desc
@@ -6157,7 +6157,7 @@ msgid ""
 "icon and click <gui>Save As</gui>."
 msgstr ""
 "Per desar un fitxer adjunt al disc, feu clic a la fletxa avall que hi ha al "
-"costat de la icona de l'adjunt i feu clic a<gui>Desar com</gui>."
+"costat de la icona de l'adjunt i feu clic a<gui>Desa com</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:31
@@ -7090,7 +7090,7 @@ msgstr "Cerqueu i seleccioneu el fitxer."
 #. (itstool) path: item/p
 #: C/mail-composer-html-image.page:27
 msgid "Click <gui>Open</gui>."
-msgstr "Feu clic a <gui>Obrir</gui>."
+msgstr "Feu clic a <gui>Obre</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-image.page:30
@@ -7707,8 +7707,8 @@ msgstr ""
 #: C/mail-composer-message-templates-save.page:47
 msgid "Select <guiseq><gui>File</gui><gui>Save as Template</gui></guiseq>."
 msgstr ""
-"Seleccioneu <guiseq><gui>Fitxer</gui><gui>Desar com a "
-"Plantilla</gui></guiseq>."
+"Seleccioneu <guiseq><gui>Fitxer</gui><gui>Desa com a "
+"plantilla</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates-save.page:41
@@ -9059,7 +9059,7 @@ msgid ""
 msgstr ""
 "Per eliminar correus electrònics duplicats en una carpeta, seleccioneu "
 "diversos missatges (o seleccioneu tots els missatges d'una carpeta fent clic"
-" <guiseq><gui>Editar</gui><gui>Seleccionar Tot</gui></guiseq> o prement "
+" <guiseq><gui>Editar</gui><gui>Selecciona-ho tot</gui></guiseq> o prement "
 "<keyseq><key>Ctrl</key><key>A</key></keyseq>) i fent clic a "
 "<guiseq><gui>Missatge</gui><gui>Eliminar missatges duplicats</gui></guiseq>."
 
@@ -9451,7 +9451,7 @@ msgstr ""
 "<gui>Els vostres certificats</gui> mostra la llista dels certificats que "
 "teniu. Per afegir un certificat, feu clic a <gui "
 "style=\"button\">Importar</gui>, seleccioneu el fitxer que voleu importar i,"
-" a continuació, feu clic a <gui style=\"button\">Obrir</gui> i escriviu una "
+" a continuació, feu clic a <gui style=\"button\">Obre</gui> i escriviu una "
 "contrasenya."
 
 #. (itstool) path: page/p
@@ -9975,8 +9975,8 @@ msgstr ""
 "locals (com POP). Els servidors de correu per a comptes remots (com IMAP) "
 "sovint filtren correus directament al servidor ja que és més ràpid. Si voleu"
 " aplicar els vostres filtres a comptes remots a <app>Evolution</app> , o "
-"podeu editar a <guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Comptes "
-"de correu</gui><gui style=\"button\">Editar</gui><gui>Opcions de "
+"podeu editar a <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes "
+"de correu</gui><gui style=\"button\">Edita</gui><gui>Opcions de "
 "recepció</gui><gui>Opcions</gui><gui>Apliqueu els filtres als missatges nous"
 " de la carpeta d'entrada en aquest servidor</gui></guiseq>."
 
@@ -10004,7 +10004,7 @@ msgid ""
 "<guiseq><gui>Message</gui><gui>Create</gui></guiseq> and select the "
 "criterion the filter will be based on."
 msgstr ""
-"Feu clic a <guiseq><gui>Editar</gui><gui>Filtres de "
+"Feu clic a <guiseq><gui>Edita</gui><gui>Filtres de "
 "missatges</gui></guiseq>, o feu clic a "
 "<guiseq><gui>Missatge</gui><gui>Crear</gui></guiseq> i seleccioneu el "
 "criteri en què es basarà el filtre."
@@ -10105,7 +10105,7 @@ msgstr "Editar els filtres"
 #: C/mail-filters.page:58 C/mail-filters.page:68
 msgid "Click <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>."
 msgstr ""
-"Feu clic a <guiseq><gui>Editar</gui><gui>Filtrar missatges</gui></guiseq>."
+"Feu clic a <guiseq><gui>Edita</gui><gui>Filtrar missatges</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-filters.page:59 C/mail-filters.page:69
@@ -10530,7 +10530,7 @@ msgid ""
 " default labels."
 msgstr ""
 "Podeu afegir, editar i eliminar totes les etiquetes a "
-"<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Preferències de "
+"<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Preferències de "
 "correu</gui><gui>Etiquetes</gui></guiseq>. Tingueu en compte que no podeu "
 "eliminar les etiquetes predeterminades."
 
@@ -10805,7 +10805,7 @@ msgid ""
 msgstr ""
 "Per tal que també se us notifiqui dels nous missatges a l'àrea Notificació"
 " de GNOME, a la part inferior de la pantalla, assegureu-vos que "
-"a<guiseq><gui>Editar</gui><gui>Controladors</gui> la <gui>Notificació de "
+"a<guiseq><gui>Edita</gui><gui>Controladors</gui> la <gui>Notificació de "
 "correu</gui></guiseq> està habilitada i que heu definit les vostres opcions "
 "a la pestanya <gui>Configuració</gui>."
 
@@ -10850,8 +10850,8 @@ msgid ""
 "style=\"button\">Edit</gui><gui>Receiving Email</gui></guiseq>):"
 msgstr ""
 "A la pàgina <gui>Rebre correu</gui> (accessible via "
-"<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Comptes de "
-"correu</gui><gui style=\"button\">Editar</gui><gui>Rebre "
+"<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de "
+"correu</gui><gui style=\"button\">Edita</gui><gui>Rebre "
 "correu</gui></guiseq>):"
 
 #. (itstool) path: item/p
@@ -10931,8 +10931,8 @@ msgid ""
 "style=\"button\">Edit</gui><gui>Receiving Options</gui></guiseq>):"
 msgstr ""
 "A la pàgina <gui>Opcions de recepció</gui> (accessible via "
-"<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Comptes de "
-"correu</gui><gui style=\"button\">Editar</gui><gui>Opcions de "
+"<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de "
+"correu</gui><gui style=\"button\">Edita</gui><gui>Opcions de "
 "recepció</gui></guiseq>):"
 
 #. (itstool) path: item/p
@@ -11074,7 +11074,7 @@ msgid ""
 "href=\"http://tools.ietf.org/html/rfc5162\">IMAP4 Extensions for Quick "
 "Mailbox Resynchronization</link>."
 msgstr ""
-"Seleccioneu <gui>Utilitzar la resincronització ràpida</gui> si el servidor "
+"Seleccioneu <gui>Utilitza la resincronització ràpida</gui> si el servidor "
 "IMAP la suporta <link href=\"http://tools.ietf.org/html/rfc5162\">Extensions"
 " IMAP4 per a la resincronització ràpida</link>."
 
@@ -11384,7 +11384,7 @@ msgid ""
 "click <guiseq><gui>Search</gui><gui>Create Search Folder From "
 "Search…</gui></guiseq>."
 msgstr ""
-"Feu clic a <guiseq><gui>Editar</gui><gui>Carpetes de cerca</gui></guiseq>, o"
+"Feu clic a <guiseq><gui>Edita</gui><gui>Carpetes de cerca</gui></guiseq>, o"
 " feu clic a <guiseq><gui>Missatge</gui><gui>Crear Regla</gui></guiseq> i "
 "seleccioneu el criteri en què es basarà la carpeta de cerca o, si heu "
 "executat una cerca, feu clic a<guiseq><gui>Cercar</gui><gui>Crear una "
@@ -11572,7 +11572,7 @@ msgstr ""
 "En el cas improbable que no existeixi una <gui>Carpeta de cerca</gui> node "
 "de nivell superior que es mostra a la part inferior <link xref"
 "=\"intro-main-window#e-mail\">de la llista de correus</link> heu d'activar "
-"<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Comptes de "
+"<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de "
 "correu</gui><gui>Carpetes de cerca</gui></guiseq>."
 
 #. (itstool) path: page/p
@@ -11672,7 +11672,7 @@ msgid ""
 "menu."
 msgstr ""
 "Per trobar text en el missatge que es mostra, seleccioneu "
-"<guiseq><gui>Editar</gui><gui>Trobar al missatge…</gui></guiseq> des del "
+"<guiseq><gui>Edita</gui><gui>Trobar al missatge…</gui></guiseq> des del "
 "menú principal."
 
 #. (itstool) path: section/title
@@ -11772,7 +11772,7 @@ msgstr ""
 "minuts</gui> a la pàgina <gui>Opcions de recepció</gui> de la configuració "
 "del compte de correu (accessible "
 "a <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de "
-"correu</gui><gui style=\"button\">Editar</gui><gui> Opcions de "
+"correu</gui><gui style=\"button\">Edita</gui><gui> Opcions de "
 "recepció</gui></guiseq>) i seleccioneu la freqüència en minuts."
 
 #. (itstool) path: note/p
@@ -11934,7 +11934,7 @@ msgstr ""
 " xref=\"mail-filters\">creant filtres</link>: Creeu una carpeta nova i creeu"
 " dues subcarpetes (una per al correu entrant i l'altra per l'enviat amb "
 "aquest compte). Ara configureu un filtre entrant a través "
-"d'<guiseq><gui>Editar</gui><gui>Filtres de missatges…</gui><gui "
+"d'<guiseq><gui>Edita</gui><gui>Filtres de missatges…</gui><gui "
 "style=\"button\">Afegir</gui></guiseq> per moure el correu entrant a la "
 "carpeta d'entrada filtrant l'adreça del destinatari i configurant un filtre"
 " de sortida per moure el correu sortint a la carpeta enviats filtrant per "
@@ -11999,7 +11999,7 @@ msgid ""
 msgstr ""
 "<app>Evolution</app> reconeix <_:code-1/> <_:code-2/> les capçaleres dels "
 "correus electrònics. A més, podeu habilitar "
-"<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Preferències de "
+"<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Preferències de "
 "correu</gui><gui>General</gui><gui>Mostrar Missatge</gui><gui>Tornar a "
 "tractar els missatges per tema</gui></guiseq>."
 
@@ -12486,7 +12486,7 @@ msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Preferences</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>S</key></keyseq>."
 msgstr ""
-"Feu clic a <guiseq><gui>Editar</gui><gui>Preferències</gui></guiseq> o "
+"Feu clic a <guiseq><gui>Edita</gui><gui>Preferències</gui></guiseq> o "
 "premeu <keyseq><key>Maj</key><key>Ctrl</key><key>S</key></keyseq>."
 
 #. (itstool) path: item/p
@@ -12549,8 +12549,8 @@ msgstr ""
 "La configuració de correu brossa per a un compte de correu específic "
 "(disponible per a tots els tipus de compte, excepte els comptes POP, que "
 "utilitzen la configuració global) es pot configurar a "
-"<guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Comptes de "
-"correu</gui><gui style=\"button\">Editar</gui><gui>Opcions de "
+"<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de "
+"correu</gui><gui style=\"button\">Edita</gui><gui>Opcions de "
 "recepció</gui><gui>Comprovar el contingut escombraries pels missatges "
 "nous</gui></guiseq>."
 
@@ -12631,9 +12631,9 @@ msgid ""
 msgstr ""
 "Per utilitzar només les carpetes d'escombraries i paperera al servidor de "
 "correu, seleccioneu l'opció corresponent a <gui>Utilitzar una carpeta "
-"real</gui> a <guiseq><gui>Editar</gui><gui>Preferències</gui><gui>Comptes de"
+"real</gui> a <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de"
 " correu</gui><gui "
-"style=\"button\">Editar</gui><gui>Predefinits</gui></guiseq>. En aquest cas,"
+"style=\"button\">Edita</gui><gui>Predefinits</gui></guiseq>. En aquest cas,"
 " <app>Evolution</app>no utilitzarà les carpetes virtuals locals."
 
 #. (itstool) path: info/desc
@@ -12911,7 +12911,7 @@ msgid ""
 "in Memo…</gui></guiseq> from the main menu."
 msgstr ""
 "Per cercar text a la mosta que s'està mostrant, seleccioneu "
-"<guiseq><gui>Editar</gui><gui>Cercar en una nota…</gui></guiseq> des del "
+"<guiseq><gui>Edita</gui><gui>Cercar en una nota…</gui></guiseq> des del "
 "menú principal."
 
 #. (itstool) path: section/title
@@ -13072,7 +13072,7 @@ msgstr ""
 "Si voleu suprimir una nota a la llista de notes, feu clic amb el botó dret a"
 " la nota i seleccioneu <gui>Esborrar</gui>, o feu clic a la nota i feu clic "
 "a<gui>Esborrar</gui> a la barra d'eines, o feu clic a "
-"<guiseq><gui>Editar</gui><gui>Esborrar nota</gui></guiseq>."
+"<guiseq><gui>Edita</gui><gui>Esborrar nota</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/memos-usage-edit-memo.page:5
@@ -13478,7 +13478,7 @@ msgid ""
 "Tasks</gui><gui>Tasks</gui></guiseq>."
 msgstr ""
 "Les següents opcions relacionades amb la tasca estan disponibles a "
-"<guiseq><gui>Editar</gui><gui>Preferènces</gui><gui>Calendari i "
+"<guiseq><gui>Edita</gui><gui>Preferènces</gui><gui>Calendari i "
 "Tasques</gui><gui>Tasques</gui></guiseq>."
 
 #. (itstool) path: item/p
@@ -13569,7 +13569,7 @@ msgid ""
 "in Task…</gui></guiseq> from the main menu."
 msgstr ""
 "Per trobar text a la tasca que es mostra, "
-"seleccioneu<guiseq><gui>Editar</gui><gui>Cercar a la tasca…</gui></guiseq> "
+"seleccioneu<guiseq><gui>Edita</gui><gui>Cercar a la tasca…</gui></guiseq> "
 "des del menú principal."
 
 #. (itstool) path: section/title
@@ -13707,7 +13707,7 @@ msgstr ""
 "botó dret sobre la tasca i seleccioneu-la<gui>Esborrar</gui>, o feu clic a "
 "la tasca i feu clic a <gui>Esborrar</gui> a la barra d'eines o premeu "
 "<keyseq><key>Ctrl</key><key>D</key></keyseq>, o feu clic a "
-"<guiseq><gui>Editar</gui><gui>Esborrar Tasca</gui></guiseq>."
+"<guiseq><gui>Edita</gui><gui>Esborrar tasca</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/tasks-usage-edit-task.page:5
@@ -13732,7 +13732,7 @@ msgid ""
 "right-click on the task and click <gui>Open Task</gui>."
 msgstr ""
 "Feu doble clic a la tasca que vulgueu editar de la llista de tasques, o feu "
-"clic amb el botó dret a la tasca i feu clic a <gui>Obrir Tasca</gui>."
+"clic amb el botó dret a la tasca i feu clic a <gui>Obre tasca</gui>."
 
 #. (itstool) path: item/p
 #: C/tasks-usage-edit-task.page:26
@@ -13930,7 +13930,7 @@ msgid ""
 msgstr ""
 "A l'<gui>Editor categories</gui> podeu editar o configurar el color i la "
 "icona per a cada categoria disponible fent clic a <gui "
-"style=\"button\">Editar</gui> a la part inferior de la finestra "
+"style=\"button\">Edita</gui> a la part inferior de la finestra "
 "de<gui>Categories</gui>. Premeu <gui style=\"button\">Esborrar</gui> per "
 "eliminar categories de la llista."
 
