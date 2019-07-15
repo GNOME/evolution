@@ -1,3 +1,68 @@
+Evolution 3.33.4 2019-07-15
+---------------------------
+
+Bug Fixes:
+	Bug 755730 - Focus message list after start in the Mail view ][ (Milan Crha)
+	Bug 759493 - Provide keyboard shortcuts window (Milan Crha)
+	I#385 - Add "floating time" timezone option for events (Milan Crha)
+	I#479 - Call mail account refresh also after going online ][ (Milan Crha)
+	I#487 - Attachment dropdown menu rendered at the bottom of the screen (Milan Crha)
+	I#492 - [Calendar] Preserve the organizer/attendee SCHEDULE-STATUS parameter (Milan Crha)
+	I#494 - Format text/rfc822-headers as message headers (Milan Crha)
+	I#499 - Change generated Forward subject line to not contain brackets (Milan Crha)
+	I#501 - Use Ctrl+Shift+U shortcut for New Shared Memo (Milan Crha)
+	I#503 - Do not insert LANGUAGE for ATTENDEE-s (Milan Crha)
+	I#504 - Use Ctrl+Shift+I shortcut for New Assigned Task (Milan Crha)
+	I#506 - Add “Type” column in the “Calendar window” → “List view” (Milan Crha)
+	I#507 - Mobile Phone shown twice in the contact preview (Milan Crha)
+	I#508 - [ECompEditor] Consider selected timezone for Now time in date/time edit (Milan Crha)
+	I#517 - Use case insensitive email compare on account address guess (Milan Crha)
+	I#519 - Hides .p7m attachments (Milan Crha)
+	I#529 - [ECompEditor] Store multivalue properties as multiple properties (Milan Crha)
+	I#533 - Task table tooltip ignores the timezone of the DUE property (Milan Crha)
+	I#534 - Remove unneeded variable assignment in ece_event_fill_component() (Milan Crha)
+	M!20 - Use GtkPopover for an emoticon tool button (Olivier Fourdan)
+	M!21 - Use special icon for "Assigned Task" in the menu (Дилян Палаузов)
+	M!22 - Improve CSV file import (Дилян Палаузов)
+	M!23 - Prefer g_string_append_c() over g_string_append() (Дилян Палаузов)
+	M!24 - kmail-libs.c:kuri_to_euri: use the return value of g_string_free() (Дилян Палаузов)
+	M!25 - Utilize g_string_set_size() and g_string_assign() (Дилян Палаузов)
+	M!26 - evolution-csv-importer.c:getNextCSVEntry() memory leak (Дилян Палаузов)
+	M!27 - Ignore the value of some GString functions (Дилян Палаузов)
+	M!28 - e-contact-editor.c:file_as_get_style() avoid g_strdup+g_free call (Дилян Палаузов)
+	M!29 - evolution-csv-importer.c:parseLine: skip calls to strlen+g_strdup (Дилян Палаузов)
+	M!30 - Use the return value of g_string_free(*, FALSE) (Дилян Палаузов)
+	M!32 - e-table-header-item.c:ethi_start_drag: Fix a possible memory leak (Дилян Палаузов)
+	M!33 - Update usage of stock_task-assigned-to icon (Дилян Палаузов)
+
+Miscellaneous:
+	Use GtkPopover for EColorCombo widget (Milan Crha)
+	Do not unfold DKIM and ARC headers in message preview (Milan Crha)
+	Remember source message information when re-editing in Drafts or Outbox (Milan Crha)
+	[Flatpak] Build also pinentry, to be able to use gpg with password prompts (Milan Crha)
+	[ECalModel] Cache value for E_CAL_MODEL_FIELD_ICON (Milan Crha)
+	Inconsistent background color in ETable for Memos, Tasks and List View (Milan Crha)
+	Incorrect timezone selected in ETimezoneDialog (Milan Crha)
+	Remove useless runtime check in date_time_list_finalize() (Milan Crha)
+	Correct coding typo in e_day_view_on_editing_stopped() (Milan Crha)
+	Refer to 'Evolution Website' only as 'Website' in the About dialog (Milan Crha)
+	[ECompEditor] Ensure attendee changes stored before save (Milan Crha)
+	Check whether enum-based ICalParameter had been created before using it (Milan Crha)
+	Test whether referenced column exists when loading ETableState (Milan Crha)
+	Search for Bogofilter/SpamAssassin binaries during configure time (Milan Crha)
+	[addressbook] Claim what image size is expected when asking to resize given image (Milan Crha)
+	[Flatpak] Build also Bogofilter, to enable Junk filtering on the client (Milan Crha)
+	help: Update main window screenshot for 3.32 style (Andre Klapper)
+
+Translations:
+	Fabio Tomat (fur)
+	Daniel Mustieles (es)
+	Matej Urbančič (sl)
+	Chao-Hsiung Liao (zh_TW)
+	Aurimas Černius (lt)
+	Asier Sarasua Garmendia (eu)
+	Jordi Mas (ca)
+
 Evolution 3.33.3 2019-06-17
 ---------------------------
 
