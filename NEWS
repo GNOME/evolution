@@ -1,3 +1,20 @@
+Evolution 3.32.4 2019-07-15
+---------------------------
+
+Bug Fixes:
+	Bug 755730 - Focus message list after start in the Mail view ][ (Milan Crha)
+	I#479 - Call mail account refresh also after going online ][ (Milan Crha)
+	I#487 - Attachment dropdown menu rendered at the bottom of the screen (Milan Crha)
+	I#501 - Use Ctrl+Shift+U shortcut for New Shared Memo (Milan Crha)
+	I#517 - Use case insensitive email compare on account address guess (Milan Crha)
+	I#519 - Hides .p7m attachments (Milan Crha)
+	I#529 - [ECompEditor] Store multivalue properties as multiple properties (Milan Crha)
+
+Miscellaneous:
+	Remember source message information when re-editing in Drafts or Outbox (Milan Crha)
+	[ECompEditor] Ensure attendee changes stored before save (Milan Crha)
+	Test whether referenced column exists when loading ETableState (Milan Crha)
+
 Evolution 3.32.3 2019-06-17
 ---------------------------
 
