@@ -302,6 +302,8 @@ book_config_carddav_insert_widgets (ESourceConfigBackend *backend,
 	context->avoid_ifmatch = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	e_source_config_add_refresh_interval (config, scratch_source);
+
 	e_binding_bind_property (
 		extension, "avoid-ifmatch",
 		context->avoid_ifmatch, "active",
