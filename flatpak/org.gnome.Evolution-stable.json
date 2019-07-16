@@ -254,9 +254,9 @@
 			],
 			"sources": [
 				{
-					"type": "archive",
-					"url": "https://sourceforge.net/code-snapshots/git/b/bo/bogofilter/git.git/bogofilter-git-0242a05e541c7a5ec7b6a27c810be7cecb9ae82f.zip",
-					"sha256": "1f9ea52db12bff715c3d955a37abe66547cebf93c90c4f31d7e0aed8ff73afdc"
+					"type": "git",
+					"url": "https://git.code.sf.net/p/bogofilter/git",
+					"branch": "master"
 				}
 			]
 		},
