@@ -33,8 +33,12 @@ action_calendar_taskpad_assign_cb (GtkAction *action,
 {
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
+	ECalModel *model;
 	ETaskTable *task_table;
+	EShellContent *shell_content;
 	GSList *list;
+
+	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
@@ -42,12 +46,13 @@ action_calendar_taskpad_assign_cb (GtkAction *action,
 	list = e_task_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
+	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
 	g_slist_free (list);
 
 	/* XXX We only open the first selected task. */
-	e_cal_shell_view_taskpad_open_task (cal_shell_view, comp_data);
-
-	/* FIXME Need to actually assign the task. */
+	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (cal_shell_view));
+	model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (shell_content));
+	e_cal_ops_open_component_in_editor_sync	(model, comp_data->client, comp_data->icalcomp, TRUE);
 }
 
 static void
