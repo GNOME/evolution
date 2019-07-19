@@ -111,10 +111,10 @@ gnome_canvas_cairo_create_scratch (void)
 /**
  * gnome_canvas_matrix_transform_rect:
  * @matrix: a cairo matrix
- * @x1: x coordinate of top left position of rectangle (in-out)
- * @y1: y coordinate of top left position of rectangle (in-out)
- * @x2: x coordinate of bottom right position of rectangle (in-out)
- * @y2: y coordinate of bottom right position of rectangle (in-out)
+ * @x1: (inout): x coordinate of top left position of rectangle
+ * @y1: (inout): y coordinate of top left position of rectangle
+ * @x2: (inout): x coordinate of bottom right position of rectangle
+ * @y2: (inout): y coordinate of bottom right position of rectangle
  *
  * Computes the smallest rectangle containing the whole area of the given
  * rectangle after applying the transformation given in @matrix.
