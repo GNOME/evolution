@@ -727,7 +727,7 @@ ece_event_setup_ui (ECompEditorEvent *event_editor)
 		{ "show-time-busy",
 		  "dialog-error",
 		  N_("Show Time as _Busy"),
-		  NULL,
+		  "<Ctrl>B",
 		  N_("Toggles whether to show time as busy"),
 		  NULL,
 		  FALSE }
