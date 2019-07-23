@@ -89,7 +89,7 @@
 
     <include href="xinclude-searching.xml"
              xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
-             xmlns="https://www.w3.org/2001/XInclude"/>
+             xmlns="http://www.w3.org/2001/XInclude"/>
 
 </section>
 

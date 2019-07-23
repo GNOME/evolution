@@ -28,7 +28,7 @@
 included by XInclude. See http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclude/ for how it works. -->
 <include href="xinclude-filter-vfolder-conditions.xml"
   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:item)"
-  xmlns="https://www.w3.org/2001/XInclude"/>
+  xmlns="http://www.w3.org/2001/XInclude"/>
 
 <item><p>Source Account:</p>
 <p>Filters messages according the server you got them from. This is most useful if you use multiple POP mail accounts.</p></item>
