@@ -1285,7 +1285,9 @@ webdav_browser_selection_changed_cb (GtkTreeSelection *selection,
 			-1);
 
 		has_parent = gtk_tree_model_iter_parent (model, &parent, &iter);
-	}
+		gtk_widget_set_sensitive (webdav_browser->priv->edit_button, TRUE);
+	} else
+		gtk_widget_set_sensitive (webdav_browser->priv->edit_button, FALSE);
 
 	#define has_set(x) ((editing_flags & (x)) == (x))
 
@@ -1297,9 +1299,6 @@ webdav_browser_selection_changed_cb (GtkTreeSelection *selection,
 
 	gtk_widget_set_sensitive (webdav_browser->priv->create_collection_button,
 		has_set (E_EDITING_FLAG_MKCOL));
-
-	gtk_widget_set_sensitive (webdav_browser->priv->edit_button,
-		(editing_flags & (E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR)) != 0);
 
 	gtk_widget_set_sensitive (webdav_browser->priv->delete_button,
 		has_set (E_EDITING_FLAG_CAN_DELETE) && has_parent);
