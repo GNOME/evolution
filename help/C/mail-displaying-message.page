@@ -5,8 +5,9 @@
     <desc>Rendering an email and handling its attachments.</desc>
 
     <link type="guide" xref="index#mail-basic" />
+    <link type="seealso" xref="mail-composer-html" />
 
-    <revision pkgversion="3.4.0" version="0.2" date="2012-03-07" status="draft"/>
+    <revision pkgversion="3.32.2" version="0.3" date="2019-07-25" status="draft"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -18,6 +19,8 @@
   </info>
 
 <title>Display of a message</title>
+
+<p>You can define how received HTML messages are displayed via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</gui></guiseq>. For example, you can display them as plain text or block loading remote content.</p>
 
   <section id="advanced">
     <title>Advanced</title>
