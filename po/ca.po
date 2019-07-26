@@ -21949,7 +21949,7 @@ msgstr "Baixada"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:903
 msgid "Limit:"
-msgstr "Límit:"
+msgstr "Límit:"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:914
 msgid "contacts"
