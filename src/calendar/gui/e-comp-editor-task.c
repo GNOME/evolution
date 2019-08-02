@@ -693,7 +693,7 @@ ece_task_setup_ui (ECompEditorTask *task_editor)
 		{ "all-day-task",
 		  "stock_new-24h-appointment",
 		  N_("All _Day Task"),
-		  NULL,
+		  "<Control>Y",
 		  N_("Toggles whether to have All Day Task"),
 		  NULL,
 		  FALSE }
