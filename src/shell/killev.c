@@ -93,6 +93,50 @@ exit:
 	return success;
 }
 
+/* Returns whether found kill command, not whether killed anything */
+static gboolean
+call_kill_process (const gchar *process_name,
+		   gboolean request_exact_name)
+{
+	gchar *killcmd, *cmd;
+	const gchar *exact_arg = NULL, *extra_args = NULL;
+
+	g_return_val_if_fail (process_name, FALSE);
+
+	killcmd = g_find_program_in_path ("killall");
+
+	if (killcmd) {
+		exact_arg = "-e";
+	} else {
+		killcmd = g_find_program_in_path ("pkill");
+
+		if (!killcmd) {
+			g_message ("No killall/pkill command found");
+
+			return FALSE;
+		}
+
+		exact_arg = "-x";
+		extra_args = "-f";
+	}
+
+	cmd = g_strdup_printf ("%s%s%s%s%s -TERM %s 2> /dev/null",
+		killcmd,
+		extra_args ? " " : "",
+		extra_args ? extra_args : "",
+		request_exact_name ? " " : "",
+		request_exact_name ? exact_arg : "",
+		process_name);
+
+	if (system (cmd) == -1)
+		g_message ("%s: Failed to execute: '%s'", G_STRFUNC, cmd);
+
+	g_free (killcmd);
+	g_free (cmd);
+
+	return TRUE;
+}
+
 gint
 main (gint argc,
       gchar **argv)
@@ -161,29 +205,12 @@ main (gint argc,
 	g_object_unref (monitor);
 
 kill:
-#ifdef KILL_PROCESS_COMMAND
-#ifdef KILL_PROCESS_COMMAND_ARGS
-#define KILL_CMD KILL_PROCESS_COMMAND " " KILL_PROCESS_COMMAND_ARGS
-#else
-#define KILL_CMD KILL_PROCESS_COMMAND
-#endif
-#ifndef KILL_PROCESS_COMMAND_ARG_EXACT
-#define KILL_PROCESS_COMMAND_ARG_EXACT ""
-#endif
-	if (system (KILL_CMD " " KILL_PROCESS_COMMAND_ARG_EXACT " -TERM evolution 2> /dev/null") == -1)
-		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_CMD " -TERM evolution-alarm-notify 2> /dev/null") == -1)
-		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_CMD " -TERM evolution-source-registry 2> /dev/null") == -1)
-		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_CMD " -TERM evolution-addressbook-factory 2> /dev/null") == -1)
-		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-	if (system (KILL_CMD " -TERM evolution-calendar-factory 2> /dev/null") == -1)
-		g_warning ("%s: Failed to execute: '%s'", G_STRFUNC, KILL_PROCESS_COMMAND);
-#undef KILL_CMD
-#else
-	g_printerr ("No \"kill\" command available.\n");
-#endif
+	if (call_kill_process ("evolution", TRUE)) {
+		call_kill_process ("evolution-alarm-notify", FALSE);
+		call_kill_process ("evolution-source-registry", FALSE);
+		call_kill_process ("evolution-addressbook-factory", FALSE);
+		call_kill_process ("evolution-calendar-factory", FALSE);
+	}
 
 	g_clear_object (&pid_file);
 

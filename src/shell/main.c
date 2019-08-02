@@ -333,7 +333,7 @@ static GOptionEntry entries[] = {
 	  N_("Start in online mode"), NULL },
 	{ "force-online", '\0', 0, G_OPTION_ARG_NONE, &force_online,
 	  N_("Ignore network availability"), NULL },
-#ifdef KILL_PROCESS_CMD
+#ifndef G_OS_WIN32
 	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
 	  N_("Forcibly shut down Evolution"), NULL },
 #endif

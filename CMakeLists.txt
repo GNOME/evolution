@@ -220,24 +220,6 @@ CHECK_FUNCTION_EXISTS(mkdtemp HAVE_MKDTEMP)
 CHECK_FUNCTION_EXISTS(nl_langinfo HAVE_NL_LANGINFO)
 
 # ******************************
-# executables
-# ******************************
-
-find_program(KILL_PROCESS_COMMAND killall)
-if(NOT KILL_PROCESS_COMMAND)
-	find_program(KILL_PROCESS_COMMAND pkill)
-	set(KILL_PROCESS_COMMAND_ARGS "-f")
-	set(KILL_PROCESS_COMMAND_ARG_EXACT "-x")
-else(NOT KILL_PROCESS_COMMAND)
-	set(KILL_PROCESS_COMMAND_ARGS "")
-	set(KILL_PROCESS_COMMAND_ARG_EXACT "-e")
-endif(NOT KILL_PROCESS_COMMAND)
-
-if(NOT KILL_PROCESS_COMMAND)
-	message(WARNING "Could not find a command to kill a process by name")
-endif(NOT KILL_PROCESS_COMMAND)
-
-# ******************************
 # Check for nl_langinfo features
 # ******************************
 

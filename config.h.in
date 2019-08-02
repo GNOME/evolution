@@ -30,15 +30,6 @@
 /* Defined, when configured with ENABLE_MAINTAINER_MODE */
 #cmakedefine ENABLE_MAINTAINER_MODE 1
 
-/* Command to kill processes by name */
-#cmakedefine KILL_PROCESS_COMMAND "@KILL_PROCESS_COMMAND@"
-
-/* Extra arguments to kill command */
-#cmakedefine KILL_PROCESS_COMMAND_ARGS "@KILL_PROCESS_COMMAND_ARGS@"
-
-/* An argument to kill command to match exact process */
-#cmakedefine KILL_PROCESS_COMMAND_ARG_EXACT "@KILL_PROCESS_COMMAND_ARG_EXACT@"
-
 /* Define to 1 if you have the `nl_langinfo' function. */
 #cmakedefine HAVE_NL_LANGINFO 1
 
