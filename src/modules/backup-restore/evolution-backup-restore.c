@@ -434,7 +434,7 @@ action_settings_restore_cb (GtkAction *action,
 	path = g_file_get_path (file);
 
 	shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
-	description = g_strdup_printf (_("Checking content of backup file “%s”, please wait..."), path);
+	description = g_strdup_printf (_("Checking content of backup file “%s”, please wait…"), path);
 
 	vbf = g_new0 (ValidateBackupFileData, 1);
 	vbf->shell_window = g_object_ref (shell_window);
@@ -455,14 +455,14 @@ static GtkActionEntry entries[] = {
 
 	{ "settings-backup",
 	  NULL,
-	  N_("_Back up Evolution Data..."),
+	  N_("_Back up Evolution Data…"),
 	  NULL,
 	  N_("Back up Evolution data and settings to an archive file"),
 	  G_CALLBACK (action_settings_backup_cb) },
 
 	{ "settings-restore",
 	  NULL,
-	  N_("R_estore Evolution Data..."),
+	  N_("R_estore Evolution Data…"),
 	  NULL,
 	  N_("Restore Evolution data and settings from an archive file"),
 	  G_CALLBACK (action_settings_restore_cb) }

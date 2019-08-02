@@ -636,7 +636,7 @@ ecep_attachments_setup_ui (ECompEditorPageAttachments *page_attachments)
 	GtkActionEntry editable_entries[] = {
 		{ "attachments-attach",
 		  "mail-attachment",
-		  N_("_Attachment..."),
+		  N_("_Attachment…"),
 		  "<Control>m",
 		  N_("Attach a file"),
 		  G_CALLBACK (ecep_attachments_action_attach_cb) }

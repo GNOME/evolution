@@ -62,7 +62,7 @@ mail_config_lookup_page_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
-	text = _("Looking up account details...");
+	text = _("Looking up account details…");
 	widget = gtk_label_new (text);
 	gtk_box_pack_start (GTK_BOX (main_box), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);

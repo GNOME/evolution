@@ -645,7 +645,7 @@ run_cert_backup_dialog_file_chooser (GtkButton *file_button,
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (file_button));
 	native = gtk_file_chooser_native_new (
-		_("Select a file to backup your key and certificate..."),
+		_("Select a file to backup your key and certificate…"),
 		GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
 		_("_Save"), _("_Cancel"));
@@ -738,7 +738,7 @@ run_cert_backup_dialog (CertPage *cp,
 	gtk_grid_attach (grid, label, col++, row, 1, 1);
 
 	/* FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it */
-	button = gtk_button_new_with_label (_("Please select a file..."));
+	button = gtk_button_new_with_label (_("Please select a file…"));
 	g_signal_connect (
 		button, "clicked",
 		G_CALLBACK (run_cert_backup_dialog_file_chooser),
@@ -945,7 +945,7 @@ import_cert (GtkWidget *button,
 	toplevel = gtk_widget_get_toplevel (button);
 
 	native = gtk_file_chooser_native_new (
-		_("Select a certificate to import..."),
+		_("Select a certificate to import…"),
 		GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL,
 		GTK_FILE_CHOOSER_ACTION_OPEN,
 		_("_Open"), _("_Cancel"));

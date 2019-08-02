@@ -360,7 +360,7 @@ e_charset_combo_box_init (ECharsetComboBox *combo_box)
 	/* Note the "other" action is not included in the index. */
 
 	radio_action = gtk_radio_action_new (
-		"charset-other", _("Other..."), NULL, NULL, OTHER_VALUE);
+		"charset-other", _("Other…"), NULL, NULL, OTHER_VALUE);
 
 	g_object_set_data (G_OBJECT (radio_action), "charset", (gpointer) "");
 

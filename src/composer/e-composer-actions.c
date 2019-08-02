@@ -223,7 +223,7 @@ action_save_as_cb (GtkAction *action,
 	gchar *filename;
 
 	native = gtk_file_chooser_native_new (
-		_("Save as..."), GTK_WINDOW (composer),
+		_("Save as…"), GTK_WINDOW (composer),
 		GTK_FILE_CHOOSER_ACTION_SAVE,
 		_("_Save"), _("_Cancel"));
 
@@ -309,7 +309,7 @@ static GtkActionEntry entries[] = {
 
 	{ "attach",
           "mail-attachment",
-	  N_("_Attachment..."),
+	  N_("_Attachment…"),
 	  "<Control>m",
 	  N_("Attach a file"),
 	  G_CALLBACK (action_attach_cb) },
@@ -344,7 +344,7 @@ static GtkActionEntry entries[] = {
 
 	{ "save-as",
 	  "document-save-as",
-	  N_("Save _As..."),
+	  N_("Save _As…"),
 	  NULL,
 	  N_("Save the current file with a different name"),
 	  G_CALLBACK (action_save_as_cb) },
@@ -370,7 +370,7 @@ static GtkActionEntry async_entries[] = {
 
 	{ "print",
 	  "document-print",
-	  N_("_Print..."),
+	  N_("_Print…"),
 	  "<Control>p",
 	  NULL,
 	  G_CALLBACK (action_print_cb) },

@@ -454,7 +454,7 @@ ecepp_categories_create_widgets (ECompEditorPropertyPart *property_part,
 	gtk_entry_set_completion (GTK_ENTRY (*out_edit_widget), completion);
 	g_object_unref (completion);
 
-	button = gtk_button_new_with_mnemonic (C_("ECompEditor", "_Categories..."));
+	button = gtk_button_new_with_mnemonic (C_("ECompEditor", "_Categories…"));
 	g_signal_connect (button, "clicked", G_CALLBACK (ecepp_categories_button_clicked_cb), *out_edit_widget);
 
 	*out_label_widget = button;

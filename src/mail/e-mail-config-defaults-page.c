@@ -311,7 +311,7 @@ mail_config_defaults_page_autodetect_folders_cb (EMailConfigDefaultsPage *page,
 	activity = e_mail_config_activity_page_new_activity (E_MAIL_CONFIG_ACTIVITY_PAGE (page));
 
 	cancellable = e_activity_get_cancellable (activity);
-	e_activity_set_text (activity, _("Checking server settings..."));
+	e_activity_set_text (activity, _("Checking server settings…"));
 
 	gtk_widget_set_sensitive (button, FALSE);
 

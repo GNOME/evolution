@@ -343,7 +343,7 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 		widget, "changed",
 		G_CALLBACK (timezone_entry_emit_changed), timezone_entry);
 
-	widget = gtk_button_new_with_label (_("Select..."));
+	widget = gtk_button_new_with_label (_("Select…"));
 	gtk_box_pack_start (GTK_BOX (timezone_entry), widget, FALSE, FALSE, 6);
 	timezone_entry->priv->button = widget;
 	gtk_widget_show (widget);

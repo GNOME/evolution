@@ -235,7 +235,7 @@ static GtkActionEntry calendar_memopad_entries[] = {
 
 	{ "calendar-memopad-forward",
 	  "mail-forward",
-	  N_("_Forward as iCalendar..."),
+	  N_("_Forward as iCalendar…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_memopad_forward_cb) },
@@ -266,7 +266,7 @@ static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "calendar-memopad-print",
 	  "document-print",
-	  N_("Print..."),
+	  N_("Print…"),
 	  NULL,
 	  N_("Print the selected memo"),
 	  G_CALLBACK (action_calendar_memopad_print_cb) }
@@ -276,7 +276,7 @@ static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "calendar-memopad-save-as",
 	  "document-save-as",
-	  N_("_Save as iCalendar..."),
+	  N_("_Save as iCalendar…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_memopad_save_as_cb) }

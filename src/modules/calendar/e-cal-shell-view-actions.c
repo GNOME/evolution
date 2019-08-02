@@ -1225,7 +1225,7 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "calendar-copy",
 	  "edit-copy",
-	  N_("_Copy..."),
+	  N_("_Copy…"),
 	  "<Control>c",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_copy_cb) },
@@ -1267,7 +1267,7 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "calendar-manage-groups",
 	  NULL,
-	  N_("_Manage Calendar groups..."),
+	  N_("_Manage Calendar groups…"),
 	  NULL,
 	  N_("Manage Calendar groups order and visibility"),
 	  G_CALLBACK (action_calendar_manage_groups_cb) },
@@ -1309,7 +1309,7 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "calendar-rename",
 	  NULL,
-	  N_("_Rename..."),
+	  N_("_Rename…"),
 	  "F2",
 	  N_("Rename the selected calendar"),
 	  G_CALLBACK (action_calendar_rename_cb) },
@@ -1351,14 +1351,14 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "event-copy",
 	  NULL,
-	  N_("Cop_y to Calendar..."),
+	  N_("Cop_y to Calendar…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_copy_cb) },
 
 	{ "event-delegate",
 	  NULL,
-	  N_("_Delegate Meeting..."),
+	  N_("_Delegate Meeting…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_delegate_cb) },
@@ -1386,42 +1386,42 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "event-edit-as-new",
 	  NULL,
-	  N_("Edit as Ne_w..."),
+	  N_("Edit as Ne_w…"),
 	  NULL,
 	  N_("Edit the current appointment as new"),
 	  G_CALLBACK (action_event_edit_as_new_cb) },
 
 	{ "event-all-day-new",
 	  "stock_new-24h-appointment",
-	  N_("New All Day _Event..."),
+	  N_("New All Day _Event…"),
 	  NULL,
 	  N_("Create a new all day event"),
 	  G_CALLBACK (action_event_all_day_new_cb) },
 
 	{ "event-forward",
 	  "mail-forward",
-	  N_("_Forward as iCalendar..."),
+	  N_("_Forward as iCalendar…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_forward_cb) },
 
 	{ "event-meeting-new",
 	  "stock_people",
-	  N_("New _Meeting..."),
+	  N_("New _Meeting…"),
 	  NULL,
 	  N_("Create a new meeting"),
 	  G_CALLBACK (action_event_meeting_new_cb) },
 
 	{ "event-move",
 	  NULL,
-	  N_("Mo_ve to Calendar..."),
+	  N_("Mo_ve to Calendar…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_move_cb) },
 
 	{ "event-new",
 	  "appointment-new",
-	  N_("New _Appointment..."),
+	  N_("New _Appointment…"),
 	  NULL,
 	  N_("Create a new appointment"),
 	  G_CALLBACK (action_event_new_cb) },
@@ -1456,14 +1456,14 @@ static GtkActionEntry calendar_entries[] = {
 
 	{ "event-schedule",
 	  NULL,
-	  N_("_Schedule Meeting..."),
+	  N_("_Schedule Meeting…"),
 	  NULL,
 	  N_("Converts an appointment to a meeting"),
 	  G_CALLBACK (action_event_schedule_cb) },
 
 	{ "event-schedule-appointment",
 	  NULL,
-	  N_("Conv_ert to Appointment..."),
+	  N_("Conv_ert to Appointment…"),
 	  NULL,
 	  N_("Converts a meeting to an appointment"),
 	  G_CALLBACK (action_event_schedule_appointment_cb) },
@@ -1508,7 +1508,7 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	  "calendar-jump-to" },
 
 	{ "calendar-popup-manage-groups",
-	  N_("_Manage groups..."),
+	  N_("_Manage groups…"),
 	  "calendar-manage-groups" },
 
 	{ "calendar-popup-properties",
@@ -1713,21 +1713,21 @@ static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "calendar-print",
 	  "document-print",
-	  N_("Print..."),
+	  N_("Print…"),
 	  "<Control>p",
 	  N_("Print this calendar"),
 	  G_CALLBACK (action_calendar_print_cb) },
 
 	{ "calendar-print-preview",
 	  "document-print-preview",
-	  N_("Pre_view..."),
+	  N_("Pre_view…"),
 	  NULL,
 	  N_("Preview the calendar to be printed"),
 	  G_CALLBACK (action_calendar_print_preview_cb) },
 
 	{ "event-print",
 	  "document-print",
-	  N_("Print..."),
+	  N_("Print…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_print_cb) }
@@ -1744,7 +1744,7 @@ static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "event-save-as",
 	  "document-save-as",
-	  N_("_Save as iCalendar..."),
+	  N_("_Save as iCalendar…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_save_as_cb) },

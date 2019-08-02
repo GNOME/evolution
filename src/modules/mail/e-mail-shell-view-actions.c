@@ -850,7 +850,7 @@ e_mail_shell_view_actions_mark_all_read (EMailShellView *mail_shell_view,
 	e_activity_set_cancellable (context->activity, cancellable);
 
 	camel_operation_push_message (
-		cancellable, _("Marking messages as read..."));
+		cancellable, _("Marking messages as read…"));
 
 	e_shell_backend_add_activity (shell_backend, context->activity);
 
@@ -1618,7 +1618,7 @@ static GtkActionEntry mail_entries[] = {
 
 	{ "mail-folder-copy",
 	  "folder-copy",
-	  N_("_Copy Folder To..."),
+	  N_("_Copy Folder To…"),
 	  NULL,
 	  N_("Copy the selected folder into another folder"),
 	  G_CALLBACK (action_mail_folder_copy_cb) },
@@ -1653,7 +1653,7 @@ static GtkActionEntry mail_entries[] = {
 
 	{ "mail-folder-move",
 	  "folder-move",
-	  N_("_Move Folder To..."),
+	  N_("_Move Folder To…"),
 	  NULL,
 	  N_("Move the selected folder into another folder"),
 	  G_CALLBACK (action_mail_folder_move_cb) },
@@ -1661,7 +1661,7 @@ static GtkActionEntry mail_entries[] = {
 	{ "mail-folder-new",
 	  "folder-new",
 	  /* Translators: An action caption to create a new mail folder */
-	  N_("_New..."),
+	  N_("_New…"),
 	  NULL,
 	  N_("Create a new folder for storing mail"),
 	  G_CALLBACK (action_mail_folder_new_cb) },
@@ -1682,7 +1682,7 @@ static GtkActionEntry mail_entries[] = {
 
 	{ "mail-folder-rename",
 	  NULL,
-	  N_("_Rename..."),
+	  N_("_Rename…"),
 	  "F2",
 	  N_("Change the name of this folder"),
 	  G_CALLBACK (action_mail_folder_rename_cb) },
@@ -1815,7 +1815,7 @@ static GtkActionEntry mail_entries[] = {
 
 	{ "mail-tools-subscriptions",
 	  NULL,
-	  N_("_Subscriptions..."),
+	  N_("_Subscriptions…"),
 	  NULL,
 	  N_("Subscribe or unsubscribe to folders on remote servers"),
 	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
@@ -1841,7 +1841,7 @@ static GtkActionEntry search_folder_entries[] = {
 
 	{ "mail-create-search-folder",
 	  NULL,
-	  N_("C_reate Search Folder From Search..."),
+	  N_("C_reate Search Folder From Search…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_mail_create_search_folder_cb) },
@@ -1893,7 +1893,7 @@ static EPopupActionEntry mail_popup_entries[] = {
 	  "mail-folder-move" },
 
 	{ "mail-popup-folder-new",
-	  N_("_New Folder..."),
+	  N_("_New Folder…"),
 	  "mail-folder-new" },
 
 	{ "mail-popup-folder-properties",

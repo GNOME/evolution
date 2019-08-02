@@ -335,7 +335,7 @@ static GtkActionEntry file_entries[] = {
 #ifdef ENABLE_PRINT
 	{ "print",
 	  "document-print",
-	  N_("_Print..."),
+	  N_("_Print…"),
 	  "<Control>p",
 	  NULL,
 	  G_CALLBACK (action_print_cb) },
@@ -364,7 +364,7 @@ static GtkActionEntry file_entries[] = {
 
 	{ "save-as",
 	  "document-save-as",
-	  N_("Save _As..."),
+	  N_("Save _As…"),
 	  NULL,
 	  NULL,
 	  G_CALLBACK (action_save_as_cb) },

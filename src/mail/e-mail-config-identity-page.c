@@ -773,7 +773,7 @@ mail_config_identity_page_constructed (GObject *object)
 		widget, "visible",
 		G_BINDING_SYNC_CREATE);
 
-	text = _("Add Ne_w Signature...");
+	text = _("Add Ne_w Signature…");
 	widget = gtk_button_new_with_mnemonic (text);
 	gtk_grid_attach (GTK_GRID (container), widget, 2, 3, 1, 1);
 	gtk_widget_show (widget);

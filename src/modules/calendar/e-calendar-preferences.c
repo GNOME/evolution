@@ -390,7 +390,7 @@ day_second_zone_clicked (GtkWidget *widget,
 	item = gtk_separator_menu_item_new ();
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 
-	item = gtk_menu_item_new_with_label (_("Select..."));
+	item = gtk_menu_item_new_with_label (_("Select…"));
 	g_signal_connect (
 		item, "activate",
 		G_CALLBACK (on_select_day_second_zone), prefs);

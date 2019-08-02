@@ -90,7 +90,7 @@ static GtkActionEntry entries[] = {
 
 	{ "format-as-menu",
 	  NULL,
-	  N_("_Format as..."),
+	  N_("_Format as…"),
 	  NULL,
 	  NULL,
 	  NULL

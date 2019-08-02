@@ -860,7 +860,7 @@ action_save_and_close_cb (GtkAction *action,
 
 	activity_bar = e_html_editor_get_activity_bar (notes_editor->editor);
 	activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (notes_editor->editor),
-		_("Storing changes..."), "mail:failed-store-note",
+		_("Storing changes…"), "mail:failed-store-note",
 		full_display_name ? full_display_name : camel_folder_get_display_name (notes_editor->folder),
 		e_mail_notes_store_changes_thread,
 		scd, save_and_close_data_free);
@@ -1154,7 +1154,7 @@ e_mail_notes_editor_ready_cb (GObject *source_object,
 
 		activity_bar = e_html_editor_get_activity_bar (notes_editor->editor);
 		activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (notes_editor->editor),
-			_("Retrieving message..."), "mail:no-retrieve-message", NULL,
+			_("Retrieving message…"), "mail:no-retrieve-message", NULL,
 			e_mail_notes_retrieve_message_thread,
 			g_object_ref (notes_editor), e_mail_notes_retrieve_message_done);
 		e_activity_bar_set_activity (activity_bar, activity);

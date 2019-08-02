@@ -414,7 +414,7 @@ static GtkActionEntry standard_entries[] = {
 
 	{ "mail-message-edit",
 	  NULL,
-	  N_("_Edit as New Message..."),
+	  N_("_Edit as New Message…"),
 	  NULL,
 	  N_("Open the selected messages in the composer for editing"),
 	  G_CALLBACK (mail_attachment_handler_message_edit) },

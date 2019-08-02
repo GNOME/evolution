@@ -1012,7 +1012,7 @@ static GtkActionEntry contact_entries[] = {
 
 	{ "address-book-copy",
 	  "edit-copy",
-	  N_("Co_py All Contacts To..."),
+	  N_("Co_py All Contacts To…"),
 	  NULL,
 	  N_("Copy the contacts of the selected address book to another"),
 	  G_CALLBACK (action_address_book_copy_cb) },
@@ -1026,14 +1026,14 @@ static GtkActionEntry contact_entries[] = {
 
 	{ "address-book-manage-groups",
 	  NULL,
-	  N_("_Manage Address Book groups..."),
+	  N_("_Manage Address Book groups…"),
 	  NULL,
 	  N_("Manage task list groups order and visibility"),
 	  G_CALLBACK (action_address_book_manage_groups_cb) },
 
 	{ "address-book-move",
 	  "folder-move",
-	  N_("Mo_ve All Contacts To..."),
+	  N_("Mo_ve All Contacts To…"),
 	  NULL,
 	  N_("Move the contacts of the selected address book to another"),
 	  G_CALLBACK (action_address_book_move_cb) },
@@ -1075,7 +1075,7 @@ static GtkActionEntry contact_entries[] = {
 
 	{ "address-book-rename",
 	  NULL,
-	  N_("_Rename..."),
+	  N_("_Rename…"),
 	  "F2",
 	  N_("Rename the selected address book"),
 	  G_CALLBACK (action_address_book_rename_cb) },
@@ -1089,7 +1089,7 @@ static GtkActionEntry contact_entries[] = {
 
 	{ "contact-copy",
 	  NULL,
-	  N_("_Copy Contact To..."),
+	  N_("_Copy Contact To…"),
 	  "<Control><Shift>y",
 	  N_("Copy selected contacts to another address book"),
 	  G_CALLBACK (action_contact_copy_cb) },
@@ -1103,35 +1103,35 @@ static GtkActionEntry contact_entries[] = {
 
 	{ "contact-find",
 	  "edit-find",
-	  N_("_Find in Contact..."),
+	  N_("_Find in Contact…"),
 	  "<Shift><Control>f",
 	  N_("Search for text in the displayed contact"),
 	  G_CALLBACK (action_contact_find_cb) },
 
 	{ "contact-forward",
 	  "mail-forward",
-	  N_("_Forward Contact..."),
+	  N_("_Forward Contact…"),
 	  NULL,
 	  N_("Send selected contacts to another person"),
 	  G_CALLBACK (action_contact_forward_cb) },
 
 	{ "contact-move",
 	  NULL,
-	  N_("_Move Contact To..."),
+	  N_("_Move Contact To…"),
 	  "<Control><Shift>v",
 	  N_("Move selected contacts to another address book"),
 	  G_CALLBACK (action_contact_move_cb) },
 
 	{ "contact-new",
 	  "contact-new",
-	  N_("_New Contact..."),
+	  N_("_New Contact…"),
 	  NULL,
 	  N_("Create a new contact"),
 	  G_CALLBACK (action_contact_new_cb) },
 
 	{ "contact-new-list",
 	  "stock_contact-list",
-	  N_("New Contact _List..."),
+	  N_("New Contact _List…"),
 	  NULL,
 	  N_("Create a new contact list"),
 	  G_CALLBACK (action_contact_new_list_cb) },
@@ -1145,7 +1145,7 @@ static GtkActionEntry contact_entries[] = {
 
 	{ "contact-send-message",
 	  "mail-message-new",
-	  N_("_Send Message to Contact..."),
+	  N_("_Send Message to Contact…"),
 	  NULL,
 	  N_("Send a message to the selected contacts"),
 	  G_CALLBACK (action_contact_send_message_cb) },
@@ -1174,7 +1174,7 @@ static EPopupActionEntry contact_popup_entries[] = {
 	  "address-book-delete" },
 
 	{ "address-book-popup-manage-groups",
-	  N_("_Manage groups..."),
+	  N_("_Manage groups…"),
 	  "address-book-manage-groups" },
 
 	{ "address-book-popup-properties",
@@ -1316,21 +1316,21 @@ static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "address-book-print",
 	  "document-print",
-	  N_("_Print..."),
+	  N_("_Print…"),
 	  "<Control>p",
 	  N_("Print all shown contacts"),
 	  G_CALLBACK (action_address_book_print_cb) },
 
 	{ "address-book-print-preview",
 	  "document-print-preview",
-	  N_("Pre_view..."),
+	  N_("Pre_view…"),
 	  NULL,
 	  N_("Preview the contacts to be printed"),
 	  G_CALLBACK (action_address_book_print_preview_cb) },
 
 	{ "contact-print",
 	  "document-print",
-	  N_("_Print..."),
+	  N_("_Print…"),
 	  NULL,
 	  N_("Print selected contacts"),
 	  G_CALLBACK (action_contact_print_cb) }
@@ -1355,7 +1355,7 @@ static GtkActionEntry lockdown_save_to_disk_entries[] = {
 	{ "contact-save-as",
 	  "document-save-as",
 	  /* Translators: This is an action label */
-	  N_("_Save as vCard..."),
+	  N_("_Save as vCard…"),
 	  NULL,
 	  N_("Save selected contacts as a vCard"),
 	  G_CALLBACK (action_contact_save_as_cb) }
@@ -1365,7 +1365,7 @@ static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
 
 	{ "address-book-popup-save-as",
 	  /* Translators: This is an action label */
-	  N_("_Save as vCard..."),
+	  N_("_Save as vCard…"),
 	  "address-book-save-as" },
 
 	{ "contact-popup-save-as",

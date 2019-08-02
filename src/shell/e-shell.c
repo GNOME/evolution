@@ -376,7 +376,7 @@ shell_prepare_for_offline (EShell *shell)
 
 	e_activity_set_text (
 		shell->priv->preparing_for_line_change,
-		_("Preparing to go offline..."));
+		_("Preparing to go offline…"));
 
 	g_object_add_toggle_ref (
 		G_OBJECT (shell->priv->preparing_for_line_change),
@@ -405,7 +405,7 @@ shell_prepare_for_online (EShell *shell)
 
 	e_activity_set_text (
 		shell->priv->preparing_for_line_change,
-		_("Preparing to go online..."));
+		_("Preparing to go online…"));
 
 	g_object_add_toggle_ref (
 		G_OBJECT (shell->priv->preparing_for_line_change),
@@ -522,7 +522,7 @@ shell_prepare_for_quit (EShell *shell)
 
 	e_activity_set_text (
 		shell->priv->preparing_for_quit,
-		_("Preparing to quit..."));
+		_("Preparing to quit…"));
 
 	g_object_add_toggle_ref (
 		G_OBJECT (shell->priv->preparing_for_quit),

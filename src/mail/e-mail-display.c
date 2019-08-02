@@ -123,7 +123,7 @@ static GtkActionEntry mailto_entries[] = {
 
 	{ "add-to-address-book",
 	  "contact-new",
-	  N_("_Add to Address Book..."),
+	  N_("_Add to Address Book…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  NULL   /* Handled by EMailReader */ },
@@ -144,7 +144,7 @@ static GtkActionEntry mailto_entries[] = {
 
 	{ "send-reply",
 	  NULL,
-	  N_("Send _Reply To..."),
+	  N_("Send _Reply To…"),
 	  NULL,
 	  N_("Send a reply message to this address"),
 	  NULL   /* Handled by EMailReader */ },

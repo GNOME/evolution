@@ -607,7 +607,7 @@ action_mail_delete_note_cb (GtkAction *action,
 		alert_sink = e_mail_reader_get_alert_sink (reader);
 
 		activity = e_alert_sink_submit_thread_job (alert_sink,
-			_("Deleting message note..."),
+			_("Deleting message note…"),
 			"mail:failed-delete-note",
 			full_display_name ? full_display_name : camel_folder_get_full_name (folder),
 			mail_delete_note_thread, dnd, delete_note_data_free);
@@ -2402,7 +2402,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-archive",
 	  "mail-archive",
-	  N_("_Archive..."),
+	  N_("_Archive…"),
 	  "<Alt><Control>a",
 	  N_("Move selected messages to the Archive folder for the account"),
 	  G_CALLBACK (action_mail_archive_cb) },
@@ -2430,7 +2430,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-copy",
 	  "mail-copy",
-	  N_("_Copy to Folder..."),
+	  N_("_Copy to Folder…"),
 	  "<Shift><Control>y",
 	  N_("Copy selected messages to another folder"),
 	  G_CALLBACK (action_mail_copy_cb) },
@@ -2444,7 +2444,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-add-note",
 	  "evolution-memos",
-	  N_("_Add note..."),
+	  N_("_Add note…"),
 	  NULL,
 	  N_("Add a note for the selected message"),
 	  G_CALLBACK (action_mail_edit_note_cb) },
@@ -2458,35 +2458,35 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-edit-note",
 	  "evolution-memos",
-	  N_("_Edit note..."),
+	  N_("_Edit note…"),
 	  NULL,
 	  N_("Edit a note for the selected message"),
 	  G_CALLBACK (action_mail_edit_note_cb) },
 
 	{ "mail-filter-rule-for-mailing-list",
 	  NULL,
-	  N_("Create a Filter Rule for Mailing _List..."),
+	  N_("Create a Filter Rule for Mailing _List…"),
 	  NULL,
 	  N_("Create a rule to filter messages to this mailing list"),
 	  G_CALLBACK (action_mail_filter_on_mailing_list_cb) },
 
 	{ "mail-filter-rule-for-recipients",
 	  NULL,
-	  N_("Create a Filter Rule for _Recipients..."),
+	  N_("Create a Filter Rule for _Recipients…"),
 	  NULL,
 	  N_("Create a rule to filter messages to these recipients"),
 	  G_CALLBACK (action_mail_filter_on_recipients_cb) },
 
 	{ "mail-filter-rule-for-sender",
 	  NULL,
-	  N_("Create a Filter Rule for Se_nder..."),
+	  N_("Create a Filter Rule for Se_nder…"),
 	  NULL,
 	  N_("Create a rule to filter messages from this sender"),
 	  G_CALLBACK (action_mail_filter_on_sender_cb) },
 
 	{ "mail-filter-rule-for-subject",
 	  NULL,
-	  N_("Create a Filter Rule for _Subject..."),
+	  N_("Create a Filter Rule for _Subject…"),
 	  NULL,
 	  N_("Create a rule to filter messages with this subject"),
 	  G_CALLBACK (action_mail_filter_on_subject_cb) },
@@ -2500,7 +2500,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-find",
 	  "edit-find",
-	  N_("_Find in Message..."),
+	  N_("_Find in Message…"),
 	  "<Shift><Control>f",
 	  N_("Search for text in the body of the displayed message"),
 	  G_CALLBACK (action_mail_find_cb) },
@@ -2521,7 +2521,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-flag-for-followup",
 	  "stock_mail-flag-for-followup",
-	  N_("Follow _Up..."),
+	  N_("Follow _Up…"),
 	  "<Shift><Control>g",
 	  N_("Flag the selected messages for follow-up"),
 	  G_CALLBACK (action_mail_flag_for_followup_cb) },
@@ -2663,7 +2663,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-message-edit",
 	  NULL,
-	  N_("_Edit as New Message..."),
+	  N_("_Edit as New Message…"),
 	  NULL,
 	  N_("Open the selected messages in the composer for editing"),
 	  G_CALLBACK (action_mail_message_edit_cb) },
@@ -2684,7 +2684,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-move",
 	  "mail-move",
-	  N_("_Move to Folder..."),
+	  N_("_Move to Folder…"),
 	  "<Shift><Control>v",
 	  N_("Move selected messages to another folder"),
 	  G_CALLBACK (action_mail_move_cb) },
@@ -2747,14 +2747,14 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-print",
 	  "document-print",
-	  N_("_Print..."),
+	  N_("_Print…"),
 	  "<Control>p",
 	  N_("Print this message"),
 	  G_CALLBACK (action_mail_print_cb) },
 
 	{ "mail-print-preview",
 	  "document-print-preview",
-	  N_("Pre_view..."),
+	  N_("Pre_view…"),
 	  NULL,
 	  N_("Preview the message to be printed"),
 	  G_CALLBACK (action_mail_print_preview_cb) },
@@ -2810,7 +2810,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-save-as",
 	  "document-save-as",
-	  N_("_Save as mbox..."),
+	  N_("_Save as mbox…"),
 	  "<Control>s",
 	  N_("Save selected messages as an mbox file"),
 	  G_CALLBACK (action_mail_save_as_cb) },
@@ -2934,28 +2934,28 @@ static GtkActionEntry mail_reader_search_folder_entries[] = {
 
 	{ "mail-search-folder-from-mailing-list",
 	  NULL,
-	  N_("Create a Search Folder from Mailing _List..."),
+	  N_("Create a Search Folder from Mailing _List…"),
 	  NULL,
 	  N_("Create a search folder for this mailing list"),
 	  G_CALLBACK (action_mail_search_folder_from_mailing_list_cb) },
 
 	{ "mail-search-folder-from-recipients",
 	  NULL,
-	  N_("Create a Search Folder from Recipien_ts..."),
+	  N_("Create a Search Folder from Recipien_ts…"),
 	  NULL,
 	  N_("Create a search folder for these recipients"),
 	  G_CALLBACK (action_mail_search_folder_from_recipients_cb) },
 
 	{ "mail-search-folder-from-sender",
 	  NULL,
-	  N_("Create a Search Folder from Sen_der..."),
+	  N_("Create a Search Folder from Sen_der…"),
 	  NULL,
 	  N_("Create a search folder for this sender"),
 	  G_CALLBACK (action_mail_search_folder_from_sender_cb) },
 
 	{ "mail-search-folder-from-subject",
 	  NULL,
-	  N_("Create a Search Folder from S_ubject..."),
+	  N_("Create a Search Folder from S_ubject…"),
 	  NULL,
 	  N_("Create a search folder for this subject"),
 	  G_CALLBACK (action_mail_search_folder_from_subject_cb) },
@@ -3004,7 +3004,7 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	  "mail-flag-completed" },
 
 	{ "mail-popup-flag-for-followup",
-	  N_("Mark for Follo_w Up..."),
+	  N_("Mark for Follo_w Up…"),
 	  "mail-flag-for-followup" },
 
 	{ "mail-popup-forward",

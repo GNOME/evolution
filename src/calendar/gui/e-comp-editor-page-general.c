@@ -1447,7 +1447,7 @@ ecep_general_constructed (GObject *object)
 
 	page_general->priv->comp_color = part;
 
-	widget = gtk_button_new_with_mnemonic (C_("ECompEditor", "Atte_ndees..."));
+	widget = gtk_button_new_with_mnemonic (C_("ECompEditor", "Atte_ndees…"));
 	g_object_set (G_OBJECT (widget),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_END,

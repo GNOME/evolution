@@ -4524,7 +4524,7 @@ find_server (ItipView *view,
 
 		view->priv->progress_info_id = itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
-			_("Opening the calendar. Please wait..."));
+			_("Opening the calendar. Please wait…"));
 	} else {
 		link = list;
 		view->priv->progress_info_id = itip_view_add_lower_info_item (

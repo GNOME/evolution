@@ -1648,7 +1648,7 @@ static EPopupMenu ethi_context_menu[] = {
 		N_("Remove This _Column"),
 		G_CALLBACK (ethi_popup_remove_column), 8),
 	E_POPUP_ITEM (
-		N_("Add a C_olumn..."),
+		N_("Add a C_olumn…"),
 		G_CALLBACK (ethi_popup_field_chooser), 0),
 	E_POPUP_SEPARATOR,
 	E_POPUP_ITEM (
@@ -1658,11 +1658,11 @@ static EPopupMenu ethi_context_menu[] = {
 		N_("B_est Fit"),
 		G_CALLBACK (ethi_popup_best_fit), 2),
 	E_POPUP_ITEM (
-		N_("Format Column_s..."),
+		N_("Format Column_s…"),
 		G_CALLBACK (ethi_popup_format_columns), 128),
 	E_POPUP_SEPARATOR,
 	E_POPUP_ITEM (
-		N_("Custo_mize Current View..."),
+		N_("Custo_mize Current View…"),
 		G_CALLBACK (ethi_popup_customize_view), 4),
 	E_POPUP_TERMINATOR
 };

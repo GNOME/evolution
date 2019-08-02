@@ -496,7 +496,7 @@ ivcal_connect_cb (GObject *source_object,
 
 	ici->cal_client = E_CAL_CLIENT (client);
 
-	e_import_status (ici->import, ici->target, _("Importing..."), 0);
+	e_import_status (ici->import, ici->target, _("Importing…"), 0);
 	ici->idle_id = g_idle_add (ivcal_import_items, ici);
 }
 
@@ -1000,7 +1000,7 @@ gc_import_tasks (ECalClient *cal_client,
 		return;
 	}
 
-	e_import_status (ici->ei, ici->target, _("Importing..."), 0);
+	e_import_status (ici->ei, ici->target, _("Importing…"), 0);
 
 	prepare_tasks (ici->icomp, ici->tasks);
 
@@ -1040,7 +1040,7 @@ gc_import_events (ECalClient *cal_client,
 		return;
 	}
 
-	e_import_status (ici->ei, ici->target, _("Importing..."), 0);
+	e_import_status (ici->ei, ici->target, _("Importing…"), 0);
 
 	update_objects (
 		cal_client, ici->icomp, ici->cancellable,

@@ -6734,15 +6734,8 @@ message_list_regen_idle_cb (gpointer user_data)
 	row_count = e_table_model_row_count (E_TABLE_MODEL (adapter));
 
 	if (row_count <= 0) {
-		if (gtk_widget_get_visible (GTK_WIDGET (message_list))) {
-			gchar *txt;
-
-			txt = g_strdup_printf (
-				"%s...", _("Generating message list"));
-			e_tree_set_info_message (E_TREE (message_list), txt);
-			g_free (txt);
-		}
-
+		if (gtk_widget_get_visible (GTK_WIDGET (message_list)))
+			e_tree_set_info_message (E_TREE (message_list), _("Generating message list…"));
 	} else if (regen_data->group_by_threads &&
 		   !message_list->just_set_folder &&
 		   !searching) {

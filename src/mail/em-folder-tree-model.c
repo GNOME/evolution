@@ -1550,7 +1550,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		gtk_tree_store_append (tree_store, &sub, iter);
 		gtk_tree_store_set (
 			tree_store, &sub,
-			COL_STRING_DISPLAY_NAME, _("Loading..."),
+			COL_STRING_DISPLAY_NAME, _("Loading…"),
 			COL_OBJECT_CAMEL_STORE, store,
 			COL_STRING_FULL_NAME, NULL,
 			COL_STRING_ICON_NAME, NULL,
@@ -1927,7 +1927,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	gtk_tree_store_append (tree_store, &iter, &root);
 	gtk_tree_store_set (
 		tree_store, &iter,
-		COL_STRING_DISPLAY_NAME, _("Loading..."),
+		COL_STRING_DISPLAY_NAME, _("Loading…"),
 		COL_OBJECT_CAMEL_STORE, store,
 		COL_STRING_FULL_NAME, NULL,
 		COL_BOOL_LOAD_SUBDIRS, FALSE,

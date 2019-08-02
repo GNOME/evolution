@@ -700,21 +700,21 @@ static GtkActionEntry task_entries[] = {
 
 	{ "task-find",
 	  "edit-find",
-	  N_("_Find in Task..."),
+	  N_("_Find in Task…"),
 	  "<Shift><Control>f",
 	  N_("Search for text in the displayed task"),
 	  G_CALLBACK (action_task_find_cb) },
 
 	{ "task-forward",
 	  "mail-forward",
-	  N_("_Forward as iCalendar..."),
+	  N_("_Forward as iCalendar…"),
 	  "<Control>f",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_forward_cb) },
 
 	{ "task-list-copy",
 	  "edit-copy",
-	  N_("_Copy..."),
+	  N_("_Copy…"),
 	  "<Control>c",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_list_copy_cb) },
@@ -728,7 +728,7 @@ static GtkActionEntry task_entries[] = {
 
 	{ "task-list-manage-groups",
 	  NULL,
-	  N_("_Manage Task List groups..."),
+	  N_("_Manage Task List groups…"),
 	  NULL,
 	  N_("Manage task list groups order and visibility"),
 	  G_CALLBACK (action_task_list_manage_groups_cb) },
@@ -763,7 +763,7 @@ static GtkActionEntry task_entries[] = {
 
 	{ "task-list-rename",
 	  NULL,
-	  N_("_Rename..."),
+	  N_("_Rename…"),
 	  "F2",
 	  N_("Rename the selected task list"),
 	  G_CALLBACK (action_task_list_rename_cb) },
@@ -852,7 +852,7 @@ static EPopupActionEntry task_popup_entries[] = {
 	  "task-list-delete" },
 
 	{ "task-list-popup-manage-groups",
-	  N_("_Manage groups..."),
+	  N_("_Manage groups…"),
 	  "task-list-manage-groups" },
 
 	{ "task-list-popup-properties",
@@ -1036,21 +1036,21 @@ static GtkActionEntry lockdown_printing_entries[] = {
 
 	{ "task-list-print",
 	  "document-print",
-	  N_("Print..."),
+	  N_("Print…"),
 	  "<Control>p",
 	  N_("Print the list of tasks"),
 	  G_CALLBACK (action_task_list_print_cb) },
 
 	{ "task-list-print-preview",
 	  "document-print-preview",
-	  N_("Pre_view..."),
+	  N_("Pre_view…"),
 	  NULL,
 	  N_("Preview the list of tasks to be printed"),
 	  G_CALLBACK (action_task_list_print_preview_cb) },
 
 	{ "task-print",
 	  "document-print",
-	  N_("Print..."),
+	  N_("Print…"),
 	  NULL,
 	  N_("Print the selected task"),
 	  G_CALLBACK (action_task_print_cb) }
@@ -1067,7 +1067,7 @@ static GtkActionEntry lockdown_save_to_disk_entries[] = {
 
 	{ "task-save-as",
 	  "document-save-as",
-	  N_("_Save as iCalendar..."),
+	  N_("_Save as iCalendar…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_save_as_cb) }

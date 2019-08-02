@@ -500,7 +500,7 @@ build_suggestion_menu (ESpellEntry *entry,
 				gtk_widget_show (mi);
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), mi);
 
-				mi = gtk_menu_item_new_with_label (_("More..."));
+				mi = gtk_menu_item_new_with_label (_("More…"));
 				gtk_widget_show (mi);
 				gtk_menu_shell_append (GTK_MENU_SHELL (menu), mi);
 

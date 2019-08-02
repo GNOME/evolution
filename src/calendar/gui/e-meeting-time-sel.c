@@ -540,7 +540,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 		0, 1, 3, 4, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (hbox);
 
-	mts->add_attendees_button = e_dialog_button_new_with_icon ("go-jump", _("Atte_ndees..."));
+	mts->add_attendees_button = e_dialog_button_new_with_icon ("go-jump", _("Atte_ndees…"));
 	gtk_box_pack_start (GTK_BOX (hbox), mts->add_attendees_button, TRUE, TRUE, 6);
 	gtk_widget_show (mts->add_attendees_button);
 	g_signal_connect (

@@ -884,7 +884,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 	item = gtk_separator_menu_item_new ();
 	gtk_menu_shell_append (GTK_MENU_SHELL (submenu), item);
 
-	item = gtk_menu_item_new_with_label (_("Select..."));
+	item = gtk_menu_item_new_with_label (_("Select…"));
 	g_signal_connect (
 		item, "activate",
 		G_CALLBACK (edvti_on_select_zone), time_item);

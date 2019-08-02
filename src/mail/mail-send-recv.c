@@ -190,7 +190,7 @@ receive_cancel (GtkButton *button,
 		if (info->progress_bar != NULL)
 			gtk_progress_bar_set_text (
 				GTK_PROGRESS_BAR (info->progress_bar),
-				_("Canceling..."));
+				_("Canceling…"));
 		info->state = SEND_CANCELLED;
 	}
 	if (info->cancel_button)
@@ -868,7 +868,7 @@ build_dialog (GtkWindow *parent,
 		gtk_progress_bar_set_text (
 			GTK_PROGRESS_BAR (progress_bar),
 			(info->type == SEND_UPDATE) ?
-			_("Updating...") : _("Waiting..."));
+			_("Updating…") : _("Waiting…"));
 		gtk_widget_set_margin_bottom (progress_bar, 12);
 
 		cancel_button = e_dialog_button_new_with_icon ("process-stop", _("_Cancel"));
@@ -949,7 +949,7 @@ build_dialog (GtkWindow *parent,
 		gtk_progress_bar_set_show_text (
 			GTK_PROGRESS_BAR (progress_bar), TRUE);
 		gtk_progress_bar_set_text (
-			GTK_PROGRESS_BAR (progress_bar), _("Waiting..."));
+			GTK_PROGRESS_BAR (progress_bar), _("Waiting…"));
 		gtk_widget_set_margin_bottom (progress_bar, 12);
 
 		cancel_button = e_dialog_button_new_with_icon ("process-stop", _("_Cancel"));
@@ -1467,7 +1467,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 
 	get_folders (m->store, m->folders, m->finfo);
 
-	camel_operation_push_message (m->info->cancellable, _("Updating..."));
+	camel_operation_push_message (m->info->cancellable, _("Updating…"));
 
 	test_should_delete_junk_or_expunge (m->store, &delete_junk, &expunge);
 

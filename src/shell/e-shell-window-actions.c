@@ -881,7 +881,7 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "import",
 	  "stock_mail-import",
-	  N_("I_mport..."),
+	  N_("I_mport…"),
 	  NULL,
 	  N_("Import data from other programs"),
 	  G_CALLBACK (action_import_cb) },
@@ -923,7 +923,7 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "search-advanced",
 	  NULL,
-	  N_("_Advanced Search..."),
+	  N_("_Advanced Search…"),
 	  NULL,
 	  N_("Construct a more advanced search"),
 	  G_CALLBACK (action_search_advanced_cb) },
@@ -937,7 +937,7 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "search-edit",
 	  NULL,
-	  N_("_Edit Saved Searches..."),
+	  N_("_Edit Saved Searches…"),
 	  NULL,
 	  N_("Manage your saved searches"),
 	  G_CALLBACK (action_search_edit_cb) },
@@ -958,7 +958,7 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "search-save",
 	  NULL,
-	  N_("_Save Search..."),
+	  N_("_Save Search…"),
 	  NULL,
 	  N_("Save the current search parameters"),
 	  G_CALLBACK (action_search_save_cb) },
@@ -979,7 +979,7 @@ static GtkActionEntry shell_entries[] = {
 
 	{ "submit-bug",
 	  NULL,
-	  N_("Submit _Bug Report..."),
+	  N_("Submit _Bug Report…"),
 	  NULL,
 	  N_("Submit a bug report using Bug Buddy"),
 	  G_CALLBACK (action_submit_bug_cb) },
@@ -1182,7 +1182,7 @@ static GtkActionEntry shell_gal_view_entries[] = {
 
 	{ "gal-save-custom-view",
 	  NULL,
-	  N_("Save Custom View..."),
+	  N_("Save Custom View…"),
 	  NULL,
 	  N_("Save current custom view"),
 	  G_CALLBACK (action_gal_save_custom_view_cb) },
@@ -1211,7 +1211,7 @@ static GtkActionEntry shell_lockdown_print_setup_entries[] = {
 
 	{ "page-setup",
 	  "document-page-setup",
-	  N_("Page Set_up..."),
+	  N_("Page Set_up…"),
 	  NULL,
 	  N_("Change the page settings for your current printer"),
 	  G_CALLBACK (action_page_setup_cb) }

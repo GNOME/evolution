@@ -189,7 +189,7 @@ static GtkActionEntry internal_mailto_entries[] = {
 
 	{ "contact-send-message",
 	  "mail-message-new",
-	  N_("_Send New Message To..."),
+	  N_("_Send New Message To…"),
 	  NULL,
 	  N_("Send a mail message to this address"),
 	  G_CALLBACK (action_contact_send_message_cb) }

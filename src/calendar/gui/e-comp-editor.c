@@ -607,7 +607,7 @@ ece_save_component_done (gpointer ptr)
 			sd->alert_arg_0 = e_util_get_source_full_name (registry, e_client_get_source (E_CLIENT (sd->target_client)));
 
 			activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (sd->comp_editor),
-				_("Sending notifications to attendees..."), sd->alert_ident, sd->alert_arg_0,
+				_("Sending notifications to attendees…"), sd->alert_ident, sd->alert_arg_0,
 				ece_prepare_send_component_thread, sd, ece_prepare_send_component_done);
 
 			if (activity)
@@ -982,7 +982,7 @@ ece_save_component (ECompEditor *comp_editor,
 		e_client_get_source (E_CLIENT (sd->target_client)));
 
 	activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (comp_editor),
-		_("Saving changes..."), "calendar:failed-create-event", source_display_name,
+		_("Saving changes…"), "calendar:failed-create-event", source_display_name,
 		ece_save_component_thread, sd, ece_save_component_done);
 
 	if (activity)
@@ -2031,14 +2031,14 @@ e_comp_editor_constructed (GObject *object)
 
 		{ "print",
 		  "document-print",
-		  N_("_Print..."),
+		  N_("_Print…"),
 		  "<Control>p",
 		  NULL,
 		  G_CALLBACK (action_print_cb) },
 
 		{ "print-preview",
 		  "document-print-preview",
-		  N_("Pre_view..."),
+		  N_("Pre_view…"),
 		  NULL,
 		  NULL,
 		  G_CALLBACK (action_print_preview_cb) },

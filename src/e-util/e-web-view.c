@@ -437,7 +437,7 @@ static GtkActionEntry mailto_entries[] = {
 
 	{ "send-message",
 	  "mail-message-new",
-	  N_("_Send New Message To..."),
+	  N_("_Send New Message To…"),
 	  NULL,
 	  N_("Send a mail message to this address"),
 	  G_CALLBACK (action_send_message_cb) }
@@ -454,7 +454,7 @@ static GtkActionEntry image_entries[] = {
 
 	{ "image-save",
 	  "document-save",
-	  N_("Save _Image..."),
+	  N_("Save _Image…"),
 	  "<Control>s",
 	  N_("Save the image to a file"),
 	  G_CALLBACK (action_image_save_cb) }

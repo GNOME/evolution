@@ -183,7 +183,7 @@ set_empty_message (EMinicardView *view)
 	}
 
 	if (searching) {
-		empty_message = _("\n\nSearching for the Contacts...");
+		empty_message = _("\n\nSearching for the Contacts…");
 	} else if (editable) {
 		if (perform_initial_query)
 			empty_message = _("\n\nSearch for the Contact\n\n"

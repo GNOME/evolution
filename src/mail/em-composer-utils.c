@@ -826,7 +826,7 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 	cancellable = e_activity_get_cancellable (activity);
 	/* This message is never removed from the camel operation, otherwise the GtkInfoBar
 	   hides itself and the user sees no feedback. */
-	camel_operation_push_message (cancellable, "%s", _("Waiting for attachments to load..."));
+	camel_operation_push_message (cancellable, "%s", _("Waiting for attachments to load…"));
 
 	async_context->num_loading_handler_id = e_signal_connect_notify (store, "notify::num-loading",
 		G_CALLBACK (composer_num_loading_notify_cb), async_context);

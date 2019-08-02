@@ -209,7 +209,7 @@ startup_wizard_load_accounts (EStartupWizard *extension)
 	g_main_context_push_thread_default (context);
 
 	activity = e_activity_new ();
-	e_activity_set_text (activity, _("Loading accounts..."));
+	e_activity_set_text (activity, _("Loading accounts…"));
 
 	/* Drop our normal (non-toggle) EActivity reference from an
 	 * idle callback.  If nothing else references the EActivity

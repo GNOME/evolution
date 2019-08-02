@@ -305,7 +305,7 @@ static GtkActionEntry standard_entries[] = {
 
 	{ "open-with",
 	  NULL,
-	  N_("Open With Other Application..."),
+	  N_("Open With Other Application…"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_open_with_cb) },
@@ -338,7 +338,7 @@ static GtkActionEntry editable_entries[] = {
 
 	{ "add",
 	  "list-add",
-	  N_("A_dd Attachment..."),
+	  N_("A_dd Attachment…"),
 	  NULL,
 	  N_("Attach a file"),
 	  G_CALLBACK (action_add_cb) },

@@ -244,7 +244,7 @@ vcard_import_contacts (gpointer data)
 		return FALSE;
 	} else {
 		e_import_status (
-			gci->import, gci->target, _("Importing..."),
+			gci->import, gci->target, _("Importing…"),
 			gci->count * 100 / gci->total);
 		return TRUE;
 	}
