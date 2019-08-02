@@ -325,6 +325,8 @@
 						"   fi",
 						"",
 						"   /app/bin/evolution.bin \"$@\"",
+						"",
+						"   pkill -TERM gpg-agent",
 						"fi"
 					],
 					"dest-filename": "flatpak-evolution-wrapper.sh.in"
