@@ -719,7 +719,7 @@ ece_event_setup_ui (ECompEditorEvent *event_editor)
 		{ "all-day-event",
 		  "stock_new-24h-appointment",
 		  N_("All _Day Event"),
-		  NULL,
+		  "<Control>Y",
 		  N_("Toggles whether to have All Day Event"),
 		  NULL,
 		  FALSE },
