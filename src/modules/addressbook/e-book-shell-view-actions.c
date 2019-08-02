@@ -1013,7 +1013,7 @@ static GtkActionEntry contact_entries[] = {
 	{ "address-book-copy",
 	  "edit-copy",
 	  N_("Co_py All Contacts To..."),
-	  "<Control>c",
+	  NULL,
 	  N_("Copy the contacts of the selected address book to another"),
 	  G_CALLBACK (action_address_book_copy_cb) },
 
