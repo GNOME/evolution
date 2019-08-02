@@ -766,7 +766,7 @@ ect_draw (ECellView *ecell_view,
 			e_table_model_free_value (ecell_view->e_table_model, ect->color_column, color_spec);
 	}
 
-	if (!color_overwritten && !selected && ect->bg_color_column != -1) {
+	if (!color_overwritten && ect->bg_color_column != -1) {
 		gchar *color_spec;
 
 		/* if the background color is overwritten and the text color is not, then
