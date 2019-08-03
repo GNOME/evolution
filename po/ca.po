@@ -3388,7 +3388,7 @@ msgid ""
 "https://."
 msgstr ""
 "El prefix d’un URL a usar per a fer cerques a la web. La selecció de text "
-"actual s'escapa i s'afegeix a aquesta cadena. La URI ha de començar amb "
+"actual s'escapa i s'afegeix a aquesta cadena. L'URI ha de començar amb "
 "https://."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:1
@@ -4535,7 +4535,7 @@ msgstr "Sra."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:4
 msgid "Miss"
-msgstr "Srta"
+msgstr "Srta."
 
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:5
 msgid "Dr."
@@ -16744,7 +16744,7 @@ msgstr "Estil de la res_posta:"
 
 #: ../src/mail/e-mail-config-composing-page.c:495
 msgid "Lang_uage:"
-msgstr "Lleng_ua"
+msgstr "Lleng_ua:"
 
 #: ../src/mail/e-mail-config-composing-page.c:498
 #: ../src/mail/e-mail-config-composing-page.c:508
@@ -19316,11 +19316,11 @@ msgid_plural ""
 msgstr[0] ""
 "La regla de filtre «%s» s'ha modificat per al compte de la carpeta "
 "suprimida\n"
-"«%s»"
+"«%s»."
 msgstr[1] ""
 "Les regles del filtres «%s» s'han modificat per al compte de les carpetes "
 "suprimides\n"
-"«%s»"
+"«%s»."
 
 #: ../src/mail/mail-autofilter.c:560
 msgid "Open Message Filters"
@@ -20048,7 +20048,7 @@ msgstr ""
 "No s'ha pogut obrir la carpeta d'esborranys d'aquest compte. Voleu fer "
 "servir la carpeta d'esborranys del sistema?\n"
 "\n"
-"L'error fou &quot;{0}&quot;."
+"L'error fou «{0}»."
 
 #: ../src/mail/mail.error.xml.h:37
 msgid "Use _Default"
