@@ -1,3 +1,32 @@
+Evolution 3.33.90 2019-08-05
+----------------------------
+
+Bug Fixes:
+	I#549 - Remove shortcut for "Copy all contacts to…" in Contacts view (Milan Crha)
+	I#564 - [Flatpak] The bwrap process keeps running after quit (Milan Crha)
+	M!34 - Show attendees on selecting “Assign Task” in the Tasks bar (Дилян Палаузов)
+	M!39 - ECell::draw: always display text in contrasting color (Дилян Палаузов)
+	M!40 - [ECompEditor] Switch between 'All Day Event/Task' with Control+Y (Дилян Палаузов)
+	eds-M!28 - Include LDFLAGS in gtkdoc-scangobj command line (Ting-Wei Lan)
+
+Miscellaneous:
+	[Flatpak] Make the .json files valid (Milan Crha)
+	[Flatpak] Change reference to bogofilter sources (Milan Crha)
+	Add refresh interval settings for CardDAV address books (Milan Crha)
+	killev: Search for killall/pkill in runtime, rather than in compile time (Milan Crha)
+	Use Unicode triple-dots in translatable strings (Milan Crha)
+	help: Replace an external redirect link by its direct link (Andre Klapper)
+	help: Fix xmlns for XInclude (must be http) so pages validate (Andre Klapper)
+	help: Cover formatting of received HTML mail, e.g. showing Plain Text (Andre Klapper)
+
+Translations:
+	Andika Triwidada (id)
+	Stas Solovey (ru)
+	Daniel Mustieles (es)
+	Asier Sarasua Garmendia (eu)
+	Kjartan Maraas (nb)
+	Jordi Mas (ca)
+
 Evolution 3.33.4 2019-07-15
 ---------------------------
 
