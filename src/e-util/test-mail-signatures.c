@@ -87,6 +87,16 @@ signature_combo_changed_cb (EMailSignatureComboBox *combo_box,
 		g_object_ref (web_view));
 }
 
+static gboolean
+window_delete_event_cb (GtkWidget *widget,
+			GdkEvent *event,
+			gpointer user_data)
+{
+	gtk_main_quit ();
+
+	return FALSE;
+}
+
 gint
 main (gint argc,
       gchar **argv)
@@ -118,7 +128,7 @@ main (gint argc,
 
 	g_signal_connect (
 		widget, "delete-event",
-		G_CALLBACK (gtk_main_quit), NULL);
+		G_CALLBACK (window_delete_event_cb), NULL);
 
 	container = widget;
 

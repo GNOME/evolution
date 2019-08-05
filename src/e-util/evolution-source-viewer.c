@@ -1148,6 +1148,16 @@ e_source_viewer_build_display_tree (ESourceViewer *viewer)
 	return root;
 }
 
+static gboolean
+window_delete_event_cb (GtkWidget *widget,
+			GdkEvent *event,
+			gpointer user_data)
+{
+	gtk_main_quit ();
+
+	return FALSE;
+}
+
 gint
 main (gint argc,
       gchar **argv)
@@ -1171,7 +1181,7 @@ main (gint argc,
 
 	g_signal_connect (
 		viewer, "delete-event",
-		G_CALLBACK (gtk_main_quit), NULL);
+		G_CALLBACK (window_delete_event_cb), NULL);
 
 	gtk_widget_show (viewer);
 

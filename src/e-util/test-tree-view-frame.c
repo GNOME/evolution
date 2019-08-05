@@ -13,7 +13,7 @@ delete_event_cb (GtkWidget *widget,
 {
 	gtk_main_quit ();
 
-	return TRUE;
+	return FALSE;
 }
 
 static void

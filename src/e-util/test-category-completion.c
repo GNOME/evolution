@@ -17,6 +17,16 @@
 #include <e-util/e-util.h>
 
 static gboolean
+window_delete_event_cb (GtkWidget *widget,
+			GdkEvent *event,
+			gpointer user_data)
+{
+	gtk_main_quit ();
+
+	return FALSE;
+}
+
+static gboolean
 on_idle_create_widget (void)
 {
 	GtkWidget *window;
@@ -29,7 +39,7 @@ on_idle_create_widget (void)
 
 	g_signal_connect (
 		window, "delete-event",
-		G_CALLBACK (gtk_main_quit), NULL);
+		G_CALLBACK (window_delete_event_cb), NULL);
 
 	vgrid = g_object_new (
 		GTK_TYPE_GRID,

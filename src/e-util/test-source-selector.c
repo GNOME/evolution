@@ -65,6 +65,19 @@ selection_changed_callback (ESourceSelector *selector)
 }
 
 static void
+unset_view_and_unref_client (gpointer ptr)
+{
+	EClient *client = ptr;
+
+	g_return_if_fail (E_IS_CLIENT (client));
+
+	/* To have it free the view and unref its own reference to 'client' */
+	g_object_set_data (G_OBJECT (client), VIEW_KEY, NULL);
+
+	g_object_unref (client);
+}
+
+static void
 enable_widget_if_opened_cb (ESourceSelector *selector,
                             GtkWidget *widget)
 {
@@ -795,7 +808,7 @@ create_page (ESourceRegistry *registry,
 		(GHashFunc) g_direct_hash,
 		(GEqualFunc) g_direct_equal,
 		(GDestroyNotify) g_object_unref,
-		(GDestroyNotify) g_object_unref);
+		(GDestroyNotify) unset_view_and_unref_client);
 	g_object_set_data_full (
 		G_OBJECT (selector),
 		OPENED_KEY,
@@ -821,6 +834,16 @@ create_page (ESourceRegistry *registry,
 	return GTK_WIDGET (grid);
 }
 
+static gboolean
+window_delete_event_cb (GtkWidget *widget,
+			GdkEvent *event,
+			gpointer user_data)
+{
+	gtk_main_quit ();
+
+	return FALSE;
+}
+
 static gint
 on_idle_create_widget (ESourceRegistry *registry)
 {
@@ -831,7 +854,7 @@ on_idle_create_widget (ESourceRegistry *registry)
 
 	g_signal_connect (
 		window, "delete-event",
-		G_CALLBACK (gtk_main_quit), NULL);
+		G_CALLBACK (window_delete_event_cb), NULL);
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);

@@ -71,14 +71,13 @@ add_pages (EPreferencesWindow *preferences_window)
 		create_page_two, 2);
 }
 
-static gint
-delete_event_callback (GtkWidget *widget,
-                       GdkEventAny *event,
-                       gpointer data)
+static void
+window_notify_visible_cb (GObject *object,
+			  GParamSpec *param,
+			  gpointer user_data)
 {
-	gtk_main_quit ();
-
-	return TRUE;
+	if (!gtk_widget_get_visible (GTK_WIDGET (object)))
+		gtk_main_quit ();
 }
 
 gint
@@ -93,8 +92,8 @@ main (gint argc,
 	gtk_window_set_default_size (GTK_WINDOW (window), 400, 300);
 
 	g_signal_connect (
-		window, "delete-event",
-		G_CALLBACK (delete_event_callback), NULL);
+		window, "notify::visible",
+		G_CALLBACK (window_notify_visible_cb), NULL);
 
 	add_pages (E_PREFERENCES_WINDOW (window));
 	e_preferences_window_setup (E_PREFERENCES_WINDOW (window));
@@ -103,6 +102,7 @@ main (gint argc,
 
 	gtk_main ();
 
+	gtk_widget_destroy (window);
 	e_misc_util_free_global_memory ();
 
 	return 0;
