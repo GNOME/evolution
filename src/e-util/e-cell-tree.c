@@ -102,16 +102,32 @@ visible_depth_of_node (ETableModel *model,
  * if the path is not expandable, then max_width needs to change as
  * well. */
 static gint
-offset_of_node (ETableModel *table_model,
-                gint row)
+offset_of_node (ECellTreeView *tree_view,
+		ETableModel *table_model,
+		gint row,
+		gint view_col)
 {
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (table_model, row);
 	ETreePath path = e_cell_tree_get_node (table_model, row);
 	gint visible_depth;
 
 	visible_depth = visible_depth_of_node (table_model, row);
-	if (visible_depth >= 0 ||
-	    e_tree_model_node_is_expandable (tree_model, path)) {
+	if (visible_depth >= 0 || e_tree_model_node_is_expandable (tree_model, path)) {
+		if (visible_depth > 0) {
+			gint width = 0;
+
+			e_table_item_get_cell_geometry (
+				tree_view->cell_view.e_table_item_view,
+				&row, &view_col, NULL, NULL, &width, NULL);
+
+			if (width > 0) {
+				/* Use up to 70% of the column width */
+				gint max_depth = (width * 70 / 100) / INDENT_AMOUNT;
+
+				visible_depth = MIN (visible_depth, max_depth);
+			}
+		}
+
 		return (MAX (visible_depth, 1)) * INDENT_AMOUNT;
 	} else {
 		return 0;
@@ -287,7 +303,7 @@ ect_draw (ECellView *ecell_view,
 
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 
-		offset = offset_of_node (ecell_view->e_table_model, row);
+		offset = offset_of_node (tree_view, ecell_view->e_table_model, row, view_col);
 		subcell_offset = offset;
 
 		/*
@@ -432,7 +448,7 @@ ect_event (ECellView *ecell_view,
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 	ETreeTableAdapter *etta = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 	ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-	gint offset = offset_of_node (ecell_view->e_table_model, row);
+	gint offset = offset_of_node (tree_view, ecell_view->e_table_model, row, view_col);
 	gint result;
 
 	layout = GTK_LAYOUT (tree_view->canvas);
@@ -578,7 +594,7 @@ ect_max_width (ECellView *ecell_view,
 		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 #endif
 
-		offset = offset_of_node (ecell_view->e_table_model, row);
+		offset = offset_of_node (tree_view, ecell_view->e_table_model, row, view_col);
 		subcell_offset = offset;
 
 		width = subcell_offset;
@@ -674,7 +690,7 @@ ect_print (ECellView *ecell_view,
 		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 		ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-		gint offset = offset_of_node (ecell_view->e_table_model, row);
+		gint offset = offset_of_node (tree_view, ecell_view->e_table_model, row, view_col);
 		gint subcell_offset = offset;
 		gboolean expandable = e_tree_model_node_is_expandable (tree_model, node);
 
