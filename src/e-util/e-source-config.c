@@ -1428,33 +1428,6 @@ e_source_config_add_refresh_interval (ESourceConfig *config,
 		G_BINDING_SYNC_CREATE);
 }
 
-void
-e_source_config_add_secure_connection (ESourceConfig *config,
-                                       ESource *scratch_source)
-{
-	GtkWidget *widget;
-	ESourceExtension *extension;
-	const gchar *extension_name;
-	const gchar *label;
-
-	g_return_if_fail (E_IS_SOURCE_CONFIG (config));
-	g_return_if_fail (E_IS_SOURCE (scratch_source));
-
-	extension_name = E_SOURCE_EXTENSION_SECURITY;
-	extension = e_source_get_extension (scratch_source, extension_name);
-
-	label = _("Use a secure connection");
-	widget = gtk_check_button_new_with_label (label);
-	e_source_config_insert_widget (config, scratch_source, NULL, widget);
-	gtk_widget_show (widget);
-
-	e_binding_bind_property (
-		extension, "secure",
-		widget, "active",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-}
-
 static gboolean
 secure_to_port_cb (GBinding *binding,
                    const GValue *source_value,
