@@ -538,6 +538,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 	l = gtk_label_new (NULL);
 	tmp = g_markup_printf_escaped ("<b>%s</b>", summary);
 	gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (l), 20);
 	gtk_label_set_markup (GTK_LABEL (l), tmp);
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 	w = gtk_event_box_new ();

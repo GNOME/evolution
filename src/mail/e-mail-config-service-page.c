@@ -538,6 +538,7 @@ mail_config_service_page_constructed (GObject *object)
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 1, 2, 1);
 	page->priv->desc_label = widget;  /* not referenced */

@@ -1870,6 +1870,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	tmp = g_markup_printf_escaped ("<b>%s</b>", tmp1);
 	label = gtk_label_new (NULL);
 	gtk_label_set_line_wrap ((GtkLabel *) label, TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (label), 20);
 	gtk_label_set_markup ((GtkLabel *) label, tmp);
 
 	g_free (tmp1);
@@ -1921,6 +1922,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 		gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.0);
 		gtk_label_set_markup ((GtkLabel *) label, tmp);
 		gtk_label_set_line_wrap ((GtkLabel *) label, TRUE);
+		gtk_label_set_width_chars (GTK_LABEL (label), 20);
 		gtk_label_set_max_width_chars ((GtkLabel *) label, 80);
 		hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);

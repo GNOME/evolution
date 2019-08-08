@@ -810,6 +810,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_box_pack_start (GTK_BOX (vbox2), label1, FALSE, TRUE, 0);
 	gtk_label_set_justify (GTK_LABEL (label1), GTK_JUSTIFY_CENTER);
 	gtk_label_set_line_wrap (GTK_LABEL (label1), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (label1), 20);
 
 	header_configuration_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
 	gtk_widget_show (header_configuration_box);

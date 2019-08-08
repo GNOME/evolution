@@ -144,6 +144,7 @@ mail_account_manager_build_goa_message (EMailAccountManager *manager)
 		_("This account was created through "
 		"the Online Accounts service."));
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
@@ -231,6 +232,7 @@ mail_account_manager_build_uoa_message (EMailAccountManager *manager)
 		_("This account was created through "
 		"the Online Accounts service."));
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);

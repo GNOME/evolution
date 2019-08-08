@@ -511,6 +511,7 @@ ep_ask_password (EPassMsg *msg)
 	/* Password Label */
 	widget = gtk_label_new (NULL);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_label_set_markup (GTK_LABEL (widget), msg->prompt);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	g_object_set (

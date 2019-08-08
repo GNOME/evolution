@@ -261,6 +261,7 @@ import_assistant_file_page_init (EImportAssistant *import_assistant)
 
 	widget = gtk_label_new (text);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -344,6 +345,7 @@ import_assistant_destination_page_init (EImportAssistant *import_assistant)
 
 	widget = gtk_label_new (text);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -369,6 +371,7 @@ import_assistant_type_page_init (EImportAssistant *import_assistant)
 
 	widget = gtk_label_new (text);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -408,6 +411,7 @@ import_assistant_selection_page_init (EImportAssistant *import_assistant)
 
 	widget = gtk_label_new (text);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
 
@@ -458,6 +462,7 @@ import_assistant_simple_page_init (EImportAssistant *import_assistant)
 
 	widget = gtk_label_new ("");
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, TRUE, 0);
 	gtk_widget_show (widget);
 	import_assistant->priv->simple_page.actionlabel = widget;
@@ -541,6 +546,7 @@ prepare_intelligent_page (GtkAssistant *assistant,
 
 		widget = gtk_label_new (text);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+		gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 		gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
 		gtk_widget_show (widget);
 
@@ -1339,6 +1345,7 @@ import_assistant_construct (EImportAssistant *import_assistant)
 		/* Start page */
 		page = gtk_label_new ("");
 		gtk_label_set_line_wrap (GTK_LABEL (page), TRUE);
+		gtk_label_set_width_chars (GTK_LABEL (page), 20);
 		gtk_misc_set_alignment (GTK_MISC (page), 0.0, 0.5);
 		gtk_misc_set_padding (GTK_MISC (page), 12, 12);
 		gtk_label_set_text (GTK_LABEL (page), _(

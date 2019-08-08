@@ -703,6 +703,7 @@ task_table_query_tooltip (GtkWidget *widget,
 	l = gtk_label_new (NULL);
 	tmp = g_markup_printf_escaped ("<b>%s</b>", summary);
 	gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
+	gtk_label_set_width_chars (GTK_LABEL (l), 20);
 	gtk_label_set_markup (GTK_LABEL (l), tmp);
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 	w = gtk_event_box_new ();
@@ -760,6 +761,7 @@ task_table_query_tooltip (GtkWidget *widget,
 		gtk_misc_set_alignment ((GtkMisc *) l, 0.0, 0.0);
 		gtk_label_set_markup ((GtkLabel *) l, tmp);
 		gtk_label_set_line_wrap ((GtkLabel *) l, TRUE);
+		gtk_label_set_width_chars (GTK_LABEL (l), 20);
 		gtk_label_set_max_width_chars ((GtkLabel *) l, 80);
 		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
 		g_free (tmp);
@@ -893,6 +895,7 @@ task_table_query_tooltip (GtkWidget *widget,
 	if (tmp2->len) {
 		l = gtk_label_new (tmp2->str);
 		gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
+		gtk_label_set_width_chars (GTK_LABEL (l), 20);
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
 

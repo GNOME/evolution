@@ -1005,6 +1005,7 @@ main (gint argc,
 			"on the amount of data in your account."), NULL);
 		widget = gtk_label_new (markup);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+		gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 		gtk_widget_show (widget);
 		g_free (markup);
