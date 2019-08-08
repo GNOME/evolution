@@ -1410,7 +1410,12 @@ cal_comp_util_compare_time_with_today (const ICalTime *time_tt)
 		return 0;
 
 	if (i_cal_time_is_date (tt)) {
-		now_tt = i_cal_time_new_today ();
+		time_t now;
+
+		/* Compare with localtime, not with UTC */
+		now = time (NULL);
+		now_tt = e_cal_util_tm_to_icaltime (localtime (&now), TRUE);
+
 		res = i_cal_time_compare_date_only (tt, now_tt);
 	} else {
 		now_tt = i_cal_time_new_current_with_zone (i_cal_time_get_timezone (tt));
