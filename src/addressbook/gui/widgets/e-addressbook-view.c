@@ -50,8 +50,6 @@
 
 #define d(x)
 
-static void	status_message			(EAddressbookView *view,
-						 const gchar *status, gint percent);
 static void	search_result			(EAddressbookView *view,
 						 const GError *error);
 static void	folder_bar_message		(EAddressbookView *view,
@@ -947,9 +945,6 @@ e_addressbook_view_new (EShellView *shell_view,
 	view = E_ADDRESSBOOK_VIEW (widget);
 
 	g_signal_connect_swapped (
-		view->priv->model, "status_message",
-		G_CALLBACK (status_message), view);
-	g_signal_connect_swapped (
 		view->priv->model, "search_result",
 		G_CALLBACK (search_result), view);
 	g_signal_connect_swapped (
@@ -1076,40 +1071,6 @@ e_addressbook_view_get_paste_target_list (EAddressbookView *view)
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
 
 	return view->priv->paste_target_list;
-}
-
-static void
-status_message (EAddressbookView *view,
-                const gchar *status,
-                gint percent)
-{
-	EActivity *activity;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-
-	activity = view->priv->activity;
-	shell_view = e_addressbook_view_get_shell_view (view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	if (status == NULL || *status == '\0') {
-		if (activity != NULL) {
-			view->priv->activity = NULL;
-			e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
-			g_object_unref (activity);
-		}
-
-	} else if (activity == NULL) {
-		activity = e_activity_new ();
-		view->priv->activity = activity;
-		e_activity_set_text (activity, status);
-		if (percent >= 0)
-			e_activity_set_percent (activity, percent);
-		e_shell_backend_add_activity (shell_backend, activity);
-	} else {
-		e_activity_set_text (activity, status);
-		if (percent >= 0)
-			e_activity_set_percent (activity, percent);
-	}
 }
 
 static void

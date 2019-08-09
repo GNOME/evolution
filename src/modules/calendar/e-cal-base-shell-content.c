@@ -133,15 +133,21 @@ cal_base_shell_content_view_state_changed_cb (ECalDataModel *data_model,
 
 	if (state == E_CAL_DATA_MODEL_VIEW_STATE_START ||
 	    state == E_CAL_DATA_MODEL_VIEW_STATE_PROGRESS) {
-		e_source_selector_set_source_is_busy (selector, source, TRUE);
+		e_source_selector_set_source_is_busy (selector, source, state == E_CAL_DATA_MODEL_VIEW_STATE_START || (message && *message) || percent > 0);
 
-		if (message) {
-			gchar *tooltip;
+		if (message && *message) {
+			gchar *tooltip = NULL;
 
-			/* Translators: This is a running activity whose percent complete is known. */
-			tooltip = g_strdup_printf (_("%s (%d%% complete)"), message, percent);
-			e_source_selector_set_source_tooltip (selector, source, tooltip);
+			if (percent > 0) {
+				/* Translators: This is a running activity whose percent complete is known. */
+				tooltip = g_strdup_printf (_("%s (%d%% complete)"), message, percent);
+			}
+
+			e_source_selector_set_source_tooltip (selector, source, tooltip ? tooltip : message);
+
 			g_free (tooltip);
+		} else {
+			e_source_selector_set_source_tooltip (selector, source, NULL);
 		}
 	} else {
 		e_source_selector_set_source_is_busy (selector, source, FALSE);

@@ -305,6 +305,46 @@ exit:
 }
 
 static void
+model_status_message_cb (EAddressbookModel *model,
+			 const gchar *message,
+			 gint percent,
+			 gpointer user_data)
+{
+	EShellView *shell_view = user_data;
+	EBookClient *book_client;
+	ESource *source;
+	ESourceSelector *selector;
+
+	g_return_if_fail (E_IS_ADDRESSBOOK_MODEL (model));
+	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (shell_view));
+
+	book_client = e_addressbook_model_get_client (model);
+	source = e_client_get_source (E_CLIENT (book_client));
+
+	if (!source)
+		return;
+
+	selector = e_book_shell_sidebar_get_selector (E_BOOK_SHELL_SIDEBAR (e_shell_view_get_shell_sidebar (shell_view)));
+
+	if (message && *message) {
+		gchar *tooltip = NULL;
+
+		if (percent > 0) {
+			/* Translators: This is a running activity whose percent complete is known. */
+			tooltip = g_strdup_printf (_("%s (%d%% complete)"), message, percent);
+		}
+
+		e_source_selector_set_source_is_busy (selector, source, TRUE);
+		e_source_selector_set_source_tooltip (selector, source, tooltip ? tooltip : message);
+
+		g_free (tooltip);
+	} else {
+		e_source_selector_set_source_is_busy (selector, source, FALSE);
+		e_source_selector_set_source_tooltip (selector, source, NULL);
+	}
+}
+
+static void
 book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
                                           ESourceSelector *selector)
 {
@@ -384,6 +424,10 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 			model, "contacts-removed",
 			G_CALLBACK (contacts_removed),
 			book_shell_view, G_CONNECT_SWAPPED);
+
+		g_signal_connect_object (
+			model, "status-message",
+			G_CALLBACK (model_status_message_cb), book_shell_view, 0);
 
 		e_signal_connect_notify_object (
 			model, "notify::query",
