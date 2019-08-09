@@ -10,8 +10,8 @@
 msgid ""
 msgstr "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-07-23 18:18+0000\n"
-"PO-Revision-Date: 2019-07-25 10:00+0100\n"
+"POT-Creation-Date: 2019-08-02 11:50+0000\n"
+"PO-Revision-Date: 2019-08-09 10:00+0100\n"
 "Last-Translator: Asier Sarasua Garmendia <asier.sarasua@gmail.com>\n"
 "Language-Team: Basque <librezale@librezale.eus>\n"
 "Language: eu\n"
@@ -201,15 +201,15 @@ msgstr "Direktorioa oroigarrien audioko fitxategiak gordetzeko"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
 msgid "Birthday and anniversary reminder value"
-msgstr "Urtebetetze eta urteurrenen gogorarazlearen balioa"
+msgstr "Urtebetetze eta urteurrenen oroigarriaren balioa"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
 msgid "Number of units for determining a birthday or anniversary reminder"
-msgstr "Urtebetetze edo urteurren bat zehazteko unitate kopurua"
+msgstr "Jaiotegun eta urteurrenaren oroigarria zehazteko unitate kopurua"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
 msgid "Birthday and anniversary reminder units"
-msgstr "Urtebetetze eta urteurrenen gogorarazlearen unitateak"
+msgstr "Urtebetetze eta urteurrenen oroigarriaren unitateak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:6
 msgid ""
@@ -404,19 +404,19 @@ msgstr "Oroigarri lehenetsiaren unitateak: “minutes“ (minutuak), “hours“
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid "Show categories field in the event/meeting/task editor"
-msgstr "Erakutsi Kategoriak eremua gertaeren/bileren/zereginen editorean"
+msgstr "Erakutsi kategorien eremua gertaeren/bileren/zereginen editorean"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid "Whether to show categories field in the event/meeting editor"
-msgstr "Kategoriak eremua gertaeren/bileren editorean erakutsiko den ala ez."
+msgstr "Kategorien eremua gertaeren/bileren editorean erakutsiko den ala ez."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Show Role field in the event/task/meeting editor"
-msgstr "Erakutsi Araua eremua gertaeren/bileren/zereginen editorean"
+msgstr "Erakutsi arauen eremua gertaeren/bileren/zereginen editorean"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr "Araua eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
+msgstr "Arauen eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -428,27 +428,27 @@ msgstr "RSPV eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez.
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
 msgid "Show status field in the event/task/meeting editor"
-msgstr "Erakutsi Egoera eremua gertaeren/bileren/zereginen editorea"
+msgstr "Erakutsi egoeraren eremua gertaeren/bileren/zereginen editorea"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 msgid "Whether to show status field in the event/task/meeting editor"
-msgstr "Egoera eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
+msgstr "Egoeraren eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
 msgid "Show timezone field in the event/meeting editor"
-msgstr "Erakutsi Ordu-zona eremua gertaeren/bileren editorean"
+msgstr "Erakutsi ordu-zonaren eremua gertaeren/bileren editorean"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Whether to show timezone field in the event/meeting editor"
-msgstr "Ordu-zona eremua gertaeren/bileren editorean erakutsiko den ala ez."
+msgstr "Ordu-zonaren eremua gertaeren/bileren editorean erakutsiko den ala ez."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
 msgid "Show type field in the event/task/meeting editor"
-msgstr "Erakutsi Mota eremua gertaeren/bileren/zereginen editorean"
+msgstr "Erakutsi motaren eremua gertaeren/bileren/zereginen editorean"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Whether to show type field in the event/task/meeting editor"
-msgstr "Mota eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
+msgstr "Motaren eremua gertaeren/bileren/zereginen editorean erakutsiko den ala ez."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Hide completed tasks"
@@ -779,7 +779,7 @@ msgstr "Am/pm erabili beharrean orduak 24 orduko formatuan bistaratuko diren edo
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Birthday and anniversary reminder"
-msgstr "Urtebetetze eta urteurrenen gogorarazlea"
+msgstr "Urtebetetze eta urteurrenen oroigarria"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid "Whether to set a reminder for birthdays and anniversaries"
@@ -1646,7 +1646,7 @@ msgstr "Helbide-kopurua Nori/CC/BCC eremuetan erakusteko"
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a “...” is shown."
-msgstr "Honek helbide-kopurua ezartzen du mezuaren zerrendako ikuspegi lehenetsian erakusteko, eta harutzago “...“ erakutsiko da."
+msgstr "Honek helbide-kopurua ezartzen du mezuaren zerrendako ikuspegi lehenetsian erakusteko, eta harutzago “…“ erakutsiko da."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:152
 msgid ""
@@ -2171,7 +2171,7 @@ msgstr "“Ordenagailu honetan“ karpeten “Artxiboa“ karpeta."
 msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
-msgstr "“Artxiboa“ karpeta Mezuak|Artxiboa-n erabiltzeko... eginbidea “Ordenagailu honetan“ karpetan dagoenean."
+msgstr "“Artxiboa“ karpeta Mezuak|Artxiboa-n erabiltzeko… eginbidea “Ordenagailu honetan“ karpetan dagoenean."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
 msgid "Whether the To Do bar is visible in the main window"
@@ -2410,13 +2410,13 @@ msgstr "[“erantsi“,“erantsita“,“erasten“,“atxiki“,“atxikitzen�
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
-msgstr "Aztarnen zerrenda eranskinen ohartarazlearen pluginak mezuaren gorputzean begiratzeko"
+msgstr "Aztarnen zerrenda eranskinen oroigarriaren pluginak mezuaren gorputzean begiratzeko"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:6
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
-msgstr "Aztarnen zerrenda eranskinen ohartarazlearen pluginak mezuaren gorputzean begiratzeko."
+msgstr "Aztarnen zerrenda eranskinen oroigarriaren pluginak mezuaren gorputzean begiratzeko."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:1
 msgid "Address book source"
@@ -2872,7 +2872,7 @@ msgid ""
 "Use “highlight --list-scripts=themes” to get the list of installed themes "
 "and then the value to one of them. The change requires only re-format of the "
 "message part to take into effect, like using right-click→Format As→...."
-msgstr "Erabili “highlight --list-scripts=themes” instalatutako gaien zerrenda lortzeko, eta gero haietariko balio bat. Aldaketak soilik mezuaren zati bati berriro formatu ematea eskatzen du eragina izateko, adibidez eskuineko botoiarekin klik egin→ Eman formatua honela→...."
+msgstr "Erabili “highlight --list-scripts=themes” instalatutako gaien zerrenda lortzeko, eta gero haietariko balio bat. Aldaketak soilik mezuaren zati bati berriro formatu ematea eskatzen du eragina izateko, adibidez eskuineko botoiarekin klik egin→ Eman formatua honela→…."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
@@ -3710,11 +3710,11 @@ msgstr "_Non:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:21
 msgid "Ca_tegories..."
-msgstr "Ka_tegoriak..."
+msgstr "Ka_tegoriak…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:22
 msgid "Full _Name..."
-msgstr "_Izen-abizenak..."
+msgstr "_Izen-abizenak…"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:23
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:835
@@ -4260,7 +4260,7 @@ msgstr "Kendu helbide elektronikoa arbeletik"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:13
 msgid "_Select..."
-msgstr "_Hautatu..."
+msgstr "_Hautatu…"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:14
 msgid "Insert email addresses from Address Book"
@@ -4344,8 +4344,8 @@ msgstr "Kopiatu helbide elektronikoak arbelean."
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:192
 #: ../src/e-util/e-web-view.c:440
-msgid "_Send New Message To..."
-msgstr "_Bidali mezu berria honi..."
+msgid "_Send New Message To…"
+msgstr "_Bidali mezu berria honi…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:194
 #: ../src/e-util/e-web-view.c:442
@@ -4958,10 +4958,10 @@ msgstr "A_urkitu"
 msgid ""
 "\n"
 "\n"
-"Searching for the Contacts..."
+"Searching for the Contacts…"
 msgstr "\n"
 "\n"
-"Kontaktuak bilatzen..."
+"Kontaktuak bilatzen…"
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:189
 msgid ""
@@ -5013,9 +5013,8 @@ msgstr "\n"
 #: ../src/calendar/importers/icalendar-importer.c:499
 #: ../src/calendar/importers/icalendar-importer.c:1003
 #: ../src/calendar/importers/icalendar-importer.c:1043
-#: ../src/shell/shell.error.xml.h:1
-msgid "Importing..."
-msgstr "Inportatzen..."
+msgid "Importing…"
+msgstr "Inportatzen…"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:971
 msgid "Can’t open .csv file"
@@ -7217,8 +7216,8 @@ msgstr "“%s“ eranskinak ez dauka baliozko URIrik, kendu ezazu zerrendatik."
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:639
 #: ../src/composer/e-composer-actions.c:312
-msgid "_Attachment..."
-msgstr "_Eranskina..."
+msgid "_Attachment…"
+msgstr "_Eranskina…"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:641
 #: ../src/composer/e-composer-actions.c:314
@@ -7335,8 +7334,8 @@ msgstr "Gainidatzi zereginaren kolorea. Ezarrita ez badago, zereginaren kolorea 
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1450
 msgctxt "ECompEditor"
-msgid "Atte_ndees..."
-msgstr "_Partaideak..."
+msgid "Atte_ndees…"
+msgstr "_Partaideak…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1533
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2285
@@ -7675,19 +7674,19 @@ msgstr "Ezarri aurrez definitutako denbora pertsonalizatua"
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1862
 msgctxt "cal-reminders"
 msgid "da_ys"
-msgstr "egu_nak"
+msgstr "egu_n"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1878
 msgctxt "cal-reminders"
 msgid "_hours"
-msgstr "_orduak"
+msgstr "_ordu"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1894
 msgctxt "cal-reminders"
 msgid "_minutes"
-msgstr "_minutuak"
+msgstr "_minutu"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1900
 msgid "_Add time"
@@ -7829,8 +7828,8 @@ msgstr "_Kokalekua:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:457
 msgctxt "ECompEditor"
-msgid "_Categories..."
-msgstr "Ka_tegoriak..."
+msgid "_Categories…"
+msgstr "_Kategoriak…"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:556
 msgctxt "ECompEditor"
@@ -7984,12 +7983,13 @@ msgid "attachment"
 msgstr "eranskina"
 
 #: ../src/calendar/gui/e-comp-editor.c:610
-msgid "Sending notifications to attendees..."
-msgstr "Jakinarazpenak partaideei bidaltzen..."
+msgid "Sending notifications to attendees…"
+msgstr "Jakinarazpenak partaideei bidaltzen…"
 
 #: ../src/calendar/gui/e-comp-editor.c:985
-msgid "Saving changes..."
-msgstr "Aldaketak gordetzen..."
+#: ../src/e-util/e-webdav-browser.c:1814
+msgid "Saving changes…"
+msgstr "Aldaketak gordetzen…"
 
 #: ../src/calendar/gui/e-comp-editor.c:1245
 msgid "No Summary"
@@ -8078,16 +8078,16 @@ msgstr "Arbelaren edukia itsasten du"
 #: ../src/composer/e-composer-actions.c:373 ../src/mail/e-mail-reader.c:2750
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
-msgid "_Print..."
-msgstr "I_nprimatu..."
+msgid "_Print…"
+msgstr "_Inprimatu…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2041 ../src/mail/e-mail-reader.c:2757
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1723
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1046
-msgid "Pre_view..."
-msgstr "_Aurrebista..."
+msgid "Pre_view…"
+msgstr "_Aurrebista…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2048 ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:938 ../src/e-util/e-web-view.c:484
@@ -8204,8 +8204,8 @@ msgstr "Bat ere ez"
 #: ../src/calendar/gui/e-day-view-time-item.c:887
 #: ../src/calendar/gui/e-timezone-entry.c:346
 #: ../src/modules/calendar/e-calendar-preferences.c:393
-msgid "Select..."
-msgstr "Hautatu..."
+msgid "Select…"
+msgstr "Hautatu…"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:62
 msgid "Chair Persons"
@@ -8333,8 +8333,8 @@ msgid "No Information"
 msgstr "Ez dago informaziorik"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:543
-msgid "Atte_ndees..."
-msgstr "_Partaideak..."
+msgid "Atte_ndees…"
+msgstr "_Partaideak…"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:562
 msgid "O_ptions"
@@ -8586,37 +8586,37 @@ msgstr "Mugaegunik gabeko zereginak"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2133
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1424
-msgid "New _Appointment..."
-msgstr "Hitz_ordu berria..."
+msgid "New _Appointment…"
+msgstr "Hitz_ordu berria…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2141
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1410
-msgid "New _Meeting..."
-msgstr "_Bilera berria..."
+msgid "New _Meeting…"
+msgstr "_Bilera berria…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2149
-msgid "New _Task..."
-msgstr "_Zeregin berria..."
+msgid "New _Task…"
+msgstr "_Zeregin berria…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2157
-msgid "_New Assigned Task..."
-msgstr "Esleitutako _zeregin berria..."
+msgid "_New Assigned Task…"
+msgstr "Esleitutako _zeregin berria…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2170
-msgid "_Open..."
-msgstr "_Ireki..."
+msgid "_Open…"
+msgstr "_Ireki…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2184
-msgid "_Delete This Instance..."
-msgstr "Ezabatu _agerraldi hau..."
+msgid "_Delete This Instance…"
+msgstr "Ezabatu _agerraldi hau…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2192
-msgid "D_elete All Instances..."
-msgstr "Ezabatu instantzia _guztiak..."
+msgid "D_elete All Instances…"
+msgstr "Ezabatu instantzia _guztiak…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2200
-msgid "_Delete..."
-msgstr "E_zabatu..."
+msgid "_Delete…"
+msgstr "Ez_abatu…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2217
 msgid "_Show Tasks without Due date"
@@ -10710,8 +10710,8 @@ msgid "Pacific/Yap"
 msgstr "Pazifikoa/Yap"
 
 #: ../src/composer/e-composer-actions.c:226
-msgid "Save as..."
-msgstr "Gorde honela..."
+msgid "Save as…"
+msgstr "Gorde honela…"
 
 #: ../src/composer/e-composer-actions.c:321
 msgid "Close the current file"
@@ -10740,8 +10740,8 @@ msgid "Save the current file"
 msgstr "Uneko fitxategia gordetzen du"
 
 #: ../src/composer/e-composer-actions.c:347
-msgid "Save _As..."
-msgstr "Gorde hone_la..."
+msgid "Save _As…"
+msgstr "Gorde _honela…"
 
 #: ../src/composer/e-composer-actions.c:349
 msgid "Save the current file with a different name"
@@ -11889,8 +11889,8 @@ msgid "Save extracted files and the original _archive"
 msgstr "Gorde erauzitako fitxategiak eta jatorrizko _artxiboa"
 
 #: ../src/e-util/e-attachment-view.c:308
-msgid "Open With Other Application..."
-msgstr "Ireki beste aplikazio batekin..."
+msgid "Open With Other Application…"
+msgstr "Ireki beste aplikazio batekin…"
 
 #: ../src/e-util/e-attachment-view.c:315
 msgid "S_ave All"
@@ -11908,8 +11908,8 @@ msgid "Save _As"
 msgstr "Gorde _honela"
 
 #: ../src/e-util/e-attachment-view.c:341
-msgid "A_dd Attachment..."
-msgstr "_Gehitu eranskina..."
+msgid "A_dd Attachment…"
+msgstr "_Gehitu eranskina…"
 
 #: ../src/e-util/e-attachment-view.c:348
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1181
@@ -12205,8 +12205,8 @@ msgid "Enter the character set to use"
 msgstr "Adierazi erabili behar den karaktere-jokoa"
 
 #: ../src/e-util/e-charset-combo-box.c:363
-msgid "Other..."
-msgstr "Besterik..."
+msgid "Other…"
+msgstr "Bestelakoa…"
 
 #: ../src/e-util/e-client-cache.c:1149 ../src/e-util/e-client-cache.c:1280
 #, c-format
@@ -12242,7 +12242,7 @@ msgstr "_Aurrekoa"
 
 #: ../src/e-util/e-collection-account-wizard.c:439
 msgid "Looking up details, please wait…"
-msgstr "Xehetasunak kontsultatzen, itxaron..."
+msgstr "Xehetasunak kontsultatzen, itxaron…"
 
 #. Translators: The %s is replaced with a clickable text "Enter password", thus it'll be "Requires password to continue. Enter password." at the end.
 #: ../src/e-util/e-collection-account-wizard.c:496
@@ -12317,11 +12317,11 @@ msgstr "Zereginen zerrenda"
 
 #: ../src/e-util/e-collection-account-wizard.c:1154
 msgid "Looking up LDAP server’s search base…"
-msgstr "LDAP zerbitzarien bilaketen oinarria kontsultatzen..."
+msgstr "LDAP zerbitzarien bilaketen oinarria kontsultatzen…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1461
 msgid "Saving account settings, please wait…"
-msgstr "Kontu-ezarpenak gordetzen, itxaron..."
+msgstr "Kontu-ezarpenak gordetzen, itxaron…"
 
 #: ../src/e-util/e-collection-account-wizard.c:1612
 msgid "User details"
@@ -12531,7 +12531,7 @@ msgstr "Lehenetsia"
 
 #: ../src/e-util/e-config-lookup.c:821
 msgid "Running…"
-msgstr "Exekutatzen..."
+msgstr "Exekutatzen…"
 
 #: ../src/e-util/e-dateedit.c:524
 msgid "Date and Time"
@@ -13083,20 +13083,20 @@ msgid "Increase Indent"
 msgstr "Handitu koska"
 
 #: ../src/e-util/e-html-editor-actions.c:1020
-msgid "_HTML File..."
-msgstr "_HTML fitxategia..."
+msgid "_HTML File…"
+msgstr "_HTML fitxategia…"
 
 #: ../src/e-util/e-html-editor-actions.c:1027
-msgid "Te_xt File..."
-msgstr "Te_stu-fitxategia..."
+msgid "Te_xt File…"
+msgstr "Te_stu-fitxategia…"
 
 #: ../src/e-util/e-html-editor-actions.c:1034
 msgid "Paste _Quotation"
 msgstr "Itsatsi _aipua"
 
 #: ../src/e-util/e-html-editor-actions.c:1041
-msgid "_Find..."
-msgstr "_Bilatu..."
+msgid "_Find…"
+msgstr "_Bilatu…"
 
 #: ../src/e-util/e-html-editor-actions.c:1043
 msgid "Search for text"
@@ -13107,16 +13107,16 @@ msgid "Find A_gain"
 msgstr "Bilat_u berriro"
 
 #: ../src/e-util/e-html-editor-actions.c:1055
-msgid "Re_place..."
-msgstr "Orde_ztu..."
+msgid "Re_place…"
+msgstr "_Ordeztu_Ordeztu…"
 
 #: ../src/e-util/e-html-editor-actions.c:1057
 msgid "Search for and replace text"
 msgstr "Bilatu eta ordeztu testua"
 
 #: ../src/e-util/e-html-editor-actions.c:1062
-msgid "Check _Spelling..."
-msgstr "Egiaztatu _ortografia..."
+msgid "Check _Spelling…"
+msgstr "_Ortografia-egiaztatzailea…"
 
 #: ../src/e-util/e-html-editor-actions.c:1069
 msgid "_Decrease Indent"
@@ -13231,8 +13231,8 @@ msgstr "_Zerrenda alfabetikoa"
 
 #: ../src/e-util/e-html-editor-actions.c:1227
 #: ../src/e-util/e-html-editor-actions.c:1265
-msgid "_Image..."
-msgstr "I_rudia..."
+msgid "_Image…"
+msgstr "_Irudia…"
 
 #. Translators: This is an action tooltip
 #: ../src/e-util/e-html-editor-actions.c:1230
@@ -13241,8 +13241,8 @@ msgstr "Txertatu irudia"
 
 #: ../src/e-util/e-html-editor-actions.c:1235
 #: ../src/e-util/e-html-editor-actions.c:1272
-msgid "_Link..."
-msgstr "_Esteka..."
+msgid "_Link…"
+msgstr "_Esteka…"
 
 #: ../src/e-util/e-html-editor-actions.c:1237
 msgid "Insert Link"
@@ -13251,8 +13251,8 @@ msgstr "Txertatu esteka"
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1243
 #: ../src/e-util/e-html-editor-actions.c:1287
-msgid "_Rule..."
-msgstr "_Marra..."
+msgid "_Rule…"
+msgstr "E_rregela…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1246
@@ -13261,20 +13261,20 @@ msgstr "Txertatu marra"
 
 #: ../src/e-util/e-html-editor-actions.c:1251
 #: ../src/e-util/e-html-editor-actions.c:1294
-msgid "_Table..."
-msgstr "_Taula..."
+msgid "_Table…"
+msgstr "_Taula…"
 
 #: ../src/e-util/e-html-editor-actions.c:1253
 msgid "Insert Table"
 msgstr "Txertatu taula"
 
 #: ../src/e-util/e-html-editor-actions.c:1258
-msgid "_Cell..."
-msgstr "_Gelaxka..."
+msgid "_Cell…"
+msgstr "_Gelaxka…"
 
 #: ../src/e-util/e-html-editor-actions.c:1279
-msgid "Pa_ge..."
-msgstr "_Orria..."
+msgid "Pa_ge…"
+msgstr "_Orria…"
 
 #: ../src/e-util/e-html-editor-actions.c:1303
 msgid "Font _Size"
@@ -13414,37 +13414,37 @@ msgid "Row Below"
 msgstr "Errenkada behean"
 
 #: ../src/e-util/e-html-editor-actions.c:1538
-msgid "Cell..."
-msgstr "Gelaxka..."
+msgid "Cell…"
+msgstr "Gelaxka…"
 
 #: ../src/e-util/e-html-editor-actions.c:1545
-msgid "Image..."
-msgstr "Irudia..."
+msgid "Image…"
+msgstr "Irudia…"
 
 #: ../src/e-util/e-html-editor-actions.c:1552
-msgid "Link..."
-msgstr "Esteka..."
+msgid "Link…"
+msgstr "Esteka…"
 
 #: ../src/e-util/e-html-editor-actions.c:1559
-msgid "Page..."
-msgstr "Orria..."
+msgid "Page…"
+msgstr "Orria…"
 
 #: ../src/e-util/e-html-editor-actions.c:1566
-msgid "Paragraph..."
-msgstr "Paragrafoa..."
+msgid "Paragraph…"
+msgstr "Paragrafoa…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1574
-msgid "Rule..."
-msgstr "Marra..."
+msgid "Rule…"
+msgstr "Erregela…"
 
 #: ../src/e-util/e-html-editor-actions.c:1581
-msgid "Table..."
-msgstr "Taula..."
+msgid "Table…"
+msgstr "Taula…"
 
 #: ../src/e-util/e-html-editor-actions.c:1588
-msgid "Text..."
-msgstr "Testua..."
+msgid "Text…"
+msgstr "Testua…"
 
 #: ../src/e-util/e-html-editor-actions.c:1595
 msgid "Remove Link"
@@ -13538,7 +13538,7 @@ msgstr "_Zutabea"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:471
 msgid "<b>Alignment &amp; Behavior</b>"
-msgstr "<b>Lerrokadura eta portaera</b>"
+msgstr "<b>Lerrokatzea eta portaera</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:484
 #: ../src/e-util/e-html-editor-hrule-dialog.c:328
@@ -13745,8 +13745,8 @@ msgid "_URL:"
 msgstr "_URLa:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:668
-msgid "_Test URL..."
-msgstr "_Probatu URLa..."
+msgid "_Test URL…"
+msgstr "_Probatu URLa…"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:685
 msgid "Image Properties"
@@ -13838,7 +13838,7 @@ msgstr "_Estiloa:"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:88
 msgid "<b>Alignment</b>"
-msgstr "<b>Lerrokadura</b>"
+msgstr "<b>Lerrokatzea</b>"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:153
 msgid "Paragraph Properties"
@@ -14701,8 +14701,8 @@ msgid "(no suggestions)"
 msgstr "(iradokizunik ez)"
 
 #: ../src/e-util/e-spell-entry.c:503
-msgid "More..."
-msgstr "Gehiago..."
+msgid "More…"
+msgstr "Gehiago…"
 
 #. + Add to Dictionary
 #: ../src/e-util/e-spell-entry.c:588
@@ -14931,15 +14931,15 @@ msgstr "_Aplikatu"
 
 #: ../src/e-util/e-table-config.ui.h:17
 msgid "_Sort..."
-msgstr "_Ordenatu..."
+msgstr "_Ordenatu…"
 
 #: ../src/e-util/e-table-config.ui.h:18
 msgid "_Group By..."
-msgstr "_Elkartu honela..."
+msgstr "_Elkartu honela…"
 
 #: ../src/e-util/e-table-config.ui.h:19
 msgid "_Fields Shown..."
-msgstr "_Erakutsitako eremuak..."
+msgstr "_Erakutsitako eremuak…"
 
 #: ../src/e-util/e-table-field-chooser.c:164
 msgid ""
@@ -15008,24 +15008,24 @@ msgid "Remove This _Column"
 msgstr "Kendu _zutabe hau"
 
 #: ../src/e-util/e-table-header-item.c:1651
-msgid "Add a C_olumn..."
-msgstr "Gehitu z_utabea..."
+msgid "Add a C_olumn…"
+msgstr "Gehitu z_utabea…"
 
 #: ../src/e-util/e-table-header-item.c:1655
 msgid "A_lignment"
-msgstr "_Lerrokadura"
+msgstr "_Lerrokatzea"
 
 #: ../src/e-util/e-table-header-item.c:1658
 msgid "B_est Fit"
 msgstr "_Egokiena"
 
 #: ../src/e-util/e-table-header-item.c:1661
-msgid "Format Column_s..."
-msgstr "Eman formatu zu_tabeei..."
+msgid "Format Column_s…"
+msgstr "Eman formatua zu_tabeei…"
 
 #: ../src/e-util/e-table-header-item.c:1665
-msgid "Custo_mize Current View..."
-msgstr "_Pertsonalizatu uneko ikuspegia..."
+msgid "Custo_mize Current View…"
+msgstr "_Pertsonalizatu uneko ikuspegia…"
 
 #: ../src/e-util/e-table-header-item.c:1732
 msgid "_Sort By"
@@ -15109,9 +15109,10 @@ msgstr "Helbide-liburua"
 msgid "Events"
 msgstr "Gertaerak"
 
-#: ../src/e-util/e-webdav-browser.c:514
+#: ../src/e-util/e-webdav-browser.c:514 ../src/mail/em-folder-tree-model.c:1553
+#: ../src/mail/em-folder-tree-model.c:1930
 msgid "Loading…"
-msgstr "Kargatzen..."
+msgstr "Kargatzen…"
 
 #: ../src/e-util/e-webdav-browser.c:1383
 msgid "Searching collection children…"
@@ -15136,10 +15137,6 @@ msgstr "Gutxienez osagai mota bat ezarri behar da"
 #: ../src/e-util/e-webdav-browser.c:1783
 msgid "Failed to get selected collection HREF"
 msgstr "Huts egin du hautatutako bildumaren HREF eskuratzean"
-
-#: ../src/e-util/e-webdav-browser.c:1814
-msgid "Saving changes…"
-msgstr "Aldaketak gordetzen…"
 
 #: ../src/e-util/e-webdav-browser.c:1815
 msgid "Failed to save changes"
@@ -15263,8 +15260,8 @@ msgid "Copy the image to the clipboard"
 msgstr "Kopiatu irudia arbelean"
 
 #: ../src/e-util/e-web-view.c:457
-msgid "Save _Image..."
-msgstr "Gorde _irudia..."
+msgid "Save _Image…"
+msgstr "Gorde _irudia…"
 
 #: ../src/e-util/e-web-view.c:459
 msgid "Save the image to a file"
@@ -15273,7 +15270,7 @@ msgstr "Gorde irudia fitxategi batean"
 #: ../src/e-util/e-web-view.c:474 ../src/mail/e-mail-browser.c:179
 #: ../src/mail/e-mail-reader.c:2820
 msgid "Search _Web…"
-msgstr "Bilatu _webean..."
+msgstr "Bilatu _webean…"
 
 #: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:181
 #: ../src/mail/e-mail-reader.c:2822
@@ -15692,11 +15689,11 @@ msgstr "Ez da aurkitu “%s” UIDa duen zerbitzuari dagokion iturburua"
 
 #: ../src/libemail-engine/e-mail-session.c:1861
 msgid "Looking up recipient S/MIME certificates in address books…"
-msgstr "Hartzailearen S/MIME ziurtagiriak kontsultatzen helbide-liburuan..."
+msgstr "Hartzailearen S/MIME ziurtagiriak kontsultatzen helbide-liburuan…"
 
 #: ../src/libemail-engine/e-mail-session.c:1863
 msgid "Looking up recipient PGP keys in address books…"
-msgstr "Hartzailearen PGP gakoak kontsultatzen helbide-liburuan..."
+msgstr "Hartzailearen PGP gakoak kontsultatzen helbide-liburuan…"
 
 #: ../src/libemail-engine/e-mail-session.c:2910
 #, c-format
@@ -16023,8 +16020,8 @@ msgid "_Revise Details"
 msgstr "_Berrikusi xehetasunak"
 
 #: ../src/mail/e-mail-config-auth-check.c:217
-msgid "Querying authentication types..."
-msgstr "Autentifikazio motak kontsultatzen..."
+msgid "Querying authentication types…"
+msgstr "Autentifikazio motak kontsultatzen…"
 
 #: ../src/mail/e-mail-config-auth-check.c:430
 msgid "Check for Supported Types"
@@ -16138,8 +16135,8 @@ msgid "Done"
 msgstr "Eginda"
 
 #: ../src/mail/e-mail-config-defaults-page.c:314
-msgid "Checking server settings..."
-msgstr "Zerbitzariaren ezarpenak begiratzen..."
+msgid "Checking server settings…"
+msgstr "Zerbitzariaren ezarpenak egiaztatzen…"
 
 #: ../src/mail/e-mail-config-defaults-page.c:663
 msgid "Special Folders"
@@ -16251,8 +16248,8 @@ msgid "Or_ganization:"
 msgstr "E_rakundea:"
 
 #: ../src/mail/e-mail-config-identity-page.c:776
-msgid "Add Ne_w Signature..."
-msgstr "Gehitu _sinadura berria..."
+msgid "Add Ne_w Signature…"
+msgstr "Gehitu _sinadura berria…"
 
 #: ../src/mail/e-mail-config-identity-page.c:790
 msgid "A_liases:"
@@ -16290,8 +16287,8 @@ msgid "Account Name cannot be empty"
 msgstr "Kontuaren izena ezin da hutsa izan"
 
 #: ../src/mail/e-mail-config-lookup-page.c:65
-msgid "Looking up account details..."
-msgstr "Kontuen xehetasunak bilatzen..."
+msgid "Looking up account details…"
+msgstr "Kontuen xehetasunak bilatzen…"
 
 #: ../src/mail/e-mail-config-provider-page.c:538
 msgid "Checking for New Mail"
@@ -16504,8 +16501,8 @@ msgid "Account Editor"
 msgstr "Kontu-editorea"
 
 #: ../src/mail/e-mail-display.c:126
-msgid "_Add to Address Book..."
-msgstr "_Gehitu helbide-liburuan..."
+msgid "_Add to Address Book…"
+msgstr "_Gehitu helbide-liburuari…"
 
 #: ../src/mail/e-mail-display.c:133
 msgid "_To This Address"
@@ -16516,8 +16513,8 @@ msgid "_From This Address"
 msgstr "_Helbidetik"
 
 #: ../src/mail/e-mail-display.c:147
-msgid "Send _Reply To..."
-msgstr "Bidali _erantzuna honi..."
+msgid "Send _Reply To…"
+msgstr "Bidali _erantzuna honi…"
 
 #: ../src/mail/e-mail-display.c:149
 msgid "Send a reply message to this address"
@@ -16695,16 +16692,16 @@ msgid "Cannot find message in its folder summary"
 msgstr "Ezin da mezua bere laburpeneko karpetan bilatu"
 
 #: ../src/mail/e-mail-notes.c:863
-msgid "Storing changes..."
-msgstr "Aldaketak gordetzen..."
+msgid "Storing changes…"
+msgstr "Aldaketak gordetzen…"
 
 #: ../src/mail/e-mail-notes.c:1001
 msgid "Edit Message Note"
 msgstr "Editatu mezuaren oharra"
 
 #: ../src/mail/e-mail-notes.c:1157
-msgid "Retrieving message..."
-msgstr "Mezua eskuratzen..."
+msgid "Retrieving message…"
+msgstr "Mezua eskuratzen…"
 
 #: ../src/mail/e-mail-print-config-headers.c:166
 msgid "Move selected headers to top"
@@ -16761,8 +16758,8 @@ msgid "C_opy"
 msgstr "K_opiatu"
 
 #: ../src/mail/e-mail-reader.c:610
-msgid "Deleting message note..."
-msgstr "Mezuaren oharra ezabatzen..."
+msgid "Deleting message note…"
+msgstr "Mezuaren oharra ezabatzen…"
 
 #: ../src/mail/e-mail-reader.c:1610 ../src/mail/e-mail-reader.c:1901
 #: ../src/mail/e-mail-reader.c:1941
@@ -16791,8 +16788,8 @@ msgid "Add sender to address book"
 msgstr "Gehitu bidaltzailea helbide-liburuan"
 
 #: ../src/mail/e-mail-reader.c:2405
-msgid "_Archive..."
-msgstr "_Artxiboa..."
+msgid "_Archive…"
+msgstr "_Artxiboa…"
 
 #: ../src/mail/e-mail-reader.c:2407
 msgid "Move selected messages to the Archive folder for the account"
@@ -16808,7 +16805,7 @@ msgstr "Iragazi hautatutako mezuak, baztergarri-egoeraren arabera"
 
 #: ../src/mail/e-mail-reader.c:2419
 msgid "Assign C_olor…"
-msgstr "Esleitu k_olorea..."
+msgstr "Esleitu k_olorea…"
 
 #: ../src/mail/e-mail-reader.c:2421
 msgid "Assign color for the selected messages"
@@ -16823,8 +16820,8 @@ msgid "Unset color for the selected messages"
 msgstr "Kendu kolorea hautatutako mezuei"
 
 #: ../src/mail/e-mail-reader.c:2433
-msgid "_Copy to Folder..."
-msgstr "K_opiatu karpeta honetan..."
+msgid "_Copy to Folder…"
+msgstr "K_opiatu karpeta honetan…"
 
 #: ../src/mail/e-mail-reader.c:2435
 msgid "Copy selected messages to another folder"
@@ -16839,8 +16836,8 @@ msgid "Mark the selected messages for deletion"
 msgstr "Markatu hautatutako mezuak ezabatzeko gisa"
 
 #: ../src/mail/e-mail-reader.c:2447
-msgid "_Add note..."
-msgstr "_Gehitu oharra..."
+msgid "_Add note…"
+msgstr "_Gehitu oharra…"
 
 #: ../src/mail/e-mail-reader.c:2449
 msgid "Add a note for the selected message"
@@ -16855,40 +16852,40 @@ msgid "Delete the note for the selected message"
 msgstr "Ezabatu oharra hautatutako mezutik"
 
 #: ../src/mail/e-mail-reader.c:2461
-msgid "_Edit note..."
-msgstr "_Editatu oharra..."
+msgid "_Edit note…"
+msgstr "_Editatu oharra…"
 
 #: ../src/mail/e-mail-reader.c:2463
 msgid "Edit a note for the selected message"
 msgstr "Editatu hautatutako mezuren ohar bat"
 
 #: ../src/mail/e-mail-reader.c:2468
-msgid "Create a Filter Rule for Mailing _List..."
-msgstr "Sortu iragazkiaren araua _posta-zerrendarentzako..."
+msgid "Create a Filter Rule for Mailing _List…"
+msgstr "Sortu iragazkiaren araua _posta-zerrendarentzako…"
 
 #: ../src/mail/e-mail-reader.c:2470
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Sortu araua posta-zerrenda honetako mezuak iragazteko"
 
 #: ../src/mail/e-mail-reader.c:2475
-msgid "Create a Filter Rule for _Recipients..."
-msgstr "Sortu iragazkiaren araua _hartzailearentzako..."
+msgid "Create a Filter Rule for _Recipients…"
+msgstr "Sortu iragazkiaren araua _hartzailearentzako…"
 
 #: ../src/mail/e-mail-reader.c:2477
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Sortu araua hartzaile hauek dituzten mezuak iragazteko"
 
 #: ../src/mail/e-mail-reader.c:2482
-msgid "Create a Filter Rule for Se_nder..."
-msgstr "Sortu iragazkiaren araua _bidaltzailearentzako..."
+msgid "Create a Filter Rule for Se_nder…"
+msgstr "Sortu iragazkiaren araua _bidaltzailearentzako…"
 
 #: ../src/mail/e-mail-reader.c:2484
 msgid "Create a rule to filter messages from this sender"
 msgstr "Sortu araua bidaltzaile hau duten mezuak iragazteko"
 
 #: ../src/mail/e-mail-reader.c:2489
-msgid "Create a Filter Rule for _Subject..."
-msgstr "Sortu iragazkiaren araua _gaiarentzako..."
+msgid "Create a Filter Rule for _Subject…"
+msgstr "Sortu iragazkiaren araua _gaiarentzako…"
 
 #: ../src/mail/e-mail-reader.c:2491
 msgid "Create a rule to filter messages with this subject"
@@ -16903,8 +16900,8 @@ msgid "Apply filter rules to the selected messages"
 msgstr "Aplikatu iragazki-arauak hautatutako mezuei"
 
 #: ../src/mail/e-mail-reader.c:2503
-msgid "_Find in Message..."
-msgstr "_Bilatu mezuan..."
+msgid "_Find in Message…"
+msgstr "_Bilatu mezuan…"
 
 #: ../src/mail/e-mail-reader.c:2505
 msgid "Search for text in the body of the displayed message"
@@ -16927,8 +16924,8 @@ msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Ezarri jarraipenaren bandera osatutakoei hautatutako mezuetan"
 
 #: ../src/mail/e-mail-reader.c:2524
-msgid "Follow _Up..."
-msgstr "Jarrait_u..."
+msgid "Follow _Up…"
+msgstr "Jarrait_u…"
 
 #: ../src/mail/e-mail-reader.c:2526
 msgid "Flag the selected messages for follow-up"
@@ -17076,8 +17073,8 @@ msgstr "Markatu hautatutako mezuak irakurri gabeko gisa"
 
 #: ../src/mail/e-mail-reader.c:2666
 #: ../src/modules/mail/e-mail-attachment-handler.c:417
-msgid "_Edit as New Message..."
-msgstr "_Editatu mezu berri gisa..."
+msgid "_Edit as New Message…"
+msgstr "_Editatu mezu berri gisa…"
 
 #: ../src/mail/e-mail-reader.c:2668
 #: ../src/modules/mail/e-mail-attachment-handler.c:419
@@ -17101,8 +17098,8 @@ msgid "Open the selected messages in a new window"
 msgstr "Ireki hautatutako mezua leiho berri batean"
 
 #: ../src/mail/e-mail-reader.c:2687
-msgid "_Move to Folder..."
-msgstr "_Eraman karpeta honetara..."
+msgid "_Move to Folder…"
+msgstr "_Eraman karpetara…"
 
 #: ../src/mail/e-mail-reader.c:2689
 msgid "Move selected messages to another folder"
@@ -17220,7 +17217,7 @@ msgstr "Prestatu hautatutako mezuaren hartzaile guztientzako erantzuna"
 
 #: ../src/mail/e-mail-reader.c:2792
 msgid "Al_ternative Reply…"
-msgstr "_Ordezko erantzuna..."
+msgstr "_Ordezko erantzuna…"
 
 #: ../src/mail/e-mail-reader.c:2794
 msgid "Choose reply options for the selected message"
@@ -17248,8 +17245,8 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "Prestatu hautatutako mezuaren bidaltzailearentzako erantzuna"
 
 #: ../src/mail/e-mail-reader.c:2813
-msgid "_Save as mbox..."
-msgstr "_Gorde mbox gisa..."
+msgid "_Save as mbox…"
+msgstr "_Gorde mbox gisa…"
 
 #: ../src/mail/e-mail-reader.c:2815
 msgid "Save selected messages as an mbox file"
@@ -17329,40 +17326,40 @@ msgid "_Zoom"
 msgstr "_Zooma"
 
 #: ../src/mail/e-mail-reader.c:2937
-msgid "Create a Search Folder from Mailing _List..."
-msgstr "Sortu _posta-zerrendaren bilaketa-karpeta..."
+msgid "Create a Search Folder from Mailing _List…"
+msgstr "Sortu _posta-zerrendaren bilaketa-karpeta…"
 
 #: ../src/mail/e-mail-reader.c:2939
 msgid "Create a search folder for this mailing list"
 msgstr "Sortu bilaketa-karpeta posta-zerrenda honentzat"
 
 #: ../src/mail/e-mail-reader.c:2944
-msgid "Create a Search Folder from Recipien_ts..."
-msgstr "Sortu _hartzailearen bilaketa-karpeta..."
+msgid "Create a Search Folder from Recipien_ts…"
+msgstr "Sortu _hartzailearen bilaketa-karpeta…"
 
 #: ../src/mail/e-mail-reader.c:2946
 msgid "Create a search folder for these recipients"
 msgstr "Sortu bilaketa-karpeta hartzaile hauentzat"
 
 #: ../src/mail/e-mail-reader.c:2951
-msgid "Create a Search Folder from Sen_der..."
-msgstr "Sortu _bidaltzailearen bilaketa-karpeta..."
+msgid "Create a Search Folder from Sen_der…"
+msgstr "Sortu _bidaltzailearen bilaketa-karpeta…"
 
 #: ../src/mail/e-mail-reader.c:2953
 msgid "Create a search folder for this sender"
 msgstr "Sortu bilaketa-karpeta bidaltzaile honentzat"
 
 #: ../src/mail/e-mail-reader.c:2958
-msgid "Create a Search Folder from S_ubject..."
-msgstr "Sortu _gaiaren bilaketa-karpeta..."
+msgid "Create a Search Folder from S_ubject…"
+msgstr "Sortu _gaiaren bilaketa-karpeta…"
 
 #: ../src/mail/e-mail-reader.c:2960
 msgid "Create a search folder for this subject"
 msgstr "Sortu bilaketa-karpeta gai honentzat"
 
 #: ../src/mail/e-mail-reader.c:3007
-msgid "Mark for Follo_w Up..."
-msgstr "Markatu jarraitasunerako..."
+msgid "Mark for Follo_w Up…"
+msgstr "Markatu jarraitasunerako…"
 
 #: ../src/mail/e-mail-reader.c:3023
 msgid "Mark as _Important"
@@ -17595,8 +17592,8 @@ msgstr[1] "Mezua Nori eta CC eremuetako hartzaile %d-i bidaltzen saiatzen ari za
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
 #: ../src/mail/em-composer-utils.c:829
-msgid "Waiting for attachments to load..."
-msgstr "Eranskinak kargatzeko zain..."
+msgid "Waiting for attachments to load…"
+msgstr "Eranskinak kargatzeko zain…"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -17738,7 +17735,7 @@ msgstr "Gero"
 
 #: ../src/mail/em-filter-editor.c:408
 msgid "De_scribe Filters…"
-msgstr "De_skribatu iragazkiak..."
+msgstr "De_skribatu iragazkiak…"
 
 #: ../src/mail/em-filter-editor-folder-element.c:154
 msgid "Select Folder"
@@ -17951,11 +17948,6 @@ msgstr "Ezin da mezurik ekarri maila goreneko biltegira"
 #: ../src/mail/em-folder-tree-model.c:462
 msgid "UNMATCHED"
 msgstr "SAILKATU GABEAK"
-
-#: ../src/mail/em-folder-tree-model.c:1553
-#: ../src/mail/em-folder-tree-model.c:1930
-msgid "Loading..."
-msgstr "Kargatzen..."
 
 #: ../src/mail/em-folder-utils.c:111
 #, c-format
@@ -19404,7 +19396,7 @@ msgid ""
 "If you unsubscribe the folder, it might not be visible in the Evolution, "
 "while still being available on the server. You can re-subscribe in "
 "Folder→Subscriptions... menu."
-msgstr "Karpetaren harpidetza kentzen baduzu ez da Evolution-en ikusgai egongo. Hala ere, zerbitzarian eskuragarri egoten jarraituko du. Berriro harpidetu zaitezke Karpeta→Harpidetzak... menua erabiliz."
+msgstr "Karpetaren harpidetza kentzen baduzu ez da Evolution-en ikusgai egongo. Hala ere, zerbitzarian eskuragarri egoten jarraituko du. Berriro harpidetu zaitezke Karpeta→Harpidetzak… menua erabiliz."
 
 #: ../src/mail/mail.error.xml.h:72
 msgid "Do _Not Unsubscribe"
@@ -19976,8 +19968,8 @@ msgid "Failed to empty Junk folder “{0}”"
 msgstr "Huts egin du ”{0}” baztergarrien karpeta hustean"
 
 #: ../src/mail/mail-send-recv.c:193
-msgid "Canceling..."
-msgstr "Bertan behera uzten..."
+msgid "Canceling…"
+msgstr "Uzten…"
 
 #: ../src/mail/mail-send-recv.c:610
 msgid "Edit Message"
@@ -19996,12 +19988,12 @@ msgid "Cancel _All"
 msgstr "_Utzi dena"
 
 #: ../src/mail/mail-send-recv.c:871 ../src/mail/mail-send-recv.c:1470
-msgid "Updating..."
-msgstr "Eguneratzen..."
+msgid "Updating…"
+msgstr "Eguneratzen…"
 
 #: ../src/mail/mail-send-recv.c:871 ../src/mail/mail-send-recv.c:952
-msgid "Waiting..."
-msgstr "Zain..."
+msgid "Waiting…"
+msgstr "Zain…"
 
 #: ../src/mail/mail-send-recv.c:1436
 #, c-format
@@ -20075,7 +20067,7 @@ msgstr "Handia"
 msgid "Highest"
 msgstr "Handiena"
 
-#: ../src/mail/message-list.c:482 ../src/mail/message-list.c:6741
+#: ../src/mail/message-list.c:482
 msgid "Generating message list"
 msgstr "Mezuen zerrenda sortzen"
 
@@ -20126,6 +20118,10 @@ msgstr "Ez dago zure bilaketaren irizpideak betetzen dituen mezurik. Aldatu bila
 #: ../src/mail/message-list.c:6662
 msgid "There are no messages in this folder."
 msgstr "Ez dago mezurik karpeta honetan."
+
+#: ../src/mail/message-list.c:6738
+msgid "Generating message list…"
+msgstr "Mezuen zerrenda sortzen…"
 
 #: ../src/mail/message-list.etspec.h:2
 msgid "Flagged"
@@ -20364,8 +20360,8 @@ msgid "Save as vCard"
 msgstr "Gorde vCard gisa"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1015
-msgid "Co_py All Contacts To..."
-msgstr "_Kopiatu kontaktu guztiak hemen..."
+msgid "Co_py All Contacts To…"
+msgstr "_Kopiatu kontaktu guztiak hemen…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1017
 msgid "Copy the contacts of the selected address book to another"
@@ -20380,8 +20376,8 @@ msgid "Delete the selected address book"
 msgstr "Ezabatu hautatutako helbide-liburua"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1029
-msgid "_Manage Address Book groups..."
-msgstr "_Kudeatu helbide-liburuko taldeak..."
+msgid "_Manage Address Book groups…"
+msgstr "_Kudeatu helbide-liburuko taldeak…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1031
 #: ../src/modules/calendar/e-task-shell-view-actions.c:733
@@ -20389,8 +20385,8 @@ msgid "Manage task list groups order and visibility"
 msgstr "Kudeatu zereginen zerrendako taldeen ordena eta ikusgaitasuna"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1036
-msgid "Mo_ve All Contacts To..."
-msgstr "E_raman kontaktu guztiak hona..."
+msgid "Mo_ve All Contacts To…"
+msgstr "E_raman kontaktu guztiak hona…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1038
 msgid "Move the contacts of the selected address book to another"
@@ -20436,8 +20432,8 @@ msgstr "Erakutsi hautatutako helbide-liburuetako mapa kontaktuekin"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:640
 #: ../src/modules/calendar/e-task-shell-view-actions.c:766
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1685
-msgid "_Rename..."
-msgstr "Izena _aldatu..."
+msgid "_Rename…"
+msgstr "Be_rrizendatu…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1080
 msgid "Rename the selected address book"
@@ -20448,8 +20444,8 @@ msgid "Stop loading"
 msgstr "Gelditu kargatzea"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1092
-msgid "_Copy Contact To..."
-msgstr "_Kopiatu kontaktua hemen..."
+msgid "_Copy Contact To…"
+msgstr "_Kopiatu kontaktua hemen…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
 msgid "Copy selected contacts to another address book"
@@ -20460,36 +20456,36 @@ msgid "_Delete Contact"
 msgstr "_Ezabatu kontaktua"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1106
-msgid "_Find in Contact..."
-msgstr "_Bilatu kontaktuan..."
+msgid "_Find in Contact…"
+msgstr "_Bilatu kontaktuan…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1108
 msgid "Search for text in the displayed contact"
 msgstr "Bilatu testua bistaratutako kontaktuan"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1113
-msgid "_Forward Contact..."
-msgstr "Birbidali _kontaktua..."
+msgid "_Forward Contact…"
+msgstr "_Birbidali kontaktua…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1115
 msgid "Send selected contacts to another person"
 msgstr "Bidali hautatutako kontaktuak beste norbaiti"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1120
-msgid "_Move Contact To..."
-msgstr "E_raman kontaktua hona..."
+msgid "_Move Contact To…"
+msgstr "E_raman kontaktua hona…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1122
 msgid "Move selected contacts to another address book"
 msgstr "Eraman hautatutako kontaktuak beste helbide-liburu batera"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1127
-msgid "_New Contact..."
-msgstr "Kontaktu _berria..."
+msgid "_New Contact…"
+msgstr "Ko_ntaktu berria…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1134
-msgid "New Contact _List..."
-msgstr "Kontaktuen _zerrenda berria..."
+msgid "New Contact _List…"
+msgstr "Kontaktuen _zerrenda berria…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1141
 msgid "_Open Contact"
@@ -20500,8 +20496,8 @@ msgid "View the current contact"
 msgstr "Ikusi uneko kontaktua"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
-msgid "_Send Message to Contact..."
-msgstr "Bidali _mezua kontaktuari..."
+msgid "_Send Message to Contact…"
+msgstr "Bidali _mezua kontaktuari…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1150
 msgid "Send a message to the selected contacts"
@@ -20524,8 +20520,8 @@ msgstr "_Aurrebista"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1511
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:701
 #: ../src/modules/calendar/e-task-shell-view-actions.c:855
-msgid "_Manage groups..."
-msgstr "Kudeatu _taldeak..."
+msgid "_Manage groups…"
+msgstr "Kudeatu _taldeak…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1193
 msgid "Address Book Map"
@@ -20608,8 +20604,8 @@ msgstr "Gorde hautatutako helbide-liburuko kontaktuak vCard gisa"
 #. Translators: This is an action label
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
-msgid "_Save as vCard..."
-msgstr "_Gorde vCard gisa..."
+msgid "_Save as vCard…"
+msgstr "_Gorde vCard gisa…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1360
 msgid "Save selected contacts as a vCard"
@@ -20681,20 +20677,20 @@ msgstr "Hautatu Evolution-en babeskopiaren izena leheneratzeko"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:437
 #, c-format
-msgid "Checking content of backup file “%s”, please wait..."
-msgstr "“%s“ babeskopiaren edukia begiratzen, itxaron..."
+msgid "Checking content of backup file “%s”, please wait…"
+msgstr "“%s“ babeskopiaren edukia begiratzen, itxaron…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:458
-msgid "_Back up Evolution Data..."
-msgstr "_Egin Evolution-en datuen babeskopia..."
+msgid "_Back up Evolution Data…"
+msgstr "_Egin Evolution-en datuen babeskopia…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:460
 msgid "Back up Evolution data and settings to an archive file"
 msgstr "Egin Evolution-en datu eta ezarpenen babeskopia artxibo batean"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:465
-msgid "R_estore Evolution Data..."
-msgstr "_Leheneratu Evolution-eko datuak..."
+msgid "R_estore Evolution Data…"
+msgstr "_Leheneratu Evolution-eko datuak…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:467
 msgid "Restore Evolution data and settings from an archive file"
@@ -20916,7 +20912,7 @@ msgstr "Erabiltzaile-izena ezin da hutsa izan"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:418
 msgid "Looking up server search bases, please wait…"
-msgstr "Zerbitzariaren bilaketa-oinarriak kontsultatzen, itxaron..."
+msgstr "Zerbitzariaren bilaketa-oinarriak kontsultatzen, itxaron…"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:494
 msgid "Standard LDAP Port"
@@ -21656,7 +21652,7 @@ msgstr "gertaerak"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1114
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:204
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:272
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:278
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:510
 #: ../src/modules/calendar/e-task-shell-view-actions.c:629
 msgid "Save as iCalendar"
@@ -21665,8 +21661,8 @@ msgstr "Gorde iCalendar gisa"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1228
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:591
 #: ../src/modules/calendar/e-task-shell-view-actions.c:717
-msgid "_Copy..."
-msgstr "K_opiatu..."
+msgid "_Copy…"
+msgstr "_Kopiatu…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1235
 msgid "D_elete Calendar"
@@ -21697,8 +21693,8 @@ msgid "Select a specific date"
 msgstr "Hautatu zehaztutako data bat"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1270
-msgid "_Manage Calendar groups..."
-msgstr "_Kudeatu egutegiaren taldeak..."
+msgid "_Manage Calendar groups…"
+msgstr "_Kudeatu egutegiaren taldeak…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1272
 msgid "Manage Calendar groups order and visibility"
@@ -21762,12 +21758,12 @@ msgid "Show _Only This Calendar"
 msgstr "_Erakutsi egutegi hau soilik"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1354
-msgid "Cop_y to Calendar..."
-msgstr "_Kopiatu egutegian..."
+msgid "Cop_y to Calendar…"
+msgstr "_Kopiatu egutegian…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1361
-msgid "_Delegate Meeting..."
-msgstr "_Delegatu bilera..."
+msgid "_Delegate Meeting…"
+msgstr "_Delegatu bilera…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1368
 msgid "_Delete Appointment"
@@ -21794,16 +21790,16 @@ msgid "Delete all occurrences"
 msgstr "Ezabatu agerraldi guztiak"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1389
-msgid "Edit as Ne_w..."
-msgstr "Editatu _berri gisa..."
+msgid "Edit as Ne_w…"
+msgstr "Editatu _berri gisa…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1391
 msgid "Edit the current appointment as new"
 msgstr "Editatu uneko hitzordua berri gisa"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1396
-msgid "New All Day _Event..."
-msgstr "Egun osoko gertaera _berria..."
+msgid "New All Day _Event…"
+msgstr "Egun osoko gertaera _berria…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1398
 msgid "Create a new all day event"
@@ -21811,19 +21807,19 @@ msgstr "Sortu egun osoko gertaera berria"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1403
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:238
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:312
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:318
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:584
 #: ../src/modules/calendar/e-task-shell-view-actions.c:710
-msgid "_Forward as iCalendar..."
-msgstr "_Birbidali iCalendar gisa..."
+msgid "_Forward as iCalendar…"
+msgstr "_Birbidali iCalendar gisa…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1412
 msgid "Create a new meeting"
 msgstr "Sortu bilera berria"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1417
-msgid "Mo_ve to Calendar..."
-msgstr "_Eraman egutegira..."
+msgid "Mo_ve to Calendar…"
+msgstr "_Eraman egutegira…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1431
 msgid "Make this Occurrence _Movable"
@@ -21838,16 +21834,16 @@ msgid "View the current appointment"
 msgstr "Ikusi uneko hitzordua"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1459
-msgid "_Schedule Meeting..."
-msgstr "_Antolatu bilera..."
+msgid "_Schedule Meeting…"
+msgstr "_Antolatu bilera…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1461
 msgid "Converts an appointment to a meeting"
 msgstr "Hitzordu bat bilera batean bihurtzen du"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1466
-msgid "Conv_ert to Appointment..."
-msgstr "_Bihurtu hitzordura..."
+msgid "Conv_ert to Appointment…"
+msgstr "_Bihurtu hitzordura…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1468
 msgid "Converts a meeting to an appointment"
@@ -21920,13 +21916,13 @@ msgstr "Laburpenak hau dauka"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1716
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1730
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:269
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:357
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:831
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:845
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1039
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1053
-msgid "Print..."
-msgstr "Inprimatu..."
+msgid "Print…"
+msgstr "Inprimatu…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1718
 msgid "Print this calendar"
@@ -21938,11 +21934,11 @@ msgstr "Aurreikusi inprimatuko den egutegia"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1747
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:367
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:862
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1070
-msgid "_Save as iCalendar..."
-msgstr "_Gorde iCalendar gisa..."
+msgid "_Save as iCalendar…"
+msgstr "_Gorde iCalendar gisa…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1824
 msgid "Go To"
@@ -21977,7 +21973,7 @@ msgid "View the selected memo"
 msgstr "Ikusi hautatutako zirkularra"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:259
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:347
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:353
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:675
 #: ../src/modules/calendar/e-task-shell-view-actions.c:815
 msgid "Open _Web Page"
@@ -22018,57 +22014,57 @@ msgstr "Ezin da bilatu egutegi aktiborik gabe"
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:270
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:276
 #: ../src/modules/calendar/e-task-shell-view-actions.c:627
 msgid "task"
 msgstr "zeregina"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:305
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:311
 #: ../src/modules/calendar/e-task-shell-view-actions.c:689
 msgid "_Assign Task"
 msgstr "Esleitu _zeregina"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:319
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:325
 #: ../src/modules/calendar/e-task-shell-view-actions.c:787
 msgid "_Mark as Complete"
 msgstr "_Markatu “Osatuta“"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:321
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:327
 #: ../src/modules/calendar/e-task-shell-view-actions.c:789
 msgid "Mark selected tasks as complete"
 msgstr "Markatu hautatutako zereginak osatutako gisa"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:326
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:332
 msgid "_Mark as Incomplete"
 msgstr "_Markatu “Osatu gabea“"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:328
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:334
 #: ../src/modules/calendar/e-task-shell-view-actions.c:796
 msgid "Mark selected tasks as incomplete"
 msgstr "Markatu hautatutako zereginak osatuta gabe gisa"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:333
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:339
 #: ../src/modules/calendar/e-task-shell-view-actions.c:801
 msgid "New _Task"
 msgstr "_Zeregin berria"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:335
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:341
 #: ../src/modules/calendar/e-task-shell-backend.c:77
 #: ../src/modules/calendar/e-task-shell-view-actions.c:803
 msgid "Create a new task"
 msgstr "Sortu zeregin berria"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:340
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:346
 #: ../src/modules/calendar/e-task-shell-view-actions.c:808
 msgid "_Open Task"
 msgstr "_Ireki zeregina"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:342
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:348
 #: ../src/modules/calendar/e-task-shell-view-actions.c:810
 msgid "View the selected task"
 msgstr "Ikusi hautatutako zeregina"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:359
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1055
 msgid "Print the selected task"
 msgstr "Inprimatu hautatutako zeregina"
@@ -22107,8 +22103,8 @@ msgid "_Delete Memo"
 msgstr "_Ezabatu zirkularra"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:577
-msgid "_Find in Memo..."
-msgstr "_Bilatu zirkularrean..."
+msgid "_Find in Memo…"
+msgstr "_Bilatu zirkularrean…"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:579
 msgid "Search for text in the displayed memo"
@@ -22123,8 +22119,8 @@ msgid "Delete the selected memo list"
 msgstr "Ezabatu hautatutako zirkularren zerrenda"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
-msgid "_Manage Memo List groups..."
-msgstr "Kudeatu _zirkularren zerrendaren taldeak..."
+msgid "_Manage Memo List groups…"
+msgstr "Kudeatu _zirkularren zerrendaren taldeak…"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:607
 msgid "Manage Memo List groups order and visibility"
@@ -22247,8 +22243,8 @@ msgid "_Delete Task"
 msgstr "_Ezabatu zeregina"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:703
-msgid "_Find in Task..."
-msgstr "_Bilatu zereginean..."
+msgid "_Find in Task…"
+msgstr "_Bilatu zereginean…"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:705
 msgid "Search for text in the displayed task"
@@ -22263,8 +22259,8 @@ msgid "Delete the selected task list"
 msgstr "Ezabatu hautatutako zereginen zerrenda"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
-msgid "_Manage Task List groups..."
-msgstr "Kudeatu _zereginen zerrendaren taldeak..."
+msgid "_Manage Task List groups…"
+msgstr "Kudeatu _zereginen zerrendaren taldeak…"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
 msgid "_New Task List"
@@ -22384,16 +22380,16 @@ msgstr "Kontsultatu konfigurazioa posta elektronikoaren domeinuarekin"
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:82
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:83
 msgid "Looking up IMAP server…"
-msgstr "IMAP zerbitzaria kontsultatzen..."
+msgstr "IMAP zerbitzaria kontsultatzen…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:84
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:85
 msgid "Looking up POP3 server…"
-msgstr "POP3 zerbitzaria kontsultatzen..."
+msgstr "POP3 zerbitzaria kontsultatzen…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:86
 msgid "Looking up SMTP server…"
-msgstr "SMTP zerbitzaria kontsultatzen..."
+msgstr "SMTP zerbitzaria kontsultatzen…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
@@ -22404,7 +22400,7 @@ msgstr "CalDAV zerbitzaria"
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:87
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:88
 msgid "Looking up CalDAV server…"
-msgstr "CalDAV zerbitzaria kontsultatzen..."
+msgstr "CalDAV zerbitzaria kontsultatzen…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
@@ -22415,7 +22411,7 @@ msgstr "CardDAV zerbitzaria"
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:89
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:90
 msgid "Looking up CardDAV server…"
-msgstr "CardDAV zerbitzaria kontsultatzen..."
+msgstr "CardDAV zerbitzaria kontsultatzen…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
@@ -22425,7 +22421,7 @@ msgstr "LDAP zerbitzaria"
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:91
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:92
 msgid "Looking up LDAP server…"
-msgstr "LDAP zerbitzaria kontsultatzen..."
+msgstr "LDAP zerbitzaria kontsultatzen…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:279
 msgid "Look up in SRV records"
@@ -23017,8 +23013,8 @@ msgid "Searching for an existing version of this memo"
 msgstr "Zirkular honek lehendik duen bertsioren bat bilatzen"
 
 #: ../src/modules/itip-formatter/itip-view.c:4527
-msgid "Opening the calendar. Please wait..."
-msgstr "Egutegia irekitzen. Itxaron..."
+msgid "Opening the calendar. Please wait…"
+msgstr "Egutegia irekitzen. Itxaron…"
 
 #: ../src/modules/itip-formatter/itip-view.c:4944
 #, c-format
@@ -23097,15 +23093,15 @@ msgstr "“%s“ zirkular-zerrendara bertan behera utzia bezala bidalita"
 
 #: ../src/modules/itip-formatter/itip-view.c:5068
 msgid "Saving changes to the calendar. Please wait…"
-msgstr "Aldaketak egutegian gordetzen. Itxaron..."
+msgstr "Aldaketak egutegian gordetzen. Itxaron…"
 
 #: ../src/modules/itip-formatter/itip-view.c:5071
 msgid "Saving changes to the task list. Please wait…"
-msgstr "Aldaketak zeregin-zerrendan gordetzen. Itxaron..."
+msgstr "Aldaketak zeregin-zerrendan gordetzen. Itxaron…"
 
 #: ../src/modules/itip-formatter/itip-view.c:5074
 msgid "Saving changes to the memo list. Please wait…"
-msgstr "Aldaketak zirkular-zerrendan gordetzen. Itxaron..."
+msgstr "Aldaketak zirkular-zerrendan gordetzen. Itxaron…"
 
 #: ../src/modules/itip-formatter/itip-view.c:5165
 msgid "Unable to parse item"
@@ -23512,8 +23508,8 @@ msgid "None"
 msgstr "Bat ere ez"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:853
-msgid "Marking messages as read..."
-msgstr "Markatu _mezuak irakurritako gisa..."
+msgid "Marking messages as read…"
+msgstr "Markatu _mezuak irakurritako gisa…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1258
 msgid "Go to Folder"
@@ -23564,8 +23560,8 @@ msgid "Fl_ush Outbox"
 msgstr "_Garbitu irteerako ontzia"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1621
-msgid "_Copy Folder To..."
-msgstr "K_opiatu karpeta hemen..."
+msgid "_Copy Folder To…"
+msgstr "K_opiatu karpeta hemen…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1623
 msgid "Copy the selected folder into another folder"
@@ -23577,7 +23573,7 @@ msgstr "Betiko kendu karpeta honetatik"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1635
 msgid "Edit Sort _Order…"
-msgstr "Editatu or_dena..."
+msgstr "Editatu or_dena…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1637
 msgid "Change sort order of the folders in the folder tree"
@@ -23602,8 +23598,8 @@ msgid "Mark all messages in the folder as read"
 msgstr "Markatu karpetako mezu guztiak irakurrita gisa"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1656
-msgid "_Move Folder To..."
-msgstr "_Eraman karpeta hona..."
+msgid "_Move Folder To…"
+msgstr "_Eraman karpeta hona…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1658
 msgid "Move the selected folder into another folder"
@@ -23611,8 +23607,8 @@ msgstr "Eraman hautatutako karpeta beste karpeta batera"
 
 #. Translators: An action caption to create a new mail folder
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1664
-msgid "_New..."
-msgstr "_Berria..."
+msgid "_New…"
+msgstr "_Berria…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1666
 msgid "Create a new folder for storing mail"
@@ -23725,16 +23721,16 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "Sortu edo editatu mezu berriak iragazteko arauak"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1818
-msgid "_Subscriptions..."
-msgstr "_Harpidetzak..."
+msgid "_Subscriptions…"
+msgstr "_Harpidetzak…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1827
 msgid "F_older"
 msgstr "Kar_peta"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1844
-msgid "C_reate Search Folder From Search..."
-msgstr "Sortu bilaketa-karpeta bilaketatik..."
+msgid "C_reate Search Folder From Search…"
+msgstr "Sortu bilaketa-karpeta bilaketatik…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1851
 msgid "Search F_olders"
@@ -23745,8 +23741,8 @@ msgid "Create or edit search folder definitions"
 msgstr "Sortu edo editatu bilaketa-karpetaren definizioak"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1896
-msgid "_New Folder..."
-msgstr "Kar_peta berria..."
+msgid "_New Folder…"
+msgstr "Sortu bilaketa-karpeta bilaketatik…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1924
 msgid "Show Message _Preview"
@@ -24267,12 +24263,12 @@ msgid "Alternatively, you can %s (email, contacts and calendaring) instead."
 msgstr "Bestela, %s erabili dezakezu (posta-helbidea, kontaktuak eta egutegiak)."
 
 #: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
-msgid "Loading accounts..."
-msgstr "Kontuak kargatzen..."
+msgid "Loading accounts…"
+msgstr "Kontuak kargatzen…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:93
-msgid "_Format as..."
-msgstr "Eman _formatua honela..."
+msgid "_Format as…"
+msgstr "Eman _formatua honela…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:101
 msgid "_Other languages"
@@ -24404,7 +24400,7 @@ msgstr "_F#"
 
 #: ../src/modules/text-highlight/languages.c:232
 msgid "_Go"
-msgstr "_Go"
+msgstr "_Joan"
 
 #: ../src/modules/text-highlight/languages.c:237
 msgid "_Haskell"
@@ -24549,7 +24545,7 @@ msgstr "Mezuak eranskin bat duela adierazten duten zenbait gako aurkitu ditu Evo
 
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 msgid "_Add Attachment..."
-msgstr "_Gehitu eranskina..."
+msgstr "_Gehitu eranskina…"
 
 #: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Edit Message"
@@ -24557,7 +24553,7 @@ msgstr "_Editatu mezua"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
 msgid "Attachment Reminder"
-msgstr "Eranskin ohartarazlea"
+msgstr "Eranskinen oroigarria"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
@@ -25543,20 +25539,20 @@ msgid "Save as Template"
 msgstr "Gorde txantiloi gisa"
 
 #: ../src/shell/e-shell.c:379
-msgid "Preparing to go offline..."
-msgstr "Prestatzen lineaz kanpo jartzeko..."
+msgid "Preparing to go offline…"
+msgstr "Prestatzen lineaz kanpo jartzeko…"
 
 #: ../src/shell/e-shell.c:408
-msgid "Preparing to go online..."
-msgstr "Prestatzen linean jartzeko.."
+msgid "Preparing to go online…"
+msgstr "Prestatzen linean jartzeko…"
 
 #: ../src/shell/e-shell.c:519
 msgid "Preparing to quit"
 msgstr "Irteteko prestatzen"
 
 #: ../src/shell/e-shell.c:525
-msgid "Preparing to quit..."
-msgstr "Prestatzen irtetzeko..."
+msgid "Preparing to quit…"
+msgstr "Irteteko prestatzen…"
 
 #: ../src/shell/e-shell.c:1088
 msgid "Open _Settings"
@@ -25675,8 +25671,8 @@ msgid "Open the Evolution User Guide"
 msgstr "Ireki Evolution-en erabiltzailearen gida"
 
 #: ../src/shell/e-shell-window-actions.c:884
-msgid "I_mport..."
-msgstr "Inp_ortatu..."
+msgid "I_mport…"
+msgstr "_Inportatu…"
 
 #: ../src/shell/e-shell-window-actions.c:886
 msgid "Import data from other programs"
@@ -25699,8 +25695,8 @@ msgid "Exit the program"
 msgstr "Irten programatik"
 
 #: ../src/shell/e-shell-window-actions.c:926
-msgid "_Advanced Search..."
-msgstr "Bilaketa _aurreratua..."
+msgid "_Advanced Search…"
+msgstr "Bilaketa _aurreratua…"
 
 #: ../src/shell/e-shell-window-actions.c:928
 msgid "Construct a more advanced search"
@@ -25711,8 +25707,8 @@ msgid "Clear the current search parameters"
 msgstr "Garbitu uneko bilaketaren parametroak"
 
 #: ../src/shell/e-shell-window-actions.c:940
-msgid "_Edit Saved Searches..."
-msgstr "_Editatu gordetako bilaketak..."
+msgid "_Edit Saved Searches…"
+msgstr "_Editatu gordetako bilaketak…"
 
 #: ../src/shell/e-shell-window-actions.c:942
 msgid "Manage your saved searches"
@@ -25731,8 +25727,8 @@ msgid "Execute the current search parameters"
 msgstr "Exekutatu uneko bilaketaren parametroak"
 
 #: ../src/shell/e-shell-window-actions.c:961
-msgid "_Save Search..."
-msgstr "_Gorde bilaketa..."
+msgid "_Save Search…"
+msgstr "_Gorde bilaketa…"
 
 #: ../src/shell/e-shell-window-actions.c:963
 msgid "Save the current search parameters"
@@ -25747,8 +25743,8 @@ msgid "Show keyboard shortcuts"
 msgstr "Erakutsi lasterbideak"
 
 #: ../src/shell/e-shell-window-actions.c:982
-msgid "Submit _Bug Report..."
-msgstr "_Bidali programa-erroreen berri-ematea.."
+msgid "Submit _Bug Report…"
+msgstr "_Bidali programa-erroreen berri-ematea…"
 
 #: ../src/shell/e-shell-window-actions.c:984
 msgid "Submit a bug report using Bug Buddy"
@@ -25868,8 +25864,8 @@ msgid "Delete Current View"
 msgstr "Ezabatu uneko ikuspegia"
 
 #: ../src/shell/e-shell-window-actions.c:1185
-msgid "Save Custom View..."
-msgstr "Gorde ikuspegi pertsonalizatua..."
+msgid "Save Custom View…"
+msgstr "Gorde ikuspegi pertsonalizatua…"
 
 #: ../src/shell/e-shell-window-actions.c:1187
 msgid "Save current custom view"
@@ -25888,8 +25884,8 @@ msgid "Current view is a customized view"
 msgstr "Uneko ikuspegia ikuspegi pertsonalizatua da"
 
 #: ../src/shell/e-shell-window-actions.c:1214
-msgid "Page Set_up..."
-msgstr "Orriaren _konfigurazioa..."
+msgid "Page Set_up…"
+msgstr "Orrialdearen _konfigurazioa…"
 
 #: ../src/shell/e-shell-window-actions.c:1216
 msgid "Change the page settings for your current printer"
@@ -26041,6 +26037,10 @@ msgid ""
 msgstr "%s: --force-online eta --offline ezin dira aldi berean erabili.\n"
 "  Exekutatu “%s --help“ informazio gehiago lortzeko.\n"
 
+#: ../src/shell/shell.error.xml.h:1
+msgid "Importing..."
+msgstr "Inportatzen…"
+
 #: ../src/shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
 msgstr "Aurreko bertsiotik eguneratzeak huts egin du:"
@@ -26091,7 +26091,7 @@ msgstr "_Itxi berehala"
 
 #: ../src/shell/shell.error.xml.h:14
 msgid "Keep _Waiting"
-msgstr "_Itxaron..."
+msgstr "_Itxaron…"
 
 #: ../src/shell/shell.error.xml.h:15
 msgid "Failed to get values from “{0}”"
@@ -26263,8 +26263,8 @@ msgid "Email Address"
 msgstr "Helbide elektronikoa"
 
 #: ../src/smime/gui/certificate-manager.c:648
-msgid "Select a file to backup your key and certificate..."
-msgstr "Hautatu fitxategi bat zure gakoa eta ziurtagiria gordetzeko..."
+msgid "Select a file to backup your key and certificate…"
+msgstr "Hautatu fitxategi bat zure gakoa eta ziurtagiria gordetzeko…"
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
@@ -26287,8 +26287,8 @@ msgstr "_Fitxategi-izena:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../src/smime/gui/certificate-manager.c:741
-msgid "Please select a file..."
-msgstr "Hautatu fitxategia..."
+msgid "Please select a file…"
+msgstr "Hautatu fitxategia…"
 
 #: ../src/smime/gui/certificate-manager.c:755
 msgid "_Include certificate chain in the backup"
@@ -26332,8 +26332,8 @@ msgid "Failed to backup key and certificate"
 msgstr "Huts egin du gakoaren eta ziurtagiriaren babeskopia egitean"
 
 #: ../src/smime/gui/certificate-manager.c:948
-msgid "Select a certificate to import..."
-msgstr "Hautatu ziurtagiria inportatzeko..."
+msgid "Select a certificate to import…"
+msgstr "Hautatu ziurtagiria inportatzeko…"
 
 #: ../src/smime/gui/certificate-manager.c:997
 msgid "Failed to import certificate"
@@ -26621,3 +26621,172 @@ msgstr "Ezin da biltegia diskoan idatzi. Errore-kodea: %i"
 msgid "Imported Certificate"
 msgstr "Inportatutako ziurtagiria"
 
+#~ msgid "_Attachment..."
+#~ msgstr "_Eranskina..."
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Atte_ndees..."
+#~ msgstr "_Partaideak..."
+
+#~ msgctxt "ECompEditor"
+#~ msgid "_Categories..."
+#~ msgstr "Ka_tegoriak..."
+
+#~ msgid "Saving changes..."
+#~ msgstr "Aldaketak gordetzen..."
+
+#~ msgid "_Print..."
+#~ msgstr "I_nprimatu..."
+
+#~ msgid "Pre_view..."
+#~ msgstr "_Aurrebista..."
+
+#~ msgid "Select..."
+#~ msgstr "Hautatu..."
+
+#~ msgid "Atte_ndees..."
+#~ msgstr "_Partaideak..."
+
+#~ msgid "New _Appointment..."
+#~ msgstr "Hitz_ordu berria..."
+
+#~ msgid "New _Meeting..."
+#~ msgstr "_Bilera berria..."
+
+#~ msgid "New _Task..."
+#~ msgstr "_Zeregin berria..."
+
+#~ msgid "_Open..."
+#~ msgstr "_Ireki..."
+
+#~ msgid "_Delete..."
+#~ msgstr "E_zabatu..."
+
+#~ msgid "Save _As..."
+#~ msgstr "Gorde hone_la..."
+
+#~ msgid "A_dd Attachment..."
+#~ msgstr "_Gehitu eranskina..."
+
+#~ msgid "Other..."
+#~ msgstr "Besterik..."
+
+#~ msgid "_Find..."
+#~ msgstr "_Bilatu..."
+
+#~ msgid "Re_place..."
+#~ msgstr "Orde_ztu..."
+
+#~ msgid "_Image..."
+#~ msgstr "I_rudia..."
+
+#~ msgid "_Link..."
+#~ msgstr "_Esteka..."
+
+#~ msgid "_Rule..."
+#~ msgstr "_Marra..."
+
+#~ msgid "_Table..."
+#~ msgstr "_Taula..."
+
+#~ msgid "Cell..."
+#~ msgstr "Gelaxka..."
+
+#~ msgid "Image..."
+#~ msgstr "Irudia..."
+
+#~ msgid "Link..."
+#~ msgstr "Esteka..."
+
+#~ msgid "Page..."
+#~ msgstr "Orria..."
+
+#~ msgid "Rule..."
+#~ msgstr "Marra..."
+
+#~ msgid "Table..."
+#~ msgstr "Taula..."
+
+#~ msgid "Text..."
+#~ msgstr "Testua..."
+
+#~ msgid "More..."
+#~ msgstr "Gehiago..."
+
+#~ msgid "Add a C_olumn..."
+#~ msgstr "Gehitu z_utabea..."
+
+#~ msgid "Custo_mize Current View..."
+#~ msgstr "_Pertsonalizatu uneko ikuspegia..."
+
+#~ msgid "Save _Image..."
+#~ msgstr "Gorde _irudia..."
+
+#~ msgid "Storing changes..."
+#~ msgstr "Aldaketak gordetzen..."
+
+#~ msgid "Retrieving message..."
+#~ msgstr "Mezua eskuratzen..."
+
+#~ msgid "_Archive..."
+#~ msgstr "_Artxiboa..."
+
+#~ msgid "_Copy to Folder..."
+#~ msgstr "K_opiatu karpeta honetan..."
+
+#~ msgid "Follow _Up..."
+#~ msgstr "Jarrait_u..."
+
+#~ msgid "_Move to Folder..."
+#~ msgstr "_Eraman karpeta honetara..."
+
+#~ msgid "Loading..."
+#~ msgstr "Kargatzen..."
+
+#~ msgid "_Forward Contact..."
+#~ msgstr "Birbidali _kontaktua..."
+
+#~ msgid "_New Contact..."
+#~ msgstr "Kontaktu _berria..."
+
+#~ msgid "New Contact _List..."
+#~ msgstr "Kontaktuen _zerrenda berria..."
+
+#~ msgid "_Send Message to Contact..."
+#~ msgstr "Bidali _mezua kontaktuari..."
+
+#~ msgid "_Save as vCard..."
+#~ msgstr "_Gorde vCard gisa..."
+
+#~ msgid "_Copy..."
+#~ msgstr "K_opiatu..."
+
+#~ msgid "New All Day _Event..."
+#~ msgstr "Egun osoko gertaera _berria..."
+
+#~ msgid "Print..."
+#~ msgstr "Inprimatu..."
+
+#~ msgid "_Save as iCalendar..."
+#~ msgstr "_Gorde iCalendar gisa..."
+
+#~ msgid "_Copy Folder To..."
+#~ msgstr "K_opiatu karpeta hemen..."
+
+#~ msgid "_Move Folder To..."
+#~ msgstr "_Eraman karpeta hona..."
+
+#~ msgid "_New..."
+#~ msgstr "_Berria..."
+
+#~ msgid "Preparing to quit..."
+#~ msgstr "Prestatzen irtetzeko..."
+
+#~ msgid "I_mport..."
+#~ msgstr "Inp_ortatu..."
+
+#~ msgid "_Advanced Search..."
+#~ msgstr "Bilaketa _aurreratua..."
+
+#~ msgid "_Save Search..."
+#~ msgstr "_Gorde bilaketa..."
