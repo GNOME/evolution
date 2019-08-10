@@ -393,6 +393,7 @@ src/modules/addressbook/e-book-shell-migrate.c
 src/modules/addressbook/e-book-shell-sidebar.c
 src/modules/addressbook/e-book-shell-view-actions.c
 src/modules/addressbook/e-book-shell-view.c
+src/modules/addressbook/e-book-shell-view-private.c
 src/modules/alarm-notify/alarm-notify.c
 src/modules/backup-restore/e-mail-config-restore-page.c
 src/modules/backup-restore/e-mail-config-restore-ready-page.c
