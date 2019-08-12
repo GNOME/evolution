@@ -1126,7 +1126,7 @@ msgstr "S'està enviant una invitació a una reunió."
 #. (itstool) path: page/title
 #: C/calendar-meetings-sending-invitation.page:26
 msgid "Sending a Meeting Invitation"
-msgstr "S'està enviant una invitació a una reunió."
+msgstr "S'està enviant una invitació a una reunió"
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:28
@@ -1587,7 +1587,7 @@ msgstr "Afegir una cita."
 #. (itstool) path: page/title
 #: C/calendar-usage-add-appointment.page:20
 msgid "Adding an Appointment"
-msgstr "Afegir una Cita."
+msgstr "Afegir una cita"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:24
@@ -1601,7 +1601,7 @@ msgid ""
 msgstr ""
 "Feu clic a <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Cita</gui></guiseq>, "
 "o feu doble clic en un espai en blanc del calendari per obrir el diàleg de "
-"cites . L'hora concreta sobre la que hàgeu fet doble clic es suggerirà com "
+"cites. L'hora concreta sobre la qual hàgeu fet doble clic es suggerirà com "
 "a hora per a la nova cita. També podeu escriure directament al calendari i "
 "ajustar la durada arrossegant el ratolí."
 
@@ -2240,7 +2240,7 @@ msgstr "Afegir una altra llibreta d'adreces local."
 #. (itstool) path: page/title
 #: C/contacts-local.page:20
 msgid "Adding another local address book"
-msgstr "Afegir una altra llibreta d'adreces local."
+msgstr "Afegir una altra llibreta d'adreces local"
 
 #. (itstool) path: page/p
 #: C/contacts-local.page:22
@@ -2280,7 +2280,7 @@ msgstr "Cercar contactes."
 #. (itstool) path: page/title
 #: C/contacts-searching.page:28
 msgid "Searching Contacts"
-msgstr "Cercar contactes."
+msgstr "Cercar contactes"
 
 #. (itstool) path: section/title
 #: C/contacts-searching.page:31
@@ -3249,7 +3249,7 @@ msgstr "Ús dels serveis Google."
 #. (itstool) path: page/title
 #: C/google-services.page:18
 msgid "Using Google services"
-msgstr "Ús dels serveis Google."
+msgstr "Ús dels serveis Google"
 
 #. (itstool) path: info/desc
 #: C/import-apps-mozilla.page:5
@@ -3566,7 +3566,7 @@ msgstr "Importació de fitxers individuals."
 #. (itstool) path: page/title
 #: C/import-single-files.page:20
 msgid "Importing single files"
-msgstr "Importació de fitxers individuals."
+msgstr "Importació de fitxers individuals"
 
 #. (itstool) path: page/p
 #: C/import-single-files.page:22
@@ -4573,7 +4573,7 @@ msgstr "Aplicar filtres a la selecció."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:154
 msgid "<keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>"
-msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq> o <key>Retornar</key>"
+msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq> o <key>Retorn</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:157
@@ -4722,8 +4722,8 @@ msgid ""
 "If the message is more than one screen long, <key>Space</key> works as "
 "<key>Page Down</key>."
 msgstr ""
-"Si el missatge té més d'una pantalla de llarg, l'<key>Space</key> actua com "
-"<key>Avançar Pàgina</key>."
+"Si el missatge té més d'una pantalla de llarg, l'<key>Espai</key> actua com a "
+"<key>Av Pàg</key>."
 
 #. (itstool) path: item/p
 #: C/intro-keyboard-shortcuts.page:237
@@ -9195,7 +9195,7 @@ msgstr "Obtenció i ús de claus públiques de GPG."
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-getting-keys.page:23
 msgid "Getting and using GPG public keys"
-msgstr "Obtenció i ús de claus públiques de GPG."
+msgstr "Obtenció i ús de claus públiques de GPG"
 
 #. (itstool) path: page/p
 #: C/mail-encryption-gpg-getting-keys.page:25
@@ -9224,7 +9224,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-encryption-gpg-set-up.page:23
 msgid "Setting up GPG for your mail account"
-msgstr "Activar GPG al vostre compte de correu electrònic."
+msgstr "Activar GPG al vostre compte de correu electrònic"
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-set-up.page:26
@@ -10393,7 +10393,7 @@ msgstr "Subscripcions de carpetes IMAP."
 #. (itstool) path: page/title
 #: C/mail-imap-subscriptions.page:25
 msgid "IMAP Subscriptions"
-msgstr "Subscripcions IMAP."
+msgstr "Subscripcions IMAP"
 
 #. (itstool) path: page/p
 #: C/mail-imap-subscriptions.page:27
@@ -11657,7 +11657,7 @@ msgstr "Cerca de missatges."
 #. (itstool) path: page/title
 #: C/mail-searching.page:28
 msgid "Searching Mail"
-msgstr "Cerca de correu."
+msgstr "Cerca de correu"
 
 #. (itstool) path: section/title
 #: C/mail-searching.page:31
@@ -11755,7 +11755,7 @@ msgstr "Comprovar automàticament i amb regularitat la recepció un nou correu."
 #. (itstool) path: page/title
 #: C/mail-send-and-receive-automatically.page:20
 msgid "Automatically check for new mail"
-msgstr "Comprovar automàticament la recepció un nou correu."
+msgstr "Comprovar automàticament la recepció un nou correu"
 
 #. (itstool) path: page/p
 #: C/mail-send-and-receive-automatically.page:21
@@ -12734,7 +12734,7 @@ msgstr "Les paraules estan ajustades en missatges de sortida de 72 caràcters."
 #. (itstool) path: page/title
 #: C/mail-word-wrap.page:20
 msgid "Words are wrapped in outgoing mail at 72 characters"
-msgstr "Les paraules estan ajustades en missatges de sortida de 72 caràcters."
+msgstr "Les paraules estan ajustades en missatges de sortida de 72 caràcters"
 
 #. (itstool) path: page/p
 #: C/mail-word-wrap.page:22
@@ -13112,7 +13112,7 @@ msgstr "En afegir, editar i suprimir notes."
 #. (itstool) path: page/title
 #: C/memos-usage.page:20
 msgid "Add, Edit and Delete Memos"
-msgstr "Afegir, editar i suprimir notes."
+msgstr "Afegir, editar i suprimir notes"
 
 #. (itstool) path: note/p
 #: C/memos-usage.page:22
@@ -13555,7 +13555,7 @@ msgstr "Cercar tasques."
 #. (itstool) path: page/title
 #: C/tasks-searching.page:28
 msgid "Searching Tasks"
-msgstr "Cercar tasques."
+msgstr "Cercar tasques"
 
 #. (itstool) path: section/title
 #: C/tasks-searching.page:31
@@ -14439,7 +14439,7 @@ msgstr "Edició d'una cerca desada"
 #. (itstool) path: guiseq/gui
 #: C/xinclude-searching.xml:27
 msgid "Edit Saved Searches"
-msgstr "_Edita les cerques desades..."
+msgstr "Edita les cerques desades"
 
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:27
