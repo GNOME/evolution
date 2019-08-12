@@ -366,7 +366,7 @@ mail_ffe_body (const gchar *word,
 	encoded_word = g_string_new ("");
 	camel_sexp_encode_string (encoded_word, word);
 
-	sexp = g_strdup_printf ("(match-all (body-%s %s))", cmp, encoded_word->str);
+	sexp = g_strdup_printf ("(body-%s %s)", cmp, encoded_word->str);
 
 	g_string_free (encoded_word, TRUE);
 
@@ -442,14 +442,14 @@ mail_ffe_process_date (const gchar *get_date_fnc,
 
 	rel_days = g_ascii_strtoll (word, &endptr, 10);
 	if (rel_days != 0 && endptr && !*endptr) {
-		return g_strdup_printf ("(match-all (%s (%s) (%s (get-current-date) %" G_GINT64_FORMAT ")))", op, get_date_fnc,
+		return g_strdup_printf ("(match-all (%s (compare-date (%s) (%s (get-current-date) %" G_GINT64_FORMAT ")) 0))", op, get_date_fnc,
 			rel_days < 0 ? "+" : "-", (rel_days < 0 ? -1 : 1) * rel_days * 24 * 60 * 60);
 	}
 
 	if (!mail_ffe_decode_date_time (word, &tv))
-		return g_strdup_printf ("(match-all (%s (%s) (get-current-date)))", op, get_date_fnc);
+		return g_strdup_printf ("(match-all (%s (compare-date (%s) (get-current-date)) 0))", op, get_date_fnc);
 
-	return g_strdup_printf ("(match-all (%s (%s) %" G_GINT64_FORMAT "))", op, get_date_fnc, (gint64) tv.tv_sec);
+	return g_strdup_printf ("(match-all (%s (compare-date (%s) %" G_GINT64_FORMAT ") 0))", op, get_date_fnc, (gint64) tv.tv_sec);
 }
 
 static gchar *
