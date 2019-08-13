@@ -99,18 +99,41 @@ ece_task_get_timezone_from_property (ECompEditor *comp_editor,
 	return zone;
 }
 
+static ICalTime *
+ece_task_get_completed (ICalComponent *comp)
+{
+	ICalProperty *prop;
+	ICalTime *tt;
+
+	g_return_val_if_fail (I_CAL_IS_COMPONENT (comp), NULL);
+
+	prop = i_cal_component_get_first_property (comp, I_CAL_COMPLETED_PROPERTY);
+	if (!prop)
+		return NULL;
+
+	tt = i_cal_property_get_completed (prop);
+
+	g_object_unref (prop);
+
+	return tt;
+}
+
 static void
 ece_task_update_timezone (ECompEditorTask *task_editor,
 			  gboolean *force_allday)
 {
-	const gint properties[] = {
-		I_CAL_DTSTART_PROPERTY,
-		I_CAL_DUE_PROPERTY,
-		I_CAL_COMPLETED_PROPERTY
+	struct _props_data {
+		ICalPropertyKind kind;
+		ICalTime * (*get_func) (ICalComponent *comp);
+	} properties[] = {
+		{ I_CAL_DTSTART_PROPERTY, i_cal_component_get_dtstart },
+		{ I_CAL_DUE_PROPERTY, i_cal_component_get_due },
+		{ I_CAL_COMPLETED_PROPERTY, ece_task_get_completed }
 	};
 	ECompEditor *comp_editor;
 	ICalComponent *component;
 	ICalTimezone *zone = NULL;
+	gboolean has_property = FALSE;
 	gint ii;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_TASK (task_editor));
@@ -124,11 +147,13 @@ ece_task_update_timezone (ECompEditorTask *task_editor,
 	if (!component)
 		return;
 
-	for (ii = 0; !zone && ii < G_N_ELEMENTS (properties); ii++) {
-		if (e_cal_util_component_has_property (component, properties[ii])) {
+	for (ii = 0; !has_property && ii < G_N_ELEMENTS (properties); ii++) {
+		if (e_cal_util_component_has_property (component, properties[ii].kind)) {
 			ICalTime *dt;
 
-			dt = i_cal_component_get_dtstart (component);
+			has_property = TRUE;
+
+			dt = properties[ii].get_func (component);
 			if (dt && i_cal_time_is_valid_time (dt)) {
 				if (force_allday && i_cal_time_is_date (dt))
 					*force_allday = TRUE;
@@ -138,7 +163,7 @@ ece_task_update_timezone (ECompEditorTask *task_editor,
 				} else {
 					ICalProperty *prop;
 
-					prop = i_cal_component_get_first_property (component, properties[ii]);
+					prop = i_cal_component_get_first_property (component, properties[ii].kind);
 					zone = ece_task_get_timezone_from_property (comp_editor, prop);
 					g_clear_object (&prop);
 				}
@@ -148,7 +173,7 @@ ece_task_update_timezone (ECompEditorTask *task_editor,
 		}
 	}
 
-	if (zone) {
+	if (has_property) {
 		GtkWidget *edit_widget;
 		ICalTimezone *cfg_zone;
 

@@ -49,75 +49,9 @@ static ECellDateEditValue *
 get_dtend (ECalModelCalendar *model,
            ECalModelComponent *comp_data)
 {
-	ICalTime *tt_end;
-
 	if (!comp_data->dtend) {
-		ICalProperty *prop;
-		ICalTimezone *zone = NULL, *model_zone = NULL;
-		gboolean got_zone = FALSE, is_date;
-
-		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTEND_PROPERTY);
-		if (!prop)
-			return NULL;
-
-		tt_end = i_cal_property_get_dtend (prop);
-
-		if (i_cal_time_get_tzid (tt_end) &&
-		    e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_end), &zone, NULL, NULL))
-			got_zone = TRUE;
-
-		model_zone = e_cal_model_get_timezone (E_CAL_MODEL (model));
-
-		is_date = i_cal_time_is_date (tt_end);
-
-		g_clear_object (&tt_end);
-		g_clear_object (&prop);
-
-		if (got_zone) {
-			tt_end = i_cal_time_new_from_timet_with_zone (comp_data->instance_end, is_date, zone);
-		} else {
-			tt_end = i_cal_time_new_from_timet_with_zone (comp_data->instance_end, is_date, model_zone);
-		}
-
-		if (!i_cal_time_is_valid_time (tt_end) || i_cal_time_is_null_time (tt_end)) {
-			g_clear_object (&tt_end);
-			return NULL;
-		}
-
-		if (i_cal_time_is_date (tt_end) &&
-		    (prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTSTART_PROPERTY)) != NULL) {
-			ICalTime *tt_start;
-			ICalTimezone *start_zone = NULL;
-			gboolean got_start_zone = FALSE;
-
-			tt_start = i_cal_property_get_dtstart (prop);
-
-			if (i_cal_time_get_tzid (tt_start) &&
-			    e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_start), &start_zone, NULL, NULL))
-				got_start_zone = TRUE;
-
-			is_date = i_cal_time_is_date (tt_end);
-
-			g_clear_object (&tt_start);
-
-			if (got_start_zone) {
-				tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, start_zone);
-			} else {
-				tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, model_zone);
-			}
-
-			i_cal_time_adjust (tt_start, 1, 0, 0, 0);
-
-			/* Decrease by a day only if the DTSTART will still be before, or the same as, DTEND */
-			if (i_cal_time_compare (tt_start, tt_end) <= 0)
-				i_cal_time_adjust (tt_end, -1, 0, 0, 0);
-
-			g_clear_object (&tt_start);
-		}
-
-		g_clear_object (&prop);
-
-		comp_data->dtend = e_cell_date_edit_value_new_take (tt_end, (got_zone && zone) ? e_cal_util_copy_timezone (zone) : NULL);
+		comp_data->dtend = e_cal_model_util_get_datetime_value (E_CAL_MODEL (model), comp_data,
+			I_CAL_DTEND_PROPERTY, i_cal_property_get_dtend);
 	}
 
 	return e_cell_date_edit_value_copy (comp_data->dtend);

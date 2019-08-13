@@ -413,6 +413,12 @@ gint		e_cal_model_util_status_compare_cb
 						(gconstpointer a,
 						 gconstpointer b,
 						 gpointer cmp_cache);
+ECellDateEditValue *
+		e_cal_model_util_get_datetime_value
+						(ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 ICalPropertyKind kind,
+						 ICalTime * (*get_time_func) (ICalProperty *prop));
 
 G_END_DECLS
 

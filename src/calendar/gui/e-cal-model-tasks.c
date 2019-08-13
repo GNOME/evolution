@@ -132,61 +132,24 @@ ensure_task_not_complete (ECalModelComponent *comp_data,
 }
 
 static ECellDateEditValue *
-get_completed (ECalModelComponent *comp_data)
+get_completed (ECalModel *model,
+	       ECalModelComponent *comp_data)
 {
 	if (!comp_data->completed) {
-		ICalTime *tt_completed;
-		ICalTimezone *zone = NULL;
-		ICalProperty *prop;
-
-		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_COMPLETED_PROPERTY);
-		if (!prop)
-			return NULL;
-
-		tt_completed = i_cal_property_get_completed (prop);
-		g_clear_object (&prop);
-
-		if (!i_cal_time_is_valid_time (tt_completed) || i_cal_time_is_null_time (tt_completed)) {
-			g_clear_object (&tt_completed);
-			return NULL;
-		}
-
-		if (!i_cal_time_get_tzid (tt_completed) ||
-		    !e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_completed), &zone, NULL, NULL))
-			zone = NULL;
-
-		comp_data->completed = e_cell_date_edit_value_new_take (tt_completed, zone ? e_cal_util_copy_timezone (zone) : NULL);
+		comp_data->completed = e_cal_model_util_get_datetime_value (model, comp_data,
+			I_CAL_COMPLETED_PROPERTY, i_cal_property_get_completed);
 	}
 
 	return e_cell_date_edit_value_copy (comp_data->completed);
 }
 
 static ECellDateEditValue *
-get_due (ECalModelComponent *comp_data)
+get_due (ECalModel *model,
+	 ECalModelComponent *comp_data)
 {
 	if (!comp_data->due) {
-		ICalTime *tt_due;
-		ICalTimezone *zone = NULL;
-		ICalProperty *prop;
-
-		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DUE_PROPERTY);
-		if (!prop)
-			return NULL;
-
-		tt_due = i_cal_property_get_due (prop);
-
-		g_clear_object (&prop);
-
-		if (!i_cal_time_is_valid_time (tt_due) || i_cal_time_is_null_time (tt_due)) {
-			g_clear_object (&tt_due);
-			return NULL;
-		}
-
-		if (!i_cal_time_get_tzid (tt_due) ||
-		    !e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_due), &zone, NULL, NULL))
-			zone = NULL;
-
-		comp_data->due = e_cell_date_edit_value_new_take (tt_due, zone ? e_cal_util_copy_timezone (zone) : NULL);
+		comp_data->due = e_cal_model_util_get_datetime_value (model, comp_data,
+			I_CAL_DUE_PROPERTY, i_cal_property_get_due);
 	}
 
 	return e_cell_date_edit_value_copy (comp_data->due);
@@ -863,13 +826,13 @@ cal_model_tasks_value_at (ETableModel *etm,
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
-		return get_completed (comp_data);
+		return get_completed (E_CAL_MODEL (model), comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_STRIKEOUT :
 		return GINT_TO_POINTER (is_status_canceled (comp_data) || is_complete (comp_data));
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 		return GINT_TO_POINTER (is_complete (comp_data));
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
-		return get_due (comp_data);
+		return get_due (E_CAL_MODEL (model), comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
 		return get_geo (comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :

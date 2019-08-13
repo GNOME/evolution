@@ -1948,14 +1948,27 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 			zone = default_zone;
 
 	} else {
-		zone = NULL;
+		zone = default_zone;
 	}
 
 	if (dtstart && e_cal_component_datetime_get_value (dtstart)) {
 		t_start = i_cal_time_as_timet_with_zone (e_cal_component_datetime_get_value (dtstart), zone);
-		if (dtend && e_cal_component_datetime_get_value (dtend))
-			t_end = i_cal_time_as_timet_with_zone (e_cal_component_datetime_get_value (dtend), zone);
-		else
+
+		if (dtend && e_cal_component_datetime_get_value (dtend)) {
+			ICalTimezone *end_zone = default_zone;
+
+			if (e_cal_component_datetime_get_tzid (dtend)) {
+				end_zone = i_cal_component_get_timezone (e_cal_component_get_icalcomponent (newcomp), e_cal_component_datetime_get_tzid (dtend));
+				if (!end_zone &&
+				    !e_cal_client_get_timezone_sync (client, e_cal_component_datetime_get_tzid (dtend), &end_zone, NULL, NULL))
+					end_zone = NULL;
+
+				if (!end_zone)
+					end_zone = default_zone;
+			}
+
+			t_end = i_cal_time_as_timet_with_zone (e_cal_component_datetime_get_value (dtend), end_zone);
+		} else
 			t_end = t_start;
 
 		tmp1 = get_label (e_cal_component_datetime_get_value (dtstart), zone, default_zone);

@@ -1451,41 +1451,7 @@ static void
 ecepp_timezone_fill_widget (ECompEditorPropertyPart *property_part,
 			    ICalComponent *component)
 {
-	ICalTime * (* get_func) (ICalProperty *prop);
-	ICalProperty *prop;
-
-	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_TIMEZONE (property_part));
-
-	get_func = i_cal_property_get_dtstart;
-	prop = i_cal_component_get_first_property (component, I_CAL_DTSTART_PROPERTY);
-
-	if (!prop) {
-		get_func = i_cal_property_get_dtend;
-		prop = i_cal_component_get_first_property (component, I_CAL_DTEND_PROPERTY);
-	}
-
-	if (!prop) {
-		get_func = i_cal_property_get_due;
-		prop = i_cal_component_get_first_property (component, I_CAL_DUE_PROPERTY);
-	}
-
-	if (prop) {
-		ICalTime *itt;
-		GtkWidget *edit_widget;
-
-		edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
-		g_return_if_fail (E_IS_TIMEZONE_ENTRY (edit_widget));
-
-		itt = get_func (prop);
-		if (itt && i_cal_time_get_timezone (itt)) {
-			e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), i_cal_time_get_timezone (itt));
-		} else {
-			e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), NULL);
-		}
-
-		g_clear_object (&itt);
-		g_object_unref (prop);
-	}
+	/* Nothing to do here, this is sort-of virtual property part */
 }
 
 static void

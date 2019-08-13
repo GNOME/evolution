@@ -341,46 +341,9 @@ static ECellDateEditValue *
 get_dtstart (ECalModel *model,
              ECalModelComponent *comp_data)
 {
-	ECalModelPrivate *priv;
-	ICalTime *tt_start;
-
-	priv = model->priv;
-
 	if (!comp_data->dtstart) {
-		ICalProperty *prop;
-		ICalTimezone *zone;
-		gboolean got_zone = FALSE;
-
-		prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTSTART_PROPERTY);
-		if (!prop)
-			return NULL;
-
-		tt_start = i_cal_property_get_dtstart (prop);
-
-		if (i_cal_time_get_tzid (tt_start)
-		    && e_cal_client_get_timezone_sync (comp_data->client, i_cal_time_get_tzid (tt_start), &zone, NULL, NULL))
-			got_zone = TRUE;
-
-		if (e_cal_data_model_get_expand_recurrences (priv->data_model)) {
-			gboolean is_date = i_cal_time_is_date (tt_start);
-
-			if (got_zone) {
-				g_clear_object (&tt_start);
-				tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, zone);
-			} else if (priv->zone) {
-				g_clear_object (&tt_start);
-				tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, priv->zone);
-			}
-		}
-
-		g_object_unref (prop);
-
-		if (!i_cal_time_is_valid_time (tt_start) || i_cal_time_is_null_time (tt_start)) {
-			g_clear_object (&tt_start);
-			return NULL;
-		}
-
-		comp_data->dtstart = e_cell_date_edit_value_new_take (tt_start, (got_zone && zone) ? e_cal_util_copy_timezone (zone) : NULL);
+		comp_data->dtstart = e_cal_model_util_get_datetime_value (model, comp_data,
+			I_CAL_DTSTART_PROPERTY, i_cal_property_get_dtstart);
 	}
 
 	return e_cell_date_edit_value_copy (comp_data->dtstart);
@@ -4335,4 +4298,114 @@ e_cal_model_util_status_compare_cb (gconstpointer a,
 	}
 
 	return status_a - status_b;
+}
+
+ECellDateEditValue *
+e_cal_model_util_get_datetime_value (ECalModel *model,
+				     ECalModelComponent *comp_data,
+				     ICalPropertyKind kind,
+				     ICalTime * (*get_time_func) (ICalProperty *prop))
+{
+	ECellDateEditValue *value;
+	ICalProperty *prop;
+	ICalParameter *param = NULL;
+	ICalTimezone *zone = NULL;
+	ICalTime *tt;
+	const gchar *tzid;
+	gboolean is_date;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+	g_return_val_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data), NULL);
+	g_return_val_if_fail (get_time_func != NULL, NULL);
+
+	prop = i_cal_component_get_first_property (comp_data->icalcomp, kind);
+	if (!prop)
+		return NULL;
+
+	tt = get_time_func (prop);
+
+	if (!tt || !i_cal_time_is_valid_time (tt) || i_cal_time_is_null_time (tt)) {
+		g_clear_object (&prop);
+		g_clear_object (&tt);
+
+		return NULL;
+	}
+
+	is_date = i_cal_time_is_date (tt);
+
+	if (!is_date) {
+		param = i_cal_property_get_first_parameter (prop, I_CAL_TZID_PARAMETER);
+		tzid = param ? i_cal_parameter_get_tzid (param) : NULL;
+
+		if (!tzid || !*tzid ||
+		    !e_cal_client_get_timezone_sync (comp_data->client, tzid, &zone, NULL, NULL))
+			zone = NULL;
+	}
+
+	if (e_cal_data_model_get_expand_recurrences (model->priv->data_model)) {
+		gboolean is_date = i_cal_time_is_date (tt);
+		time_t instance_tt = (time_t) 0;
+
+		if (kind == I_CAL_DTSTART_PROPERTY)
+			instance_tt = comp_data->instance_start;
+		else if (kind == I_CAL_DTEND_PROPERTY)
+			instance_tt = comp_data->instance_end;
+		else
+			g_warn_if_reached ();
+
+		if (zone) {
+			g_clear_object (&tt);
+			tt = i_cal_time_new_from_timet_with_zone (instance_tt, is_date, zone);
+		} else if (model->priv->zone) {
+			g_clear_object (&tt);
+			tt = i_cal_time_new_from_timet_with_zone (instance_tt, is_date, model->priv->zone);
+		}
+
+		if (kind == I_CAL_DTEND_PROPERTY && is_date) {
+			ICalProperty *dtstart;
+
+			dtstart = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_DTSTART_PROPERTY);
+
+			if (dtstart) {
+				ICalTime *tt_start;
+				ICalTimezone *start_zone = NULL;
+
+				tt_start = i_cal_property_get_dtstart (dtstart);
+
+				g_clear_object (&param);
+
+				if (!i_cal_time_is_date (tt_start)) {
+					param = i_cal_property_get_first_parameter (dtstart, I_CAL_TZID_PARAMETER);
+					tzid = param ? i_cal_parameter_get_tzid (param) : NULL;
+
+					if (!tzid || !*tzid ||
+					    !e_cal_client_get_timezone_sync (comp_data->client, tzid, &start_zone, NULL, NULL))
+						start_zone = NULL;
+				}
+
+				if (start_zone) {
+					tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, start_zone);
+				} else {
+					tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, model->priv->zone);
+				}
+
+				i_cal_time_adjust (tt_start, 1, 0, 0, 0);
+
+				/* Decrease by a day only if the DTSTART will still be before, or the same as, DTEND */
+				if (i_cal_time_compare (tt_start, tt) <= 0)
+					i_cal_time_adjust (tt, -1, 0, 0, 0);
+
+				g_clear_object (&tt_start);
+				g_clear_object (&dtstart);
+				g_clear_object (&param);
+			}
+		}
+	}
+
+	value = e_cell_date_edit_value_new_take (tt, zone ? e_cal_util_copy_timezone (zone) : NULL);
+
+	g_clear_object (&prop);
+	g_clear_object (&param);
+
+	return value;
 }

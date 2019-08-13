@@ -281,6 +281,7 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 	ICalComponent *component;
 	ICalProperty *prop;
 	ICalTimezone *zone = NULL;
+	gboolean has_property = FALSE;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
 
@@ -298,6 +299,8 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 	}
 
 	if (e_cal_util_component_has_property (component, I_CAL_DTSTART_PROPERTY)) {
+		has_property = TRUE;
+
 		dtstart = i_cal_component_get_dtstart (component);
 		if (dtstart && i_cal_time_is_valid_time (dtstart)) {
 			if (i_cal_time_is_utc (dtstart)) {
@@ -311,6 +314,8 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 	}
 
 	if (e_cal_util_component_has_property (component, I_CAL_DTEND_PROPERTY)) {
+		has_property = TRUE;
+
 		dtend = i_cal_component_get_dtend (component);
 		if (!zone && i_cal_time_is_valid_time (dtend)) {
 			if (i_cal_time_is_utc (dtend)) {
@@ -323,8 +328,10 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 		}
 	}
 
-	if (!zone) {
+	if (!zone && e_cal_util_component_has_property (component, I_CAL_DUE_PROPERTY)) {
 		ICalTime *itt;
+
+		has_property = TRUE;
 
 		itt = i_cal_component_get_due (component);
 		if (itt && i_cal_time_is_valid_time (itt)) {
@@ -340,7 +347,7 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 		g_clear_object (&itt);
 	}
 
-	if (zone) {
+	if (has_property) {
 		GtkWidget *edit_widget;
 		ICalTimezone *cfg_zone;
 
