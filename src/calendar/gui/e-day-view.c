@@ -2808,6 +2808,8 @@ timezone_changed_cb (ECalModel *cal_model,
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
+	e_day_view_update_timezone_name_labels (day_view);
+
 	if (!cal_view->in_focus) {
 		e_day_view_free_events (day_view);
 		day_view->requires_update = TRUE;
@@ -2830,7 +2832,6 @@ timezone_changed_cb (ECalModel *cal_model,
 
 	e_day_view_recalc_day_starts (day_view, lower);
 	e_day_view_update_query (day_view);
-	e_day_view_update_timezone_name_labels (day_view);
 }
 
 static void
