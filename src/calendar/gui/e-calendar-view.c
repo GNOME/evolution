@@ -59,10 +59,6 @@ struct _ECalendarViewPrivate {
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
 
-	/* All keyboard devices are grabbed
-	 * while a tooltip window is shown. */
-	GQueue grabbed_keyboards;
-
 	gboolean allow_direct_summary_edit;
 };
 
@@ -398,27 +394,33 @@ calendar_view_dispose (GObject *object)
 		priv->selected_cut_list = NULL;
 	}
 
-	while (!g_queue_is_empty (&priv->grabbed_keyboards)) {
-		GdkDevice *keyboard;
-		keyboard = g_queue_pop_head (&priv->grabbed_keyboards);
-		gdk_device_ungrab (keyboard, GDK_CURRENT_TIME);
-		g_object_unref (keyboard);
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_calendar_view_parent_class)->dispose (object);
+}
+
+static gboolean
+calendar_view_key_press_event_cb (GtkWidget *view,
+				  GdkEvent *key_event,
+				  gpointer user_data)
+{
+	e_calendar_view_destroy_tooltip (E_CALENDAR_VIEW (view));
+
+	return FALSE;
 }
 
 static void
 calendar_view_constructed (GObject *object)
 {
+	/* Chain up to parent's method. */
+	G_OBJECT_CLASS (e_calendar_view_parent_class)->constructed (object);
+
 	/* Do this after calendar_view_init() so extensions can query
 	 * the GType accurately.  See GInstanceInitFunc documentation
 	 * for details of the problem. */
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_calendar_view_parent_class)->constructed (object);
+	g_signal_connect (object, "key-press-event",
+		G_CALLBACK (calendar_view_key_press_event_cb), NULL);
 }
 
 static void
@@ -1693,19 +1695,6 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 	e_calendar_view_open_event_with_flags (cal_view, client, icomp, flags);
 }
 
-static void
-tooltip_ungrab (ECalendarView *view,
-		guint32 event_time)
-{
-	GdkDevice *keyboard;
-
-	while (!g_queue_is_empty (&view->priv->grabbed_keyboards)) {
-		keyboard = g_queue_pop_head (&view->priv->grabbed_keyboards);
-		gdk_device_ungrab (keyboard, event_time);
-		g_object_unref (keyboard);
-	}
-}
-
 static gboolean
 tooltip_key_event (GtkWidget *tooltip,
 		   GdkEvent *key_event,
@@ -1716,8 +1705,6 @@ tooltip_key_event (GtkWidget *tooltip,
 	widget = g_object_get_data (G_OBJECT (view), "tooltip-window");
 	if (widget == NULL)
 		return TRUE;
-
-	tooltip_ungrab (view, gdk_event_get_time (key_event));
 
 	gtk_widget_destroy (widget);
 	g_object_set_data (G_OBJECT (view), "tooltip-window", NULL);
@@ -1784,14 +1771,21 @@ e_calendar_view_move_tip (GtkWidget *widget,
 	gtk_widget_show (widget);
 }
 
-static void
-tooltip_window_destroyed_cb (gpointer user_data,
-			     GObject *gone)
+void
+e_calendar_view_destroy_tooltip (ECalendarView *cal_view)
 {
-	ECalendarView *view = user_data;
+	GtkWidget *widget;
+	GObject *object;
 
-	tooltip_ungrab (view, GDK_CURRENT_TIME);
-	g_object_unref (view);
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	object = G_OBJECT (cal_view);
+	widget = g_object_get_data (object, "tooltip-window");
+
+	if (widget) {
+		gtk_widget_destroy (widget);
+		g_object_set_data (object, "tooltip-window", NULL);
+	}
 }
 
 /*
@@ -1816,14 +1810,12 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	GtkWidget *widget;
 	GdkWindow *window;
 	GdkDisplay *display;
-	GdkDeviceManager *device_manager;
+	GdkSeat *seat;
 	GdkRGBA bg_rgba, fg_rgba;
-	GQueue *grabbed_keyboards;
 	ECalComponent *newcomp;
 	ICalTimezone *zone, *default_zone;
 	ECalModel *model;
 	ECalClient *client = NULL;
-	GList *list, *link;
 
 	/* This function is a timeout callback. */
 
@@ -2047,50 +2039,19 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 
 	e_calendar_view_move_tip (pevent->tooltip, pevent->x +16, pevent->y + 16);
 
-	/* Grab all keyboard devices.  A key press from
-	 * any of them will dismiss the tooltip window. */
-
 	window = gtk_widget_get_window (pevent->tooltip);
 	display = gdk_window_get_display (window);
-	device_manager = gdk_display_get_device_manager (display);
+	seat = gdk_display_get_default_seat (display);
 
-	grabbed_keyboards = &data->cal_view->priv->grabbed_keyboards;
-	g_warn_if_fail (g_queue_is_empty (grabbed_keyboards));
-
-	list = gdk_device_manager_list_devices (
-		device_manager, GDK_DEVICE_TYPE_MASTER);
-
-	for (link = list; link != NULL; link = g_list_next (link)) {
-		GdkDevice *device = GDK_DEVICE (link->data);
-		GdkGrabStatus grab_status;
-
-		if (gdk_device_get_source (device) != GDK_SOURCE_KEYBOARD)
-			continue;
-
-		grab_status = gdk_device_grab (
-			device,
-			window,
-			GDK_OWNERSHIP_NONE,
-			FALSE,
-			GDK_KEY_PRESS_MASK |
-			GDK_KEY_RELEASE_MASK,
-			NULL,
-			GDK_CURRENT_TIME);
-
-		if (grab_status == GDK_GRAB_SUCCESS)
-			g_queue_push_tail (
-				grabbed_keyboards,
-				g_object_ref (device));
-	}
-
-	g_list_free (list);
+	/* Grab all keyboard devices.  A key press from
+	 * any of them will dismiss the tooltip window. */
+	gdk_seat_grab (seat, window, GDK_SEAT_CAPABILITY_KEYBOARD, TRUE, NULL, NULL, NULL, NULL);
 
 	g_signal_connect (
 		pevent->tooltip, "key-press-event",
 		G_CALLBACK (tooltip_key_event), data->cal_view);
 	pevent->timeout = -1;
 
-	g_object_weak_ref (G_OBJECT (pevent->tooltip), tooltip_window_destroyed_cb, g_object_ref (data->cal_view));
 	g_object_set_data (G_OBJECT (data->cal_view), "tooltip-window", pevent->tooltip);
 	g_object_unref (newcomp);
 

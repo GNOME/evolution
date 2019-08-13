@@ -2029,6 +2029,8 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 			start_time = -1;
 			end_time = -1;
 		}
+
+		e_calendar_view_destroy_tooltip	(cal_view);
 	}
 
 	cal_shell_content->priv->previous_selected_start_time = start_time;

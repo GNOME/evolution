@@ -257,6 +257,7 @@ gboolean	e_calendar_view_get_tooltips	(const ECalendarViewEventData *data);
 void		e_calendar_view_move_tip	(GtkWidget *widget,
 						 gint x,
 						 gint y);
+void		e_calendar_view_destroy_tooltip	(ECalendarView *cal_view);
 
 gchar *		e_calendar_view_dup_component_summary
 						(ICalComponent *icomp);
