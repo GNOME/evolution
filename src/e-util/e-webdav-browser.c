@@ -107,7 +107,8 @@ typedef enum {
 	E_EDITING_FLAG_CAN_ACL		= 1 << 7,
 	E_EDITING_FLAG_CAN_DELETE	= 1 << 8,
 	E_EDITING_FLAG_IS_BOOK		= 1 << 9,
-	E_EDITING_FLAG_IS_CALENDAR	= 1 << 10
+	E_EDITING_FLAG_IS_CALENDAR	= 1 << 10,
+	E_EDITING_FLAG_IS_COLLECTION	= 1 << 11
 } EEditingFlags;
 
 enum {
@@ -423,8 +424,8 @@ webdav_browser_update_ui (EWebDAVBrowser *webdav_browser)
 
 				gtk_tree_model_get (model, &parent_iter, COLUMN_UINT_EDITING_FLAGS, &parent_editing_flags, -1);
 
-				rd->editing_flags = (parent_editing_flags & ~(E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR)) |
-						    (rd->editing_flags & (E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR));
+				rd->editing_flags = (parent_editing_flags & ~(E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_IS_COLLECTION)) |
+						    (rd->editing_flags & (E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_IS_COLLECTION));
 			}
 		}
 
@@ -869,6 +870,9 @@ webdav_browser_gather_href_resources_sync (EWebDAVBrowser *webdav_browser,
 				if (resource->kind == E_WEBDAV_RESOURCE_KIND_CALENDAR)
 					editing_flags |= E_EDITING_FLAG_IS_CALENDAR;
 
+				if (resource->kind == E_WEBDAV_RESOURCE_KIND_COLLECTION)
+					editing_flags |= E_EDITING_FLAG_IS_COLLECTION;
+
 				if (!g_str_has_suffix (resource->href, "/")) {
 					tmp = g_strconcat (resource->href, "/", NULL);
 
@@ -1299,7 +1303,7 @@ webdav_browser_selection_changed_cb (GtkTreeSelection *selection,
 		has_set (E_EDITING_FLAG_MKCOL));
 
 	gtk_widget_set_sensitive (webdav_browser->priv->edit_button,
-		(editing_flags & (E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR)) != 0);
+		(editing_flags & (E_EDITING_FLAG_IS_BOOK | E_EDITING_FLAG_IS_CALENDAR | E_EDITING_FLAG_IS_COLLECTION)) != 0);
 
 	gtk_widget_set_sensitive (webdav_browser->priv->delete_button,
 		has_set (E_EDITING_FLAG_CAN_DELETE) && has_parent);
