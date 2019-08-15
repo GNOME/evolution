@@ -12738,7 +12738,7 @@ msgstr "D_iabòlic"
 #. Translators: :-(|)
 #: ../src/e-util/e-emoticon-chooser.c:78
 msgid "_Monkey"
-msgstr "_Mono"
+msgstr "_Mico"
 
 #: ../src/e-util/e-file-utils.c:121
 msgid "(Unknown Filename)"
