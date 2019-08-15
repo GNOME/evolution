@@ -14290,7 +14290,7 @@ msgstr "Servidor intermediari d'H_TTP:"
 
 #: ../src/e-util/e-proxy-editor.c:428
 msgid "H_TTPS Proxy:"
-msgstr "Servidor intermediari d'H_TTP:"
+msgstr "Servidor intermediari d'H_TTPS:"
 
 #: ../src/e-util/e-proxy-editor.c:459
 msgid "_Socks Proxy:"
@@ -20865,7 +20865,7 @@ msgstr "Catàleg global de Microsoft a través d'SSL/TLS"
 #. Page 1
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:623
 msgid "Connecting to LDAP"
-msgstr "S'està connectant a l'LDAP"
+msgstr "Connexió a l'LDAP"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:640
 msgid "Server Information"
