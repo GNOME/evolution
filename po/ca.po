@@ -3519,7 +3519,7 @@ msgstr "No s'ha pogut suprimir la llibreta d'adreces."
 
 #: ../src/addressbook/addressbook.error.xml.h:8
 msgid "Are you sure you want to delete address book “{0}”?"
-msgstr "Segur que voleu suprimir el llibre d'adreces «{0}»?"
+msgstr "Segur que voleu suprimir la llibreta d'adreces «{0}»?"
 
 #: ../src/addressbook/addressbook.error.xml.h:9
 msgid "This address book will be removed permanently."
@@ -3590,7 +3590,7 @@ msgstr "La imatge que heu seleccionat és gran. Voleu canviar-li la mida i torna
 
 #: ../src/addressbook/addressbook.error.xml.h:24
 msgid "An expected image size is up to 96 x 96 pixels."
-msgstr "La mida espera de la imatge és fins a 96 x 96 píxels."
+msgstr "La mida esperada de la imatge és fins a 96 x 96 píxels."
 
 #: ../src/addressbook/addressbook.error.xml.h:25
 msgid "_Resize"
@@ -19502,7 +19502,7 @@ msgid ""
 "ensuring the data is safely migrated. Please make sure there is enough disk space if you choose to "
 "migrate now."
 msgstr ""
-"El format de correu local de l'Evolution ha canviat d'mbox a Maildir. Cal que migreu el correu local "
+"El format de correu local de l'Evolution ha canviat de mbox a Maildir. Cal que migreu el correu local "
 "al format nou abans de continuar. Voleu fer la migració ara?\n"
 "\n"
 "Es crearà un compte mbox per preservar les carpetes mbox antigues. Un cop hàgiu comprovat que les "
@@ -23024,7 +23024,7 @@ msgstr "S'estan desant els canvis a la llista de tasques. Espereu…"
 
 #: ../src/modules/itip-formatter/itip-view.c:5074
 msgid "Saving changes to the memo list. Please wait…"
-msgstr "S'estan desant els canvis a la llist a d'anotacions. Espereu…"
+msgstr "S'estan desant els canvis a la llista d'anotacions. Espereu…"
 
 #: ../src/modules/itip-formatter/itip-view.c:5165
 msgid "Unable to parse item"
