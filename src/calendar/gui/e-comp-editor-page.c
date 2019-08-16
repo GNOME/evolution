@@ -82,8 +82,12 @@ ecep_sensitize_widgets (ECompEditorPage *page,
 			gtk_widget_set_sensitive (widget, !force_insensitive);
 
 		widget = e_comp_editor_property_part_get_edit_widget (ppd->part);
-		if (widget)
-			gtk_widget_set_sensitive (widget, !force_insensitive);
+		if (widget) {
+			if (GTK_IS_ENTRY (widget))
+				g_object_set (G_OBJECT (widget), "editable", !force_insensitive, NULL);
+			else
+				gtk_widget_set_sensitive (widget, !force_insensitive);
+		}
 	}
 }
 
