@@ -2619,12 +2619,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/credits.page:5
 msgid "Credits and Acknowledgment."
-msgstr "Crèdits i Agraïments."
+msgstr "Crèdits i agraïments."
 
 #. (itstool) path: page/title
 #: C/credits.page:20
 msgid "Credits and Acknowledgment"
-msgstr "Crèdits i Agraïments."
+msgstr "Crèdits i agraïments"
 
 #. (itstool) path: section/title
 #: C/credits.page:23
@@ -3311,7 +3311,7 @@ msgid ""
 msgstr ""
 "si voleu importar el correu <app>Thunderbird</app>, aneu a les "
 "<file>carpetes Mail/Local</file> (per a comptes locals) o "
-"<file>ImapMail/servername</file> (per comptes de correu electrònic remotes)."
+"<file>ImapMail/servername</file> (per comptes de correu electrònic remots)."
 " <file>servername</file> és l'adreça del vostre servidor de correu remot. "
 "Els fitxers sense final de fitxer inclouen els missatges (no els fitxers "
 "<file>.msf</file>)."
@@ -3450,7 +3450,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:46
 msgid "(Replace \"username\" by your username.)"
-msgstr "(Substitueix \"nom d'usuari\" pel vostre nom d'usuari)."
+msgstr "(Substitueix «nom d'usuari» pel vostre nom d'usuari)."
 
 #. (itstool) path: item/p
 #: C/import-apps-outlook.page:49
@@ -4767,7 +4767,7 @@ msgstr "Crear una nova cita."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:253
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
-msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
+msgstr "<keyseq><key>Maj</key><key>Ctrl</key><key>E</key></keyseq>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:256
@@ -4880,7 +4880,7 @@ msgid ""
 msgstr ""
 "<app>Evolution</app> ofereix funcionalitats per correu electrònic, "
 "calendari, contactes, tasques i missatges. Podeu canviar a una altra "
-"funcionalitat mitjançant els botons \"Canvia\" a l'extrem inferior esquerre."
+"funcionalitat mitjançant els botons «Canvia» a l'extrem inferior esquerre."
 " Depenent de la funcionalitat mostrada també es diferencien els elements que"
 " es mostren a la finestra."
 
@@ -6924,8 +6924,8 @@ msgid ""
 "Click <gui style=\"button\">Send</gui> or press "
 "<keyseq><key>Ctrl</key><key>Return</key></keyseq>."
 msgstr ""
-"Feu clic a <gui style=\"button\">Enviar</gui> o premeu "
-"<keyseq><key>Ctrl</key><key>Return</key></keyseq>."
+"Feu clic a <gui style=\"button\">Envia</gui> o premeu "
+"<keyseq><key>Ctrl</key><key>Retorn</key></keyseq>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-forward.page:37
@@ -7000,7 +7000,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-from-field-override.page:20
 msgid "Overriding the \"From\" field"
-msgstr "Reemplaçant el camp \"De\""
+msgstr "Reemplaçant el camp «De»"
 
 #. (itstool) path: page/p
 #: C/mail-composer-from-field-override.page:22
@@ -7029,7 +7029,7 @@ msgid ""
 "href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">sub-"
 "addressing</link>."
 msgstr ""
-"Aquesta funcionalitat pot ser útil <link "
+"Aquesta funcionalitat pot ser útil per <link "
 "href=\"https://en.wikipedia.org/wiki/Qmail#Innovations\">bústies comodí quan"
 " s'utilitzi qmail</link> i <link "
 "href=\"https://en.wikipedia.org/wiki/Email_address#Address_tags\">subdireccionament</link>."
@@ -7111,7 +7111,7 @@ msgstr "Inserir un enllaç a l'editor de correu."
 #. (itstool) path: page/title
 #: C/mail-composer-html-link.page:21
 msgid "Inserting a Link in HTML"
-msgstr "Inserir un hipervincle en HTML"
+msgstr "Inserir un enllaç en HTML"
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-link.page:24
@@ -7568,7 +7568,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates.page:5
 msgid "Message templates to reuse in the composer."
-msgstr "Plantilles per a missatges reutilitzables a l'editor"
+msgstr "Plantilles per a missatges reutilitzables a l'editor."
 
 #. (itstool) path: page/title
 #. (itstool) path: section/title
@@ -8138,7 +8138,7 @@ msgstr "Cerca de text a l'editor de correu."
 #. (itstool) path: page/title
 #: C/mail-composer-search.page:21
 msgid "Searching in the mail composer"
-msgstr "Cerca a l'editor de correu."
+msgstr "Cerca a l'editor de correu"
 
 #. (itstool) path: page/p
 #: C/mail-composer-search.page:23
@@ -11141,7 +11141,7 @@ msgid ""
 "option <gui>Other...</gui>. This will open a directory chooser window."
 msgstr ""
 "Trieu el directori fent clic al botó que hi ha al costat de <gui>Camí</gui> "
-"a la secció de <gui>Configuració</gui>. A la llista hi ha disponible "
+"a la secció de <gui>Configuració</gui>. A la llista hi ha disponibles "
 "carpetes predeterminades. Si el directori no està entre aquestes carpetes, "
 "seleccioneu l'última opció<gui>Altre...</gui>. S'obrirà una finestra per "
 "seleccionar el directori."
@@ -11241,7 +11241,7 @@ msgid ""
 "option <gui>Other…</gui>. This will open a directory chooser window."
 msgstr ""
 "Trieu el directori fent clic al botó que hi ha al costat de <gui>Camí</gui> "
-"a la secció de <gui>Configuració</gui>. A la llista hi ha disponible "
+"a la secció de <gui>Configuració</gui>. A la llista hi ha disponibles "
 "carpetes predeterminades. Si el directori no està entre aquestes carpetes, "
 "seleccioneu l'última opció<gui>Altre...</gui>. S'obrirà una finestra per "
 "seleccionar el directori."
@@ -11869,7 +11869,7 @@ msgid ""
 "<gui>Server</gui> field and select if the server requires authentication "
 "(entering a username and a password)."
 msgstr ""
-"Introduïu l 'adreça del vostre servidor de correu per enviar missatges al "
+"Introduïu l'adreça del vostre servidor de correu per enviar missatges al "
 "camp <gui>Servidor</gui> i seleccioneu si el servidor requereix autenticació"
 " (introduint un nom d'usuari i una contrasenya)."
 
