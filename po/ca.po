@@ -3104,8 +3104,8 @@ msgid ""
 msgstr ""
 "L'Evolution és compatible amb un gran ventall de formats estàndard de dades i de protocols de xarxa "
 "per a l'intercanvi d'informació, amb un èmfasi en el compliment d'estàndards i de seguretat. "
-"L'Evolution també pot integrar-se sense problemes amb el Microsoft Exchange amb l'extensió «Exchange "
-"Web Services» (EWS)."
+"L'Evolution també pot integrar-se sense problemes amb el Microsoft Exchange amb l'extensió «Serveis "
+"web de l'Exchange» (EWS)."
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:5
 msgid "The Evolution Team"
@@ -3769,7 +3769,7 @@ msgstr "Mostra les notes"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Show Certificates"
-msgstr "Mostra certificats"
+msgstr "Mostra els certificats"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:12
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:724
@@ -22363,7 +22363,7 @@ msgstr "S'està cercant el servidor LDAP…"
 
 #: ../src/modules/config-lookup/e-srv-config-lookup.c:279
 msgid "Look up in SRV records"
-msgstr "S'estan cercant registres SRV"
+msgstr "Cerca en registres SRV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:104
 #, c-format
@@ -22381,7 +22381,7 @@ msgstr "Servidors CalDAV i CardDAV"
 
 #: ../src/modules/config-lookup/e-webdav-config-lookup.c:209
 msgid "Look up for a CalDAV/CardDAV server"
-msgstr "S'està cercant un servidor CalDAV/CardDAV "
+msgstr "Cerca un servidor CalDAV/CardDAV"
 
 #: ../src/modules/itip-formatter/e-mail-formatter-itip.c:165
 msgid "ITIP"
@@ -24174,14 +24174,14 @@ msgstr "No tornis a _mostrar l'auxiliar"
 #: ../src/modules/startup-wizard/e-startup-assistant.c:206
 msgctxt "wizard-ca-note"
 msgid "create a collection account"
-msgstr "Crea una col·lecció de _comptes"
+msgstr "crear una col·lecció de comptes"
 
 #. Translators: The '%s' is replaced with "create a collection account" from the same translation context.
 #: ../src/modules/startup-wizard/e-startup-assistant.c:208
 #, c-format
 msgctxt "wizard-ca-note"
 msgid "Alternatively, you can %s (email, contacts and calendaring) instead."
-msgstr "També podeu canviar %s (correu electrònic, contactes i calendari)."
+msgstr "També podeu %s (correu electrònic, contactes i calendari)."
 
 #: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
 msgid "Loading accounts…"
@@ -25884,7 +25884,7 @@ msgstr ""
 "Si voleu utilitzar una versió estable de l'Evolution us suggerim que\n"
 "desinstal·leu aquesta versió, i instal·leu la versió %s.\n"
 "\n"
-"Si trobeu algun error, informeu-nos-en a https://gitlab.gnome.org/GNOME/evolution/issues/n\n"
+"Si trobeu algun error, informeu-nos-en a https://gitlab.gnome.org/GNOME/evolution/issues/.\n"
 "Aquest producte es distribueix sense cap garantia i no és adequat\n"
 "per a persones propenses a reaccions violentes.\n"
 "\n"
