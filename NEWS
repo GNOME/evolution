@@ -1,3 +1,31 @@
+Evolution 3.33.91 2019-08-19
+----------------------------
+
+Bug Fixes:
+	I#518 - Handle different DTSTART/DTEND timezones properly (Milan Crha)
+	I#541 - Free form expression: Search within body is slow (Milan Crha)
+	I#554 - Hide calendar tooltips on switching the view (Milan Crha)
+	I#563 - Compare date with today using localtime(), instead of UTC (Milan Crha)
+	I#568 - Set GtkLabel's width-chars when using line-wrap (Milan Crha)
+	I#576 - Can't copy text from location field in read-only calendar (Milan Crha)
+	M!38 - WebDAV browser: Permit changing the displayname of any collection (Milan Crha)
+	M!41 - Ensure CSV imported vCard-s have FN property (Дилян Палаузов)
+	eds-I#138 - Notify clients when backend is refreshing its content (Milan Crha)
+
+Miscellaneous:
+	Include also CFLAGS in gtkdoc-scangobj command line (Milan Crha)
+	Fix few memory leaks in internal test programs (Milan Crha)
+	ECellTree: Limit deep threads indent up to 70% of the cell width (Milan Crha)
+	EDayView: Time zone name not always updated on time zone change in UI (Milan Crha)
+
+Translations:
+	Jordi Mas (ca)
+	Aurimas Černius (lt)
+	Asier Sarasua Garmendia (eu)
+	Bruce Cowan (en_GB)
+	Anders Jonsson (sv)
+	Daniel Șerbănescu (ro)
+
 Evolution 3.33.90 2019-08-05
 ----------------------------
 
