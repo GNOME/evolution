@@ -1585,11 +1585,39 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 		url_end = g_utf8_strlen (url_end_raw, -1);
 		url_length = g_utf8_strlen (urls[0], -1);
 
-		end_of_match = url_end_raw + end_pos_url - (include_space ? 3 : 2);
+		end_of_match = url_end_raw + end_pos_url - (include_space ? 2 : 1);
 		/* URLs are extremely unlikely to end with any punctuation, so
 		 * strip any trailing punctuation off from link and put it after
 		 * the link. Do the same for any closing double-quotes as well. */
 		while (end_of_match && end_of_match != url_end_raw && strchr (URL_INVALID_TRAILING_CHARS, *end_of_match)) {
+			gchar open_bracket = 0, close_bracket = *end_of_match;
+
+			if (close_bracket == ')')
+				open_bracket = '(';
+			else if (close_bracket == '}')
+				open_bracket = '{';
+			else if (close_bracket == ']')
+				open_bracket = '[';
+			else if (close_bracket == '>')
+				open_bracket = '<';
+
+			if (open_bracket != 0) {
+				gint n_opened = 0, n_closed = 0;
+				const gchar *ptr;
+
+				for (ptr = url_end_raw + start_pos_url; ptr <= end_of_match; ptr++) {
+					if (*ptr == open_bracket)
+						n_opened++;
+					else if (*ptr == close_bracket)
+						n_closed++;
+				}
+
+				/* The closing bracket can match one inside the URL,
+				   thus keep it there. */
+				if (n_opened > 0 && n_opened - n_closed >= 0)
+					break;
+			}
+
 			url_length--;
 			url_end--;
 			end_of_match--;
@@ -4992,6 +5020,34 @@ create_anchor_for_link (const GMatchInfo *info,
 	 * strip any trailing punctuation off from link and put it after
 	 * the link. Do the same for any closing double-quotes as well. */
 	while (end_of_match && end_of_match != match && strchr (URL_INVALID_TRAILING_CHARS, *end_of_match)) {
+		gchar open_bracket = 0, close_bracket = *end_of_match;
+
+		if (close_bracket == ')')
+			open_bracket = '(';
+		else if (close_bracket == '}')
+			open_bracket = '{';
+		else if (close_bracket == ']')
+			open_bracket = '[';
+		else if (close_bracket == '>')
+			open_bracket = '<';
+
+		if (open_bracket != 0) {
+			gint n_opened = 0, n_closed = 0;
+			const gchar *ptr;
+
+			for (ptr = match; ptr <= end_of_match; ptr++) {
+				if (*ptr == open_bracket)
+					n_opened++;
+				else if (*ptr == close_bracket)
+					n_closed++;
+			}
+
+			/* The closing bracket can match one inside the URL,
+			   thus keep it there. */
+			if (n_opened > 0 && n_opened - n_closed >= 0)
+				break;
+		}
+
 		truncate_from_end++;
 		end_of_match--;
 	}
