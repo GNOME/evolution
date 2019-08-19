@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-07-23 18:18+0000\n"
-"PO-Revision-Date: 2019-07-24 10:31+0200\n"
+"POT-Creation-Date: 2019-08-02 11:50+0000\n"
+"PO-Revision-Date: 2019-08-19 10:03+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -4959,7 +4959,8 @@ msgstr "Copiar la dirección de correo-e al portapapeles"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:192
 #: ../src/e-util/e-web-view.c:440
-msgid "_Send New Message To..."
+#| msgid "_Send New Message To..."
+msgid "_Send New Message To…"
 msgstr "_Enviar un correo nuevo a…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:194
@@ -5590,10 +5591,14 @@ msgid "_Find"
 msgstr "_Buscar"
 
 #: ../src/addressbook/gui/widgets/e-minicard-view.c:186
+#| msgid ""
+#| "\n"
+#| "\n"
+#| "Searching for the Contacts..."
 msgid ""
 "\n"
 "\n"
-"Searching for the Contacts..."
+"Searching for the Contacts…"
 msgstr ""
 "\n"
 "\n"
@@ -5653,8 +5658,8 @@ msgstr ""
 #: ../src/calendar/importers/icalendar-importer.c:499
 #: ../src/calendar/importers/icalendar-importer.c:1003
 #: ../src/calendar/importers/icalendar-importer.c:1043
-#: ../src/shell/shell.error.xml.h:1
-msgid "Importing..."
+#| msgid "Importing..."
+msgid "Importing…"
 msgstr "Importando…"
 
 #: ../src/addressbook/importers/evolution-csv-importer.c:971
@@ -7924,8 +7929,9 @@ msgstr "El adjunto «%s» no tiene un URI válido, elimínelo de la lista"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:639
 #: ../src/composer/e-composer-actions.c:312
-msgid "_Attachment..."
-msgstr "_Adjunto…"
+#| msgid "_Attachments"
+msgid "_Attachment…"
+msgstr "_Adjuntos…"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:641
 #: ../src/composer/e-composer-actions.c:314
@@ -8049,9 +8055,10 @@ msgstr ""
 "lista de tareas."
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1450
+#| msgid "Attendees"
 msgctxt "ECompEditor"
-msgid "Atte_ndees..."
-msgstr "_Participa_ntes…"
+msgid "Atte_ndees…"
+msgstr "Participa_ntes…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1533
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2285
@@ -8543,9 +8550,10 @@ msgid "_Location:"
 msgstr "_Lugar:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:457
+#| msgid "_Categories"
 msgctxt "ECompEditor"
-msgid "_Categories..."
-msgstr "Ca_tegorías…"
+msgid "_Categories…"
+msgstr "_Categorías…"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:556
 msgctxt "ECompEditor"
@@ -8700,11 +8708,13 @@ msgid "attachment"
 msgstr "adjunto"
 
 #: ../src/calendar/gui/e-comp-editor.c:610
-msgid "Sending notifications to attendees..."
+#| msgid "Sending notifications to attendees..."
+msgid "Sending notifications to attendees…"
 msgstr "Enviando notificaciones a los participantes…"
 
 #: ../src/calendar/gui/e-comp-editor.c:985
-msgid "Saving changes..."
+#: ../src/e-util/e-webdav-browser.c:1814
+msgid "Saving changes…"
 msgstr "Guardando cambios…"
 
 #: ../src/calendar/gui/e-comp-editor.c:1245
@@ -8794,7 +8804,8 @@ msgstr "Pega el contenido del porta papeles"
 #: ../src/composer/e-composer-actions.c:373 ../src/mail/e-mail-reader.c:2750
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
-msgid "_Print..."
+#| msgid "_Print"
+msgid "_Print…"
 msgstr "_Imprimir…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2041 ../src/mail/e-mail-reader.c:2757
@@ -8802,8 +8813,9 @@ msgstr "_Imprimir…"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1723
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1046
-msgid "Pre_view..."
-msgstr "_Vista previa…"
+#| msgid "Preview"
+msgid "Pre_view…"
+msgstr "Vista pre_via…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2048 ../src/e-util/e-focus-tracker.c:788
 #: ../src/e-util/e-html-editor-actions.c:938 ../src/e-util/e-web-view.c:484
@@ -8920,7 +8932,8 @@ msgstr "Ninguno"
 #: ../src/calendar/gui/e-day-view-time-item.c:887
 #: ../src/calendar/gui/e-timezone-entry.c:346
 #: ../src/modules/calendar/e-calendar-preferences.c:393
-msgid "Select..."
+#| msgid "Select"
+msgid "Select…"
 msgstr "Seleccionar…"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:62
@@ -9051,8 +9064,9 @@ msgid "No Information"
 msgstr "Sin información"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:543
-msgid "Atte_ndees..."
-msgstr "_Participantes…"
+#| msgid "Attendees"
+msgid "Atte_ndees…"
+msgstr "Participa_ntes…"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:562
 msgid "O_ptions"
@@ -9305,37 +9319,45 @@ msgstr "Tareas sin fecha de vencimiento"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2133
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1424
-msgid "New _Appointment..."
-msgstr "_Cita nueva…"
+#| msgid "New Appointment"
+msgid "New _Appointment…"
+msgstr "Cit_a nueva…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2141
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1410
-msgid "New _Meeting..."
+#| msgid "New Meeting"
+msgid "New _Meeting…"
 msgstr "_Reunión nueva…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2149
-msgid "New _Task..."
+#| msgid "New _Task"
+msgid "New _Task…"
 msgstr "_Tarea nueva…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2157
-msgid "_New Assigned Task..."
-msgstr "Nueva tarea _asignada…"
+#| msgid "_New Assigned Task..."
+msgid "_New Assigned Task…"
+msgstr "_Nueva tarea _asignada…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2170
-msgid "_Open..."
-msgstr "_Abrir..."
+#| msgid "_Open"
+msgid "_Open…"
+msgstr "_Abrir…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2184
-msgid "_Delete This Instance..."
+#| msgid "_Delete This Instance..."
+msgid "_Delete This Instance…"
 msgstr "_Eliminar esta _instancia…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2192
-msgid "D_elete All Instances..."
+#| msgid "D_elete All Instances..."
+msgid "D_elete All Instances…"
 msgstr "E_liminar todas las instancias…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2200
-msgid "_Delete..."
-msgstr "_Eliminar…"
+#| msgid "_Delete"
+msgid "_Delete…"
+msgstr "E_liminar…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2217
 msgid "_Show Tasks without Due date"
@@ -11431,7 +11453,8 @@ msgid "Pacific/Yap"
 msgstr "Pacífico/Yap"
 
 #: ../src/composer/e-composer-actions.c:226
-msgid "Save as..."
+#| msgid "Save as..."
+msgid "Save as…"
 msgstr "Guardar como…"
 
 #: ../src/composer/e-composer-actions.c:321
@@ -11461,7 +11484,8 @@ msgid "Save the current file"
 msgstr "Guardar archivo actual"
 
 #: ../src/composer/e-composer-actions.c:347
-msgid "Save _As..."
+#| msgid "Save _As"
+msgid "Save _As…"
 msgstr "Guardar _como…"
 
 #: ../src/composer/e-composer-actions.c:349
@@ -12673,7 +12697,8 @@ msgid "Save extracted files and the original _archive"
 msgstr "Guardar los archivos extraídos y el _archivador original"
 
 #: ../src/e-util/e-attachment-view.c:308
-msgid "Open With Other Application..."
+#| msgid "Open With Other Application..."
+msgid "Open With Other Application…"
 msgstr "Abrir con otra aplicación…"
 
 #: ../src/e-util/e-attachment-view.c:315
@@ -12692,8 +12717,9 @@ msgid "Save _As"
 msgstr "Guardar _como"
 
 #: ../src/e-util/e-attachment-view.c:341
-msgid "A_dd Attachment..."
-msgstr "_Añadir adjunto…"
+#| msgid "Add Attachment"
+msgid "A_dd Attachment…"
+msgstr "Aña_dir adjunto…"
 
 #: ../src/e-util/e-attachment-view.c:348
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1181
@@ -12996,8 +13022,9 @@ msgid "Enter the character set to use"
 msgstr "Introduzca el conjunto de caracteres a usar"
 
 #: ../src/e-util/e-charset-combo-box.c:363
-msgid "Other..."
-msgstr "Otro…"
+#| msgid "Other"
+msgid "Other…"
+msgstr "Otros…"
 
 #: ../src/e-util/e-client-cache.c:1149 ../src/e-util/e-client-cache.c:1280
 #, c-format
@@ -13883,11 +13910,13 @@ msgid "Increase Indent"
 msgstr "Aumentar sangrado"
 
 #: ../src/e-util/e-html-editor-actions.c:1020
-msgid "_HTML File..."
+#| msgid "_HTML File..."
+msgid "_HTML File…"
 msgstr "Archivo _HTML…"
 
 #: ../src/e-util/e-html-editor-actions.c:1027
-msgid "Te_xt File..."
+#| msgid "Te_xt File..."
+msgid "Te_xt File…"
 msgstr "Archivo de _texto…"
 
 #: ../src/e-util/e-html-editor-actions.c:1034
@@ -13896,7 +13925,8 @@ msgstr "Pegar _cita"
 
 # En conflicto con _Buscar del menu principal
 #: ../src/e-util/e-html-editor-actions.c:1041
-msgid "_Find..."
+#| msgid "_Find"
+msgid "_Find…"
 msgstr "_Buscar…"
 
 #: ../src/e-util/e-html-editor-actions.c:1043
@@ -13908,7 +13938,8 @@ msgid "Find A_gain"
 msgstr "Buscar otr_a vez"
 
 #: ../src/e-util/e-html-editor-actions.c:1055
-msgid "Re_place..."
+#| msgid "Re_place"
+msgid "Re_place…"
 msgstr "_Reemplazar…"
 
 #: ../src/e-util/e-html-editor-actions.c:1057
@@ -13916,7 +13947,8 @@ msgid "Search for and replace text"
 msgstr "Buscar y reemplazar texto"
 
 #: ../src/e-util/e-html-editor-actions.c:1062
-msgid "Check _Spelling..."
+#| msgid "Check _Spelling..."
+msgid "Check _Spelling…"
 msgstr "Comprobar la _ortografía…"
 
 #: ../src/e-util/e-html-editor-actions.c:1069
@@ -14032,7 +14064,8 @@ msgstr "Lista _alfabética"
 
 #: ../src/e-util/e-html-editor-actions.c:1227
 #: ../src/e-util/e-html-editor-actions.c:1265
-msgid "_Image..."
+#| msgid "_Image"
+msgid "_Image…"
 msgstr "_Imagen…"
 
 #. Translators: This is an action tooltip
@@ -14042,8 +14075,9 @@ msgstr "Insertar imagen"
 
 #: ../src/e-util/e-html-editor-actions.c:1235
 #: ../src/e-util/e-html-editor-actions.c:1272
-msgid "_Link..."
-msgstr "_Enlazar…"
+#| msgid "_Link"
+msgid "_Link…"
+msgstr "_Enlace…"
 
 #: ../src/e-util/e-html-editor-actions.c:1237
 msgid "Insert Link"
@@ -14052,7 +14086,8 @@ msgstr "Insertar enlace"
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1243
 #: ../src/e-util/e-html-editor-actions.c:1287
-msgid "_Rule..."
+#| msgid "_Rule"
+msgid "_Rule…"
 msgstr "_Regla…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
@@ -14062,7 +14097,8 @@ msgstr "Insertar regla"
 
 #: ../src/e-util/e-html-editor-actions.c:1251
 #: ../src/e-util/e-html-editor-actions.c:1294
-msgid "_Table..."
+#| msgid "_Table"
+msgid "_Table…"
 msgstr "_Tabla…"
 
 #: ../src/e-util/e-html-editor-actions.c:1253
@@ -14070,11 +14106,13 @@ msgid "Insert Table"
 msgstr "Insertar tabla"
 
 #: ../src/e-util/e-html-editor-actions.c:1258
-msgid "_Cell..."
+#| msgid "_Cell..."
+msgid "_Cell…"
 msgstr "_Celda…"
 
 #: ../src/e-util/e-html-editor-actions.c:1279
-msgid "Pa_ge..."
+#| msgid "Pa_ge..."
+msgid "Pa_ge…"
 msgstr "_Página…"
 
 #: ../src/e-util/e-html-editor-actions.c:1303
@@ -14215,36 +14253,43 @@ msgid "Row Below"
 msgstr "Fila inferior"
 
 #: ../src/e-util/e-html-editor-actions.c:1538
-msgid "Cell..."
+msgid "Cell…"
 msgstr "Celda…"
 
 #: ../src/e-util/e-html-editor-actions.c:1545
-msgid "Image..."
+#| msgid "Image"
+msgid "Image…"
 msgstr "Imagen…"
 
 #: ../src/e-util/e-html-editor-actions.c:1552
-msgid "Link..."
-msgstr "Enlazar…"
+#| msgid "_Link"
+msgid "Link…"
+msgstr "Enlace…"
 
 #: ../src/e-util/e-html-editor-actions.c:1559
-msgid "Page..."
+#| msgid "Pager"
+msgid "Page…"
 msgstr "Página…"
 
 #: ../src/e-util/e-html-editor-actions.c:1566
-msgid "Paragraph..."
+#| msgid "Paragraph..."
+msgid "Paragraph…"
 msgstr "Párrafo…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
 #: ../src/e-util/e-html-editor-actions.c:1574
-msgid "Rule..."
+#| msgid "_Rule"
+msgid "Rule…"
 msgstr "Regla…"
 
 #: ../src/e-util/e-html-editor-actions.c:1581
-msgid "Table..."
+#| msgid "Table"
+msgid "Table…"
 msgstr "Tabla…"
 
 #: ../src/e-util/e-html-editor-actions.c:1588
-msgid "Text..."
+#| msgid "_Text:"
+msgid "Text…"
 msgstr "Texto…"
 
 #: ../src/e-util/e-html-editor-actions.c:1595
@@ -14547,7 +14592,8 @@ msgid "_URL:"
 msgstr "_URL:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:668
-msgid "_Test URL..."
+#| msgid "_Test URL..."
+msgid "_Test URL…"
 msgstr "_Probar URL…"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:685
@@ -15538,8 +15584,8 @@ msgid "(no suggestions)"
 msgstr "(no hay sugerencias)"
 
 #: ../src/e-util/e-spell-entry.c:503
-msgid "More..."
-msgstr "Más…"
+msgid "More…"
+msgstr "Más…"
 
 #. + Add to Dictionary
 #: ../src/e-util/e-spell-entry.c:588
@@ -15869,7 +15915,8 @@ msgid "Remove This _Column"
 msgstr "Quitar esta c_olumna"
 
 #: ../src/e-util/e-table-header-item.c:1651
-msgid "Add a C_olumn..."
+#| msgid "Add a Column"
+msgid "Add a C_olumn…"
 msgstr "Añadir una c_olumna…"
 
 #: ../src/e-util/e-table-header-item.c:1655
@@ -15881,12 +15928,14 @@ msgid "B_est Fit"
 msgstr "Ajust_e automático"
 
 #: ../src/e-util/e-table-header-item.c:1661
-msgid "Format Column_s..."
+#| msgid "Format Column_s..."
+msgid "Format Column_s…"
 msgstr "Formatear columna_s…"
 
 #: ../src/e-util/e-table-header-item.c:1665
-msgid "Custo_mize Current View..."
-msgstr "Perso_nalizar vista actual…"
+#| msgid "Customize Current View"
+msgid "Custo_mize Current View…"
+msgstr "Pe_rsonalizar vista actual…"
 
 #: ../src/e-util/e-table-header-item.c:1732
 msgid "_Sort By"
@@ -15972,7 +16021,8 @@ msgstr "Libreta de direcciones"
 msgid "Events"
 msgstr "Eventos"
 
-#: ../src/e-util/e-webdav-browser.c:514
+#: ../src/e-util/e-webdav-browser.c:514 ../src/mail/em-folder-tree-model.c:1553
+#: ../src/mail/em-folder-tree-model.c:1930
 msgid "Loading…"
 msgstr "Cargando…"
 
@@ -15999,10 +16049,6 @@ msgstr "Se debe indicar al menos un tipo de componente"
 #: ../src/e-util/e-webdav-browser.c:1783
 msgid "Failed to get selected collection HREF"
 msgstr "Falló al obtener el HREF de la colección seleccionada"
-
-#: ../src/e-util/e-webdav-browser.c:1814
-msgid "Saving changes…"
-msgstr "Guardando cambios…"
 
 #: ../src/e-util/e-webdav-browser.c:1815
 msgid "Failed to save changes"
@@ -16126,7 +16172,8 @@ msgid "Copy the image to the clipboard"
 msgstr "Copiar la imagen al portapapeles"
 
 #: ../src/e-util/e-web-view.c:457
-msgid "Save _Image..."
+#| msgid "Save Image"
+msgid "Save _Image…"
 msgstr "Guardar _imagen…"
 
 #: ../src/e-util/e-web-view.c:459
@@ -16904,8 +16951,9 @@ msgid "_Revise Details"
 msgstr "_Revisar los detalles"
 
 #: ../src/mail/e-mail-config-auth-check.c:217
-msgid "Querying authentication types..."
-msgstr "Consultando tipos de _autenticación…"
+#| msgid "Querying authentication types..."
+msgid "Querying authentication types…"
+msgstr "Consultando tipos de autenticación…"
 
 #: ../src/mail/e-mail-config-auth-check.c:430
 msgid "Check for Supported Types"
@@ -17020,7 +17068,8 @@ msgid "Done"
 msgstr "Hecho"
 
 #: ../src/mail/e-mail-config-defaults-page.c:314
-msgid "Checking server settings..."
+#| msgid "Checking server settings..."
+msgid "Checking server settings…"
 msgstr "Comprobando la configuración del servidor…"
 
 #: ../src/mail/e-mail-config-defaults-page.c:663
@@ -17138,7 +17187,8 @@ msgid "Or_ganization:"
 msgstr "Organi_zación:"
 
 #: ../src/mail/e-mail-config-identity-page.c:776
-msgid "Add Ne_w Signature..."
+#| msgid "Add Ne_w Signature..."
+msgid "Add Ne_w Signature…"
 msgstr "Añadir firma _nueva…"
 
 #: ../src/mail/e-mail-config-identity-page.c:790
@@ -17179,7 +17229,8 @@ msgid "Account Name cannot be empty"
 msgstr "El nombre de la cuenta no puede estar vacío"
 
 #: ../src/mail/e-mail-config-lookup-page.c:65
-msgid "Looking up account details..."
+#| msgid "Looking up account details..."
+msgid "Looking up account details…"
 msgstr "Consultando los detalles de la cuenta…"
 
 #: ../src/mail/e-mail-config-provider-page.c:538
@@ -17397,7 +17448,8 @@ msgid "Account Editor"
 msgstr "Editor de cuentas"
 
 #: ../src/mail/e-mail-display.c:126
-msgid "_Add to Address Book..."
+#| msgid "_Add to Address Book..."
+msgid "_Add to Address Book…"
 msgstr "_Añadir a la libreta de direcciones…"
 
 #: ../src/mail/e-mail-display.c:133
@@ -17409,7 +17461,8 @@ msgid "_From This Address"
 msgstr "_Desde esta dirección"
 
 #: ../src/mail/e-mail-display.c:147
-msgid "Send _Reply To..."
+#| msgid "Send _Reply To..."
+msgid "Send _Reply To…"
 msgstr "Enviar _respuesta a…"
 
 #: ../src/mail/e-mail-display.c:149
@@ -17595,7 +17648,8 @@ msgid "Cannot find message in its folder summary"
 msgstr "No se puede encontrar el mensaje en su carpeta del resumen"
 
 #: ../src/mail/e-mail-notes.c:863
-msgid "Storing changes..."
+#| msgid "Saving changes…"
+msgid "Storing changes…"
 msgstr "Guardando cambios…"
 
 #: ../src/mail/e-mail-notes.c:1001
@@ -17603,8 +17657,9 @@ msgid "Edit Message Note"
 msgstr "Editar la nota del mensaje"
 
 #: ../src/mail/e-mail-notes.c:1157
-msgid "Retrieving message..."
-msgstr "Obteniendo mensaje…"
+#| msgid "Retrieving message"
+msgid "Retrieving message…"
+msgstr "Descargando mensaje…"
 
 #: ../src/mail/e-mail-print-config-headers.c:166
 msgid "Move selected headers to top"
@@ -17661,7 +17716,8 @@ msgid "C_opy"
 msgstr "C_opiar"
 
 #: ../src/mail/e-mail-reader.c:610
-msgid "Deleting message note..."
+#| msgid "Deleting message note..."
+msgid "Deleting message note…"
 msgstr "Eliminando la nota del mensaje…"
 
 #: ../src/mail/e-mail-reader.c:1610 ../src/mail/e-mail-reader.c:1901
@@ -17691,8 +17747,9 @@ msgid "Add sender to address book"
 msgstr "Añadir el remitente a la libreta de direcciones"
 
 #: ../src/mail/e-mail-reader.c:2405
-msgid "_Archive..."
-msgstr "_Archivar…"
+#| msgid "Archive"
+msgid "_Archive…"
+msgstr "_Archivador…"
 
 #: ../src/mail/e-mail-reader.c:2407
 msgid "Move selected messages to the Archive folder for the account"
@@ -17723,8 +17780,9 @@ msgid "Unset color for the selected messages"
 msgstr "Quitar color de los mensajes seleccionados"
 
 #: ../src/mail/e-mail-reader.c:2433
-msgid "_Copy to Folder..."
-msgstr "Copiar a la c_arpeta…"
+#| msgid "Copy to Folder"
+msgid "_Copy to Folder…"
+msgstr "_Copiar a la carpeta…"
 
 #: ../src/mail/e-mail-reader.c:2435
 msgid "Copy selected messages to another folder"
@@ -17739,7 +17797,8 @@ msgid "Mark the selected messages for deletion"
 msgstr "Marcar los mensajes seleccionados para eliminar"
 
 #: ../src/mail/e-mail-reader.c:2447
-msgid "_Add note..."
+#| msgid "_Add note..."
+msgid "_Add note…"
 msgstr "_Añadir nota…"
 
 #: ../src/mail/e-mail-reader.c:2449
@@ -17755,7 +17814,8 @@ msgid "Delete the note for the selected message"
 msgstr "Eliminar la nota para el mensaje seleccionado"
 
 #: ../src/mail/e-mail-reader.c:2461
-msgid "_Edit note..."
+#| msgid "_Edit note..."
+msgid "_Edit note…"
 msgstr "_Editar nota…"
 
 #: ../src/mail/e-mail-reader.c:2463
@@ -17763,7 +17823,8 @@ msgid "Edit a note for the selected message"
 msgstr "Editar una nota para el mensaje seleccionado"
 
 #: ../src/mail/e-mail-reader.c:2468
-msgid "Create a Filter Rule for Mailing _List..."
+#| msgid "Create a Filter Rule for Mailing _List..."
+msgid "Create a Filter Rule for Mailing _List…"
 msgstr "Crear una regla de filtrado según la _lista de correo…"
 
 #: ../src/mail/e-mail-reader.c:2470
@@ -17771,7 +17832,8 @@ msgid "Create a rule to filter messages to this mailing list"
 msgstr "Crea una regla para filtrar los mensajes de esta lista de correo"
 
 #: ../src/mail/e-mail-reader.c:2475
-msgid "Create a Filter Rule for _Recipients..."
+#| msgid "Create a Filter Rule for _Recipients..."
+msgid "Create a Filter Rule for _Recipients…"
 msgstr "Crear una regla de filtrado según los _destinatarios…"
 
 #: ../src/mail/e-mail-reader.c:2477
@@ -17779,7 +17841,8 @@ msgid "Create a rule to filter messages to these recipients"
 msgstr "Crea una regla para filtrar los mensajes de estos destinatarios"
 
 #: ../src/mail/e-mail-reader.c:2482
-msgid "Create a Filter Rule for Se_nder..."
+#| msgid "Create a Filter Rule for Se_nder..."
+msgid "Create a Filter Rule for Se_nder…"
 msgstr "Crear una regla de filtrado según el _remitente…"
 
 #: ../src/mail/e-mail-reader.c:2484
@@ -17787,7 +17850,8 @@ msgid "Create a rule to filter messages from this sender"
 msgstr "Crea una regla para filtrar los mensajes de este remitente"
 
 #: ../src/mail/e-mail-reader.c:2489
-msgid "Create a Filter Rule for _Subject..."
+#| msgid "Create a Filter Rule for _Subject..."
+msgid "Create a Filter Rule for _Subject…"
 msgstr "Crear una regla de filtrado según el _asunto…"
 
 #: ../src/mail/e-mail-reader.c:2491
@@ -17804,7 +17868,8 @@ msgid "Apply filter rules to the selected messages"
 msgstr "Aplica filtros a los mensajes seleccionados"
 
 #: ../src/mail/e-mail-reader.c:2503
-msgid "_Find in Message..."
+#| msgid "_Find in Message..."
+msgid "_Find in Message…"
 msgstr "B_uscar en el mensaje…"
 
 #: ../src/mail/e-mail-reader.c:2505
@@ -17828,8 +17893,9 @@ msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "Establecer la marca de completado en los mensajes seleccionados"
 
 #: ../src/mail/e-mail-reader.c:2524
-msgid "Follow _Up..."
-msgstr "Se_guimiento…"
+#| msgid "Follow Up"
+msgid "Follow _Up…"
+msgstr "Seg_uimiento…"
 
 #: ../src/mail/e-mail-reader.c:2526
 msgid "Flag the selected messages for follow-up"
@@ -17983,7 +18049,8 @@ msgstr "Marcar los mensajes seleccionados como no leídos"
 
 #: ../src/mail/e-mail-reader.c:2666
 #: ../src/modules/mail/e-mail-attachment-handler.c:417
-msgid "_Edit as New Message..."
+#| msgid "_Edit as New Message..."
+msgid "_Edit as New Message…"
 msgstr "_Editar como un mensaje nuevo…"
 
 #: ../src/mail/e-mail-reader.c:2668
@@ -18008,7 +18075,8 @@ msgid "Open the selected messages in a new window"
 msgstr "Abre los mensajes seleccionados en una ventana nueva"
 
 #: ../src/mail/e-mail-reader.c:2687
-msgid "_Move to Folder..."
+#| msgid "Move to Folder"
+msgid "_Move to Folder…"
 msgstr "_Mover a la carpeta…"
 
 #: ../src/mail/e-mail-reader.c:2689
@@ -18155,7 +18223,8 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "Responde al remitente del mensaje seleccionado"
 
 #: ../src/mail/e-mail-reader.c:2813
-msgid "_Save as mbox..."
+#| msgid "_Save as mbox..."
+msgid "_Save as mbox…"
 msgstr "_Guardar como mbox…"
 
 #: ../src/mail/e-mail-reader.c:2815
@@ -18236,7 +18305,8 @@ msgid "_Zoom"
 msgstr "_Ampliar"
 
 #: ../src/mail/e-mail-reader.c:2937
-msgid "Create a Search Folder from Mailing _List..."
+#| msgid "Create a Search Folder from Mailing _List..."
+msgid "Create a Search Folder from Mailing _List…"
 msgstr "Crear una carpeta de búsqueda según la l_ista de correo…"
 
 #: ../src/mail/e-mail-reader.c:2939
@@ -18244,7 +18314,8 @@ msgid "Create a search folder for this mailing list"
 msgstr "Crear una carpeta de búsqueda para esta lista de correo"
 
 #: ../src/mail/e-mail-reader.c:2944
-msgid "Create a Search Folder from Recipien_ts..."
+#| msgid "Create a Search Folder from Recipien_ts..."
+msgid "Create a Search Folder from Recipien_ts…"
 msgstr "Crear una carpeta de búsqueda según los des_tinatarios…"
 
 #: ../src/mail/e-mail-reader.c:2946
@@ -18252,7 +18323,8 @@ msgid "Create a search folder for these recipients"
 msgstr "Crear una carpeta de búsqueda para estos destinatarios"
 
 #: ../src/mail/e-mail-reader.c:2951
-msgid "Create a Search Folder from Sen_der..."
+#| msgid "Create a Search Folder from Sen_der..."
+msgid "Create a Search Folder from Sen_der…"
 msgstr "Crear una carpeta de búsqueda según el r_emitente…"
 
 #: ../src/mail/e-mail-reader.c:2953
@@ -18260,7 +18332,8 @@ msgid "Create a search folder for this sender"
 msgstr "Crear una carpeta de búsqueda para este remitente"
 
 #: ../src/mail/e-mail-reader.c:2958
-msgid "Create a Search Folder from S_ubject..."
+#| msgid "Create a Search Folder from S_ubject..."
+msgid "Create a Search Folder from S_ubject…"
 msgstr "Crear una carpeta de búsqueda según el a_sunto…"
 
 #: ../src/mail/e-mail-reader.c:2960
@@ -18268,7 +18341,8 @@ msgid "Create a search folder for this subject"
 msgstr "Crear una carpeta de búsqueda para este asunto"
 
 #: ../src/mail/e-mail-reader.c:3007
-msgid "Mark for Follo_w Up..."
+#| msgid "Mark for Follo_w Up..."
+msgid "Mark for Follo_w Up…"
 msgstr "Marcar para se_guimiento…"
 
 #: ../src/mail/e-mail-reader.c:3023
@@ -18518,7 +18592,8 @@ msgstr[1] ""
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
 #: ../src/mail/em-composer-utils.c:829
-msgid "Waiting for attachments to load..."
+#| msgid "Waiting for attachments to load..."
+msgid "Waiting for attachments to load…"
 msgstr "Esperando a que carguen los adjuntos…"
 
 #. Note to translators: this is the attribution string used
@@ -18876,11 +18951,6 @@ msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
 #: ../src/mail/em-folder-tree-model.c:462
 msgid "UNMATCHED"
 msgstr "NO COINCIDENTE"
-
-#: ../src/mail/em-folder-tree-model.c:1553
-#: ../src/mail/em-folder-tree-model.c:1930
-msgid "Loading..."
-msgstr "Cargando…"
 
 #: ../src/mail/em-folder-utils.c:111
 #, c-format
@@ -21033,7 +21103,8 @@ msgid "Failed to empty Junk folder “{0}”"
 msgstr "Falló al vaciar la carpeta de spam «{0}»"
 
 #: ../src/mail/mail-send-recv.c:193
-msgid "Canceling..."
+#| msgid "Canceling..."
+msgid "Canceling…"
 msgstr "Cancelando…"
 
 #: ../src/mail/mail-send-recv.c:610
@@ -21053,11 +21124,13 @@ msgid "Cancel _All"
 msgstr "Cancelar _todo"
 
 #: ../src/mail/mail-send-recv.c:871 ../src/mail/mail-send-recv.c:1470
-msgid "Updating..."
+#| msgid "Updating..."
+msgid "Updating…"
 msgstr "Actualizando…"
 
 #: ../src/mail/mail-send-recv.c:871 ../src/mail/mail-send-recv.c:952
-msgid "Waiting..."
+#| msgid "Waiting..."
+msgid "Waiting…"
 msgstr "Esperando…"
 
 #: ../src/mail/mail-send-recv.c:1436
@@ -21132,7 +21205,7 @@ msgstr "Más alta"
 msgid "Highest"
 msgstr "La más alta"
 
-#: ../src/mail/message-list.c:482 ../src/mail/message-list.c:6741
+#: ../src/mail/message-list.c:482
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
@@ -21187,6 +21260,11 @@ msgstr ""
 #: ../src/mail/message-list.c:6662
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
+
+#: ../src/mail/message-list.c:6738
+#| msgid "Generating message list"
+msgid "Generating message list…"
+msgstr "Generando la lista de mensajes…"
 
 #: ../src/mail/message-list.etspec.h:2
 msgid "Flagged"
@@ -21427,7 +21505,8 @@ msgid "Save as vCard"
 msgstr "Guardar como vCard"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1015
-msgid "Co_py All Contacts To..."
+#| msgid "Co_py All Contacts To..."
+msgid "Co_py All Contacts To…"
 msgstr "Co_piar todos los contactos a…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1017
@@ -21443,7 +21522,8 @@ msgid "Delete the selected address book"
 msgstr "Eliminar la libreta de direcciones seleccionada"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1029
-msgid "_Manage Address Book groups..."
+#| msgid "_Manage Address Book groups..."
+msgid "_Manage Address Book groups…"
 msgstr "_Gestionar grupos de libretas de direcciones…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1031
@@ -21452,7 +21532,8 @@ msgid "Manage task list groups order and visibility"
 msgstr "Gestionar el orden de los grupos de listas de tareas y su visibilidad"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1036
-msgid "Mo_ve All Contacts To..."
+#| msgid "Mo_ve All Contacts To..."
+msgid "Mo_ve All Contacts To…"
 msgstr "Mo_ver todos los contactos a…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1038
@@ -21501,7 +21582,8 @@ msgstr ""
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:640
 #: ../src/modules/calendar/e-task-shell-view-actions.c:766
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1685
-msgid "_Rename..."
+#| msgid "_Rename..."
+msgid "_Rename…"
 msgstr "_Renombrar…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1080
@@ -21513,7 +21595,8 @@ msgid "Stop loading"
 msgstr "Parar la carga"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1092
-msgid "_Copy Contact To..."
+#| msgid "_Copy Contact To..."
+msgid "_Copy Contact To…"
 msgstr "_Copiar contacto a…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
@@ -21525,7 +21608,8 @@ msgid "_Delete Contact"
 msgstr "_Eliminar contacto"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1106
-msgid "_Find in Contact..."
+#| msgid "_Find in Contact..."
+msgid "_Find in Contact…"
 msgstr "_Buscar en el contacto…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1108
@@ -21533,7 +21617,8 @@ msgid "Search for text in the displayed contact"
 msgstr "Buscar el texto en el contacto mostrado"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1113
-msgid "_Forward Contact..."
+#| msgid "_Forward Contact"
+msgid "_Forward Contact…"
 msgstr "_Reenviar contacto…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1115
@@ -21541,7 +21626,8 @@ msgid "Send selected contacts to another person"
 msgstr "Enviar los contactos seleccionados a otra persona"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1120
-msgid "_Move Contact To..."
+#| msgid "_Move Contact To..."
+msgid "_Move Contact To…"
 msgstr "_Mover contacto a…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1122
@@ -21549,11 +21635,13 @@ msgid "Move selected contacts to another address book"
 msgstr "Mover los contactos seleccionados a otra libreta de direcciones"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1127
-msgid "_New Contact..."
-msgstr "Contacto _nuevo…"
+#| msgid "New Contact"
+msgid "_New Contact…"
+msgstr "_Contacto nuevo…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1134
-msgid "New Contact _List..."
+#| msgid "New Contact List"
+msgid "New Contact _List…"
 msgstr "_Lista de contactos nueva…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1141
@@ -21565,8 +21653,9 @@ msgid "View the current contact"
 msgstr "Ver el contacto actual"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
-msgid "_Send Message to Contact..."
-msgstr "Enviar _mensaje al contacto…"
+#| msgid "_Send Message to Contact"
+msgid "_Send Message to Contact…"
+msgstr "_Enviar un correo al contacto…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1150
 msgid "Send a message to the selected contacts"
@@ -21589,7 +21678,8 @@ msgstr "Vista _previa"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1511
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:701
 #: ../src/modules/calendar/e-task-shell-view-actions.c:855
-msgid "_Manage groups..."
+#| msgid "_Manage groups..."
+msgid "_Manage groups…"
 msgstr "_Gestionar grupos…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1193
@@ -21674,8 +21764,9 @@ msgstr ""
 #. Translators: This is an action label
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
-msgid "_Save as vCard..."
-msgstr "G_uardar como vCard…"
+#| msgid "Save as vCard"
+msgid "_Save as vCard…"
+msgstr "_Guardar como vCard…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1360
 msgid "Save selected contacts as a vCard"
@@ -21751,11 +21842,13 @@ msgstr ""
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:437
 #, c-format
-msgid "Checking content of backup file “%s”, please wait..."
+#| msgid "Checking content of backup file “%s”, please wait..."
+msgid "Checking content of backup file “%s”, please wait…"
 msgstr "Comprobando el contenido del archivo de respaldo «%s», espere…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:458
-msgid "_Back up Evolution Data..."
+#| msgid "_Back up Evolution Data..."
+msgid "_Back up Evolution Data…"
 msgstr "Re_spaldar datos de Evolution…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:460
@@ -21763,7 +21856,8 @@ msgid "Back up Evolution data and settings to an archive file"
 msgstr "Respaldar los datos y configuración de Evolution a un archivador"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:465
-msgid "R_estore Evolution Data..."
+#| msgid "R_estore Evolution Data..."
+msgid "R_estore Evolution Data…"
 msgstr "R_estaurar datos de Evolution…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:467
@@ -22752,7 +22846,7 @@ msgstr "acontecimiento"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1114
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:204
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:272
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:278
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:510
 #: ../src/modules/calendar/e-task-shell-view-actions.c:629
 msgid "Save as iCalendar"
@@ -22761,7 +22855,8 @@ msgstr "Guardar como iCalendar"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1228
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:591
 #: ../src/modules/calendar/e-task-shell-view-actions.c:717
-msgid "_Copy..."
+#| msgid "_Copy"
+msgid "_Copy…"
 msgstr "_Copiar…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1235
@@ -22793,7 +22888,8 @@ msgid "Select a specific date"
 msgstr "Selecciona una fecha específica"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1270
-msgid "_Manage Calendar groups..."
+#| msgid "_Manage Calendar groups..."
+msgid "_Manage Calendar groups…"
 msgstr "_Gestionar grupos de calendarios…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1272
@@ -22858,11 +22954,13 @@ msgid "Show _Only This Calendar"
 msgstr "Mostrar _sólo este calendario"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1354
-msgid "Cop_y to Calendar..."
+#| msgid "Cop_y to Calendar..."
+msgid "Cop_y to Calendar…"
 msgstr "Cop_iar al calendario…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1361
-msgid "_Delegate Meeting..."
+#| msgid "_Delegate Meeting..."
+msgid "_Delegate Meeting…"
 msgstr "_Delegar reunión…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1368
@@ -22890,7 +22988,8 @@ msgid "Delete all occurrences"
 msgstr "Eliminar todas las repeticiones"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1389
-msgid "Edit as Ne_w..."
+#| msgid "Edit as Ne_w..."
+msgid "Edit as Ne_w…"
 msgstr "_Editar como un mensaje nuevo…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1391
@@ -22898,8 +22997,9 @@ msgid "Edit the current appointment as new"
 msgstr "Editar la cita actual como nueva"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1396
-msgid "New All Day _Event..."
-msgstr "Acont_ecimiento nuevo para todo el día"
+#| msgid "New All Day Event"
+msgid "New All Day _Event…"
+msgstr "Acontecimi_ento nuevo para todo el día…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1398
 msgid "Create a new all day event"
@@ -22907,18 +23007,20 @@ msgstr "Crear un acontecimiento nuevo para todo el día"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1403
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:238
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:312
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:318
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:584
 #: ../src/modules/calendar/e-task-shell-view-actions.c:710
-msgid "_Forward as iCalendar..."
-msgstr "Reenviar como i_Calendar…"
+#| msgid "_Forward as iCalendar..."
+msgid "_Forward as iCalendar…"
+msgstr "_Reenviar como i_Calendar…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1412
 msgid "Create a new meeting"
 msgstr "Crear una reunión nueva"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1417
-msgid "Mo_ve to Calendar..."
+#| msgid "Mo_ve to Calendar..."
+msgid "Mo_ve to Calendar…"
 msgstr "Mo_ver al calendario…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1431
@@ -22934,7 +23036,8 @@ msgid "View the current appointment"
 msgstr "Ver la cita actual"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1459
-msgid "_Schedule Meeting..."
+#| msgid "_Schedule Meeting..."
+msgid "_Schedule Meeting…"
 msgstr "_Concertar una reunión…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1461
@@ -22942,7 +23045,8 @@ msgid "Converts an appointment to a meeting"
 msgstr "Convierte una cita en una reunión"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1466
-msgid "Conv_ert to Appointment..."
+#| msgid "Conv_ert to Appointment..."
+msgid "Conv_ert to Appointment…"
 msgstr "Con_vertir en una cita…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1468
@@ -23016,12 +23120,13 @@ msgstr "El resumen contiene"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1716
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1730
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:269
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:357
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:363
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:831
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:845
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1039
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1053
-msgid "Print..."
+#| msgid "Print"
+msgid "Print…"
 msgstr "Imprimir…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1718
@@ -23034,11 +23139,12 @@ msgstr "Previsualizar el calendario que imprimir"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1747
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:367
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:373
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:862
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1070
-msgid "_Save as iCalendar..."
-msgstr "G_uardar como iCalendar…"
+#| msgid "Save as iCalendar"
+msgid "_Save as iCalendar…"
+msgstr "Guardar como iCalendar…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1824
 msgid "Go To"
@@ -23073,7 +23179,7 @@ msgid "View the selected memo"
 msgstr "Ver la nota seleccionada"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:259
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:347
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:353
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:675
 #: ../src/modules/calendar/e-task-shell-view-actions.c:815
 msgid "Open _Web Page"
@@ -23114,57 +23220,57 @@ msgstr "No se puede buscar sin un calendario activo"
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:270
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:276
 #: ../src/modules/calendar/e-task-shell-view-actions.c:627
 msgid "task"
 msgstr "tarea"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:305
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:311
 #: ../src/modules/calendar/e-task-shell-view-actions.c:689
 msgid "_Assign Task"
 msgstr "_Asignar tarea"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:319
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:325
 #: ../src/modules/calendar/e-task-shell-view-actions.c:787
 msgid "_Mark as Complete"
 msgstr "_Marcar como terminado"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:321
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:327
 #: ../src/modules/calendar/e-task-shell-view-actions.c:789
 msgid "Mark selected tasks as complete"
 msgstr "Marcar tareas seleccionadas como terminadas"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:326
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:332
 msgid "_Mark as Incomplete"
 msgstr "_Marcar como incompleta"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:328
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:334
 #: ../src/modules/calendar/e-task-shell-view-actions.c:796
 msgid "Mark selected tasks as incomplete"
 msgstr "Marcar las tareas seleccionadas como incompletas"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:333
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:339
 #: ../src/modules/calendar/e-task-shell-view-actions.c:801
 msgid "New _Task"
 msgstr "_Tarea nueva"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:335
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:341
 #: ../src/modules/calendar/e-task-shell-backend.c:77
 #: ../src/modules/calendar/e-task-shell-view-actions.c:803
 msgid "Create a new task"
 msgstr "Crea una tarea nueva"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:340
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:346
 #: ../src/modules/calendar/e-task-shell-view-actions.c:808
 msgid "_Open Task"
 msgstr "_Abrir tarea"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:342
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:348
 #: ../src/modules/calendar/e-task-shell-view-actions.c:810
 msgid "View the selected task"
 msgstr "Ver la tarea seleccionada"
 
-#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:359
+#: ../src/modules/calendar/e-cal-shell-view-taskpad.c:365
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1055
 msgid "Print the selected task"
 msgstr "Imprimir la tarea seleccionada"
@@ -23203,7 +23309,8 @@ msgid "_Delete Memo"
 msgstr "_Eliminar nota"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:577
-msgid "_Find in Memo..."
+#| msgid "_Find in Memo..."
+msgid "_Find in Memo…"
 msgstr "_Buscar en la nota…"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:579
@@ -23219,7 +23326,8 @@ msgid "Delete the selected memo list"
 msgstr "Eliminar la lista de notas seleccionada"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:605
-msgid "_Manage Memo List groups..."
+#| msgid "_Manage Memo List groups..."
+msgid "_Manage Memo List groups…"
 msgstr "_Gestionar grupos de listas de notas…"
 
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:607
@@ -23345,7 +23453,8 @@ msgid "_Delete Task"
 msgstr "_Eliminar tarea"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:703
-msgid "_Find in Task..."
+#| msgid "_Find in Task..."
+msgid "_Find in Task…"
 msgstr "_Buscar en la tarea…"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:705
@@ -23361,7 +23470,8 @@ msgid "Delete the selected task list"
 msgstr "Eliminar la lista de tareas seleccionada"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:731
-msgid "_Manage Task List groups..."
+#| msgid "_Manage Task List groups..."
+msgid "_Manage Task List groups…"
 msgstr "_Gestionar grupos de listas de tareas…"
 
 #: ../src/modules/calendar/e-task-shell-view-actions.c:738
@@ -24133,7 +24243,8 @@ msgid "Searching for an existing version of this memo"
 msgstr "Buscando una versión existente de esta nota"
 
 #: ../src/modules/itip-formatter/itip-view.c:4527
-msgid "Opening the calendar. Please wait..."
+#| msgid "Opening the calendar. Please wait..."
+msgid "Opening the calendar. Please wait…"
 msgstr "Abriendo el calendario. Espere…"
 
 #: ../src/modules/itip-formatter/itip-view.c:4944
@@ -24639,7 +24750,8 @@ msgid "None"
 msgstr "Ninguno"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:853
-msgid "Marking messages as read..."
+#| msgid "Marking messages as read..."
+msgid "Marking messages as read…"
 msgstr "Marcando mensajes como leídos…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1258
@@ -24693,7 +24805,8 @@ msgid "Fl_ush Outbox"
 msgstr "Enviar correos pe_ndientes"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1621
-msgid "_Copy Folder To..."
+#| msgid "Copy Folder To"
+msgid "_Copy Folder To…"
 msgstr "_Copiar carpeta a…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1623
@@ -24731,7 +24844,8 @@ msgid "Mark all messages in the folder as read"
 msgstr "Marcar todos los mensajes en la carpeta como leídos"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1656
-msgid "_Move Folder To..."
+#| msgid "Move Folder To"
+msgid "_Move Folder To…"
 msgstr "_Mover carpeta a…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1658
@@ -24740,7 +24854,8 @@ msgstr "Mueve la carpeta seleccionada a otra carpeta"
 
 #. Translators: An action caption to create a new mail folder
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1664
-msgid "_New..."
+#| msgid "_New"
+msgid "_New…"
 msgstr "_Nueva…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1666
@@ -24857,7 +24972,8 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "Crear o editar reglas para el filtrado de correos nuevos"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1818
-msgid "_Subscriptions..."
+#| msgid "_Subscriptions..."
+msgid "_Subscriptions…"
 msgstr "_Suscripciones…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1827
@@ -24865,7 +24981,8 @@ msgid "F_older"
 msgstr "_Carpeta"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1844
-msgid "C_reate Search Folder From Search..."
+#| msgid "C_reate Search Folder From Search..."
+msgid "C_reate Search Folder From Search…"
 msgstr "_Crear una carpeta de búsqueda desde la búsqueda…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1851
@@ -24877,7 +24994,8 @@ msgid "Create or edit search folder definitions"
 msgstr "Crear o edita definiciones para carpetas de búsqueda"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1896
-msgid "_New Folder..."
+#| msgid "_New Folder..."
+msgid "_New Folder…"
 msgstr "Carpeta _nueva…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1924
@@ -25416,12 +25534,14 @@ msgstr ""
 "Alternativamente, puede %s (correo, contactos y calendario) en su lugar."
 
 #: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
-msgid "Loading accounts..."
+#| msgid "Loading accounts..."
+msgid "Loading accounts…"
 msgstr "Cargando cuentas…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:93
-msgid "_Format as..."
-msgstr "Formatear como…"
+#| msgid "_Format as..."
+msgid "_Format as…"
+msgstr "_Formatear como…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:101
 msgid "_Other languages"
@@ -26763,11 +26883,13 @@ msgid "Save as Template"
 msgstr "Guardar como plantilla"
 
 #: ../src/shell/e-shell.c:379
-msgid "Preparing to go offline..."
+#| msgid "Preparing to go offline..."
+msgid "Preparing to go offline…"
 msgstr "Preparándose para desconectarse…"
 
 #: ../src/shell/e-shell.c:408
-msgid "Preparing to go online..."
+#| msgid "Preparing to go online..."
+msgid "Preparing to go online…"
 msgstr "Preparándose para conectarse…"
 
 #: ../src/shell/e-shell.c:519
@@ -26775,7 +26897,8 @@ msgid "Preparing to quit"
 msgstr "Preparándose para salir"
 
 #: ../src/shell/e-shell.c:525
-msgid "Preparing to quit..."
+#| msgid "Preparing to quit"
+msgid "Preparing to quit…"
 msgstr "Preparándose para salir…"
 
 #: ../src/shell/e-shell.c:1088
@@ -26904,7 +27027,8 @@ msgid "Open the Evolution User Guide"
 msgstr "Abrir la Guía de usuario de Evolution"
 
 #: ../src/shell/e-shell-window-actions.c:884
-msgid "I_mport..."
+#| msgid "I_mport"
+msgid "I_mport…"
 msgstr "I_mportar…"
 
 #: ../src/shell/e-shell-window-actions.c:886
@@ -26928,7 +27052,8 @@ msgid "Exit the program"
 msgstr "Sale del programa"
 
 #: ../src/shell/e-shell-window-actions.c:926
-msgid "_Advanced Search..."
+#| msgid "Advanced Search"
+msgid "_Advanced Search…"
 msgstr "Búsqueda _avanzada…"
 
 #: ../src/shell/e-shell-window-actions.c:928
@@ -26940,7 +27065,8 @@ msgid "Clear the current search parameters"
 msgstr "Limpiar los parámetros de búsqueda actuales"
 
 #: ../src/shell/e-shell-window-actions.c:940
-msgid "_Edit Saved Searches..."
+#| msgid "_Edit Saved Searches..."
+msgid "_Edit Saved Searches…"
 msgstr "_Editar búsquedas guardadas…"
 
 #: ../src/shell/e-shell-window-actions.c:942
@@ -26961,7 +27087,8 @@ msgid "Execute the current search parameters"
 msgstr "Ejecutar los parámetros de búsqueda actuales"
 
 #: ../src/shell/e-shell-window-actions.c:961
-msgid "_Save Search..."
+#| msgid "Save Search"
+msgid "_Save Search…"
 msgstr "_Guardar búsqueda…"
 
 #: ../src/shell/e-shell-window-actions.c:963
@@ -26977,7 +27104,8 @@ msgid "Show keyboard shortcuts"
 msgstr "Mostrar los atajos del teclado"
 
 #: ../src/shell/e-shell-window-actions.c:982
-msgid "Submit _Bug Report..."
+#| msgid "Submit _Bug Report..."
+msgid "Submit _Bug Report…"
 msgstr "Enviar informe de _fallo…"
 
 #: ../src/shell/e-shell-window-actions.c:984
@@ -27100,7 +27228,8 @@ msgid "Delete Current View"
 msgstr "Eliminar la vista actual"
 
 #: ../src/shell/e-shell-window-actions.c:1185
-msgid "Save Custom View..."
+#| msgid "Save Custom View..."
+msgid "Save Custom View…"
 msgstr "Guardar vista personalizada…"
 
 #: ../src/shell/e-shell-window-actions.c:1187
@@ -27120,7 +27249,8 @@ msgid "Current view is a customized view"
 msgstr "La vista actual es una vista personalizada"
 
 #: ../src/shell/e-shell-window-actions.c:1214
-msgid "Page Set_up..."
+#| msgid "Page Set_up..."
+msgid "Page Set_up…"
 msgstr "Config_uración de página…"
 
 #: ../src/shell/e-shell-window-actions.c:1216
@@ -27282,6 +27412,10 @@ msgid ""
 msgstr ""
 "%s: --force-online y --offline no se pueden usar a la vez.\n"
 "  Ejecute «%s --help» para obtener más información\n"
+
+#: ../src/shell/shell.error.xml.h:1
+msgid "Importing..."
+msgstr "Importando…"
 
 #: ../src/shell/shell.error.xml.h:2
 msgid "Upgrade from previous version failed:"
@@ -27514,7 +27648,8 @@ msgid "Email Address"
 msgstr "Dirección de correo-e"
 
 #: ../src/smime/gui/certificate-manager.c:648
-msgid "Select a file to backup your key and certificate..."
+#| msgid "Select a file to backup your key and certificate..."
+msgid "Select a file to backup your key and certificate…"
 msgstr "Seleccione un archivo para respaldar su clave y el certificado…"
 
 #. To Translators:
@@ -27538,7 +27673,8 @@ msgstr "Nombre del _archivo:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../src/smime/gui/certificate-manager.c:741
-msgid "Please select a file..."
+#| msgid "Please select a file..."
+msgid "Please select a file…"
 msgstr "Seleccione un archivo…"
 
 #: ../src/smime/gui/certificate-manager.c:755
@@ -27586,7 +27722,8 @@ msgid "Failed to backup key and certificate"
 msgstr "Falló al respaldar la clave y el certificado"
 
 #: ../src/smime/gui/certificate-manager.c:948
-msgid "Select a certificate to import..."
+#| msgid "Select a certificate to import..."
+msgid "Select a certificate to import…"
 msgstr "Seleccione un certificado para importar…"
 
 #: ../src/smime/gui/certificate-manager.c:997
@@ -27888,6 +28025,177 @@ msgstr "No se puede guardar el almacén en el disco, cod_err: %i"
 msgid "Imported Certificate"
 msgstr "Certificado importado"
 
+#~ msgid "_Attachment..."
+#~ msgstr "_Adjunto…"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "Atte_ndees..."
+#~ msgstr "_Participa_ntes…"
+
+#~ msgctxt "ECompEditor"
+#~ msgid "_Categories..."
+#~ msgstr "Ca_tegorías…"
+
+#~ msgid "Saving changes..."
+#~ msgstr "Guardando cambios…"
+
+#~ msgid "_Print..."
+#~ msgstr "_Imprimir…"
+
+#~ msgid "Pre_view..."
+#~ msgstr "_Vista previa…"
+
+#~ msgid "Select..."
+#~ msgstr "Seleccionar…"
+
+#~ msgid "Atte_ndees..."
+#~ msgstr "_Participantes…"
+
+#~ msgid "New _Appointment..."
+#~ msgstr "_Cita nueva…"
+
+#~ msgid "New _Meeting..."
+#~ msgstr "_Reunión nueva…"
+
+#~ msgid "New _Task..."
+#~ msgstr "_Tarea nueva…"
+
+#~ msgid "_Open..."
+#~ msgstr "_Abrir..."
+
+#~ msgid "_Delete..."
+#~ msgstr "_Eliminar…"
+
+#~ msgid "Save _As..."
+#~ msgstr "Guardar _como…"
+
+#~ msgid "A_dd Attachment..."
+#~ msgstr "_Añadir adjunto…"
+
+#~ msgid "Other..."
+#~ msgstr "Otro…"
+
+# En conflicto con _Buscar del menu principal
+#~ msgid "_Find..."
+#~ msgstr "_Buscar…"
+
+#~ msgid "Re_place..."
+#~ msgstr "_Reemplazar…"
+
+#~ msgid "_Image..."
+#~ msgstr "_Imagen…"
+
+#~ msgid "_Link..."
+#~ msgstr "_Enlazar…"
+
+#~ msgid "_Rule..."
+#~ msgstr "_Regla…"
+
+#~ msgid "_Table..."
+#~ msgstr "_Tabla…"
+
+#~ msgid "Cell..."
+#~ msgstr "Celda…"
+
+#~ msgid "Image..."
+#~ msgstr "Imagen…"
+
+#~ msgid "Link..."
+#~ msgstr "Enlazar…"
+
+#~ msgid "Page..."
+#~ msgstr "Página…"
+
+#~ msgid "Rule..."
+#~ msgstr "Regla…"
+
+#~ msgid "Table..."
+#~ msgstr "Tabla…"
+
+#~ msgid "Text..."
+#~ msgstr "Texto…"
+
+#~ msgid "More..."
+#~ msgstr "Más…"
+
+#~ msgid "Add a C_olumn..."
+#~ msgstr "Añadir una c_olumna…"
+
+#~ msgid "Custo_mize Current View..."
+#~ msgstr "Perso_nalizar vista actual…"
+
+#~ msgid "Save _Image..."
+#~ msgstr "Guardar _imagen…"
+
+#~ msgid "Storing changes..."
+#~ msgstr "Guardando cambios…"
+
+#~ msgid "Retrieving message..."
+#~ msgstr "Obteniendo mensaje…"
+
+#~ msgid "_Archive..."
+#~ msgstr "_Archivar…"
+
+#~ msgid "_Copy to Folder..."
+#~ msgstr "Copiar a la c_arpeta…"
+
+#~ msgid "Follow _Up..."
+#~ msgstr "Se_guimiento…"
+
+#~ msgid "_Move to Folder..."
+#~ msgstr "_Mover a la carpeta…"
+
+#~ msgid "Loading..."
+#~ msgstr "Cargando…"
+
+#~ msgid "_Forward Contact..."
+#~ msgstr "_Reenviar contacto…"
+
+#~ msgid "_New Contact..."
+#~ msgstr "Contacto _nuevo…"
+
+#~ msgid "New Contact _List..."
+#~ msgstr "_Lista de contactos nueva…"
+
+#~ msgid "_Send Message to Contact..."
+#~ msgstr "Enviar _mensaje al contacto…"
+
+#~ msgid "_Save as vCard..."
+#~ msgstr "G_uardar como vCard…"
+
+#~ msgid "_Copy..."
+#~ msgstr "_Copiar…"
+
+#~ msgid "New All Day _Event..."
+#~ msgstr "Acont_ecimiento nuevo para todo el día"
+
+#~ msgid "Print..."
+#~ msgstr "Imprimir…"
+
+#~ msgid "_Save as iCalendar..."
+#~ msgstr "G_uardar como iCalendar…"
+
+#~ msgid "_Copy Folder To..."
+#~ msgstr "_Copiar carpeta a…"
+
+#~ msgid "_Move Folder To..."
+#~ msgstr "_Mover carpeta a…"
+
+#~ msgid "_New..."
+#~ msgstr "_Nueva…"
+
+#~ msgid "Preparing to quit..."
+#~ msgstr "Preparándose para salir…"
+
+#~ msgid "I_mport..."
+#~ msgstr "I_mportar…"
+
+#~ msgid "_Advanced Search..."
+#~ msgstr "Búsqueda _avanzada…"
+
+#~ msgid "_Save Search..."
+#~ msgstr "_Guardar búsqueda…"
+
 #~ msgid "Evolution Website"
 #~ msgstr "Página web de Evolution"
 
@@ -28063,9 +28371,6 @@ msgstr "Certificado importado"
 
 #~ msgid "_Snooze"
 #~ msgstr "_Posponer"
-
-#~ msgid "_Print"
-#~ msgstr "Im_primir"
 
 #~ msgid "location of appointment"
 #~ msgstr "lugar de la cita"
