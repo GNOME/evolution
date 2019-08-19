@@ -6895,9 +6895,10 @@ mail_regen_list (MessageList *message_list,
 
 	new_regen_data = regen_data_new (message_list, cancellable);
 	new_regen_data->search = g_strdup (search);
-	new_regen_data->folder_changed = folder_changes != NULL;
+	/* Make sure the folder_changes won't reset currently running regen, which would scroll to the selection in the UI */
+	new_regen_data->folder_changed = folder_changes != NULL && (!old_regen_data || old_regen_data->folder_changed);
 
-	if (folder_changes && folder_changes->uid_removed) {
+	if (folder_changes && folder_changes->uid_removed && new_regen_data->folder_changed) {
 		guint ii;
 
 		new_regen_data->removed_uids = g_hash_table_new_full (g_direct_hash, g_direct_equal, (GDestroyNotify) camel_pstring_free, NULL);
