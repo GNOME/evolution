@@ -330,6 +330,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 			 ICalTimezone *default_zone,
 			 guint today_date_mark,
 			 gchar **out_summary,
+			 gchar **out_summary_no_time,
 			 gchar **out_tooltip,
 			 gboolean *out_is_task,
 			 gboolean *out_is_completed,
@@ -350,6 +351,7 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	g_return_val_if_fail (E_IS_CAL_CLIENT (client), FALSE);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
 	g_return_val_if_fail (out_summary, FALSE);
+	g_return_val_if_fail (out_summary_no_time, FALSE);
 	g_return_val_if_fail (out_tooltip, FALSE);
 	g_return_val_if_fail (out_is_task, FALSE);
 	g_return_val_if_fail (out_is_completed, FALSE);
@@ -487,6 +489,8 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 	}
 
 	*out_summary = NULL;
+	*out_summary_no_time = g_markup_printf_escaped ("%s%s%s%s", comp_summary,
+		location ? " (" : "", location ? location : "", location ? ")" : "");
 
 	if (dt && e_cal_component_datetime_get_value (dt)) {
 		gchar *time_str;
@@ -505,24 +509,32 @@ etdp_get_component_data (EToDoPane *to_do_pane,
 		g_free (time_str);
 	}
 
-	if (!*out_summary) {
-		*out_summary = g_markup_printf_escaped ("%s%s%s%s", comp_summary,
-			location ? " (" : "", location ? location : "", location ? ")" : "");
-	}
+	if (!*out_summary)
+		*out_summary = g_strdup (*out_summary_no_time);
 
 	if (*out_is_completed || is_cancelled) {
-		gchar *tmp = *out_summary;
+		gchar *tmp;
 
 		/* With leading space, to have proper row height in GtkTreeView */
-		*out_summary = g_strdup_printf (" <s>%s</s>", *out_summary);
 
+		tmp = *out_summary;
+		*out_summary = g_strdup_printf (" <s>%s</s>", *out_summary);
+		g_free (tmp);
+
+		tmp = *out_summary_no_time;
+		*out_summary_no_time = g_strdup_printf (" <s>%s</s>", *out_summary_no_time);
 		g_free (tmp);
 	} else {
-		gchar *tmp = *out_summary;
+		gchar *tmp;
 
 		/* With leading space, to have proper row height in GtkTreeView */
-		*out_summary = g_strconcat (" ", *out_summary, NULL);
 
+		tmp = *out_summary;
+		*out_summary = g_strconcat (" ", *out_summary, NULL);
+		g_free (tmp);
+
+		tmp = *out_summary_no_time;
+		*out_summary_no_time = g_strconcat (" ", *out_summary_no_time, NULL);
 		g_free (tmp);
 	}
 
@@ -659,7 +671,20 @@ etdp_get_component_root_paths (EToDoPane *to_do_pane,
 			itt = e_cal_component_datetime_get_value (dt);
 
 			etdp_itt_to_zone (itt, e_cal_component_datetime_get_tzid (dt), client, default_zone);
+
+			/* The end time is excluded */
+			if (i_cal_time_is_date (itt))
+				i_cal_time_adjust (itt, -1, 0, 0, 0);
+			else
+				i_cal_time_adjust (itt, 0, 0, 0, -1);
+
 			end_date_mark = etdp_create_date_mark (itt);
+
+			/* Multiday event, the end_date_mark is excluded, thus add one more day */
+			if (end_date_mark > start_date_mark)
+				end_date_mark++;
+			else if (end_date_mark < start_date_mark)
+				end_date_mark = start_date_mark;
 		} else {
 			end_date_mark = start_date_mark;
 		}
@@ -940,8 +965,8 @@ etdp_add_component (EToDoPane *to_do_pane,
 	GtkTreeIter iter = { 0 };
 	GdkRGBA bgcolor, fgcolor;
 	gboolean bgcolor_set = FALSE, fgcolor_set = FALSE;
-	gchar *summary = NULL, *tooltip = NULL, *sort_key = NULL;
-	gboolean is_task = FALSE, is_completed = FALSE;
+	gchar *summary = NULL, *summary_no_time = NULL, *tooltip = NULL, *sort_key = NULL;
+	gboolean is_task = FALSE, is_completed = FALSE, use_summary_no_time;
 	const gchar *icon_name;
 	guint date_mark = 0;
 
@@ -955,7 +980,7 @@ etdp_add_component (EToDoPane *to_do_pane,
 	default_zone = e_cal_data_model_get_timezone (to_do_pane->priv->events_data_model);
 
 	if (!etdp_get_component_data (to_do_pane, client, comp, default_zone, to_do_pane->priv->last_today,
-		&summary, &tooltip, &is_task, &is_completed, &sort_key, &date_mark)) {
+		&summary, &summary_no_time, &tooltip, &is_task, &is_completed, &sort_key, &date_mark)) {
 		e_cal_component_id_free (id);
 		return;
 	}
@@ -1018,6 +1043,8 @@ etdp_add_component (EToDoPane *to_do_pane,
 	etdp_get_comp_colors (to_do_pane, client, comp, &bgcolor, &bgcolor_set, &fgcolor, &fgcolor_set,
 		&to_do_pane->priv->nearest_due);
 
+	use_summary_no_time = !is_task && to_do_pane->priv->last_today > date_mark;
+
 	for (link = new_references; link; link = g_slist_next (link)) {
 		GtkTreeRowReference *reference = link->data;
 
@@ -1031,13 +1058,17 @@ etdp_add_component (EToDoPane *to_do_pane,
 					COLUMN_FGCOLOR, fgcolor_set ? &fgcolor : NULL,
 					COLUMN_HAS_ICON_NAME, TRUE,
 					COLUMN_ICON_NAME, icon_name,
-					COLUMN_SUMMARY, summary,
+					COLUMN_SUMMARY, (is_task || !use_summary_no_time) ? summary : summary_no_time,
 					COLUMN_TOOLTIP, tooltip,
 					COLUMN_SORTKEY, sort_key,
 					COLUMN_DATE_MARK, date_mark,
 					COLUMN_CAL_CLIENT, client,
 					COLUMN_CAL_COMPONENT, comp,
 					-1);
+
+				/* If an event is split between multiple days, then the next day should be without the start time */
+				if (!is_task && !use_summary_no_time)
+					use_summary_no_time = TRUE;
 			}
 
 			gtk_tree_path_free (path);
@@ -1049,6 +1080,7 @@ etdp_add_component (EToDoPane *to_do_pane,
  exit:
 	component_ident_free (ident);
 	e_cal_component_id_free (id);
+	g_free (summary_no_time);
 	g_free (summary);
 	g_free (tooltip);
 	g_free (sort_key);
