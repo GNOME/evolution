@@ -403,6 +403,8 @@ get_summary (ECalModelComponent *comp_data)
 	if (!res)
 		res = g_strdup ("");
 
+	e_cal_model_until_sanitize_text_value (res, -1);
+
 	return res;
 }
 
@@ -4408,4 +4410,30 @@ e_cal_model_util_get_datetime_value (ECalModel *model,
 	g_clear_object (&param);
 
 	return value;
+}
+
+/* Removes unneeded characters from the 'value'.
+   It modifies the 'value' inline. */
+void
+e_cal_model_until_sanitize_text_value (gchar *value,
+				       gint value_length)
+{
+	if (value && (value_length > 0 || value_length == -1) && *value) {
+		gchar *ptr, *pos;
+
+		for (ptr = value, pos = value; (value_length > 0 || value_length == -1) && *ptr; ptr++, pos++) {
+			if (*ptr == '\r')
+				pos--;
+			else if (*ptr == '\n' || *ptr == '\t')
+				*pos = ' ';
+			else if (pos != ptr)
+				*pos = *ptr;
+
+			if (value_length != -1)
+				value_length--;
+		}
+
+		if (pos < ptr)
+			*pos = '\0';
+	}
 }

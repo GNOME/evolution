@@ -2088,6 +2088,7 @@ gchar *
 e_calendar_view_dup_component_summary (ICalComponent *icomp)
 {
 	const gchar *summary;
+	gchar *res = NULL;
 
 	g_return_val_if_fail (icomp != NULL, NULL);
 
@@ -2102,7 +2103,6 @@ e_calendar_view_dup_component_summary (ICalComponent *icomp)
 		if (since_year_str) {
 			ICalTime *dtstart;
 			gint since_year;
-			gchar *res = NULL;
 
 			since_year = atoi (since_year_str);
 
@@ -2119,12 +2119,15 @@ e_calendar_view_dup_component_summary (ICalComponent *icomp)
 
 			g_clear_object (&dtstart);
 			g_free (since_year_str);
-
-			return res ? res : g_strdup (summary);
 		}
 	}
 
-	return g_strdup (summary);
+	if (!res)
+		res = g_strdup (summary ? summary : "");
+
+	e_cal_model_until_sanitize_text_value (res, -1);
+
+	return res;
 }
 
 /* A callback for e_cal_ops_create_component(), whose @user_data is an ECalendarView instance */

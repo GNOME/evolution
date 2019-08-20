@@ -419,6 +419,9 @@ ECellDateEditValue *
 						 ECalModelComponent *comp_data,
 						 ICalPropertyKind kind,
 						 ICalTime * (*get_time_func) (ICalProperty *prop));
+void		e_cal_model_until_sanitize_text_value
+						(gchar *value,
+						 gint value_length);
 
 G_END_DECLS
 

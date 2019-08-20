@@ -25,6 +25,7 @@
 
 #include "calendar-config.h"
 #include "comp-util.h"
+#include "e-cal-model.h"
 #include "e-timezone-entry.h"
 
 #include "e-comp-editor-property-part.h"
@@ -55,6 +56,16 @@ struct _ECompEditorPropertyPartSummaryClass {
 GType e_comp_editor_property_part_summary_get_type (void) G_GNUC_CONST;
 
 G_DEFINE_TYPE (ECompEditorPropertyPartSummary, e_comp_editor_property_part_summary, E_TYPE_COMP_EDITOR_PROPERTY_PART_STRING)
+
+static void
+ecepp_summary_insert_text_cb (GtkEditable *editable,
+			      gchar *new_text,
+			      gint new_text_length,
+			      gpointer position,
+			      gpointer user_data)
+{
+	e_cal_model_until_sanitize_text_value (new_text, new_text_length);
+}
 
 static void
 ecepp_summary_create_widgets (ECompEditorPropertyPart *property_part,
@@ -88,6 +99,11 @@ ecepp_summary_create_widgets (ECompEditorPropertyPart *property_part,
 		NULL);
 
 	gtk_widget_show (*out_label_widget);
+
+	if (GTK_IS_EDITABLE (*out_edit_widget)) {
+		g_signal_connect (*out_edit_widget, "insert-text",
+			G_CALLBACK (ecepp_summary_insert_text_cb), NULL);
+	}
 }
 
 static void
