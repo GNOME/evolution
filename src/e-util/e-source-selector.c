@@ -886,8 +886,9 @@ source_selector_source_removed_cb (ESourceRegistry *registry,
 	if (e_source_selector_get_source_is_busy (selector, source))
 		source_selector_dec_busy_sources (selector);
 
-	if (e_source_selector_source_is_selected (selector, source))
-		g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, source);
+	/* Always notify about deselect, regardless whether it is really selected,
+	   because listeners won't always know the source is gone otherwise. */
+	g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, source);
 
 	source_selector_build_model (selector);
 }
@@ -933,8 +934,9 @@ source_selector_source_disabled_cb (ESourceRegistry *registry,
 	if (e_source_selector_get_source_is_busy (selector, source))
 		source_selector_dec_busy_sources (selector);
 
-	if (e_source_selector_source_is_selected (selector, source))
-		g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, source);
+	/* Always notify about deselect, regardless whether it is really selected,
+	   because listeners won't always know the source is gone otherwise. */
+	g_signal_emit (selector, signals[SOURCE_UNSELECTED], 0, source);
 
 	source_selector_build_model (selector);
 }
