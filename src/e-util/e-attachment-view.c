@@ -735,7 +735,7 @@ attachment_view_update_actions (EAttachmentView *view)
 	gtk_action_set_visible (action, !busy && n_selected > 0);
 
 	action = e_attachment_view_get_action (view, "save-as");
-	gtk_action_set_visible (action, !busy && n_selected > 0);
+	gtk_action_set_visible (action, !busy && (n_selected == 1 || (n_selected > 0 && !e_util_is_running_flatpak ())));
 
 	/* Clear out the "openwith" action group. */
 	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);
@@ -1224,6 +1224,24 @@ e_attachment_view_remove_selected (EAttachmentView *view,
 	g_list_free (list);
 }
 
+static gboolean
+attachment_view_any_popup_item_visible (GtkWidget *widget)
+{
+	GList *items, *link;
+	gboolean any_visible = FALSE;
+
+	g_return_val_if_fail (GTK_IS_MENU (widget), FALSE);
+
+	items = gtk_container_get_children (GTK_CONTAINER (widget));
+	for (link = items; link && !any_visible; link = g_list_next (link)) {
+		any_visible = gtk_widget_get_visible (link->data);
+	}
+
+	g_list_free (items);
+
+	return any_visible;
+}
+
 gboolean
 e_attachment_view_button_press_event (EAttachmentView *view,
                                       GdkEventButton *event)
@@ -1300,7 +1318,10 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 		if (path != NULL || editable) {
 			e_attachment_view_update_actions (view);
 			menu = e_attachment_view_get_popup_menu (view);
-			gtk_menu_popup_at_pointer (GTK_MENU (menu), (const GdkEvent *) event);
+			if (attachment_view_any_popup_item_visible (menu))
+				gtk_menu_popup_at_pointer (GTK_MENU (menu), (const GdkEvent *) event);
+			else
+				g_signal_emit_by_name (menu, "deactivate", NULL);
 			handled = TRUE;
 		}
 	}

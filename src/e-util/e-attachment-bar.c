@@ -109,7 +109,7 @@ attachment_bar_update_status (EAttachmentBar *bar)
 
 	activatable = GTK_ACTIVATABLE (bar->priv->save_all_button);
 	action = gtk_activatable_get_related_action (activatable);
-	gtk_action_set_visible (action, (num_attachments > 1));
+	gtk_action_set_visible (action, (num_attachments > 1 && !e_util_is_running_flatpak ()));
 
 	activatable = GTK_ACTIVATABLE (bar->priv->save_one_button);
 	action = gtk_activatable_get_related_action (activatable);
