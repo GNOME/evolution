@@ -3282,27 +3282,26 @@ find_to_address (ItipView *view,
 	if (view->priv->to_address != NULL)
 		return;
 
-	if (view->priv->message != NULL && view->priv->folder != NULL) {
+	/* Look through the list of attendees to find the user's address */
+	list = e_source_registry_list_enabled (registry, extension_name);
+
+	if (view->priv->message && view->priv->folder) {
 		ESource *source;
 
 		source = em_utils_guess_mail_identity (
 			registry, view->priv->message,
 			view->priv->folder, view->priv->message_uid);
 
-		if (source != NULL) {
-			extension = e_source_get_extension (source, extension_name);
+		if (source) {
+			if (g_list_find (list, source)) {
+				list = g_list_remove (list, source);
+				g_object_unref (source);
+			}
 
-			view->priv->to_address = e_source_mail_identity_dup_address (extension);
-
-			g_object_unref (source);
+			/* Try the account where the message is located first */
+			list = g_list_prepend (list, source);
 		}
 	}
-
-	if (view->priv->to_address != NULL)
-		return;
-
-	/* Look through the list of attendees to find the user's address */
-	list = e_source_registry_list_enabled (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
 		ESource *source = E_SOURCE (link->data);
@@ -3465,6 +3464,27 @@ find_to_address (ItipView *view,
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	if (view->priv->to_address)
+		return;
+
+	/* Guess based on the message location only as the last resort, because
+	   the attendee in the list of attendees is required. */
+	if (view->priv->message && view->priv->folder) {
+		ESource *source;
+
+		source = em_utils_guess_mail_identity (
+			registry, view->priv->message,
+			view->priv->folder, view->priv->message_uid);
+
+		if (source) {
+			extension = e_source_get_extension (source, extension_name);
+
+			view->priv->to_address = e_source_mail_identity_dup_address (extension);
+
+			g_object_unref (source);
+		}
+	}
 }
 
 static void
