@@ -1740,6 +1740,39 @@ comp_editor_selected_source_notify_cb (ECompEditorPageGeneral *page_general,
 	e_comp_editor_open_target_client (comp_editor);
 }
 
+static gboolean
+e_comp_editor_focus_in_event_cb (GtkWindow *comp_editor,
+				 GdkEvent *event,
+				 gpointer user_data)
+{
+	gtk_window_set_urgency_hint (comp_editor, FALSE);
+
+	g_signal_handlers_disconnect_by_func (comp_editor,
+		G_CALLBACK (e_comp_editor_focus_in_event_cb), NULL);
+
+	return FALSE;
+}
+
+static void
+e_comp_editor_set_urgency_hint (ECompEditor *comp_editor)
+{
+	GtkWindow *window;
+
+	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
+
+	window = GTK_WINDOW (comp_editor);
+
+	if (gtk_widget_get_visible (GTK_WIDGET (window)) &&
+	    !gtk_window_is_active (window) &&
+	    !gtk_window_get_urgency_hint (window)) {
+		gtk_window_set_urgency_hint (window, TRUE);
+
+		g_signal_connect (
+			window, "focus-in-event",
+			G_CALLBACK (e_comp_editor_focus_in_event_cb), NULL);
+	}
+}
+
 static void
 e_comp_editor_submit_alert (EAlertSink *alert_sink,
 			    EAlert *alert)
@@ -1752,6 +1785,8 @@ e_comp_editor_submit_alert (EAlertSink *alert_sink,
 	comp_editor = E_COMP_EDITOR (alert_sink);
 
 	e_alert_bar_submit_alert (comp_editor->priv->alert_bar, alert);
+
+	e_comp_editor_set_urgency_hint (comp_editor);
 }
 
 static void
@@ -2709,6 +2744,8 @@ e_comp_editor_set_validation_error (ECompEditor *comp_editor,
 
 	if (error_widget)
 		gtk_widget_grab_focus (error_widget);
+
+	e_comp_editor_set_urgency_hint (comp_editor);
 }
 
 EShell *
@@ -3147,6 +3184,7 @@ e_comp_editor_add_alert (ECompEditor *comp_editor,
 		NULL);
 
 	e_alert_bar_add_alert (comp_editor->priv->alert_bar, alert);
+	e_comp_editor_set_urgency_hint (comp_editor);
 
 	return alert;
 }
