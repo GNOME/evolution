@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-08-16 12:33+0000\n"
-"PO-Revision-Date: 2019-08-18 12:13+0200\n"
+"POT-Creation-Date: 2019-08-18 10:14+0000\n"
+"PO-Revision-Date: 2019-08-22 11:19+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -23247,7 +23247,7 @@ msgstr "Expeditorul a fost informat că ați citit acest mesaj."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:1
 msgid "Evolution is currently offline."
-msgstr "Evolution lucreează în mod deconectat."
+msgstr "Evolution lucrează în mod deconectat."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:2
 msgid "Click “Work Online” to return to online mode."
@@ -24919,7 +24919,7 @@ msgstr "Raportează o problemă folosind Bug Buddy"
 
 #: ../src/shell/e-shell-window-actions.c:989
 msgid "_Work Offline"
-msgstr "Lucreează _deconectat"
+msgstr "Lucrează _deconectat"
 
 #: ../src/shell/e-shell-window-actions.c:991
 msgid "Put Evolution into offline mode"
@@ -24927,7 +24927,7 @@ msgstr "Pune Evolution în mod deconectat"
 
 #: ../src/shell/e-shell-window-actions.c:996
 msgid "_Work Online"
-msgstr "Lucreează _conectat"
+msgstr "Lucrează _conectat"
 
 #: ../src/shell/e-shell-window-actions.c:998
 msgid "Put Evolution into online mode"
