@@ -1550,19 +1550,23 @@ mail_session_forward_to_sync (CamelSession *session,
 	ESource *source;
 	ESourceRegistry *registry;
 	ESourceMailIdentity *extension;
+	ESourceMailSubmission *mail_submission;
 	CamelMimeMessage *forward;
 	CamelStream *mem;
 	CamelInternetAddress *addr;
 	CamelFolder *out_folder;
 	CamelMessageInfo *info;
 	CamelMedium *medium;
+	CamelNameValueArray *orig_headers;
+	GString *references = NULL;
 	const gchar *extension_name;
 	const gchar *from_address;
 	const gchar *from_name;
-	const gchar *header_name;
+	const gchar *reply_to, *message_id, *sent_folder = NULL, *transport_uid;
 	gboolean success;
 	gchar *subject;
 	gchar *alias_name = NULL, *alias_address = NULL;
+	guint ii, len;
 
 	g_return_val_if_fail (folder != NULL, FALSE);
 	g_return_val_if_fail (message != NULL, FALSE);
@@ -1604,6 +1608,8 @@ mail_session_forward_to_sync (CamelSession *session,
 	if (!from_name || !*from_name)
 		from_name = e_source_mail_identity_get_name (extension);
 
+	reply_to = e_source_mail_identity_get_reply_to (extension);
+
 	forward = camel_mime_message_new ();
 
 	/* make copy of the message, because we are going to modify it */
@@ -1615,33 +1621,70 @@ mail_session_forward_to_sync (CamelSession *session,
 		CAMEL_DATA_WRAPPER (forward), mem, NULL, NULL);
 	g_object_unref (mem);
 
-	/* clear previous recipients */
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_TO, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_CC, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_BCC, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_RESENT_TO, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_RESENT_CC, NULL);
-	camel_mime_message_set_recipients (
-		forward, CAMEL_RECIPIENT_TYPE_RESENT_BCC, NULL);
-
 	medium = CAMEL_MEDIUM (forward);
 
-	/* remove all delivery and notification headers */
-	header_name = "Disposition-Notification-To";
-	while (camel_medium_get_header (medium, header_name))
-		camel_medium_remove_header (medium, header_name);
+	message_id = camel_mime_message_get_message_id (message);
+	if (message_id && *message_id) {
+		references = g_string_sized_new (128);
 
-	header_name = "Delivered-To";
-	while (camel_medium_get_header (medium, header_name))
-		camel_medium_remove_header (medium, header_name);
+		if (*message_id != '<')
+			g_string_append_c (references, '<');
 
-	/* remove any X-Evolution-* headers that may have been set */
-	camel_name_value_array_free (mail_tool_remove_xevolution_headers (forward));
+		g_string_append (references, message_id);
+
+		if (*message_id != '<')
+			g_string_append_c (references, '>');
+	}
+
+	/* Remove all but content describing headers and Subject */
+	orig_headers = camel_medium_dup_headers (medium);
+	len = camel_name_value_array_get_length (orig_headers);
+
+	for (ii = 0; ii < len; ii++) {
+		const gchar *header_name = NULL, *header_value = NULL;
+
+		if (!camel_name_value_array_get (orig_headers, ii, &header_name, &header_value) || !header_name)
+			continue;
+
+		if (g_ascii_strncasecmp (header_name, "Content-", 8) != 0 &&
+		    g_ascii_strcasecmp (header_name, "Subject") != 0) {
+			if (g_ascii_strcasecmp (header_name, "References") == 0) {
+				if (header_value && *header_value) {
+					if (!references)
+						references = g_string_sized_new (128);
+
+					if (references->len)
+						g_string_append_c (references, ' ');
+
+					g_string_append (references, header_value);
+				}
+			}
+
+			camel_medium_remove_header (medium, header_name);
+		}
+	}
+
+	camel_name_value_array_free (orig_headers);
+
+	if (references) {
+		gchar *unfolded;
+
+		unfolded = camel_header_unfold (references->str);
+
+		if (unfolded && *unfolded)
+			camel_medium_add_header (medium, "References", unfolded);
+
+		g_string_free (references, TRUE);
+		g_free (unfolded);
+	}
+
+	/* reply-to */
+	if (reply_to && *reply_to) {
+		addr = camel_internet_address_new ();
+		if (camel_address_unformat (CAMEL_ADDRESS (addr), reply_to) > 0)
+			camel_mime_message_set_reply_to (forward, addr);
+		g_object_unref (addr);
+	}
 
 	/* from */
 	addr = camel_internet_address_new ();
@@ -1660,6 +1703,16 @@ mail_session_forward_to_sync (CamelSession *session,
 	subject = mail_tool_generate_forward_subject (message);
 	camel_mime_message_set_subject (forward, subject);
 	g_free (subject);
+
+	/* store send account information */
+	mail_submission = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_SUBMISSION);
+	if (e_source_mail_submission_get_use_sent_folder (mail_submission))
+		sent_folder = e_source_mail_submission_get_sent_folder (mail_submission);
+	transport_uid = e_source_mail_submission_get_transport_uid (mail_submission);
+
+	camel_medium_set_header (medium, "X-Evolution-Identity", e_source_get_uid (source));
+	camel_medium_set_header (medium, "X-Evolution-Fcc", sent_folder);
+	camel_medium_set_header (medium, "X-Evolution-Transport", transport_uid);
 
 	/* and send it */
 	info = camel_message_info_new (NULL);
