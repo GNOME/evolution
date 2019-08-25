@@ -22859,7 +22859,7 @@ msgstr "Una cita  «%s» del calendari «%s» coincideix amb aquesta reunió"
 #: ../src/modules/itip-formatter/itip-view.c:3912
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
-msgstr "Una tasca «%s» del la llista de tasques «%s» coincideix amb aquesta tasca"
+msgstr "Una tasca «%s» de la llista de tasques «%s» coincideix amb aquesta tasca"
 
 #: ../src/modules/itip-formatter/itip-view.c:3919
 #, c-format
@@ -22901,7 +22901,7 @@ msgstr "S'ha trobat la tasca a la llista de tasques «%s»"
 #: ../src/modules/itip-formatter/itip-view.c:3996
 #, c-format
 msgid "Found the memo in the memo list “%s”"
-msgstr "S'ha troba l'anotació a la llista d'anotacions «%s»"
+msgstr "S'ha trobat l'anotació a la llista d'anotacions «%s»"
 
 #: ../src/modules/itip-formatter/itip-view.c:4007
 msgid "This meeting invitation is obsolete. It had been updated."
@@ -24842,7 +24842,7 @@ msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only mailing list. Contact the "
 "list owner for details."
 msgstr ""
-"No es permet publicar en aquesta llista de correu. Possiblement sigui una llista només per llegir. "
+"No es permet publicar en aquesta llista de correu. Possiblement és una llista només per llegir. "
 "Contacteu amb el propietari de la llista."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
