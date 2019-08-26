@@ -7,7 +7,7 @@
     </key>
     <key name="preserve-reminder" type="b">
       <default>true</default>
-      <_summary>Preserve exiting reminder by default</_summary>
+      <_summary>Preserve existing reminder by default</_summary>
       <_description>Whether to preset option to preserve existing reminder by default</_description>
     </key>
   </schema>
