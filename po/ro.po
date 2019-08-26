@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-08-18 10:14+0000\n"
-"PO-Revision-Date: 2019-08-22 11:19+0200\n"
+"POT-Creation-Date: 2019-08-26 13:09+0000\n"
+"PO-Revision-Date: 2019-08-26 17:58+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -2527,7 +2527,7 @@ msgid "Whether to delete processed iTip objects"
 msgstr "Dacă să se șteargă obiectele procesate iTip"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:3
-msgid "Preserve exiting reminder by default"
+msgid "Preserve existing reminder by default"
 msgstr "Păstrează mementoul existent în mod implicit"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:4
@@ -3598,7 +3598,7 @@ msgstr "_Anulează"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3508
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:749 ../src/calendar/calendar.error.xml.h:47
-#: ../src/calendar/gui/e-comp-editor.c:2123 ../src/composer/e-composer-actions.c:228 ../src/composer/e-composer-actions.c:340
+#: ../src/calendar/gui/e-comp-editor.c:2158 ../src/composer/e-composer-actions.c:228 ../src/composer/e-composer-actions.c:340
 #: ../src/e-util/e-attachment-store.c:848 ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370 ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:4347
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268 ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
@@ -3606,8 +3606,8 @@ msgstr "_Anulează"
 msgid "_Save"
 msgstr "_Salvează"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16 ../src/calendar/gui/e-comp-editor.c:2020
-#: ../src/calendar/gui/e-comp-editor.c:2092 ../src/e-util/e-preferences-window.c:390 ../src/e-util/e-send-options.ui.h:15
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:16 ../src/calendar/gui/e-comp-editor.c:2055
+#: ../src/calendar/gui/e-comp-editor.c:2127 ../src/e-util/e-preferences-window.c:390 ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2 ../src/shell/e-shell.c:1474
 #: ../src/shell/e-shell-window-actions.c:1019
 msgid "_Help"
@@ -3755,12 +3755,12 @@ msgid "_Anniversary:"
 msgstr "A_niversare:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:52 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1001
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47 ../src/calendar/gui/e-calendar-view.c:2097
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:47 ../src/calendar/gui/e-calendar-view.c:2098
 msgid "Anniversary"
 msgstr "Aniversare"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:53 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1000
-#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46 ../src/calendar/gui/e-calendar-view.c:2096
+#: ../src/addressbook/gui/widgets/e-addressbook-view.etspec.h:46 ../src/calendar/gui/e-calendar-view.c:2097
 msgid "Birthday"
 msgstr "Ziua de naștere"
 
@@ -3810,7 +3810,7 @@ msgstr "Loc de muncă"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:64 ../src/addressbook/gui/widgets/eab-contact-formatter.c:84
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:526 ../src/addressbook/gui/widgets/eab-contact-formatter.c:1035
-#: ../src/calendar/gui/e-cal-model.c:3790
+#: ../src/calendar/gui/e-cal-model.c:3792
 msgid "Other"
 msgstr "Alte"
 
@@ -3856,22 +3856,22 @@ msgstr "Î_ncarcă X.509"
 msgid "Certificates"
 msgstr "Certificate"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261 ../src/calendar/gui/e-comp-editor.c:2055
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261 ../src/calendar/gui/e-comp-editor.c:2090
 #: ../src/e-util/e-html-editor-actions.c:945
 msgid "_Undo"
 msgstr "An_ulează"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263 ../src/calendar/gui/e-comp-editor.c:2057
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263 ../src/calendar/gui/e-comp-editor.c:2092
 #: ../src/e-util/e-focus-tracker.c:120
 msgid "Undo"
 msgstr "Anulează"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268 ../src/calendar/gui/e-comp-editor.c:2062
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268 ../src/calendar/gui/e-comp-editor.c:2097
 #: ../src/e-util/e-html-editor-actions.c:931
 msgid "_Redo"
 msgstr "_Refă"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270 ../src/calendar/gui/e-comp-editor.c:2064
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270 ../src/calendar/gui/e-comp-editor.c:2099
 #: ../src/e-util/e-focus-tracker.c:136
 msgid "Redo"
 msgstr "Refă"
@@ -4148,12 +4148,12 @@ msgstr "Introdu adrese de email din Agendă"
 msgid "_Top"
 msgstr "_Top"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16 ../src/e-util/e-source-selector.c:3473
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16 ../src/e-util/e-source-selector.c:3475
 #: ../src/e-util/filter.ui.h:29
 msgid "_Up"
 msgstr "S_us"
 
-#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17 ../src/e-util/e-source-selector.c:3474
+#: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17 ../src/e-util/e-source-selector.c:3476
 #: ../src/e-util/filter.ui.h:30
 msgid "_Down"
 msgstr "_Jos"
@@ -4585,7 +4585,7 @@ msgstr "Sigur doriți să ștergeți acest contact?"
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Sigur doriți să ștergeți acest contact (%s)?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1322 ../src/calendar/gui/e-comp-editor.c:2013
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1322 ../src/calendar/gui/e-comp-editor.c:2048
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:783 ../src/e-util/evolution-source-viewer.c:806
 #: ../src/e-util/e-webdav-browser.c:2697 ../src/mail/e-mail-account-manager.c:739
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1173 ../src/modules/calendar/e-cal-shell-view-actions.c:1499
@@ -6063,7 +6063,7 @@ msgstr "Stare:"
 msgid "High"
 msgstr "Ridicat"
 
-#: ../src/calendar/gui/e-cal-component-preview.c:349 ../src/calendar/gui/e-cal-model.c:1870
+#: ../src/calendar/gui/e-cal-component-preview.c:349 ../src/calendar/gui/e-cal-model.c:1872
 #: ../src/calendar/gui/e-task-table.c:472 ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/e-util/e-send-options.ui.h:5
 #: ../src/mail/message-list.c:330
 msgid "Normal"
@@ -6297,14 +6297,14 @@ msgstr "Organizator: %s"
 #. Translators: It will display "Location: PlaceOfTheMeeting"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/e-calendar-view.c:1911 ../src/calendar/gui/e-meeting-time-sel.c:2580
-#: ../src/calendar/gui/e-task-table.c:758 ../src/calendar/gui/e-to-do-pane.c:375 ../src/calendar/gui/print.c:3565
+#: ../src/calendar/gui/e-task-table.c:758 ../src/calendar/gui/e-to-do-pane.c:377 ../src/calendar/gui/print.c:3565
 #, c-format
 msgid "Location: %s"
 msgstr "Locație: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
 #. Translators: It will display "Time: StartDateAndTime (Duration)"
-#: ../src/calendar/gui/e-calendar-view.c:1970 ../src/calendar/gui/e-to-do-pane.c:478
+#: ../src/calendar/gui/e-calendar-view.c:1970 ../src/calendar/gui/e-to-do-pane.c:480
 #, c-format
 msgid "Time: %s %s"
 msgstr "Data: %s %s"
@@ -6319,8 +6319,8 @@ msgctxt "BirthdaySummary"
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: ../src/calendar/gui/e-calendar-view.c:2315 ../src/calendar/gui/e-calendar-view.c:2318
-#: ../src/calendar/gui/e-calendar-view.c:2321 ../src/calendar/gui/e-calendar-view.c:2322
+#: ../src/calendar/gui/e-calendar-view.c:2318 ../src/calendar/gui/e-calendar-view.c:2321
+#: ../src/calendar/gui/e-calendar-view.c:2324 ../src/calendar/gui/e-calendar-view.c:2325
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -6329,12 +6329,12 @@ msgstr "%d %b %Y"
 #. strftime format %d = day of month, %b = abbreviated
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:2317 ../src/calendar/gui/e-day-view.c:3079
+#: ../src/calendar/gui/e-calendar-view.c:2320 ../src/calendar/gui/e-day-view.c:3079
 #: ../src/calendar/gui/e-day-view-top-item.c:858 ../src/calendar/gui/e-week-view-main-item.c:228
 msgid "%d %b"
 msgstr "%d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:2328
+#: ../src/calendar/gui/e-calendar-view.c:2331
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -6344,13 +6344,13 @@ msgstr "%A %d %b %Y"
 #. * %d = day of month, %b = abbreviated month name.
 #. * You can change the order but don't change the
 #. * specifiers or add anything.
-#: ../src/calendar/gui/e-calendar-view.c:2330 ../src/calendar/gui/e-day-view.c:3063
+#: ../src/calendar/gui/e-calendar-view.c:2333 ../src/calendar/gui/e-day-view.c:3063
 #: ../src/calendar/gui/e-day-view-top-item.c:854 ../src/calendar/gui/e-week-view-main-item.c:214
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: ../src/calendar/gui/e-calendar-view.c:2331 ../src/calendar/gui/e-calendar-view.c:2333
-#: ../src/calendar/gui/e-calendar-view.c:2334
+#: ../src/calendar/gui/e-calendar-view.c:2334 ../src/calendar/gui/e-calendar-view.c:2336
+#: ../src/calendar/gui/e-calendar-view.c:2337
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -6379,7 +6379,7 @@ msgstr "Sursă"
 
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
-#: ../src/calendar/gui/e-cal-list-view.etspec.h:10 ../src/calendar/gui/e-cal-model.c:3844
+#: ../src/calendar/gui/e-cal-list-view.etspec.h:10 ../src/calendar/gui/e-cal-model.c:3846
 #: ../src/calendar/gui/e-meeting-list-view.c:693 ../src/calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../src/calendar/gui/e-memo-table.etspec.h:9 ../src/calendar/gui/e-task-table.etspec.h:11
 #: ../src/calendar/gui/tasktypes.xml.in.h:8 ../src/mail/filtertypes.xml.in.h:36 ../src/mail/message-list.etspec.h:1
@@ -6398,70 +6398,70 @@ msgstr "Tip"
 #: ../src/calendar/gui/e-cal-model.c:310 ../src/calendar/gui/e-meeting-list-view.c:183
 #: ../src/calendar/gui/e-meeting-list-view.c:197 ../src/calendar/gui/e-meeting-store.c:135
 #: ../src/calendar/gui/e-meeting-store.c:170 ../src/calendar/gui/e-meeting-store.c:215 ../src/calendar/gui/print.c:1257
-#: ../src/calendar/gui/print.c:1274 ../src/e-util/e-charset.c:49 ../src/modules/itip-formatter/itip-view.c:3620
-#: ../src/modules/itip-formatter/itip-view.c:6666 ../src/modules/plugin-manager/evolution-plugin-manager.c:97
+#: ../src/calendar/gui/print.c:1274 ../src/e-util/e-charset.c:49 ../src/modules/itip-formatter/itip-view.c:3640
+#: ../src/modules/itip-formatter/itip-view.c:6686 ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: ../src/calendar/gui/e-cal-model.c:1367 ../src/calendar/gui/e-cal-ops.c:609 ../src/calendar/gui/e-cal-ops.c:1246
+#: ../src/calendar/gui/e-cal-model.c:1369 ../src/calendar/gui/e-cal-ops.c:609 ../src/calendar/gui/e-cal-ops.c:1246
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:378
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Sursa cu UID-ul „%s” nu a fost găsită"
 
-#: ../src/calendar/gui/e-cal-model.c:1478 ../src/calendar/gui/e-cal-ops.c:185 ../src/calendar/gui/e-cal-ops.c:1363
+#: ../src/calendar/gui/e-cal-model.c:1480 ../src/calendar/gui/e-cal-ops.c:185 ../src/calendar/gui/e-cal-ops.c:1363
 msgid "Creating an event"
 msgstr "Se creează un eveniment"
 
-#: ../src/calendar/gui/e-cal-model.c:1482 ../src/calendar/gui/e-cal-ops.c:189 ../src/calendar/gui/e-cal-ops.c:1367
+#: ../src/calendar/gui/e-cal-model.c:1484 ../src/calendar/gui/e-cal-ops.c:189 ../src/calendar/gui/e-cal-ops.c:1367
 msgid "Creating a memo"
 msgstr "Se creează un memo"
 
-#: ../src/calendar/gui/e-cal-model.c:1486 ../src/calendar/gui/e-cal-ops.c:193 ../src/calendar/gui/e-cal-ops.c:1371
+#: ../src/calendar/gui/e-cal-model.c:1488 ../src/calendar/gui/e-cal-ops.c:193 ../src/calendar/gui/e-cal-ops.c:1371
 msgid "Creating a task"
 msgstr "Se creează o sarcină"
 
-#: ../src/calendar/gui/e-cal-model.c:1872
+#: ../src/calendar/gui/e-cal-model.c:1874
 msgid "Recurring"
 msgstr "Recurent"
 
-#: ../src/calendar/gui/e-cal-model.c:1874
+#: ../src/calendar/gui/e-cal-model.c:1876
 msgid "Assigned"
 msgstr "Alocat"
 
-#: ../src/calendar/gui/e-cal-model.c:1877 ../src/calendar/gui/e-cal-model-tasks.c:1096
+#: ../src/calendar/gui/e-cal-model.c:1879 ../src/calendar/gui/e-cal-model-tasks.c:1096
 msgid "Yes"
 msgstr "Da"
 
-#: ../src/calendar/gui/e-cal-model.c:1877 ../src/calendar/gui/e-cal-model-tasks.c:1096
+#: ../src/calendar/gui/e-cal-model.c:1879 ../src/calendar/gui/e-cal-model-tasks.c:1096
 msgid "No"
 msgstr "Nu"
 
-#: ../src/calendar/gui/e-cal-model.c:3785 ../src/calendar/gui/e-meeting-list-view.c:208
+#: ../src/calendar/gui/e-cal-model.c:3787 ../src/calendar/gui/e-meeting-list-view.c:208
 #: ../src/calendar/gui/e-meeting-store.c:179 ../src/calendar/gui/e-meeting-store.c:202
-#: ../src/modules/itip-formatter/itip-view.c:6654
+#: ../src/modules/itip-formatter/itip-view.c:6674
 msgid "Accepted"
 msgstr "Acceptată"
 
-#: ../src/calendar/gui/e-cal-model.c:3786 ../src/calendar/gui/e-meeting-list-view.c:209
+#: ../src/calendar/gui/e-cal-model.c:3788 ../src/calendar/gui/e-meeting-list-view.c:209
 #: ../src/calendar/gui/e-meeting-store.c:181 ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:6660
+#: ../src/modules/itip-formatter/itip-view.c:6680
 msgid "Declined"
 msgstr "Refuzată"
 
-#: ../src/calendar/gui/e-cal-model.c:3787 ../src/calendar/gui/e-meeting-list-view.c:210
+#: ../src/calendar/gui/e-cal-model.c:3789 ../src/calendar/gui/e-meeting-list-view.c:210
 #: ../src/calendar/gui/e-meeting-store.c:183 ../src/calendar/gui/e-meeting-store.c:206
 #: ../src/calendar/gui/e-meeting-time-sel.c:523
 msgid "Tentative"
 msgstr "Acceptată provizoriu"
 
-#: ../src/calendar/gui/e-cal-model.c:3788 ../src/calendar/gui/e-meeting-list-view.c:211
+#: ../src/calendar/gui/e-cal-model.c:3790 ../src/calendar/gui/e-meeting-list-view.c:211
 #: ../src/calendar/gui/e-meeting-store.c:185 ../src/calendar/gui/e-meeting-store.c:208
-#: ../src/modules/itip-formatter/itip-view.c:6663
+#: ../src/modules/itip-formatter/itip-view.c:6683
 msgid "Delegated"
 msgstr "Delegată"
 
-#: ../src/calendar/gui/e-cal-model.c:3789
+#: ../src/calendar/gui/e-cal-model.c:3791
 msgid "Needs action"
 msgstr "Necesită o acțiune"
 
@@ -6500,15 +6500,15 @@ msgstr "Modificarea unui memo"
 msgid "Modifying a task"
 msgstr "Se modifică o sarcină"
 
-#: ../src/calendar/gui/e-cal-ops.c:411 ../src/calendar/gui/e-to-do-pane.c:2042
+#: ../src/calendar/gui/e-cal-ops.c:411 ../src/calendar/gui/e-to-do-pane.c:2074
 msgid "Removing an event"
 msgstr "Se elimină un eveniment"
 
-#: ../src/calendar/gui/e-cal-ops.c:415 ../src/calendar/gui/e-to-do-pane.c:2046
+#: ../src/calendar/gui/e-cal-ops.c:415 ../src/calendar/gui/e-to-do-pane.c:2078
 msgid "Removing a memo"
 msgstr "Se elimină un memo"
 
-#: ../src/calendar/gui/e-cal-ops.c:419 ../src/calendar/gui/e-to-do-pane.c:2050
+#: ../src/calendar/gui/e-cal-ops.c:419 ../src/calendar/gui/e-to-do-pane.c:2082
 msgid "Removing a task"
 msgstr "Se elimină o sarcină"
 
@@ -7023,7 +7023,7 @@ msgid "Atte_ndees…"
 msgstr "Participa_nți…"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1533 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2285
-#: ../src/calendar/gui/e-comp-editor.c:2078 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:954
+#: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-accounts-window.c:1745 ../src/e-util/e-html-editor-actions.c:954
 #: ../src/e-util/e-mail-signature-manager.c:358 ../src/e-util/e-webdav-browser.c:2690 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:195 ../src/mail/e-mail-label-manager.c:380
 #: ../src/mail/em-folder-properties.c:1333 ../src/mail/mail-config.ui.h:68
@@ -7488,108 +7488,108 @@ msgstr "Progra_mează"
 msgid "Query free / busy information for the attendees"
 msgstr "Interoghează informația disponibil/ocupat pentru participanți"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:80
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:91
 msgctxt "ECompEditor"
 msgid "_Summary:"
 msgstr "Re_zumat:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:324
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:340
 msgctxt "ECompEditor"
 msgid "_Location:"
 msgstr "_Locație:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:457
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:473
 msgctxt "ECompEditor"
 msgid "_Categories…"
 msgstr "_Categorii…"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:556
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:572
 msgctxt "ECompEditor"
 msgid "_Description:"
 msgstr "_Descriere:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:688
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:704
 msgctxt "ECompEditor"
 msgid "_Web page:"
 msgstr "Pagină _web:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1059
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1075
 msgctxt "ECompEditor"
 msgid "D_ue date:"
 msgstr "D_ată scadentă:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1153
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1169
 msgctxt "ECompEditor"
 msgid "Date _completed:"
 msgstr "_Data terminării:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1169
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1185
 msgctxt "ECompEditor"
 msgid "Public"
 msgstr "Public"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1170
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1186
 msgctxt "ECompEditor"
 msgid "Private"
 msgstr "Privat"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1171
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1187
 msgctxt "ECompEditor"
 msgid "Confidential"
 msgstr "Confidențial"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1187
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1203
 msgctxt "ECompEditor"
 msgid "C_lassification:"
 msgstr "_Clasificare:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1250
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1266
 msgctxt "ECompEditor"
 msgid "_Status:"
 msgstr "_Stare:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1280
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1296
 msgctxt "ECompEditor"
 msgid "Undefined"
 msgstr "Nedefinit"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1281
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1297
 msgctxt "ECompEditor"
 msgid "High"
 msgstr "Ridicat"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1282
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1298
 msgctxt "ECompEditor"
 msgid "Normal"
 msgstr "Normal"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1283
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1299
 msgctxt "ECompEditor"
 msgid "Low"
 msgstr "Scăzut"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1292
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1308
 msgctxt "ECompEditor"
 msgid "Priorit_y:"
 msgstr "Priorita_te:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1346
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1362
 msgctxt "ECompEditor"
 msgid "Percent complete:"
 msgstr "Procent completat:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1427
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1443
 msgctxt "ECompEditor"
 msgid "Time _zone:"
 msgstr "_Fus orar:"
 
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1523
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1539
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
 msgstr "Arată timpul ca _ocupat"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1945
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1961
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Fără"
@@ -7665,7 +7665,7 @@ msgid "No Summary"
 msgstr "Fără rezumat"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:1992 ../src/composer/e-composer-actions.c:319 ../src/e-util/e-accounts-window.c:1778
+#: ../src/calendar/gui/e-comp-editor.c:2027 ../src/composer/e-composer-actions.c:319 ../src/e-util/e-accounts-window.c:1778
 #: ../src/e-util/e-html-editor-dialog.c:194 ../src/e-util/e-mail-signature-editor.c:309
 #: ../src/e-util/e-name-selector-dialog.c:548 ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205 ../src/mail/e-mail-browser.c:144
@@ -7676,109 +7676,109 @@ msgstr "Fără rezumat"
 msgid "_Close"
 msgstr "În_chide"
 
-#: ../src/calendar/gui/e-comp-editor.c:1994
+#: ../src/calendar/gui/e-comp-editor.c:2029
 msgid "Close the current window"
 msgstr "Închide fereastra curentă"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:1999 ../src/e-util/e-focus-tracker.c:773 ../src/e-util/e-html-editor-actions.c:910
+#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:773 ../src/e-util/e-html-editor-actions.c:910
 #: ../src/e-util/e-text.c:2080 ../src/e-util/e-web-view.c:467 ../src/mail/e-mail-browser.c:151
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:863
 msgid "_Copy"
 msgstr "_Copiază"
 
-#: ../src/calendar/gui/e-comp-editor.c:2001 ../src/e-util/e-focus-tracker.c:173 ../src/e-util/e-focus-tracker.c:229
+#: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:173 ../src/e-util/e-focus-tracker.c:229
 #: ../src/e-util/e-focus-tracker.c:282 ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:469
 #: ../src/e-util/e-web-view.c:2080 ../src/mail/e-mail-browser.c:153 ../src/shell/e-shell-window-actions.c:865
 msgid "Copy the selection"
 msgstr "Copiază selecția"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2006 ../src/e-util/e-focus-tracker.c:768 ../src/e-util/e-html-editor-actions.c:917
+#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:768 ../src/e-util/e-html-editor-actions.c:917
 #: ../src/e-util/e-text.c:2066 ../src/mail/e-mail-browser.c:158 ../src/shell/e-shell-window-actions.c:870
 msgid "Cu_t"
 msgstr "_Taie"
 
-#: ../src/calendar/gui/e-comp-editor.c:2008 ../src/e-util/e-focus-tracker.c:166 ../src/e-util/e-focus-tracker.c:222
+#: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:166 ../src/e-util/e-focus-tracker.c:222
 #: ../src/e-util/e-focus-tracker.c:276 ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:2089
 #: ../src/mail/e-mail-browser.c:160 ../src/shell/e-shell-window-actions.c:872
 msgid "Cut the selection"
 msgstr "Decupează selecția"
 
-#: ../src/calendar/gui/e-comp-editor.c:2015 ../src/e-util/e-focus-tracker.c:187 ../src/e-util/e-focus-tracker.c:243
+#: ../src/calendar/gui/e-comp-editor.c:2050 ../src/e-util/e-focus-tracker.c:187 ../src/e-util/e-focus-tracker.c:243
 #: ../src/e-util/e-focus-tracker.c:784 ../src/shell/e-shell-window-actions.c:879
 msgid "Delete the selection"
 msgstr "Șterge această selecție"
 
-#: ../src/calendar/gui/e-comp-editor.c:2022
+#: ../src/calendar/gui/e-comp-editor.c:2057
 msgid "View help"
 msgstr "Consultați ajutorul"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2027 ../src/e-util/e-focus-tracker.c:778 ../src/e-util/e-html-editor-actions.c:924
+#: ../src/calendar/gui/e-comp-editor.c:2062 ../src/e-util/e-focus-tracker.c:778 ../src/e-util/e-html-editor-actions.c:924
 #: ../src/e-util/e-text.c:2092 ../src/mail/e-mail-browser.c:165 ../src/shell/e-shell-window-actions.c:898
 msgid "_Paste"
 msgstr "Li_pește"
 
-#: ../src/calendar/gui/e-comp-editor.c:2029 ../src/e-util/e-focus-tracker.c:180 ../src/e-util/e-focus-tracker.c:236
+#: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:180 ../src/e-util/e-focus-tracker.c:236
 #: ../src/e-util/e-focus-tracker.c:288 ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:2098
 #: ../src/mail/e-mail-browser.c:167 ../src/shell/e-shell-window-actions.c:900
 msgid "Paste the clipboard"
 msgstr "Lipește clipboard-ul"
 
-#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/composer/e-composer-actions.c:373 ../src/mail/e-mail-reader.c:2750
+#: ../src/calendar/gui/e-comp-editor.c:2069 ../src/composer/e-composer-actions.c:373 ../src/mail/e-mail-reader.c:2750
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319 ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
 msgstr "Ti_părește…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/mail/e-mail-reader.c:2757
+#: ../src/calendar/gui/e-comp-editor.c:2076 ../src/mail/e-mail-reader.c:2757
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1326 ../src/modules/calendar/e-cal-shell-view-actions.c:1723
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:838 ../src/modules/calendar/e-task-shell-view-actions.c:1046
 msgid "Pre_view…"
 msgstr "Pre_vizualizare…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2048 ../src/e-util/e-focus-tracker.c:788 ../src/e-util/e-html-editor-actions.c:938
+#: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:788 ../src/e-util/e-html-editor-actions.c:938
 #: ../src/e-util/e-web-view.c:484 ../src/mail/e-mail-browser.c:172 ../src/shell/e-shell-window-actions.c:968
 msgid "Select _All"
 msgstr "Selectează to_ate"
 
-#: ../src/calendar/gui/e-comp-editor.c:2050 ../src/e-util/e-focus-tracker.c:194 ../src/e-util/e-focus-tracker.c:250
+#: ../src/calendar/gui/e-comp-editor.c:2085 ../src/e-util/e-focus-tracker.c:194 ../src/e-util/e-focus-tracker.c:250
 #: ../src/e-util/e-focus-tracker.c:789 ../src/mail/e-mail-browser.c:174 ../src/shell/e-shell-window-actions.c:970
 msgid "Select all text"
 msgstr "Selectează tot textul"
 
-#: ../src/calendar/gui/e-comp-editor.c:2071
+#: ../src/calendar/gui/e-comp-editor.c:2106
 msgid "_Classification"
 msgstr "_Clasificare"
 
-#: ../src/calendar/gui/e-comp-editor.c:2085 ../src/e-util/e-html-editor-actions.c:961
+#: ../src/calendar/gui/e-comp-editor.c:2120 ../src/e-util/e-html-editor-actions.c:961
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:188 ../src/mail/e-mail-notes.c:978
 #: ../src/shell/e-shell-window-actions.c:1012
 msgid "_File"
 msgstr "_Fișier"
 
-#: ../src/calendar/gui/e-comp-editor.c:2099 ../src/e-util/e-html-editor-actions.c:982
+#: ../src/calendar/gui/e-comp-editor.c:2134 ../src/e-util/e-html-editor-actions.c:982
 msgid "_Insert"
 msgstr "_Inserează"
 
-#: ../src/calendar/gui/e-comp-editor.c:2106 ../src/composer/e-composer-actions.c:363
+#: ../src/calendar/gui/e-comp-editor.c:2141 ../src/composer/e-composer-actions.c:363
 msgid "_Options"
 msgstr "_Opțiuni"
 
-#: ../src/calendar/gui/e-comp-editor.c:2113 ../src/e-util/e-html-editor-actions.c:1003 ../src/mail/e-mail-browser.c:202
+#: ../src/calendar/gui/e-comp-editor.c:2148 ../src/e-util/e-html-editor-actions.c:1003 ../src/mail/e-mail-browser.c:202
 #: ../src/shell/e-shell-window-actions.c:1055 ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Vizualizare"
 
-#: ../src/calendar/gui/e-comp-editor.c:2125
+#: ../src/calendar/gui/e-comp-editor.c:2160
 msgid "Save current changes"
 msgstr "Salvează modicările curente"
 
-#: ../src/calendar/gui/e-comp-editor.c:2130 ../src/e-util/e-mail-signature-editor.c:318 ../src/mail/e-mail-notes.c:973
+#: ../src/calendar/gui/e-comp-editor.c:2165 ../src/e-util/e-mail-signature-editor.c:318 ../src/mail/e-mail-notes.c:973
 msgid "Save and Close"
 msgstr "Salvează și închide"
 
-#: ../src/calendar/gui/e-comp-editor.c:2132
+#: ../src/calendar/gui/e-comp-editor.c:2167
 msgid "Save current changes and close editor"
 msgstr "Salvează modificările curente și închide editorul"
 
@@ -8152,76 +8152,76 @@ msgid "Select Timezone"
 msgstr "Alegeți fusul orar"
 
 #. Translators: It will display "Start: StartDateAndTime"
-#: ../src/calendar/gui/e-to-do-pane.c:404
+#: ../src/calendar/gui/e-to-do-pane.c:406
 #, c-format
 msgid "Start: %s"
 msgstr "Start: %s"
 
 #. Translators: It will display "Due: DueDateAndTime"
-#: ../src/calendar/gui/e-to-do-pane.c:426
+#: ../src/calendar/gui/e-to-do-pane.c:428
 #, c-format
 msgid "Due: %s"
 msgstr "Scadență: %s"
 
 #. Translators: It will display "Completed: DateAndTimeWhenCompleted"
-#: ../src/calendar/gui/e-to-do-pane.c:440
+#: ../src/calendar/gui/e-to-do-pane.c:442
 #, c-format
 msgid "Completed: %s"
 msgstr "Terminat: %s"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1544 ../src/e-util/e-cell-date-edit.c:328 ../src/e-util/e-datetime-format.c:207
+#: ../src/calendar/gui/e-to-do-pane.c:1576 ../src/e-util/e-cell-date-edit.c:328 ../src/e-util/e-datetime-format.c:207
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1821 ../src/modules/itip-formatter/itip-view.c:254
 msgid "Today"
 msgstr "Astăzi"
 
 #. strftime format of a weekday and a date.
-#: ../src/calendar/gui/e-to-do-pane.c:1546 ../src/e-util/e-datetime-format.c:218
+#: ../src/calendar/gui/e-to-do-pane.c:1578 ../src/e-util/e-datetime-format.c:218
 #: ../src/modules/itip-formatter/itip-view.c:282
 msgid "Tomorrow"
 msgstr "Mâine"
 
-#: ../src/calendar/gui/e-to-do-pane.c:1556
+#: ../src/calendar/gui/e-to-do-pane.c:1588
 msgid "Tasks without Due date"
 msgstr "Sarcini fără dată scadentă"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2133 ../src/modules/calendar/e-cal-shell-view-actions.c:1424
+#: ../src/calendar/gui/e-to-do-pane.c:2165 ../src/modules/calendar/e-cal-shell-view-actions.c:1424
 msgid "New _Appointment…"
 msgstr "Progr_amare nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2141 ../src/modules/calendar/e-cal-shell-view-actions.c:1410
+#: ../src/calendar/gui/e-to-do-pane.c:2173 ../src/modules/calendar/e-cal-shell-view-actions.c:1410
 msgid "New _Meeting…"
 msgstr "Întâlnire _nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2149
+#: ../src/calendar/gui/e-to-do-pane.c:2181
 msgid "New _Task…"
 msgstr "_Sarcină nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2157
+#: ../src/calendar/gui/e-to-do-pane.c:2189
 msgid "_New Assigned Task…"
 msgstr "Sarcină repartizată _nouă…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2170
+#: ../src/calendar/gui/e-to-do-pane.c:2202
 msgid "_Open…"
 msgstr "_Deschide…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2184
+#: ../src/calendar/gui/e-to-do-pane.c:2216
 msgid "_Delete This Instance…"
 msgstr "Șterge această _instanță…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2192
+#: ../src/calendar/gui/e-to-do-pane.c:2224
 msgid "D_elete All Instances…"
 msgstr "Șt_erge toate instanțele…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2200
+#: ../src/calendar/gui/e-to-do-pane.c:2232
 msgid "_Delete…"
 msgstr "Șt_erge…"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2217
+#: ../src/calendar/gui/e-to-do-pane.c:2249
 msgid "_Show Tasks without Due date"
 msgstr "_Arată sarcini fără o dată scadentă"
 
-#: ../src/calendar/gui/e-to-do-pane.c:2483
+#: ../src/calendar/gui/e-to-do-pane.c:2515
 msgid "To Do"
 msgstr "De făcut"
 
@@ -14097,27 +14097,27 @@ msgstr "Destabilește încrederea pentru cer_tificatul SSL/TLS"
 msgid "User:"
 msgstr "Utilizator:"
 
-#: ../src/e-util/e-source-selector.c:3217
+#: ../src/e-util/e-source-selector.c:3219
 msgid "Show"
 msgstr "Arată"
 
-#: ../src/e-util/e-source-selector.c:3223
+#: ../src/e-util/e-source-selector.c:3225
 msgid "Group name"
 msgstr "Numele grupului"
 
-#: ../src/e-util/e-source-selector.c:3378 ../src/mail/e-mail-display.c:805
+#: ../src/e-util/e-source-selector.c:3380 ../src/mail/e-mail-display.c:805
 msgid "_Hide"
 msgstr "_Ascunde"
 
-#: ../src/e-util/e-source-selector.c:3378 ../src/e-util/e-source-selector.c:3476
+#: ../src/e-util/e-source-selector.c:3380 ../src/e-util/e-source-selector.c:3478
 msgid "_Show"
 msgstr "_Arată"
 
-#: ../src/e-util/e-source-selector.c:3430
+#: ../src/e-util/e-source-selector.c:3432
 msgid "Manage Groups"
 msgstr "Administrează grupuri"
 
-#: ../src/e-util/e-source-selector.c:3442
+#: ../src/e-util/e-source-selector.c:3444
 msgid "Available Groups:"
 msgstr "Grupuri disponibile:"
 
@@ -15087,30 +15087,30 @@ msgstr "Șabloane"
 msgid "User cancelled operation"
 msgstr "Operație anulată de utilizator"
 
-#: ../src/libemail-engine/e-mail-session.c:1576
+#: ../src/libemail-engine/e-mail-session.c:1580
 #, c-format
 msgid "No destination address provided, forwarding of the message has been cancelled."
 msgstr "Nu s-a specificat o adresă de destinație, înaintarea mesajului a fost anulată."
 
-#: ../src/libemail-engine/e-mail-session.c:1589
+#: ../src/libemail-engine/e-mail-session.c:1593
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr "Nu s-a găsit o identitate de folosit, înaintarea mesajului a fost anulată."
 
-#: ../src/libemail-engine/e-mail-session.c:1741
+#: ../src/libemail-engine/e-mail-session.c:1794
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "Sursa corespunzătoare serviciului cu UID-ul „%s” nu a fost găsită"
 
-#: ../src/libemail-engine/e-mail-session.c:1861
+#: ../src/libemail-engine/e-mail-session.c:1914
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr "Se caută certificatele S/MIME ale expeditorului în agende…"
 
-#: ../src/libemail-engine/e-mail-session.c:1863
+#: ../src/libemail-engine/e-mail-session.c:1916
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "Se caută cheile PGP ale expeditorului în agende…"
 
-#: ../src/libemail-engine/e-mail-session.c:2910
+#: ../src/libemail-engine/e-mail-session.c:2963
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Se așteaptă după „%s”"
@@ -22137,26 +22137,26 @@ msgstr "_Memo-uri:"
 msgid "Sa_ve"
 msgstr "Sal_vează"
 
-#: ../src/modules/itip-formatter/itip-view.c:3695 ../src/modules/itip-formatter/itip-view.c:5448
+#: ../src/modules/itip-formatter/itip-view.c:3715 ../src/modules/itip-formatter/itip-view.c:5468
 msgid "Attendee status updated"
 msgstr "Starea participantului actualizată"
 
-#: ../src/modules/itip-formatter/itip-view.c:3905
+#: ../src/modules/itip-formatter/itip-view.c:3925
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "O programare „%s” din calendarul „%s” este în conflict cu această ședință"
 
-#: ../src/modules/itip-formatter/itip-view.c:3912
+#: ../src/modules/itip-formatter/itip-view.c:3932
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "O sarcină „%s” din lista de sarcini „%s” este în conflict cu această sarcină"
 
-#: ../src/modules/itip-formatter/itip-view.c:3919
+#: ../src/modules/itip-formatter/itip-view.c:3939
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "Un memo „%s” din lista de memouri „%s” este în conflict cu acest memo"
 
-#: ../src/modules/itip-formatter/itip-view.c:3930
+#: ../src/modules/itip-formatter/itip-view.c:3950
 #, c-format
 msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
 msgid_plural "The calendar “%s” contains %d appointments which conflict with this meeting"
@@ -22164,7 +22164,7 @@ msgstr[0] "Calendarul „%s” conține o programare care este în conflict cu a
 msgstr[1] "Calendarul „%s” conține %d programări care sunt în conflict cu această ședință"
 msgstr[2] "Calendarul „%s” conține %d de programări care sunt în conflict cu această ședință"
 
-#: ../src/modules/itip-formatter/itip-view.c:3939
+#: ../src/modules/itip-formatter/itip-view.c:3959
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural "The task list “%s” contains %d tasks which conflict with this task"
@@ -22172,7 +22172,7 @@ msgstr[0] "Lista de sarcini „%s” conține o sarcină care este în conflict 
 msgstr[1] "Lista de sarcini „%s” conține %d sarcini care sunt în conflict cu această sarcină"
 msgstr[2] "Lista de sarcini „%s” conține %d de sarcini care sunt în conflict cu această sarcină"
 
-#: ../src/modules/itip-formatter/itip-view.c:3948
+#: ../src/modules/itip-formatter/itip-view.c:3968
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural "The memo list “%s” contains %d memos which conflict with this memo"
@@ -22180,243 +22180,243 @@ msgstr[0] "Lista de memouri „%s” conține un memo care este în conflict cu 
 msgstr[1] "Lista de memouri „%s” conține %d de memouri care sunt în conflict cu acest memo"
 msgstr[2] "Calendarul „%s” conține %d de programări care sunt în conflict cu această ședință"
 
-#: ../src/modules/itip-formatter/itip-view.c:3986
+#: ../src/modules/itip-formatter/itip-view.c:4006
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "S-a găsit programarea în calendarul „%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:3991
+#: ../src/modules/itip-formatter/itip-view.c:4011
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "S-a găsit sarcina în lista de sarcini „%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:3996
+#: ../src/modules/itip-formatter/itip-view.c:4016
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "S-a găsit memo-ul în lista de memouri „%s”"
 
-#: ../src/modules/itip-formatter/itip-view.c:4007
+#: ../src/modules/itip-formatter/itip-view.c:4027
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Acestă invitație la ședință este învechită. A fost actualizată."
 
-#: ../src/modules/itip-formatter/itip-view.c:4149
+#: ../src/modules/itip-formatter/itip-view.c:4169
 msgid "Unable to find any calendars"
 msgstr "Nu s-a putut găsi niciun calendar"
 
-#: ../src/modules/itip-formatter/itip-view.c:4157
+#: ../src/modules/itip-formatter/itip-view.c:4177
 msgid "Unable to find this meeting in any calendar"
 msgstr "Nu s-a putut găsi această întâlnire în niciun calendar"
 
-#: ../src/modules/itip-formatter/itip-view.c:4162
+#: ../src/modules/itip-formatter/itip-view.c:4182
 msgid "Unable to find this task in any task list"
 msgstr "Nu s-a putut găsi această sarcină în nicio listă de sarcini"
 
-#: ../src/modules/itip-formatter/itip-view.c:4167
+#: ../src/modules/itip-formatter/itip-view.c:4187
 msgid "Unable to find this memo in any memo list"
 msgstr "Nu s-a putut găsi acest memo în nicio listă de memo-uri"
 
-#: ../src/modules/itip-formatter/itip-view.c:4461
+#: ../src/modules/itip-formatter/itip-view.c:4481
 msgid "Searching for an existing version of this appointment"
 msgstr "Se caută o versiune existentă a acestei programări"
 
-#: ../src/modules/itip-formatter/itip-view.c:4465
+#: ../src/modules/itip-formatter/itip-view.c:4485
 msgid "Searching for an existing version of this task"
 msgstr "Se caută o versiune existentă a acestei sarcini"
 
-#: ../src/modules/itip-formatter/itip-view.c:4469
+#: ../src/modules/itip-formatter/itip-view.c:4489
 msgid "Searching for an existing version of this memo"
 msgstr "Se caută o versiune existentă al acestui memo"
 
-#: ../src/modules/itip-formatter/itip-view.c:4527
+#: ../src/modules/itip-formatter/itip-view.c:4547
 msgid "Opening the calendar. Please wait…"
 msgstr "Se deschide calendarul. Așteptați…"
 
-#: ../src/modules/itip-formatter/itip-view.c:4944
+#: ../src/modules/itip-formatter/itip-view.c:4964
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Nu s-a putut trimite elementul către calendarul „%s”. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4952
+#: ../src/modules/itip-formatter/itip-view.c:4972
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Nu s-a putut trimite elementul către lista de sarcini „%s”. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4960
+#: ../src/modules/itip-formatter/itip-view.c:4980
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Nu s-a putut trimite elementul către lista de memouri „%s”. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:4980
+#: ../src/modules/itip-formatter/itip-view.c:5000
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Trimis către calendarul „%s” ca acceptat"
 
-#: ../src/modules/itip-formatter/itip-view.c:4985
+#: ../src/modules/itip-formatter/itip-view.c:5005
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Trimis către lista de sarcini „%s” ca acceptat"
 
-#: ../src/modules/itip-formatter/itip-view.c:4990
+#: ../src/modules/itip-formatter/itip-view.c:5010
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Trimis către lista de memouri „%s” ca acceptat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5000
+#: ../src/modules/itip-formatter/itip-view.c:5020
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Trimis către calendarul „%s” ca acceptată provizoriu"
 
-#: ../src/modules/itip-formatter/itip-view.c:5005
+#: ../src/modules/itip-formatter/itip-view.c:5025
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Trimis către lista de sarcini „%s” ca tentativă"
 
-#: ../src/modules/itip-formatter/itip-view.c:5010
+#: ../src/modules/itip-formatter/itip-view.c:5030
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Trimis către lista de memouri „%s” ca tentativă"
 
-#: ../src/modules/itip-formatter/itip-view.c:5020
+#: ../src/modules/itip-formatter/itip-view.c:5040
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Trimis către calendarul „%s” ca declinat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5025
+#: ../src/modules/itip-formatter/itip-view.c:5045
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Trimis către lista de sarcini „%s” ca refuzat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5030
+#: ../src/modules/itip-formatter/itip-view.c:5050
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Trimis către lista de memouri „%s” ca refuzat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5040
+#: ../src/modules/itip-formatter/itip-view.c:5060
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Trimis către calendarul „%s” ca anulat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5045
+#: ../src/modules/itip-formatter/itip-view.c:5065
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Trimis către lista de sarcini „%s” ca anulat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5050
+#: ../src/modules/itip-formatter/itip-view.c:5070
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Trimis către lista de memorui „%s” ca anulat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5068
+#: ../src/modules/itip-formatter/itip-view.c:5088
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Se salvează modificările în calendar. Așteptați…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5071
+#: ../src/modules/itip-formatter/itip-view.c:5091
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Se salvează modificările în calendar. Așteptați…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5074
+#: ../src/modules/itip-formatter/itip-view.c:5094
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Se salvează modificările în calendar. Așteptați…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5165
+#: ../src/modules/itip-formatter/itip-view.c:5185
 msgid "Unable to parse item"
 msgstr "Nu s-a putut parsa elementul"
 
-#: ../src/modules/itip-formatter/itip-view.c:5373
+#: ../src/modules/itip-formatter/itip-view.c:5393
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organizatorul a șters delegatul %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:5390
+#: ../src/modules/itip-formatter/itip-view.c:5410
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Trimite o notificare de anulare către delegat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5394
+#: ../src/modules/itip-formatter/itip-view.c:5414
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "Nu s-a putut trimite notificarea de anulare către delegat"
 
-#: ../src/modules/itip-formatter/itip-view.c:5440
+#: ../src/modules/itip-formatter/itip-view.c:5460
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Nu s-a putut actualiza participantul. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5473
+#: ../src/modules/itip-formatter/itip-view.c:5493
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Ședința nu este validă și nu poate fi actualizată"
 
-#: ../src/modules/itip-formatter/itip-view.c:5558
+#: ../src/modules/itip-formatter/itip-view.c:5578
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Starea participantului nu a putut fi actualizat deoarece starea nu este validă"
 
-#: ../src/modules/itip-formatter/itip-view.c:5633 ../src/modules/itip-formatter/itip-view.c:5671
+#: ../src/modules/itip-formatter/itip-view.c:5653 ../src/modules/itip-formatter/itip-view.c:5691
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Statusul participantului nu a putut fi actualizat deoarece elementul nu mai există"
 
-#: ../src/modules/itip-formatter/itip-view.c:5732
+#: ../src/modules/itip-formatter/itip-view.c:5752
 msgid "Meeting information sent"
 msgstr "Informațiile despre întâlnire au fost trimise"
 
-#: ../src/modules/itip-formatter/itip-view.c:5737
+#: ../src/modules/itip-formatter/itip-view.c:5757
 msgid "Task information sent"
 msgstr "Informațiile despre sarcină au fost trimise"
 
-#: ../src/modules/itip-formatter/itip-view.c:5742
+#: ../src/modules/itip-formatter/itip-view.c:5762
 msgid "Memo information sent"
 msgstr "Informațiile despre memo au fost trimise"
 
-#: ../src/modules/itip-formatter/itip-view.c:5753
+#: ../src/modules/itip-formatter/itip-view.c:5773
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Nu s-au putut trimite informațiile despre întâlnire, nu există întâlnirea"
 
-#: ../src/modules/itip-formatter/itip-view.c:5758
+#: ../src/modules/itip-formatter/itip-view.c:5778
 msgid "Unable to send task information, the task does not exist"
 msgstr "Nu se pot trimite informațiile pentru sarcină, sarcina nu există"
 
-#: ../src/modules/itip-formatter/itip-view.c:5763
+#: ../src/modules/itip-formatter/itip-view.c:5783
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Nu se pot trimite informațiile pentru memo, memo-ul nu există"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:5808
+#: ../src/modules/itip-formatter/itip-view.c:5828
 msgid "calendar.ics"
 msgstr "calendar.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:5813
+#: ../src/modules/itip-formatter/itip-view.c:5833
 msgid "Save Calendar"
 msgstr "Salveză calendar"
 
-#: ../src/modules/itip-formatter/itip-view.c:5861 ../src/modules/itip-formatter/itip-view.c:5874
+#: ../src/modules/itip-formatter/itip-view.c:5881 ../src/modules/itip-formatter/itip-view.c:5894
 msgid "The calendar attached is not valid"
 msgstr "Calendarul atașat nu este valid"
 
-#: ../src/modules/itip-formatter/itip-view.c:5862 ../src/modules/itip-formatter/itip-view.c:5875
+#: ../src/modules/itip-formatter/itip-view.c:5882 ../src/modules/itip-formatter/itip-view.c:5895
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Mesajul susține că are un calendar, dar acesta nu este un calendar valid iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:5957 ../src/modules/itip-formatter/itip-view.c:6041
-#: ../src/modules/itip-formatter/itip-view.c:6145
+#: ../src/modules/itip-formatter/itip-view.c:5977 ../src/modules/itip-formatter/itip-view.c:6061
+#: ../src/modules/itip-formatter/itip-view.c:6165
 msgid "The item in the calendar is not valid"
 msgstr "Elementul din calendar nu este valid"
 
-#: ../src/modules/itip-formatter/itip-view.c:5958 ../src/modules/itip-formatter/itip-view.c:6042
-#: ../src/modules/itip-formatter/itip-view.c:6146
+#: ../src/modules/itip-formatter/itip-view.c:5978 ../src/modules/itip-formatter/itip-view.c:6062
+#: ../src/modules/itip-formatter/itip-view.c:6166
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "Mesajul conține un calendar, dar calendarul nu conține evenimente, sarcini sau informație disponibil/ocupat"
 
-#: ../src/modules/itip-formatter/itip-view.c:6051
+#: ../src/modules/itip-formatter/itip-view.c:6071
 msgid "The calendar attached contains multiple items"
 msgstr "Calendarul atașat conține elemente multiple"
 
-#: ../src/modules/itip-formatter/itip-view.c:6052
+#: ../src/modules/itip-formatter/itip-view.c:6072
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "Pentru a procesa toate aceste elemente, fișierul ar trebui salvat și calendarul importat"
 
-#: ../src/modules/itip-formatter/itip-view.c:6639
+#: ../src/modules/itip-formatter/itip-view.c:6659
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Fără"
 
-#: ../src/modules/itip-formatter/itip-view.c:6657
+#: ../src/modules/itip-formatter/itip-view.c:6677
 msgid "Tentatively Accepted"
 msgstr "Acceptată provizoriu"
 
@@ -25784,6 +25784,9 @@ msgstr "Nu s-a putut scrie depozitul pe disc, err_code: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificat importat"
+
+#~ msgid "Preserve exiting reminder by default"
+#~ msgstr "Păstrează mementoul existent în mod implicit"
 
 #~ msgid "%d week"
 #~ msgid_plural "%d weeks"
