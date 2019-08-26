@@ -701,7 +701,8 @@ render_contact_list (EABContactFormatter *formatter,
 }
 
 static const gchar *
-get_phone_location (EVCardAttribute *attr)
+get_phone_location (EVCardAttribute *attr,
+		    gboolean *out_is_fax)
 {
 	struct _locations {
 		EContactField field_id;
@@ -726,6 +727,8 @@ get_phone_location (EVCardAttribute *attr)
 	const gchar *location = NULL;
 	gint ii;
 
+	*out_is_fax = FALSE;
+
 	params = e_vcard_attribute_get_params (attr);
 
 	for (plink = params; plink; plink = g_list_next (plink)) {
@@ -745,10 +748,8 @@ get_phone_location (EVCardAttribute *attr)
 
 		for (ii = 0; ii < G_N_ELEMENTS (locations); ii++) {
 			if (!g_ascii_strcasecmp (value, locations[ii].attr_type)) {
-				/* Skip the Work Fax, which is shown in the Work section */
-				if (locations[ii].field_id == E_CONTACT_PHONE_OTHER_FAX &&
-				    e_vcard_attribute_has_type (attr, "WORK"))
-					continue;
+				if (locations[ii].field_id == E_CONTACT_PHONE_OTHER_FAX)
+					*out_is_fax = TRUE;
 
 				if (location) {
 					/* if more than one is set, then fallback to the "Other Phone" */
@@ -757,18 +758,107 @@ get_phone_location (EVCardAttribute *attr)
 					break;
 				}
 
-				location = e_contact_pretty_name (locations[ii].field_id);
+				if (locations[ii].field_id == E_CONTACT_PHONE_OTHER_FAX) {
+					gboolean has_home, has_work;
+
+					has_home = e_vcard_attribute_has_type (attr, "HOME");
+					has_work = e_vcard_attribute_has_type (attr, "WORK");
+
+					/* If it's either home or work fax, then use just 'Fax', for others use 'Other Fax' */
+					if ((has_home ? 1 : 0) + (has_work ? 1 : 0) == 1) {
+						location = NULL;
+						done = TRUE;
+						break;
+					}
+
+					location = e_contact_pretty_name (locations[ii].field_id);
+				} else {
+					location = e_contact_pretty_name (locations[ii].field_id);
+				}
 			}
 		}
 	}
 
-	if (!location)
-		location = e_contact_pretty_name (E_CONTACT_PHONE_OTHER);
-
-	if (!location)
-		location = _("Phone");
+	if (!location) {
+		if (*out_is_fax)
+			location = _("Fax");
+		else
+			location = _("Phone");
+	}
 
 	return location;
+}
+
+typedef enum {
+	EAB_CONTACT_FORMATTER_TEL_TYPE_HOME,
+	EAB_CONTACT_FORMATTER_TEL_TYPE_WORK,
+	EAB_CONTACT_FORMATTER_TEL_TYPE_OTHER
+} EABContactFormatterTELType;
+
+static void
+accum_tel (GString *buffer,
+	   EContact *contact,
+	   EABContactFormatterTELType use_tel_type,
+	   const gchar *icon,
+	   guint phone_flags)
+{
+	GList *tel_attr_list, *l;
+	gchar *tmp;
+
+	tel_attr_list = e_contact_get_attributes (contact, E_CONTACT_TEL);
+	for (l = tel_attr_list; l; l = g_list_next (l)) {
+		EVCardAttribute *attr = l->data;
+		guint html_flags = phone_flags;
+		gchar *tel, *html_label;
+		const gchar *str;
+		gboolean is_fax = FALSE;
+		EABContactFormatterTELType tel_type;
+
+		if (e_vcard_attribute_has_type (attr, "HOME"))
+			tel_type = EAB_CONTACT_FORMATTER_TEL_TYPE_HOME;
+		else if (e_vcard_attribute_has_type (attr, "WORK"))
+			tel_type = EAB_CONTACT_FORMATTER_TEL_TYPE_WORK;
+		else
+			tel_type = EAB_CONTACT_FORMATTER_TEL_TYPE_OTHER;
+
+		if (tel_type != use_tel_type)
+			continue;
+
+		tel = e_vcard_attribute_get_value (attr);
+		if (!tel || !*tel) {
+			g_free (tel);
+			continue;
+		}
+
+		str = get_phone_location (attr, &is_fax);
+		html_label = e_text_to_html (str, E_TEXT_TO_HTML_CONVERT_ALL_SPACES);
+
+		if (is_fax)
+			html_flags = 0;
+
+		tmp = maybe_create_url (tel, html_flags);
+		if (tmp)
+			str = tmp;
+		else
+			str = tel;
+
+		if ((html_flags & E_TEXT_TO_HTML_CONVERT_URLS) != 0) {
+			gchar *value = e_text_to_html (str, html_flags);
+
+			g_free (tmp);
+			tmp = value;
+			str = tmp;
+		}
+
+		if (str && *str)
+			render_table_row (buffer, html_label, str, NULL, 0);
+
+		g_free (html_label);
+		g_free (tmp);
+		g_free (tel);
+	}
+
+	g_list_free_full (tel_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 }
 
 static void
@@ -777,7 +867,7 @@ render_contact_column (EABContactFormatter *formatter,
                        GString *buffer)
 {
 	GString *accum, *email;
-	GList *email_list, *l, *email_attr_list, *al, *phone_attr_list;
+	GList *email_list, *l, *email_attr_list, *al;
 	gint email_num = 0;
 	const gchar *nl;
 	guint32 phone_flags = 0, sip_flags = 0;
@@ -834,42 +924,7 @@ render_contact_column (EABContactFormatter *formatter,
 	if (email->len)
 		render_table_row (accum, _("Email"), email->str, NULL, 0);
 
-	phone_attr_list = e_contact_get_attributes (contact, E_CONTACT_TEL);
-
-	for (l = phone_attr_list; l; l = g_list_next (l)) {
-		EVCardAttribute *attr = l->data;
-
-		if (!e_vcard_attribute_has_type (attr, "WORK") &&
-		    !e_vcard_attribute_has_type (attr, "HOME")) {
-			guint32 html_flags = phone_flags;
-			const gchar *attr_str, *str;
-			gchar *phone, *tmp_value, *label;
-
-			phone = e_vcard_attribute_get_value (attr);
-			if (!phone || !*phone) {
-				g_free (phone);
-				continue;
-			}
-
-			attr_str = get_phone_location (attr);
-			label = e_text_to_html (attr_str, E_TEXT_TO_HTML_CONVERT_ALL_SPACES);
-
-			tmp_value = maybe_create_url (phone, html_flags);
-			if (tmp_value)
-				str = tmp_value;
-			else
-				str = phone;
-
-			render_table_row (accum, label, str, NULL, html_flags);
-
-			g_free (tmp_value);
-			g_free (phone);
-			g_free (label);
-		}
-	}
-
-	g_list_free_full (phone_attr_list, (GDestroyNotify) e_vcard_attribute_free);
-
+	accum_tel (accum, contact, EAB_CONTACT_FORMATTER_TEL_TYPE_OTHER, NULL, phone_flags);
 	accum_sip (accum, contact, EAB_CONTACT_FORMATTER_SIP_TYPE_OTHER, NULL, sip_flags);
 
 	accum_attribute (accum, contact, _("Nickname"), E_CONTACT_NICKNAME, NULL, 0);
@@ -953,8 +1008,7 @@ render_work_column (EABContactFormatter *formatter,
 	accum_attribute (accum, contact, _("Video Chat"), E_CONTACT_VIDEO_URL, VIDEOCONF_ICON, E_TEXT_TO_HTML_CONVERT_URLS);
 	accum_attribute (accum, contact, _("Calendar"), E_CONTACT_CALENDAR_URI, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
 	accum_attribute (accum, contact, _("Free/Busy"), E_CONTACT_FREEBUSY_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
-	accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_BUSINESS, NULL, phone_flags);
-	accum_attribute (accum, contact, _("Fax"), E_CONTACT_PHONE_BUSINESS_FAX, NULL, 0);
+	accum_tel       (accum, contact, EAB_CONTACT_FORMATTER_TEL_TYPE_WORK, NULL, phone_flags);
 	accum_sip       (accum, contact, EAB_CONTACT_FORMATTER_SIP_TYPE_WORK, NULL, sip_flags);
 	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_WORK, E_CONTACT_ADDRESS_LABEL_WORK);
 	if (formatter->priv->render_maps)
@@ -994,7 +1048,7 @@ render_personal_column (EABContactFormatter *formatter,
 
 	accum_attribute (accum, contact, _("Home Page"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
 	accum_attribute (accum, contact, _("Web Log"), E_CONTACT_BLOG_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
-	accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_HOME, NULL, phone_flags);
+	accum_tel       (accum, contact, EAB_CONTACT_FORMATTER_TEL_TYPE_HOME, NULL, phone_flags);
 	accum_sip       (accum, contact, EAB_CONTACT_FORMATTER_SIP_TYPE_HOME, NULL, sip_flags);
 	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_HOME, E_CONTACT_ADDRESS_LABEL_HOME);
 	accum_time_attribute (accum, contact, _("Birthday"), E_CONTACT_BIRTH_DATE, NULL, 0);
