@@ -75,6 +75,7 @@ GType		e_cal_shell_content_get_type		(void);
 void		e_cal_shell_content_type_register	(GTypeModule *type_module);
 GtkWidget *	e_cal_shell_content_new			(EShellView *shell_view);
 
+gboolean	e_cal_shell_content_get_initialized	(ECalShellContent *cal_shell_content);
 GtkNotebook *	e_cal_shell_content_get_calendar_notebook
 							(ECalShellContent *cal_shell_content);
 EMemoTable *	e_cal_shell_content_get_memo_table	(ECalShellContent *cal_shell_content);

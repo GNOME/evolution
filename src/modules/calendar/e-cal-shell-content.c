@@ -70,6 +70,8 @@ struct _ECalShellContentPrivate {
 	time_t previous_selected_end_time;
 
 	gulong current_view_id_changed_id;
+
+	gboolean initialized;
 };
 
 enum {
@@ -1451,6 +1453,8 @@ cal_shell_content_view_created (ECalBaseShellContent *cal_base_shell_content)
 	e_signal_connect_notify (
 		model, "notify::week-start-day",
 		G_CALLBACK (cal_shell_content_notify_week_start_day_cb), cal_shell_content);
+
+	cal_shell_content->priv->initialized = TRUE;
 }
 
 static void
@@ -1920,6 +1924,7 @@ e_cal_shell_content_init (ECalShellContent *cal_shell_content)
 	cal_shell_content->priv->view_start_range_day_offset = (guint32) -1;
 	cal_shell_content->priv->previous_selected_start_time = -1;
 	cal_shell_content->priv->previous_selected_end_time = -1;
+	cal_shell_content->priv->initialized = FALSE;
 }
 
 void
@@ -1939,6 +1944,14 @@ e_cal_shell_content_new (EShellView *shell_view)
 	return g_object_new (
 		E_TYPE_CAL_SHELL_CONTENT,
 		"shell-view", shell_view, NULL);
+}
+
+gboolean
+e_cal_shell_content_get_initialized (ECalShellContent *cal_shell_content)
+{
+	g_return_val_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content), FALSE);
+
+	return cal_shell_content->priv->initialized;
 }
 
 GtkNotebook *

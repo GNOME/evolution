@@ -145,23 +145,131 @@ cal_shell_view_backend_error_cb (EClientCache *client_cache,
 }
 
 static void
+cal_shell_view_save_last_list_view (EShellView *shell_view,
+				    const gchar *view_id)
+{
+	GKeyFile *state_key_file;
+	gchar *saved_view_id;
+
+	state_key_file = e_shell_view_get_state_key_file (shell_view);
+	saved_view_id = g_key_file_get_string (state_key_file, "Calendar", "LastListView", NULL);
+
+	if (!view_id)
+		view_id = "";
+
+	if (g_strcmp0 (saved_view_id, view_id) != 0) {
+		g_key_file_set_string (state_key_file, "Calendar", "LastListView", view_id);
+		e_shell_view_set_state_dirty (shell_view);
+	}
+
+	g_free (saved_view_id);
+}
+
+static void
+cal_shell_view_set_custom_view (GalViewInstance *view_instance)
+{
+	gint ii, count;
+
+	g_return_if_fail (view_instance != NULL);
+
+	count = gal_view_collection_get_count (view_instance->collection);
+
+	for (ii = 0; ii < count; ii++) {
+		GalViewCollectionItem *item;
+
+		item = gal_view_collection_get_view_item (view_instance->collection, ii);
+
+		if (item && g_strcmp0 (item->id, "List_View") == 0) {
+			GalView *view;
+
+			view = gal_view_clone (item->view);
+			gal_view_load (view, view_instance->custom_filename);
+			gal_view_instance_set_custom_view (view_instance, view);
+			g_clear_object (&view);
+			break;
+		}
+	}
+}
+
+static void
 cal_shell_view_notify_view_id_cb (EShellView *shell_view)
 {
+	static gboolean inside = FALSE;
+	ECalShellContent *cal_shell_content;
 	GalViewInstance *view_instance;
+	GKeyFile *state_key_file;
+	gchar *last_list_view = NULL;
+	gboolean was_list_view, content_initialized;
+	gchar *was_view_id = NULL;
 	const gchar *view_id;
 
+	/* Avoid recursion */
+	if (inside)
+		return;
+
+	inside = TRUE;
+
 	view_id = e_shell_view_get_view_id (shell_view);
-	view_instance = e_shell_view_get_view_instance (shell_view);
 
 	/* A NULL view ID implies we're in a custom view.  But you can
 	 * only get to a custom view via the "Define Views" dialog, which
 	 * would have already modified the view instance appropriately.
 	 * Furthermore, there's no way to refer to a custom view by ID
 	 * anyway, since custom views have no IDs. */
-	if (view_id == NULL)
+	if (view_id == NULL) {
+		/* Custom view is always List_View */
+		cal_shell_view_save_last_list_view (shell_view, "");
+		inside = FALSE;
 		return;
+	}
 
-	gal_view_instance_set_current_view_id (view_instance, view_id);
+	view_instance = e_shell_view_get_view_instance (shell_view);
+	state_key_file = e_shell_view_get_state_key_file (shell_view);
+
+	was_list_view = g_strcmp0 (view_instance->current_type, "etable") == 0;
+	if (was_list_view)
+		was_view_id = g_strdup (view_instance->current_id);
+
+	cal_shell_content = E_CAL_SHELL_CONTENT (e_shell_view_get_shell_content (shell_view));
+	content_initialized = e_cal_shell_content_get_initialized (cal_shell_content);
+
+	if ((!content_initialized || !was_list_view) && g_strcmp0 (view_id, "List_View") == 0) {
+		GError *local_error = NULL;
+
+		last_list_view = g_key_file_get_string (state_key_file, "Calendar", "LastListView", &local_error);
+
+		if (!g_error_matches (local_error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_GROUP_NOT_FOUND) &&
+		    !g_error_matches (local_error, G_KEY_FILE_ERROR, G_KEY_FILE_ERROR_KEY_NOT_FOUND)) {
+			if (last_list_view && !*last_list_view) {
+				g_clear_pointer (&last_list_view, g_free);
+			}
+
+			if (!last_list_view ||
+			    gal_view_collection_get_view_index_by_id (view_instance->collection, last_list_view) >= 0) {
+				view_id = last_list_view;
+			}
+		}
+
+		g_clear_error (&local_error);
+	}
+
+	if (view_id && g_strcmp0 (view_id, e_shell_view_get_view_id (shell_view)) != 0)
+		e_shell_view_set_view_id (shell_view, view_id);
+	else if (view_id)
+		gal_view_instance_set_current_view_id (view_instance, view_id);
+	else
+		cal_shell_view_set_custom_view (view_instance);
+
+	if (g_strcmp0 (view_instance->current_type, "etable") == 0) {
+		cal_shell_view_save_last_list_view (shell_view, view_instance->current_id);
+	} else if (was_list_view) {
+		cal_shell_view_save_last_list_view (shell_view, was_view_id);
+	}
+
+	g_free (last_list_view);
+	g_free (was_view_id);
+
+	inside = FALSE;
 }
 
 static void
