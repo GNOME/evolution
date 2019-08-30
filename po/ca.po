@@ -333,7 +333,7 @@ msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or -1 to use day-start-hour "
 "and day-start-minute"
 msgstr ""
-"L'hora de la jornada laboral acaba, en format 24 hores HHMM, 0000 fins 2359, o -1 per usar hora-acaba-"
+"L'hora de la jornada laboral acaba, en format 24 hores HHMM, 0000 fins a 2359, o -1 per usar hora-acaba-"
 "dia i minut-acaba-dia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
@@ -1151,7 +1151,7 @@ msgstr "Llista de llengües usades recentment en la correcció ortogràfica"
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:34
 msgid "List of dictionary language codes used for spell checking, which had been used recently."
 msgstr ""
-"Llista de codis de llengua de diccionaris utilitzats utilitzats recentment per a la correcció "
+"Llista de codis de llengua de diccionaris utilitzats recentment per a la correcció "
 "ortogràfica."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:35
@@ -1747,7 +1747,7 @@ msgstr "Comprimeix la visualització de les adreces a Per a/CC/CCO"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:149
 msgid "Compress display of addresses in TO/CC/BCC to the number specified in address_count."
-msgstr "Comprimeix la visualització d'adreces a Per a/CC/CCO al nombre especificat a «adress_count»."
+msgstr "Comprimeix la visualització d'adreces a Per a/CC/CCO al nombre especificat a «address_count»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:150
 msgid "Number of addresses to display in TO/CC/BCC"
@@ -3305,7 +3305,7 @@ msgstr "Salta al següent missatge sense llegir"
 #: ../data/ui/evolution-shortcuts.ui.h:27
 msgctxt "shortcut window"
 msgid "Jump to the previous unread message"
-msgstr "Salta al anterior missatge sense llegir"
+msgstr "Salta a l'anterior missatge sense llegir"
 
 #: ../data/ui/evolution-shortcuts.ui.h:28
 msgctxt "shortcut window"
@@ -6675,7 +6675,7 @@ msgstr "%s (%d)"
 #: ../src/calendar/gui/e-calendar-view.c:2339 ../src/calendar/gui/e-calendar-view.c:2342
 #: ../src/calendar/gui/e-calendar-view.c:2345 ../src/calendar/gui/e-calendar-view.c:2346
 msgid "%d %b %Y"
-msgstr "%-d %B del %Y"
+msgstr "%-d %b del %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. * Don't use any other specifiers.
@@ -6689,7 +6689,7 @@ msgstr "%-d %b"
 
 #: ../src/calendar/gui/e-calendar-view.c:2352
 msgid "%A %d %b %Y"
-msgstr "%A, %-d %B del %Y"
+msgstr "%A, %-d %b del %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. * %b = abbreviated month name. Don't use any other specifiers.
@@ -18480,7 +18480,7 @@ msgstr[0] ""
 "La regla de filtre «%s» s'ha modificat per al compte de la carpeta suprimida\n"
 "«%s»."
 msgstr[1] ""
-"Les regles del filtres «%s» s'han modificat per al compte de les carpetes suprimides\n"
+"Les regles dels filtres «%s» s'han modificat per al compte de les carpetes suprimides\n"
 "«%s»."
 
 #: ../src/mail/mail-autofilter.c:560
@@ -19894,7 +19894,7 @@ msgstr "Buida el corr_eu brossa"
 
 #: ../src/mail/mail.error.xml.h:218
 msgid "Failed to empty Junk folder “{0}”"
-msgstr "No s'ha pogut buidar la carpeta de correu brossa «{0}»."
+msgstr "No s'ha pogut buidar la carpeta de correu brossa «{0}»"
 
 #: ../src/mail/mail-send-recv.c:193
 msgid "Canceling…"
