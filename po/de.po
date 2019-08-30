@@ -32,9 +32,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-08-21 15:40+0000\n"
-"PO-Revision-Date: 2019-08-22 23:21+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2019-08-26 13:09+0000\n"
+"PO-Revision-Date: 2019-08-30 21:15+0200\n"
+"Last-Translator: Tim Sabsch <tim@sabsch.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -2958,7 +2958,7 @@ msgid "Whether to delete processed iTip objects"
 msgstr "Sollen verarbeitete iTip-Objekte gelöscht werden?"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:3
-msgid "Preserve exiting reminder by default"
+msgid "Preserve existing reminder by default"
 msgstr "Vorhandene Erinnerungen standardmäßig aufbewahren"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:4
@@ -16334,7 +16334,7 @@ msgstr "Vorlagen"
 msgid "User cancelled operation"
 msgstr "Vorgang wurde vom Benutzer abgebrochen"
 
-#: ../src/libemail-engine/e-mail-session.c:1576
+#: ../src/libemail-engine/e-mail-session.c:1580
 #, c-format
 msgid ""
 "No destination address provided, forwarding of the message has been cancelled."
@@ -16342,27 +16342,27 @@ msgstr ""
 "Das Weiterleiten der Nachricht wurde abgebrochen, da keine Zieladresse angegeben "
 "wurde."
 
-#: ../src/libemail-engine/e-mail-session.c:1589
+#: ../src/libemail-engine/e-mail-session.c:1593
 #, c-format
 msgid "No identity found to use, forwarding of the message has been cancelled."
 msgstr ""
 "Das Weiterleiten der Nachricht wurde abgebrochen, da keine nutzbare Identität "
 "gefunden wurde."
 
-#: ../src/libemail-engine/e-mail-session.c:1741
+#: ../src/libemail-engine/e-mail-session.c:1794
 #, c-format
 msgid "Corresponding source for service with UID “%s” not found"
 msgstr "Die dem Dienst mit der UID »%s« zugehörige Quelle wurde nicht gefunden"
 
-#: ../src/libemail-engine/e-mail-session.c:1861
+#: ../src/libemail-engine/e-mail-session.c:1914
 msgid "Looking up recipient S/MIME certificates in address books…"
 msgstr "Nach S/MIME-Zertifikaten des Empfängers wird in den Adressbüchern gesucht …"
 
-#: ../src/libemail-engine/e-mail-session.c:1863
+#: ../src/libemail-engine/e-mail-session.c:1916
 msgid "Looking up recipient PGP keys in address books…"
 msgstr "Nach PGP-Schlüsseln des Empfängers wird in den Adressbüchern gesucht …"
 
-#: ../src/libemail-engine/e-mail-session.c:2910
+#: ../src/libemail-engine/e-mail-session.c:2963
 #, c-format
 msgid "Waiting for “%s”"
 msgstr "Warten auf »%s«"
@@ -27642,6 +27642,9 @@ msgstr ""
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Importiertes Zertifikat"
+
+#~ msgid "Preserve exiting reminder by default"
+#~ msgstr "Vorhandene Erinnerungen standardmäßig aufbewahren"
 
 #~ msgid "%d week"
 #~ msgid_plural "%d weeks"
