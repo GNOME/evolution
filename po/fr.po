@@ -33,8 +33,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-08-23 09:16+0000\n"
-"PO-Revision-Date: 2019-08-24 19:20+0200\n"
+"POT-Creation-Date: 2019-08-26 13:09+0000\n"
+"PO-Revision-Date: 2019-08-27 23:03+0200\n"
 "Last-Translator: Charles Monzat <charles.monzat@free.fr>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -2846,16 +2846,16 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "Whether display delivery notification parts inline."
-msgstr "Indique s’il faut afficher en ligne les parties de notification d’envoi."
+msgstr ""
+"Indique s’il faut afficher en ligne les parties de notification d’envoi."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 msgid ""
 "If enabled, the message/delivery-status and message/disposition-notification "
 "parts are shown automatically inline."
 msgstr ""
-"Si activé, les parties « message/delivery-status » et "
-"« message/disposition-notification » sont automatiquement affichées à "
-"l’intérieur du message."
+"Si activé, les parties « message/delivery-status » et « message/disposition-"
+"notification » sont automatiquement affichées à l’intérieur du message."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "(Deprecated) Default forward style"
@@ -3076,7 +3076,8 @@ msgid "Whether to delete processed iTip objects"
 msgstr "Indique s’il faut supprimer les objets iTip traités"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:3
-msgid "Preserve exiting reminder by default"
+#| msgid "_Preserve existing reminder by default"
+msgid "Preserve existing reminder by default"
 msgstr "Conserver les rappels existants par défaut"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:4
@@ -28101,3 +28102,6 @@ msgstr "Impossible d’écrire le stockage sur le disque, code d’erreur : %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Certificat importé"
+
+#~ msgid "Preserve exiting reminder by default"
+#~ msgstr "Conserver les rappels existants par défaut"
