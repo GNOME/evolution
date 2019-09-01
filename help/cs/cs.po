@@ -2,28 +2,28 @@
 # Copyright (C) 2008, 2009, 2010 the author(s) of evolution.
 # This file is distributed under the same license as the evolution package.
 #
-# Jiri Eischmann <jiri@eischmann.cz>, 2008, 2009, 2010, 2011, 2012.
 # Marek Černocký <marek@manet.cz>, 2014, 2015, 2016, 2017, 2018.
+# Jiri Eischmann <jiri@eischmann.cz>, 2008-2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2018-08-28 19:16+0000\n"
-"PO-Revision-Date: 2018-09-06 09:21+0200\n"
-"Last-Translator: Marek Černocký <marek@manet.cz>\n"
-"Language-Team: čeština <gnome-cs-list@gnome.org>\n"
+"POT-Creation-Date: 2019-07-25 12:05+0000\n"
+"PO-Revision-Date: 2019-08-23 17:13+0200\n"
+"Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
+"Language-Team: čeština <>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Gtranslator 3.32.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Jiří Eischmann <jiri@eischmann.cz>, 2008, 2009, 2010\n"
+"Jiří Eischmann <jiri@eischmann.cz>, 2008, 2009, 2010, 2019\n"
 "Marek Černocký <marek@manet.cz>, 2014, 2015"
 
 #. (itstool) path: info/desc
@@ -836,31 +836,31 @@ msgstr ""
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:33 C/intro-keyboard-shortcuts.page:286
+#: C/calendar-layout-views.page:33 C/intro-keyboard-shortcuts.page:296
 msgid "Day View"
 msgstr "Zobrazení dne"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:36 C/intro-keyboard-shortcuts.page:292
+#: C/calendar-layout-views.page:36 C/intro-keyboard-shortcuts.page:302
 msgid "Work Week View"
 msgstr "Zobrazení pracovního týdne"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:39 C/intro-keyboard-shortcuts.page:298
+#: C/calendar-layout-views.page:39 C/intro-keyboard-shortcuts.page:308
 msgid "Week View"
 msgstr "Zobrazení týdne"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:42 C/intro-keyboard-shortcuts.page:304
+#: C/calendar-layout-views.page:42 C/intro-keyboard-shortcuts.page:314
 msgid "Month View"
 msgstr "Zobrazení měsíce"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
-#: C/calendar-layout-views.page:45 C/intro-keyboard-shortcuts.page:310
+#: C/calendar-layout-views.page:45 C/intro-keyboard-shortcuts.page:320
 msgid "List View"
 msgstr "Zobrazení seznamu"
 
@@ -2627,10 +2627,12 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/customize-ui-items.page:18
-msgid "Moving and changing tool bar buttons and entries in the main menu."
+#| msgid "Moving and changing tool bar buttons and entries in the main menu."
+msgid ""
+"Moving and changing tool bar buttons, menu entries, and keyboard shortcuts."
 msgstr ""
-"Jak přesouvat a měnit tlačítka na nástrojové liště a položky v hlavní "
-"nabídce."
+"Jak přesouvat a měnit tlačítka na nástrojové liště, položky v hlavní nabídce "
+"a klávesové zkratky."
 
 #. (itstool) path: page/title
 #: C/customize-ui-items.page:21
@@ -2688,6 +2690,17 @@ msgstr ""
 "Upravené soubory se použijí v případě, když se atribut <code>evolution-ui-"
 "version</code> v kořenovém prvku <code>ui</code> shoduje s verzí výchozích "
 "souborů poskytovaných aplikací <app>Evolution</app>."
+
+#. (itstool) path: page/p
+#: C/customize-ui-items.page:36
+msgid ""
+"To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
+"while <app>Evolution</app> is not running. Commented lines start with a "
+"comma character. Not all shortcuts can be changed though."
+msgstr ""
+"Chcete-li změnit klávesové zkratky, upravte <file>~/.config/evolution/"
+"accels</file>, když <app>Evolution</app> neběží. Řádky s komentáři začínají "
+"čárkou. Ne všechny zkratky však mohou být změněny."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -2977,7 +2990,7 @@ msgstr "Trvalé smazání pošty nebo příloh"
 
 #. (itstool) path: section/title
 #: C/deleting-emails.page:29 C/import-supported-file-formats.page:28
-#: C/intro-keyboard-shortcuts.page:133 C/intro-main-window.page:35
+#: C/intro-keyboard-shortcuts.page:142 C/intro-main-window.page:35
 msgid "Mail"
 msgstr "Pošta"
 
@@ -3180,13 +3193,16 @@ msgstr "Mozilla"
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:25
+#| msgid ""
+#| "<link href=\"https://support.mozilla.org/kb/profiles-tb#w_how-to-find-"
+#| "your-profile\">Find your <app>Thunderbird</app> profile folder.</link>"
 msgid ""
-"<link href=\"https://support.mozilla.org/kb/profiles-tb#w_how-to-find-your-"
-"profile\">Find your <app>Thunderbird</app> profile folder.</link>"
+"<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
+"stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
 msgstr ""
-"<link href=\"https://support.mozilla.org/kb/profiles-tb#w_how-to-find-your-"
-"profile\">Vyhledejte složku se svým profilem z pošťáka <app>Thunderbird</"
-"app>.</link>"
+"<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
+"stores-user-data\">Vyhledejte složku se svým profilem z pošťáka "
+"<app>Thunderbird</app>.</link>"
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:62
@@ -3503,31 +3519,44 @@ msgstr ""
 
 #. (itstool) path: note/p
 #: C/import-single-files.page:32
+#| msgid ""
+#| "When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the "
+#| "column headers must correspond to the first entry in each item in English "
+#| "in the importer code for <link href=\"https://git.gnome.org/browse/"
+#| "evolution/tree/src/addressbook/importers/evolution-csv-importer.c?"
+#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
+#| "link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
+#| "addressbook/importers/evolution-csv-importer.c?"
+#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></"
+#| "link> and <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
+#| "addressbook/importers/evolution-csv-importer.c?"
+#| "id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></"
+#| "link>."
 msgid ""
 "When setting <gui>File type</gui> to <gui>Contacts CSV or Tab</gui>, the "
 "column headers must correspond to the first entry in each item in English in "
-"the importer code for <link href=\"https://git.gnome.org/browse/evolution/"
-"tree/src/addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
-"link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-"addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></link> "
-"and <link href=\"https://git.gnome.org/browse/evolution/tree/src/addressbook/"
-"importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></link>."
+"the importer code for <link href=\"https://gitlab.gnome.org/GNOME/evolution/"
+"blob/bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/"
+"evolution-csv-importer.c#L228\"><app>Evolution</app></link>, <link href="
+"\"https://gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L188\"><app>Mozilla</app></link> and <link href=\"https://"
+"gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L93\"><app>Outlook</app></link>."
 msgstr ""
 "Když nastavíte <gui>Typ souboru</gui> na <gui>Kontakty CSV nebo Tab</gui>, "
 "musí hlavičky sloupců odpovídat prvnímu údaji v angličtině u jednotlivých "
-"položek v kódu importovacího programu pro aplikace <link href=\"https://git."
-"gnome.org/browse/evolution/tree/src/addressbook/importers/evolution-csv-"
-"importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n228\"><app>Evolution</app></"
-"link>, <link href=\"https://git.gnome.org/browse/evolution/tree/src/"
-"addressbook/importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n188\"><app>Mozilla</app></link> "
-"a <link href=\"https://git.gnome.org/browse/evolution/tree/src/addressbook/"
-"importers/evolution-csv-importer.c?"
-"id=bc5f32786d09823247d8188c5f211dcd354097de#n93\"><app>Outlook</app></link>."
+"položek v kódu importovacího programu pro aplikace <link href=\"https://"
+"gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L228\"><app>Evolution</app></link>, <link href=\"https://"
+"gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L188\"><app>Mozilla</app></link> a <link href=\"https://"
+"gitlab.gnome.org/GNOME/evolution/blob/"
+"bc5f32786d09823247d8188c5f211dcd354097de/src/addressbook/importers/evolution-"
+"csv-importer.c#L93\"><app>Outlook</app></link>."
 
 #. (itstool) path: info/desc
 #: C/import-supported-file-formats.page:5
@@ -3595,7 +3624,7 @@ msgstr ""
 "Express 5/6</app>. Pro novější verze je doporučován formát PST."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:244
+#: C/import-supported-file-formats.page:46 C/intro-keyboard-shortcuts.page:254
 #: C/intro-main-window.page:98
 msgid "Calendar"
 msgstr "Kalendář"
@@ -3632,7 +3661,7 @@ msgstr ""
 "dalšími."
 
 #. (itstool) path: section/title
-#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:316
+#: C/import-supported-file-formats.page:60 C/intro-keyboard-shortcuts.page:326
 #: C/intro-main-window.page:144
 msgid "Contacts"
 msgstr "Kontakty"
@@ -4285,341 +4314,367 @@ msgstr ""
 "Tato stránka poskytuje přehled klávesových zkratek, které vám pomohou "
 "používat aplikaci <app>Evolution</app> efektivněji."
 
-#. (itstool) path: section/title
+#. (itstool) path: note/p
 #: C/intro-keyboard-shortcuts.page:31
+msgid ""
+"In addition to the shortcuts listed below, you can also use accelerators to "
+"navigate with the keyboard."
+msgstr ""
+"Kromě zkratek uvedených níže můžete pro navigaci pomocí klávesnice použít "
+"akcelerátory."
+
+#. (itstool) path: note/p
+#: C/intro-keyboard-shortcuts.page:32
+msgid ""
+"Hold down the <key>Alt</key> key to reveal <em>accelerators</em>: underlined "
+"letters on menu items, buttons, and other controls. Press <key>Alt</key> "
+"plus the underlined letter to activate a control, just as if you had clicked "
+"on it."
+msgstr ""
+"Stiskněte klávesu <key>Alt</key> a zobrazí se <em>akcelerátory</em>: "
+"podtržené písmena v položkách nabídky, tlačítcích a jiných ovládacích "
+"prvcích. Stisknutím <key>Alt</key> a podrženého písmene dosáhnete stejného "
+"efektu, jako byste na něj klikli."
+
+#. (itstool) path: section/title
+#: C/intro-keyboard-shortcuts.page:40
 msgid "Global"
 msgstr "Globální"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:34
+#: C/intro-keyboard-shortcuts.page:43
 msgid "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>1</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:37
+#: C/intro-keyboard-shortcuts.page:46
 msgid "Select Mail component."
 msgstr "Přepnout se na poštu"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:40
+#: C/intro-keyboard-shortcuts.page:49
 msgid "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>2</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:43
+#: C/intro-keyboard-shortcuts.page:52
 msgid "Select Contacts component."
 msgstr "Přepnout se na kontakty"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:46
+#: C/intro-keyboard-shortcuts.page:55
 msgid "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>3</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:49
+#: C/intro-keyboard-shortcuts.page:58
 msgid "Select Calendars component."
 msgstr "Přepnout se na kalendář"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:52
+#: C/intro-keyboard-shortcuts.page:61
 msgid "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>4</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:55
+#: C/intro-keyboard-shortcuts.page:64
 msgid "Select Tasks component."
 msgstr "Přepnout se na úkoly"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:58
+#: C/intro-keyboard-shortcuts.page:67
 msgid "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>5</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:61
+#: C/intro-keyboard-shortcuts.page:70
 msgid "Select Memos component."
 msgstr "Přepnout se na poznámky"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:64
+#: C/intro-keyboard-shortcuts.page:73
 msgid "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>N</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:67
+#: C/intro-keyboard-shortcuts.page:76
 msgid "Create a new item in current component."
 msgstr "Vytvořit novou položku v aktuální části"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:70
+#: C/intro-keyboard-shortcuts.page:79
 msgid "<key>F6</key>"
 msgstr "<key>F6</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:73
+#: C/intro-keyboard-shortcuts.page:82
 msgid "Cycle focus between panes."
 msgstr "Cyklicky přepínat zaměření mezi panely"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:76
+#: C/intro-keyboard-shortcuts.page:85
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Q</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:79
+#: C/intro-keyboard-shortcuts.page:88
 msgid "Clear search bar."
 msgstr "Vyčistit vyhledávací lištu"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:82
+#: C/intro-keyboard-shortcuts.page:91
 msgid "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>W</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:85
+#: C/intro-keyboard-shortcuts.page:94
 msgid "Close window."
 msgstr "Zavřít okno"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:88
+#: C/intro-keyboard-shortcuts.page:97
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>W</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:91
+#: C/intro-keyboard-shortcuts.page:100
 msgid "Open new window."
 msgstr "Otevřít nové okno"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:94
+#: C/intro-keyboard-shortcuts.page:103
 msgid "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Q</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:97
+#: C/intro-keyboard-shortcuts.page:106
 msgid "Quit <app>Evolution</app>."
 msgstr "Ukončit <app>Evolution</app>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:100
+#: C/intro-keyboard-shortcuts.page:109
 msgid "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>P</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:103
+#: C/intro-keyboard-shortcuts.page:112
 msgid "Print selection."
 msgstr "Vytisknout výběr"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:106
+#: C/intro-keyboard-shortcuts.page:115
 msgid "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>S</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:109
+#: C/intro-keyboard-shortcuts.page:118
 msgid "Save selection."
 msgstr "Uložit výběr"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:112
+#: C/intro-keyboard-shortcuts.page:121
 msgid "<key>Del</key> or <key>Backspace</key>"
 msgstr "<key>Del</key> nebo <key>Backspace</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:115
+#: C/intro-keyboard-shortcuts.page:124
 msgid "Delete selection."
 msgstr "Smazat výběr"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:118
+#: C/intro-keyboard-shortcuts.page:127
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>V</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:121
+#: C/intro-keyboard-shortcuts.page:130
 msgid "Move mails or contacts to folder."
 msgstr "Přesunout poštu nebo kontakty do složky"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:124
+#: C/intro-keyboard-shortcuts.page:133
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>Y</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:127
+#: C/intro-keyboard-shortcuts.page:136
 msgid "Copy mails or contacts to folder."
 msgstr "Zkopírovat poštu nebo kontakty do složky"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:136
+#: C/intro-keyboard-shortcuts.page:145
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:139
+#: C/intro-keyboard-shortcuts.page:148
 msgid "Create a new message."
 msgstr "Vytvořit novou zprávu"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:142
+#: C/intro-keyboard-shortcuts.page:151
 msgid "<key>F12</key>"
 msgstr "<key>F12</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:145
+#: C/intro-keyboard-shortcuts.page:154
 msgid "Send and receive messages."
 msgstr "Odeslat a přijmout zprávy"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:148 C/intro-keyboard-shortcuts.page:283
+#: C/intro-keyboard-shortcuts.page:157 C/intro-keyboard-shortcuts.page:293
 msgid "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Y</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:151
+#: C/intro-keyboard-shortcuts.page:160
 msgid "Apply filters to selection."
 msgstr "Použít na výběr filtry"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:154
+#: C/intro-keyboard-shortcuts.page:163
 msgid "<keyseq><key>Ctrl</key><key>O</key></keyseq> or <key>Return</key>"
 msgstr "<keyseq><key>Ctrl</key><key>O</key></keyseq> nebo <key>Enter</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:157
+#: C/intro-keyboard-shortcuts.page:166
 msgid "Open selection in new window."
 msgstr "Otevřít výběr v novém okně"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:160
+#: C/intro-keyboard-shortcuts.page:169
 msgid "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>F</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:163
+#: C/intro-keyboard-shortcuts.page:172
 msgid "Forward selection."
 msgstr "Přeposlat výběr"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:166 C/intro-keyboard-shortcuts.page:295
+#: C/intro-keyboard-shortcuts.page:175 C/intro-keyboard-shortcuts.page:305
 msgid "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>K</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:169
+#: C/intro-keyboard-shortcuts.page:178
 msgid "Mark the selection as read."
 msgstr "Označit výběr jako přečtené"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:172
+#: C/intro-keyboard-shortcuts.page:181
 msgid "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>Shift</key><key>K</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:175
+#: C/intro-keyboard-shortcuts.page:184
 msgid "Mark the selection as unread."
 msgstr "Označit výběr jako nepřečtené"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:178
+#: C/intro-keyboard-shortcuts.page:187
 msgid "<key>↓</key>"
 msgstr "<key>↓</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:181
+#: C/intro-keyboard-shortcuts.page:190
 msgid "Jump to next message."
 msgstr "Přeskočit na následující zprávu"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:184
+#: C/intro-keyboard-shortcuts.page:193
 msgid "<key>↑</key>"
 msgstr "<key>↑</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:187
+#: C/intro-keyboard-shortcuts.page:196
 msgid "Jump to previous message."
 msgstr "Přeskočit na předchozí zprávu"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:190
+#: C/intro-keyboard-shortcuts.page:199
 msgid "<key>.</key> or <key>]</key>"
 msgstr "<key>.</key> nebo <key>]</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:193
+#: C/intro-keyboard-shortcuts.page:202
 msgid "Jump to next unread message."
 msgstr "Přeskočit na následující nepřečtenou zprávu"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:196
+#: C/intro-keyboard-shortcuts.page:205
 msgid "<key>,</key> or <key>[</key>"
 msgstr "<key>,</key> nebo <key>[</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:199
+#: C/intro-keyboard-shortcuts.page:208
 msgid "Jump to previous unread message."
 msgstr "Přeskočit na předchozí nepřečtenou zprávu"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:202 C/mail-composer-reply.page:43
+#: C/intro-keyboard-shortcuts.page:211 C/mail-composer-reply.page:43
 msgid "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:205
+#: C/intro-keyboard-shortcuts.page:214
 msgid "Reply to sender."
 msgstr "Odpovědět odesílateli"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:208 C/intro-keyboard-shortcuts.page:307
+#: C/intro-keyboard-shortcuts.page:217 C/intro-keyboard-shortcuts.page:317
 #: C/mail-composer-reply.page:45
 msgid "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:211
+#: C/intro-keyboard-shortcuts.page:220
 msgid "Reply to list."
 msgstr "Odpovědět seznamu adresátů"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:214 C/mail-composer-reply.page:47
+#: C/intro-keyboard-shortcuts.page:223 C/mail-composer-reply.page:47
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>R</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:217
+#: C/intro-keyboard-shortcuts.page:226
 msgid "Reply to all recipients."
 msgstr "Odpovědět všem příjemcům"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:220
+#: C/intro-keyboard-shortcuts.page:229
 msgid "<key>Backspace</key>"
 msgstr "<key>Backspace</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:223
+#: C/intro-keyboard-shortcuts.page:232
 msgid "Scroll up."
 msgstr "Posunout nahoru"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:226
+#: C/intro-keyboard-shortcuts.page:235
 msgid "<key>Space</key>"
 msgstr "<key>mezerník</key>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:229
+#: C/intro-keyboard-shortcuts.page:238
 msgid "Scroll down."
 msgstr "Posunout dolů"
 
 #. (itstool) path: section/p
-#: C/intro-keyboard-shortcuts.page:233
-msgid "<key>Space</key> also allows navigating in unread mail across folders:"
+#: C/intro-keyboard-shortcuts.page:242
+#| msgid ""
+#| "<key>Space</key> also allows navigating in unread mail across folders:"
+msgid ""
+"<key>Space</key> and <key>Backspace</key> also allow navigating in unread "
+"mail across folders:"
 msgstr ""
-"Klávesou <key>mezerník</key> se můžete také pohybovat po nepřečtených "
-"zprávách napříč složkami:"
+"Klávesami <key>mezerník</key> a <key>backspace</key> se můžete také "
+"pohybovat po nepřečtených zprávách napříč složkami:"
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:235
+#: C/intro-keyboard-shortcuts.page:244
 msgid ""
 "When you press the Spacebar for the first time, it takes you to the next "
 "unread message."
@@ -4628,7 +4683,7 @@ msgstr ""
 "zprávu."
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:236
+#: C/intro-keyboard-shortcuts.page:245
 msgid ""
 "If the message is more than one screen long, <key>Space</key> works as "
 "<key>Page Down</key>."
@@ -4637,7 +4692,7 @@ msgstr ""
 "<key>Page Down</key>."
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:237
+#: C/intro-keyboard-shortcuts.page:246
 msgid ""
 "If you press <key>Space</key> after you reach the bottom of the page, it "
 "takes you to the next unread message."
@@ -4646,7 +4701,7 @@ msgstr ""
 "stránky, přesune vás na další nepřečtenou zprávu."
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:238
+#: C/intro-keyboard-shortcuts.page:247
 msgid ""
 "If there are no more unread messages in the mailbox, pressing <key>Space</"
 "key> takes you to the next unread message in the next folder."
@@ -4656,7 +4711,7 @@ msgstr ""
 "složce."
 
 #. (itstool) path: item/p
-#: C/intro-keyboard-shortcuts.page:239
+#: C/intro-keyboard-shortcuts.page:248
 msgid ""
 "If new messages arrive in a number of folders, <key>Space</key> toggles "
 "between those folders. This feature allows you to switch to the next unread "
@@ -4666,103 +4721,112 @@ msgstr ""
 "přepínat mezi těmito složkami. Tato funkce vám umožňuje přeskočit na další "
 "nepřečtenou zprávu v jiné složce, aniž byste klikali na složku."
 
+#. (itstool) path: item/p
+#: C/intro-keyboard-shortcuts.page:249
+msgid ""
+"<key>Backspace</key> has the same behavior but reverted: It scrolls up in a "
+"message and can jump to the next unread message in the previous folder."
+msgstr ""
+"<key>Backspace</key> se chová stejně, ale obráceně: posouvá zprávou nahoru a "
+"skáče na další nepřečtenou zprávu v předchozí složce."
+
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:247
+#: C/intro-keyboard-shortcuts.page:257
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>A</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:250
+#: C/intro-keyboard-shortcuts.page:260
 msgid "Create a new appointment."
 msgstr "Vytvořit novou událost"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:253
+#: C/intro-keyboard-shortcuts.page:263
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>E</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:256
+#: C/intro-keyboard-shortcuts.page:266
 msgid "Create a new meeting."
 msgstr "Vytvořit novou schůzku"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:259
+#: C/intro-keyboard-shortcuts.page:269
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>T</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:262
+#: C/intro-keyboard-shortcuts.page:272
 msgid "Create a new task."
 msgstr "Vytvořit nový úkol"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:265
+#: C/intro-keyboard-shortcuts.page:275
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:268
+#: C/intro-keyboard-shortcuts.page:278
 msgid "Create a new memo."
 msgstr "Vytvořit novou poznámku"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:271
+#: C/intro-keyboard-shortcuts.page:281
 msgid "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>T</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:274
+#: C/intro-keyboard-shortcuts.page:284
 msgid "Go to today."
 msgstr "Přejít na dnešní den"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:277
+#: C/intro-keyboard-shortcuts.page:287
 msgid "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>G</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:280
+#: C/intro-keyboard-shortcuts.page:290
 msgid "Go to date."
 msgstr "Přejít na datum"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:289
+#: C/intro-keyboard-shortcuts.page:299
 msgid "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>J</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:301
+#: C/intro-keyboard-shortcuts.page:311
 msgid "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
 msgstr "<keyseq><key>Ctrl</key><key>M</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:319
+#: C/intro-keyboard-shortcuts.page:329
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>C</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:322
+#: C/intro-keyboard-shortcuts.page:332
 msgid "Create a new contact."
 msgstr "Vytvořit nový kontakt"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:325
+#: C/intro-keyboard-shortcuts.page:335
 msgid "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
 msgstr "<keyseq><key>Shift</key><key>Ctrl</key><key>L</key></keyseq>"
 
 #. (itstool) path: td/p
-#: C/intro-keyboard-shortcuts.page:328
+#: C/intro-keyboard-shortcuts.page:338
 msgid "Create a new contact list."
 msgstr "Vytvořit nový seznamu kontaktů"
 
 #. (itstool) path: section/title
-#: C/intro-keyboard-shortcuts.page:334
+#: C/intro-keyboard-shortcuts.page:344
 msgid "Changing keyboard shortcuts"
 msgstr "Změna klávesových zkratek"
 
 #. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:335
+#: C/intro-keyboard-shortcuts.page:345
 msgid ""
 "Advanced users can customize keyboard shortcuts by editing <file>$HOME/."
 "config/evolution/accels</file>."
@@ -4771,7 +4835,7 @@ msgstr ""
 "<file>$HOME/.config/evolution/accels</file>."
 
 #. (itstool) path: note/p
-#: C/intro-keyboard-shortcuts.page:335
+#: C/intro-keyboard-shortcuts.page:345
 msgid ""
 "See <link href=\"https://major.io/2015/11/27/custom-keyboard-shortcuts-for-"
 "evolution-in-gnome/\">this blog post</link> for more information."
@@ -4809,13 +4873,17 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:37
+#| msgctxt "_"
+#| msgid ""
+#| "external ref='./figures/window-overview-layers.png' "
+#| "md5='db7d3aa3175cbf13f3c5d9a825ca10c6'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
-"md5='db7d3aa3175cbf13f3c5d9a825ca10c6'"
+"md5='e8970a16606fd7c6665afbc404a8c220'"
 msgstr ""
 "external ref='./figures/window-overview-layers.png' "
-"md5='db7d3aa3175cbf13f3c5d9a825ca10c6'"
+"md5='e8970a16606fd7c6665afbc404a8c220'"
 
 #. (itstool) path: media/p
 #: C/intro-main-window.page:38
@@ -6370,26 +6438,20 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:33
+#| msgid ""
+#| "Click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> to "
+#| "make sure all messages are visible."
 msgid ""
-"Look in the <link xref=\"mail-spam\"><gui>Junk</gui> folder</link>. Messages "
-"that are marked as Junk disappear from the original folder and are moved to "
-"the <gui>Junk</gui> folder."
+"Select both <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> "
+"and <guiseq><gui>View</gui><gui>Show Junk Messages</gui></guiseq> to make "
+"sure all messages are visible."
 msgstr ""
-"Podívejte se do <link xref=\"mail-spam\">složky <gui>Nevyžádané</gui></"
-"link>. Zprávy, které se označí jako nevyžádané, zmizí z původní složky a "
-"přesunou se do složky <gui>Nevyžádané</gui>."
+"Klikněte na <guiseq><gui>Zobrazit</gui><gui>Zobrazit smazané zprávy</gui></"
+"guiseq> a <guiseq><gui>Zobrazit</gui><gui>Zobrazit nevyžádané zprávy</"
+"guiseq></gui>, abyste měli jistotu, že jsou vidět všechny zprávy."
 
 #. (itstool) path: item/p
-#: C/mail-cannot-see.page:37
-msgid ""
-"Click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq> to "
-"make sure all messages are visible."
-msgstr ""
-"Klikněte na <guiseq><gui>Zobrazit</gui> <gui>Zobrazit smazané zprávy</gui></"
-"guiseq>, abyste měli jistotu, že jsou vidět všechny zprávy."
-
-#. (itstool) path: item/p
-#: C/mail-cannot-see.page:40
+#: C/mail-cannot-see.page:36
 msgid ""
 "<link xref=\"mail-default-folder-locations\">Check your folder settings.</"
 "link> Perhaps they are set to some other folder than the folder you thought "
@@ -6452,6 +6514,34 @@ msgstr ""
 "Všiměte si, že toto nastavení rovněž ovlivní viditelnost <link xref=\"mail-"
 "sorting-message-list#email-threads\"><gui>Seskupovat podle vláken</gui></"
 "link> a <gui>Náhled zprávy</gui> ve všech složkách."
+
+#. (itstool) path: note/p
+#: C/mail-change-columns-in-message-list.page:27
+#: C/mail-sorting-message-list.page:57
+#| msgid ""
+#| "If you would like to have the same column layout in all mail folders "
+#| "except for the <gui>Sent</gui> folder, you can enable <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>General</"
+#| "gui><gui>Apply the same view settings to all folders</gui></guiseq>. Note "
+#| "that this setting also influences <link xref=\"mail-sorting-message-"
+#| "list#email-threads\"><gui>Group by Threads</gui></link> and the "
+#| "<gui>Message Preview</gui> visibility in all folders."
+msgid ""
+"If you would like to have a different sort order and/or columns for specific "
+"mail folders, make sure that <guiseq><gui>Edit</gui><gui>Preferences</"
+"gui><gui>Mail Preferences</gui><gui>General</gui><gui>Apply the same view "
+"settings to all folders</gui></guiseq> is disabled. You can then change the "
+"view and save your changes under <guiseq><gui>View</gui><gui>Current View</"
+"gui><gui>Save Custom View…</gui></guiseq> and apply the view also to other "
+"folders."
+msgstr ""
+"Chcete-li mít různá řazení a rozvržení sloupců v různých složkách, ujistěte "
+"se, že máte vypnuté <guiseq><gui>Upravit</gui><gui>Předvolby</gui> "
+"<gui>Předvolby pošty</gui> <gui>Obecné</gui> <gui>Použít stejné nastavení "
+"zobrazení pro všechny složky</gui></guiseq>. Poté můžete měnit zobrazení a "
+"ukládat změny v <guiseq><gui>Zobrazit</gui><gui>Aktuální zobrazení</"
+"gui><gui>Uložit vlastní zobrazení…</gui></guiseq> a použít zobrazení také v "
+"dalších složkách."
 
 #. (itstool) path: info/desc
 #: C/mail-change-time-format.page:5
@@ -8407,15 +8497,25 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:32
+#| msgid ""
+#| "You can define an <gui>Archive Folder</gui>, for example to move older "
+#| "messages there. Selecting <guiseq><gui>Message</gui><gui>Archive</gui></"
+#| "guiseq> in the main window moves the selected message to the specified "
+#| "folder."
 msgid ""
-"You can define an <gui>Archive Folder</gui>, for example to move older "
-"messages there. Selecting <guiseq><gui>Message</gui><gui>Archive</gui></"
-"guiseq> in the main window moves the selected message to the specified "
-"folder."
+"You can define an <gui>Archive Folder</gui> for this account to move older "
+"messages there. This requires to first set a fallback folder under "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
+"gui><gui>General</gui><gui>Archive Mail</gui></guiseq>. Selecting "
+"<guiseq><gui>Message</gui><gui>Archive</gui></guiseq> in the main window "
+"moves the selected message to the specified folder."
 msgstr ""
-"Můžete si určit <gui>Archivační složku</gui>, například pro uchování starých "
-"zpráv. Když pak v hlavním okně zvolíte <guiseq><gui>Zpráva</gui> "
-"<gui>Archivovat</gui></guiseq>, přesunou se vybrané zprávy do této složky."
+"Tady si můžete pro tento účet určit <gui>Archivační složku</gui>, kam se "
+"budou přesouvat staré zprávy. To vyžaduje, abyste si prvně nastavili záložní "
+"složku v <guiseq><gui>Upravit</gui><gui>Předvolby</gui><gui>Předvolby pošty</"
+"gui><gui>Obecné</gui><gui>Archivace pošty</gui></guiseq>. Když pak v hlavním "
+"okně zvolíte <guiseq><gui>Zpráva</gui> <gui>Archivovat</gui></guiseq>, "
+"přesunou se vybrané zprávy do této složky."
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:33
@@ -8673,14 +8773,18 @@ msgstr ""
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:37
+#| msgid ""
+#| "To set the default action for loading images, go to <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</"
+#| "gui><gui>Loading Images</gui></guiseq>."
 msgid ""
 "To set the default action for loading images, go to <guiseq><gui>Edit</"
 "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>HTML Messages</"
-"gui><gui>Loading Images</gui></guiseq>."
+"gui><gui>Loading Remote Content</gui></guiseq>."
 msgstr ""
 "Pro nastavení výchozí činnosti pro načítání obrázků jděte do "
 "<guiseq><gui>Upravit</gui> <gui>Předvolby</gui> <gui>Předvolby pošty</gui> "
-"<gui>Zprávy HTML</gui> <gui>Načítání obrázků</gui></guiseq>."
+"<gui>HTML zprávy</gui> <gui>Načítání vzdáleného obsahu</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:41
@@ -8733,12 +8837,29 @@ msgid "Rendering an email and handling its attachments."
 msgstr "Zobrazení e-mailu a práce s jeho přílohami."
 
 #. (itstool) path: page/title
-#: C/mail-displaying-message.page:20
+#: C/mail-displaying-message.page:21
 msgid "Display of a message"
 msgstr "Zobrazení zprávy"
 
-#. (itstool) path: section/title
+#. (itstool) path: page/p
 #: C/mail-displaying-message.page:23
+#| msgid ""
+#| "You can add, edit and delete all labels under <guiseq><gui>Edit</"
+#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Labels</gui></"
+#| "guiseq>. Note that you cannot remove the default labels."
+msgid ""
+"You can define how received HTML messages are displayed via "
+"<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
+"gui><gui>HTML Messages</gui></guiseq>. For example, you can display them as "
+"plain text or block loading remote content."
+msgstr ""
+"Můžete určit, jak se budou zprávy v HTML zobrazovat, v <guiseq><gui>Upravit</"
+"gui> <gui>Předvolby</gui> <gui>Předvolby pošty</gui> <gui>HTML zprávy</gui></"
+"guiseq>. Například je můžete nechat zobrazit jako prostý text nebo blokovat "
+"načítání vzdáleného obsahu."
+
+#. (itstool) path: section/title
+#: C/mail-displaying-message.page:26
 msgid "Advanced"
 msgstr "Pokročilé"
 
@@ -10277,8 +10398,8 @@ msgid ""
 msgstr ""
 "Když chcete zprávě přiřadit štítek, buď zvolte <guiseq><gui>Message</"
 "gui><gui>Mark As</gui><gui>Label</gui></guiseq> a vyberte štítek, který se "
-"má použít, nebo klikněte pravým tlačítkem na zprávu, klikněte na <gui>Štítek</"
-"gui> a vyberte šítek, který se má použít."
+"má použít, nebo klikněte pravým tlačítkem na zprávu, klikněte na "
+"<gui>Štítek</gui> a vyberte šítek, který se má použít."
 
 #. (itstool) path: section/p
 #: C/mail-labels.page:30
@@ -10524,14 +10645,18 @@ msgstr "Upozorňování na novou poštu"
 
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:23
+#| msgid ""
+#| "<app>Evolution</app> always notifies you of new messages by adding a "
+#| "yellow star to the mailer icon in the window <link xref=\"intro-main-"
+#| "window\">switcher</link>."
 msgid ""
-"<app>Evolution</app> always notifies you of new messages by adding a yellow "
-"star to the mailer icon in the window <link xref=\"intro-main-window"
+"<app>Evolution</app> always notifies you of new messages by adding a small "
+"emblem to the mailer icon in the window <link xref=\"intro-main-window"
 "\">switcher</link>."
 msgstr ""
-"<app>Evolution</app> vždy upozorňuje na nové zprávy přidáním žluté hvězdičky "
-"k ikoně poštovního klienta v <link xref=\"intro-main-window\">přepínači</"
-"link> oken."
+"<app>Evolution</app> vždy upozorňuje na nové zprávy přidáním malé značky k "
+"ikoně poštovního klienta v <link xref=\"intro-main-window\">přepínači</link> "
+"oken."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -10539,13 +10664,17 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:24
+#| msgctxt "_"
+#| msgid ""
+#| "external ref='./figures/new-mail-switcher.png' "
+#| "md5='be4dbdb5f6e3dcbd5111b87169cae268'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
-"md5='be4dbdb5f6e3dcbd5111b87169cae268'"
+"md5='da6e065ab605a1470729c48d645bcf1a'"
 msgstr ""
 "external ref='./figures/new-mail-switcher.png' "
-"md5='be4dbdb5f6e3dcbd5111b87169cae268'"
+"md5='da6e065ab605a1470729c48d645bcf1a'"
 
 #. (itstool) path: media/p
 #. Translators: Please make sure that the screenshot does have the small
@@ -10776,8 +10905,13 @@ msgstr "Zadejte doménový název pro tento server."
 #: C/mail-receiving-options-imap-plus.page:32
 #: C/mail-receiving-options-pop.page:36
 #: C/mail-receiving-options-usenet-news.page:32
-msgid "Select if you want to use a secure connection (SSL or TLS)."
-msgstr "Vyberte, jestli chcete používat zabezpečené připojení (SSL nebo TLS)."
+#| msgid "Select if you want to use a secure connection (SSL or TLS)."
+msgid ""
+"Select if you want to use a secure connection (TLS or its deprecated "
+"predecessor SSL)."
+msgstr ""
+"Vyberte, chcete-li používat zabezpečené připojení (TLS nebo jeho zastaralý "
+"předchůdce SSL)."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-mapi.page:33
@@ -11726,26 +11860,23 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/mail-sorting-message-list.page:38
 msgid ""
-"For Advanced Users: There is a GSettings key that allows you to toggle "
-"between the collapsed and expanded state of the email threads. The collapsed "
-"state is enabled by default. It can be changed by starting the "
-"<app>Terminal</app> application and running the command <cmd>gsettings set "
-"org.gnome.evolution.mail thread-expand true</cmd>"
+"For Advanced Users: By default, all email threads are expanded. If you want "
+"all threads to be collapsed by default:"
 msgstr ""
-"Pro pokročilé uživatele: Existuje klíč GSettings, který určuje, jestli mají "
-"být vlákna sbalená nebo rozbalená na jednotlivé zprávy. Výchozí volbou jsou "
-"sbalená vlákna. Změnu můžete provést v aplikaci <app>Terminál</app> "
-"spuštěním příkazu <cmd>gsettings set org.gnome.evolution.mail thread-expand "
-"true</cmd>"
+"Pro pokročilé uživatele: ve výchozím stavu jsou poštovní vlákna rozbalená. "
+"Chcete-li, aby byla všechna vlákna ve výchozím stavu sbalená:"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:41
+#| msgid ""
+#| "Run the command <cmd>gsettings set org.gnome.evolution.mail filters-log-"
+#| "actions true</cmd>"
 msgid ""
-"Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
-"accels true</cmd>"
+"Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+"false</cmd>"
 msgstr ""
-"Spusťte příkaz <cmd>gsettings set org.gnome.desktop.interface can-change-"
-"accels true</cmd>"
+"Spusťte příkaz <cmd>gsettings set org.gnome.evolution.mail thread-expand "
+"false</cmd>"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:47
@@ -11803,12 +11934,12 @@ msgstr ""
 "současného držení klávesy <key>Ctrl</key>. "
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:59
+#: C/mail-sorting-message-list.page:62
 msgid "Using Other Sorting Options"
 msgstr "Používání dalších voleb řazení"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:60
+#: C/mail-sorting-message-list.page:63
 msgid ""
 "<app>Evolution</app> provides other ways for sorting email messages. You can "
 "use Sort By, Sort Ascending, Sort Descending, or Reset sort."
@@ -11817,170 +11948,170 @@ msgstr ""
 "Můžete použít Řadit podle, Řadit vzestupně, Řadit sestupně nebo Neřadit."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:62
+#: C/mail-sorting-message-list.page:65
 msgid "Sort By"
 msgstr "Řadit podle"
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:63
+#: C/mail-sorting-message-list.page:66
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
 "Můžete také použít řazení poštovních zpráv podle seznamu <gui>Řadit podle</"
 "gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:65 C/mail-sorting-message-list.page:95
-#: C/mail-sorting-message-list.page:104 C/mail-sorting-message-list.page:113
+#: C/mail-sorting-message-list.page:68 C/mail-sorting-message-list.page:98
+#: C/mail-sorting-message-list.page:107 C/mail-sorting-message-list.page:116
 msgid "Right-click on the message list column headers."
 msgstr "Klikněte pravým tlačítkem na záhlaví sloupce v seznamu zpráv."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:69
 msgid "Select the <gui>Sort By</gui> option."
 msgstr "Vyberte volbu <gui>Řadit podle</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:66
+#: C/mail-sorting-message-list.page:69
 msgid "This brings up this list of criteria for sorting email messages:"
 msgstr "Tím se zobrazí seznam kritérií pro řazení poštovních zpráv:"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:68
+#: C/mail-sorting-message-list.page:71
 msgid "Subject - Trimmed"
 msgstr "Předmět - oříznutý"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:69
+#: C/mail-sorting-message-list.page:72
 msgid "Labels"
 msgstr "Štítky"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:70
+#: C/mail-sorting-message-list.page:73
 msgid "Recipients"
 msgstr "Příjemce"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:71
+#: C/mail-sorting-message-list.page:74
 msgid "Sender"
 msgstr "Odesílatel"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:72
+#: C/mail-sorting-message-list.page:75
 msgid "Location"
 msgstr "Místo"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:73
+#: C/mail-sorting-message-list.page:76
 msgid "Due By"
 msgstr "Termín dokončení"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:74
+#: C/mail-sorting-message-list.page:77
 msgid "<link xref=\"mail-follow-up-flag\">Follow Up Flag</link>"
 msgstr "<link xref=\"mail-follow-up-flag\">Příznak K vyřízení</link>"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:75
+#: C/mail-sorting-message-list.page:78
 msgid "Flag Status"
 msgstr "Příznak Stav"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:76
+#: C/mail-sorting-message-list.page:79
 msgid "Size"
 msgstr "Velikost"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:77
+#: C/mail-sorting-message-list.page:80
 msgid "To"
 msgstr "Komu"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:78
+#: C/mail-sorting-message-list.page:81
 msgid "Received"
 msgstr "Přijato"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:79
+#: C/mail-sorting-message-list.page:82
 msgid "Date"
 msgstr "Datum"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:80
+#: C/mail-sorting-message-list.page:83
 msgid "Subject"
 msgstr "Předmět"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:81
+#: C/mail-sorting-message-list.page:84
 msgid "From"
 msgstr "Od"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:82
+#: C/mail-sorting-message-list.page:85
 msgid "Attachment"
 msgstr "Příloha"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:83
+#: C/mail-sorting-message-list.page:86
 msgid "Flagged"
 msgstr "Označeno"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:84
+#: C/mail-sorting-message-list.page:87
 msgid "Status"
 msgstr "Stav"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:85
+#: C/mail-sorting-message-list.page:88
 msgid "Custom"
 msgstr "Vlastní"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:88
+#: C/mail-sorting-message-list.page:91
 msgid "Select the option you wish to use in sorting email messages."
 msgstr "Vyberte volbu, kterou chcete použít pro řazení e-mailových zpráv."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:93
+#: C/mail-sorting-message-list.page:96
 msgid "Sort Ascending"
 msgstr "Řadit vzestupně"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:96
+#: C/mail-sorting-message-list.page:99
 msgid "Select the <gui>Sort Ascending</gui> option."
 msgstr "Vyberte volbu <gui>Řadit vzestupně</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:98
+#: C/mail-sorting-message-list.page:101
 msgid "The messages will be displayed with the most recent at the bottom."
 msgstr "Zprávy budou zobrazeny tak, že ty nejnovější budou dole."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:102
+#: C/mail-sorting-message-list.page:105
 msgid "Sort Descending"
 msgstr "Řadit sestupně"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:105
+#: C/mail-sorting-message-list.page:108
 msgid "Select the <gui>Sort Descending</gui> option."
 msgstr "Vyberte volbu <gui>Řadit sestupně</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:107
+#: C/mail-sorting-message-list.page:110
 msgid "The messages will be displayed with the most recent at the top."
 msgstr "Zprávy budou zobrazeny tak, že ty nejnovější budou nahoře."
 
 #. (itstool) path: section/title
-#: C/mail-sorting-message-list.page:111
+#: C/mail-sorting-message-list.page:114
 msgid "Reset sort"
 msgstr "Výchozí řazení"
 
 #. (itstool) path: item/p
-#: C/mail-sorting-message-list.page:114
+#: C/mail-sorting-message-list.page:117
 msgid "Select the <gui>Reset sort</gui> option."
 msgstr "Vyberte volbu <gui>Výchozí řazení</gui>."
 
 #. (itstool) path: section/p
-#: C/mail-sorting-message-list.page:116
+#: C/mail-sorting-message-list.page:119
 msgid ""
 "This removes sorting from the column, reverting to the order of messages as "
 "they were added to the folder."
@@ -14129,6 +14260,35 @@ msgstr "V dialogovém okně upravte název nebo podmínky hledání."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klikněte na <_:gui-1/>."
+
+#~ msgid ""
+#~ "Look in the <link xref=\"mail-spam\"><gui>Junk</gui> folder</link>. "
+#~ "Messages that are marked as Junk disappear from the original folder and "
+#~ "are moved to the <gui>Junk</gui> folder."
+#~ msgstr ""
+#~ "Podívejte se do <link xref=\"mail-spam\">složky <gui>Nevyžádané</gui></"
+#~ "link>. Zprávy, které se označí jako nevyžádané, zmizí z původní složky a "
+#~ "přesunou se do složky <gui>Nevyžádané</gui>."
+
+#~ msgid ""
+#~ "For Advanced Users: There is a GSettings key that allows you to toggle "
+#~ "between the collapsed and expanded state of the email threads. The "
+#~ "collapsed state is enabled by default. It can be changed by starting the "
+#~ "<app>Terminal</app> application and running the command <cmd>gsettings "
+#~ "set org.gnome.evolution.mail thread-expand true</cmd>"
+#~ msgstr ""
+#~ "Pro pokročilé uživatele: Existuje klíč GSettings, který určuje, jestli "
+#~ "mají být vlákna sbalená nebo rozbalená na jednotlivé zprávy. Výchozí "
+#~ "volbou jsou sbalená vlákna. Změnu můžete provést v aplikaci "
+#~ "<app>Terminál</app> spuštěním příkazu <cmd>gsettings set org.gnome."
+#~ "evolution.mail thread-expand true</cmd>"
+
+#~ msgid ""
+#~ "Run the command <cmd>gsettings set org.gnome.desktop.interface can-change-"
+#~ "accels true</cmd>"
+#~ msgstr ""
+#~ "Spusťte příkaz <cmd>gsettings set org.gnome.desktop.interface can-change-"
+#~ "accels true</cmd>"
 
 #~ msgid "Day (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
 #~ msgstr "Den (<keyseq><key>Ctrl</key><key>Y</key></keyseq>)"
