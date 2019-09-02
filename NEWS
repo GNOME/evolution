@@ -1,3 +1,38 @@
+Evolution 3.33.92 2019-09-02
+----------------------------
+
+Bug Fixes:
+	I#528 - Calendar's List View changes forgotten next run (Milan Crha)
+	I#551 - Enhance URL end recognition regarding closing bracket (Milan Crha)
+	I#562 - Mail message list sometimes doesn't scroll to cursor after regen (Milan Crha)
+	I#574 - Displays Tasks from just disabled Accounts (Milan Crha)
+	I#578 - ToDo bar: Multiday events shown incorrectly (Milan Crha)
+	I#583 - Sanitize \r\n\t in iCalendar component Summary (Milan Crha)
+	I#588 - Unneeded headers remain when filter forwards a message (Milan Crha)
+	I#592 - Typo in translatable string (Milan Crha)
+	I#593 - Display all phones in the contact preview (Milan Crha)
+	I#601 - Calendar: Force 24-hour format early after start (Milan Crha)
+
+Miscellaneous:
+	itip-formatter: Doesn't match attendee when an alias address is used (Milan Crha)
+	Flatpak: Hide Save All button in attachment bar (Milan Crha)
+	ECompEditor: Set window's urgency hint after error when not focused (Milan Crha)
+	Flatpak: Build also intltool (Milan Crha)
+
+Translations:
+	Kukuh Syafaat (id)
+	Daniel Mustieles (es)
+	Daniel Șerbănescu (ro)
+	Tim Sabsch (de)
+	Charles Monzat (fr)
+	Jordi Mas (ca)
+	Fran Dieguez (gl)
+	Anders Jonsson (sv)
+	Piotr Drąg (pl)
+	Changwoo Ryu (ko)
+	Aurimas Černius (lt)
+	Petr Kovář (cs)
+
 Evolution 3.33.91 2019-08-19
 ----------------------------
 
