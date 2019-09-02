@@ -717,10 +717,6 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	locale_supports_12_hour_format =
 		calendar_config_locale_supports_12_hour_format ();
 
-	/* Force 24 hour format for locales which don't support 12 hour format */
-	if (!locale_supports_12_hour_format)
-		g_settings_set_boolean (settings, "use-24hour-format", TRUE);
-
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
 	g_type_ensure (E_TYPE_DATE_EDIT);
@@ -835,8 +831,10 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 			widget, "use-24-hour-format",
 			G_SETTINGS_BIND_GET);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "use_12_hour");
+	widget = e_builder_get_widget (prefs->priv->builder, "hbox_time_format");
 	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
+
+	widget = e_builder_get_widget (prefs->priv->builder, "use_12_hour");
 	g_settings_bind (
 		settings, "use-24hour-format",
 		widget, "active",
@@ -844,7 +842,6 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
 	widget = e_builder_get_widget (prefs->priv->builder, "use_24_hour");
-	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
 	g_settings_bind (
 		settings, "use-24hour-format",
 		widget, "active",

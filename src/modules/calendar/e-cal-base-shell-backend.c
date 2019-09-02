@@ -23,6 +23,7 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include "calendar/gui/calendar-config.h"
 #include <calendar/gui/comp-util.h>
 #include <calendar/gui/e-comp-editor.h>
 
@@ -239,6 +240,18 @@ e_cal_base_shell_backend_class_init (ECalBaseShellBackendClass *class)
 
 	/* Register relevant ESource extensions. */
 	g_type_ensure (E_TYPE_SOURCE_CALENDAR);
+
+	/* Force 24 hour format for locales which don't support 12 hour format */
+	if (!calendar_config_locale_supports_12_hour_format ()) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+
+		if (!g_settings_get_boolean (settings, "use-24hour-format"))
+			g_settings_set_boolean (settings, "use-24hour-format", TRUE);
+
+		g_clear_object (&settings);
+	}
 }
 
 static void
