@@ -25,9 +25,12 @@
 <p>The first time you run <app>Evolution</app>, it opens the First-Run Assistant. It helps you set up email accounts and <link xref="import-data">import data from other applications.</link></p>
 
 <p>This assistant is not shown if there is an already configured e-mail account in <link xref="help:gnome-help/accounts"><app>Online accounts</app></link> as that account is automatically picked by <app>Evolution</app>. Not all options of such accounts can be edited in <app>Evolution</app> and such accounts can only be removed in <app>Online accounts</app> itself.</p>
-<include href="xinclude-mail-account-identity.xml"
- xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
- xmlns="https://www.w3.org/2001/XInclude"/>
+
+<section id="identity">
+<title>Identity</title>
+<p>Here you define your name and your email address.</p>
+<p>Optionally you can set a Reply-To email address (if you want replies to messages sent to a different address), set an organization (a company or organization you represent when you send email from this account), your default <link xref="mail-composer-mail-signatures">signature</link> for this account, and <link href="https://en.wikipedia.org/wiki/Email_alias">email aliases</link>.</p>
+</section>
 
 <section id="restore">
 <title>Restore from backup</title>

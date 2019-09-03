@@ -231,7 +231,6 @@ set(HELP_FILES
 	tasks-webdav.page
 	using-categories.page
 	xinclude-filter-vfolder-conditions.xml
-	xinclude-mail-account-identity.xml
 	xinclude-searching.xml
 )
 

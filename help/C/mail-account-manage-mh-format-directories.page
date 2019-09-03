@@ -25,11 +25,11 @@
 <p>Mail accounts can be edited via <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui style="button">Edit</gui></guiseq>.</p>
 <p>The following settings are available when editing an existing account:</p>
 
-<!-- As the "Identity" section is identical in all account pages, it is centrally in one file included 
-via XInclude. See +http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclude/ for how it works. -->
-<include href="xinclude-mail-account-identity.xml"
- xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
- xmlns="https://www.w3.org/2001/XInclude"/>
+<section id="identity">
+<title>Identity</title>
+<p>Here you define your name and your email address.</p>
+<p>Optionally you can set a Reply-To email address (if you want replies to messages sent to a different address), set an organization (a company or organization you represent when you send email from this account), your default <link xref="mail-composer-mail-signatures">signature</link> for this account, and <link href="https://en.wikipedia.org/wiki/Email_alias">email aliases</link>.</p>
+</section>
 
 <section id="receiving-email">
 <info>
