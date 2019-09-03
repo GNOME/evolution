@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2019-08-26 13:09+0000\n"
-"PO-Revision-Date: 2019-09-02 23:14+0200\n"
+"PO-Revision-Date: 2019-09-03 05:10+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <f.t.public@gmail.com>\n"
 "Language: fur\n"
@@ -959,10 +959,8 @@ msgstr ""
 "chel, inte viodude zornaliere, setemanâl lavorative, setemanâl o mensîl."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
-#, fuzzy
-#| msgid "Default reminder snooze interval, in minutes"
 msgid "User-defined reminder times, in minutes"
-msgstr "Interval predefinît che al postpon il promemorie, in minûts"
+msgstr "Timps dai pro memoria definîts dal utent, in minûts"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
@@ -2987,12 +2985,10 @@ msgid "Whether to delete processed iTip objects"
 msgstr "Indiche se eliminâ i ogjets iTip elaborâts"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:3
-#, fuzzy
 msgid "Preserve existing reminder by default"
-msgstr "Come predefinît, ten il pro memoria esistent"
+msgstr "Come impostazion predefinide, conserve il pro memoria esistent"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:4
-#, fuzzy
 msgid "Whether to preset option to preserve existing reminder by default"
 msgstr ""
 "Indiche se prestabilî la opzion che in maniere predefinide e permet di "
@@ -14183,10 +14179,8 @@ msgid "Link…"
 msgstr "Colegament…"
 
 #: ../src/e-util/e-html-editor-actions.c:1559
-#, fuzzy
-#| msgid "Pager"
 msgid "Page…"
-msgstr "Ciridôr/Bip"
+msgstr "Pagjine…"
 
 #: ../src/e-util/e-html-editor-actions.c:1566
 msgid "Paragraph…"
@@ -17707,40 +17701,32 @@ msgid "Edit a note for the selected message"
 msgstr "Modifiche une note pal messaç selezionât"
 
 #: ../src/mail/e-mail-reader.c:2468
-#, fuzzy
-#| msgid "Create a Filter Rule for Mailing _List..."
 msgid "Create a Filter Rule for Mailing _List…"
-msgstr "Cree une regule di filtri pe mailing _list..."
+msgstr "Cree une regule di filtri pe mailing _list…"
 
 #: ../src/mail/e-mail-reader.c:2470
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "Cree une regule par filtrâ i messaçs su cheste mailing list"
 
 #: ../src/mail/e-mail-reader.c:2475
-#, fuzzy
-#| msgid "Create a Filter Rule for _Recipients..."
 msgid "Create a Filter Rule for _Recipients…"
-msgstr "Cree une regule di filtri pai _destinataris..."
+msgstr "Cree une regule di filtri pai _destinataris…"
 
 #: ../src/mail/e-mail-reader.c:2477
 msgid "Create a rule to filter messages to these recipients"
 msgstr "Cree une regule par filtrâ i messaçs viers chescj destinataris"
 
 #: ../src/mail/e-mail-reader.c:2482
-#, fuzzy
-#| msgid "Create a Filter Rule for Se_nder..."
 msgid "Create a Filter Rule for Se_nder…"
-msgstr "Cree une regule di filtri pal _mitent..."
+msgstr "Cree une regule di filtri pal _mitent…"
 
 #: ../src/mail/e-mail-reader.c:2484
 msgid "Create a rule to filter messages from this sender"
 msgstr "Cree une regule par filtrâ i messaçs che a rivin di chest mitent"
 
 #: ../src/mail/e-mail-reader.c:2489
-#, fuzzy
-#| msgid "Create a Filter Rule for _Subject..."
 msgid "Create a Filter Rule for _Subject…"
-msgstr "Cree une regule di filtri pal _Ogjet..."
+msgstr "Cree une regule di filtri pal _Ogjet…"
 
 #: ../src/mail/e-mail-reader.c:2491
 msgid "Create a rule to filter messages with this subject"
@@ -18183,40 +18169,32 @@ msgid "_Zoom"
 msgstr "In_grandiment"
 
 #: ../src/mail/e-mail-reader.c:2937
-#, fuzzy
-#| msgid "Create a Search Folder from Mailing _List..."
 msgid "Create a Search Folder from Mailing _List…"
-msgstr "Cree une cartele di ricercje pe mailing _list..."
+msgstr "Cree une cartele di ricercje pe mailing _list…"
 
 #: ../src/mail/e-mail-reader.c:2939
 msgid "Create a search folder for this mailing list"
 msgstr "Cree une cartele di ricercje par cheste mailing list"
 
 #: ../src/mail/e-mail-reader.c:2944
-#, fuzzy
-#| msgid "Create a Search Folder from Recipien_ts..."
 msgid "Create a Search Folder from Recipien_ts…"
-msgstr "Cree une cartele di ricercje dai destina_taris..."
+msgstr "Cree une cartele di ricercje dai destina_taris…"
 
 #: ../src/mail/e-mail-reader.c:2946
 msgid "Create a search folder for these recipients"
 msgstr "Cree une cartele di ricercje par chescj destinataris"
 
 #: ../src/mail/e-mail-reader.c:2951
-#, fuzzy
-#| msgid "Create a Search Folder from Sen_der..."
 msgid "Create a Search Folder from Sen_der…"
-msgstr "Cree une cartele di ricercje dal m_itent..."
+msgstr "Cree une cartele di ricercje dal m_itent…"
 
 #: ../src/mail/e-mail-reader.c:2953
 msgid "Create a search folder for this sender"
 msgstr "Cree une cartele di ricercje par chest mitent"
 
 #: ../src/mail/e-mail-reader.c:2958
-#, fuzzy
-#| msgid "Create a Search Folder from S_ubject..."
 msgid "Create a Search Folder from S_ubject…"
-msgstr "Cree une cartele di ricercje dal _ogjet..."
+msgstr "Cree une cartele di ricercje dal _ogjet…"
 
 #: ../src/mail/e-mail-reader.c:2960
 msgid "Create a search folder for this subject"
@@ -18467,10 +18445,8 @@ msgstr[1] ""
 #. This message is never removed from the camel operation, otherwise the GtkInfoBar
 #. hides itself and the user sees no feedback.
 #: ../src/mail/em-composer-utils.c:829
-#, fuzzy
-#| msgid "Waiting for attachments to load..."
 msgid "Waiting for attachments to load…"
-msgstr "In spiete de zonte di cjariâ..."
+msgstr "In spiete de zonte di cjariâ…"
 
 #. Note to translators: this is the attribution string used
 #. * when quoting messages.  Each ${Variable} gets replaced
@@ -21512,10 +21488,8 @@ msgid "View the current contact"
 msgstr "Mostre il contat atuâl"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
-#, fuzzy
-#| msgid "_Send Message to Contact"
 msgid "_Send Message to Contact…"
-msgstr "Invie _messaç al contat"
+msgstr "Invie _messaç al contat…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1150
 msgid "Send a message to the selected contacts"
@@ -22307,9 +22281,8 @@ msgid "_Delete message after acting"
 msgstr "Eliminâ il messaç _dopo la azion"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:645
-#, fuzzy
 msgid "_Preserve existing reminder by default"
-msgstr "Come predefinît, ten il pro memoria esistent"
+msgstr "Come impostazion predefinide, _conserve il pro memoria esistent"
 
 #: ../src/modules/calendar/e-calendar-preferences.c:659
 #: ../src/modules/calendar/e-calendar-preferences.c:690
@@ -22884,10 +22857,8 @@ msgid "Converts an appointment to a meeting"
 msgstr "Al convertìs un apontament intune riunion"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1466
-#, fuzzy
-#| msgid "Conv_ert to Appointment..."
 msgid "Conv_ert to Appointment…"
-msgstr "Conv_ertìs in apontament..."
+msgstr "Conv_ertìs in apontament…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1468
 msgid "Converts a meeting to an appointment"
@@ -24671,10 +24642,8 @@ msgid "Fl_ush Outbox"
 msgstr "Invie pueste «In jessude»"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1621
-#, fuzzy
-#| msgid "Copy Folder To"
 msgid "_Copy Folder To…"
-msgstr "Copie cartele su"
+msgstr "_Copie cartele su…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1623
 msgid "Copy the selected folder into another folder"
@@ -24711,10 +24680,8 @@ msgid "Mark all messages in the folder as read"
 msgstr "Segne come lets ducj i messaçs inte cartele"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1656
-#, fuzzy
-#| msgid "Move Folder To"
 msgid "_Move Folder To…"
-msgstr "Sposte cartele su"
+msgstr "_Sposte cartele su…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1658
 msgid "Move the selected folder into another folder"
@@ -24722,10 +24689,8 @@ msgstr "Sposte la cartele selezionade intune altre cartele"
 
 #. Translators: An action caption to create a new mail folder
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1664
-#, fuzzy
-#| msgid "_New"
 msgid "_New…"
-msgstr "_Gnûf"
+msgstr "_Gnûf…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1666
 msgid "Create a new folder for storing mail"
@@ -24838,20 +24803,16 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "Cree o modifiche lis regulis par filtrâ lis gnovis mail"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1818
-#, fuzzy
-#| msgid "_Subscriptions..."
 msgid "_Subscriptions…"
-msgstr "_Sotscrizions..."
+msgstr "_Sotscrizions…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1827
 msgid "F_older"
 msgstr "Car_telis"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1844
-#, fuzzy
-#| msgid "C_reate Search Folder From Search..."
 msgid "C_reate Search Folder From Search…"
-msgstr "Cu la ricercje _cree cartele di ricercje..."
+msgstr "Cu la ricercje c_ree cartele di ricercje…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1851
 msgid "Search F_olders"
@@ -24862,10 +24823,8 @@ msgid "Create or edit search folder definitions"
 msgstr "Cree o modifiche definizions des cartelis di ricercje"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1896
-#, fuzzy
-#| msgid "_New Folder..."
 msgid "_New Folder…"
-msgstr "_Gnove cartele..."
+msgstr "_Gnove cartele…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1924
 msgid "Show Message _Preview"
@@ -25402,16 +25361,12 @@ msgid "Alternatively, you can %s (email, contacts and calendaring) instead."
 msgstr "In alternative se no si pues %s (e-mail, contats e calendari)."
 
 #: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
-#, fuzzy
-#| msgid "Loading accounts..."
 msgid "Loading accounts…"
-msgstr "Daûr a cjariâ i account..."
+msgstr "Daûr a cjariâ i account…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:93
-#, fuzzy
-#| msgid "_Format as..."
 msgid "_Format as…"
-msgstr "_Formate come..."
+msgstr "_Formate come…"
 
 #: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:101
 msgid "_Other languages"
@@ -26743,26 +26698,20 @@ msgid "Save as Template"
 msgstr "Salve come model"
 
 #: ../src/shell/e-shell.c:379
-#, fuzzy
-#| msgid "Preparing to go offline..."
 msgid "Preparing to go offline…"
-msgstr "Preparazion par lâ fûr rêt..."
+msgstr "Preparazion par lâ fûr rêt…"
 
 #: ../src/shell/e-shell.c:408
-#, fuzzy
-#| msgid "Preparing to go online..."
 msgid "Preparing to go online…"
-msgstr "Preparazion par lâ in rêt..."
+msgstr "Preparazion par lâ in rêt…"
 
 #: ../src/shell/e-shell.c:519
 msgid "Preparing to quit"
 msgstr "Preparazion ae jessude"
 
 #: ../src/shell/e-shell.c:525
-#, fuzzy
-#| msgid "Preparing to quit"
 msgid "Preparing to quit…"
-msgstr "Preparazion ae jessude"
+msgstr "Preparazion ae jessude…"
 
 #: ../src/shell/e-shell.c:1088
 msgid "Open _Settings"
@@ -26881,10 +26830,8 @@ msgid "Open the Evolution User Guide"
 msgstr "Vierç la vuide pal utent di Evolution"
 
 #: ../src/shell/e-shell-window-actions.c:884
-#, fuzzy
-#| msgid "I_mport"
 msgid "I_mport…"
-msgstr "I_mpuarte"
+msgstr "I_mpuarte…"
 
 #: ../src/shell/e-shell-window-actions.c:886
 msgid "Import data from other programs"
@@ -26907,10 +26854,8 @@ msgid "Exit the program"
 msgstr "Jes dal program"
 
 #: ../src/shell/e-shell-window-actions.c:926
-#, fuzzy
-#| msgid "Advanced Search"
 msgid "_Advanced Search…"
-msgstr "Ricercje avanzade"
+msgstr "Ricercje _avanzade…"
 
 #: ../src/shell/e-shell-window-actions.c:928
 msgid "Construct a more advanced search"
@@ -26921,10 +26866,8 @@ msgid "Clear the current search parameters"
 msgstr "Nete i parametris atuâi di ricercje"
 
 #: ../src/shell/e-shell-window-actions.c:940
-#, fuzzy
-#| msgid "_Edit Saved Searches..."
 msgid "_Edit Saved Searches…"
-msgstr "Modifiche ric_ercjis salvadis..."
+msgstr "Modifiche ric_ercjis salvadis…"
 
 #: ../src/shell/e-shell-window-actions.c:942
 msgid "Manage your saved searches"
@@ -26943,10 +26886,8 @@ msgid "Execute the current search parameters"
 msgstr "Eseguìs i parametris di ricercje atuâi"
 
 #: ../src/shell/e-shell-window-actions.c:961
-#, fuzzy
-#| msgid "Save Search"
 msgid "_Save Search…"
-msgstr "Salve ricercje"
+msgstr "_Salve ricercje…"
 
 #: ../src/shell/e-shell-window-actions.c:963
 msgid "Save the current search parameters"
@@ -26961,10 +26902,8 @@ msgid "Show keyboard shortcuts"
 msgstr "Mostre scurtis di tastiere"
 
 #: ../src/shell/e-shell-window-actions.c:982
-#, fuzzy
-#| msgid "Submit _Bug Report..."
 msgid "Submit _Bug Report…"
-msgstr "Invie segnalazion di _erôr..."
+msgstr "Invie segnalazion di _erôr…"
 
 #: ../src/shell/e-shell-window-actions.c:984
 msgid "Submit a bug report using Bug Buddy"
@@ -27086,10 +27025,8 @@ msgid "Delete Current View"
 msgstr "Elimine viodude atuâl"
 
 #: ../src/shell/e-shell-window-actions.c:1185
-#, fuzzy
-#| msgid "Save Custom View..."
 msgid "Save Custom View…"
-msgstr "Salve viodude personalizade..."
+msgstr "Salve viodude personalizade…"
 
 #: ../src/shell/e-shell-window-actions.c:1187
 msgid "Save current custom view"
@@ -27108,10 +27045,8 @@ msgid "Current view is a customized view"
 msgstr "La viodude curint e je une viodude personalizade"
 
 #: ../src/shell/e-shell-window-actions.c:1214
-#, fuzzy
-#| msgid "Page Set_up..."
 msgid "Page Set_up…"
-msgstr "Imposta_zion pagjine..."
+msgstr "Imposta_zion pagjine…"
 
 #: ../src/shell/e-shell-window-actions.c:1216
 msgid "Change the page settings for your current printer"
@@ -27504,10 +27439,8 @@ msgid "Email Address"
 msgstr "Direzion e-mail"
 
 #: ../src/smime/gui/certificate-manager.c:648
-#, fuzzy
-#| msgid "Select a file to backup your key and certificate..."
 msgid "Select a file to backup your key and certificate…"
-msgstr "Selezione un file par fâ il backup de clâf e dal certificât..."
+msgstr "Selezione un file par fâ il backup de clâf e dal certificât…"
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
@@ -27530,10 +27463,8 @@ msgstr "Non _file:"
 
 #. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
 #: ../src/smime/gui/certificate-manager.c:741
-#, fuzzy
-#| msgid "Please select a file..."
 msgid "Please select a file…"
-msgstr "Selezionâ un file..."
+msgstr "Selezionâ un file…"
 
 #: ../src/smime/gui/certificate-manager.c:755
 msgid "_Include certificate chain in the backup"
@@ -27580,10 +27511,8 @@ msgid "Failed to backup key and certificate"
 msgstr "No si è rivâts a fâ il backup di clâf e certificât"
 
 #: ../src/smime/gui/certificate-manager.c:948
-#, fuzzy
-#| msgid "Select a certificate to import..."
 msgid "Select a certificate to import…"
-msgstr "Selezionâ un certificât di impuartâ..."
+msgstr "Selezione un certificât di impuartâ…"
 
 #: ../src/smime/gui/certificate-manager.c:997
 msgid "Failed to import certificate"
