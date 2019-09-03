@@ -6447,8 +6447,8 @@ msgid ""
 "sure all messages are visible."
 msgstr ""
 "Klikněte na <guiseq><gui>Zobrazit</gui><gui>Zobrazit smazané zprávy</gui></"
-"guiseq> a <guiseq><gui>Zobrazit</gui><gui>Zobrazit nevyžádané zprávy</"
-"guiseq></gui>, abyste měli jistotu, že jsou vidět všechny zprávy."
+"guiseq> a <guiseq><gui>Zobrazit</gui><gui>Zobrazit nevyžádané zprávy</gui>"
+"</guiseq>, abyste měli jistotu, že jsou vidět všechny zprávy."
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:36
