@@ -61,5 +61,10 @@ http://blogs.gnome.org/shaunm/2011/07/21/understanding-xinclude/ for how it work
   xpointer="xmlns(mal=http://projectmallard.org/1.0/)xpointer(/mal:info/mal:section)"
   xmlns="http://www.w3.org/2001/XInclude"/>
 
-</section> 
+<section id="server-side-search">
+<title>Server-Side Search</title>
+<p>Evolution automatically runs expensive searches on the server side if the server advertises support for server-side searches (e.g., with IMAP4). When doing a search on downloaded email headers (e.g., recipients, subject), the search will be run locally. When doing a expensive search on the other hand (e.g., searching for body contents), the search will preferably be run on the server side.</p>
+</section>
+
+</section>
 </page>
