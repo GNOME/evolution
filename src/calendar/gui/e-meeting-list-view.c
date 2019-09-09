@@ -619,9 +619,8 @@ build_table (EMeetingListView *lview)
 
 	renderer = e_select_names_renderer_new (client_cache);
 	g_object_set (renderer, "editable", TRUE, NULL);
-	/* The extra space is just a hack to occupy more space for Attendee */
 	pos = gtk_tree_view_insert_column_with_attributes (
-		view, -1, _("Attendee                          "), renderer,
+		view, -1, _("Attendee"), renderer,
 		"text", E_MEETING_STORE_ATTENDEE_COL,
 		"name", E_MEETING_STORE_CN_COL,
 		"email", E_MEETING_STORE_ADDRESS_COL,
