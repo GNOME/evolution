@@ -786,7 +786,7 @@ action_mail_forward_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	window = e_mail_reader_get_window (reader);
-	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len)) {
@@ -838,7 +838,7 @@ action_mail_forward_inline_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	window = e_mail_reader_get_window (reader);
-	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len)) {
@@ -864,7 +864,7 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	GPtrArray *uids;
 
 	window = e_mail_reader_get_window (reader);
-	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
 
 	if (em_utils_ask_open_many (window, uids->len)) {
@@ -3960,6 +3960,15 @@ mail_reader_folder_loaded (EMailReader *reader)
 }
 
 static void
+mail_reader_message_list_suggest_update_actions_cb (EMailReader *reader)
+{
+	guint32 state;
+
+	state = e_mail_reader_check_state (reader);
+	e_mail_reader_update_actions (reader, state);
+}
+
+static void
 set_mail_display_part_list (GObject *object,
                             GAsyncResult *result,
                             gpointer user_data)
@@ -5240,6 +5249,10 @@ connect_signals:
 		message_list, "message-selected",
 		G_CALLBACK (mail_reader_message_selected_cb), reader);
 
+	g_signal_connect_swapped (
+		message_list, "update-actions",
+		G_CALLBACK (mail_reader_message_list_suggest_update_actions_cb), reader);
+
 	/* re-schedule mark-as-seen,... */
 	g_signal_connect_swapped (
 		message_list, "cursor-change",
@@ -5554,6 +5567,19 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_SELECTION_HAS_MAIL_NOTE;
 	if (has_color)
 		state |= E_MAIL_READER_SELECTION_HAS_COLOR;
+
+	if (!(state & E_MAIL_READER_SELECTION_SINGLE)) {
+		GPtrArray *real_selected_uids;
+
+		real_selected_uids = e_mail_reader_get_selected_uids (reader);
+
+		if (real_selected_uids && real_selected_uids->len == 1) {
+			state |= E_MAIL_READER_SELECTION_SINGLE;
+		}
+
+		if (real_selected_uids)
+			g_ptr_array_unref (real_selected_uids);
+	}
 
 	g_clear_object (&folder);
 	g_ptr_array_unref (uids);

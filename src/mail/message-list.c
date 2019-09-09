@@ -132,6 +132,8 @@ struct _MessageListPrivate {
 
 	GdkRGBA *new_mail_bg_color;
 	gchar *new_mail_fg_color;
+
+	guint update_actions_idle_id;
 };
 
 /* XXX Plain GNode suffers from O(N) tail insertions, and that won't
@@ -300,6 +302,7 @@ static void	clear_info			(gchar *key,
 enum {
 	MESSAGE_SELECTED,
 	MESSAGE_LIST_BUILT,
+	UPDATE_ACTIONS,
 	LAST_SIGNAL
 };
 
@@ -2850,12 +2853,48 @@ ml_tree_drag_motion (ETree *tree,
 	return action != 0;
 }
 
+static gboolean
+message_list_update_actions_idle_cb (gpointer user_data)
+{
+	GWeakRef *weak_ref = user_data;
+	MessageList *message_list;
+
+	g_return_val_if_fail (weak_ref != NULL, FALSE);
+
+	message_list = g_weak_ref_get (weak_ref);
+	if (message_list) {
+		message_list->priv->update_actions_idle_id = 0;
+
+		if (!message_list->priv->destroyed)
+			g_signal_emit (message_list, signals[UPDATE_ACTIONS], 0, NULL);
+
+		g_object_unref (message_list);
+	}
+
+	return FALSE;
+}
+
+static void
+message_list_schedule_update_actions (MessageList *message_list)
+{
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	if (!message_list->priv->update_actions_idle_id) {
+		message_list->priv->update_actions_idle_id =
+			g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, message_list_update_actions_idle_cb,
+				e_weak_ref_new (message_list), (GDestroyNotify) e_weak_ref_free);
+	}
+}
+
 static void
 on_model_row_changed (ETableModel *model,
                       gint row,
                       MessageList *message_list)
 {
 	message_list->priv->any_row_changed = TRUE;
+
+	if (e_selection_model_is_row_selected (e_tree_get_selection_model (E_TREE (message_list)), row))
+		message_list_schedule_update_actions (message_list);
 }
 
 static gboolean
@@ -3202,6 +3241,11 @@ message_list_dispose (GObject *object)
 	if (message_list->seen_id > 0) {
 		g_source_remove (message_list->seen_id);
 		message_list->seen_id = 0;
+	}
+
+	if (priv->update_actions_idle_id) {
+		g_source_remove (priv->update_actions_idle_id);
+		priv->update_actions_idle_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -3880,6 +3924,16 @@ message_list_class_init (MessageListClass *class)
 		MESSAGE_LIST_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (MessageListClass, message_list_built),
+		NULL,
+		NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[UPDATE_ACTIONS] = g_signal_new (
+		"update-actions",
+		MESSAGE_LIST_TYPE,
+		G_SIGNAL_RUN_LAST,
+		0, /* G_STRUCT_OFFSET (MessageListClass, update_actions), */
 		NULL,
 		NULL,
 		g_cclosure_marshal_VOID__VOID,
