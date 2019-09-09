@@ -1,3 +1,24 @@
+Evolution 3.34.0 2019-09-09
+---------------------------
+
+Miscellaneous:
+	help: Fix broken markup in cs help translation (Andre Klapper)
+	help: Remove XInclude for Account settings' \"Identity\" section (Andre Klapper)
+	help: Cover server-side search behavior for remote accounts (Andre Klapper)
+	help: Remove unproven statement about search speed (Andre Klapper)
+
+Translations:
+	Fabio Tomat (fur)
+	Ask Hjorth Larsen (da)
+	Efstathios Iosifidis (el)
+	Gianvito Cavasoli (it)
+	Jiri Grönroos (fi)
+	Emin Tufan Çetin (tr)
+	Rafael Fontenelle (pt_BR)
+	Balázs Úr (hu)
+	Gábor Kelemen (hu)
+	Anders Jonsson (sv)
+
 Evolution 3.33.92 2019-09-02
 ----------------------------
 

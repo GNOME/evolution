@@ -1,13 +1,13 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "3.30",
+	"runtime-version": "3.32",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "gnome-3-32",
-	"desktop-file-name-suffix": " (3.32)",
+	"branch": "gnome-3-34",
+	"desktop-file-name-suffix": " (3.34)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
@@ -39,19 +39,34 @@
 	],
 	"modules": [
 		{
+			"name": "intltool",
+			"cleanup": [ "*" ],
+			"sources": [
+				{
+					"type": "archive",
+					"url": "https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz",
+					"sha256": "67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd"
+				}
+			]
+		},
+
+		{
 			"name": "libical",
 			"cleanup": [ "/lib/cmake" ],
 			"buildsystem": "cmake-ninja",
 			"config-opts": [
 				"-DCMAKE_INSTALL_LIBDIR:PATH=/app/lib",
 				"-DBUILD_SHARED_LIBS:BOOL=ON",
-				"-DGOBJECT_INTROSPECTION:BOOL=OFF"
+				"-DGOBJECT_INTROSPECTION:BOOL=OFF",
+				"-DICAL_BUILD_DOCS:BOOL=OFF",
+				"-DICAL_GLIB_VAPI:BOOL=OFF",
+				"-DICAL_GLIB:BOOL=ON"
 			],
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://github.com/libical/libical/releases/download/v3.0.4/libical-3.0.4.tar.gz",
-					"sha256": "72b216e10233c3f60cb06062facf41f3b0f70615e5a60b47f9853341a0d5d145"
+					"url": "https://github.com/libical/libical/releases/download/v3.0.5/libical-3.0.5.tar.gz",
+					"sha256": "7ad550c8c49c9b9983658e3ab3e68b1eee2439ec17b169a6b1e6ecb5274e78e6"
 				}
 			]
 		},
@@ -201,13 +216,13 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "gnome-3-32"
+					"branch": "gnome-3-34"
 				}
 			]
 		},
 
 		{
-			"name": "gtkspell3",
+			"name": "gspell",
 			"config-opts": [
 				"--disable-gtk-doc",
 				"--disable-introspection",
@@ -217,8 +232,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://downloads.sourceforge.net/project/gtkspell/3.0.10/gtkspell3-3.0.10.tar.xz",
-					"sha256": "b040f63836b347eb344f5542443dc254621805072f7141d49c067ecb5a375732"
+					"url": "https://download.gnome.org/sources/gspell/1.8/gspell-1.8.1.tar.xz",
+					"sha256": "819a1d23c7603000e73f5e738bdd284342e0cd345fb0c7650999c31ec741bbe5"
 				}
 			]
 		},
@@ -285,7 +300,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "gnome-3-32"
+					"branch": "gnome-3-34"
 				},
 				{
 					"type": "shell",
@@ -373,7 +388,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
-					"branch": "gnome-3-32"
+					"branch": "gnome-3-34"
 				}
 			]
 		}
