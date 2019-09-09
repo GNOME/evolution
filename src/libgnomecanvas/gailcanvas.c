@@ -102,14 +102,14 @@ gail_canvas_real_initialize (AtkObject *obj,
 	canvas = GNOME_CANVAS (data);
 
 	adj = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas));
-	g_signal_connect (
+	g_signal_connect_object (
 		adj, "value_changed",
-		G_CALLBACK (adjustment_changed), canvas);
+		G_CALLBACK (adjustment_changed), canvas, 0);
 
 	adj = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas));
-	g_signal_connect (
+	g_signal_connect_object (
 		adj, "value_changed",
-		G_CALLBACK (adjustment_changed), canvas);
+		G_CALLBACK (adjustment_changed), canvas, 0);
 
 	obj->role = ATK_ROLE_LAYERED_PANE;
 }
