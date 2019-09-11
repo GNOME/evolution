@@ -47,16 +47,22 @@ do_cleanup (void)
 static void
 calendar_config_init (void)
 {
+	EShell *shell;
+
 	if (config)
 		return;
 
 	config = e_util_ref_settings ("org.gnome.evolution.calendar");
 
-	/* will be freed together with EShell */
-	g_object_set_data_full (
-		G_OBJECT (e_shell_get_default ()),
-		"calendar-config-config-cleanup", (gpointer) "1",
-		(GDestroyNotify) do_cleanup);
+	shell = e_shell_get_default ();
+
+	if (shell) {
+		/* will be freed together with EShell, or will leak */
+		g_object_set_data_full (
+			G_OBJECT (shell),
+			"calendar-config-config-cleanup", (gpointer) "1",
+			(GDestroyNotify) do_cleanup);
+	}
 }
 
 void
