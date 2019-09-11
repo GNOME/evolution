@@ -385,15 +385,12 @@ contact_display_link_clicked (EWebView *web_view,
 }
 
 static void
-contact_display_load_changed (WebKitWebView *web_view,
-                              WebKitLoadEvent load_event,
-                              gpointer user_data)
+contact_display_notify_web_extension_proxy_cb (GObject *web_view,
+					       GParamSpec *param,
+					       gpointer user_data)
 {
 	GDBusProxy *web_extension;
 	GVariant* result;
-
-	if (load_event != WEBKIT_LOAD_FINISHED)
-		return;
 
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
 	if (web_extension) {
@@ -402,7 +399,7 @@ contact_display_load_changed (WebKitWebView *web_view,
 				"EABContactFormatterBindDOM",
 				g_variant_new (
 					"(t)",
-					webkit_web_view_get_page_id (web_view)),
+					webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view))),
 				NULL);
 
 		if (result)
@@ -535,8 +532,8 @@ eab_contact_display_init (EABContactDisplay *display)
 		G_CALLBACK (contact_display_web_process_crashed_cb), NULL);
 
 	g_signal_connect (
-		web_view, "load-changed",
-		G_CALLBACK (contact_display_load_changed), NULL);
+		web_view, "notify::web-extension-proxy",
+		G_CALLBACK (contact_display_notify_web_extension_proxy_cb), NULL);
 	g_signal_connect (
 		web_view, "style-updated",
 		G_CALLBACK (load_contact), NULL);

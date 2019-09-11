@@ -230,6 +230,71 @@ display_mode_toggle_cb (GDBusConnection *connection,
 }
 
 static void
+mail_part_vcard_set_web_extension_proxy (EMailPartVCard *part,
+					 GDBusProxy *proxy)
+{
+	g_return_if_fail (E_IS_MAIL_PART_VCARD (part));
+
+	if (part->priv->web_extension) {
+		GDBusConnection *connection;
+
+		connection = g_dbus_proxy_get_connection (part->priv->web_extension);
+
+		if (connection && g_dbus_connection_is_closed (connection))
+			connection = NULL;
+
+		if (connection && part->priv->display_mode_toggled_signal_id)
+			g_dbus_connection_signal_unsubscribe (connection, part->priv->display_mode_toggled_signal_id);
+		part->priv->display_mode_toggled_signal_id = 0;
+
+		if (connection && part->priv->save_vcard_button_pressed_signal_id)
+			g_dbus_connection_signal_unsubscribe (connection, part->priv->save_vcard_button_pressed_signal_id);
+		part->priv->save_vcard_button_pressed_signal_id = 0;
+
+		g_clear_object (&part->priv->web_extension);
+	}
+
+	if (proxy) {
+		GDBusConnection *connection;
+
+		part->priv->web_extension = g_object_ref (proxy);
+
+		connection = g_dbus_proxy_get_connection (proxy);
+
+		if (connection && g_dbus_connection_is_closed (connection))
+			connection = NULL;
+
+		if (connection) {
+			part->priv->display_mode_toggled_signal_id =
+				g_dbus_connection_signal_subscribe (
+					connection,
+					g_dbus_proxy_get_name (proxy),
+					g_dbus_proxy_get_interface_name (proxy),
+					"VCardInlineDisplayModeToggled",
+					g_dbus_proxy_get_object_path (proxy),
+					NULL,
+					G_DBUS_SIGNAL_FLAGS_NONE,
+					(GDBusSignalCallback) display_mode_toggle_cb,
+					part,
+					NULL);
+
+			part->priv->save_vcard_button_pressed_signal_id =
+				g_dbus_connection_signal_subscribe (
+					connection,
+					g_dbus_proxy_get_name (proxy),
+					g_dbus_proxy_get_interface_name (proxy),
+					"VCardInlineSaveButtonPressed",
+					g_dbus_proxy_get_object_path (proxy),
+					NULL,
+					G_DBUS_SIGNAL_FLAGS_NONE,
+					(GDBusSignalCallback) save_vcard_cb,
+					part,
+					NULL);
+		}
+	}
+}
+
+static void
 mail_part_vcard_dispose (GObject *object)
 {
 	EMailPartVCard *part = E_MAIL_PART_VCARD (object);
@@ -239,21 +304,7 @@ mail_part_vcard_dispose (GObject *object)
 	g_clear_object (&part->formatter);
 	g_clear_object (&part->folder);
 
-	if (part->priv->display_mode_toggled_signal_id > 0) {
-		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (part->priv->web_extension),
-			part->priv->display_mode_toggled_signal_id);
-		part->priv->display_mode_toggled_signal_id = 0;
-	}
-
-	if (part->priv->save_vcard_button_pressed_signal_id > 0) {
-		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (part->priv->web_extension),
-			part->priv->save_vcard_button_pressed_signal_id);
-		part->priv->save_vcard_button_pressed_signal_id = 0;
-	}
-
-	g_clear_object (&part->priv->web_extension);
+	mail_part_vcard_set_web_extension_proxy (part, NULL);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_part_vcard_parent_class)->dispose (object);
@@ -313,35 +364,9 @@ mail_part_vcard_bind_dom_element (EMailPart *part,
 		return;
 
 	vcard_part = E_MAIL_PART_VCARD (part);
-
-	vcard_part->priv->web_extension = g_object_ref (web_extension);
 	vcard_part->priv->page_id = page_id;
 
-	vcard_part->priv->display_mode_toggled_signal_id =
-		g_dbus_connection_signal_subscribe (
-			g_dbus_proxy_get_connection (web_extension),
-			g_dbus_proxy_get_name (web_extension),
-			g_dbus_proxy_get_interface_name (web_extension),
-			"VCardInlineDisplayModeToggled",
-			g_dbus_proxy_get_object_path (web_extension),
-			NULL,
-			G_DBUS_SIGNAL_FLAGS_NONE,
-			(GDBusSignalCallback) display_mode_toggle_cb,
-			vcard_part,
-			NULL);
-
-	vcard_part->priv->save_vcard_button_pressed_signal_id =
-		g_dbus_connection_signal_subscribe (
-			g_dbus_proxy_get_connection (web_extension),
-			g_dbus_proxy_get_name (web_extension),
-			g_dbus_proxy_get_interface_name (web_extension),
-			"VCardInlineSaveButtonPressed",
-			g_dbus_proxy_get_object_path (web_extension),
-			NULL,
-			G_DBUS_SIGNAL_FLAGS_NONE,
-			(GDBusSignalCallback) save_vcard_cb,
-			vcard_part,
-			NULL);
+	mail_part_vcard_set_web_extension_proxy (vcard_part, web_extension);
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
 		web_extension,

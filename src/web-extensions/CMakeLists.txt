@@ -45,12 +45,14 @@ install(TARGETS edomutils
 )
 
 set(SOURCES
-	e-web-extension.h
-	e-web-extension-names.h
 	e-dom-utils.h
+	e-dom-utils.c
+	e-itip-formatter-dom-utils.h
+	e-itip-formatter-dom-utils.c
+	e-web-extension.h
 	e-web-extension.c
 	e-web-extension-main.c
-	e-dom-utils.c
+	e-web-extension-names.h
 )
 
 add_library(ewebextension MODULE

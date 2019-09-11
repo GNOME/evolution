@@ -269,6 +269,7 @@ set(SOURCES
 	e-url-entry.c
 	e-util-private.h
 	e-webdav-browser.c
+	e-web-extension-container.c
 	e-web-view-preview.c
 	e-web-view.c
 	e-widget-undo.c
@@ -541,6 +542,7 @@ set(HEADERS
 	e-url-entry.h
 	e-util-enums.h
 	e-webdav-browser.h
+	e-web-extension-container.h
 	e-web-view-preview.h
 	e-web-view.h
 	e-widget-undo.h

@@ -75,9 +75,9 @@ struct _EWebKitEditorPrivate {
 	gpointer initialized_user_data;
 
 	GCancellable *cancellable;
-	GDBusProxy *web_extension;
-	GDBusConnection *dbus_connection;
-	guint web_extension_watch_name_id;
+	EWebExtensionContainer *container;
+	GDBusProxy *web_extension_proxy;
+	gint stamp; /* Changed only in the main thread, doesn't need locking */
 	guint web_extension_selection_changed_cb_id;
 	guint web_extension_content_changed_cb_id;
 	guint web_extension_undo_redo_state_changed_cb_id;
@@ -166,6 +166,7 @@ typedef struct {
 	GDestroyNotify data_free_func;
 } PostReloadOperation;
 
+static void e_webkit_editor_set_web_extension_proxy (EWebKitEditor *wk_editor, GDBusProxy *proxy);
 static void e_webkit_editor_content_editor_init (EContentEditorInterface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
@@ -510,19 +511,11 @@ web_extension_user_changed_default_colors_cb (GDBusConnection *connection,
 		g_variant_get (parameters, "(b)", &wk_editor->priv->suppress_color_changes);
 }
 
-static gchar *
-webkit_editor_create_service_name_for_web_context (WebKitWebContext *web_context)
-{
-	g_warn_if_fail (WEBKIT_IS_WEB_CONTEXT (web_context));
-
-	return g_strdup_printf ("%s.WC%p", E_WEBKIT_EDITOR_WEB_EXTENSION_SERVICE_NAME_PREFIX, web_context);
-}
-
 static void
 dispatch_pending_operations (EWebKitEditor *wk_editor)
 {
 	if (wk_editor->priv->webkit_load_event != WEBKIT_LOAD_FINISHED ||
-	    !wk_editor->priv->web_extension)
+	    !wk_editor->priv->web_extension_proxy)
 		return;
 
 	/* Dispatch queued operations - as we are using this just for load
@@ -551,46 +544,95 @@ dispatch_pending_operations (EWebKitEditor *wk_editor)
 }
 
 static void
-web_extension_proxy_created_cb (GDBusProxy *proxy,
-                                GAsyncResult *result,
-                                GWeakRef *wk_editor_rf)
+e_webkit_editor_page_proxy_changed_cb (EWebExtensionContainer *container,
+				       guint64 page_id,
+				       gint stamp,
+				       GDBusProxy *proxy,
+				       gpointer user_data)
 {
-	EWebKitEditor *wk_editor;
-	GError *error = NULL;
+	EWebKitEditor *wk_editor = user_data;
 
-	wk_editor = g_weak_ref_get (wk_editor_rf);
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	if (!wk_editor) {
-		e_weak_ref_free (wk_editor_rf);
-		return;
+	if (stamp == wk_editor->priv->stamp &&
+	    page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor))) {
+		e_webkit_editor_set_web_extension_proxy (wk_editor, proxy);
+
+		if (proxy) {
+			dispatch_pending_operations (wk_editor);
+
+			if (wk_editor->priv->emit_load_finished_when_extension_is_ready) {
+				e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
+
+				wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
+			}
+
+			g_object_notify (G_OBJECT (wk_editor), "web-extension");
+
+			if (wk_editor->priv->initialized_callback) {
+				EContentEditorInitializedCallback initialized_callback;
+				gpointer initialized_user_data;
+
+				initialized_callback = wk_editor->priv->initialized_callback;
+				initialized_user_data = wk_editor->priv->initialized_user_data;
+
+				wk_editor->priv->initialized_callback = NULL;
+				wk_editor->priv->initialized_user_data = NULL;
+
+				initialized_callback (E_CONTENT_EDITOR (wk_editor), initialized_user_data);
+			}
+		}
 	}
+}
 
-	wk_editor->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("Error creating web extension proxy: %s\n", error ? error->message : "Unknown error");
-		g_clear_error (&error);
+static void
+e_webkit_editor_set_web_extension_proxy (EWebKitEditor *wk_editor,
+					 GDBusProxy *proxy)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-		if (wk_editor->priv->initialized_callback) {
-			wk_editor->priv->initialized_callback (E_CONTENT_EDITOR (wk_editor), wk_editor->priv->initialized_user_data);
+	if (wk_editor->priv->web_extension_proxy) {
+		GDBusConnection *connection;
 
-			wk_editor->priv->initialized_callback = NULL;
-			wk_editor->priv->initialized_user_data = NULL;
+		connection = g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy);
+
+		if (connection && g_dbus_connection_is_closed (connection))
+			connection = NULL;
+
+		if (wk_editor->priv->web_extension_content_changed_cb_id) {
+			if (connection)
+				g_dbus_connection_signal_unsubscribe (connection, wk_editor->priv->web_extension_content_changed_cb_id);
+			wk_editor->priv->web_extension_content_changed_cb_id = 0;
 		}
 
-		e_weak_ref_free (wk_editor_rf);
-		g_object_unref (wk_editor);
+		if (wk_editor->priv->web_extension_selection_changed_cb_id) {
+			if (connection)
+				g_dbus_connection_signal_unsubscribe (connection, wk_editor->priv->web_extension_selection_changed_cb_id);
+			wk_editor->priv->web_extension_selection_changed_cb_id = 0;
+		}
 
-		return;
+		if (wk_editor->priv->web_extension_undo_redo_state_changed_cb_id) {
+			if (connection)
+				g_dbus_connection_signal_unsubscribe (connection, wk_editor->priv->web_extension_undo_redo_state_changed_cb_id);
+			wk_editor->priv->web_extension_undo_redo_state_changed_cb_id = 0;
+		}
+
+		if (wk_editor->priv->web_extension_user_changed_default_colors_cb_id) {
+			if (connection)
+				g_dbus_connection_signal_unsubscribe (connection, wk_editor->priv->web_extension_user_changed_default_colors_cb_id);
+			wk_editor->priv->web_extension_user_changed_default_colors_cb_id = 0;
+		}
+
+		g_clear_object (&wk_editor->priv->web_extension_proxy);
 	}
 
-	g_clear_object (&wk_editor->priv->dbus_connection);
-	wk_editor->priv->dbus_connection = g_object_ref (g_dbus_proxy_get_connection (wk_editor->priv->web_extension));
+	if (proxy) {
+		wk_editor->priv->web_extension_proxy = g_object_ref (proxy);
 
-	if (wk_editor->priv->web_extension_selection_changed_cb_id == 0) {
 		wk_editor->priv->web_extension_selection_changed_cb_id =
 			g_dbus_connection_signal_subscribe (
-				wk_editor->priv->dbus_connection,
-				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
+				g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy),
+				g_dbus_proxy_get_name (wk_editor->priv->web_extension_proxy),
 				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"SelectionChanged",
 				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
@@ -599,13 +641,11 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 				(GDBusSignalCallback) web_extension_selection_changed_cb,
 				wk_editor,
 				NULL);
-	}
 
-	if (wk_editor->priv->web_extension_content_changed_cb_id == 0) {
 		wk_editor->priv->web_extension_content_changed_cb_id =
 			g_dbus_connection_signal_subscribe (
-				wk_editor->priv->dbus_connection,
-				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
+				g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy),
+				g_dbus_proxy_get_name (wk_editor->priv->web_extension_proxy),
 				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"ContentChanged",
 				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
@@ -614,13 +654,11 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 				(GDBusSignalCallback) web_extension_content_changed_cb,
 				wk_editor,
 				NULL);
-	}
 
-	if (wk_editor->priv->web_extension_undo_redo_state_changed_cb_id == 0) {
 		wk_editor->priv->web_extension_undo_redo_state_changed_cb_id =
 			g_dbus_connection_signal_subscribe (
-				wk_editor->priv->dbus_connection,
-				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
+				g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy),
+				g_dbus_proxy_get_name (wk_editor->priv->web_extension_proxy),
 				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"UndoRedoStateChanged",
 				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
@@ -629,13 +667,11 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 				(GDBusSignalCallback) web_extension_undo_redo_state_changed_cb,
 				wk_editor,
 				NULL);
-	}
 
-	if (wk_editor->priv->web_extension_user_changed_default_colors_cb_id == 0) {
 		wk_editor->priv->web_extension_user_changed_default_colors_cb_id =
 			g_dbus_connection_signal_subscribe (
-				wk_editor->priv->dbus_connection,
-				g_dbus_proxy_get_name (wk_editor->priv->web_extension),
+				g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy),
+				g_dbus_proxy_get_name (wk_editor->priv->web_extension_proxy),
 				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
 				"UserChangedDefaultColors",
 				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
@@ -645,99 +681,6 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 				wk_editor,
 				NULL);
 	}
-
-	dispatch_pending_operations (wk_editor);
-
-	if (wk_editor->priv->emit_load_finished_when_extension_is_ready) {
-		e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
-
-		wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
-	}
-
-	g_object_notify (G_OBJECT (wk_editor), "web-extension");
-
-	if (wk_editor->priv->initialized_callback) {
-		wk_editor->priv->initialized_callback (E_CONTENT_EDITOR (wk_editor), wk_editor->priv->initialized_user_data);
-
-		wk_editor->priv->initialized_callback = NULL;
-		wk_editor->priv->initialized_user_data = NULL;
-	}
-
-	e_weak_ref_free (wk_editor_rf);
-	g_object_unref (wk_editor);
-}
-
-static void
-web_extension_appeared_cb (GDBusConnection *connection,
-                           const gchar *name,
-                           const gchar *name_owner,
-                           GWeakRef *wk_editor_wr)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = g_weak_ref_get (wk_editor_wr);
-
-	if (!wk_editor)
-		return;
-
-	g_dbus_proxy_new (
-		connection,
-		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
-		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-		NULL,
-		name,
-		E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-		E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
-		NULL,
-		(GAsyncReadyCallback) web_extension_proxy_created_cb,
-		e_weak_ref_new (wk_editor));
-
-	g_object_unref (wk_editor);
-}
-
-static void
-web_extension_vanished_cb (GDBusConnection *connection,
-                           const gchar *name,
-                           GWeakRef *wk_editor_wr)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = g_weak_ref_get (wk_editor_wr);
-
-	if (!wk_editor)
-		return;
-
-	/* The vanished callback can be sometimes called before the appeared
-	   callback, in which case it doesn't make sense to unwatch the name. */
-	if (wk_editor->priv->web_extension) {
-		g_clear_object (&wk_editor->priv->web_extension);
-
-		if (wk_editor->priv->web_extension_watch_name_id > 0) {
-			g_bus_unwatch_name (wk_editor->priv->web_extension_watch_name_id);
-			wk_editor->priv->web_extension_watch_name_id = 0;
-		}
-	}
-
-	g_object_unref (wk_editor);
-}
-
-static void
-webkit_editor_watch_web_extension (EWebKitEditor *wk_editor)
-{
-	gchar *service_name;
-
-	service_name = webkit_editor_create_service_name_for_web_context (webkit_web_view_get_context (WEBKIT_WEB_VIEW (wk_editor)));
-
-	wk_editor->priv->web_extension_watch_name_id =
-		g_bus_watch_name (
-			G_BUS_TYPE_SESSION,
-			service_name,
-			G_BUS_NAME_WATCHER_FLAGS_NONE,
-			(GBusNameAppearedCallback) web_extension_appeared_cb,
-			(GBusNameVanishedCallback) web_extension_vanished_cb,
-			e_weak_ref_new (wk_editor), (GDestroyNotify) e_weak_ref_free);
-
-	g_free (service_name);
 }
 
 static guint64
@@ -745,20 +688,21 @@ current_page_id (EWebKitEditor *wk_editor)
 {
 	return webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor));
 }
+
 static void
 webkit_editor_call_simple_extension_function_sync (EWebKitEditor *wk_editor,
-                                                   const gchar *function)
+						   const gchar *method_name)
 {
 	GVariant *result;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
-		function,
+		wk_editor->priv->web_extension_proxy,
+		method_name,
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
 
@@ -768,18 +712,14 @@ webkit_editor_call_simple_extension_function_sync (EWebKitEditor *wk_editor,
 
 static void
 webkit_editor_call_simple_extension_function (EWebKitEditor *wk_editor,
-                                              const gchar *function)
+                                              const gchar *method_name)
 {
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
+	guint64 page_id;
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
-		function,
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		wk_editor->priv->cancellable);
+	page_id = current_page_id (wk_editor);
+
+	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
+		method_name, g_variant_new ("(t)", page_id));
 }
 
 static GVariant *
@@ -789,13 +729,13 @@ webkit_editor_get_element_attribute (EWebKitEditor *wk_editor,
 {
 	GVariant *result;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ElementGetAttributeBySelector",
 		g_variant_new ("(tss)", current_page_id (wk_editor), selector, attribute),
 		NULL);
@@ -809,17 +749,12 @@ webkit_editor_set_element_attribute (EWebKitEditor *wk_editor,
                                      const gchar *attribute,
                                      const gchar *value)
 {
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
+	guint64 page_id;
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
-		"ElementSetAttributeBySelector",
-		g_variant_new (
-			"(tsss)", current_page_id (wk_editor), selector, attribute, value),
-		wk_editor->priv->cancellable);
+	page_id = current_page_id (wk_editor);
+
+	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
+		"ElementSetAttributeBySelector", g_variant_new ("(tsss)", page_id, selector, attribute, value));
 }
 
 static void
@@ -827,16 +762,12 @@ webkit_editor_remove_element_attribute (EWebKitEditor *wk_editor,
                                         const gchar *selector,
                                         const gchar *attribute)
 {
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
+	guint64 page_id;
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
-		"ElementRemoveAttributeBySelector",
-		g_variant_new ("(tss)", current_page_id (wk_editor), selector, attribute),
-		wk_editor->priv->cancellable);
+	page_id = current_page_id (wk_editor);
+
+	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
+		"ElementRemoveAttributeBySelector", g_variant_new ("(tss)", page_id, selector, attribute));
 }
 
 static void
@@ -844,16 +775,12 @@ webkit_editor_set_format_boolean (EWebKitEditor *wk_editor,
                                   const gchar *format_dom_function,
                                   gboolean format_value)
 {
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
+	guint64 page_id;
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
-		format_dom_function,
-		g_variant_new ("(tb)", current_page_id (wk_editor), format_value),
-		wk_editor->priv->cancellable);
+	page_id = current_page_id (wk_editor);
+
+	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
+		format_dom_function, g_variant_new ("(tb)", page_id, format_value));
 }
 
 static void
@@ -861,16 +788,12 @@ webkit_editor_set_format_int (EWebKitEditor *wk_editor,
                               const gchar *format_dom_function,
                               gint32 format_value)
 {
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
+	guint64 page_id;
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
-		format_dom_function,
-		g_variant_new ("(ti)", current_page_id (wk_editor), format_value),
-		wk_editor->priv->cancellable);
+	page_id = current_page_id (wk_editor);
+
+	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
+		format_dom_function, g_variant_new ("(ti)", page_id, format_value));
 }
 
 static void
@@ -879,21 +802,17 @@ webkit_editor_set_format_string (EWebKitEditor *wk_editor,
                                  const gchar *format_dom_function,
                                  const gchar *format_value)
 {
-	if (!wk_editor->priv->web_extension) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
+	guint64 page_id;
 
 	if (!wk_editor->priv->html_mode)
 		return;
 
 	webkit_editor_set_changed (wk_editor, TRUE);
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
-		format_dom_function,
-		g_variant_new ("(ts)", current_page_id (wk_editor), format_value),
-		wk_editor->priv->cancellable);
+	page_id = current_page_id (wk_editor);
+
+	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
+		format_dom_function, g_variant_new ("(ts)", page_id, format_value));
 
 	g_object_notify (G_OBJECT (wk_editor), format_name);
 }
@@ -945,7 +864,7 @@ webkit_editor_initialize (EContentEditor *content_editor,
 
 	wk_editor = E_WEBKIT_EDITOR (content_editor);
 
-	if (wk_editor->priv->web_extension) {
+	if (wk_editor->priv->web_extension_proxy) {
 		callback (content_editor, user_data);
 	} else {
 		g_return_if_fail (wk_editor->priv->initialized_callback == NULL);
@@ -1784,7 +1703,7 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -1793,7 +1712,7 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 		return;
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMCheckIfConversionNeeded",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -1815,7 +1734,7 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 	wk_editor->priv->html_mode = html_mode;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"SetEditorHTMLMode",
 		g_variant_new ("(tbb)", current_page_id (wk_editor), html_mode, convert),
 		wk_editor->priv->cancellable);
@@ -1834,7 +1753,7 @@ set_convert_in_situ (EWebKitEditor *wk_editor,
 	GVariant *result;
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"SetConvertInSitu",
 		g_variant_new ("(tbnn)", current_page_id (wk_editor), value,
 			e_webkit_editor_three_state_to_int16 (e_content_editor_get_start_bottom (E_CONTENT_EDITOR (wk_editor))),
@@ -1843,6 +1762,26 @@ set_convert_in_situ (EWebKitEditor *wk_editor,
 
 	if (result)
 		g_variant_unref (result);
+}
+
+static void
+e_webkit_editor_load_data (EWebKitEditor *wk_editor,
+			   const gchar *html)
+{
+	gchar *uri_with_stamp;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if (!html)
+		html = "";
+
+	/* Make WebKit think we are displaying a local file, so that it
+	 * does not block loading resources from file:// protocol */
+	uri_with_stamp = g_strdup_printf ("file:///?evo-stamp=%d", wk_editor->priv->stamp);
+
+	webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), html, uri_with_stamp);
+
+	g_free (uri_with_stamp);
 }
 
 static void
@@ -1869,7 +1808,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		return;
 	}
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		/* If the operation needs a web extension and it is not ready yet
 		 * we need to schedule the current operation again a dispatch it
 		 * when the extension is ready */
@@ -1893,7 +1832,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		   e_html_editor_view_convert_and_insert_html_to_plain_text
 		   e_html_editor_view_insert_text */
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"DOMConvertAndInsertHTMLIntoSelection",
 			g_variant_new (
 				"(tsb)",
@@ -1906,14 +1845,14 @@ webkit_editor_insert_content (EContentEditor *editor,
 		if ((strstr (content, "data-evo-draft") ||
 		     strstr (content, "data-evo-signature-plain-text-mode"))) {
 			wk_editor->priv->reload_in_progress = TRUE;
-			webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
+			e_webkit_editor_load_data (wk_editor, content);
 			return;
 		}
 
 		if (strstr (content, "data-evo-draft") && !(wk_editor->priv->html_mode)) {
 			set_convert_in_situ (wk_editor, TRUE);
 			wk_editor->priv->reload_in_progress = TRUE;
-			webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
+			e_webkit_editor_load_data (wk_editor, content);
 			return;
 		}
 
@@ -1925,7 +1864,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 					set_convert_in_situ (wk_editor, FALSE);
 					wk_editor->priv->reload_in_progress = TRUE;
 					webkit_editor_set_html_mode (wk_editor, TRUE);
-					webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
+					e_webkit_editor_load_data (wk_editor, content);
 					return;
 				}
 			}
@@ -1933,11 +1872,11 @@ webkit_editor_insert_content (EContentEditor *editor,
 		}
 
 		wk_editor->priv->reload_in_progress = TRUE;
-		webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), content, "file://");
+		e_webkit_editor_load_data (wk_editor, content);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_PLAIN)) {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"DOMConvertContent",
 			g_variant_new ("(tsnn)", current_page_id (wk_editor), content,
 				e_webkit_editor_three_state_to_int16 (e_content_editor_get_start_bottom (editor)),
@@ -1948,7 +1887,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		    !(flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT)) {
 		/* e_html_editor_view_paste_as_text */
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"DOMConvertAndInsertHTMLIntoSelection",
 			g_variant_new (
 				"(tsb)", current_page_id (wk_editor), content, TRUE),
@@ -1957,7 +1896,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		/* e_html_editor_view_paste_clipboard_quoted */
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"DOMQuoteAndInsertTextIntoSelection",
 			g_variant_new (
 				"(tsb)", current_page_id (wk_editor), content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0),
@@ -1966,7 +1905,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		/* e_html_editor_view_insert_html */
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"DOMInsertHTML",
 			g_variant_new (
 				"(ts)", current_page_id (wk_editor), content),
@@ -2064,14 +2003,14 @@ webkit_editor_get_content (EContentEditor *editor,
 	GError *local_error = NULL;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension_proxy)
 		return NULL;
 
 	if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
 	    !(flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
             !(flags & E_CONTENT_EDITOR_GET_BODY))
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"DOMEmbedStyleSheet",
 			g_variant_new (
 				"(ts)",
@@ -2080,7 +2019,7 @@ webkit_editor_get_content (EContentEditor *editor,
 			wk_editor->priv->cancellable);
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMGetContent",
 		g_variant_new (
 			"(tsi)",
@@ -2166,13 +2105,13 @@ webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
 	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMMoveSelectionOnPoint",
 		g_variant_new (
 			"(tiib)", current_page_id (wk_editor), x, y, cancel_if_not_collapsed),
@@ -2189,13 +2128,13 @@ webkit_editor_insert_emoticon (EContentEditor *editor,
 	EWebKitEditor *wk_editor;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMInsertSmiley",
 		g_variant_new (
 			"(ts)", current_page_id (wk_editor), e_emoticon_get_name (emoticon)),
@@ -2214,7 +2153,7 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 	const gchar *cid, *name;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -2248,7 +2187,7 @@ webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
 	cid_uri = g_strdup_printf ("cid:%s", cid);
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMAddNewInlineImageIntoList",
 		g_variant_new ("(tsss)", current_page_id (wk_editor), name ? name : "", cid_uri, src),
 		wk_editor->priv->cancellable);
@@ -2356,13 +2295,13 @@ webkit_editor_get_caret_word (EContentEditor *editor)
 	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMGetCaretWord",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -2511,13 +2450,13 @@ webkit_editor_get_current_signature_uid (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMGetActiveSignatureUid",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -2542,7 +2481,7 @@ webkit_editor_is_ready (EContentEditor *editor)
 	 * and the web extension for the editor is created. */
 	return !webkit_web_view_is_loading (WEBKIT_WEB_VIEW (wk_editor)) &&
 		!wk_editor->priv->reload_in_progress &&
-		wk_editor->priv->web_extension &&
+		wk_editor->priv->web_extension_proxy &&
 		(!wk_editor->priv->post_reload_operations || g_queue_is_empty (wk_editor->priv->post_reload_operations));
 }
 
@@ -2561,13 +2500,13 @@ webkit_editor_insert_signature (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMInsertSignature",
 		g_variant_new (
 			"(tsbsbbbnn)",
@@ -2605,13 +2544,13 @@ webkit_editor_get_caret_position (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMGetCaretPosition",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -2633,13 +2572,13 @@ webkit_editor_get_caret_offset (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMGetCaretOffset",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -2659,13 +2598,13 @@ webkit_editor_clear_undo_redo_history (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMClearUndoRedoHistory",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		wk_editor->priv->cancellable);
@@ -2679,13 +2618,13 @@ webkit_editor_replace_caret_word (EContentEditor *editor,
 	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMReplaceCaretWord",
 		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
 		wk_editor->priv->cancellable);
@@ -2747,13 +2686,13 @@ webkit_editor_replace (EContentEditor *editor,
 	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMSelectionReplace",
 		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
 		wk_editor->priv->cancellable);
@@ -2785,7 +2724,7 @@ webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
 		 * 'replacement'. Repeat until there's at least one occurrence of
 		 * 'word' in the document */
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"DOMSelectionReplace",
 			g_variant_new ("(ts)", current_page_id (wk_editor), wk_editor->priv->replace_with),
 			wk_editor->priv->cancellable);
@@ -2806,13 +2745,13 @@ webkit_find_controller_failed_to_find_text_cb (WebKitFindController *find_contro
 		guint replaced_count = wk_editor->priv->replaced_count;
 
 		if (replaced_count > 0) {
-			if (!wk_editor->priv->web_extension) {
+			if (!wk_editor->priv->web_extension_proxy) {
 				g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 			} else {
 				GVariant *result;
 
 				result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-					wk_editor->priv->web_extension,
+					wk_editor->priv->web_extension_proxy,
 					"DOMInsertReplaceAllHistoryEvent",
 					g_variant_new ("(tss)",
 						current_page_id (wk_editor),
@@ -3037,13 +2976,13 @@ webkit_editor_on_h_rule_dialog_open (EContentEditor *editor)
 	GVariant *result;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorHRuleDialogFindHRule",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -3198,7 +3137,7 @@ webkit_editor_h_rule_set_no_shade (EContentEditor *editor,
 	EWebKitEditor *wk_editor;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -3219,13 +3158,13 @@ webkit_editor_h_rule_get_no_shade (EContentEditor *editor)
 	gboolean no_shade = FALSE;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ElementHasAttribute",
 		g_variant_new ("(tss)", current_page_id (wk_editor), "-x-evo-current-hr", "noshade"),
 		NULL);
@@ -3268,13 +3207,13 @@ webkit_editor_insert_image (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMSelectionInsertImage",
 		g_variant_new ("(ts)", current_page_id (wk_editor), image_uri),
 		wk_editor->priv->cancellable);
@@ -3286,13 +3225,13 @@ webkit_editor_replace_image_src (EWebKitEditor *wk_editor,
                                  const gchar *image_uri)
 {
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"DOMReplaceImageSrc",
 		g_variant_new ("(tss)", current_page_id (wk_editor), selector, image_uri),
 		wk_editor->priv->cancellable);
@@ -3370,13 +3309,13 @@ webkit_editor_image_set_url (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorImageDialogSetElementUrl",
 		g_variant_new ("(ts)", current_page_id (wk_editor), value),
 		wk_editor->priv->cancellable);
@@ -3391,13 +3330,13 @@ webkit_editor_image_get_url (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorImageDialogGetElementUrl",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -3418,13 +3357,13 @@ webkit_editor_image_set_vspace (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementSetVSpace",
 		g_variant_new (
 			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
@@ -3440,13 +3379,13 @@ webkit_editor_image_get_vspace (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementGetVSpace",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
 		NULL);
@@ -3467,13 +3406,13 @@ webkit_editor_image_set_hspace (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementSetHSpace",
 		g_variant_new (
 			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
@@ -3489,13 +3428,13 @@ webkit_editor_image_get_hspace (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementGetHSpace",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
 		NULL);
@@ -3589,13 +3528,13 @@ webkit_editor_image_get_natural_width (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementGetNaturalWidth",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
 		NULL);
@@ -3617,13 +3556,13 @@ webkit_editor_image_get_natural_height (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementGetNaturalHeight",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
 		NULL);
@@ -3644,13 +3583,13 @@ webkit_editor_image_set_height (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementSetHeight",
 		g_variant_new (
 			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
@@ -3665,13 +3604,13 @@ webkit_editor_image_set_width (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementSetWidth",
 		g_variant_new (
 			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
@@ -3719,13 +3658,13 @@ webkit_editor_image_get_width (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementGetWidth",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
 		NULL);
@@ -3747,13 +3686,13 @@ webkit_editor_image_get_height (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ImageElementGetHeight",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
 		NULL);
@@ -3808,13 +3747,13 @@ webkit_editor_link_set_values (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorLinkDialogOk",
 		g_variant_new ("(tss)", current_page_id (wk_editor), href, text),
 		wk_editor->priv->cancellable);
@@ -3830,13 +3769,13 @@ webkit_editor_link_get_values (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorLinkDialogShow",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -3918,7 +3857,7 @@ webkit_editor_get_background_color (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
 	}
@@ -3981,7 +3920,7 @@ webkit_editor_get_font_color (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
 	}
@@ -4099,7 +4038,7 @@ webkit_editor_page_set_background_image_uri (EContentEditor *editor,
 		webkit_editor_replace_image_src (wk_editor, "body", uri);
 	else {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"RemoveImageAttributesFromElementBySelector",
 			g_variant_new ("(ts)", current_page_id (wk_editor), "body"),
 			wk_editor->priv->cancellable);
@@ -4113,13 +4052,13 @@ webkit_editor_on_cell_dialog_open (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorCellDialogMarkCurrentCellElement",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
 		wk_editor->priv->cancellable);
@@ -4148,13 +4087,13 @@ webkit_editor_cell_set_v_align (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorCellDialogSetElementVAlign",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), value, (gint32) scope),
 		wk_editor->priv->cancellable);
@@ -4194,13 +4133,13 @@ webkit_editor_cell_set_align (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorCellDialogSetElementAlign",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), value, (gint32) scope),
 		wk_editor->priv->cancellable);
@@ -4240,13 +4179,13 @@ webkit_editor_cell_set_wrap (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorCellDialogSetElementNoWrap",
 		g_variant_new ("(tbi)", current_page_id (wk_editor), !value, (gint32) scope),
 		wk_editor->priv->cancellable);
@@ -4264,13 +4203,13 @@ webkit_editor_cell_get_wrap (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return FALSE;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"TableCellElementGetNoWrap",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
 		NULL);
@@ -4293,7 +4232,7 @@ webkit_editor_cell_set_header_style (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -4302,7 +4241,7 @@ webkit_editor_cell_set_header_style (EContentEditor *editor,
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorCellDialogSetElementHeaderStyle",
 		g_variant_new ("(tbi)", current_page_id (wk_editor), value, (gint32) scope),
 		wk_editor->priv->cancellable);
@@ -4320,13 +4259,13 @@ webkit_editor_cell_is_header (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return FALSE;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"ElementGetTagName",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
 		NULL);
@@ -4389,13 +4328,13 @@ webkit_editor_cell_get_row_span (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return 0;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"TableCellElementGetRowSpan",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
 		NULL);
@@ -4420,13 +4359,13 @@ webkit_editor_cell_get_col_span (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return 0;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"TableCellElementGetColSpan",
 		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
 		NULL);
@@ -4504,13 +4443,13 @@ webkit_editor_cell_set_row_span (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorCellDialogSetElementRowSpan",
 		g_variant_new ("(tii)", current_page_id (wk_editor), value, (gint32) scope),
 		wk_editor->priv->cancellable);
@@ -4528,13 +4467,13 @@ webkit_editor_cell_set_col_span (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorCellDialogSetElementColSpan",
 		g_variant_new ("(tii)", current_page_id (wk_editor), value, (gint32) scope),
 		wk_editor->priv->cancellable);
@@ -4554,7 +4493,7 @@ webkit_editor_cell_set_width (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -4568,7 +4507,7 @@ webkit_editor_cell_set_width (EContentEditor *editor,
 			(unit == E_CONTENT_EDITOR_UNIT_PIXEL) ? "px" : "%");
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorCellDialogSetElementWidth",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), width, (gint32) scope),
 		wk_editor->priv->cancellable);
@@ -4586,7 +4525,7 @@ webkit_editor_cell_set_background_color (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -4597,7 +4536,7 @@ webkit_editor_cell_set_background_color (EContentEditor *editor,
 		color = g_strdup ("");
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorCellDialogSetElementBgColor",
 		g_variant_new ("(tsi)", current_page_id (wk_editor), color, (gint32) scope),
 		wk_editor->priv->cancellable);
@@ -4613,7 +4552,7 @@ webkit_editor_cell_set_background_image_uri (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -4625,7 +4564,7 @@ webkit_editor_cell_set_background_image_uri (EContentEditor *editor,
 		webkit_editor_replace_image_src (wk_editor, "#-x-evo-current-cell", uri);
 	else {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"RemoveImageAttributesFromElementBySelector",
 			g_variant_new ("(ts)", current_page_id (wk_editor), "#-x-evo-current-cell"),
 			wk_editor->priv->cancellable);
@@ -4643,13 +4582,13 @@ webkit_editor_table_set_row_count (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorTableDialogSetRowCount",
 		g_variant_new ("(tu)", current_page_id (wk_editor), value),
 		wk_editor->priv->cancellable);
@@ -4667,13 +4606,13 @@ webkit_editor_table_get_row_count (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return 0;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorTableDialogGetRowCount",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -4697,13 +4636,13 @@ webkit_editor_table_set_column_count (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorTableDialogSetColumnCount",
 		g_variant_new ("(tu)", current_page_id (wk_editor), value),
 		wk_editor->priv->cancellable);
@@ -4721,13 +4660,13 @@ webkit_editor_table_get_column_count (EContentEditor *editor)
 	if (!wk_editor->priv->html_mode)
 		return 0;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return 0;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorTableDialogGetColumnCount",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -4753,7 +4692,7 @@ webkit_editor_table_set_width (EContentEditor *editor,
 	if (!wk_editor->priv->html_mode)
 		return;
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -5006,7 +4945,7 @@ webkit_editor_table_set_background_color (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -5052,7 +4991,7 @@ webkit_editor_table_set_background_image_uri (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return;
 	}
@@ -5064,7 +5003,7 @@ webkit_editor_table_set_background_image_uri (EContentEditor *editor,
 		webkit_editor_replace_image_src (wk_editor, "#-x-evo-current-table", uri);
 	else {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension,
+			wk_editor->priv->web_extension_proxy,
 			"RemoveImageAttributesFromElementBySelector",
 			g_variant_new ("(ts)", current_page_id (wk_editor), "#-x-evo-current-table"),
 			wk_editor->priv->cancellable);
@@ -5080,13 +5019,13 @@ webkit_editor_on_table_dialog_open (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return FALSE;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"EEditorTableDialogShow",
 		g_variant_new ("(t)", current_page_id (wk_editor)),
 		NULL);
@@ -5135,7 +5074,7 @@ move_to_another_word (EContentEditor *editor,
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension) {
+	if (!wk_editor->priv->web_extension_proxy) {
 		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
 		return NULL;
 	}
@@ -5146,7 +5085,7 @@ move_to_another_word (EContentEditor *editor,
 		return NULL;
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		dom_function,
 		g_variant_new (
 			"(ts^as)", current_page_id (wk_editor), word ? word : "", active_languages),
@@ -5203,7 +5142,7 @@ webkit_editor_get_web_extension (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
-	return wk_editor->priv->web_extension;
+	return wk_editor->priv->web_extension_proxy;
 }
 
 static void
@@ -5268,6 +5207,22 @@ webkit_editor_process_uri_request_cb (WebKitURISchemeRequest *request,
 }
 
 static void
+e_webkit_editor_initialize_web_extensions_cb (WebKitWebContext *web_context,
+					      gpointer user_data)
+{
+	EWebKitEditor *wk_editor = user_data;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+	g_return_if_fail (wk_editor->priv->container);
+
+	webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_WEBKIT_EDITOR_DIR);
+	webkit_web_context_set_web_extensions_initialization_user_data (web_context,
+		g_variant_new ("(ss)",
+			e_web_extension_container_get_server_guid (wk_editor->priv->container),
+			e_web_extension_container_get_server_address (wk_editor->priv->container)));
+}
+
+static void
 webkit_editor_constructed (GObject *object)
 {
 	EWebKitEditor *wk_editor;
@@ -5277,17 +5232,21 @@ webkit_editor_constructed (GObject *object)
 	WebKitSettings *web_settings;
 	WebKitWebView *web_view;
 
-	G_OBJECT_CLASS (e_webkit_editor_parent_class)->constructed (object);
-
 	wk_editor = E_WEBKIT_EDITOR (object);
 	web_view = WEBKIT_WEB_VIEW (wk_editor);
 
-	webkit_editor_watch_web_extension (wk_editor);
+	web_context = webkit_web_view_get_context (web_view);
+
+	/* Do this before calling the parent's constructed(), because
+	   that can emit the web_context's signal */
+	g_signal_connect_object (web_context, "initialize-web-extensions",
+		G_CALLBACK (e_webkit_editor_initialize_web_extensions_cb), wk_editor, 0);
+
+	G_OBJECT_CLASS (e_webkit_editor_parent_class)->constructed (object);
 
 	/* Give spell check languages to WebKit */
 	languages = e_spell_checker_list_active_languages (wk_editor->priv->spell_checker, NULL);
 
-	web_context = webkit_web_view_get_context (web_view);
 	webkit_web_context_set_spell_checking_enabled (web_context, TRUE);
 	webkit_web_context_set_spell_checking_languages (web_context, (const gchar * const *) languages);
 	g_strfreev (languages);
@@ -5305,10 +5264,7 @@ webkit_editor_constructed (GObject *object)
 	webkit_settings_set_allow_file_access_from_file_urls (web_settings, TRUE);
 	webkit_settings_set_enable_developer_extras (web_settings, e_util_get_webkit_developer_mode_enabled ());
 
-	/* Make WebKit think we are displaying a local file, so that it
-	 * does not block loading resources from file:// protocol */
-	webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), "", "file://");
-
+	e_webkit_editor_load_data (wk_editor, "");
 }
 
 static GObjectConstructParam*
@@ -5351,20 +5307,12 @@ webkit_editor_constructor (GType type,
 			static gpointer web_context = NULL;
 
 			if (!web_context) {
-				gchar *service_name;
-
 				web_context = webkit_web_context_new ();
-
-				service_name = webkit_editor_create_service_name_for_web_context (web_context);
 
 				webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 				webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_WEBKIT_EDITOR_DIR);
-				webkit_web_context_set_web_extensions_initialization_user_data (web_context,
-					g_variant_new_string (service_name));
 
 				g_object_add_weak_pointer (G_OBJECT (web_context), &web_context);
-
-				g_free (service_name);
 			} else {
 				g_object_ref (web_context);
 			}
@@ -5411,38 +5359,10 @@ webkit_editor_dispose (GObject *object)
 		priv->mail_settings = NULL;
 	}
 
-	if (priv->web_extension_content_changed_cb_id > 0 && priv->dbus_connection) {
-		g_dbus_connection_signal_unsubscribe (
-			priv->dbus_connection,
-			priv->web_extension_content_changed_cb_id);
-		priv->web_extension_content_changed_cb_id = 0;
-	}
+	e_webkit_editor_set_web_extension_proxy (E_WEBKIT_EDITOR (object), NULL);
 
-	if (priv->web_extension_selection_changed_cb_id > 0 && priv->dbus_connection) {
-		g_dbus_connection_signal_unsubscribe (
-			priv->dbus_connection,
-			priv->web_extension_selection_changed_cb_id);
-		priv->web_extension_selection_changed_cb_id = 0;
-	}
-
-	if (priv->web_extension_undo_redo_state_changed_cb_id > 0 && priv->dbus_connection) {
-		g_dbus_connection_signal_unsubscribe (
-			priv->dbus_connection,
-			priv->web_extension_undo_redo_state_changed_cb_id);
-		priv->web_extension_undo_redo_state_changed_cb_id = 0;
-	}
-
-	if (priv->web_extension_user_changed_default_colors_cb_id > 0 && priv->dbus_connection) {
-		g_dbus_connection_signal_unsubscribe (
-			priv->dbus_connection,
-			priv->web_extension_user_changed_default_colors_cb_id);
-		priv->web_extension_user_changed_default_colors_cb_id = 0;
-	}
-
-	if (priv->web_extension_watch_name_id > 0) {
-		g_bus_unwatch_name (priv->web_extension_watch_name_id);
-		priv->web_extension_watch_name_id = 0;
-	}
+	if (priv->container && priv->stamp)
+		e_web_extension_container_forget_stamp (priv->container, priv->stamp);
 
 	if (priv->owner_change_clipboard_cb_id > 0) {
 		g_signal_handler_disconnect (
@@ -5460,8 +5380,7 @@ webkit_editor_dispose (GObject *object)
 
 	webkit_editor_finish_search (E_WEBKIT_EDITOR (object));
 
-	g_clear_object (&priv->web_extension);
-	g_clear_object (&priv->dbus_connection);
+	g_clear_object (&priv->container);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_webkit_editor_parent_class)->dispose (object);
@@ -5965,7 +5884,7 @@ webkit_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 	if (!E_IS_WEBKIT_EDITOR (wk_editor))
 		return;
 
-	if (!wk_editor->priv->web_extension)
+	if (!wk_editor->priv->web_extension_proxy)
 		return;
 
 	if (wk_editor->priv->copy_cut_actions_triggered && event->owner)
@@ -5977,7 +5896,7 @@ webkit_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"SetPastingContentFromItself",
 		g_variant_new (
 			"(tb)",
@@ -5996,7 +5915,7 @@ webkit_editor_primary_clipboard_owner_change_cb (GtkClipboard *clipboard,
                                                  EWebKitEditor *wk_editor)
 {
 	if (!E_IS_WEBKIT_EDITOR (wk_editor) ||
-	    !wk_editor->priv->web_extension)
+	    !wk_editor->priv->web_extension_proxy)
 		return;
 
 	if (!event->owner || !wk_editor->priv->can_copy)
@@ -6006,7 +5925,7 @@ webkit_editor_primary_clipboard_owner_change_cb (GtkClipboard *clipboard,
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension,
+		wk_editor->priv->web_extension_proxy,
 		"SetPastingContentFromItself",
 		g_variant_new (
 			"(tb)",
@@ -6611,6 +6530,14 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->spell_checker = e_spell_checker_new ();
 	wk_editor->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 	wk_editor->priv->visually_wrap_long_lines = FALSE;
+	wk_editor->priv->container = e_web_extension_container_new (E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH, E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE);
+
+	/* Do not change assigned stamp on every content load. It can have issues like when
+	   loading new content into already initialized editor. */
+	wk_editor->priv->stamp = e_web_extension_container_reserve_stamp (wk_editor->priv->container);
+
+	g_signal_connect_object (wk_editor->priv->container, "page-proxy-changed",
+		G_CALLBACK (e_webkit_editor_page_proxy_changed_cb), wk_editor, 0);
 
 	g_signal_connect (
 		wk_editor, "load-changed",

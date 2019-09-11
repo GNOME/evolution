@@ -3711,8 +3711,12 @@ e_util_claim_dbus_proxy_call_error (GDBusProxy *dbus_proxy,
 	g_return_if_fail (G_IS_DBUS_PROXY (dbus_proxy));
 	g_return_if_fail (method_name != NULL);
 
-	if (in_error && !g_error_matches (in_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		g_warning ("Failed to call a DBus Proxy method %s::%s: %s",
+	if (in_error &&
+	    !g_error_matches (in_error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
+	    !g_error_matches (in_error, G_IO_ERROR, G_IO_ERROR_CLOSED) &&
+	    !g_error_matches (in_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_CLOSED) &&
+	    !g_error_matches (in_error, G_DBUS_ERROR, G_DBUS_ERROR_DISCONNECTED))
+		g_message ("Failed to call a DBus Proxy method %s::%s: %s",
 			g_dbus_proxy_get_name (dbus_proxy), method_name, in_error->message);
 }
 

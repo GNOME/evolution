@@ -264,6 +264,7 @@
 #include <e-util/e-util-enums.h>
 #include <e-util/e-util-enumtypes.h>
 #include <e-util/e-webdav-browser.h>
+#include <e-util/e-web-extension-container.h>
 #ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-web-view-preview.h>
 #include <e-util/e-web-view.h>

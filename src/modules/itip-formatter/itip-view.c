@@ -32,6 +32,8 @@
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/itip-utils.h"
 
+#include "web-extensions/e-web-extension-names.h"
+
 #include <mail/em-config.h>
 #include <mail/em-utils.h>
 #include <em-format/e-mail-formatter-utils.h>
@@ -40,8 +42,6 @@
 #include "e-mail-part-itip.h"
 
 #include "itip-view-elements-defines.h"
-
-#include "web-extension/module-itip-formatter-web-extension.h"
 
 #define d(x)
 
@@ -110,12 +110,10 @@ struct _ItipViewPrivate {
 
         gpointer itip_part_ptr; /* not referenced, only for a "reference" to which part this belongs */
 
-	GDBusProxy *web_extension;
-	guint web_extension_watch_name_id;
+	GDBusConnection *dbus_connection;
 	guint web_extension_source_changed_cb_signal_id;
 	guint web_extension_recur_toggled_signal_id;
 
-	guint64 page_id;
 	gchar *part_id;
 
         gchar *error;
@@ -200,6 +198,27 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+static GDBusProxy *
+itip_view_ref_web_extension_proxy (ItipView *view)
+{
+	EWebView *web_view;
+	GDBusProxy *proxy = NULL;
+
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+
+	web_view = g_weak_ref_get (view->priv->web_view_weakref);
+	if (!web_view)
+		return NULL;
+
+	proxy = e_web_view_get_web_extension_proxy (web_view);
+	if (proxy)
+		g_object_ref (proxy);
+
+	g_object_unref (web_view);
+
+	return proxy;
+}
 
 static void
 format_date_and_time_x (struct tm *date_tm,
@@ -644,33 +663,60 @@ set_journal_sender_text (ItipView *view)
 	return sender;
 }
 
+static guint64
+itip_view_get_page_id (ItipView *view)
+{
+	EWebView *web_view;
+	guint64 page_id = 0;
+
+	web_view = g_weak_ref_get (view->priv->web_view_weakref);
+	if (web_view) {
+		page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
+		g_object_unref (web_view);
+	}
+
+	return page_id;
+}
+
 static void
 enable_button (ItipView *view,
 	       const gchar *button_id,
                gboolean enable)
 {
-	if (!view->priv->web_extension)
+	GDBusProxy *proxy;
+
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"EnableButton",
-		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, button_id, enable),
+		proxy,
+		"ItipEnableButton",
+		g_variant_new ("(tssb)", itip_view_get_page_id (view), view->priv->part_id, button_id, enable),
 		NULL);
+
+	g_object_unref (proxy);
 }
 
 static void
 show_button (ItipView *view,
              const gchar *id)
 {
-	if (!view->priv->web_extension)
+	GDBusProxy *proxy;
+
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"ShowButton",
-		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, id),
+		proxy,
+		"ItipShowButton",
+		g_variant_new ("(tss)", itip_view_get_page_id (view), view->priv->part_id, id),
 		NULL);
+
+	g_object_unref (proxy);
 }
 
 static void
@@ -678,14 +724,20 @@ hide_element (ItipView *view,
 	      const gchar *element_id,
               gboolean hide)
 {
-	if (!view->priv->web_extension)
+	GDBusProxy *proxy;
+
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"HideElement",
-		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, element_id, hide),
+		proxy,
+		"ItipHideElement",
+		g_variant_new ("(tssb)", itip_view_get_page_id (view), view->priv->part_id, element_id, hide),
 		NULL);
+
+	g_object_unref (proxy);
 }
 
 static gboolean
@@ -694,21 +746,27 @@ element_is_hidden (ItipView *view,
 {
 	GVariant *result;
 	gboolean hidden;
+	GDBusProxy *proxy;
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return FALSE;
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-			view->priv->web_extension,
-			"ElementIsHidden",
-			g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, element_id),
+			proxy,
+			"ItipElementIsHidden",
+			g_variant_new ("(tss)", itip_view_get_page_id (view), view->priv->part_id, element_id),
 			NULL);
 
 	if (result) {
 		g_variant_get (result, "(b)", &hidden);
 		g_variant_unref (result);
+		g_object_unref (proxy);
 		return hidden;
 	}
+
+	g_object_unref (proxy);
 
 	return FALSE;
 }
@@ -718,14 +776,20 @@ set_inner_html (ItipView *view,
 	        const gchar *element_id,
                 const gchar *inner_html)
 {
-	if (!view->priv->web_extension)
+	GDBusProxy *proxy;
+
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"ElementSetInnerHTML",
-		g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, element_id, inner_html),
+		proxy,
+		"ItipElementSetInnerHTML",
+		g_variant_new ("(tsss)", itip_view_get_page_id (view), view->priv->part_id, element_id, inner_html),
 		NULL);
+
+	g_object_unref (proxy);
 }
 
 static void
@@ -733,14 +797,20 @@ input_set_checked (ItipView *view,
                    const gchar *input_id,
                    gboolean checked)
 {
-	if (!view->priv->web_extension)
+	GDBusProxy *proxy;
+
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"InputSetChecked",
-		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, input_id, checked),
+		proxy,
+		"ItipInputSetChecked",
+		g_variant_new ("(tssb)", itip_view_get_page_id (view), view->priv->part_id, input_id, checked),
 		NULL);
+
+	g_object_unref (proxy);
 }
 
 static gboolean
@@ -749,21 +819,27 @@ input_is_checked (ItipView *view,
 {
 	GVariant *result;
 	gboolean checked;
+	GDBusProxy *proxy;
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return FALSE;
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-			view->priv->web_extension,
-			"InputIsChecked",
-			g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, input_id),
+			proxy,
+			"ItipInputIsChecked",
+			g_variant_new ("(tss)", itip_view_get_page_id (view), view->priv->part_id, input_id),
 			NULL);
 
 	if (result) {
 		g_variant_get (result, "(b)", &checked);
 		g_variant_unref (result);
+		g_object_unref (proxy);
 		return checked;
 	}
+
+	g_object_unref (proxy);
 
 	return FALSE;
 }
@@ -774,16 +850,20 @@ show_checkbox (ItipView *view,
                gboolean show,
 	       gboolean update_second)
 {
-	g_return_if_fail (ITIP_IS_VIEW (view));
+	GDBusProxy *proxy;
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"ShowCheckbox",
-		g_variant_new ("(tssbb)", view->priv->page_id, view->priv->part_id, id, show, update_second),
+		proxy,
+		"ItipShowCheckbox",
+		g_variant_new ("(tssbb)", itip_view_get_page_id (view), view->priv->part_id, id, show, update_second),
 		NULL);
+
+	g_object_unref (proxy);
 }
 
 static void
@@ -791,16 +871,20 @@ set_area_text (ItipView *view,
                const gchar *id,
                const gchar *text)
 {
-	g_return_if_fail (ITIP_IS_VIEW (view));
+	GDBusProxy *proxy;
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"SetAreaText",
-		g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, id, text ? text : ""),
+		proxy,
+		"ItipSetAreaText",
+		g_variant_new ("(tsss)", itip_view_get_page_id (view), view->priv->part_id, id, text ? text : ""),
 		NULL);
+
+	g_object_unref (proxy);
 }
 
 static void
@@ -827,7 +911,7 @@ set_sender_text (ItipView *view)
 		break;
 	}
 
-	if (priv->sender && priv->web_extension)
+	if (priv->sender)
 		set_inner_html (view, TEXT_ROW_SENDER, priv->sender);
 }
 
@@ -835,6 +919,7 @@ static void
 update_start_end_times (ItipView *view)
 {
 	ItipViewPrivate *priv;
+	GDBusProxy *proxy;
 	gchar buffer[256];
 	time_t now;
 	struct tm *now_tm;
@@ -879,16 +964,18 @@ update_start_end_times (ItipView *view)
 	}
 	#undef is_same
 
-	if (!priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	if (priv->start_header && priv->start_label) {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			priv->web_extension,
-			"UpdateTimes",
+			proxy,
+			"ItipUpdateTimes",
 			g_variant_new (
 				"(tssss)",
-				view->priv->page_id,
+				itip_view_get_page_id (view),
 				view->priv->part_id,
 				TABLE_ROW_START_DATE,
 				priv->start_header,
@@ -899,11 +986,11 @@ update_start_end_times (ItipView *view)
 
 	if (priv->end_header && priv->end_label) {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			priv->web_extension,
-			"UpdateTimes",
+			proxy,
+			"ItipUpdateTimes",
 			g_variant_new (
 				"(tssss)",
-				view->priv->page_id,
+				itip_view_get_page_id (view),
 				view->priv->part_id,
 				TABLE_ROW_END_DATE,
 				priv->end_header,
@@ -911,6 +998,8 @@ update_start_end_times (ItipView *view)
 			NULL);
 	} else
 		hide_element (view, TABLE_ROW_END_DATE, TRUE);
+
+	g_object_unref (proxy);
 }
 
 static void
@@ -972,12 +1061,12 @@ recur_toggled_signal_cb (GDBusConnection *connection,
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (g_strcmp0 (signal_name, "RecurToggled") != 0)
+	if (g_strcmp0 (signal_name, "ItipRecurToggled") != 0)
 		return;
 
 	g_variant_get (parameters, "(t&s)", &page_id, &part_id);
 
-	if (view->priv->page_id == page_id &&
+	if (itip_view_get_page_id (view) == page_id &&
 	    g_strcmp0 (view->priv->part_id, part_id) == 0)
 		itip_view_set_mode (view, view->priv->mode);
 }
@@ -1012,12 +1101,12 @@ source_changed_cb_signal_cb (GDBusConnection *connection,
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
-	if (g_strcmp0 (signal_name, "SourceChanged") != 0)
+	if (g_strcmp0 (signal_name, "ItipSourceChanged") != 0)
 		return;
 
 	g_variant_get (parameters, "(t&s)", &page_id, &part_id);
 
-	if (view->priv->page_id == page_id &&
+	if (itip_view_get_page_id (view) == page_id &&
 	    g_strcmp0 (view->priv->part_id, part_id) == 0)
 		source_changed_cb (view);
 }
@@ -1088,8 +1177,14 @@ append_info_item_row (ItipView *view,
                       const gchar *table_id,
                       ItipViewInfoItem *item)
 {
+	GDBusProxy *proxy;
 	const gchar *icon_name;
 	gchar *row_id;
+
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
+		return;
 
 	switch (item->type) {
 		case ITIP_VIEW_INFO_ITEM_TYPE_INFO:
@@ -1105,21 +1200,19 @@ append_info_item_row (ItipView *view,
 			icon_name = "edit-find";
 			break;
 		case ITIP_VIEW_INFO_ITEM_TYPE_NONE:
-			default:
+		default:
 			icon_name = NULL;
+			break;
 	}
 
 	row_id = g_strdup_printf ("%s_row_%d", table_id, item->id);
 
-	if (!view->priv->web_extension)
-		return;
-
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"AppendInfoItemRow",
+		proxy,
+		"ItipAppendInfoItemRow",
 		g_variant_new (
 			"(tsssss)",
-			view->priv->page_id,
+			itip_view_get_page_id (view),
 			view->priv->part_id,
 			table_id,
 			row_id,
@@ -1127,6 +1220,7 @@ append_info_item_row (ItipView *view,
 			item->message),
 		NULL);
 
+	g_object_unref (proxy);
 	g_free (row_id);
 
 	d (printf ("Added row %s_row_%d ('%s')\n", table_id, item->id, item->message));
@@ -1138,18 +1232,22 @@ remove_info_item_row (ItipView *view,
                       guint id)
 {
 	gchar *row_id;
+	GDBusProxy *proxy;
+
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
+		return;
 
 	row_id = g_strdup_printf ("%s_row_%d", table_id, id);
 
-	if (!view->priv->web_extension)
-		return;
-
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"RemoveElement",
-		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, row_id),
+		proxy,
+		"ItipRemoveElement",
+		g_variant_new ("(tss)", itip_view_get_page_id (view), view->priv->part_id, row_id),
 		NULL);
 
+	g_object_unref (proxy);
 	g_free (row_id);
 
 	d (printf ("Removed row %s_row_%d\n", table_id, id));
@@ -1247,24 +1345,29 @@ static void
 itip_view_rebuild_source_list (ItipView *view)
 {
 	ESourceRegistry *registry;
+	GDBusProxy *proxy;
 	GList *list, *link;
 	const gchar *extension_name;
 
 	d (printf ("Assigning a new source list!\n"));
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	registry = view->priv->registry;
 	extension_name = itip_view_get_extension_name (view);
 
-	if (extension_name == NULL)
+	if (!extension_name) {
+		g_object_unref (proxy);
 		return;
+	}
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"ElementRemoveChildNodes",
-		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE),
+		proxy,
+		"ItipElementRemoveChildNodes",
+		g_variant_new ("(tss)", itip_view_get_page_id (view), view->priv->part_id, SELECT_ESOURCE),
 		NULL);
 
 	list = e_source_registry_list_enabled (registry, extension_name);
@@ -1277,11 +1380,11 @@ itip_view_rebuild_source_list (ItipView *view)
 			registry, e_source_get_parent (source));
 
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			view->priv->web_extension,
-			"RebuildSourceList",
+			proxy,
+			"ItipRebuildSourceList",
 			g_variant_new (
 				"(tsssssb)",
-				view->priv->page_id,
+				itip_view_get_page_id (view),
 				view->priv->part_id,
 				e_source_get_uid (parent),
 				e_source_get_display_name (parent),
@@ -1294,6 +1397,7 @@ itip_view_rebuild_source_list (ItipView *view)
 	}
 
 	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+	g_object_unref (proxy);
 
 	source_changed_cb (view);
 }
@@ -1332,6 +1436,25 @@ itip_view_source_removed_cb (ESourceRegistry *registry,
 
 	if (e_source_has_extension (source, extension_name))
 		itip_view_rebuild_source_list (view);
+}
+
+static void
+itip_view_unregister_dbus_signals (ItipView *view)
+{
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
+	if (view->priv->dbus_connection && !g_dbus_connection_is_closed (view->priv->dbus_connection)) {
+		if (view->priv->web_extension_recur_toggled_signal_id)
+			g_dbus_connection_signal_unsubscribe (view->priv->dbus_connection, view->priv->web_extension_recur_toggled_signal_id);
+
+		if (view->priv->web_extension_source_changed_cb_signal_id)
+			g_dbus_connection_signal_unsubscribe (view->priv->dbus_connection, view->priv->web_extension_source_changed_cb_signal_id);
+	}
+
+	view->priv->web_extension_recur_toggled_signal_id = 0;
+	view->priv->web_extension_source_changed_cb_signal_id = 0;
+
+	g_clear_object (&view->priv->dbus_connection);
 }
 
 static void
@@ -1413,28 +1536,11 @@ itip_view_dispose (GObject *object)
 		priv->source_removed_handler_id = 0;
 	}
 
-	if (priv->web_extension_watch_name_id > 0) {
-		g_bus_unwatch_name (priv->web_extension_watch_name_id);
-		priv->web_extension_watch_name_id = 0;
-	}
-
-	if (priv->web_extension_recur_toggled_signal_id > 0) {
-		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (priv->web_extension),
-			priv->web_extension_recur_toggled_signal_id);
-		priv->web_extension_recur_toggled_signal_id = 0;
-	}
-
-	if (priv->web_extension_source_changed_cb_signal_id > 0) {
-		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (priv->web_extension),
-			priv->web_extension_source_changed_cb_signal_id);
-		priv->web_extension_source_changed_cb_signal_id = 0;
-	}
+	itip_view_unregister_dbus_signals (ITIP_VIEW (object));
 
 	g_clear_object (&priv->client_cache);
 	g_clear_object (&priv->registry);
-	g_clear_object (&priv->web_extension);
+	g_clear_object (&priv->dbus_connection);
 	g_clear_object (&priv->cancellable);
 	g_clear_object (&priv->comp);
 
@@ -1814,127 +1920,62 @@ itip_view_write_for_printing (ItipView *view,
 }
 
 static void
-web_extension_proxy_created_cb (GDBusProxy *proxy,
-                                GAsyncResult *result,
-                                GWeakRef *view_wr)
+itip_view_web_extension_proxy_notify_cb (GObject *web_view,
+					 GParamSpec *param,
+					 gpointer user_data)
 {
-	ItipView *view;
-	GError *error = NULL;
-
-	view = g_weak_ref_get (view_wr);
-
-	if (!view) {
-		e_weak_ref_free (view_wr);
-		return;
-	}
-
-	view->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
-	if (!view->priv->web_extension) {
-		g_warning ("Error creating web extension proxy: %s\n", error ? error->message : "Unknown error");
-		g_clear_error (&error);
-	} else {
-		view->priv->web_extension_source_changed_cb_signal_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (view->priv->web_extension),
-				g_dbus_proxy_get_name (view->priv->web_extension),
-				MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
-				"SourceChanged",
-				MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				source_changed_cb_signal_cb,
-				view,
-				NULL);
-
-		view->priv->web_extension_recur_toggled_signal_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (view->priv->web_extension),
-				g_dbus_proxy_get_name (view->priv->web_extension),
-				MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
-				"RecurToggled",
-				MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				(GDBusSignalCallback) recur_toggled_signal_cb,
-				view,
-				NULL);
-
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			view->priv->web_extension,
-			"CreateDOMBindings",
-			g_variant_new ("(ts)", view->priv->page_id, view->priv->part_id),
-			NULL);
-	}
-
-	itip_view_init_view (view);
-
-	e_weak_ref_free (view_wr);
-	g_object_unref (view);
-}
-
-static void
-web_extension_appeared_cb (GDBusConnection *connection,
-                           const gchar *name,
-                           const gchar *name_owner,
-                           GWeakRef *view_wr)
-{
-	ItipView *view;
-
-	view = g_weak_ref_get (view_wr);
+	ItipView *view = user_data;
+	GDBusConnection *connection;
+	GDBusProxy *proxy;
 
 	if (!view)
 		return;
 
-	g_dbus_proxy_new (
-		connection,
-		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
-		G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES |
-		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-		NULL,
-		name,
-		MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
-		MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
-		NULL,
-		(GAsyncReadyCallback)web_extension_proxy_created_cb,
-		e_weak_ref_new (view));
+	itip_view_unregister_dbus_signals (view);
 
-	g_object_unref (view);
-}
+	proxy = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
+	if (!proxy)
+		return;
 
-static void
-web_extension_vanished_cb (GDBusConnection *connection,
-                           const gchar *name,
-                           GWeakRef *view_wr)
-{
-	ItipView *view;
+	connection = g_dbus_proxy_get_connection (proxy);
+	if (!connection || g_dbus_connection_is_closed (connection))
+		return;
 
-	view = g_weak_ref_get (view_wr);
+	view->priv->dbus_connection = g_object_ref (connection);
 
-	if (view) {
-		g_clear_object (&view->priv->web_extension);
-		g_object_unref (view);
-	}
-}
+	view->priv->web_extension_source_changed_cb_signal_id =
+		g_dbus_connection_signal_subscribe (
+			view->priv->dbus_connection,
+			g_dbus_proxy_get_name (proxy),
+			E_WEB_EXTENSION_INTERFACE,
+			"ItipSourceChanged",
+			E_WEB_EXTENSION_OBJECT_PATH,
+			NULL,
+			G_DBUS_SIGNAL_FLAGS_NONE,
+			source_changed_cb_signal_cb,
+			view,
+			NULL);
 
-static void
-itip_view_watch_web_extension (ItipView *view)
-{
-	view->priv->web_extension_watch_name_id =
-		g_bus_watch_name (
-			G_BUS_TYPE_SESSION,
-			MODULE_ITIP_FORMATTER_WEB_EXTENSION_SERVICE_NAME,
-			G_BUS_NAME_WATCHER_FLAGS_NONE,
-			(GBusNameAppearedCallback) web_extension_appeared_cb,
-			(GBusNameVanishedCallback) web_extension_vanished_cb,
-			e_weak_ref_new (view), (GDestroyNotify) e_weak_ref_free);
-}
+	view->priv->web_extension_recur_toggled_signal_id =
+		g_dbus_connection_signal_subscribe (
+			view->priv->dbus_connection,
+			g_dbus_proxy_get_name (proxy),
+			E_WEB_EXTENSION_INTERFACE,
+			"ItipRecurToggled",
+			E_WEB_EXTENSION_OBJECT_PATH,
+			NULL,
+			G_DBUS_SIGNAL_FLAGS_NONE,
+			(GDBusSignalCallback) recur_toggled_signal_cb,
+			view,
+			NULL);
 
-GDBusProxy *
-itip_view_get_web_extension_proxy (ItipView *view)
-{
-	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+	e_util_invoke_g_dbus_proxy_call_with_error_check (
+		proxy,
+		"ItipCreateDOMBindings",
+		g_variant_new ("(ts)", itip_view_get_page_id (view), view->priv->part_id),
+		NULL);
 
-	return view->priv->web_extension;
+	itip_view_init_view (view);
 }
 
 static void
@@ -1953,8 +1994,7 @@ itip_view_init (ItipView *view)
 }
 
 ItipView *
-itip_view_new (guint64 page_id,
-               const gchar *part_id,
+itip_view_new (const gchar *part_id,
 	       gpointer itip_part_ptr,
 	       CamelFolder *folder,
 	       const gchar *message_uid,
@@ -1966,17 +2006,14 @@ itip_view_new (guint64 page_id,
 	ItipView *view;
 
 	view = ITIP_VIEW (g_object_new (ITIP_TYPE_VIEW, NULL));
-	view->priv->page_id = page_id;
 	view->priv->part_id = g_strdup (part_id);
 	view->priv->itip_part_ptr = itip_part_ptr;
-	view->priv->folder = g_object_ref (folder);
+	view->priv->folder = folder ? g_object_ref (folder) : NULL;
 	view->priv->message_uid = g_strdup (message_uid);
-	view->priv->message = g_object_ref (message);
+	view->priv->message = message ? g_object_ref (message) : NULL;
 	view->priv->itip_mime_part = g_object_ref (itip_mime_part);
 	view->priv->vcalendar = g_strdup (vcalendar);
 	view->priv->cancellable = g_object_ref (cancellable);
-
-	itip_view_watch_web_extension (view);
 
 	return view;
 }
@@ -1985,19 +2022,22 @@ void
 itip_view_set_mode (ItipView *view,
                     ItipViewMode mode)
 {
+	GDBusProxy *proxy;
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
 	view->priv->mode = mode;
 
 	set_sender_text (view);
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"ElementHideChildNodes",
-		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, TABLE_ROW_BUTTONS),
+		proxy,
+		"ItipElementHideChildNodes",
+		g_variant_new ("(tss)", itip_view_get_page_id (view), view->priv->part_id, TABLE_ROW_BUTTONS),
 		NULL);
 
 	view->priv->is_recur_set = itip_view_get_recur_check_state (view);
@@ -2042,6 +2082,8 @@ itip_view_set_mode (ItipView *view,
 	default:
 		break;
 	}
+
+	g_object_unref (proxy);
 }
 
 ItipViewMode
@@ -2056,14 +2098,16 @@ void
 itip_view_set_item_type (ItipView *view,
                          ECalClientSourceType type)
 {
+	GDBusProxy *proxy;
 	const gchar *header;
 	gchar *access_key, *html_label;
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
 	view->priv->type = type;
+	proxy = itip_view_ref_web_extension_proxy (view);
 
-	if (!view->priv->web_extension)
+	if (!proxy)
 		return;
 
 	switch (view->priv->type) {
@@ -2083,19 +2127,21 @@ itip_view_set_item_type (ItipView *view,
 
 	if (!header) {
 		set_sender_text (view);
+		g_object_unref (proxy);
 		return;
 	}
 
 	html_label = e_mail_formatter_parse_html_mnemonics (header, &access_key);
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"ElementSetAccessKey",
-		g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, TABLE_ROW_ESCB_LABEL, access_key),
+		proxy,
+		"ItipElementSetAccessKey",
+		g_variant_new ("(tsss)", itip_view_get_page_id (view), view->priv->part_id, TABLE_ROW_ESCB_LABEL, access_key),
 		NULL);
 
 	set_inner_html (view, TABLE_ROW_ESCB_LABEL, html_label);
 
+	g_object_unref (proxy);
 	g_free (html_label);
 
 	if (access_key)
@@ -2604,9 +2650,6 @@ itip_view_add_upper_info_item (ItipView *view,
 
 	priv->upper_info_items = g_slist_append (priv->upper_info_items, item);
 
-	if (!view->priv->web_extension)
-		return item->id;
-
 	append_info_item_row (view, TABLE_UPPER_ITIP_INFO, item);
 
 	return item->id;
@@ -2704,9 +2747,6 @@ itip_view_add_lower_info_item (ItipView *view,
 
 	priv->lower_info_items = g_slist_append (priv->lower_info_items, item);
 
-	if (!view->priv->web_extension)
-		return item->id;
-
 	append_info_item_row (view, TABLE_LOWER_ITIP_INFO, item);
 
 	return item->id;
@@ -2789,6 +2829,7 @@ itip_view_set_source (ItipView *view,
                       ESource *source)
 {
 	ESource *selected_source;
+	GDBusProxy *proxy;
 
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
@@ -2811,22 +2852,25 @@ itip_view_set_source (ItipView *view,
 	if (selected_source != NULL)
 		g_object_unref (selected_source);
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"EnableSelect",
-		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE, TRUE),
+		proxy,
+		"ItipEnableSelect",
+		g_variant_new ("(tssb)", itip_view_get_page_id (view), view->priv->part_id, SELECT_ESOURCE, TRUE),
 		NULL);
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"SelectSetSelected",
-		g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE, e_source_get_uid (source)),
+		proxy,
+		"ItipSelectSetSelected",
+		g_variant_new ("(tsss)", itip_view_get_page_id (view), view->priv->part_id, SELECT_ESOURCE, e_source_get_uid (source)),
 		NULL);
 
 	source_changed_cb (view);
+	g_object_unref (proxy);
 }
 
 ESource *
@@ -2834,17 +2878,20 @@ itip_view_ref_source (ItipView *view)
 {
 	ESource *source = NULL;
 	gboolean disable = FALSE, enabled = FALSE;
+	GDBusProxy *proxy;
 	GVariant *result;
 
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return NULL;
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-			view->priv->web_extension,
-			"SelectIsEnabled",
-			g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE),
+			proxy,
+			"ItipSelectIsEnabled",
+			g_variant_new ("(tss)", itip_view_get_page_id (view), view->priv->part_id, SELECT_ESOURCE),
 			NULL);
 
 	if (result) {
@@ -2854,18 +2901,18 @@ itip_view_ref_source (ItipView *view)
 
 	if (!enabled) {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			view->priv->web_extension,
-			"EnableSelect",
-			g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE, TRUE),
+			proxy,
+			"ItipEnableSelect",
+			g_variant_new ("(tssb)", itip_view_get_page_id (view), view->priv->part_id, SELECT_ESOURCE, TRUE),
 			NULL);
 
 		disable = TRUE;
 	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		view->priv->web_extension,
-		"SelectGetValue",
-		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE),
+		proxy,
+		"ItipSelectGetValue",
+		g_variant_new ("(tss)", itip_view_get_page_id (view), view->priv->part_id, SELECT_ESOURCE),
 		NULL);
 
 	if (result) {
@@ -2878,11 +2925,13 @@ itip_view_ref_source (ItipView *view)
 
 	if (disable) {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			view->priv->web_extension,
-			"EnableSelect",
-			g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, SELECT_ESOURCE, FALSE),
+			proxy,
+			"ItipEnableSelect",
+			g_variant_new ("(tssb)", itip_view_get_page_id (view), view->priv->part_id, SELECT_ESOURCE, FALSE),
 			NULL);
 	}
+
+	g_object_unref (proxy);
 
 	return source;
 }
@@ -2891,18 +2940,22 @@ void
 itip_view_set_rsvp (ItipView *view,
                     gboolean rsvp)
 {
-	g_return_if_fail (ITIP_IS_VIEW (view));
+	GDBusProxy *proxy;
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	input_set_checked (view, CHECKBOX_RSVP, rsvp);
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"EnableTextArea",
-		g_variant_new ("(tssb)", view->priv->page_id, view->priv->part_id, TEXTAREA_RSVP_COMMENT, !rsvp),
+		proxy,
+		"ItipEnableTextArea",
+		g_variant_new ("(tssb)", itip_view_get_page_id (view), view->priv->part_id, TEXTAREA_RSVP_COMMENT, !rsvp),
 		NULL);
+
+	g_object_unref (proxy);
 }
 
 gboolean
@@ -2969,37 +3022,46 @@ void
 itip_view_set_rsvp_comment (ItipView *view,
                             const gchar *comment)
 {
-	g_return_if_fail (ITIP_IS_VIEW (view));
+	GDBusProxy *proxy;
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return;
 
 	if (comment) {
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			view->priv->web_extension,
-			"TextAreaSetValue",
-			g_variant_new ("(tsss)", view->priv->page_id, view->priv->part_id, TEXTAREA_RSVP_COMMENT, comment),
+			proxy,
+			"ItipTextAreaSetValue",
+			g_variant_new ("(tsss)", itip_view_get_page_id (view), view->priv->part_id, TEXTAREA_RSVP_COMMENT, comment),
 			NULL);
 	}
+
+	g_object_unref (proxy);
 }
 
 gchar *
 itip_view_get_rsvp_comment (ItipView *view)
 {
+	GDBusProxy *proxy;
 	GVariant *result;
 
 	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
 
-	if (!view->priv->web_extension)
+	proxy = itip_view_ref_web_extension_proxy (view);
+
+	if (!proxy)
 		return NULL;
 
-	if (element_is_hidden (view, TEXTAREA_RSVP_COMMENT))
+	if (element_is_hidden (view, TEXTAREA_RSVP_COMMENT)) {
+		g_object_unref (proxy);
 		return NULL;
+	}
 
 	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		view->priv->web_extension,
-		"TextAreaGetValue",
-		g_variant_new ("(tss)", view->priv->page_id, view->priv->part_id, TEXTAREA_RSVP_COMMENT),
+		proxy,
+		"ItipTextAreaGetValue",
+		g_variant_new ("(tss)", itip_view_get_page_id (view), view->priv->part_id, TEXTAREA_RSVP_COMMENT),
 		NULL);
 
 	if (result) {
@@ -3007,8 +3069,11 @@ itip_view_get_rsvp_comment (ItipView *view)
 
 		g_variant_get (result, "(s)", &value);
 		g_variant_unref (result);
+		g_object_unref (proxy);
 		return value;
 	}
+
+	g_object_unref (proxy);
 
 	return NULL;
 }
@@ -3026,20 +3091,25 @@ void
 itip_view_set_buttons_sensitive (ItipView *view,
                                  gboolean sensitive)
 {
+	GDBusProxy *proxy;
+
 	g_return_if_fail (ITIP_IS_VIEW (view));
 
 	d (printf ("Settings buttons %s\n", sensitive ? "sensitive" : "insensitive"));
 
 	view->priv->buttons_sensitive = sensitive;
+	proxy = itip_view_ref_web_extension_proxy (view);
 
-	if (!view->priv->web_extension)
+	if (!proxy)
 		return;
 
 	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		view->priv->web_extension,
-		"SetButtonsSensitive",
-		g_variant_new ("(tsb)", view->priv->page_id, view->priv->part_id, sensitive),
+		proxy,
+		"ItipSetButtonsSensitive",
+		g_variant_new ("(tsb)", itip_view_get_page_id (view), view->priv->part_id, sensitive),
 		NULL);
+
+	g_object_unref (proxy);
 }
 
 gboolean
@@ -3155,9 +3225,6 @@ itip_view_set_error (ItipView *view,
 	}
 
 	view->priv->error = g_string_free (str, FALSE);
-
-	if (!view->priv->web_extension)
-		return;
 
 	hide_element (view, DIV_ITIP_CONTENT, TRUE);
 	hide_element (view, DIV_ITIP_ERROR, FALSE);
@@ -6866,7 +6933,7 @@ itip_view_init_view (ItipView *view)
 			find_server (view, view->priv->comp);
 			set_buttons_sensitive (view);
 		}
-	} else if (view->priv->web_extension) {
+	} else {
 		/* The Open Calendar button can be shown, thus enable it */
 		enable_button (view, BUTTON_OPEN_CALENDAR, TRUE);
 	}
@@ -6881,6 +6948,16 @@ itip_view_set_web_view (ItipView *view,
 		g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	g_weak_ref_set (view->priv->web_view_weakref, web_view);
+
+	if (web_view) {
+		g_signal_connect_object (web_view, "notify::web-extension-proxy",
+			G_CALLBACK (itip_view_web_extension_proxy_notify_cb), view, 0);
+
+		if (e_web_view_get_web_extension_proxy (web_view))
+			itip_view_web_extension_proxy_notify_cb (G_OBJECT (web_view), NULL, view);
+	} else {
+		itip_view_unregister_dbus_signals (view);
+	}
 
 	itip_view_register_clicked_listener (view);
 }

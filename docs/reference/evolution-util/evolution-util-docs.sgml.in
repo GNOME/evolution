@@ -316,6 +316,7 @@
     <xi:include href="xml/e-tree-view-frame.xml"/>
     <xi:include href="xml/e-url-entry.xml"/>
     <xi:include href="xml/e-util-enums.xml"/>
+    <xi:include href="xml/e-web-extension-container.xml"/>
     <xi:include href="xml/e-webdav-browser.xml"/>
     <xi:include href="xml/e-widget-undo.xml"/>
   </chapter>
@@ -323,6 +324,10 @@
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-36" role="3.36">
+    <title>Index of new symbols in 3.36</title>
+    <xi:include href="xml/api-index-3.36.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-34" role="3.34">
     <title>Index of new symbols in 3.34</title>

@@ -85,6 +85,7 @@ struct _EMailDisplayPrivate {
 	EMailRemoteContent *remote_content;
 	GHashTable *skipped_remote_content_sites;
 
+	GDBusConnection *web_extension_connection;
 	guint web_extension_headers_collapsed_signal_id;
 	guint web_extension_mail_part_appeared_signal_id;
 };
@@ -586,36 +587,48 @@ setup_dom_bindings (EMailDisplay *display)
 
 	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
 
-	if (web_extension) {
-		if (display->priv->web_extension_headers_collapsed_signal_id == 0) {
-			display->priv->web_extension_headers_collapsed_signal_id =
-				g_dbus_connection_signal_subscribe (
-					g_dbus_proxy_get_connection (web_extension),
-					g_dbus_proxy_get_name (web_extension),
-					E_WEB_EXTENSION_INTERFACE,
-					"HeadersCollapsed",
-					E_WEB_EXTENSION_OBJECT_PATH,
-					NULL,
-					G_DBUS_SIGNAL_FLAGS_NONE,
-					(GDBusSignalCallback) headers_collapsed_signal_cb,
-					display,
-					NULL);
+	if (display->priv->web_extension_connection) {
+		if (display->priv->web_extension_headers_collapsed_signal_id) {
+			g_dbus_connection_signal_unsubscribe (display->priv->web_extension_connection, display->priv->web_extension_headers_collapsed_signal_id);
+			display->priv->web_extension_headers_collapsed_signal_id = 0;
 		}
 
-		if (display->priv->web_extension_mail_part_appeared_signal_id == 0) {
-			display->priv->web_extension_mail_part_appeared_signal_id =
-				g_dbus_connection_signal_subscribe (
-					g_dbus_proxy_get_connection (web_extension),
-					g_dbus_proxy_get_name (web_extension),
-					E_WEB_EXTENSION_INTERFACE,
-					"MailPartAppeared",
-					E_WEB_EXTENSION_OBJECT_PATH,
-					NULL,
-					G_DBUS_SIGNAL_FLAGS_NONE,
-					mail_display_mail_part_appeared_signal_cb,
-					display,
-					NULL);
+		if (display->priv->web_extension_mail_part_appeared_signal_id) {
+			g_dbus_connection_signal_unsubscribe (display->priv->web_extension_connection, display->priv->web_extension_mail_part_appeared_signal_id);
+			display->priv->web_extension_mail_part_appeared_signal_id = 0;
 		}
+
+		g_clear_object (&display->priv->web_extension_connection);
+	}
+
+	if (web_extension) {
+		display->priv->web_extension_connection = g_object_ref (g_dbus_proxy_get_connection (web_extension));
+
+		display->priv->web_extension_headers_collapsed_signal_id =
+			g_dbus_connection_signal_subscribe (
+				display->priv->web_extension_connection,
+				g_dbus_proxy_get_name (web_extension),
+				E_WEB_EXTENSION_INTERFACE,
+				"HeadersCollapsed",
+				E_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				(GDBusSignalCallback) headers_collapsed_signal_cb,
+				display,
+				NULL);
+
+		display->priv->web_extension_mail_part_appeared_signal_id =
+			g_dbus_connection_signal_subscribe (
+				display->priv->web_extension_connection,
+				g_dbus_proxy_get_name (web_extension),
+				E_WEB_EXTENSION_INTERFACE,
+				"MailPartAppeared",
+				E_WEB_EXTENSION_OBJECT_PATH,
+				NULL,
+				G_DBUS_SIGNAL_FLAGS_NONE,
+				mail_display_mail_part_appeared_signal_cb,
+				display,
+				NULL);
 
 		e_util_invoke_g_dbus_proxy_call_with_error_check (
 			web_extension,
@@ -1304,6 +1317,21 @@ mail_display_load_changed_cb (WebKitWebView *wk_web_view,
 }
 
 static void
+mail_display_web_extension_proxy_notify_cb (GObject *object,
+					    GParamSpec *param,
+					    gpointer user_data)
+{
+	EMailDisplay *display;
+
+	g_return_if_fail (E_IS_MAIL_DISPLAY (object));
+
+	display = E_MAIL_DISPLAY (object);
+
+	setup_dom_bindings (display);
+	mail_parts_bind_dom (display);
+}
+
+static void
 mail_display_set_property (GObject *object,
                            guint property_id,
                            const GValue *value,
@@ -1429,26 +1457,18 @@ mail_display_dispose (GObject *object)
 			0, 0, NULL, NULL, object);
 	}
 
-	if (priv->web_extension_headers_collapsed_signal_id > 0) {
-		GDBusProxy *web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (object));
-
-		if (web_extension != NULL) {
-			g_dbus_connection_signal_unsubscribe (
-				g_dbus_proxy_get_connection (web_extension),
-				priv->web_extension_headers_collapsed_signal_id);
+	if (priv->web_extension_connection) {
+		if (priv->web_extension_headers_collapsed_signal_id) {
+			g_dbus_connection_signal_unsubscribe (priv->web_extension_connection, priv->web_extension_headers_collapsed_signal_id);
+			priv->web_extension_headers_collapsed_signal_id = 0;
 		}
-		priv->web_extension_headers_collapsed_signal_id = 0;
-	}
 
-	if (priv->web_extension_mail_part_appeared_signal_id > 0) {
-		GDBusProxy *web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (object));
-
-		if (web_extension != NULL) {
-			g_dbus_connection_signal_unsubscribe (
-				g_dbus_proxy_get_connection (web_extension),
-				priv->web_extension_mail_part_appeared_signal_id);
+		if (priv->web_extension_mail_part_appeared_signal_id) {
+			g_dbus_connection_signal_unsubscribe (priv->web_extension_connection, priv->web_extension_mail_part_appeared_signal_id);
+			priv->web_extension_mail_part_appeared_signal_id = 0;
 		}
-		priv->web_extension_mail_part_appeared_signal_id = 0;
+
+		g_clear_object (&priv->web_extension_connection);
 	}
 
 	if (priv->attachment_store) {
@@ -2296,6 +2316,9 @@ e_mail_display_init (EMailDisplay *display)
 			g_clear_error (&error);
 		}
 	}
+
+	g_signal_connect (display, "notify::web-extension-proxy",
+		G_CALLBACK (mail_display_web_extension_proxy_notify_cb), NULL);
 }
 
 static void

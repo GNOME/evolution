@@ -19,8 +19,7 @@
 #ifndef E_WEB_EXTENSION_NAMES_H
 #define E_WEB_EXTENSION_NAMES_H
 
-#define E_WEB_EXTENSION_SERVICE_NAME "org.gnome.Evolution.WebExtension"
-#define E_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/WebExtension"
-#define E_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.WebExtension"
+#define E_WEB_EXTENSION_OBJECT_PATH		"/org/gnome/Evolution/WebExtension"
+#define E_WEB_EXTENSION_INTERFACE		"org.gnome.Evolution.WebExtension"
 
 #endif /* E_WEB_EXTENSION_NAMES_H */

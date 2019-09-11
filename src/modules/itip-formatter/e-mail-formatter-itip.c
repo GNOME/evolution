@@ -71,7 +71,7 @@ emfe_itip_format (EMailFormatterExtension *extension,
 
 		buffer = g_string_sized_new (1024);
 
-		itip_view = itip_view_new (0, e_mail_part_get_id (part),
+		itip_view = itip_view_new (e_mail_part_get_id (part),
 			itip_part,
 			itip_part->folder,
 			itip_part->message_uid,

@@ -69,6 +69,9 @@ WebKitWebPage *	e_editor_page_get_web_page	(EEditorPage *editor_page);
 struct _EEditorWebExtension *
 		e_editor_page_get_web_extension	(EEditorPage *editor_page);
 guint64		e_editor_page_get_page_id	(EEditorPage *editor_page);
+gint		e_editor_page_get_stamp		(EEditorPage *editor_page);
+void		e_editor_page_set_stamp		(EEditorPage *editor_page,
+						 gint stamp);
 WebKitDOMDocument *
 		e_editor_page_get_document	(EEditorPage *editor_page);
 struct _EEditorUndoRedoManager *
