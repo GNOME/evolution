@@ -31,6 +31,7 @@
 struct _EEditorPagePrivate {
 	WebKitWebPage *web_page; /* not referenced */
 	EEditorWebExtension *web_extension; /* not referenced */
+	gint stamp;
 
 	EEditorUndoRedoManager *undo_redo_manager;
 	ESpellChecker *spell_checker;
@@ -305,6 +306,23 @@ e_editor_page_get_page_id (EEditorPage *editor_page)
 		return 0;
 
 	return webkit_web_page_get_id (editor_page->priv->web_page);
+}
+
+gint
+e_editor_page_get_stamp (EEditorPage *editor_page)
+{
+	g_return_val_if_fail (E_IS_EDITOR_PAGE (editor_page), 0);
+
+	return editor_page->priv->stamp;
+}
+
+void
+e_editor_page_set_stamp (EEditorPage *editor_page,
+			 gint stamp)
+{
+	g_return_if_fail (E_IS_EDITOR_PAGE (editor_page));
+
+	editor_page->priv->stamp = stamp;
 }
 
 WebKitDOMDocument *

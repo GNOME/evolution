@@ -19,7 +19,6 @@
 #ifndef E_EDITOR_WEB_EXTENSION_NAMES_H
 #define E_EDITOR_WEB_EXTENSION_NAMES_H
 
-#define E_WEBKIT_EDITOR_WEB_EXTENSION_SERVICE_NAME_PREFIX "org.gnome.Evolution.WebExtension.EWebKitEditor"
 #define E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH  "/org/gnome/Evolution/WebExtension/EWebKitEditor"
 #define E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE    "org.gnome.Evolution.WebExtension.EWebKitEditor"
 

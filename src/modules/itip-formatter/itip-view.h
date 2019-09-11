@@ -106,8 +106,7 @@ struct _ItipViewClass {
 };
 
 GType		itip_view_get_type		(void);
-ItipView *	itip_view_new			(guint64 page_id,
-						 const gchar *part_id,
+ItipView *	itip_view_new			(const gchar *part_id,
 						 gpointer itip_part_ptr,
 						 CamelFolder *folder,
 						 const gchar *message_uid,
@@ -250,8 +249,6 @@ void		itip_view_set_show_inherit_alarm_check
 void		itip_view_set_error		(ItipView *view,
 						 const gchar *error_html,
 						 gboolean show_save_btn);
-GDBusProxy *	itip_view_get_web_extension_proxy
-						(ItipView *view);
 
 G_END_DECLS
 

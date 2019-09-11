@@ -86,20 +86,21 @@ mail_part_itip_bind_dom_element (EMailPart *part,
 
 	pitip = E_MAIL_PART_ITIP (part);
 
-	itip_view = itip_view_new (
-		page_id,
-		e_mail_part_get_id (part),
-		pitip,
-		pitip->folder,
-		pitip->message_uid,
-		pitip->message,
-		pitip->itip_mime_part,
-		pitip->vcalendar,
-		pitip->cancellable);
+	if (pitip->folder && pitip->message_uid && pitip->message) {
+		itip_view = itip_view_new (
+			e_mail_part_get_id (part),
+			pitip,
+			pitip->folder,
+			pitip->message_uid,
+			pitip->message,
+			pitip->itip_mime_part,
+			pitip->vcalendar,
+			pitip->cancellable);
 
-	itip_view_set_web_view (itip_view, web_view);
+		itip_view_set_web_view (itip_view, web_view);
 
-	pitip->priv->views = g_slist_prepend (pitip->priv->views, itip_view);
+		pitip->priv->views = g_slist_prepend (pitip->priv->views, itip_view);
+	}
 }
 
 static void

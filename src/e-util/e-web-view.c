@@ -38,6 +38,7 @@
 #include "e-popup-action.h"
 #include "e-selectable.h"
 #include "e-stock-request.h"
+#include "e-web-extension-container.h"
 
 #include "web-extensions/e-web-extension-names.h"
 
@@ -46,6 +47,8 @@
 #define E_WEB_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
+
+static void e_web_view_set_web_extension_proxy (EWebView *web_view, GDBusProxy *proxy);
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -80,8 +83,9 @@ struct _EWebViewPrivate {
 
 	GHashTable *old_settings;
 
-	GDBusProxy *web_extension;
-	guint web_extension_watch_name_id;
+	EWebExtensionContainer *container;
+	GDBusProxy *web_extension_proxy;
+	gint stamp; /* Changed only in the main thread, doesn't need locking */
 
 	WebKitFindController *find_controller;
 	gulong found_text_handler_id;
@@ -124,7 +128,8 @@ enum {
 	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
 	PROP_SAVE_AS_PROXY,
-	PROP_SELECTED_URI
+	PROP_SELECTED_URI,
+	PROP_WEB_EXTENSION_PROXY
 };
 
 enum {
@@ -206,6 +211,19 @@ action_copy_clipboard_cb (GtkAction *action,
                           EWebView *web_view)
 {
 	e_web_view_copy_clipboard (web_view);
+}
+
+static gint
+e_web_view_assign_new_stamp (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), 0);
+
+	if (web_view->priv->stamp)
+		e_web_extension_container_forget_stamp (web_view->priv->container, web_view->priv->stamp);
+
+	web_view->priv->stamp = e_web_extension_container_reserve_stamp (web_view->priv->container);
+
+	return web_view->priv->stamp;
 }
 
 static void
@@ -731,22 +749,16 @@ web_view_decide_policy_cb (EWebView *web_view,
 static void
 e_web_view_ensure_body_class (EWebView *web_view)
 {
-	GDBusProxy *web_extension;
+	guint64 page_id;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (!web_extension)
-		return;
+	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		web_extension,
+	e_web_extension_container_call_simple (web_view->priv->container,
+		page_id, web_view->priv->stamp,
 		"EWebViewEnsureBodyClass",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
-			"-e-web-view-background-color -e-web-view-text-color"),
-		NULL);
+		g_variant_new ("(ts)", page_id, "-e-web-view-background-color -e-web-view-text-color"));
 }
 
 static void
@@ -855,11 +867,30 @@ web_view_constructor (GType type,
 		param_spec = g_object_class_find_property(object_class, "user-content-manager");
 		if ((param = find_property (n_construct_properties, construct_properties, param_spec)))
 			g_value_take_object (param->value, webkit_user_content_manager_new ());
+		param_spec = g_object_class_find_property (object_class, "web-context");
+		if ((param = find_property (n_construct_properties, construct_properties, param_spec))) {
+			/* Share one web_context between all editors, thus there is one WebProcess
+			   for all the editors (and one for the preview). */
+			static gpointer web_context = NULL;
+
+			if (!web_context) {
+				web_context = webkit_web_context_new ();
+
+				webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
+				webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
+
+				g_object_add_weak_pointer (G_OBJECT (web_context), &web_context);
+			} else {
+				g_object_ref (web_context);
+			}
+
+			g_value_take_object (param->value, web_context);
+		}
 	}
 
 	g_type_class_unref (object_class);
 
-	return G_OBJECT_CLASS (e_web_view_parent_class)->constructor(type, n_construct_properties, construct_properties);
+	return G_OBJECT_CLASS (e_web_view_parent_class)->constructor (type, n_construct_properties, construct_properties);
 }
 
 static void
@@ -1019,6 +1050,11 @@ web_view_get_property (GObject *object,
 				E_WEB_VIEW (object)));
 			return;
 
+		case PROP_WEB_EXTENSION_PROXY:
+			g_value_set_object (
+				value, e_web_view_get_web_extension_proxy (
+				E_WEB_VIEW (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1057,11 +1093,6 @@ web_view_dispose (GObject *object)
 		priv->antialiasing_changed_handler_id = 0;
 	}
 
-	if (priv->web_extension_watch_name_id > 0) {
-		g_bus_unwatch_name (priv->web_extension_watch_name_id);
-		priv->web_extension_watch_name_id = 0;
-	}
-
 	if (priv->found_text_handler_id > 0) {
 		g_signal_handler_disconnect (
 			priv->find_controller,
@@ -1076,31 +1107,15 @@ web_view_dispose (GObject *object)
 		priv->failed_to_find_text_handler_id = 0;
 	}
 
-	if (priv->web_extension && priv->web_extension_clipboard_flags_changed_signal_id) {
-		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (priv->web_extension),
-			priv->web_extension_clipboard_flags_changed_signal_id);
-		priv->web_extension_clipboard_flags_changed_signal_id = 0;
-	}
-
-	if (priv->web_extension && priv->web_extension_need_input_changed_signal_id) {
-		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (priv->web_extension),
-			priv->web_extension_need_input_changed_signal_id);
-		priv->web_extension_need_input_changed_signal_id = 0;
-	}
-
-	if (priv->web_extension && priv->web_extension_element_clicked_signal_id) {
-		g_dbus_connection_signal_unsubscribe (
-			g_dbus_proxy_get_connection (priv->web_extension),
-			priv->web_extension_element_clicked_signal_id);
-		priv->web_extension_element_clicked_signal_id = 0;
-	}
-
 	g_hash_table_remove_all (priv->element_clicked_cbs);
 
 	g_slist_free_full (priv->content_requests, g_object_unref);
 	priv->content_requests = NULL;
+
+	e_web_view_set_web_extension_proxy (E_WEB_VIEW (object), NULL);
+
+	if (priv->container && priv->stamp)
+		e_web_extension_container_forget_stamp (priv->container, priv->stamp);
 
 	g_clear_object (&priv->ui_manager);
 	g_clear_object (&priv->open_proxy);
@@ -1108,7 +1123,7 @@ web_view_dispose (GObject *object)
 	g_clear_object (&priv->save_as_proxy);
 	g_clear_object (&priv->aliasing_settings);
 	g_clear_object (&priv->font_settings);
-	g_clear_object (&priv->web_extension);
+	g_clear_object (&priv->container);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->dispose (object);
@@ -1252,15 +1267,10 @@ e_web_view_register_content_request_for_scheme (EWebView *web_view,
 static void
 web_view_initialize (WebKitWebView *web_view)
 {
-	WebKitWebContext *web_context;
 	EContentRequest *content_request;
 	const gchar *id = "org.gnome.settings-daemon.plugins.xsettings";
 	GSettings *settings = NULL, *font_settings;
 	GSettingsSchema *settings_schema;
-
-	web_context = webkit_web_view_get_context (web_view);
-
-	webkit_web_context_set_cache_model (web_context, WEBKIT_CACHE_MODEL_DOCUMENT_VIEWER);
 
 	content_request = e_file_request_new ();
 	e_web_view_register_content_request_for_scheme (E_WEB_VIEW (web_view), "evo-file", content_request);
@@ -1291,11 +1301,27 @@ web_view_initialize (WebKitWebView *web_view)
 		g_object_unref (settings);
 }
 
+static void
+e_web_view_initialize_web_extensions_cb (WebKitWebContext *web_context,
+					 gpointer user_data)
+{
+	EWebView *web_view = user_data;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+	g_return_if_fail (web_view->priv->container);
+
+	webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
+	webkit_web_context_set_web_extensions_initialization_user_data (web_context,
+		g_variant_new ("(ss)",
+			e_web_extension_container_get_server_guid (web_view->priv->container),
+			e_web_extension_container_get_server_address (web_view->priv->container)));
+}
 
 static void
 web_view_constructed (GObject *object)
 {
 	WebKitSettings *web_settings;
+	EWebView *web_view = E_WEB_VIEW (object);
 #ifndef G_OS_WIN32
 	GSettings *settings;
 
@@ -1314,10 +1340,13 @@ web_view_constructed (GObject *object)
 	g_object_unref (settings);
 #endif
 
-	e_extensible_load_extensions (E_EXTENSIBLE (object));
+	g_signal_connect_object (webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view)), "initialize-web-extensions",
+		G_CALLBACK (e_web_view_initialize_web_extensions_cb), web_view, 0);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object));
 
@@ -1334,7 +1363,7 @@ web_view_constructed (GObject *object)
 
 	web_view_initialize (WEBKIT_WEB_VIEW (object));
 
-	web_view_set_find_controller (E_WEB_VIEW (object));
+	web_view_set_find_controller (web_view);
 }
 
 static void
@@ -1520,25 +1549,40 @@ static void
 web_view_load_string (EWebView *web_view,
                       const gchar *string)
 {
+	gchar *uri_with_stamp;
+
+	uri_with_stamp = g_strdup_printf ("evo-file:///?evo-stamp=%d", e_web_view_assign_new_stamp (web_view));
+
 	if (!string || !*string) {
-		webkit_web_view_load_html (WEBKIT_WEB_VIEW (web_view), "", "evo-file://");
+		webkit_web_view_load_html (WEBKIT_WEB_VIEW (web_view), "", uri_with_stamp);
 	} else {
 		GBytes *bytes;
 
 		bytes = g_bytes_new (string, strlen (string));
-		webkit_web_view_load_bytes (WEBKIT_WEB_VIEW (web_view), bytes, NULL, NULL, "evo-file://");
+		webkit_web_view_load_bytes (WEBKIT_WEB_VIEW (web_view), bytes, NULL, NULL, uri_with_stamp);
 		g_bytes_unref (bytes);
 	}
+
+	g_free (uri_with_stamp);
 }
 
 static void
 web_view_load_uri (EWebView *web_view,
                    const gchar *uri)
 {
+	gchar *uri_with_stamp;
+
 	if (uri == NULL)
 		uri = "about:blank";
 
-	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (web_view), uri);
+	if (strchr (uri, '?'))
+		uri_with_stamp = g_strdup_printf ("%s&evo-stamp=%d", uri, e_web_view_assign_new_stamp (web_view));
+	else
+		uri_with_stamp = g_strdup_printf ("%s?evo-stamp=%d", uri, e_web_view_assign_new_stamp (web_view));
+
+	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (web_view), uri_with_stamp);
+
+	g_free (uri_with_stamp);
 }
 
 static gchar *
@@ -1585,21 +1629,17 @@ web_view_register_element_clicked_hfunc (gpointer key,
 {
 	const gchar *elem_class = key;
 	EWebView *web_view = user_data;
+	guint64 page_id;
 
 	g_return_if_fail (elem_class && *elem_class);
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	if (!web_view->priv->web_extension)
-		return;
+	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		web_view->priv->web_extension,
+	e_web_extension_container_call_simple (web_view->priv->container,
+		page_id, web_view->priv->stamp,
 		"RegisterElementClicked",
-		g_variant_new (
-			"(ts)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
-			elem_class),
-		NULL);
+		g_variant_new ("(ts)", page_id, elem_class));
 }
 
 static void
@@ -1704,31 +1744,50 @@ web_view_element_clicked_signal_cb (GDBusConnection *connection,
 }
 
 static void
-web_extension_proxy_created_cb (GDBusProxy *proxy,
-                                GAsyncResult *result,
-                                GWeakRef *web_view_ref)
+e_web_view_set_web_extension_proxy (EWebView *web_view,
+				    GDBusProxy *proxy)
 {
-	EWebView *web_view;
-	GError *error = NULL;
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	g_return_if_fail (web_view_ref != NULL);
-
-	web_view = g_weak_ref_get (web_view_ref);
-
-	if (!web_view) {
-		e_weak_ref_free (web_view_ref);
+	if (web_view->priv->web_extension_proxy == proxy)
 		return;
+
+	if (web_view->priv->web_extension_proxy) {
+		GDBusConnection *connection;
+
+		connection = g_dbus_proxy_get_connection (web_view->priv->web_extension_proxy);
+
+		if (connection && g_dbus_connection_is_closed (connection))
+			connection = NULL;
+
+		if (web_view->priv->web_extension_clipboard_flags_changed_signal_id) {
+			if (connection)
+				g_dbus_connection_signal_unsubscribe (connection, web_view->priv->web_extension_clipboard_flags_changed_signal_id);
+			web_view->priv->web_extension_clipboard_flags_changed_signal_id = 0;
+		}
+
+		if (web_view->priv->web_extension_need_input_changed_signal_id) {
+			if (connection)
+				g_dbus_connection_signal_unsubscribe (connection, web_view->priv->web_extension_need_input_changed_signal_id);
+			web_view->priv->web_extension_need_input_changed_signal_id = 0;
+		}
+
+		if (web_view->priv->web_extension_element_clicked_signal_id) {
+			if (connection)
+				g_dbus_connection_signal_unsubscribe (connection, web_view->priv->web_extension_element_clicked_signal_id);
+			web_view->priv->web_extension_element_clicked_signal_id = 0;
+		}
+
+		g_clear_object (&web_view->priv->web_extension_proxy);
 	}
 
-	web_view->priv->web_extension = g_dbus_proxy_new_finish (result, &error);
-	if (!web_view->priv->web_extension) {
-		g_warning ("Error creating web extension proxy: %s\n", error->message);
-		g_error_free (error);
-	} else {
+	if (proxy) {
+		web_view->priv->web_extension_proxy = g_object_ref (proxy);
+
 		web_view->priv->web_extension_clipboard_flags_changed_signal_id =
 			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (web_view->priv->web_extension),
-				g_dbus_proxy_get_name (web_view->priv->web_extension),
+				g_dbus_proxy_get_connection (proxy),
+				g_dbus_proxy_get_name (proxy),
 				E_WEB_EXTENSION_INTERFACE,
 				"ClipboardFlagsChanged",
 				E_WEB_EXTENSION_OBJECT_PATH,
@@ -1740,8 +1799,8 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 
 		web_view->priv->web_extension_need_input_changed_signal_id =
 			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (web_view->priv->web_extension),
-				g_dbus_proxy_get_name (web_view->priv->web_extension),
+				g_dbus_proxy_get_connection (proxy),
+				g_dbus_proxy_get_name (proxy),
 				E_WEB_EXTENSION_INTERFACE,
 				"NeedInputChanged",
 				E_WEB_EXTENSION_OBJECT_PATH,
@@ -1753,8 +1812,8 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 
 		web_view->priv->web_extension_element_clicked_signal_id =
 			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (web_view->priv->web_extension),
-				g_dbus_proxy_get_name (web_view->priv->web_extension),
+				g_dbus_proxy_get_connection (proxy),
+				g_dbus_proxy_get_name (proxy),
 				E_WEB_EXTENSION_INTERFACE,
 				"ElementClicked",
 				E_WEB_EXTENSION_OBJECT_PATH,
@@ -1763,77 +1822,31 @@ web_extension_proxy_created_cb (GDBusProxy *proxy,
 				web_view_element_clicked_signal_cb,
 				web_view,
 				NULL);
+	}
+
+	g_object_notify (G_OBJECT (web_view), "web-extension-proxy");
+}
+
+static void
+e_web_view_page_proxy_changed_cb (EWebExtensionContainer *container,
+				  guint64 page_id,
+				  gint stamp,
+				  GDBusProxy *proxy,
+				  gpointer user_data)
+{
+	EWebView *web_view = user_data;
+
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (stamp == web_view->priv->stamp &&
+	    page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view))) {
+		e_web_view_set_web_extension_proxy (web_view, proxy);
 
 		g_hash_table_foreach (web_view->priv->element_clicked_cbs, web_view_register_element_clicked_hfunc, web_view);
 
 		e_web_view_ensure_body_class (web_view);
 		style_updated_cb (web_view);
 	}
-
-	g_clear_object (&web_view);
-	e_weak_ref_free (web_view_ref);
-}
-
-static void
-web_extension_appeared_cb (GDBusConnection *connection,
-                           const gchar *name,
-                           const gchar *name_owner,
-                           GWeakRef *web_view_ref)
-{
-	EWebView *web_view;
-
-	g_return_if_fail (web_view_ref != NULL);
-
-	web_view = g_weak_ref_get (web_view_ref);
-
-	if (!web_view)
-		return;
-
-	g_dbus_proxy_new (
-		connection,
-		G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START |
-		G_DBUS_PROXY_FLAGS_DO_NOT_CONNECT_SIGNALS,
-		NULL,
-		name,
-		E_WEB_EXTENSION_OBJECT_PATH,
-		E_WEB_EXTENSION_INTERFACE,
-		NULL,
-		(GAsyncReadyCallback) web_extension_proxy_created_cb,
-		e_weak_ref_new (web_view));
-
-	g_clear_object (&web_view);
-}
-
-static void
-web_extension_vanished_cb (GDBusConnection *connection,
-                           const gchar *name,
-                           GWeakRef *web_view_ref)
-{
-	EWebView *web_view;
-
-	g_return_if_fail (web_view_ref != NULL);
-
-	web_view = g_weak_ref_get (web_view_ref);
-
-	if (!web_view)
-		return;
-
-	g_clear_object (&web_view->priv->web_extension);
-	g_clear_object (&web_view);
-}
-
-static void
-web_view_watch_web_extension (EWebView *web_view)
-{
-	web_view->priv->web_extension_watch_name_id =
-		g_bus_watch_name (
-			G_BUS_TYPE_SESSION,
-			E_WEB_EXTENSION_SERVICE_NAME,
-			G_BUS_NAME_WATCHER_FLAGS_NONE,
-			(GBusNameAppearedCallback) web_extension_appeared_cb,
-			(GBusNameVanishedCallback) web_extension_vanished_cb,
-			e_weak_ref_new (web_view),
-			(GDestroyNotify) e_weak_ref_free);
 }
 
 GDBusProxy *
@@ -1841,7 +1854,7 @@ e_web_view_get_web_extension_proxy (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
 
-	return web_view->priv->web_extension;
+	return web_view->priv->web_extension_proxy;
 }
 
 static void
@@ -2348,6 +2361,16 @@ e_web_view_class_init (EWebViewClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_WEB_EXTENSION_PROXY,
+		g_param_spec_object (
+			"web-extension-proxy",
+			"Web Extension Proxy",
+			NULL,
+			G_TYPE_DBUS_PROXY,
+			G_PARAM_READABLE));
+
 	signals[NEW_ACTIVITY] = g_signal_new (
 		"new-activity",
 		G_TYPE_FROM_CLASS (class),
@@ -2434,14 +2457,6 @@ e_web_view_selectable_init (ESelectableInterface *iface)
 }
 
 static void
-initialize_web_extensions_cb (WebKitWebContext *web_context)
-{
-	/* Set the web extensions dir before the process is launched */
-	webkit_web_context_set_web_extensions_directory (
-		web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
-}
-
-static void
 e_web_view_init (EWebView *web_view)
 {
 	GtkUIManager *ui_manager;
@@ -2456,7 +2471,11 @@ e_web_view_init (EWebView *web_view)
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
+	web_view->priv->container = e_web_extension_container_new (E_WEB_EXTENSION_OBJECT_PATH, E_WEB_EXTENSION_INTERFACE);
 	web_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
+
+	g_signal_connect_object (web_view->priv->container, "page-proxy-changed",
+		G_CALLBACK (e_web_view_page_proxy_changed_cb), web_view, 0);
 
 	g_signal_connect (
 		web_view, "context-menu",
@@ -2470,10 +2489,6 @@ e_web_view_init (EWebView *web_view)
 		web_view, "decide-policy",
 		G_CALLBACK (web_view_decide_policy_cb),
 		NULL);
-
-	g_signal_connect (
-		webkit_web_context_get_default (), "initialize-web-extensions",
-		G_CALLBACK (initialize_web_extensions_cb), NULL);
 
 	g_signal_connect (
 		web_view, "load-changed",
@@ -2493,8 +2508,6 @@ e_web_view_init (EWebView *web_view)
 	g_signal_connect_swapped (
 		ui_manager, "connect-proxy",
 		G_CALLBACK (web_view_connect_proxy_cb), web_view);
-
-	web_view_watch_web_extension (web_view);
 
 	settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	web_view->priv->font_settings = g_object_ref (settings);
@@ -4580,23 +4593,17 @@ void
 e_web_view_create_and_add_css_style_sheet (EWebView *web_view,
                                            const gchar *style_sheet_id)
 {
-	GDBusProxy *web_extension;
+	guint64 page_id;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (style_sheet_id && *style_sheet_id);
 
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			web_extension,
-			"CreateAndAddCSSStyleSheet",
-			g_variant_new (
-				"(ts)",
-				webkit_web_view_get_page_id (
-					WEBKIT_WEB_VIEW (web_view)),
-				style_sheet_id),
-			NULL);
-	}
+	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
+
+	e_web_extension_container_call_simple (web_view->priv->container,
+		page_id, web_view->priv->stamp,
+		"CreateAndAddCSSStyleSheet",
+		g_variant_new ("(ts)", page_id, style_sheet_id));
 }
 
 /**
@@ -4618,27 +4625,19 @@ e_web_view_add_css_rule_into_style_sheet (EWebView *web_view,
                                           const gchar *selector,
                                           const gchar *style)
 {
-	GDBusProxy *web_extension;
+	guint64 page_id;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (style_sheet_id && *style_sheet_id);
 	g_return_if_fail (selector && *selector);
 	g_return_if_fail (style && *style);
 
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			web_extension,
-			"AddCSSRuleIntoStyleSheet",
-			g_variant_new (
-				"(tsss)",
-				webkit_web_view_get_page_id (
-					WEBKIT_WEB_VIEW (web_view)),
-				style_sheet_id,
-				selector,
-				style),
-			NULL);
-	}
+	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
+
+	e_web_extension_container_call_simple (web_view->priv->container,
+		page_id, web_view->priv->stamp,
+		"AddCSSRuleIntoStyleSheet",
+		g_variant_new ("(tsss)", page_id, style_sheet_id, selector, style));
 }
 
 /**
@@ -4719,26 +4718,20 @@ e_web_view_set_document_iframe_src (EWebView *web_view,
 				    const gchar *document_uri,
 				    const gchar *new_iframe_src)
 {
-	GDBusProxy *web_extension;
+	guint64 page_id;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (!web_extension)
-		return;
 
 	/* Cannot call this synchronously, blocking the local main loop, because the reload
 	   can on the WebProcess side can be asking for a redirection policy, waiting
 	   for a response which may be waiting in the blocked main loop. */
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		web_extension,
+
+	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
+
+	e_web_extension_container_call_simple (web_view->priv->container,
+		page_id, web_view->priv->stamp,
 		"SetDocumentIFrameSrc",
-		g_variant_new (
-			"(tss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
-			document_uri,
-			new_iframe_src),
-		NULL);
+		g_variant_new ("(tss)", page_id, document_uri, new_iframe_src));
 }
 
 /**
@@ -4867,24 +4860,17 @@ e_web_view_set_element_hidden (EWebView *web_view,
 			       const gchar *element_id,
 			       gboolean hidden)
 {
-	GDBusProxy *web_extension;
+	guint64 page_id;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (element_id && *element_id);
 
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (!web_extension)
-		return;
+	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		web_extension,
+	e_web_extension_container_call_simple (web_view->priv->container,
+		page_id, web_view->priv->stamp,
 		"SetElementHidden",
-		g_variant_new (
-			"(tsb)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
-			element_id,
-			hidden),
-		NULL);
+		g_variant_new ("(tsb)", page_id, element_id, hidden));
 }
 
 void
@@ -4894,27 +4880,18 @@ e_web_view_set_element_style_property (EWebView *web_view,
 				       const gchar *value,
 				       const gchar *priority)
 {
-	GDBusProxy *web_extension;
+	guint64 page_id;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (element_id && *element_id);
 	g_return_if_fail (property_name && *property_name);
 
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (!web_extension)
-		return;
+	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		web_extension,
+	e_web_extension_container_call_simple (web_view->priv->container,
+		page_id, web_view->priv->stamp,
 		"SetElementStyleProperty",
-		g_variant_new (
-			"(tssss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
-			element_id,
-			property_name,
-			value ? value : "",
-			priority ? priority : ""),
-		NULL);
+		g_variant_new ("(tssss)", page_id, element_id, property_name, value ? value : "", priority ? priority : ""));
 }
 
 void
@@ -4924,25 +4901,16 @@ e_web_view_set_element_attribute (EWebView *web_view,
 				  const gchar *qualified_name,
 				  const gchar *value)
 {
-	GDBusProxy *web_extension;
+	guint64 page_id;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (element_id && *element_id);
 	g_return_if_fail (qualified_name && *qualified_name);
 
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (!web_extension)
-		return;
+	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		web_extension,
+	e_web_extension_container_call_simple (web_view->priv->container,
+		page_id, web_view->priv->stamp,
 		"SetElementAttribute",
-		g_variant_new (
-			"(tssss)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
-			element_id,
-			namespace_uri ? namespace_uri : "",
-			qualified_name,
-			value ? value : ""),
-		NULL);
+		g_variant_new ("(tssss)", page_id, element_id, namespace_uri ? namespace_uri : "", qualified_name, value ? value : ""));
 }

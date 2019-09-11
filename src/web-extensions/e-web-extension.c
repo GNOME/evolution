@@ -29,6 +29,7 @@
 
 #include "e-web-extension.h"
 #include "e-dom-utils.h"
+#include "e-itip-formatter-dom-utils.h"
 #include "e-web-extension-names.h"
 
 #include <webkitdom/webkitdom.h>
@@ -41,6 +42,7 @@
 
 typedef struct _EWebPageData {
 	WebKitWebPage *web_page; /* not referenced */
+	gint stamp;
 	gboolean need_input;
 	guint32 clipboard_flags;
 } EWebPageData;
@@ -53,12 +55,28 @@ struct _EWebExtensionPrivate {
 
 	gboolean initialized;
 
-	GHashTable *pages; /* guint64 *webpage_id ~> EWebPageData * */
+	GSList *pages; /* EWebPageData * */
 };
+
+enum {
+	REGISTER_DBUS_CONNECTION,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
 
 static const char introspection_xml[] =
 "<node>"
 "  <interface name='" E_WEB_EXTENSION_INTERFACE "'>"
+"    <signal name='ExtensionObjectReady'>"
+"    </signal>"
+"    <method name='GetExtensionHandlesPages'>"
+"      <arg type='at' name='array' direction='out'/>"
+"    </method>"
+"    <signal name='ExtensionHandlesPage'>"
+"      <arg type='t' name='page_id' direction='out'/>"
+"      <arg type='i' name='stamp' direction='out'/>"
+"    </signal>"
 "    <method name='RegisterElementClicked'>"
 "      <arg type='t' name='page_id' direction='in'/>"
 "      <arg type='s' name='element_class' direction='in'/>"
@@ -198,10 +216,169 @@ static const char introspection_xml[] =
 "      <arg type='t' name='page_id' direction='out'/>"
 "      <arg type='s' name='part_id' direction='out'/>"
 "    </signal>"
+"    <signal name='ItipRecurToggled'>"
+"      <arg type='t' name='page_id' direction='out'/>"
+"      <arg type='s' name='part_id' direction='out'/>"
+"    </signal>"
+"    <signal name='ItipSourceChanged'>"
+"      <arg type='t' name='page_id' direction='out'/>"
+"      <arg type='s' name='part_id' direction='out'/>"
+"    </signal>"
+"    <method name='ItipCreateDOMBindings'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"    </method>"
+"    <method name='ItipShowButton'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='button_id' direction='in'/>"
+"    </method>"
+"    <method name='ItipElementSetInnerHTML'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='s' name='inner_html' direction='in'/>"
+"    </method>"
+"    <method name='ItipRemoveElement'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"    </method>"
+"    <method name='ItipElementRemoveChildNodes'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"    </method>"
+"    <method name='ItipEnableButton'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='button_id' direction='in'/>"
+"      <arg type='b' name='enable' direction='in'/>"
+"    </method>"
+"    <method name='ItipElementIsHidden'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='b' name='is_hidden' direction='out'/>"
+"    </method>"
+"    <method name='ItipHideElement'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='b' name='hide' direction='in'/>"
+"    </method>"
+"    <method name='ItipInputSetChecked'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='input_id' direction='in'/>"
+"      <arg type='b' name='checked' direction='in'/>"
+"    </method>"
+"    <method name='ItipInputIsChecked'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='input_id' direction='in'/>"
+"      <arg type='b' name='checked' direction='out'/>"
+"    </method>"
+"    <method name='ItipShowCheckbox'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='id' direction='in'/>"
+"      <arg type='b' name='show' direction='in'/>"
+"      <arg type='b' name='update_second' direction='in'/>"
+"    </method>"
+"    <method name='ItipSetButtonsSensitive'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='b' name='sensitive' direction='in'/>"
+"    </method>"
+"    <method name='ItipSetAreaText'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='id' direction='in'/>"
+"      <arg type='s' name='text' direction='in'/>"
+"    </method>"
+"    <method name='ItipElementSetAccessKey'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='s' name='access_key' direction='in'/>"
+"    </method>"
+"    <method name='ItipElementHideChildNodes'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"    </method>"
+"    <method name='ItipEnableSelect'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='select_id' direction='in'/>"
+"      <arg type='b' name='enable' direction='in'/>"
+"    </method>"
+"    <method name='ItipSelectIsEnabled'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='select_id' direction='in'/>"
+"      <arg type='b' name='enable' direction='out'/>"
+"    </method>"
+"    <method name='ItipSelectGetValue'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='select_id' direction='in'/>"
+"      <arg type='s' name='value' direction='out'/>"
+"    </method>"
+"    <method name='ItipSelectSetSelected'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='select_id' direction='in'/>"
+"      <arg type='s' name='option' direction='in'/>"
+"    </method>"
+"    <method name='ItipUpdateTimes'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='element_id' direction='in'/>"
+"      <arg type='s' name='header' direction='in'/>"
+"      <arg type='s' name='label' direction='in'/>"
+"    </method>"
+"    <method name='ItipAppendInfoItemRow'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='table_id' direction='in'/>"
+"      <arg type='s' name='row_id' direction='in'/>"
+"      <arg type='s' name='icon_name' direction='in'/>"
+"      <arg type='s' name='message' direction='in'/>"
+"    </method>"
+"    <method name='ItipEnableTextArea'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='area_id' direction='in'/>"
+"      <arg type='b' name='enable' direction='in'/>"
+"    </method>"
+"    <method name='ItipTextAreaSetValue'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='area_id' direction='in'/>"
+"      <arg type='s' name='value' direction='in'/>"
+"    </method>"
+"    <method name='ItipTextAreaGetValue'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='area_id' direction='in'/>"
+"      <arg type='s' name='value' direction='out'/>"
+"    </method>"
+"    <method name='ItipRebuildSourceList'>"
+"      <arg type='t' name='page_id' direction='in'/>"
+"      <arg type='s' name='part_id' direction='in'/>"
+"      <arg type='s' name='optgroup_id' direction='in'/>"
+"      <arg type='s' name='optgroup_label' direction='in'/>"
+"      <arg type='s' name='option_id' direction='in'/>"
+"      <arg type='s' name='option_label' direction='in'/>"
+"      <arg type='b' name='writable' direction='in'/>"
+"    </method>"
 "  </interface>"
 "</node>";
 
-G_DEFINE_TYPE (EWebExtension, e_web_extension, G_TYPE_OBJECT)
+G_DEFINE_TYPE_WITH_CODE (EWebExtension, e_web_extension, G_TYPE_OBJECT,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static WebKitWebPage *
 get_webkit_web_page_or_return_dbus_error (GDBusMethodInvocation *invocation,
@@ -215,6 +392,61 @@ get_webkit_web_page_or_return_dbus_error (GDBusMethodInvocation *invocation,
 			"Invalid page ID: %" G_GUINT64_FORMAT, page_id);
 	}
 	return web_page;
+}
+
+static WebKitDOMDocument *
+get_webkit_document_or_return_dbus_error (GDBusMethodInvocation *invocation,
+                                          WebKitWebExtension *web_extension,
+                                          guint64 page_id)
+{
+	WebKitDOMDocument *document;
+	WebKitWebPage *web_page;
+
+	web_page = webkit_web_extension_get_page (web_extension, page_id);
+	if (!web_page) {
+		g_dbus_method_invocation_return_error (
+			invocation, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS,
+			"Invalid page ID: %" G_GUINT64_FORMAT, page_id);
+		return NULL;
+	}
+
+	document = webkit_web_page_get_dom_document (web_page);
+	if (!document) {
+		g_dbus_method_invocation_return_error (
+			invocation, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS,
+			"No document for page ID: %" G_GUINT64_FORMAT, page_id);
+		return NULL;
+	}
+
+	return document;
+}
+
+static WebKitDOMDocument *
+find_webkit_document_for_partid_or_return_dbus_error (GDBusMethodInvocation *invocation,
+						      WebKitDOMDocument *owner,
+						      const gchar *part_id)
+{
+	WebKitDOMElement *element;
+
+	g_return_val_if_fail (G_IS_DBUS_METHOD_INVOCATION (invocation), NULL);
+	g_return_val_if_fail (WEBKIT_DOM_IS_DOCUMENT (owner), NULL);
+	g_return_val_if_fail (part_id && *part_id, NULL);
+
+	element = e_dom_utils_find_element_by_id (owner, part_id);
+	if (element && WEBKIT_DOM_IS_HTML_IFRAME_ELEMENT (element)) {
+		WebKitDOMDocument *document = webkit_dom_html_iframe_element_get_content_document (WEBKIT_DOM_HTML_IFRAME_ELEMENT (element));
+		return document;
+	}
+
+	if (element)
+		g_dbus_method_invocation_return_error (
+			invocation, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS,
+			"Part ID '%s' is not IFRAME, but %s", part_id, G_OBJECT_TYPE_NAME (element));
+	else
+		g_dbus_method_invocation_return_error (
+			invocation, G_DBUS_ERROR, G_DBUS_ERROR_INVALID_ARGS,
+			"Part ID '%s' not found", part_id);
+	return NULL;
 }
 
 static void
@@ -394,6 +626,22 @@ e_web_extension_find_page_id_from_document (WebKitDOMDocument *document)
 	return 0;
 }
 
+static EWebPageData *
+e_web_extension_get_page_data (EWebExtension *extension,
+			       guint64 page_id)
+{
+	GSList *link;
+
+	for (link = extension->priv->pages; link; link = g_slist_next (link)) {
+		EWebPageData *page_data = link->data;
+
+		if (page_data && webkit_web_page_get_id (page_data->web_page) == page_id)
+			return page_data;
+	}
+
+	return NULL;
+}
+
 static void
 e_web_extension_set_need_input (EWebExtension *extension,
 				guint64 page_id,
@@ -405,7 +653,7 @@ e_web_extension_set_need_input (EWebExtension *extension,
 	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
 	g_return_if_fail (page_id != 0);
 
-	page_data = g_hash_table_lookup (extension->priv->pages, &page_id);
+	page_data = e_web_extension_get_page_data (extension, page_id);
 
 	if (!page_data || (!page_data->need_input) == (!need_input))
 		return;
@@ -673,7 +921,26 @@ handle_method_call (GDBusConnection *connection,
 	if (camel_debug ("webkit:preview"))
 		printf ("EWebExtension - %s - %s\n", G_STRFUNC, method_name);
 
-	if (g_strcmp0 (method_name, "RegisterElementClicked") == 0) {
+	if (g_strcmp0 (method_name, "GetExtensionHandlesPages") == 0) {
+		GVariantBuilder *builder;
+		GSList *link;
+
+		builder = g_variant_builder_new (G_VARIANT_TYPE ("at"));
+
+		for (link = extension->priv->pages; link; link = g_slist_next (link)) {
+			EWebPageData *page_data = link->data;
+
+			if (page_data) {
+				g_variant_builder_add (builder, "t", webkit_web_page_get_id (page_data->web_page));
+				g_variant_builder_add (builder, "t", (guint64) page_data->stamp);
+			}
+		}
+
+		g_dbus_method_invocation_return_value (invocation,
+			g_variant_new ("(at)", builder));
+
+		g_variant_builder_unref (builder);
+	} else if (g_strcmp0 (method_name, "RegisterElementClicked") == 0) {
 		const gchar *element_class = NULL;
 
 		g_variant_get (parameters, "(t&s)", &page_id, &element_class);
@@ -1213,6 +1480,332 @@ handle_method_call (GDBusConnection *connection,
 			webkit_dom_element_set_class_name (WEBKIT_DOM_ELEMENT (body), body_class);
 
 		g_dbus_method_invocation_return_value (invocation, NULL);
+	} else if (g_strcmp0 (method_name, "ItipCreateDOMBindings") == 0) {
+		const gchar *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s)", &page_id, &part_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_create_dom_bindings (document, page_id, part_id, connection);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipShowButton") == 0) {
+		const gchar *button_id, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &part_id, &button_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_show_button (document, button_id);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipEnableButton") == 0) {
+		const gchar *button_id, *part_id = NULL;
+		gboolean enable;
+
+		g_variant_get (parameters, "(t&s&sb)", &page_id, &part_id, &button_id, &enable);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_enable_button (document, button_id, enable);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipElementSetInnerHTML") == 0) {
+		const gchar *element_id, *inner_html, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s&s)", &page_id, &part_id, &element_id, &inner_html);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_dom_utils_element_set_inner_html (document, element_id, inner_html);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipRemoveElement") == 0) {
+		const gchar *element_id, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &part_id, &element_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_dom_utils_remove_element (document, element_id);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipElementRemoveChildNodes") == 0) {
+		const gchar *element_id, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &part_id, &element_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_dom_utils_element_remove_child_nodes (document, element_id);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipHideElement") == 0) {
+		const gchar *element_id, *part_id = NULL;
+		gboolean hide;
+
+		g_variant_get (parameters, "(t&s&sb)", &page_id, &part_id, &element_id, &hide);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_dom_utils_hide_element (document, element_id, hide);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipElementIsHidden") == 0) {
+		const gchar *element_id, *part_id = NULL;
+		gboolean hidden;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &part_id, &element_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			hidden = e_dom_utils_element_is_hidden (document, element_id);
+			g_dbus_method_invocation_return_value (invocation, g_variant_new ("(b)", hidden));
+		}
+	} else if (g_strcmp0 (method_name, "ItipInputSetChecked") == 0) {
+		const gchar *input_id, *part_id = NULL;
+		gboolean checked;
+
+		g_variant_get (parameters, "(t&s&sb)", &page_id, &part_id, &input_id, &checked);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_input_set_checked (document, input_id, checked);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipInputIsChecked") == 0) {
+		const gchar *input_id, *part_id = NULL;
+		gboolean checked;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &part_id, &input_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			checked = e_itip_formatter_dom_utils_input_is_checked (document, input_id);
+			g_dbus_method_invocation_return_value (invocation, g_variant_new ("(b)", checked));
+		}
+	} else if (g_strcmp0 (method_name, "ItipShowCheckbox") == 0) {
+		const gchar *id, *part_id = NULL;
+		gboolean show, update_second;
+
+		g_variant_get (parameters, "(t&s&sbb)", &page_id, &part_id, &id, &show, &update_second);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_show_checkbox (document, id, show, update_second);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipSetButtonsSensitive") == 0) {
+		const gchar *part_id = NULL;
+		gboolean sensitive;
+
+		g_variant_get (parameters, "(t&sb)", &page_id, &part_id, &sensitive);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_set_buttons_sensitive (document, sensitive);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipSetAreaText") == 0) {
+		const gchar *id, *text, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s&s)", &page_id, &part_id, &id, &text);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_set_area_text (document, id, text);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipElementSetAccessKey") == 0) {
+		const gchar *element_id, *access_key, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s&s)", &page_id, &part_id, &element_id, &access_key);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_element_set_access_key (document, element_id, access_key);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipElementHideChildNodes") == 0) {
+		const gchar *element_id, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &part_id, &element_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_element_hide_child_nodes (document, element_id);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipEnableSelect") == 0) {
+		const gchar *select_id, *part_id = NULL;
+		gboolean enable;
+
+		g_variant_get (parameters, "(t&s&sb)", &page_id, &part_id, &select_id, &enable);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_enable_select (document, select_id, enable);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipSelectIsEnabled") == 0) {
+		const gchar *select_id, *part_id = NULL;
+		gboolean enabled;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &part_id, &select_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			enabled = e_itip_formatter_dom_utils_select_is_enabled (document, select_id);
+			g_dbus_method_invocation_return_value (invocation, g_variant_new ("(b)", enabled));
+		}
+	} else if (g_strcmp0 (method_name, "ItipSelectGetValue") == 0) {
+		const gchar *select_id, *part_id = NULL;
+		gchar *value;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &part_id, &select_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			value = e_itip_formatter_dom_utils_select_get_value (document, select_id);
+			g_dbus_method_invocation_return_value (invocation,
+				g_variant_new (
+					"(@s)",
+					g_variant_new_take_string (value ? value : g_strdup (""))));
+		}
+	} else if (g_strcmp0 (method_name, "ItipSelectSetSelected") == 0) {
+		const gchar *select_id, *option, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s&s)", &page_id, &part_id, &select_id, &option);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_select_set_selected (document, select_id, option);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipUpdateTimes") == 0) {
+		const gchar *element_id, *header, *label, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s&s&s)", &page_id, &part_id, &element_id, &header, &label);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_update_times (document, element_id, header, label);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipAppendInfoItemRow") == 0) {
+		const gchar *table_id, *row_id, *icon_name, *message, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s&s&s&s)", &page_id, &part_id, &table_id, &row_id, &icon_name, &message);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_append_info_item_row (document, table_id, row_id, icon_name, message);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipEnableTextArea") == 0) {
+		const gchar *area_id, *part_id = NULL;
+		gboolean enable;
+
+		g_variant_get (parameters, "(t&s&sb)", &page_id, &part_id, &area_id, &enable);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_enable_text_area (document, area_id, enable);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipTextAreaSetValue") == 0) {
+		const gchar *area_id, *value, *part_id = NULL;
+
+		g_variant_get (parameters, "(t&s&s&s)", &page_id, &part_id, &area_id, &value);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_text_area_set_value (document, area_id, value);
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
+	} else if (g_strcmp0 (method_name, "ItipTextAreaGetValue") == 0) {
+		const gchar *area_id, *part_id = NULL;
+		gchar *value;
+
+		g_variant_get (parameters, "(t&s&s)", &page_id, &part_id, &area_id);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			value = e_itip_formatter_dom_utils_text_area_get_value (document, area_id);
+			g_dbus_method_invocation_return_value (invocation,
+				g_variant_new (
+					"(@s)",
+					g_variant_new_take_string (value ? value : g_strdup (""))));
+		}
+	} else if (g_strcmp0 (method_name, "ItipRebuildSourceList") == 0) {
+		const gchar *optgroup_id, *optgroup_label, *option_id, *option_label, *part_id = NULL;
+		gboolean writable;
+
+		g_variant_get (parameters,"(t&s&s&s&s&sb)", &page_id, &part_id, &optgroup_id, &optgroup_label, &option_id, &option_label, &writable);
+
+		document = get_webkit_document_or_return_dbus_error (invocation, web_extension, page_id);
+		if (document)
+			document = find_webkit_document_for_partid_or_return_dbus_error (invocation, document, part_id);
+		if (document) {
+			e_itip_formatter_dom_utils_rebuild_source_list (
+				document,
+				optgroup_id,
+				optgroup_label,
+				option_id,
+				option_label,
+				writable);
+
+			g_dbus_method_invocation_return_value (invocation, NULL);
+		}
 	}
 }
 
@@ -1261,20 +1854,27 @@ web_page_gone_cb (gpointer user_data,
                   GObject *gone_web_page)
 {
 	EWebExtension *extension = user_data;
-	GHashTableIter iter;
-	gpointer key, value;
+	GSList *link;
 
 	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
 
-	g_hash_table_iter_init (&iter, extension->priv->pages);
-	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		EWebPageData *page_data = value;
+	for (link = extension->priv->pages; link; link = g_slist_next (link)) {
+		EWebPageData *page_data = link->data;
 
-		if (page_data->web_page == (gpointer) gone_web_page) {
-			g_hash_table_remove (extension->priv->pages, key);
+		if (page_data && page_data->web_page == (gpointer) gone_web_page) {
+			extension->priv->pages = g_slist_remove (extension->priv->pages, page_data);
+			g_free (page_data);
 			break;
 		}
 	}
+}
+
+static void
+e_web_extension_constructed (GObject *object)
+{
+	G_OBJECT_CLASS (e_web_extension_parent_class)->constructed (object);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
@@ -1287,27 +1887,15 @@ e_web_extension_dispose (GObject *object)
 			extension->priv->dbus_connection,
 			extension->priv->registration_id);
 		extension->priv->registration_id = 0;
-		extension->priv->dbus_connection = NULL;
+		g_clear_object (&extension->priv->dbus_connection);
 	}
 
-	g_hash_table_remove_all (extension->priv->pages);
+	g_slist_free_full (extension->priv->pages, g_free);
+	extension->priv->pages = NULL;
 
 	g_clear_object (&extension->priv->wk_extension);
 
 	G_OBJECT_CLASS (e_web_extension_parent_class)->dispose (object);
-}
-
-static void
-e_web_extension_finalize (GObject *object)
-{
-	EWebExtension *extension = E_WEB_EXTENSION (object);
-
-	if (extension->priv->pages) {
-		g_hash_table_destroy (extension->priv->pages);
-		extension->priv->pages = NULL;
-	}
-
-	G_OBJECT_CLASS (e_web_extension_parent_class)->finalize (object);
 }
 
 static void
@@ -1317,8 +1905,17 @@ e_web_extension_class_init (EWebExtensionClass *class)
 
 	g_type_class_add_private (object_class, sizeof (EWebExtensionPrivate));
 
+	object_class->constructed = e_web_extension_constructed;
 	object_class->dispose = e_web_extension_dispose;
-	object_class->finalize = e_web_extension_finalize;
+
+	signals[REGISTER_DBUS_CONNECTION] = g_signal_new (
+		"register-dbus-connection",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		0,
+		NULL, NULL,
+		NULL,
+		G_TYPE_NONE, 1, G_TYPE_DBUS_CONNECTION);
 }
 
 static void
@@ -1327,7 +1924,6 @@ e_web_extension_init (EWebExtension *extension)
 	extension->priv = G_TYPE_INSTANCE_GET_PRIVATE (extension, E_TYPE_WEB_EXTENSION, EWebExtensionPrivate);
 
 	extension->priv->initialized = FALSE;
-	extension->priv->pages = g_hash_table_new_full (g_int64_hash, g_int64_equal, g_free, g_free);
 }
 
 static gpointer
@@ -1424,7 +2020,7 @@ e_web_extension_set_clipboard_flags (EWebExtension *extension,
 				     WebKitDOMDocument *document,
 				     guint32 clipboard_flags)
 {
-	EWebPageData *page_data;
+	EWebPageData *page_data = NULL;
 	guint64 page_id;
 	GError *error = NULL;
 
@@ -1434,7 +2030,7 @@ e_web_extension_set_clipboard_flags (EWebExtension *extension,
 	page_id = e_web_extension_find_page_id_from_document (document);
 	g_return_if_fail (page_id != 0);
 
-	page_data = g_hash_table_lookup (extension->priv->pages, &page_id);
+	page_data = e_web_extension_get_page_data (extension, page_id);
 
 	if (!page_data || page_data->clipboard_flags == clipboard_flags)
 		return;
@@ -1475,24 +2071,92 @@ web_editor_selection_changed_cb (WebKitWebEditor *web_editor,
 }
 
 static void
+web_page_notify_uri_cb (GObject *object,
+			GParamSpec *param,
+			gpointer user_data)
+{
+	EWebExtension *extension = user_data;
+	WebKitWebPage *web_page;
+	GSList *link;
+	const gchar *uri;
+
+	g_return_if_fail (E_IS_WEB_EXTENSION (extension));
+
+	web_page = WEBKIT_WEB_PAGE (object);
+	uri = webkit_web_page_get_uri (web_page);
+
+	for (link = extension->priv->pages; link; link = g_slist_next (link)) {
+		EWebPageData *page_data = link->data;
+
+		if (page_data && page_data->web_page == web_page) {
+			gint new_stamp = 0;
+
+			if (uri && *uri) {
+				SoupURI *suri;
+
+				suri = soup_uri_new (uri);
+				if (suri) {
+					if (soup_uri_get_query (suri)) {
+						GHashTable *form;
+
+						form = soup_form_decode (soup_uri_get_query (suri));
+						if (form) {
+							const gchar *evo_stamp;
+
+							evo_stamp = g_hash_table_lookup (form, "evo-stamp");
+							if (evo_stamp)
+								new_stamp = (gint) g_ascii_strtoll (evo_stamp, NULL, 10);
+
+							g_hash_table_destroy (form);
+						}
+					}
+
+					soup_uri_free (suri);
+				}
+			}
+
+			if (extension->priv->dbus_connection) {
+				GError *error = NULL;
+
+				g_dbus_connection_emit_signal (
+					extension->priv->dbus_connection,
+					NULL,
+					E_WEB_EXTENSION_OBJECT_PATH,
+					E_WEB_EXTENSION_INTERFACE,
+					"ExtensionHandlesPage",
+					g_variant_new ("(ti)", webkit_web_page_get_id (web_page), new_stamp),
+					&error);
+
+				if (error) {
+					g_warning ("Error emitting signal ExtensionHandlesPage: %s", error->message);
+					g_error_free (error);
+				}
+			}
+
+			page_data->stamp = new_stamp;
+			return;
+		}
+	}
+
+	g_warning ("%s: Cannot find web_page %p\n", G_STRFUNC, web_page);
+}
+
+static void
 web_page_created_cb (WebKitWebExtension *wk_extension,
                      WebKitWebPage *web_page,
                      EWebExtension *extension)
 {
 	EWebPageData *page_data;
-	guint64 *ppage_id;
-
-	ppage_id = g_new (guint64, 1);
-	*ppage_id = webkit_web_page_get_id (web_page);
 
 	page_data = g_new0 (EWebPageData, 1);
 	page_data->web_page = web_page;
 	page_data->need_input = FALSE;
 	page_data->clipboard_flags = 0;
+	page_data->stamp = 0;
 
 	e_web_extension_store_page_id_on_document (web_page);
 
-	g_hash_table_insert (extension->priv->pages, ppage_id, page_data);
+	extension->priv->pages = g_slist_prepend (extension->priv->pages, page_data);
 
 	g_object_weak_ref (G_OBJECT (web_page), web_page_gone_cb, extension);
 
@@ -1504,6 +2168,11 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 	g_signal_connect_object (
 		web_page, "document-loaded",
 		G_CALLBACK (web_page_document_loaded_cb),
+		extension, 0);
+
+	g_signal_connect_object (
+		web_page, "notify::uri",
+		G_CALLBACK (web_page_notify_uri_cb),
 		extension, 0);
 
 	g_signal_connect_object (
@@ -1558,10 +2227,39 @@ e_web_extension_dbus_register (EWebExtension *extension,
 			g_warning ("Failed to register object: %s\n", error->message);
 			g_error_free (error);
 		} else {
-			extension->priv->dbus_connection = connection;
-			g_object_add_weak_pointer (
-				G_OBJECT (connection),
-				(gpointer *)&extension->priv->dbus_connection);
+			extension->priv->dbus_connection = g_object_ref (connection);
+
+			g_signal_emit (extension, signals[REGISTER_DBUS_CONNECTION], 0, connection);
+
+			g_dbus_connection_emit_signal (
+				extension->priv->dbus_connection,
+				NULL,
+				E_WEB_EXTENSION_OBJECT_PATH,
+				E_WEB_EXTENSION_INTERFACE,
+				"ExtensionObjectReady",
+				NULL,
+				&error);
+
+			if (error) {
+				g_warning ("Error emitting signal ExtensionObjectReady: %s", error->message);
+				g_error_free (error);
+			}
 		}
 	}
+}
+
+WebKitWebExtension *
+e_web_extension_get_webkit_extension (EWebExtension *extension)
+{
+	g_return_val_if_fail (E_IS_WEB_EXTENSION (extension), NULL);
+
+	return extension->priv->wk_extension;
+}
+
+GDBusConnection *
+e_web_extension_get_dbus_connection (EWebExtension *extension)
+{
+	g_return_val_if_fail (E_IS_WEB_EXTENSION (extension), NULL);
+
+	return extension->priv->dbus_connection;
 }

@@ -1,5 +1,5 @@
 /*
- * module-itip-formatter-dom-utils.c
+ * e-itip-formatter-dom-utils.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,14 +16,15 @@
  *
  */
 
-#include "module-itip-formatter-dom-utils.h"
+#include "evolution-config.h"
 
 #include <webkitdom/webkitdom.h>
-
-#include "module-itip-formatter-web-extension.h"
-#include "../itip-view-elements-defines.h"
-
 #include <e-util/e-util.h>
+
+#include "../modules/itip-formatter/itip-view-elements-defines.h"
+#include "e-web-extension-names.h"
+
+#include "e-itip-formatter-dom-utils.h"
 
 #define ITIP_WEB_EXTENSION_PAGE_ID_KEY "itip-web-extension-page-id"
 #define ITIP_WEB_EXTENSION_PART_ID_KEY "itip-web-extension-part-id"
@@ -47,14 +48,14 @@ recur_toggled_cb (WebKitDOMHTMLInputElement *input,
 	g_dbus_connection_emit_signal (
 		connection,
 		NULL,
-		MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
-		MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
-		"RecurToggled",
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
+		"ItipRecurToggled",
 		g_variant_new ("(ts)", *ppage_id, part_id),
 		&error);
 
 	if (error) {
-		g_warning ("Error emitting signal RecurToggled: %s\n", error->message);
+		g_warning ("Error emitting signal ItipRecurToggled: %s\n", error->message);
 		g_error_free (error);
 	}
 }
@@ -78,14 +79,14 @@ source_changed_cb (WebKitDOMElement *element,
 	g_dbus_connection_emit_signal (
 		connection,
 		NULL,
-		MODULE_ITIP_FORMATTER_WEB_EXTENSION_OBJECT_PATH,
-		MODULE_ITIP_FORMATTER_WEB_EXTENSION_INTERFACE,
-		"SourceChanged",
+		E_WEB_EXTENSION_OBJECT_PATH,
+		E_WEB_EXTENSION_INTERFACE,
+		"ItipSourceChanged",
 		g_variant_new ("(ts)", *ppage_id, part_id),
 		&error);
 
 	if (error) {
-		g_warning ("Error emitting signal SourceChanged: %s\n", error->message);
+		g_warning ("Error emitting signal ItipSourceChanged: %s\n", error->message);
 		g_error_free (error);
 	}
 }
@@ -101,10 +102,9 @@ rsvp_toggled_cb (WebKitDOMHTMLInputElement *input,
 
 	document = webkit_dom_node_get_owner_document (WEBKIT_DOM_NODE (input));
 	rsvp = webkit_dom_html_input_element_get_checked (input);
-	el = webkit_dom_document_get_element_by_id (
-		document, TEXTAREA_RSVP_COMMENT);
-	webkit_dom_html_text_area_element_set_disabled (
-		WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el), !rsvp);
+	el = webkit_dom_document_get_element_by_id (document, TEXTAREA_RSVP_COMMENT);
+	if (el)
+		webkit_dom_html_text_area_element_set_disabled (WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el), !rsvp);
 }
 
 /**
@@ -137,18 +137,20 @@ alarm_check_toggled_cb (WebKitDOMHTMLInputElement *check1,
 
 	g_free (id);
 
-	webkit_dom_html_input_element_set_disabled (
-		WEBKIT_DOM_HTML_INPUT_ELEMENT (check2),
-		(webkit_dom_html_element_get_hidden (
-				WEBKIT_DOM_HTML_ELEMENT (check1)) &&
-			webkit_dom_html_input_element_get_checked (check1)));
+	if (check2) {
+		webkit_dom_html_input_element_set_disabled (
+			WEBKIT_DOM_HTML_INPUT_ELEMENT (check2),
+			(webkit_dom_html_element_get_hidden (
+					WEBKIT_DOM_HTML_ELEMENT (check1)) &&
+				webkit_dom_html_input_element_get_checked (check1)));
+	}
 }
 
 void
-module_itip_formatter_dom_utils_create_dom_bindings (WebKitDOMDocument *document,
-						     guint64 page_id,
-						     const gchar *part_id,
-                                                     GDBusConnection *connection)
+e_itip_formatter_dom_utils_create_dom_bindings (WebKitDOMDocument *document,
+						guint64 page_id,
+						const gchar *part_id,
+						GDBusConnection *connection)
 {
 	WebKitDOMElement *el;
 
@@ -207,30 +209,31 @@ module_itip_formatter_dom_utils_create_dom_bindings (WebKitDOMDocument *document
 }
 
 void
-module_itip_formatter_dom_utils_show_button (WebKitDOMDocument *document,
-                                             const gchar *button_id)
+e_itip_formatter_dom_utils_show_button (WebKitDOMDocument *document,
+					const gchar *button_id)
 {
 	WebKitDOMElement *button;
 
 	button = webkit_dom_document_get_element_by_id (document, button_id);
-	webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (button), FALSE);
+	if (button)
+		webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (button), FALSE);
 }
 
 void
-module_itip_formatter_dom_utils_enable_button (WebKitDOMDocument *document,
-                                               const gchar *button_id,
-                                               gboolean enable)
+e_itip_formatter_dom_utils_enable_button (WebKitDOMDocument *document,
+					  const gchar *button_id,
+					  gboolean enable)
 {
 	WebKitDOMElement *el;
 
 	el = webkit_dom_document_get_element_by_id (document, button_id);
-	webkit_dom_html_button_element_set_disabled (
-		WEBKIT_DOM_HTML_BUTTON_ELEMENT (el), !enable);
+	if (el)
+		webkit_dom_html_button_element_set_disabled (WEBKIT_DOM_HTML_BUTTON_ELEMENT (el), !enable);
 }
 
 gboolean
-module_itip_formatter_dom_utils_input_is_checked (WebKitDOMDocument *document,
-                                                  const gchar *input_id)
+e_itip_formatter_dom_utils_input_is_checked (WebKitDOMDocument *document,
+					     const gchar *input_id)
 {
 	WebKitDOMElement *element;
 
@@ -244,9 +247,9 @@ module_itip_formatter_dom_utils_input_is_checked (WebKitDOMDocument *document,
 }
 
 void
-module_itip_formatter_dom_utils_input_set_checked (WebKitDOMDocument *document,
-                                                   const gchar *input_id,
-                                                   gboolean checked)
+e_itip_formatter_dom_utils_input_set_checked (WebKitDOMDocument *document,
+					      const gchar *input_id,
+					      gboolean checked)
 {
 	WebKitDOMElement *element;
 
@@ -260,10 +263,10 @@ module_itip_formatter_dom_utils_input_set_checked (WebKitDOMDocument *document,
 }
 
 void
-module_itip_formatter_dom_utils_show_checkbox (WebKitDOMDocument *document,
-                                               const gchar *id,
-                                               gboolean show,
-					       gboolean update_second)
+e_itip_formatter_dom_utils_show_checkbox (WebKitDOMDocument *document,
+					  const gchar *id,
+					  gboolean show,
+					  gboolean update_second)
 {
 	WebKitDOMElement *label;
 	WebKitDOMElement *el;
@@ -293,84 +296,83 @@ module_itip_formatter_dom_utils_show_checkbox (WebKitDOMDocument *document,
 
 	row_id = g_strconcat ("table_row_", id, NULL);
 	el = webkit_dom_document_get_element_by_id (document, row_id);
-	webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (el), !show);
+	if (el)
+		webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (el), !show);
 	g_free (row_id);
 }
 
 void
-module_itip_formatter_dom_utils_set_buttons_sensitive (WebKitDOMDocument *document,
-                                                       gboolean sensitive)
+e_itip_formatter_dom_utils_set_buttons_sensitive (WebKitDOMDocument *document,
+						  gboolean sensitive)
 {
 	WebKitDOMElement *el, *cell;
 
-	el = webkit_dom_document_get_element_by_id (
-		document, CHECKBOX_UPDATE);
-	webkit_dom_html_input_element_set_disabled (
-		WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
+	el = webkit_dom_document_get_element_by_id (document, CHECKBOX_UPDATE);
+	if (el)
+		webkit_dom_html_input_element_set_disabled (WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
 
-	el = webkit_dom_document_get_element_by_id (
-		document, CHECKBOX_RECUR);
-	webkit_dom_html_input_element_set_disabled (
-		WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
+	el = webkit_dom_document_get_element_by_id (document, CHECKBOX_RECUR);
+	if (el)
+		webkit_dom_html_input_element_set_disabled (WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
 
-	el = webkit_dom_document_get_element_by_id (
-		document, CHECKBOX_FREE_TIME);
-	webkit_dom_html_input_element_set_disabled (
-		WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
+	el = webkit_dom_document_get_element_by_id (document, CHECKBOX_FREE_TIME);
+	if (el)
+		webkit_dom_html_input_element_set_disabled (WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
 
-	el = webkit_dom_document_get_element_by_id (
-		document, CHECKBOX_KEEP_ALARM);
-	webkit_dom_html_input_element_set_disabled (
-		WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
+	el = webkit_dom_document_get_element_by_id (document, CHECKBOX_KEEP_ALARM);
+	if (el)
+		webkit_dom_html_input_element_set_disabled (WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
 
-	el = webkit_dom_document_get_element_by_id (
-		document, CHECKBOX_INHERIT_ALARM);
-	webkit_dom_html_input_element_set_disabled (
-		WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
+	el = webkit_dom_document_get_element_by_id (document, CHECKBOX_INHERIT_ALARM);
+	if (el)
+		webkit_dom_html_input_element_set_disabled (WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
 
-	el = webkit_dom_document_get_element_by_id (
-		document, CHECKBOX_RSVP);
-	webkit_dom_html_input_element_set_disabled (
-		WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
+	el = webkit_dom_document_get_element_by_id (document, CHECKBOX_RSVP);
+	if (el)
+		webkit_dom_html_input_element_set_disabled (WEBKIT_DOM_HTML_INPUT_ELEMENT (el), !sensitive);
 
-	el = webkit_dom_document_get_element_by_id (
-		document, TEXTAREA_RSVP_COMMENT);
-	webkit_dom_html_text_area_element_set_disabled (
-		WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el), !sensitive);
+	el = webkit_dom_document_get_element_by_id (document, TEXTAREA_RSVP_COMMENT);
+	if (el)
+		webkit_dom_html_text_area_element_set_disabled (WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el), !sensitive);
 
-	el = webkit_dom_document_get_element_by_id (
-		document, TABLE_ROW_BUTTONS);
+	el = webkit_dom_document_get_element_by_id (document, TABLE_ROW_BUTTONS);
+	if (!el)
+		return;
+
 	cell = webkit_dom_element_get_first_element_child (el);
+	if (!cell)
+		return;
 	do {
 		WebKitDOMElement *btn;
 		btn = webkit_dom_element_get_first_element_child (cell);
-		if (!webkit_dom_html_element_get_hidden (
-			WEBKIT_DOM_HTML_ELEMENT (btn))) {
-			webkit_dom_html_button_element_set_disabled (
-				WEBKIT_DOM_HTML_BUTTON_ELEMENT (btn), !sensitive);
+		if (btn && !webkit_dom_html_element_get_hidden (WEBKIT_DOM_HTML_ELEMENT (btn))) {
+			webkit_dom_html_button_element_set_disabled (WEBKIT_DOM_HTML_BUTTON_ELEMENT (btn), !sensitive);
 		}
 	} while ((cell = webkit_dom_element_get_next_element_sibling (cell)) != NULL);
 }
 
 void
-module_itip_formatter_dom_utils_set_area_text (WebKitDOMDocument *document,
-                                               const gchar *area_id,
-                                               const gchar *text)
+e_itip_formatter_dom_utils_set_area_text (WebKitDOMDocument *document,
+					  const gchar *area_id,
+					  const gchar *text)
 {
 	WebKitDOMElement *row, *col;
 
 	row = webkit_dom_document_get_element_by_id (document, area_id);
-	webkit_dom_html_element_set_hidden (
-		WEBKIT_DOM_HTML_ELEMENT (row), (g_strcmp0 (text, "") == 0));
+	if (!row)
+		return;
+
+	webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (row), (g_strcmp0 (text, "") == 0));
 
 	col = webkit_dom_element_get_last_element_child (row);
-	webkit_dom_element_set_inner_html (col, text, NULL);
+	if (col)
+		webkit_dom_element_set_inner_html (col, text, NULL);
 }
 
 void
-module_itip_formatter_dom_utils_element_set_access_key (WebKitDOMDocument *document,
-                                                        const gchar *element_id,
-                                                        const gchar *access_key)
+e_itip_formatter_dom_utils_element_set_access_key (WebKitDOMDocument *document,
+						   const gchar *element_id,
+						   const gchar *access_key)
 {
 	WebKitDOMElement *element;
 
@@ -384,8 +386,8 @@ module_itip_formatter_dom_utils_element_set_access_key (WebKitDOMDocument *docum
 }
 
 void
-module_itip_formatter_dom_utils_element_hide_child_nodes (WebKitDOMDocument *document,
-                                                          const gchar *element_id)
+e_itip_formatter_dom_utils_element_hide_child_nodes (WebKitDOMDocument *document,
+						     const gchar *element_id)
 {
 	WebKitDOMElement *element, *cell, *button;
 
@@ -394,19 +396,20 @@ module_itip_formatter_dom_utils_element_hide_child_nodes (WebKitDOMDocument *doc
 	if (!element)
 		return;
 
-	element = webkit_dom_document_get_element_by_id (document, element_id);
 	cell = webkit_dom_element_get_first_element_child (element);
+	if (!cell)
+		return;
 	do {
 		button = webkit_dom_element_get_first_element_child (cell);
-		webkit_dom_html_element_set_hidden (
-			WEBKIT_DOM_HTML_ELEMENT (button), TRUE);
+		if (button)
+			webkit_dom_html_element_set_hidden (WEBKIT_DOM_HTML_ELEMENT (button), TRUE);
 	} while ((cell = webkit_dom_element_get_next_element_sibling (cell)) != NULL);
 }
 
 void
-module_itip_formatter_dom_utils_enable_select (WebKitDOMDocument *document,
-                                               const gchar *select_id,
-                                               gboolean enabled)
+e_itip_formatter_dom_utils_enable_select (WebKitDOMDocument *document,
+					  const gchar *select_id,
+					  gboolean enabled)
 {
 	WebKitDOMElement *element;
 
@@ -420,8 +423,8 @@ module_itip_formatter_dom_utils_enable_select (WebKitDOMDocument *document,
 }
 
 gboolean
-module_itip_formatter_dom_utils_select_is_enabled (WebKitDOMDocument *document,
-                                                   const gchar *select_id)
+e_itip_formatter_dom_utils_select_is_enabled (WebKitDOMDocument *document,
+					      const gchar *select_id)
 {
 	WebKitDOMElement *element;
 
@@ -435,8 +438,8 @@ module_itip_formatter_dom_utils_select_is_enabled (WebKitDOMDocument *document,
 }
 
 gchar *
-module_itip_formatter_dom_utils_select_get_value (WebKitDOMDocument *document,
-                                                  const gchar *select_id)
+e_itip_formatter_dom_utils_select_get_value (WebKitDOMDocument *document,
+					     const gchar *select_id)
 {
 	WebKitDOMElement *element;
 
@@ -450,9 +453,9 @@ module_itip_formatter_dom_utils_select_get_value (WebKitDOMDocument *document,
 }
 
 void
-module_itip_formatter_dom_utils_select_set_selected (WebKitDOMDocument *document,
-                                                     const gchar *select_id,
-                                                     const gchar *option)
+e_itip_formatter_dom_utils_select_set_selected (WebKitDOMDocument *document,
+						const gchar *select_id,
+						const gchar *option)
 {
 	WebKitDOMElement *element;
 	gint length, ii;
@@ -487,10 +490,10 @@ module_itip_formatter_dom_utils_select_set_selected (WebKitDOMDocument *document
 }
 
 void
-module_itip_formatter_dom_utils_update_times (WebKitDOMDocument *document,
-                                              const gchar *element_id,
-                                              const gchar *header,
-                                              const gchar *label)
+e_itip_formatter_dom_utils_update_times (WebKitDOMDocument *document,
+					 const gchar *element_id,
+					 const gchar *header,
+					 const gchar *label)
 {
 	WebKitDOMElement *element, *col;
 
@@ -510,11 +513,11 @@ module_itip_formatter_dom_utils_update_times (WebKitDOMDocument *document,
 }
 
 void
-module_itip_formatter_dom_utils_append_info_item_row (WebKitDOMDocument *document,
-                                                      const gchar *table_id,
-                                                      const gchar *row_id,
-                                                      const gchar *icon_name,
-                                                      const gchar *message)
+e_itip_formatter_dom_utils_append_info_item_row (WebKitDOMDocument *document,
+						const gchar *table_id,
+						const gchar *row_id,
+						const gchar *icon_name,
+						const gchar *message)
 {
 	WebKitDOMElement *table;
         WebKitDOMHTMLElement *cell, *row;
@@ -524,7 +527,6 @@ module_itip_formatter_dom_utils_append_info_item_row (WebKitDOMDocument *documen
 	if (!table)
 		return;
 
-	table = webkit_dom_document_get_element_by_id (document, table_id);
 	row = webkit_dom_html_table_element_insert_row (
 		WEBKIT_DOM_HTML_TABLE_ELEMENT (table), -1, NULL);
 
@@ -558,47 +560,50 @@ module_itip_formatter_dom_utils_append_info_item_row (WebKitDOMDocument *documen
 }
 
 void
-module_itip_formatter_dom_utils_enable_text_area (WebKitDOMDocument *document,
-                                                  const gchar *area_id,
-                                                  gboolean enable)
+e_itip_formatter_dom_utils_enable_text_area (WebKitDOMDocument *document,
+					     const gchar *area_id,
+					     gboolean enable)
 {
 	WebKitDOMElement *el;
 
 	el = webkit_dom_document_get_element_by_id (document, area_id);
-	webkit_dom_html_text_area_element_set_disabled (
-		WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el), !enable);
+	if (el)
+		webkit_dom_html_text_area_element_set_disabled (WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el), !enable);
 }
 
 void
-module_itip_formatter_dom_utils_text_area_set_value (WebKitDOMDocument *document,
-                                                     const gchar *area_id,
-                                                     const gchar *value)
+e_itip_formatter_dom_utils_text_area_set_value (WebKitDOMDocument *document,
+						const gchar *area_id,
+						const gchar *value)
 {
 	WebKitDOMElement *el;
 
 	el = webkit_dom_document_get_element_by_id (document, area_id);
-	webkit_dom_html_text_area_element_set_value (
-		WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el), value);
+	if (el)
+		webkit_dom_html_text_area_element_set_value (WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el), value);
 }
 
 gchar *
-module_itip_formatter_dom_utils_text_area_get_value (WebKitDOMDocument *document,
-                                                     const gchar *area_id)
+e_itip_formatter_dom_utils_text_area_get_value (WebKitDOMDocument *document,
+						const gchar *area_id)
 {
 	WebKitDOMElement *el;
 
 	el = webkit_dom_document_get_element_by_id (document, area_id);
+	if (!el)
+		return NULL;
+
 	return webkit_dom_html_text_area_element_get_value (
 		WEBKIT_DOM_HTML_TEXT_AREA_ELEMENT (el));
 }
 
 void
-module_itip_formatter_dom_utils_rebuild_source_list (WebKitDOMDocument *document,
-                                                     const gchar *optgroup_id,
-                                                     const gchar *optgroup_label,
-                                                     const gchar *option_id,
-                                                     const gchar *option_label,
-						     gboolean writable)
+e_itip_formatter_dom_utils_rebuild_source_list (WebKitDOMDocument *document,
+						const gchar *optgroup_id,
+						const gchar *optgroup_label,
+						const gchar *option_id,
+						const gchar *option_label,
+						gboolean writable)
 {
 	WebKitDOMElement *option;
 	WebKitDOMElement *select;

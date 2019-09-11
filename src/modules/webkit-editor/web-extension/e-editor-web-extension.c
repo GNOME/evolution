@@ -52,7 +52,7 @@ struct _EEditorWebExtensionPrivate {
 	GDBusConnection *dbus_connection;
 	guint registration_id;
 
-	GHashTable *editor_pages; /* guint64 *webpage_id ~> EEditorPage * */
+	GSList *pages; /* EEditorPage * */
 };
 
 static CamelDataCache *emd_global_http_cache = NULL;
@@ -60,6 +60,15 @@ static CamelDataCache *emd_global_http_cache = NULL;
 static const gchar *introspection_xml =
 "<node>"
 "  <interface name='" E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE "'>"
+"    <signal name='ExtensionObjectReady'>"
+"    </signal>"
+"    <method name='GetExtensionHandlesPages'>"
+"      <arg type='at' name='array' direction='out'/>"
+"    </method>"
+"    <signal name='ExtensionHandlesPage'>"
+"      <arg type='t' name='page_id' direction='out'/>"
+"      <arg type='i' name='stamp' direction='out'/>"
+"    </signal>"
 "<!-- ********************************************************* -->"
 "<!--                          SIGNALS                          -->"
 "<!-- ********************************************************* -->"
@@ -617,9 +626,18 @@ static EEditorPage *
 get_editor_page (EEditorWebExtension *extension,
                  guint64 page_id)
 {
+	GSList *link;
+
 	g_return_val_if_fail (E_IS_EDITOR_WEB_EXTENSION (extension), NULL);
 
-	return g_hash_table_lookup (extension->priv->editor_pages, &page_id);
+	for (link = extension->priv->pages; link; link = g_slist_next (link)) {
+		EEditorPage *page = link->data;
+
+		if (page && e_editor_page_get_page_id (page) == page_id)
+			return page;
+	}
+
+	return NULL;
 }
 
 static EEditorPage *
@@ -672,7 +690,26 @@ handle_method_call (GDBusConnection *connection,
 	if (camel_debug ("webkit:editor"))
 		printf ("EEditorWebExtension - %s - %s\n", G_STRFUNC, method_name);
 
-	if (g_strcmp0 (method_name, "TestHTMLEqual") == 0) {
+	if (g_strcmp0 (method_name, "GetExtensionHandlesPages") == 0) {
+		GVariantBuilder *builder;
+		GSList *link;
+
+		builder = g_variant_builder_new (G_VARIANT_TYPE ("at"));
+
+		for (link = extension->priv->pages; link; link = g_slist_next (link)) {
+			EEditorPage *page = link->data;
+
+			if (page) {
+				g_variant_builder_add (builder, "t", e_editor_page_get_page_id (page));
+				g_variant_builder_add (builder, "t", (guint64) e_editor_page_get_stamp (page));
+			}
+		}
+
+		g_dbus_method_invocation_return_value (invocation,
+			g_variant_new ("(at)", builder));
+
+		g_variant_builder_unref (builder);
+	} else if (g_strcmp0 (method_name, "TestHTMLEqual") == 0) {
 		gboolean equal = FALSE;
 		const gchar *html1 = NULL, *html2 = NULL;
 
@@ -2255,18 +2292,17 @@ web_page_gone_cb (gpointer user_data,
                   GObject *gone_web_page)
 {
 	EEditorWebExtension *extension = user_data;
-	GHashTableIter iter;
-	gpointer key, value;
+	GSList *link;
 
 	g_return_if_fail (E_IS_EDITOR_WEB_EXTENSION (extension));
 
-	g_hash_table_iter_init (&iter, extension->priv->editor_pages);
-	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		EEditorPage *editor_page = E_EDITOR_PAGE (value);
+	for (link = extension->priv->pages; link; link = g_slist_next (link)) {
+		EEditorPage *editor_page = link->data;
 		WebKitWebPage *web_page = e_editor_page_get_web_page (editor_page);
 
 		if ((gpointer) web_page == gone_web_page) {
-			g_hash_table_remove (extension->priv->editor_pages, key);
+			extension->priv->pages = g_slist_remove (extension->priv->pages, editor_page);
+			g_object_unref (editor_page);
 			break;
 		}
 	}
@@ -2288,10 +2324,12 @@ e_editor_web_extension_dispose (GObject *object)
 			extension->priv->dbus_connection,
 			extension->priv->registration_id);
 		extension->priv->registration_id = 0;
-		extension->priv->dbus_connection = NULL;
+
+		g_clear_object (&extension->priv->dbus_connection);
 	}
 
-	g_hash_table_remove_all (extension->priv->editor_pages);
+	g_slist_free_full (extension->priv->pages, g_object_unref);
+	extension->priv->pages = NULL;
 
 	g_clear_object (&extension->priv->wk_extension);
 
@@ -2300,26 +2338,11 @@ e_editor_web_extension_dispose (GObject *object)
 }
 
 static void
-e_editor_web_extension_finalize (GObject *object)
-{
-	EEditorWebExtension *extension = E_EDITOR_WEB_EXTENSION (object);
-
-	if (extension->priv->editor_pages) {
-		g_hash_table_destroy (extension->priv->editor_pages);
-		extension->priv->editor_pages = NULL;
-	}
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (e_editor_web_extension_parent_class)->finalize (object);
-}
-
-static void
 e_editor_web_extension_class_init (EEditorWebExtensionClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = e_editor_web_extension_dispose;
-	object_class->finalize = e_editor_web_extension_finalize;
 
 	g_type_class_add_private (object_class, sizeof(EEditorWebExtensionPrivate));
 }
@@ -2328,7 +2351,6 @@ static void
 e_editor_web_extension_init (EEditorWebExtension *extension)
 {
 	extension->priv = E_EDITOR_WEB_EXTENSION_GET_PRIVATE (extension);
-	extension->priv->editor_pages = g_hash_table_new_full (g_int64_hash, g_int64_equal, g_free, g_object_unref);
 }
 
 static gpointer
@@ -2479,21 +2501,89 @@ web_page_document_loaded_cb (WebKitWebPage *web_page,
 }
 
 static void
+web_page_notify_uri_cb (GObject *object,
+			GParamSpec *param,
+			gpointer user_data)
+{
+	EEditorWebExtension *extension = user_data;
+	WebKitWebPage *web_page;
+	GSList *link;
+	const gchar *uri;
+
+	g_return_if_fail (E_IS_EDITOR_WEB_EXTENSION (extension));
+
+	web_page = WEBKIT_WEB_PAGE (object);
+	uri = webkit_web_page_get_uri (web_page);
+
+	for (link = extension->priv->pages; link; link = g_slist_next (link)) {
+		EEditorPage *page = link->data;
+
+		if (page && e_editor_page_get_web_page (page) == web_page) {
+			gint new_stamp = 0;
+
+			if (uri && *uri) {
+				SoupURI *suri;
+
+				suri = soup_uri_new (uri);
+				if (suri) {
+					if (soup_uri_get_query (suri)) {
+						GHashTable *form;
+
+						form = soup_form_decode (soup_uri_get_query (suri));
+						if (form) {
+							const gchar *evo_stamp;
+
+							evo_stamp = g_hash_table_lookup (form, "evo-stamp");
+							if (evo_stamp)
+								new_stamp = (gint) g_ascii_strtoll (evo_stamp, NULL, 10);
+
+							g_hash_table_destroy (form);
+						}
+					}
+
+					soup_uri_free (suri);
+				}
+			}
+
+			e_editor_page_set_stamp (page, new_stamp);
+
+			if (extension->priv->dbus_connection) {
+				GError *error = NULL;
+
+				g_dbus_connection_emit_signal (
+					extension->priv->dbus_connection,
+					NULL,
+					E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
+					E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
+					"ExtensionHandlesPage",
+					g_variant_new ("(ti)", webkit_web_page_get_id (web_page), new_stamp),
+					&error);
+
+				if (error) {
+					g_warning ("Error emitting signal ExtensionHandlesPage: %s", error->message);
+					g_error_free (error);
+				}
+			}
+
+			return;
+		}
+	}
+
+	g_warning ("%s: Cannot find web_page %p\n", G_STRFUNC, web_page);
+}
+
+static void
 web_page_created_cb (WebKitWebExtension *wk_extension,
                      WebKitWebPage *web_page,
                      EEditorWebExtension *extension)
 {
 	EEditorPage *editor_page;
-	guint64 *ppage_id;
 
 	g_return_if_fail (WEBKIT_IS_WEB_PAGE (web_page));
 	g_return_if_fail (E_IS_EDITOR_WEB_EXTENSION (extension));
 
-	ppage_id = g_new (guint64, 1);
-	*ppage_id = webkit_web_page_get_id (web_page);
-
 	editor_page = e_editor_page_new (web_page, extension);
-	g_hash_table_insert (extension->priv->editor_pages, ppage_id, editor_page);
+	extension->priv->pages = g_slist_prepend (extension->priv->pages, editor_page);
 
 	g_object_weak_ref (G_OBJECT (web_page), web_page_gone_cb, extension);
 
@@ -2504,6 +2594,11 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 	g_signal_connect (
 		web_page, "document-loaded",
 		G_CALLBACK (web_page_document_loaded_cb), NULL);
+
+	g_signal_connect_object (
+		web_page, "notify::uri",
+		G_CALLBACK (web_page_notify_uri_cb),
+		extension, 0);
 }
 
 void
@@ -2560,10 +2655,7 @@ e_editor_web_extension_dbus_register (EEditorWebExtension *extension,
 			g_warning ("Failed to register object: %s\n", error->message);
 			g_error_free (error);
 		} else {
-			extension->priv->dbus_connection = connection;
-			g_object_add_weak_pointer (
-				G_OBJECT (connection),
-				(gpointer *) &extension->priv->dbus_connection);
+			extension->priv->dbus_connection = g_object_ref (connection);
 		}
 	}
 }

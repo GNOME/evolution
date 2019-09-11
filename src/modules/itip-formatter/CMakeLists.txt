@@ -32,5 +32,3 @@ add_evolution_module(module-itip-formatter
 	extra_incdirs
 	extra_ldflags
 )
-
-add_subdirectory(web-extension)
