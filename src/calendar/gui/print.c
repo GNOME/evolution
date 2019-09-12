@@ -1153,7 +1153,8 @@ print_day_add_event (ECalModelComponent *comp_data,
 	g_print ("Day view lower: %s", ctime (&day_starts[0]));
 	g_print ("Day view upper: %s", ctime (&day_starts[days_shown]));
 	g_print ("Event start: %s", ctime (&start));
-	g_print ("Event end  : %s\n", ctime (&end));
+	g_print ("Event end  : %s", ctime (&end));
+	g_print ("Event summary: %s\n", i_cal_component_get_summary (comp_data->icalcomp));
 #endif
 
 	/* Check that the event times are valid. */
@@ -1217,13 +1218,20 @@ print_day_details_cb (ICalComponent *comp,
 {
 	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) user_data;
 	struct pdinfo *pdi = (struct pdinfo *) mdata->cb_data;
+	ICalTime *startt, *endtt;
+
+	startt = i_cal_time_convert_to_zone (istart, pdi->zone);
+	endtt = i_cal_time_convert_to_zone (iend, pdi->zone);
 
 	print_day_add_event (
 		mdata->comp_data,
-		i_cal_time_as_timet_with_zone (istart, pdi->zone),
-		i_cal_time_as_timet_with_zone (iend, pdi->zone),
+		i_cal_time_as_timet_with_zone (startt, pdi->zone),
+		i_cal_time_as_timet_with_zone (endtt, pdi->zone),
 		pdi->zone, pdi->days_shown, pdi->day_starts,
 		pdi->long_events, pdi->events);
+
+	g_clear_object (&startt);
+	g_clear_object (&endtt);
 
 	return TRUE;
 }
@@ -2131,11 +2139,24 @@ print_week_summary_cb (ICalComponent *comp,
 	time_t start, end;
 	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) user_data;
 	struct psinfo *psi = (struct psinfo *) mdata->cb_data;
+	ICalTime *startt, *endtt;
+
+	startt = i_cal_time_convert_to_zone (istart, psi->zone);
+	endtt = i_cal_time_convert_to_zone (iend, psi->zone);
 
 	/* Check that the event times are valid. */
 
-	start = i_cal_time_as_timet_with_zone (istart, psi->zone);
-	end = i_cal_time_as_timet_with_zone (iend, psi->zone);
+	start = i_cal_time_as_timet_with_zone (startt, psi->zone);
+	end = i_cal_time_as_timet_with_zone (endtt, psi->zone);
+
+	event.start_minute = i_cal_time_get_hour (startt) * 60 + i_cal_time_get_minute (startt);
+	event.end_minute = i_cal_time_get_hour (endtt) * 60 + i_cal_time_get_minute (endtt);
+
+	if (event.end_minute == 0 && start != end)
+		event.end_minute = 24 * 60;
+
+	g_clear_object (&startt);
+	g_clear_object (&endtt);
 
 #if 0
 	g_print (
@@ -2154,11 +2175,6 @@ print_week_summary_cb (ICalComponent *comp,
 	event.end = end;
 	event.spans_index = 0;
 	event.num_spans = 0;
-
-	event.start_minute = i_cal_time_get_hour (istart) * 60 + i_cal_time_get_minute (istart);
-	event.end_minute = i_cal_time_get_hour (iend) * 60 + i_cal_time_get_minute (iend);
-	if (event.end_minute == 0 && start != end)
-		event.end_minute = 24 * 60;
 
 	g_array_append_val (psi->events, event);
 
@@ -2766,10 +2782,8 @@ print_work_week_day_details (GtkPrintContext *context,
 	pdi.day_starts[1] = end;
 	pdi.long_events = g_array_new (FALSE, FALSE, sizeof (EDayViewEvent));
 	pdi.events[0] = g_array_new (FALSE, FALSE, sizeof (EDayViewEvent));
-	pdi.start_hour = e_cal_model_get_work_day_start_hour (model);
-	pdi.end_hour = e_cal_model_get_work_day_end_hour (model);
-	if (e_cal_model_get_work_day_end_minute (model) != 0)
-		pdi.end_hour++;
+	pdi.start_hour = _pdi->start_hour;
+	pdi.end_hour = _pdi->end_hour;
 	pdi.mins_per_row = get_day_view_time_divisions ();
 	pdi.rows = (pdi.end_hour - pdi.start_hour) * (60 / pdi.mins_per_row);
 	pdi.start_minute_offset = pdi.start_hour * 60;
@@ -2785,9 +2799,6 @@ print_work_week_day_details (GtkPrintContext *context,
 	qsort (
 		pdi.events[0]->data, pdi.events[0]->len,
 		sizeof (EDayViewEvent), e_day_view_event_sort_func);
-
-	pdi.start_hour = MIN (pdi.start_hour, _pdi->start_hour);
-	pdi.end_hour = MAX (pdi.end_hour, _pdi->end_hour);
 
 	/* TODO: This should be redundant */
 	/* Also print events outside of work hours */
@@ -2934,11 +2945,18 @@ print_work_week_view_cb (ICalComponent *comp,
 {
 	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) user_data;
 	struct pdinfo *pdi = (struct pdinfo *) mdata->cb_data;
+	ICalTime *startt, *endtt;
 
-	pdi->start_hour = MIN (pdi->start_hour, i_cal_time_get_hour (istart));
+	startt = i_cal_time_convert_to_zone (istart, pdi->zone);
+	endtt = i_cal_time_convert_to_zone (iend, pdi->zone);
+
+	pdi->start_hour = MIN (pdi->start_hour, i_cal_time_get_hour (startt));
 
 	/* If we're past the hour, use the next one */
-	pdi->end_hour = MAX (pdi->end_hour, i_cal_time_get_minute (iend) ? i_cal_time_get_hour (iend) + 1 : i_cal_time_get_hour (iend));
+	pdi->end_hour = MAX (pdi->end_hour, i_cal_time_get_minute (endtt) ? i_cal_time_get_hour (endtt) + 1 : i_cal_time_get_hour (endtt));
+
+	g_clear_object (&startt);
+	g_clear_object (&endtt);
 
 	return TRUE;
 }
@@ -2954,13 +2972,15 @@ print_work_week_view (GtkPrintContext *context,
 	gdouble width, height, l;
 	gdouble small_month_width;
 	gdouble weeknum_inc;
-	gint i, days = 5;
+	gint i, days, end_days;
 	gchar buf[100];
 	const gint LONG_EVENT_OFFSET = 6;
 	struct pdinfo pdi = { 0 };
 	struct tm tm;
 	gdouble day_width, day_x;
+	gboolean had_setup_days;
 	ECalModel *model;
+	GDateWeekday start_weekday, first_used_weekday, weekday;
 
 	model = e_calendar_view_get_model (cal_view);
 	zone = e_cal_model_get_timezone (model);
@@ -2973,13 +2993,50 @@ print_work_week_view (GtkPrintContext *context,
 	small_month_width = calc_small_month_width (context, HEADER_HEIGHT);
 	weeknum_inc = get_show_week_numbers () ? small_month_width / 7.0 : 0;
 
-	/* We always start on a Monday */
-	start = time_week_begin_with_zone (date, 1, zone);
-	end = time_add_day_with_zone (start, days, zone);
+	start_weekday = e_cal_model_get_week_start_day (model);
 
-	pdi.days_shown = days;
+	if (start_weekday == G_DATE_BAD_WEEKDAY)
+		start_weekday = G_DATE_MONDAY;
+
+	first_used_weekday = start_weekday;
 	pdi.start_hour = e_cal_model_get_work_day_start_hour (model);
 	pdi.end_hour = e_cal_model_get_work_day_end_hour (model);
+
+	days = 0;
+	for (i = 0, weekday = start_weekday; i < 7; i++, weekday = e_weekday_get_next (weekday)) {
+		if (e_cal_model_get_work_day (model, weekday)) {
+			gint start_hour, start_minute, end_hour, end_minute;
+
+			e_cal_model_get_work_day_range_for (model, weekday, &start_hour, &start_minute, &end_hour, &end_minute);
+
+			if (end_minute)
+				end_hour++;
+
+			if (!days) {
+				pdi.start_hour = start_hour;
+				pdi.end_hour = end_hour;
+				first_used_weekday = weekday;
+			} else {
+				pdi.start_hour = MIN (pdi.start_hour, start_hour);
+				pdi.end_hour = MAX (pdi.end_hour, end_hour);
+			}
+
+			days++;
+			end_days = i + 1;
+		}
+	}
+
+	had_setup_days = days != 0;
+
+	if (!had_setup_days) {
+		days = 7;
+		end_days = 7;
+	}
+
+	start = time_week_begin_with_zone (date, first_used_weekday == G_DATE_SUNDAY ? 0 : first_used_weekday, zone);
+	end = time_add_day_with_zone (start, end_days, zone);
+
+	pdi.days_shown = days;
 	pdi.zone = zone;
 
 	e_cal_model_generate_instances_sync (model, start, end, NULL, print_work_week_view_cb, &pdi);
@@ -3005,7 +3062,7 @@ print_work_week_view (GtkPrintContext *context,
 		context, model,
 		time_add_month_with_zone (start, 1, zone),
 		l, 4, l + small_month_width + weeknum_inc, HEADER_HEIGHT + 4,
-		DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
+		DATE_MONTH | DATE_YEAR, start, end, FALSE);
 
 	/* Print the start day of the week, e.g. '7th May 2001'. */
 	convert_timet_to_struct_tm (start, zone, &tm);
@@ -3026,24 +3083,29 @@ print_work_week_view (GtkPrintContext *context,
 		24 + 3, 24 + 3 + 24);
 
 	/* Now print each days' events */
-	day_width = (width - 2 *DAY_VIEW_TIME_COLUMN_WIDTH) / days;
+	day_width = (width - 2 * DAY_VIEW_TIME_COLUMN_WIDTH) / days;
 	when = start;
-	for (i = 0; i < days; ++i) {
-		day_x = DAY_VIEW_TIME_COLUMN_WIDTH + day_width * i;
+	for (i = 0, weekday = first_used_weekday; i < days; weekday = e_weekday_get_next (weekday)) {
+		if (!had_setup_days || e_cal_model_get_work_day (model, weekday)) {
+			day_x = DAY_VIEW_TIME_COLUMN_WIDTH + day_width * i;
 
-		/* Print the day, e.g. 'Tuesday'. */
-		convert_timet_to_struct_tm (when, zone, &tm);
-		format_date (&tm, DATE_DAYNAME, buf, 100);
+			/* Print the day, e.g. 'Tuesday'. */
+			convert_timet_to_struct_tm (when, zone, &tm);
+			format_date (&tm, DATE_DAYNAME, buf, 100);
 
-		print_text_size_bold (
-			context, buf, PANGO_ALIGN_LEFT,
-			day_x + 4, day_x + day_width,
-			HEADER_HEIGHT + 4, HEADER_HEIGHT + 4 + 18);
+			print_text_size_bold (
+				context, buf, PANGO_ALIGN_LEFT,
+				day_x + 4, day_x + day_width,
+				HEADER_HEIGHT + 4, HEADER_HEIGHT + 4 + 18);
 
-		print_work_week_day_details (
-			context, model, when,
-			day_x, day_x + day_width,
-			HEADER_HEIGHT, height, &pdi);
+			print_work_week_day_details (
+				context, model, when,
+				day_x, day_x + day_width,
+				HEADER_HEIGHT, height, &pdi);
+
+			i++;
+		}
+
 		when = time_add_day_with_zone (when, 1, zone);
 	}
 }
