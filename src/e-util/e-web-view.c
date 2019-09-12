@@ -1842,10 +1842,12 @@ e_web_view_page_proxy_changed_cb (EWebExtensionContainer *container,
 	    page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view))) {
 		e_web_view_set_web_extension_proxy (web_view, proxy);
 
-		g_hash_table_foreach (web_view->priv->element_clicked_cbs, web_view_register_element_clicked_hfunc, web_view);
+		if (proxy) {
+			g_hash_table_foreach (web_view->priv->element_clicked_cbs, web_view_register_element_clicked_hfunc, web_view);
 
-		e_web_view_ensure_body_class (web_view);
-		style_updated_cb (web_view);
+			e_web_view_ensure_body_class (web_view);
+			style_updated_cb (web_view);
+		}
 	}
 }
 
