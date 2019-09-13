@@ -284,22 +284,26 @@ book_shell_view_update_actions (EShellView *shell_view)
 	any_contacts_selected =
 		(single_contact_selected || multiple_contacts_selected);
 
+	action = ACTION (ADDRESS_BOOK_COPY);
+	sensitive = has_primary_source;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (ADDRESS_BOOK_MOVE);
-	sensitive = clicked_source_is_primary && source_is_editable;
+	sensitive = has_primary_source && source_is_editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_DELETE);
-	sensitive = clicked_source_is_primary && (
+	sensitive =
 		primary_source_is_removable ||
-		primary_source_is_remote_deletable);
+		primary_source_is_remote_deletable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PRINT);
-	sensitive = clicked_source_is_primary && has_primary_source;
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PRINT_PREVIEW);
-	sensitive = clicked_source_is_primary && has_primary_source;
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PROPERTIES);
@@ -321,7 +325,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_SAVE_AS);
-	sensitive = clicked_source_is_primary && has_primary_source;
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_POPUP_MAP);
