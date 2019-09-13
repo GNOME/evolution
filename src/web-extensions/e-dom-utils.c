@@ -906,16 +906,35 @@ set_iframe_and_body_width (WebKitDOMDocument *document,
 	for (ii = 0; ii < length; ii++) {
 		gint64 tmp_local_width = local_width;
 		WebKitDOMDocument *iframe_document;
+		WebKitDOMElement *iframe_doc_elem;
 		WebKitDOMNode *node;
 
 		node = webkit_dom_html_collection_item (frames, ii);
-		if (!force_width_is_valid_element (WEBKIT_DOM_ELEMENT (node)))
-			continue;
-
 		iframe_document = webkit_dom_html_iframe_element_get_content_document (
 			WEBKIT_DOM_HTML_IFRAME_ELEMENT (node));
 
 		if (!iframe_document)
+			continue;
+
+		iframe_doc_elem = webkit_dom_document_get_document_element (iframe_document);
+		if (iframe_doc_elem) {
+			WebKitDOMCSSStyleDeclaration *cssstyle;
+			gchar *value;
+
+			cssstyle = webkit_dom_element_get_style (iframe_doc_elem);
+			value = webkit_dom_css_style_declaration_get_property_value (cssstyle, "color");
+			if (!value || !g_ascii_strcasecmp (value, "text")) {
+				/* WebKitGTK+ 2.26.0 has style on <html> for 'color' set to 'text', which overrides
+				   what the iframe has set or inherited, thus explicitly inherit it and, just in case,
+				   also the 'background-color' property. */
+				webkit_dom_css_style_declaration_set_property (cssstyle, "color", "inherit", "", NULL);
+				webkit_dom_css_style_declaration_set_property (cssstyle, "background-color", "inherit", "", NULL);
+			}
+			g_clear_object (&cssstyle);
+			g_free (value);
+		}
+
+		if (!force_width_is_valid_element (WEBKIT_DOM_ELEMENT (node)))
 			continue;
 
 		if (level == 0) {
