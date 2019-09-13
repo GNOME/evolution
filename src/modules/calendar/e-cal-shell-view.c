@@ -361,13 +361,13 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_COPY);
-	sensitive = clicked_source_is_primary && has_primary_source;
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_DELETE);
-	sensitive = clicked_source_is_primary && (
+	sensitive =
 		primary_source_is_removable ||
-		primary_source_is_remote_deletable);
+		primary_source_is_remote_deletable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PRINT);
