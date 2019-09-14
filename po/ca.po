@@ -6116,7 +6116,7 @@ msgstr "Cap"
 #: ../src/calendar/gui/comp-util.c:1613
 msgctxt "iCalendarStatus"
 msgid "Tentative"
-msgstr "Provisionalment"
+msgstr "Provisional"
 
 #: ../src/calendar/gui/comp-util.c:1614
 msgctxt "iCalendarStatus"
@@ -6811,7 +6811,7 @@ msgstr "Declinat"
 #: ../src/calendar/gui/e-meeting-store.c:183 ../src/calendar/gui/e-meeting-store.c:206
 #: ../src/calendar/gui/e-meeting-time-sel.c:523
 msgid "Tentative"
-msgstr "Provisionalment"
+msgstr "Provisional"
 
 #: ../src/calendar/gui/e-cal-model.c:3825 ../src/calendar/gui/e-meeting-list-view.c:211
 #: ../src/calendar/gui/e-meeting-store.c:185 ../src/calendar/gui/e-meeting-store.c:208
@@ -24084,7 +24084,7 @@ msgstr "_Mode HTML"
 
 #: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:1
 msgid "Prefer Plain Text"
-msgstr "Prefereixo text sense format"
+msgstr "Prefereix text sense format"
 
 #. but then we also need to create our own section frame
 #: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:3
@@ -24822,7 +24822,7 @@ msgstr "Accions de la llista de correu"
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
 msgstr ""
-"Dueu a terme accions per a ordres habituals de les llistes de correu (subscripció, cancel·lació de "
+"Dueu a terme accions habituals de les llistes de correu (subscripció, cancel·lació de "
 "subscripcions, etc.)."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
