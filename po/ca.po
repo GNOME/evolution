@@ -189,7 +189,7 @@ msgstr "Converteix el text dels correus a Unicode"
 msgid ""
 "Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from different character sets."
 msgstr ""
-"Converteix el text dels missatges a Unicode (codificació UTF-8) per unificar els elements de spam/ham "
+"Converteix el text dels missatges a Unicode (codificació UTF-8) per unificar els testimonis de spam/ham "
 "provinents de jocs de caràcters diferents."
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:3
@@ -14599,7 +14599,7 @@ msgstr "Grups disponibles:"
 
 #: ../src/e-util/e-source-selector-dialog.c:234
 msgid "_Destination"
-msgstr "_Destinació"
+msgstr "_Destinació"
 
 #: ../src/e-util/e-source-selector-dialog.c:362
 msgid "Select destination"
@@ -21254,7 +21254,7 @@ msgstr "10 minuts"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:8
 msgid "05 minutes"
-msgstr "05 minuts"
+msgstr "5 minuts"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:10
 msgid "Se_cond zone:"
