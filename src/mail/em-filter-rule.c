@@ -865,8 +865,7 @@ filter_rule_accounts_changed_cb (GtkComboBox *combobox,
 	g_return_if_fail (EM_IS_FILTER_RULE (fr));
 
 	id = gtk_combo_box_get_active_id (combobox);
-	if (id && *id)
-		em_filter_rule_set_account_uid (fr, id);
+	em_filter_rule_set_account_uid (fr, id);
 }
 
 /* This should have blocked the filter_rule_accounts_changed_cb() handler */
