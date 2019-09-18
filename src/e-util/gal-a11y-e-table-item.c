@@ -61,6 +61,7 @@ struct _GalA11yETableItemPrivate {
 	ESelectionModel *selection;
 	AtkStateSet *state_set;
 	GtkWidget *widget;
+	GHashTable *a11y_column_headers; /* ETableCol * ~> GalA11yETableColumnHeader * */
 };
 
 static gboolean gal_a11y_e_table_item_ref_selection (GalA11yETableItem *a11y,
@@ -123,6 +124,11 @@ item_finalized (gpointer user_data,
 
 	if (priv->selection)
 		gal_a11y_e_table_item_unref_selection (a11y);
+
+	if (priv->columns) {
+		free_columns (priv->columns);
+		priv->columns = NULL;
+	}
 
 	g_object_unref (a11y);
 }
@@ -273,11 +279,60 @@ eti_a11y_reset_focus_object (GalA11yETableItem *a11y,
 		g_signal_emit_by_name (a11y, "active-descendant-changed", cell);
 }
 
+static void eti_column_header_a11y_gone (gpointer user_data, GObject *a11y_col_header);
+
+static void
+eti_table_column_gone (gpointer user_data,
+		       GObject *col)
+{
+	GalA11yETableItem *a11y = user_data;
+	GalA11yETableItemPrivate *priv;
+	GalA11yETableColumnHeader *a11y_col_header;
+
+	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (a11y));
+
+	priv = GET_PRIVATE (a11y);
+
+	a11y_col_header = g_hash_table_lookup (priv->a11y_column_headers, col);
+	g_hash_table_remove (priv->a11y_column_headers, col);
+
+	if (a11y_col_header)
+		g_object_weak_unref (G_OBJECT (a11y_col_header), eti_column_header_a11y_gone, a11y);
+}
+
+static void
+eti_column_header_a11y_gone (gpointer user_data,
+			     GObject *a11y_col_header)
+{
+	GalA11yETableItem *a11y = user_data;
+	GalA11yETableItemPrivate *priv;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (a11y));
+
+	priv = GET_PRIVATE (a11y);
+
+	g_hash_table_iter_init (&iter, priv->a11y_column_headers);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		ETableCol *col = key;
+		GalA11yETableColumnHeader *stored_a11y_col_header = value;
+
+		if (((GObject *) stored_a11y_col_header) == a11y_col_header) {
+			g_object_weak_unref (G_OBJECT (col), eti_table_column_gone, a11y);
+			g_hash_table_remove (priv->a11y_column_headers, col);
+			break;
+		}
+	}
+}
+
 static void
 eti_dispose (GObject *object)
 {
 	GalA11yETableItem *a11y = GAL_A11Y_E_TABLE_ITEM (object);
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
+	GHashTableIter iter;
+	gpointer key, value;
 
 	if (priv->columns) {
 		free_columns (priv->columns);
@@ -289,8 +344,33 @@ eti_dispose (GObject *object)
 		priv->item = NULL;
 	}
 
+	g_clear_object (&priv->state_set);
+
+	g_hash_table_iter_init (&iter, priv->a11y_column_headers);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		ETableCol *col = key;
+		GalA11yETableColumnHeader *a11y_col_header = value;
+
+		g_object_weak_unref (G_OBJECT (col), eti_table_column_gone, a11y);
+		g_object_weak_unref (G_OBJECT (a11y_col_header), eti_column_header_a11y_gone, a11y);
+	}
+
+	g_hash_table_remove_all (priv->a11y_column_headers);
+
 	if (parent_class->dispose)
 		parent_class->dispose (object);
+}
+
+static void
+eti_finalize (GObject *object)
+{
+	GalA11yETableItem *a11y = GAL_A11Y_E_TABLE_ITEM (object);
+	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
+
+	g_hash_table_destroy (priv->a11y_column_headers);
+
+	if (parent_class->finalize)
+		parent_class->finalize (object);
 }
 
 /* Static functions */
@@ -318,12 +398,24 @@ eti_ref_child (AtkObject *accessible,
 		return NULL;
 
 	if (index < item->cols) {
+		GalA11yETableItemPrivate *priv = GET_PRIVATE (accessible);
 		ETableCol *ecol;
 		AtkObject *child;
 
 		ecol = e_table_header_get_column (item->header, index);
-		child = gal_a11y_e_table_column_header_new (ecol, item, accessible);
-		return child;
+		child = g_hash_table_lookup (priv->a11y_column_headers, ecol);
+
+		if (!child) {
+			child = gal_a11y_e_table_column_header_new (ecol, item, accessible);
+			if (child) {
+				g_hash_table_insert (priv->a11y_column_headers, ecol, child);
+
+				g_object_weak_ref (G_OBJECT (ecol), eti_table_column_gone, accessible);
+				g_object_weak_ref (G_OBJECT (child), eti_column_header_a11y_gone, accessible);
+			}
+		}
+
+		return child ? g_object_ref (child) : NULL;
 	}
 	index -= item->cols;
 
@@ -966,6 +1058,7 @@ eti_header_structure_changed (ETableHeader *eth,
 		g_free (state);
 		g_free (reorder);
 		g_free (prev_state);
+		free_columns (cols);
 		return;
 	}
 
@@ -1051,6 +1144,7 @@ eti_class_init (GalA11yETableItemClass *class)
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose = eti_dispose;
+	object_class->finalize = eti_finalize;
 
 	atk_object_class->get_n_children = eti_get_n_children;
 	atk_object_class->ref_child = eti_ref_child;
@@ -1069,6 +1163,7 @@ eti_init (GalA11yETableItem *a11y)
 	priv->selection_row_changed_id = 0;
 	priv->cursor_changed_id = 0;
 	priv->selection = NULL;
+	priv->a11y_column_headers = g_hash_table_new (g_direct_hash, g_direct_equal);
 }
 
 /* atk selection */
@@ -1189,14 +1284,17 @@ gal_a11y_e_table_item_new (ETableItem *item)
 
 	accessible = ATK_OBJECT (a11y);
 
-	GET_PRIVATE (a11y)->item = item;
 	/* Initialize cell data. */
 	GET_PRIVATE (a11y)->cols = item->cols;
 	GET_PRIVATE (a11y)->rows = item->rows >= 0 ? item->rows : 0;
 
 	GET_PRIVATE (a11y)->columns = e_table_header_get_columns (item->header);
-	if (GET_PRIVATE (a11y)->columns == NULL)
+	if (GET_PRIVATE (a11y)->columns == NULL) {
+		g_clear_object (&a11y);
 		return NULL;
+	}
+
+	GET_PRIVATE (a11y)->item = item;
 
 	g_signal_connect (
 		item, "selection_model_removed",
