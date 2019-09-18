@@ -206,8 +206,10 @@ get_priority (ECalModelComponent *comp_data)
 	const gchar *value = NULL;
 
 	prop = i_cal_component_get_first_property (comp_data->icalcomp, I_CAL_PRIORITY_PROPERTY);
-	if (prop)
+	if (prop) {
 		value = e_cal_util_priority_to_string (i_cal_property_get_priority (prop));
+		g_clear_object (&prop);
+	}
 
 	if (!value)
 		value = "";
@@ -988,8 +990,7 @@ cal_model_tasks_free_value (ETableModel *etm,
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
-		if (value)
-			g_free (value);
+		e_cell_date_edit_value_free (value);
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :

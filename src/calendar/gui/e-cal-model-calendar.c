@@ -365,8 +365,7 @@ cal_model_calendar_free_value (ETableModel *etm,
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
-		if (value)
-			g_free (value);
+		e_cell_date_edit_value_free (value);
 		break;
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :

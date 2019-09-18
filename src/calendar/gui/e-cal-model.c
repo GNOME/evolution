@@ -1761,7 +1761,7 @@ cal_model_free_value (ETableModel *etm,
 	case E_CAL_MODEL_FIELD_CREATED :
 	case E_CAL_MODEL_FIELD_LASTMODIFIED :
 		if (value)
-			g_free (value);
+			e_cell_date_edit_value_free (value);
 		break;
 	case E_CAL_MODEL_FIELD_COMPONENT :
 		if (value)
@@ -4386,8 +4386,10 @@ e_cal_model_util_get_datetime_value (ECalModel *model,
 				}
 
 				if (start_zone) {
+					g_clear_object (&tt_start);
 					tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, start_zone);
 				} else {
+					g_clear_object (&tt_start);
 					tt_start = i_cal_time_new_from_timet_with_zone (comp_data->instance_start, is_date, model->priv->zone);
 				}
 
