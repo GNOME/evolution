@@ -154,13 +154,17 @@ static gboolean
 webdav_config_lookup_propagate_error (GError **error,
 				      GError *local_error,
 				      const gchar *certificate_pem,
-				      GTlsCertificateFlags certificate_errors)
+				      GTlsCertificateFlags certificate_errors,
+				      gboolean *out_authentication_failed)
 {
 	if (g_error_matches (local_error, SOUP_HTTP_ERROR, SOUP_STATUS_UNAUTHORIZED)) {
 		local_error->domain = E_CONFIG_LOOKUP_WORKER_ERROR;
 		local_error->code = E_CONFIG_LOOKUP_WORKER_ERROR_REQUIRES_PASSWORD;
 
 		g_propagate_error (error, local_error);
+
+		if (out_authentication_failed)
+			*out_authentication_failed = TRUE;
 
 		return TRUE;
 	}
@@ -209,6 +213,71 @@ webdav_config_lookup_worker_get_display_name (EConfigLookupWorker *lookup_worker
 	return _("Look up for a CalDAV/CardDAV server");
 }
 
+static gboolean
+webdav_config_lookup_discover (ESource *dummy_source,
+			       const gchar *url,
+			       ETrustPromptResponse trust_response,
+			       GTlsCertificate *certificate,
+			       EConfigLookup *config_lookup,
+			       const ENamedParameters *params,
+			       ENamedParameters **out_restart_params,
+			       gboolean *out_authentication_failed,
+			       GCancellable *cancellable,
+			       GError **error)
+{
+	ESourceAuthentication *authentication_extension;
+	ESourceWebdav *webdav_extension;
+	ENamedParameters *credentials = NULL;
+	GSList *discovered_sources = NULL;
+	gchar *certificate_pem = NULL;
+	GTlsCertificateFlags certificate_errors = 0;
+	GError *local_error = NULL;
+	gboolean should_stop = FALSE;
+
+	if (out_authentication_failed)
+		*out_authentication_failed = FALSE;
+
+	if (e_named_parameters_exists (params, E_CONFIG_LOOKUP_PARAM_PASSWORD)) {
+		credentials = e_named_parameters_new ();
+
+		e_named_parameters_set (credentials, E_SOURCE_CREDENTIAL_PASSWORD,
+			e_named_parameters_get (params, E_CONFIG_LOOKUP_PARAM_PASSWORD));
+	}
+
+	authentication_extension = e_source_get_extension (dummy_source, E_SOURCE_EXTENSION_AUTHENTICATION);
+	webdav_extension = e_source_get_extension (dummy_source, E_SOURCE_EXTENSION_WEBDAV_BACKEND);
+
+	webdav_config_lookup_set_host_from_url (authentication_extension, url);
+
+	if (certificate && trust_response != E_TRUST_PROMPT_RESPONSE_UNKNOWN)
+		e_source_webdav_update_ssl_trust (webdav_extension, e_source_authentication_get_host (authentication_extension), certificate, trust_response);
+
+	if (e_webdav_discover_sources_sync (dummy_source, url,
+		E_WEBDAV_DISCOVER_SUPPORTS_NONE, credentials, &certificate_pem, &certificate_errors,
+		&discovered_sources, NULL, cancellable, &local_error)) {
+		webdav_config_lookup_to_result (config_lookup, url, params,
+			e_source_authentication_get_user (authentication_extension),
+			e_source_webdav_get_ssl_trust (webdav_extension), discovered_sources);
+		e_webdav_discover_free_discovered_sources (discovered_sources);
+		discovered_sources = NULL;
+	} else if (webdav_config_lookup_propagate_error (error, local_error, certificate_pem, certificate_errors, out_authentication_failed)) {
+		if (certificate_pem) {
+			e_named_parameters_set (*out_restart_params, E_CONFIG_LOOKUP_PARAM_CERTIFICATE_PEM, certificate_pem);
+			e_named_parameters_set (*out_restart_params, E_CONFIG_LOOKUP_PARAM_CERTIFICATE_HOST,
+				e_source_authentication_get_host (authentication_extension));
+		}
+
+		should_stop = TRUE;
+	} else {
+		g_clear_error (&local_error);
+	}
+
+	g_clear_pointer (&certificate_pem, g_free);
+	e_named_parameters_free (credentials);
+
+	return should_stop;
+}
+
 static void
 webdav_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
 				 EConfigLookup *config_lookup,
@@ -220,15 +289,11 @@ webdav_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
 	ESource *dummy_source;
 	ESourceAuthentication *authentication_extension;
 	ESourceWebdav *webdav_extension;
-	ENamedParameters *credentials = NULL;
-	GSList *discovered_sources = NULL;
-	gchar *certificate_pem = NULL;
-	GTlsCertificateFlags certificate_errors = 0;
 	ETrustPromptResponse trust_response = E_TRUST_PROMPT_RESPONSE_UNKNOWN;
 	GTlsCertificate *certificate = NULL;
 	gchar *email_address, *at_pos;
 	const gchar *servers;
-	GError *local_error = NULL;
+	gboolean should_stop = FALSE, authentication_failed = FALSE;
 
 	g_return_if_fail (E_IS_WEBDAV_CONFIG_LOOKUP (lookup_worker));
 	g_return_if_fail (E_IS_CONFIG_LOOKUP (config_lookup));
@@ -240,13 +305,6 @@ webdav_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
 	if (!email_address || !*email_address) {
 		g_free (email_address);
 		return;
-	}
-
-	if (e_named_parameters_exists (params, E_CONFIG_LOOKUP_PARAM_PASSWORD)) {
-		credentials = e_named_parameters_new ();
-
-		e_named_parameters_set (credentials, E_SOURCE_CREDENTIAL_PASSWORD,
-			e_named_parameters_get (params, E_CONFIG_LOOKUP_PARAM_PASSWORD));
 	}
 
 	*out_restart_params = e_named_parameters_new_clone (params);
@@ -271,8 +329,6 @@ webdav_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
 	}
 
 	at_pos = strchr (email_address, '@');
-	if (at_pos)
-		*at_pos = '\0';
 
 	authentication_extension = e_source_get_extension (dummy_source, E_SOURCE_EXTENSION_AUTHENTICATION);
 	if (e_named_parameters_exists (params, E_CONFIG_LOOKUP_PARAM_USER))
@@ -280,54 +336,40 @@ webdav_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
 	else
 		e_source_authentication_set_user (authentication_extension, email_address);
 
-	/* Do not try to guess from an email domain, it is almost always wrong. */
-	#if 0
-	if (at_pos && at_pos[1]) {
+	/* Try to guess from an email domain only if no servers were given (because it is almost always wrong). */
+	servers = e_named_parameters_get (params, E_CONFIG_LOOKUP_PARAM_SERVERS);
+
+	if (at_pos && at_pos[1] && (!servers || !*servers)) {
 		const gchar *host = at_pos + 1;
 		gchar *url;
 
 		/* Intentionally use the secure HTTP; users can override it with the Servers value */
 		url = g_strconcat ("https://", host, NULL);
 
-		webdav_config_lookup_set_host_from_url (authentication_extension, host);
+		should_stop = webdav_config_lookup_discover (dummy_source, url, trust_response, certificate, config_lookup,
+			params, out_restart_params, &authentication_failed, cancellable, error);
 
-		if (certificate && trust_response != E_TRUST_PROMPT_RESPONSE_UNKNOWN)
-			e_source_webdav_update_ssl_trust (webdav_extension, host, certificate, trust_response);
+		if (authentication_failed && at_pos &&
+		    !e_named_parameters_exists (params, E_CONFIG_LOOKUP_PARAM_USER) &&
+		    e_named_parameters_exists (params, E_CONFIG_LOOKUP_PARAM_PASSWORD)) {
+			/* Use only user name portion */
+			*at_pos = '\0';
+			e_source_authentication_set_user (authentication_extension, email_address);
 
-		if (e_webdav_discover_sources_sync (dummy_source, url,
-			E_WEBDAV_DISCOVER_SUPPORTS_NONE, credentials, &certificate_pem, &certificate_errors,
-			&discovered_sources, NULL, cancellable, &local_error)) {
-			webdav_config_lookup_to_result (config_lookup, url, params,
-				e_source_authentication_get_user (authentication_extension),
-				e_source_webdav_get_ssl_trust (webdav_extension), discovered_sources);
-			e_webdav_discover_free_discovered_sources (discovered_sources);
-			discovered_sources = NULL;
-		} else if (webdav_config_lookup_propagate_error (error, local_error, certificate_pem, certificate_errors)) {
-			if (certificate_pem) {
-				e_named_parameters_set (*out_restart_params, E_CONFIG_LOOKUP_PARAM_CERTIFICATE_PEM, certificate_pem);
-				e_named_parameters_set (*out_restart_params, E_CONFIG_LOOKUP_PARAM_CERTIFICATE_HOST,
-					e_source_authentication_get_host (authentication_extension));
-			}
+			g_clear_error (error);
 
-			e_named_parameters_free (credentials);
-			g_clear_object (&dummy_source);
-			g_clear_object (&certificate);
-			g_free (certificate_pem);
-			g_free (email_address);
-			g_free (url);
-			return;
-		} else {
-			g_clear_error (&local_error);
+			should_stop = webdav_config_lookup_discover (dummy_source, url, trust_response, certificate, config_lookup,
+				params, out_restart_params, NULL, cancellable, error);
+
+			/* Restore back to full email address */
+			*at_pos = '@';
+			e_source_authentication_set_user (authentication_extension, email_address);
 		}
 
 		g_free (url);
 	}
 
-	g_clear_pointer (&certificate_pem, g_free);
-	#endif
-
-	servers = e_named_parameters_get (params, E_CONFIG_LOOKUP_PARAM_SERVERS);
-	if (servers && *servers) {
+	if (!should_stop && servers && *servers) {
 		gchar **servers_strv;
 		gint ii;
 
@@ -343,40 +385,32 @@ webdav_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
 				url = g_strconcat ("https://", servers_strv[ii], NULL);
 			}
 
-			webdav_config_lookup_set_host_from_url (authentication_extension, url);
+			should_stop = webdav_config_lookup_discover (dummy_source, url, trust_response, certificate, config_lookup,
+				params, out_restart_params, &authentication_failed, cancellable, error);
 
-			if (certificate && trust_response != E_TRUST_PROMPT_RESPONSE_UNKNOWN)
-				e_source_webdav_update_ssl_trust (webdav_extension, e_source_authentication_get_host (authentication_extension), certificate, trust_response);
+			if (authentication_failed && at_pos &&
+			    !e_named_parameters_exists (params, E_CONFIG_LOOKUP_PARAM_USER) &&
+			    e_named_parameters_exists (params, E_CONFIG_LOOKUP_PARAM_PASSWORD)) {
+				/* Use only user name portion */
+				*at_pos = '\0';
+				e_source_authentication_set_user (authentication_extension, email_address);
 
-			if (e_webdav_discover_sources_sync (dummy_source, url,
-				E_WEBDAV_DISCOVER_SUPPORTS_NONE, credentials, &certificate_pem, &certificate_errors,
-				&discovered_sources, NULL, cancellable, &local_error)) {
-				webdav_config_lookup_to_result (config_lookup, url, params,
-					e_source_authentication_get_user (authentication_extension),
-					e_source_webdav_get_ssl_trust (webdav_extension), discovered_sources);
-				e_webdav_discover_free_discovered_sources (discovered_sources);
-				discovered_sources = NULL;
-			} else if (webdav_config_lookup_propagate_error (error, local_error, certificate_pem, certificate_errors)) {
-				if (certificate_pem) {
-					e_named_parameters_set (*out_restart_params, E_CONFIG_LOOKUP_PARAM_CERTIFICATE_PEM, certificate_pem);
-					e_named_parameters_set (*out_restart_params, E_CONFIG_LOOKUP_PARAM_CERTIFICATE_HOST,
-						e_source_authentication_get_host (authentication_extension));
-				}
-				g_free (url);
-				break;
-			} else {
-				g_clear_error (&local_error);
+				g_clear_error (error);
+
+				should_stop = webdav_config_lookup_discover (dummy_source, url, trust_response, certificate, config_lookup,
+					params, out_restart_params, NULL, cancellable, error);
+
+				/* Restore back to full email address */
+				*at_pos = '@';
+				e_source_authentication_set_user (authentication_extension, email_address);
 			}
 
-			g_clear_pointer (&certificate_pem, g_free);
 			g_free (url);
 		}
 
-		g_clear_pointer (&certificate_pem, g_free);
 		g_strfreev (servers_strv);
 	}
 
-	e_named_parameters_free (credentials);
 	g_clear_object (&dummy_source);
 	g_clear_object (&certificate);
 	g_free (email_address);
