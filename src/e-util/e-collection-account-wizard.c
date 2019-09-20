@@ -508,9 +508,8 @@ collection_account_wizard_worker_finished_cb (EConfigLookup *config_lookup,
 
 		link = g_markup_printf_escaped ("<a href=\"evo:view-certificate\">%s</a>", _("View certificate"));
 
-		/* Translators: The first %s is replaced with actual error message about site certificate invalidity,
-		   like "The signing certificate authority is not known.", the second %s is replaced with a link "View certificate". */
-		markup = g_strdup_printf (C_("collection-account-wizard", "%s %s."), error->message, link);
+		markup = g_strconcat (error->message ? error->message : "",
+			error->message ? "\n" : "", link, NULL);
 
 		gtk_label_set_markup (GTK_LABEL (wd->running_label), markup);
 
