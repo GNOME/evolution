@@ -6,7 +6,7 @@
     <link type="seealso" xref="mail-layout-changing"/>
     <link type="seealso" xref="calendar-layout"/>
 
-    <revision pkgversion="3.32.0" version="0.2" date="2019-03-14" status="final"/>
+    <revision pkgversion="3.34.0" version="0.3" date="2019-09-28" status="final"/>
 
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
@@ -33,6 +33,6 @@ Modify the files in your personal configuration folder so the next <app>Evolutio
 
 <p>The modified files will be used if the <code>evolution-ui-version</code> attribute of the root <code>ui</code> element matches the version of the default files provided by <app>Evolution</app>.</p>
 
-<p>To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> while <app>Evolution</app> is not running. Commented lines start with a comma character. Not all shortcuts can be changed though.</p>
+<p>To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> while <app>Evolution</app> is not running. Commented lines start with a <code>;</code> character and will be ignored. Not all shortcuts can be changed though.</p>
 
 </page>
