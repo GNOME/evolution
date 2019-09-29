@@ -943,7 +943,7 @@ msgid ""
 "The most recently used version of Evolution, expressed as “major.minor.micro”. This is used for data "
 "and settings migration from older to newer versions."
 msgstr ""
-"La versió més recent utilitzada de l'Evolution, en el format «major.menor.micro». S'utilitza per la "
+"La versió més recent utilitzada de l'Evolution, en el format «major.menor.micro». S'utilitza per a la "
 "migració de dades i de la configuració de versions antigues a més noves."
 
 #: ../data/org.gnome.evolution.gschema.xml.in.h:3
@@ -9435,7 +9435,7 @@ msgstr "Amèrica/Cambridge_Bay"
 
 #: ../src/calendar/zones.h:92
 msgid "America/Cancun"
-msgstr "Amèrica/Cancún"
+msgstr "Amèrica/Cancun"
 
 #: ../src/calendar/zones.h:93
 msgid "America/Caracas"
@@ -9567,7 +9567,7 @@ msgstr "Amèrica/Hermosillo"
 
 #: ../src/calendar/zones.h:125
 msgid "America/Indiana/Indianapolis"
-msgstr "Amèrica/Indiana/Indianàpolis"
+msgstr "Amèrica/Indiana/Indianapolis"
 
 #: ../src/calendar/zones.h:126
 msgid "America/Indiana/Knox"
@@ -9583,7 +9583,7 @@ msgstr "Amèrica/Indiana/Vevay"
 
 #: ../src/calendar/zones.h:129
 msgid "America/Indianapolis"
-msgstr "Amèrica/Indianàpolis"
+msgstr "Amèrica/Indianapolis"
 
 #: ../src/calendar/zones.h:130
 msgid "America/Inuvik"
@@ -17087,7 +17087,7 @@ msgstr "Previsualitza el missatge que s'imprimirà"
 
 #: ../src/mail/e-mail-reader.c:2764 ../src/modules/mail/e-mail-attachment-handler.c:452
 msgid "Re_direct"
-msgstr "Re_direcciona"
+msgstr "Re_dirigeix"
 
 #: ../src/mail/e-mail-reader.c:2766 ../src/modules/mail/e-mail-attachment-handler.c:454
 msgid "Redirect (bounce) the selected message to someone"
@@ -21731,7 +21731,7 @@ msgstr "_Edita com a nou…"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1391
 msgid "Edit the current appointment as new"
-msgstr "Edit la cita actual com a nova"
+msgstr "Edita la cita actual com a nova"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1396
 msgid "New All Day _Event…"
@@ -21890,7 +21890,7 @@ msgstr "anotació"
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:245
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:661
 msgid "New _Memo"
-msgstr "Nova _anotació"
+msgstr "_Anotació nova"
 
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:247
 #: ../src/modules/calendar/e-memo-shell-backend.c:79
