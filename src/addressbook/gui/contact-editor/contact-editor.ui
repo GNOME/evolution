@@ -225,7 +225,7 @@
             <child>
               <object class="GtkScrolledWindow" id="scrolledwindow1">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="min_content_width">320</property>
                 <property name="min_content_height">240</property>
                 <child>
@@ -414,7 +414,7 @@
                                   <object class="GtkComboBox" id="combo-file-as">
                                     <property name="name">file-as</property>
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
+                                    <property name="can_focus">False</property>
                                     <property name="model">model1</property>
                                     <property name="has_entry">True</property>
                                     <property name="entry_text_column">0</property>
@@ -471,7 +471,7 @@
                                 <child>
                                   <object class="GtkExpander" id="expander-contact-email">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
                                     <child type="label">
                                       <object class="GtkLabel" id="label400">
                                         <property name="visible">True</property>
@@ -541,7 +541,7 @@
                                 <child>
                                   <object class="GtkExpander" id="expander-contact-phone">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
                                     <child type="label">
                                       <object class="GtkLabel" id="label399">
                                         <property name="visible">True</property>
@@ -596,7 +596,7 @@
                                 <child>
                                   <object class="GtkExpander" id="expander-contact-sip">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
                                     <child type="label">
                                       <object class="GtkLabel" id="label-sip">
                                         <property name="visible">True</property>
@@ -651,7 +651,7 @@
                                 <child>
                                   <object class="GtkExpander" id="expander-contact-im">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
+                                    <property name="can_focus">True</property>
                                     <child type="label">
                                       <object class="GtkLabel" id="label-im">
                                         <property name="visible">True</property>
@@ -725,7 +725,7 @@
             <child>
               <object class="GtkScrolledWindow" id="scrolledwindow-personal">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="min_content_width">320</property>
                 <property name="min_content_height">240</property>
                 <child>
@@ -742,7 +742,7 @@
                         <child>
                           <object class="GtkExpander" id="expander-personal-web">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
                             <child>
                               <object class="GtkTable" id="table87">
                                 <property name="visible">True</property>
@@ -936,7 +936,7 @@
                         <child>
                           <object class="GtkExpander" id="expander-personal-job">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
                             <child>
                               <object class="GtkTable" id="table88">
                                 <property name="visible">True</property>
@@ -1356,7 +1356,7 @@
             <child>
               <object class="GtkScrolledWindow" id="scrolledwindow-mailing">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="min_content_width">320</property>
                 <property name="min_content_height">240</property>
                 <child>
@@ -1410,7 +1410,7 @@
                                             <property name="width_request">193</property>
                                             <property name="height_request">69</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
+                                            <property name="can_focus">False</property>
                                             <property name="shadow_type">in</property>
                                             <child>
                                               <object class="GtkTextView" id="textview-home-address">
@@ -1671,7 +1671,7 @@
                                             <property name="width_request">193</property>
                                             <property name="height_request">69</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
+                                            <property name="can_focus">False</property>
                                             <property name="shadow_type">in</property>
                                             <child>
                                               <object class="GtkTextView" id="textview-work-address">
@@ -2098,7 +2098,7 @@
                                             <property name="width_request">193</property>
                                             <property name="height_request">69</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
+                                            <property name="can_focus">False</property>
                                             <property name="shadow_type">in</property>
                                             <child>
                                               <object class="GtkTextView" id="textview-other-address">
@@ -2173,7 +2173,7 @@
             <child>
               <object class="GtkScrolledWindow" id="scrolledwindow-notes">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
+                <property name="can_focus">False</property>
                 <property name="border_width">12</property>
                 <property name="shadow_type">in</property>
                 <child>
@@ -2214,7 +2214,7 @@
                 <child>
                   <object class="GtkScrolledWindow" id="scrolledwindow2">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="shadow_type">in</property>
                     <property name="min_content_height">160</property>
@@ -2333,7 +2333,7 @@
                 <child>
                   <object class="GtkScrolledWindow" id="cert-preview-scw">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
                     <property name="shadow_type">in</property>
