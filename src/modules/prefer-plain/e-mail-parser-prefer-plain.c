@@ -213,6 +213,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	gboolean prefer_html;
 	GQueue plain_text_parts = G_QUEUE_INIT;
 	GQueue work_queue = G_QUEUE_INIT;
+	GQueue attachments_queue = G_QUEUE_INIT;
 
 	emp_pp = (EMailParserPreferPlain *) extension;
 	prefer_html = (emp_pp->mode == PREFER_HTML);
@@ -352,17 +353,13 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 			has_html |= multipart_has_html;
 
-		/* Parse everything else as an attachment */
-		} else {
-			GQueue inner_queue = G_QUEUE_INIT;
-
+		/* Parse other than 'X' (those are custom types) as an attachment */
+		} else if (ct && ct->subtype && ct->subtype[0] && ct->subtype[0] != 'x' && ct->subtype[0] != 'X') {
 			e_mail_parser_parse_part (
 				parser, sp, part_id,
-				cancellable, &inner_queue);
+				cancellable, &attachments_queue);
 			e_mail_parser_wrap_as_attachment (
-				parser, sp, part_id, &inner_queue);
-
-			e_queue_transfer (&inner_queue, &work_queue);
+				parser, sp, part_id, &attachments_queue);
 		}
 	}
 
@@ -391,6 +388,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	/* plain_text parts should be always first */
 	e_queue_transfer (&plain_text_parts, out_mail_parts);
 	e_queue_transfer (&work_queue, out_mail_parts);
+	e_queue_transfer (&attachments_queue, out_mail_parts);
 
 	g_string_truncate (part_id, partidlen);
 
