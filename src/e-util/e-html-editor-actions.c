@@ -1074,7 +1074,7 @@ static GtkActionEntry core_editor_entries[] = {
 	{ "wrap-lines",
 	  NULL,
 	  N_("_Wrap Lines"),
-	  "<Control>k",
+	  "<Control><Shift>k",
 	  NULL,
 	  G_CALLBACK (action_wrap_lines_cb) }
 };
@@ -1233,7 +1233,7 @@ static GtkActionEntry html_entries[] = {
 	{ "insert-link",
 	  "insert-link",
 	  N_("_Link…"),
-	  NULL,
+	  "<Control>k",
 	  N_("Insert Link"),
 	  G_CALLBACK (action_insert_link_cb) },
 
