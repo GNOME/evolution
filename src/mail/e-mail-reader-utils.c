@@ -3420,6 +3420,39 @@ e_mail_reader_utils_get_mark_seen_setting (EMailReader *reader,
 
 	folder = e_mail_reader_ref_folder (reader);
 
+	if (CAMEL_IS_VEE_FOLDER (folder)) {
+		GtkWidget *message_list_widget;
+
+		message_list_widget = e_mail_reader_get_message_list (reader);
+
+		if (IS_MESSAGE_LIST (message_list_widget)) {
+			MessageList *message_list;
+
+			message_list = MESSAGE_LIST (message_list_widget);
+
+			if (message_list->cursor_uid) {
+				CamelMessageInfo *nfo;
+
+				nfo = camel_folder_get_message_info (folder, message_list->cursor_uid);
+
+				if (nfo && CAMEL_IS_VEE_MESSAGE_INFO (nfo)) {
+					CamelFolder *real_folder;
+
+					real_folder = camel_vee_folder_get_location (CAMEL_VEE_FOLDER (folder),
+						CAMEL_VEE_MESSAGE_INFO (nfo), NULL);
+
+					if (real_folder) {
+						g_object_ref (real_folder);
+						g_object_unref (folder);
+						folder = real_folder;
+					}
+				}
+
+				g_clear_object (&nfo);
+			}
+		}
+	}
+
 	if (folder) {
 		CamelStore *store;
 		CamelThreeState cts_value;
