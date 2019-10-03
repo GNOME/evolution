@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2019-09-28 10:26+0000\n"
-"PO-Revision-Date: 2019-09-28 21:06+0200\n"
+"PO-Revision-Date: 2019-09-29 21:24+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -2479,16 +2479,16 @@ msgstr ""
 "usklajevanje sporočil za uporabo brez povezave. Možnost je privzeto onemogočena."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
-#, fuzzy
-#| msgid "Display reminders in _notification area only"
 msgid "Whether display delivery notification parts inline."
-msgstr "Prikaži opomnike v obvestilnem p_odročju"
+msgstr "Ali naj bodo deli obvestil prejetja prikazani znotraj obvestilnega polja."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 msgid ""
 "If enabled, the message/delivery-status and message/disposition-notification parts are shown "
 "automatically inline."
 msgstr ""
+"Izbrana možnost omogoča, da bo znotraj polja samodejno prikazano obvestilo stanja in "
+"pošiljanja sporočila."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "(Deprecated) Default forward style"
@@ -2689,7 +2689,7 @@ msgstr "Privzeto ohrani obstoječe opomnike"
 
 #: ../data/org.gnome.evolution.plugin.itip.gschema.xml.in.h:4
 msgid "Whether to preset option to preserve existing reminder by default"
-msgstr ""
+msgstr "Ali naj bo privzeto nastavljena možnost ohranjanja obstoječega opomnika"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:1
 msgid "Notify new messages for Inbox only."
@@ -3183,7 +3183,7 @@ msgstr "Ustvari nov predmet v trenutnem oknu sestavljalnika"
 #: ../data/ui/evolution-shortcuts.ui.h:9
 msgctxt "shortcut window"
 msgid "Cycle focus between panes"
-msgstr ""
+msgstr "Preklopi žarišče med pladnji."
 
 #: ../data/ui/evolution-shortcuts.ui.h:10
 msgctxt "shortcut window"
@@ -3561,7 +3561,7 @@ msgstr "Izbrana slika je zelo velika. Ali jo želite pomanjšati in shraniti?"
 
 #: ../src/addressbook/addressbook.error.xml.h:24
 msgid "An expected image size is up to 96 x 96 pixels."
-msgstr ""
+msgstr "Pričakovana velikost sličice je 96 x 96 točk."
 
 #: ../src/addressbook/addressbook.error.xml.h:25
 msgid "_Resize"
@@ -16551,14 +16551,12 @@ msgid "Folder Sort Order"
 msgstr "Način razvrščanja map"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:735
-#, fuzzy
-#| msgid "Close the current file"
 msgid "Reset c_urrent level"
-msgstr "Zapri trenutno datoteko"
+msgstr "Ponastavi _trenutno raven"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:736
 msgid "Reset sort order in the current level to the defaults"
-msgstr ""
+msgstr "Ponastavi razvrščanje na trenutni ravni na privzete vrednosti"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:746
 msgid "Reset _all levels"
@@ -16566,7 +16564,7 @@ msgstr "Ponastavi _vse ravni"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:747
 msgid "Reset sort order in all levels to their defaults"
-msgstr ""
+msgstr "Ponastavi razvrščanje na vseh ravneh na privzete vrednosti"
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
@@ -22976,27 +22974,23 @@ msgstr[3] "V koledarju »%s« so %d sestanki, ki so v sporu s tem srečanjem"
 
 # M! Oblika?
 #: ../src/modules/itip-formatter/itip-view.c:4026
-#, fuzzy, c-format
-#| msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
-#| msgid_plural "The calendar “%s” contains %d appointments which conflict with this meeting"
+#, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural "The task list “%s” contains %d tasks which conflict with this task"
-msgstr[0] "V koledarju »%s« je %d sestankov, ki so v sporu s tem srečanjem"
-msgstr[1] "V koledarju »%s« je %d sestanek, ki je v sporu s tem srečanjem"
-msgstr[2] "V koledarju »%s« sta %d sestanka, ki sta v sporu s tem srečanjem"
-msgstr[3] "V koledarju »%s« so %d sestanki, ki so v sporu s tem srečanjem"
+msgstr[0] "Seznam nalog »%s« vsebuje %d nalog, ki so v sporu z izbrano nalogo."
+msgstr[1] "Seznam nalog »%s« vsebuje %d nalogo, ki je v sporu z izbrano nalogo."
+msgstr[2] "Seznam nalog »%s« vsebuje %d nalogi, ki sta v sporu z izbrano nalogo."
+msgstr[3] "Seznam nalog »%s« vsebuje %d naloge, ki so v sporu z izbrano nalogo."
 
 # M! Oblika?
 #: ../src/modules/itip-formatter/itip-view.c:4035
-#, fuzzy, c-format
-#| msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
-#| msgid_plural "The calendar “%s” contains %d appointments which conflict with this meeting"
+#, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural "The memo list “%s” contains %d memos which conflict with this memo"
-msgstr[0] "V koledarju »%s« je %d sestankov, ki so v sporu s tem srečanjem"
-msgstr[1] "V koledarju »%s« je %d sestanek, ki je v sporu s tem srečanjem"
-msgstr[2] "V koledarju »%s« sta %d sestanka, ki sta v sporu s tem srečanjem"
-msgstr[3] "V koledarju »%s« so %d sestanki, ki so v sporu s tem srečanjem"
+msgstr[0] "Seznam opomnikov »%s« vsebuje %d opomnikov, ki so v sporu z izbranim opomnikom."
+msgstr[1] "Seznam opomnikov »%s« vsebuje %d opomnik, ki je v sporu z izbranim opomnikom."
+msgstr[2] "Seznam opomnikov »%s« vsebuje %d opomnika, ki sta v sporu z izbranim opomnikom."
+msgstr[3] "Seznam opomnikov »%s« vsebuje %d opomnike, ki so v sporu z izbranim opomnikom."
 
 #: ../src/modules/itip-formatter/itip-view.c:4073
 #, c-format
