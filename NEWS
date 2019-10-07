@@ -1,3 +1,36 @@
+Evolution 3.34.1 2019-10-07
+---------------------------
+
+Bug Fixes:
+	I#524 - libgnomecanvas: Crash under gailcanvas.c:adjustment_changed() (Milan Crha)
+	I#587 - Change how Evolution talks to WebKitWebProcess (Milan Crha)
+	I#603 - Cannot reply to the first message in a collapsed thread (Milan Crha)
+	I#610 - Change how WebDAV discovery logins to the server (Milan Crha)
+	I#611 - Calendar Work Week days change not reflected in Print (Milan Crha)
+	I#615 - Some actions are disabled in the top menu in error (Milan Crha)
+	I#617 - Font color in iframe not inherited in WebKitGTK+ 2.26 (Milan Crha)
+	I#623 - Message Filter Rule property "For Account:" can't be reset to "Any" (Milan Crha)
+	I#624 - GalA11yETableItem: Incorrect implementation of AtkObjectClass::ref_child() (Milan Crha)
+	I#636 - Contact Editor: Move with Tab stops at some widgets (Milan Crha)
+	I#641 - 'Mark messages as read' as account option not working for Search Folders (Milan Crha)
+	I#644 - Composer: Add Ctrl+K as 'Insert Link' shortcut (Milan Crha)
+	I#645 - Prefer-Plain: Hide vendor-specific subparts of multipart/alternative (Milan Crha)
+
+Miscellaneous:
+	EWebView: Pile calls to Web Extension proxy only when such exists (Milan Crha)
+	Fix several memory leaks in ECalModel and its descendants (Milan Crha)
+	help: Update application logo (Andre Klapper)
+	help: Fix a typo (semi-colon instead of colon) (Andre Klapper)
+
+Translations:
+	Милош Поповић (sr)
+	Милош Поповић (sr@latin)
+	Matej Urbančič (sl)
+	Ask Hjorth Larsen (da)
+	Christian Kirbach (de)
+	Jordi Mas i Hernandez (ca)
+	Daniel Mustieles (es)
+
 Evolution 3.34.0 2019-09-09
 ---------------------------
 
