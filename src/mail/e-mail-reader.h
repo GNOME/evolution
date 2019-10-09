@@ -213,8 +213,6 @@ void		e_mail_reader_unset_folder_just_selected
 void		e_mail_reader_composer_created	(EMailReader *reader,
 						 EMsgComposer *composer,
 						 CamelMimeMessage *message);
-void		e_mail_reader_connect_remote_content
-						(EMailReader *reader);
 void		e_mail_reader_reload		(EMailReader *reader);
 void		e_mail_reader_remove_ui		(EMailReader *reader);
 

@@ -85,6 +85,7 @@ set(SOURCES
 	e-mail-reader-utils.c
 	e-mail-reader.c
 	e-mail-remote-content.c
+	e-mail-remote-content-popover.c
 	e-mail-request.c
 	e-mail-send-account-override.c
 	e-mail-sidebar.c
@@ -175,6 +176,7 @@ set(HEADERS
 	e-mail-reader-utils.h
 	e-mail-reader.h
 	e-mail-remote-content.h
+	e-mail-remote-content-popover.h
 	e-mail-request.h
 	e-mail-send-account-override.h
 	e-mail-sidebar.h

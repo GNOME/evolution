@@ -62,6 +62,7 @@ format_short_headers (EMailFormatter *formatter,
 	struct _camel_header_address *addrs = NULL;
 	const CamelNameValueArray *headers;
 	guint ii, len;
+	gint icon_width, icon_height;
 	GString *from;
 
 	if (g_cancellable_is_cancelled (cancellable))
@@ -134,9 +135,22 @@ format_short_headers (EMailFormatter *formatter,
 	g_string_append (buffer, "</strong>");
 	if (from->len > 0)
 		g_string_append_printf (buffer, " (%s)", from->str);
-	g_string_append (buffer, "</td></tr>");
+	g_string_append (buffer, "</td>");
 
-	g_string_append (buffer, "</table>");
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &icon_width, &icon_height)) {
+		icon_width = 16;
+		icon_height = 16;
+	}
+
+	g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
+	g_string_append_printf (buffer,
+		"<img src=\"gtk-stock://dialog-information/?size=%d\" width=\"%dpx\" height=\"%dpx\""
+		" id=\"__evo-remote-content-img-small\" class=\"__evo-remote-content-img\" title=\"%s\" style=\"cursor:pointer;\" hidden/>",
+		GTK_ICON_SIZE_MENU, icon_width, icon_height,
+		_("Remote content download had been blocked for this message."));
+	g_string_append (buffer, "</td>");
+
+	g_string_append (buffer, "</tr></table>");
 
 	g_free (subject);
 	if (addrs)
@@ -229,6 +243,7 @@ format_full_headers (EMailFormatter *formatter,
 	const gchar *direction;
 	guint ii, len;
 	guint32 formatting_flag = 0;
+	gint icon_width, icon_height;
 
 	g_return_if_fail (E_IS_MAIL_PART_HEADERS (part));
 
@@ -485,6 +500,19 @@ format_full_headers (EMailFormatter *formatter,
 
 		g_object_unref (image_part);
 	}
+
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_LARGE_TOOLBAR, &icon_width, &icon_height)) {
+		icon_width = 24;
+		icon_height = 24;
+	}
+
+	g_string_append (buffer, "<td align=\"right\" valign=\"top\">");
+	g_string_append_printf (buffer,
+		"<img src=\"gtk-stock://dialog-information/?size=%d\" width=\"%dpx\" height=\"%dpx\""
+		" id=\"__evo-remote-content-img-large\" class=\"__evo-remote-content-img\" title=\"%s\" style=\"cursor:pointer;\" hidden/>",
+		GTK_ICON_SIZE_LARGE_TOOLBAR, icon_width, icon_height,
+		_("Remote content download had been blocked for this message."));
+	g_string_append (buffer, "</td>");
 
 	g_string_append (buffer, "</tr></table>");
 

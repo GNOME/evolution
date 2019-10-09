@@ -942,8 +942,6 @@ mail_paned_view_constructed (GObject *object)
 	 * set_preview_visible() method relies on it. */
 	e_mail_view_set_preview_visible (view, TRUE);
 
-	e_mail_reader_connect_remote_content (reader);
-
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */

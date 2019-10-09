@@ -809,8 +809,6 @@ mail_browser_constructed (GObject *object)
 		ui_manager, "connect-proxy",
 		G_CALLBACK (mail_browser_connect_proxy_cb), object);
 
-	e_mail_reader_connect_remote_content (reader);
-
 	/* Configure an EFocusTracker to manage selection actions. */
 
 	focus_tracker = e_focus_tracker_new (GTK_WINDOW (object));

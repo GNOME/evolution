@@ -347,6 +347,7 @@ src/mail/e-mail-print-config-headers.c
 src/mail/e-mail-printer.c
 src/mail/e-mail-reader.c
 src/mail/e-mail-reader-utils.c
+src/mail/e-mail-remote-content-popover.c
 src/mail/e-mail-request.c
 src/mail/e-mail-tag-editor.c
 src/mail/e-mail-templates-store.c

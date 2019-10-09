@@ -103,7 +103,15 @@ enum {
 	PROP_REMOTE_CONTENT
 };
 
+enum {
+	REMOTE_CONTENT_CLICKED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL];
 static CamelDataCache *emd_global_http_cache = NULL;
+
+G_DEFINE_TYPE (EMailDisplay, e_mail_display, E_TYPE_WEB_VIEW)
 
 static const gchar *ui =
 "<ui>"
@@ -160,11 +168,6 @@ static GtkActionEntry mailto_entries[] = {
 	  NULL,
 	  NULL }
 };
-
-G_DEFINE_TYPE (
-	EMailDisplay,
-	e_mail_display,
-	E_TYPE_WEB_VIEW);
 
 static const gchar *attachment_popup_ui =
 "<ui>"
@@ -1077,6 +1080,20 @@ mail_display_attachment_removed_cb (EAttachmentStore *store,
 }
 
 static void
+mail_display_remote_content_clicked_cb (EWebView *web_view,
+					const gchar *iframe_id,
+					const gchar *element_id,
+					const gchar *element_class,
+					const gchar *element_value,
+					const GtkAllocation *element_position,
+					gpointer user_data)
+{
+	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
+
+	g_signal_emit (web_view, signals[REMOTE_CONTENT_CLICKED], 0, element_position, NULL);
+}
+
+static void
 mail_display_load_changed_cb (WebKitWebView *wk_web_view,
 			      WebKitLoadEvent load_event,
 			      gpointer user_data)
@@ -1112,6 +1129,8 @@ mail_display_content_loaded_cb (EWebView *web_view,
 			mail_display_attachment_expander_clicked_cb, NULL);
 		e_web_view_register_element_clicked (web_view, "attachment-menu",
 			mail_display_attachment_menu_clicked_cb, NULL);
+		e_web_view_register_element_clicked (web_view, "__evo-remote-content-img",
+			mail_display_remote_content_clicked_cb, NULL);
 	}
 
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
@@ -1143,6 +1162,16 @@ mail_display_content_loaded_cb (EWebView *web_view,
 
 			g_clear_object (&part);
 		}
+	}
+
+	if (e_mail_display_has_skipped_remote_content_sites (mail_display)) {
+		e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
+			"", "__evo-remote-content-img-small", FALSE,
+			e_web_view_get_cancellable (web_view));
+
+		e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
+			"", "__evo-remote-content-img-large", FALSE,
+			e_web_view_get_cancellable (web_view));
 	}
 }
 
@@ -2051,6 +2080,16 @@ e_mail_display_class_init (EMailDisplayClass *class)
 			E_TYPE_MAIL_REMOTE_CONTENT,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
+
+	signals[REMOTE_CONTENT_CLICKED] = g_signal_new (
+		"remote-content-clicked",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		0,
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		GDK_TYPE_RECTANGLE);
 }
 
 static void
