@@ -113,7 +113,6 @@ add_dependencies(evolution-mail-formatter
 target_compile_definitions(evolution-mail-formatter PRIVATE
 	-DG_LOG_DOMAIN=\"evolution-mail-formatter\"
 	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"
-	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"
 )
 
 target_compile_options(evolution-mail-formatter PUBLIC

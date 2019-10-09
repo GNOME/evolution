@@ -1091,30 +1091,6 @@ text_contains_nonwhitespace (const gchar *text,
 	return p - text < len - 1 && c != 0;
 }
 
-static gchar *
-get_selected_text (EMailReader *reader)
-{
-	EMailDisplay *display;
-	gchar *text = NULL;
-
-	display = e_mail_reader_get_mail_display (reader);
-
-	if (!e_web_view_is_selection_active (E_WEB_VIEW (display)))
-		return NULL;
-
-	text = e_mail_display_get_selection_plain_text_sync (display, NULL, NULL);
-
-	if (!text)
-		return NULL;
-
-	if (!text_contains_nonwhitespace (text, strlen (text))) {
-		g_free (text);
-		return NULL;
-	}
-
-	return text;
-}
-
 static void
 get_charsets (EMailReader *reader,
 	      gchar **default_charset,
@@ -1128,6 +1104,58 @@ get_charsets (EMailReader *reader,
 
 	*default_charset = e_mail_formatter_dup_default_charset (formatter);
 	*forced_charset = e_mail_formatter_dup_charset (formatter);
+}
+
+static void
+start_mail_to_event_thread (AsyncData *data)
+{
+	GThread *thread = NULL;
+	GError *error = NULL;
+
+	thread = g_thread_try_new (NULL, (GThreadFunc) do_mail_to_event, data, &error);
+
+	if (error != NULL) {
+		g_warning (G_STRLOC ": %s", error->message);
+		g_error_free (error);
+	} else {
+		g_thread_unref (thread);
+	}
+}
+
+static void
+mail_to_task_got_selection_jsc_cb (GObject *source_object,
+				   GAsyncResult *result,
+				   gpointer user_data)
+{
+	AsyncData *data = user_data;
+	GSList *texts = NULL;
+	gchar *text;
+	GError *error = NULL;
+
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (E_IS_WEB_VIEW (source_object));
+
+	if (!e_web_view_jsc_get_selection_finish (WEBKIT_WEB_VIEW (source_object), result, &texts, &error)) {
+		texts = NULL;
+		g_warning ("%s: Failed to get view selection: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	}
+
+	text = texts ? texts->data : NULL;
+
+	if (text && !text_contains_nonwhitespace (text, strlen (text))) {
+		text = NULL;
+	} else {
+		/* Steal the pointer */
+		if (texts)
+			texts->data = NULL;
+	}
+
+	data->selected_text = text;
+
+	start_mail_to_event_thread (data);
+
+	g_slist_free_full (texts, g_free);
+	g_clear_error (&error);
 }
 
 static void
@@ -1227,8 +1255,7 @@ mail_to_event (ECalClientSourceType source_type,
 	if (source) {
 		/* if a source has been selected, perform the mail2event operation */
 		AsyncData *data = NULL;
-		GThread *thread = NULL;
-		GError *error = NULL;
+		EMailDisplay *mail_display;
 
 		/* Fill the elements in AsynData */
 		data = g_new0 (AsyncData, 1);
@@ -1241,18 +1268,15 @@ mail_to_event (ECalClientSourceType source_type,
 		data->with_attendees = with_attendees;
 		get_charsets (reader, &data->default_charset, &data->forced_charset);
 
-		if (uids->len == 1)
-			data->selected_text = get_selected_text (reader);
-		else
+		mail_display = e_mail_reader_get_mail_display (reader);
+
+		if (uids->len == 1 && e_web_view_has_selection (E_WEB_VIEW (mail_display))) {
+			e_web_view_jsc_get_selection (WEBKIT_WEB_VIEW (mail_display), E_TEXT_FORMAT_PLAIN, NULL,
+				mail_to_task_got_selection_jsc_cb, data);
+		} else {
 			data->selected_text = NULL;
 
-		thread = g_thread_try_new (
-			NULL, (GThreadFunc) do_mail_to_event, data, &error);
-		if (error != NULL) {
-			g_warning (G_STRLOC ": %s", error->message);
-			g_error_free (error);
-		} else {
-			g_thread_unref (thread);
+			start_mail_to_event_thread (data);
 		}
 	}
 

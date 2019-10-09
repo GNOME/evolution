@@ -20,7 +20,6 @@
 #define E_WEB_EXTENSION_H
 
 #include <glib-object.h>
-#include <gio/gio.h>
 #include <webkit2/webkit-web-extension.h>
 
 /* Standard GObject macros */
@@ -65,13 +64,8 @@ EWebExtension *	e_web_extension_get		(void);
 void		e_web_extension_initialize	(EWebExtension *extension,
 						 WebKitWebExtension *wk_extension);
 
-void		e_web_extension_dbus_register	(EWebExtension *extension,
-						 GDBusConnection *connection);
 WebKitWebExtension *
 		e_web_extension_get_webkit_extension
-						(EWebExtension *extension);
-GDBusConnection *
-		e_web_extension_get_dbus_connection
 						(EWebExtension *extension);
 G_END_DECLS
 

@@ -86,7 +86,7 @@ decode_vcard (EMailPartVCard *vcard_part,
 
 	string = (gchar *) array->data;
 	contact_list = eab_contact_list_from_string (string);
-	vcard_part->contact_list = contact_list;
+	e_mail_part_vcard_take_contacts (vcard_part, contact_list);
 
 	g_object_unref (mime_part);
 	g_object_unref (stream);
@@ -109,10 +109,6 @@ empe_vcard_parse (EMailParserExtension *extension,
 
 	vcard_part = e_mail_part_vcard_new (part, part_id->str);
 
-	vcard_part->formatter = g_object_new (
-		EAB_TYPE_CONTACT_FORMATTER,
-		"display-mode", EAB_CONTACT_DISPLAY_RENDER_COMPACT,
-		"render-maps", FALSE, NULL);
 	g_object_ref (part);
 
 	decode_vcard (vcard_part, part);

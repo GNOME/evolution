@@ -208,27 +208,9 @@ mail_part_headers_constructed (GObject *object)
 }
 
 static void
-mail_part_headers_bind_dom_element (EMailPart *part,
-                                    EWebView *web_view,
-                                    guint64 page_id,
-                                    const gchar *element_id)
-{
-	GDBusProxy *web_extension = e_web_view_get_web_extension_proxy (web_view);
-
-	if (web_extension) {
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			web_extension,
-			"EMailPartHeadersBindDOMElement",
-			g_variant_new ("(ts)", page_id, element_id),
-			NULL);
-	}
-}
-
-static void
 e_mail_part_headers_class_init (EMailPartHeadersClass *class)
 {
 	GObjectClass *object_class;
-	EMailPartClass *mail_part_class;
 
 	g_type_class_add_private (class, sizeof (EMailPartHeadersPrivate));
 
@@ -238,9 +220,6 @@ e_mail_part_headers_class_init (EMailPartHeadersClass *class)
 	object_class->dispose = mail_part_headers_dispose;
 	object_class->finalize = mail_part_headers_finalize;
 	object_class->constructed = mail_part_headers_constructed;
-
-	mail_part_class = E_MAIL_PART_CLASS (class);
-	mail_part_class->bind_dom_element = mail_part_headers_bind_dom_element;
 
 	g_object_class_install_property (
 		object_class,

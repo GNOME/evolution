@@ -270,8 +270,9 @@ set(SOURCES
 	e-util-private.h
 	e-webdav-browser.c
 	e-web-extension-container.c
-	e-web-view-preview.c
 	e-web-view.c
+	e-web-view-jsc-utils.c
+	e-web-view-preview.c
 	e-widget-undo.c
 	e-xml-utils.c
 	ea-calendar-cell.c
@@ -543,8 +544,9 @@ set(HEADERS
 	e-util-enums.h
 	e-webdav-browser.h
 	e-web-extension-container.h
-	e-web-view-preview.h
 	e-web-view.h
+	e-web-view-jsc-utils.h
+	e-web-view-preview.h
 	e-widget-undo.h
 	e-xml-utils.h
 	ea-calendar-cell.h
@@ -613,6 +615,7 @@ target_compile_definitions(evolution-util PRIVATE
 	-DEVOLUTION_UIDIR=\"${uidir}\"
 	-DEVOLUTION_RULEDIR=\"${privdatadir}\"
 	-DEVOLUTION_WEB_EXTENSIONS_DIR=\"${webextensionsdir}\"
+	-DEVOLUTION_WEBKITDATADIR=\"${webkitdatadir}\"
 	-DEVOLUTION_TESTGIOMODULESDIR=\"${CMAKE_CURRENT_BINARY_DIR}\"
 	-DEVOLUTION_TESTTOPSRCDIR=\"${CMAKE_SOURCE_DIR}\"
 	-DLIBEUTIL_COMPILATION
@@ -808,6 +811,7 @@ add_private_programs_simple(
 	test-source-config
 	test-source-selector
 	test-tree-view-frame
+	test-web-view-jsc
 )
 
 add_private_program(test-html-editor-units

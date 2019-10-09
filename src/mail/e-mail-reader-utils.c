@@ -2615,10 +2615,12 @@ mail_reader_reply_to_message_composer_created_cb (GObject *source_object,
 	create_composer_data_free (ccd);
 }
 
-void
-e_mail_reader_reply_to_message (EMailReader *reader,
-                                CamelMimeMessage *src_message,
-                                EMailReplyType reply_type)
+static void
+e_mail_reader_reply_to_message_with_selection (EMailReader *reader,
+					       CamelMimeMessage *src_message,
+					       EMailReplyType reply_type,
+					       const gchar *selection,
+					       gboolean selection_is_html)
 {
 	EShell *shell;
 	EMailBackend *backend;
@@ -2626,17 +2628,14 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	EMailDisplay *display;
 	EMailPartList *part_list = NULL;
 	GtkWidget *message_list;
-	CamelContentType *content_type;
 	CamelMimeMessage *new_message;
 	CamelInternetAddress *address = NULL;
 	CamelFolder *folder;
 	EMailReplyStyle reply_style;
 	EWebView *web_view;
-	gboolean src_is_text_html = FALSE;
 	const CamelNameValueArray *headers;
 	guint ii, len;
 	const gchar *uid;
-	gchar *selection = NULL;
 	gint length;
 	gchar *mail_uri;
 	CamelObjectBag *registry;
@@ -2734,33 +2733,16 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	g_clear_object (&part_list);
 
-	if (!e_web_view_is_selection_active (web_view))
+	if (!e_web_view_has_selection (web_view))
 		goto whole_message;
-
-	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (src_message));
-
-	if (camel_content_type_is (content_type, "text", "plain")) {
-		selection = e_mail_display_get_selection_plain_text_sync (display, NULL, NULL);
-		src_is_text_html = FALSE;
-	} else if (camel_content_type_is (content_type, "text", "html")) {
-		selection = e_web_view_get_selection_content_html_sync (E_WEB_VIEW (display), NULL, NULL);
-		src_is_text_html = TRUE;
-	} else {
-		selection = e_mail_display_get_selection_content_multipart_sync (display, &src_is_text_html, NULL, NULL);
-	}
 
 	if (selection == NULL || *selection == '\0')
 		goto whole_message;
 
 	length = strlen (selection);
-	if ((src_is_text_html && !html_contains_nonwhitespace (selection, length)) ||
-	    (!src_is_text_html && !plaintext_contains_nonwhitespace (selection, length)))
+	if ((selection_is_html && !html_contains_nonwhitespace (selection, length)) ||
+	    (!selection_is_html && !plaintext_contains_nonwhitespace (selection, length)))
 		goto whole_message;
-
-	if (!src_is_text_html) {
-		maybe_mangle_plaintext_signature_delimiter (&selection);
-		length = strlen (selection);
-	}
 
 	new_message = camel_mime_message_new ();
 
@@ -2789,7 +2771,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 		CAMEL_MIME_PART (new_message),
 		selection,
 		length,
-		src_is_text_html ? "text/html; charset=utf-8" : "text/plain; charset=utf-8");
+		selection_is_html ? "text/html; charset=utf-8" : "text/plain; charset=utf-8");
 
 	ccd = g_new0 (CreateComposerData, 1);
 	ccd->reader = g_object_ref (reader);
@@ -2853,9 +2835,119 @@ whole_message:
 	}
 
 exit:
-	g_free (selection);
 	g_clear_object (&address);
 	g_clear_object (&folder);
+}
+
+typedef struct _GetSelectionData {
+	EMailReader *reader;
+	CamelMimeMessage *src_message;
+	EMailReplyType reply_type;
+	gboolean selection_is_html;
+} GetSelectionData;
+
+static void
+reply_got_message_selection_jsc_cb (GObject *source_object,
+				    GAsyncResult *result,
+				    gpointer user_data)
+{
+	GetSelectionData *gsd = user_data;
+	gchar *selection;
+	GSList *texts = NULL;
+	GError *error = NULL;
+
+	g_return_if_fail (gsd != NULL);
+	g_return_if_fail (E_IS_WEB_VIEW (source_object));
+
+	if (!e_web_view_jsc_get_selection_finish (WEBKIT_WEB_VIEW (source_object), result, &texts, &error)) {
+		texts = NULL;
+		g_warning ("%s: Failed to get view selection: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	}
+
+	selection = texts ? texts->data : NULL;
+
+	if (selection && !gsd->selection_is_html) {
+		maybe_mangle_plaintext_signature_delimiter (&selection);
+		texts->data = selection;
+	}
+
+	e_mail_reader_reply_to_message_with_selection (gsd->reader, gsd->src_message, gsd->reply_type, selection, gsd->selection_is_html);
+
+	g_slist_free_full (texts, g_free);
+	g_clear_error (&error);
+	g_clear_object (&gsd->reader);
+	g_clear_object (&gsd->src_message);
+	g_slice_free (GetSelectionData, gsd);
+}
+
+void
+e_mail_reader_reply_to_message (EMailReader *reader,
+                                CamelMimeMessage *src_message,
+                                EMailReplyType reply_type)
+{
+	CamelContentType *ct;
+	GetSelectionData *gsd;
+	EMailDisplay *mail_display;
+	EMailPartList *part_list = NULL;
+	EWebView *web_view;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+	g_return_if_fail (E_IS_MAIL_DISPLAY (mail_display));
+
+	web_view = E_WEB_VIEW (mail_display);
+
+	if (!gtk_widget_get_visible (GTK_WIDGET (web_view)) ||
+	    !e_web_view_has_selection (web_view)) {
+		e_mail_reader_reply_to_message_with_selection (reader, src_message, reply_type, NULL, FALSE);
+		return;
+	}
+
+	if (!src_message) {
+		CamelFolder *folder;
+		GtkWidget *message_list;
+		const gchar *uid;
+		gchar *mail_uri;
+
+		message_list = e_mail_reader_get_message_list (reader);
+
+		uid = MESSAGE_LIST (message_list)->cursor_uid;
+		g_return_if_fail (uid != NULL);
+
+		folder = e_mail_reader_ref_folder (reader);
+		mail_uri = e_mail_part_build_uri (folder, uid, NULL, NULL);
+		part_list = camel_object_bag_get (e_mail_part_list_get_registry (), mail_uri);
+		g_clear_object (&folder);
+		g_free (mail_uri);
+
+		src_message = part_list ? e_mail_part_list_get_message (part_list) : NULL;
+
+		if (!src_message) {
+			e_mail_reader_reply_to_message_with_selection (reader, src_message, reply_type, NULL, FALSE);
+			g_clear_object (&part_list);
+			return;
+		}
+	}
+
+	gsd = g_slice_new0 (GetSelectionData);
+	gsd->reader = g_object_ref (reader);
+	gsd->src_message = src_message ? g_object_ref (src_message) : NULL;
+	gsd->reply_type = reply_type;
+
+	ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (src_message));
+
+	if (camel_content_type_is (ct, "text", "plain")) {
+		gsd->selection_is_html = FALSE;
+		e_web_view_jsc_get_selection (WEBKIT_WEB_VIEW (web_view), E_TEXT_FORMAT_PLAIN, NULL,
+			reply_got_message_selection_jsc_cb, gsd);
+	} else {
+		gsd->selection_is_html = TRUE;
+		e_web_view_jsc_get_selection (WEBKIT_WEB_VIEW (web_view), E_TEXT_FORMAT_HTML, NULL,
+			reply_got_message_selection_jsc_cb, gsd);
+	}
+
+	g_clear_object (&part_list);
 }
 
 static void

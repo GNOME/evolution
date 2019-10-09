@@ -1,6 +1,5 @@
 set(filedeps)
 set(desktopdir ${SHARE_INSTALL_PREFIX}/applications)
-set(themedir ${privdatadir}/theme)
 
 configure_file(org.gnome.Evolution.desktop.in.in
 	org.gnome.Evolution.desktop.in
@@ -29,11 +28,6 @@ configure_file(org.gnome.Evolution.appdata.xml.in.in
 )
 
 add_appdata_file(${CMAKE_CURRENT_BINARY_DIR}/org.gnome.Evolution.appdata.xml.in org.gnome.Evolution.appdata.xml)
-
-install(FILES webview.css
-		webview-print.css
-	DESTINATION ${themedir}
-)
 
 set(SCHEMAS
 	org.gnome.evolution.gschema.xml
@@ -83,3 +77,4 @@ add_subdirectory(images)
 add_subdirectory(sounds)
 add_subdirectory(ui)
 add_subdirectory(views)
+add_subdirectory(webkit)

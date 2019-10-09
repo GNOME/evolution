@@ -211,16 +211,14 @@ void		itip_view_set_source		(ItipView *view,
 gboolean	itip_view_get_rsvp		(ItipView *view);
 void		itip_view_set_rsvp		(ItipView *view,
 						 gboolean rsvp);
-gboolean	itip_view_get_show_rsvp_check	(ItipView *view);
 void		itip_view_set_show_rsvp_check	(ItipView *view,
 						 gboolean show);
 gboolean	itip_view_get_update		(ItipView *view);
 void		itip_view_set_update		(ItipView *view,
 						 gboolean update);
-gboolean	itip_view_get_show_update_check (ItipView *view);
 void		itip_view_set_show_update_check (ItipView *view,
 						 gboolean show);
-gchar *		itip_view_get_rsvp_comment	(ItipView *view);
+const gchar *	itip_view_get_rsvp_comment	(ItipView *view);
 void		itip_view_set_rsvp_comment	(ItipView *view,
 						 const gchar *comment);
 gboolean	itip_view_get_buttons_sensitive	(ItipView *view);

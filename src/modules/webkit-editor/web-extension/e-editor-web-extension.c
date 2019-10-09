@@ -32,8 +32,7 @@
 #include "mail/e-http-request.h"
 #undef E_UTIL_INCLUDE_WITHOUT_WEBKIT
 
-#include "web-extensions/e-dom-utils.h"
-
+//#include "e-dom-utils.h"
 #include "e-editor-page.h"
 #include "e-composer-dom-functions.h"
 #include "e-dialogs-dom-functions.h"

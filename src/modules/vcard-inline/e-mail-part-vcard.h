@@ -50,15 +50,6 @@ typedef struct _EMailPartVCardPrivate EMailPartVCardPrivate;
 struct _EMailPartVCard {
 	EMailPart parent;
 	EMailPartVCardPrivate *priv;
-
-	GSList *contact_list;
-	GtkWidget *contact_display;
-	GtkWidget *message_label;
-
-	EABContactFormatter *formatter;
-
-	CamelFolder *folder;
-	gchar *message_uid;
 };
 
 struct _EMailPartVCardClass {
@@ -70,6 +61,9 @@ void		e_mail_part_vcard_type_register	(GTypeModule *type_module);
 EMailPartVCard *
 		e_mail_part_vcard_new		(CamelMimePart *mime_part,
 						 const gchar *id);
+void		e_mail_part_vcard_take_contacts	(EMailPartVCard *vcard_part,
+						 GSList *contacts);
+const GSList *	e_mail_part_vcard_get_contacts	(EMailPartVCard *vcard_part);
 
 G_END_DECLS
 

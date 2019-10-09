@@ -324,6 +324,8 @@ secure_button_show_validity_dialog (EWebView *web_view,
 
 static void
 secure_button_clicked_cb (EWebView *web_view,
+			  const gchar *iframe_id,
+			  const gchar *element_id,
 			  const gchar *element_class,
 			  const gchar *element_value,
 			  const GtkAllocation *element_position,
@@ -364,8 +366,8 @@ secure_button_clicked_cb (EWebView *web_view,
 }
 
 static void
-mail_part_secure_button_web_view_loaded (EMailPart *mail_part,
-					 EWebView *web_view)
+mail_part_secure_button_content_loaded (EMailPart *mail_part,
+					EWebView *web_view)
 {
 	g_return_if_fail (E_IS_MAIL_PART_SECURE_BUTTON (mail_part));
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
@@ -379,7 +381,7 @@ e_mail_part_secure_button_class_init (EMailPartSecureButtonClass *class)
 	EMailPartClass *mail_part_class;
 
 	mail_part_class = E_MAIL_PART_CLASS (class);
-	mail_part_class->web_view_loaded = mail_part_secure_button_web_view_loaded;
+	mail_part_class->content_loaded = mail_part_secure_button_content_loaded;
 }
 
 static void

@@ -58,35 +58,6 @@ macro(add_evolution_module _name _sourcesvar _depsvar _defsvar _cflagsvar _incdi
 	add_simple_module(${_name} ${_sourcesvar} ${_depsvar} ${_defsvar} ${_cflagsvar} ${_incdirsvar} ${_ldflagsvar} ${moduledir})
 endmacro(add_evolution_module)
 
-macro(add_simple_webextension_module _name _sourcesvar _depsvar _defsvar _cflagsvar _incdirsvar _ldflagsvar _destdir)
-	set(wex_deps
-		${${_depsvar}}
-		edomutils
-	)
-	set(wex_cflags
-		${${_cflagsvar}}
-		${WEB_EXTENSIONS_CFLAGS}
-	)
-	set(wex_incdirs
-		${${_incdirsvar}}
-		${WEB_EXTENSIONS_INCLUDE_DIRS}
-	)
-	set(wex_ldflags
-		${${_ldflagsvar}}
-		${WEB_EXTENSIONS_LDFLAGS}
-	)
-
-	add_simple_module(${_name} ${_sourcesvar} wex_deps ${_defsvar} wex_cflags wex_incdirs wex_ldflags ${_destdir})
-endmacro(add_simple_webextension_module)
-
-macro(add_webextension_module _name _sourcesvar _depsvar _defsvar _cflagsvar _incdirsvar _ldflagsvar)
-	add_simple_webextension_module(${_name} ${_sourcesvar} ${_depsvar} ${_defsvar} ${_cflagsvar} ${_incdirsvar} ${_ldflagsvar} "${webextensionsdir}")
-endmacro(add_webextension_module)
-
-macro(add_webextension_editor_module _name _sourcesvar _depsvar _defsvar _cflagsvar _incdirsvar _ldflagsvar)
-	add_simple_webextension_module(${_name} ${_sourcesvar} ${_depsvar} ${_defsvar} ${_cflagsvar} ${_incdirsvar} ${_ldflagsvar} "${webextensionswebkiteditordir}")
-endmacro(add_webextension_editor_module)
-
 add_subdirectory(addressbook)
 add_subdirectory(calendar)
 add_subdirectory(mail)

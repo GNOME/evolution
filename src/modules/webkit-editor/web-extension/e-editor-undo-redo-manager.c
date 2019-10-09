@@ -20,8 +20,7 @@
 
 #include <webkitdom/webkitdom.h>
 
-#include "web-extensions/e-dom-utils.h"
-
+#include "e-dom-utils.h"
 #include "e-editor-page.h"
 #include "e-editor-dom-functions.h"
 #include "e-editor-undo-redo-manager.h"

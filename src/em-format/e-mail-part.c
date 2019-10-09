@@ -631,39 +631,19 @@ e_mail_part_set_is_printable (EMailPart *part,
 }
 
 void
-e_mail_part_bind_dom_element (EMailPart *part,
-                              EWebView *web_view,
-                              guint64 page_id,
-                              const gchar *element_id)
+e_mail_part_content_loaded (EMailPart *part,
+			    EWebView *web_view)
 {
 	EMailPartClass *class;
 
 	g_return_if_fail (E_IS_MAIL_PART (part));
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-	g_return_if_fail (page_id != 0);
-	g_return_if_fail (element_id && *element_id);
 
 	class = E_MAIL_PART_GET_CLASS (part);
 	g_return_if_fail (class != NULL);
 
-	if (class->bind_dom_element != NULL)
-		class->bind_dom_element (part, web_view, page_id, element_id);
-}
-
-void
-e_mail_part_web_view_loaded (EMailPart *part,
-			     EWebView *web_view)
-{
-	EMailPartClass *klass;
-
-	g_return_if_fail (E_IS_MAIL_PART (part));
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	klass = E_MAIL_PART_GET_CLASS (part);
-	g_return_if_fail (klass != NULL);
-
-	if (klass->web_view_loaded)
-		klass->web_view_loaded (part, web_view);
+	if (class->content_loaded)
+		class->content_loaded (part, web_view);
 }
 
 static EMailPartValidityPair *

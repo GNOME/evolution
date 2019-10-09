@@ -35,7 +35,8 @@ typedef struct _EMailDisplayPopupTextHighlight {
 	GtkActionGroup *action_group;
 
 	volatile gint updating;
-	gchar *document_uri;
+	gchar *iframe_src;
+	gchar *iframe_id;
 } EMailDisplayPopupTextHighlight;
 
 typedef struct _EMailDisplayPopupTextHighlightClass {
@@ -106,14 +107,19 @@ static GtkActionEntry entries[] = {
 };
 
 static void
-set_document_uri (EMailDisplayPopupTextHighlight *extension,
-                  const gchar *document_uri)
+set_popup_place (EMailDisplayPopupTextHighlight *extension,
+		 const gchar *iframe_src,
+		 const gchar *iframe_id)
 {
-	if (extension->document_uri == document_uri)
-		return;
+	if (g_strcmp0 (extension->iframe_src, iframe_src)) {
+		g_free (extension->iframe_src);
+		extension->iframe_src = g_strdup (iframe_src);
+	}
 
-	g_free (extension->document_uri);
-	extension->document_uri = g_strdup (document_uri);
+	if (g_strcmp0 (extension->iframe_id, iframe_id)) {
+		g_free (extension->iframe_id);
+		extension->iframe_id = g_strdup (iframe_id);
+	}
 }
 
 static void
@@ -131,8 +137,8 @@ reformat (GtkAction *old,
 	if (g_atomic_int_get (&th_extension->updating))
 		return;
 
-	if (th_extension->document_uri)
-		soup_uri = soup_uri_new (th_extension->document_uri);
+	if (th_extension->iframe_src)
+		soup_uri = soup_uri_new (th_extension->iframe_src);
 	else
 		soup_uri = NULL;
 
@@ -158,8 +164,8 @@ reformat (GtkAction *old,
 	uri = soup_uri_to_string (soup_uri, FALSE);
 	soup_uri_free (soup_uri);
 
-	e_web_view_set_document_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (th_extension))),
-		th_extension->document_uri, uri);
+	e_web_view_set_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (th_extension))),
+		th_extension->iframe_id, uri);
 
 	g_free (uri);
 }
@@ -293,7 +299,8 @@ emdp_text_highlight_is_enabled (void)
 
 static void
 update_actions (EMailDisplayPopupExtension *extension,
-		const gchar *popup_document_uri)
+		const gchar *popup_iframe_src,
+		const gchar *popup_iframe_id)
 {
 	EMailDisplayPopupTextHighlight *th_extension;
 
@@ -302,17 +309,17 @@ update_actions (EMailDisplayPopupExtension *extension,
 	if (!th_extension->action_group)
 		th_extension->action_group = create_group (extension);
 
-	set_document_uri (th_extension, popup_document_uri);
+	set_popup_place (th_extension, popup_iframe_src, popup_iframe_id);
 
 	/* If the part below context menu was made by text-highlight formatter,
 	 * then try to check what formatter it's using at the moment and set
 	 * it as active in the popup menu */
-	if (th_extension->document_uri && strstr (th_extension->document_uri, ".text-highlight") != NULL) {
+	if (th_extension->iframe_src && strstr (th_extension->iframe_src, ".text-highlight") != NULL) {
 		SoupURI *soup_uri;
 		gtk_action_group_set_visible (
 			th_extension->action_group, TRUE);
 
-		soup_uri = soup_uri_new (th_extension->document_uri);
+		soup_uri = soup_uri_new (th_extension->iframe_src);
 		if (soup_uri && soup_uri->query) {
 			GHashTable *query = soup_form_decode (soup_uri->query);
 			const gchar *highlighter;
@@ -356,7 +363,8 @@ e_mail_display_popup_text_highlight_finalize (GObject *object)
 	extension = E_MAIL_DISPLAY_POPUP_TEXT_HIGHLIGHT (object);
 
 	g_clear_object (&extension->action_group);
-	g_free (extension->document_uri);
+	g_free (extension->iframe_src);
+	g_free (extension->iframe_id);
 
 	/* Chain up to parent's method */
 	G_OBJECT_CLASS (e_mail_display_popup_text_highlight_parent_class)->finalize (object);
@@ -398,5 +406,6 @@ static void
 e_mail_display_popup_text_highlight_init (EMailDisplayPopupTextHighlight *extension)
 {
 	extension->action_group = NULL;
-	extension->document_uri = NULL;
+	extension->iframe_src = NULL;
+	extension->iframe_id = NULL;
 }

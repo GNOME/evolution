@@ -67,6 +67,8 @@ typedef enum {
 } EURIScheme;
 
 typedef void (*EWebViewElementClickedFunc) (EWebView *web_view,
+					    const gchar *iframe_id,
+					    const gchar *element_id,
 					    const gchar *element_class,
 					    const gchar *element_value,
 					    const GtkAllocation *element_position,
@@ -111,6 +113,13 @@ struct _EWebViewClass {
 	void		(*uri_requested)	(EWebView *web_view,
 						 const gchar *uri,
 						 gchar **redirect_to_uri);
+	void		(*content_loaded)	(EWebView *web_view,
+						 const gchar *frame_id);
+	void		(*before_popup_event)	(EWebView *web_view,
+						 const gchar *uri);
+
+	/* Padding for future expansion */
+	gpointer reserved[15];
 };
 
 GType		e_web_view_get_type		(void) G_GNUC_CONST;
@@ -118,6 +127,7 @@ GtkWidget *	e_web_view_new			(void);
 WebKitSettings *
 		e_web_view_get_default_webkit_settings
 						(void);
+GCancellable *	e_web_view_get_cancellable	(EWebView *web_view);
 void		e_web_view_register_content_request_for_scheme
 						(EWebView *web_view,
 						 const gchar *scheme,
@@ -136,20 +146,6 @@ void		e_web_view_load_uri		(EWebView *web_view,
 gchar *		e_web_view_suggest_filename	(EWebView *web_view,
 						 const gchar *uri);
 void		e_web_view_reload		(EWebView *web_view);
-void		e_web_view_get_content_html	(EWebView *web_view,
-						 GCancellable *cancellable,
-						 GAsyncReadyCallback callback,
-						 gpointer user_data);
-gchar *		e_web_view_get_content_html_finish
-						(EWebView *web_view,
-						 GAsyncResult *result,
-						 GError **error);
-gchar *		e_web_view_get_content_html_sync
-						(EWebView *web_view,
-						 GCancellable *cancellable,
-						 GError **error);
-GDBusProxy *	e_web_view_get_web_extension_proxy
-						(EWebView *web_view);
 gboolean	e_web_view_get_caret_mode	(EWebView *web_view);
 void		e_web_view_set_caret_mode	(EWebView *web_view,
 						 gboolean caret_mode);
@@ -165,12 +161,7 @@ void		e_web_view_set_disable_save_to_disk
 gboolean	e_web_view_get_editable		(EWebView *web_view);
 void		e_web_view_set_editable		(EWebView *web_view,
 						 gboolean editable);
-guint32		e_web_view_get_clipboard_flags	(EWebView *web_view);
-void		e_web_view_set_clipboard_flags	(EWebView *web_view,
-						 guint32 clipboard_flags);
 gboolean	e_web_view_get_need_input	(EWebView *web_view);
-void		e_web_view_set_need_input	(EWebView *web_view,
-						 gboolean need_input);
 gboolean	e_web_view_get_inline_spelling	(EWebView *web_view);
 void		e_web_view_set_inline_spelling	(EWebView *web_view,
 						 gboolean inline_spelling);
@@ -197,6 +188,11 @@ void		e_web_view_set_print_proxy	(EWebView *web_view,
 GtkAction *	e_web_view_get_save_as_proxy	(EWebView *web_view);
 void		e_web_view_set_save_as_proxy	(EWebView *web_view,
 						 GtkAction *save_as_proxy);
+void		e_web_view_get_last_popup_place	(EWebView *web_view,
+						 gchar **out_iframe_src,
+						 gchar **out_iframe_id,
+						 gchar **out_element_id,
+						 gchar **out_link_uri);
 void		e_web_view_add_highlight	(EWebView *web_view,
 						 const gchar *highlight);
 void		e_web_view_clear_highlights	(EWebView *web_view);
@@ -207,7 +203,7 @@ GtkActionGroup *e_web_view_get_action_group	(EWebView *web_view,
 						 const gchar *group_name);
 void		e_web_view_copy_clipboard	(EWebView *web_view);
 void		e_web_view_cut_clipboard	(EWebView *web_view);
-gboolean	e_web_view_is_selection_active	(EWebView *web_view);
+gboolean	e_web_view_has_selection	(EWebView *web_view);
 void		e_web_view_paste_clipboard	(EWebView *web_view);
 gboolean	e_web_view_scroll_forward	(EWebView *web_view);
 gboolean	e_web_view_scroll_backward	(EWebView *web_view);
@@ -225,32 +221,6 @@ void		e_web_view_status_message	(EWebView *web_view,
 						 const gchar *status_message);
 void		e_web_view_stop_loading		(EWebView *web_view);
 void		e_web_view_update_actions	(EWebView *web_view);
-void		e_web_view_get_selection_content_html
-						(EWebView *web_view,
-						 GCancellable *cancellable,
-						 GAsyncReadyCallback callback,
-						 gpointer user_data);
-gchar *		e_web_view_get_selection_content_html_finish
-						(EWebView *web_view,
-						 GAsyncResult *result,
-						 GError **error);
-gchar *		e_web_view_get_selection_content_html_sync
-						(EWebView *web_view,
-						 GCancellable *cancellable,
-						 GError **error);
-void		e_web_view_get_selection_content_text
-						(EWebView *web_view,
-						 GCancellable *cancellable,
-						 GAsyncReadyCallback callback,
-						 gpointer user_data);
-gchar *		e_web_view_get_selection_content_text_finish
-						(EWebView *web_view,
-						 GAsyncResult *result,
-						 GError **error);
-gchar *		e_web_view_get_selection_content_text_sync
-						(EWebView *web_view,
-						 GCancellable *cancellable,
-						 GError **error);
 void		e_web_view_update_fonts		(EWebView *web_view);
 void		e_web_view_cursor_image_copy	(EWebView *web_view);
 void		e_web_view_cursor_image_save	(EWebView *web_view);
@@ -265,24 +235,11 @@ GInputStream *	e_web_view_request_finish	(EWebView *web_view,
 void		e_web_view_install_request_handler
 						(EWebView *web_view,
 						 GType handler_type);
-void		e_web_view_create_and_add_css_style_sheet
-						(EWebView *web_view,
-						 const gchar *style_sheet_id);
-void		e_web_view_add_css_rule_into_style_sheet
-						(EWebView *web_view,
-						 const gchar *style_sheet_id,
-						 const gchar *selector,
-						 const gchar *style);
 const gchar *	e_web_view_get_citation_color_for_level
 						(gint level);
-gchar *		e_web_view_get_document_uri_from_point
-						(EWebView *web_view,
-						 gint32 x,
-						 gint32 y);
-void		e_web_view_set_document_iframe_src
-						(EWebView *web_view,
-						 const gchar *document_uri,
-						 const gchar *new_iframe_src);
+void		e_web_view_set_iframe_src	(EWebView *web_view,
+						 const gchar *iframe_id,
+						 const gchar *new_src);
 void		e_web_view_register_element_clicked
 						(EWebView *web_view,
 						 const gchar *element_class,
@@ -300,8 +257,7 @@ void		e_web_view_set_element_style_property
 						(EWebView *web_view,
 						 const gchar *element_id,
 						 const gchar *property_name,
-						 const gchar *value,
-						 const gchar *priority);
+						 const gchar *value);
 void		e_web_view_set_element_attribute
 						(EWebView *web_view,
 						 const gchar *element_id,

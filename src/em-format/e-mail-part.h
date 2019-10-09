@@ -85,11 +85,7 @@ struct _EMailPart {
 struct _EMailPartClass {
 	GObjectClass parent_class;
 
-	void		(*bind_dom_element)	(EMailPart *part,
-						 EWebView *web_view,
-						 guint64 page_id,
-						 const gchar *element_id);
-	void		(*web_view_loaded)	(EMailPart *part,
+	void		(*content_loaded)	(EMailPart *part,
 						 EWebView *web_view);
 };
 
@@ -126,11 +122,7 @@ void		e_mail_part_set_is_attachment	(EMailPart *part,
 gboolean	e_mail_part_get_is_printable	(EMailPart *part);
 void		e_mail_part_set_is_printable	(EMailPart *part,
 						 gboolean is_printable);
-void		e_mail_part_bind_dom_element	(EMailPart *part,
-						 EWebView *web_view,
-						 guint64 page_id,
-						 const gchar *element_id);
-void		e_mail_part_web_view_loaded	(EMailPart *part,
+void		e_mail_part_content_loaded	(EMailPart *part,
 						 EWebView *web_view);
 void		e_mail_part_update_validity	(EMailPart *part,
 						 CamelCipherValidity *validity,

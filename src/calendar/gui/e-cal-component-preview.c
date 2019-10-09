@@ -61,7 +61,7 @@ struct _ECalComponentPreviewPrivate {
 
 #define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n" \
                     "<head>\n<meta name=\"generator\" content=\"Evolution Calendar Component\">\n" \
-		    "<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\">\n" \
+		    "<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://$EVOLUTION_WEBKITDATADIR/webview.css\">\n" \
 		    "<style>\n" \
 		    ".description { font-family: monospace; font-size: 1em; }\n" \
 		    "</style>\n" \

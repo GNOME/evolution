@@ -52,6 +52,7 @@ static const gchar *sounddir;
 static const gchar *sysconfdir;
 static const gchar *toolsdir;
 static const gchar *uidir;
+static const gchar *webkitdatadir;
 
 static HMODULE hmodule;
 G_LOCK_DEFINE_STATIC (mutex);
@@ -130,6 +131,11 @@ setup (void)
 		imagesdir = g_getenv ("EVOLUTION_IMAGESDIR");
 	else
 		imagesdir = replace_prefix (full_prefix, EVOLUTION_IMAGESDIR);
+	if (g_getenv ("EVOLUTION_WEBKITDATADIR") &&
+	    g_file_test (g_getenv ("EVOLUTION_WEBKITDATADIR"), G_FILE_TEST_IS_DIR))
+		webkitdatadir = g_getenv ("EVOLUTION_WEBKITDATADIR");
+	else
+		webkitdatadir = replace_prefix (full_prefix, EVOLUTION_WEBKITDATADIR);
 	libdir = replace_prefix (full_prefix, EVOLUTION_LIBDIR);
 	libexecdir = replace_prefix (full_prefix, EVOLUTION_LIBEXECDIR);
 	moduledir = replace_prefix (full_prefix, EVOLUTION_MODULEDIR);
@@ -176,6 +182,7 @@ GETTER(sounddir)
 GETTER(sysconfdir)
 GETTER(toolsdir)
 GETTER(uidir)
+GETTER(webkitdatadir)
 
 gpointer _e_get_dll_hmodule (void)
 {

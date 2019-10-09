@@ -385,26 +385,14 @@ contact_display_link_clicked (EWebView *web_view,
 }
 
 static void
-contact_display_notify_web_extension_proxy_cb (GObject *web_view,
-					       GParamSpec *param,
-					       gpointer user_data)
+contact_display_content_loaded_cb (EWebView *web_view,
+				   const gchar *iframe_id,
+				   gpointer user_data)
 {
-	GDBusProxy *web_extension;
-	GVariant* result;
+	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (web_view));
 
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (web_view));
-	if (web_extension) {
-		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-				web_extension,
-				"EABContactFormatterBindDOM",
-				g_variant_new (
-					"(t)",
-					webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view))),
-				NULL);
-
-		if (result)
-			g_variant_unref (result);
-	}
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+		"Evo.VCardBind(%s);", iframe_id);
 }
 
 static void
@@ -532,8 +520,8 @@ eab_contact_display_init (EABContactDisplay *display)
 		G_CALLBACK (contact_display_web_process_crashed_cb), NULL);
 
 	g_signal_connect (
-		web_view, "notify::web-extension-proxy",
-		G_CALLBACK (contact_display_notify_web_extension_proxy_cb), NULL);
+		web_view, "content-loaded",
+		G_CALLBACK (contact_display_content_loaded_cb), NULL);
 	g_signal_connect (
 		web_view, "style-updated",
 		G_CALLBACK (load_contact), NULL);

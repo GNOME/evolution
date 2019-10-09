@@ -3,56 +3,9 @@ set(DEPENDENCIES
 )
 
 set(SOURCES
-	e-dom-utils.h
-	e-dom-utils.c
-)
-
-add_library(edomutils SHARED
-	${SOURCES}
-)
-
-add_dependencies(edomutils
-	${DEPENDENCIES}
-)
-
-target_compile_definitions(edomutils PRIVATE
-	-DG_LOG_DOMAIN=\"edomutils\"
-	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"
-)
-
-target_compile_options(edomutils PUBLIC
-	${EVOLUTION_DATA_SERVER_CFLAGS}
-	${GNOME_PLATFORM_CFLAGS}
-)
-
-target_include_directories(edomutils PUBLIC
-	${CMAKE_BINARY_DIR}
-	${CMAKE_BINARY_DIR}/src
-	${CMAKE_SOURCE_DIR}/src
-	${CMAKE_CURRENT_BINARY_DIR}
-	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
-	${GNOME_PLATFORM_INCLUDE_DIRS}
-)
-
-target_link_libraries(edomutils
-	${DEPENDENCIES}
-	${EVOLUTION_DATA_SERVER_LDFLAGS}
-	${GNOME_PLATFORM_LDFLAGS}
-)
-
-install(TARGETS edomutils
-	DESTINATION ${privsolibdir}
-)
-
-set(SOURCES
-	e-dom-utils.h
-	e-dom-utils.c
-	e-itip-formatter-dom-utils.h
-	e-itip-formatter-dom-utils.c
 	e-web-extension.h
 	e-web-extension.c
 	e-web-extension-main.c
-	e-web-extension-names.h
 )
 
 add_library(ewebextension MODULE
@@ -65,12 +18,10 @@ add_dependencies(ewebextension
 
 target_compile_definitions(ewebextension PRIVATE
 	-DG_LOG_DOMAIN=\"ewebextension\"
-	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"
+	-DEVOLUTION_WEBKITDATADIR=\"${webkitdatadir}\"
 )
 
 target_compile_options(ewebextension PUBLIC
-	${EVOLUTION_DATA_SERVER_CFLAGS}
-	${GNOME_PLATFORM_CFLAGS}
 	${WEB_EXTENSIONS_CFLAGS}
 )
 
@@ -79,15 +30,11 @@ target_include_directories(ewebextension PUBLIC
 	${CMAKE_BINARY_DIR}/src
 	${CMAKE_SOURCE_DIR}/src
 	${CMAKE_CURRENT_BINARY_DIR}
-	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
-	${GNOME_PLATFORM_INCLUDE_DIRS}
 	${WEB_EXTENSIONS_INCLUDE_DIRS}
 )
 
 target_link_libraries(ewebextension
 	${DEPENDENCIES}
-	${EVOLUTION_DATA_SERVER_LDFLAGS}
-	${GNOME_PLATFORM_LDFLAGS}
 	${WEB_EXTENSIONS_LDFLAGS}
 )
 

@@ -4831,7 +4831,7 @@ mail_reader_update_actions (EMailReader *reader,
 
 	action = e_mail_reader_get_action (reader, "mail-search-web");
 	gtk_action_set_sensitive (action, single_message_selected &&
-		mail_display && e_web_view_is_selection_active (E_WEB_VIEW (mail_display)));
+		mail_display && e_web_view_has_selection (E_WEB_VIEW (mail_display)));
 
 	mail_reader_update_labels_menu (reader);
 }

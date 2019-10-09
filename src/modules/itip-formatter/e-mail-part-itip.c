@@ -70,23 +70,34 @@ mail_part_itip_finalize (GObject *object)
 }
 
 static void
-mail_part_itip_bind_dom_element (EMailPart *part,
-				 EWebView *web_view,
-				 guint64 page_id,
-				 const gchar *element_id)
+mail_part_itip_content_loaded (EMailPart *part,
+			       EWebView *web_view)
 {
 	EMailPartItip *pitip;
-	ItipView *itip_view;
 
 	g_return_if_fail (E_IS_MAIL_PART_ITIP (part));
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	if (g_strcmp0 (element_id, e_mail_part_get_id (part)) != 0)
-		return;
-
 	pitip = E_MAIL_PART_ITIP (part);
 
 	if (pitip->folder && pitip->message_uid && pitip->message) {
+		ItipView *itip_view;
+		GSList *link;
+
+		for (link = pitip->priv->views; link; link = g_slist_next (link)) {
+			EWebView *used_web_view;
+
+			itip_view = link->data;
+			used_web_view = itip_view_ref_web_view (itip_view);
+
+			if (used_web_view == web_view) {
+				g_clear_object (&used_web_view);
+				return;
+			}
+
+			g_clear_object (&used_web_view);
+		}
+
 		itip_view = itip_view_new (
 			e_mail_part_get_id (part),
 			pitip,
@@ -116,7 +127,7 @@ e_mail_part_itip_class_init (EMailPartItipClass *class)
 	object_class->finalize = mail_part_itip_finalize;
 
 	mail_part_class = E_MAIL_PART_CLASS (class);
-	mail_part_class->bind_dom_element = mail_part_itip_bind_dom_element;
+	mail_part_class->content_loaded = mail_part_itip_content_loaded;
 }
 
 static void

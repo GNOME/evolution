@@ -32,13 +32,7 @@
 	((obj), E_TYPE_MAIL_PART_VCARD, EMailPartVCardPrivate))
 
 struct _EMailPartVCardPrivate {
-	gint placeholder;
-
-	guint display_mode_toggled_signal_id;
-	guint save_vcard_button_pressed_signal_id;
-
-	GDBusProxy *web_extension;
-	guint64 page_id;
+	GSList *contacts;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
@@ -92,30 +86,28 @@ client_connect_cb (GObject *source_object,
 }
 
 static void
-save_vcard_cb (GDBusConnection *connection,
-               const gchar *sender_name,
-               const gchar *object_path,
-               const gchar *interface_name,
-               const gchar *signal_name,
-               GVariant *parameters,
-               EMailPartVCard *vcard_part)
+mail_part_vcard_save_clicked_cb (EWebView *web_view,
+				 const gchar *iframe_id,
+				 const gchar *element_id,
+				 const gchar *element_class,
+				 const gchar *element_value,
+				 const GtkAllocation *element_position,
+				 gpointer user_data)
 {
+	EMailPartVCard *vcard_part = user_data;
 	EShell *shell;
 	ESource *source;
 	ESourceRegistry *registry;
 	ESourceSelector *selector;
 	GSList *contact_list;
-	const gchar *extension_name, *button_value, *part_id;
+	const gchar *extension_name, *part_id;
 	GtkWidget *dialog;
 
-	if (g_strcmp0 (signal_name, "VCardInlineSaveButtonPressed") != 0)
-		return;
-
-	g_variant_get (parameters, "(&s)", &button_value);
+	g_return_if_fail (E_IS_MAIL_PART_VCARD (vcard_part));
 
 	part_id = e_mail_part_get_id (E_MAIL_PART (vcard_part));
 
-	if (!strstr (part_id, button_value))
+	if (!strstr (part_id, element_value))
 		return;
 
 	shell = e_shell_get_default ();
@@ -144,7 +136,7 @@ save_vcard_cb (GDBusConnection *connection,
 	g_return_if_fail (source != NULL);
 
 	contact_list = g_slist_copy_deep (
-		vcard_part->contact_list,
+		vcard_part->priv->contacts,
 		(GCopyFunc) g_object_ref, NULL);
 
 	e_book_client_connect (
@@ -152,171 +144,11 @@ save_vcard_cb (GDBusConnection *connection,
 }
 
 static void
-display_mode_toggle_cb (GDBusConnection *connection,
-                        const gchar *sender_name,
-                        const gchar *object_path,
-                        const gchar *interface_name,
-                        const gchar *signal_name,
-                        GVariant *parameters,
-                        EMailPartVCard *vcard_part)
-{
-	EABContactDisplayMode mode;
-	gchar *uri;
-	gchar *html_label;
-	gchar *access_key;
-	const gchar *part_id;
-	const gchar *button_id;
-
-	if (g_strcmp0 (signal_name, "VCardInlineDisplayModeToggled") != 0)
-		return;
-
-	if (!vcard_part->priv->web_extension)
-		return;
-
-	g_variant_get (parameters, "(&s)", &button_id);
-
-	part_id = e_mail_part_get_id (E_MAIL_PART (vcard_part));
-
-	if (!strstr (part_id, button_id))
-		return;
-
-	mode = eab_contact_formatter_get_display_mode (vcard_part->formatter);
-	if (mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
-		mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
-
-		html_label = e_mail_formatter_parse_html_mnemonics (
-				_("Show F_ull vCard"), &access_key);
-	} else {
-		mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
-
-		html_label = e_mail_formatter_parse_html_mnemonics (
-				_("Show Com_pact vCard"), &access_key);
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		vcard_part->priv->web_extension,
-		"VCardInlineUpdateButton",
-		g_variant_new (
-			"(tsss)",
-			vcard_part->priv->page_id,
-			button_id,
-			html_label,
-			access_key),
-		NULL);
-
-	if (access_key)
-		g_free (access_key);
-
-	g_free (html_label);
-
-	eab_contact_formatter_set_display_mode (vcard_part->formatter, mode);
-
-	uri = e_mail_part_build_uri (
-		vcard_part->folder, vcard_part->message_uid,
-		"part_id", G_TYPE_STRING, part_id,
-		"mode", G_TYPE_INT, E_MAIL_FORMATTER_MODE_RAW, NULL);
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		vcard_part->priv->web_extension,
-		"VCardInlineSetIFrameSrc",
-		g_variant_new (
-			"(tss)",
-			vcard_part->priv->page_id,
-			button_id,
-			uri),
-		NULL);
-
-	g_free (uri);
-}
-
-static void
-mail_part_vcard_set_web_extension_proxy (EMailPartVCard *part,
-					 GDBusProxy *proxy)
-{
-	g_return_if_fail (E_IS_MAIL_PART_VCARD (part));
-
-	if (part->priv->web_extension) {
-		GDBusConnection *connection;
-
-		connection = g_dbus_proxy_get_connection (part->priv->web_extension);
-
-		if (connection && g_dbus_connection_is_closed (connection))
-			connection = NULL;
-
-		if (connection && part->priv->display_mode_toggled_signal_id)
-			g_dbus_connection_signal_unsubscribe (connection, part->priv->display_mode_toggled_signal_id);
-		part->priv->display_mode_toggled_signal_id = 0;
-
-		if (connection && part->priv->save_vcard_button_pressed_signal_id)
-			g_dbus_connection_signal_unsubscribe (connection, part->priv->save_vcard_button_pressed_signal_id);
-		part->priv->save_vcard_button_pressed_signal_id = 0;
-
-		g_clear_object (&part->priv->web_extension);
-	}
-
-	if (proxy) {
-		GDBusConnection *connection;
-
-		part->priv->web_extension = g_object_ref (proxy);
-
-		connection = g_dbus_proxy_get_connection (proxy);
-
-		if (connection && g_dbus_connection_is_closed (connection))
-			connection = NULL;
-
-		if (connection) {
-			part->priv->display_mode_toggled_signal_id =
-				g_dbus_connection_signal_subscribe (
-					connection,
-					g_dbus_proxy_get_name (proxy),
-					g_dbus_proxy_get_interface_name (proxy),
-					"VCardInlineDisplayModeToggled",
-					g_dbus_proxy_get_object_path (proxy),
-					NULL,
-					G_DBUS_SIGNAL_FLAGS_NONE,
-					(GDBusSignalCallback) display_mode_toggle_cb,
-					part,
-					NULL);
-
-			part->priv->save_vcard_button_pressed_signal_id =
-				g_dbus_connection_signal_subscribe (
-					connection,
-					g_dbus_proxy_get_name (proxy),
-					g_dbus_proxy_get_interface_name (proxy),
-					"VCardInlineSaveButtonPressed",
-					g_dbus_proxy_get_object_path (proxy),
-					NULL,
-					G_DBUS_SIGNAL_FLAGS_NONE,
-					(GDBusSignalCallback) save_vcard_cb,
-					part,
-					NULL);
-		}
-	}
-}
-
-static void
-mail_part_vcard_dispose (GObject *object)
-{
-	EMailPartVCard *part = E_MAIL_PART_VCARD (object);
-
-	g_clear_object (&part->contact_display);
-	g_clear_object (&part->message_label);
-	g_clear_object (&part->formatter);
-	g_clear_object (&part->folder);
-
-	mail_part_vcard_set_web_extension_proxy (part, NULL);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_mail_part_vcard_parent_class)->dispose (object);
-}
-
-static void
 mail_part_vcard_finalize (GObject *object)
 {
 	EMailPartVCard *part = E_MAIL_PART_VCARD (object);
 
-	g_slist_free_full (part->contact_list, g_object_unref);
-	g_free (part->message_uid);
+	g_slist_free_full (part->priv->contacts, g_object_unref);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_part_vcard_parent_class)->finalize (object);
@@ -348,34 +180,14 @@ mail_part_vcard_constructed (GObject *object)
 }
 
 static void
-mail_part_vcard_bind_dom_element (EMailPart *part,
-                                  EWebView *web_view,
-                                  guint64 page_id,
-                                  const gchar *element_id)
+mail_part_vcard_content_loaded (EMailPart *part,
+				EWebView *web_view)
 {
-	EMailPartVCard *vcard_part;
-	GDBusProxy *web_extension;
-
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (E_IS_MAIL_PART_VCARD (part));
 
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (!web_extension)
-		return;
-
-	vcard_part = E_MAIL_PART_VCARD (part);
-	vcard_part->priv->page_id = page_id;
-
-	mail_part_vcard_set_web_extension_proxy (vcard_part, web_extension);
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		web_extension,
-		"VCardInlineBindDOM",
-		g_variant_new (
-			"(ts)",
-			vcard_part->priv->page_id,
-			element_id),
-		NULL);
+	e_web_view_register_element_clicked (web_view, "org-gnome-vcard-save-button",
+		mail_part_vcard_save_clicked_cb, part);
 }
 
 static void
@@ -387,12 +199,11 @@ e_mail_part_vcard_class_init (EMailPartVCardClass *class)
 	g_type_class_add_private (class, sizeof (EMailPartVCardPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = mail_part_vcard_dispose;
 	object_class->finalize = mail_part_vcard_finalize;
 	object_class->constructed = mail_part_vcard_constructed;
 
 	mail_part_class = E_MAIL_PART_CLASS (class);
-	mail_part_class->bind_dom_element = mail_part_vcard_bind_dom_element;
+	mail_part_class->content_loaded = mail_part_vcard_content_loaded;
 }
 
 static void
@@ -426,3 +237,20 @@ e_mail_part_vcard_new (CamelMimePart *mime_part,
 		"id", id, "mime-part", mime_part, NULL);
 }
 
+void
+e_mail_part_vcard_take_contacts (EMailPartVCard *vcard_part,
+				 GSList *contacts)
+{
+	g_return_if_fail (E_IS_MAIL_PART_VCARD (vcard_part));
+
+	g_slist_free_full (vcard_part->priv->contacts, g_object_unref);
+	vcard_part->priv->contacts = contacts;
+}
+
+const GSList *
+e_mail_part_vcard_get_contacts (EMailPartVCard *vcard_part)
+{
+	g_return_val_if_fail (E_IS_MAIL_PART_VCARD (vcard_part), NULL);
+
+	return vcard_part->priv->contacts;
+}

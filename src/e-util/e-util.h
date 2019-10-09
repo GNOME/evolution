@@ -266,8 +266,9 @@
 #include <e-util/e-webdav-browser.h>
 #include <e-util/e-web-extension-container.h>
 #ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
-#include <e-util/e-web-view-preview.h>
 #include <e-util/e-web-view.h>
+#include <e-util/e-web-view-jsc-utils.h>
+#include <e-util/e-web-view-preview.h>
 #endif
 #include <e-util/e-widget-undo.h>
 #include <e-util/e-xml-utils.h>

@@ -35,7 +35,8 @@ struct _EMailDisplayPopupPreferPlain {
 
 	gchar *text_plain_id;
 	gchar *text_html_id;
-	gchar *document_uri;
+	gchar *iframe_src;
+	gchar *iframe_id;
 
 	GtkActionGroup *action_group;
 };
@@ -95,10 +96,10 @@ toggle_part (GtkAction *action,
 	GHashTable *query;
 	gchar *uri;
 
-	if (!pp_extension->document_uri)
+	if (!pp_extension->iframe_src)
 		return;
 
-	soup_uri = soup_uri_new (pp_extension->document_uri);
+	soup_uri = soup_uri_new (pp_extension->iframe_src);
 
 	if (!soup_uri || !soup_uri->query) {
 		if (soup_uri)
@@ -124,8 +125,8 @@ toggle_part (GtkAction *action,
 	uri = soup_uri_to_string (soup_uri, FALSE);
 	soup_uri_free (soup_uri);
 
-	e_web_view_set_document_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (extension))),
-		pp_extension->document_uri, uri);
+	e_web_view_set_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (extension))),
+		pp_extension->iframe_id, uri);
 
 	g_free (uri);
 }
@@ -168,14 +169,19 @@ set_text_html_id (EMailDisplayPopupPreferPlain *extension,
 }
 
 static void
-set_document_uri (EMailDisplayPopupPreferPlain *extension,
-                  const gchar *document_uri)
+set_popup_place (EMailDisplayPopupPreferPlain *extension,
+		 const gchar *iframe_src,
+		 const gchar *iframe_id)
 {
-	if (extension->document_uri == document_uri)
-		return;
+	if (g_strcmp0 (extension->iframe_src, iframe_src)) {
+		g_free (extension->iframe_src);
+		extension->iframe_src = g_strdup (iframe_src);
+	}
 
-	g_free (extension->document_uri);
-	extension->document_uri = g_strdup (document_uri);
+	if (g_strcmp0 (extension->iframe_id, iframe_id)) {
+		g_free (extension->iframe_id);
+		extension->iframe_id = g_strdup (iframe_id);
+	}
 }
 
 static GtkActionGroup *
@@ -227,7 +233,8 @@ create_group (EMailDisplayPopupExtension *extension)
 
 static void
 mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *extension,
-						const gchar *popup_document_uri)
+						const gchar *popup_iframe_src,
+						const gchar *popup_iframe_id)
 {
 	EMailDisplay *display;
 	EMailDisplayPopupPreferPlain *pp_extension;
@@ -249,10 +256,10 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	if (!pp_extension->action_group)
 		pp_extension->action_group = create_group (extension);
 
-	set_document_uri (pp_extension, popup_document_uri);
+	set_popup_place (pp_extension, popup_iframe_src, popup_iframe_id);
 
-	if (pp_extension->document_uri)
-		soup_uri = soup_uri_new (pp_extension->document_uri);
+	if (pp_extension->iframe_src)
+		soup_uri = soup_uri_new (pp_extension->iframe_src);
 	else
 		soup_uri = NULL;
 
@@ -383,7 +390,8 @@ e_mail_display_popup_prefer_plain_finalize (GObject *object)
 
 	g_free (extension->text_html_id);
 	g_free (extension->text_plain_id);
-	g_free (extension->document_uri);
+	g_free (extension->iframe_src);
+	g_free (extension->iframe_id);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_display_popup_prefer_plain_parent_class)->finalize (object);
@@ -420,5 +428,6 @@ e_mail_display_popup_prefer_plain_init (EMailDisplayPopupPreferPlain *extension)
 	extension->action_group = NULL;
 	extension->text_html_id = NULL;
 	extension->text_plain_id = NULL;
-	extension->document_uri = NULL;
+	extension->iframe_src = NULL;
+	extension->iframe_id = NULL;
 }

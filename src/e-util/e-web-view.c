@@ -39,16 +39,13 @@
 #include "e-selectable.h"
 #include "e-stock-request.h"
 #include "e-web-extension-container.h"
-
-#include "web-extensions/e-web-extension-names.h"
+#include "e-web-view-jsc-utils.h"
 
 #include "e-web-view.h"
 
 #define E_WEB_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
-
-static void e_web_view_set_web_extension_proxy (EWebView *web_view, GDBusProxy *proxy);
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -83,10 +80,6 @@ struct _EWebViewPrivate {
 
 	GHashTable *old_settings;
 
-	EWebExtensionContainer *container;
-	GDBusProxy *web_extension_proxy;
-	gint stamp; /* Changed only in the main thread, doesn't need locking */
-
 	WebKitFindController *find_controller;
 	gulong found_text_handler_id;
 	gulong failed_to_find_text_handler_id;
@@ -96,15 +89,16 @@ struct _EWebViewPrivate {
 	GSList *content_requests; /* EContentRequest * */
 
 	GHashTable *element_clicked_cbs; /* gchar *element_class ~> GPtrArray {ElementClickedData} */
-	guint web_extension_element_clicked_signal_id;
 
-	guint32 clipboard_flags;
-	guint web_extension_clipboard_flags_changed_signal_id;
-
+	gboolean has_selection;
 	gboolean need_input;
-	guint web_extension_need_input_changed_signal_id;
 
-	GCancellable *load_cancellable;
+	GCancellable *cancellable;
+
+	gchar *last_popup_iframe_src;
+	gchar *last_popup_iframe_id;
+	gchar *last_popup_element_id;
+	gchar *last_popup_link_uri;
 };
 
 struct _AsyncContext {
@@ -118,18 +112,17 @@ struct _AsyncContext {
 enum {
 	PROP_0,
 	PROP_CARET_MODE,
-	PROP_CLIPBOARD_FLAGS,
 	PROP_COPY_TARGET_LIST,
 	PROP_CURSOR_IMAGE_SRC,
 	PROP_DISABLE_PRINTING,
 	PROP_DISABLE_SAVE_TO_DISK,
+	PROP_HAS_SELECTION,
 	PROP_NEED_INPUT,
 	PROP_OPEN_PROXY,
 	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
 	PROP_SAVE_AS_PROXY,
-	PROP_SELECTED_URI,
-	PROP_WEB_EXTENSION_PROXY
+	PROP_SELECTED_URI
 };
 
 enum {
@@ -140,6 +133,8 @@ enum {
 	UPDATE_ACTIONS,
 	PROCESS_MAILTO,
 	URI_REQUESTED,
+	CONTENT_LOADED,
+	BEFORE_POPUP_EVENT,
 	LAST_SIGNAL
 };
 
@@ -213,36 +208,24 @@ action_copy_clipboard_cb (GtkAction *action,
 	e_web_view_copy_clipboard (web_view);
 }
 
-static gint
-e_web_view_assign_new_stamp (EWebView *web_view)
-{
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), 0);
-
-	if (web_view->priv->stamp)
-		e_web_extension_container_forget_stamp (web_view->priv->container, web_view->priv->stamp);
-
-	web_view->priv->stamp = e_web_extension_container_reserve_stamp (web_view->priv->container);
-
-	return web_view->priv->stamp;
-}
-
 static void
 e_web_view_search_web_get_selection_cb (GObject *source,
 					GAsyncResult *result,
 					gpointer user_data)
 {
-	gchar *text;
+	GSList *texts;
 	GError *local_error = NULL;
 
 	g_return_if_fail (E_IS_WEB_VIEW (source));
 
-	text = e_web_view_get_selection_content_text_finish (E_WEB_VIEW (source), result, &local_error);
+	e_web_view_jsc_get_selection_finish (WEBKIT_WEB_VIEW (source), result, &texts, &local_error);
 
 	if (local_error &&
 	    !g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 		e_alert_submit (E_ALERT_SINK (source), "widgets:get-selected-text-failed", local_error->message, NULL);
-	} else if (!local_error) {
+	} else if (texts) {
 		GSettings *settings;
+		gchar *text = texts->data;
 		gchar *uri_prefix;
 		gchar *escaped;
 		gchar *uri;
@@ -272,14 +255,14 @@ e_web_view_search_web_get_selection_cb (GObject *source,
 	}
 
 	g_clear_error (&local_error);
-	g_free (text);
+	g_slist_free_full (texts, g_free);
 }
 
 static void
 action_search_web_cb (GtkAction *action,
 		      EWebView *web_view)
 {
-	e_web_view_get_selection_content_text (web_view, web_view->priv->load_cancellable,
+	e_web_view_jsc_get_selection (WEBKIT_WEB_VIEW (web_view), E_TEXT_FORMAT_PLAIN, web_view->priv->cancellable,
 		e_web_view_search_web_get_selection_cb, NULL);
 }
 
@@ -594,6 +577,46 @@ web_view_connect_proxy_cb (EWebView *web_view,
 		G_CALLBACK (web_view_menu_item_deselect_cb), web_view);
 }
 
+static void
+web_view_got_elem_from_point_for_popup_event_cb (GObject *source_object,
+						 GAsyncResult *result,
+						 gpointer user_data)
+{
+	EWebView *web_view;
+	GdkEvent *event = user_data;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_WEB_VIEW (source_object));
+
+	web_view = E_WEB_VIEW (source_object);
+
+	g_clear_pointer (&web_view->priv->last_popup_iframe_src, g_free);
+	g_clear_pointer (&web_view->priv->last_popup_iframe_id, g_free);
+	g_clear_pointer (&web_view->priv->last_popup_element_id, g_free);
+
+	if (!e_web_view_jsc_get_element_from_point_finish (WEBKIT_WEB_VIEW (web_view), result,
+		&web_view->priv->last_popup_iframe_src,
+		&web_view->priv->last_popup_iframe_id,
+		&web_view->priv->last_popup_element_id,
+		&error)) {
+		g_warning ("%s: Failed to get element from point: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	}
+
+	if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		gboolean handled = FALSE;
+
+		g_signal_emit (web_view, signals[BEFORE_POPUP_EVENT], 0,
+			web_view->priv->last_popup_link_uri, NULL);
+
+		g_signal_emit (web_view, signals[POPUP_EVENT], 0,
+			web_view->priv->last_popup_link_uri, event, &handled);
+	}
+
+	if (event)
+		gdk_event_free (event);
+	g_clear_error (&error);
+}
+
 static gboolean
 web_view_context_menu_cb (WebKitWebView *webkit_web_view,
                           WebKitContextMenu *context_menu,
@@ -603,15 +626,18 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 {
 	WebKitHitTestResultContext context;
 	EWebView *web_view;
-	gboolean event_handled = FALSE;
 	gchar *link_uri = NULL;
+	gdouble xx, yy;
 
 	web_view = E_WEB_VIEW (webkit_web_view);
 
-	g_free (web_view->priv->cursor_image_src);
-	web_view->priv->cursor_image_src = NULL;
+	g_clear_pointer (&web_view->priv->cursor_image_src, g_free);
+	g_clear_pointer (&web_view->priv->last_popup_iframe_src, g_free);
+	g_clear_pointer (&web_view->priv->last_popup_iframe_id, g_free);
+	g_clear_pointer (&web_view->priv->last_popup_element_id, g_free);
+	g_clear_pointer (&web_view->priv->last_popup_link_uri, g_free);
 
-	if (hit_test_result == NULL)
+	if (!hit_test_result)
 		return FALSE;
 
 	context = webkit_hit_test_result_get_context (hit_test_result);
@@ -621,23 +647,23 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 
 		g_object_get (hit_test_result, "image-uri", &image_uri, NULL);
 
-		if (image_uri != NULL) {
-			g_free (web_view->priv->cursor_image_src);
-			web_view->priv->cursor_image_src = image_uri;
-		}
+		web_view->priv->cursor_image_src = image_uri;
 	}
 
 	if (context & WEBKIT_HIT_TEST_RESULT_CONTEXT_LINK)
 		g_object_get (hit_test_result, "link-uri", &link_uri, NULL);
 
-	g_signal_emit (
-		web_view,
-		signals[POPUP_EVENT], 0,
-		link_uri, event, &event_handled);
+	web_view->priv->last_popup_link_uri = link_uri;
 
-	g_free (link_uri);
+	if (!gdk_event_get_coords (event, &xx, &yy)) {
+		xx = 1;
+		yy = 1;
+	}
 
-	return event_handled;
+	e_web_view_jsc_get_element_from_point (WEBKIT_WEB_VIEW (web_view), xx, yy, web_view->priv->cancellable,
+		web_view_got_elem_from_point_for_popup_event_cb, event ? gdk_event_copy (event) : NULL);
+
+	return TRUE;
 }
 
 static void
@@ -747,27 +773,14 @@ web_view_decide_policy_cb (EWebView *web_view,
 }
 
 static void
-e_web_view_ensure_body_class (EWebView *web_view)
-{
-	guint64 page_id;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
-
-	e_web_extension_container_call_simple (web_view->priv->container,
-		page_id, web_view->priv->stamp,
-		"EWebViewEnsureBodyClass",
-		g_variant_new ("(ts)", page_id, "-e-web-view-background-color -e-web-view-text-color"));
-}
-
-static void
-style_updated_cb (EWebView *web_view)
+e_web_view_update_styles (EWebView *web_view,
+			  const gchar *iframe_id)
 {
 	GdkRGBA color;
 	gchar *color_value;
 	gchar *style;
 	GtkStyleContext *style_context;
+	WebKitWebView *webkit_web_view;
 
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (web_view));
 
@@ -785,13 +798,16 @@ style_updated_cb (EWebView *web_view)
 
 	style = g_strconcat ("background-color: ", color_value, ";", NULL);
 
-	webkit_web_view_set_background_color (WEBKIT_WEB_VIEW (web_view), &color);
+	webkit_web_view = WEBKIT_WEB_VIEW (web_view);
 
-	e_web_view_add_css_rule_into_style_sheet (
-		web_view,
+	webkit_web_view_set_background_color (webkit_web_view, &color);
+
+	e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
+		iframe_id,
 		"-e-web-view-style-sheet",
 		".-e-web-view-background-color",
-		style);
+		style,
+		web_view->priv->cancellable);
 
 	g_free (color_value);
 	g_free (style);
@@ -803,14 +819,21 @@ style_updated_cb (EWebView *web_view)
 
 	style = g_strconcat ("color: ", color_value, ";", NULL);
 
-	e_web_view_add_css_rule_into_style_sheet (
-		web_view,
+	e_web_view_jsc_add_rule_into_style_sheet (webkit_web_view,
+		iframe_id,
 		"-e-web-view-style-sheet",
 		".-e-web-view-text-color",
-		style);
+		style,
+		web_view->priv->cancellable);
 
 	g_free (color_value);
 	g_free (style);
+}
+
+static void
+style_updated_cb (EWebView *web_view)
+{
+	e_web_view_update_styles (web_view, "*");
 }
 
 static void
@@ -828,8 +851,11 @@ web_view_load_changed_cb (WebKitWebView *webkit_web_view,
 	if (load_event != WEBKIT_LOAD_FINISHED)
 		return;
 
-	e_web_view_ensure_body_class (web_view);
-	style_updated_cb (web_view);
+	/* Make sure the initialize function is called for the top document when it is loaded. */
+	e_web_view_jsc_run_script (webkit_web_view, web_view->priv->cancellable,
+		"Evo.EnsureMainDocumentInitialized();");
+
+	e_web_view_update_styles (web_view, "");
 
 	web_view_update_document_highlights (web_view);
 }
@@ -906,12 +932,6 @@ web_view_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_CLIPBOARD_FLAGS:
-			e_web_view_set_clipboard_flags (
-				E_WEB_VIEW (object),
-				g_value_get_uint (value));
-			return;
-
 		case PROP_COPY_TARGET_LIST:
 			/* This is a fake property. */
 			g_warning ("%s: EWebView::copy-target-list not used", G_STRFUNC);
@@ -931,12 +951,6 @@ web_view_set_property (GObject *object,
 
 		case PROP_DISABLE_SAVE_TO_DISK:
 			e_web_view_set_disable_save_to_disk (
-				E_WEB_VIEW (object),
-				g_value_get_boolean (value));
-			return;
-
-		case PROP_NEED_INPUT:
-			e_web_view_set_need_input (
 				E_WEB_VIEW (object),
 				g_value_get_boolean (value));
 			return;
@@ -986,12 +1000,6 @@ web_view_get_property (GObject *object,
 				E_WEB_VIEW (object)));
 			return;
 
-		case PROP_CLIPBOARD_FLAGS:
-			g_value_set_uint (
-				value, e_web_view_get_clipboard_flags (
-				E_WEB_VIEW (object)));
-			return;
-
 		case PROP_COPY_TARGET_LIST:
 			/* This is a fake property. */
 			g_value_set_boxed (value, NULL);
@@ -1013,6 +1021,10 @@ web_view_get_property (GObject *object,
 			g_value_set_boolean (
 				value, e_web_view_get_disable_save_to_disk (
 				E_WEB_VIEW (object)));
+			return;
+
+		case PROP_HAS_SELECTION:
+			g_value_set_boolean (value, e_web_view_has_selection (E_WEB_VIEW (object)));
 			return;
 
 		case PROP_NEED_INPUT:
@@ -1049,12 +1061,6 @@ web_view_get_property (GObject *object,
 				value, e_web_view_get_selected_uri (
 				E_WEB_VIEW (object)));
 			return;
-
-		case PROP_WEB_EXTENSION_PROXY:
-			g_value_set_object (
-				value, e_web_view_get_web_extension_proxy (
-				E_WEB_VIEW (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1065,11 +1071,14 @@ web_view_dispose (GObject *object)
 {
 	EWebViewPrivate *priv;
 
+	/* This can be called during dispose, thus disconnect early */
+	g_signal_handlers_disconnect_by_func (object, G_CALLBACK (style_updated_cb), NULL);
+
 	priv = E_WEB_VIEW_GET_PRIVATE (object);
 
-	if (priv->load_cancellable) {
-		g_cancellable_cancel (priv->load_cancellable);
-		g_clear_object (&priv->load_cancellable);
+	if (priv->cancellable) {
+		g_cancellable_cancel (priv->cancellable);
+		g_clear_object (&priv->cancellable);
 	}
 
 	if (priv->font_name_changed_handler_id > 0) {
@@ -1112,18 +1121,12 @@ web_view_dispose (GObject *object)
 	g_slist_free_full (priv->content_requests, g_object_unref);
 	priv->content_requests = NULL;
 
-	e_web_view_set_web_extension_proxy (E_WEB_VIEW (object), NULL);
-
-	if (priv->container && priv->stamp)
-		e_web_extension_container_forget_stamp (priv->container, priv->stamp);
-
 	g_clear_object (&priv->ui_manager);
 	g_clear_object (&priv->open_proxy);
 	g_clear_object (&priv->print_proxy);
 	g_clear_object (&priv->save_as_proxy);
 	g_clear_object (&priv->aliasing_settings);
 	g_clear_object (&priv->font_settings);
-	g_clear_object (&priv->container);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->dispose (object);
@@ -1136,6 +1139,10 @@ web_view_finalize (GObject *object)
 
 	priv = E_WEB_VIEW_GET_PRIVATE (object);
 
+	g_clear_pointer (&priv->last_popup_iframe_src, g_free);
+	g_clear_pointer (&priv->last_popup_iframe_id, g_free);
+	g_clear_pointer (&priv->last_popup_element_id, g_free);
+	g_clear_pointer (&priv->last_popup_link_uri, g_free);
 	g_free (priv->selected_uri);
 	g_free (priv->cursor_image_src);
 
@@ -1152,7 +1159,6 @@ web_view_finalize (GObject *object)
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_web_view_parent_class)->finalize (object);
 }
-
 
 static void
 web_view_uri_request_done_cb (GObject *source_object,
@@ -1234,7 +1240,7 @@ web_view_process_uri_request_cb (WebKitURISchemeRequest *request,
 		web_view = E_WEB_VIEW (requester);
 	}
 
-	e_content_request_process (content_request, uri, requester, web_view ? web_view->priv->load_cancellable : NULL,
+	e_content_request_process (content_request, uri, requester, web_view ? web_view->priv->cancellable : NULL,
 		web_view_uri_request_done_cb, g_object_ref (request));
 
 	g_free (redirect_to_uri);
@@ -1308,19 +1314,184 @@ e_web_view_initialize_web_extensions_cb (WebKitWebContext *web_context,
 	EWebView *web_view = user_data;
 
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-	g_return_if_fail (web_view->priv->container);
 
 	webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_DIR);
-	webkit_web_context_set_web_extensions_initialization_user_data (web_context,
-		g_variant_new ("(ss)",
-			e_web_extension_container_get_server_guid (web_view->priv->container),
-			e_web_extension_container_get_server_address (web_view->priv->container)));
+}
+
+static void
+e_web_view_element_clicked_cb (WebKitUserContentManager *manager,
+			       WebKitJavascriptResult *js_result,
+			       gpointer user_data)
+{
+	EWebView *web_view = user_data;
+	GtkAllocation elem_position;
+	GPtrArray *listeners;
+	JSCValue *jsc_object;
+	gchar *iframe_id, *elem_id, *elem_class, *elem_value;
+
+	g_return_if_fail (web_view != NULL);
+	g_return_if_fail (js_result != NULL);
+
+	jsc_object = webkit_javascript_result_get_js_value (js_result);
+	g_return_if_fail (jsc_value_is_object (jsc_object));
+
+	iframe_id = e_web_view_jsc_get_object_property_string (jsc_object, "iframe-id", NULL);
+	elem_id = e_web_view_jsc_get_object_property_string (jsc_object, "elem-id", NULL);
+	elem_class = e_web_view_jsc_get_object_property_string (jsc_object, "elem-class", NULL);
+	elem_value = e_web_view_jsc_get_object_property_string (jsc_object, "elem-value", NULL);
+	elem_position.x = e_web_view_jsc_get_object_property_int32 (jsc_object, "left", 0);
+	elem_position.y = e_web_view_jsc_get_object_property_int32 (jsc_object, "top", 0);
+	elem_position.width = e_web_view_jsc_get_object_property_int32 (jsc_object, "width", 0);
+	elem_position.height = e_web_view_jsc_get_object_property_int32 (jsc_object, "height", 0);
+
+	listeners = g_hash_table_lookup (web_view->priv->element_clicked_cbs, elem_class);
+
+	if (listeners) {
+		guint ii;
+
+		for (ii = 0; ii < listeners->len; ii++) {
+			ElementClickedData *ecd = g_ptr_array_index (listeners, ii);
+
+			if (ecd && ecd->callback)
+				ecd->callback (web_view, iframe_id, elem_id, elem_class, elem_value, &elem_position, ecd->user_data);
+		}
+	}
+
+	g_free (iframe_id);
+	g_free (elem_id);
+	g_free (elem_class);
+	g_free (elem_value);
+}
+
+static void
+web_view_call_register_element_clicked (EWebView *web_view,
+					const gchar *iframe_id,
+					const gchar *only_elem_class)
+{
+	gchar *elem_classes = NULL;
+
+	if (!only_elem_class) {
+		GHashTableIter iter;
+		gpointer key;
+		GString *classes;
+
+		classes = g_string_sized_new (128);
+
+		g_hash_table_iter_init (&iter, web_view->priv->element_clicked_cbs);
+		while (g_hash_table_iter_next (&iter, &key, NULL)) {
+			if (classes->len)
+				g_string_append_c (classes, '\n');
+
+			g_string_append (classes, key);
+		}
+
+		elem_classes = g_string_free (classes, FALSE);
+	}
+
+	e_web_view_jsc_register_element_clicked (WEBKIT_WEB_VIEW (web_view), iframe_id,
+		only_elem_class ? only_elem_class : elem_classes,
+		web_view->priv->cancellable);
+
+	g_free (elem_classes);
+}
+
+static void
+e_web_view_content_loaded_cb (WebKitUserContentManager *manager,
+			      WebKitJavascriptResult *js_result,
+			      gpointer user_data)
+{
+	EWebView *web_view = user_data;
+	JSCValue *jsc_value;
+	gchar *iframe_id;
+
+	g_return_if_fail (web_view != NULL);
+	g_return_if_fail (js_result != NULL);
+
+	jsc_value = webkit_javascript_result_get_js_value (js_result);
+	g_return_if_fail (jsc_value_is_string (jsc_value));
+
+	iframe_id = jsc_value_to_string (jsc_value);
+
+	if (!iframe_id || !*iframe_id)
+		e_web_view_update_fonts (web_view);
+	else
+		e_web_view_update_styles (web_view, iframe_id);
+
+	web_view_call_register_element_clicked (web_view, iframe_id, NULL);
+
+	g_signal_emit (web_view, signals[CONTENT_LOADED], 0, iframe_id);
+
+	g_free (iframe_id);
+}
+
+static void
+e_web_view_set_has_selection (EWebView *web_view,
+			      gboolean has_selection)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if ((!web_view->priv->has_selection) == (!has_selection))
+		return;
+
+	web_view->priv->has_selection = has_selection;
+
+	g_object_notify (G_OBJECT (web_view), "has-selection");
+}
+
+
+static void
+e_web_view_has_selection_cb (WebKitUserContentManager *manager,
+			     WebKitJavascriptResult *js_result,
+			     gpointer user_data)
+{
+	EWebView *web_view = user_data;
+	JSCValue *jsc_value;
+
+	g_return_if_fail (web_view != NULL);
+	g_return_if_fail (js_result != NULL);
+
+	jsc_value = webkit_javascript_result_get_js_value (js_result);
+	g_return_if_fail (jsc_value_is_boolean (jsc_value));
+
+	e_web_view_set_has_selection (web_view, jsc_value_to_boolean (jsc_value));
+}
+
+static void
+e_web_view_set_need_input (EWebView *web_view,
+			   gboolean need_input)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if ((!web_view->priv->need_input) == (!need_input))
+		return;
+
+	web_view->priv->need_input = need_input;
+
+	g_object_notify (G_OBJECT (web_view), "need-input");
+}
+
+static void
+e_web_view_need_input_changed_cb (WebKitUserContentManager *manager,
+				  WebKitJavascriptResult *js_result,
+				  gpointer user_data)
+{
+	EWebView *web_view = user_data;
+	JSCValue *jsc_value;
+
+	g_return_if_fail (web_view != NULL);
+	g_return_if_fail (js_result != NULL);
+
+	jsc_value = webkit_javascript_result_get_js_value (js_result);
+	g_return_if_fail (jsc_value_is_boolean (jsc_value));
+
+	e_web_view_set_need_input (web_view, jsc_value_to_boolean (jsc_value));
 }
 
 static void
 web_view_constructed (GObject *object)
 {
 	WebKitSettings *web_settings;
+	WebKitUserContentManager *manager;
 	EWebView *web_view = E_WEB_VIEW (object);
 #ifndef G_OS_WIN32
 	GSettings *settings;
@@ -1364,6 +1535,25 @@ web_view_constructed (GObject *object)
 	web_view_initialize (WEBKIT_WEB_VIEW (object));
 
 	web_view_set_find_controller (web_view);
+
+	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (object));
+
+	g_signal_connect_object (manager, "script-message-received::elementClicked",
+		G_CALLBACK (e_web_view_element_clicked_cb), web_view, 0);
+
+	g_signal_connect_object (manager, "script-message-received::contentLoaded",
+		G_CALLBACK (e_web_view_content_loaded_cb), web_view, 0);
+
+	g_signal_connect_object (manager, "script-message-received::hasSelection",
+		G_CALLBACK (e_web_view_has_selection_cb), web_view, 0);
+
+	g_signal_connect_object (manager, "script-message-received::needInputChanged",
+		G_CALLBACK (e_web_view_need_input_changed_cb), web_view, 0);
+
+	webkit_user_content_manager_register_script_message_handler (manager, "contentLoaded");
+	webkit_user_content_manager_register_script_message_handler (manager, "elementClicked");
+	webkit_user_content_manager_register_script_message_handler (manager, "hasSelection");
+	webkit_user_content_manager_register_script_message_handler (manager, "needInputChanged");
 }
 
 static void
@@ -1372,13 +1562,13 @@ e_web_view_replace_load_cancellable (EWebView *web_view,
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	if (web_view->priv->load_cancellable) {
-		g_cancellable_cancel (web_view->priv->load_cancellable);
-		g_clear_object (&web_view->priv->load_cancellable);
+	if (web_view->priv->cancellable) {
+		g_cancellable_cancel (web_view->priv->cancellable);
+		g_clear_object (&web_view->priv->cancellable);
 	}
 
 	if (create_new)
-		web_view->priv->load_cancellable = g_cancellable_new ();
+		web_view->priv->cancellable = g_cancellable_new ();
 }
 
 static gboolean
@@ -1549,40 +1739,25 @@ static void
 web_view_load_string (EWebView *web_view,
                       const gchar *string)
 {
-	gchar *uri_with_stamp;
-
-	uri_with_stamp = g_strdup_printf ("evo-file:///?evo-stamp=%d", e_web_view_assign_new_stamp (web_view));
-
 	if (!string || !*string) {
-		webkit_web_view_load_html (WEBKIT_WEB_VIEW (web_view), "", uri_with_stamp);
+		webkit_web_view_load_html (WEBKIT_WEB_VIEW (web_view), "", "evo-file:///");
 	} else {
 		GBytes *bytes;
 
 		bytes = g_bytes_new (string, strlen (string));
-		webkit_web_view_load_bytes (WEBKIT_WEB_VIEW (web_view), bytes, NULL, NULL, uri_with_stamp);
+		webkit_web_view_load_bytes (WEBKIT_WEB_VIEW (web_view), bytes, NULL, NULL, "evo-file:///");
 		g_bytes_unref (bytes);
 	}
-
-	g_free (uri_with_stamp);
 }
 
 static void
 web_view_load_uri (EWebView *web_view,
                    const gchar *uri)
 {
-	gchar *uri_with_stamp;
-
-	if (uri == NULL)
+	if (!uri)
 		uri = "about:blank";
 
-	if (strchr (uri, '?'))
-		uri_with_stamp = g_strdup_printf ("%s&evo-stamp=%d", uri, e_web_view_assign_new_stamp (web_view));
-	else
-		uri_with_stamp = g_strdup_printf ("%s?evo-stamp=%d", uri, e_web_view_assign_new_stamp (web_view));
-
-	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (web_view), uri_with_stamp);
-
-	g_free (uri_with_stamp);
+	webkit_web_view_load_uri (WEBKIT_WEB_VIEW (web_view), uri);
 }
 
 static gchar *
@@ -1604,6 +1779,14 @@ web_view_suggest_filename (EWebView *web_view,
 	return g_strdup (cp);
 }
 
+static void
+web_view_before_popup_event (EWebView *web_view,
+			     const gchar *uri)
+{
+	e_web_view_set_selected_uri (web_view, uri);
+	e_web_view_update_actions (web_view);
+}
+
 static gboolean
 web_view_popup_event (EWebView *web_view,
                       const gchar *uri,
@@ -1623,243 +1806,6 @@ web_view_stop_loading (EWebView *web_view)
 }
 
 static void
-web_view_register_element_clicked_hfunc (gpointer key,
-					 gpointer value,
-					 gpointer user_data)
-{
-	const gchar *elem_class = key;
-	EWebView *web_view = user_data;
-	guint64 page_id;
-
-	g_return_if_fail (elem_class && *elem_class);
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
-
-	e_web_extension_container_call_simple (web_view->priv->container,
-		page_id, web_view->priv->stamp,
-		"RegisterElementClicked",
-		g_variant_new ("(ts)", page_id, elem_class));
-}
-
-static void
-web_view_need_input_changed_signal_cb (GDBusConnection *connection,
-				       const gchar *sender_name,
-				       const gchar *object_path,
-				       const gchar *interface_name,
-				       const gchar *signal_name,
-				       GVariant *parameters,
-				       gpointer user_data)
-{
-	EWebView *web_view = user_data;
-	guint64 page_id = 0;
-	gboolean need_input = FALSE;
-
-	if (g_strcmp0 (signal_name, "NeedInputChanged") != 0)
-		return;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if (!parameters)
-		return;
-
-	g_variant_get (parameters, "(tb)", &page_id, &need_input);
-
-	if (page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)))
-		e_web_view_set_need_input (web_view, need_input);
-}
-
-static void
-web_view_clipboard_flags_changed_signal_cb (GDBusConnection *connection,
-					    const gchar *sender_name,
-					    const gchar *object_path,
-					    const gchar *interface_name,
-					    const gchar *signal_name,
-					    GVariant *parameters,
-					    gpointer user_data)
-{
-	EWebView *web_view = user_data;
-	guint64 page_id = 0;
-	guint32 clipboard_flags = 0;
-
-	if (g_strcmp0 (signal_name, "ClipboardFlagsChanged") != 0)
-		return;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if (!parameters)
-		return;
-
-	g_variant_get (parameters, "(tu)", &page_id, &clipboard_flags);
-
-	if (page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)))
-		e_web_view_set_clipboard_flags (web_view, clipboard_flags);
-}
-
-static void
-web_view_element_clicked_signal_cb (GDBusConnection *connection,
-				    const gchar *sender_name,
-				    const gchar *object_path,
-				    const gchar *interface_name,
-				    const gchar *signal_name,
-				    GVariant *parameters,
-				    gpointer user_data)
-{
-	EWebView *web_view = user_data;
-	const gchar *elem_class = NULL, *elem_value = NULL;
-	GtkAllocation elem_position;
-	guint64 page_id = 0;
-	gint position_left = 0, position_top = 0, position_width = 0, position_height = 0;
-	GPtrArray *listeners;
-
-	if (g_strcmp0 (signal_name, "ElementClicked") != 0)
-		return;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if (!parameters)
-		return;
-
-	g_variant_get (parameters, "(t&s&siiii)", &page_id, &elem_class, &elem_value, &position_left, &position_top, &position_width, &position_height);
-
-	if (!elem_class || !*elem_class || page_id != webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)))
-		return;
-
-	elem_position.x = position_left;
-	elem_position.y = position_top;
-	elem_position.width = position_width;
-	elem_position.height = position_height;
-
-	listeners = g_hash_table_lookup (web_view->priv->element_clicked_cbs, elem_class);
-	if (listeners) {
-		guint ii;
-
-		for (ii = 0; ii <listeners->len; ii++) {
-			ElementClickedData *ecd = g_ptr_array_index (listeners, ii);
-
-			if (ecd && ecd->callback)
-				ecd->callback (web_view, elem_class, elem_value, &elem_position, ecd->user_data);
-		}
-	}
-}
-
-static void
-e_web_view_set_web_extension_proxy (EWebView *web_view,
-				    GDBusProxy *proxy)
-{
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if (web_view->priv->web_extension_proxy == proxy)
-		return;
-
-	if (web_view->priv->web_extension_proxy) {
-		GDBusConnection *connection;
-
-		connection = g_dbus_proxy_get_connection (web_view->priv->web_extension_proxy);
-
-		if (connection && g_dbus_connection_is_closed (connection))
-			connection = NULL;
-
-		if (web_view->priv->web_extension_clipboard_flags_changed_signal_id) {
-			if (connection)
-				g_dbus_connection_signal_unsubscribe (connection, web_view->priv->web_extension_clipboard_flags_changed_signal_id);
-			web_view->priv->web_extension_clipboard_flags_changed_signal_id = 0;
-		}
-
-		if (web_view->priv->web_extension_need_input_changed_signal_id) {
-			if (connection)
-				g_dbus_connection_signal_unsubscribe (connection, web_view->priv->web_extension_need_input_changed_signal_id);
-			web_view->priv->web_extension_need_input_changed_signal_id = 0;
-		}
-
-		if (web_view->priv->web_extension_element_clicked_signal_id) {
-			if (connection)
-				g_dbus_connection_signal_unsubscribe (connection, web_view->priv->web_extension_element_clicked_signal_id);
-			web_view->priv->web_extension_element_clicked_signal_id = 0;
-		}
-
-		g_clear_object (&web_view->priv->web_extension_proxy);
-	}
-
-	if (proxy) {
-		web_view->priv->web_extension_proxy = g_object_ref (proxy);
-
-		web_view->priv->web_extension_clipboard_flags_changed_signal_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (proxy),
-				g_dbus_proxy_get_name (proxy),
-				E_WEB_EXTENSION_INTERFACE,
-				"ClipboardFlagsChanged",
-				E_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				web_view_clipboard_flags_changed_signal_cb,
-				web_view,
-				NULL);
-
-		web_view->priv->web_extension_need_input_changed_signal_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (proxy),
-				g_dbus_proxy_get_name (proxy),
-				E_WEB_EXTENSION_INTERFACE,
-				"NeedInputChanged",
-				E_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				web_view_need_input_changed_signal_cb,
-				web_view,
-				NULL);
-
-		web_view->priv->web_extension_element_clicked_signal_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (proxy),
-				g_dbus_proxy_get_name (proxy),
-				E_WEB_EXTENSION_INTERFACE,
-				"ElementClicked",
-				E_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				web_view_element_clicked_signal_cb,
-				web_view,
-				NULL);
-	}
-
-	g_object_notify (G_OBJECT (web_view), "web-extension-proxy");
-}
-
-static void
-e_web_view_page_proxy_changed_cb (EWebExtensionContainer *container,
-				  guint64 page_id,
-				  gint stamp,
-				  GDBusProxy *proxy,
-				  gpointer user_data)
-{
-	EWebView *web_view = user_data;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if (stamp == web_view->priv->stamp &&
-	    page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view))) {
-		e_web_view_set_web_extension_proxy (web_view, proxy);
-
-		if (proxy) {
-			g_hash_table_foreach (web_view->priv->element_clicked_cbs, web_view_register_element_clicked_hfunc, web_view);
-
-			e_web_view_ensure_body_class (web_view);
-			style_updated_cb (web_view);
-		}
-	}
-}
-
-GDBusProxy *
-e_web_view_get_web_extension_proxy (EWebView *web_view)
-{
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	return web_view->priv->web_extension_proxy;
-}
-
-static void
 web_view_update_actions (EWebView *web_view)
 {
 	GtkActionGroup *action_group;
@@ -1875,7 +1821,7 @@ web_view_update_actions (EWebView *web_view)
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	uri = e_web_view_get_selected_uri (web_view);
-	can_copy = (e_web_view_get_clipboard_flags (web_view) & E_CLIPBOARD_CAN_COPY) != 0;
+	can_copy = e_web_view_has_selection (web_view);
 	cursor_image_src = e_web_view_get_cursor_image_src (web_view);
 
 	/* Parse the URI early so we know if the actions will work. */
@@ -2088,7 +2034,7 @@ web_view_selectable_update_actions (ESelectable *selectable,
 
 	web_view = E_WEB_VIEW (selectable);
 
-	can_copy = (e_web_view_get_clipboard_flags (web_view) & E_CLIPBOARD_CAN_COPY) != 0;
+	can_copy = e_web_view_has_selection (web_view);
 
 	action = e_focus_tracker_get_copy_clipboard_action (focus_tracker);
 	gtk_action_set_sensitive (action, can_copy);
@@ -2243,6 +2189,7 @@ e_web_view_class_init (EWebViewClass *class)
 	class->load_string = web_view_load_string;
 	class->load_uri = web_view_load_uri;
 	class->suggest_filename = web_view_suggest_filename;
+	class->before_popup_event = web_view_before_popup_event;
 	class->popup_event = web_view_popup_event;
 	class->stop_loading = web_view_stop_loading;
 	class->update_actions = web_view_update_actions;
@@ -2256,17 +2203,6 @@ e_web_view_class_init (EWebViewClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIPBOARD_FLAGS,
-		g_param_spec_uint (
-			"clipboard-flags",
-			"Clipboard Flags",
-			NULL,
-			0, G_MAXUINT, 0,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
 
 	/* Inherited from ESelectableInterface; just a fake property here */
 	g_object_class_override_property (
@@ -2314,14 +2250,23 @@ e_web_view_class_init (EWebViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_HAS_SELECTION,
+		g_param_spec_boolean (
+			"has-selection",
+			"Has Selection",
+			NULL,
+			FALSE,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_NEED_INPUT,
 		g_param_spec_boolean (
 			"need-input",
 			"Need Input",
 			NULL,
 			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_READABLE));
 
 	g_object_class_install_property (
 		object_class,
@@ -2363,16 +2308,6 @@ e_web_view_class_init (EWebViewClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEB_EXTENSION_PROXY,
-		g_param_spec_object (
-			"web-extension-proxy",
-			"Web Extension Proxy",
-			NULL,
-			G_TYPE_DBUS_PROXY,
-			G_PARAM_READABLE));
-
 	signals[NEW_ACTIVITY] = g_signal_new (
 		"new-activity",
 		G_TYPE_FROM_CLASS (class),
@@ -2391,6 +2326,15 @@ e_web_view_class_init (EWebViewClass *class)
 		g_signal_accumulator_true_handled, NULL,
 		NULL,
 		G_TYPE_BOOLEAN, 2, G_TYPE_STRING, GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+
+	signals[BEFORE_POPUP_EVENT] = g_signal_new (
+		"before-popup-event",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EWebViewClass, before_popup_event),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__STRING,
+		G_TYPE_NONE, 1, G_TYPE_STRING);
 
 	signals[STATUS_MESSAGE] = g_signal_new (
 		"status-message",
@@ -2440,6 +2384,14 @@ e_web_view_class_init (EWebViewClass *class)
 		G_STRUCT_OFFSET (EWebViewClass, uri_requested),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 2, G_TYPE_STRING, G_TYPE_POINTER);
+
+	signals[CONTENT_LOADED] = g_signal_new (
+		"content-loaded",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EWebViewClass, content_loaded),
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 1, G_TYPE_STRING);
 }
 
 static void
@@ -2473,11 +2425,7 @@ e_web_view_init (EWebView *web_view)
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
-	web_view->priv->container = e_web_extension_container_new (E_WEB_EXTENSION_OBJECT_PATH, E_WEB_EXTENSION_INTERFACE);
 	web_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
-
-	g_signal_connect_object (web_view->priv->container, "page-proxy-changed",
-		G_CALLBACK (e_web_view_page_proxy_changed_cb), web_view, 0);
 
 	g_signal_connect (
 		web_view, "context-menu",
@@ -2647,7 +2595,7 @@ e_web_view_init (EWebView *web_view)
 
 	web_view->priv->element_clicked_cbs = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
 
-	web_view->priv->load_cancellable = NULL;
+	web_view->priv->cancellable = NULL;
 }
 
 GtkWidget *
@@ -2758,117 +2706,6 @@ e_web_view_reload (EWebView *web_view)
 	webkit_web_view_reload (WEBKIT_WEB_VIEW (web_view));
 }
 
-static void
-get_document_content_html_cb (GObject *source_object,
-                              GAsyncResult *result,
-                              gpointer user_data)
-{
-	GDBusProxy *web_extension;
-	GTask *task = user_data;
-	GVariant *result_variant;
-	gchar *html_content = NULL;
-	GError *error = NULL;
-
-	g_return_if_fail (G_IS_DBUS_PROXY (source_object));
-	g_return_if_fail (G_IS_TASK (task));
-
-	web_extension = G_DBUS_PROXY (source_object);
-
-	result_variant = g_dbus_proxy_call_finish (web_extension, result, &error);
-	if (result_variant)
-		g_variant_get (result_variant, "(s)", &html_content);
-	g_variant_unref (result_variant);
-
-	g_task_return_pointer (task, html_content, g_free);
-	g_object_unref (task);
-
-	if (error)
-		g_dbus_error_strip_remote_error (error);
-
-	e_util_claim_dbus_proxy_call_error (web_extension, "GetDocumentContentHTML", error);
-	g_clear_error (&error);
-}
-
-void
-e_web_view_get_content_html (EWebView *web_view,
-                             GCancellable *cancellable,
-                             GAsyncReadyCallback callback,
-                             gpointer user_data)
-{
-	GDBusProxy *web_extension;
-	GTask *task;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	task = g_task_new (web_view, cancellable, callback, user_data);
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		g_dbus_proxy_call (
-			web_extension,
-			"GetDocumentContentHTML",
-			g_variant_new (
-				"(t)",
-				webkit_web_view_get_page_id (
-					WEBKIT_WEB_VIEW (web_view))),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			cancellable,
-			get_document_content_html_cb,
-			g_object_ref (task));
-	} else
-		g_task_return_pointer (task, NULL, NULL);
-}
-
-gchar *
-e_web_view_get_content_html_finish (EWebView *web_view,
-                                    GAsyncResult *result,
-                                    GError **error)
-{
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-	g_return_val_if_fail (g_task_is_valid (result, web_view), FALSE);
-
-	return g_task_propagate_pointer (G_TASK (result), error);
-}
-
-gchar *
-e_web_view_get_content_html_sync (EWebView *web_view,
-                                  GCancellable *cancellable,
-                                  GError **error)
-{
-	GDBusProxy *web_extension;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		GVariant *result;
-
-		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
-				web_extension,
-				"GetDocumentContentHTML",
-				g_variant_new (
-					"(t)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (web_view))),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				cancellable,
-				error);
-
-		if (result) {
-			gchar *html_content = NULL;
-
-			g_variant_get (result, "(s)", &html_content);
-			g_variant_unref (result);
-
-			return html_content;
-		}
-	}
-
-	return NULL;
-}
-
 gboolean
 e_web_view_get_caret_mode (EWebView *web_view)
 {
@@ -2963,48 +2800,12 @@ e_web_view_set_editable (EWebView *web_view,
 	webkit_web_view_set_editable (WEBKIT_WEB_VIEW (web_view), editable);
 }
 
-guint32
-e_web_view_get_clipboard_flags (EWebView *web_view)
-{
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), 0);
-
-	return web_view->priv->clipboard_flags;
-}
-
-void
-e_web_view_set_clipboard_flags (EWebView *web_view,
-				guint32 clipboard_flags)
-{
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if (web_view->priv->clipboard_flags == clipboard_flags)
-		return;
-
-	web_view->priv->clipboard_flags = clipboard_flags;
-
-	g_object_notify (G_OBJECT (web_view), "clipboard-flags");
-}
-
 gboolean
 e_web_view_get_need_input (EWebView *web_view)
 {
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
 
 	return web_view->priv->need_input;
-}
-
-void
-e_web_view_set_need_input (EWebView *web_view,
-			   gboolean need_input)
-{
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	if ((!web_view->priv->need_input) == (!need_input))
-		return;
-
-	web_view->priv->need_input = need_input;
-
-	g_object_notify (G_OBJECT (web_view), "need-input");
 }
 
 const gchar *
@@ -3155,6 +2956,28 @@ e_web_view_set_save_as_proxy (EWebView *web_view,
 }
 
 void
+e_web_view_get_last_popup_place (EWebView *web_view,
+				 gchar **out_iframe_src,
+				 gchar **out_iframe_id,
+				 gchar **out_element_id,
+				 gchar **out_link_uri)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	if (out_iframe_src)
+		*out_iframe_src = g_strdup (web_view->priv->last_popup_iframe_src);
+
+	if (out_iframe_id)
+		*out_iframe_id = g_strdup (web_view->priv->last_popup_iframe_id);
+
+	if (out_element_id)
+		*out_element_id = g_strdup (web_view->priv->last_popup_element_id);
+
+	if (out_link_uri)
+		*out_link_uri = g_strdup (web_view->priv->last_popup_link_uri);
+}
+
+void
 e_web_view_add_highlight (EWebView *web_view,
                           const gchar *highlight)
 {
@@ -3238,35 +3061,11 @@ e_web_view_cut_clipboard (EWebView *web_view)
 }
 
 gboolean
-e_web_view_is_selection_active (EWebView *web_view)
+e_web_view_has_selection (EWebView *web_view)
 {
-	GDBusProxy *web_extension;
-
 	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), FALSE);
 
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		GVariant *result;
-
-		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-				web_extension,
-				"DocumentHasSelection",
-				g_variant_new (
-					"(t)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (web_view))),
-				NULL);
-
-		if (result) {
-			gboolean value = FALSE;
-
-			g_variant_get (result, "(b)", &value);
-			g_variant_unref (result);
-			return value;
-		}
-	}
-
-	return FALSE;
+	return web_view->priv->has_selection;
 }
 
 void
@@ -3474,226 +3273,6 @@ e_web_view_update_actions (EWebView *web_view)
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	g_signal_emit (web_view, signals[UPDATE_ACTIONS], 0);
-}
-
-static void
-get_selection_content_html_cb (GObject *source_object,
-			       GAsyncResult *result,
-			       gpointer user_data)
-{
-	GDBusProxy *web_extension;
-	GTask *task = user_data;
-	GVariant *result_variant;
-	gchar *html_content = NULL;
-	GError *error = NULL;
-
-	g_return_if_fail (G_IS_DBUS_PROXY (source_object));
-	g_return_if_fail (G_IS_TASK (task));
-
-	web_extension = G_DBUS_PROXY (source_object);
-
-	result_variant = g_dbus_proxy_call_finish (web_extension, result, &error);
-	if (result_variant)
-		g_variant_get (result_variant, "(s)", &html_content);
-	g_variant_unref (result_variant);
-
-	g_task_return_pointer (task, html_content, g_free);
-	g_object_unref (task);
-
-	if (error)
-		g_dbus_error_strip_remote_error (error);
-
-	e_util_claim_dbus_proxy_call_error (web_extension, "GetSelectionContentHTML", error);
-	g_clear_error (&error);
-}
-
-void
-e_web_view_get_selection_content_html (EWebView *web_view,
-                                       GCancellable *cancellable,
-                                       GAsyncReadyCallback callback,
-                                       gpointer user_data)
-{
-	GDBusProxy *web_extension;
-	GTask *task;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	task = g_task_new (web_view, cancellable, callback, user_data);
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		g_dbus_proxy_call (
-			web_extension,
-			"GetSelectionContentHTML",
-			g_variant_new (
-				"(t)",
-				webkit_web_view_get_page_id (
-					WEBKIT_WEB_VIEW (web_view))),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			cancellable,
-			get_selection_content_html_cb,
-			g_object_ref (task));
-	} else
-		g_task_return_pointer (task, NULL, NULL);
-}
-
-gchar *
-e_web_view_get_selection_content_html_finish (EWebView *web_view,
-                                              GAsyncResult *result,
-                                              GError **error)
-{
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-	g_return_val_if_fail (g_task_is_valid (result, web_view), FALSE);
-
-	return g_task_propagate_pointer (G_TASK (result), error);
-}
-
-gchar *
-e_web_view_get_selection_content_html_sync (EWebView *web_view,
-                                            GCancellable *cancellable,
-                                            GError **error)
-{
-	GDBusProxy *web_extension;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		GVariant *result;
-
-		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
-				web_extension,
-				"GetSelectionContentHTML",
-				g_variant_new (
-					"(t)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (web_view))),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				cancellable,
-				error);
-
-		if (result) {
-			gchar *html_content = NULL;
-
-			g_variant_get (result, "(s)", &html_content);
-			g_variant_unref (result);
-			return html_content;
-		}
-	}
-
-	return NULL;
-}
-
-static void
-get_selection_content_text_cb (GObject *source_object,
-			       GAsyncResult *result,
-			       gpointer user_data)
-{
-	GDBusProxy *web_extension;
-	GTask *task = user_data;
-	GVariant *result_variant;
-	gchar *text_content = NULL;
-	GError *error = NULL;
-
-	g_return_if_fail (G_IS_DBUS_PROXY (source_object));
-	g_return_if_fail (G_IS_TASK (task));
-
-	web_extension = G_DBUS_PROXY (source_object);
-
-	result_variant = g_dbus_proxy_call_finish (web_extension, result, &error);
-	if (result_variant)
-		g_variant_get (result_variant, "(s)", &text_content);
-	g_variant_unref (result_variant);
-
-	g_task_return_pointer (task, text_content, g_free);
-	g_object_unref (task);
-
-	if (error)
-		g_dbus_error_strip_remote_error (error);
-
-	e_util_claim_dbus_proxy_call_error (web_extension, "GetSelectionContentText", error);
-	g_clear_error (&error);
-}
-
-void
-e_web_view_get_selection_content_text (EWebView *web_view,
-				       GCancellable *cancellable,
-				       GAsyncReadyCallback callback,
-				       gpointer user_data)
-{
-	GDBusProxy *web_extension;
-	GTask *task;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	task = g_task_new (web_view, cancellable, callback, user_data);
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		g_dbus_proxy_call (
-			web_extension,
-			"GetSelectionContentText",
-			g_variant_new (
-				"(t)",
-				webkit_web_view_get_page_id (
-					WEBKIT_WEB_VIEW (web_view))),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			cancellable,
-			get_selection_content_text_cb,
-			g_object_ref (task));
-	} else
-		g_task_return_pointer (task, NULL, NULL);
-}
-
-gchar *
-e_web_view_get_selection_content_text_finish (EWebView *web_view,
-					      GAsyncResult *result,
-					      GError **error)
-{
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-	g_return_val_if_fail (g_task_is_valid (result, web_view), FALSE);
-
-	return g_task_propagate_pointer (G_TASK (result), error);
-}
-
-gchar *
-e_web_view_get_selection_content_text_sync (EWebView *web_view,
-					    GCancellable *cancellable,
-					    GError **error)
-{
-	GDBusProxy *web_extension;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (web_extension) {
-		GVariant *result;
-
-		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
-				web_extension,
-				"GetSelectionContentText",
-				g_variant_new (
-					"(t)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (web_view))),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				cancellable,
-				error);
-
-		if (result) {
-			gchar *text_content = NULL;
-
-			g_variant_get (result, "(s)", &text_content);
-			g_variant_unref (result);
-			return text_content;
-		}
-	}
-
-	return NULL;
 }
 
 const gchar *
@@ -4013,6 +3592,8 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 		pango_font_description_free (ms);
 	if (clean_vw)
 		pango_font_description_free (vw);
+
+	e_web_view_update_styles (E_WEB_VIEW (view_widget), "*");
 }
 
 WebKitSettings *
@@ -4025,13 +3606,22 @@ e_web_view_get_default_webkit_settings (void)
 		"enable-dns-prefetching", FALSE,
 		"enable-html5-local-storage", FALSE,
 		"enable-java", FALSE,
-		"enable-javascript", FALSE,
+		"enable-javascript", TRUE, /* Needed for JavaScriptCore API to work */
+		"enable-javascript-markup", FALSE, /* Discards user-provided javascript in HTML */
 		"enable-offline-web-application-cache", FALSE,
 		"enable-page-cache", FALSE,
 		"enable-plugins", FALSE,
 		"enable-smooth-scrolling", FALSE,
 		"media-playback-allows-inline", FALSE,
 		NULL);
+}
+
+GCancellable *
+e_web_view_get_cancellable (EWebView *web_view)
+{
+	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
+
+	return web_view->priv->cancellable;
 }
 
 void
@@ -4584,131 +4174,10 @@ e_web_view_request_finish (EWebView *web_view,
 }
 
 /**
- * e_web_view_create_and_add_css_style_sheet:
- * @web_view: an #EWebView
- * @style_sheet_id: CSS style sheet's id
- *
- * Creates new CSS style sheet with given @style_sheel_id and inserts
- * it into given @web_view document.
- **/
-void
-e_web_view_create_and_add_css_style_sheet (EWebView *web_view,
-                                           const gchar *style_sheet_id)
-{
-	guint64 page_id;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-	g_return_if_fail (style_sheet_id && *style_sheet_id);
-
-	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
-
-	e_web_extension_container_call_simple (web_view->priv->container,
-		page_id, web_view->priv->stamp,
-		"CreateAndAddCSSStyleSheet",
-		g_variant_new ("(ts)", page_id, style_sheet_id));
-}
-
-/**
- * e_web_view_add_css_rule_into_style_sheet:
- * @web_view: an #EWebView
- * @style_sheet_id: CSS style sheet's id
- * @selector: CSS selector
- * @style: style for given selector
- *
- * Insert new CSS rule (defined with @selector and @style) into CSS style sheet
- * with given @style_sheet_id. If style sheet doesn't exist, it's created.
- *
- * The rule is inserted to every DOM document that is in page. That means also
- * into DOM documents inside iframe elements.
- **/
-void
-e_web_view_add_css_rule_into_style_sheet (EWebView *web_view,
-                                          const gchar *style_sheet_id,
-                                          const gchar *selector,
-                                          const gchar *style)
-{
-	guint64 page_id;
-
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-	g_return_if_fail (style_sheet_id && *style_sheet_id);
-	g_return_if_fail (selector && *selector);
-	g_return_if_fail (style && *style);
-
-	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
-
-	e_web_extension_container_call_simple (web_view->priv->container,
-		page_id, web_view->priv->stamp,
-		"AddCSSRuleIntoStyleSheet",
-		g_variant_new ("(tsss)", page_id, style_sheet_id, selector, style));
-}
-
-/**
- * e_web_view_get_document_uri_from_point:
- * @web_view: an #EWebView
- * @x: x-coordinate
- * @y: y-coordinate
- *
- * Returns: A document URI which is under the @x, @y coordinates or %NULL,
- * if there is none. Free the returned pointer with g_free() when done with it.
- *
- * Since: 3.22
- **/
-gchar *
-e_web_view_get_document_uri_from_point (EWebView *web_view,
-					gint32 x,
-					gint32 y)
-{
-	GDBusProxy *web_extension;
-	GVariant *result;
-	GError *local_error = NULL;
-
-	g_return_val_if_fail (E_IS_WEB_VIEW (web_view), NULL);
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (!web_extension)
-		return NULL;
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
-		web_extension,
-		"GetDocumentURIFromPoint",
-		g_variant_new (
-			"(tii)",
-			webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view)),
-			x,
-			y),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		&local_error);
-
-	if (local_error)
-		g_dbus_error_strip_remote_error (local_error);
-
-	e_util_claim_dbus_proxy_call_error (web_extension, "GetDocumentURIFromPoint", local_error);
-	g_clear_error (&local_error);
-
-	if (result) {
-		gchar *uri = NULL;
-
-		g_variant_get (result, "(s)", &uri);
-		g_variant_unref (result);
-
-		if (g_strcmp0 (uri, "") == 0) {
-			g_free (uri);
-			uri = NULL;
-		}
-
-		return uri;
-	}
-
-	return NULL;
-}
-
-/**
- * e_web_view_set_document_iframe_src:
+ * e_web_view_set_iframe_src:
  * @web_view: an #EWebView
  * @document_uri: a document URI for whose IFrame change the source
- * @new_iframe_src: the source to change the IFrame to
+ * @src_uri: the source to change the IFrame to
  *
  * Change IFrame source for the given @document_uri IFrame
  * to the @new_iframe_src.
@@ -4716,29 +4185,22 @@ e_web_view_get_document_uri_from_point (EWebView *web_view,
  * Since: 3.22
  **/
 void
-e_web_view_set_document_iframe_src (EWebView *web_view,
-				    const gchar *document_uri,
-				    const gchar *new_iframe_src)
+e_web_view_set_iframe_src (EWebView *web_view,
+			   const gchar *iframe_id,
+			   const gchar *src_uri)
 {
-	guint64 page_id;
-
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	/* Cannot call this synchronously, blocking the local main loop, because the reload
-	   can on the WebProcess side can be asking for a redirection policy, waiting
-	   for a response which may be waiting in the blocked main loop. */
-
-	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
-
-	e_web_extension_container_call_simple (web_view->priv->container,
-		page_id, web_view->priv->stamp,
-		"SetDocumentIFrameSrc",
-		g_variant_new ("(tss)", page_id, document_uri, new_iframe_src));
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), web_view->priv->cancellable,
+		"Evo.SetIFrameSrc(%s, %s);",
+		iframe_id, src_uri);
 }
 
 /**
  * EWebViewElementClickedFunc:
  * @web_view: an #EWebView
+ * @iframe_id: an iframe ID in which the click happened; empty string for the main frame
+ * @element_id: an element ID
  * @element_class: an element class, as set on the element which had been clicked
  * @element_value: a 'value' attribute content of the clicked element
  * @element_position: a #GtkAllocation with the position of the clicked element
@@ -4790,7 +4252,7 @@ e_web_view_register_element_clicked (EWebView *web_view,
 			if (ecd && ecd->callback == callback && ecd->user_data == user_data) {
 				/* Callback is already registered, but re-register it, in case the page
 				   was changed dynamically and new elements with the given call are added. */
-				web_view_register_element_clicked_hfunc ((gpointer) element_class, cbs, web_view);
+				web_view_call_register_element_clicked (web_view, "*", element_class);
 				return;
 			}
 		}
@@ -4810,7 +4272,7 @@ e_web_view_register_element_clicked (EWebView *web_view,
 	}
 
 	/* Dynamically changing page can call this multiple times; re-register all classes */
-	g_hash_table_foreach (web_view->priv->element_clicked_cbs, web_view_register_element_clicked_hfunc, web_view);
+	web_view_call_register_element_clicked (web_view, "*", NULL);
 }
 
 /**
@@ -4862,38 +4324,27 @@ e_web_view_set_element_hidden (EWebView *web_view,
 			       const gchar *element_id,
 			       gboolean hidden)
 {
-	guint64 page_id;
-
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (element_id && *element_id);
 
-	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
-
-	e_web_extension_container_call_simple (web_view->priv->container,
-		page_id, web_view->priv->stamp,
-		"SetElementHidden",
-		g_variant_new ("(tsb)", page_id, element_id, hidden));
+	e_web_view_jsc_set_element_hidden (WEBKIT_WEB_VIEW (web_view),
+		"*", element_id, hidden,
+		web_view->priv->cancellable);
 }
 
 void
 e_web_view_set_element_style_property (EWebView *web_view,
 				       const gchar *element_id,
 				       const gchar *property_name,
-				       const gchar *value,
-				       const gchar *priority)
+				       const gchar *value)
 {
-	guint64 page_id;
-
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (element_id && *element_id);
 	g_return_if_fail (property_name && *property_name);
 
-	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
-
-	e_web_extension_container_call_simple (web_view->priv->container,
-		page_id, web_view->priv->stamp,
-		"SetElementStyleProperty",
-		g_variant_new ("(tssss)", page_id, element_id, property_name, value ? value : "", priority ? priority : ""));
+	e_web_view_jsc_set_element_style_property (WEBKIT_WEB_VIEW (web_view),
+		"*", element_id, property_name, value,
+		web_view->priv->cancellable);
 }
 
 void
@@ -4903,16 +4354,11 @@ e_web_view_set_element_attribute (EWebView *web_view,
 				  const gchar *qualified_name,
 				  const gchar *value)
 {
-	guint64 page_id;
-
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 	g_return_if_fail (element_id && *element_id);
 	g_return_if_fail (qualified_name && *qualified_name);
 
-	page_id = webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (web_view));
-
-	e_web_extension_container_call_simple (web_view->priv->container,
-		page_id, web_view->priv->stamp,
-		"SetElementAttribute",
-		g_variant_new ("(tssss)", page_id, element_id, namespace_uri ? namespace_uri : "", qualified_name, value ? value : ""));
+	e_web_view_jsc_set_element_attribute (WEBKIT_WEB_VIEW (web_view),
+		"*", element_id, namespace_uri, qualified_name, value,
+		web_view->priv->cancellable);
 }

@@ -185,7 +185,6 @@ add_dependencies(evolution-calendar
 target_compile_definitions(evolution-calendar PRIVATE
 	-DG_LOG_DOMAIN=\"evolution-calendar\"
 	-DEVOLUTION_ETSPECDIR=\"${etspecdir}\"
-	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"
 )
 
 target_compile_options(evolution-calendar PUBLIC

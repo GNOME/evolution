@@ -25,8 +25,7 @@
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
-#define STYLESHEET_URI \
-	"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview-print.css"
+#define STYLESHEET_URI "evo-file://$EVOLUTION_WEBKITDATADIR/webview-print.css"
 
 /* internal formatter extensions */
 GType e_mail_formatter_print_headers_get_type (void);

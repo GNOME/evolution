@@ -36,8 +36,7 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_FORMATTER, EMailFormatterPrivate))
 
-#define STYLESHEET_URI \
-	"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css"
+#define STYLESHEET_URI "evo-file://$EVOLUTION_WEBKITDATADIR/webview.css"
 
 typedef struct _AsyncContext AsyncContext;
 

@@ -51,7 +51,7 @@
 
 #define HTML_HEADER "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n" \
 "<head>\n<meta name=\"generator\" content=\"Evolution Addressbook Component\">\n" \
-"<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://" EVOLUTION_PRIVDATADIR "/theme/webview.css\">" \
+"<link type=\"text/css\" rel=\"stylesheet\" href=\"evo-file://$EVOLUTION_WEBKITDATADIR/webview.css\">" \
 "<style type=\"text/css\">\n" \
 "  div#header { width:100%; clear: both; }\n" \
 "  div#columns { width: 100%; clear: both; }\n" \
@@ -621,7 +621,7 @@ render_contact_list_row (EABContactFormatter *formatter,
 		g_string_append_printf (
 			buffer,
 			"<td width=" IMAGE_COL_WIDTH " valign=\"top\" align=\"left\">"
-			"<button type=\"button\" id=\"%s\" class=\"header-collapse _evo_collapse_button\" style=\"display: inline-block;\">"
+			"<button type=\"button\" id=\"%s\" class=\"header-collapse _evo_vcard_collapse_button\" style=\"display: inline-block;\">"
 			"<img src=\"gtk-stock://pan-down-symbolic\" />"
 			"</button>"
 			"</td><td width=\"100%%\" align=\"left\">%s",

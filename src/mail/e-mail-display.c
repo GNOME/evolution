@@ -44,8 +44,6 @@
 #include "em-composer-utils.h"
 #include "em-utils.h"
 
-#include "web-extensions/e-web-extension-names.h"
-
 #include "e-mail-display.h"
 
 #define d(x)
@@ -58,6 +56,11 @@ typedef enum {
 	E_ATTACHMENT_FLAG_VISIBLE	= (1 << 0),
 	E_ATTACHMENT_FLAG_ZOOMED_TO_100	= (1 << 1)
 } EAttachmentFlags;
+
+typedef enum {
+	E_MAGIC_SPACEBAR_CAN_GO_BOTTOM	= (1 << 0),
+	E_MAGIC_SPACEBAR_CAN_GO_TOP	= (1 << 1)
+} EMagicSpacebarFlags;
 
 struct _EMailDisplayPrivate {
 	EAttachmentStore *attachment_store;
@@ -85,9 +88,7 @@ struct _EMailDisplayPrivate {
 	EMailRemoteContent *remote_content;
 	GHashTable *skipped_remote_content_sites;
 
-	GDBusConnection *web_extension_connection;
-	guint web_extension_headers_collapsed_signal_id;
-	guint web_extension_mail_part_appeared_signal_id;
+	guint32 magic_spacebar_state; /* bit-or of EMagicSpacebarFlags */
 };
 
 enum {
@@ -399,9 +400,10 @@ decide_policy_cb (WebKitWebView *web_view,
 }
 
 static void
-add_color_css_rule_for_web_view (EWebView *view,
-                                 const gchar *color_name,
-                                 const gchar *color_value)
+add_color_css_rule_for_web_view (EWebView *web_view,
+				 const gchar *iframe_id,
+				 const gchar *color_name,
+				 const gchar *color_value)
 {
 	gchar *selector;
 	gchar *style;
@@ -419,18 +421,21 @@ add_color_css_rule_for_web_view (EWebView *view,
 			"background-color: ", color_value, " !important;", NULL);
 	}
 
-	e_web_view_add_css_rule_into_style_sheet (
-		view,
+	e_web_view_jsc_add_rule_into_style_sheet (
+		WEBKIT_WEB_VIEW (web_view),
+		iframe_id,
 		"-e-mail-formatter-style-sheet",
 		selector,
-		style);
+		style,
+		e_web_view_get_cancellable (web_view));
 
 	g_free (style);
 	g_free (selector);
 }
 
 static void
-initialize_web_view_colors (EMailDisplay *display)
+initialize_web_view_colors (EMailDisplay *display,
+			    const gchar *iframe_id)
 {
 	EMailFormatter *formatter;
 	GtkTextDirection direction;
@@ -456,6 +461,7 @@ initialize_web_view_colors (EMailDisplay *display)
 
 		add_color_css_rule_for_web_view (
 			E_WEB_VIEW (display),
+			iframe_id,
 			color_names[ii],
 			color_value);
 
@@ -463,11 +469,13 @@ initialize_web_view_colors (EMailDisplay *display)
 		g_free (color_value);
 	}
 
-	e_web_view_add_css_rule_into_style_sheet (
-		E_WEB_VIEW (display),
+	e_web_view_jsc_add_rule_into_style_sheet (
+		WEBKIT_WEB_VIEW (display),
+		iframe_id,
 		"-e-mail-formatter-style-sheet",
 		".-e-mail-formatter-frame-security-none",
-		"border-width: 1px; border-style: solid");
+		"border-width: 1px; border-style: solid",
+		e_web_view_get_cancellable (E_WEB_VIEW (display)));
 
 	/* the rgba values below were copied from e-formatter-secure-button */
 	direction = gtk_widget_get_default_direction ();
@@ -476,168 +484,49 @@ initialize_web_view_colors (EMailDisplay *display)
 		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(53%, 73%, 53%, 1.0)";
 	else
 		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(53%, 73%, 53%, 1.0)";
-	e_web_view_add_css_rule_into_style_sheet (
-		E_WEB_VIEW (display),
+	e_web_view_jsc_add_rule_into_style_sheet (
+		WEBKIT_WEB_VIEW (display),
+		iframe_id,
 		"-e-mail-formatter-style-sheet",
 		".-e-mail-formatter-frame-security-good",
-		style);
+		style,
+		e_web_view_get_cancellable (E_WEB_VIEW (display)));
 
 	if (direction == GTK_TEXT_DIR_RTL)
 		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(73%, 53%, 53%, 1.0)";
 	else
 		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(73%, 53%, 53%, 1.0)";
-	e_web_view_add_css_rule_into_style_sheet (
-		E_WEB_VIEW (display),
+	e_web_view_jsc_add_rule_into_style_sheet (
+		WEBKIT_WEB_VIEW (display),
+		iframe_id,
 		"-e-mail-formatter-style-sheet",
 		".-e-mail-formatter-frame-security-bad",
-		style);
+		style,
+		e_web_view_get_cancellable (E_WEB_VIEW (display)));
 
 	if (direction == GTK_TEXT_DIR_RTL)
 		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
 	else
 		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
-	e_web_view_add_css_rule_into_style_sheet (
-		E_WEB_VIEW (display),
+	e_web_view_jsc_add_rule_into_style_sheet (
+		WEBKIT_WEB_VIEW (display),
+		iframe_id,
 		"-e-mail-formatter-style-sheet",
 		".-e-mail-formatter-frame-security-unknown",
-		style);
+		style,
+		e_web_view_get_cancellable (E_WEB_VIEW (display)));
 
 	if (direction == GTK_TEXT_DIR_RTL)
 		style = "border-width: 1px 1px 1px 4px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
 	else
 		style = "border-width: 1px 4px 1px 1px; border-style: solid; border-color: rgba(91%, 82%, 13%, 1.0)";
-	e_web_view_add_css_rule_into_style_sheet (
-		E_WEB_VIEW (display),
+	e_web_view_jsc_add_rule_into_style_sheet (
+		WEBKIT_WEB_VIEW (display),
+		iframe_id,
 		"-e-mail-formatter-style-sheet",
 		".-e-mail-formatter-frame-security-need-key",
-		style);
-}
-
-static void
-headers_collapsed_signal_cb (GDBusConnection *connection,
-                             const gchar *sender_name,
-                             const gchar *object_path,
-                             const gchar *interface_name,
-                             const gchar *signal_name,
-                             GVariant *parameters,
-                             EMailDisplay *display)
-{
-	gboolean collapsed = FALSE;
-
-	if (g_strcmp0 (signal_name, "HeadersCollapsed") != 0)
-		return;
-
-	if (parameters)
-		g_variant_get (parameters, "(b)", &collapsed);
-
-	e_mail_display_set_headers_collapsed (display, collapsed);
-}
-
-static void
-mail_display_mail_part_appeared_signal_cb (GDBusConnection *connection,
-					   const gchar *sender_name,
-					   const gchar *object_path,
-					   const gchar *interface_name,
-					   const gchar *signal_name,
-					   GVariant *parameters,
-					   gpointer user_data)
-{
-	EMailDisplay *display = user_data;
-	GDBusProxy *web_extension;
-	const gchar *part_id = NULL;
-	guint64 page_id = 0;
-	EMailPart *part;
-
-	if (g_strcmp0 (signal_name, "MailPartAppeared") != 0)
-		return;
-
-	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
-
-	if (!parameters || !display->priv->part_list)
-		return;
-
-	g_variant_get (parameters, "(t&s)", &page_id, &part_id);
-
-	if (!part_id || !*part_id || page_id != webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (display)))
-		return;
-
-	part = e_mail_part_list_ref_part (display->priv->part_list, part_id);
-	if (part && g_strcmp0 (e_mail_part_get_id (part), part_id) == 0) {
-		e_mail_part_bind_dom_element (part, E_WEB_VIEW (display), page_id, part_id);
-	}
-
-	g_clear_object (&part);
-
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
-	if (web_extension) {
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			web_extension,
-			"EMailDisplayBindDOM",
-			g_variant_new (
-				"(t)",
-				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (display))),
-			NULL);
-	}
-}
-
-static void
-setup_dom_bindings (EMailDisplay *display)
-{
-	GDBusProxy *web_extension;
-
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
-
-	if (display->priv->web_extension_connection) {
-		if (display->priv->web_extension_headers_collapsed_signal_id) {
-			g_dbus_connection_signal_unsubscribe (display->priv->web_extension_connection, display->priv->web_extension_headers_collapsed_signal_id);
-			display->priv->web_extension_headers_collapsed_signal_id = 0;
-		}
-
-		if (display->priv->web_extension_mail_part_appeared_signal_id) {
-			g_dbus_connection_signal_unsubscribe (display->priv->web_extension_connection, display->priv->web_extension_mail_part_appeared_signal_id);
-			display->priv->web_extension_mail_part_appeared_signal_id = 0;
-		}
-
-		g_clear_object (&display->priv->web_extension_connection);
-	}
-
-	if (web_extension) {
-		display->priv->web_extension_connection = g_object_ref (g_dbus_proxy_get_connection (web_extension));
-
-		display->priv->web_extension_headers_collapsed_signal_id =
-			g_dbus_connection_signal_subscribe (
-				display->priv->web_extension_connection,
-				g_dbus_proxy_get_name (web_extension),
-				E_WEB_EXTENSION_INTERFACE,
-				"HeadersCollapsed",
-				E_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				(GDBusSignalCallback) headers_collapsed_signal_cb,
-				display,
-				NULL);
-
-		display->priv->web_extension_mail_part_appeared_signal_id =
-			g_dbus_connection_signal_subscribe (
-				display->priv->web_extension_connection,
-				g_dbus_proxy_get_name (web_extension),
-				E_WEB_EXTENSION_INTERFACE,
-				"MailPartAppeared",
-				E_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				mail_display_mail_part_appeared_signal_cb,
-				display,
-				NULL);
-
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			web_extension,
-			"EMailDisplayBindDOM",
-			g_variant_new (
-				"(t)",
-				webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (display))),
-			NULL);
-	}
+		style,
+		e_web_view_get_cancellable (E_WEB_VIEW (display)));
 }
 
 static void
@@ -668,7 +557,9 @@ mail_display_change_one_attachment_visibility (EMailDisplay *display,
 	g_hash_table_insert (display->priv->attachment_flags, attachment, GUINT_TO_POINTER (flags));
 
 	element_id = g_strdup_printf ("attachment-wrapper-%p", attachment);
-	e_web_view_set_element_hidden (E_WEB_VIEW (display), element_id, !show);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (display), e_web_view_get_cancellable (E_WEB_VIEW (display)),
+		"Evo.MailDisplayShowAttachment(%s,%x);",
+		element_id, show);
 	g_free (element_id);
 
 	element_id = g_strdup_printf ("attachment-expander-img-%p", attachment);
@@ -749,7 +640,7 @@ mail_attachment_change_zoom (EMailDisplay *display,
 
 		element_id = g_strdup_printf ("attachment-wrapper-%p::child", attachment);
 
-		e_web_view_set_element_style_property (E_WEB_VIEW (display), element_id, "max-width", max_width, "");
+		e_web_view_set_element_style_property (E_WEB_VIEW (display), element_id, "max-width", max_width);
 
 		g_free (element_id);
 	}
@@ -916,6 +807,8 @@ call_attachment_save_handle_error (GObject *source_object,
 
 static void
 mail_display_attachment_expander_clicked_cb (EWebView *web_view,
+					     const gchar *iframe_id,
+					     const gchar *element_id,
 					     const gchar *element_class,
 					     const gchar *element_value,
 					     const GtkAllocation *element_position,
@@ -1099,6 +992,8 @@ mail_display_attachment_select_path (EAttachmentView *view,
 
 static void
 mail_display_attachment_menu_clicked_cb (EWebView *web_view,
+					 const gchar *iframe_id,
+					 const gchar *element_id,
 					 const gchar *element_class,
 					 const gchar *element_value,
 					 const GtkAllocation *element_position,
@@ -1181,118 +1076,6 @@ mail_display_attachment_removed_cb (EAttachmentStore *store,
 	g_hash_table_remove (display->priv->attachment_flags, attachment);
 }
 
-typedef struct _MailElementExistsData {
-	EWebView *web_view;
-	EMailPart *part;
-} MailElementExistsData;
-
-static void
-mail_element_exists_cb (GObject *source_object,
-                        GAsyncResult *result,
-                        gpointer user_data)
-{
-	GDBusProxy *web_extension;
-	MailElementExistsData *meed = user_data;
-	gboolean element_exists = FALSE;
-	GVariant *result_variant;
-	guint64 page_id;
-	GError *error = NULL;
-
-	g_return_if_fail (G_IS_DBUS_PROXY (source_object));
-	g_return_if_fail (meed != NULL);
-
-	web_extension = G_DBUS_PROXY (source_object);
-
-	result_variant = g_dbus_proxy_call_finish (web_extension, result, &error);
-	if (result_variant) {
-		g_variant_get (result_variant, "(bt)", &element_exists, &page_id);
-		g_variant_unref (result_variant);
-	}
-
-	if (element_exists)
-		e_mail_part_bind_dom_element (
-			meed->part,
-			meed->web_view,
-			page_id,
-			e_mail_part_get_id (meed->part));
-
-	g_object_unref (meed->web_view);
-	g_object_unref (meed->part);
-	g_free (meed);
-
-	if (error)
-		g_dbus_error_strip_remote_error (error);
-
-	e_util_claim_dbus_proxy_call_error (web_extension, "ElementExists", error);
-	g_clear_error (&error);
-}
-
-static void
-mail_parts_bind_dom (EMailDisplay *display)
-{
-	EWebView *web_view;
-	GQueue queue = G_QUEUE_INIT;
-	GList *head, *link;
-	GDBusProxy *web_extension;
-	gboolean has_attachment = FALSE;
-
-	g_return_if_fail (E_IS_MAIL_DISPLAY (display));
-
-	if (display->priv->part_list == NULL)
-		return;
-
-	initialize_web_view_colors (display);
-
-	web_view = E_WEB_VIEW (display);
-
-	web_extension = e_web_view_get_web_extension_proxy (web_view);
-	if (!web_extension)
-		return;
-
-	e_mail_part_list_queue_parts (display->priv->part_list, NULL, &queue);
-	head = g_queue_peek_head_link (&queue);
-
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		MailElementExistsData *meed;
-		EMailPart *part = E_MAIL_PART (link->data);
-		const gchar *part_id;
-
-		part_id = e_mail_part_get_id (part);
-
-		has_attachment = has_attachment || E_IS_MAIL_PART_ATTACHMENT (part);
-
-		e_mail_part_web_view_loaded (part, web_view);
-
-		meed = g_new0 (MailElementExistsData, 1);
-		meed->web_view = g_object_ref (web_view);
-		meed->part = g_object_ref (part);
-
-		g_dbus_proxy_call (
-			web_extension,
-			"ElementExists",
-			g_variant_new (
-				"(ts)",
-				webkit_web_view_get_page_id (
-					WEBKIT_WEB_VIEW (display)),
-				part_id),
-			G_DBUS_CALL_FLAGS_NONE,
-			-1,
-			NULL,
-			mail_element_exists_cb,
-			meed);
-	}
-
-	while (!g_queue_is_empty (&queue))
-		g_object_unref (g_queue_pop_head (&queue));
-
-	if (has_attachment) {
-		e_web_view_register_element_clicked (web_view, "attachment-expander",
-			mail_display_attachment_expander_clicked_cb, NULL);
-		e_web_view_register_element_clicked (web_view, "attachment-menu",
-			mail_display_attachment_menu_clicked_cb, NULL);
-	}
-}
-
 static void
 mail_display_load_changed_cb (WebKitWebView *wk_web_view,
 			      WebKitLoadEvent load_event,
@@ -1305,30 +1088,62 @@ mail_display_load_changed_cb (WebKitWebView *wk_web_view,
 	display = E_MAIL_DISPLAY (wk_web_view);
 
 	if (load_event == WEBKIT_LOAD_STARTED) {
+		display->priv->magic_spacebar_state = 0;
 		e_mail_display_cleanup_skipped_uris (display);
 		e_attachment_store_remove_all (display->priv->attachment_store);
-		return;
-	}
-
-	if (load_event == WEBKIT_LOAD_FINISHED) {
-		setup_dom_bindings (display);
-		mail_parts_bind_dom (display);
 	}
 }
 
 static void
-mail_display_web_extension_proxy_notify_cb (GObject *object,
-					    GParamSpec *param,
-					    gpointer user_data)
+mail_display_content_loaded_cb (EWebView *web_view,
+				const gchar *iframe_id,
+				gpointer user_data)
 {
-	EMailDisplay *display;
+	EMailDisplay *mail_display;
 
-	g_return_if_fail (E_IS_MAIL_DISPLAY (object));
+	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
 
-	display = E_MAIL_DISPLAY (object);
+	mail_display = E_MAIL_DISPLAY (web_view);
 
-	setup_dom_bindings (display);
-	mail_parts_bind_dom (display);
+	initialize_web_view_colors (mail_display, iframe_id);
+
+	if (!iframe_id || !*iframe_id) {
+		e_web_view_register_element_clicked (web_view, "attachment-expander",
+			mail_display_attachment_expander_clicked_cb, NULL);
+		e_web_view_register_element_clicked (web_view, "attachment-menu",
+			mail_display_attachment_menu_clicked_cb, NULL);
+	}
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+		"Evo.MailDisplayBindDOM(%s);", iframe_id);
+
+	if (mail_display->priv->part_list) {
+		if (!iframe_id || !*iframe_id) {
+			GQueue queue = G_QUEUE_INIT;
+			GList *head, *link;
+
+			e_mail_part_list_queue_parts (mail_display->priv->part_list, NULL, &queue);
+			head = g_queue_peek_head_link (&queue);
+
+			for (link = head; link; link = g_list_next (link)) {
+				EMailPart *part = E_MAIL_PART (link->data);
+
+				e_mail_part_content_loaded (part, web_view);
+			}
+
+			while (!g_queue_is_empty (&queue))
+				g_object_unref (g_queue_pop_head (&queue));
+		} else {
+			EMailPart *part;
+
+			part = e_mail_part_list_ref_part (mail_display->priv->part_list, iframe_id);
+
+			if (part)
+				e_mail_part_content_loaded (part, web_view);
+
+			g_clear_object (&part);
+		}
+	}
 }
 
 static void
@@ -1457,20 +1272,6 @@ mail_display_dispose (GObject *object)
 			0, 0, NULL, NULL, object);
 	}
 
-	if (priv->web_extension_connection) {
-		if (priv->web_extension_headers_collapsed_signal_id) {
-			g_dbus_connection_signal_unsubscribe (priv->web_extension_connection, priv->web_extension_headers_collapsed_signal_id);
-			priv->web_extension_headers_collapsed_signal_id = 0;
-		}
-
-		if (priv->web_extension_mail_part_appeared_signal_id) {
-			g_dbus_connection_signal_unsubscribe (priv->web_extension_connection, priv->web_extension_mail_part_appeared_signal_id);
-			priv->web_extension_mail_part_appeared_signal_id = 0;
-		}
-
-		g_clear_object (&priv->web_extension_connection);
-	}
-
 	if (priv->attachment_store) {
 		/* To have called the mail_display_attachment_removed_cb() before it's disconnected */
 		e_attachment_store_remove_all (priv->attachment_store);
@@ -1562,31 +1363,54 @@ mail_display_set_fonts (EWebView *web_view,
 }
 
 static void
-mail_display_web_view_initialize (WebKitWebView *web_view)
+mail_display_headers_collapsed_cb (WebKitUserContentManager *manager,
+				   WebKitJavascriptResult *js_result,
+				   gpointer user_data)
 {
-	WebKitSettings *webkit_settings;
+	EMailDisplay *mail_display = user_data;
+	JSCValue *jsc_value;
 
-	webkit_settings = webkit_web_view_get_settings (web_view);
+	g_return_if_fail (mail_display != NULL);
+	g_return_if_fail (js_result != NULL);
 
-	g_object_set (webkit_settings,
-		"enable-frame-flattening", TRUE,
-		NULL);
+	jsc_value = webkit_javascript_result_get_js_value (js_result);
+	g_return_if_fail (jsc_value_is_boolean (jsc_value));
+
+	e_mail_display_set_headers_collapsed (mail_display, jsc_value_to_boolean (jsc_value));
+}
+
+static void
+mail_display_magic_spacebar_state_changed_cb (WebKitUserContentManager *manager,
+					      WebKitJavascriptResult *js_result,
+					      gpointer user_data)
+{
+	EMailDisplay *mail_display = user_data;
+	JSCValue *jsc_value;
+
+	g_return_if_fail (mail_display != NULL);
+	g_return_if_fail (js_result != NULL);
+
+	jsc_value = webkit_javascript_result_get_js_value (js_result);
+	g_return_if_fail (jsc_value_is_number (jsc_value));
+
+	mail_display->priv->magic_spacebar_state = jsc_value_to_int32 (jsc_value);
 }
 
 static void
 mail_display_constructed (GObject *object)
 {
 	EContentRequest *content_request;
+	WebKitUserContentManager *manager;
 	EWebView *web_view;
 	EMailDisplay *display;
 	GtkUIManager *ui_manager;
 
-	e_extensible_load_extensions (E_EXTENSIBLE (object));
-
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->constructed (object);
 
-	mail_display_web_view_initialize (WEBKIT_WEB_VIEW (object));
+	g_object_set (webkit_web_view_get_settings (WEBKIT_WEB_VIEW (object)),
+		"enable-frame-flattening", TRUE,
+		NULL);
 
 	display = E_MAIL_DISPLAY (object);
 	web_view = E_WEB_VIEW (object);
@@ -1625,6 +1449,19 @@ mail_display_constructed (GObject *object)
 			g_clear_error (&error);
 		}
 	}
+
+	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (object));
+
+	g_signal_connect_object (manager, "script-message-received::mailDisplayHeadersCollapsed",
+		G_CALLBACK (mail_display_headers_collapsed_cb), display, 0);
+
+	g_signal_connect_object (manager, "script-message-received::mailDisplayMagicSpacebarStateChanged",
+		G_CALLBACK (mail_display_magic_spacebar_state_changed_cb), display, 0);
+
+	webkit_user_content_manager_register_script_message_handler (manager, "mailDisplayHeadersCollapsed");
+	webkit_user_content_manager_register_script_message_handler (manager, "mailDisplayMagicSpacebarStateChanged");
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
 static void
@@ -1648,38 +1485,33 @@ mail_display_style_updated (GtkWidget *widget)
 		style_updated (widget);
 }
 
-static gboolean
-mail_display_button_press_event (GtkWidget *widget,
-                                 GdkEventButton *event)
+static void
+mail_display_before_popup_event (EWebView *web_view,
+				 const gchar *uri)
 {
-	if (event->button == 3) {
-		EWebView *web_view = E_WEB_VIEW (widget);
-		gchar *popup_document_uri;
-		GList *list, *link;
+	gchar *popup_iframe_src = NULL, *popup_iframe_id = NULL;
+	GList *list, *link;
 
-		popup_document_uri = e_web_view_get_document_uri_from_point (web_view, event->x, event->y);
+	e_web_view_get_last_popup_place (web_view, &popup_iframe_src, &popup_iframe_id, NULL, NULL);
 
-		list = e_extensible_list_extensions (
-			E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
-		for (link = list; link != NULL; link = g_list_next (link)) {
-			EExtension *extension = link->data;
+	list = e_extensible_list_extensions (E_EXTENSIBLE (web_view), E_TYPE_EXTENSION);
 
-			if (!E_IS_MAIL_DISPLAY_POPUP_EXTENSION (extension))
-				continue;
+	for (link = list; link; link = g_list_next (link)) {
+		EExtension *extension = link->data;
 
-			e_mail_display_popup_extension_update_actions (
-				E_MAIL_DISPLAY_POPUP_EXTENSION (extension), popup_document_uri);
-		}
+		if (!E_IS_MAIL_DISPLAY_POPUP_EXTENSION (extension))
+			continue;
 
-		g_list_free (list);
-		g_free (popup_document_uri);
+		e_mail_display_popup_extension_update_actions (E_MAIL_DISPLAY_POPUP_EXTENSION (extension), popup_iframe_src, popup_iframe_id);
 	}
 
-	/* Chain up to parent's button_press_event() method. */
-	return GTK_WIDGET_CLASS (e_mail_display_parent_class)->
-		button_press_event (widget, event);
-}
+	g_free (popup_iframe_src);
+	g_free (popup_iframe_id);
+	g_list_free (list);
 
+	/* Chain up to parent's method. */
+	E_WEB_VIEW_CLASS (e_mail_display_parent_class)->before_popup_event (web_view, uri);
+}
 
 static gboolean
 mail_display_image_exists_in_cache (const gchar *image_uri)
@@ -2127,11 +1959,11 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_display_realize;
 	widget_class->style_updated = mail_display_style_updated;
-	widget_class->button_press_event = mail_display_button_press_event;
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
 	web_view_class->suggest_filename = mail_display_suggest_filename;
 	web_view_class->set_fonts = mail_display_set_fonts;
+	web_view_class->before_popup_event = mail_display_before_popup_event;
 
 	g_object_class_install_property (
 		object_class,
@@ -2283,6 +2115,10 @@ e_mail_display_init (EMailDisplay *display)
 		display, "load-changed",
 		G_CALLBACK (mail_display_load_changed_cb), NULL);
 
+	g_signal_connect (
+		display, "content-loaded",
+		G_CALLBACK (mail_display_content_loaded_cb), NULL);
+
 	actions = e_web_view_get_action_group (E_WEB_VIEW (display), "mailto");
 	gtk_action_group_add_actions (
 		actions, mailto_entries,
@@ -2316,9 +2152,6 @@ e_mail_display_init (EMailDisplay *display)
 			g_clear_error (&error);
 		}
 	}
-
-	g_signal_connect (display, "notify::web-extension-proxy",
-		G_CALLBACK (mail_display_web_extension_proxy_notify_cb), NULL);
 }
 
 static void
@@ -2338,6 +2171,7 @@ e_mail_display_update_colors (EMailDisplay *display,
 
 	add_color_css_rule_for_web_view (
 		E_WEB_VIEW (display),
+		"*",
 		param_spec->name,
 		color_value);
 
@@ -2762,90 +2596,6 @@ e_mail_display_set_status (EMailDisplay *display,
 	g_free (str);
 }
 
-gchar *
-e_mail_display_get_selection_content_multipart_sync (EMailDisplay *display,
-                                                     gboolean *is_html,
-                                                     GCancellable *cancellable,
-                                                     GError **error)
-{
-	GDBusProxy *web_extension;
-
-	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
-
-	if (!e_web_view_is_selection_active (E_WEB_VIEW (display)))
-		return NULL;
-
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
-	if (web_extension) {
-		GVariant *result;
-
-		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
-				web_extension,
-				"GetSelectionContentMultipart",
-				g_variant_new (
-					"(t)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (display))),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				cancellable,
-				error);
-
-		if (result) {
-			gchar *content = NULL;
-			gboolean text_html = FALSE;
-
-			g_variant_get (result, "(sb)", &content, &text_html);
-			g_variant_unref (result);
-			if (is_html)
-				*is_html = text_html;
-			return content;
-		}
-	}
-
-	return NULL;
-}
-
-gchar *
-e_mail_display_get_selection_plain_text_sync (EMailDisplay *display,
-                                              GCancellable *cancellable,
-                                              GError **error)
-{
-	GDBusProxy *web_extension;
-
-	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), NULL);
-
-	if (!e_web_view_is_selection_active (E_WEB_VIEW (display)))
-		return NULL;
-
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
-	if (web_extension) {
-		GVariant *result;
-
-		result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
-				web_extension,
-				"GetSelectionContentText",
-				g_variant_new (
-					"(t)",
-					webkit_web_view_get_page_id (
-						WEBKIT_WEB_VIEW (display))),
-				G_DBUS_CALL_FLAGS_NONE,
-				-1,
-				cancellable,
-				error);
-
-		if (result) {
-			gchar *text;
-
-			g_variant_get (result, "(s)", &text);
-			g_variant_unref (result);
-			return text;
-		}
-	}
-
-	return NULL;
-}
-
 void
 e_mail_display_load_images (EMailDisplay *display)
 {
@@ -2947,36 +2697,15 @@ gboolean
 e_mail_display_process_magic_spacebar (EMailDisplay *display,
 				       gboolean towards_bottom)
 {
-	GDBusProxy *web_extension;
-	GVariant *result;
-	GError *local_error = NULL;
-	gboolean processed = FALSE;
-
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), FALSE);
 
-	web_extension = e_web_view_get_web_extension_proxy (E_WEB_VIEW (display));
-	if (!web_extension)
+	if ((towards_bottom && !(display->priv->magic_spacebar_state & E_MAGIC_SPACEBAR_CAN_GO_BOTTOM)) ||
+	    (!towards_bottom && !(display->priv->magic_spacebar_state & E_MAGIC_SPACEBAR_CAN_GO_TOP)))
 		return FALSE;
 
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
-		web_extension,
-		"ProcessMagicSpacebar",
-		g_variant_new ("(tb)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (display)), towards_bottom),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		&local_error);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (display), e_web_view_get_cancellable (E_WEB_VIEW (display)),
+		"Evo.MailDisplayProcessMagicSpacebar(%x);",
+		towards_bottom);
 
-	if (local_error)
-		g_dbus_error_strip_remote_error (local_error);
-
-	e_util_claim_dbus_proxy_call_error (web_extension, "ProcessMagicSpacebar", local_error);
-	g_clear_error (&local_error);
-
-	if (result) {
-		g_variant_get (result, "(b)", &processed);
-		g_variant_unref (result);
-	}
-
-	return processed;
+	return TRUE;
 }
