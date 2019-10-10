@@ -587,72 +587,72 @@ test_set_element_hidden (TestFixture *fixture)
 {
 	test_utils_load_body (fixture, LOAD_ALL);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").hidden"));
 
 	e_web_view_jsc_set_element_hidden (fixture->web_view, "", "btn1", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").hidden"));
 
 	e_web_view_jsc_set_element_hidden (fixture->web_view, "frm1_1", "btn1", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").hidden"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").hidden"));
 
 	e_web_view_jsc_set_element_hidden (fixture->web_view, "frm2", "btn2", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").hidden"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").hidden"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").hidden"));
 
 	e_web_view_jsc_set_element_hidden (fixture->web_view, "", "btn1", FALSE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").hidden"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").hidden"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").hidden"));
 
 	e_web_view_jsc_set_element_hidden (fixture->web_view, "frm2", "btn1", FALSE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").hidden"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").hidden"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").hidden"));
 
 	e_web_view_jsc_set_element_hidden (fixture->web_view, "frm1_1", "btn1", FALSE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").hidden"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").hidden"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").hidden"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").hidden"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").hidden"));
 }
 
 static void
@@ -660,72 +660,72 @@ test_set_element_disabled (TestFixture *fixture)
 {
 	test_utils_load_body (fixture, LOAD_ALL);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").disabled"));
 
 	e_web_view_jsc_set_element_disabled (fixture->web_view, "", "btn1", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").disabled"));
 
 	e_web_view_jsc_set_element_disabled (fixture->web_view, "frm1_1", "btn1", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").disabled"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").disabled"));
 
 	e_web_view_jsc_set_element_disabled (fixture->web_view, "frm2", "btn2", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").disabled"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").disabled"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").disabled"));
 
 	e_web_view_jsc_set_element_disabled (fixture->web_view, "", "btn1", FALSE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").disabled"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").disabled"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").disabled"));
 
 	e_web_view_jsc_set_element_disabled (fixture->web_view, "frm2", "btn1", FALSE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").disabled"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").disabled"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").disabled"));
 
 	e_web_view_jsc_set_element_disabled (fixture->web_view, "frm1_1", "btn1", FALSE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"btn3\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").disabled"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn1\").disabled"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"btn2\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"btn3\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").disabled"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn1\").disabled"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"btn2\").disabled"));
 }
 
 static void
@@ -733,52 +733,52 @@ test_set_element_checked (TestFixture *fixture)
 {
 	test_utils_load_body (fixture, LOAD_ALL);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"chk1\").checked"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"chk1\").checked"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"chk2\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"chk1\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"chk1\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"chk2\").checked"));
 
 	e_web_view_jsc_set_element_checked (fixture->web_view, "", "chk1", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"chk1\").checked"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"chk1\").checked"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"chk2\").checked"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"chk1\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"chk1\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"chk2\").checked"));
 
 	e_web_view_jsc_set_element_checked (fixture->web_view, "frm1_1", "chk1", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"chk1\").checked"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"chk1\").checked"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"chk2\").checked"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"chk1\").checked"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"chk1\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"chk2\").checked"));
 
 	e_web_view_jsc_set_element_checked (fixture->web_view, "", "chk1", FALSE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"chk1\").checked"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"chk1\").checked"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"chk2\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"chk1\").checked"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"chk1\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"chk2\").checked"));
 
 	e_web_view_jsc_set_element_checked (fixture->web_view, "frm2", "chk2", FALSE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"chk1\").checked"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"chk1\").checked"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"chk2\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"chk1\").checked"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"chk1\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"chk2\").checked"));
 
 	e_web_view_jsc_set_element_checked (fixture->web_view, "", "chk1", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"chk1\").checked"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"chk1\").checked"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"chk2\").checked"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"chk1\").checked"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"chk1\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"chk2\").checked"));
 
 	e_web_view_jsc_set_element_checked (fixture->web_view, "frm1_1", "chk1", FALSE, NULL);
 	e_web_view_jsc_set_element_checked (fixture->web_view, "frm2", "chk2", TRUE, NULL);
 	test_utils_wait_noop (fixture);
 
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"\", \"chk1\").checked"));
-	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm1_1\", \"chk1\").checked"));
-	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.findElement(\"frm2\", \"chk2\").checked"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"\", \"chk1\").checked"));
+	g_assert (!test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm1_1\", \"chk1\").checked"));
+	g_assert (test_utils_jsc_call_bool_sync (fixture, "Evo.FindElement(\"frm2\", \"chk2\").checked"));
 }
 
 static void
@@ -786,42 +786,42 @@ test_set_element_style_property (TestFixture *fixture)
 {
 	test_utils_load_body (fixture, LOAD_ALL);
 
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn3\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn2\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn3\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn2\").style.getPropertyValue(\"color\")", "");
 
 	e_web_view_jsc_set_element_style_property (fixture->web_view, "", "btn1", "color", "blue", NULL);
 	test_utils_wait_noop (fixture);
 
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn1\").style.getPropertyValue(\"color\")", "blue");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn3\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn2\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn1\").style.getPropertyValue(\"color\")", "blue");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn3\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn2\").style.getPropertyValue(\"color\")", "");
 
 	e_web_view_jsc_set_element_style_property (fixture->web_view, "frm2", "btn1", "color", "green", NULL);
 	test_utils_wait_noop (fixture);
 
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn1\").style.getPropertyValue(\"color\")", "blue");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn3\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn1\").style.getPropertyValue(\"color\")", "green");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn2\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn1\").style.getPropertyValue(\"color\")", "blue");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn3\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn1\").style.getPropertyValue(\"color\")", "green");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn2\").style.getPropertyValue(\"color\")", "");
 
 	e_web_view_jsc_set_element_style_property (fixture->web_view, "frm2", "btn1", "color", NULL, NULL);
 	test_utils_wait_noop (fixture);
 
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn1\").style.getPropertyValue(\"color\")", "blue");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn3\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn1\").style.getPropertyValue(\"color\")", "");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn2\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn1\").style.getPropertyValue(\"color\")", "blue");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn3\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn1\").style.getPropertyValue(\"color\")", "");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn2\").style.getPropertyValue(\"color\")", "");
 }
 
 static void
@@ -829,42 +829,42 @@ test_set_element_attribute (TestFixture *fixture)
 {
 	test_utils_load_body (fixture, LOAD_ALL);
 
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn3\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn2\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn3\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn2\").getAttributeNS(\"\", \"myattr\")", NULL);
 
 	e_web_view_jsc_set_element_attribute (fixture->web_view, "", "btn1", NULL, "myattr", "val1", NULL);
 	test_utils_wait_noop (fixture);
 
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn1\").getAttributeNS(\"\", \"myattr\")", "val1");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn3\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn2\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn1\").getAttributeNS(\"\", \"myattr\")", "val1");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn3\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn2\").getAttributeNS(\"\", \"myattr\")", NULL);
 
 	e_web_view_jsc_set_element_attribute (fixture->web_view, "frm2", "btn1", NULL, "myattr", "val2", NULL);
 	test_utils_wait_noop (fixture);
 
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn1\").getAttributeNS(\"\", \"myattr\")", "val1");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn3\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn1\").getAttributeNS(\"\", \"myattr\")", "val2");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn2\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn1\").getAttributeNS(\"\", \"myattr\")", "val1");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn3\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn1\").getAttributeNS(\"\", \"myattr\")", "val2");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn2\").getAttributeNS(\"\", \"myattr\")", NULL);
 
 	e_web_view_jsc_set_element_attribute (fixture->web_view, "frm2", "btn1", NULL, "myattr", NULL, NULL);
 	test_utils_wait_noop (fixture);
 
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn1\").getAttributeNS(\"\", \"myattr\")", "val1");
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"\", \"btn3\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm1_1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
-	test_utils_jsc_call_string_and_verify (fixture, "Evo.findElement(\"frm2\", \"btn2\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn1\").getAttributeNS(\"\", \"myattr\")", "val1");
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"\", \"btn3\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm1_1\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn1\").getAttributeNS(\"\", \"myattr\")", NULL);
+	test_utils_jsc_call_string_and_verify (fixture, "Evo.FindElement(\"frm2\", \"btn2\").getAttributeNS(\"\", \"myattr\")", NULL);
 }
 
 static void
@@ -1785,7 +1785,7 @@ test_get_element_from_point (TestFixture *fixture)
 	ii = test_utils_jsc_call_int32_sync (fixture,
 		"function TestGetPosition(iframe_id, elem_id)\n"
 		"{\n"
-		"	var elem = Evo.findElement(iframe_id, elem_id);\n"
+		"	var elem = Evo.FindElement(iframe_id, elem_id);\n"
 		"	var xx = 0, yy = 0, off_elem, check_elem;\n"
 		"	for (check_elem = elem; check_elem; check_elem = check_elem.ownerDocument.defaultView.frameElement) {\n"
 		"		for (ii = check_elem; ii; ii = ii.parentOffset) {\n"

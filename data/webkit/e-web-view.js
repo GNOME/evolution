@@ -106,7 +106,7 @@ Evo.findElementInDocumentById = function(doc, element_id)
 	return doc.getElementById(element_id);
 }
 
-Evo.findElement = function(iframe_id, element_id)
+Evo.FindElement = function(iframe_id, element_id)
 {
 	var traversar = {
 		element_id : element_id,
@@ -126,7 +126,7 @@ Evo.findElement = function(iframe_id, element_id)
 
 Evo.SetElementHidden = function(iframe_id, element_id, value)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem)
 		elem.hidden = value;
@@ -134,7 +134,7 @@ Evo.SetElementHidden = function(iframe_id, element_id, value)
 
 Evo.SetElementDisabled = function(iframe_id, element_id, value)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem)
 		elem.disabled = value;
@@ -142,7 +142,7 @@ Evo.SetElementDisabled = function(iframe_id, element_id, value)
 
 Evo.SetElementChecked = function(iframe_id, element_id, value)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem)
 		elem.checked = value;
@@ -150,7 +150,7 @@ Evo.SetElementChecked = function(iframe_id, element_id, value)
 
 Evo.SetElementStyleProperty = function(iframe_id, element_id, property_name, value)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem) {
 		if (value != null && value != "")
@@ -162,7 +162,7 @@ Evo.SetElementStyleProperty = function(iframe_id, element_id, property_name, val
 
 Evo.SetElementAttribute = function(iframe_id, element_id, namespace_uri, qualified_name, value)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem) {
 		if (value != null && value != "")
@@ -493,7 +493,7 @@ Evo.GetDocumentContent = function(iframe_id, format)
 
 Evo.GetElementContent = function(iframe_id, element_id, format, use_outer_html)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (!elem)
 		return null;
@@ -1039,7 +1039,7 @@ Evo.MailDisplayShowAttachment = function(element_id, show)
 {
 	var elem;
 
-	elem = Evo.findElement("*", element_id);
+	elem = Evo.FindElement("*", element_id);
 
 	if (!elem) {
 		return;
@@ -1164,7 +1164,7 @@ EvoItip.Initialize = function(iframe_id)
 
 EvoItip.SetElementInnerHTML = function(iframe_id, element_id, html_content)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem)
 		elem.innerHTML = html_content;
@@ -1172,7 +1172,7 @@ EvoItip.SetElementInnerHTML = function(iframe_id, element_id, html_content)
 
 EvoItip.SetShowCheckbox = function(iframe_id, element_id, show, update_second)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem) {
 		elem.hidden = !show;
@@ -1198,7 +1198,7 @@ EvoItip.SetShowCheckbox = function(iframe_id, element_id, show, update_second)
 
 EvoItip.SetAreaText = function(iframe_id, element_id, text)
 {
-	var row = Evo.findElement(iframe_id, element_id);
+	var row = Evo.FindElement(iframe_id, element_id);
 
 	if (row) {
 		row.hidden = text == "";
@@ -1211,7 +1211,7 @@ EvoItip.SetAreaText = function(iframe_id, element_id, text)
 
 EvoItip.UpdateTimes = function(iframe_id, element_id, header, label)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem) {
 		elem.hidden = false;
@@ -1228,7 +1228,7 @@ EvoItip.UpdateTimes = function(iframe_id, element_id, header, label)
 
 EvoItip.AppendInfoRow = function(iframe_id, table_id, row_id, icon_name, message)
 {
-	var cell, row, table = Evo.findElement(iframe_id, table_id);
+	var cell, row, table = Evo.FindElement(iframe_id, table_id);
 
 	if (!table) {
 		return;
@@ -1254,7 +1254,7 @@ EvoItip.AppendInfoRow = function(iframe_id, table_id, row_id, icon_name, message
 
 EvoItip.RemoveInfoRow = function(iframe_id, row_id)
 {
-	var row = Evo.findElement(iframe_id, row_id);
+	var row = Evo.FindElement(iframe_id, row_id);
 
 	if (row && row.parentNode) {
 		row.parentNode.removeChild(row);
@@ -1263,7 +1263,7 @@ EvoItip.RemoveInfoRow = function(iframe_id, row_id)
 
 EvoItip.RemoveChildNodes = function(iframe_id, element_id)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem) {
 		while (elem.lastChild) {
@@ -1310,7 +1310,7 @@ EvoItip.AddToSourceList = function(iframe_id, optgroup_id, optgroup_label, optio
 
 EvoItip.HideButtons = function(iframe_id, element_id)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem) {
 		var child;
@@ -1326,7 +1326,7 @@ EvoItip.HideButtons = function(iframe_id, element_id)
 
 EvoItip.SetElementAccessKey = function(iframe_id, element_id, access_key)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem) {
 		elem.accessKey = access_key;
@@ -1335,7 +1335,7 @@ EvoItip.SetElementAccessKey = function(iframe_id, element_id, access_key)
 
 EvoItip.SetSelectSelected = function(iframe_id, element_id, option_value)
 {
-	var elem = Evo.findElement(iframe_id, element_id);
+	var elem = Evo.FindElement(iframe_id, element_id);
 
 	if (elem) {
 		var ii;

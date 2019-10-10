@@ -28,299 +28,202 @@
 
 G_DEFINE_TYPE (EMailPartSecureButton, e_mail_part_secure_button, E_TYPE_MAIL_PART)
 
-const gchar *e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncrypt status);
-const gchar *e_mail_formatter_secure_button_get_sign_description (CamelCipherValiditySign status);
-
-
 #if defined (ENABLE_SMIME)
+
 static void
-viewcert_clicked (GtkWidget *button,
-                  GtkWidget *grid)
+secure_button_view_certificate (GtkWindow *parent,
+				CamelCipherCertInfo *info)
 {
-	CamelCipherCertInfo *info = g_object_get_data ((GObject *) button, "e-cert-info");
 	ECert *ec = NULL;
+
+	g_return_if_fail (info != NULL);
 
 	if (info->cert_data)
 		ec = e_cert_new (CERT_DupCertificate (info->cert_data));
 
 	if (ec != NULL) {
-		GtkWidget *dialog, *parent;
+		GtkWidget *dialog;
 
-		parent = gtk_widget_get_toplevel (grid);
-		if (!parent || !GTK_IS_WINDOW (parent))
-			parent = NULL;
+		dialog = e_cert_manager_new_certificate_viewer (parent, ec);
 
-		dialog = e_cert_manager_new_certificate_viewer ((GtkWindow *) parent, ec);
-
-		gtk_widget_show (dialog);
 		g_signal_connect (
 			dialog, "response",
 			G_CALLBACK (gtk_widget_destroy), NULL);
 
+		gtk_widget_show (dialog);
+
 		g_object_unref (ec);
 	} else {
-		g_warning (
-			"can't find certificate for %s <%s>",
+		g_warning ("%s: Can't find certificate for %s <%s>", G_STRFUNC,
 			info->name ? info->name : "",
 			info->email ? info->email : "");
 	}
 }
 
-static void
-importcert_clicked (GtkWidget *button,
-		    GtkWidget *grid)
+static gboolean
+secure_button_get_raw_der (CERTCertificate *cert,
+			   gchar **data,
+			   guint32 *len)
 {
-	ECert *ec;
-	gchar *data = NULL;
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (len != NULL, FALSE);
+
+	if (!cert || !cert->derCert.data || !cert->derCert.len)
+		return FALSE;
+
+	*data = (gchar *) cert->derCert.data;
+	*len = cert->derCert.len;
+
+	return TRUE;
+}
+
+static void
+secure_button_import_certificate (GtkWindow *parent,
+				  CamelCipherCertInfo *info,
+				  EWebView *web_view,
+				  const gchar *iframe_id,
+				  const gchar *element_id)
+{
 	guint32 len = 0;
+	gchar *data = NULL;
 	GError *error = NULL;
 
-	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (info != NULL);
 
-	ec = g_object_get_data (G_OBJECT (button), "e-cert-info");
-	g_return_if_fail (E_IS_CERT (ec));
-
-	g_warn_if_fail (e_cert_get_raw_der (ec, &data, &len));
+	g_warn_if_fail (secure_button_get_raw_der (info->cert_data, &data, &len));
 
 	if (!e_cert_db_import_email_cert (e_cert_db_peek (), data, len, NULL, &error)) {
-		GtkWidget *parent;
-
-		parent = gtk_widget_get_toplevel (grid);
-		if (!GTK_IS_WINDOW (parent))
-			parent = NULL;
-
 		e_notice (parent, GTK_MESSAGE_ERROR, _("Failed to import certificate: %s"),
 			error ? error->message : _("Unknown error"));
 
 		g_clear_error (&error);
 	} else {
-		gtk_widget_set_sensitive (button, FALSE);
+		e_web_view_jsc_set_element_disabled (WEBKIT_WEB_VIEW (web_view),
+			iframe_id, element_id, TRUE,
+			e_web_view_get_cancellable (web_view));
 	}
 }
 
-static gboolean
-secure_button_smime_cert_exists (const gchar *email,
-				 ECert *ec)
+static CamelCipherCertInfo *
+secure_button_find_cert_info (EMailPart *part,
+			      const gchar *element_value)
 {
-	CERTCertificate *found_cert;
-	ECert *found_ec;
-	gboolean found = FALSE;
+	CamelCipherCertInfo *info = NULL;
+	GList *vlink;
+	gchar tmp[128];
 
-	if (!email || !*email)
-		return FALSE;
+	if (!element_value)
+		return NULL;
 
-	g_return_val_if_fail (E_IS_CERT (ec), FALSE);
+	/* element_value = part : validity : cert_data */
+	g_return_val_if_fail (g_snprintf (tmp, sizeof (tmp), "%p:", part) < sizeof (tmp), NULL);
 
-	found_cert = CERT_FindCertByNicknameOrEmailAddr (CERT_GetDefaultCertDB (), email);
-	if (!found_cert)
-		return FALSE;
+	if (!g_str_has_prefix (element_value, tmp))
+		return NULL;
 
-	found_ec = e_cert_new (found_cert);
-	if (!found_ec)
-		return FALSE;
+	element_value += strlen (tmp);
 
-	#define compare_nonnull(_func) (!_func (ec) || g_strcmp0 (_func (ec), _func (found_ec)) == 0)
+	for (vlink = g_queue_peek_head_link (&part->validities); vlink; vlink = g_list_next (vlink)) {
+		EMailPartValidityPair *pair = vlink->data;
 
-	if (compare_nonnull (e_cert_get_serial_number) &&
-	    compare_nonnull (e_cert_get_sha1_fingerprint) &&
-	    compare_nonnull (e_cert_get_md5_fingerprint)) {
-		found = TRUE;
-	}
+		if (pair) {
+			g_return_val_if_fail (g_snprintf (tmp, sizeof (tmp), "%p:", pair->validity) < sizeof (tmp), NULL);
 
-	#undef compare_nonnull
+			if (g_str_has_prefix (element_value, tmp)) {
+				GList *ilink;
 
-	g_object_unref (found_ec);
+				element_value += strlen (tmp);
 
-	return found;
-}
+				for (ilink = g_queue_peek_head_link (&pair->validity->sign.signers); ilink && !info; ilink = g_list_next (ilink)) {
+					CamelCipherCertInfo *adept = ilink->data;
 
-#endif
+					if (adept && adept->cert_data) {
+						g_return_val_if_fail (g_snprintf (tmp, sizeof (tmp), "%p", adept->cert_data) < sizeof (tmp), NULL);
 
-static void
-info_response (GtkWidget *widget,
-               guint button,
-               gpointer user_data)
-{
-	gtk_widget_destroy (widget);
-}
+						if (g_strcmp0 (element_value, tmp) == 0) {
+							info = adept;
+							break;
+						}
+					}
+				}
 
-static void
-add_cert_table (GtkWidget *grid,
-                GQueue *certlist,
-                gpointer user_data)
-{
-	GList *head, *link;
-	GtkTable *table;
-	gint n = 0;
+				for (ilink = g_queue_peek_head_link (&pair->validity->encrypt.encrypters); ilink && !info; ilink = g_list_next (ilink)) {
+					CamelCipherCertInfo *adept = ilink->data;
 
-	table = (GtkTable *) gtk_table_new (certlist->length, 2, FALSE);
+					if (adept && adept->cert_data) {
+						g_return_val_if_fail (g_snprintf (tmp, sizeof (tmp), "%p", adept->cert_data) < sizeof (tmp), NULL);
 
-	head = g_queue_peek_head_link (certlist);
-
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		CamelCipherCertInfo *info = link->data;
-		gchar *la = NULL;
-		const gchar *l = NULL;
-
-		if (info->name) {
-			if (info->email && strcmp (info->name, info->email) != 0)
-				l = la = g_strdup_printf ("%s <%s>", info->name, info->email);
-			else
-				l = info->name;
-		} else {
-			if (info->email)
-				l = info->email;
-		}
-
-		if (l) {
-			GtkWidget *w;
-#if defined (ENABLE_SMIME)
-			ECert *ec = NULL;
-#endif
-			w = gtk_label_new (l);
-			gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
-			g_free (la);
-			gtk_table_attach (table, w, 0, 1, n, n + 1, GTK_FILL, GTK_FILL, 3, 3);
-#if defined (ENABLE_SMIME)
-			w = gtk_button_new_with_mnemonic (_("_View Certificate"));
-			gtk_table_attach (table, w, 1, 2, n, n + 1, 0, 0, 3, 3);
-			g_object_set_data ((GObject *) w, "e-cert-info", info);
-			g_signal_connect (
-				w, "clicked",
-				G_CALLBACK (viewcert_clicked), grid);
-
-			if (info->cert_data)
-				ec = e_cert_new (CERT_DupCertificate (info->cert_data));
-
-			if (ec == NULL) {
-				gtk_widget_set_sensitive (w, FALSE);
-			} else {
-				w = gtk_button_new_with_mnemonic (_("_Import Certificate"));
-				gtk_table_attach (table, w, 2, 3, n, n + 1, 0, 0, 3, 3);
-				g_object_set_data_full (G_OBJECT (w), "e-cert-info", ec, g_object_unref);
-				g_signal_connect (
-					w, "clicked",
-					G_CALLBACK (importcert_clicked), grid);
-				gtk_widget_set_sensitive (w, !secure_button_smime_cert_exists (info->email, ec));
+						if (g_strcmp0 (element_value, tmp) == 0) {
+							info = adept;
+							break;
+						}
+					}
+				}
+				break;
 			}
-#else
-			w = gtk_label_new (_("This certificate is not viewable"));
-			gtk_table_attach (table, w, 1, 2, n, n + 1, 0, 0, 3, 3);
-#endif
-			n++;
 		}
 	}
 
-	gtk_container_add (GTK_CONTAINER (grid), GTK_WIDGET (table));
+	return info;
 }
 
 static void
-secure_button_show_validity_dialog (EWebView *web_view,
-				    CamelCipherValidity *validity)
+secure_button_view_certificate_clicked_cb (EWebView *web_view,
+					   const gchar *iframe_id,
+					   const gchar *element_id,
+					   const gchar *element_class,
+					   const gchar *element_value,
+					   const GtkAllocation *element_position,
+					   gpointer user_data)
 {
-	GtkBuilder *builder;
-	GtkWidget *grid, *w;
-	GtkWidget *dialog;
+	EMailPart *mail_part = user_data;
+	CamelCipherCertInfo *info;
 
-	g_return_if_fail (validity != NULL);
+	g_return_if_fail (E_IS_MAIL_PART_SECURE_BUTTON (mail_part));
 
-	/* Make sure our custom widget classes are registered with
-	 * GType before we load the GtkBuilder definition file. */
-	g_type_ensure (E_TYPE_DATE_EDIT);
+	if (!element_value)
+		return;
 
-	builder = gtk_builder_new ();
-	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
+	info = secure_button_find_cert_info (mail_part, element_value);
 
-	dialog = e_builder_get_widget (builder, "message_security_dialog");
+	if (info) {
+		GtkWidget *toplevel;
 
-	w = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
-	if (GTK_IS_WINDOW (w))
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (w));
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
 
-	grid = e_builder_get_widget (builder, "signature_grid");
-	w = gtk_label_new (e_mail_formatter_secure_button_get_sign_description (validity->sign.status));
-	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
-	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
-	gtk_label_set_width_chars (GTK_LABEL (w), 80);
-	gtk_label_set_max_width_chars (GTK_LABEL (w), 100);
-	gtk_container_add (GTK_CONTAINER (grid), w);
-	if (validity->sign.description) {
-		GtkTextBuffer *buffer;
-
-		buffer = gtk_text_buffer_new (NULL);
-		gtk_text_buffer_set_text (
-			buffer, validity->sign.description,
-			strlen (validity->sign.description));
-		w = g_object_new (
-			gtk_scrolled_window_get_type (),
-			"hscrollbar_policy", GTK_POLICY_AUTOMATIC,
-			"vscrollbar_policy", GTK_POLICY_AUTOMATIC,
-			"shadow_type", GTK_SHADOW_IN,
-			"expand", TRUE,
-			"child", g_object_new (gtk_text_view_get_type (),
-			"buffer", buffer,
-			"cursor_visible", FALSE,
-			"editable", FALSE,
-			NULL),
-			"width_request", 500,
-			"height_request", 80,
-			NULL);
-		g_object_unref (buffer);
-
-		gtk_container_add (GTK_CONTAINER (grid), w);
+		secure_button_view_certificate (GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL, info);
 	}
-
-	if (!g_queue_is_empty (&validity->sign.signers))
-		add_cert_table (grid, &validity->sign.signers, NULL);
-
-	gtk_widget_show_all (grid);
-
-	grid = e_builder_get_widget (builder, "encryption_grid");
-	w = gtk_label_new (e_mail_formatter_secure_button_get_encrypt_description (validity->encrypt.status));
-	gtk_misc_set_alignment ((GtkMisc *) w, 0.0, 0.5);
-	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
-	gtk_label_set_width_chars (GTK_LABEL (w), 80);
-	gtk_label_set_max_width_chars (GTK_LABEL (w), 100);
-	gtk_container_add (GTK_CONTAINER (grid), w);
-	if (validity->encrypt.description) {
-		GtkTextBuffer *buffer;
-
-		buffer = gtk_text_buffer_new (NULL);
-		gtk_text_buffer_set_text (
-			buffer, validity->encrypt.description,
-			strlen (validity->encrypt.description));
-		w = g_object_new (
-			gtk_scrolled_window_get_type (),
-			"hscrollbar_policy", GTK_POLICY_AUTOMATIC,
-			"vscrollbar_policy", GTK_POLICY_AUTOMATIC,
-			"shadow_type", GTK_SHADOW_IN,
-			"expand", TRUE,
-			"child", g_object_new (gtk_text_view_get_type (),
-			"buffer", buffer,
-			"cursor_visible", FALSE,
-			"editable", FALSE,
-			NULL),
-			"width_request", 500,
-			"height_request", 80,
-			NULL);
-		g_object_unref (buffer);
-
-		gtk_container_add (GTK_CONTAINER (grid), w);
-	}
-
-	if (!g_queue_is_empty (&validity->encrypt.encrypters))
-		add_cert_table (grid, &validity->encrypt.encrypters, NULL);
-
-	gtk_widget_show_all (grid);
-
-	g_object_unref (builder);
-
-	g_signal_connect (
-		dialog, "response",
-		G_CALLBACK (info_response), NULL);
-
-	gtk_widget_show (dialog);
 }
+
+static void
+secure_button_import_certificate_clicked_cb (EWebView *web_view,
+					     const gchar *iframe_id,
+					     const gchar *element_id,
+					     const gchar *element_class,
+					     const gchar *element_value,
+					     const GtkAllocation *element_position,
+					     gpointer user_data)
+{
+	EMailPart *mail_part = user_data;
+	CamelCipherCertInfo *info;
+
+	g_return_if_fail (E_IS_MAIL_PART_SECURE_BUTTON (mail_part));
+
+	if (!element_value)
+		return;
+
+	info = secure_button_find_cert_info (mail_part, element_value);
+
+	if (info) {
+		GtkWidget *toplevel;
+
+		toplevel = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
+
+		secure_button_import_certificate (GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL, info, web_view, iframe_id, element_id);
+	}
+}
+
+#endif
 
 static void
 secure_button_clicked_cb (EWebView *web_view,
@@ -332,36 +235,78 @@ secure_button_clicked_cb (EWebView *web_view,
 			  gpointer user_data)
 {
 	EMailPart *mail_part = user_data;
-	GList *head, *link;
-	gboolean can_use;
-	gchar *tmp;
+	GList *link;
+	gchar tmp[128];
 
 	g_return_if_fail (E_IS_MAIL_PART_SECURE_BUTTON (mail_part));
 
-	tmp = g_strdup_printf ("%p:", mail_part);
-	can_use = element_value && g_str_has_prefix (element_value, tmp);
-	if (can_use)
-		element_value += strlen (tmp);
-	g_free (tmp);
-
-	if (!can_use)
+	if (!element_value)
 		return;
 
-	head = g_queue_peek_head_link (&mail_part->validities);
-	for (link = head; link != NULL; link = g_list_next (link)) {
+	g_return_if_fail (g_snprintf (tmp, sizeof (tmp), "%p:", mail_part) < sizeof (tmp));
+
+	if (!g_str_has_prefix (element_value, tmp))
+		return;
+
+	element_value += strlen (tmp);
+
+	for (link = g_queue_peek_head_link (&mail_part->validities); link != NULL; link = g_list_next (link)) {
 		EMailPartValidityPair *pair = link->data;
 
 		if (!pair)
 			continue;
 
-		tmp = g_strdup_printf ("%p", pair->validity);
-		can_use = g_strcmp0 (element_value, tmp) == 0;
-		g_free (tmp);
+		g_return_if_fail (g_snprintf (tmp, sizeof (tmp), "%p", pair->validity) < sizeof (tmp));
 
-		if (can_use) {
-			secure_button_show_validity_dialog (web_view, pair->validity);
+		if (g_strcmp0 (element_value, tmp) == 0) {
+			g_return_if_fail (g_snprintf (tmp, sizeof (tmp), "secure-button-details-%p", pair->validity) < sizeof (tmp));
+
+			e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+				"var elem = Evo.FindElement(%s, %s);\n"
+				"if (elem) {\n"
+				"	elem.hidden = !elem.hidden;\n"
+				"}\n",
+				iframe_id, tmp);
 			break;
 		}
+	}
+}
+
+static void
+secure_button_details_clicked_cb (EWebView *web_view,
+				  const gchar *iframe_id,
+				  const gchar *element_id,
+				  const gchar *element_class,
+				  const gchar *element_value,
+				  const GtkAllocation *element_position,
+				  gpointer user_data)
+{
+	EMailPart *mail_part = user_data;
+	gchar tmp[128];
+
+	g_return_if_fail (E_IS_MAIL_PART_SECURE_BUTTON (mail_part));
+
+	if (!element_id || !element_value)
+		return;
+
+	g_return_if_fail (g_snprintf (tmp, sizeof (tmp), "%p:", mail_part) < sizeof (tmp));
+
+	if (g_str_has_prefix (element_id, tmp)) {
+		g_return_if_fail (g_snprintf (tmp, sizeof (tmp), "%s-img", element_value) < sizeof (tmp));
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+			"var elem = Evo.FindElement(%s, %s);\n"
+			"if (elem) {\n"
+			"	elem.hidden = !elem.hidden;\n"
+			"}\n"
+			"elem = Evo.FindElement(%s, %s);\n"
+			"if (elem) {\n"
+			"	var tmp = elem.src;\n"
+			"	elem.src = elem.getAttribute(\"othersrc\");\n"
+			"	elem.setAttribute(\"othersrc\", tmp);\n"
+			"}\n",
+			iframe_id, element_value,
+			iframe_id, tmp);
 	}
 }
 
@@ -373,6 +318,12 @@ mail_part_secure_button_content_loaded (EMailPart *mail_part,
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
 	e_web_view_register_element_clicked (web_view, "secure-button", secure_button_clicked_cb, mail_part);
+	e_web_view_register_element_clicked (web_view, "secure-button-details", secure_button_details_clicked_cb, mail_part);
+
+#if defined (ENABLE_SMIME)
+	e_web_view_register_element_clicked (web_view, "secure-button-view-certificate", secure_button_view_certificate_clicked_cb, mail_part);
+	e_web_view_register_element_clicked (web_view, "secure-button-import-certificate", secure_button_import_certificate_clicked_cb, mail_part);
+#endif
 }
 
 static void

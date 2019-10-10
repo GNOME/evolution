@@ -360,6 +360,9 @@ gboolean	e_util_get_language_info	(const gchar *language_tag,
 						 gchar **out_country_name);
 void		e_misc_util_free_global_memory	(void);
 gboolean	e_util_can_preview_filename	(const gchar *filename);
+void		e_util_markup_append_escaped	(GString *buffer,
+						 const gchar *format,
+						 ...) G_GNUC_PRINTF (2, 3);
 
 G_END_DECLS
 

@@ -21,6 +21,11 @@
 
 #include <e-util/e-util.h>
 
+#if defined (ENABLE_SMIME)
+#include "certificate-manager.h"
+#include "e-cert-db.h"
+#endif
+
 #include "e-mail-formatter-extension.h"
 
 typedef EMailFormatterExtension EMailFormatterSecureButton;
@@ -84,21 +89,16 @@ static const GdkRGBA smime_sign_colour[6] = {
 	{ 0.0, 0.0, 0.0, 1.0 }
 };
 
-/* This is awkward, but there is no header file for it. On the other hand,
-   the functions are meant private, where they really are, being defined this way. */
-const gchar *e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncrypt status);
-const gchar *e_mail_formatter_secure_button_get_sign_description (CamelCipherValiditySign status);
-
-const gchar *
-e_mail_formatter_secure_button_get_sign_description (CamelCipherValiditySign status)
+static const gchar *
+secure_button_get_sign_description (CamelCipherValiditySign status)
 {
 	g_return_val_if_fail (status >= 0 && status < G_N_ELEMENTS (smime_sign_table), NULL);
 
 	return _(smime_sign_table[status].description);
 }
 
-const gchar *
-e_mail_formatter_secure_button_get_encrypt_description (CamelCipherValidityEncrypt status)
+static const gchar *
+secure_button_get_encrypt_description (CamelCipherValidityEncrypt status)
 {
 	g_return_val_if_fail (status >= 0 && ((gint) status) < G_N_ELEMENTS (smime_encrypt_table), NULL);
 
@@ -191,6 +191,137 @@ add_photo_cb (gpointer data,
 	g_free (uri);
 }
 
+#if defined (ENABLE_SMIME)
+static gboolean
+secure_button_smime_cert_exists (const gchar *email,
+				 ECert *ec)
+{
+	CERTCertificate *found_cert;
+	ECert *found_ec;
+	gboolean found = FALSE;
+
+	if (!email || !*email)
+		return FALSE;
+
+	g_return_val_if_fail (E_IS_CERT (ec), FALSE);
+
+	found_cert = CERT_FindCertByNicknameOrEmailAddr (CERT_GetDefaultCertDB (), email);
+	if (!found_cert)
+		return FALSE;
+
+	found_ec = e_cert_new (found_cert);
+	if (!found_ec)
+		return FALSE;
+
+	#define compare_nonnull(_func) (!_func (ec) || g_strcmp0 (_func (ec), _func (found_ec)) == 0)
+
+	if (compare_nonnull (e_cert_get_serial_number) &&
+	    compare_nonnull (e_cert_get_sha1_fingerprint) &&
+	    compare_nonnull (e_cert_get_md5_fingerprint)) {
+		found = TRUE;
+	}
+
+	#undef compare_nonnull
+
+	g_object_unref (found_ec);
+
+	return found;
+}
+#endif /* defined (ENABLE_SMIME) */
+
+static void
+add_cert_table (GString *html,
+		const gchar *label,
+		GQueue *certlist,
+		guint length,
+		EMailPart *part,
+		CamelCipherValidity *validity)
+{
+	GList *link;
+
+	if (length == 1)
+		e_util_markup_append_escaped (html, "%s&nbsp;", label);
+	else
+		e_util_markup_append_escaped (html, "%s<br><div style=\"margin-left:12px;\">", label);
+
+	for (link = g_queue_peek_head_link (certlist); link; link = g_list_next (link)) {
+		CamelCipherCertInfo *info = link->data;
+		gchar *tmp = NULL;
+		const gchar *desc = NULL;
+
+		if (info->name) {
+			if (info->email && strcmp (info->name, info->email) != 0)
+				desc = tmp = g_strdup_printf ("%s <%s>", info->name, info->email);
+			else
+				desc = info->name;
+		} else {
+			if (info->email)
+				desc = info->email;
+		}
+
+		if (desc) {
+			e_util_markup_append_escaped (html, "%s&nbsp;", desc);
+
+#if defined (ENABLE_SMIME)
+			if (info->cert_data) {
+				ECert *ec;
+
+				e_util_markup_append_escaped (html,
+					"<button type=\"button\" class=\"secure-button-view-certificate\" id=\"%s\" value=\"%p:%p:%p\">%s</button>",
+					e_mail_part_get_id (part), part, validity, info->cert_data, _("View Certificate"));
+
+				ec = e_cert_new (CERT_DupCertificate (info->cert_data));
+
+				if (!secure_button_smime_cert_exists (info->email, ec)) {
+					e_util_markup_append_escaped (html,
+						"&nbsp;<button type=\"button\" class=\"secure-button-import-certificate\" id=\"%s.%p\" value=\"%p:%p:%p\">%s</button>",
+						e_mail_part_get_id (part), info->cert_data, part, validity, info->cert_data, _("Import Certificate"));
+				}
+
+				g_clear_object (&ec);
+			}
+#endif
+
+			g_string_append (html, "<br>");
+		}
+
+		g_free (tmp);
+	}
+
+	if (length != 1)
+		g_string_append (html, "</div>");
+}
+
+static void
+add_details_part (GString *html,
+		  EMailPart *part,
+		  CamelCipherValidity *validity,
+		  const gchar *details,
+		  const gchar *ident)
+{
+	gint icon_width, icon_height;
+
+	if (!part || !validity || !details || !*details || !ident)
+		return;
+
+	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &icon_width, &icon_height)) {
+		icon_width = 16;
+		icon_height = 16;
+	}
+
+	e_util_markup_append_escaped (html,
+		"<span class=\"secure-button-details\" id=\"%p:spn\" value=\"secure-button-details-%p-%s\" style=\"vertical-align:bottom;\">"
+		"<img id=\"secure-button-details-%p-%s-img\" style=\"vertical-align:middle;\" width=\"%dpx\" height=\"%dpx\""
+		" src=\"gtk-stock://pan-end-symbolic?size=%d\" othersrc=\"gtk-stock://pan-down-symbolic?size=%d\">&nbsp;"
+		"%s</span><br>"
+		"<div id=\"secure-button-details-%p-%s\" style=\"white-space:pre; margin-left:12px; font-size:smaller;\" hidden>%s</div>",
+		part, validity, ident, validity, ident,
+		icon_width, icon_height, GTK_ICON_SIZE_MENU, GTK_ICON_SIZE_MENU,
+		_("Details"),
+		validity, ident,
+		details);
+}
+
 static void
 secure_button_format_validity (EMailPart *part,
 			       gboolean sender_signer_mismatch,
@@ -201,6 +332,7 @@ secure_button_format_validity (EMailPart *part,
 	gchar *description;
 	gint icon_width, icon_height;
 	gint info_index;
+	guint length;
 	GString *buffer;
 
 	g_return_if_fail (validity != NULL);
@@ -268,7 +400,43 @@ secure_button_format_validity (EMailPart *part,
 	g_queue_foreach (&validity->sign.signers, add_photo_cb, html);
 	g_queue_foreach (&validity->encrypt.encrypters, add_photo_cb, html);
 
-	g_string_append_printf (html, "%s</span></td></tr></table>\n", description);
+	g_string_append_printf (html, "%s</span></td></tr>", description);
+
+	e_util_markup_append_escaped (html,
+		"<tr id=\"secure-button-details-%p\" class=\"secure-button-details\" hidden><td></td><td><small>"
+		"<b>%s</b><br>"
+		"%s<br>",
+		validity,
+		_("Digital Signature"),
+		secure_button_get_sign_description (validity->sign.status));
+
+	length = g_queue_get_length (&validity->sign.signers);
+	if (length) {
+		add_cert_table (html,
+			g_dngettext (GETTEXT_PACKAGE, "Signer:", "Signers:", length),
+			&validity->sign.signers,
+			length, part, validity);
+	}
+
+	add_details_part (html, part, validity, validity->sign.description, "sign");
+
+	e_util_markup_append_escaped (html,
+		"<br>"
+		"<b>%s</b><br>"
+		"%s<br>",
+		_("Encryption"),
+		secure_button_get_encrypt_description (validity->encrypt.status));
+
+	length = g_queue_get_length (&validity->encrypt.encrypters);
+	if (length) {
+		add_cert_table (html, _("Encrypted by:"),
+			&validity->encrypt.encrypters,
+			length, part, validity);
+	}
+
+	add_details_part (html, part, validity, validity->encrypt.description, "encr");
+
+	g_string_append (html, "</small></td></tr></table>\n");
 
 	g_free (description);
 }

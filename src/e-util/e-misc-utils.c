@@ -4712,3 +4712,35 @@ e_util_can_preview_filename (const gchar *filename)
 		#endif
 		;
 }
+
+/**
+ * e_util_markup_append_escaped:
+ * @buffer: a #GString buffer to append escaped text to
+ * @format: printf-like format of the string to append
+ * @...: arguments for the format
+ *
+ * Appends escaped markup text into @buffer. This function is
+ * similar to g_markup_printf_escaped(), except it appends
+ * the escaped text into a #GString.
+ *
+ * Since: 3.36
+ **/
+void
+e_util_markup_append_escaped (GString *buffer,
+			      const gchar *format,
+			      ...)
+{
+	va_list va;
+	gchar *escaped;
+
+	g_return_if_fail (buffer != NULL);
+	g_return_if_fail (format != NULL);
+
+	va_start (va, format);
+	escaped = g_markup_vprintf_escaped (format, va);
+	va_end (va);
+
+	g_string_append (buffer, escaped);
+
+	g_free (escaped);
+}
