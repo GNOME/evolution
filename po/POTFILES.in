@@ -209,6 +209,7 @@ src/e-util/e-filter-option.c
 src/e-util/e-filter-part.c
 src/e-util/e-filter-rule.c
 src/e-util/e-focus-tracker.c
+src/e-util/e-gtkemojichooser.c
 src/e-util/e-html-editor-actions.c
 src/e-util/e-html-editor.c
 src/e-util/e-html-editor-cell-dialog.c

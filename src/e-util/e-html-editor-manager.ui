@@ -44,6 +44,7 @@
       <menuitem action='insert-text-file'/>
       <menuitem action='insert-html-file'/>
       <menuitem action='insert-emoticon'/>
+      <menuitem action='insert-emoji'/>
     </menu>
     <placeholder name='pre-format-menu'/>
     <menu action='format-menu'>

@@ -133,6 +133,8 @@ set(SOURCES
 	e-filter-part.c
 	e-filter-rule.c
 	e-focus-tracker.c
+	e-gtkemojichooser.h
+	e-gtkemojichooser.c
 	e-html-editor-actions.c
 	e-html-editor-cell-dialog.c
 	e-html-editor-dialog.c

@@ -29,6 +29,7 @@
 #include "e-html-editor-actions.h"
 #include "e-emoticon-action.h"
 #include "e-emoticon-chooser.h"
+#include "e-gtkemojichooser.h"
 #include "e-image-chooser-dialog.h"
 #include "e-spell-checker.h"
 #include "e-misc-utils.h"
@@ -272,6 +273,43 @@ action_indent_cb (GtkAction *action,
 	cnt_editor = e_html_editor_get_content_editor (editor);
 	if (e_html_editor_action_can_run (GTK_WIDGET (cnt_editor)))
 		e_content_editor_selection_indent (cnt_editor);
+}
+
+static void
+emoji_chooser_emoji_picked_cb (EHTMLEditor *editor,
+			       const gchar *emoji_text)
+{
+	if (emoji_text) {
+		EContentEditor *cnt_editor;
+
+		cnt_editor = e_html_editor_get_content_editor (editor);
+
+		e_content_editor_insert_content (cnt_editor, emoji_text,
+			E_CONTENT_EDITOR_INSERT_CONVERT |
+			E_CONTENT_EDITOR_INSERT_TEXT_PLAIN);
+	}
+}
+
+static void
+action_insert_emoji_cb (GtkAction *action,
+			EHTMLEditor *editor)
+{
+	if (!editor->priv->emoji_chooser) {
+		GtkWidget *popover;
+
+		popover = e_gtk_emoji_chooser_new ();
+
+		gtk_popover_set_relative_to (GTK_POPOVER (popover), GTK_WIDGET (editor));
+		gtk_popover_set_position (GTK_POPOVER (popover), GTK_POS_BOTTOM);
+		gtk_popover_set_modal (GTK_POPOVER (popover), TRUE);
+
+		g_signal_connect_object (popover, "emoji-picked",
+			G_CALLBACK (emoji_chooser_emoji_picked_cb), editor, G_CONNECT_SWAPPED);
+
+		editor->priv->emoji_chooser = popover;
+	}
+
+	gtk_popover_popup (GTK_POPOVER (editor->priv->emoji_chooser));
 }
 
 static void
@@ -1014,6 +1052,13 @@ static GtkActionEntry core_editor_entries[] = {
 	  "<Control>bracketright",
 	  N_("Increase Indent"),
 	  G_CALLBACK (action_indent_cb) },
+
+	{ "insert-emoji",
+	  NULL,
+	  N_("E_moji"),
+	  NULL,
+	  N_("Insert Emoji"),
+	  G_CALLBACK (action_insert_emoji_cb) },
 
 	{ "insert-html-file",
 	  NULL,
@@ -2016,6 +2061,9 @@ editor_actions_init (EHTMLEditor *editor)
 	g_object_set (
 		G_OBJECT (ACTION (SHOW_REPLACE)),
 		"short-label", _("Re_place"), NULL);
+	g_object_set (
+		G_OBJECT (ACTION (INSERT_EMOJI)),
+		"short-label", _("E_moji"), NULL);
 	g_object_set (
 		G_OBJECT (ACTION (INSERT_IMAGE)),
 		"short-label", _("_Image"), NULL);
