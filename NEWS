@@ -1,3 +1,42 @@
+Evolution 3.35.1 2019-10-11
+---------------------------
+
+Bug Fixes:
+	Bug 755418 - "Load Remote Content" info bar is too distracting (Milan Crha)
+	I#524 - libgnomecanvas: Crash under gailcanvas.c:adjustment_changed() (Milan Crha)
+	I#587 - Change how Evolution talks to WebKitWebProcess (Milan Crha)
+	I#603 - Cannot reply to the first message in a collapsed thread (Milan Crha)
+	I#610 - Change how WebDAV discovery logins to the server (Milan Crha)
+	I#611 - Calendar Work Week days change not reflected in Print (Milan Crha)
+	I#612 - Remove unneeded spaces in a translatable string (Milan Crha)
+	I#615 - Some actions are disabled in the top menu in error (Milan Crha)
+	I#617 - Font color in iframe not inherited in WebKitGTK+ 2.26 (Milan Crha)
+	I#623 - Message Filter Rule property "For Account:" can't be reset to "Any" (Milan Crha)
+	I#624 - GalA11yETableItem: Incorrect implementation of AtkObjectClass::ref_child() (Milan Crha)
+	I#636 - Contact Editor: Move with Tab stops at some widgets (Milan Crha)
+	I#641 - 'Mark messages as read' as account option not working for Search Folders (Milan Crha)
+	I#644 - Composer: Add Ctrl+K as 'Insert Link' shortcut (Milan Crha)
+	I#645 - Prefer-Plain: Hide vendor-specific subparts of multipart/alternative (Milan Crha)
+
+Miscellaneous:
+	calendar_config_init: Avoid runtime warning when called out of Evolution (Milan Crha)
+	EWebView: Pile calls to Web Extension proxy only when such exists (Milan Crha)
+	Flatpak: Update libical version reference to 3.0.6 (Milan Crha)
+	Fix several memory leaks in ECalModel and its descendants (Milan Crha)
+	CollectionAccountWizard: Show 'View certificate' link on its own line (Milan Crha)
+	EWebView: Use JavaScriptCore API of WebKitGTK+ (Milan Crha)
+	Show Security Information for signed/encrypted mails in the preview panel (Milan Crha)
+	help: Update application logo (Andre Klapper)
+	help: Fix a typo (semi-colon instead of colon) (Andre Klapper)
+
+Translations:
+	Милош Поповић (sr)
+	Милош Поповић (sr@latin)
+	Jordi Mas (ca)
+	Ask Hjorth Larsen (da)
+	Matej Urbančič (sl)
+	Christian Kirbach (de)
+
 Evolution 3.34.0 2019-09-09
 ---------------------------
 
