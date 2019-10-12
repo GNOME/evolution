@@ -3014,7 +3014,7 @@ msgstr "L'última extensió usada quan s'ha fet una còpia de seguretat de les d
 msgid ""
 "It can be either “.gz” or “.xz” and it influences what extension will be preselected in the file "
 "chooser."
-msgstr "Pot ser «gz» o bé «xz» i influencia l'extensió que es preseleccionarà al selector de fitxers."
+msgstr "Pot ser «gz» o bé «xz» i influencia l'extensió que serà preseleccionada al selector de fitxers."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:38
 msgid "Prefix of the URI to use to search the web with selected text."
@@ -25735,7 +25735,7 @@ msgstr "Mostra la barra lateral"
 
 #: ../src/shell/e-shell-window-actions.c:1107
 msgid "Show _Buttons"
-msgstr "Mostra els _botons"
+msgstr "M_ostra els botons"
 
 #: ../src/shell/e-shell-window-actions.c:1109
 msgid "Show the switcher buttons"
@@ -25775,7 +25775,7 @@ msgstr "Visualitza els botons de finestra només amb text"
 
 #: ../src/shell/e-shell-window-actions.c:1161
 msgid "Icons _and Text"
-msgstr "Icones i _text"
+msgstr "I_cones i text"
 
 #: ../src/shell/e-shell-window-actions.c:1163
 msgid "Display window buttons with icons and text"
