@@ -511,12 +511,24 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 
 	/* First try user configuration in autoconfig.$DOMAIN URL and ignore error */
 	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
+		uri = g_strconcat ("https://autoconfig.", domain, "/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
+		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
+		g_free (uri);
+	}
+
+	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
 		uri = g_strconcat ("http://autoconfig.", domain, "/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
 		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
 		g_free (uri);
 	}
 
 	/* Then with $DOMAIN/.well-known/autoconfig/ and ignore error */
+	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
+		uri = g_strconcat ("https://", domain, "/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
+		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
+		g_free (uri);
+	}
+
 	if (!success && ((error && !*error && !g_cancellable_set_error_if_cancelled (cancellable, error)) || !g_cancellable_is_cancelled (cancellable))) {
 		uri = g_strconcat ("http://", domain, "/.well-known/autoconfig/mail/config-v1.1.xml?emailaddress=" FAKE_EVOLUTION_USER_STRING "%40", domain, "&emailmd5=", emailmd5, NULL);
 		success = mail_autoconfig_lookup_uri_sync (autoconfig, uri, soup_session, cancellable, NULL);
