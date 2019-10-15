@@ -2027,7 +2027,7 @@ web_view_submit_alert (EAlertSink *alert_sink,
 		" cellpadding='1' cellspacing='0'>"
 		"<tr>"
 		"<td>"
-		"<table bgcolor='#dddddd' width='100%' cellpadding='6'>"
+		"<table bgcolor='#dddddd' width='100%' cellpadding='6' style=\"color:#000000;\">"
 		"<tr>");
 
 	g_string_append_printf (
