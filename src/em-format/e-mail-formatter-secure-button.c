@@ -386,16 +386,18 @@ secure_button_format_validity (EMailPart *part,
 
 	g_string_append (html, "<table width=\"100%\" style=\"margin-bottom:4px; vertical-align:middle;");
 	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE &&
-	    smime_sign_colour[info_index].alpha > 1e-9)
-		g_string_append_printf (html, " background:#%06x;",
-			e_rgba_to_value (&smime_sign_colour[info_index]));
+	    smime_sign_colour[info_index].alpha > 1e-9) {
+		g_string_append_printf (html, " background:#%06x; color:#%06x;",
+			e_rgba_to_value (&smime_sign_colour[info_index]),
+			e_rgba_to_value (&smime_sign_colour[5]));
+	}
 	g_string_append (html, "\"><tr>");
 
 	g_string_append_printf (html,
 		"<td style=\"width:1px;\"><button type=\"button\" class=\"secure-button\" id=\"secure-button\" value=\"%p:%p\" accesskey=\"\" style=\"vertical-align:middle;\">"
-		"<img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\"></button></td><td><span style=\"color:#%06x; vertical-align:middle;\">",
+		"<img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\"></button></td><td><span style=\"vertical-align:middle;\">",
 		part, validity, icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR,
-		icon_width, icon_height, e_rgba_to_value (&smime_sign_colour[5]));
+		icon_width, icon_height);
 
 	g_queue_foreach (&validity->sign.signers, add_photo_cb, html);
 	g_queue_foreach (&validity->encrypt.encrypters, add_photo_cb, html);
