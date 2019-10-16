@@ -1190,7 +1190,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 			success = e_cal_client_get_object_sync (dest_client, uid, NULL, &icomp, cancellable, &local_error);
 		if (success) {
 			success = e_cal_client_modify_object_sync (
-				dest_client, icomp_event, E_CAL_OBJ_MOD_ALL, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
+				dest_client, icomp_event, E_CAL_OBJ_MOD_ALL, E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE, cancellable, error);
 
 			g_clear_object (&icomp);
 			if (!success)
@@ -1205,7 +1205,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 					mod_type = E_CAL_OBJ_MOD_ALL;
 
 				success = e_cal_client_remove_object_sync (
-						src_client, uid, NULL, mod_type, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
+						src_client, uid, NULL, mod_type, E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE, cancellable, error);
 				if (!success)
 					goto exit;
 			}
@@ -1301,7 +1301,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 				if (!e_cal_util_component_has_property (subcomp, I_CAL_RECURRENCEID_PROPERTY)) {
 					did_add = TRUE;
 					success = e_cal_client_create_object_sync (
-						dest_client, subcomp, E_CAL_OPERATION_FLAG_NONE,
+						dest_client, subcomp, E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE,
 						&new_uid, cancellable, error);
 					g_free (new_uid);
 				}
@@ -1322,12 +1322,12 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 					if (did_add) {
 						success = e_cal_client_modify_object_sync (
 							dest_client, subcomp,
-							E_CAL_OBJ_MOD_THIS, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
+							E_CAL_OBJ_MOD_THIS, E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE, cancellable, error);
 					} else {
 						/* just in case there are only detached instances and no master object */
 						did_add = TRUE;
 						success = e_cal_client_create_object_sync (
-							dest_client, subcomp, E_CAL_OPERATION_FLAG_NONE,
+							dest_client, subcomp, E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE,
 							&new_uid, cancellable, error);
 						g_free (new_uid);
 					}
@@ -1336,7 +1336,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 
 			g_clear_object (&subcomp);
 		} else {
-			success = e_cal_client_create_object_sync (dest_client, icomp, E_CAL_OPERATION_FLAG_NONE, &new_uid, cancellable, error);
+			success = e_cal_client_create_object_sync (dest_client, icomp, E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE, &new_uid, cancellable, error);
 			g_free (new_uid);
 		}
 
@@ -1352,7 +1352,7 @@ cal_comp_transfer_item_to_sync (ECalClient *src_client,
 			    e_cal_util_component_has_recurrences (icomp_event))
 				mod_type = E_CAL_OBJ_MOD_ALL;
 
-			success = e_cal_client_remove_object_sync (src_client, uid, NULL, mod_type, E_CAL_OPERATION_FLAG_NONE, cancellable, error);
+			success = e_cal_client_remove_object_sync (src_client, uid, NULL, mod_type, E_CAL_OPERATION_FLAG_DISABLE_ITIP_MESSAGE, cancellable, error);
 			if (!success)
 				goto exit;
 		}
