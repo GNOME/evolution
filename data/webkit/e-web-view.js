@@ -532,7 +532,7 @@ Evo.findElementFromPoint = function(doc, xx, yy, parent_elem)
 		return elem;
 	}
 
-	if (parent_elem && parent_elem.isEqualNode(elem)) {
+	if (parent_elem && parent_elem === elem) {
 		return parent_elem;
 	}
 
@@ -910,7 +910,7 @@ Evo.mailDisplayVCardModeButtonClicked = function(elem)
 	}
 
 	if (normal_btn && compact_btn && iframe_elem) {
-		normal_btn.hidden = normal_btn.isEqualNode(elem);
+		normal_btn.hidden = normal_btn === elem;
 		compact_btn.hidden = !normal_btn.hidden;
 		iframe_elem.src = elem.getAttribute("evo-iframe-uri");
 	}
