@@ -24,7 +24,7 @@
 #include <glib/gstdio.h>
 #include <gtk/gtk.h>
 
-#include <webkitdom/webkitdom.h>
+#include <webkit2/webkit-web-extension.h>
 
 #define E_UTIL_INCLUDE_WITHOUT_WEBKIT
 #include <e-util/e-util.h>
