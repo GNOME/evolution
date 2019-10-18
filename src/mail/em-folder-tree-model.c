@@ -940,9 +940,9 @@ folder_tree_model_dispose (GObject *object)
 		MailFolderCache *folder_cache;
 
 		folder_cache = e_mail_session_get_folder_cache (priv->session);
-		g_signal_handlers_disconnect_matched (
-			folder_cache, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, object);
+		g_signal_handlers_disconnect_by_data (folder_cache, object);
+
+		g_signal_handlers_disconnect_by_data (priv->session, object);
 
 		g_object_unref (priv->session);
 		priv->session = NULL;
