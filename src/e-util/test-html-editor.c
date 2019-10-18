@@ -139,19 +139,16 @@ save_dialog (EHTMLEditor *editor)
 }
 
 static void
-view_source_dialog (EHTMLEditor *editor,
-                    const gchar *title,
-                    gboolean plain_text,
-                    gboolean show_source)
+view_source_dialog_show (EHTMLEditor *editor,
+			 const gchar *title,
+			 gboolean plain_text,
+			 gboolean show_source,
+			 const gchar *content_text)
 {
 	GtkWidget *dialog;
 	GtkWidget *content;
 	GtkWidget *content_area;
 	GtkWidget *scrolled_window;
-	EContentEditor *cnt_editor;
-	gchar * html;
-
-	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	dialog = gtk_dialog_new_with_buttons (
 		title,
@@ -176,38 +173,114 @@ view_source_dialog (EHTMLEditor *editor,
 	gtk_container_set_border_width (GTK_CONTAINER (scrolled_window), 6);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
 
-	if (plain_text) {
-		html = e_content_editor_get_content (cnt_editor,
-			E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN,
-			NULL, NULL);
-	} else {
-		GSList *inline_images = NULL;
-
-		html = e_content_editor_get_content (cnt_editor,
-			E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML | E_CONTENT_EDITOR_GET_INLINE_IMAGES,
-			"test-domain", &inline_images);
-
-		g_slist_free_full (inline_images, g_object_unref);
-	}
-
 	if (show_source || plain_text) {
 		GtkTextBuffer *buffer;
 
 		content = gtk_text_view_new ();
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (content));
-		gtk_text_buffer_set_text (buffer, html ? html : "", -1);
+		gtk_text_buffer_set_text (buffer, content_text ? content_text : "", -1);
 		gtk_text_view_set_editable (GTK_TEXT_VIEW (content), FALSE);
+		gtk_text_view_set_monospace (GTK_TEXT_VIEW (content), TRUE);
+		if (!plain_text)
+			gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (content), GTK_WRAP_WORD_CHAR);
 	} else {
 		content = webkit_web_view_new ();
-		webkit_web_view_load_html (WEBKIT_WEB_VIEW (content), html ? html : "", "evo-file://");
+		webkit_web_view_load_html (WEBKIT_WEB_VIEW (content), content_text ? content_text : "", "evo-file://");
 	}
-	g_free (html);
 
 	gtk_container_add (GTK_CONTAINER (scrolled_window), content);
 	gtk_widget_show_all (scrolled_window);
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
+}
+
+typedef struct _ViewSourceData {
+	EHTMLEditor *editor;
+	gchar *title;
+	gboolean plain_text;
+	gboolean show_source;
+} ViewSourceData;
+
+static ViewSourceData *
+view_source_data_new (EHTMLEditor *editor,
+		      const gchar *title,
+		      gboolean plain_text,
+		      gboolean show_source)
+{
+	ViewSourceData *vsd;
+
+	vsd = g_slice_new (ViewSourceData);
+	vsd->editor = g_object_ref (editor);
+	vsd->title = g_strdup (title);
+	vsd->plain_text = plain_text;
+	vsd->show_source = show_source;
+
+	return vsd;
+}
+
+static void
+view_source_data_free (gpointer ptr)
+{
+	ViewSourceData *vsd = ptr;
+
+	if (vsd) {
+		g_clear_object (&vsd->editor);
+		g_free (vsd->title);
+		g_slice_free (ViewSourceData, vsd);
+	}
+}
+
+static void
+view_source_dialog_content_hash_ready_cb (GObject *source_object,
+					  GAsyncResult *result,
+					  gpointer user_data)
+{
+	ViewSourceData *vcd = user_data;
+	EContentEditorContentHash *content_hash;
+	GError *error = NULL;
+
+	g_return_if_fail (vcd != NULL);
+	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
+
+	content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, &error);
+
+	if (!content_hash) {
+		g_warning ("%s: Failed to get content: %s", G_STRFUNC, error ? error->message : "Unknown error");
+	} else {
+		view_source_dialog_show (vcd->editor, vcd->title, vcd->plain_text, vcd->show_source,
+			e_content_editor_util_get_content_data (content_hash,
+				vcd->plain_text ? E_CONTENT_EDITOR_GET_TO_SEND_PLAIN : E_CONTENT_EDITOR_GET_TO_SEND_HTML));
+
+		e_content_editor_util_free_content_hash (content_hash);
+	}
+
+	view_source_data_free (vcd);
+	g_clear_error (&error);
+}
+
+static void
+view_source_dialog (EHTMLEditor *editor,
+                    const gchar *title,
+                    gboolean plain_text,
+                    gboolean show_source)
+{
+	EContentEditor *cnt_editor;
+	ViewSourceData *vcd;
+	guint32 flags;
+
+	vcd = view_source_data_new (editor, title, plain_text, show_source);
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	if (plain_text) {
+		flags = E_CONTENT_EDITOR_GET_TO_SEND_PLAIN;
+	} else {
+		flags = E_CONTENT_EDITOR_GET_INLINE_IMAGES | E_CONTENT_EDITOR_GET_TO_SEND_HTML;
+	}
+
+	e_content_editor_get_content (cnt_editor, flags, "test-domain", NULL,
+		view_source_dialog_content_hash_ready_cb, vcd);
 }
 
 static void
@@ -241,12 +314,23 @@ action_quit_cb (GtkAction *action,
 }
 
 static void
+html_editor_save_done_cb (GObject *source_object,
+			  GAsyncResult *result,
+			  gpointer user_data)
+{
+	GError *error = NULL;
+
+	e_html_editor_save_finish (E_HTML_EDITOR (source_object), result, &error);
+
+	handle_error (&error);
+}
+
+static void
 action_save_cb (GtkAction *action,
                 EHTMLEditor *editor)
 {
 	const gchar *filename;
 	gboolean as_html;
-	GError *error = NULL;
 
 	if (e_html_editor_get_filename (editor) == NULL)
 		if (save_dialog (editor) == GTK_RESPONSE_CANCEL)
@@ -255,8 +339,7 @@ action_save_cb (GtkAction *action,
 	filename = e_html_editor_get_filename (editor);
 	as_html = (e_content_editor_get_html_mode (e_html_editor_get_content_editor (editor)));
 
-	e_html_editor_save (editor, filename, as_html, &error);
-	handle_error (&error);
+	e_html_editor_save (editor, filename, as_html, NULL, html_editor_save_done_cb, NULL);
 }
 
 static void
@@ -265,7 +348,6 @@ action_save_as_cb (GtkAction *action,
 {
 	const gchar *filename;
 	gboolean as_html;
-	GError *error = NULL;
 
 	if (save_dialog (editor) == GTK_RESPONSE_CANCEL)
 		return;
@@ -273,8 +355,7 @@ action_save_as_cb (GtkAction *action,
 	filename = e_html_editor_get_filename (editor);
 	as_html = (e_content_editor_get_html_mode (e_html_editor_get_content_editor (editor)));
 
-	e_html_editor_save (editor, filename, as_html, &error);
-	handle_error (&error);
+	e_html_editor_save (editor, filename, as_html, NULL, html_editor_save_done_cb, NULL);
 }
 
 static void
@@ -446,6 +527,7 @@ create_new_editor_cb (GObject *source_object,
 	GtkWidget *widget;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
+	EFocusTracker *focus_tracker;
 	GError *error = NULL;
 
 	widget = e_html_editor_new_finish (result, &error);
@@ -484,6 +566,27 @@ create_new_editor_cb (GObject *source_object,
 	widget = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_size_request (widget, 600, 400);
 	gtk_widget_show (widget);
+
+	focus_tracker = e_focus_tracker_new (GTK_WINDOW (widget));
+	g_object_set_data_full (G_OBJECT (widget), "e-focus-tracker", focus_tracker, g_object_unref);
+
+	e_focus_tracker_set_cut_clipboard_action (focus_tracker,
+		e_html_editor_get_action (editor, "cut"));
+
+	e_focus_tracker_set_copy_clipboard_action (focus_tracker,
+		e_html_editor_get_action (editor, "copy"));
+
+	e_focus_tracker_set_paste_clipboard_action (focus_tracker,
+		e_html_editor_get_action (editor, "paste"));
+
+	e_focus_tracker_set_select_all_action (focus_tracker,
+		e_html_editor_get_action (editor, "select-all"));
+
+	e_focus_tracker_set_undo_action (focus_tracker,
+		e_html_editor_get_action (editor, "undo"));
+
+	e_focus_tracker_set_redo_action (focus_tracker,
+		e_html_editor_get_action (editor, "redo"));
 
 	g_signal_connect_swapped (
 		widget, "destroy",
@@ -570,6 +673,10 @@ main (gint argc,
 
 	e_util_init_main_thread (NULL);
 	e_passwords_init ();
+
+	g_setenv ("E_HTML_EDITOR_TEST_SOURCES", "1", FALSE);
+
+	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), EVOLUTION_ICONDIR);
 
 	modules = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
 	g_list_free_full (modules, (GDestroyNotify) g_type_module_unuse);

@@ -56,9 +56,6 @@ static gboolean	key_press_cb			(GtkWidget *widget,
 						 GdkEventKey *event,
 						 EMsgComposer *composer);
 
-/* used to track when the external editor is active */
-static GThread *editor_thread;
-
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
@@ -201,7 +198,7 @@ enable_composer_idle (gpointer user_data)
 struct ExternalEditorData {
 	EMsgComposer *composer;
 	gchar *content;
-	gint cursor_position, cursor_offset;
+	guint cursor_position, cursor_offset;
 };
 
 /* needed because the new thread needs to call g_idle_add () */
@@ -412,7 +409,39 @@ finished:
 	return NULL;
 }
 
-static void launch_editor (GtkAction *action, EMsgComposer *composer)
+static void
+launch_editor_content_ready_cb (GObject *source_object,
+				GAsyncResult *result,
+				gpointer user_data)
+{
+	struct ExternalEditorData *eed = user_data;
+	EContentEditor *cnt_editor;
+	EContentEditorContentHash *content_hash;
+	GThread *editor_thread;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
+	g_return_if_fail (eed != NULL);
+
+	cnt_editor = E_CONTENT_EDITOR (source_object);
+
+	content_hash = e_content_editor_get_content_finish (cnt_editor, result, &error);
+
+	if (!content_hash)
+		g_warning ("%s: Faild to get content: %s", G_STRFUNC, error ? error->message : "Unknown error");
+
+	eed->content = content_hash ? e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN) : NULL;
+
+	editor_thread = g_thread_new (NULL, external_editor_thread, eed);
+	g_thread_unref (editor_thread);
+
+	e_content_editor_util_free_content_hash (content_hash);
+	g_clear_error (&error);
+}
+
+static void
+launch_editor (GtkAction *action,
+	       EMsgComposer *composer)
 {
 	struct ExternalEditorData *eed;
 	EHTMLEditor *editor;
@@ -437,16 +466,9 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 
 	eed = g_slice_new0 (struct ExternalEditorData);
 	eed->composer = g_object_ref (composer);
-	eed->content = e_content_editor_get_content (cnt_editor,
-		E_CONTENT_EDITOR_GET_TEXT_PLAIN |
-		E_CONTENT_EDITOR_GET_PROCESSED,
-		NULL, NULL);
-	eed->cursor_position = e_content_editor_get_caret_position (cnt_editor);
-	if (eed->cursor_position > 0)
-		eed->cursor_offset = e_content_editor_get_caret_offset (cnt_editor);
 
-	editor_thread = g_thread_new (NULL, external_editor_thread, eed);
-	g_thread_unref (editor_thread);
+	e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN, NULL, NULL,
+		launch_editor_content_ready_cb, eed);
 }
 
 static GtkActionEntry entries[] = {

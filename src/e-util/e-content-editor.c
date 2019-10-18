@@ -23,6 +23,7 @@
 
 #include "e-html-editor.h"
 #include "e-util-enumtypes.h"
+#include "e-misc-utils.h"
 #include "e-content-editor.h"
 
 G_DEFINE_INTERFACE (EContentEditor, e_content_editor, GTK_TYPE_WIDGET);
@@ -36,6 +37,7 @@ enum {
 	REPLACE_ALL_DONE,
 	DROP_HANDLED,
 	CONTENT_CHANGED,
+	REF_MIME_PART,
 	LAST_SIGNAL
 };
 
@@ -297,18 +299,18 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 			G_PARAM_STATIC_STRINGS));
 
 	/**
-	 * EContentEditor:indented
+	 * EContentEditor:indent-level
 	 *
-	 * Holds whether current paragraph is indented. This does not include
+	 * Holds current paragraph indent level. This does not include
 	 * citations.
 	 */
 	g_object_interface_install_property (
 		iface,
-		g_param_spec_boolean (
-			"indented",
+		g_param_spec_int (
+			"indent-level",
 			NULL,
 			NULL,
-			FALSE,
+			0, E_HTML_EDITOR_MAX_INDENT_LEVEL, 0,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -322,22 +324,6 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		iface,
 		g_param_spec_boolean (
 			"italic",
-			NULL,
-			NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
-
-	/**
-	 * EContentEditor:monospaced
-	 *
-	 * Holds whether current selection or letter at current cursor position
-	 * is monospaced.
-	 */
-	g_object_interface_install_property (
-		iface,
-		g_param_spec_boolean (
-			"monospaced",
 			NULL,
 			NULL,
 			FALSE,
@@ -562,10 +548,11 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		E_TYPE_CONTENT_EDITOR,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EContentEditorInterface, context_menu_requested),
-		g_signal_accumulator_true_handled, NULL,
+		NULL, NULL,
 		NULL,
-		G_TYPE_BOOLEAN, 2,
+		G_TYPE_NONE, 3,
 		G_TYPE_INT,
+		G_TYPE_STRING,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	/**
@@ -630,6 +617,26 @@ e_content_editor_default_init (EContentEditorInterface *iface)
 		NULL, NULL,
 		NULL,
 		G_TYPE_NONE, 0);
+
+	/**
+	 * EContentEditor:ref-mime-part
+	 *
+	 * This is used by the content editor, when it wants to get
+	 * a #CamelMimePart of given URI (aka "cid:..."). The returned
+	 * object, if not %NULL, should be freed with g_object_unref(),
+	 * when no longer needed.
+	 *
+	 * Since: 3.38
+	 */
+	signals[REF_MIME_PART] = g_signal_new (
+		"ref-mime-part",
+		E_TYPE_CONTENT_EDITOR,
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EContentEditorInterface, ref_mime_part),
+		NULL, NULL,
+		NULL,
+		CAMEL_TYPE_MIME_PART, 1,
+		G_TYPE_STRING);
 }
 
 ESpellChecker *
@@ -717,24 +724,24 @@ e_content_editor_can_redo (EContentEditor *editor)
 }
 
 /**
- * e_content_editor_is_indented:
+ * e_content_editor_indent_level:
  * @editor: an #EContentEditor
  *
- * Returns whether the current paragraph is indented. This does not include
- * citations.
+ * Returns the indent level for the current selection/caret position.
+ * This does not include citations.
  *
- * Returns: %TRUE when current paragraph is indented, %FALSE otherwise.
+ * Returns: the indent level.
  *
- * Since: 3.22
+ * Since: 3.38
  **/
-gboolean
-e_content_editor_is_indented (EContentEditor *editor)
+gint
+e_content_editor_indent_level (EContentEditor *editor)
 {
-	gboolean value = FALSE;
+	gint value = 0;
 
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), 0);
 
-	g_object_get (G_OBJECT (editor), "indented", &value, NULL);
+	g_object_get (G_OBJECT (editor), "indent-level", &value, NULL);
 
 	return value;
 }
@@ -1163,48 +1170,6 @@ e_content_editor_is_italic (EContentEditor *editor)
 }
 
 /**
- * e_content_editor_set_monospaced:
- * @editor: an #EContentEditor
- * @monospaced: %TRUE to enable monospaced, %FALSE to disable
- *
- * Changes monospaced formatting of current selection or letter
- * at current cursor position.
- *
- * Since: 3.22
- **/
-void
-e_content_editor_set_monospaced (EContentEditor *editor,
-				 gboolean monospaced)
-{
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	g_object_set (G_OBJECT (editor), "monospaced", monospaced, NULL);
-}
-
-/**
- * e_content_editor_is_monospaced:
- * @editor: an #EContentEditor
- *
- * Returns whether current selection or letter at current cursor position
- * is monospaced.
- *
- * Returns: %TRUE when selection is monospaced, %FALSE otherwise.
- *
- * Since: 3.22
- **/
-gboolean
-e_content_editor_is_monospaced (EContentEditor *editor)
-{
-	gboolean value = FALSE;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	g_object_get (G_OBJECT (editor), "monospaced", &value, NULL);
-
-	return value;
-}
-
-/**
  * e_content_editor_set_strikethrough:
  * @editor: an #EContentEditor
  * @strikethrough: %TRUE to enable strikethrough, %FALSE to disable
@@ -1574,41 +1539,348 @@ e_content_editor_insert_content (EContentEditor *editor,
 	iface->insert_content (editor, content, flags);
 }
 
-gchar *
+/*
+ Finish the operation with e_content_editor_get_content_finish().
+ */
+void
 e_content_editor_get_content (EContentEditor *editor,
-                              EContentEditorGetContentFlags flags,
+			      guint32 flags,
 			      const gchar *inline_images_from_domain,
-			      GSList **inline_images_parts /* newly created CamelMimePart * */)
+			      GCancellable *cancellable,
+			      GAsyncReadyCallback callback,
+			      gpointer user_data)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES))
+		g_return_if_fail (inline_images_from_domain != NULL);
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->get_content != NULL);
+
+	iface->get_content (editor, flags, inline_images_from_domain, cancellable, callback, user_data);
+}
+
+/*
+ Finishes previous call of e_content_editor_get_content(). The implementation
+ creates the GHashTable with e_content_editor_util_new_content_hash() and fills
+ it with e_content_editor_util_put_content_data(), e_content_editor_util_take_content_data()
+ or e_content_editor_util_take_content_data_images(). The caller can access
+ the members with e_content_editor_util_get_content_data().
+
+ The returned pointer should be freed with e_content_editor_util_free_content_hash(),
+ when done with it.
+ */
+EContentEditorContentHash *
+e_content_editor_get_content_finish (EContentEditor *editor,
+				     GAsyncResult *result,
+				     GError **error)
 {
 	EContentEditorInterface *iface;
 
 	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
-	if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES)) {
-		g_return_val_if_fail (inline_images_from_domain != NULL, NULL);
-		g_return_val_if_fail (inline_images_parts != NULL, NULL);
-	}
 
 	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
 	g_return_val_if_fail (iface != NULL, NULL);
 	g_return_val_if_fail (iface->get_content != NULL, NULL);
 
-	return iface->get_content (editor, flags, inline_images_from_domain, inline_images_parts);
+	return iface->get_content_finish (editor, result, error);
+}
+
+typedef struct _ContentHashData {
+	gpointer data;
+	GDestroyNotify destroy_data;
+} ContentHashData;
+
+static ContentHashData *
+content_hash_data_new (gpointer data,
+		       GDestroyNotify destroy_data)
+{
+	ContentHashData *chd;
+
+	chd = g_slice_new (ContentHashData);
+	chd->data = data;
+	chd->destroy_data = destroy_data;
+
+	return chd;
+}
+
+static void
+content_hash_data_free (gpointer ptr)
+{
+	ContentHashData *chd = ptr;
+
+	if (ptr) {
+		if (chd->destroy_data && chd->data)
+			chd->destroy_data (chd->data);
+
+		g_slice_free (ContentHashData, chd);
+	}
+}
+
+static void
+content_data_free_obj_slist (gpointer ptr)
+{
+	GSList *lst = ptr;
+
+	g_slist_free_full (lst, g_object_unref);
+}
+
+EContentEditorContentHash *
+e_content_editor_util_new_content_hash (void)
+{
+	return (EContentEditorContentHash *) g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, content_hash_data_free);
 }
 
 void
-e_content_editor_insert_image_from_mime_part (EContentEditor *editor,
-                                              CamelMimePart *part)
+e_content_editor_util_free_content_hash (EContentEditorContentHash *content_hash)
 {
-	EContentEditorInterface *iface;
+	if (content_hash)
+		g_hash_table_unref ((GHashTable *) content_hash);
+}
 
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-	g_return_if_fail (part != NULL);
+void
+e_content_editor_util_put_content_data (EContentEditorContentHash *content_hash,
+					EContentEditorGetContentFlags flag,
+					const gchar *data)
+{
+	g_return_if_fail (content_hash != NULL);
+	g_return_if_fail (flag != E_CONTENT_EDITOR_GET_ALL);
+	g_return_if_fail (data != NULL);
 
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->insert_image_from_mime_part != NULL);
+	e_content_editor_util_take_content_data (content_hash, flag, g_strdup (data), g_free);
+}
 
-	iface->insert_image_from_mime_part (editor, part);
+void
+e_content_editor_util_take_content_data (EContentEditorContentHash *content_hash,
+					 EContentEditorGetContentFlags flag,
+					 gpointer data,
+					 GDestroyNotify destroy_data)
+{
+	g_return_if_fail (content_hash != NULL);
+	g_return_if_fail (flag != E_CONTENT_EDITOR_GET_ALL);
+	g_return_if_fail (data != NULL);
+
+	g_hash_table_insert ((GHashTable *) content_hash, GUINT_TO_POINTER (flag), content_hash_data_new (data, destroy_data));
+}
+
+void
+e_content_editor_util_take_content_data_images (EContentEditorContentHash *content_hash,
+						GSList *image_parts) /* CamelMimePart * */
+{
+	g_return_if_fail (content_hash != NULL);
+	g_return_if_fail (image_parts != NULL);
+
+	g_hash_table_insert ((GHashTable *) content_hash, GUINT_TO_POINTER (E_CONTENT_EDITOR_GET_INLINE_IMAGES),
+		content_hash_data_new (image_parts, content_data_free_obj_slist));
+}
+
+/* The actual data type depends on the @flag. The E_CONTENT_EDITOR_GET_INLINE_IMAGES returns
+   a GSList of CamelMimePart-s of inline images. All the other flags return plain strings.
+
+   The returned pointer is owned by content_hash and cannot be freed
+   neither modified. It's freed together with the content_hash, or
+   when its key is overwritten.
+ */
+gpointer
+e_content_editor_util_get_content_data (EContentEditorContentHash *content_hash,
+					EContentEditorGetContentFlags flag)
+{
+	ContentHashData *chd;
+
+	g_return_val_if_fail (content_hash != NULL, NULL);
+	g_return_val_if_fail (flag != E_CONTENT_EDITOR_GET_ALL, NULL);
+
+	chd = g_hash_table_lookup ((GHashTable *) content_hash, GUINT_TO_POINTER (flag));
+
+	return chd ? chd->data : NULL;
+}
+
+/* The same rules apply as with e_content_editor_util_get_content_data(). The difference is
+   that after calling this function the data is stoled from the content_hash and the caller
+   is responsible to free it. Any following calls with the same flag will return %NULL.
+ */
+gpointer
+e_content_editor_util_steal_content_data (EContentEditorContentHash *content_hash,
+					  EContentEditorGetContentFlags flag,
+					  GDestroyNotify *out_destroy_data)
+{
+	ContentHashData *chd;
+	gpointer data;
+
+	if (out_destroy_data)
+		*out_destroy_data = NULL;
+
+	g_return_val_if_fail (content_hash != NULL, NULL);
+	g_return_val_if_fail (flag != E_CONTENT_EDITOR_GET_ALL, NULL);
+
+	chd = g_hash_table_lookup ((GHashTable *) content_hash, GUINT_TO_POINTER (flag));
+
+	if (!chd)
+		return NULL;
+
+	data = chd->data;
+
+	if (out_destroy_data)
+		*out_destroy_data = chd->destroy_data;
+
+	chd->data = NULL;
+	chd->destroy_data = NULL;
+
+	return data;
+}
+
+/**
+ * e_content_editor_util_create_data_mimepart:
+ * @uri: a file:// or data: URI of the data to convert to MIME part
+ * @cid: content ID to use for the MIME part, should start with "cid:"; can be %NULL
+ * @as_inline: whether to use "inline" content disposition; will use "attachment", if set to %FALSE
+ * @prefer_filename: preferred file name to use, can be %NULL
+ * @prefer_mime_type: preferred MIME type for the part, can be %NULL
+ * @cancellable: optional #GCancellable object, or %NULL
+ *
+ * Converts URI into a #CamelMimePart. Supports file:// and data: URIs.
+ * The @prefer_filename can override the file name from the @uri.
+ *
+ * Free the returned pointer, if not %NULL, with g_object_unref(), when
+ * no longer needed.
+ *
+ * Returns: (transfer full) (nullable): a new #CamelMimePart containing
+ *    the referenced data, or %NULL, when cannot be converted (due to
+ *    unsupported URI, file not found or such).
+ *
+ * Since: 3.38
+ **/
+CamelMimePart *
+e_content_editor_util_create_data_mimepart (const gchar *uri,
+					    const gchar *cid,
+					    gboolean as_inline,
+					    const gchar *prefer_filename,
+					    const gchar *prefer_mime_type,
+					    GCancellable *cancellable)
+{
+	CamelMimePart *mime_part = NULL;
+	GInputStream *input_stream = NULL;
+	GFileInfo *file_info = NULL;
+	gchar *mime_type = NULL;
+	guchar *data = NULL;
+	gsize data_length = 0;
+
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	/* base64-encoded "data:" URIs */
+	if (g_ascii_strncasecmp (uri, "data:", 5) == 0) {
+		/* data:[<mime type>][;charset=<charset>][;base64],<encoded data> */
+		const gchar *ptr, *from;
+		gboolean is_base64 = FALSE;
+
+		ptr = uri + 5;
+		from = ptr;
+		while (*ptr && *ptr != ',') {
+			ptr++;
+
+			if (*ptr == ',' || *ptr == ';') {
+				if (g_ascii_strncasecmp (from, "base64", ptr - from) == 0)
+					is_base64 = TRUE;
+
+				if (from == uri + 5 && *ptr == ';' && !prefer_mime_type)
+					mime_type = g_strndup (from, ptr - from);
+
+				from = ptr + 1;
+			}
+		}
+
+		if (is_base64 && *ptr == ',') {
+			data = g_base64_decode (ptr + 1, &data_length);
+
+			if (data && data_length && !mime_type && !prefer_mime_type) {
+				gchar *content_type;
+
+				content_type = g_content_type_guess (NULL, data, data_length, NULL);
+
+				if (content_type) {
+					mime_type = g_content_type_get_mime_type (content_type);
+					g_free (content_type);
+				}
+			}
+		}
+
+	/* files on the disk */
+	} else if (g_ascii_strncasecmp (uri, "file://", 7) == 0 ||
+		   g_ascii_strncasecmp (uri, "evo-file://", 11) == 0) {
+		GFileInputStream *file_stream;
+		GFile *file;
+
+		if (g_ascii_strncasecmp (uri, "evo-", 4) == 0)
+			uri += 4;
+
+		file = g_file_new_for_uri (uri);
+		file_stream = g_file_read (file, NULL, NULL);
+		g_clear_object (&file);
+
+		if (file_stream) {
+			if (!prefer_filename) {
+				file_info = g_file_input_stream_query_info (file_stream, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME, cancellable, NULL);
+
+				if (file_info) {
+					prefer_filename = g_file_info_get_display_name (file_info);
+				}
+			}
+
+			if (!prefer_mime_type)
+				mime_type = e_util_guess_mime_type (uri, TRUE);
+
+			input_stream = (GInputStream *) file_stream;
+		}
+	}
+
+	if (data || input_stream) {
+		if (!prefer_mime_type)
+			prefer_mime_type = mime_type;
+
+		if (!prefer_mime_type)
+			prefer_mime_type = "application/octet-stream";
+
+		if (input_stream) {
+			CamelDataWrapper *wrapper;
+
+			wrapper = camel_data_wrapper_new ();
+
+			if (camel_data_wrapper_construct_from_input_stream_sync (wrapper, input_stream, cancellable, NULL)) {
+				camel_data_wrapper_set_mime_type (wrapper, prefer_mime_type);
+
+				mime_part = camel_mime_part_new ();
+				camel_medium_set_content (CAMEL_MEDIUM (mime_part), wrapper);
+			}
+
+			g_object_unref (wrapper);
+		} else {
+			mime_part = camel_mime_part_new ();
+			camel_mime_part_set_content (mime_part, (const gchar *) data, data_length, prefer_mime_type);
+		}
+
+		if (mime_part) {
+			camel_mime_part_set_disposition (mime_part, as_inline ? "inline" : "attachment");
+
+			if (cid)
+				camel_mime_part_set_content_id (mime_part, cid);
+
+			if (prefer_filename && *prefer_filename)
+				camel_mime_part_set_filename (mime_part, prefer_filename);
+
+			camel_mime_part_set_encoding (mime_part, CAMEL_TRANSFER_ENCODING_BASE64);
+		}
+	}
+
+	g_clear_object (&input_stream);
+	g_clear_object (&file_info);
+	g_free (mime_type);
+	g_free (data);
+
+	return mime_part;
 }
 
 /**
@@ -1800,30 +2072,6 @@ e_content_editor_select_all (EContentEditor *editor)
 }
 
 /**
- * e_content_editor_get_selected_text:
- * @editor: an #EContentEditor
- *
- * Returns currently selected string.
- *
- * Returns: (transfer-full): A newly allocated string with the content of current selection.
- *
- * Since: 3.22
- **/
-gchar *
-e_content_editor_get_selected_text (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, NULL);
-	g_return_val_if_fail (iface->get_selected_text != NULL, NULL);
-
-	return iface->get_selected_text (editor);
-}
-
-/**
  * e_content_editor_get_caret_word:
  * @editor: an #EContentEditor
  *
@@ -1899,31 +2147,6 @@ e_content_editor_selection_unindent (EContentEditor *editor)
 	g_return_if_fail (iface->selection_unindent != NULL);
 
 	iface->selection_unindent (editor);
-}
-
-/**
- * e_content_editor_selection_create_link:
- * @editor: an #EContentEditor
- * @uri: destination of the new link
- *
- * Converts current selection into a link pointing to @url.
- *
- * Since: 3.22
- **/
-void
-e_content_editor_selection_create_link (EContentEditor *editor,
-                                        const gchar *uri)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-	g_return_if_fail (uri != NULL);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->selection_create_link != NULL);
-
-	iface->selection_create_link (editor, uri);
 }
 
 /**
@@ -2119,34 +2342,6 @@ e_content_editor_selection_wrap (EContentEditor *editor)
 	iface->selection_wrap (editor);
 }
 
-guint
-e_content_editor_get_caret_position (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), 0);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, 0);
-	g_return_val_if_fail (iface->get_caret_position != NULL, 0);
-
-	return iface->get_caret_position (editor);
-}
-
-guint
-e_content_editor_get_caret_offset (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), 0);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, 0);
-	g_return_val_if_fail (iface->get_caret_offset != NULL, 0);
-
-	return iface->get_caret_offset (editor);
-}
-
 gchar *
 e_content_editor_get_current_signature_uid (EContentEditor *editor)
 {
@@ -2337,22 +2532,9 @@ e_content_editor_insert_row_below (EContentEditor *editor)
 	iface->insert_row_below (editor);
 }
 
-gboolean
-e_content_editor_on_h_rule_dialog_open (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->on_h_rule_dialog_open != NULL, FALSE);
-
-	return iface->on_h_rule_dialog_open (editor);
-}
-
 void
-e_content_editor_on_h_rule_dialog_close (EContentEditor *editor)
+e_content_editor_on_dialog_open (EContentEditor *editor,
+				 const gchar *name)
 {
 	EContentEditorInterface *iface;
 
@@ -2360,9 +2542,24 @@ e_content_editor_on_h_rule_dialog_close (EContentEditor *editor)
 
 	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
 	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_h_rule_dialog_close != NULL);
+	g_return_if_fail (iface->on_dialog_open != NULL);
 
-	iface->on_h_rule_dialog_close (editor);
+	iface->on_dialog_open (editor, name);
+}
+
+void
+e_content_editor_on_dialog_close (EContentEditor *editor,
+				  const gchar *name)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->on_dialog_close != NULL);
+
+	iface->on_dialog_close (editor, name);
 }
 
 void
@@ -2482,34 +2679,6 @@ e_content_editor_h_rule_get_no_shade (EContentEditor *editor)
 	g_return_val_if_fail (iface->h_rule_get_no_shade != NULL, FALSE);
 
 	return iface->h_rule_get_no_shade (editor);
-}
-
-void
-e_content_editor_on_image_dialog_open (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_image_dialog_open != NULL);
-
-	iface->on_image_dialog_open (editor);
-}
-
-void
-e_content_editor_on_image_dialog_close (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_image_dialog_close != NULL);
-
-	iface->on_image_dialog_close (editor);
 }
 
 void
@@ -2834,7 +3003,9 @@ e_content_editor_image_set_height_follow (EContentEditor *editor,
 }
 
 void
-e_content_editor_on_link_dialog_open (EContentEditor *editor)
+e_content_editor_link_get_properties (EContentEditor *editor,
+				      gchar **href,
+				      gchar **text)
 {
 	EContentEditorInterface *iface;
 
@@ -2842,13 +3013,15 @@ e_content_editor_on_link_dialog_open (EContentEditor *editor)
 
 	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
 	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_link_dialog_open != NULL);
+	g_return_if_fail (iface->link_get_properties != NULL);
 
-	iface->on_link_dialog_open (editor);
+	iface->link_get_properties (editor, href, text);
 }
 
 void
-e_content_editor_on_link_dialog_close (EContentEditor *editor)
+e_content_editor_link_set_properties (EContentEditor *editor,
+				      const gchar *href,
+				      const gchar *text)
 {
 	EContentEditorInterface *iface;
 
@@ -2856,69 +3029,9 @@ e_content_editor_on_link_dialog_close (EContentEditor *editor)
 
 	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
 	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_link_dialog_close != NULL);
+	g_return_if_fail (iface->link_set_properties != NULL);
 
-	iface->on_link_dialog_close (editor);
-}
-
-void
-e_content_editor_link_get_values (EContentEditor *editor,
-                                  gchar **href,
-                                  gchar **text)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->link_get_values != NULL);
-
-	return iface->link_get_values (editor, href, text);
-}
-
-void
-e_content_editor_link_set_values (EContentEditor *editor,
-                                  const gchar *href,
-                                  const gchar *text)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->link_set_values != NULL);
-
-	iface->link_set_values (editor, href, text);
-}
-
-void
-e_content_editor_on_page_dialog_open (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_page_dialog_open != NULL);
-
-	iface->on_page_dialog_open (editor);
-}
-
-void
-e_content_editor_on_page_dialog_close (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_page_dialog_close != NULL);
-
-	iface->on_page_dialog_close (editor);
+	iface->link_set_properties (editor, href, text);
 }
 
 void
@@ -3049,6 +3162,35 @@ e_content_editor_page_get_visited_link_color (EContentEditor *editor,
 	return iface->page_get_visited_link_color (editor, value);
 }
 
+void
+e_content_editor_page_set_font_name (EContentEditor *editor,
+				     const gchar *value)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->page_set_font_name != NULL);
+
+	iface->page_set_font_name (editor, value);
+}
+
+const gchar *
+e_content_editor_page_get_font_name (EContentEditor *editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_val_if_fail (iface != NULL, NULL);
+	g_return_val_if_fail (iface->page_get_font_name != NULL, NULL);
+
+	return iface->page_get_font_name (editor);
+}
+
 /* uri could be NULL -> removes the current image */
 void
 e_content_editor_page_set_background_image_uri (EContentEditor *editor,
@@ -3077,34 +3219,6 @@ e_content_editor_page_get_background_image_uri (EContentEditor *editor)
 	g_return_val_if_fail (iface->page_get_background_image_uri != NULL, NULL);
 
 	return iface->page_get_background_image_uri (editor);
-}
-
-void
-e_content_editor_on_cell_dialog_open (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_cell_dialog_open != NULL);
-
-	iface->on_cell_dialog_open (editor);
-}
-
-void
-e_content_editor_on_cell_dialog_close (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_cell_dialog_close != NULL);
-
-	iface->on_cell_dialog_close (editor);
 }
 
 void
@@ -3648,62 +3762,6 @@ e_content_editor_table_set_background_color (EContentEditor *editor,
 	iface->table_set_background_color (editor, value);
 }
 
-gboolean
-e_content_editor_on_table_dialog_open (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_val_if_fail (iface != NULL, FALSE);
-	g_return_val_if_fail (iface->on_table_dialog_open != NULL, FALSE);
-
-	return iface->on_table_dialog_open (editor);
-}
-
-void
-e_content_editor_on_table_dialog_close (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_table_dialog_close != NULL);
-
-	iface->on_table_dialog_close (editor);
-}
-
-void
-e_content_editor_on_spell_check_dialog_open (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_spell_check_dialog_close != NULL);
-
-	iface->on_spell_check_dialog_close (editor);
-}
-
-void
-e_content_editor_on_spell_check_dialog_close (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_spell_check_dialog_close != NULL);
-
-	iface->on_spell_check_dialog_close (editor);
-}
-
 gchar *
 e_content_editor_spell_check_next_word (EContentEditor *editor,
                                         const gchar *word)
@@ -3732,62 +3790,6 @@ e_content_editor_spell_check_prev_word (EContentEditor *editor,
 	g_return_val_if_fail (iface->spell_check_prev_word != NULL, NULL);
 
 	return iface->spell_check_prev_word (editor, word);
-}
-
-void
-e_content_editor_on_replace_dialog_open (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_replace_dialog_open != NULL);
-
-	iface->on_replace_dialog_open (editor);
-}
-
-void
-e_content_editor_on_replace_dialog_close (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_replace_dialog_close != NULL);
-
-	iface->on_replace_dialog_close (editor);
-}
-
-void
-e_content_editor_on_find_dialog_open (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_find_dialog_open != NULL);
-
-	iface->on_find_dialog_open (editor);
-}
-
-void
-e_content_editor_on_find_dialog_close (EContentEditor *editor)
-{
-	EContentEditorInterface *iface;
-
-	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
-
-	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
-	g_return_if_fail (iface != NULL);
-	g_return_if_fail (iface->on_find_dialog_close != NULL);
-
-	iface->on_find_dialog_close (editor);
 }
 
 void
@@ -3822,18 +3824,15 @@ e_content_editor_emit_paste_primary_clipboard (EContentEditor *editor)
 	return handled;
 }
 
-gboolean
+void
 e_content_editor_emit_context_menu_requested (EContentEditor *editor,
-                                              EContentEditorNodeFlags flags,
-                                              GdkEvent *event)
+					      EContentEditorNodeFlags flags,
+					      const gchar *caret_word,
+					      GdkEvent *event)
 {
-	gboolean handled = FALSE;
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
 
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), FALSE);
-
-	g_signal_emit (editor, signals[CONTEXT_MENU_REQUESTED], 0, flags, event, &handled);
-
-	return handled;
+	g_signal_emit (editor, signals[CONTEXT_MENU_REQUESTED], 0, flags, caret_word, event, NULL);
 }
 
 void
@@ -3868,4 +3867,18 @@ e_content_editor_emit_content_changed (EContentEditor *editor)
 	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
 
 	g_signal_emit (editor, signals[CONTENT_CHANGED], 0);
+}
+
+CamelMimePart *
+e_content_editor_emit_ref_mime_part (EContentEditor *editor,
+				     const gchar *uri)
+{
+	CamelMimePart *mime_part = NULL;
+
+	g_return_val_if_fail (E_IS_CONTENT_EDITOR (editor), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	g_signal_emit (editor, signals[REF_MIME_PART], 0, uri, &mime_part);
+
+	return mime_part;
 }

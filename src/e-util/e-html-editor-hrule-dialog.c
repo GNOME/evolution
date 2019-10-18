@@ -187,7 +187,7 @@ html_editor_hrule_dialog_hide (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_on_h_rule_dialog_close (cnt_editor);
+	e_content_editor_on_dialog_close (cnt_editor, E_CONTENT_EDITOR_DIALOG_HRULE);
 
 	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->hide (widget);
 }
@@ -198,39 +198,17 @@ html_editor_hrule_dialog_show (GtkWidget *widget)
 	EHTMLEditorHRuleDialog *dialog;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
-	gboolean created_new_h_rule = FALSE;
 
 	dialog = E_HTML_EDITOR_HRULE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	created_new_h_rule = e_content_editor_on_h_rule_dialog_open (cnt_editor);
+	e_content_editor_on_dialog_open (cnt_editor, E_CONTENT_EDITOR_DIALOG_HRULE);
 
-	if (!created_new_h_rule) {
-		html_editor_hrule_dialog_get_alignment (dialog);
-		html_editor_hrule_dialog_get_size (dialog);
-		html_editor_hrule_dialog_get_width (dialog);
-		html_editor_hrule_dialog_get_shading (dialog);
-	} else {
-		/* For new rule reset the values to default */
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->width_edit), 100.0);
-		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (dialog->priv->unit_combo), "units-percent");
-		gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (dialog->priv->size_edit), 2.0);
-		gtk_combo_box_set_active_id (
-			GTK_COMBO_BOX (dialog->priv->alignment_combo), "left");
-		gtk_toggle_button_set_active (
-			GTK_TOGGLE_BUTTON (dialog->priv->shaded_check), FALSE);
-
-		html_editor_hrule_dialog_set_alignment (dialog);
-		html_editor_hrule_dialog_set_size (dialog);
-		html_editor_hrule_dialog_set_alignment (dialog);
-		html_editor_hrule_dialog_set_shading (dialog);
-
-		e_content_editor_set_changed (cnt_editor, TRUE);
-	}
+	html_editor_hrule_dialog_get_alignment (dialog);
+	html_editor_hrule_dialog_get_size (dialog);
+	html_editor_hrule_dialog_get_width (dialog);
+	html_editor_hrule_dialog_get_shading (dialog);
 
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_hrule_dialog_parent_class)->show (widget);

@@ -83,6 +83,8 @@
 	E_HTML_EDITOR_ACTION ((editor), "format-menu")
 #define E_HTML_EDITOR_ACTION_FORMAT_TEXT(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "format-text")
+#define E_HTML_EDITOR_ACTION_INDENT(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "indent")
 #define E_HTML_EDITOR_ACTION_INSERT_EMOTICON(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "insert-emoticon")
 #define E_HTML_EDITOR_ACTION_INSERT_EMOJI(editor) \
@@ -101,6 +103,8 @@
 	E_HTML_EDITOR_ACTION ((editor), "italic")
 #define E_HTML_EDITOR_ACTION_JUSTIFY_CENTER(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "justify-center")
+#define E_HTML_EDITOR_ACTION_JUSTIFY_FILL(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "justify-fill")
 #define E_HTML_EDITOR_ACTION_JUSTIFY_LEFT(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "justify-left")
 #define E_HTML_EDITOR_ACTION_JUSTIFY_RIGHT(editor) \
@@ -111,8 +115,6 @@
 	E_HTML_EDITOR_ACTION ((editor), "mode-html")
 #define E_HTML_EDITOR_ACTION_MODE_PLAIN(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "mode-plain")
-#define E_HTML_EDITOR_ACTION_MONOSPACED(editor) \
-	E_HTML_EDITOR_ACTION ((editor), "monospaced")
 #define E_HTML_EDITOR_ACTION_PASTE(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "paste")
 #define E_HTML_EDITOR_ACTION_PASTE_QUOTE(editor) \
@@ -151,6 +153,10 @@
 	E_HTML_EDITOR_ACTION ((editor), "style-h6")
 #define E_HTML_EDITOR_ACTION_STYLE_NORMAL(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "style-normal")
+#define E_HTML_EDITOR_ACTION_SUBSCRIPT(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "subscript")
+#define E_HTML_EDITOR_ACTION_SUPERSCRIPT(editor) \
+	E_HTML_EDITOR_ACTION ((editor), "superscript")
 #define E_HTML_EDITOR_ACTION_TEST_URL(editor) \
 	E_HTML_EDITOR_ACTION ((editor), "test-url")
 #define E_HTML_EDITOR_ACTION_UNDERLINE(editor) \

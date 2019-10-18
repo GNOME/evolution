@@ -108,6 +108,8 @@ EFocusTracker *	e_msg_composer_get_focus_tracker
 CamelSession *	e_msg_composer_ref_session	(EMsgComposer *composer);
 EShell *	e_msg_composer_get_shell	(EMsgComposer *composer);
 
+EContentEditorContentHash *
+		e_msg_composer_get_content_hash	(EMsgComposer *composer);
 void		e_msg_composer_send		(EMsgComposer *composer);
 void		e_msg_composer_save_to_drafts	(EMsgComposer *composer);
 void		e_msg_composer_save_to_outbox	(EMsgComposer *composer);

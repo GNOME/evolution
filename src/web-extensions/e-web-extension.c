@@ -136,19 +136,41 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 		extension, 0);
 }
 
+static gboolean
+use_sources_js_file (void)
+{
+	static gint res = -1;
+
+	if (res == -1)
+		res = g_strcmp0 (g_getenv ("E_WEB_VIEW_TEST_SOURCES"), "1") == 0 ? 1 : 0;
+
+	return res;
+}
+
 static void
 load_javascript_file (JSCContext *jsc_context,
 		      const gchar *js_filename)
 {
 	JSCValue *result;
 	JSCException *exception;
-	gchar *content, *filename, *resource_uri;
+	gchar *content, *filename = NULL, *resource_uri;
 	gsize length = 0;
 	GError *error = NULL;
 
 	g_return_if_fail (jsc_context != NULL);
 
-	filename = g_build_filename (EVOLUTION_WEBKITDATADIR, js_filename, NULL);
+	if (use_sources_js_file ()) {
+		filename = g_build_filename (EVOLUTION_SOURCE_WEBKITDATADIR, js_filename, NULL);
+
+		if (!g_file_test (filename, G_FILE_TEST_EXISTS)) {
+			g_warning ("Cannot find '%s', using installed file '%s/%s' instead", filename, EVOLUTION_WEBKITDATADIR, js_filename);
+
+			g_clear_pointer (&filename, g_free);
+		}
+	}
+
+	if (!filename)
+		filename = g_build_filename (EVOLUTION_WEBKITDATADIR, js_filename, NULL);
 
 	if (!g_file_get_contents (filename, &content, &length, &error)) {
 		g_warning ("Failed to load '%s': %s", filename, error ? error->message : "Unknown error");

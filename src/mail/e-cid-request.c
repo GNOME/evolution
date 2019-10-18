@@ -19,8 +19,48 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "e-mail-display.h"
 #include "e-cid-request.h"
+
+G_DEFINE_INTERFACE (ECidResolver, e_cid_resolver, G_TYPE_OBJECT)
+
+static void
+e_cid_resolver_default_init (ECidResolverInterface *iface)
+{
+}
+
+CamelMimePart *
+e_cid_resolver_ref_part (ECidResolver *resolver,
+			 const gchar *uri)
+{
+	ECidResolverInterface *iface;
+
+	g_return_val_if_fail (E_IS_CID_RESOLVER (resolver), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	iface = E_CID_RESOLVER_GET_INTERFACE (resolver);
+	g_return_val_if_fail (iface != NULL, NULL);
+	g_return_val_if_fail (iface->ref_part != NULL, NULL);
+
+	return iface->ref_part (resolver, uri);
+}
+
+gchar *
+e_cid_resolver_dup_mime_type (ECidResolver *resolver,
+			      const gchar *uri)
+{
+	ECidResolverInterface *iface;
+
+	g_return_val_if_fail (E_IS_CID_RESOLVER (resolver), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	iface = E_CID_RESOLVER_GET_INTERFACE (resolver);
+	g_return_val_if_fail (iface != NULL, NULL);
+
+	if (iface->dup_mime_type)
+		return iface->dup_mime_type (resolver, uri);
+
+	return NULL;
+}
 
 struct _ECidRequestPrivate {
 	gint dummy;
@@ -51,9 +91,6 @@ e_cid_request_process_sync (EContentRequest *request,
 			    GCancellable *cancellable,
 			    GError **error)
 {
-	EMailDisplay *display;
-	EMailPartList *part_list;
-	EMailPart *part;
 	GByteArray *byte_array;
 	CamelStream *output_stream;
 	CamelDataWrapper *dw;
@@ -66,20 +103,13 @@ e_cid_request_process_sync (EContentRequest *request,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return FALSE;
 
-	if (!E_IS_MAIL_DISPLAY (requester))
+	if (!E_IS_CID_RESOLVER (requester))
 		return FALSE;
 
-	display = E_MAIL_DISPLAY (requester);
-
-	part_list = e_mail_display_get_part_list (display);
-	if (!part_list)
+	mime_part = e_cid_resolver_ref_part (E_CID_RESOLVER (requester), uri);
+	if (!mime_part)
 		return FALSE;
 
-	part = e_mail_part_list_ref_part (part_list, uri);
-	if (!part)
-		return FALSE;
-
-	mime_part = e_mail_part_ref_mime_part (part);
 	dw = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	g_return_val_if_fail (dw != NULL, FALSE);
@@ -102,11 +132,14 @@ e_cid_request_process_sync (EContentRequest *request,
 		*out_stream_length = g_bytes_get_size (bytes);
 
 		mime_type = camel_data_wrapper_get_mime_type (dw);
-		if (mime_type && *mime_type)
+		if (mime_type && *mime_type) {
 			*out_mime_type = mime_type;
-		else {
+		} else {
 			g_free (mime_type);
-			*out_mime_type = g_strdup (e_mail_part_get_mime_type (part));
+			*out_mime_type = e_cid_resolver_dup_mime_type (E_CID_RESOLVER (requester), uri);
+
+			if (!*out_mime_type)
+				*out_mime_type = g_strdup ("application/octet-stream");
 		}
 
 		g_bytes_unref (bytes);
@@ -116,7 +149,6 @@ e_cid_request_process_sync (EContentRequest *request,
 
 	g_object_unref (output_stream);
 	g_object_unref (mime_part);
-	g_object_unref (part);
 
 	return success;
 }

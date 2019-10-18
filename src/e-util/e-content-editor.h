@@ -33,12 +33,24 @@
 
 #define DEFAULT_CONTENT_EDITOR_NAME "WebKit"
 
+#define E_CONTENT_EDITOR_DIALOG_HRULE		"hrule"
+#define E_CONTENT_EDITOR_DIALOG_IMAGE		"image"
+#define E_CONTENT_EDITOR_DIALOG_LINK		"link"
+#define E_CONTENT_EDITOR_DIALOG_PAGE		"page"
+#define E_CONTENT_EDITOR_DIALOG_CELL		"cell"
+#define E_CONTENT_EDITOR_DIALOG_TABLE		"table"
+#define E_CONTENT_EDITOR_DIALOG_SPELLCHECK	"spellcheck"
+#define E_CONTENT_EDITOR_DIALOG_FIND		"find"
+#define E_CONTENT_EDITOR_DIALOG_REPLACE		"replace"
+
 G_BEGIN_DECLS
 
 struct _EHTMLEditor;
 
 #define E_TYPE_CONTENT_EDITOR e_content_editor_get_type ()
 G_DECLARE_INTERFACE (EContentEditor, e_content_editor, E, CONTENT_EDITOR, GtkWidget)
+
+typedef GHashTable EContentEditorContentHash;
 
 typedef void (*EContentEditorInitializedCallback)	(EContentEditor *content_editor,
 							 gpointer user_data);
@@ -56,17 +68,19 @@ struct _EContentEditorInterface {
 							 const gchar *content,
 							 EContentEditorInsertContentFlags flags);
 
-	gchar *		(*get_content)			(EContentEditor *editor,
-							 EContentEditorGetContentFlags flags,
+	void		(*get_content)			(EContentEditor *editor,
+							 guint32 flags, /* bit-or of EContentEditorGetContentFlags */
 							 const gchar *inline_images_from_domain,
-							 GSList **inline_images_parts /* newly created CamelMimePart * */);
+							 GCancellable *cancellable,
+							 GAsyncReadyCallback callback,
+							 gpointer user_data);
+	EContentEditorContentHash *
+			(*get_content_finish)		(EContentEditor *editor,
+							 GAsyncResult *result,
+							 GError **error);
 
 	void		(*insert_image)			(EContentEditor *editor,
 							 const gchar *uri);
-
-	void            (*insert_image_from_mime_part)
-							(EContentEditor *editor,
-							 CamelMimePart *part);
 
 	void		(*insert_emoticon)		(EContentEditor *editor,
 							 EEmoticon *emoticon);
@@ -93,8 +107,6 @@ struct _EContentEditorInterface {
 	void		(*set_spell_checking_languages)	(EContentEditor *editor,
 							 const gchar **languages);
 
-	gchar *		(*get_selected_text)		(EContentEditor *editor);
-
 	gchar *		(*get_caret_word)		(EContentEditor *editor);
 
 	void		(*replace_caret_word)		(EContentEditor *editor,
@@ -105,9 +117,6 @@ struct _EContentEditorInterface {
 	void		(*selection_indent)		(EContentEditor *editor);
 
 	void		(*selection_unindent)		(EContentEditor *editor);
-
-	void		(*selection_create_link)	(EContentEditor *editor,
-							 const gchar *uri);
 
 	void		(*selection_unlink)		(EContentEditor *editor);
 
@@ -128,10 +137,6 @@ struct _EContentEditorInterface {
 	void		(*selection_restore)		(EContentEditor *editor);
 
 	void		(*selection_wrap)		(EContentEditor *editor);
-
-	guint		(*get_caret_position)		(EContentEditor *editor);
-
-	guint		(*get_caret_offset)		(EContentEditor *editor);
 
 	gchar *		(*get_current_signature_uid)	(EContentEditor *editor);
 
@@ -161,9 +166,11 @@ struct _EContentEditorInterface {
 
 	void		(*insert_row_below)		(EContentEditor *editor);
 
-	gboolean	(*on_h_rule_dialog_open)	(EContentEditor *editor);
+	void		(*on_dialog_open)		(EContentEditor *editor,
+							 const gchar *name);
 
-	void		(*on_h_rule_dialog_close)	(EContentEditor *editor);
+	void		(*on_dialog_close)		(EContentEditor *editor,
+							 const gchar *name);
 
 	void		(*h_rule_set_align)		(EContentEditor *editor,
 							 const gchar *value);
@@ -186,10 +193,6 @@ struct _EContentEditorInterface {
 							 gboolean value);
 
 	gboolean	(*h_rule_get_no_shade)		(EContentEditor *editor);
-
-	void		(*on_image_dialog_open)		(EContentEditor *editor);
-
-	void		(*on_image_dialog_close)	(EContentEditor *editor);
 
 	void		(*image_set_src)		(EContentEditor *editor,
 							 const gchar *value);
@@ -246,21 +249,13 @@ struct _EContentEditorInterface {
 
 	gchar *		(*image_get_align)		(EContentEditor *editor);
 
-	void		(*on_link_dialog_open)		(EContentEditor *editor);
-
-	void		(*on_link_dialog_close)		(EContentEditor *editor);
-
-	void		(*link_get_values)		(EContentEditor *editor,
+	void		(*link_get_properties)		(EContentEditor *editor,
 							 gchar **href,
 							 gchar **text);
 
-	void		(*link_set_values)		(EContentEditor *editor,
+	void		(*link_set_properties)		(EContentEditor *editor,
 							 const gchar *href,
 							 const gchar *text);
-
-	void		(*on_page_dialog_open)		(EContentEditor *editor);
-
-	void		(*on_page_dialog_close)		(EContentEditor *editor);
 
 	void		(*page_set_text_color)		(EContentEditor *editor,
 							 const GdkRGBA *value);
@@ -285,6 +280,9 @@ struct _EContentEditorInterface {
 
 	void		(*page_get_visited_link_color)	(EContentEditor *editor,
 							 GdkRGBA *value);
+	void		(*page_set_font_name)		(EContentEditor *editor,
+							 const gchar *value);
+	const gchar *	(*page_get_font_name)		(EContentEditor *editor);
 
 	void		(*page_set_background_image_uri)
 							(EContentEditor *editor,
@@ -292,10 +290,6 @@ struct _EContentEditorInterface {
 
 	gchar *		(*page_get_background_image_uri)
 							(EContentEditor *editor);
-
-	void		(*on_cell_dialog_open)		(EContentEditor *editor);
-
-	void		(*on_cell_dialog_close)		(EContentEditor *editor);
 
 	void		(*cell_set_v_align)		(EContentEditor *editor,
 							 const gchar *value,
@@ -405,34 +399,19 @@ struct _EContentEditorInterface {
 	void		(*table_set_background_color)	(EContentEditor *editor,
 							 const GdkRGBA *value);
 
-	gboolean	(*on_table_dialog_open)		(EContentEditor *editor);
-
-	void		(*on_table_dialog_close)	(EContentEditor *editor);
-
-	void		(*on_spell_check_dialog_open)	(EContentEditor *editor);
-
-	void		(*on_spell_check_dialog_close)	(EContentEditor *editor);
-
 	gchar *		(*spell_check_next_word)	(EContentEditor *editor,
 							 const gchar *word);
 
 	gchar *		(*spell_check_prev_word)	(EContentEditor *editor,
 							 const gchar *word);
 
-	void		(*on_replace_dialog_open)	(EContentEditor *editor);
-
-	void		(*on_replace_dialog_close)	(EContentEditor *editor);
-
-	void		(*on_find_dialog_open)		(EContentEditor *editor);
-
-	void		(*on_find_dialog_close)		(EContentEditor *editor);
-
 	/* Signals */
 	void		(*load_finished)		(EContentEditor *editor);
 	gboolean	(*paste_clipboard)		(EContentEditor *editor);
 	gboolean	(*paste_primary_clipboard)	(EContentEditor *editor);
-	gboolean	(*context_menu_requested)	(EContentEditor *editor,
+	void		(*context_menu_requested)	(EContentEditor *editor,
 							 EContentEditorNodeFlags flags,
+							 const gchar *caret_word,
 							 GdkEvent *event);
 	void		(*find_done)			(EContentEditor *editor,
 							 guint match_count);
@@ -440,6 +419,8 @@ struct _EContentEditorInterface {
 							 guint replaced_count);
 	void		(*drop_handled)			(EContentEditor *editor);
 	void		(*content_changed)		(EContentEditor *editor);
+	CamelMimePart *	(*ref_mime_part)		(EContentEditor *editor,
+							 const gchar *uri);
 };
 
 /* Properties */
@@ -452,7 +433,7 @@ gboolean	e_content_editor_can_copy	(EContentEditor *editor);
 gboolean	e_content_editor_can_paste	(EContentEditor *editor);
 gboolean	e_content_editor_can_undo	(EContentEditor *editor);
 gboolean	e_content_editor_can_redo	(EContentEditor *editor);
-gboolean	e_content_editor_is_indented	(EContentEditor *editor);
+gint		e_content_editor_indent_level	(EContentEditor *editor);
 gboolean	e_content_editor_get_spell_check_enabled
 						(EContentEditor *editor);
 void		e_content_editor_set_spell_check_enabled
@@ -497,9 +478,6 @@ gboolean	e_content_editor_is_bold	(EContentEditor *editor);
 void		e_content_editor_set_italic	(EContentEditor *editor,
 						 gboolean italic);
 gboolean	e_content_editor_is_italic	(EContentEditor *editor);
-void		e_content_editor_set_monospaced	(EContentEditor *editor,
-						 gboolean monospaced);
-gboolean	e_content_editor_is_monospaced (EContentEditor *editor);
 void		e_content_editor_set_strikethrough
 						(EContentEditor *editor,
 						 gboolean strikethrough);
@@ -543,14 +521,48 @@ void		e_content_editor_insert_content	(EContentEditor *editor,
 						 const gchar *content,
 						 EContentEditorInsertContentFlags flags);
 
-gchar *		e_content_editor_get_content	(EContentEditor *editor,
-						 EContentEditorGetContentFlags flags,
+void		e_content_editor_get_content	(EContentEditor *editor,
+						 guint32 flags, /* bit-or of EContentEditorGetContentFlags */
 						 const gchar *inline_images_from_domain,
-						 GSList **inline_images_parts /* newly created CamelMimePart * */);
-
-void            e_content_editor_insert_image_from_mime_part
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+EContentEditorContentHash *
+		e_content_editor_get_content_finish
 						(EContentEditor *editor,
-						 CamelMimePart *part);
+						 GAsyncResult *result,
+						 GError **error);
+EContentEditorContentHash *
+		e_content_editor_util_new_content_hash
+						(void);
+void		e_content_editor_util_free_content_hash
+						(EContentEditorContentHash *content_hash);
+void		e_content_editor_util_put_content_data
+						(EContentEditorContentHash *content_hash,
+						 EContentEditorGetContentFlags flag,
+						 const gchar *data);
+void		e_content_editor_util_take_content_data
+						(EContentEditorContentHash *content_hash,
+						 EContentEditorGetContentFlags flag,
+						 gpointer data,
+						 GDestroyNotify destroy_data);
+void		e_content_editor_util_take_content_data_images
+						(EContentEditorContentHash *content_hash,
+						 GSList *image_parts); /* CamelMimePart * */
+gpointer	e_content_editor_util_get_content_data
+						(EContentEditorContentHash *content_hash,
+						 EContentEditorGetContentFlags flag);
+gpointer	e_content_editor_util_steal_content_data
+						(EContentEditorContentHash *content_hash,
+						 EContentEditorGetContentFlags flag,
+						 GDestroyNotify *out_destroy_data);
+CamelMimePart *	e_content_editor_util_create_data_mimepart
+						(const gchar *uri,
+						 const gchar *cid,
+						 gboolean as_inline,
+						 const gchar *prefer_filename,
+						 const gchar *prefer_mime_type,
+						 GCancellable *cancellable);
 
 void		e_content_editor_insert_image	(EContentEditor *editor,
 						 const gchar *uri);
@@ -586,9 +598,6 @@ void		e_content_editor_set_spell_checking_languages
 
 void		e_content_editor_select_all	(EContentEditor *editor);
 
-gchar *		e_content_editor_get_selected_text
-						(EContentEditor *editor);
-
 gchar *		e_content_editor_get_caret_word	(EContentEditor *editor);
 
 void		e_content_editor_replace_caret_word
@@ -600,10 +609,6 @@ void		e_content_editor_selection_indent
 
 void		e_content_editor_selection_unindent
 						(EContentEditor *editor);
-
-void		e_content_editor_selection_create_link
-						(EContentEditor *editor,
-						 const gchar *uri);
 
 void		e_content_editor_selection_unlink
 						(EContentEditor *editor);
@@ -626,12 +631,6 @@ void		e_content_editor_selection_restore
 						(EContentEditor *editor);
 
 void		e_content_editor_selection_wrap	(EContentEditor *editor);
-
-guint		e_content_editor_get_caret_position
-						(EContentEditor *editor);
-
-guint		e_content_editor_get_caret_offset
-						(EContentEditor *editor);
 
 gchar *		e_content_editor_get_current_signature_uid
 						(EContentEditor *editor);
@@ -671,11 +670,10 @@ void		e_content_editor_insert_row_above
 void		e_content_editor_insert_row_below
 						(EContentEditor *editor);
 
-gboolean	e_content_editor_on_h_rule_dialog_open
-						(EContentEditor *editor);
-
-void		e_content_editor_on_h_rule_dialog_close
-						(EContentEditor *editor);
+void		e_content_editor_on_dialog_open	(EContentEditor *editor,
+						 const gchar *name);
+void		e_content_editor_on_dialog_close(EContentEditor *editor,
+						 const gchar *name);
 
 void		e_content_editor_h_rule_set_align
 						(EContentEditor *editor,
@@ -705,12 +703,6 @@ void		e_content_editor_h_rule_set_no_shade
 						 gboolean value);
 
 gboolean	e_content_editor_h_rule_get_no_shade
-						(EContentEditor *editor);
-
-void		e_content_editor_on_image_dialog_open
-						(EContentEditor *editor);
-
-void		e_content_editor_on_image_dialog_close
 						(EContentEditor *editor);
 
 void		e_content_editor_image_set_src	(EContentEditor *editor,
@@ -783,18 +775,12 @@ void		e_content_editor_image_set_height_follow
 						(EContentEditor *editor,
 						 gboolean value);
 
-void		e_content_editor_on_link_dialog_open
-						(EContentEditor *editor);
-
-void		e_content_editor_on_link_dialog_close
-						(EContentEditor *editor);
-
-void		e_content_editor_link_get_values
+void		e_content_editor_link_get_properties
 						(EContentEditor *editor,
 						 gchar **href,
 						 gchar **text);
 
-void		e_content_editor_link_set_values
+void		e_content_editor_link_set_properties
 						(EContentEditor *editor,
 						 const gchar *href,
 						 const gchar *text);
@@ -802,12 +788,6 @@ void		e_content_editor_link_set_values
 void		e_content_editor_page_set_text_color
 						(EContentEditor *editor,
 						 const GdkRGBA *value);
-
-void		e_content_editor_on_page_dialog_open
-						(EContentEditor *editor);
-
-void		e_content_editor_on_page_dialog_close
-						(EContentEditor *editor);
 
 void		e_content_editor_page_get_text_color
 						(EContentEditor *editor,
@@ -836,18 +816,18 @@ void		e_content_editor_page_set_visited_link_color
 void		e_content_editor_page_get_visited_link_color
 						(EContentEditor *editor,
 						 GdkRGBA *value);
+void		e_content_editor_page_set_font_name
+						(EContentEditor *editor,
+						 const gchar *value);
+
+const gchar *	e_content_editor_page_get_font_name
+						(EContentEditor *editor);
 
 void		e_content_editor_page_set_background_image_uri
 						(EContentEditor *editor,
 						 const gchar *uri);
 
 gchar *		e_content_editor_page_get_background_image_uri
-						(EContentEditor *editor);
-
-void		e_content_editor_on_cell_dialog_open
-						(EContentEditor *editor);
-
-void		e_content_editor_on_cell_dialog_close
 						(EContentEditor *editor);
 
 void		e_content_editor_cell_set_v_align
@@ -983,18 +963,6 @@ void		e_content_editor_table_set_background_color
 						(EContentEditor *editor,
 						 const GdkRGBA *value);
 
-gboolean	e_content_editor_on_table_dialog_open
-						(EContentEditor *editor);
-
-void		e_content_editor_on_table_dialog_close
-						(EContentEditor *editor);
-
-void		e_content_editor_on_spell_check_dialog_open
-						(EContentEditor *editor);
-
-void		e_content_editor_on_spell_check_dialog_close
-						(EContentEditor *editor);
-
 gchar *		e_content_editor_spell_check_next_word
 						(EContentEditor *editor,
 						 const gchar *word);
@@ -1008,18 +976,6 @@ void		e_content_editor_spell_check_replace_all
 						 const gchar *word,
 						 const gchar *replacement);
 
-void		e_content_editor_on_replace_dialog_open
-						(EContentEditor *editor);
-
-void		e_content_editor_on_replace_dialog_close
-						(EContentEditor *editor);
-
-void		e_content_editor_on_find_dialog_open
-						(EContentEditor *editor);
-
-void		e_content_editor_on_find_dialog_close
-						(EContentEditor *editor);
-
 /* Signal helpers */
 
 void		e_content_editor_emit_load_finished
@@ -1028,9 +984,10 @@ gboolean	e_content_editor_emit_paste_clipboard
 						(EContentEditor *editor);
 gboolean	e_content_editor_emit_paste_primary_clipboard
 						(EContentEditor *editor);
-gboolean	e_content_editor_emit_context_menu_requested
+void		e_content_editor_emit_context_menu_requested
 						(EContentEditor *editor,
 						 EContentEditorNodeFlags flags,
+						 const gchar *caret_word,
 						 GdkEvent *event);
 void		e_content_editor_emit_find_done	(EContentEditor *editor,
 						 guint match_count);
@@ -1041,6 +998,9 @@ void		e_content_editor_emit_drop_handled
 						(EContentEditor *editor);
 void		e_content_editor_emit_content_changed
 						(EContentEditor *editor);
+CamelMimePart *	e_content_editor_emit_ref_mime_part
+						(EContentEditor *editor,
+						 const gchar *uri);
 
 G_END_DECLS
 

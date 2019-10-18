@@ -94,7 +94,7 @@ html_editor_link_dialog_ok (EHTMLEditorLinkDialog *dialog)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_link_set_values (
+	e_content_editor_link_set_properties (
 		cnt_editor,
 		gtk_entry_get_text (GTK_ENTRY (dialog->priv->url_edit)),
 		gtk_entry_get_text (GTK_ENTRY (dialog->priv->label_edit)));
@@ -127,7 +127,7 @@ html_editor_link_dialog_hide (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_on_link_dialog_close (cnt_editor);
+	e_content_editor_on_dialog_close (cnt_editor, E_CONTENT_EDITOR_DIALOG_LINK);
 
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_link_dialog_parent_class)->hide (widget);
@@ -153,21 +153,18 @@ html_editor_link_dialog_show (GtkWidget *widget)
 
 	dialog->priv->label_autofill = TRUE;
 
-	e_content_editor_on_link_dialog_open (cnt_editor);
+	e_content_editor_on_dialog_open (cnt_editor, E_CONTENT_EDITOR_DIALOG_LINK);
 
-	e_content_editor_link_get_values (cnt_editor, &href, &text);
+	e_content_editor_link_get_properties (cnt_editor, &href, &text);
 	if (href && *href)
-		gtk_entry_set_text (
-			GTK_ENTRY (dialog->priv->url_edit), href);
+		gtk_entry_set_text (GTK_ENTRY (dialog->priv->url_edit), href);
 	else
-		gtk_widget_set_sensitive (
-			dialog->priv->remove_link_button, FALSE);
+		gtk_widget_set_sensitive (dialog->priv->remove_link_button, FALSE);
 
 	g_free (href);
 
 	if (text && *text) {
-		gtk_entry_set_text (
-			GTK_ENTRY (dialog->priv->label_edit), text);
+		gtk_entry_set_text (GTK_ENTRY (dialog->priv->label_edit), text);
 		dialog->priv->label_autofill = FALSE;
 	}
 	g_free (text);

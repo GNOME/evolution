@@ -64,11 +64,10 @@ GType e_composer_to_meeting_get_type (void) G_GNUC_CONST;
 G_DEFINE_DYNAMIC_TYPE (EComposerToMeeting, e_composer_to_meeting, E_TYPE_EXTENSION)
 
 static ECalComponent *
-composer_to_meeting_component (EMsgComposer *composer)
+composer_to_meeting_component (EMsgComposer *composer,
+			       EContentEditorContentHash *content_hash)
 {
 	ECalComponent *comp;
-	EHTMLEditor *html_editor;
-	EContentEditor *cnt_editor;
 	EComposerHeaderTable *header_table;
 	EDestination **destinations_array[3];
 	ESource *source;
@@ -210,19 +209,11 @@ composer_to_meeting_component (EMsgComposer *composer)
 	g_slist_free_full (attendees, e_cal_component_attendee_free);
 
 	/* Description */
-	html_editor = e_msg_composer_get_editor (composer);
-	cnt_editor = e_html_editor_get_content_editor (html_editor);
-	text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL, NULL);
+	text = content_hash ? e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN) : NULL;
+
 	if (text && *text) {
 		ECalComponentText *description;
 		GSList *descr_list = NULL;
-
-		if (!g_str_has_suffix (text, "\r\n")) {
-			gchar *tmp = text;
-
-			text = g_strconcat (tmp, "\r\n", NULL);
-			g_free (tmp);
-		}
 
 		description = e_cal_component_text_new (text, NULL);
 
@@ -232,7 +223,6 @@ composer_to_meeting_component (EMsgComposer *composer)
 
 		g_slist_free_full (descr_list, e_cal_component_text_free);
 	}
-	g_free (text);
 
 	return comp;
 }
@@ -270,38 +260,102 @@ composer_to_meeting_copy_attachments (EMsgComposer *composer,
 	g_list_free_full (attachments, g_object_unref);
 }
 
+typedef struct _AsyncContext {
+	EMsgComposer *composer;
+	EActivity *activity;
+} AsyncContext;
+
+static AsyncContext *
+async_context_new (EMsgComposer *composer, /* adds reference */
+		   EActivity *activity) /* assumes ownership */
+{
+	AsyncContext *async_context;
+
+	async_context = g_slice_new (AsyncContext);
+	async_context->composer = g_object_ref (composer);
+	async_context->activity = activity;
+
+	return async_context;
+}
+
+static void
+async_context_free (AsyncContext *async_context)
+{
+	if (async_context) {
+		g_clear_object (&async_context->composer);
+		g_clear_object (&async_context->activity);
+		g_slice_free (AsyncContext, async_context);
+	}
+}
+
+static void
+compose_to_meeting_content_ready_cb (GObject *source_object,
+				     GAsyncResult *result,
+				     gpointer user_data)
+{
+	AsyncContext *async_context = user_data;
+	EContentEditorContentHash *content_hash;
+	ECalComponent *comp;
+	GError *error = NULL;
+
+	g_return_if_fail (async_context != NULL);
+	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
+
+	content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, &error);
+
+	comp = composer_to_meeting_component (async_context->composer, content_hash);
+
+	if (comp) {
+		ECompEditor *comp_editor;
+		ECompEditorFlags flags;
+
+		flags = E_COMP_EDITOR_FLAG_IS_NEW |
+			E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER |
+			E_COMP_EDITOR_FLAG_WITH_ATTENDEES;
+
+		comp_editor = e_comp_editor_open_for_component (NULL, e_msg_composer_get_shell (async_context->composer),
+			NULL, e_cal_component_get_icalcomponent (comp), flags);
+
+		/* Attachments */
+		composer_to_meeting_copy_attachments (async_context->composer, comp_editor);
+
+		gtk_window_present (GTK_WINDOW (comp_editor));
+
+		g_object_unref (comp);
+
+		gtk_widget_destroy (GTK_WIDGET (async_context->composer));
+	}
+
+	e_content_editor_util_free_content_hash (content_hash);
+	async_context_free (async_context);
+	g_clear_error (&error);
+}
+
 static void
 action_composer_to_meeting_cb (GtkAction *action,
 			       EMsgComposer *composer)
 {
-	ECalComponent *comp;
-	ECompEditor *comp_editor;
-	ECompEditorFlags flags;
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+	EActivity *activity;
+	AsyncContext *async_context;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	if (!e_util_prompt_user (GTK_WINDOW (composer), NULL, NULL, "mail-composer:prompt-composer-to-meeting", NULL))
 		return;
 
-	comp = composer_to_meeting_component (composer);
-	if (!comp)
-		return;
+	editor = e_msg_composer_get_editor (composer);
+	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	flags = E_COMP_EDITOR_FLAG_IS_NEW |
-		E_COMP_EDITOR_FLAG_ORGANIZER_IS_USER |
-		E_COMP_EDITOR_FLAG_WITH_ATTENDEES;
+	activity = e_html_editor_new_activity (editor);
+	e_activity_set_text (activity, _("Reading text content…"));
 
-	comp_editor = e_comp_editor_open_for_component (NULL, e_msg_composer_get_shell (composer),
-		NULL, e_cal_component_get_icalcomponent (comp), flags);
+	async_context = async_context_new (composer, activity);
 
-	/* Attachments */
-	composer_to_meeting_copy_attachments (composer, comp_editor);
-
-	gtk_window_present (GTK_WINDOW (comp_editor));
-
-	g_object_unref (comp);
-
-	gtk_widget_destroy (GTK_WIDGET (composer));
+	e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN, NULL,
+		e_activity_get_cancellable (activity),
+		compose_to_meeting_content_ready_cb, async_context);
 }
 
 static void

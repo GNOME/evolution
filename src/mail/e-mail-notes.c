@@ -150,13 +150,11 @@ static void
 e_mail_notes_editor_extract_text_from_multipart_related (EMailNotesEditor *notes_editor,
 							 CamelMultipart *multipart)
 {
-	EContentEditor *cnt_editor;
 	guint ii, nparts;
 
 	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
 
-	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 	nparts = camel_multipart_get_number (multipart);
 
 	for (ii = 0; ii < nparts; ii++) {
@@ -173,11 +171,14 @@ e_mail_notes_editor_extract_text_from_multipart_related (EMailNotesEditor *notes
 			continue;
 
 		if (camel_content_type_is (ct, "image", "*")) {
-			e_content_editor_insert_image_from_mime_part (cnt_editor, part);
+			e_html_editor_add_cid_part (notes_editor->editor, part);
 		} else if (camel_content_type_is (ct, "multipart", "alternative")) {
 			content = camel_medium_get_content (CAMEL_MEDIUM (part));
-			if (CAMEL_IS_MULTIPART (content))
-				e_mail_notes_extract_text_from_multipart_alternative (cnt_editor, CAMEL_MULTIPART (content));
+
+			if (CAMEL_IS_MULTIPART (content)) {
+				e_mail_notes_extract_text_from_multipart_alternative (
+					e_html_editor_get_content_editor (notes_editor->editor), CAMEL_MULTIPART (content));
+			}
 		}
 	}
 }
@@ -289,7 +290,8 @@ e_mail_notes_editor_extract_text_from_message (EMailNotesEditor *notes_editor,
 }
 
 static CamelMimeMessage *
-e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
+e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor,
+					    EContentEditorContentHash *content_hash)
 {
 	EContentEditor *cnt_editor;
 	EAttachmentStore *attachment_store;
@@ -301,6 +303,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 
 	g_return_val_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor), NULL);
 	g_return_val_if_fail (notes_editor->editor, NULL);
+	g_return_val_if_fail (content_hash != NULL, NULL);
 
 	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
 	g_return_val_if_fail (E_IS_CONTENT_EDITOR (cnt_editor), NULL);
@@ -330,24 +333,20 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 		CamelMultipart *multipart_body;
 		CamelMimePart *part;
 		GSList *inline_images_parts = NULL;
-		gchar *text;
+		const gchar *text;
 
 		multipart_alternative = camel_multipart_new ();
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart_alternative), "multipart/alternative");
 		camel_multipart_set_boundary (multipart_alternative, NULL);
 
-		text = e_content_editor_get_content (
-			cnt_editor,
-			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
-			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL, NULL);
+		text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN);
 
 		if (text && *text) {
-			if (!g_str_has_suffix (text, "\r\n")) {
-				gchar *tmp = text;
+			gchar *tmp = NULL;
 
-				text = g_strconcat (tmp, "\r\n", NULL);
-				g_free (tmp);
+			if (!g_str_has_suffix (text, "\r\n")) {
+				tmp = g_strconcat (text, "\r\n", NULL);
+				text = tmp;
 			}
 
 			part = camel_mime_part_new ();
@@ -355,33 +354,26 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			camel_multipart_add_part (multipart_alternative, part);
 
 			g_object_unref (part);
+			g_free (tmp);
 
 			has_text = TRUE;
 		}
 
-		g_free (text);
-
-		text = e_content_editor_get_content (
-			cnt_editor,
-			E_CONTENT_EDITOR_GET_PROCESSED |
-			E_CONTENT_EDITOR_GET_TEXT_HTML |
-			E_CONTENT_EDITOR_GET_INLINE_IMAGES,
-			g_get_host_name (),
-			&inline_images_parts);
+		text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_HTML);
+		inline_images_parts = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_INLINE_IMAGES);
 
 		if (has_attachments && !has_text && (!text || !*text)) {
 			/* Text is required, thus if there are attachments,
 			   but no text, then store at least a space. */
-			g_free (text);
-			text = g_strdup ("\r\n");
+			text = "\r\n";
 		}
 
 		if (text && *text) {
-			if (!g_str_has_suffix (text, "\r\n")) {
-				gchar *tmp = text;
+			gchar *tmp = NULL;
 
-				text = g_strconcat (tmp, "\r\n", NULL);
-				g_free (tmp);
+			if (!g_str_has_suffix (text, "\r\n")) {
+				tmp = g_strconcat (text, "\r\n", NULL);
+				text = tmp;
 			}
 
 			part = camel_mime_part_new ();
@@ -389,14 +381,12 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			camel_multipart_add_part (multipart_alternative, part);
 
 			g_object_unref (part);
+			g_free (tmp);
 
 			has_text = TRUE;
 		} else {
-			g_slist_free_full (inline_images_parts, g_object_unref);
 			inline_images_parts = NULL;
 		}
-
-		g_free (text);
 
 		if (inline_images_parts) {
 			GSList *link;
@@ -443,31 +433,25 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 
 		camel_medium_set_content (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (multipart_body));
 
-		g_slist_free_full (inline_images_parts, g_object_unref);
 		g_clear_object (&multipart_alternative);
 		g_clear_object (&multipart_body);
 	} else {
-		gchar *text;
+		const gchar *text;
 
-		text = e_content_editor_get_content (
-			cnt_editor,
-			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
-			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL, NULL);
+		text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN);
 
 		if (has_attachments && !has_text && (!text || !*text)) {
 			/* Text is required, thus if there are attachments,
 			   but no text, then store at least a space. */
-			g_free (text);
-			text = g_strdup ("\r\n");
+			text = "\r\n";
 		}
 
 		if (text && *text) {
-			if (!g_str_has_suffix (text, "\r\n")) {
-				gchar *tmp = text;
+			gchar *tmp = NULL;
 
-				text = g_strconcat (tmp, "\r\n", NULL);
-				g_free (tmp);
+			if (!g_str_has_suffix (text, "\r\n")) {
+				tmp = g_strconcat (text, "\r\n", NULL);
+				text = tmp;
 			}
 
 			if (has_attachments) {
@@ -491,10 +475,11 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor)
 			} else {
 				camel_mime_part_set_content (CAMEL_MIME_PART (message), text, strlen (text), "text/plain");
 			}
-			has_text = TRUE;
-		}
 
-		g_free (text);
+			has_text = TRUE;
+
+			g_free (tmp);
+		}
 	}
 
 	if (has_text) {
@@ -790,8 +775,21 @@ action_close_cb (GtkAction *action,
 typedef struct {
 	EMailNotesEditor *notes_editor;
 	CamelMimeMessage *inner_message;
+	EActivity *activity;
+	GError *error;
 	gboolean success;
 } SaveAndCloseData;
+
+static SaveAndCloseData *
+save_and_close_data_new (EMailNotesEditor *notes_editor)
+{
+	SaveAndCloseData *scd;
+
+	scd = g_slice_new0 (SaveAndCloseData);
+	scd->notes_editor = g_object_ref (notes_editor);
+
+	return scd;
+}
 
 static void
 save_and_close_data_free (gpointer ptr)
@@ -804,6 +802,8 @@ save_and_close_data_free (gpointer ptr)
 		else
 			g_clear_object (&scd->notes_editor);
 		g_clear_object (&scd->inner_message);
+		g_clear_object (&scd->activity);
+		g_clear_error (&scd->error);
 		g_slice_free (SaveAndCloseData, scd);
 	}
 }
@@ -818,6 +818,12 @@ e_mail_notes_store_changes_thread (EAlertSinkThreadJobData *job_data,
 	SaveAndCloseData *scd = user_data;
 
 	g_return_if_fail (scd != NULL);
+
+	if (scd->error) {
+		g_propagate_error (error, scd->error);
+		scd->error = NULL;
+		return;
+	}
 
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return;
@@ -841,33 +847,74 @@ e_mail_notes_store_changes_thread (EAlertSinkThreadJobData *job_data,
 }
 
 static void
-action_save_and_close_cb (GtkAction *action,
-			  EMailNotesEditor *notes_editor)
+mail_notes_get_content_ready_cb (GObject *source_object,
+				 GAsyncResult *result,
+				 gpointer user_data)
 {
-	SaveAndCloseData *scd;
-	gchar *full_display_name;
+	SaveAndCloseData *scd = user_data;
+	EContentEditorContentHash *content_hash;
 	EActivityBar *activity_bar;
 	EActivity *activity;
+	gchar *full_display_name;
+	GError *error = NULL;
 
-	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
+	g_return_if_fail (scd != NULL);
+	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
 
-	scd = g_slice_new0 (SaveAndCloseData);
-	scd->notes_editor = g_object_ref (notes_editor);
-	scd->inner_message = e_mail_notes_editor_encode_text_to_message (notes_editor);
-	scd->success = FALSE;
+	content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, &error);
 
-	full_display_name = e_mail_folder_to_full_display_name (notes_editor->folder, NULL);
+	if (content_hash) {
+		scd->inner_message = e_mail_notes_editor_encode_text_to_message (scd->notes_editor, content_hash);
 
-	activity_bar = e_html_editor_get_activity_bar (notes_editor->editor);
-	activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (notes_editor->editor),
+		if (!scd->inner_message)
+			scd->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Failed to convert text to message"));
+	} else {
+		scd->error = error;
+
+		if (!scd->error)
+			scd->error = g_error_new_literal (G_IO_ERROR, G_IO_ERROR_FAILED, _("Unknown error"));
+	}
+
+	g_clear_object (&scd->activity);
+
+	full_display_name = e_mail_folder_to_full_display_name (scd->notes_editor->folder, NULL);
+
+	activity_bar = e_html_editor_get_activity_bar (scd->notes_editor->editor);
+	activity = e_alert_sink_submit_thread_job (E_ALERT_SINK (scd->notes_editor->editor),
 		_("Storing changes…"), "mail:failed-store-note",
-		full_display_name ? full_display_name : camel_folder_get_display_name (notes_editor->folder),
+		full_display_name ? full_display_name : camel_folder_get_display_name (scd->notes_editor->folder),
 		e_mail_notes_store_changes_thread,
 		scd, save_and_close_data_free);
 	e_activity_bar_set_activity (activity_bar, activity);
 	g_clear_object (&activity);
 
+	e_content_editor_util_free_content_hash (content_hash);
 	g_free (full_display_name);
+}
+
+static void
+action_save_and_close_cb (GtkAction *action,
+			  EMailNotesEditor *notes_editor)
+{
+	SaveAndCloseData *scd;
+	EActivity *activity;
+	EContentEditor *cnt_editor;
+
+	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
+
+	cnt_editor = e_html_editor_get_content_editor (notes_editor->editor);
+	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
+
+	activity = e_html_editor_new_activity (notes_editor->editor);
+	e_activity_set_text (activity, _("Storing changes…"));
+
+	scd = save_and_close_data_new (notes_editor);
+	scd->activity = activity; /* takes ownership */
+
+	e_content_editor_get_content (cnt_editor,
+		E_CONTENT_EDITOR_GET_INLINE_IMAGES | E_CONTENT_EDITOR_GET_TO_SEND_HTML | E_CONTENT_EDITOR_GET_TO_SEND_PLAIN,
+		g_get_host_name (), e_activity_get_cancellable (activity),
+		mail_notes_get_content_ready_cb, scd);
 }
 
 static void

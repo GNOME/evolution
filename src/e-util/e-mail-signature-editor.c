@@ -46,10 +46,13 @@ struct _EMailSignatureEditorPrivate {
 };
 
 struct _AsyncContext {
+	ESourceRegistry *registry;
 	ESource *source;
 	GCancellable *cancellable;
+	EContentEditorGetContentFlags contents_flag;
 	gchar *contents;
 	gsize length;
+	GDestroyNotify destroy_contents;
 };
 
 enum {
@@ -86,13 +89,14 @@ G_DEFINE_TYPE (
 static void
 async_context_free (AsyncContext *async_context)
 {
-	if (async_context->source != NULL)
-		g_object_unref (async_context->source);
+	g_clear_object (&async_context->registry);
+	g_clear_object (&async_context->source);
+	g_clear_object (&async_context->cancellable);
 
-	if (async_context->cancellable != NULL)
-		g_object_unref (async_context->cancellable);
-
-	g_free (async_context->contents);
+	if (async_context->destroy_contents)
+		async_context->destroy_contents (async_context->contents);
+	else
+		g_free (async_context->contents);
 
 	g_slice_free (AsyncContext, async_context);
 }
@@ -917,6 +921,55 @@ mail_signature_editor_commit_cb (GObject *object,
 		simple);
 }
 
+static void
+mail_signature_editor_content_hash_ready_cb (GObject *source_object,
+					     GAsyncResult *result,
+					     gpointer user_data)
+{
+	GSimpleAsyncResult *simple = user_data;
+	EContentEditorContentHash *content_hash;
+	ESourceMailSignature *extension;
+	AsyncContext *async_context;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
+
+	content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, &error);
+
+	if (!content_hash) {
+		g_simple_async_result_take_error (simple, error);
+		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
+		return;
+	}
+
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	async_context->contents = e_content_editor_util_steal_content_data (content_hash,
+		async_context->contents_flag, &async_context->destroy_contents);
+
+	e_content_editor_util_free_content_hash (content_hash);
+
+	if (!async_context->contents) {
+		g_warning ("%s: Failed to retrieve content", G_STRFUNC);
+
+		async_context->contents = g_strdup ("");
+		async_context->destroy_contents = NULL;
+	}
+
+	async_context->length = strlen (async_context->contents);
+
+	extension = e_source_get_extension (async_context->source, E_SOURCE_EXTENSION_MAIL_SIGNATURE);
+	e_source_mail_signature_set_mime_type (extension,
+		async_context->contents_flag == E_CONTENT_EDITOR_GET_RAW_BODY_HTML ? "text/html" : "text/plain");
+
+	e_source_registry_commit_source (
+		async_context->registry, async_context->source,
+		async_context->cancellable,
+		mail_signature_editor_commit_cb,
+		simple);
+}
+
 void
 e_mail_signature_editor_commit (EMailSignatureEditor *window,
                                 GCancellable *cancellable,
@@ -925,12 +978,8 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 {
 	GSimpleAsyncResult *simple;
 	AsyncContext *async_context;
-	ESourceMailSignature *extension;
 	ESourceRegistry *registry;
 	ESource *source;
-	const gchar *extension_name;
-	const gchar *mime_type;
-	gchar *contents;
 	EHTMLEditor *editor;
 	EContentEditor *cnt_editor;
 
@@ -942,26 +991,10 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	editor = e_mail_signature_editor_get_editor (window);
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	mime_type = "text/html";
-	contents = e_content_editor_get_content (
-		cnt_editor,
-		E_CONTENT_EDITOR_GET_TEXT_HTML |
-		E_CONTENT_EDITOR_GET_BODY,
-		NULL, NULL);
-
-	if (!contents) {
-		g_warning ("%s: Failed to retrieve content", G_STRFUNC);
-		contents = g_strdup ("");
-	}
-
-	extension_name = E_SOURCE_EXTENSION_MAIL_SIGNATURE;
-	extension = e_source_get_extension (source, extension_name);
-	e_source_mail_signature_set_mime_type (extension, mime_type);
-
 	async_context = g_slice_new0 (AsyncContext);
+	async_context->registry = g_object_ref (registry);
 	async_context->source = g_object_ref (source);
-	async_context->contents = contents;  /* takes ownership */
-	async_context->length = strlen (contents);
+	async_context->contents_flag = e_content_editor_get_html_mode (cnt_editor) ? E_CONTENT_EDITOR_GET_RAW_BODY_HTML : E_CONTENT_EDITOR_GET_TO_SEND_PLAIN;
 
 	if (G_IS_CANCELLABLE (cancellable))
 		async_context->cancellable = g_object_ref (cancellable);
@@ -973,11 +1006,8 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	g_simple_async_result_set_op_res_gpointer (
 		simple, async_context, (GDestroyNotify) async_context_free);
 
-	e_source_registry_commit_source (
-		registry, source,
-		async_context->cancellable,
-		mail_signature_editor_commit_cb,
-		simple);
+	e_content_editor_get_content (cnt_editor, async_context->contents_flag, NULL,
+		cancellable, mail_signature_editor_content_hash_ready_cb, simple);
 }
 
 gboolean

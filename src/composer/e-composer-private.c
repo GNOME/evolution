@@ -552,6 +552,8 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_free (composer->priv->mime_type);
 	g_free (composer->priv->mime_body);
 	g_free (composer->priv->previous_identity_uid);
+
+	g_clear_pointer (&composer->priv->content_hash, e_content_editor_util_free_content_hash);
 }
 
 gchar *

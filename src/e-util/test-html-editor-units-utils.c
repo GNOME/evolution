@@ -83,6 +83,50 @@ test_utils_free_global_memory (void)
 	g_clear_object (&global_web_context);
 }
 
+typedef struct _GetContentData {
+	EContentEditorContentHash *content_hash;
+	gpointer async_data;
+} GetContentData;
+
+static void
+get_editor_content_hash_ready_cb (GObject *source_object,
+				  GAsyncResult *result,
+				  gpointer user_data)
+{
+	GetContentData *gcd = user_data;
+	GError *error = NULL;
+
+	g_assert_nonnull (gcd);
+	g_assert (E_IS_CONTENT_EDITOR (source_object));
+
+	gcd->content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, &error);
+
+	g_assert_no_error (error);
+
+	g_clear_error (&error);
+
+	test_utils_async_call_finish (gcd->async_data);
+}
+
+static EContentEditorContentHash *
+test_utils_get_editor_content_hash_sync (EContentEditor *cnt_editor,
+					 guint32 flags)
+{
+	GetContentData gcd;
+
+	g_assert (E_IS_CONTENT_EDITOR (cnt_editor));
+
+	gcd.content_hash = NULL;
+	gcd.async_data = test_utils_async_call_prepare ();
+
+	e_content_editor_get_content (cnt_editor, flags, "test-domain", NULL, get_editor_content_hash_ready_cb, &gcd);
+
+	g_assert (test_utils_async_call_wait (gcd.async_data, MAX (event_processing_delay_ms / 25, 1) + 1));
+	g_assert_nonnull (gcd.content_hash);
+
+	return gcd.content_hash;
+}
+
 typedef struct _UndoContent {
 	gchar *html;
 	gchar *plain;
@@ -92,16 +136,20 @@ static UndoContent *
 undo_content_new (TestFixture *fixture)
 {
 	EContentEditor *cnt_editor;
+	EContentEditorContentHash *content_hash;
 	UndoContent *uc;
 
 	g_return_val_if_fail (fixture != NULL, NULL);
 	g_return_val_if_fail (E_IS_HTML_EDITOR (fixture->editor), NULL);
 
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
+	content_hash = test_utils_get_editor_content_hash_sync (cnt_editor, E_CONTENT_EDITOR_GET_TO_SEND_HTML | E_CONTENT_EDITOR_GET_TO_SEND_PLAIN);
 
 	uc = g_new0 (UndoContent, 1);
-	uc->html = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML, NULL, NULL);
-	uc->plain = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL, NULL);
+	uc->html = e_content_editor_util_steal_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_HTML, NULL);
+	uc->plain = e_content_editor_util_steal_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN, NULL);
+
+	e_content_editor_util_free_content_hash (content_hash);
 
 	g_warn_if_fail (uc->html != NULL);
 	g_warn_if_fail (uc->plain != NULL);
@@ -127,15 +175,17 @@ undo_content_test (TestFixture *fixture,
 		   gint cmd_index)
 {
 	EContentEditor *cnt_editor;
-	gchar *text;
+	EContentEditorContentHash *content_hash;
+	const gchar *text;
 
 	g_return_val_if_fail (fixture != NULL, FALSE);
 	g_return_val_if_fail (E_IS_HTML_EDITOR (fixture->editor), FALSE);
 	g_return_val_if_fail (uc != NULL, FALSE);
 
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
+	content_hash = test_utils_get_editor_content_hash_sync (cnt_editor, E_CONTENT_EDITOR_GET_TO_SEND_HTML | E_CONTENT_EDITOR_GET_TO_SEND_PLAIN);
 
-	text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML, NULL, NULL);
+	text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_HTML);
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	if (!test_utils_html_equal (fixture, text, uc->html)) {
@@ -143,13 +193,13 @@ undo_content_test (TestFixture *fixture,
 			g_printerr ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match at command %d\n", G_STRFUNC, text, uc->html, cmd_index);
 		else
 			g_warning ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match at command %d", G_STRFUNC, text, uc->html, cmd_index);
-		g_free (text);
+
+		e_content_editor_util_free_content_hash (content_hash);
+
 		return FALSE;
 	}
 
-	g_free (text);
-
-	text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL, NULL);
+	text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN);
 	g_return_val_if_fail (text != NULL, FALSE);
 
 	if (!test_utils_html_equal (fixture, text, uc->plain)) {
@@ -157,11 +207,13 @@ undo_content_test (TestFixture *fixture,
 			g_printerr ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match at command %d\n", G_STRFUNC, text, uc->plain, cmd_index);
 		else
 			g_warning ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match at command %d", G_STRFUNC, text, uc->plain, cmd_index);
-		g_free (text);
+
+		e_content_editor_util_free_content_hash (content_hash);
+
 		return FALSE;
 	}
 
-	g_free (text);
+	e_content_editor_util_free_content_hash (content_hash);
 
 	return TRUE;
 }
@@ -175,9 +227,32 @@ test_utils_web_process_crashed_cb (WebKitWebView *web_view,
 	return FALSE;
 }
 
+/* <Control>+<Shift>+I */
+#define WEBKIT_INSPECTOR_MOD  (GDK_CONTROL_MASK | GDK_SHIFT_MASK)
+#define WEBKIT_INSPECTOR_KEY  (GDK_KEY_I)
+
+static gboolean
+wk_editor_key_press_event_cb (WebKitWebView *web_view,
+			      GdkEventKey *event)
+{
+	WebKitWebInspector *inspector;
+	gboolean handled = FALSE;
+
+	inspector = webkit_web_view_get_inspector (web_view);
+
+	if ((event->state & WEBKIT_INSPECTOR_MOD) == WEBKIT_INSPECTOR_MOD &&
+	    event->keyval == WEBKIT_INSPECTOR_KEY) {
+		webkit_web_inspector_show (inspector);
+		handled = TRUE;
+	}
+
+	return handled;
+}
+
 typedef struct _CreateData {
 	gpointer async_data;
 	TestFixture *fixture;
+	gboolean created;
 } CreateData;
 
 static void
@@ -192,6 +267,8 @@ test_utils_html_editor_created_cb (GObject *source_object,
 	GError *error = NULL;
 
 	g_return_if_fail (create_data != NULL);
+
+	create_data->created = TRUE;
 
 	fixture = create_data->fixture;
 
@@ -213,6 +290,26 @@ test_utils_html_editor_created_cb (GObject *source_object,
 	gtk_widget_show (GTK_WIDGET (fixture->editor));
 	gtk_container_add (GTK_CONTAINER (fixture->window), GTK_WIDGET (fixture->editor));
 
+	fixture->focus_tracker = e_focus_tracker_new (GTK_WINDOW (fixture->window));
+
+	e_focus_tracker_set_cut_clipboard_action (fixture->focus_tracker,
+		e_html_editor_get_action (fixture->editor, "cut"));
+
+	e_focus_tracker_set_copy_clipboard_action (fixture->focus_tracker,
+		e_html_editor_get_action (fixture->editor, "copy"));
+
+	e_focus_tracker_set_paste_clipboard_action (fixture->focus_tracker,
+		e_html_editor_get_action (fixture->editor, "paste"));
+
+	e_focus_tracker_set_select_all_action (fixture->focus_tracker,
+		e_html_editor_get_action (fixture->editor, "select-all"));
+
+	e_focus_tracker_set_undo_action (fixture->focus_tracker,
+		e_html_editor_get_action (fixture->editor, "undo"));
+
+	e_focus_tracker_set_redo_action (fixture->focus_tracker,
+		e_html_editor_get_action (fixture->editor, "redo"));
+
 	/* Make sure this is off */
 	test_utils_fixture_change_setting_boolean (fixture,
 		"org.gnome.evolution.mail", "prompt-on-composer-mode-switch", FALSE);
@@ -229,12 +326,22 @@ test_utils_html_editor_created_cb (GObject *source_object,
 	g_signal_connect (cnt_editor, "web-process-crashed",
 		G_CALLBACK (test_utils_web_process_crashed_cb), NULL);
 
-	if (!test_utils_get_multiple_web_processes () && !global_web_context &&
-	    WEBKIT_IS_WEB_VIEW (cnt_editor)) {
-		WebKitWebContext *web_context;
+	if (WEBKIT_IS_WEB_VIEW (cnt_editor)) {
+		WebKitSettings *web_settings;
 
-		web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (cnt_editor));
-		global_web_context = g_object_ref (web_context);
+		web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (cnt_editor));
+		webkit_settings_set_enable_developer_extras (web_settings, TRUE);
+
+		g_signal_connect (
+			cnt_editor, "key-press-event",
+			G_CALLBACK (wk_editor_key_press_event_cb), NULL);
+
+		if (!test_utils_get_multiple_web_processes () && !global_web_context) {
+			WebKitWebContext *web_context;
+
+			web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (cnt_editor));
+			global_web_context = g_object_ref (web_context);
+		}
 	}
 
 	gtk_window_set_focus (GTK_WINDOW (fixture->window), GTK_WIDGET (cnt_editor));
@@ -254,6 +361,8 @@ test_utils_add_test (const gchar *name,
 		test_utils_fixture_set_up, (ETestFixtureFunc) func, test_utils_fixture_tear_down);
 }
 
+static void test_utils_async_call_free (gpointer async_data);
+
 void
 test_utils_fixture_set_up (TestFixture *fixture,
 			   gconstpointer user_data)
@@ -271,10 +380,14 @@ test_utils_fixture_set_up (TestFixture *fixture,
 
 	create_data.async_data = test_utils_async_call_prepare ();
 	create_data.fixture = fixture;
+	create_data.created = FALSE;
 
 	e_html_editor_new (test_utils_html_editor_created_cb, &create_data);
 
-	test_utils_async_call_wait (create_data.async_data, 60);
+	if (create_data.created)
+		test_utils_async_call_free (create_data.async_data);
+	else
+		test_utils_async_call_wait (create_data.async_data, 60);
 
 	g_warn_if_fail (fixture->editor != NULL);
 	g_warn_if_fail (E_IS_HTML_EDITOR (fixture->editor));
@@ -303,6 +416,8 @@ void
 test_utils_fixture_tear_down (TestFixture *fixture,
 			      gconstpointer user_data)
 {
+	g_clear_object (&fixture->focus_tracker);
+
 	gtk_widget_destroy (GTK_WIDGET (fixture->window));
 	fixture->editor = NULL;
 
@@ -385,6 +500,16 @@ test_utils_flush_main_context (void)
 	}
 }
 
+static void
+test_utils_async_call_free (gpointer async_data)
+{
+	GMainLoop *loop = async_data;
+
+	test_utils_flush_main_context ();
+
+	g_main_loop_unref (loop);
+}
+
 gpointer
 test_utils_async_call_prepare (void)
 {
@@ -440,9 +565,7 @@ test_utils_async_call_wait (gpointer async_data,
 		g_source_unref (source);
 	}
 
-	test_utils_flush_main_context ();
-
-	g_main_loop_unref (loop);
+	test_utils_async_call_free (async_data);
 
 	return !async_call_data.timeout_reached;
 }
@@ -566,16 +689,57 @@ test_utils_type_text (TestFixture *fixture,
 	return TRUE;
 }
 
+typedef struct _HTMLEqualData {
+	gpointer async_data;
+	gboolean equal;
+} HTMLEqualData;
+
+static void
+test_html_equal_done_cb (GObject *source_object,
+			 GAsyncResult *result,
+			 gpointer user_data)
+{
+	HTMLEqualData *hed = user_data;
+	WebKitJavascriptResult *js_result;
+	JSCException *exception;
+	JSCValue *js_value;
+	GError *error = NULL;
+
+	g_return_if_fail (hed != NULL);
+
+	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
+
+	g_assert_no_error (error);
+	g_clear_error (&error);
+
+	g_assert_nonnull (js_result);
+
+	js_value = webkit_javascript_result_get_js_value (js_result);
+	g_assert_nonnull (js_value);
+	g_assert (jsc_value_is_boolean (js_value));
+
+	hed->equal = jsc_value_to_boolean (js_value);
+
+	exception = jsc_context_get_exception (jsc_value_get_context (js_value));
+
+	if (exception) {
+		g_warning ("Failed to call EvoEditorTest.isHTMLEqual: %s", jsc_exception_get_message (exception));
+		jsc_context_clear_exception (jsc_value_get_context (js_value));
+	}
+
+	webkit_javascript_result_unref (js_result);
+
+	test_utils_async_call_finish (hed->async_data);
+}
+
 gboolean
 test_utils_html_equal (TestFixture *fixture,
 		       const gchar *html1,
 		       const gchar *html2)
 {
 	EContentEditor *cnt_editor;
-	GDBusProxy *web_extension = NULL;
-	GVariant *result;
-	GError *error = NULL;
-	gboolean html_equal = FALSE;
+	gchar *script;
+	HTMLEqualData hed;
 
 	g_return_val_if_fail (fixture != NULL, FALSE);
 	g_return_val_if_fail (E_IS_HTML_EDITOR (fixture->editor), FALSE);
@@ -584,29 +748,33 @@ test_utils_html_equal (TestFixture *fixture,
 
 	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
 	g_return_val_if_fail (cnt_editor != NULL, FALSE);
+	g_return_val_if_fail (WEBKIT_IS_WEB_VIEW (cnt_editor), FALSE);
 
-	g_object_get (cnt_editor, "web-extension", &web_extension, NULL);
+	script = e_web_view_jsc_printf_script (
+		"var EvoEditorTest = {};\n"
+		"EvoEditorTest.isHTMLEqual = function(html1, html2) {\n"
+		"	var elem1, elem2;\n"
+		"	elem1 = document.createElement(\"testHtmlEqual\");\n"
+		"	elem2 = document.createElement(\"testHtmlEqual\");\n"
+		"	elem1.innerHTML = html1.replace(/&nbsp;/g, \" \").replace(/ /g, \" \");\n"
+		"	elem2.innerHTML = html2.replace(/&nbsp;/g, \" \").replace(/ /g, \" \");\n"
+		"	elem1.normalize();\n"
+		"	elem2.normalize();\n"
+		"	return elem1.isEqualNode(elem2);\n"
+		"}\n"
+		"EvoEditorTest.isHTMLEqual(%s, %s);", html1, html2);
 
-	g_return_val_if_fail (G_IS_DBUS_PROXY (web_extension), FALSE);
+	hed.async_data = test_utils_async_call_prepare();
+	hed.equal = FALSE;
 
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_full (
-		web_extension,
-		"TestHTMLEqual",
-		g_variant_new ("(tss)", webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (cnt_editor)), html1, html2),
-		G_DBUS_CALL_FLAGS_NONE,
-		-1,
-		NULL,
-		&error);
-	g_assert_no_error (error);
+	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (cnt_editor), script, NULL,
+		test_html_equal_done_cb, &hed);
 
-	g_clear_error (&error);
+	test_utils_async_call_wait (hed.async_data, 10);
 
-	g_return_val_if_fail (result != NULL, FALSE);
+	g_free (script);
 
-	g_variant_get (result, "(b)", &html_equal);
-	g_variant_unref (result);
-
-	return html_equal;
+	return hed.equal;
 }
 
 static gboolean
@@ -781,6 +949,21 @@ test_utils_execute_action (TestFixture *fixture,
 	return TRUE;
 }
 
+static gboolean
+test_utils_set_font_name (TestFixture *fixture,
+			  const gchar *font_name)
+{
+	EContentEditor *cnt_editor;
+
+	g_return_val_if_fail (fixture != NULL, FALSE);
+	g_return_val_if_fail (E_IS_HTML_EDITOR (fixture->editor), FALSE);
+
+	cnt_editor = e_html_editor_get_content_editor (fixture->editor);
+	e_content_editor_set_font_name (cnt_editor, font_name);
+
+	return TRUE;
+}
+
 /* Expects only the part like "undo" [ ":" number ] */
 static gint
 test_utils_maybe_extract_undo_number (const gchar *command)
@@ -825,6 +1008,7 @@ test_utils_pick_undo_content (const GSList *undo_stack,
 
    command   = actioncmd ; Execute an action
              / modecmd   ; Change editor mode to HTML or Plain Text
+             / fnmcmd    ; Set font name
              / seqcmd    ; Sequence of special key strokes
              / typecmd   ; Type a text
              / undocmd   ; Undo/redo commands
@@ -832,7 +1016,9 @@ test_utils_pick_undo_content (const GSList *undo_stack,
 
    actioncmd = "action:" name
 
-   actioncmd = "mode:" ("html" / "plain")
+   modecmd   = "mode:" ("html" / "plain")
+
+   fnmcmd    = "font-name:" name
 
    seqcmd    = "seq:" sequence
 
@@ -899,6 +1085,8 @@ test_utils_process_commands (TestFixture *fixture,
 				success = FALSE;
 				g_warning ("%s: Unknown mode '%s'", G_STRFUNC, mode_change);
 			}
+		} else if (g_str_has_prefix (command, "font-name:")) {
+			success = test_utils_set_font_name (fixture, command + 10);
 		} else if (g_str_has_prefix (command, "seq:")) {
 			success = test_utils_process_sequence (fixture, command + 4);
 		} else if (g_str_has_prefix (command, "type:")) {
@@ -983,7 +1171,8 @@ test_utils_run_simple_test (TestFixture *fixture,
 			    const gchar *expected_plain)
 {
 	EContentEditor *cnt_editor;
-	gchar *text;
+	EContentEditorContentHash *content_hash;
+	const gchar *text;
 
 	g_return_val_if_fail (fixture != NULL, FALSE);
 	g_return_val_if_fail (E_IS_HTML_EDITOR (fixture->editor), FALSE);
@@ -994,8 +1183,10 @@ test_utils_run_simple_test (TestFixture *fixture,
 	if (!test_utils_process_commands (fixture, commands))
 		return FALSE;
 
+	content_hash = test_utils_get_editor_content_hash_sync (cnt_editor, E_CONTENT_EDITOR_GET_TO_SEND_HTML | E_CONTENT_EDITOR_GET_TO_SEND_PLAIN);
+
 	if (expected_html) {
-		text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_HTML, NULL, NULL);
+		text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_HTML);
 		g_return_val_if_fail (text != NULL, FALSE);
 
 		if (!test_utils_html_equal (fixture, text, expected_html)) {
@@ -1003,15 +1194,15 @@ test_utils_run_simple_test (TestFixture *fixture,
 				g_printerr ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match\n", G_STRFUNC, text, expected_html);
 			else
 				g_warning ("%s: returned HTML\n---%s---\n and expected HTML\n---%s---\n do not match", G_STRFUNC, text, expected_html);
-			g_free (text);
+
+			e_content_editor_util_free_content_hash (content_hash);
+
 			return FALSE;
 		}
-
-		g_free (text);
 	}
 
 	if (expected_plain) {
-		text = e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_PROCESSED | E_CONTENT_EDITOR_GET_TEXT_PLAIN, NULL, NULL);
+		text = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN);
 		g_return_val_if_fail (text != NULL, FALSE);
 
 		if (!test_utils_html_equal (fixture, text, expected_plain)) {
@@ -1019,12 +1210,14 @@ test_utils_run_simple_test (TestFixture *fixture,
 				g_printerr ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match\n", G_STRFUNC, text, expected_plain);
 			else
 				g_warning ("%s: returned Plain\n---%s---\n and expected Plain\n---%s---\n do not match", G_STRFUNC, text, expected_plain);
-			g_free (text);
+
+			e_content_editor_util_free_content_hash (content_hash);
+
 			return FALSE;
 		}
-
-		g_free (text);
 	}
+
+	e_content_editor_util_free_content_hash (content_hash);
 
 	return TRUE;
 }
@@ -1099,35 +1292,27 @@ test_utils_get_content_editor (TestFixture *fixture)
 }
 
 gchar *
-test_utils_get_base64_data_for_image (const gchar *path)
+test_utils_dup_image_uri (const gchar *path)
 {
-	gchar *image_data = NULL;
-	gchar *image_data_base64;
-	gsize image_data_length = 0;
-	gboolean success;
+	gchar *image_uri = NULL;
 	GError *error = NULL;
 
 	if (path && strchr (path, G_DIR_SEPARATOR)) {
-		success = g_file_get_contents (path, &image_data, &image_data_length, &error);
+		image_uri = g_filename_to_uri (path, NULL, &error);
 	} else {
 		gchar *filename;
 
 		filename = e_icon_factory_get_icon_filename (path, GTK_ICON_SIZE_MENU);
 		if (filename) {
-			success = g_file_get_contents (filename, &image_data, &image_data_length, &error);
+			image_uri = g_filename_to_uri (filename, NULL, &error);
 			g_free (filename);
 		} else {
 			g_set_error (&error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND, "Icon '%s' not found", path);
-			success = FALSE;
 		}
 	}
 
 	g_assert_no_error (error);
-	g_assert (success);
+	g_assert_nonnull (image_uri);
 
-	image_data_base64 = g_base64_encode ((const guchar *) image_data, image_data_length);
-
-	g_free (image_data);
-
-	return image_data_base64;
+	return image_uri;
 }

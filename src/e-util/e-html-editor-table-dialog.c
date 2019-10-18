@@ -214,8 +214,8 @@ html_editor_table_dialog_get_alignment (EHTMLEditorTableDialog *dialog)
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
 	value = e_content_editor_table_get_align (cnt_editor);
-	gtk_combo_box_set_active_id (
-		GTK_COMBO_BOX (dialog->priv->alignment_combo), value);
+	gtk_combo_box_set_active_id (GTK_COMBO_BOX (dialog->priv->alignment_combo),
+		value && *value ? value : "left");
 	g_free (value);
 }
 
@@ -394,32 +394,21 @@ html_editor_table_dialog_get_values (EHTMLEditorTableDialog *dialog)
 static void
 html_editor_table_dialog_reset_values (EHTMLEditorTableDialog *dialog)
 {
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->rows_edit), 3);
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->columns_edit), 3);
-	gtk_combo_box_set_active_id (
-		GTK_COMBO_BOX (dialog->priv->alignment_combo), "left");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->rows_edit), 3);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->columns_edit), 3);
+	gtk_combo_box_set_active_id (GTK_COMBO_BOX (dialog->priv->alignment_combo), "left");
 
-	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (dialog->priv->width_check), TRUE);
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->width_edit), 100);
-	gtk_combo_box_set_active_id (
-		GTK_COMBO_BOX (dialog->priv->width_units), "units-percent");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->priv->width_check), TRUE);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->width_edit), 100);
+	gtk_combo_box_set_active_id (GTK_COMBO_BOX (dialog->priv->width_units), "units-percent");
 
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->spacing_edit), 2);
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->padding_edit), 1);
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (dialog->priv->border_edit), 1);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->spacing_edit), 2);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->padding_edit), 1);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->priv->border_edit), 1);
 
-	e_color_combo_set_current_color (
-		E_COLOR_COMBO (dialog->priv->background_color_picker), &transparent);
+	e_color_combo_set_current_color (E_COLOR_COMBO (dialog->priv->background_color_picker), &transparent);
 
-	gtk_file_chooser_unselect_all (
-		GTK_FILE_CHOOSER (dialog->priv->background_image_chooser));
+	gtk_file_chooser_unselect_all (GTK_FILE_CHOOSER (dialog->priv->background_image_chooser));
 
 	html_editor_table_dialog_set_row_count (dialog);
 	html_editor_table_dialog_set_column_count (dialog);
@@ -443,7 +432,9 @@ html_editor_table_dialog_show (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (e_content_editor_on_table_dialog_open (cnt_editor))
+	e_content_editor_on_dialog_open (cnt_editor, E_CONTENT_EDITOR_DIALOG_TABLE);
+
+	if (!e_content_editor_table_get_row_count (cnt_editor))
 		html_editor_table_dialog_reset_values (dialog);
 	else
 		html_editor_table_dialog_get_values (dialog);
@@ -480,7 +471,7 @@ html_editor_table_dialog_hide (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_on_table_dialog_close (cnt_editor);
+	e_content_editor_on_dialog_close (cnt_editor, E_CONTENT_EDITOR_DIALOG_TABLE);
 
 	GTK_WIDGET_CLASS (e_html_editor_table_dialog_parent_class)->hide (widget);
 }

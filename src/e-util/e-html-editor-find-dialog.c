@@ -61,7 +61,7 @@ html_editor_find_dialog_hide (GtkWidget *widget)
 {
 	EHTMLEditorFindDialog *dialog = E_HTML_EDITOR_FIND_DIALOG (widget);
 
-	e_content_editor_on_find_dialog_close (dialog->priv->cnt_editor);
+	e_content_editor_on_dialog_close (dialog->priv->cnt_editor, E_CONTENT_EDITOR_DIALOG_FIND);
 
 	/* Chain up to parent's implementation */
 	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->hide (widget);
@@ -75,7 +75,7 @@ html_editor_find_dialog_show (GtkWidget *widget)
 	reset_dialog (dialog);
 	gtk_widget_grab_focus (dialog->priv->entry);
 
-	e_content_editor_on_find_dialog_open (dialog->priv->cnt_editor);
+	e_content_editor_on_dialog_open (dialog->priv->cnt_editor, E_CONTENT_EDITOR_DIALOG_FIND);
 
 	/* Chain up to parent's implementation */
 	GTK_WIDGET_CLASS (e_html_editor_find_dialog_parent_class)->show (widget);

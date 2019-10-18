@@ -27,6 +27,7 @@
 #include "e-color-combo.h"
 #include "e-misc-utils.h"
 #include "e-dialog-widgets.h"
+#include "e-html-editor-private.h"
 
 #define E_HTML_EDITOR_PAGE_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -37,6 +38,8 @@ struct _EHTMLEditorPageDialogPrivate {
 	GtkWidget *link_color_picker;
 	GtkWidget *visited_link_color_picker;
 	GtkWidget *background_color_picker;
+
+	GtkWidget *text_font_name_combo;
 
 	GtkWidget *background_template_combo;
 	GtkWidget *background_image_filechooser;
@@ -207,6 +210,18 @@ html_editor_page_dialog_set_background_color (EHTMLEditorPageDialog *dialog)
 }
 
 static void
+html_editor_page_dialog_set_text_font_name (EHTMLEditorPageDialog *dialog)
+{
+	EHTMLEditor *editor;
+	EContentEditor *cnt_editor;
+
+	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
+	cnt_editor = e_html_editor_get_content_editor (editor);
+
+	e_content_editor_page_set_font_name (cnt_editor, gtk_combo_box_get_active_id (GTK_COMBO_BOX (dialog->priv->text_font_name_combo)));
+}
+
+static void
 html_editor_page_dialog_set_background_from_template (EHTMLEditorPageDialog *dialog)
 {
 	const Template *tmplt;
@@ -286,13 +301,13 @@ html_editor_page_dialog_show (GtkWidget *widget)
 	EContentEditor *cnt_editor;
 	EHTMLEditorPageDialog *dialog;
 	GdkRGBA rgba;
-	gchar *uri;
+	gchar *uri, *font_name;
 
 	dialog = E_HTML_EDITOR_PAGE_DIALOG (widget);
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_on_page_dialog_open (cnt_editor);
+	e_content_editor_on_dialog_open (cnt_editor, E_CONTENT_EDITOR_DIALOG_PAGE);
 
 	uri = e_content_editor_page_get_background_image_uri (cnt_editor);
 	if (uri && *uri) {
@@ -331,6 +346,11 @@ html_editor_page_dialog_show (GtkWidget *widget)
 	e_color_combo_set_current_color (
 		E_COLOR_COMBO (dialog->priv->background_color_picker), &rgba);
 
+	font_name = e_html_editor_util_dup_font_id (GTK_COMBO_BOX (dialog->priv->text_font_name_combo),
+		e_content_editor_page_get_font_name (cnt_editor));
+	gtk_combo_box_set_active_id (GTK_COMBO_BOX (dialog->priv->text_font_name_combo), font_name ? font_name : "");
+	g_free (font_name);
+
 	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->show (widget);
 }
 
@@ -345,7 +365,7 @@ html_editor_page_dialog_hide (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_on_page_dialog_close (cnt_editor);
+	e_content_editor_on_dialog_close (cnt_editor, E_CONTENT_EDITOR_DIALOG_PAGE);
 
 	GTK_WIDGET_CLASS (e_html_editor_page_dialog_parent_class)->hide (widget);
 }
@@ -368,15 +388,19 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	GtkBox *box;
 	GtkGrid *grid, *main_layout;
 	GtkWidget *widget;
+	PangoAttrList *bold;
 	gint ii;
 
 	dialog->priv = E_HTML_EDITOR_PAGE_DIALOG_GET_PRIVATE (dialog);
 
 	main_layout = e_html_editor_dialog_get_container (E_HTML_EDITOR_DIALOG (dialog));
 
+	bold = pango_attr_list_new ();
+	pango_attr_list_insert (bold, pango_attr_weight_new (PANGO_WEIGHT_BOLD));
+
 	/* == Colors == */
-	widget = gtk_label_new ("");
-	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Colors</b>"));
+	widget = gtk_label_new (_("Colors"));
+	gtk_label_set_attributes (GTK_LABEL (widget), bold);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
 	gtk_grid_attach (main_layout, widget, 0, 0, 1, 1);
 
@@ -446,16 +470,42 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 		GTK_LABEL (widget), dialog->priv->background_color_picker);
 	gtk_grid_attach (grid, widget, 0, 3, 1, 1);
 
-	/* == Background Image == */
-	widget = gtk_label_new ("");
-	gtk_label_set_markup (GTK_LABEL (widget), _("<b>Background Image</b>"));
+	/* == Text == */
+
+	widget = gtk_label_new (_("Text"));
+	gtk_label_set_attributes (GTK_LABEL (widget), bold);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
 	gtk_grid_attach (main_layout, widget, 0, 2, 1, 1);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	gtk_grid_set_row_spacing (grid, 5);
 	gtk_grid_set_column_spacing (grid, 5);
-	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 4, 1, 1);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 3, 1, 1);
+	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
+
+	widget = e_html_editor_util_create_font_name_combo ();
+	g_signal_connect_swapped (
+		widget, "notify::active-id",
+		G_CALLBACK (html_editor_page_dialog_set_text_font_name), dialog);
+	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
+	dialog->priv->text_font_name_combo = widget;
+
+	widget = gtk_label_new_with_mnemonic (_("_Font Name:"));
+	gtk_label_set_justify (GTK_LABEL (widget), GTK_JUSTIFY_RIGHT);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (widget), dialog->priv->text_font_name_combo);
+	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
+
+	/* == Background Image == */
+	widget = gtk_label_new (_("Background Image"));
+	gtk_label_set_attributes (GTK_LABEL (widget), bold);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0, 0.5);
+	gtk_grid_attach (main_layout, widget, 0, 4, 1, 1);
+
+	grid = GTK_GRID (gtk_grid_new ());
+	gtk_grid_set_row_spacing (grid, 5);
+	gtk_grid_set_column_spacing (grid, 5);
+	gtk_grid_attach (main_layout, GTK_WIDGET (grid), 0, 5, 1, 1);
 	gtk_widget_set_margin_left (GTK_WIDGET (grid), 10);
 
 	/* Template */
@@ -503,6 +553,8 @@ e_html_editor_page_dialog_init (EHTMLEditorPageDialog *dialog)
 	gtk_box_reorder_child (box, widget, 0);
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
+
+	pango_attr_list_unref (bold);
 }
 
 GtkWidget *
