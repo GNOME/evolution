@@ -76,7 +76,7 @@ msgid ""
 "You will be asked to close <app>Evolution</app>. Answer with <gui style="
 "\"button\">Yes</gui>."
 msgstr ""
-"Se us demanarà que tanqueu<app>Evolution</app>. Responeu <gui style=\"button"
+"Se us demanarà que tanqueu <app>Evolution</app>. Responeu <gui style=\"button"
 "\">Sí</gui>."
 
 #. (itstool) path: note/p
@@ -1202,7 +1202,7 @@ msgstr ""
 #: C/calendar-meetings-sending-invitation.page:52
 #: C/calendar-usage-add-appointment.page:36
 msgid "Select a calendar in the <gui>Calendar</gui> drop-down list."
-msgstr "Seleccioneu un calendari a la llista desplegable<gui>Calendari</gui>."
+msgstr "Seleccioneu un calendari a la llista desplegable <gui>Calendari</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:59
@@ -1817,7 +1817,7 @@ msgstr "Ús d'un calendari WebDAV"
 #. (itstool) path: item/p
 #: C/calendar-webdav.page:32 C/tasks-caldav.page:25 C/tasks-webdav.page:27
 msgid "Select the type <gui>On the Web</gui>."
-msgstr "Seleccionar el tipus<gui>A la Web</gui>."
+msgstr "Seleccionar el tipus <gui>A la Web</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-webdav.page:52 C/mail-sending-options-smtp.page:35
@@ -2243,7 +2243,7 @@ msgid ""
 msgstr ""
 "Això fa de la llibreta d'adreces d' <app>Evolution</app> la font de dades "
 "per defecte de LibreOffice. Ara podeu seleccionar un camp per inserir-lo en "
-"un document de LibreOffice mitjançant <guiseq><gui>Inserir</gui><gui>Camp</"
+"un document de LibreOffice mitjançant <guiseq><gui>Insereix</gui><gui>Camp</"
 "gui></guiseq>."
 
 #. (itstool) path: info/desc
@@ -2308,7 +2308,7 @@ msgid ""
 "gui><gui>Find in Contact…</gui></guiseq> from the main menu."
 msgstr ""
 "Per cercar text contingut al contacte actual, seleccioneu "
-"<guiseq><gui>Edita</gui><gui>Cercar al Contacte…</gui></guiseq>des del menú "
+"<guiseq><gui>Edita</gui><gui>Cercar al Contacte…</gui></guiseq> des del menú "
 "principal."
 
 #. (itstool) path: section/title
@@ -2905,7 +2905,7 @@ msgstr "Canvieu en quin navegador s'obren els llocs web"
 msgid ""
 "In case you use <app>Evolution</app> under a different environment from "
 "GNOME,"
-msgstr "En cas d'utilitzar<app>Evolution</app> en un entorn diferent a GNOME,"
+msgstr "En cas d'utilitzar <app>Evolution</app> en un entorn diferent a GNOME,"
 
 #. (itstool) path: item/p
 #: C/default-browser.page:34
@@ -3214,7 +3214,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/exporting-data-mail.page:5
 msgid "How to export mail data from <app>Evolution</app>."
-msgstr "Com exportar les dades de correu electrònic<app>Evolution</app>."
+msgstr "Com exportar les dades de correu electrònic des d'<app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/exporting-data-mail.page:20
@@ -3423,7 +3423,7 @@ msgid ""
 "file> or <file>.ost</file>):"
 msgstr ""
 "Trobeu els vostres fitxers d'Outlook (normalment tenen al final del "
-"fitxer<file>.pst</file> o <file>.ost</file>):"
+"fitxer <file>.pst</file> o <file>.ost</file>):"
 
 #. (itstool) path: td/p
 #: C/import-apps-outlook.page:37
@@ -3701,7 +3701,7 @@ msgid ""
 "link> in <app>Evolution</app> and point to the folder where the Maildir "
 "files are stored."
 msgstr ""
-"El format utilitzat per<app>Evolution</app> (per a les carpetes locals des "
+"El format utilitzat per <app>Evolution</app> (per a les carpetes locals des "
 "de la versió 3.0). No cal importar els fitxers Maildir perquè es pot <link "
 "xref=\"mail-account-manage-maildir-format-directories\">configurar un compte "
 "Maildir</link> a <app>Evolution</app> i fer que apunti a la carpeta on "
@@ -3970,7 +3970,7 @@ msgstr ""
 "Quan s'inicia <app>Evolution</app>, recorda l'última vista que s'ha "
 "utilitzat. Tanmateix, també podeu començar explícitament <app>Evolution</"
 "app> en una vista concreta. Per a la vista del calendari, utilitzeu l'ordre "
-"<cmd>evolution --component=calendar</cmd> a l'aplicatiu<app>Terminal</app>. "
+"<cmd>evolution --component=calendar</cmd> a l'aplicatiu <app>Terminal</app>. "
 "Altres opcions disponibles són \"correu\", \"contactes\", \"tasques\" i "
 "\"notes\"."
 
@@ -5353,7 +5353,7 @@ msgid ""
 "You can disable the contact preview by toggling <guiseq><gui>View</"
 "gui><gui>Preview</gui><gui>Contact Preview</gui></guiseq>."
 msgstr ""
-"Podeu desactivar la vista prèvia de contactes commutant<guiseq><gui>Vista</"
+"Podeu desactivar la vista prèvia de contactes commutant <guiseq><gui>Vista</"
 "gui><gui>Previsualització</gui><gui>Previsualització de contactes</gui></"
 "guiseq>."
 
@@ -5791,7 +5791,7 @@ msgid ""
 "app>."
 msgstr ""
 "Afegir i editar un compte de directoris de correu en format Maildir "
-"a<app>Evolution</app>."
+"a <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-maildir-format-directories.page:20
@@ -6506,7 +6506,7 @@ msgid ""
 "<gui>Forward as iCalendar</gui>."
 msgstr ""
 "Per enviar una invitació, feu clic amb el botó dret a l'entrada del "
-"calendari i trieu<gui>Reenviar com a iCalendar</gui>."
+"calendari i trieu <gui>Reenvia com a iCalendar</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-calendar-sending-invitations.page:27
@@ -6926,7 +6926,7 @@ msgstr ""
 #: C/mail-composer-custom-header-lines.page:42
 msgid "Select <guiseq><gui>Insert</gui><gui>Custom Header</gui></guiseq>."
 msgstr ""
-"Seleccioneu <guiseq><gui>Inserir</gui><gui>Capçalera personalitzada</gui></"
+"Seleccioneu <guiseq><gui>Insereix</gui><gui>Capçalera personalitzada</gui></"
 "guiseq>."
 
 #. (itstool) path: item/p
@@ -7271,7 +7271,7 @@ msgstr ""
 msgid ""
 "Click <guiseq><gui>Insert</gui><gui>Image…</gui></guiseq> in the menubar."
 msgstr ""
-"Feu clic a <guiseq><gui>Inserir</gui><gui>Imatge…</gui></guiseq>a la barra "
+"Feu clic a <guiseq><gui>Insereix</gui><gui>Imatge…</gui></guiseq> a la barra "
 "de menú."
 
 #. (itstool) path: item/p
@@ -7322,9 +7322,9 @@ msgid ""
 "menubar, or right-click on the selected text and click <gui>Insert Link</"
 "gui>."
 msgstr ""
-"Feu clic a <guiseq><gui>Inserir</gui><gui>Enllaç…</gui></guiseq> a la barra "
+"Feu clic a <guiseq><gui>Insereix</gui><gui>Enllaç…</gui></guiseq> a la barra "
 "de menú, o feu clic amb el botó dret del ratolí sobre el text seleccionat i "
-"feu clic a <gui>Inserir Enllaç</gui>."
+"feu clic a <gui>Insereix enllaç</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-link.page:29 C/mail-composer-html-rule.page:28
@@ -7370,7 +7370,7 @@ msgid ""
 msgstr ""
 "Les eines de format de text per a l'alineació bàsica i el format de paràgraf "
 "es troben a la barra d'eines que hi ha a sota la línia <gui>Assumpte</gui>. "
-"També apareixen al menú <gui>Inserir</gui> i <gui>Formatar</gui>."
+"També apareixen al menú <gui>Insereix</gui> i <gui>Formata</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-html.page:26 C/mail-composer-html-text.page:24
@@ -7441,7 +7441,7 @@ msgstr ""
 msgid ""
 "Click <guiseq><gui>Insert</gui><gui>Rule…</gui></guiseq> in the menubar."
 msgstr ""
-"Feu clic a <guiseq><gui>Inserir</gui><gui>Regla…</gui></guiseq> a la barra "
+"Feu clic a <guiseq><gui>Insereix</gui><gui>Regla…</gui></guiseq> a la barra "
 "de menú."
 
 #. (itstool) path: item/p
@@ -7477,7 +7477,7 @@ msgstr ""
 msgid ""
 "Click <guiseq><gui>Insert</gui><gui>Table…</gui></guiseq> in the menubar."
 msgstr ""
-"Feu clic a <guiseq><gui>Inserir</gui><gui>Taula…</gui></guiseq> a la barra "
+"Feu clic a <guiseq><gui>Insereix</gui><gui>Taula…</gui></guiseq> a la barra "
 "de menús."
 
 #. (itstool) path: item/p
@@ -7574,7 +7574,7 @@ msgstr ""
 "seleccionat, el color s'aplica al que escriviu a continuació. Podeu "
 "seleccionar un color o una imatge de fons fent clic amb el botó dret del "
 "ratolí en el fons del missatge i, a continuació, "
-"seleccionant<guiseq><gui>Estil</gui><gui>Estil de pàgina</gui></guiseq>."
+"seleccionant <guiseq><gui>Estil</gui><gui>Estil de pàgina</gui></guiseq>."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:44
@@ -8095,8 +8095,8 @@ msgid ""
 "menus."
 msgstr ""
 "Les eines de format de text es troben a la barra d'eines que hi ha a sota de "
-"la línia <gui>Assumpte</gui>. També apareixen als menús <gui>Inserir</gui> i "
-"<gui>Formatar</gui>."
+"la línia <gui>Assumpte</gui>. També apareixen als menús <gui>Insereix</gui> i "
+"<gui>Formata</gui>."
 
 #. (itstool) path: section/title
 #: C/mail-composer-plain-text.page:27
@@ -8185,7 +8185,7 @@ msgid ""
 msgstr ""
 "Podeu prioritzar el missatge que s'enviarà, de manera que el destinatari "
 "vegi la seva importància relativa. Per prioritzar un missatge, "
-"seleccioneu<guiseq><gui>Opcions</gui><gui>Prioritzar el Missatge</gui></"
+"seleccioneu <guiseq><gui>Opcions</gui><gui>Prioritza el missatge</gui></"
 "guiseq> al menú de la finestra de l'editor o feu clic a la icona de la barra "
 "d'eines corresponent."
 
@@ -8247,7 +8247,7 @@ msgid ""
 "substantial amounts of time."
 msgstr ""
 "Si esteu llegint un missatge amb diversos destinataris, podeu "
-"utilitzar<gui>Respondre a tothom</gui> en comptes de <gui>Respon</gui>. "
+"utilitzar <gui>Respondre a tothom</gui> en comptes de <gui>Respon</gui>. "
 "Si hi ha un gran nombre de persones als camps <gui>Cc:</gui> o <gui>Per a:</"
 "gui>, pot estalviar-vos molta estona."
 
@@ -8268,7 +8268,7 @@ msgid ""
 msgstr ""
 "Un Jordi envia un correu electrònic a un client i n'envia còpies a l'Oriol i "
 "a una llista de col·laboradors. Si l'Oriol vol fer un comentari perquè tots "
-"puguin llegir-lo, fa servir<gui>Respon a tots</gui>, però si només vol "
+"puguin llegir-lo, fa servir <gui>Respon a tots</gui>, però si només vol "
 "dir al Jordi que hi està d'acord, utilitza <gui>Respon</gui>. La resposta "
 "no arriba a ningú més de la llista CCO del Jordi, perquè aquesta llista no "
 "es comparteix amb ningú."
@@ -8339,7 +8339,7 @@ msgid ""
 "Under the <gui>Edit</gui> menu in the message composer there are several "
 "text searching features available."
 msgstr ""
-"Al menú <gui>Edita</gui>a l'editor de missatges hi ha diverses funcions de "
+"Al menú <gui>Edita</gui> a l'editor de missatges hi ha diverses funcions de "
 "cerca de text disponibles."
 
 #. (itstool) path: item/p
@@ -8490,7 +8490,7 @@ msgid ""
 msgstr ""
 "Els missatges de correu electrònic poden tenir tres tipus diferents de "
 "destinataris. La manera més senzilla és posar l'adreça de correu electrònic "
-"o adreces al camp<gui>Per a:</gui>. El camp <gui>Cc:</gui> s'utilitza per "
+"o adreces al camp <gui>Per a:</gui>. El camp <gui>Cc:</gui> s'utilitza per "
 "als destinataris que han de rebre una còpia del missatge, però no són els "
 "destinataris principals."
 
@@ -8503,7 +8503,7 @@ msgid ""
 "concern. If the <gui>Bcc:</gui> text field is not shown, click "
 "<guiseq><gui>View</gui><gui>Bcc Field</gui></guiseq>."
 msgstr ""
-"Adreces al camp<gui>Cco:</gui>s'amaguen dels altres destinataris del "
+"Adreces al camp <gui>Cco:</gui> s'amaguen dels altres destinataris del "
 "missatge. Es pot utilitzar per enviar missatges a grans grups de persones, "
 "especialment si no es coneixen o si hi ha un problema de privadesa. El camp "
 "<gui>Cco:</gui> no es mostra, feu clic a <guiseq><gui>Vista</gui><gui>Camp "
@@ -8522,7 +8522,7 @@ msgid ""
 "for entering addresses. By using this you avoid typos and save time."
 msgstr ""
 "Es recomana utilitzar la funcionalitat d'<link xref=\"contacts-autocompletion"
-"\">Autoemplenament</link> al llibre d'adreces d'<app>Evolution</app>per "
+"\">Autoemplenament</link> al llibre d'adreces d'<app>Evolution</app> per "
 "introduir adreces. Utilitzar-la evita errors tipogràfics i estalvia temps."
 
 #. (itstool) path: section/title
@@ -8900,7 +8900,7 @@ msgstr ""
 "Si l'aplicació de correu electrònic del remitent està trencada o no s'ha "
 "configurat correctament, els missatges de text pla poden no incloure "
 "informació sobre la codificació de caràcters utilitzada. Si rebeu aquests "
-"missatges, trieu<guiseq><gui>Vista</gui><gui>Codificació de caràcters</gui></"
+"missatges, trieu <guiseq><gui>Vista</gui><gui>Codificació de caràcters</gui></"
 "guiseq> al menú principal i canvieu la codificació de caràcters que heu "
 "seleccionat a una altra que sigui la utilitzada pel remitent. Heu de fer "
 "aquest canvi cada vegada que consulteu el missatge."
@@ -8968,7 +8968,7 @@ msgid ""
 "five displayed addresses."
 msgstr ""
 "Per veure tots els destinataris, feu clic a la icona <_:media-1/> al costat "
-"de les línies<gui>Per a:</gui> o <gui>Cc:</gui>, o feu clic a l'el·lipsi "
+"de les línies <gui>Per a:</gui> o <gui>Cc:</gui>, o feu clic a l'el·lipsi "
 "(...) al final de les cinc adreces mostrades."
 
 #. (itstool) path: page/p
@@ -9282,7 +9282,7 @@ msgstr "Hi ha diverses còpies del mateix missatge a la bústia"
 #. (itstool) path: item/p
 #: C/mail-duplicates.page:37
 msgid "<app>Evolution</app> is having a problem with the UIDL extension."
-msgstr "<app>Evolution</app>te un problema amb l'extensió UIDL."
+msgstr "<app>Evolution</app> té un problema amb l'extensió UIDL."
 
 #. (itstool) path: item/p
 #: C/mail-duplicates.page:38
@@ -9517,8 +9517,8 @@ msgid ""
 msgstr ""
 "Un cop <link xref=\"mail-encryption-gpg-set-up\">activada la vostra clau "
 "GPG</link>, podeu signar o xifrar un missatge seleccionant "
-"<guiseq><gui>Optcons</gui><gui>Signar PGP</gui></guiseq> o <gui>Encriptar "
-"PGP</gui>des del menú de l'editor de missatges o fent clic a la icona de la "
+"<guiseq><gui>Opcions</gui><gui>Signa PGP</gui></guiseq> o <gui>Encripta "
+"PGP</gui> des del menú de l'editor de missatges o fent clic a la icona de la "
 "barra d'eines corresponent."
 
 #. (itstool) path: note/p
@@ -9883,7 +9883,7 @@ msgstr ""
 "Envia el missatge a l'aplicació que trieu. No s'espera cap valor de retorn. "
 "Aquesta característica es pot utilitzar per crear publicacions web "
 "automàtiques des de missatges de correu electrònic o per al processament "
-"posterior de missatges que no admet<app>Evolution</app>."
+"posterior de missatges que no admet <app>Evolution</app>."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:68
@@ -10528,7 +10528,7 @@ msgid ""
 msgstr ""
 "Després d'afegir una bandera, podeu marcar-la com a completa o eliminar-la "
 "completament fent clic amb el botó dret del ratolí al missatge i fent clic a "
-"qualsevol de les opcions<gui>Bandera completada</gui> o <gui>Eliminar "
+"qualsevol de les opcions <gui>Bandera completada</gui> o <gui>Elimina "
 "bandera</gui>."
 
 #. (itstool) path: page/p
@@ -10709,7 +10709,7 @@ msgstr ""
 #: C/mail-labels.page:30
 msgid "You can also quickly add a new label by choosing <gui>New Label</gui>."
 msgstr ""
-"També podeu afegir ràpidament una etiqueta nova triant<gui>Nova etiqueta</"
+"També podeu afegir ràpidament una etiqueta nova triant <gui>Nova etiqueta</"
 "gui>."
 
 #. (itstool) path: section/title
@@ -10936,7 +10936,7 @@ msgid ""
 "window or clicking the corresponding toolbar icon."
 msgstr ""
 "Podeu sol·licitar la recepció de la lectura "
-"seleccionant<guiseq><gui>Opcions</gui><gui>Sol·licitar la recepció de "
+"seleccionant <guiseq><gui>Opcions</gui><gui>Sol·licitar la recepció de "
 "lectura</gui></guiseq> al menú de la finestra d'edició o fent clic a la "
 "icona de la barra d'eines corresponent."
 
@@ -11218,7 +11218,7 @@ msgid ""
 "enter your username for that server."
 msgstr ""
 "Introduïu l'adreça del servidor de correu electrònic al camp <gui>Servidor</"
-"gui>i introduïu el vostre nom d'usuari per a aquest servidor."
+"gui> i introduïu el vostre nom d'usuari per a aquest servidor."
 
 #. (itstool) path: item/p
 #: C/mail-receiving-options-exchange-mapi.page:29
@@ -11802,7 +11802,7 @@ msgstr ""
 "cerca quan es reben missatges nous o se n'eliminen. També podeu actualitzar "
 "manualment la carpeta de cerca, ja sigui canviant a una altra carpeta i "
 "després tornant-hi de nou, o fent-hi clic amb el botó dret i "
-"seleccionant<gui>Refrescar</gui>."
+"seleccionant <gui>Refresca</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-search-folders.page:32
@@ -12117,7 +12117,7 @@ msgid ""
 "that available mechanisms actually work."
 msgstr ""
 "Seleccioneu el tipus d'autenticació a la llista Autenticació, o feu "
-"clic<gui>Comprovar els tipus suportats</gui> per a que<app>Evolution</app> "
+"clic <gui>Comprova els tipus suportats</gui> per a que <app>Evolution</app> "
 "els comprovi. Alguns servidors no ho admeten, de manera que fer clic en "
 "aquest botó no garanteix que els mecanismes disponibles funcionin realment."
 
@@ -12847,7 +12847,7 @@ msgstr ""
 "correu, seleccioneu l'opció corresponent a <gui>Utilitzar una carpeta real</"
 "gui> a <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de "
 "correu</gui><gui style=\"button\">Edita</gui><gui>Predefinits</gui></"
-"guiseq>. En aquest cas, <app>Evolution</app>no utilitzarà les carpetes "
+"guiseq>. En aquest cas, <app>Evolution</app> no utilitzarà les carpetes "
 "virtuals locals."
 
 #. (itstool) path: info/desc
@@ -12966,8 +12966,8 @@ msgid ""
 "guiseq> in the mail composer."
 msgstr ""
 "Per evitar salts de línia dins d'un paràgraf, marqueu el paràgraf i "
-"trieu<guiseq><gui>Format</gui><gui>Estil de paràgraf</"
-"gui><gui>Preformatejat</gui></guiseq>a l'editor de correu."
+"trieu <guiseq><gui>Format</gui><gui>Estil de paràgraf</"
+"gui><gui>Preformatejat</gui></guiseq> a l'editor de correu."
 
 #. (itstool) path: info/desc
 #: C/mail-working-offline.page:5
@@ -13128,7 +13128,7 @@ msgid ""
 "up again."
 msgstr ""
 "<app>Evolution</app> entén automàticament l'estat de xarxa i actua en "
-"conseqüència. Per exemple, <app>Evolution</app>canvia a mode fora de línia "
+"conseqüència. Per exemple, <app>Evolution</app> canvia a mode fora de línia "
 "quan la xarxa cau, i s'activa automàticament quan la xarxa torna a funcionar."
 
 #. (itstool) path: info/desc
@@ -13288,7 +13288,7 @@ msgid ""
 "In the <gui>Start Date</gui> field, type the date this shared memo should "
 "appear in the recipients' calendars."
 msgstr ""
-"Al camp<gui>Data d'inici</gui>, escrigui la data en què aquesta nota "
+"Al camp <gui>Data d'inici</gui>, escrigui la data en què aquesta nota "
 "compartida hauria d'aparèixer als calendaris dels destinataris."
 
 #. (itstool) path: info/desc
@@ -13821,7 +13821,7 @@ msgid ""
 "To find text in the displayed task, select <guiseq><gui>Edit</gui><gui>Find "
 "in Task…</gui></guiseq> from the main menu."
 msgstr ""
-"Per trobar text a la tasca que es mostra, seleccioneu<guiseq><gui>Edita</"
+"Per trobar text a la tasca que es mostra, seleccioneu <guiseq><gui>Edita</"
 "gui><gui>Cercar a la tasca…</gui></guiseq> des del menú principal."
 
 #. (itstool) path: section/title
@@ -14179,7 +14179,7 @@ msgid ""
 msgstr ""
 "A l'<gui>Editor categories</gui> podeu editar o configurar el color i la "
 "icona per a cada categoria disponible fent clic a <gui style=\"button"
-"\">Edita</gui> a la part inferior de la finestra de<gui>Categories</gui>. "
+"\">Edita</gui> a la part inferior de la finestra de <gui>Categories</gui>. "
 "Premeu <gui style=\"button\">Suprimeix</gui> per eliminar categories de la "
 "llista."
 
