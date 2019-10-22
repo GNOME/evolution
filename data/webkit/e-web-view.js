@@ -387,9 +387,9 @@ Evo.checkAnyParentIsPre = function(node)
 		return false;
 
 	while (node = node.parentElement, node) {
-		if (/* node instanceof HTMLPreElement */ node.tagName.toUpperCase() == "PRE")
+		if (/* node instanceof HTMLPreElement */ node.tagName == "PRE")
 			return true;
-		if (/* node instanceof HTMLIFrameElement */ node.tagName.toUpperCase() == "IFRAME")
+		if (/* node instanceof HTMLIFrameElement */ node.tagName == "IFRAME")
 			break;
 	}
 
@@ -518,7 +518,7 @@ Evo.findElementFromPoint = function(doc, xx, yy, parent_elem)
 
 				offset_parent = offset_parent.offsetParent;
 			/* Stop on body, because it sometimes have the same offset/scroll values as its iframe parent and sometimes not. */
-			} while (offset_parent && !(/* offset_parent instanceof HTMLBodyElement */ offset_parent.tagName.toUpperCase() == "BODY"));
+			} while (offset_parent && !(/* offset_parent instanceof HTMLBodyElement */ offset_parent.tagName == "BODY"));
 		}
 
 		elem = doc.elementFromPoint(xx - left_offset + window.scrollX, yy - top_offset + window.scrollY);
@@ -528,7 +528,7 @@ Evo.findElementFromPoint = function(doc, xx, yy, parent_elem)
 		return parent_elem;
 	}
 
-	if (/* !(elem instanceof HTMLIFrameElement) */ elem.tagName.toUpperCase() != "IFRAME") {
+	if (/* !(elem instanceof HTMLIFrameElement) */ elem.tagName != "IFRAME") {
 		return elem;
 	}
 
@@ -572,7 +572,7 @@ Evo.initialize = function(elem)
 {
 	var doc, elems, ii;
 
-	if (elem && /*elem instanceof HTMLIFrameElement*/ elem.tagName.toUpperCase() == "IFRAME" && elem.contentDocument) {
+	if (elem && /*elem instanceof HTMLIFrameElement*/ elem.tagName == "IFRAME" && elem.contentDocument) {
 		elem.onload = function() { Evo.initializeAndPostContentLoaded(this); };
 		doc = elem.contentDocument;
 	} else
@@ -620,7 +620,7 @@ Evo.initializeAndPostContentLoaded = function(elem)
 {
 	var iframe_id = "";
 
-	if (elem && /*elem instanceof HTMLIFrameElement*/ elem.tagName.toUpperCase() == "IFRAME")
+	if (elem && /*elem instanceof HTMLIFrameElement*/ elem.tagName == "IFRAME")
 		iframe_id = elem.id;
 	if (elem && elem.ownerDocument && elem.ownerDocument.defaultView.frameElement)
 		iframe_id = elem.ownerDocument.defaultView.frameElement.id;
@@ -658,7 +658,7 @@ Evo.vCardCollapseContactList = function(elem)
 			list.hidden = !list.hidden;
 
 			for (child = elem.firstElementChild; child; child = child.nextElementSibling) {
-				if (/*child instanceof HTMLImageElement*/ child.tagName.toUpperCase() == "IMG") {
+				if (/*child instanceof HTMLImageElement*/ child.tagName == "IMG") {
 					child.src = list.hidden ? "gtk-stock://pan-end-symbolic" : "gtk-stock://pan-down-symbolic";
 				}
 			}
@@ -837,7 +837,7 @@ Evo.mailDisplayToggleHeadersVisibility = function(elem)
 	full_headers.style.setProperty("display", expanded ? "none" : "table");
 	short_headers.style.setProperty("display", expanded ? "table" : "none");
 
-	if (elem.firstElementChild && /* elem.firstElementChild instanceof HTMLImageElement */ elem.firstElementChild.tagName.toUpperCase() == "IMG") {
+	if (elem.firstElementChild && /* elem.firstElementChild instanceof HTMLImageElement */ elem.firstElementChild.tagName == "IMG") {
 		elem.firstElementChild.src = expanded ? "gtk-stock://pan-end-symbolic" : "gtk-stock://pan-down-symbolic";
 	}
 
@@ -852,7 +852,7 @@ Evo.mailDisplayToggleAddressVisibility = function(elem)
 	var parent, img;
 
 	/* get img and parent depending on which element the click came from (button/ellipsis) */
-	if (/* elem instanceof HTMLButtonElement */ elem.tagName.toUpperCase() == "BUTTON") {
+	if (/* elem instanceof HTMLButtonElement */ elem.tagName == "BUTTON") {
 		parent = elem.parentElement.parentElement;
 		img = elem.firstElementChild;
 	} else {
@@ -887,7 +887,7 @@ Evo.mailDisplayVCardModeButtonClicked = function(elem)
 	var normal_btn = null, compact_btn = null, iframe_elem = null, child;
 
 	for (child = elem.parentElement.firstElementChild; child; child = child.nextElementSibling) {
-		if (!iframe_elem && /* child instanceof HTMLImageElement */ child.tagName.toUpperCase() == "IFRAME") {
+		if (!iframe_elem && /* child instanceof HTMLImageElement */ child.tagName == "IFRAME") {
 			iframe_elem = child;
 
 			if (normal_btn && compact_btn)
