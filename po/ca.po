@@ -4403,7 +4403,7 @@ msgstr "Oculta les adreces quan s'en_viï un correu a aquesta llista"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:10
 msgid "Add an email to the List"
-msgstr "Afegeix una adreça electrònica"
+msgstr "Afegeix una adreça electrònica a la llista"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:12
 msgid "Remove an email address from the List"
