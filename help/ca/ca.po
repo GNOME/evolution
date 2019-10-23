@@ -2241,7 +2241,7 @@ msgid ""
 "LibreOffice. You can now select a field to insert into a LibreOffice "
 "document via <guiseq><gui>Insert</gui><gui>Field</gui></guiseq>."
 msgstr ""
-"Això fa de la llibreta d'adreces d' <app>Evolution</app> la font de dades "
+"Això fa de la llibreta d'adreces d'<app>Evolution</app> la font de dades "
 "per defecte de LibreOffice. Ara podeu seleccionar un camp per inserir-lo en "
 "un document de LibreOffice mitjançant <guiseq><gui>Insereix</gui><gui>Camp</"
 "gui></guiseq>."
@@ -2661,7 +2661,7 @@ msgstr "Phil Bull"
 #. (itstool) path: section/title
 #: C/credits.page:41
 msgid "Translators of the <app>Evolution</app> User Documentation"
-msgstr "Traductors de la documentació per a l'usuari d'<app>Evolution</app>"
+msgstr "Equip de traducció de la documentació per a l'usuari d'<app>Evolution</app>"
 
 #. (itstool) path: section/p
 #. TO TRANSLATORS: This is shown in the 'Translators of the User
@@ -3603,7 +3603,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/import-single-files.page:26
 msgid "Choose the file."
-msgstr "Trieu un fitxer."
+msgstr "Trieu el fitxer."
 
 #. (itstool) path: note/p
 #: C/import-single-files.page:30
@@ -3847,7 +3847,7 @@ msgstr "Logo d'Evolution"
 #. (itstool) path: page/title
 #: C/index.page:23
 msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
-msgstr "Correu i calendari d'<_:media-1/> <app>Evolution</app>"
+msgstr "<_:media-1/> Correu i calendari d'<app>Evolution</app>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -6089,7 +6089,7 @@ msgid ""
 msgstr ""
 "Per a temes que no es tracten aquí, consulteu l'<link href=\"https://help."
 "gnome.org/users/evolution/2.32/usage-exchange.html\">antic <app>manual d'</"
-"app> Evolution</link>."
+"app>Evolution</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-pop.page:5
@@ -7731,7 +7731,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-mail-signatures-per-account.page:29
 msgid "Default account signature"
-msgstr "Signatura predeterminada del compte "
+msgstr "Signatura predeterminada del compte"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures-per-account.page:31
@@ -7914,7 +7914,7 @@ msgid ""
 "Click <gui>New</gui> and enter in the composer window what you need for the "
 "template."
 msgstr ""
-"Feu clic a <gui>Nou</gui> i entreu a la finestra d'edició el que necessiteu "
+"Feu clic a <gui>Nou</gui> i introduïu a la finestra d'edició el que necessiteu "
 "per a la plantilla."
 
 #. (itstool) path: info/desc
@@ -8070,7 +8070,7 @@ msgid ""
 "$ORIG[reply-to]</code>)."
 msgstr ""
 "Si no hi ha cap reemplaçament per a una variable, la variable no s'elimina "
-"(excepte<code>$ORIG[body]</code>) que es deixa al lloc per mostrar que "
+"(excepte <code>$ORIG[body]</code>) que es deixa al lloc per mostrar que "
 "alguna cosa no ha sortit bé. Això pot passar quan es volen utilitzar "
 "encapçalaments que no estan sempre disponibles al missatge original (per "
 "exemple <code>$ORIG[reply-to]</code>)."
@@ -8747,7 +8747,7 @@ msgid ""
 msgstr ""
 "Podeu establir un lloc diferent on emmagatzemar missatges a la vostra "
 "carpeta <gui>Esborranys</gui> i carpeta <gui>Enviats</gui> a la "
-"secció<gui>Predeterminat</gui>de l'editor de comptes de correu "
+"secció <gui>Predeterminat</gui> de l'editor de comptes de correu "
 "(<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de correu</"
 "gui><gui style=\"button\">Editar</gui><gui>Predeterminat</gui></guiseq>)."
 
@@ -8809,7 +8809,7 @@ msgid ""
 "<keyseq><key>Ctrl</key><key>D</key></keyseq>, or right-click the message and "
 "click <gui>Delete</gui>."
 msgstr ""
-"Per esborrar un missatge, seleccioneu-lo i premeu la tecla <key>Esborrar</"
+"Per esborrar un missatge, seleccioneu-lo i premeu la tecla <key>Supr</"
 "key>, o feu clic al botó <gui style=\"button\">Suprimeix</gui> a la barra "
 "d'eines, o premeu <keyseq><key>Ctrl</key><key>D</key></keyseq>, o feu clic "
 "amb el botó dret del ratolí al missatge i feu clic a <gui>Suprimeix</gui>."
@@ -9149,7 +9149,7 @@ msgid ""
 "email at the right side of the message header if the sender already embedded "
 "a photograph in the message."
 msgstr ""
-"<app>Evolution</app>mostra automàticament la fotografia del remitent d'un "
+"<app>Evolution</app> mostra automàticament la fotografia del remitent d'un "
 "correu electrònic al costat dret de l'encapçalament del missatge si el "
 "remitent té incrustada una fotografia al missatge."
 
@@ -9632,7 +9632,7 @@ msgstr ""
 "Si obteniu l'error \"L'emissor del certificat de parells l'ha marcat com de "
 "no confiança per l'usuari. (-8172) - No es pot afegir l'atribut "
 "SMIMEEncKeyPrefs\" després d'afegir el vostre certificat de correu, aneu a "
-"<gui>Autoritats</gui> i activeu <gui> Confia en aquesta CA per identificar "
+"<gui>Autoritats</gui> i activeu <gui>Confia en aquesta CA per identificar "
 "usuaris de correu electrònic</gui> per al certificat."
 
 #. (itstool) path: page/p
@@ -10301,7 +10301,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-filters.page:59 C/mail-filters.page:69
 msgid "Select the filter."
-msgstr "Seleccionar el filtre"
+msgstr "Seleccionar el filtre."
 
 #. (itstool) path: item/p
 #: C/mail-filters.page:61
@@ -10573,7 +10573,7 @@ msgstr ""
 "marcar-los com a importants fent clic amb el botó dret al missatge i, a "
 "continuació, fent clic a <gui>Marcar com important</gui>, o seleccionant "
 "<guiseq><gui>Missatge</gui><gui>Marcar com</gui><gui>Important</gui></"
-"guiseq> des de la barra de menú"
+"guiseq> des de la barra de menú."
 
 #. (itstool) path: info/desc
 #: C/mail-imap-subscriptions.page:5
@@ -12458,7 +12458,7 @@ msgstr "Personalitzat"
 msgid "Select the option you wish to use in sorting email messages."
 msgstr ""
 "Seleccioneu l'opció que voleu utilitzar per ordenar els missatges de correu "
-"electrònic"
+"electrònic."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:96
@@ -13139,7 +13139,7 @@ msgstr "Cercar notes."
 #. (itstool) path: page/title
 #: C/memos-searching.page:28
 msgid "Searching Memos"
-msgstr "Cercar notes."
+msgstr "Cercar notes"
 
 #. (itstool) path: section/title
 #: C/memos-searching.page:31
@@ -13998,7 +13998,7 @@ msgstr "En afegir, editar i suprimir tasques."
 #. (itstool) path: page/title
 #: C/tasks-usage.page:20
 msgid "Add, Edit, and Delete Tasks"
-msgstr "Afegir, editar i suprimir tasques."
+msgstr "Afegir, editar i suprimir tasques"
 
 #. (itstool) path: info/desc
 #: C/tasks-using-several-tasklists.page:5
