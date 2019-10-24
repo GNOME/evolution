@@ -9749,7 +9749,7 @@ day_view_update_timezone_name_label (GtkWidget *label,
 
 	gtk_widget_set_tooltip_text (label, location);
 
-	dash = strchr (location, '/');
+	dash = strrchr (location, '/');
 	if (dash && *dash && dash[1])
 		location = dash + 1;
 
