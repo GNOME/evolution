@@ -238,8 +238,10 @@ test_utils_jsc_call_done_cb (GObject *source_object,
 		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
-		if (exception)
+		if (exception) {
 			g_warning ("Failed to call '%s': %s", script, jsc_exception_get_message (exception));
+			jsc_context_clear_exception (jsc_value_get_context (value));
+		}
 
 		webkit_javascript_result_unref (js_result);
 	}
@@ -282,10 +284,12 @@ test_utils_jsc_call_sync_done_cb (GObject *source_object,
 		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
-		if (exception)
+		if (exception) {
 			g_warning ("Failed to call '%s': %s", jcd->script, jsc_exception_get_message (exception));
-		else if (jcd->out_result)
+			jsc_context_clear_exception (jsc_value_get_context (value));
+		} else if (jcd->out_result) {
 			*(jcd->out_result) = value ? g_object_ref (value) : NULL;
+		}
 
 		webkit_javascript_result_unref (js_result);
 	}

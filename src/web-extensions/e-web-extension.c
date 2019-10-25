@@ -173,6 +173,8 @@ load_javascript_file (JSCContext *jsc_context,
 			jsc_exception_get_line_number (exception),
 			jsc_exception_get_column_number (exception),
 			jsc_exception_get_message (exception));
+
+		jsc_context_clear_exception (jsc_context);
 	}
 
 	g_clear_object (&result);

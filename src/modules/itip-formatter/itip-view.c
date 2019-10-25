@@ -885,8 +885,10 @@ itip_view_get_state_cb (GObject *source_object,
 			value = webkit_javascript_result_get_js_value (js_result);
 			exception = jsc_context_get_exception (jsc_value_get_context (value));
 
-			if (exception)
+			if (exception) {
 				g_warning ("Failed to call 'ItipView.GetState()': %s", jsc_exception_get_message (exception));
+				jsc_context_clear_exception (jsc_value_get_context (value));
+			}
 
 			view->priv->state_rsvp_comment = e_web_view_jsc_get_object_property_string (value, "rsvp-comment", NULL);
 			view->priv->state_rsvp_check = e_web_view_jsc_get_object_property_boolean (value, "rsvp-check", FALSE);

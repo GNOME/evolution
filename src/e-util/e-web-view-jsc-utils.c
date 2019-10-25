@@ -279,8 +279,10 @@ ewv_jsc_call_done_cb (GObject *source,
 		value = webkit_javascript_result_get_js_value (js_result);
 		exception = jsc_context_get_exception (jsc_value_get_context (value));
 
-		if (exception)
+		if (exception) {
 			g_warning ("Failed to call '%s': %s", script, jsc_exception_get_message (exception));
+			jsc_context_clear_exception (jsc_value_get_context (value));
+		}
 
 		webkit_javascript_result_unref (js_result);
 	}
@@ -513,6 +515,7 @@ ewv_jsc_get_content_finish (WebKitWebView *web_view,
 
 		if (exception) {
 			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Call failed: %s", jsc_exception_get_message (exception));
+			jsc_context_clear_exception (jsc_value_get_context (value));
 			webkit_javascript_result_unref (js_result);
 			return FALSE;
 		}
@@ -689,6 +692,7 @@ e_web_view_jsc_get_element_from_point_finish (WebKitWebView *web_view,
 
 		if (exception) {
 			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "Call failed: %s", jsc_exception_get_message (exception));
+			jsc_context_clear_exception (jsc_value_get_context (value));
 			webkit_javascript_result_unref (js_result);
 			return FALSE;
 		}
