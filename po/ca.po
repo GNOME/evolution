@@ -13472,7 +13472,7 @@ msgstr "Col_umna"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:471
 msgid "<b>Alignment &amp; Behavior</b>"
-msgstr "<b>Alineació &amp; Comportament</b>"
+msgstr "<b>Alineació i comportament</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:484 ../src/e-util/e-html-editor-hrule-dialog.c:328
 #: ../src/e-util/e-html-editor-table-dialog.c:648
