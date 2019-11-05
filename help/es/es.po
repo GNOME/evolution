@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-23 20:14+0000\n"
-"PO-Revision-Date: 2019-10-24 12:00+0200\n"
+"POT-Creation-Date: 2019-10-26 07:35+0000\n"
+"PO-Revision-Date: 2019-11-05 15:21+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -2758,10 +2758,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:36
-#| msgid ""
-#| "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</"
-#| "file> while <app>Evolution</app> is not running. Commented lines start "
-#| "with a comma character. Not all shortcuts can be changed though."
 msgid ""
 "To change keyboard shortcuts, edit <file>~/.config/evolution/accels</file> "
 "while <app>Evolution</app> is not running. Commented lines start with a "
@@ -3270,9 +3266,6 @@ msgstr "Mozilla"
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:25
-#| msgid ""
-#| "<link href=\"https://support.mozilla.org/kb/profiles-tb#w_how-to-find-"
-#| "your-profile\">Find your <app>Thunderbird</app> profile folder.</link>"
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
@@ -4015,11 +4008,6 @@ msgstr "Introduzca aquí su nombre y su dorección de correo electrónico."
 #: C/mail-account-manage-unix-mbox-spool-directory.page:31
 #: C/mail-account-manage-unix-mbox-spool-file.page:31
 #: C/mail-account-manage-usenet-news.page:31
-#| msgid ""
-#| "Optionally you can set a Reply-To email address (if you want replies to "
-#| "messages sent to a different address), set an organization (a company or "
-#| "organization you represent when you send email from this account), your "
-#| "default <_:link-1/> for this account, and <_:link-2/>."
 msgid ""
 "Optionally you can set a Reply-To email address (if you want replies to "
 "messages sent to a different address), set an organization (a company or "
@@ -5012,10 +5000,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/intro-main-window.page:37
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/window-overview-layers.png' "
-#| "md5='db7d3aa3175cbf13f3c5d9a825ca10c6'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/window-overview-layers.png' "
@@ -9051,10 +9035,6 @@ msgstr "Mostrar un correo"
 
 #. (itstool) path: page/p
 #: C/mail-displaying-message.page:23
-#| msgid ""
-#| "You can add, edit and delete all labels under <guiseq><gui>Edit</"
-#| "gui><gui>Preferences</gui><gui>Mail Preferences</gui><gui>Labels</gui></"
-#| "guiseq>. Note that you cannot remove the default labels."
 msgid ""
 "You can define how received HTML messages are displayed via "
 "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Preferences</"
@@ -10906,10 +10886,6 @@ msgstr ""
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
 #: C/mail-received-notification.page:24
-#| msgctxt "_"
-#| msgid ""
-#| "external ref='./figures/new-mail-switcher.png' "
-#| "md5='be4dbdb5f6e3dcbd5111b87169cae268'"
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-switcher.png' "
@@ -11830,6 +11806,15 @@ msgid ""
 "available (e.g. recipients or subject of messages), the search will be run "
 "locally."
 msgstr ""
+"Algunas búsquedas pueden ser muy lentas en cuentas de correo remotas (ej. "
+"IMAP+). Si selecciona una condición de búsqueda como <gui>El cuerpo "
+"contiene</gui> o <gui>El mensaje contiene</gui> y <app>Evolution</app> está "
+"en línea y la carpeta en la que quiere buscar no está <link xref=\"mail-"
+"working-offline\">copiada todavía en local para usarla en modo desconectado</"
+"link>, Evolution ejecuta la búsqueda automáticamente en la parte del "
+"servidor si éste lo soporta. Cuando haga una búsqueda con criterios "
+"disponibles en local (ej. destinatarios o asunto del mensaje) la búsqueda se "
+"ejecutará en local."
 
 #. (itstool) path: note/p
 #: C/mail-searching.page:45
