@@ -767,8 +767,8 @@ e_calendar_view_add_event_sync (ECalModel *model,
 	i_cal_time_set_is_date (itime, FALSE);
 	btime = i_cal_time_add (itime, ic_dur);
 	if (all_day_event)
-		i_cal_time_set_is_date (itime, TRUE);
-	i_cal_component_set_dtend (icomp, itime);
+		i_cal_time_set_is_date (btime, TRUE);
+	i_cal_component_set_dtend (icomp, btime);
 
 	g_clear_object (&itime);
 	g_clear_object (&btime);
