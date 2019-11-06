@@ -67,6 +67,7 @@
 #include "e-spell-checker.h"
 #include "e-util-private.h"
 #include "e-xml-utils.h"
+#include "e-supported-locales-private.h"
 
 typedef struct _WindowData WindowData;
 
@@ -4606,6 +4607,15 @@ e_util_get_language_info (const gchar *language_tag,
 	}
 
  exit:
+	if (out_language_name && *out_language_name) {
+		gchar *ptr;
+
+		/* When the language name has ';' then strip the string at it */
+		ptr = strchr (*out_language_name, ';');
+		if (ptr)
+			*ptr = '\0';
+	}
+
 	if (out_country_name && *out_country_name) {
 		gchar *ptr;
 
@@ -4743,4 +4753,49 @@ e_util_markup_append_escaped (GString *buffer,
 	g_string_append (buffer, escaped);
 
 	g_free (escaped);
+}
+
+void
+e_util_enum_supported_locales (void)
+{
+	GString *locale;
+	gchar *previous_locale;
+	gint ii, category = LC_ALL;
+
+	#if defined(LC_MESSAGES)
+	category = LC_MESSAGES;
+	#endif
+
+	previous_locale = g_strdup (setlocale (category, NULL));
+
+	locale = g_string_sized_new (32);
+
+	for (ii = 0; e_supported_locales[ii].code; ii++) {
+		gchar *catalog_filename;
+
+		catalog_filename = g_build_filename (EVOLUTION_LOCALEDIR, e_supported_locales[ii].code, "LC_MESSAGES", GETTEXT_PACKAGE ".mo", NULL);
+
+		if (catalog_filename && g_file_test (catalog_filename, G_FILE_TEST_EXISTS)) {
+			g_string_printf (locale, "%s.utf8", e_supported_locales[ii].locale);
+
+			if (!setlocale (category, locale->str)) {
+				e_supported_locales[ii].locale = NULL;
+			}
+		} else {
+			e_supported_locales[ii].locale = NULL;
+		}
+
+		g_free (catalog_filename);
+	}
+
+	setlocale (category, previous_locale);
+
+	g_string_free (locale, TRUE);
+	g_free (previous_locale);
+}
+
+const ESupportedLocales *
+e_util_get_supported_locales (void)
+{
+	return e_supported_locales;
 }

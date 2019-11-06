@@ -224,6 +224,7 @@ set(SOURCES
 	e-spell-text-view.c
 	e-spinner.c
 	e-stock-request.c
+	e-supported-locales-private.h
 	e-table-click-to-add.c
 	e-table-col.c
 	e-table-column-selector.c
@@ -824,3 +825,18 @@ add_private_program(test-html-editor-units
 	test-html-editor-units-utils.c
 )
 add_dependencies(test-html-editor-units evolutiontestsettings)
+
+# verify e-supported-locales-private.h contains all locales from /po directory
+if(ENABLE_MAINTAINER_MODE)
+	set(priv_file ${CMAKE_CURRENT_SOURCE_DIR}/e-supported-locales-private.h)
+	file(GLOB po_files ${GETTEXT_PO_DIR}/*.po)
+	file(READ ${priv_file} supported_locales)
+
+	foreach(file IN LISTS po_files)
+		get_filename_component(lang ${file} NAME_WE)
+		string(FIND "${supported_locales}" "\"${lang}\"" found)
+		if(found LESS 0)
+			message(SEND_ERROR "Localization '${lang}' missing in ${priv_file}, add it with corresponding locale string")
+		endif(found LESS 0)
+	endforeach(file)
+endif(ENABLE_MAINTAINER_MODE)

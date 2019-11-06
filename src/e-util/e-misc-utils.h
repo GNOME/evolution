@@ -364,6 +364,15 @@ void		e_util_markup_append_escaped	(GString *buffer,
 						 const gchar *format,
 						 ...) G_GNUC_PRINTF (2, 3);
 
+typedef struct _ESupportedLocales {
+	const gchar *code;	/* like 'en' */
+	const gchar *locale;	/* like 'en_US' */
+} ESupportedLocales;
+
+void		e_util_enum_supported_locales	(void);
+const ESupportedLocales *
+		e_util_get_supported_locales	(void);
+
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */
