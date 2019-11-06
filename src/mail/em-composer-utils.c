@@ -4847,124 +4847,67 @@ em_utils_apply_send_account_override_to_composer (EMsgComposer *composer,
 	g_free (alias_address);
 }
 
-static GHashTable * /* gchar *lcmessages ~> gchar *localeID */
-em_enum_system_locales (void)
-{
-	GHashTable *locales;
-
-#ifdef G_OS_WIN32
-	/* Do not know how to test it right now (2018), the build
-	   on Windows is blocked by WebKitGTK+ anyway. */
-	#warning See gtk/gtkmain.c and its usage of EnumSystemLocales()
-#else
-	GDir *dir;
-	const gchar *dirname;
-
-	locales = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-
-	dir = g_dir_open ("/usr/lib/locale", 0, NULL);
-	if (dir) {
-		while (dirname = g_dir_read_name (dir), dirname) {
-			gchar *fullname, *ident = NULL, *ptr;
-
-			if (g_str_equal (dirname, ".") || g_str_equal (dirname, "..") || !strchr (dirname, '_'))
-				continue;
-
-			fullname = g_strdup (dirname);
-			ptr = strrchr (fullname, '.');
-			if (ptr)
-				*ptr = '\0';
-
-			if (!g_hash_table_contains (locales, fullname)) {
-				gchar *at;
-
-				g_hash_table_insert (locales, g_strdup (fullname), g_strdup (fullname));
-
-				ident = g_strdup (fullname);
-				at = strchr (ident, '@');
-				if (at) {
-					*at = 0;
-					g_hash_table_insert (locales, g_strdup (ident), g_strdup (fullname));
-				}
-
-				ptr = strchr (ident, '_');
-				if (ptr) {
-					*ptr = '\0';
-
-					g_hash_table_insert (locales, g_strdup (ident), g_strdup (fullname));
-
-					if (at)
-						g_hash_table_insert (locales, g_strconcat (ident, "@", at + 1, NULL), g_strdup (fullname));
-				}
-			}
-
-			g_free (fullname);
-			g_free (ident);
-		}
-	}
-
-	g_dir_close (dir);
-#endif
-
-	return locales;
-}
-
 void
 em_utils_add_installed_languages (GtkComboBoxText *combo)
 {
-	GDir *dir;
-	GSList *langs = NULL, *link;
-	const gchar *dirname;
-	gint n_langs = 0;
-	GHashTable *system_locales;
+	const ESupportedLocales *supported_locales;
+	GHashTable *locales;
+	GList *langs = NULL, *link;
+	gboolean has_en_us = FALSE;
+	gint ii, n_langs = 0;
 
 	g_return_if_fail (GTK_IS_COMBO_BOX_TEXT (combo));
 
-	dir = g_dir_open (EVOLUTION_LOCALEDIR, 0, NULL);
-	if (!dir)
-		return;
+	supported_locales = e_util_get_supported_locales ();
+	locales = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
-	system_locales = em_enum_system_locales ();
+	for (ii = 0; supported_locales[ii].code; ii++) {
+		const gchar *locale = supported_locales[ii].locale;
 
-	while (dirname = g_dir_read_name (dir), dirname) {
-		gchar *filename;
+		if (locale) {
+			gchar *name;
 
-		if (g_str_equal (dirname, ".") || g_str_equal (dirname, ".."))
-			continue;
+			name = e_util_get_language_name (locale);
 
-		filename = g_build_filename (EVOLUTION_LOCALEDIR, dirname, "LC_MESSAGES", GETTEXT_PACKAGE ".mo", NULL);
-		if (filename && g_file_test (filename, G_FILE_TEST_EXISTS)) {
-			gchar *locale_name;
+			if (name && *name) {
+				g_hash_table_insert (locales, name, (gpointer) locale);
+			} else {
+				g_free (name);
+				g_hash_table_insert (locales, g_strdup (locale), (gpointer) locale);
+			}
 
-			locale_name = g_hash_table_lookup (system_locales, dirname);
-			if (locale_name)
-				langs = g_slist_prepend (langs, g_strdup (locale_name));
+			has_en_us = has_en_us || g_strcmp0 (locale, "en_US") == 0;
 		}
-
-		g_free (filename);
 	}
 
-	g_hash_table_destroy (system_locales);
-	g_dir_close (dir);
+	if (!has_en_us) {
+		const gchar *locale = "C";
+		gchar *name = e_util_get_language_name ("en_US");
 
-	langs = g_slist_sort (langs, (GCompareFunc) g_strcmp0);
+		if (name && *name) {
+			g_hash_table_insert (locales, name, (gpointer) locale);
+		} else {
+			g_free (name);
+			g_hash_table_insert (locales, g_strdup ("en_US"), (gpointer) locale);
+		}
+	}
 
-	for (link = langs; link; link = g_slist_next (link)) {
-		const gchar *lang = link->data;
+	langs = g_hash_table_get_keys (locales);
+	langs = g_list_sort (langs, (GCompareFunc) g_utf8_collate);
 
-		if (lang) {
-			gchar *lang_name;
+	for (link = langs; link; link = g_list_next (link)) {
+		const gchar *lang_name = link->data;
 
-			lang_name = e_util_get_language_name (lang);
+		if (lang_name) {
+			const gchar *locale = g_hash_table_lookup (locales, lang_name);
 
-			gtk_combo_box_text_append (combo, lang, lang_name && *lang_name ? lang_name : lang);
+			gtk_combo_box_text_append (combo, locale, lang_name);
 			n_langs++;
-
-			g_free (lang_name);
 		}
 	}
 
-	g_slist_free_full (langs, g_free);
+	g_hash_table_destroy (locales);
+	g_list_free (langs);
 
 	if (n_langs > 10)
 		gtk_combo_box_set_wrap_width (GTK_COMBO_BOX (combo), 5);

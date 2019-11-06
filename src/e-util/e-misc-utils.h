@@ -361,6 +361,15 @@ gboolean	e_util_get_language_info	(const gchar *language_tag,
 void		e_misc_util_free_global_memory	(void);
 gboolean	e_util_can_preview_filename	(const gchar *filename);
 
+typedef struct _ESupportedLocales {
+	const gchar *code;	/* like 'en' */
+	const gchar *locale;	/* like 'en_US' */
+} ESupportedLocales;
+
+void		e_util_enum_supported_locales	(void);
+const ESupportedLocales *
+		e_util_get_supported_locales	(void);
+
 G_END_DECLS
 
 #endif /* E_MISC_UTILS_H */

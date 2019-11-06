@@ -475,6 +475,9 @@ main (gint argc,
 		return 0;
 	}
 
+	/* Pre-cache list of supported locales */
+	e_util_enum_supported_locales ();
+
 	/* Initialize timezone specific global variables */
 	tzset ();
 
