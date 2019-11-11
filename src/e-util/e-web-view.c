@@ -63,6 +63,7 @@ struct _EWebViewPrivate {
 	gchar *cursor_image_src;
 
 	GQueue highlights;
+	gboolean highlights_enabled;
 
 	GtkAction *open_proxy;
 	GtkAction *print_proxy;
@@ -528,6 +529,8 @@ webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
                                       guint match_count,
                                       EWebView *web_view)
 {
+	if (web_view->priv->highlights_enabled && !g_queue_is_empty (&web_view->priv->highlights))
+		e_web_view_unselect_all (web_view);
 }
 
 static void
@@ -2473,6 +2476,7 @@ e_web_view_init (EWebView *web_view)
 
 	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
+	web_view->priv->highlights_enabled = TRUE;
 	web_view->priv->container = e_web_extension_container_new (E_WEB_EXTENSION_OBJECT_PATH, E_WEB_EXTENSION_INTERFACE);
 	web_view->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 
@@ -3188,7 +3192,16 @@ e_web_view_update_highlights (EWebView *web_view)
 {
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
+	web_view->priv->highlights_enabled = TRUE;
 	web_view_update_document_highlights (web_view);
+}
+
+void
+e_web_view_disable_highlights (EWebView *web_view)
+{
+	g_return_if_fail (E_IS_WEB_VIEW (web_view));
+
+	web_view->priv->highlights_enabled = FALSE;
 }
 
 GtkAction *
@@ -3312,11 +3325,9 @@ e_web_view_select_all (EWebView *web_view)
 void
 e_web_view_unselect_all (EWebView *web_view)
 {
-#if 0  /* WEBKIT */
 	g_return_if_fail (E_IS_WEB_VIEW (web_view));
 
-	gtk_html_command (GTK_HTML (web_view), "unselect-all");
-#endif
+	webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (web_view), "Unselect");
 }
 
 void
