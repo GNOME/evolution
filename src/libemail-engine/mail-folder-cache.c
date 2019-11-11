@@ -2229,9 +2229,9 @@ exit:
 		 * e_simple_async_result_run_in_thread() will complete it
 		 * for us, and we don't want to complete it twice. */
 		if (queued_result != simple)
-			e_simple_async_result_complete_idle (queued_result);
-
-		g_clear_object (&queued_result);
+			e_simple_async_result_complete_idle_take (queued_result);
+		else
+			g_clear_object (&queued_result);
 	}
 
 	g_object_unref (session);

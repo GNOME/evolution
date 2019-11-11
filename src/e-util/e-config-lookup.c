@@ -196,8 +196,7 @@ config_lookup_thread (gpointer data,
 	g_mutex_unlock (&config_lookup->priv->property_lock);
 
 	if (run_result) {
-		e_simple_async_result_complete_idle (run_result);
-		g_object_unref (run_result);
+		e_simple_async_result_complete_idle_take (run_result);
 	}
 
 	e_named_parameters_free (restart_params);
@@ -751,8 +750,7 @@ e_config_lookup_run (EConfigLookup *config_lookup,
 		g_mutex_unlock (&config_lookup->priv->property_lock);
 
 		if (run_result) {
-			e_simple_async_result_complete_idle (run_result);
-			g_object_unref (run_result);
+			e_simple_async_result_complete_idle_take (run_result);
 		}
 	}
 }
