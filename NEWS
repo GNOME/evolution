@@ -1,3 +1,12 @@
+Evolution 3.32.5 2019-11-11
+---------------------------
+
+Bug Fixes:
+	I#617 - Font color in iframe not inherited in WebKitGTK+ 2.26 (Milan Crha)
+
+Miscellaneous:
+	help: Cover formatting of received HTML mail, e.g. showing Plain Text (Andre Klapper)
+
 Evolution 3.32.4 2019-07-15
 ---------------------------
 
