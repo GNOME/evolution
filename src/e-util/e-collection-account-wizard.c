@@ -539,8 +539,8 @@ collection_account_wizard_worker_finished_cb (EConfigLookup *config_lookup,
 		}
 
 		if (wizard->priv->running_result) {
-			e_simple_async_result_complete_idle (wizard->priv->running_result);
-			g_clear_object (&wizard->priv->running_result);
+			e_simple_async_result_complete_idle_take (wizard->priv->running_result);
+			wizard->priv->running_result = NULL;
 		}
 
 		g_object_notify (G_OBJECT (wizard), "can-run");
@@ -2112,8 +2112,8 @@ collection_account_wizard_dispose (GObject *object)
 	}
 
 	if (wizard->priv->running_result) {
-		e_simple_async_result_complete_idle (wizard->priv->running_result);
-		g_clear_object (&wizard->priv->running_result);
+		e_simple_async_result_complete_idle_take (wizard->priv->running_result);
+		wizard->priv->running_result = NULL;
 	}
 
 	for (ii = 0; ii <= E_CONFIG_LOOKUP_RESULT_LAST_KIND; ii++) {
@@ -2612,8 +2612,8 @@ e_collection_account_wizard_run (ECollectionAccountWizard *wizard,
 	}
 
 	if (!any_worker) {
-		e_simple_async_result_complete_idle (wizard->priv->running_result);
-		g_clear_object (&wizard->priv->running_result);
+		e_simple_async_result_complete_idle_take (wizard->priv->running_result);
+		wizard->priv->running_result = NULL;
 	}
 }
 

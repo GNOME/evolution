@@ -273,9 +273,8 @@ e_simple_async_result_thread (gpointer data,
 		g_async_result_get_source_object (G_ASYNC_RESULT (td->result)),
 		td->cancellable);
 
-	e_simple_async_result_complete_idle (td->result);
+	e_simple_async_result_complete_idle_take (td->result);
 
-	g_clear_object (&td->result);
 	g_clear_object (&td->cancellable);
 	g_free (td);
 }
@@ -346,7 +345,17 @@ e_simple_async_result_complete_idle (ESimpleAsyncResult *result)
 {
 	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
 
-	g_idle_add (result_complete_idle_cb, g_object_ref (result));
+	e_simple_async_result_complete_idle_take (g_object_ref (result));
+}
+
+/* The same as e_simple_async_result_complete_idle(), but assumes ownership
+   of the 'result' argument. */
+void
+e_simple_async_result_complete_idle_take (ESimpleAsyncResult *result)
+{
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
+
+	g_idle_add (result_complete_idle_cb, result);
 }
 
 void

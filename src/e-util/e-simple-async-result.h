@@ -99,6 +99,8 @@ void		e_simple_async_result_run_in_thread
 void		e_simple_async_result_complete	(ESimpleAsyncResult *result);
 void		e_simple_async_result_complete_idle
 						(ESimpleAsyncResult *result);
+void		e_simple_async_result_complete_idle_take
+						(ESimpleAsyncResult *result);
 void		e_simple_async_result_take_error
 						(ESimpleAsyncResult *result,
 						 GError *error);
