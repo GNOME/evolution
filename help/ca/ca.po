@@ -51,7 +51,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/backup-restore.page:29
 msgid "Backing up"
-msgstr "Copiant"
+msgstr "Còpies de seguretat"
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:33
@@ -68,7 +68,7 @@ msgid ""
 "click <gui style=\"button\">Save</gui>."
 msgstr ""
 "Trieu un nom de fitxer i la carpeta on voleu desar la còpia de seguretat, i "
-"feu clic a <gui style=\"button\">Desar</gui>."
+"feu clic a <gui style=\"button\">Desa</gui>."
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:41 C/backup-restore.page:69
@@ -101,7 +101,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/backup-restore.page:58 C/intro-first-run.page:43
 msgid "Restoring"
-msgstr "Restaurant"
+msgstr "Restauració"
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:62
@@ -568,7 +568,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/calendar-free-busy.page:108
 msgid "Accessing Free/Busy Data Without a Groupware Server"
-msgstr "Accedint a les dades col·laboratives sense un servidor Groupware"
+msgstr "Accedir a les dades col·laboratives sense un servidor Groupware"
 
 #. (itstool) path: section/p
 #: C/calendar-free-busy.page:110
@@ -1282,7 +1282,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:92
 msgid "Click <gui>Save</gui> to save the meeting."
-msgstr "Feu clic a <gui>Desar</gui> per desar la reunió."
+msgstr "Feu clic a <gui>Desa</gui> per desar la reunió."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:96
@@ -1716,7 +1716,7 @@ msgstr "On adding, editing, and deleting appointments."
 #. (itstool) path: page/title
 #: C/calendar-usage.page:21
 msgid "Add, Edit, and Delete Appointments"
-msgstr "Afegiu, editeu i suprimiu les cites"
+msgstr "Afegir, editar i suprimir les cites"
 
 #. (itstool) path: info/desc
 #: C/calendar-using-several-calendars.page:25
@@ -2473,7 +2473,7 @@ msgstr "En afegir, editar i eliminar contactes a llibretes d'adreces."
 #. (itstool) path: page/title
 #: C/contacts-usage.page:20
 msgid "Add, Edit, and Delete Contacts"
-msgstr "Afegiu, editeu i suprimiu contactes"
+msgstr "Afegir, editar i suprimir contactes"
 
 #. (itstool) path: info/desc
 #: C/contacts-using-contact-lists.page:23
@@ -2496,7 +2496,7 @@ msgid ""
 msgstr ""
 "Una llista de contactes és un conjunt de contactes amb un únic sobrenom. "
 "Quan envieu correus electrònics a aquest sobrenom, s'envia a tots els "
-"membres de la llista. Això difereix d'una llista de correu \"real\" ja que "
+"membres de la llista. Això difereix d'una llista de correu «real» ja que "
 "només existeix a l'ordinador com a comoditat per a l'usuari, i no com una "
 "adreça electrònica real gestionada per una aplicació de llistes de correu a "
 "un servidor."
@@ -2510,9 +2510,9 @@ msgid ""
 "\"Family\" and the messages would go to all of them."
 msgstr ""
 "Per exemple, podeu crear un contacte per a cada membre de la família i, a "
-"continuació, afegir-los a una llista de contactes anomenada \"Família\". A "
+"continuació, afegir-los a una llista de contactes anomenada «família». A "
 "continuació, en lloc d'introduir l'adreça electrònica de cada persona "
-"individualment, podeu enviar correus electrònics a \"Família\" i els "
+"individualment, podeu enviar correus electrònics a «família» i els "
 "missatges s'enviaran a tots."
 
 #. (itstool) path: section/title
@@ -2898,7 +2898,7 @@ msgstr "Obrir enllaços en i des del navegador web"
 #. (itstool) path: section/title
 #: C/default-browser.page:27
 msgid "Change which web browser websites are opened in"
-msgstr "Canvieu en quin navegador s'obren els llocs web"
+msgstr "Canviar en quin navegador s'obren els llocs web"
 
 #. (itstool) path: when/p
 #: C/default-browser.page:31
@@ -3012,7 +3012,7 @@ msgstr ""
 #: C/default-browser.page:81
 msgid "Change which mail application is used to write emails"
 msgstr ""
-"Canvieu quina aplicació de correu s'utilitza per escriure correus electrònics"
+"Canviar quina aplicació de correu s'utilitza per escriure correus electrònics"
 
 #. (itstool) path: section/p
 #: C/default-browser.page:83
@@ -6310,7 +6310,7 @@ msgid ""
 msgstr ""
 "Si rebeu un missatge de correu electrònic amb un o més fitxers adjunts, "
 "<app>Evolution</app> mostra el nombre d'adjunts i el botó <gui style=\"button"
-"\">Desar</gui> o <gui style=\"button\">Desar tot</gui> entre la capçalera i "
+"\">Desa</gui> o <gui style=\"button\">Desa-ho tot</gui> entre la capçalera i "
 "el contingut del correu electrònic."
 
 #. (itstool) path: note/p
@@ -7354,7 +7354,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-html.page:5
 msgid "Changing fonts, using colors, and inserting images, tables and links."
-msgstr "Canviar fonts, utilitzar colors i inserir imatges, taules i enllaços."
+msgstr "Canviar tipus de lletra, utilitzar colors i inserir imatges, taules i enllaços."
 
 #. (itstool) path: page/title
 #: C/mail-composer-html.page:21
@@ -7585,7 +7585,7 @@ msgstr "TT"
 #: C/mail-composer-html-text.page:45
 msgid "Typewriter text, which is similar to a monospace font."
 msgstr ""
-"Text Typewriter (màquina d'escriure), que és similar a la font monospace."
+"Text Typewriter (màquina d'escriure), que és similar al tipus de lletra monospace."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:48
@@ -7645,7 +7645,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-mail-signatures-manage.page:20
 msgid "Managing signatures"
-msgstr "Gestioneu les signatures"
+msgstr "Gestionar les signatures"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures-manage.page:22
@@ -8198,7 +8198,7 @@ msgid ""
 msgstr ""
 "<app>Evolution</app> ignora la prioritat dels missatges entrants perquè el "
 "destinatari ha de decidir si el missatge és important o no. Podeu configurar "
-"l'indicador \"Important\" per a qualsevol missatge."
+"l'indicador «Important» per a qualsevol missatge."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-reply.page:5
@@ -8799,7 +8799,7 @@ msgstr "Esborrat i restauració de missatges"
 #. (itstool) path: section/title
 #: C/mail-delete-and-undelete.page:28
 msgid "Deleting Messages"
-msgstr "Suprimint els missatges"
+msgstr "Suprimir els missatges"
 
 #. (itstool) path: section/p
 #: C/mail-delete-and-undelete.page:30
@@ -9087,7 +9087,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-displaying-images-in-html.page:49
 msgid "Saving images"
-msgstr "Desant les imatges"
+msgstr "Desar les imatges"
 
 #. (itstool) path: section/p
 #: C/mail-displaying-images-in-html.page:50
@@ -9438,7 +9438,7 @@ msgid ""
 "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
 "gui></guiseq>."
 msgstr ""
-"Seleccionar <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de "
+"Seleccioneu <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de "
 "Correu</gui></guiseq>."
 
 #. (itstool) path: item/p
@@ -10347,7 +10347,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-folders.page:34
 msgid "Creating A Folder"
-msgstr "Creant una carpeta"
+msgstr "Crear una carpeta"
 
 #. (itstool) path: section/p
 #: C/mail-folders.page:35
@@ -10604,9 +10604,9 @@ msgid ""
 "click on the top level node of an email account in the folder list and click "
 "<gui>Manage subscriptions</gui>."
 msgstr ""
-"Seleccionar <guiseq><gui>Carpeta</gui><gui>Subscripcions</gui></guiseq>, o "
+"Seleccioneu <guiseq><gui>Carpeta</gui><gui>Subscripcions</gui></guiseq>, o "
 "feu clic amb el botó dret del ratolí al node de nivell superior d'un compte "
-"de correu electrònic a la llista de carpetes i fent clic a <gui>Gestionar "
+"de correu electrònic a la llista de carpetes i fent clic a <gui>Gestiona les "
 "subscripcions</gui>."
 
 #. (itstool) path: item/p
@@ -10715,7 +10715,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-labels.page:34
 msgid "Managing labels"
-msgstr "Gestioneu les etiquetes"
+msgstr "Gestionar les etiquetes"
 
 #. (itstool) path: section/p
 #: C/mail-labels.page:35
@@ -13609,7 +13609,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/sync-with-other-devices.page:19
 msgid "Synchronize <app>Evolution</app> with other devices"
-msgstr "Sincronitzeu <app>Evolution</app> amb altres dispositius"
+msgstr "Sincronitzar <app>Evolution</app> amb altres dispositius"
 
 #. (itstool) path: page/p
 #: C/sync-with-other-devices.page:21
