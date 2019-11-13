@@ -281,7 +281,7 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 	ICalComponent *component;
 	ICalProperty *prop;
 	ICalTimezone *zone = NULL;
-	gboolean has_property = FALSE;
+	gboolean has_property = FALSE, is_date_value = FALSE;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
 
@@ -303,7 +303,10 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 
 		dtstart = i_cal_component_get_dtstart (component);
 		if (dtstart && i_cal_time_is_valid_time (dtstart)) {
-			if (i_cal_time_is_utc (dtstart)) {
+			if (i_cal_time_is_date (dtstart)) {
+				zone = NULL;
+				is_date_value = TRUE;
+			} else if (i_cal_time_is_utc (dtstart)) {
 				zone = i_cal_timezone_get_utc_timezone ();
 			} else {
 				prop = i_cal_component_get_first_property (component, I_CAL_DTSTART_PROPERTY);
@@ -318,7 +321,10 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 
 		dtend = i_cal_component_get_dtend (component);
 		if (!zone && i_cal_time_is_valid_time (dtend)) {
-			if (i_cal_time_is_utc (dtend)) {
+			if (i_cal_time_is_date (dtend)) {
+				zone = NULL;
+				is_date_value = TRUE;
+			} else if (i_cal_time_is_utc (dtend)) {
 				zone = i_cal_timezone_get_utc_timezone ();
 			} else {
 				prop = i_cal_component_get_first_property (component, I_CAL_DTEND_PROPERTY);
@@ -335,7 +341,10 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 
 		itt = i_cal_component_get_due (component);
 		if (itt && i_cal_time_is_valid_time (itt)) {
-			if (i_cal_time_is_utc (itt)) {
+			if (i_cal_time_is_date (itt)) {
+				zone = NULL;
+				is_date_value = TRUE;
+			} else if (i_cal_time_is_utc (itt)) {
 				zone = i_cal_timezone_get_utc_timezone ();
 			} else {
 				prop = i_cal_component_get_first_property (component, I_CAL_DUE_PROPERTY);
@@ -353,7 +362,10 @@ ece_event_update_timezone (ECompEditorEvent *event_editor,
 
 		edit_widget = e_comp_editor_property_part_get_edit_widget (event_editor->priv->timezone);
 
-		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), zone);
+		if (!zone && is_date_value)
+			e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), calendar_config_get_icaltimezone ());
+		else
+			e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (edit_widget), zone);
 
 		cfg_zone = calendar_config_get_icaltimezone ();
 
