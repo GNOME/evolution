@@ -22,7 +22,7 @@ msgctxt "_"
 msgid "translator-credits"
 msgstr ""
 "Jordi Mas i Hernàndez <jmas@softcatala.org>, 2014, 2019\n"
-"Jaume Jorba <jaume.jorba@gmail.com>, 2018"
+"Jaume Jorba <jaume.jorba@gmail.com>, 2018, 2019"
 
 #. (itstool) path: info/desc
 #: C/backup-restore.page:18
@@ -1031,7 +1031,7 @@ msgstr "Feu clic amb el botó dret a la reunió que voleu delegar."
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:35
 msgid "Click <gui>Delegate Meeting</gui>."
-msgstr "Feu clic a <gui>Delegar Reunió</gui>."
+msgstr "Feu clic a <gui>Delega una reunió</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:38
@@ -1049,7 +1049,7 @@ msgstr "Seleccioneu els contactes als quals voleu delegar la reunió."
 #: C/mail-filters.page:71 C/mail-search-folders-add.page:46
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
-msgstr "Feu clic a <gui style=\"button\">OK</gui>."
+msgstr "Feu clic a <gui style=\"button\">D'acord</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-delegating.page:45
@@ -1110,7 +1110,7 @@ msgid ""
 msgstr ""
 "Si la sol·licitud de reunió ja inclou un <link xref=\"calendar-alarms-and-"
 "reminders\">recordatori</link> podeu importar el recordatori al vostre "
-"calendari habilitant <gui>Heretar recordatori</gui>."
+"calendari habilitant <gui>Hereta el recordatori</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:29
@@ -1378,8 +1378,8 @@ msgid ""
 "To immediately publish calendar information, click <guiseq><gui>Actions</"
 "gui><gui>Publish Calendar Information</gui></guiseq> in the calendar."
 msgstr ""
-"Per publicar immediatament la informació d'un calendari, feu clic a, click "
-"<guiseq><gui>Accions</gui><gui>Publicar la Informació d'un Calendari</gui></"
+"Per publicar immediatament la informació d'un calendari, feu clic a "
+"<guiseq><gui>Accions</gui><gui>Publica informació del calendari</gui></"
 "guiseq> al calendari."
 
 #. (itstool) path: info/desc
@@ -1661,11 +1661,11 @@ msgid ""
 "<guiseq><gui>Edit</gui><gui>Delete Appointment</gui></guiseq>."
 msgstr ""
 "Si voleu suprimir una cita dels vostres calendaris, feu clic amb el botó "
-"dret a la cita del calendari i seleccioneu <gui>Esborrar cita</gui>, o feu "
+"dret a la cita del calendari i seleccioneu <gui>Suprimeix la cita</gui>, o feu "
 "clic a la cita i feu clic a <gui>Suprimeix</gui> a la barra d'eines o premeu "
 "<keyseq><key>Ctrl</key><key>D</key></keyseq>. Si us trobeu a la<link xref="
 "\"calendar-layout-views\">visualització en llista</link> també podeu "
-"utilitzar <guiseq><gui>Edita</gui><gui>Esborrar cita</gui></guiseq>."
+"utilitzar <guiseq><gui>Edita</gui><gui>Suprimeix la cita</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-edit-appointment.page:17
@@ -2155,7 +2155,7 @@ msgid ""
 msgstr ""
 "També podeu marcar una carpeta en xarxa per a l'ús fora de línia. Per marcar "
 "la carpeta, feu clic amb el botó dret a la carpeta, feu clic a "
-"<gui>Propietats</gui> i seleccioneu <gui>Copiar el contingut de la carpeta "
+"<gui>Propietats</gui> i seleccioneu <gui>Copia el contingut de la carpeta "
 "localment per al seu ús fora de línia</gui>."
 
 #. (itstool) path: item/p
@@ -2212,9 +2212,9 @@ msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
-"Feu clic a <guiseq><gui>Edita</gui><gui>Base de Dades Exchange…</gui></"
-"guiseq> a la barra d'eines. Això obrirà el quadre de diàleg de la <gui>Base "
-"de Dades Exchange</gui>."
+"Feu clic a <guiseq><gui>Edita</gui><gui> Intercanvia la base de dades…</gui></"
+"guiseq> a la barra d'eines. Això obrirà el quadre de diàleg de la <gui>Intercanvia "
+"la base de dades</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:33
@@ -2231,7 +2231,7 @@ msgstr ""
 #: C/contacts-libreoffice.page:38
 msgid "Choose an addressbook and click <gui style=\"button\">Define</gui>."
 msgstr ""
-"Trieu una llibreta d'adreces i feu clic a <gui style=\"button\">Definir</"
+"Trieu una llibreta d'adreces i feu clic a <gui style=\"button\">Defineix</"
 "gui>."
 
 #. (itstool) path: page/p
@@ -2396,7 +2396,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:57
 msgid "Select <gui>Add to Address Book…</gui>."
-msgstr "Seleccioneu <gui>Afegir a la llibreta d'adreces…</gui>."
+msgstr "Seleccioneu <gui>Afegeix a la llibreta d'adreces…</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-usage-add-contact.page:60
@@ -2405,8 +2405,8 @@ msgid ""
 "<gui>Contact Editor</gui>, or click <gui style=\"button\">OK</gui> to "
 "directly add the contact to the chosen address book."
 msgstr ""
-"Premeu <gui style=\"button\">Editar totl</gui> per completament "
-"l'<gui>Editor de Contactes</gui>, o feu clic a <gui style=\"button\">OK</"
+"Premeu <gui style=\"button\">Edita sencer</gui> per a mostrar "
+"l'<gui>Editor de contactes</gui>, o feu clic a <gui style=\"button\">D'acord</"
 "gui> per afegir directament el contacte a la llibreta d'adreces seleccionada."
 
 #. (itstool) path: info/desc
@@ -2432,7 +2432,7 @@ msgstr ""
 "botó dret del ratolí al contacte i seleccioneu <gui>Suprimeix</gui>, o feu "
 "clic al contacte i feu clic a <gui>Suprimeix</gui> a la barra d'eines o "
 "premeu <keyseq><key>Ctrl</key><key>D</key></keyseq>, o feu clic a "
-"<guiseq><gui>Edita</gui><gui>Esborrar Contacte</gui></guiseq>."
+"<guiseq><gui>Edita</gui><gui>Suprimeix el contacte</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/contacts-usage-edit-contact.page:17
@@ -2588,7 +2588,7 @@ msgstr ""
 "Per enviar un missatge a la llista de contactes, introduïu el nom que heu "
 "triat per a la llista de contactes com a destinatari quan escriviu el "
 "correu. També podeu fer clic amb el botó dret a la llista de contactes de la "
-"vostra llibreta d'adreces i selecciona <gui>Enviar un missatge a la Llista</"
+"vostra llibreta d'adreces i selecciona <gui>Envia un missatge a la llista</"
 "gui>."
 
 #. (itstool) path: info/desc
@@ -2672,7 +2672,7 @@ msgstr "Equip de traducció de la documentació per a l'usuari d'<app>Evolution<
 #. andre
 #: C/credits.page:42
 msgid "(Not applicable to the English version)"
-msgstr "(No s'aplica a la versió en anglès)"
+msgstr "Jaume Jorba <jaume.jorba@gmail.com>, Jordi Mas i Hernàndez <jmas@softcatala.org>"
 
 #. (itstool) path: section/title
 #: C/credits.page:46
@@ -3555,7 +3555,7 @@ msgid ""
 "enabled this functionality."
 msgstr ""
 "Si l'opció per importar carpetes personals d'Outlook (fitxers .pst) no està "
-"disponible a <guiseq><gui>Fitxer</gui><gui>Importa</gui><gui>Importar un "
+"disponible a <guiseq><gui>Fitxer</gui><gui>Importa</gui><gui>Importa un "
 "fitxer</gui><gui>Tipus de fitxer</gui></guiseq>, és possible que la vostra "
 "distribució no tingui activada aquesta funcionalitat."
 
@@ -3908,7 +3908,7 @@ msgstr "La localització de problemes"
 #. (itstool) path: section/title
 #: C/index.page:72
 msgid "Common Mail Questions and Problems"
-msgstr "Preguntes i problemes comuns amb el Correu"
+msgstr "Preguntes i problemes comuns amb el correu"
 
 #. (itstool) path: section/title
 #: C/index.page:76
@@ -4137,7 +4137,7 @@ msgstr ""
 "Més endavant, si voleu canviar un compte o si voleu crear un altre, aneu a "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de correu</"
 "gui></guiseq>. Seleccioneu el compte que voleu canviar i, a continuació, feu "
-"clic a <gui style=\"button\">Editar</gui>. Opcionalment, afegiu un compte "
+"clic a <gui style=\"button\">Edita</gui>. Opcionalment, afegiu un compte "
 "nou fent clic <gui style=\"button\">Afegeix</gui>."
 
 #. (itstool) path: section/title
@@ -5590,7 +5590,7 @@ msgid ""
 msgstr ""
 "Els comptes de correu electrònic es poden editar via <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Comptes de correu</gui><gui style=\"button"
-"\">Editar</gui></guiseq> o fent clic amb el botó dret al node superior "
+"\">Edita</gui></guiseq> o fent clic amb el botó dret al node superior "
 "corresponent a la llista de carpetes i triant <gui>Propietats</gui>."
 
 #. (itstool) path: section/p
@@ -5751,7 +5751,7 @@ msgid ""
 msgstr ""
 "Els comptes de correu electrònic es poden editar via <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Comptes de correu</gui><gui style=\"button"
-"\">Editar</gui></guiseq>."
+"\">Edita</gui></guiseq>."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-local-delivery.page:36
@@ -6353,7 +6353,7 @@ msgstr ""
 msgid ""
 "The options available for an attachment vary depending on the type of "
 "attachment and the applications that are installed on your system. Your "
-"desktop environment's MIME database defines which applications can be used "
+"desktop environment's MIME dataee defines which applications can be used "
 "to open a specific file format."
 msgstr ""
 "Les opcions disponibles per a un fitxer adjunt varien segons el tipus de "
@@ -7745,8 +7745,8 @@ msgstr ""
 "Es pot definir una <link xref=\"mail-composer-mail-signatures\">signatura</"
 "link> per cada compte de correu electrònic. Es pot fer a "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de correu</"
-"gui><gui style=\"button\">Editar</gui><gui>Identitat</gui><gui>Informació "
-"Opcional</gui></guiseq>."
+"gui><gui style=\"button\">Edita</gui><gui>Identitat</gui><gui>Informació "
+"opcional</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures-per-account.page:33
@@ -8320,7 +8320,7 @@ msgid ""
 msgstr ""
 "Podeu canviar la configuració predeterminada per respondre i reenviar a "
 "<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Preferències del redactor</"
-"gui><gui>General</gui><gui>Respondre i Reenviar</gui><gui>Estil de la "
+"gui><gui>General</gui><gui>Respostes i reenviaments</gui><gui>Estil de la "
 "resposta</gui></guiseq>."
 
 #. (itstool) path: info/desc
@@ -8720,7 +8720,7 @@ msgstr ""
 "CCO no visible per a altres destinataris) a la secció <gui>Editar missatges</"
 "gui> de l'editor dels comptes de correu (<guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Comptes de correu</gui><gui style=\"button"
-"\">Editar</gui><gui>Editor de missatges</gui></guiseq>)."
+"\">Edita</gui><gui>Editor de missatges</gui></guiseq>)."
 
 #. (itstool) path: info/desc
 #: C/mail-default-folder-locations.page:5
@@ -8749,7 +8749,7 @@ msgstr ""
 "carpeta <gui>Esborranys</gui> i carpeta <gui>Enviats</gui> a la "
 "secció <gui>Predeterminat</gui> de l'editor de comptes de correu "
 "(<guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de correu</"
-"gui><gui style=\"button\">Editar</gui><gui>Predeterminat</gui></guiseq>)."
+"gui><gui style=\"button\">Edita</gui><gui>Predeterminat</gui></guiseq>)."
 
 #. (itstool) path: page/p
 #: C/mail-default-folder-locations.page:32
@@ -8794,7 +8794,7 @@ msgstr "Esborrat, compactat, i restauració de correu electrònic."
 #. (itstool) path: page/title
 #: C/mail-delete-and-undelete.page:25
 msgid "Deleting and undeleting messages"
-msgstr "Esborrat i restauració de missatges"
+msgstr "Suprimir i restaurar missatges"
 
 #. (itstool) path: section/title
 #: C/mail-delete-and-undelete.page:28
@@ -8838,7 +8838,7 @@ msgid ""
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 msgstr ""
 "Per esborrar permanentment tots els missatges esborrats d'una carpeta, feu "
-"clic a la <guiseq><gui>Carpeta</gui><gui>Suprimir definitivament</gui></"
+"clic a la <guiseq><gui>Carpeta</gui><gui>Suprimeix definitivament</gui></"
 "guiseq> o premeu <keyseq><key>Ctrl</key><key>E</key></keyseq>."
 
 #. (itstool) path: section/title
@@ -9448,7 +9448,7 @@ msgid ""
 "\">Edit</gui>."
 msgstr ""
 "Seleccioneu el compte que vulgueu utilitzar de forma segura i, a "
-"continuació, feu clic a <gui style=\"button\">Editar</gui>."
+"continuació, feu clic a <gui style=\"button\">Edita</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-set-up.page:31
@@ -9547,7 +9547,7 @@ msgstr "Seleccioneu el compte de correu per xifrar els missatges."
 #: C/mail-encryption-gpg-signing-encrypting.page:37
 #: C/mail-encryption-s-mime-signing-encrypting.page:32 C/mail-filters.page:60
 msgid "Click <gui style=\"button\">Edit</gui>."
-msgstr "Feu clic a <gui style=\"button\">Editar</gui>."
+msgstr "Feu clic a <gui style=\"button\">Edita</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-encryption-gpg-signing-encrypting.page:39
@@ -10237,8 +10237,8 @@ msgid ""
 "gui> if any or if all conditions have to apply, and click <gui style=\"button"
 "\">Add Condition</gui> and repeat the previous step."
 msgstr ""
-"Si voleu definir diverses condicions, definiu a <gui>Trobar elements</gui> "
-"si s'han d'aplicar totes o no, feu clic a <gui style=\"button\">Afegir "
+"Si voleu definir diverses condicions, definiu a <gui>Cerca elements</gui> "
+"si s'han d'aplicar totes o no, feu clic a <gui style=\"button\">Afegeix "
 "condició</gui> i repetiu el pas previ."
 
 #. (itstool) path: item/p
@@ -10282,9 +10282,9 @@ msgid ""
 "existing filters to be applied choose <gui>Stop Processing</gui> as the "
 "second action in the list."
 msgstr ""
-"Si voleu definir múltiples accions, feu clic a <gui style=\"button\">Afegir "
+"Si voleu definir múltiples accions, feu clic a <gui style=\"button\">Afegeix "
 "acció</gui> i repetiu el pas anterior. Per exemple, si no voleu que "
-"s'apliquin altres filtres existents, trieu <gui>Aturar el processament</gui> "
+"s'apliquin altres filtres existents, trieu <gui>Atura el processament</gui> "
 "com a segona acció de la llista."
 
 #. (itstool) path: section/title
@@ -10296,7 +10296,7 @@ msgstr "Editar els filtres"
 #: C/mail-filters.page:58 C/mail-filters.page:68
 msgid "Click <guiseq><gui>Edit</gui><gui>Message Filters</gui></guiseq>."
 msgstr ""
-"Feu clic a <guiseq><gui>Edita</gui><gui>Filtrar missatges</gui></guiseq>."
+"Feu clic a <guiseq><gui>Edita</gui><gui>Filtres de missatge</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-filters.page:59 C/mail-filters.page:69
@@ -10936,7 +10936,7 @@ msgid ""
 "window or clicking the corresponding toolbar icon."
 msgstr ""
 "Podeu sol·licitar la recepció de la lectura "
-"seleccionant <guiseq><gui>Opcions</gui><gui>Sol·licitar la recepció de "
+"seleccionant <guiseq><gui>Opcions</gui><gui>Sol·licita la confirmació de "
 "lectura</gui></guiseq> al menú de la finestra d'edició o fent clic a la "
 "icona de la barra d'eines corresponent."
 
@@ -10950,7 +10950,7 @@ msgid ""
 msgstr ""
 "Per llegir les notificacions de recepció que rebeu, podeu definir el "
 "comportament d'<app>Evolution</app> a <gui>Recepció de missatges</gui> a la "
-"secció <gui>Editar missatges</gui> a <link xref=\"mail-account-management"
+"secció <gui>Edita missatges</gui> a <link xref=\"mail-account-management"
 "\">preferències del compte</link>."
 
 #. (itstool) path: info/desc
@@ -12340,7 +12340,7 @@ msgstr "Ordena per"
 #: C/mail-sorting-message-list.page:66
 msgid "You can also sort email messages using the <gui>Sort By</gui> list."
 msgstr ""
-"També podeu ordenar missatges de correu mitjançant la llista <gui>Ordenar "
+"També podeu ordenar missatges de correu mitjançant la llista <gui>Ordena "
 "per</gui>."
 
 #. (itstool) path: item/p
@@ -13153,7 +13153,7 @@ msgid ""
 "in Memo…</gui></guiseq> from the main menu."
 msgstr ""
 "Per cercar text a la mosta que s'està mostrant, seleccioneu "
-"<guiseq><gui>Edita</gui><gui>Cercar en una nota…</gui></guiseq> des del menú "
+"<guiseq><gui>Edita</gui><gui>Cerca en una nota…</gui></guiseq> des del menú "
 "principal."
 
 #. (itstool) path: section/title
