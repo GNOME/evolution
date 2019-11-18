@@ -120,9 +120,8 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	CamelMultipart *mp;
 	CamelMimePart *mainpart;
 	CamelDataWrapper *content;
-	gint len;
 	TNEFStruct tnef;
-	GQueue work_queue = G_QUEUE_INIT;
+	gboolean success = FALSE;
 
 	tmpdir = e_mkdtemp ("tnef-attachment-XXXXXX");
 	if (tmpdir == NULL)
@@ -157,14 +156,16 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	TNEFInitialize (&tnef);
 	tnef.Debug = verbose;
 	if (TNEFParseFile (name, &tnef) == -1) {
-	    printf ("ERROR processing file\n");
+		printf ("ERROR processing file\n");
+	} else {
+		success = TRUE;
 	}
 	processTnef (&tnef, tmpdir);
 
 	TNEFFree (&tnef);
 	/* Extraction done */
 
-	dir = opendir (tmpdir);
+	dir = success ? opendir (tmpdir) : NULL;
 	if (dir == NULL) {
 		g_free (tmpdir);
 		g_free (name);
@@ -219,22 +220,23 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 
 	closedir (dir);
 
-	len = part_id->len;
-	g_string_append_printf (part_id, ".tnef");
+	success = camel_multipart_get_number (mp) > 0;
 
-	if (camel_multipart_get_number (mp) > 0) {
+	if (success) {
+		GQueue work_queue = G_QUEUE_INIT;
+		gint len;
+
+		len = part_id->len;
+		g_string_append_printf (part_id, ".tnef");
+
 		e_mail_parser_parse_part_as (
 			parser, mainpart, part_id, "multipart/mixed",
 			cancellable, &work_queue);
+
+		e_queue_transfer (&work_queue, out_mail_parts);
+
+		g_string_truncate (part_id, len);
 	}
-
-	g_string_truncate (part_id, len);
-
-	if (!g_queue_is_empty (&work_queue))
-		e_mail_parser_wrap_as_attachment (
-			parser, part, part_id, &work_queue);
-
-	e_queue_transfer (&work_queue, out_mail_parts);
 
 	g_object_unref (mp);
 	g_object_unref (mainpart);
@@ -242,7 +244,7 @@ empe_tnef_attachment_parse (EMailParserExtension *extension,
 	g_free (name);
 	g_free (tmpdir);
 
-	return TRUE;
+	return success;
 }
 
 static void
