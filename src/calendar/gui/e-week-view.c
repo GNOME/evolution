@@ -1446,7 +1446,7 @@ week_view_set_selected_time_range (ECalendarView *cal_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (!g_date_valid (&week_view->base_date)) {
+	if (!g_date_valid (&week_view->priv->first_day_shown)) {
 		/* This view has not been initialized/shown yet, thus skip this. */
 		return;
 	}
@@ -1455,7 +1455,7 @@ week_view_set_selected_time_range (ECalendarView *cal_view,
 
 	/* Set the selection to the given days. */
 	week_view->selection_start_day = g_date_get_julian (&date)
-		- g_date_get_julian (&week_view->base_date);
+		- g_date_get_julian (&week_view->priv->first_day_shown);
 	if (end_time == start_time
 	    || end_time <= time_add_day_with_zone (start_time, 1,
 						   e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view))))
@@ -1463,7 +1463,7 @@ week_view_set_selected_time_range (ECalendarView *cal_view,
 	else {
 		time_to_gdate_with_zone (&end_date, end_time - 60, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 		week_view->selection_end_day = g_date_get_julian (&end_date)
-			- g_date_get_julian (&week_view->base_date);
+			- g_date_get_julian (&week_view->priv->first_day_shown);
 	}
 
 	/* Make sure the selection is valid. */
