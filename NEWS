@@ -1,3 +1,25 @@
+Evolution 3.34.2 2019-11-22
+---------------------------
+
+Bug Fixes:
+	I#659 - Hardcoded text colors do not work well in dark mode (Milan Crha)
+	I#680 - Change how supported locales for composer attribution language are detected (Milan Crha)
+	I#681 - Cannot type the date of a meeting (Milan Crha)
+	I#696 - Copying event in calendar does not sustain duration of event (Milan Crha)
+	I#701 - ECompEditorEvent: Preset user timezone for all-day events, instead of UTC (Milan Crha)
+	I#702 - "Body contains" leaves the search term selected in the email (Milan Crha)
+	I#709 - tnef-attachment: Add TNEF part as attachment on error (Milan Crha)
+	I#711 - "Select Today" goes to wrong date if month view is scrolled (Milan Crha)
+
+Miscellaneous:
+	Fix a crash when changing Archive folder (Milan Crha)
+	Calendar: Show only the last part of the timezone above the time column in the Day View (Milan Crha)
+	ESimpleAsyncResult: Avoid thread scheduling race when finishing on idle (Milan Crha)
+
+Translations:
+	Jordi Mas (ca)
+	Daniel Mustieles (es)
+
 Evolution 3.34.1 2019-10-07
 ---------------------------
 
