@@ -1,3 +1,33 @@
+Evolution 3.35.2 2019-11-22
+---------------------------
+
+Bug Fixes:
+	Bug 789267 - Add Insert->Emoji into message composer (Milan Crha)
+	I#642 - Prefer https:// when fetching server's autoconfig/config-v1.1.xml (Milan Crha)
+	I#659 - Hardcoded text colors do not work well in dark mode (Milan Crha)
+	I#680 - Change how supported locales for composer attribution language are detected (Milan Crha)
+	I#681 - Cannot type the date of a meeting (Milan Crha)
+	I#696 - Copying event in calendar does not sustain duration of event (Milan Crha)
+	I#701 - ECompEditorEvent: Preset user timezone for all-day events, instead of UTC (Milan Crha)
+	I#702 - "Body contains" leaves the search term selected in the email (Milan Crha)
+	I#709 - tnef-attachment: Add TNEF part as attachment on error (Milan Crha)
+	I#711 - "Select Today" goes to wrong date if month view is scrolled (Milan Crha)
+	ews-I#52 - Disable iTip message send when copy/move meeting between calendars (Milan Crha)
+
+Miscellaneous:
+	e-web-view.js: Replace 'isEqualNode()' with '===' (Milan Crha)
+	e-web-extension.c: Do not include webkitdom.h (Milan Crha)
+	Fix a crash when changing Archive folder (Milan Crha)
+	e-web-view.js: Element::tagName is always in upper-case (Milan Crha)
+	Calendar: Show only the last part of the timezone above the time column in the Day View (Milan Crha)
+	Clear JSCContext exceptions after the call (Milan Crha)
+	ESimpleAsyncResult: Avoid thread scheduling race when finishing on idle (Milan Crha)
+
+Translations:
+	Jordi Mas (ca)
+	Daniel Mustieles (es)
+	Fabio Tomat (fur)
+
 Evolution 3.35.1 2019-10-11
 ---------------------------
 
