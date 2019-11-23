@@ -1,13 +1,13 @@
 # Translators:
 # Jordi Mas <jmas@softcatala.org>, 2018, 2019
-# Jaume Jorba. Correu particular <jaume.jorba@gmail.com>, 2018
+# Jaume Jorba <jaume.jorba@gmail.com>, 2018
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2019-09-28 10:26+0000\n"
 "PO-Revision-Date: 2018-06-17 06:51+0000\n"
-"Last-Translator: Jaume Jorba. Correu particular <jaume.jorba@gmail.com>, "
+"Last-Translator: Jaume Jorba <jaume.jorba@gmail.com>, "
 "2018\n"
 "Language-Team: Catalan (https://www.transifex.com/softcatala/teams/62837/"
 "ca/)\n"
@@ -1162,7 +1162,7 @@ msgid ""
 "information, which also gives them the option to respond."
 msgstr ""
 "Quan creeu una reunió (cita grupal), podeu classificar els assistents en "
-"diverses categories, com ara \"cadira\" o \"obligat\". Quan deseu la llista "
+"diverses categories, com ara «cadira» o «obligat». Quan deseu la llista "
 "de reunions s'envia a cada assistent un correu electrònic amb la informació "
 "de la reunió, que també els dóna l'opció de respondre."
 
@@ -1178,7 +1178,7 @@ msgid ""
 msgstr ""
 "Si no necessiteu recopilar informació d'assistència quan programeu un "
 "esdeveniment, i tan sols voleu anunciar-lo, feu clic amb el botó dret a la "
-"reunió i seleccioneu. <gui>reenviar com iCalendar...</gui>. Aleshores "
+"reunió i seleccioneu. <gui>Reenvia com a iCalendar...</gui>. Aleshores "
 "s'obrirà un nou missatge de correu electrònic amb la notificació de "
 "l'esdeveniment adjunta. Els destinataris podran afegir l'esdeveniment als "
 "seus calendaris amb un sol clic, però no se us enviarà automàticament un "
@@ -1851,13 +1851,13 @@ msgid ""
 "will receive the new contacts."
 msgstr ""
 "Podeu afegir automàticament persones als vostres contactes quan respongueu a "
-"un correu electrònic rebut. Activeu el connector <gui>Contactes Automàtics</"
+"un correu electrònic rebut. Activeu el connector <gui>Contactes automàtics</"
 "gui> anant a <guiseq><gui>Edita</gui><gui>Connectors</gui></guiseq>; fer "
-"clic a <gui>Contactes Automàtics</gui> de manera que es mostri una marca de "
+"clic a <gui>Contactes automàtics</gui> de manera que es mostri una marca de "
 "verificació. A continuació, aneu a <guiseq><gui>Edita</"
-"gui><gui>Preferències</gui><gui>Contactes</gui> <gui>Contactes Automàtics</"
-"gui></guiseq> i activeu l'opció <gui>Crear entrades a la llibreta d'adreces "
-"quan envieu correus electrònics</gui> i seleccioneu la llibreta de contactes "
+"gui><gui>Preferències</gui><gui>Contactes</gui> <gui>Contactes automàtics</"
+"gui></guiseq> i activeu l'opció <gui>Crea entrades a la llibreta d'adreces "
+"en enviar correus</gui> i seleccioneu la llibreta de contactes "
 "de la llista desplegable que rebrà els nous contactes."
 
 #. (itstool) path: page/p
@@ -2308,7 +2308,7 @@ msgid ""
 "gui><gui>Find in Contact…</gui></guiseq> from the main menu."
 msgstr ""
 "Per cercar text contingut al contacte actual, seleccioneu "
-"<guiseq><gui>Edita</gui><gui>Cercar al Contacte…</gui></guiseq> des del menú "
+"<guiseq><gui>Edita</gui><gui>Cerca en un contacte…</gui></guiseq> des del menú "
 "principal."
 
 #. (itstool) path: section/title
@@ -5423,9 +5423,9 @@ msgid ""
 "account's <link xref=\"mail-default-folder-locations\"><gui>Defaults</gui></"
 "link>."
 msgstr ""
-"Per motius de rendiment, es recomana <gui>Utilitzar una carpeta real per a "
-"la paperera</gui> establint-la a <gui>[GMail]/Trash</gui> i <gui>Utilitzar "
-"una carpeta real per a Spam</gui> configurant <gui>[GMail]/Spam</gui> per al "
+"Per motius de rendiment, es recomana <gui>Utilitza una carpeta real per a "
+"la paperera</gui> establint-la a <gui>[GMail]/Trash</gui> i <gui>Utilitza "
+"una carpeta real per als missatges brossa</gui> configurant <gui>[GMail]/Spam</gui> per al "
 "compte <link xref=\"mail-default-folder-locations\"><gui>Valors per defecte</"
 "gui></link>."
 
@@ -6699,7 +6699,7 @@ msgstr ""
 "Si voleu tenir el mateix format de columna a totes les carpetes de correu, "
 "excepte per a la <gui>Enviats</gui>, podeu activar <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Preferències de correu</gui><gui>General</"
-"gui><gui>Aplicar la mateixa configuració de la vista a totes les carpetes</"
+"gui><gui>Aplica els mateixos paràmetres de visualització a totes les carpetes</"
 "gui></guiseq>. Tingueu en compte que aquesta configuració també influeix "
 "als <link xref=\"mail-sorting-message-list#email-threads\"><gui>Grups per "
 "fils</gui></link> i a la visibilitat de la <gui>Visualització prèvia de "
@@ -7171,7 +7171,7 @@ msgid ""
 "<gui>Attachment</gui>, so the forwarded email and also its attachments get "
 "attached to the email you want to send."
 msgstr ""
-"Feu clic al <guiseq><gui>Missatge</gui><gui>Reenviar com…</gui></guiseq> i "
+"Feu clic al <guiseq><gui>Missatge</gui><gui>Reenvia com a…</gui></guiseq> i "
 "seleccioneu <gui>Adjunt</gui>, de manera que el correu electrònic reenviat i "
 "els seus fitxers adjunts s'uniran al correu electrònic que voleu enviar."
 
@@ -7197,7 +7197,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-from-field-override.page:20
 msgid "Overriding the \"From\" field"
-msgstr "Reemplaçant el camp «De»"
+msgstr "Reemplaçar el camp «De»"
 
 #. (itstool) path: page/p
 #: C/mail-composer-from-field-override.page:22
@@ -10182,7 +10182,7 @@ msgid ""
 "<keyseq><key>Ctrl</key><key>Y</key></keyseq>."
 msgstr ""
 "Per aplicar manualment filtres als missatges d'una carpeta, seleccioneu els "
-"missatges i feu clic a <guiseq><gui>Missatges</gui><gui>Aplicar filtres</"
+"missatges i feu clic a <guiseq><gui>Missatges</gui><gui>Aplica els filtres</"
 "gui></guiseq> o premeu <keyseq><key>Ctrl</key><key>Y</key></keyseq>."
 
 #. (itstool) path: section/title
@@ -10373,7 +10373,7 @@ msgstr "Especifiqueu el nom i la ubicació de la carpeta."
 #. (itstool) path: item/p
 #: C/mail-folders.page:39
 msgid "Click on the <gui>Create</gui> button."
-msgstr "Feu clic al botó <gui>Crear</gui>."
+msgstr "Feu clic al botó <gui>Crea</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-folders.page:41
@@ -10490,7 +10490,7 @@ msgstr "Feu clic amb el botó dret en un dels missatges."
 #. (itstool) path: item/p
 #: C/mail-follow-up-flag.page:28
 msgid "Click <gui>Mark for Follow Up…</gui>."
-msgstr "Feu clic a <gui>Marcar per a seguiment ...</gui>."
+msgstr "Feu clic a <gui>Marca per al seguiment…</gui>."
 
 #. (itstool) path: page/p
 #: C/mail-follow-up-flag.page:30
@@ -11883,7 +11883,7 @@ msgid ""
 "gui><gui>Find in Message…</gui></guiseq> from the main menu."
 msgstr ""
 "Per trobar text en el missatge que es mostra, seleccioneu "
-"<guiseq><gui>Edita</gui><gui>Trobar al missatge…</gui></guiseq> des del menú "
+"<guiseq><gui>Edita</gui><gui>Cerca en el missatge…</gui></guiseq> des del menú "
 "principal."
 
 #. (itstool) path: section/title
@@ -13822,7 +13822,7 @@ msgid ""
 "in Task…</gui></guiseq> from the main menu."
 msgstr ""
 "Per trobar text a la tasca que es mostra, seleccioneu <guiseq><gui>Edita</"
-"gui><gui>Cercar a la tasca…</gui></guiseq> des del menú principal."
+"gui><gui>Cerca a la tasca…</gui></guiseq> des del menú principal."
 
 #. (itstool) path: section/title
 #: C/tasks-searching.page:36
