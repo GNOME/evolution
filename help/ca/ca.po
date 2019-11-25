@@ -956,7 +956,7 @@ msgstr "S'està afegint un nou calendari local."
 #. (itstool) path: page/title
 #: C/calendar-local.page:20
 msgid "Adding another local calendar"
-msgstr "S'està afegint un nou calendari local"
+msgstr "Afegir un nou calendari local"
 
 #. (itstool) path: page/p
 #: C/calendar-local.page:22
@@ -1151,7 +1151,7 @@ msgstr "S'està enviant una invitació a una reunió."
 #. (itstool) path: page/title
 #: C/calendar-meetings-sending-invitation.page:26
 msgid "Sending a Meeting Invitation"
-msgstr "S'està enviant una invitació a una reunió"
+msgstr "Enviar una invitació a una reunió"
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:28
@@ -7098,7 +7098,7 @@ msgstr ""
 "<gui>Reenvia</gui> a la barra d'eines, o premeu <keyseq><key>Ctrl</"
 "key><key>F</key></keyseq> per utilitzar el mètode de reenviament "
 "predeterminat. En cas que vulgueu utilitzar un mètode diferent, feu clic a "
-"<guiseq><gui>Missatge</gui><gui>Reenviar com</gui></guiseq> o la petita "
+"<guiseq><gui>Missatge</gui><gui>Reenvia com</gui></guiseq> o la petita "
 "fletxa desplegable al costat del botó <gui>Reenvia</gui> a la barra d'eines "
 "per triar el mètode."
 
@@ -7519,7 +7519,7 @@ msgstr ""
 "Les eines de format de text que només estan disponibles en format HTML es "
 "troben a la segona barra d'eines, sota la línia d'<gui>Assumpte</gui> "
 "després d'habilitar el format HTML. També apareixen als menús <gui>Insereix</"
-"gui> i <gui>Formatar</gui>."
+"gui> i <gui>Formata</gui>."
 
 #. (itstool) path: section/title
 #: C/mail-composer-html-text.page:27
@@ -8357,7 +8357,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:30
 msgid "<gui>Find Again</gui>:"
-msgstr "<gui>Cercar de nou</gui>:"
+msgstr "<gui>Cerca de nou</gui>:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-search.page:31
@@ -8645,10 +8645,10 @@ msgid ""
 "spell check in the email composer by clicking <guiseq><gui>Edit</"
 "gui><gui>Check Spelling…</gui></guiseq> or by pressing <key>F7</key>."
 msgstr ""
-"Si no necessita tenir activat <gui>Comprovar l'ortografia mentre escriu</"
+"Si no necessita tenir activat <gui>Comprova l'ortografia mentre escric</"
 "gui> a <link xref=\"#global-preferences\">Preferències del redactor</link> "
 "pot executar la comprovació d'ortografia des de l'editor fent clic a "
-"<guiseq><gui>Edita</gui><gui>Comprovació Ortogràfica…</gui></guiseq> o "
+"<guiseq><gui>Edita</gui><gui>Comprovació ortogràfica…</gui></guiseq> o "
 "prement <key>F7</key>."
 
 #. (itstool) path: info/desc
@@ -8717,7 +8717,7 @@ msgid ""
 msgstr ""
 "Podeu configurar adreces de correu electrònic per a que sempre rebin còpies "
 "del correu enviat (ja sigui com a CC visible per a tots els destinataris, o "
-"CCO no visible per a altres destinataris) a la secció <gui>Editar missatges</"
+"CCO no visible per a altres destinataris) a la secció <gui>Edita missatges</"
 "gui> de l'editor dels comptes de correu (<guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Comptes de correu</gui><gui style=\"button"
 "\">Edita</gui><gui>Editor de missatges</gui></guiseq>)."
@@ -8782,7 +8782,7 @@ msgid ""
 msgstr ""
 "Per als tipus de compte remots (comptes com ara IMAP) podeu utilitzar "
 "carpetes al servidor de correu per al correu 'no desitjat' i la 'paperera' "
-"seleccionant la corresponent opció a <gui>Utilitzar una carpeta real</gui>. "
+"seleccionant la corresponent opció a <gui>Utilitza una carpeta real</gui>. "
 "En aquest cas, <app>Evolution</app> no utilitzarà les <link xref=\"mail-"
 "search-folders\">carpetes virtuals</link> locals."
 
@@ -8857,7 +8857,7 @@ msgid ""
 msgstr ""
 "Podeu recuperar un missatge eliminat que encara no s'hagin suprimit "
 "definitivament. Per recuperar-lo, seleccioneu el missatge, feu clic a "
-"<guiseq><gui>Edita</gui><gui>Recuperar missatge</gui></guiseq>. Nota: Per a "
+"<guiseq><gui>Edita</gui><gui>Recupera el missatge</gui></guiseq>. Nota: Per a "
 "que això funcioni, l'opció <guiseq><gui>Vista</gui><gui>Mostra missatges "
 "esborrats</gui></guiseq> ha d'estar activa."
 
@@ -9068,8 +9068,8 @@ msgid ""
 msgstr ""
 "Podeu descarregar-vos imatges dels correus electrònics enviats pels vostres "
 "contactes. Per fer-ho, aneu a <guiseq><gui>Edita</gui><gui>Preferències</"
-"gui><gui>Preferències del correu</gui><gui>Missatges HTML</gui><gui>Carregar "
-"imatges</gui></guiseq>. Activeu l'opció <gui>Carregar imatges només en els "
+"gui><gui>Preferències del correu</gui><gui>Missatges HTML</gui><gui>Carrega "
+"imatges</gui></guiseq>. Activeu l'opció <gui>Carrega imatges només en els "
 "missatges dels contactes</gui>."
 
 #. (itstool) path: section/p
@@ -9259,7 +9259,7 @@ msgstr ""
 "diversos missatges (o seleccioneu tots els missatges d'una carpeta fent clic "
 "<guiseq><gui>Edita</gui><gui>Selecciona-ho tot</gui></guiseq> o prement "
 "<keyseq><key>Ctrl</key><key>A</key></keyseq>) i fent clic a "
-"<guiseq><gui>Missatge</gui><gui>Eliminar missatges duplicats</gui></guiseq>."
+"<guiseq><gui>Missatge</gui><gui>Suprimeix els missatges duplicats</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-duplicates.page:33
@@ -9517,7 +9517,7 @@ msgid ""
 msgstr ""
 "Un cop <link xref=\"mail-encryption-gpg-set-up\">activada la vostra clau "
 "GPG</link>, podeu signar o xifrar un missatge seleccionant "
-"<guiseq><gui>Opcions</gui><gui>Signa PGP</gui></guiseq> o <gui>Encripta "
+"<guiseq><gui>Opcions</gui><gui>Signa PGP</gui></guiseq> o <gui>Xifra "
 "PGP</gui> des del menú de l'editor de missatges o fent clic a la icona de la "
 "barra d'eines corresponent."
 
@@ -9684,7 +9684,7 @@ msgid ""
 msgstr ""
 "Un cop hàgeu <link xref=\"mail-encryption-s-mime-manage\">afegit el vostre "
 "certificat</link>, podeu signar o encriptar un missatge seleccionant "
-"<guiseq><gui>Opcions</gui><gui>S/MIME Signar</gui></guiseq> o <gui>Encriptar "
+"<guiseq><gui>Opcions</gui><gui>Signa S/MIME</gui></guiseq> o <gui>Xifra "
 "S/MIME</gui> des del menú d'edició de missatges o fent clic a la icona de la "
 "barra d'eines corresponent."
 
@@ -9697,10 +9697,10 @@ msgid ""
 "next to <gui>Encryption Certificate</gui> and specify the path to your "
 "encryption certificate."
 msgstr ""
-"A la secció MIME (S/MIME) <gui>Segur </gui>, feu clic a <gui style=\"button"
-"\">Seleccionar</gui> al costat de <gui>Certificat de signatura</gui> i "
+"A la secció <gui>MIME segur (S/MIME)</gui>, feu clic a <gui style=\"button"
+"\">Selecciona</gui> al costat de <gui>Certificat de signatura</gui> i "
 "especifiqueu la ruta d'accés al vostre certificat de signatura o feu clic a "
-"<gui style=\"button\">Seleccionar</gui> al costat del <gui>Certificat de "
+"<gui style=\"button\">Selecciona</gui> al costat del <gui>Certificat de "
 "xifratge</gui> i especifiqueu la ruta d'accés al vostre certificat de "
 "xifratge."
 
@@ -10500,7 +10500,7 @@ msgid ""
 "or by pressing <keyseq><key>Shift</key><key>Ctrl</key><key>G</key></keyseq>."
 msgstr ""
 "També podeu fer-ho seleccionant els missatges i fent clic a "
-"<guiseq><gui>Misstage</gui><gui>Marcar com a </gui><gui>Seguiment…</gui></"
+"<guiseq><gui>Misstage</gui><gui>Marca com a </gui><gui>Seguiment…</gui></"
 "guiseq> o prement <keyseq><key>Maj</key><key>Ctrl</key><key>G</key></keyseq>."
 
 #. (itstool) path: page/p
@@ -10571,8 +10571,8 @@ msgid ""
 msgstr ""
 "Si preferiu una manera més senzilla per recordar-vos dels missatges, podeu "
 "marcar-los com a importants fent clic amb el botó dret al missatge i, a "
-"continuació, fent clic a <gui>Marcar com important</gui>, o seleccionant "
-"<guiseq><gui>Missatge</gui><gui>Marcar com</gui><gui>Important</gui></"
+"continuació, fent clic a <gui>Marca com a important</gui>, o seleccionant "
+"<guiseq><gui>Missatge</gui><gui>Marca com</gui><gui>Important</gui></"
 "guiseq> des de la barra de menú."
 
 #. (itstool) path: info/desc
@@ -11374,7 +11374,7 @@ msgid ""
 msgstr ""
 "Si voleu <link xref=\"mail-filters\">Filtres</link> per utilitzar "
 "automàticament en els nous missatges de la safata d'entrada, activeu "
-"<gui>Aplicar els filtres als missatges nous de la safata d'entrada</gui>."
+"<gui>Aplica els filtres als missatges nous de la safata d'entrada</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-mh-format-directories.page:5
@@ -11423,8 +11423,8 @@ msgid ""
 "on the server. Set 0 days to keep messages on the server forever."
 msgstr ""
 "Si voleu que els missatges es mantinguin al servidor durant un període de "
-"temps, feu clic a l'opció <gui>Deixar els missatges al servidor</gui> i "
-"l'opció <gui>Esborrar després de ... dies</gui> i seleccioneu el nombre de "
+"temps, feu clic a l'opció <gui>Deixa els missatges al servidor</gui> i "
+"l'opció <gui>Suprimeix després de ... dies</gui> i seleccioneu el nombre de "
 "dies que es permet que els missatges es mantinguin al servidor. Establiu 0 "
 "dies per mantenir els missatges al servidor per sempre."
 
@@ -12292,7 +12292,7 @@ msgstr "Fer clic amb el botó dret a la capçalera."
 msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
-"Seleccioneu l'opció <gui>Suprimeix aquesta columna</gui> o <gui>Afegir una "
+"Seleccioneu l'opció <gui>Suprimeix aquesta columna</gui> o <gui>Afegeix una "
 "columna</gui>."
 
 #. (itstool) path: section/p
@@ -12354,7 +12354,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:69
 msgid "Select the <gui>Sort By</gui> option."
-msgstr "Seleccioneu l'opció <gui>Ordenar per</gui>."
+msgstr "Seleccioneu l'opció <gui>Ordena per</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:69
@@ -12468,7 +12468,7 @@ msgstr "Ordena de manera ascendent"
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:99
 msgid "Select the <gui>Sort Ascending</gui> option."
-msgstr "Seleccioneu l'opció <gui>Ordenar de manera ascendent</gui>."
+msgstr "Seleccioneu l'opció <gui>Ordena de manera ascendent</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:101
@@ -12483,7 +12483,7 @@ msgstr "Ordena de forma descendent"
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:108
 msgid "Select the <gui>Sort Descending</gui> option."
-msgstr "Seleccioneu l'opció <gui>Ordenar de manera descendent</gui>."
+msgstr "Seleccioneu l'opció <gui>Ordena de manera descendent</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:110
@@ -12493,12 +12493,12 @@ msgstr "Els missatges es mostraran amb els més recents a la part superior."
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:114
 msgid "Reset sort"
-msgstr "Reiniciar l'ordre"
+msgstr "Reinicialitzar l'ordre"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:117
 msgid "Select the <gui>Reset sort</gui> option."
-msgstr "Seleccioneu l'opció <gui>Reiniciar l'ordre</gui>."
+msgstr "Seleccioneu l'opció <gui>Reinicialitza l'ordre</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:119
@@ -12766,7 +12766,7 @@ msgstr ""
 "(disponible per a tots els tipus de compte, excepte els comptes POP, que "
 "utilitzen la configuració global) es pot configurar a <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Comptes de correu</gui><gui style=\"button"
-"\">Edita</gui><gui>Opcions de recepció</gui><gui>Comprovar el contingut "
+"\">Edita</gui><gui>Opcions de recepció</gui><gui>Comprova el contingut "
 "escombraries pels missatges nous</gui></guiseq>."
 
 #. (itstool) path: note/p
@@ -13185,7 +13185,7 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Memo</gui></guiseq>, or "
 "press <keyseq><key>Shift</key><key>Ctrl</key><key>O</key></keyseq>."
 msgstr ""
-"Feu clic a <guiseq><gui>Fitxer</gui><gui>Nova</gui><gui>Nota</gui></guiseq>, "
+"Feu clic a <guiseq><gui>Fitxer</gui><gui>Nova</gui><gui>Anotació</gui></guiseq>, "
 "o premeu <keyseq><key>Maj</key><key>Ctrl</key><key>O</key></keyseq>."
 
 #. (itstool) path: item/p
@@ -13252,7 +13252,7 @@ msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Shared Memo</gui></guiseq>, "
 "or press <keyseq><key>Shift</key><key>Ctrl</key><key>H</key></keyseq>."
 msgstr ""
-"Feu clic <guiseq><gui>Fitxer</gui><gui>Nova</gui><gui>Nota compartida</gui></"
+"Feu clic <guiseq><gui>Fitxer</gui><gui>Nova</gui><gui>Anotació compartida</gui></"
 "guiseq>, o premeu <keyseq><key>Maj</key><key>Ctrl</key><key>H</key></keyseq>."
 
 #. (itstool) path: item/p
@@ -13337,7 +13337,7 @@ msgid ""
 "right-click on the memo and click <gui>Open Memo</gui>."
 msgstr ""
 "Feu doble clic a la nota que voleu editar a la llista de notes, o feu clic "
-"amb el botó dret a la nota i feu clic a <gui>Obrir nota</gui>."
+"amb el botó dret a la nota i feu clic a <gui>Obre l'anotació</gui>."
 
 #. (itstool) path: item/p
 #: C/memos-usage-edit-memo.page:26
@@ -14593,7 +14593,7 @@ msgstr "Maj"
 #. (itstool) path: keyseq/key
 #: C/xinclude-searching.xml:15
 msgid "Ctrl"
-msgstr "Control"
+msgstr "Ctrl"
 
 #. (itstool) path: keyseq/key
 #: C/xinclude-searching.xml:15
