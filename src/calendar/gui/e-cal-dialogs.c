@@ -520,6 +520,7 @@ e_cal_dialogs_prompt_retract (GtkWidget *parent,
 	g_free (message);
 
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	vbox = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	gtk_box_set_spacing (GTK_BOX (vbox), 12);
@@ -888,6 +889,7 @@ e_cal_dialogs_recur_component (ECalClient *client,
 	dialog = gtk_message_dialog_new (parent, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_OK_CANCEL, "%s", str);
 	g_free (str);
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
