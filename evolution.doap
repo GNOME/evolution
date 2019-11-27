@@ -24,12 +24,4 @@
     </foaf:Person>
   </maintainer>
 
-  <maintainer>
-    <foaf:Person>
-      <foaf:name>Fabiano Fidêncio</foaf:name>
-      <foaf:mbox rdf:resource="mailto:fabiano@fidencio.org" />
-      <gnome:userid>ffidencio</gnome:userid>
-    </foaf:Person>
-  </maintainer>
-
 </Project>
