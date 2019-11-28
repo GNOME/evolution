@@ -1119,7 +1119,7 @@ msgid ""
 "calendar that you have chosen."
 msgstr ""
 "Si feu clic a <gui>Accepta</gui> l'esdeveniment s'afegeix automàticament al "
-"calendari que hàgeu triat."
+"calendari que hàgiu triat."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:30
@@ -1621,7 +1621,7 @@ msgid ""
 msgstr ""
 "Feu clic a <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Cita</gui></guiseq>, "
 "o feu doble clic en un espai en blanc del calendari per obrir el diàleg de "
-"cites. L'hora concreta sobre la qual hàgeu fet doble clic es suggerirà com a "
+"cites. L'hora concreta sobre la qual hàgiu fet doble clic es suggerirà com a "
 "hora per a la nova cita. També podeu escriure directament al calendari i "
 "ajustar la durada arrossegant el ratolí."
 
@@ -3611,7 +3611,7 @@ msgid ""
 "You can also import contacts that you have received as a vCard attachment of "
 "an email from its attachment menu."
 msgstr ""
-"També podeu importar contactes que hàgeu rebut com a fitxer adjunt de vCard "
+"També podeu importar contactes que hàgiu rebut com a fitxer adjunt de vCard "
 "en un correu electrònic des del seu menú d'adjunts."
 
 #. (itstool) path: note/p
@@ -4402,7 +4402,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/intro-first-run.page:241 C/mail-displaying-character-encodings.page:32
 msgid "Sending mail"
-msgstr "Enviar fcorreu"
+msgstr "Enviar correu"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:242
@@ -4867,7 +4867,7 @@ msgid ""
 "If you press <key>Space</key> after you reach the bottom of the page, it "
 "takes you to the next unread message."
 msgstr ""
-"Si premeu <key>Espai</key> un cop hàgeu arribat al final de la pàgina, et "
+"Si premeu <key>Espai</key> un cop hàgiu arribat al final de la pàgina, et "
 "portarà al següent missatge no llegit."
 
 #. (itstool) path: item/p
@@ -6471,7 +6471,7 @@ msgid ""
 "of every mail you are going to send. If it finds any of the keywords in your "
 "email and there is no actual attached file, the reminder window is displayed."
 msgstr ""
-"Segons les paraules clau que hàgeu afegit, <app>Evolution</app> cerca el "
+"Segons les paraules clau que hàgiu afegit, <app>Evolution</app> cerca el "
 "text a tots els missatges que envieu. Si troba alguna de les paraules clau "
 "al vostre correu electrònic i no hi ha cap fitxer adjunt, es mostrarà la "
 "finestra de recordatori."
@@ -8580,7 +8580,7 @@ msgid ""
 "You might need to install <sys>hunspell</sys> and/or <sys>enchant</sys> to "
 "perform these steps."
 msgstr ""
-"Pot ser que hàgeu d'instal·lar <sys>hunspell</sys> i/o <sys>enchant</sys> "
+"Pot ser que hàgiu d'instal·lar <sys>hunspell</sys> i/o <sys>enchant</sys> "
 "per dur a terme aquests passos."
 
 #. (itstool) path: when/p
@@ -8693,7 +8693,7 @@ msgid ""
 "After you have written your message, click <gui>Send</gui> or press "
 "<keyseq><key>Ctrl</key><key>Return</key></keyseq>."
 msgstr ""
-"Un cop hàgeu escrit el missatge, feu clic a <gui>Envia</gui> o premeu "
+"Un cop hàgiu escrit el missatge, feu clic a <gui>Envia</gui> o premeu "
 "<keyseq><key>Ctrl</key><key>Retorn</key></keyseq>."
 
 #. (itstool) path: info/desc
@@ -9682,7 +9682,7 @@ msgid ""
 "Encrypt</gui> from the message composer menu or clicking the corresponding "
 "toolbar icon."
 msgstr ""
-"Un cop hàgeu <link xref=\"mail-encryption-s-mime-manage\">afegit el vostre "
+"Un cop hàgiu <link xref=\"mail-encryption-s-mime-manage\">afegit el vostre "
 "certificat</link>, podeu signar o encriptar un missatge seleccionant "
 "<guiseq><gui>Opcions</gui><gui>Signa S/MIME</gui></guiseq> o <gui>Xifra "
 "S/MIME</gui> des del menú d'edició de missatges o fent clic a la icona de la "
@@ -9806,7 +9806,7 @@ msgstr "Ajusta la puntuació:"
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:48
 msgid "Changes the numeric score by the amount you set."
-msgstr "Canvia la puntuació numèrica per la quantitat que hàgeu establert."
+msgstr "Canvia la puntuació numèrica per la quantitat que hàgiu establert."
 
 #. (itstool) path: item/p
 #: C/mail-filters-actions.page:50
@@ -10150,7 +10150,7 @@ msgid ""
 "defined. You can define filters for both incoming and outgoing emails."
 msgstr ""
 "Els filtres de missatges apliquen accions als missatges en funció de les "
-"condicions que hàgeu definit. Podeu definir filtres per a correus "
+"condicions que hàgiu definit. Podeu definir filtres per a correus "
 "electrònics entrants i sortints."
 
 #. (itstool) path: page/p
@@ -10556,8 +10556,8 @@ msgstr ""
 "Per exemple, és possible <link xref=\"mail-change-columns-in-message-list"
 "\">afegir una columna estat de la bandera</link> a la vostra llista de "
 "missatges i permetre ordenar per aquesta. Alternativament, podeu crear una "
-"<link xref=\"mail-search-folders\">carpeta cerca</link> que mostri tots els "
-"missatges marcats i, a continuació, esborrar les banderes quan hàgeu acabat, "
+"<link xref=\"mail-search-folders\">carpeta de cerca</link> que mostri tots els "
+"missatges marcats i, a continuació, esborrar les banderes quan hàgiu acabat, "
 "de manera que la carpeta de cerca només contindrà els missatges amb les "
 "pròximes dates de venciment."
 
@@ -11990,7 +11990,7 @@ msgid ""
 "and select the frequency in minutes."
 msgstr ""
 "Si voleu que <app>Evolution</app> comprovi automàticament l'arribada de nous "
-"missatges, activeu l'opció <gui>Comprovar si hi ha missatges nous cada ... "
+"missatges, activeu l'opció <gui>Comprova si hi ha missatges nous cada ... "
 "minuts</gui> a la pàgina <gui>Opcions de recepció</gui> de la configuració "
 "del compte de correu (accessible a <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Comptes de correu</gui><gui style=\"button"
@@ -12844,7 +12844,7 @@ msgid ""
 "<app>Evolution</app>'s local virtual folders will not be used."
 msgstr ""
 "Per utilitzar només les carpetes d'escombraries i paperera al servidor de "
-"correu, seleccioneu l'opció corresponent a <gui>Utilitzar una carpeta real</"
+"correu, seleccioneu l'opció corresponent a <gui>Utilitza una carpeta real</"
 "gui> a <guiseq><gui>Edita</gui><gui>Preferències</gui><gui>Comptes de "
 "correu</gui><gui style=\"button\">Edita</gui><gui>Predefinits</gui></"
 "guiseq>. En aquest cas, <app>Evolution</app> no utilitzarà les carpetes "
@@ -12858,7 +12858,7 @@ msgstr "Subscripció als grups de notícies d'Usenet."
 #. (itstool) path: page/title
 #: C/mail-usenet-subscriptions.page:25
 msgid "Newsgroups Subscriptions"
-msgstr "Newsgroups Subscriptions"
+msgstr "Subscripció als grups de notícies"
 
 #. (itstool) path: page/p
 #: C/mail-usenet-subscriptions.page:27
@@ -13397,7 +13397,7 @@ msgid ""
 msgstr ""
 "Si aquest no és el cas i <app>Evolution</app> normalment funciona, però de "
 "sobte ha deixat de connectar-se als vostres comptes de correu electrònic, és "
-"possible que hàgeu fet clic a la icona de connexió que hi ha a la cantonada "
+"possible que hàgiu fet clic a la icona de connexió que hi ha a la cantonada "
 "inferior esquerra. Quan s'està connectat, la icona s'assembla a un parell "
 "d'endolls connectats. Si els endolls estan separats, no hi ha cap connexió "
 "amb els vostres comptes de correu (i el botó <gui style=\"button\">Enviar/"
@@ -14023,7 +14023,7 @@ msgstr ""
 "Per exemple, podeu tenir tasques pel treball, tasques per a la llar, i "
 "tasques pel club de cant del qual formeu part. La barra lateral mostra les "
 "llistes, i es poden mostrar o ocultar les corresponents tasques o notes "
-"seleccionant o desseleccionant les caselles del costat de la vista.."
+"seleccionant o desseleccionant les caselles del costat de la vista."
 
 #. (itstool) path: page/p
 #: C/tasks-using-several-tasklists.page:24
@@ -14357,7 +14357,7 @@ msgstr ""
 "condicions del missatge que voleu trobar, com abans d'una data determinada, "
 "o després d'una data. A continuació, trieu el temps. El filtre compara la "
 "marca de temps del missatge amb el rellotge del sistema quan s'executa el "
-"filtre, o l'hora i data específica que hàgeu triat d'un calendari. També "
+"filtre, o l'hora i data específica que hàgiu triat d'un calendari. També "
 "podeu cercar un missatge en un interval de temps relatiu al filtre, com ara "
 "fa dos a quatre dies."
 
@@ -14572,7 +14572,7 @@ msgstr "D'acord"
 #. (itstool) path: item/p
 #: C/xinclude-searching.xml:9
 msgid "Click <_:gui-1/> to get the search results displayed."
-msgstr "Feu clic <_:gui-1/>per mostrar els resultats de la cerca.."
+msgstr "Feu clic <_:gui-1/> per mostrar els resultats de la cerca."
 
 #. (itstool) path: section/title
 #: C/xinclude-searching.xml:14
