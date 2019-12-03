@@ -669,6 +669,23 @@ ecepp_datetime_get_current_time_cb (EDateEdit *date_edit,
 }
 
 static void
+ecepp_datetime_changed_cb (ECompEditorPropertyPart *property_part)
+{
+	GtkWidget *edit_widget;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DATETIME (property_part));
+
+	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
+
+	if (!edit_widget || e_date_edit_has_focus (E_DATE_EDIT (edit_widget)) ||
+	    !e_date_edit_date_is_valid (E_DATE_EDIT (edit_widget)) ||
+	    !e_date_edit_time_is_valid (E_DATE_EDIT (edit_widget)))
+		return;
+
+	e_comp_editor_property_part_emit_changed (property_part);
+}
+
+static void
 ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 			       GtkWidget **out_label_widget,
 			       GtkWidget **out_edit_widget)
@@ -700,9 +717,9 @@ ecepp_datetime_create_widgets (ECompEditorPropertyPart *property_part,
 		e_weak_ref_new (property_part), (GDestroyNotify) e_weak_ref_free);
 
 	g_signal_connect_swapped (*out_edit_widget, "changed",
-		G_CALLBACK (e_comp_editor_property_part_emit_changed), property_part);
+		G_CALLBACK (ecepp_datetime_changed_cb), property_part);
 	g_signal_connect_swapped (*out_edit_widget, "notify::show-time",
-		G_CALLBACK (e_comp_editor_property_part_emit_changed), property_part);
+		G_CALLBACK (ecepp_datetime_changed_cb), property_part);
 }
 
 static void

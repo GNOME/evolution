@@ -211,6 +211,8 @@ void		e_date_edit_set_get_time_callback
 
 GtkWidget *	e_date_edit_get_entry		(EDateEdit *dedit);
 
+gboolean	e_date_edit_has_focus		(EDateEdit *dedit);
+
 G_END_DECLS
 
 #endif /* E_DATE_EDIT_H */

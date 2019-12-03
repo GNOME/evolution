@@ -527,6 +527,13 @@ e_date_edit_new (void)
 }
 
 static void
+on_time_entry_changed_cb (GtkEditable *editable,
+			  EDateEdit *dedit)
+{
+	e_date_edit_check_time_changed (dedit);
+}
+
+static void
 create_children (EDateEdit *dedit)
 {
 	EDateEditPrivate *priv;
@@ -636,6 +643,9 @@ create_children (EDateEdit *dedit)
 	g_signal_connect_after (
 		child, "focus_out_event",
 		G_CALLBACK (on_time_entry_focus_out), dedit);
+	g_signal_connect (
+		child, "changed",
+		G_CALLBACK (on_time_entry_changed_cb), dedit);
 	g_signal_connect_after (
 		priv->time_combo, "changed",
 		G_CALLBACK (on_date_edit_time_selected), dedit);
@@ -2010,8 +2020,7 @@ on_date_entry_focus_out (GtkEntry *entry,
 	if (!e_date_edit_date_is_valid (dedit)) {
 		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY, "dialog-warning");
 		gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, _("Invalid Date Value"));
-		gtk_widget_grab_focus (GTK_WIDGET (entry));
-		gtk_editable_set_position (GTK_EDITABLE (entry), -1);
+		gtk_entry_grab_focus_without_selecting (entry);
 		return FALSE;
 	} else if (e_date_edit_get_date (
 		dedit, &tmp_tm.tm_year, &tmp_tm.tm_mon, &tmp_tm.tm_mday)) {
@@ -2044,13 +2053,12 @@ on_time_entry_focus_out (GtkEntry *entry,
 	e_date_edit_check_time_changed (dedit);
 
 	if (!e_date_edit_time_is_valid (dedit)) {
-		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY, "dialog-warning");
-		gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, _("Invalid Time Value"));
-		gtk_widget_grab_focus (GTK_WIDGET (entry));
-		gtk_editable_set_position (GTK_EDITABLE (entry), -1);
+		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_PRIMARY, "dialog-warning");
+		gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_PRIMARY, _("Invalid Time Value"));
+		gtk_entry_grab_focus_without_selecting (entry);
 	} else {
-		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
-		gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
+		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_PRIMARY, NULL);
+		gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_PRIMARY, NULL);
 	}
 
 	return FALSE;
@@ -2350,7 +2358,7 @@ e_date_edit_check_time_changed (EDateEdit *dedit)
 		tmp_tm.tm_min);
 
 	if (time_changed) {
-		e_date_edit_update_time_entry (dedit);
+		/* Do not call e_date_edit_update_time_entry (dedit); let the user correct the value */
 		g_signal_emit (dedit, signals[CHANGED], 0);
 	}
 }
@@ -2517,11 +2525,11 @@ e_date_edit_set_time_internal (EDateEdit *dedit,
 		entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (dedit->priv->time_combo)));
 
 		if (priv->time_is_valid) {
-			gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
-			gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, NULL);
+			gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_PRIMARY, NULL);
+			gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_PRIMARY, NULL);
 		} else {
-			gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY, "dialog-warning");
-			gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_SECONDARY, _("Invalid Time Value"));
+			gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_PRIMARY, "dialog-warning");
+			gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_PRIMARY, _("Invalid Time Value"));
 		}
 	}
 
@@ -2575,4 +2583,14 @@ e_date_edit_get_entry (EDateEdit *dedit)
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), NULL);
 
 	return GTK_WIDGET (dedit->priv->date_entry);
+}
+
+gboolean
+e_date_edit_has_focus (EDateEdit *dedit)
+{
+	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
+
+	return gtk_widget_has_focus (GTK_WIDGET (dedit)) ||
+		(dedit->priv->date_entry && gtk_widget_has_focus (dedit->priv->date_entry)) ||
+		(dedit->priv->time_combo && gtk_widget_has_focus (dedit->priv->time_combo));
 }
