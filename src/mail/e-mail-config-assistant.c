@@ -1069,7 +1069,26 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		e_named_parameters_free (params);
 	}
 
-	if (E_IS_MAIL_CONFIG_RECEIVING_PAGE (page) && first_visit) {
+	if (!first_visit && E_IS_MAIL_CONFIG_IDENTITY_PAGE (page)) {
+		ESource *source;
+		ESourceMailIdentity *extension;
+		const gchar *email_address;
+		const gchar *extension_name;
+
+		source = priv->identity_source;
+		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+		extension = e_source_get_extension (source, extension_name);
+		email_address = e_source_mail_identity_get_address (extension);
+
+		/* Set the value to an empty string when going back to the identity page,
+		   thus when moving away from it the source's display name is updated
+		   with the new address, in case it changed. Do not modify the display
+		   name when the user changed it. */
+		if (g_strcmp0 (e_mail_config_summary_page_get_account_name (priv->summary_page), email_address) == 0)
+			e_source_set_display_name (source, "");
+	}
+
+	if (E_IS_MAIL_CONFIG_RECEIVING_PAGE (page)) {
 		ESource *source;
 		ESourceMailIdentity *extension;
 		const gchar *email_address;
@@ -1084,7 +1103,9 @@ mail_config_assistant_prepare (GtkAssistant *assistant,
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
 		email_address = e_source_mail_identity_get_address (extension);
-		e_source_set_display_name (source, email_address);
+
+		if (first_visit || g_strcmp0 (e_source_get_display_name (source), "") == 0)
+			e_source_set_display_name (source, email_address);
 	}
 
 	if (first_visit && (

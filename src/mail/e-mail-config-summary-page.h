@@ -68,6 +68,8 @@ EMailConfigPage *
 		e_mail_config_summary_page_new	(void);
 GtkBox *	e_mail_config_summary_page_get_internal_box
 						(EMailConfigSummaryPage *page);
+const gchar *	e_mail_config_summary_page_get_account_name
+						(EMailConfigSummaryPage *page);
 void		e_mail_config_summary_page_refresh
 						(EMailConfigSummaryPage *page);
 EMailConfigServiceBackend *
