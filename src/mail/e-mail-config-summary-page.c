@@ -53,6 +53,8 @@ struct _EMailConfigSummaryPagePrivate {
 	GtkLabel *send_user_label;
 	GtkLabel *send_security_label;
 	GtkEntry *account_name_entry;
+
+	GBinding *account_name_binding;
 };
 
 enum {
@@ -549,9 +551,6 @@ mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 		const gchar *extension_name;
 		const gchar *value;
 
-		value = e_source_get_display_name (source);
-		gtk_entry_set_text (priv->account_name_entry, value);
-
 		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 		extension = e_source_get_extension (source, extension_name);
 
@@ -830,6 +829,14 @@ e_mail_config_summary_page_get_internal_box (EMailConfigSummaryPage *page)
 	return page->priv->main_box;
 }
 
+const gchar *
+e_mail_config_summary_page_get_account_name (EMailConfigSummaryPage *page)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_SUMMARY_PAGE (page), NULL);
+
+	return gtk_entry_get_text (page->priv->account_name_entry);
+}
+
 void
 e_mail_config_summary_page_refresh (EMailConfigSummaryPage *page)
 {
@@ -934,6 +941,11 @@ e_mail_config_summary_page_set_identity_source (EMailConfigSummaryPage *page,
 	page->priv->identity_source = identity_source;
 	page->priv->identity_source_changed_id = 0;
 
+	if (page->priv->account_name_binding) {
+		g_binding_unbind (page->priv->account_name_binding);
+		page->priv->account_name_binding = NULL;
+	}
+
 	if (identity_source != NULL) {
 		gulong handler_id;
 
@@ -943,6 +955,11 @@ e_mail_config_summary_page_set_identity_source (EMailConfigSummaryPage *page,
 			page);
 
 		page->priv->identity_source_changed_id = handler_id;
+
+		page->priv->account_name_binding =
+			e_binding_bind_property (identity_source, "display-name",
+				page->priv->account_name_entry, "text",
+				G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 	}
 
 	g_object_notify (G_OBJECT (page), "identity-source");
