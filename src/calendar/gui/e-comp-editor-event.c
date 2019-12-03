@@ -67,14 +67,14 @@ ece_event_update_times (ECompEditorEvent *event_editor,
 			EDateEdit *date_edit,
 			gboolean change_end_datetime)
 {
-	GtkWidget *widget;
 	guint flags;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
 	g_return_if_fail (E_IS_DATE_EDIT (date_edit));
 
-	widget = e_date_edit_get_entry (date_edit);
-	if (widget && gtk_widget_has_focus (widget))
+	if (e_date_edit_has_focus (date_edit) ||
+	    !e_date_edit_date_is_valid (date_edit) ||
+	    !e_date_edit_time_is_valid (date_edit))
 		return;
 
 	if (!e_comp_editor_get_updating (E_COMP_EDITOR (event_editor))) {

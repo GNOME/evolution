@@ -112,10 +112,10 @@ ece_restore_focus (ECompEditor *comp_editor)
 	g_return_if_fail (E_IS_COMP_EDITOR (comp_editor));
 
 	if (comp_editor->priv->restore_focus) {
-		gtk_widget_grab_focus (comp_editor->priv->restore_focus);
-
 		if (GTK_IS_ENTRY (comp_editor->priv->restore_focus))
-			gtk_editable_set_position (GTK_EDITABLE (comp_editor->priv->restore_focus), 0);
+			gtk_entry_grab_focus_without_selecting (GTK_ENTRY (comp_editor->priv->restore_focus));
+		else
+			gtk_widget_grab_focus (comp_editor->priv->restore_focus);
 
 		comp_editor->priv->restore_focus = NULL;
 	}
@@ -2683,8 +2683,12 @@ e_comp_editor_fill_component (ECompEditor *comp_editor,
 
 	is_valid = comp_editor_class->fill_component (comp_editor, component);
 
-	if (focused_widget)
-		gtk_window_set_focus (GTK_WINDOW (comp_editor), focused_widget);
+	if (focused_widget) {
+		if (GTK_IS_ENTRY (focused_widget))
+			gtk_entry_grab_focus_without_selecting (GTK_ENTRY (focused_widget));
+		else
+			gtk_widget_grab_focus (focused_widget);
+	}
 
 	if (is_valid && comp_editor->priv->validation_alert) {
 		e_alert_response (comp_editor->priv->validation_alert, GTK_RESPONSE_CLOSE);
