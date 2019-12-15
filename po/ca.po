@@ -1370,7 +1370,7 @@ msgid ""
 "When set to true, uses localized “Fwd”/“Re” in message Subject on reply and forward as provided by "
 "current locale translation, otherwise uses unlocalized version."
 msgstr ""
-"Quan està establert a «true» (cert), s'usa la traducció de «Fwd”/“Re» a l'assumpte del missatge en "
+"Quan està establert a «true» (cert), s'usa la traducció de «Fwd/Re» a l'assumpte del missatge en "
 "respondre i reenviar, segons la forma proporcionada per la llengua actual. Si no, s'usa la versió no "
 "traduïda."
 
@@ -3716,7 +3716,7 @@ msgstr "No s'ha pogut refrescar la llista de llibretes d'adreces"
 
 #: ../src/addressbook/addressbook.error.xml.h:50
 msgid "Do you want to unset contact image?"
-msgstr "Voleu desasignar la imatge de contacte?"
+msgstr "Voleu desassignar la imatge de contacte?"
 
 #: ../src/addressbook/addressbook.error.xml.h:51
 msgid "Do _Not Unset"
@@ -13636,7 +13636,7 @@ msgstr "_Font:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:562
 msgid "_Height:"
-msgstr "_Alçària:"
+msgstr "_Alçada:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:603
 msgid "_X-Padding:"
