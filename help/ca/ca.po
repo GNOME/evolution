@@ -1721,7 +1721,7 @@ msgstr "Afegir, editar i suprimir les cites"
 #. (itstool) path: info/desc
 #: C/calendar-using-several-calendars.page:25
 msgid "Adding and using more than one calendar and different types."
-msgstr "En afegir, editar i suprimir cites."
+msgstr "Afegir i usar més d'un calendari de diferents tipus."
 
 #. (itstool) path: page/title
 #: C/calendar-using-several-calendars.page:28
@@ -2874,7 +2874,7 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/data-storage.page:47
 msgid "Disposable data caches"
-msgstr "Memòries cau disponibles"
+msgstr "Memòries cau de dades d'un sol ús"
 
 #. (itstool) path: item/p
 #: C/data-storage.page:48
