@@ -274,7 +274,7 @@ msgstr "Hora d'acabament de la jornada laboral"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:16
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
-msgstr "A quina hora acaba el dia laboral, entre 0 i 23"
+msgstr "A quina hora acaba el dia laboral, en format vint-i-quatre hores, entre 0 i 23"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:17
 msgid "Workday end minute"
@@ -290,7 +290,7 @@ msgstr "Hora d'inici de la jornada laboral"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:20
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
-msgstr "A quina hora comença el dia laboral, entre 0 i 23."
+msgstr "A quina hora comença el dia laboral, en format vint-i-quatre hores, entre 0 i 23."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:21
 msgid "Workday start minute"
@@ -10828,7 +10828,7 @@ msgstr "_Del camp de sobreescriptura"
 
 #: ../src/composer/e-composer-actions.c:526
 msgid "Toggles whether the From override field to change name or email address is displayed"
-msgstr "Commuta la visualització del camp del rol"
+msgstr "Commuta la visualització de la sobreescriptura del camp «des de» a canvia al nom o al correu electrònic"
 
 #: ../src/composer/e-composer-actions.c:532
 msgid "_Reply-To Field"
@@ -11293,7 +11293,7 @@ msgstr "Text sense format"
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:122
 #: ../src/em-format/e-mail-formatter-text-plain.c:197
 msgid "Format part as plain text"
-msgstr "No formatis la part"
+msgstr "Formata la part com a text pla"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:45
 msgid "Unsigned"
@@ -18235,7 +18235,7 @@ msgstr "Llista de correu"
 #: ../src/mail/filtertypes.xml.in.h:52 ../src/mail/searchtypes.xml.in.h:54
 #: ../src/mail/vfoldertypes.xml.in.h:55
 msgid "Regex Match"
-msgstr "Expressió regular"
+msgstr "Coincideix amb l'expressió regular"
 
 #: ../src/mail/filtertypes.xml.in.h:53 ../src/mail/searchtypes.xml.in.h:55
 #: ../src/mail/vfoldertypes.xml.in.h:56
