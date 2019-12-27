@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"POT-Creation-Date: 2019-09-28 10:25+0000\n"
-"PO-Revision-Date: 2019-12-27 16:08+0100\n"
+"POT-Creation-Date: 2019-12-27 15:26+0000\n"
+"PO-Revision-Date: 2019-12-27 17:19+0100\n"
 "Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -3105,7 +3105,7 @@ msgstr "Importar os datos doutras aplicacións."
 #. (itstool) path: section/title
 #: C/import-data.page:23
 msgid "Applications"
-msgstr "Aplicativos"
+msgstr "Aplicación"
 
 #. (itstool) path: info/desc
 #: C/import-single-files.page:5
