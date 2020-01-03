@@ -1,3 +1,22 @@
+Evolution 3.35.3 2020-01-03
+---------------------------
+
+Bug Fixes:
+	I#681 - Cannot type the date of a meeting ][ (Milan Crha)
+	I#719 - e-cal-dialogs: Set default responses for dialogs (Milan Crha)
+	I#729 - New Mail account wizard ignores email address change (Milan Crha)
+
+Miscellaneous:
+	Remove former maintainer from the DOAP file (Milan Crha)
+
+Translations:
+	Yi-Jyun Pan (zh_TW)
+	Aron Xu (zh_CN)
+	Jordi Mas (ca)
+	Fran Dieguez (gl)
+	Anders Jonsson (sv)
+	Daniel Mustieles (es)
+
 Evolution 3.35.2 2019-11-22
 ---------------------------
 
