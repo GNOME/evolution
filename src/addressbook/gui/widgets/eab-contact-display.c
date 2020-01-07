@@ -368,7 +368,7 @@ contact_display_link_clicked (EWebView *web_view,
 	}
 
 	length = strlen ("open-map:");
-	if (g_ascii_strncasecmp (uri, "open-map:", length)) {
+	if (g_ascii_strncasecmp (uri, "open-map:", length) == 0) {
 		SoupURI *suri;
 
 		suri = soup_uri_new (uri);
