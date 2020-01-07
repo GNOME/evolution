@@ -1319,7 +1319,7 @@ pst_process_email (PstImporter *m,
 
 	} else if (item->email->htmlbody.str && item->body.str) {
 
-		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp), "multipart/alternate");
+		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp), "multipart/alternative");
 
 	} else if (item->email->htmlbody.str) {
 
