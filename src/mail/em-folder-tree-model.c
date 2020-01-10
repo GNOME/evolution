@@ -1443,6 +1443,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	if (!fully_loaded)
 		load = (fi->child == NULL) && !(fi->flags &
 			(CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
+	else
+		load = !fi->child && (fi->flags & CAMEL_FOLDER_CHILDREN) != 0;
 
 	path = gtk_tree_model_get_path (GTK_TREE_MODEL (model), iter);
 	path_row = gtk_tree_row_reference_new (GTK_TREE_MODEL (model), path);
