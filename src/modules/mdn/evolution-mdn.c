@@ -305,7 +305,7 @@ mdn_notify_sender (ESource *identity_source,
 	content = g_strdup_printf (
 		/* Translators: First %s is an email address, second %s
 		 * is the subject of the email, third %s is the date. */
-		_("Your message to %s about “%s” on %s has been read."),
+		_("Your message to %s about “%s” on %s has been displayed. This is no guarantee that the message has been read or understood."),
 		self_address, message_subject, message_date);
 	stream = camel_stream_mem_new ();
 	camel_stream_write_string (stream, content, NULL, NULL);
@@ -370,8 +370,10 @@ mdn_notify_sender (ESource *identity_source,
 	g_object_unref (body);
 
 	receipt_subject = g_strdup_printf (
-		/* Translators: %s is the subject of the email message. */
-		_("Delivery Notification for “%s”"), message_subject);
+		/* Translators: %s is the subject of the email message This text is used as
+		   a subject of a delivery notification email (basically a notification, that
+		   the user did read (or better displayed) the message). */
+		_("Read: %s"), message_subject);
 	camel_mime_message_set_subject (receipt, receipt_subject);
 	g_free (receipt_subject);
 
