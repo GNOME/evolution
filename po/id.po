@@ -9,20 +9,22 @@
 # Dirgita <dirgitadevina@gmail.com>, 2010, 2012.
 # Andika Triwidada <andika@gmail.com>, 2010-2013, 2019.
 # Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017, 2018, 2019.
+# Sucipto <sucipto@pm.me>, 2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-12-15 21:14+0000\n"
-"PO-Revision-Date: 2020-01-04 16:20+0700\n"
-"Last-Translator: Andika Triwidada <atriwidada@gnome.org>\n"
+"POT-Creation-Date: 2020-01-13 17:32+0000\n"
+"PO-Revision-Date: 2020-01-14 17:03+0700\n"
+"Last-Translator: Sucipto <sucipto@pm.me>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural= n!=1;\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Gtranslator 3.34.0\n"
 "X-DamnedLies-Scope: partial\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
@@ -15388,33 +15390,33 @@ msgstr "Notifikasi Retur"
 msgid "Sta_tus Tracking"
 msgstr "Pelacakan Sta_tus"
 
-#: ../src/e-util/e-source-config.c:724 ../src/e-util/e-source-config.c:728
+#: ../src/e-util/e-source-config.c:725 ../src/e-util/e-source-config.c:729
 msgid "Type:"
 msgstr "Tipe:"
 
-#: ../src/e-util/e-source-config.c:738 ../src/e-util/e-source-config.c:742
+#: ../src/e-util/e-source-config.c:739 ../src/e-util/e-source-config.c:743
 msgid "Name:"
 msgstr "Nama:"
 
-#: ../src/e-util/e-source-config.c:849 ../src/e-util/e-webdav-browser.c:1752
+#: ../src/e-util/e-source-config.c:850 ../src/e-util/e-webdav-browser.c:1752
 msgid "Name cannot be empty"
 msgstr "Nama tak boleh kosong"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1416
+#: ../src/e-util/e-source-config.c:1417
 msgid "Refresh every"
 msgstr "Segarkan setiap"
 
-#: ../src/e-util/e-source-config.c:1446 ../src/e-util/e-source-config.c:1520
+#: ../src/e-util/e-source-config.c:1447 ../src/e-util/e-source-config.c:1521
 msgid "Use a secure connection"
 msgstr "Gunakan koneksi aman"
 
-#: ../src/e-util/e-source-config.c:1547
+#: ../src/e-util/e-source-config.c:1548
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Hapus pena_taan kepercayaan bagi sertifikat SSL/TLS"
 
-#: ../src/e-util/e-source-config.c:1583
+#: ../src/e-util/e-source-config.c:1584
 msgid "User:"
 msgstr "Pengguna:"
 
@@ -15877,8 +15879,8 @@ msgstr "Buku alamat"
 msgid "Events"
 msgstr "Acara"
 
-#: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1553
-#: ../src/mail/em-folder-tree-model.c:1930
+#: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1555
+#: ../src/mail/em-folder-tree-model.c:1932
 msgid "Loading…"
 msgstr "Memuat…"
 
@@ -16401,7 +16403,7 @@ msgstr "URI folder “%s” tidak valid"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:120
 #: ../src/mail/em-folder-properties.c:1444
-#: ../src/mail/em-folder-tree-model.c:1501
+#: ../src/mail/em-folder-tree-model.c:1503
 #: ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1032
 #: ../src/modules/mail/e-mail-shell-view-private.c:1043
@@ -16410,7 +16412,7 @@ msgstr "Kotak Masuk"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:121
-#: ../src/mail/em-folder-tree-model.c:1495
+#: ../src/mail/em-folder-tree-model.c:1497
 #: ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1030
 msgid "Drafts"
@@ -16418,7 +16420,7 @@ msgstr "Rancangan"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1505
+#: ../src/mail/em-folder-tree-model.c:1507
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1034
 msgid "Outbox"
@@ -16426,7 +16428,7 @@ msgstr "Outbox"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1509
+#: ../src/mail/em-folder-tree-model.c:1511
 #: ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 msgid "Sent"
@@ -16435,7 +16437,7 @@ msgstr "Terkirim"
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:124
 #: ../src/mail/e-mail-templates-store.c:2211
-#: ../src/mail/em-folder-tree-model.c:1497
+#: ../src/mail/em-folder-tree-model.c:1499
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
@@ -24995,22 +24997,31 @@ msgstr "Apakah Anda ingin menjadikan Evolution klien surel baku Anda?"
 #. * is the subject of the email, third %s is the date.
 #: ../src/modules/mdn/evolution-mdn.c:308
 #, c-format
-msgid "Your message to %s about “%s” on %s has been read."
-msgstr "Pesan Anda kepada %s tentang \"%s\" pada %s telah dibaca."
+#| msgid "Your message to %s about “%s” on %s has been read."
+msgid ""
+"Your message to %s about “%s” on %s has been displayed. This is no guarantee "
+"that the message has been read or understood."
+msgstr ""
+"Pesan Anda kepada %s tentang \"%s\" pada %s telah ditampilkan. Ini tidak "
+"menjamin pesan sudah dibaca atau dimengerti."
 
-#. Translators: %s is the subject of the email message.
-#: ../src/modules/mdn/evolution-mdn.c:374
+#. Translators: %s is the subject of the email message This text is used as
+#. a subject of a delivery notification email (basically a notification, that
+#. the user did read (or better displayed) the message).
+#: ../src/modules/mdn/evolution-mdn.c:376
 #, c-format
-msgid "Delivery Notification for “%s”"
-msgstr "Notifikasi Pengiriman untuk \"%s\""
+#| msgctxt "reply-attribution"
+#| msgid "Re: %s"
+msgid "Read: %s"
+msgstr "Baca: %s"
 
-#: ../src/modules/mdn/evolution-mdn.c:540
+#: ../src/modules/mdn/evolution-mdn.c:542
 #, c-format
 msgid "Send a read receipt to “%s”"
 msgstr "Kirim nota pesan diterima ke “%s”"
 
 #. name doesn't matter
-#: ../src/modules/mdn/evolution-mdn.c:545
+#: ../src/modules/mdn/evolution-mdn.c:547
 msgid "_Notify Sender"
 msgstr "Beritahu Pe_ngirim"
 
@@ -27706,3 +27717,6 @@ msgstr "Tak bisa menulis simpanan ke diska, galat: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Sertifikat Yang Diimpor"
+
+#~ msgid "Delivery Notification for “%s”"
+#~ msgstr "Notifikasi Pengiriman untuk \"%s\""
