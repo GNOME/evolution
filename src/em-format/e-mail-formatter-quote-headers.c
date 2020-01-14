@@ -219,18 +219,15 @@ emfqe_format_header (EMailFormatter *formatter,
 
 			date = camel_header_decode_date (txt, &offset);
 			if (date > 0 && !offset) {
-				struct tm gmtm, lctm;
-				time_t gmtt, lctt;
+				struct tm local;
+				gint tzone = 0;
 
-				gmtime_r (&date, &gmtm);
-				localtime_r (&date, &lctm);
+				e_localtime_with_offset (date, &local, &offset);
 
-				gmtt = mktime (&gmtm);
-				lctt = mktime (&lctm);
+				tzone = offset / 3600;
+				tzone = (tzone * 100) + ((offset / 60) % 60);
 
-				offset = (lctt - gmtt) * 100 / 3600;
-
-				value = camel_header_format_date (date, offset);
+				value = camel_header_format_date (date, tzone);
 
 				if (value && *value)
 					txt = value;

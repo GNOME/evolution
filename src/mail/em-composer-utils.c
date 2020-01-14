@@ -3495,16 +3495,13 @@ em_composer_utils_get_reply_credits (ESource *identity_source,
 		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
 		if (g_settings_get_boolean (settings, "composer-reply-credits-utc-to-localtime")) {
-			struct tm gmtm, lctm;
-			time_t gmtt, lctt;
+			struct tm local;
+			gint offset = 0;
 
-			gmtime_r (&date, &gmtm);
-			localtime_r (&date, &lctm);
+			e_localtime_with_offset (date, &local, &offset);
 
-			gmtt = mktime (&gmtm);
-			lctt = mktime (&lctm);
-
-			tzone = (lctt - gmtt) * 100 / 3600;
+			tzone = offset / 3600;
+			tzone = (tzone * 100) + ((offset / 60) % 60);
 		}
 
 		g_clear_object (&settings);
