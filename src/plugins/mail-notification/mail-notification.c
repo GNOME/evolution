@@ -650,7 +650,7 @@ do_play_sound (gboolean beep,
 				NULL);
 #endif
 	} else
-		gdk_beep ();
+		gdk_display_beep (gdk_display_get_default ());
 }
 
 struct _SoundConfigureWidgets {

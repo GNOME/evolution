@@ -186,7 +186,7 @@ session_play_sound_cb (const gchar *filename)
 			NULL);
 	else
 #endif
-		gdk_beep ();
+		gdk_display_beep (gdk_display_get_default ());
 
 	return FALSE;
 }
