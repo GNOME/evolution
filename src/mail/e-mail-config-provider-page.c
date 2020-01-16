@@ -294,6 +294,9 @@ mail_config_provider_page_add_checkspin (EMailConfigProviderPage *page,
 	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, TRUE, 0);
 	gtk_widget_show (spin);
 
+	if (!use_pspec)
+		gtk_label_set_mnemonic_widget (GTK_LABEL (prefix), spin);
+
 	e_binding_bind_property (
 		settings, entry->name,
 		spin, "value",
@@ -308,7 +311,7 @@ mail_config_provider_page_add_checkspin (EMailConfigProviderPage *page,
 
 	if (post != NULL) {
 		GtkWidget *label = gtk_label_new_with_mnemonic (post);
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label), prefix);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), use_pspec ? prefix : spin);
 		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
 		gtk_widget_show (label);
 	}
