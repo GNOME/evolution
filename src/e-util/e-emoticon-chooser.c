@@ -35,9 +35,9 @@ typedef struct {
 
 static ConstantEmoticon available_emoticons[] = {
 	/* Translators: :-) */
-	{ N_("_Smile"),		"face-smile",		"☺",	":-)"	},
+	{ N_("_Smile"),		"face-smile",		"🙂",	":-)"	},
 	/* Translators: :-( */
-	{ N_("S_ad"),		"face-sad",		"☹",	":-("	},
+	{ N_("S_ad"),		"face-sad",		"😞",	":-("	},
 	/* Translators: ;-) */
 	{ N_("_Wink"),		"face-wink",		"😉",	";-)"	},
 	/* Translators: :-P */
