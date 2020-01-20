@@ -25,8 +25,14 @@
   <p>Switcher layout when a new message has arrived</p>
 </media>
 
-<p>In order to also be notified of new messages in the GNOME Notification area at the bottom of the screen, make sure that <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and that you have set your preferred options in the <gui>Configuration</gui> tab.</p>
-<!-- TODO: This screenshot might be outdated in 3.8 with the new notification section down there -->
+<p>In order to also be notified of new messages in GNOME desktop notifications:</p>
+<steps>
+<item><p>Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
+<item><p>Enable <gui>Mail Notification</gui>.</p></item>
+<item><p>Click the <gui>Configuration</gui> tab.</p></item>
+<item><p>Set your preferred options.</p></item>
+</steps>
+
 <media type="image" src="./figures/new-mail-notification.png" width="512">
   <p>GNOME notification area when a new message has arrived</p>
 </media>

@@ -22,7 +22,12 @@ type="guide" id="mail-composer-message-templates">
 
 <title>Message Templates</title>
 <p>A message template is a standard message that you can use at any time to send mail with the same pattern.</p>
-<p>To enable the Message Template Plugin, click <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>.</p>
+<p>To enable the Message Template Plugin:</p>
+<steps>
+<item><p>Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
+<item><p>Enable <gui>Templates</gui>.</p></item>
+</steps>
+
 
   <section id="options">
     <title>Message Templates</title>

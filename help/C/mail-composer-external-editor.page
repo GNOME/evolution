@@ -19,8 +19,15 @@
 
 <title>Using an external editor</title>
 
-<p>You can compose the body of your message externally in your favorite text editor application so you can use its specific functionality. Enable <guiseq><gui>Edit</gui><gui>Plugins</gui><gui>External Editor</gui></guiseq> and set the corresponding <gui>Command</gui> to start the application under <gui>Configuration</gui>.</p>
-<p>If <gui>Automatically launch when a new mail is edited</gui> is not set, you need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></guiseq> in the mail composer.</p>
+<p>You can compose the body of your message externally in your favorite text editor application so you can use its specific functionality.</p>
+
+<steps>
+<item><p>Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
+<item><p>Enable <gui>External Editor</gui>.</p></item>
+<item><p>Click the <gui>Configuration</gui> tab.</p></item>
+<item><p>Set the corresponding <gui>Command</gui> to start the application.</p></item>
+<item><p>If <gui>Automatically launch when a new mail is edited</gui> is not set, you need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></guiseq> in the mail composer.</p></item>
+</steps>
 
 </page>
 
