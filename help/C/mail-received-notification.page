@@ -28,7 +28,9 @@
 <p>In order to also be notified of new messages in GNOME desktop notifications:</p>
 <steps>
 <item><p>Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
-<item><p>Enable <gui>Mail Notification</gui>.</p></item>
+<item><p>Enable <gui>Mail Notification</gui>.</p>
+<note style="tip"><p>If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>, then please ask in a support forum of your distribution. Your distribution might have decided to disable some plugins or to ship plugins in a separate package.</p></note>
+</item>
 <item><p>Click the <gui>Configuration</gui> tab.</p></item>
 <item><p>Set your preferred options.</p></item>
 </steps>

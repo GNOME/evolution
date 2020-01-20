@@ -29,7 +29,9 @@
 <p>To set up the Custom Header plugin:</p>
 <steps>
 <item><p>Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
-<item><p>Enable <gui>Custom Header</gui>.</p></item>
+<item><p>Enable <gui>Custom Header</gui>.</p>
+<note style="tip"><p>If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>, then please ask in a support forum of your distribution. Your distribution might have decided to disable some plugins or to ship plugins in a separate package.</p></note>
+</item>
 <item><p>Click the <gui>Configuration</gui> tab.</p></item>
 <item><p>You can add, edit, or remove the header fields. For every header field you add, you can specify the keys and values. The key is used as the title of the Custom Header. You can enter multiple values for the keys. You must use a semicolon to separate every value you enter.</p></item>
 </steps>

@@ -44,7 +44,9 @@
 <p>To enable the Attachment Reminder:</p>
 <steps>
 <item><p>Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
-<item><p>Enable <gui>Attachment Reminder</gui>.</p></item>
+<item><p>Enable <gui>Attachment Reminder</gui>.</p>
+<note style="tip"><p>If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>, then please ask in a support forum of your distribution. Your distribution might have decided to disable some plugins or to ship plugins in a separate package.</p></note>
+</item>
 <item><p>Click the <gui>Configuration</gui> tab.</p></item>
 <item><p>Click <gui style="button">Add</gui>, then enter keywords in your language such as "Attach" or "enclosed".</p></item>
 </steps>

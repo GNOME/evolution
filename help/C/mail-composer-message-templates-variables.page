@@ -26,7 +26,9 @@
 <title>Configuring Variables for Message Templates</title>
 <steps>
 <item><p>Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>.</p></item>
-<item><p>Click <gui>Templates</gui>.</p></item>
+<item><p>Click <gui>Templates</gui>.</p>
+<note style="tip"><p>If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>, then please ask in a support forum of your distribution. Your distribution might have decided to disable some plugins or to ship plugins in a separate package.</p></note>
+</item>
 <item><p>Click the <gui>Configuration</gui> tab.</p></item>
 <item><p>You can add, edit or remove the key-value pairs. You can specify any number of key-value pairs.</p></item>
 </steps>
