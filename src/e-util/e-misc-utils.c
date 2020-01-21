@@ -3397,7 +3397,7 @@ e_util_simple_async_result_thread (gpointer data,
 
 	g_clear_object (&thread_data->simple);
 	g_clear_object (&thread_data->cancellable);
-	g_free (thread_data);
+	g_slice_free (EUtilSimpleAsyncResultThreadData, thread_data);
 }
 
 /**
@@ -3432,7 +3432,7 @@ e_util_run_simple_async_result_in_thread (GSimpleAsyncResult *simple,
 	if (!thread_pool)
 		thread_pool = g_thread_pool_new (e_util_simple_async_result_thread, NULL, 20, FALSE, NULL);
 
-	thread_data = g_new0 (EUtilSimpleAsyncResultThreadData, 1);
+	thread_data = g_slice_new0 (EUtilSimpleAsyncResultThreadData);
 	thread_data->simple = g_object_ref (simple);
 	thread_data->func = func;
 	thread_data->cancellable = cancellable ? g_object_ref (cancellable) : NULL;

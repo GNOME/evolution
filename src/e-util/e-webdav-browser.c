@@ -138,7 +138,7 @@ resource_data_free (gpointer ptr)
 
 	if (rd) {
 		e_webdav_resource_free (rd->resource);
-		g_free (rd);
+		g_slice_free (ResourceData, rd);
 	}
 }
 
@@ -539,7 +539,7 @@ update_ui_data_free (gpointer ptr)
 		e_weak_ref_free (uud->webdav_browser_weakref);
 		if (uud->free_user_data)
 			uud->free_user_data (uud->user_data);
-		g_free (uud);
+		g_slice_free (UpdateUIData, uud);
 	}
 }
 
@@ -610,7 +610,7 @@ webdav_browser_schedule_ui_update (EWebDAVBrowser *webdav_browser,
 	if (!webdav_browser->priv->update_ui_id) {
 		UpdateUIData *uud;
 
-		uud = g_new0 (UpdateUIData, 1);
+		uud = g_slice_new0 (UpdateUIData);
 		uud->webdav_browser_weakref = e_weak_ref_new (webdav_browser);
 		uud->callback = callback;
 		uud->user_data = user_data;
@@ -886,7 +886,7 @@ webdav_browser_gather_href_resources_sync (EWebDAVBrowser *webdav_browser,
 				g_free (resource->href);
 				resource->href = tmp;
 
-				rd = g_new0 (ResourceData, 1);
+				rd = g_slice_new0 (ResourceData);
 				rd->editing_flags = editing_flags;
 				rd->resource = resource;
 
@@ -927,7 +927,7 @@ search_children_data_free (gpointer ptr)
 		if (scd->loading_row)
 			gtk_tree_row_reference_free (scd->loading_row);
 		g_free (scd->href);
-		g_free (scd);
+		g_slice_free (SearchChildrenData, scd);
 	}
 }
 
@@ -1003,7 +1003,7 @@ webdav_browser_search_children_thread (EAlertSinkThreadJobData *job_data,
 
 	webdav_browser_gather_href_resources_sync (webdav_browser, session, scd->href, FALSE, TRUE, cancellable, error);
 
-	scd2 = g_new0 (SearchChildrenData, 1);
+	scd2 = g_slice_new0 (SearchChildrenData);
 	scd2->loading_row = scd->loading_row;
 	scd2->href = scd->href;
 
@@ -1368,7 +1368,7 @@ webdav_browser_row_expanded_cb (GtkTreeView *tree_view,
 	g_return_if_fail (gtk_tree_model_iter_nth_child (model, &loading_child, iter, 0));
 	g_return_if_fail (webdav_browser->priv->session);
 
-	scd = g_new0 (SearchChildrenData, 1);
+	scd = g_slice_new0 (SearchChildrenData);
 	scd->webdav_browser_weakref = e_weak_ref_new (webdav_browser);
 
 	loading_path = gtk_tree_model_get_path (model, &loading_child);
@@ -1583,7 +1583,7 @@ save_changes_data_free (gpointer ptr)
 		g_free (scd->href);
 		g_free (scd->name);
 		g_free (scd->description);
-		g_free (scd);
+		g_slice_free (SaveChangesData, scd);
 	}
 }
 
@@ -1804,7 +1804,7 @@ webdav_browser_save_clicked (EWebDAVBrowser *webdav_browser,
 	gtk_text_buffer_get_start_iter (buffer, &start);
 	gtk_text_buffer_get_end_iter (buffer, &end);
 
-	scd = g_new0 (SaveChangesData, 1);
+	scd = g_slice_new0 (SaveChangesData);
 	scd->webdav_browser_weakref = e_weak_ref_new (webdav_browser);
 	scd->href = href;
 	scd->is_edit = is_edit;
@@ -2101,7 +2101,7 @@ delete_data_free (gpointer ptr)
 	if (dd) {
 		e_weak_ref_free (dd->webdav_browser_weakref);
 		g_free (dd->href);
-		g_free (dd);
+		g_slice_free (DeleteData, dd);
 	}
 }
 
@@ -2215,7 +2215,7 @@ webdav_browser_delete_clicked_cb (GtkWidget *button,
 		EActivity *activity;
 		DeleteData *dd;
 
-		dd = g_new0 (DeleteData, 1);
+		dd = g_slice_new0 (DeleteData);
 		dd->webdav_browser_weakref = e_weak_ref_new (webdav_browser);
 		dd->href = g_strdup (href);
 

@@ -283,7 +283,7 @@ three_state_data_free (gpointer data,
 	if (tsd) {
 		g_clear_object (&tsd->composition_ext);
 		g_free (tsd->property_name);
-		g_free (tsd);
+		g_slice_free (ThreeStateData, tsd);
 	}
 }
 
@@ -330,7 +330,7 @@ mail_config_composing_page_setup_three_state_value (ESourceMailComposition *comp
 	g_return_if_fail (property_name != NULL);
 	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (check_button));
 
-	tsd = g_new0 (ThreeStateData, 1);
+	tsd = g_slice_new0 (ThreeStateData);
 	tsd->composition_ext = g_object_ref (composition_ext);
 	tsd->property_name = g_strdup (property_name);
 

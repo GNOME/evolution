@@ -130,7 +130,7 @@ import_component_data_free (gpointer ptr)
 		g_clear_object (&icd->shell);
 		g_clear_object (&icd->source);
 		g_clear_object (&icd->icomp);
-		g_free (icd);
+		g_slice_free (ImportComponentData, icd);
 	}
 }
 
@@ -349,7 +349,7 @@ attachment_handler_run_dialog (GtkWindow *parent,
 		shell_view = e_shell_window_get_shell_view (shell_window,
 			e_shell_window_get_active_view (shell_window));
 
-		icd = g_new0 (ImportComponentData, 1);
+		icd = g_slice_new0 (ImportComponentData);
 		icd->shell = g_object_ref (shell);
 		icd->source = g_object_ref (source);
 		icd->icomp = i_cal_component_clone (icomp);

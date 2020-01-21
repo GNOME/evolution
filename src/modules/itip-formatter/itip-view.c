@@ -3958,7 +3958,7 @@ decrease_find_data (FormatItipFindData *fd)
 		g_free (fd->rid);
 		if (fd->sexp)
 			g_free (fd->sexp);
-		g_free (fd);
+		g_slice_free (FormatItipFindData, fd);
 	}
 }
 
@@ -4313,7 +4313,7 @@ find_server (ItipView *view,
 		if (!fd) {
 			gchar *start = NULL, *end = NULL;
 
-			fd = g_new0 (FormatItipFindData, 1);
+			fd = g_slice_new0 (FormatItipFindData);
 			fd->view = g_object_ref (view);
 			fd->itip_cancellable = g_object_ref (view->priv->cancellable);
 			fd->cancellable = g_cancellable_new ();

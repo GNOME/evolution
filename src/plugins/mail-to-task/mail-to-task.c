@@ -533,7 +533,7 @@ do_report_error (struct _report_error *err)
 		e_notice (NULL, GTK_MESSAGE_ERROR, err->format, err->param);
 		g_free (err->format);
 		g_free (err->param);
-		g_free (err);
+		g_slice_free (struct _report_error, err);
 	}
 
 	return FALSE;
@@ -543,7 +543,7 @@ static void
 report_error_idle (const gchar *format,
                    const gchar *param)
 {
-	struct _report_error *err = g_new (struct _report_error, 1);
+	struct _report_error *err = g_slice_new (struct _report_error);
 
 	err->format = g_strdup (format);
 	err->param = g_strdup (param);
@@ -578,7 +578,7 @@ free_manage_comp_struct (struct _manage_comp *mc)
 	if (mc->editor_title)
 		g_free (mc->editor_title);
 
-	g_free (mc);
+	g_slice_free (struct _manage_comp, mc);
 }
 
 static gint
@@ -842,7 +842,20 @@ typedef struct {
 	gchar *default_charset;
 	gchar *forced_charset;
 	gboolean with_attendees;
-}AsyncData;
+} AsyncData;
+
+static void
+async_data_free (AsyncData *data)
+{
+	if (data) {
+		g_free (data->selected_text);
+		g_free (data->default_charset);
+		g_free (data->forced_charset);
+		g_object_unref (data->client_cache);
+		g_object_unref (data->source);
+		g_slice_free (AsyncData, data);
+	}
+}
 
 static gboolean
 do_mail_to_event (AsyncData *data)
@@ -990,7 +1003,7 @@ do_mail_to_event (AsyncData *data)
 			i_cal_property_set_x_name (prop, "X-EVOLUTION-MOVE-CALENDAR");
 			i_cal_component_take_property (icomp, prop);
 
-			mc = g_new0 (struct _manage_comp, 1);
+			mc = g_slice_new0 (struct _manage_comp);
 			mc->client = g_object_ref (client);
 			mc->comp = g_object_ref (comp);
 			g_mutex_init (&mc->mutex);
@@ -1050,17 +1063,8 @@ do_mail_to_event (AsyncData *data)
 	g_ptr_array_unref (uids);
 	g_object_unref (folder);
 
-	if (data->selected_text)
-		g_free (data->selected_text);
-	g_free (data->default_charset);
-	g_free (data->forced_charset);
-	g_object_unref (data->client_cache);
-	g_object_unref (data->source);
-	g_free (data);
-	data = NULL;
-
-	if (error != NULL)
-		g_error_free (error);
+	async_data_free (data);
+	g_clear_error (&error);
 
 	return TRUE;
 }
@@ -1117,6 +1121,7 @@ start_mail_to_event_thread (AsyncData *data)
 	if (error != NULL) {
 		g_warning (G_STRLOC ": %s", error->message);
 		g_error_free (error);
+		async_data_free (data);
 	} else {
 		g_thread_unref (thread);
 	}
@@ -1254,11 +1259,11 @@ mail_to_event (ECalClientSourceType source_type,
 
 	if (source) {
 		/* if a source has been selected, perform the mail2event operation */
-		AsyncData *data = NULL;
+		AsyncData *data;
 		EMailDisplay *mail_display;
 
 		/* Fill the elements in AsynData */
-		data = g_new0 (AsyncData, 1);
+		data = g_slice_new0 (AsyncData);
 		data->client_cache = g_object_ref (e_shell_get_client_cache (shell));
 		data->source = g_object_ref (source);
 		data->extension_name = extension_name;

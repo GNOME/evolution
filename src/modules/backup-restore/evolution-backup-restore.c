@@ -391,7 +391,7 @@ validate_backup_file_data_free (gpointer ptr)
 
 		g_clear_object (&vbf->shell_window);
 		g_free (vbf->path);
-		g_free (vbf);
+		g_slice_free (ValidateBackupFileData, vbf);
 	}
 }
 
@@ -436,7 +436,7 @@ action_settings_restore_cb (GtkAction *action,
 	shell_view = e_shell_window_get_shell_view (shell_window, e_shell_window_get_active_view (shell_window));
 	description = g_strdup_printf (_("Checking content of backup file “%s”, please wait…"), path);
 
-	vbf = g_new0 (ValidateBackupFileData, 1);
+	vbf = g_slice_new0 (ValidateBackupFileData);
 	vbf->shell_window = g_object_ref (shell_window);
 	vbf->path = g_strdup (path);
 

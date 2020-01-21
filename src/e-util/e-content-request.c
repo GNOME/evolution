@@ -106,7 +106,7 @@ thread_data_free (gpointer ptr)
 		g_free (td->uri);
 		g_free (td->out_mime_type);
 		g_clear_error (&td->error);
-		g_free (td);
+		g_slice_free (ThreadData, td);
 	}
 }
 
@@ -147,7 +147,7 @@ e_content_request_process (EContentRequest *request,
 	is_http = g_ascii_strncasecmp (uri, "http", 4) == 0 ||
 		  g_ascii_strncasecmp (uri, "evo-http", 8) == 0;
 
-	td = g_new0 (ThreadData, 1);
+	td = g_slice_new0 (ThreadData);
 	td->uri = g_strdup (uri);
 	td->requester = g_object_ref (requester);
 

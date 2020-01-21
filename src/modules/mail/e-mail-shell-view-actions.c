@@ -1134,7 +1134,7 @@ get_folder_data_free (GetFolderData *gfd)
 		g_clear_object (&gfd->activity);
 		g_clear_object (&gfd->store);
 		g_free (gfd->folder_name);
-		g_free (gfd);
+		g_slice_free (GetFolderData, gfd);
 	}
 }
 
@@ -1199,7 +1199,7 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 	g_return_if_fail (CAMEL_IS_STORE (selected_store));
 	g_return_if_fail (selected_folder_name != NULL);
 
-	gfd = g_new0 (GetFolderData, 1);
+	gfd = g_slice_new0 (GetFolderData);
 	gfd->mail_shell_view = g_object_ref (mail_shell_view);
 	gfd->activity = e_mail_reader_new_activity (E_MAIL_READER (mail_view));
 	gfd->store = selected_store;

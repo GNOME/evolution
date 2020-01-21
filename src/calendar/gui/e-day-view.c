@@ -744,8 +744,8 @@ new_event_in_rage_data_free (gpointer ptr)
 
 	if (ned) {
 		g_clear_object (&ned->day_view);
-		g_free (ned->key_event);
-		g_free (ned);
+		g_slice_free (GdkEventKey, ned->key_event);
+		g_slice_free (NewEventInRangeData, ned);
 	}
 }
 
@@ -863,10 +863,10 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view,
 	ECalModel *model;
 	const gchar *source_uid;
 
-	ned = g_new0 (NewEventInRangeData, 1);
+	ned = g_slice_new0 (NewEventInRangeData);
 	ned->day_view = g_object_ref (day_view);
 	if (key_event) {
-		ned->key_event = g_new0 (GdkEventKey, 1);
+		ned->key_event = g_slice_new0 (GdkEventKey);
 		*ned->key_event = *key_event;
 	}
 	day_view_get_selected_time_range (E_CALENDAR_VIEW (day_view), &ned->dtstart, &ned->dtend);

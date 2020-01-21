@@ -125,7 +125,7 @@ merge_dialog_data_free (MergeDialogData *mdd)
 	g_list_free_full (mdd->contact_sip_attr_list, (GDestroyNotify) e_vcard_attribute_free);
 	g_list_free (mdd->use_sip_attr_list);
 
-	g_free (mdd);
+	g_slice_free (MergeDialogData, mdd);
 }
 
 static void
@@ -166,6 +166,12 @@ finished_lookup (void)
 	}
 }
 
+static EContactMergingLookup *
+new_lookup (void)
+{
+	return g_slice_new0 (EContactMergingLookup);
+}
+
 static void
 free_lookup (EContactMergingLookup *lookup)
 {
@@ -176,7 +182,7 @@ free_lookup (EContactMergingLookup *lookup)
 	g_list_free (lookup->avoid);
 	if (lookup->match)
 		g_object_unref (lookup->match);
-	g_free (lookup);
+	g_slice_free (EContactMergingLookup, lookup);
 }
 
 static void
@@ -482,7 +488,7 @@ merge_dialog_data_create (EContactMergingLookup *lookup,
 	gchar *string = NULL, *string1 = NULL;
 	MergeDialogData *mdd;
 
-	mdd = g_new0 (MergeDialogData, 1);
+	mdd = g_slice_new0 (MergeDialogData);
 	mdd->row = -1;
 
 	mdd->dialog = gtk_dialog_new ();
@@ -991,7 +997,7 @@ eab_merging_book_add_contact (ESourceRegistry *registry,
 
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
 
-	lookup = g_new0 (EContactMergingLookup, 1);
+	lookup = new_lookup ();
 
 	lookup->op = E_CONTACT_MERGING_ADD;
 	lookup->registry = g_object_ref (registry);
@@ -1018,7 +1024,7 @@ eab_merging_book_modify_contact (ESourceRegistry *registry,
 
 	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
 
-	lookup = g_new0 (EContactMergingLookup, 1);
+	lookup = new_lookup ();
 
 	lookup->op = E_CONTACT_MERGING_COMMIT;
 	lookup->registry = g_object_ref (registry);
@@ -1043,7 +1049,7 @@ eab_merging_book_find_contact (ESourceRegistry *registry,
 {
 	EContactMergingLookup *lookup;
 
-	lookup = g_new0 (EContactMergingLookup, 1);
+	lookup = new_lookup ();
 
 	lookup->op = E_CONTACT_MERGING_FIND;
 	lookup->registry = g_object_ref (registry);

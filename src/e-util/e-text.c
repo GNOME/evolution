@@ -2054,7 +2054,7 @@ popup_targets_received (GtkClipboard *clipboard,
 
 	gdk_event_get_button (event, &event_button);
 
-	g_free (closure);
+	g_slice_free (PopupClosure, closure);
 
 	gtk_menu_attach_to_widget (
 		GTK_MENU (popup_menu),
@@ -2160,7 +2160,7 @@ e_text_do_popup (EText *text,
                  GdkEvent *button_event,
                  gint position)
 {
-	PopupClosure *closure = g_new (PopupClosure, 1);
+	PopupClosure *closure = g_slice_new (PopupClosure);
 
 	closure->text = g_object_ref (text);
 	closure->event = gdk_event_copy (button_event);

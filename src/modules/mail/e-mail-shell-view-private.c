@@ -1167,7 +1167,7 @@ free_menu_item_sensitivity_data (gpointer ptr)
 
 	g_object_unref (data->service);
 	g_object_unref (data->menu_item);
-	g_free (data);
+	g_slice_free (EMenuItemSensitivityData, data);
 }
 
 static gboolean
@@ -1195,7 +1195,7 @@ service_online_state_changed_cb (GObject *service,
 	g_return_if_fail (G_IS_OBJECT (service));
 	g_return_if_fail (GTK_IS_WIDGET (menu_item));
 
-	data = g_new0 (EMenuItemSensitivityData, 1);
+	data = g_slice_new0 (EMenuItemSensitivityData);
 	data->service = g_object_ref (service);
 	data->menu_item = g_object_ref (menu_item);
 

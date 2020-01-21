@@ -719,7 +719,7 @@ cal_searching_instances_done_cb (gpointer user_data)
 	}
 
 	g_object_unref (gid->cancellable);
-	g_free (gid);
+	g_slice_free (struct GenerateInstancesData, gid);
 }
 
 static gboolean
@@ -838,7 +838,7 @@ cal_search_get_object_list_cb (GObject *source,
 			ICalComponent *icomp = iter->data;
 			struct GenerateInstancesData *gid;
 
-			gid = g_new0 (struct GenerateInstancesData, 1);
+			gid = g_slice_new0 (struct GenerateInstancesData);
 			gid->client = client;
 			gid->cal_shell_view = cal_shell_view;
 			gid->cancellable = g_object_ref (cancellable);

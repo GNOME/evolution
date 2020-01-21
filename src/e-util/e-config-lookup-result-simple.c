@@ -80,7 +80,7 @@ value_data_new (const gchar *extension_name,
 {
 	ValueData *vd;
 
-	vd = g_new0 (ValueData, 1);
+	vd = g_slice_new0 (ValueData);
 	vd->extension_name = g_strdup (extension_name);
 	vd->property_name = g_strdup (property_name);
 
@@ -99,7 +99,7 @@ value_data_free (gpointer ptr)
 		g_free (vd->extension_name);
 		g_free (vd->property_name);
 		g_value_reset (&vd->value);
-		g_free (vd);
+		g_slice_free (ValueData, vd);
 	}
 }
 

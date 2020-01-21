@@ -2030,7 +2030,7 @@ itip_send_component_data_free (gpointer ptr)
 		g_clear_error (&isc->async_error);
 		g_slist_free_full (isc->attachments_list, itip_cal_mime_attach_free); /* CamelMimePart */
 		g_slist_free_full (isc->users, g_free);
-		g_free (isc);
+		g_slice_free (ItipSendComponentData, isc);
 	}
 }
 
@@ -2117,7 +2117,7 @@ itip_send_component_composer_created_cb (GObject *source_object,
 	if (error) {
 		g_warning ("%s: Failed to create msg composer: %s", G_STRFUNC, error->message);
 		g_clear_error (&error);
-		return;
+		goto free_ccd;
 	}
 
 	settings = e_util_ref_settings ("org.gnome.evolution.calendar");
@@ -2173,6 +2173,7 @@ itip_send_component_composer_created_cb (GObject *source_object,
 	else
 		e_msg_composer_send (composer);
 
+ free_ccd:
 	e_destination_freev (ccd->destinations);
 	g_slist_free_full (ccd->send_comps, g_object_unref);
 	g_free (ccd->identity_uid);
@@ -2182,7 +2183,7 @@ itip_send_component_composer_created_cb (GObject *source_object,
 	g_free (ccd->ical_string);
 	g_free (ccd->content_type);
 	g_free (ccd->event_body_text);
-	g_free (ccd);
+	g_slice_free (CreateComposerData, ccd);
 }
 
 static void
@@ -2234,7 +2235,7 @@ itip_send_component_complete (ItipSendComponentData *isc)
 
 	top_level = comp_toplevel_with_zones (isc->method, isc->send_comps, isc->cal_client, isc->zones);
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->identity_uid = identity_uid;
 	ccd->identity_name = identity_name;
 	ccd->identity_address = identity_address;
@@ -2328,7 +2329,7 @@ itip_send_component_with_model (ECalModel *model,
 	data_model = e_cal_model_get_data_model (model);
 	source = e_client_get_source (E_CLIENT (cal_client));
 
-	isc = g_new0 (ItipSendComponentData, 1);
+	isc = g_slice_new0 (ItipSendComponentData);
 	isc->registry = g_object_ref (registry);
 	isc->method = method;
 	isc->send_comps = g_slist_prepend (NULL, g_object_ref (send_comp));
@@ -2430,7 +2431,7 @@ itip_send_component (ESourceRegistry *registry,
 	GTask *task;
 	ItipSendComponentData *isc;
 
-	isc = g_new0 (ItipSendComponentData, 1);
+	isc = g_slice_new0 (ItipSendComponentData);
 	isc->registry = g_object_ref (registry);
 	isc->method = method;
 	isc->send_comps = g_slist_prepend (NULL, g_object_ref (send_comp));
@@ -2519,7 +2520,7 @@ reply_to_calendar_comp (ESourceRegistry *registry,
 
 	top_level = comp_toplevel_with_zones (method, ecomps, cal_client, zones);
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->identity_uid = identity_uid;
 	ccd->identity_name = identity_name;
 	ccd->identity_address = identity_address;

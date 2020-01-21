@@ -329,7 +329,7 @@ action_mail_message_new_composer_created_cb (GObject *source_object,
 
 	g_clear_object (&ncd->folder);
 	camel_pstring_free (ncd->message_uid);
-	g_free (ncd);
+	g_slice_free (NewComposerData, ncd);
 }
 
 static void
@@ -385,7 +385,7 @@ action_mail_message_new_cb (GtkAction *action,
 	}
 
  exit:
-	ncd = g_new0 (NewComposerData, 1);
+	ncd = g_slice_new0 (NewComposerData);
 	ncd->folder = folder;
 	ncd->message_uid = message_uid;
 

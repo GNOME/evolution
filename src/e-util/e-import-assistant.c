@@ -785,7 +785,7 @@ run_import_progress_page_idle (gpointer user_data)
 		import_assistant_finished (pd->assistant, NULL);
 
 	g_object_unref (pd->assistant);
-	g_free (pd);
+	g_slice_free (ProgressData, pd);
 
 	return FALSE;
 }
@@ -842,7 +842,7 @@ prepare_progress_page (GtkAssistant *assistant,
 		}
 	}
 
-	pd = g_new0 (ProgressData, 1);
+	pd = g_slice_new0 (ProgressData);
 	pd->assistant = g_object_ref (assistant);
 	pd->done = done;
 

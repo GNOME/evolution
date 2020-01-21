@@ -139,6 +139,15 @@ typedef struct {
 G_DEFINE_TYPE (EContactListEditor, e_contact_list_editor, EAB_TYPE_EDITOR)
 
 static void
+editor_close_struct_free (EditorCloseStruct *ecs)
+{
+	if (ecs) {
+		g_clear_object (&ecs->editor);
+		g_slice_free (EditorCloseStruct, ecs);
+	}
+}
+
+static void
 connect_closure_free (ConnectClosure *connect_closure)
 {
 	if (connect_closure->editor != NULL)
@@ -396,8 +405,7 @@ contact_list_editor_list_added_cb (EBookClient *book_client,
 			contact_list_editor_update (editor);
 	}
 
-	g_object_unref (editor);
-	g_free (ecs);
+	editor_close_struct_free (ecs);
 }
 
 static void
@@ -421,8 +429,7 @@ contact_list_editor_list_modified_cb (EBookClient *book_client,
 			eab_editor_close (EAB_EDITOR (editor));
 	}
 
-	g_object_unref (editor);
-	g_free (ecs);
+	editor_close_struct_free (ecs);
 }
 
 static void
@@ -1575,7 +1582,7 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 
 	g_object_unref (active_source);
 
-	ecs = g_new (EditorCloseStruct, 1);
+	ecs = g_slice_new (EditorCloseStruct);
 	ecs->editor = g_object_ref (editor);
 	ecs->should_close = should_close;
 

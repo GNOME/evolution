@@ -68,7 +68,7 @@ activity_bar_timeout_data_free (gpointer ptr)
 
 	if (data) {
 		g_object_unref (data->activity);
-		g_free (data);
+		g_slice_free (EActivityBarTimeoutData, data);
 	}
 }
 
@@ -104,7 +104,7 @@ activity_bar_feedback (EActivityBar *bar)
 	if (bar->priv->timeout_id > 0)
 		g_source_remove (bar->priv->timeout_id);
 
-	data = g_new0 (EActivityBarTimeoutData, 1);
+	data = g_slice_new0 (EActivityBarTimeoutData);
 
 	data->bar = bar;
 	data->activity = g_object_ref (activity);

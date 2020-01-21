@@ -1721,7 +1721,7 @@ load_all_certs_async_data_free (gpointer ptr)
 		g_clear_object (&data->ecmc);
 		g_clear_object (&data->cancellable);
 		g_slist_free_full (data->ecerts, g_object_unref);
-		g_free (data);
+		g_slice_free (LoadAllCertsAsyncData, data);
 	}
 }
 
@@ -1842,7 +1842,7 @@ load_all_certs (ECertManagerConfig *ecmc)
 
 	ecmc->priv->load_all_certs_cancellable = g_cancellable_new ();
 
-	data = g_new0 (LoadAllCertsAsyncData, 1);
+	data = g_slice_new0 (LoadAllCertsAsyncData);
 	data->ecmc = g_object_ref (ecmc);
 	data->cancellable = g_object_ref (ecmc->priv->load_all_certs_cancellable);
 	data->ecerts = NULL;

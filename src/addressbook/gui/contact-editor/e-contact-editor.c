@@ -4400,6 +4400,16 @@ typedef struct {
 } EditorCloseStruct;
 
 static void
+editor_close_struct_free (EditorCloseStruct *ecs)
+{
+	if (ecs) {
+		g_clear_object (&ecs->ce);
+		g_free (ecs->new_id);
+		g_slice_free (EditorCloseStruct, ecs);
+	}
+}
+
+static void
 contact_removed_cb (GObject *source_object,
                     GAsyncResult *result,
                     gpointer user_data)
@@ -4433,12 +4443,9 @@ contact_removed_cb (GObject *source_object,
 		sensitize_all (ce);
 	}
 
-	if (error != NULL)
-		g_error_free (error);
+	g_clear_error (&error);
 
-	g_object_unref (ce);
-	g_free (ecs->new_id);
-	g_free (ecs);
+	editor_close_struct_free (ecs);
 }
 
 static void
@@ -4477,8 +4484,7 @@ contact_added_cb (EBookClient *book_client,
 		}
 	}
 
-	g_object_unref (ce);
-	g_free (ecs);
+	editor_close_struct_free (ecs);
 }
 
 static void
@@ -4505,8 +4511,7 @@ contact_modified_cb (EBookClient *book_client,
 		}
 	}
 
-	g_object_unref (ce);
-	g_free (ecs);
+	editor_close_struct_free (ecs);
 }
 
 static void
@@ -4537,10 +4542,8 @@ real_save_contact (EContactEditor *ce,
 	shell = eab_editor_get_shell (EAB_EDITOR (ce));
 	registry = e_shell_get_registry (shell);
 
-	ecs = g_new0 (EditorCloseStruct, 1);
-	ecs->ce = ce;
-	g_object_ref (ecs->ce);
-
+	ecs = g_slice_new0 (EditorCloseStruct);
+	ecs->ce = g_object_ref (ce);
 	ecs->should_close = should_close;
 
 	gtk_widget_set_sensitive (ce->priv->app, FALSE);

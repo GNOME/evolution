@@ -351,7 +351,7 @@ save_data_free (SaveData *sd)
 		g_slist_free_full (sd->mime_attach_list, itip_cal_mime_attach_free);
 		g_free (sd->alert_ident);
 		g_free (sd->alert_arg_0);
-		g_free (sd);
+		g_slice_free (SaveData, sd);
 	}
 }
 
@@ -966,7 +966,7 @@ ece_save_component (ECompEditor *comp_editor,
 
 	e_comp_editor_enable (comp_editor, FALSE);
 
-	sd = g_new0 (SaveData, 1);
+	sd = g_slice_new0 (SaveData);
 	sd->comp_editor = g_object_ref (comp_editor);
 	sd->source_client = comp_editor->priv->source_client ? g_object_ref (comp_editor->priv->source_client) : NULL;
 	sd->target_client = g_object_ref (comp_editor->priv->target_client);
@@ -1051,7 +1051,7 @@ open_target_client_data_free (gpointer ptr)
 		g_free (otc->extension_name);
 		g_free (otc->cal_email_address);
 		g_free (otc->alarm_email_address);
-		g_free (otc);
+		g_slice_free (OpenTargetClientData, otc);
 	}
 }
 
@@ -1117,7 +1117,7 @@ update_activity_bar_data_free (gpointer ptr)
 	if (uab) {
 		g_clear_object (&uab->comp_editor);
 		g_clear_object (&uab->activity);
-		g_free (uab);
+		g_slice_free (UpdateActivityBarData, uab);
 	}
 }
 
@@ -1182,7 +1182,7 @@ e_comp_editor_open_target_client (ECompEditor *comp_editor)
 	credentials_prompter = e_shell_get_credentials_prompter (e_comp_editor_get_shell (comp_editor));
 	e_credentials_prompter_set_auto_prompt_disabled_for (credentials_prompter, source, FALSE);
 
-	otc = g_new0 (OpenTargetClientData, 1);
+	otc = g_slice_new0 (OpenTargetClientData);
 	otc->extension_name = g_strdup (extension_name);
 	otc->comp_editor = g_object_ref (comp_editor);
 	otc->source = g_object_ref (source);
@@ -1204,7 +1204,7 @@ e_comp_editor_open_target_client (ECompEditor *comp_editor)
 	if (comp_editor->priv->activity_bar) {
 		UpdateActivityBarData *uab;
 
-		uab = g_new0 (UpdateActivityBarData, 1);
+		uab = g_slice_new0 (UpdateActivityBarData);
 		uab->comp_editor = g_object_ref (comp_editor);
 		uab->activity = g_object_ref (activity);
 

@@ -1043,7 +1043,7 @@ error_queue_show_idle (gpointer user_data)
 				has_info = TRUE;
 			}
 
-			g_free (data);
+			g_slice_free (struct eq_data, data);
 		}
 	}
 
@@ -1072,7 +1072,7 @@ error_queue_add (gchar *description,
 	if (!error && !description)
 		return;
 
-	data = g_new0 (struct eq_data, 1);
+	data = g_slice_new0 (struct eq_data);
 	data->description = description;
 	data->error = error;
 

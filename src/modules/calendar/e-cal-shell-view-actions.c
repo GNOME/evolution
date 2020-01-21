@@ -821,7 +821,7 @@ make_movable_data_free (gpointer ptr)
 		g_free (mmd->remove_uid);
 		g_free (mmd->remove_rid);
 		g_clear_object (&mmd->create_icomp);
-		g_free (mmd);
+		g_slice_free (MakeMovableData, mmd);
 	}
 }
 
@@ -909,7 +909,7 @@ action_event_occurrence_movable_cb (GtkAction *action,
 
 	e_cal_component_commit_sequence (exception_component);
 
-	mmd = g_new0 (MakeMovableData, 1);
+	mmd = g_slice_new0 (MakeMovableData);
 	mmd->client = g_object_ref (client);
 	mmd->remove_uid = g_strdup (e_cal_component_id_get_uid (id));
 	mmd->remove_rid = g_strdup (e_cal_component_id_get_rid (id));

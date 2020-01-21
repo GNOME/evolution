@@ -99,7 +99,7 @@ folder_tweaks_data_new (const gchar *folder_uri,
 {
 	FolderTweaksData *ftd;
 
-	ftd = g_new0 (FolderTweaksData, 1);
+	ftd = g_slice_new0 (FolderTweaksData);
 	ftd->folder_uri = g_strdup (folder_uri);
 	ftd->tweaks = g_object_ref (tweaks);
 	ftd->widget = widget;
@@ -116,7 +116,7 @@ folder_tweaks_data_free (gpointer ptr,
 	if (ftd) {
 		g_free (ftd->folder_uri);
 		g_object_unref (ftd->tweaks);
-		g_free (ftd);
+		g_slice_free (FolderTweaksData, ftd);
 	}
 }
 
@@ -414,7 +414,7 @@ three_state_data_free (gpointer data,
 	if (tsd) {
 		g_clear_object (&tsd->folder);
 		g_free (tsd->property_name);
-		g_free (tsd);
+		g_slice_free (ThreeStateData, tsd);
 	}
 }
 
@@ -632,7 +632,7 @@ emfp_get_folder_item (EConfig *ec,
 						"active", set_active,
 						NULL);
 
-					tsd = g_new0 (ThreeStateData, 1);
+					tsd = g_slice_new0 (ThreeStateData);
 					tsd->folder = g_object_ref (context->folder);
 					tsd->property_name = g_strdup (properties[ii]->name);
 					tsd->handler_id = g_signal_connect_data (widget, "toggled",
@@ -834,7 +834,7 @@ auto_archive_data_free (gpointer ptr)
 		return;
 
 	g_free (aad->folder_uri);
-	g_free (aad);
+	g_slice_free (AutoArchiveData, aad);
 }
 
 static void
@@ -903,7 +903,7 @@ emfp_get_autoarchive_item (EConfig *ec,
 	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
 	g_return_val_if_fail (mail_backend != NULL, NULL);
 
-	aad = g_new0 (AutoArchiveData, 1);
+	aad = g_slice_new0 (AutoArchiveData);
 	g_object_set_data_full (G_OBJECT (ec), AUTO_ARCHIVE_KEY_DATA, aad, auto_archive_data_free);
 
 	grid = GTK_GRID (gtk_grid_new ());

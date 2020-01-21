@@ -634,7 +634,7 @@ new_event_in_rage_data_free (gpointer ptr)
 	if (ned) {
 		g_clear_object (&ned->week_view);
 		g_free (ned->initial_text);
-		g_free (ned);
+		g_slice_free (NewEventInRangeData, ned);
 	}
 }
 
@@ -739,7 +739,7 @@ e_week_view_add_new_event_in_selected_range (EWeekView *week_view,
 	ECalModel *model;
 	const gchar *source_uid;
 
-	ned = g_new0 (NewEventInRangeData, 1);
+	ned = g_slice_new0 (NewEventInRangeData);
 	ned->week_view = g_object_ref (week_view);
 	ned->initial_text = g_strdup (initial_text);
 	ned->dtstart = week_view->day_starts[week_view->selection_start_day];

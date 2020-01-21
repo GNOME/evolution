@@ -480,7 +480,7 @@ process_unref (ContactCopyProcess *process)
 		g_object_unref (process->source);
 		g_object_unref (process->destination);
 		g_object_unref (process->registry);
-		g_free (process);
+		g_slice_free (ContactCopyProcess, process);
 	}
 }
 
@@ -605,7 +605,7 @@ eab_transfer_contacts (ESourceRegistry *registry,
 		last_uid = g_strdup (e_source_get_uid (destination));
 	}
 
-	process = g_new (ContactCopyProcess, 1);
+	process = g_slice_new0 (ContactCopyProcess);
 	process->count = 1;
 	process->book_status = FALSE;
 	process->source = g_object_ref (source_client);

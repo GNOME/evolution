@@ -1847,7 +1847,7 @@ connect_client_data_free (gpointer ptr)
 		if (cc_data->destroy_user_data)
 			cc_data->destroy_user_data (cc_data->user_data);
 
-		g_free (cc_data);
+		g_slice_free (ConnectClientData, cc_data);
 	}
 }
 
@@ -1922,7 +1922,7 @@ e_shell_window_connect_client (EShellWindow *shell_window,
 
 	g_free (display_name);
 
-	cc_data = g_new0 (ConnectClientData, 1);
+	cc_data = g_slice_new0 (ConnectClientData);
 	cc_data->shell_window = g_object_ref (shell_window);
 	cc_data->source = g_object_ref (source);
 	cc_data->extension_name = g_strdup (extension_name);

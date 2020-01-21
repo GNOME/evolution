@@ -871,7 +871,7 @@ paste_clipboard_data_free (gpointer ptr)
 		g_slist_free_full (pcd->selected_cut_list, g_object_unref);
 		g_slist_free_full (pcd->copied_uids, g_free);
 		g_free (pcd->ical_str);
-		g_free (pcd);
+		g_slice_free (PasteClipboardData, pcd);
 	}
 }
 
@@ -1068,7 +1068,7 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 				return;
 		}
 
-		pcd = g_new0 (PasteClipboardData, 1);
+		pcd = g_slice_new0 (PasteClipboardData);
 		pcd->cal_view = g_object_ref (cal_view);
 		pcd->selected_cut_list = cal_view->priv->selected_cut_list;
 		cal_view->priv->selected_cut_list = NULL;

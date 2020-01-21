@@ -543,7 +543,7 @@ saved_status_data_free (gpointer ptr)
 
 	if (data) {
 		g_free (data->tooltip);
-		g_free (data);
+		g_slice_free (SavedStatusData, data);
 	}
 }
 
@@ -571,7 +571,7 @@ source_selector_save_sources_status (ESourceSelector *selector)
 			path = gtk_tree_row_reference_get_path (reference);
 			gtk_tree_model_get_iter (model, &tree_iter, path);
 
-			data = g_new0 (SavedStatusData, 1);
+			data = g_slice_new0 (SavedStatusData);
 
 			gtk_tree_model_get (
 				model, &tree_iter,

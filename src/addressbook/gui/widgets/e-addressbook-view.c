@@ -1559,7 +1559,7 @@ all_contacts_ready_cb (GObject *source_object,
 	}
 
 	g_object_unref (tcd->view);
-	g_free (tcd);
+	g_slice_free (struct TransferContactsData, tcd);
 }
 
 static void
@@ -1584,7 +1584,7 @@ view_transfer_contacts (EAddressbookView *view,
 		query_str = e_book_query_to_string (query);
 		e_book_query_unref (query);
 
-		tcd = g_new0 (struct TransferContactsData, 1);
+		tcd = g_slice_new0 (struct TransferContactsData);
 		tcd->delete_from_source = delete_from_source;
 		tcd->view = g_object_ref (view);
 

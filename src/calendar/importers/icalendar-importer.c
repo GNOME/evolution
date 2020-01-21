@@ -929,7 +929,7 @@ default_client_connect_cb (GObject *source_object,
 	if (error != NULL)
 		g_error_free (error);
 
-	g_free (odsd);
+	g_slice_free (struct OpenDefaultSourceData, odsd);
 }
 
 static void
@@ -964,7 +964,7 @@ open_default_source (ICalIntelligentImporter *ici,
 			g_return_if_reached ();
 	}
 
-	odsd = g_new0 (struct OpenDefaultSourceData, 1);
+	odsd = g_slice_new0 (struct OpenDefaultSourceData);
 	odsd->ici = ici;
 	odsd->opened_cb = opened_cb;
 

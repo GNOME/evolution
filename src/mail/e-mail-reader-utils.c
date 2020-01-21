@@ -1087,7 +1087,7 @@ mark_ignore_thread_data_free (gpointer ptr)
 	if (mit) {
 		g_clear_object (&mit->folder);
 		g_slist_free_full (mit->uids, (GDestroyNotify) camel_pstring_free);
-		g_free (mit);
+		g_slice_free (MarkIgnoreThreadData, mit);
 	}
 }
 
@@ -1348,7 +1348,7 @@ e_mail_reader_mark_selected_ignore_thread (EMailReader *reader,
 				break;
 			}
 
-			mit = g_new0 (MarkIgnoreThreadData, 1);
+			mit = g_slice_new0 (MarkIgnoreThreadData);
 			mit->folder = g_object_ref (folder);
 			mit->kind = kind;
 
@@ -1933,6 +1933,12 @@ typedef struct _CreateComposerData {
 	GPtrArray *attached_uids;
 } CreateComposerData;
 
+static CreateComposerData *
+create_composer_data_new (void)
+{
+	return g_slice_new0 (CreateComposerData);
+}
+
 static void
 create_composer_data_free (CreateComposerData *ccd)
 {
@@ -1948,7 +1954,7 @@ create_composer_data_free (CreateComposerData *ccd)
 		g_clear_object (&ccd->attached_part);
 		g_free (ccd->message_uid);
 		g_free (ccd->attached_subject);
-		g_free (ccd);
+		g_slice_free (CreateComposerData, ccd);
 	}
 }
 
@@ -2037,7 +2043,7 @@ mail_reader_edit_messages_cb (GObject *source_object,
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		CreateComposerData *ccd;
 
-		ccd = g_new0 (CreateComposerData, 1);
+		ccd = create_composer_data_new ();
 		ccd->reader = g_object_ref (async_context->reader);
 		ccd->folder = g_object_ref (folder);
 		ccd->message = g_object_ref (CAMEL_MIME_MESSAGE (value));
@@ -2173,7 +2179,7 @@ mail_reader_forward_attachment_cb (GObject *source_object,
 		goto exit;
 	}
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = create_composer_data_new ();
 	ccd->reader = g_object_ref (async_context->reader);
 	ccd->folder = g_object_ref (folder);
 	ccd->attached_part = part;
@@ -2277,7 +2283,7 @@ mail_reader_forward_messages_cb (GObject *source_object,
 		message_uid = (const gchar *) key;
 		message = CAMEL_MIME_MESSAGE (value);
 
-		ccd = g_new0 (CreateComposerData, 1);
+		ccd = create_composer_data_new ();
 		ccd->reader = g_object_ref (async_context->reader);
 		ccd->folder = g_object_ref (folder);
 		ccd->message = g_object_ref (message);
@@ -2773,7 +2779,7 @@ e_mail_reader_reply_to_message_with_selection (EMailReader *reader,
 		length,
 		selection_is_html ? "text/html; charset=utf-8" : "text/plain; charset=utf-8");
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = create_composer_data_new ();
 	ccd->reader = g_object_ref (reader);
 	ccd->folder = g_object_ref (folder);
 	ccd->message_uid = g_strdup (uid);
@@ -2819,7 +2825,7 @@ whole_message:
 		g_object_unref (activity);
 
 	} else {
-		ccd = g_new0 (CreateComposerData, 1);
+		ccd = create_composer_data_new ();
 		ccd->reader = g_object_ref (reader);
 		ccd->folder = g_object_ref (folder);
 		ccd->message_uid = g_strdup (uid);

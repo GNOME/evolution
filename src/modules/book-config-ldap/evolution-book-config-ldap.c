@@ -283,7 +283,7 @@ search_base_data_free (gpointer ptr)
 		g_clear_object (&sbd->source);
 		g_clear_error (&sbd->error);
 		g_strfreev (sbd->root_dse);
-		g_free (sbd);
+		g_slice_free (SearchBaseData, sbd);
 	}
 }
 
@@ -425,7 +425,7 @@ book_config_ldap_search_base_button_clicked_cb (GtkButton *button,
 	gtk_container_add (GTK_CONTAINER (content), box);
 	gtk_container_set_border_width (GTK_CONTAINER (content), 12);
 
-	sbd = g_new0 (SearchBaseData, 1);
+	sbd = g_slice_new0 (SearchBaseData);
 	sbd->parent = parent;
 	sbd->search_base_combo = g_object_ref (context->search_base_combo);
 	sbd->dialog = dialog;

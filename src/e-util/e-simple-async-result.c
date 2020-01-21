@@ -276,7 +276,7 @@ e_simple_async_result_thread (gpointer data,
 	e_simple_async_result_complete_idle_take (td->result);
 
 	g_clear_object (&td->cancellable);
-	g_free (td);
+	g_slice_free (ThreadData, td);
 }
 
 void
@@ -290,7 +290,7 @@ e_simple_async_result_run_in_thread (ESimpleAsyncResult *result,
 	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (result));
 	g_return_if_fail (func != NULL);
 
-	td = g_new0 (ThreadData, 1);
+	td = g_slice_new0 (ThreadData);
 	td->result = g_object_ref (result);
 	td->io_priority = io_priority;
 	td->func = func;

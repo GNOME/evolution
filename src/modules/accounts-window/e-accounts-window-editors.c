@@ -145,7 +145,7 @@ collection_editor_data_free (gpointer ptr)
 
 	if (ced) {
 		g_clear_object (&ced->source);
-		g_free (ced);
+		g_slice_free (CollectionEditorData, ced);
 	}
 }
 
@@ -267,7 +267,7 @@ accounts_window_editors_edit_unmanaged_collection (EAccountsWindow *accounts_win
 	g_return_if_fail (E_IS_SOURCE (source));
 	g_return_if_fail (e_source_has_extension (source, E_SOURCE_EXTENSION_COLLECTION));
 
-	ced = g_new0 (CollectionEditorData, 1);
+	ced = g_slice_new0 (CollectionEditorData);
 	ced->source = g_object_ref (source);
 
 	collection_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_COLLECTION);

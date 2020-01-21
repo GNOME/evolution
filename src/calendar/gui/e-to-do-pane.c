@@ -2024,7 +2024,7 @@ remove_operation_data_free (gpointer ptr)
 		g_clear_object (&rod->client);
 		g_free (rod->uid);
 		g_free (rod->rid);
-		g_free (rod);
+		g_slice_free (RemoveOperationData, rod);
 	}
 }
 
@@ -2090,7 +2090,7 @@ etdp_delete_common (EToDoPane *to_do_pane,
 		if (!e_cal_component_is_instance (comp))
 			mod = E_CAL_OBJ_MOD_ALL;
 
-		rod = g_new0 (RemoveOperationData,1);
+		rod = g_slice_new0 (RemoveOperationData);
 		rod->client = g_object_ref (client);
 		rod->uid = g_strdup (e_cal_component_id_get_uid (id));
 		rod->rid = g_strdup (e_cal_component_id_get_rid (id));

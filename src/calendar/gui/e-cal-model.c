@@ -1334,7 +1334,7 @@ create_component_data_free (gpointer ptr)
 		g_clear_object (&ccd->model);
 		g_clear_object (&ccd->table_model);
 		g_hash_table_destroy (ccd->values);
-		g_free (ccd);
+		g_slice_free (CreateComponentData, ccd);
 	}
 }
 
@@ -1508,7 +1508,7 @@ cal_model_append_row (ETableModel *etm,
 		model_class->store_values_from_model (model, source, row, values);
 	}
 
-	ccd = g_new0 (CreateComponentData, 1);
+	ccd = g_slice_new0 (CreateComponentData);
 	ccd->model = g_object_ref (model);
 	ccd->table_model = g_object_ref (source);
 	ccd->values = values;

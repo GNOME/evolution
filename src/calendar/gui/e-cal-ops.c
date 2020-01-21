@@ -97,6 +97,12 @@ typedef struct {
 	gboolean success;
 } BasicOperationData;
 
+static BasicOperationData *
+basic_operation_data_new (void)
+{
+	return g_slice_new0 (BasicOperationData);
+}
+
 static void
 basic_operation_data_free (gpointer ptr)
 {
@@ -127,7 +133,7 @@ basic_operation_data_free (gpointer ptr)
 		g_free (bod->for_client_uid);
 		g_free (bod->uid);
 		g_free (bod->rid);
-		g_free (bod);
+		g_slice_free (BasicOperationData, bod);
 	}
 }
 
@@ -201,7 +207,7 @@ e_cal_ops_create_component (ECalModel *model,
 	data_model = e_cal_model_get_data_model (model);
 	source = e_client_get_source (E_CLIENT (client));
 
-	bod = g_new0 (BasicOperationData, 1);
+	bod = basic_operation_data_new ();
 	bod->model = g_object_ref (model);
 	bod->client = g_object_ref (client);
 	bod->icomp = i_cal_component_clone (icomp);
@@ -321,7 +327,7 @@ e_cal_ops_modify_component (ECalModel *model,
 	data_model = e_cal_model_get_data_model (model);
 	source = e_client_get_source (E_CLIENT (client));
 
-	bod = g_new0 (BasicOperationData, 1);
+	bod = basic_operation_data_new ();
 	bod->model = g_object_ref (model);
 	bod->client = g_object_ref (client);
 	bod->icomp = i_cal_component_clone (icomp);
@@ -427,7 +433,7 @@ e_cal_ops_remove_component (ECalModel *model,
 	data_model = e_cal_model_get_data_model (model);
 	source = e_client_get_source (E_CLIENT (client));
 
-	bod = g_new0 (BasicOperationData, 1);
+	bod = basic_operation_data_new ();
 	bod->model = g_object_ref (model);
 	bod->client = g_object_ref (client);
 	bod->uid = g_strdup (uid);
@@ -574,7 +580,7 @@ paste_components_data_free (gpointer ptr)
 
 		g_clear_object (&pcd->model);
 		g_clear_object (&pcd->icomp);
-		g_free (pcd);
+		g_slice_free (PasteComponentsData, pcd);
 	}
 }
 
@@ -762,7 +768,7 @@ e_cal_ops_paste_components (ECalModel *model,
 		return;
 	}
 
-	pcd = g_new0 (PasteComponentsData, 1);
+	pcd = g_slice_new0 (PasteComponentsData);
 	pcd->model = g_object_ref (model);
 	pcd->icomp = icomp;
 	pcd->kind = kind;
@@ -791,7 +797,7 @@ send_component_data_free (gpointer ptr)
 	if (scd) {
 		g_clear_object (&scd->client);
 		g_clear_object (&scd->icomp);
-		g_free (scd);
+		g_slice_free (SendComponentData, scd);
 	}
 }
 
@@ -860,7 +866,7 @@ e_cal_ops_send_component (ECalModel *model,
 			return;
 	}
 
-	scd = g_new0 (SendComponentData, 1);
+	scd = g_slice_new0 (SendComponentData);
 	scd->client = g_object_ref (client);
 	scd->icomp = i_cal_component_clone (icomp);
 
@@ -891,7 +897,7 @@ purge_components_data_free (gpointer ptr)
 	if (pcd) {
 		g_clear_object (&pcd->model);
 		g_list_free_full (pcd->clients, g_object_unref);
-		g_free (pcd);
+		g_slice_free (PurgeComponentsData, pcd);
 	}
 }
 
@@ -1120,7 +1126,7 @@ e_cal_ops_purge_components (ECalModel *model,
 
 	data_model = e_cal_model_get_data_model (model);
 
-	pcd = g_new0 (PurgeComponentsData, 1);
+	pcd = g_slice_new0 (PurgeComponentsData);
 	pcd->model = g_object_ref (model);
 	pcd->clients = e_cal_data_model_get_clients (data_model);
 	pcd->kind = e_cal_model_get_component_kind (model);
@@ -1386,7 +1392,7 @@ e_cal_ops_get_default_component (ECalModel *model,
 			display_name = e_util_get_source_full_name (registry, source);
 	}
 
-	bod = g_new0 (BasicOperationData, 1);
+	bod = basic_operation_data_new ();
 	bod->model = g_object_ref (model);
 	bod->client = NULL;
 	bod->icomp = NULL;
@@ -1436,6 +1442,12 @@ typedef struct
 	gint default_reminder_interval;
 	EDurationType default_reminder_units;
 } NewComponentData;
+
+static NewComponentData *
+new_component_data_new (void)
+{
+	return g_slice_new0 (NewComponentData);
+}
 
 static void
 new_component_data_free (gpointer ptr)
@@ -1527,7 +1539,7 @@ new_component_data_free (gpointer ptr)
 		g_clear_object (&ncd->comp);
 		g_free (ncd->extension_name);
 		g_free (ncd->for_client_uid);
-		g_free (ncd);
+		g_slice_free (NewComponentData, ncd);
 	}
 }
 
@@ -1656,7 +1668,7 @@ e_cal_ops_new_component_ex (EShellWindow *shell_window,
 	if (for_client_uid)
 		for_client_source = e_source_registry_ref_source (registry, for_client_uid);
 
-	ncd = g_new0 (NewComponentData, 1);
+	ncd = new_component_data_new ();
 	ncd->is_new_component = TRUE;
 	ncd->shell = g_object_ref (shell);
 	ncd->model = model ? g_object_ref (model) : NULL;
@@ -1865,7 +1877,7 @@ e_cal_ops_open_component_in_editor_sync (ECalModel *model,
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	g_return_if_fail (comp != NULL);
 
-	ncd = g_new0 (NewComponentData, 1);
+	ncd = new_component_data_new ();
 	ncd->is_new_component = FALSE;
 	ncd->shell = g_object_ref (model ? e_cal_model_get_shell (model) : e_shell_get_default ());
 	ncd->model = model ? g_object_ref (model) : NULL;
@@ -1914,7 +1926,7 @@ transfer_components_data_free (gpointer ptr)
 		g_clear_object (&tcd->destination);
 		g_clear_object (&tcd->destination_client);
 		g_hash_table_destroy (tcd->icomps_by_source);
-		g_free (tcd);
+		g_slice_free (TransferComponentsData, tcd);
 	}
 }
 
@@ -2078,7 +2090,7 @@ e_cal_ops_transfer_components (EShellView *shell_view,
 			return;
 	}
 
-	tcd = g_new0 (TransferComponentsData, 1);
+	tcd = g_slice_new0 (TransferComponentsData);
 	tcd->shell = g_object_ref (e_shell_window_get_shell (e_shell_view_get_shell_window (shell_view)));
 	tcd->model = g_object_ref (model);
 	tcd->icomps_by_source = g_hash_table_new_full ((GHashFunc) e_source_hash, (GEqualFunc) e_source_equal,

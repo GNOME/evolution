@@ -861,7 +861,7 @@ trust_prompt_data_free (gpointer ptr)
 
 	if (tpd) {
 		g_free (tpd->original_ssl_trust);
-		g_free (tpd);
+		g_slice_free (TrustPromptData, tpd);
 	}
 }
 
@@ -1037,7 +1037,7 @@ shell_connect_trust_error_alert_response_cb (EAlert *alert,
 
 	g_object_set_data_full (G_OBJECT (source), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
 
-	tpd = g_new0 (TrustPromptData, 1);
+	tpd = g_slice_new0 (TrustPromptData);
 	tpd->shell = shell;
 	tpd->original_ssl_trust = shell_extract_ssl_trust (source);
 
@@ -1277,7 +1277,7 @@ shell_process_credentials_required_errors (EShell *shell,
 
 				g_object_set_data_full (G_OBJECT (source), SOURCE_ALERT_KEY_CERTIFICATE_PEM, g_strdup (certificate_pem), g_free);
 
-				tpd = g_new0 (TrustPromptData, 1);
+				tpd = g_slice_new0 (TrustPromptData);
 				tpd->shell = shell;
 				tpd->original_ssl_trust = shell_extract_ssl_trust (source);
 

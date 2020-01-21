@@ -125,7 +125,7 @@ free_todo_struct (todo_struct *td)
 	if (td) {
 		g_free (td->name);
 		g_free (td->email);
-		g_free (td);
+		g_slice_free (todo_struct, td);
 	}
 }
 
@@ -190,7 +190,7 @@ todo_queue_process (const gchar *name,
 {
 	todo_struct *td;
 
-	td = g_new (todo_struct, 1);
+	td = g_slice_new (todo_struct);
 	td->name = g_strdup (name);
 	td->email = g_strdup (email);
 

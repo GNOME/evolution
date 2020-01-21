@@ -152,7 +152,7 @@ send_message_composer_created_cb (GObject *source_object,
 
 	g_free (smd->url);
 	g_free (smd->uid);
-	g_free (smd);
+	g_slice_free (SendMessageData, smd);
 }
 
 static void
@@ -279,7 +279,7 @@ emla_list_action_cb (CamelFolder *folder,
 			if (send_message_response == GTK_RESPONSE_YES) {
 				SendMessageData *smd;
 
-				smd = g_new0 (SendMessageData, 1);
+				smd = g_slice_new0 (SendMessageData);
 				smd->url = g_strdup (url);
 				smd->uid = g_strdup (uid);
 

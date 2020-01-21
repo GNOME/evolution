@@ -597,7 +597,7 @@ async_context_free (gpointer ptr)
 		g_clear_object (&context->result_message);
 		g_free (context->source_message_uid);
 		g_free (context->templates_message_uid);
-		g_free (context);
+		g_slice_free (AsyncContext, context);
 	}
 }
 
@@ -639,7 +639,7 @@ e_mail_templates_apply (CamelMimeMessage *source_message,
 	g_return_if_fail (templates_message_uid != NULL);
 	g_return_if_fail (callback != NULL);
 
-	context = g_new0 (AsyncContext, 1);
+	context = g_slice_new0 (AsyncContext);
 	context->source_message = g_object_ref (source_message);
 	context->source_folder = source_folder ? g_object_ref (source_folder) : NULL;
 	context->source_message_uid = g_strdup (source_message_uid);

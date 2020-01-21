@@ -424,7 +424,7 @@ popup_delete_row (GtkWidget *w,
                   PopupDeleteRowInfo *row_info)
 {
 	delete_row (row_info->path, row_info->list);
-	g_free (row_info);
+	g_slice_free (PopupDeleteRowInfo, row_info);
 }
 
 static void
@@ -588,7 +588,7 @@ enl_tree_button_press_event (GtkWidget *widget,
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
 
-	row_info = g_new (PopupDeleteRowInfo, 1);
+	row_info = g_slice_new (PopupDeleteRowInfo);
 	row_info->list = list;
 	row_info->path = path;
 

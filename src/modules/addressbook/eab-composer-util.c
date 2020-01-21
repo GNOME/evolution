@@ -161,7 +161,7 @@ eab_composer_created_cb (GObject *source_object,
 		e_destination_freev (ccd->bcc_destinations);
 	g_slist_free_full (ccd->attachment_destinations, g_object_unref);
 
-	g_free (ccd);
+	g_slice_free (CreateComposerData, ccd);
 }
 
 void
@@ -199,7 +199,7 @@ eab_send_as_to (EShell *shell,
 	g_ptr_array_add (to_array, NULL);
 	g_ptr_array_add (bcc_array, NULL);
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->to_destinations = (EDestination **) g_ptr_array_free (to_array, FALSE);
 	ccd->bcc_destinations = (EDestination **) g_ptr_array_free (bcc_array, FALSE);
 	ccd->attachment_destinations = NULL;
@@ -218,7 +218,7 @@ eab_send_as_attachment (EShell *shell,
 	if (destinations == NULL)
 		return;
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->attachment_destinations = g_slist_copy (destinations);
 	g_slist_foreach (ccd->attachment_destinations, (GFunc) g_object_ref, NULL);
 

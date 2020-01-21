@@ -82,7 +82,7 @@ shell_taskbar_free_idle_data (gpointer data)
 
 	g_clear_object (&idle_data->shell_taskbar);
 	g_clear_object (&idle_data->activity);
-	g_free (idle_data);
+	g_slice_free (EShellTaskbarIdleData, idle_data);
 }
 
 static void
@@ -134,7 +134,7 @@ shell_taskbar_weak_notify_cb (EShellTaskbar *shell_taskbar,
 	} else {
 		EShellTaskbarIdleData *idle_data;
 
-		idle_data = g_new0 (EShellTaskbarIdleData, 1);
+		idle_data = g_slice_new0 (EShellTaskbarIdleData);
 		idle_data->shell_taskbar = g_object_ref (shell_taskbar);
 		idle_data->proxy = proxy;
 
@@ -206,7 +206,7 @@ shell_taskbar_activity_added_cb (EShellTaskbar *shell_taskbar,
 	} else {
 		EShellTaskbarIdleData *idle_data;
 
-		idle_data = g_new0 (EShellTaskbarIdleData, 1);
+		idle_data = g_slice_new0 (EShellTaskbarIdleData);
 		idle_data->shell_taskbar = g_object_ref (shell_taskbar);
 		idle_data->activity = g_object_ref (activity);
 

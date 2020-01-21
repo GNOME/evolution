@@ -5071,7 +5071,7 @@ folder_changed_data_free (gpointer ptr)
 		e_weak_ref_free (fcd->folder);
 		e_weak_ref_free (fcd->message_list);
 		camel_folder_change_info_free (fcd->changes);
-		g_free (fcd);
+		g_slice_free (FolderChangedData, fcd);
 	}
 }
 
@@ -5109,7 +5109,7 @@ message_list_folder_changed_cb (CamelFolder *folder,
 	} else {
 		FolderChangedData *fcd;
 
-		fcd = g_new0 (FolderChangedData, 1);
+		fcd = g_slice_new0 (FolderChangedData);
 		fcd->folder = e_weak_ref_new (folder);
 		fcd->changes = camel_folder_change_info_copy (changes);
 		fcd->message_list = e_weak_ref_new (message_list);

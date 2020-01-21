@@ -72,7 +72,7 @@ unset_timeout_data_free (gpointer ptr)
 
 	if (utd) {
 		g_object_unref (utd->activity);
-		g_free (utd);
+		g_slice_free (UnsetTimeoutData, utd);
 	}
 }
 
@@ -111,7 +111,7 @@ activity_proxy_feedback (EActivityProxy *proxy)
 	if (proxy->priv->timeout_id > 0)
 		g_source_remove (proxy->priv->timeout_id);
 
-	utd = g_new0 (UnsetTimeoutData, 1);
+	utd = g_slice_new0 (UnsetTimeoutData);
 	utd->proxy = proxy;
 	/* Hold a reference on the EActivity for a short
 	 * period so the activity proxy stays visible. */

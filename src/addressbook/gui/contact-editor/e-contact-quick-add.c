@@ -56,7 +56,7 @@ struct _QuickAdd {
 static QuickAdd *
 quick_add_new (EClientCache *client_cache)
 {
-	QuickAdd *qa = g_new0 (QuickAdd, 1);
+	QuickAdd *qa = g_slice_new0 (QuickAdd);
 	qa->contact = e_contact_new ();
 	qa->client_cache = g_object_ref (client_cache);
 	qa->refs = 1;
@@ -78,7 +78,7 @@ quick_add_unref (QuickAdd *qa)
 			g_free (qa->vcard);
 			g_object_unref (qa->contact);
 			g_object_unref (qa->client_cache);
-			g_free (qa);
+			g_slice_free (QuickAdd, qa);
 		}
 	}
 }

@@ -579,7 +579,7 @@ match_search_info_free (MatchSearchInfo *info)
 			info->avoid = NULL;
 		}
 
-		g_free (info);
+		g_slice_free (MatchSearchInfo, info);
 	}
 }
 
@@ -815,7 +815,7 @@ eab_contact_locate_match_full (ESourceRegistry *registry,
 	g_return_if_fail (E_IS_CONTACT (contact));
 	g_return_if_fail (cb != NULL);
 
-	info = g_new0 (MatchSearchInfo, 1);
+	info = g_slice_new0 (MatchSearchInfo);
 	info->contact = g_object_ref (contact);
 	info->cb = cb;
 	info->closure = closure;

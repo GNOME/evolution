@@ -325,7 +325,7 @@ open_client_data_free (gpointer pdata)
 		g_clear_object (&data->sidebar);
 		g_clear_object (&data->source);
 		g_clear_object (&data->client);
-		g_free (data);
+		g_slice_free (OpenClientData, data);
 	}
 }
 
@@ -394,7 +394,7 @@ e_cal_base_shell_sidebar_ensure_source_opened (ECalBaseShellSidebar *sidebar,
 
 	g_free (display_name);
 
-	data = g_new0 (OpenClientData, 1);
+	data = g_slice_new0 (OpenClientData);
 	data->extension_name = extension_name; /* no need to copy, it's a static string */
 	data->sidebar = g_object_ref (sidebar);
 	data->source = g_object_ref (source);
@@ -474,7 +474,7 @@ transfer_item_to_data_free (gpointer ptr)
 		g_clear_object (&titd->destination);
 		g_clear_object (&titd->selector);
 		g_clear_object (&titd->icomp);
-		g_free (titd);
+		g_slice_free (TransferItemToData, titd);
 	}
 }
 
@@ -584,7 +584,7 @@ e_cal_base_shell_sidebar_selector_data_dropped (ESourceSelector *selector,
 			goto exit;
 	}
 
-	titd = g_new0 (TransferItemToData, 1);
+	titd = g_slice_new0 (TransferItemToData);
 	titd->source = g_object_ref (source);
 	titd->destination = g_object_ref (destination);
 	titd->do_copy = do_copy;

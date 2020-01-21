@@ -130,7 +130,7 @@ object_info_new (ECalClient *client,
 	g_return_val_if_fail (client != NULL, NULL);
 	g_return_val_if_fail (id != NULL, NULL);
 
-	oinfo = g_new0 (ObjectInfo, 1);
+	oinfo = g_slice_new0 (ObjectInfo);
 	oinfo->client = client;
 	oinfo->id = id;
 	oinfo->is_transparent = is_transparent;
@@ -148,14 +148,14 @@ object_info_free (gpointer ptr)
 
 	if (oinfo) {
 		e_cal_component_id_free (oinfo->id);
-		g_free (oinfo);
+		g_slice_free (ObjectInfo, oinfo);
 	}
 }
 
 static DateInfo *
 date_info_new (void)
 {
-	return g_new0 (DateInfo, 1);
+	return g_slice_new0 (DateInfo);
 }
 
 static void
@@ -164,7 +164,7 @@ date_info_free (gpointer ptr)
 	DateInfo *dinfo = ptr;
 
 	if (dinfo)
-		g_free (dinfo);
+		g_slice_free (DateInfo, dinfo);
 }
 
 static gboolean
@@ -888,6 +888,15 @@ struct calendar_tag_closure {
 	gboolean recur_events_italic;
 };
 
+static void
+calendar_tag_closure_free (gpointer ptr)
+{
+	struct calendar_tag_closure *closure = ptr;
+
+	if (closure)
+		g_slice_free (struct calendar_tag_closure, closure);
+}
+
 /* Clears all the tags in a calendar and fills a closure structure with the
  * necessary information for iterating over occurrences.  Returns FALSE if
  * the calendar has no dates shown.  */
@@ -1040,7 +1049,7 @@ tag_calendar_by_comp (ECalendar *ecal,
 	if (comp_is_on_server) {
 		struct calendar_tag_closure *alloced_closure;
 
-		alloced_closure = g_new0 (struct calendar_tag_closure, 1);
+		alloced_closure = g_slice_new0 (struct calendar_tag_closure);
 
 		*alloced_closure = closure;
 
@@ -1048,7 +1057,7 @@ tag_calendar_by_comp (ECalendar *ecal,
 			client, e_cal_component_get_icalcomponent (comp),
 			closure.start_time, closure.end_time, cancellable,
 			tag_calendar_cb,
-			alloced_closure, (GDestroyNotify) g_free);
+			alloced_closure, calendar_tag_closure_free);
 	} else {
 		ICalTime *start, *end;
 

@@ -145,7 +145,7 @@ autosave_composer_created_cb (GObject *source_object,
 	g_clear_object (&ccd->simple);
 	g_clear_object (&ccd->message);
 	g_clear_object (&ccd->snapshot_file);
-	g_free (ccd);
+	g_slice_free (CreateComposerData, ccd);
 }
 
 static void
@@ -202,7 +202,7 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	 * the same file. */
 	shell = E_SHELL (object);
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->simple = simple;
 	ccd->context = context;
 	ccd->message = message;

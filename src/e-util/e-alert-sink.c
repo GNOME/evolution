@@ -146,7 +146,7 @@ e_alert_sink_thread_job_done_cb (gpointer user_data)
 	if (job_data->free_user_data)
 		job_data->free_user_data (job_data->user_data);
 
-	g_free (job_data);
+	g_slice_free (EAlertSinkThreadJobData, job_data);
 
 	return FALSE;
 }
@@ -225,7 +225,7 @@ e_alert_sink_submit_thread_job (EAlertSink *alert_sink,
 
 	camel_operation_push_message (cancellable, "%s", description);
 
-	job_data = g_new0 (EAlertSinkThreadJobData, 1);
+	job_data = g_slice_new0 (EAlertSinkThreadJobData);
 	job_data->activity = g_object_ref (activity);
 	job_data->alert_ident = g_strdup (alert_ident);
 	job_data->alert_arg_0 = g_strdup (alert_arg_0);

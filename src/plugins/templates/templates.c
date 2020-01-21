@@ -779,7 +779,7 @@ save_template_async_data_free (gpointer ptr)
 		g_clear_object (&sta->message);
 		g_clear_object (&sta->info);
 		g_free (sta->templates_folder_uri);
-		g_free (sta);
+		g_slice_free (SaveTemplateAsyncData, sta);
 	}
 }
 
@@ -865,7 +865,7 @@ got_message_draft_cb (EMsgComposer *composer,
 		info, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DRAFT |
 		(camel_mime_message_has_attachment (message) ? CAMEL_MESSAGE_ATTACHMENTS : 0), ~0);
 
-	sta = g_new0 (SaveTemplateAsyncData, 1);
+	sta = g_slice_new0 (SaveTemplateAsyncData);
 	sta->composer = g_object_ref (composer);
 	sta->session = g_object_ref (session);
 	sta->message = message;

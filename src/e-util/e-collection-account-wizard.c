@@ -582,7 +582,7 @@ password_prompt_data_new (ECollectionAccountWizard *wizard,
 {
 	PasswordPromptData *ppd;
 
-	ppd = g_new0 (PasswordPromptData, 1);
+	ppd = g_slice_new0 (PasswordPromptData);
 	ppd->wizard = wizard;
 	ppd->worker = worker;
 	ppd->popover = popover;
@@ -600,7 +600,7 @@ password_prompt_data_free (gpointer data,
 
 	if (ppd) {
 		/* Nothing to free inside the structure */
-		g_free (ppd);
+		g_slice_free (PasswordPromptData, ppd);
 	}
 }
 

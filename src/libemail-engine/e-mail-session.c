@@ -372,7 +372,7 @@ archived_folder_changed_data_free (gpointer ptr)
 		g_free (data->service_uid);
 		g_free (data->old_folder_uri);
 		g_free (data->new_folder_uri);
-		g_free (data);
+		g_slice_free (ArchiveFolderChangedData, data);
 	}
 }
 
@@ -403,7 +403,7 @@ mail_session_schedule_archive_folder_changed_locked (EMailSession *session,
 {
 	ArchiveFolderChangedData *data;
 
-	data = g_new0 (ArchiveFolderChangedData, 1);
+	data = g_slice_new0 (ArchiveFolderChangedData);
 	data->session = e_weak_ref_new (session);
 	data->service_uid = g_strdup (service_uid);
 	data->old_folder_uri = g_strdup (old_folder_uri);

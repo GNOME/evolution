@@ -141,7 +141,7 @@ copy_source_data_free (gpointer ptr)
 		g_clear_object (&csd->from_source);
 		g_clear_object (&csd->to_source);
 		g_clear_object (&csd->to_client);
-		g_free (csd);
+		g_slice_free (CopySourceData, csd);
 	}
 }
 
@@ -322,7 +322,7 @@ e_cal_dialogs_copy_source (GtkWindow *parent,
 		gchar *display_name;
 		gchar *description;
 
-		csd = g_new0 (CopySourceData, 1);
+		csd = g_slice_new0 (CopySourceData);
 		csd->model = g_object_ref (model);
 		csd->from_source = g_object_ref (from_source);
 		csd->to_source = g_object_ref (to_source);

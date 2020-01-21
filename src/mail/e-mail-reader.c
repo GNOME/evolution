@@ -558,7 +558,7 @@ delete_note_data_free (gpointer ptr)
 	if (dnd) {
 		g_clear_object (&dnd->folder);
 		g_free (dnd->uid);
-		g_free (dnd);
+		g_slice_free (DeleteNoteData, dnd);
 	}
 }
 
@@ -598,7 +598,7 @@ action_mail_delete_note_cb (GtkAction *action,
 		if (mail_reader_replace_vee_folder_with_real (&folder, uid, &real_uid))
 			uid = real_uid;
 
-		dnd = g_new0 (DeleteNoteData, 1);
+		dnd = g_slice_new0 (DeleteNoteData);
 		dnd->folder = g_object_ref (folder);
 		dnd->uid = g_strdup (uid);
 
@@ -1195,7 +1195,7 @@ mail_reader_new_composer_created_cb (GObject *source_object,
 	g_clear_object (&ccd->message);
 	g_clear_object (&ccd->folder);
 	camel_pstring_free (ccd->message_uid);
-	g_free (ccd);
+	g_slice_free (CreateComposerData, ccd);
 }
 
 static void
@@ -1228,7 +1228,7 @@ action_mail_message_new_cb (GtkAction *action,
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->reader = g_object_ref (reader);
 	ccd->folder = folder;
 	ccd->message_uid = camel_pstring_strdup (selected_uid);
@@ -1503,7 +1503,7 @@ mail_reader_redirect_cb (CamelFolder *folder,
 	backend = e_mail_reader_get_backend (closure->reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->reader = g_object_ref (closure->reader);
 	ccd->message = message;
 	ccd->message_uid = camel_pstring_strdup (closure->message_uid);

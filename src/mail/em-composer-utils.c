@@ -1757,7 +1757,7 @@ create_composer_data_free (gpointer ptr)
 		g_clear_object (&ccd->folder);
 		camel_pstring_free (ccd->message_uid);
 		g_free (ccd->mailto);
-		g_free (ccd);
+		g_slice_free (CreateComposerData, ccd);
 	}
 }
 
@@ -1869,7 +1869,7 @@ em_utils_compose_new_message_with_mailto_and_selection (EShell *shell,
 	if (folder)
 		g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->folder = folder ? g_object_ref (folder) : NULL;
 	ccd->message_uid = camel_pstring_strdup (message_uid);
 	ccd->mailto = g_strdup (mailto);
@@ -3738,7 +3738,7 @@ alt_reply_context_free (gpointer ptr)
 		g_clear_object (&context->source);
 		g_clear_object (&context->new_message);
 		g_free (context->message_uid);
-		g_free (context);
+		g_slice_free (AltReplyContext, context);
 	}
 }
 
@@ -4338,7 +4338,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 		CamelFolder *template_folder = NULL;
 		gchar *template_message_uid = NULL;
 
-		context = g_new0 (AltReplyContext, 1);
+		context = g_slice_new0 (AltReplyContext);
 		context->shell = g_object_ref (shell);
 		context->alert_sink = g_object_ref (alert_sink);
 		context->source_message = g_object_ref (message);

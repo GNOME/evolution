@@ -98,7 +98,7 @@ emit_data_free (gpointer ptr)
 		g_clear_object (&ed->worker);
 		g_clear_object (&ed->cancellable);
 		g_clear_error (&ed->error);
-		g_free (ed);
+		g_slice_free (EmitData, ed);
 	}
 }
 
@@ -136,7 +136,7 @@ config_lookup_schedule_emit_idle (EConfigLookup *config_lookup,
 	if (worker)
 		g_return_if_fail (E_IS_CONFIG_LOOKUP_WORKER (worker));
 
-	ed = g_new0 (EmitData, 1);
+	ed = g_slice_new0 (EmitData);
 	ed->config_lookup = g_object_ref (config_lookup);
 	ed->flags = emit_flags;
 	ed->worker = worker ? g_object_ref (worker) : NULL;
@@ -204,7 +204,7 @@ config_lookup_thread (gpointer data,
 	g_clear_object (&td->worker);
 	g_clear_object (&td->cancellable);
 	g_clear_error (&error);
-	g_free (td);
+	g_slice_free (ThreadData, td);
 }
 
 static void
@@ -803,7 +803,7 @@ e_config_lookup_run_worker (EConfigLookup *config_lookup,
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_WORKER (worker));
 	g_return_if_fail (params != NULL);
 
-	td = g_new0 (ThreadData, 1);
+	td = g_slice_new0 (ThreadData);
 	td->params = e_named_parameters_new_clone (params);
 	td->worker = g_object_ref (worker);
 

@@ -184,7 +184,7 @@ create_composer_data_free (CreateComposerData *ccd)
 	if (ccd) {
 		g_clear_object (&ccd->message);
 		g_clear_object (&ccd->folder);
-		g_free (ccd);
+		g_slice_free (CreateComposerData, ccd);
 	}
 }
 
@@ -243,7 +243,7 @@ mail_attachment_handler_forward_with_style (EAttachmentHandler *handler,
 	folder = mail_attachment_handler_guess_folder_ref (handler);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->message = message;
 	ccd->folder = folder;
 	ccd->is_forward = TRUE;
@@ -284,7 +284,7 @@ mail_attachment_handler_reply (EAttachmentHandler *handler,
 	shell_backend = E_SHELL_BACKEND (priv->backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->message = message;
 	ccd->reply_type = reply_type;
 	ccd->is_reply = TRUE;
@@ -331,7 +331,7 @@ mail_attachment_handler_message_edit (GtkAction *action,
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
 	folder = mail_attachment_handler_guess_folder_ref (handler);
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->message = message;
 	ccd->folder = folder;
 
@@ -374,7 +374,7 @@ mail_attachment_handler_redirect (GtkAction *action,
 
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (priv->backend));
 
-	ccd = g_new0 (CreateComposerData, 1);
+	ccd = g_slice_new0 (CreateComposerData);
 	ccd->message = message;
 	ccd->folder = NULL;
 	ccd->is_redirect = TRUE;

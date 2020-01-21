@@ -350,7 +350,7 @@ handle_uri_data_free (gpointer ptr)
 	g_free (hud->source_uid);
 	g_free (hud->comp_uid);
 	g_free (hud->comp_rid);
-	g_free (hud);
+	g_slice_free (HandleUriData, hud);
 }
 
 static void
@@ -669,7 +669,7 @@ e_cal_base_shell_backend_util_handle_uri (EShellBackend *shell_backend,
 		gchar *description = NULL, *alert_ident = NULL, *alert_arg_0 = NULL;
 		gchar *source_display_name = NULL;
 
-		hud = g_new0 (HandleUriData, 1);
+		hud = g_slice_new0 (HandleUriData);
 		hud->shell_backend = g_object_ref (shell_backend);
 		hud->source_type = source_type;
 		hud->source_uid = g_strdup (source_uid);

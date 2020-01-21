@@ -990,7 +990,7 @@ name_email_pair_new (const gchar *name,
 {
 	NameEmailPair *nep;
 
-	nep = g_new (NameEmailPair, 1);
+	nep = g_slice_new (NameEmailPair);
 	nep->name = g_strdup (name);
 	nep->email = g_strdup (email);
 
@@ -1005,7 +1005,7 @@ name_email_pair_free (gpointer ptr)
 	if (nep) {
 		g_free (nep->name);
 		g_free (nep->email);
-		g_free (nep);
+		g_slice_free (NameEmailPair, nep);
 	}
 }
 

@@ -804,7 +804,7 @@ save_and_close_data_free (gpointer ptr)
 		else
 			g_clear_object (&scd->notes_editor);
 		g_clear_object (&scd->inner_message);
-		g_free (scd);
+		g_slice_free (SaveAndCloseData, scd);
 	}
 }
 
@@ -851,7 +851,7 @@ action_save_and_close_cb (GtkAction *action,
 
 	g_return_if_fail (E_IS_MAIL_NOTES_EDITOR (notes_editor));
 
-	scd = g_new0 (SaveAndCloseData, 1);
+	scd = g_slice_new0 (SaveAndCloseData);
 	scd->notes_editor = g_object_ref (notes_editor);
 	scd->inner_message = e_mail_notes_editor_encode_text_to_message (notes_editor);
 	scd->success = FALSE;
@@ -1124,7 +1124,7 @@ async_data_free (gpointer ptr)
 		g_clear_object (&ad->parent);
 		g_clear_object (&ad->folder);
 		g_free (ad->uid);
-		g_free (ad);
+		g_slice_free (AsyncData, ad);
 	}
 }
 
@@ -1176,7 +1176,7 @@ e_mail_notes_edit (GtkWindow *parent,
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uid != NULL);
 
-	ad = g_new0 (AsyncData, 1);
+	ad = g_slice_new0 (AsyncData);
 	ad->parent = parent ? g_object_ref (parent) : NULL;
 	ad->folder = g_object_ref (folder);
 	ad->uid = g_strdup (uid);

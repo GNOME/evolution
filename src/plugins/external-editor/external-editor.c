@@ -226,7 +226,7 @@ update_composer_text (gpointer user_data)
 
 	g_clear_object (&eed->composer);
 	g_free (eed->content);
-	g_free (eed);
+	g_slice_free (struct ExternalEditorData, eed);
 
 	return FALSE;
 }
@@ -239,15 +239,17 @@ struct run_error_dialog_data
 
 /* needed because the new thread needs to call g_idle_add () */
 static gboolean
-run_error_dialog (struct run_error_dialog_data *data)
+run_error_dialog (gpointer user_data)
 {
+	struct run_error_dialog_data *data = user_data;
+
 	g_return_val_if_fail (data != NULL, FALSE);
 
 	e_alert_run_dialog_for_args (GTK_WINDOW (data->composer), data->text, NULL);
 	enable_composer (data->composer);
 
 	g_clear_object (&data->composer);
-	g_free (data);
+	g_slice_free (struct run_error_dialog_data, data);
 
 	return FALSE;
 }
@@ -302,14 +304,14 @@ external_editor_thread (gpointer user_data)
 	} else {
 		struct run_error_dialog_data *data;
 
-		data = g_new0 (struct run_error_dialog_data, 1);
+		data = g_slice_new0 (struct run_error_dialog_data);
 		data->composer = g_object_ref (eed->composer);
 		data->text = "org.gnome.evolution.plugins.external-editor:no-temp-file";
 
 		g_warning ("Temporary file fd is null");
 
 		/* run_error_dialog also calls enable_composer */
-		g_idle_add ((GSourceFunc) run_error_dialog, data);
+		g_idle_add (run_error_dialog, data);
 
 		goto finished;
 	}
@@ -354,12 +356,12 @@ external_editor_thread (gpointer user_data)
 
 		g_warning ("Unable to launch %s: ", editor_cmd_line);
 
-		data = g_new0 (struct run_error_dialog_data, 1);
+		data = g_slice_new0 (struct run_error_dialog_data);
 		data->composer = g_object_ref (eed->composer);
 		data->text = "org.gnome.evolution.plugins.external-editor:editor-not-launchable";
 
 		/* run_error_dialog also calls enable_composer */
-		g_idle_add ((GSourceFunc) run_error_dialog, data);
+		g_idle_add (run_error_dialog, data);
 
 		g_free (filename);
 		g_free (editor_cmd_line);
@@ -383,7 +385,7 @@ external_editor_thread (gpointer user_data)
 		if (g_file_get_contents (filename, &buf, NULL, NULL)) {
 			struct ExternalEditorData *eed2;
 
-			eed2 = g_new0 (struct ExternalEditorData, 1);
+			eed2 = g_slice_new0 (struct ExternalEditorData);
 			eed2->composer = g_object_ref (eed->composer);
 			eed2->content =  camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 
@@ -405,7 +407,7 @@ finished:
 
 	g_clear_object (&eed->composer);
 	g_free (eed->content);
-	g_free (eed);
+	g_slice_free (struct ExternalEditorData, eed);
 
 	return NULL;
 }
@@ -433,7 +435,7 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 	external_editor_running = TRUE;
 	g_mutex_unlock (&external_editor_running_lock);
 
-	eed = g_new0 (struct ExternalEditorData, 1);
+	eed = g_slice_new0 (struct ExternalEditorData);
 	eed->composer = g_object_ref (composer);
 	eed->content = e_content_editor_get_content (cnt_editor,
 		E_CONTENT_EDITOR_GET_TEXT_PLAIN |

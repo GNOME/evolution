@@ -337,7 +337,7 @@ view_state_changed_data_free (gpointer ptr)
 		g_clear_object (&vscd->view);
 		g_clear_error (&vscd->error);
 		g_free (vscd->message);
-		g_free (vscd);
+		g_slice_free (ViewStateChangedData, vscd);
 	}
 }
 
@@ -372,7 +372,7 @@ cal_data_model_emit_view_state_changed (ECalDataModel *data_model,
 	if (e_cal_data_model_get_disposing (data_model))
 		return;
 
-	vscd = g_new0 (ViewStateChangedData, 1);
+	vscd = g_slice_new0 (ViewStateChangedData);
 	vscd->data_model = g_object_ref (data_model);
 	vscd->view = g_object_ref (view);
 	vscd->state = state;
@@ -405,7 +405,7 @@ cal_data_model_internal_thread_job_func (gpointer data,
 	job_data->func (job_data->data_model, job_data->user_data);
 
 	g_object_unref (job_data->data_model);
-	g_free (job_data);
+	g_slice_free (InternalThreadJobData, job_data);
 }
 
 static void
@@ -418,7 +418,7 @@ cal_data_model_submit_internal_thread_job (ECalDataModel *data_model,
 	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
 	g_return_if_fail (func != NULL);
 
-	job_data = g_new0 (InternalThreadJobData, 1);
+	job_data = g_slice_new0 (InternalThreadJobData);
 	job_data->data_model = g_object_ref (data_model);
 	job_data->func = func;
 	job_data->user_data = user_data;
@@ -1080,7 +1080,7 @@ cal_data_model_notify_recurrences_cb (gpointer user_data)
 
 	g_clear_object (&notif_data->client);
 	g_clear_object (&notif_data->data_model);
-	g_free (notif_data);
+	g_slice_free (NotifyRecurrencesData, notif_data);
 
 	return FALSE;
 }
@@ -1232,7 +1232,7 @@ cal_data_model_expand_recurrences_thread (ECalDataModel *data_model,
 	if (view_data->is_used) {
 		NotifyRecurrencesData *notif_data;
 
-		notif_data = g_new0 (NotifyRecurrencesData, 1);
+		notif_data = g_slice_new0 (NotifyRecurrencesData);
 		notif_data->data_model = g_object_ref (data_model);
 		notif_data->client = g_object_ref (client);
 
@@ -1561,7 +1561,7 @@ create_view_data_free (gpointer ptr)
 	if (cv_data) {
 		g_clear_object (&cv_data->data_model);
 		g_clear_object (&cv_data->client);
-		g_free (cv_data);
+		g_slice_free (CreateViewData, cv_data);
 	}
 }
 
@@ -1766,7 +1766,7 @@ cal_data_model_update_client_view (ECalDataModel *data_model,
 			return;
 	}
 
-	cv_data = g_new0 (CreateViewData, 1);
+	cv_data = g_slice_new0 (CreateViewData);
 	cv_data->data_model = g_object_ref (data_model);
 	cv_data->client = g_object_ref (client);
 

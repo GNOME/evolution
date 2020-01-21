@@ -722,7 +722,7 @@ create_editor_data_free (gpointer ptr)
 	if (ced) {
 		g_clear_object (&ced->registry);
 		g_clear_object (&ced->source);
-		g_free (ced);
+		g_slice_free (CreateEditorData, ced);
 	}
 }
 
@@ -804,7 +804,7 @@ e_mail_signature_editor_new (ESourceRegistry *registry,
 	if (source != NULL)
 		g_return_if_fail (E_IS_SOURCE (source));
 
-	ced = g_new0 (CreateEditorData, 1);
+	ced = g_slice_new0 (CreateEditorData);
 	ced->registry = g_object_ref (registry);
 	ced->source = source ? g_object_ref (source) : NULL;
 

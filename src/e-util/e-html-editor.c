@@ -504,7 +504,7 @@ context_menu_data_free (gpointer ptr)
 	if (cmd) {
 		g_clear_pointer (&cmd->event, gdk_event_free);
 		e_weak_ref_free (cmd->editor_weakref);
-		g_free (cmd);
+		g_slice_free (ContextMenuData, cmd);
 	}
 }
 
@@ -560,7 +560,7 @@ html_editor_context_menu_requested_cb (EContentEditor *cnt_editor,
 
 	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), FALSE);
 
-	cmd = g_new0 (ContextMenuData, 1);
+	cmd = g_slice_new0 (ContextMenuData);
 	cmd->editor_weakref = e_weak_ref_new (editor);
 	cmd->flags = flags;
 	cmd->event = gdk_event_copy (event);

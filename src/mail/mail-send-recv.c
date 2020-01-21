@@ -633,7 +633,7 @@ report_error_to_ui_cb (gpointer user_data)
 	g_error_free (data->error);
 	if (data->send_failed_uids)
 		g_ptr_array_unref (data->send_failed_uids);
-	g_free (data);
+	g_slice_free (struct ReportErrorToUIData, data);
 
 	return FALSE;
 }
@@ -669,7 +669,7 @@ report_error_to_ui (CamelService *service,
 		ident = "mail:failed-connect";
 	}
 
-	data = g_new0 (struct ReportErrorToUIData, 1);
+	data = g_slice_new0 (struct ReportErrorToUIData);
 	data->display_name = g_strdup (display_name);
 	data->error_ident = g_strdup (ident);
 	data->error = g_error_copy (error);
