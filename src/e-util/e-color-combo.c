@@ -68,57 +68,6 @@ enum {
 static guint signals[LAST_SIGNAL];
 static GdkRGBA black = { 0, 0, 0, 1 };
 
-static struct {
-	const gchar *color;
-	const gchar *tooltip;
-} default_colors[] = {
-
-	{ "#000000", N_("black") },
-	{ "#993300", N_("light brown") },
-	{ "#333300", N_("brown gold") },
-	{ "#003300", N_("dark green #2") },
-	{ "#003366", N_("navy") },
-	{ "#000080", N_("dark blue") },
-	{ "#333399", N_("purple #2") },
-	{ "#333333", N_("very dark gray") },
-
-	{ "#800000", N_("dark red") },
-	{ "#FF6600", N_("red-orange") },
-	{ "#808000", N_("gold") },
-	{ "#008000", N_("dark green") },
-	{ "#008080", N_("dull blue") },
-	{ "#0000FF", N_("blue") },
-	{ "#666699", N_("dull purple") },
-	{ "#808080", N_("dark grey") },
-
-	{ "#FF0000", N_("red") },
-	{ "#FF9900", N_("orange") },
-	{ "#99CC00", N_("lime") },
-	{ "#339966", N_("dull green") },
-	{ "#33CCCC", N_("dull blue #2") },
-	{ "#3366FF", N_("sky blue #2") },
-	{ "#800080", N_("purple") },
-	{ "#969696", N_("gray") },
-
-	{ "#FF00FF", N_("magenta") },
-	{ "#FFCC00", N_("bright orange") },
-	{ "#FFFF00", N_("yellow") },
-	{ "#00FF00", N_("green") },
-	{ "#00FFFF", N_("cyan") },
-	{ "#00CCFF", N_("bright blue") },
-	{ "#993366", N_("red purple") },
-	{ "#C0C0C0", N_("light grey") },
-
-	{ "#FF99CC", N_("pink") },
-	{ "#FFCC99", N_("light orange") },
-	{ "#FFFF99", N_("light yellow") },
-	{ "#CCFFCC", N_("light green") },
-	{ "#CCFFFF", N_("light cyan") },
-	{ "#99CCFF", N_("light blue") },
-	{ "#CC99FF", N_("light purple") },
-	{ "#FFFFFF", N_("white") }
-};
-
 G_DEFINE_TYPE (
 	EColorCombo,
 	e_color_combo,
@@ -618,10 +567,61 @@ e_color_combo_class_init (EColorComboClass *class)
 static void
 e_color_combo_init (EColorCombo *combo)
 {
+	struct {
+		const gchar *color;
+		const gchar *tooltip;
+		GdkRGBA rgba;
+	} default_colors[] = {
+
+		{ "#000000", N_("black"), { 0, } },
+		{ "#993300", N_("light brown"), { 0, } },
+		{ "#333300", N_("brown gold"), { 0, } },
+		{ "#003300", N_("dark green #2"), { 0, } },
+		{ "#003366", N_("navy"), { 0, } },
+		{ "#000080", N_("dark blue"), { 0, } },
+		{ "#333399", N_("purple #2"), { 0, } },
+		{ "#333333", N_("very dark gray"), { 0, } },
+
+		{ "#800000", N_("dark red"), { 0, } },
+		{ "#FF6600", N_("red-orange"), { 0, } },
+		{ "#808000", N_("gold"), { 0, } },
+		{ "#008000", N_("dark green"), { 0, } },
+		{ "#008080", N_("dull blue"), { 0, } },
+		{ "#0000FF", N_("blue"), { 0, } },
+		{ "#666699", N_("dull purple"), { 0, } },
+		{ "#808080", N_("dark grey"), { 0, } },
+
+		{ "#FF0000", N_("red"), { 0, } },
+		{ "#FF9900", N_("orange"), { 0, } },
+		{ "#99CC00", N_("lime"), { 0, } },
+		{ "#339966", N_("dull green"), { 0, } },
+		{ "#33CCCC", N_("dull blue #2"), { 0, } },
+		{ "#3366FF", N_("sky blue #2"), { 0, } },
+		{ "#800080", N_("purple"), { 0, } },
+		{ "#969696", N_("gray"), { 0, } },
+
+		{ "#FF00FF", N_("magenta"), { 0, } },
+		{ "#FFCC00", N_("bright orange"), { 0, } },
+		{ "#FFFF00", N_("yellow"), { 0, } },
+		{ "#00FF00", N_("green"), { 0, } },
+		{ "#00FFFF", N_("cyan"), { 0, } },
+		{ "#00CCFF", N_("bright blue"), { 0, } },
+		{ "#993366", N_("red purple"), { 0, } },
+		{ "#C0C0C0", N_("light grey"), { 0, } },
+
+		{ "#FF99CC", N_("pink"), { 0, } },
+		{ "#FFCC99", N_("light orange"), { 0, } },
+		{ "#FFFF99", N_("light yellow"), { 0, } },
+		{ "#CCFFCC", N_("light green"), { 0, } },
+		{ "#CCFFFF", N_("light cyan"), { 0, } },
+		{ "#99CCFF", N_("light blue"), { 0, } },
+		{ "#CC99FF", N_("light purple"), { 0, } },
+		{ "#FFFFFF", N_("white"), { 0, } }
+	};
 	GtkWidget *container;
 	GtkWidget *widget;
 	GList *palette;
-	guint ii;
+	gint ii;
 
 	combo->priv = E_COLOR_COMBO_GET_PRIVATE (combo);
 
@@ -698,15 +698,13 @@ e_color_combo_init (EColorCombo *combo)
 		G_CALLBACK (color_combo_popdown), combo);
 
 	palette = NULL;
-	for (ii = 0; ii < G_N_ELEMENTS (default_colors); ii++) {
-		GdkRGBA *color = g_new0 (GdkRGBA, 1);
-		gdk_rgba_parse (color, default_colors[ii].color);
+	for (ii = G_N_ELEMENTS (default_colors) - 1; ii >= 0 ; ii--) {
+		gdk_rgba_parse (&(default_colors[ii].rgba), default_colors[ii].color);
 
-		palette = g_list_prepend (palette, color);
+		palette = g_list_prepend (palette, &(default_colors[ii].rgba));
 	}
-	palette = g_list_reverse (palette);
 	e_color_combo_set_palette (combo, palette);
-	g_list_free_full (palette, (GDestroyNotify) g_free);
+	g_list_free (palette);
 
 	combo->priv->current_color = gdk_rgba_copy (&black);
 	combo->priv->default_color = gdk_rgba_copy (&black);

@@ -1872,51 +1872,54 @@ ecepp_color_notify_current_color_cb (EColorCombo *color_combo,
 static void
 ecepp_color_set_palette (GtkWidget *color_combo)
 {
-	const gchar *colors[] = {
-		"black",
-		"saddlebrown",
-		"rosybrown",
-		"darkgreen",
-		"midnightblue",
-		"navy",
-		"darkslateblue",
-		"darkslategray",
-		"maroon",
+	struct _colors {
+		const gchar *name;
+		GdkRGBA rgba;
+	} colors[] = {
+		{ "black", { 0, } },
+		{ "saddlebrown", { 0, } },
+		{ "rosybrown", { 0, } },
+		{ "darkgreen", { 0, } },
+		{ "midnightblue", { 0, } },
+		{ "navy", { 0, } },
+		{ "darkslateblue", { 0, } },
+		{ "darkslategray", { 0, } },
+		{ "maroon", { 0, } },
 
-		"orangered",
-		"olive",
-		"green",
-		"teal",
-		"blue",
-		"slategray",
-		"gray",
-		"red",
+		{ "orangered", { 0, } },
+		{ "olive", { 0, } },
+		{ "green", { 0, } },
+		{ "teal", { 0, } },
+		{ "blue", { 0, } },
+		{ "slategray", { 0, } },
+		{ "gray", { 0, } },
+		{ "red", { 0, } },
 
-		"orange",
-		"yellowgreen",
-		"seagreen",
-		"mediumturquoise",
-		"royalblue",
-		"purple",
-		"lightslategray",
-		"fuchsia",
+		{ "orange", { 0, } },
+		{ "yellowgreen", { 0, } },
+		{ "seagreen", { 0, } },
+		{ "mediumturquoise", { 0, } },
+		{ "royalblue", { 0, } },
+		{ "purple", { 0, } },
+		{ "lightslategray", { 0, } },
+		{ "fuchsia", { 0, } },
 
-		"gold",
-		"yellow",
-		"lime",
-		"aqua",
-		"deepskyblue",
-		"brown",
-		"silver",
-		"lightpink",
+		{ "gold", { 0, } },
+		{ "yellow", { 0, } },
+		{ "lime", { 0, } },
+		{ "aqua", { 0, } },
+		{ "deepskyblue", { 0, } },
+		{ "brown", { 0, } },
+		{ "silver", { 0, } },
+		{ "lightpink", { 0, } },
 
-		"navajowhite",
-		"khaki",
-		"beige",
-		"lightcyan",
-		"lightskyblue",
-		"plum",
-		"white"
+		{ "navajowhite", { 0, } },
+		{ "khaki", { 0, } },
+		{ "beige", { 0, } },
+		{ "lightcyan", { 0, } },
+		{ "lightskyblue", { 0, } },
+		{ "plum", { 0, } },
+		{ "white", { 0, } }
 	};
 	GList *palette = NULL;
 	gint ii;
@@ -1924,18 +1927,14 @@ ecepp_color_set_palette (GtkWidget *color_combo)
 	g_return_if_fail (E_IS_COLOR_COMBO (color_combo));
 
 	for (ii = G_N_ELEMENTS (colors) - 1; ii >= 0 ; ii--) {
-		GdkRGBA *rgba;
+		g_warn_if_fail (gdk_rgba_parse (&(colors[ii].rgba), colors[ii].name));
 
-		rgba = g_new0 (GdkRGBA, 1);
-
-		g_warn_if_fail (gdk_rgba_parse (rgba, colors[ii]));
-
-		palette = g_list_prepend (palette, rgba);
+		palette = g_list_prepend (palette, &(colors[ii].rgba));
 	}
 
 	e_color_combo_set_palette (E_COLOR_COMBO (color_combo), palette);
 
-	g_list_free_full (palette, g_free);
+	g_list_free (palette);
 }
 
 static void
