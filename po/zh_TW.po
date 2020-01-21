@@ -11,15 +11,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-11-27 14:30+0000\n"
-"PO-Revision-Date: 2019-11-27 22:37+0800\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
+"POT-Creation-Date: 2020-01-20 11:56+0000\n"
+"PO-Revision-Date: 2020-01-21 22:59+0800\n"
+"Last-Translator: Yi-Jyun Pan <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.11.80\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Pootle-Path: /zh_TW/gnome/evolution/zh_TW.po\n"
 "X-Pootle-Revision: 239\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -518,7 +518,8 @@ msgstr "水平窗格位置"
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels"
-msgstr "水平窗格的位置，當不在月檢視中時，在日期導覽行事曆與工作列表之間，以像素計"
+msgstr ""
+"水平窗格的位置，當不在月檢視中時，在日期導覽行事曆與工作列表之間，以像素計"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
 msgid "Last reminder time"
@@ -590,7 +591,8 @@ msgstr "月檢視的水平窗格位置"
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels"
-msgstr "水平窗格的位置，在月檢視中的檢視視窗與日期導覽行事曆、工作列表之間，以像素計"
+msgstr ""
+"水平窗格的位置，在月檢視中的檢視視窗與日期導覽行事曆、工作列表之間，以像素計"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:90
 msgid "Scroll Month View by a week, not by a month"
@@ -777,7 +779,8 @@ msgstr "過期的工作色彩"
 msgid ""
 "Background color of tasks that are overdue, in “#rrggbb” format. Used "
 "together with task-overdue-highlight."
-msgstr "過期工作的背景顏色，使用「#rrggbb」格式。與 task-overdue-highlight 一起使用。"
+msgstr ""
+"過期工作的背景顏色，使用「#rrggbb」格式。與 task-overdue-highlight 一起使用。"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Time divisions"
@@ -895,7 +898,8 @@ msgstr "(已廢棄) 每週的開始，從星期日 (0) 到星期六 (6)"
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
-msgstr "這個設定鍵在 3.10 版中已廢棄不再使用。請使用「week-start-day-name」代替。"
+msgstr ""
+"這個設定鍵在 3.10 版中已廢棄不再使用。請使用「week-start-day-name」代替。"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "(Deprecated) Work days"
@@ -1094,7 +1098,8 @@ msgid ""
 "Users get all up in arms over where the cursor should go when replying to a "
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
-msgstr "使用者在回覆郵件時希望游標停在何處。這會決定游標放置在郵件的頂端或底部。"
+msgstr ""
+"使用者在回覆郵件時希望游標停在何處。這會決定游標放置在郵件的頂端或底部。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:27
 msgid "Always request read receipt"
@@ -1142,7 +1147,8 @@ msgstr "傳送郵件時顯示「密件副本」欄位"
 msgid ""
 "Show the “Bcc” field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
-msgstr "傳送郵件訊息時顯示「密件副本」欄位。這是在選取郵件帳號時由檢視選單所控制。"
+msgstr ""
+"傳送郵件訊息時顯示「密件副本」欄位。這是在選取郵件帳號時由檢視選單所控制。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:38
 msgid "Show “Cc” field when sending a mail message"
@@ -1162,7 +1168,8 @@ msgstr "傳送郵件訊息時顯示「寄件人」覆蓋欄位"
 msgid ""
 "Show the “From” override field when sending a mail message. This is "
 "controlled from the View menu when a mail account is chosen."
-msgstr "傳送郵件訊息時顯示「寄件人」覆蓋欄位。這是在選取郵件帳號時由檢視選單所控制。"
+msgstr ""
+"傳送郵件訊息時顯示「寄件人」覆蓋欄位。這是在選取郵件帳號時由檢視選單所控制。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:42
 msgid "Show “Reply To” field when sending a mail message"
@@ -1182,7 +1189,8 @@ msgstr "張貼到新聞群組時顯示「寄件者」欄位"
 msgid ""
 "Show the “From” field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
-msgstr "張貼到新聞群組時顯示「寄件者」欄位。這是在選取郵件帳號時由檢視選單所控制。"
+msgstr ""
+"張貼到新聞群組時顯示「寄件者」欄位。這是在選取郵件帳號時由檢視選單所控制。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid "Show “Reply To” field when posting to a newsgroup"
@@ -1192,7 +1200,8 @@ msgstr "張貼到新聞群組時顯示「回覆」欄位"
 msgid ""
 "Show the “Reply To” field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
-msgstr "張貼到新聞群組時顯示「回覆」欄位。這是在選取郵件帳號時由檢視選單所控制。"
+msgstr ""
+"張貼到新聞群組時顯示「回覆」欄位。這是在選取郵件帳號時由檢視選單所控制。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:48
 msgid "Digitally sign replies when the original message is signed"
@@ -1626,7 +1635,8 @@ msgstr "啟用未符合搜尋資料夾"
 msgid ""
 "Enable Unmatched search folder within Search Folders. It does nothing if "
 "Search Folders are disabled."
-msgstr "啟用搜尋資料夾中的未符合搜尋資料夾。如果搜尋資料夾停用則不會有任何動作。"
+msgstr ""
+"啟用搜尋資料夾中的未符合搜尋資料夾。如果搜尋資料夾停用則不會有任何動作。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:133
 msgid "Hides the per-folder preview and removes the selection"
@@ -1740,7 +1750,8 @@ msgstr "以主旨為基礎串接郵件列表"
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr "當郵件不包含 In-Reply-To 或 References 檔頭時，是否按照主旨放回郵件群組。"
+msgstr ""
+"當郵件不包含 In-Reply-To 或 References 檔頭時，是否按照主旨放回郵件群組。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Default value for thread expand state"
@@ -1807,7 +1818,8 @@ msgstr "用於記錄過濾器動作的記錄檔案"
 msgid ""
 "If not set, or being “stdout”, then the logging is done to stdout, instead "
 "to a file."
-msgstr "如果沒有設定，或是設定為“stdout”，紀錄會以標準輸出完成，而非輸出為檔案。"
+msgstr ""
+"如果沒有設定，或是設定為“stdout”，紀錄會以標準輸出完成，而非輸出為檔案。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:168
 msgid "Flush Outbox after filtering"
@@ -2011,7 +2023,8 @@ msgstr "當切換編輯器模式會導致內容失去現有格式時先提示"
 msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
-msgstr "它會停用/啟用重覆提示警告您正在切換編輯器模式而其中內容會失去先前的格式。"
+msgstr ""
+"它會停用/啟用重覆提示警告您正在切換編輯器模式而其中內容會失去先前的格式。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
 msgid "Prompt when sending to many To and CC recipients"
@@ -2192,7 +2205,8 @@ msgstr "檢查垃圾郵件用的自訂標頭。"
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format “headername=value”."
-msgstr "檢查垃圾郵件用的自訂標頭。此列表中的元素格式為「headername=value」字串。"
+msgstr ""
+"檢查垃圾郵件用的自訂標頭。此列表中的元素格式為「headername=value」字串。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:241
 msgid "UID string of the default account."
@@ -2271,7 +2285,8 @@ msgstr "繼承布景主題的顏色為 HTML 模式"
 msgid ""
 "When enabled the theme colors for background, text and links are sent in "
 "resulting HTML formatted message."
-msgstr "當啟用時，背景、文字與連結的布景主題顏色會一併送出，產生 HTML 格式的郵件。"
+msgstr ""
+"當啟用時，背景、文字與連結的布景主題顏色會一併送出，產生 HTML 格式的郵件。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:256
 msgid "An Archive folder for On This Computer folders."
@@ -2453,7 +2468,8 @@ msgstr "傳送/接收是否也要下載郵件供離線使用。"
 msgid ""
 "If enabled, whenever Send/Receive is run it also runs synchronization of "
 "messages for offline use. The option is disabled by default."
-msgstr "如果啟用，當傳送/接收執行時也同時會同步郵件供離線使用。這個選項預設是停用的。"
+msgstr ""
+"如果啟用，當傳送/接收執行時也同時會同步郵件供離線使用。這個選項預設是停用的。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "Whether display delivery notification parts inline."
@@ -2473,7 +2489,8 @@ msgstr "(已廢棄) 預設轉寄樣式"
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
-msgstr "這個設定鍵在 3.10 版中已廢棄不再使用。請使用「forward-style-name」代替。"
+msgstr ""
+"這個設定鍵在 3.10 版中已廢棄不再使用。請使用「forward-style-name」代替。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid "(Deprecated) Default reply style"
@@ -2503,7 +2520,8 @@ msgstr "(已廢棄) 透過 HTTP 載入 HTML 郵件的影像"
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
-msgstr "這個設定鍵在 3.10 版中已廢棄不再使用。請使用「image-loading-policy」代替。"
+msgstr ""
+"這個設定鍵在 3.10 版中已廢棄不再使用。請使用「image-loading-policy」代替。"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid ""
@@ -2723,7 +2741,8 @@ msgstr "要播放的聲音檔案名稱。"
 msgid ""
 "Sound file to be played when new messages arrive, if “notify-sound-play-"
 "file” is “true”."
-msgstr "新郵件送到時要播放的音效檔案，如果「notify-sound-play-file」設定為「true」。"
+msgstr ""
+"新郵件送到時要播放的音效檔案，如果「notify-sound-play-file」設定為「true」。"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:15
 msgid "Whether to play a sound file."
@@ -2733,7 +2752,8 @@ msgstr "是否播放音效檔。"
 msgid ""
 "Whether to play a sound file when new messages arrive. The name of the sound "
 "file is given by the “notify-sound-file” key."
-msgstr "是否在新郵件抵達時播放聲音檔案。聲音檔案的名稱是由「notify-sound-file」指定。"
+msgstr ""
+"是否在新郵件抵達時播放聲音檔案。聲音檔案的名稱是由「notify-sound-file」指定。"
 
 #: ../data/org.gnome.evolution.plugin.mail-notification.gschema.xml.in.h:17
 msgid "Use sound theme"
@@ -3038,7 +3058,8 @@ msgstr "管理您的郵件、連絡人和行程"
 msgid ""
 "Evolution is a personal information management application that provides "
 "integrated mail, calendaring and address book functionality."
-msgstr "Evolution 是一套個人資訊管理應用程式，提供了整合郵件、行事曆和通訊錄等功能。"
+msgstr ""
+"Evolution 是一套個人資訊管理應用程式，提供了整合郵件、行事曆和通訊錄等功能。"
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:4
 msgid ""
@@ -3066,7 +3087,8 @@ msgstr "Evolution 郵件與行事曆"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:5
 msgid "email;calendar;contact;addressbook;task;"
-msgstr "email;calendar;contact;addressbook;task;電子郵件;行事曆;連絡人;通訊錄;工作;"
+msgstr ""
+"email;calendar;contact;addressbook;task;電子郵件;行事曆;連絡人;通訊錄;工作;"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:6
 msgid "New Window"
@@ -3795,7 +3817,7 @@ msgstr "選項"
 #: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3963
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4047
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4044
 #: ../src/mail/em-folder-selector.c:318 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4731,7 +4753,8 @@ msgstr ""
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
-msgstr "我們無法開啟這個目錄服務。請檢查路徑 %s 是否存在而且權限已設定可以存取它。"
+msgstr ""
+"我們無法開啟這個目錄服務。請檢查路徑 %s 是否存在而且權限已設定可以存取它。"
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:151
 msgid ""
@@ -7166,7 +7189,7 @@ msgstr "開始時刻不是有效的時刻"
 #: ../src/e-util/e-misc-utils.c:4262 ../src/e-util/e-misc-utils.c:4274
 #: ../src/e-util/e-misc-utils.c:4288 ../src/mail/e-mail-autoconfig.c:1041
 #: ../src/mail/e-mail-display.c:2190 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3841 ../src/mail/em-composer-utils.c:3872
+#: ../src/mail/em-composer-utils.c:3838 ../src/mail/em-composer-utils.c:3869
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1496
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235
@@ -11030,7 +11053,7 @@ msgstr "儲存草稿"
 #: ../src/e-util/e-webdav-browser.c:2417
 #: ../src/e-util/gal-view-instance-save-as-dialog.ui.h:2
 #: ../src/mail/e-mail-config-identity-page.c:551
-#: ../src/mail/e-mail-config-summary-page.c:332
+#: ../src/mail/e-mail-config-summary-page.c:334
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:297
 msgid "_Name:"
 msgstr "名稱(_N)："
@@ -11047,7 +11070,8 @@ msgstr "輸入郵件副本的收件者"
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
-msgstr "輸入郵件密件副本的收件者，他們會收到這封郵件但不會出現在郵件的收件者列表"
+msgstr ""
+"輸入郵件密件副本的收件者，他們會收到這封郵件但不會出現在郵件的收件者列表"
 
 #: ../src/composer/e-composer-header-table.c:840
 msgid "Fr_om:"
@@ -11136,7 +11160,8 @@ msgstr "要復原未完成的郵件？"
 msgid ""
 "Evolution quit unexpectedly while you were composing a new message. "
 "Recovering the message will allow you to continue where you left off."
-msgstr "當您撰寫新郵件時，Evolution 意外結束。復原郵件可以讓您從原來中斷的地方繼續。"
+msgstr ""
+"當您撰寫新郵件時，Evolution 意外結束。復原郵件可以讓您從原來中斷的地方繼續。"
 
 #: ../src/composer/mail-composer.error.xml.h:7
 msgid "_Do not Recover"
@@ -11593,17 +11618,14 @@ msgstr ""
 "的內容。"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:271
-#| msgid "_View Certificate"
 msgid "View Certificate"
 msgstr "檢視憑證"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:278
-#| msgid "_Import Certificate"
 msgid "Import Certificate"
 msgstr "匯入憑證"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:320
-#| msgid "_Revise Details"
 msgid "Details"
 msgstr "詳細資訊"
 
@@ -11612,7 +11634,6 @@ msgid "Digital Signature"
 msgstr "數位簽章"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:418
-#| msgid "Sign"
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "簽署人："
@@ -11622,7 +11643,6 @@ msgid "Encryption"
 msgstr "加密"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:434
-#| msgid "Encrypted"
 msgid "Encrypted by:"
 msgstr "加密者："
 
@@ -11765,8 +11785,8 @@ msgstr "不支援的簽名格式"
 msgid "Reply-To"
 msgstr "回覆"
 
-#: ../src/em-format/e-mail-part-headers.c:52 ../src/e-util/e-dateedit.c:550
-#: ../src/e-util/e-dateedit.c:573 ../src/mail/message-list.etspec.h:7
+#: ../src/em-format/e-mail-part-headers.c:52 ../src/e-util/e-dateedit.c:557
+#: ../src/e-util/e-dateedit.c:580 ../src/mail/message-list.etspec.h:7
 #: ../src/modules/mail/em-mailer-prefs.c:66
 msgid "Date"
 msgstr "日期"
@@ -12541,7 +12561,7 @@ msgstr "選擇要設定哪個部分："
 
 #: ../src/e-util/e-collection-account-wizard.c:1993
 #: ../src/mail/e-mail-config-identity-page.c:542
-#: ../src/mail/e-mail-config-summary-page.c:323
+#: ../src/mail/e-mail-config-summary-page.c:325
 msgid "Account Information"
 msgstr "帳號資訊"
 
@@ -12724,49 +12744,49 @@ msgstr "正在執行…"
 msgid "Date and Time"
 msgstr "日期與時刻"
 
-#: ../src/e-util/e-dateedit.c:549
+#: ../src/e-util/e-dateedit.c:556
 msgid "Text entry to input date"
 msgstr "用來輸入日期的文字項目"
 
-#: ../src/e-util/e-dateedit.c:572
+#: ../src/e-util/e-dateedit.c:579
 msgid "Click this button to show a calendar"
 msgstr "按此按鈕以顯示行事曆"
 
-#: ../src/e-util/e-dateedit.c:627
+#: ../src/e-util/e-dateedit.c:634
 msgid "Drop-down combination box to select time"
 msgstr "用以選擇時刻的下拉式組合方塊"
 
-#: ../src/e-util/e-dateedit.c:628
+#: ../src/e-util/e-dateedit.c:635
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "時間"
 
-#: ../src/e-util/e-dateedit.c:702
+#: ../src/e-util/e-dateedit.c:712
 msgid "No_w"
 msgstr "現在(_W)"
 
-#: ../src/e-util/e-dateedit.c:709
+#: ../src/e-util/e-dateedit.c:719
 msgid "_Today"
 msgstr "今天(_T)"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
-#: ../src/e-util/e-dateedit.c:718
+#: ../src/e-util/e-dateedit.c:728
 msgid "_None"
 msgstr "沒有(_N)"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../src/e-util/e-dateedit.c:1877 ../src/e-util/e-dateedit.c:2118
+#: ../src/e-util/e-dateedit.c:1887 ../src/e-util/e-dateedit.c:2126
 msgctxt "date"
 msgid "None"
 msgstr "沒有"
 
-#: ../src/e-util/e-dateedit.c:2012 ../src/e-util/e-dateedit.c:2467
+#: ../src/e-util/e-dateedit.c:2022 ../src/e-util/e-dateedit.c:2475
 msgid "Invalid Date Value"
 msgstr "無效的日期數值"
 
-#: ../src/e-util/e-dateedit.c:2048 ../src/e-util/e-dateedit.c:2524
+#: ../src/e-util/e-dateedit.c:2057 ../src/e-util/e-dateedit.c:2532
 msgid "Invalid Time Value"
 msgstr "無效的時刻數值"
 
@@ -13136,7 +13156,7 @@ msgstr "尋找符合下列條件的項目"
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
 #: ../src/mail/e-mail-autoconfig.c:778
-#: ../src/mail/e-mail-config-summary-page.c:141
+#: ../src/mail/e-mail-config-summary-page.c:143
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:684
 msgid "None"
 msgstr "沒有"
@@ -13176,7 +13196,6 @@ msgid "Outgoing"
 msgstr "外寄"
 
 #: ../src/e-util/e-gtkemojichooser.c:753
-#| msgid "Receiving"
 msgid "Recent"
 msgstr "最近選擇"
 
@@ -13185,7 +13204,6 @@ msgid "Smileys & People"
 msgstr "微笑 & 人們"
 
 #: ../src/e-util/e-gtkemojichooser.c:758
-#| msgid "Body contains"
 msgid "Body & Clothing"
 msgstr "身體 & 衣料"
 
@@ -13202,12 +13220,10 @@ msgid "Travel & Places"
 msgstr "旅行 & 地方"
 
 #: ../src/e-util/e-gtkemojichooser.c:762
-#| msgid "Authorities"
 msgid "Activities"
 msgstr "活動"
 
 #: ../src/e-util/e-gtkemojichooser.c:763
-#| msgid "Subject"
 msgctxt "emoji category"
 msgid "Objects"
 msgstr "物件"
@@ -13222,7 +13238,6 @@ msgid "Flags"
 msgstr "旗標"
 
 #: ../src/e-util/e-gtkemojichooser.c:789
-#| msgid "No match found"
 msgid "No Results Found"
 msgstr "未找到結果"
 
@@ -13316,7 +13331,6 @@ msgid "E_moji"
 msgstr "顏文字(_M)"
 
 #: ../src/e-util/e-html-editor-actions.c:1060
-#| msgid "Insert Emoticon"
 msgid "Insert Emoji"
 msgstr "插入顏文字"
 
@@ -14315,7 +14329,7 @@ msgid "Click “Apply” to begin importing the file into Evolution."
 msgstr "按「套用」開始將檔案匯入到 Evolution。"
 
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
-#: ../src/mail/e-mail-config-provider-page.c:580
+#: ../src/mail/e-mail-config-provider-page.c:583
 msgid "minutes"
 msgstr "分鐘"
 
@@ -14882,33 +14896,33 @@ msgstr "返回通知"
 msgid "Sta_tus Tracking"
 msgstr "狀態追蹤(_T)"
 
-#: ../src/e-util/e-source-config.c:724 ../src/e-util/e-source-config.c:728
+#: ../src/e-util/e-source-config.c:725 ../src/e-util/e-source-config.c:729
 msgid "Type:"
 msgstr "類型："
 
-#: ../src/e-util/e-source-config.c:738 ../src/e-util/e-source-config.c:742
+#: ../src/e-util/e-source-config.c:739 ../src/e-util/e-source-config.c:743
 msgid "Name:"
 msgstr "名稱："
 
-#: ../src/e-util/e-source-config.c:849 ../src/e-util/e-webdav-browser.c:1752
+#: ../src/e-util/e-source-config.c:850 ../src/e-util/e-webdav-browser.c:1752
 msgid "Name cannot be empty"
 msgstr "名字不能為空"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1416
+#: ../src/e-util/e-source-config.c:1417
 msgid "Refresh every"
 msgstr "重新整理於每"
 
-#: ../src/e-util/e-source-config.c:1446 ../src/e-util/e-source-config.c:1520
+#: ../src/e-util/e-source-config.c:1447 ../src/e-util/e-source-config.c:1521
 msgid "Use a secure connection"
 msgstr "使用安全連線"
 
-#: ../src/e-util/e-source-config.c:1547
+#: ../src/e-util/e-source-config.c:1548
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "取消設定 SSL/_TLS 憑證的信任"
 
-#: ../src/e-util/e-source-config.c:1583
+#: ../src/e-util/e-source-config.c:1584
 msgid "User:"
 msgstr "使用者："
 
@@ -15357,8 +15371,8 @@ msgstr "通訊錄"
 msgid "Events"
 msgstr "事件"
 
-#: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1553
-#: ../src/mail/em-folder-tree-model.c:1930
+#: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1555
+#: ../src/mail/em-folder-tree-model.c:1932
 msgid "Loading…"
 msgstr "正在載入..."
 
@@ -15873,7 +15887,7 @@ msgstr "無效的資料夾 URI「%s」"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:120
 #: ../src/mail/em-folder-properties.c:1444
-#: ../src/mail/em-folder-tree-model.c:1501
+#: ../src/mail/em-folder-tree-model.c:1503
 #: ../src/mail/importers/kmail-libs.c:138
 #: ../src/modules/mail/e-mail-shell-view-private.c:1032
 #: ../src/modules/mail/e-mail-shell-view-private.c:1043
@@ -15882,7 +15896,7 @@ msgstr "收件匣"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:121
-#: ../src/mail/em-folder-tree-model.c:1495
+#: ../src/mail/em-folder-tree-model.c:1497
 #: ../src/mail/importers/kmail-libs.c:144
 #: ../src/modules/mail/e-mail-shell-view-private.c:1030
 msgid "Drafts"
@@ -15890,7 +15904,7 @@ msgstr "草稿"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1505
+#: ../src/mail/em-folder-tree-model.c:1507
 #: ../src/mail/importers/kmail-libs.c:140
 #: ../src/modules/mail/e-mail-shell-view-private.c:1034
 msgid "Outbox"
@@ -15898,7 +15912,7 @@ msgstr "寄件匣"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1509
+#: ../src/mail/em-folder-tree-model.c:1511
 #: ../src/mail/importers/kmail-libs.c:142
 #: ../src/modules/mail/e-mail-shell-view-private.c:1036
 msgid "Sent"
@@ -15907,7 +15921,7 @@ msgstr "已傳送"
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:124
 #: ../src/mail/e-mail-templates-store.c:2211
-#: ../src/mail/em-folder-tree-model.c:1497
+#: ../src/mail/em-folder-tree-model.c:1499
 #: ../src/mail/importers/kmail-libs.c:146
 #: ../src/modules/mail/e-mail-shell-view-private.c:1038
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
@@ -16204,12 +16218,12 @@ msgid "Security method: %s"
 msgstr "安全性方法：%s"
 
 #: ../src/mail/e-mail-autoconfig.c:777
-#: ../src/mail/e-mail-config-summary-page.c:144
+#: ../src/mail/e-mail-config-summary-page.c:146
 msgid "TLS"
 msgstr "TLS"
 
 #: ../src/mail/e-mail-autoconfig.c:778
-#: ../src/mail/e-mail-config-summary-page.c:147
+#: ../src/mail/e-mail-config-summary-page.c:149
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
@@ -16340,7 +16354,7 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "回覆和轉傳屬性文字的語言"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4145 ../src/mail/mail-config.ui.h:22
+#: ../src/mail/em-composer-utils.c:4142 ../src/mail/mail-config.ui.h:22
 msgid "Start _typing at the bottom"
 msgstr "從底部開始輸入(_T)"
 
@@ -16470,7 +16484,7 @@ msgstr ""
 "的郵件內包含這些資訊。"
 
 #: ../src/mail/e-mail-config-identity-page.c:580
-#: ../src/mail/e-mail-config-summary-page.c:353
+#: ../src/mail/e-mail-config-summary-page.c:355
 msgid ""
 "The above name will be used to identify this account.\n"
 "Use for example, “Work” or “Personal”."
@@ -16538,7 +16552,7 @@ msgid "Reply To is not a valid email"
 msgstr "回信位址不是有效的電子郵件"
 
 #: ../src/mail/e-mail-config-identity-page.c:970
-#: ../src/mail/e-mail-config-summary-page.c:638
+#: ../src/mail/e-mail-config-summary-page.c:637
 msgid "Account Name cannot be empty"
 msgstr "帳號名稱不能為空"
 
@@ -16546,15 +16560,15 @@ msgstr "帳號名稱不能為空"
 msgid "Looking up account details…"
 msgstr "正在尋找帳號詳細資料…"
 
-#: ../src/mail/e-mail-config-provider-page.c:538
+#: ../src/mail/e-mail-config-provider-page.c:541
 msgid "Checking for New Mail"
 msgstr "檢查新郵件"
 
-#: ../src/mail/e-mail-config-provider-page.c:554
+#: ../src/mail/e-mail-config-provider-page.c:557
 msgid "Check for _new messages every"
 msgstr "自動檢查新郵件每(_N)"
 
-#: ../src/mail/e-mail-config-provider-page.c:764
+#: ../src/mail/e-mail-config-provider-page.c:767
 msgid "Receiving Options"
 msgstr "接收選項"
 
@@ -16687,54 +16701,54 @@ msgstr "傳送電子郵件"
 msgid "Server _Type:"
 msgstr "伺服器類型(_T)："
 
-#: ../src/mail/e-mail-config-summary-page.c:306
+#: ../src/mail/e-mail-config-summary-page.c:308
 msgid ""
 "This is a summary of the settings which will be used to access your mail."
 msgstr "這是用來存取您郵件的設定值的摘要。"
 
-#: ../src/mail/e-mail-config-summary-page.c:370
+#: ../src/mail/e-mail-config-summary-page.c:372
 msgid "Personal Details"
 msgstr "個人詳細資料"
 
-#: ../src/mail/e-mail-config-summary-page.c:379
+#: ../src/mail/e-mail-config-summary-page.c:381
 msgid "Full Name:"
 msgstr "全名："
 
-#: ../src/mail/e-mail-config-summary-page.c:393
+#: ../src/mail/e-mail-config-summary-page.c:395
 msgid "Email Address:"
 msgstr "電子郵件位址："
 
-#: ../src/mail/e-mail-config-summary-page.c:407
+#: ../src/mail/e-mail-config-summary-page.c:409
 msgid "Receiving"
 msgstr "接收中"
 
-#: ../src/mail/e-mail-config-summary-page.c:419
+#: ../src/mail/e-mail-config-summary-page.c:421
 msgid "Sending"
 msgstr "傳送中"
 
-#: ../src/mail/e-mail-config-summary-page.c:431
+#: ../src/mail/e-mail-config-summary-page.c:433
 msgid "Server Type:"
 msgstr "伺服器類型："
 
-#: ../src/mail/e-mail-config-summary-page.c:452
+#: ../src/mail/e-mail-config-summary-page.c:454
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:661
 msgid "Server:"
 msgstr "伺服器："
 
-#: ../src/mail/e-mail-config-summary-page.c:473
+#: ../src/mail/e-mail-config-summary-page.c:475
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:779
 msgid "Username:"
 msgstr "使用者名稱："
 
-#: ../src/mail/e-mail-config-summary-page.c:494
+#: ../src/mail/e-mail-config-summary-page.c:496
 msgid "Security:"
 msgstr "安全性："
 
-#: ../src/mail/e-mail-config-summary-page.c:651
+#: ../src/mail/e-mail-config-summary-page.c:650
 msgid "Cannot have both receiving and sending parts set to None"
 msgstr "接收和傳送部分不能都設定為沒有"
 
-#: ../src/mail/e-mail-config-summary-page.c:807
+#: ../src/mail/e-mail-config-summary-page.c:806
 msgid "Account Summary"
 msgstr "帳號摘要"
 
@@ -17461,7 +17475,7 @@ msgstr "移除重複的郵件(_P)"
 msgid "Checks selected messages for duplicates"
 msgstr "檢查選取的郵件是否有重複"
 
-#: ../src/mail/e-mail-reader.c:2784 ../src/mail/em-composer-utils.c:4099
+#: ../src/mail/e-mail-reader.c:2784 ../src/mail/em-composer-utils.c:4096
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1452
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -17481,7 +17495,7 @@ msgstr "其他回覆方式(_T)…"
 msgid "Choose reply options for the selected message"
 msgstr "為選取的郵件選擇回覆選項"
 
-#: ../src/mail/e-mail-reader.c:2798 ../src/mail/em-composer-utils.c:4094
+#: ../src/mail/e-mail-reader.c:2798 ../src/mail/em-composer-utils.c:4091
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -17795,7 +17809,8 @@ msgstr "載入遠端內容"
 msgid ""
 "You can download remote content manually, or set to remember to download "
 "remote content for this sender or used sites."
-msgstr "您可以手動下載遠端內容，或設定為記住下載這個寄件者或使用過網站的遠端內容。"
+msgstr ""
+"您可以手動下載遠端內容，或設定為記住下載這個寄件者或使用過網站的遠端內容。"
 
 #: ../src/mail/e-mail-request.c:288
 msgid "The message has no text content."
@@ -17888,71 +17903,71 @@ msgstr "Re: %s"
 msgid "an unknown sender"
 msgstr "不明的寄件者"
 
-#: ../src/mail/em-composer-utils.c:4045
+#: ../src/mail/em-composer-utils.c:4042
 msgid "Alternative Reply"
 msgstr "其他回覆"
 
-#: ../src/mail/em-composer-utils.c:4048
+#: ../src/mail/em-composer-utils.c:4045
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1445
 msgid "_Reply"
 msgstr "回覆(_R)"
 
-#: ../src/mail/em-composer-utils.c:4061
+#: ../src/mail/em-composer-utils.c:4058
 msgid "Recipients:"
 msgstr "收件者："
 
-#: ../src/mail/em-composer-utils.c:4089
+#: ../src/mail/em-composer-utils.c:4086
 msgid "Reply to _Sender"
 msgstr "回覆寄件者(_R)"
 
-#: ../src/mail/em-composer-utils.c:4111
+#: ../src/mail/em-composer-utils.c:4108
 msgid "Reply style:"
 msgstr "回覆方式："
 
-#: ../src/mail/em-composer-utils.c:4119
+#: ../src/mail/em-composer-utils.c:4116
 msgid "_Default"
 msgstr "預設(_D)"
 
-#: ../src/mail/em-composer-utils.c:4123
+#: ../src/mail/em-composer-utils.c:4120
 msgid "Attach_ment"
 msgstr "附件(_M)"
 
-#: ../src/mail/em-composer-utils.c:4127
+#: ../src/mail/em-composer-utils.c:4124
 msgid "Inline (_Outlook style)"
 msgstr "行內 (_Outlook 風格)"
 
-#: ../src/mail/em-composer-utils.c:4131
+#: ../src/mail/em-composer-utils.c:4128
 msgid "_Quote"
 msgstr "引文(_Q)"
 
-#: ../src/mail/em-composer-utils.c:4135
+#: ../src/mail/em-composer-utils.c:4132
 msgid "Do _Not Quote"
 msgstr "不使用引文(_N)"
 
-#: ../src/mail/em-composer-utils.c:4142
+#: ../src/mail/em-composer-utils.c:4139
 msgid "_Format message in HTML"
 msgstr "將郵件格式化為 HTML (_F)"
 
-#: ../src/mail/em-composer-utils.c:4152
+#: ../src/mail/em-composer-utils.c:4149
 msgid "Apply t_emplate"
 msgstr "套用範本(_E)"
 
-#: ../src/mail/em-composer-utils.c:4164
+#: ../src/mail/em-composer-utils.c:4161
 msgid "Preserve original message S_ubject"
 msgstr "保留原始郵件主旨(_U)"
 
-#: ../src/mail/em-composer-utils.c:4230
+#: ../src/mail/em-composer-utils.c:4227
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
 msgstr[0] "%d 位收件者"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4639
+#: ../src/mail/em-composer-utils.c:4636
 msgid "Posting destination"
 msgstr "張貼的目的端"
 
-#: ../src/mail/em-composer-utils.c:4644
+#: ../src/mail/em-composer-utils.c:4641
 msgid "Choose folders to post the message to."
 msgstr "選取資料夾來張貼郵件。"
 
@@ -19384,7 +19399,8 @@ msgstr "您登入伺服器「{0}」的帳號為「{0}」，但失敗了。"
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr "請檢查密碼拼字是否正確。請注意，很多密碼區分大小寫；您可能按了 Caps Lock。"
+msgstr ""
+"請檢查密碼拼字是否正確。請注意，很多密碼區分大小寫；您可能按了 Caps Lock。"
 
 #: ../src/mail/mail.error.xml.h:5
 msgid "Are you sure you want to send a message in HTML format?"
@@ -21923,7 +21939,8 @@ msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr "此作業會永久性刪除比選取時間還舊的所有事件。如果您繼續，將無法復原這些事件。"
+msgstr ""
+"此作業會永久性刪除比選取時間還舊的所有事件。如果您繼續，將無法復原這些事件。"
 
 #. Translators: This is the first part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
@@ -23481,7 +23498,8 @@ msgstr "行事曆中的項目是無效的"
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
-msgstr "此郵件確實含有行事曆內容，但該內容並未包含任何事件、工作或空閒/忙碌資訊"
+msgstr ""
+"此郵件確實含有行事曆內容，但該內容並未包含任何事件、工作或空閒/忙碌資訊"
 
 #: ../src/modules/itip-formatter/itip-view.c:5825
 msgid "The calendar attached contains multiple items"
@@ -24301,22 +24319,26 @@ msgstr "是否要將 Evolution 設為您的預設電子郵件客戶端？"
 #. * is the subject of the email, third %s is the date.
 #: ../src/modules/mdn/evolution-mdn.c:308
 #, c-format
-msgid "Your message to %s about “%s” on %s has been read."
-msgstr "您寄給 %s 主旨「%s」 (%s) 的郵件已被閱讀。"
+msgid ""
+"Your message to %s about “%s” on %s has been displayed. This is no guarantee "
+"that the message has been read or understood."
+msgstr "您寄給 %s 的「%s」（%s）已被顯示。沒有任何保證該訊息已被閱讀或明瞭。"
 
-#. Translators: %s is the subject of the email message.
-#: ../src/modules/mdn/evolution-mdn.c:374
+#. Translators: %s is the subject of the email message This text is used as
+#. a subject of a delivery notification email (basically a notification, that
+#. the user did read (or better displayed) the message).
+#: ../src/modules/mdn/evolution-mdn.c:376
 #, c-format
-msgid "Delivery Notification for “%s”"
-msgstr "「%s」的遞送通知"
+msgid "Read: %s"
+msgstr "已讀：%s"
 
-#: ../src/modules/mdn/evolution-mdn.c:540
+#: ../src/modules/mdn/evolution-mdn.c:542
 #, c-format
 msgid "Send a read receipt to “%s”"
 msgstr "傳送郵件回條給「%s」"
 
 #. name doesn't matter
-#: ../src/modules/mdn/evolution-mdn.c:545
+#: ../src/modules/mdn/evolution-mdn.c:547
 msgid "_Notify Sender"
 msgstr "通知寄件者(_N)"
 
@@ -25020,7 +25042,8 @@ msgstr "編輯器無法啟動"
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
-msgstr "不能啟動在您外掛程式偏好設定中設定的外部編輯器。請試著設定不同的編輯器。"
+msgstr ""
+"不能啟動在您外掛程式偏好設定中設定的外部編輯器。請試著設定不同的編輯器。"
 
 #: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:3
 msgid "Cannot create Temporary File"
@@ -25454,7 +25477,8 @@ msgstr "選取的工件列表是唯讀的，因此不能在這裡建立工作。
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
-msgstr "選取的備忘錄列表是唯讀的，因此不能在這裡建立備忘錄。請選擇其他的備忘錄列表。"
+msgstr ""
+"選取的備忘錄列表是唯讀的，因此不能在這裡建立備忘錄。請選擇其他的備忘錄列表。"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1323
 msgid "Create an _Appointment"
@@ -26938,6 +26962,9 @@ msgstr "無法將儲存區寫入至磁碟，錯誤代碼為：%i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "輸入的憑證"
+
+#~ msgid "Delivery Notification for “%s”"
+#~ msgstr "「%s」的遞送通知"
 
 #~ msgid "Attendee                          "
 #~ msgstr "出席者"
