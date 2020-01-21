@@ -394,7 +394,7 @@ bbdb_merge_buddy_to_contact (EBookClient *client,
 		if (photo == NULL) {
 			gchar *contents = NULL;
 
-			photo = g_new0 (EContactPhoto, 1);
+			photo = e_contact_photo_new ();
 			photo->type = E_CONTACT_PHOTO_TYPE_INLINED;
 
 			if (!g_file_get_contents (
@@ -404,6 +404,7 @@ bbdb_merge_buddy_to_contact (EBookClient *client,
 					"bbdb: Could not read buddy icon: "
 					"%s\n", error->message);
 				g_error_free (error);
+				e_contact_photo_free (photo);
 				return dirty;
 			}
 
