@@ -7,14 +7,14 @@
 # Yolanda Alvarez Perez <yolandaa.alvarez.perez@gmail.com>, 2016.
 # Rodrigo <rodhos92@gmail.com>, 2018.
 # Rodrigo Lledó <rodhos92@gmail.com>, 2019.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011-2019.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2011-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-15 21:19+0000\n"
-"PO-Revision-Date: 2019-11-05 15:21+0100\n"
+"POT-Creation-Date: 2020-01-21 22:14+0000\n"
+"PO-Revision-Date: 2020-01-22 09:59+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2019\n"
+"Daniel Mustieles <daniel.mustieles@gmail.com>, 2012 - 2020\n"
 "Rodrigo Lledó <rodhos92@gmail.com>, 2018\n"
 "Yolanda Álvarez Pérez <yolandaa.alvarez.perez@gmail.com>, 2016\n"
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2011\n"
@@ -1024,7 +1024,7 @@ msgstr "Seleccione los contactos a los que quiere delegar la reunión."
 #: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
 #: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
 #: C/mail-attachments-sending.page:32
-#: C/mail-composer-custom-header-lines.page:45
+#: C/mail-composer-custom-header-lines.page:47
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
@@ -1820,26 +1820,71 @@ msgstr "Añadir personas automáticamente a mis contactos"
 #: C/contacts-add-automatically.page:27
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
-"email. Enable the plugin <gui>Automatic Contacts</gui> by going to "
-"<guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on <gui>Automatic "
-"Contacts</gui> so that it shows a check mark. Then go to <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Contacts</gui> <gui>Automatic Contacts</gui></"
-"guiseq> and enable the <gui>Create address book entries when sending emails</"
-"gui> option and select an address book in the drop-down field below that "
-"will receive the new contacts."
+"email."
 msgstr ""
-"Puede añadir personas automáticamente a sus contactos al responder a correos "
-"recibidos. Active el complemento <gui>Contactos automáticos</gui> en "
-"<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>; pulse en "
-"<gui>Contactos automáticos</gui> para que se muestre como marcado. Después "
-"vaya a <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Contactos</"
-"gui><gui>Contactos automáticos</gui></guiseq> y active la opción <gui>Crear "
-"entradas automáticamente en la libreta de direcciones al enviar correos</"
-"gui> y seleccione la libreta de direcciones a la que se añadirán los "
-"contactos, en el campo desplegable de debajo."
+"Puede añadir gente automáticamente a sus contactos cuando responde al correo "
+"recibido."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:30 C/mail-attachments-sending.page:46
+#: C/mail-composer-custom-header-lines.page:31
+#: C/mail-composer-external-editor.page:25
+#: C/mail-composer-message-templates.page:27
+#: C/mail-composer-message-templates-variables.page:28
+#: C/mail-received-notification.page:30
+msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
+msgstr "Seleccione <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:31
+#| msgid "Enable <gui>Custom Header</gui>."
+msgid "Enable <gui>Automatic Contacts</gui>."
+msgstr "Active <gui>Contactos automáticos</gui>."
+
+#. (itstool) path: note/p
+#: C/contacts-add-automatically.page:32 C/mail-attachments-sending.page:48
+#: C/mail-composer-custom-header-lines.page:33
+#: C/mail-composer-external-editor.page:28
+#: C/mail-composer-message-templates.page:29
+#: C/mail-composer-message-templates-variables.page:30
+#: C/mail-displaying-sender-photograph.page:37
+#: C/mail-received-notification.page:32
+msgid ""
+"If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</"
+"gui></guiseq>, then please ask in a support forum of your distribution. Your "
+"distribution might have decided to disable some plugins or to ship plugins "
+"in a separate package."
+msgstr ""
+"Si un complemento no está disponible en <guiseq><gui>Editar</"
+"gui><gui>Complementos</gui></guiseq>, pregunte en un foro de soporte para su "
+"distribución, ya que ésta puede haber decidido desactivar algunos "
+"complementos para distribuirlos en un paquete por separado."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:34
+#| msgid ""
+#| "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
+#| "gui></guiseq>."
+msgid ""
+"Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
+"<gui>Automatic Contacts</gui></guiseq>."
+msgstr ""
+"Vaya a <guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Contactos</gui> "
+"<gui>Contactos automáticos</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:36
+msgid ""
+"Enable <gui>Create address book entries when sending emails</gui> and select "
+"an address book in the drop-down field below that will receive the new "
+"contacts."
+msgstr ""
+"Active <gui>Crear entradas de la libreta de direcciones al enviar correos</"
+"gui> y elija una libreta de direcciones en el campo desplegable de abajo en "
+"la que crear los contactos nuevos."
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:37
+#: C/contacts-add-automatically.page:41
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -5353,11 +5398,11 @@ msgid ""
 "all options of such accounts can be edited in <app>Evolution</app> and such "
 "accounts can only be removed in <app>Online accounts</app> itself."
 msgstr ""
-"Para configurar la cuenta en Evolution, consulte la sección <link xref=\"mail-"
-"account-manage-imap-plus\">configuración de la cuenta de correo IMAP+</"
-"link>. Tenga en cuenta que no todas las opciones de esas cuentas se pueden "
-"editar en <app>Evolution</app> y esas cuentas solo se pueden eliminar en "
-"<app>Cuentas en línea</app>."
+"Para configurar la cuenta en Evolution, consulte la sección <link xref="
+"\"mail-account-manage-imap-plus\">configuración de la cuenta de correo IMAP"
+"+</link>. Tenga en cuenta que no todas las opciones de esas cuentas se "
+"pueden editar en <app>Evolution</app> y esas cuentas solo se pueden eliminar "
+"en <app>Cuentas en línea</app>."
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:33
@@ -6396,26 +6441,21 @@ msgid "To enable the Attachment Reminder:"
 msgstr "Para activar el Recuerdo de adjuntos:"
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:46
-#: C/mail-composer-custom-header-lines.page:31
-#: C/mail-composer-message-templates-variables.page:28
-msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr "Seleccione <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>."
-
-#. (itstool) path: item/p
 #: C/mail-attachments-sending.page:47
 msgid "Enable <gui>Attachment Reminder</gui>."
-msgstr "Actíve <gui>Recuerdo de adjuntos</gui>."
+msgstr "Active <gui>Recuerdo de adjuntos</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:48
-#: C/mail-composer-custom-header-lines.page:33
-#: C/mail-composer-message-templates-variables.page:30
+#: C/mail-attachments-sending.page:50
+#: C/mail-composer-custom-header-lines.page:35
+#: C/mail-composer-external-editor.page:27
+#: C/mail-composer-message-templates-variables.page:32
+#: C/mail-received-notification.page:34
 msgid "Click the <gui>Configuration</gui> tab."
 msgstr "Pulse la pestaña <gui>Configuración</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:49
+#: C/mail-attachments-sending.page:51
 msgid ""
 "Click <gui style=\"button\">Add</gui>, then enter keywords in your language "
 "such as \"Attach\" or \"enclosed\"."
@@ -6424,7 +6464,7 @@ msgstr ""
 "claves en su idioma tales como «adjuntar» o «adjunto»."
 
 #. (itstool) path: section/p
-#: C/mail-attachments-sending.page:51
+#: C/mail-attachments-sending.page:53
 msgid ""
 "Based on the keywords you have added, <app>Evolution</app> searches the text "
 "of every mail you are going to send. If it finds any of the keywords in your "
@@ -6825,10 +6865,10 @@ msgstr "Para configurar el complemento Cabecera personalizada:"
 #. (itstool) path: item/p
 #: C/mail-composer-custom-header-lines.page:32
 msgid "Enable <gui>Custom Header</gui>."
-msgstr "Actíve <gui>Cabecera personalizada</gui>."
+msgstr "Active <gui>Cabecera personalizada</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:34
+#: C/mail-composer-custom-header-lines.page:36
 msgid ""
 "You can add, edit, or remove the header fields. For every header field you "
 "add, you can specify the keys and values. The key is used as the title of "
@@ -6842,12 +6882,12 @@ msgstr ""
 "que introduzca."
 
 #. (itstool) path: section/title
-#: C/mail-composer-custom-header-lines.page:39
+#: C/mail-composer-custom-header-lines.page:41
 msgid "Inserting custom headers in a message"
 msgstr "Insertar cabeceras personalizadas en un correo"
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:41
+#: C/mail-composer-custom-header-lines.page:43
 msgid ""
 "Click <guiseq><gui>New</gui><gui>Mail Message</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq> to open the "
@@ -6858,14 +6898,14 @@ msgstr ""
 "ventana del editor de correos."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:42
+#: C/mail-composer-custom-header-lines.page:44
 msgid "Select <guiseq><gui>Insert</gui><gui>Custom Header</gui></guiseq>."
 msgstr ""
 "Seleccione <guiseq><gui>Insertar</gui><gui>Cabeceras personalizadas</gui></"
 "guiseq>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:43
+#: C/mail-composer-custom-header-lines.page:45
 msgid ""
 "In the <gui>Email Custom Header</gui> window, you can view all the defined "
 "header fields and values."
@@ -6874,7 +6914,7 @@ msgstr ""
 "todos campos de cabeceras y valores que puede añadir."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:44
+#: C/mail-composer-custom-header-lines.page:46
 msgid "Set the values for the header fields by using the dropdown list."
 msgstr ""
 "Establezca los valores para los campos de cabecera usando la lista "
@@ -6926,7 +6966,7 @@ msgid ""
 "gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Default "
 "Behavior</gui><gui>Format messages in HTML</gui></guiseq>."
 msgstr ""
-"Para enviar todos sus correos en HTML de forma predeterminada actíve "
+"Para enviar todos sus correos en HTML de forma predeterminada active "
 "<guiseq><gui>Editar</gui><gui>Preferencias</gui><gui>Preferencias del "
 "editor</gui><gui>Comportamiento predeterminado</gui><gui>Dar formato HTML a "
 "los mensajes</gui></guiseq>."
@@ -6947,19 +6987,25 @@ msgstr "Usar un editor externo"
 #: C/mail-composer-external-editor.page:22
 msgid ""
 "You can compose the body of your message externally in your favorite text "
-"editor application so you can use its specific functionality. Enable "
-"<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>External Editor</gui></guiseq> "
-"and set the corresponding <gui>Command</gui> to start the application under "
-"<gui>Configuration</gui>."
+"editor application so you can use its specific functionality."
 msgstr ""
-"Puede redactar el cuerpo de un mensaje externamente en su editor de texto, "
-"por lo que puede usar su funcionalidad específica. Active "
-"<guiseq><gui>Editar</gui><gui>Complementos</gui><gui>Editor externo</gui></"
-"guiseq> y configure el <gui>Comando</gui> correspondiente en "
-"<gui>Configuration</gui> para iniciar la aplicación."
+"Puede redactar el cuerpo de su mensaje externamente en su editor de texto "
+"favorito para poder usar su funcionalidad específica."
 
-#. (itstool) path: page/p
-#: C/mail-composer-external-editor.page:23
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:26
+#| msgid "Enable <gui>Custom Header</gui>."
+msgid "Enable <gui>External Editor</gui>."
+msgstr "Active <gui>Editor externo</gui>."
+
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:30
+msgid "Set the corresponding <gui>Command</gui> to start the application."
+msgstr ""
+"Establezca el <gui>Comando</gui> correspondiente para iniciar la aplicación."
+
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:31
 msgid ""
 "If <gui>Automatically launch when a new mail is edited</gui> is not set, you "
 "need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></"
@@ -7699,7 +7745,7 @@ msgstr "Plantillas de correos para reusar en el editor."
 #. (itstool) path: page/title
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates.page:23
-#: C/mail-composer-message-templates.page:28
+#: C/mail-composer-message-templates.page:35
 msgid "Message Templates"
 msgstr "Plantillas de correo"
 
@@ -7714,13 +7760,15 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-message-templates.page:25
-msgid ""
-"To enable the Message Template Plugin, click <guiseq><gui>Edit</"
-"gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
-msgstr ""
-"Para activar el complemento de plantillas de correo pulse "
-"<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq> y actíve "
-"<gui>Plantillas</gui>."
+#| msgid "To enable the plugins:"
+msgid "To enable the Message Template Plugin:"
+msgstr "Para activar el complemento de plantilla de mensajes:"
+
+#. (itstool) path: item/p
+#: C/mail-composer-message-templates.page:28
+#| msgid "Click <gui>Templates</gui>."
+msgid "Enable <gui>Templates</gui>."
+msgstr "Active <gui>Plantilas</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-reply.page:5
@@ -7872,7 +7920,7 @@ msgid "Click <gui>Templates</gui>."
 msgstr "Pulse <gui>Plantilas</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:31
+#: C/mail-composer-message-templates-variables.page:33
 msgid ""
 "You can add, edit or remove the key-value pairs. You can specify any number "
 "of key-value pairs."
@@ -7881,7 +7929,7 @@ msgstr ""
 "especificar cualquier número de pares de claves y valores."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:33
+#: C/mail-composer-message-templates-variables.page:35
 msgid ""
 "In any template, the occurrence of every $key is replaced by the value it "
 "has in the configuration. For example, if you set the key to Manager and the "
@@ -7894,7 +7942,7 @@ msgstr ""
 "con Tomás en el mensaje."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:34
+#: C/mail-composer-message-templates-variables.page:36
 msgid ""
 "Assume that you have 1000 message templates with your current manager's name "
 "in them. When the current manager is replaced by a new one, it is not easy "
@@ -7909,7 +7957,7 @@ msgstr ""
 "pestaña Configuración de este complemento."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:35
+#: C/mail-composer-message-templates-variables.page:37
 msgid ""
 "By default, the entire environment variables are used as a key-value pair. "
 "An occurrence of $env_variable is replaced by the value it carries. For "
@@ -7922,12 +7970,12 @@ msgstr ""
 "su valor al usar la plantilla."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:36
+#: C/mail-composer-message-templates-variables.page:38
 msgid "The replacement process uses the following order of precedence:"
 msgstr "El proceso de reemplazo usa el siguiente orden de precedencia:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:39
+#: C/mail-composer-message-templates-variables.page:41
 msgid ""
 "$key is replaced by the value set for it in the Configuration tab of the "
 "Templates plugin."
@@ -7936,7 +7984,7 @@ msgstr ""
 "Configuración del complemento Plantillas."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:42
+#: C/mail-composer-message-templates-variables.page:44
 msgid ""
 "If the key is not found, it is then replaced with the value of its "
 "environment variable."
@@ -7945,7 +7993,7 @@ msgstr ""
 "entorno."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:45
+#: C/mail-composer-message-templates-variables.page:47
 msgid ""
 "If key is neither a configuration option nor an environment variable, no "
 "changes are made."
@@ -7954,12 +8002,12 @@ msgstr ""
 "entonces no se hacen cambios."
 
 #. (itstool) path: section/title
-#: C/mail-composer-message-templates-variables.page:52
+#: C/mail-composer-message-templates-variables.page:54
 msgid "Using Elements From a Message in a Template When Replying"
 msgstr "Usar elementos de un mensaje en una plantilla al responder"
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:53
+#: C/mail-composer-message-templates-variables.page:55
 msgid ""
 "Templates can contain more than just the predefined set of <link xref="
 "\"#configure\">key-value pairs</link>. You can also get any message header "
@@ -7974,7 +8022,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:55
+#: C/mail-composer-message-templates-variables.page:57
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7991,7 +8039,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:57
+#: C/mail-composer-message-templates-variables.page:59
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -8615,9 +8663,9 @@ msgid ""
 "one person."
 msgstr ""
 "Introduzca una dirección de correo-e en el campo <gui>To:</gui>. Si quiere "
-"introducir varias direcciones, sepárelas con comas. Consulte la sección <link xref="
-"\"mail-composer-several-recipients\"/> para obtener más información sobre "
-"cómo enviar mensajes a más de una persona."
+"introducir varias direcciones, sepárelas con comas. Consulte la sección "
+"<link xref=\"mail-composer-several-recipients\"/> para obtener más "
+"información sobre cómo enviar mensajes a más de una persona."
 
 #. (itstool) path: page/p
 #: C/mail-composer-write-new-message.page:29
@@ -8994,7 +9042,7 @@ msgstr ""
 "Puede descargar las imágenes de correos electrónicos enviados por sus "
 "correos. Para ello, vaya a <guiseq><gui>Editar</gui><gui>Preferencias</"
 "gui><gui>Opciones de correo</gui><gui>Mensajes HTML</gui><gui>Cargando "
-"imágenes</gui></guiseq>. Actíve la opción <gui>Cargar imágenes en los "
+"imágenes</gui></guiseq>. Active la opción <gui>Cargar imágenes en los "
 "mensajes de mis contactos</gui>."
 
 #. (itstool) path: section/p
@@ -9005,7 +9053,7 @@ msgid ""
 "<gui>Always show address of the autocompleted contact</gui> checkbox."
 msgstr ""
 "Después, vaya a <guiseq><gui>Editar</gui><gui>Preferencias</"
-"gui><gui>Contactos</gui><gui>Autocompletado</gui></guiseq>. Actíve el "
+"gui><gui>Contactos</gui><gui>Autocompletado</gui></guiseq>. Active el "
 "autocompletado marcando la casilla <gui>Siempre mostrar la dirección del "
 "contacto autocompletado</gui>."
 
@@ -10904,23 +10952,27 @@ msgstr "Distribución del selector cuando llega un correo nuevo"
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:28
 msgid ""
-"In order to also be notified of new messages in the GNOME Notification area "
-"at the bottom of the screen, make sure that <guiseq><gui>Edit</"
-"gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and "
-"that you have set your preferred options in the <gui>Configuration</gui> tab."
-msgstr ""
-"Asegúrese de que <guiseq><gui>Editar</gui><gui>Complementos</"
-"gui><gui>Notificación de correo</gui></guiseq> está activada y de que ha "
-"configurado sus opciones preferidas en la pestaña <gui>Configuración</gui> "
-"para obtener notificaciones también para los mensajes nuevos en el área de "
-"Notificación de GNOME en la parte inferior de la pantalla."
+"In order to also be notified of new messages in GNOME desktop notifications:"
+msgstr "Para recibir notificaciones de mensajes nuevos en el escritorio GNOME:"
+
+#. (itstool) path: item/p
+#: C/mail-received-notification.page:31
+#| msgid "Enable <gui>Attachment Reminder</gui>."
+msgid "Enable <gui>Mail Notification</gui>."
+msgstr "Active <gui>Notificación de correo</gui>."
+
+#. (itstool) path: item/p
+#: C/mail-received-notification.page:35
+#| msgid "Select the appropriate options."
+msgid "Set your preferred options."
+msgstr "Establecer sus opciones preferidas."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
 #. the file changes, the md5 hash will change to let you know you need to
 #. update your localized copy. The msgstr is not used at all. Set it to
 #. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:30
+#: C/mail-received-notification.page:38
 msgctxt "_"
 msgid ""
 "external ref='./figures/new-mail-notification.png' "
@@ -10930,7 +10982,7 @@ msgstr ""
 "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
 
 #. (itstool) path: media/p
-#: C/mail-received-notification.page:31
+#: C/mail-received-notification.page:39
 msgid "GNOME notification area when a new message has arrived"
 msgstr "Área de notificación de GNOME cuando llega un correo nuevo"
 
@@ -13291,10 +13343,10 @@ msgstr ""
 "Si el problema persiste y está seguro de que no ha pulsado el icono, pero "
 "puede usar la red con otras aplicaciones de su sistema (navegadores, FTP, "
 "SSH, ping, etc) puede ser que su conexión de red no esté bien configurada. "
-"Para obtener más información, consulte la sección <link xref=\"help:gnome-help/net-"
-"problem\" href=\"https://help.gnome.org/users/gnome-help/stable/net-problem"
-"\">ayuda del escritorio</link> o busque ayuda en los foros de soporte de su "
-"distribución, listas de correo, etc."
+"Para obtener más información, consulte la sección <link xref=\"help:gnome-"
+"help/net-problem\" href=\"https://help.gnome.org/users/gnome-help/stable/net-"
+"problem\">ayuda del escritorio</link> o busque ayuda en los foros de soporte "
+"de su distribución, listas de correo, etc."
 
 #. (itstool) path: page/p
 #: C/offline.page:35
@@ -13397,14 +13449,24 @@ msgstr "Cómo informar de un error"
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
+#| msgid ""
+#| "If you do not need help for configuration but you are sure that you have "
+#| "found a mistake or wrong behavior in the <app>Evolution</app> software, "
+#| "or if you want to request a feature, you can file a report in the <link "
+#| "href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME bug "
+#| "tracking system</link>. Note that this requires registration first. "
+#| "Please try to avoid filing duplicates and check the <link href=\"https://"
+#| "bugzilla.gnome.org/page.cgi?id=bug-writing.html\">bug writing guidelines</"
+#| "link> first."
 msgid ""
 "If you do not need help for configuration but you are sure that you have "
 "found a mistake or wrong behavior in the <app>Evolution</app> software, or "
 "if you want to request a feature, you can file a report in the <link href="
 "\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME bug tracking "
 "system</link>. Note that this requires registration first. Please try to "
-"avoid filing duplicates and check the <link href=\"https://bugzilla.gnome."
-"org/page.cgi?id=bug-writing.html\">bug writing guidelines</link> first."
+"avoid filing duplicates and check the <link href=\"https://wiki.gnome.org/"
+"Community/GettingInTouch/BugReportingGuidelines\">bug writing guidelines</"
+"link> first."
 msgstr ""
 "Si no necesita ayuda para la configuración, pero está seguro de que ha "
 "encontrado un problema o un comportamiento erróneo en <app>Evolution</app>, "
@@ -13412,8 +13474,8 @@ msgstr ""
 "<link href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\">sistema de "
 "seguimiento de errores de GNOME</link>. Tenga en cuenta que esto requiere "
 "que primero se registre. Trate de no enviar duplicados y revise primero la "
-"<link href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">guía "
-"para informar de un error</link>."
+"<link href=\"https://wiki.gnome.org/Community/GettingInTouch/"
+"BugReportingGuidelines\">guía para informar de un error</link>."
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
@@ -13435,22 +13497,31 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:25
+#| msgid ""
+#| "When reporting bugs exact information is welcome as it makes it easier "
+#| "for others to reproduce and fix the issue. If possible please include "
+#| "information such as the <app>Evolution</app> version (under "
+#| "<guiseq><gui>Help</gui><gui>About</gui></guiseq>), your distribution, and "
+#| "exact steps to reproduce the problem, click by click. See the <link href="
+#| "\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing "
+#| "Guidelines</link> for more information."
 msgid ""
 "When reporting bugs exact information is welcome as it makes it easier for "
 "others to reproduce and fix the issue. If possible please include "
 "information such as the <app>Evolution</app> version (under "
 "<guiseq><gui>Help</gui><gui>About</gui></guiseq>), your distribution, and "
 "exact steps to reproduce the problem, click by click. See the <link href="
-"\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing "
-"Guidelines</link> for more information."
+"\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines"
+"\">Bug Writing Guidelines</link> for more information."
 msgstr ""
 "La información exacta es bienvenida al informar de errores, ya que hace más "
 "sencillo a los demás reproducir el error y solucionarlo. Si es posible, "
 "incluya la información de la versión de <app>Evolution</app> (bajo "
 "<guiseq><gui>Ayuda</gui><gui>Acerca de</gui></guiseq>), su distribución y "
 "los pasos exactos para reproducir el problema paso a paso. Para obtener más "
-"información consulte la <link href=\"https://bugzilla.gnome.org/page.cgi?"
-"id=bug-writing.html\">guía para informar de un error</link>."
+"información consulte la <link href=\"https://wiki.gnome.org/Community/"
+"GettingInTouch/BugReportingGuidelines\">guía para informar de un error</"
+"link>."
 
 #. (itstool) path: info/desc
 #: C/searching-items.page:5
@@ -14550,6 +14621,61 @@ msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo.
 msgid "Click <_:gui-1/>."
 msgstr "Pulse <_:gui-1/>."
 
+#~ msgid ""
+#~ "You can add people automatically to your contacts when you reply to "
+#~ "received email. Enable the plugin <gui>Automatic Contacts</gui> by going "
+#~ "to <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on "
+#~ "<gui>Automatic Contacts</gui> so that it shows a check mark. Then go to "
+#~ "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
+#~ "<gui>Automatic Contacts</gui></guiseq> and enable the <gui>Create address "
+#~ "book entries when sending emails</gui> option and select an address book "
+#~ "in the drop-down field below that will receive the new contacts."
+#~ msgstr ""
+#~ "Puede añadir personas automáticamente a sus contactos al responder a "
+#~ "correos recibidos. Active el complemento <gui>Contactos automáticos</gui> "
+#~ "en <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>; pulse en "
+#~ "<gui>Contactos automáticos</gui> para que se muestre como marcado. "
+#~ "Después vaya a <guiseq><gui>Editar</gui><gui>Preferencias</"
+#~ "gui><gui>Contactos</gui><gui>Contactos automáticos</gui></guiseq> y "
+#~ "active la opción <gui>Crear entradas automáticamente en la libreta de "
+#~ "direcciones al enviar correos</gui> y seleccione la libreta de "
+#~ "direcciones a la que se añadirán los contactos, en el campo desplegable "
+#~ "de debajo."
+
+#~ msgid ""
+#~ "You can compose the body of your message externally in your favorite text "
+#~ "editor application so you can use its specific functionality. Enable "
+#~ "<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>External Editor</gui></"
+#~ "guiseq> and set the corresponding <gui>Command</gui> to start the "
+#~ "application under <gui>Configuration</gui>."
+#~ msgstr ""
+#~ "Puede redactar el cuerpo de un mensaje externamente en su editor de "
+#~ "texto, por lo que puede usar su funcionalidad específica. Active "
+#~ "<guiseq><gui>Editar</gui><gui>Complementos</gui><gui>Editor externo</"
+#~ "gui></guiseq> y configure el <gui>Comando</gui> correspondiente en "
+#~ "<gui>Configuration</gui> para iniciar la aplicación."
+
+#~ msgid ""
+#~ "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
+#~ "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
+#~ msgstr ""
+#~ "Para activar el complemento de plantillas de correo pulse "
+#~ "<guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq> y actíve "
+#~ "<gui>Plantillas</gui>."
+
+#~ msgid ""
+#~ "In order to also be notified of new messages in the GNOME Notification "
+#~ "area at the bottom of the screen, make sure that <guiseq><gui>Edit</"
+#~ "gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled "
+#~ "and that you have set your preferred options in the <gui>Configuration</"
+#~ "gui> tab."
+#~ msgstr ""
+#~ "Asegúrese de que <guiseq><gui>Editar</gui><gui>Complementos</"
+#~ "gui><gui>Notificación de correo</gui></guiseq> está activada y de que ha "
+#~ "configurado sus opciones preferidas en la pestaña <gui>Configuración</"
+#~ "gui> para obtener notificaciones también para los mensajes nuevos en el "
+#~ "área de Notificación de GNOME en la parte inferior de la pantalla."
+
 #~ msgid "signature"
 #~ msgstr "firma"
 
@@ -14935,8 +15061,8 @@ msgstr "Pulse <_:gui-1/>."
 #~ "Please refer to the <link xref=\"mail-account-manage-imap-plus\">IMAP+ "
 #~ "mail account settings</link>."
 #~ msgstr ""
-#~ "Consulte la sección <link xref=\"mail-account-manage-imap-plus\">configuración de "
-#~ "cuenta de correo IMAP+</link>."
+#~ "Consulte la sección <link xref=\"mail-account-manage-imap-plus"
+#~ "\">configuración de cuenta de correo IMAP+</link>."
 
 #~ msgid "<code its:translate=\"no\">{Sender}</code>"
 #~ msgstr "<code its:translate=\"no\">{Sender}</code>"
@@ -16903,9 +17029,6 @@ msgstr "Pulse <_:gui-1/>."
 #~ "gui><gui>Preferencias</gui><gui>Cuentas de correo</gui><gui>Editar</gui></"
 #~ "guiseq>. La siguiente configuración está disponible al editar una cuenta "
 #~ "existente:"
-
-#~ msgid "To enable the plugins:"
-#~ msgstr "Para activar los complementos:"
 
 #~ msgid "Click <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
 #~ msgstr "Pulse <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>."
