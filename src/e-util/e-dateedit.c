@@ -112,7 +112,8 @@ struct _EDateEditPrivate {
 	gboolean twodigit_year_can_future;
 
 	/* set to TRUE when the date has been changed by typing to the entry */
-	gboolean has_been_changed;
+	gboolean date_been_changed;
+	gboolean time_been_changed;
 
 	gboolean allow_no_date_set;
 };
@@ -192,8 +193,8 @@ static gint on_time_entry_focus_out		(GtkEntry	*entry,
 static void e_date_edit_update_date_entry	(EDateEdit	*dedit);
 static void e_date_edit_update_time_entry	(EDateEdit	*dedit);
 static void e_date_edit_update_time_combo_state	(EDateEdit	*dedit);
-static void e_date_edit_check_date_changed	(EDateEdit	*dedit);
-static void e_date_edit_check_time_changed	(EDateEdit	*dedit);
+static gboolean e_date_edit_check_date_changed	(EDateEdit	*dedit);
+static gboolean e_date_edit_check_time_changed	(EDateEdit	*dedit);
 static gboolean e_date_edit_set_date_internal	(EDateEdit	*dedit,
 						 gboolean	 valid,
 						 gboolean	 none,
@@ -492,7 +493,8 @@ e_date_edit_init (EDateEdit *dedit)
 	dedit->priv->time_callback_destroy = NULL;
 
 	dedit->priv->twodigit_year_can_future = TRUE;
-	dedit->priv->has_been_changed = FALSE;
+	dedit->priv->date_been_changed = FALSE;
+	dedit->priv->time_been_changed = FALSE;
 
 	gtk_orientable_set_orientation (GTK_ORIENTABLE (dedit), GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_set_spacing (GTK_BOX (dedit), 3);
@@ -2009,13 +2011,14 @@ on_date_entry_focus_out (GtkEntry *entry,
                          GdkEventFocus *event,
                          EDateEdit *dedit)
 {
+	gboolean did_change;
 	struct tm tmp_tm;
 
 	tmp_tm.tm_year = 0;
 	tmp_tm.tm_mon = 0;
 	tmp_tm.tm_mday = 0;
 
-	e_date_edit_check_date_changed (dedit);
+	did_change = e_date_edit_check_date_changed (dedit);
 
 	if (!e_date_edit_date_is_valid (dedit)) {
 		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_SECONDARY, "dialog-warning");
@@ -2028,12 +2031,13 @@ on_date_entry_focus_out (GtkEntry *entry,
 		e_date_edit_set_date (
 			dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
 
-		if (dedit->priv->has_been_changed) {
+		if (!did_change && dedit->priv->date_been_changed) {
 			/* The previous one didn't emit changed signal,
 			 * but we want it even here, thus doing itself. */
 			g_signal_emit (dedit, signals[CHANGED], 0);
-			dedit->priv->has_been_changed = FALSE;
 		}
+
+		dedit->priv->date_been_changed = FALSE;
 	} else {
 		dedit->priv->date_set_to_none = TRUE;
 		e_date_edit_update_date_entry (dedit);
@@ -2050,7 +2054,9 @@ on_time_entry_focus_out (GtkEntry *entry,
                          GdkEventFocus *event,
                          EDateEdit *dedit)
 {
-	e_date_edit_check_time_changed (dedit);
+	gboolean did_change;
+
+	did_change = e_date_edit_check_time_changed (dedit);
 
 	if (!e_date_edit_time_is_valid (dedit)) {
 		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_PRIMARY, "dialog-warning");
@@ -2059,6 +2065,14 @@ on_time_entry_focus_out (GtkEntry *entry,
 	} else {
 		gtk_entry_set_icon_from_icon_name (entry, GTK_ENTRY_ICON_PRIMARY, NULL);
 		gtk_entry_set_icon_tooltip_text (entry, GTK_ENTRY_ICON_PRIMARY, NULL);
+
+		if (!did_change && dedit->priv->time_been_changed) {
+			/* The previous one didn't emit changed signal,
+			 * but we want it even here, thus doing itself. */
+			g_signal_emit (dedit, signals[CHANGED], 0);
+		}
+
+		dedit->priv->time_been_changed = FALSE;
 	}
 
 	return FALSE;
@@ -2293,7 +2307,7 @@ e_date_edit_update_time_combo_state (EDateEdit *dedit)
 
 /* Parses the date, and if it is different from the current settings it
  * updates the settings and emits a "date_changed" signal. */
-static void
+static gboolean
 e_date_edit_check_date_changed (EDateEdit *dedit)
 {
 	EDateEditPrivate *priv;
@@ -2324,14 +2338,16 @@ e_date_edit_check_date_changed (EDateEdit *dedit)
 		tmp_tm.tm_mday);
 
 	if (date_changed) {
-		priv->has_been_changed = TRUE;
+		priv->date_been_changed = TRUE;
 		g_signal_emit (dedit, signals[CHANGED], 0);
 	}
+
+	return date_changed;
 }
 
 /* Parses the time, and if it is different from the current settings it
  * updates the settings and emits a "time_changed" signal. */
-static void
+static gboolean
 e_date_edit_check_time_changed (EDateEdit *dedit)
 {
 	EDateEditPrivate *priv;
@@ -2358,9 +2374,12 @@ e_date_edit_check_time_changed (EDateEdit *dedit)
 		tmp_tm.tm_min);
 
 	if (time_changed) {
+		dedit->priv->time_been_changed = TRUE;
 		/* Do not call e_date_edit_update_time_entry (dedit); let the user correct the value */
 		g_signal_emit (dedit, signals[CHANGED], 0);
 	}
+
+	return time_changed;
 }
 
 /**
@@ -2590,7 +2609,12 @@ e_date_edit_has_focus (EDateEdit *dedit)
 {
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
 
-	return gtk_widget_has_focus (GTK_WIDGET (dedit)) ||
-		(dedit->priv->date_entry && gtk_widget_has_focus (dedit->priv->date_entry)) ||
-		(dedit->priv->time_combo && gtk_widget_has_focus (dedit->priv->time_combo));
+	if (gtk_widget_has_focus (GTK_WIDGET (dedit)) ||
+	    (dedit->priv->date_entry && gtk_widget_has_focus (dedit->priv->date_entry)))
+		return TRUE;
+
+	return e_date_edit_get_show_time (dedit) &&
+	       dedit->priv->time_combo && (
+		(gtk_widget_has_focus (dedit->priv->time_combo) ||
+		 gtk_widget_has_focus (gtk_bin_get_child (GTK_BIN (dedit->priv->time_combo)))));
 }
