@@ -115,11 +115,23 @@ empe_app_smime_parse (EMailParserExtension *extension,
 		g_error_free (local_error);
 
 	} else {
+		CamelContentType *ct;
 		GQueue work_queue = G_QUEUE_INIT;
 		GList *head, *link;
 		gint len = part_id->len;
 
 		g_string_append (part_id, ".encrypted-smime");
+
+		ct = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (opart));
+
+		if (!ct || camel_content_type_is (ct, "text", "plain")) {
+			const gchar *mime_type;
+
+			mime_type = e_mail_part_snoop_type (opart);
+
+			if (mime_type && g_ascii_strcasecmp (mime_type, "text/plain") != 0)
+				camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (opart), mime_type);
+		}
 
 		e_mail_parser_parse_part (
 			parser, opart, part_id, cancellable, &work_queue);
