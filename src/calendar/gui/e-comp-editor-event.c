@@ -121,7 +121,8 @@ ece_event_dtstart_changed_cb (EDateEdit *date_edit,
 	g_return_if_fail (E_IS_DATE_EDIT (date_edit));
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
 
-	ece_event_update_times (event_editor, date_edit, TRUE);
+	if (!e_date_edit_has_focus (date_edit))
+		ece_event_update_times (event_editor, date_edit, TRUE);
 }
 
 static void
@@ -131,7 +132,8 @@ ece_event_dtend_changed_cb (EDateEdit *date_edit,
 	g_return_if_fail (E_IS_DATE_EDIT (date_edit));
 	g_return_if_fail (E_IS_COMP_EDITOR_EVENT (event_editor));
 
-	ece_event_update_times (event_editor, date_edit, FALSE);
+	if (!e_date_edit_has_focus (date_edit))
+		ece_event_update_times (event_editor, date_edit, FALSE);
 }
 
 static void
