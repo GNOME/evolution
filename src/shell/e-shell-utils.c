@@ -347,7 +347,7 @@ e_shell_utils_run_help_about (EShell *shell)
 	gtk_show_about_dialog (
 		e_shell_get_active_window (shell),
 		"program-name", "Evolution",
-		"version", VERSION VERSION_SUBSTRING " " VERSION_COMMENT,
+		"version", VERSION VERSION_SUBSTRING " " VERSION_COMMENT " Compiled: " __DATE__ " " __TIME__,
 		"copyright", EVOLUTION_COPYRIGHT,
 		"comments", _("Groupware Suite"),
 		"website", PACKAGE_URL,
