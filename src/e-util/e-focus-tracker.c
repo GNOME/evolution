@@ -97,6 +97,36 @@ focus_tracker_disable_actions (EFocusTracker *focus_tracker)
 		gtk_action_set_sensitive (action, FALSE);
 }
 
+static gboolean
+focus_tracker_get_has_undo (GtkWidget *widget)
+{
+	if (!widget)
+		return FALSE;
+
+	if (e_widget_undo_is_attached (widget))
+		return e_widget_undo_has_undo (widget);
+
+	if (E_IS_CONTENT_EDITOR (widget))
+		return e_content_editor_can_undo (E_CONTENT_EDITOR (widget));
+
+	return FALSE;
+}
+
+static gboolean
+focus_tracker_get_has_redo (GtkWidget *widget)
+{
+	if (!widget)
+		return FALSE;
+
+	if (e_widget_undo_is_attached (widget))
+		return e_widget_undo_has_redo (widget);
+
+	if (E_IS_CONTENT_EDITOR (widget))
+		return e_content_editor_can_redo (E_CONTENT_EDITOR (widget));
+
+	return FALSE;
+}
+
 static void
 focus_tracker_update_undo_redo (EFocusTracker *focus_tracker,
                                 GtkWidget *widget,
@@ -107,14 +137,14 @@ focus_tracker_update_undo_redo (EFocusTracker *focus_tracker,
 
 	action = e_focus_tracker_get_undo_action (focus_tracker);
 	if (action != NULL) {
-		sensitive = can_edit_text && widget && e_widget_undo_has_undo (widget);
+		sensitive = can_edit_text && focus_tracker_get_has_undo (widget);
 		gtk_action_set_sensitive (action, sensitive);
 
 		if (sensitive) {
 			gchar *description;
 
 			description = e_widget_undo_describe_undo (widget);
-			gtk_action_set_tooltip (action, description);
+			gtk_action_set_tooltip (action, description && *description ? description : _("Undo"));
 			g_free (description);
 		} else {
 			gtk_action_set_tooltip (action, _("Undo"));
@@ -123,14 +153,14 @@ focus_tracker_update_undo_redo (EFocusTracker *focus_tracker,
 
 	action = e_focus_tracker_get_redo_action (focus_tracker);
 	if (action != NULL) {
-		sensitive = can_edit_text && widget && e_widget_undo_has_redo (widget);
+		sensitive = can_edit_text && focus_tracker_get_has_redo (widget);
 		gtk_action_set_sensitive (action, sensitive);
 
 		if (sensitive) {
 			gchar *description;
 
 			description = e_widget_undo_describe_redo (widget);
-			gtk_action_set_tooltip (action, description);
+			gtk_action_set_tooltip (action, description && *description ? description : _("Redo"));
 			g_free (description);
 		} else {
 			gtk_action_set_tooltip (action, _("Redo"));
@@ -287,6 +317,9 @@ focus_tracker_editor_update_actions (EFocusTracker *focus_tracker,
 		gtk_action_set_sensitive (action, can_paste);
 		gtk_action_set_tooltip (action, _("Paste the clipboard"));
 	}
+
+	focus_tracker_update_undo_redo (focus_tracker, GTK_WIDGET (cnt_editor),
+		e_content_editor_is_editable (cnt_editor));
 }
 
 static void
