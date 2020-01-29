@@ -683,13 +683,15 @@ cal_shell_content_current_view_id_changed_cb (ECalShellContent *cal_shell_conten
 			break;
 		case E_CAL_VIEW_KIND_MONTH:
 		case E_CAL_VIEW_KIND_LIST:
-			if (g_date_get_day (&sel_start) != 1 &&
-			    (g_date_get_julian (&sel_end) - g_date_get_julian (&sel_start) + 1) / 7 >= 3 &&
-			    g_date_get_month (&sel_start) != g_date_get_month (&sel_end)) {
-				g_date_set_day (&sel_start, 1);
-				g_date_add_months (&sel_start, 1);
-			} else {
-				g_date_set_day (&sel_start, 1);
+			if (!calendar_config_get_month_start_with_current_week ()) {
+				if (g_date_get_day (&sel_start) != 1 &&
+				    (g_date_get_julian (&sel_end) - g_date_get_julian (&sel_start) + 1) / 7 >= 3 &&
+				    g_date_get_month (&sel_start) != g_date_get_month (&sel_end)) {
+					g_date_set_day (&sel_start, 1);
+					g_date_add_months (&sel_start, 1);
+				} else {
+					g_date_set_day (&sel_start, 1);
+				}
 			}
 			sel_end = sel_start;
 			g_date_add_months (&sel_end, 1);

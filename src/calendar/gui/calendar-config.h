@@ -79,6 +79,9 @@ void   calendar_config_add_notification_day_second_zone (CalendarConfigChangedFu
 gboolean calendar_config_get_month_scroll_by_week (void);
 void     calendar_config_add_notification_month_scroll_by_week (CalendarConfigChangedFunc func, gpointer data);
 
+/* Start month view with current week instead of first week of the month */
+gboolean calendar_config_get_month_start_with_current_week (void);
+
 gboolean calendar_config_get_prefer_meeting (void);
 
 GDateWeekday	calendar_config_get_week_start_day		(void);
