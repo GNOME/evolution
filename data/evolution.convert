@@ -70,6 +70,7 @@ memo-layout = /apps/evolution/calendar/display/memo_layout
 memo-vpane-position = /apps/evolution/calendar/display/memo_vpane_position
 month-hpane-position = /apps/evolution/calendar/display/month_hpane_position
 month-scroll-by-week = /apps/evolution/calendar/display/month_scroll_by_week
+month-start-with-current-week = /apps/evolution/calendar/display/month_start_with_current_week
 notify-programs = /apps/evolution/calendar/notify/programs
 notify-with-tray = /apps/evolution/calendar/notify/notify_with_tray
 primary-calendar = /apps/evolution/calendar/display/primary_calendar

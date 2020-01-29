@@ -172,6 +172,15 @@ calendar_config_add_notification_month_scroll_by_week (CalendarConfigChangedFunc
 		G_CALLBACK (func), data);
 }
 
+/* Start month view with current week instead of first week of the month */
+gboolean
+calendar_config_get_month_start_with_current_week (void)
+{
+	calendar_config_init();
+
+	return g_settings_get_boolean (config, "month-start-with-current-week");
+}
+
 /***************************************/
 
 /* Settings to hide completed tasks. */

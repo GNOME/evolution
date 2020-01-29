@@ -972,6 +972,12 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget(prefs->priv->builder, "month_start_with_current_week");
+	g_settings_bind(
+		settings, "month-start-with-current-week",
+		widget, "active",
+		G_SETTINGS_BIND_DEFAULT);
+
 	widget = e_builder_get_widget (prefs->priv->builder, "week_view_days_left_to_right");
 	g_settings_bind (
 		settings, "week-view-days-left-to-right",
