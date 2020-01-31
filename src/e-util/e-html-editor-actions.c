@@ -387,10 +387,31 @@ action_insert_image_cb (GtkAction *action,
 
 		file_filter = gtk_file_filter_new ();
 		gtk_file_filter_add_pixbuf_formats (file_filter);
-		gtk_file_filter_set_name (file_filter, _("Image file"));
+		gtk_file_filter_set_name (file_filter, _("Image files"));
+		gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), file_filter);
+		gtk_file_chooser_set_filter (GTK_FILE_CHOOSER (native), file_filter);
+
+		file_filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (file_filter, _("All files"));
+		gtk_file_filter_add_pattern (file_filter, "*");
 		gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (native), file_filter);
 	} else {
+		GSList *filters, *link;
+
 		dialog = e_image_chooser_dialog_new (C_("dialog-title", "Insert Image"), GTK_IS_WINDOW (toplevel) ? GTK_WINDOW (toplevel) : NULL);
+
+		filters = gtk_file_chooser_list_filters (GTK_FILE_CHOOSER (dialog));
+
+		for (link = filters; link; link = g_slist_next (link)) {
+			GtkFileFilter *file_filter = link->data;
+
+			if (g_strcmp0 (gtk_file_filter_get_name (file_filter), _("Image files")) == 0) {
+				gtk_file_filter_add_mime_type (file_filter, "image/*");
+				break;
+			}
+		}
+
+		g_slist_free (filters);
 	}
 
 	if (dialog)

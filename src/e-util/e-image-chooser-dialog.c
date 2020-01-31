@@ -185,7 +185,14 @@ image_chooser_dialog_constructed (GObject *object)
 
 	file_filter = gtk_file_filter_new ();
 	gtk_file_filter_add_pixbuf_formats (file_filter);
+	gtk_file_filter_set_name (file_filter, _("Image files"));
+	gtk_file_chooser_add_filter (file_chooser, file_filter);
 	gtk_file_chooser_set_filter (file_chooser, file_filter);
+
+	file_filter = gtk_file_filter_new ();
+	gtk_file_filter_set_name (file_filter, _("All files"));
+	gtk_file_filter_add_pattern (file_filter, "*");
+	gtk_file_chooser_add_filter (file_chooser, file_filter);
 
 	gtk_file_chooser_set_preview_widget (file_chooser, gtk_image_new ());
 }

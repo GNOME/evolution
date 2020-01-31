@@ -52,6 +52,7 @@ static const gchar *parser_mime_types[] = {
 	"image/x-xpixmap",
 	"image/jpg",
 	"image/pjpeg",
+	"image/webp",
 	NULL
 };
 
