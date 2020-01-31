@@ -1,3 +1,43 @@
+Evolution 3.35.90 2020-01-31
+----------------------------
+
+Bug Fixes:
+	I#740 - 'open-map:' URI passed to browser (Milan Crha)
+	I#745 - PST importer: Fix name of MIME multipart/alternative (Ángel)
+	I#749 - Reword text in Read Receipt message (Milan Crha)
+	I#752 - Incorrect time shown in Reply credits for Australia/Adelaide (Milan Crha)
+	I#760 - ECompEditor: Typing end time messes up start time (Milan Crha)
+	I#767 - Support for WebP images / photos (Milan Crha)
+	eds-I#154 - Replace deprecated gdk_beep() usage in the code (Milan Crha)
+
+Miscellaneous:
+	ESourceConfig: Use a new ESourceCollection::allow-sources-rename property (Milan Crha)
+	EMFolderTreeModel: Let load folder structure on demand (Milan Crha)
+	mail_config_provider_page_add_checkspin: Correct mnemonic widget setting (Milan Crha)
+	Emoticon: Replace Unicode variant for face-smile and face-sad with Emoji (Milan Crha)
+	bbdb_merge_buddy_to_contact: Use provided new() function and fix possible memory leak (Milan Crha)
+	Change how EColorCombo palettes are created (Milan Crha)
+	Prefer GSlice over heap allocation for short-lived structures (Milan Crha)
+	e-mail-parser: Guess inner data mime type after extract from S/MIME blob (Milan Crha)
+	EFocusTracker: Correct Undo/Redo actions' update for EContentEditor (Milan Crha)
+	help: Update link to Bug Writing Guidelines (Andre Klapper)
+	help: Remove obsolete TODO comment (Andre Klapper)
+	help: Use a proper list of steps for all plugin related instructions (Andre Klapper)
+	help: Add note to all plugin instructions if plugin not available (Andre Klapper)
+
+Translations:
+	Andika Triwidada (id)
+	Rafael Fontenelle (pt_BR)
+	Carmen Bianca BAKKER (eo)
+	Dušan Kazik (sk)
+	Daniel Mustieles (es)
+	Sucipto (id)
+	Yi-Jyun Pan (zh_TW)
+	Jordi Mas (ca)
+	Fabio Tomat (fur)
+	Umarzuki Bin Mochlis Moktar (ms)
+	Anders Jonsson (sv)
+
 Evolution 3.35.3 2020-01-03
 ---------------------------
 
