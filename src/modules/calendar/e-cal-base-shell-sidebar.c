@@ -754,7 +754,7 @@ cal_base_shell_sidebar_constructed (GObject *object)
 		calitem = e_calendar_get_item (E_CALENDAR (widget));
 		e_calendar_item_set_days_start_week_sel (calitem, 9);
 		e_calendar_item_set_max_days_sel (calitem, 42);
-		gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
+		gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, TRUE);
 		cal_base_shell_sidebar->priv->date_navigator = E_CALENDAR (widget);
 		gtk_widget_show (widget);
 
