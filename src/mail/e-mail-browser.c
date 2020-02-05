@@ -137,6 +137,28 @@ action_search_web_cb (GtkAction *action,
 	gtk_action_activate (wv_action);
 }
 
+static void
+action_mail_smart_backward_cb (GtkAction *action,
+			       EMailReader *reader)
+{
+	EMailDisplay *mail_display;
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+
+	e_mail_display_process_magic_spacebar (mail_display, FALSE);
+}
+
+static void
+action_mail_smart_forward_cb (GtkAction *action,
+			      EMailReader *reader)
+{
+	EMailDisplay *mail_display;
+
+	mail_display = e_mail_reader_get_mail_display (reader);
+
+	e_mail_display_process_magic_spacebar (mail_display, TRUE);
+}
+
 static GtkActionEntry mail_browser_entries[] = {
 
 	{ "close",
@@ -203,6 +225,23 @@ static GtkActionEntry mail_browser_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL }
+};
+
+static GtkActionEntry mail_entries[] = {
+
+	{ "mail-smart-backward",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_mail_smart_backward_cb) },
+
+	{ "mail-smart-forward",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_mail_smart_forward_cb) },
 };
 
 static EPopupActionEntry mail_browser_popup_entries[] = {
@@ -423,8 +462,7 @@ mail_browser_key_press_event_cb (GtkWindow *mail_browser,
 	GtkWidget *focused;
 	EMailDisplay *mail_display;
 
-	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0 ||
-	    (event->keyval != GDK_KEY_space && event->keyval != GDK_KEY_BackSpace))
+	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
 		return FALSE;
 
 	focused = gtk_window_get_focus (mail_browser);
@@ -441,7 +479,7 @@ mail_browser_key_press_event_cb (GtkWindow *mail_browser,
 		return TRUE;
 	}
 
-	return e_mail_display_process_magic_spacebar (mail_display, event->keyval == GDK_KEY_space);
+	return FALSE;
 }
 
 static void
@@ -747,6 +785,13 @@ mail_browser_constructed (GObject *object)
 	widget = e_preview_pane_new (E_WEB_VIEW (display));
 	browser->priv->preview_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	action_group = gtk_action_group_new ("mail");
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_action_group_add_actions (
+		action_group, mail_entries,
+		G_N_ELEMENTS (mail_entries), object);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	action_group = gtk_action_group_new (ACTION_GROUP_STANDARD);
 	gtk_action_group_set_translation_domain (action_group, domain);

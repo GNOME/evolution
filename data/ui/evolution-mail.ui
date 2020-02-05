@@ -1,7 +1,4 @@
 <ui evolution-ui-version="1.0">
-  <accelerator action='mail-smart-backward'/>
-  <accelerator action='mail-smart-forward'/>
-
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <placeholder name='mail-send-receiver'>
