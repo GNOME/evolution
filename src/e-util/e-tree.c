@@ -3432,3 +3432,16 @@ e_tree_set_sort_children_ascending (ETree *tree,
 
 	g_object_notify (G_OBJECT (tree), "sort-children-ascending");
 }
+
+void
+e_tree_customize_view (ETree *tree)
+{
+	GnomeCanvasItem *header_item;
+
+	g_return_if_fail (E_IS_TREE (tree));
+
+	header_item = e_tree_get_header_item (tree);
+
+	if (header_item)
+		e_table_header_item_customize_view (E_TABLE_HEADER_ITEM (header_item));
+}

@@ -220,6 +220,40 @@ action_gal_save_custom_view_cb (GtkAction *action,
 	gal_view_instance_save_as (view_instance);
 }
 
+static void
+action_gal_customize_view_cb (GtkAction *action,
+			      EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	GalViewInstance *view_instance;
+	GalView *gal_view;
+	const gchar *view_name;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	view_instance = e_shell_view_get_view_instance (shell_view);
+
+	gal_view = gal_view_instance_get_current_view (view_instance);
+
+	if (GAL_IS_VIEW_ETABLE (gal_view)) {
+		GalViewEtable *etable_view = GAL_VIEW_ETABLE (gal_view);
+		ETable *etable;
+
+		etable = gal_view_etable_get_table (etable_view);
+
+		if (etable) {
+			e_table_customize_view (etable);
+		} else {
+			ETree *etree;
+
+			etree = gal_view_etable_get_tree (etable_view);
+
+			if (etree)
+				e_tree_customize_view (etree);
+		}
+	}
+}
+
 /**
  * E_SHELL_WINDOW_ACTION_IMPORT:
  * @window: an #EShellWindow
@@ -1187,6 +1221,13 @@ static GtkActionEntry shell_gal_view_entries[] = {
 	  N_("Save current custom view"),
 	  G_CALLBACK (action_gal_save_custom_view_cb) },
 
+	{ "gal-customize-view",
+	  NULL,
+	  N_("Custo_mize Current View…"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_gal_customize_view_cb) },
+
 	/*** Menus ***/
 
 	{ "gal-view-menu",
@@ -1649,6 +1690,7 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GalViewCollection *view_collection;
+	GalViewInstance *view_instance;
 	GtkRadioAction *radio_action;
 	GtkAction *action;
 	GSList *radio_group;
@@ -1740,6 +1782,12 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 		g_free (tooltip);
 		g_free (title);
 	}
+
+	view_instance = e_shell_view_get_view_instance (shell_view);
+	visible = view_instance && gal_view_instance_get_current_view (view_instance) &&
+		GAL_IS_VIEW_ETABLE (gal_view_instance_get_current_view (view_instance));
+	action = ACTION (GAL_CUSTOMIZE_VIEW);
+	gtk_action_set_visible (action, visible);
 
 	/* Doesn't matter which radio action we check. */
 	visible = (gtk_radio_action_get_current_value (radio_action) < 0);

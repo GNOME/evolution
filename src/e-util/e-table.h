@@ -378,6 +378,7 @@ void		e_table_commit_click_to_add	(ETable *table);
 void		e_table_freeze_state_change	(ETable *table);
 void		e_table_thaw_state_change	(ETable *table);
 gboolean	e_table_is_editing		(ETable *table);
+void		e_table_customize_view		(ETable *table);
 
 G_END_DECLS
 

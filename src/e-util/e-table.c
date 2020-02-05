@@ -3605,3 +3605,12 @@ e_table_is_editing (ETable *table)
 	return (table->click_to_add && e_table_click_to_add_is_editing (E_TABLE_CLICK_TO_ADD (table->click_to_add))) ||
 	       (table->group && e_table_group_is_editing (table->group));
 }
+
+void
+e_table_customize_view (ETable *table)
+{
+	g_return_if_fail (E_IS_TABLE (table));
+
+	if (table->header_item)
+		e_table_header_item_customize_view (E_TABLE_HEADER_ITEM (table->header_item));
+}

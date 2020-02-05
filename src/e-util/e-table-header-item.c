@@ -1580,22 +1580,23 @@ apply_changes (ETableConfig *config,
 		GTK_RESPONSE_APPLY, FALSE);
 }
 
-static void
-ethi_popup_customize_view (GtkWidget *widget,
-                           EthiHeaderInfo *info)
+void
+e_table_header_item_customize_view (ETableHeaderItem *ethi)
 {
-	ETableHeaderItem *ethi = info->ethi;
 	ETableState *state;
 	ETableSpecification *spec;
+	GtkWidget *widget = NULL;
+
+	g_return_if_fail (E_IS_TABLE_HEADER_ITEM (ethi));
 
 	if (ethi->table)
 		widget = GTK_WIDGET (ethi->table);
 	else if (ethi->tree)
 		widget = GTK_WIDGET (ethi->tree);
 
-	if (ethi->config)
+	if (ethi->config) {
 		e_table_config_raise (E_TABLE_CONFIG (ethi->config));
-	else {
+	} else {
 		if (ethi->table) {
 			state = e_table_get_state_object (ethi->table);
 			spec = ethi->table->spec;
@@ -1615,6 +1616,15 @@ ethi_popup_customize_view (GtkWidget *widget,
 			ethi->config, "changed",
 			G_CALLBACK (apply_changes), ethi);
 	}
+}
+
+static void
+ethi_popup_customize_view (GtkWidget *widget,
+                           EthiHeaderInfo *info)
+{
+	ETableHeaderItem *ethi = info->ethi;
+
+	e_table_header_item_customize_view (ethi);
 }
 
 static void

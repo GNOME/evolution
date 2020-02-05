@@ -148,6 +148,8 @@ GType		e_table_header_item_get_type	(void) G_GNUC_CONST;
 void		ethi_change_sort_state		(ETableHeaderItem *ethi,
 						 ETableCol *col,
 						 ETableHeaderItemSortFlag flag);
+void		e_table_header_item_customize_view
+						(ETableHeaderItem *ethi);
 
 G_END_DECLS
 

@@ -274,3 +274,19 @@ gal_view_etable_detach (GalViewEtable *view)
 	if (view->priv->tree != NULL)
 		detach_tree (view);
 }
+
+ETable *
+gal_view_etable_get_table (GalViewEtable *view)
+{
+	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
+
+	return view->priv->table;
+}
+
+ETree *
+gal_view_etable_get_tree (GalViewEtable *view)
+{
+	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
+
+	return view->priv->tree;
+}

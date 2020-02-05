@@ -261,6 +261,7 @@ gboolean	e_tree_get_sort_children_ascending
 void		e_tree_set_sort_children_ascending
 						(ETree *tree,
 						 gboolean sort_children_ascending);
+void		e_tree_customize_view		(ETree *tree);
 
 G_END_DECLS
 

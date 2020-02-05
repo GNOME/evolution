@@ -44,6 +44,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "delete-selection")
 #define E_SHELL_WINDOW_ACTION_GAL_CUSTOM_VIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "gal-custom-view")
+#define E_SHELL_WINDOW_ACTION_GAL_CUSTOMIZE_VIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "gal-customize-view")
 #define E_SHELL_WINDOW_ACTION_GAL_DELETE_VIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "gal-delete-view")
 #define E_SHELL_WINDOW_ACTION_GAL_SAVE_CUSTOM_VIEW(window) \
