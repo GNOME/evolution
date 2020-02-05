@@ -258,7 +258,6 @@ mail_shell_view_process_key_press_event (EMailShellView *mail_shell_view,
 	EMailView *mail_view;
 	EMailReader *reader;
 	EMailDisplay *mail_display;
-	GtkAction *action;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -280,22 +279,7 @@ mail_shell_view_process_key_press_event (EMailShellView *mail_shell_view,
 		return pass_event;
 	}
 
-	switch (event->keyval) {
-		case GDK_KEY_space:
-			action = ACTION (MAIL_SMART_FORWARD);
-			break;
-
-		case GDK_KEY_BackSpace:
-			action = ACTION (MAIL_SMART_BACKWARD);
-			break;
-
-		default:
-			return FALSE;
-	}
-
-	gtk_action_activate (action);
-
-	return TRUE;
+	return FALSE;
 }
 
 static gboolean

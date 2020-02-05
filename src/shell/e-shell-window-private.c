@@ -356,8 +356,7 @@ e_shell_window_key_press_event_cb (GtkWidget *widget,
 	    event->keyval == GDK_KEY_Return ||
 	    event->keyval == GDK_KEY_Escape ||
 	    event->keyval == GDK_KEY_KP_Tab ||
-	    event->keyval == GDK_KEY_KP_Enter ||
-	    event->keyval == GDK_KEY_BackSpace)
+	    event->keyval == GDK_KEY_KP_Enter)
 		return FALSE;
 
 	if (e_shell_window_get_need_input (E_SHELL_WINDOW (widget), event)) {
