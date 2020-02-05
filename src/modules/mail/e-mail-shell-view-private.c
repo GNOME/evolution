@@ -256,20 +256,19 @@ mail_shell_view_process_key_press_event (EMailShellView *mail_shell_view,
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EMailView *mail_view;
-	EMailReader *reader;
 	EMailDisplay *mail_display;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	if ((event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0 ||
-	    e_shell_window_get_need_input (shell_window, event))
-		return FALSE;
-
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
-	reader = E_MAIL_READER (mail_view);
-	mail_display = e_mail_reader_get_mail_display (reader);
+	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_view));
+
+	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
+		return event && e_mail_display_need_key_event (mail_display, event);
+
+	if (e_shell_window_get_need_input (shell_window, event))
+		return FALSE;
 
 	if (e_web_view_get_need_input (E_WEB_VIEW (mail_display)) &&
 	    gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
@@ -279,7 +278,7 @@ mail_shell_view_process_key_press_event (EMailShellView *mail_shell_view,
 		return pass_event;
 	}
 
-	return FALSE;
+	return e_mail_display_need_key_event (mail_display, event);
 }
 
 static gboolean

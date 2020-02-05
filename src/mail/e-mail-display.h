@@ -111,6 +111,8 @@ void		e_mail_display_set_remote_content
 gboolean	e_mail_display_process_magic_spacebar
 						(EMailDisplay *display,
 						 gboolean towards_bottom);
+gboolean	e_mail_display_need_key_event	(EMailDisplay *mail_display,
+						 const GdkEventKey *event);
 
 G_END_DECLS
 

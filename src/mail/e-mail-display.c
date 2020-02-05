@@ -69,6 +69,8 @@ struct _EMailDisplayPrivate {
 	guint attachment_inline_ui_id;
 
 	GtkActionGroup *attachment_inline_group;
+	GtkActionGroup *attachment_accel_action_group;
+	GtkAccelGroup *attachment_accel_group;
 
 	EMailPartList *part_list;
 	EMailFormatterMode mode;
@@ -750,6 +752,199 @@ static GtkActionEntry attachment_inline_entries[] = {
 	  G_CALLBACK (action_attachment_zoom_to_window_cb) }
 };
 
+static void
+call_attachment_save_handle_error (GObject *source_object,
+				   GAsyncResult *result,
+				   gpointer user_data)
+{
+	GtkWindow *window = user_data;
+
+	g_return_if_fail (E_IS_ATTACHMENT (source_object));
+	g_return_if_fail (!window || GTK_IS_WINDOW (window));
+
+	e_attachment_save_handle_error (E_ATTACHMENT (source_object), result, window);
+
+	g_clear_object (&window);
+}
+
+static void
+mail_display_open_attachment (EMailDisplay *display,
+			      EAttachment *attachment)
+{
+	GAppInfo *default_app;
+	gpointer parent;
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (display));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	/* Either open in the default application... */
+	default_app = e_attachment_ref_default_app (attachment);
+	if (default_app || e_util_is_running_flatpak ()) {
+		e_attachment_open_async (
+			attachment, default_app, (GAsyncReadyCallback)
+			e_attachment_open_handle_error, parent);
+
+		g_object_unref (default_app);
+	} else {
+		/* ...or save it */
+		GList *attachments;
+		EAttachmentStore *store;
+		GFile *destination;
+
+		store = e_mail_display_get_attachment_store (display);
+		attachments = g_list_prepend (NULL, attachment);
+
+		destination = e_attachment_store_run_save_dialog (store, attachments, parent);
+		if (destination) {
+			e_attachment_save_async (
+				attachment, destination, (GAsyncReadyCallback)
+				call_attachment_save_handle_error, parent ? g_object_ref (parent) : NULL);
+
+			g_object_unref (destination);
+		}
+
+		g_list_free (attachments);
+	}
+}
+
+static void
+action_attachment_toggle_cb (GtkAction *action,
+			     EMailDisplay *display)
+{
+	EAttachmentStore *store;
+	GList *attachments, *link;
+	const gchar *name;
+	guint index = ~0;
+	guint len, ii;
+
+	name = gtk_action_get_name (action);
+	g_return_if_fail (name != NULL);
+
+	len = strlen (name);
+
+	g_return_if_fail (len > 0);
+
+	if (name[len - 1] >= '1' && name[len - 1] <= '9') {
+		index = name[len - 1] - '1';
+	}
+
+	store = e_mail_display_get_attachment_store (display);
+
+	if (index != ~0 && index >= e_attachment_store_get_num_attachments (store))
+		return;
+
+	attachments = e_attachment_store_get_attachments (display->priv->attachment_store);
+
+	if (index == ~0) {
+		guint n_shown = 0, n_can = 0, flags;
+
+		for (link = attachments; link; link = g_list_next (link)) {
+			EAttachment *attachment = link->data;
+
+			if (e_attachment_get_can_show (attachment)) {
+				n_can++;
+
+				flags = GPOINTER_TO_UINT (g_hash_table_lookup (display->priv->attachment_flags, attachment));
+
+				if ((flags & E_ATTACHMENT_FLAG_VISIBLE) != 0)
+					n_shown++;
+
+				if (n_can != n_shown)
+					break;
+			}
+		}
+
+		mail_display_change_attachment_visibility (display, TRUE, n_shown != n_can);
+	} else {
+		for (link = attachments, ii = 0; link; ii++, link = g_list_next (link)) {
+			EAttachment *attachment = link->data;
+
+			if (index == ii) {
+				if (e_attachment_get_can_show (attachment))
+					mail_display_change_one_attachment_visibility (display, attachment, FALSE, TRUE);
+				else
+					mail_display_open_attachment (display, attachment);
+				break;
+			}
+		}
+	}
+
+	g_list_free_full (attachments, g_object_unref);
+}
+
+static GtkActionEntry accel_entries[] = {
+
+	{ "attachment-toggle-all",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>0",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) },
+
+	{ "attachment-toggle-1",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>1",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) },
+
+	{ "attachment-toggle-2",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>2",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) },
+
+	{ "attachment-toggle-3",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>3",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) },
+
+	{ "attachment-toggle-4",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>4",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) },
+
+	{ "attachment-toggle-5",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>5",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) },
+
+	{ "attachment-toggle-6",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>6",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) },
+
+	{ "attachment-toggle-7",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>7",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) },
+
+	{ "attachment-toggle-8",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>8",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) },
+
+	{ "attachment-toggle-9",
+	  NULL,
+	  NULL,
+	  "<Primary><Alt>9",
+	  NULL,
+	  G_CALLBACK (action_attachment_toggle_cb) }
+};
+
 static EAttachment *
 mail_display_ref_attachment_from_element (EMailDisplay *display,
 					  const gchar *element_value)
@@ -794,21 +989,6 @@ mail_display_ref_attachment_from_element (EMailDisplay *display,
 }
 
 static void
-call_attachment_save_handle_error (GObject *source_object,
-				   GAsyncResult *result,
-				   gpointer user_data)
-{
-	GtkWindow *window = user_data;
-
-	g_return_if_fail (E_IS_ATTACHMENT (source_object));
-	g_return_if_fail (!window || GTK_IS_WINDOW (window));
-
-	e_attachment_save_handle_error (E_ATTACHMENT (source_object), result, window);
-
-	g_clear_object (&window);
-}
-
-static void
 mail_display_attachment_expander_clicked_cb (EWebView *web_view,
 					     const gchar *iframe_id,
 					     const gchar *element_id,
@@ -833,40 +1013,7 @@ mail_display_attachment_expander_clicked_cb (EWebView *web_view,
 			/* Flip the current 'visible' state */
 			mail_display_change_one_attachment_visibility (display, attachment, FALSE, TRUE);
 		} else {
-			GAppInfo *default_app;
-			gpointer parent;
-
-			parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
-			parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
-
-			/* Either open in the default application... */
-			default_app = e_attachment_ref_default_app (attachment);
-			if (default_app || e_util_is_running_flatpak ()) {
-				e_attachment_open_async (
-					attachment, default_app, (GAsyncReadyCallback)
-					e_attachment_open_handle_error, parent);
-
-				g_object_unref (default_app);
-			} else {
-				/* ...or save it */
-				GList *attachments;
-				EAttachmentStore *store;
-				GFile *destination;
-
-				store = e_mail_display_get_attachment_store (display);
-				attachments = g_list_prepend (NULL, attachment);
-
-				destination = e_attachment_store_run_save_dialog (store, attachments, parent);
-				if (destination) {
-					e_attachment_save_async (
-						attachment, destination, (GAsyncReadyCallback)
-						call_attachment_save_handle_error, parent ? g_object_ref (parent) : NULL);
-
-					g_object_unref (destination);
-				}
-
-				g_list_free (attachments);
-			}
+			mail_display_open_attachment (display, attachment);
 		}
 	}
 
@@ -1318,6 +1465,8 @@ mail_display_dispose (GObject *object)
 	g_clear_object (&priv->attachment_store);
 	g_clear_object (&priv->attachment_view);
 	g_clear_object (&priv->attachment_inline_group);
+	g_clear_object (&priv->attachment_accel_action_group);
+	g_clear_object (&priv->attachment_accel_group);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_display_parent_class)->dispose (object);
@@ -2097,17 +2246,37 @@ e_mail_display_init (EMailDisplay *display)
 {
 	GtkUIManager *ui_manager;
 	GtkActionGroup *actions;
+	GList *acts_list, *link;
 
 	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
 
 	display->priv->attachment_store = E_ATTACHMENT_STORE (e_attachment_store_new ());
 	display->priv->attachment_flags = g_hash_table_new (g_direct_hash, g_direct_equal);
 	display->priv->attachment_inline_group = gtk_action_group_new ("e-mail-display-attachment-inline");
+	display->priv->attachment_accel_action_group = gtk_action_group_new ("e-mail-display-attachment-accel");
+	display->priv->attachment_accel_group = gtk_accel_group_new ();
 
 	gtk_action_group_add_actions (
 		display->priv->attachment_inline_group, attachment_inline_entries,
 		G_N_ELEMENTS (attachment_inline_entries), display);
 	gtk_action_group_set_visible (display->priv->attachment_inline_group, FALSE);
+
+	gtk_action_group_set_accel_group (display->priv->attachment_accel_action_group,
+		display->priv->attachment_accel_group);
+
+	gtk_action_group_add_actions (
+		display->priv->attachment_accel_action_group, accel_entries,
+		G_N_ELEMENTS (accel_entries), display);
+
+	acts_list = gtk_action_group_list_actions (display->priv->attachment_accel_action_group);
+
+	for (link = acts_list; link; link = g_list_next (link)) {
+		GtkAction *action = link->data;
+
+		gtk_action_connect_accelerator (action);
+	}
+
+	g_list_free (acts_list);
 
 	g_signal_connect (display->priv->attachment_store, "attachment-added",
 		G_CALLBACK (mail_display_attachment_added_cb), display);
@@ -2747,4 +2916,32 @@ e_mail_display_process_magic_spacebar (EMailDisplay *display,
 		towards_bottom);
 
 	return TRUE;
+}
+
+gboolean
+e_mail_display_need_key_event (EMailDisplay *mail_display,
+			       const GdkEventKey *event)
+{
+	GtkAccelGroup *accel_group;
+	GdkModifierType accel_mods;
+	GQuark accel_quark;
+	gchar *accel_name;
+
+	if (!event)
+		return FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (mail_display), FALSE);
+
+	accel_group = gtk_action_group_get_accel_group (mail_display->priv->attachment_accel_action_group);
+
+	if (!accel_group)
+		return FALSE;
+
+	accel_mods = event->state & gtk_accelerator_get_default_mod_mask ();
+	accel_name = gtk_accelerator_name (event->keyval, accel_mods);
+	accel_quark = g_quark_from_string (accel_name);
+	g_free (accel_name);
+
+	return gtk_accel_group_activate (accel_group, accel_quark, G_OBJECT (mail_display),
+		event->keyval, accel_mods);
 }

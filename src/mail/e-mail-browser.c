@@ -462,8 +462,10 @@ mail_browser_key_press_event_cb (GtkWindow *mail_browser,
 	GtkWidget *focused;
 	EMailDisplay *mail_display;
 
+	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_browser));
+
 	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0)
-		return FALSE;
+		return event && e_mail_display_need_key_event (mail_display, event);
 
 	focused = gtk_window_get_focus (mail_browser);
 
@@ -471,15 +473,13 @@ mail_browser_key_press_event_cb (GtkWindow *mail_browser,
 	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0)))
 		return FALSE;
 
-	mail_display = e_mail_reader_get_mail_display (E_MAIL_READER (mail_browser));
-
 	if (e_web_view_get_need_input (E_WEB_VIEW (mail_display)) &&
 	    gtk_widget_has_focus (GTK_WIDGET (mail_display))) {
 		gtk_widget_event (GTK_WIDGET (mail_display), (GdkEvent *) event);
 		return TRUE;
 	}
 
-	return FALSE;
+	return e_mail_display_need_key_event (mail_display, event);
 }
 
 static void
