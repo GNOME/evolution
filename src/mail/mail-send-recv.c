@@ -977,9 +977,6 @@ build_dialog (GtkWindow *parent,
 
 	gtk_widget_show_all (wgrid);
 
-	if (parent != NULL)
-		gtk_widget_show (GTK_WIDGET (gd));
-
 	g_signal_connect (
 		gd, "response",
 		G_CALLBACK (dialog_response), data);
@@ -1775,9 +1772,9 @@ send_receive (GtkWindow *parent,
 	GList *scan, *siter;
 
 	if (send_recv_dialog != NULL) {
-		if (parent != NULL && gtk_widget_get_realized (send_recv_dialog)) {
+		if (parent)
 			gtk_window_present (GTK_WINDOW (send_recv_dialog));
-		}
+
 		return send_recv_dialog;
 	}
 
