@@ -739,7 +739,9 @@ sort_ascending_toggled (GtkToggleButton *toggle_button,
 		sort_type = GTK_SORT_DESCENDING;
 
 	column = e_table_sort_info_sorting_get_nth (si, idx, NULL);
-	e_table_sort_info_sorting_set_nth (si, idx, column, sort_type);
+
+	if (column)
+		e_table_sort_info_sorting_set_nth (si, idx, column, sort_type);
 }
 
 static void
