@@ -86,10 +86,10 @@ struct _ESourceSelectorClass {
 						 ESource *source);
 	void		(*source_unselected)	(ESourceSelector *selector,
 						 ESource *source);
+	gboolean	(*filter_source)	(ESourceSelector *selector,
+						 ESource *source);
 
-	gpointer padding1;
-	gpointer padding2;
-	gpointer padding3;
+	gpointer padding[2];
 };
 
 GType		e_source_selector_get_type	(void) G_GNUC_CONST;

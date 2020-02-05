@@ -70,6 +70,22 @@ conflict_search_selector_set_source_selected (ESourceSelector *selector,
 	return FALSE;
 }
 
+static gboolean
+conflict_search_selector_filter_source_cb (ESourceSelector *selector,
+					   ESource *source,
+					   gpointer user_data)
+{
+	gboolean hidden = FALSE;
+
+	if (E_IS_SOURCE (source) && (
+	    g_strcmp0 (e_source_get_uid (source), "contacts-stub") == 0 ||
+	    g_strcmp0 (e_source_get_uid (source), "birthdays") == 0)) {
+		hidden = TRUE;
+	}
+
+	return hidden;
+}
+
 static void
 e_conflict_search_selector_class_init (EConflictSearchSelectorClass *class)
 {
@@ -87,6 +103,8 @@ e_conflict_search_selector_class_init (EConflictSearchSelectorClass *class)
 static void
 e_conflict_search_selector_init (EConflictSearchSelector *selector)
 {
+	g_signal_connect (selector, "filter-source",
+		G_CALLBACK (conflict_search_selector_filter_source_cb), NULL);
 }
 
 GtkWidget *

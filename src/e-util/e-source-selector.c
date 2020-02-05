@@ -85,6 +85,7 @@ enum {
 	DATA_DROPPED,
 	SOURCE_SELECTED,
 	SOURCE_UNSELECTED,
+	FILTER_SOURCE,
 	NUM_SIGNALS
 };
 
@@ -432,10 +433,17 @@ source_selector_node_is_hidden (ESourceSelector *selector,
 	/* Check the path to the root, any is hidden, this one can be also hidden */
 	node = main_node;
 	while (node) {
+		gboolean hidden_by_filter = FALSE;
+
 		source = node->data;
 
 		if (!source || G_NODE_IS_ROOT (node))
 			break;
+
+		g_signal_emit (selector, signals[FILTER_SOURCE], 0, source, &hidden_by_filter);
+
+		if (hidden_by_filter)
+			return TRUE;
 
 		if (data.show_toggles && source_selector_source_is_enabled_and_selected (source, extension_name)) {
 			hidden = FALSE;
@@ -1849,6 +1857,15 @@ e_source_selector_class_init (ESourceSelectorClass *class)
 		G_STRUCT_OFFSET (ESourceSelectorClass, source_unselected),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 1, E_TYPE_SOURCE);
+
+	/* Return TRUE when the source should be hidden, FALSE when not. */
+	signals[FILTER_SOURCE] = g_signal_new (
+		"filter-source",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (ESourceSelectorClass, filter_source),
+		NULL, NULL, NULL,
+		G_TYPE_BOOLEAN, 1, E_TYPE_SOURCE);
 }
 
 static void
