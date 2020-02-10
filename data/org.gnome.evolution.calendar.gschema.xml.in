@@ -279,6 +279,11 @@
       <_summary>Scroll Month View by a week, not by a month</_summary>
       <_description>Whether to scroll a Month View by a week, not by a month</_description>
     </key>
+    <key name="month-start-with-current-week" type="b">
+      <default>false</default>
+      <_summary>Let the Month View start with the current week</_summary>
+      <_description>Whether the month view should show weeks starting with the current week instead of the first week of the month.</_description>
+    </key>
     <key name="prefer-new-item" type="s">
       <default>''</default>
       <_summary>Preferred New button item</_summary>
