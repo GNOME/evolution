@@ -8,6 +8,7 @@
    <link type="seealso" xref="mail-folders" />
 
  <revision pkgversion="3.13.90" version="0.1" date="2015-03-09" status="draft"/>
+ <revision pkgversion="3.34.3" version="0.2" date="2020-02-11" status="draft"/>
  <credit type="author">
    <name its:translate="no">Andre Klapper</name>
    <email its:translate="no">ak-47@gmx.net</email>
@@ -25,6 +26,11 @@
 <item><p>When replying to mail in specific <link xref="mail-folders">folders</link>.</p></item>
 <item><p>When replying to certain email addresses, names, or parts of email addresses or names.</p></item>
 </list>
+
+<p>The checkbox <gui>Folder override has precedence over Recipient override</gui>
+defines how Evolution should behave when you reply to a message which matches
+both a folder and an email address or name which you have defined.</p>
+
 <p>These settings are available under <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>.</p>
 
 </page>
