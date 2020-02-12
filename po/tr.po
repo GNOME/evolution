@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-02-10 15:23+0000\n"
-"PO-Revision-Date: 2020-02-10 23:32+0300\n"
+"POT-Creation-Date: 2020-02-12 14:31+0000\n"
+"PO-Revision-Date: 2020-02-12 21:07+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -2729,10 +2729,22 @@ msgstr ""
 "kendiliğinden satır içinde gösterilir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
+msgid "Whether unset colors provided in HTML mails."
+msgstr "HTML postalarda sağlanan renklerin kurulup kurulmaması"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+msgid ""
+"If enabled, unset colors in HTML messages, forcing use of desktop theme "
+"colors instead."
+msgstr ""
+"Etkinleştirilirse, HTML iletilerdeki renkler kurulmayacak, bunun yerine "
+"masaüstü tema renklerinin kullanımı zorlanacak"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid "(Deprecated) Default forward style"
 msgstr "(Kullanılması önerilmiyor) Varsayılan yönlendirme biçemi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2740,11 +2752,11 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “forward-style-name” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
 msgid "(Deprecated) Default reply style"
 msgstr "(Kullanılması önerilmiyor) Varsayıla yanıtlama biçemi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2752,13 +2764,13 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “reply-style-name” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr ""
 "(Kullanımı önerilmiyor) Özel başlıklar ve onların etkin olup olmadıklarının "
 "listesi."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2766,13 +2778,13 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “show-headers” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr ""
 "(Kullanımı önerilmiyor) HTML iletileri için resimlerin HTTP üzerinden "
 "yüklenmesi"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2780,7 +2792,7 @@ msgstr ""
 "Bu anahtar 3.10 sürümünde kullanılması önerilmiyor ve artık kullanılmaması "
 "gerek. Yerine “image-loading-policy” kullanın."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2788,7 +2800,7 @@ msgstr ""
 "(Terk edilmiş) Kullanıcı penceredeki iletiye yanıt verirken ya da iletiyi "
 "iletirken ileti penceresinin kapatılıp kapatılmayacağını sorar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -11895,12 +11907,12 @@ msgid "Display part as enriched text"
 msgstr "Zengin metin olarak göster"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
-#: ../src/em-format/e-mail-formatter-text-html.c:385
+#: ../src/em-format/e-mail-formatter-text-html.c:389
 msgid "HTML"
 msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
-#: ../src/em-format/e-mail-formatter-text-html.c:386
+#: ../src/em-format/e-mail-formatter-text-html.c:390
 msgid "Format part as HTML"
 msgstr "HTML olarak biçinlendir"
 
