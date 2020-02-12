@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-02-12 14:31+0000\n"
-"PO-Revision-Date: 2020-02-12 21:07+0300\n"
+"POT-Creation-Date: 2020-02-12 18:08+0000\n"
+"PO-Revision-Date: 2020-02-12 21:11+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -11529,7 +11529,24 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Bir İleti Yaz"
 
-#: ../src/composer/e-msg-composer.c:5006
+#: ../src/composer/e-msg-composer.c:4906
+msgid "Review attachment before sending."
+msgid_plural "Review attachments before sending."
+msgstr[0] "Ek(ler)i göndermeden gözden geçir."
+
+#: ../src/composer/e-msg-composer.c:4911
+#, c-format
+msgid ""
+"There had been added %d attachment. Make sure it does not contain any "
+"sensitive information before sending the message."
+msgid_plural ""
+"There had been added %d attachments. Make sure they do not contain any "
+"sensitive information before sending the message."
+msgstr[0] ""
+"%d ek eklendi. İletiyi göndermeden önce herhangi bir hassas bilgi "
+"barındırmadığından emin olun."
+
+#: ../src/composer/e-msg-composer.c:5044
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Düzenleyicide metin olmayan ve düzenlenemeyen ileti gövdesi bulunmaktadır."
