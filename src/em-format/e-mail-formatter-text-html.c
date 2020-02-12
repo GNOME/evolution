@@ -327,10 +327,12 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 		g_string_free (string, TRUE);
 	} else {
 		CamelFolder *folder;
+		GSettings *settings;
 		const gchar *message_uid;
 		const gchar *default_charset, *charset;
 		gchar *uri, *str;
 
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
 		folder = e_mail_part_list_get_folder (context->part_list);
 		message_uid = e_mail_part_list_get_message_uid (context->part_list);
 		default_charset = e_mail_formatter_get_default_charset (formatter);
@@ -360,18 +362,20 @@ emfe_text_html_format (EMailFormatterExtension *extension,
 			" frameborder=\"0\" src=\"%s\" "
 			" id=\"%s.iframe\" name=\"%s\" "
 			" class=\"-e-mail-formatter-frame-color %s\" "
-			" style=\"background-color: #ffffff; \">"
+			" %s>"
 			"</iframe>"
 			"</div>",
 			uri,
 			e_mail_part_get_id (part),
 			e_mail_part_get_id (part),
-			e_mail_part_get_frame_security_style (part));
+			e_mail_part_get_frame_security_style (part),
+			g_settings_get_boolean (settings, "preview-unset-html-colors") ? "x-e-unset-colors=\"1\"" : "style=\"background-color: #ffffff;\"");
 
 		g_output_stream_write_all (
 			stream, str, strlen (str),
 			NULL, cancellable, NULL);
 
+		g_clear_object (&settings);
 		g_free (str);
 		g_free (uri);
 	}

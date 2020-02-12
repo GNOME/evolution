@@ -832,6 +832,11 @@
       <_summary>Whether display delivery notification parts inline.</_summary>
       <_description>If enabled, the message/delivery-status and message/disposition-notification parts are shown automatically inline.</_description>
     </key>
+    <key name="preview-unset-html-colors" type="b">
+      <default>false</default>
+      <_summary>Whether unset colors provided in HTML mails.</_summary>
+      <_description>If enabled, unset colors in HTML messages, forcing use of desktop theme colors instead.</_description>
+    </key>
 
     <!-- The following keys are deprecated. -->
 

@@ -916,6 +916,83 @@ Evo.mailDisplayVCardModeButtonClicked = function(elem)
 	}
 }
 
+Evo.unsetHTMLColors = function(doc)
+{
+	var ii, isz = doc.styleSheets.length;
+
+	// to change only iframe-s, which are marked as such
+	if (!doc.defaultView.frameElement ||
+	    !doc.defaultView.frameElement.hasAttribute("x-e-unset-colors")) {
+		return;
+	}
+
+	for (ii = 0; ii < isz; ii++) {
+		var sheet = doc.styleSheets[ii];
+
+		if (!sheet.cssRules ||
+		    sheet.id == "-e-web-view-style-sheet" ||
+		    sheet.id == "-e-mail-formatter-style-sheet") {
+			continue;
+		}
+
+		var jj, jsz = sheet.cssRules.length;
+
+		for (jj = 0; jj < jsz; jj++) {
+			var rule = sheet.cssRules[jj];
+
+			if (!rule.style || !rule.selectorText || rule.selectorText.startsWith(".-e-web-view-") || rule.selectorText.startsWith(".-e-mail-formatter-"))
+				continue;
+
+			if (rule.style.color)
+				rule.style.color = "inherit";
+
+			if (rule.style.backgroundColor)
+				rule.style.backgroundColor = "inherit";
+		}
+	}
+
+	var elems = doc.querySelectorAll("[style],[color],[bgcolor]");
+
+	isz = elems.length;
+
+	for (ii = 0; ii < isz; ii++) {
+		var elem = elems[ii];
+
+		if (elem.tagName != "HTML" && elem.tagName != "IFRAME" && elem.tagName != "INPUT" && elem.tagName != "BUTTON" && elem.tagName != "IMG") {
+			if (elem.style) {
+				if (elem.style.color)
+					elem.style.color = "inherit";
+
+				if (elem.style.backgroundColor)
+					elem.style.backgroundColor = "inherit";
+			}
+
+			elem.removeAttribute("color");
+			elem.removeAttribute("bgcolor");
+		}
+	}
+
+	elems = doc.querySelectorAll("body");
+
+	isz = elems.length;
+
+	for (ii = 0; ii < isz; ii++) {
+		var elem = elems[ii];
+
+		elem.removeAttribute("bgcolor");
+		elem.removeAttribute("text");
+		elem.removeAttribute("link");
+		elem.removeAttribute("alink");
+		elem.removeAttribute("vlink");
+
+		if (!elem.classList.contains("-e-web-view-text-color"))
+			elem.classList.add("-e-web-view-text-color");
+
+		if (!elem.classList.contains("-e-web-view-background-color"))
+			elem.classList.add("-e-web-view-background-color");
+	}
+}
+
 Evo.MailDisplayBindDOM = function(iframe_id)
 {
 	var traversar = {
@@ -1020,11 +1097,15 @@ Evo.MailDisplayBindDOM = function(iframe_id)
 					"-e-mail-formatter-style-sheet",
 					"a.evo-awrap",
 					"white-space: normal; word-break: break-all;");
+				Evo.unsetHTMLColors(doc);
 			}
 
 			return true;
 		}
 	};
+
+	if (!iframe_id)
+		iframe_id = "*";
 
 	Evo.runTraversarForIFrameId(iframe_id, traversar);
 
