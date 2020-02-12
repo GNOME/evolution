@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-02-10 08:28+0000\n"
-"PO-Revision-Date: 2020-02-10 11:34+0100\n"
+"POT-Creation-Date: 2020-02-12 14:31+0000\n"
+"PO-Revision-Date: 2020-02-12 15:52+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -2847,10 +2847,24 @@ msgstr ""
 "notification se muestran automáticamente"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
+#| msgid "Inherit theme colors in HTML format"
+msgid "Whether unset colors provided in HTML mails."
+msgstr ""
+"Indica si se deben desactivar los colores proporcionados en correos HTML."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+msgid ""
+"If enabled, unset colors in HTML messages, forcing use of desktop theme "
+"colors instead."
+msgstr ""
+"Si está activada, desactivar los colores en correos HTML, forzando el uso de "
+"los colores del tema de escritorio en su lugar."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid "(Deprecated) Default forward style"
 msgstr "(Obsoleto) Estilo de reenvío predeterminado"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2858,11 +2872,11 @@ msgstr ""
 "Esta clave se ha marcado como obsoleta en la versión 3.10 y no debería "
 "usarse. Use «forward-style-name» en su lugar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
 msgid "(Deprecated) Default reply style"
 msgstr "(Obsoleto) Estilo de respuesta predeterminado"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2870,11 +2884,11 @@ msgstr ""
 "Esta clave se ha marcado como obsoleta en la versión 3.10 y no debería "
 "usarse. Use «reply-style-name» en su lugar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Obsoleto) Lista de cabeceras personalizadas y si están activadas."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2882,11 +2896,11 @@ msgstr ""
 "Esta clave se ha marcado como obsoleta en la versión 3.10 y no debería "
 "usarse. Use «show-headers» en su lugar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Obsoleto) Cargar imágenes para mensajes HTML sobre HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2894,7 +2908,7 @@ msgstr ""
 "Esta clave se ha marcado como obsoleta en la versión 3.10 y no debería "
 "usarse. Use «image-loading-policy» en su lugar."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2902,7 +2916,7 @@ msgstr ""
 "(Obsoleto) Preguntar si cerrar la ventana del mensaje cuando el usuario "
 "reenvía o responde al mensaje mostrado en la ventana"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -4311,7 +4325,7 @@ msgstr "_Guardar"
 #: ../src/e-util/e-preferences-window.c:390
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell.c:1474 ../src/shell/e-shell-window-actions.c:1053
+#: ../src/shell/e-shell-window-actions.c:1053
 msgid "_Help"
 msgstr "Ay_uda"
 
@@ -11456,7 +11470,7 @@ msgstr "_Mensaje nuevo"
 msgid "Open New Message window"
 msgstr "Abrir la ventana de mensaje nuevo"
 
-#: ../src/composer/e-composer-actions.c:333 ../src/shell/e-shell.c:1469
+#: ../src/composer/e-composer-actions.c:333
 #: ../src/shell/e-shell-window-actions.c:946
 msgid "_Preferences"
 msgstr "_Preferencias"
@@ -12073,12 +12087,12 @@ msgid "Display part as enriched text"
 msgstr "Mostrar parte como texto enriquecido"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
-#: ../src/em-format/e-mail-formatter-text-html.c:385
+#: ../src/em-format/e-mail-formatter-text-html.c:389
 msgid "HTML"
 msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
-#: ../src/em-format/e-mail-formatter-text-html.c:386
+#: ../src/em-format/e-mail-formatter-text-html.c:390
 msgid "Format part as HTML"
 msgstr "Formatear parte como HTML"
 
@@ -26854,18 +26868,6 @@ msgstr "_Abrir la configuración"
 msgid "Credentials are required to connect to the destination host."
 msgstr "Se necesitan credenciales para conectarse al equipo de destino."
 
-#: ../src/shell/e-shell.c:1464 ../src/shell/e-shell-window-actions.c:925
-msgid "New _Window"
-msgstr "_Ventana nueva"
-
-#: ../src/shell/e-shell.c:1475 ../src/shell/e-shell-window-actions.c:855
-msgid "_About"
-msgstr "Acerca _de"
-
-#: ../src/shell/e-shell.c:1476 ../src/shell/e-shell-window-actions.c:953
-msgid "_Quit"
-msgstr "_Salir"
-
 #: ../src/shell/e-shell-content.c:702 ../src/shell/e-shell-content.c:703
 msgid "Searches"
 msgstr "Búsquedas"
@@ -26946,6 +26948,10 @@ msgstr "Colección de _cuentas"
 msgid "Create a new collection account"
 msgstr "Crear una colección de cuentas nueva"
 
+#: ../src/shell/e-shell-window-actions.c:855
+msgid "_About"
+msgstr "Acerca _de"
+
 #: ../src/shell/e-shell-window-actions.c:857
 msgid "Show information about Evolution"
 msgstr "Mostrar información acerca de Evolution"
@@ -26979,6 +26985,10 @@ msgstr "I_mportar…"
 msgid "Import data from other programs"
 msgstr "Importa datos de otros programas"
 
+#: ../src/shell/e-shell-window-actions.c:925
+msgid "New _Window"
+msgstr "_Ventana nueva"
+
 #: ../src/shell/e-shell-window-actions.c:927
 msgid "Create a new window displaying this view"
 msgstr "Crear una ventana nueva mostrando esta vista"
@@ -26990,6 +27000,10 @@ msgstr "Categorías _disponibles:"
 #: ../src/shell/e-shell-window-actions.c:941
 msgid "Manage available categories"
 msgstr "Gestionar las categorías disponibles"
+
+#: ../src/shell/e-shell-window-actions.c:953
+msgid "_Quit"
+msgstr "_Salir"
 
 #: ../src/shell/e-shell-window-actions.c:955
 msgid "Exit the program"
