@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <error-list domain="system">
-  <error type="error" id="generic-error">
+  <error id="generic-error" type="error">
+    <primary>{0}</primary>
+    <secondary>{1}</secondary>
+  </error>
+
+  <error id="generic-warning" type="warning">
     <primary>{0}</primary>
     <secondary>{1}</secondary>
   </error>

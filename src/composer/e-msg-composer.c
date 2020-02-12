@@ -4761,7 +4761,8 @@ handle_mailto (EMsgComposer *composer,
 	gchar *header, *content, *buf;
 	gsize nread, nwritten;
 	const gchar *p;
-	gint len, clen;
+	gint len, clen, has_attachments = 0;
+	gboolean has_blacklisted_attachment = FALSE;
 
 	table = e_msg_composer_get_header_table (composer);
 	view = e_msg_composer_get_attachment_view (composer);
@@ -4844,22 +4845,36 @@ handle_mailto (EMsgComposer *composer,
 			} else if (!g_ascii_strcasecmp (header, "attach") ||
 				   !g_ascii_strcasecmp (header, "attachment")) {
 				EAttachment *attachment;
+				GFile *file;
 
 				camel_url_decode (content);
-				if (file_is_blacklisted (content))
-					e_alert_submit (
-						E_ALERT_SINK (e_msg_composer_get_editor (composer)),
-						"mail:blacklisted-file",
-						content, NULL);
 				if (g_ascii_strncasecmp (content, "file:", 5) == 0)
 					attachment = e_attachment_new_for_uri (content);
 				else
 					attachment = e_attachment_new_for_path (content);
-				e_attachment_store_add_attachment (store, attachment);
-				e_attachment_load_async (
-					attachment, (GAsyncReadyCallback)
-					e_attachment_load_handle_error, composer);
+				file = e_attachment_ref_file (attachment);
+				if (!file || !g_file_peek_path (file) ||
+				    !g_file_test (g_file_peek_path (file), G_FILE_TEST_EXISTS) ||
+				    g_file_test (g_file_peek_path (file), G_FILE_TEST_IS_DIR)) {
+					/* Do nothing, simply ignore the attachment request */
+				} else {
+					has_attachments++;
+
+					if (file_is_blacklisted (content)) {
+						has_blacklisted_attachment = TRUE;
+						e_alert_submit (
+							E_ALERT_SINK (e_msg_composer_get_editor (composer)),
+							"mail:blacklisted-file",
+							content, NULL);
+					}
+
+					e_attachment_store_add_attachment (store, attachment);
+					e_attachment_load_async (
+						attachment, (GAsyncReadyCallback)
+						e_attachment_load_handle_error, composer);
+				}
 				g_object_unref (attachment);
+				g_clear_object (&file);
 			} else if (!g_ascii_strcasecmp (header, "from")) {
 				/* Ignore */
 			} else if (!g_ascii_strcasecmp (header, "reply-to")) {
@@ -4882,6 +4897,29 @@ handle_mailto (EMsgComposer *composer,
 	}
 
 	g_free (buf);
+
+	if (has_attachments && !has_blacklisted_attachment) {
+		const gchar *primary;
+		gchar *secondary;
+
+		primary = g_dngettext (GETTEXT_PACKAGE,
+			"Review attachment before sending.",
+			"Review attachments before sending.",
+			has_attachments);
+
+		secondary = g_strdup_printf (g_dngettext (GETTEXT_PACKAGE,
+			"There had been added %d attachment. Make sure it does not contain any sensitive information before sending the message.",
+			"There had been added %d attachments. Make sure they do not contain any sensitive information before sending the message.",
+			has_attachments),
+			has_attachments);
+
+		e_alert_submit (
+			E_ALERT_SINK (e_msg_composer_get_editor (composer)),
+			"system:generic-warning",
+			primary, secondary, NULL);
+
+		g_free (secondary);
+	}
 
 	merge_always_cc_and_bcc (table, to, &cc, &bcc);
 
