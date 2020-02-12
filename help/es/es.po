@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-21 22:14+0000\n"
-"PO-Revision-Date: 2020-01-22 09:59+0100\n"
+"POT-Creation-Date: 2020-02-11 13:51+0000\n"
+"PO-Revision-Date: 2020-02-12 08:58+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -1837,7 +1837,6 @@ msgstr "Seleccione <guiseq><gui>Editar</gui><gui>Complementos</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:31
-#| msgid "Enable <gui>Custom Header</gui>."
 msgid "Enable <gui>Automatic Contacts</gui>."
 msgstr "Active <gui>Contactos automáticos</gui>."
 
@@ -1862,9 +1861,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:34
-#| msgid ""
-#| "Select <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</"
-#| "gui></guiseq>."
 msgid ""
 "Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
 "<gui>Automatic Contacts</gui></guiseq>."
@@ -6994,7 +6990,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/mail-composer-external-editor.page:26
-#| msgid "Enable <gui>Custom Header</gui>."
 msgid "Enable <gui>External Editor</gui>."
 msgstr "Active <gui>Editor externo</gui>."
 
@@ -7760,13 +7755,11 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-message-templates.page:25
-#| msgid "To enable the plugins:"
 msgid "To enable the Message Template Plugin:"
 msgstr "Para activar el complemento de plantilla de mensajes:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates.page:28
-#| msgid "Click <gui>Templates</gui>."
 msgid "Enable <gui>Templates</gui>."
 msgstr "Active <gui>Plantilas</gui>."
 
@@ -8383,12 +8376,12 @@ msgid "Assign your mail accounts to certain folders or recipients."
 msgstr "Asignar sus cuentas de correo a determinadas carpetas o destinatarios"
 
 #. (itstool) path: page/title
-#: C/mail-composer-send-account-overrides.page:21
+#: C/mail-composer-send-account-overrides.page:22
 msgid "Send Account Overrides"
 msgstr "Enviar anulaciones de cuenta"
 
 #. (itstool) path: page/p
-#: C/mail-composer-send-account-overrides.page:23
+#: C/mail-composer-send-account-overrides.page:24
 msgid ""
 "If you use more than one email account, you can define which account should "
 "always be used as your sender address:"
@@ -8397,7 +8390,7 @@ msgstr ""
 "siempre como su dirección de correo remitente:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-send-account-overrides.page:25
+#: C/mail-composer-send-account-overrides.page:26
 msgid ""
 "When replying to mail in specific <link xref=\"mail-folders\">folders</link>."
 msgstr ""
@@ -8405,7 +8398,7 @@ msgstr ""
 "específicas."
 
 #. (itstool) path: item/p
-#: C/mail-composer-send-account-overrides.page:26
+#: C/mail-composer-send-account-overrides.page:27
 msgid ""
 "When replying to certain email addresses, names, or parts of email addresses "
 "or names."
@@ -8414,7 +8407,19 @@ msgstr ""
 "direcciones de correo o nombres."
 
 #. (itstool) path: page/p
-#: C/mail-composer-send-account-overrides.page:28
+#: C/mail-composer-send-account-overrides.page:30
+msgid ""
+"The checkbox <gui>Folder override has precedence over Recipient override</"
+"gui> defines how Evolution should behave when you reply to a message which "
+"matches both a folder and an email address or name which you have defined."
+msgstr ""
+"La opción <gui>La anulación de carpeta tiene preferencia sobre la anulación "
+"de destinatario</gui> define cómo debe comportarse Evolution cuando responde "
+"a un mensaje que coincide con una carpeta y una dirección de correo o nombre "
+"que ha definido."
+
+#. (itstool) path: page/p
+#: C/mail-composer-send-account-overrides.page:34
 msgid ""
 "These settings are available under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>."
@@ -10957,13 +10962,11 @@ msgstr "Para recibir notificaciones de mensajes nuevos en el escritorio GNOME:"
 
 #. (itstool) path: item/p
 #: C/mail-received-notification.page:31
-#| msgid "Enable <gui>Attachment Reminder</gui>."
 msgid "Enable <gui>Mail Notification</gui>."
 msgstr "Active <gui>Notificación de correo</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-received-notification.page:35
-#| msgid "Select the appropriate options."
 msgid "Set your preferred options."
 msgstr "Establecer sus opciones preferidas."
 
@@ -13449,15 +13452,6 @@ msgstr "Cómo informar de un error"
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
-#| msgid ""
-#| "If you do not need help for configuration but you are sure that you have "
-#| "found a mistake or wrong behavior in the <app>Evolution</app> software, "
-#| "or if you want to request a feature, you can file a report in the <link "
-#| "href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME bug "
-#| "tracking system</link>. Note that this requires registration first. "
-#| "Please try to avoid filing duplicates and check the <link href=\"https://"
-#| "bugzilla.gnome.org/page.cgi?id=bug-writing.html\">bug writing guidelines</"
-#| "link> first."
 msgid ""
 "If you do not need help for configuration but you are sure that you have "
 "found a mistake or wrong behavior in the <app>Evolution</app> software, or "
@@ -13497,14 +13491,6 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:25
-#| msgid ""
-#| "When reporting bugs exact information is welcome as it makes it easier "
-#| "for others to reproduce and fix the issue. If possible please include "
-#| "information such as the <app>Evolution</app> version (under "
-#| "<guiseq><gui>Help</gui><gui>About</gui></guiseq>), your distribution, and "
-#| "exact steps to reproduce the problem, click by click. See the <link href="
-#| "\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing "
-#| "Guidelines</link> for more information."
 msgid ""
 "When reporting bugs exact information is welcome as it makes it easier for "
 "others to reproduce and fix the issue. If possible please include "
