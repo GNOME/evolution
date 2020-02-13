@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-02-12 14:31+0000\n"
-"PO-Revision-Date: 2020-02-12 15:52+0100\n"
+"POT-Creation-Date: 2020-02-12 18:00+0000\n"
+"PO-Revision-Date: 2020-02-13 08:51+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -2847,7 +2847,6 @@ msgstr ""
 "notification se muestran automáticamente"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
-#| msgid "Inherit theme colors in HTML format"
 msgid "Whether unset colors provided in HTML mails."
 msgstr ""
 "Indica si se deben desactivar los colores proporcionados en correos HTML."
@@ -11707,7 +11706,29 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../src/composer/e-msg-composer.c:5006
+#: ../src/composer/e-msg-composer.c:4906
+#| msgid "Remove attachments"
+msgid "Review attachment before sending."
+msgid_plural "Review attachments before sending."
+msgstr[0] "Revisar adjunto antes de enviar."
+msgstr[1] "Revisar adjuntos antes de enviar."
+
+#: ../src/composer/e-msg-composer.c:4911
+#, c-format
+msgid ""
+"There had been added %d attachment. Make sure it does not contain any "
+"sensitive information before sending the message."
+msgid_plural ""
+"There had been added %d attachments. Make sure they do not contain any "
+"sensitive information before sending the message."
+msgstr[0] ""
+"Se ha añadido %d adjunto. Asegúrese de que no contiene información sensible "
+"antes de enviar el mensaje."
+msgstr[1] ""
+"Se han añadido %d adjuntos. Asegúrese de que no contienen información "
+"sensible antes de enviar el mensaje."
+
+#: ../src/composer/e-msg-composer.c:5044
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "El editor contiene un mensaje cuyo cuerpo no tiene texto, el cual no puede "
