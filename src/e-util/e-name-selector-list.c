@@ -289,13 +289,14 @@ enl_entry_key_press_event (ENameSelectorList *list,
                            GdkEventKey *event,
                            gpointer dummy)
 {
-	ENameSelectorEntry *entry;
-	EDestinationStore *store;
+	/* Disabled for now, see https://gitlab.gnome.org/GNOME/evolution/issues/788 */
+	/*if ( (event->state & GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_Down)) {
+		ENameSelectorEntry *entry;
+		EDestinationStore *store;
 
-	entry = E_NAME_SELECTOR_ENTRY (list);
-	store = e_name_selector_entry_peek_destination_store (entry);
+		entry = E_NAME_SELECTOR_ENTRY (list);
+		store = e_name_selector_entry_peek_destination_store (entry);
 
-	if ( (event->state & GDK_CONTROL_MASK) && (event->keyval == GDK_KEY_Down)) {
 		enl_popup_position (list);
 		gtk_widget_show_all (GTK_WIDGET (list->priv->popup));
 		enl_popup_grab (list, (GdkEvent *) event);
@@ -303,7 +304,8 @@ enl_entry_key_press_event (ENameSelectorList *list,
 		enl_popup_size (list);
 		enl_tree_select_node (list, 1);
 		return TRUE;
-	}
+	}*/
+
 	return FALSE;
 }
 
