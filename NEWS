@@ -1,3 +1,31 @@
+Evolution 3.35.91 2020-02-14
+----------------------------
+
+Bug Fixes:
+	Bug 224044 - Keys to open attachments (Milan Crha)
+	I#22 - Hide "Birthdays & Anniverseries" calendar from conflict search list (Milan Crha)
+	I#48 - Add 'Customize current view' into View->Current View menu (Milan Crha)
+	I#312 - Allow change of magic-spacebar accelerators (Milan Crha)
+	I#340 - Hide explicit Send/Receive dialog by default (Milan Crha)
+	I#695 - Option to unset colors provided in HTML mails for preview (Milan Crha)
+	I#734 - Calendar: Option to start Month View with current week (Pascal Fuerst)
+	I#784 - Warn about and limit what can be attached using mailto: URI (Milan Crha)
+
+Miscellaneous:
+	e-table-config: Fix runtime warning when changing sort direction (Milan Crha)
+	Remove App menu (Milan Crha)
+	help: Clarify checkbox behavior for Mail Send Account Overrides (Andre Klapper)
+
+Translations:
+	Aurimas Černius (lt)
+	Daniel Mustieles (es)
+	Anders Jonsson (sv)
+	Rafael Fontenelle (pt_BR)
+	Sabri Ünal (tr)
+	Zander Brown (en_GB)
+	Emin Tufan Çetin (tr)
+	Ask Hjorth Larsen (da)
+
 Evolution 3.35.90 2020-01-31
 ----------------------------
 
