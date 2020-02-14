@@ -1,3 +1,15 @@
+Evolution 3.34.4 2020-02-14
+---------------------------
+
+Bug Fixes:
+	I#740 - 'open-map:' URI passed to browser (Milan Crha)
+	I#745 - PST importer: Fix name of MIME multipart/alternative (Ángel)
+	I#752 - Incorrect time shown in Reply credits for Australia/Adelaide (Milan Crha)
+	I#760 - ECompEditor: Typing end time messes up start time (Milan Crha)
+
+Miscellaneous:
+	Emoticon: Replace Unicode variant for face-smile and face-sad with Emoji (Milan Crha)
+
 Evolution 3.34.3 2020-01-03
 ---------------------------
 
