@@ -1994,7 +1994,7 @@ ethi_event (GnomeCanvasItem *item,
 					GDK_BUTTON_RELEASE_MASK,
 					ethi->resize_cursor,
 					event_device,
-					event_time));
+					event_time) == GDK_GRAB_SUCCESS);
 			}
 
 			new_width = x - ethi->resize_start_pos;
