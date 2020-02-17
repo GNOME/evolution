@@ -328,7 +328,7 @@ mail_shell_sidebar_get_preferred_width (GtkWidget *widget,
 
 	/* This string is a mockup only; it doesn't need to be translated */
 	layout = gtk_widget_create_pango_layout (
-		widget, "typical.account@mailservice.com");
+		widget, "Account Name");
 	pango_layout_get_pixel_extents (layout, &ink_rect, NULL);
 	g_object_unref (layout);
 
