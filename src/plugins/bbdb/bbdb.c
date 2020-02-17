@@ -392,64 +392,23 @@ bbdb_do_it (EBookClient *client,
 			return;
 		}
 
-		if (g_utf8_strchr (name, -1, '\"')) {
-			GString *tmp = g_string_new (name);
-			gchar *p;
-
-			while (p = g_utf8_strchr (tmp->str, tmp->len, '\"'), p)
-				g_string_erase (tmp, p - tmp->str, 1);
-
-			g_free (temp_name);
-			temp_name = g_string_free (tmp, FALSE);
-			name = temp_name;
-		}
-
-		contacts = NULL;
-		/* If a contact exists with this name, add the email address to it. */
-		query_string = g_strdup_printf ("(is \"full_name\" \"%s\")", name);
-		status = e_book_client_get_contacts_sync (client_addressbook, query_string, &contacts, NULL, NULL);
-		g_free (query_string);
-		if (contacts != NULL || !status) {
-			/* FIXME: If there's more than one contact with this
-			 * name, just give up; we're not smart enough for
-			 * this. */
-			if (!status || contacts->next != NULL) {
-				g_slist_free_full (contacts, g_object_unref);
-				g_object_unref (client_addressbook);
-
-				if (!status) {
-					aux_addressbooks = aux_addressbooks->next;
-					continue;
-				}
-
-				g_free (temp_name);
-				g_list_free_full (addressbooks, g_object_unref);
-				return;
-			}
-
-			contact = (EContact *) contacts->data;
-			add_email_to_contact (contact, email);
-
-			e_book_client_modify_contact_sync (
-					client_addressbook, contact, E_BOOK_OPERATION_FLAG_NONE, NULL, &error);
-
-			if (error != NULL) {
-				g_warning ("bbdb: Could not modify contact: %s\n", error->message);
-				g_error_free (error);
-			}
-
-			g_slist_free_full (contacts, (GDestroyNotify) g_object_unref);
-			g_free (temp_name);
-			g_list_free_full (addressbooks, (GDestroyNotify) g_object_unref);
-			g_object_unref (client_addressbook);
-			return;
-		}
-
-		g_object_unref(client_addressbook);
+		g_object_unref (client_addressbook);
 		aux_addressbooks = aux_addressbooks->next;
 	}
 
 	g_list_free_full (addressbooks, (GDestroyNotify) g_object_unref);
+
+	if (g_utf8_strchr (name, -1, '\"')) {
+		GString *tmp = g_string_new (name);
+		gchar *p;
+
+		while (p = g_utf8_strchr (tmp->str, tmp->len, '\"'), p)
+			g_string_erase (tmp, p - tmp->str, 1);
+
+		g_free (temp_name);
+		temp_name = g_string_free (tmp, FALSE);
+		name = temp_name;
+	}
 
 	/* Otherwise, create a new contact. */
 	contact = e_contact_new ();
