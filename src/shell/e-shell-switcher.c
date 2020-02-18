@@ -693,6 +693,8 @@ e_shell_switcher_add_action (EShellSwitcher *switcher,
 			G_CALLBACK (tool_item_button_cb),
 			new_window_action);
 
+	gtk_widget_set_visible (widget, switcher->priv->toolbar_visible);
+
 	switcher->priv->proxies = g_list_append (
 		switcher->priv->proxies, widget);
 
