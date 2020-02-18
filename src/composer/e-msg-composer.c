@@ -67,6 +67,7 @@ struct _AsyncContext {
 	GSList *recipients_with_certificate; /* EContact * */
 
 	guint skip_content : 1;
+	guint is_redirect : 1;
 	guint need_thread : 1;
 	guint pgp_sign : 1;
 	guint pgp_encrypt : 1;
@@ -543,7 +544,8 @@ build_message_headers (EMsgComposer *composer,
 
 	/* Subject: */
 	subject = e_composer_header_table_get_subject (table);
-	camel_mime_message_set_subject (message, subject);
+	if (!redirect || g_strcmp0 (subject, camel_mime_message_get_subject (message)) != 0)
+		camel_mime_message_set_subject (message, subject);
 
 	if (source != NULL) {
 		CamelMedium *medium;
@@ -627,6 +629,9 @@ build_message_headers (EMsgComposer *composer,
 		g_object_unref (source);
 	}
 
+	if (redirect)
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Evolution-Is-Redirect", "1");
+
 	/* Reply-To: */
 	reply_to = e_composer_header_table_get_reply_to (table);
 	if (reply_to != NULL && *reply_to != '\0') {
@@ -658,7 +663,22 @@ build_message_headers (EMsgComposer *composer,
 	}
 
 	/* Date: */
-	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	if (redirect) {
+		struct tm local;
+		gint tz, offset;
+		time_t date;
+		gchar *datestr;
+
+		date = time (NULL);
+		camel_localtime_with_offset (date, &local, &tz);
+		offset = (((tz / 60 / 60) * 100) + (tz / 60 % 60));
+
+		datestr = camel_header_format_date (date, offset);
+		camel_medium_set_header (CAMEL_MEDIUM (message), "Resent-Date", datestr);
+		g_free (datestr);
+	} else {
+		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	}
 
 	/* X-Evolution-PostTo: */
 	header = e_composer_header_table_get_header (
@@ -1296,6 +1316,7 @@ composer_build_message (EMsgComposer *composer,
 		e_msg_composer_dec_soft_busy (composer);
 
 		context->skip_content = TRUE;
+		context->is_redirect = TRUE;
 		context->message = g_object_ref (priv->redirect);
 		build_message_headers (composer, context->message, TRUE);
 		g_simple_async_result_complete (simple);
@@ -1728,7 +1749,7 @@ composer_build_message_finish (EMsgComposer *composer,
 		}
 	}
 
-	if (context->top_level_part == context->text_plain_part) {
+	if (!context->is_redirect && context->top_level_part == context->text_plain_part) {
 		camel_mime_part_set_encoding (
 			CAMEL_MIME_PART (context->message),
 			context->plain_encoding);

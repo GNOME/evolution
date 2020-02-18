@@ -818,7 +818,8 @@ e_mail_session_send_to (EMailSession *session,
 
 	medium = CAMEL_MEDIUM (message);
 
-	camel_medium_set_header (medium, "User-Agent", USER_AGENT);
+	if (!camel_medium_get_header (medium, "X-Evolution-Is-Redirect"))
+		camel_medium_set_header (medium, "User-Agent", USER_AGENT);
 
 	/* Do this before removing "X-Evolution" headers. */
 	transport = e_mail_session_ref_transport_for_message (

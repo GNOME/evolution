@@ -598,7 +598,8 @@ mail_send_message (struct _send_queue_msg *m,
 	if (!message)
 		return;
 
-	camel_medium_set_header (CAMEL_MEDIUM (message), "User-Agent", USER_AGENT);
+	if (!camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Is-Redirect"))
+		camel_medium_set_header (CAMEL_MEDIUM (message), "User-Agent", USER_AGENT);
 
 	/* Do this before removing "X-Evolution" headers. */
 	service = e_mail_session_ref_transport_for_message (

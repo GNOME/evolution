@@ -107,10 +107,12 @@ e_mail_folder_append_message_sync (CamelFolder *folder,
 		full_display_name ? full_display_name : camel_folder_get_display_name (folder));
 	g_free (full_display_name);
 
-	if (camel_medium_get_header (medium, "User-Agent") == NULL)
-		camel_medium_set_header (medium, "User-Agent", USER_AGENT);
+	if (!camel_medium_get_header (medium, "X-Evolution-Is-Redirect")) {
+		if (camel_medium_get_header (medium, "User-Agent") == NULL)
+			camel_medium_set_header (medium, "User-Agent", USER_AGENT);
 
-	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	}
 
 	success = camel_folder_append_message_sync (
 		folder, message, info, appended_uid, cancellable, error);
