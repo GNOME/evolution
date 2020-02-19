@@ -74,6 +74,11 @@ EMailSession *	em_folder_selection_button_get_session
 void		em_folder_selection_button_set_session
 					(EMFolderSelectionButton *button,
 					 EMailSession *session);
+gboolean	em_folder_selection_button_get_can_none
+					(EMFolderSelectionButton *button);
+void		em_folder_selection_button_set_can_none
+					(EMFolderSelectionButton *button,
+					 gboolean can_none);
 const gchar *	em_folder_selection_button_get_caption
 					(EMFolderSelectionButton *button);
 void		em_folder_selection_button_set_caption

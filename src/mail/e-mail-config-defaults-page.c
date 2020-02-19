@@ -784,6 +784,7 @@ mail_config_defaults_page_constructed (GObject *object)
 
 	text = _("Choose a folder to archive messages to.");
 	widget = em_folder_selection_button_new (session, "", text);
+	em_folder_selection_button_set_can_none (EM_FOLDER_SELECTION_BUTTON (widget), TRUE);
 	gtk_widget_set_hexpand (widget, TRUE);
 	gtk_label_set_mnemonic_widget (label, widget);
 	gtk_grid_attach (GTK_GRID (container), widget, 1, 4, 1, 1);

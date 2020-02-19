@@ -46,10 +46,13 @@ struct _EMFolderSelectionButtonPrivate {
 	gchar *title;
 	gchar *caption;
 	gchar *folder_uri;
+
+	gboolean can_none;
 };
 
 enum {
 	PROP_0,
+	PROP_CAN_NONE,
 	PROP_CAPTION,
 	PROP_FOLDER_URI,
 	PROP_SESSION,
@@ -127,6 +130,12 @@ folder_selection_button_set_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CAN_NONE:
+			em_folder_selection_button_set_can_none (
+				EM_FOLDER_SELECTION_BUTTON (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_CAPTION:
 			em_folder_selection_button_set_caption (
 				EM_FOLDER_SELECTION_BUTTON (object),
@@ -168,6 +177,13 @@ folder_selection_button_get_property (GObject *object,
                                       GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CAN_NONE:
+			g_value_set_boolean (
+				value,
+				em_folder_selection_button_get_can_none (
+				EM_FOLDER_SELECTION_BUTTON (object)));
+			return;
+
 		case PROP_CAPTION:
 			g_value_set_string (
 				value,
@@ -255,6 +271,7 @@ folder_selection_button_clicked (GtkButton *button)
 	GtkWidget *dialog;
 	GtkTreeSelection *selection;
 	gpointer parent;
+	gint response;
 
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (button);
 
@@ -278,6 +295,7 @@ folder_selection_button_clicked (GtkButton *button)
 
 	selector = EM_FOLDER_SELECTOR (dialog);
 	em_folder_selector_set_can_create (selector, TRUE);
+	em_folder_selector_set_can_none (selector, priv->can_none);
 	em_folder_selector_set_caption (selector, priv->caption);
 
 	folder_tree = em_folder_selector_get_folder_tree (selector);
@@ -293,13 +311,18 @@ folder_selection_button_clicked (GtkButton *button)
 
 	em_folder_tree_set_selected (folder_tree, priv->folder_uri, FALSE);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	if (response == GTK_RESPONSE_OK) {
 		const gchar *uri;
 
 		uri = em_folder_selector_get_selected_uri (selector);
 		em_folder_selection_button_set_folder_uri (
 			EM_FOLDER_SELECTION_BUTTON (button), uri);
 
+		g_signal_emit (button, signals[SELECTED], 0);
+	} else if (response == GTK_RESPONSE_NO) {
+		em_folder_selection_button_set_folder_uri (EM_FOLDER_SELECTION_BUTTON (button), NULL);
 		g_signal_emit (button, signals[SELECTED], 0);
 	}
 
@@ -322,6 +345,18 @@ em_folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 
 	button_class = GTK_BUTTON_CLASS (class);
 	button_class->clicked = folder_selection_button_clicked;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CAN_NONE,
+		g_param_spec_boolean (
+			"can-none",
+			"Can None",
+			"Whether can show 'None' button, to be able to unselect folder",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -452,6 +487,28 @@ em_folder_selection_button_set_session (EMFolderSelectionButton *button,
 	button->priv->session = session;
 
 	g_object_notify (G_OBJECT (button), "session");
+}
+
+gboolean
+em_folder_selection_button_get_can_none (EMFolderSelectionButton *button)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), FALSE);
+
+	return button->priv->can_none;
+}
+
+void
+em_folder_selection_button_set_can_none (EMFolderSelectionButton *button,
+					 gboolean can_none)
+{
+	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
+
+	if (button->priv->can_none == can_none)
+		return;
+
+	button->priv->can_none = can_none;
+
+	g_object_notify (G_OBJECT (button), "can-none");
 }
 
 const gchar *

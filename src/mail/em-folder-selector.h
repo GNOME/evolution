@@ -73,6 +73,9 @@ gboolean	em_folder_selector_get_can_create
 void		em_folder_selector_set_can_create
 						(EMFolderSelector *selector,
 						 gboolean can_create);
+gboolean	em_folder_selector_get_can_none	(EMFolderSelector *selector);
+void		em_folder_selector_set_can_none	(EMFolderSelector *selector,
+						 gboolean can_none);
 const gchar *	em_folder_selector_get_caption	(EMFolderSelector *selector);
 void		em_folder_selector_set_caption	(EMFolderSelector *selector,
 						 const gchar *caption);

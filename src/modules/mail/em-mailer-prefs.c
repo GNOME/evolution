@@ -1515,6 +1515,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	container = e_builder_get_widget (prefs->priv->builder, "archive-mail-hbox");
 	widget = em_folder_selection_button_new (session, "", _("Choose a folder to archive messages to."));
+	em_folder_selection_button_set_can_none (EM_FOLDER_SELECTION_BUTTON (widget), TRUE);
 	gtk_widget_set_hexpand (widget, FALSE);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (prefs->priv->builder, "lblArchiveMailFolder")), widget);
 	gtk_container_add (GTK_CONTAINER (container), widget);

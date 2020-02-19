@@ -54,6 +54,7 @@ struct _EMFolderSelectorPrivate {
 	gchar *selected_uri;
 
 	gboolean can_create;
+	gboolean can_none;
 	gchar *caption;
 	gchar *default_button_label;
 };
@@ -61,6 +62,7 @@ struct _EMFolderSelectorPrivate {
 enum {
 	PROP_0,
 	PROP_CAN_CREATE,
+	PROP_CAN_NONE,
 	PROP_CAPTION,
 	PROP_DEFAULT_BUTTON_LABEL,
 	PROP_MODEL
@@ -185,6 +187,12 @@ folder_selector_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_CAN_NONE:
+			em_folder_selector_set_can_none (
+				EM_FOLDER_SELECTOR (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_CAPTION:
 			em_folder_selector_set_caption (
 				EM_FOLDER_SELECTOR (object),
@@ -218,6 +226,13 @@ folder_selector_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				em_folder_selector_get_can_create (
+				EM_FOLDER_SELECTOR (object)));
+			return;
+
+		case PROP_CAN_NONE:
+			g_value_set_boolean (
+				value,
+				em_folder_selector_get_can_none (
 				EM_FOLDER_SELECTOR (object)));
 			return;
 
@@ -316,12 +331,20 @@ folder_selector_constructed (GObject *object)
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (selector),
 		_("_Cancel"), GTK_RESPONSE_CANCEL,
+		_("_None"), GTK_RESPONSE_NO,
 		selector->priv->default_button_label, GTK_RESPONSE_OK, NULL);
 
 	gtk_dialog_set_response_sensitive (
 		GTK_DIALOG (selector), GTK_RESPONSE_OK, FALSE);
 	gtk_dialog_set_default_response (
 		GTK_DIALOG (selector), GTK_RESPONSE_OK);
+
+	widget = gtk_dialog_get_widget_for_response (GTK_DIALOG (selector), GTK_RESPONSE_NO);
+
+	e_binding_bind_property (
+		selector, "can-none",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_dialog_get_widget_for_response (
 		GTK_DIALOG (selector), GTK_RESPONSE_OK);
@@ -456,6 +479,18 @@ em_folder_selector_class_init (EMFolderSelectorClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_CAN_NONE,
+		g_param_spec_boolean (
+			"can-none",
+			"Can None",
+			"Whether can show 'None' button, to be able to unselect folder",
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_CAPTION,
 		g_param_spec_string (
 			"caption",
@@ -565,6 +600,47 @@ em_folder_selector_set_can_create (EMFolderSelector *selector,
 	selector->priv->can_create = can_create;
 
 	g_object_notify (G_OBJECT (selector), "can-create");
+}
+
+/**
+ * em_folder_selector_get_can_none:
+ * @selector: an #EMFolderSelector
+ *
+ * Returns whether the user can unselect folder by using a 'None' button.
+ *
+ * Returns: whether can unselect folder
+ *
+ * Since: 3.36
+ **/
+gboolean
+em_folder_selector_get_can_none (EMFolderSelector *selector)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTOR (selector), FALSE);
+
+	return selector->priv->can_none;
+}
+
+/**
+ * em_folder_selector_set_can_none:
+ * @selector: an #EMFolderSelector
+ * @can_none: whether can unselect folder
+ *
+ * Sets whether the user can unselect folder using a 'None' button.
+ *
+ * Since: 3.36
+ **/
+void
+em_folder_selector_set_can_none (EMFolderSelector *selector,
+				 gboolean can_none)
+{
+	g_return_if_fail (EM_IS_FOLDER_SELECTOR (selector));
+
+	if (can_none == selector->priv->can_none)
+		return;
+
+	selector->priv->can_none = can_none;
+
+	g_object_notify (G_OBJECT (selector), "can-none");
 }
 
 /**
