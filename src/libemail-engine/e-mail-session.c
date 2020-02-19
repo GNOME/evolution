@@ -616,17 +616,16 @@ mail_session_add_from_source (EMailSession *session,
 		CAMEL_SESSION (session), uid,
 		backend_name, type, &error);
 
-	if (type == CAMEL_PROVIDER_STORE &&
-	    e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT)) {
-		ESourceMailAccount *extension;
+	if (type == CAMEL_PROVIDER_STORE) {
+		ESourceMailAccount *account_extension;
 		gchar *archive_folder_uri;
 
-		extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
-		archive_folder_uri = e_source_mail_account_dup_archive_folder (extension);
+		account_extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_ACCOUNT);
+		archive_folder_uri = e_source_mail_account_dup_archive_folder (account_extension);
 		mail_session_remember_archive_folder (session, e_source_get_uid (source), archive_folder_uri);
 		g_free (archive_folder_uri);
 
-		g_signal_connect (extension, "notify::archive-folder",
+		g_signal_connect (account_extension, "notify::archive-folder",
 			G_CALLBACK (mail_session_archive_folder_notify_cb), session);
 	}
 
@@ -643,12 +642,8 @@ mail_session_add_from_source (EMailSession *session,
 	}
 
 	/* Set up auto-refresh. */
-	extension_name = E_SOURCE_EXTENSION_REFRESH;
-	if (e_source_has_extension (source, extension_name)) {
+	if (type == CAMEL_PROVIDER_STORE) {
 		guint timeout_id;
-
-		/* Transports should not have a refresh extension. */
-		g_warn_if_fail (type != CAMEL_PROVIDER_TRANSPORT);
 
 		timeout_id = e_source_refresh_add_timeout (
 			source, NULL, (ESourceRefreshFunc)
