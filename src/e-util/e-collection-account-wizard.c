@@ -569,6 +569,7 @@ typedef struct _PasswordPromptData {
 	ECollectionAccountWizard *wizard;
 	EConfigLookupWorker *worker;
 	GtkWidget *popover;
+	GtkWidget *user_entry;
 	GtkWidget *password_entry;
 	GtkWidget *remember_check;
 } PasswordPromptData;
@@ -577,6 +578,7 @@ static PasswordPromptData *
 password_prompt_data_new (ECollectionAccountWizard *wizard,
 			  EConfigLookupWorker *worker,
 			  GtkWidget *popover,
+			  GtkWidget *user_entry,
 			  GtkWidget *password_entry,
 			  GtkWidget *remember_check)
 {
@@ -586,6 +588,7 @@ password_prompt_data_new (ECollectionAccountWizard *wizard,
 	ppd->wizard = wizard;
 	ppd->worker = worker;
 	ppd->popover = popover;
+	ppd->user_entry = user_entry;
 	ppd->password_entry = password_entry;
 	ppd->remember_check = remember_check;
 
@@ -614,6 +617,7 @@ collection_account_wizard_try_again_clicked_cb (GtkButton *button,
 
 	g_return_if_fail (ppd != NULL);
 	g_return_if_fail (E_IS_COLLECTION_ACCOUNT_WIZARD (ppd->wizard));
+	g_return_if_fail (GTK_IS_ENTRY (ppd->user_entry));
 	g_return_if_fail (GTK_IS_ENTRY (ppd->password_entry));
 
 	wd = g_hash_table_lookup (ppd->wizard->priv->workers, ppd->worker);
@@ -623,6 +627,8 @@ collection_account_wizard_try_again_clicked_cb (GtkButton *button,
 	g_return_if_fail (params != NULL);
 
 	wd->remember_password = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ppd->remember_check));
+
+	gtk_entry_set_text (GTK_ENTRY (ppd->wizard->priv->email_entry), gtk_entry_get_text (GTK_ENTRY (ppd->user_entry)));
 
 	e_named_parameters_set (params, E_CONFIG_LOOKUP_PARAM_EMAIL_ADDRESS, gtk_entry_get_text (GTK_ENTRY (ppd->wizard->priv->email_entry)));
 	e_named_parameters_set (params, E_CONFIG_LOOKUP_PARAM_SERVERS, gtk_entry_get_text (GTK_ENTRY (ppd->wizard->priv->servers_entry)));
@@ -641,8 +647,9 @@ collection_account_wizard_show_password_prompt (ECollectionAccountWizard *wizard
 						EConfigLookupWorker *worker,
 						WorkerData *wd)
 {
-	GtkWidget *widget, *label, *entry, *check, *button;
+	GtkWidget *widget, *label, *user_entry, *password_entry, *check, *button;
 	GtkGrid *grid;
+	const gchar *text;
 
 	g_return_if_fail (E_IS_COLLECTION_ACCOUNT_WIZARD (wizard));
 	g_return_if_fail (E_IS_CONFIG_LOOKUP_WORKER (worker));
@@ -653,20 +660,33 @@ collection_account_wizard_show_password_prompt (ECollectionAccountWizard *wizard
 	gtk_grid_set_column_spacing (grid, 6);
 	gtk_grid_set_row_spacing (grid, 6);
 
-	widget = gtk_label_new_with_mnemonic (_("_Password:"));
+	widget = gtk_label_new_with_mnemonic (_("_Username:"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_END);
 	gtk_grid_attach (grid, widget, 0, 0, 1, 1);
 	label = widget;
 
 	widget = gtk_entry_new ();
-	gtk_entry_set_visibility (GTK_ENTRY (widget), FALSE);
 	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_entry_set_text (GTK_ENTRY (widget), gtk_entry_get_text (GTK_ENTRY (wizard->priv->email_entry)));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	gtk_grid_attach (grid, widget, 1, 0, 1, 1);
-	entry = widget;
+	user_entry = widget;
+
+	widget = gtk_label_new_with_mnemonic (_("_Password:"));
+	gtk_widget_set_halign (widget, GTK_ALIGN_END);
+	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
+	label = widget;
+
+	widget = gtk_entry_new ();
+	gtk_entry_set_visibility (GTK_ENTRY (widget), FALSE);
+	gtk_entry_set_input_purpose (GTK_ENTRY (widget), GTK_INPUT_PURPOSE_PASSWORD);
+	gtk_entry_set_activates_default (GTK_ENTRY (widget), TRUE);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+	gtk_grid_attach (grid, widget, 1, 1, 1, 1);
+	password_entry = widget;
 
 	widget = gtk_check_button_new_with_mnemonic (_("_Remember password"));
-	gtk_grid_attach (grid, widget, 0, 1, 2, 1);
+	gtk_grid_attach (grid, widget, 0, 2, 2, 1);
 	check = widget;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), wd->remember_password);
@@ -674,7 +694,7 @@ collection_account_wizard_show_password_prompt (ECollectionAccountWizard *wizard
 	widget = gtk_button_new_with_mnemonic (_("_Try Again"));
 	gtk_widget_set_halign (widget, GTK_ALIGN_END);
 	gtk_widget_set_can_default (widget, TRUE);
-	gtk_grid_attach (grid, widget, 0, 2, 2, 1);
+	gtk_grid_attach (grid, widget, 0, 3, 2, 1);
 	button = widget;
 
 	gtk_widget_show_all (GTK_WIDGET (grid));
@@ -682,13 +702,12 @@ collection_account_wizard_show_password_prompt (ECollectionAccountWizard *wizard
 	widget = gtk_popover_new (wd->running_label);
 	gtk_popover_set_position (GTK_POPOVER (widget), GTK_POS_BOTTOM);
 	gtk_popover_set_default_widget (GTK_POPOVER (widget), button);
-	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
 	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (grid));
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 
 	g_signal_connect_data (button, "clicked",
 		G_CALLBACK (collection_account_wizard_try_again_clicked_cb),
-		password_prompt_data_new (wizard, worker, widget, entry, check),
+		password_prompt_data_new (wizard, worker, widget, user_entry, password_entry, check),
 		password_prompt_data_free, 0);
 
 	g_signal_connect (widget, "closed",
@@ -696,7 +715,12 @@ collection_account_wizard_show_password_prompt (ECollectionAccountWizard *wizard
 
 	gtk_widget_show (widget);
 
-	gtk_widget_grab_focus (entry);
+	text = gtk_entry_get_text (GTK_ENTRY (user_entry));
+
+	if (!text || !*text)
+		gtk_widget_grab_focus (user_entry);
+	else
+		gtk_widget_grab_focus (password_entry);
 }
 
 static void
@@ -1679,6 +1703,9 @@ collection_account_wizard_constructed (GObject *object)
 	gtk_widget_set_tooltip_text (widget, _("Semicolon (“;”) separated list of servers to look up information for, in addition to the domain of the e-mail address."));
 
 	g_signal_connect_swapped (wizard->priv->servers_entry, "changed",
+		G_CALLBACK (collection_account_wizard_notify_can_run), wizard);
+
+	g_signal_connect_swapped (wizard->priv->servers_entry, "changed",
 		G_CALLBACK (collection_account_wizard_mark_changed), wizard);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
@@ -2309,7 +2336,7 @@ e_collection_account_wizard_get_can_run (ECollectionAccountWizard *wizard)
 {
 	GHashTableIter iter;
 	gpointer value;
-	const gchar *email;
+	const gchar *email, *servers;
 	gint current_page;
 
 	g_return_val_if_fail (E_IS_COLLECTION_ACCOUNT_WIZARD (wizard), FALSE);
@@ -2320,7 +2347,9 @@ e_collection_account_wizard_get_can_run (ECollectionAccountWizard *wizard)
 		return FALSE;
 
 	email = gtk_entry_get_text (GTK_ENTRY (wizard->priv->email_entry));
-	if (!email || !*email)
+	servers = gtk_entry_get_text (GTK_ENTRY (wizard->priv->servers_entry));
+
+	if ((!email || !*email) && (!servers || !*servers))
 		return FALSE;
 
 	current_page = gtk_notebook_get_current_page (GTK_NOTEBOOK (wizard));

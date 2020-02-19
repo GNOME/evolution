@@ -302,11 +302,6 @@ webdav_config_lookup_worker_run (EConfigLookupWorker *lookup_worker,
 
 	email_address = g_strdup (e_named_parameters_get (params, E_CONFIG_LOOKUP_PARAM_EMAIL_ADDRESS));
 
-	if (!email_address || !*email_address) {
-		g_free (email_address);
-		return;
-	}
-
 	*out_restart_params = e_named_parameters_new_clone (params);
 
 	dummy_source = e_source_new (NULL, NULL, NULL);
