@@ -684,9 +684,13 @@ cal_shell_content_current_view_id_changed_cb (ECalShellContent *cal_shell_conten
 		case E_CAL_VIEW_KIND_MONTH:
 		case E_CAL_VIEW_KIND_LIST:
 			if (!calendar_config_get_month_start_with_current_week ()) {
-				if (g_date_get_day (&sel_start) != 1 &&
-				    (g_date_get_julian (&sel_end) - g_date_get_julian (&sel_start) + 1) / 7 >= 3 &&
-				    g_date_get_month (&sel_start) != g_date_get_month (&sel_end)) {
+				if (g_date_get_days_in_month (g_date_get_month (&sel_start), g_date_get_year (&sel_start)) - g_date_get_day (&sel_start) <= 7) {
+					/* Keep the sel_start unchanged, because it's within the last week of the month,
+					   which can be covered by the mini-calendar. Setting to the first day of the month
+					   may mean the mini-calendar would go back by one month. */
+				} else if (g_date_get_day (&sel_start) != 1 &&
+					   (g_date_get_julian (&sel_end) - g_date_get_julian (&sel_start) + 1) / 7 >= 3 &&
+					   g_date_get_month (&sel_start) != g_date_get_month (&sel_end)) {
 					g_date_set_day (&sel_start, 1);
 					g_date_add_months (&sel_start, 1);
 				} else {
