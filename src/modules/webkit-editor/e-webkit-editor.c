@@ -6372,49 +6372,58 @@ webkit_editor_key_press_event (GtkWidget *widget,
                                GdkEventKey *event)
 {
 	EWebKitEditor *wk_editor;
+	GdkKeymapKey key = { 0, 0, 0 };
+	guint keyval;
+
+	key.keycode = event->hardware_keycode;
+
+	/* Translate the keyval to the base group, thus it's independent of the current user keyboard layout */
+	keyval = gdk_keymap_lookup_key (gdk_keymap_get_for_display (gtk_widget_get_display (widget)), &key);
+	if (!keyval)
+		keyval = event->keyval;
 
 	wk_editor = E_WEBKIT_EDITOR (widget);
 
 	if ((((event)->state & GDK_SHIFT_MASK) &&
-	    ((event)->keyval == GDK_KEY_Insert)) ||
+	    (keyval == GDK_KEY_Insert)) ||
 	    (((event)->state & GDK_CONTROL_MASK) &&
-	    ((event)->keyval == GDK_KEY_v))) {
+	    (keyval == GDK_KEY_v))) {
 		if (!e_content_editor_emit_paste_clipboard (E_CONTENT_EDITOR (widget)))
 			webkit_editor_paste (E_CONTENT_EDITOR (widget));
 		return TRUE;
 	}
 
 	if ((((event)->state & GDK_CONTROL_MASK) &&
-	    ((event)->keyval == GDK_KEY_Insert)) ||
+	    (keyval == GDK_KEY_Insert)) ||
 	    (((event)->state & GDK_CONTROL_MASK) &&
-	    ((event)->keyval == GDK_KEY_c))) {
+	    (keyval == GDK_KEY_c))) {
 		webkit_editor_copy (E_CONTENT_EDITOR (wk_editor));
 		return TRUE;
 	}
 
 	if (((event)->state & GDK_CONTROL_MASK) &&
-	    ((event)->keyval == GDK_KEY_z)) {
+	    (keyval == GDK_KEY_z)) {
 		webkit_editor_undo (E_CONTENT_EDITOR (wk_editor));
 		return TRUE;
 	}
 
 	if (((event)->state & (GDK_CONTROL_MASK)) &&
-	    ((event)->keyval == GDK_KEY_Z)) {
+	    (keyval == GDK_KEY_Z)) {
 		webkit_editor_redo (E_CONTENT_EDITOR (wk_editor));
 		return TRUE;
 	}
 
 	if ((((event)->state & GDK_SHIFT_MASK) &&
-	    ((event)->keyval == GDK_KEY_Delete)) ||
+	    (keyval == GDK_KEY_Delete)) ||
 	    (((event)->state & GDK_CONTROL_MASK) &&
-	    ((event)->keyval == GDK_KEY_x))) {
+	    (keyval == GDK_KEY_x))) {
 		webkit_editor_cut (E_CONTENT_EDITOR (wk_editor));
 		return TRUE;
 	}
 
 	if (((event)->state & GDK_CONTROL_MASK) &&
 	    ((event)->state & GDK_SHIFT_MASK) &&
-	    ((event)->keyval == GDK_KEY_I) &&
+	    (keyval == GDK_KEY_I) &&
 	    e_util_get_webkit_developer_mode_enabled ()) {
 		webkit_editor_show_inspector (wk_editor);
 		return TRUE;
