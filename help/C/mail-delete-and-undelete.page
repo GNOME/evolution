@@ -8,7 +8,7 @@
     <link type="seealso" xref="mail-moving-emails" />
     <link type="seealso" xref="deleting-emails" />
 
-    <revision pkgversion="3.0.2" version="0.2" date="2011-07-31" status="final"/>
+    <revision pkgversion="3.35.91" version="0.3" date="2020-02-21" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -32,6 +32,9 @@
 <p>When you press Delete or click the <gui>Trash</gui> folder, your mail is not actually deleted, but is marked for deletion. You can see all message marked for deletion in the <gui>Trash</gui> folder. To show deleted messages, click <guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq>. You can view the messages stricken off for later deletion.</p>
 
 <p>To permanently erase all the deleted messages in a folder, click <guiseq><gui>Folder</gui><gui>Expunge</gui></guiseq> or press <keyseq><key>Ctrl</key><key>E</key></keyseq>.</p>
+
+<note style="tip"><p>When reading messages in a separate window, the next message will be displayed after you have deleted a message. If you want the window to close instead, run the command <cmd>gsettings set org.gnome.evolution.mail browser-close-on-delete-or-junk true</cmd></p></note>
+
 </section>
 
 <section id="undelete">
