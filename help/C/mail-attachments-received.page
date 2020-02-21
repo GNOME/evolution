@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-displaying-message" />
     <link type="guide" xref="mail-attachments" />
 
-    <revision pkgversion="3.25.5" version="0.4" date="2017-07-04" status="final"/>
+    <revision pkgversion="3.35.91" version="0.5" date="2020-02-21" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -30,6 +30,6 @@
 <p>To save an attachment to disk, click the down-arrow next to the attachment icon and click <gui>Save As</gui>.</p>
 <p>To open an attachment in another application, click the down-arrow next to the attachment icon and choose one of the available applications.</p>
 
-<p>The options available for an attachment vary depending on the type of attachment and the applications that are installed on your system. Your desktop environment's MIME database defines which applications can be used to open a specific file format.</p>
+<note style="tip"><p>The options available for an attachment vary depending on the type of attachment and the applications that are installed on your system. Your desktop environment's MIME database defines which applications can be used to open a specific file format.</p><p>To see the list of registered applications for a MIME type, use <cmd>gio mime</cmd>. Example: <cmd>gio mime "application/pdf"</cmd></p></note>
 
 </page>
