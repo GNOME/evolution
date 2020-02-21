@@ -1,0 +1,30 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="printing-in-flatpak">
+
+  <info>
+    <desc>This is a limitation of Flatpak.</desc>
+
+    <link type="guide" xref="index#common-mail-problems" />
+
+    <revision pkgversion="3.35.91" version="0.1" date="2020-02-21" status="review"/>
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+    
+
+</info>
+
+<title>Cannot print an email</title>
+
+<p>If you run a <link href="https://flathub.org/">Flatpak</link> version of
+<app>Evolution</app>, then you cannot print an email to a printer. This is a
+<link href="https://bugs.webkit.org/show_bug.cgi?id=192748">limitation of the
+underlying WebKitGTK library</link> used by Evolution.</p>
+
+<p>To print an email to a file, you can run <cmd>flatpak run --filesystem=home
+org.gnome.Evolution</cmd> as a workaround.</p>
+
+</page>

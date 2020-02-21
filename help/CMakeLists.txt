@@ -213,6 +213,7 @@ set(HELP_FILES
 	memos-usage.page
 	offline.page
 	organizing.page
+	printing-in-flatpak.page
 	problems-debug-how-to.page
 	problems-getting-help.page
 	problems-reporting-bugs.page
