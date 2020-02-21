@@ -82,6 +82,7 @@ set(HELP_FILES
 	exporting-data.page
 	google-services.page
 	import-apps-mozilla.page
+	import-apps-kmail.page
 	import-apps-outlook.page
 	import-data.page
 	import-single-files.page

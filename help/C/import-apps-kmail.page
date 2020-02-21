@@ -1,0 +1,29 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="import-apps-kmail">
+
+  <info>
+    <desc>If <app>KMail</app> data cannot be found by the <app>Evolution</app> importer.</desc>
+
+    <link type="guide" xref="import-data#import-from-apps" />
+
+    <revision pkgversion="3.35.91" version="0.1" date="2020-02-21" status="final"/>
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+
+  </info>
+
+  <title>KMail</title>
+
+  <p>Note that <app>Evolution</app> only recognized KDE 4 directories:</p>
+  <list>
+  <item><p><file>$HOME/.kde4/share/apps/kmail/mail</file> for mail</p></item>
+  <item><p><file>$HOME/.kde4/share/apps/kabc</file> for contacts</p></item>
+  </list>
+
+<!-- from https://mail.gnome.org/archives/evolution-list/2019-October/msg00044.html -->
+
+</page>
