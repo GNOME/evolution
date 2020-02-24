@@ -16,7 +16,7 @@
 # Kenneth Nielsen <k.nielsen81@gmail.com>, 2007-2011, 2014.
 # Flemming Christensen <fc@stromata.dk>, 2012, 2013.
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2010, 2013, 2015, 2016.
-# Alan Mortensen <alanmortensen.am@gmail.com>, 2017-19.
+# Alan Mortensen <alanmortensen.am@gmail.com>, 2017-20.
 # scootergrisen, 2019-2020.
 #
 # BEMÆRK !!!
@@ -76,15 +76,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2019-12-27 15:26+0000\n"
-"PO-Revision-Date: 2020-01-12 22:58+0200\n"
-"Last-Translator: scootergrisen\n"
+"POT-Creation-Date: 2020-02-14 10:50+0000\n"
+"PO-Revision-Date: 2020-02-15 11:10+0100\n"
+"Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -703,18 +704,30 @@ msgstr ""
 "måned"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+msgid "Let the Month View start with the current week"
+msgstr "Lad månedsvisningen begynde med den nuværende uge"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+msgid ""
+"Whether the month view should show weeks starting with the current week "
+"instead of the first week of the month."
+msgstr ""
+"Hvorvidt månedsvisningen skal vise uger begyndende med den nuværende uge i "
+"stedet for månedens første uge."
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Preferred New button item"
 msgstr "Foretrukket element for ny knap"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
 msgid "Name of the preferred New toolbar button item"
 msgstr "Navnet på foretrukket element til ny knap på værktøjslinje"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
 msgid "Primary calendar"
 msgstr "Primær kalender"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:95
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
 msgid ""
 "The UID of the selected (or “primary”) calendar in the sidebar of the "
 "“Calendar” view"
@@ -722,11 +735,11 @@ msgstr ""
 "UID'en for den valgte (eller “primære”) kalender i sidepanelet i “Kalender”-"
 "visningen"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:96
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
 msgid "Primary memo list"
 msgstr "Primær memoliste"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:97
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
 msgid ""
 "The UID of the selected (or “primary”) memo list in the sidebar of the "
 "“Memos” view"
@@ -734,11 +747,11 @@ msgstr ""
 "UID'en for den valgte (eller “primære”) memoliste i sidepanelet i “Memo”-"
 "visningen"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:98
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
 msgid "Primary task list"
 msgstr "Primær opgaveliste"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:99
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:101
 msgid ""
 "The UID of the selected (or “primary”) task list in the sidebar of the "
 "“Tasks” view"
@@ -746,11 +759,11 @@ msgstr ""
 "UID'en for den valgte (eller “primære”) opgaveliste i sidepanelet i “Opgave”-"
 "visningen"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:100
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
 msgid "Free/busy template URL"
 msgstr "Skabelon-adresse for ledig/optaget"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:102
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -759,21 +772,21 @@ msgstr ""
 "Adresseskabelonen der skal bruges som ledig/optaget-data, ved tilbagefald, "
 "%u udskiftes med brugerdelen af e-mailadressen, mens %d udskiftes med domænet"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:103
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
 msgid "Recurrent Events in Italic"
 msgstr "Tilbagevendende aftaler i kursiv"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:104
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
 msgid "Show days with recurrent events in italic font in bottom left calendar"
 msgstr ""
 "Vis dage med tilbagevendende begivenheder med kursiv skrifttype i kalenderen "
 "nederst til venstre"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:105
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 msgid "Search range for time-based searching in years"
 msgstr "Søgeomfang for tidsbaseret søgning i år"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:106
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
 msgid ""
 "How many years can the time-based search go forward or backward from "
 "currently selected day when searching for another occurrence; default is ten "
@@ -782,71 +795,71 @@ msgstr ""
 "Hvor mange år kan den tidsbaserede søgning gå frem eller tilbage fra den "
 "aktuelt valgte dag, når der søges efter en anden forekomst; standard er ti år"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
 msgid "Show appointment end times in week and month views"
 msgstr "Vis sluttiderne for aftaler i uge- og månedsoversigterne"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:108
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
 msgid "Whether to display the end time of events in the week and month views"
 msgstr ""
 "Om sluttiderne for begivenheder i uge- og månedsoversigterne skal vises"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:109
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
 msgid "Show appointment icons in the month view"
 msgstr "Vis aftaleikoner i månedsoversigten"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:110
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
 msgid "Whether to show icons of events in the month view"
 msgstr "Om der skal vises ikoner for begivenheder i månedsoversigten"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:111
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
 msgid "Show the memo preview pane"
 msgstr "Vis forhåndsvisningsruden til memoer"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:112
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
 msgid "If “true”, show the memo preview pane in the main window"
 msgstr ""
 "Hvis sat til “true” vil ruden til forhåndsvisning af memoer bliver vist i "
 "hovedvinduet"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:113
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
 msgid "Show the task preview pane"
 msgstr "Vis forhåndsvisningsruden til opgaver"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:114
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
 msgid "If “true”, show the task preview pane in the main window"
 msgstr ""
 "Hvis sat til “true” vil ruden til forhåndsvisning af opgaver bliver vist i "
 "hovedvinduet"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:115
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr "Vis ugenumre i dags- og arbejdsugeoversigt samt datonavigation"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:116
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
 msgid "Whether to show week numbers in various places in the Calendar"
 msgstr "Om ugenumre skal vises forskellige steder i kalenderen"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:117
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
 msgid "Vertical position for the tag pane"
 msgstr "Lodret position for mærke-vinduet"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:118
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
 msgid "Highlight tasks due today"
 msgstr "Fremhæv opgaver med tidsfrist i dag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:119
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid ""
 "Whether highlight tasks due today with a special color (task-due-today-color)"
 msgstr ""
 "Om opgaver med tidsfrist i dag skal fremhæves med en særlig farve (farve for "
 "dagens opgaver)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:120
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
 msgid "Tasks due today color"
 msgstr "Farve for opgaver med tidsfrist i dag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
 msgid ""
 "Background color of tasks that are due today, in “#rrggbb” format. Used "
 "together with task-due-today-highlight"
@@ -854,15 +867,15 @@ msgstr ""
 "Baggrundsfarve for opgaver med tidsfrist i dag, i “#rrggbb”-format. Bruges "
 "sammen med fremhævelse af opgaver med tidsfrist i dag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:122
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
 msgid "Task preview pane position (horizontal)"
 msgstr "Placering af ruden til forhåndsvisning af opgaver (vandret)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:123
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
 msgid "Task layout style"
 msgstr "Layoutstil for opgaver"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:124
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. “0” (Classic View) places the preview pane below the task "
@@ -873,31 +886,31 @@ msgstr ""
 "opgavelisten. “1” (Lodret visning) placerer forhåndsvisningspanelet ved "
 "siden af opgavelisten"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:125
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
 msgid "Task preview pane position (vertical)"
 msgstr "Placering af ruden til forhåndsvisning af opgaver (lodret)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:126
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
 msgid "Position of the task preview pane when oriented vertically"
 msgstr ""
 "Position af ruden til forhåndsvisning af opgaver, når ruden vender lodret"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:127
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
 msgid "Highlight overdue tasks"
 msgstr "Fremhæv opgaver der skulle have været udført"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:128
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
 msgid ""
 "Whether highlight overdue tasks with a special color (task-overdue-color)"
 msgstr ""
 "Om opgaver, der skulle have været udført, skal fremhæves med en særlig farve "
 "(farve for opgaver, der skulle have været udført)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:129
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
 msgid "Overdue tasks color"
 msgstr "Farve for opgaver der tidsmæssigt er overskredet"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:130
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
 msgid ""
 "Background color of tasks that are overdue, in “#rrggbb” format. Used "
 "together with task-overdue-highlight."
@@ -905,19 +918,19 @@ msgstr ""
 "Baggrundsfarve for opgaver der skulle have været udført, i “#rrggbb”-format. "
 "Bruges sammen med fremhævelse af opgaver, der skulle have været udført."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:131
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
 msgid "Time divisions"
 msgstr "Tidsinddelinger"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:132
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
 msgid "Intervals shown in Day and Work Week views, in minutes"
 msgstr "Tidsintervaller der vises i dag- og arbejdsugeoversigter, i minutter"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:133
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
 msgid "Timezone"
 msgstr "Tidszone"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:134
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olson timezone database location like “America/New York”"
@@ -925,79 +938,79 @@ msgstr ""
 "Standardtidszonen til brug for datoer og klokkeslæt i kalenderen, som et "
 "uoversat Olson-tidszone-database-sted som f.eks. “America/New York”"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:135
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
 msgid "Twenty four hour time format"
 msgstr "24-timers-format"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:136
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
 msgid "Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Om tider skal vises i 24-timers-format i stedet for am/pm"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:137
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
 msgid "Birthday and anniversary reminder"
 msgstr "Påmindelser om fødselsdage og mærkedage"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:138
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
 msgid "Whether to set a reminder for birthdays and anniversaries"
 msgstr "Om der skal være en påmindelse for fødseldage og jubilæer"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:139
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
 msgid "Default appointment reminder"
 msgstr "Standard-aftalepåmindelse"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:140
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
 msgid "Whether to set a default reminder for appointments"
 msgstr "Om aftaler skal have en standardpåmindelse"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:141
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
 msgid "Use system timezone"
 msgstr "Benyt systemtidszone"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
 msgid "Use the system timezone instead of the timezone selected in Evolution"
 msgstr "Brug systemets tidszone i stedet for den som er valgt i Evolution"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
 msgid "First day of the week"
 msgstr "Ugens første dag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:144
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
 msgid "Monday is a work day"
 msgstr "Mandag er en hverdag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:145
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
 msgid "Tuesday is a work day"
 msgstr "Tirsdag er en hverdag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:146
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
 msgid "Wednesday is a work day"
 msgstr "Onsdag er en hverdag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:147
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
 msgid "Thursday is a work day"
 msgstr "Torsdag er en hverdag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:148
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
 msgid "Friday is a work day"
 msgstr "Fredag er en hverdag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:149
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
 msgid "Saturday is a work day"
 msgstr "Lørdag er en hverdag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:150
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
 msgid "Sunday is a work day"
 msgstr "Søndag er en hverdag"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:151
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
 msgid "Create events, memos and tasks as Private by default"
 msgstr "Opret som udgangspunkt private begivenheder, memoer og opgaver"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:152
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
 msgid "Draw events as flat, not shaded."
 msgstr "Optegn begivenheder som flade, ikke skyggede."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:153
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
 msgid ""
 "Whether to order days in the Week View from left to right, rather than from "
 "top to bottom."
@@ -1005,7 +1018,7 @@ msgstr ""
 "Om dagene i ugevisningen skal sorteres fra venstre mod højre i stedet for "
 "fra top til bund."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:154
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
 msgid ""
 "Allow direct edit of event Summary when clicking on it in the Day, Work "
 "Week, Week or Month view."
@@ -1013,15 +1026,15 @@ msgstr ""
 "Tillad direkte redigering af begivenhedssammendrag, når der klikkes på det i "
 "dag-, arbejdsuge-, uge- eller månedsvisning."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:155
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
 msgid "User-defined reminder times, in minutes"
 msgstr "Brugerdefinerede påmindelsestidspunkter, i minutter"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:156
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
 msgid "(Deprecated) First day of the week, from Sunday (0) to Saturday (6)"
 msgstr "(Forældet) Begyndelsesdag for ugen, fra søndag (0) til lørdag (6)"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:157
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“week-start-day-name” instead."
@@ -1029,11 +1042,11 @@ msgstr ""
 "Denne nøgle er forældet siden version 3.10 og bør ikke længere bruges. Brug "
 "“week-start-day-name” i stedet."
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:158
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:160
 msgid "(Deprecated) Work days"
 msgstr "(Forældet) Hverdage"
 
-#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:159
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:161
 msgid ""
 "Days on which the start and end of work hours should be indicated. (This key "
 "was deprecated in version 3.10 and should no longer be used. Use the “work-"
@@ -2772,10 +2785,22 @@ msgstr ""
 "dispositionsunderretning automatisk indlejret."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
+msgid "Whether unset colors provided in HTML mails."
+msgstr "Hvorvidt farver i HTML-mails skal nulstilles."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+msgid ""
+"If enabled, unset colors in HTML messages, forcing use of desktop theme "
+"colors instead."
+msgstr ""
+"Når aktiveret, nulstilles farver i HTML-breve, hvorved skrivebordets "
+"temafarver bruges."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid "(Deprecated) Default forward style"
 msgstr "(Forældet) Standardstil for videresending"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“forward-style-name” instead."
@@ -2783,11 +2808,11 @@ msgstr ""
 "Denne nøgle er forældet siden version 3.10 og bør ikke længere bruges. Brug "
 "“forward-style-name” i stedet."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
 msgid "(Deprecated) Default reply style"
 msgstr "(Forældet) Standardstil for svar"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“reply-style-name” instead."
@@ -2795,11 +2820,11 @@ msgstr ""
 "Denne nøgle er forældet siden version 3.10 og bør ikke længere bruges. Brug "
 "“reply-style-name” i stedet."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
 msgid "(Deprecated) List of custom headers and whether they are enabled."
 msgstr "(Forældet) Liste over tilpassede hoveder og om de er aktiveret."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“show-headers” instead."
@@ -2807,11 +2832,11 @@ msgstr ""
 "Denne nøgle er forældet siden version 3.10 og bør ikke længere bruges. Brug "
 "“show-headers” i stedet."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
 msgid "(Deprecated) Load images for HTML messages over HTTP"
 msgstr "(Forældet) Indlæs billeder for HTML-breve via HTTP"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
@@ -2819,7 +2844,7 @@ msgstr ""
 "Denne nøgle er forældet siden version 3.10 og bør ikke længere bruges. Brug "
 "“image-loading-policy” i stedet."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2827,7 +2852,7 @@ msgstr ""
 "(Forældet) Spørger hvorvidt brevvinduet skal lukkes, når brugeren "
 "videresender eller svarer på brevet i vinduet"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -3379,7 +3404,7 @@ msgstr ""
 
 #: ../data/org.gnome.Evolution.appdata.xml.in.in.h:1
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
-#: ../src/mail/e-mail-browser.c:1250
+#: ../src/mail/e-mail-browser.c:1295
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
 #: ../src/shell/e-shell-window-private.c:240
 msgid "Evolution"
@@ -3465,7 +3490,7 @@ msgstr "E-mail"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:11
 #: ../src/calendar/gui/e-memo-table.c:457 ../src/e-util/e-webdav-browser.c:460
-#: ../src/modules/calendar/e-cal-shell-content.c:1767
+#: ../src/modules/calendar/e-cal-shell-content.c:1769
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:196
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:211
 #: ../src/modules/calendar/e-memo-shell-view.c:335
@@ -3477,8 +3502,8 @@ msgstr "Memoer"
 #: ../src/calendar/importers/icalendar-importer.c:77
 #: ../src/calendar/importers/icalendar-importer.c:1141
 #: ../src/e-util/e-webdav-browser.c:461
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:71
-#: ../src/modules/calendar/e-cal-shell-content.c:1727
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
+#: ../src/modules/calendar/e-cal-shell-content.c:1729
 #: ../src/modules/calendar/e-task-shell-view-actions.c:220
 #: ../src/modules/calendar/e-task-shell-view-actions.c:235
 #: ../src/modules/calendar/e-task-shell-view.c:508
@@ -3949,7 +3974,7 @@ msgstr ""
 
 #: ../src/addressbook/addressbook.error.xml.h:32
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:9
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:751
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:757
 #: ../src/calendar/gui/e-comp-editor-page-general.c:1525
 #: ../src/e-util/e-accounts-window.c:1563
 #: ../src/e-util/e-mail-signature-manager.c:328
@@ -4136,8 +4161,8 @@ msgstr "Indstillinger"
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:453
 #: ../src/addressbook/gui/contact-editor/fullname.ui.h:14
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:510
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:746
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:516
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1321
 #: ../src/calendar/gui/e-cal-dialogs.c:690
@@ -4157,7 +4182,7 @@ msgstr "Indstillinger"
 #: ../src/e-util/e-filter-datespec.c:300
 #: ../src/e-util/e-html-editor-actions.c:342
 #: ../src/e-util/e-html-editor-actions.c:386
-#: ../src/e-util/e-html-editor-actions.c:468
+#: ../src/e-util/e-html-editor-actions.c:489
 #: ../src/e-util/e-image-chooser-dialog.c:179
 #: ../src/e-util/e-mail-signature-script-dialog.c:366
 #: ../src/e-util/e-passwords.c:468 ../src/e-util/e-rule-context.c:816
@@ -4170,7 +4195,7 @@ msgstr "Indstillinger"
 #: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3963
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
-#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4047
+#: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4044
 #: ../src/mail/em-folder-selector.c:318 ../src/mail/mail-config.ui.h:2
 #: ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:874
 #: ../src/mail/mail-send-recv.c:955 ../src/mail/mail-vfolder-ui.c:149
@@ -4197,7 +4222,7 @@ msgstr "_Annullér"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3508
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:749
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:755
 #: ../src/calendar/calendar.error.xml.h:47
 #: ../src/calendar/gui/e-comp-editor.c:2158
 #: ../src/composer/e-composer-actions.c:228
@@ -4219,7 +4244,7 @@ msgstr "_Gem"
 #: ../src/e-util/e-preferences-window.c:390
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell.c:1474 ../src/shell/e-shell-window-actions.c:1019
+#: ../src/shell/e-shell-window-actions.c:1053
 msgid "_Help"
 msgstr "_Hjælp"
 
@@ -4282,7 +4307,7 @@ msgid "_Home Page:"
 msgstr "_Hjemmeside:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:30
-#: ../src/calendar/gui/e-comp-editor-event.c:882
+#: ../src/calendar/gui/e-comp-editor-event.c:884
 #: ../src/modules/itip-formatter/itip-view.c:1907
 msgid "_Calendar:"
 msgstr "_Kalender:"
@@ -4494,23 +4519,25 @@ msgstr "Certifikater"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
 #: ../src/calendar/gui/e-comp-editor.c:2090
-#: ../src/e-util/e-html-editor-actions.c:983
+#: ../src/e-util/e-html-editor-actions.c:1004
 msgid "_Undo"
 msgstr "_Fortryd"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:263
-#: ../src/calendar/gui/e-comp-editor.c:2092 ../src/e-util/e-focus-tracker.c:120
+#: ../src/calendar/gui/e-comp-editor.c:2092 ../src/e-util/e-focus-tracker.c:147
+#: ../src/e-util/e-focus-tracker.c:150
 msgid "Undo"
 msgstr "Fortryd"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
 #: ../src/calendar/gui/e-comp-editor.c:2097
-#: ../src/e-util/e-html-editor-actions.c:969
+#: ../src/e-util/e-html-editor-actions.c:990
 msgid "_Redo"
 msgstr "_Omgør"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:270
-#: ../src/calendar/gui/e-comp-editor.c:2099 ../src/e-util/e-focus-tracker.c:136
+#: ../src/calendar/gui/e-comp-editor.c:2099 ../src/e-util/e-focus-tracker.c:163
+#: ../src/e-util/e-focus-tracker.c:166
 msgid "Redo"
 msgstr "Omgør"
 
@@ -4542,6 +4569,8 @@ msgid "PGP keys"
 msgstr "PGP-nøgler"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3256
+#: ../src/e-util/e-html-editor-actions.c:395
+#: ../src/e-util/e-image-chooser-dialog.c:193
 #: ../src/smime/gui/certificate-manager.c:672
 #: ../src/smime/gui/certificate-manager.c:961
 msgid "All files"
@@ -4562,7 +4591,7 @@ msgstr "Åbn X-509-certifikat"
 #: ../src/e-util/e-attachment-store.c:666 ../src/e-util/e-category-editor.c:177
 #: ../src/e-util/e-html-editor-actions.c:342
 #: ../src/e-util/e-html-editor-actions.c:386
-#: ../src/e-util/e-html-editor-actions.c:468
+#: ../src/e-util/e-html-editor-actions.c:489
 #: ../src/e-util/e-image-chooser-dialog.c:182 ../src/plugins/face/face.c:298
 #: ../src/shell/e-shell-utils.c:69 ../src/smime/gui/certificate-manager.c:951
 msgid "_Open"
@@ -4610,7 +4639,7 @@ msgstr "Vælg venligst et billede til denne kontaktperson"
 msgid "_No image"
 msgstr "_Intet billede"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4708
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4711
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -4618,28 +4647,28 @@ msgstr ""
 "Data om kontaktperson er ugyldige:\n"
 "\n"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4714
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4717
 #, c-format
 msgid "“%s” has an invalid format"
 msgstr "“%s” har et ugyldigt format"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4722
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4725
 #, c-format
 msgid "“%s” cannot be a future date"
 msgstr "“%s” kan ikke være en fremtidig dato"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4730
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4733
 #, c-format
 msgid "%s“%s” has an invalid format"
 msgstr "%s“%s” har et ugyldigt format"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4743
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4757
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4746
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4760
 #, c-format
 msgid "%s“%s” is empty"
 msgstr "%s“%s” er tom"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4772
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:4775
 msgid "Invalid contact."
 msgstr "Ugyldig kontaktperson."
 
@@ -4764,7 +4793,7 @@ msgid "_Suffix:"
 msgstr "_Suffiks:"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:815
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:822
 msgid "Contact List Editor"
 msgstr "Redigering af liste over kontaktpersoner"
 
@@ -4807,12 +4836,12 @@ msgid "_Top"
 msgstr "_Øverst"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:16
-#: ../src/e-util/e-source-selector.c:3475 ../src/e-util/filter.ui.h:29
+#: ../src/e-util/e-source-selector.c:3492 ../src/e-util/filter.ui.h:29
 msgid "_Up"
 msgstr "_Op"
 
 #: ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:17
-#: ../src/e-util/e-source-selector.c:3476 ../src/e-util/filter.ui.h:30
+#: ../src/e-util/e-source-selector.c:3493 ../src/e-util/filter.ui.h:30
 msgid "_Down"
 msgstr "_Ned"
 
@@ -4821,23 +4850,23 @@ msgstr "_Ned"
 msgid "_Bottom"
 msgstr "_Nederst"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:940
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:947
 msgid "Contact List Members"
 msgstr "Medlemmer af liste over kontaktpersoner"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1499
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1506
 msgid "_Members"
 msgstr "_Medlemmer"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1639
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1646
 msgid "Error adding list"
 msgstr "Fejl ved tilføjelse af liste"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1659
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1666
 msgid "Error modifying list"
 msgstr "Fejl ved ændring af liste"
 
-#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1679
+#: ../src/addressbook/gui/contact-list-editor/e-contact-list-editor.c:1686
 msgid "Error removing list"
 msgstr "Fejl ved fjernelse af liste"
 
@@ -5044,25 +5073,25 @@ msgstr "Startside"
 msgid "Blog"
 msgstr "Blog"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:299
-#: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:1146
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:305
+#: ../src/calendar/gui/tasktypes.xml.in.h:14 ../src/mail/mail-send-recv.c:1143
 msgid "Cancelled"
 msgstr "Annulleret"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:489
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:495
 msgid "Merge Contact"
 msgstr "Flet kontaktperson"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:511
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:517
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:758
 msgid "_Merge"
 msgstr "_Flet"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:741
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:747
 msgid "Duplicate Contact Detected"
 msgstr "Dublet af kontaktperson fundet"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:799
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:805
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to save the changes anyway?"
@@ -5071,7 +5100,7 @@ msgstr ""
 "denne mappe.\n"
 "Ønsker du at gemme ændringerne alligevel?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:802
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:808
 msgid ""
 "The name or email address of this contact already exists\n"
 "in this folder. Would you like to add it anyway?"
@@ -5079,19 +5108,19 @@ msgstr ""
 "Navnet eller e-mailadressen for denne kontaktperson eksisterer allerede\n"
 "i denne mappe. Vil du tilføje den alligevel?"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:817
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:823
 msgid "Changed Contact:"
 msgstr "Ændret kontaktperson:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:819
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:825
 msgid "New Contact:"
 msgstr "Ny kontaktperson:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:858
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:864
 msgid "Conflicting Contact:"
 msgstr "Kontaktperson i konflikt:"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:860
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:866
 msgid "Old Contact:"
 msgstr "Gammel kontaktperson:"
 
@@ -5281,7 +5310,7 @@ msgstr "Er du sikker på, at du vil slette denne kontaktpersonen (%s)?"
 
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1322
 #: ../src/calendar/gui/e-comp-editor.c:2048
-#: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:783
+#: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:806
 #: ../src/e-util/e-webdav-browser.c:2697
 #: ../src/mail/e-mail-account-manager.c:739
@@ -5290,7 +5319,7 @@ msgstr "Er du sikker på, at du vil slette denne kontaktpersonen (%s)?"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1628
-#: ../src/shell/e-shell-window-actions.c:877
+#: ../src/shell/e-shell-window-actions.c:911
 #: ../src/smime/gui/certificate-manager.c:1656 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Slet"
@@ -5499,9 +5528,9 @@ msgstr "Zoom _ud"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:2060
+#: ../src/e-util/e-html-editor-actions.c:2081
 #: ../src/e-util/e-html-editor-find-dialog.c:244
-#: ../src/shell/e-shell-window-actions.c:947
+#: ../src/shell/e-shell-window-actions.c:981
 msgid "_Find"
 msgstr "_Søg"
 
@@ -6966,7 +6995,7 @@ msgstr "Opretter visning for opgavelisten “%s”"
 msgid "Creating view for memo list “%s”"
 msgstr "Opretter visning for memolisten “%s”"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:217 ../src/calendar/gui/e-cal-ops.c:1964
+#: ../src/calendar/gui/e-cal-dialogs.c:217 ../src/calendar/gui/e-cal-ops.c:1976
 msgid "Destination is read only"
 msgstr "Mål er skrivebeskyttet"
 
@@ -7118,17 +7147,17 @@ msgid "Pasted text doesn’t contain valid iCalendar data"
 msgstr "Indsat tekst indeholder ikke gyldige iCalendar-data"
 
 #: ../src/calendar/gui/e-calendar-view.c:917
-#: ../src/calendar/gui/e-cal-ops.c:1555
+#: ../src/calendar/gui/e-cal-ops.c:1567
 msgid "Default calendar not found"
 msgstr "Standardkalender ikke fundet"
 
 #: ../src/calendar/gui/e-calendar-view.c:922
-#: ../src/calendar/gui/e-cal-ops.c:1558
+#: ../src/calendar/gui/e-cal-ops.c:1570
 msgid "Default memo list not found"
 msgstr "Standardmemoliste ikke fundet"
 
 #: ../src/calendar/gui/e-calendar-view.c:927
-#: ../src/calendar/gui/e-cal-ops.c:1561
+#: ../src/calendar/gui/e-cal-ops.c:1573
 msgid "Default task list not found"
 msgstr "Standardopgaveliste ikke fundet"
 
@@ -7301,25 +7330,25 @@ msgstr "Type"
 msgid "Unknown"
 msgstr "Ukendt"
 
-#: ../src/calendar/gui/e-cal-model.c:1369 ../src/calendar/gui/e-cal-ops.c:609
-#: ../src/calendar/gui/e-cal-ops.c:1246
+#: ../src/calendar/gui/e-cal-model.c:1369 ../src/calendar/gui/e-cal-ops.c:615
+#: ../src/calendar/gui/e-cal-ops.c:1252
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:391
 #, c-format
 msgid "Source with UID “%s” not found"
 msgstr "Kilde med UID “%s” ikke fundet"
 
-#: ../src/calendar/gui/e-cal-model.c:1480 ../src/calendar/gui/e-cal-ops.c:185
-#: ../src/calendar/gui/e-cal-ops.c:1363
+#: ../src/calendar/gui/e-cal-model.c:1480 ../src/calendar/gui/e-cal-ops.c:191
+#: ../src/calendar/gui/e-cal-ops.c:1369
 msgid "Creating an event"
 msgstr "Opretter en begivenhed"
 
-#: ../src/calendar/gui/e-cal-model.c:1484 ../src/calendar/gui/e-cal-ops.c:189
-#: ../src/calendar/gui/e-cal-ops.c:1367
+#: ../src/calendar/gui/e-cal-model.c:1484 ../src/calendar/gui/e-cal-ops.c:195
+#: ../src/calendar/gui/e-cal-ops.c:1373
 msgid "Creating a memo"
 msgstr "Opretter et memo"
 
-#: ../src/calendar/gui/e-cal-model.c:1488 ../src/calendar/gui/e-cal-ops.c:193
-#: ../src/calendar/gui/e-cal-ops.c:1371
+#: ../src/calendar/gui/e-cal-model.c:1488 ../src/calendar/gui/e-cal-ops.c:199
+#: ../src/calendar/gui/e-cal-ops.c:1377
 msgid "Creating a task"
 msgstr "Opretter en opgave"
 
@@ -7403,166 +7432,166 @@ msgid "In Progress"
 msgstr "I gang"
 
 # hvadenten det er en statusbesked (ændrer lige nu en begivenhed) eller en "sådan gør du"-besked (ofte kendt fra information), burde denne formulering være OK
-#: ../src/calendar/gui/e-cal-ops.c:305
+#: ../src/calendar/gui/e-cal-ops.c:311
 msgid "Modifying an event"
 msgstr "Ændring af begivenhed"
 
-#: ../src/calendar/gui/e-cal-ops.c:309
+#: ../src/calendar/gui/e-cal-ops.c:315
 msgid "Modifying a memo"
 msgstr "Ændring af memo"
 
-#: ../src/calendar/gui/e-cal-ops.c:313
+#: ../src/calendar/gui/e-cal-ops.c:319
 msgid "Modifying a task"
 msgstr "Ændring af opgave"
 
-#: ../src/calendar/gui/e-cal-ops.c:411 ../src/calendar/gui/e-to-do-pane.c:2074
+#: ../src/calendar/gui/e-cal-ops.c:417 ../src/calendar/gui/e-to-do-pane.c:2074
 msgid "Removing an event"
 msgstr "Fjernelse af begivenhed"
 
-#: ../src/calendar/gui/e-cal-ops.c:415 ../src/calendar/gui/e-to-do-pane.c:2078
+#: ../src/calendar/gui/e-cal-ops.c:421 ../src/calendar/gui/e-to-do-pane.c:2078
 msgid "Removing a memo"
 msgstr "Fjernelse af memo"
 
-#: ../src/calendar/gui/e-cal-ops.c:419 ../src/calendar/gui/e-to-do-pane.c:2082
+#: ../src/calendar/gui/e-cal-ops.c:425 ../src/calendar/gui/e-to-do-pane.c:2082
 msgid "Removing a task"
 msgstr "Fjernelse af opgave"
 
-#: ../src/calendar/gui/e-cal-ops.c:507
+#: ../src/calendar/gui/e-cal-ops.c:513
 #, c-format
 msgid "Deleting an event"
 msgid_plural "Deleting %d events"
 msgstr[0] "Sletter en begivenhed"
 msgstr[1] "Sletter %d begivenheder"
 
-#: ../src/calendar/gui/e-cal-ops.c:511
+#: ../src/calendar/gui/e-cal-ops.c:517
 #, c-format
 msgid "Deleting a memo"
 msgid_plural "Deleting %d memos"
 msgstr[0] "Sletter et memo"
 msgstr[1] "Sletter %d memoer"
 
-#: ../src/calendar/gui/e-cal-ops.c:515
+#: ../src/calendar/gui/e-cal-ops.c:521
 #, c-format
 msgid "Deleting a task"
 msgid_plural "Deleting %d tasks"
 msgstr[0] "Sletter en opgave"
 msgstr[1] "Sletter %d opgaver"
 
-#: ../src/calendar/gui/e-cal-ops.c:721
+#: ../src/calendar/gui/e-cal-ops.c:727
 #, c-format
 msgid "Pasting an event"
 msgid_plural "Pasting %d events"
 msgstr[0] "Indsætter en begivenhed"
 msgstr[1] "Indsætter %d begivenheder"
 
-#: ../src/calendar/gui/e-cal-ops.c:736
+#: ../src/calendar/gui/e-cal-ops.c:742
 #, c-format
 msgid "Pasting a memo"
 msgid_plural "Pasting %d memos"
 msgstr[0] "Indsætter et memo"
 msgstr[1] "Indsætter %d memoer"
 
-#: ../src/calendar/gui/e-cal-ops.c:751
+#: ../src/calendar/gui/e-cal-ops.c:757
 #, c-format
 msgid "Pasting a task"
 msgid_plural "Pasting %d tasks"
 msgstr[0] "Indsætter en opgave"
 msgstr[1] "Indsætter %d opgaver"
 
-#: ../src/calendar/gui/e-cal-ops.c:847
+#: ../src/calendar/gui/e-cal-ops.c:853
 msgid "Updating an event"
 msgstr "Opdaterer en begivenhed"
 
-#: ../src/calendar/gui/e-cal-ops.c:851
+#: ../src/calendar/gui/e-cal-ops.c:857
 msgid "Updating a memo"
 msgstr "Opdaterer et memo"
 
-#: ../src/calendar/gui/e-cal-ops.c:855
+#: ../src/calendar/gui/e-cal-ops.c:861
 msgid "Updating a task"
 msgstr "Opdaterer en opgave"
 
-#: ../src/calendar/gui/e-cal-ops.c:968
+#: ../src/calendar/gui/e-cal-ops.c:974
 #, c-format
 msgid "Getting events to purge in the calendar “%s”"
 msgstr "Henter begivenheder som skal slettes i kalenderen “%s”"
 
-#: ../src/calendar/gui/e-cal-ops.c:972
+#: ../src/calendar/gui/e-cal-ops.c:978
 #, c-format
 msgid "Getting memos to purge in the memo list “%s”"
 msgstr "Henter memoer som skal slettes i memolisten “%s”"
 
-#: ../src/calendar/gui/e-cal-ops.c:976
+#: ../src/calendar/gui/e-cal-ops.c:982
 #, c-format
 msgid "Getting tasks to purge in the task list “%s”"
 msgstr "Henter opgaver som skal slettes i opgavelisten “%s”"
 
-#: ../src/calendar/gui/e-cal-ops.c:1002
+#: ../src/calendar/gui/e-cal-ops.c:1008
 #, c-format
 msgid "Purging events in the calendar “%s”"
 msgstr "Sletter begivenheder i kalenderen “%s”"
 
-#: ../src/calendar/gui/e-cal-ops.c:1006
+#: ../src/calendar/gui/e-cal-ops.c:1012
 #, c-format
 msgid "Purging memos in the memo list “%s”"
 msgstr "Sletter memoer i memolisten “%s”"
 
-#: ../src/calendar/gui/e-cal-ops.c:1010
+#: ../src/calendar/gui/e-cal-ops.c:1016
 #, c-format
 msgid "Purging tasks in the task list “%s”"
 msgstr "Sletter opgaver fra opgavelisten “%s”"
 
-#: ../src/calendar/gui/e-cal-ops.c:1105
+#: ../src/calendar/gui/e-cal-ops.c:1111
 msgid "Purging events"
 msgstr "Sletter begivenheder"
 
-#: ../src/calendar/gui/e-cal-ops.c:1109
+#: ../src/calendar/gui/e-cal-ops.c:1115
 msgid "Purging memos"
 msgstr "Sletter memoer"
 
-#: ../src/calendar/gui/e-cal-ops.c:1113
+#: ../src/calendar/gui/e-cal-ops.c:1119
 msgid "Purging tasks"
 msgstr "Sletter opgaver"
 
-#: ../src/calendar/gui/e-cal-ops.c:1215
+#: ../src/calendar/gui/e-cal-ops.c:1221
 msgid "Expunging completed tasks"
 msgstr "Tømmer udførte opgaver"
 
-#: ../src/calendar/gui/e-cal-ops.c:2057
+#: ../src/calendar/gui/e-cal-ops.c:2069
 #, c-format
 msgid "Moving an event"
 msgid_plural "Moving %d events"
 msgstr[0] "Flytter en begivenhed"
 msgstr[1] "Flytter %d begivenheder"
 
-#: ../src/calendar/gui/e-cal-ops.c:2058
+#: ../src/calendar/gui/e-cal-ops.c:2070
 #, c-format
 msgid "Copying an event"
 msgid_plural "Copying %d events"
 msgstr[0] "Kopierer en begivenhed"
 msgstr[1] "Kopierer %d begivenheder"
 
-#: ../src/calendar/gui/e-cal-ops.c:2064
+#: ../src/calendar/gui/e-cal-ops.c:2076
 #, c-format
 msgid "Moving a memo"
 msgid_plural "Moving %d memos"
 msgstr[0] "Flytter et memo"
 msgstr[1] "Flytter %d memoer"
 
-#: ../src/calendar/gui/e-cal-ops.c:2065
+#: ../src/calendar/gui/e-cal-ops.c:2077
 #, c-format
 msgid "Copying a memo"
 msgid_plural "Copying %d memos"
 msgstr[0] "Kopierer et memo"
 msgstr[1] "Kopierer %d memoer"
 
-#: ../src/calendar/gui/e-cal-ops.c:2071
+#: ../src/calendar/gui/e-cal-ops.c:2083
 #, c-format
 msgid "Moving a task"
 msgid_plural "Moving %d tasks"
 msgstr[0] "Flytter en opgave"
 msgstr[1] "Flytter %d opgaver"
 
-#: ../src/calendar/gui/e-cal-ops.c:2072
+#: ../src/calendar/gui/e-cal-ops.c:2084
 #, c-format
 msgid "Copying a task"
 msgid_plural "Copying %d tasks"
@@ -7592,41 +7621,41 @@ msgstr ""
 msgid "Event’s time is in the past"
 msgstr "Begivenhedens tidspunkt er i fortiden"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:208
+#: ../src/calendar/gui/e-comp-editor-event.c:210
 msgid ""
 "Event cannot be edited, because the selected calendar could not be opened"
 msgstr ""
 "Begivenheden kan ikke redigeres, fordi den valgte kalender ikke kunne åbnes"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:210
+#: ../src/calendar/gui/e-comp-editor-event.c:212
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
 "Begivenheden kan ikke redigeres, fordi den valgte kalender er skrivebeskyttet"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:212
+#: ../src/calendar/gui/e-comp-editor-event.c:214
 msgid "Event cannot be fully edited, because you are not the organizer"
 msgstr ""
 "Begivenheden kan ikke redigeres fuldt ud, fordi du ikke er organisatoren"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:504
+#: ../src/calendar/gui/e-comp-editor-event.c:506
 #: ../src/calendar/gui/e-comp-editor-task.c:591
 msgid "Start date is not a valid date"
 msgstr "Startdato er ikke en gyldig dato"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:506
+#: ../src/calendar/gui/e-comp-editor-event.c:508
 msgid "Start time is not a valid time"
 msgstr "Starttidspunkt er ikke et gyldigt klokkeslæt"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:510
-#: ../src/calendar/gui/e-comp-editor-event.c:526
+#: ../src/calendar/gui/e-comp-editor-event.c:512
+#: ../src/calendar/gui/e-comp-editor-event.c:528
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:338
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4262 ../src/e-util/e-misc-utils.c:4274
 #: ../src/e-util/e-misc-utils.c:4288 ../src/mail/e-mail-autoconfig.c:1041
-#: ../src/mail/e-mail-display.c:2190 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3841 ../src/mail/em-composer-utils.c:3872
-#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1496
+#: ../src/mail/e-mail-display.c:2359 ../src/mail/e-mail-reader-utils.c:805
+#: ../src/mail/em-composer-utils.c:3838 ../src/mail/em-composer-utils.c:3869
+#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235
 #: ../src/shell/e-shell.c:1260 ../src/smime/gui/certificate-manager.c:357
@@ -7634,128 +7663,128 @@ msgstr "Starttidspunkt er ikke et gyldigt klokkeslæt"
 msgid "Unknown error"
 msgstr "Ukendt fejl"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:520
+#: ../src/calendar/gui/e-comp-editor-event.c:522
 msgid "End date is not a valid date"
 msgstr "Slutdato er ikke en gyldig dato"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:522
+#: ../src/calendar/gui/e-comp-editor-event.c:524
 msgid "End time is not a valid time"
 msgstr "Sluttidspunkt er ikke et gyldigt klokkeslæt"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:724
+#: ../src/calendar/gui/e-comp-editor-event.c:726
 #: ../src/calendar/gui/e-comp-editor-memo.c:134
 #: ../src/calendar/gui/e-comp-editor-task.c:704
 msgid "_Categories"
 msgstr "_Kategorier"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:726
+#: ../src/calendar/gui/e-comp-editor-event.c:728
 #: ../src/calendar/gui/e-comp-editor-memo.c:136
 #: ../src/calendar/gui/e-comp-editor-task.c:706
 msgid "Toggles whether to display categories"
 msgstr "Slå visning af kategorier fra/til"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:732
+#: ../src/calendar/gui/e-comp-editor-event.c:734
 #: ../src/calendar/gui/e-comp-editor-task.c:712
 msgid "Time _Zone"
 msgstr "Tids_zone"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:734
+#: ../src/calendar/gui/e-comp-editor-event.c:736
 #: ../src/calendar/gui/e-comp-editor-task.c:714
 msgid "Toggles whether the time zone is displayed"
 msgstr "Slå visning af Tidszone-feltet fra/til"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:740
+#: ../src/calendar/gui/e-comp-editor-event.c:742
 msgid "All _Day Event"
 msgstr "_Heldagsbegivenhed"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:742
+#: ../src/calendar/gui/e-comp-editor-event.c:744
 msgid "Toggles whether to have All Day Event"
 msgstr "Slå visning af heldagsbegivenhed fra/til"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:748
+#: ../src/calendar/gui/e-comp-editor-event.c:750
 msgid "Show Time as _Busy"
 msgstr "Vis tid som _optaget"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:750
+#: ../src/calendar/gui/e-comp-editor-event.c:752
 msgid "Toggles whether to show time as busy"
 msgstr "Slå visning af tid som optaget fra/til"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:759
+#: ../src/calendar/gui/e-comp-editor-event.c:761
 msgid "Pu_blic"
 msgstr "Of_fentlig"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:761
+#: ../src/calendar/gui/e-comp-editor-event.c:763
 msgid "Classify as public"
 msgstr "Klassificér som offentlig"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:766
+#: ../src/calendar/gui/e-comp-editor-event.c:768
 msgid "_Private"
 msgstr "_Privat"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:768
+#: ../src/calendar/gui/e-comp-editor-event.c:770
 msgid "Classify as private"
 msgstr "Klassificér som privat"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:773
+#: ../src/calendar/gui/e-comp-editor-event.c:775
 msgid "_Confidential"
 msgstr "_Fortroligt"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:775
+#: ../src/calendar/gui/e-comp-editor-event.c:777
 msgid "Classify as confidential"
 msgstr "Klassificér som fortroligt"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:893
+#: ../src/calendar/gui/e-comp-editor-event.c:895
 msgctxt "ECompEditor"
 msgid "_Start time:"
 msgstr "_Starttidspunkt:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:898
+#: ../src/calendar/gui/e-comp-editor-event.c:900
 msgctxt "ECompEditor"
 msgid "_End time:"
 msgstr "S_luttidspunkt:"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:908
+#: ../src/calendar/gui/e-comp-editor-event.c:910
 msgctxt "ECompEditor"
 msgid "All da_y event"
 msgstr "_Heldagsbegivenhed"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:976
+#: ../src/calendar/gui/e-comp-editor-event.c:978
 #: ../src/calendar/gui/e-comp-editor-memo.c:232
 #: ../src/calendar/gui/e-comp-editor-task.c:882
 msgctxt "ECompEditorPage"
 msgid "General"
 msgstr "Generelt"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:979
+#: ../src/calendar/gui/e-comp-editor-event.c:981
 #: ../src/calendar/gui/e-comp-editor-task.c:905
 msgctxt "ECompEditorPage"
 msgid "Reminders"
 msgstr "Påmindelser"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:982
+#: ../src/calendar/gui/e-comp-editor-event.c:984
 #: ../src/calendar/gui/e-comp-editor-task.c:909
 msgctxt "ECompEditorPage"
 msgid "Recurrence"
 msgstr "Gentagelse"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:985
+#: ../src/calendar/gui/e-comp-editor-event.c:987
 #: ../src/calendar/gui/e-comp-editor-memo.c:235
 #: ../src/calendar/gui/e-comp-editor-task.c:913
 msgctxt "ECompEditorPage"
 msgid "Attachments"
 msgstr "Bilag"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:995
+#: ../src/calendar/gui/e-comp-editor-event.c:997
 msgctxt "ECompEditorPage"
 msgid "Schedule"
 msgstr "Skema"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1030
+#: ../src/calendar/gui/e-comp-editor-event.c:1032
 #, c-format
 msgid "Meeting — %s"
 msgstr "Møde — %s"
 
-#: ../src/calendar/gui/e-comp-editor-event.c:1031
+#: ../src/calendar/gui/e-comp-editor-event.c:1033
 #, c-format
 msgid "Appointment — %s"
 msgstr "Aftale — %s"
@@ -7963,17 +7992,17 @@ msgstr "D_eltagere …"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2285
 #: ../src/calendar/gui/e-comp-editor.c:2113
 #: ../src/e-util/e-accounts-window.c:1745
-#: ../src/e-util/e-html-editor-actions.c:992
+#: ../src/e-util/e-html-editor-actions.c:1013
 #: ../src/e-util/e-mail-signature-manager.c:358
 #: ../src/e-util/e-webdav-browser.c:2690 ../src/e-util/filter.ui.h:26
-#: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:195
+#: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
 #: ../src/mail/e-mail-label-manager.c:380
 #: ../src/mail/em-folder-properties.c:1333 ../src/mail/mail-config.ui.h:68
 #: ../src/plugins/attachment-reminder/attachment-reminder.c:549
 #: ../src/plugins/email-custom-header/email-custom-header.c:844
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/templates/templates.c:469
-#: ../src/shell/e-shell-window-actions.c:1005 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:1039 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "R_edigér"
 
@@ -8318,7 +8347,7 @@ msgid "_Add time"
 msgstr "_Tilføj tidspunkt"
 
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1980
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:72
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:73
 msgid "Reminders"
 msgstr "Påmindelser"
 
@@ -8542,7 +8571,7 @@ msgid "Show time as _busy"
 msgstr "Vis tid som _optaget"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
-#: ../src/calendar/gui/e-comp-editor-property-parts.c:1961
+#: ../src/calendar/gui/e-comp-editor-property-parts.c:1960
 msgctxt "ECompEditor"
 msgid "None"
 msgstr "Ingen"
@@ -8631,14 +8660,14 @@ msgstr "Intet sammendrag"
 #: ../src/e-util/e-name-selector-dialog.c:548
 #: ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
-#: ../src/mail/e-mail-browser.c:144
+#: ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:758
 #: ../src/mail/e-mail-notes.c:964 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1458
 #: ../src/mail/em-subscription-editor.c:1741
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
-#: ../src/shell/e-shell-window-actions.c:314
-#: ../src/shell/e-shell-window-actions.c:842
+#: ../src/shell/e-shell-window-actions.c:348
+#: ../src/shell/e-shell-window-actions.c:876
 #: ../src/smime/gui/certificate-manager.c:2196
 msgid "_Close"
 msgstr "_Luk"
@@ -8648,38 +8677,38 @@ msgid "Close the current window"
 msgstr "Luk det aktive vindue"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:773
-#: ../src/e-util/e-html-editor-actions.c:948 ../src/e-util/e-text.c:2080
-#: ../src/e-util/e-web-view.c:469 ../src/mail/e-mail-browser.c:151
-#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:863
+#: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:806
+#: ../src/e-util/e-html-editor-actions.c:969 ../src/e-util/e-text.c:2080
+#: ../src/e-util/e-web-view.c:469 ../src/mail/e-mail-browser.c:173
+#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:897
 msgid "_Copy"
 msgstr "_Kopiér"
 
-#: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:173
-#: ../src/e-util/e-focus-tracker.c:229 ../src/e-util/e-focus-tracker.c:282
-#: ../src/e-util/e-focus-tracker.c:774 ../src/e-util/e-web-view.c:471
-#: ../src/e-util/e-web-view.c:2044 ../src/mail/e-mail-browser.c:153
-#: ../src/shell/e-shell-window-actions.c:865
+#: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:203
+#: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:471
+#: ../src/e-util/e-web-view.c:2044 ../src/mail/e-mail-browser.c:175
+#: ../src/shell/e-shell-window-actions.c:899
 msgid "Copy the selection"
 msgstr "Kopier det valgte"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:768
-#: ../src/e-util/e-html-editor-actions.c:955 ../src/e-util/e-text.c:2066
-#: ../src/mail/e-mail-browser.c:158 ../src/shell/e-shell-window-actions.c:870
+#: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:801
+#: ../src/e-util/e-html-editor-actions.c:976 ../src/e-util/e-text.c:2066
+#: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:904
 msgid "Cu_t"
 msgstr "Klip u_d"
 
-#: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:166
-#: ../src/e-util/e-focus-tracker.c:222 ../src/e-util/e-focus-tracker.c:276
-#: ../src/e-util/e-focus-tracker.c:769 ../src/e-util/e-web-view.c:2053
-#: ../src/mail/e-mail-browser.c:160 ../src/shell/e-shell-window-actions.c:872
+#: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:196
+#: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2053
+#: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:906
 msgid "Cut the selection"
 msgstr "Klip det markerede ud"
 
-#: ../src/calendar/gui/e-comp-editor.c:2050 ../src/e-util/e-focus-tracker.c:187
-#: ../src/e-util/e-focus-tracker.c:243 ../src/e-util/e-focus-tracker.c:784
-#: ../src/shell/e-shell-window-actions.c:879
+#: ../src/calendar/gui/e-comp-editor.c:2050 ../src/e-util/e-focus-tracker.c:217
+#: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
+#: ../src/shell/e-shell-window-actions.c:913
 msgid "Delete the selection"
 msgstr "Slet det markerede"
 
@@ -8688,16 +8717,16 @@ msgid "View help"
 msgstr "Vis hjælp"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2062 ../src/e-util/e-focus-tracker.c:778
-#: ../src/e-util/e-html-editor-actions.c:962 ../src/e-util/e-text.c:2092
-#: ../src/mail/e-mail-browser.c:165 ../src/shell/e-shell-window-actions.c:898
+#: ../src/calendar/gui/e-comp-editor.c:2062 ../src/e-util/e-focus-tracker.c:811
+#: ../src/e-util/e-html-editor-actions.c:983 ../src/e-util/e-text.c:2092
+#: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:932
 msgid "_Paste"
 msgstr "_Indsæt"
 
-#: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:180
-#: ../src/e-util/e-focus-tracker.c:236 ../src/e-util/e-focus-tracker.c:288
-#: ../src/e-util/e-focus-tracker.c:779 ../src/e-util/e-web-view.c:2062
-#: ../src/mail/e-mail-browser.c:167 ../src/shell/e-shell-window-actions.c:900
+#: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
+#: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2062
+#: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:934
 msgid "Paste the clipboard"
 msgstr "Indsæt fra udklipsholderen"
 
@@ -8716,15 +8745,15 @@ msgstr "_Udskriv …"
 msgid "Pre_view…"
 msgstr "Forhånds_visning …"
 
-#: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:788
-#: ../src/e-util/e-html-editor-actions.c:976 ../src/e-util/e-web-view.c:486
-#: ../src/mail/e-mail-browser.c:172 ../src/shell/e-shell-window-actions.c:968
+#: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821
+#: ../src/e-util/e-html-editor-actions.c:997 ../src/e-util/e-web-view.c:486
+#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1002
 msgid "Select _All"
 msgstr "Markér _alt"
 
-#: ../src/calendar/gui/e-comp-editor.c:2085 ../src/e-util/e-focus-tracker.c:194
-#: ../src/e-util/e-focus-tracker.c:250 ../src/e-util/e-focus-tracker.c:789
-#: ../src/mail/e-mail-browser.c:174 ../src/shell/e-shell-window-actions.c:970
+#: ../src/calendar/gui/e-comp-editor.c:2085 ../src/e-util/e-focus-tracker.c:224
+#: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
+#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1004
 msgid "Select all text"
 msgstr "Vælg hele teksten"
 
@@ -8733,14 +8762,14 @@ msgid "_Classification"
 msgstr "K_lassificering"
 
 #: ../src/calendar/gui/e-comp-editor.c:2120
-#: ../src/e-util/e-html-editor-actions.c:999
-#: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:188
-#: ../src/mail/e-mail-notes.c:978 ../src/shell/e-shell-window-actions.c:1012
+#: ../src/e-util/e-html-editor-actions.c:1020
+#: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:210
+#: ../src/mail/e-mail-notes.c:978 ../src/shell/e-shell-window-actions.c:1046
 msgid "_File"
 msgstr "_Fil"
 
 #: ../src/calendar/gui/e-comp-editor.c:2134
-#: ../src/e-util/e-html-editor-actions.c:1020
+#: ../src/e-util/e-html-editor-actions.c:1041
 msgid "_Insert"
 msgstr "_Indsæt"
 
@@ -8750,8 +8779,8 @@ msgid "_Options"
 msgstr "_Indstillinger"
 
 #: ../src/calendar/gui/e-comp-editor.c:2148
-#: ../src/e-util/e-html-editor-actions.c:1041 ../src/mail/e-mail-browser.c:202
-#: ../src/shell/e-shell-window-actions.c:1055
+#: ../src/e-util/e-html-editor-actions.c:1062 ../src/mail/e-mail-browser.c:224
+#: ../src/shell/e-shell-window-actions.c:1089
 #: ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Vis"
@@ -9143,7 +9172,7 @@ msgid "Completion date"
 msgstr "Fuldførelsesdato"
 
 #: ../src/calendar/gui/e-task-table.etspec.h:6
-#: ../src/mail/mail-send-recv.c:1148
+#: ../src/mail/mail-send-recv.c:1145
 msgid "Complete"
 msgstr "Fuldført"
 
@@ -9393,20 +9422,20 @@ msgstr "Kan ikke reservere en ressource. Fejl: "
 msgid "You must be an attendee of the event."
 msgstr "Du må være en deltager i arrangementet."
 
-#: ../src/calendar/gui/itip-utils.c:2311
+#: ../src/calendar/gui/itip-utils.c:2312
 msgid "Sending an event"
 msgstr "Sender en begivenhed"
 
-#: ../src/calendar/gui/itip-utils.c:2315
+#: ../src/calendar/gui/itip-utils.c:2316
 msgid "Sending a memo"
 msgstr "Sender et memo"
 
-#: ../src/calendar/gui/itip-utils.c:2319
+#: ../src/calendar/gui/itip-utils.c:2320
 msgid "Sending a task"
 msgstr "Sender en opgave"
 
 #. Translator: This is used as a placeholder when an event doesn't have set a location
-#: ../src/calendar/gui/itip-utils.c:2571
+#: ../src/calendar/gui/itip-utils.c:2572
 msgctxt "Location"
 msgid "Unspecified"
 msgstr "Ikke angivet"
@@ -11353,13 +11382,13 @@ msgstr "Nyt _brev"
 msgid "Open New Message window"
 msgstr "Åbn vinduet “Nyt brev”"
 
-#: ../src/composer/e-composer-actions.c:333 ../src/shell/e-shell.c:1469
-#: ../src/shell/e-shell-window-actions.c:912
+#: ../src/composer/e-composer-actions.c:333
+#: ../src/shell/e-shell-window-actions.c:946
 msgid "_Preferences"
 msgstr "_Indstillinger"
 
 #: ../src/composer/e-composer-actions.c:335
-#: ../src/shell/e-shell-window-actions.c:914
+#: ../src/shell/e-shell-window-actions.c:948
 msgid "Configure Evolution"
 msgstr "Konfigurér Evolution"
 
@@ -11590,7 +11619,28 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Skriv brev"
 
-#: ../src/composer/e-msg-composer.c:5006
+#: ../src/composer/e-msg-composer.c:4906
+msgid "Review attachment before sending."
+msgid_plural "Review attachments before sending."
+msgstr[0] "Gennemse bilag, før det sendes."
+msgstr[1] "Gennemse bilag, før de sendes."
+
+#: ../src/composer/e-msg-composer.c:4911
+#, c-format
+msgid ""
+"There had been added %d attachment. Make sure it does not contain any "
+"sensitive information before sending the message."
+msgid_plural ""
+"There had been added %d attachments. Make sure they do not contain any "
+"sensitive information before sending the message."
+msgstr[0] ""
+"Der var tilføjet %d bilag. Sikr dig, at det ikke indeholder følsomme "
+"oplysninger, før brevet sendes."
+msgstr[1] ""
+"Der var tilføjet %d bilag. Sikr dig, at de ikke indeholder følsomme "
+"oplysninger, før brevet sendes."
+
+#: ../src/composer/e-msg-composer.c:5044
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Redigeringsvinduet indeholder et brev, som ikke er tekst, og som ikke kan "
@@ -11971,18 +12021,18 @@ msgid "Display part as enriched text"
 msgstr "Vis del som rich text"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
-#: ../src/em-format/e-mail-formatter-text-html.c:385
+#: ../src/em-format/e-mail-formatter-text-html.c:389
 msgid "HTML"
 msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
-#: ../src/em-format/e-mail-formatter-text-html.c:386
+#: ../src/em-format/e-mail-formatter-text-html.c:390
 msgid "Format part as HTML"
 msgstr "Formatér del som HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:121
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
-#: ../src/e-util/e-html-editor-actions.c:1391
+#: ../src/e-util/e-html-editor-actions.c:1412
 msgid "Plain Text"
 msgstr "Almindelig tekst"
 
@@ -12117,12 +12167,10 @@ msgstr ""
 "brevet i løbet af en kortere tidshorisont."
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:271
-#| msgid "_View Certificate"
 msgid "View Certificate"
 msgstr "Vis certifikat"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:278
-#| msgid "_Import Certificate"
 msgid "Import Certificate"
 msgstr "Importér certifikat"
 
@@ -12135,7 +12183,6 @@ msgid "Digital Signature"
 msgstr "Digital signatur"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:418
-#| msgid "Sign"
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "Underskriver:"
@@ -12146,7 +12193,6 @@ msgid "Encryption"
 msgstr "Kryptering"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:434
-#| msgid "Encrypted"
 msgid "Encrypted by:"
 msgstr "Krypteret af:"
 
@@ -12289,8 +12335,8 @@ msgstr "Signatur-formatet er ikke understøttet"
 msgid "Reply-To"
 msgstr "Svar-til"
 
-#: ../src/em-format/e-mail-part-headers.c:52 ../src/e-util/e-dateedit.c:557
-#: ../src/e-util/e-dateedit.c:580 ../src/mail/message-list.etspec.h:7
+#: ../src/em-format/e-mail-part-headers.c:52 ../src/e-util/e-dateedit.c:559
+#: ../src/e-util/e-dateedit.c:582 ../src/mail/message-list.etspec.h:7
 #: ../src/modules/mail/em-mailer-prefs.c:66
 msgid "Date"
 msgstr "Dato"
@@ -12342,7 +12388,7 @@ msgstr "Adressebøger"
 
 #: ../src/e-util/e-accounts-window.c:570 ../src/e-util/e-accounts-window.c:704
 #: ../src/e-util/e-accounts-window.c:909
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
 msgid "Calendars"
 msgstr "Kalendere"
 
@@ -12353,7 +12399,7 @@ msgstr "Memolister"
 
 #: ../src/e-util/e-accounts-window.c:582 ../src/e-util/e-accounts-window.c:706
 #: ../src/e-util/e-accounts-window.c:911
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:87
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
 msgid "Task Lists"
 msgstr "Opgavelister"
 
@@ -13030,7 +13076,7 @@ msgid "Memo List"
 msgstr "Memoliste"
 
 #: ../src/e-util/e-collection-account-wizard.c:817
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:63
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:64
 msgid "Task List"
 msgstr "Opgaveliste"
 
@@ -13083,224 +13129,224 @@ msgstr "Kontoinformation"
 msgid "Choose custom color"
 msgstr "Vælg farve"
 
-#: ../src/e-util/e-color-combo.c:76
-msgid "black"
-msgstr "sort"
-
-#: ../src/e-util/e-color-combo.c:77
-msgid "light brown"
-msgstr "lysebrun"
-
-#: ../src/e-util/e-color-combo.c:78
-msgid "brown gold"
-msgstr "gulbrun"
-
-#: ../src/e-util/e-color-combo.c:79
-msgid "dark green #2"
-msgstr "mørkegrøn 2"
-
-#: ../src/e-util/e-color-combo.c:80
-msgid "navy"
-msgstr "marineblå"
-
-#: ../src/e-util/e-color-combo.c:81
-msgid "dark blue"
-msgstr "mørkeblå"
-
-#: ../src/e-util/e-color-combo.c:82
-msgid "purple #2"
-msgstr "lilla 2"
-
-#: ../src/e-util/e-color-combo.c:83
-msgid "very dark gray"
-msgstr "meget mørkegrå"
-
-#: ../src/e-util/e-color-combo.c:85
-msgid "dark red"
-msgstr "mørkerød"
-
-#: ../src/e-util/e-color-combo.c:86
-msgid "red-orange"
-msgstr "orangerød"
-
-#: ../src/e-util/e-color-combo.c:87
-msgid "gold"
-msgstr "guld"
-
-#: ../src/e-util/e-color-combo.c:88
-msgid "dark green"
-msgstr "mørkegrøn"
-
-#: ../src/e-util/e-color-combo.c:89
-msgid "dull blue"
-msgstr "blegblå"
-
-#: ../src/e-util/e-color-combo.c:90
-msgid "blue"
-msgstr "blå"
-
-#: ../src/e-util/e-color-combo.c:91
-msgid "dull purple"
-msgstr "bleglilla"
-
-#: ../src/e-util/e-color-combo.c:92
-msgid "dark grey"
-msgstr "mørkegrå"
-
-#: ../src/e-util/e-color-combo.c:94
-msgid "red"
-msgstr "rød"
-
-#: ../src/e-util/e-color-combo.c:95
-msgid "orange"
-msgstr "orange"
-
-#: ../src/e-util/e-color-combo.c:96
-msgid "lime"
-msgstr "limegrøn"
-
-#: ../src/e-util/e-color-combo.c:97
-msgid "dull green"
-msgstr "bleggrøn"
-
-#: ../src/e-util/e-color-combo.c:98
-msgid "dull blue #2"
-msgstr "blegblå 2"
-
-#: ../src/e-util/e-color-combo.c:99
-msgid "sky blue #2"
-msgstr "himmelblå 2"
-
-#: ../src/e-util/e-color-combo.c:100
-msgid "purple"
-msgstr "lilla"
-
-#: ../src/e-util/e-color-combo.c:101
-msgid "gray"
-msgstr "grå"
-
-#: ../src/e-util/e-color-combo.c:103
-msgid "magenta"
-msgstr "magenta"
-
-#: ../src/e-util/e-color-combo.c:104
-msgid "bright orange"
-msgstr "lys orange"
-
-#: ../src/e-util/e-color-combo.c:105
-msgid "yellow"
-msgstr "gul"
-
-#: ../src/e-util/e-color-combo.c:106
-msgid "green"
-msgstr "grøn"
-
-#: ../src/e-util/e-color-combo.c:107
-msgid "cyan"
-msgstr "cyan"
-
-#: ../src/e-util/e-color-combo.c:108
-msgid "bright blue"
-msgstr "lyseblå"
-
-#: ../src/e-util/e-color-combo.c:109
-msgid "red purple"
-msgstr "lillarød"
-
-#: ../src/e-util/e-color-combo.c:110
-msgid "light grey"
-msgstr "lysegrå"
-
-#: ../src/e-util/e-color-combo.c:112
-msgid "pink"
-msgstr "lyserød"
-
-#: ../src/e-util/e-color-combo.c:113
-msgid "light orange"
-msgstr "lys orange"
-
-#: ../src/e-util/e-color-combo.c:114
-msgid "light yellow"
-msgstr "lysgul"
-
-#: ../src/e-util/e-color-combo.c:115
-msgid "light green"
-msgstr "lysegrøn"
-
-#: ../src/e-util/e-color-combo.c:116
-msgid "light cyan"
-msgstr "lys cyan"
-
-#: ../src/e-util/e-color-combo.c:117
-msgid "light blue"
-msgstr "lyseblå"
-
-#: ../src/e-util/e-color-combo.c:118
-msgid "light purple"
-msgstr "lyselilla"
-
-#: ../src/e-util/e-color-combo.c:119
-msgid "white"
-msgstr "hvid"
-
-#: ../src/e-util/e-color-combo.c:539 ../src/mail/e-mail-account-tree-view.c:135
+#: ../src/e-util/e-color-combo.c:488 ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:708
 #: ../src/mail/e-mail-reader.c:4870 ../src/mail/mail-config.ui.h:78
 msgid "Default"
 msgstr "Standard"
 
+#: ../src/e-util/e-color-combo.c:576
+msgid "black"
+msgstr "sort"
+
+#: ../src/e-util/e-color-combo.c:577
+msgid "light brown"
+msgstr "lysebrun"
+
+#: ../src/e-util/e-color-combo.c:578
+msgid "brown gold"
+msgstr "gulbrun"
+
+#: ../src/e-util/e-color-combo.c:579
+msgid "dark green #2"
+msgstr "mørkegrøn 2"
+
+#: ../src/e-util/e-color-combo.c:580
+msgid "navy"
+msgstr "marineblå"
+
+#: ../src/e-util/e-color-combo.c:581
+msgid "dark blue"
+msgstr "mørkeblå"
+
+#: ../src/e-util/e-color-combo.c:582
+msgid "purple #2"
+msgstr "lilla 2"
+
+#: ../src/e-util/e-color-combo.c:583
+msgid "very dark gray"
+msgstr "meget mørkegrå"
+
+#: ../src/e-util/e-color-combo.c:585
+msgid "dark red"
+msgstr "mørkerød"
+
+#: ../src/e-util/e-color-combo.c:586
+msgid "red-orange"
+msgstr "orangerød"
+
+#: ../src/e-util/e-color-combo.c:587
+msgid "gold"
+msgstr "guld"
+
+#: ../src/e-util/e-color-combo.c:588
+msgid "dark green"
+msgstr "mørkegrøn"
+
+#: ../src/e-util/e-color-combo.c:589
+msgid "dull blue"
+msgstr "blegblå"
+
+#: ../src/e-util/e-color-combo.c:590
+msgid "blue"
+msgstr "blå"
+
+#: ../src/e-util/e-color-combo.c:591
+msgid "dull purple"
+msgstr "bleglilla"
+
+#: ../src/e-util/e-color-combo.c:592
+msgid "dark grey"
+msgstr "mørkegrå"
+
+#: ../src/e-util/e-color-combo.c:594
+msgid "red"
+msgstr "rød"
+
+#: ../src/e-util/e-color-combo.c:595
+msgid "orange"
+msgstr "orange"
+
+#: ../src/e-util/e-color-combo.c:596
+msgid "lime"
+msgstr "limegrøn"
+
+#: ../src/e-util/e-color-combo.c:597
+msgid "dull green"
+msgstr "bleggrøn"
+
+#: ../src/e-util/e-color-combo.c:598
+msgid "dull blue #2"
+msgstr "blegblå 2"
+
+#: ../src/e-util/e-color-combo.c:599
+msgid "sky blue #2"
+msgstr "himmelblå 2"
+
+#: ../src/e-util/e-color-combo.c:600
+msgid "purple"
+msgstr "lilla"
+
+#: ../src/e-util/e-color-combo.c:601
+msgid "gray"
+msgstr "grå"
+
+#: ../src/e-util/e-color-combo.c:603
+msgid "magenta"
+msgstr "magenta"
+
+#: ../src/e-util/e-color-combo.c:604
+msgid "bright orange"
+msgstr "lys orange"
+
+#: ../src/e-util/e-color-combo.c:605
+msgid "yellow"
+msgstr "gul"
+
+#: ../src/e-util/e-color-combo.c:606
+msgid "green"
+msgstr "grøn"
+
+#: ../src/e-util/e-color-combo.c:607
+msgid "cyan"
+msgstr "cyan"
+
+#: ../src/e-util/e-color-combo.c:608
+msgid "bright blue"
+msgstr "lyseblå"
+
+#: ../src/e-util/e-color-combo.c:609
+msgid "red purple"
+msgstr "lillarød"
+
+#: ../src/e-util/e-color-combo.c:610
+msgid "light grey"
+msgstr "lysegrå"
+
+#: ../src/e-util/e-color-combo.c:612
+msgid "pink"
+msgstr "lyserød"
+
+#: ../src/e-util/e-color-combo.c:613
+msgid "light orange"
+msgstr "lys orange"
+
+#: ../src/e-util/e-color-combo.c:614
+msgid "light yellow"
+msgstr "lysgul"
+
+#: ../src/e-util/e-color-combo.c:615
+msgid "light green"
+msgstr "lysegrøn"
+
+#: ../src/e-util/e-color-combo.c:616
+msgid "light cyan"
+msgstr "lys cyan"
+
+#: ../src/e-util/e-color-combo.c:617
+msgid "light blue"
+msgstr "lyseblå"
+
+#: ../src/e-util/e-color-combo.c:618
+msgid "light purple"
+msgstr "lyselilla"
+
+#: ../src/e-util/e-color-combo.c:619
+msgid "white"
+msgstr "hvid"
+
 #: ../src/e-util/e-config-lookup.c:819
 msgid "Running…"
 msgstr "Kører …"
 
-#: ../src/e-util/e-dateedit.c:524
+#: ../src/e-util/e-dateedit.c:526
 msgid "Date and Time"
 msgstr "Dato og klokkeslæt"
 
-#: ../src/e-util/e-dateedit.c:556
+#: ../src/e-util/e-dateedit.c:558
 msgid "Text entry to input date"
 msgstr "Tekstindtastningsfelt til indtastning af dato"
 
-#: ../src/e-util/e-dateedit.c:579
+#: ../src/e-util/e-dateedit.c:581
 msgid "Click this button to show a calendar"
 msgstr "Klík på denne knap for at vise en kalender"
 
-#: ../src/e-util/e-dateedit.c:634
+#: ../src/e-util/e-dateedit.c:636
 msgid "Drop-down combination box to select time"
 msgstr "Rullegardin-kombinationsfelt for valg af tid"
 
-#: ../src/e-util/e-dateedit.c:635
+#: ../src/e-util/e-dateedit.c:637
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "Tid"
 
-#: ../src/e-util/e-dateedit.c:712
+#: ../src/e-util/e-dateedit.c:714
 msgid "No_w"
 msgstr "N_u"
 
-#: ../src/e-util/e-dateedit.c:719
+#: ../src/e-util/e-dateedit.c:721
 msgid "_Today"
 msgstr "I _dag"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
-#: ../src/e-util/e-dateedit.c:728
+#: ../src/e-util/e-dateedit.c:730
 msgid "_None"
 msgstr "_Ingen"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../src/e-util/e-dateedit.c:1887 ../src/e-util/e-dateedit.c:2126
+#: ../src/e-util/e-dateedit.c:1889 ../src/e-util/e-dateedit.c:2140
 msgctxt "date"
 msgid "None"
 msgstr "Ingen"
 
-#: ../src/e-util/e-dateedit.c:2022 ../src/e-util/e-dateedit.c:2475
+#: ../src/e-util/e-dateedit.c:2025 ../src/e-util/e-dateedit.c:2494
 msgid "Invalid Date Value"
 msgstr "Ugyldig datoværdi"
 
-#: ../src/e-util/e-dateedit.c:2057 ../src/e-util/e-dateedit.c:2532
+#: ../src/e-util/e-dateedit.c:2063 ../src/e-util/e-dateedit.c:2551
 msgid "Invalid Time Value"
 msgstr "Ugyldig tidsværdi"
 
@@ -13724,7 +13770,6 @@ msgid "Outgoing"
 msgstr "Udgående"
 
 #: ../src/e-util/e-gtkemojichooser.c:753
-#| msgid "Receiving"
 msgid "Recent"
 msgstr "Seneste"
 
@@ -13733,7 +13778,6 @@ msgid "Smileys & People"
 msgstr "Smileyer og personer"
 
 #: ../src/e-util/e-gtkemojichooser.c:758
-#| msgid "Body contains"
 msgid "Body & Clothing"
 msgstr "Krop og tøj"
 
@@ -13750,12 +13794,10 @@ msgid "Travel & Places"
 msgstr "Rejser og steder"
 
 #: ../src/e-util/e-gtkemojichooser.c:762
-#| msgid "Authorities"
 msgid "Activities"
 msgstr "Aktiviteter"
 
 #: ../src/e-util/e-gtkemojichooser.c:763
-#| msgid "Subject"
 msgctxt "emoji category"
 msgid "Objects"
 msgstr "Objekter"
@@ -13770,12 +13812,10 @@ msgid "Flags"
 msgstr "Flag"
 
 #: ../src/e-util/e-gtkemojichooser.c:789
-#| msgid "No match found"
 msgid "No Results Found"
 msgstr "Ingen resultater fundet"
 
 #: ../src/e-util/e-gtkemojichooser.c:797
-#| msgid "Try again with a different password."
 msgid "Try a different search"
 msgstr "Prøv en anden søgning"
 
@@ -13796,497 +13836,498 @@ msgid "HTML file"
 msgstr "HTML-fil"
 
 #: ../src/e-util/e-html-editor-actions.c:383
-#: ../src/e-util/e-html-editor-actions.c:393
+#: ../src/e-util/e-html-editor-actions.c:401
 msgctxt "dialog-title"
 msgid "Insert Image"
 msgstr "Indsæt billede"
 
 #: ../src/e-util/e-html-editor-actions.c:390
-msgid "Image file"
-msgstr "Billedfil"
+#: ../src/e-util/e-html-editor-actions.c:408
+#: ../src/e-util/e-image-chooser-dialog.c:188 ../src/plugins/face/face.c:301
+msgid "Image files"
+msgstr "Billedfiler"
 
-#: ../src/e-util/e-html-editor-actions.c:466
+#: ../src/e-util/e-html-editor-actions.c:487
 msgid "Insert text file"
 msgstr "Indsæt tekstfil"
 
-#: ../src/e-util/e-html-editor-actions.c:471
+#: ../src/e-util/e-html-editor-actions.c:492
 msgid "Text file"
 msgstr "Tekstfil"
 
-#: ../src/e-util/e-html-editor-actions.c:950
+#: ../src/e-util/e-html-editor-actions.c:971
 msgid "Copy selected text to the clipboard"
 msgstr "Kopiér den markerede tekst til udklipsholderen"
 
-#: ../src/e-util/e-html-editor-actions.c:957
+#: ../src/e-util/e-html-editor-actions.c:978
 msgid "Cut selected text to the clipboard"
 msgstr "Klip den markerede tekst til udklipsholderen"
 
 #. Widgets are treating Ctrl + v shortcut themselves
-#: ../src/e-util/e-html-editor-actions.c:964
+#: ../src/e-util/e-html-editor-actions.c:985
 msgid "Paste text from the clipboard"
 msgstr "Indsæt tekst fra udklipsholderen"
 
-#: ../src/e-util/e-html-editor-actions.c:971
+#: ../src/e-util/e-html-editor-actions.c:992
 msgid "Redo the last undone action"
 msgstr "Omgør den sidste fortrudte handling"
 
-#: ../src/e-util/e-html-editor-actions.c:985
+#: ../src/e-util/e-html-editor-actions.c:1006
 msgid "Undo the last action"
 msgstr "Fortryd den sidste handling"
 
-#: ../src/e-util/e-html-editor-actions.c:1006
+#: ../src/e-util/e-html-editor-actions.c:1027
 msgid "For_mat"
 msgstr "For_matér"
 
-#: ../src/e-util/e-html-editor-actions.c:1013
+#: ../src/e-util/e-html-editor-actions.c:1034
 msgid "_Paragraph Style"
 msgstr "_Afsnitsstil"
 
-#: ../src/e-util/e-html-editor-actions.c:1027
+#: ../src/e-util/e-html-editor-actions.c:1048
 #: ../src/e-util/e-html-editor-image-dialog.c:590
 msgid "_Alignment"
 msgstr "J_ustering"
 
-#: ../src/e-util/e-html-editor-actions.c:1034
+#: ../src/e-util/e-html-editor-actions.c:1055
 msgid "Current _Languages"
 msgstr "Nuværende _sprog"
 
-#: ../src/e-util/e-html-editor-actions.c:1051
+#: ../src/e-util/e-html-editor-actions.c:1072
 msgid "_Increase Indent"
 msgstr "_Forøg indrykning"
 
-#: ../src/e-util/e-html-editor-actions.c:1053
+#: ../src/e-util/e-html-editor-actions.c:1074
 msgid "Increase Indent"
 msgstr "Forøg indrykning"
 
-#: ../src/e-util/e-html-editor-actions.c:1058
-#: ../src/e-util/e-html-editor-actions.c:2066
+#: ../src/e-util/e-html-editor-actions.c:1079
+#: ../src/e-util/e-html-editor-actions.c:2087
 msgid "E_moji"
 msgstr "E_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1060
-#| msgid "Insert Emoticon"
+#: ../src/e-util/e-html-editor-actions.c:1081
 msgid "Insert Emoji"
 msgstr "Indsæt emoji"
 
-#: ../src/e-util/e-html-editor-actions.c:1065
+#: ../src/e-util/e-html-editor-actions.c:1086
 msgid "_HTML File…"
 msgstr "_HTML-fil …"
 
-#: ../src/e-util/e-html-editor-actions.c:1072
+#: ../src/e-util/e-html-editor-actions.c:1093
 msgid "Te_xt File…"
 msgstr "_Tekstfil …"
 
-#: ../src/e-util/e-html-editor-actions.c:1079
+#: ../src/e-util/e-html-editor-actions.c:1100
 msgid "Paste _Quotation"
 msgstr "Indsæt _citat"
 
-#: ../src/e-util/e-html-editor-actions.c:1086
+#: ../src/e-util/e-html-editor-actions.c:1107
 msgid "_Find…"
 msgstr "_Søg …"
 
-#: ../src/e-util/e-html-editor-actions.c:1088
+#: ../src/e-util/e-html-editor-actions.c:1109
 msgid "Search for text"
 msgstr "Søg efter tekst"
 
-#: ../src/e-util/e-html-editor-actions.c:1093
+#: ../src/e-util/e-html-editor-actions.c:1114
 msgid "Find A_gain"
 msgstr "Find i_gen"
 
-#: ../src/e-util/e-html-editor-actions.c:1100
+#: ../src/e-util/e-html-editor-actions.c:1121
 msgid "Re_place…"
 msgstr "E_rstat …"
 
-#: ../src/e-util/e-html-editor-actions.c:1102
+#: ../src/e-util/e-html-editor-actions.c:1123
 msgid "Search for and replace text"
 msgstr "Søg efter og erstat tekst"
 
-#: ../src/e-util/e-html-editor-actions.c:1107
+#: ../src/e-util/e-html-editor-actions.c:1128
 msgid "Check _Spelling…"
 msgstr "_Stavekontrol …"
 
-#: ../src/e-util/e-html-editor-actions.c:1114
+#: ../src/e-util/e-html-editor-actions.c:1135
 msgid "_Decrease Indent"
 msgstr "_Formindsk indrykning"
 
-#: ../src/e-util/e-html-editor-actions.c:1116
+#: ../src/e-util/e-html-editor-actions.c:1137
 msgid "Decrease Indent"
 msgstr "Formindsk indrykning"
 
-#: ../src/e-util/e-html-editor-actions.c:1121
+#: ../src/e-util/e-html-editor-actions.c:1142
 msgid "_Wrap Lines"
 msgstr "_Ombryd linjer"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1131
+#: ../src/e-util/e-html-editor-actions.c:1152
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:108
 msgid "_Center"
 msgstr "_Centreret"
 
-#: ../src/e-util/e-html-editor-actions.c:1133
+#: ../src/e-util/e-html-editor-actions.c:1154
 msgid "Center Alignment"
 msgstr "Centerjustering"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1138
+#: ../src/e-util/e-html-editor-actions.c:1159
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:99
 msgid "_Left"
 msgstr "_Venstre"
 
-#: ../src/e-util/e-html-editor-actions.c:1140
+#: ../src/e-util/e-html-editor-actions.c:1161
 msgid "Left Alignment"
 msgstr "Venstrejustering"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1145
+#: ../src/e-util/e-html-editor-actions.c:1166
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:117
 msgid "_Right"
 msgstr "_Højre"
 
-#: ../src/e-util/e-html-editor-actions.c:1147
+#: ../src/e-util/e-html-editor-actions.c:1168
 msgid "Right Alignment"
 msgstr "Højrejustering"
 
-#: ../src/e-util/e-html-editor-actions.c:1155
+#: ../src/e-util/e-html-editor-actions.c:1176
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1157
+#: ../src/e-util/e-html-editor-actions.c:1178
 msgid "HTML editing mode"
 msgstr "HTML-redigeringstilstand"
 
-#: ../src/e-util/e-html-editor-actions.c:1162
+#: ../src/e-util/e-html-editor-actions.c:1183
 msgid "Plain _Text"
 msgstr "Almindelig _tekst"
 
-#: ../src/e-util/e-html-editor-actions.c:1164
+#: ../src/e-util/e-html-editor-actions.c:1185
 msgid "Plain text editing mode"
 msgstr "Almindelig tekstredigeringstilstand"
 
-#: ../src/e-util/e-html-editor-actions.c:1172
+#: ../src/e-util/e-html-editor-actions.c:1193
 msgid "_Normal"
 msgstr "_Normal"
 
-#: ../src/e-util/e-html-editor-actions.c:1179
+#: ../src/e-util/e-html-editor-actions.c:1200
 msgid "Heading _1"
 msgstr "Overskrift _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1186
+#: ../src/e-util/e-html-editor-actions.c:1207
 msgid "Heading _2"
 msgstr "Overskrift _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1193
+#: ../src/e-util/e-html-editor-actions.c:1214
 msgid "Heading _3"
 msgstr "Overskrift _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1200
+#: ../src/e-util/e-html-editor-actions.c:1221
 msgid "Heading _4"
 msgstr "Overskrift _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1207
+#: ../src/e-util/e-html-editor-actions.c:1228
 msgid "Heading _5"
 msgstr "Overskrift _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1214
+#: ../src/e-util/e-html-editor-actions.c:1235
 msgid "Heading _6"
 msgstr "Overskrift _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1221
+#: ../src/e-util/e-html-editor-actions.c:1242
 msgid "_Preformatted"
 msgstr "_Forudformateret"
 
-#: ../src/e-util/e-html-editor-actions.c:1228
+#: ../src/e-util/e-html-editor-actions.c:1249
 msgid "A_ddress"
 msgstr "A_dresse"
 
-#: ../src/e-util/e-html-editor-actions.c:1235
+#: ../src/e-util/e-html-editor-actions.c:1256
 msgid "_Bulleted List"
 msgstr "_Punktliste"
 
-#: ../src/e-util/e-html-editor-actions.c:1242
+#: ../src/e-util/e-html-editor-actions.c:1263
 msgid "_Roman Numeral List"
 msgstr "_Romertalsliste"
 
-#: ../src/e-util/e-html-editor-actions.c:1249
+#: ../src/e-util/e-html-editor-actions.c:1270
 msgid "Numbered _List"
 msgstr "Nummereret _liste"
 
-#: ../src/e-util/e-html-editor-actions.c:1256
+#: ../src/e-util/e-html-editor-actions.c:1277
 msgid "_Alphabetical List"
 msgstr "_Alfabetisk liste"
 
-#: ../src/e-util/e-html-editor-actions.c:1272
-#: ../src/e-util/e-html-editor-actions.c:1310
+#: ../src/e-util/e-html-editor-actions.c:1293
+#: ../src/e-util/e-html-editor-actions.c:1331
 msgid "_Image…"
 msgstr "_Billede …"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1275
+#: ../src/e-util/e-html-editor-actions.c:1296
 msgid "Insert Image"
 msgstr "Indsæt billede"
 
-#: ../src/e-util/e-html-editor-actions.c:1280
-#: ../src/e-util/e-html-editor-actions.c:1317
+#: ../src/e-util/e-html-editor-actions.c:1301
+#: ../src/e-util/e-html-editor-actions.c:1338
 msgid "_Link…"
 msgstr "_Link …"
 
-#: ../src/e-util/e-html-editor-actions.c:1282
+#: ../src/e-util/e-html-editor-actions.c:1303
 msgid "Insert Link"
 msgstr "Indsæt link"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1288
-#: ../src/e-util/e-html-editor-actions.c:1332
+#: ../src/e-util/e-html-editor-actions.c:1309
+#: ../src/e-util/e-html-editor-actions.c:1353
 msgid "_Rule…"
 msgstr "Vandret _linje …"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1291
+#: ../src/e-util/e-html-editor-actions.c:1312
 msgid "Insert Rule"
 msgstr "Indsæt vandret linje"
 
-#: ../src/e-util/e-html-editor-actions.c:1296
-#: ../src/e-util/e-html-editor-actions.c:1339
+#: ../src/e-util/e-html-editor-actions.c:1317
+#: ../src/e-util/e-html-editor-actions.c:1360
 msgid "_Table…"
 msgstr "_Tabel …"
 
-#: ../src/e-util/e-html-editor-actions.c:1298
+#: ../src/e-util/e-html-editor-actions.c:1319
 msgid "Insert Table"
 msgstr "Indsæt tabel"
 
-#: ../src/e-util/e-html-editor-actions.c:1303
+#: ../src/e-util/e-html-editor-actions.c:1324
 msgid "_Cell…"
 msgstr "_Celle …"
 
-#: ../src/e-util/e-html-editor-actions.c:1324
+#: ../src/e-util/e-html-editor-actions.c:1345
 msgid "Pa_ge…"
 msgstr "S_ide …"
 
-#: ../src/e-util/e-html-editor-actions.c:1348
+#: ../src/e-util/e-html-editor-actions.c:1369
 msgid "Font _Size"
 msgstr "Skrift_størrelse"
 
-#: ../src/e-util/e-html-editor-actions.c:1355
+#: ../src/e-util/e-html-editor-actions.c:1376
 msgid "_Font Style"
 msgstr "_Skriftstil"
 
-#: ../src/e-util/e-html-editor-actions.c:1362
+#: ../src/e-util/e-html-editor-actions.c:1383
 msgid "Paste As _Text"
 msgstr "Indsæt som _tekst"
 
-#: ../src/e-util/e-html-editor-actions.c:1373
+#: ../src/e-util/e-html-editor-actions.c:1394
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Fed"
 
-#: ../src/e-util/e-html-editor-actions.c:1375
+#: ../src/e-util/e-html-editor-actions.c:1396
 msgid "Bold"
 msgstr "Fed"
 
-#: ../src/e-util/e-html-editor-actions.c:1381
+#: ../src/e-util/e-html-editor-actions.c:1402
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "_Kursiv"
 
-#: ../src/e-util/e-html-editor-actions.c:1383
+#: ../src/e-util/e-html-editor-actions.c:1404
 msgid "Italic"
 msgstr "Kursiv"
 
-#: ../src/e-util/e-html-editor-actions.c:1389
+#: ../src/e-util/e-html-editor-actions.c:1410
 msgid "_Plain Text"
 msgstr "_Almindelig tekst"
 
-#: ../src/e-util/e-html-editor-actions.c:1397
+#: ../src/e-util/e-html-editor-actions.c:1418
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "_Gennemstreget"
 
-#: ../src/e-util/e-html-editor-actions.c:1399
+#: ../src/e-util/e-html-editor-actions.c:1420
 msgid "Strikethrough"
 msgstr "Gennemstreget"
 
-#: ../src/e-util/e-html-editor-actions.c:1405
+#: ../src/e-util/e-html-editor-actions.c:1426
 #: ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "_Understreget"
 
-#: ../src/e-util/e-html-editor-actions.c:1407
+#: ../src/e-util/e-html-editor-actions.c:1428
 msgid "Underline"
 msgstr "Understreget"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1417
+#: ../src/e-util/e-html-editor-actions.c:1438
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1425
+#: ../src/e-util/e-html-editor-actions.c:1446
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1433
+#: ../src/e-util/e-html-editor-actions.c:1454
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1441
+#: ../src/e-util/e-html-editor-actions.c:1462
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1449
+#: ../src/e-util/e-html-editor-actions.c:1470
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1457
+#: ../src/e-util/e-html-editor-actions.c:1478
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1465
+#: ../src/e-util/e-html-editor-actions.c:1486
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1484
+#: ../src/e-util/e-html-editor-actions.c:1505
 msgid "Cell Contents"
 msgstr "Celleindhold"
 
-#: ../src/e-util/e-html-editor-actions.c:1491
+#: ../src/e-util/e-html-editor-actions.c:1512
 msgid "Column"
 msgstr "Kolonne"
 
-#: ../src/e-util/e-html-editor-actions.c:1498
+#: ../src/e-util/e-html-editor-actions.c:1519
 msgid "Row"
 msgstr "Række"
 
-#: ../src/e-util/e-html-editor-actions.c:1505
+#: ../src/e-util/e-html-editor-actions.c:1526
 msgid "Table"
 msgstr "Tabel"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1515
+#: ../src/e-util/e-html-editor-actions.c:1536
 msgid "Table Delete"
 msgstr "Slet i tabel"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1523
+#: ../src/e-util/e-html-editor-actions.c:1544
 msgid "Table Insert"
 msgstr "Indsæt i tabel"
 
-#: ../src/e-util/e-html-editor-actions.c:1530
+#: ../src/e-util/e-html-editor-actions.c:1551
 msgid "Properties"
 msgstr "Egenskaber"
 
-#: ../src/e-util/e-html-editor-actions.c:1548
+#: ../src/e-util/e-html-editor-actions.c:1569
 msgid "Column After"
 msgstr "Kolonne efter"
 
-#: ../src/e-util/e-html-editor-actions.c:1555
+#: ../src/e-util/e-html-editor-actions.c:1576
 msgid "Column Before"
 msgstr "Kolonne før"
 
-#: ../src/e-util/e-html-editor-actions.c:1562
+#: ../src/e-util/e-html-editor-actions.c:1583
 msgid "Insert _Link"
 msgstr "Indsæt _link"
 
-#: ../src/e-util/e-html-editor-actions.c:1569
+#: ../src/e-util/e-html-editor-actions.c:1590
 msgid "Row Above"
 msgstr "Række over"
 
-#: ../src/e-util/e-html-editor-actions.c:1576
+#: ../src/e-util/e-html-editor-actions.c:1597
 msgid "Row Below"
 msgstr "Række under"
 
-#: ../src/e-util/e-html-editor-actions.c:1583
+#: ../src/e-util/e-html-editor-actions.c:1604
 msgid "Cell…"
 msgstr "Celle …"
 
-#: ../src/e-util/e-html-editor-actions.c:1590
+#: ../src/e-util/e-html-editor-actions.c:1611
 msgid "Image…"
 msgstr "Billede …"
 
-#: ../src/e-util/e-html-editor-actions.c:1597
+#: ../src/e-util/e-html-editor-actions.c:1618
 msgid "Link…"
 msgstr "Link …"
 
-#: ../src/e-util/e-html-editor-actions.c:1604
+#: ../src/e-util/e-html-editor-actions.c:1625
 msgid "Page…"
 msgstr "Side …"
 
-#: ../src/e-util/e-html-editor-actions.c:1611
+#: ../src/e-util/e-html-editor-actions.c:1632
 msgid "Paragraph…"
 msgstr "Afsnit …"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1619
+#: ../src/e-util/e-html-editor-actions.c:1640
 msgid "Rule…"
 msgstr "Vandret linje …"
 
-#: ../src/e-util/e-html-editor-actions.c:1626
+#: ../src/e-util/e-html-editor-actions.c:1647
 msgid "Table…"
 msgstr "Tabel …"
 
-#: ../src/e-util/e-html-editor-actions.c:1633
+#: ../src/e-util/e-html-editor-actions.c:1654
 msgid "Text…"
 msgstr "Tekst …"
 
-#: ../src/e-util/e-html-editor-actions.c:1640
+#: ../src/e-util/e-html-editor-actions.c:1661
 msgid "Remove Link"
 msgstr "Fjern link"
 
-#: ../src/e-util/e-html-editor-actions.c:1657
+#: ../src/e-util/e-html-editor-actions.c:1678
 msgid "Add Word to Dictionary"
 msgstr "Føj ord til ordbog"
 
-#: ../src/e-util/e-html-editor-actions.c:1664
+#: ../src/e-util/e-html-editor-actions.c:1685
 msgid "Ignore Misspelled Word"
 msgstr "Ignorér stavefejl"
 
-#: ../src/e-util/e-html-editor-actions.c:1671
+#: ../src/e-util/e-html-editor-actions.c:1692
 msgid "Add Word To"
 msgstr "Føj ord til"
 
-#: ../src/e-util/e-html-editor-actions.c:1680
+#: ../src/e-util/e-html-editor-actions.c:1701
 msgid "More Suggestions"
 msgstr "Flere forslag"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:1915
+#: ../src/e-util/e-html-editor-actions.c:1936
 #, c-format
 msgid "%s Dictionary"
 msgstr "Ordbogen %s"
 
-#: ../src/e-util/e-html-editor-actions.c:1994
+#: ../src/e-util/e-html-editor-actions.c:2015
 msgid "_Emoticon"
 msgstr "_Smiley"
 
-#: ../src/e-util/e-html-editor-actions.c:1995
+#: ../src/e-util/e-html-editor-actions.c:2016
 msgid "Insert Emoticon"
 msgstr "Indsæt smiley"
 
-#: ../src/e-util/e-html-editor-actions.c:2063
+#: ../src/e-util/e-html-editor-actions.c:2084
 msgid "Re_place"
 msgstr "E_rstat"
 
-#: ../src/e-util/e-html-editor-actions.c:2069
+#: ../src/e-util/e-html-editor-actions.c:2090
 msgid "_Image"
 msgstr "_Billede"
 
-#: ../src/e-util/e-html-editor-actions.c:2072
+#: ../src/e-util/e-html-editor-actions.c:2093
 msgid "_Link"
 msgstr "_Link"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2076
+#: ../src/e-util/e-html-editor-actions.c:2097
 msgid "_Rule"
 msgstr "Vandret _linje"
 
-#: ../src/e-util/e-html-editor-actions.c:2079
+#: ../src/e-util/e-html-editor-actions.c:2100
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Tabel"
@@ -14605,7 +14646,7 @@ msgid "<b>Background Image</b>"
 msgstr "<b>Baggrundsbillede</b>"
 
 #: ../src/e-util/e-html-editor-page-dialog.c:473
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:90
 msgid "_Template:"
 msgstr "_Skabelon:"
 
@@ -14872,7 +14913,7 @@ msgid "Click “Apply” to begin importing the file into Evolution."
 msgstr "Klik “Anvend” for at starte import af filen til Evolution."
 
 #: ../src/e-util/e-interval-chooser.c:140 ../src/e-util/filter.ui.h:6
-#: ../src/mail/e-mail-config-provider-page.c:580
+#: ../src/mail/e-mail-config-provider-page.c:583
 msgid "minutes"
 msgstr "minutter"
 
@@ -15112,7 +15153,7 @@ msgstr "Klip %s _ud"
 msgid "_Edit %s"
 msgstr "R_edigér %s"
 
-#: ../src/e-util/e-name-selector-list.c:585
+#: ../src/e-util/e-name-selector-list.c:587
 #, c-format
 msgid "_Delete %s"
 msgstr "_Slet %s"
@@ -15445,59 +15486,59 @@ msgstr "Returnér påmindelse"
 msgid "Sta_tus Tracking"
 msgstr "Sta_tus-sporing"
 
-#: ../src/e-util/e-source-config.c:724 ../src/e-util/e-source-config.c:728
+#: ../src/e-util/e-source-config.c:725 ../src/e-util/e-source-config.c:729
 msgid "Type:"
 msgstr "Type:"
 
-#: ../src/e-util/e-source-config.c:738 ../src/e-util/e-source-config.c:742
+#: ../src/e-util/e-source-config.c:739 ../src/e-util/e-source-config.c:743
 msgid "Name:"
 msgstr "Navn:"
 
-#: ../src/e-util/e-source-config.c:849 ../src/e-util/e-webdav-browser.c:1752
+#: ../src/e-util/e-source-config.c:850 ../src/e-util/e-webdav-browser.c:1752
 msgid "Name cannot be empty"
 msgstr "Navnet kan ikke være tomt"
 
 #. Translators: This is the first of a sequence of widgets:
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
-#: ../src/e-util/e-source-config.c:1416
+#: ../src/e-util/e-source-config.c:1417
 msgid "Refresh every"
 msgstr "Opdateringsinterval"
 
-#: ../src/e-util/e-source-config.c:1446 ../src/e-util/e-source-config.c:1520
+#: ../src/e-util/e-source-config.c:1447 ../src/e-util/e-source-config.c:1521
 msgid "Use a secure connection"
 msgstr "Brug sikker forbindelse"
 
-#: ../src/e-util/e-source-config.c:1547
+#: ../src/e-util/e-source-config.c:1548
 msgid "Unset _trust for SSL/TLS certificate"
 msgstr "Nulstil _tillid for SSL/TLS-certifikat"
 
-#: ../src/e-util/e-source-config.c:1583
+#: ../src/e-util/e-source-config.c:1584
 msgid "User:"
 msgstr "Bruger:"
 
-#: ../src/e-util/e-source-selector.c:3219
+#: ../src/e-util/e-source-selector.c:3236
 msgid "Show"
 msgstr "Vis"
 
-#: ../src/e-util/e-source-selector.c:3225
+#: ../src/e-util/e-source-selector.c:3242
 msgid "Group name"
 msgstr "Gruppenavn"
 
-#: ../src/e-util/e-source-selector.c:3380 ../src/mail/e-mail-display.c:712
+#: ../src/e-util/e-source-selector.c:3397 ../src/mail/e-mail-display.c:714
 msgid "_Hide"
 msgstr "_Skjul"
 
 # XXX lidt farlig for hvad hvis der er _View?
-#: ../src/e-util/e-source-selector.c:3380
-#: ../src/e-util/e-source-selector.c:3478
+#: ../src/e-util/e-source-selector.c:3397
+#: ../src/e-util/e-source-selector.c:3495
 msgid "_Show"
 msgstr "_Vis"
 
-#: ../src/e-util/e-source-selector.c:3432
+#: ../src/e-util/e-source-selector.c:3449
 msgid "Manage Groups"
 msgstr "Håndtér grupper"
 
-#: ../src/e-util/e-source-selector.c:3444
+#: ../src/e-util/e-source-selector.c:3461
 msgid "Available Groups:"
 msgstr "Tilgængelige grupper:"
 
@@ -15712,11 +15753,11 @@ msgstr "Tøm _alt"
 msgid "_Show field in View"
 msgstr "_Vis felt i oversigt"
 
-#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1782
+#: ../src/e-util/e-table-config.ui.h:6 ../src/e-util/e-table-header-item.c:1792
 msgid "Ascending"
 msgstr "Stigende"
 
-#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1782
+#: ../src/e-util/e-table-config.ui.h:7 ../src/e-util/e-table-header-item.c:1792
 msgid "Descending"
 msgstr "Faldende"
 
@@ -15807,60 +15848,61 @@ msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d punkt)"
 msgstr[1] "%s (%d punkter)"
 
-#: ../src/e-util/e-table-header-item.c:1609
+#: ../src/e-util/e-table-header-item.c:1610
 msgid "Customize Current View"
 msgstr "Tilpas aktuel oversigt"
 
-#: ../src/e-util/e-table-header-item.c:1632
+#: ../src/e-util/e-table-header-item.c:1642
 msgid "Sort _Ascending"
 msgstr "Sortér _stigende"
 
-#: ../src/e-util/e-table-header-item.c:1635
+#: ../src/e-util/e-table-header-item.c:1645
 msgid "Sort _Descending"
 msgstr "Sortér _faldende"
 
-#: ../src/e-util/e-table-header-item.c:1638
+#: ../src/e-util/e-table-header-item.c:1648
 msgid "_Reset sort"
 msgstr "_Nulstil rækkefølge"
 
-#: ../src/e-util/e-table-header-item.c:1641
+#: ../src/e-util/e-table-header-item.c:1651
 msgid "Group By This _Field"
 msgstr "Gruppér efter dette _felt"
 
-#: ../src/e-util/e-table-header-item.c:1644
+#: ../src/e-util/e-table-header-item.c:1654
 msgid "Group By _Box"
 msgstr "Gruppér efter _boks"
 
-#: ../src/e-util/e-table-header-item.c:1648
+#: ../src/e-util/e-table-header-item.c:1658
 msgid "Remove This _Column"
 msgstr "Fjern denne _kolonne"
 
-#: ../src/e-util/e-table-header-item.c:1651
+#: ../src/e-util/e-table-header-item.c:1661
 msgid "Add a C_olumn…"
 msgstr "Tilføj k_olonne …"
 
-#: ../src/e-util/e-table-header-item.c:1655
+#: ../src/e-util/e-table-header-item.c:1665
 msgid "A_lignment"
 msgstr "J_ustering"
 
-#: ../src/e-util/e-table-header-item.c:1658
+#: ../src/e-util/e-table-header-item.c:1668
 msgid "B_est Fit"
 msgstr "Som passer b_edst"
 
-#: ../src/e-util/e-table-header-item.c:1661
+#: ../src/e-util/e-table-header-item.c:1671
 msgid "Format Column_s…"
 msgstr "Formatér kolonne_r …"
 
-#: ../src/e-util/e-table-header-item.c:1665
+#: ../src/e-util/e-table-header-item.c:1675
+#: ../src/shell/e-shell-window-actions.c:1226
 msgid "Custo_mize Current View…"
 msgstr "Tilpas aktuel oversigt …"
 
-#: ../src/e-util/e-table-header-item.c:1732
+#: ../src/e-util/e-table-header-item.c:1742
 msgid "_Sort By"
 msgstr "_Sortér efter"
 
 #. Custom
-#: ../src/e-util/e-table-header-item.c:1755
+#: ../src/e-util/e-table-header-item.c:1765
 msgid "_Custom"
 msgstr "_Tilpasset"
 
@@ -15935,8 +15977,8 @@ msgstr "Adressebog"
 msgid "Events"
 msgstr "Begivenheder"
 
-#: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1553
-#: ../src/mail/em-folder-tree-model.c:1930
+#: ../src/e-util/e-webdav-browser.c:515 ../src/mail/em-folder-tree-model.c:1555
+#: ../src/mail/em-folder-tree-model.c:1932
 msgid "Loading…"
 msgstr "Indlæser …"
 
@@ -16094,12 +16136,12 @@ msgstr "Gem _billede …"
 msgid "Save the image to a file"
 msgstr "Gem billedet til en fil"
 
-#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:179
+#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:2819
 msgid "Search _Web…"
 msgstr "Søg på _nettet …"
 
-#: ../src/e-util/e-web-view.c:478 ../src/mail/e-mail-browser.c:181
+#: ../src/e-util/e-web-view.c:478 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:2821
 msgid "Search the Web with the selected text"
 msgstr "Søg på nettet med den markerede tekst"
@@ -16456,43 +16498,43 @@ msgstr "Ugyldig mappe-URI: “%s”"
 #. Some local folders
 #: ../src/libemail-engine/e-mail-session.c:120
 #: ../src/mail/em-folder-properties.c:1444
-#: ../src/mail/em-folder-tree-model.c:1501
+#: ../src/mail/em-folder-tree-model.c:1503
 #: ../src/mail/importers/kmail-libs.c:138
-#: ../src/modules/mail/e-mail-shell-view-private.c:1032
-#: ../src/modules/mail/e-mail-shell-view-private.c:1043
+#: ../src/modules/mail/e-mail-shell-view-private.c:1015
+#: ../src/modules/mail/e-mail-shell-view-private.c:1026
 msgid "Inbox"
 msgstr "Indbakke"
 
 #. E_MAIL_LOCAL_FOLDER_INBOX
 #: ../src/libemail-engine/e-mail-session.c:121
-#: ../src/mail/em-folder-tree-model.c:1495
+#: ../src/mail/em-folder-tree-model.c:1497
 #: ../src/mail/importers/kmail-libs.c:144
-#: ../src/modules/mail/e-mail-shell-view-private.c:1030
+#: ../src/modules/mail/e-mail-shell-view-private.c:1013
 msgid "Drafts"
 msgstr "Kladder"
 
 #. E_MAIL_LOCAL_FOLDER_DRAFTS
 #: ../src/libemail-engine/e-mail-session.c:122
-#: ../src/mail/em-folder-tree-model.c:1505
+#: ../src/mail/em-folder-tree-model.c:1507
 #: ../src/mail/importers/kmail-libs.c:140
-#: ../src/modules/mail/e-mail-shell-view-private.c:1034
+#: ../src/modules/mail/e-mail-shell-view-private.c:1017
 msgid "Outbox"
 msgstr "Udbakke"
 
 #. E_MAIL_LOCAL_FOLDER_OUTBOX
 #: ../src/libemail-engine/e-mail-session.c:123
-#: ../src/mail/em-folder-tree-model.c:1509
+#: ../src/mail/em-folder-tree-model.c:1511
 #: ../src/mail/importers/kmail-libs.c:142
-#: ../src/modules/mail/e-mail-shell-view-private.c:1036
+#: ../src/modules/mail/e-mail-shell-view-private.c:1019
 msgid "Sent"
 msgstr "Afsendte"
 
 #. E_MAIL_LOCAL_FOLDER_SENT
 #: ../src/libemail-engine/e-mail-session.c:124
 #: ../src/mail/e-mail-templates-store.c:2211
-#: ../src/mail/em-folder-tree-model.c:1497
+#: ../src/mail/em-folder-tree-model.c:1499
 #: ../src/mail/importers/kmail-libs.c:146
-#: ../src/modules/mail/e-mail-shell-view-private.c:1038
+#: ../src/modules/mail/e-mail-shell-view-private.c:1021
 #: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Templates"
 msgstr "Skabeloner"
@@ -16593,7 +16635,7 @@ msgid "Reconnecting to “%s”"
 msgstr "Genopkobler til “%s”"
 
 #: ../src/libemail-engine/e-mail-store-utils.c:349
-#: ../src/mail/mail-send-recv.c:1089
+#: ../src/mail/mail-send-recv.c:1086
 #, c-format
 msgid "Preparing account “%s” for offline"
 msgstr "Forbereder kontoen “%s” til offlinetilstand"
@@ -16838,13 +16880,13 @@ msgstr "POP3-server"
 msgid "SMTP server"
 msgstr "SMTP-server"
 
-#: ../src/mail/e-mail-browser.c:146 ../src/shell/e-shell-window-actions.c:837
-#: ../src/shell/e-shell-window-actions.c:844
-#: ../src/shell/e-shell-window-actions.c:851
+#: ../src/mail/e-mail-browser.c:168 ../src/shell/e-shell-window-actions.c:871
+#: ../src/shell/e-shell-window-actions.c:878
+#: ../src/shell/e-shell-window-actions.c:885
 msgid "Close this window"
 msgstr "Luk dette vindue"
 
-#: ../src/mail/e-mail-browser.c:314
+#: ../src/mail/e-mail-browser.c:353
 msgid "(No Subject)"
 msgstr "(Intet emne)"
 
@@ -16935,7 +16977,7 @@ msgid "Language for Reply and Forward attribution text"
 msgstr "Sprog til citeret tekst i svar og videresend"
 
 #: ../src/mail/e-mail-config-composing-page.c:524
-#: ../src/mail/em-composer-utils.c:4145 ../src/mail/mail-config.ui.h:22
+#: ../src/mail/em-composer-utils.c:4142 ../src/mail/mail-config.ui.h:22
 msgid "Start _typing at the bottom"
 msgstr "Påbegynd _skrivning i bunden"
 
@@ -17158,15 +17200,15 @@ msgstr "Kontonavn kan ikke være tomt"
 msgid "Looking up account details…"
 msgstr "Ser efter detaljer for kontoen …"
 
-#: ../src/mail/e-mail-config-provider-page.c:538
+#: ../src/mail/e-mail-config-provider-page.c:541
 msgid "Checking for New Mail"
 msgstr "Kontrollerer om der er nye e-mails"
 
-#: ../src/mail/e-mail-config-provider-page.c:554
+#: ../src/mail/e-mail-config-provider-page.c:557
 msgid "Check for _new messages every"
 msgstr "Hent _nye breve automatisk med mellemrum på"
 
-#: ../src/mail/e-mail-config-provider-page.c:764
+#: ../src/mail/e-mail-config-provider-page.c:767
 msgid "Receiving Options"
 msgstr "Modtagelsesindstillinger"
 
@@ -17267,7 +17309,7 @@ msgstr "Vælg"
 
 #: ../src/mail/e-mail-config-security-page.c:686
 #: ../src/mail/e-mail-config-security-page.c:784
-#: ../src/shell/e-shell-window-actions.c:933
+#: ../src/shell/e-shell-window-actions.c:967
 msgid "_Clear"
 msgstr "_Tøm"
 
@@ -17372,55 +17414,55 @@ msgstr "Velkommen"
 msgid "Account Editor"
 msgstr "Kontoredigeringsværktøj"
 
-#: ../src/mail/e-mail-display.c:136
+#: ../src/mail/e-mail-display.c:138
 msgid "_Add to Address Book…"
 msgstr "_Føj til adressebogen …"
 
-#: ../src/mail/e-mail-display.c:143
+#: ../src/mail/e-mail-display.c:145
 msgid "_To This Address"
 msgstr "_Til denne adresse"
 
-#: ../src/mail/e-mail-display.c:150
+#: ../src/mail/e-mail-display.c:152
 msgid "_From This Address"
 msgstr "_Fra denne adresse"
 
-#: ../src/mail/e-mail-display.c:157
+#: ../src/mail/e-mail-display.c:159
 msgid "Send _Reply To…"
 msgstr "Send sva_r til …"
 
-#: ../src/mail/e-mail-display.c:159
+#: ../src/mail/e-mail-display.c:161
 msgid "Send a reply message to this address"
 msgstr "Send et svarbrev til denne adresse"
 
-#: ../src/mail/e-mail-display.c:166
+#: ../src/mail/e-mail-display.c:168
 msgid "Create Search _Folder"
 msgstr "Opret søge_mappe"
 
-#: ../src/mail/e-mail-display.c:719
+#: ../src/mail/e-mail-display.c:721
 msgid "Hid_e All"
 msgstr "_Skjul alle"
 
-#: ../src/mail/e-mail-display.c:726
+#: ../src/mail/e-mail-display.c:728
 msgid "_View Inline"
 msgstr "_Vis integreret"
 
-#: ../src/mail/e-mail-display.c:733
+#: ../src/mail/e-mail-display.c:735
 msgid "Vie_w All Inline"
 msgstr "_Vis alle integreret"
 
-#: ../src/mail/e-mail-display.c:740
+#: ../src/mail/e-mail-display.c:742
 msgid "_Zoom to 100%"
 msgstr "_Zoom til 100%"
 
-#: ../src/mail/e-mail-display.c:742
+#: ../src/mail/e-mail-display.c:744
 msgid "Zoom the image to its natural size"
 msgstr "Zoom billedet til den naturlige størrelse"
 
-#: ../src/mail/e-mail-display.c:747
+#: ../src/mail/e-mail-display.c:749
 msgid "_Zoom to window"
 msgstr "_Zoom til vindue"
 
-#: ../src/mail/e-mail-display.c:749
+#: ../src/mail/e-mail-display.c:751
 msgid "Zoom large images to not be wider than the window width"
 msgstr "Zoom således at store billeder ikke er bredere en vinduesbredden"
 
@@ -18079,7 +18121,7 @@ msgstr "Fjern du_plikerede breve"
 msgid "Checks selected messages for duplicates"
 msgstr "Kontrollér de valgte breve for duplikater"
 
-#: ../src/mail/e-mail-reader.c:2784 ../src/mail/em-composer-utils.c:4099
+#: ../src/mail/e-mail-reader.c:2784 ../src/mail/em-composer-utils.c:4096
 #: ../src/mail/mail.error.xml.h:28
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1452
 #: ../src/modules/mail/e-mail-attachment-handler.c:396
@@ -18099,7 +18141,7 @@ msgstr "Al_ternativt svar …"
 msgid "Choose reply options for the selected message"
 msgstr "Vælg svarmuligheder til det valgte brev"
 
-#: ../src/mail/e-mail-reader.c:2798 ../src/mail/em-composer-utils.c:4094
+#: ../src/mail/e-mail-reader.c:2798 ../src/mail/em-composer-utils.c:4091
 #: ../src/mail/mail.error.xml.h:26
 #: ../src/modules/mail/e-mail-attachment-handler.c:403
 msgid "Reply to _List"
@@ -18372,7 +18414,7 @@ msgstr[1] ""
 "Mappen “%s” indeholder %u duplikerede breve. Er du sikker på, at du vil "
 "slette dem?"
 
-#: ../src/mail/e-mail-reader-utils.c:3017
+#: ../src/mail/e-mail-reader-utils.c:3023
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "Gem breve"
@@ -18383,13 +18425,13 @@ msgstr[1] "Gem brev"
 #. * mbox format, when the first message doesn't have a
 #. * subject.  The extension ".mbox" is appended to the
 #. * string; for example "Message.mbox".
-#: ../src/mail/e-mail-reader-utils.c:3038
+#: ../src/mail/e-mail-reader-utils.c:3044
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "Brev"
 msgstr[1] "Breve"
 
-#: ../src/mail/e-mail-reader-utils.c:3452
+#: ../src/mail/e-mail-reader-utils.c:3458
 msgid "Parsing message"
 msgstr "Fortolker brev"
 
@@ -18526,60 +18568,60 @@ msgstr "Sv: %s"
 msgid "an unknown sender"
 msgstr "en ukendt afsender"
 
-#: ../src/mail/em-composer-utils.c:4045
+#: ../src/mail/em-composer-utils.c:4042
 msgid "Alternative Reply"
 msgstr "Alternativt svar"
 
-#: ../src/mail/em-composer-utils.c:4048
+#: ../src/mail/em-composer-utils.c:4045
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1445
 msgid "_Reply"
 msgstr "_Svar"
 
-#: ../src/mail/em-composer-utils.c:4061
+#: ../src/mail/em-composer-utils.c:4058
 msgid "Recipients:"
 msgstr "Modtagere:"
 
-#: ../src/mail/em-composer-utils.c:4089
+#: ../src/mail/em-composer-utils.c:4086
 msgid "Reply to _Sender"
 msgstr "Send sva_r til afsender"
 
-#: ../src/mail/em-composer-utils.c:4111
+#: ../src/mail/em-composer-utils.c:4108
 msgid "Reply style:"
 msgstr "Svarstil:"
 
-#: ../src/mail/em-composer-utils.c:4119
+#: ../src/mail/em-composer-utils.c:4116
 msgid "_Default"
 msgstr "_Standard"
 
-#: ../src/mail/em-composer-utils.c:4123
+#: ../src/mail/em-composer-utils.c:4120
 msgid "Attach_ment"
 msgstr "_Bilag"
 
-#: ../src/mail/em-composer-utils.c:4127
+#: ../src/mail/em-composer-utils.c:4124
 msgid "Inline (_Outlook style)"
 msgstr "Indlejret (som i _Outlook)"
 
-#: ../src/mail/em-composer-utils.c:4131
+#: ../src/mail/em-composer-utils.c:4128
 msgid "_Quote"
 msgstr "_Citér"
 
-#: ../src/mail/em-composer-utils.c:4135
+#: ../src/mail/em-composer-utils.c:4132
 msgid "Do _Not Quote"
 msgstr "C_itér ikke"
 
-#: ../src/mail/em-composer-utils.c:4142
+#: ../src/mail/em-composer-utils.c:4139
 msgid "_Format message in HTML"
 msgstr "For_matér brev som HTML"
 
-#: ../src/mail/em-composer-utils.c:4152
+#: ../src/mail/em-composer-utils.c:4149
 msgid "Apply t_emplate"
 msgstr "Anvend _skabelon"
 
-#: ../src/mail/em-composer-utils.c:4164
+#: ../src/mail/em-composer-utils.c:4161
 msgid "Preserve original message S_ubject"
 msgstr "_Bevar brevets oprindelige emne"
 
-#: ../src/mail/em-composer-utils.c:4230
+#: ../src/mail/em-composer-utils.c:4227
 #, c-format
 msgid "one recipient"
 msgid_plural "%d recipients"
@@ -18587,11 +18629,11 @@ msgstr[0] "en modtager"
 msgstr[1] "%d modtagere"
 
 #. FIXME GTK_WINDOW (composer)
-#: ../src/mail/em-composer-utils.c:4639
+#: ../src/mail/em-composer-utils.c:4636
 msgid "Posting destination"
 msgstr "Leveringssted for breve"
 
-#: ../src/mail/em-composer-utils.c:4644
+#: ../src/mail/em-composer-utils.c:4641
 msgid "Choose folders to post the message to."
 msgstr "Vælg mapperne som brevet skal sendes til."
 
@@ -18908,9 +18950,9 @@ msgid "Unsubscribe From _All"
 msgstr "Afmeld fra _alle"
 
 #: ../src/mail/em-subscription-editor.c:1315
-#: ../src/modules/mail/e-mail-shell-view-private.c:933
-#: ../src/modules/mail/e-mail-shell-view-private.c:965
-#: ../src/modules/mail/e-mail-shell-view-private.c:1009
+#: ../src/modules/mail/e-mail-shell-view-private.c:916
+#: ../src/modules/mail/e-mail-shell-view-private.c:948
+#: ../src/modules/mail/e-mail-shell-view-private.c:992
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
@@ -18918,7 +18960,7 @@ msgstr[0] "%d ulæst, "
 msgstr[1] "%d ulæste, "
 
 #: ../src/mail/em-subscription-editor.c:1319
-#: ../src/modules/mail/e-mail-shell-view-private.c:1019
+#: ../src/modules/mail/e-mail-shell-view-private.c:1002
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -19419,7 +19461,7 @@ msgid "Import mail and contacts from KMail."
 msgstr "Importér e-mails og kontakter fra KMail."
 
 #: ../src/mail/importers/kmail-libs.c:149
-#: ../src/modules/mail/e-mail-shell-view-private.c:1040
+#: ../src/modules/mail/e-mail-shell-view-private.c:1023
 msgid "Trash"
 msgstr "Papirkurv"
 
@@ -19784,7 +19826,7 @@ msgid "Highlight _quotations with"
 msgstr "Markér _citat med"
 
 #: ../src/mail/mail-config.ui.h:97
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:65
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:66
 msgid "Pick a color"
 msgstr "Vælg en farve"
 
@@ -20975,7 +21017,7 @@ msgstr "Send og modtag e-mails"
 msgid "Cancel _All"
 msgstr "Afbryd _alle"
 
-#: ../src/mail/mail-send-recv.c:871 ../src/mail/mail-send-recv.c:1470
+#: ../src/mail/mail-send-recv.c:871 ../src/mail/mail-send-recv.c:1467
 msgid "Updating…"
 msgstr "Opdaterer …"
 
@@ -20983,22 +21025,22 @@ msgstr "Opdaterer …"
 msgid "Waiting…"
 msgstr "Venter …"
 
-#: ../src/mail/mail-send-recv.c:1436
+#: ../src/mail/mail-send-recv.c:1433
 #, c-format
 msgid "Checking for new mail at “%s”"
 msgstr "Kontrollerer om der er nye e-mails for “%s”"
 
-#: ../src/mail/mail-send-recv.c:1663
+#: ../src/mail/mail-send-recv.c:1660
 #, c-format
 msgid "Deleting junk and expunging trash at “%s”"
 msgstr "Sletter spam og tømmer papirkurv for “%s”"
 
-#: ../src/mail/mail-send-recv.c:1665
+#: ../src/mail/mail-send-recv.c:1662
 #, c-format
 msgid "Deleting junk at “%s”"
 msgstr "Sletter spam for “%s”"
 
-#: ../src/mail/mail-send-recv.c:1667
+#: ../src/mail/mail-send-recv.c:1664
 #, c-format
 msgid "Expunging trash at “%s”"
 msgstr "Tømmer papirkurv for “%s”"
@@ -22299,11 +22341,11 @@ msgstr "Konfliktsøgning"
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Vælg kalendere for at søge efter mødekonflikter"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1110
+#: ../src/modules/calendar/e-calendar-preferences.c:1116
 msgid "Ti_me and date:"
 msgstr "Ti_d og dato:"
 
-#: ../src/modules/calendar/e-calendar-preferences.c:1111
+#: ../src/modules/calendar/e-calendar-preferences.c:1117
 msgid "_Date only:"
 msgstr "Kun _dato:"
 
@@ -22490,103 +22532,107 @@ msgid "Sc_roll Month View by a week"
 msgstr "_Rul månedsoversigten med en uge ad gangen"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:57
+msgid "Start Month View with the c_urrent week"
+msgstr "_Begynd månedsvisningen med den nuværende uge"
+
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:58
 msgid "Order days in Week View from _left to right"
 msgstr "Sortér dage i ugevisning fra _venstre mod højre"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:58
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:59
 msgid "Allo_w direct edit of event Summary"
 msgstr "Tilla_d direkte redigering af begivenhedssammendrag"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:59
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:60
 msgid "Hi_de cancelled events"
 msgstr "Skjul annullerede begivenheder"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:60
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
 msgid "Alerts"
 msgstr "Påmindelser"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:61
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:62
 msgid "_Ask for confirmation when deleting items"
 msgstr "Spørg efter bekræftelse ved sletning _af tilførsler"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:62
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:63
 msgid "Display"
 msgstr "Vis"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:64
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:65
 msgid "Highlight t_asks due today"
 msgstr "Fremhæv opg_aver som skal udføres i dag"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:66
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:67
 msgid "Highlight _overdue tasks"
 msgstr "Fremhæv _opgaver der skulle have været udført"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:67
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:68
 msgid "_Hide completed tasks after"
 msgstr "Sk_jul udførte opgaver efter"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:68
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:69
 msgid "Hid_e cancelled tasks"
 msgstr "Sk_jul annullerede opgaver"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:69
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:70
 msgid "To Do bar"
 msgstr "Gøremålsbjælke"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:70
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:71
 msgid "Show Tasks without _Due date"
 msgstr "Vis opgaver _uden forfaldsdato"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:73
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:74
 msgid "Display Reminders window with _notifications"
 msgstr "Vis påmindelsesvindue med _underretninger"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:74
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
 msgid "Keep reminder notification _window always on top"
 msgstr "Sørg for at _vinduet med påmindelsesunderretninger altid er øverst"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:75
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
 msgid "Display reminders for completed _tasks"
 msgstr "Vis påmindelser for fulførte _opgaver"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:76
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:77
 msgid "Display reminders for _past events"
 msgstr "Vis påmindelser for tidligere _begivenheder"
 
 #. This is the first half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:78
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:79
 msgid "Set _default reminder"
 msgstr "Indstil _standardpåmindelse til"
 
 #. This is the last half of a user preference. "Set default reminder [time-period] before every new appointment"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:80
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:81
 msgid "before every new appointment"
 msgstr "før hver ny aftale"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:82
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:83
 msgid "Show a _reminder"
 msgstr "Vis en på_mindelse"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:84
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
 msgid "before every anniversary/birthday"
 msgstr "før hver jubilæum/fødselsdag"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:85
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "Select the sources for reminder notification:"
 msgstr "Vælg kilderne for påmindelsesunderretning:"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:88
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:89
 msgid "Default Free/Busy Server"
 msgstr "Standardserver ved ledig/optaget"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:91
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
 #, no-c-format
 msgid "%u and %d will be replaced by user and domain from the email address."
 msgstr "%u og %d vil blive udskiftet med bruger og domæne fra e-mailadressen."
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:92
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
 msgid ""
 "Specify login user name as part of the URL in case the server requires "
 "authentication, like: https://USER@example.com/"
@@ -22594,7 +22640,7 @@ msgstr ""
 "Angiv brugernavnet til login som en del af URL'en (f.eks. https://"
 "bruger@eksempel.dk/), hvis serveren kræver godkendelse"
 
-#: ../src/modules/calendar/e-calendar-preferences.ui.h:93
+#: ../src/modules/calendar/e-calendar-preferences.ui.h:94
 msgid "Publishing Information"
 msgstr "Offentliggørelsesinformation"
 
@@ -24936,58 +24982,58 @@ msgstr "Søgning i alle konti"
 msgid "Account Search"
 msgstr "Kontosøgning"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:926
+#: ../src/modules/mail/e-mail-shell-view-private.c:909
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "%d markeret, "
 msgstr[1] "%d markeret, "
 
+#: ../src/modules/mail/e-mail-shell-view-private.c:924
 #: ../src/modules/mail/e-mail-shell-view-private.c:941
-#: ../src/modules/mail/e-mail-shell-view-private.c:958
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d slettet"
 msgstr[1] "%d slettet"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:972
-#: ../src/modules/mail/e-mail-shell-view-private.c:978
+#: ../src/modules/mail/e-mail-shell-view-private.c:955
+#: ../src/modules/mail/e-mail-shell-view-private.c:961
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d spam"
 msgstr[1] "%d spam"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:985
+#: ../src/modules/mail/e-mail-shell-view-private.c:968
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d kladde"
 msgstr[1] "%d kladder"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:991
+#: ../src/modules/mail/e-mail-shell-view-private.c:974
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d usendt"
 msgstr[1] "%d usendte"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:997
+#: ../src/modules/mail/e-mail-shell-view-private.c:980
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d sendt"
 msgstr[1] "%d sendte"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1014
+#: ../src/modules/mail/e-mail-shell-view-private.c:997
 #, c-format
 msgid "%d unread"
 msgid_plural "%d unread"
 msgstr[0] "%d ulæst"
 msgstr[1] "%d ulæste"
 
-#: ../src/modules/mail/e-mail-shell-view-private.c:1532
+#: ../src/modules/mail/e-mail-shell-view-private.c:1515
 msgid "Send / Receive"
 msgstr "Send/modtag"
 
@@ -25077,22 +25123,28 @@ msgstr "Vil du gøre Evolution til standard-e-mailklient?"
 #. * is the subject of the email, third %s is the date.
 #: ../src/modules/mdn/evolution-mdn.c:308
 #, c-format
-msgid "Your message to %s about “%s” on %s has been read."
-msgstr "Dit brev til %s om “%s” fra den %s er blevet læst."
+msgid ""
+"Your message to %s about “%s” on %s has been displayed. This is no guarantee "
+"that the message has been read or understood."
+msgstr ""
+"Dit brev til %s om “%s” fra %s er blevet vist. Der er ingen garanti for, at "
+"brevet er blevet læst eller forstået."
 
-#. Translators: %s is the subject of the email message.
-#: ../src/modules/mdn/evolution-mdn.c:374
+#. Translators: %s is the subject of the email message This text is used as
+#. a subject of a delivery notification email (basically a notification, that
+#. the user did read (or better displayed) the message).
+#: ../src/modules/mdn/evolution-mdn.c:376
 #, c-format
-msgid "Delivery Notification for “%s”"
-msgstr "Leveringsbekræftelse for: “%s”"
+msgid "Read: %s"
+msgstr "Læst: %s"
 
-#: ../src/modules/mdn/evolution-mdn.c:540
+#: ../src/modules/mdn/evolution-mdn.c:542
 #, c-format
 msgid "Send a read receipt to “%s”"
 msgstr "Send en læst-kvittering til “%s”"
 
 #. name doesn't matter
-#: ../src/modules/mdn/evolution-mdn.c:545
+#: ../src/modules/mdn/evolution-mdn.c:547
 msgid "_Notify Sender"
 msgstr "Se_nd kvittering til afsender"
 
@@ -25795,8 +25847,8 @@ msgstr ""
 msgid "_Automatically launch when a new mail is edited"
 msgstr "_Start automatisk når et nyt brev redigeres"
 
-#: ../src/plugins/external-editor/external-editor.c:453
 #: ../src/plugins/external-editor/external-editor.c:455
+#: ../src/plugins/external-editor/external-editor.c:457
 msgid "Compose in External Editor"
 msgstr "Skriv brev i eksternt tekstredigeringsprogram"
 
@@ -25850,10 +25902,6 @@ msgstr ""
 #: ../src/plugins/face/face.c:295
 msgid "Select a Face Picture"
 msgstr "Vælg et ansigtsbillede"
-
-#: ../src/plugins/face/face.c:301
-msgid "Image files"
-msgstr "Billedfiler"
 
 #: ../src/plugins/face/face.c:389
 msgid "_Insert Face picture by default"
@@ -26270,12 +26318,12 @@ msgstr "Serveren returnerede et ugyldigt objekt"
 msgid "An error occurred during processing: %s"
 msgstr "Der opstod en fejl under behandling: %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:864
+#: ../src/plugins/mail-to-task/mail-to-task.c:877
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Kan ikke åbne kalenderen. %s"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:868
+#: ../src/plugins/mail-to-task/mail-to-task.c:881
 msgid ""
 "Selected calendar is read only, thus cannot create event there. Select other "
 "calendar, please."
@@ -26283,7 +26331,7 @@ msgstr ""
 "Den valgte kalender er skrivebeskyttet, og der kan derfor ikke oprettes "
 "nogen begivenhed i den. Vælg venligst en anden kalender."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:871
+#: ../src/plugins/mail-to-task/mail-to-task.c:884
 msgid ""
 "Selected task list is read only, thus cannot create task there. Select other "
 "task list, please."
@@ -26291,7 +26339,7 @@ msgstr ""
 "Den valgte opgaveliste er skrivebeskyttet, og der kan derfor ikke oprettes "
 "nogen opgave i den. Vælg venligst en anden opgaveliste."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:874
+#: ../src/plugins/mail-to-task/mail-to-task.c:887
 msgid ""
 "Selected memo list is read only, thus cannot create memo there. Select other "
 "memo list, please."
@@ -26299,35 +26347,35 @@ msgstr ""
 "Den valgte memoliste er skrivebeskyttet, og der kan derfor ikke oprettes "
 "nogen opgave i den. Vælg venligst en anden memoliste."
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1323
+#: ../src/plugins/mail-to-task/mail-to-task.c:1328
 msgid "Create an _Appointment"
 msgstr "Opret en _aftale"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1325
+#: ../src/plugins/mail-to-task/mail-to-task.c:1330
 msgid "Create a new event from the selected message"
 msgstr "Opret en ny begivenhed ud fra det valgte brev"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1330
+#: ../src/plugins/mail-to-task/mail-to-task.c:1335
 msgid "Create a Mem_o"
 msgstr "Opret et nyt mem_o"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1332
+#: ../src/plugins/mail-to-task/mail-to-task.c:1337
 msgid "Create a new memo from the selected message"
 msgstr "Opret et nyt memo ud fra det valgte brev"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1337
+#: ../src/plugins/mail-to-task/mail-to-task.c:1342
 msgid "Create a _Task"
 msgstr "Opret en _opgave"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1339
+#: ../src/plugins/mail-to-task/mail-to-task.c:1344
 msgid "Create a new task from the selected message"
 msgstr "Opret en ny opgave ud fra det valgte brev"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1347
+#: ../src/plugins/mail-to-task/mail-to-task.c:1352
 msgid "Create a _Meeting"
 msgstr "Opret et _møde"
 
-#: ../src/plugins/mail-to-task/mail-to-task.c:1349
+#: ../src/plugins/mail-to-task/mail-to-task.c:1354
 msgid "Create a new meeting from the selected message"
 msgstr "Opret et nyt møde ud fra det valgte brev"
 
@@ -26695,18 +26743,6 @@ msgstr "Åbn _indstillinger"
 msgid "Credentials are required to connect to the destination host."
 msgstr "Der kræves akkreditiver til at forbinde til destinationsværten."
 
-#: ../src/shell/e-shell.c:1464 ../src/shell/e-shell-window-actions.c:891
-msgid "New _Window"
-msgstr "Nyt _vindue"
-
-#: ../src/shell/e-shell.c:1475 ../src/shell/e-shell-window-actions.c:821
-msgid "_About"
-msgstr "_Om"
-
-#: ../src/shell/e-shell.c:1476 ../src/shell/e-shell-window-actions.c:919
-msgid "_Quit"
-msgstr "_Afslut"
-
 #: ../src/shell/e-shell-content.c:702 ../src/shell/e-shell-content.c:703
 msgid "Searches"
 msgstr "Søgninger"
@@ -26778,289 +26814,301 @@ msgstr "Websted"
 msgid "Saving user interface state"
 msgstr "Gemmer tilstand af brugergrænsefladen"
 
-#: ../src/shell/e-shell-window-actions.c:311
+#: ../src/shell/e-shell-window-actions.c:345
 msgid "Categories Editor"
 msgstr "Kategoriredigering"
 
-#: ../src/shell/e-shell-window-actions.c:614
+#: ../src/shell/e-shell-window-actions.c:648
 msgid "Bug Buddy is not installed."
 msgstr "Fejl Frede (Bug buddy) er ikke installeret."
 
-#: ../src/shell/e-shell-window-actions.c:615
+#: ../src/shell/e-shell-window-actions.c:649
 msgid "Bug Buddy could not be run."
 msgstr "Fejl Frede (Bug buddy) kunne ikke køres."
 
-#: ../src/shell/e-shell-window-actions.c:811
+#: ../src/shell/e-shell-window-actions.c:845
 msgid "Collect_ion Account"
 msgstr "Sa_mlingskonto"
 
-#: ../src/shell/e-shell-window-actions.c:813
+#: ../src/shell/e-shell-window-actions.c:847
 msgid "Create a new collection account"
 msgstr "Opret en ny samlingskonto"
 
-#: ../src/shell/e-shell-window-actions.c:823
+#: ../src/shell/e-shell-window-actions.c:855
+msgid "_About"
+msgstr "_Om"
+
+#: ../src/shell/e-shell-window-actions.c:857
 msgid "Show information about Evolution"
 msgstr "Vis information om Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:828
+#: ../src/shell/e-shell-window-actions.c:862
 msgid "_Accounts"
 msgstr "_Konti"
 
-#: ../src/shell/e-shell-window-actions.c:830
+#: ../src/shell/e-shell-window-actions.c:864
 msgid "Configure Evolution Accounts"
 msgstr "Konfigurér Evolution-konti"
 
-#: ../src/shell/e-shell-window-actions.c:835
-#: ../src/shell/e-shell-window-actions.c:849
+#: ../src/shell/e-shell-window-actions.c:869
+#: ../src/shell/e-shell-window-actions.c:883
 msgid "_Close Window"
 msgstr "_Luk vindue"
 
-#: ../src/shell/e-shell-window-actions.c:856
+#: ../src/shell/e-shell-window-actions.c:890
 msgid "_Contents"
 msgstr "_Indhold"
 
-#: ../src/shell/e-shell-window-actions.c:858
+#: ../src/shell/e-shell-window-actions.c:892
 msgid "Open the Evolution User Guide"
 msgstr "Åbn Evolutions brugervejledning"
 
-#: ../src/shell/e-shell-window-actions.c:884
+#: ../src/shell/e-shell-window-actions.c:918
 msgid "I_mport…"
 msgstr "I_mportér …"
 
-#: ../src/shell/e-shell-window-actions.c:886
+#: ../src/shell/e-shell-window-actions.c:920
 msgid "Import data from other programs"
 msgstr "Importér data fra andre programmer"
 
-#: ../src/shell/e-shell-window-actions.c:893
+#: ../src/shell/e-shell-window-actions.c:925
+msgid "New _Window"
+msgstr "Nyt _vindue"
+
+#: ../src/shell/e-shell-window-actions.c:927
 msgid "Create a new window displaying this view"
 msgstr "Opret et nyt vindue som har denne visning"
 
-#: ../src/shell/e-shell-window-actions.c:905
+#: ../src/shell/e-shell-window-actions.c:939
 msgid "Available Cate_gories"
 msgstr "Tilgængelige kate_gorier"
 
-#: ../src/shell/e-shell-window-actions.c:907
+#: ../src/shell/e-shell-window-actions.c:941
 msgid "Manage available categories"
 msgstr "Håndtér tilgængelige kategorier"
 
-#: ../src/shell/e-shell-window-actions.c:921
+#: ../src/shell/e-shell-window-actions.c:953
+msgid "_Quit"
+msgstr "_Afslut"
+
+#: ../src/shell/e-shell-window-actions.c:955
 msgid "Exit the program"
 msgstr "Afslut programmet"
 
-#: ../src/shell/e-shell-window-actions.c:926
+#: ../src/shell/e-shell-window-actions.c:960
 msgid "_Advanced Search…"
 msgstr "_Avanceret søgning …"
 
-#: ../src/shell/e-shell-window-actions.c:928
+#: ../src/shell/e-shell-window-actions.c:962
 msgid "Construct a more advanced search"
 msgstr "Konstruer en mere avanceret søgning"
 
-#: ../src/shell/e-shell-window-actions.c:935
+#: ../src/shell/e-shell-window-actions.c:969
 msgid "Clear the current search parameters"
 msgstr "Ryd de aktuelle søgeparametre"
 
-#: ../src/shell/e-shell-window-actions.c:940
+#: ../src/shell/e-shell-window-actions.c:974
 msgid "_Edit Saved Searches…"
 msgstr "_Redigér gemte søgninger …"
 
-#: ../src/shell/e-shell-window-actions.c:942
+#: ../src/shell/e-shell-window-actions.c:976
 msgid "Manage your saved searches"
 msgstr "Håndtér dine gemte søgninger"
 
-#: ../src/shell/e-shell-window-actions.c:949
+#: ../src/shell/e-shell-window-actions.c:983
 msgid "Click here to change the search type"
 msgstr "Klik her for at ændre søgningstypen"
 
-#: ../src/shell/e-shell-window-actions.c:954
+#: ../src/shell/e-shell-window-actions.c:988
 msgid "_Find Now"
 msgstr "_Søg nu"
 
-#: ../src/shell/e-shell-window-actions.c:956
+#: ../src/shell/e-shell-window-actions.c:990
 msgid "Execute the current search parameters"
 msgstr "Udfør de aktuelle søgeparametre"
 
-#: ../src/shell/e-shell-window-actions.c:961
+#: ../src/shell/e-shell-window-actions.c:995
 msgid "_Save Search…"
 msgstr "_Gem søgning …"
 
-#: ../src/shell/e-shell-window-actions.c:963
+#: ../src/shell/e-shell-window-actions.c:997
 msgid "Save the current search parameters"
 msgstr "Gem de aktuelle søgeparametre"
 
-#: ../src/shell/e-shell-window-actions.c:975
+#: ../src/shell/e-shell-window-actions.c:1009
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastaturgenveje"
 
-#: ../src/shell/e-shell-window-actions.c:977
+#: ../src/shell/e-shell-window-actions.c:1011
 msgid "Show keyboard shortcuts"
 msgstr "Vis tastaturgenveje"
 
-#: ../src/shell/e-shell-window-actions.c:982
+#: ../src/shell/e-shell-window-actions.c:1016
 msgid "Submit _Bug Report…"
 msgstr "Indsend _fejlrapport …"
 
-#: ../src/shell/e-shell-window-actions.c:984
+#: ../src/shell/e-shell-window-actions.c:1018
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Indsend en fejlrapport med Bug Buddy"
 
-#: ../src/shell/e-shell-window-actions.c:989
+#: ../src/shell/e-shell-window-actions.c:1023
 msgid "_Work Offline"
 msgstr "Ar_bejd offline"
 
-#: ../src/shell/e-shell-window-actions.c:991
+#: ../src/shell/e-shell-window-actions.c:1025
 msgid "Put Evolution into offline mode"
 msgstr "Sæt Evolution i offline-tilstand"
 
-#: ../src/shell/e-shell-window-actions.c:996
+#: ../src/shell/e-shell-window-actions.c:1030
 msgid "_Work Online"
 msgstr "_Arbejd online"
 
-#: ../src/shell/e-shell-window-actions.c:998
+#: ../src/shell/e-shell-window-actions.c:1032
 msgid "Put Evolution into online mode"
 msgstr "Sæt Evolution i online-tilstand"
 
-#: ../src/shell/e-shell-window-actions.c:1026
+#: ../src/shell/e-shell-window-actions.c:1060
 msgid "Lay_out"
 msgstr "La_yout"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1034
+#: ../src/shell/e-shell-window-actions.c:1068
 msgid "_New"
 msgstr "_Ny"
 
-#: ../src/shell/e-shell-window-actions.c:1041
+#: ../src/shell/e-shell-window-actions.c:1075
 msgid "_Search"
 msgstr "_Søg"
 
-#: ../src/shell/e-shell-window-actions.c:1048
+#: ../src/shell/e-shell-window-actions.c:1082
 msgid "_Switcher Appearance"
 msgstr "V_ælger-udseende"
 
-#: ../src/shell/e-shell-window-actions.c:1062
+#: ../src/shell/e-shell-window-actions.c:1096
 msgid "_Window"
 msgstr "_Vindue"
 
-#: ../src/shell/e-shell-window-actions.c:1091
+#: ../src/shell/e-shell-window-actions.c:1125
 msgid "Show _Menu Bar"
 msgstr "Vis _menubjælke"
 
-#: ../src/shell/e-shell-window-actions.c:1093
+#: ../src/shell/e-shell-window-actions.c:1127
 msgid "Show the menu bar"
 msgstr "Vis menubjælken"
 
-#: ../src/shell/e-shell-window-actions.c:1099
+#: ../src/shell/e-shell-window-actions.c:1133
 msgid "Show Side _Bar"
 msgstr "Vis side_panel"
 
-#: ../src/shell/e-shell-window-actions.c:1101
+#: ../src/shell/e-shell-window-actions.c:1135
 msgid "Show the side bar"
 msgstr "Vis sidepanelet"
 
-#: ../src/shell/e-shell-window-actions.c:1107
+#: ../src/shell/e-shell-window-actions.c:1141
 msgid "Show _Buttons"
 msgstr "Vis _knapper"
 
-#: ../src/shell/e-shell-window-actions.c:1109
+#: ../src/shell/e-shell-window-actions.c:1143
 msgid "Show the switcher buttons"
 msgstr "Vis omskifteknapperne"
 
-#: ../src/shell/e-shell-window-actions.c:1115
+#: ../src/shell/e-shell-window-actions.c:1149
 msgid "Show _Status Bar"
 msgstr "Vis stat_uslinje"
 
-#: ../src/shell/e-shell-window-actions.c:1117
+#: ../src/shell/e-shell-window-actions.c:1151
 msgid "Show the status bar"
 msgstr "Vis statuslinjen"
 
-#: ../src/shell/e-shell-window-actions.c:1123
+#: ../src/shell/e-shell-window-actions.c:1157
 msgid "Show _Tool Bar"
 msgstr "Vis _værktøjslinje"
 
-#: ../src/shell/e-shell-window-actions.c:1125
+#: ../src/shell/e-shell-window-actions.c:1159
 msgid "Show the tool bar"
 msgstr "Vis værktøjslinjen"
 
-#: ../src/shell/e-shell-window-actions.c:1147
+#: ../src/shell/e-shell-window-actions.c:1181
 msgid "_Icons Only"
 msgstr "Kun _ikoner"
 
-#: ../src/shell/e-shell-window-actions.c:1149
+#: ../src/shell/e-shell-window-actions.c:1183
 msgid "Display window buttons with icons only"
 msgstr "Vis vinduesknapper kun med ikoner"
 
-#: ../src/shell/e-shell-window-actions.c:1154
+#: ../src/shell/e-shell-window-actions.c:1188
 msgid "_Text Only"
 msgstr "Kun _tekst"
 
-#: ../src/shell/e-shell-window-actions.c:1156
+#: ../src/shell/e-shell-window-actions.c:1190
 msgid "Display window buttons with text only"
 msgstr "Vis vinduesknapper kun med tekst"
 
-#: ../src/shell/e-shell-window-actions.c:1161
+#: ../src/shell/e-shell-window-actions.c:1195
 msgid "Icons _and Text"
 msgstr "Ikoner _og tekst"
 
-#: ../src/shell/e-shell-window-actions.c:1163
+#: ../src/shell/e-shell-window-actions.c:1197
 msgid "Display window buttons with icons and text"
 msgstr "Vis vinduesknapper med ikoner og tekst"
 
-#: ../src/shell/e-shell-window-actions.c:1168
+#: ../src/shell/e-shell-window-actions.c:1202
 msgid "Tool_bar Style"
 msgstr "Værktøjs_linjestil"
 
-#: ../src/shell/e-shell-window-actions.c:1170
+#: ../src/shell/e-shell-window-actions.c:1204
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Vis vinduesknapper vha. indstillingerne for skrivebordets værktøjslinje"
 
-#: ../src/shell/e-shell-window-actions.c:1178
+#: ../src/shell/e-shell-window-actions.c:1212
 msgid "Delete Current View"
 msgstr "Slet nuværende oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1185
+#: ../src/shell/e-shell-window-actions.c:1219
 msgid "Save Custom View…"
 msgstr "Gem tilpasset oversigt …"
 
-#: ../src/shell/e-shell-window-actions.c:1187
+#: ../src/shell/e-shell-window-actions.c:1221
 msgid "Save current custom view"
 msgstr "Gem nuværende tilpassede oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1194
+#: ../src/shell/e-shell-window-actions.c:1235
 msgid "C_urrent View"
 msgstr "_Aktuel oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1204
+#: ../src/shell/e-shell-window-actions.c:1245
 msgid "Custom View"
 msgstr "Tilpasset oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1206
+#: ../src/shell/e-shell-window-actions.c:1247
 msgid "Current view is a customized view"
 msgstr "Nuværende oversigt er en tilpasset oversigt"
 
-#: ../src/shell/e-shell-window-actions.c:1214
+#: ../src/shell/e-shell-window-actions.c:1255
 msgid "Page Set_up…"
 msgstr "Side_opsætning …"
 
-#: ../src/shell/e-shell-window-actions.c:1216
+#: ../src/shell/e-shell-window-actions.c:1257
 msgid "Change the page settings for your current printer"
 msgstr "Ændr sideindstillingerne for din aktuelle printer"
 
-#: ../src/shell/e-shell-window-actions.c:1586
+#: ../src/shell/e-shell-window-actions.c:1627
 #, c-format
 msgid "Switch to %s"
 msgstr "Skift til %s"
 
-#: ../src/shell/e-shell-window-actions.c:1709
+#: ../src/shell/e-shell-window-actions.c:1751
 #, c-format
 msgid "Select view: %s"
 msgstr "Vælg oversigt: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1726
+#: ../src/shell/e-shell-window-actions.c:1768
 #, c-format
 msgid "Delete view: %s"
 msgstr "Slet oversigt: %s"
 
-#: ../src/shell/e-shell-window-actions.c:1830
+#: ../src/shell/e-shell-window-actions.c:1878
 msgid "Execute these search parameters"
 msgstr "Udfør disse søgeparametre"
 
@@ -27072,7 +27120,7 @@ msgid "New"
 msgstr "Ny"
 
 #. Translators: This is used for the main window title.
-#: ../src/shell/e-shell-window-private.c:787
+#: ../src/shell/e-shell-window-private.c:786
 #, c-format
 msgid "%s — Evolution"
 msgstr "%s — Evolution"
@@ -27814,6 +27862,12 @@ msgstr "Kan ikke skrive lageret til disken. Fejlkode: %i"
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Importeret certifikat"
+
+#~ msgid "Image file"
+#~ msgstr "Billedfil"
+
+#~ msgid "Delivery Notification for “%s”"
+#~ msgstr "Leveringsbekræftelse for: “%s”"
 
 #~ msgid "Attendee                          "
 #~ msgstr "Deltager                          "
