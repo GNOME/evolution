@@ -80,6 +80,7 @@ set(HELP_FILES
 	exporting-data-contacts.page
 	exporting-data-mail.page
 	exporting-data.page
+	flatpak-limitations.page
 	google-services.page
 	import-apps-mozilla.page
 	import-apps-kmail.page
@@ -214,7 +215,6 @@ set(HELP_FILES
 	memos-usage.page
 	offline.page
 	organizing.page
-	printing-in-flatpak.page
 	problems-debug-how-to.page
 	problems-getting-help.page
 	problems-reporting-bugs.page
