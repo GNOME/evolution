@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-02-10 15:23+0000\n"
-"PO-Revision-Date: 2020-02-11 19:49+0000\n"
+"POT-Creation-Date: 2020-02-14 10:50+0000\n"
+"PO-Revision-Date: 2020-02-25 20:36+0000\n"
 "Last-Translator: Bruce Cowan <bruce@bcowan.me.uk>\n"
 "Language-Team: English - United Kingdom <en_GB@li.org>\n"
 "Language: en_GB\n"
@@ -2678,54 +2678,67 @@ msgstr ""
 "parts are shown automatically inline."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
-msgid "(Deprecated) Default forward style"
-msgstr "(Deprecated) Default forward style"
+#| msgid "Inherit theme colors in HTML format"
+msgid "Whether unset colors provided in HTML mails."
+msgstr "Whether unset colours provided in HTML mails."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
 msgid ""
-"This key was deprecated in version 3.10 and should no longer be used. Use "
-"“forward-style-name” instead."
+"If enabled, unset colors in HTML messages, forcing use of desktop theme "
+"colors instead."
 msgstr ""
-"This key was deprecated in version 3.10 and should no longer be used. Use "
-"“forward-style-name” instead."
+"If enabled, unset colours in HTML messages, forcing use of desktop theme "
+"colours instead."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
-msgid "(Deprecated) Default reply style"
-msgstr "(Deprecated) Default reply style"
+msgid "(Deprecated) Default forward style"
+msgstr "(Deprecated) Default forward style"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:298
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“reply-style-name” instead."
+"“forward-style-name” instead."
 msgstr ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“reply-style-name” instead."
+"“forward-style-name” instead."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:299
-msgid "(Deprecated) List of custom headers and whether they are enabled."
-msgstr "(Deprecated) List of custom headers and whether they are enabled."
+msgid "(Deprecated) Default reply style"
+msgstr "(Deprecated) Default reply style"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:300
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“show-headers” instead."
+"“reply-style-name” instead."
 msgstr ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
-"“show-headers” instead."
+"“reply-style-name” instead."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:301
-msgid "(Deprecated) Load images for HTML messages over HTTP"
-msgstr "(Deprecated) Load images for HTML messages over HTTP"
+msgid "(Deprecated) List of custom headers and whether they are enabled."
+msgstr "(Deprecated) List of custom headers and whether they are enabled."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:302
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
+"“show-headers” instead."
+msgstr ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
+"“show-headers” instead."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+msgid "(Deprecated) Load images for HTML messages over HTTP"
+msgstr "(Deprecated) Load images for HTML messages over HTTP"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+msgid ""
+"This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
 msgstr ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“image-loading-policy” instead."
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:303
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:305
 msgid ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
@@ -2733,7 +2746,7 @@ msgstr ""
 "(Deprecated) Asks whether to close the message window when the user forwards "
 "or replies to the message shown in the window"
 
-#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:304
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:306
 msgid ""
 "This key was deprecated in version 3.10 and should no longer be used. Use "
 "“browser-close-on-reply-policy” instead."
@@ -11471,7 +11484,29 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Compose Message"
 
-#: ../src/composer/e-msg-composer.c:5006
+#: ../src/composer/e-msg-composer.c:4906
+#| msgid "Remove attachments"
+msgid "Review attachment before sending."
+msgid_plural "Review attachments before sending."
+msgstr[0] "Review attachment before sending."
+msgstr[1] "Review attachments before sending."
+
+#: ../src/composer/e-msg-composer.c:4911
+#, c-format
+msgid ""
+"There had been added %d attachment. Make sure it does not contain any "
+"sensitive information before sending the message."
+msgid_plural ""
+"There had been added %d attachments. Make sure they do not contain any "
+"sensitive information before sending the message."
+msgstr[0] ""
+"There had been added %d attachment. Make sure it does not contain any "
+"sensitive information before sending the message."
+msgstr[1] ""
+"There had been added %d attachments. Make sure they do not contain any "
+"sensitive information before sending the message."
+
+#: ../src/composer/e-msg-composer.c:5044
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "The composer contains a non-text message body, which cannot be edited."
 
@@ -11850,12 +11885,12 @@ msgid "Display part as enriched text"
 msgstr "Display part as enriched text"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
-#: ../src/em-format/e-mail-formatter-text-html.c:385
+#: ../src/em-format/e-mail-formatter-text-html.c:389
 msgid "HTML"
 msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
-#: ../src/em-format/e-mail-formatter-text-html.c:386
+#: ../src/em-format/e-mail-formatter-text-html.c:390
 msgid "Format part as HTML"
 msgstr "Format part as HTML"
 
@@ -14973,7 +15008,7 @@ msgstr "C_ut %s"
 msgid "_Edit %s"
 msgstr "_Edit %s"
 
-#: ../src/e-util/e-name-selector-list.c:585
+#: ../src/e-util/e-name-selector-list.c:587
 #, c-format
 msgid "_Delete %s"
 msgstr "_Delete %s"
@@ -22300,7 +22335,6 @@ msgid "Sc_roll Month View by a week"
 msgstr "Sc_roll Month View by a week"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:57
-#| msgid "Scroll Month View by a week"
 msgid "Start Month View with the c_urrent week"
 msgstr "Start Month View with the c_urrent week"
 
@@ -24877,7 +24911,6 @@ msgstr "Do you want to make Evolution your default e-mail client?"
 #. * is the subject of the email, third %s is the date.
 #: ../src/modules/mdn/evolution-mdn.c:308
 #, c-format
-#| msgid "Your message to %s about “%s” on %s has been read."
 msgid ""
 "Your message to %s about “%s” on %s has been displayed. This is no guarantee "
 "that the message has been read or understood."
@@ -24890,8 +24923,6 @@ msgstr ""
 #. the user did read (or better displayed) the message).
 #: ../src/modules/mdn/evolution-mdn.c:376
 #, c-format
-#| msgctxt "reply-attribution"
-#| msgid "Re: %s"
 msgid "Read: %s"
 msgstr "Read: %s"
 
