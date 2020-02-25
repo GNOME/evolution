@@ -2497,6 +2497,7 @@ msg_composer_constructed (GObject *object)
 	gtk_window_set_title (GTK_WINDOW (composer), _("Compose Message"));
 	gtk_window_set_icon_name (GTK_WINDOW (composer), "mail-message-new");
 	gtk_window_set_default_size (GTK_WINDOW (composer), 600, 500);
+	gtk_window_set_position (GTK_WINDOW (composer), GTK_WIN_POS_CENTER);
 
 	g_signal_connect (
 		object, "delete-event",
