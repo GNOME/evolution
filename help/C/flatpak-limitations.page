@@ -2,7 +2,7 @@
       type="topic" id="flatpak-limitations">
 
   <info>
-    <desc>This is a limitation of Flatpak.</desc>
+    <desc>Limitations when using a Flatpak package of <app>Evolution</app>.</desc>
 
     <link type="guide" xref="index#common-mail-problems" />
 
@@ -17,14 +17,20 @@
 
 </info>
 
-<title>Cannot print an email</title>
+<title>Cannot print mail, add or save attachments, or open the help</title>
 
 <p>If you run a <link href="https://flathub.org/">Flatpak</link> version of
-<app>Evolution</app>, then you cannot print an email to a printer. This is a
-<link href="https://bugs.webkit.org/show_bug.cgi?id=192748">limitation of the
-underlying WebKitGTK library</link> used by Evolution.</p>
+<app>Evolution</app>, then there are several limitations. Examples are:</p>
 
-<p>To print an email to a file, you can run <cmd>flatpak run --filesystem=home
-org.gnome.Evolution</cmd> as a workaround.</p>
-
+<list>
+  <item><p>Adding attachments to an email or saving attachments from an email
+  might not be possible.</p></item>
+  <item><p>You cannot print an email to a printer. This is a
+  <link href="https://bugs.webkit.org/show_bug.cgi?id=192748">limitation of the
+  underlying WebKitGTK library</link>.</p>
+  <p>To print an email to a file, you can run <cmd>flatpak run --filesystem=home
+  org.gnome.Evolution</cmd> as a workaround.</p></item>
+  <item><p>The local user documentation might not included, to make the package
+  smaller.</p></item>
+</list>
 </page>
