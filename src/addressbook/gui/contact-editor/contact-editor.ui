@@ -2184,6 +2184,7 @@
                     <property name="right_margin">6</property>
                     <property name="top_margin">6</property>
                     <property name="bottom_margin">6</property>
+                    <property name="wrap-mode">GTK_WRAP_WORD_CHAR</property>
                   </object>
                 </child>
               </object>
