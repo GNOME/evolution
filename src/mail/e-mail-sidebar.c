@@ -35,6 +35,7 @@ struct _EMailSidebarPrivate {
 	GKeyFile *key_file;  /* not owned */
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
+	gboolean restoring_state;
 };
 
 enum {
@@ -71,14 +72,17 @@ mail_sidebar_restore_state (EMailSidebar *sidebar)
 
 	/* Restore selected folder. */
 
-	selected = g_key_file_get_string (
-		key_file, "Folder Tree", "Selected", NULL);
+	sidebar->priv->restoring_state = TRUE;
+
+	em_folder_tree_restore_state (folder_tree, key_file);
+
+	selected = g_key_file_get_string (key_file, "Folder Tree", "Selected", NULL);
 	if (selected != NULL) {
 		em_folder_tree_set_selected (folder_tree, selected, FALSE);
 		g_free (selected);
 	}
 
-	em_folder_tree_restore_state (folder_tree, key_file);
+	sidebar->priv->restoring_state = FALSE;
 }
 
 static void
@@ -149,6 +153,9 @@ mail_sidebar_selection_changed_cb (GtkTreeSelection *selection,
 	GtkTreeIter iter;
 	GKeyFile *key_file;
 	gchar *uri = NULL;
+
+	if (sidebar->priv->restoring_state || !gtk_widget_get_realized (GTK_WIDGET (sidebar)))
+		return;
 
 	key_file = e_mail_sidebar_get_key_file (sidebar);
 
@@ -300,6 +307,10 @@ mail_sidebar_row_expanded (GtkTreeView *tree_view,
 	tree_view_class->row_expanded (tree_view, unused, path);
 
 	sidebar = E_MAIL_SIDEBAR (tree_view);
+
+	if (sidebar->priv->restoring_state)
+		return;
+
 	key_file = e_mail_sidebar_get_key_file (sidebar);
 
 	/* Make sure we have a key file to record state changes. */
@@ -369,6 +380,10 @@ mail_sidebar_row_collapsed (GtkTreeView *tree_view,
 	gchar *group_name;
 
 	sidebar = E_MAIL_SIDEBAR (tree_view);
+
+	if (sidebar->priv->restoring_state)
+		return;
+
 	key_file = e_mail_sidebar_get_key_file (sidebar);
 
 	/* Make sure we have a key file to record state changes. */

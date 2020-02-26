@@ -338,6 +338,105 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
 }
 
 static void
+e_mail_shell_view_cleanup_state_key_file (EShellView *shell_view)
+{
+	EShellBackend *shell_backend;
+	EMailSession *mail_session;
+	CamelSession *session;
+	GKeyFile *key_file;
+	gchar **groups;
+	gboolean changed = FALSE;
+	gint ii;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (shell_view));
+
+	key_file = e_shell_view_get_state_key_file (shell_view);
+	if (!key_file)
+		return;
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+	if (!mail_session)
+		return;
+
+	session = CAMEL_SESSION (mail_session);
+
+	groups = g_key_file_get_groups (key_file, NULL);
+
+	if (!groups)
+		return;
+
+	for (ii = 0; groups[ii]; ii++) {
+		const gchar *group_name = groups[ii];
+
+		if (g_str_has_prefix (group_name, "Store ")) {
+			CamelService *service;
+			const gchar *uid = group_name + 6;
+
+			service = camel_session_ref_service (session, uid);
+
+			if (CAMEL_IS_STORE (service)) {
+				g_object_unref (service);
+			} else {
+				changed = TRUE;
+				g_key_file_remove_group (key_file, group_name, NULL);
+			}
+		} else if (g_str_has_prefix (group_name, "Folder ")) {
+			CamelStore *store = NULL;
+			gchar *folder_name = NULL;
+			const gchar *uri = group_name + 7;
+
+			if (e_mail_folder_uri_parse (session, uri, &store, &folder_name, NULL)) {
+				if (!g_str_has_prefix (uri, "folder:")) {
+					gchar *new_style_uri;
+
+					new_style_uri = e_mail_folder_uri_build (store, folder_name);
+					if (new_style_uri) {
+						if (!g_key_file_has_group (key_file, new_style_uri)) {
+							gchar **keys;
+							gint jj;
+
+							keys = g_key_file_get_keys (key_file, group_name, NULL, NULL);
+
+							for (jj = 0; keys && keys[jj]; jj++) {
+								const gchar *key = keys[jj];
+								gchar *value;
+
+								value = g_key_file_get_value (key_file, group_name, key, NULL);
+
+								if (value) {
+									g_key_file_set_value (key_file, group_name, key, value);
+									g_free (value);
+								}
+							}
+
+							g_strfreev (keys);
+						}
+
+						changed = TRUE;
+						g_key_file_remove_group (key_file, group_name, NULL);
+					}
+				}
+
+				g_clear_object (&store);
+				g_free (folder_name);
+
+			/* One non-Folder section is named "Folder Tree", thus avoid erasing it and others not looking like URI */
+			} else if (strstr (group_name, ":/")) {
+				changed = TRUE;
+				g_key_file_remove_group (key_file, group_name, NULL);
+			}
+		}
+	}
+
+	g_strfreev (groups);
+
+	if (changed)
+		e_shell_view_set_state_dirty (shell_view);
+}
+
+static void
 mail_shell_view_set_vfolder_allow_expunge (EMailShellView *mail_shell_view,
 					   gboolean value)
 {
@@ -419,6 +518,7 @@ mail_shell_view_constructed (GObject *object)
 	G_OBJECT_CLASS (e_mail_shell_view_parent_class)->constructed (object);
 
 	e_mail_shell_view_private_constructed (E_MAIL_SHELL_VIEW (object));
+	e_mail_shell_view_cleanup_state_key_file (E_SHELL_VIEW (object));
 }
 
 static void

@@ -222,6 +222,8 @@ EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
 GKeyFile *	e_shell_view_get_state_key_file	(EShellView *shell_view);
 void		e_shell_view_set_state_dirty	(EShellView *shell_view);
+void		e_shell_view_save_state_immediately
+						(EShellView *shell_view);
 void		e_shell_view_clear_search	(EShellView *shell_view);
 void		e_shell_view_custom_search	(EShellView *shell_view,
 						 EFilterRule *custom_rule);

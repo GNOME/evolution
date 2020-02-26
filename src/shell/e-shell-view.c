@@ -328,6 +328,19 @@ shell_view_state_timeout_cb (gpointer user_data)
 	return FALSE;
 }
 
+void
+e_shell_view_save_state_immediately (EShellView *shell_view)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	if (shell_view->priv->state_save_timeout_id > 0) {
+		g_source_remove (shell_view->priv->state_save_timeout_id);
+		shell_view->priv->state_save_timeout_id = 0;
+		if (!shell_view->priv->state_save_activity)
+			shell_view_save_state (shell_view, TRUE);
+	}
+}
+
 static void
 shell_view_emit_toggled (EShellView *shell_view)
 {
@@ -517,12 +530,7 @@ shell_view_dispose (GObject *object)
 	priv = E_SHELL_VIEW_GET_PRIVATE (object);
 
 	/* Expedite any pending state saves. */
-	if (priv->state_save_timeout_id > 0) {
-		g_source_remove (priv->state_save_timeout_id);
-		priv->state_save_timeout_id = 0;
-		if (priv->state_save_activity == NULL)
-			shell_view_save_state (E_SHELL_VIEW (object), TRUE);
-	}
+	e_shell_view_save_state_immediately (E_SHELL_VIEW (object));
 
 	if (priv->update_actions_idle_id > 0) {
 		g_source_remove (priv->update_actions_idle_id);
