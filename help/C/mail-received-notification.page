@@ -7,7 +7,7 @@
     <link type="guide" xref="mail-send-and-receive" />
     <link type="seealso" xref="calendar-alarms-and-reminders" />
 
-    <revision pkgversion="3.32.0" version="0.7" date="2019-03-15" status="final"/>
+    <revision pkgversion="3.34.4" version="0.8" date="2020-02-26" status="final"/>
     <credit type="author">
       <name its:translate="no">Andre Klapper</name>
       <email its:translate="no">ak-47@gmx.net</email>
@@ -31,8 +31,8 @@
 <item><p>Enable <gui>Mail Notification</gui>.</p>
 <note style="tip"><p>If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>, then please ask in a support forum of your distribution. Your distribution might have decided to disable some plugins or to ship plugins in a separate package.</p></note>
 </item>
-<item><p>Click the <gui>Configuration</gui> tab.</p></item>
-<item><p>Set your preferred options.</p></item>
+<item><p>Open the <gui style="tab">Configuration</gui> tab and set your preferred options.</p></item>
+<item><p>Open the <gui style="tab">Accounts</gui> tab to select the mail accounts for which you would like to see notifications.</p></item>
 </steps>
 
 <media type="image" src="./figures/new-mail-notification.png" width="512">
