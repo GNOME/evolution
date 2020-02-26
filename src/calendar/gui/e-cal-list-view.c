@@ -335,6 +335,7 @@ setup_e_table (ECalListView *cal_list_view)
 	}
 
 	widget = e_table_new (E_TABLE_MODEL (model), extras, specification);
+	g_object_set (G_OBJECT (widget), "uniform-row-height", TRUE, NULL);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	cal_list_view->priv->table = E_TABLE (widget);
 	gtk_widget_show (widget);

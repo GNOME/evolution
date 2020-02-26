@@ -319,6 +319,7 @@ addressbook_view_create_table_view (EAddressbookView *view,
 	 * the table we've created, the header, the model, and the
 	 * initial layout.  It does the rest.  */
 	widget = e_table_new (adapter, extras, specification);
+	g_object_set (G_OBJECT (widget), "uniform-row-height", TRUE, NULL);
 	gtk_container_add (GTK_CONTAINER (view), widget);
 
 	g_object_unref (specification);
