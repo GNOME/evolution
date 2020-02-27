@@ -3501,6 +3501,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 			"{\n"
 			"  border-color: %s;\n"
+			"  margin: 0 0 6px 0;\n"
 			"}\n",
 			e_web_view_get_citation_color_for_level (1));
 
@@ -3510,6 +3511,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 			"{\n"
 			"  border-color: %s;\n"
+			"  margin: 0ch;\n"
 			"}\n",
 			e_web_view_get_citation_color_for_level (2));
 
@@ -3520,6 +3522,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 			"{\n"
 			"  border-color: %s;\n"
+			"  margin: 0ch;\n"
 			"}\n",
 			e_web_view_get_citation_color_for_level (3));
 
@@ -3531,6 +3534,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 			"{\n"
 			"  border-color: %s;\n"
+			"  margin: 0ch;\n"
 			"}\n",
 			e_web_view_get_citation_color_for_level (4));
 
@@ -3543,6 +3547,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 			"blockquote[type=cite]:not(.-x-evo-plaintext-quoted) "
 			"{\n"
 			"  border-color: %s;\n"
+			"  margin: 0ch;\n"
 			"}\n",
 			e_web_view_get_citation_color_for_level (5));
 

@@ -1264,6 +1264,7 @@ mail_display_content_loaded_cb (EWebView *web_view,
 				gpointer user_data)
 {
 	EMailDisplay *mail_display;
+	gchar *citation_color = NULL;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
 
@@ -1280,8 +1281,24 @@ mail_display_content_loaded_cb (EWebView *web_view,
 			mail_display_remote_content_clicked_cb, NULL);
 	}
 
+	if (g_settings_get_boolean (mail_display->priv->settings, "mark-citations")) {
+		GdkRGBA rgba;
+
+		citation_color = g_settings_get_string (mail_display->priv->settings, "citation-color");
+
+		if (!citation_color || !gdk_rgba_parse (&rgba, citation_color)) {
+			g_free (citation_color);
+			citation_color = NULL;
+		} else {
+			g_free (citation_color);
+			citation_color = g_strdup_printf ("#%06x", e_rgba_to_value (&rgba));
+		}
+	}
+
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
-		"Evo.MailDisplayBindDOM(%s);", iframe_id);
+		"Evo.MailDisplayBindDOM(%s, %s);", iframe_id, citation_color);
+
+	g_free (citation_color);
 
 	if (mail_display->priv->part_list) {
 		if (!iframe_id || !*iframe_id) {

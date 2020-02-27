@@ -6,7 +6,8 @@
 var Evo = {
 	hasSelection : false,
 	blockquoteStyle : "margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex",
-	magicSpacebarState: -1
+	magicSpacebarState: -1,
+	markCitationColor : null
 };
 
 /* The 'traversar_obj' is an object, which implements a callback function:
@@ -993,8 +994,10 @@ Evo.unsetHTMLColors = function(doc)
 	}
 }
 
-Evo.MailDisplayBindDOM = function(iframe_id)
+Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor)
 {
+	Evo.markCitationColor = markCitationColor != "" ? markCitationColor : null;
+
 	var traversar = {
 		unstyleBlockquotes : function(doc) {
 			var ii, elems;
@@ -1015,6 +1018,9 @@ Evo.MailDisplayBindDOM = function(iframe_id)
 				    elem.getAttribute("style") == Evo.blockquoteStyle) {
 					elem.removeAttribute("style");
 				}
+
+				if (Evo.markCitationColor && elem.hasAttribute("type") && elem.getAttribute("type").toLowerCase() == "cite")
+					elem.style.color = Evo.markCitationColor;
 			}
 		},
 		textRequiresWrap : function(text) {
@@ -1142,7 +1148,7 @@ Evo.MailDisplayShowAttachment = function(element_id, show)
 
 			if (iframe) {
 				Evo.initializeAndPostContentLoaded(iframe);
-				Evo.MailDisplayBindDOM(iframe.id);
+				Evo.MailDisplayBindDOM(iframe.id, Evo.markCitationColor);
 			}
 
 			var iframe_id = "";
