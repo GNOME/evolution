@@ -23,9 +23,64 @@
 #include "e-alert-dialog.h"
 #include "e-alert-bar.h"
 
-#define E_ALERT_BAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ALERT_BAR, EAlertBarPrivate))
+/* The GtkScrolledWindow has some minimum height of 86 pixels or so, but some
+   messages can be smaller, thus subclass it here and override the minimum value. */
+
+typedef struct _EScrolledWindow {
+	GtkScrolledWindow parent;
+} EScrolledWindow;
+
+typedef struct _EScrolledWindowClass {
+	GtkScrolledWindowClass parent_class;
+} EScrolledWindowClass;
+
+GType e_scrolled_window_get_type (void) G_GNUC_CONST;
+
+G_DEFINE_TYPE (EScrolledWindow, e_scrolled_window, GTK_TYPE_SCROLLED_WINDOW)
+
+static void
+e_scrolled_window_get_preferred_height (GtkWidget *widget,
+					gint *minimum_size,
+					gint *natural_size)
+{
+	GtkScrolledWindow *scrolled_window = GTK_SCROLLED_WINDOW (widget);
+	gint min_height, max_height;
+
+	/* Chain up to parent's method. */
+	GTK_WIDGET_CLASS (e_scrolled_window_parent_class)->get_preferred_height (widget, minimum_size, natural_size);
+
+	min_height = gtk_scrolled_window_get_min_content_height (scrolled_window);
+	max_height = gtk_scrolled_window_get_max_content_height (scrolled_window);
+
+	if (min_height > 0 && min_height < *minimum_size)
+		*minimum_size = min_height + 1;
+
+	if (max_height > 0 && max_height < *natural_size)
+		*natural_size = max_height + 1;
+}
+
+static void
+e_scrolled_window_class_init (EScrolledWindowClass *class)
+{
+	GtkWidgetClass *widget_class;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->get_preferred_height = e_scrolled_window_get_preferred_height;
+}
+
+static void
+e_scrolled_window_init (EScrolledWindow *scrolled_window)
+{
+}
+
+static GtkWidget *
+e_scrolled_window_new (void)
+{
+	return g_object_new (e_scrolled_window_get_type (),
+		"hadjustment", NULL,
+		"vadjustment", NULL,
+		NULL);
+}
 
 #define E_ALERT_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -37,17 +92,18 @@
 /* Dismiss warnings automatically after 5 minutes. */
 #define WARNING_TIMEOUT_SECONDS (5 * 60)
 
+/* Maximum height of the text message; after that value the message is scrolled. */
+#define MAX_HEIGHT 200
+
 struct _EAlertBarPrivate {
 	GQueue alerts;
 	GtkWidget *image;		/* not referenced */
-	GtkWidget *primary_label;	/* not referenced */
-	GtkWidget *secondary_label;	/* not referenced */
+	GtkWidget *scrolled_window;	/* not referenced */
+	GtkWidget *message_label;	/* not referenced */
+	gint max_content_height;
 };
 
-G_DEFINE_TYPE (
-	EAlertBar,
-	e_alert_bar,
-	GTK_TYPE_INFO_BAR)
+G_DEFINE_TYPE (EAlertBar, e_alert_bar, GTK_TYPE_INFO_BAR)
 
 static void
 alert_bar_response_close (EAlert *alert)
@@ -133,6 +189,21 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 		widget, "clicked",
 		G_CALLBACK (alert_bar_response_close), alert);
 
+	widget = gtk_widget_get_toplevel (GTK_WIDGET (alert_bar));
+
+	gtk_scrolled_window_set_min_content_height (GTK_SCROLLED_WINDOW (alert_bar->priv->scrolled_window), -1);
+
+	if (widget) {
+		gint max_height;
+
+		/* Allow up to 20% of the window height being used by the alert, or at least MAX_HEIGHT pixels */
+		max_height = MAX (gtk_widget_get_allocated_height (widget) / 5, MAX_HEIGHT);
+
+		alert_bar->priv->max_content_height = max_height;
+
+		gtk_scrolled_window_set_max_content_height (GTK_SCROLLED_WINDOW (alert_bar->priv->scrolled_window), max_height);
+	}
+
 	primary_text = e_alert_get_primary_text (alert);
 	secondary_text = e_alert_get_secondary_text (alert);
 
@@ -151,24 +222,13 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	message_type = e_alert_get_message_type (alert);
 	gtk_info_bar_set_message_type (info_bar, message_type);
 
-	widget = alert_bar->priv->primary_label;
 	if (have_primary_text && have_secondary_text)
-		markup = g_markup_printf_escaped (
-			"<b>%s</b>", primary_text);
-	else
+		markup = g_markup_printf_escaped ("<b>%s</b>\n\n<small>%s</small>", primary_text, secondary_text);
+	else if (have_primary_text)
 		markup = g_markup_escape_text (primary_text, -1);
-	gtk_label_set_markup (GTK_LABEL (widget), markup);
-	gtk_widget_set_visible (widget, have_primary_text);
-	g_free (markup);
-
-	widget = alert_bar->priv->secondary_label;
-	if (have_primary_text && have_secondary_text)
-		markup = g_markup_printf_escaped (
-			"<small>%s</small>", secondary_text);
 	else
 		markup = g_markup_escape_text (secondary_text, -1);
-	gtk_label_set_markup (GTK_LABEL (widget), markup);
-	gtk_widget_set_visible (widget, have_secondary_text);
+	gtk_label_set_markup (GTK_LABEL (alert_bar->priv->message_label), markup);
 	g_free (markup);
 
 	icon_name = e_alert_get_icon_name (alert);
@@ -231,11 +291,53 @@ alert_bar_response_cb (EAlert *alert,
 }
 
 static void
+alert_bar_message_label_size_allocate_cb (GtkWidget *message_label,
+					  GdkRectangle *allocation,
+					  gpointer user_data)
+{
+	GtkScrolledWindow *scrolled_window;
+	EAlertBar *alert_bar = user_data;
+	gint max_height, use_height;
+
+	g_return_if_fail (E_IS_ALERT_BAR (alert_bar));
+	g_return_if_fail (allocation != NULL);
+
+	scrolled_window = GTK_SCROLLED_WINDOW (alert_bar->priv->scrolled_window);
+
+	max_height = alert_bar->priv->max_content_height;
+
+	if (allocation->height > 0 && allocation->height <= max_height)
+		use_height = allocation->height;
+	else if (allocation->height <= 0)
+		use_height = -1;
+	else
+		use_height = max_height;
+
+	/* To avoid runtime warnings about min being larger than the new max */
+	gtk_scrolled_window_set_min_content_height (scrolled_window, -1);
+
+	if (use_height > 0 && use_height < max_height)
+		gtk_scrolled_window_set_max_content_height (scrolled_window, use_height);
+	else
+		gtk_scrolled_window_set_max_content_height (scrolled_window, max_height);
+
+	gtk_scrolled_window_set_min_content_height (scrolled_window, use_height);
+
+	gtk_widget_queue_resize (alert_bar->priv->scrolled_window);
+}
+
+static void
 alert_bar_dispose (GObject *object)
 {
 	EAlertBarPrivate *priv;
 
 	priv = E_ALERT_BAR_GET_PRIVATE (object);
+
+	if (priv->message_label) {
+		g_signal_handlers_disconnect_by_func (priv->message_label,
+			G_CALLBACK (alert_bar_message_label_size_allocate_cb), object);
+		priv->message_label = NULL;
+	}
 
 	while (!g_queue_is_empty (&priv->alerts)) {
 		EAlert *alert = g_queue_pop_head (&priv->alerts);
@@ -282,30 +384,33 @@ alert_bar_constructed (GObject *object)
 	priv->image = widget;
 	gtk_widget_show (widget);
 
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
-	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
+	widget = e_scrolled_window_new ();
+	g_object_set (G_OBJECT (widget),
+		"valign", GTK_ALIGN_CENTER,
+		"halign", GTK_ALIGN_FILL,
+		"hexpand", TRUE,
+		"hscrollbar-policy", GTK_POLICY_NEVER,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		NULL);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	priv->scrolled_window = widget;
 	gtk_widget_show (widget);
 
 	container = widget;
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_line_wrap_mode (GTK_LABEL (widget), PANGO_WRAP_WORD_CHAR);
 	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
 	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->primary_label = widget;
+	gtk_widget_set_valign (widget, GTK_ALIGN_CENTER);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	priv->message_label = widget;
 	gtk_widget_show (widget);
 
-	widget = gtk_label_new (NULL);
-	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
-	gtk_label_set_width_chars (GTK_LABEL (widget), 20);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	priv->secondary_label = widget;
-	gtk_widget_show (widget);
+	g_signal_connect (priv->message_label, "size-allocate",
+		G_CALLBACK (alert_bar_message_label_size_allocate_cb), object);
 
 	/* Disable animation of the revealer, until GtkInfoBar's bug #710888 is fixed */
 	revealer = gtk_widget_get_template_child (GTK_WIDGET (object), GTK_TYPE_INFO_BAR, "revealer");
@@ -356,6 +461,7 @@ static void
 e_alert_bar_init (EAlertBar *alert_bar)
 {
 	alert_bar->priv = E_ALERT_BAR_GET_PRIVATE (alert_bar);
+	alert_bar->priv->max_content_height = MAX_HEIGHT;
 }
 
 GtkWidget *
