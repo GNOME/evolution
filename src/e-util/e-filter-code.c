@@ -67,11 +67,11 @@ filter_code_describe (EFilterElement *element,
 	EFilterInput *fi = (EFilterInput *) element;
 	GList *link;
 
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_START);
 	for (link = fi->values; link; link = g_list_next (link)) {
 		g_string_append (out, (const gchar *) link->data);
 	}
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_END);
 }
 
 static void
