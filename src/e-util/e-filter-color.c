@@ -147,9 +147,9 @@ filter_color_describe (EFilterElement *element,
 	g_string_append_c (out, '[');
 	g_string_append (out, spec);
 	g_string_append (out, "] ");
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_COLOR_START);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_COLOR_START);
 	g_string_append (out, spec);
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_COLOR_END);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_COLOR_END);
 }
 
 static void

@@ -1,0 +1,11 @@
+[default]
+name=Default
+runtime=host
+toolchain=default
+config-opts=
+run-opts=
+prefix=/home/nour-fedora-pc/.cache/gnome-builder/install/evolution/host
+app-id=
+postbuild=
+prebuild=
+default=true
