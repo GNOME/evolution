@@ -18,7 +18,6 @@ set(HELP_MEDIA
 	${HELP_FIGURES_DIR}/html-composer-insert-rule.png
 	${HELP_FIGURES_DIR}/html-composer-insert-table.png
 	${HELP_FIGURES_DIR}/minus-icon.png
-	${HELP_FIGURES_DIR}/new-mail-notification.png
 	${HELP_FIGURES_DIR}/new-mail-switcher.png
 	${HELP_FIGURES_DIR}/plus-icon.png
 	${HELP_FIGURES_DIR}/search-icon.png
