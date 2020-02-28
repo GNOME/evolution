@@ -177,9 +177,9 @@ filter_int_describe (EFilterElement *element,
 	EFilterInt *filter_int = E_FILTER_INT (element);
 
 	g_string_append_printf (out, "%c%d%c",
-		E_FILTER_ELEMENT_DESCIPTION_VALUE_START,
+		E_FILTER_ELEMENT_DESCRIPTION_VALUE_START,
 		filter_int->val,
-		E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+		E_FILTER_ELEMENT_DESCRIPTION_VALUE_END);
 }
 
 static void

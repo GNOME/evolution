@@ -206,9 +206,9 @@ filter_file_describe (EFilterElement *element,
 {
 	EFilterFile *file = E_FILTER_FILE (element);
 
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_START);
 	g_string_append (out, file->path);
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_END);
 }
 
 static void
