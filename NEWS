@@ -1,3 +1,51 @@
+Evolution 3.35.92 2020-02-28
+----------------------------
+
+Bug Fixes:
+	I#276 - Runtime warning when resizing table column (Milan Crha)
+	I#363 - Change minimum width limit for the mail sidebar (Milan Crha)
+	I#590 - Redirect should not modify message headers (Milan Crha)
+	I#598 - EShellSwitcher: Runtime warnings about negative content height (Milan Crha)
+	I#599 - Calendar List view changes selected day (Milan Crha)
+	I#668 - EWebDAVConfigLookup: Try also without username/password (Milan Crha)
+	I#673 - Allow deselect of the Archive folder (Milan Crha)
+	I#788 - ENameSelectorList: Disable shortcut to show its popup (Milan Crha)
+	I#790 - Automatic contacts: Do not modify contacts with the same full name (Milan Crha)
+	I#791 - GOA configured Mail accounts don't auto-refresh by default (Milan Crha)
+	I#792 - Composer: Some shortcuts depend on the current keyboard layout (Milan Crha)
+	I#798 - contact-editor: Enable wrapping in the Notes text view (Milan Crha)
+	I#799 - EAlertBar: Text part doesn't work well for long text (Milan Crha)
+	I#800 - Composer: Position window in the center of the screen (Milan Crha)
+	I#806 - Mail: Preserve folder tree expand state in a new window (Milan Crha)
+	I#810 - List View: Use uniform row height in Calendar and Contacts (Milan Crha)
+	I#813 - Improve styling of cited text in HTML mails (Milan Crha)
+
+Miscellaneous:
+	help: Add a page about printing limitations in Flatpak versions (Andre Klapper)
+	help: Cover potential problems for automatical import from KMail (Andre Klapper)
+	help: Cover how to debug missing applications to open attachments (Andre Klapper)
+	help: Cover how to close the separate window after message deletion (Andre Klapper)
+	help: Rename printing-in-flatpak to flatpak-limitations (Andre Klapper)
+	help: Document more Flatpak limitations (Andre Klapper)
+	help: Explicitly cover that you can set notifications per mail account (Andre Klapper)
+	e-gtkemojichooser: Mark translatable messages with their own context (Milan Crha)
+
+Translations:
+	Carmen Bianca BAKKER (eo)
+	Fran Dieguez (gl)
+	Asier Sarasua Garmendia (eu)
+	Aurimas Černius (lt)
+	Balázs Meskó (hu)
+	Christian Kirbach (de)
+	Chao-Hsiung Liao (zh_TW)
+	Danial Behzadi (fa)
+	Guillaume Bernard (fr)
+	Kukuh Syafaat (id)
+	Alan Mortensen (da)
+	Bruce Cowan (en_GB)
+	Fabio Tomat (fu)
+	Changwoo Ryu (ko)
+
 Evolution 3.35.91 2020-02-14
 ----------------------------
 
