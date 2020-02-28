@@ -750,19 +750,19 @@ e_gtk_emoji_chooser_construct_without_template (EGtkEmojiChooser *chooser)
 	gtk_style_context_add_class (gtk_widget_get_style_context (GTK_WIDGET (chooser->recent.button)), "emoji-section");
 	g_object_set (G_OBJECT (chooser->recent.button),
 		"relief", GTK_RELIEF_NONE,
-		"tooltip-text", _("Recent"),
+		"tooltip-text", C_("EmojiChooser", "Recent"),
 		NULL);
 	gtk_box_pack_start (button_box, GTK_WIDGET (chooser->recent.button), FALSE, FALSE, 0);
 
-	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, _("Smileys & People"), &chooser->people);
-	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, _("Body & Clothing"), &chooser->body);
-	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, _("Animals & Nature"), &chooser->nature);
-	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, _("Food & Drink"), &chooser->food);
-	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, _("Travel & Places"), &chooser->travel);
-	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, _("Activities"), &chooser->activities);
-	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("emoji category", "Objects"), &chooser->objects);
-	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, _("Symbols"), &chooser->symbols);
-	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, _("Flags"), &chooser->flags);
+	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("EmojiChooser", "Smileys & People"), &chooser->people);
+	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("EmojiChooser", "Body & Clothing"), &chooser->body);
+	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("EmojiChooser", "Animals & Nature"), &chooser->nature);
+	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("EmojiChooser", "Food & Drink"), &chooser->food);
+	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("EmojiChooser", "Travel & Places"), &chooser->travel);
+	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("EmojiChooser", "Activities"), &chooser->activities);
+	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("EmojiChooser", "Objects"), &chooser->objects);
+	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("EmojiChooser", "Symbols"), &chooser->symbols);
+	e_gtk_emoji_chooser_add_group (chooser, emoji_box, button_box, C_("EmojiChooser", "Flags"), &chooser->flags);
 
 	grid = GTK_GRID (gtk_grid_new ());
 	g_object_set (G_OBJECT (grid),
@@ -786,7 +786,7 @@ e_gtk_emoji_chooser_construct_without_template (EGtkEmojiChooser *chooser)
 	pango_attr_list_insert (attrs, pango_attr_weight_new (PANGO_WEIGHT_BOLD));
 	pango_attr_list_insert (attrs, pango_attr_scale_new (1.44));
 
-	widget = gtk_label_new (_("No Results Found"));
+	widget = gtk_label_new (C_("EmojiChooser", "No Results Found"));
 	g_object_set (G_OBJECT (widget),
 		"attributes", attrs,
 		NULL);
@@ -794,7 +794,7 @@ e_gtk_emoji_chooser_construct_without_template (EGtkEmojiChooser *chooser)
 
 	pango_attr_list_unref (attrs);
 
-	widget = gtk_label_new (_("Try a different search"));
+	widget = gtk_label_new (C_("EmojiChooser", "Try a different search"));
 	gtk_style_context_add_class (gtk_widget_get_style_context (widget), "dim-label");
 	gtk_grid_attach (grid, widget, 0, 1, 1, 1);
 
