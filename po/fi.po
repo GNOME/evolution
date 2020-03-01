@@ -14573,7 +14573,7 @@ msgstr "_Tyyli:"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:88
 msgid "<b>Alignment</b>"
-msgstr "<b>Tasaus<b>"
+msgstr "<b>Tasaus</b>"
 
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:153
 msgid "Paragraph Properties"
