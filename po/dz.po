@@ -10104,7 +10104,7 @@ msgstr "འཕྲིན་དོན་བརྩམས།"
 
 #: ../composer/e-msg-composer.c:5031
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)</b>"
-msgstr "<b>(རྩོམ་མཁན་ལུ་ ཞུན་དག་འབད་མ་བཏུབ་པའི་ ཚིག་ཡིག་མེན་པའི་ འཕྲིན་དོན་མ་གཟུགས་ཅིག་འདུག།)<b>"
+msgstr "<b>(རྩོམ་མཁན་ལུ་ ཞུན་དག་འབད་མ་བཏུབ་པའི་ ཚིག་ཡིག་མེན་པའི་ འཕྲིན་དོན་མ་གཟུགས་ཅིག་འདུག།)</b>"
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid " There are few attachments getting downloaded. Sending the mail will cause the mail to be sent without those pending attachments "
@@ -15615,7 +15615,7 @@ msgid ""
 "<small>The message specified below will be automatically sent to each person who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
-"<small་>འོག་ལུ་གསལ་བཀོད་འབད་མི་ འཕྲིན་དོན་དེ་ ཁྱོད་རང་ཡིག་ཚང་གི་ཕྱི་ཁར་ཨིན་པའི་སྐབས་ \n"
+"<small>འོག་ལུ་གསལ་བཀོད་འབད་མི་ འཕྲིན་དོན་དེ་ ཁྱོད་རང་ཡིག་ཚང་གི་ཕྱི་ཁར་ཨིན་པའི་སྐབས་ \n"
 "ཁྱོད་ལུ་ཡིག་འཕྲིན་སྐྱེལ་མི་ ཆ་མཉམ་ལུ་ རང་བཞིན་གྱིས་བསྐྱལ་འོང་</small>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:8
