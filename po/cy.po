@@ -17306,7 +17306,7 @@ msgstr "Gosodiadau E-bost Sothach..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 msgid "<b>Junk List:</b>"
-msgstr "<b>Rhestr Sothach :</b."
+msgstr "<b>Rhestr Sothach :</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
