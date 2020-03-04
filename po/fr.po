@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-02-19 17:41+0000\n"
+"POT-Creation-Date: 2020-03-01 10:17+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Guillaume Bernard <associations@guillaume-bernard.fr>\n"
 "Language-Team: \n"
@@ -3591,7 +3591,7 @@ msgstr "Agenda"
 #: ../src/e-util/e-send-options.c:536 ../src/mail/importers/elm-importer.c:330
 #: ../src/mail/importers/kmail-importer.c:251
 #: ../src/mail/importers/pine-importer.c:423
-#: ../src/modules/mail/e-mail-shell-view.c:1493
+#: ../src/modules/mail/e-mail-shell-view.c:1593
 #: ../src/smime/gui/certificate-manager.c:1666
 msgid "Mail"
 msgstr "Courriel"
@@ -4141,7 +4141,7 @@ msgstr ""
 "contacts. Voulez-vous quand même l’ajouter ?"
 
 #: ../src/addressbook/addressbook.error.xml.h:39
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1241
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1242
 msgid "Failed to delete contact"
 msgstr "La suppression du contact a échoué"
 
@@ -4283,7 +4283,7 @@ msgstr "Options"
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:516
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:752
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:316
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1321
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1322
 #: ../src/calendar/gui/e-cal-dialogs.c:690
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:304
 #: ../src/composer/e-composer-actions.c:228 ../src/e-util/e-activity-bar.c:357
@@ -4311,7 +4311,7 @@ msgstr "Options"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3963
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3968
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4044
@@ -4349,7 +4349,7 @@ msgstr "_Annuler"
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3963
+#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3968
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651
@@ -4363,7 +4363,7 @@ msgstr "_Enregistrer"
 #: ../src/e-util/e-preferences-window.c:390
 #: ../src/e-util/e-send-options.ui.h:15
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:1053
+#: ../src/shell/e-shell-window-actions.c:1059
 msgid "_Help"
 msgstr "Aid_e"
 
@@ -5386,54 +5386,54 @@ msgstr "Recherche interrompue"
 msgid "Error modifying card"
 msgstr "Erreur lors de la modification de la carte"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:678
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:679
 msgid "Cut selected contacts to the clipboard"
 msgstr "Coupe les contacts sélectionnés vers le presse-papiers"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:684
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:685
 msgid "Copy selected contacts to the clipboard"
 msgstr "Copie les contacts sélectionnés dans le presse-papiers"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:690
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:691
 msgid "Paste contacts from the clipboard"
 msgstr "Colle les contacts depuis le presse-papiers"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:696
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:697
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1101
 msgid "Delete selected contacts"
 msgstr "Supprimer les contacts sélectionnés"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:702
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:703
 msgid "Select all visible contacts"
 msgstr "Sélectionne tous les contacts visibles"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1289
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1290
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "Voulez-vous vraiment supprimer ces listes de contacts ?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1293
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1294
 msgid "Are you sure you want to delete this contact list?"
 msgstr "Voulez-vous vraiment supprimer cette liste de contacts ?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1297
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1298
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "Voulez-vous vraiment supprimer cette liste de contacts (%s) ?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1303
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1304
 msgid "Are you sure you want to delete these contacts?"
 msgstr "Voulez-vous vraiment supprimer ces contacts ?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1307
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1308
 msgid "Are you sure you want to delete this contact?"
 msgstr "Voulez-vous vraiment supprimer ce contact ?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1311
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1312
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Voulez-vous vraiment supprimer ce contact (%s) ?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1322
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1323
 #: ../src/calendar/gui/e-comp-editor.c:2048
 #: ../src/e-util/e-accounts-window.c:1753 ../src/e-util/e-focus-tracker.c:816
 #: ../src/e-util/evolution-source-viewer.c:806
@@ -5444,13 +5444,13 @@ msgstr "Voulez-vous vraiment supprimer ce contact (%s) ?"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697
 #: ../src/modules/calendar/e-task-shell-view-actions.c:851
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1628
-#: ../src/shell/e-shell-window-actions.c:911
+#: ../src/shell/e-shell-window-actions.c:917
 #: ../src/smime/gui/certificate-manager.c:1656 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Supprimer"
 
 #. Translators: This is shown for > 5 contacts.
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1470
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1471
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -5465,11 +5465,11 @@ msgstr[1] ""
 "L’affichage de %d contacts implique l’ouverture de %d nouvelles fenêtres.\n"
 "Voulez-vous vraiment afficher tous ces contacts ?"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1478
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1479
 msgid "_Don’t Display"
 msgstr "_Ne pas afficher"
 
-#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1479
+#: ../src/addressbook/gui/widgets/e-addressbook-view.c:1480
 msgid "Display _All Contacts"
 msgstr "Afficher _tous les contacts"
 
@@ -5655,7 +5655,7 @@ msgstr "Zoom a_rrière"
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
 #: ../src/e-util/e-html-editor-actions.c:2081
 #: ../src/e-util/e-html-editor-find-dialog.c:244
-#: ../src/shell/e-shell-window-actions.c:981
+#: ../src/shell/e-shell-window-actions.c:987
 msgid "_Find"
 msgstr "_Rechercher"
 
@@ -7803,7 +7803,7 @@ msgstr "L’heure de début n’est pas valide"
 #: ../src/em-format/e-mail-part-secure-button.c:97
 #: ../src/e-util/e-misc-utils.c:4262 ../src/e-util/e-misc-utils.c:4274
 #: ../src/e-util/e-misc-utils.c:4288 ../src/mail/e-mail-autoconfig.c:1041
-#: ../src/mail/e-mail-display.c:2359 ../src/mail/e-mail-reader-utils.c:805
+#: ../src/mail/e-mail-display.c:2376 ../src/mail/e-mail-reader-utils.c:805
 #: ../src/mail/em-composer-utils.c:3838 ../src/mail/em-composer-utils.c:3869
 #: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
@@ -8163,7 +8163,7 @@ msgstr "Participa_nts…"
 #: ../src/plugins/email-custom-header/email-custom-header.c:844
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:34
 #: ../src/plugins/templates/templates.c:469
-#: ../src/shell/e-shell-window-actions.c:1039 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:1045 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "É_dition"
 
@@ -8832,8 +8832,8 @@ msgstr "Aucun résumé"
 #: ../src/mail/em-folder-properties.c:1458
 #: ../src/mail/em-subscription-editor.c:1741
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
-#: ../src/shell/e-shell-window-actions.c:348
-#: ../src/shell/e-shell-window-actions.c:876
+#: ../src/shell/e-shell-window-actions.c:354
+#: ../src/shell/e-shell-window-actions.c:882
 #: ../src/smime/gui/certificate-manager.c:2196
 msgid "_Close"
 msgstr "_Fermer"
@@ -8846,7 +8846,7 @@ msgstr "Fermer la fenêtre actuelle"
 #: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:806
 #: ../src/e-util/e-html-editor-actions.c:969 ../src/e-util/e-text.c:2080
 #: ../src/e-util/e-web-view.c:469 ../src/mail/e-mail-browser.c:173
-#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:897
+#: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:903
 msgid "_Copy"
 msgstr "Co_pier"
 
@@ -8854,27 +8854,27 @@ msgstr "Co_pier"
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
 #: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:471
 #: ../src/e-util/e-web-view.c:2044 ../src/mail/e-mail-browser.c:175
-#: ../src/shell/e-shell-window-actions.c:899
+#: ../src/shell/e-shell-window-actions.c:905
 msgid "Copy the selection"
 msgstr "Copie la sélection"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:801
 #: ../src/e-util/e-html-editor-actions.c:976 ../src/e-util/e-text.c:2066
-#: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:904
+#: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:910
 msgid "Cu_t"
 msgstr "_Couper"
 
 #: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
 #: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:2053
-#: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:906
+#: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:912
 msgid "Cut the selection"
 msgstr "Coupe la sélection"
 
 #: ../src/calendar/gui/e-comp-editor.c:2050 ../src/e-util/e-focus-tracker.c:217
 #: ../src/e-util/e-focus-tracker.c:273 ../src/e-util/e-focus-tracker.c:817
-#: ../src/shell/e-shell-window-actions.c:913
+#: ../src/shell/e-shell-window-actions.c:919
 msgid "Delete the selection"
 msgstr "Supprime la sélection"
 
@@ -8885,14 +8885,14 @@ msgstr "Afficher l’aide"
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2062 ../src/e-util/e-focus-tracker.c:811
 #: ../src/e-util/e-html-editor-actions.c:983 ../src/e-util/e-text.c:2092
-#: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:932
+#: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:938
 msgid "_Paste"
 msgstr "C_oller"
 
 #: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
 #: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2062
-#: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:934
+#: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:940
 msgid "Paste the clipboard"
 msgstr "Colle le contenu du presse-papiers"
 
@@ -8913,13 +8913,13 @@ msgstr "A_perçu…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821
 #: ../src/e-util/e-html-editor-actions.c:997 ../src/e-util/e-web-view.c:486
-#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1002
+#: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1008
 msgid "Select _All"
 msgstr "_Tout sélectionner"
 
 #: ../src/calendar/gui/e-comp-editor.c:2085 ../src/e-util/e-focus-tracker.c:224
 #: ../src/e-util/e-focus-tracker.c:280 ../src/e-util/e-focus-tracker.c:822
-#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1004
+#: ../src/mail/e-mail-browser.c:196 ../src/shell/e-shell-window-actions.c:1010
 msgid "Select all text"
 msgstr "Sélectionne tout le texte"
 
@@ -8930,7 +8930,7 @@ msgstr "C_lassification"
 #: ../src/calendar/gui/e-comp-editor.c:2120
 #: ../src/e-util/e-html-editor-actions.c:1020
 #: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:978 ../src/shell/e-shell-window-actions.c:1046
+#: ../src/mail/e-mail-notes.c:978 ../src/shell/e-shell-window-actions.c:1052
 msgid "_File"
 msgstr "_Fichier"
 
@@ -8946,7 +8946,7 @@ msgstr "_Options"
 
 #: ../src/calendar/gui/e-comp-editor.c:2148
 #: ../src/e-util/e-html-editor-actions.c:1062 ../src/mail/e-mail-browser.c:224
-#: ../src/shell/e-shell-window-actions.c:1089
+#: ../src/shell/e-shell-window-actions.c:1095
 #: ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Affichage"
@@ -11549,12 +11549,12 @@ msgid "Open New Message window"
 msgstr "Ouvre la fenêtre Nouveau message"
 
 #: ../src/composer/e-composer-actions.c:333
-#: ../src/shell/e-shell-window-actions.c:946
+#: ../src/shell/e-shell-window-actions.c:952
 msgid "_Preferences"
 msgstr "_Préférences"
 
 #: ../src/composer/e-composer-actions.c:335
-#: ../src/shell/e-shell-window-actions.c:948
+#: ../src/shell/e-shell-window-actions.c:954
 msgid "Configure Evolution"
 msgstr "Configurer Evolution"
 
@@ -11788,13 +11788,13 @@ msgstr ""
 msgid "Compose Message"
 msgstr "Rédaction d’un message"
 
-#: ../src/composer/e-msg-composer.c:4927
+#: ../src/composer/e-msg-composer.c:4928
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Vérifier la pièce jointe avant l’envoi."
 msgstr[1] "Vérifier les pièces jointes avant l’envoi."
 
-#: ../src/composer/e-msg-composer.c:4932
+#: ../src/composer/e-msg-composer.c:4933
 #, c-format
 msgid ""
 "There had been added %d attachment. Make sure it does not contain any "
@@ -11809,7 +11809,7 @@ msgstr[1] ""
 "%d pièces jointes ont été ajoutées. Assurez-vous qu’elles ne contiennent pas "
 "d’informations sensibles avant d’envoyer le message."
 
-#: ../src/composer/e-msg-composer.c:5065
+#: ../src/composer/e-msg-composer.c:5066
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "L’éditeur contient un corps de message non textuel qui ne peut pas être "
@@ -12695,7 +12695,7 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #. Translators: Escape is a keyboard binding.
-#: ../src/e-util/e-alert-bar.c:125
+#: ../src/e-util/e-alert-bar.c:181
 msgid "Close this message (Escape)"
 msgstr "Fermer ce message (Échap)"
 
@@ -13969,52 +13969,62 @@ msgid "Outgoing"
 msgstr "Sortant"
 
 #: ../src/e-util/e-gtkemojichooser.c:753
+msgctxt "EmojiChooser"
 msgid "Recent"
 msgstr "Récent"
 
 #: ../src/e-util/e-gtkemojichooser.c:757
+msgctxt "EmojiChooser"
 msgid "Smileys & People"
 msgstr "Émoticônes et personnes"
 
 #: ../src/e-util/e-gtkemojichooser.c:758
+msgctxt "EmojiChooser"
 msgid "Body & Clothing"
 msgstr "Corps et vêtements"
 
 #: ../src/e-util/e-gtkemojichooser.c:759
+msgctxt "EmojiChooser"
 msgid "Animals & Nature"
 msgstr "Animaux et nature"
 
 #: ../src/e-util/e-gtkemojichooser.c:760
+msgctxt "EmojiChooser"
 msgid "Food & Drink"
 msgstr "Nourriture et boissons"
 
 #: ../src/e-util/e-gtkemojichooser.c:761
+msgctxt "EmojiChooser"
 msgid "Travel & Places"
 msgstr "Voyages et lieux"
 
 #: ../src/e-util/e-gtkemojichooser.c:762
+msgctxt "EmojiChooser"
 msgid "Activities"
 msgstr "Activités"
 
 #: ../src/e-util/e-gtkemojichooser.c:763
-msgctxt "emoji category"
+msgctxt "EmojiChooser"
 msgid "Objects"
 msgstr "Objets"
 
 #: ../src/e-util/e-gtkemojichooser.c:764
+msgctxt "EmojiChooser"
 msgid "Symbols"
 msgstr "Symboles"
 
 #: ../src/e-util/e-gtkemojichooser.c:765
-#: ../src/e-util/evolution-source-viewer.c:677
+msgctxt "EmojiChooser"
 msgid "Flags"
-msgstr "Marqueurs"
+msgstr "Drapeaux"
 
 #: ../src/e-util/e-gtkemojichooser.c:789
+msgctxt "EmojiChooser"
 msgid "No Results Found"
 msgstr "Aucun résultat trouvé"
 
 #: ../src/e-util/e-gtkemojichooser.c:797
+msgctxt "EmojiChooser"
 msgid "Try a different search"
 msgstr "Essayez une autre recherche"
 
@@ -16109,7 +16119,7 @@ msgid "Format Column_s…"
 msgstr "Format des colonne_s…"
 
 #: ../src/e-util/e-table-header-item.c:1675
-#: ../src/shell/e-shell-window-actions.c:1226
+#: ../src/shell/e-shell-window-actions.c:1232
 msgid "Custo_mize Current View…"
 msgstr "Perso_nnaliser la vue en cours…"
 
@@ -16179,6 +16189,10 @@ msgstr "Afficheur des sources d’Evolution"
 #: ../src/e-util/evolution-source-viewer.c:668
 msgid "Display Name"
 msgstr "Afficher le nom"
+
+#: ../src/e-util/evolution-source-viewer.c:677
+msgid "Flags"
+msgstr "Marqueurs"
 
 #: ../src/e-util/evolution-source-viewer.c:729
 #: ../src/mail/e-mail-config-identity-page.c:1231
@@ -16389,21 +16403,21 @@ msgstr "Aller au début du message"
 msgid "Click to open %s"
 msgstr "Cliquez pour ouvrir %s"
 
-#: ../src/e-util/e-web-view.c:3773
+#: ../src/e-util/e-web-view.c:3778
 msgid "Copying image to clipboard"
 msgstr "Copie de l’image dans le presse-papiers"
 
 # Titre de fenêtre
-#: ../src/e-util/e-web-view.c:3961
+#: ../src/e-util/e-web-view.c:3966
 msgid "Save Image"
 msgstr "Enregistrement de l’image"
 
-#: ../src/e-util/e-web-view.c:3998
+#: ../src/e-util/e-web-view.c:4003
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Enregistrement de l’image dans « %s »"
 
-#: ../src/e-util/e-web-view.c:4145
+#: ../src/e-util/e-web-view.c:4150
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr ""
@@ -17095,9 +17109,9 @@ msgstr "Serveur POP3"
 msgid "SMTP server"
 msgstr "Serveur SMTP"
 
-#: ../src/mail/e-mail-browser.c:168 ../src/shell/e-shell-window-actions.c:871
-#: ../src/shell/e-shell-window-actions.c:878
-#: ../src/shell/e-shell-window-actions.c:885
+#: ../src/mail/e-mail-browser.c:168 ../src/shell/e-shell-window-actions.c:877
+#: ../src/shell/e-shell-window-actions.c:884
+#: ../src/shell/e-shell-window-actions.c:891
 msgid "Close this window"
 msgstr "Ferme cette fenêtre"
 
@@ -17517,7 +17531,7 @@ msgstr "Sélectionner"
 
 #: ../src/mail/e-mail-config-security-page.c:686
 #: ../src/mail/e-mail-config-security-page.c:784
-#: ../src/shell/e-shell-window-actions.c:967
+#: ../src/shell/e-shell-window-actions.c:973
 msgid "_Clear"
 msgstr "_Effacer"
 
@@ -25295,15 +25309,15 @@ msgstr "Dossier actuel"
 msgid "Current Folder and Subfolders"
 msgstr "Dossier actuel et sous-dossiers"
 
-#: ../src/modules/mail/e-mail-shell-view.c:895
+#: ../src/modules/mail/e-mail-shell-view.c:995
 msgid "Current Folder and Subfolders Search"
 msgstr "Rechercher dans dossier actuel et sous-dossiers"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1017
+#: ../src/modules/mail/e-mail-shell-view.c:1117
 msgid "All Account Search"
 msgstr "Rechercher dans tous les comptes"
 
-#: ../src/modules/mail/e-mail-shell-view.c:1127
+#: ../src/modules/mail/e-mail-shell-view.c:1227
 msgid "Account Search"
 msgstr "Rechercher dans un compte"
 
@@ -27146,303 +27160,303 @@ msgstr "Site Web"
 msgid "Saving user interface state"
 msgstr "Enregistrement de l’état de l’interface utilisateur"
 
-#: ../src/shell/e-shell-window-actions.c:345
+#: ../src/shell/e-shell-window-actions.c:351
 msgid "Categories Editor"
 msgstr "Éditeur de catégories"
 
-#: ../src/shell/e-shell-window-actions.c:648
+#: ../src/shell/e-shell-window-actions.c:654
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy n’est pas installé."
 
-#: ../src/shell/e-shell-window-actions.c:649
+#: ../src/shell/e-shell-window-actions.c:655
 msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy ne peut pas être exécuté."
 
-#: ../src/shell/e-shell-window-actions.c:845
+#: ../src/shell/e-shell-window-actions.c:851
 msgid "Collect_ion Account"
 msgstr "Compte groupé"
 
-#: ../src/shell/e-shell-window-actions.c:847
+#: ../src/shell/e-shell-window-actions.c:853
 msgid "Create a new collection account"
 msgstr "Crée un nouveau compte de collecte"
 
-#: ../src/shell/e-shell-window-actions.c:855
+#: ../src/shell/e-shell-window-actions.c:861
 msgid "_About"
 msgstr "À _propos"
 
-#: ../src/shell/e-shell-window-actions.c:857
+#: ../src/shell/e-shell-window-actions.c:863
 msgid "Show information about Evolution"
 msgstr "Affiche les informations concernant Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:862
+#: ../src/shell/e-shell-window-actions.c:868
 msgid "_Accounts"
 msgstr "_Comptes"
 
-#: ../src/shell/e-shell-window-actions.c:864
+#: ../src/shell/e-shell-window-actions.c:870
 msgid "Configure Evolution Accounts"
 msgstr "Configurer les comptes d’Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:869
-#: ../src/shell/e-shell-window-actions.c:883
+#: ../src/shell/e-shell-window-actions.c:875
+#: ../src/shell/e-shell-window-actions.c:889
 msgid "_Close Window"
 msgstr "_Fermer la fenêtre"
 
-#: ../src/shell/e-shell-window-actions.c:890
+#: ../src/shell/e-shell-window-actions.c:896
 msgid "_Contents"
 msgstr "_Sommaire"
 
-#: ../src/shell/e-shell-window-actions.c:892
+#: ../src/shell/e-shell-window-actions.c:898
 msgid "Open the Evolution User Guide"
 msgstr "Ouvre le manuel d’utilisation d’Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:918
+#: ../src/shell/e-shell-window-actions.c:924
 msgid "I_mport…"
 msgstr "I_mporter…"
 
-#: ../src/shell/e-shell-window-actions.c:920
+#: ../src/shell/e-shell-window-actions.c:926
 msgid "Import data from other programs"
 msgstr "Importe les données d’autres programmes"
 
-#: ../src/shell/e-shell-window-actions.c:925
+#: ../src/shell/e-shell-window-actions.c:931
 msgid "New _Window"
 msgstr "Nouvelle _fenêtre"
 
-#: ../src/shell/e-shell-window-actions.c:927
+#: ../src/shell/e-shell-window-actions.c:933
 msgid "Create a new window displaying this view"
 msgstr "Crée une nouvelle fenêtre pour afficher cette vue"
 
-#: ../src/shell/e-shell-window-actions.c:939
+#: ../src/shell/e-shell-window-actions.c:945
 msgid "Available Cate_gories"
 msgstr "Caté_gories disponibles"
 
-#: ../src/shell/e-shell-window-actions.c:941
+#: ../src/shell/e-shell-window-actions.c:947
 msgid "Manage available categories"
 msgstr "Gère les catégories disponibles"
 
-#: ../src/shell/e-shell-window-actions.c:953
+#: ../src/shell/e-shell-window-actions.c:959
 msgid "_Quit"
 msgstr "_Quitter"
 
-#: ../src/shell/e-shell-window-actions.c:955
+#: ../src/shell/e-shell-window-actions.c:961
 msgid "Exit the program"
 msgstr "Quitte le programme"
 
-#: ../src/shell/e-shell-window-actions.c:960
+#: ../src/shell/e-shell-window-actions.c:966
 msgid "_Advanced Search…"
 msgstr "_Recherche avancée…"
 
-#: ../src/shell/e-shell-window-actions.c:962
+#: ../src/shell/e-shell-window-actions.c:968
 msgid "Construct a more advanced search"
 msgstr "Construit une recherche plus élaborée"
 
-#: ../src/shell/e-shell-window-actions.c:969
+#: ../src/shell/e-shell-window-actions.c:975
 msgid "Clear the current search parameters"
 msgstr "Efface les paramètres de recherche actuels"
 
-#: ../src/shell/e-shell-window-actions.c:974
+#: ../src/shell/e-shell-window-actions.c:980
 msgid "_Edit Saved Searches…"
 msgstr "Mo_difier les recherches enregistrées…"
 
 # Utilisation de l’infinitif dans les infobulles du Bureau
-#: ../src/shell/e-shell-window-actions.c:976
+#: ../src/shell/e-shell-window-actions.c:982
 msgid "Manage your saved searches"
 msgstr "Gérer vos recherches enregistrées"
 
-#: ../src/shell/e-shell-window-actions.c:983
+#: ../src/shell/e-shell-window-actions.c:989
 msgid "Click here to change the search type"
 msgstr "Cliquez ici pour modifier le type de recherche"
 
-#: ../src/shell/e-shell-window-actions.c:988
+#: ../src/shell/e-shell-window-actions.c:994
 msgid "_Find Now"
 msgstr "_Rechercher maintenant"
 
-#: ../src/shell/e-shell-window-actions.c:990
+#: ../src/shell/e-shell-window-actions.c:996
 msgid "Execute the current search parameters"
 msgstr "Applique les paramètres de recherche actuels"
 
-#: ../src/shell/e-shell-window-actions.c:995
+#: ../src/shell/e-shell-window-actions.c:1001
 msgid "_Save Search…"
 msgstr "_Enregistrer la recherche…"
 
-#: ../src/shell/e-shell-window-actions.c:997
+#: ../src/shell/e-shell-window-actions.c:1003
 msgid "Save the current search parameters"
 msgstr "Enregistre les paramètres de recherche actuels"
 
-#: ../src/shell/e-shell-window-actions.c:1009
+#: ../src/shell/e-shell-window-actions.c:1015
 msgid "_Keyboard Shortcuts"
 msgstr "_Raccourcis clavier"
 
-#: ../src/shell/e-shell-window-actions.c:1011
+#: ../src/shell/e-shell-window-actions.c:1017
 msgid "Show keyboard shortcuts"
 msgstr "Afficher les raccourcis clavier"
 
-#: ../src/shell/e-shell-window-actions.c:1016
+#: ../src/shell/e-shell-window-actions.c:1022
 msgid "Submit _Bug Report…"
 msgstr "Soumettre un _rapport d’anomalie…"
 
-#: ../src/shell/e-shell-window-actions.c:1018
+#: ../src/shell/e-shell-window-actions.c:1024
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Soumet un rapport d’anomalie en utilisant Bug Buddy"
 
-#: ../src/shell/e-shell-window-actions.c:1023
+#: ../src/shell/e-shell-window-actions.c:1029
 msgid "_Work Offline"
 msgstr "Travailler _hors ligne"
 
-#: ../src/shell/e-shell-window-actions.c:1025
+#: ../src/shell/e-shell-window-actions.c:1031
 msgid "Put Evolution into offline mode"
 msgstr "Bascule Evolution en mode hors ligne"
 
-#: ../src/shell/e-shell-window-actions.c:1030
+#: ../src/shell/e-shell-window-actions.c:1036
 msgid "_Work Online"
 msgstr "Travailler _en ligne"
 
-#: ../src/shell/e-shell-window-actions.c:1032
+#: ../src/shell/e-shell-window-actions.c:1038
 msgid "Put Evolution into online mode"
 msgstr "Bascule Evolution en mode en ligne"
 
-#: ../src/shell/e-shell-window-actions.c:1060
+#: ../src/shell/e-shell-window-actions.c:1066
 msgid "Lay_out"
 msgstr "_Agencement"
 
 #. Translators: This is a New menu item caption, under File->New
-#: ../src/shell/e-shell-window-actions.c:1068
+#: ../src/shell/e-shell-window-actions.c:1074
 msgid "_New"
 msgstr "_Nouveau"
 
-#: ../src/shell/e-shell-window-actions.c:1075
+#: ../src/shell/e-shell-window-actions.c:1081
 msgid "_Search"
 msgstr "_Recherche"
 
-#: ../src/shell/e-shell-window-actions.c:1082
+#: ../src/shell/e-shell-window-actions.c:1088
 msgid "_Switcher Appearance"
 msgstr "A_pparence du sélecteur"
 
-#: ../src/shell/e-shell-window-actions.c:1096
+#: ../src/shell/e-shell-window-actions.c:1102
 msgid "_Window"
 msgstr "_Fenêtre"
 
-#: ../src/shell/e-shell-window-actions.c:1125
+#: ../src/shell/e-shell-window-actions.c:1131
 msgid "Show _Menu Bar"
 msgstr "Afficher la barre de _menus"
 
-#: ../src/shell/e-shell-window-actions.c:1127
+#: ../src/shell/e-shell-window-actions.c:1133
 msgid "Show the menu bar"
 msgstr "Affiche la barre de menus"
 
-#: ../src/shell/e-shell-window-actions.c:1133
+#: ../src/shell/e-shell-window-actions.c:1139
 msgid "Show Side _Bar"
 msgstr "Afficher la barre _latérale"
 
-#: ../src/shell/e-shell-window-actions.c:1135
+#: ../src/shell/e-shell-window-actions.c:1141
 msgid "Show the side bar"
 msgstr "Affiche la barre latérale"
 
-#: ../src/shell/e-shell-window-actions.c:1141
+#: ../src/shell/e-shell-window-actions.c:1147
 msgid "Show _Buttons"
 msgstr "Afficher les b_outons"
 
-#: ../src/shell/e-shell-window-actions.c:1143
+#: ../src/shell/e-shell-window-actions.c:1149
 msgid "Show the switcher buttons"
 msgstr "Affiche les boutons du sélecteur"
 
-#: ../src/shell/e-shell-window-actions.c:1149
+#: ../src/shell/e-shell-window-actions.c:1155
 msgid "Show _Status Bar"
 msgstr "Afficher la _barre d’état"
 
-#: ../src/shell/e-shell-window-actions.c:1151
+#: ../src/shell/e-shell-window-actions.c:1157
 msgid "Show the status bar"
 msgstr "Affiche la barre d’état"
 
-#: ../src/shell/e-shell-window-actions.c:1157
+#: ../src/shell/e-shell-window-actions.c:1163
 msgid "Show _Tool Bar"
 msgstr "Afficher la barre d’ou_tils"
 
-#: ../src/shell/e-shell-window-actions.c:1159
+#: ../src/shell/e-shell-window-actions.c:1165
 msgid "Show the tool bar"
 msgstr "Affiche la barre d’outils"
 
-#: ../src/shell/e-shell-window-actions.c:1181
+#: ../src/shell/e-shell-window-actions.c:1187
 msgid "_Icons Only"
 msgstr "_Icônes uniquement"
 
-#: ../src/shell/e-shell-window-actions.c:1183
+#: ../src/shell/e-shell-window-actions.c:1189
 msgid "Display window buttons with icons only"
 msgstr "Affiche les boutons de la fenêtre avec uniquement des icônes"
 
-#: ../src/shell/e-shell-window-actions.c:1188
+#: ../src/shell/e-shell-window-actions.c:1194
 msgid "_Text Only"
 msgstr "_Texte uniquement"
 
-#: ../src/shell/e-shell-window-actions.c:1190
+#: ../src/shell/e-shell-window-actions.c:1196
 msgid "Display window buttons with text only"
 msgstr "Affiche les boutons de la fenêtre avec uniquement du texte"
 
-#: ../src/shell/e-shell-window-actions.c:1195
+#: ../src/shell/e-shell-window-actions.c:1201
 msgid "Icons _and Text"
 msgstr "Icônes _et texte"
 
-#: ../src/shell/e-shell-window-actions.c:1197
+#: ../src/shell/e-shell-window-actions.c:1203
 msgid "Display window buttons with icons and text"
 msgstr "Affiche les boutons de la fenêtre avec des icônes et du texte"
 
-#: ../src/shell/e-shell-window-actions.c:1202
+#: ../src/shell/e-shell-window-actions.c:1208
 msgid "Tool_bar Style"
 msgstr "Style de la _barre d’outils"
 
-#: ../src/shell/e-shell-window-actions.c:1204
+#: ../src/shell/e-shell-window-actions.c:1210
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 "Affiche les boutons de la fenêtre en utilisant les paramètres de la barre "
 "d’outils du bureau"
 
-#: ../src/shell/e-shell-window-actions.c:1212
+#: ../src/shell/e-shell-window-actions.c:1218
 msgid "Delete Current View"
 msgstr "Supprimer la vue actuelle"
 
-#: ../src/shell/e-shell-window-actions.c:1219
+#: ../src/shell/e-shell-window-actions.c:1225
 msgid "Save Custom View…"
 msgstr "Enregistrer la vue personnalisée…"
 
-#: ../src/shell/e-shell-window-actions.c:1221
+#: ../src/shell/e-shell-window-actions.c:1227
 msgid "Save current custom view"
 msgstr "Enregistrer la vue personnalisée actuelle"
 
-#: ../src/shell/e-shell-window-actions.c:1235
+#: ../src/shell/e-shell-window-actions.c:1241
 msgid "C_urrent View"
 msgstr "Vue co_urante"
 
-#: ../src/shell/e-shell-window-actions.c:1245
+#: ../src/shell/e-shell-window-actions.c:1251
 msgid "Custom View"
 msgstr "Vue personnalisée"
 
-#: ../src/shell/e-shell-window-actions.c:1247
+#: ../src/shell/e-shell-window-actions.c:1253
 msgid "Current view is a customized view"
 msgstr "La vue actuelle est une vue personnalisée"
 
-#: ../src/shell/e-shell-window-actions.c:1255
+#: ../src/shell/e-shell-window-actions.c:1261
 msgid "Page Set_up…"
 msgstr "P_aramétrage de la page…"
 
-#: ../src/shell/e-shell-window-actions.c:1257
+#: ../src/shell/e-shell-window-actions.c:1263
 msgid "Change the page settings for your current printer"
 msgstr "Modifie les paramètres de la page pour votre imprimante actuelle"
 
-#: ../src/shell/e-shell-window-actions.c:1627
+#: ../src/shell/e-shell-window-actions.c:1633
 #, c-format
 msgid "Switch to %s"
 msgstr "Change pour %s"
 
-#: ../src/shell/e-shell-window-actions.c:1751
+#: ../src/shell/e-shell-window-actions.c:1757
 #, c-format
 msgid "Select view: %s"
 msgstr "Sélectionner la vue : %s"
 
-#: ../src/shell/e-shell-window-actions.c:1768
+#: ../src/shell/e-shell-window-actions.c:1774
 #, c-format
 msgid "Delete view: %s"
 msgstr "Supprimer la vue : %s"
 
-#: ../src/shell/e-shell-window-actions.c:1878
+#: ../src/shell/e-shell-window-actions.c:1884
 msgid "Execute these search parameters"
 msgstr "Exécuter ces paramètres de recherche"
 

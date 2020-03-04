@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-11 13:51+0000\n"
-"PO-Revision-Date: 2020-02-12 08:58+0100\n"
+"POT-Creation-Date: 2020-02-26 20:49+0000\n"
+"PO-Revision-Date: 2020-03-02 16:45+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -3286,6 +3286,62 @@ msgid "Exporting data from <app>Evolution</app>"
 msgstr "Exportar datos de <app>Evolution</app>"
 
 #. (itstool) path: info/desc
+#: C/flatpak-limitations.page:5
+#| msgid "Importing into <app>Evolution</app>"
+msgid "Limitations when using a Flatpak package of <app>Evolution</app>."
+msgstr "Limitaciones al usar un paquete de Flatpak de <app>Evolution</app>."
+
+#. (itstool) path: page/title
+#: C/flatpak-limitations.page:20
+msgid "Cannot print mail, add or save attachments, or open the help"
+msgstr ""
+"No se puede imprimir correo, añadir o guardar adjuntos o abrir la ayuda"
+
+#. (itstool) path: page/p
+#: C/flatpak-limitations.page:22
+msgid ""
+"If you run a <link href=\"https://flathub.org/\">Flatpak</link> version of "
+"<app>Evolution</app>, then there are several limitations. Examples are:"
+msgstr ""
+"Si ejecuta una versión <link href=\"https://flathub.org/\">Flatpak</link> de "
+"<app>Evolution</app>, hay varias limitaciones. Algunos ejemplos son:"
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:26
+msgid ""
+"Adding attachments to an email or saving attachments from an email might not "
+"be possible."
+msgstr "Añadir adjuntos a un correo o guardarlos puede no ser posible."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:28
+msgid ""
+"You cannot print an email to a printer. This is a <link href=\"https://bugs."
+"webkit.org/show_bug.cgi?id=192748\">limitation of the underlying WebKitGTK "
+"library</link>."
+msgstr ""
+"No puede imprimir un correo. Esto es una <link href=\"https://bugs.webkit."
+"org/show_bug.cgi?id=192748\">limitación de la biblioteca WebKitGTK "
+"subyacente</link>."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:31
+msgid ""
+"To print an email to a file, you can run <cmd>flatpak run --filesystem=home "
+"org.gnome.Evolution</cmd> as a workaround."
+msgstr ""
+"Para imprimir un correo en un archivo puede ejecutar <cmd>flatpak run --"
+"filesystem=home org.gnome.Evolution</cmd> como solución alternativa."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:33
+msgid ""
+"The local user documentation might not included, to make the package smaller."
+msgstr ""
+"La documentación del usuario puede no estar incluida, para que el paquete "
+"sea más pequeño."
+
+#. (itstool) path: info/desc
 #: C/google-services.page:5
 msgid "Using Google services."
 msgstr "Usar servicios de Google."
@@ -3395,6 +3451,39 @@ msgstr ""
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 "Repita los pasos de importación hasta que haya importado todos sus datos."
+
+#. (itstool) path: info/desc
+#: C/import-apps-kmail.page:5
+msgid ""
+"If <app>KMail</app> data cannot be found by the <app>Evolution</app> "
+"importer."
+msgstr ""
+"Si el importador de <app>Evolution</app> no puede encontrar los datos de "
+"<app>KMail</app>."
+
+#. (itstool) path: page/title
+#: C/import-apps-kmail.page:19
+#| msgid "Mail"
+msgid "KMail"
+msgstr "KMail"
+
+#. (itstool) path: page/p
+#: C/import-apps-kmail.page:21
+#| msgid "Starting <app>Evolution</app> for the first time"
+msgid "Note that <app>Evolution</app> only recognized KDE 4 directories:"
+msgstr ""
+"Tenga en cuenta que <app>Evolution</app> sólo reconoce las carpetas de KDE 4:"
+
+#. (itstool) path: item/p
+#: C/import-apps-kmail.page:23
+#| msgid "<file>$HOME/.local/share/evolution</file>"
+msgid "<file>$HOME/.kde4/share/apps/kmail/mail</file> for mail"
+msgstr "<file>$HOME/.kde4/share/apps/kmail/mail</file> para el correo"
+
+#. (itstool) path: item/p
+#: C/import-apps-kmail.page:24
+msgid "<file>$HOME/.kde4/share/apps/kabc</file> for contacts"
+msgstr "<file>$HOME/.kde4/share/apps/kabc</file> para los contactos"
 
 #. (itstool) path: info/desc
 #: C/import-apps-outlook.page:5
@@ -6349,7 +6438,7 @@ msgstr ""
 "Para abrir un adjunto en otra aplicación, pulse la flecha hacia abajo junto "
 "al icono del adjunto y elija una de las aplicaciones disponibles."
 
-#. (itstool) path: page/p
+#. (itstool) path: note/p
 #: C/mail-attachments-received.page:33
 msgid ""
 "The options available for an attachment vary depending on the type of "
@@ -6361,6 +6450,15 @@ msgstr ""
 "adjunto y de las aplicaciones instaladas en su sistema. La base de datos "
 "MIME de su entorno de escritorio define qué aplicaciones se pueden usar para "
 "abrir un formato de archivo específico."
+
+#. (itstool) path: note/p
+#: C/mail-attachments-received.page:33
+msgid ""
+"To see the list of registered applications for a MIME type, use <cmd>gio "
+"mime</cmd>. Example: <cmd>gio mime \"application/pdf\"</cmd>"
+msgstr ""
+"Para ver la lista de aplicaciones registradas para un tipo MIME use <cmd>gio "
+"mime</cmd>. Ejemplo: <cmd>gio mime \"application/pdf\"</cmd>"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments-sending.page:5
@@ -6446,7 +6544,6 @@ msgstr "Active <gui>Recuerdo de adjuntos</gui>."
 #: C/mail-composer-custom-header-lines.page:35
 #: C/mail-composer-external-editor.page:27
 #: C/mail-composer-message-templates-variables.page:32
-#: C/mail-received-notification.page:34
 msgid "Click the <gui>Configuration</gui> tab."
 msgstr "Pulse la pestaña <gui>Configuración</gui>."
 
@@ -8823,13 +8920,26 @@ msgstr ""
 "pulse <guiseq><gui>Carpeta</gui><gui>Purgar</gui></guiseq> o pulse "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 
+#. (itstool) path: note/p
+#: C/mail-delete-and-undelete.page:36
+msgid ""
+"When reading messages in a separate window, the next message will be "
+"displayed after you have deleted a message. If you want the window to close "
+"instead, run the command <cmd>gsettings set org.gnome.evolution.mail browser-"
+"close-on-delete-or-junk true</cmd>"
+msgstr ""
+"Al leer mensajes en una ventana aparte el siguiente mensaje se mostrará "
+"después de que haya eliminado un mensaje. Si en lugar de esto quiere que la "
+"ventana se cierre, ejecute el comando <cmd>gsettings set org.gnome.evolution."
+"mail browser-close-on-delete-or-junk true</cmd>"
+
 #. (itstool) path: section/title
-#: C/mail-delete-and-undelete.page:38
+#: C/mail-delete-and-undelete.page:41
 msgid "Undeleting Messages"
 msgstr "Recuperar mensajes"
 
 #. (itstool) path: section/p
-#: C/mail-delete-and-undelete.page:40
+#: C/mail-delete-and-undelete.page:43
 msgid ""
 "You can undelete a message that has been deleted but not expunged yet. To "
 "undelete a message, select the message, click <guiseq><gui>Edit</"
@@ -8844,7 +8954,7 @@ msgstr ""
 "guiseq> debe estar activado para que esto funcione."
 
 #. (itstool) path: section/p
-#: C/mail-delete-and-undelete.page:42
+#: C/mail-delete-and-undelete.page:45
 msgid ""
 "If you have marked a message for deletion, undeleting it unmarks it, and the "
 "message is not shown anymore in the <gui>Trash</gui> folder."
@@ -10966,9 +11076,22 @@ msgid "Enable <gui>Mail Notification</gui>."
 msgstr "Active <gui>Notificación de correo</gui>."
 
 #. (itstool) path: item/p
+#: C/mail-received-notification.page:34
+msgid ""
+"Open the <gui style=\"tab\">Configuration</gui> tab and set your preferred "
+"options."
+msgstr ""
+"Abra la pestaña <gui style=\"tab\">Configuración</gui> y establezca sus "
+"opciones preferidas."
+
+#. (itstool) path: item/p
 #: C/mail-received-notification.page:35
-msgid "Set your preferred options."
-msgstr "Establecer sus opciones preferidas."
+msgid ""
+"Open the <gui style=\"tab\">Accounts</gui> tab to select the mail accounts "
+"for which you would like to see notifications."
+msgstr ""
+"Abra la pestaña <gui style=\"tab\">Cuentas</gui> para seleccionar las "
+"cuentas de correo para las que quiere ver notificaciones."
 
 #. (itstool) path: page/media
 #. This is a reference to an external file such as an image or video. When
@@ -14606,6 +14729,9 @@ msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo.
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Pulse <_:gui-1/>."
+
+#~ msgid "Set your preferred options."
+#~ msgstr "Establecer sus opciones preferidas."
 
 #~ msgid ""
 #~ "You can add people automatically to your contacts when you reply to "
