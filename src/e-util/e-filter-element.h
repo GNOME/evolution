@@ -53,8 +53,8 @@
 	((obj), E_TYPE_FILTER_ELEMENT, EFilterElementClass))
 
 /* Keep the values in sync with their escaped values ("&#1;" and so on) in em-filter-editor.c  */
-#define E_FILTER_ELEMENT_DESCIPTION_VALUE_START	'\1'
-#define E_FILTER_ELEMENT_DESCIPTION_VALUE_END	'\2'
+#define E_FILTER_ELEMENT_DESCRIPTION_VALUE_START	'\1'
+#define E_FILTER_ELEMENT_DESCRIPTION_VALUE_END	'\2'
 #define E_FILTER_ELEMENT_DESCIPTION_COLOR_START	'\3'
 #define E_FILTER_ELEMENT_DESCIPTION_COLOR_END	'\4'
 

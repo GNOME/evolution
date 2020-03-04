@@ -156,9 +156,9 @@ emfe_describe_filters_cb (GtkWidget *button,
 			g_string_append_c (description, '\n');
 
 		rule_name = g_strdup_printf ("%c%s%c",
-			E_FILTER_ELEMENT_DESCIPTION_VALUE_START,
+			E_FILTER_ELEMENT_DESCRIPTION_VALUE_START,
 			rule->name,
-			E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+			E_FILTER_ELEMENT_DESCRIPTION_VALUE_END);
 
 		if (account) {
 			/* Translators: The first '%s' is replaced with the rule name;
@@ -218,7 +218,7 @@ emfe_describe_filters_cb (GtkWidget *button,
 	html = camel_text_to_html (description->str, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES, 0);
 	g_string_free (description, TRUE);
 
-	description = e_str_replace_string (html, "&#1;", "<b>"); /* E_FILTER_ELEMENT_DESCIPTION_VALUE_START */
+	description = e_str_replace_string (html, "&#1;", "<b>"); /* E_FILTER_ELEMENT_DESCRIPTION_VALUE_START */
 	g_string_prepend (description, "<div style=\"white-space: nowrap;\">");
 	g_string_append (description, "</div>");
 	g_free (html);
@@ -229,7 +229,7 @@ emfe_describe_filters_cb (GtkWidget *button,
 		g_free (html); \
 		html = g_string_free (description, FALSE);
 
-	replace_in_html ("&#2;", "</b>"); /* E_FILTER_ELEMENT_DESCIPTION_VALUE_END */
+	replace_in_html ("&#2;", "</b>"); /* E_FILTER_ELEMENT_DESCRIPTION_VALUE_END */
 
 	if (strstr (html, "&#3;") && strstr (html, "&#4;")) {
 		replace_in_html ("&#3;", "<span style=\"background-color:"); /* E_FILTER_ELEMENT_DESCIPTION_COLOR_START */

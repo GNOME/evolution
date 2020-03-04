@@ -375,7 +375,7 @@ filter_input_describe (EFilterElement *element,
 	GList *link;
 	gboolean added = FALSE;
 
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_START);
 
 	for (link = input->values; link; link = g_list_next (link)) {
 		const gchar *value = link->data;
@@ -390,7 +390,7 @@ filter_input_describe (EFilterElement *element,
 		}
 	}
 
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_END);
 }
 
 static void

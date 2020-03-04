@@ -283,9 +283,9 @@ em_filter_folder_element_describe (EMFilterFolderElement *element,
 			g_free (folder_name);
 		}
 
-		g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+		g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_START);
 		g_string_append (out, use_name);
-		g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+		g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_END);
 
 		g_free (full_name);
 	}
