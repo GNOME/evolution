@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-26 20:49+0000\n"
-"PO-Revision-Date: 2020-03-02 16:45+0100\n"
+"POT-Creation-Date: 2020-03-02 15:49+0000\n"
+"PO-Revision-Date: 2020-03-04 16:52+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -3287,7 +3287,6 @@ msgstr "Exportar datos de <app>Evolution</app>"
 
 #. (itstool) path: info/desc
 #: C/flatpak-limitations.page:5
-#| msgid "Importing into <app>Evolution</app>"
 msgid "Limitations when using a Flatpak package of <app>Evolution</app>."
 msgstr "Limitaciones al usar un paquete de Flatpak de <app>Evolution</app>."
 
@@ -3463,20 +3462,17 @@ msgstr ""
 
 #. (itstool) path: page/title
 #: C/import-apps-kmail.page:19
-#| msgid "Mail"
 msgid "KMail"
 msgstr "KMail"
 
 #. (itstool) path: page/p
 #: C/import-apps-kmail.page:21
-#| msgid "Starting <app>Evolution</app> for the first time"
 msgid "Note that <app>Evolution</app> only recognized KDE 4 directories:"
 msgstr ""
 "Tenga en cuenta que <app>Evolution</app> sólo reconoce las carpetas de KDE 4:"
 
 #. (itstool) path: item/p
 #: C/import-apps-kmail.page:23
-#| msgid "<file>$HOME/.local/share/evolution</file>"
 msgid "<file>$HOME/.kde4/share/apps/kmail/mail</file> for mail"
 msgstr "<file>$HOME/.kde4/share/apps/kmail/mail</file> para el correo"
 
@@ -11093,24 +11089,21 @@ msgstr ""
 "Abra la pestaña <gui style=\"tab\">Cuentas</gui> para seleccionar las "
 "cuentas de correo para las que quiere ver notificaciones."
 
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
+#. (itstool) path: page/p
 #: C/mail-received-notification.page:38
-msgctxt "_"
+#| msgid ""
+#| "For general information on displaying reminders, please see <link xref="
+#| "\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/"
+#| "users/gnome-help/stable/shell-notifications\"> the GNOME Desktop Help</"
+#| "link>."
 msgid ""
-"external ref='./figures/new-mail-notification.png' "
-"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
+"See <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help."
+"gnome.org/users/gnome-help/stable/shell-notifications\">the GNOME Desktop "
+"Help</link> for more information."
 msgstr ""
-"external ref='./figures/new-mail-notification.png' "
-"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
-
-#. (itstool) path: media/p
-#: C/mail-received-notification.page:39
-msgid "GNOME notification area when a new message has arrived"
-msgstr "Área de notificación de GNOME cuando llega un correo nuevo"
+"Consulte <link xref=\"help:gnome-help/shell-notifications\" href=\"https://"
+"help.gnome.org/users/gnome-help/stable/shell-notifications\">la ayuda del "
+"escritorio GNOME</link> para obtener información."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-exchange-ews.page:5
@@ -14729,6 +14722,17 @@ msgstr "Edite el título o el criterio de búsqueda desde el cuadro de diálogo.
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Pulse <_:gui-1/>."
+
+#~ msgctxt "_"
+#~ msgid ""
+#~ "external ref='./figures/new-mail-notification.png' "
+#~ "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
+#~ msgstr ""
+#~ "external ref='./figures/new-mail-notification.png' "
+#~ "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
+
+#~ msgid "GNOME notification area when a new message has arrived"
+#~ msgstr "Área de notificación de GNOME cuando llega un correo nuevo"
 
 #~ msgid "Set your preferred options."
 #~ msgstr "Establecer sus opciones preferidas."
