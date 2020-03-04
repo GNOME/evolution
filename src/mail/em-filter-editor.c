@@ -232,8 +232,8 @@ emfe_describe_filters_cb (GtkWidget *button,
 	replace_in_html ("&#2;", "</b>"); /* E_FILTER_ELEMENT_DESCRIPTION_VALUE_END */
 
 	if (strstr (html, "&#3;") && strstr (html, "&#4;")) {
-		replace_in_html ("&#3;", "<span style=\"background-color:"); /* E_FILTER_ELEMENT_DESCIPTION_COLOR_START */
-		replace_in_html ("&#4;", ";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>"); /* E_FILTER_ELEMENT_DESCIPTION_COLOR_END */
+		replace_in_html ("&#3;", "<span style=\"background-color:"); /* E_FILTER_ELEMENT_DESCRIPTION_COLOR_START */
+		replace_in_html ("&#4;", ";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>"); /* E_FILTER_ELEMENT_DESCRIPTION_COLOR_END */
 	}
 
 	#undef replace_in_html
