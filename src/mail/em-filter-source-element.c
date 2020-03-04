@@ -419,7 +419,7 @@ filter_source_element_describe (EFilterElement *fe,
 	registry = e_mail_session_get_registry (mail_session);
 	source = e_source_registry_ref_source (registry, fs->priv->active_id);
 
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_START);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_START);
 
 	if (source) {
 		g_string_append (out, e_source_get_display_name (source));
@@ -428,7 +428,7 @@ filter_source_element_describe (EFilterElement *fe,
 		g_string_append (out, fs->priv->active_id);
 	}
 
-	g_string_append_c (out, E_FILTER_ELEMENT_DESCIPTION_VALUE_END);
+	g_string_append_c (out, E_FILTER_ELEMENT_DESCRIPTION_VALUE_END);
 }
 
 static void
