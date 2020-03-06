@@ -2843,7 +2843,10 @@ webkit_editor_replace_all (EContentEditor *editor,
 	wk_editor = E_WEBKIT_EDITOR (editor);
 	wk_options = find_flags_to_webkit_find_options (flags);
 
-	wk_options |= WEBKIT_FIND_OPTIONS_WRAP_AROUND;
+	/* Unset the two, because replace-all will be always from the beginning
+	   of the document downwards, without wrap around, to avoid indefinite
+	   cycle with similar search and replace words. */
+	wk_options = wk_options & (~(WEBKIT_FIND_OPTIONS_BACKWARDS | WEBKIT_FIND_OPTIONS_WRAP_AROUND));
 
 	if (!wk_editor->priv->find_controller)
 		webkit_editor_prepare_find_controller (wk_editor);
@@ -2853,6 +2856,8 @@ webkit_editor_replace_all (EContentEditor *editor,
 
 	wk_editor->priv->performing_replace_all = TRUE;
 	wk_editor->priv->replaced_count = 0;
+
+	webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor), "MoveToBeginningOfDocumentAndModifySelection");
 
 	webkit_find_controller_search (wk_editor->priv->find_controller, find_text, wk_options, G_MAXUINT);
 }
