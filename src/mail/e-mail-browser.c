@@ -486,7 +486,15 @@ mail_browser_key_press_event_cb (GtkWindow *mail_browser,
 		return TRUE;
 	}
 
-	return e_mail_display_need_key_event (mail_display, event);
+	if (e_mail_display_need_key_event (mail_display, event))
+		return TRUE;
+
+	if (event->keyval == GDK_KEY_Escape) {
+		e_mail_browser_close (E_MAIL_BROWSER (mail_browser));
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 static void
@@ -935,20 +943,6 @@ mail_browser_constructed (GObject *object)
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
 
-static gboolean
-mail_browser_key_press_event (GtkWidget *widget,
-                              GdkEventKey *event)
-{
-	if (event->keyval == GDK_KEY_Escape) {
-		e_mail_browser_close (E_MAIL_BROWSER (widget));
-		return TRUE;
-	}
-
-	/* Chain up to parent's key_press_event() method. */
-	return GTK_WIDGET_CLASS (e_mail_browser_parent_class)->
-		key_press_event (widget, event);
-}
-
 static GtkActionGroup *
 mail_browser_get_action_group (EMailReader *reader,
                                EMailReaderActionGroup group)
@@ -1138,7 +1132,6 @@ static void
 e_mail_browser_class_init (EMailBrowserClass *class)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EMailBrowserPrivate));
 
@@ -1147,9 +1140,6 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 	object_class->get_property = mail_browser_get_property;
 	object_class->dispose = mail_browser_dispose;
 	object_class->constructed = mail_browser_constructed;
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->key_press_event = mail_browser_key_press_event;
 
 	g_object_class_install_property (
 		object_class,
