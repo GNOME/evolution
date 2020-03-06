@@ -340,8 +340,8 @@
     </key>
     <key name="search-gravatar-for-photo" type="b">
       <default>false</default>
-      <_summary>Search gravatar.com for photo of the sender</_summary>
-      <_description>Allow searching also at gravatar.com for photo of the sender.</_description>
+      <_summary>Search libravatar.org for photo of the sender</_summary>
+      <_description>Allow searching also at libravatar.org for photo of the sender.</_description>
     </key>
     <key name="mark-seen" type="b">
       <default>true</default>
