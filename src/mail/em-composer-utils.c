@@ -4023,6 +4023,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 	GtkRadioButton *style_default, *style_attach, *style_inline, *style_quote, *style_no_quote;
 	GtkToggleButton *html_format;
 	GtkToggleButton *bottom_posting;
+	GtkToggleButton *top_signature;
 	GtkCheckButton *apply_template;
 	GtkComboBox *templates;
 	GtkCheckButton *preserve_message_subject;
@@ -4141,6 +4142,9 @@ em_utils_reply_alternative (GtkWindow *parent,
 
 	bottom_posting = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("Start _typing at the bottom")));
 	gtk_box_pack_start (vbox, GTK_WIDGET (bottom_posting), FALSE, FALSE, 0);
+
+	top_signature = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_mnemonic (_("_Keep signature above the original message")));
+	gtk_box_pack_start (vbox, GTK_WIDGET (top_signature), FALSE, FALSE, 0);
 
 	/* One line gap between sections */
 	widget = gtk_label_new (" ");
@@ -4275,6 +4279,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 
 	emcu_three_state_set_value (html_format, g_settings_get_enum (settings, "alt-reply-html-format"));
 	emcu_three_state_set_value (bottom_posting, g_settings_get_enum (settings, "alt-reply-start-bottom"));
+	emcu_three_state_set_value (top_signature, g_settings_get_enum (settings, "alt-reply-top-signature"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (apply_template), g_settings_get_boolean (settings, "alt-reply-template-apply"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (preserve_message_subject), g_settings_get_boolean (settings, "alt-reply-template-preserve-subject"));
 
@@ -4283,6 +4288,7 @@ em_utils_reply_alternative (GtkWindow *parent,
 
 	emcu_connect_three_state_changer (html_format);
 	emcu_connect_three_state_changer (bottom_posting);
+	emcu_connect_three_state_changer (top_signature);
 
 	e_binding_bind_property (
 		apply_template, "active",
@@ -4325,10 +4331,15 @@ em_utils_reply_alternative (GtkWindow *parent,
 		style_no_quote, "sensitive",
 		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
-	/* Similarly with bottom posting, which doesn't work when using Templates */
+	/* Similarly with other options, which don't work when using Templates */
 	e_binding_bind_property (
 		apply_template, "active",
 		bottom_posting, "sensitive",
+		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
+
+	e_binding_bind_property (
+		apply_template, "active",
+		top_signature, "sensitive",
 		G_BINDING_SYNC_CREATE | G_BINDING_INVERT_BOOLEAN);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
@@ -4374,6 +4385,14 @@ em_utils_reply_alternative (GtkWindow *parent,
 			context->flags |= E_MAIL_REPLY_FLAG_BOTTOM_POSTING;
 		else if (three_state == E_THREE_STATE_OFF)
 			context->flags |= E_MAIL_REPLY_FLAG_TOP_POSTING;
+
+		three_state = emcu_three_state_get_value (top_signature);
+		g_settings_set_enum (settings, "alt-reply-top-signature", three_state);
+
+		if (three_state == E_THREE_STATE_ON)
+			context->flags |= E_MAIL_REPLY_FLAG_TOP_SIGNATURE;
+		else if (three_state == E_THREE_STATE_OFF)
+			context->flags |= E_MAIL_REPLY_FLAG_BOTTOM_SIGNATURE;
 
 		g_settings_set_enum (settings, "alt-reply-style", context->style);
 		g_settings_set_boolean (settings, "alt-reply-template-apply", gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (apply_template)));
@@ -4426,6 +4445,23 @@ em_utils_reply_alternative (GtkWindow *parent,
 	g_clear_object (&settings);
 }
 
+static void
+em_utils_update_by_reply_flags (EContentEditor *cnt_editor,
+				guint32 reply_flags) /* EMailReplyFlags */
+{
+	if ((reply_flags & (E_MAIL_REPLY_FLAG_TOP_POSTING | E_MAIL_REPLY_FLAG_BOTTOM_POSTING)) != 0) {
+		e_content_editor_set_start_bottom (cnt_editor,
+			(reply_flags & E_MAIL_REPLY_FLAG_TOP_POSTING) != 0 ?
+			E_THREE_STATE_OFF : E_THREE_STATE_ON);
+	}
+
+	if ((reply_flags & (E_MAIL_REPLY_FLAG_TOP_SIGNATURE | E_MAIL_REPLY_FLAG_BOTTOM_SIGNATURE)) != 0) {
+		e_content_editor_set_top_signature (cnt_editor,
+			(reply_flags & E_MAIL_REPLY_FLAG_TOP_SIGNATURE) != 0 ?
+			E_THREE_STATE_ON : E_THREE_STATE_OFF);
+	}
+}
+
 /**
  * em_utils_reply_to_message:
  * @composer: an #EMsgComposer
@@ -4473,11 +4509,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 		e_content_editor_set_html_mode (cnt_editor, (reply_flags & E_MAIL_REPLY_FLAG_FORMAT_HTML) != 0);
 	}
 
-	if ((reply_flags & (E_MAIL_REPLY_FLAG_TOP_POSTING | E_MAIL_REPLY_FLAG_BOTTOM_POSTING)) != 0) {
-		e_content_editor_set_start_bottom (cnt_editor,
-			(reply_flags & E_MAIL_REPLY_FLAG_TOP_POSTING) != 0 ?
-			E_THREE_STATE_OFF : E_THREE_STATE_ON);
-	}
+	em_utils_update_by_reply_flags (cnt_editor, reply_flags);
 
 	to = camel_internet_address_new ();
 	cc = camel_internet_address_new ();
@@ -4600,11 +4632,7 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	em_utils_apply_send_account_override_to_composer (composer, folder);
 
 	/* This is required to be done (also) at the end */
-	if ((reply_flags & (E_MAIL_REPLY_FLAG_TOP_POSTING | E_MAIL_REPLY_FLAG_BOTTOM_POSTING)) != 0) {
-		e_content_editor_set_start_bottom (cnt_editor,
-			(reply_flags & E_MAIL_REPLY_FLAG_TOP_POSTING) != 0 ?
-			E_THREE_STATE_OFF : E_THREE_STATE_ON);
-	}
+	em_utils_update_by_reply_flags (cnt_editor, reply_flags);
 
 	composer_set_no_change (composer);
 

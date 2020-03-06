@@ -789,6 +789,11 @@
       <_summary>Put the cursor at the bottom of alternative replies</_summary>
       <_description>This determines whether the cursor is placed at the top of the message or the bottom when using Alternative Reply.</_description>
     </key>
+    <key name="alt-reply-top-signature" enum="org.gnome.evolution.mail.ThreeState">
+      <default>'inconsistent'</default>
+      <_summary>Put the signature at the top of the message</_summary>
+      <_description>This determines whether the signature is placed at the top of the message or the bottom when using Alternative Reply.</_description>
+    </key>
     <key name="alt-reply-template-apply" type="b">
       <default>false</default>
       <_summary>Apply chosen template when using Alternative Reply</_summary>
