@@ -354,6 +354,27 @@ ecep_reminders_reset_alarm_widget (ECompEditorPageReminders *page_reminders)
 	e_comp_editor_page_set_updating (page, FALSE);
 }
 
+static gboolean
+ecep_reminders_description_differs (ECompEditorPageReminders *page_reminders,
+				    const ECalComponentText *description)
+{
+	ECompEditor *editor;
+	gboolean differ = TRUE;
+
+	editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_reminders));
+
+	if (editor) {
+		ICalComponent *icomp;
+
+		icomp = e_comp_editor_get_component (editor);
+		differ = description && g_strcmp0 (e_cal_component_text_get_value (description), i_cal_component_get_summary (icomp)) != 0;
+
+		g_clear_object (&editor);
+	}
+
+	return differ;
+}
+
 static void
 ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 {
@@ -485,11 +506,13 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 		} break;
 
 	case E_CAL_COMPONENT_ALARM_DISPLAY: {
-		ECalComponentText* description;
+		ECalComponentText *description;
+		gboolean differ;
 
 		description = e_cal_component_alarm_get_description (alarm);
+		differ = ecep_reminders_description_differs (page_reminders, description);
 
-		if (description && e_cal_component_text_get_value (description) && e_cal_component_text_get_value (description)[0]) {
+		if (differ && description && e_cal_component_text_get_value (description) && e_cal_component_text_get_value (description)[0]) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_message_check), TRUE);
 			ecep_reminders_set_text_view_text (page_reminders->priv->custom_message_text_view, e_cal_component_text_get_value (description));
 		} else {
@@ -503,6 +526,7 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 		EDestinationStore *destination_store;
 		ECalComponentText *description;
 		GSList *attendees, *link;
+		gboolean differ;
 
 		/* Attendees */
 		name_selector_model = e_name_selector_peek_model (page_reminders->priv->name_selector);
@@ -528,7 +552,9 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 
 		/* Description */
 		description = e_cal_component_alarm_get_description (alarm);
-		if (description && e_cal_component_text_get_value (description) && e_cal_component_text_get_value (description)[0]) {
+		differ = ecep_reminders_description_differs (page_reminders, description);
+
+		if (differ && description && e_cal_component_text_get_value (description) && e_cal_component_text_get_value (description)[0]) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->custom_email_message_check), TRUE);
 			ecep_reminders_set_text_view_text (page_reminders->priv->custom_email_message_text_view, e_cal_component_text_get_value (description));
 		} else {
