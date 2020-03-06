@@ -1,13 +1,13 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "3.32",
+	"runtime-version": "3.34",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
 	"copy-icon": true,
-	"branch": "gnome-3-34",
-	"desktop-file-name-suffix": " (3.34)",
+	"branch": "gnome-3-36",
+	"desktop-file-name-suffix": " (3.36)",
 	"build-options" : {
 		"cflags": "-O2 -g -Wno-deprecated-declarations",
 		"cxxflags": "-O2 -g -Wno-deprecated-declarations"
@@ -65,8 +65,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://github.com/libical/libical/releases/download/v3.0.6/libical-3.0.6.tar.gz",
-					"sha256": "5c8a21c2b732ece4a33e5c862970b4f35a8548bbcda50de5695f6fc211ac4d97"
+					"url": "https://github.com/libical/libical/releases/download/v3.0.7/libical-3.0.7.tar.gz",
+					"sha256": "0abe66df1ea826e57db7f281c704ede834c84139012e6c686ea7adafd4e763fc"
 				}
 			]
 		},
@@ -104,13 +104,14 @@
 
 		{
 			"name": "libgdata",
+			"buildsystem": "meson",
 			"config-opts": [
-				"--disable-always-build-tests",
-				"--disable-goa",
-				"--disable-gtk-doc",
-				"--disable-introspection",
-				"--disable-installed-tests",
-				"--disable-vala"
+				"-Dalways_build_tests=false",
+				"-Dgoa=disabled",
+				"-Dgtk_doc=false",
+				"-Dintrospection=false",
+				"-Dinstalled_tests=false",
+				"-Dvapi=false"
 			],
 			"cleanup": [
 				"/share/gtk-doc"
@@ -118,8 +119,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/libgdata/0.17/libgdata-0.17.9.tar.xz",
-					"sha256": "85c4f7674c0098ffaf060ae01b6b832cb277b3673d54ace3bdedaad6b127453a"
+					"url": "https://download.gnome.org/sources/libgdata/0.17/libgdata-0.17.12.tar.xz",
+					"sha256": "a0fd6f8820e8bae019c1f6ffab5af7fcd6d7f147915bb968b56df3ad61b42318"
 				}
 			]
 		},
@@ -137,8 +138,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/geocode-glib/3.26/geocode-glib-3.26.0.tar.xz",
-					"sha256": "ea4086b127050250c158beff28dbcdf81a797b3938bb79bbaaecc75e746fbeee"
+					"url": "https://download.gnome.org/sources/geocode-glib/3.26/geocode-glib-3.26.1.tar.xz",
+					"sha256": "5baa6ab76a76c9fc567e4c32c3af2cd1d1784934c255bc5a62c512e6af6bde1c"
 				}
 			]
 		},
@@ -152,8 +153,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/libgweather/3.28/libgweather-3.28.2.tar.xz",
-					"sha256": "081ce81653afc614e12641c97a8dd9577c524528c63772407ae2dbcde12bde75"
+					"url": "https://download.gnome.org/sources/libgweather/3.34/libgweather-3.34.0.tar.xz",
+					"sha256": "02245395d639d9749fe2d19b7e66b64a152b9509ab0e5aad92514538b9c6f1b9"
 				}
 			]
 		},
@@ -216,7 +217,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "gnome-3-34"
+					"branch": "gnome-3-36"
 				}
 			]
 		},
@@ -232,8 +233,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://download.gnome.org/sources/gspell/1.8/gspell-1.8.1.tar.xz",
-					"sha256": "819a1d23c7603000e73f5e738bdd284342e0cd345fb0c7650999c31ec741bbe5"
+					"url": "https://download.gnome.org/sources/gspell/1.8/gspell-1.8.3.tar.xz",
+					"sha256": "5ae514dd0216be069176accf6d0049d6a01cfa6a50df4bc06be85f7080b62de8"
 				}
 			]
 		},
@@ -300,7 +301,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution.git",
-					"branch": "gnome-3-34"
+					"branch": "gnome-3-36"
 				},
 				{
 					"type": "shell",
@@ -375,8 +376,8 @@
 			"sources": [
 				{
 					"type": "archive",
-					"url": "https://www.cabextract.org.uk/libmspack/libmspack-0.8alpha.tar.gz",
-					"sha256": "0533792e9561375a5fce1bc96bbc65ec778af486e0daa3803b226da9244addaf"
+					"url": "https://www.cabextract.org.uk/libmspack/libmspack-0.10.1alpha.tar.gz",
+					"sha256": "bac862dee6e0fc10d92c70212441d9f8ad9b0222edc9a708c3ead4adb1b24a8e"
 				}
 			]
 		},
@@ -388,7 +389,7 @@
 				{
 					"type": "git",
 					"url": "https://gitlab.gnome.org/GNOME/evolution-ews.git",
-					"branch": "gnome-3-34"
+					"branch": "gnome-3-36"
 				}
 			]
 		}

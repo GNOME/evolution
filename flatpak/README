@@ -16,9 +16,9 @@ flatpak-builder installed. Refer to the Flatpak developer documentation
 and command man pages for the meaning of respective arguments.
 
 Note the actual versions of the GNOME SDK and Platform (below is used
-version 3.30) can differ each release of Evolution. The exact expected
+version 3.34) can differ each release of Evolution. The exact expected
 version can be seen (or changed) in the .json file, the runtime-version
-key (line "runtime-version": "3.30",). Use the same version in the below
+key (line "runtime-version": "3.34",). Use the same version in the below
 install commands as is written in the runtime-version key of the .json file.
 
 Evolution uses GNOME SDK and Platform, which is current hosted on the flathub.
@@ -27,16 +27,16 @@ the flatpak remote-add command below. The GNOME SDK and Platform can be
 installed with:
 
    flatpak remote-add --from flathub https://flathub.org/repo/flathub.flatpakrepo
-   flatpak install flathub org.gnome.Platform//3.30
-   flatpak install flathub org.gnome.Sdk//3.30
+   flatpak install flathub org.gnome.Platform//3.34
+   flatpak install flathub org.gnome.Sdk//3.34
 
 If it's required to install the GNOME SDK and Platform only for the current
 user, rather than system wide (also to not require root password), then
 install it with --user argument, like this:
 
    flatpak --user remote-add --from flathub https://flathub.org/repo/flathub.flatpakrepo
-   flatpak --user install flathub org.gnome.Platform//3.30
-   flatpak --user install flathub org.gnome.Sdk//3.30
+   flatpak --user install flathub org.gnome.Platform//3.34
+   flatpak --user install flathub org.gnome.Sdk//3.34
 
 And that's all with respect of prerequisites. All the rest is handled
 by Flatpak and Evolution build script.

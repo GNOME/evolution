@@ -1,3 +1,33 @@
+Evolution 3.36.0 2020-03-06
+---------------------------
+
+Miscellaneous:
+	help: Remove "New mail notification" GNOME desktop screenshot (Andre Klapper)
+	Fix broken markup in few UI translations (Andre Klapper)
+
+Translations:
+	Enrico Nicoletto (pt_BR)
+	Fabio Tomat (fur)
+	Emin Tufan Çetin (tr)
+	Asier Sarasua Garmendia (eu)
+	Piotr Drąg (pl)
+	Matej Urbančič (sl)
+	Aman Alam (pa)
+	Changwoo Ryu (ko)
+	Aurimas Černius (lt)
+	Balázs Meskó (hu)
+	Tim Sabsch (de)
+	Kukuh Syafaat (id)
+	Anders Jonsson (sv)
+	Petr Kovář (cs)
+	Alan Mortensen (da)
+	Daniel Mustieles (es)
+	Guillaume Bernard (fr)
+	Fran Dieguez (gl)
+	Gianvito Cavasoli (it)
+	Kjartan Maraas (nb)
+	Jordi Mas (ca)
+
 Evolution 3.35.92 2020-02-28
 ----------------------------
 
