@@ -648,6 +648,7 @@ ecep_attachments_setup_ui (ECompEditorPageAttachments *page_attachments)
 	ECompEditor *comp_editor;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
+	GtkAction *action;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_ATTACHMENTS (page_attachments));
@@ -660,11 +661,25 @@ ecep_attachments_setup_ui (ECompEditorPageAttachments *page_attachments)
 		action_group, editable_entries,
 		G_N_ELEMENTS (editable_entries), page_attachments);
 
+	action = gtk_action_group_get_action (action_group, "attachments-attach");
+
+	e_binding_bind_property (
+		page_attachments, "visible",
+		action, "visible",
+		G_BINDING_SYNC_CREATE);
+
 	action_group = e_comp_editor_get_action_group (comp_editor, "individual");
 
 	gtk_action_group_add_actions (
 		action_group, options_entries,
 		G_N_ELEMENTS (options_entries), page_attachments);
+
+	action = gtk_action_group_get_action (action_group, "page-attachments");
+
+	e_binding_bind_property (
+		page_attachments, "visible",
+		action, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 	if (error != NULL) {

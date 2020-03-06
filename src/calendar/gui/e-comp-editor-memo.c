@@ -31,14 +31,89 @@
 #include "e-comp-editor-memo.h"
 
 struct _ECompEditorMemoPrivate {
+	ECompEditorPropertyPart *summary;
 	ECompEditorPropertyPart *dtstart;
+	ECompEditorPropertyPart *classification;
+	ECompEditorPropertyPart *status;
+	ECompEditorPropertyPart *url;
 	ECompEditorPropertyPart *categories;
 	ECompEditorPropertyPart *description;
+	ECompEditorPage *attachments_page;
 
 	gpointer insensitive_info_alert;
 };
 
 G_DEFINE_TYPE (ECompEditorMemo, e_comp_editor_memo, E_TYPE_COMP_EDITOR)
+
+/* A rough code to mimic what Nextcloud does, it's not accurate, but it's close
+   enough to work similarly. It skips leading whitespaces and uses up to the first
+   100 letters of the first non-empty line as the base file name. */
+static gchar *
+ece_memo_construct_summary (const gchar *description)
+{
+	GString *base_filename;
+	gunichar uchr;
+	gboolean add_space = FALSE;
+
+	if (!description || !*description || !g_utf8_validate (description, -1, NULL))
+		return g_strdup (_("New note"));
+
+	base_filename = g_string_sized_new (102);
+
+	while (uchr = g_utf8_get_char (description), g_unichar_isspace (uchr))
+		description = g_utf8_next_char (description);
+
+	while (uchr = g_utf8_get_char (description), uchr && uchr != '\r' && uchr != '\n') {
+		if (g_unichar_isspace (uchr)) {
+			add_space = TRUE;
+		} else if ((uchr >> 8) != 0 || !strchr ("\"/\\?:*|", (uchr & 0xFF))) {
+			if (base_filename->len >= 98)
+				break;
+
+			if (add_space) {
+				g_string_append_c (base_filename, ' ');
+				add_space = FALSE;
+			}
+
+			g_string_append_unichar (base_filename, uchr);
+
+			if (base_filename->len >= 100)
+				break;
+		}
+
+		description = g_utf8_next_char (description);
+	}
+
+	if (!base_filename->len)
+		g_string_append (base_filename, _("New note"));
+
+	return g_string_free (base_filename, FALSE);
+}
+
+static void
+ece_memo_description_changed_cb (GtkTextBuffer *text_buffer,
+				 gpointer user_data)
+{
+	ECompEditorMemo *memo_editor = user_data;
+	GtkTextIter text_iter_start, text_iter_end;
+	GtkWidget *entry;
+	gchar *value, *summary;
+
+	g_return_if_fail (GTK_IS_TEXT_BUFFER (text_buffer));
+	g_return_if_fail (E_IS_COMP_EDITOR_MEMO (memo_editor));
+	g_return_if_fail (!e_comp_editor_property_part_get_visible (memo_editor->priv->summary));
+
+	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter (text_buffer, &text_iter_end);
+	value = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+
+	summary = ece_memo_construct_summary (value);
+	entry = e_comp_editor_property_part_get_edit_widget (memo_editor->priv->summary);
+	gtk_entry_set_text (GTK_ENTRY (entry), summary);
+
+	g_free (summary);
+	g_free (value);
+}
 
 static void
 ece_memo_notify_target_client_cb (GObject *object,
@@ -48,6 +123,9 @@ ece_memo_notify_target_client_cb (GObject *object,
 	ECompEditorMemo *memo_editor;
 	ECompEditor *comp_editor;
 	ECalClient *cal_client;
+	GtkAction *action;
+	GtkWidget *description_widget;
+	GtkTextBuffer *text_buffer;
 	gboolean supports_date;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_MEMO (object));
@@ -55,10 +133,54 @@ ece_memo_notify_target_client_cb (GObject *object,
 	memo_editor = E_COMP_EDITOR_MEMO (object);
 	comp_editor = E_COMP_EDITOR (memo_editor);
 	cal_client = e_comp_editor_get_target_client (comp_editor);
+	description_widget = gtk_bin_get_child (GTK_BIN (e_comp_editor_property_part_get_edit_widget (memo_editor->priv->description)));
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (description_widget));
 
-	supports_date = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_NO_MEMO_START_DATE);
+	if (cal_client && e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_SIMPLE_MEMO)) {
+		if (e_comp_editor_property_part_get_visible (memo_editor->priv->summary)) {
+			g_signal_connect (text_buffer, "changed",
+				G_CALLBACK (ece_memo_description_changed_cb), memo_editor);
 
-	e_comp_editor_property_part_set_visible (memo_editor->priv->dtstart, supports_date);
+			gtk_widget_grab_focus (description_widget);
+		}
+
+		e_comp_editor_property_part_set_visible (memo_editor->priv->summary, FALSE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->dtstart, FALSE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->classification, FALSE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->status, FALSE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->url, FALSE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->categories, FALSE);
+
+		gtk_widget_hide (GTK_WIDGET (memo_editor->priv->attachments_page));
+
+		action = e_comp_editor_get_action (comp_editor, "view-categories");
+		gtk_action_set_sensitive (action, FALSE);
+
+		action = e_comp_editor_get_action (comp_editor, "option-attendees");
+		gtk_action_set_visible (action, FALSE);
+	} else {
+		supports_date = !cal_client || !e_client_check_capability (E_CLIENT (cal_client), E_CAL_STATIC_CAPABILITY_NO_MEMO_START_DATE);
+
+		if (!e_comp_editor_property_part_get_visible (memo_editor->priv->summary)) {
+			g_signal_handlers_disconnect_by_func (text_buffer,
+				G_CALLBACK (ece_memo_description_changed_cb), memo_editor);
+		}
+
+		e_comp_editor_property_part_set_visible (memo_editor->priv->summary, TRUE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->dtstart, supports_date);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->classification, TRUE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->status, TRUE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->url, TRUE);
+		e_comp_editor_property_part_set_visible (memo_editor->priv->categories, TRUE);
+
+		gtk_widget_show (GTK_WIDGET (memo_editor->priv->attachments_page));
+
+		action = e_comp_editor_get_action (comp_editor, "view-categories");
+		gtk_action_set_sensitive (action, TRUE);
+
+		action = e_comp_editor_get_action (comp_editor, "option-attendees");
+		gtk_action_set_visible (action, TRUE);
+	}
 }
 
 static void
@@ -182,7 +304,7 @@ e_comp_editor_memo_constructed (GObject *object)
 	ECompEditorMemo *memo_editor;
 	ECompEditor *comp_editor;
 	ECompEditorPage *page;
-	ECompEditorPropertyPart *part, *summary;
+	ECompEditorPropertyPart *part;
 	EFocusTracker *focus_tracker;
 	GtkWidget *edit_widget;
 
@@ -198,7 +320,7 @@ e_comp_editor_memo_constructed (GObject *object)
 
 	part = e_comp_editor_property_part_summary_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 2, 2, 1);
-	summary = part;
+	memo_editor->priv->summary = part;
 
 	part = e_comp_editor_property_part_dtstart_new (C_("ECompEditor", "Sta_rt date:"), TRUE, TRUE);
 	e_comp_editor_page_add_property_part (page, part, 0, 3, 2, 1);
@@ -206,6 +328,7 @@ e_comp_editor_memo_constructed (GObject *object)
 
 	part = e_comp_editor_property_part_classification_new ();
 	e_comp_editor_page_add_property_part (page, part, 0, 4, 2, 1);
+	memo_editor->priv->classification = part;
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
 	gtk_widget_set_halign (edit_widget, GTK_ALIGN_START);
@@ -213,6 +336,7 @@ e_comp_editor_memo_constructed (GObject *object)
 
 	part = e_comp_editor_property_part_status_new (I_CAL_VJOURNAL_COMPONENT);
 	e_comp_editor_page_add_property_part (page, part, 0, 5, 2, 1);
+	memo_editor->priv->status = part;
 
 	edit_widget = e_comp_editor_property_part_get_edit_widget (part);
 	gtk_widget_set_halign (edit_widget, GTK_ALIGN_START);
@@ -220,6 +344,7 @@ e_comp_editor_memo_constructed (GObject *object)
 
 	part = e_comp_editor_property_part_url_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 6, 2, 1);
+	memo_editor->priv->url = part;
 
 	part = e_comp_editor_property_part_categories_new (focus_tracker);
 	e_comp_editor_page_add_property_part (page, part, 0, 7, 2, 1);
@@ -233,10 +358,11 @@ e_comp_editor_memo_constructed (GObject *object)
 
 	page = e_comp_editor_page_attachments_new (comp_editor);
 	e_comp_editor_add_page (comp_editor, C_("ECompEditorPage", "Attachments"), page);
+	memo_editor->priv->attachments_page = page;
 
 	ece_memo_setup_ui (memo_editor);
 
-	edit_widget = e_comp_editor_property_part_get_edit_widget (summary);
+	edit_widget = e_comp_editor_property_part_get_edit_widget (memo_editor->priv->summary);
 	e_binding_bind_property (edit_widget, "text", comp_editor, "title-suffix", 0);
 	gtk_widget_grab_focus (edit_widget);
 

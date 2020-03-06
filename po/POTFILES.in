@@ -415,6 +415,7 @@ src/modules/cal-config-google/e-google-chooser-button.c
 src/modules/cal-config-local/evolution-cal-config-local.c
 src/modules/cal-config-weather/evolution-cal-config-weather.c
 src/modules/cal-config-webcal/evolution-cal-config-webcal.c
+src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c
 src/modules/calendar/e-cal-attachment-handler.c
 src/modules/calendar/e-cal-base-shell-backend.c
 src/modules/calendar/e-cal-base-shell-content.c
