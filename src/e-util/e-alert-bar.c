@@ -53,10 +53,10 @@ e_scrolled_window_get_preferred_height (GtkWidget *widget,
 	max_height = gtk_scrolled_window_get_max_content_height (scrolled_window);
 
 	if (min_height > 0 && min_height < *minimum_size)
-		*minimum_size = min_height + 1;
+		*minimum_size = min_height + 2;
 
 	if (max_height > 0 && max_height < *natural_size)
-		*natural_size = max_height + 1;
+		*natural_size = max_height + 2;
 }
 
 static void
@@ -351,6 +351,29 @@ alert_bar_dispose (GObject *object)
 }
 
 static void
+alert_bar_add_css_style (GtkWidget *widget,
+			 const gchar *css)
+{
+	GtkCssProvider *provider;
+	GError *error = NULL;
+
+	provider = gtk_css_provider_new ();
+
+	if (gtk_css_provider_load_from_data (provider, css, -1, &error)) {
+		GtkStyleContext *style_context;
+
+		style_context = gtk_widget_get_style_context (widget);
+
+		gtk_style_context_add_provider (style_context, GTK_STYLE_PROVIDER (provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+	} else {
+		g_warning ("%s: Failed to parse CSS for %s: %s", G_STRFUNC, G_OBJECT_TYPE_NAME (widget), error ? error->message : "Unknown error");
+	}
+
+	g_clear_object (&provider);
+	g_clear_error (&error);
+}
+
+static void
 alert_bar_constructed (GObject *object)
 {
 	EAlertBarPrivate *priv;
@@ -411,6 +434,16 @@ alert_bar_constructed (GObject *object)
 
 	g_signal_connect (priv->message_label, "size-allocate",
 		G_CALLBACK (alert_bar_message_label_size_allocate_cb), object);
+
+	widget = gtk_bin_get_child (GTK_BIN (container));
+
+	if (GTK_IS_VIEWPORT (widget)) {
+		gtk_viewport_set_shadow_type (GTK_VIEWPORT (widget), GTK_SHADOW_NONE);
+
+		alert_bar_add_css_style (widget, "viewport { background: none; border: none; }");
+	}
+
+	alert_bar_add_css_style (container, "scrolledwindow { background: none; border: none; }");
 
 	/* Disable animation of the revealer, until GtkInfoBar's bug #710888 is fixed */
 	revealer = gtk_widget_get_template_child (GTK_WIDGET (object), GTK_TYPE_INFO_BAR, "revealer");
