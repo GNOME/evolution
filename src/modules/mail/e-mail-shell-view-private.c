@@ -548,10 +548,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_shell_window_add_action_group (shell_window, "mail-labels");
 	e_shell_window_add_action_group (shell_window, "search-folders");
 
-	g_signal_connect (
-		shell_window, "set-focus",
-		G_CALLBACK (e_mail_shell_view_update_labels_sensitivity), shell_view);
-
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_backend = g_object_ref (shell_backend);
 	priv->mail_shell_content = g_object_ref (shell_content);
@@ -1528,45 +1524,4 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 		gtk_menu_tool_button_set_menu (
 			GTK_MENU_TOOL_BUTTON (priv->send_receive_tool_item),
 			create_send_receive_submenu (mail_shell_view));
-}
-
-void
-e_mail_shell_view_update_labels_sensitivity (EShellWindow *shell_window,
-					     GtkWidget *focused_widget,
-					     EMailShellView *mail_shell_view)
-{
-	GtkActionGroup *action_group;
-	GtkAction *action;
-	GtkWidget *widget;
-	EMailReader *reader;
-	gboolean sensitive = FALSE;
-
-	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
-
-	/* It can be called also during the dispose of the GtkWindow,
-	   when the UI manager is already freed */
-	if (!e_shell_window_get_ui_manager (shell_window))
-		return;
-
-	reader = E_MAIL_READER (e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content));
-
-	widget = focused_widget ? focused_widget : gtk_window_get_focus (GTK_WINDOW (shell_window));
-
-	while (widget) {
-		if (IS_MESSAGE_LIST (widget)) {
-			sensitive = TRUE;
-			break;
-		}
-
-		widget = gtk_widget_get_parent (widget);
-	}
-
-	action_group = e_mail_reader_get_action_group (reader, E_MAIL_READER_ACTION_GROUP_LABELS);
-	if (action_group)
-		gtk_action_group_set_sensitive (action_group, sensitive);
-
-	action = e_mail_reader_get_action (reader, "mail-label-none");
-	if (action)
-		gtk_action_set_sensitive (action, sensitive);
 }
