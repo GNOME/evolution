@@ -6376,9 +6376,10 @@ static gboolean
 webkit_editor_key_press_event (GtkWidget *widget,
                                GdkEventKey *event)
 {
-	EWebKitEditor *wk_editor;
 	GdkKeymapKey key = { 0, 0, 0 };
 	guint keyval;
+	gboolean is_shift, is_ctrl;
+	gboolean is_webkit_keypress = FALSE;
 
 	key.keycode = event->hardware_keycode;
 
@@ -6387,52 +6388,58 @@ webkit_editor_key_press_event (GtkWidget *widget,
 	if (!keyval)
 		keyval = event->keyval;
 
-	wk_editor = E_WEBKIT_EDITOR (widget);
+	is_shift = ((event)->state & GDK_SHIFT_MASK) != 0;
+	is_ctrl = ((event)->state & GDK_CONTROL_MASK) != 0;
 
-	if ((((event)->state & GDK_SHIFT_MASK) &&
-	    (keyval == GDK_KEY_Insert)) ||
-	    (((event)->state & GDK_CONTROL_MASK) &&
-	    (keyval == GDK_KEY_v))) {
-		if (!e_content_editor_emit_paste_clipboard (E_CONTENT_EDITOR (widget)))
-			webkit_editor_paste (E_CONTENT_EDITOR (widget));
+	/* Copy */
+	if (is_ctrl && !is_shift && (keyval == GDK_KEY_c || keyval == GDK_KEY_C))
+		is_webkit_keypress = TRUE;
+
+	/* Copy - secondary shortcut */
+	if (is_ctrl && !is_shift && keyval == GDK_KEY_Insert) {
+		webkit_editor_copy (E_CONTENT_EDITOR (widget));
 		return TRUE;
 	}
 
-	if ((((event)->state & GDK_CONTROL_MASK) &&
-	    (keyval == GDK_KEY_Insert)) ||
-	    (((event)->state & GDK_CONTROL_MASK) &&
-	    (keyval == GDK_KEY_c))) {
-		webkit_editor_copy (E_CONTENT_EDITOR (wk_editor));
+	/* Cut */
+	if (is_ctrl && !is_shift && (keyval == GDK_KEY_x || keyval == GDK_KEY_X))
+		is_webkit_keypress = TRUE;
+
+	/* Cut - secondary shortcut */
+	if (!is_ctrl && is_shift && keyval == GDK_KEY_Delete) {
+		webkit_editor_cut (E_CONTENT_EDITOR (widget));
 		return TRUE;
 	}
 
-	if (((event)->state & GDK_CONTROL_MASK) &&
-	    (keyval == GDK_KEY_z)) {
-		webkit_editor_undo (E_CONTENT_EDITOR (wk_editor));
+	/* Paste */
+	if (is_ctrl && !is_shift && (keyval == GDK_KEY_v || keyval == GDK_KEY_V))
+		is_webkit_keypress = TRUE;
+
+	/* Paste - secondary shortcut */
+	if (!is_ctrl && is_shift && keyval == GDK_KEY_Insert) {
+		webkit_editor_paste (E_CONTENT_EDITOR (widget));
 		return TRUE;
 	}
 
-	if (((event)->state & (GDK_CONTROL_MASK)) &&
-	    (keyval == GDK_KEY_Z)) {
-		webkit_editor_redo (E_CONTENT_EDITOR (wk_editor));
-		return TRUE;
-	}
+	/* Undo */
+	if (is_ctrl && !is_shift && (keyval == GDK_KEY_z || keyval == GDK_KEY_Z))
+		is_webkit_keypress = TRUE;
 
-	if ((((event)->state & GDK_SHIFT_MASK) &&
-	    (keyval == GDK_KEY_Delete)) ||
-	    (((event)->state & GDK_CONTROL_MASK) &&
-	    (keyval == GDK_KEY_x))) {
-		webkit_editor_cut (E_CONTENT_EDITOR (wk_editor));
-		return TRUE;
-	}
+	/* Redo */
+	if (is_ctrl && is_shift && (keyval == GDK_KEY_z || keyval == GDK_KEY_Z))
+		is_webkit_keypress = TRUE;
 
-	if (((event)->state & GDK_CONTROL_MASK) &&
-	    ((event)->state & GDK_SHIFT_MASK) &&
-	    (keyval == GDK_KEY_I) &&
+	if (is_ctrl && is_shift && (keyval == GDK_KEY_i || keyval == GDK_KEY_I) &&
 	    e_util_get_webkit_developer_mode_enabled ()) {
-		webkit_editor_show_inspector (wk_editor);
+		webkit_editor_show_inspector (E_WEBKIT_EDITOR (widget));
 		return TRUE;
 	}
+
+	/* This is to prevent WebKitGTK+ to process standard key presses, which are
+	   supposed to be handled by Evolution instead. By returning FALSE, the parent
+	   widget in the hierarchy will process the key press, instead of the WebKitWebView. */
+	if (is_webkit_keypress)
+		return FALSE;
 
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->key_press_event (widget, event);

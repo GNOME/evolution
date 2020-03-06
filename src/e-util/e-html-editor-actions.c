@@ -981,7 +981,7 @@ static GtkActionEntry core_entries[] = {
 	{ "paste",
 	  "edit-paste",
 	  N_("_Paste"),
-	  NULL, /* Widgets are treating Ctrl + v shortcut themselves */
+	  "<Control>v",
 	  N_("Paste text from the clipboard"),
 	  NULL }, /* Handled by focus tracker */
 
