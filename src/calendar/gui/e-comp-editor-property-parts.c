@@ -21,6 +21,7 @@
 #include <glib/gi18n-lib.h>
 
 #include <libedataserver/libedataserver.h>
+#include <libedataserverui/libedataserverui.h>
 #include <e-util/e-util.h>
 
 #include "calendar-config.h"

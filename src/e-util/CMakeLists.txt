@@ -61,7 +61,6 @@ set(SOURCES
 	e-autocomplete-selector.c
 	e-bit-array.c
 	e-book-source-config.c
-	e-buffer-tagger.c
 	e-cal-source-config.c
 	e-calendar-item.c
 	e-calendar.c
@@ -337,7 +336,6 @@ set(HEADERS
 	e-autocomplete-selector.h
 	e-bit-array.h
 	e-book-source-config.h
-	e-buffer-tagger.h
 	e-cal-source-config.h
 	e-calendar-item.h
 	e-calendar.h

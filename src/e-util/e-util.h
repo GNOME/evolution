@@ -46,7 +46,6 @@
 #include <e-util/e-autocomplete-selector.h>
 #include <e-util/e-bit-array.h>
 #include <e-util/e-book-source-config.h>
-#include <e-util/e-buffer-tagger.h>
 #include <e-util/e-cal-source-config.h>
 #include <e-util/e-calendar-item.h>
 #include <e-util/e-calendar.h>
