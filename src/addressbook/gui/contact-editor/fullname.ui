@@ -263,11 +263,6 @@
                 <property name="model">model1</property>
                 <property name="has_entry">True</property>
                 <property name="entry_text_column">0</property>
-                <child internal-child="entry">
-                  <object class="GtkEntry">
-                    <property name="can_focus">False</property>
-                  </object>
-                </child>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -283,11 +278,6 @@
                 <property name="model">model2</property>
                 <property name="has_entry">True</property>
                 <property name="entry_text_column">0</property>
-                <child internal-child="entry">
-                  <object class="GtkEntry">
-                    <property name="can_focus">False</property>
-                  </object>
-                </child>
               </object>
               <packing>
                 <property name="left_attach">1</property>
