@@ -210,11 +210,14 @@ format_date_and_time_x (struct tm *date_tm,
                         gboolean show_midnight,
                         gboolean show_zero_seconds,
                         gboolean is_date,
+			gboolean *out_is_abbreviated_value,
                         gchar *buffer,
                         gint buffer_size)
 {
 	gchar *format;
 	struct tm tomorrow_tm, week_tm;
+
+	*out_is_abbreviated_value = TRUE;
 
 	/* Calculate a normalized "tomorrow" */
 	tomorrow_tm = *current_tm;
@@ -341,6 +344,8 @@ format_date_and_time_x (struct tm *date_tm,
 
 	/* This Year */
 	} else if (date_tm->tm_year == current_tm->tm_year) {
+		*out_is_abbreviated_value = FALSE;
+
 		if (is_date || (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0)) {
 			/* strftime format of a weekday and a date
@@ -367,6 +372,8 @@ format_date_and_time_x (struct tm *date_tm,
 				format = _("%A, %B %e %l:%M:%S %p");
 		}
 	} else {
+		*out_is_abbreviated_value = FALSE;
+
 		if (is_date || (!show_midnight && date_tm->tm_hour == 0
 		    && date_tm->tm_min == 0 && date_tm->tm_sec == 0)) {
 			/* strftime format of a weekday and a date. */
@@ -396,6 +403,33 @@ format_date_and_time_x (struct tm *date_tm,
 	 * undefined, so we set it to the empty string in that case. */
 	if (e_utf8_strftime_fix_am_pm (buffer, buffer_size, format, date_tm) == 0)
 		buffer[0] = '\0';
+}
+
+static gchar *
+contact_abbreviated_date (const gchar *buffer,
+			  struct tm *tm_time,
+			  gboolean tm_is_date,
+			  gboolean is_abbreviated_value)
+{
+	gchar *res, *value;
+
+	if (!*buffer || !is_abbreviated_value || !tm_time)
+		return g_strdup (buffer);
+
+	value = e_datetime_format_format_tm ("calendar", "table", DTFormatKindDate, tm_time);
+
+	if (value && *value) {
+		/* Translators: The first '%s' is replaced with an abbreviated date/time of an appointment start or end, like "Tomorrow" or "Tomorrow 10:30";
+		   the second '%s' is replaced with the actual date, to know what the 'Tomorrow' means. What the date looks like depends on the user settings.
+		   Example: 'Tomorrow 10:30 (20.2.2020)' */
+		res = g_strdup_printf (C_("cal-itip", "%s (%s)"), buffer, value);
+	} else {
+		res = g_strdup (buffer);
+	}
+
+	g_free (value);
+
+	return res;
 }
 
 static gchar *
@@ -778,6 +812,7 @@ update_start_end_times (ItipView *view)
 	gchar buffer[256];
 	time_t now;
 	struct tm *now_tm;
+	gboolean is_abbreviated_value = FALSE;
 
 	priv = view->priv;
 
@@ -793,25 +828,25 @@ update_start_end_times (ItipView *view)
 	if (priv->start_tm && priv->end_tm && priv->start_tm_is_date && priv->end_tm_is_date
 	    && is_same (tm_mday) && is_same (tm_mon) && is_same (tm_year)) {
 		/* it's an all day event in one particular day */
-		format_date_and_time_x (priv->start_tm, now_tm, FALSE, TRUE, FALSE, priv->start_tm_is_date, buffer, 256);
-		priv->start_label = g_strdup (buffer);
+		format_date_and_time_x (priv->start_tm, now_tm, FALSE, TRUE, FALSE, priv->start_tm_is_date, &is_abbreviated_value, buffer, 256);
+		priv->start_label = contact_abbreviated_date (buffer, priv->start_tm, priv->start_tm_is_date, is_abbreviated_value);
 		priv->start_header = _("All day:");
 		priv->end_header = NULL;
 		priv->end_label = NULL;
 	} else {
 		if (priv->start_tm) {
-			format_date_and_time_x (priv->start_tm, now_tm, FALSE, TRUE, FALSE, priv->start_tm_is_date, buffer, 256);
+			format_date_and_time_x (priv->start_tm, now_tm, FALSE, TRUE, FALSE, priv->start_tm_is_date, &is_abbreviated_value, buffer, 256);
 			priv->start_header = priv->start_tm_is_date ? _("Start day:") : _("Start time:");
-			priv->start_label = g_strdup (buffer);
+			priv->start_label = contact_abbreviated_date (buffer, priv->start_tm, priv->start_tm_is_date, is_abbreviated_value);
 		} else {
 			priv->start_header = NULL;
 			priv->start_label = NULL;
 		}
 
 		if (priv->end_tm) {
-			format_date_and_time_x (priv->end_tm, now_tm, FALSE, TRUE, FALSE, priv->end_tm_is_date, buffer, 256);
+			format_date_and_time_x (priv->end_tm, now_tm, FALSE, TRUE, FALSE, priv->end_tm_is_date, &is_abbreviated_value, buffer, 256);
 			priv->end_header = priv->end_tm_is_date ? _("End day:") : _("End time:");
-			priv->end_label = g_strdup (buffer);
+			priv->end_label = contact_abbreviated_date (buffer, priv->end_tm, priv->end_tm_is_date, is_abbreviated_value);
 		} else {
 			priv->end_header = NULL;
 			priv->end_label = NULL;
