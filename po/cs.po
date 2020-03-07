@@ -27490,7 +27490,7 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
-"Protože důvěřujete certifikační agentuře, která vydala tento certifikát, "
+"Protože důvěřujete certifikační autoritě, která vydala tento certifikát, "
 "důvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
 
 #: ../src/smime/gui/cert-trust-dialog.c:155
@@ -27499,7 +27499,7 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
-"Protože nedůvěřujete certifikační agentuře, která vydala tento certifikát, "
+"Protože nedůvěřujete certifikační autoritě, která vydala tento certifikát, "
 "nedůvěřujete pravosti tohoto certifikátu, pokud zde není uvedeno jinak"
 
 #: ../src/smime/gui/component.c:53
