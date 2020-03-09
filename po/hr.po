@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2020-03-08 11:48+0000\n"
-"PO-Revision-Date: 2020-03-09 21:39+0100\n"
+"PO-Revision-Date: 2020-03-09 23:54+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -248,7 +248,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
 msgid "Confirm expunge"
-msgstr "Potvrdi brisanje"
+msgstr "Potvrdi uklanjanje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
 msgid "Whether to ask for confirmation when expunging appointments and tasks"
@@ -1937,11 +1937,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:179
 msgid "Prompt when user expunges"
-msgstr "Traži potvrdu korisnika pri brisanju"
+msgstr "Upitaj korisnika pri uklanjanju"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:180
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Traži potvrdu korisnika kod brisanja mape."
+msgstr "Upitaj korisnika pri uklanjanju mape."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:181
 #, fuzzy
@@ -2061,7 +2061,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:201
 msgid "Prompt when mailing list hijacks private replies"
-msgstr "Traži potvrdu korisnika kad poštanska lista oduzme privatne odgovore"
+msgstr "Upitaj kada mailing lista oduzme privatne odgovore"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:202
 msgid ""
@@ -2368,7 +2368,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:252
 msgid "Allow expunge in virtual folders"
-msgstr ""
+msgstr "Dopusti uklanjanje u virtualnim mapama"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:253
 msgid ""
@@ -2570,10 +2570,8 @@ msgid ""
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:291
-#, fuzzy
-#| msgid "Failed to download messages for offline viewing."
 msgid "Whether Send/Receive should also download of messages for offline."
-msgstr "Neuspjelo preuzimanje poruka za vanmrežno čitanje."
+msgstr "Neuspjelo preuzimanje poruka za izvanmrežno čitanje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:292
 msgid ""
@@ -5094,7 +5092,7 @@ msgstr "Sigurno želite izbrisati ovaj kontakt (%s)?"
 #: ../src/shell/e-shell-window-actions.c:917
 #: ../src/smime/gui/certificate-manager.c:1656 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
-msgstr "_Izbriši"
+msgstr "_Obriši"
 
 #. Translators: This is shown for > 5 contacts.
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1471
@@ -5954,7 +5952,7 @@ msgstr "Greška kod dodavanja popisa"
 
 #: ../src/calendar/calendar.error.xml.h:86
 msgid "The task list is not marked for offline usage."
-msgstr "Popsi zadataka nije označen za vanmrežno korištenje."
+msgstr "Popsi zadataka nije označen za izvanmrežno korištenje."
 
 #. Translators: {0} is the name of the memo list.
 #: ../src/calendar/calendar.error.xml.h:88
@@ -5965,7 +5963,7 @@ msgstr "Greška kod dodavanja popisa"
 
 #: ../src/calendar/calendar.error.xml.h:89
 msgid "The memo list is not marked for offline usage."
-msgstr "Dopis nije označen za vanmrežno korištenje."
+msgstr "Dopis nije označen za izvanmrežno korištenje."
 
 #. Translators: {0} is the name of the calendar/memo list/task list.
 #: ../src/calendar/calendar.error.xml.h:91
@@ -6506,7 +6504,7 @@ msgstr "Otkazano"
 
 #: ../src/calendar/gui/ea-cal-view.c:281
 msgid "New Appointment"
-msgstr "Novi zakazani sastanak"
+msgstr "Novi ugovoreni sastanak"
 
 #: ../src/calendar/gui/ea-cal-view.c:282
 msgid "New All Day Event"
@@ -7627,7 +7625,7 @@ msgstr "Sastanak — %s"
 #: ../src/calendar/gui/e-comp-editor-event.c:1033
 #, c-format
 msgid "Appointment — %s"
-msgstr "Zakazani sastanak — %s"
+msgstr "Ugovoreni sastanak — %s"
 
 #: ../src/calendar/gui/e-comp-editor-memo.c:96
 msgid ""
@@ -8571,7 +8569,7 @@ msgstr "Prikaži pomoć"
 #: ../src/e-util/e-html-editor-actions.c:983 ../src/e-util/e-text.c:2092
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:938
 msgid "_Paste"
-msgstr "_Zaljepi"
+msgstr "_Zalijepi"
 
 #: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
@@ -8637,7 +8635,7 @@ msgstr "_Pogled"
 
 #: ../src/calendar/gui/e-comp-editor.c:2160
 msgid "Save current changes"
-msgstr "Spremi trenutne izmjene"
+msgstr "Spremi trenutne promjene"
 
 #: ../src/calendar/gui/e-comp-editor.c:2165
 #: ../src/e-util/e-mail-signature-editor.c:318 ../src/mail/e-mail-notes.c:973
@@ -9417,7 +9415,7 @@ msgstr "Dospijeće "
 
 #: ../src/calendar/gui/print.c:3586
 msgid "Appointment"
-msgstr "Zakazani sastanak"
+msgstr "Ugovoreni sastanak"
 
 #: ../src/calendar/gui/print.c:3588 ../src/e-util/e-send-options.c:551
 msgid "Task"
@@ -13727,11 +13725,9 @@ msgid "Symbols"
 msgstr ""
 
 #: ../src/e-util/e-gtkemojichooser.c:765
-#, fuzzy
-#| msgid "_Flag:"
 msgctxt "EmojiChooser"
 msgid "Flags"
-msgstr "_Zastavica:"
+msgstr "Oznake"
 
 #: ../src/e-util/e-gtkemojichooser.c:789
 msgctxt "EmojiChooser"
@@ -13789,7 +13785,7 @@ msgstr "Izreži odabrani tekst u odlagalište"
 
 #: ../src/e-util/e-html-editor-actions.c:985
 msgid "Paste text from the clipboard"
-msgstr "Zaljepi tekst iz međumemorije"
+msgstr "Zalijepi tekst iz međuspremnik"
 
 #: ../src/e-util/e-html-editor-actions.c:992
 msgid "Redo the last undone action"
@@ -17486,28 +17482,24 @@ msgid "Folder _name:"
 msgstr "_Naziv mape:"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:694
-#, fuzzy
-#| msgid "Folder Properties"
 msgid "Folder Sort Order"
-msgstr "Svojstva mape"
+msgstr "Poredak razvrstavanja mape"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:735
-#, fuzzy
-#| msgid "Close the current file"
 msgid "Reset c_urrent level"
-msgstr "Zatvori trenutnu datoteku"
+msgstr "Vrati izvornu _trenutnu razinu"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:736
 msgid "Reset sort order in the current level to the defaults"
-msgstr ""
+msgstr "Vrati izvorni poredak razvrstavanja u trenutnoj razini"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:746
 msgid "Reset _all levels"
-msgstr ""
+msgstr "Vrati izvorne _sve razine"
 
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:747
 msgid "Reset sort order in all levels to their defaults"
-msgstr ""
+msgstr "Vrati izvorni poredak razvrstavanja u svim razinama"
 
 #. Translators: This is a name of a flag, the same as all strings in the 'ffe' context.
 #. The translated value should not contain spaces.
@@ -17557,7 +17549,7 @@ msgstr "Softver za filtriranje neželjene pošte:"
 
 #: ../src/mail/e-mail-label-dialog.c:222
 msgid "_Label name:"
-msgstr "_Ime natpisa:"
+msgstr "_Naziv natpisa:"
 
 #: ../src/mail/e-mail-label-list-store.c:55
 msgid "I_mportant"
@@ -17566,7 +17558,7 @@ msgstr "B_itno"
 #. red
 #: ../src/mail/e-mail-label-list-store.c:56
 msgid "_Work"
-msgstr "_Rad"
+msgstr "_Posao"
 
 #. orange
 #: ../src/mail/e-mail-label-list-store.c:57
@@ -17598,7 +17590,7 @@ msgid ""
 "Note: Underscore in the label name is used\n"
 "as mnemonic identifier in menu."
 msgstr ""
-"Obavijest: Donja crta u imenu natpisa se koristi\n"
+"Napomena: Donja crta u nazivu natpisa se koristi\n"
 "kao mnemonički identifikator u izborniku."
 
 #: ../src/mail/e-mail-label-tree-view.c:86
@@ -17607,7 +17599,7 @@ msgstr "Boja"
 
 #: ../src/mail/e-mail-notes.c:319 ../src/mail/e-mail-notes.c:740
 msgid "Message Note"
-msgstr ""
+msgstr "Poruka napomene"
 
 #: ../src/mail/e-mail-notes.c:660
 msgid "Cannot find message in its folder summary"
@@ -17979,11 +17971,11 @@ msgstr ""
 
 #: ../src/mail/e-mail-reader.c:2651
 msgid "Uni_mportant"
-msgstr "Nev_ažno"
+msgstr "Neb_itno"
 
 #: ../src/mail/e-mail-reader.c:2653
 msgid "Mark the selected messages as unimportant"
-msgstr "Označi odabrane poruke kao nevažne"
+msgstr "Označi odabrane poruke kao nebitne"
 
 #: ../src/mail/e-mail-reader.c:2658
 msgid "_Unread"
@@ -18029,7 +18021,7 @@ msgstr "Premjesti odabrane poruke u drugu mapu"
 
 #: ../src/mail/e-mail-reader.c:2693
 msgid "_Next Message"
-msgstr "_Sljedeća poruka"
+msgstr "_Sljedeću poruku"
 
 #: ../src/mail/e-mail-reader.c:2695
 msgid "Display the next message"
@@ -18037,15 +18029,15 @@ msgstr "Prikaži sljedeću poruku"
 
 #: ../src/mail/e-mail-reader.c:2700
 msgid "Next _Important Message"
-msgstr "Sljedeća _važna poruka"
+msgstr "Sljedeću _bitnu poruku"
 
 #: ../src/mail/e-mail-reader.c:2702
 msgid "Display the next important message"
-msgstr "Prikaži sljedeću važnu poruku"
+msgstr "Prikaži sljedeću bitnu poruku"
 
 #: ../src/mail/e-mail-reader.c:2707
 msgid "Next _Thread"
-msgstr "Sljedeća _nit"
+msgstr "Sljedeću _nit"
 
 #: ../src/mail/e-mail-reader.c:2709
 msgid "Display the next thread"
@@ -18053,7 +18045,7 @@ msgstr "Prikaži sljedeću nit"
 
 #: ../src/mail/e-mail-reader.c:2714
 msgid "Next _Unread Message"
-msgstr "Sljedeća _nepročitana poruka"
+msgstr "Sljedeću _nepročitanu poruku"
 
 #: ../src/mail/e-mail-reader.c:2716
 msgid "Display the next unread message"
@@ -18061,35 +18053,35 @@ msgstr "Prikaži sljedeću nepročitanu poruku"
 
 #: ../src/mail/e-mail-reader.c:2721
 msgid "_Previous Message"
-msgstr "_Prethodna poruka"
+msgstr "_Prijašnju poruku"
 
 #: ../src/mail/e-mail-reader.c:2723
 msgid "Display the previous message"
-msgstr "Prikaži prethodnu poruku"
+msgstr "Prikaži prijašnju poruku"
 
 #: ../src/mail/e-mail-reader.c:2728
 msgid "Pr_evious Important Message"
-msgstr "Pr_ethodna važna poruka"
+msgstr "Pr_ijašnja bitna poruka"
 
 #: ../src/mail/e-mail-reader.c:2730
 msgid "Display the previous important message"
-msgstr "Prikaži prethodnu važnu poruku"
+msgstr "Prikaži prijašnju bitnu poruku"
 
 #: ../src/mail/e-mail-reader.c:2735
 msgid "Previous T_hread"
-msgstr "Prethodna nit"
+msgstr "Prijašnja nit"
 
 #: ../src/mail/e-mail-reader.c:2737
 msgid "Display the previous thread"
-msgstr "Prikaži prethodnu nit"
+msgstr "Prikaži prijašnju nit"
 
 #: ../src/mail/e-mail-reader.c:2742
 msgid "P_revious Unread Message"
-msgstr "P_rethodna nepročitana poruka"
+msgstr "P_rijašnju nepročitanu poruku"
 
 #: ../src/mail/e-mail-reader.c:2744
 msgid "Display the previous unread message"
-msgstr "Prikaži prethodnu nepročitanu poruku"
+msgstr "Prikaži prijašnju nepročitanu poruku"
 
 #: ../src/mail/e-mail-reader.c:2751
 msgid "Print this message"
@@ -18938,15 +18930,15 @@ msgstr "Pretplati _se na sve"
 #: ../src/mail/em-subscription-editor.c:1890 ../src/mail/mail.error.xml.h:73
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1706
 msgid "_Unsubscribe"
-msgstr "_Otkaži pretplatu"
+msgstr "_Prekini pretplatu"
 
 #: ../src/mail/em-subscription-editor.c:945
 msgid "Unsu_bscribe From Hidden"
-msgstr "Otk_aži pretplatu sa skirvenih"
+msgstr "Prek_ini pretplatu sa skirvenih"
 
 #: ../src/mail/em-subscription-editor.c:953
 msgid "Unsubscribe From _All"
-msgstr "Otkaži pretplatu sa _svih"
+msgstr "Prekini pretplatu sa _svih"
 
 #: ../src/mail/em-subscription-editor.c:1315
 #: ../src/modules/mail/e-mail-shell-view-private.c:912
@@ -18995,7 +18987,7 @@ msgstr "Pr_etplati se"
 #: ../src/mail/em-subscription-editor.c:1889
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1708
 msgid "Unsubscribe from the selected folder"
-msgstr "Otkaži pretplatu na odabranu mapu"
+msgstr "Prekini pretplatu na odabranu mapu"
 
 #: ../src/mail/em-subscription-editor.c:1929
 msgid "Collapse all folders"
@@ -20263,23 +20255,18 @@ msgid "Use _Default"
 msgstr "Koristi _uobičajeno"
 
 #: ../src/mail/mail.error.xml.h:38
-#, fuzzy
-#| msgid ""
-#| "Are you sure you want to permanently remove all the deleted messages in "
-#| "folder \"{0}\"?"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder “{0}”?"
-msgstr ""
-"Sigurni ste da trajno želite ukloniti sve izbrisane poruke u mapi \"{0}\"?"
+msgstr "Sigurno želite trajno ukloniti sve obrisane poruke u mapi \"{0}\"?"
 
 #: ../src/mail/mail.error.xml.h:39
 msgid "If you continue, you will not be able to recover these messages."
-msgstr "Ako nastavite, nećete moći povratiti ove poruke."
+msgstr "Ako nastavite, nećete moći obnoviti ove poruke."
 
 #: ../src/mail/mail.error.xml.h:40
 msgid "_Expunge"
-msgstr "_Očisti"
+msgstr "_Ukloni"
 
 #: ../src/mail/mail.error.xml.h:41
 msgid ""
@@ -20383,10 +20370,8 @@ msgstr ""
 "preimenovati, premjestiti ili obrisati."
 
 #: ../src/mail/mail.error.xml.h:63
-#, fuzzy
-#| msgid "Failed to open folder."
 msgid "Failed to expunge folder “{0}”."
-msgstr "Neuspjelo otvaranje mape."
+msgstr "Neuspjelo uklanjanje mape “{0}”."
 
 #: ../src/mail/mail.error.xml.h:65
 #, fuzzy
@@ -20725,14 +20710,14 @@ msgstr ""
 
 #: ../src/mail/mail.error.xml.h:131
 msgid "Synchronize folders locally for offline usage?"
-msgstr "Lokalno uskladi mape za vanmrežno korištenje?"
+msgstr "Lokalno uskladi mape za izvanmrežno korištenje?"
 
 #: ../src/mail/mail.error.xml.h:132
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
 msgstr ""
-"Želite li lokalno uskladiti mape koje su označene za vanmrežno korištenje?"
+"Želite li lokalno uskladiti mape koje su označene za izvanmrežno korištenje?"
 
 #: ../src/mail/mail.error.xml.h:133
 msgid "Do _Not Synchronize"
@@ -20950,10 +20935,8 @@ msgid "Failed to remove attachments from messages."
 msgstr "Neuspjelo uklanjanje privitaka iz poruka."
 
 #: ../src/mail/mail.error.xml.h:183
-#, fuzzy
-#| msgid "Failed to download messages for offline viewing."
 msgid "Failed to download messages for offline viewing for account “{0}”."
-msgstr "Neuspjelo preuzimanje poruka za vanmrežno čitanje."
+msgstr "Neuspjelo preuzimanje poruka za izvanmrežno čitanje."
 
 #: ../src/mail/mail.error.xml.h:184
 msgid "Failed to save messages to disk."
@@ -21233,10 +21216,8 @@ msgid "There are no messages in this folder."
 msgstr "Nema poruka u ovoj mapi."
 
 #: ../src/mail/message-list.c:6792
-#, fuzzy
-#| msgid "Generating message list"
 msgid "Generating message list…"
-msgstr "Stvaranje popisa poruka"
+msgstr "Stvaranje popisa poruka…"
 
 #: ../src/mail/message-list.etspec.h:2
 msgid "Flagged"
@@ -21569,10 +21550,8 @@ msgstr "Pokaži kartu sa svim kontaktima iz odabranog adresara"
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:640
 #: ../src/modules/calendar/e-task-shell-view-actions.c:766
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1685
-#, fuzzy
-#| msgid "_Rename..."
 msgid "_Rename…"
-msgstr "_Preimenuj..."
+msgstr "_Preimenuj…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1080
 msgid "Rename the selected address book"
@@ -21583,10 +21562,8 @@ msgid "Stop loading"
 msgstr "Zaustavi učitavanje"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1092
-#, fuzzy
-#| msgid "_Copy Contact To..."
 msgid "_Copy Contact To…"
-msgstr "_Kopiraj kontakt u..."
+msgstr "_Kopiraj kontakt u…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1094
 msgid "Copy selected contacts to another address book"
@@ -21597,46 +21574,36 @@ msgid "_Delete Contact"
 msgstr "_Obriši kontakt"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1106
-#, fuzzy
-#| msgid "_Find in Contact..."
 msgid "_Find in Contact…"
-msgstr "_Pronađi u kontaktu..."
+msgstr "_Potraži u kontaktu…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1108
 msgid "Search for text in the displayed contact"
-msgstr "Pronađi tekst u prikazanom kontaktu"
+msgstr "Potraži tekst u prikazanom kontaktu"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1113
-#, fuzzy
-#| msgid "_Forward Contact"
 msgid "_Forward Contact…"
-msgstr "_Proslijedi kontakt"
+msgstr "_Proslijedi kontakt…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1115
 msgid "Send selected contacts to another person"
 msgstr "Pošalji odabrane kontakte drugoj osobi"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1120
-#, fuzzy
-#| msgid "_Move Contact To..."
 msgid "_Move Contact To…"
-msgstr "_Premjesti kontakt u..."
+msgstr "_Premjesti kontakt u…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1122
 msgid "Move selected contacts to another address book"
 msgstr "Premjesti odabrane kontakte u drugi adresar"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1127
-#, fuzzy
-#| msgid "New Contact"
 msgid "_New Contact…"
-msgstr "Novi kontakt"
+msgstr "_Novi kontakt…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1134
-#, fuzzy
-#| msgid "New Contact List"
 msgid "New Contact _List…"
-msgstr "Novi popis kontakata"
+msgstr "Novi popis _kontakata…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1141
 msgid "_Open Contact"
@@ -21647,10 +21614,8 @@ msgid "View the current contact"
 msgstr "Pregledaj tekući kontakt"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1148
-#, fuzzy
-#| msgid "_Send Message to Contact"
 msgid "_Send Message to Contact…"
-msgstr "_Pošalji poruku kontaktu"
+msgstr "_Pošalji poruku kontaktu…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1150
 msgid "Send a message to the selected contacts"
@@ -21673,10 +21638,8 @@ msgstr "_Pretpregled"
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1511
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:701
 #: ../src/modules/calendar/e-task-shell-view-actions.c:855
-#, fuzzy
-#| msgid "_Manager:"
 msgid "_Manage groups…"
-msgstr "_Upravitelj:"
+msgstr "_Upravljanje grupama…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1193
 msgid "Address Book Map"
@@ -21759,10 +21722,8 @@ msgstr "Spremi kontakte odabranog adresara kao vCard"
 #. Translators: This is an action label
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1358
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1368
-#, fuzzy
-#| msgid "Save as vCard"
 msgid "_Save as vCard…"
-msgstr "Spremi kao vCard"
+msgstr "_Spremi kao vCard…"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1360
 msgid "Save selected contacts as a vCard"
@@ -21817,54 +21778,48 @@ msgstr ""
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:306
 msgid "Select name of the Evolution backup file"
-msgstr "Odaberite ime Evolutionove datoteke za sigurnosne kopije"
+msgstr "Odaberi naziv Evolutionove datoteke sigurnosne kopije"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:351
 msgid "_Restart Evolution after backup"
-msgstr "_Ponovo pokreni Evolution nakon izrade sigurnosne kopije"
+msgstr "_Ponovo pokreni Evolution nakon sigurnosnog kopiranja"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:386
 msgid "Re_start Evolution after restore"
-msgstr ""
+msgstr "Ponovno_ pokreni Evolution nakon obnove"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:428
 msgid "Select name of the Evolution backup file to restore"
-msgstr "Odaberite ime Evolutionove datoteke sigurnosne kopije za povratiti"
+msgstr "Odaberite naziv Evolutionove datoteke sigurnosne kopije za obnovu"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:437
 #, c-format
 msgid "Checking content of backup file “%s”, please wait…"
-msgstr ""
+msgstr "Provjera sadržaja datoteke sigurnosne kopije “%s”, pričekajte…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:458
-#, fuzzy
-#| msgid "_Back up Evolution Data..."
 msgid "_Back up Evolution Data…"
-msgstr "_Napravi sigurnosnu kopiju Evolutionovih podataka..."
+msgstr "_Sigurnosno kopiraj Evolution podatake…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:460
 msgid "Back up Evolution data and settings to an archive file"
-msgstr ""
-"Napravi sigurnosnu kopiju Evolutionovih podataka i postavki u arhivsku "
-"datoteku"
+msgstr "Sigurnosno kopiraj Evolutionove podatke u arhivsku datoteku"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:465
-#, fuzzy
-#| msgid "R_estore Evolution Data..."
 msgid "R_estore Evolution Data…"
-msgstr "P_ovrati Evolutionove podatke..."
+msgstr "O_bnovi Evolution podatke…"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:467
 msgid "Restore Evolution data and settings from an archive file"
-msgstr "Povrati Evolutionove podatke i postavke iz arhivske datoteke"
+msgstr "Obnovi Evolutionove podatke i postavke iz arhivske datoteke"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:73
 msgid "Back up Evolution directory"
-msgstr "Napravi sigurnosnu kopiju Evolutionovog direktorija"
+msgstr "Sigurnosno kopiraj Evolution direktorijj"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:75
 msgid "Restore Evolution directory"
-msgstr "Povrati Evolutionov direktorij"
+msgstr "Obnovi Evolution direktorij"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:77
 msgid "Check Evolution Back up"
@@ -21882,21 +21837,21 @@ msgstr "Sa grafičkim korisničkim sučeljem"
 #: ../src/modules/backup-restore/evolution-backup-tool.c:294
 #: ../src/modules/backup-restore/evolution-backup-tool.c:498
 msgid "Shutting down Evolution"
-msgstr "Gašenje Evolutiona"
+msgstr "Isključivanje Evolutiona"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:303
 msgid "Backing Evolution accounts and settings"
-msgstr "Izrađuje se Evolutionova sigurnosna kopija računa i postavki"
+msgstr "Sigurnosno kopiranje Evolutionovih računa i postavki"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:320
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
-"Izrađuje se sigurnosna kopija Evolutionovih podataka (pošta, kontakti, "
-"kalendar, zadaci, dopisi)"
+"Sigurnosno kopiranje Evolutionovih podataka (e-pošta, kontakti, kalendar, "
+"zadaci, dopisi)"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:336
 msgid "Back up complete"
-msgstr "Sigurnosna kopija napravljena"
+msgstr "Sigurnosno kopiranje završeno"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:343
 #: ../src/modules/backup-restore/evolution-backup-tool.c:705
@@ -21905,11 +21860,11 @@ msgstr "Ponovno pokretanje Evolutiona"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:504
 msgid "Back up current Evolution data"
-msgstr "Izradi sigurnosnu kopiju trenutnih Evolutionovih podataka"
+msgstr "Sigurnosno kopiraj trenutne Evolutionove podatake"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:511
 msgid "Extracting files from back up"
-msgstr "Izvlačenje datoteka iz sig. kopije"
+msgstr "Raspakiravanje datoteka iz sigurnosne kopije"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:606
 msgid "Loading Evolution settings"
@@ -21917,47 +21872,45 @@ msgstr "Učitavanje Evolutionovih postavki"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:676
 msgid "Removing temporary back up files"
-msgstr "Uklanjanje privremenih datoteka sig. kopije"
+msgstr "Uklanjanje privremenih datoteka sigurnosne kopije"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:690
 msgid "Reloading registry service"
-msgstr ""
+msgstr "Ponovno učitavanje usluga registra"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:903
 msgid "Evolution Back Up"
-msgstr ""
+msgstr "Evolution sigurnosno kopiranje"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:904
-#, fuzzy, c-format
-#| msgid "Backing up to the folder %s"
+#, c-format
 msgid "Backing up to the file %s"
-msgstr "Izrada sigurnosne kopije u mapi %s"
+msgstr "Sigurnosno kopiranje datoteke %s"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:908
 msgid "Evolution Restore"
-msgstr "Evolution povrat podataka"
+msgstr "Evolution obnova podataka"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:909
-#, fuzzy, c-format
-#| msgid "Restoring from the folder %s"
+#, c-format
 msgid "Restoring from the file %s"
-msgstr "Vraćanje podataka iz mape %s"
+msgstr "Obnova podataka iz mape %s"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:978
 msgid "Backing up Evolution Data"
-msgstr "Izrada sigurnosne kopije Evolutionovih podataka"
+msgstr "Sigurnosno kopiranje Evolutionovih podataka"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:979
 msgid "Please wait while Evolution is backing up your data."
-msgstr "Pričekajte dok Evolution ne izradi sigurnosne kopije vaših podataka."
+msgstr "Pričekajte dok Evolution sigurnosno kopira vaše podatke."
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:981
 msgid "Restoring Evolution Data"
-msgstr "Evolution podaci se vraćaju"
+msgstr "Obnova Evolutionovih podataka"
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:982
 msgid "Please wait while Evolution is restoring your data."
-msgstr "Pričekajte dok Evolution ne povrati vaše podatke."
+msgstr "Pričekajte dok Evolution obnavlja vaše podatke."
 
 #: ../src/modules/backup-restore/evolution-backup-tool.c:1004
 msgid "This may take a while depending on the amount of data in your account."
@@ -21968,10 +21921,8 @@ msgid "Invalid Evolution backup file"
 msgstr "Neispravna Evolution sigurnosna kopija"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
-#| msgid "Invalid Evolution backup file"
 msgid "File “{0}” is not a valid Evolution backup file."
-msgstr "Neispravna Evolution sigurnosna kopija"
+msgstr "Datoteka “{0}” nije valjana Evolutionova datoteka sigurnosne kopije."
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Are you sure you want to close Evolution?"
@@ -21982,18 +21933,18 @@ msgid ""
 "To back up your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
 msgstr ""
-"Kako bi napravili sig. kopiju vaših podataka i postavki, najprije morate "
+"Kako bi sigurnosno kopirali vaše podatke i postavke, najprije morate "
 "zatvoriti Evolution. Prije nastavka, spremite sve nespremljene podatke."
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Close and _Back up Evolution"
-msgstr ""
+msgstr "Zatvori i _sigurnosno kopiraj Evolution"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
 msgstr ""
-"Sigurno želite povratiti Evolution iz odabrane datoteke sigurnosne kopije?"
+"Sigurno želite obnoviti Evolution iz odabrane datoteke sigurnosne kopije?"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid ""
@@ -22002,13 +21953,14 @@ msgid ""
 "all your current Evolution data and settings and restore them from your "
 "backup."
 msgstr ""
-"Kako bi povratili vaše podatke i postavke najprije morate zatvoriti "
-"Evolution. Prije toga spremite sve nespremljene podatke. Ovo će obrisati sve "
-"trenutne Evolutionove podatke i postavke i povratiti ih iz sigurnosne kopije."
+"Kako bi obnovili vaše podatke i postavke, najprije morate zatvoriti "
+"Evolution. Prije nastavka, spremite sve nespremljene podatke. Ovo će "
+"obrisati sve trenutne Evolutionove podatke i postavke i obnoviti ih iz "
+"sigurnosne kopije."
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "Close and _Restore Evolution"
-msgstr ""
+msgstr "Zatvori i _obnovi Evolution"
 
 #: ../src/modules/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid "Insufficient Permissions"
@@ -22780,7 +22732,7 @@ msgstr "Informacije o izdavanju"
 #: ../src/modules/calendar/e-cal-shell-backend.c:118
 msgctxt "New"
 msgid "_Appointment"
-msgstr "_Zakazani sastanak"
+msgstr "_Ugovoreni sastanak"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:120
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1426
@@ -22790,7 +22742,7 @@ msgstr "Napravi novi zakazani sastanak"
 #: ../src/modules/calendar/e-cal-shell-backend.c:125
 msgctxt "New"
 msgid "All Day A_ppointment"
-msgstr "Cjelodnevni z_akazani sastanak"
+msgstr "Cjelodnevni u_govoreni sastanak"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:127
 msgid "Create a new all-day appointment"
@@ -22973,7 +22925,7 @@ msgstr "_Delegiraj sastanak..."
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1368
 msgid "_Delete Appointment"
-msgstr "_Obriši zakazani sastanak"
+msgstr "_Obriši ugovoreni sastanak"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1370
 msgid "Delete selected appointments"
@@ -23041,7 +22993,7 @@ msgstr "Učini ovo pojavljivanje _pomičnim"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1438
 msgid "_Open Appointment"
-msgstr "_Otvori zakazani sastanak"
+msgstr "_Otvori ugovoreni sastanak"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1440
 msgid "View the current appointment"
@@ -24739,46 +24691,45 @@ msgstr "Stvori novu mapu e-pošte"
 #: ../src/modules/mail/e-mail-shell-backend.c:782
 msgctxt "NetworkMonitor"
 msgid "base"
-msgstr ""
+msgstr "osnovno"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
 #: ../src/modules/mail/e-mail-shell-backend.c:785
 msgctxt "NetworkMonitor"
 msgid "netlink"
-msgstr ""
+msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
 #. it to some user-frienly form, or keep it as is.
 #: ../src/modules/mail/e-mail-shell-backend.c:788
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
-msgstr ""
+msgstr "mrežni upravitelj"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:818
 msgctxt "NetworkMonitor"
 msgid "Method to detect _online state:"
-msgstr ""
+msgstr "Način otkrivanja _mrežnih postavki:"
 
 #. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
 #: ../src/modules/mail/e-mail-shell-backend.c:829
-#, fuzzy, c-format
-#| msgid "Defaults"
+#, c-format
 msgctxt "NetworkMonitor"
 msgid "Default (%s)"
-msgstr "Uobičajeno"
+msgstr "Zadano (%s)"
 
 #. Always as the first
 #: ../src/modules/mail/e-mail-shell-backend.c:833
 msgctxt "NetworkMonitor"
 msgid "Default"
-msgstr ""
+msgstr "Zadano"
 
 #. Always as the last
 #: ../src/modules/mail/e-mail-shell-backend.c:850
 msgctxt "NetworkMonitor"
 msgid "Always Online"
-msgstr ""
+msgstr "Uvijek na mreži"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:919
 msgid "Mail Preferences"
@@ -24786,7 +24737,7 @@ msgstr "Osobitosti e-pošte"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:928
 msgid "Composer Preferences"
-msgstr "Osobitosti sastavljača porukâ"
+msgstr "Osobitosti sastavljača poruka"
 
 #: ../src/modules/mail/e-mail-shell-backend.c:937
 msgid "Network Preferences"
@@ -24797,7 +24748,7 @@ msgstr "Mrežne osobitosti"
 #: ../src/modules/mail/e-mail-shell-backend.c:1298
 msgctxt "label"
 msgid "None"
-msgstr ""
+msgstr "Nijedna"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:853
 msgid "Marking messages as read…"
@@ -24841,11 +24792,11 @@ msgstr "Osvježi popis mapa ovog računa"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1607
 msgid "_Download Messages for Offline Usage"
-msgstr "_Preuzmi poruke za vanmrežno korištenje"
+msgstr "_Preuzmi poruke za izvanmrežno korištenje"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1609
 msgid "Download messages of accounts and folders marked for offline usage"
-msgstr "Preuzmi poruke iz računa i mapa označenih za vanmrežno korištenje"
+msgstr "Preuzmi poruke iz računa i mapa označenih za izvanmrežno korištenje"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1614
 msgid "Fl_ush Outbox"
@@ -24861,21 +24812,19 @@ msgstr "Kopiraj odabranu mapu u drugu mapu"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1630
 msgid "Permanently remove this folder"
-msgstr "Trajno izbriši ovu mapu"
+msgstr "Trajno obriši ovu mapu"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1635
 msgid "Edit Sort _Order…"
-msgstr ""
+msgstr "Uredi poredak _razvrstavanja…"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1637
-#, fuzzy
-#| msgid "Copy the selected folder into another folder"
 msgid "Change sort order of the folders in the folder tree"
-msgstr "Kopiraj odabranu mapu u drugu mapu"
+msgstr "Promijeni poredak razvrstavanja mapa u stablu mape"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1642
 msgid "E_xpunge"
-msgstr "I_zbaci"
+msgstr "U_kloni"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1644
 msgid "Permanently remove all deleted messages from this folder"
@@ -24959,7 +24908,7 @@ msgstr "_Upravljanje pretplatama"
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1736
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1820
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Pretplati se ili otkaži pretplatu na mape na udaljenim poslužiteljima"
+msgstr "Pretplati se ili prekini pretplatu na mape na udaljenim poslužiteljima"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1748
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1769
@@ -25044,17 +24993,19 @@ msgstr "Prikaži _pretpregled poruke"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1926
 msgid "Show message preview pane"
-msgstr "Prikaži okvir pretpregleda poruke"
+msgstr "Prikaži okvir pregleda poruke"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1932
 msgid "Show _Attachment Bar"
-msgstr "Prikaži traku sa _privitcima"
+msgstr "Prikaži traku s _privitcima"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1934
 msgid ""
 "Show Attachment Bar below the message preview pane when the message has "
 "attachments"
 msgstr ""
+"Prikaži traku s privitcima ispod okvira pregleda poruke kada poruka ima "
+"privitak"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1940
 msgid "Show _Deleted Messages"
@@ -25066,11 +25017,11 @@ msgstr "Prikaži obrisane poruke s prekriženom linijom"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1948
 msgid "Show _Junk Messages"
-msgstr ""
+msgstr "Prikaži poruke _neželjene pošte"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1950
 msgid "Show junk messages with a red line through them"
-msgstr ""
+msgstr "Prikaži poruke neželjene pošte s crvenim retkom preko njih"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1956
 msgid "_Group By Threads"
@@ -25082,19 +25033,19 @@ msgstr "Popis poruka u nitima"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1964
 msgid "Show To _Do Bar"
-msgstr "Pokaži _traku zadataka"
+msgstr "Prikaži _traku zadataka"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1966
 msgid "Show To Do bar with appointments and tasks"
-msgstr ""
+msgstr "Prikaži traku zadataka sa sastancima i zadacima"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1972
 msgid "_Unmatched Folder Enabled"
-msgstr ""
+msgstr "_Omogući nepodudarajuću mapu"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1974
 msgid "Toggles whether Unmatched search folder is enabled"
-msgstr ""
+msgstr "Uklj/Isklj omogućvanje nepodudarajuće mape pretrage"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1994
 msgid "Show message preview below the message list"
@@ -25150,19 +25101,19 @@ msgstr "Predmet ili adresa sadrži"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2142
 msgid "All Accounts"
-msgstr "Svi računi"
+msgstr "Svim računima"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2149
 msgid "Current Account"
-msgstr "Trenutni račun"
+msgstr "Trenutnom računu"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2156
 msgid "Current Folder"
-msgstr "Trenutna mapa"
+msgstr "Trenutnoj mapi"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2163
 msgid "Current Folder and Subfolders"
-msgstr "Trenutna mapa i podmape"
+msgstr "Trenutnoj mapi i podmapama"
 
 #: ../src/modules/mail/e-mail-shell-view.c:995
 msgid "Current Folder and Subfolders Search"
@@ -25358,13 +25309,11 @@ msgstr ""
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:1
 msgid "Evolution is currently offline."
-msgstr "Evolution trenutno nije na mreži."
+msgstr "Evolution trenutno nije povezan s mrežom."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:2
-#, fuzzy
-#| msgid "Click 'Work Online' to return to online mode."
 msgid "Click “Work Online” to return to online mode."
-msgstr "Kliknite na \"Mrežni rad\" za povratak u način mrežnog rada."
+msgstr "Kliknite na \"Mrežni rad\" za uspostavu povezivanja s mrežom."
 
 #: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:3
 msgid "Evolution is currently offline due to a network outage."
@@ -25374,7 +25323,8 @@ msgstr "Evolution trenutno nije na mreži zbog nepostojanja iste."
 msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
-msgstr "Evolution će se vratiti u mrežni rad čim se uspostavi veza na mrežu."
+msgstr ""
+"Evolution će se vratiti u mrežni rad čim se uspostavi povezivanje s mrežom."
 
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:65
 msgid "Author(s)"
@@ -26163,20 +26113,19 @@ msgstr "Dobavi arhivu poštanske liste kojoj ova poruka pripada"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:424
 msgid "Copy _Message Archive URL"
-msgstr ""
+msgstr "Kopiraj _URL arhive poruke"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:426
 msgid "Copy direct URL for the selected message in its archive"
-msgstr ""
+msgstr "Kopiraj izravni URL za odabranu poruku u ovoj arhivi"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:431
 msgid "Get List _Usage Information"
-msgstr "Dobavi informacije o _korištenju liste"
+msgstr "Nabavi informacije o _korištenju liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:433
 msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
-"Dobavi informaciju o korištenju poštanske liste kojoj ova poruka pripada"
+msgstr "Nabavi informaciju o korištenju mailing liste kojoj ova poruka pripada"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:438
 msgid "Contact List _Owner"
@@ -26184,7 +26133,7 @@ msgstr "Kontaktiraj _vlasnika liste"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:440
 msgid "Contact the owner of the mailing list this message belongs to"
-msgstr "Konaktiraj vlasnika poštanske liste kojemu ova poruka pripada"
+msgstr "Konaktiraj vlasnika mailing liste kojemu ova poruka pripada"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:445
 msgid "_Post Message to List"
@@ -26192,7 +26141,7 @@ msgstr "_Pošalji poruku na listu"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:447
 msgid "Post a message to the mailing list this message belongs to"
-msgstr "Pošalji poruku na poštansku listu kojoj ova poruka pripada"
+msgstr "Pošalji poruku na mailing listu kojoj ova poruka pripada"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:452
 msgid "_Subscribe to List"
@@ -26200,28 +26149,28 @@ msgstr "_Pretplati se na listu"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:454
 msgid "Subscribe to the mailing list this message belongs to"
-msgstr "Pretplati se na poštansku listu kojoj ova poruka pripada"
+msgstr "Pretplati se na mailing listu kojoj ova poruka pripada"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:459
 msgid "_Unsubscribe from List"
-msgstr "_Otkaži pretplatu na listu"
+msgstr "_Prekini pretplatu na listu"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:461
 msgid "Unsubscribe from the mailing list this message belongs to"
-msgstr "_Otkaži pretplatu na poštanski popis kojem pripada ova poruka"
+msgstr "_Prekini pretplatu na mailing listu kojoj pripada ova poruka"
 
 #: ../src/plugins/mailing-list-actions/mailing-list-actions.c:468
 msgid "Mailing _List"
-msgstr "Poštanska _lista"
+msgstr "Mailing _lista"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
 msgid "Mailing List Actions"
-msgstr "Radnje poštanske liste"
+msgstr "Radnje mailing liste"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
 msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
 msgstr ""
-"Obavljajte česte radnje na poštanskoj listi (pretplatite se, otkažite "
+"Obavljajte česte radnje na mailing listi (pretplatite se, prekinite "
 "pretplatu itd.)."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
@@ -26243,21 +26192,14 @@ msgid ""
 "Posting to this mailing list is not allowed. Possibly, this is a read-only "
 "mailing list. Contact the list owner for details."
 msgstr ""
-"Slanje poruke na ovu poštansku listu nije dozvoljeno. Moguće je da je ova "
-"poštanska lista samo za čitanje. Kontaktirajte vlasnika liste za detalje."
+"Slanje poruke na ovu mailing listu nije dopušteno. Moguće je da je ova "
+"mailing lista samo za čitanje. Kontaktirajte vlasnika liste o pojedinostima."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
 msgid "Send e-mail message to mailing list?"
-msgstr "Poslati poruku na poštansku listu?"
+msgstr "Pošalji poruku na mailing listu?"
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
-#, fuzzy
-#| msgid ""
-#| "An e-mail message will be sent to the URL \"{0}\". You can either send "
-#| "the message automatically, or see and change it first.\n"
-#| "\n"
-#| "You should receive an answer from the mailing list shortly after the "
-#| "message has been sent."
 msgid ""
 "An e-mail message will be sent to the URL “{0}”. You can either send the "
 "message automatically, or see and change it first.\n"
@@ -26265,10 +26207,10 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"Poruka će biti poslana na URL \"{0}\". Možete poslati poruku automatski, ili "
-"je prvo vidjeti i promijeniti.\n"
+"Poruka e-pošte će biti poslana na URL \"{0}\". Možete poslati poruku "
+"automatski, ili je prvo vidjeti i promijeniti.\n"
 "\n"
-"Trebali biste dobiti odgovor od poštanske liste kratko nakon što je poruka "
+"Trebali biste dobiti odgovor od mailing liste netom nakon što je poruka "
 "poslana."
 
 #: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
@@ -26338,13 +26280,13 @@ msgstr "Tema: %s"
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "(i još %d)"
+msgstr[1] "(i još %d)"
+msgstr[2] "(i još %d)"
 
 #: ../src/plugins/mail-notification/mail-notification.c:513
 msgid "New email in Evolution"
-msgstr ""
+msgstr "Nova e-pošta u Evolutionu"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
@@ -26539,7 +26481,7 @@ msgstr ""
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1328
 msgid "Create an _Appointment"
-msgstr ""
+msgstr "Stvori ugovoreni _sastanak"
 
 #: ../src/plugins/mail-to-task/mail-to-task.c:1330
 msgid "Create a new event from the selected message"
@@ -27079,7 +27021,7 @@ msgstr "_Zatvori prozor"
 
 #: ../src/shell/e-shell-window-actions.c:896
 msgid "_Contents"
-msgstr "_Sadržaj"
+msgstr "_Priručnik"
 
 #: ../src/shell/e-shell-window-actions.c:898
 msgid "Open the Evolution User Guide"
@@ -27143,7 +27085,7 @@ msgstr "Kliknite ovdje za promjenu vrste pretrage"
 
 #: ../src/shell/e-shell-window-actions.c:994
 msgid "_Find Now"
-msgstr "_Pretraži sad"
+msgstr "_Pretraži odmah"
 
 #: ../src/shell/e-shell-window-actions.c:996
 msgid "Execute the current search parameters"
@@ -27179,11 +27121,11 @@ msgstr "_Izvanmrežni rad"
 
 #: ../src/shell/e-shell-window-actions.c:1031
 msgid "Put Evolution into offline mode"
-msgstr "Prebacite Evolution u vanmrežni rad"
+msgstr "Prebacite Evolution u izvanmrežni rad"
 
 #: ../src/shell/e-shell-window-actions.c:1036
 msgid "_Work Online"
-msgstr "_Radi mrežno"
+msgstr "Mrežni rad"
 
 #: ../src/shell/e-shell-window-actions.c:1038
 msgid "Put Evolution into online mode"
