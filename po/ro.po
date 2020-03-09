@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-03-08 11:48+0000\n"
-"PO-Revision-Date: 2020-03-09 15:43+0100\n"
+"POT-Creation-Date: 2020-03-09 14:46+0000\n"
+"PO-Revision-Date: 2020-03-09 17:54+0100\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
@@ -577,6 +577,15 @@ msgstr "Dacă să se deruleze Vizualizarea lunii după săptămâni, nu după lu
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:91
 msgid "Whether to scroll a Month View by a week, not by a month"
 msgstr "Dacă să se deruleze Vizualizarea lunii după săptămâni, nu după luni"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:92
+msgid "Let the Month View start with the current week"
+msgstr "Lasă Vizualizarea lunară să înceapă cu săptămâna curentă"
+
+#: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:93
+msgid "Whether the month view should show weeks starting with the current week instead of the first week of the month."
+msgstr ""
+"Dacă vizualizarea lunară ar trebui să arate săptămâni începând cu săptămâna curentă în loc de prima săptămână a lunii."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:94
 msgid "Preferred New button item"
@@ -2349,6 +2358,10 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "Whether unset colors provided in HTML mails."
 msgstr "Dacă să se destabilească culorile oferite de emailurile HTML."
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:296
+msgid "If enabled, unset colors in HTML messages, forcing use of desktop theme colors instead."
+msgstr "Dacă este activat, culorile din mesajele HTLM vor fi destabilite, forțând culorile temei desktopului în loc."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:297
 msgid "(Deprecated) Default forward style"
