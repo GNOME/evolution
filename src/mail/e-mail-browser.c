@@ -467,7 +467,6 @@ mail_browser_key_press_event_cb (GtkWindow *mail_browser,
 	if (!event || (event->state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) != 0 ||
 	    event->keyval == GDK_KEY_Tab ||
 	    event->keyval == GDK_KEY_Return ||
-	    event->keyval == GDK_KEY_Escape ||
 	    event->keyval == GDK_KEY_KP_Tab ||
 	    event->keyval == GDK_KEY_KP_Enter)
 		return event && e_mail_display_need_key_event (mail_display, event);
@@ -477,7 +476,7 @@ mail_browser_key_press_event_cb (GtkWindow *mail_browser,
 	if (focused && (GTK_IS_ENTRY (focused) || GTK_IS_EDITABLE (focused) ||
 	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0))) {
 		gtk_widget_event (focused, (GdkEvent *) event);
-		return TRUE;
+		return event->keyval != GDK_KEY_Escape;
 	}
 
 	if (e_web_view_get_need_input (E_WEB_VIEW (mail_display)) &&
