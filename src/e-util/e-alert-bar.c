@@ -39,15 +39,17 @@ GType e_scrolled_window_get_type (void) G_GNUC_CONST;
 G_DEFINE_TYPE (EScrolledWindow, e_scrolled_window, GTK_TYPE_SCROLLED_WINDOW)
 
 static void
-e_scrolled_window_get_preferred_height (GtkWidget *widget,
-					gint *minimum_size,
-					gint *natural_size)
+e_scrolled_window_get_preferred_height_for_width (GtkWidget *widget,
+						  gint width,
+						  gint *minimum_size,
+						  gint *natural_size)
 {
 	GtkScrolledWindow *scrolled_window = GTK_SCROLLED_WINDOW (widget);
+	GtkWidget *child;
 	gint min_height, max_height;
 
 	/* Chain up to parent's method. */
-	GTK_WIDGET_CLASS (e_scrolled_window_parent_class)->get_preferred_height (widget, minimum_size, natural_size);
+	GTK_WIDGET_CLASS (e_scrolled_window_parent_class)->get_preferred_height_for_width (widget, width, minimum_size, natural_size);
 
 	min_height = gtk_scrolled_window_get_min_content_height (scrolled_window);
 	max_height = gtk_scrolled_window_get_max_content_height (scrolled_window);
@@ -57,6 +59,26 @@ e_scrolled_window_get_preferred_height (GtkWidget *widget,
 
 	if (max_height > 0 && max_height < *natural_size)
 		*natural_size = max_height + 2;
+
+	child = gtk_bin_get_child (GTK_BIN (widget));
+
+	if (child && width > 1) {
+		gint child_min_height = -1, child_natural_height = -1;
+
+		gtk_widget_get_preferred_height_for_width (child, width, &child_min_height, &child_natural_height);
+
+		if (*minimum_size > child_min_height && child_min_height > 0)
+			*minimum_size = child_min_height + 2;
+
+		if (*natural_size > child_natural_height && child_natural_height > 0)
+			*natural_size = child_natural_height + 2;
+	}
+}
+
+static GtkSizeRequestMode
+e_scrolled_window_get_request_mode (GtkWidget *widget)
+{
+	return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
 }
 
 static void
@@ -65,7 +87,8 @@ e_scrolled_window_class_init (EScrolledWindowClass *class)
 	GtkWidgetClass *widget_class;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->get_preferred_height = e_scrolled_window_get_preferred_height;
+	widget_class->get_preferred_height_for_width = e_scrolled_window_get_preferred_height_for_width;
+	widget_class->get_request_mode = e_scrolled_window_get_request_mode;
 }
 
 static void
