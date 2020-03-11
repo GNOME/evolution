@@ -2518,7 +2518,19 @@ test_convert_to_plain (TestFixture *fixture)
 		"1234567890\n"
 		"1234567890\n"
 		"1\n",
-		10 }
+		10 },
+	/* 49 */{ HTML ("<div style='width:70ch'>before <img src='https://no.where/img.img'> after</div>"),
+		"before after\n",
+		70 },
+	/* 50 */{ HTML ("<div style='width:70ch'>before <img src='https://no.where/img.img' alt='alt'> after</div>"),
+		"before alt after\n",
+		70 },
+	/* 51 */{ HTML ("<div style='width:70ch'>before <a href='https://no.where/'>https://no.where/</a> after</div>"),
+		"before https://no.where/ after\n",
+		70 },
+	/* 52 */{ HTML ("<div style='width:70ch'>before <a href='https://no.where/'>here</a> after</div>"),
+		"before here after\n",
+		70 }
 	};
 
 	#undef HTML
