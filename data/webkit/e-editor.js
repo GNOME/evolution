@@ -207,7 +207,7 @@ EvoEditor.maybeUpdateFormattingState = function(force)
 		value = value.substr(1, value.length - 2);
 	if (force || value != EvoEditor.formattingState.fontFamily) {
 		EvoEditor.formattingState.fontFamily = value;
-		changes["fontFamily"] = (window.getComputedStyle(document.body).fontFamily == value) ? "" : value;
+		changes["fontFamily"] = (!document.body || window.getComputedStyle(document.body).fontFamily == value) ? "" : value;
 		nchanges++;
 	}
 
@@ -245,7 +245,7 @@ EvoEditor.maybeUpdateFormattingState = function(force)
 		nchanges++;
 	}
 
-	value = document.body.text;
+	value = document.body ? document.body.text : "";
 	if (force || value != EvoEditor.formattingState.bodyFgColor) {
 		EvoEditor.formattingState.bodyFgColor = value;
 		changes["bodyFgColor"] = value;
@@ -1764,15 +1764,107 @@ EvoEditor.SetNormalParagraphWidth = function(value)
 	}
 }
 
-EvoEditor.convertImages = function()
+EvoEditor.moveNodeContent = function(node, intoNode)
 {
-	var ii;
+	if (!node || !node.parentElement)
+		return;
+
+	var parent = node.parentElement;
+
+	while (node.firstChild) {
+		if (intoNode) {
+			intoNode.append(node.firstChild);
+		} else {
+			parent.insertBefore(node.firstChild, node.nextSibling);
+		}
+	}
+}
+
+EvoEditor.convertTags = function()
+{
+	var ii, list;
 
 	for (ii = document.images.length - 1; ii >= 0; ii--) {
 		var img = document.images[ii];
 
 		img.outerText = EvoConvert.ImgToText(img);
 	}
+
+	for (ii = document.anchors.length - 1; ii >= 0; ii--) {
+		var anchor = document.anchors[ii];
+
+		EvoEditor.moveNodeContent(anchor);
+
+		anchor.parentElement.removeChild(anchor);
+	}
+
+	list = document.getElementsByTagName("TABLE");
+
+	for (ii = list.length - 1; ii >= 0; ii--) {
+		var table = list[ii], textNode;
+
+		textNode = document.createTextNode(table.innerText);
+		table.parentElement.insertBefore(textNode, table);
+		table.parentElement.removeChild(table);
+	}
+
+	var node = document.body.firstChild, next;
+
+	while (node) {
+		var removeNode = false;
+
+		if (node.nodeType == node.ELEMENT_NODE) {
+			if (node.tagName != "DIV" &&
+			    node.tagName != "PRE" &&
+			    node.tagName != "BLOCKQUOTE" &&
+			    node.tagName != "UL" &&
+			    node.tagName != "OL" &&
+			    node.tagName != "LI" &&
+			    node.tagName != "BR") {
+				removeNode = true;
+
+				// convert P into DIV
+				if (node.tagName == "P") {
+					var div = document.createElement("DIV");
+					EvoEditor.moveNodeContent(node, div);
+					node.parentElement.insertBefore(div, node.nextSibling);
+				} else {
+					EvoEditor.moveNodeContent(node);
+				}
+			}
+		}
+
+		next = node.firstChild;
+
+		if (!next)
+			next = node.nextSibling;
+
+		if (!next) {
+			next = node.parentElement;
+
+			if (next === document.body)
+				next = null;
+
+			while (next) {
+				if (next.nextSibling) {
+					next = next.nextSibling;
+					break;
+				} else {
+					next = next.parentElement;
+
+					if (next === document.body)
+						next = null;
+				}
+			}
+		}
+
+		if (removeNode)
+			node.parentElement.removeChild(node);
+
+		node = next;
+	}
+
+	document.body.normalize();
 }
 
 EvoEditor.SetMode = function(mode)
@@ -1799,7 +1891,7 @@ EvoEditor.SetMode = function(mode)
 			EvoEditor.mode = mode;
 
 			if (mode == EvoEditor.MODE_PLAIN_TEXT) {
-				EvoEditor.convertImages();
+				EvoEditor.convertTags();
 				EvoEditor.convertParagraphs(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
 			} else {
 				EvoEditor.convertParagraphs(document.body, -1);
@@ -4244,7 +4336,7 @@ EvoEditor.processLoadedContent = function()
 	}
 
 	// require blocks under BLOCKQUOTE
-	list = document.querySelectorAll("BLOCKQUOTE");
+	list = document.getElementsByTagName("BLOCKQUOTE");
 
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		var blockquoteNode = list[ii], addingTo = null, next;
@@ -4443,7 +4535,7 @@ EvoEditor.WrapSelection = function()
 		}
 
 		if (!childFrom || !childTo) {
-			throw "EvoEditor.WrapSelection: Should not be reached (childFrom and childTo cannot be NULL)";
+			throw "EvoEditor.WrapSelection: Should not be reached (childFrom and childTo cannot be null)";
 		}
 
 		sz = commonParent.children.length;
