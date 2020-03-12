@@ -1689,7 +1689,143 @@ EvoEditor.initializeContent = function()
 	}
 }
 
-EvoEditor.convertParagraphs = function(parent, wrapWidth)
+EvoEditor.getNextNodeInHierarchy = function(node, upToNode)
+{
+	if (!node)
+		return null;
+
+	var next;
+
+	next = node.firstChild;
+
+	if (!next)
+		next = node.nextSibling;
+
+	if (!next) {
+		next = node.parentElement;
+
+		if (next === document.body || next === upToNode)
+			next = null;
+
+		while (next) {
+			if (next.nextSibling) {
+				next = next.nextSibling;
+				break;
+			} else {
+				next = next.parentElement;
+
+				if (next === document.body || next === upToNode)
+					next = null;
+			}
+		}
+	}
+
+	return next;
+}
+
+// it already knows the line is too long; the node is where the text length exceeded
+EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
+{
+	if (node.nodeType == node.ELEMENT_NODE) {
+		var br = document.createElement("BR");
+		br.className = "-x-evo-wrap-br";
+
+		node.insertAdjacentElement("beforebegin", br);
+		node.insertAdjacentHTML("beforebegin", prefixHtml);
+
+		return node.innerText.length;
+	}
+
+	var words = node.nodeValue.split(" "), ii, offset = 0, inc;
+
+	for (ii = 0; ii < words.length; ii++) {
+		var word = words[ii], wordLen = word.length;
+
+		if (lineLength + wordLen > wrapWidth) {
+			node.splitText(offset - 1);
+			node = node.nextSibling;
+
+			// erase the space at the end of the line
+			node.splitText(1);
+			var next = node.nextSibling;
+			node.parentElement.removeChild(node);
+			node = next;
+
+			var br = document.createElement("BR");
+			br.className = "-x-evo-wrap-br";
+
+			node.parentElement.insertBefore(br, node);
+			br.insertAdjacentHTML("afterend", prefixHtml);
+
+			offset = 0;
+			lineLength = 0;
+		}
+
+		inc = wordLen + (ii + 1 < words.length ? 1 : 0);
+
+		lineLength += inc;
+		offset += inc;
+	}
+
+	return lineLength;
+}
+
+EvoEditor.getBlockquotePrefixHtml = function(blockquoteLevel)
+{
+	var prefixHtml;
+
+	prefixHtml = "<span class='-x-evo-quote-character'>&gt; </span>".repeat(blockquoteLevel);
+	prefixHtml = "<span class='-x-evo-quoted'>" + prefixHtml + "</span>";
+
+	return prefixHtml;
+}
+
+EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
+{
+	if (!paragraph || !(blockquoteLevel > 0))
+		return;
+
+	var node = paragraph.firstChild, next, lineLength = 0;
+	var prefixHtml = EvoEditor.getBlockquotePrefixHtml(blockquoteLevel);
+
+	while (node) {
+		next = EvoEditor.getNextNodeInHierarchy(node, paragraph);
+
+		if (node.nodeType == node.TEXT_NODE) {
+			if (wrapWidth > 0 && lineLength + node.nodeValue.length > wrapWidth) {
+				lineLength = EvoEditor.quoteParagraphWrap(node, lineLength, wrapWidth, prefixHtml);
+			} else {
+				lineLength += node.nodeValue.length;
+			}
+		} else if (node.nodeType == node.ELEMENT_NODE) {
+			if (node.tagName == "BR") {
+				if (node.classList.contains("-x-evo-wrap-br")) {
+					node.parentElement.removeChild(node);
+				} else {
+					node.insertAdjacentHTML("afterend", prefixHtml);
+					lineLength = 0;
+				}
+			} else if (node.tagName == "A") {
+				var len = node.innerText.length;
+
+				if (wrapWidth > 0 && lineLength + len > wrapWidth && (!next || next.tagName != "BR")) {
+					lineLength = EvoEditor.quoteParagraphWrap(node, lineLength, wrapWidth, prefixHtml);
+				} else {
+					lineLength += len;
+				}
+
+				// do not traverse into the anchor element
+				next = node.nextSibling;
+			}
+		}
+
+		node = next;
+	}
+
+	paragraph.insertAdjacentHTML("afterbegin", prefixHtml);
+}
+
+EvoEditor.convertParagraphs = function(parent, wrapWidth, blockquoteLevel)
 {
 	if (!parent)
 		return;
@@ -1700,21 +1836,48 @@ EvoEditor.convertParagraphs = function(parent, wrapWidth)
 		var child = parent.children.item(ii);
 
 		if (child.tagName == "DIV") {
-			if (wrapWidth == -1) {
+			if (wrapWidth == -1 || (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && blockquoteLevel > 0)) {
 				child.style.width = "";
 				EvoEditor.removeEmptyStyleAttribute(child);
+
+				if (wrapWidth == -1)
+					child.removeAttribute("x-evo-width");
+				else
+					child.setAttribute("x-evo-width", wrapWidth);
 			} else {
 				child.style.width = wrapWidth + "ch";
+				child.removeAttribute("x-evo-width");
+			}
+
+			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && blockquoteLevel > 0)
+				EvoEditor.quoteParagraph(child, blockquoteLevel, wrapWidth);
+		} else if (child.tagName == "PRE") {
+			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && blockquoteLevel > 0) {
+				var prefixHtml = EvoEditor.getBlockquotePrefixHtml(blockquoteLevel);
+				var lines = child.innerText.split("\n"), ii, text = "";
+
+				for (ii = 0; ii < lines.length; ii++) {
+					text += prefixHtml + lines[ii].replace(/\&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+					if (ii + 1 < lines.length)
+						text += "\n";
+				}
+
+				if (!lines.length)
+					text += prefixHtml;
+
+				child.innerHTML = text;
 			}
 		} else if (child.tagName == "BLOCKQUOTE") {
 			var innerWrapWidth = wrapWidth;
 
-			innerWrapWidth -= 2; // length of "> "
+			if (innerWrapWidth > 0) {
+				innerWrapWidth -= 2; // length of "> "
 
-			if (innerWrapWidth < EvoConvert.MIN_PARAGRAPH_WIDTH)
-				innerWrapWidth = EvoConvert.MIN_PARAGRAPH_WIDTH;
+				if (innerWrapWidth < EvoConvert.MIN_PARAGRAPH_WIDTH)
+					innerWrapWidth = EvoConvert.MIN_PARAGRAPH_WIDTH;
+			}
 
-			EvoEditor.convertParagraphs(child, innerWrapWidth);
+			EvoEditor.convertParagraphs(child, innerWrapWidth, blockquoteLevel + 1);
 		} else if (child.tagName == "UL") {
 			if (wrapWidth == -1) {
 				child.style.width = "";
@@ -1760,7 +1923,7 @@ EvoEditor.SetNormalParagraphWidth = function(value)
 		EvoEditor.NORMAL_PARAGRAPH_WIDTH = value;
 
 		if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
-			EvoEditor.convertParagraphs(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+			EvoEditor.convertParagraphs(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH, 0);
 	}
 }
 
@@ -1790,8 +1953,10 @@ EvoEditor.convertTags = function()
 		img.outerText = EvoConvert.ImgToText(img);
 	}
 
-	for (ii = document.anchors.length - 1; ii >= 0; ii--) {
-		var anchor = document.anchors[ii];
+	list = document.getElementsByTagName("A");
+
+	for (ii = list.length - 1; ii >= 0; ii--) {
+		var anchor = list[ii];
 
 		EvoEditor.moveNodeContent(anchor);
 
@@ -1834,34 +1999,44 @@ EvoEditor.convertTags = function()
 			}
 		}
 
-		next = node.firstChild;
-
-		if (!next)
-			next = node.nextSibling;
-
-		if (!next) {
-			next = node.parentElement;
-
-			if (next === document.body)
-				next = null;
-
-			while (next) {
-				if (next.nextSibling) {
-					next = next.nextSibling;
-					break;
-				} else {
-					next = next.parentElement;
-
-					if (next === document.body)
-						next = null;
-				}
-			}
-		}
+		next = EvoEditor.getNextNodeInHierarchy(node, document.body);
 
 		if (removeNode)
 			node.parentElement.removeChild(node);
 
 		node = next;
+	}
+
+	document.body.normalize();
+}
+
+EvoEditor.removeQuoteMarks = function()
+{
+	var ii, list;
+
+	list = document.querySelectorAll("span.-x-evo-quoted");
+
+	for (ii = list.length - 1; ii >= 0; ii--) {
+		var node = list[ii];
+
+		node.parentElement.removeChild(node);
+	}
+
+	list = document.querySelectorAll("br.-x-evo-wrap-br");
+
+	for (ii = list.length - 1; ii >= 0; ii--) {
+		var node = list[ii];
+
+		node.insertAdjacentText("beforebegin", " ");
+		node.parentElement.removeChild(node);
+	}
+
+	list = document.querySelectorAll("div[x-evo-width]");
+
+	for (ii = list.length - 1; ii >= 0; ii--) {
+		var node = list[ii];
+
+		node.removeAttribute("x-evo-width");
 	}
 
 	document.body.normalize();
@@ -1890,11 +2065,13 @@ EvoEditor.SetMode = function(mode)
 		try {
 			EvoEditor.mode = mode;
 
+			EvoEditor.removeQuoteMarks();
+
 			if (mode == EvoEditor.MODE_PLAIN_TEXT) {
 				EvoEditor.convertTags();
-				EvoEditor.convertParagraphs(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+				EvoEditor.convertParagraphs(document.body, EvoEditor.NORMAL_PARAGRAPH_WIDTH, 0);
 			} else {
-				EvoEditor.convertParagraphs(document.body, -1);
+				EvoEditor.convertParagraphs(document.body, -1, 0);
 			}
 		} finally {
 			EvoUndoRedo.Enable();
