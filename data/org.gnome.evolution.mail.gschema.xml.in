@@ -811,7 +811,7 @@
       <_summary>Whether preserve original message subject when applying template for Alternative Reply</_summary>
     </key>
     <key name="composer-mailto-body-in-pre" type="b">
-      <default>true</default>
+      <default>false</default>
       <_summary>Whether set “body” in mailto: URI as Preformatted paragraph style. If set to “false”, then Normal paragraph style will be used.</_summary>
     </key>
     <key name="browser-close-on-delete-or-junk" type="b">
