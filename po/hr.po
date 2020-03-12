@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2020-03-08 11:48+0000\n"
-"PO-Revision-Date: 2020-03-10 21:32+0100\n"
+"PO-Revision-Date: 2020-03-12 02:38+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -1794,56 +1794,56 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Thread the message-list based on Subject"
-msgstr "Prikaži popis poruka u obliku niti na temelju teme"
+msgstr "Rasprava popisa poruka temeljena na predmetu"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
+#, fuzzy
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Hoće li se prebaciti na nizanje po temi kad poruke ne sadrže \"U odgovoru na"
-"\" i \"Reference\" zaglavlja."
+"Treba li se vratiti na raspravu po predmetu kada poruke ne sadrže \"U "
+"odgovoru na\" i \"Reference\" zaglavlja."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Default value for thread expand state"
-msgstr "Uobičajena vrijednost za stanje proširenja niti"
+msgstr "Zadana vrijednost za stanje proširenja rasprave"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:157
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
-"Ova postavka određuje hoće li niti uobičajeno biti proširene ili sažete. "
-"Evolution zahtijeva ponovno pokretanje."
+"Ova postavka određuje treba li rasprava biti po zadanome u proširenom ili "
+"skupljenom stanju. Evolution zahtijeva ponovno pokretanje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:158
 msgid "Whether sort threads based on latest message in that thread"
-msgstr "Hoće li se poredati niti s obzirom na posljednju poruku u toj niti"
+msgstr "Treba li poredati rasprave na temelju posljednje poruke u toj raspravi"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:159
-#, fuzzy
-#| msgid ""
-#| "This setting specifies whether the threads should be sorted based on "
-#| "latest message in each thread, rather than by message's date. Evolution "
-#| "requires a restart."
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message’s date. Evolution requires a "
 "restart."
 msgstr ""
-"Ova postavka određuje hoće li niti biti poredane s obzirom na posljednju "
-"poruku u svakoj niti, a ne prema datumu poruke. Evolution zahtijeva ponovno "
-"pokretanje."
+"Ova postavka određuje treba li poredak rasprava biti temeljen na posljednjoj "
+"poruci u svakoj raspravi, radije nego prema datumu poruke. Evolution "
+"zahtijeva ponovno pokretanje."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:160
 msgid "Whether sort thread children always ascending"
-msgstr ""
+msgstr "Treba li poredati podrasprave uzlazno"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:161
+#, fuzzy
 msgid ""
 "This setting specifies whether the thread children should be sorted always "
 "ascending, rather than using the same sort order as in the thread root level."
 msgstr ""
+"Ova postavka određuje treba li podrasprava biti uvijek poredana uzlazno, "
+"radije nego da se koristi isti poredak razvrstavanja kao u glavnoj razini "
+"rasprave."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:162
 msgid "Sort accounts alphabetically in a folder tree"
@@ -2345,7 +2345,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:248
 msgid "Check for new messages in all active accounts"
-msgstr "Provjeri za nove poruke u svim aktivnim računima"
+msgstr "Provjeri nove poruke na svim aktivnim računima"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
 msgid ""
@@ -11897,7 +11897,7 @@ msgstr "Veličina"
 #: ../src/modules/mail/em-mailer-prefs.c:65
 #: ../src/smime/gui/certificate-manager.c:1627
 msgid "Subject"
-msgstr "Tema"
+msgstr "Predmet"
 
 #. pseudo-header
 #: ../src/em-format/e-mail-formatter-quote-headers.c:200
@@ -11921,7 +11921,7 @@ msgstr ""
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:93
 #: ../src/em-format/e-mail-formatter-text-html.c:389
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-html.c:94
 #: ../src/em-format/e-mail-formatter-text-html.c:390
@@ -12405,7 +12405,7 @@ msgstr "_Odbaci"
 
 #: ../src/e-util/e-alert-sink.c:244
 msgid "Failed to create a thread: "
-msgstr ""
+msgstr "Neuspjelo stvaranje rasprave: "
 
 #. To Translators: This text is set as a description of an attached
 #. * message when, for example, attaching it to a composer. When the
@@ -12417,7 +12417,7 @@ msgstr "Poruka u privitku"
 
 #: ../src/e-util/e-attachment.c:2085 ../src/e-util/e-attachment.c:3146
 msgid "Operation was cancelled"
-msgstr ""
+msgstr "Radnja je prekinuta"
 
 #. Translators: Default attachment filename.
 #: ../src/e-util/e-attachment.c:2270 ../src/e-util/e-attachment.c:2990
@@ -12427,17 +12427,16 @@ msgstr "privitak.dat"
 
 #: ../src/e-util/e-attachment.c:2352 ../src/e-util/e-attachment.c:3502
 msgid "A load operation is already in progress"
-msgstr "Operacija učitavanje se već izvršava"
+msgstr "Radnja učitavanja je već u tijeku"
 
 #: ../src/e-util/e-attachment.c:2360 ../src/e-util/e-attachment.c:3510
 msgid "A save operation is already in progress"
-msgstr "Operacija spremanja se već izvršava"
+msgstr "Radnja spremanja je već u tijeku"
 
 #: ../src/e-util/e-attachment.c:2757
-#, fuzzy, c-format
-#| msgid "Could not open %s:"
+#, c-format
 msgid "Could not open “%s”"
-msgstr "Neuspjelo otvaranje %s:"
+msgstr "Neuspjelo otvaranje “%s”"
 
 #: ../src/e-util/e-attachment.c:2760
 #, c-format
@@ -12449,10 +12448,9 @@ msgid "Attachment contents not loaded"
 msgstr "Sadržaj privitka nije učitan"
 
 #: ../src/e-util/e-attachment.c:3610
-#, fuzzy, c-format
-#| msgid "Could not save '%s'"
+#, c-format
 msgid "Could not save “%s”"
-msgstr "Neuspjelo spremanje '%s'"
+msgstr "Neuspjelo spremanje “%s”"
 
 #: ../src/e-util/e-attachment.c:3613
 #, c-format
@@ -12504,12 +12502,12 @@ msgstr "Spremanje"
 
 #: ../src/e-util/e-attachment-paned.c:103
 msgid "Hide Attachment _Bar"
-msgstr "Sakrij traku sa privitcima"
+msgstr "Sakrij traku _privitaka"
 
 #: ../src/e-util/e-attachment-paned.c:105
 #: ../src/e-util/e-attachment-paned.c:741
 msgid "Show Attachment _Bar"
-msgstr "Prikaži traku sa privitcima"
+msgstr "Prikaži traku _privitaka"
 
 #: ../src/e-util/e-attachment-store.c:656
 #: ../src/e-util/e-attachment-store.c:663
@@ -12524,7 +12522,7 @@ msgstr "D_odaj"
 
 #: ../src/e-util/e-attachment-store.c:721
 msgid "Archive selected directories using this format:"
-msgstr "Arhiviraj odabrane direktorije koristeći format:"
+msgstr "Arhiviraj odabrane direktorije koristeći ovaj format:"
 
 #: ../src/e-util/e-attachment-store.c:838
 msgid "Save Attachment"
@@ -12535,15 +12533,15 @@ msgstr[2] "Spremi privitke"
 
 #: ../src/e-util/e-attachment-store.c:876
 msgid "Do _not extract files from the attachment"
-msgstr ""
+msgstr "Ne _raspakiravaj datoteke iz privitka"
 
 #: ../src/e-util/e-attachment-store.c:881
 msgid "Save extracted files _only"
-msgstr ""
+msgstr "Spremi samo raspakirane _datoteke"
 
 #: ../src/e-util/e-attachment-store.c:886
 msgid "Save extracted files and the original _archive"
-msgstr ""
+msgstr "Spremi raspakirane datoteke i izvornu _arhivu"
 
 #: ../src/e-util/e-attachment-view.c:308
 msgid "Open With Other Application…"
@@ -12606,7 +12604,7 @@ msgstr "Autodovršavanje sa ovim adresarom"
 
 #: ../src/e-util/e-book-source-config.c:277
 msgid "Copy book content locally for offline operation"
-msgstr ""
+msgstr "Kopiraj sadržaj adresara lokalno za izvanmrežno korištenje"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../src/e-util/e-buffer-tagger.c:410
@@ -12669,19 +12667,19 @@ msgstr "Boja:"
 
 #: ../src/e-util/e-cal-source-config.c:428
 msgid "Copy calendar contents locally for offline operation"
-msgstr ""
+msgstr "Kopiraj sadržaj kalendara lokalno za izvanmrežno korištenje"
 
 #: ../src/e-util/e-cal-source-config.c:432
 msgid "Copy task list contents locally for offline operation"
-msgstr ""
+msgstr "Kopiraj sadržaj popisa zadataka lokalno za izvanmrežno korištenje"
 
 #: ../src/e-util/e-cal-source-config.c:436
 msgid "Copy memo list contents locally for offline operation"
-msgstr ""
+msgstr "Kopiraj sadržaj popisa dopisa lokalno za izvanmrežno korištenje"
 
 #: ../src/e-util/e-categories-editor.c:251
 msgid "Currently _used categories:"
-msgstr ""
+msgstr "Trenutno _korištene kategorije:"
 
 #: ../src/e-util/e-categories-editor.c:262
 msgid "_Available Categories:"
@@ -12821,7 +12819,7 @@ msgstr "Turski"
 
 #: ../src/e-util/e-charset.c:61
 msgid "Unicode"
-msgstr "Unicode"
+msgstr "Unikôd"
 
 #: ../src/e-util/e-charset.c:62
 msgid "Western European"
@@ -12868,7 +12866,7 @@ msgstr "Ostalo…"
 #: ../src/e-util/e-client-cache.c:1149 ../src/e-util/e-client-cache.c:1280
 #, c-format
 msgid "Cannot create a client object from extension name “%s”"
-msgstr ""
+msgstr "Nemoguće stvaranje objekta klijenta iz naziva proširenja “%s”"
 
 #: ../src/e-util/e-collection-account-wizard.c:107
 #: ../src/modules/accounts-window/e-collection-wizard-page.c:83
@@ -13655,7 +13653,7 @@ msgstr "Nema odgovora ili glavne poruke"
 
 #: ../src/e-util/e-filter-rule.c:1087
 msgid "I_nclude threads:"
-msgstr "U_ključi niti:"
+msgstr "U_ključi rasprave:"
 
 #: ../src/e-util/e-filter-rule.c:1165
 msgid "A_dd Condition"
@@ -15432,7 +15430,7 @@ msgstr "Ime ne može biti prazno"
 #. * "Refresh every [NUMERIC_ENTRY] [TIME_UNITS_COMBO]"
 #: ../src/e-util/e-source-config.c:1417
 msgid "Refresh every"
-msgstr "OSvježi svakih"
+msgstr "Osvježi svakih"
 
 #: ../src/e-util/e-source-config.c:1447 ../src/e-util/e-source-config.c:1521
 msgid "Use a secure connection"
@@ -16719,7 +16717,7 @@ msgstr "Pražnjenje smeća u '%s'"
 #: ../src/libemail-engine/mail-ops.c:1637
 #, c-format
 msgid "Processing folder changes in “%s”"
-msgstr ""
+msgstr "Obrada promjena mape u “%s”"
 
 #: ../src/libemail-engine/mail-tools.c:69
 #, fuzzy, c-format
@@ -17607,7 +17605,7 @@ msgstr ""
 
 #: ../src/mail/e-mail-notes.c:863
 msgid "Storing changes…"
-msgstr ""
+msgstr "Spremanje promjena…"
 
 #: ../src/mail/e-mail-notes.c:1001
 msgid "Edit Message Note"
@@ -17907,19 +17905,19 @@ msgstr "Prisili učitavanje slika u HTML porukama"
 
 #: ../src/mail/e-mail-reader.c:2595 ../src/mail/e-mail-reader.c:3014
 msgid "_Ignore Subthread"
-msgstr ""
+msgstr "_Zanemari podraspravu"
 
 #: ../src/mail/e-mail-reader.c:2597
 msgid "Mark new mails in a subthread as read automatically"
-msgstr ""
+msgstr "Označi nove poruke pošte u podraspravi kao automatski pročitane"
 
 #: ../src/mail/e-mail-reader.c:2602 ../src/mail/e-mail-reader.c:3018
 msgid "_Ignore Thread"
-msgstr ""
+msgstr "_Zanemari raspravu"
 
 #: ../src/mail/e-mail-reader.c:2604
 msgid "Mark new mails in this thread as read automatically"
-msgstr ""
+msgstr "Označi nove poruke pošte u ovoj raspravi kao automatski pročitane"
 
 #: ../src/mail/e-mail-reader.c:2609
 msgid "_Important"
@@ -17955,19 +17953,19 @@ msgstr "Označi odabrane poruke kao da su pročitane"
 
 #: ../src/mail/e-mail-reader.c:2637 ../src/mail/e-mail-reader.c:3038
 msgid "Do not _Ignore Subthread"
-msgstr ""
+msgstr "Ne _zanemaruj podrasprave"
 
 #: ../src/mail/e-mail-reader.c:2639
 msgid "Do not mark new mails in a subthread as read automatically"
-msgstr ""
+msgstr "Ne označuj nove poruke pošte u podraspravi kao automatski pročitane"
 
 #: ../src/mail/e-mail-reader.c:2644 ../src/mail/e-mail-reader.c:3042
 msgid "Do not _Ignore Thread"
-msgstr ""
+msgstr "Ne _zanemaruj rasprave"
 
 #: ../src/mail/e-mail-reader.c:2646
 msgid "Do not mark new mails in this thread as read automatically"
-msgstr ""
+msgstr "Ne označuj nove poruke pošte u ovoj raspravi kao automatski pročitane"
 
 #: ../src/mail/e-mail-reader.c:2651
 msgid "Uni_mportant"
@@ -18037,11 +18035,11 @@ msgstr "Prikaži sljedeću bitnu poruku"
 
 #: ../src/mail/e-mail-reader.c:2707
 msgid "Next _Thread"
-msgstr "Sljedeću _nit"
+msgstr "Sljedeća _rasprava"
 
 #: ../src/mail/e-mail-reader.c:2709
 msgid "Display the next thread"
-msgstr "Prikaži sljedeću nit"
+msgstr "Prikaži sljedeću raspravu"
 
 #: ../src/mail/e-mail-reader.c:2714
 msgid "Next _Unread Message"
@@ -18069,11 +18067,11 @@ msgstr "Prikaži prijašnju bitnu poruku"
 
 #: ../src/mail/e-mail-reader.c:2735
 msgid "Previous T_hread"
-msgstr "Prijašnja nit"
+msgstr "Prijašnja r_asprava"
 
 #: ../src/mail/e-mail-reader.c:2737
 msgid "Display the previous thread"
-msgstr "Prikaži prijašnju nit"
+msgstr "Prikaži prijašnju raspravu"
 
 #: ../src/mail/e-mail-reader.c:2742
 msgid "P_revious Unread Message"
@@ -18377,19 +18375,19 @@ msgstr "Osvježavanje mape “%s”"
 
 #: ../src/mail/e-mail-reader-utils.c:1334
 msgid "Marking thread to be ignored"
-msgstr ""
+msgstr "Označavanje rasprave kao zanemarene"
 
 #: ../src/mail/e-mail-reader-utils.c:1338
 msgid "Unmarking thread from being ignored"
-msgstr ""
+msgstr "Uklanjanje oznake rasprave kao zanemrene"
 
 #: ../src/mail/e-mail-reader-utils.c:1342
 msgid "Marking subthread to be ignored"
-msgstr ""
+msgstr "Označavanje podrasprave kao zanemarene"
 
 #: ../src/mail/e-mail-reader-utils.c:1346
 msgid "Unmarking subthread from being ignored"
-msgstr ""
+msgstr "Uklanjanje oznake podrasprave kao zanemrene"
 
 #: ../src/mail/e-mail-reader-utils.c:1602
 msgid "Printing"
@@ -19784,11 +19782,11 @@ msgstr "Pokretanje"
 
 #: ../src/mail/mail-config.ui.h:86
 msgid "Check for new _messages on start"
-msgstr "Provjeri za nove _poruke pri pokretanju"
+msgstr "Provjeri nove _poruke pri pokretanju"
 
 #: ../src/mail/mail-config.ui.h:87
 msgid "Check for new messa_ges in all active accounts"
-msgstr "Provjeri za nove poru_ke u svim aktivnim računima"
+msgstr "Provjeri nove poru_ke na svim aktivnim računima"
 
 #: ../src/mail/mail-config.ui.h:88
 msgid "Message Display"
@@ -19796,7 +19794,7 @@ msgstr "Prikaz poruke"
 
 #: ../src/mail/mail-config.ui.h:89
 msgid "_Use the same fonts as other applications"
-msgstr "_Koristi ista pisma kao drugi programi"
+msgstr "_Koristi isto pismo kao druge aplikacije"
 
 #: ../src/mail/mail-config.ui.h:90
 msgid "S_tandard Font:"
@@ -19804,15 +19802,15 @@ msgstr "S_tandardno pismo:"
 
 #: ../src/mail/mail-config.ui.h:91
 msgid "Select HTML fixed width font"
-msgstr "Odaberite pismo utvrđene širine za HTML"
+msgstr "Odaberi HTML pismo nepromjenjive širine"
 
 #: ../src/mail/mail-config.ui.h:92
 msgid "Select HTML variable width font"
-msgstr "Odaberite pismo promjenjljive širine za HTML"
+msgstr "Odaberite HTML pismo promjenljive širine"
 
 #: ../src/mail/mail-config.ui.h:93
 msgid "Fix_ed Width Font:"
-msgstr "Pismo fik_sne širine:"
+msgstr "Pismo _nepromjenjive širine:"
 
 #: ../src/mail/mail-config.ui.h:94
 msgid "_Mark messages as read after"
@@ -19820,7 +19818,7 @@ msgstr "_Označi poruke kao pročitane poslije"
 
 #: ../src/mail/mail-config.ui.h:96
 msgid "Highlight _quotations with"
-msgstr "Osvijetli _citate s(a)"
+msgstr "Istakni _citate sa"
 
 #: ../src/mail/mail-config.ui.h:97
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:66
@@ -19829,11 +19827,11 @@ msgstr "Odabir boje"
 
 #: ../src/mail/mail-config.ui.h:98
 msgid "color"
-msgstr "boja"
+msgstr "bojom"
 
 #: ../src/mail/mail-config.ui.h:99
 msgid "Default character e_ncoding:"
-msgstr "Uobičajena k_odna stranica:"
+msgstr "Zadana k_ôdna stranica:"
 
 #: ../src/mail/mail-config.ui.h:100
 msgid "Apply the same _view settings to all folders"
@@ -19841,88 +19839,84 @@ msgstr "Primijeni iste postavke _pogleda za sve mape"
 
 #: ../src/mail/mail-config.ui.h:101
 msgid "F_all back to threading messages by subject"
-msgstr "V_rati se na svrstavanje poruka u niti prema temi"
+msgstr "V_rati na raspravu poruka po predmetu"
 
 #: ../src/mail/mail-config.ui.h:102
 msgid "Delete Mail"
-msgstr "Obriši poštu"
+msgstr "Brisanje pošte"
 
 #: ../src/mail/mail-config.ui.h:103
 msgid "Empty _trash folders"
-msgstr ""
+msgstr "Isprazni _mapu smeća"
 
 #: ../src/mail/mail-config.ui.h:104
 msgid "Confirm _when expunging a folder"
 msgstr "Potvrdi _brisanje mape"
 
 #: ../src/mail/mail-config.ui.h:105
-#, fuzzy
-#| msgid "Confirm _when expunging a folder"
 msgid "Confirm when emptying a _Junk folder"
-msgstr "Potvrdi _brisanje mape"
+msgstr "Potvrdi brisanje mape _neželjene pošte"
 
 #: ../src/mail/mail-config.ui.h:106
-#, fuzzy
-#| msgid "Mark the selected messages for deletion"
 msgid "Go to the previ_ous message after message deletion"
-msgstr "Označi odabrane poruke za brisanje"
+msgstr "Idi na _prijašnju poruku nakon brisanja poruke"
 
 #: ../src/mail/mail-config.ui.h:107
 msgid "Archive Mail"
-msgstr ""
+msgstr "Arhiviranje pošte"
 
 #: ../src/mail/mail-config.ui.h:108
 msgid "Archive folder to use for On This Computer messages"
-msgstr ""
+msgstr "Mapa arhiviranja koja će se koristiti za poruke na ovom računalu"
 
 #: ../src/mail/mail-config.ui.h:109
 msgid "On This Computer A_rchive folder:"
-msgstr ""
+msgstr "Mapa arhiviranja _na ovome računalu:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../src/mail/mail-config.ui.h:111
 msgid "_Show animated images"
-msgstr "_Pokaži animirane slike"
+msgstr "_Prikaži animirane slike"
 
 #: ../src/mail/mail-config.ui.h:112
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
-msgstr "_Traži potvrdu pri slanju HTML pošte kontaktima koji ju ne žele"
+msgstr "_Upitaj pri slanju HTML pošte kontaktima koji ju ne žele"
 
 #: ../src/mail/mail-config.ui.h:113
 msgid "Loading Remote Content"
-msgstr ""
+msgstr "Učitavanje udaljenog sadržaja"
 
 #: ../src/mail/mail-config.ui.h:114
 msgid "_Never load remote content from the Internet"
-msgstr ""
+msgstr "_Nikada ne učitavaj udaljeni sadržaj s interneta"
 
 #: ../src/mail/mail-config.ui.h:115
 msgid "_Load remote content only in messages from contacts"
-msgstr ""
+msgstr "_Učitaj udaljeni sadržaj samo u porukama iz kontakata"
 
 #: ../src/mail/mail-config.ui.h:116
 msgid "_Always load remote content from the Internet"
-msgstr ""
+msgstr "_Uvijek učitaj udaljeni sadržaj s interneta"
 
 #: ../src/mail/mail-config.ui.h:117
 msgid "Notify about _missing remote content in the message preview"
-msgstr ""
+msgstr "Obavijesti o _nedostajućem udaljenom sadržaju u pogledu poruke"
 
 #: ../src/mail/mail-config.ui.h:118
 msgid "Add"
-msgstr ""
+msgstr "Dodaj"
 
 #: ../src/mail/mail-config.ui.h:119
 msgid "Remove"
-msgstr ""
+msgstr "Ukloni"
 
 #: ../src/mail/mail-config.ui.h:120
 msgid "Allow for sites:"
-msgstr ""
+msgstr "Dopusti za stranice:"
 
 #: ../src/mail/mail-config.ui.h:121
 msgid "Allow for senders:"
-msgstr ""
+msgstr "Dopusti za pošiljatelje:"
 
 #: ../src/mail/mail-config.ui.h:122
 msgid "HTML Messages"
@@ -19938,15 +19932,15 @@ msgstr "_Prikaži fotografiju pošiljatelja u pregledu poruke"
 
 #: ../src/mail/mail-config.ui.h:126
 msgid "Search gra_vatar.com for the photograph of sender"
-msgstr ""
+msgstr "Pretraži na gra_vatar.com fotografiju pošiljatelja"
 
 #: ../src/mail/mail-config.ui.h:127
 msgid "Displayed Message Headers"
-msgstr "Prikazana zaglavlja poruke"
+msgstr "Prikaz zaglavlja poruke"
 
 #: ../src/mail/mail-config.ui.h:128
 msgid "Show _full mail addresses in message preview"
-msgstr ""
+msgstr "Prikaži _cjelovite adrese e-pošte u pregledu poruke"
 
 #: ../src/mail/mail-config.ui.h:129
 msgid "Mail Headers Table"
@@ -19954,7 +19948,7 @@ msgstr "Tablica zaglavlja poruka"
 
 #: ../src/mail/mail-config.ui.h:130
 msgid "Re_set"
-msgstr ""
+msgstr "Vr_ati izvorno"
 
 #: ../src/mail/mail-config.ui.h:131
 #: ../src/modules/addressbook/autocompletion-config.c:118
@@ -19964,15 +19958,15 @@ msgstr "Format datuma/vremena"
 
 #: ../src/mail/mail-config.ui.h:133
 msgid "Check incoming _messages for junk"
-msgstr "Provjeri za neželjenu _poštu"
+msgstr "Provjeri neželjenu _poštu"
 
 #: ../src/mail/mail-config.ui.h:134
 msgid "_Delete junk messages"
-msgstr ""
+msgstr "_Obriši poruke neželjene pošte"
 
 #: ../src/mail/mail-config.ui.h:135
 msgid "Junk Test Options"
-msgstr ""
+msgstr "Mogućnosti testiranja neželjene pošte"
 
 #: ../src/mail/mail-config.ui.h:136
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -19985,7 +19979,7 @@ msgstr "_Pretraži samo u lokalnom adresaru"
 
 #: ../src/mail/mail-config.ui.h:138
 msgid "Check cu_stom headers for junk"
-msgstr "Provjerl ko_orisnički određena zaglavlja za smeće"
+msgstr "Provjerl _prilagođena zaglavlja za neželjenom poštom"
 
 #: ../src/mail/mail-config.ui.h:140
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:303
@@ -20034,20 +20028,16 @@ msgid "Review"
 msgstr "Recenziraj"
 
 #: ../src/mail/mail-dialogs.ui.h:12
-#, fuzzy
-#| msgid ""
-#| "The messages you have selected for follow up are listed below.\n"
-#| "Please select a follow up action from the \"Flag\" menu."
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the “Flag” menu."
 msgstr ""
-"Poruke koje ste odabrali za praćenje su dolje izlistane.\n"
-"Molim odaberite radnju za praćenje iz izbornika \"Zastavice\"."
+"Poruke koje ste odabrali za praćenje su navedene dolje.\n"
+"Odaberite radnju praćenja iz \"Oznaka\" izbornika."
 
 #: ../src/mail/mail-dialogs.ui.h:14
 msgid "_Flag:"
-msgstr "_Zastavica:"
+msgstr "_Oznaka:"
 
 #: ../src/mail/mail-dialogs.ui.h:15
 msgid "_Due By:"
@@ -20072,7 +20062,7 @@ msgstr "_Prihvati licencu"
 
 #: ../src/mail/mail-dialogs.ui.h:21
 msgid "_Tick this to accept the license agreement"
-msgstr "_Označte ovo za prihvaćanje licencnog dogovora"
+msgstr "_Označte ovo za prihvaćanje licencnog ugovora"
 
 #: ../src/mail/mail.error.xml.h:1
 msgid "Invalid authentication"
@@ -20087,8 +20077,6 @@ msgstr ""
 "ovjeru."
 
 #: ../src/mail/mail.error.xml.h:3
-#, fuzzy
-#| msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgid "Your login to your server “{0}” as “{0}” failed."
 msgstr "Vaša prijava na vaš poslužitelj \"{0}\" kao \"{0}\" nije uspjela."
 
@@ -20964,15 +20952,15 @@ msgstr "Neuspjelo ispisivanje."
 
 #: ../src/mail/mail.error.xml.h:188
 msgid "The printer replied “{0}”."
-msgstr ""
+msgstr "Pisač je odgovorio “{0}”."
 
 #: ../src/mail/mail.error.xml.h:189
 msgid "Could not perform this operation on {0}."
-msgstr ""
+msgstr "Nemoguće izvođenje ove radnje na {0}."
 
 #: ../src/mail/mail.error.xml.h:190
 msgid "You must be working online to complete this operation."
-msgstr ""
+msgstr "Morate biti u mrežnom načinu rada za završetak ove radnje."
 
 #: ../src/mail/mail.error.xml.h:191
 msgid "Message from “{0}” account:"
@@ -20980,19 +20968,19 @@ msgstr "Poruka sa “{0}” računa:"
 
 #: ../src/mail/mail.error.xml.h:192
 msgid "Failed to mark thread to be ignored in folder “{0}”"
-msgstr ""
+msgstr "Neuspjelo označavanje rasprave kao zanemarene u mapi “{0}”"
 
 #: ../src/mail/mail.error.xml.h:193
 msgid "Failed to unmark thread from being ignored in folder “{0}”"
-msgstr ""
+msgstr "Neuspjelo uklanjanje oznake rasprave kao zanemarene u mapi “{0}”"
 
 #: ../src/mail/mail.error.xml.h:194
 msgid "Failed to mark subthread to be ignored in folder “{0}”"
-msgstr ""
+msgstr "Neuspjelo označavanje podrasprave kao zanemarene u mapi “{0}”"
 
 #: ../src/mail/mail.error.xml.h:195
 msgid "Failed to unmark subthread from being ignored in folder “{0}”"
-msgstr ""
+msgstr "Neuspjelo uklanjanje oznake podrasprave kao zanemarene u mapi “{0}”"
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:197
@@ -21102,7 +21090,7 @@ msgstr "Čekanje…"
 #: ../src/mail/mail-send-recv.c:1433
 #, c-format
 msgid "Checking for new mail at “%s”"
-msgstr "Provjera za novom e-poštom na “%s”"
+msgstr "Provjera novom e-poštom za “%s”"
 
 #: ../src/mail/mail-send-recv.c:1660
 #, c-format
@@ -21984,7 +21972,7 @@ msgstr "Mogućnosti Bogofiltera"
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:379
 msgid "Convert message text to _Unicode"
-msgstr "Pretvori tekst poruke u _Unicode"
+msgstr "Pretvori tekst poruke u _Unikôd"
 
 #: ../src/modules/bogofilter/evolution-bogofilter.c:537
 #: ../src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in.h:1
@@ -24788,15 +24776,15 @@ msgstr "Promijeni naziv ove mape"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1692
 msgid "Select Message _Thread"
-msgstr "Odaberi _nit poruke"
+msgstr "Odaberi _poruku rasprave"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1694
 msgid "Select all messages in the same thread as the selected message"
-msgstr "Odaberi sve poruke iz iste niti kao i odabrana poruka"
+msgstr "Odaberi sve poruke iz iste rasprave kao odabranu poruku"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1699
 msgid "Select Message S_ubthread"
-msgstr "Odaberi p_odnit poruke"
+msgstr "Odaberi p_oruku podrasprave"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1701
 msgid "Select all replies to the currently selected message"
@@ -24858,19 +24846,19 @@ msgstr "Prekini trenutnu radnju pošte"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1797
 msgid "Collapse All _Threads"
-msgstr "Skupi sve _niti"
+msgstr "Skupi sve _rasprave"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1799
 msgid "Collapse all message threads"
-msgstr "Skupi sve niti poruka"
+msgstr "Skupi sve rasprave poruke"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1804
 msgid "E_xpand All Threads"
-msgstr "P_roširi sve niti"
+msgstr "P_roširi sve rasprave"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1806
 msgid "Expand all message threads"
-msgstr "Proširi sve niti poruka"
+msgstr "Proširi sve rasprave poruka"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1811
 msgid "_Message Filters"
@@ -24942,11 +24930,11 @@ msgstr "Prikaži poruke neželjene pošte s precrtanom crvenim linijom"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1956
 msgid "_Group By Threads"
-msgstr "_Grupiraj po nitima"
+msgstr "_Grupiraj po raspravama"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1958
 msgid "Threaded message list"
-msgstr "Popis poruka u nitima"
+msgstr "Grupiraj popis poruka po raspravama"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1964
 msgid "Show To _Do Bar"
@@ -25010,7 +24998,7 @@ msgstr "Nepročitane poruke"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2072
 msgid "Message Thread"
-msgstr "Nit poruke"
+msgstr "Rasprava poruke"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2132
 msgid "Subject or Addresses contain"
@@ -25342,7 +25330,7 @@ msgstr ""
 
 #: ../src/modules/prefer-plain/plugin/config-ui.c:101
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr "Pokaži n_eprikazane HTML dijelove kao privitke"
+msgstr "Prikaži n_eprikazane HTML dijelove kao privitke"
 
 #: ../src/modules/prefer-plain/plugin/config-ui.c:123
 msgid "HTML _Mode"
@@ -26519,7 +26507,7 @@ msgstr "Sigurni ste da želite ukloniti ovu lokaciju?"
 #. * ever happen, and if so, then something is really wrong.
 #: ../src/plugins/publish-calendar/publish-calendar.c:1098
 msgid "Could not create publish thread."
-msgstr "Neuspjelo stvaranje niti objavljivanja."
+msgstr "Nemoguće stvaranje objave rasprave."
 
 #: ../src/plugins/publish-calendar/publish-calendar.c:1108
 msgid "_Publish Calendar Information"
@@ -27487,7 +27475,7 @@ msgstr ""
 
 #: ../src/shell/shell.error.xml.h:36
 msgid "_Show Menu Bar"
-msgstr "Prikaži traku izbornika"
+msgstr "_Prikaži traku izbornika"
 
 #: ../src/smime/gui/ca-trust-dialog.c:104
 #, c-format
@@ -27504,7 +27492,7 @@ msgstr ""
 #: ../src/smime/gui/certificate-manager.c:101
 #: ../src/smime/gui/certificate-manager.c:121
 msgid "Certificate Name"
-msgstr "Ime potvrde"
+msgstr "Naziv vjerodajnice"
 
 #: ../src/smime/gui/certificate-manager.c:83
 #: ../src/smime/gui/certificate-manager.c:103
