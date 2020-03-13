@@ -588,7 +588,7 @@ Evo.initialize = function(elem)
 			Evo.initializeAndPostContentLoaded(elems[ii]);
 	}
 
-	if (!doc.body.hasAttribute("class"))
+	if (doc.defaultView && !doc.defaultView.frameElement && !doc.body.hasAttribute("class"))
 		doc.body.className = "-e-web-view-background-color -e-web-view-text-color";
 
 	if (doc.documentElement.style.getPropertyValue("color") == "" ||
