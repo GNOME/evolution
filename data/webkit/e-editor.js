@@ -1742,20 +1742,24 @@ EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
 		var word = words[ii], wordLen = word.length;
 
 		if (lineLength + wordLen > wrapWidth) {
-			node.splitText(offset - 1);
-			node = node.nextSibling;
+			if (offset > 0) {
+				node.splitText(offset - 1);
+				node = node.nextSibling;
 
-			// erase the space at the end of the line
-			node.splitText(1);
-			var next = node.nextSibling;
-			node.parentElement.removeChild(node);
-			node = next;
+				// erase the space at the end of the line
+				node.splitText(1);
+				var next = node.nextSibling;
+				node.parentElement.removeChild(node);
+				node = next;
 
-			var br = document.createElement("BR");
-			br.className = "-x-evo-wrap-br";
+				var br = document.createElement("BR");
+				br.className = "-x-evo-wrap-br";
 
-			node.parentElement.insertBefore(br, node);
-			br.insertAdjacentHTML("afterend", prefixHtml);
+				node.parentElement.insertBefore(br, node);
+				br.insertAdjacentHTML("afterend", prefixHtml);
+			} else {
+				node.insertAdjacentHTML("beforebegin", prefixHtml);
+			}
 
 			offset = 0;
 			lineLength = 0;
@@ -1802,7 +1806,9 @@ EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 				if (node.classList.contains("-x-evo-wrap-br")) {
 					node.parentElement.removeChild(node);
 				} else {
-					node.insertAdjacentHTML("afterend", prefixHtml);
+					if (node.parentElement.childNodes.length != 1)
+						node.insertAdjacentHTML("afterend", prefixHtml);
+
 					lineLength = 0;
 				}
 			} else if (node.tagName == "A") {
@@ -1823,6 +1829,55 @@ EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 	}
 
 	paragraph.insertAdjacentHTML("afterbegin", prefixHtml);
+}
+
+EvoEditor.reBlockquotePlainText = function(plainText)
+{
+	var lines = plainText.replace(/\&/g, "&amp;").split("\n"), ii, html = "", level = 0;
+
+	for (ii = 0; ii < lines.length; ii++) {
+		var line = lines[ii], newLevel = 0, skip = 0;
+
+		// Conversion to Plain Text adds empty line at the end
+		if (ii + 1 >= lines.length && !line[0])
+			break;
+
+		while (line[skip] == '>') {
+			newLevel++;
+			skip++;
+			if (line[skip] == ' ')
+				skip++;
+		}
+
+		while (newLevel > level) {
+			html += "<blockquote type='cite'>";
+			level++;
+		}
+
+		while (newLevel < level) {
+			html += "</blockquote>";
+			level--;
+		}
+
+		html += "<div>";
+
+		while (line[skip] == ' ') {
+			skip++;
+			html += "&nbsp;";
+		}
+
+		if (skip)
+			line = line.substr(skip);
+
+		html += (line[0] ? line.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "<br>") + "</div>";
+	}
+
+	while (0 < level) {
+		html += "</blockquote>";
+		level--;
+	}
+
+	return html;
 }
 
 EvoEditor.convertParagraphs = function(parent, wrapWidth, blockquoteLevel)
@@ -1876,6 +1931,11 @@ EvoEditor.convertParagraphs = function(parent, wrapWidth, blockquoteLevel)
 				if (innerWrapWidth < EvoConvert.MIN_PARAGRAPH_WIDTH)
 					innerWrapWidth = EvoConvert.MIN_PARAGRAPH_WIDTH;
 			}
+
+			// replace blockquote content with pure plain text and then re-blockquote it
+			// and do it only on the top level, not recursively (nested citations)
+			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && !blockquoteLevel)
+				child.innerHTML = EvoEditor.reBlockquotePlainText(EvoConvert.ToPlainText(child, -1));
 
 			EvoEditor.convertParagraphs(child, innerWrapWidth, blockquoteLevel + 1);
 		} else if (child.tagName == "UL") {
