@@ -32,8 +32,9 @@
 
 #include "calendar-config.h"
 #include "comp-util.h"
-#include "e-weekday-chooser.h"
+#include "e-comp-editor-page-general.h"
 #include "e-date-time-list.h"
+#include "e-weekday-chooser.h"
 #include "tag-calendar.h"
 
 #include "e-comp-editor-page-recurrence.h"
@@ -135,7 +136,6 @@ struct _ECompEditorPageRecurrencePrivate {
 	/* For weekly recurrences, created by hand */
 	GtkWidget *weekday_chooser;
 	guint8 weekday_day_mask;
-	guint8 weekday_blocked_day_mask;
 
 	/* For monthly recurrences, created by hand */
 	gint month_index;
@@ -853,6 +853,85 @@ ecep_recurrence_make_monthly_special (ECompEditorPageRecurrence *page_recurrence
 		G_CALLBACK (ecep_recurrence_month_day_combo_changed_cb), page_recurrence);
 }
 
+/* Computes a weekday mask for the start day of a calendar component,
+ * for use in a WeekdayPicker widget.
+ */
+static guint8
+ecep_recurrence_get_start_weekday_mask (ICalComponent *component)
+{
+	ICalTime *dtstart;
+	guint8 retval;
+
+	if (!component)
+		return 0;
+
+	dtstart = i_cal_component_get_dtstart (component);
+
+	if (dtstart && i_cal_time_is_valid_time (dtstart)) {
+		gshort weekday;
+
+		weekday = i_cal_time_day_of_week (dtstart);
+		retval = 0x1 << (weekday - 1);
+	} else
+		retval = 0;
+
+	g_clear_object (&dtstart);
+
+	return retval;
+}
+
+/* Sets some sane defaults for the data sources for the recurrence special
+ * widgets, even if they will not be used immediately.
+ */
+static void
+ecep_recurrence_set_special_defaults (ECompEditorPageRecurrence *page_recurrence,
+				      ICalComponent *component)
+{
+	guint8 mask;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
+
+	mask = ecep_recurrence_get_start_weekday_mask (component);
+
+	page_recurrence->priv->weekday_day_mask = mask;
+}
+
+static void
+ecep_recurrence_set_weekly_special_defaults (ECompEditorPageRecurrence *page_recurrence)
+{
+	ECompEditor *comp_editor;
+
+	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
+
+	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_recurrence));
+
+	if (comp_editor) {
+		const ICalComponent *editing_comp;
+
+		editing_comp = e_comp_editor_get_component (comp_editor);
+
+		if (editing_comp) {
+			ECompEditorPage *general_page;
+			ICalComponent *icomp;
+
+			/* Extract information only from the general page, where the DTSTART is. */
+			general_page = e_comp_editor_get_page (comp_editor, E_TYPE_COMP_EDITOR_PAGE_GENERAL);
+
+			icomp = i_cal_component_clone ((ICalComponent *) editing_comp);
+
+			e_comp_editor_page_set_updating (general_page, TRUE);
+			e_comp_editor_page_fill_component (general_page, icomp);
+			e_comp_editor_page_set_updating (general_page, FALSE);
+
+			ecep_recurrence_set_special_defaults (page_recurrence, icomp);
+
+			g_clear_object (&icomp);
+		}
+	}
+
+	g_clear_object (&comp_editor);
+}
+
 /* Changes the recurrence-special widget to match the interval units.
  *
  * For daily recurrences: nothing.
@@ -889,6 +968,7 @@ ecep_recurrence_make_recurrence_special (ECompEditorPageRecurrence *page_recurre
 		break;
 
 	case I_CAL_WEEKLY_RECURRENCE:
+		ecep_recurrence_set_weekly_special_defaults (page_recurrence);
 		ecep_recurrence_make_weekly_special (page_recurrence);
 		gtk_widget_show (page_recurrence->priv->recr_interval_special_box);
 		break;
@@ -1134,50 +1214,6 @@ ecep_recurrence_fill_ending_date (ECompEditorPageRecurrence *page_recurrence,
 	g_signal_handlers_unblock_matched (page_recurrence->priv->recr_ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page_recurrence);
 
 	ecep_recurrence_make_ending_special (page_recurrence);
-}
-
-/* Computes a weekday mask for the start day of a calendar component,
- * for use in a WeekdayPicker widget.
- */
-static guint8
-ecep_recurrence_get_start_weekday_mask (ICalComponent *component)
-{
-	ICalTime *dtstart;
-	guint8 retval;
-
-	if (!component)
-		return 0;
-
-	dtstart = i_cal_component_get_dtstart (component);
-
-	if (dtstart && i_cal_time_is_valid_time (dtstart)) {
-		gshort weekday;
-
-		weekday = i_cal_time_day_of_week (dtstart);
-		retval = 0x1 << (weekday - 1);
-	} else
-		retval = 0;
-
-	g_clear_object (&dtstart);
-
-	return retval;
-}
-
-/* Sets some sane defaults for the data sources for the recurrence special
- * widgets, even if they will not be used immediately.
- */
-static void
-ecep_recurrence_set_special_defaults (ECompEditorPageRecurrence *page_recurrence,
-				      ICalComponent *component)
-{
-	guint8 mask;
-
-	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
-
-	mask = ecep_recurrence_get_start_weekday_mask (component);
-
-	page_recurrence->priv->weekday_day_mask = mask;
-	page_recurrence->priv->weekday_blocked_day_mask = mask;
 }
 
 static void
