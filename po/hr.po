@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2020-03-08 11:48+0000\n"
-"PO-Revision-Date: 2020-03-12 02:38+0100\n"
+"PO-Revision-Date: 2020-03-14 19:30+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -50,8 +50,8 @@ msgid ""
 "Whether force showing the mail address with the name of the autocompleted "
 "contact in the entry."
 msgstr ""
-"Treba li se prisilno pokazivati adresa e-pošte s imenom automatski dovršenog "
-"kontakta u unosu."
+"Treba li se prisilno prikazivati adresa e-pošte s imenom automatski "
+"dovršenog kontakta u unosu."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:7
 msgid "URI for the folder last used in the select names dialog"
@@ -75,7 +75,7 @@ msgstr ""
 "Izgled rasporeda određuje gdje će se postaviti okvir pretpregleda u odnosu "
 "na popis kontakata. \"0\" (Klasični pogled) postavlja okvir pretpregleda "
 "ispod popisa kontakata. \"1\" (Okomiti pogled) postavlja okvir pretpregleda "
-"pored popisa kontakata."
+"pokraj popisa kontakata."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:11
 msgid "Contact preview pane position (horizontal)"
@@ -118,7 +118,7 @@ msgstr "Prikaži okvir pretpregleda"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:20
 msgid "Whether to show the preview pane."
-msgstr "Hoće li se prikazivati okvir pretpregleda."
+msgstr "Treba li se prikazivati okvir pretpregleda."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:21
 msgid "true"
@@ -194,7 +194,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:3
 msgid "Full path command to run Bogofilter"
-msgstr ""
+msgstr "Puna putanja naredbe za pokretanje Bogofiltra"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
 msgid ""
@@ -202,6 +202,9 @@ msgid ""
 "used, usually /usr/bin/bogofilter. The command should not contain any other "
 "arguments."
 msgstr ""
+"Puna putanja do Bogofilter naredbe. Ako nije postavljeno, tada je korištena "
+"putanja vremena kompiliranja, uobičajeno /usr/bin/bogofilter. Naredba ne "
+"smije sadržavati nikakve argumente."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:1
 msgid "Save directory for reminder audio"
@@ -217,7 +220,7 @@ msgstr "Vrijednost za podsjetnik na rođendan i obljetnicu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
 msgid "Number of units for determining a birthday or anniversary reminder"
-msgstr ""
+msgstr "Broj jedinica mjere za otkrivanje podsjetnika rođendana i obljetnice"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
 msgid "Birthday and anniversary reminder units"
@@ -227,24 +230,28 @@ msgstr "Jedinice mjere za podsjetnik na rođendan i obljetnicu"
 msgid ""
 "Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
 msgstr ""
+"Jedinice mjere za rođendan ili obljetnicu, \"minute\", \"sati\" ili \"dani\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
-msgstr "Sažmi tjedne u mjesečnom pogledu"
+msgstr "Sažmi vikende u mjesečnom pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:8
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday"
 msgstr ""
+"Treba li sažeti vikende u mjesečnom pregledu, što stavlja Subotu i Nedjelju "
+"unutar jednog tjedna"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:9
 msgid "Ask for confirmation when deleting items"
-msgstr "Traži potvrdu pri brisanju stavki"
+msgstr "Upitaj za potvrdu pri brisanju stavki"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:10
 msgid "Whether to ask for confirmation when deleting an appointment or task"
 msgstr ""
+"Treba li upitati za potvrdu pri brisanju ugovorenog sastanka ili zadatka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:11
 msgid "Confirm expunge"
@@ -253,6 +260,7 @@ msgstr "Potvrdi uklanjanje"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:12
 msgid "Whether to ask for confirmation when expunging appointments and tasks"
 msgstr ""
+"Treba li upitati za potvrdu pri uklanjanju zakazanih sastanak i zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:13
 msgid "Month view vertical pane position"
@@ -263,22 +271,24 @@ msgid ""
 "Position of the vertical pane, between the calendar lists and the date "
 "navigator calendar"
 msgstr ""
+"Položaj okomitog okvira, između popisa kalendara i navigatora datuma "
+"kalendara"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:15
 msgid "Workday end hour"
-msgstr "Kraj radnog vremena (sat)"
+msgstr "Kraj radnog dana (sat)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:16
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23"
-msgstr ""
+msgstr "Sat u kojemu radni dan završava, u 24-satnom formatu, od 0 do 24"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:17
 msgid "Workday end minute"
-msgstr "Kraj radnog vremena (minuta)"
+msgstr "Kraj radnog dana (minuta)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:18
 msgid "Minute the workday ends on, 0 to 59."
-msgstr "Minuta završetka radnog dana, od 0 do 59."
+msgstr "Minuta u kojemu radni dan završava, od 0 do 59."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:19
 msgid "Workday start hour"
@@ -286,7 +296,7 @@ msgstr "Početak radnog dana (sat)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:20
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
-msgstr "Sat početka radnog dana, u dvadesetčetverosatnom obliku, od 0 do 23."
+msgstr "Sat u kojemu radni dan započinje, u 24-satnom formatu, od 0 do 23."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:21
 msgid "Workday start minute"
@@ -294,81 +304,87 @@ msgstr "Početak radnog dana (minuta)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:22
 msgid "Minute the workday starts on, 0 to 59."
-msgstr "Minuta početka radnog dana, od 0 do 59."
+msgstr "Minuta u kojemu radni dan započinje, od 0 do 59."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:23
 msgid "Workday start time for Monday"
-msgstr ""
+msgstr "Vrijeme početka radnog dana u ponedjeljak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:24
 msgid ""
 "Time the workday starts on, in twenty four hour format HHMM, 0000 to 2359, "
 "or -1 to use day-start-hour and day-start-minute"
 msgstr ""
+"Vrijeme u koje radni dan započinje, u 24-satnom formatu HHMM, od 0000 do "
+"2359, ili -1 za korištenje početnog-sata-dana i početne-minute-dana"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
 msgid "Workday end time for Monday"
-msgstr ""
+msgstr "Vrijeme završetka radnog dana u ponedjeljak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:26
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
 "-1 to use day-end-hour and day-end-minute"
 msgstr ""
+"Vrijeme u koje radni dan završava, u 24-satnom formatu HHMM, od 0000 do "
+"2359, ili -1 za korištenje završnog-sata-dana i završne-minute-dana"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
 msgid "Workday start time for Tuesday"
-msgstr ""
+msgstr "Vrijeme početka radnog dana u utorak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:28
 msgid ""
 "Time the workday ends on, in twenty four hour format HHMM, 0000 to 2359, or "
 "-1 to use day-start-hour and day-start-minute"
 msgstr ""
+"Vrijeme u koje radni dan završava, u 24-satnom formatu HHMM, od 0000 do "
+"2359, ili -1 za korištenje početnog-sata-dana i početne-minute-dana"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
 msgid "Workday end time for Tuesday"
-msgstr ""
+msgstr "Vrijeme završetka radnog dana u utorak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:30
 msgid "Workday start time for Wednesday"
-msgstr ""
+msgstr "Vrijeme početka radnog dana u srijedu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:31
 msgid "Workday end time for Wednesday"
-msgstr ""
+msgstr "Vrijeme završetka radnog dana u srijedu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:32
 msgid "Workday start time for Thursday"
-msgstr ""
+msgstr "Vrijeme početka radnog dana u četvrtak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:33
 msgid "Workday end time for Thursday"
-msgstr ""
+msgstr "Vrijeme završetka radnog dana u četvrtak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:34
 msgid "Workday start time for Friday"
-msgstr ""
+msgstr "Vrijeme početka radnog dana u petak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:35
 msgid "Workday end time for Friday"
-msgstr ""
+msgstr "Vrijeme završetka radnog dana u petak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:36
 msgid "Workday start time for Saturday"
-msgstr ""
+msgstr "Vrijeme početka radnog dana u subotu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:37
 msgid "Workday end time for Saturday"
-msgstr ""
+msgstr "Vrijeme završetka radnog dana u subotu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:38
 msgid "Workday start time for Sunday"
-msgstr ""
+msgstr "Vrijeme početka radnog dana u nedjelju"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:39
 msgid "Workday end time for Sunday"
-msgstr ""
+msgstr "Vrijeme završetka radnog dana u nedjelju"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:40
 msgid "The second timezone for a Day View"
@@ -379,57 +395,60 @@ msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a “timezone” key"
 msgstr ""
+"Prikazuje drugu vremensku zonu u dnevnom pogledu, ako je postavljeno. "
+"Vrijednost je slična onoj korištenoj u \"timezone\" ključu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:42
 msgid "Recently used second time zones in a Day View"
-msgstr "Popis nedavno korištenih drugih vremenskih zona u dnevnom pogledu"
+msgstr "Nedavno korištene druge vremenske zone u dnevnom pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
 msgid "List of recently used second time zones in a Day View"
-msgstr ""
+msgstr "Popis nedavno korištenih drugih vremenskih zona u dnevnom pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
 msgid "Maximum number of recently used timezones to remember"
-msgstr ""
+msgstr "Najveći broj zapamćenih nedavno korištenih vremenskih zona"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:45
 msgid ""
 "Maximum number of recently used timezones to remember in a “day-second-"
 "zones” list"
 msgstr ""
+"Najveći broj zapamćenih nedavno korištenih vremenskih zona u \"dan-sekunda-"
+"zone\" popisu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
 msgid "Default reminder value"
-msgstr "Vrijednost uobičajenog podsjetnika"
+msgstr "Zadana vrijednost podsjetnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Number of units for determining a default reminder"
-msgstr ""
+msgstr "Broj jedinica za određivanje zadanog podsjetnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid "Default reminder units"
-msgstr "Jedinice uobičajenog podsjetnika"
+msgstr "Zadana jedinica podsjetnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:49
 msgid "Units for a default reminder, “minutes”, “hours” or “days”"
-msgstr ""
+msgstr "Jedinice za zadani podsjetnik, \"minute\", \"sati\" ili \"dani\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:50
 msgid "Show categories field in the event/meeting/task editor"
-msgstr "Pokaži polje \"Kategorija\" u uređivaču događaja/zadataka/sastanaka"
+msgstr "Prikaži polje kategorija u uređivaču događaja/zadataka/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:51
 msgid "Whether to show categories field in the event/meeting editor"
-msgstr "Treba li pokazati polje \"Kategorija\" u uređivaču događaja/sastanaka"
+msgstr "Treba li prikazati polje kategorija u uređivaču događaja/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:52
 msgid "Show Role field in the event/task/meeting editor"
-msgstr "Pokaži polje \"Uloga\" u uređivaču događaja/zadataka/sastanaka"
+msgstr "Prikaži polje uloga u uređivaču događaja/zadataka/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:53
 msgid "Whether to show role field in the event/task/meeting editor"
-msgstr ""
-"Treba li pokazati polje \"Uloga\" u uređivaču događaja/zadataka/sastanaka"
+msgstr "Treba li prikazati polje uloga u uređivaču događaja/zadataka/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:54
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -437,50 +456,50 @@ msgstr "Prikaži RSVP polje u uređivaču događaja/zadataka/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:55
 msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr "Treba li pokazati RSVP polje u uređivaču događaja/zadataka/sastanaka"
+msgstr "Treba li prikazati RSVP polje u uređivaču događaja/zadataka/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:56
 msgid "Show status field in the event/task/meeting editor"
-msgstr "Pokaži polje \"Stanje\" u uređivaču događaja/zadataka/sastanaka"
+msgstr "Prikaži polje stanja u uređivaču događaja/zadataka/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:57
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
-"Treba li pokazati polje \"Stanje\" u uređivaču događaja/zadataka/sastanaka"
+"Treba li prikazati polje stanja u uređivaču događaja/zadataka/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:58
 msgid "Show timezone field in the event/meeting editor"
-msgstr "Pokaži polje \"Vremenska zona\" u uređivaču događaja/sastanaka"
+msgstr "Prikaži polje vremenske zone u uređivaču događaja/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:59
 msgid "Whether to show timezone field in the event/meeting editor"
-msgstr ""
-"Treba li pokazati polje \"Vremenska zona\" u uređivaču događaja/sastanaka"
+msgstr "Treba li prikazati polje vremenske zone u uređivaču događaja/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:60
 msgid "Show type field in the event/task/meeting editor"
-msgstr "Pokaži polje \"Vrsta\" u uređivaču događaja/zadataka/sastanaka"
+msgstr "Prikaži polje vrste u uređivaču događaja/zadataka/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:61
 msgid "Whether to show type field in the event/task/meeting editor"
-msgstr ""
-"Treba li pokazati polje \"Vrsta\" u uređivaču događaja/zadataka/sastanaka"
+msgstr "Treba li prikazati polje vrste u uređivaču događaja/zadataka/sastanaka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Hide completed tasks"
-msgstr "Sakrij izvršene zadatke"
+msgstr "Sakrij završene zadatke"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Whether to hide completed tasks in the tasks view"
-msgstr ""
+msgstr "Treba li sakriti završene zadatke u pogledu zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:64
 msgid "Hide task units"
-msgstr "Sakrij mjerne jedinice zadataka"
+msgstr "Sakrij jedinice zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Units for determining when to hide tasks, “minutes”, “hours” or “days”"
 msgstr ""
+"Jedince za otkrivanje kada treba sakriti zadatak, \"minute\", \"sati\" ili "
+"\"dani\""
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
 msgid "Hide task value"
@@ -488,27 +507,23 @@ msgstr "Sakrij vrijednost zadatka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 msgid "Number of units for determining when to hide tasks"
-msgstr ""
+msgstr "Broj jedinica za otkrivanje kada treba sakriti zadatak"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
-#, fuzzy
-#| msgid "Delete selected events"
 msgid "Hide cancelled events"
-msgstr "Obriši odabrane događaje"
+msgstr "Sakrij otkazane događaje"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:69
 msgid "Whether to hide cancelled events in the calendar view"
-msgstr ""
+msgstr "Treba li sakriti otkazane događaje u pogledu kalendara"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:70
-#, fuzzy
-#| msgid "Hide completed tasks"
 msgid "Hide cancelled tasks"
-msgstr "Sakrij izvršene zadatke"
+msgstr "Sakrij prekinute zadatke"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:71
 msgid "Whether to hide cancelled tasks in the tasks view"
-msgstr ""
+msgstr "Treba li sakriti prekinute zadatke u pogledu zadataka"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:72
 msgid "Horizontal pane position"
@@ -519,34 +534,34 @@ msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels"
 msgstr ""
+"Položaj vodoravnog okvira, između navigatora datuma kalendara i popisa "
+"zadatka kada se ne koristi mjesečni pogled, u pikselima"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:74
 msgid "Last reminder time"
-msgstr "Posljednje vrijeme podsjetnika"
+msgstr "Vrijeme posljednjeg podsjetnika"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:75
+#, fuzzy
 msgid "Time the last reminder ran, in time_t"
-msgstr ""
+msgstr "Vrijeme kada se posljednji podsjetnik pokreće, u time_t"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:76
-#, fuzzy
-#| msgid "Marcus Bains Line Color - Day View"
 msgid "Marcus Bains Line Color — Day View"
-msgstr "Boja Marcus Bains linije - dnevni pogled"
+msgstr "Boja Marcus Bains linije — Dnevni pogled"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:77
 msgid "Color to draw the Marcus Bains line in the Day View"
-msgstr ""
+msgstr "Boja za iscrtavanje Marcus Bains linije u dnevnom pogledu"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:78
-#, fuzzy
-#| msgid "Marcus Bains Line Color - Time bar"
 msgid "Marcus Bains Line Color — Time bar"
-msgstr "Boja Marcus Bains linije - vremenska traka"
+msgstr "Boja Marcus Bains linije — Traka vremena"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:79
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
+"Boja za iscrtavanje Marcus Bains linije u traci vremena (prazno za zadano)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:80
 msgid "Marcus Bains Line"
@@ -556,6 +571,8 @@ msgstr "Marcus Bains linija"
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar"
 msgstr ""
+"Treba li iscrtavati Marcus Bains liniju (liniju u trenutnom vremenu) u "
+"kalendaru"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:82
 msgid "Memo preview pane position (horizontal)"
@@ -563,28 +580,22 @@ msgstr "Položaj okvira pretpregleda dopisa (vodoravno)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:83
 msgid "Position of the task preview pane when oriented horizontally"
-msgstr ""
+msgstr "Položaj okvira pretpregleda zadataka u vodoravnom položaju."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:84
 msgid "Memo layout style"
 msgstr "Stil rasporeda dopisa"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:85
-#, fuzzy
-#| msgid ""
-#| "The layout style determines where to place the preview pane in relation "
-#| "to the message list. \"0\" (Classic View) places the preview pane below "
-#| "the message list. \"1\" (Vertical View) places the preview pane next to "
-#| "the message list."
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. “0” (Classic View) places the preview pane below the memo "
 "list. “1” (Vertical View) places the preview pane next to the memo list"
 msgstr ""
-"Stil rasporeda određuje gdje će se pozicionirati okvir pretpregleda u odnosu "
-"na popis poruka. \"0\" (Klasični pogled) pozicionira okvir pretpregleda "
-"ispod popisa poruka. \"1\" (Okomiti pogled) pozicionira okvir pretpregleda "
-"pokraj popisa poruka."
+"Stil rasporeda određuje gdje će se smjestiti okvir pretpregleda u odnosu na "
+"popis dopisa. \"0\" (Klasični pogled) smješta okvir pretpregleda ispod "
+"popisa dopisa. \"1\" (Okomiti pogled) smješta okvir pretpregleda pokraj "
+"popisa dopisa."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:86
 msgid "Memo preview pane position (vertical)"
