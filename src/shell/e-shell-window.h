@@ -102,6 +102,10 @@ EFocusTracker *	e_shell_window_get_focus_tracker
 GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *shell_window);
 GtkAction *	e_shell_window_get_action	(EShellWindow *shell_window,
 						 const gchar *action_name);
+void		e_shell_window_add_action_group_full
+						(EShellWindow *shell_window,
+						 const gchar *group_name,
+						 const gchar *for_view_name);
 GtkActionGroup *e_shell_window_get_action_group	(EShellWindow *shell_window,
 						 const gchar *group_name);
 GtkWidget *	e_shell_window_get_managed_widget

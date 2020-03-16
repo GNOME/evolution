@@ -1575,6 +1575,14 @@ void
 e_shell_window_add_action_group (EShellWindow *shell_window,
                                  const gchar *group_name)
 {
+	e_shell_window_add_action_group_full (shell_window, group_name, NULL);
+}
+
+void
+e_shell_window_add_action_group_full (EShellWindow *shell_window,
+				      const gchar *group_name,
+				      const gchar *for_view_name)
+{
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	const gchar *domain;
@@ -1588,7 +1596,22 @@ e_shell_window_add_action_group (EShellWindow *shell_window,
 	action_group = gtk_action_group_new (group_name);
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
+
+	if (for_view_name) {
+		GPtrArray *view_groups;
+
+		view_groups = g_hash_table_lookup (shell_window->priv->action_groups_by_view, for_view_name);
+
+		if (!view_groups) {
+			view_groups = g_ptr_array_new_with_free_func (g_object_unref);
+			g_hash_table_insert (shell_window->priv->action_groups_by_view, g_strdup (for_view_name), view_groups);
+		}
+
+		/* Takes ownership of the action_group. */
+		g_ptr_array_add (view_groups, action_group);
+	} else {
+		g_object_unref (action_group);
+	}
 }
 
 static void

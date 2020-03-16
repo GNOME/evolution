@@ -588,8 +588,8 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 
-	e_shell_window_add_action_group (shell_window, "contacts");
-	e_shell_window_add_action_group (shell_window, "contacts-filter");
+	e_shell_window_add_action_group_full (shell_window, "contacts", "addressbook");
+	e_shell_window_add_action_group_full (shell_window, "contacts-filter", "addressbook");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->book_shell_backend = g_object_ref (shell_backend);

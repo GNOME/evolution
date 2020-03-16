@@ -220,6 +220,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->ui_manager = gtk_ui_manager_new ();
 	priv->loaded_views = loaded_views;
 	priv->signal_handler_ids = signal_handler_ids;
+	priv->action_groups_by_view = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_ptr_array_unref);
 
 	/* XXX This kind of violates the shell window being unaware
 	 *     of specific shell views, but we need a sane fallback. */
@@ -724,9 +725,46 @@ e_shell_window_private_finalize (EShellWindow *shell_window)
 	EShellWindowPrivate *priv = shell_window->priv;
 
 	g_hash_table_destroy (priv->loaded_views);
+	g_hash_table_destroy (priv->action_groups_by_view);
 
 	g_slist_free_full (priv->postponed_alerts, g_object_unref);
 	g_free (priv->geometry);
+}
+
+static void
+e_shell_window_activate_action_groups_for_view (EShellWindow *shell_window,
+						const gchar *view_name)
+{
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
+	if (!e_shell_window_get_ui_manager (shell_window))
+		return;
+
+	g_hash_table_iter_init (&iter, shell_window->priv->action_groups_by_view);
+
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		gboolean is_active = g_strcmp0 (key, view_name) == 0;
+		GPtrArray *action_groups = value;
+		guint ii;
+
+		/* The 'calendar' view uses actions from 'memos' and 'tasks',
+		   thus make sure these are active too. */
+		if (!is_active && g_strcmp0 (view_name, "calendar") == 0 &&
+		    (g_strcmp0 (key, "memos") == 0 || g_strcmp0 (key, "tasks") == 0))
+			is_active = TRUE;
+
+		for (ii = 0; ii < action_groups->len; ii++) {
+			GtkActionGroup *action_group = g_ptr_array_index (action_groups, ii);
+
+			/* Set both, because using 'visible' doesn't work for the first key press,
+			   while 'sensitive' does, even it is used by some 'update-actions' handlers. */
+			gtk_action_group_set_visible (action_group, is_active);
+			gtk_action_group_set_sensitive (action_group, is_active);
+		}
+	}
 }
 
 void
@@ -742,6 +780,8 @@ e_shell_window_switch_to_view (EShellWindow *shell_window,
 		return;
 
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+
+	e_shell_window_activate_action_groups_for_view (shell_window, view_name);
 
 	shell_window->priv->active_view = view_name;
 	g_object_notify (G_OBJECT (shell_window), "active-view");

@@ -384,8 +384,8 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 
-	e_shell_window_add_action_group (shell_window, "calendar");
-	e_shell_window_add_action_group (shell_window, "calendar-filter");
+	e_shell_window_add_action_group_full (shell_window, "calendar", "calendar");
+	e_shell_window_add_action_group_full (shell_window, "calendar-filter", "calendar");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->cal_shell_backend = g_object_ref (shell_backend);
