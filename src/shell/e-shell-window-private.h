@@ -69,6 +69,7 @@ struct _EShellWindowPrivate {
 
 	GHashTable *loaded_views;
 	const gchar *active_view;
+	GHashTable *action_groups_by_view;
 
 	/*** Widgetry ***/
 

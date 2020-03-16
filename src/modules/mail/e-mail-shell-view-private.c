@@ -543,10 +543,10 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	label_store = e_mail_ui_session_get_label_store (
 		E_MAIL_UI_SESSION (session));
 
-	e_shell_window_add_action_group (shell_window, "mail");
-	e_shell_window_add_action_group (shell_window, "mail-filter");
-	e_shell_window_add_action_group (shell_window, "mail-labels");
-	e_shell_window_add_action_group (shell_window, "search-folders");
+	e_shell_window_add_action_group_full (shell_window, "mail", "mail");
+	e_shell_window_add_action_group_full (shell_window, "mail-filter", "mail");
+	e_shell_window_add_action_group_full (shell_window, "mail-labels", "mail");
+	e_shell_window_add_action_group_full (shell_window, "search-folders", "mail");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_backend = g_object_ref (shell_backend);

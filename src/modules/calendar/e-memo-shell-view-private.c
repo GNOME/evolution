@@ -113,8 +113,8 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 
-	e_shell_window_add_action_group (shell_window, "memos");
-	e_shell_window_add_action_group (shell_window, "memos-filter");
+	e_shell_window_add_action_group_full (shell_window, "memos", "memos");
+	e_shell_window_add_action_group_full (shell_window, "memos-filter", "memos");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->memo_shell_backend = g_object_ref (shell_backend);

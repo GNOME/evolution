@@ -971,7 +971,7 @@ mail_shell_view_created_cb (EShellWindow *shell_window,
 	TemplatesData *td;
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	e_shell_window_add_action_group (shell_window, "templates");
+	e_shell_window_add_action_group_full (shell_window, "templates", "mail");
 	action_group = e_lookup_action_group (ui_manager, "templates");
 
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
