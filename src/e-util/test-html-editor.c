@@ -504,6 +504,7 @@ static GtkActionEntry view_entries[] = {
 };
 
 static guint glob_editors = 0;
+static const gchar *glob_prefill_body = NULL;
 
 static void
 editor_destroyed_cb (GtkWidget *editor)
@@ -649,6 +650,13 @@ create_new_editor_cb (GObject *source_object,
 	}
 
 	gtk_ui_manager_ensure_update (manager);
+
+	if (glob_prefill_body) {
+		e_content_editor_insert_content (cnt_editor, glob_prefill_body, E_CONTENT_EDITOR_INSERT_REPLACE_ALL |
+			(*glob_prefill_body == '<' ? E_CONTENT_EDITOR_INSERT_TEXT_HTML : E_CONTENT_EDITOR_INSERT_TEXT_PLAIN));
+
+		glob_prefill_body = NULL;
+	}
 }
 
 static void
@@ -680,6 +688,9 @@ main (gint argc,
 
 	modules = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
 	g_list_free_full (modules, (GDestroyNotify) g_type_module_unuse);
+
+	if (argc == 2)
+		glob_prefill_body = argv[1];
 
 	create_new_editor ();
 

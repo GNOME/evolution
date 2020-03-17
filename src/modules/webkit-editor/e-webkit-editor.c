@@ -1461,6 +1461,60 @@ webkit_editor_update_styles (EContentEditor *editor)
 			"  word-break: break-word; \n"
 			"  white-space: pre-wrap; \n"
 			"}\n");
+
+		g_string_append (
+			stylesheet,
+			".-x-evo-quoted { -webkit-user-select: none; }\n");
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character "
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (1));
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character"
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (2));
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character"
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (3));
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character"
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (4));
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character"
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (5));
 	}
 
 	g_string_append_printf (
@@ -1530,56 +1584,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 	citation_color = NULL;
 
 	g_string_append (stylesheet, "}\n");
-
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character "
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (1));
-
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character"
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (2));
-
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character"
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (3));
-
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character"
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (4));
-
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character"
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (5));
 
 	if (wk_editor->priv->visually_wrap_long_lines) {
 		g_string_append (

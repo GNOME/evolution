@@ -4879,6 +4879,484 @@ test_cite_reply_plain (TestFixture *fixture)
 }
 
 static void
+test_cite_editing_html (TestFixture *fixture)
+{
+	const gchar *plain0, *html0, *plain1, *html1, *plain2, *html2, *plain3, *html3, *plain4, *html4;
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<div>before citation</div>"
+		"<blockquote type='cite'>"
+			"<div>cite level 1a</div>"
+			"<blockquote type='cite'>"
+				"<div>cite level 2</div>"
+			"</blockquote>"
+			"<div>cite level 1b</div>"
+		"</blockquote>"
+		"<div>after citation</div>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	html0 = HTML_PREFIX "<div>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div>cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div>cite level 2</div>"
+			"</blockquote>"
+			"<div>cite level 1b</div>"
+		"</blockquote>"
+		"<div>after citation</div>" HTML_SUFFIX;
+
+	plain0 = "before citation\n"
+		"> cite level 1a\n"
+		"> > cite level 2\n"
+		"> cite level 1b\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture, "", html0, plain0)) {
+		g_test_fail ();
+		return;
+	}
+
+	html1 = HTML_PREFIX "<div>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div>cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div>ciXte level 2</div>"
+			"</blockquote>"
+			"<div>cite level 1b</div>"
+		"</blockquote>"
+		"<div>after citation</div>" HTML_SUFFIX;
+
+	plain1 = "before citation\n"
+		"> cite level 1a\n"
+		"> > ciXte level 2\n"
+		"> cite level 1b\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:Chc\n" /* Ctrl+Home to get to the beginning of the document */
+		"seq:ddrr\n" /* on the third line, after the second character */
+		"type:X\n",
+		html1, plain1)) {
+		g_test_fail ();
+		return;
+	}
+
+	html2 = HTML_PREFIX "<div>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div>cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div>ciX</div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div>Y</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div>te level 2</div>"
+			"</blockquote>"
+			"<div>cite level 1b</div>"
+		"</blockquote>"
+		"<div>after citation</div>" HTML_SUFFIX;
+
+	plain2 = "before citation\n"
+		"> cite level 1a\n"
+		"> > ciX\n"
+		"Y\n"
+		"> > te level 2\n"
+		"> cite level 1b\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"type:\\nY\n",
+		html2, plain2)) {
+		g_test_fail ();
+		return;
+	}
+
+	html3 = HTML_PREFIX "<div>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div>cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div>ciX</div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div>Y</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div>tZ<br>e level 2</div>"
+			"</blockquote>"
+			"<div>cite level 1b</div>"
+		"</blockquote>"
+		"<div>after citation</div>" HTML_SUFFIX;
+
+	plain3 = "before citation\n"
+		"> cite level 1a\n"
+		"> > ciX\n"
+		"Y\n"
+		"> > tZ\n"
+		"> > e level 2\n"
+		"> cite level 1b\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dr\n"
+		"type:Z\n"
+		"seq:Sns\n", /* soft Enter */
+		html3, plain3)) {
+		g_test_fail ();
+		return;
+	}
+
+	html4 = HTML_PREFIX "<div>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div>cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div>ciX</div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div>Y</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div>tZ<br>e level 2</div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div><br></div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div><br></div>"
+		"</blockquote>"
+		"<div><br></div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div>cite level 1b</div>"
+		"</blockquote>"
+		"<div><br></div>"
+		"<div>after citation</div>" HTML_SUFFIX;
+
+	plain4 = "before citation\n"
+		"> cite level 1a\n"
+		"> > ciX\n"
+		"Y\n"
+		"> > tZ\n"
+		"> > e level 2\n"
+		"\n"
+		"> \n"
+		"\n"
+		"> cite level 1b\n"
+		"\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:endhnden\n",
+		html4, plain4)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo:3\n",
+		html3, plain3)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo:2\n",
+		html2, plain2)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo:2\n",
+		html1, plain1)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo:1\n",
+		html0, plain0)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:redo:1\n",
+		html1, plain1)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:redo:2\n",
+		html2, plain2)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:redo:2\n",
+		html3, plain3)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:redo:3\n",
+		html4, plain4)) {
+		g_test_fail ();
+		return;
+	}
+}
+
+static void
+test_cite_editing_plain (TestFixture *fixture)
+{
+	const gchar *plain0, *html0, *plain1, *html1, *plain2, *html2, *plain3, *html3, *plain4, *html4;
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<div>before citation</div>"
+		"<blockquote type='cite'>"
+			"<div>cite level 1a</div>"
+			"<blockquote type='cite'>"
+				"<div>cite level 2</div>"
+			"</blockquote>"
+			"<div>cite level 1b</div>"
+		"</blockquote>"
+		"<div>after citation</div>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	#define QUOTE_SPAN(x) "<span class='-x-evo-quoted'>" x "</span>"
+	#define QUOTE_CHR "<span class='-x-evo-quote-character'>&gt; </span>"
+
+	html0 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "cite level 2</div>"
+			"</blockquote>"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+		"</blockquote>"
+		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
+
+	plain0 = "before citation\n"
+		"> cite level 1a\n"
+		"> > cite level 2\n"
+		"> cite level 1b\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture, "mode:plain\n", html0, plain0)) {
+		g_test_fail ();
+		return;
+	}
+
+	html1 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciXte level 2</div>"
+			"</blockquote>"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+		"</blockquote>"
+		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
+
+	plain1 = "before citation\n"
+		"> cite level 1a\n"
+		"> > ciXte level 2\n"
+		"> cite level 1b\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:Chc\n" /* Ctrl+Home to get to the beginning of the document */
+		"seq:ddrr\n" /* on the third line, after the second character */
+		"type:X\n",
+		html1, plain1)) {
+		g_test_fail ();
+		return;
+	}
+
+	html2 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciX</div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div style='width: 71ch;'>Y</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "te level 2</div>"
+			"</blockquote>"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+		"</blockquote>"
+		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
+
+	plain2 = "before citation\n"
+		"> cite level 1a\n"
+		"> > ciX\n"
+		"Y\n"
+		"> > te level 2\n"
+		"> cite level 1b\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"type:\\nY\n",
+		html2, plain2)) {
+		g_test_fail ();
+		return;
+	}
+
+	html3 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciX</div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div style='width: 71ch;'>Y</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "tZ</div>"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "e level 2</div>"
+			"</blockquote>"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+		"</blockquote>"
+		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
+
+	plain3 = "before citation\n"
+		"> cite level 1a\n"
+		"> > ciX\n"
+		"Y\n"
+		"> > tZ\n"
+		"> > e level 2\n"
+		"> cite level 1b\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dr\n"
+		"type:Z\n"
+		"seq:Sns\n", /* soft Enter */
+		html3, plain3)) {
+		g_test_fail ();
+		return;
+	}
+
+	html4 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciX</div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div style='width: 71ch;'>Y</div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "tZ</div>"
+				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "e level 2</div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div style='width: 71ch;'><br></div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"</blockquote>"
+		"<div style='width: 71ch;'><br></div>"
+		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+		"</blockquote>"
+		"<div style='width: 71ch;'><br></div>"
+		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
+
+	plain4 = "before citation\n"
+		"> cite level 1a\n"
+		"> > ciX\n"
+		"Y\n"
+		"> > tZ\n"
+		"> > e level 2\n"
+		"\n"
+		"> \n"
+		"\n"
+		"> cite level 1b\n"
+		"\n"
+		"after citation\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:endhnden\n",
+		html4, plain4)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo:3\n",
+		html3, plain3)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo:2\n",
+		html2, plain2)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo:2\n",
+		html1, plain1)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo:1\n",
+		html0, plain0)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:redo:1\n",
+		html1, plain1)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:redo:2\n",
+		html2, plain2)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:redo:2\n",
+		html3, plain3)) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:redo:3\n",
+		html4, plain4)) {
+		g_test_fail ();
+		return;
+	}
+
+	#undef QUOTE_CHR
+	#undef QUOTE_SPAN
+}
+
+static void
 test_undo_text_typed (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
@@ -5718,6 +6196,8 @@ main (gint argc,
 	test_utils_add_test ("/cite/longline", test_cite_longline);
 	test_utils_add_test ("/cite/reply-html", test_cite_reply_html);
 	test_utils_add_test ("/cite/reply-plain", test_cite_reply_plain);
+	test_utils_add_test ("/cite/editing-html", test_cite_editing_html);
+	test_utils_add_test ("/cite/editing-plain", test_cite_editing_plain);
 	test_utils_add_test ("/undo/text-typed", test_undo_text_typed);
 	test_utils_add_test ("/undo/text-forward-delete", test_undo_text_forward_delete);
 	test_utils_add_test ("/undo/text-backward-delete", test_undo_text_backward_delete);
