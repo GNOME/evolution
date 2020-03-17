@@ -4592,16 +4592,16 @@ test_cite_html2plain (TestFixture *fixture)
 	test_utils_insert_content (fixture,
 		"<html><head></head><body>"
 		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div data-evo-paragraph=\"\">level 1</div>"
-		"<div data-evo-paragraph=\"\"><br></div>"
-		"<div data-evo-paragraph=\"\">level 1</div>"
+		"<div>level 1</div>"
+		"<div><br></div>"
+		"<div>level 1</div>"
 		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div data-evo-paragraph=\"\">level 2</div>"
+		"<div>level 2</div>"
 		"</blockquote>"
-		"<div data-evo-paragraph=\"\">back in level 1</div>"
+		"<div>back in level 1</div>"
 		"</blockquote>"
-		"<div data-evo-paragraph=\"\"><br></div>"
-		"<div data-evo-paragraph=\"\">out of the citation</div>"
+		"<div><br></div>"
+		"<div>out of the citation</div>"
 		"</body></html>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
@@ -4617,7 +4617,7 @@ test_cite_html2plain (TestFixture *fixture)
 		"> > level 2\n"
 		"> back in level 1\n"
 		"\n"
-		"out of the citation")) {
+		"out of the citation\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -4631,7 +4631,7 @@ test_cite_html2plain (TestFixture *fixture)
 		"> > level 2\n"
 		"> back in level 1\n"
 		"\n"
-		"out of the citation"))
+		"out of the citation\n"))
 		g_test_fail ();
 }
 

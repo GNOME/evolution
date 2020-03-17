@@ -647,7 +647,7 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 	if (node.nodeType == node.TEXT_NODE) {
 		str = node.nodeValue;
 	} else if (node.nodeType == node.ELEMENT_NODE) {
-		if (node.hidden)
+		if (node.hidden || (node.tagName == "SPAN" && node.classList.contains("-x-evo-quoted")))
 			return str;
 
 		var style = EvoConvert.getComputedOrNodeStyle(node), ltr, align, indent, whiteSpace;
