@@ -1652,6 +1652,9 @@ cal_model_set_value_at (ETableModel *etm,
 	comp_data = g_ptr_array_index (priv->objects, row);
 	g_return_if_fail (comp_data != NULL);
 
+	if (!e_cal_dialogs_recur_icalcomp (comp_data->client, comp_data->icalcomp, &mod, NULL, FALSE))
+		return;
+
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
 		set_categories (comp_data, value);
@@ -1669,9 +1672,6 @@ cal_model_set_value_at (ETableModel *etm,
 		set_summary (comp_data, value);
 		break;
 	}
-
-	if (!e_cal_dialogs_recur_icalcomp (comp_data->client, comp_data->icalcomp, &mod, NULL, FALSE))
-		return;
 
 	e_cal_ops_modify_component (model, comp_data->client, comp_data->icalcomp, mod, E_CAL_OPS_SEND_FLAG_DONT_SEND);
 }

@@ -958,16 +958,14 @@ e_cal_dialogs_recur_icalcomp (ECalClient *client,
 
 	g_return_val_if_fail (icomp != NULL, FALSE);
 
+	if (!e_cal_util_component_is_instance (icomp)) {
+		*mod = E_CAL_OBJ_MOD_ALL;
+		return TRUE;
+	}
+
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (icomp));
 	if (!comp)
 		return FALSE;
-
-	if (!e_cal_component_is_instance (comp)) {
-		*mod = E_CAL_OBJ_MOD_ALL;
-		g_object_unref (comp);
-
-		return TRUE;
-	}
 
 	res = e_cal_dialogs_recur_component (client, comp, mod, parent, delegated);
 
