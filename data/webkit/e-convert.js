@@ -28,7 +28,10 @@ var EvoConvert = {
 	ALIGN_LEFT : 0,
 	ALIGN_CENTER : 1,
 	ALIGN_RIGHT : 2,
-	ALIGN_JUSTIFY : 3
+	ALIGN_JUSTIFY : 3,
+
+	NOWRAP_CHAR_START : "\x01",
+	NOWRAP_CHAR_END : "\x02"
 };
 
 EvoConvert.GetOLMaxLetters = function(type, levels)
@@ -361,6 +364,8 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 			collapseWhiteSpace : whiteSpace != "pre" && whiteSpace != "pre-wrap",
 			canWrap : whiteSpace != "nowrap",
 			charWrap : whiteSpace == "pre",
+			inAnchor : 0,
+			ignoreLineLetters : 0, // used for EvoConvert.NOWRAP_CHAR_START and EvoConvert.NOWRAP_CHAR_END, which should be skipped in width calculation
 			useWrapWidth : wrapWidth,
 			spacesFrom : -1, // in 'str'
 			lastSpace : -1, // in this->line
@@ -368,22 +373,47 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 			lineLetters : 0,
 			line : "",
 
+			maybeRecalcIgnoreLineLetters : function() {
+				if (this.ignoreLineLetters) {
+					var ii, len = this.line.length, chr;
+
+					this.ignoreLineLetters = 0;
+
+					for (ii = 0; ii < len; ii++) {
+						chr = this.line[ii];
+
+						if (chr == EvoConvert.NOWRAP_CHAR_START || chr == EvoConvert.NOWRAP_CHAR_END)
+							this.ignoreLineLetters++;
+					}
+				}
+			},
+
+			isInUnwrapPart : function() {
+				if (worker.inAnchor)
+					return true;
+
+				if (worker.line[0] == EvoConvert.NOWRAP_CHAR_START)
+					return worker.line.indexOf(EvoConvert.NOWRAP_CHAR_END) < 0;
+
+				return false;
+			},
+
 			shouldWrap : function() {
-				return worker.canWrap && (worker.lineLetters > worker.useWrapWidth || (
-					worker.lineLetters == worker.useWrapWidth && (
+				return worker.canWrap && (!worker.isInUnwrapPart() || worker.lastSpace != -1) && (worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth || (
+					worker.lineLetters - worker.ignoreLineLetters == worker.useWrapWidth && (
 					worker.lastSpace == -1/* || worker.lastSpace == worker.line.length*/)));
 			},
 
 			commitSpaces : function(ii) {
-				if (worker.spacesFrom != -1 && (!worker.canWrap || worker.line.length <= worker.useWrapWidth)) {
+				if (worker.spacesFrom != -1 && (!worker.canWrap || worker.line.length - worker.ignoreLineLetters <= worker.useWrapWidth)) {
 					var spaces;
 
 					spaces = ii - worker.spacesFrom;
 
-					if (worker.canWrap && worker.line.length + spaces > worker.useWrapWidth)
-						spaces = worker.useWrapWidth - worker.line.length;
+					if (worker.canWrap && worker.line.length - worker.ignoreLineLetters + spaces > worker.useWrapWidth)
+						spaces = worker.useWrapWidth - worker.line.length + worker.ignoreLineLetters;
 
-					if (!worker.canWrap || (worker.line.length + spaces <= worker.useWrapWidth) && spaces >= 0) {
+					if (!worker.canWrap || (worker.line.length - worker.ignoreLineLetters + spaces <= worker.useWrapWidth) && spaces >= 0) {
 						if (worker.collapseWhiteSpace && (!extraIndent || lines.length))
 							worker.line += " ";
 						else
@@ -400,31 +430,45 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 			commit : function(ii) {
 				worker.commitSpaces(ii);
 
-				if (worker.canWrap && worker.lastSpace != -1 && worker.lineLetters > worker.useWrapWidth) {
+				if (worker.canWrap && worker.lastSpace != -1 && worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth) {
 					lines[lines.length] = worker.line.substr(0, worker.lastSpace);
 					worker.line = worker.line.substr(worker.lastSpace);
-				} else if (worker.charWrap && worker.useWrapWidth != -1 && worker.lineLetters > worker.useWrapWidth) {
-					var jj, subLineLetters = 0;
+					worker.maybeRecalcIgnoreLineLetters();
+				} else if (!worker.isInUnwrapPart() && worker.useWrapWidth != -1 && worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth) {
+					var jj;
 
-					for(jj = 0; jj < worker.line.length; jj++) {
-						if (worker.line.charAt(jj) == "\t") {
-							subLineLetters = subLineLetters - (subLineLetters % EvoConvert.TAB_SIZE) + EvoConvert.TAB_SIZE;
-						} else {
-							subLineLetters++;
+					if (worker.charWrap) {
+						var subLineLetters = 0, ignoreSubLineLetters = 0, chr;
+
+						for(jj = 0; jj < worker.line.length; jj++) {
+							chr = worker.line.charAt(jj);
+
+							if (chr == "\t") {
+								subLineLetters = subLineLetters - ((subLineLetters - ignoreSubLineLetters) % EvoConvert.TAB_SIZE) + EvoConvert.TAB_SIZE;
+							} else {
+								subLineLetters++;
+							}
+
+							if (chr == EvoConvert.NOWRAP_CHAR_START || chr == EvoConvert.NOWRAP_CHAR_END)
+								ignoreSubLineLetters++;
+
+							if (subLineLetters - ignoreSubLineLetters >= worker.useWrapWidth)
+								break;
 						}
-
-						if (subLineLetters >= worker.useWrapWidth)
-							break;
+					} else {
+						jj = worker.line.length;
 					}
 
 					lines[lines.length] = worker.line.substr(0, jj);
 					worker.line = worker.line.substr(jj);
+					worker.maybeRecalcIgnoreLineLetters();
 				} else if (worker.lastWasWholeLine && worker.line == "") {
 					worker.lastWasWholeLine = false;
 				} else {
 					lines[lines.length] = worker.line;
 					worker.line = "";
 					worker.lastWasWholeLine = true;
+					worker.ignoreLineLetters = 0;
 				}
 
 				if (worker.canWrap && worker.collapseWhiteSpace && lines[lines.length - 1].endsWith(" ")) {
@@ -451,6 +495,9 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 			if (chr == "\r")
 				continue;
 
+			if (chr == EvoConvert.NOWRAP_CHAR_START)
+				worker.inAnchor++;
+
 			if (chr == "\n") {
 				worker.commit(ii);
 			} else if (!worker.charWrap && !worker.collapseWhiteSpace && chr == "\t") {
@@ -459,9 +506,9 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				else
 					worker.commitSpaces(ii);
 
-				var add = " ".repeat(EvoConvert.TAB_WIDTH - (worker.lineLetters % EvoConvert.TAB_WIDTH));
+				var add = " ".repeat(EvoConvert.TAB_WIDTH - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH));
 
-				worker.lineLetters = worker.lineLetters - (worker.lineLetters % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
+				worker.lineLetters = worker.lineLetters - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
 
 				if (worker.shouldWrap())
 					worker.commit(ii);
@@ -472,7 +519,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				var setSpacesFrom = false;
 
 				if (chr == '\t') {
-					worker.lineLetters = worker.lineLetters - (worker.lineLetters % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
+					worker.lineLetters = worker.lineLetters - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
 					setSpacesFrom = true;
 				} else if ((worker.spacesFrom == -1 && worker.line != "") || !worker.collapseWhiteSpace) {
 					worker.lineLetters++;
@@ -487,9 +534,15 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				worker.line += chr;
 
 				if (chr == "\t")
-					worker.lineLetters = worker.lineLetters - (worker.lineLetters % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
+					worker.lineLetters = worker.lineLetters - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
 				else
 					worker.lineLetters++;
+
+				if (chr == EvoConvert.NOWRAP_CHAR_START || chr == EvoConvert.NOWRAP_CHAR_END)
+					worker.ignoreLineLetters++;
+
+				if (chr == EvoConvert.NOWRAP_CHAR_END && worker.inAnchor)
+					worker.inAnchor--;
 
 				if (worker.shouldWrap())
 					worker.commit(ii);
@@ -729,6 +782,8 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 			str = "\n";
 		} else if (node.tagName == "IMG") {
 			str = EvoConvert.ImgToText(node);
+		} else if (node.tagName == "A" && !node.innerText.includes(" ") && !node.innerText.includes("\n")) {
+			str = EvoConvert.NOWRAP_CHAR_START + node.innerText + EvoConvert.NOWRAP_CHAR_END;
 		} else {
 			var isBlockquote = node.tagName == "BLOCKQUOTE";
 
@@ -793,5 +848,6 @@ EvoConvert.ToPlainText = function(element, normalDivWidth)
 		str += EvoConvert.processNode(node, normalDivWidth, 0);
 	}
 
-	return str;
+	// remove EvoConvert.NOWRAP_CHAR_START and EvoConvert.NOWRAP_CHAR_END from the result
+	return str.replace(/\x01/g, "").replace(/\x02/g, "");
 }

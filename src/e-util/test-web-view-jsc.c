@@ -148,6 +148,7 @@ test_utils_fixture_set_up (TestFixture *fixture,
 
 	settings = webkit_web_view_get_settings (fixture->web_view);
 	webkit_settings_set_enable_developer_extras (settings, TRUE);
+	webkit_settings_set_enable_write_console_messages_to_stdout (settings, TRUE);
 
 	g_signal_connect (
 		fixture->window, "key-press-event",
@@ -2530,7 +2531,38 @@ test_convert_to_plain (TestFixture *fixture)
 		70 },
 	/* 52 */{ HTML ("<div style='width:70ch'>before <a href='https://no.where/'>here</a> after</div>"),
 		"before here after\n",
-		70 }
+		70 },
+	/* 53 */{ HTML ("<div style='width:31ch'>before <a href='https://no.where/'>https://no.where/</a> after</div>"),
+		"before https://no.where/ after\n",
+		31 },
+	/* 54 */{ HTML ("<div style='width:26ch'>before <a href='https://no.where/'>https://no.where/</a> after</div>"),
+		"before https://no.where/\n"
+		"after\n",
+		26 },
+	/* 55 */{ HTML ("<div style='width:20ch'>before <a href='https://no.where/'>https://no.where/</a> after</div>"),
+		"before\n"
+		"https://no.where/\n"
+		"after\n",
+		20 },
+	/* 56 */{ HTML ("<div style='width:20ch'>before <a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a> after</div>"),
+		"before\n"
+		"https://no.where/1234567890/123457890/1234567890\n"
+		"after\n",
+		20 },
+	/* 57 */{ HTML ("<p><div style='width:20ch'>before <a href='https://no.where/'>https://no.where/</a> after</div></p>"),
+		"before\n"
+		"https://no.where/\n"
+		"after\n",
+		20 },
+	/* 58 */{ HTML ("<p><div style='width:20ch'>before <a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a> after</div></p>"),
+		"before\n"
+		"https://no.where/1234567890/123457890/1234567890\n"
+		"after\n",
+		20 },
+	/* 59 */{ HTML ("<div style='width:16ch'>before <a href='https://no.where/'>anchor text</a> after</div>"),
+		"before anchor\n"
+		"text after\n",
+		16 }
 	};
 
 	#undef HTML
@@ -2685,7 +2717,68 @@ test_convert_to_plain_quoted (TestFixture *fixture)
 		"> c\n"
 		"> d e f\n"
 		"end\n",
-		10 }
+		10 },
+	/* 6 */ { HTML ("<blockquote type='cite'>"
+			"<div style='width:70ch'>before <a href='https://no.where/'>https://no.where/</a> after</div>"
+		"</blockquote>"),
+		"> before https://no.where/ after\n",
+		70 },
+	/* 7 */ { HTML ("<blockquote type='cite'>"
+			"<div style='width:70ch'>before <a href='https://no.where/'>here</a> after</div>"
+		"</blockquote>"),
+		"> before here after\n",
+		70 },
+	/* 8 */ { HTML ("<blockquote type='cite'>"
+			"<div style='width:31ch'>before <a href='https://no.where/'>https://no.where/</a> after</div>"
+		"</blockquote>"),
+		"> before https://no.where/ after\n",
+		33 },
+	/* 9 */ { HTML ("<blockquote type='cite'>"
+			"<div style='width:26ch'>before <a href='https://no.where/'>https://no.where/</a> after</div>"
+		"</blockquote>"),
+		"> before https://no.where/\n"
+		"> after\n",
+		26 },
+	/* 10 */{ HTML ("<blockquote type='cite'>"
+			"<div style='width:20ch'>before <a href='https://no.where/'>https://no.where/</a> after</div>"
+		"</blockquote>"),
+		"> before\n"
+		"> https://no.where/\n"
+		"> after\n",
+		20 },
+	/* 11 */{ HTML ("<blockquote type='cite'>"
+			"<div style='width:20ch'>before <a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a> after</div>"
+		"</blockquote>"),
+		"> before\n"
+		"> https://no.where/1234567890/123457890/1234567890\n"
+		"> after\n",
+		20 },
+	/* 12 */{ HTML ("<blockquote type='cite'>"
+			"<blockquote type='cite'>"
+				"<div style='width:20ch'>before <a href='https://no.where/'>https://no.where/</a> after</div>"
+			"</blockquote>"
+		"</blockquote>"),
+		"> > before\n"
+		"> > https://no.where/\n"
+		"> > after\n",
+		20 },
+	/* 13 */{ HTML ("<blockquote type='cite'>"
+			"<blockquote type='cite'>"
+				"<div style='width:20ch'>before <a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a> after</div>"
+			"</blockquote>"
+		"</blockquote>"),
+		"> > before\n"
+		"> > https://no.where/1234567890/123457890/1234567890\n"
+		"> > after\n",
+		20 },
+	/* 14 */{ HTML ("<blockquote type='cite'>"
+			"<blockquote type='cite'>"
+				"<div style='width:16ch'>before <a href='https://no.where/'>anchor text</a> after</div>"
+			"</blockquote>"
+		"</blockquote>"),
+		"> > before anchor\n"
+		"> > text after\n",
+		16 }
 	};
 
 	#undef HTML
