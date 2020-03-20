@@ -30,6 +30,7 @@ var EvoEditor = {
 			"[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*+",
 
 	CURRENT_ELEMENT_ATTR : "x-evo-dialog-current-element",
+	BLOCKQUOTE_STYLE : "margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex",
 
 	E_CONTENT_EDITOR_ALIGNMENT_NONE		: -1,
 	E_CONTENT_EDITOR_ALIGNMENT_LEFT		: 0,
@@ -2051,6 +2052,20 @@ EvoEditor.convertTags = function()
 		textNode = document.createTextNode(table.innerText);
 		table.parentElement.insertBefore(textNode, table);
 		table.parentElement.removeChild(table);
+	}
+
+	list = document.getElementsByTagName("BLOCKQUOTE");
+
+	for (ii = list.length - 1; ii >= 0; ii--) {
+		var blockquoteNode = list[ii];
+
+		if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+			blockquoteNode.removeAttribute("class");
+			blockquoteNode.removeAttribute("style");
+		} else {
+			blockquoteNode.removeAttribute("class");
+			blockquoteNode.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
+		}
 	}
 
 	var node = document.body.firstChild, next;
@@ -4608,15 +4623,15 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 		}
 
 		if (isHTML) {
-			if (EvoEditor.mode == EvoEditor.MODE_HTML) {
-				content.innerHTML = text;
+			content.innerHTML = text;
 
-				// paste can contain <meta> elements, like the one with Content-Type, which can be removed
-				while (content.firstElementChild && content.firstElementChild.tagName == "META") {
-					content.removeChild(content.firstElementChild);
-				}
-			} else {
-				content.innerText = text;
+			// paste can contain <meta> elements, like the one with Content-Type, which can be removed
+			while (content.firstElementChild && content.firstElementChild.tagName == "META") {
+				content.removeChild(content.firstElementChild);
+			}
+
+			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+				EvoEditor.convertParagraphs(content, quote ? 1 : 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
 			}
 		} else {
 			content.innerText = text;
@@ -4808,7 +4823,7 @@ EvoEditor.processLoadedContent = function()
 		node.removeAttribute("class");
 	}
 
-	// require blocks under BLOCKQUOTE
+	// require blocks under BLOCKQUOTE and style them properly
 	list = document.getElementsByTagName("BLOCKQUOTE");
 
 	for (ii = list.length - 1; ii >= 0; ii--) {
@@ -4829,7 +4844,18 @@ EvoEditor.processLoadedContent = function()
 				addingTo = null;
 			}
 		}
+
+		if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+			blockquoteNode.removeAttribute("class");
+			blockquoteNode.removeAttribute("style");
+		} else {
+			blockquoteNode.removeAttribute("class");
+			blockquoteNode.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
+		}
 	}
+
+	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
+		EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
 }
 
 EvoEditor.LoadHTML = function(html)

@@ -4655,7 +4655,7 @@ test_cite_shortline (TestFixture *fixture)
 		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>Just one short line.</div>"
 		"</blockquote>" HTML_SUFFIX,
-		"> Just one short line.")) {
+		"> Just one short line.\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -4679,7 +4679,7 @@ test_cite_shortline (TestFixture *fixture)
 		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>Just one short line.</div>"
 		"</blockquote>" HTML_SUFFIX,
-		"> Just one short line.")) {
+		"> Just one short line.\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -4701,7 +4701,7 @@ test_cite_shortline (TestFixture *fixture)
 		"</blockquote>" HTML_SUFFIX,
 		"> short line 1\n"
 		"> short line 2\n"
-		"> short line 3")) {
+		"> short line 3\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -4731,7 +4731,7 @@ test_cite_shortline (TestFixture *fixture)
 		"</blockquote>" HTML_SUFFIX,
 		"> short line 1\n"
 		"> short line 2\n"
-		"> short line 3")) {
+		"> short line 3\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -4758,7 +4758,7 @@ test_cite_longline (TestFixture *fixture)
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"> This is the first paragraph of a quoted text which has some long text\n"
-		"> to test. It has the second sentence as well.")) {
+		"> to test. It has the second sentence as well.\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -4783,7 +4783,7 @@ test_cite_longline (TestFixture *fixture)
 		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"> This is the first paragraph of a quoted text which has some long text\n"
-		"> to test. It has the second sentence as well.")) {
+		"> to test. It has the second sentence as well.\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -4805,8 +4805,8 @@ test_cite_longline (TestFixture *fixture)
 		"</blockquote><br>after quote" HTML_SUFFIX,
 		"> This is the first paragraph of a quoted text which has some long text\n"
 		"> to test. It has the second sentence as well.\n"
-		"> This is the second paragraph of a quoted text which has some long\n"
-		"> text to test. It has the second sentence as well.\n"
+		"> This is the second paragraph of a quoted text which has some long text\n"
+		"> to test. It has the second sentence as well.\n"
 		"> This is the third paragraph of a quoted text which has some long text\n"
 		"> to test. It has the second sentence as well.\n"
 		"\nafter quote")) {
@@ -4818,10 +4818,6 @@ test_cite_longline (TestFixture *fixture)
 static void
 test_cite_reply_html (TestFixture *fixture)
 {
-	/* This test is known to fail, skip it. */
-	printf ("SKIPPED ");
-
-#if 0
 	if (!test_utils_process_commands (fixture,
 		"mode:html\n")) {
 		g_test_fail ();
@@ -4843,10 +4839,44 @@ test_cite_reply_html (TestFixture *fixture)
 		"</pre></blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> line 1\n"
-		"> line 2\n"
-		"> "))
+		"> line 2\n"))
 		g_test_fail ();
-#endif
+}
+
+static void
+test_cite_reply_html_to_plain (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>line 1\n"
+		"line 2\n\n"
+		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div></blockquote>" HTML_SUFFIX,
+		"On Today, User wrote:\n"
+		"> line 1\n"
+		"> line 2\n"
+		"> \n"))
+		g_test_fail ();
 }
 
 static void
@@ -4860,7 +4890,7 @@ test_cite_reply_plain (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<pre>line 1\n"
-		"line 2\n\n"
+		"line 2\n"
 		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
 		"<span class=\"-x-evo-cite-body\"></span>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
@@ -4868,13 +4898,12 @@ test_cite_reply_plain (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div style=\"width: 71ch;\">&gt; line 1</div>"
-		"<div style=\"width: 71ch;\">&gt; line 2</div>"
-		"<div style=\"width: 71ch;\">&gt; <br></div></blockquote>" HTML_SUFFIX,
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div></blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> line 1\n"
-		"> line 2\n"
-		"> "))
+		"> line 2\n"))
 		g_test_fail ();
 }
 
@@ -4902,9 +4931,9 @@ test_cite_editing_html (TestFixture *fixture)
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	html0 = HTML_PREFIX "<div>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 				"<div>cite level 2</div>"
 			"</blockquote>"
 			"<div>cite level 1b</div>"
@@ -4923,9 +4952,9 @@ test_cite_editing_html (TestFixture *fixture)
 	}
 
 	html1 = HTML_PREFIX "<div>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 				"<div>ciXte level 2</div>"
 			"</blockquote>"
 			"<div>cite level 1b</div>"
@@ -4948,15 +4977,15 @@ test_cite_editing_html (TestFixture *fixture)
 	}
 
 	html2 = HTML_PREFIX "<div>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 				"<div>ciX</div>"
 			"</blockquote>"
 		"</blockquote>"
 		"<div>Y</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
+			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 				"<div>te level 2</div>"
 			"</blockquote>"
 			"<div>cite level 1b</div>"
@@ -4979,15 +5008,15 @@ test_cite_editing_html (TestFixture *fixture)
 	}
 
 	html3 = HTML_PREFIX "<div>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 				"<div>ciX</div>"
 			"</blockquote>"
 		"</blockquote>"
 		"<div>Y</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
+			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 				"<div>tZ<br>e level 2</div>"
 			"</blockquote>"
 			"<div>cite level 1b</div>"
@@ -5013,24 +5042,24 @@ test_cite_editing_html (TestFixture *fixture)
 	}
 
 	html4 = HTML_PREFIX "<div>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 				"<div>ciX</div>"
 			"</blockquote>"
 		"</blockquote>"
 		"<div>Y</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
+			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 				"<div>tZ<br>e level 2</div>"
 			"</blockquote>"
 		"</blockquote>"
 		"<div><br></div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div><br></div>"
 		"</blockquote>"
 		"<div><br></div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
+		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1b</div>"
 		"</blockquote>"
 		"<div><br></div>"
@@ -5136,16 +5165,13 @@ test_cite_editing_plain (TestFixture *fixture)
 		"<div>after citation</div>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
-	#define QUOTE_SPAN(x) "<span class='-x-evo-quoted'>" x "</span>"
-	#define QUOTE_CHR "<span class='-x-evo-quote-character'>&gt; </span>"
-
 	html0 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "cite level 2</div>"
+		"<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite'>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "cite level 2</div>"
 			"</blockquote>"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
 		"</blockquote>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
 
@@ -5161,12 +5187,12 @@ test_cite_editing_plain (TestFixture *fixture)
 	}
 
 	html1 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciXte level 2</div>"
+		"<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite'>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciXte level 2</div>"
 			"</blockquote>"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
 		"</blockquote>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
 
@@ -5186,18 +5212,18 @@ test_cite_editing_plain (TestFixture *fixture)
 	}
 
 	html2 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciX</div>"
+		"<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite'>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciX</div>"
 			"</blockquote>"
 		"</blockquote>"
 		"<div style='width: 71ch;'>Y</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "te level 2</div>"
+		"<blockquote type='cite'>"
+			"<blockquote type='cite'>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "te level 2</div>"
 			"</blockquote>"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
 		"</blockquote>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
 
@@ -5217,19 +5243,19 @@ test_cite_editing_plain (TestFixture *fixture)
 	}
 
 	html3 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciX</div>"
+		"<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite'>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciX</div>"
 			"</blockquote>"
 		"</blockquote>"
 		"<div style='width: 71ch;'>Y</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "tZ</div>"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "e level 2</div>"
+		"<blockquote type='cite'>"
+			"<blockquote type='cite'>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "tZ</div>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "e level 2</div>"
 			"</blockquote>"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
 		"</blockquote>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
 
@@ -5252,26 +5278,26 @@ test_cite_editing_plain (TestFixture *fixture)
 	}
 
 	html4 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciX</div>"
+		"<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
+			"<blockquote type='cite'>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "ciX</div>"
 			"</blockquote>"
 		"</blockquote>"
 		"<div style='width: 71ch;'>Y</div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "tZ</div>"
-				"<div x-evo-width='67'>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "e level 2</div>"
+		"<blockquote type='cite'>"
+			"<blockquote type='cite'>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "tZ</div>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "e level 2</div>"
 			"</blockquote>"
 		"</blockquote>"
 		"<div style='width: 71ch;'><br></div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
 		"</blockquote>"
 		"<div style='width: 71ch;'><br></div>"
-		"<blockquote type='cite' " /*BLOCKQUOTE_STYLE*/ ">"
-			"<div x-evo-width='69'>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
+		"<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1b</div>"
 		"</blockquote>"
 		"<div style='width: 71ch;'><br></div>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
@@ -5351,9 +5377,6 @@ test_cite_editing_plain (TestFixture *fixture)
 		g_test_fail ();
 		return;
 	}
-
-	#undef QUOTE_CHR
-	#undef QUOTE_SPAN
 }
 
 static void
@@ -6195,6 +6218,7 @@ main (gint argc,
 	test_utils_add_test ("/cite/shortline", test_cite_shortline);
 	test_utils_add_test ("/cite/longline", test_cite_longline);
 	test_utils_add_test ("/cite/reply-html", test_cite_reply_html);
+	test_utils_add_test ("/cite/reply-html-to-plain", test_cite_reply_html_to_plain);
 	test_utils_add_test ("/cite/reply-plain", test_cite_reply_plain);
 	test_utils_add_test ("/cite/editing-html", test_cite_editing_html);
 	test_utils_add_test ("/cite/editing-plain", test_cite_editing_plain);
