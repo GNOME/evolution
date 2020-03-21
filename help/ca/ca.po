@@ -11076,7 +11076,7 @@ msgid ""
 "automatically fill in the values."
 msgstr ""
 "Introduïu manualment l'URL de l'amfitrió i l'URL OAB o feu clic a <gui style="
-"\"button\">Recollir l'URL</gui> que us demanarà la contrasenya i, a "
+"\"button\">Obté l'URL</gui> que us demanarà la contrasenya i, a "
 "continuació, intenta completar automàticament els valors."
 
 #. (itstool) path: note/p
@@ -13400,8 +13400,8 @@ msgstr ""
 "possible que hàgiu fet clic a la icona de connexió que hi ha a la cantonada "
 "inferior esquerra. Quan s'està connectat, la icona s'assembla a un parell "
 "d'endolls connectats. Si els endolls estan separats, no hi ha cap connexió "
-"amb els vostres comptes de correu (i el botó <gui style=\"button\">Enviar/"
-"Rebre</gui> està gris). Feu clic a la icona per canviar el seu estat."
+"amb els vostres comptes de correu (i el botó <gui style=\"button\">Envia /"
+"Rep</gui> està gris). Feu clic a la icona per canviar el seu estat."
 
 #. (itstool) path: page/p
 #: C/offline.page:32
