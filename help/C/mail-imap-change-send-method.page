@@ -1,0 +1,39 @@
+<page xmlns="http://projectmallard.org/1.0/" xmlns:its="http://www.w3.org/2005/11/its"
+      type="topic" id="mail-imap-change-send-method">
+
+  <info>
+    <desc>Switch from sending mail via SMTP to Sendmail or vice versa.</desc>
+
+    <link type="guide" xref="index#common-mail-problems" />
+    <link type="guide" xref="mail-account-manage-imap-plus#other-settings"/>
+
+    <revision pkgversion="3.34.4" version="0.1" date="2020-03-22" status="review"/>
+    <credit type="author">
+      <name its:translate="no">Andre Klapper</name>
+      <email its:translate="no">ak-47@gmx.net</email>
+    </credit>
+
+    <include href="legal.xml" xmlns="https://www.w3.org/2001/XInclude"/>
+
+
+</info>
+
+<title>Change the outgoing method for an IMAP+ account</title>
+
+<p>There is no user interface to change the outgoing method of an IMAP account.</p>
+
+<p>If you used Sendmail so far but now want to use an SMTP connection instead:</p>
+
+<list>
+<item><p>Close <app>Evolution</app>.</p></item>
+<item><p>Find and open the corresponding account file in 
+  <file>$HOME/.config/evolution/sources/</file> with a text editor.</p></item>
+<item><p>In the <code>[Mail Transport]</code> section, replace
+  <code>BackendName=sendmail</code> with <code>BackendName=smtp</code> or vice versa.</p></item>
+<item><p>Restart the <code>evolution-source-registry</code> background
+  process, for example by rebooting your system.</p></item>
+<item><p>Start <app>Evolution</app> and edit the account SMTP settings for
+  the account as needed.</p></item>
+</list>
+
+</page>

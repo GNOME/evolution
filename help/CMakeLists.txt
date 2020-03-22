@@ -166,6 +166,7 @@ set(HELP_FILES
 	mail-filters.page
 	mail-folders.page
 	mail-follow-up-flag.page
+	mail-imap-change-send-method.page
 	mail-imap-subscriptions.page
 	mail-labels.page
 	mail-layout-changing.page
