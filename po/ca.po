@@ -206,12 +206,12 @@ msgid ""
 "Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
 "different character sets."
 msgstr ""
-"Converteix el text dels missatges a Unicode (codificació UTF-8) per unificar "
+"Converteix el text dels missatges a Unicode (codificació UTF-8) per a unificar "
 "els testimonis de spam/ham provinents de jocs de caràcters diferents."
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:3
 msgid "Full path command to run Bogofilter"
-msgstr "Camí complet de l'ordre per executar Bogofilter"
+msgstr "Camí complet de l'ordre per a executar Bogofilter"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:4
 msgid ""
@@ -229,7 +229,7 @@ msgstr "Directori on desar els sons dels recordatoris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:2
 msgid "Directory for saving reminder audio files"
-msgstr "Directori per desar els fitxers de so dels recordatoris"
+msgstr "Directori per a desar els fitxers de so dels recordatoris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:3
 msgid "Birthday and anniversary reminder value"
@@ -238,7 +238,7 @@ msgstr "Valor del recordatori d'aniversaris i commemoracions"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:4
 msgid "Number of units for determining a birthday or anniversary reminder"
 msgstr ""
-"Nombre d'unitats per determinar un recordatori d'aniversari o commemoració"
+"Nombre d'unitats per a determinar un recordatori d'aniversari o commemoració"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:5
 msgid "Birthday and anniversary reminder units"
@@ -335,7 +335,7 @@ msgid ""
 "-1 to use day-start-hour and day-start-minute"
 msgstr ""
 "L'hora de la jornada laboral acaba, en format 24 hores HHMM, 0000 fins a 2359, "
-"o -1 per usar hora-comença-dia i minut-comença-dia"
+"o -1 per a usar hora-comença-dia i minut-comença-dia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:25
 msgid "Workday end time for Monday"
@@ -347,7 +347,7 @@ msgid ""
 "to use day-end-hour and day-end-minute"
 msgstr ""
 "L'hora de la jornada laboral acaba, en format 24 hores HHMM, 0000 fins a 2359, "
-"o -1 per usar hora-acaba-dia i minut-acaba-dia"
+"o -1 per a usar hora-acaba-dia i minut-acaba-dia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:27
 msgid "Workday start time for Tuesday"
@@ -359,7 +359,7 @@ msgid ""
 "to use day-start-hour and day-start-minute"
 msgstr ""
 "L'hora de la jornada laboral acaba, en format 24 hores HHMM, 0000 fins a 2359, "
-"o -1 per usar hora-acaba-dia i minut-acaba-dia"
+"o -1 per a usar hora-acaba-dia i minut-acaba-dia"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:29
 msgid "Workday end time for Tuesday"
@@ -437,7 +437,7 @@ msgid ""
 "Maximum number of recently used timezones to remember in a “day-second-zones” "
 "list"
 msgstr ""
-"Nombre màxim de fusos horaris utilitzats recentment per recordar en una llista "
+"Nombre màxim de fusos horaris utilitzats recentment per a recordar en una llista "
 "«day_second_zones»"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:46
@@ -446,7 +446,7 @@ msgstr "Valor per defecte per als recordatoris"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:47
 msgid "Number of units for determining a default reminder"
-msgstr "Nombre d'unitats per determinar un recordatori per defecte"
+msgstr "Nombre d'unitats per a determinar un recordatori per defecte"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:48
 msgid "Default reminder units"
@@ -529,7 +529,7 @@ msgstr "Oculta les unitats de la tasca"
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:65
 msgid "Units for determining when to hide tasks, “minutes”, “hours” or “days”"
 msgstr ""
-"Unitats per determinar quan s'han d'amagar les tasques, «minutes» (minuts), "
+"Unitats per a determinar quan s'han d'amagar les tasques, «minutes» (minuts), "
 "«hours» (hores) o «days» (dies)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:66
@@ -538,7 +538,7 @@ msgstr "Oculta el valor de la tasca"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:67
 msgid "Number of units for determining when to hide tasks"
-msgstr "Nombre d'unitats per determinar quan s'han d'amagar les tasques"
+msgstr "Nombre d'unitats per a determinar quan s'han d'amagar les tasques"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:68
 msgid "Hide cancelled events"
@@ -723,7 +723,7 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain"
 msgstr ""
-"La plantilla d'URL per utilitzar per defecte com a valor de dades de lliure/"
+"La plantilla d'URL per a utilitzar per defecte com a valor de dades de lliure/"
 "ocupat, %u es reemplaça per la part d'usuari de l'adreça electrònica i %d es "
 "reemplaça pel domini"
 
@@ -1179,7 +1179,7 @@ msgid ""
 "The text that is inserted when forwarding a message, saying that the forwarded "
 "message follows"
 msgstr ""
-"El text que s'afegirà en reenviar un missatge, per indicar que s'inclou un "
+"El text que s'afegirà en reenviar un missatge, per a indicar que s'inclou un "
 "missatge reenviat a continuació"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:21
@@ -1444,7 +1444,7 @@ msgid ""
 "one."
 msgstr ""
 "Algunes llistes de correu estableixen una capçalera «Respon-a:» («Reply-To:») "
-"per forçar als usuaris a enviar respostes a la llista, fins i tot quan han "
+"per a forçar als usuaris a enviar respostes a la llista, fins i tot quan han "
 "especificat que l'Evolution enviï una resposta privada. En establir aquesta "
 "opció com a «TRUE» (cert), l'Evolution intentarà ignorar aquestes capçaleres "
 "Respon-a:, de manera que es pugui comportar tal com s'espera. Si utilitzeu "
@@ -1477,7 +1477,7 @@ msgid ""
 "replying to a message, as an addition to the standard “:” and the Unicode “︰” "
 "separators."
 msgstr ""
-"Llista de separadors «Re» (resposta) traduïts, usats per ometre'ls al text de "
+"Llista de separadors «Re» (resposta) traduïts, usats per a ometre'ls al text de "
 "l'assumpte en respondre un missatge, addicionalment als separadors estàndards "
 "«:» i l'Unicode « : »."
 
@@ -1497,7 +1497,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:70
 msgid "Number of characters for wrapping"
-msgstr "Nombre de caràcters per ajustar"
+msgstr "Nombre de caràcters per a ajustar"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:71
 msgid "Will autowrap lines after given number of characters."
@@ -1506,7 +1506,7 @@ msgstr "S'ajustaran les línies automàticament d'acord amb un nombre de caràct
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:72
 msgid "Number of To and CC recipients to ask “prompt-on-many-to-cc-recips” from"
 msgstr ""
-"Nombre de destinataris i de CC per preguntar «prompt-on-many-to-cc-recips»"
+"Nombre de destinataris i de CC per a preguntar «prompt-on-many-to-cc-recips»"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:73
 msgid "When to ask, when the number of To and CC recipients reaches this value."
@@ -1617,7 +1617,7 @@ msgid ""
 "Enable the side bar search feature to allow interactive searching of folder "
 "names."
 msgstr ""
-"Habilita la funció de cerca de la barra lateral per permetre la cerca "
+"Habilita la funció de cerca de la barra lateral per a permetre la cerca "
 "interactiva de noms de carpeta."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:92
@@ -1629,20 +1629,20 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list and "
 "folders."
 msgstr ""
-"Habiliteu-ho per utilitzar la tecla d'espai per desplaçar-se en la "
+"Habiliteu-ho per a utilitzar la tecla d'espai per desplaçar-se en la "
 "previsualització dels missatges, en la llista dels missatges i en la de les "
 "carpetes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:94
 msgid "Enable to use a similar message list view settings for all folders"
 msgstr ""
-"Habiliteu-ho per utilitzar uns paràmetres semblants per la visualització de la "
+"Habiliteu-ho per a utilitzar uns paràmetres semblants per la visualització de la "
 "llista de missatges per a totes les carpetes"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:95
 msgid "Enable to use a similar message list view settings for all folders."
 msgstr ""
-"Habiliteu-ho per utilitzar uns paràmetres semblants per la visualització de la "
+"Habiliteu-ho per a utilitzar uns paràmetres semblants per la visualització de la "
 "llista de missatges per a totes les carpetes."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:96
@@ -1765,11 +1765,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:121
 msgid "Timeout for marking messages as seen"
-msgstr "Temps d'espera per marcar els missatges com a llegits"
+msgstr "Temps d'espera per a marcar els missatges com a llegits"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:122
 msgid "Timeout in milliseconds for marking messages as seen."
-msgstr "Temps d'espera en mil·lisegons per marcar els missatges com a llegits."
+msgstr "Temps d'espera en mil·lisegons per a marcar els missatges com a llegits."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:123
 msgid "Show Attachment Bar"
@@ -1879,7 +1879,7 @@ msgstr "Tipus de lletra de mida variable"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:143
 msgid "The variable width font for mail display."
-msgstr "El tipus de lletra de mida variable per visualitzar el correu."
+msgstr "El tipus de lletra de mida variable per a visualitzar el correu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:144
 msgid "Terminal font"
@@ -1887,7 +1887,7 @@ msgstr "Tipus de lletra de terminal"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:145
 msgid "The terminal font for mail display."
-msgstr "El tipus de lletra de terminal per visualitzar el correu."
+msgstr "El tipus de lletra de terminal per a visualitzar el correu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:146
 msgid "Use custom fonts"
@@ -1895,7 +1895,7 @@ msgstr "Utilitza tipus de lletra personalitzats"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:147
 msgid "Use custom fonts for displaying mail."
-msgstr "Utilitza tipus de lletra personalitzats per visualitzar el correu."
+msgstr "Utilitza tipus de lletra personalitzats per a visualitzar el correu."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:148
 msgid "Compress display of addresses in TO/CC/BCC"
@@ -2109,7 +2109,7 @@ msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send a "
 "message to recipients not entered as mail addresses"
 msgstr ""
-"Habilita o inhabilita la mostra de confirmacions múltiples per advertir que "
+"Habilita o inhabilita la mostra de confirmacions múltiples per a advertir que "
 "esteu intentant enviar un missatge a destinataris que no s'han introduït com a "
 "adreces electròniques"
 
@@ -2163,7 +2163,7 @@ msgid ""
 "search folder permanently deletes the message, not simply removing it from the "
 "search results."
 msgstr ""
-"Habilita o inhabilita la mostra de confirmacions múltiples per advertir que en "
+"Habilita o inhabilita la mostra de confirmacions múltiples per a advertir que en "
 "suprimir els missatges d'una carpeta de cerca la supressió serà permanent, i "
 "que no només implica la supressió d'aquests en els resultats de la cerca."
 
@@ -2182,7 +2182,7 @@ msgstr ""
 "Els valors possibles són «never» (mai) - no es permet copiar carpetes en "
 "arrossegar i deixar anar a l'arbre de carpetes, «always» (sempre) - permet "
 "copiar carpetes en arrossegar i deixar anar a l'arbre de carpetes sense "
-"preguntar o «ask» (demana-ho) o qualsevol altre valor - per demanar-ho a "
+"preguntar o «ask» (demana-ho) o qualsevol altre valor - per a demanar-ho a "
 "l'usuari."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:197
@@ -2200,7 +2200,7 @@ msgstr ""
 "Els valors possibles són «never» (mai) - no es permet moure carpetes en "
 "arrossegar i deixar anar a l'arbre de carpetes, «always» (sempre) - permet "
 "moure carpetes en arrossegar i deixar anar a l'arbre de carpetes sense "
-"preguntar o «ask» (demana-ho) o qualsevol altre valor - per demanar-ho a "
+"preguntar o «ask» (demana-ho) o qualsevol altre valor - per a demanar-ho a "
 "l'usuari."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:199
@@ -2212,7 +2212,7 @@ msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a private "
 "reply to a message which arrived via a mailing list."
 msgstr ""
-"Habilita o inhabilita la mostra de confirmacions múltiples per advertir que "
+"Habilita o inhabilita la mostra de confirmacions múltiples per a advertir que "
 "esteu enviant una resposta privada a un missatge que ha arribat a través d'una "
 "llista de correu."
 
@@ -2226,7 +2226,7 @@ msgid ""
 "private reply to a message which arrived via a mailing list, but the list sets "
 "a Reply-To: header which redirects your reply back to the list"
 msgstr ""
-"Habilita o inhabilita la mostra de confirmacions múltiples per advertir que "
+"Habilita o inhabilita la mostra de confirmacions múltiples per a advertir que "
 "esteu enviant una resposta privada a un missatge que ha arribat a través d'una "
 "llista de correu, però la llista estableix una capçalera Respon-a: («Reply-"
 "To:») que torna a dirigir la vostra resposta a la llista"
@@ -2240,7 +2240,7 @@ msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a reply "
 "to many people."
 msgstr ""
-"Habilita o inhabilita la mostra de confirmacions múltiples per advertir que "
+"Habilita o inhabilita la mostra de confirmacions múltiples per a advertir que "
 "esteu enviant una resposta a diverses persones."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:205
@@ -2255,7 +2255,7 @@ msgid ""
 "It disables/enables the repeated prompts to warn that you are switching "
 "composer format and the content needs to lose its formatting."
 msgstr ""
-"Habilita o inhabilita les confirmacions múltiples per advertir que canvieu el "
+"Habilita o inhabilita les confirmacions múltiples per a advertir que canvieu el "
 "mode d'edició i que cal que el contingut perdi el format."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:207
@@ -2428,7 +2428,7 @@ msgid ""
 "known contacts from junk filtering."
 msgstr ""
 "Aquesta opció està relacionada amb la clau «lookup_addressbook» i s'utilitza "
-"per determinar si s'han de cercar adreces només en les llibretes d'adreces "
+"per a determinar si s'han de cercar adreces només en les llibretes d'adreces "
 "locals amb la finalitat d'excloure els correus enviats per contactes coneguts "
 "del filtratge de correu brossa."
 
@@ -2445,7 +2445,7 @@ msgid ""
 "enabled and the headers are mentioned, it will be improve the junk checking "
 "speed."
 msgstr ""
-"Determina si s'han d'utilitzar capçaleres personalitzades per determinar el que "
+"Determina si s'han d'utilitzar capçaleres personalitzades per a determinar el que "
 "és correu brossa. Si s'habilita aquesta opció i es mencionen les capçaleres, "
 "s'incrementarà la velocitat de detecció del correu brossa."
 
@@ -2559,7 +2559,7 @@ msgid ""
 "An Archive folder to use for Messages|Archive... feature when in an On This "
 "Computer folder."
 msgstr ""
-"Una carpeta d'arxiu per usar per a la característica Missatges/Arxiva... quan "
+"Una carpeta d'arxiu per a usar per a la característica Missatges/Arxiva... quan "
 "s'estigui dins de les carpetes locals."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:258
@@ -2899,7 +2899,7 @@ msgstr "Font de la llibreta d'adreces del Pidgin"
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:10
 msgid "Address book to use for storing automatically synced contacts from Pidgin."
 msgstr ""
-"Llibreta d'adreces que s'utilitzarà per desar els contactes del Pidgin "
+"Llibreta d'adreces que s'utilitzarà per a desar els contactes del Pidgin "
 "sincronitzats automàticament."
 
 #: ../data/org.gnome.evolution.plugin.autocontacts.gschema.xml.in.h:11
@@ -3136,7 +3136,7 @@ msgstr "Omet el diàleg d'avís de versió de desenvolupament"
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
-"Si s'ha de mostrar el diàleg d'avís per indicar que s'està executant una versió "
+"Si s'ha de mostrar el diàleg d'avís per a indicar que s'està executant una versió "
 "de desenvolupament de l'Evolution."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:3
@@ -3327,7 +3327,7 @@ msgstr "Fes només proves de correu no desitjat locals (no DNS)."
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:3
 msgid "Full path command to run spamassassin"
-msgstr "Camí complet de l'ordre per executar spamassassin"
+msgstr "Camí complet de l'ordre per a executar spamassassin"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:4
 msgid ""
@@ -3341,7 +3341,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:5
 msgid "Full path command to run sa-learn"
-msgstr "Camí complet de l'ordre per executar sa-learn"
+msgstr "Camí complet de l'ordre per a executar sa-learn"
 
 #: ../data/org.gnome.evolution.spamassassin.gschema.xml.in.h:6
 msgid ""
@@ -5083,7 +5083,7 @@ msgid ""
 msgstr ""
 "No s'ha pogut obrir la llibreta d'adreces. Això significa que la llibreta no "
 "està marcada per ser utilitzada fora de línia, o que encara no s'ha baixat. "
-"Carregueu la llibreta d'adreces un cop estigueu en línia per poder baixar el "
+"Carregueu la llibreta d'adreces un cop estigueu en línia per a poder baixar el "
 "seu contingut."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:138
@@ -5100,9 +5100,9 @@ msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To use "
 "LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr ""
-"Aquesta versió de l'Evolution no està compilada per utilitzar LDAP. Si voleu "
+"Aquesta versió de l'Evolution no està compilada per a utilitzar LDAP. Si voleu "
 "utilitzar l'Evolution amb l'LDAP haureu d'instal·lar un paquet de l'Evolution "
-"preparat per treballar amb l'LDAP."
+"preparat per a treballar amb l'LDAP."
 
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:160
 msgid ""
@@ -12617,7 +12617,7 @@ msgstr "Utilitza aquesta llibreta d'adreces per la compleció automàtica"
 
 #: ../src/e-util/e-book-source-config.c:277
 msgid "Copy book content locally for offline operation"
-msgstr "Copia el contingut de la llibreta localment per treballar fora de línia"
+msgstr "Copia el contingut de la llibreta localment per a treballar fora de línia"
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../src/e-util/e-buffer-tagger.c:410
@@ -12684,17 +12684,17 @@ msgstr "Color:"
 
 #: ../src/e-util/e-cal-source-config.c:428
 msgid "Copy calendar contents locally for offline operation"
-msgstr "Copia el contingut dels calendaris localment per treballar fora de línia"
+msgstr "Copia el contingut dels calendaris localment per a treballar fora de línia"
 
 #: ../src/e-util/e-cal-source-config.c:432
 msgid "Copy task list contents locally for offline operation"
 msgstr ""
-"Copia localment el contingut de la llista de tasques per treballar fora de línia"
+"Copia localment el contingut de la llista de tasques per a treballar fora de línia"
 
 #: ../src/e-util/e-cal-source-config.c:436
 msgid "Copy memo list contents locally for offline operation"
 msgstr ""
-"Copia localment el contingut de la llista d'anotacions per treballar fora de "
+"Copia localment el contingut de la llista d'anotacions per a treballar fora de "
 "línia"
 
 #: ../src/e-util/e-categories-editor.c:251
@@ -14748,7 +14748,7 @@ msgid ""
 "like to try again, please click the “Back” button."
 msgstr ""
 "L'Evolution ha cercat configuracions del Pine, el Netscape, l'Elm, l'iCalendar "
-"i el KMail per importar-les. No s'ha trobat cap configuració que es pugui "
+"i el KMail per a importar-les. No s'ha trobat cap configuració que es pugui "
 "importar. Si ho voleu tornar a intentar, feu clic al botó «Endarrere»."
 
 #: ../src/e-util/e-import-assistant.c:568
@@ -14791,7 +14791,7 @@ msgid ""
 "external files into Evolution."
 msgstr ""
 "Us donem la benvinguda a l'auxiliar d'importació de l'Evolution.\n"
-"Aquest auxiliar us guiarà a través dels passos necessaris per importar fitxers "
+"Aquest auxiliar us guiarà a través dels passos necessaris per a importar fitxers "
 "externs a l'Evolution."
 
 #: ../src/e-util/e-import-assistant.c:1369
@@ -16353,7 +16353,7 @@ msgstr "Signatura buida"
 
 #: ../src/e-util/widgets.error.xml.h:5
 msgid "Please provide an unique name to identify this signature."
-msgstr "Introduïu un nom únic per identificar aquesta signatura."
+msgstr "Introduïu un nom únic per a identificar aquesta signatura."
 
 #: ../src/e-util/widgets.error.xml.h:6
 msgid "Unable to copy image to clipboard."
@@ -16936,7 +16936,7 @@ msgstr ""
 "\n"
 "Ja podeu rebre i enviar correu amb l'Evolution.\n"
 "\n"
-"Feu clic a «Aplica» per desar la configuració."
+"Feu clic a «Aplica» per a desar la configuració."
 
 #: ../src/mail/e-mail-config-confirm-page.c:167
 msgid "Done"
@@ -17031,7 +17031,7 @@ msgid ""
 "The above name will be used to identify this account.\n"
 "Use for example, “Work” or “Personal”."
 msgstr ""
-"El nom del damunt serà usat per identificar aquest compte.\n"
+"El nom del damunt serà usat per a identificar aquest compte.\n"
 "Per exemple, «Feina» o «Personal»."
 
 #: ../src/mail/e-mail-config-identity-page.c:597
@@ -17307,7 +17307,7 @@ msgid ""
 msgstr ""
 "Us donem la benvinguda a l'auxiliar de configuració del correu de l'Evolution.\n"
 "\n"
-"Feu clic a \"Continua\" per començar."
+"Feu clic a «Següent» per a començar."
 
 #: ../src/mail/e-mail-config-welcome-page.c:172
 #: ../src/modules/startup-wizard/e-startup-assistant.c:182
@@ -17686,7 +17686,7 @@ msgstr "Crea una regla de filtratge per la _llista de correu…"
 
 #: ../src/mail/e-mail-reader.c:2469
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "Crea una regla per filtrar els missatges per a aquesta llista de correu"
+msgstr "Crea una regla per a filtrar els missatges per a aquesta llista de correu"
 
 #: ../src/mail/e-mail-reader.c:2474
 msgid "Create a Filter Rule for _Recipients…"
@@ -17694,7 +17694,7 @@ msgstr "Crea una regla de filtratge per als _destinataris…"
 
 #: ../src/mail/e-mail-reader.c:2476
 msgid "Create a rule to filter messages to these recipients"
-msgstr "Crea una regla per filtrar els missatges per a aquests destinataris"
+msgstr "Crea una regla per a filtrar els missatges per a aquests destinataris"
 
 #: ../src/mail/e-mail-reader.c:2481
 msgid "Create a Filter Rule for Se_nder…"
@@ -17702,7 +17702,7 @@ msgstr "Crea una regla de filtratge per al _remitent…"
 
 #: ../src/mail/e-mail-reader.c:2483
 msgid "Create a rule to filter messages from this sender"
-msgstr "Crea una regla per filtrar els missatges d'aquest remitent"
+msgstr "Crea una regla per a filtrar els missatges d'aquest remitent"
 
 #: ../src/mail/e-mail-reader.c:2488
 msgid "Create a Filter Rule for _Subject…"
@@ -17710,7 +17710,7 @@ msgstr "Crea una regla de filtratge per l'_assumpte…"
 
 #: ../src/mail/e-mail-reader.c:2490
 msgid "Create a rule to filter messages with this subject"
-msgstr "Crea una regla per filtrar els missatges amb aquest assumpte"
+msgstr "Crea una regla per a filtrar els missatges amb aquest assumpte"
 
 #: ../src/mail/e-mail-reader.c:2495
 msgid "A_pply Filters"
@@ -18286,7 +18286,7 @@ msgstr "S'està actualitzant la carpeta «%s»"
 
 #: ../src/mail/e-mail-reader-utils.c:1334
 msgid "Marking thread to be ignored"
-msgstr "S'està marcant el fil per ignorar-lo"
+msgstr "S'està marcant el fil per a ignorar-lo"
 
 #: ../src/mail/e-mail-reader-utils.c:1338
 msgid "Unmarking thread from being ignored"
@@ -18294,7 +18294,7 @@ msgstr "S'està desmarcant el fil per no ser ignorat"
 
 #: ../src/mail/e-mail-reader-utils.c:1342
 msgid "Marking subthread to be ignored"
-msgstr "S'està marcant el subfil per ignorar-lo"
+msgstr "S'està marcant el subfil per a ignorar-lo"
 
 #: ../src/mail/e-mail-reader-utils.c:1346
 msgid "Unmarking subthread from being ignored"
@@ -19780,7 +19780,7 @@ msgstr "Arxiva el correu"
 
 #: ../src/mail/mail-config.ui.h:108
 msgid "Archive folder to use for On This Computer messages"
-msgstr "Carpeta d'arxiu per usar per als missatges locals"
+msgstr "Carpeta d'arxiu per a usar per als missatges locals"
 
 #: ../src/mail/mail-config.ui.h:109
 msgid "On This Computer A_rchive folder:"
@@ -20237,11 +20237,11 @@ msgstr "No es pot desar al fitxer «{0}»."
 
 #: ../src/mail/mail.error.xml.h:56
 msgid "Cannot create the save directory, because “{1}”"
-msgstr "No s'ha pogut crear el directori per desar degut a «{1}»"
+msgstr "No s'ha pogut crear el directori per a desar degut a «{1}»"
 
 #: ../src/mail/mail.error.xml.h:57
 msgid "Cannot create temporary save directory."
-msgstr "No s'ha pogut crear el directori temporal per desar."
+msgstr "No s'ha pogut crear el directori temporal per a desar."
 
 #: ../src/mail/mail.error.xml.h:58
 msgid "File exists but cannot overwrite it."
@@ -20779,7 +20779,7 @@ msgstr "No s'han pogut suprimir les adjuncions dels correus."
 #: ../src/mail/mail.error.xml.h:183
 msgid "Failed to download messages for offline viewing for account “{0}”."
 msgstr ""
-"No s'han pogut baixar els missatges per poder-los veure fora de línia per al "
+"No s'han pogut baixar els missatges per a poder-los veure fora de línia per al "
 "compte «{0}»."
 
 #: ../src/mail/mail.error.xml.h:184
@@ -20812,7 +20812,7 @@ msgstr "No s'ha pogut fer aquesta operació a {0}."
 
 #: ../src/mail/mail.error.xml.h:190
 msgid "You must be working online to complete this operation."
-msgstr "No podeu treballar fora de línia per poder acabar aquesta operació."
+msgstr "No podeu treballar fora de línia per a poder acabar aquesta operació."
 
 #: ../src/mail/mail.error.xml.h:191
 msgid "Message from “{0}” account:"
@@ -20825,15 +20825,15 @@ msgstr "Ha fallat marcar el fil perquè s'ignori a la carpeta «{0}»"
 
 #: ../src/mail/mail.error.xml.h:193
 msgid "Failed to unmark thread from being ignored in folder “{0}”"
-msgstr "Ha fallat desmarcar el fil per ignorar-lo a la carpeta «{0}»"
+msgstr "Ha fallat desmarcar el fil per a ignorar-lo a la carpeta «{0}»"
 
 #: ../src/mail/mail.error.xml.h:194
 msgid "Failed to mark subthread to be ignored in folder “{0}”"
-msgstr "Ha fallat marcar el subfil per ignorar-lo a la carpeta «{0}»"
+msgstr "Ha fallat marcar el subfil per a ignorar-lo a la carpeta «{0}»"
 
 #: ../src/mail/mail.error.xml.h:195
 msgid "Failed to unmark subthread from being ignored in folder “{0}”"
-msgstr "Ha fallat desmarcar el subfil per ignorar-lo a la carpeta «{0}»"
+msgstr "Ha fallat desmarcar el subfil per a ignorar-lo a la carpeta «{0}»"
 
 #. Translators: This constructs a string like "Follow-up, Completed on Tuesday, January 13, 2009"
 #: ../src/mail/mail.error.xml.h:197
@@ -27166,7 +27166,7 @@ msgid ""
 "  Run “%s --help” for more information.\n"
 msgstr ""
 "%s: «--online» i «--offline» no es poden utilitzar junts.\n"
-"  Executeu l'ordre «%s --help» per obtenir més informació.\n"
+"  Executeu l'ordre «%s --help» per a obtenir més informació.\n"
 
 #: ../src/shell/main.c:560
 #, c-format
@@ -27417,7 +27417,7 @@ msgstr "Adreça electrònica"
 
 #: ../src/smime/gui/certificate-manager.c:648
 msgid "Select a file to backup your key and certificate…"
-msgstr "Seleccioneu un fitxer per desar-hi la clau i el certificat…"
+msgstr "Seleccioneu un fitxer per a desar-hi la clau i el certificat…"
 
 #. To Translators:
 #. * %s-backup.p12 is the default file name suggested by the file selection dialog,
@@ -27700,18 +27700,18 @@ msgstr "Confiança en l'entitat certificadora"
 
 #: ../src/smime/gui/smime-ui.ui.h:19
 msgid "Trust this CA to identify _websites."
-msgstr "Confia en aquesta entitat certificadora per identificar llocs _web."
+msgstr "Confia en aquesta entitat certificadora per a identificar llocs _web."
 
 #: ../src/smime/gui/smime-ui.ui.h:20
 msgid "Trust this CA to identify _email users."
 msgstr ""
-"Confia en aquesta entitat certificadora per identificar usuaris de correu "
+"Confia en aquesta entitat certificadora per a identificar usuaris de correu "
 "el_ectrònic."
 
 #: ../src/smime/gui/smime-ui.ui.h:21
 msgid "Trust this CA to identify _software developers."
 msgstr ""
-"Confia en aquesta entitat certificadora per identificar desenvolupadors de "
+"Confia en aquesta entitat certificadora per a identificar desenvolupadors de "
 "progra_mari."
 
 #: ../src/smime/gui/smime-ui.ui.h:22
