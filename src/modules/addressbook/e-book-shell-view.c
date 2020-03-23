@@ -391,6 +391,11 @@ book_shell_view_update_actions (EShellView *shell_view)
 	else
 		label = _("_Send Message to Contact");
 	gtk_action_set_label (action, label);
+
+#ifndef ENABLE_CONTACT_MAPS
+	gtk_action_set_visible (ACTION (ADDRESS_BOOK_MAP), FALSE);
+	gtk_action_set_visible (ACTION (ADDRESS_BOOK_POPUP_MAP), FALSE);
+#endif
 }
 
 static void
