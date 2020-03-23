@@ -3669,7 +3669,7 @@ test_image_insert (TestFixture *fixture)
 	/* Wait some time until the operation is finished */
 	test_utils_wait_milliseconds (500);
 
-	expected_html = g_strconcat (HTML_PREFIX "<div>before*<img src=\"", uri, "\" width=\"24px\" height=\"24px\">+after</div>" HTML_SUFFIX, NULL);
+	expected_html = g_strconcat (HTML_PREFIX "<div>before*<img src=\"evo-", uri, "\" width=\"24px\" height=\"24px\">+after</div>" HTML_SUFFIX, NULL);
 
 	g_free (uri);
 	g_free (filename);

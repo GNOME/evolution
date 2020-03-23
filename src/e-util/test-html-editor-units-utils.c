@@ -1311,6 +1311,14 @@ test_utils_dup_image_uri (const gchar *path)
 		}
 	}
 
+	if (image_uri) {
+		gchar *tmp;
+
+		tmp = g_strconcat ("evo-", image_uri, NULL);
+		g_free (image_uri);
+		image_uri = tmp;
+	}
+
 	g_assert_no_error (error);
 	g_assert_nonnull (image_uri);
 

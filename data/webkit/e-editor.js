@@ -2465,10 +2465,10 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 				var elem = document.images.item(ii);
 				var src = (elem && elem.src) ? elem.src.toLowerCase() : "";
 
-				if (elem &&
+				if (elem && (
 				    src.startsWith("data:") ||
 				    src.startsWith("file://") ||
-				    src.startsWith("evo-file://")) {
+				    src.startsWith("evo-file://"))) {
 					for (jj = 0; jj < img_elems.length; jj++) {
 						if (elem.src == img_elems[jj].orig_src) {
 							img_elems[jj].subelems[img_elems[jj].subelems.length] = elem;
@@ -2507,10 +2507,10 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 				var elem = backgrounds[ii];
 				var src = elem ? elem.getAttribute("background").toLowerCase() : "";
 
-				if (elem &&
+				if (elem && (
 				    src.startsWith("data:") ||
 				    src.startsWith("file://") ||
-				    src.startsWith("evo-file://")) {
+				    src.startsWith("evo-file://"))) {
 					var bkg = elem.getAttribute("background");
 
 					for (jj = 0; jj < bkg_elems.length; jj++) {
