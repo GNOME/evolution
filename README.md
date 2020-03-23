@@ -82,7 +82,7 @@ following things:
 
 * Set the environment variables to contain a colon-separated list
   of all the directories that will be involved in the build.
-  The environment variables are `ACLOCAL_FLAGS`, `GSETTINGS_SCHEMA_DIR`,
+  The environment variables are `GSETTINGS_SCHEMA_DIR`,
   `LD_LIBRARY_PATH`, `PATH` and `PKG_CONFIG_PATH`.
 
   For example, if you have GNOME installed in `/usr` and you
@@ -91,7 +91,6 @@ following things:
   (assuming you are using Bash):
 
   ```bash
-  export ACLOCAL_FLAGS="-I /opt/evolution/share/aclocal"
   export GSETTINGS_SCHEMA_DIR="/opt/evolution/share/glib-2.0/schemas"
   export LD_LIBRARY_PATH=/opt/evolution/lib:$LD_LIBRARY_PATH
   export PATH=/opt/evolution/bin:$PATH
