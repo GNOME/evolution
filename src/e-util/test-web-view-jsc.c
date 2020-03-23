@@ -1967,7 +1967,7 @@ test_convert_to_plain (TestFixture *fixture)
 		  "123 5678\n0123 5678\n0123 678\n1234567890\nabcdefghij\nklmnopq\n012345 356\n9\n0\n",
 		  -1 },
 	/* 6 */	{ HTML ("<div style='width:10ch; " WRAP_STYLE ("pre-wrap") "'>123 5678 0123 5678 0123  678 1234567890abcdefghijklmnopq 012345         356  9         " TAB TAB "0</div>"),
-		  "123 5678 \n0123 5678 \n0123  678 \n1234567890\nabcdefghij\nklmnopq \n012345    \n356  9    \n        \n        0\n",
+		  "123 5678\n0123 5678\n0123  678\n1234567890\nabcdefghij\nklmnopq\n012345   \n356  9   \n       \n        0\n",
 		  -1 },
 	/* 7 */	{ HTML ("<pre>123456789012345\n1\t90123\n123   78901\n  34567   <br>123 5</pre>"),
 		  "123456789012345\n1\t90123\n123   78901\n  34567   \n123 5\n",
@@ -1986,8 +1986,8 @@ test_convert_to_plain (TestFixture *fixture)
 			"<div style='width:10ch; " WRAP_STYLE ("pre-wrap") "'>123456 789 123 4567890 123456 789 122</div>"
 			"<div style='width:10ch; " WRAP_STYLE ("pre-wrap") "'>987654321 987 654 321 12345678901234567890</div>"),
 		  "Header1\n"
-		  "123456 789\n123 \n4567890 \n123456 789\n122\n"
-		  "987654321 \n987 654 \n321 \n1234567890\n1234567890\n",
+		  "123456 789\n123\n4567890\n123456 789\n122\n"
+		  "987654321\n987 654\n321\n1234567890\n1234567890\n",
 		  -1 },
 	/* 11 */{ HTML ("<h1>H1</h1><h2>H2</h2><h3>H3</h3><h4>H4</h4><h5>H5</h5><h6>H6</h6>"),
 		  "H1\nH2\nH3\nH4\nH5\nH6\n",

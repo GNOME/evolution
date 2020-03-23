@@ -362,6 +362,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 	if (wrapWidth > 0) {
 		var worker = {
 			collapseWhiteSpace : whiteSpace != "pre" && whiteSpace != "pre-wrap",
+			collapseEndingWhiteSpace : whiteSpace != "pre",
 			canWrap : whiteSpace != "nowrap",
 			charWrap : whiteSpace == "pre",
 			inAnchor : 0,
@@ -471,7 +472,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 					worker.ignoreLineLetters = 0;
 				}
 
-				if (worker.canWrap && worker.collapseWhiteSpace && lines[lines.length - 1].endsWith(" ")) {
+				if (worker.canWrap && worker.collapseEndingWhiteSpace && lines[lines.length - 1].endsWith(" ")) {
 					if (lines[lines.length - 1].length == 1)
 						lines.length = lines.length - 1;
 					else

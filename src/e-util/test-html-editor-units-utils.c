@@ -331,6 +331,7 @@ test_utils_html_editor_created_cb (GObject *source_object,
 
 		web_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (cnt_editor));
 		webkit_settings_set_enable_developer_extras (web_settings, TRUE);
+		webkit_settings_set_enable_write_console_messages_to_stdout (web_settings, TRUE);
 
 		g_signal_connect (
 			cnt_editor, "key-press-event",
