@@ -1488,11 +1488,6 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	   See also accum_address_map() in eab-contact-formatter.cpp.
 	*/
 	gtk_action_set_visible (ACTION (CONTACT_PREVIEW_SHOW_MAPS), FALSE);
-
-#ifndef ENABLE_CONTACT_MAPS
-	gtk_action_set_visible (ACTION (ADDRESS_BOOK_MAP), FALSE);
-	gtk_action_set_visible (ACTION (ADDRESS_BOOK_POPUP_MAP), FALSE);
-#endif
 }
 
 void
