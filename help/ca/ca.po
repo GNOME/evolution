@@ -852,7 +852,7 @@ msgstr "Ajust de la visualització i les vistes del calendari."
 #. (itstool) path: page/title
 #: C/calendar-layout.page:20
 msgid "Changing the calendar layout"
-msgstr "Canvi del disseny del calendari"
+msgstr "Canviar el disseny del calendari"
 
 #. (itstool) path: info/desc
 #: C/calendar-layout-views.page:23
@@ -2868,7 +2868,7 @@ msgstr ""
 "Aquesta ubicació també inclou la configuració d'altres aplicacions. Per "
 "mostrar només les dades relacionades amb Evolution a la pantalla, es pot "
 "utilitzar <link href=\"https://developer.gnome.org/dconf/\"><app>Dconf</"
-"app></link> commands <cmd>dconf dump /org/gnome/evolution/</cmd> i "
+"app></link> amb les ordres <cmd>dconf dump /org/gnome/evolution/</cmd> i "
 "<cmd>dconf dump /org/gnome/evolution-data-server/</cmd>."
 
 #. (itstool) path: item/title
@@ -6480,7 +6480,7 @@ msgstr ""
 #: C/mail-calendar-sending-invitations.page:5
 msgid "Sending invitations for appointments to contacts via email."
 msgstr ""
-"S'estan enviant invitacions per a les cites a contactes via correu "
+"Enviar invitacions per a les cites a contactes via correu "
 "electrònic."
 
 #. (itstool) path: page/title
@@ -6530,7 +6530,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:33
 msgid "Tentatively Accept:"
-msgstr "Acceptar provisionalment:"
+msgstr "Acceptada provisionalment:"
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:34
@@ -6540,7 +6540,7 @@ msgid ""
 "tentative."
 msgstr ""
 "Indica que probablement assistireu a la reunió. Quan feu clic al botó "
-"Acceptar, la reunió s'anotarà al calendari, però es marca com a provisional."
+"D'acord, la reunió s'anotarà al calendari, però es marca com a provisional."
 
 #. (itstool) path: item/p
 #: C/mail-calendar-sending-invitations.page:36
@@ -6657,7 +6657,7 @@ msgstr "Edició de les columnes que es mostren a la llista de missatges."
 #. (itstool) path: page/title
 #: C/mail-change-columns-in-message-list.page:20
 msgid "Changing the message list columns"
-msgstr "Canvi de les columnes a la llista de missatges"
+msgstr "Canviar les columnes a la llista de missatges"
 
 #. (itstool) path: page/p
 #: C/mail-change-columns-in-message-list.page:22
@@ -6729,7 +6729,7 @@ msgstr ""
 "Si voleu tenir el mateix format de columna a totes les carpetes de correu, "
 "excepte per a la <gui>Enviats</gui>, podeu activar <guiseq><gui>Edita</"
 "gui><gui>Preferències</gui><gui>Preferències de correu</gui><gui>General</"
-"gui><gui>Aplicar la mateixa configuració de la vista a totes les carpetes</"
+"gui><gui>Aplica els mateixos paràmetres de visualització a totes les carpetes</"
 "gui></guiseq>. Tingueu en compte que aquesta configuració també influeix "
 "als<link xref=\"mail-sorting-message-list#email-threads\"><gui>Grups per "
 "fils</gui></link> i a la visibilitat de la <gui>Visualització prèvia de "
@@ -6771,7 +6771,7 @@ msgstr ""
 #: C/mail-composer-change-quotation-string.page:24
 msgid "Changing the \"On date, person wrote:\" string when replying"
 msgstr ""
-"Canvi de la cadena \"En data, la persona ha escrit:\" quan es respongui"
+"Canviar la cadena \"En data, la persona ha escrit:\" quan es respongui"
 
 #. (itstool) path: note/p
 #: C/mail-composer-change-quotation-string.page:27
@@ -8407,7 +8407,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-composer-send-account-overrides.page:21
 msgid "Send Account Overrides"
-msgstr "Canvi de compte del Remitent"
+msgstr "Canviar de compte de remitent"
 
 #. (itstool) path: page/p
 #: C/mail-composer-send-account-overrides.page:23
@@ -8823,7 +8823,7 @@ msgid ""
 "<guiseq><gui>View</gui><gui>Show Deleted Messages</gui></guiseq>. You can "
 "view the messages stricken off for later deletion."
 msgstr ""
-"quan premeu Esborrar o feu clic a la carpeta <gui>Paperera</gui>, el correu "
+"Quan premeu Esborrar o feu clic a la carpeta <gui>Paperera</gui>, el correu "
 "no s'esborra realment, però queda marcat per suprimir-se. Podeu veure els "
 "missatges marcats per suprimir a la carpeta <gui>Paperera</gui>. Per veure "
 "els missatges esborrats, feu clic a <guiseq><gui>Vista</gui><gui>Mostra els "
@@ -9355,7 +9355,7 @@ msgid ""
 "password. Enter it, and the unencrypted message is displayed."
 msgstr ""
 "Quan consulteu un missatge, <app>Evolution</app> us demana la vostra "
-"contrasenya GPG. Introduïu-la i es mostra el missatge no xifrat."
+"contrasenya GPG. Introduïu-la i es mostrarà el missatge no xifrat."
 
 #. (itstool) path: note/p
 #: C/mail-encryption-gpg-decrypting.page:29
@@ -10363,7 +10363,7 @@ msgid ""
 msgstr ""
 "Feu clic a la <gui>Carpeta</gui> i seleccioneu <gui>Nova</gui>. També podeu "
 "fer clic amb el botó dret en qualsevol lloc de la llista de carpetes i "
-"seleccionar l'opció <gui>Nova carpeta</gui>."
+"seleccionar l'opció <gui>Carpeta nova</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-folders.page:38
@@ -10741,7 +10741,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-layout-changing.page:20
 msgid "Changing the mail window layout"
-msgstr "Canvi del disseny de la finestra de correu"
+msgstr "Canviar el disseny de la finestra de correu"
 
 #. (itstool) path: info/desc
 #: C/mail-localized-re-subjects.page:5
@@ -10753,7 +10753,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/mail-localized-re-subjects.page:19
 msgid "Handling localized \"Re:\" in subjects"
-msgstr "Maneig del \"Re:\" localitzat als assumptes"
+msgstr "Gestionar \"Re:\" traduït als assumptes"
 
 #. (itstool) path: page/p
 #: C/mail-localized-re-subjects.page:21
@@ -10876,7 +10876,7 @@ msgid ""
 "Receive</gui> button."
 msgstr ""
 "Sense connexió. <app>Evolution</app> pot estar fora de línia. Comproveu el "
-"botó <gui style=\"button\">Enviar i rebre</gui>; si està gris, llavors no "
+"botó <gui style=\"button\">Envia i rep</gui>; si està gris, llavors no "
 "esteu connectat. Per connectar-vos, aneu a <guiseq><gui>Fitxer</"
 "gui><gui>Treballa en línia</gui></guiseq>. Aleshores hauríeu de poder "
 "utilitzar el botó <gui style=\"button\">Envia i rep</gui>."
@@ -12157,7 +12157,7 @@ msgid ""
 msgstr ""
 "Podeu utilitzar IMAP en lloc de POP, o moure correus electrònics entrants a "
 "diferents carpetes <link xref=\"mail-folders\">creant carpetes</link> i "
-"<link xref=\"mail-filters\">creant filtres</link>: Creeu una carpeta nova i "
+"<link xref=\"mail-filters\">creant filtres</link>: creeu una carpeta nova i "
 "creeu dues subcarpetes (una per al correu entrant i l'altra per l'enviat amb "
 "aquest compte). Ara configureu un filtre entrant a través "
 "d'<guiseq><gui>Edita</gui><gui>Filtres de missatges…</gui><gui style=\"button"
@@ -12262,7 +12262,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:47
 msgid "Sorting Mail with Column Headers"
-msgstr "Classificació de correus amb encapçalaments de columnes"
+msgstr "Ordenació de correus amb els encapçalaments de columnes"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:48
@@ -12593,7 +12593,7 @@ msgstr "Com configurar la gestió el correu brossa i el correu no desitjat."
 #. (itstool) path: page/title
 #: C/mail-spam-settings.page:36
 msgid "Junk Mail Settings"
-msgstr "Paràmetres del correu brossa…"
+msgstr "Paràmetres del correu brossa"
 
 #. (itstool) path: section/title
 #: C/mail-spam-settings.page:39
@@ -12726,7 +12726,7 @@ msgid ""
 "enabled, enabling junk mail options for a specific account (see below) will "
 "not have any effect."
 msgstr ""
-"S'estan comprovant els missatges entrants per correu escombraries. És una "
+"Comprovació de correu escombraries en missatges entrants. És una "
 "configuració global: si no està habilitada, habilitar les opcions de correu "
 "brossa per a un compte específic (vegeu a sota) no tindrà cap efecte."
 
