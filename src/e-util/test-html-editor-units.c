@@ -5374,7 +5374,7 @@ test_undo_text_typed (TestFixture *fixture)
 		"undo:drop\n"
 		"type:xt\n",
 		HTML_PREFIX "<div>some text</div>" HTML_SUFFIX,
-		"some text"))
+		"some text\n"))
 		g_test_fail ();
 }
 
@@ -5389,7 +5389,7 @@ test_undo_text_forward_delete (TestFixture *fixture)
 		"undo:redo\n"
 		"undo:undo\n",
 		HTML_PREFIX "<div>some text to delete</div>" HTML_SUFFIX,
-		"some text to delete"))
+		"some text to delete\n"))
 		g_test_fail ();
 }
 
@@ -5404,7 +5404,7 @@ test_undo_text_backward_delete (TestFixture *fixture)
 		"undo:redo\n"
 		"undo:undo\n",
 		HTML_PREFIX "<div>some text to delete</div>" HTML_SUFFIX,
-		"some text to delete"))
+		"some text to delete\n"))
 		g_test_fail ();
 }
 
@@ -5418,7 +5418,7 @@ test_undo_text_cut (TestFixture *fixture)
 		"action:cut\n"
 		"undo:undo\n",
 		NULL,
-		"some text to delete"))
+		"some text to delete\n"))
 		g_test_fail ();
 }
 
@@ -5433,45 +5433,85 @@ test_undo_style (TestFixture *fixture)
 		"action:bold\n"
 		"type:bold\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:5\n"
+		"undo:undo:4\n"
 		"undo:test:2\n"
-		"undo:redo:5\n"
+		"undo:redo:4\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:5\n"
+		"undo:undo:4\n"
 		"type:bold\n"
 		"seq:CSlsc\n"
 		"action:bold\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:5\n"
+		"undo:undo:2\n"
 		"undo:test:2\n"
-		"undo:redo:5\n"
+		"undo:redo:2\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:5\n"
+		"undo:undo:2\n"
 
 		"action:italic\n"
 		"type:italic\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:7\n"
+		"undo:undo:6\n"
 		"undo:test:2\n"
-		"undo:redo:7\n"
+		"undo:redo:6\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:7\n"
+		"undo:undo:6\n"
 		"type:italic\n"
 		"seq:CSlsc\n"
 		"action:italic\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:7\n"
+		"undo:undo:2\n"
 		"undo:test:2\n"
-		"undo:redo:7\n"
+		"undo:redo:2\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:7\n"
+		"undo:undo:2\n"
 
 		"action:underline\n"
 		"type:underline\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:9\n"
+		"undo:test:2\n"
+		"undo:redo:9\n"
+		"undo:test\n"
+		"undo:drop\n" /* drop the save 2 */
+		"undo:undo:9\n"
+		"type:underline\n"
+		"seq:CSlsc\n"
+		"action:underline\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:2\n"
+		"undo:test:2\n"
+		"undo:redo:2\n"
+		"undo:test\n"
+		"undo:drop\n" /* drop the save 2 */
+		"undo:undo:2\n"
+
+		"action:strikethrough\n"
+		"type:strikethrough\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:13\n"
+		"undo:test:2\n"
+		"undo:redo:13\n"
+		"undo:test\n"
+		"undo:drop\n" /* drop the save 2 */
+		"undo:undo:13\n"
+		"type:strikethrough\n"
+		"seq:CSlsc\n"
+		"action:strikethrough\n"
+		"undo:save\n" /* 2 */
+		"undo:undo:2\n"
+		"undo:test:2\n"
+		"undo:redo:2\n"
+		"undo:test\n"
+		"undo:drop\n" /* drop the save 2 */
+		"undo:undo:2\n"
+
+		"font-name:monospace\n"
+		"type:monospaced\n"
 		"undo:save\n" /* 2 */
 		"undo:undo:10\n"
 		"undo:test:2\n"
@@ -5479,58 +5519,18 @@ test_undo_style (TestFixture *fixture)
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
 		"undo:undo:10\n"
-		"type:underline\n"
-		"seq:CSlsc\n"
-		"action:underline\n"
-		"undo:save\n" /* 2 */
-		"undo:undo:10\n"
-		"undo:test:2\n"
-		"undo:redo:10\n"
-		"undo:test\n"
-		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:10\n"
-
-		"action:strikethrough\n"
-		"type:strikethrough\n"
-		"undo:save\n" /* 2 */
-		"undo:undo:14\n"
-		"undo:test:2\n"
-		"undo:redo:14\n"
-		"undo:test\n"
-		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:14\n"
-		"type:strikethrough\n"
-		"seq:CSlsc\n"
-		"action:strikethrough\n"
-		"undo:save\n" /* 2 */
-		"undo:undo:14\n"
-		"undo:test:2\n"
-		"undo:redo:14\n"
-		"undo:test\n"
-		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:14\n"
-
-		"font-name:monospace\n"
-		"type:monospaced\n"
-		"undo:save\n" /* 2 */
-		"undo:undo:11\n"
-		"undo:test:2\n"
-		"undo:redo:11\n"
-		"undo:test\n"
-		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:11\n"
 		"type:monospaced\n"
 		"seq:CSlsc\n"
 		"font-name:monospace\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:11\n"
+		"undo:undo:2\n"
 		"undo:test:2\n"
-		"undo:redo:11\n"
+		"undo:redo:2\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:11\n",
+		"undo:undo:2\n",
 		HTML_PREFIX "<div>The first paragraph text</div><div><br></div>" HTML_SUFFIX,
-		"The first paragraph text\n"))
+		"The first paragraph text\n\n"))
 		g_test_fail ();
 }
 
@@ -5595,15 +5595,15 @@ test_undo_justify (TestFixture *fixture)
 		"seq:CSlsc\n"
 		"action:justify-right\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:6\n"
+		"undo:undo:2\n"
 		"undo:test:2\n"
-		"undo:redo:6\n"
+		"undo:redo:2\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:6\n",
+		"undo:undo:2\n",
 
 		HTML_PREFIX "<div>The first paragraph text</div><div><br></div>" HTML_SUFFIX,
-		"The first paragraph text\n"))
+		"The first paragraph text\n\n"))
 		g_test_fail ();
 }
 
@@ -5628,12 +5628,12 @@ test_undo_indent (TestFixture *fixture)
 		"seq:CSlsc\n"
 		"action:indent\n"
 		"undo:save\n" /* 2 */
-		"undo:undo:5\n"
+		"undo:undo:2\n"
 		"undo:test:2\n"
-		"undo:redo:5\n"
+		"undo:redo:2\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:5\n"
+		"undo:undo:2\n"
 
 		"type:text\n"
 		"undo:save\n" /* 2 */
@@ -5652,7 +5652,7 @@ test_undo_indent (TestFixture *fixture)
 		"undo:undo:3\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:4\n"
+		"undo:undo:1\n"
 		"undo:test\n"
 
 		"type:level 1\\n\n"
@@ -5684,15 +5684,15 @@ test_undo_indent (TestFixture *fixture)
 		"undo:drop:2\n" /* drop the save 3 and 2 */
 
 		"undo:save\n" /* 2 */
-		"undo:undo:30\n" /* 6x action:indent, 24x type "level X\\n" */
+		"undo:undo:18\n" /* 6x action:indent, 3x type "level X\\n" (= 4 undo steps) */
 		"undo:test:2\n"
-		"undo:redo:30\n"
+		"undo:redo:18\n"
 		"undo:test\n"
 		"undo:drop\n" /* drop the save 2 */
-		"undo:undo:30\n",
+		"undo:undo:18\n",
 
 		HTML_PREFIX "<div>The first paragraph text</div><div><br></div>" HTML_SUFFIX,
-		"The first paragraph text\n"))
+		"The first paragraph text\n\n"))
 		g_test_fail ();
 }
 
@@ -5710,11 +5710,11 @@ test_undo_link_paste_html (TestFixture *fixture)
 		"undo:save\n" /* 2 */
 		"undo:undo:2\n"
 		"undo:test:2\n"
-		"undo:undo:5\n"
-		"undo:redo:7\n"
+		"undo:undo:2\n"
+		"undo:redo:4\n"
 		"undo:test\n",
 		HTML_PREFIX "<div>URL:</div><div><a href=\"http://www.gnome.org\">http://www.gnome.org</a></div><div><br></div>" HTML_SUFFIX,
-		"URL:\nhttp://www.gnome.org\n"))
+		"URL:\nhttp://www.gnome.org\n\n"))
 		g_test_fail ();
 }
 
@@ -5738,7 +5738,7 @@ test_undo_link_paste_plain (TestFixture *fixture)
 		HTML_PREFIX "<div style=\"width: 71ch;\">URL:</div>"
 		"<div style=\"width: 71ch;\"><a href=\"http://www.gnome.org\">http://www.gnome.org</a></div>"
 		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
-		"URL:\nhttp://www.gnome.org\n"))
+		"URL:\nhttp://www.gnome.org\n\n"))
 		g_test_fail ();
 }
 

@@ -1608,6 +1608,18 @@ EvoEditor.InsertHTML = function(opType, html)
 	}
 }
 
+EvoEditor.InsertText = function(opType, text)
+{
+	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, opType);
+	try {
+		document.execCommand("insertText", false, text);
+	} finally {
+		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, opType);
+		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+		EvoEditor.EmitContentChanged();
+	}
+}
+
 EvoEditor.applySetBodyAttribute = function(record, isUndo)
 {
 	if (isUndo) {
@@ -2480,6 +2492,12 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 	try {
 		currentElemsArray = EvoEditor.RemoveCurrentElementAttr();
 
+		// For safety, to not export with empty 'style' attributes; these do not need Undo
+		elems = document.querySelectorAll("[style='']");
+		for (ii = 0; ii < elems.length; ii++) {
+			EvoEditor.removeEmptyStyleAttribute(elems[ii]);
+		}
+
 		if ((flags & EvoEditor.E_CONTENT_EDITOR_GET_RAW_BODY_STRIPPED) != 0) {
 			var hidden_elems = [];
 
@@ -3179,6 +3197,7 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 			EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType);
 
 			if (canEmit) {
+				EvoUndoRedo.GroupTopRecords(2);
 				EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
 				EvoEditor.EmitContentChanged();
 			}
@@ -3289,6 +3308,7 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 			} finally {
 				if (sz > 1) {
 					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, "magicSmiley");
+					EvoUndoRedo.GroupTopRecords(2);
 					EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
 					EvoEditor.EmitContentChanged();
 				}
@@ -4882,10 +4902,14 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "InsertContent::text");
 				}
 			}
-		} else if (EvoEditor.IsBlockNode(content.firstChild)) {
-			EvoEditor.InsertHTML("InsertContent::text", content.innerHTML);
+		} else if (isHTML) {
+			if (EvoEditor.IsBlockNode(content.firstChild)) {
+				EvoEditor.InsertHTML("InsertContent::text", content.innerHTML);
+			} else {
+				EvoEditor.InsertHTML("InsertContent::text", content.outerHTML);
+			}
 		} else {
-			EvoEditor.InsertHTML("InsertContent::text", content.outerHTML);
+			EvoEditor.InsertText("InsertContent::text", content.innerText);
 		}
 	} finally {
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, "InsertContent");
