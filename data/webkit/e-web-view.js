@@ -571,19 +571,17 @@ Evo.GetElementFromPoint = function(xx, yy)
 
 /*This function is a mimic of 
 web_view_hovering_over_link to format message shown*/
-Evo.AdjustURIForTooltip = function(uri){
+Evo.PrepareToolTipMessage = function(uri)
+{
 	var message = "";
 	var format = "";
 
 	if (uri == null)
-		return;
+		return message;
 	if (uri.startsWith("mailto:"))
-		format = "click to mail ";
-	else if (uri.startsWith("callto:") ||
-			uri.startsWith("h323:") ||
-			uri.startsWith("sip:") ||
-			uri.startsWith("tel:"))
-	   format = "click to call ";
+		format = "Click to mail ";
+	else if (uri.startsWith("callto:") || uri.startsWith("h323:") || uri.startsWith("sip:") || uri.startsWith("tel:"))
+		format = "Click to call ";
 	else if (uri.startsWith("##"))
 		message = "Click to hide/unhide addresses";
 	else if (uri.startsWith("mail:")){
@@ -593,7 +591,7 @@ Evo.AdjustURIForTooltip = function(uri){
 			message = "Go to the section " + temp_array[1] +" of the message";
 		else
 			message = "Go to the beginning of the message";
-	}else
+	} else
 		message = "Click to open " + uri;
 
 	if (format != ""){
@@ -604,26 +602,23 @@ Evo.AdjustURIForTooltip = function(uri){
 	/*this limit the chars that appear as in some
 	 links the size of chars can extend out of the screen*/
 	if (message.length > 150)
-		message = message.substring(0,150) + "...";
+		message = message.substring(0,150) + "\u2026";
 
 	return message;
 }
  
-Evo.PrepareTooltipsForHyperLinksWebView = function(){
-	//upper part
-	var elements = document.getElementsByTagName("a");
-	for (var i = 0; i < elements.length; i++) {
-		var uri = elements[i].getAttribute("href");
-		elements[i].setAttribute("title",Evo.AdjustURIForTooltip(uri));
-	}
-}
-
-Evo.PrepareTooltipsForHyperLinksIFrame = function (frame_id){
+Evo.AddTooltipToLinks = function (frame_id)
+{
 	var frame_doc = Evo.findIFrameDocument(frame_id);
-	var elements = frame_doc.getElementsByTagName("a");
-	for (var i = 0; i < elements.length; i++) {
-		var uri = elements[i].getAttribute("href");
-		elements[i].setAttribute("title",Evo.AdjustURIForTooltip(uri));
+	if (frame_doc == null)
+		return;
+	var elements = frame_doc.getElementsByTagName("A");
+	
+	var i;
+	for (i = 0; i < elements.length; i++) {
+		var uri = elements[i].href;
+		if (uri != null && uri != "")
+			elements[i].setAttribute("title",Evo.PrepareToolTipMessage(uri));
 	}
 }
 
@@ -637,7 +632,6 @@ Evo.initialize = function(elem)
 	} else
 		doc = document;
 
-	Evo.PrepareTooltipsForHyperLinksWebView();
 	elems = doc.getElementsByTagName("iframe");
 
 	for (ii = 0; ii < elems.length; ii++) {
@@ -693,7 +687,7 @@ Evo.initializeAndPostContentLoaded = function(elem)
 	if (window.webkit.messageHandlers.mailDisplayMagicSpacebarStateChanged)
 		Evo.mailDisplayUpdateMagicSpacebarState();
 
-	Evo.PrepareTooltipsForHyperLinksIFrame(iframe_id);
+	Evo.AddTooltipToLinks(iframe_id);
 }
 
 Evo.EnsureMainDocumentInitialized = function()
