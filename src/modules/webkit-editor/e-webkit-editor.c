@@ -2047,8 +2047,8 @@ webkit_editor_insert_content (EContentEditor *editor,
 	} else if (!(flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-			"EvoEditor.InsertHTML(%s, %s);",
-			"InsertHTML", content);
+			"EvoEditor.InsertContent(%s, %x, %x);",
+			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, FALSE);
 	} else {
 		g_warning ("%s: Unsupported flags combination (0x%x)", G_STRFUNC, flags);
 	}

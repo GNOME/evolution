@@ -4198,7 +4198,7 @@ test_paste_singleline_html2html (TestFixture *fixture)
 		"action:paste\n"
 		"type: text after\n",
 		HTML_PREFIX "<div>text before some <b>bold</b> text text after</div>" HTML_SUFFIX,
-		"text before some bold text text after"))
+		"text before some bold text text after\n"))
 		g_test_fail ();
 }
 
@@ -4213,7 +4213,7 @@ test_paste_singleline_html2plain (TestFixture *fixture)
 		"action:paste\n"
 		"type: text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before some bold text text after</div>" HTML_SUFFIX,
-		"text before some bold text text after"))
+		"text before some bold text text after\n"))
 		g_test_fail ();
 }
 
@@ -4228,7 +4228,7 @@ test_paste_singleline_plain2html (TestFixture *fixture)
 		"action:paste\n"
 		"type: text after\n",
 		HTML_PREFIX "<div>text before some plain text text after</div>" HTML_SUFFIX,
-		"text before some plain text text after"))
+		"text before some plain text text after\n"))
 		g_test_fail ();
 }
 
@@ -4243,28 +4243,23 @@ test_paste_singleline_plain2plain (TestFixture *fixture)
 		"action:paste\n"
 		"type: text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before some plain text text after</div>" HTML_SUFFIX,
-		"text before some plain text text after"))
+		"text before some plain text text after\n"))
 		g_test_fail ();
 }
 
 static void
 test_paste_multiline_html2html (TestFixture *fixture)
 {
-	/* This test is known to fail, skip it. */
-	printf ("SKIPPED ");
-
-#if 0
-	test_utils_set_clipboard_text ("<html><body><b>bold</b> text<br><i>italic</i> text<br><u>underline</u> text<br></body></html>", TRUE);
+	test_utils_set_clipboard_text ("<html><body><b>bold</b> text<br><i>italic</i> text<br><u>underline</u> text<br>.</body></html>", TRUE);
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:text before \n"
 		"action:paste\n"
 		"type:text after\n",
-		HTML_PREFIX "<div>text before <b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div><div>text after</div>" HTML_SUFFIX,
-		"text before bold text\nitalic text\nunderline text\ntext after"))
+		HTML_PREFIX "<div>text before <b>bold</b> text</div><div><i>italic</i> text<br><u>underline</u> text<br>.text after</div>" HTML_SUFFIX,
+		"text before bold text\nitalic text\nunderline text\n.text after\n"))
 		g_test_fail ();
-#endif
 }
 
 static void
@@ -4278,31 +4273,25 @@ test_paste_multiline_html2plain (TestFixture *fixture)
 		"action:paste\n"
 		"type:\\ntext after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before bold text</div>"
-		"<div style=\"width: 71ch;\">italic text</div>"
-		"<div style=\"width: 71ch;\">underline text</div>"
+		"<div style=\"width: 71ch;\">italic text<br>underline text</div>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before bold text\nitalic text\nunderline text\ntext after"))
+		"text before bold text\nitalic text\nunderline text\ntext after\n"))
 		g_test_fail ();
 }
 
 static void
 test_paste_multiline_div_html2html (TestFixture *fixture)
 {
-	/* This test is known to fail, skip it. */
-	printf ("SKIPPED ");
-
-#if 0
-	test_utils_set_clipboard_text ("<html><body><div><b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div><div></div></body></html>", TRUE);
+	test_utils_set_clipboard_text ("<html><body><div><b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div><div>.</div></body></html>", TRUE);
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:text before \n"
 		"action:paste\n"
 		"type:text after\n",
-		HTML_PREFIX "<div>text before <b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div><div>text after</div>" HTML_SUFFIX,
-		"text before bold text\nitalic text\nunderline text\ntext after"))
+		HTML_PREFIX "<div>text before <b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div><div>.text after</div>" HTML_SUFFIX,
+		"text before bold text\nitalic text\nunderline text\n.text after\n"))
 		g_test_fail ();
-#endif
 }
 
 static void
@@ -4316,21 +4305,16 @@ test_paste_multiline_div_html2plain (TestFixture *fixture)
 		"action:paste\n"
 		"type:\\ntext after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before bold text</div>"
-		"<div style=\"width: 71ch;\">italic text</div>"
-		"<div style=\"width: 71ch;\">underline text</div>"
+		"<div style=\"width: 71ch;\">italic text<br>underline text<br></div>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before bold text\nitalic text\nunderline text\ntext after"))
+		"text before bold text\nitalic text\nunderline text\ntext after\n"))
 		g_test_fail ();
 }
 
 static void
 test_paste_multiline_p_html2html (TestFixture *fixture)
 {
-	/* This test is known to fail, skip it. */
-	printf ("SKIPPED ");
-
-#if 0
-	test_utils_set_clipboard_text ("<html><body><div><b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div><div></div></body></html>", TRUE);
+	test_utils_set_clipboard_text ("<html><body><p><b>bold</b> text</p><p><i>italic</i> text</p><p><u>underline</u> text</p><p><br></p></body></html>", TRUE);
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
@@ -4338,15 +4322,14 @@ test_paste_multiline_p_html2html (TestFixture *fixture)
 		"action:paste\n"
 		"type:text after\n",
 		HTML_PREFIX "<div>text before <b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div><div>text after</div>" HTML_SUFFIX,
-		"text before bold text\nitalic text\nunderline text\ntext after"))
+		"text before bold text\nitalic text\nunderline text\ntext after\n"))
 		g_test_fail ();
-#endif
 }
 
 static void
 test_paste_multiline_p_html2plain (TestFixture *fixture)
 {
-	test_utils_set_clipboard_text ("<html><body><div><b>bold</b> text</div><div><i>italic</i> text</div><div><u>underline</u> text</div></body></html>", TRUE);
+	test_utils_set_clipboard_text ("<html><body><p><b>bold</b> text</p><p><i>italic</i> text</p><p><u>underline</u> text</p></body></html>", TRUE);
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
@@ -4354,10 +4337,9 @@ test_paste_multiline_p_html2plain (TestFixture *fixture)
 		"action:paste\n"
 		"type:\\ntext after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before bold text</div>"
-		"<div style=\"width: 71ch;\">italic text</div>"
-		"<div style=\"width: 71ch;\">underline text</div>"
+		"<div style=\"width: 71ch;\">italic text<br>underline text<br></div>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before bold text\nitalic text\nunderline text\ntext after"))
+		"text before bold text\nitalic text\nunderline text\ntext after\n"))
 		g_test_fail ();
 }
 
@@ -4372,7 +4354,7 @@ test_paste_multiline_plain2html (TestFixture *fixture)
 		"action:paste\n"
 		"type:text after\n",
 		HTML_PREFIX "<div>text before line 1</div><div>line 2</div><div>line 3</div><div>text after</div>" HTML_SUFFIX,
-		"text before line 1\nline 2\nline 3\ntext after"))
+		"text before line 1\nline 2\nline 3\ntext after\n"))
 		g_test_fail ();
 }
 
@@ -4390,7 +4372,7 @@ test_paste_multiline_plain2plain (TestFixture *fixture)
 		"<div style=\"width: 71ch;\">line 2</div>"
 		"<div style=\"width: 71ch;\">line 3</div>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before line 1\nline 2\nline 3\ntext after"))
+		"text before line 1\nline 2\nline 3\ntext after\n"))
 		g_test_fail ();
 }
 
@@ -4410,7 +4392,7 @@ test_paste_quoted_singleline_html2html (TestFixture *fixture)
 		"<div>text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> some bold text\n"
-		"text after"))
+		"text after\n"))
 		g_test_fail ();
 }
 
@@ -4426,11 +4408,13 @@ test_paste_quoted_singleline_html2plain (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div style=\"width: 71ch;\">&gt; some <b>bold</b> text</div></blockquote>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "some bold text</div>"
+		"</blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before \n"
+		"text before\n"
 		"> some bold text\n"
-		"text after"))
+		"text after\n"))
 		g_test_fail ();
 }
 
@@ -4450,7 +4434,7 @@ test_paste_quoted_singleline_plain2html (TestFixture *fixture)
 		"<div>text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> some plain text\n"
-		"text after"))
+		"text after\n"))
 		g_test_fail ();
 }
 
@@ -4466,50 +4450,41 @@ test_paste_quoted_singleline_plain2plain (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div style=\"width: 71ch;\">&gt; some plain text</div></blockquote>"
+		"<blockquote type=\"cite\"><div>" QUOTE_SPAN (QUOTE_CHR) "some plain text</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before \n"
+		"text before\n"
 		"> some plain text\n"
-		"text after"))
+		"text after\n"))
 		g_test_fail ();
 }
 
 static void
 test_paste_quoted_multiline_html2html (TestFixture *fixture)
 {
-	/* This test is known to fail, skip it. */
-	printf ("SKIPPED ");
-
-#if 0
 	test_utils_set_clipboard_text ("<html><body><b>bold</b> text<br><i>italic</i> text<br><u>underline</u> text<br></body></html>", TRUE);
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:html\n"
 		"type:text before \n"
 		"action:paste-quote\n"
-		"seq:b\n" /* stop quotting */
+		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div>text before </div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">&gt; <b>bold</b> text</div>"
-		"<div>&gt; <i>italic</i> text</div>"
-		"<div>&gt; <u>underline</u> text</div></blockquote>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div><b>bold</b> text<br>"
+		"<i>italic</i> text<br>"
+		"<u>underline</u> text<br></div></blockquote>"
 		"<div>text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> bold text\n"
 		"> italic text\n"
 		"> underline text\n"
-		"text after"))
+		"text after\n"))
 		g_test_fail ();
-#endif
 }
 
 static void
 test_paste_quoted_multiline_html2plain (TestFixture *fixture)
 {
-	/* This test is known to fail, skip it. */
-	printf ("SKIPPED ");
-
-#if 0
 	test_utils_set_clipboard_text ("<html><body><b>bold</b> text<br><i>italic</i> text<br><u>underline</u> text</body></html>", TRUE);
 
 	if (!test_utils_run_simple_test (fixture,
@@ -4519,17 +4494,16 @@ test_paste_quoted_multiline_html2plain (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>&gt; bold text</div>"
-		"<div style=\"width: 71ch;\">&gt; italic text</div>"
-		"<div style=\"width: 71ch;\">&gt; underline text</div></blockquote>"
-		"<div style=\"width: 71ch;\">&gt; text after</div>" HTML_SUFFIX,
-		"text before \n"
+		"<blockquote type=\"cite\"><div>" QUOTE_SPAN (QUOTE_CHR) "bold text<br>"
+		QUOTE_SPAN (QUOTE_CHR) "italic text<br>"
+		QUOTE_SPAN (QUOTE_CHR) "underline text</div></blockquote>"
+		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
+		"text before\n"
 		"> bold text\n"
 		"> italic text\n"
 		"> underline text\n"
-		"text after"))
+		"text after\n"))
 		g_test_fail ();
-#endif
 }
 
 static void
@@ -4541,18 +4515,20 @@ test_paste_quoted_multiline_plain2html (TestFixture *fixture)
 		"mode:html\n"
 		"type:text before \n"
 		"action:paste-quote\n"
-		"seq:b\n" /* stop quotting */
+		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div>text before </div>"
 		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div>line 1</div>"
 		"<div>line 2</div>"
-		"<div>line 3</div></blockquote>"
+		"<div>line 3</div>"
+		"<div><br></div></blockquote>"
 		"<div>text after</div>" HTML_SUFFIX,
 		"text before \n"
 		"> line 1\n"
 		"> line 2\n"
 		"> line 3\n"
-		"text after"))
+		"> \n"
+		"text after\n"))
 		g_test_fail ();
 }
 
@@ -4568,15 +4544,15 @@ test_paste_quoted_multiline_plain2plain (TestFixture *fixture)
 		"type:\\n\n" /* stop quotting */
 		"type:text after\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><div style=\"width: 71ch;\">&gt; line 1</div>"
-		"<div style=\"width: 71ch;\">&gt; line 2</div>"
-		"<div style=\"width: 71ch;\">&gt; line 3</div></blockquote>"
+		"<blockquote type=\"cite\"><div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before \n"
+		"text before\n"
 		"> line 1\n"
 		"> line 2\n"
 		"> line 3\n"
-		"text after"))
+		"text after\n"))
 		g_test_fail ();
 }
 

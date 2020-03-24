@@ -1529,11 +1529,78 @@ EvoEditor.Indent = function(increment)
 	}
 }
 
+EvoEditor.applyDivNormalize = function(record, isUndo)
+{
+	var element = EvoSelection.FindElementByPath(document.body, record.path);
+
+	if (!element)
+		throw "EvoEditor.applyDivNormalize: Path not found";
+
+	var value;
+
+	if (isUndo)
+		value = record.beforeValue;
+	else
+		value = record.afterValue;
+
+	if (record.isWidthStyle) {
+		element.style.width = value;
+		EvoEditor.removeEmptyStyleAttribute(element);
+	} else {
+		element.innerHTML = value;
+	}
+}
+
 EvoEditor.InsertHTML = function(opType, html)
 {
-	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, opType, null, null, EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, opType);
 	try {
 		document.execCommand("insertHTML", false, html);
+
+		var node, list, ii;
+
+		list = document.body.getElementsByTagName("DIV");
+
+		for (ii = 0; ii < list.length; ii++) {
+			var node = list[ii], beforeValue;
+
+			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+				beforeValue = node.style.width;
+				EvoEditor.maybeUpdateParagraphWidth(node);
+
+				if (node.style.width != beforeValue) {
+					var record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divWidths", node, node, EvoEditor.CLAIM_CONTENT_FLAG_NONE);
+					try {
+						if (record) {
+							record.path = EvoSelection.GetChildPath(document.body, node);
+							record.beforeValue = beforeValue;
+							record.afterValue = node.style.width;
+							record.isWidthStyle = true;
+							record.apply = EvoEditor.applyDivNormalize;
+						}
+					} finally {
+						EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divWidths");
+					}
+				}
+			}
+
+			if (!node.firstChild) {
+				var record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divBR", node, node, EvoEditor.CLAIM_CONTENT_FLAG_NONE);
+				try {
+					beforeValue = node.innerHTML;
+					node.appendChild(document.createElement("BR"));
+
+					if (record) {
+						record.path = EvoSelection.GetChildPath(document.body, node);
+						record.beforeValue = beforeValue;
+						record.afterValue = node.innerHTML;
+						record.apply = EvoEditor.applyDivNormalize;
+					}
+				} finally {
+					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divBR");
+				}
+			}
+		}
 	} finally {
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, opType);
 		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
@@ -2280,8 +2347,7 @@ EvoEditor.SetFontName = function(name)
 	// to workaround https://bugs.webkit.org/show_bug.cgi?id=204622
 	bodyFontFamily = document.body.style.fontFamily;
 
-	record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, "SetFontName", null, null,
-		EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+	record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, "SetFontName");
 	try {
 		if (!document.getSelection().isCollapsed && bodyFontFamily)
 			document.body.style.fontFamily = "";
@@ -4633,8 +4699,37 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 				content.removeChild(content.firstElementChild);
 			}
 
+			// convert P into DIV
+			var node = content.firstChild, next;
+
+			while (node) {
+				var removeNode = false;
+
+				if (node.nodeType == node.ELEMENT_NODE && node.tagName == "P") {
+					removeNode = true;
+
+					if (node.tagName == "P") {
+						var div = document.createElement("DIV");
+						EvoEditor.moveNodeContent(node, div);
+						node.parentElement.insertBefore(div, node.nextSibling);
+					} else {
+						EvoEditor.moveNodeContent(node);
+					}
+				}
+
+				next = EvoEditor.getNextNodeInHierarchy(node, content);
+
+				if (removeNode)
+					node.parentElement.removeChild(node);
+
+				node = next;
+			}
+
 			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
 				EvoEditor.convertParagraphs(content, quote ? 1 : 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+				content.innerText = EvoConvert.ToPlainText(content, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+			} else {
+				EvoEditor.convertParagraphs(content, quote ? 1 : 0, -1);
 			}
 		} else {
 			var lines = text.split("\n");
@@ -4645,9 +4740,10 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 				var ii;
 
 				for (ii = 0; ii < lines.length; ii++) {
-					var line = lines[ii];
-					var divNode = document.createElement("DIV");
+					var line = lines[ii], divNode = document.createElement("DIV");
+
 					content.appendChild(divNode);
+
 					if (!line.length) {
 						divNode.appendChild(document.createElement("BR"));
 					} else {
@@ -4658,9 +4754,8 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 		}
 
 		if (quote) {
-			if (!isHTML && EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-				EvoEditor.convertParagraphs(content, quote ? 1 : 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
-			}
+			if (!isHTML)
+				EvoEditor.convertParagraphs(content, quote ? 1 : 0, EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT ? EvoEditor.NORMAL_PARAGRAPH_WIDTH : -1);
 
 			var anchorNode = document.getSelection().anchorNode, intoBody = false;
 
@@ -4760,6 +4855,14 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 						    (anchorNode.tagName == "DIV" || anchorNode.tagName == "P" || anchorNode.tagName == "PRE") &&
 						    (!anchorNode.children.length || (anchorNode.children.length == 1 && anchorNode.children[0].tagName == "BR"))) {
 							anchorNode.parentElement.removeChild(anchorNode);
+						} else {
+							anchorNode = parentBlock.nextSibling.nextSibling;
+
+							if (anchorNode.nodeType == anchorNode.ELEMENT_NODE && anchorNode.parentElement &&
+							    (anchorNode.tagName == "DIV" || anchorNode.tagName == "P" || anchorNode.tagName == "PRE") &&
+							    (!anchorNode.children.length || (anchorNode.children.length == 1 && anchorNode.children[0].tagName == "BR"))) {
+								anchorNode.parentElement.removeChild(anchorNode);
+							}
 						}
 					} finally {
 						EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "InsertContent::text");
@@ -4774,10 +4877,13 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 					EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 				try {
 					document.body.insertAdjacentElement("afterbegin", content);
+					EvoEditor.maybeUpdateParagraphWidth(content);
 				} finally {
 					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "InsertContent::text");
 				}
 			}
+		} else if (EvoEditor.IsBlockNode(content.firstChild)) {
+			EvoEditor.InsertHTML("InsertContent::text", content.innerHTML);
 		} else {
 			EvoEditor.InsertHTML("InsertContent::text", content.outerHTML);
 		}

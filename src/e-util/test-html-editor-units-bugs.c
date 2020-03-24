@@ -25,9 +25,6 @@
 static void
 test_bug_726548 (TestFixture *fixture)
 {
-	/* This test is known to fail, skip it. */
-	printf ("SKIPPED ");
-#if 0
 	gboolean success;
 	gchar *text;
 	const gchar *expected_plain =
@@ -64,7 +61,6 @@ test_bug_726548 (TestFixture *fixture)
 	} else {
 		g_free (text);
 	}
-#endif
 }
 
 static void
