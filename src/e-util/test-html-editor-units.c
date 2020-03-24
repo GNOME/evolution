@@ -5793,14 +5793,14 @@ test_delete_quoted (TestFixture *fixture)
 		"undo:test\n"
 		"undo:redo:2",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div style=\"width: 71ch;\">&gt; a</div>"
-		"<div style=\"width: 71ch;\">&gt; b</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "b</div>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\n"
 		"> a\n"
-		"> b"))
+		"> b\n"))
 		g_test_fail ();
 }
 
@@ -5824,16 +5824,16 @@ test_delete_after_quoted (TestFixture *fixture)
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
-		"seq:ddddbb\n",
+		"seq:dddb\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<pre>&gt; a</pre>"
-		"<pre>&gt; b<br></pre>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "b</div>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\n"
 		"> a\n"
-		"> b"))
+		"> b\n"))
 		g_test_fail ();
 }
 
@@ -5853,21 +5853,21 @@ test_delete_quoted_selection (TestFixture *fixture)
 		"undo:test\n"
 		"undo:redo\n"
 		"undo:undo\n"
-		"seq:d\n"
+		"seq:r\n"
 		"type:X\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">line 0</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div style=\"width: 71ch;\">&gt; line 1</div>"
-		"<div style=\"width: 71ch;\">&gt; <br></div>"
-		"<div style=\"width: 71ch;\">&gt; line 2</div>"
-		"<div style=\"width: 71ch;\">&gt; X</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "X</div>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"line 0\n"
 		"> line 1\n"
 		"> \n"
 		"> line 2\n"
-		"> X"))
+		"> X\n"))
 		g_test_fail ();
 }
 

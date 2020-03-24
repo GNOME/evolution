@@ -4620,6 +4620,9 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 
 		if (quote) {
 			content.setAttribute("type", "cite");
+
+			if (EvoEditor.mode != EvoEditor.MODE_PLAIN_TEXT)
+				content.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
 		}
 
 		if (isHTML) {
@@ -4634,10 +4637,31 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 				EvoEditor.convertParagraphs(content, quote ? 1 : 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
 			}
 		} else {
-			content.innerText = text;
+			var lines = text.split("\n");
+
+			if (lines.length == 1) {
+				content.innerText = text;
+			} else {
+				var ii;
+
+				for (ii = 0; ii < lines.length; ii++) {
+					var line = lines[ii];
+					var divNode = document.createElement("DIV");
+					content.appendChild(divNode);
+					if (!line.length) {
+						divNode.appendChild(document.createElement("BR"));
+					} else {
+						divNode.innerText = line;
+					}
+				}
+			}
 		}
 
 		if (quote) {
+			if (!isHTML && EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+				EvoEditor.convertParagraphs(content, quote ? 1 : 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+			}
+
 			var anchorNode = document.getSelection().anchorNode, intoBody = false;
 
 			if (!content.firstElementChild || (content.firstElementChild.tagName != "DIV" && content.firstElementChild.tagName != "P" &&
