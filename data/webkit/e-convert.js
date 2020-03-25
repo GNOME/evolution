@@ -431,10 +431,13 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 			commit : function(ii) {
 				worker.commitSpaces(ii);
 
+				var didWrap = false;
+
 				if (worker.canWrap && worker.lastSpace != -1 && worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth) {
 					lines[lines.length] = worker.line.substr(0, worker.lastSpace);
 					worker.line = worker.line.substr(worker.lastSpace);
 					worker.maybeRecalcIgnoreLineLetters();
+					didWrap = true;
 				} else if (!worker.isInUnwrapPart() && worker.useWrapWidth != -1 && worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth) {
 					var jj;
 
@@ -463,6 +466,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 					lines[lines.length] = worker.line.substr(0, jj);
 					worker.line = worker.line.substr(jj);
 					worker.maybeRecalcIgnoreLineLetters();
+					didWrap = true;
 				} else if (worker.lastWasWholeLine && worker.line == "") {
 					worker.lastWasWholeLine = false;
 				} else {
@@ -472,7 +476,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 					worker.ignoreLineLetters = 0;
 				}
 
-				if (worker.canWrap && worker.collapseEndingWhiteSpace && lines[lines.length - 1].endsWith(" ")) {
+				if (worker.canWrap && didWrap && worker.collapseEndingWhiteSpace && lines[lines.length - 1].endsWith(" ")) {
 					if (lines[lines.length - 1].length == 1)
 						lines.length = lines.length - 1;
 					else
@@ -700,6 +704,25 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 
 	if (node.nodeType == node.TEXT_NODE) {
 		str = node.nodeValue;
+
+		if (str.indexOf("\r") >= 0 ||
+		    str.indexOf("\n") >= 0 ||
+		    str.indexOf("\t") >= 0 ||
+		    str.indexOf(" ") >= 0) {
+			var whiteSpace = "normal";
+
+			if (node.parentElement)
+				whiteSpace = window.getComputedStyle(node.parentElement).whiteSpace;
+
+			if (whiteSpace == "pre-line") {
+				str = str.replace(/\t/g, " ").replace(/  /g, " ");
+			} else if (!whiteSpace || whiteSpace == "normal" || whiteSpace == "nowrap") {
+				if (str == "\n" || str == "\r" || str == "\r\n")
+					str = "";
+				else
+					str = str.replace(/\t/g, " ").replace(/\r/g, " ").replace(/\n/g, " ").replace(/  /g, " ");
+			}
+		}
 	} else if (node.nodeType == node.ELEMENT_NODE) {
 		if (node.hidden || (node.tagName == "SPAN" && node.classList.contains("-x-evo-quoted")))
 			return str;
@@ -825,28 +848,41 @@ EvoConvert.ToPlainText = function(element, normalDivWidth)
 	if (!normalDivWidth)
 		normalDivWidth = -1;
 
-	var uls, ols, str = "", ii;
+	var disconnectFromHead = false;
 
-	uls = element.getElementsByTagName("UL");
-	ols = element.getElementsByTagName("OL");
-
-	if (uls.length > 0 || ols.length > 0) {
-		element = element.cloneNode(true);
-
-		if (uls.length)
-			EvoConvert.replaceList(element, "UL");
-
-		if (ols.length)
-			EvoConvert.replaceList(element, "OL");
+	if (!element.isConnected) {
+		// this is needed to be able to use window.getComputedStyle()
+		document.head.appendChild(element);
+		disconnectFromHead = true;
 	}
 
-	for (ii = 0; ii < element.childNodes.length; ii++) {
-		var node = element.childNodes.item(ii);
+	try {
+		var uls, ols, str = "", ii;
 
-		if (!node)
-			continue;
+		uls = element.getElementsByTagName("UL");
+		ols = element.getElementsByTagName("OL");
 
-		str += EvoConvert.processNode(node, normalDivWidth, 0);
+		if (uls.length > 0 || ols.length > 0) {
+			element = element.cloneNode(true);
+
+			if (uls.length)
+				EvoConvert.replaceList(element, "UL");
+
+			if (ols.length)
+				EvoConvert.replaceList(element, "OL");
+		}
+
+		for (ii = 0; ii < element.childNodes.length; ii++) {
+			var node = element.childNodes.item(ii);
+
+			if (!node)
+				continue;
+
+			str += EvoConvert.processNode(node, normalDivWidth, 0);
+		}
+	} finally {
+		if (disconnectFromHead)
+			document.head.removeChild(element);
 	}
 
 	// remove EvoConvert.NOWRAP_CHAR_START and EvoConvert.NOWRAP_CHAR_END from the result

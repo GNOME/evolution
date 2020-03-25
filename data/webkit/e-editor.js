@@ -1559,13 +1559,47 @@ EvoEditor.InsertHTML = function(opType, html)
 
 		var node, list, ii;
 
+		list = document.body.querySelectorAll("SPAN[id=-x-evo-insert-content-wrapper]");
+
+		for (ii = list.length - 1; ii >= 0; ii--) {
+			node = list[ii];
+
+			var parentBlock = EvoEditor.GetParentBlockNode(node);
+
+			EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::removeContentWrapper", parentBlock, parentBlock, EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+			try {
+				var child = EvoEditor.GetDirectChild(parentBlock, node);
+
+				while (node.firstChild) {
+					if (node.firstChild.tagName == "BLOCKQUOTE") {
+						if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+							node.firstChild.removeAttribute("class");
+							node.firstChild.removeAttribute("style");
+						} else {
+							node.firstChild.removeAttribute("class");
+							node.firstChild.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
+						}
+					}
+
+					parentBlock.insertBefore(node.firstChild, child);
+				}
+
+				node.parentElement.removeChild(node);
+
+				if (!(child === node) && !child.firstChild)
+					parentBlock.removeChild(child);
+			} finally {
+				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::removeContentWrapper");
+			}
+		}
+
 		list = document.body.getElementsByTagName("DIV");
 
 		for (ii = 0; ii < list.length; ii++) {
-			var node = list[ii], beforeValue;
+			node = list[ii];
 
 			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-				beforeValue = node.style.width;
+				var beforeValue = node.style.width;
 				EvoEditor.maybeUpdateParagraphWidth(node);
 
 				if (node.style.width != beforeValue) {
@@ -2191,7 +2225,7 @@ EvoEditor.removeQuoteMarks = function(element)
 	if (!element)
 		element = document;
 
-	list = element.querySelectorAll("span.-x-evo-quoted");
+	list = element.querySelectorAll("SPAN.-x-evo-quoted");
 
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		var node = list[ii];
@@ -2199,7 +2233,7 @@ EvoEditor.removeQuoteMarks = function(element)
 		node.parentElement.removeChild(node);
 	}
 
-	list = element.querySelectorAll("br.-x-evo-wrap-br");
+	list = element.querySelectorAll("BR.-x-evo-wrap-br");
 
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		var node = list[ii];
@@ -2276,7 +2310,7 @@ EvoEditor.replaceInheritFonts = function(undoRedoRecord, selectionUpdater)
 {
 	var nodes, ii;
 
-	nodes = document.querySelectorAll("font[face=inherit]");
+	nodes = document.querySelectorAll("FONT[face=inherit]");
 
 	for (ii = nodes.length - 1; ii >= 0; ii--) {
 		var node = nodes.item(ii);
@@ -2329,7 +2363,7 @@ EvoEditor.replaceInheritFonts = function(undoRedoRecord, selectionUpdater)
 
 EvoEditor.maybeReplaceInheritFonts = function()
 {
-	if (document.querySelectorAll("font[face=inherit]").length <= 0)
+	if (document.querySelectorAll("FONT[face=inherit]").length <= 0)
 		return;
 
 	var record, selectionUpdater;
@@ -2910,6 +2944,136 @@ EvoEditor.requoteNodeParagraph = function(node)
 	return node;
 }
 
+EvoEditor.replaceMatchWithNode = function(opType, node, match, newNode, canEmit, withUndo)
+{
+	if (withUndo) {
+		EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType, anchorNode.parentElement, anchorNode.parentElement,
+			EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+	}
+
+	try {
+		var selection = document.getSelection();
+		var offset = selection.anchorOffset, updateSelection = selection.anchorNode === node, newAnchorNode;
+
+		node.splitText(match.end);
+		newAnchorNode = node.nextSibling;
+		node.splitText(match.start);
+
+		node = node.nextSibling;
+
+		node.parentElement.insertBefore(newNode, node);
+		if (newNode.tagName == "A")
+			newNode.appendChild(node);
+		else
+			node.parentElement.removeChild(node);
+
+		if (updateSelection && newAnchorNode && offset - match.end >= 0)
+			selection.setPosition(newAnchorNode, offset - match.end);
+	} finally {
+		if (withUndo) {
+			EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType);
+
+			if (canEmit) {
+				EvoUndoRedo.GroupTopRecords(2);
+				EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+				EvoEditor.EmitContentChanged();
+			}
+		}
+	}
+
+	return node;
+}
+
+EvoEditor.linkifyText = function(anchorNode, withUndo)
+{
+	if (!anchorNode)
+		return false;
+
+	var text = anchorNode.nodeValue, tmpNode;
+
+	if (!text)
+		return false;
+
+	for (tmpNode = anchorNode; tmpNode && tmpNode.tagName != "BODY"; tmpNode = tmpNode.parentElement) {
+		if (tmpNode.tagName == "A") {
+			return false;
+		}
+	}
+
+	var isEmail = text.search("@") >= 0, match, covered = false;
+
+	// the replace call below replaces &nbsp; (0xA0) with regular space
+	match = EvoEditor.findPattern(text.replace(/ /g, " "), isEmail ? EvoEditor.EMAIL_PATTERN : EvoEditor.URL_PATTERN);
+	if (match) {
+		var url = text.substring(match.start, match.end), node;
+
+		// because 'search' uses Regex and throws exception on brackets and other Regex-sensitive characters
+		var isInvalidTrailingChar = function(chr) {
+			var jj;
+
+			for (jj = 0; jj < EvoEditor.URL_INVALID_TRAILING_CHARS.length; jj++) {
+				if (chr == EvoEditor.URL_INVALID_TRAILING_CHARS.charAt(jj))
+					return true;
+			}
+
+			return false;
+		};
+
+		/* URLs are extremely unlikely to end with any punctuation, so
+		 * strip any trailing punctuation off from link and put it after
+		 * the link. Do the same for any closing double-quotes as well. */
+		while (url.length > 0 && isInvalidTrailingChar(url.charAt(url.length - 1))) {
+			var open_bracket = 0, close_bracket = url.charAt(url.length - 1);
+
+			if (close_bracket == ')')
+				open_bracket = '(';
+			else if (close_bracket == '}')
+				open_bracket = '{';
+			else if (close_bracket == ']')
+				open_bracket = '[';
+			else if (close_bracket == '>')
+				open_bracket = '<';
+
+			if (open_bracket != 0) {
+				var n_opened = 0, n_closed = 0, ii, chr;
+
+				for (ii = 0; ii < url.length; ii++) {
+					chr = url.charAt(ii);
+
+					if (chr == open_bracket)
+						n_opened++;
+					else if (chr == close_bracket)
+						n_closed++;
+				}
+
+				/* The closing bracket can match one inside the URL,
+				   thus keep it there. */
+				if (n_opened > 0 && n_opened - n_closed >= 0)
+					break;
+			}
+
+			url = url.substr(0, url.length - 1);
+			match.end--;
+		}
+
+		if (url.length > 0) {
+			covered = true;
+
+			if (isEmail)
+				url = "mailto:" + url;
+			else if (url.startsWith("www."))
+				url = "https://" + url;
+
+			node = document.createElement("A");
+			node.href = url;
+
+			anchorNode = EvoEditor.replaceMatchWithNode("magicLink", anchorNode, match, node, true, withUndo);
+		}
+	}
+
+	return covered;
+}
+
 EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 {
 	var isInsertParagraph = inputEvent.inputType == "insertParagraph";
@@ -3174,123 +3338,10 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 
 	canLinks = EvoEditor.MAGIC_LINKS && (isWordDelim || isInsertParagraph);
 
-	if (canLinks) {
-		var tmpNode;
-
-		for (tmpNode = anchorNode; tmpNode && tmpNode.tagName != "BODY"; tmpNode = tmpNode.parentElement) {
-			if (tmpNode.tagName == "A") {
-				canLinks = false;
-				break;
-			}
-		}
-	}
-
 	var text = anchorNode.nodeValue, covered = false;
 
-	var replaceMatchWithNode = function(opType, match, newNode, canEmit) {
-		EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType, anchorNode.parentElement, anchorNode.parentElement,
-			EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
-
-		try {
-			var offset = selection.anchorOffset, updateSelection = selection.anchorNode === anchorNode, newAnchorNode;
-
-			anchorNode.splitText(match.end);
-			newAnchorNode = anchorNode.nextSibling;
-			anchorNode.splitText(match.start);
-
-			anchorNode = anchorNode.nextSibling;
-
-			anchorNode.parentElement.insertBefore(newNode, anchorNode);
-			if (newNode.tagName == "A")
-				newNode.appendChild(anchorNode);
-			else
-				anchorNode.parentElement.removeChild(anchorNode);
-
-			if (updateSelection && newAnchorNode && offset - match.end >= 0)
-				selection.setPosition(newAnchorNode, offset - match.end);
-		} finally {
-			EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType);
-
-			if (canEmit) {
-				EvoUndoRedo.GroupTopRecords(2);
-				EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
-				EvoEditor.EmitContentChanged();
-			}
-		}
-	}
-
-	if (canLinks) {
-		var isEmail = text.search("@") >= 0, match;
-
-		// the replace call below replaces &nbsp; (0xA0) with regular space
-		match = EvoEditor.findPattern(text.replace(/ /g, " "), isEmail ? EvoEditor.EMAIL_PATTERN : EvoEditor.URL_PATTERN);
-		if (match) {
-			var url = text.substring(match.start, match.end), node;
-
-			// because 'search' uses Regex and throws exception on brackets and other Regex-sensitive characters
-			var isInvalidTrailingChar = function(chr) {
-				var jj;
-
-				for (jj = 0; jj < EvoEditor.URL_INVALID_TRAILING_CHARS.length; jj++) {
-					if (chr == EvoEditor.URL_INVALID_TRAILING_CHARS.charAt(jj))
-						return true;
-				}
-
-				return false;
-			};
-
-			/* URLs are extremely unlikely to end with any punctuation, so
-			 * strip any trailing punctuation off from link and put it after
-			 * the link. Do the same for any closing double-quotes as well. */
-			while (url.length > 0 && isInvalidTrailingChar(url.charAt(url.length - 1))) {
-				var open_bracket = 0, close_bracket = url.charAt(url.length - 1);
-
-				if (close_bracket == ')')
-					open_bracket = '(';
-				else if (close_bracket == '}')
-					open_bracket = '{';
-				else if (close_bracket == ']')
-					open_bracket = '[';
-				else if (close_bracket == '>')
-					open_bracket = '<';
-
-				if (open_bracket != 0) {
-					var n_opened = 0, n_closed = 0, ii, chr;
-
-					for (ii = 0; ii < url.length; ii++) {
-						chr = url.charAt(ii);
-
-						if (chr == open_bracket)
-							n_opened++;
-						else if (chr == close_bracket)
-							n_closed++;
-					}
-
-					/* The closing bracket can match one inside the URL,
-					   thus keep it there. */
-					if (n_opened > 0 && n_opened - n_closed >= 0)
-						break;
-				}
-
-				url = url.substr(0, url.length - 1);
-				match.end--;
-			}
-
-			if (url.length > 0) {
-				covered = true;
-
-				if (isEmail)
-					url = "mailto:" + url;
-				else if (url.startsWith("www."))
-					url = "https://" + url;
-
-				node = document.createElement("A");
-				node.href = url;
-
-				replaceMatchWithNode("magicLink", match, node, true);
-			}
-		}
-	}
+	if (canLinks)
+		covered = EvoEditor.linkifyText(anchorNode, true);
 
 	if (!covered && EvoEditor.MAGIC_SMILEYS) {
 		var matches;
@@ -3318,7 +3369,7 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 						node = tmpElement.firstChild;
 					}
 
-					replaceMatchWithNode("magicSmiley", match, node, sz == 1);
+					anchorNode = EvoEditor.replaceMatchWithNode("magicSmiley", anchorNode, match, node, sz == 1, true);
 				}
 			} finally {
 				if (sz > 1) {
@@ -4717,13 +4768,21 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 			}
 		}
 
-		var content = document.createElement(quote ? "BLOCKQUOTE" : "DIV");
+		var wrapperNode, content;
+
+		wrapperNode = document.createElement("SPAN");
+		wrapperNode.id = "-x-evo-insert-content-wrapper";
 
 		if (quote) {
+			content = document.createElement("BLOCKQUOTE");
 			content.setAttribute("type", "cite");
+
+			wrapperNode.appendChild(content);
 
 			if (EvoEditor.mode != EvoEditor.MODE_PLAIN_TEXT)
 				content.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
+		} else {
+			content = wrapperNode;
 		}
 
 		if (isHTML) {
@@ -4732,6 +4791,11 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 			// paste can contain <meta> elements, like the one with Content-Type, which can be removed
 			while (content.firstElementChild && content.firstElementChild.tagName == "META") {
 				content.removeChild(content.firstElementChild);
+			}
+
+			// remove comments at the beginning, like the Evolution's "<!-- text/html -->"
+			while (content.firstChild && content.firstChild.nodeType == content.firstChild.COMMENT_NODE) {
+				content.removeChild(content.firstChild);
 			}
 
 			// convert P into DIV
@@ -4785,6 +4849,22 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 						divNode.innerText = line;
 					}
 				}
+			}
+		}
+
+		if (EvoEditor.MAGIC_LINKS) {
+			var node, next, covered = false;
+
+			for (node = content.firstChild; node; node = next) {
+				next = EvoEditor.getNextNodeInHierarchy(node, content);
+
+				if (node.nodeType == node.TEXT_NODE)
+					covered = EvoEditor.linkifyText(node, false) || covered;
+			}
+
+			if (covered && !isHTML) {
+				EvoEditor.convertParagraphs(content, quote ? 1 : 0, EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT ? EvoEditor.NORMAL_PARAGRAPH_WIDTH : -1);
+				isHTML = true;
 			}
 		}
 
@@ -4918,11 +4998,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 				}
 			}
 		} else if (isHTML) {
-			if (EvoEditor.IsBlockNode(content.firstChild)) {
-				EvoEditor.InsertHTML("InsertContent::text", content.innerHTML);
-			} else {
-				EvoEditor.InsertHTML("InsertContent::text", content.outerHTML);
-			}
+			EvoEditor.InsertHTML("InsertContent::text", wrapperNode.outerHTML);
 		} else {
 			EvoEditor.InsertText("InsertContent::text", content.innerText);
 		}
@@ -4935,9 +5011,12 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 
 EvoEditor.processLoadedContent = function()
 {
+	if (!document.body)
+		return;
+
 	var node, cite;
 
-	node = document.querySelector("span.-x-evo-cite-body");
+	node = document.querySelector("SPAN.-x-evo-cite-body");
 
 	cite = node;
 
@@ -4957,7 +5036,16 @@ EvoEditor.processLoadedContent = function()
 
 	var ii, list;
 
-	list = document.querySelectorAll("div[data-headers]");
+	list = document.querySelectorAll("STYLE[id]");
+
+	for (ii = list.length - 1; ii >= 0; ii--) {
+		node = list[ii];
+
+		if (node.id && node.id.startsWith("-x-evo-"))
+			node.parentElement.removeChild(node);
+	}
+
+	list = document.querySelectorAll("DIV[data-headers]");
 
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		node = list[ii];
@@ -4967,7 +5055,7 @@ EvoEditor.processLoadedContent = function()
 		document.body.insertAdjacentElement("afterbegin", node);
 	}
 
-	list = document.querySelectorAll("span.-x-evo-to-body[data-credits]");
+	list = document.querySelectorAll("SPAN.-x-evo-to-body[data-credits]");
 
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		node = list[ii];
@@ -4992,6 +5080,12 @@ EvoEditor.processLoadedContent = function()
 		node.removeAttribute("class");
 	}
 
+	list = document.querySelectorAll("[data-evo-paragraph]");
+
+	for (ii = list.length - 1; ii >= 0; ii--) {
+		list[ii].removeAttribute("data-evo-paragraph");
+	}
+
 	// require blocks under BLOCKQUOTE and style them properly
 	list = document.getElementsByTagName("BLOCKQUOTE");
 
@@ -5001,7 +5095,7 @@ EvoEditor.processLoadedContent = function()
 		for (node = blockquoteNode.firstChild; node; node = next) {
 			next = node.nextSibling;
 
-			if (!EvoEditor.IsBlockNode(node)) {
+			if (!EvoEditor.IsBlockNode(node) && (node.nodeType == node.ELEMENT_NODE || (node.nodeValue && node.nodeValue != "\n" && node.nodeValue != "\r\n"))) {
 				if (!addingTo) {
 					addingTo = document.createElement("DIV");
 					blockquoteNode.insertBefore(addingTo, node);
@@ -5025,6 +5119,22 @@ EvoEditor.processLoadedContent = function()
 
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
 		EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+
+	// remove comments at the beginning, like the Evolution's "<!-- text/html -->"
+	while (document.documentElement.firstChild && document.documentElement.firstChild.nodeType == document.documentElement.firstChild.COMMENT_NODE) {
+		document.documentElement.removeChild(document.documentElement.firstChild);
+	}
+
+	document.body.removeAttribute("data-evo-draft");
+	document.body.removeAttribute("data-evo-plain-text");
+	document.body.removeAttribute("spellcheck");
+
+	list = document.querySelectorAll("[id=-x-evo-input-start]");
+
+	for (ii = list.length - 1; ii >= 0; ii--) {
+		node = list[ii];
+		node.removeAttribute("id");
+	}
 }
 
 EvoEditor.LoadHTML = function(html)
