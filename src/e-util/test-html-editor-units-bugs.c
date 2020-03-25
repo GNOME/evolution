@@ -31,7 +31,8 @@ test_bug_726548 (TestFixture *fixture)
 		"aaa\n"
 		"   1. a\n"
 		"   2. b\n"
-		"   3. c\n";
+		"   3. c\n"
+		"\n";
 
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
@@ -42,7 +43,7 @@ test_bug_726548 (TestFixture *fixture)
 		"type:ac\n"
 		"seq:c\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">aaa</div>"
-		"<ol style=\"width: 65ch;\">"
+		"<ol>"
 		"<li>a</li><li>b</li><li>c</li></ol>"
 		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
 		expected_plain)) {

@@ -1035,8 +1035,13 @@ selection_changed_cb (WebKitUserContentManager *manager,
 {
 	EWebKitEditor *wk_editor = user_data;
 	WebKitEditorState *editor_state;
+	JSCValue *jsc_value;
+	gboolean is_collapsed;
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	jsc_value = webkit_javascript_result_get_js_value (js_result);
+	is_collapsed = jsc_value_is_boolean (jsc_value) && jsc_value_to_boolean (jsc_value);
 
 	editor_state = webkit_web_view_get_editor_state (WEBKIT_WEB_VIEW (wk_editor));
 
@@ -1044,8 +1049,8 @@ selection_changed_cb (WebKitUserContentManager *manager,
 		GObject *object = G_OBJECT (wk_editor);
 		gboolean value;
 
-		#define check_and_set_prop(_prop_var, _prop_name, _val_func) \
-			value = _val_func (editor_state); \
+		#define check_and_set_prop(_prop_var, _prop_name, _val) \
+			value = _val; \
 			if (_prop_var != value) { \
 				_prop_var = value; \
 				g_object_notify (object, _prop_name); \
@@ -1053,9 +1058,9 @@ selection_changed_cb (WebKitUserContentManager *manager,
 
 		g_object_freeze_notify (object);
 
-		check_and_set_prop (wk_editor->priv->can_copy, "can-copy", webkit_editor_state_is_copy_available);
-		check_and_set_prop (wk_editor->priv->can_cut, "can-cut", webkit_editor_state_is_cut_available);
-		check_and_set_prop (wk_editor->priv->can_paste, "can-paste", webkit_editor_state_is_paste_available);
+		check_and_set_prop (wk_editor->priv->can_copy, "can-copy", !is_collapsed);
+		check_and_set_prop (wk_editor->priv->can_cut, "can-cut", !is_collapsed);
+		check_and_set_prop (wk_editor->priv->can_paste, "can-paste", webkit_editor_state_is_paste_available (editor_state));
 
 		g_object_thaw_notify (object);
 

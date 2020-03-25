@@ -2928,10 +2928,25 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 		return;
 	}
 
+	if (isInsertParagraph && selection.isCollapsed && selection.anchorNode && selection.anchorNode.tagName == "SPAN" &&
+	    selection.anchorNode.children.length == 1 && selection.anchorNode.firstElementChild.tagName == "BR" &&
+	    selection.anchorNode.parentElement.tagName == "DIV") {
+		// new paragraph in UL/OL creates: <div><span style='white-space: normal;'><br></span><div>
+		// thus avoid the <span />, which is not expected in the EvoEditor
+		var node = selection.anchorNode;
+
+		while (node.firstChild) {
+			node.parentElement.insertBefore(node.firstChild, node);
+		}
+
+		selection.setPosition(node.parentElement, 0);
+		node.parentElement.removeChild(node);
+	}
+
 	if (isInsertParagraph && selection.isCollapsed && selection.anchorNode && selection.anchorNode.tagName == "DIV") {
 		// for example when moving away from ul/ol, the newly created
 		// paragraph can inherit styles from it, which is also negative text-indent
-		selection.anchorNode.textIndent = "";
+		selection.anchorNode.style.textIndent = "";
 		EvoEditor.removeEmptyStyleAttribute(selection.anchorNode);
 		EvoEditor.maybeUpdateParagraphWidth(selection.anchorNode);
 	}
@@ -5322,7 +5337,7 @@ document.onselectionchange = function() {
 	EvoEditor.maybeUpdateFormattingState(EvoEditor.forceFormatStateUpdate ? EvoEditor.FORCE_YES : EvoEditor.FORCE_MAYBE);
 	EvoEditor.forceFormatStateUpdate = false;
 
-	window.webkit.messageHandlers.selectionChanged.postMessage(null);
+	window.webkit.messageHandlers.selectionChanged.postMessage(document.getSelection().isCollapsed);
 };
 
 EvoEditor.initializeContent();
