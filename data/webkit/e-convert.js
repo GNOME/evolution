@@ -467,7 +467,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 					worker.line = worker.line.substr(jj);
 					worker.maybeRecalcIgnoreLineLetters();
 					didWrap = true;
-				} else if (worker.lastWasWholeLine && worker.line == "") {
+				} else if (worker.collapseWhiteSpace && worker.lastWasWholeLine && worker.line == "") {
 					worker.lastWasWholeLine = false;
 				} else {
 					lines[lines.length] = worker.line;
@@ -698,6 +698,31 @@ EvoConvert.extractElemText = function(elem, normalDivWidth, quoteLevel)
 	return str;
 }
 
+EvoConvert.mergeConsecutiveSpaces = function(str)
+{
+	if (str.indexOf("  ") >= 0) {
+		var words = str.split(" "), ii, word;
+
+		str = "";
+
+		for (ii = 0; ii < words.length; ii++) {
+			word = words[ii];
+
+			if (word) {
+				if (ii)
+					str += " ";
+
+				str += word;
+			}
+		}
+
+		if (!words[words.length - 1])
+			str += " ";
+	}
+
+	return str;
+}
+
 EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 {
 	var str = "";
@@ -715,12 +740,12 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 				whiteSpace = window.getComputedStyle(node.parentElement).whiteSpace;
 
 			if (whiteSpace == "pre-line") {
-				str = str.replace(/\t/g, " ").replace(/  /g, " ");
+				str = EvoConvert.mergeConsecutiveSpaces(str.replace(/\t/g, " "));
 			} else if (!whiteSpace || whiteSpace == "normal" || whiteSpace == "nowrap") {
 				if (str == "\n" || str == "\r" || str == "\r\n")
 					str = "";
 				else
-					str = str.replace(/\t/g, " ").replace(/\r/g, " ").replace(/\n/g, " ").replace(/  /g, " ");
+					str = EvoConvert.mergeConsecutiveSpaces(str.replace(/\t/g, " ").replace(/\r/g, " ").replace(/\n/g, " "));
 			}
 		}
 	} else if (node.nodeType == node.ELEMENT_NODE) {

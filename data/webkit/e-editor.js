@@ -1745,50 +1745,6 @@ EvoEditor.SetBodyFontName = function(name)
 	}
 }
 
-EvoEditor.beforeInputCb = function(inputEvent)
-{
-	if (EvoUndoRedo.disabled ||
-	    !inputEvent ||
-	    inputEvent.inputType != "insertText" ||
-	    !inputEvent.data ||
-	    inputEvent.data.length != 1 ||
-	    inputEvent.data == " " ||
-	    inputEvent.data == "\t")
-		return;
-
-	var selection = document.getSelection();
-
-	// when writing at the end of the anchor, then write into the anchor, not out (WebKit writes out)
-	if (!selection ||
-	    !selection.isCollapsed ||
-	    !selection.anchorNode ||
-	    selection.anchorNode.nodeType != selection.anchorNode.TEXT_NODE ||
-	    selection.anchorOffset != selection.anchorNode.nodeValue.length ||
-	    !selection.anchorNode.parentElement ||
-	    selection.anchorNode.parentElement.tagName != "A")
-		return;
-
-	var node = selection.anchorNode;
-
-	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_EVENT, "insertText", selection.anchorNode, selection.anchorNode,
-		EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
-
-	try {
-		node.nodeValue += inputEvent.data;
-		selection.setPosition(node, node.nodeValue.length);
-
-		if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
-			node.parentElement.href = node.nodeValue;
-	} finally {
-		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_EVENT, "insertText");
-	}
-
-	// it will add the text, if anything breaks before it gets here
-	inputEvent.stopImmediatePropagation();
-	inputEvent.stopPropagation();
-	inputEvent.preventDefault();
-}
-
 EvoEditor.emptyParagraphAsHtml = function()
 {
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
@@ -1817,7 +1773,7 @@ EvoEditor.initializeContent = function()
 		}
 
 		// make sure there is a selection
-		if (!document.getSelection().anchorNode) {
+		if (!document.getSelection().anchorNode || document.getSelection().anchorNode.tagName == "HTML") {
 			document.getSelection().setPosition(document.body.firstChild ? document.body.firstChild : document.body, 0);
 		}
 	}
@@ -1838,7 +1794,7 @@ EvoEditor.getNextNodeInHierarchy = function(node, upToNode)
 	if (!next) {
 		next = node.parentElement;
 
-		if (next === document.body || next === upToNode)
+		if (next === upToNode || next === document.body)
 			next = null;
 
 		while (next) {
@@ -1848,7 +1804,7 @@ EvoEditor.getNextNodeInHierarchy = function(node, upToNode)
 			} else {
 				next = next.parentElement;
 
-				if (next === document.body || next === upToNode)
+				if (next === upToNode || next === document.body)
 					next = null;
 			}
 		}
@@ -1970,7 +1926,7 @@ EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 	paragraph.insertAdjacentHTML("afterbegin", prefixHtml);
 }
 
-EvoEditor.reBlockquotePlainText = function(plainText)
+EvoEditor.reBlockquotePlainText = function(plainText, usePreTag)
 {
 	var lines = plainText.replace(/\&/g, "&amp;").split("\n"), ii, html = "", level = 0;
 
@@ -1998,7 +1954,7 @@ EvoEditor.reBlockquotePlainText = function(plainText)
 			level--;
 		}
 
-		html += "<div>";
+		html += usePreTag ? "<pre>" : "<div>";
 
 		while (line[skip] == ' ') {
 			skip++;
@@ -2008,7 +1964,8 @@ EvoEditor.reBlockquotePlainText = function(plainText)
 		if (skip)
 			line = line.substr(skip);
 
-		html += (line[0] ? line.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "<br>") + "</div>";
+		html += (line[0] ? line.replace(/</g, "&lt;").replace(/>/g, "&gt;") : "<br>");
+		html += usePreTag ? "</pre>" : "</div>";
 	}
 
 	while (0 < level) {
@@ -2043,11 +2000,24 @@ EvoEditor.convertParagraphs = function(parent, blockquoteLevel, wrapWidth)
 		} else if (child.tagName == "PRE") {
 			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && blockquoteLevel > 0) {
 				var prefixHtml = EvoEditor.getBlockquotePrefixHtml(blockquoteLevel);
-				var lines = child.innerText.split("\n"), ii, text = "";
+				var lines, jj, text;
 
-				for (ii = 0; ii < lines.length; ii++) {
-					text += prefixHtml + lines[ii].replace(/\&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-					if (ii + 1 < lines.length)
+				text = child.innerText;
+
+				if (text == "\n" || text == "\r\n")
+					lines = [ "" ];
+				else
+					lines = text.split("\n");
+
+				text = "";
+
+				for (jj = 0; jj < lines.length; jj++) {
+					text += prefixHtml + lines[jj].replace(/\&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+					if (!lines[jj])
+						text += "<BR>";
+
+					if (jj + 1 < lines.length)
 						text += "\n";
 				}
 
@@ -2055,6 +2025,8 @@ EvoEditor.convertParagraphs = function(parent, blockquoteLevel, wrapWidth)
 					text += prefixHtml;
 
 				child.innerHTML = text;
+			} else {
+				EvoEditor.convertParagraphs(child, blockquoteLevel, wrapWidth);
 			}
 		} else if (child.tagName == "BLOCKQUOTE") {
 			var innerWrapWidth = wrapWidth;
@@ -2068,8 +2040,10 @@ EvoEditor.convertParagraphs = function(parent, blockquoteLevel, wrapWidth)
 
 			// replace blockquote content with pure plain text and then re-blockquote it
 			// and do it only on the top level, not recursively (nested citations)
-			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && !blockquoteLevel)
-				child.innerHTML = EvoEditor.reBlockquotePlainText(EvoConvert.ToPlainText(child, -1));
+			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && !blockquoteLevel) {
+				child.innerHTML = EvoEditor.reBlockquotePlainText(EvoConvert.ToPlainText(child, -1),
+					child.firstElementChild && child.firstElementChild.tagName == "PRE");
+			}
 
 			EvoEditor.convertParagraphs(child, blockquoteLevel + 1, innerWrapWidth);
 		} else if (child.tagName == "UL") {
@@ -3074,6 +3048,158 @@ EvoEditor.linkifyText = function(anchorNode, withUndo)
 	return covered;
 }
 
+EvoEditor.maybeRemoveQuotationMark = function(node)
+{
+	if (!node || node.nodeType != node.ELEMENT_NODE || node.tagName != "SPAN" ||
+	    node.className != "-x-evo-quoted")
+		return false;
+
+	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "removeQuotationMark", node, node,
+		EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
+	try {
+		node.remove();
+	} finally {
+		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "removeQuotationMark");
+	}
+
+	return true;
+}
+
+EvoEditor.removeEmptyElements = function(tagName)
+{
+	var nodes, node, ii, didRemove = 0;
+
+	nodes = document.querySelectorAll(tagName + ":empty");
+
+	for (ii = nodes.length - 1; ii >= 0; ii--) {
+		node = nodes[ii];
+
+		didRemove++;
+
+		EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "removeEmptyElem::" + tagName, node, node,
+			EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
+		try {
+			node.remove();
+		} finally {
+			EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "removeEmptyElem::" + tagName);
+		}
+	}
+
+	return didRemove;
+}
+
+EvoEditor.beforeInputCb = function(inputEvent)
+{
+	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && inputEvent && (
+	    inputEvent.inputType == "deleteContentForward" || inputEvent.inputType == "deleteContentBackward")) {
+		var selection = document.getSelection();
+
+		// workaround WebKit bug https://bugs.webkit.org/show_bug.cgi?id=209605
+		if (selection.anchorNode && selection.anchorNode.nodeType == selection.anchorNode.ELEMENT_NODE &&
+		    selection.isCollapsed && EvoEditor.IsBlockNode(selection.anchorNode) && selection.anchorNode.firstChild.tagName == "BR" &&
+		    !selection.anchorNode.firstChild.nextSibling) {
+			EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_EVENT, inputEvent.inputType, selection.anchorNode, selection.anchorNode,
+				EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
+			try {
+				var next = selection.anchorNode.nextSibling;
+
+				if (!next)
+					next = selection.anchorNode.previousSibling;
+				if (!next)
+					next = selection.anchorNode.parentElement;
+
+				selection.anchorNode.parentElement.removeChild(selection.anchorNode);
+
+				selection.setPosition(next, 0);
+			} finally {
+				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_EVENT, inputEvent.inputType);
+			}
+
+			inputEvent.stopImmediatePropagation();
+			inputEvent.stopPropagation();
+			inputEvent.preventDefault();
+
+			return;
+		}
+
+		var didRemove = 0;
+
+		if (selection.anchorNode && selection.anchorNode.previousSibling &&
+		    EvoEditor.maybeRemoveQuotationMark(selection.anchorNode.previousSibling))
+			didRemove++;
+
+		if (selection.focusNode && selection.focusNode.previousSibling &&
+		    EvoEditor.maybeRemoveQuotationMark(selection.focusNode.previousSibling))
+			didRemove++;
+
+		if (didRemove) {
+			EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, inputEvent.inputType + "::selDeletion", selection.anchorNode, selection.focusNode,
+				EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
+			try {
+				selection.deleteFromDocument();
+			} finally {
+				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, inputEvent.inputType + "::selDeletion");
+			}
+
+			didRemove += EvoEditor.removeEmptyElements("DIV");
+			didRemove += EvoEditor.removeEmptyElements("PRE");
+
+			EvoUndoRedo.GroupTopRecords(didRemove + 1, inputEvent.inputType + "::grouped");
+			EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+			EvoEditor.EmitContentChanged();
+
+			inputEvent.stopImmediatePropagation();
+			inputEvent.stopPropagation();
+			inputEvent.preventDefault();
+
+			return;
+		}
+	}
+
+	if (EvoUndoRedo.disabled ||
+	    !inputEvent ||
+	    inputEvent.inputType != "insertText" ||
+	    !inputEvent.data ||
+	    inputEvent.data.length != 1 ||
+	    inputEvent.data == " " ||
+	    inputEvent.data == "\t")
+		return;
+
+	var selection = document.getSelection();
+
+	// when writing at the end of the anchor, then write into the anchor, not out (WebKit writes out)
+	if (!selection ||
+	    !selection.isCollapsed ||
+	    !selection.anchorNode ||
+	    selection.anchorNode.nodeType != selection.anchorNode.TEXT_NODE ||
+	    selection.anchorOffset != selection.anchorNode.nodeValue.length ||
+	    !selection.anchorNode.parentElement ||
+	    selection.anchorNode.parentElement.tagName != "A")
+		return;
+
+	var node = selection.anchorNode;
+
+	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_EVENT, "insertText", selection.anchorNode, selection.anchorNode,
+		EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
+
+	try {
+		node.nodeValue += inputEvent.data;
+		selection.setPosition(node, node.nodeValue.length);
+
+		if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
+			node.parentElement.href = node.nodeValue;
+	} finally {
+		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_EVENT, "insertText");
+		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+		EvoEditor.EmitContentChanged();
+	}
+
+	// it will add the text, if anything breaks before it gets here
+	inputEvent.stopImmediatePropagation();
+	inputEvent.stopPropagation();
+	inputEvent.preventDefault();
+}
+
 EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 {
 	var isInsertParagraph = inputEvent.inputType == "insertParagraph";
@@ -3203,6 +3329,7 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 					if (node && node.nextElementSibling) {
 						var blockquoteLevel = (node.nextElementSibling.tagName == "BLOCKQUOTE" ? 1 : 0);
 
+						EvoEditor.removeQuoteMarks(node.nextElementSibling);
 						EvoEditor.convertParagraphs(node.nextElementSibling, blockquoteLevel,
 							EvoEditor.NORMAL_PARAGRAPH_WIDTH - (blockquoteLevel * 2));
 					}
@@ -3210,6 +3337,7 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 					if (node && node.previousElementSibling) {
 						var blockquoteLevel = (node.previousElementSibling.tagName == "BLOCKQUOTE" ? 1 : 0);
 
+						EvoEditor.removeQuoteMarks(node.previousElementSibling);
 						EvoEditor.convertParagraphs(node.previousElementSibling, blockquoteLevel,
 							EvoEditor.NORMAL_PARAGRAPH_WIDTH - (blockquoteLevel * 2));
 					}
@@ -5027,8 +5155,22 @@ EvoEditor.processLoadedContent = function()
 	if (cite) {
 		cite = document.createElement("BLOCKQUOTE");
 		cite.setAttribute("type", "cite");
+
 		while (document.body.firstChild) {
 			cite.appendChild(document.body.firstChild);
+		}
+
+		var next;
+
+		// Evolution builds HTML with insignificant "\n", thus remove them first
+		for (node = cite.firstChild; node; node = next) {
+			next = EvoEditor.getNextNodeInHierarchy(node, cite);
+
+			if (node.nodeType == node.TEXT_NODE && node.nodeValue && node.nodeValue.charAt(0) == '\n' && (
+			    (node.previousSibling && EvoEditor.IsBlockNode(node.previousSibling)) ||
+			    (!node.previousSibling && node.parentElement.tagName == "BLOCKQUOTE" && !(node.parentElement === cite)))) {
+				node.nodeValue = node.nodeValue.substr(1);
+			}
 		}
 
 		document.body.appendChild(cite);
@@ -5117,8 +5259,20 @@ EvoEditor.processLoadedContent = function()
 		}
 	}
 
-	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
+	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
 		EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
+
+		if (EvoEditor.MAGIC_LINKS) {
+			var next;
+
+			for (node = document.body.firstChild; node; node = next) {
+				next = EvoEditor.getNextNodeInHierarchy(node, null);
+
+				if (node.nodeType == node.TEXT_NODE)
+					EvoEditor.linkifyText(node, false);
+			}
+		}
+	}
 
 	// remove comments at the beginning, like the Evolution's "<!-- text/html -->"
 	while (document.documentElement.firstChild && document.documentElement.firstChild.nodeType == document.documentElement.firstChild.COMMENT_NODE) {
@@ -5134,6 +5288,8 @@ EvoEditor.processLoadedContent = function()
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		node = list[ii];
 		node.removeAttribute("id");
+
+		document.getSelection().setPosition(node, 0);
 	}
 }
 

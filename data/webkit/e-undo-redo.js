@@ -618,12 +618,16 @@ EvoUndoRedo.StopRecord = function(kind, opType)
 		}
 	}
 
-	if (record.kind != kind) {
-		throw "EvoUndoRedo:StopRecord: Mismatch in record kind, expected " + record.kind + ", but received " + kind;
-	}
+	if (record.kind != kind || record.opType != opType) {
+		// The "InsertContent", especially when inserting plain text, can receive multiple 'input' events
+		// with "insertParagraph", "insertText" and similar, which do not have its counterpart beforeInput event,
+		// thus ignore those
 
-	if (record.opType != opType) {
-		throw "EvoUndoRedo:StopRecord: Mismatch in record opType, expected '" + record.opType + "', but received '" + opType + "'";
+		if (record.opType == "InsertContent" && opType.startsWith("insert"))
+			return;
+
+		throw "EvoUndoRedo:StopRecord: Mismatch in record kind, expected " + record.kind + " (" + record.opType + "), but received " +
+			kind + "(" + opType + "); ongoing recordings:" + EvoUndoRedo.ongoingRecordings.length;
 	}
 
 	EvoUndoRedo.ongoingRecordings.length = EvoUndoRedo.ongoingRecordings.length - 1;

@@ -618,7 +618,6 @@ test_bug_771131 (TestFixture *fixture)
 		"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "<br></div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "Goodbye</div>"
 		"</blockquote>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "the 3rd line text</div>"
 		"</blockquote>"
 		HTML_SUFFIX,
@@ -627,7 +626,6 @@ test_bug_771131 (TestFixture *fixture)
 		"> > Hello\n"
 		"> > \n"
 		"> > Goodbye\n"
-		"> \n"
 		"> the 3rd line text\n"))
 		g_test_fail ();
 }
@@ -654,18 +652,18 @@ test_bug_771493 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div style=\"width: 71ch;\">&gt; <br></div>"
-		"<div style=\"width: 71ch;\">&gt; ----- Original Message -----</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div style=\"width: 71ch;\">&gt; &gt; This week summary:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "----- Original Message -----</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "This week summary:</div>"
 		"</blockquote>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\n"
 		"> \n"
 		"> ----- Original Message -----\n"
-		"> > This week summary:"))
+		"> > This week summary:\n"))
 		g_test_fail ();
 }
 
@@ -687,16 +685,16 @@ test_bug_772171 (TestFixture *fixture)
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
-		"seq:ddeb",
+		"seq:deb",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div style=\"width: 71ch;\">&gt; <br></div>"
-		"<div style=\"width: 71ch;\">&gt; b</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<br></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "b</div>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\n"
 		"> \n"
-		"> b"))
+		"> b\n"))
 		g_test_fail ();
 }
 
@@ -727,7 +725,8 @@ test_bug_772513 (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"",
-		HTML_PREFIX "<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
+		HTML_PREFIX "<div style=\"width: 71ch;\"><br></div>"
+		"<div class=\"-x-evo-signature-wrapper\" style=\"width: 71ch;\"><span class=\"-x-evo-signature\" id=\"none\"></span></div>" HTML_SUFFIX,
 		"\n"))
 		g_test_fail ();
 }
@@ -743,7 +742,7 @@ test_bug_772918 (TestFixture *fixture)
 		"undo:undo:6\n"
 		"undo:redo:6\n",
 		HTML_PREFIX "<div>a b 1 2 3 c d</div>" HTML_SUFFIX,
-		"a b 1 2 3 c d"))
+		"a b 1 2 3 c d\n"))
 		g_test_fail ();
 }
 
@@ -759,25 +758,21 @@ test_bug_773164 (TestFixture *fixture)
 		"undo:undo\n"
 		"undo:test\n"
 		"undo:redo\n"
-		"seq:huuuue\n" /* Go to the end of the first line */
-		"seq:Sdds\n"
+		"seq:huue\n" /* Go to the end of the first line */
+		"seq:Sds\n"
 		"action:cut\n"
 		"seq:dde\n" /* Go to the end of the last line */
 		"action:paste\n"
-		"undo:undo:5\n"
+		"undo:undo:3\n"
 		"undo:test\n"
-		"undo:redo:5\n",
+		"undo:redo:3\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">This is paragraph 1</div>"
-		"<div style=\"width: 71ch;\"><br></div>"
 		"<div style=\"width: 71ch;\">This is a longer paragraph 3</div>"
-		"<div style=\"width: 71ch;\"><br></div>"
 		"<div style=\"width: 71ch;\">This is paragraph 2</div>"
 		HTML_SUFFIX,
 		"This is paragraph 1\n"
-		"\n"
 		"This is a longer paragraph 3\n"
-		"\n"
-		"This is paragraph 2"))
+		"This is paragraph 2\n"))
 		g_test_fail ();
 }
 
@@ -796,17 +791,69 @@ test_bug_775042 (TestFixture *fixture)
 		"seq:rl\n"
 		"mode:plain\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Fri, 2016-11-25 at 08:18 +0000, user wrote:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<pre>&gt; a</pre>"
-		"<pre>&gt; b</pre>"
-		"<pre>&gt; c</pre>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "a</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "b</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "c</pre>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"On Fri, 2016-11-25 at 08:18 +0000, user wrote:\n"
 		"> a\n"
 		"> b\n"
-		"> c"))
+		"> c\n")) {
 		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><pre>a\n"
+		"b\n"
+		"c"
+		"<span class=\"-x-evo-to-body\" data-credits=\"On Fri, 2016-11-25 at 08:18 +0000, user wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:rl\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Fri, 2016-11-25 at 08:18 +0000, user wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "a</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "b</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "c</pre>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"On Fri, 2016-11-25 at 08:18 +0000, user wrote:\n"
+		"> a\n"
+		"> b\n"
+		"> c\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<body><div>a</div>"
+		"<p>b</p>"
+		"<div>c</div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"On Fri, 2016-11-25 at 08:18 +0000, user wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span></body>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:rl\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Fri, 2016-11-25 at 08:18 +0000, user wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "b</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "c</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"On Fri, 2016-11-25 at 08:18 +0000, user wrote:\n"
+		"> a\n"
+		"> b\n"
+		"> c\n")) {
+		g_test_fail ();
+		return;
+	}
 }
 
 static void
@@ -823,7 +870,7 @@ test_bug_775691 (TestFixture *fixture)
 		"<div style=\"width: 71ch;\">def</div>"
 		HTML_SUFFIX,
 		"abc def ghi\n"
-		"def"))
+		"def\n"))
 		g_test_fail ();
 }
 
@@ -848,20 +895,53 @@ test_bug_779707 (TestFixture *fixture)
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
 	if (!test_utils_run_simple_test (fixture,
-		"seq:uuuSesDbnnu\n"
+		"seq:ChcddhSesDbnn\n"
 		"type:a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be\n"
-		"",
+		"seq:n\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<pre>&gt; line 1</pre>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 1</pre>"
 		"</blockquote>"
 		"<div style=\"width: 71ch;\"><br></div>"
 		"<div style=\"width: 71ch;\">a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be</div>"
 		"<div style=\"width: 71ch;\"><br></div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<pre>&gt; line 3</pre>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 3</pre>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> line 1\n"
+		"\n"
+		"a very long text, which splits into multiple lines when this paragraph\n"
+		"is not marked as preformatted, but as normal, as it should be\n"
+		"\n"
+		"> line 3\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<div>line 1</div>"
+		"<div>line 2</div>"
+		"<div>line 3</div>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ChcddhSesDbnn\n"
+		"type:a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be\n"
+		"seq:n\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 1</div>"
 		"</blockquote>"
 		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3</div>"
+		"</blockquote>"
 		HTML_SUFFIX,
 		"Credits:\n"
 		"> line 1\n"
@@ -896,8 +976,7 @@ test_bug_780275_html (TestFixture *fixture)
 		"seq:hSuusD\n"
 		"undo:undo\n"
 		"undo:test:1\n"
-		"undo:redo\n"
-		"",
+		"undo:redo\n",
 		HTML_PREFIX "<div>line 0</div>"
 		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"<div>Xline 1</div>"
@@ -908,7 +987,7 @@ test_bug_780275_html (TestFixture *fixture)
 		"line 0\n"
 		"> Xline 1\n"
 		"> line 2\n"
-		"line 4"))
+		"line 4\n"))
 		g_test_fail ();
 }
 
@@ -937,16 +1016,16 @@ test_bug_780275_plain (TestFixture *fixture)
 		"undo:test:1\n"
 		"undo:redo\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">line 0</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div style=\"width: 71ch;\">&gt; Xline 1</div>"
-		"<div style=\"width: 71ch;\">&gt; line 2</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "Xline 1</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
 		"</blockquote>"
 		"<div style=\"width: 71ch;\">line 4</div>"
 		HTML_SUFFIX,
 		"line 0\n"
 		"> Xline 1\n"
 		"> line 2\n"
-		"line 4"))
+		"line 4\n"))
 		g_test_fail ();
 }
 
@@ -969,12 +1048,12 @@ test_bug_781722 (TestFixture *fixture)
 		"seq:dd\n"
 		"action:style-preformat\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<pre>&gt; Signed-off-by: User &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt;</pre>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "Signed-off-by: User &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt;</pre>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"Credits:\n"
-		"> Signed-off-by: User <user@no.where>"))
+		"> Signed-off-by: User <user@no.where>\n"))
 		g_test_fail ();
 }
 
@@ -999,16 +1078,16 @@ test_bug_781116 (TestFixture *fixture)
 		"seq:dd\n"
 		"action:wrap-lines\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<pre>&gt; a very long text, which splits into multiple lines when this<br>"
-		"&gt; paragraph is not marked as preformatted, but as normal, as it should<br>"
-		"&gt; be</pre>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "a very long text, which splits into multiple lines when this<br>"
+		QUOTE_SPAN (QUOTE_CHR) "paragraph is not marked as preformatted, but as normal, as it should<br>"
+		QUOTE_SPAN (QUOTE_CHR) "be</pre>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"Credits:\n"
 		"> a very long text, which splits into multiple lines when this\n"
 		"> paragraph is not marked as preformatted, but as normal, as it should\n"
-		"> be</pre>"))
+		"> be</pre>\n"))
 		g_test_fail ();
 }
 
