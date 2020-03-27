@@ -1,15 +1,15 @@
 # Swedish messages for Evolution manual.
-# Copyright © 2007-2019 Free Software Foundation, Inc.
+# Copyright © 2007-2020 Free Software Foundation, Inc.
 # Daniel Nylander <po@danielnylander.se>, 2007.
 # Sebastian Rasmussen <sebras@gmail.com>, 2016, 2018.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2017, 2018, 2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N&component=User%20Documentation\n"
-"POT-Creation-Date: 2019-12-15 21:19+0000\n"
-"PO-Revision-Date: 2019-12-27 00:36+0100\n"
+"POT-Creation-Date: 2020-03-21 21:50+0000\n"
+"PO-Revision-Date: 2020-03-24 21:59+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -171,7 +171,7 @@ msgid ""
 msgstr ""
 "För allmän information om att visa påminnelser, se <link xref=\"help:gnome-"
 "help/shell-notifications\" href=\"https://help.gnome.org/users/gnome-help/"
-"stable/shell-notifications\">GNOME skrivbordshjälp</link>."
+"stable/shell-notifications\">GNOME:s skrivbordshjälp</link>."
 
 #. (itstool) path: section/title
 #: C/calendar-alarms-and-reminders.page:50
@@ -1009,7 +1009,7 @@ msgstr "Välj kontakterna du vill delegera sammanträdet till."
 #: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
 #: C/contacts-usage-edit-contact.page:34 C/contacts-using-contact-lists.page:69
 #: C/mail-attachments-sending.page:32
-#: C/mail-composer-custom-header-lines.page:45
+#: C/mail-composer-custom-header-lines.page:47
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
@@ -1801,26 +1801,67 @@ msgstr "Lägga till folk automatiskt till mina kontakter"
 #: C/contacts-add-automatically.page:27
 msgid ""
 "You can add people automatically to your contacts when you reply to received "
-"email. Enable the plugin <gui>Automatic Contacts</gui> by going to "
-"<guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on <gui>Automatic "
-"Contacts</gui> so that it shows a check mark. Then go to <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Contacts</gui> <gui>Automatic Contacts</gui></"
-"guiseq> and enable the <gui>Create address book entries when sending emails</"
-"gui> option and select an address book in the drop-down field below that "
-"will receive the new contacts."
+"email."
 msgstr ""
-"Du kan automatisk lägga till människor till dina kontakter när du svarar på "
-"mottagen e-post. Aktivera insticksmodulen <gui>Automatiska kontakter</gui> "
-"genom att gå till <guiseq><gui>Redigera</gui><gui>Insticksmoduler</gui></"
-"guiseq>; klicka på <gui>Automatiska kontakter</gui> så att en bock visas. Gå "
-"sedan till <guiseq><gui>Redigera</gui><gui>Inställningar</"
-"gui><gui>Kontakter</gui> <gui>Automatiska kontakter</gui></guiseq> och "
-"aktivera alternativet <gui>Skapa poster i adressboken när meddelanden "
-"skickas</gui> och välj en adressbok som får de nya kontakterna i "
-"rullgardinsfältet undertill."
+"Du kan automatiskt lägga till personer till dina kontakter när du svarar på "
+"mottagen e-post."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:30 C/mail-attachments-sending.page:46
+#: C/mail-composer-custom-header-lines.page:31
+#: C/mail-composer-external-editor.page:25
+#: C/mail-composer-message-templates.page:27
+#: C/mail-composer-message-templates-variables.page:28
+#: C/mail-received-notification.page:30
+msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
+msgstr "Välj <guiseq><gui>Redigera</gui><gui>Insticksmoduler</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:31
+msgid "Enable <gui>Automatic Contacts</gui>."
+msgstr "Aktivera <gui>Automatiska kontakter</gui>."
+
+#. (itstool) path: note/p
+#: C/contacts-add-automatically.page:32 C/mail-attachments-sending.page:48
+#: C/mail-composer-custom-header-lines.page:33
+#: C/mail-composer-external-editor.page:28
+#: C/mail-composer-message-templates.page:29
+#: C/mail-composer-message-templates-variables.page:30
+#: C/mail-displaying-sender-photograph.page:37
+#: C/mail-received-notification.page:32
+msgid ""
+"If a plugin is not available under <guiseq><gui>Edit</gui><gui>Plugins</"
+"gui></guiseq>, then please ask in a support forum of your distribution. Your "
+"distribution might have decided to disable some plugins or to ship plugins "
+"in a separate package."
+msgstr ""
+"Om en insticksmodul inte finns tillgänglig under <guiseq><gui>Redigera</"
+"gui><gui>Insticksmoduler</gui></guiseq>, fråga i ett supportforum för din "
+"distribution. Din distribution kan ha beslutat att inaktivera vissa "
+"insticksmoduler eller att skeppa insticksmoduler i ett separat paket."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:34
+msgid ""
+"Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
+"<gui>Automatic Contacts</gui></guiseq>."
+msgstr ""
+"Gå till <guiseq><gui>Redigera</gui><gui>Inställningar</gui><gui>Kontakter</"
+"gui><gui>Automatiska kontakter</gui></guiseq>."
+
+#. (itstool) path: item/p
+#: C/contacts-add-automatically.page:36
+msgid ""
+"Enable <gui>Create address book entries when sending emails</gui> and select "
+"an address book in the drop-down field below that will receive the new "
+"contacts."
+msgstr ""
+"Aktivera <gui>Skapa poster i adressboken när meddelanden skickas</gui> och "
+"välj en adressbok i rullgardinsfältet nedan som kommer erhålla de nya "
+"kontakterna."
 
 #. (itstool) path: page/p
-#: C/contacts-add-automatically.page:37
+#: C/contacts-add-automatically.page:41
 msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
@@ -3185,11 +3226,69 @@ msgstr ""
 msgid "How to export data from <app>Evolution</app>."
 msgstr "Hur man exporterar data från <app>Evolution</app>."
 
-# sebras: should <em> really be used here? not <app>? is it because it is a headline? in that case isn't the name Evolution present in many headlines?
 #. (itstool) path: page/title
 #: C/exporting-data.page:20
 msgid "Exporting data from <app>Evolution</app>"
 msgstr "Exportera data från <app>Evolution</app>"
+
+#. (itstool) path: info/desc
+#: C/flatpak-limitations.page:5
+msgid "Limitations when using a Flatpak package of <app>Evolution</app>."
+msgstr "Begränsningar då ett Flatpak-paket av <app>Evolution</app> används."
+
+#. (itstool) path: page/title
+#: C/flatpak-limitations.page:20
+msgid "Cannot print mail, add or save attachments, or open the help"
+msgstr ""
+"Det går inte att skriva ut e-post, lägga till eller spara bilagor, eller "
+"öppna hjälpen"
+
+#. (itstool) path: page/p
+#: C/flatpak-limitations.page:22
+msgid ""
+"If you run a <link href=\"https://flathub.org/\">Flatpak</link> version of "
+"<app>Evolution</app>, then there are several limitations. Examples are:"
+msgstr ""
+"Om du kör en <link href=\"https://flathub.org/\">Flatpak</link>-version av "
+"<app>Evolution</app> så finns det flera begränsningar. Exempel på detta:"
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:26
+msgid ""
+"Adding attachments to an email or saving attachments from an email might not "
+"be possible."
+msgstr ""
+"Det är kanske inte möjligt att lägga till bilagor till ett e-postmeddelande "
+"eller att spara bilagor från ett e-postmeddelande."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:28
+msgid ""
+"You cannot print an email to a printer. This is a <link href=\"https://bugs."
+"webkit.org/show_bug.cgi?id=192748\">limitation of the underlying WebKitGTK "
+"library</link>."
+msgstr ""
+"Du kan inte skriva ut ett e-postmeddelande till en skrivare. Detta är en "
+"<link href=\"https://bugs.webkit.org/show_bug.cgi?id=192748\">begränsning i "
+"det underliggande WebKitGTK-biblioteket</link>."
+
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:31
+msgid ""
+"To print an email to a file, you can run <cmd>flatpak run --filesystem=home "
+"org.gnome.Evolution</cmd> as a workaround."
+msgstr ""
+"För att skriva ut ett e-postmeddelande till en fil kan du köra <cmd>flatpak "
+"run --filesystem=home org.gnome.Evolution</cmd> som en tillfällig lösning."
+
+# TODO: might not BE included
+#. (itstool) path: item/p
+#: C/flatpak-limitations.page:33
+msgid ""
+"The local user documentation might not included, to make the package smaller."
+msgstr ""
+"Den lokala användardokumentationen kanske inte inkluderas för att göra "
+"paketet mindre."
 
 #. (itstool) path: info/desc
 #: C/google-services.page:5
@@ -3298,6 +3397,36 @@ msgstr ""
 #: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr "Upprepa importstegen till du har importerat alla dina data."
+
+#. (itstool) path: info/desc
+#: C/import-apps-kmail.page:5
+msgid ""
+"If <app>KMail</app> data cannot be found by the <app>Evolution</app> "
+"importer."
+msgstr ""
+"Om <app>KMail</app>-data inte kan hittas av <app>Evolution</app>-importören."
+
+#. (itstool) path: page/title
+#: C/import-apps-kmail.page:19
+#| msgid "Mail"
+msgid "KMail"
+msgstr "KMail"
+
+# TODO: recognizes?
+#. (itstool) path: page/p
+#: C/import-apps-kmail.page:21
+msgid "Note that <app>Evolution</app> only recognized KDE 4 directories:"
+msgstr "Observera att <app>Evolution</app> endast känner igen KDE 4-kataloger:"
+
+#. (itstool) path: item/p
+#: C/import-apps-kmail.page:23
+msgid "<file>$HOME/.kde4/share/apps/kmail/mail</file> for mail"
+msgstr "<file>$HOME/.kde4/share/apps/kmail/mail</file> för e-post"
+
+#. (itstool) path: item/p
+#: C/import-apps-kmail.page:24
+msgid "<file>$HOME/.kde4/share/apps/kabc</file> for contacts"
+msgstr "<file>$HOME/.kde4/share/apps/kabc</file> för kontakter"
 
 #. (itstool) path: info/desc
 #: C/import-apps-outlook.page:5
@@ -5265,7 +5394,7 @@ msgid ""
 msgstr ""
 "Det rekommenderas att ställa in Gmail som ett nätkonto i GNOME. Se <link "
 "xref=\"help:gnome-help/accounts\" href=\"https://help.gnome.org/users/gnome-"
-"help/stable/accounts\">Hjälpen för GNOME Skrivbord</link> för vidare "
+"help/stable/accounts\">GNOME:s skrivbordshjälp</link> för vidare "
 "information. Efter att det är gjort kommer Gmail-kontot att listas i "
 "Evolution."
 
@@ -6216,7 +6345,7 @@ msgstr ""
 "För att öppna en bilaga i ett annat program, klicka på nedåtpilen intill "
 "ikonen för bilagan och välj en av de tillgängliga programmen."
 
-#. (itstool) path: page/p
+#. (itstool) path: note/p
 #: C/mail-attachments-received.page:33
 msgid ""
 "The options available for an attachment vary depending on the type of "
@@ -6228,6 +6357,15 @@ msgstr ""
 "av bilaga och de program som finns installerade på ditt system. Din "
 "skrivbordsmiljös MIME-databas definierar vilka program som kan användas för "
 "att öppna ett specifikt filformat."
+
+#. (itstool) path: note/p
+#: C/mail-attachments-received.page:33
+msgid ""
+"To see the list of registered applications for a MIME type, use <cmd>gio "
+"mime</cmd>. Example: <cmd>gio mime \"application/pdf\"</cmd>"
+msgstr ""
+"För att se listan över registrerade program för en MIME-typ, använd <cmd>gio "
+"mime</cmd>. Exempel: <cmd>gio mime \"application/pdf\"</cmd>"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments-sending.page:5
@@ -6305,26 +6443,20 @@ msgid "To enable the Attachment Reminder:"
 msgstr "För att aktivera bilagepåminnaren:"
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:46
-#: C/mail-composer-custom-header-lines.page:31
-#: C/mail-composer-message-templates-variables.page:28
-msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr "Välj <guiseq><gui>Redigera</gui><gui>Insticksmoduler</gui></guiseq>."
-
-#. (itstool) path: item/p
 #: C/mail-attachments-sending.page:47
 msgid "Enable <gui>Attachment Reminder</gui>."
 msgstr "Aktivera <gui>Bilagepåminnelse</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:48
-#: C/mail-composer-custom-header-lines.page:33
-#: C/mail-composer-message-templates-variables.page:30
+#: C/mail-attachments-sending.page:50
+#: C/mail-composer-custom-header-lines.page:35
+#: C/mail-composer-external-editor.page:27
+#: C/mail-composer-message-templates-variables.page:32
 msgid "Click the <gui>Configuration</gui> tab."
 msgstr "Klicka på fliken <gui>Konfiguration</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-attachments-sending.page:49
+#: C/mail-attachments-sending.page:51
 msgid ""
 "Click <gui style=\"button\">Add</gui>, then enter keywords in your language "
 "such as \"Attach\" or \"enclosed\"."
@@ -6333,7 +6465,7 @@ msgstr ""
 "på ditt språk, så som ”bifogad” eller ”bifogade”."
 
 #. (itstool) path: section/p
-#: C/mail-attachments-sending.page:51
+#: C/mail-attachments-sending.page:53
 msgid ""
 "Based on the keywords you have added, <app>Evolution</app> searches the text "
 "of every mail you are going to send. If it finds any of the keywords in your "
@@ -6737,7 +6869,7 @@ msgid "Enable <gui>Custom Header</gui>."
 msgstr "Aktivera <gui>Anpassad rubrik</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:34
+#: C/mail-composer-custom-header-lines.page:36
 msgid ""
 "You can add, edit, or remove the header fields. For every header field you "
 "add, you can specify the keys and values. The key is used as the title of "
@@ -6750,12 +6882,12 @@ msgstr ""
 "Du måste använda semikolon för att separera varje värde du skriver in."
 
 #. (itstool) path: section/title
-#: C/mail-composer-custom-header-lines.page:39
+#: C/mail-composer-custom-header-lines.page:41
 msgid "Inserting custom headers in a message"
 msgstr "Infoga anpassade rubriker i ett meddelande"
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:41
+#: C/mail-composer-custom-header-lines.page:43
 msgid ""
 "Click <guiseq><gui>New</gui><gui>Mail Message</gui></guiseq> or press "
 "<keyseq><key>Shift</key><key>Ctrl</key><key>M</key></keyseq> to open the "
@@ -6766,12 +6898,12 @@ msgstr ""
 "att öppna fönstret med meddelanderedigeraren."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:42
+#: C/mail-composer-custom-header-lines.page:44
 msgid "Select <guiseq><gui>Insert</gui><gui>Custom Header</gui></guiseq>."
 msgstr "Välj <guiseq><gui>Infoga</gui><gui>Anpassad rubrik</gui></guiseq>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:43
+#: C/mail-composer-custom-header-lines.page:45
 msgid ""
 "In the <gui>Email Custom Header</gui> window, you can view all the defined "
 "header fields and values."
@@ -6780,7 +6912,7 @@ msgstr ""
 "rubrikfälten och värdena."
 
 #. (itstool) path: item/p
-#: C/mail-composer-custom-header-lines.page:44
+#: C/mail-composer-custom-header-lines.page:46
 msgid "Set the values for the header fields by using the dropdown list."
 msgstr "Ställ in värdena för rubrikfälten genom att använda rullgardinslistan."
 
@@ -6851,19 +6983,23 @@ msgstr "Användning av en extern redigerare"
 #: C/mail-composer-external-editor.page:22
 msgid ""
 "You can compose the body of your message externally in your favorite text "
-"editor application so you can use its specific functionality. Enable "
-"<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>External Editor</gui></guiseq> "
-"and set the corresponding <gui>Command</gui> to start the application under "
-"<gui>Configuration</gui>."
+"editor application so you can use its specific functionality."
 msgstr ""
-"Du kan redigera meddelandetexten extern i din favorittextredigerare så att "
-"du kan använda dess speciella funktionalitet. Aktivera "
-"<guiseq><gui>Redigera</gui><gui>Insticksmoduler</gui><gui>Extern redigerare</"
-"gui></guiseq> och ställ in motsvarande <gui>Kommando</gui> för att starta "
-"programmet under <gui>Konfiguration</gui>."
+"Du kan redigera meddelandetexten externt i din favorittextredigerare så att "
+"du kan använda dess speciella funktionalitet."
 
-#. (itstool) path: page/p
-#: C/mail-composer-external-editor.page:23
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:26
+msgid "Enable <gui>External Editor</gui>."
+msgstr "Aktivera <gui>Extern redigerare</gui>."
+
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:30
+msgid "Set the corresponding <gui>Command</gui> to start the application."
+msgstr "Ställ in motsvarande <gui>Kommando</gui> för att starta programmet."
+
+#. (itstool) path: item/p
+#: C/mail-composer-external-editor.page:31
 msgid ""
 "If <gui>Automatically launch when a new mail is edited</gui> is not set, you "
 "need to select <guiseq><gui>File</gui><gui>Compose in External Editor</gui></"
@@ -7590,7 +7726,7 @@ msgstr "Hantera mallar som kan återanvändas i redigeraren."
 #. (itstool) path: page/title
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates.page:23
-#: C/mail-composer-message-templates.page:28
+#: C/mail-composer-message-templates.page:35
 msgid "Message Templates"
 msgstr "Meddelandemallar"
 
@@ -7605,13 +7741,13 @@ msgstr ""
 
 #. (itstool) path: page/p
 #: C/mail-composer-message-templates.page:25
-msgid ""
-"To enable the Message Template Plugin, click <guiseq><gui>Edit</"
-"gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
-msgstr ""
-"För att aktivera insticksmodulen Meddelandemall, klicka på "
-"<guiseq><gui>Redigera</gui><gui>Insticksmoduler</gui></guiseq> och aktivera "
-"<gui>Mallar</gui>."
+msgid "To enable the Message Template Plugin:"
+msgstr "För att aktivera insticksmodulen Meddelandemall:"
+
+#. (itstool) path: item/p
+#: C/mail-composer-message-templates.page:28
+msgid "Enable <gui>Templates</gui>."
+msgstr "Aktivera <gui>Mallar</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-reply.page:5
@@ -7758,7 +7894,7 @@ msgid "Click <gui>Templates</gui>."
 msgstr "Klicka på <gui>Mallar</gui>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:31
+#: C/mail-composer-message-templates-variables.page:33
 msgid ""
 "You can add, edit or remove the key-value pairs. You can specify any number "
 "of key-value pairs."
@@ -7768,7 +7904,7 @@ msgstr ""
 
 # Ja, jag vet att jag ersatt Harry med Åsa. Och så ska det vara.
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:33
+#: C/mail-composer-message-templates-variables.page:35
 msgid ""
 "In any template, the occurrence of every $key is replaced by the value it "
 "has in the configuration. For example, if you set the key to Manager and the "
@@ -7781,7 +7917,7 @@ msgstr ""
 "Åsa i meddelandet."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:34
+#: C/mail-composer-message-templates-variables.page:36
 msgid ""
 "Assume that you have 1000 message templates with your current manager's name "
 "in them. When the current manager is replaced by a new one, it is not easy "
@@ -7796,7 +7932,7 @@ msgstr ""
 "insticksmodul."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:35
+#: C/mail-composer-message-templates-variables.page:37
 msgid ""
 "By default, the entire environment variables are used as a key-value pair. "
 "An occurrence of $env_variable is replaced by the value it carries. For "
@@ -7808,12 +7944,12 @@ msgstr ""
 "exempel $PATH i dina mallar ersätts av dess värde när mallen används."
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:36
+#: C/mail-composer-message-templates-variables.page:38
 msgid "The replacement process uses the following order of precedence:"
 msgstr "Ersättningsprocessen använder följande rangordning:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:39
+#: C/mail-composer-message-templates-variables.page:41
 msgid ""
 "$key is replaced by the value set for it in the Configuration tab of the "
 "Templates plugin."
@@ -7822,14 +7958,14 @@ msgstr ""
 "insticksmodulen Mallar."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:42
+#: C/mail-composer-message-templates-variables.page:44
 msgid ""
 "If the key is not found, it is then replaced with the value of its "
 "environment variable."
 msgstr "Om nyckeln inte hittas ersätts värdet för dess miljövariabel."
 
 #. (itstool) path: item/p
-#: C/mail-composer-message-templates-variables.page:45
+#: C/mail-composer-message-templates-variables.page:47
 msgid ""
 "If key is neither a configuration option nor an environment variable, no "
 "changes are made."
@@ -7838,12 +7974,12 @@ msgstr ""
 "görs inga ändringar."
 
 #. (itstool) path: section/title
-#: C/mail-composer-message-templates-variables.page:52
+#: C/mail-composer-message-templates-variables.page:54
 msgid "Using Elements From a Message in a Template When Replying"
 msgstr "Användning av delar av ett meddelande i en mall vid svar"
 
 #. (itstool) path: section/p
-#: C/mail-composer-message-templates-variables.page:53
+#: C/mail-composer-message-templates-variables.page:55
 msgid ""
 "Templates can contain more than just the predefined set of <link xref="
 "\"#configure\">key-value pairs</link>. You can also get any message header "
@@ -7858,7 +7994,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[subject] and $ORIG[body] in this
 #. sentence!
-#: C/mail-composer-message-templates-variables.page:55
+#: C/mail-composer-message-templates-variables.page:57
 msgid ""
 "In order to do this, use the format <code>$ORIG[header_name]</code> and "
 "replace the variable <code>header_name</code> by the actual header. For "
@@ -7875,7 +8011,7 @@ msgstr ""
 #. (itstool) path: section/p
 #. TO TRANSLATORS: Do NOT translate $ORIG[body] and $ORIG[reply-to] in
 #. this sentence!
-#: C/mail-composer-message-templates-variables.page:57
+#: C/mail-composer-message-templates-variables.page:59
 msgid ""
 "If no replacement for a variable is found, the variable is not removed "
 "(except for <code>$ORIG[body]</code>) but left in place so that you see that "
@@ -8212,12 +8348,12 @@ msgid "Assign your mail accounts to certain folders or recipients."
 msgstr "Tilldela dina e-postkonton till vissa mappar eller mottagare."
 
 #. (itstool) path: page/title
-#: C/mail-composer-send-account-overrides.page:21
+#: C/mail-composer-send-account-overrides.page:22
 msgid "Send Account Overrides"
 msgstr "Åsidosättning för avsändarkonto"
 
 #. (itstool) path: page/p
-#: C/mail-composer-send-account-overrides.page:23
+#: C/mail-composer-send-account-overrides.page:24
 msgid ""
 "If you use more than one email account, you can define which account should "
 "always be used as your sender address:"
@@ -8226,7 +8362,7 @@ msgstr ""
 "alltid ska användas som din avsändaradress:"
 
 #. (itstool) path: item/p
-#: C/mail-composer-send-account-overrides.page:25
+#: C/mail-composer-send-account-overrides.page:26
 msgid ""
 "When replying to mail in specific <link xref=\"mail-folders\">folders</link>."
 msgstr ""
@@ -8234,7 +8370,7 @@ msgstr ""
 "\">mappar</link>."
 
 #. (itstool) path: item/p
-#: C/mail-composer-send-account-overrides.page:26
+#: C/mail-composer-send-account-overrides.page:27
 msgid ""
 "When replying to certain email addresses, names, or parts of email addresses "
 "or names."
@@ -8243,7 +8379,19 @@ msgstr ""
 "eller namn."
 
 #. (itstool) path: page/p
-#: C/mail-composer-send-account-overrides.page:28
+#: C/mail-composer-send-account-overrides.page:30
+msgid ""
+"The checkbox <gui>Folder override has precedence over Recipient override</"
+"gui> defines how Evolution should behave when you reply to a message which "
+"matches both a folder and an email address or name which you have defined."
+msgstr ""
+"Kryssrutan <gui>Åsidosättning av mapp har företräde över åsidosättning av "
+"mottagare</gui> definierar hur Evolution bör bete sig när du svarar på ett "
+"meddelande som matchar både en mapp och en e-postadress eller ett namn som "
+"du har definierat."
+
+#. (itstool) path: page/p
+#: C/mail-composer-send-account-overrides.page:34
 msgid ""
 "These settings are available under <guiseq><gui>Edit</gui><gui>Preferences</"
 "gui><gui>Composer Preferences</gui><gui>Send Account</gui></guiseq>."
@@ -8650,13 +8798,26 @@ msgstr ""
 "<guiseq><gui>Mapp</gui><gui>Töm</gui></guiseq> eller tryck "
 "<keyseq><key>Ctrl</key><key>E</key></keyseq>."
 
+#. (itstool) path: note/p
+#: C/mail-delete-and-undelete.page:36
+msgid ""
+"When reading messages in a separate window, the next message will be "
+"displayed after you have deleted a message. If you want the window to close "
+"instead, run the command <cmd>gsettings set org.gnome.evolution.mail browser-"
+"close-on-delete-or-junk true</cmd>"
+msgstr ""
+"Då meddelanden läses i ett separat fönster kommer nästa meddelande att visas "
+"efter att du tagit bort ett meddelande. Om du vill att fönstret istället ska "
+"stängas, kör kommandot <cmd>gsettings set org.gnome.evolution.mail browser-"
+"close-on-delete-or-junk true</cmd>"
+
 #. (itstool) path: section/title
-#: C/mail-delete-and-undelete.page:38
+#: C/mail-delete-and-undelete.page:41
 msgid "Undeleting Messages"
 msgstr "Ångra borttagna meddelanden"
 
 #. (itstool) path: section/p
-#: C/mail-delete-and-undelete.page:40
+#: C/mail-delete-and-undelete.page:43
 msgid ""
 "You can undelete a message that has been deleted but not expunged yet. To "
 "undelete a message, select the message, click <guiseq><gui>Edit</"
@@ -8671,7 +8832,7 @@ msgstr ""
 "gui></guiseq> måste vara aktiverat för att detta ska fungera."
 
 #. (itstool) path: section/p
-#: C/mail-delete-and-undelete.page:42
+#: C/mail-delete-and-undelete.page:45
 msgid ""
 "If you have marked a message for deletion, undeleting it unmarks it, and the "
 "message is not shown anymore in the <gui>Trash</gui> folder."
@@ -10767,35 +10928,43 @@ msgstr "Växlarlayout när ett nytt meddelande har ankommit"
 #. (itstool) path: page/p
 #: C/mail-received-notification.page:28
 msgid ""
-"In order to also be notified of new messages in the GNOME Notification area "
-"at the bottom of the screen, make sure that <guiseq><gui>Edit</"
-"gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled and "
-"that you have set your preferred options in the <gui>Configuration</gui> tab."
+"In order to also be notified of new messages in GNOME desktop notifications:"
 msgstr ""
-"För att också bli aviserad om nya meddelanden i GNOME:s aviseringsfält "
-"längst ner på skärmen, se till att <guiseq><gui>Redigera</"
-"gui><gui>Insticksmoduler</gui><gui>E-postavisering</gui></guiseq> är "
-"aktiverat och att du har ställt in dina önskade alternativ i fliken "
-"<gui>Konfiguration</gui>."
+"För att även meddelas om nya meddelanden i GNOME-skrivbordsaviseringar:"
 
-#. (itstool) path: page/media
-#. This is a reference to an external file such as an image or video. When
-#. the file changes, the md5 hash will change to let you know you need to
-#. update your localized copy. The msgstr is not used at all. Set it to
-#. whatever you like once you have updated your copy of the file.
-#: C/mail-received-notification.page:30
-msgctxt "_"
-msgid ""
-"external ref='./figures/new-mail-notification.png' "
-"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
-msgstr ""
-"external ref='./figures/new-mail-notification.png' "
-"md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
-
-#. (itstool) path: media/p
+#. (itstool) path: item/p
 #: C/mail-received-notification.page:31
-msgid "GNOME notification area when a new message has arrived"
-msgstr "GNOME:s aviseringsyta när ett nytt meddelande har ankommit"
+msgid "Enable <gui>Mail Notification</gui>."
+msgstr "Aktivera <gui>E-postavisering</gui>."
+
+#. (itstool) path: item/p
+#: C/mail-received-notification.page:34
+msgid ""
+"Open the <gui style=\"tab\">Configuration</gui> tab and set your preferred "
+"options."
+msgstr ""
+"Öppna fliken <gui style=\"tab\">Konfiguration</gui> och ställ in dina "
+"föredragna alternativ."
+
+#. (itstool) path: item/p
+#: C/mail-received-notification.page:35
+msgid ""
+"Open the <gui style=\"tab\">Accounts</gui> tab to select the mail accounts "
+"for which you would like to see notifications."
+msgstr ""
+"Öppna fliken <gui style=\"tab\">Konton</gui> för att välja e-postkontona för "
+"vilka du vill se aviseringar."
+
+#. (itstool) path: page/p
+#: C/mail-received-notification.page:38
+msgid ""
+"See <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help."
+"gnome.org/users/gnome-help/stable/shell-notifications\">the GNOME Desktop "
+"Help</link> for more information."
+msgstr ""
+"Se <link xref=\"help:gnome-help/shell-notifications\" href=\"https://help."
+"gnome.org/users/gnome-help/stable/shell-notifications\">GNOME:s "
+"skrivbordshjälp</link> för mer information."
 
 #. (itstool) path: info/desc
 #: C/mail-receiving-options-exchange-ews.page:5
@@ -13232,8 +13401,9 @@ msgid ""
 "if you want to request a feature, you can file a report in the <link href="
 "\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME bug tracking "
 "system</link>. Note that this requires registration first. Please try to "
-"avoid filing duplicates and check the <link href=\"https://bugzilla.gnome."
-"org/page.cgi?id=bug-writing.html\">bug writing guidelines</link> first."
+"avoid filing duplicates and check the <link href=\"https://wiki.gnome.org/"
+"Community/GettingInTouch/BugReportingGuidelines\">bug writing guidelines</"
+"link> first."
 msgstr ""
 "Om du inte behöver hjälp med konfiguration men du är säker på att du hittat "
 "ett misstag eller felaktigt beteende i <app>Evolution</app>-programmet, "
@@ -13241,8 +13411,8 @@ msgstr ""
 "href=\"https://gitlab.gnome.org/GNOME/evolution/issues/\">GNOME:s "
 "felhanteringssystem</link>. Notera att detta först kräver registrering. "
 "Försök att undvika att rapportera duplikat och titta genom <link href="
-"\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">riktlinjerna för "
-"att skriva felrapporter</link> först."
+"\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines"
+"\">riktlinjerna för felrapporter</link> först."
 
 #. (itstool) path: page/p
 #: C/problems-reporting-bugs.page:23
@@ -13269,16 +13439,16 @@ msgid ""
 "information such as the <app>Evolution</app> version (under "
 "<guiseq><gui>Help</gui><gui>About</gui></guiseq>), your distribution, and "
 "exact steps to reproduce the problem, click by click. See the <link href="
-"\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Bug Writing "
-"Guidelines</link> for more information."
+"\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines"
+"\">Bug Writing Guidelines</link> for more information."
 msgstr ""
 "När du rapporterar fel är exakt information mycket välkommen då den gör det "
 "enklare för andra att återskapa och åtgärda felet. Om möjligt inkludera "
 "information så som versionen av <app>Evolution</app> (under "
 "<guiseq><gui>Hjälp</gui><gui>Om</gui></guiseq>), din distribution samt "
-"exakta steg för att återskapa problemet, klick för klick. Se vidare i <link "
-"href=\"https://bugzilla.gnome.org/page.cgi?id=bug-writing.html\">Riktlinjer "
-"för felrapporter</link>."
+"exakta steg för att återskapa problemet, klick för klick. Se <link href="
+"\"https://wiki.gnome.org/Community/GettingInTouch/BugReportingGuidelines"
+"\">riktlinjerna för felrapporter</link> för mer information."
 
 #. (itstool) path: info/desc
 #: C/searching-items.page:5
@@ -14363,6 +14533,71 @@ msgstr "Redigera titeln eller sökvillkoren från dialogrutan."
 #: C/xinclude-searching.xml:30
 msgid "Click <_:gui-1/>."
 msgstr "Klicka på <_:gui-1/>."
+
+#~ msgid ""
+#~ "You can add people automatically to your contacts when you reply to "
+#~ "received email. Enable the plugin <gui>Automatic Contacts</gui> by going "
+#~ "to <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>; click on "
+#~ "<gui>Automatic Contacts</gui> so that it shows a check mark. Then go to "
+#~ "<guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
+#~ "<gui>Automatic Contacts</gui></guiseq> and enable the <gui>Create address "
+#~ "book entries when sending emails</gui> option and select an address book "
+#~ "in the drop-down field below that will receive the new contacts."
+#~ msgstr ""
+#~ "Du kan automatisk lägga till människor till dina kontakter när du svarar "
+#~ "på mottagen e-post. Aktivera insticksmodulen <gui>Automatiska kontakter</"
+#~ "gui> genom att gå till <guiseq><gui>Redigera</gui><gui>Insticksmoduler</"
+#~ "gui></guiseq>; klicka på <gui>Automatiska kontakter</gui> så att en bock "
+#~ "visas. Gå sedan till <guiseq><gui>Redigera</gui><gui>Inställningar</"
+#~ "gui><gui>Kontakter</gui> <gui>Automatiska kontakter</gui></guiseq> och "
+#~ "aktivera alternativet <gui>Skapa poster i adressboken när meddelanden "
+#~ "skickas</gui> och välj en adressbok som får de nya kontakterna i "
+#~ "rullgardinsfältet undertill."
+
+#~ msgid ""
+#~ "You can compose the body of your message externally in your favorite text "
+#~ "editor application so you can use its specific functionality. Enable "
+#~ "<guiseq><gui>Edit</gui><gui>Plugins</gui><gui>External Editor</gui></"
+#~ "guiseq> and set the corresponding <gui>Command</gui> to start the "
+#~ "application under <gui>Configuration</gui>."
+#~ msgstr ""
+#~ "Du kan redigera meddelandetexten extern i din favorittextredigerare så "
+#~ "att du kan använda dess speciella funktionalitet. Aktivera "
+#~ "<guiseq><gui>Redigera</gui><gui>Insticksmoduler</gui><gui>Extern "
+#~ "redigerare</gui></guiseq> och ställ in motsvarande <gui>Kommando</gui> "
+#~ "för att starta programmet under <gui>Konfiguration</gui>."
+
+#~ msgid ""
+#~ "To enable the Message Template Plugin, click <guiseq><gui>Edit</"
+#~ "gui><gui>Plugins</gui></guiseq> and enable <gui>Templates</gui>."
+#~ msgstr ""
+#~ "För att aktivera insticksmodulen Meddelandemall, klicka på "
+#~ "<guiseq><gui>Redigera</gui><gui>Insticksmoduler</gui></guiseq> och "
+#~ "aktivera <gui>Mallar</gui>."
+
+#~ msgid ""
+#~ "In order to also be notified of new messages in the GNOME Notification "
+#~ "area at the bottom of the screen, make sure that <guiseq><gui>Edit</"
+#~ "gui><gui>Plugins</gui><gui>Mail Notification</gui></guiseq> is enabled "
+#~ "and that you have set your preferred options in the <gui>Configuration</"
+#~ "gui> tab."
+#~ msgstr ""
+#~ "För att också bli aviserad om nya meddelanden i GNOME:s aviseringsfält "
+#~ "längst ner på skärmen, se till att <guiseq><gui>Redigera</"
+#~ "gui><gui>Insticksmoduler</gui><gui>E-postavisering</gui></guiseq> är "
+#~ "aktiverat och att du har ställt in dina önskade alternativ i fliken "
+#~ "<gui>Konfiguration</gui>."
+
+#~ msgctxt "_"
+#~ msgid ""
+#~ "external ref='./figures/new-mail-notification.png' "
+#~ "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
+#~ msgstr ""
+#~ "external ref='./figures/new-mail-notification.png' "
+#~ "md5='0cffd6d89388aefb8c8bca904bcc1c9e'"
+
+#~ msgid "GNOME notification area when a new message has arrived"
+#~ msgstr "GNOME:s aviseringsyta när ett nytt meddelande har ankommit"
 
 #~ msgid "signature"
 #~ msgstr "signatur"
