@@ -4,11 +4,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-11 09:40+0000\n"
-"PO-Revision-Date: 2020-03-27 21:39+0100\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
+"POT-Creation-Date: 2020-03-27 20:50+0000\n"
+"PO-Revision-Date: 2020-03-28 00:00+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,7 +17,6 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2020-03-23 23:52+0000\n"
 "X-Generator: Poedit 2.3\n"
-"Language: hr\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -1533,7 +1533,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr ""
-"Treba li se pridržavati savjet zaglavlja poruke Raspored-Sadržaja:u redku"
+"Treba li se pridržavati savjet zaglavlja poruke Raspored-Sadržaja:unutar "
+"poruke"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid ""
@@ -1541,7 +1542,7 @@ msgid ""
 "Disposition: inline."
 msgstr ""
 "Postavi na “false” za blokiranje automatskog prikaza privitka s Raspored-"
-"Sadržaja:u retku."
+"Sadržaja:unutar poruke."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Save file format for drag-and-drop operation"
@@ -2689,7 +2690,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "Whether display delivery notification parts inline."
-msgstr "Treba li prikazati dijelove obavijesti dostave u retku."
+msgstr "Treba li prikazati dijelove obavijesti dostave unutar poruke."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 msgid ""
@@ -2697,7 +2698,7 @@ msgid ""
 "parts are shown automatically inline."
 msgstr ""
 "Ako je omogućeno, poruka/stanje dostave i poruka/obavijest rasporeda su "
-"automatski prikazani u retku."
+"automatski prikazani unutar poruke."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "Whether unset colors provided in HTML mails."
@@ -3315,7 +3316,7 @@ msgstr ""
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1291
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
-#: ../src/shell/e-shell-window-private.c:240
+#: ../src/shell/e-shell-window-private.c:241
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -3372,7 +3373,7 @@ msgstr "Sastavi poruku"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:8
 #: ../src/e-util/e-name-selector-dialog.c:448
 #: ../src/modules/addressbook/e-book-shell-backend.c:314
-#: ../src/modules/addressbook/e-book-shell-view.c:416
+#: ../src/modules/addressbook/e-book-shell-view.c:421
 msgid "Contacts"
 msgstr "Kontakti"
 
@@ -3565,7 +3566,7 @@ msgstr "Odgovori pošiljatelju"
 #: ../data/ui/evolution-shortcuts.ui.h:30
 msgctxt "shortcut window"
 msgid "Reply to list"
-msgstr "Odgovori na _listu"
+msgstr "Odgovori na mailing listu"
 
 #: ../data/ui/evolution-shortcuts.ui.h:31
 msgctxt "shortcut window"
@@ -4619,7 +4620,7 @@ msgstr "_Ime"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:516
 msgid "E_mail"
-msgstr "E_pošta"
+msgstr "E-_pošta"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-quick-add.c:529
 msgid "_Select Address Book"
@@ -7008,13 +7009,13 @@ msgstr "Ovaj i budući primjerci"
 msgid "All Instances"
 msgstr "Svi primjerci"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1173
-#: ../src/calendar/gui/e-cal-dialogs.c:1255
+#: ../src/calendar/gui/e-cal-dialogs.c:1171
+#: ../src/calendar/gui/e-cal-dialogs.c:1253
 msgid "Send my reminders with this event"
 msgstr "Pošalji moje podsjetnike sa ovim događajem"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1175
-#: ../src/calendar/gui/e-cal-dialogs.c:1257
+#: ../src/calendar/gui/e-cal-dialogs.c:1173
+#: ../src/calendar/gui/e-cal-dialogs.c:1255
 msgid "Notify new attendees _only"
 msgstr "Obavijesti samo nove _sudionike"
 
@@ -8382,7 +8383,7 @@ msgstr "_Sažetak:"
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:340
 msgctxt "ECompEditor"
 msgid "_Location:"
-msgstr "_Lokacija:"
+msgstr "_Mjesto:"
 
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:473
 msgctxt "ECompEditor"
@@ -15058,7 +15059,7 @@ msgstr "Odaberi kontakte iz adresara"
 #: ../src/e-util/e-name-selector-entry.c:3234
 #, c-format
 msgid "E_xpand %s Inline"
-msgstr "P_roširi %s u retku"
+msgstr "P_roširi %s unutar poruke"
 
 #. Copy Contact Item
 #: ../src/e-util/e-name-selector-entry.c:3250
@@ -16865,7 +16866,7 @@ msgstr "Privitak"
 #: ../src/mail/mail-config.ui.h:30
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
-msgstr "U redku (Outlook stil)"
+msgstr "Unutar poruke (Outlook stil)"
 
 #: ../src/mail/e-mail-config-composing-page.c:123
 #: ../src/mail/mail-config.ui.h:31
@@ -17212,7 +17213,8 @@ msgstr "Uvijek _vjeruj ključevima u mojem skupu ključeva pri šifriranju"
 #: ../src/mail/e-mail-config-security-page.c:620
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
-"Preferiraj _unutrašnje potpisivanje/šifriranje za obične tekstne poruke"
+"Preferiraj _unutrašnje potpisivanje/šifriranje unutar poruke za obične "
+"tekstne poruke"
 
 #: ../src/mail/e-mail-config-security-page.c:644
 msgid "Secure MIME (S/MIME)"
@@ -17781,7 +17783,7 @@ msgstr "Proslijedi kao _privitak"
 #: ../src/mail/e-mail-reader.c:2544
 #: ../src/modules/mail/e-mail-attachment-handler.c:438
 msgid "_Inline"
-msgstr "_U poruci"
+msgstr "_Unutar poruke"
 
 #: ../src/mail/e-mail-reader.c:2546 ../src/mail/e-mail-reader.c:2553
 #: ../src/modules/mail/e-mail-attachment-handler.c:440
@@ -17858,7 +17860,7 @@ msgstr "Označi odabrane poruke kao neželjenu poštu"
 
 #: ../src/mail/e-mail-reader.c:2623
 msgid "_Not Junk"
-msgstr "_Nije neželjena pošta"
+msgstr "_Željena pošta"
 
 #: ../src/mail/e-mail-reader.c:2625
 msgid "Mark the selected messages as not being junk"
@@ -18526,7 +18528,7 @@ msgstr "Privi_tak"
 
 #: ../src/mail/em-composer-utils.c:4124
 msgid "Inline (_Outlook style)"
-msgstr "U redku (_Outlook stil)"
+msgstr "Unutar poruke (_Outlook stil)"
 
 #: ../src/mail/em-composer-utils.c:4128
 msgid "_Quote"
@@ -19506,7 +19508,7 @@ msgstr "Sadržaj zaglavlja"
 
 #: ../src/mail/mail-config.ui.h:7
 msgid "Default Behavior"
-msgstr "Uobičajeno ponašanje"
+msgstr "Zadano ponašanje"
 
 #: ../src/mail/mail-config.ui.h:8
 msgid "For_mat messages in HTML"
@@ -19580,7 +19582,7 @@ msgstr "_Prelomi citirani tekst u odgovorima"
 #: ../src/mail/mail-config.ui.h:33
 msgctxt "ReplyForward"
 msgid "Inline"
-msgstr "U redku"
+msgstr "Unutar poruke"
 
 #: ../src/mail/mail-config.ui.h:35
 msgid "Sig_natures"
@@ -25600,7 +25602,7 @@ msgstr "Podsjetnik privitka"
 
 #: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
 msgid "Reminds you when you forgot to add an attachment to a mail message."
-msgstr "Podsjeća vas kad zaboravite dodati privitak u poruku e-pošte."
+msgstr "Podsjeća vas kada zaboravite dodati privitak u poruku e-pošte."
 
 #: ../src/plugins/bbdb/bbdb.c:715 ../src/plugins/bbdb/bbdb.c:838
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -27057,7 +27059,7 @@ msgid "New"
 msgstr "Novo"
 
 #. Translators: This is used for the main window title.
-#: ../src/shell/e-shell-window-private.c:786
+#: ../src/shell/e-shell-window-private.c:826
 #, c-format
 msgid "%s — Evolution"
 msgstr "%s — Evolution"
