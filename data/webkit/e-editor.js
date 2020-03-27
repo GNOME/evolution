@@ -989,6 +989,23 @@ EvoEditor.renameElement = function(element, tagName, attributes, targetElement, 
 	return newElement;
 }
 
+EvoEditor.getBlockquoteLevel = function(node)
+{
+	if (!node || node.tagName == "BODY")
+		return 0;
+
+	var blockquoteLevel = 0, parent = node;
+
+	while (parent && parent.tagName != "BODY") {
+		if (parent.tagName == "BLOCKQUOTE")
+			blockquoteLevel++;
+
+		parent = parent.parentElement;
+	}
+
+	return blockquoteLevel;
+}
+
 EvoEditor.SetBlockFormat = function(format)
 {
 	var traversar = {
@@ -1043,14 +1060,7 @@ EvoEditor.SetBlockFormat = function(format)
 			newElement = EvoEditor.renameElement(element, this.toSet.tagName, this.toSet.attributes, this.targetElement, this.selectionUpdater);
 
 			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && (this.toSet.tagName == "DIV" || this.toSet.tagName == "PRE")) {
-				var node = newElement, blockquoteLevel = 0;
-
-				while (node && node.tagName != "BODY") {
-					if (node.tagName == "BLOCKQUOTE")
-						blockquoteLevel++;
-
-					node = node.parentElement;
-				}
+				var blockquoteLevel = EvoEditor.getBlockquoteLevel(newElement);
 
 				if (blockquoteLevel > 0) {
 					var width = -1;
@@ -2901,14 +2911,7 @@ EvoEditor.requoteNodeParagraph = function(node)
 		EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 
 	try {
-		var blockquoteLevel = 0, parent = node;
-
-		while (parent && parent.tagName != "BODY") {
-			if (parent.tagName == "BLOCKQUOTE")
-				blockquoteLevel++;
-
-			parent = parent.parentElement;
-		}
+		var blockquoteLevel = EvoEditor.getBlockquoteLevel(node);
 
 		EvoEditor.quoteParagraph(node, blockquoteLevel, EvoEditor.NORMAL_PARAGRAPH_WIDTH - (2 * blockquoteLevel));
 	} finally {
@@ -3380,14 +3383,7 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 							parent = childNode.parentElement;
 						}
 
-						blockquoteLevel = 0;
-
-						while (parent && parent.tagName != "BODY") {
-							if (parent.tagName == "BLOCKQUOTE")
-								blockquoteLevel++;
-
-							parent = parent.parentElement;
-						}
+						blockquoteLevel = EvoEditor.getBlockquoteLevel(parent);
 
 						EvoEditor.quoteParagraph(childNode, blockquoteLevel, EvoEditor.NORMAL_PARAGRAPH_WIDTH - (2 * blockquoteLevel));
 
@@ -5495,6 +5491,8 @@ EvoEditor.WrapSelection = function()
 		currentPar = null;
 
 		while (nodeFrom) {
+			EvoEditor.removeQuoteMarks(nodeFrom);
+
 			if (lastParTagName != nodeFrom.tagName) {
 				lastParTagName = nodeFrom.tagName;
 				currentPar = null;
@@ -5506,7 +5504,15 @@ EvoEditor.WrapSelection = function()
 					currentPar = null;
 					usedLetters = 0;
 				} else {
-					usedLetters = EvoEditor.wrapParagraph(nodeFrom, maxLetters, currentPar, usedLetters, false);
+					var blockquoteLevel = 0;
+
+					if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
+						blockquoteLevel = EvoEditor.getBlockquoteLevel(nodeFrom);
+
+					usedLetters = EvoEditor.wrapParagraph(nodeFrom, maxLetters - (2 * blockquoteLevel), currentPar, usedLetters, false);
+
+					if (blockquoteLevel)
+						EvoEditor.requoteNodeParagraph(nodeFrom);
 
 					if (usedLetters == -1) {
 						currentPar = null;

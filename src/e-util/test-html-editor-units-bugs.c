@@ -1070,7 +1070,7 @@ test_bug_781116 (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<pre>a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be</pre>\n"
-		"</pre><span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>"
 		"<span class=\"-x-evo-cite-body\"></span>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
@@ -1087,7 +1087,57 @@ test_bug_781116 (TestFixture *fixture)
 		"Credits:\n"
 		"> a very long text, which splits into multiple lines when this\n"
 		"> paragraph is not marked as preformatted, but as normal, as it should\n"
-		"> be</pre>\n"))
+		"> be\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<blockquote type=\"cite\"><div>a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be</div></blockquote>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dd\n"
+		"action:wrap-lines\n",
+		HTML_PREFIX "<div style=\"width: 71ch;\">Credits:</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "a very long text, which splits into multiple lines when this<br>"
+		QUOTE_SPAN (QUOTE_CHR) "paragraph is not marked as preformatted, but as normal, as it should<br>"
+		QUOTE_SPAN (QUOTE_CHR) "be</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> a very long text, which splits into multiple lines when this\n"
+		"> paragraph is not marked as preformatted, but as normal, as it should\n"
+		"> be\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<blockquote type=\"cite\"><div>a very long text, which splits into multiple lines when this paragraph is not marked as preformatted, but as normal, as it should be</div></blockquote>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"Credits:\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dd\n"
+		"action:wrap-lines\n",
+		HTML_PREFIX "<div>Credits:</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+		"<div>a very long text, which splits into multiple lines when this paragraph<br>"
+		"is not marked as preformatted, but as normal, as it should be</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"Credits:\n"
+		"> a very long text, which splits into multiple lines when this paragraph\n"
+		"> is not marked as preformatted, but as normal, as it should be\n"))
 		g_test_fail ();
 }
 
