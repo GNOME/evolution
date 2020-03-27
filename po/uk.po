@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-03-14 18:40+0000\n"
-"PO-Revision-Date: 2020-03-15 15:18+0200\n"
+"POT-Creation-Date: 2020-03-22 09:10+0000\n"
+"PO-Revision-Date: 2020-03-27 18:14+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1699,7 +1699,7 @@ msgstr "Шукати на gravatar.com за фотографією для від
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:116
 #| msgid "Allow searching also at libravatar.org for photo of the sender."
 msgid "Allow searching also at gravatar.com for photo of the sender."
-msgstr "Дозволяє шукати світлину для відправника на lgravatar.com."
+msgstr "Дозволяє шукати світлину для відправника на gravatar.com."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:117
 msgid "Mark as Seen after specified timeout"
@@ -3361,7 +3361,7 @@ msgstr ""
 #: ../data/org.gnome.Evolution.desktop.in.in.h:1
 #: ../src/mail/e-mail-browser.c:1291
 #: ../src/modules/mailto-handler/evolution-mailto-handler.c:208
-#: ../src/shell/e-shell-window-private.c:240
+#: ../src/shell/e-shell-window-private.c:241
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -7066,13 +7066,13 @@ msgstr "Цей та наступні екземпляри"
 msgid "All Instances"
 msgstr "Усі екземпляри"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1173
-#: ../src/calendar/gui/e-cal-dialogs.c:1255
+#: ../src/calendar/gui/e-cal-dialogs.c:1171
+#: ../src/calendar/gui/e-cal-dialogs.c:1253
 msgid "Send my reminders with this event"
 msgstr "Надіслати мої нагадування з цією подією"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1175
-#: ../src/calendar/gui/e-cal-dialogs.c:1257
+#: ../src/calendar/gui/e-cal-dialogs.c:1173
+#: ../src/calendar/gui/e-cal-dialogs.c:1255
 msgid "Notify new attendees _only"
 msgstr "Сповідати _лише нових учасників"
 
@@ -8915,7 +8915,7 @@ msgstr "Додатковий учасник"
 #: ../src/calendar/gui/e-meeting-store.c:151
 #: ../src/calendar/gui/e-meeting-store.c:168 ../src/calendar/gui/print.c:1281
 msgid "Non-Participant"
-msgstr "Не приймає участь"
+msgstr "Не бере участі"
 
 #: ../src/calendar/gui/e-meeting-list-view.c:207
 #: ../src/calendar/gui/e-meeting-store.c:177
@@ -12720,7 +12720,7 @@ msgstr "Скопіювати книгу локально для автономн
 #: ../src/e-util/e-buffer-tagger.c:410
 #| msgid "Click to open %s"
 msgid "Ctrl-click to open a link"
-msgstr "Натисніть Ctrl і клацніть, щоб відкрити %s"
+msgstr "Клацніть з одночасним натисканням Ctrl, щоб відкрити посилання"
 
 #: ../src/e-util/e-calendar.c:310
 msgid "Previous month"
@@ -20178,7 +20178,7 @@ msgid ""
 "HTML email:\n"
 "{0}"
 msgstr ""
-"Перевірте, що наступні адресати бажають приймати пошту у форматі HTML:\n"
+"Перевірте, чи наступні адресати бажають приймати пошту у форматі HTML:\n"
 "{0}"
 
 #: ../src/mail/mail.error.xml.h:9
@@ -27186,7 +27186,7 @@ msgid "New"
 msgstr "Створити"
 
 #. Translators: This is used for the main window title.
-#: ../src/shell/e-shell-window-private.c:786
+#: ../src/shell/e-shell-window-private.c:826
 #, c-format
 msgid "%s — Evolution"
 msgstr "%s — Evolution"
@@ -27921,33 +27921,3 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
-
-#~| msgid "Put personalized signatures at the top of replies"
-#~ msgid "Put the signature at the top of the message"
-#~ msgstr "Розташовувати підпис у верхній частині повідомлення"
-
-#~ msgid ""
-#~ "This determines whether the signature is placed at the top of the message "
-#~ "or the bottom when using Alternative Reply."
-#~ msgstr ""
-#~ "Це визначає, слід розташовувати підпис у верхній частині повідомлення чи "
-#~ "у його нижній частині при використанні можливості «Альтернативна "
-#~ "відповідь»."
-
-#~| msgid "New Window"
-#~ msgid "New note"
-#~ msgstr "Створити нотатку"
-
-#~| msgid "Show Notes"
-#~ msgid "Choose Notes"
-#~ msgstr "Вибір нотаток"
-
-#~| msgid "_Find Now"
-#~ msgid "Find Notes"
-#~ msgstr "Пошук нотаток"
-
-#~| msgctxt "language"
-#~| msgid "%s (%s)"
-#~ msgctxt "cal-itip"
-#~ msgid "%s (%s)"
-#~ msgstr "%s (%s)"
