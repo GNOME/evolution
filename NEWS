@@ -1,3 +1,35 @@
+Evolution 3.36.1 2020-03-27
+---------------------------
+
+Bug Fixes:
+	I#792 - Composer: Some shortcuts depend on the current keyboard layout ][ (Milan Crha)
+	I#799 - EAlertBar: Text part doesn't work well for long text (Milan Crha)
+	I#824 - EWebView: Should not force EWebView colors on IFrame body (Milan Crha)
+	I#830 - Change default for composer-mailto-body-in-pre to false (Milan Crha)
+	I#835 - CompEditor: Default weekly recurrence to event's week day (Milan Crha)
+	I#836 - Shell: Executes shortcuts from inactive view (Milan Crha)
+	I#837 - Calendar List View: Cancel of changes not reverted in GUI (Milan Crha)
+
+Miscellaneous:
+	contact-editor: Cannot set custom full name Title/Suffix (Milan Crha)
+	EMailBrowser: Cannot type some letters in the search entry (Milan Crha)
+	EMailBrowser: Escape key press closes window, instead of the search bar (Milan Crha)
+	ECompEditorPageReminders: Do not force custom description (Milan Crha)
+	EWebKitEditor: Prevent Replace-all to cycle indefinitely in some cases (Milan Crha)
+	EMailBrowser: Cannot be closed with Escape key press (Milan Crha)
+	The "Address Book Map" menu item shown even when not compiled with it (Milan Crha)
+
+Translations:
+	Nathan Follens (nl)
+	Goran Vidović (hr)
+	Daniel Șerbănescu (ro)
+	Jiri Eischmann (cs)
+	Daniel Korostil (uk)
+	Jordi Mas (ca)
+	Марко Костић (sr)
+	muzena (hr)
+	Charles Monzat (fr)
+
 Evolution 3.36.0 2020-03-06
 ---------------------------
 
