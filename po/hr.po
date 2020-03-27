@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2020-03-27 23:03+0000\n"
-"PO-Revision-Date: 2020-03-28 00:13+0100\n"
+"PO-Revision-Date: 2020-03-28 00:16+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -23606,9 +23606,7 @@ msgstr "%A, %B %e, %Y %l:%M:%S %p"
 #. the second '%s' is replaced with the actual date, to know what the 'Tomorrow' means. What the date looks like depends on the user settings.
 #. Example: 'Tomorrow 10:30 (20.2.2020)'
 #: ../src/modules/itip-formatter/itip-view.c:425
-#, fuzzy, c-format
-#| msgctxt "SummaryWithLocation"
-#| msgid "%s (%s)"
+#, c-format
 msgctxt "cal-itip"
 msgid "%s (%s)"
 msgstr "%s (%s)"
