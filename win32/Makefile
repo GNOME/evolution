@@ -49,7 +49,7 @@ evolution-data-server-master: env dependencies $(BUILD_ROOT_EVO)/lib/pkgconfig/l
 $(BUILD_ROOT_EVO)/lib/pkgconfig/libedataserver-1.2.pc:
 	@if test ! -d "../../evolution-data-server" ; then \
 		cd ../.. && \
-		git clone git://git.gnome.org/evolution-data-server; \
+		git clone https://gitlab.gnome.org/GNOME/evolution-data-server.git; \
 	fi
 	@if test ! -f "../../evolution-data-server/gtk-doc.make" ; then \
 		cp "patches/gtk-doc.make" "../../evolution-data-server/"; \
@@ -62,7 +62,7 @@ evolution-master: env evolution-data-server-master $(BUILD_ROOT_EVO)/lib/pkgconf
 $(BUILD_ROOT_EVO)/lib/pkgconfig/evolution-shell-3.0.pc:
 	@if test ! -d "../../evolution" ; then \
 		cd ../.. && \
-		git clone git://git.gnome.org/evolution; \
+		git clone https://gitlab.gnome.org/GNOME/evolution.git; \
 	fi
 	@if test ! -f "../../evolution/gtk-doc.make" ; then \
 		cp "patches/gtk-doc.make" "../../evolution/"; \
@@ -74,7 +74,7 @@ evolution-ews-master: env evolution-master $(BUILD_ROOT_EVO)/lib/libeews-1.2.dll
 $(BUILD_ROOT_EVO)/lib/libeews-1.2.dll.a:
 	@if test ! -d "../../evolution-ews" ; then \
 		cd ../.. && \
-		git clone git://git.gnome.org/evolution-ews; \
+		git clone https://gitlab.gnome.org/GNOME/evolution-ews.git; \
 	fi
 	@if test ! -f "../../evolution-ews/gtk-doc.make" ; then \
 		cp "patches/gtk-doc.make" "../../evolution-ews/"; \
@@ -86,7 +86,7 @@ evolution-rss-master: env evolution-master $(BUILD_ROOT_EVO)/share/glib-2.0/sche
 $(BUILD_ROOT_EVO)/share/glib-2.0/schemas/org.gnome.evolution.plugin.evolution-rss.gschema.xml:
 	@if test ! -d "../../evolution-rss" ; then \
 		cd ../.. && \
-		git clone git://git.gnome.org/evolution-rss; \
+		git clone https://gitlab.gnome.org/GNOME/evolution-rss.git; \
 	fi
 	@if test ! -f "../../evolution-rss/gtk-doc.make" ; then \
 		cp "patches/gtk-doc.make" "../../evolution-rss/"; \
