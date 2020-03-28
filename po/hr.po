@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-03-27 20:50+0000\n"
-"PO-Revision-Date: 2020-03-28 00:00+0100\n"
+"POT-Creation-Date: 2020-03-27 23:04+0000\n"
+"PO-Revision-Date: 2020-03-28 17:00+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2020-03-23 23:52+0000\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -1085,11 +1085,11 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:9
 msgid "Spell check inline"
-msgstr "Provjera pravopisa unutar poruke"
+msgstr "Trenutna provjera pravopisa"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:10
 msgid "Draw spelling error indicators on words as you type."
-msgstr "Iscrtavanje grešaka u pravopisu prilikom utipkavanja."
+msgstr "Naglašava pravopisne greške označavanjem riječi prilikom tipkanja."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:11
 msgid "Automatic link recognition"
@@ -1533,16 +1533,16 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:84
 msgid "Whether to obey Content-Disposition:inline message header hint"
 msgstr ""
-"Treba li se pridržavati savjet zaglavlja poruke Raspored-Sadržaja:unutar "
-"poruke"
+"Treba li se pridržavati savjet zaglavlja poruke Raspored-Sadržaja:skupljenih "
+"redaka poruke"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:85
 msgid ""
 "Set to “false” to block automatic display of attachments with Content-"
 "Disposition: inline."
 msgstr ""
-"Postavi na “false” za blokiranje automatskog prikaza privitka s Raspored-"
-"Sadržaja:unutar poruke."
+"Postavi na “Laž” za blokiranje automatskog prikaza privitka s Raspored-"
+"Sadržaja: skupljenih redaka poruke."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:86
 msgid "Save file format for drag-and-drop operation"
@@ -1894,8 +1894,8 @@ msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Treba li se vratiti na raspravu po predmetu kada poruke ne sadrže \"U "
-"odgovoru na\" i \"Reference\" zaglavlja."
+"Treba li se vratiti na raspravu po predmetu kada poruke ne sadrže Odgovor na "
+"i zaglavlja reference."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:156
 msgid "Default value for thread expand state"
@@ -2059,13 +2059,12 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:185
 msgid "Prompt when user only fills Bcc"
-msgstr "Upitaj kada korisnik ispuni samo polje Tajne kopije"
+msgstr "Upitaj kada korisnik ispuni samo polje Prima tajnu kopiju"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:186
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
-"Upitaj korisnika kada pokuša poslati poruku bez \"Prima\" ili \"Kopija\" "
-"primatelja."
+"Upitaj korisnika kada pokuša poslati poruku bez polja Prima ili Prima kopiju."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:187
 msgid "Prompt when user tries to send unwanted HTML"
@@ -2690,15 +2689,15 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:293
 msgid "Whether display delivery notification parts inline."
-msgstr "Treba li prikazati dijelove obavijesti dostave unutar poruke."
+msgstr "Treba li prikazati dijelove obavijesti dostave u retku."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:294
 msgid ""
 "If enabled, the message/delivery-status and message/disposition-notification "
 "parts are shown automatically inline."
 msgstr ""
-"Ako je omogućeno, poruka/stanje dostave i poruka/obavijest rasporeda su "
-"automatski prikazani unutar poruke."
+"Ako je omogućeno, dijelovi poruka/stanje dostave i poruka/obavijest "
+"rasporeda su automatski prikazani u retku."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:295
 msgid "Whether unset colors provided in HTML mails."
@@ -3212,7 +3211,8 @@ msgstr "Treba li traka stanja biti vidljiva."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:31
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr "ID ili alias komponente koji se po zadanome prikazuje pri pokretanju."
+msgstr ""
+"ID ili pseudonim komponente koji se po zadanome prikazuje pri pokretanju."
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:32
 msgid "Default sidebar width"
@@ -4219,7 +4219,7 @@ msgstr "_Kalendar:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:31
 msgid "_Free/Busy:"
-msgstr "_Slobodan/zauzet:"
+msgstr "_Slobodan/Zauzet:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:32
 msgid "_Video Chat:"
@@ -4236,7 +4236,7 @@ msgstr "Kalendar:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:35
 msgid "Free/Busy:"
-msgstr "Slobodan/zauzet:"
+msgstr "Slobodan/Zauzet:"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:36
 msgid "Video Chat:"
@@ -4930,7 +4930,7 @@ msgstr "Video razgovor"
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1010
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:2
 msgid "Free/Busy"
-msgstr "Slobodan/zauzet"
+msgstr "Slobodan/Zauzet"
 
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1013
 #: ../src/addressbook/gui/widgets/eab-contact-formatter.c:1053
@@ -7829,7 +7829,7 @@ msgstr "U_loga"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:725
 msgid "Toggles whether the Role field is displayed"
-msgstr "Određuje je li polje uloga prikazano"
+msgstr "Određuje je li polje uloge prikazano"
 
 #: ../src/calendar/gui/e-comp-editor-page-general.c:731
 msgid "_RSVP"
@@ -8709,7 +8709,7 @@ msgstr "Spremi trenutne promjene i zatvori uređivač"
 #: ../src/calendar/gui/print.c:1095 ../src/calendar/gui/print.c:2663
 #: ../src/calendar/gui/print.c:2683
 msgid "am"
-msgstr "prp"
+msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../src/calendar/gui/e-day-view.c:2155 ../src/calendar/gui/e-to-do-pane.c:249
@@ -8717,7 +8717,7 @@ msgstr "prp"
 #: ../src/calendar/gui/print.c:1097 ../src/calendar/gui/print.c:2668
 #: ../src/calendar/gui/print.c:2685
 msgid "pm"
-msgstr "pop"
+msgstr "pm"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. * %B = full month name. Don't use any other specifiers.
@@ -9760,7 +9760,7 @@ msgstr "Afrika/Accra"
 
 #: ../src/calendar/zones.h:27
 msgid "Africa/Addis_Ababa"
-msgstr "Afrika/Adis_Ababa"
+msgstr "Afrika/Adis Ababa"
 
 #: ../src/calendar/zones.h:28
 msgid "Africa/Algiers"
@@ -9820,7 +9820,7 @@ msgstr "Afrika/Dakar"
 
 #: ../src/calendar/zones.h:42
 msgid "Africa/Dar_es_Salaam"
-msgstr "Afrika/Dar_es_Salaam"
+msgstr "Afrika/Dar es Salaam"
 
 #: ../src/calendar/zones.h:43
 msgid "Africa/Djibouti"
@@ -9832,7 +9832,7 @@ msgstr "Afrika/Douala"
 
 #: ../src/calendar/zones.h:45
 msgid "Africa/El_Aaiun"
-msgstr "Afrika/El_Aaiun"
+msgstr "Afrika/El Aaiun"
 
 #: ../src/calendar/zones.h:46
 msgid "Africa/Freetown"
@@ -9936,11 +9936,11 @@ msgstr "Afrika/Ouagadougou"
 
 #: ../src/calendar/zones.h:71
 msgid "Africa/Porto-Novo"
-msgstr "Afrika/Porto-Novo"
+msgstr "Afrika/Porto Novo"
 
 #: ../src/calendar/zones.h:72
 msgid "Africa/Sao_Tome"
-msgstr "Afrika/Sao_Tome"
+msgstr "Afrika/Sao Tome"
 
 #: ../src/calendar/zones.h:73
 msgid "Africa/Timbuktu"
@@ -10000,7 +10000,7 @@ msgstr "Amerika/Belize"
 
 #: ../src/calendar/zones.h:87
 msgid "America/Boa_Vista"
-msgstr "Amerika/Boa_Vista"
+msgstr "Amerika/Boa Vista"
 
 #: ../src/calendar/zones.h:88
 msgid "America/Bogota"
@@ -10012,11 +10012,11 @@ msgstr "Amerika/Boise"
 
 #: ../src/calendar/zones.h:90
 msgid "America/Buenos_Aires"
-msgstr "Amerika/Buenos_Aires"
+msgstr "Amerika/Buenos Aires"
 
 #: ../src/calendar/zones.h:91
 msgid "America/Cambridge_Bay"
-msgstr "Amerika/Cambridge_Bay"
+msgstr "Amerika/Cambridge Bay"
 
 #: ../src/calendar/zones.h:92
 msgid "America/Cancun"
@@ -10052,7 +10052,7 @@ msgstr "Amerika/Cordoba"
 
 #: ../src/calendar/zones.h:100
 msgid "America/Costa_Rica"
-msgstr "Amerika/Costa_Rica"
+msgstr "Amerika/Costa Rica"
 
 #: ../src/calendar/zones.h:101
 msgid "America/Cuiaba"
@@ -10072,7 +10072,7 @@ msgstr "Amerika/Dawson"
 
 #: ../src/calendar/zones.h:105
 msgid "America/Dawson_Creek"
-msgstr "Amerika/Dawson_Creek"
+msgstr "Amerika/Dawson Creek"
 
 #: ../src/calendar/zones.h:106
 msgid "America/Denver"
@@ -10096,7 +10096,7 @@ msgstr "Amerika/Eirunepe"
 
 #: ../src/calendar/zones.h:111
 msgid "America/El_Salvador"
-msgstr "Amerika/El_Salvador"
+msgstr "Amerika/El Salvador"
 
 #: ../src/calendar/zones.h:112
 msgid "America/Fortaleza"
@@ -10104,7 +10104,7 @@ msgstr "Amerika/Fortaleza"
 
 #: ../src/calendar/zones.h:113
 msgid "America/Glace_Bay"
-msgstr "Amerika/Glace_Bay"
+msgstr "Amerika/Glace Bay"
 
 #: ../src/calendar/zones.h:114
 msgid "America/Godthab"
@@ -10112,11 +10112,11 @@ msgstr "Amerika/Godthab"
 
 #: ../src/calendar/zones.h:115
 msgid "America/Goose_Bay"
-msgstr "Amerika/Goose_Bay"
+msgstr "Amerika/Goose Bay"
 
 #: ../src/calendar/zones.h:116
 msgid "America/Grand_Turk"
-msgstr "Amerika/Grand_Turk"
+msgstr "Amerika/Grand Turk"
 
 #: ../src/calendar/zones.h:117
 msgid "America/Grenada"
@@ -10200,7 +10200,7 @@ msgstr "Amerika/Kentucky/Monticello"
 
 #: ../src/calendar/zones.h:137
 msgid "America/La_Paz"
-msgstr "Amerika/La_Paz"
+msgstr "Amerika/La Paz"
 
 #: ../src/calendar/zones.h:138
 msgid "America/Lima"
@@ -10208,7 +10208,7 @@ msgstr "Amerika/Lima"
 
 #: ../src/calendar/zones.h:139
 msgid "America/Los_Angeles"
-msgstr "Amerika/Los_Angeles"
+msgstr "Amerika/Los Angeles"
 
 #: ../src/calendar/zones.h:140
 msgid "America/Louisville"
@@ -10248,7 +10248,7 @@ msgstr "Amerika/Merida"
 
 #: ../src/calendar/zones.h:149
 msgid "America/Mexico_City"
-msgstr "Amerika/Mexico_City"
+msgstr "Amerika/Mexico City"
 
 #: ../src/calendar/zones.h:150
 msgid "America/Miquelon"
@@ -10276,7 +10276,7 @@ msgstr "Amerika/Nassau"
 
 #: ../src/calendar/zones.h:156
 msgid "America/New_York"
-msgstr "Amerika/New_York"
+msgstr "Amerika/New York"
 
 #: ../src/calendar/zones.h:157
 msgid "America/Nipigon"
@@ -10292,7 +10292,7 @@ msgstr "Amerika/Noronha"
 
 #: ../src/calendar/zones.h:160
 msgid "America/North_Dakota/Center"
-msgstr "Amerika/Sjeverna_Dakota/Sredina"
+msgstr "Amerika/Sjeverna Dakota/Sredina"
 
 #: ../src/calendar/zones.h:161
 msgid "America/Panama"
@@ -10312,15 +10312,15 @@ msgstr "Amerika/Phoenix"
 
 #: ../src/calendar/zones.h:165
 msgid "America/Port-au-Prince"
-msgstr "Amerika/Port-au-Prince"
+msgstr "Amerika/Port au Prince"
 
 #: ../src/calendar/zones.h:166
 msgid "America/Port_of_Spain"
-msgstr "Amerika/Port_of_Spain"
+msgstr "Amerika/Port of Spain"
 
 #: ../src/calendar/zones.h:167
 msgid "America/Porto_Velho"
-msgstr "Amerika/Porto_Velho"
+msgstr "Amerika/Porto Velho"
 
 #: ../src/calendar/zones.h:168
 msgid "America/Puerto_Rico"
@@ -10328,11 +10328,11 @@ msgstr "Amerika/Portoriko"
 
 #: ../src/calendar/zones.h:169
 msgid "America/Rainy_River"
-msgstr "Amerika/Rainy_River"
+msgstr "Amerika/Rainy River"
 
 #: ../src/calendar/zones.h:170
 msgid "America/Rankin_Inlet"
-msgstr "Amerika/Rankin_Inlet"
+msgstr "Amerika/Rankin Inlet"
 
 #: ../src/calendar/zones.h:171
 msgid "America/Recife"
@@ -10344,7 +10344,7 @@ msgstr "Amerika/Regina"
 
 #: ../src/calendar/zones.h:173
 msgid "America/Rio_Branco"
-msgstr "Amerika/Rio_Branco"
+msgstr "Amerika/Rio Branco"
 
 #: ../src/calendar/zones.h:174
 msgid "America/Rosario"
@@ -10356,11 +10356,11 @@ msgstr "Amerika/Santiago"
 
 #: ../src/calendar/zones.h:176
 msgid "America/Santo_Domingo"
-msgstr "Amerika/Santo_Domingo"
+msgstr "Amerika/Santo Domingo"
 
 #: ../src/calendar/zones.h:177
 msgid "America/Sao_Paulo"
-msgstr "Amerika/Sao_Paulo"
+msgstr "Amerika/Sao Paulo"
 
 #: ../src/calendar/zones.h:178
 msgid "America/Scoresbysund"
@@ -10372,27 +10372,27 @@ msgstr "Amerika/Shiprock"
 
 #: ../src/calendar/zones.h:180
 msgid "America/St_Johns"
-msgstr "Amerika/St_Johns"
+msgstr "Amerika/St. Johns"
 
 #: ../src/calendar/zones.h:181
 msgid "America/St_Kitts"
-msgstr "Amerika/St_Kitts"
+msgstr "Amerika/St. Kitts"
 
 #: ../src/calendar/zones.h:182
 msgid "America/St_Lucia"
-msgstr "Amerika/St_Lucia"
+msgstr "Amerika/St. Lucia"
 
 #: ../src/calendar/zones.h:183
 msgid "America/St_Thomas"
-msgstr "Amerika/St_Thomas"
+msgstr "Amerika/St. Thomas"
 
 #: ../src/calendar/zones.h:184
 msgid "America/St_Vincent"
-msgstr "Amerika/St_Vincent"
+msgstr "Amerika/St. Vincent"
 
 #: ../src/calendar/zones.h:185
 msgid "America/Swift_Current"
-msgstr "Amerika/Swift_Current"
+msgstr "Amerika/Swift Current"
 
 #: ../src/calendar/zones.h:186
 msgid "America/Tegucigalpa"
@@ -10404,7 +10404,7 @@ msgstr "Amerika/Thule"
 
 #: ../src/calendar/zones.h:188
 msgid "America/Thunder_Bay"
-msgstr "Amerika/Thunder_Bay"
+msgstr "Amerika/Thunder Bay"
 
 #: ../src/calendar/zones.h:189
 msgid "America/Tijuana"
@@ -10460,7 +10460,7 @@ msgstr "Antarktika/Palmer"
 
 #: ../src/calendar/zones.h:202
 msgid "Antarctica/South_Pole"
-msgstr "Antarktika/Južni_pol"
+msgstr "Antarktika/Južni pol"
 
 #: ../src/calendar/zones.h:203
 msgid "Antarctica/Syowa"
@@ -10576,7 +10576,7 @@ msgstr "Azija/Harbin"
 
 #: ../src/calendar/zones.h:231
 msgid "Asia/Hong_Kong"
-msgstr "Azija/Hong_Kong"
+msgstr "Azija/Hong Kong"
 
 #: ../src/calendar/zones.h:232
 msgid "Asia/Hovd"
@@ -10628,7 +10628,7 @@ msgstr "Azija/Krasnojarsk"
 
 #: ../src/calendar/zones.h:244
 msgid "Asia/Kuala_Lumpur"
-msgstr "Azija/Kuala_Lumpur"
+msgstr "Azija/Kuala Lumpur"
 
 #: ../src/calendar/zones.h:245
 msgid "Asia/Kuching"
@@ -10680,7 +10680,7 @@ msgstr "Azija/Oral"
 
 #: ../src/calendar/zones.h:257
 msgid "Asia/Phnom_Penh"
-msgstr "Azija/Phnom_Penh"
+msgstr "Azija/Phnom Penh"
 
 #: ../src/calendar/zones.h:258
 msgid "Asia/Pontianak"
@@ -10756,11 +10756,11 @@ msgstr "Azija/Tokio"
 
 #: ../src/calendar/zones.h:276
 msgid "Asia/Ujung_Pandang"
-msgstr "Azija/Ujung_Pandang"
+msgstr "Azija/Ujung Pandang"
 
 #: ../src/calendar/zones.h:277
 msgid "Asia/Ulaanbaatar"
-msgstr "Azija/Ulan_Bator"
+msgstr "Azija/Ulan Bator"
 
 #: ../src/calendar/zones.h:278
 msgid "Asia/Urumqi"
@@ -10788,47 +10788,47 @@ msgstr "Azija/Jerevan"
 
 #: ../src/calendar/zones.h:284
 msgid "Atlantic/Azores"
-msgstr "Atlantik/Azori"
+msgstr "Atlantski ocean/Azori"
 
 #: ../src/calendar/zones.h:285
 msgid "Atlantic/Bermuda"
-msgstr "Atlantik/Bermuda"
+msgstr "Atlantski ocean/Bermuda"
 
 #: ../src/calendar/zones.h:286
 msgid "Atlantic/Canary"
-msgstr "Atlantik/Kanari"
+msgstr "Atlantski ocean/Kanari"
 
 #: ../src/calendar/zones.h:287
 msgid "Atlantic/Cape_Verde"
-msgstr "Atlantik/Cape_Verde"
+msgstr "Atlantski ocean/Cape Verde"
 
 #: ../src/calendar/zones.h:288
 msgid "Atlantic/Faeroe"
-msgstr "Atlantik/Faeroe"
+msgstr "Atlantski ocean/Faeroe"
 
 #: ../src/calendar/zones.h:289
 msgid "Atlantic/Jan_Mayen"
-msgstr "Atlantik/Jan_Mayen"
+msgstr "Atlantski ocean/Jan Mayen"
 
 #: ../src/calendar/zones.h:290
 msgid "Atlantic/Madeira"
-msgstr "Atlantik/Madeira"
+msgstr "Atlantski ocean/Madeira"
 
 #: ../src/calendar/zones.h:291
 msgid "Atlantic/Reykjavik"
-msgstr "Atlantik/Reykjavik"
+msgstr "Atlantski ocean/Reykjavik"
 
 #: ../src/calendar/zones.h:292
 msgid "Atlantic/South_Georgia"
-msgstr "Atlantik/Južna_Georgia"
+msgstr "Atlantski ocean/Južna Georgia"
 
 #: ../src/calendar/zones.h:293
 msgid "Atlantic/St_Helena"
-msgstr "Atlantik/Sv._Helena"
+msgstr "Atlantski ocean/Sv. Helena"
 
 #: ../src/calendar/zones.h:294
 msgid "Atlantic/Stanley"
-msgstr "Atlantik/Stanley"
+msgstr "Atlantski ocean/Stanley"
 
 #: ../src/calendar/zones.h:295
 msgid "Australia/Adelaide"
@@ -10840,7 +10840,7 @@ msgstr "Australija/Brisbane"
 
 #: ../src/calendar/zones.h:297
 msgid "Australia/Broken_Hill"
-msgstr "Australija/Broken_Hill"
+msgstr "Australija/Broken Hill"
 
 #: ../src/calendar/zones.h:298
 msgid "Australia/Darwin"
@@ -10856,7 +10856,7 @@ msgstr "Australija/Lindeman"
 
 #: ../src/calendar/zones.h:301
 msgid "Australia/Lord_Howe"
-msgstr "Australija/Lord_Howe"
+msgstr "Australija/Lord Howe"
 
 #: ../src/calendar/zones.h:302
 msgid "Australia/Melbourne"
@@ -11008,7 +11008,7 @@ msgstr "Europa/Samara"
 
 #: ../src/calendar/zones.h:339
 msgid "Europe/San_Marino"
-msgstr "Europa/San_Marino"
+msgstr "Europa/San Marino"
 
 #: ../src/calendar/zones.h:340
 msgid "Europe/Sarajevo"
@@ -11076,203 +11076,203 @@ msgstr "Europa/Zurich"
 
 #: ../src/calendar/zones.h:356
 msgid "Indian/Antananarivo"
-msgstr "Indijski_ocean/Antananarivo"
+msgstr "Indijski ocean/Antananarivo"
 
 #: ../src/calendar/zones.h:357
 msgid "Indian/Chagos"
-msgstr "Indijski_ocean/Chagos"
+msgstr "Indijski ocean/Chagos"
 
 #: ../src/calendar/zones.h:358
 msgid "Indian/Christmas"
-msgstr "Indijski_ocean/Božićni_otoci"
+msgstr "Indijski ocean/Božićni otoci"
 
 #: ../src/calendar/zones.h:359
 msgid "Indian/Cocos"
-msgstr "Indijski_ocean/Cocos"
+msgstr "Indijski ocean/Cocos"
 
 #: ../src/calendar/zones.h:360
 msgid "Indian/Comoro"
-msgstr "Indijski_ocean/Comoro"
+msgstr "Indijski ocean/Comoro"
 
 #: ../src/calendar/zones.h:361
 msgid "Indian/Kerguelen"
-msgstr "Indijski_ocean/Kerguelen"
+msgstr "Indijski ocean/Kerguelen"
 
 #: ../src/calendar/zones.h:362
 msgid "Indian/Mahe"
-msgstr "Indijski_ocean/Mahe"
+msgstr "Indijski ocean/Mahe"
 
 #: ../src/calendar/zones.h:363
 msgid "Indian/Maldives"
-msgstr "Indijski_ocean/Maldivi"
+msgstr "Indijski ocean/Maldivi"
 
 #: ../src/calendar/zones.h:364
 msgid "Indian/Mauritius"
-msgstr "Indijski_ocean/Mauricijus"
+msgstr "Indijski ocean/Mauricijus"
 
 #: ../src/calendar/zones.h:365
 msgid "Indian/Mayotte"
-msgstr "Indijski_ocean/Mayotte"
+msgstr "Indijski ocean/Mayotte"
 
 #: ../src/calendar/zones.h:366
 msgid "Indian/Reunion"
-msgstr "Indijski_ocean/Reunion"
+msgstr "Indijski ocean/Reunion"
 
 #: ../src/calendar/zones.h:367
 msgid "Pacific/Apia"
-msgstr "Tihi_ocean/Apia"
+msgstr "Tihi ocean/Apia"
 
 #: ../src/calendar/zones.h:368
 msgid "Pacific/Auckland"
-msgstr "Tihi_ocean/Auckland"
+msgstr "Tihi ocean/Auckland"
 
 #: ../src/calendar/zones.h:369
 msgid "Pacific/Chatham"
-msgstr "Tihi_ocean/Chatham"
+msgstr "Tihi ocean/Chatham"
 
 #: ../src/calendar/zones.h:370
 msgid "Pacific/Easter"
-msgstr "Tihi_ocean/Uskršnji_otoci"
+msgstr "Tihi ocean/Uskršnji otoci"
 
 #: ../src/calendar/zones.h:371
 msgid "Pacific/Efate"
-msgstr "Tihi_ocean/Efate"
+msgstr "Tihi ocean/Efate"
 
 #: ../src/calendar/zones.h:372
 msgid "Pacific/Enderbury"
-msgstr "Tihi_ocean/Enderbury"
+msgstr "Tihi ocean/Enderbury"
 
 #: ../src/calendar/zones.h:373
 msgid "Pacific/Fakaofo"
-msgstr "Tihi_ocean/Fakaofo"
+msgstr "Tihi ocean/Fakaofo"
 
 #: ../src/calendar/zones.h:374
 msgid "Pacific/Fiji"
-msgstr "Tihi_ocean/Fidži"
+msgstr "Tihi ocean/Fidži"
 
 #: ../src/calendar/zones.h:375
 msgid "Pacific/Funafuti"
-msgstr "Tihi_ocean/Funafuti"
+msgstr "Tihi ocean/Funafuti"
 
 #: ../src/calendar/zones.h:376
 msgid "Pacific/Galapagos"
-msgstr "Tihi_ocean/Galapagos"
+msgstr "Tihi ocean/Galapagos"
 
 #: ../src/calendar/zones.h:377
 msgid "Pacific/Gambier"
-msgstr "Tihi_ocean/Gambier"
+msgstr "Tihi ocean/Gambier"
 
 #: ../src/calendar/zones.h:378
 msgid "Pacific/Guadalcanal"
-msgstr "Tihi_ocean/Guadalcanal"
+msgstr "Tihi ocean/Guadalcanal"
 
 #: ../src/calendar/zones.h:379
 msgid "Pacific/Guam"
-msgstr "Tihi_ocean/Guam"
+msgstr "Tihi ocean/Guam"
 
 #: ../src/calendar/zones.h:380
 msgid "Pacific/Honolulu"
-msgstr "Tihi_ocean/Honolulu"
+msgstr "Tihi ocean/Honolulu"
 
 #: ../src/calendar/zones.h:381
 msgid "Pacific/Johnston"
-msgstr "Tihi_ocean/Johnston"
+msgstr "Tihi ocean/Johnston"
 
 #: ../src/calendar/zones.h:382
 msgid "Pacific/Kiritimati"
-msgstr "Tihi_ocean/Kiritimati"
+msgstr "Tihi ocean/Kiritimati"
 
 #: ../src/calendar/zones.h:383
 msgid "Pacific/Kosrae"
-msgstr "Tihi_ocean/Kosrae"
+msgstr "Tihi ocean/Kosrae"
 
 #: ../src/calendar/zones.h:384
 msgid "Pacific/Kwajalein"
-msgstr "Tihi_ocean/Kwajalein"
+msgstr "Tihi ocean/Kwajalein"
 
 #: ../src/calendar/zones.h:385
 msgid "Pacific/Majuro"
-msgstr "Tihi_ocean/Majuro"
+msgstr "Tihi ocean/Majuro"
 
 #: ../src/calendar/zones.h:386
 msgid "Pacific/Marquesas"
-msgstr "Tihi_ocean/Marquesas"
+msgstr "Tihi ocean/Markižansko otočje"
 
 #: ../src/calendar/zones.h:387
 msgid "Pacific/Midway"
-msgstr "Tihi_ocean/Midway"
+msgstr "Tihi ocean/Midway"
 
 #: ../src/calendar/zones.h:388
 msgid "Pacific/Nauru"
-msgstr "Tihi_ocean/Nauru"
+msgstr "Tihi ocean/Nauru"
 
 #: ../src/calendar/zones.h:389
 msgid "Pacific/Niue"
-msgstr "Tihi_ocean/Niue"
+msgstr "Tihi ocean/Niue"
 
 #: ../src/calendar/zones.h:390
 msgid "Pacific/Norfolk"
-msgstr "Tihi_ocean/Norfolk"
+msgstr "Tihi ocean/Norfolk"
 
 #: ../src/calendar/zones.h:391
 msgid "Pacific/Noumea"
-msgstr "Tihi_ocean/Noumea"
+msgstr "Tihi ocean/Noumea"
 
 #: ../src/calendar/zones.h:392
 msgid "Pacific/Pago_Pago"
-msgstr "Tihi_ocean/Pago_Pago"
+msgstr "Tihi ocean/Pago Pago"
 
 #: ../src/calendar/zones.h:393
 msgid "Pacific/Palau"
-msgstr "Tihi_ocean/Palau"
+msgstr "Tihi ocean/Palau"
 
 #: ../src/calendar/zones.h:394
 msgid "Pacific/Pitcairn"
-msgstr "Tihi_ocean/Pitcairn"
+msgstr "Tihi ocean/Pitcairn"
 
 #: ../src/calendar/zones.h:395
 msgid "Pacific/Ponape"
-msgstr "Tihi_ocean/Ponape"
+msgstr "Tihi ocean/Ponape"
 
 #: ../src/calendar/zones.h:396
 msgid "Pacific/Port_Moresby"
-msgstr "Tihi_ocean/Port_Moresby"
+msgstr "Tihi ocean/Port Moresby"
 
 #: ../src/calendar/zones.h:397
 msgid "Pacific/Rarotonga"
-msgstr "Tihi_ocean/Rarotonga"
+msgstr "Tihi ocean/Rarotonga"
 
 #: ../src/calendar/zones.h:398
 msgid "Pacific/Saipan"
-msgstr "Tihi_ocean/Saipan"
+msgstr "Tihi ocean/Saipan"
 
 #: ../src/calendar/zones.h:399
 msgid "Pacific/Tahiti"
-msgstr "Tihi_ocean/Tahiti"
+msgstr "Tihi ocean/Tahiti"
 
 #: ../src/calendar/zones.h:400
 msgid "Pacific/Tarawa"
-msgstr "Tihi_ocean/Tarawa"
+msgstr "Tihi ocean/Tarawa"
 
 #: ../src/calendar/zones.h:401
 msgid "Pacific/Tongatapu"
-msgstr "Tihi_ocean/Tongatapu"
+msgstr "Tihi ocean/Tongatapu"
 
 #: ../src/calendar/zones.h:402
 msgid "Pacific/Truk"
-msgstr "Tihi_ocean/Truk"
+msgstr "Tihi ocean/Truk"
 
 #: ../src/calendar/zones.h:403
 msgid "Pacific/Wake"
-msgstr "Tihi_ocean/Wake"
+msgstr "Tihi ocean/Wake"
 
 #: ../src/calendar/zones.h:404
 msgid "Pacific/Wallis"
-msgstr "Tihi_ocean/Wallis"
+msgstr "Tihi ocean/Wallis"
 
 #: ../src/calendar/zones.h:405
 msgid "Pacific/Yap"
-msgstr "Tihi_ocean/Yap"
+msgstr "Tihi ocean/Yap"
 
 #: ../src/composer/e-composer-actions.c:226
 msgid "Save as…"
@@ -15059,7 +15059,7 @@ msgstr "Odaberi kontakte iz adresara"
 #: ../src/e-util/e-name-selector-entry.c:3234
 #, c-format
 msgid "E_xpand %s Inline"
-msgstr "P_roširi %s unutar poruke"
+msgstr "P_roširi %s skupljene retke popisa"
 
 #. Copy Contact Item
 #: ../src/e-util/e-name-selector-entry.c:3250
@@ -16049,11 +16049,11 @@ msgstr "_Kopiraj adrese e-pošte"
 
 #: ../src/e-util/e-web-view.c:435
 msgid "Copy _Raw Email Address"
-msgstr "Kopiraj _osnovne adrese e-pošte"
+msgstr "Kopiraj _osnovnu adresu e-pošte"
 
 #: ../src/e-util/e-web-view.c:437
 msgid "Copy the raw email address to the clipboard"
-msgstr "Kopiraj osnovne adrese e-pošte u međuspremnik"
+msgstr "Kopiraj osnovnu adresu e-pošte u međuspremnik"
 
 #: ../src/e-util/e-web-view.c:452
 msgid "_Copy Image"
@@ -16184,7 +16184,7 @@ msgstr "Naziv “{0}” već se koristi."
 
 #: ../src/e-util/filter.error.xml.h:11
 msgid "Please choose another name."
-msgstr "Odaberite drugo naziv."
+msgstr "Odaberite drugi naziv."
 
 #: ../src/e-util/filter.error.xml.h:12
 msgid "Missing condition."
@@ -16393,7 +16393,7 @@ msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Primanje %d poruke"
 msgstr[1] "Primanje %d poruke"
-msgstr[2] "Primanje %d poruke"
+msgstr[2] "Primanje %d poruka"
 
 #: ../src/libemail-engine/e-mail-folder-utils.c:779
 msgid "Scanning messages for duplicates"
@@ -16866,7 +16866,7 @@ msgstr "Privitak"
 #: ../src/mail/mail-config.ui.h:30
 msgctxt "ReplyForward"
 msgid "Inline (Outlook style)"
-msgstr "Unutar poruke (Outlook stil)"
+msgstr "U retku (Outlook stil)"
 
 #: ../src/mail/e-mail-config-composing-page.c:123
 #: ../src/mail/mail-config.ui.h:31
@@ -16891,11 +16891,11 @@ msgstr "Sastavljanje poruka"
 
 #: ../src/mail/e-mail-config-composing-page.c:417
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "Uvijek šalji kopiju poruke na:"
+msgstr "Uvije_k šalji kopiju poruke na:"
 
 #: ../src/mail/e-mail-config-composing-page.c:442
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "Uvijek šalji tajnu kopiju poruke na:"
+msgstr "Uvijek _šalji tajnu kopiju poruke na:"
 
 #: ../src/mail/e-mail-config-composing-page.c:467
 msgid "Re_ply style:"
@@ -17213,8 +17213,7 @@ msgstr "Uvijek _vjeruj ključevima u mojem skupu ključeva pri šifriranju"
 #: ../src/mail/e-mail-config-security-page.c:620
 msgid "Prefer _inline sign/encrypt for plain text messages"
 msgstr ""
-"Preferiraj _unutrašnje potpisivanje/šifriranje unutar poruke za obične "
-"tekstne poruke"
+"Preferiraj _potpisivanje/šifriranje unutar poruke za obične tekstne poruke"
 
 #: ../src/mail/e-mail-config-security-page.c:644
 msgid "Secure MIME (S/MIME)"
@@ -17364,11 +17363,11 @@ msgstr "Sakri_j sve"
 
 #: ../src/mail/e-mail-display.c:728
 msgid "_View Inline"
-msgstr "_Pogledaj unutar"
+msgstr "_Pogledaj unutar poruke"
 
 #: ../src/mail/e-mail-display.c:735
 msgid "Vie_w All Inline"
-msgstr "Pogleda_j sve unutar"
+msgstr "Pogleda_j sve unutar poruke"
 
 #: ../src/mail/e-mail-display.c:742
 msgid "_Zoom to 100%"
@@ -18528,11 +18527,11 @@ msgstr "Privi_tak"
 
 #: ../src/mail/em-composer-utils.c:4124
 msgid "Inline (_Outlook style)"
-msgstr "Unutar poruke (_Outlook stil)"
+msgstr "U retku (_Outlook stil)"
 
 #: ../src/mail/em-composer-utils.c:4128
 msgid "_Quote"
-msgstr "_Citirat"
+msgstr "_Citat"
 
 #: ../src/mail/em-composer-utils.c:4132
 msgid "Do _Not Quote"
@@ -19306,7 +19305,7 @@ msgstr "Obrisano"
 
 #: ../src/mail/filtertypes.xml.in.h:76
 msgid "Unset Status"
-msgstr "Ukloni status"
+msgstr "Ukloni stanje"
 
 #: ../src/mail/filtertypes.xml.in.h:77
 msgid "Beep"
@@ -19552,7 +19551,7 @@ msgstr "_Način odgovora:"
 
 #: ../src/mail/mail-config.ui.h:19
 msgid "_Forward style:"
-msgstr "Način _prosljeđivanja:"
+msgstr "_Način prosljeđivanja:"
 
 #: ../src/mail/mail-config.ui.h:20
 msgid "_Language:"
@@ -20002,7 +20001,7 @@ msgstr "_Prihvati licencu"
 
 #: ../src/mail/mail-dialogs.ui.h:21
 msgid "_Tick this to accept the license agreement"
-msgstr "_Označite ovo za prihvaćanje licenčnog ugovora"
+msgstr "_Označite ovo za prihvaćanje licencnog ugovora"
 
 #: ../src/mail/mail.error.xml.h:1
 msgid "Invalid authentication"
@@ -24184,7 +24183,7 @@ msgstr "Spremi kalendar"
 #: ../src/modules/itip-formatter/itip-view.c:5635
 #: ../src/modules/itip-formatter/itip-view.c:5648
 msgid "The calendar attached is not valid"
-msgstr "Priloženi kalendar nije ispravan"
+msgstr "Priloženi kalendar nije valjan"
 
 #: ../src/modules/itip-formatter/itip-view.c:5636
 #: ../src/modules/itip-formatter/itip-view.c:5649
@@ -24325,7 +24324,7 @@ msgstr "Mbox datoteka pripreme ne može biti prazna"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:364
 msgid "Spool _Directory:"
-msgstr "Direktorij pripreme:"
+msgstr "Direktorij _pripreme:"
 
 #: ../src/modules/mail-config/e-mail-config-local-accounts.c:365
 msgid "Choose a mbox spool directory"
@@ -25639,7 +25638,7 @@ msgstr "Odaberi adresar za Pidginov popis prijatelja"
 #. Synchronize now button.
 #: ../src/plugins/bbdb/bbdb.c:813
 msgid "Synchronize with _buddy list now"
-msgstr "Uskladi s popisom _prijatelja sada"
+msgstr "Uskladi s popisom _prijatelja odmah"
 
 #: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid "BBDB"
@@ -26464,7 +26463,7 @@ msgstr "Izvori"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:24
 msgid "Service _type:"
-msgstr "_Vrsta usluge:"
+msgstr "Vrsta _usluge:"
 
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:26
 msgid "_File:"
@@ -26901,7 +26900,7 @@ msgstr "Prebacite Evolution u izvanmrežni rad"
 
 #: ../src/shell/e-shell-window-actions.c:1036
 msgid "_Work Online"
-msgstr "Mrežni rad"
+msgstr "_Mrežni rad"
 
 #: ../src/shell/e-shell-window-actions.c:1038
 msgid "Put Evolution into online mode"
@@ -27026,7 +27025,7 @@ msgstr "Trenutni pogled je prilagođeni pogled"
 
 #: ../src/shell/e-shell-window-actions.c:1261
 msgid "Page Set_up…"
-msgstr "Podešavanje _stranice..…"
+msgstr "Podešavanje _ispisa…"
 
 #: ../src/shell/e-shell-window-actions.c:1263
 msgid "Change the page settings for your current printer"
