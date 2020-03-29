@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-03-29 00:24+0000\n"
-"PO-Revision-Date: 2020-03-29 01:29+0100\n"
+"POT-Creation-Date: 2020-03-29 00:31+0000\n"
+"PO-Revision-Date: 2020-03-29 15:01+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -21208,7 +21208,7 @@ msgstr "Novi adresar"
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:284
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:180
 msgid "New Memo List"
-msgstr "Nova popis dopisa"
+msgstr "Novi popis dopisa"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:532
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:212
