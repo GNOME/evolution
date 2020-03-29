@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-03-29 00:31+0000\n"
-"PO-Revision-Date: 2020-03-29 15:01+0200\n"
+"POT-Creation-Date: 2020-03-29 13:04+0000\n"
+"PO-Revision-Date: 2020-03-29 17:03+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -14519,7 +14519,7 @@ msgstr "_URL:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:668
 msgid "_Test URL…"
-msgstr "_Test URL…"
+msgstr "_Testiraj URL…"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:685
 msgid "Image Properties"
