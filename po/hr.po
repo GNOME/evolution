@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-03-29 13:04+0000\n"
-"PO-Revision-Date: 2020-03-29 17:03+0200\n"
+"POT-Creation-Date: 2020-03-29 15:05+0000\n"
+"PO-Revision-Date: 2020-03-29 22:07+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "Language: hr\n"
@@ -1246,7 +1246,7 @@ msgid ""
 "Show the “Cc” field when sending a mail message. This is controlled from the "
 "View menu when a mail account is chosen."
 msgstr ""
-"Pokaži \"Kopija\" polje pri slanju poruke e-pošte. Ovime se upravlja iz "
+"Prikaži \"Kopija\" polje pri slanju poruke e-pošte. Ovime se upravlja iz "
 "izbornika \"Pogled\" kad se odabere račun e-pošte."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:40
@@ -7619,7 +7619,7 @@ msgstr "Određuje hoće li biti cjelodnevni događaj"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:750
 msgid "Show Time as _Busy"
-msgstr "Pokaži vrijeme kao _zauzeto"
+msgstr "Prikaži vrijeme kao _zauzeto"
 
 #: ../src/calendar/gui/e-comp-editor-event.c:752
 msgid "Toggles whether to show time as busy"
@@ -8493,7 +8493,7 @@ msgstr "Vremenska _zona:"
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1540
 msgctxt "ECompEditor"
 msgid "Show time as _busy"
-msgstr "Pokaži vrijeme kao _zauzeto"
+msgstr "Prikaži vrijeme kao _zauzeto"
 
 #. Translators: This 'None' is meant for 'Color' in calendar component editor, like 'None color'
 #: ../src/calendar/gui/e-comp-editor-property-parts.c:1961
@@ -8771,7 +8771,7 @@ msgstr "%02i minutni razmaci"
 
 #: ../src/calendar/gui/e-day-view-time-item.c:836
 msgid "Show the second time zone"
-msgstr "Pokaži drugu vremensku zonu"
+msgstr "Prikaži drugu vremensku zonu"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../src/calendar/gui/e-day-view-time-item.c:853
@@ -11382,7 +11382,7 @@ msgstr "Prikaži kolekciju slika koje je moguće povući u poruku"
 
 #: ../src/composer/e-composer-actions.c:428
 msgid "_Prioritize Message"
-msgstr "_Prioritet poruke"
+msgstr "_Prioritetna poruka"
 
 #: ../src/composer/e-composer-actions.c:430
 msgid "Set the message priority to high"
@@ -11504,7 +11504,7 @@ msgstr "_Prima kopiju:"
 
 #: ../src/composer/e-composer-header-table.c:864
 msgid "_Bcc:"
-msgstr "_Prima tajna kopiju:"
+msgstr "_Prima tajnu kopiju:"
 
 #: ../src/composer/e-composer-header-table.c:869
 msgid "_Post To:"
@@ -21383,7 +21383,7 @@ msgstr "Svojstva _adresara"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1052
 msgid "Show properties of the selected address book"
-msgstr "Pokaži svojstva odabranog adresara"
+msgstr "Prikaži svojstva odabranog adresara"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1057
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1298
@@ -26972,11 +26972,11 @@ msgstr "Prikaži traku izbornika"
 
 #: ../src/shell/e-shell-window-actions.c:1139
 msgid "Show Side _Bar"
-msgstr "Pokaži bočnu _traku"
+msgstr "Prikaži bočnu _traku"
 
 #: ../src/shell/e-shell-window-actions.c:1141
 msgid "Show the side bar"
-msgstr "Pokaži bočnu traku"
+msgstr "Prikaži bočnu traku"
 
 #: ../src/shell/e-shell-window-actions.c:1147
 msgid "Show _Buttons"
