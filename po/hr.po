@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: evolution 0\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2020-03-11 09:25+0000\n"
-"PO-Revision-Date: 2020-03-29 01:01+0100\n"
+"PO-Revision-Date: 2020-03-29 01:13+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "MIME-Version: 1.0\n"
@@ -1388,7 +1388,7 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:62
 msgid "Ignore list Reply-To:"
-msgstr "Zanemari popis Odgovor-za:"
+msgstr "Zanemari popis Odgovor-na:"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:63
 msgid ""
@@ -2579,7 +2579,7 @@ msgid ""
 "Whether to show Subject above Sender (From/To) in the Messages column, "
 "usually shown in the Vertical/Wide view of the message list"
 msgstr ""
-"Treba li prikazati predmet iznad pošiljatelja (Od/Prima) u stupcu poruke, "
+"Treba li prikazati predmet iznad pošiljatelja (Šalje/Prima) u stupcu poruke, "
 "uobičajeno prikazano u okomitom/širokom pogledu popisa poruke"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:276
@@ -12115,7 +12115,7 @@ msgstr "Prikaži izvor MIME dijela"
 #: ../src/mail/vfoldertypes.xml.in.h:11
 #: ../src/modules/mail/em-mailer-prefs.c:62
 msgid "To"
-msgstr "Za"
+msgstr "Prima"
 
 #: ../src/em-format/e-mail-formatter-utils.c:213
 #: ../src/em-format/e-mail-formatter-utils.c:238
