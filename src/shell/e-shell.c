@@ -914,7 +914,7 @@ shell_trust_prompt_done_cb (GObject *source_object,
 	/* If a credentials prompt is required, then it'll be shown immediately. */
 	e_credentials_prompter_set_auto_prompt_disabled_for (tpd->shell->priv->credentials_prompter, source, FALSE);
 
-	if (!shell_maybe_propagate_ssl_trust (tpd->shell, source, tpd->original_ssl_trust)) {
+	if (shell_maybe_propagate_ssl_trust (tpd->shell, source, tpd->original_ssl_trust)) {
 		/* NULL credentials to retry with those used the last time */
 		e_source_invoke_authenticate (source, NULL, tpd->shell->priv->cancellable,
 			shell_source_invoke_authenticate_cb, tpd->shell);
