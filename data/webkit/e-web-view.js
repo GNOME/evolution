@@ -569,6 +569,35 @@ Evo.GetElementFromPoint = function(xx, yy)
 	return res;
 }
 
+Evo.AddTooltipToLinks = function(frame_id)
+{
+	var frame_doc = Evo.findIFrameDocument(frame_id);
+
+	if (!frame_doc)
+		return;
+
+	var elements, ii;
+	
+	elements = frame_doc.getElementsByTagName("A");
+	
+	for (ii = 0; ii < elements.length; ii++) {
+		var uri, constructedUri;
+
+		uri = elements[ii].href;
+		/* Evo.getUriTooltip() is added using jsc_value_new_function */
+		constructedUri = Evo.getUriTooltip(uri);	
+
+		if (constructedUri) {
+			/*this limit the chars that appear as in some
+	 		links the size of chars can extend out of the screen*/
+			if (constructedUri.length > 150)
+				constructedUri = constructedUri.substring(0, 150) + "\u2026";
+
+			elements[ii].title = constructedUri;
+		}
+	}
+}
+
 Evo.initialize = function(elem)
 {
 	var doc, elems, ii;
@@ -633,6 +662,8 @@ Evo.initializeAndPostContentLoaded = function(elem)
 
 	if (window.webkit.messageHandlers.mailDisplayMagicSpacebarStateChanged)
 		Evo.mailDisplayUpdateMagicSpacebarState();
+
+	Evo.AddTooltipToLinks(iframe_id);
 }
 
 Evo.EnsureMainDocumentInitialized = function()
