@@ -140,7 +140,7 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
    returns a string with the constructed uri message */
 static JSCValue *
 evo_jsc_get_uri_tooltip (const gchar *uri,
-							   JSCContext *jsc_context)
+				         JSCContext *jsc_context)
 {
 	gchar *message;
 	JSCValue *jsc_message;
