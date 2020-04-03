@@ -389,6 +389,10 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				}
 			},
 
+			mayConsumeWhitespaceAfterWrap : function(str, ii) {
+				return ii > 0 && this.line == "" && str[ii - 1] == EvoConvert.NOWRAP_CHAR_END;
+			},
+
 			isInUnwrapPart : function() {
 				if (worker.inAnchor)
 					return true;
@@ -399,9 +403,10 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				return false;
 			},
 
-			shouldWrap : function() {
+			shouldWrap : function(nextChar) {
 				return worker.canWrap && (!worker.isInUnwrapPart() || worker.lastSpace != -1) && (worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth || (
-					worker.lineLetters - worker.ignoreLineLetters == worker.useWrapWidth && (
+					((!worker.charWrap && (nextChar == " " || nextChar == "\t") && worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth) ||
+					((worker.charWrap || (nextChar != " " && nextChar != "\t")) && worker.lineLetters - worker.ignoreLineLetters == worker.useWrapWidth)) && (
 					worker.lastSpace == -1/* || worker.lastSpace == worker.line.length*/)));
 			},
 
@@ -504,9 +509,10 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				worker.inAnchor++;
 
 			if (chr == "\n") {
-				worker.commit(ii);
+				if (!worker.mayConsumeWhitespaceAfterWrap(str, ii))
+					worker.commit(ii);
 			} else if (!worker.charWrap && !worker.collapseWhiteSpace && chr == "\t") {
-				if (worker.shouldWrap())
+				if (worker.shouldWrap(str[ii + 1]))
 					worker.commit(ii);
 				else
 					worker.commitSpaces(ii);
@@ -515,7 +521,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 
 				worker.lineLetters = worker.lineLetters - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
 
-				if (worker.shouldWrap())
+				if (worker.shouldWrap(str[ii + 1]))
 					worker.commit(ii);
 
 				worker.line += add;
@@ -526,7 +532,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				if (chr == '\t') {
 					worker.lineLetters = worker.lineLetters - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
 					setSpacesFrom = true;
-				} else if ((worker.spacesFrom == -1 && worker.line != "") || !worker.collapseWhiteSpace) {
+				} else if ((worker.spacesFrom == -1 && worker.line != "") || (!worker.collapseWhiteSpace && !worker.mayConsumeWhitespaceAfterWrap(str, ii))) {
 					worker.lineLetters++;
 					setSpacesFrom = true;
 				}
@@ -549,7 +555,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				if (chr == EvoConvert.NOWRAP_CHAR_END && worker.inAnchor)
 					worker.inAnchor--;
 
-				if (worker.shouldWrap())
+				if (worker.shouldWrap(str[ii + 1]))
 					worker.commit(ii);
 			}
 		}
@@ -803,7 +809,7 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 		whiteSpace = style ? style.whiteSpace.toLowerCase() : "";
 
 		if (node.tagName == "DIV" || node.tagName == "P") {
-			var liText, extraIndent, width;
+			var liText, extraIndent, width, useDefaultWidth = false;
 
 			liText = node.getAttribute("x-evo-li-text");
 			if (!liText)
@@ -818,17 +824,29 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 			width = node.style.width;
 			if (width && width.endsWith("ch")) {
 				width = parseInt(width.slice(0, -2));
+
 				if (!Number.isInteger(width) || width < 0)
-					width = normalDivWidth;
+					useDefaultWidth = true;
 			} else {
-				width = normalDivWidth;
+				useDefaultWidth = true;
+			}
+
+			if (useDefaultWidth && normalDivWidth > 0) {
+				width = normalDivWidth - (quoteLevel * 2);
+
+				if (width < EvoConvert.MIN_PARAGRAPH_WIDTH)
+					width = EvoConvert.MIN_PARAGRAPH_WIDTH;
 			}
 
 			str = EvoConvert.formatParagraph(EvoConvert.extractElemText(node, normalDivWidth, quoteLevel), ltr, align, indent, whiteSpace, width, extraIndent, liText, quoteLevel);
 		} else if (node.tagName == "PRE") {
 			str = EvoConvert.formatParagraph(EvoConvert.extractElemText(node, normalDivWidth, quoteLevel), ltr, align, indent, "pre", -1, 0, "", quoteLevel);
 		} else if (node.tagName == "BR") {
-			str = "\n";
+			// ignore new-lines added by wrapping, treat them as spaces
+			if (node.classList.contains("-x-evo-wrap-br"))
+				str += " ";
+			else
+				str = "\n";
 		} else if (node.tagName == "IMG") {
 			str = EvoConvert.ImgToText(node);
 		} else if (node.tagName == "A" && !node.innerText.includes(" ") && !node.innerText.includes("\n")) {

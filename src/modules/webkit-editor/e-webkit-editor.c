@@ -69,7 +69,8 @@ enum {
 	PROP_NORMAL_PARAGRAPH_WIDTH,
 	PROP_MAGIC_LINKS,
 	PROP_MAGIC_SMILEYS,
-	PROP_UNICODE_SMILEYS
+	PROP_UNICODE_SMILEYS,
+	PROP_WRAP_QUOTED_TEXT_IN_REPLIES
 };
 
 struct _EWebKitEditorPrivate {
@@ -110,6 +111,7 @@ struct _EWebKitEditorPrivate {
 	gboolean magic_links;
 	gboolean magic_smileys;
 	gboolean unicode_smileys;
+	gboolean wrap_quoted_text_in_replies;
 
 	EContentEditorBlockFormat block_format;
 	EContentEditorAlignment alignment;
@@ -3976,6 +3978,31 @@ webkit_editor_get_unicode_smileys (EWebKitEditor *wk_editor)
 }
 
 static void
+webkit_editor_set_wrap_quoted_text_in_replies (EWebKitEditor *wk_editor,
+					       gboolean value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if ((wk_editor->priv->wrap_quoted_text_in_replies ? 1 : 0) != (value ? 1 : 0)) {
+		wk_editor->priv->wrap_quoted_text_in_replies = value;
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES = %x;",
+			value);
+
+		g_object_notify (G_OBJECT (wk_editor), "wrap-quoted-text-in-replies");
+	}
+}
+
+static gboolean
+webkit_editor_get_wrap_quoted_text_in_replies (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+
+	return wk_editor->priv->wrap_quoted_text_in_replies;
+}
+
+static void
 e_webkit_editor_initialize_web_extensions_cb (WebKitWebContext *web_context,
 					      gpointer user_data)
 {
@@ -4080,6 +4107,11 @@ webkit_editor_constructed (GObject *object)
 	g_settings_bind (
 		settings, "composer-unicode-smileys",
 		wk_editor, "unicode-smileys",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "composer-wrap-quoted-text-in-replies",
+		wk_editor, "wrap-quoted-text-in-replies",
 		G_SETTINGS_BIND_GET);
 
 	g_object_unref (settings);
@@ -4289,6 +4321,12 @@ webkit_editor_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_WRAP_QUOTED_TEXT_IN_REPLIES:
+			webkit_editor_set_wrap_quoted_text_in_replies (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_ALIGNMENT:
 			webkit_editor_set_alignment (
 				E_WEBKIT_EDITOR (object),
@@ -4480,6 +4518,11 @@ webkit_editor_get_property (GObject *object,
 		case PROP_UNICODE_SMILEYS:
 			g_value_set_boolean (value,
 				webkit_editor_get_unicode_smileys (E_WEBKIT_EDITOR (object)));
+			return;
+
+		case PROP_WRAP_QUOTED_TEXT_IN_REPLIES:
+			g_value_set_boolean (value,
+				webkit_editor_get_wrap_quoted_text_in_replies (E_WEBKIT_EDITOR (object)));
 			return;
 
 		case PROP_ALIGNMENT:
@@ -5379,6 +5422,19 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS));
+
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WRAP_QUOTED_TEXT_IN_REPLIES,
+		g_param_spec_boolean (
+			"wrap-quoted-text-in-replies",
+			NULL,
+			NULL,
+			TRUE, /* Should be the same as e-editor.js:EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES and in the init() */
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -5401,6 +5457,7 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->magic_links = TRUE;
 	wk_editor->priv->magic_smileys = FALSE;
 	wk_editor->priv->unicode_smileys = FALSE;
+	wk_editor->priv->wrap_quoted_text_in_replies = TRUE;
 
 	g_signal_connect (
 		wk_editor, "load-changed",

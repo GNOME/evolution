@@ -2562,7 +2562,42 @@ test_convert_to_plain (TestFixture *fixture)
 	/* 59 */{ HTML ("<div style='width:16ch'>before <a href='https://no.where/'>anchor text</a> after</div>"),
 		"before anchor\n"
 		"text after\n",
-		16 }
+		16 },
+	/* 60 */{ HTML ("<div>text before<br class=\"-x-evo-wrap-br\"><a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">text after</div>"),
+		"text\n"
+		"before\n"
+		"https://no.where/1234567890/123457890/1234567890\n"
+		"text\n"
+		"after\n",
+		6 },
+	/* 61 */{ HTML ("<div>text before<br class=\"-x-evo-wrap-br\"><a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">text after</div>"),
+		"text\n"
+		"before\n"
+		"https://no.where/1234567890/123457890/1234567890\n"
+		"text\n"
+		"after\n",
+		9 },
+	/* 62 */{ HTML ("<div>text before<br class=\"-x-evo-wrap-br\"><a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">text after</div>"),
+		"text\n"
+		"before\n"
+		"https://no.where/1234567890/123457890/1234567890\n"
+		"text after\n",
+		10 },
+	/* 63 */{ HTML ("<div>text before<br class=\"-x-evo-wrap-br\"><a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">text after</div>"),
+		"text before\n"
+		"https://no.where/1234567890/123457890/1234567890\n"
+		"text after\n",
+		11 },
+	/* 64 */{ HTML ("<div>text before<br class=\"-x-evo-wrap-br\"><a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">text after</div>"),
+		"text before\n"
+		"https://no.where/1234567890/123457890/1234567890\n"
+		"text after\n",
+		12 },
+	/* 65 */{ HTML ("<div>text before<br><a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br>text after</div>"),
+		"text before\n"
+		"https://no.where/1234567890/123457890/1234567890\n"
+		"text after\n",
+		12 }
 	};
 
 	#undef HTML
@@ -2591,6 +2626,8 @@ static void
 test_convert_to_plain_quoted (TestFixture *fixture)
 {
 	#define HTML(_body) ("<html><head><style><!-- span.Apple-tab-span { white-space:pre; } --></style></head><body style='font-family:monospace;'>" _body "</body></html>")
+	#define QUOTE_SPAN(x) "<span class='-x-evo-quoted'>" x "</span>"
+	#define QUOTE_CHR "<span class='-x-evo-quote-character'>&gt; </span>"
 
 	struct _tests {
 		const gchar *html;
@@ -2778,9 +2815,70 @@ test_convert_to_plain_quoted (TestFixture *fixture)
 		"</blockquote>"),
 		"> > before anchor\n"
 		"> > text after\n",
-		16 }
+		16 },
+	/* 15 */{ HTML ("<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "text before<br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "<a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "text after</div>"
+		"</blockquote>"),
+		"> text\n"
+		"> before\n"
+		"> https://no.where/1234567890/123457890/1234567890\n"
+		"> text\n"
+		"> after\n",
+		8 },
+	/* 16 */{ HTML ("<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "text before<br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "<a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "text after</div>"
+		"</blockquote>"),
+		"> text\n"
+		"> before\n"
+		"> https://no.where/1234567890/123457890/1234567890\n"
+		"> text\n"
+		"> after\n",
+		11 },
+	/* 17 */{ HTML ("<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "text before<br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "<a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "text after</div>"
+		"</blockquote>"),
+		"> text\n"
+		"> before\n"
+		"> https://no.where/1234567890/123457890/1234567890\n"
+		"> text after\n",
+		12 },
+	/* 18 */{ HTML ("<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "text before<br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "<a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "text after</div>"
+		"</blockquote>"),
+		"> text before\n"
+		"> https://no.where/1234567890/123457890/1234567890\n"
+		"> text after\n",
+		13 },
+	/* 19 */{ HTML ("<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "text before<br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "<a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br class=\"-x-evo-wrap-br\">"
+			QUOTE_SPAN (QUOTE_CHR) "text after</div>"
+		"</blockquote>"),
+		"> text before\n"
+		"> https://no.where/1234567890/123457890/1234567890\n"
+		"> text after\n",
+		14 },
+	/* 20 */{ HTML ("<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "text before<br>"
+			QUOTE_SPAN (QUOTE_CHR) "<a href='https://no.where/'>https://no.where/1234567890/123457890/1234567890</a><br>"
+			QUOTE_SPAN (QUOTE_CHR) "text after</div>"
+		"</blockquote>"),
+		"> text before\n"
+		"> https://no.where/1234567890/123457890/1234567890\n"
+		"> text after\n",
+		14 }
 	};
 
+	#undef QUOTE_SPAN
+	#undef QUOTE_CHR
 	#undef HTML
 
 	gchar *script;
