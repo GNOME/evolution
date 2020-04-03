@@ -517,7 +517,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				else
 					worker.commitSpaces(ii);
 
-				var add = " ".repeat(EvoConvert.TAB_WIDTH - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH));
+				var add = chr; // this expands the tab, instead of leaving it '\t'...  " ".repeat(EvoConvert.TAB_WIDTH - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH));
 
 				worker.lineLetters = worker.lineLetters - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
 

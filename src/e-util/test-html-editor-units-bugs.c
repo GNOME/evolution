@@ -1515,7 +1515,7 @@ test_issue_86 (TestFixture *fixture)
 		"> > \n"
 		"> > level 1\n"
 		"> \n"
-		"> back normal text"))
+		"> back normal text\n"))
 		g_test_fail ();
 
 	g_free (to_insert);
@@ -1547,10 +1547,10 @@ test_issue_103 (TestFixture *fixture)
 		"before\n"
 		LONG_URL "\n"
 		"after\n"
-		"prefix text \n"
+		"prefix text\n"
 		SHORTER_URL " suffix\n"
 		"prefix " SHORT_URL " suffix\n"
-		"end")) {
+		"end\n")) {
 		g_test_fail ();
 		return;
 	}
@@ -1577,7 +1577,7 @@ test_issue_104 (TestFixture *fixture)
 		"undo:test:1\n"
 		"undo:redo\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">txt to rplac</div>" HTML_SUFFIX,
-		"txt to rplac"))
+		"txt to rplac\n"))
 		g_test_fail ();
 }
 
@@ -1615,39 +1615,39 @@ test_issue_107 (TestFixture *fixture)
 		"",
 		HTML_PREFIX
 		"<div style=\"width: 71ch;\">On Today, User wrote:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
-		"<div style=\"width: 71ch;\">&gt; text</div>"
-		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.01.org/\">https://www.01.org/</a>&nbsp;?</div>"
-		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.02.org/\">https://www.02.org/</a>&nbsp;A</div>"
-		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.03.org/\">https://www.03.org/</a>&nbsp;ěšč</div>"
-		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.04.org/\">https://www.04.org/</a> ?</div>"
-		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.05.org/\">https://www.05.org/</a></div>"
-		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.06.org/\">https://www.06.org/</a>&nbsp;</div>"
-		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.07.org/\">https://www.07.org/</a>&nbsp;&nbsp;</div>"
-		"<div style=\"width: 71ch;\">&gt; <a href=\"https://www.08.org/\">https://www.08.org/</a>&nbsp;&gt;&nbsp;&lt;&nbsp;</div>"
-		"<div style=\"width: 71ch;\">&gt; &lt;<a href=\"https://www.09.org/\">https://www.09.org/</a>&gt;</div>"
-		"<div style=\"width: 71ch;\">&gt; &lt;<a href=\"https://www.10.org/\">https://www.10.org/</a>&nbsp;?&gt;</div>"
-		"<div style=\"width: 71ch;\">&gt; &nbsp;<a href=\"https://www.11.org/\">https://www.11.org/</a>&nbsp;</div>"
-		"<div style=\"width: 71ch;\">&gt; &lt;&nbsp;<a href=\"https://www.12.org/\">https://www.12.org/</a>&nbsp;&gt;</div>"
-		"<div style=\"width: 71ch;\">&gt; &nbsp;&lt;<a href=\"https://www.13.org/\">https://www.13.org/</a>&gt;&nbsp;</div>"
-		"<div style=\"width: 71ch;\">&gt; Text <a href=\"https://www.14.org/\">https://www.14.org/</a>\temail: user@no.where</div>"
+		"<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "text</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.01.org/\">https://www.01.org/</a>&nbsp;?</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.02.org/\">https://www.02.org/</a>&nbsp;A</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.03.org/\">https://www.03.org/</a>&nbsp;ěšč</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.04.org/\">https://www.04.org/</a> ?</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.05.org/\">https://www.05.org/</a></div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.06.org/\">https://www.06.org/</a>&nbsp;</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.07.org/\">https://www.07.org/</a>&nbsp;&nbsp;</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.08.org/\">https://www.08.org/</a>&nbsp;&gt;&nbsp;&lt;&nbsp;</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "&lt;<a href=\"https://www.09.org/\">https://www.09.org/</a>&gt;</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "&lt;<a href=\"https://www.10.org/\">https://www.10.org/</a>&nbsp;?&gt;</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;<a href=\"https://www.11.org/\">https://www.11.org/</a>&nbsp;</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "&lt;&nbsp;<a href=\"https://www.12.org/\">https://www.12.org/</a>&nbsp;&gt;</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;&lt;<a href=\"https://www.13.org/\">https://www.13.org/</a>&gt;&nbsp;</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "Text <a href=\"https://www.14.org/\">https://www.14.org/</a>\temail: <a href=\"mailto:user@no.where\">user@no.where</a></div>"
 		"</blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> text\n"
-		"> https://www.01.org/ ?\n"
-		"> https://www.02.org/ A\n"
-		"> https://www.03.org/ ěšč\n"
+		"> https://www.01.org/" UNICODE_NBSP "?\n"
+		"> https://www.02.org/" UNICODE_NBSP "A\n"
+		"> https://www.03.org/" UNICODE_NBSP "ěšč\n"
 		"> https://www.04.org/ ?\n"
 		"> https://www.05.org/\n"
-		"> https://www.06.org/ \n"
-		"> https://www.07.org/  \n"
-		"> https://www.08.org/ > < \n"
+		"> https://www.06.org/" UNICODE_NBSP "\n"
+		"> https://www.07.org/" UNICODE_NBSP UNICODE_NBSP "\n"
+		"> https://www.08.org/" UNICODE_NBSP ">" UNICODE_NBSP "<" UNICODE_NBSP "\n"
 		"> <https://www.09.org/>\n"
-		"> <https://www.10.org/ ?>\n"
-		">  https://www.11.org/ \n"
-		"> < https://www.12.org/ >\n"
-		">  <https://www.13.org/> \n"
-		"> Text https://www.14.org/\temail: user@no.where")) {
+		"> <https://www.10.org/" UNICODE_NBSP "?>\n"
+		"> " UNICODE_NBSP "https://www.11.org/" UNICODE_NBSP "\n"
+		"> <" UNICODE_NBSP "https://www.12.org/" UNICODE_NBSP ">\n"
+		"> " UNICODE_NBSP "<https://www.13.org/>" UNICODE_NBSP "\n"
+		"> Text https://www.14.org/\temail: user@no.where\n")) {
 		g_test_fail ();
 	}
 }
@@ -1674,8 +1674,8 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/bug/775042", test_bug_775042);
 	test_utils_add_test ("/bug/775691", test_bug_775691);
 	test_utils_add_test ("/bug/779707", test_bug_779707);
-	test_utils_add_test ("/bug/780275/html", test_bug_780275_html);
-	test_utils_add_test ("/bug/780275/plain", test_bug_780275_plain);
+	test_utils_add_test ("/bug/780275-html", test_bug_780275_html);
+	test_utils_add_test ("/bug/780275-plain", test_bug_780275_plain);
 	test_utils_add_test ("/bug/781722", test_bug_781722);
 	test_utils_add_test ("/bug/781116", test_bug_781116);
 	test_utils_add_test ("/bug/780088", test_bug_780088);

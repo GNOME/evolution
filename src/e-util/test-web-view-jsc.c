@@ -1967,7 +1967,7 @@ test_convert_to_plain (TestFixture *fixture)
 		  "123 5678\n0123 5678\n0123 678\n1234567890\nabcdefghij\nklmnopq\n012345 356\n9\n0\n",
 		  -1 },
 	/* 6 */	{ HTML ("<div style='width:10ch; " WRAP_STYLE ("pre-wrap") "'>123 5678 0123 5678 0123  678 1234567890abcdefghijklmnopq 012345         356  9         " TAB TAB "0</div>"),
-		  "123 5678\n0123 5678\n0123  678\n1234567890\nabcdefghij\nklmnopq\n012345   \n356  9   \n       \n        0\n",
+		  "123 5678\n0123 5678\n0123  678\n1234567890\nabcdefghij\nklmnopq\n012345   \n356  9   \n\t\n\t0\n",
 		  -1 },
 	/* 7 */	{ HTML ("<pre>123456789012345\n1\t90123\n123   78901\n  34567   <br>123 5</pre>"),
 		  "123456789012345\n1\t90123\n123   78901\n  34567   \n123 5\n",

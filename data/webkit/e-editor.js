@@ -3492,7 +3492,7 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 		// the replace call below replaces &nbsp; (0xA0) with regular space
 		matches = EvoEditor.findSmileys(text.replace(/ /g, " "), EvoEditor.UNICODE_SMILEYS);
 		if (matches) {
-			var sz = matches.length, node, tmpElement = null;
+			var ii, sz = matches.length, node, tmpElement = null;
 
 			if (sz > 1)
 				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, "magicSmiley");
@@ -5254,7 +5254,7 @@ EvoEditor.processLoadedContent = function()
 
 			if (!EvoEditor.IsBlockNode(node) && (node.nodeType == node.ELEMENT_NODE || (node.nodeValue && node.nodeValue != "\n" && node.nodeValue != "\r\n"))) {
 				if (!addingTo) {
-					addingTo = document.createElement("DIV");
+					addingTo = document.createElement(EvoEditor.hasElementWithTagNameAsParent(node, "PRE") ? "PRE" : "DIV");
 					blockquoteNode.insertBefore(addingTo, node);
 					EvoEditor.maybeUpdateParagraphWidth(addingTo);
 				}
