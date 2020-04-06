@@ -2807,8 +2807,6 @@ webkit_editor_replace_all (EContentEditor *editor,
 	wk_editor->priv->performing_replace_all = TRUE;
 	wk_editor->priv->replaced_count = 0;
 
-	webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor), "MoveToBeginningOfDocumentAndModifySelection");
-
 	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
 		"EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, %s);", "ReplaceAll");
 

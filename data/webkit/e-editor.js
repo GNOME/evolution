@@ -2907,7 +2907,7 @@ EvoEditor.requoteNodeParagraph = function(node)
 	}
 
 	if (!node || node.tagName == "BODY")
-		return;
+		return null;
 
 	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "requote", node, node,
 		EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
@@ -3096,7 +3096,7 @@ EvoEditor.removeEmptyElements = function(tagName)
 
 		didRemove++;
 
-		EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "removeEmptyElem::" + tagName, node, node,
+		EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "removeEmptyElem::" + tagName, node.parentElement, node.parentElement,
 			EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
 		try {
 			node.remove();
@@ -3154,10 +3154,24 @@ EvoEditor.beforeInputCb = function(inputEvent)
 				didRemove++;
 
 			if (didRemove) {
-				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, inputEvent.inputType + "::selDeletion", selection.anchorNode, selection.focusNode,
+				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, inputEvent.inputType + "::selDeletion", selection.anchorNode.parentElement, selection.focusNode.parentElement,
 					EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
 				try {
+					var anchorBlockquote = EvoEditor.getParentElement("BLOCKQUOTE", selection.anchorNode, true);
+					var blockquote = EvoEditor.getParentElement("BLOCKQUOTE", selection.focusNode, true);
+
 					selection.deleteFromDocument();
+
+					if (blockquote && anchorBlockquote === blockquote && blockquote.lastElementChild &&
+					    (blockquote.lastElementChild.tagName == "DIV" || blockquote.lastElementChild.tagName == "PRE") &&
+					    (!blockquote.lastElementChild.childNodes.length || (blockquote.lastElementChild.childNodes.length == 1 &&
+					     blockquote.lastElementChild.childNodes[0].nodeType == blockquote.TEXT_NODE && !blockquote.lastElementChild.childNodes[0].nodeValue))) {
+						// keep at least one empty DIV/PRE, when it's at the end of the BLOCKQUOTE
+						blockquote.lastElementChild.append(document.createElement("BR"));
+
+						if (EvoEditor.requoteNodeParagraph(blockquote.lastElementChild.firstElementChild))
+						     didRemove++;
+					}
 				} finally {
 					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, inputEvent.inputType + "::selDeletion");
 				}
@@ -4521,7 +4535,8 @@ EvoEditor.replaceSelectionWord = function(opType, expandWord, replacement)
 
 			/* Insert the word on current location. */
 			range.insertNode(fragment);
-			document.getSelection().modify("move", "forward", "word");
+
+			document.getSelection().setPosition(text, replacement ? replacement.length : 0);
 		}
 	} finally {
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_EVENT, opType);

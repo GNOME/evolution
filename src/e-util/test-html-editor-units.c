@@ -1058,7 +1058,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:d\n"
+		"seq:dh\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -1210,7 +1210,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:uuuSds\n"
+		"seq:uuuhSdes\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -1285,7 +1285,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:duSds\n"
+		"seq:duhSdes\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -1362,7 +1362,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:dSus\n"
+		"seq:dhSues\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -1478,7 +1478,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:uuuSddds\n"
+		"seq:uuuhSdddes\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -1644,7 +1644,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:d\n"
+		"seq:dh\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -1729,7 +1729,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:dd\n"
+		"seq:ddh\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -1812,7 +1812,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:uuuSds\n"
+		"seq:uuuhSdes\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -1895,7 +1895,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:duSds\n"
+		"seq:duhSdes\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -1980,7 +1980,7 @@ test_list_indent_same (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:dSus\n"
+		"seq:deSuhs\n"
 		"action:unindent\n"
 		"action:style-preformat\n",
 		!is_html ? NULL :
@@ -2302,7 +2302,7 @@ test_list_indent_different (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:uuuSds\n"
+		"seq:uuuhSdes\n"
 		"action:indent\n"
 		"action:style-list-number\n",
 		!is_html ? NULL :
@@ -2367,7 +2367,7 @@ test_list_indent_different (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:duSds\n"
+		"seq:duhSdes\n"
 		"action:indent\n"
 		"action:style-list-alpha\n",
 		!is_html ? NULL :
@@ -2434,7 +2434,7 @@ test_list_indent_different (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:dSus\n"
+		"seq:deSuhs\n"
 		"action:indent\n"
 		"action:style-list-roman\n",
 		!is_html ? NULL :
@@ -2749,7 +2749,7 @@ test_list_indent_different (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:uuuSds\n"
+		"seq:uuuhSdes\n"
 		"action:indent\n"
 		"action:style-list-bullet\n",
 		!is_html ? NULL :
@@ -2822,7 +2822,7 @@ test_list_indent_different (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:duSds\n"
+		"seq:duhSdes\n"
 		"action:indent\n"
 		"action:style-list-alpha\n",
 		!is_html ? NULL :
@@ -2897,7 +2897,7 @@ test_list_indent_different (TestFixture *fixture,
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:save\n" /* 1 */
-		"seq:dSus\n"
+		"seq:deSuhs\n"
 		"action:indent\n"
 		"action:style-list-roman\n",
 		!is_html ? NULL :
@@ -4412,7 +4412,7 @@ test_paste_quoted_singleline_html2plain (TestFixture *fixture)
 			"<div>" QUOTE_SPAN (QUOTE_CHR) "some bold text</div>"
 		"</blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before\n"
+		"text before \n"
 		"> some bold text\n"
 		"text after\n"))
 		g_test_fail ();
@@ -4452,7 +4452,7 @@ test_paste_quoted_singleline_plain2plain (TestFixture *fixture)
 		HTML_PREFIX "<div style=\"width: 71ch;\">text before </div>"
 		"<blockquote type=\"cite\"><div>" QUOTE_SPAN (QUOTE_CHR) "some plain text</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before\n"
+		"text before \n"
 		"> some plain text\n"
 		"text after\n"))
 		g_test_fail ();
@@ -4498,7 +4498,7 @@ test_paste_quoted_multiline_html2plain (TestFixture *fixture)
 		QUOTE_SPAN (QUOTE_CHR) "italic text<br>"
 		QUOTE_SPAN (QUOTE_CHR) "underline text</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before\n"
+		"text before \n"
 		"> bold text\n"
 		"> italic text\n"
 		"> underline text\n"
@@ -4548,7 +4548,7 @@ test_paste_quoted_multiline_plain2plain (TestFixture *fixture)
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3</div></blockquote>"
 		"<div style=\"width: 71ch;\">text after</div>" HTML_SUFFIX,
-		"text before\n"
+		"text before \n"
 		"> line 1\n"
 		"> line 2\n"
 		"> line 3\n"
@@ -4781,8 +4781,8 @@ test_cite_longline (TestFixture *fixture)
 		"</blockquote><br>after quote" HTML_SUFFIX,
 		"> This is the first paragraph of a quoted text which has some long text\n"
 		"> to test. It has the second sentence as well.\n"
-		"> This is the second paragraph of a quoted text which has some long text\n"
-		"> to test. It has the second sentence as well.\n"
+		"> This is the second paragraph of a quoted text which has some long\n"
+		"> text to test. It has the second sentence as well.\n"
 		"> This is the third paragraph of a quoted text which has some long text\n"
 		"> to test. It has the second sentence as well.\n"
 		"\nafter quote")) {
@@ -4832,6 +4832,40 @@ test_cite_reply_html_to_plain (TestFixture *fixture)
 		"<pre>line 1\n"
 		"line 2\n\n"
 		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
+		"<span class=\"-x-evo-cite-body\"></span>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
+		"<blockquote type=\"cite\">"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 1</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "line 2</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "<br></pre></blockquote>" HTML_SUFFIX,
+		"On Today, User wrote:\n"
+		"> line 1\n"
+		"> line 2\n"
+		"> \n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<div>line 1</div>"
+		"<div>line 2</div><br>"
+		"<span class=\"-x-evo-to-body\" data-credits=\"On Today, User wrote:\"></span>"
 		"<span class=\"-x-evo-cite-body\"></span>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
@@ -5803,8 +5837,8 @@ test_delete_after_quoted (TestFixture *fixture)
 		"seq:dddb\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Thu, 2016-09-15 at 08:08 -0400, user wrote:</div>"
 		"<blockquote type=\"cite\">"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "b</div>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "a</pre>"
+		"<pre>" QUOTE_SPAN (QUOTE_CHR) "b</pre>"
 		"</blockquote>"
 		HTML_SUFFIX,
 		"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\n"

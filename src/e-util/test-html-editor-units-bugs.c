@@ -55,8 +55,11 @@ test_bug_726548 (TestFixture *fixture)
 	success = test_utils_html_equal (fixture, text, expected_plain);
 
 	if (!success) {
-		g_warning ("%s: clipboard Plain text \n---%s---\n does not match expected Plain\n---%s---",
-			G_STRFUNC, text, expected_plain);
+		if (test_utils_get_keep_going ())
+			g_printerr ("%s: clipboard Plain text \n---%s---\n does not match expected Plain\n---%s---", G_STRFUNC, text, expected_plain);
+		else
+			g_warning ("%s: clipboard Plain text \n---%s---\n does not match expected Plain\n---%s---", G_STRFUNC, text, expected_plain);
+
 		g_free (text);
 		g_test_fail ();
 	} else {
