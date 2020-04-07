@@ -695,6 +695,11 @@ EvoUndoRedo.StopRecord = function(kind, opType)
 	return true;
 }
 
+EvoUndoRedo.IsRecording = function()
+{
+	return !EvoUndoRedo.disabled && EvoUndoRedo.ongoingRecordings.length > 0;
+}
+
 EvoUndoRedo.Undo = function()
 {
 	var record = EvoUndoRedo.stack.undo();

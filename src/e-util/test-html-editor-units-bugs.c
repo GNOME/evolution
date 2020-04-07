@@ -797,8 +797,8 @@ test_bug_773164 (TestFixture *fixture)
 		"undo:undo\n"
 		"undo:test\n"
 		"undo:redo\n"
-		"seq:huue\n" /* Go to the end of the first line */
-		"seq:Sds\n"
+		"seq:huuue\n" /* Go to the end of the second line */
+		"seq:Sddes\n"
 		"action:cut\n"
 		"seq:dde\n" /* Go to the end of the last line */
 		"action:paste\n"
@@ -806,12 +806,18 @@ test_bug_773164 (TestFixture *fixture)
 		"undo:test\n"
 		"undo:redo:3\n",
 		HTML_PREFIX "<div style=\"width: 71ch;\">This is paragraph 1</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
 		"<div style=\"width: 71ch;\">This is a longer paragraph 3</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
 		"<div style=\"width: 71ch;\">This is paragraph 2</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
 		HTML_SUFFIX,
 		"This is paragraph 1\n"
+		"\n"
 		"This is a longer paragraph 3\n"
-		"This is paragraph 2\n"))
+		"\n"
+		"This is paragraph 2\n"
+		"\n"))
 		g_test_fail ();
 }
 
@@ -1205,7 +1211,7 @@ test_bug_780088 (TestFixture *fixture)
 		"&lt;<a href=\"https://example.subdomain.org/p/user/\">https://example.subdomain.org/p/user/</a>&gt; , "
 		"click fjwvne on the left, click skjd sjewncj on the right, and set wqje wjfdn Xs to something like "
 		"wqjfnm <a href=\"https://www.example.com/~user\">www.example.com/~user</a> wjfdncj or such.</div>"
-		"</div><div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\"><br></div>"
 		HTML_SUFFIX,
 		"Seeing @blah instead of @foo XX'ed\n"
 		"on" UNICODE_NBSP "https://example.sub" UNICODE_NBSP "domain.org/page I'd recommend to XX YY\n"

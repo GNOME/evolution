@@ -1562,6 +1562,54 @@ EvoEditor.applyDivNormalize = function(record, isUndo)
 	}
 }
 
+EvoEditor.correctParagraphsAfterInsertContent = function(opType)
+{
+	var node, list, ii;
+
+	list = document.body.getElementsByTagName("DIV");
+
+	for (ii = 0; ii < list.length; ii++) {
+		node = list[ii];
+
+		if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+			var beforeValue = node.style.width;
+			EvoEditor.maybeUpdateParagraphWidth(node);
+
+			if (node.style.width != beforeValue) {
+				var record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divWidths", node, node, EvoEditor.CLAIM_CONTENT_FLAG_NONE);
+				try {
+					if (record) {
+						record.path = EvoSelection.GetChildPath(document.body, node);
+						record.beforeValue = beforeValue;
+						record.afterValue = node.style.width;
+						record.isWidthStyle = true;
+						record.apply = EvoEditor.applyDivNormalize;
+					}
+				} finally {
+					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divWidths");
+				}
+			}
+		}
+
+		if (!node.firstChild) {
+			var record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divBR", node, node, EvoEditor.CLAIM_CONTENT_FLAG_NONE);
+			try {
+				beforeValue = node.innerHTML;
+				node.appendChild(document.createElement("BR"));
+
+				if (record) {
+					record.path = EvoSelection.GetChildPath(document.body, node);
+					record.beforeValue = beforeValue;
+					record.afterValue = node.innerHTML;
+					record.apply = EvoEditor.applyDivNormalize;
+				}
+			} finally {
+				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divBR");
+			}
+		}
+	}
+}
+
 EvoEditor.InsertHTML = function(opType, html)
 {
 	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, opType);
@@ -1570,82 +1618,21 @@ EvoEditor.InsertHTML = function(opType, html)
 
 		var node, list, ii;
 
-		list = document.body.querySelectorAll("SPAN[id=-x-evo-insert-content-wrapper]");
-
-		for (ii = list.length - 1; ii >= 0; ii--) {
-			node = list[ii];
-
-			var parentBlock = EvoEditor.GetParentBlockNode(node);
-
-			EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::removeContentWrapper", parentBlock, parentBlock, EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
-			try {
-				var child = EvoEditor.GetDirectChild(parentBlock, node);
-
-				while (node.firstChild) {
-					if (node.firstChild.tagName == "BLOCKQUOTE") {
-						if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-							node.firstChild.removeAttribute("class");
-							node.firstChild.removeAttribute("style");
-						} else {
-							node.firstChild.removeAttribute("class");
-							node.firstChild.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
-						}
-					}
-
-					parentBlock.insertBefore(node.firstChild, child);
-				}
-
-				node.parentElement.removeChild(node);
-
-				if (!(child === node) && !child.firstChild)
-					parentBlock.removeChild(child);
-			} finally {
-				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::removeContentWrapper");
-			}
-		}
-
-		list = document.body.getElementsByTagName("DIV");
+		list = document.body.getElementsByTagName("BLOCKQUOTE");
 
 		for (ii = 0; ii < list.length; ii++) {
 			node = list[ii];
 
+			EvoEditor.setAttributeWithUndoRedo("InsertHTML::fixBlockquote", node, "class", null);
+
 			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-				var beforeValue = node.style.width;
-				EvoEditor.maybeUpdateParagraphWidth(node);
-
-				if (node.style.width != beforeValue) {
-					var record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divWidths", node, node, EvoEditor.CLAIM_CONTENT_FLAG_NONE);
-					try {
-						if (record) {
-							record.path = EvoSelection.GetChildPath(document.body, node);
-							record.beforeValue = beforeValue;
-							record.afterValue = node.style.width;
-							record.isWidthStyle = true;
-							record.apply = EvoEditor.applyDivNormalize;
-						}
-					} finally {
-						EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divWidths");
-					}
-				}
-			}
-
-			if (!node.firstChild) {
-				var record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divBR", node, node, EvoEditor.CLAIM_CONTENT_FLAG_NONE);
-				try {
-					beforeValue = node.innerHTML;
-					node.appendChild(document.createElement("BR"));
-
-					if (record) {
-						record.path = EvoSelection.GetChildPath(document.body, node);
-						record.beforeValue = beforeValue;
-						record.afterValue = node.innerHTML;
-						record.apply = EvoEditor.applyDivNormalize;
-					}
-				} finally {
-					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opType + "::divBR");
-				}
+				EvoEditor.setAttributeWithUndoRedo("InsertHTML::fixBlockquote", node, "style", null);
+			} else {
+				EvoEditor.setAttributeWithUndoRedo("InsertHTML::fixBlockquote", node, "style", EvoEditor.BLOCKQUOTE_STYLE);
 			}
 		}
+
+		EvoEditor.correctParagraphsAfterInsertContent(opType);
 	} finally {
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, opType);
 		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
@@ -1665,44 +1652,9 @@ EvoEditor.InsertText = function(opType, text)
 	}
 }
 
-EvoEditor.applySetBodyAttribute = function(record, isUndo)
-{
-	if (isUndo) {
-		if (record.beforeValue)
-			document.body.setAttribute(record.attrName, record.beforeValue);
-		else
-			document.body.removeAttribute(record.attrName);
-	} else {
-		if (record.attrValue)
-			document.body.setAttribute(record.attrName, record.attrValue);
-		else
-			document.body.removeAttribute(record.attrName);
-	}
-}
-
 EvoEditor.SetBodyAttribute = function(name, value)
 {
-	var record;
-
-	record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "setBodyAttribute::" + name, document.body, document.body, EvoEditor.CLAIM_CONTENT_FLAG_NONE);
-
-	try {
-		if (record) {
-			record.attrName = name;
-			record.attrValue = value;
-			record.beforeValue = document.body.getAttribute(name);
-			record.apply = EvoEditor.applySetBodyAttribute;
-		}
-
-		if (value)
-			document.body.setAttribute(name, value);
-		else
-			document.body.removeAttribute(name);
-	} finally {
-		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "setBodyAttribute::" + name);
-		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
-		EvoEditor.EmitContentChanged();
-	}
+	EvoEditor.setAttributeWithUndoRedo("SetBodyAttribute", document.body, name, value);
 }
 
 EvoEditor.applySetBodyFontName = function(record, isUndo)
@@ -3775,8 +3727,11 @@ EvoEditor.setAttributeWithUndoRedo = function(opTypePrefix, element, name, value
 		}
 	} finally {
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, opTypePrefix + "::" + name);
-		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
-		EvoEditor.EmitContentChanged();
+
+		if (!EvoUndoRedo.IsRecording()) {
+			EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+			EvoEditor.EmitContentChanged();
+		}
 	}
 
 	return true;
@@ -4905,6 +4860,14 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 	return res;
 }
 
+EvoEditor.isEmptyParagraph = function(node)
+{
+	if (!node || !EvoEditor.IsBlockNode(node))
+		return false;
+
+	return !node.children.length || (node.children.length == 1 && node.children[0].tagName == "BR");
+}
+
 // the body contains data, which should be converted into editable content;
 // preferredPlainText can be empty, if not, then it replaces body content
 EvoEditor.ConvertContent = function(preferredPlainText, startBottom, topSignature)
@@ -4926,21 +4889,14 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 			}
 		}
 
-		var wrapperNode, content;
-
-		wrapperNode = document.createElement("SPAN");
-		wrapperNode.id = "-x-evo-insert-content-wrapper";
+		var wasPlain = !isHTML;
+		var content = document.createElement(quote ? "BLOCKQUOTE" : "DIV");
 
 		if (quote) {
-			content = document.createElement("BLOCKQUOTE");
 			content.setAttribute("type", "cite");
-
-			wrapperNode.appendChild(content);
 
 			if (EvoEditor.mode != EvoEditor.MODE_PLAIN_TEXT)
 				content.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
-		} else {
-			content = wrapperNode;
 		}
 
 		if (isHTML) {
@@ -4991,13 +4947,14 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 		} else {
 			var lines = text.split("\n");
 
-			if (lines.length == 1) {
-				content.innerText = text;
+			if (lines.length == 1 || (lines.length == 2 && !lines[1])) {
+				content.innerText = lines[0];
 			} else {
-				var ii;
+				var ii, line, divNode;
 
 				for (ii = 0; ii < lines.length; ii++) {
-					var line = lines[ii], divNode = document.createElement("DIV");
+					line = lines[ii];
+					divNode = document.createElement("DIV");
 
 					content.appendChild(divNode);
 
@@ -5007,6 +4964,8 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 						divNode.innerText = line;
 					}
 				}
+
+				isHTML = true;
 			}
 		}
 
@@ -5125,15 +5084,13 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 							document.getSelection().setPosition(content, 0);
 
 						if (anchorNode.nodeType == anchorNode.ELEMENT_NODE && anchorNode.parentElement &&
-						    (anchorNode.tagName == "DIV" || anchorNode.tagName == "P" || anchorNode.tagName == "PRE") &&
-						    (!anchorNode.children.length || (anchorNode.children.length == 1 && anchorNode.children[0].tagName == "BR"))) {
+						    EvoEditor.isEmptyParagraph(anchorNode)) {
 							anchorNode.parentElement.removeChild(anchorNode);
 						} else {
 							anchorNode = parentBlock.nextSibling.nextSibling;
 
 							if (anchorNode.nodeType == anchorNode.ELEMENT_NODE && anchorNode.parentElement &&
-							    (anchorNode.tagName == "DIV" || anchorNode.tagName == "P" || anchorNode.tagName == "PRE") &&
-							    (!anchorNode.children.length || (anchorNode.children.length == 1 && anchorNode.children[0].tagName == "BR"))) {
+							    EvoEditor.isEmptyParagraph(anchorNode)) {
 								anchorNode.parentElement.removeChild(anchorNode);
 							}
 						}
@@ -5155,8 +5112,72 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "InsertContent::text");
 				}
 			}
+
+			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+				var ii;
+
+				for (ii = 0; ii < content.children.length; ii++) {
+					EvoEditor.requoteNodeParagraph(content.children[ii]);
+				}
+			}
 		} else if (isHTML) {
-			EvoEditor.InsertHTML("InsertContent::text", wrapperNode.outerHTML);
+			var list, ii;
+
+			list = content.getElementsByTagName("BLOCKQUOTE");
+
+			for (ii = 0; ii < list.length; ii++) {
+				var node = list[ii];
+
+				if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+					node.removeAttribute("class");
+					node.removeAttribute("style");
+				} else {
+					node.removeAttribute("class");
+					node.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
+				}
+			}
+
+			var selection = document.getSelection();
+
+			var useOuterHTML = !list.length &&
+				!content.getElementsByTagName("DIV").length &&
+				!content.getElementsByTagName("PRE").length;
+
+			if (!useOuterHTML && selection.isCollapsed && selection.focusNode && EvoEditor.isEmptyParagraph(selection.focusNode)) {
+				var node = selection.focusNode, lastNode = null;
+
+				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "InsertContent::replaceEmptyBlock", node, node,
+					EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+				try {
+					if (useOuterHTML) {
+						lastNode = content;
+						node.parentElement.insertBefore(content, node);
+					} else {
+						while (content.firstChild) {
+							lastNode = content.firstChild;
+							node.parentElement.insertBefore(content.firstChild, node);
+						}
+					}
+
+					node.remove();
+
+					if (lastNode) {
+						while (lastNode.lastChild) {
+							lastNode = lastNode.lastChild;
+						}
+
+						selection.setPosition(lastNode, lastNode.nodeType == lastNode.TEXT_NODE ? lastNode.nodeValue.length : 0);
+					}
+				} finally {
+					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "InsertContent::replaceEmptyBlock");
+				}
+
+				EvoEditor.correctParagraphsAfterInsertContent("InsertContent::inEmptyBlock");
+			} else {
+				useOuterHTML = useOuterHTML && !wasPlain;
+
+				EvoEditor.InsertHTML("InsertContent::text", useOuterHTML ? content.outerHTML : content.innerHTML);
+			}
 		} else {
 			EvoEditor.InsertText("InsertContent::text", content.innerText);
 		}
