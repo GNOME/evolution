@@ -3620,7 +3620,7 @@ test_h_rule_insert (TestFixture *fixture)
 		"mode:html\n"
 		"type:text\n"
 		"action:insert-rule\n"
-		"seq:^\n",  /* Escape key press to close the dialog */
+		"seq:^\n", /* Escape key press to close the dialog */
 		HTML_PREFIX "<div>text</div><hr align=\"center\">" HTML_SUFFIX,
 		"text\n\n"))
 		g_test_fail ();
@@ -3633,7 +3633,7 @@ test_h_rule_insert_text_after (TestFixture *fixture)
 		"mode:html\n"
 		"type:above\n"
 		"action:insert-rule\n"
-		"seq:tttttn\n" /* Move to the Close button and press it */
+		"seq:^\n" /* Escape key press to close the dialog */
 		"seq:drn\n" /* Press the right key instead of End key as the End key won't move caret after the HR element */
 		"type:below\n",
 		HTML_PREFIX "<div>above</div><hr align=\"center\"><div>below</div>" HTML_SUFFIX,
@@ -5883,6 +5883,12 @@ test_delete_quoted_selection (TestFixture *fixture)
 static void
 test_replace_dialog (TestFixture *fixture)
 {
+	if (test_utils_get_background ()) {
+		printf ("Cannot run in background mode, re-run without it ");
+		g_test_skip ("Cannot run in background mode, re-run without it");
+		return;
+	}
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
 		"type:text to replace\n"
@@ -5904,6 +5910,12 @@ test_replace_dialog (TestFixture *fixture)
 static void
 test_replace_dialog_all (TestFixture *fixture)
 {
+	if (test_utils_get_background ()) {
+		printf ("Cannot run in background mode, re-run without it ");
+		g_test_skip ("Cannot run in background mode, re-run without it");
+		return;
+	}
+
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
 		"type:text to replace\n"
@@ -6477,7 +6489,7 @@ main (gint argc,
 	test_utils_add_test ("/delete/after-quoted", test_delete_after_quoted);
 	test_utils_add_test ("/delete/quoted-selection", test_delete_quoted_selection);
 	test_utils_add_test ("/replace/dialog", test_replace_dialog);
-	test_utils_add_test ("/replace-all/dialog", test_replace_dialog_all);
+	test_utils_add_test ("/replace/dialog-all", test_replace_dialog_all);
 	test_utils_add_test ("/wrap/basic", test_wrap_basic);
 	test_utils_add_test ("/wrap/nested", test_wrap_nested);
 	test_utils_add_test ("/pre-split/simple-html", test_pre_split_simple_html);
