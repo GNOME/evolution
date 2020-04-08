@@ -1081,6 +1081,13 @@ static GtkActionEntry core_editor_entries[] = {
 	  N_("Insert Emoji"),
 	  G_CALLBACK (action_insert_emoji_cb) },
 
+	{ "insert-emoji-toolbar",
+	  "face-smile",
+	  N_("Insert E_moji"),
+	  NULL,
+	  N_("Insert Emoji"),
+	  G_CALLBACK (action_insert_emoji_cb) },
+
 	{ "insert-html-file",
 	  NULL,
 	  N_("_HTML File…"),

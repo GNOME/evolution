@@ -121,7 +121,7 @@
     <toolitem action='unindent'/>
     <toolitem action='indent'/>
     <separator/>
-    <toolitem action='insert-emoticon'/>
+    <toolitem action='insert-emoji-toolbar'/>
   </toolbar>
   <toolbar name='html-toolbar'>
     <separator/>
@@ -180,5 +180,7 @@
       <menuitem action='context-delete-column'/>
       <menuitem action='context-delete-cell'/>
     </menu>
+    <separator/>
+    <menuitem action='insert-emoji-toolbar'/>
   </popup>
 </ui>
