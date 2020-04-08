@@ -4810,9 +4810,8 @@ test_cite_reply_html (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"",
 		HTML_PREFIX "<div>On Today, User wrote:</div>"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><pre>line 1\n"
-		"line 2\n"
-		"</pre></blockquote>" HTML_SUFFIX,
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE "><pre>line 1</pre>"
+		"<pre>line 2</pre></blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
 		"> line 1\n"
 		"> line 2\n"))
@@ -6050,6 +6049,239 @@ test_wrap_nested (TestFixture *fixture)
 		g_test_fail ();
 }
 
+static void
+test_pre_split_simple_html (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>line 1\n"
+		"line 2</pre>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<pre>line 1</pre>"
+		"<pre>line 2</pre>"
+		HTML_SUFFIX,
+		"line 1\n"
+		"line 2\n"))
+		g_test_fail ();
+}
+
+static void
+test_pre_split_simple_plain (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<pre>line 1\n"
+		"line 2</pre>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<pre>line 1</pre>"
+		"<pre>line 2</pre>"
+		HTML_SUFFIX,
+		"line 1\n"
+		"line 2\n"))
+		g_test_fail ();
+}
+
+static void
+test_pre_split_complex_html (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<div>leading text</div>"
+		"<pre><b>bold1</b><blockquote type=\"cite\">text 1\n"
+		"text 2\n"
+		"text 3</blockquote>"
+		"text A<i>italic</i>text B\n"
+		"<b>bold2</b>"
+		"</pre>"
+		"<div>mid text</div>"
+		"<pre><blockquote type=\"cite\">level 1\n"
+		"E-mail: &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt; line\n"
+		"Phone: 1234567890\n"
+		"<div>div in\npre</div>"
+		"<blockquote type=\"cite\">level 2\n"
+		"\n"
+		"level 2\n</blockquote>"
+		"</blockquote></pre>"
+		"<pre>text\n"
+		"text 2<i>italic 1</i>\n"
+		"<i>italic 2</i> text 3\n"
+		"pre <i>imid</i> pos\n"
+		"<i>ipre</i> mid <i>ipos</i>\n"
+		"<i>ipre2</i> mid2 <i>i<b>pos</b>2</i> pos2\n</pre>"
+		"<div>closing text</div>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<div>leading text</div>"
+		"<pre><b>bold1</b></pre>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<pre>text 1</pre>"
+			"<pre>text 2</pre>"
+			"<pre>text 3</pre>"
+		"</blockquote>"
+		"<pre>text A<i>italic</i>text B</pre>"
+		"<pre><b>bold2</b></pre>"
+		"<div>mid text</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<pre>level 1</pre>"
+			"<pre>E-mail: &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt; line</pre>"
+			"<pre>Phone: 1234567890</pre>"
+			"<pre><div>div in\npre</div></pre>"
+			"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+				"<pre>level 2</pre>"
+				"<pre><br></pre>"
+				"<pre>level 2</pre>"
+			"</blockquote>"
+		"</blockquote>"
+		"<pre>text</pre>"
+		"<pre>text 2<i>italic 1</i></pre>"
+		"<pre><i>italic 2</i> text 3</pre>"
+		"<pre>pre <i>imid</i> pos</pre>"
+		"<pre><i>ipre</i> mid <i>ipos</i></pre>"
+		"<pre><i>ipre2</i> mid2 <i>i<b>pos</b>2</i> pos2</pre>"
+		"<div>closing text</div>"
+		HTML_SUFFIX,
+		"leading text\n"
+		"bold1\n"
+		"> text 1\n"
+		"> text 2\n"
+		"> text 3\n"
+		"text Aitalictext B\n"
+		"bold2\n"
+		"mid text\n"
+		"> level 1\n"
+		"> E-mail: <user@no.where> line\n"
+		"> Phone: 1234567890\n"
+		"> > div in\n" /* this and th ebelow line is level 1 in quotation, but due to nested <div> in <pre> the EvoConvert */
+		"> > pre\n"    /* doubles quotation marks. It's not ideal, but it's a broken HTML anyway (broken for the HTML editor). */
+		"> > level 2\n"
+		"> > \n"
+		"> > level 2\n"
+		"text\n"
+		"text 2italic 1\n"
+		"italic 2 text 3\n"
+		"pre imid pos\n"
+		"ipre mid ipos\n"
+		"ipre2 mid2 ipos2 pos2\n"
+		"closing text\n"))
+		g_test_fail ();
+}
+
+static void
+test_pre_split_complex_plain (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<div>leading text</div>"
+		"<pre><b>bold1</b><blockquote type=\"cite\">text 1\n"
+		"text 2\n"
+		"text 3</blockquote>"
+		"text A<i>italic</i>text B\n"
+		"<b>bold2</b>"
+		"</pre>"
+		"<div>mid text</div>"
+		"<pre><blockquote type=\"cite\">level 1\n"
+		"E-mail: &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt; line\n"
+		"Phone: 1234567890\n"
+		"<div>div in\npre</div>"
+		"<blockquote type=\"cite\">level 2\n"
+		"\n"
+		"level 2\n</blockquote>"
+		"</blockquote></pre>"
+		"<pre>text\n"
+		"text 2<i>italic 1</i>\n"
+		"<i>italic 2</i> text 3\n"
+		"pre <i>imid</i> pos\n"
+		"<i>ipre</i> mid <i>ipos</i>\n"
+		"<i>ipre2</i> mid2 <i>i<b>pos</b>2</i> pos2\n</pre>"
+		"<div>closing text</div>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX "<div style='width: 71ch;'>leading text</div>"
+		"<pre><b>bold1</b></pre>"
+		"<blockquote type=\"cite\">"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR) "text 1</pre>"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR) "text 2</pre>"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR) "text 3</pre>"
+		"</blockquote>"
+		"<pre>text A<i>italic</i>text B</pre>"
+		"<pre><b>bold2</b></pre>"
+		"<div style='width: 71ch;'>mid text</div>"
+		"<blockquote type=\"cite\">"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR) "level 1</pre>"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR) "E-mail: &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt; line</pre>"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR) "Phone: 1234567890</pre>"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR) "div in</pre>"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR) "pre</pre>"
+			"<blockquote type=\"cite\">"
+				"<pre>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "level 2</pre>"
+				"<pre>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "<br></pre>"
+				"<pre>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "level 2</pre>"
+			"</blockquote>"
+		"</blockquote>"
+		"<pre>text</pre>"
+		"<pre>text 2<i>italic 1</i></pre>"
+		"<pre><i>italic 2</i> text 3</pre>"
+		"<pre>pre <i>imid</i> pos</pre>"
+		"<pre><i>ipre</i> mid <i>ipos</i></pre>"
+		"<pre><i>ipre2</i> mid2 <i>i<b>pos</b>2</i> pos2</pre>"
+		"<div style='width: 71ch;'>closing text</div>"
+		HTML_SUFFIX,
+		"leading text\n"
+		"bold1\n"
+		"> text 1\n"
+		"> text 2\n"
+		"> text 3\n"
+		"text Aitalictext B\n"
+		"bold2\n"
+		"mid text\n"
+		"> level 1\n"
+		"> E-mail: <user@no.where> line\n"
+		"> Phone: 1234567890\n"
+		"> div in\n"
+		"> pre\n"
+		"> > level 2\n"
+		"> > \n"
+		"> > level 2\n"
+		"text\n"
+		"text 2italic 1\n"
+		"italic 2 text 3\n"
+		"pre imid pos\n"
+		"ipre mid ipos\n"
+		"ipre2 mid2 ipos2 pos2\n"
+		"closing text\n"))
+		g_test_fail ();
+}
+
 gint
 main (gint argc,
       gchar *argv[])
@@ -6248,6 +6480,10 @@ main (gint argc,
 	test_utils_add_test ("/replace-all/dialog", test_replace_dialog_all);
 	test_utils_add_test ("/wrap/basic", test_wrap_basic);
 	test_utils_add_test ("/wrap/nested", test_wrap_nested);
+	test_utils_add_test ("/pre-split/simple-html", test_pre_split_simple_html);
+	test_utils_add_test ("/pre-split/simple-plain", test_pre_split_simple_plain);
+	test_utils_add_test ("/pre-split/complex-html", test_pre_split_complex_html);
+	test_utils_add_test ("/pre-split/complex-plain", test_pre_split_complex_plain);
 
 	test_add_html_editor_bug_tests ();
 

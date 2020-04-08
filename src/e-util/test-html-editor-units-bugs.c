@@ -604,7 +604,7 @@ test_bug_771131 (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<body><pre>On &lt;date1&gt;, &lt;name1&gt; wrote:\n"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"Hello\n"
 		"\n"
 		"Goodbye</blockquote>"
@@ -638,7 +638,7 @@ test_bug_771131 (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<body><pre>On &lt;date1&gt;, &lt;name1&gt; wrote:\n"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"Hello\n"
 		"\n"
 		"Goodbye</blockquote>"
@@ -681,7 +681,7 @@ test_bug_771493 (TestFixture *fixture)
 	test_utils_insert_content (fixture,
 		"<body><pre><br>"
 		"----- Original Message -----\n"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 		"This week summary:"
 		"</blockquote>"
 		"</pre><span class=\"-x-evo-to-body\" data-credits=\"On Thu, 2016-09-15 at 08:08 -0400, user wrote:\"></span>"

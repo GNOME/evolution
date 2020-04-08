@@ -5188,12 +5188,119 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 	}
 }
 
+EvoEditor.splitPreTexts = function(node, isInPre, newNodes)
+{
+	if (!node)
+		return;
+
+	isInPre = isInPre || node.tagName == "PRE";
+
+	var currPre = null, child, childIsPre, next;
+
+	for (child = node.firstChild; child; child = next) {
+		childIsPre = child.tagName == "PRE";
+		next = child.nextSibling;
+
+		if (childIsPre || child.tagName == "BLOCKQUOTE") {
+			currPre = null;
+
+			var list = [], ii, clone = null;
+
+			EvoEditor.splitPreTexts(child, isInPre, list);
+
+			for (ii = 0; ii < list.length; ii++) {
+				if (childIsPre) {
+					newNodes[newNodes.length] = list[ii];
+				} else {
+					if (!clone) {
+						clone = child.cloneNode(false);
+						newNodes[newNodes.length] = clone;
+					}
+
+					clone.appendChild(list[ii]);
+				}
+			}
+		} else if (isInPre && child.nodeType == node.TEXT_NODE) {
+			var text = child.nodeValue, pre, ii, lines;
+
+			lines = text.split("\n");
+
+			for (ii = 0; ii < lines.length; ii++) {
+				var line = lines[ii].replace(/\r/g, "");
+
+				// <pre> is shown as a block, thus adding a new line at the end behaves like two <br>-s
+				if (!line && ii + 1 >= lines.length) {
+					if (ii > 0)
+						currPre = null;
+					break;
+				}
+
+				if (ii == 0 && currPre) {
+					if (line)
+						currPre.appendChild(document.createTextNode(line));
+					if (lines.length > 1)
+						currPre = null;
+					continue;
+				}
+
+				pre = document.createElement("PRE");
+
+				if (line) {
+					pre.innerText = line;
+				} else {
+					pre.appendChild(document.createElement("BR"));
+				}
+
+				currPre = pre;
+				newNodes[newNodes.length] = pre;
+			}
+		} else if (currPre && child.tagName == "BR") {
+			currPre = null;
+		} else {
+			child.remove();
+
+			if (currPre) {
+				currPre.appendChild(child);
+			} else if (isInPre) {
+				currPre = document.createElement("PRE");
+				currPre.appendChild(child);
+
+				newNodes[newNodes.length] = currPre;
+			} else {
+				newNodes[newNodes.length] = child;
+			}
+		}
+	}
+}
+
 EvoEditor.processLoadedContent = function()
 {
 	if (!document.body)
 		return;
 
-	var node, didCite;
+	var node, didCite, ii, list;
+
+	if (!document.body.hasAttribute("data-evo-draft") && document.querySelector("PRE")) {
+		var next, replacement;
+
+		document.body.normalize();
+
+		for (node = document.body.firstChild; node; node = next) {
+			next = node.nextSibling;
+
+			if (node.tagName == "PRE" || node.tagName == "BLOCKQUOTE") {
+				list = [];
+
+				EvoEditor.splitPreTexts(node, false, list);
+
+				for (ii = 0; ii < list.length; ii++) {
+					node.parentElement.insertBefore(list[ii], node);
+				}
+
+				node.remove();
+			}
+		}
+	}
 
 	node = document.querySelector("SPAN.-x-evo-cite-body");
 
@@ -5226,8 +5333,6 @@ EvoEditor.processLoadedContent = function()
 
 		document.body.appendChild(didCite);
 	}
-
-	var ii, list;
 
 	list = document.querySelectorAll("STYLE[id]");
 
