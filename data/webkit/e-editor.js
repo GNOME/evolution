@@ -985,7 +985,7 @@ EvoEditor.renameElement = function(element, tagName, attributes, targetElement, 
 
 	newElement = EvoEditor.moveChildren(element, null, null, prepareParent, selectionUpdater);
 
-	element.parentElement.removeChild(element);
+	element.remove();
 
 	return newElement;
 }
@@ -1041,7 +1041,7 @@ EvoEditor.SetBlockFormat = function(format)
 					if (!element.childElementCount) {
 						this.selectionUpdater.beforeRemove(element);
 
-						element.parentElement.removeChild(element);
+						element.remove();
 
 						this.selectionUpdater.afterRemove(insBefore ? insBefore.previousElementSibling : elemParent.lastElementChild);
 					}
@@ -1239,7 +1239,7 @@ EvoEditor.insertListChildBefore = function(child, tagName, parent, insBefore, se
 		if (selectionUpdater)
 			selectionUpdater.beforeRemove(child);
 
-		child.parentElement.removeChild(child);
+		child.remove();
 
 		if (selectionUpdater)
 			selectionUpdater.afterRemove(node);
@@ -1386,7 +1386,7 @@ EvoEditor.Indent = function(increment)
 						if (!element.childElementCount) {
 							this.selectionUpdater.beforeRemove(element);
 
-							element.parentElement.removeChild(element);
+							element.remove();
 
 							this.selectionUpdater.afterRemove(affected[0]);
 						}
@@ -1445,7 +1445,7 @@ EvoEditor.Indent = function(increment)
 
 							this.selectionUpdater.beforeRemove(element);
 
-							element.parentElement.removeChild(element);
+							element.remove();
 
 							this.selectionUpdater.afterRemove(insBefore ? insBefore.previousElementSibling : elemParent.lastElementChild);
 
@@ -1802,7 +1802,7 @@ EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
 				// erase the space at the end of the line
 				node.splitText(1);
 				var next = node.nextSibling;
-				node.parentElement.removeChild(node);
+				node.remove();
 				node = next;
 
 				var br = document.createElement("BR");
@@ -1862,7 +1862,7 @@ EvoEditor.quoteParagraph = function(paragraph, blockquoteLevel, wrapWidth)
 		} else if (node.nodeType == node.ELEMENT_NODE) {
 			if (node.tagName == "BR") {
 				if (node.classList.contains("-x-evo-wrap-br")) {
-					node.parentElement.removeChild(node);
+					node.remove();
 				} else {
 					if (node.parentElement.childNodes.length != 1)
 						node.insertAdjacentHTML("afterend", prefixHtml);
@@ -2092,7 +2092,7 @@ EvoEditor.convertTags = function()
 
 		EvoEditor.moveNodeContent(anchor);
 
-		anchor.parentElement.removeChild(anchor);
+		anchor.remove();
 	}
 
 	list = document.getElementsByTagName("TABLE");
@@ -2102,7 +2102,7 @@ EvoEditor.convertTags = function()
 
 		textNode = document.createTextNode(table.innerText);
 		table.parentElement.insertBefore(textNode, table);
-		table.parentElement.removeChild(table);
+		table.remove();
 	}
 
 	list = document.getElementsByTagName("BLOCKQUOTE");
@@ -2148,7 +2148,7 @@ EvoEditor.convertTags = function()
 		next = EvoEditor.getNextNodeInHierarchy(node, document.body);
 
 		if (removeNode)
-			node.parentElement.removeChild(node);
+			node.remove();
 
 		node = next;
 	}
@@ -2168,7 +2168,7 @@ EvoEditor.removeQuoteMarks = function(element)
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		var node = list[ii];
 
-		node.parentElement.removeChild(node);
+		node.remove();
 	}
 
 	list = element.querySelectorAll("BR.-x-evo-wrap-br");
@@ -2177,7 +2177,7 @@ EvoEditor.removeQuoteMarks = function(element)
 		var node = list[ii];
 
 		node.insertAdjacentText("beforebegin", " ");
-		node.parentElement.removeChild(node);
+		node.remove();
 	}
 
 	if (element === document)
@@ -2896,7 +2896,7 @@ EvoEditor.replaceMatchWithNode = function(opType, node, match, newNode, canEmit,
 		if (newNode.tagName == "A")
 			newNode.appendChild(node);
 		else
-			node.parentElement.removeChild(node);
+			node.remove();
 
 		if (updateSelection && newAnchorNode && offset - match.end >= 0)
 			selection.setPosition(newAnchorNode, offset - match.end);
@@ -3080,7 +3080,7 @@ EvoEditor.beforeInputCb = function(inputEvent)
 				if (!next)
 					next = selection.anchorNode.parentElement;
 
-				selection.anchorNode.parentElement.removeChild(selection.anchorNode);
+				selection.anchorNode.remove();
 
 				selection.setPosition(next, 0);
 			} finally {
@@ -3218,7 +3218,7 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 		}
 
 		selection.setPosition(node.parentElement, 0);
-		node.parentElement.removeChild(node);
+		node.remove();
 	}
 
 	if (isInsertParagraph && selection.isCollapsed && selection.anchorNode && selection.anchorNode.tagName == "DIV") {
@@ -3780,7 +3780,7 @@ EvoEditor.removeElementWithUndoRedo = function(opType, element)
 			}
 
 			selectionUpdater.beforeRemove(element);
-			element.parentElement.removeChild(element);
+			element.remove();
 			selectionUpdater.afterRemove(firstChild);
 
 			selectionUpdater.restore();
@@ -4118,7 +4118,7 @@ EvoEditor.DialogUtilsTableSetHeader = function(scope, isHeader)
 				if (this.selectionUpdater)
 					this.selectionUpdater.beforeRemove(cell);
 
-				cell.parentElement.removeChild(cell);
+				cell.remove();
 
 				if (this.selectionUpdater)
 					this.selectionUpdater.afterRemove(node);
@@ -4316,7 +4316,7 @@ EvoEditor.DialogUtilsTableDeleteColumn = function()
 					this.selectionUpdater.afterRemove(cell.nextElementSibling ? cell.nextElementSibling : cell.previousElementSibling);
 				}
 
-				cell.parentElement.removeChild(cell);
+				cell.remove();
 			} finally {
 				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "subdeletecolumn");
 			}
@@ -4371,7 +4371,7 @@ EvoEditor.DialogUtilsTableDelete = function()
 	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "TableDelete", element, element,
 		EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 	try {
-		element.parentElement.removeChild(element);
+		element.remove();
 	} finally {
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "TableDelete");
 		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
@@ -4696,11 +4696,11 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 
 		node = sigSpan.querySelector("#-x-evo-selection-start-marker");
 		if (node && node.parentElement)
-			node.parentElement.removeChild(node);
+			node.remove();
 
 		node = sigSpan.querySelector("#-x-evo-selection-end-marker");
 		if (node && node.parentElement)
-			node.parentElement.removeChild(node);
+			node.remove();
 	}
 
 	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, "InsertSignature");
@@ -4760,14 +4760,13 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 						if (node && (!node.firstChild || !node.textContent ||
 						    (node.childNodes.length == 1 && node.firstChild.tagName == "BR"))) {
 							if (node.parentElement)
-								node.parentElement.removeChild(node);
+								node.remove();
 						}
 					}
 
 					/* Leave just one signature wrapper there as it will be reused. */
 					if (ii) {
-						if (wrapper.parentElement)
-							wrapper.parentElement.removeChild(wrapper);
+						wrapper.remove();
 					} else {
 						wrapper.removeChild(signature);
 						useWrapper = wrapper;
@@ -4933,7 +4932,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 				next = EvoEditor.getNextNodeInHierarchy(node, content);
 
 				if (removeNode)
-					node.parentElement.removeChild(node);
+					node.remove();
 
 				node = next;
 			}
@@ -5085,13 +5084,13 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 
 						if (anchorNode.nodeType == anchorNode.ELEMENT_NODE && anchorNode.parentElement &&
 						    EvoEditor.isEmptyParagraph(anchorNode)) {
-							anchorNode.parentElement.removeChild(anchorNode);
+							anchorNode.remove();
 						} else {
 							anchorNode = parentBlock.nextSibling.nextSibling;
 
 							if (anchorNode.nodeType == anchorNode.ELEMENT_NODE && anchorNode.parentElement &&
 							    EvoEditor.isEmptyParagraph(anchorNode)) {
-								anchorNode.parentElement.removeChild(anchorNode);
+								anchorNode.remove();
 							}
 						}
 					} finally {
@@ -5306,9 +5305,8 @@ EvoEditor.processLoadedContent = function()
 
 	didCite = node;
 
-	if (node && node.parentElement) {
-		node.parentElement.removeChild(node);
-	}
+	if (node)
+		node.remove();
 
 	if (didCite) {
 		didCite = document.createElement("BLOCKQUOTE");
@@ -5340,7 +5338,7 @@ EvoEditor.processLoadedContent = function()
 		node = list[ii];
 
 		if (node.id && node.id.startsWith("-x-evo-"))
-			node.parentElement.removeChild(node);
+			node.remove();
 	}
 
 	list = document.querySelectorAll("DIV[data-headers]");
@@ -5368,7 +5366,7 @@ EvoEditor.processLoadedContent = function()
 			document.body.insertAdjacentElement("afterbegin", elem);
 		}
 
-		node.parentElement.removeChild(node);
+		node.remove();
 	}
 
 	list = document.querySelectorAll(".-x-evo-paragraph");
@@ -5478,7 +5476,7 @@ EvoEditor.wrapParagraph = function(paragraphNode, maxLetters, currentPar, usedLe
 				nextChild = child.nextSibling;
 				text += nextChild.nodeValue;
 
-				child.parentElement.removeChild(child);
+				child.remove();
 
 				child = nextChild;
 			}
@@ -5541,7 +5539,7 @@ EvoEditor.wrapParagraph = function(paragraphNode, maxLetters, currentPar, usedLe
 					if (usedLetters) {
 						currentPar.appendChild(nextSibling);
 					} else {
-						nextSibling.parentElement.removeChild(nextSibling);
+						nextSibling.remove();
 					}
 
 					child = nextChild;
@@ -5550,7 +5548,7 @@ EvoEditor.wrapParagraph = function(paragraphNode, maxLetters, currentPar, usedLe
 			} else {
 				nextChild = child.nextSibling;
 
-				child.parentElement.removeChild(child);
+				child.remove();
 
 				child = nextChild;
 				continue;
@@ -5692,7 +5690,7 @@ EvoEditor.WrapSelection = function()
 				nodeFrom = nodeFrom.nextSibling;
 
 				if (node.parentElement)
-					node.parentElement.removeChild(node);
+					node.remove();
 			} else {
 				nodeFrom = nodeFrom.nextSibling;
 			}
