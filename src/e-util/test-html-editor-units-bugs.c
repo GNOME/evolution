@@ -23,51 +23,6 @@
 #include "test-html-editor-units-bugs.h"
 
 static void
-test_bug_726548 (TestFixture *fixture)
-{
-	gboolean success;
-	gchar *text;
-	const gchar *expected_plain =
-		"aaa\n"
-		"   1. a\n"
-		"   2. b\n"
-		"   3. c\n"
-		"\n";
-
-	if (!test_utils_run_simple_test (fixture,
-		"mode:plain\n"
-		"type:aaa\\n\n"
-		"action:style-list-number\n"
-		"type:a\\nb\\nc\\n\\n\n"
-		"seq:C\n"
-		"type:ac\n"
-		"seq:c\n",
-		HTML_PREFIX "<div style=\"width: 71ch;\">aaa</div>"
-		"<ol>"
-		"<li>a</li><li>b</li><li>c</li></ol>"
-		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX,
-		expected_plain)) {
-		g_test_fail ();
-		return;
-	}
-
-	text = test_utils_get_clipboard_text (FALSE);
-	success = test_utils_html_equal (fixture, text, expected_plain);
-
-	if (!success) {
-		if (test_utils_get_keep_going ())
-			g_printerr ("%s: clipboard Plain text \n---%s---\n does not match expected Plain\n---%s---", G_STRFUNC, text, expected_plain);
-		else
-			g_warning ("%s: clipboard Plain text \n---%s---\n does not match expected Plain\n---%s---", G_STRFUNC, text, expected_plain);
-
-		g_free (text);
-		g_test_fail ();
-	} else {
-		g_free (text);
-	}
-}
-
-static void
 test_bug_750657 (TestFixture *fixture)
 {
 	if (!test_utils_process_commands (fixture,
@@ -1670,7 +1625,6 @@ test_issue_107 (TestFixture *fixture)
 void
 test_add_html_editor_bug_tests (void)
 {
-	test_utils_add_test ("/bug/726548", test_bug_726548);
 	test_utils_add_test ("/bug/750657", test_bug_750657);
 	test_utils_add_test ("/bug/760989", test_bug_760989);
 	test_utils_add_test ("/bug/767903", test_bug_767903);
