@@ -1,5 +1,5 @@
 # Translators:
-# Jordi Mas <jmas@softcatala.org>, 2018, 2019
+# Jordi Mas <jmas@softcatala.org>, 2018 - 2020
 # Jaume Jorba <jaume.jorba@gmail.com>, 2018
 #
 msgid ""
@@ -21,7 +21,7 @@ msgstr ""
 msgctxt "_"
 msgid "translator-credits"
 msgstr ""
-"Jordi Mas i Hernàndez <jmas@softcatala.org>, 2014, 2019\n"
+"Jordi Mas i Hernàndez <jmas@softcatala.org>, 2014, 2019, 2020\n"
 "Jaume Jorba <jaume.jorba@gmail.com>, 2018, 2019"
 
 #. (itstool) path: info/desc
@@ -399,7 +399,7 @@ msgstr ""
 #: C/calendar-free-busy.page:24
 msgid "Using the Free/Busy view on a groupware server to set up meetings."
 msgstr ""
-"Utilitzeu la vista lliure/ocupat en un servidor de groupware per configurar "
+"Utilitzeu la vista lliure/ocupat en un servidor de groupware per a configurar "
 "reunions."
 
 #. (itstool) path: page/title
@@ -858,7 +858,7 @@ msgstr "Canviar el disseny del calendari"
 #: C/calendar-layout-views.page:23
 msgid "Using date ranges (day, week, month) to look at the calendar."
 msgstr ""
-"S'utilitzen els intervals de dates (dia, setmana, mes) per veure el "
+"S'utilitzen els intervals de dates (dia, setmana, mes) per a veure el "
 "calendari."
 
 #. (itstool) path: page/title
@@ -1695,7 +1695,7 @@ msgid ""
 "\">Adding an Appointment</link> for the list of available options)."
 msgstr ""
 "Editar una cita (consulteu <link xref=\"calendar-usage-add-appointment"
-"\">Afegir una cita</link> per veure la llista d'opcions disponibles)."
+"\">Afegir una cita</link> per a veure la llista d'opcions disponibles)."
 
 #. (itstool) path: item/p
 #: C/calendar-usage-edit-appointment.page:36 C/memos-usage-add-memo.page:29
@@ -1711,7 +1711,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-usage.page:18
 msgid "On adding, editing, and deleting appointments."
-msgstr "On adding, editing, and deleting appointments."
+msgstr "Afegiu, editeu i suprimiu les cites"
 
 #. (itstool) path: page/title
 #: C/calendar-usage.page:21
@@ -3535,7 +3535,7 @@ msgid ""
 "want."
 msgstr ""
 "Opcionalment seleccioneu <guiseq><gui>Fitxer</gui><gui>Nou</gui><gui>Carpeta "
-"de correu</gui></guiseq> per crear les <link xref=\"mail-folders\">carpetes</"
+"de correu</gui></guiseq> per a crear les <link xref=\"mail-folders\">carpetes</"
 "link> que voleu."
 
 #. (itstool) path: item/p
@@ -3746,7 +3746,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:52
 msgid "iCalendar or iCal (.ics):"
-msgstr "iCalendar or iCal (.ics):"
+msgstr "iCalendar o iCal (.ics):"
 
 #. (itstool) path: item/p
 #: C/import-supported-file-formats.page:54
@@ -4421,7 +4421,7 @@ msgid ""
 "sending mail."
 msgstr ""
 "Enviar el correu utilitzant un servidor de correu de sortida. Aquesta és "
-"l'opció més freqüent per enviar missatges."
+"l'opció més freqüent per a enviar missatges."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -4441,7 +4441,7 @@ msgid ""
 "is not easy to configure, so you should select this option only if you know "
 "how to set up a Sendmail service."
 msgstr ""
-"Utilitza l'aplicació <app>Sendmail</app> per enviar missatges des del vostre "
+"Utilitza l'aplicació <app>Sendmail</app> per a enviar missatges des del vostre "
 "sistema. No és fàcil de configurar, de manera que hauríeu de seleccionar "
 "aquesta opció només si sabeu com configurar un servei de Sendmail."
 
@@ -4763,7 +4763,7 @@ msgstr "Saltar al missatge previ."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:199
 msgid "<key>.</key> or <key>]</key>"
-msgstr "<key>.</key> or <key>]</key>"
+msgstr "<key>.</key> o <key>]</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:202
@@ -4773,7 +4773,7 @@ msgstr "Saltar al següent missatge no llegit."
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:205
 msgid "<key>,</key> or <key>[</key>"
-msgstr "<key>,</key> or <key>[</key>"
+msgstr "<key>,</key> o <key>[</key>"
 
 #. (itstool) path: td/p
 #: C/intro-keyboard-shortcuts.page:208
@@ -5444,7 +5444,7 @@ msgstr "Accés a un compte POP Gmail via <app>Evolution</app>"
 msgid ""
 "Follow these steps to set up your Gmail POP Account in <app>Evolution</app>:"
 msgstr ""
-"Seguiu aquests passos per configurar el compte POP de Gmail a "
+"Seguiu aquests passos per a configurar el compte POP de Gmail a "
 "<app>Evolution</app>:"
 
 #. (itstool) path: item/p
@@ -5962,7 +5962,7 @@ msgid ""
 "Define the email reply to automatically send to internal or external persons "
 "in a certain time period."
 msgstr ""
-"Definir la resposta del correu electrònic per enviar automàticament a "
+"Definir la resposta del correu electrònic per a enviar automàticament a "
 "persones internes o externes en un període de temps determinat."
 
 #. (itstool) path: section/title
@@ -6607,7 +6607,7 @@ msgstr ""
 "de cerca a la barra de cerca</link> situada sobre la llista de missatges. "
 "Potser la llista desplegable <gui>Mostra</gui> està establerta en un filtre "
 "com a <gui>Missatges de lectura</gui>, o l'entrada de text introduïda conté "
-"algun valor. Feu clic a la icona amb l'escombra per esborrar el camp de "
+"algun valor. Feu clic a la icona amb l'escombra per a esborrar el camp de "
 "cerca."
 
 #. (itstool) path: item/p
@@ -7096,7 +7096,7 @@ msgid ""
 msgstr ""
 "Feu clic a <guiseq><gui>Missatge</gui><gui>Reenvia</gui></guiseq>, el botó "
 "<gui>Reenvia</gui> a la barra d'eines, o premeu <keyseq><key>Ctrl</"
-"key><key>F</key></keyseq> per utilitzar el mètode de reenviament "
+"key><key>F</key></keyseq> per a utilitzar el mètode de reenviament "
 "predeterminat. En cas que vulgueu utilitzar un mètode diferent, feu clic a "
 "<guiseq><gui>Missatge</gui><gui>Reenvia com</gui></guiseq> o la petita "
 "fletxa desplegable al costat del botó <gui>Reenvia</gui> a la barra d'eines "
@@ -7780,7 +7780,7 @@ msgid ""
 "send mail with the same pattern."
 msgstr ""
 "Un missatge plantilla és un missatge estàndard que es pot utilitzar en "
-"qualsevol moment per enviar missatges amb un mateix patró."
+"qualsevol moment per a enviar missatges amb un mateix patró."
 
 #. (itstool) path: page/p
 #: C/mail-composer-message-templates.page:25
@@ -8168,7 +8168,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-priority.page:5
 msgid "Setting a priority for messages to be sent."
-msgstr "Establir una prioritat per enviar missatges."
+msgstr "Establir una prioritat per a enviar missatges."
 
 #. (itstool) path: page/title
 #: C/mail-composer-priority.page:23
@@ -8473,7 +8473,7 @@ msgid ""
 msgstr ""
 "Si escriu correus electrònics amb freqüència als mateixos grups de persones, "
 "podeu crear <link xref=\"contacts-using-contact-lists\">llistes de "
-"contactes</link> per enviar-los correus com si tinguessin una adreça única."
+"contactes</link> per a enviar-los correus com si tinguessin una adreça única."
 
 #. (itstool) path: section/title
 #: C/mail-composer-several-recipients.page:33
@@ -8504,7 +8504,7 @@ msgid ""
 "<guiseq><gui>View</gui><gui>Bcc Field</gui></guiseq>."
 msgstr ""
 "Adreces al camp <gui>Cco:</gui> s'amaguen dels altres destinataris del "
-"missatge. Es pot utilitzar per enviar missatges a grans grups de persones, "
+"missatge. Es pot utilitzar per a enviar missatges a grans grups de persones, "
 "especialment si no es coneixen o si hi ha un problema de privadesa. El camp "
 "<gui>Cco:</gui> no es mostra, feu clic a <guiseq><gui>Vista</gui><gui>Camp "
 "Cco</gui></guiseq>."
@@ -8541,7 +8541,7 @@ msgid ""
 msgstr ""
 "En lloc d'escriure els noms dels destinataris, també podeu fer clic als "
 "botons <gui style=\"button\">Per a:</gui>, <gui style=\"button\">Cc:</gui>, "
-"or <gui style=\"button\">Cco:</gui> per obtenir una llista de les adreces de "
+"o <gui style=\"button\">Cco:</gui> per obtenir una llista de les adreces de "
 "correu electrònic a la vostra llibreta d'adreces. Seleccioneu les adreces i "
 "feu clic als botons de fletxa per moure's a les columnes d'adreça adequades "
 "(Per a:, Cc:, Cco:)."
@@ -8654,7 +8654,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-write-new-message.page:5
 msgid "Writing a new email to send to a recipient."
-msgstr "Escriure un nou correu electrònic per enviar-lo a un destinatari."
+msgstr "Escriure un nou correu electrònic per a enviar-lo a un destinatari."
 
 #. (itstool) path: page/title
 #: C/mail-composer-write-new-message.page:23
@@ -8867,7 +8867,7 @@ msgid ""
 "If you have marked a message for deletion, undeleting it unmarks it, and the "
 "message is not shown anymore in the <gui>Trash</gui> folder."
 msgstr ""
-"Si heu marcat un missatge per esborrar, la recuperació el desmarca, i el "
+"Si heu marcat un missatge per a esborrar, la recuperació el desmarca, i el "
 "missatge ja no es mostra a la carpeta <gui>Paperera</gui>."
 
 #. (itstool) path: info/desc
@@ -9320,7 +9320,7 @@ msgstr ""
 "<link xref=\"help:seahorse/pgp-create\" href=\"https://help.gnome.org/users/"
 "seahorse/stable/pgp-create\">generar les vostres claus públiques i privades "
 "amb GPG</link>. Després de fer-ho i <link xref=\"mail-encryption-gpg-set-up"
-"\">activar <app>Evolution</app> per utilitzar la clau</link>, heu de "
+"\">activar <app>Evolution</app> per a utilitzar la clau</link>, heu de "
 "compartir <link xref=\"help:seahorse/pgp-publish\" href=\"https://help.gnome."
 "org/users/seahorse/stable/pgp-publish\">la clau pública amb els vostres "
 "amics per permetre'ls enviar missatges xifrats</link>."
@@ -9712,7 +9712,7 @@ msgstr "Seleccioneu les opcions adequades."
 #. (itstool) path: info/desc
 #: C/mail-filters-actions.page:5
 msgid "Available actions for setting up filtering."
-msgstr "Accions disponibles per configurar el filtrat."
+msgstr "Accions disponibles per a configurar el filtrat."
 
 #. (itstool) path: page/title
 #: C/mail-filters-actions.page:23
@@ -9881,7 +9881,7 @@ msgid ""
 "supported by <app>Evolution</app>."
 msgstr ""
 "Envia el missatge a l'aplicació que trieu. No s'espera cap valor de retorn. "
-"Aquesta característica es pot utilitzar per crear publicacions web "
+"Aquesta característica es pot utilitzar per a crear publicacions web "
 "automàtiques des de missatges de correu electrònic o per al processament "
 "posterior de missatges que no admet <app>Evolution</app>."
 
@@ -9898,7 +9898,7 @@ msgstr "Reenvia el missatge a una altra adreça de correu electrònic."
 #. (itstool) path: info/desc
 #: C/mail-filters-conditions.page:5
 msgid "Available conditions for setting up filtering."
-msgstr "Condicions disponibles per configurar el filtratge."
+msgstr "Condicions disponibles per a configurar el filtratge."
 
 #. (itstool) path: page/title
 #: C/mail-filters-conditions.page:23
@@ -10110,7 +10110,7 @@ msgid ""
 "Open the file <file>my-filter-log</file> with a text editor to see which "
 "filter actions have been applied."
 msgstr ""
-"Obriu el fitxer <file>my-filter-log</file> amb n editor de text per veure "
+"Obriu el fitxer <file>my-filter-log</file> amb un editor de text per a veure "
 "quines accions de filtre s'han aplicat."
 
 #. (itstool) path: section/p
@@ -11372,7 +11372,7 @@ msgid ""
 "used for new messages in your inbox, enable <gui>Apply filters to new "
 "messages in Inbox</gui>."
 msgstr ""
-"Si voleu <link xref=\"mail-filters\">Filtres</link> per utilitzar "
+"Si voleu <link xref=\"mail-filters\">Filtres</link> per a utilitzar "
 "automàticament en els nous missatges de la safata d'entrada, activeu "
 "<gui>Aplica els filtres als missatges nous de la safata d'entrada</gui>."
 
@@ -11688,7 +11688,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-search-folders-conditions.page:5
 msgid "Available conditions for setting up search folders."
-msgstr "Condicions disponibles per configurar les carpetes de cerca."
+msgstr "Condicions disponibles per a configurar les carpetes de cerca."
 
 #. (itstool) path: page/title
 #: C/mail-search-folders-conditions.page:23
@@ -11736,7 +11736,7 @@ msgid ""
 "Use search folders to see messages in one folder while still keeping them in "
 "their original folders."
 msgstr ""
-"Utilitzeu les carpetes de cerca per veure els missatges d'una carpeta mentre "
+"Utilitzeu les carpetes de cerca per a veure els missatges d'una carpeta mentre "
 "encara els manté a les carpetes originals."
 
 #. (itstool) path: page/title
@@ -12095,7 +12095,7 @@ msgid ""
 "gui> field and select if the server requires authentication (entering a "
 "username and a password)."
 msgstr ""
-"Introduïu l'adreça del vostre servidor de correu per enviar missatges al "
+"Introduïu l'adreça del vostre servidor de correu per a enviar missatges al "
 "camp <gui>Servidor</gui> i seleccioneu si el servidor requereix autenticació "
 "(introduint un nom d'usuari i una contrasenya)."
 
@@ -12831,7 +12831,7 @@ msgstr ""
 "De forma predeterminada, les carpetes d'<app>Evolution</app> "
 "d'<gui>escombraries</gui> i <gui>brossa</gui> són <link xref=\"mail-search-"
 "folders\">Carpetes de cerca</link>. Realment no existeixen, sinó que "
-"simplement mostren tots els missatges marcats com a brossa o per esborrar en "
+"simplement mostren tots els missatges marcats com a brossa o per a esborrar en "
 "qualsevol carpeta d'aquest compte."
 
 #. (itstool) path: page/p
@@ -13401,7 +13401,7 @@ msgstr ""
 "inferior esquerra. Quan s'està connectat, la icona s'assembla a un parell "
 "d'endolls connectats. Si els endolls estan separats, no hi ha cap connexió "
 "amb els vostres comptes de correu (i el botó <gui style=\"button\">Envia /"
-"Rep</gui> està gris). Feu clic a la icona per canviar el seu estat."
+"Rep</gui> està gris). Feu clic a la icona per a canviar el seu estat."
 
 #. (itstool) path: page/p
 #: C/offline.page:32
