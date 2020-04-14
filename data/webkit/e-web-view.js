@@ -569,6 +569,25 @@ Evo.GetElementFromPoint = function(xx, yy)
 	return res;
 }
 
+Evo.AddTooltipToLinks = function(frame_id)
+{
+	var frame_doc = Evo.findIFrameDocument(frame_id);
+
+	if (!frame_doc)
+		return;
+
+	var elements, ii;
+	
+	elements = frame_doc.getElementsByTagName("A");
+	
+	for (ii = 0; ii < elements.length; ii++) {
+		var uri = elements[ii].href;
+		
+		if (uri)
+			elements[ii].title = Evo.getUriTooltip(uri);
+	}
+}
+
 Evo.initialize = function(elem)
 {
 	var doc, elems, ii;
@@ -633,6 +652,8 @@ Evo.initializeAndPostContentLoaded = function(elem)
 
 	if (window.webkit.messageHandlers.mailDisplayMagicSpacebarStateChanged)
 		Evo.mailDisplayUpdateMagicSpacebarState();
+
+	Evo.AddTooltipToLinks(iframe_id);
 }
 
 Evo.EnsureMainDocumentInitialized = function()
