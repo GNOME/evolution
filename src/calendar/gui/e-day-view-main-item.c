@@ -461,7 +461,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		x0 = item_x + E_DAY_VIEW_BAR_WIDTH;
 		y0 = item_y;
 		rect_width = item_w - E_DAY_VIEW_BAR_WIDTH;
-		rect_height = item_h - 1;
+		rect_height = item_h - 2;
 
 		cairo_rectangle (cr, x0, y0, rect_width, rect_height);
 		gdk_cairo_set_source_rgba (cr, &bg_rgba);
