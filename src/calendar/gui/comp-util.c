@@ -424,6 +424,8 @@ cal_comp_event_new_with_current_time_sync (ECalClient *client,
 		e_cal_component_set_dtend (comp, dt);
 	}
 
+	e_cal_component_datetime_free (dt);
+
 	return comp;
 }
 
