@@ -5657,8 +5657,8 @@ e_day_view_finish_resize (EDayView *day_view)
 		(only_new_attendees ? E_CAL_OPS_SEND_FLAG_ONLY_NEW_ATTENDEES : 0));
 
  out:
+	e_cal_component_datetime_free (date);
 	g_object_unref (comp);
-	g_clear_object (&date);
 }
 
 static void
@@ -9322,6 +9322,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 					zone ? g_strdup (i_cal_timezone_get_tzid (zone)) : NULL);
 			}
 			cal_comp_set_dtend_with_oldzone (client, comp, date);
+			e_cal_component_datetime_free (date);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
