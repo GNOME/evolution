@@ -173,18 +173,19 @@ load_javascript_file (JSCContext *jsc_context,
 	g_free (content);
 }
 
-/* Returns 'null', when no match for the 'pattern' in 'text' found, otherwise
-   returns an 'object { start : nnn, end : nnn };' with the first longest pattern match. */
-static JSCValue *
-evo_editor_jsc_find_pattern (const gchar *text,
-			     const gchar *pattern,
-			     JSCContext *jsc_context)
+static void
+evo_editor_find_pattern (const gchar *text,
+			 const gchar *pattern,
+			 gint *out_start,
+			 gint *out_end)
 {
-	JSCValue *object = NULL;
 	GRegex *regex;
 
-	if (!text || !*text || !pattern || !*pattern)
-		return jsc_value_new_null (jsc_context);
+	g_return_if_fail (out_start != NULL);
+	g_return_if_fail (out_end != NULL);
+
+	*out_start = -1;
+	*out_end = -1;
 
 	regex = g_regex_new (pattern, 0, 0, NULL);
 	if (regex) {
@@ -194,25 +195,165 @@ evo_editor_jsc_find_pattern (const gchar *text,
 		if (g_regex_match_all (regex, text, G_REGEX_MATCH_NOTEMPTY, &match_info) &&
 		    g_match_info_fetch_pos (match_info, 0, &start, &end) &&
 		    start >= 0 && end >= 0) {
-			JSCValue *number;
-
-			object = jsc_value_new_object (jsc_context, NULL, NULL);
-
-			number = jsc_value_new_number (jsc_context, start);
-			jsc_value_object_set_property (object, "start", number);
-			g_clear_object (&number);
-
-			number = jsc_value_new_number (jsc_context, end);
-			jsc_value_object_set_property (object, "end", number);
-			g_clear_object (&number);
+			*out_start = start;
+			*out_end = end;
 		}
 
 		if (match_info)
 			g_match_info_free (match_info);
 		g_regex_unref (regex);
 	}
+}
 
-	return object ? object : jsc_value_new_null (jsc_context);
+/* Returns 'null', when no match for magicLinks in 'text' were found, otherwise
+   returns an array of 'object { text : string, [ href : string] };' with the text
+   split into parts, where those with also 'href' property defined are meant
+   to be anchors. */
+static JSCValue *
+evo_editor_jsc_split_text_with_links (const gchar *text,
+				      JSCContext *jsc_context)
+{
+	// stephenhay from https://mathiasbynens.be/demo/url-regex
+	const gchar *URL_PATTERN = "((?:(?:(?:"
+				   "news|telnet|nntp|file|https?|s?ftp|webcal|localhost|ssh"
+				   ")\\:\\/\\/)|(?:www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*+)";
+	// from camel-url-scanner.c
+	const gchar *URL_INVALID_TRAILING_CHARS = ",.:;?!-|}])\">";
+	// http://www.w3.org/TR/html5/forms.html#valid-e-mail-address
+	const gchar *EMAIL_PATTERN = "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}"
+				     "[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*+";
+	JSCValue *array = NULL;
+	guint array_len = 0;
+	gboolean done = FALSE;
+
+	if (!text || !*text)
+		return jsc_value_new_null (jsc_context);
+
+	#define add_to_array(_obj) G_STMT_START { \
+		if (!array) \
+			array = jsc_value_new_array (jsc_context, G_TYPE_NONE); \
+		jsc_value_object_set_property_at_index (array, array_len, _obj); \
+		array_len++; \
+		} G_STMT_END
+
+	while (!done) {
+		gboolean is_email;
+		gint start = -1, end = -1;
+
+		done = TRUE;
+
+		is_email = strchr (text, '@') && !strstr (text, "://");
+
+		evo_editor_find_pattern (text, is_email ? EMAIL_PATTERN : URL_PATTERN, &start, &end);
+
+		if (start >= 0 && end >= 0) {
+			const gchar *url_end;
+
+			url_end = text + end - 1;
+
+			/* URLs are extremely unlikely to end with any punctuation, so
+			 * strip any trailing punctuation off from link and put it after
+			 * the link. Do the same for any closing double-quotes as well. */
+			while (end > start && *url_end && strchr (URL_INVALID_TRAILING_CHARS, *url_end)) {
+				gchar open_bracket = 0, close_bracket = *url_end;
+
+				if (close_bracket == ')')
+					open_bracket = '(';
+				else if (close_bracket == '}')
+					open_bracket = '{';
+				else if (close_bracket == ']')
+					open_bracket = '[';
+				else if (close_bracket == '>')
+					open_bracket = '<';
+
+				if (open_bracket != 0) {
+					gint n_opened = 0, n_closed = 0;
+					const gchar *ptr;
+
+					for (ptr = text + start; ptr <= url_end; ptr++) {
+						if (*ptr == open_bracket)
+							n_opened++;
+						else if (*ptr == close_bracket)
+							n_closed++;
+					}
+
+					/* The closing bracket can match one inside the URL,
+					   thus keep it there. */
+					if (n_opened > 0 && n_opened - n_closed >= 0)
+						break;
+				}
+
+				url_end--;
+				end--;
+			}
+
+			if (end > start) {
+				JSCValue *object, *string;
+				gchar *url, *tmp;
+
+				if (start > 0) {
+					tmp = g_strndup (text, start);
+
+					object = jsc_value_new_object (jsc_context, NULL, NULL);
+
+					string = jsc_value_new_string (jsc_context, tmp);
+					jsc_value_object_set_property (object, "text", string);
+					g_clear_object (&string);
+
+					add_to_array (object);
+
+					g_clear_object (&object);
+					g_free (tmp);
+				}
+
+				tmp = g_strndup (text + start, end - start);
+
+				if (is_email)
+					url = g_strconcat ("mailto:", tmp, NULL);
+				else if (g_str_has_prefix (tmp, "www."))
+					url = g_strconcat ("https://", tmp, NULL);
+				else
+					url = NULL;
+
+				object = jsc_value_new_object (jsc_context, NULL, NULL);
+
+				string = jsc_value_new_string (jsc_context, tmp);
+				jsc_value_object_set_property (object, "text", string);
+				g_clear_object (&string);
+
+				string = jsc_value_new_string (jsc_context, url ? url : tmp);
+				jsc_value_object_set_property (object, "href", string);
+				g_clear_object (&string);
+
+				add_to_array (object);
+
+				g_clear_object (&object);
+				g_free (tmp);
+				g_free (url);
+
+				text = text + end;
+				done = FALSE;
+			}
+		}
+	}
+
+	if (array && *text) {
+		JSCValue *object, *string;
+
+		object = jsc_value_new_object (jsc_context, NULL, NULL);
+
+		string = jsc_value_new_string (jsc_context, text);
+		jsc_value_object_set_property (object, "text", string);
+		g_clear_object (&string);
+
+		add_to_array (object);
+
+		g_clear_object (&object);
+	}
+
+	#undef add_to_array
+
+	return array ? array : jsc_value_new_null (jsc_context);
 }
 
 /* Returns 'null' or an object { text : string, imageUri : string, width : nnn, height : nnn }
@@ -356,11 +497,11 @@ window_object_cleared_cb (WebKitScriptWorld *world,
 		JSCValue *jsc_function;
 		const gchar *func_name;
 
-		/* EvoEditor.findPattern(text, pattern) */
-		func_name = "findPattern";
+		/* EvoEditor.splitTextWithLinks(text) */
+		func_name = "splitTextWithLinks";
 		jsc_function = jsc_value_new_function (jsc_context, func_name,
-			G_CALLBACK (evo_editor_jsc_find_pattern), g_object_ref (jsc_context), g_object_unref,
-			JSC_TYPE_VALUE, 2, G_TYPE_STRING, G_TYPE_STRING);
+			G_CALLBACK (evo_editor_jsc_split_text_with_links), g_object_ref (jsc_context), g_object_unref,
+			JSC_TYPE_VALUE, 1, G_TYPE_STRING);
 
 		jsc_value_object_set_property (jsc_editor, func_name, jsc_function);
 

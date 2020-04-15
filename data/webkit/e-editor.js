@@ -21,14 +21,6 @@
    public functions start with upper-case letter. */
 
 var EvoEditor = {
-	// stephenhay from https://mathiasbynens.be/demo/url-regex
-	URL_PATTERN : "((?:(?:(?:" + "news|telnet|nntp|file|https?|s?ftp|webcal|localhost|ssh" + ")\\:\\/\\/)|(?:www\\.|ftp\\.))[^\\s\\/\\$\\.\\?#].[^\\s]*+)",
-	// from camel-url-scanner.c
-	URL_INVALID_TRAILING_CHARS : ",.:;?!-|}])\">",
-	// http://www.w3.org/TR/html5/forms.html#valid-e-mail-address
-	EMAIL_PATTERN : "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}" +
-			"[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*+",
-
 	CURRENT_ELEMENT_ATTR : "x-evo-dialog-current-element",
 	BLOCKQUOTE_STYLE : "margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex",
 
@@ -1810,8 +1802,6 @@ EvoEditor.quoteParagraphWrap = function(node, lineLength, wrapWidth, prefixHtml)
 
 				node.parentElement.insertBefore(br, node);
 				br.insertAdjacentHTML("afterend", prefixHtml);
-			} else {
-				node.insertAdjacentHTML("beforebegin", prefixHtml);
 			}
 
 			offset = 0;
@@ -2931,93 +2921,66 @@ EvoEditor.linkifyText = function(anchorNode, withUndo)
 		}
 	}
 
-	var covered = false, done = false;
+	var parts, ii;
 
-	while (!done) {
-		done = true;
+	parts = EvoEditor.splitTextWithLinks(text);
 
-		var isEmail = text.search("@") >= 0 && text.search("://") < 0, match;
+	if (!parts)
+		return false;
 
-		// the replace call below replaces &nbsp; (0xA0) with regular space
-		match = EvoEditor.findPattern(text.replace(/ /g, " "), isEmail ? EvoEditor.EMAIL_PATTERN : EvoEditor.URL_PATTERN);
-		if (match) {
-			var url = text.substring(match.start, match.end), node;
+	if (withUndo) {
+		EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "magicLink", anchorNode.parentElement, anchorNode.parentElement,
+			EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+	}
 
-			// because 'search' uses Regex and throws exception on brackets and other Regex-sensitive characters
-			var isInvalidTrailingChar = function(chr) {
-				var jj;
+	try {
+		var selection = document.getSelection(), matchEnd = 0, insBefore, parent;
+		var offset = selection.anchorOffset, updateSelection = selection.anchorNode === anchorNode, newAnchorNode = null;
 
-				for (jj = 0; jj < EvoEditor.URL_INVALID_TRAILING_CHARS.length; jj++) {
-					if (chr == EvoEditor.URL_INVALID_TRAILING_CHARS.charAt(jj))
-						return true;
-				}
+		insBefore = anchorNode;
+		parent = anchorNode.parentElement;
 
-				return false;
-			};
+		for (ii = 0; ii < parts.length; ii++) {
+			var part = parts[ii], node, isLast = ii + 1 >= parts.length;
 
-			/* URLs are extremely unlikely to end with any punctuation, so
-			 * strip any trailing punctuation off from link and put it after
-			 * the link. Do the same for any closing double-quotes as well. */
-			while (url.length > 0 && isInvalidTrailingChar(url.charAt(url.length - 1))) {
-				var open_bracket = 0, close_bracket = url.charAt(url.length - 1);
-
-				if (close_bracket == ')')
-					open_bracket = '(';
-				else if (close_bracket == '}')
-					open_bracket = '{';
-				else if (close_bracket == ']')
-					open_bracket = '[';
-				else if (close_bracket == '>')
-					open_bracket = '<';
-
-				if (open_bracket != 0) {
-					var n_opened = 0, n_closed = 0, ii, chr;
-
-					for (ii = 0; ii < url.length; ii++) {
-						chr = url.charAt(ii);
-
-						if (chr == open_bracket)
-							n_opened++;
-						else if (chr == close_bracket)
-							n_closed++;
-					}
-
-					/* The closing bracket can match one inside the URL,
-					   thus keep it there. */
-					if (n_opened > 0 && n_opened - n_closed >= 0)
-						break;
-				}
-
-				url = url.substr(0, url.length - 1);
-				match.end--;
-			}
-
-			if (url.length > 0) {
-				covered = true;
-
-				if (isEmail)
-					url = "mailto:" + url;
-				else if (url.startsWith("www."))
-					url = "https://" + url;
-
+			if (part.href) {
 				node = document.createElement("A");
-				node.href = url;
-
-				anchorNode = EvoEditor.replaceMatchWithNode("magicLink", anchorNode, match, node, true, withUndo);
-
-				if (anchorNode) {
-					anchorNode = anchorNode.parentElement.nextSibling;
-
-					if (anchorNode) {
-						text = anchorNode.nodeValue;
-						done = !text;
-					}
-				}
+				node.href = part.href;
+				node.innerText = part.text;
+			} else if (isLast) {
+				node = null;
+				// it can be a space, which cannot be added after the element, thus workaround it this way
+				newAnchorNode = anchorNode.splitText(matchEnd);
+			} else {
+				node = document.createTextNode(part.text);
 			}
+
+			if (node)
+				parent.insertBefore(node, insBefore);
+
+			if (!isLast) {
+				matchEnd += part.text.length;
+			} else if (node) {
+				newAnchorNode = node;
+			}
+		}
+
+		if (anchorNode)
+			anchorNode.remove();
+
+		if (updateSelection && newAnchorNode && offset - matchEnd >= 0)
+			selection.setPosition(newAnchorNode, offset - matchEnd);
+	} finally {
+		if (withUndo) {
+			EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "magicLink");
+
+			EvoUndoRedo.GroupTopRecords(2);
+			EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+			EvoEditor.EmitContentChanged();
 		}
 	}
 
-	return covered;
+	return true;
 }
 
 EvoEditor.maybeRemoveQuotationMark = function(node)
