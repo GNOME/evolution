@@ -136,6 +136,15 @@ web_page_created_cb (WebKitWebExtension *wk_extension,
 		extension, 0);
 }
 
+/* Returns 'null', when uri is empty or null, otherwise
+   returns a string with the constructed uri tooltip */
+static gchar *
+evo_jsc_get_uri_tooltip (const gchar *uri,
+			 gpointer user_data)
+{
+	return e_util_get_uri_tooltip (uri);
+}
+
 static void
 load_javascript_file (JSCContext *jsc_context,
 		      const gchar *js_filename)
@@ -189,6 +198,7 @@ window_object_cleared_cb (WebKitScriptWorld *world,
 			  gpointer user_data)
 {
 	JSCContext *jsc_context;
+	JSCValue *jsc_evo_object;
 
 	/* Load the javascript files only to the main frame, not to the subframes */
 	if (!webkit_frame_is_main_frame (frame))
@@ -200,6 +210,25 @@ window_object_cleared_cb (WebKitScriptWorld *world,
 	load_javascript_file (jsc_context, "e-convert.js");
 	load_javascript_file (jsc_context, "e-web-view.js");
 
+	jsc_evo_object = jsc_context_get_value (jsc_context, "Evo");
+
+	if (jsc_evo_object) {
+		JSCValue *jsc_function;
+		const gchar *func_name;
+
+		/* Evo.getUriTooltip(uri) */
+		func_name = "getUriTooltip";
+		jsc_function = jsc_value_new_function (jsc_context, func_name,
+			       G_CALLBACK (evo_jsc_get_uri_tooltip),
+			       NULL, NULL,
+			       G_TYPE_STRING, 1, G_TYPE_STRING);
+
+		jsc_value_object_set_property (jsc_evo_object, func_name, jsc_function);
+
+		g_clear_object (&jsc_function);
+	}
+
+	g_clear_object (&jsc_evo_object);
 	g_clear_object (&jsc_context);
 }
 

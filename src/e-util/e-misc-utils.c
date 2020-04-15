@@ -4799,3 +4799,86 @@ e_util_get_supported_locales (void)
 {
 	return e_supported_locales;
 }
+
+gchar *
+e_util_get_uri_tooltip (const gchar *uri)
+{
+	CamelInternetAddress *address;
+	CamelURL *curl;
+	const gchar *format = NULL;
+	GString *message = NULL;
+	gchar *who;
+
+	if (!uri || !*uri)
+		goto exit;
+
+	if (g_str_has_prefix (uri, "mailto:"))
+		format = _("Click to mail %s");
+	else if (g_str_has_prefix (uri, "callto:") ||
+		 g_str_has_prefix (uri, "h323:") ||
+		 g_str_has_prefix (uri, "sip:") ||
+		 g_str_has_prefix (uri, "tel:"))
+		format = _("Click to call %s");
+	else if (g_str_has_prefix (uri, "##"))
+		message = g_string_new (_("Click to hide/unhide addresses"));
+	else if (g_str_has_prefix (uri, "mail:")) {
+		const gchar *fragment;
+		SoupURI *soup_uri;
+
+		soup_uri = soup_uri_new (uri);
+		if (!soup_uri)
+			goto exit;
+
+		message = g_string_new (NULL);
+		fragment = soup_uri_get_fragment (soup_uri);
+
+		if (fragment && *fragment)
+			g_string_append_printf (message, _("Go to the section %s of the message"), fragment);
+		else
+			g_string_append (message, _("Go to the beginning of the message"));
+
+		soup_uri_free (soup_uri);
+	} else {
+		message = g_string_new (NULL);
+
+		g_string_append_printf (message, _("Click to open %s"), uri);
+	}
+
+	if (!format)
+		goto exit;
+
+	/* XXX Use something other than Camel here.  Surely
+	 *     there's other APIs around that can do this. */
+	curl = camel_url_new (uri, NULL);
+	address = camel_internet_address_new ();
+	camel_address_decode (CAMEL_ADDRESS (address), curl->path);
+	who = camel_address_format (CAMEL_ADDRESS (address));
+	g_object_unref (address);
+	camel_url_free (curl);
+
+	if (!who)
+		who = g_strdup (strchr (uri, ':') + 1);
+
+	message = g_string_new (NULL);
+
+	g_string_append_printf (message, format, who);
+
+	g_free (who);
+
+ exit:
+
+	if (!message)
+		return NULL;
+
+	/* This limits the chars that appear as in some
+	   links the size of chars can extend out of the screen */
+	if (g_utf8_strlen (message->str, -1) > 150) {
+		gchar *pos;
+
+		pos = g_utf8_offset_to_pointer (message->str, 150);
+		g_string_truncate (message, pos - message->str);
+		g_string_append (message , "…");
+	}
+
+	return g_string_free (message, FALSE);
+}

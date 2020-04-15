@@ -354,6 +354,7 @@ gboolean	e_util_query_ldap_root_dse_sync	(const gchar *host,
 						 gchar ***out_root_dse,
 						 GCancellable *cancellable,
 						 GError **error);
+gchar *		e_util_get_uri_tooltip		(const gchar *uri);
 gchar *		e_util_get_language_name	(const gchar *language_tag);
 gboolean	e_util_get_language_info	(const gchar *language_tag,
 						 gchar **out_language_name,
