@@ -5929,12 +5929,6 @@ test_delete_quoted_selection (TestFixture *fixture)
 static void
 test_replace_dialog (TestFixture *fixture)
 {
-	if (test_utils_get_background ()) {
-		printf ("Cannot run in background mode, re-run without it ");
-		g_test_skip ("Cannot run in background mode, re-run without it");
-		return;
-	}
-
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
 		"type:text to replace\n"
@@ -5942,8 +5936,9 @@ test_replace_dialog (TestFixture *fixture)
 		"seq:h\n"
 		"action:show-replace\n"
 		"type:to\t2\n"
-		"type:\t\t\t\t\t\t\n" /* Jump to 'Replace' */
-		"seq:n\n" /* Press it */
+		"seq:A\n" /* Press 'Alt+R' to press 'Replace' button */
+		"type:r\n"
+		"seq:a\n"
 		"seq:^\n" /* Close the dialog */
 		"undo:undo\n"
 		"undo:test:1\n"
@@ -5956,12 +5951,6 @@ test_replace_dialog (TestFixture *fixture)
 static void
 test_replace_dialog_all (TestFixture *fixture)
 {
-	if (test_utils_get_background ()) {
-		printf ("Cannot run in background mode, re-run without it ");
-		g_test_skip ("Cannot run in background mode, re-run without it");
-		return;
-	}
-
 	if (!test_utils_run_simple_test (fixture,
 		"mode:plain\n"
 		"type:text to replace\n"
@@ -5969,8 +5958,9 @@ test_replace_dialog_all (TestFixture *fixture)
 		"seq:h\n"
 		"action:show-replace\n"
 		"type:e\t3\n"
-		"type:\t\t\t\t\t\t\t\n" /* Jump to 'Replace All' */
-		"seq:n\n" /* Press it */
+		"seq:A\n" /* Press 'Alt+A' to press 'Replace All' button */
+		"type:a\n"
+		"seq:a\n"
 		"seq:^\n" /* Close the dialog */
 		"undo:undo\n"
 		"undo:test:1\n"
