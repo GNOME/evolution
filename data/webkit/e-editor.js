@@ -5040,9 +5040,14 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 
 						if (content.nextSibling)
 							document.getSelection().setPosition(content.nextSibling, 0);
-						else if (content.lastChild)
-							document.getSelection().setPosition(content.lastChild, 0);
-						else
+						else if (content.lastChild) {
+							node = content.lastChild;
+
+							while (node.lastChild)
+								node = node.lastChild;
+
+							document.getSelection().setPosition(node, node.nodeType == node.TEXT_NODE ? node.nodeValue.length : 0);
+						} else
 							document.getSelection().setPosition(content, 0);
 
 						if (anchorNode.nodeType == anchorNode.ELEMENT_NODE && anchorNode.parentElement &&
@@ -5051,7 +5056,7 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 						} else {
 							anchorNode = parentBlock.nextSibling.nextSibling;
 
-							if (anchorNode.nodeType == anchorNode.ELEMENT_NODE && anchorNode.parentElement &&
+							if (anchorNode && anchorNode.nodeType == anchorNode.ELEMENT_NODE && anchorNode.parentElement &&
 							    EvoEditor.isEmptyParagraph(anchorNode)) {
 								anchorNode.remove();
 							}
