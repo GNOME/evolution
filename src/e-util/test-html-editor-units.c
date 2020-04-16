@@ -5927,6 +5927,85 @@ test_delete_quoted_selection (TestFixture *fixture)
 }
 
 static void
+test_delete_quoted_multiselect (TestFixture *fixture)
+{
+	test_utils_set_clipboard_text ("line 1\nline 2\nline 3", FALSE);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"action:paste-quote\n"
+		"type:X\n"
+		"undo:save\n" /* 1 */
+		"seq:ChcrrSdsD\n",
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+		"<div>line 2</div>"
+		"<div>line 3X</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"> line 2\n"
+		"> line 3X\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo\n"
+		"undo:test\n"
+		"undo:redo\n"
+		"undo:drop:1\n"
+		"seq:Cec\n" /* Go to the end of the document (Ctrl+End) */
+		"type:\\nY\n",
+		HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+		"<div>line 2</div>"
+		"<div>line 3X</div>"
+		"</blockquote>"
+		"<div>Y</div>"
+		HTML_SUFFIX,
+		"> line 2\n"
+		"> line 3X\n"
+		"Y\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture, "<body></body>", E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain\n"
+		"action:paste-quote\n"
+		"type:X\n"
+		"undo:save\n" /* 1 */
+		"seq:ChcrrSdsD\n",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3X</div>"
+		"</blockquote>"
+		HTML_SUFFIX,
+		"> line 2\n"
+		"> line 3X\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture,
+		"undo:undo\n"
+		"undo:test\n"
+		"undo:redo\n"
+		"seq:Cec\n" /* Go to the end of the document (Ctrl+End) */
+		"type:\\nY\n",
+		HTML_PREFIX "<blockquote type=\"cite\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 2</div>"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "line 3X</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">Y</div>"
+		HTML_SUFFIX,
+		"> line 2\n"
+		"> line 3X\n"
+		"Y\n"))
+		g_test_fail ();
+}
+
+static void
 test_replace_dialog (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
@@ -6525,6 +6604,7 @@ main (gint argc,
 	test_utils_add_test ("/delete/quoted", test_delete_quoted);
 	test_utils_add_test ("/delete/after-quoted", test_delete_after_quoted);
 	test_utils_add_test ("/delete/quoted-selection", test_delete_quoted_selection);
+	test_utils_add_test ("/delete/quoted-multiselect", test_delete_quoted_multiselect);
 	test_utils_add_test ("/replace/dialog", test_replace_dialog);
 	test_utils_add_test ("/replace/dialog-all", test_replace_dialog_all);
 	test_utils_add_test ("/wrap/basic", test_wrap_basic);

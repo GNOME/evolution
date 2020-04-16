@@ -3004,11 +3004,26 @@ EvoEditor.removeEmptyElements = function(tagName)
 {
 	var nodes, node, ii, didRemove = 0;
 
-	nodes = document.querySelectorAll(tagName + ":empty");
+	nodes = document.getElementsByTagName(tagName);
 
 	for (ii = nodes.length - 1; ii >= 0; ii--) {
 		node = nodes[ii];
 
+		// more than one child element means it's not empty
+		if (node.childElementCount > 1)
+			continue;
+
+		// the first element is not quotation mark
+		if (node.firstElementChild && (node.firstElementChild.tagName != "SPAN" ||
+		    node.firstElementChild.className != "-x-evo-quoted"))
+			continue;
+
+		// the text inside is not empty, possibly on either of the two sides of the quotation mark
+		if ((node.firstChild && (node.firstChild.nodeType == node.TEXT_NODE && node.firstChild.nodeValue)) ||
+		    (node.lastChild && !(node.lastChild === node.firstChild) && (node.lastChild.nodeType == node.TEXT_NODE && node.lastChild.nodeValue)))
+			continue;
+
+		// it's either completely empty or it contains only the quotation mark and nothing else
 		didRemove++;
 
 		EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "removeEmptyElem::" + tagName, node.parentElement, node.parentElement,
@@ -3055,55 +3070,6 @@ EvoEditor.beforeInputCb = function(inputEvent)
 			inputEvent.preventDefault();
 
 			return;
-		}
-
-		if (!selection.isCollapsed) {
-			var didRemove = 0;
-
-			if (selection.anchorNode && selection.anchorNode.previousSibling &&
-			    EvoEditor.maybeRemoveQuotationMark(selection.anchorNode.previousSibling))
-				didRemove++;
-
-			if (selection.focusNode && selection.focusNode.previousSibling &&
-			    EvoEditor.maybeRemoveQuotationMark(selection.focusNode.previousSibling))
-				didRemove++;
-
-			if (didRemove) {
-				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, inputEvent.inputType + "::selDeletion", selection.anchorNode.parentElement, selection.focusNode.parentElement,
-					EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
-				try {
-					var anchorBlockquote = EvoEditor.getParentElement("BLOCKQUOTE", selection.anchorNode, true);
-					var blockquote = EvoEditor.getParentElement("BLOCKQUOTE", selection.focusNode, true);
-
-					selection.deleteFromDocument();
-
-					if (blockquote && anchorBlockquote === blockquote && blockquote.lastElementChild &&
-					    (blockquote.lastElementChild.tagName == "DIV" || blockquote.lastElementChild.tagName == "PRE") &&
-					    (!blockquote.lastElementChild.childNodes.length || (blockquote.lastElementChild.childNodes.length == 1 &&
-					     blockquote.lastElementChild.childNodes[0].nodeType == blockquote.TEXT_NODE && !blockquote.lastElementChild.childNodes[0].nodeValue))) {
-						// keep at least one empty DIV/PRE, when it's at the end of the BLOCKQUOTE
-						blockquote.lastElementChild.append(document.createElement("BR"));
-
-						if (EvoEditor.requoteNodeParagraph(blockquote.lastElementChild.firstElementChild))
-						     didRemove++;
-					}
-				} finally {
-					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, inputEvent.inputType + "::selDeletion");
-				}
-
-				didRemove += EvoEditor.removeEmptyElements("DIV");
-				didRemove += EvoEditor.removeEmptyElements("PRE");
-
-				EvoUndoRedo.GroupTopRecords(didRemove + 1, inputEvent.inputType + "::grouped");
-				EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
-				EvoEditor.EmitContentChanged();
-
-				inputEvent.stopImmediatePropagation();
-				inputEvent.stopPropagation();
-				inputEvent.preventDefault();
-
-				return;
-			}
 		}
 	}
 
@@ -3224,149 +3190,163 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 	}
 
 	// special editing of blockquotes
-	if ((inputEvent.inputType.startsWith("insert") || inputEvent.inputType.startsWith("delete")) &&
-	    selection.isCollapsed && EvoEditor.hasElementWithTagNameAsParent(selection.anchorNode, "BLOCKQUOTE")) {
-		// insertParagraph should split the blockquote into two
-		if (isInsertParagraph) {
-			var node = selection.anchorNode, childNode = node, parent, removeNode = null;
+	if (selection.isCollapsed && (inputEvent.inputType.startsWith("insert") || inputEvent.inputType.startsWith("delete"))) {
+		if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT && inputEvent.inputType.startsWith("delete")) {
+			var didRemove = 0;
 
-			for (parent = node.parentElement; parent && parent.tagName != "BODY"; parent = parent.parentElement) {
-				if (parent.tagName == "BLOCKQUOTE") {
-					childNode = parent;
-				}
-			}
+			didRemove += EvoEditor.removeEmptyElements("DIV");
+			didRemove += EvoEditor.removeEmptyElements("PRE");
 
-			EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteSplit", childNode, childNode,
-				EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+			if (didRemove)
+				EvoUndoRedo.GroupTopRecords(didRemove + 1, inputEvent.inputType + "::removeEmptyElems");
+		}
 
-			try {
-				if (node.nodeType == node.ELEMENT_NODE && node.childNodes.length == 1 && node.firstChild.tagName == "BR")
-					removeNode = node;
-				else if (node.nodeType == node.ELEMENT_NODE && node.childNodes.length > 1 && node.firstChild.tagName == "BR")
-					removeNode = node.firstChild;
-
-				childNode = node;
+		if (EvoEditor.hasElementWithTagNameAsParent(selection.anchorNode, "BLOCKQUOTE")) {
+			// insertParagraph should split the blockquote into two
+			if (isInsertParagraph) {
+				var node = selection.anchorNode, childNode = node, parent, removeNode = null;
 
 				for (parent = node.parentElement; parent && parent.tagName != "BODY"; parent = parent.parentElement) {
 					if (parent.tagName == "BLOCKQUOTE") {
-						childNode = EvoEditor.splitAtChild(parent, childNode);
-						parent = childNode;
-					} else {
 						childNode = parent;
 					}
 				}
 
-				if (parent) {
-					var divNode = document.createElement("DIV");
-					divNode.appendChild(document.createElement("BR"));
-					parent.insertBefore(divNode, childNode);
-					document.getSelection().setPosition(divNode, 0);
-					EvoEditor.maybeUpdateParagraphWidth(divNode);
-				}
+				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteSplit", childNode, childNode,
+					EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 
-				while (removeNode && removeNode.tagName != "BODY") {
-					node = removeNode.parentElement;
-					node.removeChild(removeNode);
+				try {
+					if (node.nodeType == node.ELEMENT_NODE && node.childNodes.length == 1 && node.firstChild.tagName == "BR")
+						removeNode = node;
+					else if (node.nodeType == node.ELEMENT_NODE && node.childNodes.length > 1 && node.firstChild.tagName == "BR")
+						removeNode = node.firstChild;
 
-					if (node.childNodes.length)
-						break;
+					childNode = node;
 
-					removeNode = node;
-				}
-
-				if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-					node = document.getSelection().anchorNode;
-
-					if (node && node.nextElementSibling) {
-						var blockquoteLevel = (node.nextElementSibling.tagName == "BLOCKQUOTE" ? 1 : 0);
-
-						EvoEditor.removeQuoteMarks(node.nextElementSibling);
-						EvoEditor.convertParagraphs(node.nextElementSibling, blockquoteLevel,
-							EvoEditor.NORMAL_PARAGRAPH_WIDTH - (blockquoteLevel * 2), false);
-					}
-
-					if (node && node.previousElementSibling) {
-						var blockquoteLevel = (node.previousElementSibling.tagName == "BLOCKQUOTE" ? 1 : 0);
-
-						EvoEditor.removeQuoteMarks(node.previousElementSibling);
-						EvoEditor.convertParagraphs(node.previousElementSibling, blockquoteLevel,
-							EvoEditor.NORMAL_PARAGRAPH_WIDTH - (blockquoteLevel * 2), false);
-					}
-				}
-			} finally {
-				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteSplit");
-				EvoUndoRedo.GroupTopRecords(2, "insertParagraph::blockquoteSplit");
-				EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
-				EvoEditor.EmitContentChanged();
-			}
-		// insertLineBreak should re-quote text in the Plain Text mode
-		} else if (inputEvent.inputType == "insertLineBreak") {
-			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-				var selNode = document.getSelection().anchorNode, node = selNode, parent;
-
-				while (node && node.tagName != "BODY" && !EvoEditor.IsBlockNode(node)) {
-					node = node.parentElement;
-				}
-
-				if (node && node.tagName != "BODY" && selNode.previousSibling && selNode.previousSibling.nodeValue == "\n") {
-					EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "requote", node, node,
-						EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
-
-					try {
-						var blockquoteLevel;
-
-						// the "\n" is replaced with full paragraph
-						selNode.parentElement.removeChild(selNode.previousSibling);
-
-						parent = selNode.parentElement;
-
-						var childNode = selNode;
-
-						while (parent && parent.tagName != "BODY") {
+					for (parent = node.parentElement; parent && parent.tagName != "BODY"; parent = parent.parentElement) {
+						if (parent.tagName == "BLOCKQUOTE") {
 							childNode = EvoEditor.splitAtChild(parent, childNode);
+							parent = childNode;
+						} else {
+							childNode = parent;
+						}
+					}
 
-							if (childNode === node || EvoEditor.IsBlockNode(parent))
-								break;
+					if (parent) {
+						var divNode = document.createElement("DIV");
+						divNode.appendChild(document.createElement("BR"));
+						parent.insertBefore(divNode, childNode);
+						document.getSelection().setPosition(divNode, 0);
+						EvoEditor.maybeUpdateParagraphWidth(divNode);
+					}
 
-							parent = childNode.parentElement;
+					while (removeNode && removeNode.tagName != "BODY") {
+						node = removeNode.parentElement;
+						node.removeChild(removeNode);
+
+						if (node.childNodes.length)
+							break;
+
+						removeNode = node;
+					}
+
+					if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+						node = document.getSelection().anchorNode;
+
+						if (node && node.nextElementSibling) {
+							var blockquoteLevel = (node.nextElementSibling.tagName == "BLOCKQUOTE" ? 1 : 0);
+
+							EvoEditor.removeQuoteMarks(node.nextElementSibling);
+							EvoEditor.convertParagraphs(node.nextElementSibling, blockquoteLevel,
+								EvoEditor.NORMAL_PARAGRAPH_WIDTH - (blockquoteLevel * 2), false);
 						}
 
-						blockquoteLevel = EvoEditor.getBlockquoteLevel(parent);
+						if (node && node.previousElementSibling) {
+							var blockquoteLevel = (node.previousElementSibling.tagName == "BLOCKQUOTE" ? 1 : 0);
 
-						EvoEditor.quoteParagraph(childNode, blockquoteLevel, EvoEditor.NORMAL_PARAGRAPH_WIDTH - (2 * blockquoteLevel));
+							EvoEditor.removeQuoteMarks(node.previousElementSibling);
+							EvoEditor.convertParagraphs(node.previousElementSibling, blockquoteLevel,
+								EvoEditor.NORMAL_PARAGRAPH_WIDTH - (blockquoteLevel * 2), false);
+						}
+					}
+				} finally {
+					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteSplit");
+					EvoUndoRedo.GroupTopRecords(2, "insertParagraph::blockquoteSplit");
+					EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+					EvoEditor.EmitContentChanged();
+				}
+			// insertLineBreak should re-quote text in the Plain Text mode
+			} else if (inputEvent.inputType == "insertLineBreak") {
+				if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+					var selNode = document.getSelection().anchorNode, node = selNode, parent;
 
-						document.getSelection().setPosition(childNode, 0);
-					} finally {
-						EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "requote");
-						EvoUndoRedo.GroupTopRecords(2, "insertLineBreak::requote");
-						EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
-						EvoEditor.EmitContentChanged();
+					while (node && node.tagName != "BODY" && !EvoEditor.IsBlockNode(node)) {
+						node = node.parentElement;
+					}
+
+					if (node && node.tagName != "BODY" && selNode.previousSibling && selNode.previousSibling.nodeValue == "\n") {
+						EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "requote", node, node,
+							EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+
+						try {
+							var blockquoteLevel;
+
+							// the "\n" is replaced with full paragraph
+							selNode.parentElement.removeChild(selNode.previousSibling);
+
+							parent = selNode.parentElement;
+
+							var childNode = selNode;
+
+							while (parent && parent.tagName != "BODY") {
+								childNode = EvoEditor.splitAtChild(parent, childNode);
+
+								if (childNode === node || EvoEditor.IsBlockNode(parent))
+									break;
+
+								parent = childNode.parentElement;
+							}
+
+							blockquoteLevel = EvoEditor.getBlockquoteLevel(parent);
+
+							EvoEditor.quoteParagraph(childNode, blockquoteLevel, EvoEditor.NORMAL_PARAGRAPH_WIDTH - (2 * blockquoteLevel));
+
+							document.getSelection().setPosition(childNode, 0);
+						} finally {
+							EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "requote");
+							EvoUndoRedo.GroupTopRecords(2, "insertLineBreak::requote");
+							EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+							EvoEditor.EmitContentChanged();
+						}
 					}
 				}
-			}
-		// it's an insert or delete in the blockquote, which means to recalculate where quotation marks should be
-		} else if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-			var node = document.getSelection().anchorNode;
+			// it's an insert or delete in the blockquote, which means to recalculate where quotation marks should be
+			} else if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
+				var node = document.getSelection().anchorNode;
 
-			EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, "requote::group");
-			try {
-				var selection = EvoSelection.Store(document);
+				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, "requote::group");
+				try {
+					var selection = EvoSelection.Store(document);
 
-				node = EvoEditor.requoteNodeParagraph(node);
+					EvoEditor.removeEmptyElements("DIV");
+					EvoEditor.removeEmptyElements("PRE");
 
-				if (node && inputEvent.inputType.startsWith("delete")) {
-					if (node.nextSiblingElement)
-						EvoEditor.requoteNodeParagraph(node.nextSiblingElement);
-					if (node.previousSiblingElement)
-						EvoEditor.requoteNodeParagraph(node.previousSiblingElement);
+					node = EvoEditor.requoteNodeParagraph(node);
+
+					if (node && inputEvent.inputType.startsWith("delete")) {
+						if (node.nextSiblingElement)
+							EvoEditor.requoteNodeParagraph(node.nextSiblingElement);
+						if (node.previousSiblingElement)
+							EvoEditor.requoteNodeParagraph(node.previousSiblingElement);
+					}
+
+					EvoSelection.Restore(document, selection);
+				} finally {
+					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, "requote::group");
+					EvoUndoRedo.GroupTopRecords(2, inputEvent.inputType + "::requote");
+					EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+					EvoEditor.EmitContentChanged();
 				}
-
-				EvoSelection.Restore(document, selection);
-			} finally {
-				EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, "requote::group");
-				EvoUndoRedo.GroupTopRecords(2, inputEvent.inputType + "::requote");
-				EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
-				EvoEditor.EmitContentChanged();
 			}
 		}
 	}
