@@ -2597,7 +2597,21 @@ test_convert_to_plain (TestFixture *fixture)
 		"text before\n"
 		"https://no.where/1234567890/123457890/1234567890\n"
 		"text after\n",
-		12 }
+		12 },
+	/* 66 */{ HTML ("<div>line1<br>\n"
+		"line2<br>\n"
+		"line3<br>\n"
+		"<br>\n"
+		"<br>\n"
+		"line6<br>\n"
+		"</div>"),
+		"line1\n"
+		"line2\n"
+		"line3\n"
+		"\n"
+		"\n"
+		"line6\n",
+		71 }
 	};
 
 	#undef HTML

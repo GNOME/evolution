@@ -370,7 +370,6 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 			useWrapWidth : wrapWidth,
 			spacesFrom : -1, // in 'str'
 			lastSpace : -1, // in this->line
-			lastWasWholeLine : false, // to distinguish between new line in the text and new line from wrapping with while line text
 			lineLetters : 0,
 			line : "",
 
@@ -472,12 +471,9 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 					worker.line = worker.line.substr(jj);
 					worker.maybeRecalcIgnoreLineLetters();
 					didWrap = true;
-				} else if (worker.collapseWhiteSpace && worker.lastWasWholeLine && worker.line == "") {
-					worker.lastWasWholeLine = false;
 				} else {
 					lines[lines.length] = worker.line;
 					worker.line = "";
-					worker.lastWasWholeLine = true;
 					worker.ignoreLineLetters = 0;
 				}
 
@@ -748,10 +744,21 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 			if (whiteSpace == "pre-line") {
 				str = EvoConvert.mergeConsecutiveSpaces(str.replace(/\t/g, " "));
 			} else if (!whiteSpace || whiteSpace == "normal" || whiteSpace == "nowrap") {
-				if (str == "\n" || str == "\r" || str == "\r\n")
+				if (str == "\n" || str == "\r" || str == "\r\n") {
 					str = "";
-				else
+				} else {
+					if ((!node.previousSibling || node.previousSibling.tagName) && (str[0] == '\r' || str[0] == '\n')) {
+						var ii;
+
+						for (ii = 0; str[ii] == '\n' || str[ii] == '\r'; ii++) {
+							// do nothing, just skip all leading insignificant new lines
+						}
+
+						str = str.substr(ii);
+					}
+
 					str = EvoConvert.mergeConsecutiveSpaces(str.replace(/\t/g, " ").replace(/\r/g, " ").replace(/\n/g, " "));
+				}
 			}
 		}
 	} else if (node.nodeType == node.ELEMENT_NODE) {
