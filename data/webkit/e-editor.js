@@ -2648,10 +2648,10 @@ EvoEditor.UpdateStyleSheet = function(id, css)
 
 	for (ii = 0; ii < styles.length; ii++) {
 		if (styles[ii].id == id) {
-			res = styles[ii].innerHTML;
+			res = styles[ii].innerText;
 
 			if (css)
-				styles[ii].innerHTML = css;
+				styles[ii].innerText = css;
 			else
 				document.head.removeChild(styles[ii]);
 
