@@ -59,11 +59,18 @@ static const gchar *view_ui =
 "     <menuitem action='view-html-output'/>\n"
 "     <menuitem action='view-html-source'/>\n"
 "     <menuitem action='view-plain-source'/>\n"
+"     <menuitem action='view-draft-source'/>\n"
 "     <separator/>\n"
 "     <menuitem action='view-webkit-inspector'/>\n"
 "    </menu>\n"
 "  </menubar>\n"
 "</ui>";
+
+enum {
+	GET_CONTENT_PLAIN,
+	GET_CONTENT_HTML,
+	GET_CONTENT_DRAFT
+};
 
 static void create_new_editor (void);
 
@@ -198,14 +205,14 @@ view_source_dialog_show (EHTMLEditor *editor,
 typedef struct _ViewSourceData {
 	EHTMLEditor *editor;
 	gchar *title;
-	gboolean plain_text;
+	guint mode;
 	gboolean show_source;
 } ViewSourceData;
 
 static ViewSourceData *
 view_source_data_new (EHTMLEditor *editor,
 		      const gchar *title,
-		      gboolean plain_text,
+		      guint mode,
 		      gboolean show_source)
 {
 	ViewSourceData *vsd;
@@ -213,7 +220,7 @@ view_source_data_new (EHTMLEditor *editor,
 	vsd = g_slice_new (ViewSourceData);
 	vsd->editor = g_object_ref (editor);
 	vsd->title = g_strdup (title);
-	vsd->plain_text = plain_text;
+	vsd->mode = mode;
 	vsd->show_source = show_source;
 
 	return vsd;
@@ -248,9 +255,11 @@ view_source_dialog_content_hash_ready_cb (GObject *source_object,
 	if (!content_hash) {
 		g_warning ("%s: Failed to get content: %s", G_STRFUNC, error ? error->message : "Unknown error");
 	} else {
-		view_source_dialog_show (vcd->editor, vcd->title, vcd->plain_text, vcd->show_source,
+		view_source_dialog_show (vcd->editor, vcd->title, vcd->mode == GET_CONTENT_PLAIN, vcd->show_source,
 			e_content_editor_util_get_content_data (content_hash,
-				vcd->plain_text ? E_CONTENT_EDITOR_GET_TO_SEND_PLAIN : E_CONTENT_EDITOR_GET_TO_SEND_HTML));
+				vcd->mode == GET_CONTENT_PLAIN ? E_CONTENT_EDITOR_GET_TO_SEND_PLAIN :
+				vcd->mode == GET_CONTENT_HTML ? E_CONTENT_EDITOR_GET_TO_SEND_HTML :
+				E_CONTENT_EDITOR_GET_RAW_DRAFT));
 
 		e_content_editor_util_free_content_hash (content_hash);
 	}
@@ -262,22 +271,20 @@ view_source_dialog_content_hash_ready_cb (GObject *source_object,
 static void
 view_source_dialog (EHTMLEditor *editor,
                     const gchar *title,
-                    gboolean plain_text,
+                    guint mode,
                     gboolean show_source)
 {
 	EContentEditor *cnt_editor;
 	ViewSourceData *vcd;
 	guint32 flags;
 
-	vcd = view_source_data_new (editor, title, plain_text, show_source);
+	vcd = view_source_data_new (editor, title, mode, show_source);
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (plain_text) {
-		flags = E_CONTENT_EDITOR_GET_TO_SEND_PLAIN;
-	} else {
-		flags = E_CONTENT_EDITOR_GET_INLINE_IMAGES | E_CONTENT_EDITOR_GET_TO_SEND_HTML;
-	}
+	flags = mode == GET_CONTENT_PLAIN ? E_CONTENT_EDITOR_GET_TO_SEND_PLAIN :
+		mode == GET_CONTENT_HTML ? E_CONTENT_EDITOR_GET_TO_SEND_HTML | E_CONTENT_EDITOR_GET_INLINE_IMAGES :
+		E_CONTENT_EDITOR_GET_ALL;
 
 	e_content_editor_get_content (cnt_editor, flags, "test-domain", NULL,
 		view_source_dialog_content_hash_ready_cb, vcd);
@@ -372,21 +379,28 @@ static void
 action_view_html_output (GtkAction *action,
                          EHTMLEditor *editor)
 {
-	view_source_dialog (editor, _("HTML Output"), FALSE, FALSE);
+	view_source_dialog (editor, _("HTML Output"), GET_CONTENT_HTML, FALSE);
 }
 
 static void
 action_view_html_source (GtkAction *action,
                          EHTMLEditor *editor)
 {
-	view_source_dialog (editor, _("HTML Source"), FALSE, TRUE);
+	view_source_dialog (editor, _("HTML Source"), GET_CONTENT_HTML, TRUE);
 }
 
 static void
 action_view_plain_source (GtkAction *action,
                           EHTMLEditor *editor)
 {
-	view_source_dialog (editor, _("Plain Source"), TRUE, FALSE);
+	view_source_dialog (editor, _("Plain Source"), GET_CONTENT_PLAIN, FALSE);
+}
+
+static void
+action_view_draft_source (GtkAction *action,
+			  EHTMLEditor *editor)
+{
+	view_source_dialog (editor, _("Draft"), GET_CONTENT_DRAFT, TRUE);
 }
 
 static void
@@ -487,6 +501,13 @@ static GtkActionEntry view_entries[] = {
 	  NULL,
 	  NULL,
 	  G_CALLBACK (action_view_plain_source) },
+
+	{ "view-draft-source",
+	  NULL,
+	  N_("_Draft Source"),
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_view_draft_source) },
 
 	{ "view-webkit-inspector",
 	  NULL,
