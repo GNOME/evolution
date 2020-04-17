@@ -757,6 +757,16 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 						str = str.substr(ii);
 					}
 
+					if (str.length > 0 && (!node.nextSibling || node.nextSibling.tagName) && (str[str.length - 1] == '\r' || str[str.length - 1] == '\n')) {
+						var ii;
+
+						for (ii = str.length - 1; ii >= 0 && (str[ii] == '\n' || str[ii] == '\r'); ii--) {
+							// do nothing, just skip all trailing insignificant new lines
+						}
+
+						str = str.substr(0, ii + 1);
+					}
+
 					str = EvoConvert.mergeConsecutiveSpaces(str.replace(/\t/g, " ").replace(/\r/g, " ").replace(/\n/g, " "));
 				}
 			}

@@ -2888,7 +2888,29 @@ test_convert_to_plain_quoted (TestFixture *fixture)
 		"> text before\n"
 		"> https://no.where/1234567890/123457890/1234567890\n"
 		"> text after\n",
-		14 }
+		14 },
+	/* 21 */{ HTML ("<blockquote type='cite'>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "line1<br>\n"
+			QUOTE_SPAN (QUOTE_CHR) "line2<br>\n"
+			QUOTE_SPAN (QUOTE_CHR) "line3<br>\n"
+			QUOTE_SPAN (QUOTE_CHR) "<br>\n"
+			QUOTE_SPAN (QUOTE_CHR) "<br>\n"
+			QUOTE_SPAN (QUOTE_CHR) "line6<br>\n"
+			"</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "paragraph 2<br>\n</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "paragraph 3\n</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "paragraph 4</div>"
+		"</blockquote>"),
+		"> line1\n"
+		"> line2\n"
+		"> line3\n"
+		"> \n"
+		"> \n"
+		"> line6\n"
+		"> paragraph 2\n"
+		"> paragraph 3\n"
+		"> paragraph 4\n",
+		71 }
 	};
 
 	#undef QUOTE_SPAN
