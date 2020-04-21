@@ -393,63 +393,64 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 			},
 
 			isInUnwrapPart : function() {
-				if (worker.inAnchor)
+				if (this.inAnchor)
 					return true;
 
-				if (worker.line[0] == EvoConvert.NOWRAP_CHAR_START)
-					return worker.line.indexOf(EvoConvert.NOWRAP_CHAR_END) < 0;
+				if (this.line[0] == EvoConvert.NOWRAP_CHAR_START)
+					return this.line.indexOf(EvoConvert.NOWRAP_CHAR_END) < 0;
 
 				return false;
 			},
 
 			shouldWrap : function(nextChar) {
-				return worker.canWrap && (!worker.isInUnwrapPart() || worker.lastSpace != -1) && (worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth || (
-					((!worker.charWrap && (nextChar == " " || nextChar == "\t") && worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth) ||
-					((worker.charWrap || (nextChar != " " && nextChar != "\t")) && worker.lineLetters - worker.ignoreLineLetters == worker.useWrapWidth)) && (
-					worker.lastSpace == -1/* || worker.lastSpace == worker.line.length*/)));
+				return this.canWrap && (!this.collapseWhiteSpace || nextChar != '\n') &&
+					(!this.isInUnwrapPart() || this.lastSpace != -1) && (this.lineLetters - this.ignoreLineLetters > this.useWrapWidth || (
+					((!this.charWrap && (nextChar == " " || nextChar == "\t") && this.lineLetters - this.ignoreLineLetters > this.useWrapWidth) ||
+					((this.charWrap || (nextChar != " " && nextChar != "\t")) && this.lineLetters - this.ignoreLineLetters == this.useWrapWidth)) && (
+					this.lastSpace == -1/* || this.lastSpace == this.line.length*/)));
 			},
 
 			commitSpaces : function(ii) {
-				if (worker.spacesFrom != -1 && (!worker.canWrap || worker.line.length - worker.ignoreLineLetters <= worker.useWrapWidth)) {
+				if (this.spacesFrom != -1 && (!this.canWrap || this.line.length - this.ignoreLineLetters <= this.useWrapWidth)) {
 					var spaces;
 
-					spaces = ii - worker.spacesFrom;
+					spaces = ii - this.spacesFrom;
 
-					if (worker.canWrap && worker.line.length - worker.ignoreLineLetters + spaces > worker.useWrapWidth)
-						spaces = worker.useWrapWidth - worker.line.length + worker.ignoreLineLetters;
+					if (this.canWrap && this.line.length - this.ignoreLineLetters + spaces > this.useWrapWidth)
+						spaces = this.useWrapWidth - this.line.length + this.ignoreLineLetters;
 
-					if (!worker.canWrap || (worker.line.length - worker.ignoreLineLetters + spaces <= worker.useWrapWidth) && spaces >= 0) {
-						if (worker.collapseWhiteSpace && (!extraIndent || lines.length))
-							worker.line += " ";
+					if (!this.canWrap || (this.line.length - this.ignoreLineLetters + spaces <= this.useWrapWidth) && spaces >= 0) {
+						if (this.collapseWhiteSpace && (!extraIndent || lines.length))
+							this.line += " ";
 						else
-							worker.line += " ".repeat(spaces);
+							this.line += " ".repeat(spaces);
 					}
 
-					worker.spacesFrom = -1;
-					worker.lastSpace = worker.line.length;
-				} else if (worker.spacesFrom != -1) {
-					worker.lastSpace = worker.line.length;
+					this.spacesFrom = -1;
+					this.lastSpace = this.line.length;
+				} else if (this.spacesFrom != -1) {
+					this.lastSpace = this.line.length;
 				}
 			},
 
-			commit : function(ii) {
-				worker.commitSpaces(ii);
+			commit : function(ii, force) {
+				this.commitSpaces(ii);
 
 				var didWrap = false;
 
-				if (worker.canWrap && worker.lastSpace != -1 && worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth) {
-					lines[lines.length] = worker.line.substr(0, worker.lastSpace);
-					worker.line = worker.line.substr(worker.lastSpace);
-					worker.maybeRecalcIgnoreLineLetters();
+				if (this.canWrap && this.lastSpace != -1 && this.lineLetters - this.ignoreLineLetters > this.useWrapWidth) {
+					lines[lines.length] = this.line.substr(0, this.lastSpace);
+					this.line = this.line.substr(this.lastSpace);
+					this.maybeRecalcIgnoreLineLetters();
 					didWrap = true;
-				} else if (!worker.isInUnwrapPart() && worker.useWrapWidth != -1 && worker.lineLetters - worker.ignoreLineLetters > worker.useWrapWidth) {
+				} else if (!this.isInUnwrapPart() && this.useWrapWidth != -1 && this.lineLetters - this.ignoreLineLetters > this.useWrapWidth) {
 					var jj;
 
-					if (worker.charWrap) {
+					if (this.charWrap) {
 						var subLineLetters = 0, ignoreSubLineLetters = 0, chr;
 
-						for(jj = 0; jj < worker.line.length; jj++) {
-							chr = worker.line.charAt(jj);
+						for(jj = 0; jj < this.line.length; jj++) {
+							chr = this.line.charAt(jj);
 
 							if (chr == "\t") {
 								subLineLetters = subLineLetters - ((subLineLetters - ignoreSubLineLetters) % EvoConvert.TAB_SIZE) + EvoConvert.TAB_SIZE;
@@ -460,33 +461,39 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 							if (chr == EvoConvert.NOWRAP_CHAR_START || chr == EvoConvert.NOWRAP_CHAR_END)
 								ignoreSubLineLetters++;
 
-							if (subLineLetters - ignoreSubLineLetters >= worker.useWrapWidth)
+							if (subLineLetters - ignoreSubLineLetters >= this.useWrapWidth)
 								break;
 						}
 					} else {
-						jj = worker.line.length;
+						jj = this.line.length;
 					}
 
-					lines[lines.length] = worker.line.substr(0, jj);
-					worker.line = worker.line.substr(jj);
-					worker.maybeRecalcIgnoreLineLetters();
+					lines[lines.length] = this.line.substr(0, jj);
+					this.line = this.line.substr(jj);
+					this.maybeRecalcIgnoreLineLetters();
 					didWrap = true;
 				} else {
-					lines[lines.length] = worker.line;
-					worker.line = "";
-					worker.ignoreLineLetters = 0;
+					lines[lines.length] = this.line;
+					this.line = "";
+					this.ignoreLineLetters = 0;
 				}
 
-				if (worker.canWrap && didWrap && worker.collapseEndingWhiteSpace && lines[lines.length - 1].endsWith(" ")) {
+				if (this.canWrap && this.collapseEndingWhiteSpace && didWrap && lines[lines.length - 1].endsWith(" ")) {
 					if (lines[lines.length - 1].length == 1)
 						lines.length = lines.length - 1;
 					else
 						lines[lines.length - 1] = lines[lines.length - 1].substr(0, lines[lines.length - 1].length - 1);
 				}
 
-				worker.lineLetters = worker.canWrap ? EvoConvert.calcLineLetters(worker.line) : worker.line.length;
-				worker.spacesFrom = -1;
-				worker.lastSpace = -1;
+				if (force && this.line) {
+					lines[lines.length] = this.line;
+					this.line = "";
+					this.ignoreLineLetters = 0;
+				}
+
+				this.lineLetters = this.canWrap ? EvoConvert.calcLineLetters(this.line) : this.line.length;
+				this.spacesFrom = -1;
+				this.lastSpace = -1;
 			}
 		};
 
@@ -498,18 +505,15 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 		for (ii = 0; ii < str.length; ii++) {
 			chr = str.charAt(ii);
 
-			if (chr == "\r")
-				continue;
-
 			if (chr == EvoConvert.NOWRAP_CHAR_START)
 				worker.inAnchor++;
 
 			if (chr == "\n") {
 				if (!worker.mayConsumeWhitespaceAfterWrap(str, ii))
-					worker.commit(ii);
+					worker.commit(ii, true);
 			} else if (!worker.charWrap && !worker.collapseWhiteSpace && chr == "\t") {
 				if (worker.shouldWrap(str[ii + 1]))
-					worker.commit(ii);
+					worker.commit(ii, false);
 				else
 					worker.commitSpaces(ii);
 
@@ -518,7 +522,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				worker.lineLetters = worker.lineLetters - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
 
 				if (worker.shouldWrap(str[ii + 1]))
-					worker.commit(ii);
+					worker.commit(ii, false);
 
 				worker.line += add;
 				worker.lineLetters += add.length;
@@ -552,12 +556,12 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 					worker.inAnchor--;
 
 				if (worker.shouldWrap(str[ii + 1]))
-					worker.commit(ii);
+					worker.commit(ii, false);
 			}
 		}
 
 		while (worker.line.length || worker.spacesFrom != -1 || !lines.length) {
-			worker.commit(ii);
+			worker.commit(ii, false);
 		}
 	} else {
 		if (str.endsWith("\n"))
