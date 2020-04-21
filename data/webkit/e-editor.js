@@ -78,6 +78,8 @@ var EvoEditor = {
 	MAGIC_SMILEYS : false,
 	UNICODE_SMILEYS : false,
 	WRAP_QUOTED_TEXT_IN_REPLIES : true,
+	START_BOTTOM : false,
+	TOP_SIGNATURE : false,
 
 	FORCE_NO : 0,
 	FORCE_YES : 1,
@@ -4742,8 +4744,7 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 				useWrapper.className = "-x-evo-signature-wrapper";
 				useWrapper.appendChild(sigSpan);
 
-				if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT)
-					useWrapper.style.width = EvoEditor.NORMAL_PARAGRAPH_WIDTH + "ch";
+				EvoEditor.maybeUpdateParagraphWidth(useWrapper);
 
 				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "InsertSignature::new-changes", document.body, document.body, EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 				try {
@@ -5313,6 +5314,7 @@ EvoEditor.processLoadedContent = function()
 			elem.innerText = credits;
 
 			document.body.insertAdjacentElement("afterbegin", elem);
+			EvoEditor.maybeUpdateParagraphWidth(elem);
 		}
 
 		node.remove();
@@ -5391,6 +5393,16 @@ EvoEditor.processLoadedContent = function()
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		node = list[ii];
 		node.removeAttribute("id");
+
+		document.getSelection().setPosition(node, 0);
+	}
+
+	if (EvoEditor.START_BOTTOM) {
+		var node = document.createElement("DIV");
+
+		node.appendChild(document.createElement("BR"));
+		document.body.appendChild(node);
+		EvoEditor.maybeUpdateParagraphWidth(node);
 
 		document.getSelection().setPosition(node, 0);
 	}

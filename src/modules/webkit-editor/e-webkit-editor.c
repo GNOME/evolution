@@ -2415,6 +2415,10 @@ webkit_editor_set_start_bottom (EWebKitEditor *wk_editor,
 
 	wk_editor->priv->start_bottom = value;
 
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.START_BOTTOM = %x;",
+		e_webkit_editor_three_state_to_bool (value, "composer-reply-start-bottom"));
+
 	g_object_notify (G_OBJECT (wk_editor), "start-bottom");
 }
 
@@ -2436,6 +2440,10 @@ webkit_editor_set_top_signature (EWebKitEditor *wk_editor,
 		return;
 
 	wk_editor->priv->top_signature = value;
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.TOP_SIGNATURE = %x;",
+		e_webkit_editor_three_state_to_bool (value, "composer-top-signature"));
 
 	g_object_notify (G_OBJECT (wk_editor), "top-signature");
 }
@@ -4754,6 +4762,12 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 	if (load_event != WEBKIT_LOAD_FINISHED ||
 	    !webkit_editor_is_ready (E_CONTENT_EDITOR (wk_editor)))
 		return;
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.START_BOTTOM = %x;\n"
+		"EvoEditor.TOP_SIGNATURE = %x;",
+		e_webkit_editor_three_state_to_bool (wk_editor->priv->start_bottom, "composer-reply-start-bottom"),
+		e_webkit_editor_three_state_to_bool (wk_editor->priv->top_signature, "composer-top-signature"));
 
 	/* Dispatch queued operations - as we are using this just for load
 	 * operations load just the latest request and throw away the rest. */
