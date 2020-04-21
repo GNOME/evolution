@@ -646,6 +646,24 @@ set_journal_sender_text (ItipView *view)
 	return sender;
 }
 
+static const gchar *
+htmlize_text (const gchar *id,
+	      const gchar *text,
+	      gchar **out_tmp)
+{
+	if (text && *text) {
+		if (g_strcmp0 (id, TABLE_ROW_LOCATION) == 0) {
+			*out_tmp = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES, 0);
+		} else {
+			*out_tmp = g_markup_escape_text (text, -1);
+		}
+
+		text = *out_tmp;
+	}
+
+	return text;
+}
+
 static void
 enable_button (ItipView *view,
 	       const gchar *button_id,
@@ -735,10 +753,16 @@ set_area_text (ItipView *view,
 
 	web_view = itip_view_ref_web_view (view);
 	if (web_view) {
+		gchar *tmp = NULL;
+
+		text = htmlize_text (id, text, &tmp);
+
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
 			"EvoItip.SetAreaText(%s, %s, %s);",
 			view->priv->part_id, id, text);
+
 		g_object_unref (web_view);
+		g_free (tmp);
 	}
 }
 
@@ -1019,6 +1043,10 @@ append_text_table_row (GString *buffer,
                        const gchar *label,
                        const gchar *value)
 {
+	gchar *tmp = NULL;
+
+	value = htmlize_text (id, value, &tmp);
+
 	if (label && *label) {
 
 		g_string_append_printf (
@@ -1036,6 +1064,8 @@ append_text_table_row (GString *buffer,
 			id, g_strcmp0 (id, TABLE_ROW_SUMMARY) == 0 ? "" : " hidden=\"\"", value ? value : "");
 
 	}
+
+	g_free (tmp);
 }
 
 static void
