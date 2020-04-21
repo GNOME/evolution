@@ -68,7 +68,7 @@ var EvoUndoRedo = {
 			}
 		},
 
-		MAX_DEPTH : 1024, /* it's one item less, due to the 'bottom' being always ignored */
+		MAX_DEPTH : 10000 + 1, /* it's one item less, due to the 'bottom' being always ignored */
 
 		array : [],
 		bottom : 0,
