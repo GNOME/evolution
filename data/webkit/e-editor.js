@@ -2062,7 +2062,7 @@ EvoEditor.moveNodeContent = function(node, intoNode)
 		if (intoNode) {
 			intoNode.append(node.firstChild);
 		} else {
-			parent.insertBefore(node.firstChild, node.nextSibling);
+			parent.insertBefore(node.firstChild, node);
 		}
 	}
 }
@@ -2137,7 +2137,11 @@ EvoEditor.convertTags = function()
 			}
 		}
 
-		next = EvoEditor.getNextNodeInHierarchy(node, document.body);
+		// skip the signature wrapper
+		if (!removeNode && node.tagName == "DIV" && node.className == "-x-evo-signature-wrapper")
+			next = node.nextSibling;
+		else
+			next = EvoEditor.getNextNodeInHierarchy(node, document.body);
 
 		if (removeNode)
 			node.remove();
@@ -4589,6 +4593,22 @@ EvoEditor.GetCurrentSignatureUid = function()
 	return "";
 }
 
+EvoEditor.removeUnwantedTags = function(parent)
+{
+	if (!parent)
+		return;
+
+	var child, next = null;
+
+	for (child = parent.firstChild; child; child = next) {
+		next = child.nextSibling;
+
+		if (child.tagName == "STYLE" ||
+		    child.tagName == "META")
+			child.remove();
+	}
+}
+
 EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkChanged, ignoreNextChange, startBottom, topSignature, addDelimiter)
 {
 	var sigSpan, node;
@@ -4601,6 +4621,8 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 		if (isHTML && EvoEditor.mode != EvoEditor.MODE_HTML) {
 			node = document.createElement("SPAN");
 			node.innerHTML = content;
+
+			EvoEditor.removeUnwantedTags(node);
 
 			content = EvoConvert.ToPlainText(node, EvoEditor.NORMAL_PARAGRAPH_WIDTH);
 			if (content != "") {
@@ -4640,12 +4662,14 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 			node.removeAttribute("[data-evo-signature-plain-text-mode]");
 
 		node = sigSpan.querySelector("#-x-evo-selection-start-marker");
-		if (node && node.parentElement)
+		if (node)
 			node.remove();
 
 		node = sigSpan.querySelector("#-x-evo-selection-end-marker");
-		if (node && node.parentElement)
+		if (node)
 			node.remove();
+
+		EvoEditor.removeUnwantedTags(sigSpan);
 	}
 
 	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, "InsertSignature");

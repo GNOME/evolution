@@ -776,7 +776,10 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 			}
 		}
 	} else if (node.nodeType == node.ELEMENT_NODE) {
-		if (node.hidden || (node.tagName == "SPAN" && node.classList.contains("-x-evo-quoted")))
+		if (node.hidden ||
+		    node.tagName == "STYLE" ||
+		    node.tagName == "META" ||
+		    (node.tagName == "SPAN" && node.classList.contains("-x-evo-quoted")))
 			return str;
 
 		var style = EvoConvert.getComputedOrNodeStyle(node), ltr, align, indent, whiteSpace;
