@@ -380,7 +380,7 @@ external_editor_thread (gpointer user_data)
 		g_idle_add (enable_composer_idle, g_object_ref (eed->composer));
 		goto finished;
 	} else {
-		gchar *buf;
+		gchar *buf = NULL;
 
 		if (g_file_get_contents (filename, &buf, NULL, NULL)) {
 			struct ExternalEditorData *eed2;
@@ -397,6 +397,7 @@ external_editor_thread (gpointer user_data)
 					"%s: Failed to remove file '%s': %s",
 					G_STRFUNC, filename, g_strerror (errno));
 			g_free (filename);
+			g_free (buf);
 		}
 	}
 
