@@ -2369,7 +2369,7 @@ EvoEditor.convertHtmlToSend = function()
 	var html, bgcolor, text, link, vlink;
 	var unsetBgcolor = false, unsetText = false, unsetLink = false, unsetVlink = false;
 	var themeCss, inheritThemeColors = EvoEditor.inheritThemeColors;
-	var ii, styles, styleNode = null;
+	var ii, styles, styleNode = null, topSignatureSpacers;
 
 	themeCss = EvoEditor.UpdateThemeStyleSheet(null);
 	bgcolor = document.documentElement.getAttribute("x-evo-bgcolor");
@@ -2381,6 +2381,12 @@ EvoEditor.convertHtmlToSend = function()
 	document.documentElement.removeAttribute("x-evo-text");
 	document.documentElement.removeAttribute("x-evo-link");
 	document.documentElement.removeAttribute("x-evo-vlink");
+
+	topSignatureSpacers = document.querySelectorAll(".-x-evo-top-signature-spacer");
+
+	for (ii = topSignatureSpacers.length - 1; ii >= 0; ii--) {
+		topSignatureSpacers[ii].removeAttribute("class");
+	}
 
 	if (inheritThemeColors) {
 		if (bgcolor && !document.body.getAttribute("bgcolor")) {
@@ -2440,6 +2446,15 @@ EvoEditor.convertHtmlToSend = function()
 
 		if (unsetVlink)
 			document.body.removeAttribute("vlink");
+	}
+
+	for (ii = topSignatureSpacers.length - 1; ii >= 0; ii--) {
+		var elem = topSignatureSpacers[ii];
+
+		if (elem.previousSibling && elem.previousSibling.tagName == "DIV" && elem.previousSibling.className == "-x-evo-signature-wrapper") {
+			elem.className = "-x-evo-top-signature-spacer";
+			break;
+		}
 	}
 
 	if (themeCss)
@@ -3162,6 +3177,10 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 		selection.anchorNode.style.textIndent = "";
 		EvoEditor.removeEmptyStyleAttribute(selection.anchorNode);
 		EvoEditor.maybeUpdateParagraphWidth(selection.anchorNode);
+
+		// it can be inherited, which is not desired when the user edits the content of it
+		if (selection.anchorNode.className == "-x-evo-top-signature-spacer")
+			selection.anchorNode.removeAttribute("class");
 	}
 
 	// inserting paragraph in BLOCKQUOTE creates a new BLOCKQUOTE without <DIV> inside it
@@ -4728,8 +4747,7 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 						node = document.querySelector(".-x-evo-top-signature-spacer");
 						if (node && (!node.firstChild || !node.textContent ||
 						    (node.childNodes.length == 1 && node.firstChild.tagName == "BR"))) {
-							if (node.parentElement)
-								node.remove();
+							node.remove();
 						}
 					}
 
@@ -4759,6 +4777,8 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 						node.className = "-x-evo-top-signature-spacer";
 
 						document.body.insertBefore(node, useWrapper.nextSibling);
+
+						EvoEditor.maybeUpdateParagraphWidth(node);
 					}
 				} finally {
 					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "InsertSignature::new-changes");
