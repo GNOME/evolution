@@ -1618,12 +1618,7 @@ EvoEditor.InsertHTML = function(opType, html)
 			node = list[ii];
 
 			EvoEditor.setAttributeWithUndoRedo("InsertHTML::fixBlockquote", node, "class", null);
-
-			if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-				EvoEditor.setAttributeWithUndoRedo("InsertHTML::fixBlockquote", node, "style", null);
-			} else {
-				EvoEditor.setAttributeWithUndoRedo("InsertHTML::fixBlockquote", node, "style", EvoEditor.BLOCKQUOTE_STYLE);
-			}
+			EvoEditor.setAttributeWithUndoRedo("InsertHTML::fixBlockquote", node, "style", null);
 		}
 
 		EvoEditor.correctParagraphsAfterInsertContent(opType);
@@ -2102,13 +2097,8 @@ EvoEditor.convertTags = function()
 	for (ii = list.length - 1; ii >= 0; ii--) {
 		var blockquoteNode = list[ii];
 
-		if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-			blockquoteNode.removeAttribute("class");
-			blockquoteNode.removeAttribute("style");
-		} else {
-			blockquoteNode.removeAttribute("class");
-			blockquoteNode.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
-		}
+		blockquoteNode.removeAttribute("class");
+		blockquoteNode.removeAttribute("style");
 	}
 
 	var node = document.body.firstChild, next;
@@ -2369,7 +2359,7 @@ EvoEditor.convertHtmlToSend = function()
 	var html, bgcolor, text, link, vlink;
 	var unsetBgcolor = false, unsetText = false, unsetLink = false, unsetVlink = false;
 	var themeCss, inheritThemeColors = EvoEditor.inheritThemeColors;
-	var ii, styles, styleNode = null, topSignatureSpacers;
+	var ii, styles, styleNode = null, topSignatureSpacers, elems;
 
 	themeCss = EvoEditor.UpdateThemeStyleSheet(null);
 	bgcolor = document.documentElement.getAttribute("x-evo-bgcolor");
@@ -2420,7 +2410,23 @@ EvoEditor.convertHtmlToSend = function()
 		}
 	}
 
+	if (EvoEditor.mode == EvoEditor.MODE_HTML) {
+		elems = document.getElementsByTagName("BLOCKQUOTE");
+
+		for (ii = 0; ii < elems.length; ii++) {
+			elems[ii].setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
+		}
+	}
+
 	html = document.documentElement.outerHTML;
+
+	if (EvoEditor.mode == EvoEditor.MODE_HTML) {
+		elems = document.getElementsByTagName("BLOCKQUOTE");
+
+		for (ii = 0; ii < elems.length; ii++) {
+			elems[ii].removeAttribute("style");
+		}
+	}
 
 	if (styleNode)
 		styleNode.id = "x-evo-body-fontname";
@@ -2469,6 +2475,8 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 
 	if (!document.body)
 		return content_data;
+
+	var scrollX = window.scrollX, scrollY = window.scrollY;
 
 	EvoUndoRedo.Disable();
 
@@ -2657,6 +2665,9 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 			EvoUndoRedo.Enable();
 		}
 	}
+
+	// the above changes can cause change of the scroll offset, thus restore it
+	window.scrollTo(scrollX, scrollY);
 
 	return content_data;
 }
@@ -4630,7 +4641,10 @@ EvoEditor.removeUnwantedTags = function(parent)
 
 EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkChanged, ignoreNextChange, startBottom, topSignature, addDelimiter)
 {
-	var sigSpan, node;
+	var sigSpan, node, scrollX, scrollY;
+
+	scrollX = window.scrollX;
+	scrollY = window.scrollY;
 
 	sigSpan = document.createElement("SPAN");
 	sigSpan.className = "-x-evo-signature";
@@ -4837,6 +4851,9 @@ EvoEditor.InsertSignature = function(content, isHTML, uid, fromMessage, checkCha
 		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, "InsertSignature");
 	}
 
+	// the above changes can cause change of the scroll offset, thus restore it
+	window.scrollTo(scrollX, scrollY);
+
 	var res = [];
 
 	res["fromMessage"] = fromMessage;
@@ -4882,9 +4899,6 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 
 		if (quote) {
 			content.setAttribute("type", "cite");
-
-			if (EvoEditor.mode != EvoEditor.MODE_PLAIN_TEXT)
-				content.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
 		}
 
 		if (isHTML) {
@@ -5121,13 +5135,8 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 			for (ii = 0; ii < list.length; ii++) {
 				var node = list[ii];
 
-				if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-					node.removeAttribute("class");
-					node.removeAttribute("style");
-				} else {
-					node.removeAttribute("class");
-					node.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
-				}
+				node.removeAttribute("class");
+				node.removeAttribute("style");
 			}
 
 			var selection = document.getSelection();
@@ -5399,13 +5408,8 @@ EvoEditor.processLoadedContent = function()
 			}
 		}
 
-		if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
-			blockquoteNode.removeAttribute("class");
-			blockquoteNode.removeAttribute("style");
-		} else {
-			blockquoteNode.removeAttribute("class");
-			blockquoteNode.setAttribute("style", EvoEditor.BLOCKQUOTE_STYLE);
-		}
+		blockquoteNode.removeAttribute("class");
+		blockquoteNode.removeAttribute("style");
 	}
 
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
@@ -5439,6 +5443,7 @@ EvoEditor.processLoadedContent = function()
 		node.removeAttribute("id");
 
 		document.getSelection().setPosition(node, 0);
+		node.scrollIntoView();
 	}
 
 	if (EvoEditor.START_BOTTOM) {
@@ -5449,6 +5454,7 @@ EvoEditor.processLoadedContent = function()
 		EvoEditor.maybeUpdateParagraphWidth(node);
 
 		document.getSelection().setPosition(node, 0);
+		node.scrollIntoView();
 	}
 }
 

@@ -801,7 +801,7 @@ webkit_editor_update_color_value (JSCValue *jsc_params,
 }
 
 static void webkit_editor_update_styles (EContentEditor *editor);
-static void webkit_editor_style_updated_cb (EWebKitEditor *wk_editor);
+static void webkit_editor_style_updated (EWebKitEditor *wk_editor, gboolean force);
 
 static void
 formatting_changed_cb (WebKitUserContentManager *manager,
@@ -843,7 +843,7 @@ formatting_changed_cb (WebKitUserContentManager *manager,
 	if (changed) {
 		/* Update fonts - in plain text we only want monospaced */
 		webkit_editor_update_styles (E_CONTENT_EDITOR (wk_editor));
-		webkit_editor_style_updated_cb (wk_editor);
+		webkit_editor_style_updated (wk_editor, FALSE);
 
 		g_object_notify (object, "html-mode");
 	}
@@ -1844,7 +1844,8 @@ get_color_from_context (GtkStyleContext *context,
 }
 
 static void
-webkit_editor_style_updated_cb (EWebKitEditor *wk_editor)
+webkit_editor_style_updated (EWebKitEditor *wk_editor,
+			     gboolean force)
 {
 	EContentEditor *cnt_editor;
 	GdkRGBA bgcolor, fgcolor, link_color, vlink_color;
@@ -1892,7 +1893,8 @@ webkit_editor_style_updated_cb (EWebKitEditor *wk_editor)
 	get_color_from_context (style_context, "link-color", &link_color);
 	get_color_from_context (style_context, "visited-link-color", &vlink_color);
 
-	if (gdk_rgba_equal (&bgcolor, &wk_editor->priv->theme_bgcolor) &&
+	if (!force &&
+	    gdk_rgba_equal (&bgcolor, &wk_editor->priv->theme_bgcolor) &&
 	    gdk_rgba_equal (&fgcolor, &wk_editor->priv->theme_fgcolor) &&
 	    gdk_rgba_equal (&link_color, &wk_editor->priv->theme_link_color) &&
 	    gdk_rgba_equal (&vlink_color, &wk_editor->priv->theme_vlink_color))
@@ -1925,6 +1927,12 @@ webkit_editor_style_updated_cb (EWebKitEditor *wk_editor)
 		wk_editor->priv->cancellable);
 
 	g_string_free (css, TRUE);
+}
+
+static void
+webkit_editor_style_updated_cb (EWebKitEditor *wk_editor)
+{
+	webkit_editor_style_updated (wk_editor, FALSE);
 }
 
 static gboolean
@@ -1978,7 +1986,7 @@ webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
 	}
 
 	webkit_editor_update_styles (E_CONTENT_EDITOR (wk_editor));
-	webkit_editor_style_updated_cb (wk_editor);
+	webkit_editor_style_updated (wk_editor, FALSE);
 }
 
 static void
@@ -2059,6 +2067,9 @@ webkit_editor_insert_content (EContentEditor *editor,
 	} else {
 		g_warning ("%s: Unsupported flags combination (0x%x)", G_STRFUNC, flags);
 	}
+
+	if (flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)
+		webkit_editor_style_updated (wk_editor, TRUE);
 }
 
 static void
@@ -4727,7 +4738,7 @@ webkit_editor_style_settings_changed_cb (GSettings *settings,
 		else
 			g_hash_table_remove (wk_editor->priv->old_settings, key);
 
-		webkit_editor_style_updated_cb (wk_editor);
+		webkit_editor_style_updated (wk_editor, FALSE);
 	} else if (new_value) {
 		g_variant_unref (new_value);
 	}
@@ -4793,7 +4804,7 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 		g_queue_clear (wk_editor->priv->post_reload_operations);
 	}
 
-	webkit_editor_style_updated_cb (wk_editor);
+	webkit_editor_style_updated (wk_editor, FALSE);
 
 	if (wk_editor->priv->initialized_callback) {
 		EContentEditorInitializedCallback initialized_callback;
