@@ -198,8 +198,22 @@ enable_composer_idle (gpointer user_data)
 struct ExternalEditorData {
 	EMsgComposer *composer;
 	gchar *content;
+	GDestroyNotify content_destroy_notify;
 	guint cursor_position, cursor_offset;
 };
+
+static void
+external_editor_data_free (gpointer ptr)
+{
+	struct ExternalEditorData *eed = ptr;
+
+	if (eed) {
+		g_clear_object (&eed->composer);
+		if (eed->content_destroy_notify)
+			eed->content_destroy_notify (eed->content);
+		g_slice_free (struct ExternalEditorData, eed);
+	}
+}
 
 /* needed because the new thread needs to call g_idle_add () */
 static gboolean
@@ -221,9 +235,7 @@ update_composer_text (gpointer user_data)
 
 	e_content_editor_set_changed (cnt_editor, TRUE);
 
-	g_clear_object (&eed->composer);
-	g_free (eed->content);
-	g_slice_free (struct ExternalEditorData, eed);
+	external_editor_data_free (eed);
 
 	return FALSE;
 }
@@ -384,7 +396,8 @@ external_editor_thread (gpointer user_data)
 
 			eed2 = g_slice_new0 (struct ExternalEditorData);
 			eed2->composer = g_object_ref (eed->composer);
-			eed2->content =  camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+			eed2->content = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+			eed2->content_destroy_notify = g_free;
 
 			g_idle_add ((GSourceFunc) update_composer_text, eed2);
 
@@ -402,9 +415,7 @@ finished:
 	external_editor_running = FALSE;
 	g_mutex_unlock (&external_editor_running_lock);
 
-	g_clear_object (&eed->composer);
-	g_free (eed->content);
-	g_slice_free (struct ExternalEditorData, eed);
+	external_editor_data_free (eed);
 
 	return NULL;
 }
@@ -430,7 +441,7 @@ launch_editor_content_ready_cb (GObject *source_object,
 	if (!content_hash)
 		g_warning ("%s: Faild to get content: %s", G_STRFUNC, error ? error->message : "Unknown error");
 
-	eed->content = content_hash ? e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN) : NULL;
+	eed->content = content_hash ? e_content_editor_util_steal_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN, &(eed->content_destroy_notify)) : NULL;
 
 	editor_thread = g_thread_new (NULL, external_editor_thread, eed);
 	g_thread_unref (editor_thread);

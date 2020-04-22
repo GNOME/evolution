@@ -230,15 +230,55 @@ action_close_cb (GtkAction *action,
 }
 
 static void
+mail_signature_editor_commit_ready_cb (GObject *source_object,
+				       GAsyncResult *result,
+				       gpointer user_data)
+{
+	EMailSignatureEditor *editor;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_MAIL_SIGNATURE_EDITOR (source_object));
+
+	editor = E_MAIL_SIGNATURE_EDITOR (source_object);
+
+	e_mail_signature_editor_commit_finish (editor, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			E_ALERT_SINK (e_mail_signature_editor_get_editor (editor)),
+			"widgets:no-save-signature",
+			error->message, NULL);
+		g_error_free (error);
+
+	/* Only destroy the editor if the save was successful. */
+	} else {
+		ESourceRegistry *registry;
+		ESource *source;
+
+		registry = e_mail_signature_editor_get_registry (editor);
+		source = e_mail_signature_editor_get_source (editor);
+
+		/* Only make sure that the 'source-changed' is called,
+		 * thus the preview of the signature is updated on save.
+		 * It is not called when only signature body is changed
+		 * (and ESource properties are left unchanged). */
+		g_signal_emit_by_name (registry, "source-changed", source);
+
+		gtk_widget_destroy (GTK_WIDGET (editor));
+	}
+}
+
+static void
 action_save_and_close_cb (GtkAction *action,
                           EMailSignatureEditor *editor)
 {
 	GtkEntry *entry;
-	EAsyncClosure *closure;
-	GAsyncResult *result;
 	ESource *source;
 	gchar *display_name;
-	GError *error = NULL;
 
 	entry = GTK_ENTRY (editor->priv->entry);
 	source = e_mail_signature_editor_get_source (editor);
@@ -267,43 +307,9 @@ action_save_and_close_cb (GtkAction *action,
 
 	editor->priv->cancellable = g_cancellable_new ();
 
-	closure = e_async_closure_new ();
-
 	e_mail_signature_editor_commit (
 		editor, editor->priv->cancellable,
-		e_async_closure_callback, closure);
-
-	result = e_async_closure_wait (closure);
-
-	e_mail_signature_editor_commit_finish (editor, result, &error);
-
-	e_async_closure_free (closure);
-
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_error_free (error);
-
-	} else if (error != NULL) {
-		e_alert_submit (
-			E_ALERT_SINK (e_mail_signature_editor_get_editor (editor)),
-			"widgets:no-save-signature",
-			error->message, NULL);
-		g_error_free (error);
-
-	/* Only destroy the editor if the save was successful. */
-	} else {
-		ESourceRegistry *registry;
-
-		registry = e_mail_signature_editor_get_registry (editor);
-
-		/* Only make sure that the 'source-changed' is called,
-		 * thus the preview of the signature is updated on save.
-		 * It is not called when only signature body is changed
-		 * (and ESource properties are left unchanged). */
-		g_signal_emit_by_name (registry, "source-changed", source);
-
-		gtk_widget_destroy (GTK_WIDGET (editor));
-	}
+		mail_signature_editor_commit_ready_cb, NULL);
 }
 
 static GtkActionEntry entries[] = {
