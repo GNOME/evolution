@@ -4872,13 +4872,6 @@ EvoEditor.isEmptyParagraph = function(node)
 	return !node.children.length || (node.children.length == 1 && node.children[0].tagName == "BR");
 }
 
-// the body contains data, which should be converted into editable content;
-// preferredPlainText can be empty, if not, then it replaces body content
-EvoEditor.ConvertContent = function(preferredPlainText, startBottom, topSignature)
-{
-	throw "EvoEditor.ConvertContent: startBottom:" + startBottom + " topSignature:" + topSignature + " plainText:---" + preferredPlainText + "---";
-}
-
 // replaces current selection with the plain text or HTML, quoted or normal DIV
 EvoEditor.InsertContent = function(text, isHTML, quote)
 {

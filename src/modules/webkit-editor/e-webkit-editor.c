@@ -2043,11 +2043,35 @@ webkit_editor_insert_content (EContentEditor *editor,
 			"EvoEditor.LoadHTML(%s);", content);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_PLAIN)) {
+		gchar *html, **lines;
+		gint ii;
+
+		lines = g_strsplit (content ? content : "", "\n", -1);
+
+		for (ii = 0; lines && lines[ii]; ii++) {
+			gchar *line = lines[ii];
+			gint len = strlen (line);
+
+			if (len > 0 && line[len - 1] == '\r') {
+				line[len - 1] = 0;
+				len--;
+			}
+
+			if (len)
+				lines[ii] = g_markup_printf_escaped ("<div>%s</div>", line);
+			else
+				lines[ii] = g_strdup ("<div><br></div>");
+
+			g_free (line);
+		}
+
+		html = g_strjoinv ("", lines);
+
 		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
-			"EvoEditor.ConvertContent(%s, %x, %x);",
-			content,
-			e_webkit_editor_three_state_to_bool (e_content_editor_get_start_bottom (editor), "composer-reply-start-bottom"),
-			e_webkit_editor_three_state_to_bool (e_content_editor_get_top_signature (editor), "composer-top-signature"));
+			"EvoEditor.LoadHTML(%s);", html);
+
+		g_strfreev (lines);
+		g_free (html);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 		  !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		  !(flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT)) {
