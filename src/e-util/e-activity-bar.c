@@ -61,6 +61,25 @@ typedef struct _EActivityBarTimeoutData {
 	EActivity *activity;
 } EActivityBarTimeoutData;
 
+/* This is needed, because the scheduled timeout can hold the last
+   reference to the 'activity', which means removing the source will
+   free it, which in turn calls e_activity_bar_set_activity() with NULL,
+   which would call g_source_remove() again, with the same timeout id.
+*/
+static void
+activity_bar_unset_timeout_id (EActivityBar *bar)
+{
+	guint timeout_id;
+
+	g_return_if_fail (E_IS_ACTIVITY_BAR (bar));
+
+	timeout_id = bar->priv->timeout_id;
+	bar->priv->timeout_id = 0;
+
+	if (timeout_id)
+		g_source_remove (timeout_id);
+}
+
 static void
 activity_bar_timeout_data_free (gpointer ptr)
 {
@@ -101,8 +120,7 @@ activity_bar_feedback (EActivityBar *bar)
 	if (state != E_ACTIVITY_CANCELLED && state != E_ACTIVITY_COMPLETED)
 		return;
 
-	if (bar->priv->timeout_id > 0)
-		g_source_remove (bar->priv->timeout_id);
+	activity_bar_unset_timeout_id (bar);
 
 	data = g_slice_new0 (EActivityBarTimeoutData);
 
@@ -267,12 +285,7 @@ activity_bar_dispose (GObject *object)
 
 	priv = E_ACTIVITY_BAR_GET_PRIVATE (object);
 
-	if (priv->timeout_id > 0) {
-		guint timeout_id = priv->timeout_id;
-
-		priv->timeout_id = 0;
-		g_source_remove (timeout_id);
-	}
+	activity_bar_unset_timeout_id (E_ACTIVITY_BAR (object));
 
 	if (priv->activity != NULL) {
 		g_signal_handlers_disconnect_matched (
@@ -388,10 +401,7 @@ e_activity_bar_set_activity (EActivityBar *bar,
 	if (activity != NULL)
 		g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	if (bar->priv->timeout_id > 0) {
-		g_source_remove (bar->priv->timeout_id);
-		bar->priv->timeout_id = 0;
-	}
+	activity_bar_unset_timeout_id (bar);
 
 	if (bar->priv->activity != NULL) {
 		g_signal_handlers_disconnect_matched (
