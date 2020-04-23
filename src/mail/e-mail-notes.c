@@ -344,7 +344,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor,
 		if (text && *text) {
 			gchar *tmp = NULL;
 
-			if (!g_str_has_suffix (text, "\r\n")) {
+			if (!g_str_has_suffix (text, "\r\n") && !g_str_has_suffix (text, "\n")) {
 				tmp = g_strconcat (text, "\r\n", NULL);
 				text = tmp;
 			}
@@ -371,7 +371,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor,
 		if (text && *text) {
 			gchar *tmp = NULL;
 
-			if (!g_str_has_suffix (text, "\r\n")) {
+			if (!g_str_has_suffix (text, "\r\n") && !g_str_has_suffix (text, "\n")) {
 				tmp = g_strconcat (text, "\r\n", NULL);
 				text = tmp;
 			}
@@ -449,7 +449,7 @@ e_mail_notes_editor_encode_text_to_message (EMailNotesEditor *notes_editor,
 		if (text && *text) {
 			gchar *tmp = NULL;
 
-			if (!g_str_has_suffix (text, "\r\n")) {
+			if (!g_str_has_suffix (text, "\r\n") && !g_str_has_suffix (text, "\n")) {
 				tmp = g_strconcat (text, "\r\n", NULL);
 				text = tmp;
 			}

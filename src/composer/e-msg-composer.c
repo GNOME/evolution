@@ -1457,7 +1457,7 @@ composer_build_message (EMsgComposer *composer,
 		}
 
 		g_byte_array_append (data, (guint8 *) text, strlen (text));
-		if (!g_str_has_suffix (text, "\r\n"))
+		if (!g_str_has_suffix (text, "\r\n") && !g_str_has_suffix (text, "\n"))
 			g_byte_array_append (data, (const guint8 *) "\r\n", 2);
 
 		type = camel_content_type_new ("text", "plain");
@@ -1555,7 +1555,7 @@ composer_build_message (EMsgComposer *composer,
 
 		length = strlen (text);
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
-		if (!g_str_has_suffix (text, "\r\n"))
+		if (!g_str_has_suffix (text, "\r\n") && !g_str_has_suffix (text, "\n"))
 			g_byte_array_append (data, (const guint8 *) "\r\n", 2);
 		pre_encode = text_requires_quoted_printable (text, length);
 
@@ -5942,7 +5942,7 @@ e_msg_composer_get_raw_message_text_without_signature (EMsgComposer *composer)
 		content = "";
 	}
 
-	needs_crlf = !g_str_has_suffix (content, "\r\n");
+	needs_crlf = !g_str_has_suffix (content, "\r\n") && !g_str_has_suffix (content, "\n");
 
 	content_length = strlen (content);
 
@@ -5983,7 +5983,7 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 		content = "";
 	}
 
-	needs_crlf = !g_str_has_suffix (content, "\r\n");
+	needs_crlf = !g_str_has_suffix (content, "\r\n") && !g_str_has_suffix (content, "\n");
 
 	content_length = strlen (content);
 
