@@ -291,6 +291,27 @@ var EvoUndoRedo = {
 		maybeMergeInsertText : function(skipFirst) {
 			EvoUndoRedo.stack.maybeMergeConsecutive(skipFirst, "insertText");
 			EvoUndoRedo.stack.maybeMergeConsecutive(skipFirst, "insertText::WordDelim");
+		},
+
+		maybeMergeDragDrop : function() {
+			if (EvoUndoRedo.stack.current != EvoUndoRedo.stack.top ||
+			    EvoUndoRedo.stack.current == EvoUndoRedo.stack.bottom ||
+			    EvoUndoRedo.stack.clampIndex(EvoUndoRedo.stack.current - 1) == EvoUndoRedo.stack.bottom) {
+				return;
+			}
+
+			var curr, prev;
+
+			curr = EvoUndoRedo.stack.array[EvoUndoRedo.stack.current];
+			prev = EvoUndoRedo.stack.array[EvoUndoRedo.stack.clampIndex(EvoUndoRedo.stack.current - 1)];
+
+			if (curr && prev &&
+			    curr.kind == EvoUndoRedo.RECORD_KIND_EVENT &&
+			    prev.kind == EvoUndoRedo.RECORD_KIND_EVENT &&
+			    curr.opType == "insertFromDrop" &&
+			    prev.opType == "deleteByDrag") {
+				EvoUndoRedo.GroupTopRecords(2, "dragDrop::merged");
+			}
 		}
 	},
 
@@ -478,8 +499,10 @@ EvoUndoRedo.inputCb = function(inputEvent)
 
 	EvoEditor.forceFormatStateUpdate = EvoEditor.forceFormatStateUpdate || opType == "" || opType.startsWith("format");
 
-	if (opType == "insertFromDrop")
+	if (opType == "insertFromDrop") {
 		EvoUndoRedo.dropTarget = null;
+		EvoUndoRedo.stack.maybeMergeDragDrop();
+	}
 
 	EvoEditor.AfterInputEvent(inputEvent, isWordDelim);
 }
@@ -768,6 +791,8 @@ EvoUndoRedo.GroupTopRecords = function(nRecords, opType)
 
 		EvoUndoRedo.stack.push(group);
 	}
+
+	EvoUndoRedo.stack.maybeStateChanged();
 }
 
 /* Backs up all the children elements between firstChildIndex and lastChildIndex inclusive,
