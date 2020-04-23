@@ -2202,10 +2202,11 @@ webkit_editor_get_content_finish (EContentEditor *editor,
 						}
 
 						if (jsc_value_is_object (item_value)) {
-							gchar *src, *cid;
+							gchar *src, *cid, *name;
 
 							src = e_web_view_jsc_get_object_property_string (item_value, "src", NULL);
 							cid = e_web_view_jsc_get_object_property_string (item_value, "cid", NULL);
+							name = e_web_view_jsc_get_object_property_string (item_value, "name", NULL);
 
 							if (src && *src && cid && *cid) {
 								CamelMimePart *part = NULL;
@@ -2214,7 +2215,7 @@ webkit_editor_get_content_finish (EContentEditor *editor,
 									part = e_content_editor_emit_ref_mime_part (editor, src);
 
 								if (!part) {
-									part = e_content_editor_util_create_data_mimepart (src, cid, TRUE, NULL, NULL,
+									part = e_content_editor_util_create_data_mimepart (src, cid, TRUE, name, NULL,
 										E_WEBKIT_EDITOR (editor)->priv->cancellable);
 								}
 
@@ -2222,6 +2223,7 @@ webkit_editor_get_content_finish (EContentEditor *editor,
 									image_parts = g_slist_prepend (image_parts, part);
 							}
 
+							g_free (name);
 							g_free (src);
 							g_free (cid);
 						}
@@ -2230,7 +2232,7 @@ webkit_editor_get_content_finish (EContentEditor *editor,
 					}
 
 					if (image_parts)
-						e_content_editor_util_take_content_data_images (content_hash, image_parts);
+						e_content_editor_util_take_content_data_images (content_hash, g_slist_reverse (image_parts));
 				} else if (!jsc_value_is_undefined (images_value) && !jsc_value_is_null (images_value)) {
 					g_warn_if_reached ();
 				}

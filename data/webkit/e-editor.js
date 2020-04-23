@@ -2471,11 +2471,12 @@ EvoEditor.convertHtmlToSend = function()
 
 EvoEditor.GetContent = function(flags, cid_uid_prefix)
 {
-	var content_data = {}, img_elems = [], bkg_elems = [], elems, ii, jj, currentElemsArray = null;
+	var content_data = {};
 
 	if (!document.body)
 		return content_data;
 
+	var img_elems = [], data_names = [], bkg_elems = [], elems, ii, jj, currentElemsArray = null;
 	var scrollX = window.scrollX, scrollY = window.scrollY;
 
 	EvoUndoRedo.Disable();
@@ -2568,12 +2569,29 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 							src : elem.src
 						};
 						elem.src = img_obj.cid;
+
+						if (elem.hasAttribute("data-name"))
+							images[images.length - 1].name = elem.getAttribute("data-name");
 					}
 				} else if (elem && src.startsWith("cid:")) {
 					images[images.length] = {
 						cid : elem.src,
 						src : elem.src
 					};
+				}
+
+				if (elem) {
+					// just remove the attribute used by the old editor
+					elem.removeAttribute("data-inline");
+
+					if (elem.hasAttribute("data-name")) {
+						data_names[data_names.length] = {
+							elem : elem,
+							name : elem.getAttribute("data-name")
+						};
+
+						elem.removeAttribute("data-name");
+					}
 				}
 			}
 
@@ -2613,12 +2631,26 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 							src : elem.getAttribute("background")
 						};
 						elem.setAttribute("background", bkg_obj.cid);
+
+						if (elem.hasAttribute("data-name"))
+							images[images.length - 1].name = elem.getAttribute("data-name");
 					}
 				} else if (elem && src.startsWith("cid:")) {
 					images[images.length] = {
 						cid : elem.getAttribute("background"),
 						src : elem.getAttribute("background")
 					};
+				}
+
+				if (elem) {
+					if (elem.hasAttribute("data-name")) {
+						data_names[data_names.length] = {
+							elem : elem,
+							name : elem.getAttribute("data-name")
+						};
+
+						elem.removeAttribute("data-name");
+					}
 				}
 			}
 
@@ -2650,6 +2682,10 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix)
 				for (jj = 0; jj < img_obj.subelems.length; jj++) {
 					img_obj.subelems[jj].src = img_obj.orig_src;
 				}
+			}
+
+			for (ii = 0; ii < data_names.length; ii++) {
+				data_names[ii].elem.setAttribute("data-name", data_names[ii].name);
 			}
 
 			for (ii = 0; ii < bkg_elems.length; ii++) {

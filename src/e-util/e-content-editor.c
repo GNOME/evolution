@@ -1819,15 +1819,13 @@ e_content_editor_util_create_data_mimepart (const gchar *uri,
 
 		file = g_file_new_for_uri (uri);
 		file_stream = g_file_read (file, NULL, NULL);
-		g_clear_object (&file);
 
 		if (file_stream) {
 			if (!prefer_filename) {
-				file_info = g_file_input_stream_query_info (file_stream, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME, cancellable, NULL);
+				file_info = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME, G_FILE_QUERY_INFO_NONE, cancellable, NULL);
 
-				if (file_info) {
+				if (file_info)
 					prefer_filename = g_file_info_get_display_name (file_info);
-				}
 			}
 
 			if (!prefer_mime_type)
@@ -1835,6 +1833,8 @@ e_content_editor_util_create_data_mimepart (const gchar *uri,
 
 			input_stream = (GInputStream *) file_stream;
 		}
+
+		g_clear_object (&file);
 	}
 
 	if (data || input_stream) {
@@ -1865,7 +1865,10 @@ e_content_editor_util_create_data_mimepart (const gchar *uri,
 		if (mime_part) {
 			camel_mime_part_set_disposition (mime_part, as_inline ? "inline" : "attachment");
 
-			if (cid)
+			if (cid && g_ascii_strncasecmp (cid, "cid:", 4) == 0)
+				cid += 4;
+
+			if (cid && *cid)
 				camel_mime_part_set_content_id (mime_part, cid);
 
 			if (prefer_filename && *prefer_filename)
