@@ -76,36 +76,6 @@ e_editor_web_extension_get_default (void)
 }
 
 static gboolean
-web_page_send_request_cb (WebKitWebPage *web_page,
-			  WebKitURIRequest *request,
-			  WebKitURIResponse *redirected_response,
-			  EEditorWebExtension *extension)
-{
-	const gchar *request_uri;
-	const gchar *page_uri;
-
-	request_uri = webkit_uri_request_get_uri (request);
-	page_uri = webkit_web_page_get_uri (web_page);
-
-	/* Always load the main resource. */
-	if (g_strcmp0 (request_uri, page_uri) == 0)
-		return FALSE;
-
-	if (g_str_has_prefix (request_uri, "http:") ||
-	    g_str_has_prefix (request_uri, "https:")) {
-		gchar *new_uri;
-
-		new_uri = g_strconcat ("evo-", request_uri, NULL);
-
-		webkit_uri_request_set_uri (request, new_uri);
-
-		g_free (new_uri);
-	}
-
-	return FALSE;
-}
-
-static gboolean
 use_sources_js_file (void)
 {
 	static gint res = -1;
@@ -540,6 +510,36 @@ window_object_cleared_cb (WebKitScriptWorld *world,
 	}
 
 	g_clear_object (&jsc_context);
+}
+
+static gboolean
+web_page_send_request_cb (WebKitWebPage *web_page,
+			  WebKitURIRequest *request,
+			  WebKitURIResponse *redirected_response,
+			  EEditorWebExtension *extension)
+{
+	const gchar *request_uri;
+	const gchar *page_uri;
+
+	request_uri = webkit_uri_request_get_uri (request);
+	page_uri = webkit_web_page_get_uri (web_page);
+
+	/* Always load the main resource. */
+	if (g_strcmp0 (request_uri, page_uri) == 0)
+		return FALSE;
+
+	if (g_str_has_prefix (request_uri, "http:") ||
+	    g_str_has_prefix (request_uri, "https:")) {
+		gchar *new_uri;
+
+		new_uri = g_strconcat ("evo-", request_uri, NULL);
+
+		webkit_uri_request_set_uri (request, new_uri);
+
+		g_free (new_uri);
+	}
+
+	return FALSE;
 }
 
 static void
