@@ -18702,7 +18702,7 @@ msgstr "という語を含まない"
 #: ../src/mail/filtertypes.xml.in.h:19 ../src/mail/searchtypes.xml.in.h:20
 #: ../src/mail/vfoldertypes.xml.in.h:20
 msgid "Specific header"
-msgstr "指定したフォルダー"
+msgstr "指定したヘッダー"
 
 #: ../src/mail/filtertypes.xml.in.h:20 ../src/mail/searchtypes.xml.in.h:21
 #: ../src/mail/vfoldertypes.xml.in.h:21
@@ -18799,7 +18799,7 @@ msgstr "ジャンク"
 #: ../src/mail/filtertypes.xml.in.h:42 ../src/mail/searchtypes.xml.in.h:44
 #: ../src/mail/vfoldertypes.xml.in.h:45
 msgid "Follow Up"
-msgstr "フローアップ"
+msgstr "フォローアップ"
 
 #: ../src/mail/filtertypes.xml.in.h:43 ../src/mail/searchtypes.xml.in.h:45
 #: ../src/mail/vfoldertypes.xml.in.h:46
