@@ -2672,7 +2672,7 @@ msgstr "Equip de traducció de la documentació per a l'usuari d'<app>Evolution<
 #. andre
 #: C/credits.page:42
 msgid "(Not applicable to the English version)"
-msgstr "Jaume Jorba <jaume.jorba@gmail.com>, Jordi Mas i Hernàndez <jmas@softcatala.org>"
+msgstr "Jaume Jorba, Jordi Mas i Hernàndez"
 
 #. (itstool) path: section/title
 #: C/credits.page:46
