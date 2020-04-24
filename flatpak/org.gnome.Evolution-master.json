@@ -1,7 +1,7 @@
 {
 	"app-id": "org.gnome.Evolution",
 	"runtime": "org.gnome.Platform",
-	"runtime-version": "3.34",
+	"runtime-version": "3.36",
 	"sdk": "org.gnome.Sdk",
 	"command": "evolution",
 	"rename-icon": "evolution",
@@ -194,36 +194,6 @@
 		},
 
 		{
-			"name": "evolution-data-server",
-			"buildsystem": "cmake-ninja",
-			"cleanup": [ "/share/GConf" ],
-			"config-opts": [
-				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution",
-				"-DENABLE_FILE_LOCKING=fcntl",
-				"-DENABLE_DOT_LOCKING=OFF",
-				"-DENABLE_OAUTH2=ON",
-				"-DENABLE_GTK=ON",
-				"-DENABLE_GOA=ON",
-				"-DENABLE_EXAMPLES=OFF",
-				"-DENABLE_INTROSPECTION=OFF",
-				"-DENABLE_VALA_BINDINGS=OFF",
-				"-DENABLE_INSTALLED_TESTS=OFF",
-				"-DENABLE_GTK_DOC=OFF",
-				"-DWITH_LIBDB=OFF",
-				"-DWITH_PRIVATE_DOCS=OFF",
-				"-DWITH_PHONENUMBER=OFF",
-				"-DWITH_SYSTEMDUSERUNITDIR=OFF"
-			],
-			"sources": [
-				{
-					"type": "git",
-					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
-					"branch": "master"
-				}
-			]
-		},
-
-		{
 			"name": "gspell",
 			"config-opts": [
 				"--disable-gtk-doc",
@@ -273,6 +243,48 @@
 				{
 					"type": "git",
 					"url": "https://git.code.sf.net/p/bogofilter/git",
+					"branch": "master"
+				}
+			]
+		},
+
+		{
+			"name": "libmspack",
+			"cleanup": [ "/bin" ],
+			"sources": [
+				{
+					"type": "archive",
+					"url": "https://www.cabextract.org.uk/libmspack/libmspack-0.10.1alpha.tar.gz",
+					"sha256": "bac862dee6e0fc10d92c70212441d9f8ad9b0222edc9a708c3ead4adb1b24a8e"
+				}
+			]
+		},
+
+		{
+			"name": "evolution-data-server",
+			"buildsystem": "cmake-ninja",
+			"cleanup": [ "/share/GConf" ],
+			"config-opts": [
+				"-DDBUS_SERVICES_PREFIX=org.gnome.Evolution",
+				"-DENABLE_FILE_LOCKING=fcntl",
+				"-DENABLE_DOT_LOCKING=OFF",
+				"-DENABLE_OAUTH2=ON",
+				"-DENABLE_GTK=ON",
+				"-DENABLE_GOA=ON",
+				"-DENABLE_EXAMPLES=OFF",
+				"-DENABLE_INTROSPECTION=OFF",
+				"-DENABLE_VALA_BINDINGS=OFF",
+				"-DENABLE_INSTALLED_TESTS=OFF",
+				"-DENABLE_GTK_DOC=OFF",
+				"-DWITH_LIBDB=OFF",
+				"-DWITH_PRIVATE_DOCS=OFF",
+				"-DWITH_PHONENUMBER=OFF",
+				"-DWITH_SYSTEMDUSERUNITDIR=OFF"
+			],
+			"sources": [
+				{
+					"type": "git",
+					"url": "https://gitlab.gnome.org/GNOME/evolution-data-server.git",
 					"branch": "master"
 				}
 			]
@@ -368,18 +380,6 @@
 				"chmod a+x flatpak-evolution-wrapper.sh",
 				"mv /app/bin/evolution /app/bin/evolution.bin",
 				"cp flatpak-evolution-wrapper.sh /app/bin/evolution"
-			]
-		},
-
-		{
-			"name": "libmspack",
-			"cleanup": [ "/bin" ],
-			"sources": [
-				{
-					"type": "archive",
-					"url": "https://www.cabextract.org.uk/libmspack/libmspack-0.10.1alpha.tar.gz",
-					"sha256": "bac862dee6e0fc10d92c70212441d9f8ad9b0222edc9a708c3ead4adb1b24a8e"
-				}
 			]
 		},
 
