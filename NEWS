@@ -1,3 +1,24 @@
+Evolution 3.36.2 2020-04-24
+---------------------------
+
+Bug Fixes:
+	I#870 - e-day-view: Add a gap between adjacent events (Milan Crha)
+
+Miscellaneous:
+	e-shell: Should retry source authenticate after successful trust prompt (Milan Crha)
+	em-formatter: Remove unneeded attachment-expander button's 'data' attribute (Milan Crha)
+	Calendar: Correct management of ECalComponentDateTime structures (Milan Crha)
+	itip-formatter: Eventually linkify Location field (Milan Crha)
+	EActivityBar: Unset timeout_id without recursive call to g_source_remove() (Milan Crha)
+	external-editor: Fix a memory leak (Milan Crha)
+	Flatpak: Switch to 3.36 runtime and change the build order (Milan Crha)
+
+Translations:
+	Yuri Chornoivan (uk)
+	Goran Vidović (hr)
+	Anders Jonsson (sv)
+	Jordi Mas (ca)
+
 Evolution 3.36.1 2020-03-27
 ---------------------------
 
