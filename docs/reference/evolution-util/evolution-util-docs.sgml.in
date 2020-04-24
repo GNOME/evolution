@@ -255,7 +255,6 @@
     <xi:include href="xml/e-action-combo-box.xml"/>
     <xi:include href="xml/e-auth-combo-box.xml"/>
     <xi:include href="xml/e-bit-array.xml"/>
-    <xi:include href="xml/e-buffer-tagger.xml"/>
     <xi:include href="xml/e-calendar-item.xml"/>
     <xi:include href="xml/e-calendar.xml"/>
     <xi:include href="xml/e-charset.xml"/>

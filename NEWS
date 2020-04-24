@@ -1,3 +1,57 @@
+Evolution 3.37.1 2020-04-24
+---------------------------
+
+Bug Fixes:
+	I#536 - Always show the date of an appointment received via e-mail (Milan Crha)
+	I#792 - Composer: Some shortcuts depend on the current keyboard layout ][ (Milan Crha)
+	I#793 - Use libravatar instead of gravatar (Milan Crha)
+	I#795 - Add signature position option to Alternative Reply (Milan Crha)
+	I#799 - EAlertBar: Text part doesn't work well for long text ][ (Milan Crha)
+	I#824 - EWebView: Should not force EWebView colors on IFrame body (Milan Crha)
+	I#830 - Change default for composer-mailto-body-in-pre to false (Milan Crha)
+	I#835 - CompEditor: Default weekly recurrence to event's week day (Milan Crha)
+	I#836 - Shell: Executes shortcuts from inactive view (Milan Crha)
+	I#837 - Calendar List View: Cancel of changes not reverted in GUI (Milan Crha)
+	I#870 - e-day-view: Add a gap between adjacent events (Milan Crha)
+	M!45 - Typos in internal variable names (Nour E-Din Osama Mohamed)
+	M!47 - README.md: Remove reference to ACLOCAL_FLAGS (Дилян Палаузов)
+	M!48 - EWebView: Show the destination of hyperlinks as tooltip (Nour E-Din Osama Mohamed)
+	eds-I#165 - Add backend to access Nextcloud Notes (Milan Crha)
+	eds-I#195 - alarm-notify: Show more details of the selected event (Milan Crha)
+
+Miscellaneous:
+	contact-editor: Cannot set custom full name Title/Suffix (Milan Crha)
+	EMailBrowser: Cannot type some letters in the search entry (Milan Crha)
+	EMailBrowser: Escape key press closes window, instead of the search bar (Milan Crha)
+	ECompEditorPageReminders: Do not force custom description (Milan Crha)
+	EWebKitEditor: Prevent Replace-all to cycle indefinitely in some cases (Milan Crha)
+	mail-send-recv.h: Remove leftover function definition without implementation (Nour E-Din Osama Mohamed)
+	Bump libical version to 3.0.8 in Flatpak manifests (Milan Crha)
+	EMailBrowser: Cannot be closed with Escape key press (Milan Crha)
+	The "Address Book Map" menu item shown even when not compiled with it (Milan Crha)
+	win32/Makefile: Update "git clone" commands to use GNOME Gitlab (Andre Klapper)
+	e-shell: Should retry source authenticate after successful trust prompt (Milan Crha)
+	EHTMLEditor: Prefer emoji over emoticon (Milan Crha)
+	em-formatter: Remove unneeded attachment-expander button's 'data' attribute (Milan Crha)
+	Calendar: Correct management of ECalComponentDateTime structures (Milan Crha)
+	itip-formatter: Eventually linkify Location field (Milan Crha)
+	EActivityBar: Unset timeout_id without recursive call to g_source_remove() (Milan Crha)
+	external-editor: Fix a memory leak (Milan Crha)
+	Flatpak: Switch to 3.36 runtime and change the build order (Milan Crha)
+	help: Import instructions for Thunderbird might not work anymore (Andre Klapper)
+	help: Cover how to modify the outgoing email method (Andre Klapper)
+
+Translations:
+	Nathan Follens (nl)
+	Goran Vidović (hr)
+	Daniel Șerbănescu (ro)
+	Daniel Korostil (uk)
+	Jordi Mas (ca)
+	Марко Костић (sr)
+	muzena (hr)
+	Charles Monzat (fr)
+	Anders Jonsson (sv)
+
 Evolution 3.36.0 2020-03-06
 ---------------------------
 
