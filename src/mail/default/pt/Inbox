@@ -47,19 +47,6 @@ Os Primeiros Passos
 	Para obter um guia completo sobre o Evolution, seleccione "Tabela de
 	Conteúdos" no menu "Ajuda", ou prima a tecla F1. 
 
-Novas Funcionalidades
-
-	O Evolution 2.8 tem
-	
-	# Um novo Interface de Procura e Procura Global no Correio
-	# Um modo de Ecrã Largo (Wide Screen), Antevisão Vertical no Correio
-	# Melhor Aparência (integração "Cairo")
-	# Melhor Desempenho, várias Correcções e Reduções na utilização de Memória
-	# Suporte para Notas de Lembrete e Anular-Envio de Correio para GroupWise
-	# Notas Partilháveis no Diário (sistema de ficheiros)
-	# Suporte para o GNOME Keyring Manager
-	# Imensas correcções de Erros e outras Melhorias
-
 Relatar Erros
 
 	Erros deverão ser relatados em https://gitlab.gnome.org/GNOME/evolution/issues (em inglês).
