@@ -54,7 +54,7 @@ Content-Transfer-Encoding: 8bit
 
 기타 정보
 
-	http://lists.gnome.org/mailman/listinfo/evolution-list 페이지에서
+	https://mail.gnome.org/mailman/listinfo/evolution-list 페이지에서
 	에볼루션 사용자 메일링 리스트에 가입할 수 있습니다.
 
 	https://wiki.gnome.org/Apps/Evolution 사이트에 에볼루션
@@ -130,7 +130,7 @@ Content-Type: text/html; charset=utf-8
 </h2>
 
 <blockquote>
-	<a href="http://lists.gnome.org/mailman/listinfo/evolution-list">http://lists.gnome.org/mailman/listinfo/evolution-list</a> 페이지에서
+	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list">https://mail.gnome.org/mailman/listinfo/evolution-list</a> 페이지에서
 	에볼루션 사용자 메일링 리스트에 가입할 수 있습니다.
 
 	<a href="https://wiki.gnome.org/Apps/Evolution">https://wiki.gnome.org/Apps/Evolution</a> 사이트에 에볼루션

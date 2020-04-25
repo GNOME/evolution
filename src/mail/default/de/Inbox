@@ -59,7 +59,7 @@ Fehlerberichte
 Weitere Informationen
 
 	Die Mailingliste für Anwender von Evolution können Sie abonnieren
-	unter http://mail.gnome.org/mailman/listinfo/evolution-list.
+	unter https://mail.gnome.org/mailman/listinfo/evolution-list.
 
 	Informationen über das Projekt Evolution erhalten Sie unter
 	https://wiki.gnome.org/Apps/Evolution
@@ -158,8 +158,8 @@ Content-Type: text/html; charset=utf-8
 
 <blockquote>
 	Die Mailingliste für Anwender von Evolution können Sie abonnieren unter
-	<a href="http://lists.gnome.org/mailman/listinfo/evolution-list"
-	>http://lists.gnome.org/mailman/listinfo/evolution-list</a>.
+	<a href="https://mail.gnome.org/mailman/listinfo/evolution-list"
+	>https://mail.gnome.org/mailman/listinfo/evolution-list</a>.
 
 	Informationen über das Projekt Evolution erhalten Sie unter
 	<a href="https://wiki.gnome.org/Apps/Evolution"
