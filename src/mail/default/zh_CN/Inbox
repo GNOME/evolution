@@ -69,7 +69,6 @@ Content-Transfer-Encoding: 8bit
     此致
 敬礼
 Evolution 团队
-evolution@novell.com
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -151,8 +150,7 @@ Content-Type: text/html; charset=utf-8
 
 　　此致<br/>
 敬礼<br>
-Evolution 团队<br>
-<a href="mailto:evolution@novell.com">evolution@novell.com</a>
+Evolution 团队
 
 </BODY>
 </HTML>
