@@ -50,7 +50,7 @@ Ohjeita uusille käyttäjille
 
 Vikailmoitukset
 
-    Raportoi löytämäsi viat osoitteessa http://bugzilla.gnome.org.
+    Raportoi löytämäsi viat osoitteessa https://gitlab.gnome.org/GNOME/evolution/issues.
 
 Lisätietoja
 
@@ -147,7 +147,7 @@ Content-Type: text/html; charset=utf-8
 <blockquote>
     
     Raportoi löytämäsi viat osoitteessa 
-    <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>
+    <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>
 
 </blockquote>
 

@@ -55,7 +55,7 @@ Content-Transfer-Encoding: 8bit
 
 错误报告
 
-	错误应该报告至 http://bugzilla.gnome.org
+	错误应该报告至 https://gitlab.gnome.org/GNOME/evolution/issues
 
 更多信息
 
@@ -141,7 +141,7 @@ Content-Type: text/html; charset=utf-8
 <blockquote>Evolution 2.0 支持连接到 Novell GroupWise 服务器(6.5.3 或更新版本)，还可支持 Exchange 2000/2003。Evolution 2.0 的其它新特性包括垃圾邮件过滤、S/MIME 安全、改进的脱机 IMAP、NNTP(新闻)支持、Web 日历显示，层叠的日历，以及为访问联系人、日历和任务数据所提供的全新开发接口。</blockquote>
 
 <h2>错误报告</h2>
-<blockquote>错误应该报告至 <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>
+<blockquote>错误应该报告至 <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>
 </blockquote>
 
 <h2>更多信息</h2>

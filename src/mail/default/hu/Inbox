@@ -49,7 +49,7 @@ Kezdeti lépések
 
 Hibajelentés
 
-	Az alkalmazás hibái a http://bugzilla.gnome.org oldalon jelenthetők be.
+	Az alkalmazás hibái a https://gitlab.gnome.org/GNOME/evolution/issues oldalon jelenthetők be.
 
 További információk
 
@@ -123,7 +123,7 @@ Kezdeti lépések
 Hibajelentés
 </h2>
 <blockquote>
-Az alkalmazás hibái a <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a> oldalon jelenthetők be.
+Az alkalmazás hibái a <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a> oldalon jelenthetők be.
 <br><br>
 </blockquote> 
 

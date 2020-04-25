@@ -50,7 +50,7 @@ Content-Transfer-Encoding: 8bit
 
 버그 보고하기
 
-	버그는 http://bugzilla.gnome.org 사이트에 보고해 주십시오.
+	버그는 https://gitlab.gnome.org/GNOME/evolution/issues 사이트에 보고해 주십시오.
 
 기타 정보
 
@@ -121,7 +121,7 @@ Content-Type: text/html; charset=utf-8
 버그 보고하기
 </h2>
 <blockquote>
-	버그는 <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a> 사이트에 보고해 주십시오.
+	버그는 <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a> 사이트에 보고해 주십시오.
 <br><br>
 </blockquote> 
 

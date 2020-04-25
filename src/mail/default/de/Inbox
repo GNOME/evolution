@@ -53,7 +53,7 @@ Erste Schritte
 Fehlerberichte
 
 	Falls Sie einen Fehler entdecken, erstellen Sie bitte einen 
-	Fehlerbericht unter http://bugzilla.gnome.org
+	Fehlerbericht unter https://gitlab.gnome.org/GNOME/evolution/issues
 
 
 Weitere Informationen
@@ -150,7 +150,7 @@ Content-Type: text/html; charset=utf-8
 <blockquote>
 	Falls Sie einen Fehler entdecken, erstellen Sie bitte einen
 	Fehlerbericht unter
-	<a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	<a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
 <br><br>
 </blockquote> 
 

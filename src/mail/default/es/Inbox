@@ -51,7 +51,7 @@ Introducción
 
 Información de errores
 
-        Los errores se deben notificar en http://bugzilla.gnome.org.
+        Los errores se deben notificar en https://gitlab.gnome.org/GNOME/evolution/issues.
 
 
 Más información
@@ -125,7 +125,7 @@ Introducci&#243;n
 Informaci&#243;n de errores
 </h2>
 <blockquote>
-	 Los errores se deben notificar en el Bugzilla de GNOME en <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	 Los errores se deben notificar en el Bugzilla de GNOME en <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
 <br><br>
 </blockquote> 
 

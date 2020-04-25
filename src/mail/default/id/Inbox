@@ -50,7 +50,7 @@ Memulai
 
 Pelaporan Kutu
 
-	Kutu mesti dilaporkan ke http://bugzilla.gnome.org.
+	Kutu mesti dilaporkan ke https://gitlab.gnome.org/GNOME/evolution/issues.
 
 Informasi Lebih Lanjut
 
@@ -125,7 +125,7 @@ Memulai
 Pelaporan Kutu
 </h2>
 <blockquote>
-	Kutu mesti dilaporkan ke <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	Kutu mesti dilaporkan ke <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
 <br><br>
 </blockquote> 
 

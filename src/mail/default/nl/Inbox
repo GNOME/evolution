@@ -50,7 +50,7 @@ Aan de slag
 
 Fouten rapporteren
 
-	Fouten moeten gerapporteerd worden op http://bugzilla.gnome.org.
+	Fouten moeten gerapporteerd worden op https://gitlab.gnome.org/GNOME/evolution/issues.
 
 Meer informatie
 
@@ -124,7 +124,7 @@ Fouten rapporteren
 </h2>
 <blockquote>
 	Fouten moeten gerapporteerd worden op
-	 <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	 <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
 <br><br>
 </blockquote> 
 

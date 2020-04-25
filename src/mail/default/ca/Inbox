@@ -52,7 +52,7 @@ Com començar
 
 Com informar sobre errors
 
-	Els errors s'haurien d'enviar a http://bugzilla.gnome.org.
+	Els errors s'haurien d'enviar a https://gitlab.gnome.org/GNOME/evolution/issues.
 
 Més informació
 
@@ -126,7 +126,7 @@ Com començar
 Com informar sobre errors
 </h2>
 <blockquote>
-	Els errors s'haurien d'enviar a <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	Els errors s'haurien d'enviar a <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
 <br><br>
 </blockquote> 
 

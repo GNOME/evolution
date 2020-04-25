@@ -49,7 +49,7 @@ Introduction
 
 Rapport de bogues
 
-        Les bogues doivent êtres signalés sur http://bugzilla.gnome.org.
+        Les bogues doivent êtres signalés sur https://gitlab.gnome.org/GNOME/evolution/issues.
 
 Informations supplémentaires
 
@@ -105,7 +105,7 @@ Content-Type: text/html; charset=utf-8
 
 <H2>Rapport de bogues</H2>
 <BLOCKQUOTE>
-    Les bogues doivent &#234;tres signal&#233;s sur <A HREF="http://bugzilla.gnome.org">http://bugzilla.gnome.org</A>.
+    Les bogues doivent &#234;tres signal&#233;s sur <A HREF="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</A>.
 </BLOCKQUOTE>
 
 <H2>Informations suppl&#233;mentaires</H2>

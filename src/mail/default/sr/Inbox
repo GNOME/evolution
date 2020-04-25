@@ -53,7 +53,7 @@ Content-Transfer-Encoding: 7bit
 
 Пријава грешака
 
-    Све грешке можете пријавити на http://bugzilla.gnome.org.
+    Све грешке можете пријавити на https://gitlab.gnome.org/GNOME/evolution/issues.
 
 Више информација
 
@@ -127,7 +127,7 @@ Content-Type: text/html; charset=utf-8
 Пријава грешака
 </h2>
 <blockquote>
-	Све грешке можете пријавити на <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	Све грешке можете пријавити на <a href="https://gitlab.gnome.org/GNOME/evolution/issues">https://gitlab.gnome.org/GNOME/evolution/issues</a>.
 <br><br>
 </blockquote> 
 
