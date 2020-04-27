@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-04-24 08:39+0000\n"
-"PO-Revision-Date: 2020-04-25 10:06+0300\n"
+"POT-Creation-Date: 2020-04-27 13:09+0000\n"
+"PO-Revision-Date: 2020-04-27 17:47+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2605,7 +2605,7 @@ msgid "Visually wrap long lines in composer"
 msgstr "Візуально переносити довгі рядки у редакторі"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:277
-#: ../src/composer/e-composer-actions.c:542
+#: ../src/composer/e-composer-actions.c:556
 msgid ""
 "Whether to visually wrap long lines of text to avoid horizontal scrolling"
 msgstr ""
@@ -4126,7 +4126,7 @@ msgstr "Параметри"
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1322
 #: ../src/calendar/gui/e-cal-dialogs.c:690
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:304
-#: ../src/composer/e-composer-actions.c:228 ../src/e-util/e-activity-bar.c:370
+#: ../src/composer/e-composer-actions.c:242 ../src/e-util/e-activity-bar.c:370
 #: ../src/e-util/e-attachment-dialog.c:309
 #: ../src/e-util/e-attachment-store.c:658
 #: ../src/e-util/e-attachment-store.c:668
@@ -4151,7 +4151,7 @@ msgstr "Параметри"
 #: ../src/e-util/e-source-selector-dialog.c:370
 #: ../src/e-util/e-table-config.c:548 ../src/e-util/e-table-config.ui.h:3
 #: ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3914
+#: ../src/e-util/evolution-source-viewer.c:835 ../src/e-util/e-web-view.c:3913
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:267
 #: ../src/mail/e-mail-config-window.c:334 ../src/mail/e-mail-label-dialog.c:194
 #: ../src/mail/e-mail-tag-editor.c:160 ../src/mail/em-composer-utils.c:4045
@@ -4184,12 +4184,12 @@ msgstr "_Скасувати"
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:755
 #: ../src/calendar/calendar.error.xml.h:47
 #: ../src/calendar/gui/e-comp-editor.c:2158
-#: ../src/composer/e-composer-actions.c:228
-#: ../src/composer/e-composer-actions.c:340
+#: ../src/composer/e-composer-actions.c:242
+#: ../src/composer/e-composer-actions.c:354
 #: ../src/e-util/e-attachment-store.c:848
 #: ../src/e-util/e-attachment-store.c:855
 #: ../src/e-util/e-mail-signature-script-dialog.c:370
-#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3914
+#: ../src/e-util/e-webdav-browser.c:2476 ../src/e-util/e-web-view.c:3913
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:268
 #: ../src/shell/e-shell-content.c:642 ../src/shell/e-shell-utils.c:133
 #: ../src/smime/gui/certificate-manager.c:651
@@ -4478,7 +4478,7 @@ msgstr "Сертифікати"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:261
 #: ../src/calendar/gui/e-comp-editor.c:2090
-#: ../src/e-util/e-html-editor-actions.c:1004
+#: ../src/e-util/e-html-editor-actions.c:1107
 msgid "_Undo"
 msgstr "В_ернути"
 
@@ -4490,7 +4490,7 @@ msgstr "Повернути"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:268
 #: ../src/calendar/gui/e-comp-editor.c:2097
-#: ../src/e-util/e-html-editor-actions.c:990
+#: ../src/e-util/e-html-editor-actions.c:1093
 msgid "_Redo"
 msgstr "Повт_орити"
 
@@ -4640,7 +4640,7 @@ msgstr "Неправильний контакт."
 #: ../src/e-util/e-charset-combo-box.c:100
 #: ../src/e-util/e-color-chooser-widget.c:126
 #: ../src/e-util/e-filter-datespec.c:301
-#: ../src/e-util/e-html-editor-link-dialog.c:243
+#: ../src/e-util/e-html-editor-link-dialog.c:240
 #: ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:817
 #: ../src/e-util/e-rule-editor.c:188 ../src/e-util/e-rule-editor.c:299
 #: ../src/e-util/e-rule-editor.c:934 ../src/e-util/e-send-options.ui.h:17
@@ -4859,22 +4859,22 @@ msgid "Copy _Email Address"
 msgstr "Копіювати _адресу ел.пошти"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:187
-#: ../src/e-util/e-web-view.c:430
+#: ../src/e-util/e-web-view.c:429
 msgid "Copy the email address to the clipboard"
 msgstr "Копіює елементи у буфер обміну"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:192
-#: ../src/e-util/e-web-view.c:442
+#: ../src/e-util/e-web-view.c:441
 msgid "_Send New Message To…"
 msgstr "_Надіслати нове повідомлення до…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:194
-#: ../src/e-util/e-web-view.c:444
+#: ../src/e-util/e-web-view.c:443
 msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:321
-#: ../src/e-util/e-misc-utils.c:4816
+#: ../src/e-util/e-misc-utils.c:4546
 #, c-format
 msgid "Click to mail %s"
 msgstr "Клацніть, щоб надіслати лист %s"
@@ -5493,7 +5493,7 @@ msgstr "З_меншити"
 
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:2088
+#: ../src/e-util/e-html-editor-actions.c:2206
 #: ../src/e-util/e-html-editor-find-dialog.c:244
 #: ../src/shell/e-shell-window-actions.c:987
 msgid "_Find"
@@ -6483,7 +6483,7 @@ msgstr "Приватне"
 #: ../src/calendar/gui/e-cal-list-view.c:265
 #: ../src/calendar/gui/e-cal-model.c:308 ../src/calendar/gui/e-task-table.c:447
 #: ../src/calendar/gui/memotypes.xml.in.h:12
-#: ../src/e-util/e-html-editor-page-dialog.c:113
+#: ../src/e-util/e-html-editor-page-dialog.c:116
 #: ../src/e-util/e-send-options.ui.h:7
 msgid "Confidential"
 msgstr "Конфіденційне"
@@ -7632,12 +7632,14 @@ msgstr "Час початку — недійсний час"
 #: ../src/calendar/gui/e-comp-editor-event.c:528
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:206
 #: ../src/calendar/gui/e-comp-editor.c:338
+#: ../src/composer/e-composer-actions.c:180
 #: ../src/em-format/e-mail-part-secure-button.c:97
-#: ../src/e-util/e-misc-utils.c:4262 ../src/e-util/e-misc-utils.c:4274
-#: ../src/e-util/e-misc-utils.c:4288 ../src/mail/e-mail-autoconfig.c:1041
-#: ../src/mail/e-mail-display.c:2376 ../src/mail/e-mail-reader-utils.c:805
-#: ../src/mail/em-composer-utils.c:3838 ../src/mail/em-composer-utils.c:3869
-#: ../src/mail/mail-send-recv.c:598 ../src/mail/mail-send-recv.c:1493
+#: ../src/e-util/e-misc-utils.c:3992 ../src/e-util/e-misc-utils.c:4004
+#: ../src/e-util/e-misc-utils.c:4018 ../src/mail/e-mail-autoconfig.c:1041
+#: ../src/mail/e-mail-display.c:2444 ../src/mail/e-mail-notes.c:875
+#: ../src/mail/e-mail-reader-utils.c:805 ../src/mail/em-composer-utils.c:3838
+#: ../src/mail/em-composer-utils.c:3869 ../src/mail/mail-send-recv.c:598
+#: ../src/mail/mail-send-recv.c:1493
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:172
 #: ../src/plugins/face/face.c:175 ../src/shell/e-shell.c:1235
 #: ../src/shell/e-shell.c:1260 ../src/smime/gui/certificate-manager.c:357
@@ -7856,12 +7858,12 @@ msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, pl
 msgstr "Долучення «%s» має недійсний URI, вилучіть його зі списку"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:633
-#: ../src/composer/e-composer-actions.c:312
+#: ../src/composer/e-composer-actions.c:326
 msgid "_Attachment…"
 msgstr "_Долучення…"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:635
-#: ../src/composer/e-composer-actions.c:314
+#: ../src/composer/e-composer-actions.c:328
 #: ../src/e-util/e-attachment-view.c:343
 msgid "Attach a file"
 msgstr "Вкласти файл"
@@ -7990,7 +7992,7 @@ msgstr "_Учасники…"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2321
 #: ../src/calendar/gui/e-comp-editor.c:2113
 #: ../src/e-util/e-accounts-window.c:1745
-#: ../src/e-util/e-html-editor-actions.c:1013
+#: ../src/e-util/e-html-editor-actions.c:1116
 #: ../src/e-util/e-mail-signature-manager.c:358
 #: ../src/e-util/e-webdav-browser.c:2690 ../src/e-util/filter.ui.h:26
 #: ../src/mail/e-mail-account-manager.c:730 ../src/mail/e-mail-browser.c:217
@@ -8651,16 +8653,16 @@ msgstr "Немає зведення"
 
 #. == Button box ==
 #: ../src/calendar/gui/e-comp-editor.c:2027
-#: ../src/composer/e-composer-actions.c:319
+#: ../src/composer/e-composer-actions.c:333
 #: ../src/e-util/e-accounts-window.c:1778
 #: ../src/e-util/e-html-editor-dialog.c:194
-#: ../src/e-util/e-mail-signature-editor.c:309
+#: ../src/e-util/e-mail-signature-editor.c:319
 #: ../src/e-util/e-name-selector-dialog.c:548
 #: ../src/e-util/e-preferences-window.c:399
 #: ../src/e-util/e-table-field-chooser-dialog.c:205
 #: ../src/mail/e-mail-browser.c:166
 #: ../src/mail/e-mail-folder-sort-order-dialog.c:758
-#: ../src/mail/e-mail-notes.c:964 ../src/mail/em-filter-editor.c:45
+#: ../src/mail/e-mail-notes.c:1011 ../src/mail/em-filter-editor.c:45
 #: ../src/mail/em-folder-properties.c:1458
 #: ../src/mail/em-subscription-editor.c:1741
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:306
@@ -8676,30 +8678,30 @@ msgstr "Закрити поточне вікно"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2034 ../src/e-util/e-focus-tracker.c:806
-#: ../src/e-util/e-html-editor-actions.c:969 ../src/e-util/e-text.c:2080
-#: ../src/e-util/e-web-view.c:469 ../src/mail/e-mail-browser.c:173
+#: ../src/e-util/e-html-editor-actions.c:1072 ../src/e-util/e-text.c:2080
+#: ../src/e-util/e-web-view.c:468 ../src/mail/e-mail-browser.c:173
 #: ../src/mail/mail.error.xml.h:147 ../src/shell/e-shell-window-actions.c:903
 msgid "_Copy"
 msgstr "_Скопіювати"
 
 #: ../src/calendar/gui/e-comp-editor.c:2036 ../src/e-util/e-focus-tracker.c:203
 #: ../src/e-util/e-focus-tracker.c:259 ../src/e-util/e-focus-tracker.c:312
-#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:471
-#: ../src/e-util/e-web-view.c:1990 ../src/mail/e-mail-browser.c:175
+#: ../src/e-util/e-focus-tracker.c:807 ../src/e-util/e-web-view.c:470
+#: ../src/e-util/e-web-view.c:1989 ../src/mail/e-mail-browser.c:175
 #: ../src/shell/e-shell-window-actions.c:905
 msgid "Copy the selection"
 msgstr "Копіювати виділене"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2041 ../src/e-util/e-focus-tracker.c:801
-#: ../src/e-util/e-html-editor-actions.c:976 ../src/e-util/e-text.c:2066
+#: ../src/e-util/e-html-editor-actions.c:1079 ../src/e-util/e-text.c:2066
 #: ../src/mail/e-mail-browser.c:180 ../src/shell/e-shell-window-actions.c:910
 msgid "Cu_t"
 msgstr "_Вирізати"
 
 #: ../src/calendar/gui/e-comp-editor.c:2043 ../src/e-util/e-focus-tracker.c:196
 #: ../src/e-util/e-focus-tracker.c:252 ../src/e-util/e-focus-tracker.c:306
-#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:1999
+#: ../src/e-util/e-focus-tracker.c:802 ../src/e-util/e-web-view.c:1998
 #: ../src/mail/e-mail-browser.c:182 ../src/shell/e-shell-window-actions.c:912
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
@@ -8716,20 +8718,20 @@ msgstr "Переглянути довідку"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2062 ../src/e-util/e-focus-tracker.c:811
-#: ../src/e-util/e-html-editor-actions.c:983 ../src/e-util/e-text.c:2092
+#: ../src/e-util/e-html-editor-actions.c:1086 ../src/e-util/e-text.c:2092
 #: ../src/mail/e-mail-browser.c:187 ../src/shell/e-shell-window-actions.c:938
 msgid "_Paste"
 msgstr "Вст_авити"
 
 #: ../src/calendar/gui/e-comp-editor.c:2064 ../src/e-util/e-focus-tracker.c:210
 #: ../src/e-util/e-focus-tracker.c:266 ../src/e-util/e-focus-tracker.c:318
-#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2008
+#: ../src/e-util/e-focus-tracker.c:812 ../src/e-util/e-web-view.c:2007
 #: ../src/mail/e-mail-browser.c:189 ../src/shell/e-shell-window-actions.c:940
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
 
 #: ../src/calendar/gui/e-comp-editor.c:2069
-#: ../src/composer/e-composer-actions.c:373 ../src/mail/e-mail-reader.c:2749
+#: ../src/composer/e-composer-actions.c:387 ../src/mail/e-mail-reader.c:2749
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1319
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1333
 msgid "_Print…"
@@ -8744,7 +8746,7 @@ msgid "Pre_view…"
 msgstr "_Перегляд…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2083 ../src/e-util/e-focus-tracker.c:821
-#: ../src/e-util/e-html-editor-actions.c:997 ../src/e-util/e-web-view.c:486
+#: ../src/e-util/e-html-editor-actions.c:1100 ../src/e-util/e-web-view.c:485
 #: ../src/mail/e-mail-browser.c:194 ../src/shell/e-shell-window-actions.c:1008
 msgid "Select _All"
 msgstr "Вибрати _все"
@@ -8760,24 +8762,24 @@ msgid "_Classification"
 msgstr "Класи_фікація"
 
 #: ../src/calendar/gui/e-comp-editor.c:2120
-#: ../src/e-util/e-html-editor-actions.c:1020
-#: ../src/e-util/e-mail-signature-editor.c:323 ../src/mail/e-mail-browser.c:210
-#: ../src/mail/e-mail-notes.c:978 ../src/shell/e-shell-window-actions.c:1052
+#: ../src/e-util/e-html-editor-actions.c:1123
+#: ../src/e-util/e-mail-signature-editor.c:333 ../src/mail/e-mail-browser.c:210
+#: ../src/mail/e-mail-notes.c:1025 ../src/shell/e-shell-window-actions.c:1052
 msgid "_File"
 msgstr "_Файл"
 
 #: ../src/calendar/gui/e-comp-editor.c:2134
-#: ../src/e-util/e-html-editor-actions.c:1041
+#: ../src/e-util/e-html-editor-actions.c:1144
 msgid "_Insert"
 msgstr "Вс_тавка"
 
 #: ../src/calendar/gui/e-comp-editor.c:2141
-#: ../src/composer/e-composer-actions.c:363
+#: ../src/composer/e-composer-actions.c:377
 msgid "_Options"
 msgstr "_Параметри"
 
 #: ../src/calendar/gui/e-comp-editor.c:2148
-#: ../src/e-util/e-html-editor-actions.c:1062 ../src/mail/e-mail-browser.c:224
+#: ../src/e-util/e-html-editor-actions.c:1165 ../src/mail/e-mail-browser.c:224
 #: ../src/shell/e-shell-window-actions.c:1095
 #: ../src/smime/gui/certificate-manager.c:1646 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -8788,7 +8790,7 @@ msgid "Save current changes"
 msgstr "Зберегти поточні зміни"
 
 #: ../src/calendar/gui/e-comp-editor.c:2165
-#: ../src/e-util/e-mail-signature-editor.c:318 ../src/mail/e-mail-notes.c:973
+#: ../src/e-util/e-mail-signature-editor.c:328 ../src/mail/e-mail-notes.c:1020
 msgid "Save and Close"
 msgstr "Зберегти і закрити"
 
@@ -11369,168 +11371,168 @@ msgstr "Тихий океан/Волліс"
 msgid "Pacific/Yap"
 msgstr "Тихий океан/Яп"
 
-#: ../src/composer/e-composer-actions.c:226
+#: ../src/composer/e-composer-actions.c:240
 msgid "Save as…"
 msgstr "Зберегти як…"
 
-#: ../src/composer/e-composer-actions.c:321
+#: ../src/composer/e-composer-actions.c:335
 msgid "Close the current file"
 msgstr "Закрити поточний файл"
 
-#: ../src/composer/e-composer-actions.c:326
+#: ../src/composer/e-composer-actions.c:340
 msgid "New _Message"
 msgstr "_Створити повідомлення"
 
-#: ../src/composer/e-composer-actions.c:328
+#: ../src/composer/e-composer-actions.c:342
 msgid "Open New Message window"
 msgstr "Відкрити вікно створення нового повідомлення"
 
-#: ../src/composer/e-composer-actions.c:333
+#: ../src/composer/e-composer-actions.c:347
 #: ../src/shell/e-shell-window-actions.c:952
 msgid "_Preferences"
 msgstr "_Параметри"
 
-#: ../src/composer/e-composer-actions.c:335
+#: ../src/composer/e-composer-actions.c:349
 #: ../src/shell/e-shell-window-actions.c:954
 msgid "Configure Evolution"
 msgstr "Налаштувати Evolution"
 
-#: ../src/composer/e-composer-actions.c:342
+#: ../src/composer/e-composer-actions.c:356
 msgid "Save the current file"
 msgstr "Зберегти поточний файл"
 
-#: ../src/composer/e-composer-actions.c:347
+#: ../src/composer/e-composer-actions.c:361
 msgid "Save _As…"
 msgstr "Зберегти _як…"
 
-#: ../src/composer/e-composer-actions.c:349
+#: ../src/composer/e-composer-actions.c:363
 msgid "Save the current file with a different name"
 msgstr "Зберегти поточний файл з іншою назвою"
 
-#: ../src/composer/e-composer-actions.c:356
+#: ../src/composer/e-composer-actions.c:370
 msgid "Character _Encoding"
 msgstr "_Кодування символів"
 
-#: ../src/composer/e-composer-actions.c:380
+#: ../src/composer/e-composer-actions.c:394
 msgid "Print Pre_view"
 msgstr "_Попередній перегляд"
 
-#: ../src/composer/e-composer-actions.c:387
+#: ../src/composer/e-composer-actions.c:401
 msgid "Save as _Draft"
 msgstr "Зберегти як _чернетку"
 
-#: ../src/composer/e-composer-actions.c:389
+#: ../src/composer/e-composer-actions.c:403
 msgid "Save as draft"
 msgstr "Зберегти як чернетку"
 
-#: ../src/composer/e-composer-actions.c:394
+#: ../src/composer/e-composer-actions.c:408
 msgid "S_end"
 msgstr "_Надіслати"
 
-#: ../src/composer/e-composer-actions.c:396
+#: ../src/composer/e-composer-actions.c:410
 msgid "Send this message"
 msgstr "Відіслати це повідомлення"
 
-#: ../src/composer/e-composer-actions.c:404
+#: ../src/composer/e-composer-actions.c:418
 msgid "PGP _Encrypt"
 msgstr "_Шифрувати використовуючи PGP"
 
-#: ../src/composer/e-composer-actions.c:406
+#: ../src/composer/e-composer-actions.c:420
 msgid "Encrypt this message with PGP"
 msgstr "Зашифрувати це повідомлення PGP"
 
-#: ../src/composer/e-composer-actions.c:412
+#: ../src/composer/e-composer-actions.c:426
 msgid "PGP _Sign"
 msgstr "_Підписати використовуючи PGP"
 
-#: ../src/composer/e-composer-actions.c:414
+#: ../src/composer/e-composer-actions.c:428
 msgid "Sign this message with your PGP key"
 msgstr "Підписати це повідомлення вашим ключем PGP"
 
-#: ../src/composer/e-composer-actions.c:420
+#: ../src/composer/e-composer-actions.c:434
 msgid "_Picture Gallery"
 msgstr "_Галерея малюнків"
 
-#: ../src/composer/e-composer-actions.c:422
+#: ../src/composer/e-composer-actions.c:436
 msgid "Show a collection of pictures that you can drag to your message"
 msgstr ""
 "Показати колекцію малюнків, які ви можете перенести у ваше повідомлення"
 
-#: ../src/composer/e-composer-actions.c:428
+#: ../src/composer/e-composer-actions.c:442
 msgid "_Prioritize Message"
 msgstr "Змінити _пріоритет повідомлення"
 
-#: ../src/composer/e-composer-actions.c:430
+#: ../src/composer/e-composer-actions.c:444
 msgid "Set the message priority to high"
 msgstr "Встановити високий пріоритет повідомлення"
 
-#: ../src/composer/e-composer-actions.c:436
+#: ../src/composer/e-composer-actions.c:450
 msgid "Re_quest Read Receipt"
 msgstr "_Запитати підтвердження про прочитання"
 
-#: ../src/composer/e-composer-actions.c:438
+#: ../src/composer/e-composer-actions.c:452
 msgid "Get delivery notification when your message is read"
 msgstr "Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
 
-#: ../src/composer/e-composer-actions.c:444
+#: ../src/composer/e-composer-actions.c:458
 msgid "S/MIME En_crypt"
 msgstr "Шифрувати _використовуючи S/MIME"
 
-#: ../src/composer/e-composer-actions.c:446
+#: ../src/composer/e-composer-actions.c:460
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Зашифрувати це повідомлення вашим сертифікатом шифрування S/MIME"
 
-#: ../src/composer/e-composer-actions.c:452
+#: ../src/composer/e-composer-actions.c:466
 msgid "S/MIME Sig_n"
 msgstr "Підписати в_икористовуючи S/MIME"
 
-#: ../src/composer/e-composer-actions.c:454
+#: ../src/composer/e-composer-actions.c:468
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Підписати це повідомлення вашим сертифікатом підпису S/MIME"
 
-#: ../src/composer/e-composer-actions.c:508
+#: ../src/composer/e-composer-actions.c:522
 msgid "_Bcc Field"
 msgstr "Поле при_хованої копії"
 
-#: ../src/composer/e-composer-actions.c:510
+#: ../src/composer/e-composer-actions.c:524
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Перемикнути стан показу поля прихованої копії"
 
-#: ../src/composer/e-composer-actions.c:516
+#: ../src/composer/e-composer-actions.c:530
 msgid "_Cc Field"
 msgstr "Поле _копії"
 
-#: ../src/composer/e-composer-actions.c:518
+#: ../src/composer/e-composer-actions.c:532
 msgid "Toggles whether the CC field is displayed"
 msgstr "Перемикнути стан показу поля копії"
 
-#: ../src/composer/e-composer-actions.c:524
+#: ../src/composer/e-composer-actions.c:538
 msgid "_From Override Field"
 msgstr "Заміна поля _Від"
 
-#: ../src/composer/e-composer-actions.c:526
+#: ../src/composer/e-composer-actions.c:540
 msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
 msgstr "Перемикає, чи показувати заміну поля Від для зміни імені або адреси."
 
-#: ../src/composer/e-composer-actions.c:532
+#: ../src/composer/e-composer-actions.c:546
 msgid "_Reply-To Field"
 msgstr "Поле «В_ідповідь»"
 
-#: ../src/composer/e-composer-actions.c:534
+#: ../src/composer/e-composer-actions.c:548
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Перемикнути стан показу поля «Відповідь»"
 
-#: ../src/composer/e-composer-actions.c:540
+#: ../src/composer/e-composer-actions.c:554
 msgid "Visually _Wrap Long Lines"
 msgstr "Візуально _переносити довгі рядки"
 
-#: ../src/composer/e-composer-actions.c:597
+#: ../src/composer/e-composer-actions.c:611
 msgid "Attach"
 msgstr "Долучити"
 
-#: ../src/composer/e-composer-actions.c:603
+#: ../src/composer/e-composer-actions.c:617
 msgid "Save Draft"
 msgstr "Зберегти _чернетку"
 
@@ -11602,7 +11604,7 @@ msgstr "Клацніть тут, щоб викликати адресну кни
 msgid "Click here to select folders to post to"
 msgstr "Натисніть тут, щоб вибрати теку для відсилання"
 
-#: ../src/composer/e-msg-composer.c:1023
+#: ../src/composer/e-msg-composer.c:1036
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -11610,7 +11612,7 @@ msgstr ""
 "Не вдалося підписати повідомлення: для цього облікового запису не "
 "встановлений сертифікат підпису"
 
-#: ../src/composer/e-msg-composer.c:1032
+#: ../src/composer/e-msg-composer.c:1045
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -11619,11 +11621,17 @@ msgstr ""
 "Не вдалося зашифрувати повідомлення: для облікового запису не встановлений "
 "сертифікат шифрування"
 
-#: ../src/composer/e-msg-composer.c:1823 ../src/composer/e-msg-composer.c:2497
+#: ../src/composer/e-msg-composer.c:1818 ../src/composer/e-msg-composer.c:2492
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:4928
+#: ../src/composer/e-msg-composer.c:4362
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:352
+#| msgid "Loading Remote Content"
+msgid "Reading text content…"
+msgstr "Читаємо текстові дані…"
+
+#: ../src/composer/e-msg-composer.c:5116
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -11631,7 +11639,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:4933
+#: ../src/composer/e-msg-composer.c:5121
 #, c-format
 msgid ""
 "There had been added %d attachment. Make sure it does not contain any "
@@ -11652,7 +11660,7 @@ msgstr[3] ""
 "Додано одне долучення. Перш ніж надсилати повідомлення, переконайтеся, що у "
 "долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:5066
+#: ../src/composer/e-msg-composer.c:5254
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -12047,7 +12055,6 @@ msgstr "Форматувати частину як HTML"
 
 #: ../src/em-format/e-mail-formatter-quote-text-plain.c:121
 #: ../src/em-format/e-mail-formatter-text-plain.c:196
-#: ../src/e-util/e-html-editor-actions.c:1419
 msgid "Plain Text"
 msgstr "Звичайний текст"
 
@@ -12592,7 +12599,7 @@ msgstr "_Назва файлу:"
 
 #: ../src/e-util/e-attachment-dialog.c:354
 #: ../src/e-util/e-html-editor-image-dialog.c:513
-#: ../src/e-util/e-html-editor-link-dialog.c:229
+#: ../src/e-util/e-html-editor-link-dialog.c:226
 #: ../src/e-util/e-webdav-browser.c:2456
 msgid "_Description:"
 msgstr "_Опис:"
@@ -13141,7 +13148,8 @@ msgstr "Інформація про обліковий запис"
 msgid "Choose custom color"
 msgstr "Вибрати нетиповий колір"
 
-#: ../src/e-util/e-color-combo.c:488 ../src/mail/e-mail-account-tree-view.c:135
+#: ../src/e-util/e-color-combo.c:488 ../src/e-util/e-html-editor.c:127
+#: ../src/mail/e-mail-account-tree-view.c:135
 #: ../src/mail/e-mail-config-security-page.c:544
 #: ../src/mail/e-mail-config-security-page.c:708
 #: ../src/mail/e-mail-reader.c:4870 ../src/mail/mail-config.ui.h:78
@@ -13765,7 +13773,7 @@ msgstr "Знайти елементи, що відповідають вказа�
 #. protocol:
 #. name:
 #: ../src/e-util/e-filter-rule.c:1080
-#: ../src/e-util/e-html-editor-page-dialog.c:59
+#: ../src/e-util/e-html-editor-page-dialog.c:62
 #: ../src/e-util/e-mail-identity-combo-box.c:694
 #: ../src/e-util/e-mail-signature-combo-box.c:422
 #: ../src/libemail-engine/camel-null-store.c:29
@@ -13905,503 +13913,544 @@ msgstr "Вставити текстовий файл"
 msgid "Text file"
 msgstr "Текстовий файл"
 
-#: ../src/e-util/e-html-editor-actions.c:971
+#: ../src/e-util/e-html-editor-actions.c:1074
 msgid "Copy selected text to the clipboard"
 msgstr "Копіювати позначений текст до буфера обміну"
 
-#: ../src/e-util/e-html-editor-actions.c:978
+#: ../src/e-util/e-html-editor-actions.c:1081
 msgid "Cut selected text to the clipboard"
 msgstr "Вирізати вибраний текст до кишені"
 
-#: ../src/e-util/e-html-editor-actions.c:985
+#: ../src/e-util/e-html-editor-actions.c:1088
 msgid "Paste text from the clipboard"
 msgstr "Вставити текст з буфера обміну"
 
-#: ../src/e-util/e-html-editor-actions.c:992
+#: ../src/e-util/e-html-editor-actions.c:1095
 msgid "Redo the last undone action"
 msgstr "Вернути останню скасовану дію"
 
-#: ../src/e-util/e-html-editor-actions.c:1006
+#: ../src/e-util/e-html-editor-actions.c:1109
 msgid "Undo the last action"
 msgstr "Скасувати останню дію"
 
-#: ../src/e-util/e-html-editor-actions.c:1027
+#: ../src/e-util/e-html-editor-actions.c:1130
 msgid "For_mat"
 msgstr "Фор_мат"
 
-#: ../src/e-util/e-html-editor-actions.c:1034
+#: ../src/e-util/e-html-editor-actions.c:1137
 msgid "_Paragraph Style"
 msgstr "_Стиль параграфа"
 
-#: ../src/e-util/e-html-editor-actions.c:1048
+#: ../src/e-util/e-html-editor-actions.c:1151
 #: ../src/e-util/e-html-editor-image-dialog.c:590
 msgid "_Alignment"
 msgstr "_Вирівнювання"
 
-#: ../src/e-util/e-html-editor-actions.c:1055
+#: ../src/e-util/e-html-editor-actions.c:1158
 msgid "Current _Languages"
 msgstr "Поточні _мови"
 
-#: ../src/e-util/e-html-editor-actions.c:1072
+#: ../src/e-util/e-html-editor-actions.c:1175
 msgid "_Increase Indent"
 msgstr "З_більшити відступ"
 
-#: ../src/e-util/e-html-editor-actions.c:1074
+#: ../src/e-util/e-html-editor-actions.c:1177
 msgid "Increase Indent"
 msgstr "Збільшити відступ"
 
-#: ../src/e-util/e-html-editor-actions.c:1079
-#: ../src/e-util/e-html-editor-actions.c:2094
+#: ../src/e-util/e-html-editor-actions.c:1182
+#: ../src/e-util/e-html-editor-actions.c:2212
 msgid "E_moji"
 msgstr "_Емодзі"
 
-#: ../src/e-util/e-html-editor-actions.c:1081
-#: ../src/e-util/e-html-editor-actions.c:1088
+#: ../src/e-util/e-html-editor-actions.c:1184
+#: ../src/e-util/e-html-editor-actions.c:1191
 msgid "Insert Emoji"
 msgstr "Вставити емодзі"
 
-#: ../src/e-util/e-html-editor-actions.c:1086
-#| msgid "Insert Emoji"
+#: ../src/e-util/e-html-editor-actions.c:1189
 msgid "Insert E_moji"
 msgstr "Вставити е_модзі"
 
-#: ../src/e-util/e-html-editor-actions.c:1093
+#: ../src/e-util/e-html-editor-actions.c:1196
 msgid "_HTML File…"
 msgstr "Файл _HTML…"
 
-#: ../src/e-util/e-html-editor-actions.c:1100
+#: ../src/e-util/e-html-editor-actions.c:1203
 msgid "Te_xt File…"
 msgstr "Те_кстовий файл…"
 
-#: ../src/e-util/e-html-editor-actions.c:1107
+#: ../src/e-util/e-html-editor-actions.c:1210
 msgid "Paste _Quotation"
 msgstr "Вставити _цитату"
 
-#: ../src/e-util/e-html-editor-actions.c:1114
+#: ../src/e-util/e-html-editor-actions.c:1217
 msgid "_Find…"
 msgstr "З_найти…"
 
-#: ../src/e-util/e-html-editor-actions.c:1116
+#: ../src/e-util/e-html-editor-actions.c:1219
 msgid "Search for text"
 msgstr "Знайти текст"
 
-#: ../src/e-util/e-html-editor-actions.c:1121
+#: ../src/e-util/e-html-editor-actions.c:1224
 msgid "Find A_gain"
 msgstr "Знайти _знову"
 
-#: ../src/e-util/e-html-editor-actions.c:1128
+#: ../src/e-util/e-html-editor-actions.c:1231
 msgid "Re_place…"
 msgstr "За_мінити…"
 
-#: ../src/e-util/e-html-editor-actions.c:1130
+#: ../src/e-util/e-html-editor-actions.c:1233
 msgid "Search for and replace text"
 msgstr "Знайти та замінити текст"
 
-#: ../src/e-util/e-html-editor-actions.c:1135
+#: ../src/e-util/e-html-editor-actions.c:1238
 msgid "Check _Spelling…"
 msgstr "Перевірка _правопису…"
 
-#: ../src/e-util/e-html-editor-actions.c:1142
+#: ../src/e-util/e-html-editor-actions.c:1245
 msgid "_Decrease Indent"
 msgstr "_Зменшити відступ"
 
-#: ../src/e-util/e-html-editor-actions.c:1144
+#: ../src/e-util/e-html-editor-actions.c:1247
 msgid "Decrease Indent"
 msgstr "Зменшити відступ"
 
-#: ../src/e-util/e-html-editor-actions.c:1149
+#: ../src/e-util/e-html-editor-actions.c:1252
 msgid "_Wrap Lines"
 msgstr "_Переносити рядки"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1159
-#: ../src/e-util/e-html-editor-paragraph-dialog.c:108
+#: ../src/e-util/e-html-editor-actions.c:1262
+#: ../src/e-util/e-html-editor-paragraph-dialog.c:109
 msgid "_Center"
 msgstr "_По центру"
 
-#: ../src/e-util/e-html-editor-actions.c:1161
+#: ../src/e-util/e-html-editor-actions.c:1264
 msgid "Center Alignment"
 msgstr "Вирівнювання по центру"
 
+#. Justified
+#: ../src/e-util/e-html-editor-actions.c:1269
+#: ../src/e-util/e-html-editor-paragraph-dialog.c:127
+#| msgid "Last modified"
+msgid "_Justified"
+msgstr "За _шириною"
+
+#: ../src/e-util/e-html-editor-actions.c:1271
+msgid "Align Justified"
+msgstr "Вирівняти за шириною"
+
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1166
-#: ../src/e-util/e-html-editor-paragraph-dialog.c:99
+#: ../src/e-util/e-html-editor-actions.c:1276
+#: ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Left"
 msgstr "З_ліва"
 
-#: ../src/e-util/e-html-editor-actions.c:1168
+#: ../src/e-util/e-html-editor-actions.c:1278
 msgid "Left Alignment"
 msgstr "Ліве вирівнювання"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1173
-#: ../src/e-util/e-html-editor-paragraph-dialog.c:117
+#: ../src/e-util/e-html-editor-actions.c:1283
+#: ../src/e-util/e-html-editor-paragraph-dialog.c:118
 msgid "_Right"
 msgstr "Сп_рава"
 
-#: ../src/e-util/e-html-editor-actions.c:1175
+#: ../src/e-util/e-html-editor-actions.c:1285
 msgid "Right Alignment"
 msgstr "Праве вирівнювання"
 
-#: ../src/e-util/e-html-editor-actions.c:1183
+#: ../src/e-util/e-html-editor-actions.c:1293
 #: ../src/modules/text-highlight/languages.c:70
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1185
+#: ../src/e-util/e-html-editor-actions.c:1295
 msgid "HTML editing mode"
 msgstr "Режим редагування HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1190
+#: ../src/e-util/e-html-editor-actions.c:1300
 msgid "Plain _Text"
 msgstr "_Звичайний текст"
 
-#: ../src/e-util/e-html-editor-actions.c:1192
+#: ../src/e-util/e-html-editor-actions.c:1302
 msgid "Plain text editing mode"
 msgstr "Режим редагування звичайного тексту"
 
-#: ../src/e-util/e-html-editor-actions.c:1200
+#: ../src/e-util/e-html-editor-actions.c:1310
 msgid "_Normal"
 msgstr "_Звичайний"
 
-#: ../src/e-util/e-html-editor-actions.c:1207
+#: ../src/e-util/e-html-editor-actions.c:1317
 msgid "Heading _1"
 msgstr "Заголовок _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1214
+#: ../src/e-util/e-html-editor-actions.c:1324
 msgid "Heading _2"
 msgstr "Заголовок _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1221
+#: ../src/e-util/e-html-editor-actions.c:1331
 msgid "Heading _3"
 msgstr "Заголовок _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1228
+#: ../src/e-util/e-html-editor-actions.c:1338
 msgid "Heading _4"
 msgstr "Заголовок _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1235
+#: ../src/e-util/e-html-editor-actions.c:1345
 msgid "Heading _5"
 msgstr "Заголовок _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1242
+#: ../src/e-util/e-html-editor-actions.c:1352
 msgid "Heading _6"
 msgstr "Заголовок _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1249
+#: ../src/e-util/e-html-editor-actions.c:1359
 msgid "_Preformatted"
 msgstr "_Попередньо сформатовані"
 
-#: ../src/e-util/e-html-editor-actions.c:1256
+#: ../src/e-util/e-html-editor-actions.c:1366
 msgid "A_ddress"
 msgstr "А_дреса"
 
-#: ../src/e-util/e-html-editor-actions.c:1263
+#: ../src/e-util/e-html-editor-actions.c:1373
 msgid "_Bulleted List"
 msgstr "_Список з позначками"
 
-#: ../src/e-util/e-html-editor-actions.c:1270
+#: ../src/e-util/e-html-editor-actions.c:1380
 msgid "_Roman Numeral List"
 msgstr "_Нумерований список (римські цифри)"
 
-#: ../src/e-util/e-html-editor-actions.c:1277
+#: ../src/e-util/e-html-editor-actions.c:1387
 msgid "Numbered _List"
 msgstr "Нумерований _список"
 
-#: ../src/e-util/e-html-editor-actions.c:1284
+#: ../src/e-util/e-html-editor-actions.c:1394
 msgid "_Alphabetical List"
 msgstr "_Алфавітний список"
 
-#: ../src/e-util/e-html-editor-actions.c:1300
-#: ../src/e-util/e-html-editor-actions.c:1338
+#: ../src/e-util/e-html-editor-actions.c:1410
+#: ../src/e-util/e-html-editor-actions.c:1448
 msgid "_Image…"
 msgstr "З_ображення…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1303
+#: ../src/e-util/e-html-editor-actions.c:1413
 msgid "Insert Image"
 msgstr "Вставити зображення"
 
-#: ../src/e-util/e-html-editor-actions.c:1308
-#: ../src/e-util/e-html-editor-actions.c:1345
+#: ../src/e-util/e-html-editor-actions.c:1418
+#: ../src/e-util/e-html-editor-actions.c:1455
 msgid "_Link…"
 msgstr "По_силання…"
 
-#: ../src/e-util/e-html-editor-actions.c:1310
+#: ../src/e-util/e-html-editor-actions.c:1420
 msgid "Insert Link"
 msgstr "Вставити посилання"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1316
-#: ../src/e-util/e-html-editor-actions.c:1360
+#: ../src/e-util/e-html-editor-actions.c:1426
+#: ../src/e-util/e-html-editor-actions.c:1470
 msgid "_Rule…"
 msgstr "_Правило…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1319
+#: ../src/e-util/e-html-editor-actions.c:1429
 msgid "Insert Rule"
 msgstr "Вставити правило"
 
-#: ../src/e-util/e-html-editor-actions.c:1324
-#: ../src/e-util/e-html-editor-actions.c:1367
+#: ../src/e-util/e-html-editor-actions.c:1434
+#: ../src/e-util/e-html-editor-actions.c:1477
 msgid "_Table…"
 msgstr "_Таблиця…"
 
-#: ../src/e-util/e-html-editor-actions.c:1326
+#: ../src/e-util/e-html-editor-actions.c:1436
 msgid "Insert Table"
 msgstr "Вставити таблицю"
 
-#: ../src/e-util/e-html-editor-actions.c:1331
+#: ../src/e-util/e-html-editor-actions.c:1441
 msgid "_Cell…"
 msgstr "_Комірка…"
 
-#: ../src/e-util/e-html-editor-actions.c:1352
+#: ../src/e-util/e-html-editor-actions.c:1462
 msgid "Pa_ge…"
 msgstr "С_торінка…"
 
-#: ../src/e-util/e-html-editor-actions.c:1376
+#: ../src/e-util/e-html-editor-actions.c:1486
 msgid "Font _Size"
 msgstr "_Розмір шрифту"
 
-#: ../src/e-util/e-html-editor-actions.c:1383
+#: ../src/e-util/e-html-editor-actions.c:1493
 msgid "_Font Style"
 msgstr "Стиль _шрифту"
 
-#: ../src/e-util/e-html-editor-actions.c:1390
+#: ../src/e-util/e-html-editor-actions.c:1500
 msgid "Paste As _Text"
 msgstr "Вставити як _текст"
 
-#: ../src/e-util/e-html-editor-actions.c:1401
+#: ../src/e-util/e-html-editor-actions.c:1511
 #: ../src/e-util/e-html-editor-text-dialog.c:201
 msgid "_Bold"
 msgstr "_Напівжирний"
 
-#: ../src/e-util/e-html-editor-actions.c:1403
+#: ../src/e-util/e-html-editor-actions.c:1513
 msgid "Bold"
 msgstr "Напівжирний"
 
-#: ../src/e-util/e-html-editor-actions.c:1409
+#: ../src/e-util/e-html-editor-actions.c:1519
 #: ../src/e-util/e-html-editor-text-dialog.c:212
 msgid "_Italic"
 msgstr "_Курсив"
 
-#: ../src/e-util/e-html-editor-actions.c:1411
+#: ../src/e-util/e-html-editor-actions.c:1521
 msgid "Italic"
 msgstr "Курсив"
 
-#: ../src/e-util/e-html-editor-actions.c:1417
-msgid "_Plain Text"
-msgstr "_Звичайний текст"
-
-#: ../src/e-util/e-html-editor-actions.c:1425
+#: ../src/e-util/e-html-editor-actions.c:1527
 #: ../src/e-util/e-html-editor-text-dialog.c:233
 msgid "_Strikethrough"
 msgstr "_Закреслений"
 
-#: ../src/e-util/e-html-editor-actions.c:1427
+#: ../src/e-util/e-html-editor-actions.c:1529
 msgid "Strikethrough"
 msgstr "Закреслений"
 
-#: ../src/e-util/e-html-editor-actions.c:1433
+#: ../src/e-util/e-html-editor-actions.c:1535
+#| msgid "S_cript:"
+msgid "Subs_cript"
+msgstr "_Нижній індекс"
+
+#: ../src/e-util/e-html-editor-actions.c:1537
+#| msgid "_Subscribe"
+msgid "Subscript"
+msgstr "Нижній індекс"
+
+#: ../src/e-util/e-html-editor-actions.c:1543
+#| msgid "S_cript:"
+msgid "Su_perscript"
+msgstr "_Верхній індекс"
+
+#: ../src/e-util/e-html-editor-actions.c:1545
+#| msgid "Description"
+msgid "Superscript"
+msgstr "Верхній індекс"
+
+#: ../src/e-util/e-html-editor-actions.c:1551
 #: ../src/e-util/e-html-editor-text-dialog.c:223
 msgid "_Underline"
 msgstr "_Підкреслений"
 
-#: ../src/e-util/e-html-editor-actions.c:1435
+#: ../src/e-util/e-html-editor-actions.c:1553
 msgid "Underline"
 msgstr "Підкреслений"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1445
+#: ../src/e-util/e-html-editor-actions.c:1563
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1453
+#: ../src/e-util/e-html-editor-actions.c:1571
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1461
+#: ../src/e-util/e-html-editor-actions.c:1579
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1469
+#: ../src/e-util/e-html-editor-actions.c:1587
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1477
+#: ../src/e-util/e-html-editor-actions.c:1595
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1485
+#: ../src/e-util/e-html-editor-actions.c:1603
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1493
+#: ../src/e-util/e-html-editor-actions.c:1611
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:1512
+#: ../src/e-util/e-html-editor-actions.c:1630
 msgid "Cell Contents"
 msgstr "Вміст комірки"
 
-#: ../src/e-util/e-html-editor-actions.c:1519
+#: ../src/e-util/e-html-editor-actions.c:1637
 msgid "Column"
 msgstr "Стовпчик"
 
-#: ../src/e-util/e-html-editor-actions.c:1526
+#: ../src/e-util/e-html-editor-actions.c:1644
 msgid "Row"
 msgstr "Рядок"
 
-#: ../src/e-util/e-html-editor-actions.c:1533
+#: ../src/e-util/e-html-editor-actions.c:1651
 msgid "Table"
 msgstr "Таблиця"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:1543
+#: ../src/e-util/e-html-editor-actions.c:1661
 msgid "Table Delete"
 msgstr "Вилучити у таблиці"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:1551
+#: ../src/e-util/e-html-editor-actions.c:1669
 msgid "Table Insert"
 msgstr "Вставити у таблицю"
 
-#: ../src/e-util/e-html-editor-actions.c:1558
+#: ../src/e-util/e-html-editor-actions.c:1676
 msgid "Properties"
 msgstr "Властивості"
 
-#: ../src/e-util/e-html-editor-actions.c:1576
+#: ../src/e-util/e-html-editor-actions.c:1694
 msgid "Column After"
 msgstr "Стовпчик після"
 
-#: ../src/e-util/e-html-editor-actions.c:1583
+#: ../src/e-util/e-html-editor-actions.c:1701
 msgid "Column Before"
 msgstr "Стовпчик після"
 
-#: ../src/e-util/e-html-editor-actions.c:1590
+#: ../src/e-util/e-html-editor-actions.c:1708
 msgid "Insert _Link"
 msgstr "Вставити _посилання"
 
-#: ../src/e-util/e-html-editor-actions.c:1597
+#: ../src/e-util/e-html-editor-actions.c:1715
 msgid "Row Above"
 msgstr "Рядок вище"
 
-#: ../src/e-util/e-html-editor-actions.c:1604
+#: ../src/e-util/e-html-editor-actions.c:1722
 msgid "Row Below"
 msgstr "Рядок нижче"
 
-#: ../src/e-util/e-html-editor-actions.c:1611
+#: ../src/e-util/e-html-editor-actions.c:1729
 msgid "Cell…"
 msgstr "Комірка…"
 
-#: ../src/e-util/e-html-editor-actions.c:1618
+#: ../src/e-util/e-html-editor-actions.c:1736
 msgid "Image…"
 msgstr "Зображення…"
 
-#: ../src/e-util/e-html-editor-actions.c:1625
+#: ../src/e-util/e-html-editor-actions.c:1743
 msgid "Link…"
 msgstr "Посилання…"
 
-#: ../src/e-util/e-html-editor-actions.c:1632
+#: ../src/e-util/e-html-editor-actions.c:1750
 msgid "Page…"
 msgstr "Сторінка…"
 
-#: ../src/e-util/e-html-editor-actions.c:1639
+#: ../src/e-util/e-html-editor-actions.c:1757
 msgid "Paragraph…"
 msgstr "Абзац…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1647
+#: ../src/e-util/e-html-editor-actions.c:1765
 msgid "Rule…"
 msgstr "Відріз…"
 
-#: ../src/e-util/e-html-editor-actions.c:1654
+#: ../src/e-util/e-html-editor-actions.c:1772
 msgid "Table…"
 msgstr "Таблиця…"
 
-#: ../src/e-util/e-html-editor-actions.c:1661
+#: ../src/e-util/e-html-editor-actions.c:1779
 msgid "Text…"
 msgstr "Текст…"
 
-#: ../src/e-util/e-html-editor-actions.c:1668
+#: ../src/e-util/e-html-editor-actions.c:1786
 msgid "Remove Link"
 msgstr "Вилучити посилання"
 
-#: ../src/e-util/e-html-editor-actions.c:1685
+#: ../src/e-util/e-html-editor-actions.c:1803
 msgid "Add Word to Dictionary"
 msgstr "Додати слово до словника"
 
-#: ../src/e-util/e-html-editor-actions.c:1692
+#: ../src/e-util/e-html-editor-actions.c:1810
 msgid "Ignore Misspelled Word"
 msgstr "Нехтувати _неграмотним словом"
 
-#: ../src/e-util/e-html-editor-actions.c:1699
+#: ../src/e-util/e-html-editor-actions.c:1817
 msgid "Add Word To"
 msgstr "Додати слово до"
 
-#: ../src/e-util/e-html-editor-actions.c:1708
+#: ../src/e-util/e-html-editor-actions.c:1826
 msgid "More Suggestions"
 msgstr "Більше пропозицій"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:1943
+#: ../src/e-util/e-html-editor-actions.c:2061
 #, c-format
 msgid "%s Dictionary"
 msgstr "Словника %s"
 
-#: ../src/e-util/e-html-editor-actions.c:2022
+#: ../src/e-util/e-html-editor-actions.c:2140
 msgid "_Emoticon"
 msgstr "_Емоційка"
 
-#: ../src/e-util/e-html-editor-actions.c:2023
+#: ../src/e-util/e-html-editor-actions.c:2141
 msgid "Insert Emoticon"
 msgstr "Вставити емоційки"
 
-#: ../src/e-util/e-html-editor-actions.c:2091
+#: ../src/e-util/e-html-editor-actions.c:2209
 msgid "Re_place"
 msgstr "За_мінити"
 
-#: ../src/e-util/e-html-editor-actions.c:2097
+#: ../src/e-util/e-html-editor-actions.c:2215
 msgid "_Image"
 msgstr "_Зображення"
 
-#: ../src/e-util/e-html-editor-actions.c:2100
+#: ../src/e-util/e-html-editor-actions.c:2218
 msgid "_Link"
 msgstr "По_силання"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2104
+#: ../src/e-util/e-html-editor-actions.c:2222
 msgid "_Rule"
 msgstr "_Правило"
 
-#: ../src/e-util/e-html-editor-actions.c:2107
+#: ../src/e-util/e-html-editor-actions.c:2225
 #: ../src/e-util/e-html-editor-cell-dialog.c:448
 msgid "_Table"
 msgstr "_Таблиця"
 
-#: ../src/e-util/e-html-editor.c:743
+#: ../src/e-util/e-html-editor.c:860
 msgid "Paragraph Style"
 msgstr "Стиль параграфа"
 
-#: ../src/e-util/e-html-editor.c:757
+#: ../src/e-util/e-html-editor.c:874
 msgid "Editing Mode"
 msgstr "Режим редагування"
 
-#: ../src/e-util/e-html-editor.c:769
+#: ../src/e-util/e-html-editor.c:886
 msgid "Font Color"
 msgstr "Колір шрифту"
 
-#: ../src/e-util/e-html-editor.c:779
+#: ../src/e-util/e-html-editor.c:897
+#| msgid "_Background:"
+msgid "Background Color"
+msgstr "Колір тла"
+
+#: ../src/e-util/e-html-editor.c:907
 msgid "Font Size"
 msgstr "Розмір шрифту"
+
+#: ../src/e-util/e-html-editor.c:916
+#| msgid "Account Name"
+msgid "Font Name"
+msgstr "Назва шрифту"
+
+#: ../src/e-util/e-html-editor.c:1520
+#| msgid "Failed to insert text file."
+msgid "Failed to obtain content of editor"
+msgstr "Не вдалося отримати дані редактора"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:408
 msgid "<b>Scope</b>"
@@ -14424,20 +14473,20 @@ msgid "<b>Alignment &amp; Behavior</b>"
 msgstr "<b>Вирівнювання і поведінка</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:484
-#: ../src/e-util/e-html-editor-hrule-dialog.c:328
-#: ../src/e-util/e-html-editor-table-dialog.c:648
+#: ../src/e-util/e-html-editor-hrule-dialog.c:306
+#: ../src/e-util/e-html-editor-table-dialog.c:639
 msgid "Left"
 msgstr "Ліворуч"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:485
-#: ../src/e-util/e-html-editor-hrule-dialog.c:330
-#: ../src/e-util/e-html-editor-table-dialog.c:649
+#: ../src/e-util/e-html-editor-hrule-dialog.c:308
+#: ../src/e-util/e-html-editor-table-dialog.c:640
 msgid "Center"
 msgstr "По центру"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:486
-#: ../src/e-util/e-html-editor-hrule-dialog.c:332
-#: ../src/e-util/e-html-editor-table-dialog.c:650
+#: ../src/e-util/e-html-editor-hrule-dialog.c:310
+#: ../src/e-util/e-html-editor-table-dialog.c:641
 msgid "Right"
 msgstr "Праворуч"
 
@@ -14476,7 +14525,7 @@ msgstr "_Стиль заголовка"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:540
 #: ../src/e-util/e-html-editor-image-dialog.c:520
-#: ../src/e-util/e-html-editor-table-dialog.c:560
+#: ../src/e-util/e-html-editor-table-dialog.c:551
 msgid "<b>Layout</b>"
 msgstr "<b>Компонування</b>"
 
@@ -14494,12 +14543,12 @@ msgid "Co_lumn Span:"
 msgstr "Діапазон _стовпців:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:612
-#: ../src/e-util/e-html-editor-table-dialog.c:664
+#: ../src/e-util/e-html-editor-table-dialog.c:655
 msgid "<b>Background</b>"
 msgstr "<b>Тло</b>"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:625
-#: ../src/e-util/e-html-editor-table-dialog.c:677
+#: ../src/e-util/e-html-editor-table-dialog.c:668
 msgid "Transparent"
 msgstr "Прозорість"
 
@@ -14509,7 +14558,7 @@ msgstr "_Колір:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:640
 #: ../src/e-util/e-html-editor-image-dialog.c:476
-#: ../src/e-util/e-html-editor-table-dialog.c:692
+#: ../src/e-util/e-html-editor-table-dialog.c:683
 msgid "Images"
 msgstr "Зображення"
 
@@ -14517,8 +14566,8 @@ msgstr "Зображення"
 #: ../src/e-util/e-html-editor-cell-dialog.c:648
 #: ../src/e-util/e-html-editor-image-dialog.c:481
 #: ../src/e-util/e-html-editor-image-dialog.c:484
-#: ../src/e-util/e-html-editor-table-dialog.c:697
-#: ../src/e-util/e-html-editor-table-dialog.c:702
+#: ../src/e-util/e-html-editor-table-dialog.c:688
+#: ../src/e-util/e-html-editor-table-dialog.c:693
 msgid "Choose Background Image"
 msgstr "Вибрати зображення тла"
 
@@ -14527,8 +14576,8 @@ msgid "_Image:"
 msgstr "_Зображення:"
 
 #: ../src/e-util/e-html-editor-cell-dialog.c:669
-#: ../src/e-util/e-html-editor-page-dialog.c:495
-#: ../src/e-util/e-html-editor-table-dialog.c:723
+#: ../src/e-util/e-html-editor-page-dialog.c:545
+#: ../src/e-util/e-html-editor-table-dialog.c:714
 msgid "_Remove image"
 msgstr "_Вилучити зображення"
 
@@ -14558,42 +14607,42 @@ msgstr "_Переносити пошук"
 msgid "Find"
 msgstr "Знайти"
 
-#: ../src/e-util/e-html-editor-hrule-dialog.c:263
+#: ../src/e-util/e-html-editor-hrule-dialog.c:241
 msgid "<b>Size</b>"
 msgstr "<b>Розмір</b>"
 
 #. Width
-#: ../src/e-util/e-html-editor-hrule-dialog.c:283
+#: ../src/e-util/e-html-editor-hrule-dialog.c:261
 #: ../src/e-util/e-html-editor-image-dialog.c:538
-#: ../src/e-util/e-html-editor-table-dialog.c:571
+#: ../src/e-util/e-html-editor-table-dialog.c:562
 msgid "_Width:"
 msgstr "_Ширина:"
 
-#: ../src/e-util/e-html-editor-hrule-dialog.c:308
+#: ../src/e-util/e-html-editor-hrule-dialog.c:286
 msgid "_Size:"
 msgstr "_Розмір:"
 
-#: ../src/e-util/e-html-editor-hrule-dialog.c:315
+#: ../src/e-util/e-html-editor-hrule-dialog.c:293
 msgid "<b>Style</b>"
 msgstr "<b>Стиль</b>"
 
-#: ../src/e-util/e-html-editor-hrule-dialog.c:340
-#: ../src/e-util/e-html-editor-table-dialog.c:657
+#: ../src/e-util/e-html-editor-hrule-dialog.c:318
+#: ../src/e-util/e-html-editor-table-dialog.c:648
 msgid "_Alignment:"
 msgstr "_Вирівнювання:"
 
 #. Shaded
-#: ../src/e-util/e-html-editor-hrule-dialog.c:346
+#: ../src/e-util/e-html-editor-hrule-dialog.c:324
 msgid "S_haded"
 msgstr "Від_тінено"
 
-#: ../src/e-util/e-html-editor-hrule-dialog.c:363
+#: ../src/e-util/e-html-editor-hrule-dialog.c:341
 msgid "Rule properties"
 msgstr "Властивості правила"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:465
-#: ../src/e-util/e-html-editor-paragraph-dialog.c:64
-#: ../src/e-util/e-html-editor-table-dialog.c:514
+#: ../src/e-util/e-html-editor-paragraph-dialog.c:65
+#: ../src/e-util/e-html-editor-table-dialog.c:505
 msgid "<b>General</b>"
 msgstr "<b>Загальне</b>"
 
@@ -14614,7 +14663,7 @@ msgid "_Y-Padding:"
 msgstr "_Y-заповнення:"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:635
-#: ../src/e-util/e-html-editor-table-dialog.c:638
+#: ../src/e-util/e-html-editor-table-dialog.c:629
 msgid "_Border:"
 msgstr "_Рамка:"
 
@@ -14623,7 +14672,7 @@ msgid "<b>Link</b>"
 msgstr "<b>Посилання</b>"
 
 #: ../src/e-util/e-html-editor-image-dialog.c:663
-#: ../src/e-util/e-html-editor-link-dialog.c:213
+#: ../src/e-util/e-html-editor-link-dialog.c:210
 msgid "_URL:"
 msgstr "_URL:"
 
@@ -14635,95 +14684,110 @@ msgstr "П_еревірити адресу…"
 msgid "Image Properties"
 msgstr "Властивості зображення"
 
-#: ../src/e-util/e-html-editor-link-dialog.c:236
+#: ../src/e-util/e-html-editor-link-dialog.c:233
 msgid "_Remove Link"
 msgstr "В_илучити посилання"
 
-#: ../src/e-util/e-html-editor-link-dialog.c:261
+#: ../src/e-util/e-html-editor-link-dialog.c:258
 msgid "Link Properties"
 msgstr "Властивості посилання"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:68
+#: ../src/e-util/e-html-editor-page-dialog.c:71
 msgid "Perforated Paper"
 msgstr "Перфорований папір"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:77
+#: ../src/e-util/e-html-editor-page-dialog.c:80
 msgid "Blue Ink"
 msgstr "Синє чорнило"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:86
+#: ../src/e-util/e-html-editor-page-dialog.c:89
 msgid "Paper"
 msgstr "Папір"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:95
+#: ../src/e-util/e-html-editor-page-dialog.c:98
 msgid "Ribbon"
 msgstr "Смужка"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:104
+#: ../src/e-util/e-html-editor-page-dialog.c:107
 msgid "Midnight"
 msgstr "Північ"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:122
+#: ../src/e-util/e-html-editor-page-dialog.c:125
 #: ../src/mail/filtertypes.xml.in.h:38 ../src/mail/searchtypes.xml.in.h:41
 #: ../src/mail/vfoldertypes.xml.in.h:41
 msgid "Draft"
 msgstr "Чернетка"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:131
+#: ../src/e-util/e-html-editor-page-dialog.c:134
 msgid "Graph Paper"
 msgstr "Міліметровий папір"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:379
-msgid "<b>Colors</b>"
-msgstr "<b>Кольори:</b>"
+#. == Colors ==
+#: ../src/e-util/e-html-editor-page-dialog.c:402
+#| msgid "Color"
+msgid "Colors"
+msgstr "Кольори"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:398
+#: ../src/e-util/e-html-editor-page-dialog.c:422
 msgid "_Text:"
 msgstr "_Текст:"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:413
+#: ../src/e-util/e-html-editor-page-dialog.c:437
 msgid "_Link:"
 msgstr "По_силання:"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:428
+#: ../src/e-util/e-html-editor-page-dialog.c:452
 msgid "_Visited Link:"
 msgstr "_Відвідане посилання:"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:443
+#: ../src/e-util/e-html-editor-page-dialog.c:467
 msgid "_Background:"
 msgstr "_Тло:"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:451
-msgid "<b>Background Image</b>"
-msgstr "<b>Зображення тла</b>"
+#. == Text ==
+#: ../src/e-util/e-html-editor-page-dialog.c:475
+#| msgid "_Text:"
+msgid "Text"
+msgstr "Текст"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:473
+#: ../src/e-util/e-html-editor-page-dialog.c:493
+#| msgid "_Name:"
+msgid "_Font Name:"
+msgstr "_Назва шрифту:"
+
+#. == Background Image ==
+#: ../src/e-util/e-html-editor-page-dialog.c:500
+#| msgid "Choose Background Image"
+msgid "Background Image"
+msgstr "Зображення тла"
+
+#: ../src/e-util/e-html-editor-page-dialog.c:523
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:90
 msgid "_Template:"
 msgstr "_Шаблон:"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:481
+#: ../src/e-util/e-html-editor-page-dialog.c:531
 #: ../src/e-util/e-import-assistant.c:287
 msgid "Select a file"
 msgstr "Вибрати файл"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:488
+#: ../src/e-util/e-html-editor-page-dialog.c:538
 msgid "_Custom:"
 msgstr "_Інший:"
 
-#: ../src/e-util/e-html-editor-page-dialog.c:515
+#: ../src/e-util/e-html-editor-page-dialog.c:567
 msgid "Page Properties"
 msgstr "Властивості сторінки"
 
-#: ../src/e-util/e-html-editor-paragraph-dialog.c:81
+#: ../src/e-util/e-html-editor-paragraph-dialog.c:82
 msgid "_Style:"
 msgstr "_Стиль:"
 
-#: ../src/e-util/e-html-editor-paragraph-dialog.c:88
+#: ../src/e-util/e-html-editor-paragraph-dialog.c:89
 msgid "<b>Alignment</b>"
 msgstr "<b>Вирівнювання</b>"
 
-#: ../src/e-util/e-html-editor-paragraph-dialog.c:153
+#: ../src/e-util/e-html-editor-paragraph-dialog.c:163
 msgid "Paragraph Properties"
 msgstr "Властивості абзацу"
 
@@ -14819,33 +14883,33 @@ msgstr "Додати слово"
 msgid "Spell Checking"
 msgstr "Перевірка орфографії"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:536
+#: ../src/e-util/e-html-editor-table-dialog.c:527
 msgid "_Rows:"
 msgstr "_Рядки:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:553
+#: ../src/e-util/e-html-editor-table-dialog.c:544
 msgid "C_olumns:"
 msgstr "_Стовпчики:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:604
+#: ../src/e-util/e-html-editor-table-dialog.c:595
 msgid "_Spacing:"
 msgstr "_Інтервал:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:621
+#: ../src/e-util/e-html-editor-table-dialog.c:612
 msgid "_Padding:"
 msgstr "_Заповнення:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:685
+#: ../src/e-util/e-html-editor-table-dialog.c:676
 #: ../src/e-util/e-html-editor-text-dialog.c:248
 #: ../src/e-util/e-webdav-browser.c:2427
 msgid "_Color:"
 msgstr "_Колір:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:716
+#: ../src/e-util/e-html-editor-table-dialog.c:707
 msgid "Image:"
 msgstr "Зображення:"
 
-#: ../src/e-util/e-html-editor-table-dialog.c:743
+#: ../src/e-util/e-html-editor-table-dialog.c:734
 msgid "Table Properties"
 msgstr "Властивості таблиці"
 
@@ -14986,23 +15050,23 @@ msgstr "діб"
 msgid "Autogenerated"
 msgstr "Генерується автоматично"
 
-#: ../src/e-util/e-mail-signature-editor.c:311 ../src/mail/e-mail-notes.c:966
+#: ../src/e-util/e-mail-signature-editor.c:321 ../src/mail/e-mail-notes.c:1013
 msgid "Close"
 msgstr "Закрити"
 
-#: ../src/e-util/e-mail-signature-editor.c:316 ../src/mail/e-mail-notes.c:971
+#: ../src/e-util/e-mail-signature-editor.c:326 ../src/mail/e-mail-notes.c:1018
 msgid "_Save and Close"
 msgstr "З_берегти та закрити"
 
-#: ../src/e-util/e-mail-signature-editor.c:558
+#: ../src/e-util/e-mail-signature-editor.c:568
 msgid "Edit Signature"
 msgstr "Редагувати підпис"
 
-#: ../src/e-util/e-mail-signature-editor.c:591
+#: ../src/e-util/e-mail-signature-editor.c:601
 msgid "_Signature Name:"
 msgstr "_Ім'я підпису:"
 
-#: ../src/e-util/e-mail-signature-editor.c:627
+#: ../src/e-util/e-mail-signature-editor.c:637
 msgid "Unnamed"
 msgstr "Без назви"
 
@@ -15081,7 +15145,7 @@ msgstr "Відкриття адресної книги «%s»"
 msgid "_Do not show this message again"
 msgstr "_Не показувати це повідомлення знову."
 
-#: ../src/e-util/e-misc-utils.c:4249
+#: ../src/e-util/e-misc-utils.c:3979
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -15089,17 +15153,17 @@ msgstr ""
 "Можливо, цей сервер адресної книги недосяжний, або неправильно вказана назва "
 "сервера, або ж мережне з'єднання вимкнено."
 
-#: ../src/e-util/e-misc-utils.c:4261
+#: ../src/e-util/e-misc-utils.c:3991
 #, c-format
 msgid "Failed to set protocol version to LDAPv3 (%d): %s"
 msgstr "Не вдалося встановити версію протоколу LDAPv3 (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4273
+#: ../src/e-util/e-misc-utils.c:4003
 #, c-format
 msgid "Failed to authenticate with LDAP server (%d): %s"
 msgstr "Не вдалося пройти розпізнавання на сервері LDAP (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4287
+#: ../src/e-util/e-misc-utils.c:4017
 #, c-format
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
@@ -15115,7 +15179,7 @@ msgstr ""
 "\n"
 "Подробиці помилки (%d): %s"
 
-#: ../src/e-util/e-misc-utils.c:4298
+#: ../src/e-util/e-misc-utils.c:4028
 msgid ""
 "This LDAP server may use an older version of LDAP, which does not support "
 "this functionality or it may be misconfigured. Ask your administrator for "
@@ -15125,12 +15189,12 @@ msgstr ""
 "цю функціональність, або він може бути неправильно налаштований. Спитайте у "
 "вашого системного адміністратора які бази пошуку підтримуються."
 
-#: ../src/e-util/e-misc-utils.c:4331
+#: ../src/e-util/e-misc-utils.c:4061
 msgid "Evolution had not been compiled with LDAP support"
 msgstr "Evolution було зібрано без підтримки LDAP"
 
 #. Translators: %s is the language ISO code.
-#: ../src/e-util/e-misc-utils.c:4654
+#: ../src/e-util/e-misc-utils.c:4384
 #, c-format
 msgctxt "language"
 msgid "Unknown (%s)"
@@ -15138,31 +15202,31 @@ msgstr "Невідома (%s)"
 
 #. Translators: The first %s is the language name, and the
 #. * second is the country name. Example: "French (France)"
-#: ../src/e-util/e-misc-utils.c:4663
+#: ../src/e-util/e-misc-utils.c:4393
 #, c-format
 msgctxt "language"
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: ../src/e-util/e-misc-utils.c:4821
+#: ../src/e-util/e-misc-utils.c:4551
 #, c-format
 msgid "Click to call %s"
 msgstr "Клацніть, щоб подзвонити %s"
 
-#: ../src/e-util/e-misc-utils.c:4823
+#: ../src/e-util/e-misc-utils.c:4553
 msgid "Click to hide/unhide addresses"
 msgstr "Клацніть, щоб показати/сховати адреси "
 
-#: ../src/e-util/e-misc-utils.c:4836
+#: ../src/e-util/e-misc-utils.c:4566
 #, c-format
 msgid "Go to the section %s of the message"
 msgstr "Перейти до розділу %s повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4838
+#: ../src/e-util/e-misc-utils.c:4568
 msgid "Go to the beginning of the message"
 msgstr "Перейти до початку повідомлення"
 
-#: ../src/e-util/e-misc-utils.c:4844
+#: ../src/e-util/e-misc-utils.c:4574
 #, c-format
 msgid "Click to open %s"
 msgstr "Клацніть, щоб відкрити %s"
@@ -15606,7 +15670,7 @@ msgstr "Показати"
 msgid "Group name"
 msgstr "Назва групи"
 
-#: ../src/e-util/e-source-selector.c:3397 ../src/mail/e-mail-display.c:714
+#: ../src/e-util/e-source-selector.c:3397 ../src/mail/e-mail-display.c:717
 msgid "_Hide"
 msgstr "С_ховати"
 
@@ -16177,78 +16241,78 @@ msgstr "Створити _календар"
 msgid "Create Collectio_n"
 msgstr "Створити з_бірку"
 
-#: ../src/e-util/e-web-view.c:408
+#: ../src/e-util/e-web-view.c:407
 msgid "_Copy Link Location"
 msgstr "_Копіювати посилання"
 
-#: ../src/e-util/e-web-view.c:410
+#: ../src/e-util/e-web-view.c:409
 msgid "Copy the link to the clipboard"
 msgstr "Копіювати посилання у буфер обміну"
 
-#: ../src/e-util/e-web-view.c:418
+#: ../src/e-util/e-web-view.c:417
 msgid "_Open Link in Browser"
 msgstr "_Відкрити посилання у Інтернет-навігаторі"
 
-#: ../src/e-util/e-web-view.c:420
+#: ../src/e-util/e-web-view.c:419
 msgid "Open the link in a web browser"
 msgstr "Відкрити посилання у Інтернет-навігаторі"
 
-#: ../src/e-util/e-web-view.c:428
+#: ../src/e-util/e-web-view.c:427
 msgid "_Copy Email Address"
 msgstr "_Копіювати адресу ел.пошти"
 
-#: ../src/e-util/e-web-view.c:435
+#: ../src/e-util/e-web-view.c:434
 msgid "Copy _Raw Email Address"
 msgstr "Копіювати _чисту адресу пошти"
 
-#: ../src/e-util/e-web-view.c:437
+#: ../src/e-util/e-web-view.c:436
 msgid "Copy the raw email address to the clipboard"
 msgstr "Копіювати чисту адресу пошти у буфер"
 
-#: ../src/e-util/e-web-view.c:452
+#: ../src/e-util/e-web-view.c:451
 msgid "_Copy Image"
 msgstr "_копіювати зображення"
 
-#: ../src/e-util/e-web-view.c:454
+#: ../src/e-util/e-web-view.c:453
 msgid "Copy the image to the clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../src/e-util/e-web-view.c:459
+#: ../src/e-util/e-web-view.c:458
 msgid "Save _Image…"
 msgstr "З_берегти зображення…"
 
-#: ../src/e-util/e-web-view.c:461
+#: ../src/e-util/e-web-view.c:460
 msgid "Save the image to a file"
 msgstr "Зберегти зображення у файл"
 
-#: ../src/e-util/e-web-view.c:476 ../src/mail/e-mail-browser.c:201
+#: ../src/e-util/e-web-view.c:475 ../src/mail/e-mail-browser.c:201
 #: ../src/mail/e-mail-reader.c:2819
 msgid "Search _Web…"
 msgstr "Шукати в _інтернеті…"
 
-#: ../src/e-util/e-web-view.c:478 ../src/mail/e-mail-browser.c:203
+#: ../src/e-util/e-web-view.c:477 ../src/mail/e-mail-browser.c:203
 #: ../src/mail/e-mail-reader.c:2821
 msgid "Search the Web with the selected text"
 msgstr "Шукати позначений фрагмент тексту в інтернеті"
 
-#: ../src/e-util/e-web-view.c:488 ../src/e-util/e-web-view.c:2012
+#: ../src/e-util/e-web-view.c:487 ../src/e-util/e-web-view.c:2011
 msgid "Select all text and images"
 msgstr "Виділити весь текст та зображення"
 
-#: ../src/e-util/e-web-view.c:3724
+#: ../src/e-util/e-web-view.c:3723
 msgid "Copying image to clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../src/e-util/e-web-view.c:3912
+#: ../src/e-util/e-web-view.c:3911
 msgid "Save Image"
 msgstr "Зберегти зображення"
 
-#: ../src/e-util/e-web-view.c:3949
+#: ../src/e-util/e-web-view.c:3948
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Збереження зображення до «%s»"
 
-#: ../src/e-util/e-web-view.c:4096
+#: ../src/e-util/e-web-view.c:4095
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Не вдалося отримати URI «%s», невідомо, як його завантажити."
@@ -17471,55 +17535,55 @@ msgstr "Ласкаво просимо"
 msgid "Account Editor"
 msgstr "Редактор облікових записів"
 
-#: ../src/mail/e-mail-display.c:138
+#: ../src/mail/e-mail-display.c:141
 msgid "_Add to Address Book…"
 msgstr "_Додати до адресної книги…"
 
-#: ../src/mail/e-mail-display.c:145
+#: ../src/mail/e-mail-display.c:148
 msgid "_To This Address"
 msgstr "_За цією адресою"
 
-#: ../src/mail/e-mail-display.c:152
+#: ../src/mail/e-mail-display.c:155
 msgid "_From This Address"
 msgstr "_З цієї адреси"
 
-#: ../src/mail/e-mail-display.c:159
+#: ../src/mail/e-mail-display.c:162
 msgid "Send _Reply To…"
 msgstr "Надіслати _відповідь до…"
 
-#: ../src/mail/e-mail-display.c:161
+#: ../src/mail/e-mail-display.c:164
 msgid "Send a reply message to this address"
 msgstr "Надіслати відповідь на лист до цієї адреси"
 
-#: ../src/mail/e-mail-display.c:168
+#: ../src/mail/e-mail-display.c:171
 msgid "Create Search _Folder"
 msgstr "Створити теку _пошуку"
 
-#: ../src/mail/e-mail-display.c:721
+#: ../src/mail/e-mail-display.c:724
 msgid "Hid_e All"
 msgstr "С_ховати все"
 
-#: ../src/mail/e-mail-display.c:728
+#: ../src/mail/e-mail-display.c:731
 msgid "_View Inline"
 msgstr "_Вбудований перегляд"
 
-#: ../src/mail/e-mail-display.c:735
+#: ../src/mail/e-mail-display.c:738
 msgid "Vie_w All Inline"
 msgstr "Пере_глянути всі вбудовані"
 
-#: ../src/mail/e-mail-display.c:742
+#: ../src/mail/e-mail-display.c:745
 msgid "_Zoom to 100%"
 msgstr "_Масштабувати до 100%"
 
-#: ../src/mail/e-mail-display.c:744
+#: ../src/mail/e-mail-display.c:747
 msgid "Zoom the image to its natural size"
 msgstr "Масштабувати до оригінального розміру зображення"
 
-#: ../src/mail/e-mail-display.c:749
+#: ../src/mail/e-mail-display.c:752
 msgid "_Zoom to window"
 msgstr "_Масштабувати до вікна"
 
-#: ../src/mail/e-mail-display.c:751
+#: ../src/mail/e-mail-display.c:754
 msgid "Zoom large images to not be wider than the window width"
 msgstr "Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
 
@@ -17655,23 +17719,28 @@ msgstr ""
 msgid "Color"
 msgstr "Колір"
 
-#: ../src/mail/e-mail-notes.c:319 ../src/mail/e-mail-notes.c:740
+#: ../src/mail/e-mail-notes.c:322 ../src/mail/e-mail-notes.c:725
 msgid "Message Note"
 msgstr "Примітки до листа"
 
-#: ../src/mail/e-mail-notes.c:660
+#: ../src/mail/e-mail-notes.c:645
 msgid "Cannot find message in its folder summary"
 msgstr "Неможливо знайти лист у її теці"
 
-#: ../src/mail/e-mail-notes.c:863
+#: ../src/mail/e-mail-notes.c:870
+#| msgid "Failed to remove attachments from messages."
+msgid "Failed to convert text to message"
+msgstr "Не вдалося перетворити текст на повідомлення"
+
+#: ../src/mail/e-mail-notes.c:884 ../src/mail/e-mail-notes.c:909
 msgid "Storing changes…"
 msgstr "Зберігаємо зміни…"
 
-#: ../src/mail/e-mail-notes.c:1001
+#: ../src/mail/e-mail-notes.c:1048
 msgid "Edit Message Note"
 msgstr "Редагувати примітки до листа"
 
-#: ../src/mail/e-mail-notes.c:1157
+#: ../src/mail/e-mail-notes.c:1204
 msgid "Retrieving message…"
 msgstr "Отримуємо повідомлення…"
 
@@ -23525,11 +23594,11 @@ msgstr[1] "%d завдання"
 msgstr[2] "%d завдань"
 msgstr[3] "%d завдання"
 
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:326
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:380
 msgid "Convert to M_eeting"
 msgstr "Перетворити на з_ібрання"
 
-#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:328
+#: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:382
 msgid "Convert the message to a meeting request"
 msgstr "Перетворити повідомлення на запит зібрання"
 
@@ -25952,11 +26021,11 @@ msgstr "Додавати додаткові заголовки до вихідн
 msgid "Email Custom Header"
 msgstr "Додаткові заголовки"
 
-#: ../src/plugins/external-editor/external-editor.c:111
+#: ../src/plugins/external-editor/external-editor.c:108
 msgid "Command to be executed to launch the editor: "
 msgstr "Команда для запуску редактора: "
 
-#: ../src/plugins/external-editor/external-editor.c:112
+#: ../src/plugins/external-editor/external-editor.c:109
 msgid ""
 "For XEmacs use “xemacs”\n"
 "For Vim use “gvim -f”"
@@ -25964,12 +26033,12 @@ msgstr ""
 "Для XEmacs використовуйте «xemacs»\n"
 "Для Vim використовувати «gvim -f»"
 
-#: ../src/plugins/external-editor/external-editor.c:122
+#: ../src/plugins/external-editor/external-editor.c:119
 msgid "_Automatically launch when a new mail is edited"
 msgstr "_Автоматично запускати під час редагування нової пошти"
 
-#: ../src/plugins/external-editor/external-editor.c:456
-#: ../src/plugins/external-editor/external-editor.c:458
+#: ../src/plugins/external-editor/external-editor.c:489
+#: ../src/plugins/external-editor/external-editor.c:491
 msgid "Compose in External Editor"
 msgstr "Створювати повідомлення _у зовнішньому редакторі"
 
@@ -27955,3 +28024,12 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:407
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
+
+#~ msgid "_Plain Text"
+#~ msgstr "_Звичайний текст"
+
+#~ msgid "<b>Colors</b>"
+#~ msgstr "<b>Кольори:</b>"
+
+#~ msgid "<b>Background Image</b>"
+#~ msgstr "<b>Зображення тла</b>"
