@@ -164,22 +164,29 @@ typedef enum {
 
 /**
  * EContentEditorGetContentFlags:
- * @E_CONTENT_EDITOR_GET_BODY:
- * @E_CONTENT_EDITOR_GET_INLINE_IMAGES:
- * @E_CONTENT_EDITOR_GET_PROCESSED: raw or processed
- * @E_CONTENT_EDITOR_GET_TEXT_HTML:
- * @E_CONTENT_EDITOR_GET_TEXT_PLAIN:
- * @E_CONTENT_EDITOR_GET_EXCLUDE_SIGNATURE:
+ * @E_CONTENT_EDITOR_GET_INLINE_IMAGES: Return also list of inline images
+ * @E_CONTENT_EDITOR_GET_RAW_BODY_HTML: text/html version of the body only, as used by the editor
+ * @E_CONTENT_EDITOR_GET_RAW_BODY_PLAIN: text/plain version of the body only, as used by the editor
+ * @E_CONTENT_EDITOR_GET_RAW_BODY_STRIPPED: text/plain version of the body only, without signature, quoted text and such
+ * @E_CONTENT_EDITOR_GET_RAW_DRAFT: a version of the content, to use as draft message
+ * @E_CONTENT_EDITOR_GET_TO_SEND_HTML: text/html version of the content, suitable to be sent
+ * @E_CONTENT_EDITOR_GET_TO_SEND_PLAIN:	text/plain version of the content, suitable to be sent
+ * @E_CONTENT_EDITOR_GET_ALL: a shortcut for all flags
  *
- * Since: 3.22
+ * Influences what content should be returned. Each flag means one
+ * version, or part, of the content.
+ *
+ * Since: 3.38
  **/
 typedef enum {
-	E_CONTENT_EDITOR_GET_BODY		= 1 << 0,
-	E_CONTENT_EDITOR_GET_INLINE_IMAGES	= 1 << 1,
-	E_CONTENT_EDITOR_GET_PROCESSED		= 1 << 2, /* raw or processed */
-	E_CONTENT_EDITOR_GET_TEXT_HTML		= 1 << 3,
-	E_CONTENT_EDITOR_GET_TEXT_PLAIN		= 1 << 4,
-	E_CONTENT_EDITOR_GET_EXCLUDE_SIGNATURE	= 1 << 5
+	E_CONTENT_EDITOR_GET_INLINE_IMAGES	= 1 << 0,
+	E_CONTENT_EDITOR_GET_RAW_BODY_HTML	= 1 << 1,
+	E_CONTENT_EDITOR_GET_RAW_BODY_PLAIN	= 1 << 2,
+	E_CONTENT_EDITOR_GET_RAW_BODY_STRIPPED	= 1 << 3,
+	E_CONTENT_EDITOR_GET_RAW_DRAFT		= 1 << 4,
+	E_CONTENT_EDITOR_GET_TO_SEND_HTML	= 1 << 5,
+	E_CONTENT_EDITOR_GET_TO_SEND_PLAIN	= 1 << 6,
+	E_CONTENT_EDITOR_GET_ALL		= ~0
 } EContentEditorGetContentFlags;
 
 /**
@@ -205,30 +212,6 @@ typedef enum {
 	E_CONTENT_EDITOR_NODE_IS_TEXT		= 1 << 5,
 	E_CONTENT_EDITOR_NODE_IS_TEXT_COLLAPSED	= 1 << 6
 } EContentEditorNodeFlags;
-
-/**
- * EContentEditorStyleFlags:
- * @E_CONTENT_EDITOR_STYLE_NONE: None from the below.
- * @E_CONTENT_EDITOR_STYLE_IS_BOLD:
- * @E_CONTENT_EDITOR_STYLE_IS_ITALIC:
- * @E_CONTENT_EDITOR_STYLE_IS_UNDERLINE:
- * @E_CONTENT_EDITOR_STYLE_IS_STRIKETHROUGH:
- * @E_CONTENT_EDITOR_STYLE_IS_MONOSPACE:
- * @E_CONTENT_EDITOR_STYLE_IS_SUBSCRIPT:
- * @E_CONTENT_EDITOR_STYLE_IS_SUPERSCRIPT:
- *
- * Since: 3.22
- **/
-typedef enum {
-	E_CONTENT_EDITOR_STYLE_NONE		= 0,
-	E_CONTENT_EDITOR_STYLE_IS_BOLD		= 1 << 0,
-	E_CONTENT_EDITOR_STYLE_IS_ITALIC	= 1 << 1,
-	E_CONTENT_EDITOR_STYLE_IS_UNDERLINE	= 1 << 2,
-	E_CONTENT_EDITOR_STYLE_IS_STRIKETHROUGH	= 1 << 3,
-	E_CONTENT_EDITOR_STYLE_IS_MONOSPACE	= 1 << 4,
-	E_CONTENT_EDITOR_STYLE_IS_SUBSCRIPT	= 1 << 5,
-	E_CONTENT_EDITOR_STYLE_IS_SUPERSCRIPT	= 1 << 6
-} EContentEditorStyleFlags;
 
 /**
  * EContentEditorBlockFormat:
@@ -292,16 +275,20 @@ typedef enum {
 
 /**
  * EContentEditorAlignment:
+ * @E_CONTENT_EDITOR_ALIGNMENT_NONE:
  * @E_CONTENT_EDITOR_ALIGNMENT_LEFT:
  * @E_CONTENT_EDITOR_ALIGNMENT_CENTER:
  * @E_CONTENT_EDITOR_ALIGNMENT_RIGHT:
+ * @E_CONTENT_EDITOR_ALIGNMENT_JUSTIFY:
  *
  * Since: 3.22
  **/
 typedef enum {
+	E_CONTENT_EDITOR_ALIGNMENT_NONE = -1,
 	E_CONTENT_EDITOR_ALIGNMENT_LEFT = 0,
 	E_CONTENT_EDITOR_ALIGNMENT_CENTER,
-	E_CONTENT_EDITOR_ALIGNMENT_RIGHT
+	E_CONTENT_EDITOR_ALIGNMENT_RIGHT,
+	E_CONTENT_EDITOR_ALIGNMENT_JUSTIFY
 } EContentEditorAlignment;
 
 /**
@@ -535,18 +522,20 @@ typedef enum {
 } EContentEditorFindFlags;
 
 /**
- * EClipboardFlags:
- * @E_CLIPBOARD_CAN_COPY: It's possible to copy the currently selected content.
+ * EUndoRedoState:
+ * @E_UNDO_REDO_STATE_NONE: Cannot undo, neither redo.
+ * @E_UNDO_REDO_STATE_CAN_UNDO: Undo is available.
+ * @E_UNDO_REDO_STATE_CAN_REDO: Redo is available.
  *
- * Specifies clipboard's current state.
+ * Flags in what state Undo/Redo stack is.
  *
- * Since: 3.24
+ * Since: 3.38
  **/
 typedef enum {
-	E_CLIPBOARD_CAN_COPY	= 1 << 0
-	/* E_CLIPBOARD_CAN_CUT	= 1 << 1,
-	E_CLIPBOARD_CAN_PASTE	= 1 << 2 */
-} EClipboardFlags;
+	E_UNDO_REDO_STATE_NONE		= 0,
+	E_UNDO_REDO_STATE_CAN_UNDO	= 1 << 0,
+	E_UNDO_REDO_STATE_CAN_REDO	= 1 << 1
+} EUndoRedoState;
 
 /**
  * EDnDTargetType:

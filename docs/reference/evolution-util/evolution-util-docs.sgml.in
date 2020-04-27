@@ -315,7 +315,6 @@
     <xi:include href="xml/e-tree-view-frame.xml"/>
     <xi:include href="xml/e-url-entry.xml"/>
     <xi:include href="xml/e-util-enums.xml"/>
-    <xi:include href="xml/e-web-extension-container.xml"/>
     <xi:include href="xml/e-webdav-browser.xml"/>
     <xi:include href="xml/e-widget-undo.xml"/>
   </chapter>

@@ -53,12 +53,13 @@
       <menuitem action='mode-plain'/>
       <separator/>
       <menu action='font-style-menu'>
-        <menuitem action='monospaced'/>
-        <separator/>
         <menuitem action='bold'/>
         <menuitem action='italic'/>
         <menuitem action='underline'/>
         <menuitem action='strikethrough'/>
+        <separator/>
+        <menuitem action='superscript'/>
+        <menuitem action='subscript'/>
       </menu>
       <menu action='font-size-menu'>
         <menuitem action='size-minus-two'/>
@@ -91,6 +92,7 @@
         <menuitem action='justify-left'/>
         <menuitem action='justify-center'/>
         <menuitem action='justify-right'/>
+        <menuitem action='justify-fill'/>
       </menu>
       <separator/>
       <menuitem action='indent'/>
@@ -117,6 +119,7 @@
     <toolitem action='justify-left'/>
     <toolitem action='justify-center'/>
     <toolitem action='justify-right'/>
+    <toolitem action='justify-fill'/>
     <separator/>
     <toolitem action='unindent'/>
     <toolitem action='indent'/>
@@ -125,7 +128,6 @@
   </toolbar>
   <toolbar name='html-toolbar'>
     <separator/>
-    <toolitem action='monospaced'/>
     <toolitem action='bold'/>
     <toolitem action='italic'/>
     <toolitem action='underline'/>

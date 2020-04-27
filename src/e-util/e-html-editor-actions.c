@@ -605,17 +605,20 @@ update_mode_combobox (gpointer data)
 }
 
 static void
-action_mode_cb (GtkRadioAction *action,
-                GtkRadioAction *current,
-                EHTMLEditor *editor)
+html_editor_actions_notify_html_mode_cb (EContentEditor *cnt_editor,
+					 GParamSpec *param,
+					 EHTMLEditor *editor)
 {
-	EContentEditor *cnt_editor;
 	GtkActionGroup *action_group;
 	GtkWidget *style_combo_box;
 	gboolean is_html;
 
-	cnt_editor = e_html_editor_get_content_editor (editor);
+	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
 	is_html = e_content_editor_get_html_mode (cnt_editor);
+
+	g_object_set (G_OBJECT (editor->priv->html_actions), "sensitive", is_html, NULL);
 
 	/* This must be done from idle callback, because apparently we can change
 	 * current value in callback of current value change */
@@ -627,7 +630,8 @@ action_mode_cb (GtkRadioAction *action,
 	action_group = editor->priv->html_context_actions;
 	gtk_action_group_set_visible (action_group, is_html);
 
-	gtk_widget_set_sensitive (editor->priv->color_combo_box, is_html);
+	gtk_widget_set_sensitive (editor->priv->fg_color_combo_box, is_html);
+	gtk_widget_set_sensitive (editor->priv->bg_color_combo_box, is_html);
 
 	if (is_html) {
 		gtk_widget_show (editor->priv->html_toolbar);
@@ -654,6 +658,15 @@ action_mode_cb (GtkRadioAction *action,
 	/* Hide them from the action combo box as well */
 	style_combo_box = e_html_editor_get_style_combo_box (editor);
 	e_action_combo_box_update_model (E_ACTION_COMBO_BOX (style_combo_box));
+}
+
+static void
+action_mode_cb (GtkRadioAction *action,
+		GtkRadioAction *current,
+		EHTMLEditor *editor)
+{
+	/* Nothing to do here, wait for notification of
+	   a property change from the EContentEditor */
 }
 
 static void
@@ -956,6 +969,96 @@ action_wrap_lines_cb (GtkAction *action,
 		e_content_editor_selection_wrap (cnt_editor);
 }
 
+/* This is when the user toggled the action */
+static void
+manage_format_subsuperscript_toggled (EHTMLEditor *editor,
+				      GtkToggleAction *changed_action,
+				      const gchar *prop_name,
+				      GtkToggleAction *second_action)
+{
+	EContentEditor *cnt_editor = e_html_editor_get_content_editor (editor);
+
+	g_signal_handlers_block_matched (cnt_editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_handlers_block_matched (changed_action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_handlers_block_matched (second_action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+
+	if (gtk_toggle_action_get_active (changed_action) &&
+	    gtk_toggle_action_get_active (second_action))
+		gtk_toggle_action_set_active (second_action, FALSE);
+
+	g_object_set (G_OBJECT (cnt_editor), prop_name, gtk_toggle_action_get_active (changed_action), NULL);
+
+	g_signal_handlers_unblock_matched (second_action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_handlers_unblock_matched (changed_action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_handlers_unblock_matched (cnt_editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+}
+
+/* This is when the content editor claimed change on the property */
+static void
+manage_format_subsuperscript_notify (EHTMLEditor *editor,
+				     GtkToggleAction *changed_action,
+				     const gchar *prop_name,
+				     GtkToggleAction *second_action)
+{
+	EContentEditor *cnt_editor = e_html_editor_get_content_editor (editor);
+	gboolean value = FALSE;
+
+	g_signal_handlers_block_matched (cnt_editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_handlers_block_matched (changed_action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_handlers_block_matched (second_action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+
+	g_object_get (G_OBJECT (cnt_editor), prop_name, &value, NULL);
+
+	gtk_toggle_action_set_active (changed_action, value);
+
+	if (gtk_toggle_action_get_active (changed_action) &&
+	    gtk_toggle_action_get_active (second_action))
+		gtk_toggle_action_set_active (second_action, FALSE);
+
+	g_signal_handlers_unblock_matched (second_action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_handlers_unblock_matched (changed_action, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+	g_signal_handlers_unblock_matched (cnt_editor, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
+}
+
+static void
+html_editor_actions_subscript_toggled_cb (GtkToggleAction *action,
+					  EHTMLEditor *editor)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	manage_format_subsuperscript_toggled (editor, GTK_TOGGLE_ACTION (ACTION (SUBSCRIPT)), "subscript", GTK_TOGGLE_ACTION (ACTION (SUPERSCRIPT)));
+}
+
+static void
+html_editor_actions_notify_subscript_cb (EContentEditor *cnt_editor,
+					 GParamSpec *param,
+					 EHTMLEditor *editor)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	manage_format_subsuperscript_notify (editor, GTK_TOGGLE_ACTION (ACTION (SUBSCRIPT)), "subscript", GTK_TOGGLE_ACTION (ACTION (SUPERSCRIPT)));
+}
+
+static void
+html_editor_actions_superscript_toggled_cb (GtkToggleAction *action,
+					    EHTMLEditor *editor)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	manage_format_subsuperscript_toggled (editor, GTK_TOGGLE_ACTION (ACTION (SUPERSCRIPT)), "superscript", GTK_TOGGLE_ACTION (ACTION (SUBSCRIPT)));
+}
+
+static void
+html_editor_actions_notify_superscript_cb (EContentEditor *cnt_editor,
+					   GParamSpec *param,
+					   EHTMLEditor *editor)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	manage_format_subsuperscript_notify (editor, GTK_TOGGLE_ACTION (ACTION (SUPERSCRIPT)), "superscript", GTK_TOGGLE_ACTION (ACTION (SUBSCRIPT)));
+}
+
+
 /*****************************************************************************
  * Core Actions
  *
@@ -1160,6 +1263,13 @@ static GtkRadioActionEntry core_justify_entries[] = {
 	  "<Control>e",
 	  N_("Center Alignment"),
 	  E_CONTENT_EDITOR_ALIGNMENT_CENTER },
+
+	{ "justify-fill",
+	  "format-justify-fill",
+	  N_("_Justified"),
+	  "<Control>j",
+	  N_("Align Justified"),
+	  E_CONTENT_EDITOR_ALIGNMENT_JUSTIFY },
 
 	{ "justify-left",
 	  "format-justify-left",
@@ -1412,19 +1522,27 @@ static GtkToggleActionEntry html_toggle_entries[] = {
 	  NULL,
 	  FALSE },
 
-	{ "monospaced",
-	  "stock_text-monospaced",
-	  N_("_Plain Text"),
-	  "<Control>t",
-	  N_("Plain Text"),
-	  NULL,
-	  FALSE },
-
 	{ "strikethrough",
 	  "format-text-strikethrough",
 	  N_("_Strikethrough"),
 	  NULL,
 	  N_("Strikethrough"),
+	  NULL,
+	  FALSE },
+
+	{ "subscript",
+	  NULL,
+	  N_("Subs_cript"),
+	  "<Control><Shift>b",
+	  N_("Subscript"),
+	  NULL,
+	  FALSE },
+
+	{ "superscript",
+	  NULL,
+	  N_("Su_perscript"),
+	  "<Control><Shift>p",
+	  N_("Superscript"),
 	  NULL,
 	  FALSE },
 
@@ -2110,6 +2228,42 @@ editor_actions_init (EHTMLEditor *editor)
 	gtk_action_set_sensitive (ACTION (FIND_AGAIN), FALSE);
 }
 
+static gboolean
+e_html_editor_content_editor_font_name_to_combo_box (GBinding *binding,
+						     const GValue *from_value,
+						     GValue *to_value,
+						     gpointer user_data)
+{
+	gchar *id = NULL;
+
+	id = e_html_editor_util_dup_font_id (GTK_COMBO_BOX (g_binding_get_target (binding)), g_value_get_string (from_value));
+	g_value_take_string (to_value, id ? id : g_strdup (""));
+
+	return TRUE;
+}
+
+static gboolean
+e_html_editor_indent_level_to_bool_indent_cb (GBinding *binding,
+					      const GValue *from_value,
+					      GValue *to_value,
+					      gpointer user_data)
+{
+	g_value_set_boolean (to_value, g_value_get_int (from_value) < E_HTML_EDITOR_MAX_INDENT_LEVEL);
+
+	return TRUE;
+}
+
+static gboolean
+e_html_editor_indent_level_to_bool_unindent_cb (GBinding *binding,
+						const GValue *from_value,
+						GValue *to_value,
+						gpointer user_data)
+{
+	g_value_set_boolean (to_value, g_value_get_int (from_value) > 0);
+
+	return TRUE;
+}
+
 void
 editor_actions_bind (EHTMLEditor *editor)
 {
@@ -2174,17 +2328,21 @@ editor_actions_bind (EHTMLEditor *editor)
 		cnt_editor, "block-format",
 		ACTION (STYLE_NORMAL), "current-value",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
-		cnt_editor, "indented",
+	e_binding_bind_property_full (
+		cnt_editor, "indent-level",
+		ACTION (INDENT), "sensitive",
+		G_BINDING_SYNC_CREATE,
+		e_html_editor_indent_level_to_bool_indent_cb,
+		NULL, NULL, NULL);
+	e_binding_bind_property_full (
+		cnt_editor, "indent-level",
 		ACTION (UNINDENT), "sensitive",
-		G_BINDING_SYNC_CREATE);
+		G_BINDING_SYNC_CREATE,
+		e_html_editor_indent_level_to_bool_unindent_cb,
+		NULL, NULL, NULL);
 	e_binding_bind_property (
 		cnt_editor, "italic",
 		ACTION (ITALIC), "active",
-		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
-	e_binding_bind_property (
-		cnt_editor, "monospaced",
-		ACTION (MONOSPACED), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	e_binding_bind_property (
 		cnt_editor, "strikethrough",
@@ -2194,11 +2352,26 @@ editor_actions_bind (EHTMLEditor *editor)
 		cnt_editor, "underline",
 		ACTION (UNDERLINE), "active",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	e_binding_bind_property_full (
+		cnt_editor, "font-name",
+		editor->priv->font_name_combo_box, "active-id",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL,
+		e_html_editor_content_editor_font_name_to_combo_box,
+		NULL,
+		NULL, NULL);
 
-	e_binding_bind_property (
-		cnt_editor, "html-mode",
-		editor->priv->html_actions, "sensitive",
-		G_BINDING_SYNC_CREATE);
+	/* Cannot use binding, due to subscript and superscript being mutually exclusive */
+	g_signal_connect_object (ACTION (SUBSCRIPT), "toggled",
+		G_CALLBACK (html_editor_actions_subscript_toggled_cb), editor, 0);
+	g_signal_connect_object (cnt_editor, "notify::subscript",
+		G_CALLBACK (html_editor_actions_notify_subscript_cb), editor, 0);
+	g_signal_connect_object (ACTION (SUPERSCRIPT), "toggled",
+		G_CALLBACK (html_editor_actions_superscript_toggled_cb), editor, 0);
+	g_signal_connect_object (cnt_editor, "notify::superscript",
+		G_CALLBACK (html_editor_actions_notify_superscript_cb), editor, 0);
+
+	g_signal_connect_object (cnt_editor, "notify::html-mode",
+		G_CALLBACK (html_editor_actions_notify_html_mode_cb), editor, 0);
 
 	/* Disable all actions and toolbars when editor is not editable */
 	e_binding_bind_property (

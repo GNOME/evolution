@@ -359,7 +359,7 @@ html_editor_image_dialog_show (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_on_image_dialog_open (cnt_editor);
+	e_content_editor_on_dialog_open (cnt_editor, E_CONTENT_EDITOR_DIALOG_IMAGE);
 
 	value = e_content_editor_image_get_src (cnt_editor);
 	if (value && *value) {
@@ -432,7 +432,7 @@ html_editor_image_dialog_hide (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_on_image_dialog_close (cnt_editor);
+	e_content_editor_on_dialog_close (cnt_editor, E_CONTENT_EDITOR_DIALOG_IMAGE);
 
 	GTK_WIDGET_CLASS (e_html_editor_image_dialog_parent_class)->hide (widget);
 }

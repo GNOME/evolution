@@ -95,6 +95,134 @@ G_DEFINE_TYPE_WITH_CODE (
 		E_TYPE_ALERT_SINK,
 		e_html_editor_alert_sink_init))
 
+/* See: https://www.w3schools.com/cssref/css_websafe_fonts.asp */
+static struct _SupportedFonts {
+	const gchar *display_name;
+	const gchar *css_value;
+} supported_fonts[] = {
+	{ "Arial", "Arial, Helvetica, sans-serif" },
+	{ "Arial Black", "\"Arial Black\", Gadget, sans-serif" },
+	{ "Comic Sans MS", "\"Comic Sans MS\", cursive, sans-serif" },
+	{ "Courier New", "\"Courier New\", Courier, monospace" },
+	{ "Georgia", "Georgia, serif" },
+	{ "Impact", "Impact, Charcoal, sans-serif" },
+	{ "Lucida Console", "\"Lucida Console\", Monaco, monospace" },
+	{ "Lucida Sans", "\"Lucida Sans Unicode\", \"Lucida Grande\", sans-serif" },
+	{ "Monospace", "monospace" },
+	{ "Palatino", "\"Palatino Linotype\", \"Book Antiqua\", Palatino, serif" },
+	{ "Tahoma", "Tahoma, Geneva, sans-serif" },
+	{ "Times New Roman", "\"Times New Roman\", Times, serif" },
+	{ "Trebuchet MS", "\"Trebuchet MS\", Helvetica, sans-serif" },
+	{ "Verdana", "Verdana, Geneva, sans-serif" }
+};
+
+GtkWidget *
+e_html_editor_util_create_font_name_combo (void)
+{
+	GtkComboBoxText *combo_box;
+	gint ii;
+
+	combo_box = GTK_COMBO_BOX_TEXT (gtk_combo_box_text_new ());
+
+	gtk_combo_box_text_append (combo_box, "", _("Default"));
+
+	for (ii = 0; ii < G_N_ELEMENTS (supported_fonts); ii++) {
+		gtk_combo_box_text_append (combo_box, supported_fonts[ii].css_value, supported_fonts[ii].display_name);
+	}
+
+	return GTK_WIDGET (combo_box);
+}
+
+gchar *
+e_html_editor_util_dup_font_id (GtkComboBox *combo_box,
+				const gchar *font_name)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GSList *free_str = NULL;
+	gchar *id = NULL, **variants;
+	gint id_column, ii;
+
+	g_return_val_if_fail (GTK_IS_COMBO_BOX_TEXT (combo_box), NULL);
+
+	if (!font_name || !*font_name)
+		return NULL;
+
+	for (ii = 0; ii < G_N_ELEMENTS (supported_fonts); ii++) {
+		if (camel_strcase_equal (supported_fonts[ii].css_value, font_name))
+			return g_strdup (font_name);
+	}
+
+	id_column = gtk_combo_box_get_id_column (combo_box);
+	model = gtk_combo_box_get_model (combo_box);
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gchar *stored_id = NULL;
+
+			gtk_tree_model_get (model, &iter, id_column, &stored_id, -1);
+
+			if (stored_id && *stored_id) {
+				if (camel_strcase_equal (stored_id, font_name)) {
+					id = stored_id;
+					break;
+				}
+
+				free_str = g_slist_prepend (free_str, stored_id);
+			} else {
+				g_free (stored_id);
+			}
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	if (!id) {
+		GHashTable *known_fonts;
+		GSList *free_strv = NULL, *link;
+
+		known_fonts = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
+
+		for (link = free_str; link; link = g_slist_next (link)) {
+			gchar *stored_id = link->data;
+
+			variants = g_strsplit (stored_id, ",", -1);
+			for (ii = 0; variants[ii]; ii++) {
+				if (variants[ii][0] &&
+				    !g_hash_table_contains (known_fonts, variants[ii])) {
+					g_hash_table_insert (known_fonts, variants[ii], stored_id);
+				}
+			}
+
+			free_strv = g_slist_prepend (free_strv, variants);
+		}
+
+		variants = g_strsplit (font_name, ",", -1);
+		for (ii = 0; variants[ii]; ii++) {
+			if (variants[ii][0]) {
+				const gchar *stored_id;
+
+				stored_id = g_hash_table_lookup (known_fonts, variants[ii]);
+				if (stored_id) {
+					id = g_strdup (stored_id);
+					break;
+				}
+			}
+		}
+
+		if (!id) {
+			gtk_combo_box_text_append (GTK_COMBO_BOX_TEXT (combo_box), font_name, variants[0]);
+			id = g_strdup (font_name);
+		}
+
+		g_hash_table_destroy (known_fonts);
+		g_slist_free_full (free_strv, (GDestroyNotify) g_strfreev);
+		g_strfreev (variants);
+	}
+
+	g_slist_free_full (free_str, g_free);
+
+	return id;
+}
+
 /* Action callback for context menu spelling suggestions.
  * XXX This should really be in e-html-editor-actions.c */
 static void
@@ -112,7 +240,8 @@ action_context_spell_suggest_cb (GtkAction *action,
 }
 
 static void
-html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
+html_editor_inline_spelling_suggestions (EHTMLEditor *editor,
+					 const gchar *caret_word)
 {
 	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
@@ -120,7 +249,6 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 	GtkUIManager *manager;
 	gchar **suggestions;
 	const gchar *path;
-	gchar *word;
 	guint count = 0;
 	guint length;
 	guint merge_id;
@@ -128,12 +256,11 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 	gint ii;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	word = e_content_editor_get_caret_word (cnt_editor);
-	if (word == NULL || *word == '\0')
+	if (!caret_word || !*caret_word)
 		return;
 
 	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
-	suggestions = e_spell_checker_get_guesses_for_word (spell_checker, word);
+	suggestions = e_spell_checker_get_guesses_for_word (spell_checker, caret_word);
 
 	path = "/context-menu/context-spell-suggest/";
 	manager = e_html_editor_get_ui_manager (editor);
@@ -167,12 +294,9 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 
 		/* Action name just needs to be unique. */
 		action_name = g_strdup_printf ("suggest-%d", count++);
+		action_label = g_markup_printf_escaped ("<b>%s</b>", suggestion);
 
-		action_label = g_markup_printf_escaped (
-			"<b>%s</b>", suggestion);
-
-		action = gtk_action_new (
-			action_name, action_label, NULL, NULL);
+		action = gtk_action_new (action_name, action_label, NULL, NULL);
 
 		g_object_set_data_full (
 			G_OBJECT (action), "word",
@@ -201,7 +325,6 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 		g_free (action_label);
 	}
 
-	g_free (word);
 	g_strfreev (suggestions);
 	g_clear_object (&spell_checker);
 }
@@ -209,7 +332,8 @@ html_editor_inline_spelling_suggestions (EHTMLEditor *editor)
 /* Helper for html_editor_update_actions() */
 static void
 html_editor_spell_checkers_foreach (EHTMLEditor *editor,
-                                    const gchar *language_code)
+				    const gchar *language_code,
+				    const gchar *caret_word)
 {
 	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
@@ -218,22 +342,18 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 	GtkUIManager *manager;
 	GList *list, *link;
 	gchar *path;
-	gchar *word;
 	gint ii = 0;
 	guint merge_id;
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
-	word = e_content_editor_get_caret_word (cnt_editor);
-	if (word == NULL || *word == '\0')
+	if (!caret_word || !*caret_word)
 		return;
 
 	spell_checker = e_content_editor_ref_spell_checker (cnt_editor);
 
-	dictionary = e_spell_checker_ref_dictionary (
-		spell_checker, language_code);
+	dictionary = e_spell_checker_ref_dictionary (spell_checker, language_code);
 	if (dictionary != NULL) {
-		list = e_spell_dictionary_get_suggestions (
-			dictionary, word, -1);
+		list = e_spell_dictionary_get_suggestions (dictionary, caret_word, -1);
 		g_object_unref (dictionary);
 	} else {
 		list = NULL;
@@ -256,14 +376,10 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 		GSList *proxies;
 
 		/* Action name just needs to be unique. */
-		action_name = g_strdup_printf (
-			"suggest-%s-%d", language_code, ii);
+		action_name = g_strdup_printf ("suggest-%s-%d", language_code, ii);
+		action_label = g_markup_printf_escaped ("%s", suggestion);
 
-		action_label = g_markup_printf_escaped (
-			"%s", suggestion);
-
-		action = gtk_action_new (
-			action_name, action_label, NULL, NULL);
+		action = gtk_action_new (action_name, action_label, NULL, NULL);
 
 		g_object_set_data_full (
 			G_OBJECT (action), "word",
@@ -297,7 +413,6 @@ html_editor_spell_checkers_foreach (EHTMLEditor *editor,
 	g_list_free_full (list, (GDestroyNotify) g_free);
 	g_clear_object (&spell_checker);
 	g_free (path);
-	g_free (word);
 }
 
 void
@@ -332,7 +447,8 @@ action_set_visible_and_sensitive (GtkAction *action,
 
 static void
 html_editor_update_actions (EHTMLEditor *editor,
-                            EContentEditorNodeFlags flags)
+			    EContentEditorNodeFlags flags,
+			    const gchar *caret_word)
 {
 	EContentEditor *cnt_editor;
 	ESpellChecker *spell_checker;
@@ -422,13 +538,11 @@ html_editor_update_actions (EHTMLEditor *editor,
 	/* Decide if we should show spell checking items. */
 	visible = FALSE;
 	if (n_languages > 0) {
-		gchar *word = e_content_editor_get_caret_word (cnt_editor);
-		if (word && *word) {
-			visible = !e_spell_checker_check_word (spell_checker, word, -1);
+		if (caret_word && *caret_word) {
+			visible = !e_spell_checker_check_word (spell_checker, caret_word, -1);
 		} else {
 			visible = FALSE;
 		}
-		g_free (word);
 	}
 
 	action_group = editor->priv->spell_check_actions;
@@ -447,7 +561,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 
 	/* Handle a single active language as a special case. */
 	if (n_languages == 1) {
-		html_editor_inline_spelling_suggestions (editor);
+		html_editor_inline_spelling_suggestions (editor, caret_word);
 		g_strfreev (languages);
 
 		e_html_editor_update_spell_actions (editor);
@@ -456,7 +570,7 @@ html_editor_update_actions (EHTMLEditor *editor,
 
 	/* Add actions and context menu content for active languages. */
 	for (ii = 0; ii < n_languages; ii++)
-		html_editor_spell_checkers_foreach (editor, languages[ii]);
+		html_editor_spell_checkers_foreach (editor, languages[ii], caret_word);
 
 	g_strfreev (languages);
 
@@ -493,6 +607,7 @@ html_editor_spell_languages_changed (EHTMLEditor *editor)
 typedef struct _ContextMenuData {
 	GWeakRef *editor_weakref; /* EHTMLEditor * */
 	EContentEditorNodeFlags flags;
+	gchar *caret_word;
 	GdkEvent *event;
 } ContextMenuData;
 
@@ -504,6 +619,7 @@ context_menu_data_free (gpointer ptr)
 	if (cmd) {
 		g_clear_pointer (&cmd->event, gdk_event_free);
 		e_weak_ref_free (cmd->editor_weakref);
+		g_free (cmd->caret_word);
 		g_slice_free (ContextMenuData, cmd);
 	}
 }
@@ -532,7 +648,7 @@ html_editor_show_context_menu_idle_cb (gpointer user_data)
 
 		menu = e_html_editor_get_managed_widget (editor, "/context-menu");
 
-		g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, cmd->flags);
+		g_signal_emit (editor, signals[UPDATE_ACTIONS], 0, cmd->flags, cmd->caret_word);
 
 		if (!gtk_menu_get_attach_widget (GTK_MENU (menu))) {
 			gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
@@ -550,25 +666,25 @@ html_editor_show_context_menu_idle_cb (gpointer user_data)
 	return FALSE;
 }
 
-static gboolean
+static void
 html_editor_context_menu_requested_cb (EContentEditor *cnt_editor,
-                                       EContentEditorNodeFlags flags,
-                                       GdkEvent *event,
-                                       EHTMLEditor *editor)
+				       EContentEditorNodeFlags flags,
+				       const gchar *caret_word,
+				       GdkEvent *event,
+				       EHTMLEditor *editor)
 {
 	ContextMenuData *cmd;
 
-	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), FALSE);
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
 
 	cmd = g_slice_new0 (ContextMenuData);
 	cmd->editor_weakref = e_weak_ref_new (editor);
 	cmd->flags = flags;
+	cmd->caret_word = g_strdup (caret_word);
 	cmd->event = gdk_event_copy (event);
 
 	g_idle_add_full (G_PRIORITY_LOW, html_editor_show_context_menu_idle_cb,
 		cmd, context_menu_data_free);
-
-	return TRUE;
 }
 
 static gchar *
@@ -657,6 +773,7 @@ html_editor_constructed (GObject *object)
 {
 	EHTMLEditor *editor = E_HTML_EDITOR (object);
 	EHTMLEditorPrivate *priv = editor->priv;
+	GdkRGBA transparent = { 0, 0, 0, 0 };
 	GtkWidget *widget;
 	GtkToolbar *toolbar;
 	GtkToolItem *tool_item;
@@ -768,7 +885,18 @@ html_editor_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (tool_item), widget);
 	gtk_widget_set_tooltip_text (widget, _("Font Color"));
 	gtk_toolbar_insert (toolbar, tool_item, 0);
-	priv->color_combo_box = g_object_ref (widget);
+	priv->fg_color_combo_box = g_object_ref (widget);
+	gtk_widget_show_all (GTK_WIDGET (tool_item));
+
+	tool_item = gtk_tool_item_new ();
+	widget = e_color_combo_new ();
+	e_color_combo_set_default_color (E_COLOR_COMBO (widget), &transparent);
+	e_color_combo_set_current_color (E_COLOR_COMBO (widget), &transparent);
+	e_color_combo_set_default_transparent (E_COLOR_COMBO (widget), TRUE);
+	gtk_container_add (GTK_CONTAINER (tool_item), widget);
+	gtk_widget_set_tooltip_text (widget, _("Background Color"));
+	gtk_toolbar_insert (toolbar, tool_item, 1);
+	priv->bg_color_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
 
 	tool_item = gtk_tool_item_new ();
@@ -779,6 +907,15 @@ html_editor_constructed (GObject *object)
 	gtk_widget_set_tooltip_text (widget, _("Font Size"));
 	gtk_toolbar_insert (toolbar, tool_item, 0);
 	priv->size_combo_box = g_object_ref (widget);
+	gtk_widget_show_all (GTK_WIDGET (tool_item));
+
+	tool_item = gtk_tool_item_new ();
+	widget = e_html_editor_util_create_font_name_combo ();
+	gtk_combo_box_set_focus_on_click (GTK_COMBO_BOX (widget), FALSE);
+	gtk_container_add (GTK_CONTAINER (tool_item), widget);
+	gtk_widget_set_tooltip_text (widget, _("Font Name"));
+	gtk_toolbar_insert (toolbar, tool_item, 0);
+	priv->font_name_combo_box = g_object_ref (widget);
 	gtk_widget_show_all (GTK_WIDGET (tool_item));
 
 	g_signal_connect_after (object, "realize", G_CALLBACK (html_editor_realize), NULL);
@@ -809,9 +946,11 @@ html_editor_dispose (GObject *object)
 	g_clear_object (&priv->alert_bar);
 	g_clear_object (&priv->edit_area);
 
-	g_clear_object (&priv->color_combo_box);
+	g_clear_object (&priv->fg_color_combo_box);
+	g_clear_object (&priv->bg_color_combo_box);
 	g_clear_object (&priv->mode_combo_box);
 	g_clear_object (&priv->size_combo_box);
+	g_clear_object (&priv->font_name_combo_box);
 	g_clear_object (&priv->style_combo_box);
 
 	/* Chain up to parent's dispose() method. */
@@ -823,6 +962,7 @@ html_editor_finalize (GObject *object)
 {
 	EHTMLEditor *editor = E_HTML_EDITOR (object);
 
+	g_hash_table_destroy (editor->priv->cid_parts);
 	g_hash_table_destroy (editor->priv->content_editors);
 
 	/* Chain up to parent's method. */
@@ -878,9 +1018,10 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EHTMLEditorClass, update_actions),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__UINT,
-		G_TYPE_NONE, 1,
-		G_TYPE_UINT);
+		NULL,
+		G_TYPE_NONE, 2,
+		G_TYPE_UINT,
+		G_TYPE_STRING);
 
 	signals[SPELL_LANGUAGES_CHANGED] = g_signal_new (
 		"spell-languages-changed",
@@ -918,6 +1059,7 @@ e_html_editor_init (EHTMLEditor *editor)
 	priv->language_actions = gtk_action_group_new ("language");
 	priv->spell_check_actions = gtk_action_group_new ("spell-check");
 	priv->suggestion_actions = gtk_action_group_new ("suggestion");
+	priv->cid_parts = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, g_object_unref);
 	priv->content_editors = g_hash_table_new_full (camel_strcase_hash, camel_strcase_equal, g_free, NULL);
 
 	filename = html_editor_find_ui_file ("e-html-editor-manager.ui");
@@ -942,12 +1084,20 @@ e_html_editor_content_editor_initialized (EContentEditor *content_editor,
 	g_return_if_fail (content_editor == e_html_editor_get_content_editor (html_editor));
 
 	e_binding_bind_property (
-		html_editor->priv->color_combo_box, "current-color",
+		html_editor->priv->fg_color_combo_box, "current-color",
 		content_editor, "font-color",
 		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
 	e_binding_bind_property (
 		content_editor, "editable",
-		html_editor->priv->color_combo_box, "sensitive",
+		html_editor->priv->fg_color_combo_box, "sensitive",
+		G_BINDING_SYNC_CREATE);
+	e_binding_bind_property (
+		html_editor->priv->bg_color_combo_box, "current-color",
+		content_editor, "background-color",
+		G_BINDING_SYNC_CREATE | G_BINDING_BIDIRECTIONAL);
+	e_binding_bind_property (
+		content_editor, "editable",
+		html_editor->priv->bg_color_combo_box, "sensitive",
 		G_BINDING_SYNC_CREATE);
 	editor_actions_bind (html_editor);
 
@@ -1057,8 +1207,12 @@ e_html_editor_get_content_editor (EHTMLEditor *editor)
 			}
 		}
 
-		if (editor->priv->use_content_editor)
+		if (editor->priv->use_content_editor) {
 			e_content_editor_setup_editor (editor->priv->use_content_editor, editor);
+
+			g_signal_connect_swapped (editor->priv->use_content_editor, "ref-mime-part",
+				G_CALLBACK (e_html_editor_ref_cid_part), editor);
+		}
 	}
 
 	return editor->priv->use_content_editor;
@@ -1313,66 +1467,261 @@ e_html_editor_pack_above (EHTMLEditor *editor,
 	editor->priv->editor_layout_row++;
 }
 
+typedef struct _SaveContentData {
+	GOutputStream *stream;
+	GCancellable *cancellable;
+} SaveContentData;
+
+static SaveContentData *
+save_content_data_new (GOutputStream *stream,
+		       GCancellable *cancellable)
+{
+	SaveContentData *scd;
+
+	scd = g_slice_new (SaveContentData);
+	scd->stream = stream;
+	scd->cancellable = cancellable ? g_object_ref (cancellable) : NULL;
+
+	return scd;
+}
+
+static void
+save_content_data_free (gpointer ptr)
+{
+	SaveContentData *scd = ptr;
+
+	if (scd) {
+		g_clear_object (&scd->stream);
+		g_clear_object (&scd->cancellable);
+		g_slice_free (SaveContentData, scd);
+	}
+}
+
+static void
+e_html_editor_save_content_ready_cb (GObject *source_object,
+				     GAsyncResult *result,
+				     gpointer user_data)
+{
+	ESimpleAsyncResult *simple = user_data;
+	EContentEditorContentHash *content_hash;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
+	g_return_if_fail (E_IS_SIMPLE_ASYNC_RESULT (simple));
+
+	content_hash = e_content_editor_get_content_finish (E_CONTENT_EDITOR (source_object), result, &error);
+
+	if (content_hash) {
+		const gchar *content;
+
+		content = e_content_editor_util_get_content_data (content_hash, GPOINTER_TO_UINT (e_simple_async_result_get_op_pointer (simple)));
+
+		if (!content) {
+			g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_FAILED, _("Failed to obtain content of editor"));
+		} else {
+			SaveContentData *scd;
+			gsize written;
+
+			scd = e_simple_async_result_get_user_data (simple);
+
+			g_output_stream_write_all (scd->stream, content, strlen (content), &written, scd->cancellable, &error);
+		}
+
+		e_content_editor_util_free_content_hash (content_hash);
+
+		if (error)
+			e_simple_async_result_take_error (simple, error);
+	} else {
+		e_simple_async_result_take_error (simple, error);
+	}
+
+	e_simple_async_result_complete (simple);
+	g_object_unref (simple);
+}
+
 /**
  * e_html_editor_save:
  * @editor: an #EHTMLEditor
  * @filename: file into which to save the content
  * @as_html: whether the content should be saved as HTML or plain text
- * @error:[out] a #GError
+ * @cancellable: an optional #GCancellable, or %NULL
+ * @callback: (scope async): a #GAsyncReadyCallback to call when the save is finished
+ * @user_data: (closure callback): user data passed to @callback
  *
- * Saves current content of the #EContentEditor into given file. When @as_html
- * is @FALSE, the content is first converted into plain text.
+ * Starts an asynchronous save of the current content of the #EContentEditor
+ * into given file. When @as_html is @FALSE, the content is first converted
+ * into plain text.
  *
- * Returns: @TRUE when content is succesfully saved, @FALSE otherwise.
- */
-gboolean
+ * Finish the call with e_html_editor_save_finish() from the @callback.
+ *
+ * Since: 3.38
+ **/
+void
 e_html_editor_save (EHTMLEditor *editor,
-                    const gchar *filename,
-                    gboolean as_html,
-                    GError **error)
+		    const gchar *filename,
+		    gboolean as_html,
+		    GCancellable *cancellable,
+		    GAsyncReadyCallback callback,
+		    gpointer user_data)
 {
 	EContentEditor *cnt_editor;
+	ESimpleAsyncResult *simple;
+	EContentEditorGetContentFlags flag;
+	SaveContentData *scd;
 	GFile *file;
 	GFileOutputStream *stream;
-	gchar *content;
-	gsize written;
+	GError *local_error = NULL;
+
+	simple = e_simple_async_result_new (G_OBJECT (editor), callback, user_data, e_html_editor_save);
 
 	file = g_file_new_for_path (filename);
-	stream = g_file_replace (
-		file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, error);
-	if ((error && *error) || !stream)
-		return FALSE;
+	stream = g_file_replace (file, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &local_error);
+	if (local_error || !stream) {
+		e_simple_async_result_take_error (simple, local_error);
+		e_simple_async_result_complete_idle (simple);
+
+		g_object_unref (simple);
+		g_object_unref (file);
+
+		return;
+	}
+
+	flag = as_html ? E_CONTENT_EDITOR_GET_TO_SEND_HTML : E_CONTENT_EDITOR_GET_TO_SEND_PLAIN;
+
+	scd = save_content_data_new (G_OUTPUT_STREAM (stream), cancellable);
+
+	e_simple_async_result_set_user_data (simple, scd, save_content_data_free);
+	e_simple_async_result_set_op_pointer (simple, GUINT_TO_POINTER (flag), NULL);
 
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	if (as_html)
-		content = e_content_editor_get_content (
-			cnt_editor,
-			E_CONTENT_EDITOR_GET_TEXT_HTML |
-			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL, NULL);
-	else
-		content = e_content_editor_get_content (
-			cnt_editor,
-			E_CONTENT_EDITOR_GET_TEXT_PLAIN |
-			E_CONTENT_EDITOR_GET_PROCESSED,
-			NULL, NULL);
+	e_content_editor_get_content (cnt_editor, flag, NULL, cancellable, e_html_editor_save_content_ready_cb, simple);
 
-	if (!content || !*content) {
-		g_free (content);
-		g_set_error (
-			error, G_IO_ERROR, G_IO_ERROR_FAILED,
-			"Failed to obtain content of editor");
-		return FALSE;
+	g_object_unref (file);
+}
+
+/**
+ * e_html_editor_save_finish:
+ * @editor: an #EHTMLEditor
+ * @result: a #GAsyncResult of the operation
+ * @error: return location for a #GError, or %NULL
+ *
+ * Finished the previous call of e_html_editor_save().
+ *
+ * Returns: whether the save succeeded.
+ *
+ * Since: 3.38
+ **/
+gboolean
+e_html_editor_save_finish (EHTMLEditor *editor,
+			   GAsyncResult *result,
+			   GError **error)
+{
+	g_return_val_if_fail (e_simple_async_result_is_valid (result, G_OBJECT (editor), e_html_editor_save), FALSE);
+
+	return !e_simple_async_result_propagate_error (E_SIMPLE_ASYNC_RESULT (result), error);
+}
+
+/**
+ * e_html_editor_add_cid_part:
+ * @editor: an #EHTMLEditor
+ * @mime_part: a #CamelMimePart
+ *
+ * Add the @mime_part with its Content-ID (if not set, one is assigned),
+ * which can be later obtained with e_html_editor_ref_cid_part();
+ *
+ * Since: 3.38
+ **/
+void
+e_html_editor_add_cid_part (EHTMLEditor *editor,
+			    CamelMimePart *mime_part)
+{
+	const gchar *cid;
+	gchar *cid_uri;
+
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (CAMEL_IS_MIME_PART (mime_part));
+
+	cid = camel_mime_part_get_content_id (mime_part);
+
+	if (!cid) {
+		camel_mime_part_set_content_id (mime_part, NULL);
+		cid = camel_mime_part_get_content_id (mime_part);
 	}
 
-	g_output_stream_write_all (
-		G_OUTPUT_STREAM (stream), content, strlen (content),
-		&written, NULL, error);
+	cid_uri = g_strconcat ("cid:", cid, NULL);
 
-	g_free (content);
-	g_object_unref (stream);
-	g_object_unref (file);
+	g_hash_table_insert (editor->priv->cid_parts, cid_uri, g_object_ref (mime_part));
+}
 
-	return TRUE;
+/**
+ * e_html_editor_remove_cid_part:
+ * @editor: an #EHTMLEditor
+ * @cid_uri: a Content ID URI (starts with "cid:") to remove
+ *
+ * Removes CID part with given @cid_uri, previously added with
+ * e_html_editor_add_cid_part(). The function does nothing if no
+ * such part is stored.
+ *
+ * Since: 3.38
+ **/
+void
+e_html_editor_remove_cid_part (EHTMLEditor *editor,
+			       const gchar *cid_uri)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+	g_return_if_fail (cid_uri != NULL);
+
+	g_hash_table_remove (editor->priv->cid_parts, cid_uri);
+}
+
+/**
+ * e_html_editor_remove_all_cid_parts:
+ * @editor: an #EHTMLEditor
+ *
+ * Removes all CID parts previously added with
+ * e_html_editor_add_cid_part().
+ *
+ * Since: 3.38
+ **/
+void
+e_html_editor_remove_all_cid_parts (EHTMLEditor *editor)
+{
+	g_return_if_fail (E_IS_HTML_EDITOR (editor));
+
+	g_hash_table_remove_all (editor->priv->cid_parts);
+}
+
+/**
+ * e_html_editor_ref_cid_part:
+ * @editor: an #EHTMLEditor
+ * @cid_uri: a Content ID URI (starts with "cid:") to obtain the part for
+ *
+ * References a #CamelMimePart with given @cid_uri as Content ID, if
+ * previously added with e_html_editor_add_cid_part(). The @cid_uri
+ * should start with "cid:".
+ *
+ * The returned non-%NULL object is references, thus it should be freed
+ * with g_object_unref(), when no longer needed.
+ *
+ * Returns: (transfer full) (nullable): a #CamelMimePart with given Content ID,
+ *    or %NULL, if not found.
+ *
+ * Since: 3.38
+ **/
+CamelMimePart *
+e_html_editor_ref_cid_part (EHTMLEditor *editor,
+			   const gchar *cid_uri)
+{
+	CamelMimePart *mime_part;
+
+	g_return_val_if_fail (E_IS_HTML_EDITOR (editor), NULL);
+	g_return_val_if_fail (cid_uri != NULL, NULL);
+
+	mime_part = g_hash_table_lookup (editor->priv->cid_parts, cid_uri);
+
+	if (mime_part)
+		g_object_ref (mime_part);
+
+	return mime_part;
 }

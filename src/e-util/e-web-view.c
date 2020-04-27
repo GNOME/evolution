@@ -38,7 +38,6 @@
 #include "e-popup-action.h"
 #include "e-selectable.h"
 #include "e-stock-request.h"
-#include "e-web-extension-container.h"
 #include "e-web-view-jsc-utils.h"
 
 #include "e-web-view.h"

@@ -169,7 +169,7 @@ html_editor_replace_dialog_show (GtkWidget *widget)
 {
 	EHTMLEditorReplaceDialog *dialog = E_HTML_EDITOR_REPLACE_DIALOG (widget);
 
-	e_content_editor_on_replace_dialog_open (dialog->priv->cnt_editor);
+	e_content_editor_on_dialog_open (dialog->priv->cnt_editor, E_CONTENT_EDITOR_DIALOG_REPLACE);
 
 	gtk_widget_grab_focus (dialog->priv->search_entry);
 	gtk_widget_hide (dialog->priv->result_label);
@@ -183,7 +183,7 @@ html_editor_replace_dialog_hide (GtkWidget *widget)
 {
 	EHTMLEditorReplaceDialog *dialog = E_HTML_EDITOR_REPLACE_DIALOG (widget);
 
-	e_content_editor_on_replace_dialog_close (dialog->priv->cnt_editor);
+	e_content_editor_on_dialog_close (dialog->priv->cnt_editor, E_CONTENT_EDITOR_DIALOG_REPLACE);
 
 	/* Chain up to parent implementation */
 	GTK_WIDGET_CLASS (e_html_editor_replace_dialog_parent_class)->hide (widget);

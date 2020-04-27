@@ -304,7 +304,7 @@ html_editor_cell_dialog_show (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_on_cell_dialog_open (cnt_editor);
+	e_content_editor_on_dialog_open (cnt_editor, E_CONTENT_EDITOR_DIALOG_CELL);
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (dialog->priv->scope_cell_button), TRUE);
@@ -374,7 +374,7 @@ html_editor_cell_dialog_hide (GtkWidget *widget)
 	editor = e_html_editor_dialog_get_editor (E_HTML_EDITOR_DIALOG (dialog));
 	cnt_editor = e_html_editor_get_content_editor (editor);
 
-	e_content_editor_on_cell_dialog_close (cnt_editor);
+	e_content_editor_on_dialog_close (cnt_editor, E_CONTENT_EDITOR_DIALOG_CELL);
 
 	GTK_WIDGET_CLASS (e_html_editor_cell_dialog_parent_class)->hide (widget);
 }

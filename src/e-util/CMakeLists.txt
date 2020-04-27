@@ -271,7 +271,6 @@ set(SOURCES
 	e-url-entry.c
 	e-util-private.h
 	e-webdav-browser.c
-	e-web-extension-container.c
 	e-web-view.c
 	e-web-view-jsc-utils.c
 	e-web-view-preview.c
@@ -544,7 +543,6 @@ set(HEADERS
 	e-url-entry.h
 	e-util-enums.h
 	e-webdav-browser.h
-	e-web-extension-container.h
 	e-web-view.h
 	e-web-view-jsc-utils.h
 	e-web-view-preview.h
@@ -748,6 +746,7 @@ macro(add_private_program _name _sources)
 
 	target_compile_definitions(${_name} PRIVATE
 		-DG_LOG_DOMAIN=\"${_name}\"
+		-DEVOLUTION_ICONDIR=\"${icondir}\"
 		-DEVOLUTION_LOCALEDIR=\"${LOCALE_INSTALL_DIR}\"
 		-DEVOLUTION_MODULEDIR=\"${moduledir}\"
 		-DEVOLUTION_TESTGIOMODULESDIR=\"${CMAKE_CURRENT_BINARY_DIR}/test-gio-modules\"

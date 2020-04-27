@@ -49,6 +49,8 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_HTML_EDITOR, EHTMLEditorClass))
 
+#define E_HTML_EDITOR_MAX_INDENT_LEVEL 10
+
 G_BEGIN_DECLS
 
 typedef struct _EHTMLEditor EHTMLEditor;
@@ -64,7 +66,8 @@ struct _EHTMLEditorClass {
 	GtkGridClass parent_class;
 
 	void		(*update_actions)	(EHTMLEditor *editor,
-						 EContentEditorNodeFlags flags);
+						 EContentEditorNodeFlags flags,
+						 const gchar *caret_word);
 
 	void		(*spell_languages_changed)
 						(EHTMLEditor *editor);
@@ -104,16 +107,23 @@ void		e_html_editor_pack_above	(EHTMLEditor *editor,
 						 GtkWidget *child);
 void		e_html_editor_update_spell_actions
 						(EHTMLEditor *editor);
-
-
-/*****************************************************************************
- * High-Level Editing Interface
- *****************************************************************************/
-
-gboolean	e_html_editor_save		(EHTMLEditor *editor,
+void		e_html_editor_save		(EHTMLEditor *editor,
 						 const gchar *filename,
 						 gboolean as_html,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_html_editor_save_finish	(EHTMLEditor *editor,
+						 GAsyncResult *result,
 						 GError **error);
+void		e_html_editor_add_cid_part	(EHTMLEditor *editor,
+						 CamelMimePart *mime_part);
+void		e_html_editor_remove_cid_part	(EHTMLEditor *editor,
+						 const gchar *cid_uri);
+void		e_html_editor_remove_all_cid_parts
+						(EHTMLEditor *editor);
+CamelMimePart * e_html_editor_ref_cid_part	(EHTMLEditor *editor,
+						 const gchar *cid_uri);
 
 G_END_DECLS
 

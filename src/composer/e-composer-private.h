@@ -121,6 +121,9 @@ struct _EMsgComposerPrivate {
 	gulong drag_data_received_handler_id;
 
 	gchar *previous_identity_uid;
+
+	guint content_hash_ref_count; /* when reaches 0, the content_hash is freed; to be able to reuse it */
+	EContentEditorContentHash *content_hash;
 };
 
 void		e_composer_private_constructed	(EMsgComposer *composer);

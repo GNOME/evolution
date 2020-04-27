@@ -113,7 +113,10 @@ enum {
 static guint signals[LAST_SIGNAL];
 static CamelDataCache *emd_global_http_cache = NULL;
 
-G_DEFINE_TYPE (EMailDisplay, e_mail_display, E_TYPE_WEB_VIEW)
+static void e_mail_display_cid_resolver_init (ECidResolverInterface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (EMailDisplay, e_mail_display, E_TYPE_WEB_VIEW,
+	G_IMPLEMENT_INTERFACE (E_TYPE_CID_RESOLVER, e_mail_display_cid_resolver_init))
 
 static const gchar *ui =
 "<ui>"
@@ -2133,6 +2136,71 @@ mail_display_web_process_crashed_cb (EMailDisplay *display)
 	alert_sink = e_shell_utils_find_alternate_alert_sink (GTK_WIDGET (display));
 	if (alert_sink)
 		e_alert_submit (alert_sink, "mail:webkit-web-process-crashed", NULL);
+}
+
+static EMailPart *
+e_mail_display_ref_mail_part (EMailDisplay *mail_display,
+			      const gchar *uri)
+{
+	EMailPartList *part_list;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (mail_display), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	part_list = e_mail_display_get_part_list (mail_display);
+	if (!part_list)
+		return NULL;
+
+	return e_mail_part_list_ref_part (part_list, uri);
+}
+
+static CamelMimePart *
+e_mail_display_cid_resolver_ref_part (ECidResolver *resolver,
+				      const gchar *uri)
+{
+	EMailPart *mail_part;
+	CamelMimePart *mime_part;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (resolver), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	mail_part = e_mail_display_ref_mail_part (E_MAIL_DISPLAY (resolver), uri);
+	if (!mail_part)
+		return NULL;
+
+	mime_part = e_mail_part_ref_mime_part (mail_part);
+
+	g_object_unref (mail_part);
+
+	return mime_part;
+}
+
+static gchar *
+e_mail_display_cid_resolver_dup_mime_type (ECidResolver *resolver,
+					   const gchar *uri)
+{
+	EMailPart *mail_part;
+	gchar *mime_type;
+
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (resolver), NULL);
+	g_return_val_if_fail (uri != NULL, NULL);
+
+	mail_part = e_mail_display_ref_mail_part (E_MAIL_DISPLAY (resolver), uri);
+	if (!mail_part)
+		return NULL;
+
+	mime_type = g_strdup (e_mail_part_get_mime_type (mail_part));
+
+	g_object_unref (mail_part);
+
+	return mime_type;
+}
+
+static void
+e_mail_display_cid_resolver_init (ECidResolverInterface *iface)
+{
+	iface->ref_part = e_mail_display_cid_resolver_ref_part;
+	iface->dup_mime_type = e_mail_display_cid_resolver_dup_mime_type;
 }
 
 static void

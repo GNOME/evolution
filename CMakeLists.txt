@@ -82,7 +82,7 @@ set(gsettings_desktop_schemas_minimum_version 2.91.92)
 set(libpst_minimum_version 0.6.54)
 set(libxml_minimum_version 2.7.3)
 set(shared_mime_info_minimum_version 0.22)
-set(webkit2gtk_minimum_version 2.24.0)
+set(webkit2gtk_minimum_version 2.28.0)
 
 # Optional Packages
 set(champlain_minimum_version 0.12)

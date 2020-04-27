@@ -41,6 +41,7 @@ struct _EHTMLEditorParagraphDialogPrivate {
 	GtkWidget *left_button;
 	GtkWidget *center_button;
 	GtkWidget *right_button;
+	GtkWidget *justified_button;
 };
 
 static void
@@ -121,6 +122,15 @@ html_editor_paragraph_dialog_constructed (GObject *object)
 		GTK_ACTIVATABLE (widget),
 		e_html_editor_get_action (editor, "justify-right"));
 	dialog->priv->right_button = widget;
+
+	/* Justified */
+	widget = gtk_toggle_button_new_with_label (_("_Justified"));
+	gtk_button_set_use_stock (GTK_BUTTON (widget), TRUE);
+	gtk_grid_attach (grid, widget, 2, 0, 1, 1);
+	gtk_activatable_set_related_action (
+		GTK_ACTIVATABLE (widget),
+		e_html_editor_get_action (editor, "justify-fill"));
+	dialog->priv->justified_button = widget;
 
 	gtk_widget_show_all (GTK_WIDGET (main_layout));
 }

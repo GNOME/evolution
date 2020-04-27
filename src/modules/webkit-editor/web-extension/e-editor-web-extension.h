@@ -22,12 +22,6 @@
 #include <glib-object.h>
 #include <webkit2/webkit-web-extension.h>
 
-#define E_UTIL_INCLUDE_WITHOUT_WEBKIT
-#include <e-util/e-util.h>
-#undef E_UTIL_INCLUDE_WITHOUT_WEBKIT
-
-#include "e-editor-web-extension-names.h"
-
 /* Standard GObject macros */
 #define E_TYPE_EDITOR_WEB_EXTENSION \
 	(e_editor_web_extension_get_type ())
@@ -72,11 +66,5 @@ EEditorWebExtension *
 void		e_editor_web_extension_initialize
 						(EEditorWebExtension *extension,
 						 WebKitWebExtension *wk_extension);
-void		e_editor_web_extension_dbus_register
-						(EEditorWebExtension *extension,
-						 GDBusConnection *connection);
-GDBusConnection *
-		e_editor_web_extension_get_connection
-						(EEditorWebExtension *extension);
 
 #endif /* E_EDITOR_WEB_EXTENSION_H */

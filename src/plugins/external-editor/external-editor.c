@@ -56,9 +56,6 @@ static gboolean	key_press_cb			(GtkWidget *widget,
 						 GdkEventKey *event,
 						 EMsgComposer *composer);
 
-/* used to track when the external editor is active */
-static GThread *editor_thread;
-
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
@@ -201,8 +198,22 @@ enable_composer_idle (gpointer user_data)
 struct ExternalEditorData {
 	EMsgComposer *composer;
 	gchar *content;
-	gint cursor_position, cursor_offset;
+	GDestroyNotify content_destroy_notify;
+	guint cursor_position, cursor_offset;
 };
+
+static void
+external_editor_data_free (gpointer ptr)
+{
+	struct ExternalEditorData *eed = ptr;
+
+	if (eed) {
+		g_clear_object (&eed->composer);
+		if (eed->content_destroy_notify)
+			eed->content_destroy_notify (eed->content);
+		g_slice_free (struct ExternalEditorData, eed);
+	}
+}
 
 /* needed because the new thread needs to call g_idle_add () */
 static gboolean
@@ -224,9 +235,7 @@ update_composer_text (gpointer user_data)
 
 	e_content_editor_set_changed (cnt_editor, TRUE);
 
-	g_clear_object (&eed->composer);
-	g_free (eed->content);
-	g_slice_free (struct ExternalEditorData, eed);
+	external_editor_data_free (eed);
 
 	return FALSE;
 }
@@ -387,7 +396,8 @@ external_editor_thread (gpointer user_data)
 
 			eed2 = g_slice_new0 (struct ExternalEditorData);
 			eed2->composer = g_object_ref (eed->composer);
-			eed2->content =  camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+			eed2->content = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+			eed2->content_destroy_notify = g_free;
 
 			g_idle_add ((GSourceFunc) update_composer_text, eed2);
 
@@ -406,14 +416,44 @@ finished:
 	external_editor_running = FALSE;
 	g_mutex_unlock (&external_editor_running_lock);
 
-	g_clear_object (&eed->composer);
-	g_free (eed->content);
-	g_slice_free (struct ExternalEditorData, eed);
+	external_editor_data_free (eed);
 
 	return NULL;
 }
 
-static void launch_editor (GtkAction *action, EMsgComposer *composer)
+static void
+launch_editor_content_ready_cb (GObject *source_object,
+				GAsyncResult *result,
+				gpointer user_data)
+{
+	struct ExternalEditorData *eed = user_data;
+	EContentEditor *cnt_editor;
+	EContentEditorContentHash *content_hash;
+	GThread *editor_thread;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (source_object));
+	g_return_if_fail (eed != NULL);
+
+	cnt_editor = E_CONTENT_EDITOR (source_object);
+
+	content_hash = e_content_editor_get_content_finish (cnt_editor, result, &error);
+
+	if (!content_hash)
+		g_warning ("%s: Faild to get content: %s", G_STRFUNC, error ? error->message : "Unknown error");
+
+	eed->content = content_hash ? e_content_editor_util_steal_content_data (content_hash, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN, &(eed->content_destroy_notify)) : NULL;
+
+	editor_thread = g_thread_new (NULL, external_editor_thread, eed);
+	g_thread_unref (editor_thread);
+
+	e_content_editor_util_free_content_hash (content_hash);
+	g_clear_error (&error);
+}
+
+static void
+launch_editor (GtkAction *action,
+	       EMsgComposer *composer)
 {
 	struct ExternalEditorData *eed;
 	EHTMLEditor *editor;
@@ -438,16 +478,9 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 
 	eed = g_slice_new0 (struct ExternalEditorData);
 	eed->composer = g_object_ref (composer);
-	eed->content = e_content_editor_get_content (cnt_editor,
-		E_CONTENT_EDITOR_GET_TEXT_PLAIN |
-		E_CONTENT_EDITOR_GET_PROCESSED,
-		NULL, NULL);
-	eed->cursor_position = e_content_editor_get_caret_position (cnt_editor);
-	if (eed->cursor_position > 0)
-		eed->cursor_offset = e_content_editor_get_caret_offset (cnt_editor);
 
-	editor_thread = g_thread_new (NULL, external_editor_thread, eed);
-	g_thread_unref (editor_thread);
+	e_content_editor_get_content (cnt_editor, E_CONTENT_EDITOR_GET_TO_SEND_PLAIN, NULL, NULL,
+		launch_editor_content_ready_cb, eed);
 }
 
 static GtkActionEntry entries[] = {

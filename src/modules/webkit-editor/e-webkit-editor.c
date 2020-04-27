@@ -18,10 +18,9 @@
 
 #include "e-webkit-editor.h"
 
-#include "web-extension/e-editor-web-extension-names.h"
-
 #include "e-util/e-util.h"
 #include "composer/e-msg-composer.h"
+#include "mail/e-cid-request.h"
 #include "mail/e-http-request.h"
 
 #include <string.h>
@@ -37,7 +36,6 @@
 
 enum {
 	PROP_0,
-	PROP_WEB_EXTENSION, /* for test purposes */
 	PROP_IS_MALFUNCTION,
 	PROP_CAN_COPY,
 	PROP_CAN_CUT,
@@ -61,13 +59,18 @@ enum {
 	PROP_FONT_COLOR,
 	PROP_FONT_NAME,
 	PROP_FONT_SIZE,
-	PROP_INDENTED,
+	PROP_INDENT_LEVEL,
 	PROP_ITALIC,
-	PROP_MONOSPACED,
 	PROP_STRIKETHROUGH,
 	PROP_SUBSCRIPT,
 	PROP_SUPERSCRIPT,
-	PROP_UNDERLINE
+	PROP_UNDERLINE,
+
+	PROP_NORMAL_PARAGRAPH_WIDTH,
+	PROP_MAGIC_LINKS,
+	PROP_MAGIC_SMILEYS,
+	PROP_UNICODE_SMILEYS,
+	PROP_WRAP_QUOTED_TEXT_IN_REPLIES
 };
 
 struct _EWebKitEditorPrivate {
@@ -75,13 +78,6 @@ struct _EWebKitEditorPrivate {
 	gpointer initialized_user_data;
 
 	GCancellable *cancellable;
-	EWebExtensionContainer *container;
-	GDBusProxy *web_extension_proxy;
-	gint stamp; /* Changed only in the main thread, doesn't need locking */
-	guint web_extension_selection_changed_cb_id;
-	guint web_extension_content_changed_cb_id;
-	guint web_extension_undo_redo_state_changed_cb_id;
-	guint web_extension_user_changed_default_colors_cb_id;
 
 	gboolean html_mode;
 	gboolean changed;
@@ -91,27 +87,38 @@ struct _EWebKitEditorPrivate {
 	gboolean can_undo;
 	gboolean can_redo;
 
-	gboolean emit_load_finished_when_extension_is_ready;
-	gboolean reload_in_progress;
-	gboolean copy_paste_clipboard_in_view;
-	gboolean copy_paste_primary_in_view;
-	gboolean copy_cut_actions_triggered;
-	gboolean pasting_primary_clipboard;
-	gboolean pasting_from_itself_extension_value;
-	gboolean suppress_color_changes;
-
 	guint32 style_flags;
-	gboolean is_indented;
+	guint32 temporary_style_flags; /* that's for collapsed selection, format changes only after something is typed */
+	gint indent_level;
 
 	GdkRGBA *background_color;
 	GdkRGBA *font_color;
+	GdkRGBA *body_fg_color;
+	GdkRGBA *body_bg_color;
+	GdkRGBA *body_link_color;
+	GdkRGBA *body_vlink_color;
+
+	GdkRGBA theme_bgcolor;
+	GdkRGBA theme_fgcolor;
+	GdkRGBA theme_link_color;
+	GdkRGBA theme_vlink_color;
 
 	gchar *font_name;
+	gchar *body_font_name;
 
 	guint font_size;
+	gint normal_paragraph_width;
+	gboolean magic_links;
+	gboolean magic_smileys;
+	gboolean unicode_smileys;
+	gboolean wrap_quoted_text_in_replies;
 
 	EContentEditorBlockFormat block_format;
 	EContentEditorAlignment alignment;
+
+	/* For context menu */
+	gchar *context_menu_caret_word;
+	guint32 context_menu_node_flags; /* bit-or of EContentEditorNodeFlags */
 
 	gchar *current_user_stylesheet;
 
@@ -154,8 +161,17 @@ struct _EWebKitEditorPrivate {
 };
 
 static const GdkRGBA black = { 0, 0, 0, 1 };
-static const GdkRGBA white = { 1, 1, 1, 1 };
 static const GdkRGBA transparent = { 0, 0, 0, 0 };
+
+typedef enum {
+	E_WEBKIT_EDITOR_STYLE_NONE		= 0,
+	E_WEBKIT_EDITOR_STYLE_IS_BOLD		= 1 << 0,
+	E_WEBKIT_EDITOR_STYLE_IS_ITALIC		= 1 << 1,
+	E_WEBKIT_EDITOR_STYLE_IS_UNDERLINE	= 1 << 2,
+	E_WEBKIT_EDITOR_STYLE_IS_STRIKETHROUGH	= 1 << 3,
+	E_WEBKIT_EDITOR_STYLE_IS_SUBSCRIPT	= 1 << 4,
+	E_WEBKIT_EDITOR_STYLE_IS_SUPERSCRIPT	= 1 << 5
+} EWebKitEditorStyleFlags;
 
 typedef void (*PostReloadOperationFunc) (EWebKitEditor *wk_editor, gpointer data, EContentEditorInsertContentFlags flags);
 
@@ -166,27 +182,436 @@ typedef struct {
 	GDestroyNotify data_free_func;
 } PostReloadOperation;
 
-static void e_webkit_editor_set_web_extension_proxy (EWebKitEditor *wk_editor, GDBusProxy *proxy);
 static void e_webkit_editor_content_editor_init (EContentEditorInterface *iface);
+static void e_webkit_editor_cid_resolver_init (ECidResolverInterface *iface);
 
-G_DEFINE_TYPE_WITH_CODE (
-	EWebKitEditor,
-	e_webkit_editor,
-	WEBKIT_TYPE_WEB_VIEW,
-	G_IMPLEMENT_INTERFACE (
-		E_TYPE_CONTENT_EDITOR,
-		e_webkit_editor_content_editor_init));
+G_DEFINE_TYPE_WITH_CODE (EWebKitEditor, e_webkit_editor, WEBKIT_TYPE_WEB_VIEW,
+	G_IMPLEMENT_INTERFACE (E_TYPE_CONTENT_EDITOR, e_webkit_editor_content_editor_init)
+	G_IMPLEMENT_INTERFACE (E_TYPE_CID_RESOLVER, e_webkit_editor_cid_resolver_init));
 
-static gint16
-e_webkit_editor_three_state_to_int16 (EThreeState value)
+typedef struct _EWebKitEditorFlagClass {
+	GObjectClass parent_class;
+} EWebKitEditorFlagClass;
+
+typedef struct _EWebKitEditorFlag {
+	GObject parent;
+	gboolean is_set;
+} EWebKitEditorFlag;
+
+GType e_webkit_editor_flag_get_type (void);
+
+G_DEFINE_TYPE (EWebKitEditorFlag, e_webkit_editor_flag, G_TYPE_OBJECT)
+
+enum {
+	E_WEBKIT_EDITOR_FLAG_FLAGGED,
+	E_WEBKIT_EDITOR_FLAG_LAST_SIGNAL
+};
+
+static guint e_webkit_editor_flag_signals[E_WEBKIT_EDITOR_FLAG_LAST_SIGNAL];
+
+static void
+e_webkit_editor_flag_class_init (EWebKitEditorFlagClass *klass)
 {
+	e_webkit_editor_flag_signals[E_WEBKIT_EDITOR_FLAG_FLAGGED] = g_signal_new (
+		"flagged",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST,
+		0,
+		NULL, NULL, NULL,
+		G_TYPE_NONE, 0,
+		G_TYPE_NONE);
+}
+
+static void
+e_webkit_editor_flag_init (EWebKitEditorFlag *flag)
+{
+	flag->is_set = FALSE;
+}
+
+static void
+e_webkit_editor_flag_set (EWebKitEditorFlag *flag)
+{
+	flag->is_set = TRUE;
+
+	g_signal_emit (flag, e_webkit_editor_flag_signals[E_WEBKIT_EDITOR_FLAG_FLAGGED], 0, NULL);
+}
+
+static JSCValue * /* transfer full */
+webkit_editor_call_jsc_sync (EWebKitEditor *wk_editor,
+			     const gchar *script_format,
+			     ...) G_GNUC_PRINTF (2, 3);
+
+typedef struct _JSCCallData {
+	EWebKitEditorFlag *flag;
+	gchar *script;
+	JSCValue *result;
+} JSCCallData;
+
+static void
+webkit_editor_jsc_call_done_cb (GObject *source,
+				GAsyncResult *result,
+				gpointer user_data)
+{
+	WebKitJavascriptResult *js_result;
+	JSCCallData *jcd = user_data;
+	GError *error = NULL;
+
+	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (source), result, &error);
+
+	if (error) {
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
+		    (!g_error_matches (error, WEBKIT_JAVASCRIPT_ERROR, WEBKIT_JAVASCRIPT_ERROR_SCRIPT_FAILED) ||
+		     /* WebKit can return empty error message, thus ignore those. */
+		     (error->message && *(error->message))))
+			g_warning ("Failed to call '%s' function: %s:%d: %s", jcd->script, g_quark_to_string (error->domain), error->code, error->message);
+		g_clear_error (&error);
+	}
+
+	if (js_result) {
+		JSCException *exception;
+		JSCValue *value;
+
+		value = webkit_javascript_result_get_js_value (js_result);
+		exception = jsc_context_get_exception (jsc_value_get_context (value));
+
+		if (exception) {
+			g_warning ("Failed to call '%s': %s", jcd->script, jsc_exception_get_message (exception));
+			jsc_context_clear_exception (jsc_value_get_context (value));
+		} else if (!jsc_value_is_null (value) && !jsc_value_is_undefined (value)) {
+			jcd->result = g_object_ref (value);
+		}
+
+		webkit_javascript_result_unref (js_result);
+	}
+
+	e_webkit_editor_flag_set (jcd->flag);
+}
+
+static JSCValue * /* transfer full */
+webkit_editor_call_jsc_sync (EWebKitEditor *wk_editor,
+			     const gchar *script_format,
+			     ...)
+{
+	JSCCallData jcd;
+	va_list va;
+
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
+	g_return_val_if_fail (script_format != NULL, NULL);
+
+	va_start (va, script_format);
+	jcd.script = e_web_view_jsc_vprintf_script (script_format, va);
+	va_end (va);
+
+	jcd.flag = g_object_new (e_webkit_editor_flag_get_type (), NULL);
+	jcd.result = NULL;
+
+	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (wk_editor), jcd.script, wk_editor->priv->cancellable,
+		webkit_editor_jsc_call_done_cb, &jcd);
+
+	if (!jcd.flag->is_set) {
+		GMainLoop *loop;
+		gulong handler_id;
+
+		loop = g_main_loop_new (NULL, FALSE);
+
+		handler_id = g_signal_connect_swapped (jcd.flag, "flagged", G_CALLBACK (g_main_loop_quit), loop);
+
+		g_main_loop_run (loop);
+		g_main_loop_unref (loop);
+
+		g_signal_handler_disconnect (jcd.flag, handler_id);
+	}
+
+	g_clear_object (&jcd.flag);
+	g_free (jcd.script);
+
+	return jcd.result;
+}
+
+static gboolean
+webkit_editor_extract_and_free_jsc_boolean (JSCValue *jsc_value,
+					    gboolean default_value)
+{
+	gboolean value;
+
+	if (jsc_value && jsc_value_is_boolean (jsc_value))
+		value = jsc_value_to_boolean (jsc_value);
+	else
+		value = default_value;
+
+	g_clear_object (&jsc_value);
+
+	return value;
+}
+
+static gint32
+webkit_editor_extract_and_free_jsc_int32 (JSCValue *jsc_value,
+					  gint32 default_value)
+{
+	gint32 value;
+
+	if (jsc_value && jsc_value_is_number (jsc_value))
+		value = jsc_value_to_int32 (jsc_value);
+	else
+		value = default_value;
+
+	g_clear_object (&jsc_value);
+
+	return value;
+}
+
+static gchar *
+webkit_editor_extract_and_free_jsc_string (JSCValue *jsc_value,
+					   const gchar *default_value)
+{
+	gchar *value;
+
+	if (jsc_value && jsc_value_is_string (jsc_value))
+		value = jsc_value_to_string (jsc_value);
+	else
+		value = g_strdup (default_value);
+
+	g_clear_object (&jsc_value);
+
+	return value;
+}
+
+static const gchar *
+webkit_editor_utils_int_to_string (gchar *inout_buff,
+				   gulong buff_len,
+				   gint value)
+{
+	g_snprintf (inout_buff, buff_len, "%d", value);
+
+	return inout_buff;
+}
+
+static const gchar *
+webkit_editor_utils_int_with_unit_to_string (gchar *inout_buff,
+					     gulong buff_len,
+					     gint value,
+					     EContentEditorUnit unit)
+{
+	if (unit == E_CONTENT_EDITOR_UNIT_AUTO)
+		g_snprintf (inout_buff, buff_len, "auto");
+	else
+		g_snprintf (inout_buff, buff_len, "%d%s",
+			value,
+			(unit == E_CONTENT_EDITOR_UNIT_PIXEL) ? "px" : "%");
+
+	return inout_buff;
+}
+
+static const gchar *
+webkit_editor_utils_color_to_string (gchar *inout_buff,
+				     gulong buff_len,
+				     const GdkRGBA *color)
+{
+	if (color && color->alpha > 1e-9)
+		g_snprintf (inout_buff, buff_len, "#%06x", e_rgba_to_value (color));
+	else if (buff_len)
+		inout_buff[0] = '\0';
+
+	return inout_buff;
+}
+
+static void
+webkit_editor_dialog_utils_set_attribute (EWebKitEditor *wk_editor,
+					  const gchar *selector,
+					  const gchar *name,
+					  const gchar *value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+	g_return_if_fail (name != NULL);
+
+	if (value) {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.DialogUtilsSetAttribute(%s, %s, %s);",
+			selector, name, value);
+	} else {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.DialogUtilsSetAttribute(%s, %s, null);",
+			selector, name);
+	}
+}
+
+static void
+webkit_editor_dialog_utils_set_attribute_int (EWebKitEditor *wk_editor,
+					      const gchar *selector,
+					      const gchar *name,
+					      gint value)
+{
+	gchar str_value[64];
+
+	webkit_editor_dialog_utils_set_attribute (wk_editor, selector, name,
+		webkit_editor_utils_int_to_string (str_value, sizeof (str_value), value));
+}
+
+static void
+webkit_editor_dialog_utils_set_attribute_with_unit (EWebKitEditor *wk_editor,
+						    const gchar *selector,
+						    const gchar *name,
+						    gint value,
+						    EContentEditorUnit unit)
+{
+	gchar str_value[64];
+
+	webkit_editor_dialog_utils_set_attribute (wk_editor, selector, name,
+		webkit_editor_utils_int_with_unit_to_string (str_value, sizeof (str_value), value, unit));
+}
+
+static void
+webkit_editor_dialog_utils_set_attribute_color (EWebKitEditor *wk_editor,
+						const gchar *selector,
+						const gchar *name,
+						const GdkRGBA *color)
+{
+	gchar str_value[64];
+
+	webkit_editor_dialog_utils_set_attribute (wk_editor, selector, name,
+		webkit_editor_utils_color_to_string (str_value, sizeof (str_value), color));
+}
+
+static void
+webkit_editor_dialog_utils_set_table_attribute (EWebKitEditor *wk_editor,
+						EContentEditorScope scope,
+						const gchar *name,
+						const gchar *value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+	g_return_if_fail (name != NULL);
+
+	if (value) {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.DialogUtilsTableSetAttribute(%d, %s, %s);",
+			scope, name, value);
+	} else {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.DialogUtilsTableSetAttribute(%d, %s, null);",
+			scope, name);
+	}
+}
+
+static gchar *
+webkit_editor_dialog_utils_get_attribute (EWebKitEditor *wk_editor,
+					  const gchar *selector,
+					  const gchar *name)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	return webkit_editor_extract_and_free_jsc_string (
+		webkit_editor_call_jsc_sync (wk_editor,
+			"EvoEditor.DialogUtilsGetAttribute(%s, %s);",
+			selector, name),
+		NULL);
+}
+
+static gint
+webkit_editor_dialog_utils_get_attribute_int (EWebKitEditor *wk_editor,
+					      const gchar *selector,
+					      const gchar *name,
+					      gint default_value)
+{
+	gchar *attr;
+	gint value;
+
+	attr = webkit_editor_dialog_utils_get_attribute (wk_editor, selector, name);
+
+	if (attr && *attr)
+		value = atoi (attr);
+	else
+		value = default_value;
+
+	g_free (attr);
+
+	return value;
+}
+
+static gint
+webkit_editor_dialog_utils_get_attribute_with_unit (EWebKitEditor *wk_editor,
+						    const gchar *selector,
+						    const gchar *name,
+						    gint default_value,
+						    EContentEditorUnit *out_unit)
+{
+	gint result;
+	gchar *value;
+
+	*out_unit = E_CONTENT_EDITOR_UNIT_AUTO;
+
+	if (!wk_editor->priv->html_mode)
+		return default_value;
+
+	value = webkit_editor_dialog_utils_get_attribute (wk_editor, selector, name);
+
+	if (value && *value) {
+		result = atoi (value);
+
+		if (strstr (value, "%"))
+			*out_unit = E_CONTENT_EDITOR_UNIT_PERCENTAGE;
+		else if (g_ascii_strncasecmp (value, "auto", 4) != 0)
+			*out_unit = E_CONTENT_EDITOR_UNIT_PIXEL;
+	} else {
+		result = default_value;
+	}
+
+	g_free (value);
+
+	return result;
+}
+
+static void
+webkit_editor_dialog_utils_get_attribute_color (EWebKitEditor *wk_editor,
+						const gchar *selector,
+						const gchar *name,
+						GdkRGBA *out_color)
+{
+	gchar *value;
+
+	value = webkit_editor_dialog_utils_get_attribute (wk_editor, selector, name);
+
+	if (!value || !*value || !gdk_rgba_parse (out_color, value))
+		*out_color = transparent;
+
+	g_free (value);
+}
+
+static gboolean
+webkit_editor_dialog_utils_has_attribute (EWebKitEditor *wk_editor,
+					  const gchar *name)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+	g_return_val_if_fail (name != NULL, FALSE);
+
+	return webkit_editor_extract_and_free_jsc_boolean (
+		webkit_editor_call_jsc_sync (wk_editor,
+			"EvoEditor.DialogUtilsHasAttribute(%s);",
+			name),
+		FALSE);
+}
+
+static gboolean
+e_webkit_editor_three_state_to_bool (EThreeState value,
+				     const gchar *mail_key)
+{
+	gboolean res = FALSE;
+
 	if (value == E_THREE_STATE_ON)
-		return 1;
+		return TRUE;
 
 	if (value == E_THREE_STATE_OFF)
-		return 0;
+		return FALSE;
 
-	return -1;
+	if (mail_key && *mail_key) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.mail");
+		res = g_settings_get_boolean (settings, mail_key);
+		g_clear_object (&settings);
+	}
+
+	return res;
 }
 
 EWebKitEditor *
@@ -215,21 +640,6 @@ webkit_editor_get_last_error (EWebKitEditor *wk_editor)
 	return wk_editor->priv->last_error;
 }
 
-static void
-webkit_editor_can_paste_cb (WebKitWebView *view,
-                            GAsyncResult *result,
-                            EWebKitEditor *wk_editor)
-{
-	gboolean value;
-
-	value = webkit_web_view_can_execute_editing_command_finish (view, result, NULL);
-
-	if (wk_editor->priv->can_paste != value) {
-		wk_editor->priv->can_paste = value;
-		g_object_notify (G_OBJECT (wk_editor), "can-paste");
-	}
-}
-
 static gboolean
 webkit_editor_can_paste (EWebKitEditor *wk_editor)
 {
@@ -238,47 +648,12 @@ webkit_editor_can_paste (EWebKitEditor *wk_editor)
 	return wk_editor->priv->can_paste;
 }
 
-static void
-webkit_editor_can_cut_cb (WebKitWebView *view,
-                                  GAsyncResult *result,
-                                  EWebKitEditor *wk_editor)
-{
-	gboolean value;
-
-	value = webkit_web_view_can_execute_editing_command_finish (view, result, NULL);
-
-	if (wk_editor->priv->can_cut != value) {
-		wk_editor->priv->can_cut = value;
-		g_object_notify (G_OBJECT (wk_editor), "can-cut");
-	}
-}
-
 static gboolean
 webkit_editor_can_cut (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
 
 	return wk_editor->priv->can_cut;
-}
-
-static void
-webkit_editor_can_copy_cb (WebKitWebView *view,
-                           GAsyncResult *result,
-                           EWebKitEditor *wk_editor)
-{
-	gboolean value;
-
-	value = webkit_web_view_can_execute_editing_command_finish (view, result, NULL);
-
-	if (wk_editor->priv->can_copy != value) {
-		wk_editor->priv->can_copy = value;
-		/* This means that we have an active selection thus the primary
-		 * clipboard content is from composer. */
-		if (value)
-			wk_editor->priv->copy_paste_primary_in_view = TRUE;
-		/* FIXME notify web extension about pasting content from itself */
-		g_object_notify (G_OBJECT (wk_editor), "can-copy");
-	}
 }
 
 static gboolean
@@ -351,470 +726,373 @@ webkit_editor_set_can_redo (EWebKitEditor *wk_editor,
 }
 
 static void
-web_extension_content_changed_cb (GDBusConnection *connection,
-                                  const gchar *sender_name,
-                                  const gchar *object_path,
-                                  const gchar *interface_name,
-                                  const gchar *signal_name,
-                                  GVariant *parameters,
-                                  EWebKitEditor *wk_editor)
-{
-	if (g_strcmp0 (signal_name, "ContentChanged") != 0)
-		return;
-
-	if (parameters) {
-		guint64 page_id = 0;
-
-		g_variant_get (parameters, "(t)", &page_id);
-
-		if (page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor)))
-			webkit_editor_set_changed (wk_editor, TRUE);
-	}
-}
-
-static void
-web_extension_selection_changed_cb (GDBusConnection *connection,
-                                    const gchar *sender_name,
-                                    const gchar *object_path,
-                                    const gchar *interface_name,
-                                    const gchar *signal_name,
-                                    GVariant *parameters,
-                                    EWebKitEditor *wk_editor)
-{
-	guint64 page_id = 0;
-	gchar *font_color = NULL;
-	guint32 alignment, block_format, style_flags, font_size;
-	gboolean is_indented;
-
-	if (g_strcmp0 (signal_name, "SelectionChanged") != 0)
-		return;
-
-	if (!parameters)
-		return;
-
-	g_variant_get (
-		parameters,
-		"(tiibiis)",
-		&page_id,
-		&alignment,
-		&block_format,
-		&is_indented,
-		&style_flags,
-		&font_size,
-		&font_color);
-
-	if (page_id != webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor))) {
-		g_free (font_color);
-		return;
-	}
-
-	webkit_web_view_can_execute_editing_command (
-		WEBKIT_WEB_VIEW (wk_editor),
-		WEBKIT_EDITING_COMMAND_COPY,
-		NULL, /* cancellable */
-		(GAsyncReadyCallback) webkit_editor_can_copy_cb,
-		wk_editor);
-
-	webkit_web_view_can_execute_editing_command (
-		WEBKIT_WEB_VIEW (wk_editor),
-		WEBKIT_EDITING_COMMAND_CUT,
-		NULL, /* cancellable */
-		(GAsyncReadyCallback) webkit_editor_can_cut_cb,
-		wk_editor);
-
-	webkit_web_view_can_execute_editing_command (
-		WEBKIT_WEB_VIEW (wk_editor),
-		WEBKIT_EDITING_COMMAND_PASTE,
-		NULL, /* cancellable */
-		(GAsyncReadyCallback) webkit_editor_can_paste_cb,
-		wk_editor);
-
-	g_object_freeze_notify (G_OBJECT (wk_editor));
-
-	wk_editor->priv->alignment = alignment;
-	wk_editor->priv->block_format = block_format;
-	wk_editor->priv->is_indented = is_indented;
-	wk_editor->priv->style_flags = style_flags;
-	wk_editor->priv->font_size = font_size;
-
-	if (wk_editor->priv->html_mode) {
-		GdkRGBA color;
-
-		if (font_color && *font_color && gdk_rgba_parse (&color, font_color)) {
-			if (wk_editor->priv->font_color)
-				gdk_rgba_free (wk_editor->priv->font_color);
-			wk_editor->priv->font_color = gdk_rgba_copy (&color);
-		}
-	}
-	g_free (font_color);
-
-	g_object_notify (G_OBJECT (wk_editor), "can-undo");
-	g_object_notify (G_OBJECT (wk_editor), "can-redo");
-
-	g_object_notify (G_OBJECT (wk_editor), "alignment");
-	g_object_notify (G_OBJECT (wk_editor), "block-format");
-	g_object_notify (G_OBJECT (wk_editor), "indented");
-
-	if (wk_editor->priv->html_mode) {
-		/* g_object_notify (G_OBJECT (wk_editor), "background-color"); */
-		g_object_notify (G_OBJECT (wk_editor), "bold");
-		/* g_object_notify (G_OBJECT (wk_editor), "font-name"); */
-		g_object_notify (G_OBJECT (wk_editor), "font-size");
-		g_object_notify (G_OBJECT (wk_editor), "font-color");
-		g_object_notify (G_OBJECT (wk_editor), "italic");
-		g_object_notify (G_OBJECT (wk_editor), "monospaced");
-		g_object_notify (G_OBJECT (wk_editor), "strikethrough");
-		g_object_notify (G_OBJECT (wk_editor), "subscript");
-		g_object_notify (G_OBJECT (wk_editor), "superscript");
-		g_object_notify (G_OBJECT (wk_editor), "underline");
-	}
-
-	g_object_thaw_notify (G_OBJECT (wk_editor));
-}
-
-static void
-web_extension_undo_redo_state_changed_cb (GDBusConnection *connection,
-                                          const gchar *sender_name,
-                                          const gchar *object_path,
-                                          const gchar *interface_name,
-                                          const gchar *signal_name,
-                                          GVariant *parameters,
-                                          EWebKitEditor *wk_editor)
-{
-	guint64 page_id = 0;
-	gboolean can_undo = FALSE, can_redo = FALSE;
-
-	if (g_strcmp0 (signal_name, "UndoRedoStateChanged") != 0)
-		return;
-
-	g_variant_get (parameters, "(tbb)", &page_id, &can_undo, &can_redo);
-
-	if (page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor))) {
-		webkit_editor_set_can_undo (wk_editor, can_undo);
-		webkit_editor_set_can_redo (wk_editor, can_redo);
-	}
-}
-
-static void
-web_extension_user_changed_default_colors_cb (GDBusConnection *connection,
-                                              const gchar *sender_name,
-                                              const gchar *object_path,
-                                              const gchar *interface_name,
-                                              const gchar *signal_name,
-                                              GVariant *parameters,
-                                              EWebKitEditor *wk_editor)
-{
-	if (g_strcmp0 (signal_name, "UserChangedDefaultColors") != 0)
-		return;
-
-	if (parameters)
-		g_variant_get (parameters, "(b)", &wk_editor->priv->suppress_color_changes);
-}
-
-static void
-dispatch_pending_operations (EWebKitEditor *wk_editor)
-{
-	if (wk_editor->priv->webkit_load_event != WEBKIT_LOAD_FINISHED ||
-	    !wk_editor->priv->web_extension_proxy)
-		return;
-
-	/* Dispatch queued operations - as we are using this just for load
-	 * operations load just the latest request and throw away the rest. */
-	if (wk_editor->priv->post_reload_operations &&
-	    !g_queue_is_empty (wk_editor->priv->post_reload_operations)) {
-
-		PostReloadOperation *op;
-
-		op = g_queue_pop_head (wk_editor->priv->post_reload_operations);
-
-		op->func (wk_editor, op->data, op->flags);
-
-		if (op->data_free_func)
-			op->data_free_func (op->data);
-		g_free (op);
-
-		while ((op = g_queue_pop_head (wk_editor->priv->post_reload_operations))) {
-			if (op->data_free_func)
-				op->data_free_func (op->data);
-			g_free (op);
-		}
-
-		g_queue_clear (wk_editor->priv->post_reload_operations);
-	}
-}
-
-static void
-e_webkit_editor_page_proxy_changed_cb (EWebExtensionContainer *container,
-				       guint64 page_id,
-				       gint stamp,
-				       GDBusProxy *proxy,
-				       gpointer user_data)
+content_changed_cb (WebKitUserContentManager *manager,
+		    WebKitJavascriptResult *js_result,
+		    gpointer user_data)
 {
 	EWebKitEditor *wk_editor = user_data;
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	if (stamp == wk_editor->priv->stamp &&
-	    page_id == webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor))) {
-		e_webkit_editor_set_web_extension_proxy (wk_editor, proxy);
-
-		if (proxy) {
-			dispatch_pending_operations (wk_editor);
-
-			if (wk_editor->priv->emit_load_finished_when_extension_is_ready) {
-				e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
-
-				wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
-			}
-
-			g_object_notify (G_OBJECT (wk_editor), "web-extension");
-
-			if (wk_editor->priv->initialized_callback) {
-				EContentEditorInitializedCallback initialized_callback;
-				gpointer initialized_user_data;
-
-				initialized_callback = wk_editor->priv->initialized_callback;
-				initialized_user_data = wk_editor->priv->initialized_user_data;
-
-				wk_editor->priv->initialized_callback = NULL;
-				wk_editor->priv->initialized_user_data = NULL;
-
-				initialized_callback (E_CONTENT_EDITOR (wk_editor), initialized_user_data);
-			}
-		}
-	}
+	webkit_editor_set_changed (wk_editor, TRUE);
 }
 
 static void
-e_webkit_editor_set_web_extension_proxy (EWebKitEditor *wk_editor,
-					 GDBusProxy *proxy)
+context_menu_requested_cb (WebKitUserContentManager *manager,
+			   WebKitJavascriptResult *js_result,
+			   gpointer user_data)
 {
+	EWebKitEditor *wk_editor = user_data;
+	JSCValue *jsc_params;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+	g_return_if_fail (js_result != NULL);
+
+	jsc_params = webkit_javascript_result_get_js_value (js_result);
+	g_return_if_fail (jsc_value_is_object (jsc_params));
+
+	g_clear_pointer (&wk_editor->priv->context_menu_caret_word, g_free);
+
+	wk_editor->priv->context_menu_node_flags = e_web_view_jsc_get_object_property_int32 (jsc_params, "nodeFlags", 0);
+	wk_editor->priv->context_menu_caret_word = e_web_view_jsc_get_object_property_string (jsc_params, "caretWord", NULL);
+}
+
+static gboolean
+webkit_editor_update_color_value (JSCValue *jsc_params,
+				  const gchar *param_name,
+				  GdkRGBA **out_rgba)
+{
+	JSCValue *jsc_value;
+	GdkRGBA color;
+	gboolean res = FALSE;
+
+	g_return_val_if_fail (jsc_params != NULL, FALSE);
+	g_return_val_if_fail (out_rgba != NULL, FALSE);
+
+	jsc_value = jsc_value_object_get_property (jsc_params, param_name);
+	if (jsc_value && jsc_value_is_string (jsc_value)) {
+		gchar *value;
+
+		value = jsc_value_to_string (jsc_value);
+
+		if (value && *value && gdk_rgba_parse (&color, value)) {
+			if (!(*out_rgba) || !gdk_rgba_equal (&color, *out_rgba)) {
+				if (*out_rgba)
+					gdk_rgba_free (*out_rgba);
+				*out_rgba = gdk_rgba_copy (&color);
+
+				res = TRUE;
+			}
+		} else {
+			if (*out_rgba) {
+				gdk_rgba_free (*out_rgba);
+				res = TRUE;
+			}
+
+			*out_rgba = NULL;
+		}
+
+		g_free (value);
+	}
+
+	g_clear_object (&jsc_value);
+
+	return res;
+}
+
+static void webkit_editor_update_styles (EContentEditor *editor);
+static void webkit_editor_style_updated (EWebKitEditor *wk_editor, gboolean force);
+
+static void
+formatting_changed_cb (WebKitUserContentManager *manager,
+		       WebKitJavascriptResult *js_result,
+		       gpointer user_data)
+{
+	EWebKitEditor *wk_editor = user_data;
+	JSCValue *jsc_params, *jsc_value;
+	GObject *object;
+	gboolean changed, forced = FALSE;
+
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	if (wk_editor->priv->web_extension_proxy) {
-		GDBusConnection *connection;
+	jsc_params = webkit_javascript_result_get_js_value (js_result);
+	g_return_if_fail (jsc_value_is_object (jsc_params));
 
-		connection = g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy);
+	object = G_OBJECT (wk_editor);
 
-		if (connection && g_dbus_connection_is_closed (connection))
-			connection = NULL;
+	g_object_freeze_notify (object);
 
-		if (wk_editor->priv->web_extension_content_changed_cb_id) {
-			if (connection)
-				g_dbus_connection_signal_unsubscribe (connection, wk_editor->priv->web_extension_content_changed_cb_id);
-			wk_editor->priv->web_extension_content_changed_cb_id = 0;
+	jsc_value = jsc_value_object_get_property (jsc_params, "forced");
+	if (jsc_value && jsc_value_is_boolean (jsc_value)) {
+		forced = jsc_value_to_boolean (jsc_value);
+	}
+	g_clear_object (&jsc_value);
+
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "mode");
+	if (jsc_value && jsc_value_is_number (jsc_value)) {
+		gint value = jsc_value_to_int32 (jsc_value);
+
+		if ((value ? 1 : 0) != (wk_editor->priv->html_mode ? 1 : 0)) {
+			wk_editor->priv->html_mode = value;
+			changed = TRUE;
 		}
+	}
+	g_clear_object (&jsc_value);
 
-		if (wk_editor->priv->web_extension_selection_changed_cb_id) {
-			if (connection)
-				g_dbus_connection_signal_unsubscribe (connection, wk_editor->priv->web_extension_selection_changed_cb_id);
-			wk_editor->priv->web_extension_selection_changed_cb_id = 0;
-		}
+	if (changed) {
+		/* Update fonts - in plain text we only want monospaced */
+		webkit_editor_update_styles (E_CONTENT_EDITOR (wk_editor));
+		webkit_editor_style_updated (wk_editor, FALSE);
 
-		if (wk_editor->priv->web_extension_undo_redo_state_changed_cb_id) {
-			if (connection)
-				g_dbus_connection_signal_unsubscribe (connection, wk_editor->priv->web_extension_undo_redo_state_changed_cb_id);
-			wk_editor->priv->web_extension_undo_redo_state_changed_cb_id = 0;
-		}
-
-		if (wk_editor->priv->web_extension_user_changed_default_colors_cb_id) {
-			if (connection)
-				g_dbus_connection_signal_unsubscribe (connection, wk_editor->priv->web_extension_user_changed_default_colors_cb_id);
-			wk_editor->priv->web_extension_user_changed_default_colors_cb_id = 0;
-		}
-
-		g_clear_object (&wk_editor->priv->web_extension_proxy);
+		g_object_notify (object, "html-mode");
 	}
 
-	if (proxy) {
-		wk_editor->priv->web_extension_proxy = g_object_ref (proxy);
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "alignment");
+	if (jsc_value && jsc_value_is_number (jsc_value)) {
+		gint value = jsc_value_to_int32 (jsc_value);
 
-		wk_editor->priv->web_extension_selection_changed_cb_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy),
-				g_dbus_proxy_get_name (wk_editor->priv->web_extension_proxy),
-				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
-				"SelectionChanged",
-				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				(GDBusSignalCallback) web_extension_selection_changed_cb,
-				wk_editor,
-				NULL);
+		if (value != wk_editor->priv->alignment) {
+			wk_editor->priv->alignment = value;
+			changed = TRUE;
+		}
+	}
+	g_clear_object (&jsc_value);
 
-		wk_editor->priv->web_extension_content_changed_cb_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy),
-				g_dbus_proxy_get_name (wk_editor->priv->web_extension_proxy),
-				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
-				"ContentChanged",
-				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				(GDBusSignalCallback) web_extension_content_changed_cb,
-				wk_editor,
-				NULL);
+	if (changed || forced)
+		g_object_notify (object, "alignment");
 
-		wk_editor->priv->web_extension_undo_redo_state_changed_cb_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy),
-				g_dbus_proxy_get_name (wk_editor->priv->web_extension_proxy),
-				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
-				"UndoRedoStateChanged",
-				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				(GDBusSignalCallback) web_extension_undo_redo_state_changed_cb,
-				wk_editor,
-				NULL);
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "blockFormat");
+	if (jsc_value && jsc_value_is_number (jsc_value)) {
+		gint value = jsc_value_to_int32 (jsc_value);
 
-		wk_editor->priv->web_extension_user_changed_default_colors_cb_id =
-			g_dbus_connection_signal_subscribe (
-				g_dbus_proxy_get_connection (wk_editor->priv->web_extension_proxy),
-				g_dbus_proxy_get_name (wk_editor->priv->web_extension_proxy),
-				E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE,
-				"UserChangedDefaultColors",
-				E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH,
-				NULL,
-				G_DBUS_SIGNAL_FLAGS_NONE,
-				(GDBusSignalCallback) web_extension_user_changed_default_colors_cb,
-				wk_editor,
-				NULL);
+		if (value != wk_editor->priv->block_format) {
+			wk_editor->priv->block_format = value;
+			changed = TRUE;
+		}
+	}
+	g_clear_object (&jsc_value);
+
+	if (changed || forced)
+		g_object_notify (object, "block-format");
+
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "indentLevel");
+	if (jsc_value && jsc_value_is_number (jsc_value)) {
+		gint value = jsc_value_to_int32 (jsc_value);
+
+		if (value != wk_editor->priv->indent_level) {
+			wk_editor->priv->indent_level = value;
+			changed = TRUE;
+		}
+	}
+	g_clear_object (&jsc_value);
+
+	if (changed || forced)
+		g_object_notify (object, "indent-level");
+
+	#define update_style_flag(_flag, _set) \
+		changed = (wk_editor->priv->style_flags & (_flag)) != ((_set) ? (_flag) : 0); \
+		wk_editor->priv->style_flags = (wk_editor->priv->style_flags & ~(_flag)) | ((_set) ? (_flag) : 0);
+
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "bold");
+	if (jsc_value && jsc_value_is_boolean (jsc_value)) {
+		gboolean value = jsc_value_to_boolean (jsc_value);
+
+		update_style_flag (E_WEBKIT_EDITOR_STYLE_IS_BOLD, value);
+	}
+	g_clear_object (&jsc_value);
+
+	if (changed || forced)
+		g_object_notify (G_OBJECT (wk_editor), "bold");
+
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "italic");
+	if (jsc_value && jsc_value_is_boolean (jsc_value)) {
+		gboolean value = jsc_value_to_boolean (jsc_value);
+
+		update_style_flag (E_WEBKIT_EDITOR_STYLE_IS_ITALIC, value);
+	}
+	g_clear_object (&jsc_value);
+
+	if (changed || forced)
+		g_object_notify (G_OBJECT (wk_editor), "italic");
+
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "underline");
+	if (jsc_value && jsc_value_is_boolean (jsc_value)) {
+		gboolean value = jsc_value_to_boolean (jsc_value);
+
+		update_style_flag (E_WEBKIT_EDITOR_STYLE_IS_UNDERLINE, value);
+	}
+	g_clear_object (&jsc_value);
+
+	if (changed || forced)
+		g_object_notify (G_OBJECT (wk_editor), "underline");
+
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "strikethrough");
+	if (jsc_value && jsc_value_is_boolean (jsc_value)) {
+		gboolean value = jsc_value_to_boolean (jsc_value);
+
+		update_style_flag (E_WEBKIT_EDITOR_STYLE_IS_STRIKETHROUGH, value);
+	}
+	g_clear_object (&jsc_value);
+
+	if (changed || forced)
+		g_object_notify (G_OBJECT (wk_editor), "strikethrough");
+
+	jsc_value = jsc_value_object_get_property (jsc_params, "script");
+	if (jsc_value && jsc_value_is_number (jsc_value)) {
+		gint value = jsc_value_to_int32 (jsc_value);
+
+		changed = FALSE;
+		update_style_flag (E_WEBKIT_EDITOR_STYLE_IS_SUBSCRIPT, value < 0);
+
+		if (changed || forced)
+			g_object_notify (object, "subscript");
+
+		changed = FALSE;
+		update_style_flag (E_WEBKIT_EDITOR_STYLE_IS_SUPERSCRIPT, value > 0);
+
+		if (changed || forced)
+			g_object_notify (object, "superscript");
+	} else if (forced) {
+		g_object_notify (object, "subscript");
+		g_object_notify (object, "superscript");
+	}
+	g_clear_object (&jsc_value);
+
+	wk_editor->priv->temporary_style_flags = wk_editor->priv->style_flags;
+
+	#undef update_style_flag
+
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "fontSize");
+	if (jsc_value && jsc_value_is_number (jsc_value)) {
+		gint value = jsc_value_to_int32 (jsc_value);
+
+		if (value != wk_editor->priv->font_size) {
+			wk_editor->priv->font_size = value;
+			changed = TRUE;
+		}
+	}
+	g_clear_object (&jsc_value);
+
+	if (changed || forced)
+		g_object_notify (object, "font-size");
+
+	changed = FALSE;
+	jsc_value = jsc_value_object_get_property (jsc_params, "fontFamily");
+	if (jsc_value && jsc_value_is_string (jsc_value)) {
+		gchar *value = jsc_value_to_string (jsc_value);
+
+		if (g_strcmp0 (value, wk_editor->priv->font_name) != 0) {
+			g_free (wk_editor->priv->font_name);
+			wk_editor->priv->font_name = value;
+			changed = TRUE;
+		} else {
+			g_free (value);
+		}
+	}
+	g_clear_object (&jsc_value);
+
+	if (changed || forced)
+		g_object_notify (object, "font-name");
+
+	jsc_value = jsc_value_object_get_property (jsc_params, "bodyFontFamily");
+	if (jsc_value && jsc_value_is_string (jsc_value)) {
+		gchar *value = jsc_value_to_string (jsc_value);
+
+		if (g_strcmp0 (value, wk_editor->priv->body_font_name) != 0) {
+			g_free (wk_editor->priv->body_font_name);
+			wk_editor->priv->body_font_name = value;
+		} else {
+			g_free (value);
+		}
+	}
+	g_clear_object (&jsc_value);
+
+	if (webkit_editor_update_color_value (jsc_params, "fgColor", &wk_editor->priv->font_color) || forced)
+		g_object_notify (object, "font-color");
+
+	if (webkit_editor_update_color_value (jsc_params, "bgColor", &wk_editor->priv->background_color) || forced)
+		g_object_notify (object, "background-color");
+
+	webkit_editor_update_color_value (jsc_params, "bodyFgColor", &wk_editor->priv->body_fg_color);
+	webkit_editor_update_color_value (jsc_params, "bodyBgColor", &wk_editor->priv->body_bg_color);
+	webkit_editor_update_color_value (jsc_params, "bodyLinkColor", &wk_editor->priv->body_link_color);
+	webkit_editor_update_color_value (jsc_params, "bodyVlinkColor", &wk_editor->priv->body_vlink_color);
+
+	g_object_thaw_notify (object);
+}
+
+static void
+selection_changed_cb (WebKitUserContentManager *manager,
+		      WebKitJavascriptResult *js_result,
+		      gpointer user_data)
+{
+	EWebKitEditor *wk_editor = user_data;
+	WebKitEditorState *editor_state;
+	JSCValue *jsc_value;
+	gboolean is_collapsed;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	jsc_value = webkit_javascript_result_get_js_value (js_result);
+	is_collapsed = jsc_value_is_boolean (jsc_value) && jsc_value_to_boolean (jsc_value);
+
+	editor_state = webkit_web_view_get_editor_state (WEBKIT_WEB_VIEW (wk_editor));
+
+	if (editor_state) {
+		GObject *object = G_OBJECT (wk_editor);
+		gboolean value;
+
+		#define check_and_set_prop(_prop_var, _prop_name, _val) \
+			value = _val; \
+			if (_prop_var != value) { \
+				_prop_var = value; \
+				g_object_notify (object, _prop_name); \
+			}
+
+		g_object_freeze_notify (object);
+
+		check_and_set_prop (wk_editor->priv->can_copy, "can-copy", !is_collapsed);
+		check_and_set_prop (wk_editor->priv->can_cut, "can-cut", !is_collapsed);
+		check_and_set_prop (wk_editor->priv->can_paste, "can-paste", webkit_editor_state_is_paste_available (editor_state));
+
+		g_object_thaw_notify (object);
+
+		#undef set_prop
 	}
 }
 
-static guint64
-current_page_id (EWebKitEditor *wk_editor)
-{
-	return webkit_web_view_get_page_id (WEBKIT_WEB_VIEW (wk_editor));
-}
-
 static void
-webkit_editor_call_simple_extension_function_sync (EWebKitEditor *wk_editor,
-						   const gchar *method_name)
+undu_redo_state_changed_cb (WebKitUserContentManager *manager,
+			    WebKitJavascriptResult *js_result,
+			    gpointer user_data)
 {
-	GVariant *result;
+	EWebKitEditor *wk_editor = user_data;
+	JSCValue *jsc_value;
+	JSCValue *jsc_params;
+	gint32 state;
 
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+	g_return_if_fail (js_result != NULL);
 
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		method_name,
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
+	jsc_params = webkit_javascript_result_get_js_value (js_result);
+	g_return_if_fail (jsc_value_is_object (jsc_params));
 
-	if (result)
-		g_variant_unref (result);
-}
+	jsc_value = jsc_value_object_get_property (jsc_params, "state");
+	g_return_if_fail (jsc_value_is_number (jsc_value));
+	state = jsc_value_to_int32 (jsc_value);
+	g_clear_object (&jsc_value);
 
-static void
-webkit_editor_call_simple_extension_function (EWebKitEditor *wk_editor,
-                                              const gchar *method_name)
-{
-	guint64 page_id;
-
-	page_id = current_page_id (wk_editor);
-
-	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
-		method_name, g_variant_new ("(t)", page_id));
-}
-
-static GVariant *
-webkit_editor_get_element_attribute (EWebKitEditor *wk_editor,
-                                     const gchar *selector,
-                                     const gchar *attribute)
-{
-	GVariant *result;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return NULL;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ElementGetAttributeBySelector",
-		g_variant_new ("(tss)", current_page_id (wk_editor), selector, attribute),
-		NULL);
-
-	return result;
-}
-
-static void
-webkit_editor_set_element_attribute (EWebKitEditor *wk_editor,
-                                     const gchar *selector,
-                                     const gchar *attribute,
-                                     const gchar *value)
-{
-	guint64 page_id;
-
-	page_id = current_page_id (wk_editor);
-
-	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
-		"ElementSetAttributeBySelector", g_variant_new ("(tsss)", page_id, selector, attribute, value));
-}
-
-static void
-webkit_editor_remove_element_attribute (EWebKitEditor *wk_editor,
-                                        const gchar *selector,
-                                        const gchar *attribute)
-{
-	guint64 page_id;
-
-	page_id = current_page_id (wk_editor);
-
-	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
-		"ElementRemoveAttributeBySelector", g_variant_new ("(tss)", page_id, selector, attribute));
-}
-
-static void
-webkit_editor_set_format_boolean (EWebKitEditor *wk_editor,
-                                  const gchar *format_dom_function,
-                                  gboolean format_value)
-{
-	guint64 page_id;
-
-	page_id = current_page_id (wk_editor);
-
-	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
-		format_dom_function, g_variant_new ("(tb)", page_id, format_value));
-}
-
-static void
-webkit_editor_set_format_int (EWebKitEditor *wk_editor,
-                              const gchar *format_dom_function,
-                              gint32 format_value)
-{
-	guint64 page_id;
-
-	page_id = current_page_id (wk_editor);
-
-	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
-		format_dom_function, g_variant_new ("(ti)", page_id, format_value));
-}
-
-static void
-webkit_editor_set_format_string (EWebKitEditor *wk_editor,
-                                 const gchar *format_name,
-                                 const gchar *format_dom_function,
-                                 const gchar *format_value)
-{
-	guint64 page_id;
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	webkit_editor_set_changed (wk_editor, TRUE);
-
-	page_id = current_page_id (wk_editor);
-
-	e_web_extension_container_call_simple (wk_editor->priv->container, page_id, wk_editor->priv->stamp,
-		format_dom_function, g_variant_new ("(ts)", page_id, format_value));
-
-	g_object_notify (G_OBJECT (wk_editor), format_name);
+	webkit_editor_set_can_undo (wk_editor, (state & E_UNDO_REDO_STATE_CAN_UNDO) != 0);
+	webkit_editor_set_can_redo (wk_editor, (state & E_UNDO_REDO_STATE_CAN_REDO) != 0);
 }
 
 static void
@@ -864,7 +1142,7 @@ webkit_editor_initialize (EContentEditor *content_editor,
 
 	wk_editor = E_WEBKIT_EDITOR (content_editor);
 
-	if (wk_editor->priv->web_extension_proxy) {
+	if (wk_editor->priv->webkit_load_event == WEBKIT_LOAD_FINISHED) {
 		callback (content_editor, user_data);
 	} else {
 		g_return_if_fail (wk_editor->priv->initialized_callback == NULL);
@@ -1022,36 +1300,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"  outline: 1px dotted red;\n"
 		"}\n");
 
-	g_string_append (
-		stylesheet,
-		"body[data-evo-plain-text] "
-		"{\n"
-		"  font-family: Monospace; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		"body[data-evo-plain-text] img.-x-evo-smiley-img, "
-		"body:not([data-evo-plain-text]) span.-x-evo-smiley-text "
-		"{\n"
-		"  display: none \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		"[data-evo-paragraph] "
-		"{\n"
-		"  white-space: pre-wrap; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		"body[data-evo-plain-text] [data-evo-paragraph] "
-		"{\n"
-		"  word-wrap: break-word; \n"
-		"  word-break: break-word; \n"
-		"}\n");
-
 	g_string_append_printf (
 		stylesheet,
 		".-x-evo-plaintext-table "
@@ -1059,7 +1307,7 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"  border-collapse: collapse;\n"
 		"  width: %dch;\n"
 		"}\n",
-		g_settings_get_int (wk_editor->priv->mail_settings, "composer-word-wrap-length"));
+		wk_editor->priv->normal_paragraph_width);
 
 	g_string_append (
 		stylesheet,
@@ -1068,49 +1316,213 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"  vertical-align: top;\n"
 		"}\n");
 
-	g_string_append_printf (
-		stylesheet,
-		"body[data-evo-plain-text] ul "
-		"{\n"
-		"  list-style: outside none;\n"
-		"  -webkit-padding-start: %dch; \n"
-		"}\n", SPACES_PER_LIST_LEVEL);
+	if (wk_editor->priv->html_mode) {
+		g_string_append (
+			stylesheet,
+			"body ul > li.-x-evo-align-center,ol > li.-x-evo-align-center "
+			"{\n"
+			"  list-style-position: inside;\n"
+			"}\n");
 
-	g_string_append_printf (
-		stylesheet,
-		"body[data-evo-plain-text] ul > li "
-		"{\n"
-		"  list-style-position: outside;\n"
-		"  text-indent: -%dch;\n"
-		"}\n", SPACES_PER_LIST_LEVEL - 1);
+		g_string_append (
+			stylesheet,
+			"body ul > li.-x-evo-align-right, ol > li.-x-evo-align-right "
+			"{\n"
+			"  list-style-position: inside;\n"
+			"}\n");
 
-	g_string_append (
-		stylesheet,
-		"body[data-evo-plain-text] ul > li::before "
-		"{\n"
-		"  content: \"*"UNICODE_NBSP"\";\n"
-		"}\n");
+		g_string_append (
+			stylesheet,
+			"body "
+			"blockquote[type=cite] "
+			"{\n"
+			"  padding: 0ch 1ch 0ch 1ch;\n"
+			"  margin: 0ch;\n"
+			"  border-width: 0px 2px 0px 2px;\n"
+			"  border-style: none solid none solid;\n"
+			"  border-radius: 2px;\n"
+			"}\n");
 
-	g_string_append_printf (
-		stylesheet,
-		"body[data-evo-plain-text] ul.-x-evo-indented "
-		"{\n"
-		"  -webkit-padding-start: %dch; \n"
-		"}\n", SPACES_PER_LIST_LEVEL);
+		g_string_append_printf (
+			stylesheet,
+			"body "
+			"blockquote[type=cite] "
+			"{\n"
+			"  border-color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (1));
 
-	g_string_append (
-		stylesheet,
-		"body:not([data-evo-plain-text]) ul > li.-x-evo-align-center,ol > li.-x-evo-align-center "
-		"{\n"
-		"  list-style-position: inside;\n"
-		"}\n");
+		g_string_append_printf (
+			stylesheet,
+			"body "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"{\n"
+			"  border-color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (2));
 
-	g_string_append (
-		stylesheet,
-		"body:not([data-evo-plain-text]) ul > li.-x-evo-align-right, ol > li.-x-evo-align-right "
-		"{\n"
-		"  list-style-position: inside;\n"
-		"}\n");
+		g_string_append_printf (
+			stylesheet,
+			"body "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"{\n"
+			"  border-color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (3));
+
+		g_string_append_printf (
+			stylesheet,
+			"body "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"{\n"
+			"  border-color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (4));
+
+		g_string_append_printf (
+			stylesheet,
+			"body "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"blockquote[type=cite] "
+			"{\n"
+			"  border-color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (5));
+	} else {
+		g_string_append (
+			stylesheet,
+			"body "
+			"{\n"
+			"  font-family: Monospace; \n"
+			"}\n");
+
+		g_string_append_printf (
+			stylesheet,
+			"body ul "
+			"{\n"
+			"  list-style: outside none;\n"
+			"  -webkit-padding-start: %dch; \n"
+			"}\n", SPACES_PER_LIST_LEVEL);
+
+		g_string_append_printf (
+			stylesheet,
+			"body ul > li "
+			"{\n"
+			"  list-style-position: outside;\n"
+			"  text-indent: -%dch;\n"
+			"}\n", SPACES_PER_LIST_LEVEL - 1);
+
+		g_string_append (
+			stylesheet,
+			"body ul > li::before "
+			"{\n"
+			"  content: \"*" UNICODE_NBSP "\";\n"
+			"}\n");
+
+		g_string_append (
+			stylesheet,
+			"body ul ul > li::before, "
+			"body ol ul > li::before "
+			"{\n"
+			"  content: \"-" UNICODE_NBSP "\";\n"
+			"}\n");
+
+		g_string_append (
+			stylesheet,
+			"body ul ul ul > li::before, "
+			"body ol ul ul > li::before, "
+			"body ul ol ul > li::before, "
+			"body ol ol ul > li::before "
+			"{\n"
+			"  content: \"+" UNICODE_NBSP "\";\n"
+			"}\n");
+
+		g_string_append (
+			stylesheet,
+			"body ul ul ul ul > li::before, "
+			"body ol ul ul ul > li::before, "
+			"body ul ol ul ul > li::before, "
+			"body ul ul ol ul > li::before, "
+			"body ol ol ul ul > li::before, "
+			"body ol ul ol ul > li::before, "
+			"body ul ol ol ul > li::before, "
+			"body ol ol ol ul > li::before "
+			"{\n"
+			"  content: \"*" UNICODE_NBSP "\";\n"
+			"}\n");
+
+		g_string_append (
+			stylesheet,
+			"body div "
+			"{\n"
+			"  word-wrap: break-word; \n"
+			"  word-break: break-word; \n"
+			"  white-space: pre-wrap; \n"
+			"}\n");
+
+		g_string_append (
+			stylesheet,
+			".-x-evo-quoted { -webkit-user-select: none; }\n");
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character "
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (1));
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character"
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (2));
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character"
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (3));
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character"
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (4));
+
+		g_string_append_printf (
+			stylesheet,
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character+"
+			".-x-evo-quote-character"
+			"{\n"
+			"  color: %s;\n"
+			"}\n",
+			e_web_view_get_citation_color_for_level (5));
+	}
 
 	g_string_append_printf (
 		stylesheet,
@@ -1118,34 +1530,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"{\n"
 		"  -webkit-padding-start: %dch; \n"
 		"}\n", SPACES_ORDERED_LIST_FIRST_LEVEL);
-
-	g_string_append_printf (
-		stylesheet,
-		"ol.-x-evo-indented "
-		"{\n"
-		"  -webkit-padding-start: %dch; \n"
-		"}\n", SPACES_PER_LIST_LEVEL);
-
-	g_string_append (
-		stylesheet,
-		".-x-evo-align-left "
-		"{\n"
-		"  text-align: left; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		".-x-evo-align-center "
-		"{\n"
-		"  text-align: center; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
-		".-x-evo-align-right "
-		"{\n"
-		"  text-align: right; \n"
-		"}\n");
 
 	g_string_append (
 		stylesheet,
@@ -1208,123 +1592,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append (stylesheet, "}\n");
 
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character "
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (1));
-
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character"
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (2));
-
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character"
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (3));
-
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character"
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (4));
-
-	g_string_append_printf (
-		stylesheet,
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character+"
-		".-x-evo-quote-character"
-		"{\n"
-		"  color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (5));
-
-	g_string_append (
-		stylesheet,
-		"body:not([data-evo-plain-text]) "
-		"blockquote[type=cite] "
-		"{\n"
-		"  padding: 0ch 1ch 0ch 1ch;\n"
-		"  margin: 0ch;\n"
-		"  border-width: 0px 2px 0px 2px;\n"
-		"  border-style: none solid none solid;\n"
-		"  border-radius: 2px;\n"
-		"}\n");
-
-	g_string_append_printf (
-		stylesheet,
-		"body:not([data-evo-plain-text]) "
-		"blockquote[type=cite] "
-		"{\n"
-		"  border-color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (1));
-
-	g_string_append_printf (
-		stylesheet,
-		"body:not([data-evo-plain-text]) "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"{\n"
-		"  border-color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (2));
-
-	g_string_append_printf (
-		stylesheet,
-		"body:not([data-evo-plain-text]) "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"{\n"
-		"  border-color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (3));
-
-	g_string_append_printf (
-		stylesheet,
-		"body:not([data-evo-plain-text]) "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"{\n"
-		"  border-color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (4));
-
-	g_string_append_printf (
-		stylesheet,
-		"body:not([data-evo-plain-text]) "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"blockquote[type=cite] "
-		"{\n"
-		"  border-color: %s;\n"
-		"}\n",
-		e_web_view_get_citation_color_for_level (5));
-
 	if (wk_editor->priv->visually_wrap_long_lines) {
 		g_string_append (
 			stylesheet,
@@ -1378,200 +1645,166 @@ webkit_editor_update_styles (EContentEditor *editor)
 }
 
 static void
+webkit_editor_add_color_style (GString *css,
+			       const gchar *selector,
+			       const gchar *property,
+			       const GdkRGBA *value)
+{
+	g_return_if_fail (css != NULL);
+	g_return_if_fail (selector != NULL);
+	g_return_if_fail (property != NULL);
+
+	if (!value || value->alpha <= 1e-9)
+		return;
+
+	g_string_append_printf (css, "%s { %s : #%06x; }\n", selector, property, e_rgba_to_value (value));
+}
+
+static void
+webkit_editor_set_page_color_attribute (EContentEditor *editor,
+					GString *script, /* serves two purposes, also says whether write to body or not */
+					const gchar *attr_name,
+					const GdkRGBA *value)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	if (value && value->alpha > 1e-9) {
+		gchar color[64];
+
+		webkit_editor_utils_color_to_string (color, sizeof (color), value);
+
+		if (script) {
+			e_web_view_jsc_printf_script_gstring (script,
+				"document.documentElement.setAttribute(%s, %s);\n",
+				attr_name,
+				color);
+		} else {
+			e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+				"EvoEditor.SetBodyAttribute(%s, %s);",
+				attr_name,
+				color);
+		}
+	} else if (script) {
+		e_web_view_jsc_printf_script_gstring (script,
+			"document.documentElement.removeAttribute(%s);\n",
+			attr_name);
+	} else {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.SetBodyAttribute(%s, null);",
+			attr_name);
+	}
+}
+
+static void
 webkit_editor_page_set_text_color (EContentEditor *editor,
                                    const GdkRGBA *value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *color;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-
-	webkit_editor_set_element_attribute (wk_editor, "body", "text", color);
-
-	g_free (color);
+	webkit_editor_set_page_color_attribute (editor, NULL, "text", value);
 }
 
 static void
 webkit_editor_page_get_text_color (EContentEditor *editor,
                                    GdkRGBA *color)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		goto theme;
-
-	result = webkit_editor_get_element_attribute (wk_editor, "body", "text");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto theme;
-		}
-		g_variant_unref (result);
-		return;
+	if (wk_editor->priv->html_mode &&
+	    wk_editor->priv->body_fg_color) {
+		*color = *wk_editor->priv->body_fg_color;
+	} else {
+		e_utils_get_theme_color (GTK_WIDGET (wk_editor), "theme_text_color", E_UTILS_DEFAULT_THEME_TEXT_COLOR, color);
 	}
-
- theme:
-	e_utils_get_theme_color (
-		GTK_WIDGET (wk_editor),
-		"theme_text_color",
-		E_UTILS_DEFAULT_THEME_TEXT_COLOR,
-		color);
 }
 
 static void
 webkit_editor_page_set_background_color (EContentEditor *editor,
                                          const GdkRGBA *value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *color;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (value->alpha != 0.0)
-		color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-	else
-		color = g_strdup ("");
-
-	webkit_editor_set_element_attribute (wk_editor, "body", "bgcolor", color);
-
-	g_free (color);
+	webkit_editor_set_page_color_attribute (editor, NULL, "bgcolor", value);
 }
 
 static void
 webkit_editor_page_get_background_color (EContentEditor *editor,
                                          GdkRGBA *color)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		goto theme;
-
-	result = webkit_editor_get_element_attribute (wk_editor, "body", "bgcolor");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto theme;
-		}
-		g_variant_unref (result);
-		return;
+	if (wk_editor->priv->html_mode &&
+	    wk_editor->priv->body_bg_color) {
+		*color = *wk_editor->priv->body_bg_color;
+	} else {
+		e_utils_get_theme_color (GTK_WIDGET (wk_editor), "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, color);
 	}
-
- theme:
-	e_utils_get_theme_color (
-		GTK_WIDGET (wk_editor),
-		"theme_base_color",
-		E_UTILS_DEFAULT_THEME_BASE_COLOR,
-		color);
 }
 
 static void
 webkit_editor_page_set_link_color (EContentEditor *editor,
                                    const GdkRGBA *value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *color;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-
-	webkit_editor_set_element_attribute (wk_editor, "body", "link", color);
-
-	g_free (color);
+	webkit_editor_set_page_color_attribute (editor, NULL, "link", value);
 }
 
 static void
 webkit_editor_page_get_link_color (EContentEditor *editor,
                                    GdkRGBA *color)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		goto theme;
-
-	result = webkit_editor_get_element_attribute (wk_editor, "body", "link");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto theme;
-		}
-		g_variant_unref (result);
-		return;
+	if (wk_editor->priv->html_mode &&
+	    wk_editor->priv->body_link_color) {
+		*color = *wk_editor->priv->body_link_color;
+	} else {
+		color->alpha = 1;
+		color->red = 0;
+		color->green = 0;
+		color->blue = 1;
 	}
-
- theme:
-	color->alpha = 1;
-	color->red = 0;
-	color->green = 0;
-	color->blue = 1;
 }
 
 static void
 webkit_editor_page_set_visited_link_color (EContentEditor *editor,
                                            const GdkRGBA *value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *color;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-
-	webkit_editor_set_element_attribute (wk_editor, "body", "vlink", color);
-
-	g_free (color);
+	webkit_editor_set_page_color_attribute (editor, NULL, "vlink", value);
 }
 
 static void
 webkit_editor_page_get_visited_link_color (EContentEditor *editor,
                                            GdkRGBA *color)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
+	if (wk_editor->priv->html_mode &&
+	    wk_editor->priv->body_vlink_color) {
+		*color = *wk_editor->priv->body_vlink_color;
+	} else {
+		color->alpha = 1;
+		color->red = 1;
+		color->green = 0;
+		color->blue = 0;
+	}
+}
+
+static void
+webkit_editor_page_set_font_name (EContentEditor *editor,
+				  const gchar *value)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.SetBodyFontName(%s);",
+		value ? value : "");
+}
+
+static const gchar *
+webkit_editor_page_get_font_name (EContentEditor *editor)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
 	if (!wk_editor->priv->html_mode)
-		goto theme;
+		return NULL;
 
-	result = webkit_editor_get_element_attribute (wk_editor, "body", "vlink");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto theme;
-		}
-		g_variant_unref (result);
-		return;
-	}
-
- theme:
-	color->alpha = 1;
-	color->red = 1;
-	color->green = 0;
-	color->blue = 0;
+	return wk_editor->priv->body_font_name;
 }
 
 static void
@@ -1611,56 +1844,95 @@ get_color_from_context (GtkStyleContext *context,
 }
 
 static void
-webkit_editor_style_updated_cb (EWebKitEditor *wk_editor)
+webkit_editor_style_updated (EWebKitEditor *wk_editor,
+			     gboolean force)
 {
-	GdkRGBA rgba;
+	EContentEditor *cnt_editor;
+	GdkRGBA bgcolor, fgcolor, link_color, vlink_color;
 	GtkStateFlags state_flags;
 	GtkStyleContext *style_context;
+	GString *css, *script;
 	gboolean backdrop;
+	gboolean inherit_theme_colors;
 
-	/* If the user set the colors in Page dialog, this callback is useless. */
-	if (wk_editor->priv->suppress_color_changes)
-		return;
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
+	cnt_editor = E_CONTENT_EDITOR (wk_editor);
+
+	inherit_theme_colors = g_settings_get_boolean (wk_editor->priv->mail_settings, "composer-inherit-theme-colors");
 	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (wk_editor));
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (wk_editor));
 	backdrop = (state_flags & GTK_STATE_FLAG_BACKDROP) != 0;
 
-	if (wk_editor->priv->html_mode && !g_settings_get_boolean (wk_editor->priv->mail_settings, "composer-inherit-theme-colors")) {
+	if (wk_editor->priv->html_mode && !inherit_theme_colors) {
 		/* Default to white background when not inheriting theme colors */
-		rgba.red = 1.0;
-		rgba.green = 1.0;
-		rgba.blue = 1.0;
-		rgba.alpha = 1.0;
+		bgcolor.red = 1.0;
+		bgcolor.green = 1.0;
+		bgcolor.blue = 1.0;
+		bgcolor.alpha = 1.0;
 	} else if (!gtk_style_context_lookup_color (
 			style_context,
 			backdrop ? "theme_unfocused_base_color" : "theme_base_color",
-			&rgba)) {
-		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_BASE_COLOR);
+			&bgcolor)) {
+		gdk_rgba_parse (&bgcolor, E_UTILS_DEFAULT_THEME_BASE_COLOR);
 	}
 
-	webkit_editor_page_set_background_color (E_CONTENT_EDITOR (wk_editor), &rgba);
-
-	if (wk_editor->priv->html_mode && !g_settings_get_boolean (wk_editor->priv->mail_settings, "composer-inherit-theme-colors")) {
+	if (wk_editor->priv->html_mode && !inherit_theme_colors) {
 		/* Default to black text color when not inheriting theme colors */
-		rgba.red = 0.0;
-		rgba.green = 0.0;
-		rgba.blue = 0.0;
-		rgba.alpha = 1.0;
+		fgcolor.red = 0.0;
+		fgcolor.green = 0.0;
+		fgcolor.blue = 0.0;
+		fgcolor.alpha = 1.0;
 	} else if (!gtk_style_context_lookup_color (
 			style_context,
 			backdrop ? "theme_unfocused_fg_color" : "theme_fg_color",
-			&rgba)) {
-		gdk_rgba_parse (&rgba, E_UTILS_DEFAULT_THEME_FG_COLOR);
+			&fgcolor)) {
+		gdk_rgba_parse (&fgcolor, E_UTILS_DEFAULT_THEME_FG_COLOR);
 	}
 
-	webkit_editor_page_set_text_color (E_CONTENT_EDITOR (wk_editor), &rgba);
+	get_color_from_context (style_context, "link-color", &link_color);
+	get_color_from_context (style_context, "visited-link-color", &vlink_color);
 
-	get_color_from_context (style_context, "link-color", &rgba);
-	webkit_editor_page_set_link_color (E_CONTENT_EDITOR (wk_editor), &rgba);
+	if (!force &&
+	    gdk_rgba_equal (&bgcolor, &wk_editor->priv->theme_bgcolor) &&
+	    gdk_rgba_equal (&fgcolor, &wk_editor->priv->theme_fgcolor) &&
+	    gdk_rgba_equal (&link_color, &wk_editor->priv->theme_link_color) &&
+	    gdk_rgba_equal (&vlink_color, &wk_editor->priv->theme_vlink_color))
+		return;
 
-	get_color_from_context (style_context, "visited-link-color", &rgba);
-	webkit_editor_page_set_visited_link_color (E_CONTENT_EDITOR (wk_editor), &rgba);
+	wk_editor->priv->theme_bgcolor = bgcolor;
+	wk_editor->priv->theme_fgcolor = fgcolor;
+	wk_editor->priv->theme_link_color = link_color;
+	wk_editor->priv->theme_vlink_color = vlink_color;
+
+	css = g_string_sized_new (160);
+	script = g_string_sized_new (256);
+
+	webkit_editor_set_page_color_attribute (cnt_editor, script, "x-evo-bgcolor", &bgcolor);
+	webkit_editor_set_page_color_attribute (cnt_editor, script, "x-evo-text", &fgcolor);
+	webkit_editor_set_page_color_attribute (cnt_editor, script, "x-evo-link", &link_color);
+	webkit_editor_set_page_color_attribute (cnt_editor, script, "x-evo-vlink", &vlink_color);
+
+	webkit_editor_add_color_style (css, "html", "background-color", &bgcolor);
+	webkit_editor_add_color_style (css, "html", "color", &fgcolor);
+	webkit_editor_add_color_style (css, "a", "color", &link_color);
+	webkit_editor_add_color_style (css, "a:visited", "color", &vlink_color);
+
+	e_web_view_jsc_printf_script_gstring (script,
+		"EvoEditor.UpdateThemeStyleSheet(%s);",
+		css->str);
+
+	e_web_view_jsc_run_script_take (WEBKIT_WEB_VIEW (wk_editor),
+		g_string_free (script, FALSE),
+		wk_editor->priv->cancellable);
+
+	g_string_free (css, TRUE);
+}
+
+static void
+webkit_editor_style_updated_cb (EWebKitEditor *wk_editor)
+{
+	webkit_editor_style_updated (wk_editor, FALSE);
 }
 
 static gboolean
@@ -1698,90 +1970,23 @@ static void
 webkit_editor_set_html_mode (EWebKitEditor *wk_editor,
                              gboolean html_mode)
 {
-	gboolean convert = FALSE;
-	GVariant *result;
-
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
 
 	if (html_mode == wk_editor->priv->html_mode)
 		return;
 
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMCheckIfConversionNeeded",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(b)", &convert);
-		g_variant_unref (result);
-	}
-
-	/* If toggling from HTML to the plain text mode, ask the user first if
-	 * he wants to convert the content. */
-	if (convert) {
-		if (!show_lose_formatting_dialog (wk_editor))
-			return;
-
-		webkit_editor_set_changed (wk_editor, TRUE);
-	}
-
 	wk_editor->priv->html_mode = html_mode;
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"SetEditorHTMLMode",
-		g_variant_new ("(tbb)", current_page_id (wk_editor), html_mode, convert),
-		wk_editor->priv->cancellable);
+	if (html_mode) {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.SetMode(EvoEditor.MODE_HTML);");
+	} else {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.SetMode(EvoEditor.MODE_PLAIN_TEXT);");
+	}
 
-	/* Update fonts - in plain text we only want monospaced */
 	webkit_editor_update_styles (E_CONTENT_EDITOR (wk_editor));
-	webkit_editor_style_updated_cb (wk_editor);
-
-	g_object_notify (G_OBJECT (wk_editor), "html-mode");
-}
-
-static void
-set_convert_in_situ (EWebKitEditor *wk_editor,
-                     gboolean value)
-{
-	GVariant *result;
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"SetConvertInSitu",
-		g_variant_new ("(tbnn)", current_page_id (wk_editor), value,
-			e_webkit_editor_three_state_to_int16 (e_content_editor_get_start_bottom (E_CONTENT_EDITOR (wk_editor))),
-			e_webkit_editor_three_state_to_int16 (e_content_editor_get_top_signature (E_CONTENT_EDITOR (wk_editor)))),
-		NULL);
-
-	if (result)
-		g_variant_unref (result);
-}
-
-static void
-e_webkit_editor_load_data (EWebKitEditor *wk_editor,
-			   const gchar *html)
-{
-	gchar *uri_with_stamp;
-
-	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-
-	if (!html)
-		html = "";
-
-	/* Make WebKit think we are displaying a local file, so that it
-	 * does not block loading resources from file:// protocol */
-	uri_with_stamp = g_strdup_printf ("file:///?evo-stamp=%d", wk_editor->priv->stamp);
-
-	webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), html, uri_with_stamp);
-
-	g_free (uri_with_stamp);
+	webkit_editor_style_updated (wk_editor, FALSE);
 }
 
 static void
@@ -1797,8 +2002,7 @@ webkit_editor_insert_content (EContentEditor *editor,
 	 * another load operation) so we have to queue the current operation and
 	 * redo it again when the view is ready. This was happening when loading
 	 * the stuff in EMailSignatureEditor. */
-	if (wk_editor->priv->webkit_load_event != WEBKIT_LOAD_FINISHED ||
-	    wk_editor->priv->reload_in_progress) {
+	if (wk_editor->priv->webkit_load_event != WEBKIT_LOAD_FINISHED) {
 		webkit_editor_queue_post_reload_operation (
 			wk_editor,
 			(PostReloadOperationFunc) webkit_editor_insert_content,
@@ -1808,51 +2012,17 @@ webkit_editor_insert_content (EContentEditor *editor,
 		return;
 	}
 
-	if (!wk_editor->priv->web_extension_proxy) {
-		/* If the operation needs a web extension and it is not ready yet
-		 * we need to schedule the current operation again a dispatch it
-		 * when the extension is ready */
-		if (!((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
-		      (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) &&
-		      (strstr (content, "data-evo-draft") ||
-		       strstr (content, "data-evo-signature-plain-text-mode")))) {
-			webkit_editor_queue_post_reload_operation (
-				wk_editor,
-				(PostReloadOperationFunc) webkit_editor_insert_content,
-				g_strdup (content),
-				g_free,
-				flags);
-			return;
-		}
-	}
-
 	if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 	    !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
-		/* e_html_editor_view_convert_and_insert_plain_text
-		   e_html_editor_view_convert_and_insert_html_to_plain_text
-		   e_html_editor_view_insert_text */
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"DOMConvertAndInsertHTMLIntoSelection",
-			g_variant_new (
-				"(tsb)",
-				current_page_id (wk_editor),
-				content,
-				(flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML)),
-			wk_editor->priv->cancellable);
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.InsertContent(%s, %x, %x);",
+			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, FALSE);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML)) {
 		if ((strstr (content, "data-evo-draft") ||
 		     strstr (content, "data-evo-signature-plain-text-mode"))) {
-			wk_editor->priv->reload_in_progress = TRUE;
-			e_webkit_editor_load_data (wk_editor, content);
-			return;
-		}
-
-		if (strstr (content, "data-evo-draft") && !(wk_editor->priv->html_mode)) {
-			set_convert_in_situ (wk_editor, TRUE);
-			wk_editor->priv->reload_in_progress = TRUE;
-			e_webkit_editor_load_data (wk_editor, content);
+			e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+				"EvoEditor.LoadHTML(%s);", content);
 			return;
 		}
 
@@ -1861,200 +2031,222 @@ webkit_editor_insert_content (EContentEditor *editor,
 			if (strstr (content, "<!-- text/html -->") &&
 			    !strstr (content, "<!-- disable-format-prompt -->")) {
 				if (!show_lose_formatting_dialog (wk_editor)) {
-					set_convert_in_situ (wk_editor, FALSE);
-					wk_editor->priv->reload_in_progress = TRUE;
 					webkit_editor_set_html_mode (wk_editor, TRUE);
-					e_webkit_editor_load_data (wk_editor, content);
+					e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+						"EvoEditor.LoadHTML(%s);", content);
 					return;
 				}
 			}
-			set_convert_in_situ (wk_editor, TRUE);
 		}
 
-		wk_editor->priv->reload_in_progress = TRUE;
-		e_webkit_editor_load_data (wk_editor, content);
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.LoadHTML(%s);", content);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
 		   (flags & E_CONTENT_EDITOR_INSERT_TEXT_PLAIN)) {
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"DOMConvertContent",
-			g_variant_new ("(tsnn)", current_page_id (wk_editor), content,
-				e_webkit_editor_three_state_to_int16 (e_content_editor_get_start_bottom (editor)),
-				e_webkit_editor_three_state_to_int16 (e_content_editor_get_top_signature (editor))),
-			wk_editor->priv->cancellable);
+		gchar *html, **lines;
+		gint ii;
+
+		lines = g_strsplit (content ? content : "", "\n", -1);
+
+		for (ii = 0; lines && lines[ii]; ii++) {
+			gchar *line = lines[ii];
+			gint len = strlen (line);
+
+			if (len > 0 && line[len - 1] == '\r') {
+				line[len - 1] = 0;
+				len--;
+			}
+
+			if (len)
+				lines[ii] = g_markup_printf_escaped ("<div>%s</div>", line);
+			else
+				lines[ii] = g_strdup ("<div><br></div>");
+
+			g_free (line);
+		}
+
+		html = g_strjoinv ("", lines);
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.LoadHTML(%s);", html);
+
+		g_strfreev (lines);
+		g_free (html);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
-		    !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
-		    !(flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT)) {
-		/* e_html_editor_view_paste_as_text */
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"DOMConvertAndInsertHTMLIntoSelection",
-			g_variant_new (
-				"(tsb)", current_page_id (wk_editor), content, TRUE),
-			wk_editor->priv->cancellable);
+		  !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL) &&
+		  !(flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT)) {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.InsertContent(%s, %x, %x);",
+			content, TRUE, FALSE);
 	} else if ((flags & E_CONTENT_EDITOR_INSERT_QUOTE_CONTENT) &&
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
-		/* e_html_editor_view_paste_clipboard_quoted */
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"DOMQuoteAndInsertTextIntoSelection",
-			g_variant_new (
-				"(tsb)", current_page_id (wk_editor), content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0),
-			wk_editor->priv->cancellable);
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.InsertContent(%s, %x, %x);",
+			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, TRUE);
 	} else if (!(flags & E_CONTENT_EDITOR_INSERT_CONVERT) &&
 		   !(flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)) {
-		/* e_html_editor_view_insert_html */
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"DOMInsertHTML",
-			g_variant_new (
-				"(ts)", current_page_id (wk_editor), content),
-			wk_editor->priv->cancellable);
-	} else
-		g_warning ("Unsupported flags combination (%d) in (%s)", flags, G_STRFUNC);
-}
-
-static CamelMimePart *
-create_part_for_inline_image_from_element_data (const gchar *element_src,
-                                                const gchar *name,
-                                                const gchar *id)
-{
-	CamelStream *stream;
-	CamelDataWrapper *wrapper;
-	CamelMimePart *part = NULL;
-	gsize decoded_size;
-	gssize size;
-	gchar *mime_type = NULL;
-	const gchar *base64_encoded_data;
-	guchar *base64_decoded_data = NULL;
-
-	base64_encoded_data = strstr (element_src, ";base64,");
-	if (!base64_encoded_data)
-		goto out;
-
-	mime_type = g_strndup (
-		element_src + 5,
-		base64_encoded_data - (strstr (element_src, "data:") + 5));
-
-	/* Move to actual data */
-	base64_encoded_data += 8;
-
-	base64_decoded_data = g_base64_decode (base64_encoded_data, &decoded_size);
-
-	stream = camel_stream_mem_new ();
-	size = camel_stream_write (
-		stream, (gchar *) base64_decoded_data, decoded_size, NULL, NULL);
-
-	if (size == -1)
-		goto out;
-
-	wrapper = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream_sync (
-		wrapper, stream, NULL, NULL);
-	g_object_unref (stream);
-
-	camel_data_wrapper_set_mime_type (wrapper, mime_type);
-
-	part = camel_mime_part_new ();
-	camel_medium_set_content (CAMEL_MEDIUM (part), wrapper);
-	g_object_unref (wrapper);
-
-	camel_mime_part_set_content_id (part, id);
-	camel_mime_part_set_filename (part, name);
-	camel_mime_part_set_disposition (part, "inline");
-	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_BASE64);
-out:
-	g_free (mime_type);
-	g_free (base64_decoded_data);
-
-	return part;
-}
-
-static GSList *
-webkit_editor_get_parts_for_inline_images (GVariant *images)
-{
-	const gchar *element_src, *name, *id;
-	GVariantIter *iter;
-	GSList *parts = NULL;
-
-	if (g_variant_check_format_string (images, "a(sss)", FALSE)) {
-		g_variant_get (images, "a(sss)", &iter);
-		while (g_variant_iter_loop (iter, "(&s&s&s)", &element_src, &name, &id)) {
-			CamelMimePart *part;
-
-			part = create_part_for_inline_image_from_element_data (
-				element_src, name, id);
-			parts = g_slist_prepend (parts, part);
-		}
-		g_variant_iter_free (iter);
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.InsertContent(%s, %x, %x);",
+			content, (flags & E_CONTENT_EDITOR_INSERT_TEXT_HTML) != 0, FALSE);
+	} else {
+		g_warning ("%s: Unsupported flags combination (0x%x)", G_STRFUNC, flags);
 	}
 
-	return parts ? g_slist_reverse (parts) : NULL;
+	if (flags & E_CONTENT_EDITOR_INSERT_REPLACE_ALL)
+		webkit_editor_style_updated (wk_editor, TRUE);
 }
 
-static gchar *
+static void
 webkit_editor_get_content (EContentEditor *editor,
-                           EContentEditorGetContentFlags flags,
-                           const gchar *inline_images_from_domain,
-                           GSList **inline_images_parts)
+			   guint32 flags, /* bit-or of EContentEditorGetContentFlags */
+			   const gchar *inline_images_from_domain,
+                           GCancellable *cancellable,
+			   GAsyncReadyCallback callback,
+			   gpointer user_data)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
+	gchar *script, *cid_uid_prefix;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
+
+	cid_uid_prefix = camel_header_msgid_generate (inline_images_from_domain ? inline_images_from_domain : "");
+	script = e_web_view_jsc_printf_script ("EvoEditor.GetContent(%d, %s)", flags, cid_uid_prefix);
+
+	webkit_web_view_run_javascript (WEBKIT_WEB_VIEW (editor), script, cancellable, callback, user_data);
+
+	g_free (cid_uid_prefix);
+	g_free (script);
+}
+
+static EContentEditorContentHash *
+webkit_editor_get_content_finish (EContentEditor *editor,
+				  GAsyncResult *result,
+				  GError **error)
+{
+	WebKitJavascriptResult *js_result;
+	EContentEditorContentHash *content_hash = NULL;
 	GError *local_error = NULL;
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy)
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (editor), NULL);
+	g_return_val_if_fail (result != NULL, NULL);
+
+	js_result = webkit_web_view_run_javascript_finish (WEBKIT_WEB_VIEW (editor), result, &local_error);
+
+	if (local_error) {
+		g_propagate_error (error, local_error);
+
+		if (js_result)
+			webkit_javascript_result_unref (js_result);
+
 		return NULL;
-
-	if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
-	    !(flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
-            !(flags & E_CONTENT_EDITOR_GET_BODY))
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"DOMEmbedStyleSheet",
-			g_variant_new (
-				"(ts)",
-				current_page_id (wk_editor),
-				wk_editor->priv->current_user_stylesheet),
-			wk_editor->priv->cancellable);
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper (
-		wk_editor->priv->web_extension_proxy,
-		"DOMGetContent",
-		g_variant_new (
-			"(tsi)",
-			current_page_id (wk_editor),
-			inline_images_from_domain ? inline_images_from_domain : "",
-			(gint32) flags),
-		wk_editor->priv->cancellable,
-		&local_error);
-
-	webkit_editor_set_last_error (wk_editor, local_error);
-	g_clear_error (&local_error);
-
-	if ((flags & E_CONTENT_EDITOR_GET_TEXT_HTML) &&
-	    !(flags & E_CONTENT_EDITOR_GET_PROCESSED) &&
-            !(flags & E_CONTENT_EDITOR_GET_BODY))
-		webkit_editor_call_simple_extension_function (
-			wk_editor, "DOMRemoveEmbeddedStyleSheet");
-
-	if (result) {
-		GVariant *images = NULL;
-		gchar *value = NULL;
-
-		g_variant_get (result, "(sv)", &value, &images);
-		if (inline_images_parts)
-			*inline_images_parts = webkit_editor_get_parts_for_inline_images (images);
-
-		if (images)
-			g_variant_unref (images);
-
-		g_variant_unref (result);
-
-		return value;
 	}
 
-	return NULL;
+	if (js_result) {
+		JSCException *exception;
+		JSCValue *value;
+
+		value = webkit_javascript_result_get_js_value (js_result);
+		exception = jsc_context_get_exception (jsc_value_get_context (value));
+
+		if (exception) {
+			g_set_error (error, G_IO_ERROR, G_IO_ERROR_FAILED, "EvoEditor.GetContent() call failed: %s", jsc_exception_get_message (exception));
+			jsc_context_clear_exception (jsc_value_get_context (value));
+			webkit_javascript_result_unref (js_result);
+			return NULL;
+		}
+
+		if (jsc_value_is_object (value)) {
+			struct _formats {
+				const gchar *name;
+				guint32 flags;
+			} formats[] = {
+				{ "raw-body-html", E_CONTENT_EDITOR_GET_RAW_BODY_HTML },
+				{ "raw-body-plain", E_CONTENT_EDITOR_GET_RAW_BODY_PLAIN },
+				{ "raw-body-stripped", E_CONTENT_EDITOR_GET_RAW_BODY_STRIPPED },
+				{ "raw-draft", E_CONTENT_EDITOR_GET_RAW_DRAFT },
+				{ "to-send-html", E_CONTENT_EDITOR_GET_TO_SEND_HTML },
+				{ "to-send-plain", E_CONTENT_EDITOR_GET_TO_SEND_PLAIN }
+			};
+			JSCValue *images_value;
+			gint ii;
+
+			content_hash = e_content_editor_util_new_content_hash ();
+
+			for (ii = 0; ii < G_N_ELEMENTS (formats); ii++) {
+				gchar *cnt;
+
+				cnt = e_web_view_jsc_get_object_property_string (value, formats[ii].name, NULL);
+				if (cnt)
+					e_content_editor_util_take_content_data (content_hash, formats[ii].flags, cnt, g_free);
+			}
+
+			images_value = jsc_value_object_get_property (value, "images");
+
+			if (images_value) {
+				if (jsc_value_is_array (images_value)) {
+					GSList *image_parts = NULL;
+					gint length;
+
+					length = e_web_view_jsc_get_object_property_int32 (images_value, "length", 0);
+
+					for (ii = 0; ii < length; ii++) {
+						JSCValue *item_value;
+
+						item_value = jsc_value_object_get_property_at_index (images_value, ii);
+
+						if (!item_value ||
+						    jsc_value_is_null (item_value) ||
+						    jsc_value_is_undefined (item_value)) {
+							g_warn_if_reached ();
+							g_clear_object (&item_value);
+							break;
+						}
+
+						if (jsc_value_is_object (item_value)) {
+							gchar *src, *cid, *name;
+
+							src = e_web_view_jsc_get_object_property_string (item_value, "src", NULL);
+							cid = e_web_view_jsc_get_object_property_string (item_value, "cid", NULL);
+							name = e_web_view_jsc_get_object_property_string (item_value, "name", NULL);
+
+							if (src && *src && cid && *cid) {
+								CamelMimePart *part = NULL;
+
+								if (g_ascii_strncasecmp (src, "cid:", 4) == 0)
+									part = e_content_editor_emit_ref_mime_part (editor, src);
+
+								if (!part) {
+									part = e_content_editor_util_create_data_mimepart (src, cid, TRUE, name, NULL,
+										E_WEBKIT_EDITOR (editor)->priv->cancellable);
+								}
+
+								if (part)
+									image_parts = g_slist_prepend (image_parts, part);
+							}
+
+							g_free (name);
+							g_free (src);
+							g_free (cid);
+						}
+
+						g_clear_object (&item_value);
+					}
+
+					if (image_parts)
+						e_content_editor_util_take_content_data_images (content_hash, g_slist_reverse (image_parts));
+				} else if (!jsc_value_is_undefined (images_value) && !jsc_value_is_null (images_value)) {
+					g_warn_if_reached ();
+				}
+
+				g_clear_object (&images_value);
+			}
+		} else {
+			g_warn_if_reached ();
+		}
+
+		webkit_javascript_result_unref (js_result);
+	}
+
+	return content_hash;
 }
 
 static gboolean
@@ -2070,9 +2262,12 @@ webkit_editor_undo (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
 
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
+
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	webkit_editor_call_simple_extension_function (wk_editor, "DOMUndo");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoUndoRedo.Undo();");
 }
 
 static gboolean
@@ -2092,33 +2287,25 @@ webkit_editor_redo (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	webkit_editor_call_simple_extension_function (wk_editor, "DOMRedo");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoUndoRedo.Redo();");
 }
 
 static void
 webkit_editor_move_caret_on_coordinates (EContentEditor *editor,
-                                         gint x,
-                                         gint y,
-                                         gboolean cancel_if_not_collapsed)
+					 gint xx,
+					 gint yy,
+					 gboolean cancel_if_not_collapsed)
 {
 	EWebKitEditor *wk_editor;
-	GVariant *result;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
 
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMMoveSelectionOnPoint",
-		g_variant_new (
-			"(tiib)", current_page_id (wk_editor), x, y, cancel_if_not_collapsed),
-		NULL);
-
-	if (result)
-		g_variant_unref (result);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.MoveSelectionToPoint(%d, %d, %x);",
+		xx, yy, cancel_if_not_collapsed);
 }
 
 static void
@@ -2126,83 +2313,44 @@ webkit_editor_insert_emoticon (EContentEditor *editor,
                                EEmoticon *emoticon)
 {
 	EWebKitEditor *wk_editor;
+	GSettings *settings;
+	const gchar *text;
+	gchar *image_uri = NULL;
+	gint width = 0, height = 0;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
+	g_return_if_fail (emoticon != NULL);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (g_settings_get_boolean (settings, "composer-unicode-smileys")) {
+		text = emoticon->unicode_character;
+	} else {
+		text = emoticon->text_face;
+		image_uri = e_emoticon_get_uri (emoticon);
+
+		if (image_uri) {
+			width = 16;
+			height = 16;
+		}
+	}
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMInsertSmiley",
-		g_variant_new (
-			"(ts)", current_page_id (wk_editor), e_emoticon_get_name (emoticon)),
-		wk_editor->priv->cancellable);
-}
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.InsertEmoticon(%s, %s, %d, %d);",
+		text, image_uri, width, height);
 
-static void
-webkit_editor_insert_image_from_mime_part (EContentEditor *editor,
-                                           CamelMimePart *part)
-{
-	CamelDataWrapper *dw;
-	CamelStream *stream;
-	EWebKitEditor *wk_editor;
-	GByteArray *byte_array;
-	gchar *src, *base64_encoded, *mime_type, *cid_uri;
-	const gchar *cid, *name;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	dw = camel_medium_get_content (CAMEL_MEDIUM (part));
-	g_return_if_fail (dw);
-
-	stream = camel_stream_mem_new ();
-	camel_data_wrapper_decode_to_stream_sync (dw, stream, NULL, NULL);
-	camel_stream_close (stream, NULL, NULL);
-
-	byte_array = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (stream));
-
-	if (!byte_array->data) {
-		g_object_unref (stream);
-		return;
-	}
-
-	base64_encoded = g_base64_encode ((const guchar *) byte_array->data, byte_array->len);
-
-	mime_type = camel_data_wrapper_get_mime_type (dw);
-	name = camel_mime_part_get_filename (part);
-	/* Insert file name before new src */
-	src = g_strconcat (name ? name : "", name ? ";data:" : "", mime_type, ";base64,", base64_encoded, NULL);
-
-	cid = camel_mime_part_get_content_id (part);
-	if (!cid) {
-		camel_mime_part_set_content_id (part, NULL);
-		cid = camel_mime_part_get_content_id (part);
-	}
-	cid_uri = g_strdup_printf ("cid:%s", cid);
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMAddNewInlineImageIntoList",
-		g_variant_new ("(tsss)", current_page_id (wk_editor), name ? name : "", cid_uri, src),
-		wk_editor->priv->cancellable);
-
-	g_free (base64_encoded);
-	g_free (mime_type);
-	g_free (cid_uri);
-	g_free (src);
-	g_object_unref (stream);
+	g_clear_object (&settings);
+	g_free (image_uri);
 }
 
 static void
 webkit_editor_select_all (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
@@ -2215,17 +2363,20 @@ webkit_editor_selection_wrap (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
 
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
+
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	webkit_editor_call_simple_extension_function (wk_editor, "DOMSelectionWrap");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.WrapSelection();");
 }
 
 static gboolean
-webkit_editor_selection_is_indented (EWebKitEditor *wk_editor)
+webkit_editor_get_indent_level (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
 
-	return wk_editor->priv->is_indented;
+	return wk_editor->priv->indent_level;
 }
 
 static void
@@ -2235,8 +2386,8 @@ webkit_editor_selection_indent (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "DOMSelectionIndent");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.Indent(true);");
 }
 
 static void
@@ -2246,37 +2397,20 @@ webkit_editor_selection_unindent (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "DOMSelectionUnindent");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.Indent(false);");
 }
 
 static void
 webkit_editor_cut (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	wk_editor->priv->copy_cut_actions_triggered = TRUE;
-
-	webkit_editor_call_simple_extension_function_sync (
-		wk_editor, "EEditorActionsSaveHistoryForCut");
-
-	webkit_web_view_execute_editing_command (
-		WEBKIT_WEB_VIEW (wk_editor), WEBKIT_EDITING_COMMAND_CUT);
+	webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (editor), WEBKIT_EDITING_COMMAND_CUT);
 }
 
 static void
 webkit_editor_copy (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	wk_editor->priv->copy_cut_actions_triggered = TRUE;
-
-	webkit_web_view_execute_editing_command (
-		WEBKIT_WEB_VIEW (wk_editor), WEBKIT_EDITING_COMMAND_COPY);
+	webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (editor), WEBKIT_EDITING_COMMAND_COPY);
 }
 
 static ESpellChecker *
@@ -2290,28 +2424,9 @@ webkit_editor_get_spell_checker (EWebKitEditor *wk_editor)
 static gchar *
 webkit_editor_get_caret_word (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gchar *ret_val = NULL;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return NULL;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMGetCaretWord",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
+	return webkit_editor_extract_and_free_jsc_string (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.GetCaretWord();"),
 		NULL);
-
-	if (result) {
-		g_variant_get (result, "(s)", &ret_val);
-		g_variant_unref (result);
-	}
-
-	return ret_val;
 }
 
 static void
@@ -2337,6 +2452,10 @@ webkit_editor_set_start_bottom (EWebKitEditor *wk_editor,
 
 	wk_editor->priv->start_bottom = value;
 
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.START_BOTTOM = %x;",
+		e_webkit_editor_three_state_to_bool (value, "composer-reply-start-bottom"));
+
 	g_object_notify (G_OBJECT (wk_editor), "start-bottom");
 }
 
@@ -2358,6 +2477,10 @@ webkit_editor_set_top_signature (EWebKitEditor *wk_editor,
 		return;
 
 	wk_editor->priv->top_signature = value;
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.TOP_SIGNATURE = %x;",
+		e_webkit_editor_three_state_to_bool (value, "composer-top-signature"));
 
 	g_object_notify (G_OBJECT (wk_editor), "top-signature");
 }
@@ -2382,9 +2505,6 @@ webkit_editor_set_spell_check_enabled (EWebKitEditor *wk_editor,
 		return;
 
 	wk_editor->priv->spell_check_enabled = enable;
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, enable ? "DOMForceSpellCheck" : "DOMTurnSpellCheckOff");
 
 	web_context = webkit_web_view_get_context (WEBKIT_WEB_VIEW (wk_editor));
 	webkit_web_context_set_spell_checking_enabled (web_context, enable);
@@ -2441,34 +2561,6 @@ webkit_editor_set_editable (EWebKitEditor *wk_editor,
 	return webkit_web_view_set_editable (WEBKIT_WEB_VIEW (wk_editor), editable);
 }
 
-static gchar *
-webkit_editor_get_current_signature_uid (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-	gchar *ret_val= NULL;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return NULL;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMGetActiveSignatureUid",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(s)", &ret_val);
-		g_variant_unref (result);
-	}
-
-	return ret_val;
-}
-
 static gboolean
 webkit_editor_is_ready (EContentEditor *editor)
 {
@@ -2476,16 +2568,22 @@ webkit_editor_is_ready (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	/* Editor is ready just in case that the web view is not loading, there
-	 * is no reload in progress and there is no pending post reload operation
-	 * and the web extension for the editor is created. */
-	return !webkit_web_view_is_loading (WEBKIT_WEB_VIEW (wk_editor)) &&
-		!wk_editor->priv->reload_in_progress &&
-		wk_editor->priv->web_extension_proxy &&
-		(!wk_editor->priv->post_reload_operations || g_queue_is_empty (wk_editor->priv->post_reload_operations));
+	/* Editor is ready just in case that the web view is not loading. */
+	return wk_editor->priv->webkit_load_event == WEBKIT_LOAD_FINISHED &&
+		!webkit_web_view_is_loading (WEBKIT_WEB_VIEW (wk_editor));
 }
 
-static char *
+static gchar *
+webkit_editor_get_current_signature_uid (EContentEditor *editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (editor), NULL);
+
+	return webkit_editor_extract_and_free_jsc_string (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.GetCurrentSignatureUid();"),
+		NULL);
+}
+
+static gchar *
 webkit_editor_insert_signature (EContentEditor *editor,
                                 const gchar *content,
                                 gboolean is_html,
@@ -2494,101 +2592,42 @@ webkit_editor_insert_signature (EContentEditor *editor,
                                 gboolean *check_if_signature_is_changed,
                                 gboolean *ignore_next_signature_change)
 {
-	EWebKitEditor *wk_editor;
-	gchar *ret_val = NULL;
-	GVariant *result;
+	JSCValue *jsc_value;
+	gchar *res = NULL, *tmp = NULL;
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (editor), NULL);
 
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return NULL;
+	if (!is_html && content && *content) {
+		tmp = camel_text_to_html (content, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+
+		if (tmp)
+			content = tmp;
 	}
 
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMInsertSignature",
-		g_variant_new (
-			"(tsbsbbbnn)",
-			current_page_id (wk_editor),
-			content ? content : "",
-			is_html,
-			signature_id,
-			*set_signature_from_message,
-			*check_if_signature_is_changed,
-			*ignore_next_signature_change,
-			e_webkit_editor_three_state_to_int16 (e_content_editor_get_start_bottom (editor)),
-			e_webkit_editor_three_state_to_int16 (e_content_editor_get_top_signature (editor))),
-		NULL);
+	jsc_value = webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor),
+		"EvoEditor.InsertSignature(%s, %x, %s, %x, %x, %x, %x, %x, %x);",
+		content ? content : "",
+		is_html,
+		signature_id,
+		*set_signature_from_message,
+		*check_if_signature_is_changed,
+		*ignore_next_signature_change,
+		e_webkit_editor_three_state_to_bool (e_content_editor_get_start_bottom (editor), "composer-reply-start-bottom"),
+		e_webkit_editor_three_state_to_bool (e_content_editor_get_top_signature (editor), "composer-top-signature"),
+		!e_webkit_editor_three_state_to_bool (E_THREE_STATE_INCONSISTENT, "composer-no-signature-delim"));
 
-	if (result) {
-		g_variant_get (
-			result,
-			"(sbbb)",
-			&ret_val,
-			set_signature_from_message,
-			check_if_signature_is_changed,
-			ignore_next_signature_change);
-		g_variant_unref (result);
+	g_free (tmp);
+
+	if (jsc_value) {
+		*set_signature_from_message = e_web_view_jsc_get_object_property_boolean (jsc_value, "fromMessage", FALSE);
+		*check_if_signature_is_changed = e_web_view_jsc_get_object_property_boolean (jsc_value, "checkChanged", FALSE);
+		*ignore_next_signature_change = e_web_view_jsc_get_object_property_boolean (jsc_value, "ignoreNextChange", FALSE);
+		res = e_web_view_jsc_get_object_property_string (jsc_value, "newUid", NULL);
+
+		g_clear_object (&jsc_value);
 	}
 
-	return ret_val;
-}
-
-static guint
-webkit_editor_get_caret_position (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	guint ret_val = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMGetCaretPosition",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(u)", &ret_val);
-		g_variant_unref (result);
-	}
-
-	return ret_val;
-}
-
-static guint
-webkit_editor_get_caret_offset (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	guint ret_val = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMGetCaretOffset",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(u)", &ret_val);
-		g_variant_unref (result);
-	}
-
-	return ret_val;
+	return res;
 }
 
 static void
@@ -2596,18 +2635,12 @@ webkit_editor_clear_undo_redo_history (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
 
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
+
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMClearUndoRedoHistory",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		wk_editor->priv->cancellable);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoUndoRedo.Clear();");
 }
 
 static void
@@ -2615,22 +2648,13 @@ webkit_editor_replace_caret_word (EContentEditor *editor,
                                   const gchar *replacement)
 {
 	EWebKitEditor *wk_editor;
-	GVariant *result;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
 
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMReplaceCaretWord",
-		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
-		wk_editor->priv->cancellable);
-
-	if (result)
-		g_variant_unref (result);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.ReplaceCaretWord(%s);", replacement);
 }
 
 static void
@@ -2683,22 +2707,13 @@ webkit_editor_replace (EContentEditor *editor,
                        const gchar *replacement)
 {
 	EWebKitEditor *wk_editor;
-	GVariant *result;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
 
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMSelectionReplace",
-		g_variant_new ("(ts)", current_page_id (wk_editor), replacement),
-		wk_editor->priv->cancellable);
-
-	if (result)
-		g_variant_unref (result);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.ReplaceSelection(%s);", replacement);
 }
 
 static gboolean
@@ -2723,11 +2738,8 @@ webkit_find_controller_found_text_cb (WebKitFindController *find_controller,
 		/* Repeatedly search for 'word', then replace selection by
 		 * 'replacement'. Repeat until there's at least one occurrence of
 		 * 'word' in the document */
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"DOMSelectionReplace",
-			g_variant_new ("(ts)", current_page_id (wk_editor), wk_editor->priv->replace_with),
-			wk_editor->priv->cancellable);
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.ReplaceSelection(%s);", wk_editor->priv->replace_with);
 
 		g_idle_add ((GSourceFunc) search_next_on_idle, wk_editor);
 	} else {
@@ -2744,25 +2756,8 @@ webkit_find_controller_failed_to_find_text_cb (WebKitFindController *find_contro
 	if (wk_editor->priv->performing_replace_all) {
 		guint replaced_count = wk_editor->priv->replaced_count;
 
-		if (replaced_count > 0) {
-			if (!wk_editor->priv->web_extension_proxy) {
-				g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-			} else {
-				GVariant *result;
-
-				result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-					wk_editor->priv->web_extension_proxy,
-					"DOMInsertReplaceAllHistoryEvent",
-					g_variant_new ("(tss)",
-						current_page_id (wk_editor),
-						webkit_find_controller_get_search_text (find_controller),
-						wk_editor->priv->replace_with),
-					NULL);
-
-				if (result)
-					g_variant_unref (result);
-			}
-		}
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_GROUP, %s);", "ReplaceAll");
 
 		webkit_editor_finish_search (wk_editor);
 		e_content_editor_emit_replace_all_done (E_CONTENT_EDITOR (wk_editor), replaced_count);
@@ -2857,6 +2852,9 @@ webkit_editor_replace_all (EContentEditor *editor,
 	wk_editor->priv->performing_replace_all = TRUE;
 	wk_editor->priv->replaced_count = 0;
 
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_GROUP, %s);", "ReplaceAll");
+
 	webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor), "MoveToBeginningOfDocumentAndModifySelection");
 
 	webkit_find_controller_search (wk_editor->priv->find_controller, find_text, wk_options, G_MAXUINT);
@@ -2867,10 +2865,12 @@ webkit_editor_selection_save (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
 
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
+
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "DOMSaveSelection");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.StoreSelection();");
 }
 
 static void
@@ -2878,165 +2878,165 @@ webkit_editor_selection_restore (EContentEditor *editor)
 {
 	EWebKitEditor *wk_editor;
 
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
+
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "DOMRestoreSelection");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.RestoreSelection();");
+}
+
+static void
+webkit_editor_on_dialog_open (EContentEditor *editor,
+			      const gchar *name)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.OnDialogOpen(%s);", name);
+
+	if (g_strcmp0 (name, E_CONTENT_EDITOR_DIALOG_SPELLCHECK) == 0) {
+		gchar **strv;
+
+		strv = e_spell_checker_list_active_languages (wk_editor->priv->spell_checker, NULL);
+
+		if (strv) {
+			gint ii, len = 0;
+			gchar *langs, *ptr;
+
+			for (ii = 0; strv[ii]; ii++) {
+				len += strlen (strv[ii]) + 1;
+			}
+
+			len++;
+
+			langs = g_slice_alloc0 (len);
+			ptr = langs;
+
+			for (ii = 0; strv[ii]; ii++) {
+				strcpy (ptr, strv[ii]);
+				ptr += strlen (strv[ii]);
+				if (strv[ii + 1]) {
+					*ptr = '|';
+					ptr++;
+				}
+			}
+
+			*ptr = '\0';
+
+			e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+				"EvoEditor.SetSpellCheckLanguages(%s);", langs);
+
+			g_slice_free1 (len, langs);
+			g_strfreev (strv);
+		}
+	}
+}
+
+static void
+webkit_editor_on_dialog_close (EContentEditor *editor,
+			       const gchar *name)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.OnDialogClose(%s);", name);
+
+	if (g_strcmp0 (name, E_CONTENT_EDITOR_DIALOG_SPELLCHECK) == 0 ||
+	    g_strcmp0 (name, E_CONTENT_EDITOR_DIALOG_FIND) == 0 ||
+	    g_strcmp0 (name, E_CONTENT_EDITOR_DIALOG_REPLACE) == 0)
+		webkit_editor_finish_search (E_WEBKIT_EDITOR (editor));
 }
 
 static void
 webkit_editor_delete_cell_contents (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorDialogDeleteCellContents");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableDeleteCellContent();");
 }
 
 static void
 webkit_editor_delete_column (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorDialogDeleteColumn");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableDeleteColumn();");
 }
 
 static void
 webkit_editor_delete_row (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorDialogDeleteRow");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableDeleteRow();");
 }
 
 static void
 webkit_editor_delete_table (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorDialogDeleteTable");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableDelete();");
 }
 
 static void
 webkit_editor_insert_column_after (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorDialogInsertColumnAfter");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableInsert(%s, %d);", "column", +1);
 }
 
 static void
 webkit_editor_insert_column_before (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorDialogInsertColumnBefore");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableInsert(%s, %d);", "column", -1);
 }
-
 
 static void
 webkit_editor_insert_row_above (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorDialogInsertRowAbove");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableInsert(%s, %d);", "row", -1);
 }
 
 static void
 webkit_editor_insert_row_below (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorDialogInsertRowBelow");
-}
-
-static gboolean
-webkit_editor_on_h_rule_dialog_open (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-	gboolean value = FALSE;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return FALSE;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorHRuleDialogFindHRule",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(b)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
-}
-
-static void
-webkit_editor_on_h_rule_dialog_close (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorHRuleDialogOnClose");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableInsert(%s, %d);", "row", +1);
 }
 
 static void
 webkit_editor_h_rule_set_align (EContentEditor *editor,
                                 const gchar *value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-hr", "align", value);
+	webkit_editor_dialog_utils_set_attribute (E_WEBKIT_EDITOR (editor), NULL, "align", value);
 }
 
 static gchar *
 webkit_editor_h_rule_get_align (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gchar *value = NULL;
-	GVariant *result;
+	gchar *value;
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
+	value = webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "align");
 
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-hr", "align");
-	if (result) {
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
+	if (!value || !*value) {
+		g_free (value);
+		value = g_strdup ("center");
 	}
 
 	return value;
@@ -3046,42 +3046,18 @@ static void
 webkit_editor_h_rule_set_size (EContentEditor *editor,
                                gint value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *size;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	size = g_strdup_printf ("%d", value);
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-hr", "size", size);
-
-	g_free (size);
+	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "size", value);
 }
 
 static gint
 webkit_editor_h_rule_get_size (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gint size = 0;
-	GVariant *result;
+	gint size;
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
+	size = webkit_editor_dialog_utils_get_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "size", 2);
 
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-hr", "size");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (value && *value)
-			size = atoi (value);
-
-		if (size == 0)
-			size = 2;
-
-		g_variant_unref (result);
-	}
+	if (!size)
+		size = 2;
 
 	return size;
 }
@@ -3091,45 +3067,20 @@ webkit_editor_h_rule_set_width (EContentEditor *editor,
                                 gint value,
                                 EContentEditorUnit unit)
 {
-	EWebKitEditor *wk_editor;
-	gchar *width;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	width = g_strdup_printf (
-		"%d%s",
-		value,
-		(unit == E_CONTENT_EDITOR_UNIT_PIXEL) ? "px" : "%");
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-hr", "width", width);
-
-	g_free (width);
+	webkit_editor_dialog_utils_set_attribute_with_unit (E_WEBKIT_EDITOR (editor), NULL, "width", value, unit);
 }
 
 static gint
 webkit_editor_h_rule_get_width (EContentEditor *editor,
                                 EContentEditorUnit *unit)
 {
-	EWebKitEditor *wk_editor;
-	gint value = 0;
-	GVariant *result;
+	gint value;
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
+	value = webkit_editor_dialog_utils_get_attribute_with_unit (E_WEBKIT_EDITOR (editor), NULL, "width", 0, unit);
 
-	*unit = E_CONTENT_EDITOR_UNIT_PIXEL;
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-hr", "width");
-	if (result) {
-		const gchar *width;
-		g_variant_get (result, "(&s)", &width);
-		if (width && *width) {
-			value = atoi (width);
-			if (strstr (width, "%"))
-				*unit = E_CONTENT_EDITOR_UNIT_PERCENTAGE;
-		}
-		g_variant_unref (result);
+	if (!value && *unit == E_CONTENT_EDITOR_UNIT_AUTO) {
+		*unit = E_CONTENT_EDITOR_UNIT_PERCENTAGE;
+		value = 100;
 	}
 
 	return value;
@@ -3139,89 +3090,42 @@ static void
 webkit_editor_h_rule_set_no_shade (EContentEditor *editor,
                                    gboolean value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	if (value)
-		webkit_editor_set_element_attribute (
-			wk_editor, "#-x-evo-current-hr", "noshade", "");
-	else
-		webkit_editor_remove_element_attribute (
-			wk_editor, "#-x-evo-current-hr", "noshade");
+	webkit_editor_dialog_utils_set_attribute (E_WEBKIT_EDITOR (editor), NULL, "noshade", value ? "" : NULL);
 }
 
 static gboolean
 webkit_editor_h_rule_get_no_shade (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gboolean no_shade = FALSE;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return FALSE;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ElementHasAttribute",
-		g_variant_new ("(tss)", current_page_id (wk_editor), "-x-evo-current-hr", "noshade"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(b)", &no_shade);
-		g_variant_unref (result);
-	}
-
-	return no_shade;
-}
-
-static void
-webkit_editor_on_image_dialog_open (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorImageDialogMarkImage");
-}
-
-static void
-webkit_editor_on_image_dialog_close (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorImageDialogSaveHistoryOnExit");
+	return webkit_editor_dialog_utils_has_attribute (E_WEBKIT_EDITOR (editor), "noshade");
 }
 
 static void
 webkit_editor_insert_image (EContentEditor *editor,
                             const gchar *image_uri)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+	gint width = -1, height = -1;
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
+	g_return_if_fail (image_uri != NULL);
 
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
+	if (g_ascii_strncasecmp (image_uri, "file://", 7) == 0) {
+		gchar *filename;
+
+		filename = g_filename_from_uri (image_uri, NULL, NULL);
+
+		if (filename) {
+			if (!gdk_pixbuf_get_file_info (filename, &width, &height)) {
+				width = -1;
+				height = -1;
+			}
+
+			g_free (filename);
+		}
 	}
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMSelectionInsertImage",
-		g_variant_new ("(ts)", current_page_id (wk_editor), image_uri),
-		wk_editor->priv->cancellable);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.InsertImage(%s, %d, %d);",
+		image_uri, width, height);
 }
 
 static void
@@ -3229,565 +3133,205 @@ webkit_editor_replace_image_src (EWebKitEditor *wk_editor,
                                  const gchar *selector,
                                  const gchar *image_uri)
 {
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"DOMReplaceImageSrc",
-		g_variant_new ("(tss)", current_page_id (wk_editor), selector, image_uri),
-		wk_editor->priv->cancellable);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.ReplaceImageSrc(%s, %s);",
+		selector,
+		image_uri);
 }
 
 static void
 webkit_editor_image_set_src (EContentEditor *editor,
                              const gchar *value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_replace_image_src (
-		wk_editor, "img#-x-evo-current-img", value);
+	webkit_editor_dialog_utils_set_attribute (E_WEBKIT_EDITOR (editor), NULL, "src", value);
 }
 
 static gchar *
 webkit_editor_image_get_src (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gchar *value = NULL;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-img", "data-uri");
-
-	if (result) {
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "src");
 }
 
 static void
 webkit_editor_image_set_alt (EContentEditor *editor,
                              const gchar *value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-img", "alt", value);
+	webkit_editor_dialog_utils_set_attribute (E_WEBKIT_EDITOR (editor), NULL, "alt", value);
 }
 
 static gchar *
 webkit_editor_image_get_alt (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gchar *value = NULL;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-img", "alt");
-
-	if (result) {
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "alt");
 }
 
 static void
 webkit_editor_image_set_url (EContentEditor *editor,
                              const gchar *value)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorImageDialogSetElementUrl",
-		g_variant_new ("(ts)", current_page_id (wk_editor), value),
-		wk_editor->priv->cancellable);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsSetImageUrl(%s);",
+		value);
 }
 
 static gchar *
 webkit_editor_image_get_url (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gchar *value = NULL;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return NULL;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorImageDialogGetElementUrl",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
+	return webkit_editor_extract_and_free_jsc_string (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.DialogUtilsGetImageUrl();"),
 		NULL);
-
-	if (result) {
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
 }
 
 static void
 webkit_editor_image_set_vspace (EContentEditor *editor,
                                 gint value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementSetVSpace",
-		g_variant_new (
-			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
-		wk_editor->priv->cancellable);
+	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "vspace", value);
 }
 
 static gint
 webkit_editor_image_get_vspace (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gint value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementGetVSpace",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "vspace", 0);
 }
 
 static void
 webkit_editor_image_set_hspace (EContentEditor *editor,
                                         gint value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementSetHSpace",
-		g_variant_new (
-			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
-		wk_editor->priv->cancellable);
+	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "hspace", value);
 }
 
 static gint
 webkit_editor_image_get_hspace (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gint value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementGetHSpace",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "hspace", 0);
 }
 
 static void
 webkit_editor_image_set_border (EContentEditor *editor,
                                 gint value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *border;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	border = g_strdup_printf ("%d", value);
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-img", "border", border);
-
-	g_free (border);
+	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "border", value);
 }
 
 static gint
 webkit_editor_image_get_border (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gint value = 0;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-img", "border");
-
-	if (result) {
-		const gchar *border;
-		g_variant_get (result, "(&s)", &border);
-		if (border && *border)
-			value = atoi (border);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "border", 0);
 }
 
 static void
 webkit_editor_image_set_align (EContentEditor *editor,
                                const gchar *value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-img", "align", value);
+	webkit_editor_dialog_utils_set_attribute (E_WEBKIT_EDITOR (editor), NULL, "align", value);
 }
 
 static gchar *
 webkit_editor_image_get_align (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gchar *value = NULL;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-img", "align");
-
-	if (result) {
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "align");
 }
 
 static gint32
 webkit_editor_image_get_natural_width (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gint32 value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementGetNaturalWidth",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_extract_and_free_jsc_int32 (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.DialogUtilsGetImageWidth(true);"),
+		0);
 }
 
 static gint32
 webkit_editor_image_get_natural_height (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gint32 value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementGetNaturalHeight",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_extract_and_free_jsc_int32 (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.DialogUtilsGetImageHeight(true);"),
+		0);
 }
 
 static void
 webkit_editor_image_set_height (EContentEditor *editor,
                                 gint value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementSetHeight",
-		g_variant_new (
-			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
-		wk_editor->priv->cancellable);
+	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "height", value);
 }
 
 static void
 webkit_editor_image_set_width (EContentEditor *editor,
                                gint value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementSetWidth",
-		g_variant_new (
-			"(tsi)", current_page_id (wk_editor), "-x-evo-current-img", value),
-		wk_editor->priv->cancellable);
+	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "width", value);
 }
 
 static void
 webkit_editor_image_set_height_follow (EContentEditor *editor,
                                       gboolean value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (value)
-		webkit_editor_set_element_attribute (
-			wk_editor, "#-x-evo-current-img", "style", "height: auto;");
-	else
-		webkit_editor_remove_element_attribute (
-			wk_editor, "#-x-evo-current-img", "style");
+	webkit_editor_dialog_utils_set_attribute (E_WEBKIT_EDITOR (editor), NULL, "style", value ? "height: auto;" : NULL);
 }
 
 static void
 webkit_editor_image_set_width_follow (EContentEditor *editor,
                                      gboolean value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (value)
-		webkit_editor_set_element_attribute (
-			wk_editor, "#-x-evo-current-img", "style", "width: auto;");
-	else
-		webkit_editor_remove_element_attribute (
-			wk_editor, "#-x-evo-current-img", "style");
+	webkit_editor_dialog_utils_set_attribute (E_WEBKIT_EDITOR (editor), NULL, "style", value ? "width: auto;" : NULL);
 }
 
 static gint32
 webkit_editor_image_get_width (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gint32 value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementGetWidth",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_extract_and_free_jsc_int32 (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.DialogUtilsGetImageWidth(false);"),
+		0);
 }
 
 static gint32
 webkit_editor_image_get_height (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gint32 value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ImageElementGetHeight",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-img"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_extract_and_free_jsc_int32 (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.DialogUtilsGetImageHeight(false);"),
+		0);
 }
 
 static void
 webkit_editor_selection_unlink (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorLinkDialogUnlink");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.Unlink();");
 }
 
 static void
-webkit_editor_on_link_dialog_open (EContentEditor *editor)
+webkit_editor_link_set_properties (EContentEditor *editor,
+				   const gchar *href,
+				   const gchar *text)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorLinkDialogOnOpen");
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.LinkSetProperties(%s, %s);",
+		href, text);
 }
 
 static void
-webkit_editor_on_link_dialog_close (EContentEditor *editor)
+webkit_editor_link_get_properties (EContentEditor *editor,
+				   gchar **href,
+				   gchar **text)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+	JSCValue *result;
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorLinkDialogOnClose");
-}
-
-static void
-webkit_editor_link_set_values (EContentEditor *editor,
-                               const gchar *href,
-                               const gchar *text)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorLinkDialogOk",
-		g_variant_new ("(tss)", current_page_id (wk_editor), href, text),
-		wk_editor->priv->cancellable);
-}
-
-static void
-webkit_editor_link_get_values (EContentEditor *editor,
-                               gchar **href,
-                               gchar **text)
-{
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorLinkDialogShow",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
+	result = webkit_editor_call_jsc_sync (wk_editor, "EvoEditor.LinkGetProperties();");
 
 	if (result) {
-		g_variant_get (result, "(ss)", href, text);
-		g_variant_unref (result);
+		*href = e_web_view_jsc_get_object_property_string (result, "href", NULL);
+		*text = e_web_view_jsc_get_object_property_string (result, "text", NULL);
+
+		g_clear_object (&result);
 	} else {
 		*href = NULL;
 		*text = NULL;
@@ -3800,8 +3344,9 @@ webkit_editor_set_alignment (EWebKitEditor *wk_editor,
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	webkit_editor_set_format_int (
-		wk_editor, "DOMSelectionSetAlignment", (gint32) value);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.SetAlignment(%d);",
+		value);
 }
 
 static EContentEditorAlignment
@@ -3818,8 +3363,9 @@ webkit_editor_set_block_format (EWebKitEditor *wk_editor,
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	webkit_editor_set_format_int (
-		wk_editor, "DOMSelectionSetBlockFormat", (gint32) value);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.SetBlockFormat(%d);",
+		value);
 }
 
 static EContentEditorBlockFormat
@@ -3834,27 +3380,25 @@ static void
 webkit_editor_set_background_color (EWebKitEditor *wk_editor,
                                     const GdkRGBA *value)
 {
-	gchar *color;
+	gchar color[64];
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	if (gdk_rgba_equal (value, wk_editor->priv->background_color))
+	if ((!value && !wk_editor->priv->background_color) ||
+	    (value && wk_editor->priv->background_color && gdk_rgba_equal (value, wk_editor->priv->background_color)))
 		return;
 
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
+	if (value && value->alpha > 1e-9) {
+		webkit_editor_utils_color_to_string (color, sizeof (color), value);
+		g_clear_pointer (&wk_editor->priv->background_color, gdk_rgba_free);
+		wk_editor->priv->background_color = gdk_rgba_copy (value);
+	} else {
+		g_snprintf (color, sizeof (color), "inherit");
+		g_clear_pointer (&wk_editor->priv->background_color, gdk_rgba_free);
+		wk_editor->priv->background_color = NULL;
+	}
 
-	if (wk_editor->priv->background_color)
-		gdk_rgba_free (wk_editor->priv->background_color);
-
-	wk_editor->priv->background_color = gdk_rgba_copy (value);
-
-	webkit_editor_set_format_string (
-		wk_editor,
-		"background-color",
-		"DOMSelectionSetBackgroundColor",
-		color);
-
-	g_free (color);
+	webkit_web_view_execute_editing_command_with_argument (WEBKIT_WEB_VIEW (wk_editor), "BackColor", color);
 }
 
 static const GdkRGBA *
@@ -3862,13 +3406,8 @@ webkit_editor_get_background_color (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
 
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return NULL;
-	}
-
-	if (!wk_editor->priv->html_mode || !wk_editor->priv->background_color)
-		return &white;
+	if (!wk_editor->priv->background_color)
+		return &transparent;
 
 	return wk_editor->priv->background_color;
 }
@@ -3879,16 +3418,18 @@ webkit_editor_set_font_name (EWebKitEditor *wk_editor,
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	wk_editor->priv->font_name = g_strdup (value);
-
-	webkit_editor_set_format_string (
-		wk_editor, "font-name", "DOMSelectionSetFontName", value);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.SetFontName(%s);",
+		value ? value : "");
 }
 
 static const gchar *
 webkit_editor_get_font_name (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
+
+	if (!wk_editor->priv->html_mode)
+		return NULL;
 
 	return wk_editor->priv->font_name;
 }
@@ -3897,38 +3438,24 @@ static void
 webkit_editor_set_font_color (EWebKitEditor *wk_editor,
                               const GdkRGBA *value)
 {
-	gchar *color;
+	gchar color[64];
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	if (gdk_rgba_equal (value, wk_editor->priv->font_color))
+	if ((!value && !wk_editor->priv->font_color) ||
+	    (value && wk_editor->priv->font_color && gdk_rgba_equal (value, wk_editor->priv->font_color)))
 		return;
 
-	color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
+	webkit_editor_utils_color_to_string (color, sizeof (color), value);
 
-	if (wk_editor->priv->font_color)
-		gdk_rgba_free (wk_editor->priv->font_color);
-
-	wk_editor->priv->font_color = gdk_rgba_copy (value);
-
-	webkit_editor_set_format_string (
-		wk_editor,
-		"font-color",
-		"DOMSelectionSetFontColor",
-		color);
-
-	g_free (color);
+	webkit_web_view_execute_editing_command_with_argument (WEBKIT_WEB_VIEW (wk_editor), "ForeColor",
+		webkit_editor_utils_color_to_string (color, sizeof (color), value));
 }
 
 static const GdkRGBA *
 webkit_editor_get_font_color (EWebKitEditor *wk_editor)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return NULL;
-	}
 
 	if (!wk_editor->priv->html_mode || !wk_editor->priv->font_color)
 		return &black;
@@ -3940,15 +3467,21 @@ static void
 webkit_editor_set_font_size (EWebKitEditor *wk_editor,
                              gint value)
 {
+	gchar sz[2] = { 0, 0 };
+
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
 	if (wk_editor->priv->font_size == value)
 		return;
 
-	wk_editor->priv->font_size = value;
+	if (value >= 1 && value <= 7) {
+		sz[0] = '0' + value;
+	} else {
+		g_warn_if_reached ();
+		return;
+	}
 
-	webkit_editor_set_format_int (
-		wk_editor, "DOMSelectionSetFontSize", value);
+	webkit_web_view_execute_editing_command_with_argument (WEBKIT_WEB_VIEW (wk_editor), "FontSize", sz);
 }
 
 static gint
@@ -3961,123 +3494,60 @@ webkit_editor_get_font_size (EWebKitEditor *wk_editor)
 
 static void
 webkit_editor_set_style_flag (EWebKitEditor *wk_editor,
-			      EContentEditorStyleFlags flag,
-			      gboolean do_set,
-			      const gchar *dom_function_name)
+			      EWebKitEditorStyleFlags flag,
+			      gboolean do_set)
 {
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
-	if (((wk_editor->priv->style_flags & flag) != 0 ? 1 : 0) == (do_set ? 1 : 0))
+	if (((wk_editor->priv->temporary_style_flags & flag) != 0 ? 1 : 0) == (do_set ? 1 : 0))
 		return;
 
-	wk_editor->priv->style_flags = (wk_editor->priv->style_flags & ~flag) | (do_set ? flag : 0);
+	switch (flag) {
+	case E_WEBKIT_EDITOR_STYLE_NONE:
+		break;
+	case E_WEBKIT_EDITOR_STYLE_IS_BOLD:
+		webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor), "Bold");
+		break;
+	case E_WEBKIT_EDITOR_STYLE_IS_ITALIC:
+		webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor), "Italic");
+		break;
+	case E_WEBKIT_EDITOR_STYLE_IS_UNDERLINE:
+		webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor), "Underline");
+		break;
+	case E_WEBKIT_EDITOR_STYLE_IS_STRIKETHROUGH:
+		webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor), "Strikethrough");
+		break;
+	case E_WEBKIT_EDITOR_STYLE_IS_SUBSCRIPT:
+		webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor), "Subscript");
+		break;
+	case E_WEBKIT_EDITOR_STYLE_IS_SUPERSCRIPT:
+		webkit_web_view_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor), "Superscript");
+		break;
+	}
 
-	webkit_editor_set_format_boolean (wk_editor, dom_function_name, do_set);
+	wk_editor->priv->temporary_style_flags = (wk_editor->priv->temporary_style_flags & (~flag)) | (do_set ? flag : 0);
 }
 
 static gboolean
 webkit_editor_get_style_flag (EWebKitEditor *wk_editor,
-			      EContentEditorStyleFlags flag)
+			      EWebKitEditorStyleFlags flag)
 {
 	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
 
 	return (wk_editor->priv->style_flags & flag) != 0;
 }
 
-static void
-webkit_editor_on_page_dialog_open (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorPageDialogSaveHistory");
-}
-
-static void
-webkit_editor_on_page_dialog_close (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorPageDialogSaveHistoryOnExit");
-}
-
 static gchar *
 webkit_editor_page_get_background_image_uri (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return NULL;
-
-	result = webkit_editor_get_element_attribute (wk_editor, "body", "data-uri");
-	if (result) {
-		gchar *value;
-
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return NULL;
+	return webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), "body", "background");
 }
 
 static void
 webkit_editor_page_set_background_image_uri (EContentEditor *editor,
                                              const gchar *uri)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (uri && *uri)
-		webkit_editor_replace_image_src (wk_editor, "body", uri);
-	else {
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"RemoveImageAttributesFromElementBySelector",
-			g_variant_new ("(ts)", current_page_id (wk_editor), "body"),
-			wk_editor->priv->cancellable);
-	}
-}
-
-static void
-webkit_editor_on_cell_dialog_open (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorCellDialogMarkCurrentCellElement",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		wk_editor->priv->cancellable);
-}
-
-static void
-webkit_editor_on_cell_dialog_close (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorCellDialogSaveHistoryOnExit");
+	webkit_editor_replace_image_src (E_WEBKIT_EDITOR (editor), "body", uri);
 }
 
 static void
@@ -4085,45 +3555,13 @@ webkit_editor_cell_set_v_align (EContentEditor *editor,
                                 const gchar *value,
                                 EContentEditorScope scope)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorCellDialogSetElementVAlign",
-		g_variant_new ("(tsi)", current_page_id (wk_editor), value, (gint32) scope),
-		wk_editor->priv->cancellable);
+	webkit_editor_dialog_utils_set_table_attribute (E_WEBKIT_EDITOR (editor), scope, "valign", value && *value ? value : NULL);
 }
 
 static gchar *
 webkit_editor_cell_get_v_align (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gchar *value = NULL;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return NULL;
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-cell", "valign");
-	if (result) {
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "valign");
 }
 
 static void
@@ -4131,45 +3569,13 @@ webkit_editor_cell_set_align (EContentEditor *editor,
                               const gchar *value,
                               EContentEditorScope scope)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorCellDialogSetElementAlign",
-		g_variant_new ("(tsi)", current_page_id (wk_editor), value, (gint32) scope),
-		wk_editor->priv->cancellable);
+	webkit_editor_dialog_utils_set_table_attribute (E_WEBKIT_EDITOR (editor), scope, "align", value && *value ? value : NULL);
 }
 
 static gchar *
 webkit_editor_cell_get_align (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gchar *value = NULL;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return NULL;
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-cell", "align");
-	if (result) {
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "align");
 }
 
 static void
@@ -4177,53 +3583,19 @@ webkit_editor_cell_set_wrap (EContentEditor *editor,
                              gboolean value,
                              EContentEditorScope scope)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorCellDialogSetElementNoWrap",
-		g_variant_new ("(tbi)", current_page_id (wk_editor), !value, (gint32) scope),
-		wk_editor->priv->cancellable);
+	webkit_editor_dialog_utils_set_table_attribute (E_WEBKIT_EDITOR (editor), scope, "nowrap", !value ? "" : NULL);
 }
 
 static gboolean
 webkit_editor_cell_get_wrap (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
 	gboolean value = FALSE;
-	GVariant *result;
+	gchar *nowrap;
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
+	nowrap = webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "nowrap");
+	value = !nowrap;
 
-	if (!wk_editor->priv->html_mode)
-		return FALSE;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return FALSE;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"TableCellElementGetNoWrap",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(b)", &value);
-		value = !value;
-		g_variant_unref (result);
-	}
+	g_free (nowrap);
 
 	return value;
 }
@@ -4235,205 +3607,54 @@ webkit_editor_cell_set_header_style (EContentEditor *editor,
 {
 	EWebKitEditor *wk_editor;
 
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (editor));
+
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorCellDialogSetElementHeaderStyle",
-		g_variant_new ("(tbi)", current_page_id (wk_editor), value, (gint32) scope),
-		wk_editor->priv->cancellable);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableSetHeader(%d, %x);",
+		scope, value);
 }
 
 static gboolean
 webkit_editor_cell_is_header (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gboolean value = FALSE;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return FALSE;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return FALSE;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"ElementGetTagName",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		NULL);
-
-	if (result) {
-		const gchar *tag_name;
-
-		g_variant_get (result, "(&s)", &tag_name);
-		value = g_ascii_strncasecmp (tag_name, "TH", 2) == 0;
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_extract_and_free_jsc_boolean (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor),
+			"EvoEditor.DialogUtilsTableGetCellIsHeader();"),
+		FALSE);
 }
 
 static gint
 webkit_editor_cell_get_width (EContentEditor *editor,
                               EContentEditorUnit *unit)
 {
-	EWebKitEditor *wk_editor;
-	gint value = 0;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	*unit = E_CONTENT_EDITOR_UNIT_AUTO;
-
-	if (!wk_editor->priv->html_mode)
-		return 0;
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-cell", "width");
-
-	if (result) {
-		const gchar *width;
-
-		g_variant_get (result, "(&s)", &width);
-		if (width && *width) {
-			value = atoi (width);
-			if (strstr (width, "%"))
-				*unit = E_CONTENT_EDITOR_UNIT_PERCENTAGE;
-			else if (g_ascii_strncasecmp (width, "auto", 4) != 0)
-				*unit = E_CONTENT_EDITOR_UNIT_PIXEL;
-		}
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_with_unit (E_WEBKIT_EDITOR (editor), NULL, "width", 0, unit);
 }
 
 static gint
 webkit_editor_cell_get_row_span (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gint value = 0;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return 0;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"TableCellElementGetRowSpan",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "rowspan", 0);
 }
 
 static gint
 webkit_editor_cell_get_col_span (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gint value = 0;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return 0;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"TableCellElementGetColSpan",
-		g_variant_new ("(ts)", current_page_id (wk_editor), "-x-evo-current-cell"),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(i)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "colspan", 0);
 }
 
 static gchar *
 webkit_editor_cell_get_background_image_uri (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return NULL;
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-cell", "data-uri");
-	if (result) {
-		gchar *value;
-
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return NULL;
+	return webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "background");
 }
 
 static void
 webkit_editor_cell_get_background_color (EContentEditor *editor,
                                          GdkRGBA *color)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		goto exit;
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-cell", "bgcolor");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto exit;
-		}
-		g_variant_unref (result);
-		return;
-	}
-
- exit:
-	*color = transparent;
+	webkit_editor_dialog_utils_get_attribute_color (E_WEBKIT_EDITOR (editor), NULL, "bgcolor", color);
 }
 
 static void
@@ -4441,23 +3662,10 @@ webkit_editor_cell_set_row_span (EContentEditor *editor,
                                  gint value,
                                  EContentEditorScope scope)
 {
-	EWebKitEditor *wk_editor;
+	gchar str_value[64];
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorCellDialogSetElementRowSpan",
-		g_variant_new ("(tii)", current_page_id (wk_editor), value, (gint32) scope),
-		wk_editor->priv->cancellable);
+	webkit_editor_dialog_utils_set_table_attribute (E_WEBKIT_EDITOR (editor), scope, "rowspan",
+		webkit_editor_utils_int_to_string (str_value, sizeof (str_value), value));
 }
 
 static void
@@ -4465,23 +3673,10 @@ webkit_editor_cell_set_col_span (EContentEditor *editor,
                                  gint value,
                                  EContentEditorScope scope)
 {
-	EWebKitEditor *wk_editor;
+	gchar str_value[64];
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorCellDialogSetElementColSpan",
-		g_variant_new ("(tii)", current_page_id (wk_editor), value, (gint32) scope),
-		wk_editor->priv->cancellable);
+	webkit_editor_dialog_utils_set_table_attribute (E_WEBKIT_EDITOR (editor), scope, "colspan",
+		webkit_editor_utils_int_to_string (str_value, sizeof (str_value), value));
 }
 
 static void
@@ -4490,34 +3685,10 @@ webkit_editor_cell_set_width (EContentEditor *editor,
                               EContentEditorUnit unit,
                               EContentEditorScope scope)
 {
-	EWebKitEditor *wk_editor;
-	gchar *width;
+	gchar str_value[64];
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	if (unit == E_CONTENT_EDITOR_UNIT_AUTO)
-		width = g_strdup ("auto");
-	else
-		width = g_strdup_printf (
-			"%d%s",
-			value,
-			(unit == E_CONTENT_EDITOR_UNIT_PIXEL) ? "px" : "%");
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorCellDialogSetElementWidth",
-		g_variant_new ("(tsi)", current_page_id (wk_editor), width, (gint32) scope),
-		wk_editor->priv->cancellable);
-
-	g_free (width);
+	webkit_editor_dialog_utils_set_table_attribute (E_WEBKIT_EDITOR (editor), scope, "width",
+		webkit_editor_utils_int_with_unit_to_string (str_value, sizeof (str_value), value, unit));
 }
 
 static void
@@ -4525,163 +3696,55 @@ webkit_editor_cell_set_background_color (EContentEditor *editor,
                                          const GdkRGBA *value,
                                          EContentEditorScope scope)
 {
-	EWebKitEditor *wk_editor;
-	gchar *color;
+	gchar str_value[64];
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	if (value->alpha != 0.0)
-		color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-	else
-		color = g_strdup ("");
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorCellDialogSetElementBgColor",
-		g_variant_new ("(tsi)", current_page_id (wk_editor), color, (gint32) scope),
-		wk_editor->priv->cancellable);
-
-	g_free (color);
+	webkit_editor_dialog_utils_set_table_attribute (E_WEBKIT_EDITOR (editor), scope, "bgcolor",
+		webkit_editor_utils_color_to_string (str_value, sizeof (str_value), value));
 }
 
 static void
 webkit_editor_cell_set_background_image_uri (EContentEditor *editor,
                                              const gchar *uri)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (uri && *uri)
-		webkit_editor_replace_image_src (wk_editor, "#-x-evo-current-cell", uri);
-	else {
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"RemoveImageAttributesFromElementBySelector",
-			g_variant_new ("(ts)", current_page_id (wk_editor), "#-x-evo-current-cell"),
-			wk_editor->priv->cancellable);
-	}
+	webkit_editor_replace_image_src (E_WEBKIT_EDITOR (editor), NULL, uri);
 }
 
 static void
 webkit_editor_table_set_row_count (EContentEditor *editor,
                                    guint value)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorTableDialogSetRowCount",
-		g_variant_new ("(tu)", current_page_id (wk_editor), value),
-		wk_editor->priv->cancellable);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableSetRowCount(%d);",
+		value);
 }
 
 static guint
 webkit_editor_table_get_row_count (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	guint value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return 0;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorTableDialogGetRowCount",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(u)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_extract_and_free_jsc_int32 (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.DialogUtilsTableGetRowCount();"),
+		0);
 }
 
 static void
 webkit_editor_table_set_column_count (EContentEditor *editor,
                                       guint value)
 {
-	EWebKitEditor *wk_editor;
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
 
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorTableDialogSetColumnCount",
-		g_variant_new ("(tu)", current_page_id (wk_editor), value),
-		wk_editor->priv->cancellable);
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.DialogUtilsTableSetColumnCount(%d);",
+		value);
 }
 
 static guint
 webkit_editor_table_get_column_count (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	guint value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return 0;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return 0;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorTableDialogGetColumnCount",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(u)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_extract_and_free_jsc_int32 (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.DialogUtilsTableGetColumnCount();"),
+		0);
 }
 
 static void
@@ -4689,465 +3752,111 @@ webkit_editor_table_set_width (EContentEditor *editor,
                                gint value,
                                EContentEditorUnit unit)
 {
-	EWebKitEditor *wk_editor;
-	gchar *width;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	if (unit == E_CONTENT_EDITOR_UNIT_AUTO)
-		width = g_strdup ("auto");
-	else
-		width = g_strdup_printf (
-			"%d%s",
-			value,
-			(unit == E_CONTENT_EDITOR_UNIT_PIXEL) ? "px" : "%");
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-table", "width", width);
-
-	g_free (width);
+	webkit_editor_dialog_utils_set_attribute_with_unit (E_WEBKIT_EDITOR (editor), NULL, "width", value, unit);
 }
 
 static guint
 webkit_editor_table_get_width (EContentEditor *editor,
                                EContentEditorUnit *unit)
 {
-	EWebKitEditor *wk_editor;
-	guint value = 0;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	*unit = E_CONTENT_EDITOR_UNIT_PIXEL;
-
-	if (!wk_editor->priv->html_mode)
-		return 0;
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-table", "width");
-
-	if (result) {
-		const gchar *width;
-
-		g_variant_get (result, "(&s)", &width);
-		if (width && *width) {
-			value = atoi (width);
-			if (strstr (width, "%"))
-				*unit = E_CONTENT_EDITOR_UNIT_PERCENTAGE;
-			else if (g_ascii_strncasecmp (width, "auto", 4) != 0)
-				*unit = E_CONTENT_EDITOR_UNIT_PIXEL;
-		}
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_with_unit (E_WEBKIT_EDITOR (editor), NULL, "width", 0, unit);
 }
 
 static void
 webkit_editor_table_set_align (EContentEditor *editor,
                                const gchar *value)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-table", "align", value);
+	webkit_editor_dialog_utils_set_attribute (E_WEBKIT_EDITOR (editor), NULL, "align", value);
 }
 
 static gchar *
 webkit_editor_table_get_align (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	gchar *value = NULL;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return NULL;
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-table", "align");
-	if (result) {
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "align");
 }
 
 static void
 webkit_editor_table_set_padding (EContentEditor *editor,
                                  gint value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *padding;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	padding = g_strdup_printf ("%d", value);
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-table", "cellpadding", padding);
-
-	g_free (padding);
+	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "cellpadding", value);
 }
 
 static gint
 webkit_editor_table_get_padding (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gint value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-table", "cellpadding");
-
-	if (result) {
-		const gchar *padding;
-
-		g_variant_get (result, "(&s)", &padding);
-		if (padding && *padding)
-			value = atoi (padding);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "cellpadding", 0);
 }
 
 static void
 webkit_editor_table_set_spacing (EContentEditor *editor,
                                  gint value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *spacing;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	spacing = g_strdup_printf ("%d", value);
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-table", "cellspacing", spacing);
-
-	g_free (spacing);
+	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "cellspacing", value);
 }
 
 static gint
 webkit_editor_table_get_spacing (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gint value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-table", "cellspacing");
-
-	if (result) {
-		const gchar *spacing;
-
-		g_variant_get (result, "(&s)", &spacing);
-		if (spacing && *spacing)
-			value = atoi (spacing);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "cellspacing", 0);
 }
 
 static void
 webkit_editor_table_set_border (EContentEditor *editor,
                                 gint value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *border;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	border = g_strdup_printf ("%d", value);
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-table", "border", border);
-
-	g_free (border);
+	webkit_editor_dialog_utils_set_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "border", value);
 }
 
 static gint
 webkit_editor_table_get_border (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gint value = 0;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-table", "border");
-
-	if (result) {
-		const gchar *border;
-
-		g_variant_get (result, "(&s)", &border);
-		if (border && *border)
-			value = atoi (border);
-		g_variant_unref (result);
-	}
-
-	return value;
+	return webkit_editor_dialog_utils_get_attribute_int (E_WEBKIT_EDITOR (editor), NULL, "border", 0);
 }
 
 static void
 webkit_editor_table_get_background_color (EContentEditor *editor,
                                           GdkRGBA *color)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		goto exit;
-
-	result = webkit_editor_get_element_attribute (
-		wk_editor, "#-x-evo-current-table", "bgcolor");
-	if (result) {
-		const gchar *value;
-
-		g_variant_get (result, "(&s)", &value);
-		if (!value || !*value || !gdk_rgba_parse (color, value)) {
-			g_variant_unref (result);
-			goto exit;
-		}
-		g_variant_unref (result);
-		return;
-	}
-
- exit:
-	*color = transparent;
+	webkit_editor_dialog_utils_get_attribute_color (E_WEBKIT_EDITOR (editor), NULL, "bgcolor", color);
 }
 
 static void
 webkit_editor_table_set_background_color (EContentEditor *editor,
                                           const GdkRGBA *value)
 {
-	EWebKitEditor *wk_editor;
-	gchar *color;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	if (value->alpha != 0.0)
-		color = g_strdup_printf ("#%06x", e_rgba_to_value (value));
-	else
-		color = g_strdup ("");
-
-	webkit_editor_set_element_attribute (
-		wk_editor, "#-x-evo-current-table", "bgcolor", color);
-
-	g_free (color);
+	webkit_editor_dialog_utils_set_attribute_color (E_WEBKIT_EDITOR (editor), NULL, "bgcolor", value);
 }
 
 static gchar *
 webkit_editor_table_get_background_image_uri (EContentEditor *editor)
 {
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->html_mode)
-		return NULL;
-
-	result = webkit_editor_get_element_attribute (wk_editor, "#-x-evo-current-table", "data-uri");
-	if (result) {
-		gchar *value;
-
-		g_variant_get (result, "(s)", &value);
-		g_variant_unref (result);
-	}
-
-	return NULL;
+	return webkit_editor_dialog_utils_get_attribute (E_WEBKIT_EDITOR (editor), NULL, "background");
 }
 
 static void
 webkit_editor_table_set_background_image_uri (EContentEditor *editor,
                                               const gchar *uri)
 {
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return;
-	}
-
-	if (!wk_editor->priv->html_mode)
-		return;
-
-	if (uri && *uri)
-		webkit_editor_replace_image_src (wk_editor, "#-x-evo-current-table", uri);
-	else {
-		e_util_invoke_g_dbus_proxy_call_with_error_check (
-			wk_editor->priv->web_extension_proxy,
-			"RemoveImageAttributesFromElementBySelector",
-			g_variant_new ("(ts)", current_page_id (wk_editor), "#-x-evo-current-table"),
-			wk_editor->priv->cancellable);
-	}
-}
-
-static gboolean
-webkit_editor_on_table_dialog_open (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-	GVariant *result;
-	gboolean value = FALSE;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return FALSE;
-	}
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"EEditorTableDialogShow",
-		g_variant_new ("(t)", current_page_id (wk_editor)),
-		NULL);
-
-	if (result) {
-		g_variant_get (result, "(b)", &value);
-		g_variant_unref (result);
-	}
-
-	return value;
-}
-
-static void
-webkit_editor_on_table_dialog_close (EContentEditor *editor)
-{
-	EWebKitEditor *wk_editor;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	webkit_editor_call_simple_extension_function (
-		wk_editor, "EEditorTableDialogSaveHistoryOnExit");
-
-	webkit_editor_finish_search (E_WEBKIT_EDITOR (editor));
-}
-
-static void
-webkit_editor_on_spell_check_dialog_open (EContentEditor *editor)
-{
-}
-
-static void
-webkit_editor_on_spell_check_dialog_close (EContentEditor *editor)
-{
-	webkit_editor_finish_search (E_WEBKIT_EDITOR (editor));
-}
-
-static gchar *
-move_to_another_word (EContentEditor *editor,
-                      const gchar *word,
-                      const gchar *dom_function)
-{
-	EWebKitEditor *wk_editor;
-	gchar **active_languages;
-	gchar *another_word = NULL;
-	GVariant *result;
-
-	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	if (!wk_editor->priv->web_extension_proxy) {
-		g_warning ("EHTMLEditorWebExtension not ready at %s!", G_STRFUNC);
-		return NULL;
-	}
-
-	active_languages = e_spell_checker_list_active_languages (
-		wk_editor->priv->spell_checker, NULL);
-	if (!active_languages)
-		return NULL;
-
-	result = e_util_invoke_g_dbus_proxy_call_sync_wrapper_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		dom_function,
-		g_variant_new (
-			"(ts^as)", current_page_id (wk_editor), word ? word : "", active_languages),
-		NULL);
-
-	g_strfreev (active_languages);
-
-	if (result) {
-		g_variant_get (result, "(s)", &another_word);
-		g_variant_unref (result);
-	}
-
-	return another_word;
+	webkit_editor_replace_image_src (E_WEBKIT_EDITOR (editor), NULL, uri);
 }
 
 static gchar *
 webkit_editor_spell_check_next_word (EContentEditor *editor,
                                      const gchar *word)
 {
-	return move_to_another_word (editor, word, "EEditorSpellCheckDialogNext");
+	return webkit_editor_extract_and_free_jsc_string (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.SpellCheckContinue(%x,%x);", word && *word, TRUE),
+		NULL);
 }
 
 static gchar *
 webkit_editor_spell_check_prev_word (EContentEditor *editor,
                                      const gchar *word)
 {
-	return move_to_another_word (editor, word, "EEditorSpellCheckDialogPrev");
-}
-
-static void
-webkit_editor_on_replace_dialog_open (EContentEditor *editor)
-{
-}
-
-static void
-webkit_editor_on_replace_dialog_close (EContentEditor *editor)
-{
-	webkit_editor_finish_search (E_WEBKIT_EDITOR (editor));
-}
-
-static void
-webkit_editor_on_find_dialog_open (EContentEditor *editor)
-{
-}
-
-static void
-webkit_editor_on_find_dialog_close (EContentEditor *editor)
-{
-	webkit_editor_finish_search (E_WEBKIT_EDITOR (editor));
-}
-
-static GDBusProxy *
-webkit_editor_get_web_extension (EWebKitEditor *wk_editor)
-{
-	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), NULL);
-
-	return wk_editor->priv->web_extension_proxy;
+	return webkit_editor_extract_and_free_jsc_string (
+		webkit_editor_call_jsc_sync (E_WEBKIT_EDITOR (editor), "EvoEditor.SpellCheckContinue(%x,%x);", word && *word, FALSE),
+		NULL);
 }
 
 static void
@@ -5212,19 +3921,139 @@ webkit_editor_process_uri_request_cb (WebKitURISchemeRequest *request,
 }
 
 static void
+webkit_editor_set_normal_paragraph_width (EWebKitEditor *wk_editor,
+					  gint value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if (wk_editor->priv->normal_paragraph_width != value) {
+		wk_editor->priv->normal_paragraph_width = value;
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.SetNormalParagraphWidth(%d);",
+			value);
+
+		g_object_notify (G_OBJECT (wk_editor), "normal-paragraph-width");
+	}
+}
+
+static gint
+webkit_editor_get_normal_paragraph_width (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), -1);
+
+	return wk_editor->priv->normal_paragraph_width;
+}
+
+static void
+webkit_editor_set_magic_links (EWebKitEditor *wk_editor,
+			       gboolean value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if ((wk_editor->priv->magic_links ? 1 : 0) != (value ? 1 : 0)) {
+		wk_editor->priv->magic_links = value;
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.MAGIC_LINKS = %x;",
+			value);
+
+		g_object_notify (G_OBJECT (wk_editor), "magic-links");
+	}
+}
+
+static gboolean
+webkit_editor_get_magic_links (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+
+	return wk_editor->priv->magic_links;
+}
+
+static void
+webkit_editor_set_magic_smileys (EWebKitEditor *wk_editor,
+				 gboolean value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if ((wk_editor->priv->magic_smileys ? 1 : 0) != (value ? 1 : 0)) {
+		wk_editor->priv->magic_smileys = value;
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.MAGIC_SMILEYS = %x;",
+			value);
+
+		g_object_notify (G_OBJECT (wk_editor), "magic-smileys");
+	}
+}
+
+static gboolean
+webkit_editor_get_magic_smileys (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+
+	return wk_editor->priv->magic_smileys;
+}
+
+static void
+webkit_editor_set_unicode_smileys (EWebKitEditor *wk_editor,
+				   gboolean value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if ((wk_editor->priv->unicode_smileys ? 1 : 0) != (value ? 1 : 0)) {
+		wk_editor->priv->unicode_smileys = value;
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.UNICODE_SMILEYS = %x;",
+			value);
+
+		g_object_notify (G_OBJECT (wk_editor), "unicode-smileys");
+	}
+}
+
+static gboolean
+webkit_editor_get_unicode_smileys (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+
+	return wk_editor->priv->unicode_smileys;
+}
+
+static void
+webkit_editor_set_wrap_quoted_text_in_replies (EWebKitEditor *wk_editor,
+					       gboolean value)
+{
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
+
+	if ((wk_editor->priv->wrap_quoted_text_in_replies ? 1 : 0) != (value ? 1 : 0)) {
+		wk_editor->priv->wrap_quoted_text_in_replies = value;
+
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+			"EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES = %x;",
+			value);
+
+		g_object_notify (G_OBJECT (wk_editor), "wrap-quoted-text-in-replies");
+	}
+}
+
+static gboolean
+webkit_editor_get_wrap_quoted_text_in_replies (EWebKitEditor *wk_editor)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
+
+	return wk_editor->priv->wrap_quoted_text_in_replies;
+}
+
+static void
 e_webkit_editor_initialize_web_extensions_cb (WebKitWebContext *web_context,
 					      gpointer user_data)
 {
 	EWebKitEditor *wk_editor = user_data;
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
-	g_return_if_fail (wk_editor->priv->container);
 
 	webkit_web_context_set_web_extensions_directory (web_context, EVOLUTION_WEB_EXTENSIONS_WEBKIT_EDITOR_DIR);
-	webkit_web_context_set_web_extensions_initialization_user_data (web_context,
-		g_variant_new ("(ss)",
-			e_web_extension_container_get_server_guid (wk_editor->priv->container),
-			e_web_extension_container_get_server_address (wk_editor->priv->container)));
 }
 
 static void
@@ -5236,6 +4065,8 @@ webkit_editor_constructed (GObject *object)
 	WebKitWebContext *web_context;
 	WebKitSettings *web_settings;
 	WebKitWebView *web_view;
+	WebKitUserContentManager *manager;
+	GSettings *settings;
 
 	wk_editor = E_WEBKIT_EDITOR (object);
 	web_view = WEBKIT_WEB_VIEW (wk_editor);
@@ -5249,12 +4080,41 @@ webkit_editor_constructed (GObject *object)
 
 	G_OBJECT_CLASS (e_webkit_editor_parent_class)->constructed (object);
 
+	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (wk_editor));
+
+	g_signal_connect_object (manager, "script-message-received::contentChanged",
+		G_CALLBACK (content_changed_cb), wk_editor, 0);
+	g_signal_connect_object (manager, "script-message-received::contextMenuRequested",
+		G_CALLBACK (context_menu_requested_cb), wk_editor, 0);
+	g_signal_connect_object (manager, "script-message-received::formattingChanged",
+		G_CALLBACK (formatting_changed_cb), wk_editor, 0);
+	g_signal_connect_object (manager, "script-message-received::selectionChanged",
+		G_CALLBACK (selection_changed_cb), wk_editor, 0);
+	g_signal_connect_object (manager, "script-message-received::undoRedoStateChanged",
+		G_CALLBACK (undu_redo_state_changed_cb), wk_editor, 0);
+
+	webkit_user_content_manager_register_script_message_handler (manager, "contentChanged");
+	webkit_user_content_manager_register_script_message_handler (manager, "contextMenuRequested");
+	webkit_user_content_manager_register_script_message_handler (manager, "formattingChanged");
+	webkit_user_content_manager_register_script_message_handler (manager, "selectionChanged");
+	webkit_user_content_manager_register_script_message_handler (manager, "undoRedoStateChanged");
+
 	/* Give spell check languages to WebKit */
 	languages = e_spell_checker_list_active_languages (wk_editor->priv->spell_checker, NULL);
 
 	webkit_web_context_set_spell_checking_enabled (web_context, TRUE);
 	webkit_web_context_set_spell_checking_languages (web_context, (const gchar * const *) languages);
 	g_strfreev (languages);
+
+	content_request = e_cid_request_new ();
+	webkit_web_context_register_uri_scheme (web_context, "cid", webkit_editor_process_uri_request_cb,
+		g_object_ref (content_request), g_object_unref);
+	g_object_unref (content_request);
+
+	content_request = e_file_request_new ();
+	webkit_web_context_register_uri_scheme (web_context, "evo-file", webkit_editor_process_uri_request_cb,
+		g_object_ref (content_request), g_object_unref);
+	g_object_unref (content_request);
 
 	content_request = e_http_request_new ();
 	webkit_web_context_register_uri_scheme (web_context, "evo-http", webkit_editor_process_uri_request_cb,
@@ -5267,9 +4127,39 @@ webkit_editor_constructed (GObject *object)
 
 	web_settings = webkit_web_view_get_settings (web_view);
 	webkit_settings_set_allow_file_access_from_file_urls (web_settings, TRUE);
+	webkit_settings_set_enable_write_console_messages_to_stdout (web_settings, e_util_get_webkit_developer_mode_enabled ());
 	webkit_settings_set_enable_developer_extras (web_settings, e_util_get_webkit_developer_mode_enabled ());
 
-	e_webkit_editor_load_data (wk_editor, "");
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	g_settings_bind (
+		settings, "composer-word-wrap-length",
+		wk_editor, "normal-paragraph-width",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "composer-magic-links",
+		wk_editor, "magic-links",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "composer-magic-smileys",
+		wk_editor, "magic-smileys",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "composer-unicode-smileys",
+		wk_editor, "unicode-smileys",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "composer-wrap-quoted-text-in-replies",
+		wk_editor, "wrap-quoted-text-in-replies",
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
+
+	webkit_web_view_load_html (WEBKIT_WEB_VIEW (wk_editor), "", "evo-file:///");
 }
 
 static GObjectConstructParam*
@@ -5364,11 +4254,6 @@ webkit_editor_dispose (GObject *object)
 		priv->mail_settings = NULL;
 	}
 
-	e_webkit_editor_set_web_extension_proxy (E_WEBKIT_EDITOR (object), NULL);
-
-	if (priv->container && priv->stamp)
-		e_web_extension_container_forget_stamp (priv->container, priv->stamp);
-
 	if (priv->owner_change_clipboard_cb_id > 0) {
 		g_signal_handler_disconnect (
 			gtk_clipboard_get (GDK_SELECTION_CLIPBOARD),
@@ -5384,8 +4269,6 @@ webkit_editor_dispose (GObject *object)
 	}
 
 	webkit_editor_finish_search (E_WEBKIT_EDITOR (object));
-
-	g_clear_object (&priv->container);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_webkit_editor_parent_class)->dispose (object);
@@ -5410,15 +4293,12 @@ webkit_editor_finalize (GObject *object)
 		priv->post_reload_operations = NULL;
 	}
 
-	if (priv->background_color != NULL) {
-		gdk_rgba_free (priv->background_color);
-		priv->background_color = NULL;
-	}
-
-	if (priv->font_color != NULL) {
-		gdk_rgba_free (priv->font_color);
-		priv->font_color = NULL;
-	}
+	g_clear_pointer (&priv->background_color, gdk_rgba_free);
+	g_clear_pointer (&priv->font_color, gdk_rgba_free);
+	g_clear_pointer (&priv->body_fg_color, gdk_rgba_free);
+	g_clear_pointer (&priv->body_bg_color, gdk_rgba_free);
+	g_clear_pointer (&priv->body_link_color, gdk_rgba_free);
+	g_clear_pointer (&priv->body_vlink_color, gdk_rgba_free);
 
 	g_free (priv->last_hover_uri);
 	priv->last_hover_uri = NULL;
@@ -5427,7 +4307,9 @@ webkit_editor_finalize (GObject *object)
 	g_clear_object (&priv->cancellable);
 	g_clear_error (&priv->last_error);
 
+	g_free (priv->body_font_name);
 	g_free (priv->font_name);
+	g_free (priv->context_menu_caret_word);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_webkit_editor_parent_class)->finalize (object);
@@ -5458,6 +4340,36 @@ webkit_editor_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_NORMAL_PARAGRAPH_WIDTH:
+			webkit_editor_set_normal_paragraph_width (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_MAGIC_LINKS:
+			webkit_editor_set_magic_links (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_MAGIC_SMILEYS:
+			webkit_editor_set_magic_smileys (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_UNICODE_SMILEYS:
+			webkit_editor_set_unicode_smileys (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WRAP_QUOTED_TEXT_IN_REPLIES:
+			webkit_editor_set_wrap_quoted_text_in_replies (
+				E_WEBKIT_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_ALIGNMENT:
 			webkit_editor_set_alignment (
 				E_WEBKIT_EDITOR (object),
@@ -5473,9 +4385,8 @@ webkit_editor_set_property (GObject *object,
 		case PROP_BOLD:
 			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				E_CONTENT_EDITOR_STYLE_IS_BOLD,
-				g_value_get_boolean (value),
-				"DOMSelectionSetBold");
+				E_WEBKIT_EDITOR_STYLE_IS_BOLD,
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_FONT_COLOR:
@@ -5505,49 +4416,36 @@ webkit_editor_set_property (GObject *object,
 		case PROP_ITALIC:
 			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				E_CONTENT_EDITOR_STYLE_IS_ITALIC,
-				g_value_get_boolean (value),
-				"DOMSelectionSetItalic");
-			return;
-
-		case PROP_MONOSPACED:
-			webkit_editor_set_style_flag (
-				E_WEBKIT_EDITOR (object),
-				E_CONTENT_EDITOR_STYLE_IS_MONOSPACE,
-				g_value_get_boolean (value),
-				"DOMSelectionSetMonospaced");
+				E_WEBKIT_EDITOR_STYLE_IS_ITALIC,
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_STRIKETHROUGH:
 			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				E_CONTENT_EDITOR_STYLE_IS_STRIKETHROUGH,
-				g_value_get_boolean (value),
-				"DOMSelectionSetStrikethrough");
+				E_WEBKIT_EDITOR_STYLE_IS_STRIKETHROUGH,
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_SUBSCRIPT:
 			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				E_CONTENT_EDITOR_STYLE_IS_SUBSCRIPT,
-				g_value_get_boolean (value),
-				"DOMSelectionSetSubscript");
+				E_WEBKIT_EDITOR_STYLE_IS_SUBSCRIPT,
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_SUPERSCRIPT:
 			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				E_CONTENT_EDITOR_STYLE_IS_SUPERSCRIPT,
-				g_value_get_boolean (value),
-				"DOMSelectionSetSuperscript");
+				E_WEBKIT_EDITOR_STYLE_IS_SUPERSCRIPT,
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_UNDERLINE:
 			webkit_editor_set_style_flag (
 				E_WEBKIT_EDITOR (object),
-				E_CONTENT_EDITOR_STYLE_IS_UNDERLINE,
-				g_value_get_boolean (value),
-				"DOMSelectionSetUnderline");
+				E_WEBKIT_EDITOR_STYLE_IS_UNDERLINE,
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_START_BOTTOM:
@@ -5591,12 +4489,6 @@ webkit_editor_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_WEB_EXTENSION:
-			g_value_set_object (
-				value, webkit_editor_get_web_extension (
-				E_WEBKIT_EDITOR (object)));
-			return;
-
 		case PROP_IS_MALFUNCTION:
 			g_value_set_boolean (
 				value, webkit_editor_is_malfunction (
@@ -5651,6 +4543,31 @@ webkit_editor_get_property (GObject *object,
 				E_WEBKIT_EDITOR (object)));
 			return;
 
+		case PROP_NORMAL_PARAGRAPH_WIDTH:
+			g_value_set_int (value,
+				webkit_editor_get_normal_paragraph_width (E_WEBKIT_EDITOR (object)));
+			return;
+
+		case PROP_MAGIC_LINKS:
+			g_value_set_boolean (value,
+				webkit_editor_get_magic_links (E_WEBKIT_EDITOR (object)));
+			return;
+
+		case PROP_MAGIC_SMILEYS:
+			g_value_set_boolean (value,
+				webkit_editor_get_magic_smileys (E_WEBKIT_EDITOR (object)));
+			return;
+
+		case PROP_UNICODE_SMILEYS:
+			g_value_set_boolean (value,
+				webkit_editor_get_unicode_smileys (E_WEBKIT_EDITOR (object)));
+			return;
+
+		case PROP_WRAP_QUOTED_TEXT_IN_REPLIES:
+			g_value_set_boolean (value,
+				webkit_editor_get_wrap_quoted_text_in_replies (E_WEBKIT_EDITOR (object)));
+			return;
+
 		case PROP_ALIGNMENT:
 			g_value_set_enum (
 				value,
@@ -5677,7 +4594,7 @@ webkit_editor_get_property (GObject *object,
 				value,
 				webkit_editor_get_style_flag (
 					E_WEBKIT_EDITOR (object),
-					E_CONTENT_EDITOR_STYLE_IS_BOLD));
+					E_WEBKIT_EDITOR_STYLE_IS_BOLD));
 			return;
 
 		case PROP_FONT_COLOR:
@@ -5701,10 +4618,10 @@ webkit_editor_get_property (GObject *object,
 					E_WEBKIT_EDITOR (object)));
 			return;
 
-		case PROP_INDENTED:
-			g_value_set_boolean (
+		case PROP_INDENT_LEVEL:
+			g_value_set_int (
 				value,
-				webkit_editor_selection_is_indented (
+				webkit_editor_get_indent_level (
 					E_WEBKIT_EDITOR (object)));
 			return;
 
@@ -5713,15 +4630,7 @@ webkit_editor_get_property (GObject *object,
 				value,
 				webkit_editor_get_style_flag (
 					E_WEBKIT_EDITOR (object),
-					E_CONTENT_EDITOR_STYLE_IS_ITALIC));
-			return;
-
-		case PROP_MONOSPACED:
-			g_value_set_boolean (
-				value,
-				webkit_editor_get_style_flag (
-					E_WEBKIT_EDITOR (object),
-					E_CONTENT_EDITOR_STYLE_IS_MONOSPACE));
+					E_WEBKIT_EDITOR_STYLE_IS_ITALIC));
 			return;
 
 		case PROP_STRIKETHROUGH:
@@ -5729,7 +4638,7 @@ webkit_editor_get_property (GObject *object,
 				value,
 				webkit_editor_get_style_flag (
 					E_WEBKIT_EDITOR (object),
-					E_CONTENT_EDITOR_STYLE_IS_STRIKETHROUGH));
+					E_WEBKIT_EDITOR_STYLE_IS_STRIKETHROUGH));
 			return;
 
 		case PROP_SUBSCRIPT:
@@ -5737,7 +4646,7 @@ webkit_editor_get_property (GObject *object,
 				value,
 				webkit_editor_get_style_flag (
 					E_WEBKIT_EDITOR (object),
-					E_CONTENT_EDITOR_STYLE_IS_SUBSCRIPT));
+					E_WEBKIT_EDITOR_STYLE_IS_SUBSCRIPT));
 			return;
 
 		case PROP_SUPERSCRIPT:
@@ -5745,7 +4654,7 @@ webkit_editor_get_property (GObject *object,
 				value,
 				webkit_editor_get_style_flag (
 					E_WEBKIT_EDITOR (object),
-					E_CONTENT_EDITOR_STYLE_IS_SUPERSCRIPT));
+					E_WEBKIT_EDITOR_STYLE_IS_SUPERSCRIPT));
 			return;
 
 		case PROP_UNDERLINE:
@@ -5753,7 +4662,7 @@ webkit_editor_get_property (GObject *object,
 				value,
 				webkit_editor_get_style_flag (
 					E_WEBKIT_EDITOR (object),
-					E_CONTENT_EDITOR_STYLE_IS_UNDERLINE));
+					E_WEBKIT_EDITOR_STYLE_IS_UNDERLINE));
 			return;
 
 		case PROP_START_BOTTOM:
@@ -5855,9 +4764,29 @@ webkit_editor_style_settings_changed_cb (GSettings *settings,
 		else
 			g_hash_table_remove (wk_editor->priv->old_settings, key);
 
-		webkit_editor_style_updated_cb (wk_editor);
+		webkit_editor_style_updated (wk_editor, FALSE);
 	} else if (new_value) {
 		g_variant_unref (new_value);
+	}
+}
+
+static void
+webkit_editor_can_paste_cb (GObject *source_object,
+			    GAsyncResult *result,
+			    gpointer user_data)
+{
+	EWebKitEditor *wk_editor;
+	gboolean can;
+
+	g_return_if_fail (E_IS_WEBKIT_EDITOR (source_object));
+
+	wk_editor = E_WEBKIT_EDITOR (source_object);
+
+	can = webkit_web_view_can_execute_editing_command_finish (WEBKIT_WEB_VIEW (wk_editor), result, NULL);
+
+	if (wk_editor->priv->can_paste != can) {
+		wk_editor->priv->can_paste = can;
+		g_object_notify (G_OBJECT (wk_editor), "can-paste");
 	}
 }
 
@@ -5867,87 +4796,59 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 {
 	wk_editor->priv->webkit_load_event = load_event;
 
-	if (load_event != WEBKIT_LOAD_FINISHED)
+	if (load_event != WEBKIT_LOAD_FINISHED ||
+	    !webkit_editor_is_ready (E_CONTENT_EDITOR (wk_editor)))
 		return;
 
-	wk_editor->priv->reload_in_progress = FALSE;
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.START_BOTTOM = %x;\n"
+		"EvoEditor.TOP_SIGNATURE = %x;",
+		e_webkit_editor_three_state_to_bool (wk_editor->priv->start_bottom, "composer-reply-start-bottom"),
+		e_webkit_editor_three_state_to_bool (wk_editor->priv->top_signature, "composer-top-signature"));
 
-	if (webkit_editor_is_ready (E_CONTENT_EDITOR (wk_editor))) {
-		e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
-		webkit_editor_style_updated_cb (wk_editor);
-	} else
-		wk_editor->priv->emit_load_finished_when_extension_is_ready = TRUE;
+	/* Dispatch queued operations - as we are using this just for load
+	 * operations load just the latest request and throw away the rest. */
+	if (wk_editor->priv->post_reload_operations &&
+	    !g_queue_is_empty (wk_editor->priv->post_reload_operations)) {
 
-	dispatch_pending_operations (wk_editor);
-}
+		PostReloadOperation *op;
 
-static void
-webkit_editor_clipboard_owner_change_cb (GtkClipboard *clipboard,
-                                         GdkEventOwnerChange *event,
-                                         EWebKitEditor *wk_editor)
-{
-	if (!E_IS_WEBKIT_EDITOR (wk_editor))
-		return;
+		op = g_queue_pop_head (wk_editor->priv->post_reload_operations);
 
-	if (!wk_editor->priv->web_extension_proxy)
-		return;
+		op->func (wk_editor, op->data, op->flags);
 
-	if (wk_editor->priv->copy_cut_actions_triggered && event->owner)
-		wk_editor->priv->copy_paste_clipboard_in_view = TRUE;
-	else
-		wk_editor->priv->copy_paste_clipboard_in_view = FALSE;
+		if (op->data_free_func)
+			op->data_free_func (op->data);
+		g_free (op);
 
-	if (wk_editor->priv->copy_paste_clipboard_in_view == wk_editor->priv->pasting_from_itself_extension_value)
-		return;
+		while ((op = g_queue_pop_head (wk_editor->priv->post_reload_operations))) {
+			if (op->data_free_func)
+				op->data_free_func (op->data);
+			g_free (op);
+		}
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"SetPastingContentFromItself",
-		g_variant_new (
-			"(tb)",
-			current_page_id (wk_editor),
-			wk_editor->priv->copy_paste_clipboard_in_view),
-		wk_editor->priv->cancellable);
+		g_queue_clear (wk_editor->priv->post_reload_operations);
+	}
 
-	wk_editor->priv->copy_cut_actions_triggered = FALSE;
+	webkit_editor_style_updated (wk_editor, FALSE);
 
-	wk_editor->priv->pasting_from_itself_extension_value = wk_editor->priv->copy_paste_clipboard_in_view;
-}
+	if (wk_editor->priv->initialized_callback) {
+		EContentEditorInitializedCallback initialized_callback;
+		gpointer initialized_user_data;
 
-static void
-webkit_editor_primary_clipboard_owner_change_cb (GtkClipboard *clipboard,
-                                                 GdkEventOwnerChange *event,
-                                                 EWebKitEditor *wk_editor)
-{
-	if (!E_IS_WEBKIT_EDITOR (wk_editor) ||
-	    !wk_editor->priv->web_extension_proxy)
-		return;
+		initialized_callback = wk_editor->priv->initialized_callback;
+		initialized_user_data = wk_editor->priv->initialized_user_data;
 
-	if (!event->owner || !wk_editor->priv->can_copy)
-		wk_editor->priv->copy_paste_clipboard_in_view = FALSE;
+		wk_editor->priv->initialized_callback = NULL;
+		wk_editor->priv->initialized_user_data = NULL;
 
-	if (wk_editor->priv->copy_paste_clipboard_in_view == wk_editor->priv->pasting_from_itself_extension_value)
-		return;
+		initialized_callback (E_CONTENT_EDITOR (wk_editor), initialized_user_data);
+	}
 
-	e_util_invoke_g_dbus_proxy_call_with_error_check (
-		wk_editor->priv->web_extension_proxy,
-		"SetPastingContentFromItself",
-		g_variant_new (
-			"(tb)",
-			current_page_id (wk_editor),
-			wk_editor->priv->copy_paste_clipboard_in_view),
-		wk_editor->priv->cancellable);
+	webkit_web_view_can_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor),
+		WEBKIT_EDITING_COMMAND_PASTE, NULL, webkit_editor_can_paste_cb, NULL);
 
-	wk_editor->priv->pasting_from_itself_extension_value = wk_editor->priv->copy_paste_clipboard_in_view;
-}
-
-static gboolean
-webkit_editor_paste_prefer_text_html (EWebKitEditor *wk_editor)
-{
-	if (wk_editor->priv->pasting_primary_clipboard)
-		return wk_editor->priv->copy_paste_primary_in_view;
-	else
-		return wk_editor->priv->copy_paste_clipboard_in_view;
+	e_content_editor_emit_load_finished (E_CONTENT_EDITOR (wk_editor));
 }
 
 static void
@@ -5975,8 +4876,7 @@ webkit_editor_paste_clipboard_targets_cb (GtkClipboard *clipboard,
 	 * with SRCSET attribute in clipboard correctly). And if this fails the
 	 * source application can cancel the content and we could not fallback
 	 * to at least some content. */
-	if (wk_editor->priv->html_mode ||
-	    webkit_editor_paste_prefer_text_html (wk_editor)) {
+	if (wk_editor->priv->html_mode) {
 		if (e_targets_include_html (targets, n_targets)) {
 			content = e_clipboard_wait_for_html (clipboard);
 			is_html = TRUE;
@@ -6045,10 +4945,6 @@ webkit_editor_paste_primary (EContentEditor *editor)
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
 
-	/* Remember, that we are pasting primary clipboard to return
-	 * correct value in e_html_editor_view_is_pasting_content_from_itself. */
-	wk_editor->priv->pasting_primary_clipboard = TRUE;
-
 	webkit_editor_move_caret_on_current_coordinates (GTK_WIDGET (wk_editor));
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_PRIMARY);
@@ -6068,8 +4964,6 @@ webkit_editor_paste (EContentEditor *editor)
 	EWebKitEditor *wk_editor;
 
 	wk_editor = E_WEBKIT_EDITOR (editor);
-
-	wk_editor->priv->pasting_primary_clipboard = FALSE;
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
@@ -6100,18 +4994,17 @@ webkit_editor_context_menu_cb (EWebKitEditor *wk_editor,
                                GdkEvent *event,
                                WebKitHitTestResult *hit_test_result)
 {
-	GVariant *result;
-	EContentEditorNodeFlags flags = 0;
-	gboolean handled;
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (wk_editor), FALSE);
 
-	webkit_context_menu_remove_all (context_menu);
+	e_content_editor_emit_context_menu_requested (E_CONTENT_EDITOR (wk_editor),
+		wk_editor->priv->context_menu_node_flags,
+		wk_editor->priv->context_menu_caret_word,
+		event);
 
-	if ((result = webkit_context_menu_get_user_data (context_menu)))
-		flags = g_variant_get_int32 (result);
+	wk_editor->priv->context_menu_node_flags = E_CONTENT_EDITOR_NODE_UNKNOWN;
+	g_clear_pointer (&wk_editor->priv->context_menu_caret_word, g_free);
 
-	handled = e_content_editor_emit_context_menu_requested (E_CONTENT_EDITOR (wk_editor), flags, event);
-
-	return handled;
+	return TRUE;
 }
 
 static void
@@ -6165,8 +5058,6 @@ webkit_editor_drag_data_received_cb (GtkWidget *widget,
 		} else {
 			GTK_WIDGET_CLASS (e_webkit_editor_parent_class)->drag_leave(widget, context, time);
 			g_signal_stop_emission_by_name (widget, "drag-data-received");
-			if (!is_move)
-				webkit_editor_call_simple_extension_function (wk_editor, "DOMLastDropOperationDidCopy");
 			e_content_editor_emit_drop_handled (E_CONTENT_EDITOR (widget));
 		}
 		return;
@@ -6337,6 +5228,15 @@ paste_primary_clipboard_quoted (EContentEditor *editor)
        }
 }
 
+static CamelMimePart *
+e_webkit_editor_cid_resolver_ref_part (ECidResolver *resolver,
+				       const gchar *cid_uri)
+{
+	g_return_val_if_fail (E_IS_WEBKIT_EDITOR (resolver), NULL);
+
+	return e_content_editor_emit_ref_mime_part (E_CONTENT_EDITOR (resolver), cid_uri);
+}
+
 static gboolean
 webkit_editor_button_press_event (GtkWidget *widget,
                                   GdkEventButton *event)
@@ -6465,17 +5365,6 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 	widget_class->button_press_event = webkit_editor_button_press_event;
 	widget_class->key_press_event = webkit_editor_key_press_event;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEB_EXTENSION,
-		g_param_spec_object (
-			"web-extension",
-			"Web Extension",
-			"The Web Extension to use to talk to the WebProcess",
-			G_TYPE_DBUS_PROXY,
-			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
-
 	g_object_class_override_property (
 		object_class, PROP_IS_MALFUNCTION, "is-malfunction");
 	g_object_class_override_property (
@@ -6509,11 +5398,9 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 	g_object_class_override_property (
 		object_class, PROP_FONT_SIZE, "font-size");
 	g_object_class_override_property (
-		object_class, PROP_INDENTED, "indented");
+		object_class, PROP_INDENT_LEVEL, "indent-level");
 	g_object_class_override_property (
 		object_class, PROP_ITALIC, "italic");
-	g_object_class_override_property (
-		object_class, PROP_MONOSPACED, "monospaced");
 	g_object_class_override_property (
 		object_class, PROP_STRIKETHROUGH, "strikethrough");
 	g_object_class_override_property (
@@ -6534,6 +5421,69 @@ e_webkit_editor_class_init (EWebKitEditorClass *class)
 		object_class, PROP_LAST_ERROR, "last-error");
 	g_object_class_override_property (
 		object_class, PROP_SPELL_CHECKER, "spell-checker");
+
+	g_object_class_install_property (
+		object_class,
+		PROP_NORMAL_PARAGRAPH_WIDTH,
+		g_param_spec_int (
+			"normal-paragraph-width",
+			NULL,
+			NULL,
+			G_MININT32,
+			G_MAXINT32,
+			71, /* Should be the same as e-editor.js:EvoEditor.NORMAL_PARAGRAPH_WIDTH and in the init()*/
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAGIC_LINKS,
+		g_param_spec_boolean (
+			"magic-links",
+			NULL,
+			NULL,
+			TRUE, /* Should be the same as e-editor.js:EvoEditor.MAGIC_LINKS and in the init() */
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MAGIC_SMILEYS,
+		g_param_spec_boolean (
+			"magic-smileys",
+			NULL,
+			NULL,
+			FALSE, /* Should be the same as e-editor.js:EvoEditor.MAGIC_SMILEYS and in the init() */
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_UNICODE_SMILEYS,
+		g_param_spec_boolean (
+			"unicode-smileys",
+			NULL,
+			NULL,
+			FALSE, /* Should be the same as e-editor.js:EvoEditor.UNICODE_SMILEYS and in the init() */
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WRAP_QUOTED_TEXT_IN_REPLIES,
+		g_param_spec_boolean (
+			"wrap-quoted-text-in-replies",
+			NULL,
+			NULL,
+			TRUE, /* Should be the same as e-editor.js:EvoEditor.WRAP_QUOTED_TEXT_IN_REPLIES and in the init() */
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
 }
 
 static void
@@ -6551,14 +5501,12 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->spell_checker = e_spell_checker_new ();
 	wk_editor->priv->old_settings = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_variant_unref);
 	wk_editor->priv->visually_wrap_long_lines = FALSE;
-	wk_editor->priv->container = e_web_extension_container_new (E_WEBKIT_EDITOR_WEB_EXTENSION_OBJECT_PATH, E_WEBKIT_EDITOR_WEB_EXTENSION_INTERFACE);
 
-	/* Do not change assigned stamp on every content load. It can have issues like when
-	   loading new content into already initialized editor. */
-	wk_editor->priv->stamp = e_web_extension_container_reserve_stamp (wk_editor->priv->container);
-
-	g_signal_connect_object (wk_editor->priv->container, "page-proxy-changed",
-		G_CALLBACK (e_webkit_editor_page_proxy_changed_cb), wk_editor, 0);
+	wk_editor->priv->normal_paragraph_width = 71;
+	wk_editor->priv->magic_links = TRUE;
+	wk_editor->priv->magic_smileys = FALSE;
+	wk_editor->priv->unicode_smileys = FALSE;
+	wk_editor->priv->wrap_quoted_text_in_replies = TRUE;
 
 	g_signal_connect (
 		wk_editor, "load-changed",
@@ -6604,14 +5552,6 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 		wk_editor, "state-flags-changed",
 		G_CALLBACK (webkit_editor_style_updated_cb), NULL);
 
-	wk_editor->priv->owner_change_primary_clipboard_cb_id = g_signal_connect (
-		gtk_clipboard_get (GDK_SELECTION_PRIMARY), "owner-change",
-		G_CALLBACK (webkit_editor_primary_clipboard_owner_change_cb), wk_editor);
-
-	wk_editor->priv->owner_change_clipboard_cb_id = g_signal_connect (
-		gtk_clipboard_get (GDK_SELECTION_CLIPBOARD), "owner-change",
-		G_CALLBACK (webkit_editor_clipboard_owner_change_cb), wk_editor);
-
 	g_settings = e_util_ref_settings ("org.gnome.desktop.interface");
 	g_signal_connect (
 		g_settings, "changed::font-name",
@@ -6647,17 +5587,11 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	wk_editor->priv->can_paste = FALSE;
 	wk_editor->priv->can_undo = FALSE;
 	wk_editor->priv->can_redo = FALSE;
-	wk_editor->priv->copy_paste_clipboard_in_view = FALSE;
-	wk_editor->priv->copy_paste_primary_in_view = FALSE;
-	wk_editor->priv->copy_cut_actions_triggered = FALSE;
-	wk_editor->priv->pasting_primary_clipboard = FALSE;
-	wk_editor->priv->pasting_from_itself_extension_value = FALSE;
 	wk_editor->priv->current_user_stylesheet = NULL;
-	wk_editor->priv->emit_load_finished_when_extension_is_ready = FALSE;
-	wk_editor->priv->suppress_color_changes = FALSE;
 
-	wk_editor->priv->font_color = gdk_rgba_copy (&black);
-	wk_editor->priv->background_color = gdk_rgba_copy (&white);
+	wk_editor->priv->font_color = NULL;
+	wk_editor->priv->background_color = NULL;
+	wk_editor->priv->body_font_name = NULL;
 	wk_editor->priv->font_name = NULL;
 	wk_editor->priv->font_size = E_CONTENT_EDITOR_FONT_SIZE_NORMAL;
 	wk_editor->priv->block_format = E_CONTENT_EDITOR_BLOCK_FORMAT_PARAGRAPH;
@@ -6665,11 +5599,6 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 
 	wk_editor->priv->start_bottom = E_THREE_STATE_INCONSISTENT;
 	wk_editor->priv->top_signature = E_THREE_STATE_INCONSISTENT;
-
-	wk_editor->priv->web_extension_selection_changed_cb_id = 0;
-	wk_editor->priv->web_extension_content_changed_cb_id = 0;
-	wk_editor->priv->web_extension_undo_redo_state_changed_cb_id = 0;
-	wk_editor->priv->web_extension_user_changed_default_colors_cb_id = 0;
 }
 
 static void
@@ -6679,8 +5608,8 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->update_styles = webkit_editor_update_styles;
 	iface->insert_content = webkit_editor_insert_content;
 	iface->get_content = webkit_editor_get_content;
+	iface->get_content_finish = webkit_editor_get_content_finish;
 	iface->insert_image = webkit_editor_insert_image;
-	iface->insert_image_from_mime_part = webkit_editor_insert_image_from_mime_part;
 	iface->insert_emoticon = webkit_editor_insert_emoticon;
 	iface->move_caret_on_coordinates = webkit_editor_move_caret_on_coordinates;
 	iface->cut = webkit_editor_cut;
@@ -6691,13 +5620,11 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->redo = webkit_editor_redo;
 	iface->clear_undo_redo_history = webkit_editor_clear_undo_redo_history;
 	iface->set_spell_checking_languages = webkit_editor_set_spell_checking_languages;
-	/* FIXME WK2 iface->get_selected_text = webkit_editor_get_selected_text; */
 	iface->get_caret_word = webkit_editor_get_caret_word;
 	iface->replace_caret_word = webkit_editor_replace_caret_word;
 	iface->select_all = webkit_editor_select_all;
 	iface->selection_indent = webkit_editor_selection_indent;
 	iface->selection_unindent = webkit_editor_selection_unindent;
-	/* FIXME WK2 iface->create_link = webkit_editor_create_link; */
 	iface->selection_unlink = webkit_editor_selection_unlink;
 	iface->find = webkit_editor_find;
 	iface->replace = webkit_editor_replace;
@@ -6705,11 +5632,11 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->selection_save = webkit_editor_selection_save;
 	iface->selection_restore = webkit_editor_selection_restore;
 	iface->selection_wrap = webkit_editor_selection_wrap;
-	iface->get_caret_position = webkit_editor_get_caret_position;
-	iface->get_caret_offset = webkit_editor_get_caret_offset;
 	iface->get_current_signature_uid =  webkit_editor_get_current_signature_uid;
 	iface->is_ready = webkit_editor_is_ready;
 	iface->insert_signature = webkit_editor_insert_signature;
+	iface->on_dialog_open = webkit_editor_on_dialog_open;
+	iface->on_dialog_close = webkit_editor_on_dialog_close;
 	iface->delete_cell_contents = webkit_editor_delete_cell_contents;
 	iface->delete_column = webkit_editor_delete_column;
 	iface->delete_row = webkit_editor_delete_row;
@@ -6718,8 +5645,6 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->insert_column_before = webkit_editor_insert_column_before;
 	iface->insert_row_above = webkit_editor_insert_row_above;
 	iface->insert_row_below = webkit_editor_insert_row_below;
-	iface->on_h_rule_dialog_open = webkit_editor_on_h_rule_dialog_open;
-	iface->on_h_rule_dialog_close = webkit_editor_on_h_rule_dialog_close;
 	iface->h_rule_set_align = webkit_editor_h_rule_set_align;
 	iface->h_rule_get_align = webkit_editor_h_rule_get_align;
 	iface->h_rule_set_size = webkit_editor_h_rule_set_size;
@@ -6728,8 +5653,6 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->h_rule_get_width = webkit_editor_h_rule_get_width;
 	iface->h_rule_set_no_shade = webkit_editor_h_rule_set_no_shade;
 	iface->h_rule_get_no_shade = webkit_editor_h_rule_get_no_shade;
-	iface->on_image_dialog_open = webkit_editor_on_image_dialog_open;
-	iface->on_image_dialog_close = webkit_editor_on_image_dialog_close;
 	iface->image_set_src = webkit_editor_image_set_src;
 	iface->image_get_src = webkit_editor_image_get_src;
 	iface->image_set_alt = webkit_editor_image_set_alt;
@@ -6752,10 +5675,8 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->image_set_width_follow = webkit_editor_image_set_width_follow;
 	iface->image_get_width = webkit_editor_image_get_width;
 	iface->image_get_height = webkit_editor_image_get_height;
-	iface->on_link_dialog_open = webkit_editor_on_link_dialog_open;
-	iface->on_link_dialog_close = webkit_editor_on_link_dialog_close;
-	iface->link_set_values = webkit_editor_link_set_values;
-	iface->link_get_values = webkit_editor_link_get_values;
+	iface->link_set_properties = webkit_editor_link_set_properties;
+	iface->link_get_properties = webkit_editor_link_get_properties;
 	iface->page_set_text_color = webkit_editor_page_set_text_color;
 	iface->page_get_text_color = webkit_editor_page_get_text_color;
 	iface->page_set_background_color = webkit_editor_page_set_background_color;
@@ -6764,12 +5685,10 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->page_get_link_color = webkit_editor_page_get_link_color;
 	iface->page_set_visited_link_color = webkit_editor_page_set_visited_link_color;
 	iface->page_get_visited_link_color = webkit_editor_page_get_visited_link_color;
+	iface->page_set_font_name = webkit_editor_page_set_font_name;
+	iface->page_get_font_name = webkit_editor_page_get_font_name;
 	iface->page_set_background_image_uri = webkit_editor_page_set_background_image_uri;
 	iface->page_get_background_image_uri = webkit_editor_page_get_background_image_uri;
-	iface->on_page_dialog_open = webkit_editor_on_page_dialog_open;
-	iface->on_page_dialog_close = webkit_editor_on_page_dialog_close;
-	iface->on_cell_dialog_open = webkit_editor_on_cell_dialog_open;
-	iface->on_cell_dialog_close = webkit_editor_on_cell_dialog_close;
 	iface->cell_set_v_align = webkit_editor_cell_set_v_align;
 	iface->cell_get_v_align = webkit_editor_cell_get_v_align;
 	iface->cell_set_align = webkit_editor_cell_set_align;
@@ -6806,14 +5725,13 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->table_set_background_image_uri = webkit_editor_table_set_background_image_uri;
 	iface->table_get_background_color = webkit_editor_table_get_background_color;
 	iface->table_set_background_color = webkit_editor_table_set_background_color;
-	iface->on_table_dialog_open = webkit_editor_on_table_dialog_open;
-	iface->on_table_dialog_close = webkit_editor_on_table_dialog_close;
-	iface->on_spell_check_dialog_open = webkit_editor_on_spell_check_dialog_open;
-	iface->on_spell_check_dialog_close = webkit_editor_on_spell_check_dialog_close;
 	iface->spell_check_next_word = webkit_editor_spell_check_next_word;
 	iface->spell_check_prev_word = webkit_editor_spell_check_prev_word;
-	iface->on_replace_dialog_open = webkit_editor_on_replace_dialog_open;
-	iface->on_replace_dialog_close = webkit_editor_on_replace_dialog_close;
-	iface->on_find_dialog_open = webkit_editor_on_find_dialog_open;
-	iface->on_find_dialog_close = webkit_editor_on_find_dialog_close;
+}
+
+static void
+e_webkit_editor_cid_resolver_init (ECidResolverInterface *iface)
+{
+	iface->ref_part = e_webkit_editor_cid_resolver_ref_part;
+	/* iface->dup_mime_type = e_webkit_editor_cid_resolver_dup_mime_part; - not needed here */
 }

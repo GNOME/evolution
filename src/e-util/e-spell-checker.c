@@ -312,7 +312,9 @@ e_spell_checker_list_available_dicts (ESpellChecker *checker)
 
 	if (g_hash_table_size (checker->priv->dictionaries_cache) == 0) {
 		e_spell_checker_init_global_memory ();
+		G_LOCK (global_memory);
 		g_hash_table_foreach (global_language_tags, copy_enchant_dicts, checker);
+		G_UNLOCK (global_memory);
 	}
 
 	list = g_hash_table_get_values (checker->priv->dictionaries_cache);
@@ -333,7 +335,9 @@ e_spell_checker_count_available_dicts (ESpellChecker *checker)
 
 	if (g_hash_table_size (checker->priv->dictionaries_cache) == 0) {
 		e_spell_checker_init_global_memory ();
+		G_LOCK (global_memory);
 		g_hash_table_foreach (global_language_tags, copy_enchant_dicts, checker);
+		G_UNLOCK (global_memory);
 	}
 
 	return g_hash_table_size (checker->priv->dictionaries_cache);

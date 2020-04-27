@@ -20,6 +20,8 @@
 #define HTML_PREFIX "<html><head></head><body>"
 #define HTML_SUFFIX "</body></html>"
 #define BLOCKQUOTE_STYLE "style=\"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex\""
+#define QUOTE_SPAN(x) "<span class='-x-evo-quoted'>" x "</span>"
+#define QUOTE_CHR "<span class='-x-evo-quote-character'>&gt; </span>"
 
 G_BEGIN_DECLS
 

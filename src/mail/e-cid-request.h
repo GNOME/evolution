@@ -20,6 +20,24 @@
 #include <e-util/e-util.h>
 
 /* Standard GObject macros */
+#define E_TYPE_CID_RESOLVER \
+	(e_cid_resolver_get_type ())
+#define E_CID_RESOLVER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CID_RESOLVER, ECidResolver))
+#define E_CID_RESOLVER_INTERFACE(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CID_RESOLVER, ECidResolverInterface))
+#define E_IS_CID_RESOLVER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CID_RESOLVER))
+#define E_IS_CID_RESOLVER_INTERFACE(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CID_RESOLVER))
+#define E_CID_RESOLVER_GET_INTERFACE(obj) \
+	(G_TYPE_INSTANCE_GET_INTERFACE \
+	((obj), E_TYPE_CID_RESOLVER, ECidResolverInterface))
+
 #define E_TYPE_CID_REQUEST \
 	(e_cid_request_get_type ())
 #define E_CID_REQUEST(obj) \
@@ -39,6 +57,25 @@
 	((obj), E_TYPE_CID_REQUEST, ECidRequestClass))
 
 G_BEGIN_DECLS
+
+typedef struct _ECidResolver ECidResolver;
+typedef struct _ECidResolverInterface ECidResolverInterface;
+
+struct _ECidResolverInterface {
+	GTypeInterface parent_interface;
+
+	CamelMimePart *	(* ref_part)		(ECidResolver *resolver,
+						 const gchar *uri);
+
+	gchar *		(* dup_mime_type)	(ECidResolver *resolver,
+						 const gchar *uri);
+};
+
+GType		e_cid_resolver_get_type		(void);
+CamelMimePart *	e_cid_resolver_ref_part		(ECidResolver *resolver,
+						 const gchar *uri);
+gchar *		e_cid_resolver_dup_mime_type	(ECidResolver *resolver,
+						 const gchar *uri);
 
 typedef struct _ECidRequest ECidRequest;
 typedef struct _ECidRequestClass ECidRequestClass;

@@ -163,13 +163,36 @@ action_print_preview_cb (GtkAction *action,
 }
 
 static void
+action_save_ready_cb (GObject *source_object,
+		      GAsyncResult *result,
+		      gpointer user_data)
+{
+	EMsgComposer *composer = user_data;
+	GError *error = NULL;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (E_IS_HTML_EDITOR (source_object));
+
+	if (!e_html_editor_save_finish (E_HTML_EDITOR (source_object), result, &error)) {
+		e_alert_submit (
+			E_ALERT_SINK (composer),
+			E_ALERT_NO_SAVE_FILE,
+			e_html_editor_get_filename (E_HTML_EDITOR (source_object)), error ? error->message : _("Unknown error"), NULL);
+	} else {
+		composer_set_content_editor_changed (composer);
+	}
+
+	g_object_unref (composer);
+	g_clear_error (&error);
+}
+
+static void
 action_save_cb (GtkAction *action,
                 EMsgComposer *composer)
 {
 	EHTMLEditor *editor;
 	const gchar *filename;
 	gint fd;
-	GError *error = NULL;
 
 	editor = e_msg_composer_get_editor (composer);
 	filename = e_html_editor_get_filename (editor);
@@ -202,16 +225,7 @@ action_save_cb (GtkAction *action,
 	} else
 		close (fd);
 
-	if (!e_html_editor_save (editor, filename, TRUE, &error)) {
-		e_alert_submit (
-			E_ALERT_SINK (composer),
-			E_ALERT_NO_SAVE_FILE,
-			filename, error->message, NULL);
-		g_error_free (error);
-		return;
-	}
-
-	composer_set_content_editor_changed (composer);
+	e_html_editor_save (editor, filename, TRUE, NULL, action_save_ready_cb, g_object_ref (composer));
 }
 
 static void

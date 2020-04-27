@@ -77,14 +77,17 @@ struct _EHTMLEditorPrivate {
 	GtkWidget *cell_dialog;
 	GtkWidget *spell_check_dialog;
 
-	GtkWidget *color_combo_box;
+	GtkWidget *fg_color_combo_box;
+	GtkWidget *bg_color_combo_box;
 	GtkWidget *mode_combo_box;
 	GtkWidget *size_combo_box;
 	GtkWidget *style_combo_box;
+	GtkWidget *font_name_combo_box;
 	GtkWidget *scrolled_window;
 
 	GtkWidget *emoji_chooser;
 
+	GHashTable *cid_parts; /* gchar *cid: URI ~> CamelMimePart * */
 	GHashTable *content_editors;
 	EContentEditor *use_content_editor;
 
@@ -94,8 +97,6 @@ struct _EHTMLEditorPrivate {
 	guint recent_spell_languages_merge_id;
 
 	gint editor_layout_row;
-
-	gboolean is_testing;
 };
 
 void		editor_actions_init		(EHTMLEditor *editor);
@@ -105,6 +106,10 @@ void		editor_actions_update_spellcheck_languages_menu
 						 const gchar * const *languages);
 const gchar *	e_html_editor_get_content_editor_name
 						(EHTMLEditor *editor);
+GtkWidget *	e_html_editor_util_create_font_name_combo
+						(void);
+gchar *		e_html_editor_util_dup_font_id	(GtkComboBox *combo_box,
+						 const gchar *font_name);
 
 G_END_DECLS
 
