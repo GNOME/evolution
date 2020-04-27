@@ -2254,11 +2254,12 @@ EvoEditor.applyFontReset = function(record, isUndo)
 	}
 }
 
-EvoEditor.replaceInheritFonts = function(undoRedoRecord, selectionUpdater)
+EvoEditor.replaceInheritFonts = function(undoRedoRecord, selectionUpdater, nodes)
 {
-	var nodes, ii;
+	var ii;
 
-	nodes = document.querySelectorAll("FONT[face=inherit]");
+	if (!nodes)
+		nodes = document.querySelectorAll("FONT[face=inherit]");
 
 	for (ii = nodes.length - 1; ii >= 0; ii--) {
 		var node = nodes.item(ii);
@@ -2296,7 +2297,7 @@ EvoEditor.replaceInheritFonts = function(undoRedoRecord, selectionUpdater)
 				selectionUpdater.afterRemove(child);
 			}
 
-			parent.removeChild(node);
+			node.remove();
 		} else {
 			node.removeAttribute("face");
 		}
@@ -2311,7 +2312,9 @@ EvoEditor.replaceInheritFonts = function(undoRedoRecord, selectionUpdater)
 
 EvoEditor.maybeReplaceInheritFonts = function()
 {
-	if (document.querySelectorAll("FONT[face=inherit]").length <= 0)
+	var nodes = document.querySelectorAll("FONT[face=inherit]");
+
+	if (nodes.length <= 0)
 		return;
 
 	var record, selectionUpdater;
@@ -2320,7 +2323,7 @@ EvoEditor.maybeReplaceInheritFonts = function()
 
 	record = EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "UnsetFontName", null, null, EvoEditor.CLAIM_CONTENT_FLAG_NONE);
 	try {
-		EvoEditor.replaceInheritFonts(record, selectionUpdater);
+		EvoEditor.replaceInheritFonts(record, selectionUpdater, nodes);
 
 		selectionUpdater.restore();
 	} finally {
