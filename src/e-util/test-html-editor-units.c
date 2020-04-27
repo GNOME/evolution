@@ -308,7 +308,7 @@ test_font_size_selection (TestFixture *fixture)
 		"action:size-plus-three\n"
 		"seq:rrCSrcs\n"
 		"action:size-plus-four\n",
-		HTML_PREFIX "<div><font size=\"1\">FontM2</font> <font size=\"2\">FontM1</font> <font size=\"3\">Font0</font> <font size=\"4\">FontP1</font> "
+		HTML_PREFIX "<div><font size=\"1\">FontM2</font> <font size=\"2\">FontM1</font> Font0 <font size=\"4\">FontP1</font> "
 		"<font size=\"5\">FontP2</font> <font size=\"6\">FontP3</font> <font size=\"7\">FontP4</font></div>" HTML_SUFFIX,
 		"FontM2 FontM1 Font0 FontP1 FontP2 FontP3 FontP4\n"))
 		g_test_fail ();
