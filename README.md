@@ -50,7 +50,7 @@ dependencies should be compiled in the order they are listed here):
 
 * [evolution-data-server of the same version as the Evolution is][eds]
 * [libsoup 2.42 or later][libsoup]
-* [WebKitGTK+ 2.16.0][webkitgtk]
+* [WebKitGTK+ 2.28.0][webkitgtk]
 * [Mozilla NSPR/NSS libraries][mozilla]
   These are needed if you want to compile Evolution with SSL and S/MIME
   support. Many distributions ship these as Mozilla development packages.
