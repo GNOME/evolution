@@ -50,15 +50,15 @@ test_bug_750657 (TestFixture *fixture)
 	if (!test_utils_run_simple_test (fixture,
 		"seq:CecuuuSuusD\n",
 		HTML_PREFIX
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
-		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
-		"<div><br></div>\n"
-		"<div>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
-		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">\n"
-		"<div><br></div>\n"
-		"</blockquote>\n"
-		"<div>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>\n"
-		"</blockquote>\n"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+		"<div>This is the first paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
+		"<div><br></div>"
+		"<div>This is the third paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+		"<div><br></div>"
+		"</blockquote>"
+		"<div>This is the fourth paragraph of a quoted text which has some long text to test. It has the second sentence as well.</div>"
+		"</blockquote>"
 		"<div><br></div>"
 		HTML_SUFFIX,
 		NULL)) {

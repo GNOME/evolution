@@ -4979,13 +4979,9 @@ EvoEditor.InsertContent = function(text, isHTML, quote)
 				if (node.nodeType == node.ELEMENT_NODE && node.tagName == "P") {
 					removeNode = true;
 
-					if (node.tagName == "P") {
-						var div = document.createElement("DIV");
-						EvoEditor.moveNodeContent(node, div);
-						node.parentElement.insertBefore(div, node.nextSibling);
-					} else {
-						EvoEditor.moveNodeContent(node);
-					}
+					var div = document.createElement("DIV");
+					EvoEditor.moveNodeContent(node, div);
+					node.parentElement.insertBefore(div, node.nextSibling);
 				}
 
 				next = EvoEditor.getNextNodeInHierarchy(node, content);
@@ -5331,6 +5327,26 @@ EvoEditor.splitPreTexts = function(node, isInPre, newNodes)
 	}
 }
 
+EvoEditor.traverseToRemoveInsignificantNewLines = function(parent)
+{
+	if (!parent)
+		return;
+
+	var child;
+
+	for (child = parent.firstChild; child; child = child.nextSibling) {
+		if (child.nodeType == child.TEXT_NODE) {
+			var str = EvoConvert.RemoveInsignificantNewLines(child);
+
+			if (str != child.nodeValue) {
+				child.nodeValue = str;
+			}
+		} else if (child.firstChild) {
+			EvoEditor.traverseToRemoveInsignificantNewLines(child);
+		}
+	}
+}
+
 EvoEditor.processLoadedContent = function()
 {
 	if (!document.body)
@@ -5358,6 +5374,17 @@ EvoEditor.processLoadedContent = function()
 				node.remove();
 			}
 		}
+	}
+
+	// This is to have prepared the text nodes for plain text. The plain text mode
+	// sets white-space for div-s to 'pre-wrap', which means the new lines are
+	// significant, but before the conversion they are insignificant, because
+	// the loaded content is regular HTML, not Plain Text-like HTML.
+	EvoEditor.UpdateStyleSheet("processLoadedContent", "body div { white-space: normal; }");
+	try {
+		EvoEditor.traverseToRemoveInsignificantNewLines(document.body);
+	} finally {
+		EvoEditor.UpdateStyleSheet("processLoadedContent", null);
 	}
 
 	node = document.querySelector("SPAN.-x-evo-cite-body");

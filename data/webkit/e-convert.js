@@ -729,11 +729,11 @@ EvoConvert.mergeConsecutiveSpaces = function(str)
 	return str;
 }
 
-EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
+EvoConvert.RemoveInsignificantNewLines = function(node)
 {
 	var str = "";
 
-	if (node.nodeType == node.TEXT_NODE) {
+	if (node && node.nodeType == node.TEXT_NODE) {
 		str = node.nodeValue;
 
 		if (str.indexOf("\r") >= 0 ||
@@ -775,6 +775,17 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 				}
 			}
 		}
+	}
+
+	return str;
+}
+
+EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
+{
+	var str = "";
+
+	if (node.nodeType == node.TEXT_NODE) {
+		str = EvoConvert.RemoveInsignificantNewLines(node);
 	} else if (node.nodeType == node.ELEMENT_NODE) {
 		if (node.hidden ||
 		    node.tagName == "STYLE" ||

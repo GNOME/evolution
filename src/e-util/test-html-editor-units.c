@@ -4927,7 +4927,7 @@ test_cite_reply_link (TestFixture *fixture)
 
 	test_utils_insert_content (fixture,
 		"<html><head></head><body><div><span>123 (here <a href=\"https://www.example.com\">\n"
-		"https://www.example.com/1234567890/1234567890/1234567890/1234567890/1234567890/"
+		"https://www.example.com/1234567890/1234567890/1234567890/1234567890/1234567890/</a>"
 		") and </span>here ěščřžýáíé <a href=\"https://www.example.com\">www.example.com</a>"
 		" with closing text after.</div>"
 		"<div>www.example1.com</div>"
@@ -4942,8 +4942,8 @@ test_cite_reply_link (TestFixture *fixture)
 		"",
 		HTML_PREFIX "<div style=\"width: 71ch;\">On Today, User wrote:</div>"
 		"<blockquote type=\"cite\">"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "123 (here </div>"
-		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.example.com/1234567890/1234567890/1234567890/1234567890/1234567890/\">"
+		"<div>" QUOTE_SPAN (QUOTE_CHR) "123 (here<br class=\"-x-evo-wrap-br\">"
+		QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.example.com/1234567890/1234567890/1234567890/1234567890/1234567890/\">"
 			"https://www.example.com/1234567890/1234567890/1234567890/1234567890/1234567890/</a>)<br class=\"-x-evo-wrap-br\">"
 		QUOTE_SPAN (QUOTE_CHR) "and here ěščřžýáíé <a href=\"https://www.example.com\">www.example.com</a> with closing text after.</div>"
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "<a href=\"https://www.example1.com\">www.example1.com</a></div>"
@@ -4952,7 +4952,7 @@ test_cite_reply_link (TestFixture *fixture)
 		"<div>" QUOTE_SPAN (QUOTE_CHR) "😏😉🙂 <a href=\"mailto:user@no.where\">user@no.where</a> line with Emoji</div>"
 		"</blockquote>" HTML_SUFFIX,
 		"On Today, User wrote:\n"
-		"> 123 (here \n"
+		"> 123 (here\n"
 		"> https://www.example.com/1234567890/1234567890/1234567890/1234567890/1234567890/\n"
 		"> ) and here ěščřžýáíé www.example.com with closing text after.\n"
 		"> www.example1.com\n"
@@ -6275,7 +6275,7 @@ test_pre_split_complex_html (TestFixture *fixture)
 			"<pre>level 1</pre>"
 			"<pre>E-mail: &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt; line</pre>"
 			"<pre>Phone: 1234567890</pre>"
-			"<pre><div>div in\npre</div></pre>"
+			"<pre><div>div in pre</div></pre>"
 			"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
 				"<pre>level 2</pre>"
 				"<pre><br></pre>"
@@ -6301,8 +6301,8 @@ test_pre_split_complex_html (TestFixture *fixture)
 		"> level 1\n"
 		"> E-mail: <user@no.where> line\n"
 		"> Phone: 1234567890\n"
-		"> > div in\n" /* this and th ebelow line is level 1 in quotation, but due to nested <div> in <pre> the EvoConvert */
-		"> > pre\n"    /* doubles quotation marks. It's not ideal, but it's a broken HTML anyway (broken for the HTML editor). */
+		"> > div in pre\n" /* this line is level 1 in quotation, but due to nested <div> in <pre> the EvoConvert */
+				   /* doubles quotation marks. It's not ideal, but it's a broken HTML anyway (broken for the HTML editor). */
 		"> > level 2\n"
 		"> > \n"
 		"> > level 2\n"
@@ -6367,8 +6367,7 @@ test_pre_split_complex_plain (TestFixture *fixture)
 			"<pre>" QUOTE_SPAN (QUOTE_CHR) "level 1</pre>"
 			"<pre>" QUOTE_SPAN (QUOTE_CHR) "E-mail: &lt;<a href=\"mailto:user@no.where\">user@no.where</a>&gt; line</pre>"
 			"<pre>" QUOTE_SPAN (QUOTE_CHR) "Phone: 1234567890</pre>"
-			"<pre>" QUOTE_SPAN (QUOTE_CHR) "div in</pre>"
-			"<pre>" QUOTE_SPAN (QUOTE_CHR) "pre</pre>"
+			"<pre>" QUOTE_SPAN (QUOTE_CHR) "div in pre</pre>"
 			"<blockquote type=\"cite\">"
 				"<pre>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "level 2</pre>"
 				"<pre>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "<br></pre>"
@@ -6394,8 +6393,7 @@ test_pre_split_complex_plain (TestFixture *fixture)
 		"> level 1\n"
 		"> E-mail: <user@no.where> line\n"
 		"> Phone: 1234567890\n"
-		"> div in\n"
-		"> pre\n"
+		"> div in pre\n"
 		"> > level 2\n"
 		"> > \n"
 		"> > level 2\n"
