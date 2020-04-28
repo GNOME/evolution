@@ -5491,8 +5491,21 @@ EvoEditor.processLoadedContent = function()
 			}
 		}
 
+		if (blockquoteNode.className == "gmail_quote") {
+			if (blockquoteNode.lastChild && blockquoteNode.lastChild.tagName != "BR" && blockquoteNode.nextSibling) {
+				blockquoteNode.appendChild(document.createElement("BR"));
+			}
+		}
+
+		if (blockquoteNode.previousSibling &&
+		    blockquoteNode.previousSibling.nodeType == blockquoteNode.TEXT_NODE &&
+		    blockquoteNode.previousSibling.nodeValue) {
+			blockquoteNode.parentElement.insertBefore(document.createElement("BR"), blockquoteNode);
+		}
+
 		blockquoteNode.removeAttribute("class");
 		blockquoteNode.removeAttribute("style");
+		blockquoteNode.setAttribute("type", "cite");
 	}
 
 	if (EvoEditor.mode == EvoEditor.MODE_PLAIN_TEXT) {
