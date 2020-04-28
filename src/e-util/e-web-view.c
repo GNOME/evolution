@@ -3264,7 +3264,7 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 	GdkColor *visited = NULL;
 	GString *stylesheet;
 	GtkStyleContext *context;
-	PangoFontDescription *min_size, *ms, *vw;
+	PangoFontDescription *ms, *vw;
 	WebKitSettings *wk_settings;
 	WebKitUserContentManager *manager;
 	WebKitUserStyleSheet *style_sheet;
@@ -3300,11 +3300,6 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 		g_free (font);
 	} else
 		vw = vw_font;
-
-	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw))
-		min_size = ms;
-	else
-		min_size = vw;
 
 	stylesheet = g_string_new ("");
 	g_ascii_dtostr (fsbuff, G_ASCII_DTOSTR_BUF_SIZE,
@@ -3528,9 +3523,6 @@ e_web_view_update_fonts_settings (GSettings *font_settings,
 		"default-monospace-font-size",
 		e_util_normalize_font_size (
 			view_widget, pango_font_description_get_size (ms) / PANGO_SCALE),
-		"minimum-font-size",
-		e_util_normalize_font_size (
-			view_widget, pango_font_description_get_size (min_size) / PANGO_SCALE),
 		NULL);
 
 	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (view_widget));

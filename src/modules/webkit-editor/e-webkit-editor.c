@@ -1162,7 +1162,7 @@ webkit_editor_update_styles (EContentEditor *editor)
 	const gchar *smoothing = NULL;
 	gchar fsbuff[G_ASCII_DTOSTR_BUF_SIZE];
 	GString *stylesheet;
-	PangoFontDescription *min_size, *ms, *vw;
+	PangoFontDescription *ms, *vw;
 	WebKitSettings *settings;
 	WebKitUserContentManager *manager;
 	WebKitUserStyleSheet *style_sheet;
@@ -1600,11 +1600,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 			"}\n");
 	}
 
-	if (pango_font_description_get_size (ms) < pango_font_description_get_size (vw) || !wk_editor->priv->html_mode)
-		min_size = ms;
-	else
-		min_size = vw;
-
 	settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (wk_editor));
 	g_object_set (
 		G_OBJECT (settings),
@@ -1618,9 +1613,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 		"default-monospace-font-size",
 		e_util_normalize_font_size (
 			GTK_WIDGET (wk_editor), pango_font_description_get_size (ms) / PANGO_SCALE),
-		"minimum-font-size",
-		e_util_normalize_font_size (
-			GTK_WIDGET (wk_editor), pango_font_description_get_size (min_size) / PANGO_SCALE),
 		NULL);
 
 	manager = webkit_web_view_get_user_content_manager (WEBKIT_WEB_VIEW (wk_editor));
