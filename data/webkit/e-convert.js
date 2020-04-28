@@ -657,13 +657,6 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				line = line + indent;
 		}
 
-		if (quoteLevel > 0) {
-			if (ltr)
-				line = EvoConvert.getQuotePrefix(quoteLevel, ltr) + line;
-			else
-				line = line + EvoConvert.getQuotePrefix(quoteLevel, ltr);
-		}
-
 		str += line + "\n";
 	}
 
@@ -890,6 +883,22 @@ EvoConvert.processNode = function(node, normalDivWidth, quoteLevel)
 			var isBlockquote = node.tagName == "BLOCKQUOTE";
 
 			str = EvoConvert.extractElemText(node, normalDivWidth, quoteLevel + (isBlockquote ? 1 : 0));
+
+			if (isBlockquote) {
+				var ii, lines = str.split("\n"), prefix, suffix;
+
+				prefix = ltr ? EvoConvert.getQuotePrefix(1, ltr) : "";
+				suffix = ltr ? "" : EvoConvert.getQuotePrefix(1, ltr);
+
+				str = "";
+
+				for (ii = 0; ii < lines.length; ii++) {
+					if (ii + 1 == lines.length && !lines[ii])
+						break;
+
+					str += prefix + lines[ii] + suffix + "\n";
+				}
+			}
 
 			if ((!isBlockquote || !str.endsWith("\n")) &&
 			    str != "\n" && ((style && style.display == "block") || node.tagName == "ADDRESS")) {

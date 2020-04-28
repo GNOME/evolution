@@ -6301,8 +6301,7 @@ test_pre_split_complex_html (TestFixture *fixture)
 		"> level 1\n"
 		"> E-mail: <user@no.where> line\n"
 		"> Phone: 1234567890\n"
-		"> > div in pre\n" /* this line is level 1 in quotation, but due to nested <div> in <pre> the EvoConvert */
-				   /* doubles quotation marks. It's not ideal, but it's a broken HTML anyway (broken for the HTML editor). */
+		"> div in pre\n"
 		"> > level 2\n"
 		"> > \n"
 		"> > level 2\n"
