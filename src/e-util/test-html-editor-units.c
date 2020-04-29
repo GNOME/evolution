@@ -4965,7 +4965,7 @@ test_cite_reply_link (TestFixture *fixture)
 static void
 test_cite_editing_html (TestFixture *fixture)
 {
-	const gchar *plain0, *html0, *plain1, *html1, *plain2, *html2, *plain3, *html3, *plain4, *html4;
+	const gchar *html[5], *plain[5];
 
 	if (!test_utils_process_commands (fixture,
 		"mode:html\n")) {
@@ -4985,7 +4985,7 @@ test_cite_editing_html (TestFixture *fixture)
 		"<div>after citation</div>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
-	html0 = HTML_PREFIX "<div>before citation</div>"
+	html[0] = HTML_PREFIX "<div>before citation</div>"
 		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
 			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
@@ -4995,18 +4995,18 @@ test_cite_editing_html (TestFixture *fixture)
 		"</blockquote>"
 		"<div>after citation</div>" HTML_SUFFIX;
 
-	plain0 = "before citation\n"
+	plain[0] = "before citation\n"
 		"> cite level 1a\n"
 		"> > cite level 2\n"
 		"> cite level 1b\n"
 		"after citation\n";
 
-	if (!test_utils_run_simple_test (fixture, "", html0, plain0)) {
+	if (!test_utils_run_simple_test (fixture, "", html[0], plain[0])) {
 		g_test_fail ();
 		return;
 	}
 
-	html1 = HTML_PREFIX "<div>before citation</div>"
+	html[1] = HTML_PREFIX "<div>before citation</div>"
 		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
 			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
@@ -5016,7 +5016,7 @@ test_cite_editing_html (TestFixture *fixture)
 		"</blockquote>"
 		"<div>after citation</div>" HTML_SUFFIX;
 
-	plain1 = "before citation\n"
+	plain[1] = "before citation\n"
 		"> cite level 1a\n"
 		"> > ciXte level 2\n"
 		"> cite level 1b\n"
@@ -5026,12 +5026,12 @@ test_cite_editing_html (TestFixture *fixture)
 		"seq:Chc\n" /* Ctrl+Home to get to the beginning of the document */
 		"seq:ddrr\n" /* on the third line, after the second character */
 		"type:X\n",
-		html1, plain1)) {
+		html[1], plain[1])) {
 		g_test_fail ();
 		return;
 	}
 
-	html2 = HTML_PREFIX "<div>before citation</div>"
+	html[2] = HTML_PREFIX "<div>before citation</div>"
 		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
 			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
@@ -5047,7 +5047,7 @@ test_cite_editing_html (TestFixture *fixture)
 		"</blockquote>"
 		"<div>after citation</div>" HTML_SUFFIX;
 
-	plain2 = "before citation\n"
+	plain[2] = "before citation\n"
 		"> cite level 1a\n"
 		"> > ciX\n"
 		"Y\n"
@@ -5057,12 +5057,12 @@ test_cite_editing_html (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"type:\\nY\n",
-		html2, plain2)) {
+		html[2], plain[2])) {
 		g_test_fail ();
 		return;
 	}
 
-	html3 = HTML_PREFIX "<div>before citation</div>"
+	html[3] = HTML_PREFIX "<div>before citation</div>"
 		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
 			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
@@ -5078,7 +5078,7 @@ test_cite_editing_html (TestFixture *fixture)
 		"</blockquote>"
 		"<div>after citation</div>" HTML_SUFFIX;
 
-	plain3 = "before citation\n"
+	plain[3] = "before citation\n"
 		"> cite level 1a\n"
 		"> > ciX\n"
 		"Y\n"
@@ -5091,12 +5091,12 @@ test_cite_editing_html (TestFixture *fixture)
 		"seq:dr\n"
 		"type:Z\n"
 		"seq:Sns\n", /* soft Enter */
-		html3, plain3)) {
+		html[3], plain[3])) {
 		g_test_fail ();
 		return;
 	}
 
-	html4 = HTML_PREFIX "<div>before citation</div>"
+	html[4] = HTML_PREFIX "<div>before citation</div>"
 		"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
 			"<div>cite level 1a</div>"
 			"<blockquote type='cite' " BLOCKQUOTE_STYLE ">"
@@ -5120,7 +5120,7 @@ test_cite_editing_html (TestFixture *fixture)
 		"<div><br></div>"
 		"<div>after citation</div>" HTML_SUFFIX;
 
-	plain4 = "before citation\n"
+	plain[4] = "before citation\n"
 		"> cite level 1a\n"
 		"> > ciX\n"
 		"Y\n"
@@ -5135,63 +5135,63 @@ test_cite_editing_html (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:endhnden\n",
-		html4, plain4)) {
+		html[4], plain[4])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:undo:3\n",
-		html3, plain3)) {
+		html[3], plain[3])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:undo:2\n",
-		html2, plain2)) {
+		html[2], plain[2])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:undo:2\n",
-		html1, plain1)) {
+		html[1], plain[1])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:undo:1\n",
-		html0, plain0)) {
+		html[0], plain[0])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:redo:1\n",
-		html1, plain1)) {
+		html[1], plain[1])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:redo:2\n",
-		html2, plain2)) {
+		html[2], plain[2])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:redo:2\n",
-		html3, plain3)) {
+		html[3], plain[3])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:redo:3\n",
-		html4, plain4)) {
+		html[4], plain[4])) {
 		g_test_fail ();
 		return;
 	}
@@ -5200,7 +5200,7 @@ test_cite_editing_html (TestFixture *fixture)
 static void
 test_cite_editing_plain (TestFixture *fixture)
 {
-	const gchar *plain0, *html0, *plain1, *html1, *plain2, *html2, *plain3, *html3, *plain4, *html4;
+	const gchar *html[5], *plain[5];
 
 	if (!test_utils_process_commands (fixture,
 		"mode:html\n")) {
@@ -5220,7 +5220,7 @@ test_cite_editing_plain (TestFixture *fixture)
 		"<div>after citation</div>",
 		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
 
-	html0 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+	html[0] = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
 		"<blockquote type='cite'>"
 			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
 			"<blockquote type='cite'>"
@@ -5230,18 +5230,18 @@ test_cite_editing_plain (TestFixture *fixture)
 		"</blockquote>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
 
-	plain0 = "before citation\n"
+	plain[0] = "before citation\n"
 		"> cite level 1a\n"
 		"> > cite level 2\n"
 		"> cite level 1b\n"
 		"after citation\n";
 
-	if (!test_utils_run_simple_test (fixture, "mode:plain\n", html0, plain0)) {
+	if (!test_utils_run_simple_test (fixture, "mode:plain", html[0], plain[0])) {
 		g_test_fail ();
 		return;
 	}
 
-	html1 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+	html[1] = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
 		"<blockquote type='cite'>"
 			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
 			"<blockquote type='cite'>"
@@ -5251,7 +5251,7 @@ test_cite_editing_plain (TestFixture *fixture)
 		"</blockquote>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
 
-	plain1 = "before citation\n"
+	plain[1] = "before citation\n"
 		"> cite level 1a\n"
 		"> > ciXte level 2\n"
 		"> cite level 1b\n"
@@ -5261,12 +5261,12 @@ test_cite_editing_plain (TestFixture *fixture)
 		"seq:Chc\n" /* Ctrl+Home to get to the beginning of the document */
 		"seq:ddrr\n" /* on the third line, after the second character */
 		"type:X\n",
-		html1, plain1)) {
+		html[1], plain[1])) {
 		g_test_fail ();
 		return;
 	}
 
-	html2 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+	html[2] = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
 		"<blockquote type='cite'>"
 			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
 			"<blockquote type='cite'>"
@@ -5282,7 +5282,7 @@ test_cite_editing_plain (TestFixture *fixture)
 		"</blockquote>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
 
-	plain2 = "before citation\n"
+	plain[2] = "before citation\n"
 		"> cite level 1a\n"
 		"> > ciX\n"
 		"Y\n"
@@ -5292,12 +5292,12 @@ test_cite_editing_plain (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"type:\\nY\n",
-		html2, plain2)) {
+		html[2], plain[2])) {
 		g_test_fail ();
 		return;
 	}
 
-	html3 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+	html[3] = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
 		"<blockquote type='cite'>"
 			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
 			"<blockquote type='cite'>"
@@ -5314,7 +5314,7 @@ test_cite_editing_plain (TestFixture *fixture)
 		"</blockquote>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
 
-	plain3 = "before citation\n"
+	plain[3] = "before citation\n"
 		"> cite level 1a\n"
 		"> > ciX\n"
 		"Y\n"
@@ -5327,12 +5327,12 @@ test_cite_editing_plain (TestFixture *fixture)
 		"seq:dr\n"
 		"type:Z\n"
 		"seq:Sns\n", /* soft Enter */
-		html3, plain3)) {
+		html[3], plain[3])) {
 		g_test_fail ();
 		return;
 	}
 
-	html4 = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
+	html[4] = HTML_PREFIX "<div style='width: 71ch;'>before citation</div>"
 		"<blockquote type='cite'>"
 			"<div>" QUOTE_SPAN (QUOTE_CHR) "cite level 1a</div>"
 			"<blockquote type='cite'>"
@@ -5357,7 +5357,7 @@ test_cite_editing_plain (TestFixture *fixture)
 		"<div style='width: 71ch;'><br></div>"
 		"<div style='width: 71ch;'>after citation</div>" HTML_SUFFIX;
 
-	plain4 = "before citation\n"
+	plain[4] = "before citation\n"
 		"> cite level 1a\n"
 		"> > ciX\n"
 		"Y\n"
@@ -5372,66 +5372,996 @@ test_cite_editing_plain (TestFixture *fixture)
 
 	if (!test_utils_run_simple_test (fixture,
 		"seq:endhnden\n",
-		html4, plain4)) {
+		html[4], plain[4])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:undo:3\n",
-		html3, plain3)) {
+		html[3], plain[3])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:undo:2\n",
-		html2, plain2)) {
+		html[2], plain[2])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:undo:2\n",
-		html1, plain1)) {
+		html[1], plain[1])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:undo:1\n",
-		html0, plain0)) {
+		html[0], plain[0])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:redo:1\n",
-		html1, plain1)) {
+		html[1], plain[1])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:redo:2\n",
-		html2, plain2)) {
+		html[2], plain[2])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:redo:2\n",
-		html3, plain3)) {
+		html[3], plain[3])) {
 		g_test_fail ();
 		return;
 	}
 
 	if (!test_utils_run_simple_test (fixture,
 		"undo:redo:3\n",
-		html4, plain4)) {
+		html[4], plain[4])) {
 		g_test_fail ();
 		return;
 	}
+}
+
+static void
+test_cite_editing_outlook_html (TestFixture *fixture)
+{
+	const gchar *html[8], *plain[8];
+	gint ii;
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	html[0] = HTML_PREFIX "<div>www</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xxx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zzz<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>" HTML_SUFFIX;
+
+	plain[0] = "www\n"
+		"> xxx\n"
+		"> yyy\n"
+		"> * Item 1\n"
+		"> * Item 2\n"
+		"> * Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	test_utils_insert_content (fixture,
+		"<div>www</div>"
+		"<blockquote type=\"cite\">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xxx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zzz<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		html[0], plain[0])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[1] = HTML_PREFIX "<div>w</div>"
+		"<div>Aww</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xxx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zzz<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>" HTML_SUFFIX;
+
+	plain[1] = "w\n"
+		"Aww\n"
+		"> xxx\n"
+		"> yyy\n"
+		"> * Item 1\n"
+		"> * Item 2\n"
+		"> * Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:Chcrn\n"
+		"type:A",
+		html[1], plain[1])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[2] = HTML_PREFIX "<div>w</div>"
+		"<div>Aww</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>x</span></p>"
+				"<p class=\"MsoNormal\"><span></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div>B</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zzz<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>" HTML_SUFFIX;
+
+	plain[2] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> * Item 1\n"
+		"> * Item 2\n"
+		"> * Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:drn\n"
+		"type:B",
+		html[2], plain[2])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[3] = HTML_PREFIX "<div>w</div>"
+		"<div>Aww</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>x</span></p>"
+				"<p class=\"MsoNormal\"><span></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div>B</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Ite</span></li>"
+					"<li class=\"MsoListParagraph\"><span>Cm 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zzz<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>" HTML_SUFFIX;
+
+	plain[3] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> * Item 1\n"
+		"> * Ite\n"
+		"> * Cm 2\n"
+		"> * Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ddddrrrn\n"
+		"type:C",
+		html[3], plain[3])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[4] = HTML_PREFIX "<div>w</div>"
+		"<div>Aww</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>x</span></p>"
+				"<p class=\"MsoNormal\"><span></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div>B</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Ite</span></li>"
+					"<li class=\"MsoListParagraph\"><span><br></span></li>"
+					"<li class=\"MsoListParagraph\"><span>DCm 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zzz<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>" HTML_SUFFIX;
+
+	plain[4] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> * Item 1\n"
+		"> * Ite\n"
+		"> * \n"
+		"> * DCm 2\n"
+		"> * Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:hn\n"
+		"type:D",
+		html[4], plain[4])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[5] = HTML_PREFIX "<div>w</div>"
+		"<div>Aww</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>x</span></p>"
+				"<p class=\"MsoNormal\"><span></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div>B</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Ite</span></li>"
+				"</ul>"
+			"</div>"
+		"</blockquote>"
+		"<div>E</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>DCm 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zzz<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>" HTML_SUFFIX;
+
+	plain[5] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> * Item 1\n"
+		"> * Ite\n"
+		"E\n"
+		"> * DCm 2\n"
+		"> * Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:un\n"
+		"type:E",
+		html[5], plain[5])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[6] = HTML_PREFIX "<div>w</div>"
+		"<div>Aww</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>x</span></p>"
+				"<p class=\"MsoNormal\"><span></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div>B</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Ite</span></li>"
+				"</ul>"
+			"</div>"
+		"</blockquote>"
+		"<div>E</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>DCm 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zz</span></p>"
+				"<p class=\"MsoNormal\"><span></span></p></div>"
+			"</div>"
+		"</blockquote>"
+		"<div>F</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>z<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>" HTML_SUFFIX;
+
+	plain[6] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> * Item 1\n"
+		"> * Ite\n"
+		"E\n"
+		"> * DCm 2\n"
+		"> * Item 3\n"
+		"> zz\n"
+		"F\n"
+		"> z\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dddrrn\n"
+		"type:F",
+		html[6], plain[6])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[7] = HTML_PREFIX "<div>w</div>"
+		"<div>Aww</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>x</span></p>"
+				"<p class=\"MsoNormal\"><span></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div>B</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Ite</span></li>"
+				"</ul>"
+			"</div>"
+		"</blockquote>"
+		"<div>E</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>DCm 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zz</span></p>"
+				"<p class=\"MsoNormal\"><span></span></p></div>"
+			"</div>"
+		"</blockquote>"
+		"<div>F</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>z<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>"
+		"<div>G</div>" HTML_SUFFIX;
+
+	plain[7] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> * Item 1\n"
+		"> * Ite\n"
+		"E\n"
+		"> * DCm 2\n"
+		"> * Item 3\n"
+		"> zz\n"
+		"F\n"
+		"> z\n"
+		"> " UNICODE_NBSP "\n"
+		"\n"
+		"G\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dddn\n"
+		"type:G",
+		html[7], plain[7])) {
+		g_test_fail ();
+		return;
+	}
+
+	for (ii = 6; ii >= 0; ii--) {
+		if (!test_utils_run_simple_test (fixture, "undo:undo:2", html[ii], plain[ii])) {
+			g_test_fail ();
+			return;
+		}
+	}
+
+	for (ii = 1; ii <= 7; ii++) {
+		if (!test_utils_run_simple_test (fixture, "undo:redo:2", html[ii], plain[ii])) {
+			g_test_fail ();
+			return;
+		}
+	}
+}
+
+static void
+test_cite_editing_outlook_plain (TestFixture *fixture)
+{
+	const gchar *html[8], *plain[8];
+	gint ii;
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	html[0] = HTML_PREFIX "<div style=\"width: 71ch;\">www</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "xxx</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "yyy</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 1</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 2</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 3</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "zzz</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX;
+
+	plain[0] = "www\n"
+		"> xxx\n"
+		"> yyy\n"
+		"> " UNICODE_NBSP "* Item 1\n"
+		"> " UNICODE_NBSP "* Item 2\n"
+		"> " UNICODE_NBSP "* Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	test_utils_insert_content (fixture,
+		"<div>www</div>"
+		"<blockquote type=\"cite\">"
+			"<div class=\"WordSection1\">"
+				"<p class=\"MsoNormal\"><span>xxx</span></p>"
+				"<p class=\"MsoNormal\"><span>yyy</span></p>"
+				"<ul type=\"disc\">"
+					"<li class=\"MsoListParagraph\"><span>Item 1<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 2<o:p></o:p></span></li>"
+					"<li class=\"MsoListParagraph\"><span>Item 3<o:p></o:p></span></li>"
+				"</ul>"
+				"<p class=\"MsoNormal\"><span>zzz<o:p></o:p></span></p>"
+				"<p class=\"MsoNormal\"><span><o:p>&nbsp;</o:p></span></p>"
+			"</div>"
+		"</blockquote>"
+		"<div><br></div>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"mode:plain",
+		html[0], plain[0])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[1] = HTML_PREFIX "<div style=\"width: 71ch;\">w</div>"
+		"<div style=\"width: 71ch;\">Aww</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "xxx</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "yyy</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 1</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 2</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 3</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "zzz</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX;
+
+	plain[1] = "w\n"
+		"Aww\n"
+		"> xxx\n"
+		"> yyy\n"
+		"> " UNICODE_NBSP "* Item 1\n"
+		"> " UNICODE_NBSP "* Item 2\n"
+		"> " UNICODE_NBSP "* Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:Chcrn\n"
+		"type:A",
+		html[1], plain[1])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[2] = HTML_PREFIX "<div style=\"width: 71ch;\">w</div>"
+		"<div style=\"width: 71ch;\">Aww</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "x</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">B</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "xx</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "yyy</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 1</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 2</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 3</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "zzz</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX;
+
+	plain[2] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> " UNICODE_NBSP "* Item 1\n"
+		"> " UNICODE_NBSP "* Item 2\n"
+		"> " UNICODE_NBSP "* Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:drn\n"
+		"type:B",
+		html[2], plain[2])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[3] = HTML_PREFIX "<div style=\"width: 71ch;\">w</div>"
+		"<div style=\"width: 71ch;\">Aww</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "x</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">B</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "xx</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "yyy</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 1</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Ite</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">C</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "m 2</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 3</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "zzz</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX;
+
+	plain[3] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> " UNICODE_NBSP "* Item 1\n"
+		"> " UNICODE_NBSP "* Ite\n"
+		"C\n"
+		"> m 2\n"
+		"> " UNICODE_NBSP "* Item 3\n"
+		"> zzz\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ddddrrrrrrn\n"
+		"type:C",
+		html[3], plain[3])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[4] = HTML_PREFIX "<div style=\"width: 71ch;\">w</div>"
+		"<div style=\"width: 71ch;\">Aww</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "x</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">B</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "xx</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "yyy</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 1</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Ite</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">C</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "m 2</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 3</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "zz</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">D</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "z</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\"><br></div>" HTML_SUFFIX;
+
+	plain[4] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> " UNICODE_NBSP "* Item 1\n"
+		"> " UNICODE_NBSP "* Ite\n"
+		"C\n"
+		"> m 2\n"
+		"> " UNICODE_NBSP "* Item 3\n"
+		"> zz\n"
+		"D\n"
+		"> z\n"
+		"> " UNICODE_NBSP "\n"
+		"\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dddrrn\n"
+		"type:D",
+		html[4], plain[4])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[5] = HTML_PREFIX "<div style=\"width: 71ch;\">w</div>"
+		"<div style=\"width: 71ch;\">Aww</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "x</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">B</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "xx</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "yyy</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 1</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Ite</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">C</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "m 2</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) UNICODE_NBSP "* Item 3</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "zz</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">D</div>"
+		"<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "z</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "&nbsp;</div>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">E</div>" HTML_SUFFIX;
+
+	plain[5] = "w\n"
+		"Aww\n"
+		"> x\n"
+		"B\n"
+		"> xx\n"
+		"> yyy\n"
+		"> " UNICODE_NBSP "* Item 1\n"
+		"> " UNICODE_NBSP "* Ite\n"
+		"C\n"
+		"> m 2\n"
+		"> " UNICODE_NBSP "* Item 3\n"
+		"> zz\n"
+		"D\n"
+		"> z\n"
+		"> " UNICODE_NBSP "\n"
+		"\n"
+		"E\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:dddn\n"
+		"type:E",
+		html[5], plain[5])) {
+		g_test_fail ();
+		return;
+	}
+
+	for (ii = 4; ii >= 0; ii--) {
+		if (!test_utils_run_simple_test (fixture, "undo:undo:2", html[ii], plain[ii])) {
+			g_test_fail ();
+			return;
+		}
+	}
+
+	for (ii = 1; ii <= 4; ii++) {
+		if (!test_utils_run_simple_test (fixture, "undo:redo:2", html[ii], plain[ii])) {
+			g_test_fail ();
+			return;
+		}
+	}
+}
+
+static void
+test_cite_nested_html (TestFixture *fixture)
+{
+	const gchar *html[2], *plain[2];
+
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<blockquote type=\"cite\">"
+			"<div>a</div>"
+			"<div>b</div>"
+			"<blockquote type=\"cite\">"
+				"<div>aa</div>"
+				"<div>bb</div>"
+				"<div>cc</div>"
+				"<div>dd</div>"
+			"</blockquote>"
+			"<div>c</div>"
+			"<div>d</div>"
+		"</blockquote>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	html[0] = HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div>a</div>"
+			"<div>b</div>"
+			"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+				"<div>aa</div>"
+				"<div>bb</div>"
+				"<div>cc</div>"
+				"<div>dd</div>"
+			"</blockquote>"
+			"<div>c</div>"
+			"<div>d</div>"
+		"</blockquote>" HTML_SUFFIX;
+
+	plain[0] = "> a\n"
+		"> b\n"
+		"> > aa\n"
+		"> > bb\n"
+		"> > cc\n"
+		"> > dd\n"
+		"> c\n"
+		"> d\n";
+
+	if (!test_utils_run_simple_test (fixture, "", html[0], plain[0])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[1] = HTML_PREFIX "<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<div>a</div>"
+			"<div>b</div>"
+			"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+				"<div>aa</div>"
+				"<div>bb</div>"
+				"<div><br></div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div>X</div>"
+		"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+			"<blockquote type=\"cite\" " BLOCKQUOTE_STYLE ">"
+				"<div>cc</div>"
+				"<div>dd</div>"
+			"</blockquote>"
+			"<div>c</div>"
+			"<div>d</div>"
+		"</blockquote>" HTML_SUFFIX;
+
+	plain[1] = "> a\n"
+		"> b\n"
+		"> > aa\n"
+		"> > bb\n"
+		"> > \n"
+		"X\n"
+		"> > cc\n"
+		"> > dd\n"
+		"> c\n"
+		"> d\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ddddn\n"
+		"type:X",
+		html[1], plain[1])) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture, "undo:undo:2", html[0], plain[0])) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture, "undo:redo:2", html[1], plain[1]))
+		g_test_fail ();
+}
+
+static void
+test_cite_nested_plain (TestFixture *fixture)
+{
+	const gchar *html[2], *plain[2];
+
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<blockquote type=\"cite\">"
+			"<div>a</div>"
+			"<div>b</div>"
+			"<blockquote type=\"cite\">"
+				"<div>aa</div>"
+				"<div>bb</div>"
+				"<div>cc</div>"
+				"<div>dd</div>"
+			"</blockquote>"
+			"<div>c</div>"
+			"<div>d</div>"
+		"</blockquote>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	html[0] = HTML_PREFIX "<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "b</div>"
+			"<blockquote type=\"cite\">"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "aa</div>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "bb</div>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "cc</div>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "dd</div>"
+			"</blockquote>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "c</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "d</div>"
+		"</blockquote>" HTML_SUFFIX;
+
+	plain[0] = "> a\n"
+		"> b\n"
+		"> > aa\n"
+		"> > bb\n"
+		"> > cc\n"
+		"> > dd\n"
+		"> c\n"
+		"> d\n";
+
+	if (!test_utils_run_simple_test (fixture, "", html[0], plain[0])) {
+		g_test_fail ();
+		return;
+	}
+
+	html[1] = HTML_PREFIX "<blockquote type=\"cite\">"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "a</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "b</div>"
+			"<blockquote type=\"cite\">"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "aa</div>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "bb</div>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "<br></div>"
+			"</blockquote>"
+		"</blockquote>"
+		"<div style=\"width: 71ch;\">X</div>"
+		"<blockquote type=\"cite\">"
+			"<blockquote type=\"cite\">"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "cc</div>"
+				"<div>" QUOTE_SPAN (QUOTE_CHR QUOTE_CHR) "dd</div>"
+			"</blockquote>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "c</div>"
+			"<div>" QUOTE_SPAN (QUOTE_CHR) "d</div>"
+		"</blockquote>" HTML_SUFFIX;
+
+	plain[1] = "> a\n"
+		"> b\n"
+		"> > aa\n"
+		"> > bb\n"
+		"> > \n"
+		"X\n"
+		"> > cc\n"
+		"> > dd\n"
+		"> c\n"
+		"> d\n";
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:ddddn\n"
+		"type:X",
+		html[1], plain[1])) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture, "undo:undo:2", html[0], plain[0])) {
+		g_test_fail ();
+		return;
+	}
+
+	if (!test_utils_run_simple_test (fixture, "undo:redo:2", html[1], plain[1]))
+		g_test_fail ();
 }
 
 static void
@@ -6589,6 +7519,10 @@ main (gint argc,
 	test_utils_add_test ("/cite/reply-link", test_cite_reply_link);
 	test_utils_add_test ("/cite/editing-html", test_cite_editing_html);
 	test_utils_add_test ("/cite/editing-plain", test_cite_editing_plain);
+	test_utils_add_test ("/cite/editing-outlook-html", test_cite_editing_outlook_html);
+	test_utils_add_test ("/cite/editing-outlook-plain", test_cite_editing_outlook_plain);
+	test_utils_add_test ("/cite/nested-html", test_cite_nested_html);
+	test_utils_add_test ("/cite/nested-plain", test_cite_nested_plain);
 	test_utils_add_test ("/undo/text-typed", test_undo_text_typed);
 	test_utils_add_test ("/undo/text-forward-delete", test_undo_text_forward_delete);
 	test_utils_add_test ("/undo/text-backward-delete", test_undo_text_backward_delete);

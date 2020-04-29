@@ -615,6 +615,10 @@ EvoEditor.ClaimAffectedContent = function(startNode, endNode, flags)
 	}
 
 	if ((flags & EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE) != 0) {
+		if (startNode && !(startNode === document.body)) {
+			startNode = startNode.parentElement;
+		}
+
 		while (startNode && !(startNode === document.body)) {
 			if (EvoEditor.IsBlockNode(startNode)) {
 				break;
@@ -1154,7 +1158,6 @@ EvoEditor.SetBlockFormat = function(format)
 
 	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "setBlockFormat", null, null,
 		EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
-
 	try {
 		EvoEditor.ForeachChildInAffectedContent(affected, traversar);
 
@@ -3193,7 +3196,6 @@ EvoEditor.beforeInputCb = function(inputEvent)
 
 	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_EVENT, "insertText", selection.anchorNode, selection.anchorNode,
 		EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML | EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE);
-
 	try {
 		node.nodeValue += inputEvent.data;
 		selection.setPosition(node, node.nodeValue.length);
@@ -3300,7 +3302,10 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 				EvoUndoRedo.GroupTopRecords(didRemove + 1, inputEvent.inputType + "::removeEmptyElems");
 		}
 
-		if (EvoEditor.hasElementWithTagNameAsParent(selection.anchorNode, "BLOCKQUOTE")) {
+		if (EvoEditor.hasElementWithTagNameAsParent(selection.anchorNode, "BLOCKQUOTE") &&
+		    !EvoEditor.hasElementWithTagNameAsParent(selection.anchorNode, "UL") &&
+		    !EvoEditor.hasElementWithTagNameAsParent(selection.anchorNode, "OL") &&
+		    !EvoEditor.hasElementWithTagNameAsParent(selection.anchorNode, "TABLE")) {
 			// insertParagraph should split the blockquote into two
 			if (isInsertParagraph) {
 				var node = selection.anchorNode, childNode = node, parent, removeNode = null;
@@ -3308,12 +3313,12 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 				for (parent = node.parentElement; parent && parent.tagName != "BODY"; parent = parent.parentElement) {
 					if (parent.tagName == "BLOCKQUOTE") {
 						childNode = parent;
+						break;
 					}
 				}
 
 				EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteSplit", childNode, childNode,
-					EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
-
+					EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 				try {
 					if (node.nodeType == node.ELEMENT_NODE && node.childNodes.length == 1 && node.firstChild.tagName == "BR")
 						removeNode = node;
@@ -3323,7 +3328,7 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 					childNode = node;
 
 					for (parent = node.parentElement; parent && parent.tagName != "BODY"; parent = parent.parentElement) {
-						if (parent.tagName == "BLOCKQUOTE") {
+						if (parent.nodeType == parent.ELEMENT_NODE) {
 							childNode = EvoEditor.splitAtChild(parent, childNode);
 							parent = childNode;
 						} else {
@@ -3370,7 +3375,13 @@ EvoEditor.AfterInputEvent = function(inputEvent, isWordDelim)
 					}
 				} finally {
 					EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "blockquoteSplit");
-					EvoUndoRedo.GroupTopRecords(2, "insertParagraph::blockquoteSplit");
+
+					var didRemove = 0;
+
+					didRemove += EvoEditor.removeEmptyElements("DIV");
+					didRemove += EvoEditor.removeEmptyElements("PRE");
+
+					EvoUndoRedo.GroupTopRecords(2 + didRemove, "insertParagraph::blockquoteSplit");
 					EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
 					EvoEditor.EmitContentChanged();
 				}
@@ -5747,7 +5758,8 @@ EvoEditor.WrapSelection = function()
 		}
 	}
 
-	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "WrapSelection", nodeFrom, nodeTo, EvoEditor.CLAIM_CONTENT_FLAG_USE_PARENT_BLOCK_NODE | EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "WrapSelection", nodeFrom, nodeTo,
+		EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
 	try {
 		var maxLetters, usedLetters, currentPar, lastParTagName = nodeFrom.tagName;
 
