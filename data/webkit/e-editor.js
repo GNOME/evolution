@@ -2227,6 +2227,15 @@ EvoEditor.SetMode = function(mode)
 			if (mode == EvoEditor.MODE_PLAIN_TEXT) {
 				EvoEditor.convertTags();
 				EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH, false);
+
+				if (document.body) {
+					// remove all body attributes, to not influence the Plain Text mode
+					var ii;
+
+					for (ii = document.body.attributes.length - 1; ii >= 0; ii--) {
+						document.body.removeAttribute(document.body.attributes[ii].nodeName);
+					}
+				}
 			} else {
 				EvoEditor.convertParagraphs(document.body, 0, -1, false);
 			}
@@ -5532,11 +5541,28 @@ EvoEditor.processLoadedContent = function()
 					EvoEditor.linkifyText(node, false);
 			}
 		}
+
+		// remove all body attributes, to not influence the Plain Text mode
+		for (ii = document.body.attributes.length - 1; ii >= 0; ii--) {
+			document.body.removeAttribute(document.body.attributes[ii].nodeName);
+		}
 	}
 
 	// remove comments at the beginning, like the Evolution's "<!-- text/html -->"
 	while (document.documentElement.firstChild && document.documentElement.firstChild.nodeType == document.documentElement.firstChild.COMMENT_NODE) {
 		document.documentElement.removeChild(document.documentElement.firstChild);
+	}
+
+	// remove unneeded data from the <head> as well
+	if (document.head) {
+		list = document.head.childNodes;
+
+		for (ii = list.length; ii >= 0; ii--) {
+			node = list[ii];
+
+			if (node && (node.nodeType == node.COMMENT_NODE || node.tagName == "META"))
+				document.head.removeChild(node);
+		}
 	}
 
 	document.body.removeAttribute("data-evo-draft");
