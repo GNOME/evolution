@@ -1092,6 +1092,8 @@ EvoEditor.SetBlockFormat = function(format)
 						width = EvoEditor.NORMAL_PARAGRAPH_WIDTH - blockquoteLevel * 2;
 
 					EvoEditor.quoteParagraph(newElement, blockquoteLevel, width);
+				} else if (this.toSet.tagName == "DIV") {
+					newElement.setAttribute("style", "width: " + EvoEditor.NORMAL_PARAGRAPH_WIDTH + "ch;");
 				}
 			}
 
