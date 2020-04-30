@@ -1480,6 +1480,45 @@ test_issue_107 (TestFixture *fixture)
 	}
 }
 
+static void
+test_issue_884 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:plain\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<div>Xxxxx'x \"Xxxx 🡒 Xxxxxxxx 🡒 Xxxx Xxxxxxxxxx 🡒 Xxxxxxxx xxx xxxxxxxxxx xxxxxxxx\" xxxxxxx xxxxx xxxx? Xx xxx, xxxx xx xxxxxxx?</div>"
+		"<div><br></div>"
+		"<div>123456789 123456789 123456789 123456789 123456789 123456789 123456789 123</div>"
+		"<div><br></div>"
+		"<div>🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈</div>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX
+		"<div style=\"width: 71ch;\">Xxxxx'x \"Xxxx 🡒 Xxxxxxxx 🡒 Xxxx Xxxxxxxxxx 🡒 Xxxxxxxx xxx xxxxxxxxxx<br>xxxxxxxx\" xxxxxxx xxxxx xxxx? Xx xxx, xxxx xx xxxxxxx?</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">123456789 123456789 123456789 123456789 123456789 123456789 123456789<br>123</div>"
+		"<div style=\"width: 71ch;\"><br></div>"
+		"<div style=\"width: 71ch;\">🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈<br>🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈<br>🐈🐈🐈🐈</div>"
+		HTML_SUFFIX,
+		"Xxxxx'x \"Xxxx 🡒 Xxxxxxxx 🡒 Xxxx Xxxxxxxxxx 🡒 Xxxxxxxx xxx xxxxxxxxxx\n"
+		"xxxxxxxx\" xxxxxxx xxxxx xxxx? Xx xxx, xxxx xx xxxxxxx?\n"
+		"\n"
+		"123456789 123456789 123456789 123456789 123456789 123456789 123456789\n"
+		"123\n"
+		"\n"
+		"🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈\n"
+		"🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈🐈\n"
+		"🐈🐈🐈🐈")) {
+		g_test_fail ();
+	}
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -1513,4 +1552,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/103", test_issue_103);
 	test_utils_add_test ("/issue/104", test_issue_104);
 	test_utils_add_test ("/issue/107", test_issue_107);
+	test_utils_add_test ("/issue/884", test_issue_884);
 }

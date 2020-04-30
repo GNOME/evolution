@@ -1842,6 +1842,15 @@ handle_method_call (GDBusConnection *connection,
 		if ((flags & E_CONTENT_EDITOR_GET_INLINE_IMAGES) && from_domain && *from_domain && inline_images)
 			e_editor_dom_restore_images (editor_page, inline_images);
 
+		/* Ensure the text is UTF-8 valid (like in case text splitting broke it).
+		   It may break user's text, but it's better than losing it all.
+		   This is only a workaround for such cases. */
+		if (value && !g_utf8_validate (value, -1, NULL)) {
+			gchar *tmp = e_util_utf8_make_valid (value);
+			g_free (value);
+			value = tmp;
+		}
+
 		/* If no inline images are requested we still have to return
 		 * something even it won't be used at all. */
 		g_dbus_method_invocation_return_value (

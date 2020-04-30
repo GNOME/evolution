@@ -1474,6 +1474,59 @@ remove_thunderbird_signature (WebKitDOMDocument *document)
 		remove_node (WEBKIT_DOM_NODE (signature));
 }
 
+static WebKitDOMText *
+safe_node_split_text (WebKitDOMDocument *document,
+		      WebKitDOMText *node,
+		      gulong offset)
+{
+	WebKitDOMNode *tmp_node;
+	WebKitDOMText *next_node;
+	gchar *original_text, *new_text;
+
+	original_text = webkit_dom_text_get_whole_text (node);
+
+	next_node = webkit_dom_text_split_text (node, offset, NULL);
+
+	if (!offset || !next_node) {
+		g_free (original_text);
+		return next_node;
+	}
+
+	do {
+		/* Need to insert an element between the text nodes, otherwise the get_whole_text()
+		   returns concatenated text from surrounding text nodes as well. */
+		tmp_node = WEBKIT_DOM_NODE (webkit_dom_document_create_element (document, "SPAN", NULL));
+
+		webkit_dom_node_insert_before (
+			webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (node)),
+			tmp_node,
+			WEBKIT_DOM_NODE (next_node),
+			NULL);
+
+		new_text = webkit_dom_text_get_whole_text (node);
+
+		webkit_dom_node_remove_child (webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (node)), tmp_node, NULL);
+
+		if (!new_text || !*new_text || g_utf8_validate (new_text, -1, NULL))
+			break;
+
+		webkit_dom_text_replace_whole_text (node, original_text, NULL);
+		offset--;
+
+		next_node = webkit_dom_text_split_text (node, offset, NULL);
+
+		if (!next_node)
+			break;
+
+		g_clear_pointer (&new_text, g_free);
+	} while (offset);
+
+	g_free (original_text);
+	g_free (new_text);
+
+	return next_node;
+}
+
 void
 e_editor_dom_check_magic_links (EEditorPage *editor_page,
                                 gboolean include_space_by_user)
@@ -1624,13 +1677,12 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 
 		url_start = url_end - url_length;
 
-		webkit_dom_text_split_text (
+		safe_node_split_text (document,
 			WEBKIT_DOM_TEXT (node),
-			include_space ? url_end - 1 : url_end,
-			NULL);
+			include_space ? url_end - 1 : url_end);
 
-		webkit_dom_text_split_text (
-			WEBKIT_DOM_TEXT (node), url_start, NULL);
+		safe_node_split_text (document,
+			WEBKIT_DOM_TEXT (node), url_start);
 		url_text_node = webkit_dom_node_get_next_sibling (node);
 		if (url_text_node)
 			url_text = webkit_dom_character_data_get_data (WEBKIT_DOM_CHARACTER_DATA (url_text_node));
@@ -1695,10 +1747,9 @@ e_editor_dom_check_magic_links (EEditorPage *editor_page,
 				 * split it into two nodes and select the right one. */
 				if (g_str_has_suffix (text_to_append, UNICODE_NBSP) ||
 				    g_str_has_suffix (text_to_append, UNICODE_ZERO_WIDTH_SPACE)) {
-					webkit_dom_text_split_text (
+					safe_node_split_text (document,
 						WEBKIT_DOM_TEXT (node),
-						g_utf8_strlen (text_to_append, -1) - 1,
-						NULL);
+						g_utf8_strlen (text_to_append, -1) - 1);
 					g_free (text_to_append);
 					text_to_append = webkit_dom_node_get_text_content (node);
 				}
@@ -13432,9 +13483,10 @@ e_editor_dom_selection_unindent (EEditorPage *editor_page)
 }
 
 static void
-dom_insert_selection_point (WebKitDOMNode *container,
-                            glong offset,
-                            WebKitDOMElement *selection_point)
+dom_insert_selection_point (WebKitDOMDocument *document,
+			    WebKitDOMNode *container,
+			    glong offset,
+			    WebKitDOMElement *selection_point)
 {
 	WebKitDOMNode *parent;
 
@@ -13446,8 +13498,7 @@ dom_insert_selection_point (WebKitDOMNode *container,
 		if (offset != 0) {
 			WebKitDOMText *split_text;
 
-			split_text = webkit_dom_text_split_text (
-				WEBKIT_DOM_TEXT (container), offset, NULL);
+			split_text = safe_node_split_text (document, WEBKIT_DOM_TEXT (container), offset);
 			parent = webkit_dom_node_get_parent_node (WEBKIT_DOM_NODE (split_text));
 
 			webkit_dom_node_insert_before (
@@ -13568,7 +13619,7 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 	if (webkit_dom_node_is_same_node (anchor, container) && offset == anchor_offset)
 		webkit_dom_element_set_attribute (start_marker, "data-anchor", "", NULL);
 
-	dom_insert_selection_point (container, offset, start_marker);
+	dom_insert_selection_point (document, container, offset, start_marker);
 
 	end_marker = dom_create_selection_marker (document, FALSE);
 
@@ -13587,7 +13638,7 @@ e_editor_dom_selection_save (EEditorPage *editor_page)
 	if (webkit_dom_node_is_same_node (anchor, container) && offset == anchor_offset)
 		webkit_dom_element_set_attribute (end_marker, "data-anchor", "", NULL);
 
-	dom_insert_selection_point (container, offset, end_marker);
+	dom_insert_selection_point (document, container, offset, end_marker);
 
 	if (!collapsed) {
 		if (start_marker && end_marker) {
@@ -13791,6 +13842,19 @@ e_editor_dom_selection_restore (EEditorPage *editor_page)
 	g_clear_object (&range);
 }
 
+static gboolean
+can_wrap_at_unichar (gunichar uc)
+{
+	GUnicodeBreakType break_type;
+
+	break_type = g_unichar_break_type (uc);
+
+	return break_type != G_UNICODE_BREAK_COMBINING_MARK &&
+		break_type != G_UNICODE_BREAK_SURROGATE && /* Emoji */
+		break_type != G_UNICODE_BREAK_INSEPARABLE &&
+		break_type != G_UNICODE_BREAK_NON_BREAKING_GLUE;
+}
+
 static gint
 find_where_to_break_line (WebKitDOMCharacterData *node,
                           gint max_length)
@@ -13798,31 +13862,56 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 	gboolean last_break_position_is_dash = FALSE;
 	gchar *str, *text_start;
 	gunichar uc;
-	gint pos = 1, last_break_position = 0, ret_val = 0;
+	gunichar2 *utf16_txt = NULL;
+	gint pos = 1, last_break_position = 0, ret_val = 0, ii;
 
 	text_start = webkit_dom_character_data_get_data (node);
 
+	if (!text_start)
+		return 0;
+
+	for (ii = 0; text_start[ii]; ii++) {
+		if (text_start[ii] < 0)
+			break;
+	}
+
+	/* The text contains non-ASCII letters; convert it to UTF-16, which is used by WebKit internally.
+	   The UTF-16 representation is not the same as g_utf8_get_char() for Emoji and possibly others. */
+	if (text_start[ii]) {
+		utf16_txt = g_utf8_to_utf16 (text_start, -1, NULL, NULL, NULL);
+	}
+
+	ii = 0;
 	str = text_start;
 	do {
-		uc = g_utf8_get_char (str);
+		if (utf16_txt)
+			uc = utf16_txt[ii];
+		else
+			uc = g_utf8_get_char (str);
 		if (!uc) {
 			ret_val = pos <= max_length ? pos : last_break_position > 0 ? last_break_position - 1 : 0;
 			goto out;
 		}
 
-		if ((g_unichar_isspace (uc) && !(g_unichar_break_type (uc) == G_UNICODE_BREAK_NON_BREAKING_GLUE)) ||
-		     *str == '-') {
-			if ((last_break_position_is_dash = *str == '-')) {
+		if ((g_unichar_isspace (uc) && can_wrap_at_unichar (uc)) || uc == L'-') {
+			if ((last_break_position_is_dash = uc == L'-')) {
 				/* There was no space before the dash */
 				if (pos - 1 != last_break_position) {
-					gchar *rest;
+					gunichar next_char = 0;
 
-					rest = g_utf8_next_char (str);
-					if (rest && *rest) {
-						gunichar next_char;
+					if (utf16_txt) {
+						next_char = utf16_txt[ii + 1];
+					} else {
+						gchar *rest;
 
+						rest = g_utf8_next_char (str);
+
+						if (rest && *rest)
+							next_char = g_utf8_get_char (rest);
+					}
+
+					if (next_char) {
 						/* There is no space after the dash */
-						next_char = g_utf8_get_char (rest);
 						if (g_unichar_isspace (next_char))
 							last_break_position_is_dash = FALSE;
 						else
@@ -13839,25 +13928,34 @@ find_where_to_break_line (WebKitDOMCharacterData *node,
 			/* Look one character after the limit to check if there
 			 * is a space (skip dash) that we are allowed to break at, if so
 			 * break it there. */
-			if (*str) {
+			if (utf16_txt) {
+				uc = utf16_txt[ii + 1];
+			} else {
 				str = g_utf8_next_char (str);
 				uc = g_utf8_get_char (str);
-
-				if (g_unichar_isspace (uc) &&
-				    !(g_unichar_break_type (uc) == G_UNICODE_BREAK_NON_BREAKING_GLUE))
-					last_break_position = ++pos;
 			}
+
+			if (g_unichar_isspace (uc) && can_wrap_at_unichar (uc))
+				last_break_position = ++pos;
 			break;
 		}
 
 		pos++;
-		str = g_utf8_next_char (str);
-	} while (*str);
+		if (utf16_txt)
+			ii++;
+		else
+			str = g_utf8_next_char (str);
+	} while (utf16_txt ? utf16_txt[ii] : *str);
 
 	if (last_break_position != 0)
 		ret_val = last_break_position - 1;
  out:
+	/* This 0xd83d code is before an Emoji */
+	if (utf16_txt && ret_val > 0 && utf16_txt[ret_val] == 0xd83d)
+		ret_val--;
+
 	g_free (text_start);
+	g_free (utf16_txt);
 
 	/* Always break after the dash character. */
 	if (last_break_position_is_dash)
@@ -14163,10 +14261,9 @@ wrap_lines (EEditorPage *editor_page,
 
 			next_sibling = node;
 			while (newline) {
-				next_sibling = WEBKIT_DOM_NODE (webkit_dom_text_split_text (
+				next_sibling = WEBKIT_DOM_NODE (safe_node_split_text (document,
 					WEBKIT_DOM_TEXT (next_sibling),
-					g_utf8_pointer_to_offset (text_content, newline),
-					NULL));
+					g_utf8_pointer_to_offset (text_content, newline)));
 
 				if (!next_sibling)
 					break;
@@ -14451,10 +14548,9 @@ wrap_lines (EEditorPage *editor_page,
 							if (text_length != length) {
 								WebKitDOMNode *nd;
 
-								webkit_dom_text_split_text (
+								safe_node_split_text (document,
 									WEBKIT_DOM_TEXT (prev_sibling),
-									text_length - length,
-									NULL);
+									text_length - length);
 
 								if ((nd = webkit_dom_node_get_next_sibling (prev_sibling))) {
 									gchar *nd_content;
@@ -14519,8 +14615,7 @@ wrap_lines (EEditorPage *editor_page,
 				WebKitDOMNode *nd;
 
 				if (offset != length_left && offset != 0) {
-					webkit_dom_text_split_text (
-						WEBKIT_DOM_TEXT (node), offset, NULL);
+					safe_node_split_text (document, WEBKIT_DOM_TEXT (node), offset);
 
 					nd = webkit_dom_node_get_next_sibling (node);
 				} else
