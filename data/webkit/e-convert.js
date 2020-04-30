@@ -500,10 +500,16 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 		if (worker.useWrapWidth < EvoConvert.MIN_PARAGRAPH_WIDTH)
 			worker.useWrapWidth = EvoConvert.MIN_PARAGRAPH_WIDTH;
 
-		var chr;
+		var chr, isHighSurrogate = false;
 
-		for (ii = 0; ii < str.length; ii++) {
-			chr = str.charAt(ii);
+		for (ii = 0; ii < str.length; ii += 1 + (isHighSurrogate ? 1 : 0)) {
+			// surrogate are two characters "high+low"; high: 0xD800 - 0xDBFF; low: 0xDC00 - 0xDFFF
+			// and cannot split after the high surrogate, because that would break the character encoding
+			isHighSurrogate = str.charCodeAt(ii) >= 0xd800 && str.charCodeAt(ii) <= 0xdbff;
+			if (isHighSurrogate)
+				chr = str.substr(ii, 2);
+			else
+				chr = str.charAt(ii);
 
 			if (chr == EvoConvert.NOWRAP_CHAR_START)
 				worker.inAnchor++;
@@ -547,7 +553,7 @@ EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapW
 				if (chr == "\t")
 					worker.lineLetters = worker.lineLetters - ((worker.lineLetters - worker.ignoreLineLetters) % EvoConvert.TAB_WIDTH) + EvoConvert.TAB_WIDTH;
 				else
-					worker.lineLetters++;
+					worker.lineLetters += chr.length;
 
 				if (chr == EvoConvert.NOWRAP_CHAR_START || chr == EvoConvert.NOWRAP_CHAR_END)
 					worker.ignoreLineLetters++;
