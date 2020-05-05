@@ -7365,6 +7365,7 @@ main (gint argc,
 		  NULL },
 		{ NULL }
 	};
+	GApplication *application; /* Needed for WebKitGTK sandboxing */
 	GOptionContext *context;
 	GError *error = NULL;
 	GList *modules;
@@ -7412,6 +7413,8 @@ main (gint argc,
 
 	e_util_init_main_thread (NULL);
 	e_passwords_init ();
+
+	application = g_application_new ("org.gnome.Evolution.test-html-editor-units", G_APPLICATION_FLAGS_NONE);
 
 	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default (), EVOLUTION_ICONDIR);
 
@@ -7549,6 +7552,7 @@ main (gint argc,
 
 	res = g_test_run ();
 
+	g_clear_object (&application);
 	e_misc_util_free_global_memory ();
 	test_utils_free_global_memory ();
 

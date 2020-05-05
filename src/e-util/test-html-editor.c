@@ -692,6 +692,7 @@ gint
 main (gint argc,
       gchar **argv)
 {
+	GApplication *application; /* Needed for WebKitGTK sandboxing */
 	GList *modules;
 
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
@@ -702,6 +703,8 @@ main (gint argc,
 
 	e_util_init_main_thread (NULL);
 	e_passwords_init ();
+
+	application = g_application_new ("org.gnome.Evolution.test-html-editor", G_APPLICATION_FLAGS_NONE);
 
 	g_setenv ("E_HTML_EDITOR_TEST_SOURCES", "1", FALSE);
 
@@ -717,6 +720,7 @@ main (gint argc,
 
 	gtk_main ();
 
+	g_clear_object (&application);
 	e_misc_util_free_global_memory ();
 
 	return 0;

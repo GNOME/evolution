@@ -2975,6 +2975,7 @@ gint
 main (gint argc,
       gchar *argv[])
 {
+	GApplication *application; /* Needed for WebKitGTK sandboxing */
 	gint res;
 
 	setlocale (LC_ALL, "");
@@ -2988,6 +2989,8 @@ main (gint argc,
 
 	e_util_init_main_thread (NULL);
 	e_passwords_init ();
+
+	application = g_application_new ("org.gnome.Evolution.test-web-view-jsc", G_APPLICATION_FLAGS_NONE);
 
 	test_utils_add_test ("/EWebView/JSCObjectProperties", test_jsc_object_properties);
 	test_utils_add_test ("/EWebView/SetElementHidden", test_set_element_hidden);
@@ -3006,6 +3009,7 @@ main (gint argc,
 
 	res = g_test_run ();
 
+	g_clear_object (&application);
 	e_misc_util_free_global_memory ();
 
 	return res;
