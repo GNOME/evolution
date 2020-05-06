@@ -1686,6 +1686,107 @@ test_issue_884 (TestFixture *fixture)
 	}
 }
 
+static void
+test_issue_783 (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture,
+		"mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head></head><body leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\" style=\"margin:0;padding:0;background-color:#c8c8c8\">"
+		"<div>Mailpoet</div>"
+		"</body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		HTML_PREFIX
+		"<div>Mailpoet</div>"
+		HTML_SUFFIX,
+		"Mailpoet\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head><style type=\"text/css\">"
+		"body {\n"
+		"    margin:0;\n"
+		"    font:12px/16px Arial, sans-serif;\n"
+		"}\n"
+		"</style></head><body style=\"margin: 0; font: 12px/ 16px Arial, sans-serif\">"
+		"<div>Amazon</div>"
+		"</body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	/* WebKit "normalizes" the 'font' rule; the important part is that the margin is gone from the HTML */
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		"<html><head><style type=\"text/css\">"
+		"body { font-style: normal; font-variant-caps: normal; font-weight: normal; font-stretch: normal; "
+		"font-size: 12px; line-height: 16px; font-family: Arial, sans-serif; }"
+		"</style></head><body style=\"font-style: normal; font-variant-caps: normal; font-weight: normal; "
+		"font-stretch: normal; font-size: 12px; line-height: 16px; font-family: Arial, sans-serif;\">"
+		"<div>Amazon</div>"
+		HTML_SUFFIX,
+		"Amazon\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head><style text=\"text/css\">"
+		"body { width: 100% !important; -webkit-text-size-adjust: 100% !important; "
+		"-ms-text-size-adjust: 100% !important; -webkit-font-smoothing: antialiased "
+		"!important; margin: 0 !important; padding: 0 8px 100px 8px; font-family: "
+		"'Market Sans', Helvetica, Arial, sans-serif !important; background-color:#ffffff}"
+		"</style></head><body yahoo=\"fix\">"
+		"<div>eBay</div>"
+		"</body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		"<html><head><style text=\"text/css\">"
+		"body { background-color: rgb(255, 255, 255); width: 100% !important; -webkit-font-smoothing: antialiased !important;"
+		" font-family: \"Market Sans\", Helvetica, Arial, sans-serif !important; }"
+		"</style></head><body yahoo=\"fix\">"
+		"<div>eBay</div>"
+		HTML_SUFFIX,
+		"eBay\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<html><head><style text=\"text/css\">"
+		"table { color: blue; }\n"
+		"body { color: yellow; }\n"
+		"body { padding: 10px; }\n"
+		"div { color: orange; }"
+		"</style></head><body>"
+		"<div>Custom</div>"
+		"</body></html>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"",
+		"<html><head><style text=\"text/css\">"
+		"table { color: blue; }\n"
+		"body { color: yellow; }\n"
+		"div { color: orange; }"
+		"</style></head><body yahoo=\"fix\">"
+		"<div>Custom</div>"
+		HTML_SUFFIX,
+		"Custom\n")) {
+		g_test_fail ();
+		return;
+	}
+}
+
 void
 test_add_html_editor_bug_tests (void)
 {
@@ -1719,4 +1820,5 @@ test_add_html_editor_bug_tests (void)
 	test_utils_add_test ("/issue/104", test_issue_104);
 	test_utils_add_test ("/issue/107", test_issue_107);
 	test_utils_add_test ("/issue/884", test_issue_884);
+	test_utils_add_test ("/issue/783", test_issue_783);
 }

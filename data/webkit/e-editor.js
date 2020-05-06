@@ -2201,6 +2201,25 @@ EvoEditor.removeQuoteMarks = function(element)
 		element.normalize();
 }
 
+EvoEditor.cleanupForPlainText = function()
+{
+	if (!document.body)
+		return;
+
+	// remove all body attributes, to not influence the Plain Text mode
+	var ii;
+
+	for (ii = document.body.attributes.length - 1; ii >= 0; ii--) {
+		document.body.removeAttribute(document.body.attributes[ii].nodeName);
+	}
+
+	// style sheets
+	for (ii = document.styleSheets.length - 1; ii >= 0; ii--) {
+		if (document.styleSheets[ii].ownerNode)
+			document.styleSheets[ii].ownerNode.remove();
+	}
+}
+
 EvoEditor.SetMode = function(mode)
 {
 	if (EvoEditor.mode != mode) {
@@ -2229,15 +2248,7 @@ EvoEditor.SetMode = function(mode)
 			if (mode == EvoEditor.MODE_PLAIN_TEXT) {
 				EvoEditor.convertTags();
 				EvoEditor.convertParagraphs(document.body, 0, EvoEditor.NORMAL_PARAGRAPH_WIDTH, false);
-
-				if (document.body) {
-					// remove all body attributes, to not influence the Plain Text mode
-					var ii;
-
-					for (ii = document.body.attributes.length - 1; ii >= 0; ii--) {
-						document.body.removeAttribute(document.body.attributes[ii].nodeName);
-					}
-				}
+				EvoEditor.cleanupForPlainText();
 			} else {
 				EvoEditor.convertParagraphs(document.body, 0, -1, false);
 			}
@@ -5544,9 +5555,133 @@ EvoEditor.processLoadedContent = function()
 			}
 		}
 
-		// remove all body attributes, to not influence the Plain Text mode
-		for (ii = document.body.attributes.length - 1; ii >= 0; ii--) {
-			document.body.removeAttribute(document.body.attributes[ii].nodeName);
+		EvoEditor.cleanupForPlainText();
+	} else {
+		// drop margin/padding-related attributes and styles
+		var unsetMarginPadding = function(elem, style) {
+			if (elem) {
+				var ii;
+
+				for (ii = elem.attributes.length - 1; ii >= 0; ii--) {
+					var name = elem.attributes[ii].nodeName;
+
+					if (!name)
+						continue;
+
+					name = name.toLowerCase();
+
+					if (name.indexOf("margin") >= 0 || name.indexOf("padding") >= 0)
+						elem.removeAttribute(name);
+				}
+
+				if (!style)
+					style = elem.style;
+			}
+
+			if (!style)
+				return false;
+
+			var changed = false;
+
+			if (style.margin) {
+				style.margin = null;
+				changed = true;
+			}
+			if (style.marginLeft) {
+				style.marginLeft = null;
+				changed = true;
+			}
+			if (style.marginTop) {
+				style.marginTop = null;
+				changed = true;
+			}
+			if (style.marginRight) {
+				style.marginRight = null;
+				changed = true;
+			}
+			if (style.marginBottom) {
+				style.marginBottom = null;
+				changed = true;
+			}
+
+			if (style.padding) {
+				style.padding = null;
+				changed = true;
+			}
+			if (style.paddingLeft) {
+				style.paddingLeft = null;
+				changed = true;
+			}
+			if (style.paddingTop) {
+				style.paddingTop = null;
+				changed = true;
+			}
+			if (style.paddingRight) {
+				style.paddingRight = null;
+				changed = true;
+			}
+			if (style.paddingBottom) {
+				style.paddingBottom = null;
+				changed = true;
+			}
+
+			return changed;
+		};
+
+		unsetMarginPadding(document.documentElement);
+		unsetMarginPadding(document.body);
+
+		var ii;
+
+		for (ii = document.styleSheets.length - 1; ii >= 0; ii--) {
+			var sheet = document.styleSheets[ii];
+
+			if (!sheet.ownerNode)
+				continue;
+
+			var rules = sheet.cssRules;
+
+			if (rules) {
+				var jj, newCss = null;
+
+				for (jj = 0; jj < rules.length; jj++) {
+					if (rules[jj].selectorText && rules[jj].selectorText.toLowerCase().indexOf("body") >= 0) {
+						if (unsetMarginPadding(null, rules[jj].style)) {
+							if (newCss === null) {
+								var kk;
+
+								newCss = "";
+
+								for (kk = 0; kk < jj; kk++) {
+									if (newCss)
+										newCss += "\n";
+
+									newCss += rules[kk].cssText;
+								}
+							}
+
+							if (rules[jj].style.cssText) {
+								if (newCss)
+									newCss += "\n";
+
+								newCss += rules[jj].cssText;
+							}
+						}
+					} else if (newCss !== null) {
+						if (newCss)
+							newCss += "\n";
+
+						newCss += rules[jj].cssText;
+					}
+				}
+
+				if (newCss !== null) {
+					if (newCss)
+						sheet.ownerNode.innerHTML = newCss;
+					else
+						sheet.ownerNode.remove();
+				}
+			}
 		}
 	}
 
