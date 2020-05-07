@@ -538,6 +538,13 @@ typedef struct _ECompEditorPropertyPartDescriptionClass ECompEditorPropertyPartD
 
 struct _ECompEditorPropertyPartDescription {
 	ECompEditorPropertyPartString parent;
+
+	gboolean has_html;
+	gboolean mode_html;
+	GtkWidget *real_edit_widget;
+	GtkWidget *view_as_label;
+	GtkWidget *web_view_scrolled_window;
+	GtkWidget *web_view;
 };
 
 struct _ECompEditorPropertyPartDescriptionClass {
@@ -548,13 +555,85 @@ GType e_comp_editor_property_part_description_get_type (void) G_GNUC_CONST;
 
 G_DEFINE_TYPE (ECompEditorPropertyPartDescription, e_comp_editor_property_part_description, E_TYPE_COMP_EDITOR_PROPERTY_PART_STRING)
 
+static GtkWidget *
+ecepp_description_get_real_edit_widget (ECompEditorPropertyPartString *part_string)
+{
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (part_string), NULL);
+
+	return E_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (part_string)->real_edit_widget;
+}
+
+static void
+ecepp_description_update_view_mode (ECompEditorPropertyPartDescription *description_part)
+{
+	if (description_part->has_html) {
+		gchar *markup;
+
+		markup = g_markup_printf_escaped ("<a href=\"evo-switch-view-mode\">%s</a>",
+			description_part->mode_html ? _("Edit as text") : _("View as HTML"));
+
+		gtk_label_set_markup (GTK_LABEL (description_part->view_as_label), markup);
+
+		g_free (markup);
+
+		gtk_widget_show (description_part->view_as_label);
+
+		if (description_part->mode_html) {
+			GtkTextBuffer *buffer;
+			GtkTextIter text_iter_start, text_iter_end;
+			GtkWidget *edit_widget;
+			gchar *value;
+
+			edit_widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (description_part));
+			g_return_if_fail (GTK_IS_TEXT_VIEW (edit_widget));
+
+			buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (edit_widget));
+			gtk_text_buffer_get_start_iter (buffer, &text_iter_start);
+			gtk_text_buffer_get_end_iter (buffer, &text_iter_end);
+			value = gtk_text_buffer_get_text (buffer, &text_iter_start, &text_iter_end, FALSE);
+
+			e_web_view_load_string (E_WEB_VIEW (description_part->web_view), value ? value : "");
+
+			g_free (value);
+
+			gtk_widget_hide (description_part->real_edit_widget);
+			gtk_widget_show (description_part->web_view_scrolled_window);
+		} else {
+			gtk_widget_hide (description_part->web_view_scrolled_window);
+			gtk_widget_show (description_part->real_edit_widget);
+		}
+	} else {
+		gtk_widget_hide (description_part->view_as_label);
+		gtk_widget_hide (description_part->web_view_scrolled_window);
+		gtk_widget_show (description_part->real_edit_widget);
+	}
+}
+
+static gboolean
+ecepp_description_flip_view_as_cb (GtkLabel *label,
+				   const gchar *uri,
+				   gpointer user_data)
+{
+	ECompEditorPropertyPartDescription *description_part = user_data;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (description_part), FALSE);
+
+	description_part->mode_html = !description_part->mode_html;
+
+	ecepp_description_update_view_mode (description_part);
+
+	return TRUE;
+}
+
 static void
 ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 				  GtkWidget **out_label_widget,
 				  GtkWidget **out_edit_widget)
 {
 	ECompEditorPropertyPartClass *part_class;
+	ECompEditorPropertyPartDescription *description_part;
 	GtkTextView *text_view;
+	GtkWidget *box, *label;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part));
 	g_return_if_fail (out_label_widget != NULL);
@@ -564,14 +643,18 @@ ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 	g_return_if_fail (part_class != NULL);
 	g_return_if_fail (part_class->create_widgets != NULL);
 
+	description_part = E_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part);
+
 	*out_label_widget = NULL;
 
 	part_class->create_widgets (property_part, out_label_widget, out_edit_widget);
 	g_return_if_fail (*out_label_widget == NULL);
 	g_return_if_fail (*out_edit_widget != NULL);
 
-	*out_label_widget = gtk_label_new_with_mnemonic (C_("ECompEditor", "_Description:"));
-	gtk_label_set_mnemonic_widget (GTK_LABEL (*out_label_widget), *out_edit_widget);
+	description_part->real_edit_widget = *out_edit_widget;
+
+	label = gtk_label_new_with_mnemonic (C_("ECompEditor", "_Description:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), *out_edit_widget);
 
 	text_view = GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (*out_edit_widget)));
 	gtk_text_view_set_wrap_mode (text_view, GTK_WRAP_WORD);
@@ -579,7 +662,7 @@ ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 	e_buffer_tagger_connect (text_view);
 	e_spell_text_view_attach (text_view);
 
-	g_object_set (G_OBJECT (*out_label_widget),
+	g_object_set (G_OBJECT (label),
 		"hexpand", FALSE,
 		"halign", GTK_ALIGN_END,
 		"vexpand", FALSE,
@@ -594,7 +677,92 @@ ecepp_description_create_widgets (ECompEditorPropertyPart *property_part,
 		"height-request", 100,
 		NULL);
 
-	gtk_widget_show (*out_label_widget);
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
+
+	g_object_set (G_OBJECT (box),
+		"hexpand", FALSE,
+		"halign", GTK_ALIGN_END,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_START,
+		NULL);
+
+	gtk_box_pack_start (GTK_BOX (box), label, FALSE, FALSE, 0);
+
+	description_part->view_as_label = gtk_label_new ("");
+
+	g_object_set (G_OBJECT (description_part->view_as_label),
+		"hexpand", FALSE,
+		"halign", GTK_ALIGN_END,
+		"vexpand", FALSE,
+		"valign", GTK_ALIGN_START,
+		"track-visited-links", FALSE,
+		NULL);
+
+	g_signal_connect (description_part->view_as_label, "activate-link",
+		G_CALLBACK (ecepp_description_flip_view_as_cb), description_part);
+
+	gtk_box_pack_start (GTK_BOX (box), description_part->view_as_label, FALSE, FALSE, 0);
+
+	gtk_widget_show_all (box);
+
+	*out_label_widget = box;
+
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+
+	g_object_set (G_OBJECT (box),
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"visible", TRUE,
+		NULL);
+
+	gtk_box_pack_start (GTK_BOX (box), description_part->real_edit_widget, TRUE, TRUE, 0);
+
+	description_part->web_view = e_web_view_new ();
+	description_part->web_view_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+
+	gtk_container_add (GTK_CONTAINER (description_part->web_view_scrolled_window), description_part->web_view);
+
+	g_object_set (G_OBJECT (description_part->web_view),
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"visible", TRUE,
+		NULL);
+
+	g_object_set (G_OBJECT (description_part->web_view_scrolled_window),
+		"hexpand", TRUE,
+		"halign", GTK_ALIGN_FILL,
+		"vexpand", TRUE,
+		"valign", GTK_ALIGN_FILL,
+		"shadow-type", GTK_SHADOW_IN,
+		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"visible", FALSE,
+		NULL);
+
+	gtk_box_pack_start (GTK_BOX (box), description_part->web_view_scrolled_window, TRUE, TRUE, 0);
+
+	*out_edit_widget = box;
+}
+
+static gboolean
+ecepp_description_contains_html (const gchar *value)
+{
+	if (!value || !*value)
+		return FALSE;
+
+	return camel_strstrcase (value, "<br>") ||
+		camel_strstrcase (value, "<span>") ||
+		camel_strstrcase (value, "<b>") ||
+		camel_strstrcase (value, "<i>") ||
+		camel_strstrcase (value, "<u>") ||
+		camel_strstrcase (value, "&nbsp;") ||
+		camel_strstrcase (value, "<ul>") ||
+		camel_strstrcase (value, "<li>") ||
+		camel_strstrcase (value, "</a>");
 }
 
 static void
@@ -602,7 +770,11 @@ ecepp_description_fill_widget (ECompEditorPropertyPart *property_part,
 			       ICalComponent *component)
 {
 	ECompEditorPropertyPartClass *part_class;
+	ECompEditorPropertyPartDescription *description_part;
+	GtkTextBuffer *buffer;
+	GtkTextIter text_iter_start, text_iter_end;
 	GtkWidget *edit_widget;
+	gchar *value;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part));
 	g_return_if_fail (I_CAL_IS_COMPONENT (component));
@@ -611,17 +783,31 @@ ecepp_description_fill_widget (ECompEditorPropertyPart *property_part,
 	g_return_if_fail (part_class != NULL);
 	g_return_if_fail (part_class->fill_widget != NULL);
 
+	description_part = E_COMP_EDITOR_PROPERTY_PART_DESCRIPTION (property_part);
+
 	part_class->fill_widget (property_part, component);
 
-	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
-	g_return_if_fail (GTK_IS_SCROLLED_WINDOW (edit_widget));
+	edit_widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
+	g_return_if_fail (GTK_IS_TEXT_VIEW (edit_widget));
 
-	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (edit_widget))));
+	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (edit_widget));
+
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (edit_widget));
+	gtk_text_buffer_get_start_iter (buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter (buffer, &text_iter_end);
+	value = gtk_text_buffer_get_text (buffer, &text_iter_start, &text_iter_end, FALSE);
+
+	description_part->has_html = ecepp_description_contains_html (value);
+
+	ecepp_description_update_view_mode (description_part);
+
+	g_free (value);
 }
 
 static void
 e_comp_editor_property_part_description_init (ECompEditorPropertyPartDescription *part_description)
 {
+	part_description->mode_html = TRUE;
 }
 
 static void
@@ -636,6 +822,7 @@ e_comp_editor_property_part_description_class_init (ECompEditorPropertyPartDescr
 	part_string_class->i_cal_new_func = i_cal_property_new_description;
 	part_string_class->i_cal_set_func = i_cal_property_set_description;
 	part_string_class->i_cal_get_func = i_cal_property_get_description;
+	part_string_class->get_real_edit_widget = ecepp_description_get_real_edit_widget;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_description_create_widgets;

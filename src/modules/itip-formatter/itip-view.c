@@ -6554,18 +6554,40 @@ itip_view_init_view (ItipView *view)
 	g_slist_free_full (list, e_cal_component_text_free);
 
 	if (gstring) {
-		gchar *html;
+		gchar *html = NULL;
 
-		html = camel_text_to_html (
-			gstring->str,
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
-			CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES,
-			0);
+		/* Google encodes HTML into the description, without giving a clue about it,
+		   but try to guess whether it can be an HTML blob or not. */
+		if (camel_strstrcase (gstring->str, "<br>") ||
+		    camel_strstrcase (gstring->str, "<span>") ||
+		    camel_strstrcase (gstring->str, "<b>") ||
+		    camel_strstrcase (gstring->str, "<i>") ||
+		    camel_strstrcase (gstring->str, "<u>") ||
+		    camel_strstrcase (gstring->str, "&nbsp;") ||
+		    camel_strstrcase (gstring->str, "<ul>") ||
+		    camel_strstrcase (gstring->str, "<li>") ||
+		    camel_strstrcase (gstring->str, "</a>")) {
+			gchar *ptr = gstring->str;
+			/* To make things easier, Google mixes HTML '<br>' with plain text '\n'... */
+			while (ptr = strchr (ptr, '\n'), ptr) {
+				gssize pos = ptr - gstring->str;
 
-		itip_view_set_description (view, html);
+				g_string_insert (gstring, pos, "<br>");
+
+				ptr = gstring->str + pos + 4 + 1;
+			}
+		} else {
+			html = camel_text_to_html (
+				gstring->str,
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+				CAMEL_MIME_FILTER_TOHTML_MARK_CITATION |
+				CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES,
+				0);
+		}
+
+		itip_view_set_description (view, html ? html : gstring->str);
 		g_string_free (gstring, TRUE);
 		g_free (html);
 	}

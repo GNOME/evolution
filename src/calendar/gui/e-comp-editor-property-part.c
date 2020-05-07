@@ -401,8 +401,8 @@ ecepp_string_fill_widget (ECompEditorPropertyPart *property_part,
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
 	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
-	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
-	g_return_if_fail (GTK_IS_ENTRY (edit_widget) || GTK_IS_SCROLLED_WINDOW (edit_widget));
+	edit_widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
+	g_return_if_fail (GTK_IS_ENTRY (edit_widget) || GTK_IS_TEXT_VIEW (edit_widget));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_STRING_GET_CLASS (property_part);
 	g_return_if_fail (klass != NULL);
@@ -442,10 +442,10 @@ ecepp_string_fill_widget (ECompEditorPropertyPart *property_part,
 
 	if (GTK_IS_ENTRY (edit_widget)) {
 		gtk_entry_set_text (GTK_ENTRY (edit_widget), text ? text : "");
-	} else /* if (GTK_IS_SCROLLED_WINDOW (edit_widget)) */ {
+	} else /* if (GTK_IS_TEXT_VIEW (edit_widget)) */ {
 		GtkTextBuffer *buffer;
 
-		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (edit_widget))));
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (edit_widget));
 		gtk_text_buffer_set_text (buffer, text ? text : "", -1);
 	}
 
@@ -466,8 +466,8 @@ ecepp_string_fill_component (ECompEditorPropertyPart *property_part,
 	g_return_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
 	g_return_if_fail (I_CAL_IS_COMPONENT (component));
 
-	edit_widget = e_comp_editor_property_part_get_edit_widget (property_part);
-	g_return_if_fail (GTK_IS_ENTRY (edit_widget) || GTK_IS_SCROLLED_WINDOW (edit_widget));
+	edit_widget = e_comp_editor_property_part_string_get_real_edit_widget (E_COMP_EDITOR_PROPERTY_PART_STRING (property_part));
+	g_return_if_fail (GTK_IS_ENTRY (edit_widget) || GTK_IS_TEXT_VIEW (edit_widget));
 
 	klass = E_COMP_EDITOR_PROPERTY_PART_STRING_GET_CLASS (property_part);
 	g_return_if_fail (klass != NULL);
@@ -477,11 +477,11 @@ ecepp_string_fill_component (ECompEditorPropertyPart *property_part,
 
 	if (GTK_IS_ENTRY (edit_widget)) {
 		value = g_strdup (gtk_entry_get_text (GTK_ENTRY (edit_widget)));
-	} else /* if (GTK_IS_SCROLLED_WINDOW (edit_widget)) */ {
+	} else /* if (GTK_IS_TEXT_VIEW (edit_widget)) */ {
 		GtkTextBuffer *buffer;
 		GtkTextIter text_iter_start, text_iter_end;
 
-		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (gtk_bin_get_child (GTK_BIN (edit_widget))));
+		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (edit_widget));
 		gtk_text_buffer_get_start_iter (buffer, &text_iter_start);
 		gtk_text_buffer_get_end_iter (buffer, &text_iter_end);
 		value = gtk_text_buffer_get_text (buffer, &text_iter_start, &text_iter_end, FALSE);
@@ -533,6 +533,14 @@ ecepp_string_fill_component (ECompEditorPropertyPart *property_part,
 	g_free (value);
 }
 
+static GtkWidget *
+ecepp_string_get_real_edit_widget (ECompEditorPropertyPartString *part_string)
+{
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (part_string), NULL);
+
+	return e_comp_editor_property_part_get_edit_widget (E_COMP_EDITOR_PROPERTY_PART (part_string));
+}
+
 static void
 e_comp_editor_property_part_string_init (ECompEditorPropertyPartString *part_string)
 {
@@ -555,6 +563,7 @@ e_comp_editor_property_part_string_class_init (ECompEditorPropertyPartStringClas
 	klass->i_cal_new_func = NULL;
 	klass->i_cal_set_func = NULL;
 	klass->i_cal_get_func = NULL;
+	klass->get_real_edit_widget = ecepp_string_get_real_edit_widget;
 
 	part_class = E_COMP_EDITOR_PROPERTY_PART_CLASS (klass);
 	part_class->create_widgets = ecepp_string_create_widgets;
@@ -575,13 +584,10 @@ e_comp_editor_property_part_string_attach_focus_tracker (ECompEditorPropertyPart
 
 	g_return_if_fail (E_IS_FOCUS_TRACKER (focus_tracker));
 
-	edit_widget = e_comp_editor_property_part_get_edit_widget (E_COMP_EDITOR_PROPERTY_PART (part_string));
-	if (edit_widget) {
-		if (GTK_IS_SCROLLED_WINDOW (edit_widget))
-			e_widget_undo_attach (gtk_bin_get_child (GTK_BIN (edit_widget)), focus_tracker);
-		else
-			e_widget_undo_attach (edit_widget, focus_tracker);
-	}
+	edit_widget = e_comp_editor_property_part_string_get_real_edit_widget (part_string);
+
+	if (edit_widget)
+		e_widget_undo_attach (edit_widget, focus_tracker);
 }
 
 void
@@ -599,6 +605,26 @@ e_comp_editor_property_part_string_is_multivalue (ECompEditorPropertyPartString 
 	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (part_string), FALSE);
 
 	return part_string->priv->is_multivalue;
+}
+
+GtkWidget *
+e_comp_editor_property_part_string_get_real_edit_widget (ECompEditorPropertyPartString *part_string)
+{
+	ECompEditorPropertyPartStringClass *klass;
+	GtkWidget *edit_widget;
+
+	g_return_val_if_fail (E_IS_COMP_EDITOR_PROPERTY_PART_STRING (part_string), NULL);
+
+	klass = E_COMP_EDITOR_PROPERTY_PART_STRING_GET_CLASS (part_string);
+	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (klass->get_real_edit_widget != NULL, NULL);
+
+	edit_widget = klass->get_real_edit_widget (part_string);
+
+	if (GTK_IS_SCROLLED_WINDOW (edit_widget))
+		edit_widget = gtk_bin_get_child (GTK_BIN (edit_widget));
+
+	return edit_widget;
 }
 
 /* ************************************************************************* */
