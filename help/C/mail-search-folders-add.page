@@ -23,6 +23,7 @@
 <title>Creating A Search Folder</title>
 
 <steps>
+<item><p>If you have not utilized search folders before, enable <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></guiseq>.</p></item>
 <item><p>Click <guiseq><gui>Edit</gui><gui>Search Folders</gui></guiseq>, or click <guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the criterion the search folder will be based on, or if you have run a search, click <guiseq><gui>Search</gui><gui>Create Search Folder From Search…</gui></guiseq>.</p></item>
 <item><p>Click <gui style="button">Add</gui>.</p></item>
 <item><p>Enter a name in the <gui>Rule name</gui> field.</p></item>
