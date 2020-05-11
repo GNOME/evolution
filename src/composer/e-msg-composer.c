@@ -4898,9 +4898,65 @@ handle_mailto (EMsgComposer *composer,
 				g_object_unref (attachment);
 				g_clear_object (&file);
 			} else if (!g_ascii_strcasecmp (header, "from")) {
-				/* Ignore */
+				EComposerHeader *composer_header;
+
+				camel_url_decode (content);
+
+				composer_header = e_composer_header_table_get_header (table, E_COMPOSER_HEADER_FROM);
+
+				if (content && *content && composer_header && composer_header->input_widget) {
+					GtkTreeModel *model;
+					GtkTreeIter iter;
+
+					model = gtk_combo_box_get_model (GTK_COMBO_BOX (composer_header->input_widget));
+
+					if (model && gtk_tree_model_get_iter_first (model, &iter)) {
+						ESourceRegistry *registry;
+						gchar *combo_id = NULL, *address = NULL, *uid = NULL;
+						gboolean done;
+
+						registry = e_mail_identity_combo_box_get_registry (E_MAIL_IDENTITY_COMBO_BOX (composer_header->input_widget));
+
+						do {
+							gtk_tree_model_get (model, &iter,
+								E_MAIL_IDENTITY_COMBO_BOX_COLUMN_COMBO_ID, &combo_id,
+								E_MAIL_IDENTITY_COMBO_BOX_COLUMN_UID, &uid,
+								E_MAIL_IDENTITY_COMBO_BOX_COLUMN_ADDRESS, &address,
+								-1);
+
+							done = combo_id && address && g_ascii_strcasecmp (address, content) == 0;
+
+							if (!done && uid) {
+								ESource *source;
+
+								source = e_source_registry_ref_source (registry, uid);
+
+								if (source && e_source_has_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY)) {
+									ESourceMailIdentity *extension;
+
+									g_clear_pointer (&address, g_free);
+
+									extension = e_source_get_extension (source, E_SOURCE_EXTENSION_MAIL_IDENTITY);
+									address = e_source_mail_identity_dup_address (extension);
+
+									done = combo_id && address && g_ascii_strcasecmp (address, content) == 0;
+								}
+
+								g_clear_object (&source);
+							}
+
+							if (done)
+								gtk_combo_box_set_active_id (GTK_COMBO_BOX (composer_header->input_widget), combo_id);
+
+							g_clear_pointer (&combo_id, g_free);
+							g_clear_pointer (&address, g_free);
+							g_clear_pointer (&uid, g_free);
+						} while (!done && gtk_tree_model_iter_next (model, &iter));
+					}
+				}
 			} else if (!g_ascii_strcasecmp (header, "reply-to")) {
-				/* ignore */
+				camel_url_decode (content);
+				e_composer_header_table_set_reply_to (table, content);
 			} else {
 				/* add an arbitrary header? */
 				camel_url_decode (content);
