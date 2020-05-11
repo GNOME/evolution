@@ -1608,10 +1608,17 @@ mail_execute_shell_command (CamelFilterDriver *driver,
                             gchar **argv,
                             gpointer data)
 {
-	if (argc <= 0)
-		return;
+	GError *error = NULL;
 
-	g_spawn_async (NULL, argv, NULL, 0, NULL, data, NULL, NULL);
+	if (argc <= 0) {
+		camel_filter_driver_log_info (driver, "Cannot execute shell command, no arguments passed in");
+		return;
+	}
+
+	if (!g_spawn_async (NULL, argv, NULL, 0, NULL, data, NULL, &error))
+		camel_filter_driver_log_info (driver, "Failed to execute shell command: %s", error ? error->message : "Unknown error");
+
+	g_clear_error (&error);
 }
 
 /* ** Process Folder Changes *********************************************** */
