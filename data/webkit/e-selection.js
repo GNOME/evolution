@@ -116,7 +116,7 @@ EvoSelection.GetTextOffsetNode = function(element, textOffset)
 		}
 	}
 
-	return node ? node : (adept ? adept : element);
+	return node || adept || element;
 }
 
 /* Returns an object, where the current selection in the doc is stored */
@@ -223,7 +223,7 @@ EvoSelection.ToString = function(selection)
 	focusOffset = selection.focusOffset;
 
 	str += "anchorElem=" + utils.arrayToString(anchorElem);
-	str += " anchorOffset=" + (anchorOffset ? anchorOffset : 0);
+	str += " anchorOffset=" + (anchorOffset || 0);
 
 	if (selection.anchorIsElement) {
 		str += " anchorIsElement=1";
@@ -231,7 +231,7 @@ EvoSelection.ToString = function(selection)
 
 	if (focusElem) {
 		str += " focusElem=" + utils.arrayToString(focusElem);
-		str += " focusOffset=" + (focusOffset ? focusOffset : 0);
+		str += " focusOffset=" + (focusOffset || 0);
 
 		if (selection.focusIsElement) {
 			str += " focusIsElement=1";
