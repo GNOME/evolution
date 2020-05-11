@@ -198,6 +198,7 @@ set(HELP_FILES
 	mail-send-and-receive.page
 	mail-sending-options-smtp.page
 	mail-several-pop-accounts.page
+	mail-sorting-folder-list.page
 	mail-sorting-message-list.page
 	mail-spam-marking.page
 	mail-spam.page
