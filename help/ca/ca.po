@@ -34,7 +34,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/backup-restore.page:22
 msgid "Back up and restore"
-msgstr "Còpia de seguretat i restaurar"
+msgstr "Còpia de seguretat i restauració"
 
 #. (itstool) path: page/p
 #: C/backup-restore.page:24
@@ -89,7 +89,7 @@ msgid ""
 "hidden folder <file>~/.bogofilter/</file>. If you use SpamAssassin you will "
 "need to back up the hidden folder <file>~/.spamassassin/</file>."
 msgstr ""
-"Fixis que la configuració del <link xref=\"mail-spam\">filtre de correu "
+"Fixeu-vos que la configuració del <link xref=\"mail-spam\">filtre de correu "
 "brossa</link> no s'inclouen al fitxer de còpia de seguretat, ja que aquesta "
 "configuració no està controlada per <app>Evolution</app> i com els "
 "desenvolupadors de les eines de filtre de correu brossa podrien canviar els "
@@ -1074,7 +1074,7 @@ msgstr "Acceptació i resposta a la invitació a una reunió."
 #. (itstool) path: page/title
 #: C/calendar-meetings-replying-to-invitation.page:23
 msgid "Replying to a Meeting Request"
-msgstr "Respondre a una Petició de Reunió"
+msgstr "Respondre a una petició de reunió"
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:24
@@ -1711,7 +1711,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-usage.page:18
 msgid "On adding, editing, and deleting appointments."
-msgstr "Afegiu, editeu i suprimiu les cites"
+msgstr "Afegiu, editeu i suprimiu les cites."
 
 #. (itstool) path: page/title
 #: C/calendar-usage.page:21
@@ -3903,7 +3903,7 @@ msgstr "Migració i sincronització de dades"
 #. (itstool) path: section/title
 #: C/index.page:68
 msgid "Tracking down Problems"
-msgstr "La localització de problemes"
+msgstr "Localització de problemes"
 
 #. (itstool) path: section/title
 #: C/index.page:72
@@ -5080,7 +5080,7 @@ msgstr "<_:media-1/> Barra de menú"
 #: C/intro-main-window.page:47 C/intro-main-window.page:105
 #: C/intro-main-window.page:151
 msgid "<_:media-1/> Tool bar"
-msgstr "<_:media-1/>Barra d'eines"
+msgstr "<_:media-1/> Barra d'eines"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:50
@@ -6667,8 +6667,8 @@ msgid ""
 "This Column</gui>."
 msgstr ""
 "Si voleu canviar les columnes a la llista de missatges de correu electrònic, "
-"feu clic amb el botó dret sobre els encapçalaments de columna i escolliu-ne "
-"un <gui>Afegeix una columna…</gui> o <gui>Elimina aquesta columna</gui>."
+"feu clic amb el botó dret sobre els encapçalaments de columna i escolliu "
+"<gui>Afegeix una columna…</gui> o <gui>Suprimeix aquesta columna</gui>."
 
 #. (itstool) path: note/p
 #: C/mail-change-columns-in-message-list.page:23
@@ -6680,7 +6680,7 @@ msgid ""
 "only display the sender's name."
 msgstr ""
 "Si teniu una pantalla petita, podeu reemplaçar la columna <gui>Assumpte</"
-"gui> per <gui>Assumpte - Retallat</gui> que eliminarà els prefixos com ara "
+"gui> per <gui>Assumpte - retallat</gui> que eliminarà els prefixos com ara "
 "\"Re:\", o podeu reemplaçar la columna <gui>De</gui> que mostra el nom del "
 "remitent i l'adreça de correu electrònic per la columna <gui>Remitent</gui> "
 "que només en mostrarà el nom."
@@ -6756,7 +6756,7 @@ msgstr ""
 "Podeu canviar el format de la columna <gui>Data</gui> establint el vostre "
 "format preferit a <guiseq><gui>Edita</gui><gui>Preferències</"
 "gui><gui>Preferències del correu</gui><gui>Capçaleres</gui><gui>Format de "
-"data/Hora</gui></guiseq>."
+"data/hora</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-change-quotation-string.page:7
@@ -6764,8 +6764,7 @@ msgid ""
 "It is not possible to change the quotation introduction added when answering "
 "mail."
 msgstr ""
-"No es pot canviar la forma d'introduir les cometes afegit quan es respon el "
-"correu electrònic."
+"No és possible canviar la citació d'introducció afegida en respondre correu."
 
 #. (itstool) path: page/title
 #: C/mail-composer-change-quotation-string.page:24
@@ -9080,8 +9079,8 @@ msgid ""
 "<gui>Always show address of the autocompleted contact</gui> checkbox."
 msgstr ""
 "Seguidament, aneu a <guiseq><gui>Edita</gui><gui>Preferències</"
-"gui><gui>Contactes</gui><gui>Autocompletar</gui></guiseq>. Habilita la "
-"compleció automàtica marcant la casella de verificació <gui>Mostra sempre "
+"gui><gui>Contactes</gui><gui>Compleció automàtica</gui></guiseq>. Habilita la "
+"compleció automàtica marcant la casella de selecció <gui>Mostra sempre "
 "l'adreça del contacte que s'ha completat automàticament</gui>."
 
 #. (itstool) path: section/title
@@ -9699,9 +9698,9 @@ msgid ""
 msgstr ""
 "A la secció <gui>MIME segur (S/MIME)</gui>, feu clic a <gui style=\"button"
 "\">Selecciona</gui> al costat de <gui>Certificat de signatura</gui> i "
-"especifiqueu la ruta d'accés al vostre certificat de signatura o feu clic a "
+"especifiqueu el camí d'accés al vostre certificat de signatura o feu clic a "
 "<gui style=\"button\">Selecciona</gui> al costat del <gui>Certificat de "
-"xifratge</gui> i especifiqueu la ruta d'accés al vostre certificat de "
+"xifratge</gui> i especifiqueu el camí d'accés al vostre certificat de "
 "xifratge."
 
 #. (itstool) path: item/p
@@ -11103,7 +11102,7 @@ msgid ""
 "is not a guarantee that available mechanisms actually work."
 msgstr ""
 "Seleccioneu el tipus d'autenticació a la llista d'autenticació o feu clic "
-"a <gui style=\"button\">Comprovar els tipus que es suporten</gui> per tal que "
+"a <gui style=\"button\">Comprova els tipus disponibles</gui> per tal que "
 "<app>Evolution</app> comprovi els mecanismes d'autentificació suportats. "
 "Alguns servidors no avisen dels mecanismes que admeten, de manera que fer "
 "clic en aquest botó no garanteix que els mecanismes disponibles funcionin."
@@ -11241,7 +11240,7 @@ msgstr "Seleccioneu si voleu utilitzar una connexió segura (SSL o TLS)."
 #: C/mail-receiving-options-exchange-mapi.page:33
 msgid "Click <gui style=\"button\">Authenticate</gui> and enter your password."
 msgstr ""
-"Feu clic a <gui style=\"button\">Autentificar</gui> i introduïu la vostra "
+"Feu clic a <gui style=\"button\">Autentifica</gui> i introduïu la vostra "
 "contrasenya."
 
 #. (itstool) path: info/desc
@@ -11972,12 +11971,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-automatically.page:5
 msgid "Check automatically and regularly for new received mail."
-msgstr "Comprovar automàticament i amb regularitat la recepció un nou correu."
+msgstr "Comprovar automàticament i amb regularitat si hi ha correu nou rebut."
 
 #. (itstool) path: page/title
 #: C/mail-send-and-receive-automatically.page:20
 msgid "Automatically check for new mail"
-msgstr "Comprovar automàticament la recepció un nou correu"
+msgstr "Comprovar automàticament si hi ha correu nou"
 
 #. (itstool) path: page/p
 #: C/mail-send-and-receive-automatically.page:21
@@ -12117,7 +12116,7 @@ msgid ""
 "that available mechanisms actually work."
 msgstr ""
 "Seleccioneu el tipus d'autenticació a la llista Autenticació, o feu "
-"clic <gui>Comprova els tipus suportats</gui> per a que <app>Evolution</app> "
+"clic <gui>Comprova els tipus disponibles</gui> per a que <app>Evolution</app> "
 "els comprovi. Alguns servidors no ho admeten, de manera que fer clic en "
 "aquest botó no garanteix que els mecanismes disponibles funcionin realment."
 
@@ -12198,7 +12197,7 @@ msgid ""
 "click on <guiseq><gui>View</gui><gui>Group By Threads</gui></guiseq> or "
 "press <keyseq><key>Ctrl</key><key>T</key></keyseq>."
 msgstr ""
-"Podeu utilitzar la vista per fils de missatges per ordenar els correus. Per "
+"Podeu utilitzar la vista per a fils de missatges per ordenar els correus. Per "
 "activar aquesta funcionalitat, feu clic a <guiseq><gui>Vista</"
 "gui><gui>Agrupa per fils</gui></guiseq> o premeu <keyseq><key>Ctrl</"
 "key><key>T</key></keyseq>."
@@ -12977,7 +12976,7 @@ msgstr "Treballeu amb el correu mentre no esteu connectat a la xarxa."
 #. (itstool) path: page/title
 #: C/mail-working-offline.page:23
 msgid "Working Offline"
-msgstr "Treball fora de línia"
+msgstr "Treballar fora de línia"
 
 #. (itstool) path: page/p
 #: C/mail-working-offline.page:25
@@ -13470,7 +13469,7 @@ msgid ""
 "app> project website</link>."
 msgstr ""
 "Per fer el seguiment d'un problema, algunes opcions de depuració s'enumeren "
-"a la web del projecte<link href=\"https://wiki.gnome.org/Apps/Evolution/"
+"a la web del projecte <link href=\"https://wiki.gnome.org/Apps/Evolution/"
 "Debugging\"><app>Evolution</app> </link>."
 
 #. (itstool) path: page/p
