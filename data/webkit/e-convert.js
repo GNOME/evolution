@@ -354,7 +354,7 @@ EvoConvert.getQuotePrefix = function(quoteLevel, ltr)
 EvoConvert.formatParagraph = function(str, ltr, align, indent, whiteSpace, wrapWidth, extraIndent, liText, quoteLevel)
 {
 	if (!str || str == "")
-		return liText ? liText : str;
+		return liText || str;
 
 	var lines = [], ii;
 
@@ -674,11 +674,7 @@ EvoConvert.ImgToText = function(img)
 	if (!img)
 		return "";
 
-	var txt;
-
-	txt = img.alt;
-
-	return txt ? txt : "";
+	return img.alt || "";
 }
 
 EvoConvert.extractElemText = function(elem, normalDivWidth, quoteLevel)

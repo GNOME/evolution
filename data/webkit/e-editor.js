@@ -343,14 +343,14 @@ EvoEditor.maybeUpdateFormattingState = function(force)
 		nchanges++;
 	}
 
-	value = obj.fgColor ? obj.fgColor : "";
+	value = obj.fgColor || "";
 	if (force || value != EvoEditor.formattingState.fgColor) {
 		EvoEditor.formattingState.fgColor = value;
 		changes["fgColor"] = value;
 		nchanges++;
 	}
 
-	value = obj.bgColor ? obj.bgColor : "";
+	value = obj.bgColor || "";
 	if (force || value != EvoEditor.formattingState.bgColor) {
 		EvoEditor.formattingState.bgColor = value;
 		changes["bgColor"] = value;
@@ -385,7 +385,7 @@ EvoEditor.maybeUpdateFormattingState = function(force)
 		nchanges++;
 	}
 
-	value = obj.fontFamily ? obj.fontFamily : "";
+	value = obj.fontFamily || "";
 	// dequote the font name, if needed
 	if (value.length > 1 && value.charAt(0) == '\"' && value.charAt(value.length - 1) == '\"')
 		value = value.substr(1, value.length - 2);
@@ -395,7 +395,7 @@ EvoEditor.maybeUpdateFormattingState = function(force)
 		nchanges++;
 	}
 
-	tmp = (obj.textAlign ? obj.textAlign : "").toLowerCase();
+	tmp = (obj.textAlign || "").toLowerCase();
 	if (tmp == "left" || tmp == "start")
 		value = EvoEditor.E_CONTENT_EDITOR_ALIGNMENT_LEFT;
 	else if (tmp == "right")
@@ -1703,7 +1703,7 @@ EvoEditor.SetBodyFontName = function(name)
 		beforeCSS = EvoEditor.UpdateStyleSheet("x-evo-body-fontname", css);
 
 		if (name != document.body.style.fontFamily)
-			document.body.style.fontFamily = name ? name : "";
+			document.body.style.fontFamily = name || "";
 
 		if (record) {
 			record.apply = EvoEditor.applySetBodyFontName;
@@ -3688,7 +3688,7 @@ EvoEditor.OnDialogOpen = function(name)
 				if (!node)
 					node = tdnode;
 			} else {
-				node = tdnode ? tdnode : thnode;
+				node = tdnode || thnode;
 			}
 
 			if (node)
@@ -4388,7 +4388,7 @@ EvoEditor.DialogUtilsTableDeleteColumn = function()
 			try {
 				if (this.selectionUpdater) {
 					this.selectionUpdater.beforeRemove(cell);
-					this.selectionUpdater.afterRemove(cell.nextElementSibling ? cell.nextElementSibling : cell.previousElementSibling);
+					this.selectionUpdater.afterRemove(cell.nextElementSibling || cell.previousElementSibling);
 				}
 
 				cell.remove();
