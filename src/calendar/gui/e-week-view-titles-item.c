@@ -199,9 +199,9 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 				+ week_view->slash_width
 				+ week_view->abbr_day_widths[6];
 		else if (abbreviated)
-			date_width = week_view->abbr_day_widths[weekday];
+			date_width = week_view->abbr_day_widths[weekday - 1];
 		else
-			date_width = week_view->day_widths[weekday];
+			date_width = week_view->day_widths[weekday - 1];
 
 		date_x = week_view->col_offsets[col]
 			+ (week_view->col_widths[col] - date_width) / 2;
