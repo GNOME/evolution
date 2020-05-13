@@ -215,6 +215,9 @@ e_cal_ops_create_component (ECalModel *model,
 	bod->user_data = user_data;
 	bod->user_data_free = user_data_free;
 
+	cal_comp_util_maybe_ensure_allday_timezone_properties (client, bod->icomp,
+		e_cal_model_get_timezone (model));
+
 	prop = i_cal_component_get_first_property (bod->icomp, I_CAL_CLASS_PROPERTY);
 	if (!prop || i_cal_property_get_class (prop) == I_CAL_CLASS_NONE) {
 		ICalProperty_Class ical_class = I_CAL_CLASS_PUBLIC;
@@ -334,6 +337,9 @@ e_cal_ops_modify_component (ECalModel *model,
 	bod->mod = mod;
 	bod->send_flags = send_flags;
 	bod->is_modify = TRUE;
+
+	cal_comp_util_maybe_ensure_allday_timezone_properties (client, bod->icomp,
+		e_cal_model_get_timezone (model));
 
 	display_name = e_util_get_source_full_name (e_cal_model_get_registry (model), source);
 	cancellable = e_cal_data_model_submit_thread_job (data_model, description, alert_ident,
@@ -538,6 +544,7 @@ e_cal_ops_delete_ecalmodel_components (ECalModel *model,
 static gboolean
 cal_ops_create_comp_with_new_uid_sync (ECalClient *cal_client,
 				       ICalComponent *icomp,
+				       ICalTimezone *zone,
 				       GCancellable *cancellable,
 				       GError **error)
 {
@@ -554,6 +561,8 @@ cal_ops_create_comp_with_new_uid_sync (ECalClient *cal_client,
 	i_cal_component_set_uid (clone, uid);
 	g_free (uid);
 
+	cal_comp_util_maybe_ensure_allday_timezone_properties (cal_client, clone, zone);
+
 	success = e_cal_client_create_object_sync (cal_client, clone, E_CAL_OPERATION_FLAG_NONE, NULL, cancellable, error);
 
 	g_clear_object (&clone);
@@ -565,6 +574,7 @@ typedef struct {
 	ECalModel *model;
 	ICalComponent *icomp;
 	ICalComponentKind kind;
+	ICalTimezone *zone;
 	const gchar *extension_name;
 	gboolean success;
 } PasteComponentsData;
@@ -580,6 +590,7 @@ paste_components_data_free (gpointer ptr)
 
 		g_clear_object (&pcd->model);
 		g_clear_object (&pcd->icomp);
+		g_clear_object (&pcd->zone);
 		g_slice_free (PasteComponentsData, pcd);
 	}
 }
@@ -656,7 +667,7 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
 		for (subcomp = i_cal_component_get_first_component (pcd->icomp, pcd->kind);
 		     subcomp && !g_cancellable_is_cancelled (cancellable) && success;
 		     g_object_unref (subcomp), subcomp = i_cal_component_get_next_component (pcd->icomp, pcd->kind)) {
-			if (!cal_ops_create_comp_with_new_uid_sync (cal_client, subcomp, cancellable, error)) {
+			if (!cal_ops_create_comp_with_new_uid_sync (cal_client, subcomp, pcd->zone, cancellable, error)) {
 				success = FALSE;
 				break;
 			}
@@ -666,7 +677,7 @@ cal_ops_update_components_thread (EAlertSinkThreadJobData *job_data,
 
 		g_clear_object (&subcomp);
 	} else if (i_cal_component_isa (pcd->icomp) == pcd->kind) {
-		success = cal_ops_create_comp_with_new_uid_sync (cal_client, pcd->icomp, cancellable, error);
+		success = cal_ops_create_comp_with_new_uid_sync (cal_client, pcd->icomp, pcd->zone, cancellable, error);
 		any_copied = success;
 	}
 
@@ -772,8 +783,12 @@ e_cal_ops_paste_components (ECalModel *model,
 	pcd->model = g_object_ref (model);
 	pcd->icomp = icomp;
 	pcd->kind = kind;
+	pcd->zone = e_cal_model_get_timezone (model);
 	pcd->extension_name = extension_name;
 	pcd->success = FALSE;
+
+	if (pcd->zone)
+		g_object_ref (pcd->zone);
 
 	data_model = e_cal_model_get_data_model (model);
 
