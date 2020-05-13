@@ -76,10 +76,10 @@ ecb_bounds (GnomeCanvasItem *item,
             gdouble *x2,
             gdouble *y2)
 {
-	*x1 = G_MININT;
-	*y1 = G_MININT;
-	*x2 = G_MAXINT;
-	*y2 = G_MAXINT;
+	*x1 = 0;
+	*y1 = 0;
+	*x2 = G_MAXINT - 1;
+	*y2 = G_MAXINT - 1;
 }
 
 static void
