@@ -549,20 +549,13 @@ ece_event_fill_component (ECompEditor *comp_editor,
 			if (ece_event_client_needs_all_day_as_time (comp_editor)) {
 				ECompEditorEvent *event_editor = E_COMP_EDITOR_EVENT (comp_editor);
 				GtkWidget *timezone_entry;
-
-				i_cal_time_set_is_date (dtstart, FALSE);
-				i_cal_time_set_time (dtstart, 0, 0, 0);
-
-				i_cal_time_set_is_date (dtend, FALSE);
-				i_cal_time_set_time (dtend, 0, 0, 0);
+				ICalTimezone *zone;
 
 				timezone_entry = e_comp_editor_property_part_get_edit_widget (event_editor->priv->timezone);
+				zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (timezone_entry));
 
-				i_cal_time_set_timezone (dtstart, e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (timezone_entry)));
-				if (!i_cal_time_get_timezone (dtstart))
-					i_cal_time_set_timezone (dtstart, i_cal_timezone_get_utc_timezone ());
-
-				i_cal_time_set_timezone (dtend, i_cal_time_get_timezone (dtstart));
+				cal_comp_util_ensure_allday_timezone (dtstart, zone);
+				cal_comp_util_ensure_allday_timezone (dtend, zone);
 
 				set_dtstart = TRUE;
 			}

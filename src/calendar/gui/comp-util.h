@@ -165,4 +165,11 @@ ICalPropertyStatus
 						 gpointer user_data);
 GList *		cal_comp_util_get_status_list_for_kind /* const gchar * */
 						(ICalComponentKind kind);
+gboolean	cal_comp_util_ensure_allday_timezone
+						(ICalTime *itime,
+						 ICalTimezone *zone);
+void		cal_comp_util_maybe_ensure_allday_timezone_properties
+						(ECalClient *client,
+						 ICalComponent *icomp,
+						 ICalTimezone *zone);
 #endif

@@ -1732,3 +1732,100 @@ cal_comp_util_get_status_list_for_kind (ICalComponentKind kind)
 
 	return g_list_reverse (items);
 }
+
+/**
+ * cal_comp_util_ensure_allday_timezone:
+ * @itime: an #ICalTime to update
+ * @zone: (nullable): an #ICalTimezone to set, or %NULL for UTC
+ *
+ * Changes DATE value of @itime to DATETIME using the @zone.
+ * The @itime is not converted to the @zone, the @zone is
+ * assigned to it.
+ *
+ * Returns: whether made any change
+ *
+ * Since: 3.38
+ **/
+gboolean
+cal_comp_util_ensure_allday_timezone (ICalTime *itime,
+				      ICalTimezone *zone)
+{
+	g_return_val_if_fail (I_CAL_IS_TIME (itime), FALSE);
+
+	if (i_cal_time_is_date (itime)) {
+		if (!zone)
+			zone = i_cal_timezone_get_utc_timezone ();
+
+		i_cal_time_set_is_date (itime, FALSE);
+		i_cal_time_set_time (itime, 0, 0, 0);
+		i_cal_time_set_timezone (itime, zone);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+ensure_allday_timezone_property (ICalComponent *icomp,
+				 ICalTimezone *zone,
+				 ICalPropertyKind prop_kind,
+				 ICalTime *(* get_func) (ICalComponent *icomp),
+				 void (* set_func) (ICalComponent *icomp,
+						    ICalTime *dtvalue))
+{
+	ICalProperty *prop;
+
+	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
+	g_return_if_fail (get_func != NULL);
+	g_return_if_fail (set_func != NULL);
+
+	prop = i_cal_component_get_first_property (icomp, prop_kind);
+
+	if (prop) {
+		ICalTime *dtvalue;
+
+		dtvalue = get_func (icomp);
+
+		if (dtvalue && cal_comp_util_ensure_allday_timezone (dtvalue, zone)) {
+			/* Remove the VALUE parameter, to correspond to the actual value being set */
+			i_cal_property_remove_parameter_by_kind (prop, I_CAL_VALUE_PARAMETER);
+		}
+
+		set_func (icomp, dtvalue);
+		cal_comp_util_update_tzid_parameter (prop, dtvalue);
+
+		g_clear_object (&dtvalue);
+		g_clear_object (&prop);
+	}
+}
+
+/**
+ * cal_comp_util_maybe_ensure_allday_timezone_properties:
+ * @client: (nullable): an #ECalClient, or NULL, to change it always
+ * @icomp: an #ICalComponent to update
+ * @zone: (nullable): an #ICalTimezone to eventually set, or %NULL for floating time
+ *
+ * When the @client is not specified, or when it has set %E_CAL_STATIC_CAPABILITY_ALL_DAY_EVENT_AS_TIME,
+ * calls cal_comp_util_ensure_allday_timezone() for DTSTART
+ * and DTEND properties, if such exist in the @icomp, and updates
+ * those accordingly.
+ *
+ * Since: 3.38
+ **/
+void
+cal_comp_util_maybe_ensure_allday_timezone_properties (ECalClient *client,
+						       ICalComponent *icomp,
+						       ICalTimezone *zone)
+{
+	if (client)
+		g_return_if_fail (E_IS_CAL_CLIENT (client));
+
+	g_return_if_fail (I_CAL_IS_COMPONENT (icomp));
+
+	if (client && !e_client_check_capability (E_CLIENT (client), E_CAL_STATIC_CAPABILITY_ALL_DAY_EVENT_AS_TIME))
+		return;
+
+	ensure_allday_timezone_property (icomp, zone, I_CAL_DTSTART_PROPERTY, i_cal_component_get_dtstart, i_cal_component_set_dtstart);
+	ensure_allday_timezone_property (icomp, zone, I_CAL_DTEND_PROPERTY, i_cal_component_get_dtend, i_cal_component_set_dtend);
+}
