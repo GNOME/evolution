@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ro\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-05-11 08:40+0000\n"
-"PO-Revision-Date: 2020-05-11 14:11+0200\n"
-"Last-Translator: Florentina Mușat <florentina.musat.28 [at] gmail [dot] com>\n"
+"POT-Creation-Date: 2020-05-11 12:16+0000\n"
+"PO-Revision-Date: 2020-05-11 16:31+0300\n"
+"Last-Translator: Florentina Mușat <emryslokadottir [at] gmail [dot] com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists.sourceforge.net>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n==0 || (n!=1 && n%100>=1 && n%100<=19) ? 1 : 2);\n"
 "n%100<=19) ? 1: 2);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.3.1\n"
 "20)) ? 1: 2);\n"
 "X-Poedit-Bookmarks: 175,-1,-1,-1,-1,-1,-1,-1,-1,-1\n"
 "X-Project-Style: gnome\n"
@@ -22086,3 +22086,4607 @@ msgstr "%s până la %s au trimis următorul răspuns pentru întâlnire:"
 #, c-format
 msgid "%s has sent back the following meeting response:"
 msgstr "%s a trimis înapoi următorul răspuns la ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:511
+#, fuzzy, c-format
+#| msgid "%s through %s has sent back the following meeting response:"
+msgid "%s through %s has cancelled the following meeting:"
+msgstr "%s până la %s au trimis următorul răspuns pentru întâlnire:"
+
+#: ../src/modules/itip-formatter/itip-view.c:513
+#, fuzzy, c-format
+#| msgid "%s has delegated the following meeting to you:"
+msgid "%s has cancelled the following meeting:"
+msgstr "%s a delegat următoarea ședință către dumneavoastră:"
+
+#: ../src/modules/itip-formatter/itip-view.c:517
+#, fuzzy, c-format
+#| msgid "%s through %s has published the following meeting information:"
+msgid "%s through %s has proposed the following meeting changes."
+msgstr "%s prin %s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:519
+#, fuzzy, c-format
+#| msgid "%s has published the following meeting information:"
+msgid "%s has proposed the following meeting changes:"
+msgstr "%s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:523
+#, fuzzy, c-format
+#| msgid "%s through %s has published the following meeting information:"
+msgid "%s through %s has declined the following meeting changes:"
+msgstr "%s prin %s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:525
+#, fuzzy, c-format
+#| msgid "%s has delegated the following meeting to you:"
+msgid "%s has declined the following meeting changes:"
+msgstr "%s a delegat următoarea ședință către dumneavoastră:"
+
+#: ../src/modules/itip-formatter/itip-view.c:565
+#, fuzzy, c-format
+#| msgid "%s through %s has published the following meeting information:"
+msgid "%s through %s has published the following task:"
+msgstr "%s prin %s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:567
+#, fuzzy, c-format
+#| msgid "%s has published the following meeting information:"
+msgid "%s has published the following task:"
+msgstr "%s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:572
+#, fuzzy, c-format
+#| msgid "%s requests your presence at the following meeting:"
+msgid "%s requests the assignment of %s to the following task:"
+msgstr "%s vă solicită prezența la următoarea ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:575
+#, c-format
+msgid "%s through %s has assigned you a task:"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:577
+#, fuzzy, c-format
+#| msgid "Create a new assigned task"
+msgid "%s has assigned you a task:"
+msgstr "Creează o sarcină repartizată nouă"
+
+#: ../src/modules/itip-formatter/itip-view.c:583
+#, fuzzy, c-format
+#| msgid "%s through %s wishes to add to an existing meeting:"
+msgid "%s through %s wishes to add to an existing task:"
+msgstr "%s prin %s dorește să adauge la o ședință existentă:"
+
+#: ../src/modules/itip-formatter/itip-view.c:585
+#, fuzzy, c-format
+#| msgid "%s wishes to add to an existing meeting:"
+msgid "%s wishes to add to an existing task:"
+msgstr "%s dorește să adauge la o ședință existentă:"
+
+#: ../src/modules/itip-formatter/itip-view.c:589
+#, fuzzy, c-format
+#| msgid "%s through %s wishes to receive the latest information for the following meeting:"
+msgid "%s through %s wishes to receive the latest information for the following assigned task:"
+msgstr "%s până la %s doresc să primească ultimele informații pentru următoarele întâlnire:"
+
+#: ../src/modules/itip-formatter/itip-view.c:591
+#, fuzzy, c-format
+#| msgid "%s wishes to receive the latest information for the following meeting:"
+msgid "%s wishes to receive the latest information for the following assigned task:"
+msgstr "%s dorește să primească ultimele informații despre următoarea ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:595
+#, fuzzy, c-format
+#| msgid "%s through %s has sent back the following meeting response:"
+msgid "%s through %s has sent back the following assigned task response:"
+msgstr "%s până la %s au trimis următorul răspuns pentru întâlnire:"
+
+#: ../src/modules/itip-formatter/itip-view.c:597
+#, fuzzy, c-format
+#| msgid "%s has sent back the following meeting response:"
+msgid "%s has sent back the following assigned task response:"
+msgstr "%s a trimis înapoi următorul răspuns la ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:601
+#, fuzzy, c-format
+#| msgid "%s through %s has sent back the following meeting response:"
+msgid "%s through %s has cancelled the following assigned task:"
+msgstr "%s până la %s au trimis următorul răspuns pentru întâlnire:"
+
+#: ../src/modules/itip-formatter/itip-view.c:603
+#, fuzzy, c-format
+#| msgid "%s has delegated the following meeting to you:"
+msgid "%s has cancelled the following assigned task:"
+msgstr "%s a delegat următoarea ședință către dumneavoastră:"
+
+#: ../src/modules/itip-formatter/itip-view.c:607
+#, fuzzy, c-format
+#| msgid "%s through %s has published the following meeting information:"
+msgid "%s through %s has proposed the following task assignment changes:"
+msgstr "%s prin %s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:609
+#, fuzzy, c-format
+#| msgid "%s has published the following meeting information:"
+msgid "%s has proposed the following task assignment changes:"
+msgstr "%s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:613
+#, fuzzy, c-format
+#| msgid "%s through %s has published the following meeting information:"
+msgid "%s through %s has declined the following assigned task:"
+msgstr "%s prin %s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:615
+#, fuzzy, c-format
+#| msgid "%s has delegated the following meeting to you:"
+msgid "%s has declined the following assigned task:"
+msgstr "%s a delegat următoarea ședință către dumneavoastră:"
+
+#: ../src/modules/itip-formatter/itip-view.c:654
+#, fuzzy, c-format
+#| msgid "%s through %s has published the following meeting information:"
+msgid "%s through %s has published the following memo:"
+msgstr "%s prin %s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:656
+#, fuzzy, c-format
+#| msgid "%s has published the following meeting information:"
+msgid "%s has published the following memo:"
+msgstr "%s a publicat următoarele informații pentru ședință:"
+
+#: ../src/modules/itip-formatter/itip-view.c:661
+#, fuzzy, c-format
+#| msgid "%s through %s wishes to add to an existing meeting:"
+msgid "%s through %s wishes to add to an existing memo:"
+msgstr "%s prin %s dorește să adauge la o ședință existentă:"
+
+#: ../src/modules/itip-formatter/itip-view.c:663
+#, fuzzy, c-format
+#| msgid "%s wishes to add to an existing meeting:"
+msgid "%s wishes to add to an existing memo:"
+msgstr "%s dorește să adauge la o ședință existentă:"
+
+#: ../src/modules/itip-formatter/itip-view.c:667
+#, fuzzy, c-format
+#| msgid "%s through %s has sent back the following meeting response:"
+msgid "%s through %s has cancelled the following shared memo:"
+msgstr "%s până la %s au trimis următorul răspuns pentru întâlnire:"
+
+#: ../src/modules/itip-formatter/itip-view.c:669
+#, fuzzy, c-format
+#| msgid "%s has delegated the following meeting to you:"
+msgid "%s has cancelled the following shared memo:"
+msgstr "%s a delegat următoarea ședință către dumneavoastră:"
+
+#: ../src/modules/itip-formatter/itip-view.c:857
+msgid "All day:"
+msgstr "Toată ziua:"
+
+#: ../src/modules/itip-formatter/itip-view.c:863
+msgid "Start day:"
+msgstr "Ziua de început:"
+
+#: ../src/modules/itip-formatter/itip-view.c:863 ../src/modules/itip-formatter/itip-view.c:1701
+#, fuzzy
+#| msgid "_Start time:"
+msgid "Start time:"
+msgstr "Tim_pul de început:"
+
+#: ../src/modules/itip-formatter/itip-view.c:872
+msgid "End day:"
+msgstr "Ziua de sfârșit:"
+
+#: ../src/modules/itip-formatter/itip-view.c:872 ../src/modules/itip-formatter/itip-view.c:1702
+msgid "End time:"
+msgstr "Ora de sfârșit:"
+
+#: ../src/modules/itip-formatter/itip-view.c:1248
+#, fuzzy
+#| msgid "Opening calendar"
+msgid "Ope_n Calendar"
+msgstr "Se deschide calendarul"
+
+#: ../src/modules/itip-formatter/itip-view.c:1251
+msgid "_Decline all"
+msgstr "_Refuză toate"
+
+#: ../src/modules/itip-formatter/itip-view.c:1254
+msgid "_Decline"
+msgstr "_Refuză"
+
+#: ../src/modules/itip-formatter/itip-view.c:1257
+msgid "_Tentative all"
+msgstr "_Tentativ toate"
+
+#: ../src/modules/itip-formatter/itip-view.c:1260
+msgid "_Tentative"
+msgstr "_Tentativ"
+
+#: ../src/modules/itip-formatter/itip-view.c:1263
+msgid "Acce_pt all"
+msgstr "Acce_ptă toate"
+
+#: ../src/modules/itip-formatter/itip-view.c:1266
+msgid "Acce_pt"
+msgstr "Acce_ptă"
+
+#: ../src/modules/itip-formatter/itip-view.c:1269
+msgid "Send _Information"
+msgstr "Trimite _informațiile"
+
+#: ../src/modules/itip-formatter/itip-view.c:1272
+#, fuzzy
+#| msgid "_Update free/busy"
+msgid "_Update Attendee Status"
+msgstr "Act_ualizează disponibil/ocupat"
+
+#: ../src/modules/itip-formatter/itip-view.c:1275 ../src/smime/gui/certificate-manager.c:1661
+#, fuzzy
+#| msgctxt "Meeting"
+#| msgid "Updated"
+msgid "_Update"
+msgstr "Actualizată"
+
+#: ../src/modules/itip-formatter/itip-view.c:1704 ../src/modules/itip-formatter/itip-view.c:1752
+#: ../src/modules/itip-formatter/itip-view.c:1823
+msgid "Comment:"
+msgstr "Comentariu:"
+
+#. RSVP area
+#: ../src/modules/itip-formatter/itip-view.c:1740
+msgid "Send reply to sender"
+msgstr "Trimite răspunsul la expeditor"
+
+#. Updates
+#: ../src/modules/itip-formatter/itip-view.c:1755
+#, fuzzy
+#| msgid "Sending notifications to attendees…"
+msgid "Send _updates to attendees"
+msgstr "Se trimit notificări participanților…"
+
+#. The recurrence check button
+#: ../src/modules/itip-formatter/itip-view.c:1758
+msgid "_Apply to all instances"
+msgstr "_Aplică la toate instanțele"
+
+#: ../src/modules/itip-formatter/itip-view.c:1759
+#, fuzzy
+#| msgctxt "ECompEditor"
+#| msgid "Show time as _busy"
+msgid "Show time as _free"
+msgstr "Arată timpul ca _ocupat"
+
+#: ../src/modules/itip-formatter/itip-view.c:1760
+#, fuzzy
+#| msgid "_Preserve existing reminder by default"
+msgid "_Preserve my reminder"
+msgstr "_Păstrează mementoul existent în mod implicit"
+
+#: ../src/modules/itip-formatter/itip-view.c:1761
+#, fuzzy
+#| msgctxt "iCalImp"
+#| msgid "has reminders"
+msgid "_Inherit reminder"
+msgstr "are mementouri"
+
+#: ../src/modules/itip-formatter/itip-view.c:1975
+msgid "_Tasks:"
+msgstr "_Sarcini:"
+
+#: ../src/modules/itip-formatter/itip-view.c:1978
+#, fuzzy
+#| msgid "_Memos"
+msgid "_Memos:"
+msgstr "_Memo-uri"
+
+#: ../src/modules/itip-formatter/itip-view.c:2974
+#, fuzzy
+#| msgid "Sa_ve As"
+msgid "Sa_ve"
+msgstr "Sal_vează ca"
+
+#: ../src/modules/itip-formatter/itip-view.c:3535 ../src/modules/itip-formatter/itip-view.c:5287
+msgid "Attendee status updated"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:3745
+#, c-format
+msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:3752
+#, fuzzy, c-format
+#| msgid "Purging tasks in the task list “%s”"
+msgid "A task “%s” in the task list “%s” conflicts with this task"
+msgstr "Se șterg sarcini din lista de sarcini „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:3759
+#, fuzzy, c-format
+#| msgid "Purging memos in the memo list “%s”"
+msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
+msgstr "Se șterg memouri din lista cu memouri „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:3770
+#, c-format
+msgid "The calendar “%s” contains an appointment which conflicts with this meeting"
+msgid_plural "The calendar “%s” contains %d appointments which conflict with this meeting"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../src/modules/itip-formatter/itip-view.c:3779
+#, c-format
+msgid "The task list “%s” contains a task which conflicts with this task"
+msgid_plural "The task list “%s” contains %d tasks which conflict with this task"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../src/modules/itip-formatter/itip-view.c:3788
+#, c-format
+msgid "The memo list “%s” contains a memo which conflicts with this memo"
+msgid_plural "The memo list “%s” contains %d memos which conflict with this memo"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../src/modules/itip-formatter/itip-view.c:3826
+#, fuzzy, c-format
+#| msgid "Purging events in the calendar “%s”"
+msgid "Found the appointment in the calendar “%s”"
+msgstr "Se șterg evenimente din calendarul „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:3831
+#, fuzzy, c-format
+#| msgid "Moving a task into the task list “%s”"
+msgid "Found the task in the task list “%s”"
+msgstr "Se mută o sarcină în lista de sarcini „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:3836
+#, fuzzy, c-format
+#| msgid "Moving a memo into the memo list “%s”"
+msgid "Found the memo in the memo list “%s”"
+msgstr "Se mută un memo în lista de memouri „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:3847
+msgid "This meeting invitation is obsolete. It had been updated."
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:3989
+#, fuzzy
+#| msgid "Failed to delete calendar"
+msgid "Unable to find any calendars"
+msgstr "Eșec la ștergerea calendarului"
+
+#: ../src/modules/itip-formatter/itip-view.c:3997
+msgid "Unable to find this meeting in any calendar"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:4002
+#, fuzzy
+#| msgid "Failed to modify a task in the task list “{0}”"
+msgid "Unable to find this task in any task list"
+msgstr "Eșec la modificarea sarcinii din lista de sarcini „{0}”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4007
+#, fuzzy
+#| msgid "Failed to modify a memo in the memo list “{0}”"
+msgid "Unable to find this memo in any memo list"
+msgstr "Eșec la modificarea unui memo din lista de memo-uri „{0}”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4301
+msgid "Searching for an existing version of this appointment"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:4305
+#, fuzzy
+#| msgid "Search for text in the displayed task"
+msgid "Searching for an existing version of this task"
+msgstr "Caută textul în sarcina afișată"
+
+#: ../src/modules/itip-formatter/itip-view.c:4309
+#, fuzzy
+#| msgid "Search for text in the displayed memo"
+msgid "Searching for an existing version of this memo"
+msgstr "Caută textul în memo-ul afișat"
+
+#: ../src/modules/itip-formatter/itip-view.c:4367
+#, fuzzy
+#| msgid "Opening calendar “%s”"
+msgid "Opening the calendar. Please wait…"
+msgstr "Se deschide calendarul „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4783
+#, fuzzy, c-format
+#| msgid "Failed to send an event to the calendar “{0}”"
+msgid "Unable to send item to calendar “%s”. %s"
+msgstr "Eșec la trimiterea unui eveniment la calendarul „{0}”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4791
+#, fuzzy, c-format
+#| msgid "Failed to send a task to the task list “{0}”"
+msgid "Unable to send item to task list “%s”. %s"
+msgstr "Eșec la trimiterea sarcinii la lista de sarcini „{0}”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4799
+#, fuzzy, c-format
+#| msgid "Failed to send a memo to the memo list “{0}”"
+msgid "Unable to send item to memo list “%s”. %s"
+msgstr "Eșec la trimiterea memo-ului la lista de memo-uri „{0}”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4819
+#, fuzzy, c-format
+#| msgid "Opening calendar “%s”"
+msgid "Sent to calendar “%s” as accepted"
+msgstr "Se deschide calendarul „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4824
+#, fuzzy, c-format
+#| msgid "Opening task list “%s”"
+msgid "Sent to task list “%s” as accepted"
+msgstr "Se deschide lista cu sarcini „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4829
+#, fuzzy, c-format
+#| msgid "Opening memo list “%s”"
+msgid "Sent to memo list “%s” as accepted"
+msgstr "Se deschide lista de memo-uri „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4839
+#, fuzzy, c-format
+#| msgid "Opening calendar “%s”"
+msgid "Sent to calendar “%s” as tentative"
+msgstr "Se deschide calendarul „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4844
+#, fuzzy, c-format
+#| msgid "Opening task list “%s”"
+msgid "Sent to task list “%s” as tentative"
+msgstr "Se deschide lista cu sarcini „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4849
+#, fuzzy, c-format
+#| msgid "Opening memo list “%s”"
+msgid "Sent to memo list “%s” as tentative"
+msgstr "Se deschide lista de memo-uri „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4859
+#, fuzzy, c-format
+#| msgid "Opening calendar “%s”"
+msgid "Sent to calendar “%s” as declined"
+msgstr "Se deschide calendarul „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4864
+#, fuzzy, c-format
+#| msgid "Opening task list “%s”"
+msgid "Sent to task list “%s” as declined"
+msgstr "Se deschide lista cu sarcini „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4869
+#, fuzzy, c-format
+#| msgid "Opening memo list “%s”"
+msgid "Sent to memo list “%s” as declined"
+msgstr "Se deschide lista de memo-uri „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4879
+#, fuzzy, c-format
+#| msgid "Opening calendar “%s”"
+msgid "Sent to calendar “%s” as cancelled"
+msgstr "Se deschide calendarul „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4884
+#, fuzzy, c-format
+#| msgid "Opening task list “%s”"
+msgid "Sent to task list “%s” as cancelled"
+msgstr "Se deschide lista cu sarcini „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4889
+#, fuzzy, c-format
+#| msgid "Opening memo list “%s”"
+msgid "Sent to memo list “%s” as cancelled"
+msgstr "Se deschide lista de memo-uri „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4907
+#, fuzzy
+#| msgid "Moving an event into the calendar “%s”"
+msgid "Saving changes to the calendar. Please wait…"
+msgstr "Se mută un eveniment în calendarul „%s”"
+
+#: ../src/modules/itip-formatter/itip-view.c:4910
+#, fuzzy
+#| msgid "Saving account settings, please wait…"
+msgid "Saving changes to the task list. Please wait…"
+msgstr "Se salvează configurările contului, așteptați…"
+
+#: ../src/modules/itip-formatter/itip-view.c:4913
+#, fuzzy
+#| msgid "Saving account settings, please wait…"
+msgid "Saving changes to the memo list. Please wait…"
+msgstr "Se salvează configurările contului, așteptați…"
+
+#: ../src/modules/itip-formatter/itip-view.c:5004
+#, fuzzy
+#| msgid "Unable to save image."
+msgid "Unable to parse item"
+msgstr "Nu s-a putut salva imaginea."
+
+#: ../src/modules/itip-formatter/itip-view.c:5212
+#, c-format
+msgid "Organizer has removed the delegate %s "
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:5229
+#, fuzzy
+#| msgid "Would you like to send a cancelation notice for this memo?"
+msgid "Sent a cancelation notice to the delegate"
+msgstr "Doriți să trimiteți o notă de anulare pentru acest memo?"
+
+#: ../src/modules/itip-formatter/itip-view.c:5233
+#, fuzzy
+#| msgid "Would you like to send a cancelation notice for this memo?"
+msgid "Could not send the cancelation notice to the delegate"
+msgstr "Doriți să trimiteți o notă de anulare pentru acest memo?"
+
+#: ../src/modules/itip-formatter/itip-view.c:5279
+#, fuzzy, c-format
+#| msgid "Unable to save image."
+msgid "Unable to update attendee. %s"
+msgstr "Nu s-a putut salva imaginea."
+
+#: ../src/modules/itip-formatter/itip-view.c:5312
+msgid "The meeting is invalid and cannot be updated"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:5397
+msgid "Attendee status could not be updated because the status is invalid"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:5472 ../src/modules/itip-formatter/itip-view.c:5510
+msgid "Attendee status can not be updated because the item no longer exists"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:5571
+#, fuzzy
+#| msgid "Memo information"
+msgid "Meeting information sent"
+msgstr "Informații memo"
+
+#: ../src/modules/itip-formatter/itip-view.c:5576
+#, fuzzy
+#| msgid "Task information"
+msgid "Task information sent"
+msgstr "Informație sarcină"
+
+#: ../src/modules/itip-formatter/itip-view.c:5581
+#, fuzzy
+#| msgid "Memo information"
+msgid "Memo information sent"
+msgstr "Informații memo"
+
+#: ../src/modules/itip-formatter/itip-view.c:5592
+msgid "Unable to send meeting information, the meeting does not exist"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:5597
+#, fuzzy
+#| msgid "Failed to send a task to the task list “{0}”"
+msgid "Unable to send task information, the task does not exist"
+msgstr "Eșec la trimiterea sarcinii la lista de sarcini „{0}”"
+
+#: ../src/modules/itip-formatter/itip-view.c:5602
+#, fuzzy
+#| msgid "Failed to send a memo to the memo list “{0}”"
+msgid "Unable to send memo information, the memo does not exist"
+msgstr "Eșec la trimiterea memo-ului la lista de memo-uri „{0}”"
+
+#. Translators: This is a default filename for a calendar.
+#: ../src/modules/itip-formatter/itip-view.c:5647
+msgid "calendar.ics"
+msgstr "calendar.ics"
+
+#: ../src/modules/itip-formatter/itip-view.c:5652
+#, fuzzy
+#| msgid "Save as iCalendar"
+msgid "Save Calendar"
+msgstr "Salveză ca iCalendar"
+
+#: ../src/modules/itip-formatter/itip-view.c:5700 ../src/modules/itip-formatter/itip-view.c:5713
+#, fuzzy
+#| msgid ""
+#| "The contact data is invalid:\n"
+#| "\n"
+msgid "The calendar attached is not valid"
+msgstr ""
+"Datele de contact nu sunt valide:\n"
+"\n"
+
+#: ../src/modules/itip-formatter/itip-view.c:5701 ../src/modules/itip-formatter/itip-view.c:5714
+msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:5796 ../src/modules/itip-formatter/itip-view.c:5880
+#: ../src/modules/itip-formatter/itip-view.c:5984
+msgid "The item in the calendar is not valid"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:5797 ../src/modules/itip-formatter/itip-view.c:5881
+#: ../src/modules/itip-formatter/itip-view.c:5985
+msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:5890
+msgid "The calendar attached contains multiple items"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:5891
+msgid "To process all of these items, the file should be saved and the calendar imported"
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:6478
+#, fuzzy
+#| msgid "None"
+msgctxt "cal-itip"
+msgid "None"
+msgstr "Fără"
+
+#: ../src/modules/itip-formatter/itip-view.c:6496
+msgid "Tentatively Accepted"
+msgstr "Acceptată tentativ"
+
+#: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
+msgid "This response is not from a current attendee. Add the sender as an attendee?"
+msgstr ""
+
+#: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
+msgid "This meeting has been delegated"
+msgstr ""
+
+#: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
+msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
+msgstr ""
+
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:301
+#, fuzzy
+#| msgctxt "addressbook-label"
+#| msgid "Google Talk"
+msgid "Google Features"
+msgstr "Google"
+
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:310
+msgid "Add Google Ca_lendar to this account"
+msgstr ""
+
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:319
+msgid "Add Google Con_tacts to this account"
+msgstr ""
+
+#. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
+#. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:330
+msgctxt "GoggleSummary"
+msgid "IMAP access"
+msgstr ""
+
+#. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
+#. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:333
+msgctxt "GoggleSummary"
+msgid "Calendars to synchronize"
+msgstr "Calendare de sincronizat"
+
+#. Translators: This is part of a sentence "You may need to enable IMAP access and Calendars to synchronize",
+#. where the 'IMAP access' and 'Calendars to synchronize' are clickable.
+#: ../src/modules/mail-config/e-mail-config-google-summary.c:336
+#, c-format
+msgctxt "GoggleSummary"
+msgid "You may need to enable %s and %s"
+msgstr ""
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:268
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:316
+#, fuzzy
+#| msgid "Save directory"
+msgid "Mail _Directory:"
+msgstr "Director salvare"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:269
+#, fuzzy
+#| msgid "Composer load/attach directory"
+msgid "Choose a MH mail directory"
+msgstr "Director pentru atașare fișiere la compunere"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:271
+#, fuzzy
+#| msgid "Email Address cannot be empty"
+msgid "MH mail directory cannot be empty"
+msgstr "Adresa de email nu poate fi goală"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:292
+msgid "Local Delivery _File:"
+msgstr ""
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:293
+#, fuzzy
+#| msgid "Choose an iCalendar file"
+msgid "Choose a local delivery file"
+msgstr "Alegeți un fișier iCalendar"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:295
+#, fuzzy
+#| msgid "Location cannot be empty"
+msgid "Local delivery file cannot be empty"
+msgstr "Locația nu poate fi goală"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:317
+#, fuzzy
+#| msgid "Composer load/attach directory"
+msgid "Choose a Maildir mail directory"
+msgstr "Director pentru atașare fișiere la compunere"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:319
+#, fuzzy
+#| msgid "Email Address cannot be empty"
+msgid "Maildir mail directory cannot be empty"
+msgstr "Adresa de email nu poate fi goală"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:340
+msgid "Spool _File:"
+msgstr ""
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:341
+#, fuzzy
+#| msgid "Choose a File"
+msgid "Choose a mbox spool file"
+msgstr "Alegeți un fișier"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:343
+#, fuzzy
+#| msgid "User name cannot be empty"
+msgid "Mbox spool file cannot be empty"
+msgstr "Numele de utilizator nu poate fi gol"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:364
+#, fuzzy
+#| msgid "Save directory"
+msgid "Spool _Directory:"
+msgstr "Director salvare"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:365
+#, fuzzy
+#| msgid "Choose a backup file to restore"
+msgid "Choose a mbox spool directory"
+msgstr "Alegeți un fișier de copie de siguranță pentru restaurare"
+
+#: ../src/modules/mail-config/e-mail-config-local-accounts.c:367
+#, fuzzy
+#| msgid "Location cannot be empty"
+msgid "Mbox spool directory cannot be empty"
+msgstr "Locația nu poate fi goală"
+
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:199
+#: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:59 ../src/modules/mail-config/e-mail-config-smtp-backend.c:155
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:193 ../src/plugins/mail-notification/mail-notification.c:1220
+msgid "Configuration"
+msgstr "Configurație"
+
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:231 ../src/modules/mail-config/e-mail-config-smtp-backend.c:186
+#, fuzzy
+#| msgid "Port:"
+msgid "_Port:"
+msgstr "Port:"
+
+#. do not reference
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:252 ../src/modules/mail-config/e-mail-config-smtp-backend.c:314
+#, fuzzy
+#| msgid "Username:"
+msgid "User_name:"
+msgstr "Nume utilizator:"
+
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:266 ../src/modules/mail-config/e-mail-config-smtp-backend.c:328
+#, fuzzy
+#| msgid "Enter password"
+msgid "_Forget password"
+msgstr "Introduceți parola"
+
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:292 ../src/modules/mail-config/e-mail-config-smtp-backend.c:235
+msgid "Encryption _method:"
+msgstr "_Metodă de criptare:"
+
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:307 ../src/modules/mail-config/e-mail-config-smtp-backend.c:250
+msgid "STARTTLS after connecting"
+msgstr ""
+
+#: ../src/modules/mail-config/e-mail-config-remote-accounts.c:311 ../src/modules/mail-config/e-mail-config-smtp-backend.c:254
+msgid "TLS on a dedicated port"
+msgstr ""
+
+#: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:75
+msgid "_Use custom binary, instead of “sendmail”"
+msgstr ""
+
+#: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:79
+msgid "_Custom binary:"
+msgstr "Binar _personalizat:"
+
+#: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:98
+#, fuzzy
+#| msgid "Use custom fonts"
+msgid "U_se custom arguments"
+msgstr "Folosește fonturi personalizate"
+
+#: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:102
+msgid "Cus_tom arguments:"
+msgstr "Argumente personaliza_te:"
+
+#: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:120
+msgid ""
+"Default arguments are “-i -f %F -- %R”, where\n"
+"   %F — stands for the From address\n"
+"   %R — stands for the recipient addresses"
+msgstr ""
+
+#: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:135
+#, fuzzy
+#| msgid "Message is not available in offline mode."
+msgid "Send mail also when in offline _mode"
+msgstr "Mesajul nu este disponibil în modul deconectat."
+
+#: ../src/modules/mail-config/e-mail-config-sendmail-backend.c:208
+msgid "Custom binary cannot be empty"
+msgstr "Binarul personalizat nu poate fi gol"
+
+#. do not reference
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:207
+#, fuzzy
+#| msgid "Invalid authentication"
+msgid "Ser_ver requires authentication"
+msgstr "Autentificare nevalidă"
+
+#: ../src/modules/mail-config/e-mail-config-smtp-backend.c:296
+#, fuzzy
+#| msgid "Type:"
+msgid "T_ype:"
+msgstr "Tip:"
+
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:252
+msgid "Yahoo! Features"
+msgstr "Funcționalități Yahoo!"
+
+#: ../src/modules/mail-config/e-mail-config-yahoo-summary.c:261
+msgid "Add Yahoo! Ca_lendar and Tasks to this account"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-attachment-handler.c:644
+#, fuzzy, c-format
+#| msgid "Attached message"
+msgid "%d attached message"
+msgid_plural "%d attached messages"
+msgstr[0] "Mesaj atașat"
+msgstr[1] "Mesaj atașat"
+msgstr[2] "Mesaj atașat"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:399
+#, fuzzy
+#| msgid "_Message"
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_Mesaj"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:401
+msgid "Compose a new mail message"
+msgstr "Compune un nou mesaj de mail"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:409
+#, fuzzy
+#| msgid "Mail Accounts"
+msgctxt "New"
+msgid "Mail Acco_unt"
+msgstr "Conturi de email"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:411
+msgid "Create a new mail account"
+msgstr "Creează un cont nou de mail"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:416
+#, fuzzy
+#| msgid "Mail Folder Tree"
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "Arbore dosare email"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:418
+msgid "Create a new mail folder"
+msgstr "Creează un dosar nou de mail"
+
+#. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
+#. it to some user-frienly form, or keep it as is.
+#: ../src/modules/mail/e-mail-shell-backend.c:782
+msgctxt "NetworkMonitor"
+msgid "base"
+msgstr "bază"
+
+#. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
+#. it to some user-frienly form, or keep it as is.
+#: ../src/modules/mail/e-mail-shell-backend.c:785
+msgctxt "NetworkMonitor"
+msgid "netlink"
+msgstr "netlink"
+
+#. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
+#. it to some user-frienly form, or keep it as is.
+#: ../src/modules/mail/e-mail-shell-backend.c:788
+msgctxt "NetworkMonitor"
+msgid "networkmanager"
+msgstr "networkmanager"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:818
+msgctxt "NetworkMonitor"
+msgid "Method to detect _online state:"
+msgstr ""
+
+#. Translators: The '%s' is replaced with the actual name of the GNetworkMonitor implementation
+#: ../src/modules/mail/e-mail-shell-backend.c:829
+#, c-format
+msgctxt "NetworkMonitor"
+msgid "Default (%s)"
+msgstr "Implicite (%s)"
+
+#. Always as the first
+#: ../src/modules/mail/e-mail-shell-backend.c:833
+msgctxt "NetworkMonitor"
+msgid "Default"
+msgstr "Implicite"
+
+#. Always as the last
+#: ../src/modules/mail/e-mail-shell-backend.c:850
+msgctxt "NetworkMonitor"
+msgid "Always Online"
+msgstr "Tot timpul conectat"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:919
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Preferences"
+msgid "Mail Preferences"
+msgstr "Preferințe"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:928
+msgid "Composer Preferences"
+msgstr "Preferințe compunător"
+
+#: ../src/modules/mail/e-mail-shell-backend.c:937
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Preferences"
+msgid "Network Preferences"
+msgstr "Preferințe"
+
+#. Translators: The first item in the list, to be
+#. * able to set rule: [Label] [is/is-not] [None]
+#: ../src/modules/mail/e-mail-shell-backend.c:1298
+#, fuzzy
+#| msgid "None"
+msgctxt "label"
+msgid "None"
+msgstr "Fără"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:853
+#, fuzzy
+#| msgid "_Mark messages as read after"
+msgid "Marking messages as read…"
+msgstr "_Marchează mesajele ca citite după"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1258
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Go to folder"
+msgid "Go to Folder"
+msgstr "Navighează la dosar"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1262
+#, fuzzy
+#| msgid "Select"
+msgid "_Select"
+msgstr "Selectează"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1572
+msgid "_Disable Account"
+msgstr "_Dezactivează contul"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1574
+msgid "Disable this account"
+msgstr "Dezactivează acest cont"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1581
+#, fuzzy
+#| msgid "Are you sure you want to permanently remove all the deleted messages in all folders?"
+msgid "Permanently remove all the deleted messages from all folders"
+msgstr "Sigur doriți să eliminați permanent toate mesajele șterse anterior din toate dosarele?"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1586
+msgid "Empty _Junk"
+msgstr "Golește _spamul"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1588
+msgid "Delete all Junk messages from all folders"
+msgstr "Șterge toate mesajele spam din toate dosarele"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1595
+msgid "Edit properties of this account"
+msgstr "Editează proprietățile acestui cont"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1602
+#, fuzzy
+#| msgid "Refresh the folder list"
+msgid "Refresh list of folders of this account"
+msgstr "Actualizează lista de dosare"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1607
+msgid "_Download Messages for Offline Usage"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1609
+#, fuzzy
+#| msgid "Do you want to locally synchronize the folders that are marked for offline usage?"
+msgid "Download messages of accounts and folders marked for offline usage"
+msgstr "Doriți să sincronizați local dosarele ce sunt marcate pentru lucrul în modul deconectat?"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1614
+#, fuzzy
+#| msgid "Outbox"
+msgid "Fl_ush Outbox"
+msgstr "Netrimise"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1621
+#, fuzzy
+#| msgid "Copy Folder To"
+msgid "_Copy Folder To…"
+msgstr "Copiază dosarul în"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1623
+#, fuzzy
+#| msgid "Copy selected messages to another folder"
+msgid "Copy the selected folder into another folder"
+msgstr "Copiază mesajele selectate în alt dosar"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1630
+msgid "Permanently remove this folder"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1635
+msgid "Edit Sort _Order…"
+msgstr "Editează _ordinea de sortare…"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1637
+#, fuzzy
+#| msgid "Move folder in folder tree."
+msgid "Change sort order of the folders in the folder tree"
+msgstr "Mută dosarul în arborele de dosare."
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1642
+#, fuzzy
+#| msgid "_Expunge"
+msgid "E_xpunge"
+msgstr "Ș_terge definitiv"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1644
+#, fuzzy
+#| msgid "Are you sure you want to permanently remove all the deleted messages in all folders?"
+msgid "Permanently remove all deleted messages from this folder"
+msgstr "Sigur doriți să eliminați permanent toate mesajele șterse anterior din toate dosarele?"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1649 ../src/modules/mail/e-mail-shell-view-actions.c:1741
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Mark selected messages as read"
+msgid "Mar_k All Messages as Read"
+msgstr "Marchează mesajele selectate ca citite"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1651 ../src/modules/mail/e-mail-shell-view-actions.c:1743
+#, fuzzy
+#| msgid "Moving messages into folder %s"
+msgid "Mark all messages in the folder as read"
+msgstr "Se mută mesajele în dosarul %s"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1656
+#, fuzzy
+#| msgid "Move Folder To"
+msgid "_Move Folder To…"
+msgstr "Mută dosarul în"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1658
+#, fuzzy
+#| msgid "Move selected messages to another folder"
+msgid "Move the selected folder into another folder"
+msgstr "Mută mesajele selectate în alt dosar"
+
+#. Translators: An action caption to create a new mail folder
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1664
+#, fuzzy
+#| msgctxt "category"
+#| msgid "_New"
+msgid "_New…"
+msgstr "_Nou"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1666
+msgid "Create a new folder for storing mail"
+msgstr "Creează un dosar nou pentru a stoca mail"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1673
+#, fuzzy
+#| msgid "There are no messages in this folder."
+msgid "Change the properties of this folder"
+msgstr "Nu există mesaje în acest dosar."
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1680
+#, fuzzy
+#| msgid "Refresh the folder list"
+msgid "Refresh the folder"
+msgstr "Actualizează lista de dosare"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1687
+#, fuzzy
+#| msgid "There are no messages in this folder."
+msgid "Change the name of this folder"
+msgstr "Nu există mesaje în acest dosar."
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1692
+#, fuzzy
+#| msgid "All Message _Headers"
+msgid "Select Message _Thread"
+msgstr "Toate a_ntetele mesajului"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1694
+#, fuzzy
+#| msgid "Delete the note for the selected message"
+msgid "Select all messages in the same thread as the selected message"
+msgstr "Șterge nota pentru mesajul selectat"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1699
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Mark selected messages as unread"
+msgid "Select Message S_ubthread"
+msgstr "Marchează mesajele selectate ca necitite"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1701
+#, fuzzy
+#| msgid "Compose a reply to the sender of the selected message"
+msgid "Select all replies to the currently selected message"
+msgstr "Compune un răspuns pentru expeditorul acestui mesaj"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1713
+msgid "Empty _Trash"
+msgstr "Golește coșul de _gunoi"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1715
+#, fuzzy
+#| msgid "Are you sure you want to permanently remove all the deleted messages in all folders?"
+msgid "Permanently remove all the deleted messages from all accounts"
+msgstr "Sigur doriți să eliminați permanent toate mesajele șterse anterior din toate dosarele?"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1720
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Go to folder"
+msgid "Go to _Folder"
+msgstr "Navighează la dosar"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1722
+#, fuzzy
+#| msgid "Click here to select folders to post to"
+msgid "Opens a dialog to select a folder to go to"
+msgstr "Clic aici pentru alegerea dosarelor pentru postare"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1734
+#, fuzzy
+#| msgid "Folder Subscriptions"
+msgid "_Manage Subscriptions"
+msgstr "Abonamente dosare"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1736 ../src/modules/mail/e-mail-shell-view-actions.c:1820
+msgid "Subscribe or unsubscribe to folders on remote servers"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1748 ../src/modules/mail/e-mail-shell-view-actions.c:1769
+#, fuzzy
+#| msgid "Send & Receive Mail"
+msgid "Send / _Receive"
+msgstr "Trimitere și primire email-uri"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1750
+msgid "Send queued items and retrieve new items"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1755
+#, fuzzy
+#| msgid "Received"
+msgid "R_eceive All"
+msgstr "Primit"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1757
+msgid "Receive new items from all accounts"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1762
+#, fuzzy
+#| msgid "_Send"
+msgid "_Send All"
+msgstr "_Trimite"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1764
+msgid "Send queued items in all accounts"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1792
+msgid "Cancel the current mail operation"
+msgstr "Anulează operația de mail curentă"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1797
+msgid "Collapse All _Threads"
+msgstr "Restrânge _toate firele"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1799
+msgid "Collapse all message threads"
+msgstr "Restrânge toate firele de mesaje"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1804
+#, fuzzy
+#| msgid "E_xpand All"
+msgid "E_xpand All Threads"
+msgstr "E_xtinde toate"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1806
+#, fuzzy
+#| msgid "Show all message headers"
+msgid "Expand all message threads"
+msgstr "Arată toate anteturile mesajului"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1811
+#, fuzzy
+#| msgid "Message Filters"
+msgid "_Message Filters"
+msgstr "Filtre mesaje"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1813
+#, fuzzy
+#| msgid "Create a Filter Rule for Mailing _List…"
+msgid "Create or edit rules for filtering new mail"
+msgstr "Creează o regulă de filtrare pentru _lista de discuții…"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1818
+msgid "_Subscriptions…"
+msgstr "_Abonamente…"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1827
+#, fuzzy
+#| msgid "Add Folder"
+msgid "F_older"
+msgstr "Adaută dosar"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1844
+#, fuzzy
+#| msgid "Create a Search Folder from Sen_der…"
+msgid "C_reate Search Folder From Search…"
+msgstr "Creează un dosar de căutare din expe_ditor…"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1851
+#, fuzzy
+#| msgid "Search Folders"
+msgid "Search F_olders"
+msgstr "Dosare de căutare"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1853
+#, fuzzy
+#| msgid "Create a search folder for this mailing list"
+msgid "Create or edit search folder definitions"
+msgstr "Creează un dosar de căutare pentru această listă de discuții"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1896
+#, fuzzy
+#| msgid "_Move to Folder…"
+msgid "_New Folder…"
+msgstr "Mută în dosar…"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1924
+#, fuzzy
+#| msgid "Show a _reminder"
+msgid "Show Message _Preview"
+msgstr "Arată un _memento"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1926
+#, fuzzy
+#| msgid "Show memo preview pane"
+msgid "Show message preview pane"
+msgstr "Arată panoul de previzualizare a memo-urilor"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1932
+#, fuzzy
+#| msgid "Show Attachment Bar"
+msgid "Show _Attachment Bar"
+msgstr "Arată bara de atașamente"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1934
+#, fuzzy
+#| msgid "Show Attachment Bar below the message preview pane when the message has attachments."
+msgid "Show Attachment Bar below the message preview pane when the message has attachments"
+msgstr "Arată bara de atașamente sub panoul de previzualizare a mesajului când mesajul are atașamente."
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1940
+#, fuzzy
+#| msgid "_Delete Message"
+msgid "Show _Deleted Messages"
+msgstr "Ș_terge mesaj"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1942
+#, fuzzy
+#| msgid "Show deleted messages (with a strike-through) in the message-list."
+msgid "Show deleted messages with a line through them"
+msgstr "Arată mesajele șterse (cu o tăietură) în lista de mesaje."
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1948
+#, fuzzy
+#| msgid "_Open Messages"
+msgid "Show _Junk Messages"
+msgstr "_Deschide mesajele"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1950
+#, fuzzy
+#| msgid "Show junk messages (with a red strike-through) in the message-list."
+msgid "Show junk messages with a red line through them"
+msgstr "Arată mesajele spam (cu o tăietură roșie) în lista de mesaje."
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1956
+#, fuzzy
+#| msgid "Group By This _Field"
+msgid "_Group By Threads"
+msgstr "Grupează după acest _câmp"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1958
+#, fuzzy
+#| msgid "Forwarded messages"
+msgid "Threaded message list"
+msgstr "Mesaje înaintate"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1964
+msgid "Show To _Do Bar"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1966
+msgid "Show To Do bar with appointments and tasks"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1972
+msgid "_Unmatched Folder Enabled"
+msgstr ""
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1974
+#, fuzzy
+#| msgid "Toggles whether the Role field is displayed"
+msgid "Toggles whether Unmatched search folder is enabled"
+msgstr "Comută afișarea câmpului Rol"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:1994
+#, fuzzy
+#| msgid "Show memo preview below the memo list"
+msgid "Show message preview below the message list"
+msgstr "Arată previzualizarea de memo-uri sub lista de memo-uri"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2001
+#, fuzzy
+#| msgid "Show memo preview alongside the memo list"
+msgid "Show message preview alongside the message list"
+msgstr "Arată previzualizarea de memo-uri lângă lista de memo-uri"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2009
+msgid "All Messages"
+msgstr "Toate mesajele"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2016
+#, fuzzy
+#| msgid "Next _Important Message"
+msgid "Important Messages"
+msgstr "Următorul mesaj _important"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2023
+#, fuzzy
+#| msgid "Next 7 Days’ Tasks"
+msgid "Last 5 Days’ Messages"
+msgstr "Sarcinile pentru următoarele 7 zile"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2030
+#, fuzzy
+#| msgid "Message is not Junk"
+msgid "Messages Not Junk"
+msgstr "Mesajul nu este spam"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2037
+#, fuzzy
+#| msgid "Tasks with Attachments"
+msgid "Messages with Attachments"
+msgstr "Sarcini cu fișiere atașate"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2044
+#, fuzzy
+#| msgid "Message Note"
+msgid "Messages with Notes"
+msgstr "Notă mesaj"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2051
+#, fuzzy
+#| msgid "_New Label"
+msgid "No Label"
+msgstr "Etichetă _nouă"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2058
+#, fuzzy
+#| msgid "Messages"
+msgid "Read Messages"
+msgstr "Mesaje"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2065
+#, fuzzy
+#| msgid "Unread messages:"
+#| msgid_plural "Unread messages:"
+msgid "Unread Messages"
+msgstr "Mesaj necitit:"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2072
+#, fuzzy
+#| msgid "Message Header"
+msgid "Message Thread"
+msgstr "Antet mesaj"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2132
+#, fuzzy
+#| msgid "Subject or Addresses contains"
+msgid "Subject or Addresses contain"
+msgstr "Subiectul sau adresele conțin"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2142
+msgid "All Accounts"
+msgstr "Toate conturile"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2149
+msgid "Current Account"
+msgstr "Contul curent"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2156
+msgid "Current Folder"
+msgstr "Dosarul curent"
+
+#: ../src/modules/mail/e-mail-shell-view-actions.c:2163
+msgid "Current Folder and Subfolders"
+msgstr "Dosarul curent și subdosarele"
+
+#: ../src/modules/mail/e-mail-shell-view.c:995
+msgid "Current Folder and Subfolders Search"
+msgstr "Căutare prin dosarul curent și subdosarele"
+
+#: ../src/modules/mail/e-mail-shell-view.c:1117
+msgid "All Account Search"
+msgstr "Căutare prin toate conturile"
+
+#: ../src/modules/mail/e-mail-shell-view.c:1227
+msgid "Account Search"
+msgstr "Căutare prin cont"
+
+#: ../src/modules/mail/e-mail-shell-view-private.c:905
+#, fuzzy, c-format
+#| msgid "%d selected"
+msgid "%d selected, "
+msgid_plural "%d selected, "
+msgstr[0] "%d selectat"
+msgstr[1] "%d selectat"
+msgstr[2] "%d selectat"
+
+#: ../src/modules/mail/e-mail-shell-view-private.c:920 ../src/modules/mail/e-mail-shell-view-private.c:937
+#, fuzzy, c-format
+#| msgid "Deleted"
+msgid "%d deleted"
+msgid_plural "%d deleted"
+msgstr[0] "Șterse"
+msgstr[1] "Șterse"
+msgstr[2] "Șterse"
+
+#: ../src/modules/mail/e-mail-shell-view-private.c:951 ../src/modules/mail/e-mail-shell-view-private.c:957
+#, c-format
+msgid "%d junk"
+msgid_plural "%d junk"
+msgstr[0] "%d spam"
+msgstr[1] "%d spam-uri"
+msgstr[2] "%d de spam-uri"
+
+#: ../src/modules/mail/e-mail-shell-view-private.c:964
+#, fuzzy, c-format
+#| msgid "%d day"
+#| msgid_plural "%d days"
+msgid "%d draft"
+msgid_plural "%d drafts"
+msgstr[0] "%d zi"
+msgstr[1] "%d zile"
+msgstr[2] "%d de zile"
+
+#: ../src/modules/mail/e-mail-shell-view-private.c:970
+#, fuzzy, c-format
+#| msgid "%d unread, "
+#| msgid_plural "%d unread, "
+msgid "%d unsent"
+msgid_plural "%d unsent"
+msgstr[0] "%d necitit, "
+msgstr[1] "%d necitite, "
+msgstr[2] "%d necitite, "
+
+#: ../src/modules/mail/e-mail-shell-view-private.c:976
+#, fuzzy, c-format
+#| msgid "%d second"
+#| msgid_plural "%d seconds"
+msgid "%d sent"
+msgid_plural "%d sent"
+msgstr[0] "%d secundă"
+msgstr[1] "%d secunde"
+msgstr[2] "%d de secunde"
+
+#: ../src/modules/mail/e-mail-shell-view-private.c:993
+#, fuzzy, c-format
+#| msgid "%d unread, "
+#| msgid_plural "%d unread, "
+msgid "%d unread"
+msgid_plural "%d unread"
+msgstr[0] "%d necitit, "
+msgstr[1] "%d necitite, "
+msgstr[2] "%d necitite, "
+
+#: ../src/modules/mail/e-mail-shell-view-private.c:1511
+#, fuzzy
+#| msgid "Send & Receive Mail"
+msgid "Send / Receive"
+msgstr "Trimitere și primire email-uri"
+
+#: ../src/modules/mail/em-composer-prefs.c:420
+#, fuzzy
+#| msgid "Select Folder"
+msgid "Select Folder to Add"
+msgstr "Alege dosar"
+
+#: ../src/modules/mail/em-composer-prefs.c:896
+#, fuzzy
+#| msgid "Add Folder"
+msgid "Folder"
+msgstr "Adaută dosar"
+
+#: ../src/modules/mail/em-composer-prefs.c:932
+#, fuzzy
+#| msgid "Recipients"
+msgid "Recipient"
+msgstr "Destinatari"
+
+#: ../src/modules/mail/em-composer-prefs.c:1223
+#, fuzzy
+#| msgid "_Save to Outbox"
+msgid "Keep in Outbox"
+msgstr "_Salvează în Netrimise"
+
+#: ../src/modules/mail/em-composer-prefs.c:1224
+msgid "Send immediately"
+msgstr "Trimite imediat"
+
+#: ../src/modules/mail/em-composer-prefs.c:1225
+#, fuzzy
+#| msgid "15 minutes"
+msgid "Send after 5 minutes"
+msgstr "15 minute"
+
+#: ../src/modules/mail/em-composer-prefs.c:1310
+#, fuzzy
+#| msgid "_Languages"
+msgid "Language(s)"
+msgstr "_Limbi"
+
+#: ../src/modules/mail/em-composer-prefs.c:1340
+msgid "Same as user interface"
+msgstr "La fel ca interfața cu utilizatorul"
+
+#: ../src/modules/mail/em-mailer-prefs.c:77
+msgid "On exit, every time"
+msgstr ""
+
+#: ../src/modules/mail/em-mailer-prefs.c:78
+msgid "Once per day"
+msgstr "O dată pe zi"
+
+#: ../src/modules/mail/em-mailer-prefs.c:79
+msgid "Once per week"
+msgstr "O dată pe săptămână"
+
+#: ../src/modules/mail/em-mailer-prefs.c:80
+msgid "Once per month"
+msgstr "O dată pe lună"
+
+#: ../src/modules/mail/em-mailer-prefs.c:81
+msgid "Immediately, on folder leave"
+msgstr ""
+
+#: ../src/modules/mail/em-mailer-prefs.c:436
+#, fuzzy
+#| msgid "Headers"
+msgid "Header"
+msgstr "Anteturi"
+
+#: ../src/modules/mail/em-mailer-prefs.c:440
+#, fuzzy
+#| msgid "contains"
+msgid "Contains Value"
+msgstr "conține"
+
+#. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
+#: ../src/modules/mail/em-mailer-prefs.c:1699
+msgid "_Date header:"
+msgstr "Antet de _dată:"
+
+#: ../src/modules/mail/em-mailer-prefs.c:1700
+#, fuzzy
+#| msgid "Show original “Date” header value."
+msgid "Show _original header value"
+msgstr "Arată valoarea originală a antetului „Dată”."
+
+#: ../src/modules/mailto-handler/evolution-mailto-handler.c:112
+msgid "Do _not change settings"
+msgstr "_Nu modifica configurările"
+
+#: ../src/modules/mailto-handler/evolution-mailto-handler.c:113
+#, fuzzy
+#| msgid "Mark as default memo list"
+msgid "_Set as default email client"
+msgstr "Marchează ca listă de memo-uri implicită"
+
+#: ../src/modules/mailto-handler/evolution-mailto-handler.c:138
+msgid "Do you want to make Evolution your default email client?"
+msgstr ""
+
+#. Translators: First %s is an email address, second %s
+#. * is the subject of the email, third %s is the date.
+#: ../src/modules/mdn/evolution-mdn.c:308
+#, c-format
+msgid ""
+"Your message to %s about “%s” on %s has been displayed. This is no guarantee that the message has been read or understood."
+msgstr ""
+
+#. Translators: %s is the subject of the email message This text is used as
+#. a subject of a delivery notification email (basically a notification, that
+#. the user did read (or better displayed) the message).
+#: ../src/modules/mdn/evolution-mdn.c:376
+#, fuzzy, c-format
+#| msgctxt "reply-attribution"
+#| msgid "Re: %s"
+msgid "Read: %s"
+msgstr "Rs: %s"
+
+#: ../src/modules/mdn/evolution-mdn.c:542
+#, fuzzy, c-format
+#| msgid "Saving image to “%s”"
+msgid "Send a read receipt to “%s”"
+msgstr "Se salvează imaginea în „%s”"
+
+#. name doesn't matter
+#: ../src/modules/mdn/evolution-mdn.c:547
+#, fuzzy
+#| msgid "By Se_nder"
+msgid "_Notify Sender"
+msgstr "După _expeditor"
+
+#: ../src/modules/mdn/evolution-mdn.error.xml.h:1
+msgid "Sender wants to be notified when you have read this message."
+msgstr ""
+
+#: ../src/modules/mdn/evolution-mdn.error.xml.h:2
+msgid "Sender has been notified that you have read this message."
+msgstr ""
+
+#: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:1
+#, fuzzy
+#| msgid "Evolution is currently offline.  Click this button to work online."
+msgid "Evolution is currently offline."
+msgstr "Evolution este momentan deconectat.  Clic pe acest buton pentru a lucra în modul conectat."
+
+#: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:2
+msgid "Click “Work Online” to return to online mode."
+msgstr ""
+
+#: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:3
+#, fuzzy
+#| msgid "Evolution is currently offline because the network is unavailable."
+msgid "Evolution is currently offline due to a network outage."
+msgstr "Evolution este momentan deconectat deoarece rețeaua nu este disponibilă."
+
+#: ../src/modules/offline-alert/evolution-offline-alert.error.xml.h:4
+#, fuzzy
+#| msgid "Evolution is currently offline because the network is unavailable."
+msgid "Evolution will return to online mode once a network connection is established."
+msgstr "Evolution este momentan deconectat deoarece rețeaua nu este disponibilă."
+
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:65
+msgid "Author(s)"
+msgstr "Autor(i)"
+
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:303
+#, fuzzy
+#| msgid "Manager"
+msgid "Plugin Manager"
+msgstr "Manager"
+
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:318
+msgid "Note: Some changes will not take effect until restart"
+msgstr ""
+
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:346
+#, fuzzy
+#| msgid "Review"
+msgid "Overview"
+msgstr "Examinare"
+
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:415 ../src/modules/plugin-manager/evolution-plugin-manager.c:498
+msgid "Plugin"
+msgstr "Modul"
+
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:536
+msgid "_Plugins"
+msgstr "_Module"
+
+#: ../src/modules/plugin-manager/evolution-plugin-manager.c:537
+msgid "Enable and disable plugins"
+msgstr "Activează și dezactivează module"
+
+#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:138
+#, fuzzy
+#| msgid "Display part as an invitation"
+msgid "Display plain text version"
+msgstr "Afișează partea ca o invitație"
+
+#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:140
+#, fuzzy
+#| msgid "Display the next important message"
+msgid "Display plain text version of multipart/alternative message"
+msgstr "Afișează următorul mesaj important"
+
+#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:146
+msgid "Display HTML version"
+msgstr "Afișează versiunea HTML"
+
+#: ../src/modules/prefer-plain/e-mail-display-popup-prefer-plain.c:148
+#, fuzzy
+#| msgid "Display the previous important message"
+msgid "Display HTML version of multipart/alternative message"
+msgstr "Afișează mesajul precedent important"
+
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:77 ../src/modules/prefer-plain/plugin/config-ui.c:35
+msgid "Show HTML if present"
+msgstr "Arată HTML-ul dacă este prezent"
+
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:78 ../src/modules/prefer-plain/plugin/config-ui.c:36
+msgid "Let Evolution choose the best part to show."
+msgstr ""
+
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:81 ../src/modules/prefer-plain/plugin/config-ui.c:39
+msgid "Show plain text if present"
+msgstr "Arată textul simplu dacă este prezent"
+
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:82 ../src/modules/prefer-plain/plugin/config-ui.c:40
+msgid "Show plain text part, if present, otherwise let Evolution choose the best part to show."
+msgstr ""
+
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:86 ../src/modules/prefer-plain/plugin/config-ui.c:44
+msgid "Show plain text if present, or HTML source"
+msgstr "Arată textul simplu dacă este prezent, sau sursa HTML"
+
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:87 ../src/modules/prefer-plain/plugin/config-ui.c:45
+msgid "Show plain text part, if present, otherwise the HTML part source."
+msgstr ""
+
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:91 ../src/modules/prefer-plain/plugin/config-ui.c:49
+#, fuzzy
+#| msgid "Format part as plain text"
+msgid "Only ever show plain text"
+msgstr "Formatează partea ca text simplu"
+
+#: ../src/modules/prefer-plain/e-mail-parser-prefer-plain.c:92 ../src/modules/prefer-plain/plugin/config-ui.c:50
+msgid "Always show plain text part and make attachments from other parts, if requested."
+msgstr ""
+
+#: ../src/modules/prefer-plain/plugin/config-ui.c:101
+msgid "Show s_uppressed HTML parts as attachments"
+msgstr ""
+
+#: ../src/modules/prefer-plain/plugin/config-ui.c:123
+#, fuzzy
+#| msgid "HTML file"
+msgid "HTML _Mode"
+msgstr "Fișier HTML"
+
+#: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:1
+#, fuzzy
+#| msgid "Plain Text"
+msgid "Prefer Plain Text"
+msgstr "Text simplu"
+
+#. but then we also need to create our own section frame
+#: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:3
+#, fuzzy
+#| msgid "Plain Text"
+msgid "Plain Text Mode"
+msgstr "Text simplu"
+
+#: ../src/modules/prefer-plain/plugin/org-gnome-prefer-plain.eplug.xml.h:4
+msgid "View mail messages as plain text, even if they contain HTML content."
+msgstr ""
+
+#: ../src/modules/spamassassin/evolution-spamassassin.c:188
+#, fuzzy, c-format
+#| msgid "Failed to spawn Bogofilter (%s): "
+msgid "Failed to spawn SpamAssassin (%s): "
+msgstr "Eroare la rularea Bogofiltrului (%s): "
+
+#: ../src/modules/spamassassin/evolution-spamassassin.c:211
+#, fuzzy
+#| msgid "Failed to stream mail message content to Bogofilter: "
+msgid "Failed to stream mail message content to SpamAssassin: "
+msgstr "Nu s-a putut transmite conținutul mesajului către Bogofilter: "
+
+#: ../src/modules/spamassassin/evolution-spamassassin.c:230
+#, c-format
+msgid "Failed to write “%s” to SpamAssassin: "
+msgstr ""
+
+#: ../src/modules/spamassassin/evolution-spamassassin.c:258
+#, fuzzy
+#| msgid "Failed to remove attachments from messages."
+msgid "Failed to read output from SpamAssassin: "
+msgstr "Eșec la eliminarea fișierelor atașate din mesaje."
+
+#: ../src/modules/spamassassin/evolution-spamassassin.c:313
+#, fuzzy
+#| msgid "Bogofilter either crashed or failed to process a mail message"
+msgid "SpamAssassin either crashed or failed to process a mail message"
+msgstr "Bogofilter fie s-a terminat cu o eroare, fie nu a reușit să proceseze mesajul email"
+
+#: ../src/modules/spamassassin/evolution-spamassassin.c:536
+#, fuzzy
+#| msgid "Send Options"
+msgid "SpamAssassin Options"
+msgstr "Opțiuni trimitere"
+
+#: ../src/modules/spamassassin/evolution-spamassassin.c:551
+#, fuzzy
+#| msgid "I_nclude threads:"
+msgid "I_nclude remote tests"
+msgstr "I_nclude firele de discuție:"
+
+#: ../src/modules/spamassassin/evolution-spamassassin.c:565
+#, fuzzy
+#| msgid "This will mark all messages as read in the selected folder."
+msgid "This will make SpamAssassin more reliable, but slower."
+msgstr "Acest lucru va marca toate mesajele ca citite în dosarul selectat."
+
+#: ../src/modules/spamassassin/evolution-spamassassin.c:740
+#: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:1
+msgid "SpamAssassin"
+msgstr "SpamAssassin"
+
+#: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:2
+#, fuzzy
+#| msgid "Junk filter using Bogofilter"
+msgid "Junk filter using SpamAssassin"
+msgstr "Filtrează spamuri folosind Bogofilter"
+
+#. Keep the title identical to EMailConfigImportPage
+#. * so it's only shown once in the assistant sidebar.
+#: ../src/modules/startup-wizard/e-mail-config-import-page.c:271
+#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:340
+#, fuzzy
+#| msgid "Importing mailbox"
+msgid "Importing Files"
+msgstr "Importare căsuță de email"
+
+#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:257
+#, fuzzy
+#| msgid "Cancelled."
+msgid "Import cancelled."
+msgstr "Anulată."
+
+#: ../src/modules/startup-wizard/e-mail-config-import-progress-page.c:274
+#, fuzzy
+#| msgctxt "ECompEditor"
+#| msgid "Percent complete:"
+msgid "Import complete."
+msgstr "Procent completat:"
+
+#: ../src/modules/startup-wizard/e-startup-assistant.c:186
+msgid ""
+"Welcome to Evolution.\n"
+"\n"
+"The next few screens will allow Evolution to connect to your email accounts, and to import files from other applications."
+msgstr ""
+
+#: ../src/modules/startup-wizard/e-startup-assistant.c:193
+#, fuzzy
+#| msgid "Do not show this message again"
+msgid "Do not _show this wizard again"
+msgstr "Nu mai arăta acest mesaj din nou"
+
+#. Translators: This is part of "Alternatively, you can %s (email, contacts and calendaring) instead." sentence from the same translation context.
+#: ../src/modules/startup-wizard/e-startup-assistant.c:206
+#, fuzzy
+#| msgid "New Collection Account"
+msgctxt "wizard-ca-note"
+msgid "create a collection account"
+msgstr "Contul colecție nou"
+
+#. Translators: The '%s' is replaced with "create a collection account" from the same translation context.
+#: ../src/modules/startup-wizard/e-startup-assistant.c:208
+#, c-format
+msgctxt "wizard-ca-note"
+msgid "Alternatively, you can %s (email, contacts and calendaring) instead."
+msgstr "Alternativ, puteți să %s (email, contacte și calendare) în schimb."
+
+#: ../src/modules/startup-wizard/evolution-startup-wizard.c:212
+#, fuzzy
+#| msgid "Looking up account details…"
+msgid "Loading accounts…"
+msgstr "Se verifică detaliile contului…"
+
+#: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:94
+#, fuzzy
+#| msgid "Format Column_s…"
+msgid "_Format as…"
+msgstr "Formatează coloan_e…"
+
+#: ../src/modules/text-highlight/e-mail-display-popup-text-highlight.c:102
+#, fuzzy
+#| msgid "_Languages"
+msgid "_Other languages"
+msgstr "_Limbi"
+
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:493
+msgid "Text Highlight"
+msgstr "Evidențiere text"
+
+#: ../src/modules/text-highlight/e-mail-formatter-text-highlight.c:494
+msgid "Syntax highlighting of mail parts"
+msgstr ""
+
+#: ../src/modules/text-highlight/languages.c:29
+#, fuzzy
+#| msgid "Plain Text"
+msgid "_Plain text"
+msgstr "Text simplu"
+
+#: ../src/modules/text-highlight/languages.c:35
+msgid "_Assembler"
+msgstr "_Asamblor"
+
+#: ../src/modules/text-highlight/languages.c:40
+msgid "_Bash"
+msgstr "_Bash"
+
+#: ../src/modules/text-highlight/languages.c:51
+msgid "_C/C++"
+msgstr "_C/C++"
+
+#: ../src/modules/text-highlight/languages.c:60
+msgid "_C#"
+msgstr "_C#"
+
+#: ../src/modules/text-highlight/languages.c:65
+msgid "_Cascade Style Sheet"
+msgstr "_Foaie în stil cascadă"
+
+#: ../src/modules/text-highlight/languages.c:78
+msgid "_Java"
+msgstr "_Java"
+
+#: ../src/modules/text-highlight/languages.c:84
+#, fuzzy
+#| msgid "Add _Script"
+msgid "_JavaScript"
+msgstr "Adaugă _script"
+
+#: ../src/modules/text-highlight/languages.c:90
+msgid "_Patch/diff"
+msgstr "_Petic/diff"
+
+#: ../src/modules/text-highlight/languages.c:96
+#, fuzzy
+#| msgid "_Personal"
+msgid "_Perl"
+msgstr "_Personal"
+
+#: ../src/modules/text-highlight/languages.c:107
+msgid "_PHP"
+msgstr "_PHP"
+
+#: ../src/modules/text-highlight/languages.c:120
+msgid "_Python"
+msgstr "_Python"
+
+#: ../src/modules/text-highlight/languages.c:125
+msgid "_Ruby"
+msgstr "_Ruby"
+
+#: ../src/modules/text-highlight/languages.c:132
+msgid "_Tcl/Tk"
+msgstr "_Tcl/Tk"
+
+#: ../src/modules/text-highlight/languages.c:138
+msgid "_TeX/LaTeX"
+msgstr "_TeX/LaTeX"
+
+#: ../src/modules/text-highlight/languages.c:144
+msgid "_Vala"
+msgstr "_Vala"
+
+#: ../src/modules/text-highlight/languages.c:149
+#, fuzzy
+#| msgid "Visual"
+msgid "_Visual Basic"
+msgstr "Vizual"
+
+#: ../src/modules/text-highlight/languages.c:156
+msgid "_XML"
+msgstr "_XML"
+
+#: ../src/modules/text-highlight/languages.c:174
+msgid "_ActionScript"
+msgstr "_ActionScript"
+
+#: ../src/modules/text-highlight/languages.c:179
+msgid "_ADA95"
+msgstr "_ADA95"
+
+#: ../src/modules/text-highlight/languages.c:186
+msgid "_ALGOL 68"
+msgstr "_ALGOL 68"
+
+#: ../src/modules/text-highlight/languages.c:191
+msgid "(_G)AWK"
+msgstr "(_G)AWK"
+
+#: ../src/modules/text-highlight/languages.c:196
+msgid "_COBOL"
+msgstr "_COBOL"
+
+#: ../src/modules/text-highlight/languages.c:201
+msgid "_DOS Batch"
+msgstr ""
+
+#: ../src/modules/text-highlight/languages.c:206
+msgid "_D"
+msgstr "_D"
+
+#: ../src/modules/text-highlight/languages.c:211
+msgid "_Erlang"
+msgstr "_Erlang"
+
+#: ../src/modules/text-highlight/languages.c:216
+msgid "_FORTRAN 77"
+msgstr "_FORTRAN 77"
+
+#: ../src/modules/text-highlight/languages.c:222
+msgid "_FORTRAN 90"
+msgstr "_FORTRAN 90"
+
+#: ../src/modules/text-highlight/languages.c:227
+msgid "_F#"
+msgstr "_F#"
+
+#: ../src/modules/text-highlight/languages.c:232
+#, fuzzy
+#| msgid "_No"
+msgid "_Go"
+msgstr "_Nu"
+
+#: ../src/modules/text-highlight/languages.c:237
+msgid "_Haskell"
+msgstr "_Haskell"
+
+#: ../src/modules/text-highlight/languages.c:242
+msgid "_JSP"
+msgstr "_JSP"
+
+#: ../src/modules/text-highlight/languages.c:247
+#, fuzzy
+#| msgid "_List:"
+msgid "_Lisp"
+msgstr "_Listă:"
+
+#: ../src/modules/text-highlight/languages.c:255
+msgid "_Lotus"
+msgstr "_Lotus"
+
+#: ../src/modules/text-highlight/languages.c:260
+msgid "_Lua"
+msgstr "_Lua"
+
+#: ../src/modules/text-highlight/languages.c:265
+msgid "_Maple"
+msgstr "_Maple"
+
+#: ../src/modules/text-highlight/languages.c:270
+msgid "_Matlab"
+msgstr "_Matlab"
+
+#: ../src/modules/text-highlight/languages.c:275
+msgid "_Maya"
+msgstr "_Maya"
+
+#: ../src/modules/text-highlight/languages.c:280
+msgid "_Oberon"
+msgstr "_Oberon"
+
+#: ../src/modules/text-highlight/languages.c:285
+#, fuzzy
+#| msgctxt "EmojiChooser"
+#| msgid "Objects"
+msgid "_Objective C"
+msgstr "Obiecte"
+
+#: ../src/modules/text-highlight/languages.c:291
+msgid "_OCaml"
+msgstr "_OCaml"
+
+#: ../src/modules/text-highlight/languages.c:296
+msgid "_Octave"
+msgstr "_Octave"
+
+#: ../src/modules/text-highlight/languages.c:301
+msgid "_Object Script"
+msgstr "_Object Script"
+
+#: ../src/modules/text-highlight/languages.c:306
+#, fuzzy
+#| msgid "_Paste"
+msgid "_Pascal"
+msgstr "Li_pește"
+
+#: ../src/modules/text-highlight/languages.c:311
+msgid "_POV-Ray"
+msgstr "_POV-Ray"
+
+#: ../src/modules/text-highlight/languages.c:316
+#, fuzzy
+#| msgid "_Program:"
+msgid "_Prolog"
+msgstr "_Program:"
+
+#: ../src/modules/text-highlight/languages.c:321
+#, fuzzy
+#| msgid "_Row"
+msgid "_R"
+msgstr "_Rând"
+
+#: ../src/modules/text-highlight/languages.c:326
+msgid "_RPM Spec"
+msgstr "Spec _RPM"
+
+#: ../src/modules/text-highlight/languages.c:331
+msgid "_Scala"
+msgstr "_Scala"
+
+#: ../src/modules/text-highlight/languages.c:336
+msgid "_Smalltalk"
+msgstr "_Smalltalk"
+
+#: ../src/modules/text-highlight/languages.c:342
+msgid "_TCSH"
+msgstr "_TCSH"
+
+#: ../src/modules/text-highlight/languages.c:347
+msgid "_VHDL"
+msgstr "_VHDL"
+
+#: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:153
+msgid "Show F_ull vCard"
+msgstr ""
+
+#: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:183
+#, fuzzy
+#| msgid "Show Contacts"
+msgid "Show Com_pact vCard"
+msgstr "Arată contacte"
+
+#: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:205
+#, fuzzy
+#| msgid "Address book"
+msgid "Save _To Addressbook"
+msgstr "Agendă"
+
+#: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:228
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "\n"
+#| "Search for the Contact."
+msgid "There is one other contact."
+msgstr ""
+"\n"
+"\n"
+"Caută contactul."
+
+#. Translators: This will always be two or more.
+#: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:233
+#, c-format
+msgid "There is %d other contact."
+msgid_plural "There are %d other contacts."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:259
+msgid "Addressbook Contact"
+msgstr "Contact din agendă"
+
+#: ../src/modules/vcard-inline/e-mail-formatter-vcard.c:260
+#, fuzzy
+#| msgid "Display part as an invitation"
+msgid "Display the part as an addressbook contact"
+msgstr "Afișează partea ca o invitație"
+
+#: ../src/plugins/attachment-reminder/attachment-reminder.c:169
+msgid "_Do not show this message again."
+msgstr "_Nu mai arăta acest mesaj din nou."
+
+#: ../src/plugins/attachment-reminder/attachment-reminder.c:571 ../src/plugins/templates/templates.c:489
+msgid "Keywords"
+msgstr "Cuvinte cheie"
+
+#: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:1
+#, fuzzy
+#| msgctxt "iCalImp"
+#| msgid "has attachments"
+msgid "Message has no attachments"
+msgstr "are fișiere atașate"
+
+#: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
+msgid "Evolution has found some keywords that suggest that this message should contain an attachment, but cannot find one."
+msgstr ""
+
+#: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
+msgid "_Add Attachment..."
+msgstr "_Adaugă un atașament..."
+
+#: ../src/plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
+msgid "_Edit Message"
+msgstr "_Editează mesajul"
+
+#: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:1
+#, fuzzy
+#| msgid "Attachment Properties"
+msgid "Attachment Reminder"
+msgstr "Proprietăți fișier atașat"
+
+#: ../src/plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
+msgid "Reminds you when you forgot to add an attachment to a mail message."
+msgstr ""
+
+#: ../src/plugins/bbdb/bbdb.c:715 ../src/plugins/bbdb/bbdb.c:838 ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
+msgid "Automatic Contacts"
+msgstr "Contacte automate"
+
+#. Enable BBDB checkbox
+#: ../src/plugins/bbdb/bbdb.c:730
+#, fuzzy
+#| msgid "_Hide addresses when sending mail to this list"
+msgid "Create _address book entries when sending mails"
+msgstr "_Ascunde adresele când se trimit email-uri către această listă"
+
+#. File Under setting
+#: ../src/plugins/bbdb/bbdb.c:741
+#, fuzzy
+#| msgid "Set File under as “First Last”, instead of “Last, First”."
+msgid "Set File _under as “First Last”, instead of “Last, First”"
+msgstr "Stabilește Fișier sub ca „Primul Ultimul”, în loc de „Ultimul, Primul”."
+
+#: ../src/plugins/bbdb/bbdb.c:752
+#, fuzzy
+#| msgid "Address book to use for storing automatically synced contacts."
+msgid "Select Address book for Automatic Contacts"
+msgstr "Agenda de utilizat pentru stocarea automată a contactelor sincronizate."
+
+#: ../src/plugins/bbdb/bbdb.c:772
+#, fuzzy
+#| msgid "Instant Messaging"
+msgid "Instant Messaging Contacts"
+msgstr "Mesagerie instant"
+
+#. Enable Gaim Checkbox
+#: ../src/plugins/bbdb/bbdb.c:787
+msgid "_Synchronize contact info and images from Pidgin buddy list"
+msgstr ""
+
+#: ../src/plugins/bbdb/bbdb.c:797
+#, fuzzy
+#| msgid "Select Address Book"
+msgid "Select Address book for Pidgin buddy list"
+msgstr "Selectați agenda"
+
+#. Synchronize now button.
+#: ../src/plugins/bbdb/bbdb.c:813
+msgid "Synchronize with _buddy list now"
+msgstr ""
+
+#: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
+msgid "BBDB"
+msgstr "BBDB"
+
+#: ../src/plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
+msgid ""
+"Takes the gruntwork out of managing your address book.\n"
+"\n"
+"Automatically fills your address book with names and email addresses as you reply to messages.  Also fills in IM contact "
+"information from your buddy lists."
+msgstr ""
+
+#: ../src/plugins/dbx-import/dbx-importer.c:274
+#, fuzzy
+#| msgid "Importing Elm data"
+msgid "Importing Outlook Express data"
+msgstr "Import date Elm"
+
+#: ../src/plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
+msgid "Outlook DBX import"
+msgstr ""
+
+#: ../src/plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
+msgid "Outlook Express 5/6 personal folders (.dbx)"
+msgstr ""
+
+#: ../src/plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:3
+msgid "Import Outlook Express messages from DBX file"
+msgstr ""
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:292
+#, fuzzy
+#| msgid "Security:"
+msgctxt "email-custom-header-Security"
+msgid "Security:"
+msgstr "Securitate:"
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:296
+#, fuzzy
+#| msgid "Personal"
+msgctxt "email-custom-header-Security"
+msgid "Personal"
+msgstr "Personal"
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:297
+#, fuzzy
+#| msgctxt "Location"
+#| msgid "Unspecified"
+msgctxt "email-custom-header-Security"
+msgid "Unclassified"
+msgstr "Nespecificat"
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:298
+msgctxt "email-custom-header-Security"
+msgid "Protected"
+msgstr "Protejat"
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:299
+msgctxt "email-custom-header-Security"
+msgid "Confidential"
+msgstr "Confidențial"
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:300
+#, fuzzy
+#| msgid "Secret"
+msgctxt "email-custom-header-Security"
+msgid "Secret"
+msgstr "Secret"
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:301
+#, fuzzy
+#| msgid "Top Secret"
+msgctxt "email-custom-header-Security"
+msgid "Top secret"
+msgstr "Strict secret"
+
+#. Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
+#. * indicating the header will not be added to a mail message
+#: ../src/plugins/email-custom-header/email-custom-header.c:361
+#, fuzzy
+#| msgid "None"
+msgctxt "email-custom-header"
+msgid "None"
+msgstr "Fără"
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:538
+msgid "_Custom Header"
+msgstr "Antet _personalizat"
+
+#. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
+#: ../src/plugins/email-custom-header/email-custom-header.c:808
+msgid ""
+"The format for specifying a Custom Header key value is:\n"
+"Name of the Custom Header key values separated by “;”."
+msgstr ""
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:862
+msgid "Key"
+msgstr "Cheie"
+
+#: ../src/plugins/email-custom-header/email-custom-header.c:879 ../src/plugins/templates/templates.c:498
+msgid "Values"
+msgstr "Valori"
+
+#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:1
+msgid "Custom Header"
+msgstr "Antet personalizat"
+
+#. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
+#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
+#, fuzzy
+#| msgid "List of headers to show when viewing a message."
+msgid "Add custom headers to outgoing mail messages."
+msgstr "Listă de anteturi de arătat la vizualizarea unui mesaj."
+
+#: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:1
+msgid "Email Custom Header"
+msgstr "Antet personalizat de email"
+
+#: ../src/plugins/external-editor/external-editor.c:108
+msgid "Command to be executed to launch the editor: "
+msgstr ""
+
+#: ../src/plugins/external-editor/external-editor.c:109
+msgid ""
+"For XEmacs use “xemacs”\n"
+"For Vim use “gvim -f”"
+msgstr ""
+"Pentru XEmacs utilizați „xemacs”\n"
+"Pentru Vim utilizați „gvim -f”"
+
+#: ../src/plugins/external-editor/external-editor.c:119
+#, fuzzy
+#| msgid "Automatically launch when a new mail is edited"
+msgid "_Automatically launch when a new mail is edited"
+msgstr "Pornește automat la editarea unui nou email"
+
+#: ../src/plugins/external-editor/external-editor.c:489 ../src/plugins/external-editor/external-editor.c:491
+msgid "Compose in External Editor"
+msgstr "Compune în editorul extern"
+
+#: ../src/plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
+#, fuzzy
+#| msgid "Default External Editor"
+msgid "External Editor"
+msgstr "Editor extern implicit"
+
+#: ../src/plugins/external-editor/org-gnome-external-editor.eplug.xml.h:2
+#, fuzzy
+#| msgid "Open a window for composing a mail message"
+msgid "Use an external editor to compose plain-text mail messages."
+msgstr "Deschide o fereastră pentru a compune un mesaj nou"
+
+#: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:1
+msgid "Editor not launchable"
+msgstr ""
+
+#: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:2
+msgid "The external editor set in your plugin preferences cannot be launched. Try setting a different editor."
+msgstr ""
+
+#: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:3
+msgid "Cannot create Temporary File"
+msgstr "Nu se poate crea fișierul temporar"
+
+#: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:4
+msgid "Evolution is unable to create a temporary file to save your mail. Retry later."
+msgstr ""
+
+#: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:5
+msgid "External editor still running"
+msgstr ""
+
+#: ../src/plugins/external-editor/org-gnome-external-editor.error.xml.h:6
+msgid "The external editor is still running. The mail composer window cannot be closed as long as the editor is active."
+msgstr ""
+
+#: ../src/plugins/face/face.c:295
+#, fuzzy
+#| msgid "Select a File"
+msgid "Select a Face Picture"
+msgstr "Alegeți un fișier"
+
+#: ../src/plugins/face/face.c:389
+#, fuzzy
+#| msgid "Insert Face picture by default"
+msgid "_Insert Face picture by default"
+msgstr "Introdu implicit fotografia personală"
+
+#: ../src/plugins/face/face.c:402
+msgid "Load new _Face picture"
+msgstr ""
+
+#: ../src/plugins/face/face.c:446
+#, fuzzy
+#| msgid "Choose Background Image"
+msgid "Change Face Image"
+msgstr "Alegeți imaginea de fundal"
+
+#: ../src/plugins/face/face.c:534
+#, fuzzy
+#| msgid "I_nclude threads:"
+msgid "Include _Face"
+msgstr "I_nclude firele de discuție:"
+
+#: ../src/plugins/face/org-gnome-face.eplug.xml.h:2
+msgid "Attach a small picture of your face to outgoing messages."
+msgstr ""
+
+#: ../src/plugins/face/org-gnome-face.error.xml.h:1
+msgid "Failed Read"
+msgstr ""
+
+#: ../src/plugins/face/org-gnome-face.error.xml.h:2
+#, fuzzy
+#| msgid "User name cannot be empty"
+msgid "The file cannot be read"
+msgstr "Numele de utilizator nu poate fi gol"
+
+#: ../src/plugins/face/org-gnome-face.error.xml.h:3
+#, fuzzy
+#| msgid "Invalid Date Value"
+msgid "Invalid Image Size"
+msgstr "Valoare nevalidă pentru dată"
+
+#: ../src/plugins/face/org-gnome-face.error.xml.h:4
+msgid "Please select a PNG image of size 48 × 48 pixels, whose file size doesn’t exceed 723 bytes."
+msgstr ""
+
+#: ../src/plugins/face/org-gnome-face.error.xml.h:5
+msgid "Incorrect Face Image Byte Size"
+msgstr ""
+
+#: ../src/plugins/face/org-gnome-face.error.xml.h:6
+msgid ""
+"The Face image size is {0} bytes, while it should not be more than 723 bytes. Please select a PNG image of size 48 × 48 "
+"pixels, whose file size doesn’t exceed 723 bytes."
+msgstr ""
+
+#: ../src/plugins/face/org-gnome-face.error.xml.h:7
+#, fuzzy
+#| msgid "_No image"
+msgid "Not an image"
+msgstr "Fără imagi_ne"
+
+#: ../src/plugins/face/org-gnome-face.error.xml.h:8
+msgid "The file you selected does not look like a valid PNG image. Error: {0}"
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:417
+msgid "Get List _Archive"
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:419
+msgid "Get an archive of the list this message belongs to"
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:424
+#, fuzzy
+#| msgid "_Message Source"
+msgid "Copy _Message Archive URL"
+msgstr "Sursă _mesaj"
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:426
+#, fuzzy
+#| msgid "Edit a note for the selected message"
+msgid "Copy direct URL for the selected message in its archive"
+msgstr "Editează o notă pentru mesajul selectat"
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:431
+#, fuzzy
+#| msgid "Personal Information"
+msgid "Get List _Usage Information"
+msgstr "Informații personale"
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:433
+msgid "Get information about the usage of the list this message belongs to"
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:438
+#, fuzzy
+#| msgid "Contact List: "
+msgid "Contact List _Owner"
+msgstr "Listă contacte: "
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:440
+#, fuzzy
+#| msgid "Compose a reply to the mailing list of the selected message"
+msgid "Contact the owner of the mailing list this message belongs to"
+msgstr "Compune un mesaj pentru lista de email a mesajului selectat"
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:445
+#, fuzzy
+#| msgid "_Send Message to List"
+msgid "_Post Message to List"
+msgstr "Trimite me_saj la listă"
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:447
+#, fuzzy
+#| msgid "Compose a reply to the mailing list of the selected message"
+msgid "Post a message to the mailing list this message belongs to"
+msgstr "Compune un mesaj pentru lista de email a mesajului selectat"
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:452
+#, fuzzy
+#| msgid "_Subscribe"
+msgid "_Subscribe to List"
+msgstr "_Abonează-mă"
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:454
+#, fuzzy
+#| msgid "Compose a reply to the mailing list of the selected message"
+msgid "Subscribe to the mailing list this message belongs to"
+msgstr "Compune un mesaj pentru lista de email a mesajului selectat"
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:459
+#, fuzzy
+#| msgid "Unsubscribe From _All"
+msgid "_Unsubscribe from List"
+msgstr "Dezabonează-mă de la _toate"
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:461
+msgid "Unsubscribe from the mailing list this message belongs to"
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/mailing-list-actions.c:468
+#, fuzzy
+#| msgid "Mailing list"
+msgid "Mailing _List"
+msgstr "Listă de discuții"
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
+#, fuzzy
+#| msgid "Mailing list"
+msgid "Mailing List Actions"
+msgstr "Listă de discuții"
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
+msgid "Perform common mailing list actions (subscribe, unsubscribe, etc.)."
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
+msgid "Action not available"
+msgstr "Acțiunea nu este disponibilă"
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:2
+msgid "This message does not contain the header information required for this action."
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:3
+msgid "Posting not allowed"
+msgstr "Postarea nu este permisă"
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:4
+msgid ""
+"Posting to this mailing list is not allowed. Possibly, this is a read-only mailing list. Contact the list owner for "
+"details."
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
+#, fuzzy
+#| msgid "Send a mail message to this address"
+msgid "Send e-mail message to mailing list?"
+msgstr "Trimite un mesaj email către această adresă"
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
+msgid ""
+"An e-mail message will be sent to the URL “{0}”. You can either send the message automatically, or see and change it "
+"first.\n"
+"\n"
+"You should receive an answer from the mailing list shortly after the message has been sent."
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
+msgid "_Send message"
+msgstr "_Trimite mesajul"
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
+msgid "_Edit message"
+msgstr "_Editează mesajul"
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:11
+#, fuzzy
+#| msgid "Malformed external-body part"
+msgid "Malformed header"
+msgstr "Corpul extern al mesajului este malformat"
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:12
+msgid ""
+"The {0} header of this message is malformed and could not be processed.\n"
+"\n"
+"Header: {1}"
+msgstr ""
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:15
+#, fuzzy
+#| msgid "Log filter actions"
+msgid "No e-mail action"
+msgstr "Înregistrează acțiunile de filtrare"
+
+#: ../src/plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
+msgid ""
+"The action could not be performed. The header for this action did not contain any action that could be processed.\n"
+"\n"
+"Header: {0}"
+msgstr ""
+
+#. Translators: '%d' is the count of mails received.
+#: ../src/plugins/mail-notification/mail-notification.c:462
+#, fuzzy, c-format
+#| msgctxt "shortcut window"
+#| msgid "Send and receive messages"
+msgid "You have received %d new message."
+msgid_plural "You have received %d new messages."
+msgstr[0] "Trimite și primește mesaje"
+msgstr[1] "Trimite și primește mesaje"
+msgstr[2] "Trimite și primește mesaje"
+
+#. Translators: "From:" is preceding a new mail
+#. * sender address, like "From: user@example.com"
+#: ../src/plugins/mail-notification/mail-notification.c:471
+#, fuzzy, c-format
+#| msgid "From %s:"
+msgid "From: %s"
+msgstr "De la %s:"
+
+#. Translators: "Subject:" is preceding a new mail
+#. * subject, like "Subject: It happened again"
+#: ../src/plugins/mail-notification/mail-notification.c:485
+#, fuzzy, c-format
+#| msgid "Subject is %s"
+msgid "Subject: %s"
+msgstr "Subiectul este %s"
+
+#. Translators: %d is the count of mails received in addition
+#. * to the one displayed in this notification.
+#: ../src/plugins/mail-notification/mail-notification.c:501
+#, c-format
+msgid "(and %d more)"
+msgid_plural "(and %d more)"
+msgstr[0] "(și %d mai mult)"
+msgstr[1] "(și %d mai multe)"
+msgstr[2] "(și %d mai multe)"
+
+#: ../src/plugins/mail-notification/mail-notification.c:513
+#, fuzzy
+#| msgid "Restarting Evolution"
+msgid "New email in Evolution"
+msgstr "Se repornește Evolution"
+
+#. Translators: The '%s' is a mail
+#. * folder name.  (e.g. "Show Inbox")
+#: ../src/plugins/mail-notification/mail-notification.c:553
+#, c-format
+msgid "Show %s"
+msgstr "Arată %s"
+
+#: ../src/plugins/mail-notification/mail-notification.c:792
+#, fuzzy
+#| msgid "Play themed sound when new messages arrive, if not in beep mode."
+msgid "_Play sound when a new message arrives"
+msgstr "Redă sunet tematic la primirea de mesaje noi, dacă nu este în modul bip."
+
+#: ../src/plugins/mail-notification/mail-notification.c:824
+msgid "_Beep"
+msgstr "_Bip"
+
+#: ../src/plugins/mail-notification/mail-notification.c:837
+#, fuzzy
+#| msgid "Use sound theme"
+msgid "Use sound _theme"
+msgstr "Folosește teme audio"
+
+#: ../src/plugins/mail-notification/mail-notification.c:856
+#, fuzzy
+#| msgid "All files"
+msgid "Play _file:"
+msgstr "Toate fișierele"
+
+#: ../src/plugins/mail-notification/mail-notification.c:865
+#, fuzzy
+#| msgid "Select a sound file"
+msgid "Select sound file"
+msgstr "Selectați un fișier sunet"
+
+#: ../src/plugins/mail-notification/mail-notification.c:1014
+#, fuzzy
+#| msgid "Select the sources for reminder notification:"
+msgid "Select _accounts for which enable notifications:"
+msgstr "Selectați sursele pentru notificarea mementoului:"
+
+#: ../src/plugins/mail-notification/mail-notification.c:1176
+#: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
+#, fuzzy
+#| msgid "Return Notification"
+msgid "Mail Notification"
+msgstr "Notificare de întoarcere"
+
+#: ../src/plugins/mail-notification/mail-notification.c:1190
+#, fuzzy
+#| msgid "Notify new messages for Inbox only."
+msgid "Notify new messages for _Inbox only"
+msgstr "Notifică despre sosirea mesajelor noi în Inbox."
+
+#: ../src/plugins/mail-notification/mail-notification.c:1206
+#, fuzzy
+#| msgid "Enable audible notifications when new messages arrive."
+msgid "Show _notification when a new message arrives"
+msgstr "Activează notificări audio când noi mesaje sosesc."
+
+#: ../src/plugins/mail-notification/mail-notification.c:1224
+msgid "Accounts"
+msgstr "Conturi"
+
+#: ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
+#, fuzzy
+#| msgid "Generates a D-Bus message when new mail messages arrive."
+msgid "Notifies you when new mail messages arrive."
+msgstr "Generează un mesaj D-Bus atunci când primesc un mesaj nou."
+
+#. To Translators: The full sentence looks like: "Created from a mail by John Doe <john.doe@myco.example>"
+#: ../src/plugins/mail-to-task/mail-to-task.c:198
+#, c-format
+msgid "Created from a mail by %s"
+msgstr ""
+
+#. Translators: Dialog button to Cancel edit of an existing event/memo/task
+#: ../src/plugins/mail-to-task/mail-to-task.c:600
+msgctxt "mail-to-task"
+msgid "_Cancel"
+msgstr "_Anulează"
+
+#. Translators: Dialog button to Edit an existing event/memo/task
+#: ../src/plugins/mail-to-task/mail-to-task.c:602
+msgctxt "mail-to-task"
+msgid "_Edit"
+msgstr "_Editare"
+
+#. Translators: Dialog button to create a New event/memo/task
+#: ../src/plugins/mail-to-task/mail-to-task.c:604
+#, fuzzy
+#| msgctxt "category"
+#| msgid "_New"
+msgctxt "mail-to-task"
+msgid "_New"
+msgstr "_Nou"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:622
+#, c-format
+msgid "Selected calendar contains event “%s” already. Would you like to edit the old event?"
+msgstr ""
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:625
+#, c-format
+msgid "Selected task list contains task “%s” already. Would you like to edit the old task?"
+msgstr ""
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:628
+#, c-format
+msgid "Selected memo list contains memo “%s” already. Would you like to edit the old memo?"
+msgstr ""
+
+#. Translators: Note there are always more than 10 mails selected
+#: ../src/plugins/mail-to-task/mail-to-task.c:648
+#, c-format
+msgid "You have selected %d mails to be converted to events. Do you really want to add them all?"
+msgid_plural "You have selected %d mails to be converted to events. Do you really want to add them all?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. Translators: Note there are always more than 10 mails selected
+#: ../src/plugins/mail-to-task/mail-to-task.c:655
+#, c-format
+msgid "You have selected %d mails to be converted to tasks. Do you really want to add them all?"
+msgid_plural "You have selected %d mails to be converted to tasks. Do you really want to add them all?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. Translators: Note there are always more than 10 mails selected
+#: ../src/plugins/mail-to-task/mail-to-task.c:662
+#, c-format
+msgid "You have selected %d mails to be converted to memos. Do you really want to add them all?"
+msgid_plural "You have selected %d mails to be converted to memos. Do you really want to add them all?"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:683
+msgid "Do you wish to continue converting remaining mails?"
+msgstr ""
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:759
+msgid "[No Summary]"
+msgstr "[Fără rezumat]"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:772
+msgid "Invalid object returned from a server"
+msgstr ""
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:826
+#, c-format
+msgid "An error occurred during processing: %s"
+msgstr "A apărut o eroare în timpul procesării: %s"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:877
+#, c-format
+msgid "Cannot open calendar. %s"
+msgstr "Nu se poate deschide calendarul. %s"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:881
+msgid "Selected calendar is read only, thus cannot create event there. Select other calendar, please."
+msgstr ""
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:884
+msgid "Selected task list is read only, thus cannot create task there. Select other task list, please."
+msgstr ""
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:887
+msgid "Selected memo list is read only, thus cannot create memo there. Select other memo list, please."
+msgstr ""
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1328
+msgid "Create an _Appointment"
+msgstr "Creează o progr_amare nouă"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1330
+msgid "Create a new event from the selected message"
+msgstr "Creează un eveniment nou de la mesajul selectat"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1335
+msgid "Create a Mem_o"
+msgstr "Creează un nou mem_o"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1337
+msgid "Create a new memo from the selected message"
+msgstr "Creează un memo nou de la mesajul selectat"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1342
+msgid "Create a _Task"
+msgstr "Creează o _sarcină nouă"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1344
+msgid "Create a new task from the selected message"
+msgstr "Creează o sarcină nouă de la mesajul selectat"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1352
+msgid "Create a _Meeting"
+msgstr "Creează o nouă î_ntâlnire"
+
+#: ../src/plugins/mail-to-task/mail-to-task.c:1354
+msgid "Create a new meeting from the selected message"
+msgstr "Creează o întâlnire nouă de la mesajul selectat"
+
+#: ../src/plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
+#, fuzzy
+#| msgid "Mail to %s"
+msgid "Mail-to-Task"
+msgstr "Email către %s"
+
+#: ../src/plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
+#, fuzzy
+#| msgid "Convert mail messages to Unicode"
+msgid "Convert a mail message to a task."
+msgstr "Convertește mesajele email în Unicode"
+
+#: ../src/plugins/pst-import/org.gnome.Evolution-pst.metainfo.xml.in.h:1
+#: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
+msgid "Outlook PST import"
+msgstr ""
+
+#: ../src/plugins/pst-import/org.gnome.Evolution-pst.metainfo.xml.in.h:2
+#: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
+#, fuzzy
+#| msgid "Import mail from Pine."
+msgid "Import Outlook messages from PST file"
+msgstr "Importă emailuri din Pine."
+
+#: ../src/plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
+msgid "Outlook personal folders (.pst)"
+msgstr ""
+
+#: ../src/plugins/pst-import/pst-importer.c:551
+msgid "Destination folder:"
+msgstr "Dosarul de destinație:"
+
+#: ../src/plugins/pst-import/pst-importer.c:561
+msgid "_Address Book"
+msgstr "_Agendă"
+
+#: ../src/plugins/pst-import/pst-importer.c:566
+msgid "A_ppointments"
+msgstr "Programări"
+
+#: ../src/plugins/pst-import/pst-importer.c:576
+#, fuzzy
+#| msgid "Journal"
+msgid "_Journal entries"
+msgstr "Jurnal"
+
+#: ../src/plugins/pst-import/pst-importer.c:693
+#, fuzzy
+#| msgid "Importing Elm data"
+msgid "Importing Outlook data"
+msgstr "Import date Elm"
+
+#: ../src/plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
+#: ../src/plugins/publish-calendar/publish-calendar.c:138 ../src/plugins/publish-calendar/publish-calendar.c:145
+msgid "Calendar Publishing"
+msgstr "Publicarea calendarului"
+
+#: ../src/plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
+#, fuzzy
+#| msgid "Location"
+msgid "Locations"
+msgstr "Locație"
+
+#: ../src/plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:3
+#, fuzzy
+#| msgid "Preview the calendar to be printed"
+msgid "Publish calendars to the web."
+msgstr "Previzualizează calendar pentru tipărire"
+
+#: ../src/plugins/publish-calendar/publish-calendar.c:215 ../src/plugins/publish-calendar/publish-calendar.c:483
+#, c-format
+msgid "Could not open %s:"
+msgstr "Nu s-a putut deschide %s:"
+
+#: ../src/plugins/publish-calendar/publish-calendar.c:235
+#, c-format
+msgid "There was an error while publishing to %s:"
+msgstr ""
+
+#: ../src/plugins/publish-calendar/publish-calendar.c:241
+#, c-format
+msgid "Publishing to %s finished successfully"
+msgstr "Publicarea în %s s-a terminat cu succes"
+
+#: ../src/plugins/publish-calendar/publish-calendar.c:289
+#, c-format
+msgid "Mount of %s failed:"
+msgstr "Montarea a %s a eșuat:"
+
+#: ../src/plugins/publish-calendar/publish-calendar.c:788
+msgid "Are you sure you want to remove this location?"
+msgstr "Sigur doriți să eliminați această locație?"
+
+#. To Translators: This is shown to a user when creation of a new thread,
+#. * where the publishing should be done, fails. Basically, this shouldn't
+#. * ever happen, and if so, then something is really wrong.
+#: ../src/plugins/publish-calendar/publish-calendar.c:1098
+#, fuzzy
+#| msgid "Could not create message."
+msgid "Could not create publish thread."
+msgstr "Nu s-a putut crea mesajul."
+
+#: ../src/plugins/publish-calendar/publish-calendar.c:1108
+#, fuzzy
+#| msgid "iCalendar information"
+msgid "_Publish Calendar Information"
+msgstr "informație iCalendar"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:1
+msgid "iCal"
+msgstr "iCal"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:3
+#, fuzzy
+#| msgid "Free/Busy information"
+msgid "Free/Busy with Details"
+msgstr "Informație disponibil/ocupat"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:4
+msgid "Daily"
+msgstr "Zilnic"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:5
+#, fuzzy
+#| msgid "Week"
+msgid "Weekly"
+msgstr "Săptămână"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:6
+msgid "Manual (via Actions menu)"
+msgstr "Manual (via meniul Acțiuni)"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:10
+msgid "Secure FTP (SFTP)"
+msgstr "FTP sigur (SFTP)"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:11
+#, fuzzy
+#| msgid "Public"
+msgid "Public FTP"
+msgstr "Public"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:12
+msgid "FTP (with login)"
+msgstr "FTP (cu autentificare)"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:13
+msgid "Windows share"
+msgstr "Partajarea ferestrelor"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:14
+msgid "WebDAV (HTTP)"
+msgstr "WebDAV (HTTP)"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:15
+msgid "Secure WebDAV (HTTPS)"
+msgstr "WebDAV sigur (HTTPS)"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:16
+msgid "Custom Location"
+msgstr "Locație personalizată"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:18
+msgid "_Publish as:"
+msgstr "_Publică ca:"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:19
+msgid "Publishing _Frequency:"
+msgstr "_Frecvență de publicare:"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:20
+#, fuzzy
+#| msgid "Time _zone:"
+msgid "Time _duration:"
+msgstr "_Fus orar:"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:21
+msgid "Sources"
+msgstr "Surse"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:24
+#, fuzzy
+#| msgid "Server _Type:"
+msgid "Service _type:"
+msgstr "_Tip server:"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:26
+#, fuzzy
+#| msgid "_File"
+msgid "_File:"
+msgstr "_Fișier"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:28
+#, fuzzy
+#| msgid "Port:"
+msgid "P_ort:"
+msgstr "Port:"
+
+#: ../src/plugins/publish-calendar/publish-calendar.ui.h:32
+#, fuzzy
+#| msgid "Publishing Information"
+msgid "Publishing Location"
+msgstr "Publicarea de informații"
+
+#: ../src/plugins/publish-calendar/publish-format-fb.c:83 ../src/plugins/publish-calendar/publish-format-ical.c:102
+#, fuzzy, c-format
+#| msgid "Invalid folder URI “%s”"
+msgid "Invalid source UID “%s”"
+msgstr "URI-ul pentru dosarul „%s” nu este valid"
+
+#: ../src/plugins/publish-calendar/url-editor-dialog.c:542
+#, fuzzy
+#| msgid "Location"
+msgid "New Location"
+msgstr "Locație"
+
+#: ../src/plugins/publish-calendar/url-editor-dialog.c:544
+msgid "Edit Location"
+msgstr "Editează locația"
+
+#. Translators: the %F %T is the third argument for a
+#. * strftime function.  It lets you define the formatting
+#. * of the date in the csv-file.
+#: ../src/plugins/save-calendar/csv-format.c:154
+msgid "%F %T"
+msgstr "%F %T"
+
+#: ../src/plugins/save-calendar/csv-format.c:363
+msgid "Description List"
+msgstr "Listă de descriere"
+
+#: ../src/plugins/save-calendar/csv-format.c:364
+msgid "Categories List"
+msgstr "Listă de categorii"
+
+#: ../src/plugins/save-calendar/csv-format.c:365
+msgid "Comment List"
+msgstr "Listă de comentarii"
+
+#: ../src/plugins/save-calendar/csv-format.c:368
+msgid "Contact List"
+msgstr "Listă de contacte"
+
+#: ../src/plugins/save-calendar/csv-format.c:369
+msgid "Start"
+msgstr "Început"
+
+#: ../src/plugins/save-calendar/csv-format.c:370
+msgid "End"
+msgstr "Șfârșit"
+
+#: ../src/plugins/save-calendar/csv-format.c:371
+msgid "Due"
+msgstr "Scadent"
+
+#: ../src/plugins/save-calendar/csv-format.c:372
+#, fuzzy
+#| msgctxt "ECompEditor"
+#| msgid "Percent complete:"
+msgid "percent Done"
+msgstr "Procent completat:"
+
+#: ../src/plugins/save-calendar/csv-format.c:374
+#, fuzzy
+#| msgctxt "iCalImp"
+#| msgid "URL"
+msgid "URL"
+msgstr "URL"
+
+#: ../src/plugins/save-calendar/csv-format.c:375
+msgid "Attendees List"
+msgstr "Listă de participanți"
+
+#: ../src/plugins/save-calendar/csv-format.c:377
+#, fuzzy
+#| msgid "Last modified"
+msgid "Modified"
+msgstr "Ultima modificare"
+
+#: ../src/plugins/save-calendar/csv-format.c:537
+msgid "A_dvanced options for the CSV format"
+msgstr "Opțiuni a_vansate pentru formatul CSV"
+
+#: ../src/plugins/save-calendar/csv-format.c:545
+#, fuzzy
+#| msgid "Select all headers"
+msgid "Prepend a _header"
+msgstr "Selectează toate antetele"
+
+#: ../src/plugins/save-calendar/csv-format.c:554
+msgid "_Value delimiter:"
+msgstr ""
+
+#: ../src/plugins/save-calendar/csv-format.c:565
+msgid "_Record delimiter:"
+msgstr ""
+
+#: ../src/plugins/save-calendar/csv-format.c:576
+msgid "_Encapsulate values with:"
+msgstr ""
+
+#: ../src/plugins/save-calendar/csv-format.c:602
+msgid "Comma separated values (.csv)"
+msgstr "Valori separate prin virgulă (.csv)"
+
+#: ../src/plugins/save-calendar/ical-format.c:181 ../src/shell/e-shell-utils.c:172
+#, fuzzy
+#| msgid "iCalendar files (.ics)"
+msgid "iCalendar (.ics)"
+msgstr "Fișiere iCalendar (.ics)"
+
+#: ../src/plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
+#, fuzzy
+#| msgid "%d selected"
+msgid "Save Selected"
+msgstr "%d selectat"
+
+#: ../src/plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
+msgid "Save a calendar or task list to disk."
+msgstr "Salvează un calendar sau o listă de sarcini pe disc."
+
+#.
+#. * Translator: the %FT%T is the thirth argument for a strftime function.
+#. * It lets you define the formatting of the date in the rdf-file.
+#. * Also check out http://www.w3.org/2002/12/cal/tzd
+#. *
+#: ../src/plugins/save-calendar/rdf-format.c:145
+msgid "%FT%T"
+msgstr "%FT%T"
+
+#: ../src/plugins/save-calendar/rdf-format.c:373
+msgid "RDF (.rdf)"
+msgstr "RDF (.rdf)"
+
+#: ../src/plugins/save-calendar/save-calendar.c:116
+#, fuzzy
+#| msgid "Format:"
+msgid "_Format:"
+msgstr "Format:"
+
+#: ../src/plugins/save-calendar/save-calendar.c:183
+#, fuzzy
+#| msgid "Select destination"
+msgid "Select destination file"
+msgstr "Selectați destinația"
+
+#: ../src/plugins/save-calendar/save-calendar.c:186
+#, fuzzy
+#| msgid "Sa_ve As"
+msgid "_Save As"
+msgstr "Sal_vează ca"
+
+#: ../src/plugins/save-calendar/save-calendar.c:346
+#, fuzzy
+#| msgid "Rename the selected calendar"
+msgid "Save the selected calendar to disk"
+msgstr "Redenumește calendarul selectat"
+
+#: ../src/plugins/save-calendar/save-calendar.c:385
+#, fuzzy
+#| msgid "Rename the selected memo list"
+msgid "Save the selected memo list to disk"
+msgstr "Redenumește lista de memo-uri selectată"
+
+#: ../src/plugins/save-calendar/save-calendar.c:424
+#, fuzzy
+#| msgid "Rename the selected task list"
+msgid "Save the selected task list to disk"
+msgstr "Redenumește lista de sarcini selectată"
+
+#: ../src/plugins/templates/org-gnome-templates.eplug.xml.h:2
+msgid ""
+"Drafts based template plugin. You can use variables like $ORIG[subject], $ORIG[from], $ORIG[to], $ORIG[body], $ORIG[quoted-"
+"body] or $ORIG[reply-credits], which will be replaced by values from an email you are replying to."
+msgstr ""
+
+#: ../src/plugins/templates/templates.c:878
+#, fuzzy
+#| msgid "Saving message to Outbox."
+msgid "Saving message template"
+msgstr "Se salvează mesajul în dosarul Netrimise."
+
+#: ../src/plugins/templates/templates.c:899
+#, fuzzy
+#| msgid "Save as _Draft"
+msgid "Save as _Template"
+msgstr "Salvează ca _cioarnă"
+
+#: ../src/plugins/templates/templates.c:901
+#, fuzzy
+#| msgid "Save as draft"
+msgid "Save as Template"
+msgstr "Salvează ca ciornă"
+
+#: ../src/shell/e-shell.c:379
+#, fuzzy
+#| msgid "Preparing account “%s” for offline"
+msgid "Preparing to go offline…"
+msgstr "Se pregătește contul „%s” pentru lucrul în modul deconectat"
+
+#: ../src/shell/e-shell.c:408
+#, fuzzy
+#| msgid "Preparing account “%s” for offline"
+msgid "Preparing to go online…"
+msgstr "Se pregătește contul „%s” pentru lucrul în modul deconectat"
+
+#: ../src/shell/e-shell.c:519
+msgid "Preparing to quit"
+msgstr "Se pregătește de ieșire"
+
+#: ../src/shell/e-shell.c:525
+msgid "Preparing to quit…"
+msgstr "Se pregătește de ieșire…"
+
+#: ../src/shell/e-shell.c:1088
+#, fuzzy
+#| msgid "_Open Desktop Settings"
+msgid "Open _Settings"
+msgstr "_Deschide Configurări Desktop"
+
+#: ../src/shell/e-shell.c:1297
+msgid "Credentials are required to connect to the destination host."
+msgstr ""
+
+#: ../src/shell/e-shell-content.c:702 ../src/shell/e-shell-content.c:703
+#, fuzzy
+#| msgid "Search"
+msgid "Searches"
+msgstr "Caută"
+
+#: ../src/shell/e-shell-content.c:746
+#, fuzzy
+#| msgid "Search"
+msgid "Save Search"
+msgstr "Caută"
+
+#. Translators: The "Show:" label precedes a combo box that
+#. * allows the user to filter the current view.  Examples of
+#. * items that appear in the combo box are "Unread Messages",
+#. * "Important Messages", or "Active Appointments".
+#: ../src/shell/e-shell-searchbar.c:925
+msgid "Sho_w:"
+msgstr "_Arată:"
+
+#. Translators: This is part of the quick search interface.
+#. * example: Search: [_______________] in [ Current Folder ]
+#: ../src/shell/e-shell-searchbar.c:951
+#, fuzzy
+#| msgid "_Search:"
+msgid "Sear_ch:"
+msgstr "_Caută:"
+
+#. Translators: This is part of the quick search interface.
+#. * example: Search: [_______________] in [ Current Folder ]
+#: ../src/shell/e-shell-searchbar.c:1019
+msgid "i_n"
+msgstr "î_n"
+
+#: ../src/shell/e-shell-utils.c:169
+#, fuzzy
+#| msgid "vCard (.vcf, .gcrd)"
+msgid "vCard (.vcf)"
+msgstr "vCard (.vcf, .gcrd)"
+
+#: ../src/shell/e-shell-utils.c:195
+msgid "All Files (*)"
+msgstr "Toate fișierele (*)"
+
+#. The translator-credits string is for translators to list
+#. * per-language credits for translation, displayed in the
+#. * about dialog.
+#: ../src/shell/e-shell-utils.c:343
+msgid "translator-credits"
+msgstr "Florentina Mușat <emryslokadottir [at] gmail [dot] com>, 2020"
+
+#: ../src/shell/e-shell-utils.c:354
+msgid "Website"
+msgstr "Pagină web"
+
+#: ../src/shell/e-shell-view.c:295
+msgid "Saving user interface state"
+msgstr "Se salvează starea interfeței cu utilizatorul"
+
+#: ../src/shell/e-shell-window-actions.c:351
+msgid "Categories Editor"
+msgstr "Editor de categorii"
+
+#: ../src/shell/e-shell-window-actions.c:654
+msgid "Bug Buddy is not installed."
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:655
+msgid "Bug Buddy could not be run."
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:851
+msgid "Collect_ion Account"
+msgstr "Cont de colecț_are"
+
+#: ../src/shell/e-shell-window-actions.c:853
+msgid "Create a new collection account"
+msgstr "Creează un cont nou de colectare"
+
+#: ../src/shell/e-shell-window-actions.c:861
+msgid "_About"
+msgstr "_Despre"
+
+#: ../src/shell/e-shell-window-actions.c:863
+#, fuzzy
+#| msgid "Shutting down Evolution"
+msgid "Show information about Evolution"
+msgstr "Se închide Evolution"
+
+#: ../src/shell/e-shell-window-actions.c:868
+msgid "_Accounts"
+msgstr "_Conturi"
+
+#: ../src/shell/e-shell-window-actions.c:870
+#, fuzzy
+#| msgid "Configure Evolution"
+msgid "Configure Evolution Accounts"
+msgstr "Configurare Evolution"
+
+#: ../src/shell/e-shell-window-actions.c:875 ../src/shell/e-shell-window-actions.c:889
+msgid "_Close Window"
+msgstr "În_chide fereastra"
+
+#: ../src/shell/e-shell-window-actions.c:896
+msgid "_Contents"
+msgstr "_Conținut"
+
+#: ../src/shell/e-shell-window-actions.c:898
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Open the Evolution user guide"
+msgid "Open the Evolution User Guide"
+msgstr "Deschide ghidul de utilizare Evolution"
+
+#: ../src/shell/e-shell-window-actions.c:924
+#, fuzzy
+#| msgid "I_mport"
+msgid "I_mport…"
+msgstr "I_mport"
+
+#: ../src/shell/e-shell-window-actions.c:926
+#, fuzzy
+#| msgid "Import data and settings from _older programs"
+msgid "Import data from other programs"
+msgstr "Importă date și configurări din programe mai _vechi"
+
+#: ../src/shell/e-shell-window-actions.c:931
+#, fuzzy
+#| msgid "New Window"
+msgid "New _Window"
+msgstr "Fereastră nouă"
+
+#: ../src/shell/e-shell-window-actions.c:933
+msgid "Create a new window displaying this view"
+msgstr "Creează o fereastră nouă care afișează această vizualizare"
+
+#: ../src/shell/e-shell-window-actions.c:945
+msgid "Available Cate_gories"
+msgstr "Cate_gorii disponibile"
+
+#: ../src/shell/e-shell-window-actions.c:947
+#, fuzzy
+#| msgid "_Available Categories:"
+msgid "Manage available categories"
+msgstr "C_ategorii disponibile:"
+
+#: ../src/shell/e-shell-window-actions.c:959
+#, fuzzy
+#| msgid "Quit"
+msgid "_Quit"
+msgstr "Ieși"
+
+#: ../src/shell/e-shell-window-actions.c:961
+#, fuzzy
+#| msgid "Pipe to Program"
+msgid "Exit the program"
+msgstr "Prin pipe către programul"
+
+#: ../src/shell/e-shell-window-actions.c:966
+msgid "_Advanced Search…"
+msgstr "Căut_are avansată…"
+
+#: ../src/shell/e-shell-window-actions.c:968
+msgid "Construct a more advanced search"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:975
+msgid "Clear the current search parameters"
+msgstr "Curăță parametrii de căutare actuali"
+
+#: ../src/shell/e-shell-window-actions.c:980
+msgid "_Edit Saved Searches…"
+msgstr "_Editează căutările salvate…"
+
+#: ../src/shell/e-shell-window-actions.c:982
+#, fuzzy
+#| msgid "Manage your email, contacts and schedule"
+msgid "Manage your saved searches"
+msgstr "Administrează email-urile, contactele și întâlnirile"
+
+#: ../src/shell/e-shell-window-actions.c:989
+msgid "Click here to change the search type"
+msgstr "Click aici pentru modifica tipul de căutare"
+
+#: ../src/shell/e-shell-window-actions.c:994
+#, fuzzy
+#| msgid "Find Notes"
+msgid "_Find Now"
+msgstr "Caută note"
+
+#: ../src/shell/e-shell-window-actions.c:996
+#, fuzzy
+#| msgid "Find next occurrence of the current search string"
+msgid "Execute the current search parameters"
+msgstr "Găsește potrivirea următoare a căutării curente"
+
+#: ../src/shell/e-shell-window-actions.c:1001
+#, fuzzy
+#| msgid "Save as…"
+msgid "_Save Search…"
+msgstr "Salvează ca…"
+
+#: ../src/shell/e-shell-window-actions.c:1003
+#, fuzzy
+#| msgid "Save current changes"
+msgid "Save the current search parameters"
+msgstr "Salvează modicările curente"
+
+#: ../src/shell/e-shell-window-actions.c:1015
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Keyboard Shortcuts"
+msgid "_Keyboard Shortcuts"
+msgstr "Scurtături de tastatură"
+
+#: ../src/shell/e-shell-window-actions.c:1017
+#, fuzzy
+#| msgctxt "shortcut window"
+#| msgid "Keyboard Shortcuts"
+msgid "Show keyboard shortcuts"
+msgstr "Scurtături de tastatură"
+
+#: ../src/shell/e-shell-window-actions.c:1022
+msgid "Submit _Bug Report…"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1024
+msgid "Submit a bug report using Bug Buddy"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1029
+msgid "_Work Offline"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1031
+#, fuzzy
+#| msgid "Start in offline mode"
+msgid "Put Evolution into offline mode"
+msgstr "Pornește în mod deconectat"
+
+#: ../src/shell/e-shell-window-actions.c:1036
+#, fuzzy
+#| msgid "_Inline"
+msgid "_Work Online"
+msgstr "_Inclus"
+
+#: ../src/shell/e-shell-window-actions.c:1038
+#, fuzzy
+#| msgid "Evolution Pine importer"
+msgid "Put Evolution into online mode"
+msgstr "Importator Evolution pentru Pine"
+
+#: ../src/shell/e-shell-window-actions.c:1066
+msgid "Lay_out"
+msgstr "_Aranjament"
+
+#. Translators: This is a New menu item caption, under File->New
+#: ../src/shell/e-shell-window-actions.c:1074
+#, fuzzy
+#| msgctxt "category"
+#| msgid "_New"
+msgid "_New"
+msgstr "_Nou"
+
+#: ../src/shell/e-shell-window-actions.c:1081
+#, fuzzy
+#| msgid "_Search:"
+msgid "_Search"
+msgstr "_Caută:"
+
+#: ../src/shell/e-shell-window-actions.c:1088
+#, fuzzy
+#| msgid "Appearance"
+msgid "_Switcher Appearance"
+msgstr "Aparență"
+
+#: ../src/shell/e-shell-window-actions.c:1102
+#, fuzzy
+#| msgid "New Window"
+msgid "_Window"
+msgstr "Fereastră nouă"
+
+#: ../src/shell/e-shell-window-actions.c:1131
+msgid "Show _Menu Bar"
+msgstr "Arată bara de _meniu"
+
+#: ../src/shell/e-shell-window-actions.c:1133
+#, fuzzy
+#| msgid "Show Attachment Bar"
+msgid "Show the menu bar"
+msgstr "Arată bara de atașamente"
+
+#: ../src/shell/e-shell-window-actions.c:1139
+#, fuzzy
+#| msgid "Show Attachment _Bar"
+msgid "Show Side _Bar"
+msgstr "Arată _bara de atașamente"
+
+#: ../src/shell/e-shell-window-actions.c:1141
+#, fuzzy
+#| msgid "Close the find bar"
+msgid "Show the side bar"
+msgstr "Închide bara de căutare"
+
+#: ../src/shell/e-shell-window-actions.c:1147
+msgid "Show _Buttons"
+msgstr "Arată butoanele"
+
+#: ../src/shell/e-shell-window-actions.c:1149
+#, fuzzy
+#| msgctxt "ECompEditor"
+#| msgid "Show time as _busy"
+msgid "Show the switcher buttons"
+msgstr "Arată timpul ca _ocupat"
+
+#: ../src/shell/e-shell-window-actions.c:1155
+#, fuzzy
+#| msgid "Show Attachment Bar"
+msgid "Show _Status Bar"
+msgstr "Arată bara de atașamente"
+
+#: ../src/shell/e-shell-window-actions.c:1157
+#, fuzzy
+#| msgid "Show start up wizard"
+msgid "Show the status bar"
+msgstr "Arată asistentul la pornire"
+
+#: ../src/shell/e-shell-window-actions.c:1163
+#, fuzzy
+#| msgid "Show one day"
+msgid "Show _Tool Bar"
+msgstr "Arată o zi"
+
+#: ../src/shell/e-shell-window-actions.c:1165
+#, fuzzy
+#| msgid "Show Attachment Bar"
+msgid "Show the tool bar"
+msgstr "Arată bara de atașamente"
+
+#: ../src/shell/e-shell-window-actions.c:1187
+msgid "_Icons Only"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1189
+#, fuzzy
+#| msgid "Display Reminders window with _notifications"
+msgid "Display window buttons with icons only"
+msgstr "Afișează fereastra mementourilor cu _notificări"
+
+#: ../src/shell/e-shell-window-actions.c:1194
+#, fuzzy
+#| msgid "Text file"
+msgid "_Text Only"
+msgstr "Fișier text"
+
+#: ../src/shell/e-shell-window-actions.c:1196
+msgid "Display window buttons with text only"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1201
+msgid "Icons _and Text"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1203
+msgid "Display window buttons with icons and text"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1208
+#, fuzzy
+#| msgid "_Header Style"
+msgid "Tool_bar Style"
+msgstr "Stil antet"
+
+#: ../src/shell/e-shell-window-actions.c:1210
+msgid "Display window buttons using the desktop toolbar setting"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1218
+msgid "Delete Current View"
+msgstr "Șterge _vizualizarea curentă"
+
+#: ../src/shell/e-shell-window-actions.c:1225
+#, fuzzy
+#| msgid "Save Current View"
+msgid "Save Custom View…"
+msgstr "Salvează vizualizarea curentă"
+
+#: ../src/shell/e-shell-window-actions.c:1227
+#, fuzzy
+#| msgid "Save Current View"
+msgid "Save current custom view"
+msgstr "Salvează vizualizarea curentă"
+
+#: ../src/shell/e-shell-window-actions.c:1241
+msgid "C_urrent View"
+msgstr "Vizualizare c_urentă"
+
+#: ../src/shell/e-shell-window-actions.c:1251
+msgid "Custom View"
+msgstr "Vizualizare personalizată"
+
+#: ../src/shell/e-shell-window-actions.c:1253
+msgid "Current view is a customized view"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1261
+#, fuzzy
+#| msgid "Page…"
+msgid "Page Set_up…"
+msgstr "Pagină…"
+
+#: ../src/shell/e-shell-window-actions.c:1263
+msgid "Change the page settings for your current printer"
+msgstr ""
+
+#: ../src/shell/e-shell-window-actions.c:1633
+#, c-format
+msgid "Switch to %s"
+msgstr "Comută la %s"
+
+#: ../src/shell/e-shell-window-actions.c:1757
+#, fuzzy, c-format
+#| msgid "Select a file"
+msgid "Select view: %s"
+msgstr "Selectează un fișier"
+
+#: ../src/shell/e-shell-window-actions.c:1774
+#, c-format
+msgid "Delete view: %s"
+msgstr "Șterge vizualizarea: %s"
+
+#: ../src/shell/e-shell-window-actions.c:1884
+msgid "Execute these search parameters"
+msgstr ""
+
+#. Translators: a 'New' toolbar button caption which is context sensitive and
+#. runs one of the actions under File->New menu
+#: ../src/shell/e-shell-window.c:514
+#, fuzzy
+#| msgctxt "category"
+#| msgid "_New"
+msgctxt "toolbar-button"
+msgid "New"
+msgstr "_Nou"
+
+#. Translators: This is used for the main window title.
+#: ../src/shell/e-shell-window-private.c:826
+#, c-format
+msgid "%s — Evolution"
+msgstr "%s — Evolution"
+
+#. Preview/Alpha/Beta version warning message
+#: ../src/shell/main.c:192
+#, no-c-format
+msgid ""
+"Hi.  Thanks for taking the time to download this preview release\n"
+"of the Evolution groupware suite.\n"
+"\n"
+"This version of Evolution is not yet complete. It is getting close,\n"
+"but some features are either unfinished or do not work properly.\n"
+"\n"
+"If you want a stable version of Evolution, we urge you to uninstall\n"
+"this version, and install version %s instead.\n"
+"\n"
+"If you find bugs, please report them at\n"
+"https://gitlab.gnome.org/GNOME/evolution/issues/.\n"
+"This product comes with no warranty and is not intended for\n"
+"individuals prone to violent fits of anger.\n"
+"\n"
+"We hope that you enjoy the results of our hard work, and we\n"
+"eagerly await your contributions!\n"
+msgstr ""
+
+#: ../src/shell/main.c:217
+#, fuzzy
+#| msgid "The Evolution Team"
+msgid ""
+"Thanks\n"
+"The Evolution Team\n"
+msgstr "Echipa Evolution"
+
+#: ../src/shell/main.c:223
+msgid "Do not tell me again"
+msgstr "Nu îmi mai spune din nou"
+
+#. Translators: Do NOT translate the five component
+#. * names, they MUST remain in English!
+#: ../src/shell/main.c:325
+msgid ""
+"Start Evolution showing the specified component. Available options are “mail”, “calendar”, “contacts”, “tasks”, and “memos”"
+msgstr ""
+
+#: ../src/shell/main.c:329
+#, fuzzy
+#| msgid "Holds the width of the To Do bar for the main window."
+msgid "Apply the given geometry to the main window"
+msgstr "Ține lățimea barei „De făcut” pentru fereastra principală."
+
+#: ../src/shell/main.c:333
+msgid "Start in online mode"
+msgstr "Începe în modul conectat"
+
+#: ../src/shell/main.c:335
+msgid "Ignore network availability"
+msgstr "Ignoră disponibilitatea rețelei"
+
+#: ../src/shell/main.c:338
+#, fuzzy
+#| msgid "Shutting down Evolution"
+msgid "Forcibly shut down Evolution"
+msgstr "Se închide Evolution"
+
+#: ../src/shell/main.c:341
+msgid "Disable loading of any plugins."
+msgstr ""
+
+#: ../src/shell/main.c:343
+msgid "Disable preview pane of Mail, Contacts and Tasks."
+msgstr ""
+
+#: ../src/shell/main.c:347
+msgid "Import URIs or filenames given as rest of arguments."
+msgstr ""
+
+#: ../src/shell/main.c:349
+#, fuzzy
+#| msgid "Restarting Evolution"
+msgid "Request a running Evolution process to quit"
+msgstr "Se repornește Evolution"
+
+#: ../src/shell/main.c:431
+#, c-format
+msgid "Cannot start Evolution.  Another Evolution instance may be unresponsive. System error: %s"
+msgstr ""
+
+#: ../src/shell/main.c:493 ../src/shell/main.c:498
+#, fuzzy
+#| msgid "Evolution Mail and Calendar"
+msgid "— The Evolution PIM and Email Client"
+msgstr "Calendar și Email Evolution"
+
+#: ../src/shell/main.c:554
+#, c-format
+msgid ""
+"%s: --online and --offline cannot be used together.\n"
+"  Run “%s --help” for more information.\n"
+msgstr ""
+
+#: ../src/shell/main.c:560
+#, c-format
+msgid ""
+"%s: --force-online and --offline cannot be used together.\n"
+"  Run “%s --help” for more information.\n"
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:1
+#, fuzzy
+#| msgid "Importing…"
+msgid "Importing..."
+msgstr "Se importă…"
+
+#: ../src/shell/shell.error.xml.h:2
+msgid "Upgrade from previous version failed:"
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:3
+msgid ""
+"{0}\n"
+"\n"
+"If you choose to continue, you may not have access to some of your old data.\n"
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:7
+msgid "Continue Anyway"
+msgstr "Continuă oricum"
+
+#: ../src/shell/shell.error.xml.h:8
+#, fuzzy
+#| msgid "Quit"
+msgid "Quit Now"
+msgstr "Ieși"
+
+#: ../src/shell/shell.error.xml.h:9
+msgid "Cannot upgrade directly from version {0}"
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:10
+msgid ""
+"Evolution no longer supports upgrading directly from version {0}. However as a workaround you might try first upgrading to "
+"Evolution 2, and then upgrading to Evolution 3."
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:11
+msgid "Close Evolution with pending background operations?"
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:12
+msgid ""
+"Evolution is taking a long time to shut down, possibly due to network connectivity issues. Would you like to cancel all "
+"pending operations and close immediately, or keep waiting?"
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:13
+msgid "_Close Immediately"
+msgstr "În_chide imediat"
+
+#: ../src/shell/shell.error.xml.h:14
+#, fuzzy
+#| msgid "Waiting…"
+msgid "Keep _Waiting"
+msgstr "Se așteaptă…"
+
+#: ../src/shell/shell.error.xml.h:15
+#, fuzzy
+#| msgid "Failed to open calendar “{0}”"
+msgid "Failed to get values from “{0}”"
+msgstr "Eșec la deschiderea calendarului „{0}”"
+
+#: ../src/shell/shell.error.xml.h:16
+#, fuzzy
+#| msgid "Failed to open calendar “{0}”"
+msgid "Failed to invoke authenticate for “{0}”"
+msgstr "Eșec la deschiderea calendarului „{0}”"
+
+#: ../src/shell/shell.error.xml.h:17
+#, fuzzy
+#| msgid "Failed to connect account “{0}”."
+msgid "Failed to connect “{0}”"
+msgstr "Eroare la conectarea contului „{0}”."
+
+#: ../src/shell/shell.error.xml.h:18
+#, fuzzy
+#| msgid "_Recover"
+msgid "_Reconnect"
+msgstr "_Recuperează"
+
+#: ../src/shell/shell.error.xml.h:19
+#, fuzzy
+#| msgid "Failed to refresh address book “{0}”"
+msgid "Failed to connect address book “{0}”"
+msgstr "Eșec la reîmprospătarea agendei „{0}”"
+
+#: ../src/shell/shell.error.xml.h:20
+#, fuzzy
+#| msgid "Failed to open calendar “{0}”"
+msgid "Failed to connect calendar “{0}”"
+msgstr "Eșec la deschiderea calendarului „{0}”"
+
+#: ../src/shell/shell.error.xml.h:21
+#, fuzzy
+#| msgid "Failed to connect account “{0}”."
+msgid "Failed to connect mail account “{0}”"
+msgstr "Eroare la conectarea contului „{0}”."
+
+#: ../src/shell/shell.error.xml.h:22
+#, fuzzy
+#| msgid "Failed to open memo list “{0}”"
+msgid "Failed to connect memo list “{0}”"
+msgstr "Eșec la deschiderea listei de memo-uri „{0}”"
+
+#: ../src/shell/shell.error.xml.h:23
+#, fuzzy
+#| msgid "Failed to open task list “{0}”"
+msgid "Failed to connect task list “{0}”"
+msgstr "Eșec la deschiderea listei de sarcini „{0}”"
+
+#: ../src/shell/shell.error.xml.h:24
+#, fuzzy
+#| msgid "Failed to refresh folder “{0}”."
+msgid "Failed to prompt for credentials for “{0}”"
+msgstr "Eșec la reîmprospătarea dosarului „{0}”."
+
+#: ../src/shell/shell.error.xml.h:25
+#, fuzzy
+#| msgid "Failed to unsubscribe from folder “{0}”."
+msgid "Failed to finish trust prompt for “{0}”"
+msgstr "Nu s-a putut dezabona de la dosarul „{0}”."
+
+#: ../src/shell/shell.error.xml.h:26
+msgid "SSL certificate for “{0}” is not trusted."
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:27
+msgid "Reason: {1}"
+msgstr "Motiv: {1}"
+
+#: ../src/shell/shell.error.xml.h:28 ../src/smime/gui/smime-ui.ui.h:16
+#, fuzzy
+#| msgid "View Certificate"
+msgid "_View Certificate"
+msgstr "Arată certificat"
+
+#: ../src/shell/shell.error.xml.h:29
+msgid "SSL certificate for address book “{0}” is not trusted."
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:30
+#, fuzzy
+#| msgid "Error creating view for the calendar “{0}”"
+msgid "SSL certificate for calendar “{0}” is not trusted."
+msgstr "Eroare la crearea vizualizării pentru calendarul „{0}”"
+
+#: ../src/shell/shell.error.xml.h:31
+msgid "SSL certificate for mail account “{0}” is not trusted."
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:32
+#, fuzzy
+#| msgid "Error creating view for the memo list “{0}”"
+msgid "SSL certificate for memo list “{0}” is not trusted."
+msgstr "Eroare la crearea vizualizării pentru lista de memouri „{0}”"
+
+#: ../src/shell/shell.error.xml.h:33
+#, fuzzy
+#| msgid "Error creating view for the task list “{0}”"
+msgid "SSL certificate for task list “{0}” is not trusted."
+msgstr "Eroare la crearea vizualizării pentru lista de sarcini „{0}”"
+
+#: ../src/shell/shell.error.xml.h:34
+#, fuzzy
+#| msgid "Menubar is visible"
+msgid "Menu Bar is hidden"
+msgstr "Bara de meniu este vizibilă"
+
+#: ../src/shell/shell.error.xml.h:35
+msgid "Press the “Alt” key to access the Menu Bar again."
+msgstr ""
+
+#: ../src/shell/shell.error.xml.h:36
+msgid "_Show Menu Bar"
+msgstr "_Arată bara de meniu"
+
+#: ../src/smime/gui/ca-trust-dialog.c:104
+#, c-format
+msgid ""
+"Certificate “%s” is a CA certificate.\n"
+"\n"
+"Edit trust settings:"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:82 ../src/smime/gui/certificate-manager.c:101
+#: ../src/smime/gui/certificate-manager.c:121
+msgid "Certificate Name"
+msgstr "Nume certificat"
+
+#: ../src/smime/gui/certificate-manager.c:83 ../src/smime/gui/certificate-manager.c:103
+#, fuzzy
+#| msgid "Or_ganization:"
+msgid "Issued To Organization"
+msgstr "Or_ganizație:"
+
+#: ../src/smime/gui/certificate-manager.c:84 ../src/smime/gui/certificate-manager.c:104
+msgid "Issued To Organizational Unit"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:85 ../src/smime/gui/certificate-manager.c:105
+#: ../src/smime/gui/certificate-manager.c:123
+msgid "Serial Number"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:86 ../src/smime/gui/certificate-manager.c:106
+#: ../src/smime/gui/certificate-manager.c:124
+msgid "Purposes"
+msgstr "Scopuri"
+
+#: ../src/smime/gui/certificate-manager.c:87 ../src/smime/gui/certificate-manager.c:107
+#: ../src/smime/gui/certificate-manager.c:125
+msgid "Issued By"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:88 ../src/smime/gui/certificate-manager.c:108
+#: ../src/smime/gui/certificate-manager.c:126
+#, fuzzy
+#| msgid "Or_ganization:"
+msgid "Issued By Organization"
+msgstr "Or_ganizație:"
+
+#: ../src/smime/gui/certificate-manager.c:89 ../src/smime/gui/certificate-manager.c:109
+#: ../src/smime/gui/certificate-manager.c:127
+msgid "Issued By Organizational Unit"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:90 ../src/smime/gui/certificate-manager.c:110
+#: ../src/smime/gui/certificate-manager.c:128
+msgid "Issued"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:91 ../src/smime/gui/certificate-manager.c:111
+#: ../src/smime/gui/certificate-manager.c:129
+msgid "Expires"
+msgstr "Expiră"
+
+#: ../src/smime/gui/certificate-manager.c:92 ../src/smime/gui/certificate-manager.c:112
+#: ../src/smime/gui/certificate-manager.c:130
+msgid "SHA1 Fingerprint"
+msgstr "Amprentă SHA1"
+
+#: ../src/smime/gui/certificate-manager.c:93 ../src/smime/gui/certificate-manager.c:113
+#: ../src/smime/gui/certificate-manager.c:131
+msgid "MD5 Fingerprint"
+msgstr "Amprentă MD5"
+
+#: ../src/smime/gui/certificate-manager.c:102 ../src/smime/gui/certificate-manager.c:122
+msgid "Email Address"
+msgstr "Adresă email"
+
+#: ../src/smime/gui/certificate-manager.c:648
+msgid "Select a file to backup your key and certificate…"
+msgstr ""
+
+#. To Translators:
+#. * %s-backup.p12 is the default file name suggested by the file selection dialog,
+#. * when a user wants to backup one of her/his private keys/certificates.
+#. * For example: gnomedev-backup.p12
+#.
+#: ../src/smime/gui/certificate-manager.c:658
+#, c-format
+msgid "%s-backup.p12"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:721
+msgid "Backup Certificate"
+msgstr "Copiază de rezervă certificatul"
+
+#. filename selection
+#: ../src/smime/gui/certificate-manager.c:736
+#, fuzzy
+#| msgid "F_ilename:"
+msgid "_File name:"
+msgstr "Nume f_ișier:"
+
+#. FIXME when gtk_file_chooser_button allows GTK_FILE_CHOOSER_ACTION_SAVE use it
+#: ../src/smime/gui/certificate-manager.c:741
+#, fuzzy
+#| msgid "Select a file"
+msgid "Please select a file…"
+msgstr "Selectează un fișier"
+
+#: ../src/smime/gui/certificate-manager.c:755
+msgid "_Include certificate chain in the backup"
+msgstr ""
+
+#. To Translators: this text was copied from Firefox
+#: ../src/smime/gui/certificate-manager.c:761
+msgid ""
+"The certificate backup password you set here protects the backup file that you are about to create.\n"
+"You must set this password to proceed with the backup."
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:780
+#, fuzzy
+#| msgid "_Password:"
+msgid "_Repeat Password:"
+msgstr "_Parola:"
+
+#: ../src/smime/gui/certificate-manager.c:799
+msgid "Passwords do not match"
+msgstr ""
+
+#. To Translators: this text was copied from Firefox
+#: ../src/smime/gui/certificate-manager.c:807
+msgid ""
+"Important:\n"
+"If you forget your certificate backup password, you will not be able to restore this backup later.\n"
+"Please record it in a safe location."
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:852
+#, fuzzy
+#| msgid "No email address provided"
+msgid "No file name provided"
+msgstr "Nicio adresă de email furnizată"
+
+#: ../src/smime/gui/certificate-manager.c:856
+#, fuzzy
+#| msgid "Failed to load certificate: %s"
+msgid "Failed to backup key and certificate"
+msgstr "Eșec la încărcarea certificatului: %s"
+
+#: ../src/smime/gui/certificate-manager.c:948
+#, fuzzy
+#| msgid "Select folder to import into"
+msgid "Select a certificate to import…"
+msgstr "Selectați dosarul în care se face importarea"
+
+#: ../src/smime/gui/certificate-manager.c:997
+#, fuzzy
+#| msgid "Failed to import certificate: %s"
+msgid "Failed to import certificate"
+msgstr "Nu s-a putut importa certificatul: %s"
+
+#: ../src/smime/gui/certificate-manager.c:1114
+msgctxt "CamelTrust"
+msgid "Ask when used"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1116
+#, fuzzy
+#| msgid "Never"
+msgctxt "CamelTrust"
+msgid "Never"
+msgstr "Niciodată"
+
+#: ../src/smime/gui/certificate-manager.c:1118
+msgctxt "CamelTrust"
+msgid "Marginally"
+msgstr "Marginal"
+
+#: ../src/smime/gui/certificate-manager.c:1120
+msgctxt "CamelTrust"
+msgid "Fully"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1122
+msgctxt "CamelTrust"
+msgid "Ultimately"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1124
+msgctxt "CamelTrust"
+msgid "Temporarily"
+msgstr "Temporar"
+
+#: ../src/smime/gui/certificate-manager.c:1330
+#, fuzzy
+#| msgid "Certificates"
+msgid "Change certificate trust"
+msgstr "Certificate"
+
+#: ../src/smime/gui/certificate-manager.c:1342
+#, fuzzy, c-format
+#| msgid "Copying memos to the memo list “%s”"
+msgid "Change trust for the host “%s”:"
+msgstr "Se copiază memourile la lista cu memorui „%s”"
+
+#: ../src/smime/gui/certificate-manager.c:1366
+msgctxt "CamelTrust"
+msgid "_Ask when used"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1367
+#, fuzzy
+#| msgid "Unset _trust for SSL/TLS certificate"
+msgctxt "CamelTrust"
+msgid "_Never trust this certificate"
+msgstr "Destabilește încrederea pentru cer_tificatul SSL/TLS"
+
+#: ../src/smime/gui/certificate-manager.c:1368
+msgctxt "CamelTrust"
+msgid "_Temporarily trusted (this session only)"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1369
+msgctxt "CamelTrust"
+msgid "_Marginally trusted"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1370
+#, fuzzy
+#| msgid "R_eply requested"
+msgctxt "CamelTrust"
+msgid "_Fully trusted"
+msgstr "Răs_puns solicitat"
+
+#: ../src/smime/gui/certificate-manager.c:1371
+#, fuzzy
+#| msgid "R_eply requested"
+msgctxt "CamelTrust"
+msgid "_Ultimately trusted"
+msgstr "Răs_puns solicitat"
+
+#: ../src/smime/gui/certificate-manager.c:1375
+msgid "Before trusting this site, you should examine its certificate and its policy and procedures (if available)."
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1390
+msgid "_Display certificate"
+msgstr "_Afișează certificatul"
+
+#: ../src/smime/gui/certificate-manager.c:1595
+msgid "You have certificates on file that identify these mail servers:"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1626
+#, fuzzy
+#| msgid "_List name:"
+msgid "Host name"
+msgstr "Nume _listă:"
+
+#: ../src/smime/gui/certificate-manager.c:1628
+msgid "Issuer"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1629
+msgid "Fingerprint"
+msgstr "Amprentă"
+
+#: ../src/smime/gui/certificate-manager.c:1630
+msgid "Trust"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:1651
+msgid "_Edit Trust"
+msgstr "_Editează încrederea"
+
+#: ../src/smime/gui/certificate-manager.c:2105
+msgid "All PKCS12 files"
+msgstr "Toate fișierele PKCS12"
+
+#: ../src/smime/gui/certificate-manager.c:2122
+msgid "All email certificate files"
+msgstr ""
+
+#: ../src/smime/gui/certificate-manager.c:2139
+msgid "All CA certificate files"
+msgstr "Toate fișierele de certificat CA"
+
+#: ../src/smime/gui/cert-trust-dialog.c:150
+msgid ""
+"Because you trust the certificate authority that issued this certificate, then you trust the authenticity of this "
+"certificate unless otherwise indicated here"
+msgstr ""
+
+#: ../src/smime/gui/cert-trust-dialog.c:155
+msgid ""
+"Because you do not trust the certificate authority that issued this certificate, then you do not trust the authenticity of "
+"this certificate unless otherwise indicated here"
+msgstr ""
+
+#: ../src/smime/gui/component.c:53
+#, c-format
+msgid "Enter the password for “%s”, token “%s”"
+msgstr ""
+
+#: ../src/smime/gui/component.c:55
+#, c-format
+msgid "Enter the password for “%s”"
+msgstr "Introduceți parola pentru „%s”"
+
+#. we're setting the password initially
+#: ../src/smime/gui/component.c:83
+msgid "Enter new password for certificate database"
+msgstr ""
+
+#: ../src/smime/gui/component.c:86
+msgid "Enter new password"
+msgstr "Introduceți o parolă nouă"
+
+#: ../src/smime/gui/e-cert-selector.c:178
+#, fuzzy
+#| msgid "View certificate"
+msgid "Select certificate"
+msgstr "Vizualizează certificatul"
+
+#: ../src/smime/gui/smime-ui.ui.h:1
+msgid "You have certificates from these organizations that identify you:"
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:2
+msgid "Certificates Table"
+msgstr "Tabel de certificate"
+
+#. This is a verb, as in "make a backup".
+#: ../src/smime/gui/smime-ui.ui.h:5
+msgid "_Backup"
+msgstr "_Copiază de rezervă"
+
+#: ../src/smime/gui/smime-ui.ui.h:6
+msgid "Backup _All"
+msgstr "Copiază de rezervă tot"
+
+#: ../src/smime/gui/smime-ui.ui.h:9
+#, fuzzy
+#| msgid "Certificates"
+msgid "Your Certificates"
+msgstr "Certificate"
+
+#: ../src/smime/gui/smime-ui.ui.h:10
+msgid "You have certificates on file that identify these people:"
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:12
+msgid "Contact Certificates"
+msgstr "Certificate de contact"
+
+#: ../src/smime/gui/smime-ui.ui.h:13
+msgid "You have certificates on file that identify these certificate authorities:"
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:14
+msgid "Authorities"
+msgstr "Autorități"
+
+#: ../src/smime/gui/smime-ui.ui.h:15
+#, fuzzy
+#| msgid "Certificates"
+msgid "Certificate Authority Trust"
+msgstr "Certificate"
+
+#: ../src/smime/gui/smime-ui.ui.h:19
+msgid "Trust this CA to identify _websites."
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:20
+msgid "Trust this CA to identify _email users."
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:21
+msgid "Trust this CA to identify _software developers."
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:22
+msgid ""
+"Before trusting this CA for any purpose, you should examine its certificate and its policy and procedures (if available)."
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:23
+msgid "Email Certificate Trust Settings"
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:24
+#, fuzzy
+#| msgid "_Edit %s"
+msgid "_Edit CA Trust"
+msgstr "_Editează %s"
+
+#: ../src/smime/gui/smime-ui.ui.h:25
+msgid "Trust the authenticity of this certificate"
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:26
+msgid "Do not trust the authenticity of this certificate"
+msgstr ""
+
+#: ../src/smime/gui/smime-ui.ui.h:29
+msgid "C_ertificate:"
+msgstr "C_ertificate:"
+
+#. x509 certificate usage types
+#: ../src/smime/lib/e-cert.c:402
+#, fuzzy
+#| msgid "Signer:"
+#| msgid_plural "Signers:"
+msgid "Sign"
+msgstr "Semnatar:"
+
+#: ../src/smime/lib/e-cert.c:403
+msgid "Encrypt"
+msgstr "Criptează"
+
+#: ../src/smime/lib/e-cert-db.c:788
+msgid "Certificate already exists"
+msgstr "Certificatul există deja"
+
+#: ../src/smime/lib/e-pkcs12.c:200
+msgid "PKCS12 File Password"
+msgstr "Parolă fișier PKCS12"
+
+#: ../src/smime/lib/e-pkcs12.c:201
+msgid "Enter password for PKCS12 file:"
+msgstr "Introduceți parola pentru fișierul PKCS12:"
+
+#: ../src/smime/lib/e-pkcs12.c:327
+#, fuzzy, c-format
+#| msgid "Unable to book a resource, error: "
+msgid "Unable to create export context, err_code: %i"
+msgstr "Nu s-a putut rezerva o resursă, eroare: "
+
+#: ../src/smime/lib/e-pkcs12.c:334
+#, c-format
+msgid "Unable to setup password integrity, err_code: %i"
+msgstr ""
+
+#: ../src/smime/lib/e-pkcs12.c:344
+#, fuzzy, c-format
+#| msgid "Failed to create a thread: "
+msgid "Unable to create safe bag, err_code: %i"
+msgstr "Eșec la crearea unui fir de discuție: "
+
+#: ../src/smime/lib/e-pkcs12.c:362
+#, fuzzy, c-format
+#| msgid "Unable to book a resource, error: "
+msgid "Unable to add key/cert to the store, err_code: %i"
+msgstr "Nu s-a putut rezerva o resursă, eroare: "
+
+#: ../src/smime/lib/e-pkcs12.c:380
+#, fuzzy, c-format
+#| msgid "Unable to book a resource, error: "
+msgid "Unable to write store to disk, err_code: %i"
+msgstr "Nu s-a putut rezerva o resursă, eroare: "
+
+#: ../src/smime/lib/e-pkcs12.c:407
+#, fuzzy
+#| msgid "Import Certificate"
+msgid "Imported Certificate"
+msgstr "_mportă certificat"
