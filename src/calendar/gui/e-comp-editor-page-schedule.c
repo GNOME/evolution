@@ -220,18 +220,31 @@ ecep_schedule_set_time_to_editor (ECompEditorPageSchedule *page_schedule)
 	end_tt = e_comp_editor_property_part_datetime_get_value (dtend);
 
 	if (!start_tt || !end_tt) {
+		g_clear_object (&comp_editor);
 		g_clear_object (&start_tt);
 		g_clear_object (&end_tt);
 		return;
 	}
 
-	e_date_edit_get_date (E_DATE_EDIT (selector->start_date_edit), &year, &month, &day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (selector->start_date_edit), &hour, &minute);
+	if (!e_date_edit_get_date (E_DATE_EDIT (selector->start_date_edit), &year, &month, &day) ||
+	    !e_date_edit_get_time_of_day (E_DATE_EDIT (selector->start_date_edit), &hour, &minute)) {
+		g_clear_object (&comp_editor);
+		g_clear_object (&start_tt);
+		g_clear_object (&end_tt);
+		return;
+	}
+
 	i_cal_time_set_date (start_tt, year, month, day);
 	i_cal_time_set_time (start_tt, hour, minute, 0);
 
-	e_date_edit_get_date (E_DATE_EDIT (selector->end_date_edit), &year, &month, &day);
-	e_date_edit_get_time_of_day (E_DATE_EDIT (selector->end_date_edit), &hour, &minute);
+	if (!e_date_edit_get_date (E_DATE_EDIT (selector->end_date_edit), &year, &month, &day) ||
+	    !e_date_edit_get_time_of_day (E_DATE_EDIT (selector->end_date_edit), &hour, &minute)) {
+		g_clear_object (&comp_editor);
+		g_clear_object (&start_tt);
+		g_clear_object (&end_tt);
+		return;
+	}
+
 	i_cal_time_set_date (end_tt, year, month, day);
 	i_cal_time_set_time (end_tt, hour, minute, 0);
 
