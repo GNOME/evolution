@@ -1039,13 +1039,6 @@ webkit_editor_update_styles (EContentEditor *editor)
 
 	g_string_append (
 		stylesheet,
-		"[data-evo-paragraph] "
-		"{\n"
-		"  white-space: pre-wrap; \n"
-		"}\n");
-
-	g_string_append (
-		stylesheet,
 		"body[data-evo-plain-text] [data-evo-paragraph] "
 		"{\n"
 		"  word-wrap: break-word; \n"
