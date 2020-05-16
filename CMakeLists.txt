@@ -607,6 +607,8 @@ CHECK_C_SOURCE_COMPILES("#include <gnu/libc-version.h>
 # ******************************
 
 add_printable_variable(ENABLE_PLUGINS "Enable plugins (no/base/all)" "all")
+set(plugins_values all base no)
+set_property(CACHE ENABLE_PLUGINS PROPERTY STRINGS ${plugins_values})
 
 set(plugins_base
 	publish-calendar
