@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-15 14:19+0000\n"
-"PO-Revision-Date: 2020-05-17 13:35+0300\n"
+"PO-Revision-Date: 2020-05-17 17:42+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -42,6 +42,10 @@ msgid ""
 "settings, mail, contacts, tasks, memos and calendars. It will be stored in a "
 "gzip-compressed tar archive file."
 msgstr ""
+"Ви можете створити резервну копію ваших даних <app>Evolution</app>. У"
+" резервній копії буде збережено ваші параметри, пошту, контакти, завдання,"
+" примітки та календарі. Дані буде збережено у форматі стисненого за допомогою"
+" gzip архіву tar."
 
 #. (itstool) path: section/title
 #: C/backup-restore.page:29
@@ -53,6 +57,8 @@ msgstr "Створення резервної копії"
 msgid ""
 "Select <guiseq><gui>File</gui> <gui>Back up Evolution Data…</gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui> <gui>Резервне копіювання даних"
+" Evolution…</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:37
@@ -60,6 +66,8 @@ msgid ""
 "Choose a filename and the folder where you want to save the backup file, and "
 "click <gui style=\"button\">Save</gui>."
 msgstr ""
+"Виберіть назву файла і теку, куди слід зберегти файл резервної копії, потім"
+" натисніть кнопку <gui style=\"button\">Зберегти</gui>."
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:41 C/backup-restore.page:69
@@ -67,6 +75,8 @@ msgid ""
 "You will be asked to close <app>Evolution</app>. Answer with <gui style="
 "\"button\">Yes</gui>."
 msgstr ""
+"Вас попросять закрити вікно <app>Evolution</app>. Дайте відповідь <gui"
+" style=\"button\">Так</gui>."
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:47
@@ -78,6 +88,13 @@ msgid ""
 "hidden folder <file>~/.bogofilter/</file>. If you use SpamAssassin you will "
 "need to back up the hidden folder <file>~/.spamassassin/</file>."
 msgstr ""
+"Зауважте, що ваші параметри <link xref=\"mail-spam\">фільтрування спаму</link"
+"> не буде включено до файла резервної копії, оскільки ці параметри не"
+" керуються з <app>Evolution</app>, а розробники засобів фільтрування можуть"
+" змінити подробиці реалізації. Якщо ви користуєтеся Bogofilter, вам слід"
+" створити резервну копію прихованої теки <file>~/.bogofilter/</file>. Якщо ви"
+" користуєтеся SpamAssassin, вам слід створити резервну копію прихованої теки"
+" <file>~/.spamassassin/</file>."
 
 #. (itstool) path: section/title
 #: C/backup-restore.page:58 C/intro-first-run.page:43
@@ -103,6 +120,8 @@ msgid ""
 "In the <link xref=\"intro-first-run\">first-run assistant</link>, you can "
 "restore <app>Evolution</app> data from a backup file."
 msgstr ""
+"У <link xref=\"intro-first-run\">допоміжній програмі першого запуску</link>"
+" ви можете відновити дані <app>Evolution</app> з файла резервної копії."
 
 #. (itstool) path: info/desc
 #: C/calendar-alarms-and-reminders.page:23
@@ -129,6 +148,13 @@ msgid ""
 "define whether to show a reminder for every appointment and for every "
 "birthday and anniversary."
 msgstr ""
+"У списку <guiseq><gui>Зміни</gui><gui>Параметри</gui> <gui>Календар та"
+" завдання</gui><gui>Нагадування</gui></guiseq> ви можете вибрати ті"
+" календарі, для яких ви хочете отримувати сповіщення щодо нагадувань. Якщо ви"
+" не позначити якогось календаря, ви не отримуватимете нагадувань для"
+" будь-яких подій у цьому календарі. Ви також можете визначити, чи слід"
+" показувати нагадування щодо будь-якої зустрічі та щодо будь-якого дня"
+" народження і річниці."
 
 #. (itstool) path: when/p
 #: C/calendar-alarms-and-reminders.page:40
@@ -137,6 +163,10 @@ msgid ""
 "\"help:gnome-help/shell-notifications\" href=\"https://help.gnome.org/users/"
 "gnome-help/stable/shell-notifications\"> the GNOME Desktop Help</link>."
 msgstr ""
+"Докладніші відомості щодо показу нагадувань можна знайти у <link"
+" xref=\"help:gnome-help/shell-notifications\""
+" href=\"https://help.gnome.org/users/gnome-help/stable/shell-notifications\""
+">довідці щодо стільничного середовища GNOME</link>."
 
 #. (itstool) path: section/title
 #: C/calendar-alarms-and-reminders.page:50
@@ -149,6 +179,8 @@ msgid ""
 "Apart from the general settings you can also set up reminders in the "
 "appointment editor for certain appointments only:"
 msgstr ""
+"Окрім загальних параметрів, ви можете налаштувати нагадування у редакторі"
+" зустрічей для окремих зустрічей:"
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:57
@@ -156,6 +188,8 @@ msgid ""
 "Click <guiseq><gui>Options</gui><gui>Reminders</gui></guiseq> or press the "
 "Reminder button in the toolbar."
 msgstr ""
+"Виберіть пункт <guiseq><gui>Параметри</gui><gui>Нагадування</gui></guiseq>"
+" або натисніть кнопку «Нагадування» на панелі інструментів."
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:61
@@ -163,6 +197,8 @@ msgid ""
 "From the dropdown menu, choose either one of the available default options "
 "when to show a notification reminder, or choose <gui>Custom</gui>."
 msgstr ""
+"Зі спадного меню виберіть або один із доступних типових варіантів параметрів"
+" показу сповіщення нагадувань, або виберіть варіант <gui>Інше</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-alarms-and-reminders.page:66
@@ -171,6 +207,9 @@ msgid ""
 "program ran, or an email sent. You can also define whether the reminder "
 "should be repeated."
 msgstr ""
+"У випадку <gui>Інше</gui> нагадуванням може бути контекстна підказка,"
+" відтворення звуку, запуск програми або надсилання повідомлення електронної"
+" пошти. Ви також можете визначити, чи має повторюватися нагадування."
 
 #. (itstool) path: note/p
 #: C/calendar-alarms-and-reminders.page:73
@@ -178,6 +217,8 @@ msgid ""
 "The <gui>Send an Email</gui> option is only available if the calendar "
 "backend supports such functionality."
 msgstr ""
+"Пункт <gui>Надіслати пошту</gui> доступний, лише якщо у модулі календаря"
+" передбачено підтримку таких функціональних можливостей."
 
 #. (itstool) path: info/desc
 #: C/calendar-caldav.page:23
@@ -194,7 +235,7 @@ msgstr "Користування календарем CalDAV"
 #: C/calendar-weather.page:24 C/calendar-webdav.page:23
 msgid ""
 "To add such a calendar to <app>Evolution</app>, perform the following steps:"
-msgstr ""
+msgstr "Щоб додати такий календар до <app>Evolution</app>, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:32 C/calendar-google.page:34 C/calendar-local.page:27
@@ -202,11 +243,13 @@ msgstr ""
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui><gui>Calendar</gui></guiseq>."
 msgstr ""
+"Виберіть пункт <guiseq><gui>Файл</gui><gui>Створити</gui><gui>Календар</gui><"
+"/guiseq>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:36
 msgid "Select the type <gui>CalDAV</gui>."
-msgstr ""
+msgstr "Виберіть тип <gui>CalDAV</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:39 C/calendar-google.page:40 C/calendar-local.page:34
@@ -215,14 +258,14 @@ msgstr ""
 #: C/contacts-using-contact-lists.page:48 C/tasks-caldav.page:26
 #: C/tasks-local.page:26 C/tasks-webdav.page:28
 msgid "Enter a name that you prefer."
-msgstr ""
+msgstr "Введіть бажану для вас назву."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:42 C/calendar-google.page:43 C/calendar-local.page:37
 #: C/calendar-weather.page:39 C/calendar-webdav.page:38 C/tasks-caldav.page:27
 #: C/tasks-local.page:27 C/tasks-webdav.page:29
 msgid "Optionally choose a color that you prefer."
-msgstr ""
+msgstr "Якщо хочете, виберіть бажаний колір."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:45 C/calendar-google.page:46
@@ -231,13 +274,14 @@ msgstr ""
 msgid ""
 "Choose if you want to be able to view the content also when being offline."
 msgstr ""
+"Виберіть, чи хочете ви мати можливість переглядати дані у автономному режимі."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:49 C/calendar-webdav.page:45
 #: C/mail-composer-html-link.page:28 C/tasks-caldav.page:29
 #: C/tasks-webdav.page:31
 msgid "Enter the address in the <gui>URL</gui> field."
-msgstr ""
+msgstr "Введіть адресу у поле <gui>URL</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:52 C/calendar-weather.page:49
@@ -247,11 +291,13 @@ msgstr ""
 msgid ""
 "Choose <gui>Use a secure connection</gui> if you want to connect securely."
 msgstr ""
+"Виберіть <gui>Використовувати безпечне з'єднання</gui>, якщо ви хочете"
+" захистити з'єднання."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:56 C/tasks-caldav.page:31
 msgid "Enter your username and your email address."
-msgstr ""
+msgstr "Введіть ваше ім'я користувача і вашу адресу електронної пошти."
 
 #. (itstool) path: item/p
 #: C/calendar-caldav.page:59 C/calendar-google.page:55 C/calendar-local.page:46
@@ -259,24 +305,24 @@ msgstr ""
 #: C/contacts-google.page:49 C/contacts-ldap.page:58 C/contacts-local.page:37
 #: C/tasks-caldav.page:32 C/tasks-local.page:28 C/tasks-webdav.page:34
 msgid "Click <gui style=\"button\">Apply</gui>."
-msgstr ""
+msgstr "Натисніть кнопку <gui style=\"button\">Застосувати</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:63 C/calendar-google.page:59 C/calendar-local.page:50
 #: C/calendar-weather.page:60 C/calendar-webdav.page:59
 msgid ""
 "The calendar will be added to the list of calendars in <app>Evolution</app>."
-msgstr ""
+msgstr "Календар буде додано до списку календарів в <app>Evolution</app>."
 
 #. (itstool) path: info/desc
 #: C/calendar-classifications.page:23
 msgid "Restricting visibility of appointments on remote servers."
-msgstr ""
+msgstr "Обмеження видимості зустрічей на віддалених серверах."
 
 #. (itstool) path: page/title
 #: C/calendar-classifications.page:26
 msgid "Using Classifications"
-msgstr ""
+msgstr "Використання класифікацій"
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:28
@@ -380,7 +426,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:70
 msgid "Attendee List:"
-msgstr ""
+msgstr "Список учасників:"
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:71
@@ -452,37 +498,39 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-google.page:24
 msgid "Using the online calendar of your Google account."
-msgstr ""
+msgstr "Користування інтернет-календарем вашого облікового запису Google."
 
 #. (itstool) path: page/title
 #: C/calendar-google.page:27
 msgid "Using a Google calendar"
-msgstr ""
+msgstr "Користування календарем Google"
 
 #. (itstool) path: item/p
 #: C/calendar-google.page:37 C/contacts-google.page:32
 msgid "Select the type <gui>Google</gui>."
-msgstr ""
+msgstr "Виберіть тип <gui>Google</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-google.page:49 C/contacts-google.page:42
 msgid "Enter your Google username."
-msgstr ""
+msgstr "Введіть ваше ім'я користувача Google."
 
 #. (itstool) path: item/p
 #: C/calendar-google.page:52
 msgid "If you have more than one Google calendar, define which of them to use."
 msgstr ""
+"Якщо у вас декілька календарів Google, визначте той з них, яким ви хочете"
+" скористатися."
 
 #. (itstool) path: info/desc
 #: C/calendar-layout-appointment-display.page:23
 msgid "Define the displaying of appointments in the calendar."
-msgstr ""
+msgstr "Визначення показу зустрічей у календарі."
 
 #. (itstool) path: page/title
 #: C/calendar-layout-appointment-display.page:26
 msgid "Appearance of Appointments"
-msgstr ""
+msgstr "Вигляд зустрічей"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-appointment-display.page:33
@@ -573,12 +621,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-layout-general-formatting.page:27
 msgid "General formatting options for the calendar."
-msgstr ""
+msgstr "Загальні параметри форматування для календаря."
 
 #. (itstool) path: page/title
 #: C/calendar-layout-general-formatting.page:30
 msgid "General formatting options"
-msgstr ""
+msgstr "Загальні параметри форматування"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-general-formatting.page:32
@@ -606,12 +654,12 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:46
 msgid "<link xref=\"calendar-timezones\">Time zone</link> and Second zone:"
-msgstr ""
+msgstr "<link xref=\"calendar-timezones\">Часовий пояс</link> і другий пояс:"
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:47
 msgid "The city you are located in, and optionally a second city."
-msgstr ""
+msgstr "Місто, у якому ви перебуваєте, та, необов'язково, друге місто."
 
 #. (itstool) path: section/title
 #: C/calendar-layout-general-formatting.page:53
@@ -626,7 +674,7 @@ msgstr "Тиждень починається:"
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:58
 msgid "Select the day to display as the first in each week."
-msgstr ""
+msgstr "Виберіть день, який буде першим днем при показі тижнів."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:61
@@ -636,7 +684,7 @@ msgstr "Робочі дні:"
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:62
 msgid "Define which week days are work days."
-msgstr ""
+msgstr "Визначає, які дні тижня є робочими."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:65
@@ -646,7 +694,7 @@ msgstr "День починається:"
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:66
 msgid "Define at which time your work day begins."
-msgstr ""
+msgstr "Визначає, о котрій годині розпочинається ваш робочий день."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:69
@@ -656,7 +704,7 @@ msgstr "День закінчується:"
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:70
 msgid "Define at which time your work day ends."
-msgstr ""
+msgstr "Визначає, о котрій годині завершується ваш робочий день."
 
 #. (itstool) path: section/title
 #: C/calendar-layout-general-formatting.page:77
@@ -683,12 +731,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-layout.page:17
 msgid "Adjusting the display and views of the calendar."
-msgstr ""
+msgstr "Коригування показу і панелей перегляду календаря."
 
 #. (itstool) path: page/title
 #: C/calendar-layout.page:20
 msgid "Changing the calendar layout"
-msgstr ""
+msgstr "Зміна компонування календаря"
 
 #. (itstool) path: info/desc
 #: C/calendar-layout-views.page:23
@@ -698,12 +746,14 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/calendar-layout-views.page:26
 msgid "Available views"
-msgstr ""
+msgstr "Доступні панелі перегляду"
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:28
 msgid "<app>Evolution</app> offers five different views of your calendar data:"
 msgstr ""
+"У <app>Evolution</app> передбачено п'ять різних панелей перегляду даних"
+" вашого календаря:"
 
 #. (itstool) path: item/p
 #. (itstool) path: td/p
@@ -768,12 +818,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-local.page:17
 msgid "Adding another local calendar."
-msgstr ""
+msgstr "Додавання іншого локального календаря."
 
 #. (itstool) path: page/title
 #: C/calendar-local.page:20
 msgid "Adding another local calendar"
-msgstr ""
+msgstr "Додавання іншого локального календаря"
 
 #. (itstool) path: page/p
 #: C/calendar-local.page:22
@@ -781,11 +831,13 @@ msgid ""
 "To add another local calendar to <app>Evolution</app>, perform the following "
 "steps:"
 msgstr ""
+"Щоб додати інший локальний календар до <app>Evolution</app>, виконайте такі"
+" дії:"
 
 #. (itstool) path: item/p
 #: C/calendar-local.page:31 C/contacts-local.page:31 C/tasks-local.page:25
 msgid "Select the type <gui>On This Computer</gui>."
-msgstr ""
+msgstr "Виберіть тип <gui>На цьому комп'ютері</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-local.page:40
@@ -866,22 +918,23 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-meetings.page:17
 msgid "Using meetings in the calendar."
-msgstr ""
+msgstr "Використання зібрань у календарі."
 
 #. (itstool) path: page/title
 #: C/calendar-meetings.page:20
 msgid "Meetings"
-msgstr ""
+msgstr "Зібрання"
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings-replying-to-invitation.page:5
 msgid "Accepting and replying to a meeting invitation."
 msgstr ""
+"Прийняття запрошень на зібрання та надсилання відповідей на запрошення."
 
 #. (itstool) path: page/title
 #: C/calendar-meetings-replying-to-invitation.page:23
 msgid "Replying to a Meeting Request"
-msgstr ""
+msgstr "Надсилання відповідей на запрошення на зібрання"
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:24
