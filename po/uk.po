@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
 "POT-Creation-Date: 2020-05-07 15:56+0000\n"
-"PO-Revision-Date: 2020-05-07 19:12+0300\n"
+"PO-Revision-Date: 2020-05-17 13:12+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -19338,7 +19338,7 @@ msgstr "Вираз"
 #: ../src/mail/filtertypes.xml.in.h:24 ../src/mail/searchtypes.xml.in.h:26
 #: ../src/mail/vfoldertypes.xml.in.h:26
 msgid "Free Form Expression"
-msgstr "Довільне вираження форми"
+msgstr "Вираз у довільній формі"
 
 #: ../src/mail/filtertypes.xml.in.h:25 ../src/mail/searchtypes.xml.in.h:27
 #: ../src/mail/vfoldertypes.xml.in.h:27
@@ -21389,7 +21389,7 @@ msgstr "Вміст містить"
 #: ../src/mail/searchtypes.xml.in.h:63
 #: ../src/modules/mail/e-mail-shell-view-actions.c:2097
 msgid "Free form expression"
-msgstr "Довільне вираження форми"
+msgstr "Вираз у довільній формі"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:275
 msgid "Edit Collection"
