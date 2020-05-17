@@ -5,9 +5,9 @@
 # Yuri Chornoivan <yurchor@ukr.net>, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution gnome-3-36\n"
-"POT-Creation-Date: 2020-05-15 14:20+0000\n"
-"PO-Revision-Date: 2020-05-17 13:29+0300\n"
+"Project-Id-Version: evolution master\n"
+"POT-Creation-Date: 2020-05-15 14:19+0000\n"
+"PO-Revision-Date: 2020-05-17 13:35+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -89,11 +89,13 @@ msgstr "Відновлення"
 msgid ""
 "Select <guiseq><gui>File</gui> <gui>Restore Evolution Data…</gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui> <gui>Відновити дані Evolution…<"
+"/gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/backup-restore.page:66
 msgid "Choose the file, and click <gui style=\"button\">Open</gui>."
-msgstr ""
+msgstr "Виберіть файл і натисніть кнопку <gui style=\"button\">Відкрити</gui>."
 
 #. (itstool) path: note/p
 #: C/backup-restore.page:75
@@ -105,12 +107,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-alarms-and-reminders.page:23
 msgid "Setting up reminder notifications for appointments."
-msgstr ""
+msgstr "Налаштовування сповіщень-нагадувань для зустрічей."
 
 #. (itstool) path: page/title
 #: C/calendar-alarms-and-reminders.page:26
 msgid "Reminders for appointments"
-msgstr ""
+msgstr "Нагадування для зустрічей"
 
 #. (itstool) path: section/title
 #: C/calendar-alarms-and-reminders.page:29
@@ -139,7 +141,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/calendar-alarms-and-reminders.page:50
 msgid "Manual Reminders"
-msgstr ""
+msgstr "Налаштовування нагадувань вручну"
 
 #. (itstool) path: section/p
 #: C/calendar-alarms-and-reminders.page:52
@@ -180,12 +182,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-caldav.page:23
 msgid "Using an online CalDAV calendar."
-msgstr ""
+msgstr "Користування інтернет-календарем CalDAV."
 
 #. (itstool) path: page/title
 #: C/calendar-caldav.page:26
 msgid "Using a CalDAV calendar"
-msgstr ""
+msgstr "Користування календарем CalDAV"
 
 #. (itstool) path: page/p
 #: C/calendar-caldav.page:28 C/calendar-google.page:29
@@ -851,7 +853,7 @@ msgstr ""
 #: C/mail-encryption-gpg-set-up.page:35
 #: C/mail-encryption-gpg-signing-encrypting.page:40
 #: C/mail-encryption-s-mime-signing-encrypting.page:36 C/mail-filters.page:50
-#: C/mail-filters.page:71 C/mail-search-folders-add.page:46
+#: C/mail-filters.page:71 C/mail-search-folders-add.page:47
 #: C/using-categories.page:51 C/using-categories.page:53
 msgid "Click <gui style=\"button\">OK</gui>."
 msgstr "Натисніть кнопку <gui style=\"button\">Гаразд</gui>."
@@ -2750,28 +2752,41 @@ msgstr ""
 msgid "Mozilla"
 msgstr "Mozilla"
 
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid "The instructions below might be outdated and not work anymore."
+msgstr ""
+
+#. (itstool) path: note/p
+#: C/import-apps-mozilla.page:26
+msgid ""
+"Follow <link href=\"https://mail.gnome.org/archives/evolution-list/2019-"
+"February/msg00055.html\">this mailing list posting</link> for an alternative "
+"method that you could try."
+msgstr ""
+
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:25
+#: C/import-apps-mozilla.page:29
 msgid ""
 "<link href=\"https://support.mozilla.org/en-US/kb/profiles-where-thunderbird-"
 "stores-user-data\">Find your <app>Thunderbird</app> profile folder.</link>"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:26 C/import-apps-outlook.page:62
+#: C/import-apps-mozilla.page:30 C/import-apps-outlook.page:62
 #: C/import-single-files.page:24
 msgid "Click <guiseq><gui>File</gui><gui>Import</gui></guiseq>."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:27 C/import-apps-outlook.page:63
+#: C/import-apps-mozilla.page:31 C/import-apps-outlook.page:63
 #: C/import-single-files.page:25
 msgid ""
 "In the <gui>Importer Type</gui> tab, click <gui>Import a single file</gui>."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:28
+#: C/import-apps-mozilla.page:32
 msgid ""
 "Go to the folder in which <app>Thunderbird</app> stores its data. You will "
 "have to make sure to <link xref=\"help:gnome-help/files-hidden#show-hidden\" "
@@ -2780,7 +2795,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:31
+#: C/import-apps-mozilla.page:35
 msgid ""
 "If you would like to import <app>Thunderbird</app> mail, go to <file>Mail/"
 "Local Folders</file> (for local mail accounts) or <file>ImapMail/servername</"
@@ -2790,7 +2805,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:32
+#: C/import-apps-mozilla.page:36
 msgid ""
 "If you would like to import <app>Thunderbird/Lightning</app> calendar data, "
 "you may be able to export your <app>Thunderbird</app> events as an <file>."
@@ -2800,20 +2815,20 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:34 C/import-apps-outlook.page:64
+#: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:35
+#: C/import-apps-mozilla.page:39
 msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/import-apps-mozilla.page:36 C/import-apps-outlook.page:68
+#: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
 
@@ -8416,7 +8431,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-filters-not-working.page:44
+#: C/mail-filters-not-working.page:44 C/mail-imap-change-send-method.page:28
 msgid "Close <app>Evolution</app>."
 msgstr ""
 
@@ -8523,17 +8538,17 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:37 C/mail-search-folders-add.page:27
+#: C/mail-filters.page:37 C/mail-search-folders-add.page:28
 msgid "Click <gui style=\"button\">Add</gui>."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:38 C/mail-search-folders-add.page:28
+#: C/mail-filters.page:38 C/mail-search-folders-add.page:29
 msgid "Enter a name in the <gui>Rule name</gui> field."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:39 C/mail-search-folders-add.page:29
+#: C/mail-filters.page:39 C/mail-search-folders-add.page:30
 msgid ""
 "Define the conditions for the rule. For each condition, you first select "
 "which part of the message will be checked and then define the comparison."
@@ -8547,7 +8562,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-filters.page:40 C/mail-search-folders-add.page:30
+#: C/mail-filters.page:40 C/mail-search-folders-add.page:31
 msgid ""
 "If you want to define multiple conditions, define under <gui>Find items</"
 "gui> if any or if all conditions have to apply, and click <gui style=\"button"
@@ -8822,6 +8837,57 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: info/desc
+#: C/mail-imap-change-send-method.page:5
+msgid "Switch from sending mail via SMTP to Sendmail or vice versa."
+msgstr ""
+
+#. (itstool) path: page/title
+#: C/mail-imap-change-send-method.page:21
+msgid "Change the outgoing method for an IMAP+ account"
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:23
+msgid ""
+"There is no user interface to change the outgoing method of an IMAP account."
+msgstr ""
+
+#. (itstool) path: page/p
+#: C/mail-imap-change-send-method.page:25
+msgid ""
+"If you used Sendmail so far but now want to use an SMTP connection instead:"
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:29
+msgid ""
+"Find and open the corresponding account file in <file>$HOME/.config/"
+"evolution/sources/</file> with a text editor."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:31
+msgid ""
+"In the <code>[Mail Transport]</code> section, replace "
+"<code>BackendName=sendmail</code> with <code>BackendName=smtp</code> or vice "
+"versa."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:33
+msgid ""
+"Restart the <code>evolution-source-registry</code> background process, for "
+"example by rebooting your system."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-imap-change-send-method.page:35
+msgid ""
+"Start <app>Evolution</app> and edit the account SMTP settings for the "
+"account as needed."
+msgstr ""
+
+#. (itstool) path: info/desc
 #: C/mail-imap-subscriptions.page:5
 msgid "IMAP folder subscriptions."
 msgstr ""
@@ -9011,17 +9077,17 @@ msgid "Possible reasons why emails are not sent."
 msgstr ""
 
 #. (itstool) path: page/title
-#: C/mail-not-sent.page:20
+#: C/mail-not-sent.page:21
 msgid "Mail is not sent"
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/mail-not-sent.page:22
+#: C/mail-not-sent.page:23
 msgid "There can be several reasons why emails are not sent:"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:25
+#: C/mail-not-sent.page:26
 msgid ""
 "Invalid email address. Check if all the addresses listed as mail recipients "
 "are correct. If the message contains a wrong or invalid email address, the "
@@ -9029,7 +9095,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:26
+#: C/mail-not-sent.page:27
 msgid ""
 "Incorrect SMTP settings. Verify if the settings used for outgoing messages "
 "are correct. Using the incorrect server address or authentication method may "
@@ -9037,12 +9103,12 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-not-sent.page:27
+#: C/mail-not-sent.page:28
 msgid ""
 "Offline status. <app>Evolution</app> may be offline. Check on the <gui style="
-"\"button\">Send and Receive</gui> button; if it is greyed out, then you are "
+"\"button\">Send / Receive</gui> button; if it is greyed out, then you are "
 "offline. To go online, go to <guiseq><gui>File</gui><gui>Work online</gui></"
-"guiseq>. You should now be able to use the <gui style=\"button\">Send and "
+"guiseq>. You should now be able to use the <gui style=\"button\">Send / "
 "Receive</gui> button."
 msgstr ""
 
@@ -9616,7 +9682,16 @@ msgid "Creating A Search Folder"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:26
+#. (itstool) path: note/p
+#: C/mail-search-folders-add.page:26 C/mail-search-folders.page:30
+msgid ""
+"If you have not utilized search folders before, enable <guiseq><gui>Edit</"
+"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
+"guiseq>."
+msgstr ""
+
+#. (itstool) path: item/p
+#: C/mail-search-folders-add.page:27
 msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Search Folders</gui></guiseq>, or click "
 "<guiseq><gui>Message</gui><gui>Create Rule</gui></guiseq> and select the "
@@ -9626,38 +9701,38 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:29
+#: C/mail-search-folders-add.page:30
 msgid ""
 "For more information on the available conditions see <link xref=\"mail-"
 "search-folders-conditions\">Available Search Folder conditions</link>."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:31
+#: C/mail-search-folders-add.page:32
 msgid ""
 "Select which folders will be used for the search folder in the section "
 "<gui>Search Folder Sources</gui>. Options are:"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:33
+#: C/mail-search-folders-add.page:34
 msgid "All local folders:"
 msgstr "Усі локальні теки:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:34
+#: C/mail-search-folders-add.page:35
 msgid ""
 "Uses all local folders for the search folder source in addition to "
 "individual folders that are selected."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:36
+#: C/mail-search-folders-add.page:37
 msgid "All active remote folders:"
 msgstr "Усі активні віддалені теки:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:37
+#: C/mail-search-folders-add.page:38
 msgid ""
 "Remote folders are considered active if you are connected to the server; you "
 "must be connected to your mail server for the search folder to include any "
@@ -9666,24 +9741,24 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:39
+#: C/mail-search-folders-add.page:40
 msgid "All local and active remote folders:"
 msgstr "Усі локальні теки та активні віддалені теки:"
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:40
+#: C/mail-search-folders-add.page:41
 msgid ""
 "Uses all local and active remote folders for the search folder source in "
 "addition to individual folders that are selected."
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:42
+#: C/mail-search-folders-add.page:43
 msgid "Specific folders only:"
 msgstr ""
 
 #. (itstool) path: item/p
-#: C/mail-search-folders-add.page:43
+#: C/mail-search-folders-add.page:44
 msgid ""
 "Uses individual folders for the search folder source. In this case, click "
 "the <gui style=\"button\">Add</gui> to select folders."
@@ -9758,18 +9833,15 @@ msgid ""
 "setting up the search folder."
 msgstr ""
 
-#. (itstool) path: note/p
+#. (itstool) path: page/p
 #: C/mail-search-folders.page:28
 msgid ""
-"In the unlikely case that there is no <gui>Search folders</gui> top-level "
-"node displayed at the bottom of the <link xref=\"intro-main-window#e-mail"
-"\">mail folder list</link> you have to enable <guiseq><gui>Edit</"
-"gui><gui>Preferences</gui><gui>Mail Accounts</gui><gui>Search Folders</gui></"
-"guiseq>."
+"<gui>Search folders</gui> are displayed at the bottom of the <link xref="
+"\"intro-main-window#e-mail\">mail folder list</link>."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:30
+#: C/mail-search-folders.page:32
 msgid ""
 "<app>Evolution</app> automatically updates the search folder contents when "
 "new messages are received or messages are deleted. You can also manually "
@@ -9779,14 +9851,14 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:32
+#: C/mail-search-folders.page:34
 msgid ""
 "The <gui>Unmatched</gui> search folder is the opposite of other search "
 "folders: it displays all messages that do not appear in other search folders."
 msgstr ""
 
 #. (itstool) path: page/p
-#: C/mail-search-folders.page:34
+#: C/mail-search-folders.page:36
 msgid ""
 "If you use remote email storage like IMAP, and have created search folders "
 "to search through them, the <gui>Unmatched</gui> search folder also searches "
@@ -9796,7 +9868,7 @@ msgid ""
 msgstr ""
 
 #. (itstool) path: note/p
-#: C/mail-search-folders.page:36
+#: C/mail-search-folders.page:38
 msgid ""
 "If you need to find out which physical folder a message displayed in a "
 "Search Folder is located in, <link xref=\"mail-change-columns-in-message-list"
