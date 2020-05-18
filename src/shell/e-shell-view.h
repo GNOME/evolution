@@ -77,7 +77,7 @@ struct _EShellView {
  * @icon_name:		The initial value for the switcher action's
  *			#GtkAction:icon-name property.  See
  *			e_shell_view_get_action().
- * @ui_definition:	Base name of the UI definintion file to add
+ * @ui_definition:	Base name of the UI definition file to add
  *			when the shell view is activated.
  * @ui_manager_id:	The #GtkUIManager ID for #EPluginUI.  Plugins
  *			should use to this ID in their "eplug" files to

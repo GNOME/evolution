@@ -721,7 +721,7 @@ html_editor_parent_changed (GtkWidget *widget,
 	GtkWidget *top_level;
 	EHTMLEditor *editor = E_HTML_EDITOR (widget);
 
-	/* If he now have a window, then install our accelators to it */
+	/* If we now have a window, then install our accelerators to it */
 	top_level = gtk_widget_get_toplevel (widget);
 	if (GTK_IS_WINDOW (top_level)) {
 		gtk_window_add_accel_group (

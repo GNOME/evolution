@@ -353,7 +353,7 @@ format_full_headers (EMailFormatter *formatter,
 		bold_from = g_strconcat ("<b>", header_from, "</b>", NULL);
 		g_string_append_printf (
 			buffer,
-			/* Translators: This message suggests to the receipients
+			/* Translators: This message suggests to the recipients
 			 * that the sender of the mail is different from the one
 			 * listed in From field. */
 			_("This message was sent by %s on behalf of %s"),

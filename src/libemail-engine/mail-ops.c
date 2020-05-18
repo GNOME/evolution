@@ -1020,7 +1020,7 @@ send_queue_exec (struct _send_queue_msg *m,
 	camel_operation_push_message (cancellable, _("Sending message"));
 
 	/* NB: This code somewhat abuses the 'exception' stuff.  Apart from
-	 *     fatal problems, it is also used as a mechanism to accumualte
+	 *     fatal problems, it is also used as a mechanism to accumulate
 	 *     warning messages and present them back to the user. */
 
 	for (i = 0, j = 0; i < send_uids->len; i++) {
