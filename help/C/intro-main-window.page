@@ -91,7 +91,7 @@
 <note style="tip"><p>You can disable the to do bar by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show To Do Bar</gui></guiseq>.</p></note>
 </item>
 </terms>
-<note style="tip"><p>If you ever accidentially hide the menu bar, press <key>Alt</key> and re-enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu Bar</gui></guiseq>.</p></note>
+<note style="tip"><p>If you ever accidentally hide the menu bar, press <key>Alt</key> and re-enable it by toggling <guiseq><gui>View</gui><gui>Layout</gui><gui>Show Menu Bar</gui></guiseq>.</p></note>
 </section>
 
 <section id="calendar">

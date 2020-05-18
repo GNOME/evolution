@@ -5226,11 +5226,11 @@ remove_delegate (ItipView *view,
 	if (status != 0) {
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Sent a cancelation notice to the delegate"));
+			_("Sent a cancellation notice to the delegate"));
 	} else {
 		itip_view_add_lower_info_item (
 			view, ITIP_VIEW_INFO_ITEM_TYPE_INFO,
-			_("Could not send the cancelation notice to the delegate"));
+			_("Could not send the cancellation notice to the delegate"));
 	}
 
 	g_free (comment);

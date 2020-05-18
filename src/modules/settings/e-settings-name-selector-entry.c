@@ -60,7 +60,7 @@ settings_name_selector_entry_constructed (GObject *object)
 	extension = E_SETTINGS_NAME_SELECTOR_ENTRY (object);
 	extensible = e_extension_get_extensible (E_EXTENSION (extension));
 
-	/* Chain up to parent's consturcted() method. */
+	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_settings_name_selector_entry_parent_class)->constructed (object);
 
 	g_settings_bind (

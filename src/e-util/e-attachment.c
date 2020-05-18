@@ -3171,7 +3171,7 @@ attachment_save_extracted_error_cb (AutoarExtractor *extractor,
 }
 
 static void
-attachament_save_write_archive_cb (GOutputStream *output_stream,
+attachment_save_write_archive_cb (GOutputStream *output_stream,
                                    GAsyncResult *result,
                                    SaveContext *save_context)
 {
@@ -3238,7 +3238,7 @@ attachment_save_create_archive_cb (GFile *file,
 		save_context->input_buffer->len,
 		G_PRIORITY_DEFAULT,
 		save_context->attachment->priv->cancellable,
-		(GAsyncReadyCallback) attachament_save_write_archive_cb,
+		(GAsyncReadyCallback) attachment_save_write_archive_cb,
 		save_context);
 }
 
