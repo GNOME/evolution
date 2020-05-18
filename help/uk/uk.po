@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-15 14:19+0000\n"
-"PO-Revision-Date: 2020-05-18 17:14+0300\n"
+"PO-Revision-Date: 2020-05-18 20:27+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -3330,17 +3330,17 @@ msgstr "Ваша електронна пошта та розклад"
 #: C/index.page:7
 msgctxt "text"
 msgid "<app>Evolution</app> Mail and Calendar"
-msgstr "Електронна пошта та календар <app>Evolutuion</app>"
+msgstr "Електронна пошта та календар <app>Evolution</app>"
 
 #. (itstool) path: media/span
 #: C/index.page:25
 msgid "Evolution logo"
-msgstr ""
+msgstr "Логотип Evolution"
 
 #. (itstool) path: page/title
 #: C/index.page:23
 msgid "<_:media-1/> <app>Evolution</app> Mail and Calendar"
-msgstr "<_:media-1/> Електронна пошта та календар <app>Evolutuion</app>"
+msgstr "<_:media-1/> Електронна пошта та календар <app>Evolution</app>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -3351,22 +3351,22 @@ msgstr "Початкові зауваження"
 #. (itstool) path: section/title
 #: C/index.page:35
 msgid "Mail Management"
-msgstr ""
+msgstr "Керування поштою"
 
 #. (itstool) path: section/title
 #: C/index.page:37
 msgid "Advanced Mail Management"
-msgstr ""
+msgstr "Додаткові можливості керування поштою"
 
 #. (itstool) path: section/title
 #: C/index.page:42
 msgid "Mail Composing"
-msgstr ""
+msgstr "Редагування повідомлення"
 
 #. (itstool) path: section/title
 #: C/index.page:44
 msgid "Advanced Mail Composing"
-msgstr ""
+msgstr "Додаткові можливості з редагування повідомлень"
 
 #. (itstool) path: section/title
 #: C/index.page:49
@@ -3376,37 +3376,37 @@ msgstr "Керування календарем"
 #. (itstool) path: section/title
 #: C/index.page:51
 msgid "Advanced Calendar Management"
-msgstr ""
+msgstr "Додаткові можливості з керування календарем"
 
 #. (itstool) path: section/title
 #: C/index.page:56
 msgid "Contacts Management"
-msgstr ""
+msgstr "Керування контактами"
 
 #. (itstool) path: section/title
 #: C/index.page:60
 msgid "Memos and Tasks Management"
-msgstr ""
+msgstr "Керування примітками і завданнями"
 
 #. (itstool) path: section/title
 #: C/index.page:64
 msgid "Data Migration and Synchronization"
-msgstr ""
+msgstr "Перенесення та синхронізація даних"
 
 #. (itstool) path: section/title
 #: C/index.page:68
 msgid "Tracking down Problems"
-msgstr ""
+msgstr "Виявлення причин проблем"
 
 #. (itstool) path: section/title
 #: C/index.page:72
 msgid "Common Mail Questions and Problems"
-msgstr ""
+msgstr "Типові питання щодо пошти і вирішення проблем"
 
 #. (itstool) path: section/title
 #: C/index.page:76
 msgid "Common Other Questions and Problems"
-msgstr ""
+msgstr "Типові питання щодо інших речей і вирішення проблем"
 
 #. (itstool) path: section/title
 #: C/index.page:80
@@ -3416,7 +3416,7 @@ msgstr "Інформація для подальшого ознайомленн�
 #. (itstool) path: info/desc
 #: C/intro-application.page:5
 msgid "An introduction to <app>Evolution</app>."
-msgstr ""
+msgstr "Вступ до <app>Evolution</app>."
 
 #. (itstool) path: page/p
 #: C/intro-application.page:25
@@ -3453,7 +3453,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/intro-first-run.page:23
 msgid "Starting <app>Evolution</app> for the first time"
-msgstr ""
+msgstr "Перший запуск <app>Evolution</app>"
 
 #. (itstool) path: page/p
 #: C/intro-first-run.page:25
@@ -3499,7 +3499,7 @@ msgstr "Особисті дані"
 #: C/mail-account-manage-unix-mbox-spool-file.page:30
 #: C/mail-account-manage-usenet-news.page:30
 msgid "Here you define your name and your email address."
-msgstr ""
+msgstr "Тут ви визначаєте ваше ім'я та вашу адресу електронної пошти."
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:32 C/mail-account-manage-imap-plus.page:31
@@ -3537,7 +3537,7 @@ msgstr ""
 #: C/intro-first-run.page:41
 msgctxt "ui:collapsed"
 msgid "Show how to restore from a backup"
-msgstr ""
+msgstr "Показати, як відновити дані з резервної копії"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:51 C/mail-receiving-options-exchange-ews.page:23
@@ -3597,13 +3597,13 @@ msgstr ""
 #: C/intro-first-run.page:250
 msgctxt "ui:collapsed"
 msgid "Show how to configure this account type"
-msgstr ""
+msgstr "Показати, як налаштувати цей тип облікового запису"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
 #: C/intro-first-run.page:65 C/mail-receiving-options-imap-plus.page:23
 msgid "IMAP+ receiving options"
-msgstr ""
+msgstr "Параметри отримання пошти IMAP+"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:74
@@ -3613,18 +3613,18 @@ msgstr "POP"
 #. (itstool) path: section/p
 #: C/intro-first-run.page:75
 msgid "Downloads your email to your hard disk."
-msgstr ""
+msgstr "Отримує вашу електронну пошту на ваш жорсткий диск."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
 #: C/intro-first-run.page:81 C/mail-receiving-options-pop.page:27
 msgid "POP receiving options"
-msgstr ""
+msgstr "Параметри отримання POP"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:90
 msgid "USENET News"
-msgstr ""
+msgstr "Новини USENET"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:91
@@ -3636,12 +3636,12 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/intro-first-run.page:97 C/mail-receiving-options-usenet-news.page:23
 msgid "Usenet news receiving options"
-msgstr ""
+msgstr "Параметри отримання новин Usenet"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:106
 msgid "Exchange EWS"
-msgstr ""
+msgstr "EWS Exchange"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:107
@@ -3655,7 +3655,7 @@ msgstr ""
 #. (itstool) path: note/p
 #: C/intro-first-run.page:109
 msgid "This requires having the <sys>evolution-ews</sys> package installed."
-msgstr ""
+msgstr "Це потребує встановлення пакунка <sys>evolution-ews</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
@@ -3664,12 +3664,15 @@ msgid ""
 "<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-ews</link>"
 msgstr ""
+"<link action=\"install:evolution-ews\" href=\"https://wiki.gnome.org/Apps/"
+"Evolution#Get_the_Source_Code\" style=\"button\">Встановлення evolution-ews<"
+"/link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
 #: C/intro-first-run.page:121 C/mail-receiving-options-exchange-ews.page:20
 msgid "Exchange Web Services receiving options"
-msgstr ""
+msgstr "Параметри отримання пошти Exchange Web Services"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:130
