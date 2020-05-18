@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-15 14:19+0000\n"
-"PO-Revision-Date: 2020-05-17 17:42+0300\n"
+"PO-Revision-Date: 2020-05-18 17:14+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -331,6 +331,9 @@ msgid ""
 "Microsoft Exchange), you can select a classification to determine who can "
 "view it."
 msgstr ""
+"Якщо ви користуєтеся календарем на віддаленому сервері (зокрема Novell"
+" GroupWise або Microsoft Exchange), ви можете вибрати класифікацію для"
+" визначення того, хто зможе його переглядати."
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:32
@@ -342,6 +345,12 @@ msgid ""
 "denotes one level of security, and <gui>Confidential</gui> an even higher "
 "level."
 msgstr ""
+"Щоб вибрати класифікацію для вашої зустріч, виберіть пункт меню <guiseq><gui"
+">Параметри</gui><gui>Класифікація</gui></guiseq> і виберіть класифікацію у"
+" редакторі. Типовою категорією є <gui>Загальне</gui>, а загальні записи"
+" зустрічей можуть переглядати усі у мережі поширення календаря. Категорія <"
+"gui>Приватне</gui> звужує коло доступу. Найвищим рівнем захисту є <gui"
+">Конфіденційне</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:39
@@ -349,6 +358,9 @@ msgid ""
 "The different levels vary depending on your server settings; check with your "
 "system administrator or adjust your delegation settings."
 msgstr ""
+"Вибір рівня залежить від параметрів роботи вашого сервера. Обговоріть це"
+" питання з адміністратором вашої системи або скоригуйте ваші параметри"
+" делегування."
 
 #. (itstool) path: page/p
 #: C/calendar-classifications.page:42
@@ -358,11 +370,17 @@ msgid ""
 "gui><gui>Calendar and Tasks</gui><gui>General</gui><gui>Miscellaneous</gui></"
 "guiseq>."
 msgstr ""
+"Якщо ви хочете, щоб типово ваші записи подій, приміток і завдань"
+" класифікувалися як приватні, увімкніть відповідну класифікацію за допомогою"
+" сторінки <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Календарі і"
+" завдання</gui><gui>Загальне</gui><gui>Різне</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-free-busy.page:24
 msgid "Using the Free/Busy view on a groupware server to set up meetings."
 msgstr ""
+"Користування панеллю перегляду зайнятості на сервері групової роботи для"
+" планування ваших зустрічей."
 
 #. (itstool) path: page/title
 #: C/calendar-free-busy.page:29
@@ -375,6 +393,8 @@ msgid ""
 "You can use the Free/Busy search for meetings to determine the availability "
 "of invitees."
 msgstr ""
+"Ви можете скористатися пошуком даних зайнятості для планування зустрічей і"
+" визначення доступності учасників."
 
 #. (itstool) path: page/p
 #: C/calendar-free-busy.page:34
@@ -388,16 +408,28 @@ msgid ""
 "you can still use <link xref=\"calendar-meetings-sending-invitation"
 "\">meeting invitations</link> to coordinate schedules with other people."
 msgstr ""
+"Окрім стандартних інструментів планування зустрічей, ви можете скористатися"
+" панеллю перегляду зайнятості для того, щоб наперед визначити, чи будуть"
+" доступними учасники зустрічі. Працездатність можливості обробки даних щодо"
+" зайнятості, зазвичай, залежить від відповідних серверів групової роботи,"
+" зокрема Microsoft Exchange і Novell GroupWise. Втім, ви також можете"
+" оприлюднити дані щодо зайнятості і отримувати відомості щодо зайнятості, які"
+" оприлюднено іншими користувачами. Якщо дані щодо зайнятості оприлюднено не"
+" усіма потенційними учасниками, ви можете скористатися <link"
+" xref=\"calendar-meetings-sending-invitation\">запрошеннями</link> для"
+" узгодження ваших планів із планами інших людей."
 
 #. (itstool) path: page/p
 #: C/calendar-free-busy.page:44
 msgid "To access the free/busy view:"
-msgstr ""
+msgstr "Щоб отримати доступу до панелі даних зайнятості, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:48 C/calendar-meetings-sending-invitation.page:44
 msgid "Click <guiseq><gui>File</gui><gui>New</gui><gui>Meeting</gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui><gui>Засідання<"
+"/gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:52 C/calendar-meetings-sending-invitation.page:55
@@ -405,6 +437,8 @@ msgid ""
 "Click <gui style=\"button\">Add</gui> to add the email addresses of people "
 "you want to invite."
 msgstr ""
+"Натисніть кнопку <gui style=\"button\">Додати</gui>, щоб додати адреси"
+" електронної пошти людей, яких ви хочете запросити."
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:56
@@ -412,6 +446,8 @@ msgid ""
 "Click the <gui style=\"button\">Free/Busy</gui> button on the toolbar, or "
 "the <gui>Schedule</gui> tab."
 msgstr ""
+"Натисніть кнопку <gui style=\"button\">Зайнятий/вільний</gui> на панелі"
+" інструментів або перейдіть на вкладку <gui>Розклад</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:60
@@ -433,11 +469,12 @@ msgstr "Список учасників:"
 msgid ""
 "The Attendee List shows the people who have been invited to the appointment."
 msgstr ""
+"У списку учасників буде показано людей, яких було запрошено на зустріч."
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:75
 msgid "Schedule Grid:"
-msgstr ""
+msgstr "Таблиця планування:"
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:76
@@ -478,11 +515,14 @@ msgid ""
 "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui> <gui>Publishing "
 "Information</gui> <gui>Default Free/Busy Server</gui></guiseq>."
 msgstr ""
+"Типовий сервер можна визначити за допомогою сторінки <guiseq><gui>Зміни</gui"
+"><gui>Параметри</gui><gui>Календар і завдання</gui> <gui>Оприлюднення"
+" інформації</gui><gui>Типовий сервер «Вільний/зайнятий»</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/calendar-free-busy.page:108
 msgid "Accessing Free/Busy Data Without a Groupware Server"
-msgstr ""
+msgstr "Доступ до даних щодо зайнятості без сервера групової роботи"
 
 #. (itstool) path: section/p
 #: C/calendar-free-busy.page:110
@@ -987,12 +1027,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-meetings-sending-invitation.page:23
 msgid "Sending a Meeting Invitation."
-msgstr ""
+msgstr "Надсилання запрошення на зібрання."
 
 #. (itstool) path: page/title
 #: C/calendar-meetings-sending-invitation.page:26
 msgid "Sending a Meeting Invitation"
-msgstr ""
+msgstr "Надсилання запрошення на зібрання"
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:28
@@ -1017,7 +1057,7 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/calendar-meetings-sending-invitation.page:40
 msgid "To schedule a meeting:"
-msgstr ""
+msgstr "Щоб запланувати зібрання, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:48
@@ -1064,7 +1104,7 @@ msgstr ""
 #: C/calendar-meetings-sending-invitation.page:75
 #: C/calendar-usage-add-appointment.page:50
 msgid "Select the date and time."
-msgstr ""
+msgstr "Виберіть дату і час."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-sending-invitation.page:78
@@ -1125,17 +1165,17 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-organizing.page:18
 msgid "On using several calendars, searching, and categories."
-msgstr ""
+msgstr "про користування декількома календарями, пошук та категорії."
 
 #. (itstool) path: page/title
 #: C/calendar-organizing.page:21
 msgid "Sorting and organizing calendars"
-msgstr ""
+msgstr "Упорядкування календарів"
 
 #. (itstool) path: info/desc
 #: C/calendar-publishing.page:25
 msgid "Post your calendar content in public."
-msgstr ""
+msgstr "Оприлюднення вмісту ваших календарів."
 
 #. (itstool) path: page/title
 #: C/calendar-publishing.page:28
@@ -1169,12 +1209,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-recurrence.page:23
 msgid "Repeating appointments."
-msgstr ""
+msgstr "Повторення зустрічей."
 
 #. (itstool) path: page/title
 #: C/calendar-recurrence.page:26
 msgid "Using Recurrence"
-msgstr ""
+msgstr "Використання повторень"
 
 #. (itstool) path: page/p
 #: C/calendar-recurrence.page:28
@@ -1193,12 +1233,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-searching.page:27
 msgid "Searching appointments and meetings."
-msgstr ""
+msgstr "Пошук зустрічей і зібрань."
 
 #. (itstool) path: page/title
 #: C/calendar-searching.page:30
 msgid "Searching for Calendar Items"
-msgstr ""
+msgstr "Пошук записів календаря"
 
 #. (itstool) path: section/title
 #: C/calendar-searching.page:33 C/contacts-searching.page:43
@@ -1217,7 +1257,7 @@ msgstr ""
 #: C/calendar-searching.page:38 C/memos-searching.page:41
 #: C/tasks-searching.page:41
 msgid "Searching by summary:"
-msgstr ""
+msgstr "Пошук за резюме:"
 
 #. (itstool) path: item/p
 #: C/calendar-searching.page:42 C/contacts-searching.page:50
@@ -1261,7 +1301,7 @@ msgstr ""
 #: C/calendar-searching.page:64 C/contacts-searching.page:73
 #: C/memos-searching.page:51 C/tasks-searching.page:51
 msgid "Select the category from the list."
-msgstr ""
+msgstr "Виберіть категорію зі списку."
 
 #. (itstool) path: section/p
 #: C/calendar-searching.page:71
@@ -1289,27 +1329,29 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/calendar-sharing-information.page:21
 msgid "Sharing your calendar information"
-msgstr ""
+msgstr "Оприлюднення даних вашого календаря"
 
 #. (itstool) path: info/desc
 #: C/calendar-timezones.page:22
 msgid "Using time zones in the calendar."
-msgstr ""
+msgstr "Використання часових поясів у календарі."
 
 #. (itstool) path: page/title
 #: C/calendar-timezones.page:25
 msgid "Using time zones"
-msgstr ""
+msgstr "Використання часових поясів"
 
 #. (itstool) path: page/p
 #: C/calendar-timezones.page:27
 msgid "<app>Evolution</app> supports using multiple time zones."
 msgstr ""
+"У <app>Evolution</app> передбачено підтримку роботи із декількома часовими"
+" поясами."
 
 #. (itstool) path: section/title
 #: C/calendar-timezones.page:30
 msgid "Setting your global timezone(s)"
-msgstr ""
+msgstr "Встановлення загальних часових поясів"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:32
@@ -1333,7 +1375,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/calendar-timezones.page:46
 msgid "Setting a timezone for an appointment"
-msgstr ""
+msgstr "Встановлення часового поясу для зустрічі"
 
 #. (itstool) path: section/p
 #: C/calendar-timezones.page:48
@@ -1350,12 +1392,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-usage-add-appointment.page:17
 msgid "Adding an appointment."
-msgstr ""
+msgstr "Додавання запису зустрічі."
 
 #. (itstool) path: page/title
 #: C/calendar-usage-add-appointment.page:20
 msgid "Adding an Appointment"
-msgstr ""
+msgstr "Додавання запису зустрічі"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:24
@@ -1371,7 +1413,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:33
 msgid "If you use the Appointment dialog:"
-msgstr ""
+msgstr "Якщо ви користуєтеся вікном «Зустріч»:"
 
 #. (itstool) path: item/p
 #: C/calendar-usage-add-appointment.page:56
@@ -1383,12 +1425,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-usage-delete-appointment.page:17
 msgid "Deleting an appointment in your calendar."
-msgstr ""
+msgstr "Вилучення запису зустрічі з вашого календаря."
 
 #. (itstool) path: page/title
 #: C/calendar-usage-delete-appointment.page:20
 msgid "Deleting an Appointment"
-msgstr ""
+msgstr "Вилучення запису зустрічі"
 
 #. (itstool) path: page/p
 #: C/calendar-usage-delete-appointment.page:22
@@ -1404,12 +1446,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/calendar-usage-edit-appointment.page:17
 msgid "Editing in appointment in your calendar."
-msgstr ""
+msgstr "Редагування запису зустрічі у вашому календарі."
 
 #. (itstool) path: page/title
 #: C/calendar-usage-edit-appointment.page:20
 msgid "Editing an Appointment"
-msgstr ""
+msgstr "Редагування запису зустрічі"
 
 #. (itstool) path: page/p
 #: C/calendar-usage-edit-appointment.page:22
