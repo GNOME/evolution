@@ -778,13 +778,13 @@ mail_shell_backend_create_network_page (EPreferencesWindow *window)
 
 	const gchar *known_gio_names[] = {
 		/* Translators: One of the known implementation names of the GNetworkMonitor. Either translate
-		    it to some user-frienly form, or keep it as is. */
+		    it to some user-friendly form, or keep it as is. */
 		NC_("NetworkMonitor", "base"),
 		/* Translators: One of the known implementation names of the GNetworkMonitor. Either translate
-		    it to some user-frienly form, or keep it as is. */
+		    it to some user-friendly form, or keep it as is. */
 		NC_("NetworkMonitor", "netlink"),
 		/* Translators: One of the known implementation names of the GNetworkMonitor. Either translate
-		    it to some user-frienly form, or keep it as is. */
+		    it to some user-friendly form, or keep it as is. */
 		NC_("NetworkMonitor", "networkmanager")
 	};
 

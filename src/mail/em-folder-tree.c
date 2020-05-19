@@ -552,7 +552,7 @@ folder_tree_maybe_expand_row (EMFolderTreeModel *model,
 	if (u) {
 		gchar *c = strrchr (key, '/');
 
-		/* 'c' cannot be NULL, because the above contructed 'key' has it there */
+		/* 'c' cannot be NULL, because the above constructed 'key' has it there */
 		/* coverity[dereference] */
 		*c = '\0';
 		folder_tree_expand_node (key, folder_tree);

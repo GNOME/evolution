@@ -2530,15 +2530,15 @@ e_util_dup_searchable_categories (void)
  * @alert_ident: (out) (transfer-full): an alert ident to use on failure
  * @alert_arg_0: (out) (transfer-full): an alert argument 0 to use on failure
  *
- * Populates @desription, @alert_ident and @alert_arg_0 to be used
+ * Populates @description, @alert_ident and @alert_arg_0 to be used
  * to open an #ESource with extension @extension_name. The values
  * can be used for functions like e_alert_sink_submit_thread_job().
  *
  * If #TRUE is returned, then the caller is responsible to free
- * all @desription, @alert_ident and @alert_arg_0 with g_free(),
+ * all @description, @alert_ident and @alert_arg_0 with g_free(),
  * when no longer needed.
  *
- * Returns: #TRUE, if the values for @desription, @alert_ident and @alert_arg_0
+ * Returns: #TRUE, if the values for @description, @alert_ident and @alert_arg_0
  *     were set for the given @extension_name; when #FALSE is returned, then
  *     none of these out variables are changed.
  *

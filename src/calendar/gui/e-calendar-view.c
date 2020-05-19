@@ -1888,7 +1888,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 			/* To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>" */
 			tmp = g_strdup_printf (_("Organizer: %s <%s>"), e_cal_component_organizer_get_cn (organizer), email);
 		} else {
-			/* With SunOne accouts, there may be no ':' in organiser.value*/
+			/* With SunOne accounts, there may be no ':' in organiser.value*/
 			tmp = g_strdup_printf (_("Organizer: %s"), e_cal_component_organizer_get_cn (organizer));
 		}
 

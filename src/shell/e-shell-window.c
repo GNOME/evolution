@@ -1438,7 +1438,7 @@ e_shell_window_get_action_group (EShellWindow *shell_window,
 /**
  * e_shell_window_get_managed_widget:
  * @shell_window: an #EShellWindow
- * @widget_path: path in the UI definintion
+ * @widget_path: path in the UI definition
  *
  * Looks up a widget in @shell_window<!-- -->'s user interface manager by
  * following a path.  See gtk_ui_manager_get_widget() for more information
