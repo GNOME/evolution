@@ -97,7 +97,7 @@ ect_check (gpointer a11y)
 	return TRUE;
 }
 
-static G_CONST_RETURN gchar *
+static const gchar *
 ect_get_name (AtkObject * a11y)
 {
 	GalA11yECell *gaec;
