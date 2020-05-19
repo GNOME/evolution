@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues\n"
-"POT-Creation-Date: 2020-05-18 11:27+0000\n"
-"PO-Revision-Date: 2020-05-18 19:17+0300\n"
+"POT-Creation-Date: 2020-05-19 06:16+0000\n"
+"PO-Revision-Date: 2020-05-19 09:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -5740,13 +5740,17 @@ msgid "Phone"
 msgstr "Телефон"
 
 #: ../src/calendar/calendar.error.xml.h:1
-msgid "Would you like to send all the participants a cancelation notice?"
+#| msgid "Would you like to send all the participants a cancelation notice?"
+msgid "Would you like to send all the participants a cancellation notice?"
 msgstr "Надіслати усім учасникам повідомлення про скасування?"
 
 #: ../src/calendar/calendar.error.xml.h:2
+#| msgid ""
+#| "If you do not send a cancelation notice, the other participants may not "
+#| "know the meeting is canceled."
 msgid ""
-"If you do not send a cancelation notice, the other participants may not know "
-"the meeting is canceled."
+"If you do not send a cancellation notice, the other participants may not "
+"know the meeting is canceled."
 msgstr ""
 "Якщо повідомлення про скасування не буде надіслано, інші учасники зможуть "
 "дізнатися, що зібрання скасовано."
@@ -5773,9 +5777,12 @@ msgstr ""
 "відновлення."
 
 #: ../src/calendar/calendar.error.xml.h:8
+#| msgid ""
+#| "If you do not send a cancelation notice, the other participants may not "
+#| "know the task has been deleted."
 msgid ""
-"If you do not send a cancelation notice, the other participants may not know "
-"the task has been deleted."
+"If you do not send a cancellation notice, the other participants may not "
+"know the task has been deleted."
 msgstr ""
 "Якщо ви не надішлете сповіщення про скасування, інші учасники можуть не "
 "знати, що завдання вилучено."
@@ -5791,13 +5798,17 @@ msgid "All information on this task will be deleted and can not be restored."
 msgstr "Усі відомості про це завдання будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:11
-msgid "Would you like to send a cancelation notice for this memo?"
+#| msgid "Would you like to send a cancelation notice for this memo?"
+msgid "Would you like to send a cancellation notice for this memo?"
 msgstr "Надіслати сповіщення про скасування цієї примітки?"
 
 #: ../src/calendar/calendar.error.xml.h:12
+#| msgid ""
+#| "If you do not send a cancelation notice, the other participants may not "
+#| "know the memo has been deleted."
 msgid ""
-"If you do not send a cancelation notice, the other participants may not know "
-"the memo has been deleted."
+"If you do not send a cancellation notice, the other participants may not "
+"know the memo has been deleted."
 msgstr ""
 "Якщо ви не надішлете сповіщення про скасування, інші учасники можуть не "
 "знати, що примітку вилучено."
@@ -7141,7 +7152,7 @@ msgstr "Вставлення даних iCalendar"
 msgid "Organizer: %s <%s>"
 msgstr "Організатор:  %s <%s>"
 
-#. With SunOne accouts, there may be no ':' in organiser.value
+#. With SunOne accounts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in
 #. * organizer.value.
 #: ../src/calendar/gui/e-calendar-view.c:1892
@@ -11983,7 +11994,7 @@ msgstr "(без теми)"
 msgid "Remote content download had been blocked for this message."
 msgstr "Звантаження віддаленого вмісту заблоковано для цього листа."
 
-#. Translators: This message suggests to the receipients
+#. Translators: This message suggests to the recipients
 #. * that the sender of the mail is different from the one
 #. * listed in From field.
 #: ../src/em-format/e-mail-formatter-headers.c:359
@@ -24374,11 +24385,13 @@ msgid "Organizer has removed the delegate %s "
 msgstr "Організатор вилучив уповноваженого %s "
 
 #: ../src/modules/itip-formatter/itip-view.c:5229
-msgid "Sent a cancelation notice to the delegate"
+#| msgid "Sent a cancelation notice to the delegate"
+msgid "Sent a cancellation notice to the delegate"
 msgstr "Надіслано уповноваженому сповіщення про скасування"
 
 #: ../src/modules/itip-formatter/itip-view.c:5233
-msgid "Could not send the cancelation notice to the delegate"
+#| msgid "Could not send the cancelation notice to the delegate"
+msgid "Could not send the cancellation notice to the delegate"
 msgstr "Не вдалося надіслати сповіщення про скасування"
 
 #: ../src/modules/itip-formatter/itip-view.c:5279
@@ -24713,21 +24726,21 @@ msgid "Create a new mail folder"
 msgstr "Створити нову поштову теку"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
-#. it to some user-frienly form, or keep it as is.
+#. it to some user-friendly form, or keep it as is.
 #: ../src/modules/mail/e-mail-shell-backend.c:782
 msgctxt "NetworkMonitor"
 msgid "base"
 msgstr "base"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
-#. it to some user-frienly form, or keep it as is.
+#. it to some user-friendly form, or keep it as is.
 #: ../src/modules/mail/e-mail-shell-backend.c:785
 msgctxt "NetworkMonitor"
 msgid "netlink"
 msgstr "netlink"
 
 #. Translators: One of the known implementation names of the GNetworkMonitor. Either translate
-#. it to some user-frienly form, or keep it as is.
+#. it to some user-friendly form, or keep it as is.
 #: ../src/modules/mail/e-mail-shell-backend.c:788
 msgctxt "NetworkMonitor"
 msgid "networkmanager"
