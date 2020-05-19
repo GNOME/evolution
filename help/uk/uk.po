@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-15 14:19+0000\n"
-"PO-Revision-Date: 2020-05-18 20:27+0300\n"
+"PO-Revision-Date: 2020-05-19 18:52+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "MIME-Version: 1.0\n"
@@ -458,6 +458,11 @@ msgid ""
 "appointment updated automatically; others receive email notification of any "
 "change in plans."
 msgstr ""
+"Скоригуйте час засідання перетягуванням меж засідання або за допомогою з"
+" використанням кнопок <gui>Автовибір</gui> для вибору часу в автоматичному"
+" режимі, потім натисніть кнопку <gui style=\"button\">Закрити</gui>. Дані"
+" зустрічі учасників на сервері Exchange буде оновлено автоматично; інші"
+" учасники отримають сповіщення щодо будь-яких змін у планах."
 
 #. (itstool) path: item/p
 #: C/calendar-free-busy.page:70
@@ -490,6 +495,16 @@ msgid ""
 "<guiseq><gui>Personal information</gui> <gui>Web Addresses</gui><gui>Free/"
 "Busy</gui></guiseq>."
 msgstr ""
+"У таблиці планування буде показано оприлюднені дані щодо зайнятості тих, кого"
+" ви запросили. Тут ви можете порівняти розклади для пошуку вільного часу для"
+" планування зустрічі. Для окремих осіб буде показано дані щодо планування,"
+" лише якщо вони використовують той самий сервер Novell GroupWise або"
+" Microsoft Exchange, що і ви (тобто, якщо вони працюють у тій самій"
+" організації, що і ви), або якщо вони оприлюднюють дані щодо зайнятості на"
+" вебадресі (URL), яка доступна для вас, і ви ввели цю вебадресу для"
+" відповідного контакту у <link xref=\"contacts-usage-edit-contact\">Редакторі"
+" контактів</link> на сторінці <guiseq><gui>Особиста інформація</gui> <gui"
+">Адреси</gui><gui>Вільний/зайнятий</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/calendar-free-busy.page:90 C/calendar-publishing.page:43
@@ -498,6 +513,9 @@ msgid ""
 "server, a remote machine through SSH or to any other web server with HTTP "
 "PUT support."
 msgstr ""
+"Ви можете оприлюднити дані календаря і зайнятості на сервері WebDAV, сервері"
+" FTP, віддаленому комп'ютері із доступом за допомогою SSH або на будь-якому"
+" іншому вебсервері за допомогою підтримки PUT HTTP."
 
 #. (itstool) path: page/p
 #: C/calendar-free-busy.page:94
@@ -507,6 +525,10 @@ msgid ""
 "Exchange calendar if you want others to be able to access your Free/Busy "
 "information when inviting you to a meeting."
 msgstr ""
+"У корпоративних середовищах ви можете оприлюднити дані календаря і зайнятості"
+" на сервері Exchange або Groupwise. Зауважте, що вам слід використовувати"
+" календар верхнього рівня Exchange, якщо ви хочете, щоб інші мали доступ до"
+" ваших даних щодо зайнятості, запрошуючи вас на засідання."
 
 #. (itstool) path: page/p
 #: C/calendar-free-busy.page:97
@@ -534,6 +556,12 @@ msgid ""
 "<app>Evolution</app> looks up the schedule and displays it in the Free/Busy "
 "data."
 msgstr ""
+"Якщо окремі особи надають вам адресу для даних щодо зайнятості або доступ до"
+" власного вебкалендаря, ви можете додати відповідну адресу на сторінці <"
+"guiseq><gui>Особиста інформація</gui><gui>Адреси</gui></guiseq> у <link"
+" xref=\"contacts-usage-edit-contact\">Редакторі контактів</link>. Далі, коли"
+" ви плануватимете засідання із їхньою участю, <app>Evolution</app> виконає"
+" пошук розкладу відповідних осіб і покаже його у полі даних зайнятості особи."
 
 #. (itstool) path: info/desc
 #: C/calendar-google.page:24
@@ -579,6 +607,10 @@ msgid ""
 "<guiseq><gui>Edit</gui><gui>Preferences</gui> <gui>Calendar and Tasks</"
 "gui><gui>Display</gui></guiseq>."
 msgstr ""
+"На сторінці <guiseq><gui>Зміни</gui><gui>Параметри</gui> <gui>Календар та"
+" завдання</"
+"gui><gui>Відображення</gui></guiseq> ви знайдете вказані нижче пов'язані із"
+" календарем пункти."
 
 #. (itstool) path: section/title
 #: C/calendar-layout-appointment-display.page:38
@@ -596,6 +628,8 @@ msgid ""
 "Sets the time increments shown as fine lines on the daily view in the "
 "calendar."
 msgstr ""
+"Встановлює прирости за часом, які буде показано тонкими лініями на панелі"
+" денного планування у календарі."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:47
@@ -608,6 +642,8 @@ msgid ""
 "If there is space, <app>Evolution</app> shows the end times in the week and "
 "month views for each appointment."
 msgstr ""
+"Якщо достатньо місця, <app>Evolution</app> покаже позначки завершення для"
+" кожної зустрічі на панелях планування тижня та місяця."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:52
@@ -625,6 +661,8 @@ msgid ""
 "Select this option to display weekends in one box instead of two in the "
 "month view."
 msgstr ""
+"Позначте цей пункт, щоб програма показувала вихідні одним блоком замість двох"
+" на панелі перегляду місяця."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:60
@@ -635,11 +673,12 @@ msgstr "Показувати номери тижнів:"
 #: C/calendar-layout-appointment-display.page:61
 msgid "Shows the week numbers next to the respective weeks in the calendar."
 msgstr ""
+"Показувати номери тижнів поряд із пунктами відповідних тижнів у календарі."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:65
 msgid "Show recurring events in italic in bottom left calendar."
-msgstr ""
+msgstr "Показувати періодичні події курсивом у кнопці зліва від календарю."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-appointment-display.page:68
@@ -657,6 +696,8 @@ msgid ""
 "If you want to be warned before you delete any appointment, select this "
 "option."
 msgstr ""
+"Якщо ви хочете, щоб програма попереджала вас перед вилученням будь-якої"
+" зустрічі, позначте цей пункт."
 
 #. (itstool) path: info/desc
 #: C/calendar-layout-general-formatting.page:27
@@ -675,6 +716,9 @@ msgid ""
 "gui><gui>Preferences</gui> <gui>Calendar and Tasks</gui><gui>General</gui></"
 "guiseq>."
 msgstr ""
+"На сторінці <guiseq><gui>Зміни</gui><gui>Параметри</gui> <gui>Календар та"
+" завдання</"
+"gui><gui>Загальне</gui></guiseq>."
 
 #. (itstool) path: section/title
 #: C/calendar-layout-general-formatting.page:37
@@ -690,6 +734,8 @@ msgstr "Формат часу:"
 #: C/calendar-layout-general-formatting.page:42
 msgid "Choose between twelve-hour (AM/PM) and twenty-four-hour time formats."
 msgstr ""
+"Виберіть один з варіантів — дванадцятигодинний або двадцятичотиригодинний"
+" формат показу часу."
 
 #. (itstool) path: item/p
 #: C/calendar-layout-general-formatting.page:46
@@ -757,6 +803,8 @@ msgid ""
 "You can change the format of the <gui>Date</gui> column by setting your "
 "preferred format."
 msgstr ""
+"Ви можете змінити формат вмісту стовпчика <gui>Дата</gui>, встановивши"
+" бажаний для вас формат."
 
 #. (itstool) path: section/p
 #. (itstool) path: page/p
@@ -767,6 +815,9 @@ msgid ""
 "complete list of available strftime formats, run <cmd>date --help</cmd> in "
 "the <app>Terminal</app> application."
 msgstr ""
+"Замінниками у виразі формату є записи формату strftime. Щоб отримати повний"
+" список доступних форматів strftime, віддайте команду <cmd>date --help</cmd>"
+" у програмі <app>Термінал</app>."
 
 #. (itstool) path: info/desc
 #: C/calendar-layout.page:17
@@ -782,6 +833,7 @@ msgstr "Зміна компонування календаря"
 #: C/calendar-layout-views.page:23
 msgid "Using date ranges (day, week, month) to look at the calendar."
 msgstr ""
+"Користування діапазонами дат (дня, тижня і місяця) для перегляду календаря."
 
 #. (itstool) path: page/title
 #: C/calendar-layout-views.page:26
@@ -831,6 +883,9 @@ msgid ""
 "You can switch the view by either using the buttons in the toolbar, or by "
 "clicking <guiseq><gui>View</gui><gui>Current View</gui></guiseq>."
 msgstr ""
+"Ви можете перемкнути режим перегляду за допомогою кнопок на панелі"
+" інструментів або пункту меню <guiseq><gui>Перегляд</gui><gui>Поточний"
+" перегляд</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:52
@@ -838,6 +893,9 @@ msgid ""
 "You can also select an arbitrary range of days in the small calendar in the "
 "side bar. To do this, select the days that you want to view in your calendar."
 msgstr ""
+"Ви також можете вибрати довільний діапазон днів за допомогою невеличкого"
+" календаря на бічній панелі. Для цього виберіть дні, дані яких ви хочете"
+" бачити у вашому календарі."
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:56
@@ -847,6 +905,11 @@ msgid ""
 "To return to today's listing, click the <gui>Select today</gui> button "
 "between the two arrow buttons in the toolbar."
 msgstr ""
+"Натискання кнопок «Назад» і «Далі» пересуватиме вас назад і вперед сторінками"
+" календаря. Якщо ви користуєтеся панелями перегляду тижня або місяця, ви"
+" можете пересуватися тижнями або місяцями. Щоб повернутися до розкладу"
+" поточного дня, натисніть кнопку <gui>Виділити сьогоднішній день</gui>, яку"
+" розташовано між двома кнопками зі стрілками на панелі інструментів."
 
 #. (itstool) path: page/p
 #: C/calendar-layout-views.page:61
@@ -854,6 +917,8 @@ msgid ""
 "To visit calendar entries for a specific date, click the <gui>Select a "
 "specific date</gui> button in the toolbar."
 msgstr ""
+"Щоб ознайомитися із записами календаря для певної дати, натисніть кнопку <gui"
+">Виділити вказану дату</gui> на панелі інструментів."
 
 #. (itstool) path: info/desc
 #: C/calendar-local.page:17
@@ -887,16 +952,20 @@ msgid ""
 "app> should only read from the file or if <app>Evolution</app> can also add "
 "and alter items in that file."
 msgstr ""
+"Якщо ви виберете файл наявного календаря, який вже зберігається на вашому"
+" комп'ютері, вам доведеться вказати його розташування і те, слід <app"
+">Evolution</app> лише читати дані з цього файла чи <app>Evolution</app> може"
+" додавати і змінювати записи у цьому файлі."
 
 #. (itstool) path: info/desc
 #: C/calendar-marcus-bains-line.page:17
 msgid "The red \"Marcus Bains\" line displays the current time."
-msgstr ""
+msgstr "Червона лінія «Маркуса Байнса» показує поточний час."
 
 #. (itstool) path: page/title
 #: C/calendar-marcus-bains-line.page:20
 msgid "Time display in the Day view"
-msgstr ""
+msgstr "Показу часу на панелі розкладу дня"
 
 #. (itstool) path: page/p
 #: C/calendar-marcus-bains-line.page:22
@@ -904,16 +973,18 @@ msgid ""
 "The red Marcus Bains Line in the Day view of the calendar is a marker to "
 "show the current date and time."
 msgstr ""
+"Червона лінія Маркуса Байнса на панелі перегляду розкладу дня у календарі є"
+" позначкою поточної дати і часу."
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings-delegating.page:22
 msgid "Ask somebody else to run the meeting."
-msgstr ""
+msgstr "Як доручити комусь іншому провести зібрання."
 
 #. (itstool) path: page/title
 #: C/calendar-meetings-delegating.page:25
 msgid "Delegating Meetings"
-msgstr ""
+msgstr "Доручення зібрань"
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-delegating.page:27
@@ -921,21 +992,24 @@ msgid ""
 "Only attendees of a meeting can delegate a meeting, but not the organizer of "
 "a meeting."
 msgstr ""
+"Доручити проведення зібрання можуть лише учасники зібрання, але не"
+" організатор зібрання."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:32
 msgid "Right-click on the meeting that you want to delegate."
 msgstr ""
+"Клацніть правою кнопкою на пункті зібрання, яке ви хочете передоручити."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:35
 msgid "Click <gui>Delegate Meeting</gui>."
-msgstr ""
+msgstr "Виберіть пункт <gui>Доручити зібрання</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:38
 msgid "Select the contacts you want to delegate the meeting to."
-msgstr ""
+msgstr "Виберіть контакти, яким ви хочете доручити зібрання."
 
 #. (itstool) path: item/p
 #: C/calendar-meetings-delegating.page:41 C/contacts-usage-add-contact.page:43
@@ -953,7 +1027,7 @@ msgstr "Натисніть кнопку <gui style=\"button\">Гаразд</gui>
 #. (itstool) path: page/p
 #: C/calendar-meetings-delegating.page:45
 msgid "Each contact receives a copy of the meeting invitation."
-msgstr ""
+msgstr "Кожен із контактів отримує копію запрошення на зібрання."
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings.page:17
@@ -982,6 +1056,9 @@ msgid ""
 "Meeting requests are sent as attachments and displayed as the body of an "
 "email. All the details about the event are shown, including time and dates."
 msgstr ""
+"Запити щодо зібрання надсилаються як долучення і показуються як вміст"
+" повідомлення електронної пошти. Буде показано усі подробиці щодо події,"
+" зокрема час і дати проведення."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:25
@@ -992,6 +1069,11 @@ msgid ""
 "also decide whether the time of the meeting will still be shown as free in "
 "your calendar."
 msgstr ""
+"Ви можете вибрати, чи слід відповідати на запрошення, і спосіб відповіді, а"
+" також долучити особистий коментар до вашої відповіді. Доступними варіантами"
+" є <gui>Відхилити</gui>, умовно прийняти (<gui>Умовно прийняти</gui>) і <gui"
+">Прийняти</gui>. Ви також можете вказати, чи слід позначати час зібрання як"
+" вільний у вашому календарі."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:27
@@ -1000,6 +1082,10 @@ msgid ""
 "reminders\">reminder</link> you can import the reminder to your calendar by "
 "enabling <gui>Inherit reminder</gui>."
 msgstr ""
+"Якщо до запиту щодо зібрання вже включено <link"
+" xref=\"calendar-alarms-and-reminders\">нагадування</link>, ви можете"
+" імпортувати нагадування до вашого календаря позначенням пункту <gui"
+">Успадкувати нагадування</gui>."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:29
@@ -1007,6 +1093,8 @@ msgid ""
 "If you click <gui>Accept</gui> the event is added automatically to the "
 "calendar that you have chosen."
 msgstr ""
+"Якщо ви натиснете кнопку <gui>Прийняти</gui>, подію буде автоматично додано"
+" до вибраного вами календаря."
 
 #. (itstool) path: page/p
 #: C/calendar-meetings-replying-to-invitation.page:30
@@ -1015,6 +1103,9 @@ msgid ""
 "the meeting, but if the original organizer sends out an update, your changes "
 "might be overwritten."
 msgstr ""
+"Після додавання зібрання до вашого календаря ви можете внести зміни до"
+" параметрів зібрання, але якщо початковий організатор надішле оновлення, ваші"
+" зміни може бути перезаписано."
 
 #. (itstool) path: note/p
 #: C/calendar-meetings-replying-to-invitation.page:32
@@ -1023,6 +1114,11 @@ msgid ""
 "gui><gui>Meeting Invitations</gui><gui>Conflict Search</gui></guiseq> you "
 "can define which calendars are used for warning you of meeting conflicts."
 msgstr ""
+"На сторінці <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui>Календар та"
+" завдання</"
+"gui><gui>Запрошення на зібрання</gui><gui>Пошук конфліктів</gui></guiseq> ви"
+" можете визначити календарі, які буде використано для попередження вас щодо"
+" конфліктів у часі зібрань."
 
 #. (itstool) path: info/desc
 #: C/calendar-meetings-sending-invitation.page:23
@@ -1909,7 +2005,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/contacts-libreoffice.page:21
 msgid "Contacts in LibreOffice"
-msgstr ""
+msgstr "Контакти у LibreOffice"
 
 #. (itstool) path: page/p
 #: C/contacts-libreoffice.page:23
@@ -2422,12 +2518,12 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/data-storage.page:30
 msgid "The user's data files"
-msgstr ""
+msgstr "Файли даних користувача"
 
 #. (itstool) path: item/p
 #: C/data-storage.page:31
 msgid "<file>$HOME/.local/share/evolution</file>"
-msgstr ""
+msgstr "<file>$HOME/.local/share/evolution</file>"
 
 #. (itstool) path: item/title
 #: C/data-storage.page:34
@@ -2437,7 +2533,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/data-storage.page:35
 msgid "<file>$HOME/.config/evolution</file>"
-msgstr ""
+msgstr "<file>$HOME/.config/evolution</file>"
 
 #. (itstool) path: item/title
 #. (itstool) path: section/title
@@ -2448,17 +2544,17 @@ msgstr "Параметри облікового запису"
 #. (itstool) path: item/p
 #: C/data-storage.page:39
 msgid "<file>$HOME/.config/evolution/sources</file>"
-msgstr ""
+msgstr "<file>$HOME/.config/evolution/sources</file>"
 
 #. (itstool) path: item/title
 #: C/data-storage.page:42
 msgid "Configuration settings in GSettings"
-msgstr ""
+msgstr "Параметри налаштування у GSettings"
 
 #. (itstool) path: item/p
 #: C/data-storage.page:43
 msgid "<file>$HOME/.config/dconf</file>"
-msgstr ""
+msgstr "<file>$HOME/.config/dconf</file>"
 
 #. (itstool) path: note/p
 #: C/data-storage.page:44
@@ -2913,7 +3009,7 @@ msgstr ""
 #: C/import-apps-mozilla.page:38 C/import-apps-outlook.page:64
 #: C/import-single-files.page:26
 msgid "The file type will be automatically determined."
-msgstr ""
+msgstr "Тип файла буде визначено автоматично."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:39
@@ -2926,6 +3022,7 @@ msgstr ""
 #: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
 msgid "Repeat the import steps until you have imported all your data."
 msgstr ""
+"Повторюйте кроки імпортування, аж доки не буде імпортовано усі ваші дані."
 
 #. (itstool) path: info/desc
 #: C/import-apps-kmail.page:5
@@ -2933,6 +3030,8 @@ msgid ""
 "If <app>KMail</app> data cannot be found by the <app>Evolution</app> "
 "importer."
 msgstr ""
+"Якщо дані <app>KMail</app> не вдається знайти за допомогою засобу"
+" імпортування <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/import-apps-kmail.page:19
@@ -3682,12 +3781,12 @@ msgstr "Exchange MAPI"
 #. (itstool) path: section/p
 #: C/intro-first-run.page:131
 msgid "For connecting to a Microsoft Exchange 2007/2010 or OpenChange server."
-msgstr ""
+msgstr "Для з'єднання із сервером Microsoft Exchange 2007/2010 або OpenChange."
 
 #. (itstool) path: note/p
 #: C/intro-first-run.page:133
 msgid "This requires having the <sys>evolution-mapi</sys> package installed."
-msgstr ""
+msgstr "Це потребує встановлення пакунка <sys>evolution-mapi</sys>."
 
 #. (itstool) path: when/p
 #. (itstool) path: note/p
@@ -3697,17 +3796,20 @@ msgid ""
 "Evolution#Get_the_Source_Code\" style=\"button\">Install evolution-mapi</"
 "link>"
 msgstr ""
+"<link action=\"install:evolution-mapi\" href=\"https://wiki.gnome.org/Apps/"
+"Evolution#Get_the_Source_Code\" style=\"button\">Встановлення evolution-mapi</"
+"link>"
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
 #: C/intro-first-run.page:145 C/mail-receiving-options-exchange-mapi.page:20
 msgid "Exchange MAPI receiving options"
-msgstr ""
+msgstr "Параметри отримання пошти MAPI Exchange"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:154
 msgid "Local delivery"
-msgstr ""
+msgstr "Локальне доставлення"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:155
@@ -3723,7 +3825,7 @@ msgstr ""
 #. (itstool) path: page/title
 #: C/intro-first-run.page:161 C/mail-receiving-options-local-delivery.page:20
 msgid "Local delivery receiving options"
-msgstr ""
+msgstr "Параметри отримання локального доставлення"
 
 #. (itstool) path: section/title
 #: C/intro-first-run.page:170
