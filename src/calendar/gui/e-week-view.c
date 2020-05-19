@@ -2633,12 +2633,10 @@ e_week_view_recalc_display_start_day (EWeekView *week_view)
 	 * is Sunday. */
 	display_start_day = week_start_day;
 
-	if (display_start_day == G_DATE_SUNDAY) {
-		if (!e_week_view_get_multi_week_view (week_view))
-			display_start_day = G_DATE_SATURDAY;
-
-		if (e_week_view_get_compress_weekend (week_view))
-			display_start_day = G_DATE_SATURDAY;
+	if (display_start_day == G_DATE_SUNDAY &&
+	    e_week_view_get_multi_week_view (week_view) &&
+	    e_week_view_get_compress_weekend (week_view)) {
+		display_start_day = G_DATE_SATURDAY;
 	}
 
 	changed = (display_start_day != week_view->priv->display_start_day);
