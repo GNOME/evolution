@@ -277,7 +277,7 @@ redraw_if_visible (GnomeCanvasItem *item)
 	if (item->flags & GNOME_CANVAS_ITEM_VISIBLE)
 		gnome_canvas_request_redraw (
 			item->canvas, item->x1, item->y1,
-			item->x2 + 1, item->y2 + 1);
+			MIN (item->x2 + 1, G_MAXINT), MIN (item->y2 + 1, G_MAXINT));
 }
 
 /* Standard object dispose function for canvas items */
