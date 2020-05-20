@@ -3029,6 +3029,48 @@ message_list_get_preferred_width (GtkWidget *widget,
 }
 
 static void
+message_list_localized_re_changed_cb (GSettings *settings,
+				      const gchar *key,
+				      gpointer user_data)
+{
+	MessageList *message_list = user_data;
+	gchar *prefixes;
+
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	g_mutex_lock (&message_list->priv->re_prefixes_lock);
+
+	g_strfreev (message_list->priv->re_prefixes);
+	prefixes = g_settings_get_string (settings, "composer-localized-re");
+	message_list->priv->re_prefixes = g_strsplit (prefixes ? prefixes : "", ",", -1);
+	g_free (prefixes);
+
+	g_mutex_unlock (&message_list->priv->re_prefixes_lock);
+}
+
+static void
+message_list_localized_re_separators_changed_cb (GSettings *settings,
+						 const gchar *key,
+						 gpointer user_data)
+{
+	MessageList *message_list = user_data;
+
+	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+
+	g_mutex_lock (&message_list->priv->re_prefixes_lock);
+
+	g_strfreev (message_list->priv->re_separators);
+	message_list->priv->re_separators = g_settings_get_strv (settings, "composer-localized-re-separators");
+
+	if (message_list->priv->re_separators && !*message_list->priv->re_separators) {
+		g_strfreev (message_list->priv->re_separators);
+		message_list->priv->re_separators = NULL;
+	}
+
+	g_mutex_unlock (&message_list->priv->re_prefixes_lock);
+}
+
+static void
 message_list_set_session (MessageList *message_list,
                           EMailSession *session)
 {
@@ -3224,6 +3266,14 @@ message_list_dispose (GObject *object)
 			(GHFunc) clear_info, message_list);
 		g_hash_table_destroy (message_list->uid_nodemap);
 		message_list->uid_nodemap = NULL;
+	}
+
+	if (priv->mail_settings) {
+		g_signal_handlers_disconnect_by_func (priv->mail_settings,
+			G_CALLBACK (message_list_localized_re_changed_cb), message_list);
+
+		g_signal_handlers_disconnect_by_func (priv->mail_settings,
+			G_CALLBACK (message_list_localized_re_separators_changed_cb), message_list);
 	}
 
 	g_clear_object (&priv->session);
@@ -4030,6 +4080,15 @@ message_list_init (MessageList *message_list)
 	message_list->priv->group_by_threads = TRUE;
 	message_list->priv->new_mail_bg_color = NULL;
 	message_list->priv->new_mail_fg_color = NULL;
+
+	g_signal_connect (message_list->priv->mail_settings, "changed::composer-localized-re",
+		G_CALLBACK (message_list_localized_re_changed_cb), message_list);
+
+	g_signal_connect (message_list->priv->mail_settings, "changed::composer-localized-re-separators",
+		G_CALLBACK (message_list_localized_re_separators_changed_cb), message_list);
+
+	message_list_localized_re_changed_cb (message_list->priv->mail_settings, NULL, message_list);
+	message_list_localized_re_separators_changed_cb (message_list->priv->mail_settings, NULL, message_list);
 }
 
 static void
@@ -6859,7 +6918,7 @@ mail_regen_list (MessageList *message_list,
 	GCancellable *cancellable;
 	RegenData *new_regen_data;
 	RegenData *old_regen_data;
-	gchar *prefixes, *tmp_search_copy = NULL;
+	gchar *tmp_search_copy = NULL;
 
 	if (!search) {
 		old_regen_data = message_list_ref_regen_data (message_list);
@@ -6889,23 +6948,6 @@ mail_regen_list (MessageList *message_list,
 		g_free (tmp_search_copy);
 		return;
 	}
-
-	g_mutex_lock (&message_list->priv->re_prefixes_lock);
-
-	g_strfreev (message_list->priv->re_prefixes);
-	prefixes = g_settings_get_string (message_list->priv->mail_settings, "composer-localized-re");
-	message_list->priv->re_prefixes = g_strsplit (prefixes ? prefixes : "", ",", -1);
-	g_free (prefixes);
-
-	g_strfreev (message_list->priv->re_separators);
-	message_list->priv->re_separators = g_settings_get_strv (message_list->priv->mail_settings, "composer-localized-re-separators");
-
-	if (message_list->priv->re_separators && !*message_list->priv->re_separators) {
-		g_strfreev (message_list->priv->re_separators);
-		message_list->priv->re_separators = NULL;
-	}
-
-	g_mutex_unlock (&message_list->priv->re_prefixes_lock);
 
 	g_mutex_lock (&message_list->priv->regen_lock);
 
