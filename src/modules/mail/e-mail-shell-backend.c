@@ -518,16 +518,20 @@ mail_shell_backend_window_weak_notify_cb (EShell *shell,
 		where_the_object_was);
 }
 
-static gboolean
-set_preformatted_block_format_on_idle_cb (gpointer user_data)
+static void
+set_preformatted_block_format_on_load_finished_cb (EContentEditor *cnt_editor,
+						   gpointer user_data)
 {
-	EContentEditor *cnt_editor = user_data;
+	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
 
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (cnt_editor), FALSE);
+	if (!e_content_editor_get_html_mode (cnt_editor)) {
+		e_content_editor_set_block_format (cnt_editor, E_CONTENT_EDITOR_BLOCK_FORMAT_PRE);
+		e_content_editor_set_changed (cnt_editor, FALSE);
+		e_content_editor_clear_undo_redo_history (cnt_editor);
+	}
 
-	e_content_editor_set_block_format (cnt_editor, E_CONTENT_EDITOR_BLOCK_FORMAT_PRE);
-
-	return FALSE;
+	g_signal_handlers_disconnect_by_func (cnt_editor,
+		G_CALLBACK (set_preformatted_block_format_on_load_finished_cb), NULL);
 }
 
 static void
@@ -568,9 +572,9 @@ mail_shell_backend_window_added_cb (GtkApplication *application,
 
 		e_content_editor_set_html_mode (cnt_editor, use_html);
 
-		if (!use_html && use_preformatted) {
-			g_idle_add_full (G_PRIORITY_LOW, set_preformatted_block_format_on_idle_cb,
-				g_object_ref (cnt_editor), g_object_unref);
+		if (use_preformatted) {
+			g_signal_connect (cnt_editor, "load-finished",
+				G_CALLBACK (set_preformatted_block_format_on_load_finished_cb), NULL);
 		}
 	}
 

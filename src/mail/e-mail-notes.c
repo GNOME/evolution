@@ -968,16 +968,20 @@ e_mail_notes_editor_init (EMailNotesEditor *notes_editor)
 {
 }
 
-static gboolean
-set_preformatted_block_format_on_idle_cb (gpointer user_data)
+static void
+set_preformatted_block_format_on_load_finished_cb (EContentEditor *cnt_editor,
+						   gpointer user_data)
 {
-	EContentEditor *cnt_editor = user_data;
+	g_return_if_fail (E_IS_CONTENT_EDITOR (cnt_editor));
 
-	g_return_val_if_fail (E_IS_CONTENT_EDITOR (cnt_editor), FALSE);
+	if (!e_content_editor_get_html_mode (cnt_editor)) {
+		e_content_editor_set_block_format (cnt_editor, E_CONTENT_EDITOR_BLOCK_FORMAT_PRE);
+		e_content_editor_set_changed (cnt_editor, FALSE);
+		e_content_editor_clear_undo_redo_history (cnt_editor);
+	}
 
-	e_content_editor_set_block_format (cnt_editor, E_CONTENT_EDITOR_BLOCK_FORMAT_PRE);
-
-	return FALSE;
+	g_signal_handlers_disconnect_by_func (cnt_editor,
+		G_CALLBACK (set_preformatted_block_format_on_load_finished_cb), NULL);
 }
 
 static EMailNotesEditor *
@@ -1133,10 +1137,9 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	e_content_editor_set_html_mode (cnt_editor, g_settings_get_boolean (settings, "composer-send-html"));
-	if (!g_settings_get_boolean (settings, "composer-send-html") &&
-	    g_settings_get_boolean (settings, "composer-plain-text-starts-preformatted")) {
-		g_idle_add_full (G_PRIORITY_LOW, set_preformatted_block_format_on_idle_cb,
-			g_object_ref (cnt_editor), g_object_unref);
+	if (g_settings_get_boolean (settings, "composer-plain-text-starts-preformatted")) {
+		g_signal_connect (cnt_editor, "load-finished",
+			G_CALLBACK (set_preformatted_block_format_on_load_finished_cb), NULL);
 	}
 	g_object_unref (settings);
 
