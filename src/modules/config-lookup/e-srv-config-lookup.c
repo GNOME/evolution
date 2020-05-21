@@ -25,6 +25,11 @@
 
 #include "e-srv-config-lookup.h"
 
+/*
+ * This implements lookup as specified in RFC 6186 (for mail),
+ * RFC 6764 (for CalDAV/CardDAV), RFC 8341 (for 'sumbissions')
+ */
+
 /* Standard GObject macros */
 #define E_TYPE_SRV_CONFIG_LOOKUP \
 	(e_srv_config_lookup_get_type ())
@@ -83,7 +88,8 @@ srv_config_lookup_domain_sync (EConfigLookup *config_lookup,
 		{ "imap",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "imapx",   N_("IMAP server"),    N_("Looking up IMAP server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_IMAP + PRIORITY_OFFSET / 2 },
 		{ "pop3s",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "pop",     N_("POP3 server"),    N_("Looking up POP3 server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_POP3 },
 		{ "pop3",	E_CONFIG_LOOKUP_RESULT_MAIL_RECEIVE,  "pop",     N_("POP3 server"),    N_("Looking up POP3 server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_POP3 + PRIORITY_OFFSET / 2 },
-		{ "submission",	E_CONFIG_LOOKUP_RESULT_MAIL_SEND,     "smtp",    N_("SMTP server"),    N_("Looking up SMTP server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_SMTP },
+		{ "submissions",E_CONFIG_LOOKUP_RESULT_MAIL_SEND,     "smtp",    N_("SMTP server"),    N_("Looking up SMTP server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_SMTP },
+		{ "submission",	E_CONFIG_LOOKUP_RESULT_MAIL_SEND,     "smtp",    N_("SMTP server"),    N_("Looking up SMTP server…"),    E_CONFIG_LOOKUP_RESULT_PRIORITY_SMTP + PRIORITY_OFFSET / 2 },
 		{ "caldavs",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "caldav",  N_("CalDAV server"),  N_("Looking up CalDAV server…"),  PRIORITY_DEFAULT },
 		{ "caldav",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "caldav",  N_("CalDAV server"),  N_("Looking up CalDAV server…"),  PRIORITY_DEFAULT + PRIORITY_OFFSET / 2 },
 		{ "carddavs",	E_CONFIG_LOOKUP_RESULT_COLLECTION,    "carddav", N_("CardDAV server"), N_("Looking up CardDAV server…"), PRIORITY_DEFAULT },
