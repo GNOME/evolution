@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-19 15:54+0000\n"
-"PO-Revision-Date: 2020-05-20 20:11+0300\n"
+"PO-Revision-Date: 2020-05-21 17:58+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1631,6 +1631,15 @@ msgid ""
 "xref=\"calendar-layout-views\">list view</link> you can also use "
 "<guiseq><gui>Edit</gui><gui>Delete Appointment</gui></guiseq>."
 msgstr ""
+"Якщо ви хочете вилучити якийсь із записів зустрічей з ваших календарів,"
+" клацніть правою кнопкою миші на пункті зустрічі у календарі і виберіть у"
+" контекстному меню пункт <gui>Вилучити зустріч</gui> або клацніть на пункті"
+" зустрічі, а потім натисніть кнопку <gui>Вилучити</gui> на панелі"
+" інструментів або натисніть комбінацію клавіш <keyseq><key>Ctrl</key><key>D<"
+"/key></keyseq>. Якщо ви працюєте у режимі <link"
+" xref=\"calendar-layout-views\">перегляду списку</link> ви також можете"
+" скористатися пунктом меню "
+"<guiseq><gui>Зміни</gui><gui>Вилучити зустріч</gui></guiseq>."
 
 #. (itstool) path: info/desc
 #: C/calendar-usage-edit-appointment.page:17
@@ -1709,6 +1718,14 @@ msgid ""
 "appointments, you can be sure to avoid conflicts, while keeping a minimum of "
 "clutter in your view."
 msgstr ""
+"Ви можете користуватися декількома календарями одночасно, нашаровуючи їх один"
+" на оден. Наприклад, ви можете мати розклад подій для роботи, для домашніх"
+" подій і для подій із вашою улюбленою спортивною командою. На бічній панелі"
+" буде показано ці календарі, ви зможете позначати пункти цих календарів або"
+" знімати позначки з них, щоб програма показувала або приховувала дані"
+" зустрічей з цих календарів на панелі календаря. Приховуванням або показом"
+" різних наборів зустрічей ви можете забезпечити уникнення конфліктів,"
+" уникнувши захаращення панелі перегляду зайвими записами."
 
 #. (itstool) path: page/p
 #: C/calendar-using-several-calendars.page:38
@@ -1732,6 +1749,10 @@ msgid ""
 "and religious holidays, phases of the moon, sports, and local and regional "
 "events."
 msgstr ""
+"Наприклад, на <link href=\"http://icalshare.com\">сайті icalshare.com</link>"
+" наведено широкий список інтернет-календарів спільного використання, до яких"
+" включено державні та релігійні свята, фази місяця, спортивні, а також"
+" місцеві та регіональні події."
 
 #. (itstool) path: info/desc
 #: C/calendar-weather.page:17
@@ -1761,39 +1782,40 @@ msgstr "Виберіть місце, вказавши континент, кра
 #. (itstool) path: item/p
 #: C/calendar-weather.page:53
 msgid "Choose the temperature unit."
-msgstr ""
+msgstr "Виберіть одиницю виміру температури."
 
 #. (itstool) path: info/desc
 #: C/calendar-webdav.page:16
 msgid "Using an online Webcal/WebDAV calendar."
-msgstr ""
+msgstr "Користування календарем Webcal/WebDAV у мережі."
 
 #. (itstool) path: page/title
 #: C/calendar-webdav.page:19
 msgid "Using a WebDAV calendar"
-msgstr ""
+msgstr "Користування календарем WebDAV"
 
 #. (itstool) path: item/p
 #: C/calendar-webdav.page:32 C/tasks-caldav.page:25 C/tasks-webdav.page:27
 msgid "Select the type <gui>On the Web</gui>."
-msgstr ""
+msgstr "Виберіть тип <gui>У інтернеті</gui>."
 
 #. (itstool) path: item/p
 #: C/calendar-webdav.page:52 C/mail-sending-options-smtp.page:35
 #: C/tasks-webdav.page:33
 msgid "Enter your username."
-msgstr ""
+msgstr "Введіть ваше ім'я користувача."
 
 #. (itstool) path: info/desc
 #: C/contacts-add-automatically.page:21
 msgid ""
 "Automatically add senders of mail that you have received to your contacts."
 msgstr ""
+"Автоматичне додавання відправників отриманої вами пошти до ваших контактів."
 
 #. (itstool) path: page/title
 #: C/contacts-add-automatically.page:25
 msgid "Adding people automatically to my contacts"
-msgstr ""
+msgstr "Автоматичне додавання кореспондентів до контактів"
 
 #. (itstool) path: page/p
 #: C/contacts-add-automatically.page:27
@@ -1801,6 +1823,8 @@ msgid ""
 "You can add people automatically to your contacts when you reply to received "
 "email."
 msgstr ""
+"Ви можете наказати програма автоматично додавати кореспондентів до ваших"
+" контактів при отримання повідомлень електронної пошти."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:30 C/mail-attachments-sending.page:46
@@ -1810,12 +1834,12 @@ msgstr ""
 #: C/mail-composer-message-templates-variables.page:28
 #: C/mail-received-notification.page:30
 msgid "Select <guiseq><gui>Edit</gui><gui>Plugins</gui></guiseq>."
-msgstr ""
+msgstr "Виберіть <guiseq><gui>Зміни</gui><gui>Додатки</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:31
 msgid "Enable <gui>Automatic Contacts</gui>."
-msgstr ""
+msgstr "Позначте пункт <gui>Автоматичні контакти</gui>."
 
 #. (itstool) path: note/p
 #: C/contacts-add-automatically.page:32 C/mail-attachments-sending.page:48
@@ -1831,6 +1855,10 @@ msgid ""
 "distribution might have decided to disable some plugins or to ship plugins "
 "in a separate package."
 msgstr ""
+"Якщо додатка немає у списку меню <guiseq><gui>Зміни</gui><gui>Додатки</"
+"gui></guiseq>, будь ласка, скористайтеся для його додавання форумом підтримки"
+" вашого дистрибутива. Можливо, у вашому дистрибутиві розробники вирішили"
+" вимкнути якісь додатки або виокремити додатки у інший пакунок."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:34
@@ -1838,6 +1866,8 @@ msgid ""
 "Go to <guiseq><gui>Edit</gui><gui>Preferences</gui><gui>Contacts</gui> "
 "<gui>Automatic Contacts</gui></guiseq>."
 msgstr ""
+"Перейдіть до пункту <guiseq><gui>Зміни</gui><gui>Параметри</gui><gui"
+">Контакти</gui> <gui>Автоматичні контакти</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/contacts-add-automatically.page:36
@@ -1846,6 +1876,10 @@ msgid ""
 "an address book in the drop-down field below that will receive the new "
 "contacts."
 msgstr ""
+"Позначте пункт <gui>Автоматично створювати записи у адресній книзі при"
+" надсиланні повідомлень</gui> і виберіть адресну книгу, до якої"
+" спрямовуватимуться записи контактів, зі спадного списку, який розташовано"
+" нижче."
 
 #. (itstool) path: page/p
 #: C/contacts-add-automatically.page:41
@@ -1853,17 +1887,22 @@ msgid ""
 "From now on, contacts will be automatically created for senders of received "
 "mail when you reply to that mail."
 msgstr ""
+"З цього моменту програма автоматично створюватиме записи контактів для"
+" відправників отриманих вами повідомлень, коли ви відповідатимете на"
+" повідомлення."
 
 #. (itstool) path: info/desc
 #: C/contacts-autocompletion.page:27
 msgid ""
 "Autocompletion of names and email addresses entered in the mail composer."
 msgstr ""
+"Автоматичне доповнення імен та адрес електронної пошти, які ви вводите в"
+" редакторі повідомлень."
 
 #. (itstool) path: page/title
 #: C/contacts-autocompletion.page:30
 msgid "Autocompletion of mail recipients"
-msgstr ""
+msgstr "Автодоповнення записів отримувачів пошти"
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:32
@@ -1872,6 +1911,9 @@ msgid ""
 "recipients text field and <app>Evolution</app> will present you with a list "
 "of matches from your address books."
 msgstr ""
+"Ви можете ввести перші три літери імені або адреси електронної пошти у"
+" текстове поле отримувача повідомлення, а <app>Evolution</app> покаже вам"
+" список відповідних записів з ваших адресних книг."
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:36
@@ -1881,6 +1923,10 @@ msgid ""
 "address books from the list that <app>Evolution</app> should look in for "
 "matches."
 msgstr ""
+"Щоб увімкнути автодоповнення, скористайтеся пунктом <guiseq><gui>Зміни</gui><"
+"gui>Параметри</"
+"gui><gui>Контакти</gui> <gui>Автодоповнення</gui></guiseq> і виберіть адресні"
+" книги у яких <app>Evolution</app> має шукати відповідники, зі списку."
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:41
@@ -1889,6 +1935,10 @@ msgid ""
 "show the email address along with the name. This can be helpful to "
 "distinguish if a contact has several email addresses."
 msgstr ""
+"Позначте пункт <gui>Завжди показувати адресу контакту автозаповнення</gui>,"
+" щоб програма показувала адресу електронної пошти разом із іменем. Це може"
+" бути корисним для вибору належного пункту, якщо у контакту є декілька адрес"
+" електронної пошти."
 
 #. (itstool) path: page/p
 #: C/contacts-autocompletion.page:45
@@ -1903,11 +1953,12 @@ msgstr ""
 #: C/contacts-google.page:18
 msgid "Use the online address book of your Google account."
 msgstr ""
+"Користування адресною книгою вашого облікового запису Google в інтернеті."
 
 #. (itstool) path: page/title
 #: C/contacts-google.page:21
 msgid "Using a Google addressbook"
-msgstr ""
+msgstr "Користування адресною книгою Google"
 
 #. (itstool) path: page/p
 #: C/contacts-google.page:23
@@ -1915,12 +1966,15 @@ msgid ""
 "To add such an address book to <app>Evolution</app>, perform the following "
 "steps:"
 msgstr ""
+"Щоб додати таку адресну книгу до <app>Evolution</app>, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/contacts-google.page:28 C/contacts-ldap.page:40 C/contacts-local.page:27
 msgid ""
 "Click <guiseq><gui>File</gui><gui>New</gui> <gui>Address Book</gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Створити</gui> <gui>Адресна"
+" книга</gui></guiseq>."
 
 #. (itstool) path: page/p
 #: C/contacts-google.page:53 C/contacts-local.page:41
@@ -1928,16 +1982,17 @@ msgid ""
 "The address book will be added to the list of address books in "
 "<app>Evolution</app>."
 msgstr ""
+"До списку адресних книг <app>Evolution</app> буде додано нову адресну книгу."
 
 #. (itstool) path: info/desc
 #: C/contacts-ldap.page:25
 msgid "Use shared address books on a local network."
-msgstr ""
+msgstr "Користування спільними адресними книгами у локальній мережі."
 
 #. (itstool) path: page/title
 #: C/contacts-ldap.page:28
 msgid "Adding LDAP access"
-msgstr ""
+msgstr "Додавання доступу до LDAP"
 
 #. (itstool) path: page/p
 #: C/contacts-ldap.page:30
@@ -1951,13 +2006,14 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/contacts-ldap.page:36
 msgid "Adding an LDAP address book"
-msgstr ""
+msgstr "Додавання адресної книги LDAP"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:44
 msgid ""
 "In the <gui>General</gui> tab, select the type <gui>On LDAP Servers</gui>."
 msgstr ""
+"На вкладці <gui>Загальне</gui> виберіть тип <gui>На серверах LDAP</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:51
@@ -1965,16 +2021,18 @@ msgid ""
 "Enter the address of the server, the port number (the default number is 389) "
 "and whether you want to connect securely."
 msgstr ""
+"Введіть адресу сервера, номер порту (типовим номером є 389) і вкажіть, чи"
+" слід встановлювати з'єднання із захистом передавання даних."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:55
 msgid "Define the login method and your username."
-msgstr ""
+msgstr "Вкажіть спосіб входу та ваше ім'я користувача."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:61
 msgid "In the <gui>Details</gui> tab you can define the following settings:"
-msgstr ""
+msgstr "На вкладці <gui>Подробиці</gui> ви можете визначити такі параметри:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:65
@@ -1982,26 +2040,29 @@ msgid ""
 "Search Base: The search base is the starting point for a directory search. "
 "Contact your system administrator for information about the correct settings."
 msgstr ""
+"База пошуку: база пошуку є початковим пунктом для пошуку у каталогах."
+" Зв'яжіться із вашим адміністратором, щоб дізнатися, яке значення параметра є"
+" правильним."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:70
 msgid "Search Scope: The search scope is the breadth of a given search."
-msgstr ""
+msgstr "Область пошуку: область пошуку визначає діапазон пошуку."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:71
 msgid "The following options are available:"
-msgstr ""
+msgstr "Можна скористатися одним з таких варіантів:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:74
 msgid "One: Searches the Search Base and one entry below it."
-msgstr ""
+msgstr "Один рівень: шукати у базі пошуку і на один запис під нею."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:77
 msgid "Sub: Searches the Search Base and all entries below it."
-msgstr ""
+msgstr "Піддерево: шукати у базі пошуку і усіх записах під нею."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:82
@@ -2009,16 +2070,18 @@ msgid ""
 "Search Filter: The search filter can be set here for all the LDAP queries. "
 "For example:"
 msgstr ""
+"Фільтр пошуку: тут можна встановити фільтр пошуку для усіх запитів LDAP."
+" Приклад:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:86
 msgid "<code>ObjectClass=*</code>: Lists all the objects from the server."
-msgstr ""
+msgstr "<code>ObjectClass=*</code>: вивести список усіх об'єктів з сервера."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:90
 msgid "<code>ObjectClass=User</code>: Lists only the users."
-msgstr ""
+msgstr "<code>ObjectClass=User</code>: вивести список лише користувачів."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:93
@@ -2026,6 +2089,8 @@ msgid ""
 "<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: "
 "Retrieves the User and Contact List objects."
 msgstr ""
+"<code>Filter (|(ObjectClass=User)(ObjectClass=groupOfNames))</code>: "
+"отримати об'єкти списку користувачів і контактів."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:97
@@ -2033,6 +2098,8 @@ msgid ""
 "<code>(&amp;(mail=*)(ObjectClass=*))</code>: Lists the objects associated "
 "with the email addresses."
 msgstr ""
+"<code>(&amp;(mail=*)(ObjectClass=*))</code>: вивести список об'єктів, які"
+" пов'язано із адресами електронної пошти."
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:103
@@ -2053,11 +2120,13 @@ msgstr ""
 #: C/contacts-ldap.page:117
 msgid "If you are unsure about some settings, ask your system administrator."
 msgstr ""
+"Якщо ви не певні щодо значень якихось із параметрів, зв'яжіться із"
+" адміністратором вашої системи."
 
 #. (itstool) path: section/title
 #: C/contacts-ldap.page:124
 msgid "Differences to local address books"
-msgstr ""
+msgstr "Відмінності від локальних адресних книг"
 
 #. (itstool) path: section/p
 #: C/contacts-ldap.page:126
@@ -2065,6 +2134,8 @@ msgid ""
 "LDAP address books work like local address books on your computer, with the "
 "following exceptions:"
 msgstr ""
+"Адресні книги LDAP працюють подібно до локальних адресних книг на вашому"
+" комп'ютері із такими виключеннями:"
 
 #. (itstool) path: item/p
 #: C/contacts-ldap.page:131
@@ -2105,6 +2176,8 @@ msgstr ""
 msgid ""
 "Using data from <app>Evolution</app> address books in LibreOffice documents."
 msgstr ""
+"Використання даних з адресних книг <app>Evolution</app> у документах"
+" LibreOffice."
 
 #. (itstool) path: page/title
 #: C/contacts-libreoffice.page:21
@@ -2118,6 +2191,9 @@ msgid ""
 "Writer</app> as a data source. The following steps refer to LibreOffice "
 "version 5.4."
 msgstr ""
+"Ви можете скористатися адресними книгами <app>Evolution</app> як джерелом"
+" даних у <app>LibreOffice "
+"Writer</app>. Наведені нижче кроки описано для версії LibreOffice 5.4."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:28
@@ -2125,6 +2201,9 @@ msgid ""
 "Click <guiseq><gui>Edit</gui><gui>Exchange Database…</gui></guiseq> in the "
 "menu bar. This will bring up the <gui>Exchange Databases</gui> dialog box."
 msgstr ""
+"Виберіть пункт <guiseq><gui>Зміни</gui><gui>База даних Exchange…</gui><"
+"/guiseq> у меню. У відповідь буде відкрито діалогове вікно <gui>Бази даних"
+" Exchange</gui>."
 
 #. (itstool) path: item/p
 #: C/contacts-libreoffice.page:33
