@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-19 15:54+0000\n"
-"PO-Revision-Date: 2020-05-22 16:12+0300\n"
+"PO-Revision-Date: 2020-05-22 21:57+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2765,6 +2765,8 @@ msgid ""
 "<app>Evolution</app> offers no graphical interface to customize its tool "
 "bars or items in menus."
 msgstr ""
+"У <app>Evolution</app> не передбачено графічного інтерфейсу для"
+" налаштовування панелей інструментів та пунктів меню програми."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:29
@@ -2772,6 +2774,8 @@ msgid ""
 "Advanced users can experiment by exploring and editing the corresponding "
 "system-wide file(s) under <file>$PREFIX/share/evolution/ui/</file>."
 msgstr ""
+"Досвідчені користувачі можуть поекспериментувати — знайти і відредагувати"
+" відповідні загальносистемні файли у <file>$PREFIX/share/evolution/ui/</file>."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:31
@@ -2782,6 +2786,11 @@ msgid ""
 "so the next <app>Evolution</app> software update will not overwrite your "
 "changes."
 msgstr ""
+"Скопіюйте ті файли із суфіксом назви <file>.ui</file>, до яких ви хочете"
+" внести зміни до вашої особистої теки налаштувань <file"
+">$HOME/.config/evolution/ui/</file>. Внесіть зміни до файлів у вашій"
+" особистій теці налаштувань, щоб під час наступних оновлень пакунків <app"
+">Evolution</app> ваші зміни не було перезаписано файлами з пакунка."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:34
@@ -2790,6 +2799,9 @@ msgid ""
 "attribute of the root <code>ui</code> element matches the version of the "
 "default files provided by <app>Evolution</app>."
 msgstr ""
+"Змінені файли буде використано, якщо атрибут <code>evolution-ui-version</code"
+"> кореневого елемента <code>ui</code> відповідає версії типових файлів, які є"
+" частиною пакунків <app>Evolution</app>."
 
 #. (itstool) path: page/p
 #: C/customize-ui-items.page:36
@@ -2799,6 +2811,10 @@ msgid ""
 "<code>;</code> character and will be ignored. Not all shortcuts can be "
 "changed though."
 msgstr ""
+"Щоб внести зміни до клавіатурних скорочень, відредагуйте файл <file"
+">~/.config/evolution/accels</file>, доки <app>Evolution</app> не запущено."
+" Закоментовані рядки, які починаються із символу <code>;</code>, буде"
+" проігноровано. Втім, змінити можна не усі клавіатурні скорочення."
 
 #. (itstool) path: info/desc
 #: C/data-storage.page:5
@@ -2879,6 +2895,12 @@ msgid ""
 "gnome/evolution/</cmd> and <cmd>dconf dump /org/gnome/evolution-data-server/"
 "</cmd> can be used."
 msgstr ""
+"У цій теці зберігаються також налаштування інших програм. Щоб було показано"
+" лише пов'язані із Evolution дані, ви можете скористатися командами <link"
+" href=\"https://developer."
+"gnome.org/dconf/\"><app>Dconf</app></link> <cmd>dconf dump"
+" /org/gnome/evolution/</cmd> та <cmd>dconf dump"
+" /org/gnome/evolution-data-server/</cmd>."
 
 #. (itstool) path: item/title
 #: C/data-storage.page:47
@@ -2907,7 +2929,7 @@ msgstr "Відкриття посилань у браузері і з брауз
 #. (itstool) path: section/title
 #: C/default-browser.page:27
 msgid "Change which web browser websites are opened in"
-msgstr ""
+msgstr "Зміна браузера, у якому відкриватимуться посилання на сайти"
 
 #. (itstool) path: when/p
 #: C/default-browser.page:31
@@ -2915,6 +2937,8 @@ msgid ""
 "In case you use <app>Evolution</app> under a different environment from "
 "GNOME,"
 msgstr ""
+"Якщо ви користуєтеся <app>Evolution</app> у середовищі, яке є відмінним від"
+" GNOME,"
 
 #. (itstool) path: item/p
 #: C/default-browser.page:34
@@ -3404,6 +3428,9 @@ msgid ""
 "Choose the destination (e.g. the folder or calendar in <app>Evolution</app>) "
 "for the imported data."
 msgstr ""
+"Виберіть призначення (наприклад теку або календар у <app>Evolution</app>) для"
+" імпортованих"
+" даних."
 
 #. (itstool) path: item/p
 #: C/import-apps-mozilla.page:40 C/import-apps-outlook.page:68
@@ -3804,6 +3831,10 @@ msgid ""
 "management applications. You should be able to export to vCard format from "
 "any address book application."
 msgstr ""
+"Формат адресної книги, який використовується розробниками GNOME, KDE і"
+" розробниками багатьох інших програм для керування записами контактів. У вас"
+" має бути можливість експортувати дані до формату vCard з будь-якої програми"
+" для роботи з адресними книгами."
 
 #. (itstool) path: section/title
 #: C/import-supported-file-formats.page:74
@@ -4115,6 +4146,8 @@ msgid ""
 "Keeps the mail on the server so you can access your mail from multiple "
 "systems."
 msgstr ""
+"Зберігає пошту на сервері, отже ви можете отримувати доступ до вашої пошти з"
+" декількох систем."
 
 #. (itstool) path: info/title
 #: C/intro-first-run.page:63 C/intro-first-run.page:79
@@ -4158,7 +4191,7 @@ msgstr "Новини USENET"
 #: C/intro-first-run.page:91
 msgid ""
 "Connects to a news server and downloads a list of available news digests."
-msgstr ""
+msgstr "З'єднується із сервером новин і отримує список доступних збірок новин."
 
 #. (itstool) path: section/title
 #. (itstool) path: page/title
@@ -4295,7 +4328,7 @@ msgstr "Параметри отримання для поштових катал
 #. (itstool) path: section/title
 #: C/intro-first-run.page:202
 msgid "Standard Unix mbox spool file"
-msgstr ""
+msgstr "Стандартна для Unix скринька mbox"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:203
@@ -4314,7 +4347,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/intro-first-run.page:218
 msgid "Standard Unix mbox spool directory"
-msgstr ""
+msgstr "Стандартний для Unix каталог пошти"
 
 #. (itstool) path: section/p
 #: C/intro-first-run.page:219
@@ -5137,7 +5170,7 @@ msgstr "<_:media-1/> Список календарів"
 #. (itstool) path: td/p
 #: C/intro-main-window.page:112
 msgid "<_:media-1/> Appointment list"
-msgstr ""
+msgstr "<_:media-1/> Список зустрічей"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:113
@@ -5169,7 +5202,7 @@ msgstr ""
 #. (itstool) path: item/title
 #: C/intro-main-window.page:132
 msgid "Month Pane"
-msgstr ""
+msgstr "Панель місяця"
 
 #. (itstool) path: item/p
 #: C/intro-main-window.page:133
@@ -5196,22 +5229,22 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/intro-main-window.page:145
 msgid "Elements in the contacts main window:"
-msgstr ""
+msgstr "Елементи у головному вікні списку контактів:"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:154
 msgid "<_:media-1/> Address book list"
-msgstr ""
+msgstr "<_:media-1/> Список адресних книг"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:158
 msgid "<_:media-1/> Contacts list"
-msgstr ""
+msgstr "<_:media-1/> Список контактів"
 
 #. (itstool) path: td/p
 #: C/intro-main-window.page:162
 msgid "<_:media-1/> Contact preview"
-msgstr ""
+msgstr "<_:media-1/> Панель перегляду контактів"
 
 #. (itstool) path: note/p
 #: C/intro-main-window.page:168
@@ -5233,12 +5266,12 @@ msgstr "Ця робота розповсюджується за умов дот�
 #. (itstool) path: info/desc
 #: C/mail-access-gmail-imap-account.page:5
 msgid "How to set up a Gmail IMAP Account."
-msgstr ""
+msgstr "Як налаштувати обліковий запис IMAP Gmail."
 
 #. (itstool) path: page/title
 #: C/mail-access-gmail-imap-account.page:24
 msgid "Access a Gmail IMAP Account via <app>Evolution</app>"
-msgstr ""
+msgstr "Доступ до облікового запису IMAP Gmail з <app>Evolution</app>"
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-imap-account.page:26
@@ -5287,12 +5320,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-access-gmail-pop-account.page:5
 msgid "How to set up a Gmail POP Account."
-msgstr ""
+msgstr "Як налаштувати обліковий запис POP Gmail."
 
 #. (itstool) path: page/title
 #: C/mail-access-gmail-pop-account.page:28
 msgid "Access a Gmail POP Account via <app>Evolution</app>"
-msgstr ""
+msgstr "Доступ до облікового запису POP Gmail з <app>Evolution</app>"
 
 #. (itstool) path: page/p
 #: C/mail-access-gmail-pop-account.page:30
@@ -5618,7 +5651,7 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/mail-account-manage-maildir-format-directories.page:24
 msgid "<app>Evolution</app> supports the Maildir++ specification."
-msgstr ""
+msgstr "У <app>Evolution</app> передбачено підтримку специфікації Maildir++."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-maildir-format-directories.page:37
@@ -5656,26 +5689,27 @@ msgstr ""
 #: C/mail-account-management.page:5
 msgid "Adding, editing and managing mail accounts."
 msgstr ""
+"Додавання, редагування та керування обліковими записами електронної пошти."
 
 #. (itstool) path: page/title
 #: C/mail-account-management.page:20
 msgid "Account Management"
-msgstr ""
+msgstr "Керування обліковими записами"
 
 #. (itstool) path: section/title
 #: C/mail-account-management.page:23
 msgid "Common Account Types"
-msgstr ""
+msgstr "Типи загальних облікових записів"
 
 #. (itstool) path: section/title
 #: C/mail-account-management.page:27
 msgid "Local Account Types"
-msgstr ""
+msgstr "Типи локальних облікових записів"
 
 #. (itstool) path: section/title
 #: C/mail-account-management.page:31
 msgid "Corporate Account Types"
-msgstr ""
+msgstr "Типи корпоративних облікових записів"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-mh-format-directories.page:5
@@ -5725,17 +5759,21 @@ msgid ""
 "Add and edit a Microsoft Exchange 2007 or 2010 account in <app>Evolution</"
 "app>."
 msgstr ""
+"Додавання і редагування облікового запису Microsoft Exchange 2007 або 2010 в"
+" <app>Evolution</"
+"app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:20
 msgid "Exchange Web Services account settings"
-msgstr ""
+msgstr "Параметри облікового запису Web Services Exchange"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:36
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange Web Services accounts)"
 msgstr ""
+"Параметри отримання електронної пошти (облікові записи Web Services Exchange)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-ews.page:43
@@ -5782,55 +5820,59 @@ msgstr ""
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:5
 msgid "Add and edit a Microsoft Exchange MAPI account in <app>Evolution</app>."
 msgstr ""
+"Додавання і редагування облікового запису MAPI Microsoft Exchange в <app"
+">Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:20
 msgid "Exchange MAPI account settings"
-msgstr ""
+msgstr "Параметри облікових записів MAPI Exchange"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:36
 msgctxt "link"
 msgid "Receiving Email and Receiving options (Exchange MAPI accounts)"
-msgstr ""
+msgstr "Параметри отримання електронної пошти (облікові записи MAPI Exchange)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:43
 msgctxt "link"
 msgid "Defaults (Exchange MAPI accounts)"
-msgstr ""
+msgstr "Типові параметри (облікові записи MAPI Exchange)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:50
 msgctxt "link"
 msgid "Composing Messages (Exchange MAPI accounts)"
-msgstr ""
+msgstr "Створення повідомлень (облікові записи MAPI Exchange)"
 
 #. (itstool) path: section/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:57
 msgid "Exchange Settings"
-msgstr ""
+msgstr "Параметри Exchange"
 
 #. (itstool) path: section/p
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:58
 msgid "In this section you can view the size of all Exchange folders."
-msgstr ""
+msgstr "У цьому розділі ви зможете переглянути розмір усіх тек Exchange."
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-microsoft-exchange-evo-mapi.page:63
 msgctxt "link"
 msgid "Security (Exchange MAPI accounts)"
-msgstr ""
+msgstr "Безпека (облікові записи MAPI Exchange)"
 
 #. (itstool) path: info/desc
 #: C/mail-account-manage-microsoft-exchange.page:7
 msgid "Add and edit a Microsoft Exchange account in <app>Evolution</app>."
 msgstr ""
+"Додавання і редагування облікового запису Microsoft Exchange в <app"
+">Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-microsoft-exchange.page:22
 msgid "Microsoft Exchange account settings"
-msgstr ""
+msgstr "Параметри облікового запису Microsoft Exchange"
 
 #. (itstool) path: note/p
 #: C/mail-account-manage-microsoft-exchange.page:24
@@ -5876,29 +5918,30 @@ msgstr ""
 #: C/mail-account-manage-pop.page:5
 msgid "Add and edit a POP mail account in <app>Evolution</app>."
 msgstr ""
+"Додавання і редагування облікового запису пошти POP в <app>Evolution</app>."
 
 #. (itstool) path: page/title
 #: C/mail-account-manage-pop.page:20
 msgid "POP mail account settings"
-msgstr ""
+msgstr "Параметри облікового запису пошти POP"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:36
 msgctxt "link"
 msgid "Receiving Email and Receiving options (POP accounts)"
-msgstr ""
+msgstr "Параметри отримання електронної пошти (облікові записи POP)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:43
 msgctxt "link"
 msgid "Sending Email (POP accounts)"
-msgstr ""
+msgstr "Надсилання електронної пошти (облікові записи POP)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:50
 msgctxt "link"
 msgid "Defaults (POP accounts)"
-msgstr ""
+msgstr "Типові параметри (облікові записи POP)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-pop.page:57
@@ -6031,39 +6074,40 @@ msgstr ""
 #: C/mail-account-manage-usenet-news.page:57
 msgctxt "link"
 msgid "Composing Messages (Usenet News accounts)"
-msgstr ""
+msgstr "Створення повідомлень (облікові записи новин Usenet)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:64
 msgctxt "link"
 msgid "Security (Usenet News accounts)"
-msgstr ""
+msgstr "Безпека (облікові записи новин Usenet)"
 
 #. (itstool) path: info/title
 #: C/mail-account-manage-usenet-news.page:73
 msgctxt "link"
 msgid "Other settings (Usenet News accounts)"
-msgstr ""
+msgstr "Інші параметри (облікові записи новин Usenet)"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments.page:5
 msgid "Handling of file attachments for writing and reading mail"
-msgstr ""
+msgstr "Обробка файлових долучень при створенні або читанні пошти"
 
 #. (itstool) path: page/title
 #: C/mail-attachments.page:18
 msgid "Managing attachments"
-msgstr ""
+msgstr "Керування долученнями"
 
 #. (itstool) path: info/desc
 #: C/mail-attachments-received.page:5
 msgid "Saving and opening files that are attached to received emails."
 msgstr ""
+"Збереження та відкриття файлів, які було долучено до отриманих повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-attachments-received.page:24
 msgid "Handling attachments in received mail"
-msgstr ""
+msgstr "Обробка долучень у отриманій пошті"
 
 #. (itstool) path: page/p
 #: C/mail-attachments-received.page:26
@@ -6119,22 +6163,24 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-attachments-sending.page:5
 msgid "Attaching files to emails you want to send."
-msgstr ""
+msgstr "Долучення файлів до повідомлень, які ви хочете надіслати."
 
 #. (itstool) path: page/title
 #: C/mail-attachments-sending.page:24
 msgid "Adding attachments to an email"
-msgstr ""
+msgstr "Додавання долучень до повідомлення електронної пошти"
 
 #. (itstool) path: section/title
 #: C/mail-attachments-sending.page:27
 msgid "Attaching files"
-msgstr ""
+msgstr "Долучення файлів"
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:28
 msgid "To attach a file to your email in the composer:"
 msgstr ""
+"Щоб долучити файл до вашого повідомлення у редакторі повідомлень, виконайте"
+" такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-attachments-sending.page:30
@@ -6143,11 +6189,15 @@ msgid ""
 "gui><gui>Attachment</gui></guiseq>, or press <keyseq><key>Ctrl</key><key>M</"
 "key></keyseq>."
 msgstr ""
+"Натисніть кнопку <gui>Додати долучення…</gui>, або виберіть пункт меню <"
+"guiseq><gui>Вставка</gui><gui>Долучення</gui></guiseq>, або натисніть"
+" комбінацію клавіш <keyseq><key>Ctrl</key><key>M</"
+"key></keyseq>."
 
 #. (itstool) path: item/p
 #: C/mail-attachments-sending.page:31
 msgid "Select the file you want to attach."
-msgstr ""
+msgstr "Виберіть файл, який ви хочете долучити."
 
 #. (itstool) path: section/p
 #: C/mail-attachments-sending.page:34
@@ -6210,12 +6260,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-calendar-sending-invitations.page:5
 msgid "Sending invitations for appointments to contacts via email."
-msgstr ""
+msgstr "Надсилання запрошено на зустрічі контактам електронною поштою."
 
 #. (itstool) path: page/title
 #: C/mail-calendar-sending-invitations.page:21
 msgid "Sending invitations by email"
-msgstr ""
+msgstr "Надсилання запрошень електронною поштою"
 
 #. (itstool) path: page/p
 #: C/mail-calendar-sending-invitations.page:23
@@ -6285,16 +6335,19 @@ msgstr "Надіслати відповідь відправнику:"
 msgid ""
 "Select this option if you want your response sent to the meeting organizers."
 msgstr ""
+"Позначте цей пункт, якщо хочете, щоб вашу відповідь було надіслано"
+" організаторам засідання."
 
 #. (itstool) path: info/desc
 #: C/mail-cannot-see.page:5
 msgid "If you received or sent an email, but you cannot find it anywhere."
 msgstr ""
+"Ви отримали або надіслали повідомлення, але не можете його ніде знайти."
 
 #. (itstool) path: page/title
 #: C/mail-cannot-see.page:20
 msgid "I cannot see some emails, where are they?"
-msgstr ""
+msgstr "Програма не показує деяких повідомлень. Де вони?"
 
 #. (itstool) path: item/p
 #: C/mail-cannot-see.page:24
@@ -6342,12 +6395,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-change-columns-in-message-list.page:5
 msgid "Editing the columns displayed in the list of messages."
-msgstr ""
+msgstr "Редагування стовпчиків даних, які буде показано у списку повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-change-columns-in-message-list.page:20
 msgid "Changing the message list columns"
-msgstr ""
+msgstr "Внесення змін до стовпчиків списку повідомлень"
 
 #. (itstool) path: page/p
 #: C/mail-change-columns-in-message-list.page:22
@@ -10682,12 +10735,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-automatically.page:5
 msgid "Check automatically and regularly for new received mail."
-msgstr ""
+msgstr "Автоматична і регулярна перевірка отримання нової пошти."
 
 #. (itstool) path: page/title
 #: C/mail-send-and-receive-automatically.page:20
 msgid "Automatically check for new mail"
-msgstr ""
+msgstr "Автоматична перевірка отримання нової пошти"
 
 #. (itstool) path: page/p
 #: C/mail-send-and-receive-automatically.page:21
@@ -10712,12 +10765,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive-manual.page:5
 msgid "Force sending and receiving emails."
-msgstr ""
+msgstr "Примусове надсилання і отримання повідомлень електронної пошти."
 
 #. (itstool) path: page/title
 #: C/mail-send-and-receive-manual.page:20
 msgid "Manually send and receive messages"
-msgstr ""
+msgstr "Надсилання і отримання повідомлень вручну"
 
 #. (itstool) path: page/p
 #: C/mail-send-and-receive-manual.page:21
@@ -10746,12 +10799,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-send-and-receive.page:5
 msgid "On receiving mail and sending written emails."
-msgstr ""
+msgstr "Про отримання пошти і надсилання набраних повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-send-and-receive.page:20
 msgid "Sending and receiving mail"
-msgstr ""
+msgstr "Надсилання і отримання пошти"
 
 #. (itstool) path: page/p
 #: C/mail-send-and-receive.page:22
@@ -10764,7 +10817,7 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-sending-options-smtp.page:5
 msgid "Sending options for SMTP."
-msgstr ""
+msgstr "Параметри надсилання для SMTP."
 
 #. (itstool) path: item/p
 #: C/mail-sending-options-smtp.page:29
@@ -10865,12 +10918,12 @@ msgstr ""
 #. (itstool) path: section/p
 #: C/mail-sorting-folder-list.page:31
 msgid "The folders under each top-level node are sorted in alphabetical order."
-msgstr ""
+msgstr "Теки під кожним вузлом верхнього рівня упорядковано за абеткою."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-folder-list.page:35
 msgid "Changing the sort order"
-msgstr ""
+msgstr "Зміна упорядкування"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-folder-list.page:37
@@ -10891,12 +10944,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-sorting-message-list.page:5
 msgid "Sorting the message list of a mail folder."
-msgstr ""
+msgstr "Упорядковування списку повідомлень у теці пошти."
 
 #. (itstool) path: page/title
 #: C/mail-sorting-message-list.page:28
 msgid "Sorting the message list"
-msgstr ""
+msgstr "Упорядковування списку повідомлень"
 
 #. (itstool) path: page/p
 #: C/mail-sorting-message-list.page:30
@@ -10904,11 +10957,14 @@ msgid ""
 "<app>Evolution</app> lets you organize your emails by letting you sort "
 "messages in the <link xref=\"intro-main-window#e-mail\">message list</link>."
 msgstr ""
+"У <app>Evolution</app> передбачено можливість упорядковування ваших"
+" повідомлень сортуванням у <link xref=\"intro-main-window#e-mail\">списку"
+" повідомлень</link>."
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:33
 msgid "Sorting Mail in Email Threads"
-msgstr ""
+msgstr "Упорядковування пошти у гілках пошти"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:34
@@ -10956,11 +11012,13 @@ msgid ""
 "Run the command <cmd>gsettings set org.gnome.evolution.mail thread-expand "
 "false</cmd>"
 msgstr ""
+"Віддайте команду <cmd>gsettings set org.gnome.evolution.mail thread-expand"
+" false</cmd>"
 
 #. (itstool) path: section/title
 #: C/mail-sorting-message-list.page:47
 msgid "Sorting Mail with Column Headers"
-msgstr ""
+msgstr "Упорядковування пошти за допомогою заголовків стовпчиків"
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:48
@@ -10974,18 +11032,19 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:50
 msgid "Drag and drop the column header bars"
-msgstr ""
+msgstr "Перетягнути і скинути панелі заголовків стовпчиків"
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:51
 msgid "Right-click on the header."
-msgstr ""
+msgstr "Клацнути правою кнопкою на заголовку."
 
 #. (itstool) path: item/p
 #: C/mail-sorting-message-list.page:52
 msgid ""
 "Select the <gui>Remove This Column</gui> or <gui>Add a Column</gui> option."
 msgstr ""
+"Вибрати пункт <gui>Вилучити цей стовпчик</gui> або <gui>Додати стовпчик</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-sorting-message-list.page:55
