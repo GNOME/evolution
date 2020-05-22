@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "POT-Creation-Date: 2020-05-19 15:54+0000\n"
-"PO-Revision-Date: 2020-05-22 12:29+0300\n"
+"PO-Revision-Date: 2020-05-22 16:12+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -6395,12 +6395,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-change-time-format.page:5
 msgid "Changing the date and time format in the message list."
-msgstr ""
+msgstr "Зміна форматування дати і часу у списку повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-change-time-format.page:19
 msgid "Format of dates and time"
-msgstr ""
+msgstr "Форматування дати і часу"
 
 #. (itstool) path: page/p
 #: C/mail-change-time-format.page:20
@@ -6429,6 +6429,8 @@ msgid ""
 "You might need to install the <sys>dconf-editor</sys> package to perform "
 "these steps."
 msgstr ""
+"Для виконання цих дій вам, ймовірно, слід встановити пакунок <sys"
+">dconf-editor</sys>."
 
 #. (itstool) path: when/p
 #: C/mail-composer-change-quotation-string.page:30
@@ -6436,6 +6438,8 @@ msgid ""
 "<link action=\"install:dconf-editor\" href=\"https://ftp.gnome.org/pub/gnome/"
 "sources/dconf/\" style=\"button\">Install dconf-editor</link>"
 msgstr ""
+"<link action=\"install:dconf-editor\" href=\"https://ftp.gnome.org/pub/gnome/"
+"sources/dconf/\" style=\"button\">Встановити dconf-editor</link>"
 
 #. (itstool) path: page/p
 #: C/mail-composer-change-quotation-string.page:35
@@ -6539,7 +6543,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-custom-header-lines.page:41
 msgid "Inserting custom headers in a message"
-msgstr ""
+msgstr "Вставляння нетипових заголовків до повідомлення"
 
 #. (itstool) path: item/p
 #: C/mail-composer-custom-header-lines.page:43
@@ -6564,17 +6568,17 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-composer-custom-header-lines.page:46
 msgid "Set the values for the header fields by using the dropdown list."
-msgstr ""
+msgstr "Встановіть значення полів заголовка за допомогою спадного списку."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-enable-html-format.page:5
 msgid "Enable HTML format in the mail composer."
-msgstr ""
+msgstr "Вмикання форматування HTML у редакторі повідомлень електронної пошти."
 
 #. (itstool) path: page/title
 #: C/mail-composer-enable-html-format.page:21
 msgid "Enabling HTML format"
-msgstr ""
+msgstr "Вмикання форматування HTML"
 
 #. (itstool) path: page/p
 #: C/mail-composer-enable-html-format.page:23
@@ -6610,11 +6614,13 @@ msgstr ""
 #: C/mail-composer-external-editor.page:5
 msgid "Using a text editor application instead of the default mail composer."
 msgstr ""
+"Використання програми для редагування тексту замість типового редактора"
+" повідомлень електронної пошти."
 
 #. (itstool) path: page/title
 #: C/mail-composer-external-editor.page:20
 msgid "Using an external editor"
-msgstr ""
+msgstr "Використання зовнішнього редактора"
 
 #. (itstool) path: page/p
 #: C/mail-composer-external-editor.page:22
@@ -6626,12 +6632,12 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-composer-external-editor.page:26
 msgid "Enable <gui>External Editor</gui>."
-msgstr ""
+msgstr "Увімкніть <gui>Зовнішній редактор</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-external-editor.page:30
 msgid "Set the corresponding <gui>Command</gui> to start the application."
-msgstr ""
+msgstr "Встановіть відповідну <gui>Команду</gui> для запуску програми."
 
 #. (itstool) path: item/p
 #: C/mail-composer-external-editor.page:31
@@ -6644,12 +6650,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-forward.page:5
 msgid "Forwarding a received email to somebody."
-msgstr ""
+msgstr "Переспрямовування отриманого повідомлення іншому адресату."
 
 #. (itstool) path: page/title
 #: C/mail-composer-forward.page:23
 msgid "Forwarding a message"
-msgstr ""
+msgstr "Переспрямовування повідомлення"
 
 #. (itstool) path: page/p
 #: C/mail-composer-forward.page:25
@@ -6680,6 +6686,7 @@ msgstr ""
 #: C/mail-composer-forward.page:29
 msgid "To forward a message that you are reading:"
 msgstr ""
+"Для переспрямовування повідомлення, яке ви читаєте, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-forward.page:31
@@ -6698,11 +6705,13 @@ msgid ""
 "Select a recipient for the message. The subject is already entered, although "
 "you can alter it if you want."
 msgstr ""
+"Виберіть отримувача повідомлення. Тему повідомлення вже введено. Втім, ви"
+" можете змінити її, якщо хочете."
 
 #. (itstool) path: item/p
 #: C/mail-composer-forward.page:33
 msgid "Add your comments on the message in the text field."
-msgstr ""
+msgstr "Додайте ваші коментарі щодо повідомлення у текстовому полі."
 
 #. (itstool) path: item/p
 #: C/mail-composer-forward.page:34
@@ -6710,6 +6719,8 @@ msgid ""
 "Click <gui style=\"button\">Send</gui> or press <keyseq><key>Ctrl</"
 "key><key>Return</key></keyseq>."
 msgstr ""
+"Натисніть кнопку <gui style=\"button\">Надіслати</gui> або комбінацію клавіш"
+" <keyseq><key>Ctrl</key><key>Enter</key></keyseq>."
 
 #. (itstool) path: page/p
 #: C/mail-composer-forward.page:37
@@ -6736,12 +6747,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-forward-as-attachment.page:5
 msgid "How to forward a message with its attachments."
-msgstr ""
+msgstr "Як переспрямувати повідомлення разом із його долученнями."
 
 #. (itstool) path: page/title
 #: C/mail-composer-forward-as-attachment.page:21
 msgid "Forwarding a message with its attachments"
-msgstr ""
+msgstr "Переспрямовування повідомлення разом із долученнями"
 
 #. (itstool) path: page/p
 #: C/mail-composer-forward-as-attachment.page:23
@@ -6764,11 +6775,12 @@ msgstr ""
 msgid ""
 "Change the sender name and address on the fly by setting arbitrary values."
 msgstr ""
+"Зміна імені і адреси відправника на льоту зі встановленням довільних значень."
 
 #. (itstool) path: page/title
 #: C/mail-composer-from-field-override.page:20
 msgid "Overriding the \"From\" field"
-msgstr ""
+msgstr "Перевизначення поля «Кому»"
 
 #. (itstool) path: page/p
 #: C/mail-composer-from-field-override.page:22
@@ -6808,12 +6820,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-html-image.page:5
 msgid "Embed a picture in the mail composer."
-msgstr ""
+msgstr "Вбудовування зображення у редакторі повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-composer-html-image.page:21
 msgid "Inserting an Image in HTML"
-msgstr ""
+msgstr "Вставлення зображення до HTML"
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-image.page:23
@@ -6821,17 +6833,20 @@ msgid ""
 "You can insert an image into the email (at the current position of the "
 "cursor):"
 msgstr ""
+"Ви можете вставити зображення до повідомлення електронної пошти (у поточній"
+" позиції курсора):"
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-image.page:25
 msgid ""
 "Click <guiseq><gui>Insert</gui><gui>Image…</gui></guiseq> in the menubar."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Вставка</gui><gui>Зображення…</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-image.page:26
 msgid "Browse to and select the file."
-msgstr ""
+msgstr "Перейдіть до відповідного каталогу і виберіть файл."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-image.page:27
@@ -6849,22 +6864,22 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-html-link.page:5
 msgid "Insert a link to a website in the mail composer."
-msgstr ""
+msgstr "Вставлення посилання на вебсайт у редакторі повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-composer-html-link.page:21
 msgid "Inserting a Link in HTML"
-msgstr ""
+msgstr "Вставлення посилання у HTML"
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-link.page:24
 msgid "You can insert links into the email:"
-msgstr ""
+msgstr "Ви можете вставити посилання до повідомлення електронної пошти:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-link.page:26
 msgid "Select the text that you want to turn into a link."
-msgstr ""
+msgstr "Позначте фрагмент тексту, який ви хочете перетворити на посилання."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-link.page:27
@@ -6899,11 +6914,14 @@ msgstr ""
 #: C/mail-composer-html.page:5
 msgid "Changing fonts, using colors, and inserting images, tables and links."
 msgstr ""
+"Зміна шрифтів, використання кольорів та вставлення зображень, таблиць та"
+" посилань."
 
 #. (itstool) path: page/title
 #: C/mail-composer-html.page:21
 msgid "Formatting emails (in Plain Text and HTML)"
 msgstr ""
+"Форматування повідомлень електронної пошти (у звичайному тексті та HTML)"
 
 #. (itstool) path: page/p
 #: C/mail-composer-html.page:25
@@ -6974,7 +6992,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-composer-html-rule.page:26
 msgid "Select width, size, and alignment."
-msgstr ""
+msgstr "Виберіть ширину, розмір і вирівнювання."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-rule.page:27
@@ -6984,12 +7002,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-html-table.page:5
 msgid "Insert a table in the mail composer."
-msgstr ""
+msgstr "Вставлення таблиці у вікні редактора повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-composer-html-table.page:21
 msgid "Inserting a Table in HTML"
-msgstr ""
+msgstr "Вставлення таблиці у HTML"
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-table.page:23
@@ -6997,37 +7015,39 @@ msgid ""
 "You can insert a table into the email (at the current position of the "
 "cursor):"
 msgstr ""
+"Ви можете вставити таблицю до повідомлення (у поточній позиції курсора):"
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-table.page:25
 msgid ""
 "Click <guiseq><gui>Insert</gui><gui>Table…</gui></guiseq> in the menubar."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Вставка</gui><gui>Таблиця…</gui></guiseq>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-table.page:26
 msgid "Select the number of rows and columns."
-msgstr ""
+msgstr "Виберіть кількість рядків і стовпчиків."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-table.page:27
 msgid "Define the type of layout for the table."
-msgstr ""
+msgstr "Визначте тип компонування таблиці."
 
 #. (itstool) path: item/p
 #: C/mail-composer-html-table.page:28
 msgid "Optionally: Select a background color or image for the table."
-msgstr ""
+msgstr "Необов'язково: виберіть колір тла або зображення тла для таблиці."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-html-text.page:5
 msgid "Change font sizes, styles and colors in the mail composer."
-msgstr ""
+msgstr "Зміна розмірів шрифту, стилів і кольорів у редакторі повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-composer-html-text.page:21
 msgid "Formatting Text in HTML"
-msgstr ""
+msgstr "Форматування тексту у HTML"
 
 #. (itstool) path: page/p
 #: C/mail-composer-html-text.page:23
@@ -7041,7 +7061,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-html-text.page:27
 msgid "Text Styles:"
-msgstr ""
+msgstr "Стилі тексту:"
 
 #. (itstool) path: section/p
 #: C/mail-composer-html-text.page:28
@@ -7090,47 +7110,47 @@ msgstr "TT"
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:45
 msgid "Typewriter text, which is similar to a monospace font."
-msgstr ""
+msgstr "Шрифт друкарської машинки — подібний до моноширинного шрифту."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:48
 msgid "Bold A"
-msgstr ""
+msgstr "Жирне A"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:49
 msgid "Bolds the text."
-msgstr ""
+msgstr "Робить текст напівжирним."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:52
 msgid "Italic A"
-msgstr ""
+msgstr "Курсивне A"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:53
 msgid "Italicizes the text."
-msgstr ""
+msgstr "Перетворює текст на курсивний."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:56
 msgid "Underlined A"
-msgstr ""
+msgstr "Підкреслене A"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:57
 msgid "Underlines the text."
-msgstr ""
+msgstr "Підкреслює текст."
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:60
 msgid "Strike through A"
-msgstr ""
+msgstr "Перекреслене A"
 
 #. (itstool) path: td/p
 #: C/mail-composer-html-text.page:61
 msgid "Marks a line through the text."
-msgstr ""
+msgstr "Закреслює текст лінією."
 
 #. (itstool) path: section/p
 #: C/mail-composer-html-text.page:65
@@ -7138,16 +7158,20 @@ msgid ""
 "The other buttons are explained under <link xref=\"mail-composer-"
 "html#formatting-options-html\"/>."
 msgstr ""
+"Пояснення щодо інших кнопок наведено у розділі <link xref=\"mail-composer-"
+"html#formatting-options-html\"/>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-mail-signatures-manage.page:5
 msgid "Add, change, edit or delete email signatures."
 msgstr ""
+"Додавання, зміна, редагування та вилучення підписів повідомлень електронної"
+" пошти."
 
 #. (itstool) path: page/title
 #: C/mail-composer-mail-signatures-manage.page:20
 msgid "Managing signatures"
-msgstr ""
+msgstr "Керування підписами"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures-manage.page:22
@@ -7178,12 +7202,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-mail-signatures.page:5
 msgid "Using email signatures at the bottom of a message you send."
-msgstr ""
+msgstr "Користування підписами у нижній частині надісланого вами повідомлення."
 
 #. (itstool) path: page/title
 #: C/mail-composer-mail-signatures.page:21
 msgid "Working with email signatures"
-msgstr ""
+msgstr "Робота з підписами повідомлень електронної пошти"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures.page:23
@@ -7199,16 +7223,18 @@ msgid ""
 "The term \"signature\" is also differently used in terms of <link xref="
 "\"mail-encryption\">encryption</link>."
 msgstr ""
+"Термін «підпис» вживається у іншому контексті для <link"
+" xref=\"mail-encryption\">шифрування</link>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-mail-signatures-per-account.page:5
 msgid "Setting a default signature for an email account."
-msgstr ""
+msgstr "Встановлення типового підпису для облікового запису електронної пошти."
 
 #. (itstool) path: page/title
 #: C/mail-composer-mail-signatures-per-account.page:29
 msgid "Default account signature"
-msgstr ""
+msgstr "Типовий підпис облікового запису"
 
 #. (itstool) path: page/p
 #: C/mail-composer-mail-signatures-per-account.page:31
@@ -7233,13 +7259,14 @@ msgstr ""
 #: C/mail-composer-message-templates.page:5
 msgid "Message templates to reuse in the composer."
 msgstr ""
+"Шаблони повідомлень для повторного використання у редакторі повідомлень."
 
 #. (itstool) path: page/title
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates.page:23
 #: C/mail-composer-message-templates.page:35
 msgid "Message Templates"
-msgstr ""
+msgstr "Шаблони повідомлень"
 
 #. (itstool) path: page/p
 #: C/mail-composer-message-templates.page:24
@@ -7251,22 +7278,22 @@ msgstr ""
 #. (itstool) path: page/p
 #: C/mail-composer-message-templates.page:25
 msgid "To enable the Message Template Plugin:"
-msgstr ""
+msgstr "Щоб увімкнути додаток шаблонів повідомлень, виконайте такі дії:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates.page:28
 msgid "Enable <gui>Templates</gui>."
-msgstr ""
+msgstr "Увімкніть <gui>Шаблони</gui>."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-reply.page:5
 msgid "Use one of your templates for replying to a message"
-msgstr ""
+msgstr "Використання одного з ваших шаблонів для відповіді на повідомлення"
 
 #. (itstool) path: page/title
 #: C/mail-composer-message-templates-reply.page:23
 msgid "Using a Template as a Reply"
-msgstr ""
+msgstr "Використання шаблона як відповіді"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-reply.page:27
@@ -7291,7 +7318,7 @@ msgstr ""
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-reply.page:34
 msgid "Click <gui>Send</gui>."
-msgstr ""
+msgstr "Натисніть кнопку <gui>Надіслати</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-reply.page:35
@@ -7303,22 +7330,22 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-save.page:5
 msgid "Store an existing or new message as a template"
-msgstr ""
+msgstr "Збереження наявного або нового повідомлення як шаблона"
 
 #. (itstool) path: page/title
 #: C/mail-composer-message-templates-save.page:23
 msgid "Saving Messages as Templates"
-msgstr ""
+msgstr "Збереження повідомлень як шаблонів"
 
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates-save.page:26
 msgid "Saving an Existing Message as a Template"
-msgstr ""
+msgstr "Збереження наявного повідомлення як шаблона"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-save.page:28
 msgid "Select the message."
-msgstr ""
+msgstr "Виберіть повідомлення."
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-save.page:29
@@ -7332,32 +7359,37 @@ msgstr ""
 msgid ""
 "Select the <gui>Templates</gui> folder under <gui>On This Computer</gui>."
 msgstr ""
+"Виберіть теку <gui>Шаблони</gui> у списку <gui>На цьому комп'ютері</gui>."
 
 #. (itstool) path: section/p
 #: C/mail-composer-message-templates-save.page:32
 msgid "You can also edit an existing message and save it as a template:"
 msgstr ""
+"Ви також можете редагувати наявне повідомлення і зберегти його як шаблон:"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-save.page:34
 msgid "Open the message and click <gui>Reply</gui>."
-msgstr ""
+msgstr "Відкрийте повідомлення і натисніть кнопку <gui>Відповісти</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-save.page:35
 msgid "Edit the message body or the addresses according to your requirements."
 msgstr ""
+"Виконайте редагування повідомлення або адрес, відповідно до ваших потреб."
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-save.page:36
 #: C/mail-composer-message-templates-save.page:47
 msgid "Select <guiseq><gui>File</gui><gui>Save as Template</gui></guiseq>."
 msgstr ""
+"Виберіть пункт меню <guiseq><gui>Файл</gui><gui>Зберегти як шаблон</gui><"
+"/guiseq>."
 
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates-save.page:41
 msgid "Saving a New Message as a Template"
-msgstr ""
+msgstr "Збереження нового повідомлення як шаблона"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-save.page:44
@@ -7365,6 +7397,8 @@ msgid ""
 "Click <gui>New</gui> and enter in the composer window what you need for the "
 "template."
 msgstr ""
+"Натисніть <gui>Створити</gui> і введіть у вікні редактора те, що вам потрібно"
+" для шаблона."
 
 #. (itstool) path: info/desc
 #: C/mail-composer-message-templates-variables.page:5
@@ -7372,21 +7406,23 @@ msgid ""
 "Configure variables in templates and reuse items from the message you reply "
 "to"
 msgstr ""
+"Налаштування змінних у шаблонах і повторне використання записів з"
+" повідомлення, на яке ви відповідаєте"
 
 #. (itstool) path: page/title
 #: C/mail-composer-message-templates-variables.page:23
 msgid "Using Variables in Templates"
-msgstr ""
+msgstr "Використання змінних у шаблонах"
 
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates-variables.page:26
 msgid "Configuring Variables for Message Templates"
-msgstr ""
+msgstr "Налаштовування змінних для шаблонів повідомлень"
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-variables.page:29
 msgid "Click <gui>Templates</gui>."
-msgstr ""
+msgstr "Натисніть <gui>Шаблони</gui>."
 
 #. (itstool) path: item/p
 #: C/mail-composer-message-templates-variables.page:33
@@ -7452,7 +7488,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-message-templates-variables.page:54
 msgid "Using Elements From a Message in a Template When Replying"
-msgstr ""
+msgstr "Використання елементів з повідомлення у шаблоні при відповіді"
 
 #. (itstool) path: section/p
 #: C/mail-composer-message-templates-variables.page:55
@@ -7491,11 +7527,12 @@ msgstr ""
 #: C/mail-composer-plain-text.page:5
 msgid "Change font alignment and paragraph formatting in the mail composer."
 msgstr ""
+"Зміна вирівнювання шрифту та форматування абзаців у редакторі повідомлень."
 
 #. (itstool) path: page/title
 #: C/mail-composer-plain-text.page:21
 msgid "Formatting Text in Plain Text Format"
-msgstr ""
+msgstr "Форматування тексту у режимі звичайного тексту"
 
 #. (itstool) path: page/p
 #: C/mail-composer-plain-text.page:23
@@ -7508,7 +7545,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-plain-text.page:27
 msgid "Headers and Lists:"
-msgstr ""
+msgstr "Заголовки і списки:"
 
 #. (itstool) path: section/p
 #: C/mail-composer-plain-text.page:28
@@ -7546,7 +7583,7 @@ msgstr ""
 #. (itstool) path: section/title
 #: C/mail-composer-plain-text.page:38
 msgid "Indentation Rules:"
-msgstr ""
+msgstr "Правила встановлення відступів:"
 
 #. (itstool) path: section/p
 #: C/mail-composer-plain-text.page:39
@@ -7558,12 +7595,12 @@ msgstr ""
 #. (itstool) path: info/desc
 #: C/mail-composer-priority.page:5
 msgid "Setting a priority for messages to be sent."
-msgstr ""
+msgstr "Встановлення пріоритетності повідомлень, які буде надіслано."
 
 #. (itstool) path: page/title
 #: C/mail-composer-priority.page:23
 msgid "Prioritizing outgoing messages"
-msgstr ""
+msgstr "Встановлення пріоритетності вихідних повідомлень"
 
 #. (itstool) path: page/p
 #: C/mail-composer-priority.page:25
