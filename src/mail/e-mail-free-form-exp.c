@@ -80,7 +80,7 @@ mail_ffe_build_header_sexp (const gchar *word,
 	}
 
 	for (ii = 0; header_names[ii]; ii++) {
-		g_string_append_printf (sexp, "(match-all (header-%s \"%s\" %s))", compare_type, header_names[ii], encoded_word->str);
+		g_string_append_printf (sexp, "(header-%s \"%s\" %s)", compare_type, header_names[ii], encoded_word->str);
 	}
 
 	if (header_names[1])
@@ -192,7 +192,7 @@ mail_ffe_exists (const gchar *word,
 	encoded_word = g_string_new ("");
 	camel_sexp_encode_string (encoded_word, word);
 
-	sexp = g_strdup_printf ("(match-all (header-exists %s))", encoded_word->str);
+	sexp = g_strdup_printf ("(header-exists %s)", encoded_word->str);
 
 	g_string_free (encoded_word, TRUE);
 
@@ -213,7 +213,7 @@ mail_ffe_tag (const gchar *word,
 	encoded_word = g_string_new ("");
 	camel_sexp_encode_string (encoded_word, word);
 
-	sexp = g_strdup_printf ("(match-all (not (= (user-tag %s) \"\")))", encoded_word->str);
+	sexp = g_strdup_printf ("(not (= (user-tag %s) \"\"))", encoded_word->str);
 
 	g_string_free (encoded_word, TRUE);
 
@@ -253,13 +253,13 @@ mail_ffe_flag (const gchar *word,
 			if (g_ascii_strcasecmp (flag, "Attachment") == 0)
 				flag = "Attachments";
 
-			sexp = g_strdup_printf ("(match-all (system-flag \"%s\"))", flag);
+			sexp = g_strdup_printf ("(system-flag \"%s\")", flag);
 			break;
 		}
 	}
 
 	if (!sexp)
-		sexp = g_strdup_printf ("(match-all (not (= (user-tag %s) \"\")))", encoded_word->str);
+		sexp = g_strdup_printf ("(not (= (user-tag %s) \"\"))", encoded_word->str);
 
 	g_string_free (encoded_word, TRUE);
 
@@ -280,7 +280,7 @@ mail_ffe_label (const gchar *word,
 	encoded_word = g_string_new ("");
 	camel_sexp_encode_string (encoded_word, word);
 
-	sexp = g_strdup_printf ("(match-all (or ((= (user-tag \"label\") %s) (user-flag (+ \"$Label\" %s)) (user-flag  %s)))",
+	sexp = g_strdup_printf ("(or (= (user-tag \"label\") %s) (user-flag (+ \"$Label\" %s)) (user-flag %s))",
 		encoded_word->str, encoded_word->str, encoded_word->str);
 
 	g_string_free (encoded_word, TRUE);
@@ -309,7 +309,7 @@ mail_ffe_size (const gchar *word,
 	encoded_word = g_string_new ("");
 	camel_sexp_encode_string (encoded_word, word);
 
-	sexp = g_strdup_printf ("(match-all (%s (get-size) (cast-int %s)))", cmp, encoded_word->str);
+	sexp = g_strdup_printf ("(%s (get-size) (cast-int %s))", cmp, encoded_word->str);
 
 	g_string_free (encoded_word, TRUE);
 
@@ -337,7 +337,7 @@ mail_ffe_score (const gchar *word,
 	encoded_word = g_string_new ("");
 	camel_sexp_encode_string (encoded_word, word);
 
-	sexp = g_strdup_printf ("(match-all (%s (cast-int (user-tag \"score\")) (cast-int %s)))", cmp, encoded_word->str);
+	sexp = g_strdup_printf ("(%s (cast-int (user-tag \"score\")) (cast-int %s))", cmp, encoded_word->str);
 
 	g_string_free (encoded_word, TRUE);
 
@@ -442,14 +442,14 @@ mail_ffe_process_date (const gchar *get_date_fnc,
 
 	rel_days = g_ascii_strtoll (word, &endptr, 10);
 	if (rel_days != 0 && endptr && !*endptr) {
-		return g_strdup_printf ("(match-all (%s (compare-date (%s) (%s (get-current-date) %" G_GINT64_FORMAT ")) 0))", op, get_date_fnc,
+		return g_strdup_printf ("(%s (compare-date (%s) (%s (get-current-date) %" G_GINT64_FORMAT ")) 0)", op, get_date_fnc,
 			rel_days < 0 ? "+" : "-", (rel_days < 0 ? -1 : 1) * rel_days * 24 * 60 * 60);
 	}
 
 	if (!mail_ffe_decode_date_time (word, &tv))
-		return g_strdup_printf ("(match-all (%s (compare-date (%s) (get-current-date)) 0))", op, get_date_fnc);
+		return g_strdup_printf ("(%s (compare-date (%s) (get-current-date)) 0)", op, get_date_fnc);
 
-	return g_strdup_printf ("(match-all (%s (compare-date (%s) %" G_GINT64_FORMAT ") 0))", op, get_date_fnc, (gint64) tv.tv_sec);
+	return g_strdup_printf ("(%s (compare-date (%s) %" G_GINT64_FORMAT ") 0)", op, get_date_fnc, (gint64) tv.tv_sec);
 }
 
 static gchar *
@@ -492,7 +492,7 @@ mail_ffe_attachment (const gchar *word,
 		is_neg = TRUE;
 	}
 
-	return g_strdup_printf ("(match-all %s(system-flag \"Attachments\")%s)", is_neg ? "(not " : "", is_neg ? ")" : "");
+	return g_strdup_printf ("%s(system-flag \"Attachments\")%s", is_neg ? "(not " : "", is_neg ? ")" : "");
 }
 
 static const EFreeFormExpSymbol mail_ffe_symbols[] = {

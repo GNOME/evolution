@@ -235,7 +235,8 @@ vfolder_setup (CamelSession *session,
 	m = mail_msg_new (&vfolder_setup_info);
 	m->session = g_object_ref (session);
 	m->folder = g_object_ref (folder);
-	m->query = g_strdup (query);
+	/* Make sure the query is enclosed in "(match-all ...)", to traverse the folders' content */
+	m->query = (!query || g_str_has_prefix (query, "(match-all ") || strstr (query, "(match-threads ")) ? g_strdup (query) : g_strconcat ("(match-all ", query, ")", NULL);
 	m->sources_uri = sources_uri;
 
 	camel_folder_freeze (m->folder);

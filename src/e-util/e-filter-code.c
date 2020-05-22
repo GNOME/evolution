@@ -38,19 +38,12 @@ filter_code_build_code (EFilterElement *element,
 {
 	GList *l;
 	EFilterInput *fi = (EFilterInput *) element;
-	gboolean is_rawcode = fi->type && g_str_equal (fi->type, "rawcode");
-
-	if (!is_rawcode)
-		g_string_append (out, "(match-all ");
 
 	l = fi->values;
 	while (l) {
 		g_string_append (out, (gchar *) l->data);
 		l = g_list_next (l);
 	}
-
-	if (!is_rawcode)
-		g_string_append (out, ")");
 }
 
 /* and we have no value */

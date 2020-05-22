@@ -595,8 +595,12 @@ mail_shell_view_construct_filter_message_thread (EMailShellView *mail_shell_view
 
 	query = g_string_new ("");
 
-	if (with_query)
-		g_string_append_printf (query, "(and %s ", with_query);
+	if (with_query && *with_query) {
+		if (g_str_has_prefix (with_query, "(match-all ") || strstr (with_query, "(match-threads "))
+			g_string_append_printf (query, "(and %s ", with_query);
+		else
+			g_string_append_printf (query, "(and (match-all %s) ", with_query);
+	}
 
 	g_string_append (query, "(match-threads \"all\" (match-all (uid");
 
@@ -611,7 +615,7 @@ mail_shell_view_construct_filter_message_thread (EMailShellView *mail_shell_view
 
 	g_string_append (query, ")))");
 
-	if (with_query)
+	if (with_query && *with_query)
 		g_string_append_c (query, ')');
 
 	return g_string_free (query, FALSE);
@@ -748,6 +752,13 @@ filter:
 
 	/* Apply selected filter. */
 
+	if (query && *query && !g_str_has_prefix (query, "(match-all ") && !strstr (query, "(match-threads ")) {
+		/* Make sure the query is enclosed in "(match-all ...)", to traverse the folders' content */
+		temp = g_strconcat ("(match-all ", query, ")", NULL);
+		g_free (query);
+		query = temp;
+	}
+
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 	value = e_action_combo_box_get_current_value (combo_box);
 
@@ -761,17 +772,22 @@ filter:
 			break;
 
 		case MAIL_FILTER_UNREAD_MESSAGES:
-			temp = g_strdup_printf (
-				"(and %s (match-all (not "
-				"(system-flag \"Seen\"))))", query);
+			if (query && *query) {
+				temp = g_strdup_printf ("(and %s (match-all (not (system-flag \"Seen\"))))", query);
+			} else {
+				temp = g_strdup ("(match-all (not (system-flag \"Seen\")))");
+			}
 			g_free (query);
 			query = temp;
 			break;
 
 		case MAIL_FILTER_NO_LABEL:
 			string = g_string_sized_new (1024);
-			g_string_append_printf (
-				string, "(and %s (and ", query);
+			if (query && *query)
+				g_string_append_printf (string, "(and %s (and ", query);
+			else
+				g_string_append (string, "(and ");
+			g_string_append (string, "(match-all ");
 			valid = gtk_tree_model_get_iter_first (
 				GTK_TREE_MODEL (label_store), &tree_iter);
 			while (valid) {
@@ -781,10 +797,10 @@ filter:
 				if (g_str_has_prefix (use_tag, "$Label"))
 					use_tag += 6;
 				g_string_append_printf (
-					string, " (match-all (not (or "
+					string, " (not (or "
 					"(= (user-tag \"label\") \"%s\") "
 					"(user-flag \"$Label%s\") "
-					"(user-flag \"%s\"))))",
+					"(user-flag \"%s\")))",
 					use_tag, use_tag, use_tag);
 				g_free (tag);
 
@@ -792,63 +808,71 @@ filter:
 					GTK_TREE_MODEL (label_store),
 					&tree_iter);
 			}
-			g_string_append_len (string, "))", 2);
+			if (query && *query)
+				g_string_append (string, ")))");
+			else
+				g_string_append (string, "))");
 			g_free (query);
 			query = g_string_free (string, FALSE);
 			break;
 
 		case MAIL_FILTER_READ_MESSAGES:
-			temp = g_strdup_printf (
-				"(and %s (match-all "
-				"(system-flag \"Seen\")))", query);
+			if (query && *query)
+				temp = g_strdup_printf ("(and %s (match-all (system-flag \"Seen\")))", query);
+			else
+				temp = g_strdup ("(match-all (system-flag \"Seen\"))");
 			g_free (query);
 			query = temp;
 			break;
 
-		case MAIL_FILTER_LAST_5_DAYS_MESSAGES:
+		case MAIL_FILTER_LAST_5_DAYS_MESSAGES: {
+			const gchar *date_ident;
+
 			if (em_utils_folder_is_sent (registry, folder))
-				temp = g_strdup_printf (
-					"(and %s (match-all "
-					"(> (get-sent-date) "
-					"(- (get-current-date) 432000))))",
-					query);
+				date_ident = "get-sent-date";
 			else
-				temp = g_strdup_printf (
-					"(and %s (match-all "
-					"(> (get-received-date) "
-					"(- (get-current-date) 432000))))",
-					query);
+				date_ident = "get-received-date";
+
+			if (query && *query)
+				temp = g_strdup_printf ("(and %s (match-all (> (%s) (- (get-current-date) 432000))))", query, date_ident);
+			else
+				temp = g_strdup_printf ("(match-all (> (%s) (- (get-current-date) 432000)))", date_ident);
 			g_free (query);
 			query = temp;
-			break;
+			} break;
 
 		case MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS:
-			temp = g_strdup_printf (
-				"(and %s (match-all "
-				"(system-flag \"Attachments\")))", query);
+			if (query && *query)
+				temp = g_strdup_printf ("(and %s (match-all (system-flag \"Attachments\")))", query);
+			else
+				temp = g_strdup ("(match-all (system-flag \"Attachments\"))");
 			g_free (query);
 			query = temp;
 			break;
 
 		case MAIL_FILTER_MESSAGES_WITH_NOTES:
-			temp = g_strdup_printf (
-				"(and %s (match-all (user-flag \"$has_note\")))", query);
+			if (query && *query)
+				temp = g_strdup_printf ("(and %s (match-all (user-flag \"$has_note\")))", query);
+			else
+				temp = g_strdup ("(match-all (user-flag \"$has_note\"))");
 			g_free (query);
 			query = temp;
 			break;
 
 		case MAIL_FILTER_IMPORTANT_MESSAGES:
-			temp = g_strdup_printf (
-				"(and %s (match-all "
-				"(system-flag \"Flagged\")))", query);
+			if (query && *query)
+				temp = g_strdup_printf ("(and %s (match-all (system-flag \"Flagged\")))", query);
+			else
+				temp = g_strdup ("(match-all (system-flag \"Flagged\"))");
 			g_free (query);
 			query = temp;
 			break;
 
 		case MAIL_FILTER_MESSAGES_NOT_JUNK:
-			temp = g_strdup_printf (
-				"(and %s (match-all (not "
-				"(system-flag \"junk\"))))", query);
+			if (query && *query)
+				temp = g_strdup_printf ("(and %s (match-all (not (system-flag \"junk\"))))", query);
+			else
+				temp = g_strdup ("(match-all (not (system-flag \"junk\")))");
 			g_free (query);
 			query = temp;
 			break;
@@ -875,12 +899,21 @@ filter:
 			use_tag = tag;
 			if (g_str_has_prefix (use_tag, "$Label"))
 				use_tag += 6;
-			temp = g_strdup_printf (
-				"(and %s (match-all (or "
-				"(= (user-tag \"label\") \"%s\") "
-				"(user-flag \"$Label%s\") "
-				"(user-flag \"%s\"))))",
-				query, use_tag, use_tag, use_tag);
+			if (query && *query) {
+				temp = g_strdup_printf (
+					"(and %s (match-all (or "
+					"(= (user-tag \"label\") \"%s\") "
+					"(user-flag \"$Label%s\") "
+					"(user-flag \"%s\"))))",
+					query, use_tag, use_tag, use_tag);
+			} else {
+				temp = g_strdup_printf (
+					"(match-all (or "
+					"(= (user-tag \"label\") \"%s\") "
+					"(user-flag \"$Label%s\") "
+					"(user-flag \"%s\")))",
+					use_tag, use_tag, use_tag);
+			}
 			g_free (tag);
 
 			g_free (query);
