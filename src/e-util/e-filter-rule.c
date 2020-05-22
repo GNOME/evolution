@@ -831,6 +831,9 @@ filter_rule_build_code (EFilterRule *rule,
 		break;
 	}
 
+	if (rule->threading != E_FILTER_THREAD_NONE)
+		g_string_append (out, "(match-all ");
+
 	switch (rule->grouping) {
 	case E_FILTER_GROUP_ALL:
 		g_string_append (out, " (and\n  ");
@@ -846,7 +849,7 @@ filter_rule_build_code (EFilterRule *rule,
 	g_string_append (out, ")\n");
 
 	if (rule->threading != E_FILTER_THREAD_NONE)
-		g_string_append (out, ")\n");
+		g_string_append (out, "))\n");
 }
 
 static void

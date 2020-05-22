@@ -6164,28 +6164,56 @@ message_list_regen_thread (GSimpleAsyncResult *simple,
 
 	if (hide_deleted && hide_junk) {
 		g_string_append_printf (
-			expr, "(match-all (and %s %s))",
+			expr, "(and %s %s)",
 			EXCLUDE_DELETED_MESSAGES_EXPR,
 			EXCLUDE_JUNK_MESSAGES_EXPR);
 	} else if (hide_deleted) {
-		g_string_append_printf (
-			expr, "(match-all %s)",
-			EXCLUDE_DELETED_MESSAGES_EXPR);
+		g_string_append (expr, EXCLUDE_DELETED_MESSAGES_EXPR);
 	} else if (hide_junk) {
-		g_string_append_printf (
-			expr, "(match-all %s)",
-			EXCLUDE_JUNK_MESSAGES_EXPR);
+		g_string_append (expr, EXCLUDE_JUNK_MESSAGES_EXPR);
 	}
 
+	/* The 'expr' should be enclosed in "(match-all ...)", thus the search traverses
+	   folder content, but also try to not repeat it, to avoid unnecessary performance hits. */
 	if (regen_data->search != NULL) {
+		gboolean is_match_all = g_str_has_prefix (regen_data->search, "(match-all ");
+		gboolean is_match_threads = strstr (regen_data->search, "(match-threads ") != NULL;
+
 		if (expr->len == 0) {
 			g_string_assign (expr, regen_data->search);
-		} else {
-			g_string_prepend (expr, "(and ");
-			g_string_append_c (expr, ' ');
+
+			if (!is_match_all && !is_match_threads && expr->len) {
+				g_string_prepend (expr, "(match-all ");
+				g_string_append_c (expr, ')');
+			}
+		} else if (is_match_threads) {
+			/* The "match-threads" cannot be below "match-all". */
+			g_string_prepend (expr, "(and (match-all ");
+			g_string_append (expr, ") ");
 			g_string_append (expr, regen_data->search);
 			g_string_append_c (expr, ')');
+		} else {
+			g_string_prepend (expr, "(match-all (and ");
+			g_string_append_c (expr, ' ');
+
+			if (is_match_all) {
+				const gchar *stripped_search = regen_data->search + 11; /* strlen ("(match-all ") */
+				gint len = strlen (stripped_search);
+
+				if (len > 0 && stripped_search[len - 1] == ')') {
+					g_string_append_len (expr, stripped_search, len - 1);
+				} else {
+					g_string_append (expr, regen_data->search);
+				}
+			} else {
+				g_string_append (expr, regen_data->search);
+			}
+
+			g_string_append (expr, "))");
 		}
+	} else if (expr->len) {
+		g_string_prepend (expr, "(match-all ");
+		g_string_append_c (expr, ')');
 	}
 
 	/* Execute the search. */
